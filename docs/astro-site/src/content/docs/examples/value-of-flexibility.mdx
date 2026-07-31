@@ -1,0 +1,37 @@
+---
+title: Value of Flexibility example
+description: Experimental flexible-versus-commitment timing-scenario analysis
+---
+
+This synthetic example compares a policy that can choose a feasible strategy
+for each timing scenario with the best strategy committed before the timing
+scenario is known. It is an adjacent option-value analysis, not EVPI or EVSI.
+
+Run the normative input from the repository root:
+
+```sh
+voiage --format json calculate-value-of-flexibility \
+  specs/frontier/value-of-flexibility/v1/fixtures/normative/input.json
+```
+
+The example uses scenario probabilities 0.2, 0.3 and 0.5. Strategy A has value
+8 in every scenario; strategy B has values 0, 10 and 12. The flexible value is
+10.6, the best fixed commitment is strategy B with value 9.0, and Value of
+Flexibility is therefore 1.6 net-benefit points.
+
+The result explicitly reports both policy paths, their named scenario and
+strategy axes, the commitment baseline, provenance, option value, units and
+exact-enumeration assurance. Because the scenarios are mutually exclusive,
+`exercise_decisions` is unsupported (`null`); changes between adjacent ordered
+scenario choices are reported separately as `ordered_scenario_policy_changes`. Its
+`information_value_component` is zero and `decomposition_status` is
+`information-value-excluded`; do not add EVPI or EVSI that is already embedded
+in the payoff surface.
+
+Version 1 accepts mutually exclusive timing scenarios only. It rejects
+lifecycle-period aggregation, missing or extra named probabilities,
+non-increasing event times, infeasible commitment strategies, empty units and
+embedded information value. Non-zero discount, irreversibility and lock-in
+controls fail closed until their units and policy-dependent semantics have a
+separately governed contract. Rust, R and Julia execution are currently
+unsupported, and Mojo remains external.

@@ -7,7 +7,7 @@
   "verification_command": "uv run --frozen python scripts/generate_paper_health_example.py --verify-tracked",
   "lockfile": {
     "path": "uv.lock",
-    "sha256": "742275634263dda671191f246a5b0a87fad9819fa0e0e2af4a3df69ade626c43"
+    "sha256": "cbfcc01e6d5c5684c079409225591698ad3886d1f69068fbf2d142946de29361"
   },
   "supported_python_versions": [
     "3.12",

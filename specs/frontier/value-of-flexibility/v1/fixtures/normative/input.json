@@ -1,0 +1,16 @@
+{
+  "decision_stage_names": ["now", "mid", "late"],
+  "strategy_names": ["commit_a", "commit_b"],
+  "net_benefit": [[[8.0, 8.0, 8.0], [0.0, 10.0, 12.0]]],
+  "stage_weights": {"now": 0.2, "mid": 0.3, "late": 0.5},
+  "evidence_arrival_times": {"now": 0.0, "mid": 1.0, "late": 2.0},
+  "flexible_policy_sets": {"now": ["commit_a", "commit_b"], "mid": ["commit_a", "commit_b"], "late": ["commit_a", "commit_b"]},
+  "constrained_strategy_names": ["commit_a", "commit_b"],
+  "discount_rate": 0.0,
+  "irreversibility_penalty": 0.0,
+  "lock_in_penalty": 0.0,
+  "value_unit": "net-benefit-point",
+  "stage_semantics": "timing_scenarios",
+  "information_value_included": false,
+  "provenance": {"fixture_id": "vof-enumerable-v1", "execution_mode": "deterministic"}
+}

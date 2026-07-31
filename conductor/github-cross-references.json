@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-07-31T15:04:00Z",
+  "generated_at": "2026-07-31T16:50:00Z",
   "repository": "edithatogo/voiage",
   "project_url": "https://github.com/users/edithatogo/projects/28",
   "association_policy": "PRs are included only when associated with commits recorded by a track, Git history for its path, or an explicit track reference. Empty completed-track lists are none_found, not inferred.",
@@ -33,9 +33,44 @@
         {
           "number": 621,
           "url": "https://github.com/edithatogo/voiage/pull/621",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "track-delivery"
+          ]
+        },
+        {
+          "number": 679,
+          "url": "https://github.com/edithatogo/voiage/pull/679",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks"
+          ]
+        },
+        {
+          "number": 712,
+          "url": "https://github.com/edithatogo/voiage/pull/712",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks"
+          ]
+        },
+        {
+          "number": 676,
+          "url": "https://github.com/edithatogo/voiage/pull/676",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks"
+          ]
+        },
+        {
+          "number": 723,
+          "url": "https://github.com/edithatogo/voiage/pull/723",
+          "status": "open",
+          "evidence": [
+            "umbrella-implementation-draft"
           ]
         },
         {
@@ -44,6 +79,30 @@
           "status": "merged",
           "evidence": [
             "canonical-cross-repository-governance"
+          ]
+        },
+        {
+          "number": 64,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/64",
+          "status": "open",
+          "evidence": [
+            "canonical-sync-proposal"
+          ]
+        },
+        {
+          "number": 65,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/65",
+          "status": "open",
+          "evidence": [
+            "canonical-sync-proposal"
+          ]
+        },
+        {
+          "number": 66,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/66",
+          "status": "open",
+          "evidence": [
+            "canonical-sync-proposal"
           ]
         }
       ],
@@ -67,7 +126,7 @@
         {
           "number": 621,
           "url": "https://github.com/edithatogo/voiage/pull/621",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "track-delivery"
           ]
@@ -188,9 +247,44 @@
         {
           "number": 621,
           "url": "https://github.com/edithatogo/voiage/pull/621",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "track-delivery"
+          ]
+        },
+        {
+          "number": 679,
+          "url": "https://github.com/edithatogo/voiage/pull/679",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks"
+          ]
+        },
+        {
+          "number": 712,
+          "url": "https://github.com/edithatogo/voiage/pull/712",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks"
+          ]
+        },
+        {
+          "number": 676,
+          "url": "https://github.com/edithatogo/voiage/pull/676",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks"
+          ]
+        },
+        {
+          "number": 723,
+          "url": "https://github.com/edithatogo/voiage/pull/723",
+          "status": "open",
+          "evidence": [
+            "umbrella-implementation-draft"
           ]
         },
         {
@@ -199,6 +293,30 @@
           "status": "merged",
           "evidence": [
             "canonical-cross-repository-governance"
+          ]
+        },
+        {
+          "number": 64,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/64",
+          "status": "open",
+          "evidence": [
+            "canonical-sync-proposal"
+          ]
+        },
+        {
+          "number": 65,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/65",
+          "status": "open",
+          "evidence": [
+            "canonical-sync-proposal"
+          ]
+        },
+        {
+          "number": 66,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/66",
+          "status": "open",
+          "evidence": [
+            "canonical-sync-proposal"
           ]
         }
       ],
@@ -368,7 +486,7 @@
         {
           "number": 676,
           "url": "https://github.com/edithatogo/voiage/pull/676",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "experimental-implementation-delivery",
             "hosted-required-checks"
@@ -429,7 +547,7 @@
         {
           "number": 679,
           "url": "https://github.com/edithatogo/voiage/pull/679",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "experimental-runtime-implementation"
           ]
@@ -466,7 +584,7 @@
         {
           "number": 712,
           "url": "https://github.com/edithatogo/voiage/pull/712",
-          "status": "draft",
+          "status": "merged",
           "evidence": [
             "track-delivery"
           ]

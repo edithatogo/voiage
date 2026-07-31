@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/frontier/deterministic-sensitivity-result.v1.json",
+  "title": "DeterministicSensitivityResultV1Experimental",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "analysis_type", "method_maturity", "analysis_id", "direction", "output_unit", "baseline_point", "one_way", "two_way", "scenarios", "parameter_summaries", "switch_intervals", "tie_tolerance", "diagnostics", "reporting"],
+  "properties": {
+    "schema_version": {"const": "deterministic-sensitivity-result-v1"},
+    "analysis_type": {"const": "deterministic_sensitivity_analysis"},
+    "method_maturity": {"const": "experimental"},
+    "analysis_id": {"type": "string", "minLength": 1},
+    "direction": {"enum": ["maximize", "minimize"]},
+    "output_unit": {"type": "string", "minLength": 1},
+    "baseline_point": {"$ref": "#/$defs/evaluated_point"},
+    "one_way": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/one_way_result"}},
+    "two_way": {"type": "array", "items": {"$ref": "#/$defs/two_way_result"}},
+    "scenarios": {"type": "array", "items": {"$ref": "#/$defs/scenario_result"}},
+    "parameter_summaries": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/parameter_summary"}},
+    "switch_intervals": {"type": "array", "items": {"$ref": "#/$defs/switch_interval"}},
+    "tie_tolerance": {"$ref": "#/$defs/tie_tolerance"},
+    "diagnostics": {"$ref": "#/$defs/diagnostics"},
+    "reporting": {"$ref": "#/$defs/reporting"}
+  },
+  "$defs": {
+    "coordinate_value": {
+      "type": "object", "additionalProperties": false,
+      "required": ["parameter_name", "value"],
+      "properties": {"parameter_name": {"type": "string", "minLength": 1}, "value": {"type": "number"}}
+    },
+    "named_value": {
+      "type": "object", "additionalProperties": false,
+      "required": ["alternative_name", "value"],
+      "properties": {"alternative_name": {"type": "string", "minLength": 1}, "value": {"type": "number"}}
+    },
+    "evaluated_point": {
+      "type": "object", "additionalProperties": false,
+      "required": ["record_id", "coordinates", "alternative_outputs", "direction_normalized_increments", "optimal_alternatives", "selected_alternative", "optimal_metric"],
+      "properties": {
+        "record_id": {"type": "string", "minLength": 1},
+        "coordinates": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/coordinate_value"}},
+        "alternative_outputs": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/named_value"}},
+        "direction_normalized_increments": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/named_value"}},
+        "optimal_alternatives": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "selected_alternative": {"type": "string", "minLength": 1},
+        "optimal_metric": {"type": "number"}
+      }
+    },
+    "one_way_result": {
+      "type": "object", "additionalProperties": false,
+      "required": ["parameter_name", "parameter_unit", "points"],
+      "properties": {"parameter_name": {"type": "string", "minLength": 1}, "parameter_unit": {"type": "string", "minLength": 1}, "points": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evaluated_point"}}}
+    },
+    "two_way_result": {
+      "type": "object", "additionalProperties": false,
+      "required": ["surface_id", "parameter_names", "feasibility_semantics", "points"],
+      "properties": {"surface_id": {"type": "string", "minLength": 1}, "parameter_names": {"type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "feasibility_semantics": {"enum": ["explicit-mask", "explicit-path", "full-cartesian-independent"]}, "points": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evaluated_point"}}}
+    },
+    "scenario_result": {
+      "type": "object", "additionalProperties": false,
+      "required": ["scenario_id", "structural_assumption", "point"],
+      "properties": {"scenario_id": {"type": "string", "minLength": 1}, "structural_assumption": {"type": "string", "minLength": 1}, "point": {"$ref": "#/$defs/evaluated_point"}}
+    },
+    "parameter_summary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["parameter_name", "parameter_unit", "ranking_metric", "minimum_metric", "maximum_metric", "evaluated_range", "minimum_coordinates", "maximum_coordinates", "endpoint_range", "interior_extremum_observed", "rank"],
+      "properties": {
+        "parameter_name": {"type": "string", "minLength": 1}, "parameter_unit": {"type": "string", "minLength": 1},
+        "ranking_metric": {"const": "evaluated-grid-range"}, "minimum_metric": {"type": "number"}, "maximum_metric": {"type": "number"}, "evaluated_range": {"type": "number", "minimum": 0},
+        "minimum_coordinates": {"type": "array", "minItems": 1, "items": {"type": "number"}}, "maximum_coordinates": {"type": "array", "minItems": 1, "items": {"type": "number"}},
+        "endpoint_range": {"type": "number", "minimum": 0}, "interior_extremum_observed": {"type": "boolean"}, "rank": {"type": "integer", "minimum": 1}
+      }
+    },
+    "switch_interval": {
+      "type": "object", "additionalProperties": false,
+      "required": ["parameter_name", "parameter_unit", "status", "lower_coordinate", "upper_coordinate", "lower_optimal_alternatives", "upper_optimal_alternatives", "interpolation"],
+      "properties": {
+        "parameter_name": {"type": "string", "minLength": 1}, "parameter_unit": {"type": "string", "minLength": 1}, "status": {"enum": ["exact", "plateau", "bracket"]},
+        "lower_coordinate": {"type": "number"}, "upper_coordinate": {"type": "number"},
+        "lower_optimal_alternatives": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "upper_optimal_alternatives": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "interpolation": {"const": "not-performed"}
+      }
+    },
+    "tie_tolerance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["absolute", "relative", "representative_policy"],
+      "properties": {"absolute": {"type": "number", "minimum": 0}, "relative": {"type": "number", "minimum": 0}, "representative_policy": {"const": "canonical-lexicographic"}}
+    },
+    "diagnostics": {
+      "type": "object", "additionalProperties": false,
+      "required": ["assurance", "evaluated_record_count", "complete_coordinate_vectors", "complete_tie_sets", "unsupported_operations"],
+      "properties": {
+        "assurance": {"const": "exact-enumeration"}, "evaluated_record_count": {"type": "integer", "minimum": 1}, "complete_coordinate_vectors": {"const": true}, "complete_tie_sets": {"const": true},
+        "unsupported_operations": {"type": "array", "uniqueItems": true, "items": {"enum": ["interpolation", "extrapolation", "probabilistic-sensitivity", "evppi", "global-sensitivity"]}}
+      }
+    },
+    "reporting": {
+      "type": "object", "additionalProperties": false,
+      "required": ["probabilistic_analysis", "information_value", "global_sensitivity", "tornado_semantics", "switch_semantics"],
+      "properties": {"probabilistic_analysis": {"const": false}, "information_value": {"const": false}, "global_sensitivity": {"const": false}, "tornado_semantics": {"const": "deterministic-evaluated-grid-range"}, "switch_semantics": {"const": "observed-exact-plateau-or-adjacent-bracket"}}
+    }
+  }
+}

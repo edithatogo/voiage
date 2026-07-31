@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/frontier/deterministic-sensitivity-input.v1.json",
+  "title": "DeterministicSensitivityInputV1Experimental",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "analysis_id", "baseline", "parameter_grids", "alternative_names", "output_unit", "direction", "tie_tolerance", "two_way_designs", "scenarios", "model_evaluation_records", "provenance"],
+  "properties": {
+    "schema_version": {"const": "deterministic-sensitivity-input-v1"},
+    "analysis_id": {"type": "string", "minLength": 1},
+    "baseline": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/coordinate"}},
+    "parameter_grids": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/parameter_grid"}},
+    "alternative_names": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "output_unit": {"type": "string", "minLength": 1},
+    "direction": {"enum": ["maximize", "minimize"]},
+    "tie_tolerance": {"$ref": "#/$defs/tie_tolerance"},
+    "two_way_designs": {"type": "array", "items": {"$ref": "#/$defs/two_way_design"}},
+    "scenarios": {"type": "array", "items": {"$ref": "#/$defs/scenario"}},
+    "model_evaluation_records": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evaluation_record"}},
+    "provenance": {"$ref": "#/$defs/provenance"}
+  },
+  "$defs": {
+    "coordinate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["parameter_name", "value", "unit"],
+      "properties": {"parameter_name": {"type": "string", "minLength": 1}, "value": {"type": "number"}, "unit": {"type": "string", "minLength": 1}}
+    },
+    "parameter_grid": {
+      "type": "object", "additionalProperties": false,
+      "required": ["parameter_name", "unit", "values", "range_provenance"],
+      "properties": {
+        "parameter_name": {"type": "string", "minLength": 1},
+        "unit": {"type": "string", "minLength": 1},
+        "values": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "number"}},
+        "range_provenance": {"type": "string", "minLength": 1}
+      }
+    },
+    "tie_tolerance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["absolute", "relative", "representative_policy"],
+      "properties": {
+        "absolute": {"type": "number", "minimum": 0},
+        "relative": {"type": "number", "minimum": 0},
+        "representative_policy": {"const": "canonical-lexicographic"}
+      }
+    },
+    "coordinate_value": {
+      "type": "object", "additionalProperties": false,
+      "required": ["parameter_name", "value"],
+      "properties": {"parameter_name": {"type": "string", "minLength": 1}, "value": {"type": "number"}}
+    },
+    "two_way_point": {
+      "type": "object", "additionalProperties": false,
+      "required": ["first", "second"],
+      "properties": {"first": {"type": "number"}, "second": {"type": "number"}}
+    },
+    "two_way_design": {
+      "type": "object", "additionalProperties": false,
+      "required": ["surface_id", "first_parameter", "second_parameter", "feasibility_semantics", "feasible_points"],
+      "properties": {
+        "surface_id": {"type": "string", "minLength": 1},
+        "first_parameter": {"type": "string", "minLength": 1},
+        "second_parameter": {"type": "string", "minLength": 1},
+        "feasibility_semantics": {"enum": ["explicit-mask", "explicit-path", "full-cartesian-independent"]},
+        "feasible_points": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/two_way_point"}}
+      }
+    },
+    "scenario": {
+      "type": "object", "additionalProperties": false,
+      "required": ["scenario_id", "coordinates", "structural_assumption"],
+      "properties": {
+        "scenario_id": {"type": "string", "minLength": 1},
+        "coordinates": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/coordinate_value"}},
+        "structural_assumption": {"type": "string", "minLength": 1}
+      }
+    },
+    "alternative_output": {
+      "type": "object", "additionalProperties": false,
+      "required": ["alternative_name", "value", "unit"],
+      "properties": {"alternative_name": {"type": "string", "minLength": 1}, "value": {"type": "number"}, "unit": {"type": "string", "minLength": 1}}
+    },
+    "evaluation_record": {
+      "type": "object", "additionalProperties": false,
+      "required": ["record_id", "analysis_kind", "analysis_ref", "coordinates", "alternative_outputs"],
+      "properties": {
+        "record_id": {"type": "string", "minLength": 1},
+        "analysis_kind": {"enum": ["baseline", "one-way", "two-way", "scenario"]},
+        "analysis_ref": {"type": "string", "minLength": 1},
+        "coordinates": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/coordinate_value"}},
+        "alternative_outputs": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/alternative_output"}}
+      }
+    },
+    "provenance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["fixture_id", "baseline_source", "execution_mode", "reference"],
+      "properties": {
+        "fixture_id": {"type": "string", "minLength": 1},
+        "baseline_source": {"type": "string", "minLength": 1},
+        "execution_mode": {"const": "deterministic"},
+        "reference": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

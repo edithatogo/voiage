@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-27T07:59:23Z",
-  "updated_at": "2026-07-31T10:02:34Z",
+  "updated_at": "2026-07-31T16:58:30Z",
   "planned_version": "1.2.0",
   "moscow": "must",
   "canonical_track": "C16",
@@ -61,7 +61,7 @@
       "id": "hosted-required-checks",
       "kind": "hosted_validation",
       "status": "satisfied",
-      "evidence": "PR #676 exact head d70fff636fa3a935902b3f590e368d1d63925d1a passed the complete hosted matrix on 2026-07-31."
+      "evidence": "PR #676 exact head 5e2c097fbdda8965d1907d7e930e910238fa24da passed 60 checks with 5 intentional skips and merged as 9495fc3f on 2026-07-31."
     }
   ]
 }

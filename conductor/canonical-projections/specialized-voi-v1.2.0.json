@@ -34,7 +34,8 @@
       "record_id": "supported-frontier-method-completion",
       "requirement_ids": [
         "M16",
-        "M17"
+        "M17",
+        "M18"
       ]
     },
     {

@@ -1,0 +1,46 @@
+{
+  "schema_version": "deterministic-sensitivity-input-v1",
+  "analysis_id": "linear-two-parameter",
+  "baseline": [
+    {"parameter_name": "x", "value": 0.0, "unit": "point"},
+    {"parameter_name": "y", "value": 0.0, "unit": "point"}
+  ],
+  "parameter_grids": [
+    {"parameter_name": "x", "unit": "point", "values": [-2.0, 0.0, 2.0], "range_provenance": "synthetic analytical fixture"},
+    {"parameter_name": "y", "unit": "point", "values": [-1.0, 0.0, 1.0], "range_provenance": "synthetic analytical fixture"}
+  ],
+  "alternative_names": ["a", "b"],
+  "output_unit": "net-benefit-point",
+  "direction": "maximize",
+  "tie_tolerance": {"absolute": 1e-12, "relative": 1e-12, "representative_policy": "canonical-lexicographic"},
+  "two_way_designs": [{
+    "surface_id": "x|y",
+    "first_parameter": "x",
+    "second_parameter": "y",
+    "feasibility_semantics": "explicit-mask",
+    "feasible_points": [{"first": -2.0, "second": -1.0}, {"first": 0.0, "second": 0.0}]
+  }],
+  "scenarios": [{
+    "scenario_id": "adverse",
+    "coordinates": [{"parameter_name": "x", "value": -2.0}, {"parameter_name": "y", "value": 1.0}],
+    "structural_assumption": "named deterministic override"
+  }],
+  "model_evaluation_records": [
+    {"record_id": "baseline", "analysis_kind": "baseline", "analysis_ref": "baseline", "coordinates": [{"parameter_name": "x", "value": 0.0}, {"parameter_name": "y", "value": 0.0}], "alternative_outputs": [{"alternative_name": "a", "value": 10.0, "unit": "net-benefit-point"}, {"alternative_name": "b", "value": 8.0, "unit": "net-benefit-point"}]},
+    {"record_id": "x--2", "analysis_kind": "one-way", "analysis_ref": "x", "coordinates": [{"parameter_name": "x", "value": -2.0}, {"parameter_name": "y", "value": 0.0}], "alternative_outputs": [{"alternative_name": "a", "value": 8.0, "unit": "net-benefit-point"}, {"alternative_name": "b", "value": 4.0, "unit": "net-benefit-point"}]},
+    {"record_id": "x-0", "analysis_kind": "one-way", "analysis_ref": "x", "coordinates": [{"parameter_name": "x", "value": 0.0}, {"parameter_name": "y", "value": 0.0}], "alternative_outputs": [{"alternative_name": "a", "value": 10.0, "unit": "net-benefit-point"}, {"alternative_name": "b", "value": 8.0, "unit": "net-benefit-point"}]},
+    {"record_id": "x-2", "analysis_kind": "one-way", "analysis_ref": "x", "coordinates": [{"parameter_name": "x", "value": 2.0}, {"parameter_name": "y", "value": 0.0}], "alternative_outputs": [{"alternative_name": "a", "value": 12.0, "unit": "net-benefit-point"}, {"alternative_name": "b", "value": 12.0, "unit": "net-benefit-point"}]},
+    {"record_id": "y--1", "analysis_kind": "one-way", "analysis_ref": "y", "coordinates": [{"parameter_name": "x", "value": 0.0}, {"parameter_name": "y", "value": -1.0}], "alternative_outputs": [{"alternative_name": "a", "value": 11.0, "unit": "net-benefit-point"}, {"alternative_name": "b", "value": 7.0, "unit": "net-benefit-point"}]},
+    {"record_id": "y-0", "analysis_kind": "one-way", "analysis_ref": "y", "coordinates": [{"parameter_name": "x", "value": 0.0}, {"parameter_name": "y", "value": 0.0}], "alternative_outputs": [{"alternative_name": "a", "value": 10.0, "unit": "net-benefit-point"}, {"alternative_name": "b", "value": 8.0, "unit": "net-benefit-point"}]},
+    {"record_id": "y-1", "analysis_kind": "one-way", "analysis_ref": "y", "coordinates": [{"parameter_name": "x", "value": 0.0}, {"parameter_name": "y", "value": 1.0}], "alternative_outputs": [{"alternative_name": "a", "value": 9.0, "unit": "net-benefit-point"}, {"alternative_name": "b", "value": 9.0, "unit": "net-benefit-point"}]},
+    {"record_id": "xy--2--1", "analysis_kind": "two-way", "analysis_ref": "x|y", "coordinates": [{"parameter_name": "x", "value": -2.0}, {"parameter_name": "y", "value": -1.0}], "alternative_outputs": [{"alternative_name": "a", "value": 9.0, "unit": "net-benefit-point"}, {"alternative_name": "b", "value": 3.0, "unit": "net-benefit-point"}]},
+    {"record_id": "xy-0-0", "analysis_kind": "two-way", "analysis_ref": "x|y", "coordinates": [{"parameter_name": "x", "value": 0.0}, {"parameter_name": "y", "value": 0.0}], "alternative_outputs": [{"alternative_name": "a", "value": 10.0, "unit": "net-benefit-point"}, {"alternative_name": "b", "value": 8.0, "unit": "net-benefit-point"}]},
+    {"record_id": "scenario-adverse", "analysis_kind": "scenario", "analysis_ref": "adverse", "coordinates": [{"parameter_name": "x", "value": -2.0}, {"parameter_name": "y", "value": 1.0}], "alternative_outputs": [{"alternative_name": "a", "value": 7.0, "unit": "net-benefit-point"}, {"alternative_name": "b", "value": 5.0, "unit": "net-benefit-point"}]}
+  ],
+  "provenance": {
+    "fixture_id": "dsa-linear-v1",
+    "baseline_source": "synthetic analytical fixture",
+    "execution_mode": "deterministic",
+    "reference": "conductor/tracks/supported_frontier_method_completion_20260723/deterministic-sensitivity-reference-review.md"
+  }
+}

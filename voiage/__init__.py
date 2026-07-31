@@ -60,6 +60,18 @@ _ECOSYSTEM_EXPORTS = {
     "load_heoml_run_bundle": "load_heoml_run_bundle",
 }
 _EXTENSION_EXPORTS = {
+    "DeterministicSensitivityResult": (
+        ".methods.deterministic_sensitivity",
+        "DeterministicSensitivityResult",
+    ),
+    "deterministic_sensitivity": (
+        ".methods.deterministic_sensitivity",
+        "deterministic_sensitivity",
+    ),
+    "deterministic_sensitivity_from_specification": (
+        ".methods.deterministic_sensitivity",
+        "deterministic_sensitivity_from_specification",
+    ),
     "expected_utility_information_value": (
         ".methods.utility_information",
         "expected_utility_information_value",
@@ -127,9 +139,17 @@ _EXTENSION_EXPORTS = {
         ".methods.dynamic_real_options",
         "DynamicRealOptionsResult",
     ),
+    "ValueOfFlexibilityResult": (
+        ".methods.dynamic_real_options",
+        "ValueOfFlexibilityResult",
+    ),
     "value_of_dynamic_real_options": (
         ".methods.dynamic_real_options",
         "value_of_dynamic_real_options",
+    ),
+    "value_of_flexibility": (
+        ".methods.dynamic_real_options",
+        "value_of_flexibility",
     ),
     "EquityInformationResult": (
         ".methods.equity_information",

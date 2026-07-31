@@ -20,6 +20,8 @@ from pathlib import Path
 import re
 from typing import Any, Literal, cast
 
+from jsonschema import Draft202012Validator
+from jsonschema.exceptions import ValidationError as JsonSchemaValidationError
 import numpy as np
 import typer
 
@@ -32,6 +34,7 @@ from voiage.contracts.study_design import (
     StudyDesignPointInputV1,
     TiePolicy,
 )
+from voiage.contracts.value_flexibility import VALUE_OF_FLEXIBILITY_INPUT_SCHEMA_V1
 from voiage.core.io import (
     import_callable,
     read_parameter_set_csv,
@@ -70,6 +73,9 @@ from voiage.methods.computational import (
 from voiage.methods.data_quality import (
     value_of_data_quality as calculate_data_quality_result,
 )
+from voiage.methods.deterministic_sensitivity import (
+    deterministic_sensitivity_from_specification as calculate_deterministic_sensitivity_result,
+)
 from voiage.methods.distributional import (
     DistributionalEquityResult,
     value_of_distributional_equity,
@@ -77,6 +83,9 @@ from voiage.methods.distributional import (
 from voiage.methods.dominance import calculate_dominance as calculate_dominance_result
 from voiage.methods.dynamic_real_options import (
     value_of_dynamic_real_options as calculate_dynamic_real_options_result,
+)
+from voiage.methods.dynamic_real_options import (
+    value_of_flexibility as calculate_flexibility_result,
 )
 from voiage.methods.equity_information import (
     value_of_equity_information as calculate_equity_information_result,
@@ -3342,6 +3351,130 @@ def calculate_dynamic_real_options(
     except FileNotFoundError as e:
         typer.echo(f"Error: File not found - {e}", err=True)
         raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-deterministic-sensitivity")
+def calculate_deterministic_sensitivity(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a deterministic-sensitivity-input-v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the deterministic sensitivity result",
+    ),
+) -> None:
+    """Calculate experimental deterministic one/two-way and scenario analysis."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError("DSA specification must be a JSON object.")
+        result = calculate_deterministic_sensitivity_result(payload)
+        result_payload = result.to_contract_dict()
+        output_text = _format_output(
+            "Deterministic sensitivity evaluated "
+            f"{result.evaluated_record_count} records ({result.output_unit})",
+            result_payload,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-value-of-flexibility")
+def calculate_value_of_flexibility(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a value-of-flexibility v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the Value of Flexibility result"
+    ),
+) -> None:
+    """Calculate experimental timing-scenario Value of Flexibility."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError("Value of Flexibility specification must be a JSON object.")
+        Draft202012Validator(VALUE_OF_FLEXIBILITY_INPUT_SCHEMA_V1).validate(payload)
+        result = calculate_flexibility_result(
+            np.asarray(payload["net_benefit"], dtype=float),
+            cast("list[str]", payload["decision_stage_names"]),
+            cast("list[str]", payload["strategy_names"]),
+            cast("dict[str, float]", payload["stage_weights"]),
+            cast("dict[str, str]", payload["provenance"]),
+            float(payload.get("discount_rate", 0.0)),
+            float(payload.get("irreversibility_penalty", 0.0)),
+            float(payload.get("lock_in_penalty", 0.0)),
+            cast("dict[str, float] | None", payload.get("evidence_arrival_times")),
+            flexible_policy_sets=cast(
+                "dict[str, list[str]] | None", payload.get("flexible_policy_sets")
+            ),
+            constrained_strategy_names=cast(
+                "list[str] | None", payload.get("constrained_strategy_names")
+            ),
+            value_unit=str(payload["value_unit"]),
+            stage_semantics=str(payload["stage_semantics"]),
+            information_value_included=bool(payload["information_value_included"]),
+        )
+        result_payload = {
+            "analysis_type": result.analysis_type,
+            "method_maturity": result.method_maturity,
+            "value_unit": result.value_unit,
+            "stage_semantics": result.stage_semantics,
+            "decision_stage_names": result.decision_stage_names,
+            "strategy_names": result.strategy_names,
+            "provenance": result.provenance,
+            "flexible_value": result.flexible_value,
+            "constrained_value": result.constrained_value,
+            "value_of_flexibility": result.value_of_flexibility,
+            "flexible_policy_path": result.flexible_policy_path,
+            "constrained_policy_path": result.constrained_policy_path,
+            "commitment_baseline": result.commitment_baseline,
+            "waiting_value": result.waiting_value,
+            "option_value": result.option_value,
+            "information_value_component": result.information_value_component,
+            "decomposition_status": result.decomposition_status,
+            "exercise_decisions": result.exercise_decisions,
+            "ordered_scenario_policy_changes": result.ordered_scenario_policy_changes,
+            "policy_path_regret": result.policy_path_regret.tolist(),
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        output_text = _format_output(
+            f"Value of Flexibility: {result.value_of_flexibility:.6f} "
+            f"{result.value_unit}",
+            result_payload,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        JsonSchemaValidationError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
 
 
 @app.command(name="calculate-causal-transportability")

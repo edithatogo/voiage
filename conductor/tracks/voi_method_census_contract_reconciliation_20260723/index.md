@@ -7,8 +7,13 @@
 - [GitHub issue #314](https://github.com/edithatogo/voiage/issues/314)
 - [Parent issue #313](https://github.com/edithatogo/voiage/issues/313)
 - [Project 28](https://github.com/users/edithatogo/projects/28)
-- [Draft planning PR #621](https://github.com/edithatogo/voiage/pull/621)
+- [Merged planning PR #621](https://github.com/edithatogo/voiage/pull/621)
+- [Live governance reconciliation](./governance-reconciliation.json)
+- [Prior-artifact reconciliation](./prior-artifact-reconciliation.md)
+- [Residual-family classification checkpoint](./classification-checkpoint.md)
+- [Machine-readable classification checkpoint](./classification-checkpoint.json)
 
-Status: new. The issue-claimed track is now materially registered with an
-approved specification and plan; existing Project or issue status is not
-treated as implementation completion.
+Status: in progress. Issue #314 is an open child of #313 with exactly one
+native child, #566. Project 28 records #314 as In Progress and #566 as Todo.
+Planning PR #621 is merged; that governance evidence is not implementation,
+scientific review, registry promotion, or completion evidence.

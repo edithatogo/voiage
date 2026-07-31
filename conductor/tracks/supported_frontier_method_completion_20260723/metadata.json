@@ -2,9 +2,9 @@
   "track_id": "supported_frontier_method_completion_20260723",
   "version": "1.0.0",
   "type": "feature",
-  "status": "new",
+  "status": "in_progress",
   "created_at": "2026-07-27T08:15:00Z",
-  "updated_at": "2026-07-27T08:27:44Z",
+  "updated_at": "2026-08-01T00:00:00Z",
   "planned_version": "1.2.0",
   "moscow": "must",
   "canonical_track": "C16",
@@ -12,7 +12,12 @@
   "canonical_pull_request": "https://github.com/edithatogo/vop_poc_nz/pull/51",
   "requirement_ids": [
     "M16",
-    "M17"
+    "M17",
+    "M18"
+  ],
+  "dependencies": [
+    "voi_method_census_contract_reconciliation_20260723",
+    "stable_voi_rust_core_completion_20260723"
   ],
   "description": "Complete, consolidate, demote or explicitly exclude every accepted frontier method family with honest maturity and language dispositions.",
   "evidence_schema": "1.0",
@@ -69,7 +74,15 @@
       "https://github.com/edithatogo/voiage/issues/619"
     ],
     "pull_requests": [
-      "https://github.com/edithatogo/voiage/pull/621"
+      "https://github.com/edithatogo/voiage/pull/621",
+      "https://github.com/edithatogo/voiage/pull/679",
+      "https://github.com/edithatogo/voiage/pull/712",
+      "https://github.com/edithatogo/voiage/pull/676",
+      "https://github.com/edithatogo/voiage/pull/723",
+      "https://github.com/edithatogo/vop_poc_nz/pull/51",
+      "https://github.com/edithatogo/vop_poc_nz/pull/64",
+      "https://github.com/edithatogo/vop_poc_nz/pull/65",
+      "https://github.com/edithatogo/vop_poc_nz/pull/66"
     ],
     "pull_request_evidence": "track_delivery"
   },

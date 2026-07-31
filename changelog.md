@@ -7,6 +7,10 @@
   record conversion stages and workload dimensions without adding flaky
   wall-clock budgets or remote-parser performance claims.
 
+- Add experimental deterministic sensitivity and scenario analysis with an
+  exact installed-wheel request contract, complete ties and switch brackets,
+  normalized-record CLI, accessible evaluated-grid tornado plot, and explicit
+  unsupported polyglot dispositions.
 - Harden built-in Croissant and Frictionless source preflight so unsupported
   URI-style, DNS-like, archive, redirect-shaped, and transform declarations
   fail before resolver/materializer callbacks, cache creation, or receipt

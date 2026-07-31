@@ -1,0 +1,13 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "evidence_artifact": "evidence.json",
+  "normative": [{
+    "name": "linear normalized-record DSA",
+    "method_family": "deterministic_sensitivity_analysis",
+    "input_artifact": "normative/input.json",
+    "expected_output_artifact": "normative/expected.json",
+    "reference": "conductor/tracks/supported_frontier_method_completion_20260723/deterministic-sensitivity-reference-review.md",
+    "tolerance_policy": "absolute-and-relative-1e-12"
+  }]
+}

@@ -1,0 +1,40 @@
+{
+  "analysis_type": "value_of_flexibility",
+  "method_maturity": "experimental",
+  "value_unit": "net-benefit-point",
+  "stage_semantics": "timing_scenarios",
+  "decision_stage_names": ["now", "mid", "late"],
+  "strategy_names": ["commit_a", "commit_b"],
+  "provenance": {"fixture_id": "vof-enumerable-v1", "execution_mode": "deterministic"},
+  "flexible_value": 10.6,
+  "constrained_value": 9.0,
+  "value_of_flexibility": 1.6,
+  "flexible_policy_path": ["commit_a", "commit_b", "commit_b"],
+  "constrained_policy_path": ["commit_b", "commit_b", "commit_b"],
+  "commitment_baseline": "commit_b",
+  "waiting_value": null,
+  "option_value": 1.6,
+  "information_value_component": 0.0,
+  "decomposition_status": "information-value-excluded",
+  "exercise_decisions": null,
+  "ordered_scenario_policy_changes": [false, true, false],
+  "policy_path_regret": [[0.0, 2.0, 4.0], [8.0, 0.0, 0.0]],
+  "diagnostics": {
+    "stage_weights": {"now": 0.2, "mid": 0.3, "late": 0.5},
+    "evidence_arrival_times": {"now": 0.0, "mid": 1.0, "late": 2.0},
+    "discount_rate": 0.0,
+    "irreversibility_penalty": 0.0,
+    "lock_in_penalty": 0.0,
+    "assurance": "exact-enumeration",
+    "tie_policy": "canonical-lexicographic",
+    "flexible_stage_ties": {"now": ["commit_a"], "mid": ["commit_b"], "late": ["commit_b"]},
+    "commitment_ties": ["commit_b"]
+  },
+  "reporting": {
+    "analysis_type": "value_of_flexibility",
+    "adjacent_to_information_value": true,
+    "information_value_included": false,
+    "method_maturity": "experimental",
+    "tie_policy": "canonical-lexicographic"
+  }
+}

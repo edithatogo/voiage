@@ -140,8 +140,9 @@ C16 own the shared projection:
     and estimator uncertainty. The repository now contains an experimental
     scalar Rust implementation with a PyO3/Python façade, versioned schemas,
     independent references, deterministic bootstrap assurance, CLI/report/plot
-    surfaces and explicit polyglot dispositions. Vector execution and stable
-    promotion remain blocked on scientific review, hosted checks and merge.
+    surfaces and explicit polyglot dispositions. PR #676 passed its exact-head
+    hosted matrix and merged. Vector execution and stable promotion remain
+    blocked on scientific review.
 *   `study_design_efficiency_20260727` and refined GitHub issue #571 define a
     governed Curve of Optimal Sample Size result containing evaluated designs,
     feasible range/set, the signed ENBS curve, deterministic tie policy,
@@ -153,9 +154,9 @@ C16 own the shared projection:
     supplies the Rust-owned kernels, strict Python contracts, exact constrained
     portfolio slice, CLI/reporting/accessible plot, and shared fixture. Native
     sub-issues #680–#682 separate runtime, user/portfolio, and
-    binding/governance evidence. These capabilities remain experimental;
-    scientific review, hosted exact-head checks and stable promotion are still
-    separate gates. Canonical C16 synchronization is proposed by stacked VOP
+    binding/governance evidence. These capabilities remain experimental; their
+    exact-head hosted matrix passed before merge. Scientific review and stable
+    promotion are still separate gates. Canonical C16 synchronization is proposed by stacked VOP
     draft PR #65, which depends on the open estimation-family sync PR #64.
 
 *   `risk_adjusted_information_pricing_20260731` and GitHub issue #595 define
@@ -175,8 +176,29 @@ All three issues are native sub-issues of frontier parent #318 under programme
 and outcome-conditional/risk-of-low sample information (#600) remain separate
 risk-family plans. The dedicated #595 delivery track is a scoped execution
 record for the existing approved method family; it does not create a duplicate
-VoC method. Repository evidence remains experimental pending scientific review,
-hosted checks and separate stable-promotion approval.
+VoC method. Repository evidence remains experimental pending scientific review
+and separate stable-promotion approval; the #595 exact-head hosted matrix
+passed before PR #712 merged.
+
+Value of Flexibility (#559) now has an experimental Python timing-scenario
+contract on draft PR #723. It compares a flexible feasible policy set with the
+best matched ex-ante commitment, returns both values and policy paths, and
+keeps its information-value component explicitly excluded. The implementation
+fixes the legacy strategy/stage axis mismatch and reconciles the previously
+non-executable dynamic-real-options fixture. Transition-constrained lifecycle
+paths, Rust/R/Julia execution, scientific review, stable promotion, merge,
+release and issue closure remain separate gates.
+
+Deterministic Sensitivity and Scenario Analysis (#556) now has an experimental
+Python callback and normalized-record engine on draft PR #723. Its exact v1
+contract preserves complete coordinate vectors, parameter and output units,
+frozen-baseline one-way grids, explicitly feasible two-way cells, named
+structural scenarios, complete tie sets, and observed exact/plateau/adjacent-
+bracket switches. The CLI validates the same contract from an installed wheel,
+and the accessible tornado plot uses evaluated grid extrema rather than
+inventing interpolation. Rust/R/Julia execution, independent scientific
+review, stable promotion, merge, release and issue closure remain separate
+gates.
 
 The complete Rust-first polyglot programme issue hierarchy is now materialized
 in Conductor rather than existing only in GitHub and Project 28:

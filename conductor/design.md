@@ -78,6 +78,14 @@ flowchart LR
     InformedEU --> VoC["VoC alias/presentation governed by #595"]
     Affine{"Positive-affine utility?"} -->|yes| Monetary["Verified EVPI/EVSI reduction"]
     Affine -->|no| DistinctScale["Keep utility and monetary scales distinct"]
+
+    DSABaseline["DSA baseline + direction + units"] --> DSAAdapter{"Callback or normalized records"}
+    DSAAdapter --> DSAEvaluator["Shared deterministic evaluator"]
+    DSAEvaluator --> DSASurfaces["One-way / two-way / scenarios"]
+    DSASurfaces --> DSASwitches["Observed ties + bracketing switch intervals"]
+    DSASurfaces --> DSARanking["Deterministic ranges + ranking"]
+    DSARanking --> DSATornado["Accessible tornado plot"]
+    DSASwitches --> DSABoundary["Not PSA, EVPPI, global sensitivity or VoI"]
 ```
 
 ```mermaid

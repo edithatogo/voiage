@@ -7,6 +7,15 @@ imported during ``import voiage``.
 
 from importlib import import_module
 
+from .deterministic_sensitivity import (
+    DeterministicSensitivityResult,
+    DsaParameterSummary,
+    DsaPoint,
+    DsaSwitchInterval,
+    deterministic_sensitivity,
+    deterministic_sensitivity_from_specification,
+)
+from .dynamic_real_options import ValueOfFlexibilityResult, value_of_flexibility
 from .utility_information import (
     expected_utility_information_value,
     value_of_clairvoyance,
@@ -27,6 +36,7 @@ _MODULES = (
     "distributional",
     "dominance",
     "dynamic_real_options",
+    "deterministic_sensitivity",
     "equity_information",
     "estimation",
     "evidence_obsolescence_refresh",
@@ -78,6 +88,11 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "DistributionalEquityResult",
     "DominanceResult",
     "DynamicRealOptionsResult",
+    "DeterministicSensitivityResult",
+    "DsaParameterSummary",
+    "DsaPoint",
+    "DsaSwitchInterval",
+    "ValueOfFlexibilityResult",
     "EquityInformationResult",
     "EvidenceObsolescenceRefreshResult",
     "ExpertSynthesisResult",
@@ -110,6 +125,8 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "calculate_icers",
     "calculate_strong_dominance",
     "cost_effectiveness_frontier",
+    "deterministic_sensitivity",
+    "deterministic_sensitivity_from_specification",
     "enbs",
     "evpi",
     "evppi",
@@ -135,6 +152,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "value_of_data_quality",
     "value_of_distributional_equity",
     "value_of_dynamic_real_options",
+    "value_of_flexibility",
     "value_of_equity_information",
     "value_of_evidence_obsolescence_refresh",
     "value_of_expert_synthesis",
