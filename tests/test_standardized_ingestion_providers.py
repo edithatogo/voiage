@@ -331,6 +331,125 @@ def test_frictionless_provider_ingests_explicit_tab_separated_resource(
     assert bundle.manifest.resources[0].sha256 == digest_file(source)
 
 
+def test_frictionless_provider_ingests_explicit_local_json_table(tmp_path) -> None:
+    """The local profile accepts only an explicit JSON array-of-object table."""
+    source = tmp_path / "samples.json"
+    source.write_text(
+        json.dumps([{"id": 1, "value": 1.5}, {"id": 2, "value": 2.5}]),
+        encoding="utf-8",
+    )
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "name": "json-table-operations-fixture",
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.json",
+                        "format": "json",
+                        "schema": {
+                            "primaryKey": "id",
+                            "fields": [
+                                {
+                                    "name": "id",
+                                    "type": "integer",
+                                    "constraints": {
+                                        "required": True,
+                                        "unique": True,
+                                    },
+                                },
+                                {"name": "value", "type": "number"},
+                            ],
+                        },
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    bundle = FrictionlessProvider().ingest(
+        descriptor_path, policy=SourceAccessPolicy(tmp_path)
+    )
+
+    assert bundle.table("samples").to_pylist() == [
+        {"id": 1, "value": 1.5},
+        {"id": 2, "value": 2.5},
+    ]
+    assert bundle.manifest.resources[0].media_type == "application/json"
+    assert bundle.manifest.resources[0].sha256 == digest_file(source)
+
+
+@pytest.mark.parametrize(
+    ("payload", "resource", "message"),
+    [
+        (
+            {"id": 1},
+            {"path": "samples.json", "format": "json"},
+            "JSON Table resource must contain a JSON array",
+        ),
+        (
+            [{"id": 1}, [2]],
+            {"path": "samples.json", "format": "json"},
+            "JSON Table rows must be JSON objects",
+        ),
+        (
+            [{"id": 1}],
+            {"path": "samples.json", "format": "json", "dialect": {}},
+            "JSON Table resources do not support dialect declarations",
+        ),
+        (
+            [{"id": 1}],
+            {"path": "samples.json", "format": "json", "encoding": "utf-16"},
+            "JSON Table resources do not support resource encoding declarations",
+        ),
+        (
+            [{"id": {"nested": 1}}],
+            {"path": "samples.json", "format": "json"},
+            "JSON Table rows must contain only scalar values",
+        ),
+        (
+            [{"id": 1}],
+            {
+                "path": "samples.json",
+                "format": "json",
+                "schema": {"fields": [{"name": "id", "format": "default"}]},
+            },
+            "JSON Table fields contain unsupported declarations",
+        ),
+    ],
+)
+def test_frictionless_provider_rejects_unsupported_json_table_shapes_before_normalizing(
+    tmp_path, payload, resource, message
+) -> None:
+    """Unsupported JSON Table semantics fail through the stable boundary."""
+    (tmp_path / "samples.json").write_text(json.dumps(payload), encoding="utf-8")
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        **resource,
+                        "schema": resource.get(
+                            "schema",
+                            {"fields": [{"name": "id", "type": "integer"}]},
+                        ),
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match=message):
+        FrictionlessProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path)
+        )
+
+
 @pytest.mark.parametrize(
     ("path", "resource_format", "dialect", "message"),
     [
@@ -732,7 +851,7 @@ def test_provider_capabilities_declare_conservative_supported_profiles(
     expected_media_types = (
         ("text/csv",)
         if provider.provider_id == "croissant"
-        else ("text/csv", "text/tab-separated-values")
+        else ("text/csv", "text/tab-separated-values", "application/json")
     )
     assert capabilities.media_types == expected_media_types
     assert capabilities.supports_projection is False

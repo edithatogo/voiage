@@ -1,16 +1,16 @@
 ---
 title: Standardized dataset ingestion
-description: Bring Croissant ML and strict Frictionless CSV or TSV inputs into VOIAGE safely.
+description: Bring Croissant ML and strict Frictionless CSV, TSV, or JSON Table inputs into VOIAGE safely.
 ---
 
 VOIAGE separates source parsing from calculation. A provider reads a descriptor
-and its explicitly declared local CSV resource, then returns an immutable,
+and its explicitly declared local resource, then returns an immutable,
 Arrow-backed `NormalizedInputBundle`. Calculation code only sees that bundle
 and an explicit VOI binding; it never depends on Croissant or Frictionless
 metadata.
 
-The built-in profiles are deliberately conservative: explicit local CSV resources
-and explicit table schemas. Remote URLs, archive extraction, implicit
+The built-in profiles are deliberately conservative: explicit local tabular
+resources and explicit table schemas. Remote URLs, archive extraction, implicit
 column inference, and path traversal are rejected. This makes an input
 portable, auditable, and suitable for an offline calculation workflow.
 
@@ -19,7 +19,7 @@ portable, auditable, and suitable for an offline calculation workflow.
 | Input surface | Supported profile | Explicit boundary |
 | --- | --- | --- |
 | Croissant ML | Croissant 1.1 with string-only JSON-LD context entries, one legacy `recordSet`/CSV distribution pair or explicitly selected local pairs linked by `recordSet.distribution` to distribution `@id`, fields that exactly match the selected CSV columns, and optional `sha256`/integer-byte `contentSize` integrity declarations | Remote/live catalogs, archives, transforms, splits, keys, nested fields, field references, JSON-LD context objects, `FileObject`/`FileSet`, non-CSV media types, non-SHA-256 integrity forms, and textual/structured `contentSize` values are rejected. |
-| Frictionless Data Package | One or more explicitly schematized local CSV resources (`.csv`, comma) or TSV resources (`.tsv`, `format: tsv`, explicit tab delimiter), declared primitive types, primary/foreign keys, and boolean `required`/`unique` field constraints | Remote/live resources, archives, inferred or custom dialects, unsupported formats, transforms, undeclared or ambiguous resources, non-boolean or unsupported constraints, and schema `missingValues` declarations are rejected. |
+| Frictionless Data Package | One or more explicitly schematized local CSV resources (`.csv`, comma), TSV resources (`.tsv`, `format: tsv`, explicit tab delimiter), or JSON Table resources (`.json`, `format: json`, UTF-8 array of object rows), declared primitive types, primary/foreign keys, and boolean `required`/`unique` field constraints | Remote/live resources, archives, inferred or custom dialects, JSON Lines/envelopes/paths/nested rows, unsupported formats, transforms, undeclared or ambiguous resources, non-boolean or unsupported constraints, and schema `missingValues` declarations are rejected. |
 | Direct DataFrame interchange | pandas, Polars, or another `__dataframe__` producer that can convert through Arrow with an explicit binding | The adapter does not infer a VOI role, silently copy a disallowed frame, or create a second calculation path. |
 | Arrow IPC and Parquet | A `NormalizedInputBundle` previously written by VOIAGE | These are normalized interchange artifacts, not source-descriptor parsers. |
 
@@ -50,8 +50,8 @@ voiage ingest normalize datapackage.json --output normalized.arrow
 The materializing commands (`validate`, `normalize`, and
 `calculate-from-dataset`) accept the same local source-policy controls. They
 never enable network access: use `--max-resource-bytes` to set a stricter
-resource-size cap, `--max-resource-rows` to reject an oversized delimited-text
-resource before the provider constructs an Arrow table, `--cache-dir` to select
+resource-size cap, `--max-resource-rows` to reject an oversized parsed resource
+before the provider constructs an Arrow table, `--cache-dir` to select
 a verified materialization cache, and `--offline` to require replay rather than
 reading a source path. Providers also enforce a bounded streaming record batch
 before retaining it; this is an implementation guard rather than a source
@@ -113,7 +113,7 @@ missing source file and never performs a network refresh.
 
 The built-in providers use this path directly. A Croissant distribution may
 declare a 64-character `sha256` and a non-negative integer `contentSize` byte
-count; a Frictionless CSV resource may declare a 64-character SHA-256 `hash`
+count; a Frictionless supported resource may declare a 64-character SHA-256 `hash`
 and non-negative `bytes`. With those declarations, ingesting
 once with `cache_dir` creates the verified cache entry, and a later
 `voiage ingest ... --offline --cache-dir .voiage-cache` replays it even when
@@ -177,7 +177,7 @@ complete implementation of either upstream standard.
 | Input family | Supported profile | Consumer contract | Explicitly not supported in the built-in provider |
 | --- | --- | --- | --- |
 | Croissant ML | Croissant 1.1 descriptor, one legacy local CSV pair or one explicitly selected and linked local record-set/distribution pair, explicit fields, local SHA-256 and integer-byte `contentSize` when declared | Produces one Arrow-backed bundle; callers add explicit bindings before preparation. | Remote downloads, archives, transformations, `FileObject`/`FileSet`, executable metadata, implicit schema inference, unverified integrity forms, and non-byte `contentSize` values |
-| Frictionless Data Package | Data Package v1-style descriptor, one or more local CSV resources (`.csv`, comma) or explicitly declared TSV resources (`.tsv`, `format: tsv`, `dialect: {"delimiter": "\\t"}`), with explicit field schemas, primary keys, and intra-package foreign keys; optional SHA-256 `hash` and `bytes` verification | Produces Arrow-backed tables and preserved key references; callers add explicit bindings before preparation. | Remote URLs, archives, transformations, inferred or custom dialects, other integrity algorithms, implicit schema inference |
+| Frictionless Data Package | Data Package v1-style descriptor, one or more local CSV resources (`.csv`, comma), explicitly declared TSV resources (`.tsv`, `format: tsv`, `dialect: {"delimiter": "\\t"}`), or JSON Table resources (`.json`, `format: json`, UTF-8 JSON array of object rows), with explicit field schemas, primary keys, and intra-package foreign keys; optional SHA-256 `hash` and `bytes` verification | Produces Arrow-backed tables and preserved key references; callers add explicit bindings before preparation. | Remote URLs, archives, transformations, inferred or custom dialects, JSON Lines/envelopes/JSON paths/nested rows, other integrity algorithms, implicit schema inference |
 | DataFrame interchange | A producer accepted by Arrow's `__dataframe__` interchange conversion, with explicit VOI bindings supplied by the caller | `from_dataframe` preserves the Arrow schema and honours `allow_copy`; its bundle enters the same preparation path as providers and records conversion decisions. | Inferred decision semantics, unsupported nested values, and conversions that require copying when `allow_copy=False`. |
 
 All providers default to local-only access. Inputs that fall outside these

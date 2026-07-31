@@ -51,6 +51,10 @@ _FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "frictionless_v1"
             "unsupported/tsv-wrong-dialect.json",
             "TSV resources require an explicit tab delimiter",
         ),
+        (
+            "unsupported/json-table-envelope.json",
+            "JSON Table resource must contain a JSON array",
+        ),
     ],
 )
 def test_frictionless_offline_unsupported_profile_fixtures_fail_closed(
@@ -93,6 +97,20 @@ def test_frictionless_offline_tsv_profile_fixture_materializes() -> None:
         {"scenario_id": 2, "net_benefit": 80.0},
     ]
     assert bundle.manifest.resources[0].media_type == "text/tab-separated-values"
+
+
+def test_frictionless_offline_json_table_profile_fixture_materializes() -> None:
+    """The fixture corpus records the exact supported JSON Table profile."""
+    bundle = FrictionlessProvider().ingest(
+        _FIXTURE_ROOT / "valid" / "json-table-datapackage.json",
+        policy=SourceAccessPolicy(_FIXTURE_ROOT),
+    )
+
+    assert bundle.table("operations_json").to_pylist() == [
+        {"scenario_id": 1, "net_benefit": 100.0},
+        {"scenario_id": 2, "net_benefit": 80.0},
+    ]
+    assert bundle.manifest.resources[0].media_type == "application/json"
 
 
 def test_frictionless_offline_receipted_fixture_preserves_declared_receipt() -> None:

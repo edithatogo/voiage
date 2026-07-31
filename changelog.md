@@ -6,6 +6,9 @@
   selection for descriptors with multiple pairs. The profile rejects missing or
   mismatched selectors and unsupported `FileObject` or `FileSet` distributions
   without inferring a source relationship.
+- Add a strict local Frictionless JSON Table profile for explicit `.json`
+  resources containing UTF-8 arrays of object rows, with Arrow receipts and
+  fail-closed rejection of parser declarations and envelope shapes.
 - Add Croissant `contentSize` byte-integrity validation and a file-backed
   supported/rejected profile map; unsupported integrity forms now fail before
   resource materialization.

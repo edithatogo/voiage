@@ -20,7 +20,11 @@ from voiage.contracts.normalized_input import (
     SourceProvenance,
     TableManifest,
 )
-from voiage.ingestion._tabular import materialization_receipt, read_csv
+from voiage.ingestion._tabular import (
+    materialization_receipt,
+    read_csv,
+    read_json_table,
+)
 from voiage.ingestion.base import (
     IngestionError,
     ProviderCapabilities,
@@ -29,13 +33,13 @@ from voiage.ingestion.base import (
 
 
 class FrictionlessProvider:
-    """Convert an offline Data Package with explicit local CSV resources."""
+    """Convert an offline Data Package with explicit local tabular resources."""
 
     provider_id = "frictionless"
     capabilities = ProviderCapabilities(
         provider_id=provider_id,
         format_versions=("1",),
-        media_types=("text/csv", "text/tab-separated-values"),
+        media_types=("text/csv", "text/tab-separated-values", "application/json"),
     )
 
     def can_handle(self, descriptor: dict[str, object]) -> bool:
@@ -98,7 +102,7 @@ class FrictionlessProvider:
     ) -> tuple[
         str, pa.Table, TableManifest, ResourceManifest, tuple[KeyReference, ...]
     ]:
-        """Materialize one explicit CSV resource and its declared relationships."""
+        """Materialize one explicit local resource and its declared relationships."""
         table_id, reference, schema = (
             resource.get("name"),
             resource.get("path"),
@@ -124,19 +128,31 @@ class FrictionlessProvider:
             )
         declared_sha256 = _sha256(resource.get("hash"))
         declared_byte_size = _byte_size(resource.get("bytes"))
-        delimiter, suffix, media_type = _delimited_text_profile(
-            reference,
-            resource.get("format"),
-            resource.get("dialect"),
-        )
-        table = read_csv(
-            reference,
-            policy,
-            sha256=declared_sha256,
-            byte_size=declared_byte_size,
-            delimiter=delimiter,
-            suffix=suffix,
-        )
+        resource_format = resource.get("format")
+        if resource_format == "json":
+            _validate_json_table_declarations(resource)
+            _validate_json_table_field_schema(fields)
+            table = read_json_table(
+                reference,
+                policy,
+                sha256=declared_sha256,
+                byte_size=declared_byte_size,
+            )
+            media_type = "application/json"
+        else:
+            delimiter, suffix, media_type = _delimited_text_profile(
+                reference,
+                resource_format,
+                resource.get("dialect"),
+            )
+            table = read_csv(
+                reference,
+                policy,
+                sha256=declared_sha256,
+                byte_size=declared_byte_size,
+                delimiter=delimiter,
+                suffix=suffix,
+            )
         self._validate_schema(table, fields)
         primary_key = self._primary_key(schema)
         self._validate_primary_key(table, primary_key)
@@ -439,6 +455,43 @@ def _delimited_text_profile(
     if dialect != {"delimiter": "\t"}:
         raise IngestionError("TSV resources require an explicit tab delimiter")
     return "\t", ".tsv", "text/tab-separated-values"
+
+
+def _validate_json_table_declarations(resource: dict[str, object]) -> None:
+    """Reject JSON Table declarations the narrow local profile cannot honour."""
+    reference = resource.get("path")
+    if not isinstance(reference, str) or not reference.casefold().endswith(".json"):
+        raise IngestionError("JSON Table resources require a .json path")
+    if "dialect" in resource:
+        raise IngestionError("JSON Table resources do not support dialect declarations")
+    if "encoding" in resource:
+        raise IngestionError(
+            "JSON Table resources do not support resource encoding declarations"
+        )
+    unsupported = {
+        "compression",
+        "data",
+        "jsonPath",
+        "mediatype",
+        "pathType",
+        "transform",
+    }.intersection(resource)
+    if unsupported:
+        raise IngestionError("JSON Table resources do not support parser declarations")
+
+
+def _validate_json_table_field_schema(fields: list[object]) -> None:
+    """Require the small field declaration subset the JSON profile enforces."""
+    if not fields:
+        raise IngestionError("JSON Table schema requires at least one field")
+    allowed = {"constraints", "description", "name", "title", "type"}
+    for raw_field in fields:
+        if not isinstance(raw_field, dict) or not isinstance(
+            raw_field.get("name"), str
+        ):
+            raise IngestionError("JSON Table fields require string names")
+        if set(raw_field).difference(allowed):
+            raise IngestionError("JSON Table fields contain unsupported declarations")
 
 
 def _governance_extensions(descriptor: dict[str, object]) -> dict[str, object]:

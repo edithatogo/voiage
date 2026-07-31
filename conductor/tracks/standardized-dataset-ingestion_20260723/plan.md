@@ -117,7 +117,12 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   partial). Unsupported or non-boolean field constraints and declared Table
   Schema `missingValues` now reject before a resource is read; structured
   citation, usage, and namespaced governance extensions survive normalization
-  (`2c5a8cd`, partial). Remaining acceptance evidence is tracked below.
+  (`2c5a8cd`, partial). The strict local JSON Table increment accepts only
+  explicit `.json`/`format: json` UTF-8 arrays of scalar object rows with a
+  declared primitive field schema, verified receipt, and bounded-row policy;
+  JSON Lines, envelopes, JSON paths, nested values, parser declarations, and
+  remote/archive resources reject (`dc7d0fff`, partial). Remaining acceptance
+  evidence is tracked below.
 - [~] **P4-T8 / AC-05:** Implement the lazy optional Frictionless provider and
   documented supported profile. Public provider export is now lazy; profile
   acceptance evidence remains active (`2ad0a24a`, partial).
