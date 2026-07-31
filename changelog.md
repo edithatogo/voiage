@@ -16,18 +16,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   and separate gross/net EVSI and ENBS. Portfolio model effects and disjoint
   incremental costs now require provenance assurances, and optimizer ties are
   anchored to the fixed global maximum.
+- Added a combined Croissant context-array and governance fixture that proves
+  descriptor-only inspection and materialization-receipt preservation; the
+  conservative local profile now rejects unexpanded JSON-LD context objects.
+- Expanded the file-backed Frictionless CSV corpus with declared receipt and
+  offline-replay evidence, metadata-only inspection coverage, and fail-closed
+  duplicate-field and unsupported-dialect descriptor fixtures.
 - Accepted the standard JSON-LD context-array form for the supported Croissant
   1.1 offline profile and added an adversarial fixture that rejects the
   distinct Croissant 1.10 context.
+- Reject hard-linked standardized-ingestion cache entries so a verified object
+  cannot share a writable inode with an untrusted alternate path.
 - Added executable CLI walkthrough evidence for the canonical Croissant ML and
   Frictionless engineering reference descriptors.
-- Added auditable DataFrame-interchange conversion diagnostics for copy policy,
-  index exclusion, and Arrow dtype/nullability/categorical/timezone decisions;
-  copy-permitted conversions explicitly retain an unobservable outcome rather
-  than claiming a copy result that Arrow cannot report.
+- Linked the README to the standardized Croissant and Frictionless ingestion
+  workflow, supported-profile matrix, offline policy, and cross-domain examples.
 - Added a deterministic validator and explicit regeneration path for the
   standardized-ingestion fixture digest manifests, covering both canonical
   Croissant/Frictionless source corpora.
+- Pinned each standardized-ingestion fixture corpus to a format-neutral
+  normalized schema and content identity, and added conformance checks for
+  declaration-order rejection and receipt-digest sensitivity.
 - Expanded the offline Croissant 1.1 fixture corpus with fail-closed coverage
   for integrity declarations, non-CSV media types, and field sources.
 - Reject malformed Croissant distribution and record-set entries through the
@@ -38,8 +47,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   stable ingestion error boundary before provider-specific parsing.
 - Make the public Croissant and Frictionless provider exports lazy, keeping
   ordinary `voiage.ingestion` imports free of source-format adapter imports.
-- Added a fail-closed, opt-in authoritative-provider probe helper that verifies
-  separately staged descriptor and materialization digests without network I/O.
 - Export future GitHub release attestations as discoverable SLSA
   `.intoto.jsonl` assets and add time-bounded OSV exceptions for two Pydantic
   advisories that do not affect the required and locked Pydantic 2.13.4.
@@ -102,10 +109,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Prepared the `v2.0.1-rc.2` TestPyPI candidate with explicit ecosystem version
-  projections and a deterministic aggregate root for dependency-only Python
-  SBOM input. RC2 supersedes the unpublished RC1 staging attempt, which failed
-  closed before a draft release or registry publication.
+- Prepared the `v2.0.1-rc.3` TestPyPI candidate with explicit ecosystem version
+  projections, a deterministic aggregate root for dependency-only Python SBOM
+  input, and a source-bound UUIDv5 CycloneDX serial number required by GitHub
+  SBOM attestations. RC3 supersedes unpublished RC1 and RC2 staging attempts,
+  which failed closed before a draft release or registry publication.
+- Frictionless CSV ingestion now rejects duplicate descriptor field names and
+  duplicate CSV headers through the stable ingestion error boundary.
 - Hardened stable and prerelease publishing across Python, Rust, R, and Julia:
   TestPyPI now verifies the complete reviewed distribution set and every
   attestation; prereleases cannot reach production PyPI or become the latest
@@ -134,6 +144,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Made `voiage ingest inspect` genuinely metadata-only. It now uses registry
+  inspection without resolving declared resources or VOI bindings; materialized
+  provenance, governance, receipt, and data-quality output remains available
+  from validation, normalization, and calculation.
 - Corrected the compiled conda recipe's runtime Python requirement so it
   satisfies conda-forge's non-noarch packaging contract.
 
@@ -1285,6 +1299,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added fixture-backed strategic behavior and game-theoretic VOI with equilibrium, incentive, disclosure, bargaining, regret, adversarial, CLI, Astro documentation, and frontier-contract diagnostics.
 - Added unified accelerator evidence packet validation and deterministic indexing for passed GPU and blocked TPU/Metal runs, preserving CPU fallback and external-gate reasons.
 ## Unreleased
+
+- Added an explicit `--source-root` policy control to every standardized
+  ingestion CLI command, allowing descriptor and verified local resource roots
+  to be selected independently without weakening fail-closed size, cache, or
+  offline policy enforcement.
 
 - Submitted the signed v2.0.0 Rust C ABI to BinaryBuilder through Yggdrasil,
   added the Julia package licence and Aqua checks, removed runtime-only test

@@ -8,7 +8,11 @@ from pathlib import Path
 import pyarrow as pa
 
 from voiage.contracts import (
+    DatasetManifest,
+    FieldManifest,
     NormalizedInputBundle,
+    SourceProvenance,
+    TableManifest,
     VOIBinding,
     prepare_analysis_inputs,
 )
@@ -46,6 +50,34 @@ def _business_dataframe() -> NormalizedInputBundle:
         table_id="samples",
         bindings=(_binding(),),
         allow_copy=False,
+    )
+
+
+def _direct() -> NormalizedInputBundle:
+    """Build the canonical decision without an external descriptor."""
+    table = pa.table(
+        {"strategy_a": [10.0, 30.0, 20.0], "strategy_b": [20.0, 10.0, 25.0]}
+    )
+    return NormalizedInputBundle(
+        manifest=DatasetManifest(
+            dataset_id="canonical-decision-fixture",
+            tables=(
+                TableManifest(
+                    table_id="samples",
+                    fields=tuple(
+                        FieldManifest(field_id=field.name, dtype=str(field.type))
+                        for field in table.schema
+                    ),
+                ),
+            ),
+            provenance=SourceProvenance(
+                provider_id="direct-reference-case",
+                source_uri="urn:voiage:reference-case:direct",
+                descriptor_digest="f" * 64,
+            ),
+            bindings=(_binding(),),
+        ),
+        tables={"samples": table},
     )
 
 
@@ -87,50 +119,63 @@ def _business_cost_outcome_dataframe() -> NormalizedInputBundle:
     )
 
 
-def run_reference_cases() -> dict[str, object]:
-    """Calculate one explicit EVPI case through each supported input surface."""
-    policy = SourceAccessPolicy(_FIXTURES)
-    bundles = {
-        "ml": _bound(
+def _direct_cost_outcome() -> NormalizedInputBundle:
+    """Build the cost/outcome decision without an external descriptor."""
+    table = pa.table(
+        {
+            "cost_a": [100.0, 180.0, 130.0],
+            "cost_b": [150.0, 120.0, 160.0],
+            "outcome_a": [0.010, 0.016, 0.009],
+            "outcome_b": [0.014, 0.012, 0.013],
+        }
+    )
+    return NormalizedInputBundle(
+        manifest=DatasetManifest(
+            dataset_id="cost-outcome-decision-fixture",
+            tables=(
+                TableManifest(
+                    table_id="samples",
+                    fields=tuple(
+                        FieldManifest(field_id=field.name, dtype=str(field.type))
+                        for field in table.schema
+                    ),
+                ),
+            ),
+            provenance=SourceProvenance(
+                provider_id="direct-reference-case",
+                source_uri="urn:voiage:reference-case:direct-cost-outcome",
+                descriptor_digest="e" * 64,
+            ),
+            bindings=_cost_outcome_bindings(),
+        ),
+        tables={"samples": table},
+    )
+
+
+def _net_benefit_surfaces(
+    policy: SourceAccessPolicy,
+) -> dict[str, NormalizedInputBundle]:
+    """Materialize the canonical decision through every supported input surface."""
+    return {
+        "croissant": _bound(
             default_registry().ingest(
                 _FIXTURES / "canonical-decision.croissant.json", policy=policy
             )
         ),
-        "engineering": _bound(
+        "frictionless": _bound(
             default_registry().ingest(
                 _FIXTURES / "canonical-decision.datapackage.json", policy=policy
             )
         ),
-        "business": _business_dataframe(),
-    }
-    values = {
-        domain: float(evpi(prepare_analysis_inputs(bundle).net_benefits))
-        for domain, bundle in bundles.items()
-    }
-    if len(set(values.values())) != 1:
-        raise RuntimeError("reference cases must have identical explicit EVPI")
-    return {
-        "binding": _binding().model_dump(mode="json"),
-        "evpi": values,
-        "schema": {
-            domain: str(bundle.table("samples").schema)
-            for domain, bundle in bundles.items()
-        },
-        "provenance_digests": {
-            domain: bundle.manifest.provenance.descriptor_digest
-            for domain, bundle in bundles.items()
-        },
-        "resource_digests": {
-            domain: [resource.sha256 for resource in bundle.manifest.resources]
-            for domain, bundle in bundles.items()
-        },
+        "direct": _direct(),
+        "dataframe": _business_dataframe(),
     }
 
 
-def run_cost_outcome_reference_cases() -> dict[str, float]:
-    """Derive net benefit from explicit cost/outcome bindings in each surface."""
-    policy = SourceAccessPolicy(_FIXTURES)
-    bindings = _cost_outcome_bindings()
+def _cost_outcome_surfaces(
+    policy: SourceAccessPolicy, bindings: tuple[VOIBinding, VOIBinding]
+) -> dict[str, NormalizedInputBundle]:
+    """Materialize the cost/outcome decision through every supported input surface."""
 
     def with_bindings(bundle: NormalizedInputBundle) -> NormalizedInputBundle:
         return NormalizedInputBundle(
@@ -138,32 +183,72 @@ def run_cost_outcome_reference_cases() -> dict[str, float]:
             tables=bundle.tables,
         )
 
-    bundles = {
-        "ml": with_bindings(
+    return {
+        "croissant": with_bindings(
             default_registry().ingest(
                 _FIXTURES / "cost-outcome-decision.croissant.json", policy=policy
             )
         ),
-        "engineering": with_bindings(
+        "frictionless": with_bindings(
             default_registry().ingest(
                 _FIXTURES / "cost-outcome-decision.datapackage.json", policy=policy
             )
         ),
-        "business": _business_cost_outcome_dataframe(),
+        "direct": _direct_cost_outcome(),
+        "dataframe": _business_cost_outcome_dataframe(),
     }
+
+
+def _repeat_for_domains(values: dict[str, float]) -> dict[str, dict[str, float]]:
+    """Associate one cross-surface decision with each documented domain."""
+    return {domain: dict(values) for domain in ("ml", "engineering", "business")}
+
+
+def run_reference_cases() -> dict[str, object]:
+    """Calculate every documented domain through every supported input surface."""
+    policy = SourceAccessPolicy(_FIXTURES)
+    bundles = _net_benefit_surfaces(policy)
     values = {
-        domain: float(
+        surface: float(evpi(prepare_analysis_inputs(bundle).net_benefits))
+        for surface, bundle in bundles.items()
+    }
+    if len(set(values.values())) != 1:
+        raise RuntimeError("reference cases must have cross-surface EVPI parity")
+    return {
+        "binding": _binding().model_dump(mode="json"),
+        "evpi": _repeat_for_domains(values),
+        "schema": {
+            surface: str(bundle.table("samples").schema)
+            for surface, bundle in bundles.items()
+        },
+        "provenance_digests": {
+            surface: bundle.manifest.provenance.descriptor_digest
+            for surface, bundle in bundles.items()
+        },
+        "resource_digests": {
+            surface: [resource.sha256 for resource in bundle.manifest.resources]
+            for surface, bundle in bundles.items()
+        },
+    }
+
+
+def run_cost_outcome_reference_cases() -> dict[str, dict[str, float]]:
+    """Derive net benefit in every input surface for each documented domain."""
+    policy = SourceAccessPolicy(_FIXTURES)
+    bindings = _cost_outcome_bindings()
+    values = {
+        surface: float(
             evpi(
                 prepare_analysis_inputs(
                     bundle, willingness_to_pay=20_000.0
                 ).net_benefits
             )
         )
-        for domain, bundle in bundles.items()
+        for surface, bundle in _cost_outcome_surfaces(policy, bindings).items()
     }
     if len(set(values.values())) != 1:
-        raise RuntimeError("cost/outcome reference cases must have identical EVPI")
-    return values
+        raise RuntimeError("cost/outcome cases must have cross-surface EVPI parity")
+    return _repeat_for_domains(values)
 
 
 if __name__ == "__main__":

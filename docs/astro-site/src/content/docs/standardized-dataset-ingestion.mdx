@@ -18,7 +18,7 @@ portable, auditable, and suitable for an offline calculation workflow.
 
 | Input surface | Supported profile | Explicit boundary |
 | --- | --- | --- |
-| Croissant ML | Croissant 1.1, one `recordSet`, one `text/csv` distribution, and fields that exactly match the CSV columns | Remote/live catalogs, archives, transforms, splits, keys, nested fields, field references, and non-CSV media types are rejected. |
+| Croissant ML | Croissant 1.1 with string-only JSON-LD context entries, one `recordSet`, one `text/csv` distribution, and fields that exactly match the CSV columns | Remote/live catalogs, archives, transforms, splits, keys, nested fields, field references, JSON-LD context objects, and non-CSV media types are rejected. |
 | Frictionless Data Package | One or more explicitly schematized comma-delimited CSV resources, declared primitive types, keys, and supported foreign keys | Remote/live resources, archives, custom dialects, unsupported formats, transforms, and undeclared or ambiguous resources are rejected. |
 | Direct DataFrame interchange | pandas, Polars, or another `__dataframe__` producer that can convert through Arrow with an explicit binding | The adapter does not infer a VOI role, silently copy a disallowed frame, or create a second calculation path. |
 | Arrow IPC and Parquet | A `NormalizedInputBundle` previously written by VOIAGE | These are normalized interchange artifacts, not source-descriptor parsers. |
@@ -39,7 +39,8 @@ voiage ingest inspect croissant.json
 voiage ingest normalize datapackage.json --output normalized.arrow
 ```
 
-Every ingestion command accepts the same local source-policy controls. They
+The materializing commands (`validate`, `normalize`, and
+`calculate-from-dataset`) accept the same local source-policy controls. They
 never enable network access: use `--max-resource-bytes` to set a stricter
 resource cap, `--cache-dir` to select a verified materialization cache, and
 `--offline` to require replay rather than reading a source path. For example:
@@ -53,11 +54,14 @@ voiage ingest validate datapackage.json \
 `croissant.json` is recognized from its Croissant context and
 `datapackage.json` from its Data Package resource list, not from the filename.
 `validate` resolves the descriptor and every declared local resource through
-the source-access policy, then returns a stable JSON confirmation. The
-`inspect` response contains the provider, its declared capability profile, safe
-descriptor provenance, preserved governance metadata, diagnostics, table row
-counts, schema fingerprint, and content digest; neither command echoes resource
-contents or credentials.
+the source-access policy, then returns a stable JSON confirmation with
+provenance, governance metadata, diagnostics, row counts, schema fingerprint,
+and content digest. `inspect` is deliberately metadata-only: it reads only the
+JSON descriptor and reports the recognized provider, its declared capability
+profile, and `binding_resolution: null`. It does not resolve a resource,
+compute a receipt or data-quality report, or resolve a VOI binding. This means
+inspection can safely identify a descriptor even when its resource is not
+available; use a materializing command for validation or calculation.
 
 Local resources are fail-closed: paths cannot escape the configured descriptor
 root, network access is disabled by default, and a resource larger than the
@@ -147,6 +151,12 @@ All providers default to local-only access. Inputs that fall outside these
 profiles fail with a stable `IngestionError`; they are not partially loaded or
 silently transformed. Compatibility will expand only with new fixtures,
 source-policy evidence, and a documented provider capability change.
+
+The file-backed Frictionless corpus includes a valid receipted CSV package,
+offline replay, metadata-only inspection of an absent declared resource, and
+fail-closed descriptor, field-identity, and dialect cases. It is evidence for
+this local profile only; it does not establish support for a remote catalogue,
+archive, Parquet/Arrow source resource, or the complete upstream specification.
 
 ## Authoritative interoperability probes
 

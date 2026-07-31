@@ -4,9 +4,12 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import shutil
+from typing import cast
 
 import pytest
 
+from voiage.ingestion import default_registry
 from voiage.ingestion.base import IngestionError, SourceAccessPolicy
 from voiage.ingestion.frictionless import FrictionlessProvider
 
@@ -25,6 +28,11 @@ _FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "frictionless_v1"
         ("unsupported/required-null.json", "required field contains null"),
         ("unsupported/duplicate-primary-key.json", "primaryKey contains duplicate"),
         ("unsupported/unknown-primary-key.json", "primaryKey references an unknown"),
+        (
+            "unsupported/duplicate-schema-fields.json",
+            "ambiguous duplicate field names",
+        ),
+        ("unsupported/unsupported-dialect-property.json", "only CSV comma dialect"),
     ],
 )
 def test_frictionless_offline_unsupported_profile_fixtures_fail_closed(
@@ -53,6 +61,66 @@ def test_frictionless_offline_valid_profile_fixture_materializes() -> None:
     assert bundle.manifest.extensions["frictionlessdata.org:profile"] == (
         "tabular-data-package"
     )
+
+
+def test_frictionless_offline_receipted_fixture_preserves_declared_receipt() -> None:
+    """A checked local CSV exposes its immutable receipt without inference."""
+    descriptor = _FIXTURE_ROOT / "valid" / "receipted-datapackage.json"
+
+    bundle = FrictionlessProvider().ingest(
+        descriptor, policy=SourceAccessPolicy(_FIXTURE_ROOT)
+    )
+
+    receipt = bundle.manifest.resources[0]
+    assert receipt.resource_id == "operations_samples"
+    assert (
+        receipt.sha256
+        == "2fa13daf9b358e05326d2e3f04c5a9a27bf07097aa63e01f82817f0f1905149d"
+    )
+    assert receipt.byte_size == 39
+    assert receipt.uri == (_FIXTURE_ROOT / "valid" / "receipted-data.csv").as_uri()
+    assert bundle.manifest.provenance.citation == "Voiage synthetic fixture (2026)"
+
+
+def test_frictionless_offline_receipted_fixture_replays_only_verified_data(
+    tmp_path: Path,
+) -> None:
+    """The corpus proves provider-level offline replay, not only policy helpers."""
+    fixture_root = tmp_path / "frictionless_v1"
+    shutil.copytree(_FIXTURE_ROOT, fixture_root)
+    descriptor = fixture_root / "valid" / "receipted-datapackage.json"
+    cache_dir = tmp_path / "cache"
+
+    FrictionlessProvider().ingest(
+        descriptor,
+        policy=SourceAccessPolicy(fixture_root, cache_dir=cache_dir),
+    )
+    (fixture_root / "valid" / "receipted-data.csv").unlink()
+
+    replay = FrictionlessProvider().ingest(
+        descriptor,
+        policy=SourceAccessPolicy(fixture_root, cache_dir=cache_dir, offline=True),
+    )
+
+    assert replay.table("operations_samples").num_rows == 2
+    assert replay.manifest.resources[0].sha256 == (
+        "2fa13daf9b358e05326d2e3f04c5a9a27bf07097aa63e01f82817f0f1905149d"
+    )
+
+
+def test_frictionless_inspection_fixture_never_materializes_an_absent_resource() -> (
+    None
+):
+    """Inspection is descriptor-only even when a declared local resource is absent."""
+    descriptor = _FIXTURE_ROOT / "valid" / "inspect-only-datapackage.json"
+
+    inspection = default_registry().inspect(descriptor)
+
+    assert inspection["provider_id"] == "frictionless"
+    assert inspection["descriptor"] == str(descriptor)
+    capabilities = inspection["capabilities"]
+    assert isinstance(capabilities, dict)
+    assert cast("dict[str, object]", capabilities)["format_versions"] == ("1",)
 
 
 def test_frictionless_rejects_non_object_resource_descriptors(tmp_path) -> None:

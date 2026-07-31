@@ -92,7 +92,7 @@ class SourceAccessPolicy:
                     "offline replay requires an expected SHA-256 digest"
                 )
             cached = self._cache_path(expected)
-            if cached is None or not cached.is_file() or cached.is_symlink():
+            if not self._is_safe_cached_file(cached):
                 raise IngestionError("no verified offline materialization is available")
             if self._digest(cached) != expected:
                 raise IngestionError("cached materialization checksum does not match")
@@ -113,11 +113,7 @@ class SourceAccessPolicy:
         assert cached is not None
         cached.parent.mkdir(parents=True, exist_ok=True)
         if cached.exists():
-            if (
-                not cached.is_file()
-                or cached.is_symlink()
-                or self._digest(cached) != actual
-            ):
+            if not self._is_safe_cached_file(cached) or self._digest(cached) != actual:
                 raise IngestionError("cached materialization checksum does not match")
             return cached
         shutil.copyfile(source, cached)
@@ -151,6 +147,13 @@ class SourceAccessPolicy:
         if candidate != self.root and self.root not in candidate.parents:
             raise IngestionError("resource path escapes the configured source root")
         return candidate
+
+    @staticmethod
+    def _is_safe_cached_file(candidate: Path | None) -> bool:
+        """Return whether a cache object has no alternate writable path."""
+        if candidate is None or not candidate.is_file() or candidate.is_symlink():
+            return False
+        return candidate.stat().st_nlink == 1
 
     @staticmethod
     def _validate_digest(digest: str) -> str:

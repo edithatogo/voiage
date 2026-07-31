@@ -77,7 +77,10 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   missing source-provenance and JOSS contract files in this clean worktree.
   Non-object descriptor-root handling is covered by the shared provider guard
   (`333ee68f`, `d745d2d6`, `1e4e6bd7`). JSON-LD context-array and exact-version
-  adversarial coverage: `5a3a7b04` (partial).
+  adversarial coverage: `5a3a7b04`. A combined context-array/governance fixture
+  now proves descriptor-only inspection, retained non-semantic governance, and
+  materialization receipt fields while rejecting unexpanded JSON-LD context
+  objects (`d814e6e1`, partial).
 - [~] **P4-T3 / AC-04, AC-11:** Add fixtures for Croissant 1.1 conformance,
   parser-feature gaps, live datasets, citations, PROV, usage information,
   ODRL, and RAI metadata preservation. Offline governance fixture added
@@ -88,10 +91,11 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   remains active.
 - [~] **P4-T5 / AC-04, AC-11:** Add Croissant inspection, diagnostics,
   provenance, governance metadata, and one opt-in authoritative live
-  interoperability probe. CLI inspection coverage now verifies stable provider,
-  checksum/byte receipt, provenance, and retained governance output for an
-  offline Croissant 1.1 fixture (`8d040bef`, partial); the opt-in authoritative
-  live probe remains an explicit external gate.
+  interoperability probe. Registry/CLI inspection now verifies stable provider
+  capabilities without resource materialization; materializing validation
+  verifies receipt, provenance, and retained governance for the offline
+  Croissant 1.1 fixture. The opt-in authoritative live probe remains an
+  explicit external gate.
 
 ### Frictionless Data
 
@@ -103,17 +107,19 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   ambiguous resources. File-backed baseline and fail-closed format/integrity
   coverage added (`d0c1b238`); malformed-resource coverage is also file-backed.
   Non-object descriptor-root handling is covered by the shared provider guard
-  (`0c19fe1b`, `1e4e6bd7`, partial). Remaining acceptance evidence is tracked
-  below.
+  (`0c19fe1b`, `1e4e6bd7`); duplicate CSV-header and schema-field ambiguity
+  now rejects through the stable ingestion error boundary (`8f60b184`,
+  partial). Remaining acceptance evidence is tracked below.
 - [~] **P4-T8 / AC-05:** Implement the lazy optional Frictionless provider and
   documented supported profile. Public provider export is now lazy; profile
   acceptance evidence remains active (`2ad0a24a`, partial).
 - [~] **P4-T9 / AC-05, AC-11:** Add Frictionless inspection, diagnostics,
   provenance, licence/citation/usage preservation, and one opt-in authoritative
-  live interoperability probe. CLI inspection coverage now verifies stable
-  provider, checksum/byte receipt, provenance, and retained governance output
-  for an offline Data Package fixture (`ac6d05a9`, partial); the opt-in
-  authoritative live probe remains an explicit external gate.
+  live interoperability probe. Registry/CLI inspection now verifies stable
+  provider capabilities without resource materialization; materializing
+  validation verifies receipt, provenance, and retained governance for an
+  offline Data Package fixture. The opt-in authoritative live probe remains an
+  explicit external gate.
 
 ### Phase checkpoint
 
@@ -135,15 +141,17 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 - [~] **P5-T2 / AC-06:** Add the deterministic fixture manifest with pinned
   descriptor, resource, schema, and content digests. Both checked-in fixture
   corpora are now verified through one deterministic digest-manifest validator
-  (`scripts/validate_standardized_ingestion_fixtures.py`, partial: descriptor
-  and resource digests are pinned; schema and content semantics remain covered
-  by conformance tests).
+  (`scripts/validate_standardized_ingestion_fixtures.py`). It pins descriptor,
+  resource, format-neutral schema, and direct normalized-content digests
+  (partial: the corpus remains intentionally small).
 - [~] **P5-T3 / AC-06:** Implement deterministic fixture generation and the
   schema, provenance, ordering, meaningful-change, and numerical-equivalence
   conformance matrix. The fixture validator now fails closed on stale artifact
-  digests and supports explicit deterministic ``--write`` regeneration; the
-  existing cross-format/property/reference-case tests provide partial semantic
-  matrix evidence. Full parser-differential coverage remains active.
+  and normalized-identity digests and supports explicit deterministic
+  ``--write`` regeneration. Provider declarations that disagree with CSV order
+  fail rather than reorder data, and changed resource bytes change receipts and
+  normalized content (partial: full parser-differential coverage remains
+  active).
 - [~] **P5-T4 / AC-06, AC-10, AC-11:** Assert binding-profile, data-quality,
   governance-metadata, and materialization-receipt parity without requiring
   source formats to share irrelevant descriptive metadata. Canonical Croissant
@@ -154,8 +162,11 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   tests, parser-differential checks, and fresh-process PyArrow/Polars checks.
   A fresh-process IPC/Parquet round-trip now reads normalized bundles and
   converts their Arrow tables through Polars before asserting identical schema
-  and rows (`b16b52df`, partial); adversarial and parser-differential coverage
-  remains active.
+  and rows (`b16b52df`). Generated Croissant/Frictionless CSV mappings now
+  assert identical rows and explicit binding preparation, while malformed
+  parser nodes and mismatched declared resource digests fail through the
+  stable error taxonomy (partial: broader parser-differential coverage remains
+  active; `0c6a2e7a`).
 - [~] **P5-T6 / AC-06:** Add the conformance matrix to tox and hosted CI; run
   automated review, validation, and the phase checkpoint protocol. The explicit
   `ingestion-conformance` tox environment and named hosted job now run the
@@ -168,17 +179,24 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   diagnostic-redaction, and clean-install tests. The CLI now explicitly proves
   that a rejected credential-bearing descriptor URI is redacted at the
   user-facing boundary, and all four ingestion commands have executable help
-  contracts (partial: complete Phase 6 acceptance reconciliation remains
-  active).
+  contracts. Explicit non-default source-root tests now cover all materializing
+  commands and fail closed at the resource-byte limit (partial: complete Phase
+  6 acceptance reconciliation remains active).
 - [x] **P6-T2 / AC-07:** Add `croissant`, `frictionless`, and aggregate
   `ingestion` extras. The declared extras remain dependency-neutral because
   built-in providers require only the base Arrow/JSON stack.
 - [x] **P6-T3 / AC-07:** Implement `ingest validate`, `ingest inspect`,
   `ingest normalize`, and `calculate-from-dataset` with explicit selection,
-  binding, offline, and source-policy options.
-- [x] **P6-T4 / AC-07, AC-11:** Make inspection output include data-quality,
-  provider-capability, binding-resolution, governance, and materialization
-  receipt details in stable machine-readable form.
+  binding, offline, and source-policy options. Every materializing command now
+  accepts an explicit `--source-root` in addition to the cache, offline, and
+  resource-size policy controls.
+- [~] **P6-T4 / AC-07, AC-11:** Keep inspection and materialization evidence
+  distinct in stable machine-readable output. `ingest inspect` is now
+  descriptor-only (provider capabilities and an explicit null binding
+  resolution), so it cannot accidentally resolve resources; materializing
+  validation/normalization output carries provenance, governance, receipts,
+  and data-quality evidence. Broader receipt and live-source acceptance remains
+  active.
 - [x] **P6-T5 / AC-07:** Add Python, Croissant/ML, and
   Frictionless/operations-research examples.
 - [~] **P6-T6 / AC-07:** Update Astro data-structure, CLI, architecture, and
@@ -198,8 +216,9 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   cache-poisoning, checksum-mismatch, decompression-ratio, and mutable-live-data
   tests. Partial evidence: `d3550e9c` rejects a cache-namespace symlink whose
   resolved directory escapes the configured cache root before it can redirect a
-  verified materialization; the remote/archive and mutable-live-source cases
-  remain active.
+  verified materialization; hard-linked cache entries are also rejected so a
+  verified object cannot share a writable inode with an alternate path
+  (partial). The remote/archive and mutable-live-source cases remain active.
 - [~] **P7-T3 / AC-08, AC-11:** Complete source-policy enforcement,
   content-addressed verified caching, immutable materialization receipts,
   offline replay, and streaming or bounded-batch behavior.
@@ -252,15 +271,21 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   engineering/operations, and business decision cases with explicit method
   applicability.
 - [~] **P9-T2 / AC-13:** Represent every case as Croissant, Frictionless, and
-  direct inputs using the same binding profile and pinned artifact digests.
+  direct inputs using the same binding profile and pinned artifact digests. The
+  executable synthetic cases now exercise Croissant, Frictionless, direct Arrow,
+  and DataFrame representations for each documented domain (partial; hosted
+  evidence remains required).
 - [~] **P9-T3 / AC-13:** Add validation, inspection, data-quality, governance,
   materialization, Python API, and CLI walkthrough evidence. The canonical ML
-  Croissant and engineering Frictionless descriptors now execute the documented
-  validation/inspection path and assert provider, governance, binding-quality,
-  and materialization-receipt output; the direct DataFrame business walkthrough
-  remains covered by the executable reference example (partial).
+  Croissant and engineering Frictionless descriptors now execute a separate
+  metadata-only inspection path and materializing validation/calculation path;
+  the latter carries governance, binding-quality, and receipt evidence. The
+  direct DataFrame business walkthrough remains covered by the executable
+  reference example (partial).
 - [~] **P9-T4 / AC-13:** Assert normalized-object and numerical equivalence
-  without adding domain-specific kernels or semantic inference.
+  without adding domain-specific kernels or semantic inference. The reference
+  runner now fails if any supported representation differs in EVPI (partial;
+  broader hosted evidence remains required).
 - [~] **P9-T5 / AC-13:** Publish the support matrix and run fixture
   regeneration, docs, links, Vale, conformance, and hosted regression checks.
 

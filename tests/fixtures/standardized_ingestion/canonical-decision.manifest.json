@@ -17,5 +17,10 @@
     "canonical-decision.csv": "f56d1b3708adff6ea76db79abb77f897bae4fbb2d96f112a13814eb21f6d5ab9",
     "canonical-decision.datapackage.json": "4252c19f66d9dac69e071fb55f1c66bdd9f568a7ad2d0695f578757e20de45c0"
   },
+  "normalized": {
+    "content_digest": "b01aa0dc619cb785aecd153d76b26198044d6c61d54dfd3599332d6db2e91161",
+    "resource_sha256": "f56d1b3708adff6ea76db79abb77f897bae4fbb2d96f112a13814eb21f6d5ab9",
+    "schema_fingerprint": "1ef18b22a0cbe24532c60b97633a8b1dcf9d62c5f2c4a45b4fd56d3ce598e59c"
+  },
   "schema_version": "1.0.0"
 }

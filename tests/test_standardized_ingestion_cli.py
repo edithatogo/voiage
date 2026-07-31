@@ -34,30 +34,15 @@ def test_reference_descriptors_have_safe_cli_walkthroughs(
     runner = CliRunner()
 
     validated = runner.invoke(app, ["ingest", "validate", str(descriptor)])
-    inspected = runner.invoke(
-        app,
-        [
-            "ingest",
-            "inspect",
-            str(descriptor),
-            "--table",
-            "samples",
-            "--field",
-            "strategy_a",
-            "--field",
-            "strategy_b",
-        ],
-    )
+    inspected = runner.invoke(app, ["ingest", "inspect", str(descriptor)])
 
     assert validated.exit_code == 0
     assert json.loads(validated.output)["valid"] is True
     assert inspected.exit_code == 0
     result = json.loads(inspected.output)
     assert result["provider"] == provider
-    assert isinstance(result["governance"], dict)
-    assert result["binding_resolution"]["data_quality"]["row_count"] == 3
-    assert len(result["resources"]) == 1
-    assert len(result["resources"][0]["sha256"]) == 64
+    assert result["binding_resolution"] is None
+    assert result["capabilities"]["provider_id"] == provider
 
 
 def test_ingest_commands_publish_stable_help_surfaces() -> None:
@@ -66,7 +51,7 @@ def test_ingest_commands_publish_stable_help_surfaces() -> None:
 
     for command, description in (
         ("validate", "Validate a supported descriptor"),
-        ("inspect", "Inspect identity and optionally resolve"),
+        ("inspect", "Inspect descriptor identity and provider capabilities"),
         ("normalize", "Normalize a descriptor into a deterministic Arrow IPC"),
         (
             "calculate-from-dataset",
@@ -103,20 +88,6 @@ def test_ingest_inspect_and_normalize(tmp_path) -> None:
 
     validated = runner.invoke(app, ["ingest", "validate", str(descriptor)])
     default_inspected = runner.invoke(app, ["ingest", "inspect", str(descriptor)])
-    inspected = runner.invoke(
-        app,
-        [
-            "ingest",
-            "inspect",
-            str(descriptor),
-            "--table",
-            "samples",
-            "--field",
-            "a",
-            "--field",
-            "b",
-        ],
-    )
     output = tmp_path / "normalized.arrow"
     normalized = runner.invoke(
         app, ["ingest", "normalize", str(descriptor), "--output", str(output)]
@@ -139,9 +110,7 @@ def test_ingest_inspect_and_normalize(tmp_path) -> None:
     assert validated.exit_code == 0
     assert json.loads(validated.output)["valid"] is True
     assert default_inspected.exit_code == 0
-    assert json.loads(default_inspected.output)["binding_resolution"] is None
-    assert inspected.exit_code == 0
-    inspection = json.loads(inspected.output)
+    inspection = json.loads(default_inspected.output)
     assert inspection["provider"] == "frictionless"
     assert inspection["capabilities"] == {
         "format_versions": ["1"],
@@ -153,43 +122,21 @@ def test_ingest_inspect_and_normalize(tmp_path) -> None:
         "supports_random_access": False,
         "supports_streaming": False,
     }
-    assert inspection["provenance"]["license"] == "CC-BY-4.0"
-    assert inspection["governance"] == {
-        "frictionlessdata.org:contributors": [
-            {"role": "author", "title": "Fixture maintainer"}
-        ],
-        "frictionlessdata.org:licenses": [{"name": "CC-BY-4.0"}],
+    assert inspection["binding_resolution"] is None
+    assert inspection["descriptor"] == str(descriptor)
+    assert set(inspection) == {
+        "binding_resolution",
+        "capabilities",
+        "descriptor",
+        "provider",
     }
-    resolution = inspection["binding_resolution"]
-    assert resolution["binding"]["role"] == "net_benefit"
-    assert resolution["binding"]["table_id"] == "samples"
-    assert resolution["binding"]["field_ids"] == ["a", "b"]
-    assert len(resolution["binding_profile_digest"]) == 64
-    assert len(resolution["input_digest"]) == 64
-    assert resolution["data_quality"] == {
-        **resolution["data_quality"],
-        "null_counts": {"a": 0, "b": 0},
-        "row_count": 1,
-        "selected_field_ids": ["a", "b"],
-        "table_id": "samples",
-        "unique_value_counts": {"a": 1, "b": 1},
-    }
-    assert inspection["resources"] == [
-        {
-            "byte_size": (tmp_path / "samples.csv").stat().st_size,
-            "media_type": "text/csv",
-            "resource_id": "samples",
-            "sha256": sha256((tmp_path / "samples.csv").read_bytes()).hexdigest(),
-            "uri": (tmp_path / "samples.csv").resolve().as_uri(),
-        }
-    ]
     assert normalized.exit_code == 0
     assert output.is_file()
     assert calculated.exit_code == 0
     assert "input_digest" in json.loads(calculated.output)
 
 
-def test_inspect_requires_complete_explicit_binding_options(tmp_path) -> None:
+def test_inspect_rejects_binding_options_without_loading_data(tmp_path) -> None:
     (tmp_path / "samples.csv").write_text("a,b\n1,2\n", encoding="utf-8")
     descriptor = tmp_path / "datapackage.json"
     descriptor.write_text(
@@ -217,8 +164,44 @@ def test_inspect_requires_complete_explicit_binding_options(tmp_path) -> None:
 
     assert table_only.exit_code == 2
     assert fields_only.exit_code == 2
-    assert "--table and at least one --field" in table_only.output
-    assert "--table and at least one --field" in fields_only.output
+    assert "No such option" in table_only.output
+    assert "No such option" in fields_only.output
+
+
+def test_inspect_does_not_materialize_declared_resource(tmp_path) -> None:
+    """Inspection can identify a descriptor whose local resource is absent."""
+    descriptor = tmp_path / "datapackage.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "name": "metadata-only",
+                "resources": [
+                    {
+                        "name": "missing",
+                        "path": "missing.csv",
+                        "schema": {"fields": [{"name": "a"}]},
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    runner = CliRunner()
+
+    inspected = runner.invoke(app, ["ingest", "inspect", str(descriptor)])
+    validated = runner.invoke(app, ["ingest", "validate", str(descriptor)])
+    normalized = runner.invoke(
+        app,
+        ["ingest", "normalize", str(descriptor), "--output", str(tmp_path / "x.arrow")],
+    )
+
+    assert inspected.exit_code == 0
+    assert json.loads(inspected.output)["provider"] == "frictionless"
+    assert json.loads(inspected.output)["binding_resolution"] is None
+    assert validated.exit_code == 2
+    assert normalized.exit_code == 2
+    assert "declared resource does not exist" in validated.output
+    assert "declared resource does not exist" in normalized.output
 
 
 def test_ingest_cli_returns_safe_error_for_unrecognized_descriptor(tmp_path) -> None:
@@ -286,6 +269,93 @@ def test_normalize_and_calculate_return_safe_errors(tmp_path) -> None:
         ).exit_code
         == 2
     )
+
+
+def test_materializing_ingest_commands_expose_explicit_source_policy_controls(
+    tmp_path,
+) -> None:
+    """CLI callers can make materialization policy explicit and fail closed."""
+    source_root = tmp_path / "declared-source-root"
+    source_root.mkdir()
+    (source_root / "samples.csv").write_text("a,b\n1,2\n", encoding="utf-8")
+    descriptor = tmp_path / "datapackage.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "schema": {"fields": [{"name": "a"}, {"name": "b"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    runner = CliRunner()
+    source_policy = ["--source-root", str(source_root)]
+    resolved = [
+        runner.invoke(app, ["ingest", "validate", str(descriptor), *source_policy]),
+        runner.invoke(
+            app,
+            [
+                "ingest",
+                "normalize",
+                str(descriptor),
+                "--output",
+                str(tmp_path / "normalized.arrow"),
+                *source_policy,
+            ],
+        ),
+        runner.invoke(
+            app,
+            [
+                "ingest",
+                "calculate-from-dataset",
+                str(descriptor),
+                "--table",
+                "samples",
+                "--field",
+                "a",
+                "--field",
+                "b",
+                *source_policy,
+            ],
+        ),
+    ]
+    constrained = runner.invoke(
+        app,
+        [
+            "ingest",
+            "validate",
+            str(descriptor),
+            "--source-root",
+            str(source_root),
+            "--max-resource-bytes",
+            "1",
+        ],
+    )
+    invalid_limit = runner.invoke(
+        app,
+        [
+            "ingest",
+            "validate",
+            str(descriptor),
+            "--source-root",
+            str(source_root),
+            "--max-resource-bytes",
+            "0",
+        ],
+    )
+
+    assert all(result.exit_code == 0 for result in resolved)
+    assert json.loads(resolved[0].output)["valid"] is True
+    assert constrained.exit_code == 2
+    assert "exceeds configured size limit" in constrained.output
+    assert invalid_limit.exit_code == 2
+    assert "Invalid value" in invalid_limit.output
 
 
 def test_ingest_cli_applies_explicit_resource_size_policy(tmp_path) -> None:
@@ -368,8 +438,8 @@ def test_ingest_cli_replays_a_declared_resource_from_offline_cache(tmp_path) -> 
     assert json.loads(replayed.output)["valid"] is True
 
 
-def test_croissant_inspection_exposes_governance_and_receipt_identity(tmp_path) -> None:
-    """Croissant inspection retains governance without inferring VOI semantics."""
+def test_croissant_validation_exposes_governance_and_receipt_identity(tmp_path) -> None:
+    """Materializing validation retains Croissant governance and receipts."""
     source = tmp_path / "samples.csv"
     source.write_text("a,b\n1,2\n", encoding="utf-8")
     descriptor = tmp_path / "croissant.json"
@@ -397,7 +467,7 @@ def test_croissant_inspection_exposes_governance_and_receipt_identity(tmp_path) 
         encoding="utf-8",
     )
 
-    result = CliRunner().invoke(app, ["ingest", "inspect", str(descriptor)])
+    result = CliRunner().invoke(app, ["ingest", "validate", str(descriptor)])
 
     assert result.exit_code == 0
     inspection = json.loads(result.output)
@@ -423,10 +493,10 @@ def test_croissant_inspection_exposes_governance_and_receipt_identity(tmp_path) 
     ]
 
 
-def test_frictionless_inspection_exposes_governance_and_receipt_identity(
+def test_frictionless_validation_exposes_governance_and_receipt_identity(
     tmp_path,
 ) -> None:
-    """Frictionless inspection preserves explicit package governance metadata."""
+    """Materializing validation preserves package governance metadata."""
     source = tmp_path / "samples.csv"
     source.write_text("a,b\n1,2\n", encoding="utf-8")
     descriptor = tmp_path / "datapackage.json"
@@ -458,7 +528,7 @@ def test_frictionless_inspection_exposes_governance_and_receipt_identity(
         encoding="utf-8",
     )
 
-    result = CliRunner().invoke(app, ["ingest", "inspect", str(descriptor)])
+    result = CliRunner().invoke(app, ["ingest", "validate", str(descriptor)])
 
     assert result.exit_code == 0
     inspection = json.loads(result.output)

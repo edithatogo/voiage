@@ -95,6 +95,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
         DataFrame example.
     *   The README now links the conservative Croissant/Frictionless ingestion
         surface to its profile matrix, offline policy, and cross-domain examples.
+    *   Verified offline-cache entries now reject symlinks and hard links so a
+        cache object cannot be redirected or mutated through another path.
 
 ## Completed public documentation
 
@@ -182,7 +184,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
-*   [x] Prepare the signed `v2.0.1-rc.2` TestPyPI candidate contract.
+*   [x] Prepare the signed `v2.0.1-rc.3` TestPyPI candidate contract.
     *   Added explicit Cargo/Julia SemVer, Python PEP 440, and R numeric
         development-version projections without claiming R, Julia, or
         crates.io prerelease publication.
@@ -191,6 +193,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
         canonical signed tag and mixed-language SBOM identity.
     *   Superseded the unpublished RC1 staging attempt with RC2 after teaching
         the composer to root dependency-only CycloneDX Python inventories.
+    *   Superseded unpublished RC2 with RC3 after adding the deterministic
+        UUIDv5 serial number required by GitHub's SBOM attestation action.
 
 *   [x] Normalize and archive the historical Conductor registry.
     *   Archived track:

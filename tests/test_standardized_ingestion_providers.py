@@ -95,6 +95,65 @@ def test_built_in_providers_normalize_supported_csv_profile(
     )
 
 
+def test_registry_inspect_reports_capabilities_without_materializing(tmp_path) -> None:
+    descriptor_path = tmp_path / "croissant.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "@context": "http://mlcommons.org/croissant/1.1",
+                "name": "inspect-fixture",
+                "distribution": [{"contentUrl": "missing.csv"}],
+                "recordSet": [{"name": "samples", "field": [{"name": "a"}]}],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    inspection = default_registry().inspect(descriptor_path)
+
+    assert inspection["provider_id"] == "croissant"
+    assert inspection["descriptor"] == str(descriptor_path)
+    assert inspection["capabilities"] == {
+        "format_versions": ("1.1",),
+        "media_types": ("text/csv",),
+        "supported_transforms": (),
+        "supports_projection": False,
+        "supports_filtering": False,
+        "supports_streaming": False,
+        "supports_random_access": False,
+    }
+
+
+@pytest.mark.parametrize(
+    ("payload", "message"),
+    [
+        ([], "descriptor root must be a JSON object"),
+        (
+            {"unrecognized": True},
+            "descriptor must match exactly one registered provider",
+        ),
+    ],
+)
+def test_registry_inspect_rejects_invalid_or_unrecognized_descriptors(
+    tmp_path, payload, message
+) -> None:
+    """Metadata-only inspection keeps the same descriptor boundary as ingest."""
+    descriptor_path = tmp_path / "descriptor.json"
+    descriptor_path.write_text(json.dumps(payload), encoding="utf-8")
+
+    with pytest.raises(IngestionError, match=message):
+        default_registry().inspect(descriptor_path)
+
+
+def test_registry_inspect_rejects_malformed_json_descriptor(tmp_path) -> None:
+    """Inspection exposes the same stable malformed-descriptor error as ingest."""
+    descriptor_path = tmp_path / "descriptor.json"
+    descriptor_path.write_text("{not valid JSON", encoding="utf-8")
+
+    with pytest.raises(IngestionError, match="descriptor is not valid UTF-8 JSON"):
+        default_registry().inspect(descriptor_path)
+
+
 @pytest.mark.parametrize("provider", ["croissant", "frictionless"])
 def test_built_in_provider_replays_a_verified_cached_resource_offline(
     tmp_path, provider
@@ -425,6 +484,48 @@ def test_frictionless_provider_rejects_required_null_field(tmp_path) -> None:
 
 
 @pytest.mark.parametrize(
+    ("csv", "fields", "message"),
+    [
+        (
+            "id,id\n1,2\n",
+            [{"name": "id"}, {"name": "id"}],
+            "ambiguous duplicate field names",
+        ),
+        (
+            "id,id\n1,2\n",
+            [{"name": "id"}, {"name": "value"}],
+            "ambiguous duplicate field names",
+        ),
+    ],
+)
+def test_frictionless_provider_rejects_ambiguous_duplicate_field_names(
+    tmp_path, csv, fields, message
+) -> None:
+    """Descriptor and CSV field identities must each be unambiguous."""
+    (tmp_path / "samples.csv").write_text(csv, encoding="utf-8")
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "schema": {"fields": fields},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match=message):
+        FrictionlessProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path)
+        )
+
+
+@pytest.mark.parametrize(
     ("provider", "version"),
     [(CroissantProvider(), "1.1"), (FrictionlessProvider(), "1")],
 )
@@ -610,6 +711,75 @@ def test_providers_reject_ambiguous_or_incomplete_descriptors(
     path.write_text(json.dumps(descriptor), encoding="utf-8")
     with pytest.raises(IngestionError, match=message):
         provider.ingest(path, policy=SourceAccessPolicy(tmp_path))
+
+
+@pytest.mark.parametrize(
+    ("key", "value", "message"),
+    [
+        ("recordSet", ["not-an-object"], "recordSet object"),
+        ("distribution", ["not-an-object"], "distribution object"),
+    ],
+)
+def test_croissant_provider_rejects_non_object_parser_nodes_with_stable_error(
+    tmp_path, key: str, value: list[str], message: str
+) -> None:
+    """Adversarial JSON nodes cannot escape as parser implementation errors."""
+    _write_csv(tmp_path)
+    descriptor = {
+        "@context": "https://mlcommons.org/croissant/1.1",
+        "name": "malformed-croissant-node",
+        "recordSet": [{"name": "samples", "field": [{"name": "a"}, {"name": "b"}]}],
+        "distribution": [{"contentUrl": "samples.csv"}],
+    }
+    descriptor[key] = value
+    descriptor_path = tmp_path / "croissant.json"
+    descriptor_path.write_text(json.dumps(descriptor), encoding="utf-8")
+
+    with pytest.raises(IngestionError, match=message):
+        default_registry().ingest(descriptor_path, policy=SourceAccessPolicy(tmp_path))
+
+
+def test_builtin_providers_do_not_silently_ignore_integrity_declarations(
+    tmp_path,
+) -> None:
+    """A profile without a verifier must reject, rather than ignore, a digest claim."""
+    _write_csv(tmp_path)
+    croissant_path = tmp_path / "croissant.json"
+    croissant_path.write_text(
+        json.dumps(
+            {
+                "@context": "https://mlcommons.org/croissant/1.1",
+                "distribution": [{"contentUrl": "samples.csv", "sha256": "0" * 64}],
+                "recordSet": [
+                    {"name": "samples", "field": [{"name": "a"}, {"name": "b"}]}
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    frictionless_path = tmp_path / "datapackage.json"
+    frictionless_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "hash": "0" * 64,
+                        "schema": {"fields": [{"name": "a"}, {"name": "b"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    for path, message in (
+        (croissant_path, "declared Croissant SHA-256"),
+        (frictionless_path, "checksum"),
+    ):
+        with pytest.raises(IngestionError, match=message):
+            default_registry().ingest(path, policy=SourceAccessPolicy(tmp_path))
 
 
 def test_registry_rejects_invalid_and_ambiguous_descriptors(tmp_path) -> None:

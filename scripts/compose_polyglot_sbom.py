@@ -13,6 +13,7 @@ import sys
 import tomllib
 from typing import TYPE_CHECKING, Any
 from urllib.parse import quote
+import uuid
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Mapping, Sequence
@@ -32,6 +33,15 @@ HEX_64 = re.compile(r"^[0-9a-f]{64}$")
 R_DEPENDENCY = re.compile(r"^([A-Za-z][A-Za-z0-9.]*)\s*(?:\(([^)]+)\))?$")
 
 JsonObject = dict[str, Any]
+
+
+def _release_serial_number(source_tag: str, source_commit: str) -> str:
+    """Return a deterministic CycloneDX UUID URN for one immutable source."""
+    identity = (
+        "https://github.com/edithatogo/voiage/releases/tag/"
+        f"{source_tag}@{source_commit}"
+    )
+    return f"urn:uuid:{uuid.uuid5(uuid.NAMESPACE_URL, identity)}"
 
 
 class SbomError(ValueError):
@@ -665,7 +675,7 @@ def compose_sbom(
     document["bomFormat"] = "CycloneDX"
     document["specVersion"] = SPEC_VERSION
     document["version"] = 1
-    document.pop("serialNumber", None)
+    document["serialNumber"] = _release_serial_number(source_tag, source_commit)
     validate_sbom(
         document,
         expected_commit=source_commit,
@@ -692,6 +702,24 @@ def validate_sbom(
         errors.append(f"specVersion must be {SPEC_VERSION}")
     if document.get("version") != 1:
         errors.append("BOM version must be 1")
+    serial_number = document.get("serialNumber")
+    try:
+        parsed_serial = uuid.UUID(str(serial_number).removeprefix("urn:uuid:"))
+    except ValueError:
+        errors.append("serialNumber must be a UUID URN")
+    else:
+        if not isinstance(serial_number, str) or not serial_number.startswith(
+            "urn:uuid:"
+        ):
+            errors.append("serialNumber must be a UUID URN")
+        if parsed_serial.version != 5:
+            errors.append("serialNumber must use deterministic UUIDv5")
+    if (
+        expected_commit is not None
+        and expected_tag is not None
+        and serial_number != _release_serial_number(expected_tag, expected_commit)
+    ):
+        errors.append("serialNumber does not match the source identity")
 
     metadata = document.get("metadata")
     if not isinstance(metadata, dict):
