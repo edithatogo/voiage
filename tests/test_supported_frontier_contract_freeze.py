@@ -32,15 +32,22 @@ def test_all_children_remain_accepted_without_inferred_exclusions() -> None:
     assert all(row["reviewed_exclusion"] is None for row in contracts)
 
 
-def test_only_merged_dedicated_contracts_are_frozen_experimental() -> None:
+def test_contract_status_partition_is_exact() -> None:
     contracts = _load("contract-freeze.json")["contracts"]
     assert isinstance(contracts, list)
-    frozen = {
-        row["issue"]
-        for row in contracts
-        if row["classification_status"] == "frozen-experimental"
+    by_status = {
+        status: {
+            row["issue"]
+            for row in contracts
+            if row["classification_status"] == status
+        }
+        for status in {row["classification_status"] for row in contracts}
     }
-    assert frozen == {571, 595, 619}
+    assert by_status == {
+        "candidate": {556, 557, 558, 559, 560, 570, 572, 582},
+        "candidate-census-checkpoint": {593, 594, 596, 597, 598, 599, 600},
+        "frozen-experimental": {571, 595, 619},
+    }
 
 
 def test_every_contract_freezes_units_and_positive_claim_boundary() -> None:
