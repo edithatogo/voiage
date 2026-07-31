@@ -50,6 +50,12 @@ programme. The canonical cross-repository requirements are maintained in
   issue/subissue and Project 28 fields synchronized across every explicitly
   registered consumer repository, preserving human content and failing closed
   on conflicts or missing credentials.
+- **M18 / planned v1.2.0:** #556 deterministic sensitivity analysis evaluates
+  declared one-way, two-way and scenario surfaces against a frozen baseline,
+  with explicit direction/units, complete evaluated points, alternatives,
+  increments, deterministic range/ranking and tie semantics, and observed or
+  bracketed switch points. It fails closed on malformed coordinates and stays
+  distinct from PSA, EVPPI, global sensitivity and information value.
 
 ### Should have
 
@@ -94,3 +100,4 @@ programme. The canonical cross-repository requirements are maintained in
 | v1.2.0 | Must | M15 | `study_design_efficiency_20260727` | #571 under #318 |
 | v1.2.0 | Must | M16 | `risk_adjusted_information_pricing_20260731` | #595 and #694–#697 under #318 |
 | v1.2.0 | Must | M17 | canonical C16 plus the four specialized delivery tracks above | #313/#318 and Project 28 |
+| v1.2.0 | Must | M18 | governed deterministic sensitivity analysis | #556 under #318 |

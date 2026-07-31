@@ -12,7 +12,8 @@
   "canonical_pull_request": "https://github.com/edithatogo/vop_poc_nz/pull/51",
   "requirement_ids": [
     "M16",
-    "M17"
+    "M17",
+    "M18"
   ],
   "dependencies": [
     "voi_method_census_contract_reconciliation_20260723",

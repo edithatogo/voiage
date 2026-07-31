@@ -100,3 +100,23 @@ def test_programme_records_unfinished_census_dependency() -> None:
             "blocking_claim": "stable-core dependency complete",
         },
     ]
+
+
+def test_dsa_governance_is_versioned_and_cross_referenced() -> None:
+    track = INVENTORY.parent
+    requirements = (track / "requirements.md").read_text(encoding="utf-8")
+    design = (track / "design.md").read_text(encoding="utf-8")
+    plan = (track / "plan.md").read_text(encoding="utf-8")
+    metadata = json.loads((track / "metadata.json").read_text(encoding="utf-8"))
+    canonical = (ROOT / "conductor/requirements.md").read_text(encoding="utf-8")
+    canonical_design = (ROOT / "conductor/design.md").read_text(encoding="utf-8")
+
+    assert "M18-U1" in requirements
+    assert "M18-U2" in requirements
+    assert "M18-U3" in requirements
+    assert "Deterministic sensitivity analysis" in design
+    assert "M18 / planned v1.2.0" in canonical
+    assert "DSA baseline + direction + units" in canonical_design
+    assert "M18" in metadata["requirement_ids"]
+    for issue in range(724, 729):
+        assert f"#{issue}" in plan

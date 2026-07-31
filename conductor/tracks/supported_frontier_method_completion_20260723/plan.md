@@ -34,6 +34,19 @@
 - [ ] **F559-4:** Run independent implementation review, focused repository
   checks and hosted checks; then reconcile #559 without closing scientific,
   stable-promotion, release or issue gates. (AC-03–AC-07)
+- [ ] **F556-1 / #724:** Freeze #556 DSA MoSCoW requirements, Mermaid flow,
+  independent reference review and failing analytical, metamorphic and
+  pathology tests. (AC-02, AC-03, AC-09)
+- [ ] **F556-2 / #725:** Add strict versioned DSA schemas, one-way/two-way/scenario
+  fixtures, provenance, reproducibility and language dispositions. (AC-02–AC-06)
+- [ ] **F556-3 / #726:** Implement the shared Python DSA evaluator, normalized-record
+  adapter, deterministic switch/tie policy and experimental public API.
+  (AC-02–AC-05)
+- [ ] **F556-4 / #727:** Add exact-schema CLI, tornado plotting, documentation,
+  discovery and generated-surface reconciliation. (AC-04–AC-06)
+- [ ] **F556-5 / #728:** Run independent implementation review, focused/full local
+  checks and hosted exact-head checks; reconcile #556 without claiming stable
+  promotion, scientific approval, release, merge or closure. (AC-03–AC-07)
 - [ ] **G5:** Add failing conformance, reference, property and pathological
   tests, or the corresponding reproducible review protocol. (AC-03)
 - [ ] **G6:** Add versioned schemas, fixtures, diagnostics and provenance
