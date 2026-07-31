@@ -18,9 +18,10 @@ use std::sync::Mutex;
 use voiage_diagnostics::ErrorCategory;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
-    ceaf, coss, dominance, enbs, evpi, evppi, evsi_efficient_linear, evsi_evpi_efficiency,
-    evsi_moment_based, evsi_regression, evsi_stochastic, heterogeneity, normal_normal_two_arm_evsi,
-    structural_evpi, structural_evppi, DominanceStatus as KernelDominanceStatus,
+    ceaf, coss, dominance, enbs, evpi, evppi, evppi_variance, evsi_efficient_linear,
+    evsi_evpi_efficiency, evsi_moment_based, evsi_regression, evsi_stochastic, evsi_variance,
+    heterogeneity, normal_normal_two_arm_evsi, structural_evpi, structural_evppi,
+    DominanceStatus as KernelDominanceStatus, EstimationVarianceKernelResult,
 };
 use voiage_serialization::{
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
@@ -749,6 +750,87 @@ fn compute_evppi(
     })
 }
 
+fn estimation_variance_result_to_dict<'py>(
+    py: Python<'py>,
+    result: &EstimationVarianceKernelResult,
+) -> PyResult<Bound<'py, PyDict>> {
+    let output = PyDict::new(py);
+    output.set_item("kernel_version", "1.0.0")?;
+    output.set_item("prior_variance", result.prior_variance)?;
+    output.set_item(
+        "expected_posterior_variance",
+        result.expected_posterior_variance,
+    )?;
+    output.set_item("raw_reduction", result.raw_reduction)?;
+    output.set_item("absolute_reduction", result.absolute_reduction)?;
+    output.set_item("relative_reduction", result.relative_reduction)?;
+    output.set_item("prior_sample_count", result.prior_sample_count)?;
+    output.set_item(
+        "posterior_evaluation_count",
+        result.posterior_evaluation_count,
+    )?;
+    Ok(output)
+}
+
+/// Compute scalar estimation-focused EVPPI variance reduction.
+#[pyfunction]
+fn compute_evppi_variance<'py>(
+    py: Python<'py>,
+    target_samples: &Bound<'_, PyAny>,
+    conditioning_groups: &Bound<'_, PyAny>,
+) -> PyResult<Bound<'py, PyDict>> {
+    let target_samples =
+        SampleVector::try_from(vector_from_python(target_samples, "target_samples")?)
+            .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let conditioning_groups = conditioning_groups
+        .extract::<Vec<String>>()
+        .map_err(|error| {
+            InputError::new_err((
+                "invalid_input",
+                format!("invalid conditioning_groups: {error}"),
+            ))
+        })?;
+    let result =
+        evppi_variance(&target_samples, &conditioning_groups).map_err(|error| {
+            match error.category() {
+                ErrorCategory::DimensionMismatch => {
+                    DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+                }
+                _ => InputError::new_err(("invalid_input", error.to_string())),
+            }
+        })?;
+    estimation_variance_result_to_dict(py, &result)
+}
+
+/// Aggregate scalar estimation-focused EVSI variance reduction.
+#[pyfunction]
+fn compute_evsi_variance<'py>(
+    py: Python<'py>,
+    prior_target_samples: &Bound<'_, PyAny>,
+    posterior_variances: &Bound<'_, PyAny>,
+) -> PyResult<Bound<'py, PyDict>> {
+    let prior_target_samples = SampleVector::try_from(vector_from_python(
+        prior_target_samples,
+        "prior_target_samples",
+    )?)
+    .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let posterior_variances = SampleVector::try_from(vector_from_python(
+        posterior_variances,
+        "posterior_variances",
+    )?)
+    .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let result =
+        evsi_variance(&prior_target_samples, &posterior_variances).map_err(|error| match error
+            .category()
+        {
+            ErrorCategory::DimensionMismatch => {
+                DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+            }
+            _ => InputError::new_err(("invalid_input", error.to_string())),
+        })?;
+    estimation_variance_result_to_dict(py, &result)
+}
+
 /// Compute the explicit seeded-bootstrap EVSI kernel for Python callers.
 #[pyfunction]
 #[pyo3(signature = (net_benefit, trial_sample_size, resample_count, seed))]
@@ -1097,7 +1179,9 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(compute_dominance, module)?)?;
     module.add_function(wrap_pyfunction!(compute_ceaf, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evppi, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_evppi_variance, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_evsi_variance, module)?)?;
     module.add_function(wrap_pyfunction!(
         compute_normal_normal_two_arm_evsi,
         module

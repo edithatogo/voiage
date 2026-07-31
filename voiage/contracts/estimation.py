@@ -136,7 +136,7 @@ class EstimationVarianceDiagnostics(ContractModel):
     prior_sample_count: int = Field(ge=2)
     posterior_evaluation_count: int = Field(ge=1)
     bootstrap_replicates: int = Field(default=0, ge=0)
-    monte_carlo_standard_error: float = Field(ge=0.0)
+    monte_carlo_standard_error: float | None = Field(default=None, ge=0.0)
     confidence_level: float = Field(default=0.95, gt=0.0, lt=1.0)
     confidence_interval: tuple[float, float] | None = None
     converged: bool

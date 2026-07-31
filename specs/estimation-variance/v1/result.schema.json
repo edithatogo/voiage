@@ -98,7 +98,10 @@
         "prior_sample_count": {"type": "integer", "minimum": 2},
         "posterior_evaluation_count": {"type": "integer", "minimum": 1},
         "bootstrap_replicates": {"type": "integer", "minimum": 0},
-        "monte_carlo_standard_error": {"type": "number", "minimum": 0},
+        "monte_carlo_standard_error": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
         "confidence_level": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1},
         "confidence_interval": {
           "anyOf": [
