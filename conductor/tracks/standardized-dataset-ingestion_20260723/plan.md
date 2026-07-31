@@ -244,7 +244,10 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   engineering/operations, and business decision cases with explicit method
   applicability.
 - [~] **P9-T2 / AC-13:** Represent every case as Croissant, Frictionless, and
-  direct inputs using the same binding profile and pinned artifact digests.
+  direct inputs using the same binding profile and pinned artifact digests. The
+  executable synthetic cases now exercise Croissant, Frictionless, direct Arrow,
+  and DataFrame representations for each documented domain (partial; hosted
+  evidence remains required).
 - [~] **P9-T3 / AC-13:** Add validation, inspection, data-quality, governance,
   materialization, Python API, and CLI walkthrough evidence. The canonical ML
   Croissant and engineering Frictionless descriptors now execute the documented
@@ -252,7 +255,9 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   and materialization-receipt output; the direct DataFrame business walkthrough
   remains covered by the executable reference example (partial).
 - [~] **P9-T4 / AC-13:** Assert normalized-object and numerical equivalence
-  without adding domain-specific kernels or semantic inference.
+  without adding domain-specific kernels or semantic inference. The reference
+  runner now fails if any supported representation differs in EVPI (partial;
+  broader hosted evidence remains required).
 - [~] **P9-T5 / AC-13:** Publish the support matrix and run fixture
   regeneration, docs, links, Vale, conformance, and hosted regression checks.
 
