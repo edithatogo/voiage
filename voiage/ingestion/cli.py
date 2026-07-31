@@ -260,7 +260,7 @@ def _frictionless_descriptor_schema_summary(
         fields = schema.get("fields")
         field_ids = (
             [
-            cast("str", field.get("name"))
+                cast("str", field.get("name"))
                 for field in fields
                 if isinstance(field, dict) and isinstance(field.get("name"), str)
             ]
@@ -322,7 +322,7 @@ def _croissant_descriptor_schema_summary(
         fields = record_set.get("field")
         field_ids = (
             [
-            cast("str", field.get("name"))
+                cast("str", field.get("name"))
                 for field in fields
                 if isinstance(field, dict) and isinstance(field.get("name"), str)
             ]
