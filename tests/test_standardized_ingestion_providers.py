@@ -28,11 +28,12 @@ from voiage.ingestion import (
     IngestionProvider,
     ProviderCapabilities,
     SourceAccessPolicy,
+    _tabular,
     default_registry,
     discover_entry_point_providers,
     from_dataframe,
 )
-from voiage.ingestion._tabular import digest_file, read_csv
+from voiage.ingestion._tabular import digest_file, read_csv, read_json_table
 from voiage.ingestion.croissant import CroissantProvider
 from voiage.ingestion.frictionless import (
     FrictionlessProvider,
@@ -437,6 +438,87 @@ def test_frictionless_provider_rejects_unsupported_json_table_shapes_before_norm
                             "schema",
                             {"fields": [{"name": "id", "type": "integer"}]},
                         ),
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match=message):
+        FrictionlessProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path)
+        )
+
+
+def test_json_table_reader_rejects_suffix_decode_key_and_arrow_conversion_errors(
+    tmp_path, monkeypatch
+) -> None:
+    """Every JSON Table parser error remains a stable ingestion error."""
+    policy = SourceAccessPolicy(tmp_path)
+
+    with pytest.raises(IngestionError, match="must use a .json suffix"):
+        read_json_table("samples.txt", policy)
+
+    (tmp_path / "invalid.json").write_text("{not-json", encoding="utf-8")
+    with pytest.raises(IngestionError, match="not valid UTF-8 JSON"):
+        read_json_table("invalid.json", policy)
+
+    (tmp_path / "keys.json").write_text("[]", encoding="utf-8")
+    monkeypatch.setattr(_tabular.json, "loads", lambda _: [{1: "not-json-key"}])
+    with pytest.raises(IngestionError, match="field names must be strings"):
+        read_json_table("keys.json", policy)
+
+    monkeypatch.setattr(_tabular.json, "loads", lambda _: [{"id": 1}])
+
+    def fail_from_pylist(_: object) -> object:
+        raise pa.ArrowInvalid("synthetic conversion failure")
+
+    monkeypatch.setattr(
+        _tabular.pa, "Table", SimpleNamespace(from_pylist=fail_from_pylist)
+    )
+    with pytest.raises(IngestionError, match="cannot be converted to Arrow"):
+        read_json_table("keys.json", policy)
+
+
+@pytest.mark.parametrize(
+    ("resource", "schema", "message"),
+    [
+        (
+            {"path": "missing.csv", "format": "json"},
+            {"fields": [{"name": "id"}]},
+            "JSON Table resources require a .json path",
+        ),
+        (
+            {"path": "missing.json", "format": "json", "compression": "zip"},
+            {"fields": [{"name": "id"}]},
+            "JSON Table resources do not support parser declarations",
+        ),
+        (
+            {"path": "missing.json", "format": "json"},
+            {"fields": []},
+            "JSON Table schema requires at least one field",
+        ),
+        (
+            {"path": "missing.json", "format": "json"},
+            {"fields": [{"type": "integer"}]},
+            "JSON Table fields require string names",
+        ),
+    ],
+)
+def test_frictionless_json_table_declaration_errors_fail_before_resource_reads(
+    tmp_path, resource, schema, message
+) -> None:
+    """Unsupported JSON Table descriptor semantics do not touch source files."""
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        **resource,
+                        "schema": schema,
                     }
                 ]
             }
