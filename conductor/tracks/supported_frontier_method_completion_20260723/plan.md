@@ -43,8 +43,8 @@
 - [x] **F556-3 / #726:** Implement the shared Python DSA evaluator, normalized-record
   adapter, deterministic switch/tie policy and experimental public API.
   (AC-02–AC-05) `ee1c985d`
-- [ ] **F556-4 / #727:** Add exact-schema CLI, tornado plotting, documentation,
-  discovery and generated-surface reconciliation. (AC-04–AC-06)
+- [x] **F556-4 / #727:** Add exact-schema CLI, tornado plotting, documentation,
+  discovery and generated-surface reconciliation. (AC-04–AC-06) `7307b824`
 - [ ] **F556-5 / #728:** Run independent implementation review, focused/full local
   checks and hosted exact-head checks; reconcile #556 without claiming stable
   promotion, scientific approval, release, merge or closure. (AC-03–AC-07)
