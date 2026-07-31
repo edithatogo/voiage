@@ -1,0 +1,13 @@
+{
+  "version": "v1",
+  "method_family": "deterministic_sensitivity_analysis",
+  "maturity": "planned",
+  "surfaces": {
+    "python": {"status": "planned", "reason": "The v1 wire contract precedes issue #726 runtime delivery."},
+    "rust": {"status": "unsupported", "reason": "No native kernel or shared-fixture binding exists."},
+    "r": {"status": "unsupported", "reason": "No installed R binding evidence exists."},
+    "julia": {"status": "unsupported", "reason": "No installed Julia binding evidence exists."},
+    "mojo": {"status": "external", "reason": "Mojo is outside this repository boundary."}
+  },
+  "stable_claim_allowed": false
+}

@@ -1,0 +1,15 @@
+{
+  "method_family": "deterministic_sensitivity_analysis",
+  "version": "v1",
+  "maturity": "planned",
+  "stable_claim_allowed": false,
+  "artifacts": [
+    {"path": "specs/frontier/deterministic-sensitivity-analysis/v1/schemas/deterministic-sensitivity-input.schema.json", "sha256": "096376d31750b877630dd035f585a9d633c820911274604a480b23ff7c2cbc5f"},
+    {"path": "specs/frontier/deterministic-sensitivity-analysis/v1/schemas/deterministic-sensitivity-result.schema.json", "sha256": "c06b4d50b8531897139d0d39202a6789ca331f85e65eb1a707bc28744381d8dd"},
+    {"path": "specs/frontier/deterministic-sensitivity-analysis/v1/capabilities.json", "sha256": "c097da95be32ce14a9a68b88af4ae144ef9c2238be268c3024ea7eb307330dce"},
+    {"path": "specs/frontier/deterministic-sensitivity-analysis/v1/fixtures/manifest.json", "sha256": "a8439d9f2afddcaf6ffede2fa9eef23a3fd9dfd0184c841f64da471013a3b81a"},
+    {"path": "specs/frontier/deterministic-sensitivity-analysis/v1/fixtures/normative/input.json", "sha256": "50691be0a13ba2875e939a7d7abcb53a757e2e40f6667f37f1bf7ac55c5b7394"},
+    {"path": "specs/frontier/deterministic-sensitivity-analysis/v1/fixtures/normative/expected.json", "sha256": "db2c1da5e5c1fe82899fe2606f5975b4fa50692b3efba1bbf741868403779450"},
+    {"path": "conductor/tracks/supported_frontier_method_completion_20260723/deterministic-sensitivity-reference-review.md", "sha256": "b480cece8323bed01e9887cb59686baa92c0fdceb9e910875f0748129d9ce753"}
+  ]
+}
