@@ -169,14 +169,17 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   diagnostic-redaction, and clean-install tests. The CLI now explicitly proves
   that a rejected credential-bearing descriptor URI is redacted at the
   user-facing boundary, and all four ingestion commands have executable help
-  contracts (partial: complete Phase 6 acceptance reconciliation remains
-  active).
+  contracts. Explicit non-default source-root tests now cover all materializing
+  commands and fail closed at the resource-byte limit (partial: complete Phase
+  6 acceptance reconciliation remains active).
 - [x] **P6-T2 / AC-07:** Add `croissant`, `frictionless`, and aggregate
   `ingestion` extras. The declared extras remain dependency-neutral because
   built-in providers require only the base Arrow/JSON stack.
 - [x] **P6-T3 / AC-07:** Implement `ingest validate`, `ingest inspect`,
   `ingest normalize`, and `calculate-from-dataset` with explicit selection,
-  binding, offline, and source-policy options.
+  binding, offline, and source-policy options. Every materializing command now
+  accepts an explicit `--source-root` in addition to the cache, offline, and
+  resource-size policy controls.
 - [x] **P6-T4 / AC-07, AC-11:** Make inspection output include data-quality,
   provider-capability, binding-resolution, governance, and materialization
   receipt details in stable machine-readable form.
