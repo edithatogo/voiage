@@ -124,6 +124,19 @@ voiage --help
 See the [CLI reference](https://edithatogo.github.io/voiage/cli-reference/)
 for input schemas, output formats, logging controls, and additional commands.
 
+### Standardized dataset ingestion
+
+`voiage` can also safely normalize conservative local profiles of Croissant ML
+1.1 and Frictionless Data Package CSV descriptors before calculation. Source
+format parsers remain separate from the calculation runtime: each produces an
+Arrow-backed `NormalizedInputBundle`, and callers supply an explicit VOI
+binding. Use `voiage ingest validate`, `voiage ingest inspect`, and `voiage
+ingest normalize` for a descriptor workflow; remote URLs, archives, implicit
+column inference, and unsafe paths are rejected. See the
+[standardized-ingestion guide](https://edithatogo.github.io/voiage/standardized-dataset-ingestion/)
+for the supported-profile matrix, offline replay policy, and ML, engineering,
+and business examples.
+
 ## Capability status
 
 | Capability | Status | Scope |

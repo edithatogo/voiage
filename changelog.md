@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added executable CLI walkthrough evidence for the canonical Croissant ML and
   Frictionless engineering reference descriptors.
+- Linked the README to the standardized Croissant and Frictionless ingestion
+  workflow, supported-profile matrix, offline policy, and cross-domain examples.
 - Added a deterministic validator and explicit regeneration path for the
   standardized-ingestion fixture digest manifests, covering both canonical
   Croissant/Frictionless source corpora.

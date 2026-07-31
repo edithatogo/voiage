@@ -166,18 +166,22 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   user-facing boundary, and all four ingestion commands have executable help
   contracts (partial: complete Phase 6 acceptance reconciliation remains
   active).
-- [ ] **P6-T2 / AC-07:** Add `croissant`, `frictionless`, and aggregate
-  `ingestion` extras.
-- [ ] **P6-T3 / AC-07:** Implement `ingest validate`, `ingest inspect`,
+- [x] **P6-T2 / AC-07:** Add `croissant`, `frictionless`, and aggregate
+  `ingestion` extras. The declared extras remain dependency-neutral because
+  built-in providers require only the base Arrow/JSON stack.
+- [x] **P6-T3 / AC-07:** Implement `ingest validate`, `ingest inspect`,
   `ingest normalize`, and `calculate-from-dataset` with explicit selection,
   binding, offline, and source-policy options.
-- [ ] **P6-T4 / AC-07, AC-11:** Make inspection output include data-quality,
+- [x] **P6-T4 / AC-07, AC-11:** Make inspection output include data-quality,
   provider-capability, binding-resolution, governance, and materialization
   receipt details in stable machine-readable form.
-- [ ] **P6-T5 / AC-07:** Add Python, Croissant/ML, and
+- [x] **P6-T5 / AC-07:** Add Python, Croissant/ML, and
   Frictionless/operations-research examples.
-- [ ] **P6-T6 / AC-07:** Update Astro data-structure, CLI, architecture, and
-  security guidance plus README, changelog, roadmap, and todo.
+- [~] **P6-T6 / AC-07:** Update Astro data-structure, CLI, architecture, and
+  security guidance plus README, changelog, roadmap, and todo. The Astro guide,
+  changelog, roadmap/todo, and README now describe the supported profile,
+  explicit safety boundary, CLI, and cross-domain examples; final docs/links
+  and phase-checkpoint evidence remains active.
 - [ ] **P6-T7 / AC-07:** Run automated review, CLI/docs/Vale validation, clean
   install checks, and the phase checkpoint protocol.
 
