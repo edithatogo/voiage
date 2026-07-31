@@ -9,6 +9,11 @@
 - Add a provider-neutral explicit source-selection request to the ingestion
   registry, with Croissant record-set/distribution CLI options and a
   single-materialization normalize summary path.
+- Extend the canonical decision conformance matrix with deterministic strict
+  local Frictionless JSON Table, Parquet, and Arrow IPC file resources. Their
+  prepared inputs, EVPI, schema fingerprints, and materialization receipts are
+  checked against direct normalized input; malformed JSON/Parquet resources and
+  Arrow streams remain rejected.
 - Add a strict local Frictionless Parquet profile: descriptors must declare
   `format: parquet`, use a `.parquet` path, declare primitive fields, and omit
   dialect settings. Parquet input is streamed through bounded Arrow batches
