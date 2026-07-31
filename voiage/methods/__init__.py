@@ -108,7 +108,6 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "evpi",
     "evppi",
     "evsi",
-    "estimation_variance_method",
     "evsi_nma",
     "identify_optimal_subgroups",
     "perspective_optimal_strategies",
