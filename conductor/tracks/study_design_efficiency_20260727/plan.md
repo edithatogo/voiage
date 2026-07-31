@@ -2,7 +2,7 @@
 
 ## Phase 1 — Contract and legacy reconciliation
 
-- [ ] **S1:** Freeze common study-design, cost, population, time-horizon,
+- [~] **S1:** Freeze common study-design, cost, population, time-horizon,
   feasibility and reproducibility semantics. (AC-01)
 - [ ] **S2:** Freeze the exact COSS result contract: evaluated design records,
   feasible range/set, signed ENBS curve, optimum, deterministic tie policy,
