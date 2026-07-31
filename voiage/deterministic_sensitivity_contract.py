@@ -271,6 +271,15 @@ def validate_deterministic_sensitivity_specification(
     }
     if baseline_units != grid_units:
         raise_input_error("baseline and parameter grid units must match exactly.")
+    grid_values = {
+        str(cast("Mapping[str, object]", item)["parameter_name"]): [
+            float(cast("float", value))
+            for value in cast(
+                "list[object]", cast("Mapping[str, object]", item)["values"]
+            )
+        ]
+        for item in grids
+    }
     for design in two_way_designs:
         design_map = cast("Mapping[str, object]", design)
         first = str(design_map["first_parameter"])
@@ -287,6 +296,30 @@ def validate_deterministic_sensitivity_specification(
             raise_input_error(
                 "Two-way surface_id must be '<first_parameter>|<second_parameter>'."
             )
+        raw_points = cast("list[object]", design_map["feasible_points"])
+        points = [
+            (
+                float(cast("float", cast("Mapping[str, object]", point)["first"])),
+                float(cast("float", cast("Mapping[str, object]", point)["second"])),
+            )
+            for point in raw_points
+        ]
+        if len(points) != len(set(points)):
+            raise_input_error("Two-way feasible_points must be unique.")
+        if design_map["feasibility_semantics"] == "full-cartesian-independent":
+            expected = {
+                (first_value, second_value)
+                for first_value in grid_values[first]
+                for second_value in grid_values[second]
+            }
+            if set(points) != expected:
+                raise_input_error(
+                    "full-cartesian-independent requires the exact Cartesian grid."
+                )
+    for scenario in scenarios:
+        scenario_map = cast("Mapping[str, object]", scenario)
+        coordinates = cast("list[object]", scenario_map["coordinates"])
+        _unique_names(coordinates, "parameter_name", "scenario coordinates")
     output_unit = str(specification["output_unit"])
     for record in records:
         record_map = cast("Mapping[str, object]", record)

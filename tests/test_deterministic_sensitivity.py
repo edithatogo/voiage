@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from hypothesis import given
+from hypothesis import strategies as st
 import numpy as np
 import pytest
 
@@ -73,6 +75,26 @@ def test_tornado_range_uses_grid_extrema_not_only_endpoints() -> None:
     assert summary.ranking_metric == "evaluated-grid-range"
 
 
+@given(st.lists(st.integers(-20, 20), min_size=2, max_size=8, unique=True).map(sorted))
+def test_tornado_range_matches_direct_brute_force(grid: list[int]) -> None:
+    result = deterministic_sensitivity(
+        lambda parameters: {"only": float(parameters["x"] ** 2 - parameters["x"])},
+        baseline_parameters={"x": 0.0},
+        parameter_grids={"x": grid},
+        parameter_units={"x": "point"},
+        alternative_names=["only"],
+        output_unit="point",
+        direction="maximize",
+    )
+    evaluated = [float(value**2 - value) for value in grid]
+
+    assert result.parameter_summaries[0].minimum_metric == min(evaluated)
+    assert result.parameter_summaries[0].maximum_metric == max(evaluated)
+    assert result.parameter_summaries[0].evaluated_range == max(evaluated) - min(
+        evaluated
+    )
+
+
 def test_switch_contract_returns_exact_ties_and_brackets_without_root_invention() -> (
     None
 ):
@@ -111,6 +133,83 @@ def test_switch_contract_returns_exact_ties_and_brackets_without_root_invention(
     ] == [("bracket", -1.0, 1.0)]
 
 
+def test_switch_pathologies_cover_multiple_none_discontinuity_and_plateau() -> None:
+    multiple = deterministic_sensitivity(
+        lambda p: {"outer": p["x"] ** 2, "middle": 1.0},
+        baseline_parameters={"x": 0.0},
+        parameter_grids={"x": [-2.0, 0.0, 2.0]},
+        parameter_units={"x": "point"},
+        alternative_names=["outer", "middle"],
+        output_unit="point",
+        direction="maximize",
+    )
+    assert [item.status for item in multiple.switch_intervals] == [
+        "bracket",
+        "bracket",
+    ]
+
+    no_switch = deterministic_sensitivity(
+        lambda p: {"always": p["x"], "never": p["x"] - 1.0},
+        baseline_parameters={"x": 0.0},
+        parameter_grids={"x": [-1.0, 0.0, 1.0]},
+        parameter_units={"x": "point"},
+        alternative_names=["always", "never"],
+        output_unit="point",
+        direction="maximize",
+    )
+    assert no_switch.switch_intervals == []
+
+    plateau = deterministic_sensitivity(
+        lambda p: {"a": p["x"], "b": p["x"]},
+        baseline_parameters={"x": 0.0},
+        parameter_grids={"x": [-1.0, 0.0, 1.0]},
+        parameter_units={"x": "point"},
+        alternative_names=["a", "b"],
+        output_unit="point",
+        direction="maximize",
+    )
+    assert [
+        (item.status, item.lower_coordinate, item.upper_coordinate)
+        for item in plateau.switch_intervals
+    ] == [("plateau", -1.0, 1.0)]
+
+    discontinuous = deterministic_sensitivity(
+        lambda p: {"left": float(p["x"] < 0), "right": float(p["x"] >= 0)},
+        baseline_parameters={"x": -1.0},
+        parameter_grids={"x": [-1.0, 1.0]},
+        parameter_units={"x": "point"},
+        alternative_names=["left", "right"],
+        output_unit="point",
+        direction="maximize",
+    )
+    assert discontinuous.switch_intervals[0].status == "bracket"
+    assert discontinuous.switch_intervals[0].interpolation == "not-performed"
+
+
+def test_tolerance_boundary_repeatability_and_input_immutability() -> None:
+    baseline = {"x": 0.0}
+    grids = {"x": [0.0, 1.0]}
+    kwargs = {
+        "baseline_parameters": baseline,
+        "parameter_grids": grids,
+        "parameter_units": {"x": "point"},
+        "alternative_names": ["a", "b"],
+        "output_unit": "point",
+        "direction": "maximize",
+        "absolute_tolerance": 0.1,
+        "relative_tolerance": 0.0,
+    }
+    first = deterministic_sensitivity(lambda _p: {"a": 1.0, "b": 0.9}, **kwargs)
+    second = deterministic_sensitivity(lambda _p: {"a": 1.0, "b": 0.9}, **kwargs)
+    outside = deterministic_sensitivity(lambda _p: {"a": 1.0, "b": 0.899}, **kwargs)
+
+    assert first.to_contract_dict() == second.to_contract_dict()
+    assert first.baseline_point.optimal_alternatives == ["a", "b"]
+    assert outside.baseline_point.optimal_alternatives == ["a"]
+    assert baseline == {"x": 0.0}
+    assert grids == {"x": [0.0, 1.0]}
+
+
 def test_direction_reversal_and_permutation_preserve_complete_tie_semantics() -> None:
     kwargs = _base_kwargs()
     maximized = deterministic_sensitivity(_linear_model, **kwargs)
@@ -133,6 +232,7 @@ def test_direction_reversal_and_permutation_preserve_complete_tie_semantics() ->
         ({"baseline_parameters": {"x": np.nan, "y": 0.0}}, "finite baseline"),
         ({"parameter_grids": {"x": [], "y": [0.0]}}, "non-empty grid"),
         ({"parameter_grids": {"x": [0.0, 0.0], "y": [0.0]}}, "duplicate"),
+        ({"parameter_grids": {"x": [1.0, 0.0], "y": [0.0]}}, "increasing"),
         ({"parameter_units": {"x": "point"}}, "exactly match"),
         ({"alternative_names": ["a", "a"]}, "unique"),
         ({"output_unit": ""}, "output_unit"),
@@ -173,6 +273,23 @@ def test_scenarios_and_two_way_cells_are_explicit_and_reproducible() -> None:
     ]
     assert result.reporting["probabilistic_analysis"] is False
     assert result.reporting["information_value"] is False
+
+
+def test_callback_two_way_surface_declarations_fail_closed() -> None:
+    kwargs = _base_kwargs()
+    with pytest.raises(ValueError, match="duplicate surfaces"):
+        deterministic_sensitivity(
+            _linear_model,
+            **kwargs,
+            two_way_pairs=[("x", "y"), ("x", "y")],
+        )
+    with pytest.raises(ValueError, match="Unknown feasible"):
+        deterministic_sensitivity(
+            _linear_model,
+            **kwargs,
+            two_way_pairs=[("x", "y")],
+            feasible_two_way_points={"y|x": [(0.0, 0.0)]},
+        )
 
 
 def test_dsa_experimental_exports_are_discoverable() -> None:

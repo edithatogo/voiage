@@ -42,8 +42,8 @@
     "point": {"record_id": "scenario-adverse", "coordinates": [{"parameter_name": "x", "value": -2.0}, {"parameter_name": "y", "value": 1.0}], "alternative_outputs": [{"alternative_name": "a", "value": 7.0}, {"alternative_name": "b", "value": 5.0}], "direction_normalized_increments": [{"alternative_name": "a", "value": -3.0}, {"alternative_name": "b", "value": -3.0}], "optimal_alternatives": ["a"], "selected_alternative": "a", "optimal_metric": 7.0}
   }],
   "parameter_summaries": [
-    {"parameter_name": "x", "parameter_unit": "point", "ranking_metric": "evaluated-grid-range", "minimum_metric": 8.0, "maximum_metric": 12.0, "evaluated_range": 4.0, "minimum_coordinates": [-2.0], "maximum_coordinates": [2.0], "endpoint_range": 4.0, "interior_extremum_observed": false},
-    {"parameter_name": "y", "parameter_unit": "point", "ranking_metric": "evaluated-grid-range", "minimum_metric": 9.0, "maximum_metric": 11.0, "evaluated_range": 2.0, "minimum_coordinates": [1.0], "maximum_coordinates": [-1.0], "endpoint_range": 2.0, "interior_extremum_observed": false}
+    {"parameter_name": "x", "parameter_unit": "point", "ranking_metric": "evaluated-grid-range", "minimum_metric": 8.0, "maximum_metric": 12.0, "evaluated_range": 4.0, "minimum_coordinates": [-2.0], "maximum_coordinates": [2.0], "endpoint_range": 4.0, "interior_extremum_observed": false, "rank": 1},
+    {"parameter_name": "y", "parameter_unit": "point", "ranking_metric": "evaluated-grid-range", "minimum_metric": 9.0, "maximum_metric": 11.0, "evaluated_range": 2.0, "minimum_coordinates": [1.0], "maximum_coordinates": [-1.0], "endpoint_range": 2.0, "interior_extremum_observed": false, "rank": 2}
   ],
   "switch_intervals": [
     {"parameter_name": "x", "parameter_unit": "point", "status": "exact", "lower_coordinate": 2.0, "upper_coordinate": 2.0, "lower_optimal_alternatives": ["a", "b"], "upper_optimal_alternatives": ["a", "b"], "interpolation": "not-performed"},

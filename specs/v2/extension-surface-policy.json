@@ -10,6 +10,7 @@
       "voiage/cli.py",
       "voiage/config.py",
       "voiage/config_objects.py",
+      "voiage/deterministic_sensitivity_contract.py",
       "voiage/exceptions.py",
       "voiage/factory.py",
       "voiage/fluent.py",

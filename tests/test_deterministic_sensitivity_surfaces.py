@@ -11,7 +11,7 @@ import pytest
 from typer.testing import CliRunner
 
 from voiage.cli import app
-from voiage.contracts.deterministic_sensitivity import (
+from voiage.deterministic_sensitivity_contract import (
     DETERMINISTIC_SENSITIVITY_INPUT_SCHEMA_V1,
 )
 from voiage.methods.deterministic_sensitivity import (
@@ -107,6 +107,22 @@ def test_dsa_rejects_duplicate_identities_and_unused_records() -> None:
         deterministic_sensitivity_from_specification(unused)
 
 
+def test_dsa_rejects_false_cartesian_and_duplicate_scenario_coordinates() -> None:
+    false_cartesian = _input()
+    false_cartesian["two_way_designs"][0]["feasibility_semantics"] = (
+        "full-cartesian-independent"
+    )
+    with pytest.raises(ValueError, match="exact Cartesian"):
+        deterministic_sensitivity_from_specification(false_cartesian)
+
+    duplicate_scenario = _input()
+    duplicate_scenario["scenarios"][0]["coordinates"].append(
+        {"parameter_name": "x", "value": 2.0}
+    )
+    with pytest.raises(ValueError, match="unique parameter_name"):
+        deterministic_sensitivity_from_specification(duplicate_scenario)
+
+
 def test_dsa_tornado_plot_uses_grid_extrema_units_and_rank_order() -> None:
     from voiage.plot import plot_deterministic_sensitivity_tornado
 
@@ -120,6 +136,7 @@ def test_dsa_tornado_plot_uses_grid_extrema_units_and_rank_order() -> None:
     assert ax.get_xlabel() == "Optimal metric (net-benefit-point)"
     assert any(line.get_label() == "Baseline optimum" for line in ax.lines)
     assert all(patch.get_hatch() for patch in ax.patches)
+    assert [summary.rank for summary in result.parameter_summaries] == [1, 2]
 
 
 def test_dsa_tornado_plot_reports_missing_optional_dependency(

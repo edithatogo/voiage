@@ -2,6 +2,7 @@
   "version": "v1",
   "method_family": "deterministic_sensitivity_analysis",
   "maturity": "experimental",
+  "python_modules": ["voiage/methods/deterministic_sensitivity.py"],
   "surfaces": {
     "python": {"status": "executable", "evidence": "tests/test_deterministic_sensitivity.py, tests/test_deterministic_sensitivity_contract.py and tests/test_deterministic_sensitivity_surfaces.py"},
     "rust": {"status": "unsupported", "reason": "No native kernel or shared-fixture binding exists."},

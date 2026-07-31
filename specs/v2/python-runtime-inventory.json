@@ -8,7 +8,7 @@
     },
     "contracts": {
       "status": "retain_as_governed_boundary",
-      "roots": ["voiage/contracts/"]
+      "roots": ["voiage/contracts/", "voiage/deterministic_sensitivity_contract.py"]
     },
     "assurance": {
       "status": "retain_as_verification_support",

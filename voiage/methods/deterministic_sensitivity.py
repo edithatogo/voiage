@@ -4,11 +4,12 @@ from __future__ import annotations
 
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field, replace
+from itertools import pairwise
 from typing import Any, Literal, Protocol, cast
 
 import numpy as np
 
-from voiage.contracts.deterministic_sensitivity import (
+from voiage.deterministic_sensitivity_contract import (
     validate_deterministic_sensitivity_specification,
 )
 from voiage.exceptions import raise_input_error
@@ -150,6 +151,7 @@ class DeterministicSensitivityResult:
                     "maximum_coordinates": item.maximum_coordinates,
                     "endpoint_range": item.endpoint_range,
                     "interior_extremum_observed": item.interior_extremum_observed,
+                    "rank": item.rank,
                 }
                 for item in self.parameter_summaries
             ],
@@ -210,6 +212,8 @@ def _validated_inputs(
             raise_input_error("DSA grids must contain only finite values.")
         if len(set(values)) != len(values):
             raise_input_error("DSA parameter grids must not contain duplicate values.")
+        if any(right <= left for left, right in pairwise(values)):
+            raise_input_error("DSA parameter grids must be strictly increasing.")
         grids[name] = values
     units = {str(name): str(unit).strip() for name, unit in parameter_units.items()}
     if not all(units.values()):
@@ -570,6 +574,15 @@ def deterministic_sensitivity(
             raise_input_error(f"DSA callback failed: {error}")
 
     scenario_map = scenarios or {}
+    surface_ids = [f"{first}|{second}" for first, second in two_way_pairs]
+    if len(surface_ids) != len(set(surface_ids)):
+        raise_input_error("two_way_pairs must not contain duplicate surfaces.")
+    feasible_map = feasible_two_way_points or {}
+    unknown_surfaces = set(feasible_map) - set(surface_ids)
+    if unknown_surfaces:
+        raise_input_error(
+            f"Unknown feasible_two_way_points surfaces: {sorted(unknown_surfaces)}."
+        )
     return _build_result(
         evaluator,
         baseline=baseline,
@@ -583,11 +596,11 @@ def deterministic_sensitivity(
             scenario_map, "declared deterministic scenario"
         ),
         two_way_pairs=two_way_pairs,
-        feasible_two_way_points=feasible_two_way_points or {},
+        feasible_two_way_points=feasible_map,
         two_way_semantics={
             f"{first}|{second}": (
                 "explicit-mask"
-                if f"{first}|{second}" in (feasible_two_way_points or {})
+                if f"{first}|{second}" in feasible_map
                 else "full-cartesian-independent"
             )
             for first, second in two_way_pairs

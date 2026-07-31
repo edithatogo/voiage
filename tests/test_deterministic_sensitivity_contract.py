@@ -67,9 +67,12 @@ def test_dsa_fixture_evidence_is_exact_and_hash_pinned() -> None:
         "specs/frontier/deterministic-sensitivity-analysis/v1/fixtures/normative/input.json",
         "specs/frontier/deterministic-sensitivity-analysis/v1/fixtures/normative/expected.json",
         "conductor/tracks/supported_frontier_method_completion_20260723/deterministic-sensitivity-reference-review.md",
-        "voiage/contracts/deterministic_sensitivity.py",
+        "voiage/deterministic_sensitivity_contract.py",
+        "voiage/cli.py",
         "voiage/methods/deterministic_sensitivity.py",
         "voiage/plot/deterministic_sensitivity.py",
+        "tests/test_deterministic_sensitivity.py",
+        "tests/test_deterministic_sensitivity_contract.py",
         "tests/test_deterministic_sensitivity_surfaces.py",
         "docs/astro-site/src/content/docs/examples/deterministic-sensitivity-analysis.mdx",
     }
