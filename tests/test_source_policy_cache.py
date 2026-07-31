@@ -225,6 +225,29 @@ def test_materialize_rejects_a_symlinked_cache_entry(tmp_path) -> None:
         policy.materialize("source.csv", sha256=digest)
 
 
+def test_materialize_rejects_a_hard_linked_cache_entry(tmp_path) -> None:
+    """A cache object must not share a writable inode with another path."""
+    source = tmp_path / "source.csv"
+    payload = b"value\n1\n"
+    source.write_bytes(payload)
+    digest = _digest(payload)
+    cache = tmp_path / "cache"
+    policy = SourceAccessPolicy(tmp_path, cache_dir=cache)
+    cached = policy.materialize("source.csv", sha256=digest)
+    replacement = tmp_path / "replacement.csv"
+    cached.unlink()
+    replacement.write_bytes(payload)
+    cached.hardlink_to(replacement)
+
+    with pytest.raises(IngestionError, match="cached materialization checksum"):
+        policy.materialize("source.csv", sha256=digest)
+    source.unlink()
+    with pytest.raises(IngestionError, match="verified offline materialization"):
+        SourceAccessPolicy(tmp_path, cache_dir=cache, offline=True).materialize(
+            "source.csv", sha256=digest
+        )
+
+
 def test_materialize_rejects_a_cache_namespace_symlink_that_escapes_cache_root(
     tmp_path,
 ) -> None:

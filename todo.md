@@ -82,6 +82,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
         DataFrame example.
     *   The README now links the conservative Croissant/Frictionless ingestion
         surface to its profile matrix, offline policy, and cross-domain examples.
+    *   Verified offline-cache entries now reject symlinks and hard links so a
+        cache object cannot be redirected or mutated through another path.
 
 ## Completed public documentation
 
