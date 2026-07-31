@@ -35,8 +35,8 @@
   scientifically supportable. (AC-05) [be07345b]
 - [x] **E10:** Add the thin Python façade, typed diagnostics and deterministic
   serialization without numerical fallback. (AC-02, AC-05) [80f42605]
-- [ ] **E11:** Add Monte Carlo uncertainty, convergence diagnostics, property
-  assurance and benchmarks. (AC-04, AC-08)
+- [x] **E11:** Add Monte Carlo uncertainty, convergence diagnostics, property
+  assurance and benchmarks. (AC-04, AC-08) [6ea37b00]
 - [ ] **E12:** Run automated implementation review, focused tests, differential
   checks and the repository harness. (AC-05, AC-08)
 
