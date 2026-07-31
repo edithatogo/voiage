@@ -5,6 +5,7 @@
 - [MoSCoW Requirements](./requirements.md)
 - [Mermaid Design](./design.md)
 - [Frozen Runtime Contract](./contract.md)
+- [Pricing Semantics](./pricing-semantics.md)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
 - [GitHub issue #595](https://github.com/edithatogo/voiage/issues/595)
