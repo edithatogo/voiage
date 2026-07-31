@@ -34,7 +34,12 @@ from voiage.ingestion import (
     discover_entry_point_providers,
     from_dataframe,
 )
-from voiage.ingestion._tabular import digest_file, read_csv, read_json_table
+from voiage.ingestion._tabular import (
+    digest_file,
+    read_csv,
+    read_json_table,
+    read_parquet,
+)
 from voiage.ingestion.croissant import CroissantProvider
 from voiage.ingestion.frictionless import (
     FrictionlessProvider,
@@ -450,6 +455,29 @@ def test_frictionless_parquet_profile_enforces_resource_row_limit(tmp_path) -> N
             descriptor_path,
             policy=SourceAccessPolicy(tmp_path, max_resource_rows=2),
         )
+
+
+def test_parquet_reader_preserves_an_empty_declared_schema(tmp_path) -> None:
+    """An empty local Parquet table still carries its footer schema."""
+    source = tmp_path / "empty.parquet"
+    schema = pa.schema([("id", pa.int64()), ("value", pa.float64())])
+    pq.write_table(pa.Table.from_batches([], schema=schema), source)
+
+    table = read_parquet(source.name, SourceAccessPolicy(tmp_path))
+
+    assert table.num_rows == 0
+    assert table.schema == schema
+
+
+def test_parquet_reader_rejects_invalid_suffix_and_malformed_payload(tmp_path) -> None:
+    """Parquet parser and filename failures remain stable ingestion errors."""
+    policy = SourceAccessPolicy(tmp_path)
+    with pytest.raises(IngestionError, match="supported .parquet filename suffix"):
+        read_parquet("not-parquet.csv", policy)
+
+    (tmp_path / "malformed.parquet").write_bytes(b"not a parquet file")
+    with pytest.raises(IngestionError, match="Parquet resource cannot be parsed"):
+        read_parquet("malformed.parquet", policy)
 
 
 @pytest.mark.parametrize(
