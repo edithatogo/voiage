@@ -49,6 +49,10 @@ class CroissantProvider:
         descriptor = cast("dict[str, object]", raw)
         if not _has_croissant_1_1_context(descriptor.get("@context")):
             raise IngestionError("supported Croissant profile requires version 1.1")
+        if not _has_only_string_context_entries(descriptor.get("@context")):
+            raise IngestionError(
+                "supported Croissant profile requires string JSON-LD context entries"
+            )
         record_sets = descriptor.get("recordSet")
         distributions = descriptor.get("distribution")
         if not isinstance(record_sets, list) or len(record_sets) != 1:
@@ -217,6 +221,13 @@ def _has_croissant_1_1_context(value: object) -> bool:
             "https://mlcommons.org/croissant/1.1",
         }
         for context in _context_entries(value)
+    )
+
+
+def _has_only_string_context_entries(value: object) -> bool:
+    """Keep the offline profile free of unexpanded JSON-LD context objects."""
+    return isinstance(value, str) or (
+        isinstance(value, list) and all(isinstance(entry, str) for entry in value)
     )
 
 
