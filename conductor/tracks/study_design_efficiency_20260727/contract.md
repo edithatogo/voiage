@@ -29,12 +29,13 @@ No implicit currency, population or horizon conversion is permitted.
 A `StudyDesignPointInputV1` is one declared design in caller order and contains:
 
 - a unique, non-empty `design_id`;
-- a finite, non-negative `sample_size`, expressed as total randomized or
+- a non-negative integer `sample_size`, expressed as total randomized or
   observed participants unless the study-model provenance says otherwise;
 - finite, non-negative `evsi` and `research_cost` values in the common context;
 - a `feasible` flag and zero or more stable feasibility reason codes;
-- optional finite, non-negative `evsi_standard_error` and
-  `cost_standard_error`; and
+- optional finite, non-negative `evsi_standard_error`, `cost_standard_error`
+  and directly estimated `enbs_standard_error`, plus an optional ordered ENBS
+  confidence interval;
 - optional estimator provenance and allocation, duration, delay, uptake,
   guardrail, opportunity-cost or dependency metadata.
 

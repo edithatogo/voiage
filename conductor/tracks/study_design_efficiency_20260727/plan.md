@@ -13,7 +13,7 @@
 - [x] **S4:** Audit the existing plot and clinical optimizer, including the
   misnamed value/cost `voi_efficiency` field, and record compatibility or
   deprecation decisions. (AC-04) — `a747fb0`
-- [ ] **S5:** Run automated contract review and full Conductor validation.
+- [~] **S5:** Run automated contract review and full Conductor validation.
   (AC-01–AC-04, AC-08)
 
 ## Phase 2 — Reference evidence before implementation
