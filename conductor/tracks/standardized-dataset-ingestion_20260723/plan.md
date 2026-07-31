@@ -109,7 +109,10 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   Non-object descriptor-root handling is covered by the shared provider guard
   (`0c19fe1b`, `1e4e6bd7`); duplicate CSV-header and schema-field ambiguity
   now rejects through the stable ingestion error boundary (`8f60b184`,
-  partial). Remaining acceptance evidence is tracked below.
+  partial). Unsupported or non-boolean field constraints and declared Table
+  Schema `missingValues` now reject before a resource is read; structured
+  citation, usage, and namespaced governance extensions survive normalization
+  (`2c5a8cd`, partial). Remaining acceptance evidence is tracked below.
 - [~] **P4-T8 / AC-05:** Implement the lazy optional Frictionless provider and
   documented supported profile. Public provider export is now lazy; profile
   acceptance evidence remains active (`2ad0a24a`, partial).

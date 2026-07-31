@@ -28,6 +28,14 @@ _FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "frictionless_v1"
         ("unsupported/non-csv-format.json", "requires CSV or TSV format"),
         ("unsupported/integrity-declaration.json", "hash must be a SHA-256"),
         ("unsupported/unsupported-type.json", "unsupported Data Package field type"),
+        (
+            "unsupported/unsupported-constraint.json",
+            "unsupported Data Package field constraint",
+        ),
+        (
+            "unsupported/declared-missing-values.json",
+            "does not support schema missingValues",
+        ),
         ("unsupported/required-null.json", "required field contains null"),
         ("unsupported/duplicate-primary-key.json", "primaryKey contains duplicate"),
         ("unsupported/unknown-primary-key.json", "primaryKey references an unknown"),
@@ -155,6 +163,64 @@ def test_frictionless_rejects_non_object_resource_descriptors(tmp_path) -> None:
     )
 
     with pytest.raises(IngestionError, match="resources must be objects"):
+        FrictionlessProvider().ingest(descriptor, policy=SourceAccessPolicy(tmp_path))
+
+
+@pytest.mark.parametrize(
+    ("schema", "message"),
+    [
+        (
+            {
+                "fields": [
+                    {
+                        "name": "id",
+                        "constraints": {"minimum": 1},
+                    }
+                ]
+            },
+            "unsupported Data Package field constraint",
+        ),
+        (
+            {
+                "fields": [
+                    {
+                        "name": "id",
+                        "constraints": {"required": "yes"},
+                    }
+                ]
+            },
+            "constraints must be boolean",
+        ),
+        (
+            {
+                "fields": [{"name": "id"}],
+                "missingValues": [""],
+            },
+            "does not support schema missingValues",
+        ),
+    ],
+)
+def test_frictionless_rejects_semantic_schema_claims_before_reading_resources(
+    tmp_path: Path, schema: dict[str, object], message: str
+) -> None:
+    """Unsupported schema semantics fail before a descriptor can read its path."""
+    descriptor = tmp_path / "datapackage.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "missing.csv",
+                        "schema": schema,
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match=message):
         FrictionlessProvider().ingest(descriptor, policy=SourceAccessPolicy(tmp_path))
 
 

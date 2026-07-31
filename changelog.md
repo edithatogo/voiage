@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Hardened the strict Frictionless profile so unsupported field constraints and
+  declared `missingValues` fail before a resource is read; structured citation,
+  usage, and namespaced governance metadata now survive normalization.
 - Bound the frozen ingestion-provider SDK v1 to a machine-readable consumer
   fixture, rejected empty provider identities at registry registration, and
   added clean optional-parser import-isolation coverage while the intentionally

@@ -430,6 +430,7 @@ def test_frictionless_provider_preserves_package_governance_metadata(tmp_path) -
     assert bundle.manifest.provenance.license == "CC-BY-4.0"
     assert bundle.manifest.provenance.citation == "Example et al. (2026)"
     assert bundle.manifest.extensions == {
+        "frictionlessdata.org:citation": "Example et al. (2026)",
         "frictionlessdata.org:contributors": (
             {"role": "author", "title": "Maintainer"},
         ),
@@ -444,6 +445,51 @@ def test_frictionless_provider_preserves_package_governance_metadata(tmp_path) -
         "frictionlessdata.org:title": "Governed operations fixture",
         "frictionlessdata.org:version": "1.0.0",
     }
+
+
+def test_frictionless_provider_preserves_structured_governance_extensions(
+    tmp_path,
+) -> None:
+    """Structured provenance and custom namespaces survive normalization verbatim."""
+    (tmp_path / "samples.csv").write_text("id\n1\n", encoding="utf-8")
+    descriptor_path = tmp_path / "datapackage.json"
+    citation = {"title": "Synthetic evidence", "authors": ["Example"]}
+    usage = {"purpose": "test-only", "retention": "none"}
+    extension = {"classification": "synthetic", "sensitivity": "low"}
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "citation": citation,
+                "usage": usage,
+                "usageInfo": "No production decisions.",
+                "org.example:governance": extension,
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "schema": {"fields": [{"name": "id", "type": "integer"}]},
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    bundle = FrictionlessProvider().ingest(
+        descriptor_path, policy=SourceAccessPolicy(tmp_path)
+    )
+
+    assert bundle.manifest.provenance.citation is None
+    assert bundle.manifest.extensions["frictionlessdata.org:citation"] == {
+        "title": "Synthetic evidence",
+        "authors": ("Example",),
+    }
+    assert bundle.manifest.extensions["frictionlessdata.org:usage"] == usage
+    assert (
+        bundle.manifest.extensions["frictionlessdata.org:usageInfo"]
+        == "No production decisions."
+    )
+    assert bundle.manifest.extensions["org.example:governance"] == extension
 
 
 @pytest.mark.parametrize(

@@ -19,7 +19,7 @@ portable, auditable, and suitable for an offline calculation workflow.
 | Input surface | Supported profile | Explicit boundary |
 | --- | --- | --- |
 | Croissant ML | Croissant 1.1 with string-only JSON-LD context entries, one `recordSet`, one `text/csv` distribution, and fields that exactly match the CSV columns | Remote/live catalogs, archives, transforms, splits, keys, nested fields, field references, JSON-LD context objects, and non-CSV media types are rejected. |
-| Frictionless Data Package | One or more explicitly schematized local CSV resources (`.csv`, comma) or TSV resources (`.tsv`, `format: tsv`, explicit tab delimiter), declared primitive types, keys, and supported foreign keys | Remote/live resources, archives, inferred or custom dialects, unsupported formats, transforms, and undeclared or ambiguous resources are rejected. |
+| Frictionless Data Package | One or more explicitly schematized local CSV resources (`.csv`, comma) or TSV resources (`.tsv`, `format: tsv`, explicit tab delimiter), declared primitive types, primary/foreign keys, and boolean `required`/`unique` field constraints | Remote/live resources, archives, inferred or custom dialects, unsupported formats, transforms, undeclared or ambiguous resources, non-boolean or unsupported constraints, and schema `missingValues` declarations are rejected. |
 | Direct DataFrame interchange | pandas, Polars, or another `__dataframe__` producer that can convert through Arrow with an explicit binding | The adapter does not infer a VOI role, silently copy a disallowed frame, or create a second calculation path. |
 | Arrow IPC and Parquet | A `NormalizedInputBundle` previously written by VOIAGE | These are normalized interchange artifacts, not source-descriptor parsers. |
 
