@@ -205,6 +205,8 @@ def _inspection_summary(
     if expected_provider is not None and inspection["provider_id"] != expected_provider:
         raise IngestionError("descriptor does not match explicitly selected provider")
     capabilities = cast("dict[str, object]", inspection["capabilities"])
+    raw = json.loads(descriptor.read_text(encoding="utf-8"))
+    assert isinstance(raw, dict)  # Registry inspection has already checked this.
     return {
         "binding_resolution": None,
         "capabilities": {
@@ -213,7 +215,147 @@ def _inspection_summary(
         },
         "descriptor": inspection["descriptor"],
         "provider": inspection["provider_id"],
+        "schema": _descriptor_schema_summary(
+            raw, provider_id=cast("str", inspection["provider_id"])
+        ),
     }
+
+
+def _descriptor_schema_summary(
+    descriptor: dict[str, object], *, provider_id: str
+) -> dict[str, object]:
+    """Project declared tables without opening any declared data resource.
+
+    This is intentionally descriptive rather than a second provider validator:
+    it makes only table/field/key declarations and already-known unsupported
+    metadata visible to ``inspect``. Materializing commands remain responsible
+    for source access, exact schema validation, receipts, and binding quality.
+    """
+    if provider_id == "frictionless":
+        return _frictionless_descriptor_schema_summary(descriptor)
+    if provider_id == "croissant":
+        return _croissant_descriptor_schema_summary(descriptor)
+    return {"tables": [], "unsupported_features": []}
+
+
+def _frictionless_descriptor_schema_summary(
+    descriptor: dict[str, object],
+) -> dict[str, object]:
+    """Describe Data Package table declarations without materialization."""
+    tables: list[dict[str, object]] = []
+    unsupported: list[dict[str, str]] = []
+    resources = descriptor.get("resources")
+    if not isinstance(resources, list):
+        return {"tables": tables, "unsupported_features": unsupported}
+    supported_formats = {None, "csv", "tsv", "json", "parquet", "arrow", "feather"}
+    for index, raw_resource in enumerate(resources):
+        if not isinstance(raw_resource, dict):
+            unsupported.append(
+                {"code": "resource-not-object", "path": f"resources[{index}]"}
+            )
+            continue
+        resource = cast("dict[str, object]", raw_resource)
+        schema = resource.get("schema")
+        schema = schema if isinstance(schema, dict) else {}
+        fields = schema.get("fields")
+        field_ids = (
+            [
+            cast("str", field.get("name"))
+                for field in fields
+                if isinstance(field, dict) and isinstance(field.get("name"), str)
+            ]
+            if isinstance(fields, list)
+            else []
+        )
+        primary_key = schema.get("primaryKey", [])
+        primary_key = [primary_key] if isinstance(primary_key, str) else primary_key
+        tables.append(
+            {
+                "table_id": resource.get("name")
+                if isinstance(resource.get("name"), str)
+                else None,
+                "field_ids": field_ids,
+                "primary_key": primary_key
+                if isinstance(primary_key, list)
+                and all(isinstance(item, str) for item in primary_key)
+                else [],
+                "foreign_keys": schema.get("foreignKeys", [])
+                if isinstance(schema.get("foreignKeys", []), list)
+                else [],
+            }
+        )
+        unsupported.extend(
+            {"code": f"resource-{key}", "path": f"resources[{index}].{key}"}
+            for key in ("dialect", "transform")
+            if key in resource
+        )
+        if resource.get("format") not in supported_formats:
+            unsupported.append(
+                {"code": "resource-format", "path": f"resources[{index}].format"}
+            )
+        if "missingValues" in schema:
+            unsupported.append(
+                {
+                    "code": "schema-missing-values",
+                    "path": f"resources[{index}].schema.missingValues",
+                }
+            )
+    return {"tables": tables, "unsupported_features": unsupported}
+
+
+def _croissant_descriptor_schema_summary(
+    descriptor: dict[str, object],
+) -> dict[str, object]:
+    """Describe Croissant record sets without resolving distributions."""
+    tables: list[dict[str, object]] = []
+    unsupported: list[dict[str, str]] = []
+    record_sets = descriptor.get("recordSet")
+    if not isinstance(record_sets, list):
+        return {"tables": tables, "unsupported_features": unsupported}
+    for index, raw_record_set in enumerate(record_sets):
+        if not isinstance(raw_record_set, dict):
+            unsupported.append(
+                {"code": "record-set-not-object", "path": f"recordSet[{index}]"}
+            )
+            continue
+        record_set = cast("dict[str, object]", raw_record_set)
+        fields = record_set.get("field")
+        field_ids = (
+            [
+            cast("str", field.get("name"))
+                for field in fields
+                if isinstance(field, dict) and isinstance(field.get("name"), str)
+            ]
+            if isinstance(fields, list)
+            else []
+        )
+        tables.append(
+            {
+                "table_id": record_set.get("name")
+                if isinstance(record_set.get("name"), str)
+                else None,
+                "field_ids": field_ids,
+                "primary_key": [],
+                "foreign_keys": [],
+            }
+        )
+        unsupported.extend(
+            {"code": f"record-set-{key}", "path": f"recordSet[{index}].{key}"}
+            for key in ("key", "primaryKey", "split")
+            if key in record_set
+        )
+        if isinstance(fields, list):
+            for field_index, field in enumerate(fields):
+                if isinstance(field, dict):
+                    unsupported.extend(
+                        {
+                            "code": f"field-{key}",
+                            "path": f"recordSet[{index}].field[{field_index}].{key}",
+                        }
+                        for key in ("references", "subField", "source")
+                        if key in field
+                    )
+    return {"tables": tables, "unsupported_features": unsupported}
 
 
 def _calculation_manifest(

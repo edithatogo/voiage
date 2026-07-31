@@ -513,6 +513,15 @@ def test_normalize_materializes_once_and_reports_the_written_bundle_digest(
     )
 
 
+def test_inspect_reports_declared_schema_boundaries_without_resource_io(tmp_path) -> None:
+    """Inspection projects unsupported metadata but never opens missing data."""
+    descriptor = tmp_path / "datapackage.json"
+    descriptor.write_text(json.dumps({"resources": [{"name": "missing", "path": "absent.csv", "format": "xlsx", "dialect": {"delimiter": ";"}, "transform": [], "schema": {"fields": [{"name": "id"}], "primaryKey": "id", "missingValues": ["NA"]}}]}), encoding="utf-8")
+    result = CliRunner().invoke(app, ["ingest", "inspect", str(descriptor)])
+    assert result.exit_code == 0
+    assert json.loads(result.output)["schema"] == {"tables": [{"table_id": "missing", "field_ids": ["id"], "primary_key": ["id"], "foreign_keys": []}], "unsupported_features": [{"code": "resource-dialect", "path": "resources[0].dialect"}, {"code": "resource-transform", "path": "resources[0].transform"}, {"code": "resource-format", "path": "resources[0].format"}, {"code": "schema-missing-values", "path": "resources[0].schema.missingValues"}]}
+
+
 def test_ingest_cli_returns_safe_error_for_unrecognized_descriptor(tmp_path) -> None:
     descriptor = tmp_path / "unknown.json"
     descriptor.write_text("{}", encoding="utf-8")
