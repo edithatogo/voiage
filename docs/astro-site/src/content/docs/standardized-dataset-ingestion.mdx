@@ -64,12 +64,15 @@ inspection can safely identify a descriptor even when its resource is not
 available; use a materializing command for validation or calculation.
 
 Local resources are fail-closed: paths cannot escape the configured descriptor
-root, network access is disabled by default, and a resource larger than the
-default 512 MiB policy limit is rejected before parsing. Applications can set a
-smaller explicit `SourceAccessPolicy.max_resource_bytes` limit for constrained
-workloads. Cache namespace directories are also checked before every cache
-operation, so a symlink cannot redirect a materialization outside the configured
-cache root.
+root, URI schemes (including `file:` and `data:` forms) are rejected before any
+transport or DNS operation, and archive suffixes are rejected before a file is
+opened. The built-in providers therefore never extract an archive; a future
+archive provider must first add separately reviewed member, decompression-ratio,
+and materialization-receipt controls. A resource larger than the default 512 MiB
+policy limit is rejected before parsing. Applications can set a smaller explicit
+`SourceAccessPolicy.max_resource_bytes` limit for constrained workloads. Cache
+namespace directories are also checked before every cache operation, so a
+symlink cannot redirect a materialization outside the configured cache root.
 
 ## Verified local replay
 

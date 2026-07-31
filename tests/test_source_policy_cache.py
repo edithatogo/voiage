@@ -114,6 +114,8 @@ def test_offline_replay_rejects_path_traversal_before_cache_lookup(
         "ftp://example.invalid/archive.tar",
         "file:///etc/passwd",
         "ssh://user:secret@example.invalid/data.csv",
+        "file:/etc/passwd",
+        "data:text/csv,value%0A1",
     ],
 )
 @pytest.mark.parametrize(
@@ -127,6 +129,29 @@ def test_source_uri_rejects_every_network_scheme_without_leaking_reference(
     with pytest.raises(IngestionError, match=message) as error:
         SourceAccessPolicy(tmp_path, allow_network=allow_network).source_uri(reference)
     assert reference not in str(error.value)
+
+
+@pytest.mark.parametrize(
+    "reference",
+    [
+        "payload.zip",
+        "payload.tar",
+        "payload.tar.gz",
+        "payload.tgz",
+        "payload.7z",
+        "PAYLOAD.ZIP",
+    ],
+)
+def test_source_policy_rejects_archive_references_before_any_file_access(
+    tmp_path, reference: str
+) -> None:
+    """Built-in local profiles never extract archives or inspect their members."""
+    with pytest.raises(IngestionError, match="archive resources are not supported"):
+        SourceAccessPolicy(tmp_path).source_uri(reference)
+    with pytest.raises(IngestionError, match="archive resources are not supported"):
+        SourceAccessPolicy(tmp_path, offline=True).materialize(
+            reference, sha256=_digest(b"would-be-archive")
+        )
 
 
 def test_materialize_rejects_checksum_mismatch_and_cache_context_mismatch(
