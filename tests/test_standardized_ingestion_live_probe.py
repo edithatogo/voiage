@@ -60,3 +60,27 @@ def test_authoritative_probe_rejects_unpinned_resource_content() -> None:
             enabled=True,
             source_root=_FIXTURE_ROOT,
         )
+
+
+def test_authoritative_probe_rejects_unpinned_descriptor() -> None:
+    """A descriptor substitution cannot pass the approval gate."""
+    with pytest.raises(AuthoritativeProbeGateError, match="descriptor digest"):
+        run_authoritative_probe(
+            _DESCRIPTOR,
+            source_root=_FIXTURE_ROOT,
+            expected_descriptor_sha256="0" * 64,
+            expected_resource_sha256="0" * 64,
+            enabled=True,
+        )
+
+
+def test_authoritative_probe_rejects_unmaterialized_descriptor() -> None:
+    """A descriptor outside the approved source root fails closed."""
+    with pytest.raises(AuthoritativeProbeGateError, match="did not materialize"):
+        run_authoritative_probe(
+            _DESCRIPTOR,
+            source_root=Path(__file__).parent,
+            expected_descriptor_sha256=sha256(_DESCRIPTOR.read_bytes()).hexdigest(),
+            expected_resource_sha256="0" * 64,
+            enabled=True,
+        )
