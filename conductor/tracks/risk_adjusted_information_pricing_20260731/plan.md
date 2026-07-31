@@ -59,8 +59,16 @@
 - [x] **U12:** Add differential, property, serialization, failure and
   performance assurance for the runtime boundary. (AC-05, AC-08)
   — `0e17fed`
-- [~] **U13:** Run automated implementation review, focused validation and the
-  repository harness. (AC-05, AC-08)
+- [x] **U13:** Run automated implementation review, focused validation and the
+  repository harness. (AC-05, AC-08) — `7aeca63`
+
+### Phase 3 review fixes
+
+- [x] Replace fabricated root diagnostics; preserve canonical per-signal
+  policies and explicit domain exclusions; reject discontinuous no-root
+  prices; complete validation, provenance, PPI reasons and pairwise
+  comparability; and validate affine-only monetary EVPI presentation.
+  — `7aeca63`
 
 ## Phase 4 — User, binding and governed closeout surfaces
 
