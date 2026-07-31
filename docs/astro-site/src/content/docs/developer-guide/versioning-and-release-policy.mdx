@@ -47,6 +47,12 @@ Binding manifests are expected to match the canonical version exactly:
 - `rust/Cargo.toml`
 - `r-package/voiageR/DESCRIPTION`
 
+Stable patch releases are prepared from a protected maintenance branch cut
+from the reviewed release-candidate lineage. The patch pull request receives
+the same automated ruleset as `main`, while later features already merged to
+`main` remain reserved for the next minor release. The stable tag is created
+only from the exact maintenance merge commit after its post-merge checks pass.
+
 ## Release tags and package registries
 
 The repository keeps ecosystem-specific tag and registry conventions:
@@ -92,3 +98,7 @@ uv run python scripts/validate_version_sync.py
 4. Let the tag workflow build and attest a private draft
 5. Review exact artifact digests, then dispatch TestPyPI publication
 6. Permit PyPI and the public GitHub Release only after the TestPyPI smoke gate
+
+Synchronizing R, Julia, and Rust manifests in a Python release does not publish
+those ecosystems. Their distinct `r-v*`, `julia-v*`, and `rust-v*` tag flows
+remain separate, with their own registry and external-review gates.

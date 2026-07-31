@@ -105,6 +105,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Prepared the stable `v2.0.1` patch from the exact reviewed RC4 maintenance
+  lineage, synchronized Rust, Python, R, and Julia release identities, and
+  extended the protected workflow matrix to `2.0.x` without importing later
+  features from `main`. R, Julia, and crates.io publication remain separate
+  ecosystem-specific tag flows.
+- Added a bounded retry around the TestPyPI Simple API download so propagation
+  lag after the JSON API exposes a reviewed release does not create a false
+  negative in the supported-Python smoke matrix.
 - Prepared the `v2.0.1-rc.4` TestPyPI candidate with explicit ecosystem version
   projections, a deterministic aggregate root for dependency-only Python SBOM
   input, and a source-bound UUIDv5 CycloneDX serial number required by GitHub

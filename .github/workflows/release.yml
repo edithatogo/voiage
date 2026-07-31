@@ -659,9 +659,18 @@ jobs:
             sleep 20
           done
           mkdir testpypi-dist
-          python -m pip download --no-deps --only-binary=:all: \
-            --index-url https://test.pypi.org/simple/ \
-            --dest testpypi-dist "voiage==$PYTHON_VERSION"
+          for attempt in 1 2 3 4 5 6; do
+            if python -m pip download --no-deps --only-binary=:all: \
+              --index-url https://test.pypi.org/simple/ \
+              --dest testpypi-dist "voiage==$PYTHON_VERSION"; then
+              break
+            fi
+            if [[ "$attempt" == "6" ]]; then
+              echo "TestPyPI Simple API did not expose the reviewed release" >&2
+              exit 1
+            fi
+            sleep 20
+          done
           reviewed="$(find reviewed-dist -maxdepth 1 -name '*manylinux*x86_64.whl' -print -quit)"
           downloaded="$(find testpypi-dist -maxdepth 1 -name '*.whl' -print -quit)"
           test -n "$reviewed"

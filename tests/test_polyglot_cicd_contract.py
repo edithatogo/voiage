@@ -36,6 +36,39 @@ def test_required_pr_workflows_support_merge_queue() -> None:
         assert "merge_group:" in _text(name), name
 
 
+def test_protected_branches_receive_required_pr_workflows() -> None:
+    """Stable maintenance PRs must produce the same automated gate contexts."""
+    for name in (
+        "benchmark.yml",
+        "bindings-ci.yml",
+        "c15-cross-platform.yml",
+        "ci.yml",
+        "codeql.yml",
+        "dependency-frontier.yml",
+        "dependency-review.yml",
+        "operational-assurance.yml",
+        "python-rust-bridge.yml",
+        "zizmor.yml",
+    ):
+        assert "branches: [main, 2.0.x]" in _text(name), name
+
+
+def test_maintenance_merges_receive_exact_commit_assurance() -> None:
+    """Post-merge checks must run on the protected maintenance commit."""
+    for name in (
+        "benchmark.yml",
+        "bindings-ci.yml",
+        "c15-cross-platform.yml",
+        "ci.yml",
+        "codeql.yml",
+        "dependency-frontier.yml",
+        "operational-assurance.yml",
+        "python-rust-bridge.yml",
+        "zizmor.yml",
+    ):
+        assert _text(name).count("branches: [main, 2.0.x]") >= 2, name
+
+
 def test_release_uses_pep740_and_exact_testpypi_promotion() -> None:
     """TestPyPI is an attested multi-version promotion gate, not a token smoke."""
     release = _text("release.yml")
