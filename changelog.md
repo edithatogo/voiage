@@ -64,6 +64,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   and separate gross/net EVSI and ENBS. Portfolio model effects and disjoint
   incremental costs now require provenance assurances, and optimizer ties are
   anchored to the fixed global maximum.
+- Added a disposable external provider-wheel contract that installs an
+  entry-point consumer in a fresh environment, preserves base-import isolation,
+  and exercises explicit allow-listed discovery against the public ingestion SDK.
 - Hardened the strict Frictionless profile so unsupported field constraints and
   declared `missingValues` fail before a resource is read; structured citation,
   usage, and namespaced governance metadata now survive normalization.

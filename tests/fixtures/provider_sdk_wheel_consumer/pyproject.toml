@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "voiage-sdk-wheel-consumer"
+version = "0.0.0"
+description = "Disposable external consumer for the VOIAGE ingestion-provider SDK"
+requires-python = ">=3.12"
+dependencies = ["voiage"]
+
+[project.entry-points."voiage.ingestion.providers"]
+example-wheel = "voiage_sdk_wheel_consumer:provider"
+
+[tool.setuptools.packages.find]
+where = ["src"]
