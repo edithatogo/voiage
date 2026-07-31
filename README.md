@@ -250,7 +250,7 @@ and [SECURITY.md](SECURITY.md).
 - Citation metadata: [`CITATION.cff`](CITATION.cff)
 - Software metadata: [`codemeta.json`](codemeta.json)
 - Software Heritage snapshot:
-  [`swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32`](https://archive.softwareheritage.org/swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32)
+  [`swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d`](https://archive.softwareheritage.org/swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d)
 
 The canonical preprint source is [`paper/main.tex`](paper/main.tex). Repository
 automation builds, lints, audits, and packages the manuscript. Authenticated
