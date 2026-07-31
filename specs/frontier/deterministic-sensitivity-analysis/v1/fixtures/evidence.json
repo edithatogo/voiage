@@ -15,9 +15,9 @@
     {"path": "voiage/cli.py", "sha256": "40d2e295f70c1c6a00c6165cefb0bf539c3f415a8db2669a1aaffedf8d79e958"},
     {"path": "voiage/methods/deterministic_sensitivity.py", "sha256": "21da5d9e95dfa518dcad7e11a5fe1b6efa5a0d25f51dc0b8ca1b9a47c43ca1bd"},
     {"path": "voiage/plot/deterministic_sensitivity.py", "sha256": "0579dd59626c6ba09aaba67da7daa18f72810d67e7729626244a7ca96fa558f2"},
-    {"path": "tests/test_deterministic_sensitivity.py", "sha256": "670d9ec291c62c6c76105ce3c815a9c53ea38bef0140a9f53fbabf2b6d2031e4"},
-    {"path": "tests/test_deterministic_sensitivity_contract.py", "sha256": "9f64f3f2df9bf42506ffbf436560a449ce75c81c95920ac08b571a2ff45502d7"},
-    {"path": "tests/test_deterministic_sensitivity_surfaces.py", "sha256": "325edfbd46cc0a68661f4f24a6e2024f1b79964f07eecb5c82a112924e920ddc"},
+    {"path": "tests/test_deterministic_sensitivity.py", "sha256": "cc76a692cd50d70ce4a19c20238a1c547c00b58e3a7dca7d82bf07f0b19bf80a"},
+    {"path": "tests/test_deterministic_sensitivity_contract.py", "sha256": "b4f68e77a0bea23ab38dbb3fa0f1a74158dd4283ef2955def9277d7f97cd8296"},
+    {"path": "tests/test_deterministic_sensitivity_surfaces.py", "sha256": "a6d326194c8955db46a021118c6d7c29a9835aac73ec39657db807d8e4a77ee3"},
     {"path": "docs/astro-site/src/content/docs/examples/deterministic-sensitivity-analysis.mdx", "sha256": "0eff8c719078620a48b096cfe44e150e8b9494fbb4b42e4b4c9749d68644085f"}
   ]
 }

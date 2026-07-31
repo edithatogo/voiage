@@ -10,7 +10,7 @@ from typing import Any
 import pytest
 from typer.testing import CliRunner
 
-from voiage.cli import app
+from voiage import cli
 from voiage.deterministic_sensitivity_contract import (
     DETERMINISTIC_SENSITIVITY_INPUT_SCHEMA_V1,
 )
@@ -43,7 +43,7 @@ def test_dsa_cli_returns_exact_versioned_result_and_writes_output(
 ) -> None:
     output = tmp_path / "dsa-result.json"
     response = CliRunner().invoke(
-        app,
+        cli.app,
         [
             "--format",
             "json",
@@ -84,11 +84,53 @@ def test_dsa_cli_rejects_invalid_json_object(tmp_path: Path) -> None:
     request.write_text('{"schema_version": "wrong"}', encoding="utf-8")
 
     response = CliRunner().invoke(
-        app, ["calculate-deterministic-sensitivity", str(request)]
+        cli.app, ["calculate-deterministic-sensitivity", str(request)]
     )
 
     assert response.exit_code == 1
     assert "Error:" in response.stderr
+
+
+def test_dsa_cli_rejects_non_object_request(tmp_path: Path) -> None:
+    request = tmp_path / "list.json"
+    request.write_text("[]", encoding="utf-8")
+
+    response = CliRunner().invoke(
+        cli.app, ["calculate-deterministic-sensitivity", str(request)]
+    )
+
+    assert response.exit_code == 1
+    assert "DSA specification must be a JSON object" in response.stderr
+
+
+@pytest.mark.parametrize(
+    ("command", "fixture"),
+    [
+        ("calculate-deterministic-sensitivity", INPUT),
+        (
+            "calculate-value-of-flexibility",
+            ROOT
+            / "specs/frontier/value-of-flexibility/v1/fixtures/normative/input.json",
+        ),
+    ],
+)
+def test_frontier_cli_announces_written_output_when_status_messages_are_enabled(
+    command: str,
+    fixture: Path,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    output = tmp_path / f"{command}.json"
+    monkeypatch.setattr(cli, "_should_echo_status_messages", lambda: True)
+
+    response = CliRunner().invoke(
+        cli.app,
+        ["--format", "json", command, str(fixture), "--output", str(output)],
+    )
+
+    assert response.exit_code == 0, response.stdout
+    assert output.is_file()
+    assert f"Result saved to {output}" in response.stdout
 
 
 def test_dsa_rejects_duplicate_identities_and_unused_records() -> None:
@@ -149,3 +191,16 @@ def test_dsa_tornado_plot_reports_missing_optional_dependency(
 
     with pytest.raises(Exception, match="Matplotlib is required"):
         plotting.plot_deterministic_sensitivity_tornado(result)
+
+
+def test_dsa_tornado_plot_uses_caller_supplied_axes() -> None:
+    import matplotlib.pyplot as plt
+
+    from voiage.plot import plot_deterministic_sensitivity_tornado
+
+    result = deterministic_sensitivity_from_specification(_input())
+    _figure, supplied_ax = plt.subplots()
+
+    returned_ax = plot_deterministic_sensitivity_tornado(result, ax=supplied_ax)
+
+    assert returned_ax is supplied_ax

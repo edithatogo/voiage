@@ -2,6 +2,10 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
+import importlib
+import json
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 from hypothesis import given
@@ -9,10 +13,16 @@ from hypothesis import strategies as st
 import numpy as np
 import pytest
 
-from voiage.methods.deterministic_sensitivity import deterministic_sensitivity
+from voiage.methods.deterministic_sensitivity import (
+    deterministic_sensitivity,
+    deterministic_sensitivity_from_specification,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
+
+
+dsa_module = importlib.import_module("voiage.methods.deterministic_sensitivity")
 
 
 def _linear_model(parameters: Mapping[str, float]) -> Mapping[str, float]:
@@ -230,13 +240,17 @@ def test_direction_reversal_and_permutation_preserve_complete_tie_semantics() ->
     ("override", "message"),
     [
         ({"baseline_parameters": {"x": np.nan, "y": 0.0}}, "finite baseline"),
+        ({"parameter_grids": {"x": [0.0]}}, "exactly match the baseline"),
         ({"parameter_grids": {"x": [], "y": [0.0]}}, "non-empty grid"),
+        ({"parameter_grids": {"x": [np.inf], "y": [0.0]}}, "finite values"),
         ({"parameter_grids": {"x": [0.0, 0.0], "y": [0.0]}}, "duplicate"),
         ({"parameter_grids": {"x": [1.0, 0.0], "y": [0.0]}}, "increasing"),
         ({"parameter_units": {"x": "point"}}, "exactly match"),
+        ({"parameter_units": {"x": "", "y": "point"}}, "non-empty unit"),
         ({"alternative_names": ["a", "a"]}, "unique"),
         ({"output_unit": ""}, "output_unit"),
         ({"direction": "sideways"}, "direction"),
+        ({"absolute_tolerance": -1.0}, "finite and non-negative"),
     ],
 )
 def test_dsa_rejects_malformed_contracts(
@@ -252,9 +266,22 @@ def test_dsa_rejects_nonfinite_unknown_or_malformed_callback_outputs() -> None:
         deterministic_sensitivity(lambda _p: {"a": np.inf, "b": 1.0}, **kwargs)
     with pytest.raises(ValueError, match="exactly match alternative_names"):
         deterministic_sensitivity(lambda _p: {"a": 1.0}, **kwargs)
+    with pytest.raises(ValueError, match="exactly match alternative_names"):
+        deterministic_sensitivity(
+            lambda p: _linear_model(p) if p == {"x": 0.0, "y": 0.0} else {"a": 1.0},
+            **kwargs,
+        )
     with pytest.raises(ValueError, match="callback failed"):
         deterministic_sensitivity(
             lambda _p: (_ for _ in ()).throw(RuntimeError("boom")), **kwargs
+        )
+
+    with pytest.raises(ValueError, match="callback failed"):
+        dsa_module._safe_evaluate(
+            lambda *_args: (_ for _ in ()).throw(RuntimeError("boom")),
+            "baseline",
+            "baseline",
+            {"x": 0.0},
         )
 
 
@@ -290,6 +317,92 @@ def test_callback_two_way_surface_declarations_fail_closed() -> None:
             two_way_pairs=[("x", "y")],
             feasible_two_way_points={"y|x": [(0.0, 0.0)]},
         )
+    with pytest.raises(ValueError, match="distinct baseline parameters"):
+        deterministic_sensitivity(
+            _linear_model,
+            **kwargs,
+            two_way_pairs=[("x", "x")],
+        )
+    with pytest.raises(ValueError, match="belong to declared grids"):
+        deterministic_sensitivity(
+            _linear_model,
+            **kwargs,
+            two_way_pairs=[("x", "y")],
+            feasible_two_way_points={"x|y": [(999.0, 0.0)]},
+        )
+
+
+def test_callback_default_cartesian_scenarios_and_tied_ranks_cover_both_paths() -> None:
+    cartesian = deterministic_sensitivity(
+        _linear_model,
+        **_base_kwargs(),
+        two_way_pairs=[("x", "y")],
+    )
+    assert len(cartesian.two_way_points["x|y"]) == 9
+
+    tied = deterministic_sensitivity(
+        lambda p: {"only": p["x"] + p["y"]},
+        baseline_parameters={"x": 0.0, "y": 0.0},
+        parameter_grids={"x": [0.0, 1.0], "y": [0.0, 1.0]},
+        parameter_units={"x": "point", "y": "point"},
+        alternative_names=["only"],
+        output_unit="point",
+        direction="maximize",
+    )
+    assert [summary.rank for summary in tied.parameter_summaries] == [1, 1]
+
+    for scenarios, message in [
+        ({"unknown": {"z": 1.0}}, "Unknown scenario coordinates"),
+        ({"nonfinite": {"x": np.nan}}, "Scenario coordinates must be finite"),
+    ]:
+        with pytest.raises(ValueError, match=message):
+            deterministic_sensitivity(
+                _linear_model,
+                **_base_kwargs(),
+                scenarios=scenarios,
+            )
+
+
+def test_normalized_runtime_rejects_post_schema_malformed_and_record_gaps(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    fixture = Path(
+        "specs/frontier/deterministic-sensitivity-analysis/v1/fixtures/normative/input.json"
+    )
+    specification = json.loads(fixture.read_text(encoding="utf-8"))
+    monkeypatch.setattr(
+        dsa_module, "validate_deterministic_sensitivity_specification", lambda _value: None
+    )
+
+    malformed_arrays = deepcopy(specification)
+    malformed_arrays["baseline"] = {}
+    with pytest.raises(ValueError, match="must be arrays"):
+        deterministic_sensitivity_from_specification(malformed_arrays)
+
+    malformed_records = deepcopy(specification)
+    malformed_records["model_evaluation_records"] = {}
+    with pytest.raises(ValueError, match="records are malformed"):
+        deterministic_sensitivity_from_specification(malformed_records)
+
+    duplicate = deepcopy(specification)
+    duplicate["model_evaluation_records"].append(
+        deepcopy(duplicate["model_evaluation_records"][0])
+    )
+    with pytest.raises(ValueError, match="unique identities"):
+        deterministic_sensitivity_from_specification(duplicate)
+
+    missing = deepcopy(specification)
+    missing["model_evaluation_records"] = missing["model_evaluation_records"][:-1]
+    with pytest.raises(ValueError, match="Missing normalized DSA evaluation record"):
+        deterministic_sensitivity_from_specification(missing)
+
+    unused = deepcopy(specification)
+    extra = deepcopy(unused["model_evaluation_records"][0])
+    extra["record_id"] = "unused"
+    extra["analysis_ref"] = "unused"
+    unused["model_evaluation_records"].append(extra)
+    with pytest.raises(ValueError, match="Unused normalized DSA evaluation records"):
+        deterministic_sensitivity_from_specification(unused)
 
 
 def test_dsa_experimental_exports_are_discoverable() -> None:

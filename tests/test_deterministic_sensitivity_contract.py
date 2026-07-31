@@ -6,9 +6,15 @@ import hashlib
 import importlib
 import json
 from pathlib import Path
+from typing import cast
 
 from jsonschema import Draft202012Validator
 import pytest
+
+from voiage.deterministic_sensitivity_contract import (
+    validate_deterministic_sensitivity_specification,
+)
+from voiage.exceptions import InputError
 
 ROOT = Path(__file__).parents[1]
 CONTRACT = ROOT / "specs/frontier/deterministic-sensitivity-analysis/v1"
@@ -92,3 +98,79 @@ def test_dsa_runtime_fixture_conformance_is_required_before_execution_claim() ->
     assert result.to_contract_dict() == _json(
         CONTRACT / "fixtures/normative/expected.json"
     )
+
+
+def test_dsa_runtime_contract_rejects_cross_field_inconsistencies() -> None:
+    invalid_cases: list[tuple[dict[str, object], str]] = []
+
+    payload = _json(CONTRACT / "fixtures/normative/input.json")
+    grids = cast("list[dict[str, object]]", payload["parameter_grids"])
+    grids[1]["parameter_name"] = "z"
+    invalid_cases.append((payload, "must name the same parameters"))
+
+    payload = _json(CONTRACT / "fixtures/normative/input.json")
+    grids = cast("list[dict[str, object]]", payload["parameter_grids"])
+    grids[1]["unit"] = "different-unit"
+    invalid_cases.append((payload, "units must match exactly"))
+
+    payload = _json(CONTRACT / "fixtures/normative/input.json")
+    designs = cast("list[dict[str, object]]", payload["two_way_designs"])
+    designs[0]["second_parameter"] = "x"
+    designs[0]["surface_id"] = "x|x"
+    invalid_cases.append((payload, "two distinct baseline parameters"))
+
+    payload = _json(CONTRACT / "fixtures/normative/input.json")
+    designs = cast("list[dict[str, object]]", payload["two_way_designs"])
+    designs[0]["surface_id"] = "wrong-surface"
+    invalid_cases.append((payload, "surface_id must be"))
+
+    payload = _json(CONTRACT / "fixtures/normative/input.json")
+    designs = cast("list[dict[str, object]]", payload["two_way_designs"])
+    points = cast("list[dict[str, object]]", designs[0]["feasible_points"])
+    points.append(points[0].copy())
+    invalid_cases.append((payload, "feasible_points must be unique"))
+
+    payload = _json(CONTRACT / "fixtures/normative/input.json")
+    designs = cast("list[dict[str, object]]", payload["two_way_designs"])
+    designs[0]["feasibility_semantics"] = "full-cartesian-independent"
+    invalid_cases.append((payload, "requires the exact Cartesian grid"))
+
+    payload = _json(CONTRACT / "fixtures/normative/input.json")
+    records = cast("list[dict[str, object]]", payload["model_evaluation_records"])
+    coordinates = cast("list[dict[str, object]]", records[0]["coordinates"])
+    coordinates.pop()
+    invalid_cases.append((payload, "complete baseline coordinate set"))
+
+    payload = _json(CONTRACT / "fixtures/normative/input.json")
+    records = cast("list[dict[str, object]]", payload["model_evaluation_records"])
+    outputs = cast("list[dict[str, object]]", records[0]["alternative_outputs"])
+    outputs.pop()
+    invalid_cases.append((payload, "exactly alternative_names"))
+
+    for invalid_payload, message in invalid_cases:
+        with pytest.raises(InputError, match=message):
+            validate_deterministic_sensitivity_specification(invalid_payload)
+
+
+def test_dsa_runtime_contract_accepts_exact_cartesian_design_before_next_design() -> (
+    None
+):
+    payload = _json(CONTRACT / "fixtures/normative/input.json")
+    designs = cast("list[dict[str, object]]", payload["two_way_designs"])
+    designs[0]["feasibility_semantics"] = "full-cartesian-independent"
+    designs[0]["feasible_points"] = [
+        {"first": first, "second": second}
+        for first in (-2.0, 0.0, 2.0)
+        for second in (-1.0, 0.0, 1.0)
+    ]
+    designs.append(
+        {
+            "surface_id": "y|x",
+            "first_parameter": "y",
+            "second_parameter": "x",
+            "feasibility_semantics": "explicit-mask",
+            "feasible_points": [{"first": 0.0, "second": 0.0}],
+        }
+    )
+
+    validate_deterministic_sensitivity_specification(payload)
