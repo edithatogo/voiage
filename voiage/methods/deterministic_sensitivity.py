@@ -615,6 +615,7 @@ def deterministic_sensitivity_from_specification(
     if not isinstance(tolerance, Mapping) or not isinstance(records, list):
         raise_input_error("DSA tolerance and evaluation records are malformed.")
     lookup: dict[tuple[str, str, tuple[tuple[str, float], ...]], dict[str, Any]] = {}
+    consumed: set[tuple[str, str, tuple[tuple[str, float], ...]]] = set()
     for record in records:
         coordinates = tuple(
             (item["parameter_name"], float(item["value"]))
@@ -638,6 +639,7 @@ def deterministic_sensitivity_from_specification(
                 f"Missing normalized DSA evaluation record for {kind}:{reference}."
             )
         record = lookup[key]
+        consumed.add(key)
         outputs = {
             item["alternative_name"]: item["value"]
             for item in record["alternative_outputs"]
@@ -672,7 +674,7 @@ def deterministic_sensitivity_from_specification(
         float(tolerance["absolute"]),
         float(tolerance["relative"]),
     )
-    return _build_result(
+    result = _build_result(
         evaluator,
         baseline=checked[0],
         grids=checked[1],
@@ -695,3 +697,9 @@ def deterministic_sensitivity_from_specification(
         relative_tolerance=float(tolerance["relative"]),
         analysis_id=str(specification["analysis_id"]),
     )
+    if consumed != set(lookup):
+        unused = sorted(
+            f"{kind}:{reference}" for kind, reference, _ in set(lookup) - consumed
+        )
+        raise_input_error(f"Unused normalized DSA evaluation records: {unused}.")
+    return result

@@ -13,16 +13,6 @@ if TYPE_CHECKING:
     from collections.abc import Mapping
 
 _NON_EMPTY_STRING: Final[dict[str, object]] = {"type": "string", "minLength": 1}
-_COORDINATE_VALUE: Final[dict[str, object]] = {
-    "type": "object",
-    "additionalProperties": False,
-    "required": ["parameter_name", "value"],
-    "properties": {
-        "parameter_name": _NON_EMPTY_STRING,
-        "value": {"type": "number"},
-    },
-}
-
 DETERMINISTIC_SENSITIVITY_INPUT_SCHEMA_V1: Final[dict[str, object]] = {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://voiage.dev/schemas/frontier/deterministic-sensitivity-input.v1.json",
@@ -49,41 +39,12 @@ DETERMINISTIC_SENSITIVITY_INPUT_SCHEMA_V1: Final[dict[str, object]] = {
         "baseline": {
             "type": "array",
             "minItems": 1,
-            "items": {
-                "type": "object",
-                "additionalProperties": False,
-                "required": ["parameter_name", "value", "unit"],
-                "properties": {
-                    "parameter_name": _NON_EMPTY_STRING,
-                    "value": {"type": "number"},
-                    "unit": _NON_EMPTY_STRING,
-                },
-            },
+            "items": {"$ref": "#/$defs/coordinate"},
         },
         "parameter_grids": {
             "type": "array",
             "minItems": 1,
-            "items": {
-                "type": "object",
-                "additionalProperties": False,
-                "required": [
-                    "parameter_name",
-                    "unit",
-                    "values",
-                    "range_provenance",
-                ],
-                "properties": {
-                    "parameter_name": _NON_EMPTY_STRING,
-                    "unit": _NON_EMPTY_STRING,
-                    "values": {
-                        "type": "array",
-                        "minItems": 1,
-                        "uniqueItems": True,
-                        "items": {"type": "number"},
-                    },
-                    "range_provenance": _NON_EMPTY_STRING,
-                },
-            },
+            "items": {"$ref": "#/$defs/parameter_grid"},
         },
         "alternative_names": {
             "type": "array",
@@ -93,6 +54,49 @@ DETERMINISTIC_SENSITIVITY_INPUT_SCHEMA_V1: Final[dict[str, object]] = {
         },
         "output_unit": _NON_EMPTY_STRING,
         "direction": {"enum": ["maximize", "minimize"]},
+        "tie_tolerance": {"$ref": "#/$defs/tie_tolerance"},
+        "two_way_designs": {
+            "type": "array",
+            "items": {"$ref": "#/$defs/two_way_design"},
+        },
+        "scenarios": {
+            "type": "array",
+            "items": {"$ref": "#/$defs/scenario"},
+        },
+        "model_evaluation_records": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"$ref": "#/$defs/evaluation_record"},
+        },
+        "provenance": {"$ref": "#/$defs/provenance"},
+    },
+    "$defs": {
+        "coordinate": {
+            "type": "object",
+            "additionalProperties": False,
+            "required": ["parameter_name", "value", "unit"],
+            "properties": {
+                "parameter_name": _NON_EMPTY_STRING,
+                "value": {"type": "number"},
+                "unit": _NON_EMPTY_STRING,
+            },
+        },
+        "parameter_grid": {
+            "type": "object",
+            "additionalProperties": False,
+            "required": ["parameter_name", "unit", "values", "range_provenance"],
+            "properties": {
+                "parameter_name": _NON_EMPTY_STRING,
+                "unit": _NON_EMPTY_STRING,
+                "values": {
+                    "type": "array",
+                    "minItems": 1,
+                    "uniqueItems": True,
+                    "items": {"type": "number"},
+                },
+                "range_provenance": _NON_EMPTY_STRING,
+            },
+        },
         "tie_tolerance": {
             "type": "object",
             "additionalProperties": False,
@@ -103,104 +107,101 @@ DETERMINISTIC_SENSITIVITY_INPUT_SCHEMA_V1: Final[dict[str, object]] = {
                 "representative_policy": {"const": "canonical-lexicographic"},
             },
         },
-        "two_way_designs": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "additionalProperties": False,
-                "required": [
-                    "surface_id",
-                    "first_parameter",
-                    "second_parameter",
-                    "feasibility_semantics",
-                    "feasible_points",
-                ],
-                "properties": {
-                    "surface_id": _NON_EMPTY_STRING,
-                    "first_parameter": _NON_EMPTY_STRING,
-                    "second_parameter": _NON_EMPTY_STRING,
-                    "feasibility_semantics": {
-                        "enum": [
-                            "explicit-mask",
-                            "explicit-path",
-                            "full-cartesian-independent",
-                        ]
-                    },
-                    "feasible_points": {
-                        "type": "array",
-                        "minItems": 1,
-                        "items": {
-                            "type": "object",
-                            "additionalProperties": False,
-                            "required": ["first", "second"],
-                            "properties": {
-                                "first": {"type": "number"},
-                                "second": {"type": "number"},
-                            },
-                        },
-                    },
+        "coordinate_value": {
+            "type": "object",
+            "additionalProperties": False,
+            "required": ["parameter_name", "value"],
+            "properties": {
+                "parameter_name": _NON_EMPTY_STRING,
+                "value": {"type": "number"},
+            },
+        },
+        "two_way_point": {
+            "type": "object",
+            "additionalProperties": False,
+            "required": ["first", "second"],
+            "properties": {
+                "first": {"type": "number"},
+                "second": {"type": "number"},
+            },
+        },
+        "two_way_design": {
+            "type": "object",
+            "additionalProperties": False,
+            "required": [
+                "surface_id",
+                "first_parameter",
+                "second_parameter",
+                "feasibility_semantics",
+                "feasible_points",
+            ],
+            "properties": {
+                "surface_id": _NON_EMPTY_STRING,
+                "first_parameter": _NON_EMPTY_STRING,
+                "second_parameter": _NON_EMPTY_STRING,
+                "feasibility_semantics": {
+                    "enum": [
+                        "explicit-mask",
+                        "explicit-path",
+                        "full-cartesian-independent",
+                    ]
+                },
+                "feasible_points": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {"$ref": "#/$defs/two_way_point"},
                 },
             },
         },
-        "scenarios": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "additionalProperties": False,
-                "required": [
-                    "scenario_id",
-                    "coordinates",
-                    "structural_assumption",
-                ],
-                "properties": {
-                    "scenario_id": _NON_EMPTY_STRING,
-                    "coordinates": {
-                        "type": "array",
-                        "minItems": 1,
-                        "items": _COORDINATE_VALUE,
-                    },
-                    "structural_assumption": _NON_EMPTY_STRING,
+        "scenario": {
+            "type": "object",
+            "additionalProperties": False,
+            "required": ["scenario_id", "coordinates", "structural_assumption"],
+            "properties": {
+                "scenario_id": _NON_EMPTY_STRING,
+                "coordinates": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {"$ref": "#/$defs/coordinate_value"},
                 },
+                "structural_assumption": _NON_EMPTY_STRING,
             },
         },
-        "model_evaluation_records": {
-            "type": "array",
-            "minItems": 1,
-            "items": {
-                "type": "object",
-                "additionalProperties": False,
-                "required": [
-                    "record_id",
-                    "analysis_kind",
-                    "analysis_ref",
-                    "coordinates",
-                    "alternative_outputs",
-                ],
-                "properties": {
-                    "record_id": _NON_EMPTY_STRING,
-                    "analysis_kind": {
-                        "enum": ["baseline", "one-way", "two-way", "scenario"]
-                    },
-                    "analysis_ref": _NON_EMPTY_STRING,
-                    "coordinates": {
-                        "type": "array",
-                        "minItems": 1,
-                        "items": _COORDINATE_VALUE,
-                    },
-                    "alternative_outputs": {
-                        "type": "array",
-                        "minItems": 1,
-                        "items": {
-                            "type": "object",
-                            "additionalProperties": False,
-                            "required": ["alternative_name", "value", "unit"],
-                            "properties": {
-                                "alternative_name": _NON_EMPTY_STRING,
-                                "value": {"type": "number"},
-                                "unit": _NON_EMPTY_STRING,
-                            },
-                        },
-                    },
+        "alternative_output": {
+            "type": "object",
+            "additionalProperties": False,
+            "required": ["alternative_name", "value", "unit"],
+            "properties": {
+                "alternative_name": _NON_EMPTY_STRING,
+                "value": {"type": "number"},
+                "unit": _NON_EMPTY_STRING,
+            },
+        },
+        "evaluation_record": {
+            "type": "object",
+            "additionalProperties": False,
+            "required": [
+                "record_id",
+                "analysis_kind",
+                "analysis_ref",
+                "coordinates",
+                "alternative_outputs",
+            ],
+            "properties": {
+                "record_id": _NON_EMPTY_STRING,
+                "analysis_kind": {
+                    "enum": ["baseline", "one-way", "two-way", "scenario"]
+                },
+                "analysis_ref": _NON_EMPTY_STRING,
+                "coordinates": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {"$ref": "#/$defs/coordinate_value"},
+                },
+                "alternative_outputs": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {"$ref": "#/$defs/alternative_output"},
                 },
             },
         },
@@ -247,8 +248,13 @@ def validate_deterministic_sensitivity_specification(
     grids = cast("list[object]", specification["parameter_grids"])
     alternatives = cast("list[str]", specification["alternative_names"])
     records = cast("list[object]", specification["model_evaluation_records"])
+    two_way_designs = cast("list[object]", specification["two_way_designs"])
+    scenarios = cast("list[object]", specification["scenarios"])
     baseline_names = _unique_names(baseline, "parameter_name", "baseline")
     grid_names = _unique_names(grids, "parameter_name", "parameter_grids")
+    _unique_names(records, "record_id", "model_evaluation_records")
+    _unique_names(two_way_designs, "surface_id", "two_way_designs")
+    _unique_names(scenarios, "scenario_id", "scenarios")
     if set(baseline_names) != set(grid_names):
         raise_input_error("baseline and parameter_grids must name the same parameters.")
     baseline_units = {
@@ -265,6 +271,22 @@ def validate_deterministic_sensitivity_specification(
     }
     if baseline_units != grid_units:
         raise_input_error("baseline and parameter grid units must match exactly.")
+    for design in two_way_designs:
+        design_map = cast("Mapping[str, object]", design)
+        first = str(design_map["first_parameter"])
+        second = str(design_map["second_parameter"])
+        if (
+            first == second
+            or first not in baseline_names
+            or second not in baseline_names
+        ):
+            raise_input_error(
+                "Two-way designs must name two distinct baseline parameters."
+            )
+        if str(design_map["surface_id"]) != f"{first}|{second}":
+            raise_input_error(
+                "Two-way surface_id must be '<first_parameter>|<second_parameter>'."
+            )
     output_unit = str(specification["output_unit"])
     for record in records:
         record_map = cast("Mapping[str, object]", record)

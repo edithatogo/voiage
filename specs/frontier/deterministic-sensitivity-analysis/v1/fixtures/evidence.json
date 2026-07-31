@@ -11,10 +11,10 @@
     {"path": "specs/frontier/deterministic-sensitivity-analysis/v1/fixtures/normative/input.json", "sha256": "50691be0a13ba2875e939a7d7abcb53a757e2e40f6667f37f1bf7ac55c5b7394"},
     {"path": "specs/frontier/deterministic-sensitivity-analysis/v1/fixtures/normative/expected.json", "sha256": "db2c1da5e5c1fe82899fe2606f5975b4fa50692b3efba1bbf741868403779450"},
     {"path": "conductor/tracks/supported_frontier_method_completion_20260723/deterministic-sensitivity-reference-review.md", "sha256": "b480cece8323bed01e9887cb59686baa92c0fdceb9e910875f0748129d9ce753"},
-    {"path": "voiage/contracts/deterministic_sensitivity.py", "sha256": "777fbb1f099b38146f739776ca8d9b37445423982e2a84b96cab95b9638ab63d"},
-    {"path": "voiage/methods/deterministic_sensitivity.py", "sha256": "d423f74b8a7f8448dfa8f2a60c9384f33a050cf9a06240de09e0a3fe604c997a"},
+    {"path": "voiage/contracts/deterministic_sensitivity.py", "sha256": "d2a538e78c97f56fed8a4b27d71872645b31b67eb5dadc8e8127b4f31ab17d78"},
+    {"path": "voiage/methods/deterministic_sensitivity.py", "sha256": "cc73bdced5f400966cf083555c27574f815b3dd96c1b07927932d896c8ad9a10"},
     {"path": "voiage/plot/deterministic_sensitivity.py", "sha256": "0579dd59626c6ba09aaba67da7daa18f72810d67e7729626244a7ca96fa558f2"},
-    {"path": "tests/test_deterministic_sensitivity_surfaces.py", "sha256": "d0c70997eb35c2f5f6a976d83415c2b565fe24a9a0b1cbb6d1c3adc5b63052d4"},
+    {"path": "tests/test_deterministic_sensitivity_surfaces.py", "sha256": "62f48b6b950cc30800f72e8459513aaafbb7bcde468c1a17f928505efce87846"},
     {"path": "docs/astro-site/src/content/docs/examples/deterministic-sensitivity-analysis.mdx", "sha256": "0eff8c719078620a48b096cfe44e150e8b9494fbb4b42e4b4c9749d68644085f"}
   ]
 }

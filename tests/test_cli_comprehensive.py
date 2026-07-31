@@ -727,6 +727,7 @@ def test_cli_command_registry_matches_expected_surface() -> None:
         "calculate-calibration",
         "calculate-causal-transportability",
         "calculate-data-quality",
+        "calculate-deterministic-sensitivity",
         "calculate-computational-refinement",
         "calculate-coss",
         "calculate-expert-synthesis",

@@ -11,6 +11,9 @@ import pytest
 from typer.testing import CliRunner
 
 from voiage.cli import app
+from voiage.contracts.deterministic_sensitivity import (
+    DETERMINISTIC_SENSITIVITY_INPUT_SCHEMA_V1,
+)
 from voiage.methods.deterministic_sensitivity import (
     deterministic_sensitivity_from_specification,
 )
@@ -23,6 +26,16 @@ EXPECTED = CONTRACT / "fixtures/normative/expected.json"
 
 def _input() -> dict[str, Any]:
     return json.loads(INPUT.read_text(encoding="utf-8"))
+
+
+def test_dsa_installed_schema_exactly_matches_canonical_contract() -> None:
+    schema = json.loads(
+        (CONTRACT / "schemas/deterministic-sensitivity-input.schema.json").read_text(
+            encoding="utf-8"
+        )
+    )
+
+    assert schema == DETERMINISTIC_SENSITIVITY_INPUT_SCHEMA_V1
 
 
 def test_dsa_cli_returns_exact_versioned_result_and_writes_output(
@@ -76,6 +89,22 @@ def test_dsa_cli_rejects_invalid_json_object(tmp_path: Path) -> None:
 
     assert response.exit_code == 1
     assert "Error:" in response.stderr
+
+
+def test_dsa_rejects_duplicate_identities_and_unused_records() -> None:
+    duplicated = _input()
+    duplicated["model_evaluation_records"].append(
+        deepcopy(duplicated["model_evaluation_records"][0])
+    )
+    with pytest.raises(ValueError, match="unique record_id"):
+        deterministic_sensitivity_from_specification(duplicated)
+
+    unused = _input()
+    extra = deepcopy(unused["model_evaluation_records"][0])
+    extra.update({"record_id": "unused", "analysis_ref": "not-consumed"})
+    unused["model_evaluation_records"].append(extra)
+    with pytest.raises(ValueError, match="Unused normalized DSA"):
+        deterministic_sensitivity_from_specification(unused)
 
 
 def test_dsa_tornado_plot_uses_grid_extrema_units_and_rank_order() -> None:
