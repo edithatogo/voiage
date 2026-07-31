@@ -147,6 +147,7 @@ and business examples.
 | Structural and network meta-analysis VOI | Stable | Python method surface |
 | Adaptive, calibration, observational, sequential VOI | Stable | Python study-design workflows |
 | Portfolio VOI | Stable | Budget-constrained portfolio analysis |
+| COSS and EVSI/EVPI study efficiency | Experimental | Rust-owned finite-design kernels with Python contracts, CLI/reporting, accessible plotting, and an exact constrained portfolio slice; no stable or full-polyglot claim |
 | Diagnostics and data interchange | Stable | Versioned contracts; Arrow/Parquet is the canonical tabular interchange |
 | R and Julia EVPI | Released binding source | Direct versioned Rust interface; both require the separately supplied `voiage-ffi` library |
 | Broader R and Julia method parity | Partial | Advanced R paths retain the documented Python bridge; Julia is EVPI-focused |

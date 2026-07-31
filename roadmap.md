@@ -145,10 +145,18 @@ C16 own the shared projection:
     dimensionless EVSI/EVPI study-efficiency diagnostic with zero-EVPI and
     bounds behavior. They must reconcile the existing plotting and legacy
     clinical-optimizer helpers rather than treating adjacent or misnamed
-    behavior as implementation evidence.
+    behavior as implementation evidence. Draft implementation PR #679 now
+    supplies the Rust-owned kernels, strict Python contracts, exact constrained
+    portfolio slice, CLI/reporting/accessible plot, and shared fixture. Native
+    sub-issues #680–#682 separate runtime, user/portfolio, and
+    binding/governance evidence. These remain experimental and unmerged;
+    scientific review, hosted exact-head checks and stable promotion are still
+    separate gates. Canonical C16 synchronization is proposed by stacked VOP
+    draft PR #65, which depends on the open estimation-family sync PR #64.
 
 Both issues are native sub-issues of frontier parent #318 under programme #313
-and are Todo items in Project 28. Risk-sensitive/constrained VOI (#570),
+and are represented in Project 28; #571 and its implementation sub-issues are
+In Progress. Risk-sensitive/constrained VOI (#570),
 utility-equivalent information prices including clairvoyant-policy comparisons
 (#595), and outcome-conditional/risk-of-low sample information (#600) remain
 the existing plans for the risk and utility family. Expected Value of

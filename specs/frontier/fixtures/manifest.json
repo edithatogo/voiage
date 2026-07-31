@@ -126,6 +126,11 @@
       "name": "value_of_strategic_behavior",
       "path": "strategic-behavior/v1/fixtures/manifest.json",
       "method_maturity": "fixture-backed"
+    },
+    {
+      "name": "study_design_efficiency",
+      "path": "study-design-efficiency/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
     }
   ],
   "notes": [

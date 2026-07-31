@@ -382,7 +382,11 @@
         "state": "open"
       },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/318",
-      "subissues": [],
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/680",
+        "https://github.com/edithatogo/voiage/issues/681",
+        "https://github.com/edithatogo/voiage/issues/682"
+      ],
       "pull_requests": [
         {
           "number": 621,
@@ -398,6 +402,22 @@
           "status": "open",
           "evidence": [
             "canonical-cross-repository-governance"
+          ]
+        },
+        {
+          "number": 679,
+          "url": "https://github.com/edithatogo/voiage/pull/679",
+          "status": "open",
+          "evidence": [
+            "experimental-runtime-implementation"
+          ]
+        },
+        {
+          "number": 65,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/65",
+          "status": "open",
+          "evidence": [
+            "canonical-c16-study-efficiency-sync"
           ]
         }
       ],

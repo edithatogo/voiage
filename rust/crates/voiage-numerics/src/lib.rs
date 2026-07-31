@@ -15,6 +15,7 @@ mod evsi_normal_normal;
 mod evsi_regression;
 mod heterogeneity;
 mod structural;
+mod study_design;
 
 pub use dominance::{dominance, DominanceKernelResult, DominanceStatus};
 pub use enbs::enbs;
@@ -28,6 +29,9 @@ pub use evsi_normal_normal::normal_normal_two_arm_evsi;
 pub use evsi_regression::{evsi_regression, EvsiRegressionResult};
 pub use heterogeneity::{heterogeneity, HeterogeneityKernelResult};
 pub use structural::{structural_evpi, structural_evppi};
+pub use study_design::{
+    coss, evsi_evpi_efficiency, CossKernelResult, InformationEfficiencyKernelResult,
+};
 
 /// Identifies this crate while numerical kernels are migrated.
 pub const CRATE_NAME: &str = "voiage-numerics";

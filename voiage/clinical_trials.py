@@ -114,12 +114,12 @@ class TrialOutcome:
 
 
 class VOIBasedSampleSizeOptimizer:
-    """
-    Sample size optimization based on Value of Information analysis.
+    """Legacy heuristic sample-size optimizer.
 
-    This class determines optimal sample sizes for clinical trials by considering
-    the value of information gained from additional participants versus the cost
-    of including them in the trial.
+    This compatibility surface combines power and QALY heuristics with study
+    cost. Its outputs are not governed EVSI, COSS, or EVSI/EVPI efficiency.
+    New analyses should use :func:`voiage.experimental.calculate_coss` with
+    explicitly estimated EVSI values and a declared study-design context.
     """
 
     def __init__(self, trial_design: TrialDesign):
@@ -188,7 +188,9 @@ class VOIBasedSampleSizeOptimizer:
 
         Returns
         -------
-            Optimization results including optimal sample size and VOI analysis
+            Legacy heuristic optimization results. The retained
+            ``voi_efficiency`` key is total heuristic value divided by total
+            cost; it is not dimensionless EVSI/EVPI efficiency.
         """
         sample_sizes = jnp.arange(min_sample_size, max_sample_size + 1, 10)
 
@@ -209,7 +211,7 @@ class VOIBasedSampleSizeOptimizer:
         optimal_sample_size = sample_sizes[optimal_idx]
         max_net_benefit = net_benefits[optimal_idx]
 
-        # Calculate efficiency metrics
+        # Compatibility metric: heuristic value per cost, not EVSI/EVPI.
         voi_efficiency = total_voi / (total_costs + 1e-6)  # Avoid division by zero
 
         return {

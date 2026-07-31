@@ -14,6 +14,8 @@ This directory contains example notebooks demonstrating the usage of the voiage 
 
 - Validation notebooks: `evpi_validation.ipynb`, `evppi_validation.ipynb`, `evsi_validation.ipynb`, `nma_validation.ipynb`, `structural_voi_validation.ipynb`
 - Tutorials: `getting_started.ipynb`, `advanced_methods.ipynb`, `financial_voi.ipynb`, `environmental_voi.ipynb`, `engineering_voi.ipynb`, `jax_performance.ipynb`
+- CLI samples: `cli_samples/coss_study_design.json` provides a synthetic,
+  provenance-labelled input for the experimental COSS calculation and plot.
 
 ## Usage
 

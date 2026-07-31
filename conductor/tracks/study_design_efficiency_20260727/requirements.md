@@ -9,6 +9,17 @@
 - **M15-S3:** Expose plotting inputs independently from the plotting library.
 - **M15-S4:** Define EVSI/EVPI common-unit, zero-EVPI, finite and
   tolerance-aware bounds behavior.
+- **M15-S5:** Allocate governed single-study optima by signed additive ENBS,
+  permitting the empty portfolio and enforcing declared capacity, dependency,
+  exclusion and guardrail constraints.
+- **M15-S6:** Declare primary/secondary metrics, heterogeneous and delayed
+  effects, interference, multiplicity, sequential monitoring, duration,
+  stopping rules, opportunity cost, implementation delay and expected policy
+  changes; return gross/net EVSI and ENBS without silently estimating omitted
+  adjustments. Every model requires a provenance disposition of no-effect or
+  prior COSS incorporation; added opportunity/delay costs require a
+  provenance-backed exclusion from COSS research cost, and tolerance ties are
+  anchored to the fixed global maximum.
 
 ## Should
 
@@ -17,7 +28,9 @@
 
 ## Could
 
-- Extend the single-study result to constrained experiment portfolios.
+- Add domain-specific estimators for interference, multiplicity and delayed
+  effects, plus optional experiment-platform adapters, behind the declared
+  portfolio contract.
 
 ## Won't
 

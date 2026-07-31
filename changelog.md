@@ -33,6 +33,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added experimental Rust-owned COSS and EVSI/EVPI efficiency contracts with
+  strict Python orchestration, signed-ENBS optimization, uncertainty and
+  bounds diagnostics, accessible CLI/plot/report surfaces, and an exact
+  constrained portfolio result that preserves advanced design declarations
+  and separate gross/net EVSI and ENBS. Portfolio model effects and disjoint
+  incremental costs now require provenance assurances, and optimizer ties are
+  anchored to the fixed global maximum.
 - Hardened the strict Frictionless profile so unsupported field constraints and
   declared `missingValues` fail before a resource is read; structured citation,
   usage, and namespaced governance metadata now survive normalization.

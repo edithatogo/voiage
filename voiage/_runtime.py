@@ -86,6 +86,51 @@ def compute_enbs(evsi_result: float, research_cost: float) -> float:
     return float(result)
 
 
+def compute_coss(
+    *,
+    sample_sizes: list[int],
+    evsi_values: list[float],
+    research_costs: list[float],
+    feasible: list[bool],
+    tie_policy: str,
+    absolute_tolerance: float,
+    relative_tolerance: float,
+) -> dict[str, object]:
+    """Compute the experimental enumerated COSS kernel in Rust."""
+    try:
+        result = _native().compute_coss(
+            sample_sizes,
+            evsi_values,
+            research_costs,
+            feasible,
+            tie_policy,
+            absolute_tolerance,
+            relative_tolerance,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
+def compute_evsi_evpi_efficiency(
+    evsi: float,
+    evpi: float,
+    absolute_tolerance: float,
+    relative_tolerance: float,
+) -> dict[str, object]:
+    """Compute the experimental unclamped EVSI/EVPI ratio in Rust."""
+    try:
+        result = _native().compute_evsi_evpi_efficiency(
+            evsi,
+            evpi,
+            absolute_tolerance,
+            relative_tolerance,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
 def compute_heterogeneity(
     net_benefit: list[list[float]], subgroups: list[str]
 ) -> dict[str, object]:

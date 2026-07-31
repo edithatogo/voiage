@@ -18,6 +18,7 @@ registry used to keep them aligned.
 - `computational/`: computational VOI and model-refinement contracts.
 - `expert-synthesis/`: expert-elicitation and evidence-synthesis design contracts.
 - `shared-maturity/`: maturity labels, diagnostics, and reporting conventions.
+- `study-design-efficiency/`: experimental COSS, EVSI/EVPI and binding fixture evidence.
 - `fixtures/`: registry for deterministic frontier fixtures and family manifests.
 
 The registry is the discovery layer for deterministic frontier fixtures and
