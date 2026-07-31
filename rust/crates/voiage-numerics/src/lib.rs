@@ -6,6 +6,7 @@ mod ceaf;
 mod dominance;
 mod enbs;
 mod error;
+mod estimation_variance;
 mod evpi;
 mod evppi;
 mod evsi;
@@ -21,6 +22,10 @@ mod utility_information;
 pub use dominance::{dominance, DominanceKernelResult, DominanceStatus};
 pub use enbs::enbs;
 pub use error::NumericalInputError;
+pub use estimation_variance::{
+    evppi_variance, evppi_variance_with_assurance, evsi_variance, evsi_variance_with_assurance,
+    EstimationVarianceKernelResult,
+};
 pub use evpi::evpi;
 pub use evppi::evppi;
 pub use evsi::{evsi_stochastic, EvsiKernelResult};

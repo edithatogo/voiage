@@ -9,6 +9,7 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).parents[1]
+POST_V1_METHOD_MODULES = {"voiage/methods/estimation.py"}
 
 
 def test_import_voiage_does_not_eagerly_load_optional_extensions() -> None:
@@ -32,7 +33,7 @@ def test_import_voiage_does_not_eagerly_load_optional_extensions() -> None:
     assert result.returncode == 0
 
 
-def test_extension_policy_covers_every_methods_module() -> None:
+def test_v1_and_post_v1_policies_cover_every_methods_module() -> None:
     policy = json.loads(
         (ROOT / "specs/v1/extension-policy.json").read_text(encoding="utf-8")
     )
@@ -46,10 +47,17 @@ def test_extension_policy_covers_every_methods_module() -> None:
         capability = json.loads(capability_path.read_text(encoding="utf-8"))
         frontier_modules.update(capability.get("python_modules", []))
     declared = set(policy["modules"]) | set(policy["stable_kernel_facades"])
-    assert declared | frontier_modules == actual
-    assert declared.isdisjoint(frontier_modules)
+    assert declared | frontier_modules | POST_V1_METHOD_MODULES == actual
+    assert declared.isdisjoint(frontier_modules | POST_V1_METHOD_MODULES)
     assert set(policy["stable_kernel_facades"]).isdisjoint(set(policy["modules"]))
     assert set(policy["modules"].values()) == {"optional_extension", "experimental"}
+
+    estimation_capability = json.loads(
+        (ROOT / "specs/estimation-variance/v1/capabilities.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert estimation_capability["maturity"] == "experimental"
 
 
 def test_stable_kernel_facades_are_explicitly_rust_owned() -> None:

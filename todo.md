@@ -38,6 +38,11 @@ This document lists the actionable tasks for `voiage` development. Agents should
         dispositions.
     *   Keep these estimands separate from decision-focused EVPPI/EVSI,
         sensitivity indices and estimator uncertainty.
+    *   Experimental scalar Rust/Python execution, contracts, assurance,
+        CLI/report/plot surfaces and documentation are implemented on the
+        protected implementation branch. Hosted checks, merge, scientific
+        review for vector scalarization/stable promotion, release and issue
+        closure remain separate gates.
 
 *   [ ] Implement governed study-design efficiency and experiment portfolios.
     *   Conductor track: `study_design_efficiency_20260727`.

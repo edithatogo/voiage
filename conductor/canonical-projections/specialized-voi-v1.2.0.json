@@ -18,10 +18,11 @@
       "MoSCoW": "Must",
       "Contract Version": "v1.2.0",
       "Priority": "P1",
+      "Status": "In Progress",
       "Lifecycle": "Open",
       "Gate": "Local",
       "Evidence State": "Unverified",
-      "Sync State": "Planned"
+      "Sync State": "Clean"
     }
   },
   "issues": [
@@ -71,6 +72,9 @@
       "parent": 318,
       "track_id": "estimation_focused_variance_voi_20260727",
       "record_id": "estimation-focused-variance-voi",
+      "implementation_status": "experimental_repository_evidence",
+      "capability_contract": "specs/estimation-variance/v1/capabilities.json",
+      "subissues": [671, 672, 673, 674],
       "requirement_ids": [
         "M14",
         "M17"

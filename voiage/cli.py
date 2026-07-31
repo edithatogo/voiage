@@ -23,6 +23,7 @@ from typing import Any, Literal, cast
 import numpy as np
 import typer
 
+from voiage.contracts.estimation import EstimationVarianceSpec
 from voiage.contracts.study_design import (
     CossResultV1,
     FeasibleDesignRangeV1,
@@ -80,6 +81,7 @@ from voiage.methods.dynamic_real_options import (
 from voiage.methods.equity_information import (
     value_of_equity_information as calculate_equity_information_result,
 )
+from voiage.methods.estimation import evppi_var, evsi_var
 from voiage.methods.evidence_obsolescence_refresh import (
     value_of_evidence_obsolescence_refresh as calculate_obsolescence_result,
 )
@@ -172,7 +174,10 @@ from voiage.plot.voi_curves import (
 from voiage.plot.voi_curves import (
     plot_evsi_vs_sample_size as render_evsi_vs_sample_size,
 )
-from voiage.reporting import build_cheers_reporting
+from voiage.reporting import (
+    build_cheers_reporting,
+    build_estimation_variance_reporting,
+)
 from voiage.schema import (
     DynamicSpec,
     ParameterSet,
@@ -1388,6 +1393,64 @@ def generate_config(
     except Exception as e:
         typer.echo(f"An error occurred: {e}", err=True)
         raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-estimation-variance")
+def calculate_estimation_variance(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Versioned estimation-variance specification JSON",
+    ),
+    data_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Runtime sample JSON for the specified method",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the versioned result and reporting payload",
+    ),
+) -> None:
+    """Calculate experimental scalar ``EVPPI_var`` or ``EVSI_var``."""
+    try:
+        specification = EstimationVarianceSpec.model_validate_json(
+            specification_file.read_text(encoding="utf-8")
+        )
+        data = json.loads(data_file.read_text(encoding="utf-8"))
+        if not isinstance(data, dict):
+            raise TypeError("runtime sample JSON must be an object")
+        if specification.method_id == "evppi_var":
+            result = evppi_var(
+                data["target_samples"],
+                data["conditioning_groups"],
+                specification=specification,
+            )
+        else:
+            result = evsi_var(
+                data["prior_target_samples"],
+                data["posterior_variances"],
+                specification=specification,
+            )
+        payload = {
+            "result": result.model_dump(mode="json"),
+            "reporting": build_estimation_variance_reporting(result),
+        }
+        output_text = json.dumps(payload, indent=2, sort_keys=True)
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+    except (KeyError, TypeError, ValueError, json.JSONDecodeError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
 
 
 @app.command()

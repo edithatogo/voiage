@@ -45,6 +45,13 @@ checks enforced in CI:
 - Julia: `Pkg.test`
 - R: `R CMD build`, `R CMD check --as-cran --no-manual`, `Rscript tools/build-manual.R`
 
+Method-specific capability may be narrower than a retained package surface.
+For estimation-focused variance VOI, the authoritative disposition is
+[`specs/estimation-variance/v1/capabilities.json`](../../specs/estimation-variance/v1/capabilities.json):
+scalar Rust and Python execution is experimental; R and Julia have no
+estimation-variance C-ABI symbol; Mojo remains an external boundary; vector
+covariance scalarization is blocked on scientific review.
+
 The tutorial/documentation tracks are separate from release automation:
 
 - R documentation work covers the package help pages, a narrative vignette, and a deterministic PDF manual built from the package tree with `tools/build-manual.R`.

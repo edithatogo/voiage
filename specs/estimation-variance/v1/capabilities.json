@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0.0",
+  "method_family": "estimation-focused-variance-voi",
+  "contract_version": "1.0.0",
+  "planned_release": "1.2.0",
+  "maturity": "experimental",
+  "scientific_review_gate": "pending",
+  "target_capabilities": {
+    "scalar_variance": "executable",
+    "vector_covariance": "unsupported_pending_scientific_review"
+  },
+  "bindings": [
+    {
+      "language": "rust",
+      "status": "executable",
+      "adapter": "native_rust_workspace",
+      "methods": ["evppi_var", "evsi_var"],
+      "fixture_evidence": [
+        "tests/data/estimation_variance_reference_v1.json",
+        "rust/crates/voiage-numerics/tests/estimation_variance_properties.rs"
+      ],
+      "unsupported_behavior": "Vector inputs have no Rust entry point."
+    },
+    {
+      "language": "python",
+      "status": "executable",
+      "adapter": "pyo3",
+      "methods": ["evppi_var", "evsi_var"],
+      "fixture_evidence": [
+        "specs/estimation-variance/v1/fixtures/manifest.json",
+        "tests/test_estimation_variance_runtime.py"
+      ],
+      "unsupported_behavior": "Non-scalar targets raise unsupported_estimation_target before native dispatch."
+    },
+    {
+      "language": "r",
+      "status": "unsupported",
+      "adapter": "c_abi",
+      "methods": [],
+      "fixture_evidence": [],
+      "unsupported_behavior": "No estimation-variance C-ABI symbol or R wrapper is published; callers must fail closed."
+    },
+    {
+      "language": "julia",
+      "status": "unsupported",
+      "adapter": "c_abi",
+      "methods": [],
+      "fixture_evidence": [],
+      "unsupported_behavior": "No estimation-variance C-ABI symbol or Julia wrapper is published; callers must fail closed."
+    },
+    {
+      "language": "mojo",
+      "status": "external_boundary",
+      "adapter": "upstream_rust_interop",
+      "methods": [],
+      "fixture_evidence": [],
+      "unsupported_behavior": "No local Mojo binding or executable is governed by this repository."
+    }
+  ]
+}

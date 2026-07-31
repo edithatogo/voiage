@@ -350,7 +350,12 @@
         "state": "open"
       },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/318",
-      "subissues": [],
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/671",
+        "https://github.com/edithatogo/voiage/issues/672",
+        "https://github.com/edithatogo/voiage/issues/673",
+        "https://github.com/edithatogo/voiage/issues/674"
+      ],
       "pull_requests": [
         {
           "number": 621,
@@ -361,11 +366,28 @@
           ]
         },
         {
+          "number": 676,
+          "url": "https://github.com/edithatogo/voiage/pull/676",
+          "status": "open",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks"
+          ]
+        },
+        {
           "number": 51,
           "url": "https://github.com/edithatogo/vop_poc_nz/pull/51",
           "status": "merged",
           "evidence": [
             "canonical-cross-repository-governance"
+          ]
+        },
+        {
+          "number": 64,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/64",
+          "status": "open",
+          "evidence": [
+            "canonical-cross-repository-implementation-sync"
           ]
         }
       ],

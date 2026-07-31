@@ -109,13 +109,15 @@ existing issue/Project progress awaits evidence reconciliation.*
 
 ---
 
-## [ ] Track: Estimation-Focused Variance-Reduction VOI
+## [~] Track: Estimation-Focused Variance-Reduction VOI
 *Link: [./tracks/estimation_focused_variance_voi_20260727/index.md](./tracks/estimation_focused_variance_voi_20260727/index.md)*
 *GitHub: [issue #619](https://github.com/edithatogo/voiage/issues/619),
 native sub-issue of [#318](https://github.com/edithatogo/voiage/issues/318),
 under programme [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: new — specification and plan approved; implementation has not begun.*
+*Status: repository implementation complete on draft PR
+[#676](https://github.com/edithatogo/voiage/pull/676); scientific review,
+merge, stable promotion, release and issue closure remain separate gates.*
 
 ---
 

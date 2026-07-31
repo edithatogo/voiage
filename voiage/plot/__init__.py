@@ -3,6 +3,7 @@
 from .ceac import plot_ceac
 from .ceaf import plot_ceaf
 from .dominance import plot_cost_effectiveness_plane
+from .estimation_variance import plot_estimation_variance
 from .heterogeneity import plot_voh_by_subgroup
 from .perspective import plot_perspective_regret
 from .voi_curves import (
@@ -17,6 +18,7 @@ __all__ = [
     "plot_ceaf",
     "plot_coss",
     "plot_cost_effectiveness_plane",
+    "plot_estimation_variance",
     "plot_evpi_vs_wtp",
     "plot_evppi_surface",
     "plot_evsi_vs_sample_size",

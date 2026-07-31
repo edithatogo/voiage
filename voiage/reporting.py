@@ -1,6 +1,11 @@
-"""Reporting helpers for CHEERS-VOI-aligned payloads."""
+"""Reporting helpers for governed VOI payloads."""
 
-from typing import Any
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from voiage.contracts.estimation import EstimationVarianceResult
 
 
 def build_cheers_reporting(
@@ -46,3 +51,38 @@ def build_cheers_reporting(
     if perspective_labels is not None:
         payload["perspective_labels"] = [str(item) for item in perspective_labels]
     return payload
+
+
+def build_estimation_variance_reporting(
+    result: EstimationVarianceResult,
+) -> dict[str, object]:
+    """Build a portable report without changing the numerical result."""
+    return {
+        "reporting_standard": "VOIAGE estimation-variance v1",
+        "method_family": "estimation-focused-variance-voi",
+        "method_id": result.method_id,
+        "target": result.target.model_dump(mode="json"),
+        "functional_units": result.functional_units,
+        "comparison": [
+            {
+                "information_state": "current",
+                "functional_value": result.prior_functional,
+            },
+            {
+                "information_state": "after_information",
+                "functional_value": result.expected_posterior_functional,
+            },
+        ],
+        "raw_reduction": result.raw_reduction,
+        "absolute_reduction": result.absolute_reduction,
+        "relative_reduction": result.relative_reduction,
+        "negative_estimate_policy": result.negative_estimate_policy,
+        "zero_variance_policy": result.zero_variance_policy,
+        "assurance": result.diagnostics.model_dump(mode="json"),
+        "provenance": result.provenance.model_dump(mode="json"),
+        "maturity": "experimental",
+        "limitations": [
+            "The executable runtime supports scalar variance targets only.",
+            "Vector covariance scalarization remains pending scientific review.",
+        ],
+    }

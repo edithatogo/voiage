@@ -753,6 +753,7 @@ def test_cli_command_registry_matches_expected_surface() -> None:
         "calculate-evpi",
         "calculate-evppi",
         "calculate-evsi",
+        "calculate-estimation-variance",
         "calculate-heterogeneity",
         "calculate-implementation",
         "calculate-observational",

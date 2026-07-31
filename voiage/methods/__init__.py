@@ -28,6 +28,7 @@ _MODULES = (
     "dominance",
     "dynamic_real_options",
     "equity_information",
+    "estimation",
     "evidence_obsolescence_refresh",
     "expert_synthesis",
     "explainability_transparency",
