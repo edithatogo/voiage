@@ -679,9 +679,19 @@ jobs:
           )
           test "${#distribution_urls[@]}" -eq 4
           for distribution_url in "${distribution_urls[@]}"; do
-            uvx --from pypi-attestations pypi-attestations verify pypi --staging \
+            filename="$(basename "$distribution_url")"
+            test "$filename" != "."
+            test "$filename" != ".."
+            test -f "reviewed-dist/$filename"
+            provenance="$RUNNER_TEMP/$filename.provenance"
+            curl --fail --silent --show-error \
+              "https://test.pypi.org/integrity/voiage/${PYTHON_VERSION}/${filename}/provenance" \
+              --output "$provenance"
+            uvx --from 'pypi-attestations==0.0.30' \
+              pypi-attestations verify pypi \
+              --provenance-file "$provenance" \
               --repository "https://github.com/${GITHUB_REPOSITORY}" \
-              "$distribution_url"
+              "reviewed-dist/$filename"
           done
       - name: Install TestPyPI artifact with bounded retry
         shell: bash

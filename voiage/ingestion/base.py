@@ -7,6 +7,7 @@ import hashlib
 from pathlib import Path  # noqa: TC003 - protocol runtime annotation
 import shutil
 from typing import Protocol, runtime_checkable
+from urllib.parse import urlsplit
 
 from voiage.contracts.normalized_input import (
     NormalizedInputBundle,  # noqa: TC001 - protocol API
@@ -37,6 +38,24 @@ class ProviderCapabilities:
 
 class SourceAccessPolicy:
     """Fail-closed local source policy for descriptor-relative resources."""
+
+    # The built-in profiles accept explicit local CSV resources only.  Keep
+    # archive handling out of this boundary until a separately reviewed
+    # extractor can enforce member, decompression-ratio, and receipt rules.
+    _ARCHIVE_SUFFIXES = (
+        ".7z",
+        ".bz2",
+        ".gz",
+        ".rar",
+        ".tar",
+        ".tar.bz2",
+        ".tar.gz",
+        ".tar.xz",
+        ".tgz",
+        ".txz",
+        ".xz",
+        ".zip",
+    )
 
     def __init__(
         self,
@@ -94,6 +113,7 @@ class SourceAccessPolicy:
             cached = self._cache_path(expected)
             if not self._is_safe_cached_file(cached):
                 raise IngestionError("no verified offline materialization is available")
+            assert cached is not None
             if self._digest(cached) != expected:
                 raise IngestionError("cached materialization checksum does not match")
             if byte_size is not None and cached.stat().st_size != byte_size:
@@ -139,10 +159,13 @@ class SourceAccessPolicy:
 
     def _local_candidate(self, reference: str) -> Path:
         """Validate a descriptor-relative local path before any file operation."""
-        if "://" in reference:
+        if urlsplit(reference).scheme:
             if not self.allow_network:
                 raise IngestionError("network resource access is disabled by policy")
             raise IngestionError("network resource access is not implemented")
+        normalized_reference = reference.casefold()
+        if normalized_reference.endswith(self._ARCHIVE_SUFFIXES):
+            raise IngestionError("archive resources are not supported by policy")
         candidate = (self.root / reference).resolve()
         if candidate != self.root and self.root not in candidate.parents:
             raise IngestionError("resource path escapes the configured source root")

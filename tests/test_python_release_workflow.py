@@ -439,6 +439,11 @@ def test_testpypi_smoke_is_bounded_and_blocks_pypi() -> None:
     assert "sleep 20" in rendered
     assert "https://test.pypi.org/simple/" in rendered
     assert "--no-deps" in rendered
+    assert "test.pypi.org/integrity/voiage/${PYTHON_VERSION}" in rendered
+    assert "pypi-attestations==0.0.30" in rendered
+    assert "--provenance-file" in rendered
+    assert "reviewed-dist/$filename" in rendered
+    assert "verify pypi --staging" not in rendered
     assert "test_wheel_black_box.py --import-mode=importlib" in rendered
 
 

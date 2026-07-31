@@ -19,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added pandas and Polars DataFrame-interchange consumer coverage for nullable
   categorical and timezone-aware columns, index exclusion, and conservative
   copy diagnostics based on the Arrow conversion actually returned.
+- Hardened local standardized-ingestion source policy against scheme-only URI
+  forms and archive references before any resource access; archive extraction,
+  DNS, redirects, and remote retrieval remain unsupported and fail closed.
 - Added a combined Croissant context-array and governance fixture that proves
   descriptor-only inspection and materialization-receipt preservation; the
   conservative local profile now rejects unexpanded JSON-LD context objects.
@@ -112,11 +115,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Prepared the `v2.0.1-rc.3` TestPyPI candidate with explicit ecosystem version
+- Prepared the `v2.0.1-rc.4` TestPyPI candidate with explicit ecosystem version
   projections, a deterministic aggregate root for dependency-only Python SBOM
   input, and a source-bound UUIDv5 CycloneDX serial number required by GitHub
-  SBOM attestations. RC3 supersedes unpublished RC1 and RC2 staging attempts,
-  which failed closed before a draft release or registry publication.
+  SBOM attestations. RC1 and RC2 failed closed before registry publication.
+  RC3 was published to TestPyPI with exact reviewed bytes and attestations, but
+  its hosted smoke stopped at the verifier's direct staging-host constraint;
+  RC4 verifies the same PEP 740 contract through TestPyPI's Integrity API.
+  Promotion remains fail-closed for provenance retrieval, cryptographic
+  verification, exact reviewed hashes, and supported-Python installation.
 - Frictionless CSV ingestion now rejects duplicate descriptor field names and
   duplicate CSV headers through the stable ingestion error boundary.
 - Hardened stable and prerelease publishing across Python, Rust, R, and Julia:

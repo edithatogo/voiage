@@ -184,7 +184,14 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
-*   [x] Prepare the signed `v2.0.1-rc.3` TestPyPI candidate contract.
+*   [x] Preserve strict TestPyPI attestation verification through its Integrity
+    API.
+    *   Retrieve each provenance object from TestPyPI and verify it against the
+        corresponding exact reviewed distribution.
+    *   Keep Integrity API, identity, digest, signature, certificate,
+        GitHub-provenance, hash, and Python 3.12--3.14 smoke failures blocking.
+
+*   [x] Prepare the signed `v2.0.1-rc.4` TestPyPI candidate contract.
     *   Added explicit Cargo/Julia SemVer, Python PEP 440, and R numeric
         development-version projections without claiming R, Julia, or
         crates.io prerelease publication.
@@ -195,6 +202,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
         the composer to root dependency-only CycloneDX Python inventories.
     *   Superseded unpublished RC2 with RC3 after adding the deterministic
         UUIDv5 serial number required by GitHub's SBOM attestation action.
+    *   Published RC3 to TestPyPI with exact reviewed bytes and attestations,
+        then superseded its hosted direct-URL verifier limitation with RC4's
+        strict TestPyPI Integrity API verification.
 
 *   [x] Normalize and archive the historical Conductor registry.
     *   Archived track:

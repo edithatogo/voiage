@@ -211,14 +211,18 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 
 - [~] **P7-T1 / AC-08:** Write failing traversal, archive-bomb, SSRF,
   unauthorized-network, secret-leakage, unsafe-transform, and resource-limit
-  tests.
+  tests. Local policy coverage now rejects URI schemes (including `file:` and
+  `data:` forms) and archive suffixes before any file, DNS, redirect, or archive
+  operation; archive extraction remains explicitly unsupported (`749083d`,
+  partial).
 - [~] **P7-T2 / AC-08, AC-11:** Add DNS-rebinding, redirect-policy,
   cache-poisoning, checksum-mismatch, decompression-ratio, and mutable-live-data
   tests. Partial evidence: `d3550e9c` rejects a cache-namespace symlink whose
   resolved directory escapes the configured cache root before it can redirect a
   verified materialization; hard-linked cache entries are also rejected so a
   verified object cannot share a writable inode with an alternate path
-  (partial). The remote/archive and mutable-live-source cases remain active.
+  (partial). The remote/archive and mutable-live-source cases remain active;
+  authoritative live probes stay externally gated.
 - [~] **P7-T3 / AC-08, AC-11:** Complete source-policy enforcement,
   content-addressed verified caching, immutable materialization receipts,
   offline replay, and streaming or bounded-batch behavior.
