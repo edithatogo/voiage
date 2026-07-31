@@ -76,7 +76,8 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   and provider validation pass; full tox remains blocked by the pre-existing
   missing source-provenance and JOSS contract files in this clean worktree.
   Non-object descriptor-root handling is covered by the shared provider guard
-  (`333ee68f`, `d745d2d6`, `1e4e6bd7`, partial).
+  (`333ee68f`, `d745d2d6`, `1e4e6bd7`). JSON-LD context-array and exact-version
+  adversarial coverage: `5a3a7b04` (partial).
 - [~] **P4-T3 / AC-04, AC-11:** Add fixtures for Croissant 1.1 conformance,
   parser-feature gaps, live datasets, citations, PROV, usage information,
   ODRL, and RAI metadata preservation. Offline governance fixture added
