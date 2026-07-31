@@ -76,6 +76,85 @@ def test_cost_outcome_reference_cases_are_equivalent_across_input_surfaces() -> 
     }
 
 
+def test_long_reference_cases_normalize_identically_to_wide_inputs() -> None:
+    """Long rows use the same prepared ValueArray as the explicit wide case."""
+    path = (
+        Path(__file__).parents[1]
+        / "examples"
+        / "standardized_ingestion"
+        / "reference_cases.py"
+    )
+    spec = importlib.util.spec_from_file_location("reference_cases", path)
+    assert spec is not None
+    assert spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    result = module.run_long_reference_cases()
+
+    assert set(result["normalized_net_benefit"]) == {
+        "croissant",
+        "frictionless",
+        "direct",
+    }
+    assert (
+        len({repr(value) for value in result["normalized_net_benefit"].values()}) == 1
+    )
+    assert result["evpi"] == {
+        surface: pytest.approx(5.0)
+        for surface in ("croissant", "frictionless", "direct")
+    }
+
+
+def test_cost_outcome_ceaf_is_equivalent_across_input_surfaces() -> None:
+    """CEAF is evidence only for the paired engineering cost/outcome fixture."""
+    path = (
+        Path(__file__).parents[1]
+        / "examples"
+        / "standardized_ingestion"
+        / "reference_cases.py"
+    )
+    spec = importlib.util.spec_from_file_location("reference_cases", path)
+    assert spec is not None
+    assert spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    result = module.run_cost_outcome_ceaf_reference_cases()
+
+    assert set(result) == {"croissant", "frictionless", "direct", "dataframe"}
+    assert len({repr(value) for value in result.values()}) == 1
+    assert result["croissant"]["optimal_strategy_names"] == ("B", "B", "B")
+    assert result["croissant"]["acceptability_probabilities"] == pytest.approx(
+        (2.0 / 3.0, 2.0 / 3.0, 2.0 / 3.0)
+    )
+
+
+def test_method_applicability_matrix_does_not_overclaim_fixture_support() -> None:
+    path = (
+        Path(__file__).parents[1]
+        / "examples"
+        / "standardized_ingestion"
+        / "reference_cases.py"
+    )
+    spec = importlib.util.spec_from_file_location("reference_cases", path)
+    assert spec is not None
+    assert spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    matrix = module.method_applicability_matrix()
+
+    assert set(matrix) == {"ml", "engineering", "business"}
+    assert matrix["engineering"]["CEAF"].startswith("evaluated:")
+    for domain in ("ml", "business"):
+        assert matrix[domain]["CEAF"].startswith("not applicable:")
+    for row in matrix.values():
+        assert row["EVPPI/EVSI/ENBS"].startswith("not applicable:")
+        assert "no long" in row["wide/long/cost-outcome/perspective"]
+        assert "perspective split" in row["wide/long/cost-outcome/perspective"]
+
+
 def test_each_domain_reference_case_has_all_supported_input_surfaces() -> None:
     """Each documented community can reproduce its case through every surface."""
     path = (

@@ -341,10 +341,19 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   reference example (partial).
 - [~] **P9-T4 / AC-13:** Assert normalized-object and numerical equivalence
   without adding domain-specific kernels or semantic inference. The reference
-  runner now fails if any supported representation differs in EVPI (partial;
-  broader hosted evidence remains required).
+  runner now fails if any supported representation differs in EVPI. The
+  engineering cost/outcome fixture additionally proves normalized net-benefit
+  and CEAF equivalence across Croissant, Frictionless, direct Arrow, and
+  DataFrame inputs at declared WTP values. A separate explicitly bound long
+  net-benefit fixture now proves equivalent Croissant, Frictionless, and direct
+  Arrow normalization without semantic inference; EVSI, EVPPI, ENBS, and
+  perspective-split claims remain explicitly out of scope for these fixtures
+  (partial; broader hosted evidence remains required).
 - [~] **P9-T5 / AC-13:** Publish the support matrix and run fixture
   regeneration, docs, links, Vale, conformance, and hosted regression checks.
+  The public reference-case page now records the per-community method and
+  shape applicability boundary so the examples make no unsupported method
+  claims (partial; hosted evidence remains required).
 
 ## Follow-on recommendation incorporation (2026-07-24)
 
