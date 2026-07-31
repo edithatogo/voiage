@@ -99,6 +99,42 @@ class ProviderRegistry:
             descriptor_path, policy=policy or SourceAccessPolicy(descriptor_path.parent)
         )
 
+    def inspect(self, descriptor_path: Path) -> dict[str, object]:
+        """Return deterministic provider diagnostics without materializing data.
+
+        Inspection is deliberately metadata-only: it reads the descriptor,
+        reports the matching provider and its declared capabilities, and never
+        resolves resources or imports optional providers.
+        """
+        try:
+            descriptor = json.loads(descriptor_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as error:
+            raise IngestionError("descriptor is not valid UTF-8 JSON") from error
+        if not isinstance(descriptor, dict):
+            raise IngestionError("descriptor root must be a JSON object")
+        matches = tuple(
+            provider for provider in self._providers if provider.can_handle(descriptor)
+        )
+        if len(matches) != 1:
+            raise IngestionError(
+                "descriptor must match exactly one registered provider"
+            )
+        provider = matches[0]
+        capabilities = provider.capabilities
+        return {
+            "descriptor": str(descriptor_path),
+            "provider_id": provider.provider_id,
+            "capabilities": {
+                "format_versions": capabilities.format_versions,
+                "media_types": capabilities.media_types,
+                "supported_transforms": capabilities.supported_transforms,
+                "supports_projection": capabilities.supports_projection,
+                "supports_filtering": capabilities.supports_filtering,
+                "supports_streaming": capabilities.supports_streaming,
+                "supports_random_access": capabilities.supports_random_access,
+            },
+        }
+
     def capabilities_for(self, provider_id: str) -> ProviderCapabilities:
         """Return the declared support profile for one registered provider."""
         for provider in self._providers:
