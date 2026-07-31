@@ -40,8 +40,8 @@
   stable API compatibility. (AC-04) — `a68157c`
 - [x] **S13:** Add property, differential, serialization, uncertainty,
   optimizer and benchmark assurance. (AC-05, AC-09) — `3548c37`
-- [~] **S14:** Run automated implementation review, focused tests and the
-  repository harness. (AC-05, AC-09)
+- [x] **S14:** Run automated implementation review, focused tests and the
+  repository harness. (AC-05, AC-09) — `c60a2ee`
 
 ## Phase 4 — Portfolio, user and binding surfaces
 
