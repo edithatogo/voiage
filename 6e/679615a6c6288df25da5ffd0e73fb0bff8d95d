@@ -1,0 +1,1 @@
+PR #719 refresh (2026-08-01): rebased signed P8 edge-contract history onto origin/main 5a1ebe1c; focused SDK tests and Conductor/cross-reference validators passed. Existing append-only receipt remains preserved; auto-squash remains enabled.
