@@ -9,12 +9,12 @@ existing issue/Project progress awaits evidence reconciliation.*
 
 ---
 
-## [ ] Track: VOI and VOP Method Census and Contract Reconciliation
+## [~] Track: VOI and VOP Method Census and Contract Reconciliation
 *Link: [./tracks/voi_method_census_contract_reconciliation_20260723/index.md](./tracks/voi_method_census_contract_reconciliation_20260723/index.md)*
 *GitHub: [issue #314](https://github.com/edithatogo/voiage/issues/314), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: new — the issue-claimed specification and plan are now materialized;
-existing issue/Project progress awaits evidence reconciliation.*
+*Status: in progress — live issue hierarchy, Project state, metadata and merged
+planning PR #621 are reconciled; classification and review remain pending.*
 
 ---
 
