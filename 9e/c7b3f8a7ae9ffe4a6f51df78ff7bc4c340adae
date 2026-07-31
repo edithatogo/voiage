@@ -1,0 +1,1 @@
+Conformance repair for PR #711: replaced the stale Frictionless CSV-specific field-order assertion with the intentional format-neutral diagnostic while retaining Croissant CSV wording. Validated by focused conformance/provider tests and tox -e ingestion-conformance (21 passed).
