@@ -9,6 +9,7 @@
 - [Phase 1 Automated Review](./phase-1-review.md)
 - [Reference Evidence Review](./reference-review.md)
 - [Phase 2 Automated Review](./phase-2-review.md)
+- [Phase 3 Automated Review](./phase-3-review.md)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
 - [GitHub issue #571](https://github.com/edithatogo/voiage/issues/571)
