@@ -67,9 +67,9 @@
   branch after the hosted changed-line policy exposed incomplete assurance;
   reject boolean relative reductions consistently with the other numeric
   fields. (AC-04, AC-06, AC-08) [2b8f7393]
-- [~] **RF5:** Reconcile the retained R package's embedded release-workflow
+- [x] **RF5:** Reconcile the retained R package's embedded release-workflow
   assertion with the job-scoped write permission required to publish immutable
-  source and manual assets. (AC-06, AC-08)
+  source and manual assets. (AC-06, AC-08) [dc6ddd4d]
 - [~] **E16:** Run final automated review, full local validation and hosted
   required checks; retain merge, release and issue closure as separate gates.
   (AC-08)
