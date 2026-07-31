@@ -23,12 +23,34 @@ def _surface() -> np.ndarray:
     return np.asarray([[[8.0, 8.0, 8.0], [0.0, 10.0, 12.0]]])
 
 
+def _stage_weights() -> dict[str, float]:
+    return {"now": 0.2, "mid": 0.3, "late": 0.5}
+
+
+def _provenance() -> dict[str, str]:
+    return {"fixture_id": "vof-test-v1", "execution_mode": "deterministic"}
+
+
+def _calculate(**kwargs: object):
+    options = dict(kwargs)
+    weights = options.pop("stage_weights", _stage_weights())
+    return value_of_flexibility(
+        _surface(),
+        ["now", "mid", "late"],
+        ["a", "b"],
+        weights,
+        _provenance(),
+        **options,
+    )
+
+
 def test_value_of_flexibility_matches_enumerable_commitment_reference() -> None:
     result = value_of_flexibility(
         _surface(),
         ["now", "mid", "late"],
         ["commit_a", "commit_b"],
         {"now": 0.2, "mid": 0.3, "late": 0.5},
+        _provenance(),
         value_unit="net-benefit-point",
     )
 
@@ -48,12 +70,14 @@ def test_value_of_flexibility_is_invariant_to_strategy_permutation() -> None:
         ["now", "mid", "late"],
         ["a", "b"],
         {"now": 0.2, "mid": 0.3, "late": 0.5},
+        _provenance(),
     )
     permuted = value_of_flexibility(
         _surface()[:, ::-1, :],
         ["now", "mid", "late"],
         ["b", "a"],
         {"now": 0.2, "mid": 0.3, "late": 0.5},
+        _provenance(),
     )
     assert permuted.value_of_flexibility == pytest.approx(original.value_of_flexibility)
     assert permuted.flexible_value == pytest.approx(original.flexible_value)
@@ -62,8 +86,17 @@ def test_value_of_flexibility_is_invariant_to_strategy_permutation() -> None:
 
 def test_ties_use_canonical_strategy_names_independent_of_input_order() -> None:
     surface = np.asarray([[[5.0, 5.0], [5.0, 5.0]]])
-    original = value_of_flexibility(surface, ["early", "late"], ["z", "a"])
-    permuted = value_of_flexibility(surface[:, ::-1, :], ["early", "late"], ["a", "z"])
+    weights = {"early": 0.5, "late": 0.5}
+    original = value_of_flexibility(
+        surface, ["early", "late"], ["z", "a"], weights, _provenance()
+    )
+    permuted = value_of_flexibility(
+        surface[:, ::-1, :],
+        ["early", "late"],
+        ["a", "z"],
+        weights,
+        _provenance(),
+    )
     assert original.commitment_baseline == permuted.commitment_baseline == "a"
     assert original.flexible_policy_path == permuted.flexible_policy_path == ["a", "a"]
     assert original.diagnostics["commitment_ties"] == ["a", "z"]
@@ -75,6 +108,8 @@ def test_identical_flexible_and_commitment_sets_have_zero_value() -> None:
         np.asarray([[[3.0, 4.0, 5.0]]]),
         ["now", "mid", "late"],
         ["only"],
+        _stage_weights(),
+        _provenance(),
     )
     assert result.value_of_flexibility == 0.0
     assert result.flexible_policy_path == ["only"] * 3
@@ -86,6 +121,8 @@ def test_policy_sets_are_explicit_and_constrained_set_must_be_feasible() -> None
         _surface(),
         ["now", "mid", "late"],
         ["a", "b"],
+        _stage_weights(),
+        _provenance(),
         flexible_policy_sets={
             "now": ["a"],
             "mid": ["a", "b"],
@@ -101,6 +138,8 @@ def test_policy_sets_are_explicit_and_constrained_set_must_be_feasible() -> None
             _surface(),
             ["now", "mid", "late"],
             ["a", "b"],
+            _stage_weights(),
+            _provenance(),
             flexible_policy_sets={
                 "now": ["a"],
                 "mid": ["a", "b"],
@@ -127,12 +166,7 @@ def test_value_of_flexibility_fails_closed_on_ambiguous_contracts(
     kwargs: dict[str, object], message: str
 ) -> None:
     with pytest.raises(ValueError, match=message):
-        value_of_flexibility(
-            _surface(),
-            ["now", "mid", "late"],
-            ["a", "b"],
-            **kwargs,
-        )
+        _calculate(**kwargs)
 
 
 def test_dynamic_real_options_compatibility_uses_stagewise_commitment_math() -> None:
@@ -188,13 +222,6 @@ def test_dynamic_real_options_compatibility_uses_stagewise_commitment_math() -> 
             {"stage_weights": {"now": 1.0, "mid": np.nan, "late": 1.0}},
             "finite values",
         ),
-        (
-            {
-                "irreversibility_penalty": 2.0,
-                "evidence_arrival_times": {"now": 0.0, "mid": 1.0, "late": 2.0},
-            },
-            "negative value",
-        ),
         ({"discount_rate": np.nan}, "must be finite"),
         ({"discount_rate": np.inf}, "must be finite"),
         ({"irreversibility_penalty": np.nan}, "must be finite"),
@@ -205,12 +232,7 @@ def test_value_of_flexibility_rejects_invalid_policy_and_numeric_contracts(
     kwargs: dict[str, object], message: str
 ) -> None:
     with pytest.raises(ValueError, match=message):
-        value_of_flexibility(
-            _surface(),
-            ["now", "mid", "late"],
-            ["a", "b"],
-            **kwargs,
-        )
+        _calculate(**kwargs)
 
 
 def test_value_of_flexibility_defends_subset_invariant(
@@ -218,7 +240,109 @@ def test_value_of_flexibility_defends_subset_invariant(
 ) -> None:
     monkeypatch.setattr(np, "dot", lambda *_args: -100.0)
     with pytest.raises(ValueError, match="below its feasible commitment subset"):
-        value_of_flexibility(_surface(), ["now", "mid", "late"], ["a", "b"])
+        value_of_flexibility(
+            _surface(),
+            ["now", "mid", "late"],
+            ["a", "b"],
+            _stage_weights(),
+            _provenance(),
+        )
+
+
+def test_value_of_flexibility_requires_explicit_stage_weights() -> None:
+    with pytest.raises(TypeError, match="stage_weights"):
+        value_of_flexibility(
+            _surface(),
+            ["now", "mid", "late"],
+            ["a", "b"],
+            provenance=_provenance(),
+        )
+
+    with pytest.raises(ValueError, match="stage_weights must be declared"):
+        value_of_flexibility(
+            _surface(),
+            ["now", "mid", "late"],
+            ["a", "b"],
+            None,  # type: ignore[arg-type] - runtime must fail closed too
+            _provenance(),
+        )
+
+
+def test_value_of_flexibility_rejects_overflowing_weight_normalization() -> None:
+    maximum = np.finfo(float).max
+    with (
+        np.errstate(over="ignore"),
+        pytest.raises(ValueError, match="finite positive sum"),
+    ):
+        value_of_flexibility(
+            _surface(),
+            ["now", "mid", "late"],
+            ["a", "b"],
+            {"now": maximum, "mid": maximum, "late": maximum},
+            _provenance(),
+        )
+
+
+@pytest.mark.parametrize(
+    ("control", "value"),
+    [
+        ("discount_rate", 0.01),
+        ("irreversibility_penalty", 0.01),
+        ("lock_in_penalty", 0.01),
+    ],
+)
+def test_value_of_flexibility_v1_rejects_ungoverned_nonzero_controls(
+    control: str, value: float
+) -> None:
+    with pytest.raises(ValueError, match="unsupported.*v1"):
+        value_of_flexibility(
+            _surface(),
+            ["now", "mid", "late"],
+            ["a", "b"],
+            _stage_weights(),
+            _provenance(),
+            **{control: value},
+        )
+
+
+def test_value_of_flexibility_output_preserves_axes_and_provenance() -> None:
+    result = value_of_flexibility(
+        _surface(),
+        ["now", "mid", "late"],
+        ["a", "b"],
+        _stage_weights(),
+        _provenance(),
+    )
+
+    assert result.decision_stage_names == ["now", "mid", "late"]
+    assert result.strategy_names == ["a", "b"]
+    assert result.provenance == _provenance()
+
+
+def test_value_of_flexibility_reports_ordered_scenario_policy_changes() -> None:
+    result = value_of_flexibility(
+        _surface(),
+        ["now", "mid", "late"],
+        ["a", "b"],
+        _stage_weights(),
+        _provenance(),
+    )
+
+    assert result.exercise_decisions is None
+    assert result.ordered_scenario_policy_changes == [False, True, False]
+
+
+def test_value_of_flexibility_rejects_nonfinite_post_arithmetic_results() -> None:
+    maximum = np.finfo(float).max
+    overflowing_surface = np.full((2, 2, 3), maximum)
+    with np.errstate(over="ignore"), pytest.raises(ValueError, match="finite"):
+        value_of_flexibility(
+            overflowing_surface,
+            ["now", "mid", "late"],
+            ["a", "b"],
+            _stage_weights(),
+            _provenance(),
+        )
 
 
 def test_value_of_flexibility_cli_returns_versioned_json(tmp_path: Path) -> None:
@@ -240,6 +364,14 @@ def test_value_of_flexibility_cli_returns_versioned_json(tmp_path: Path) -> None
     assert payload["analysis_type"] == "value_of_flexibility"
     assert payload["value_of_flexibility"] == pytest.approx(1.6)
     assert payload["information_value_component"] == 0.0
+    assert payload["decision_stage_names"] == ["now", "mid", "late"]
+    assert payload["strategy_names"] == ["commit_a", "commit_b"]
+    assert payload["provenance"] == {
+        "fixture_id": "vof-enumerable-v1",
+        "execution_mode": "deterministic",
+    }
+    assert payload["exercise_decisions"] is None
+    assert payload["ordered_scenario_policy_changes"] == [False, True, False]
     assert '"value_of_flexibility"' in output.read_text(encoding="utf-8")
 
 

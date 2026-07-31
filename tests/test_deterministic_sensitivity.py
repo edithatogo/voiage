@@ -409,7 +409,6 @@ def test_normalized_runtime_rejects_post_schema_malformed_and_record_gaps(
 
 def test_dsa_experimental_exports_are_discoverable() -> None:
     import voiage
-    from voiage import methods
 
     assert voiage.deterministic_sensitivity is deterministic_sensitivity
-    assert methods.deterministic_sensitivity is deterministic_sensitivity
+    assert voiage.methods.deterministic_sensitivity is deterministic_sensitivity

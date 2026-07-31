@@ -11,6 +11,7 @@
   },
   "unsupported": [
     "transition-constrained lifecycle-period policies",
+    "non-zero discount, irreversibility or lock-in controls",
     "embedded information-value decomposition",
     "stable API or cross-language parity"
   ]

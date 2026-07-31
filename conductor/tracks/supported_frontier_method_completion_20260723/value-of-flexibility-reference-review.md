@@ -44,6 +44,15 @@ semantics and a declaration that information value is already embedded. It
 returns an information-value component of zero and does not label VoF as EVPI,
 EVSI, value of control, robustness or model-uncertainty value.
 
+The v1 input must declare scenario probabilities and deterministic provenance.
+Non-zero discount, irreversibility and lock-in controls fail closed: the first
+slice does not assign units or policy-dependent meanings to those controls, so
+accepting them would imply unsupported semantics (and a scenario-common
+lock-in shift would cancel from VoF). The result carries named stage/strategy
+axes. Since timing scenarios are mutually exclusive rather than a sequential
+path, `exercise_decisions` is explicitly unsupported and adjacent ordered
+scenario choice changes are only a diagnostic.
+
 The pre-existing dynamic-real-options compatibility envelope retains its
 historical zero-time default and first-in-input tie presentation. Those legacy
 presentation rules are not inherited by the experimental versioned VoF result.

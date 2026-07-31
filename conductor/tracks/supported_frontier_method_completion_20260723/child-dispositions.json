@@ -66,10 +66,12 @@
       "project_status": "In Progress",
       "disposition": "experimental_branch",
       "maturity": "experimental",
-      "satisfies_ac06": false,
+      "satisfies_ac06": true,
       "delivery_track": "supported_frontier_method_completion_20260723",
       "implementation_pull_requests": [723],
-      "review_artifacts": [],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/value-of-flexibility-implementation-review.md"
+      ],
       "adjacent_artifacts": ["reconciled dynamic-real-options compatibility view"]
     },
     {

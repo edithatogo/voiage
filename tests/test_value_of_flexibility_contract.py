@@ -40,6 +40,56 @@ def test_result_schema_rejects_materially_incomplete_output() -> None:
         Draft202012Validator(result_schema).validate(incomplete)
 
 
+def test_input_schema_requires_explicit_stage_weights() -> None:
+    input_schema = _json(CONTRACT / "schemas/value-of-flexibility-input.schema.json")
+    payload = _json(CONTRACT / "fixtures/normative/input.json")
+    payload.pop("stage_weights")
+
+    with pytest.raises(Exception, match="stage_weights"):
+        Draft202012Validator(input_schema).validate(payload)
+
+
+@pytest.mark.parametrize(
+    "control",
+    ["discount_rate", "irreversibility_penalty", "lock_in_penalty"],
+)
+def test_input_schema_rejects_ungoverned_nonzero_v1_controls(control: str) -> None:
+    input_schema = _json(CONTRACT / "schemas/value-of-flexibility-input.schema.json")
+    payload = _json(CONTRACT / "fixtures/normative/input.json")
+    payload[control] = 0.01
+
+    with pytest.raises(Exception, match=control):
+        Draft202012Validator(input_schema).validate(payload)
+
+
+@pytest.mark.parametrize(
+    "control",
+    ["discount_rate", "irreversibility_penalty", "lock_in_penalty"],
+)
+def test_result_schema_rejects_ungoverned_nonzero_v1_controls(control: str) -> None:
+    result_schema = _json(CONTRACT / "schemas/value-of-flexibility-result.schema.json")
+    payload = _json(CONTRACT / "fixtures/normative/expected.json")
+    payload["diagnostics"][control] = 0.01
+
+    with pytest.raises(Exception, match=control):
+        Draft202012Validator(result_schema).validate(payload)
+
+
+def test_result_schema_requires_axes_provenance_and_unambiguous_change_diagnostic() -> (
+    None
+):
+    result_schema = _json(CONTRACT / "schemas/value-of-flexibility-result.schema.json")
+    required = set(result_schema["required"])
+
+    assert {
+        "decision_stage_names",
+        "strategy_names",
+        "provenance",
+        "ordered_scenario_policy_changes",
+    } <= required
+    assert result_schema["properties"]["exercise_decisions"] == {"type": "null"}
+
+
 def test_capabilities_fail_closed_for_unimplemented_bindings() -> None:
     capabilities = _json(CONTRACT / "capabilities.json")
     assert capabilities["maturity"] == "experimental"
@@ -73,9 +123,14 @@ def test_fixture_evidence_is_sha256_pinned() -> None:
         "specs/frontier/value-of-flexibility/v1/fixtures/normative/input.json",
         "specs/frontier/value-of-flexibility/v1/fixtures/normative/expected.json",
         "conductor/tracks/supported_frontier_method_completion_20260723/value-of-flexibility-reference-review.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/value-of-flexibility-implementation-review.md",
         "voiage/contracts/value_flexibility.py",
         "voiage/methods/dynamic_real_options.py",
         "voiage/cli.py",
+        "tests/test_value_of_flexibility.py",
+        "tests/test_value_of_flexibility_contract.py",
+        "docs/astro-site/src/content/docs/examples/value-of-flexibility.mdx",
+        "specs/frontier/value-of-flexibility/v1/README.md",
     }
     assert {artifact["path"] for artifact in evidence["artifacts"]} == expected_paths
     for artifact in evidence["artifacts"]:
@@ -91,6 +146,7 @@ def test_runtime_matches_normative_fixture() -> None:
         input_payload["decision_stage_names"],
         input_payload["strategy_names"],
         input_payload["stage_weights"],
+        input_payload["provenance"],
         discount_rate=input_payload["discount_rate"],
         irreversibility_penalty=input_payload["irreversibility_penalty"],
         lock_in_penalty=input_payload["lock_in_penalty"],

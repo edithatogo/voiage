@@ -5,10 +5,12 @@
   "type": "object",
   "required": [
     "analysis_type", "method_maturity", "value_unit", "stage_semantics",
+    "decision_stage_names", "strategy_names", "provenance",
     "flexible_value", "constrained_value", "value_of_flexibility",
     "flexible_policy_path", "constrained_policy_path", "commitment_baseline",
     "waiting_value", "option_value", "information_value_component",
-    "decomposition_status", "exercise_decisions", "policy_path_regret",
+    "decomposition_status", "exercise_decisions",
+    "ordered_scenario_policy_changes", "policy_path_regret",
     "diagnostics", "reporting"
   ],
   "properties": {
@@ -16,6 +18,17 @@
     "method_maturity": {"const": "experimental"},
     "value_unit": {"type": "string", "minLength": 1},
     "stage_semantics": {"const": "timing_scenarios"},
+    "decision_stage_names": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "strategy_names": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "provenance": {
+      "type": "object",
+      "required": ["fixture_id", "execution_mode"],
+      "properties": {
+        "fixture_id": {"type": "string", "minLength": 1},
+        "execution_mode": {"const": "deterministic"}
+      },
+      "additionalProperties": false
+    },
     "flexible_value": {"type": "number"},
     "constrained_value": {"type": "number"},
     "value_of_flexibility": {"type": "number", "minimum": 0},
@@ -26,7 +39,8 @@
     "option_value": {"type": "number", "minimum": 0},
     "information_value_component": {"const": 0},
     "decomposition_status": {"const": "information-value-excluded"},
-    "exercise_decisions": {"type": "array", "minItems": 1, "items": {"type": "boolean"}},
+    "exercise_decisions": {"type": "null"},
+    "ordered_scenario_policy_changes": {"type": "array", "minItems": 1, "items": {"type": "boolean"}},
     "policy_path_regret": {
       "type": "array",
       "minItems": 1,
@@ -46,9 +60,9 @@
       "properties": {
         "stage_weights": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "number", "minimum": 0}},
         "evidence_arrival_times": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "number", "minimum": 0}},
-        "discount_rate": {"type": "number", "minimum": 0},
-        "irreversibility_penalty": {"type": "number", "minimum": 0},
-        "lock_in_penalty": {"type": "number", "minimum": 0},
+        "discount_rate": {"const": 0},
+        "irreversibility_penalty": {"const": 0},
+        "lock_in_penalty": {"const": 0},
         "assurance": {"const": "exact-enumeration"},
         "tie_policy": {"const": "canonical-lexicographic"},
         "flexible_stage_ties": {

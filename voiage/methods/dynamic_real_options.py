@@ -36,6 +36,9 @@ class ValueOfFlexibilityResult:
     method_maturity: str
     value_unit: str
     stage_semantics: str
+    decision_stage_names: list[str]
+    strategy_names: list[str]
+    provenance: dict[str, str]
     flexible_value: float
     constrained_value: float
     value_of_flexibility: float
@@ -46,7 +49,8 @@ class ValueOfFlexibilityResult:
     option_value: float
     information_value_component: float
     decomposition_status: str
-    exercise_decisions: list[bool]
+    exercise_decisions: None
+    ordered_scenario_policy_changes: list[bool]
     policy_path_regret: np.ndarray
     diagnostics: dict[str, object] = field(default_factory=dict)
     reporting: dict[str, object] = field(default_factory=dict)
@@ -131,11 +135,12 @@ def _adjusted_scenario_values(
         label="stage_weights",
         default=np.ones(len(stages), dtype=DEFAULT_DTYPE),
     )
-    if np.any(weights < 0) or not float(weights.sum()) > 0:
+    weight_sum = float(weights.sum())
+    if np.any(weights < 0) or not np.isfinite(weight_sum) or weight_sum <= 0:
         raise_input_error(
-            "stage_weights must be non-negative and sum to a positive value."
+            "stage_weights must be non-negative and have a finite positive sum."
         )
-    weights /= weights.sum()
+    weights /= weight_sum
     times = _exact_named_mapping(
         evidence_arrival_times,
         stages,
@@ -160,7 +165,27 @@ def _adjusted_scenario_values(
     adjustment = discount * np.maximum(0.0, remaining)
     adjusted = np.mean(values, axis=0) * adjustment[None, :]
     adjusted[:, 1:] -= float(lock_in_penalty) * times[1:][None, :]
+    if not np.all(np.isfinite(adjusted)):
+        raise_input_error("Adjusted scenario values must be finite.")
     return adjusted, weights, times, discount
+
+
+def _validated_provenance(provenance: Mapping[str, str]) -> dict[str, str]:
+    """Validate the minimal deterministic provenance carried into results."""
+    if set(provenance) != {"fixture_id", "execution_mode"}:
+        raise_input_error(
+            "provenance must contain exactly fixture_id and execution_mode."
+        )
+    fixture_id = provenance["fixture_id"]
+    execution_mode = provenance["execution_mode"]
+    if not isinstance(fixture_id, str) or not fixture_id.strip():
+        raise_input_error("provenance.fixture_id must be a non-empty string.")
+    if execution_mode != "deterministic":
+        raise_input_error("provenance.execution_mode must be 'deterministic'.")
+    return {
+        "fixture_id": fixture_id.strip(),
+        "execution_mode": execution_mode,
+    }
 
 
 def _policy_sets(
@@ -228,7 +253,8 @@ def value_of_flexibility(
     net_benefits: np.ndarray,
     decision_stage_names: Sequence[str],
     strategy_names: Sequence[str],
-    stage_weights: Mapping[str, float] | None = None,
+    stage_weights: Mapping[str, float],
+    provenance: Mapping[str, str],
     discount_rate: float = 0.0,
     irreversibility_penalty: float = 0.0,
     lock_in_penalty: float = 0.0,
@@ -249,6 +275,8 @@ def value_of_flexibility(
     values, stages, strategies = _named_values(
         net_benefits, decision_stage_names, strategy_names
     )
+    if stage_weights is None:
+        raise_input_error("stage_weights must be declared for every timing scenario.")
     if not isinstance(value_unit, str) or not value_unit.strip():
         raise_input_error("value_unit must be a non-empty comparable unit.")
     if stage_semantics != "timing_scenarios":
@@ -257,6 +285,18 @@ def value_of_flexibility(
         raise_input_error(
             "information_value_included must be false to prevent double counting."
         )
+    controls = np.asarray(
+        [discount_rate, irreversibility_penalty, lock_in_penalty], dtype=DEFAULT_DTYPE
+    )
+    if not np.all(np.isfinite(controls)):
+        raise_input_error("Rates and option penalties must be finite.")
+    if np.any(controls != 0):
+        raise_input_error(
+            "Non-zero discount, irreversibility and lock-in controls are unsupported "
+            "in the timing-scenario v1 contract until policy-dependent semantics "
+            "and units are governed."
+        )
+    result_provenance = _validated_provenance(provenance)
     adjusted, weights, times, _discount = _adjusted_scenario_values(
         values,
         stages,
@@ -296,7 +336,7 @@ def value_of_flexibility(
     flexible_path = [strategies[index] for index in flexible_path_indices]
     commitment_name = strategies[commitment_index]
     constrained_path = [commitment_name] * len(stages)
-    exercise = [False] + [
+    ordered_scenario_policy_changes = [False] + [
         flexible_path[index] != flexible_path[index - 1]
         for index in range(1, len(flexible_path))
     ]
@@ -307,6 +347,9 @@ def value_of_flexibility(
         method_maturity="experimental",
         value_unit=value_unit.strip(),
         stage_semantics=stage_semantics,
+        decision_stage_names=stages,
+        strategy_names=strategies,
+        provenance=result_provenance,
         flexible_value=flexible_value,
         constrained_value=constrained_value,
         value_of_flexibility=value,
@@ -317,7 +360,8 @@ def value_of_flexibility(
         option_value=value,
         information_value_component=0.0,
         decomposition_status="information-value-excluded",
-        exercise_decisions=exercise,
+        exercise_decisions=None,
+        ordered_scenario_policy_changes=ordered_scenario_policy_changes,
         policy_path_regret=regret,
         diagnostics={
             "stage_weights": dict(zip(stages, weights.tolist(), strict=True)),
@@ -381,7 +425,11 @@ def value_of_dynamic_real_options(
         adjusted[None, :, :],
         stages,
         strategies,
-        stage_weights,
+        dict(zip(stages, weights.tolist(), strict=True)),
+        {
+            "fixture_id": "dynamic-real-options-compatibility",
+            "execution_mode": "deterministic",
+        },
     )
     # Preserve the legacy first-in-input tie presentation for this compatibility
     # envelope; the versioned Value of Flexibility surface uses canonical ties.

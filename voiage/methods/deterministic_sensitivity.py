@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field, replace
 from itertools import pairwise
-from typing import Any, Literal, Protocol, cast
+from typing import Any, Literal, cast
 
 import numpy as np
 
@@ -178,10 +178,7 @@ class DeterministicSensitivityResult:
         }
 
 
-class _Evaluator(Protocol):
-    def __call__(
-        self, kind: str, reference: str, coordinates: Mapping[str, float]
-    ) -> tuple[str, Mapping[str, float]]: ...
+_Evaluator = Callable[[str, str, Mapping[str, float]], tuple[str, Mapping[str, float]]]
 
 
 def _validated_inputs(
@@ -279,7 +276,7 @@ def _safe_evaluate(
     except ValueError:
         raise
     except Exception as error:
-        raise_input_error(f"DSA callback failed: {error}")
+        return raise_input_error(f"DSA callback failed: {error}")
 
 
 def _build_result(
@@ -571,7 +568,7 @@ def deterministic_sensitivity(
         try:
             return "", model(dict(coordinates))
         except Exception as error:
-            raise_input_error(f"DSA callback failed: {error}")
+            return raise_input_error(f"DSA callback failed: {error}")
 
     scenario_map = scenarios or {}
     surface_ids = [f"{first}|{second}" for first, second in two_way_pairs]
