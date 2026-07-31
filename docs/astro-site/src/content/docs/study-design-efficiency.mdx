@@ -1,0 +1,32 @@
+---
+title: Study-design efficiency
+description: Experimental COSS, signed ENBS, EVSI/EVPI, and constrained portfolio contracts
+---
+
+The experimental study-design family evaluates a declared finite set of
+designs without extrapolating beyond it. `calculate_coss` returns the full
+EVSI, research-cost, and signed-ENBS curve, feasibility set or range,
+deterministic ties and optimum, boundary state, uncertainty, diagnostics,
+provenance, and plotting vectors in `CossResultV1`.
+
+`evsi_evpi_efficiency` is a dimensionless diagnostic. Its EVSI and EVPI inputs
+must describe the same decision problem, units, population scale, horizon, and
+discounting. The contract reports numerical-zero EVPI explicitly and diagnoses
+tolerance-sized bounds excursions; it does not clamp materially invalid values
+or reuse the legacy value-to-cost `voi_efficiency` label.
+
+The initial portfolio surface performs exact subset enumeration over governed
+single-study COSS optima. It maximizes additive signed ENBS, permits the empty
+portfolio, and enforces declared capacity, dependency, exclusion, and guardrail
+constraints. Interference, multiplicity, sequential monitoring, delayed
+effects, and platform adapters are not implied by this initial contract.
+
+Rust owns the numerical COSS and efficiency policy, while Python provides the
+strict experimental contracts, orchestration, CLI, reporting, and accessible
+plot. The retained R and Julia bindings report the capability as unsupported;
+Mojo remains an external boundary. No stable or full-polyglot parity claim is
+made before scientific review, installed conformance evidence, merge, and
+release gates are separately satisfied.
+
+See the [CLI reference](/cli-reference/#experimental-coss-workflow) for a
+reproducible example.

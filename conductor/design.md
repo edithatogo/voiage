@@ -56,6 +56,9 @@ flowchart LR
     COSS --> Plot["Accessible plotting inputs"]
     EVSI --> Ratio["EVSI / EVPI"]
     EVPI["Commensurate EVPI"] --> Ratio
+    COSS --> Candidate["Governed portfolio candidate"]
+    Candidate --> Portfolio["Exact signed-ENBS subset allocation"]
+    PortfolioConstraints["Capacity + dependencies + exclusions + guardrails"] --> Portfolio
 
     Utility["Utility + wealth/reference state"] --> Clairvoyant["Clairvoyant policy"]
     Clairvoyant --> VoC["VoC presentation governed by #595"]

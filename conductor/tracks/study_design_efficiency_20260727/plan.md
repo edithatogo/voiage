@@ -53,7 +53,7 @@
 - [x] **S17:** Record Rust, Python, R, Julia and Mojo capability dispositions
   and shared-fixture evidence or explicit unsupported failures. (AC-07) —
   `41dc45f`
-- [ ] **S18:** Reconcile roadmap, registry, documentation, v1.2.0 MoSCoW
+- [~] **S18:** Reconcile roadmap, registry, documentation, v1.2.0 MoSCoW
   requirements, Mermaid design, canonical C16, GitHub, Project 28, Conductor
   and hosted evidence. (AC-06–AC-10)
 - [ ] **S19:** Run final automated review, full local validation and hosted

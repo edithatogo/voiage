@@ -9,6 +9,9 @@
 - **M15-S3:** Expose plotting inputs independently from the plotting library.
 - **M15-S4:** Define EVSI/EVPI common-unit, zero-EVPI, finite and
   tolerance-aware bounds behavior.
+- **M15-S5:** Allocate governed single-study optima by signed additive ENBS,
+  permitting the empty portfolio and enforcing declared capacity, dependency,
+  exclusion and guardrail constraints.
 
 ## Should
 
@@ -17,7 +20,8 @@
 
 ## Could
 
-- Extend the single-study result to constrained experiment portfolios.
+- Extend the exact portfolio slice with interference, sequential monitoring,
+  multiplicity, delayed effects and optional experiment-platform adapters.
 
 ## Won't
 

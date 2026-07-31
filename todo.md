@@ -43,6 +43,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   Conductor track: `study_design_efficiency_20260727`.
     *   Planned contract: v1.2.0; MoSCoW: Must; canonical requirements M15/M17.
     *   GitHub issue: #571, native sub-issue of #318 under programme #313.
+    *   Implementation sub-issues: #680 (runtime), #681 (portfolio and user
+        surfaces), and #682 (bindings, governance and assurance).
+    *   Draft implementation PR: #679; repository work is active, not merged
+        or promoted to stable.
     *   Add COSS over signed ENBS with evaluated design records, feasible
         range/set, deterministic optimum/tie/boundary behavior, uncertainty
         around the optimum and plotting inputs.
@@ -50,6 +54,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
         strict distinction from `total_voi / total_cost`.
     *   Reconcile existing plotting and legacy clinical-optimizer helpers
         before any maturity promotion.
+    *   The exact initial portfolio slice covers additive signed ENBS, empty
+        selection, capacities, dependencies, exclusions and guardrails;
+        interference, sequential-monitoring, multiplicity, delayed-effect and
+        platform-adapter models remain follow-on scope.
     *   Keep VoC in #595 as the expected-utility/clairvoyant-policy alias or
         presentation; do not create a duplicate numerical method.
     *   VoC classification is planned for v1.2.0 under canonical M16/M17 and

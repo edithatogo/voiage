@@ -10,4 +10,8 @@ flowchart LR
     EVPI["Commensurate EVPI"] --> Ratio["EVSI / EVPI"]
     Evaluate --> Ratio
     Ratio --> Guard["Zero-EVPI + bounds diagnostics"]
+    Optimum --> Candidate["Governed portfolio candidate"]
+    Candidate --> Portfolio["Exact signed-ENBS subset allocation"]
+    Constraints["Capacity + dependencies + exclusions + guardrails"] --> Portfolio
+    Portfolio --> Allocation["Selected studies + totals + binding constraints"]
 ```
