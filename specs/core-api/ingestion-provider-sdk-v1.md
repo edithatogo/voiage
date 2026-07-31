@@ -45,6 +45,14 @@ Nullable values, categories, and timezone-aware values are supported when Arrow
 can materialize them. Nested values and conversions requiring a disallowed copy
 fail with a stable `ValueError`; no alternate calculation path is used.
 
+The resulting manifest records source-neutral conversion diagnostics and a
+`voiage.dev:dataframe-interchange` extension. They state the requested copy
+policy, index exclusion, and per-field Arrow dtype, nullability, categorical,
+and timezone decisions. A successful `allow_copy=False` conversion is recorded
+as zero-copy. When copying is permitted, Arrow's public interchange API does
+not reveal whether a copy actually occurred, so the outcome is recorded as
+`not_observable` rather than guessed.
+
 ## Publication checklist
 
 1. Declare an entry point that returns an initialized provider instance.

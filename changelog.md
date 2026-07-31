@@ -14,8 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   distinct Croissant 1.10 context.
 - Added executable CLI walkthrough evidence for the canonical Croissant ML and
   Frictionless engineering reference descriptors.
-- Linked the README to the standardized Croissant and Frictionless ingestion
-  workflow, supported-profile matrix, offline policy, and cross-domain examples.
+- Added auditable DataFrame-interchange conversion diagnostics for copy policy,
+  index exclusion, and Arrow dtype/nullability/categorical/timezone decisions;
+  copy-permitted conversions explicitly retain an unobservable outcome rather
+  than claiming a copy result that Arrow cannot report.
 - Added a deterministic validator and explicit regeneration path for the
   standardized-ingestion fixture digest manifests, covering both canonical
   Croissant/Frictionless source corpora.
