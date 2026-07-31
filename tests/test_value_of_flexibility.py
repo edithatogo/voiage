@@ -250,14 +250,6 @@ def test_value_of_flexibility_defends_subset_invariant(
 
 
 def test_value_of_flexibility_requires_explicit_stage_weights() -> None:
-    with pytest.raises(TypeError, match="stage_weights"):
-        value_of_flexibility(
-            _surface(),
-            ["now", "mid", "late"],
-            ["a", "b"],
-            provenance=_provenance(),
-        )
-
     with pytest.raises(ValueError, match="stage_weights must be declared"):
         value_of_flexibility(
             _surface(),

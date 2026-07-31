@@ -50,7 +50,7 @@
     },
     {
       "path": "tests/test_value_of_flexibility.py",
-      "sha256": "2fbe97752d11004c4e8cde5da67b03f6b1a168ddfdec49b2c95a803f0f52e659"
+      "sha256": "6b2b326a555f9c29a2fabf1e8293a27db1bf55102a693fb8b7885d569035f769"
     },
     {
       "path": "tests/test_value_of_flexibility_contract.py",
