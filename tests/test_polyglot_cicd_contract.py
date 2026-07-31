@@ -42,7 +42,11 @@ def test_release_uses_pep740_and_exact_testpypi_promotion() -> None:
     assert "attestations: false" not in release
     assert "Verify TestPyPI distribution attestations" in release
     assert "pypi-attestations" in release
-    assert "verify pypi --staging" in release
+    assert "pypi-attestations==0.0.30" in release
+    assert "test.pypi.org/integrity/voiage/${PYTHON_VERSION}" in release
+    assert "--provenance-file" in release
+    assert '"reviewed-dist/$filename"' in release
+    assert "verify pypi --staging" not in release
     assert 'python: ["3.12", "3.13", "3.14"]' in release
     assert "Download reviewed release payload" in release
     assert "Compare TestPyPI bytes with reviewed payload" in release
