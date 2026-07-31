@@ -59,7 +59,7 @@
 - [x] **U12:** Add differential, property, serialization, failure and
   performance assurance for the runtime boundary. (AC-05, AC-08)
   — `0e17fed`
-- [ ] **U13:** Run automated implementation review, focused validation and the
+- [~] **U13:** Run automated implementation review, focused validation and the
   repository harness. (AC-05, AC-08)
 
 ## Phase 4 — User, binding and governed closeout surfaces
