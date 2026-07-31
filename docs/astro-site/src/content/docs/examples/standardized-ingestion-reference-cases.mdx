@@ -1,6 +1,6 @@
 ---
 title: Standardized Ingestion Reference Cases
-description: Deterministic ML, engineering, and business EVPI examples using one explicit VOI binding.
+description: Deterministic ML, engineering, and business examples with bounded EVPI and CEAF evidence.
 ---
 
 These deterministic, in-repository synthetic examples demonstrate format
@@ -12,7 +12,7 @@ or a real-world decision recommendation.
 | Community | Croissant | Frictionless | Direct normalized input | Explicit method |
 | --- | --- | --- | --- | --- |
 | Machine learning | `canonical-decision.croissant.json` | `canonical-decision.datapackage.json` | Explicit Arrow table and binding | EVPI on model-selection net benefits. |
-| Engineering and operations | `cost-outcome-decision.croissant.json` | `cost-outcome-decision.datapackage.json` | Explicit Arrow table and bindings | EVPI on cost/outcome net benefits at a declared WTP. |
+| Engineering and operations | `cost-outcome-decision.croissant.json` | `cost-outcome-decision.datapackage.json` | Explicit Arrow table and bindings | EVPI at a declared WTP; CEAF over paired cost/outcome PSA rows at declared thresholds. |
 | Business | `canonical-decision.croissant.json` | `canonical-decision.datapackage.json` | Explicit Arrow table and binding | EVPI on investment-strategy net benefits. |
 
 The fixture records two strategies, `strategy_a` and `strategy_b`, and binds
@@ -76,6 +76,42 @@ recorded in `cost-outcome-decision.manifest.json` beside the fixture files.
 The scripts deliberately report a fixture as deterministic synthetic data,
 rather than presenting a substitute for a rights clearance or live provider
 receipt.
+
+### CEAF equivalence
+
+The engineering fixture also supplies paired cost and outcome PSA rows for the
+same two strategies. It can therefore be converted to net benefit at the fixed
+WTP thresholds 10,000, 20,000, and 30,000 and passed to the existing CEAF
+method. This is intentionally narrower than an EVSI, EVPPI, or ENBS claim:
+those methods need conditional-model or study-design inputs that these fixtures
+do not supply.
+
+```python
+from examples.standardized_ingestion.reference_cases import (
+    run_cost_outcome_ceaf_reference_cases,
+)
+
+ceaf = run_cost_outcome_ceaf_reference_cases()
+assert ceaf["croissant"] == ceaf["frictionless"] == ceaf["direct"]
+assert ceaf["croissant"]["optimal_strategy_names"] == ("B", "B", "B")
+```
+
+The returned records also include the normalized net-benefit samples at WTP
+20,000. Equality across Croissant, Frictionless, direct Arrow, and the optional
+DataFrame surface is checked before the example returns.
+
+## Method applicability matrix
+
+| Community | EVPI | CEAF | EVPPI / EVSI / ENBS | Shape coverage |
+| --- | --- | --- | --- | --- |
+| Machine learning | Evaluated on explicit wide net-benefit samples. | Not applicable: no cost/outcome WTP surface. | Not applicable: no conditional or study-design inputs. | Wide only; no long, cost/outcome, or perspective-split fixture. |
+| Engineering and operations | Evaluated at WTP 20,000. | Evaluated on paired cost/outcome PSA rows at WTP 10,000, 20,000, and 30,000. | Not applicable: no conditional or study-design inputs. | Cost/outcome wide rows; no long or perspective-split fixture. |
+| Business | Evaluated on explicit wide net-benefit samples. | Not applicable: no cost/outcome WTP surface. | Not applicable: no conditional or study-design inputs. | Wide only; no long, cost/outcome, or perspective-split fixture. |
+
+This matrix is a fixture-support boundary, not a statement that the omitted
+methods or shapes are unsupported by `voiage` generally. It prevents these
+small deterministic examples from being presented as evidence for inputs they
+do not contain.
 
 The input descriptors and their SHA-256 digests live in
 [`tests/fixtures/standardized_ingestion/`](https://github.com/edithatogo/voiage/tree/main/tests/fixtures/standardized_ingestion).

@@ -14,6 +14,10 @@
   prepared inputs, EVPI, schema fingerprints, and materialization receipts are
   checked against direct normalized input; malformed JSON/Parquet resources and
   Arrow streams remain rejected.
+- Add a deterministic cross-domain method-applicability matrix and CEAF
+  equivalence evidence for the engineering cost/outcome reference fixture;
+  explicitly bound the ML and business fixtures to the methods and data shapes
+  they actually provide.
 - Add a strict local Frictionless Parquet profile: descriptors must declare
   `format: parquet`, use a `.parquet` path, declare primitive fields, and omit
   dialect settings. Parquet input is streamed through bounded Arrow batches
