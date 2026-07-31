@@ -1,0 +1,56 @@
+{
+  "context": {
+    "schema_version": "1.0.0",
+    "decision_problem_id": "example-treatment-choice",
+    "value_unit": "AUD-2026",
+    "population_scale": 10000,
+    "time_horizon": "10-years",
+    "discounting_id": "annual-3-percent",
+    "study_model_id": "example-evsi-v1",
+    "cost_model_id": "example-trial-cost-v1",
+    "random_seed": 2718
+  },
+  "designs": [
+    {
+      "design_id": "n-100",
+      "sample_size": 100,
+      "evsi": 120000,
+      "research_cost": 90000,
+      "enbs_confidence_interval": [18000, 42000],
+      "estimator_provenance": {"source": "synthetic-documentation-example"}
+    },
+    {
+      "design_id": "n-200",
+      "sample_size": 200,
+      "evsi": 190000,
+      "research_cost": 130000,
+      "enbs_confidence_interval": [45000, 75000],
+      "estimator_provenance": {"source": "synthetic-documentation-example"}
+    },
+    {
+      "design_id": "n-300",
+      "sample_size": 300,
+      "evsi": 225000,
+      "research_cost": 180000,
+      "enbs_confidence_interval": [27000, 63000],
+      "estimator_provenance": {"source": "synthetic-documentation-example"}
+    },
+    {
+      "design_id": "n-400-capacity-exceeded",
+      "sample_size": 400,
+      "evsi": 245000,
+      "research_cost": 230000,
+      "feasible": false,
+      "feasibility_codes": ["recruitment-capacity-exceeded"],
+      "estimator_provenance": {"source": "synthetic-documentation-example"}
+    }
+  ],
+  "declared_feasible_range": {
+    "lower_sample_size": 100,
+    "upper_sample_size": 300,
+    "step": 100
+  },
+  "tie_policy": "smallest_sample_size",
+  "absolute_tolerance": 1e-12,
+  "relative_tolerance": 1e-12
+}

@@ -23,11 +23,20 @@ from typing import Any, Literal, cast
 import numpy as np
 import typer
 
+from voiage.contracts.study_design import (
+    CossResultV1,
+    FeasibleDesignRangeV1,
+    SelectionUncertaintyV1,
+    StudyDesignContextV1,
+    StudyDesignPointInputV1,
+    TiePolicy,
+)
 from voiage.core.io import (
     import_callable,
     read_parameter_set_csv,
     read_value_array_csv,
 )
+from voiage.experimental.study_design import calculate_coss as calculate_coss_result
 from voiage.factory import create_distributed_large_scale_analysis
 from voiage.ingestion.cli import app as ingestion_app
 from voiage.logging import LoggingSettings, configure_logging
@@ -150,6 +159,9 @@ from voiage.plot.ceac import plot_ceac as render_ceac
 from voiage.plot.ceaf import plot_ceaf as render_ceaf
 from voiage.plot.dominance import plot_cost_effectiveness_plane as render_dominance
 from voiage.plot.perspective import plot_perspective_regret as render_perspective_regret
+from voiage.plot.voi_curves import (
+    plot_coss as render_coss,
+)
 from voiage.plot.voi_curves import (
     plot_evpi_vs_wtp as render_evpi_vs_wtp,
 )
@@ -623,6 +635,104 @@ def _read_json_file(path: Path) -> object:
     _log_cli_debug("read-json", path=str(path))
     with open(path, encoding="utf-8") as f:
         return json.load(f)
+
+
+def _read_coss_specification(
+    path: Path,
+) -> tuple[
+    StudyDesignContextV1,
+    tuple[StudyDesignPointInputV1, ...],
+    FeasibleDesignRangeV1 | None,
+    TiePolicy,
+    float,
+    float,
+    SelectionUncertaintyV1 | None,
+]:
+    """Read and validate an experimental COSS specification."""
+    payload = _read_json_file(path)
+    if not isinstance(payload, dict):
+        raise TypeError("COSS specification must contain a JSON object.")
+    context = StudyDesignContextV1.model_validate_json(
+        json.dumps(payload.get("context"))
+    )
+    raw_designs = payload.get("designs")
+    if not isinstance(raw_designs, list) or not raw_designs:
+        raise TypeError("COSS specification 'designs' must be a non-empty list.")
+    designs = tuple(
+        StudyDesignPointInputV1.model_validate_json(json.dumps(item))
+        for item in raw_designs
+    )
+    raw_range = payload.get("declared_feasible_range")
+    feasible_range = (
+        None
+        if raw_range is None
+        else FeasibleDesignRangeV1.model_validate_json(json.dumps(raw_range))
+    )
+    tie_policy = cast("TiePolicy", payload.get("tie_policy", "smallest_sample_size"))
+    absolute_tolerance = float(payload.get("absolute_tolerance", 1e-12))
+    relative_tolerance = float(payload.get("relative_tolerance", 1e-12))
+    raw_uncertainty = payload.get("selection_uncertainty")
+    selection_uncertainty = (
+        None
+        if raw_uncertainty is None
+        else SelectionUncertaintyV1.model_validate_json(json.dumps(raw_uncertainty))
+    )
+    return (
+        context,
+        designs,
+        feasible_range,
+        tie_policy,
+        absolute_tolerance,
+        relative_tolerance,
+        selection_uncertainty,
+    )
+
+
+def _read_coss_result(path: Path) -> CossResultV1:
+    """Read a COSS contract directly or from a CLI result envelope."""
+    payload = _read_json_file(path)
+    if not isinstance(payload, dict):
+        raise TypeError("COSS result must contain a JSON object.")
+    candidate = payload.get("result", payload)
+    return CossResultV1.model_validate_json(json.dumps(candidate))
+
+
+def _coss_result_payload(result: CossResultV1) -> dict[str, object]:
+    """Return a provenance-bearing CLI envelope for a governed COSS result."""
+    context = result.context
+    return {
+        "command": "calculate-coss",
+        "metric": "COSS",
+        "method_maturity": "experimental",
+        "result": result.model_dump(mode="json"),
+        "reporting": build_cheers_reporting(
+            analysis_type="calculate-coss",
+            method_family="study_design_efficiency",
+            method_maturity="experimental",
+            decision_problem_id=context.decision_problem_id,
+            population=context.population_scale,
+            estimator=result.estimator,
+            seed=context.random_seed,
+            provenance=dict(result.estimator_provenance),
+            reproducibility={
+                "schema_version": result.schema_version,
+                "value_unit": context.value_unit,
+                "time_horizon": context.time_horizon,
+                "discounting_id": context.discounting_id,
+                "study_model_id": context.study_model_id,
+                "cost_model_id": context.cost_model_id,
+                "tie_policy": result.tie_policy,
+                "absolute_tolerance": result.absolute_tolerance,
+                "relative_tolerance": result.relative_tolerance,
+            },
+            diagnostics={
+                "codes": list(result.diagnostics),
+                "boundary_state": result.boundary_state,
+                "tied_optimal_design_ids": list(result.tied_optimal_design_ids),
+                "selection_uncertainty_method": result.selection_uncertainty.method,
+            },
+        ),
+    }
 
 
 def _save_figure(ax: object, output_file: Path) -> None:
@@ -1933,6 +2043,76 @@ def calculate_enbs(
     except Exception as e:
         typer.echo(f"An error occurred: {e}", err=True)
         raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-coss")
+def calculate_coss_command(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a governed experimental COSS JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the COSS result"
+    ),
+) -> None:
+    """Evaluate an experimental Curve of Optimal Sample Size (COSS).
+
+    The JSON specification records the common value/cost context, every
+    evaluated design, feasibility, tie policy, and optional uncertainty.
+    Signed ENBS values are preserved, including when all designs are negative.
+    """
+    try:
+        _log_cli_debug(
+            "calculate-coss",
+            specification_file=str(specification_file),
+            output_file=str(output_file) if output_file else None,
+        )
+        (
+            context,
+            designs,
+            feasible_range,
+            tie_policy,
+            absolute_tolerance,
+            relative_tolerance,
+            selection_uncertainty,
+        ) = _read_coss_specification(specification_file)
+        result = calculate_coss_result(
+            context=context,
+            designs=designs,
+            declared_feasible_range=feasible_range,
+            tie_policy=tie_policy,
+            absolute_tolerance=absolute_tolerance,
+            relative_tolerance=relative_tolerance,
+            selection_uncertainty=selection_uncertainty,
+        )
+        if result.optimal_design_id is None:
+            text_result = "COSS optimum: unavailable (no feasible design)"
+        else:
+            text_result = (
+                f"COSS optimum: {result.optimal_design_id} "
+                f"(sample size {result.optimal_sample_size})\n"
+                f"Maximum ENBS: {result.maximum_enbs:.6f}\n"
+                f"Boundary: {result.boundary_state}"
+            )
+        output_text = _format_output(text_result, _coss_result_payload(result))
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except FileNotFoundError as error:
+        typer.echo(f"Error: File not found - {error}", err=True)
+        raise typer.Exit(code=1) from error
+    except (json.JSONDecodeError, TypeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    except Exception as error:
+        typer.echo(f"An error occurred: {error}", err=True)
+        raise typer.Exit(code=1) from error
 
 
 @app.command(name="calculate-observational")
@@ -4787,6 +4967,55 @@ def calculate_implementation(
     except Exception as e:
         typer.echo(f"An error occurred: {e}", err=True)
         raise typer.Exit(code=1) from e
+
+
+@app.command(name="plot-coss")
+def plot_coss_command(
+    result_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a CossResultV1 JSON contract or calculate-coss JSON output",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the COSS plot"
+    ),
+) -> None:
+    """Plot an experimental COSS result using accessible visual encodings."""
+    try:
+        _log_cli_debug(
+            "plot-coss",
+            result_file=str(result_file),
+            output_file=str(output_file) if output_file else None,
+        )
+        result = _read_coss_result(result_file)
+        ax = render_coss(result)
+        if output_file:
+            _save_figure(ax, output_file)
+        output_text = _format_output(
+            "Plot generated" if output_file is None else f"Plot saved to {output_file}",
+            {
+                "command": "plot-coss",
+                "input_file": str(result_file),
+                "output_file": str(output_file) if output_file else None,
+                "saved": output_file is not None,
+                "schema_version": result.schema_version,
+                "optimal_design_id": result.optimal_design_id,
+                "method_maturity": "experimental",
+            },
+        )
+        typer.echo(output_text)
+    except FileNotFoundError as error:
+        typer.echo(f"Error: File not found - {error}", err=True)
+        raise typer.Exit(code=1) from error
+    except (json.JSONDecodeError, TypeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    except Exception as error:
+        typer.echo(f"An error occurred: {error}", err=True)
+        raise typer.Exit(code=1) from error
 
 
 @app.command()

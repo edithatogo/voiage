@@ -11,6 +11,7 @@ The `voiage` command-line interface exposes calculation, plotting, and configura
 - `voiage calculate-evppi`
 - `voiage calculate-evsi`
 - `voiage calculate-enbs`
+- `voiage calculate-coss examples/cli_samples/coss_study_design.json`
 - `voiage calculate-structural-evpi`
 - `voiage calculate-structural-evppi`
 - `voiage calculate-perspective`
@@ -20,6 +21,7 @@ The `voiage` command-line interface exposes calculation, plotting, and configura
 - `voiage plot-ceac`
 - `voiage plot-ceaf`
 - `voiage plot-voi-curves`
+- `voiage plot-coss coss-result.json --output coss.png`
 - `voiage plot-dominance`
 
 ## Sample inputs
@@ -31,6 +33,27 @@ The `voiage` command-line interface exposes calculation, plotting, and configura
 - `examples/cli_samples/evpi_net_benefit.csv`
 - `examples/cli_samples/evppi_parameters.csv`
 - `examples/cli_samples/evsi_trial_design.json`
+- `examples/cli_samples/coss_study_design.json`
+
+## Experimental COSS workflow
+
+`calculate-coss` reads a governed JSON specification containing a shared
+decision/value context and the complete set of evaluated study designs. JSON
+output retains the versioned `CossResultV1` contract, signed ENBS curve,
+feasibility, deterministic optimum, uncertainty fields, diagnostics, and
+estimator provenance inside a CHEERS-VOI-aligned reporting envelope:
+
+```bash
+voiage --format json calculate-coss \
+  examples/cli_samples/coss_study_design.json \
+  --output coss-result.json
+voiage plot-coss coss-result.json --output coss.png
+```
+
+The plotting command consumes either the CLI envelope or a bare
+`CossResultV1` JSON document. Its high-contrast colours are reinforced by
+different markers and line styles for selected, feasible, and infeasible
+designs. COSS remains experimental and is not part of the stable v1 API.
 
 ## Common errors
 
