@@ -279,9 +279,20 @@ class FrictionlessProvider:
     @staticmethod
     def _validate_schema(table: pa.Table, fields: list[object]) -> None:
         """Validate the strict supported field names, types, and basic constraints."""
+        declared_names: list[str] = []
         for item in fields:
             if not isinstance(item, dict) or not isinstance(item.get("name"), str):
                 raise IngestionError("Data Package fields require string names")
+            declared_names.append(cast("str", item["name"]))
+        if len(declared_names) != len(set(declared_names)):
+            raise IngestionError(
+                "Data Package schema has ambiguous duplicate field names"
+            )
+        if len(table.column_names) != len(set(table.column_names)):
+            raise IngestionError(
+                "Data Package CSV header has ambiguous duplicate field names"
+            )
+        for item in fields:
             field = cast("dict[str, object]", item)
             name = cast("str", field["name"])
             if name not in table.column_names:

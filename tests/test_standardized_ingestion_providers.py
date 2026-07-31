@@ -484,6 +484,48 @@ def test_frictionless_provider_rejects_required_null_field(tmp_path) -> None:
 
 
 @pytest.mark.parametrize(
+    ("csv", "fields", "message"),
+    [
+        (
+            "id,id\n1,2\n",
+            [{"name": "id"}, {"name": "id"}],
+            "ambiguous duplicate field names",
+        ),
+        (
+            "id,value\n1,2\n",
+            [{"name": "id"}, {"name": "id"}],
+            "ambiguous duplicate field names",
+        ),
+    ],
+)
+def test_frictionless_provider_rejects_ambiguous_duplicate_field_names(
+    tmp_path, csv, fields, message
+) -> None:
+    """Descriptor and CSV field identities must each be unambiguous."""
+    (tmp_path / "samples.csv").write_text(csv, encoding="utf-8")
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "schema": {"fields": fields},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match=message):
+        FrictionlessProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path)
+        )
+
+
+@pytest.mark.parametrize(
     ("provider", "version"),
     [(CroissantProvider(), "1.1"), (FrictionlessProvider(), "1")],
 )
