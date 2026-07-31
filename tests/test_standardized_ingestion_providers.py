@@ -124,6 +124,27 @@ def test_registry_inspect_reports_capabilities_without_materializing(tmp_path) -
     }
 
 
+@pytest.mark.parametrize(
+    ("payload", "message"),
+    [
+        ([], "descriptor root must be a JSON object"),
+        (
+            {"unrecognized": True},
+            "descriptor must match exactly one registered provider",
+        ),
+    ],
+)
+def test_registry_inspect_rejects_invalid_or_unrecognized_descriptors(
+    tmp_path, payload, message
+) -> None:
+    """Metadata-only inspection keeps the same descriptor boundary as ingest."""
+    descriptor_path = tmp_path / "descriptor.json"
+    descriptor_path.write_text(json.dumps(payload), encoding="utf-8")
+
+    with pytest.raises(IngestionError, match=message):
+        default_registry().inspect(descriptor_path)
+
+
 @pytest.mark.parametrize("provider", ["croissant", "frictionless"])
 def test_built_in_provider_replays_a_verified_cached_resource_offline(
     tmp_path, provider
