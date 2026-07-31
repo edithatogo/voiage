@@ -35,7 +35,7 @@
   invariance, buy/sell asymmetry, ties, nonuniform probabilities, utility
   domains, bracketing/nonconvergence and stakeholder comparability. (AC-05)
   — `f2c4503`
-- [ ] **U8:** Add versioned schemas, normative fixtures, deterministic
+- [~] **U8:** Add versioned schemas, normative fixtures, deterministic
   serialization and root-diagnostic contracts. (AC-02, AC-03, AC-05)
 - [ ] **U9:** Run independent evidence and numerical-boundary review. (AC-05,
   AC-08)
