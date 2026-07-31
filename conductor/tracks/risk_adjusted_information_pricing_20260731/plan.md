@@ -72,8 +72,9 @@
 
 ## Phase 4 — User, binding and governed closeout surfaces
 
-- [~] **U14:** Add CLI/reporting, capability discovery, accessible examples
+- [x] **U14:** Add CLI/reporting, capability discovery, accessible examples
   and documentation that distinguish utility and monetary scales. (AC-07)
+  — `db3a649`
 - [ ] **U15:** Record and validate Rust, Python, R, Julia and Mojo capability
   dispositions and shared-fixture evidence or explicit unsupported states.
   (AC-06)
