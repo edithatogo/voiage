@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 from pathlib import Path
 
 import pytest
@@ -22,6 +23,8 @@ _FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "croissant_1_1"
         ("unsupported/checksum-mismatch.json", "SHA-256"),
         ("unsupported/context-object.json", "string JSON-LD context entries"),
         ("unsupported/integrity-declaration.json", "integrity declarations"),
+        ("unsupported/content-size-mismatch.json", "byte size does not match"),
+        ("unsupported/content-size-text.json", "contentSize"),
         ("unsupported/key.json", "keys"),
         ("unsupported/non-csv-media-type.json", "CSV media type"),
         ("unsupported/multiple-distributions.json", "exactly one distribution"),
@@ -71,6 +74,34 @@ def test_croissant_offline_valid_profile_fixture_materializes() -> None:
     assert receipt.uri == resource_path.resolve().as_uri()
     assert receipt.sha256 == hashlib.sha256(resource_path.read_bytes()).hexdigest()
     assert receipt.byte_size == resource_path.stat().st_size
+
+
+def test_croissant_content_size_is_verified_and_retained_in_receipt() -> None:
+    """The accepted Croissant contentSize is an actual byte-integrity check."""
+    bundle = CroissantProvider().ingest(
+        _FIXTURE_ROOT / "valid" / "content-size-croissant.json",
+        policy=SourceAccessPolicy(_FIXTURE_ROOT),
+    )
+
+    assert bundle.manifest.resources[0].byte_size == 43
+
+
+def test_croissant_profile_map_exercises_every_documented_boundary() -> None:
+    """Fixtures make support and rejection explicit, never best-effort."""
+    profile = json.loads((_FIXTURE_ROOT / "profile-map.json").read_text())
+
+    for entry in profile["supported"]:
+        bundle = CroissantProvider().ingest(
+            _FIXTURE_ROOT / entry["fixture"],
+            policy=SourceAccessPolicy(_FIXTURE_ROOT),
+        )
+        assert bundle.manifest.provenance.provider_id == "croissant"
+    for entry in profile["rejected"]:
+        with pytest.raises(IngestionError, match=entry["message"]):
+            CroissantProvider().ingest(
+                _FIXTURE_ROOT / entry["fixture"],
+                policy=SourceAccessPolicy(_FIXTURE_ROOT),
+            )
 
 
 def test_croissant_preserves_declared_field_data_type_as_descriptive_metadata(

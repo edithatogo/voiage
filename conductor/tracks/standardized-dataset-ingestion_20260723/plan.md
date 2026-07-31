@@ -80,7 +80,9 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   adversarial coverage: `5a3a7b04`. A combined context-array/governance fixture
   now proves descriptor-only inspection, retained non-semantic governance, and
   materialization receipt fields while rejecting unexpanded JSON-LD context
-  objects (`d814e6e1`, partial).
+  objects (`d814e6e1`, partial). The file-backed profile map also proves
+  `contentSize` byte-integrity validation and fail-closed non-byte/alternate
+  integrity declarations (partial).
 - [~] **P4-T3 / AC-04, AC-11:** Add fixtures for Croissant 1.1 conformance,
   parser-feature gaps, live datasets, citations, PROV, usage information,
   ODRL, and RAI metadata preservation. Offline governance fixture added

@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add Croissant `contentSize` byte-integrity validation and a file-backed
+  supported/rejected profile map; unsupported integrity forms now fail before
+  resource materialization.
 - Add fail-closed parsed-row limits for built-in Croissant and Frictionless
   delimited resources, including a `voiage ingest --max-resource-rows` policy
   option on materializing commands.
