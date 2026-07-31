@@ -80,6 +80,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   ML and engineering reference descriptors now have executable CLI
         validation and inspection walkthroughs alongside the direct business
         DataFrame example.
+    *   The README now links the conservative Croissant/Frictionless ingestion
+        surface to its profile matrix, offline policy, and cross-domain examples.
 
 ## Completed public documentation
 
