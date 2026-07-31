@@ -35,7 +35,7 @@ class FrictionlessProvider:
     capabilities = ProviderCapabilities(
         provider_id=provider_id,
         format_versions=("1",),
-        media_types=("text/csv",),
+        media_types=("text/csv", "text/tab-separated-values"),
     )
 
     def can_handle(self, descriptor: dict[str, object]) -> bool:
@@ -117,25 +117,24 @@ class FrictionlessProvider:
         if not isinstance(fields, list):
             raise IngestionError("Data Package schema requires fields")
         fields = cast("list[object]", fields)
-        resource_format = resource.get("format")
-        if resource_format not in (None, "csv"):
-            raise IngestionError("supported Data Package profile requires CSV format")
         if "checksum" in resource:
             raise IngestionError(
                 "supported Data Package profile does not support integrity declarations"
             )
         declared_sha256 = _sha256(resource.get("hash"))
         declared_byte_size = _byte_size(resource.get("bytes"))
-        dialect = resource.get("dialect")
-        if dialect not in (None, {"delimiter": ","}):
-            raise IngestionError(
-                "supported Data Package profile accepts only CSV comma dialect"
-            )
+        delimiter, suffix, media_type = _delimited_text_profile(
+            reference,
+            resource.get("format"),
+            resource.get("dialect"),
+        )
         table = read_csv(
             reference,
             policy,
             sha256=declared_sha256,
             byte_size=declared_byte_size,
+            delimiter=delimiter,
+            suffix=suffix,
         )
         self._validate_schema(table, fields)
         primary_key = self._primary_key(schema)
@@ -165,6 +164,7 @@ class FrictionlessProvider:
                 policy,
                 sha256=declared_sha256,
                 byte_size=declared_byte_size,
+                media_type=media_type,
             ),
             self._foreign_keys(schema, table_id),
         )
@@ -283,7 +283,8 @@ class FrictionlessProvider:
         for item in fields:
             if not isinstance(item, dict) or not isinstance(item.get("name"), str):
                 raise IngestionError("Data Package fields require string names")
-            declared_names.append(cast("str", item["name"]))
+            field = cast("dict[str, object]", item)
+            declared_names.append(cast("str", field["name"]))
         if len(declared_names) != len(set(declared_names)):
             raise IngestionError(
                 "Data Package schema has ambiguous duplicate field names"
@@ -378,6 +379,39 @@ def _byte_size(value: object) -> int | None:
             "Data Package resource bytes must be a non-negative integer"
         )
     return value
+
+
+def _delimited_text_profile(
+    reference: str, resource_format: object, dialect: object
+) -> tuple[str, str, str]:
+    """Return one explicit local CSV or TSV profile without sniffing dialects.
+
+    The Data Package profile deliberately supports only exact descriptor/file
+    pairs.  In particular, a tab-separated resource must declare both its TSV
+    format and tab delimiter, avoiding an accidental comma parse of a `.tsv`
+    file or a hidden dialect feature that Arrow would interpret differently.
+    """
+    normalized_path = reference.casefold()
+    if resource_format in (None, "csv"):
+        if not normalized_path.endswith(".csv") or dialect not in (
+            None,
+            {"delimiter": ","},
+        ):
+            raise IngestionError(
+                "CSV resources require a .csv path and comma delimiter"
+            )
+        return ",", ".csv", "text/csv"
+    if resource_format != "tsv":
+        raise IngestionError(
+            "supported Data Package profile requires CSV or TSV format"
+        )
+    if not normalized_path.endswith(".tsv"):
+        raise IngestionError("TSV resources require a .tsv path")
+    if isinstance(dialect, dict) and set(dialect) != {"delimiter"}:
+        raise IngestionError("strict CSV/TSV dialects accept only delimiter")
+    if dialect != {"delimiter": "\t"}:
+        raise IngestionError("TSV resources require an explicit tab delimiter")
+    return "\t", ".tsv", "text/tab-separated-values"
 
 
 def _governance_extensions(descriptor: dict[str, object]) -> dict[str, object]:

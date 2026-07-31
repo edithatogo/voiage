@@ -242,6 +242,107 @@ def test_frictionless_provider_validates_declared_types_constraints_and_primary_
     assert bundle.table("samples").column_names == ["id", "value"]
 
 
+def test_frictionless_provider_ingests_explicit_tab_separated_resource(
+    tmp_path,
+) -> None:
+    """The strict local profile accepts an explicitly declared TSV dialect."""
+    source = tmp_path / "samples.tsv"
+    source.write_text("id\tvalue\n1\t1.5\n2\t2.5\n", encoding="utf-8")
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "name": "tabular-operations-fixture",
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.tsv",
+                        "format": "tsv",
+                        "dialect": {"delimiter": "\t"},
+                        "schema": {
+                            "primaryKey": "id",
+                            "fields": [
+                                {"name": "id", "type": "integer"},
+                                {"name": "value", "type": "number"},
+                            ],
+                        },
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    bundle = FrictionlessProvider().ingest(
+        descriptor_path, policy=SourceAccessPolicy(tmp_path)
+    )
+
+    assert bundle.table("samples").to_pylist() == [
+        {"id": 1, "value": 1.5},
+        {"id": 2, "value": 2.5},
+    ]
+    assert bundle.manifest.resources[0].media_type == "text/tab-separated-values"
+    assert bundle.manifest.resources[0].sha256 == digest_file(source)
+
+
+@pytest.mark.parametrize(
+    ("path", "resource_format", "dialect", "message"),
+    [
+        (
+            "samples.tsv",
+            "tsv",
+            {"delimiter": ","},
+            "TSV resources require an explicit tab delimiter",
+        ),
+        (
+            "samples.tsv",
+            "csv",
+            {"delimiter": "\t"},
+            "CSV resources require a .csv path and comma delimiter",
+        ),
+        (
+            "samples.csv",
+            "tsv",
+            {"delimiter": "\t"},
+            "TSV resources require a .tsv path",
+        ),
+        (
+            "samples.tsv",
+            "tsv",
+            {"delimiter": "\t", "quoteChar": '"'},
+            "strict CSV/TSV dialects accept only delimiter",
+        ),
+    ],
+)
+def test_frictionless_provider_rejects_ambiguous_or_unsupported_tsv_dialects(
+    tmp_path, path, resource_format, dialect, message
+) -> None:
+    """A TSV descriptor must make its local parsing semantics unambiguous."""
+    (tmp_path / path).write_text("id\tvalue\n1\t2\n", encoding="utf-8")
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": path,
+                        "format": resource_format,
+                        "dialect": dialect,
+                        "schema": {"fields": [{"name": "id"}, {"name": "value"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match=message):
+        FrictionlessProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path)
+        )
+
+
 def test_frictionless_provider_preserves_package_governance_metadata(tmp_path) -> None:
     (tmp_path / "samples.csv").write_text("id,value\n1,1.5\n", encoding="utf-8")
     descriptor_path = tmp_path / "datapackage.json"
@@ -383,7 +484,7 @@ def test_frictionless_provider_rejects_unsupported_or_invalid_schema_claims(
                 "dialect": {"delimiter": ";"},
                 "schema": {"fields": [{"name": "id"}]},
             },
-            "only CSV comma dialect",
+            "CSV resources require a .csv path and comma delimiter",
         ),
         (
             "id\n1\n",
@@ -536,7 +637,12 @@ def test_provider_capabilities_declare_conservative_supported_profiles(
 
     assert capabilities.provider_id == provider.provider_id
     assert version in capabilities.format_versions
-    assert capabilities.media_types == ("text/csv",)
+    expected_media_types = (
+        ("text/csv",)
+        if provider.provider_id == "croissant"
+        else ("text/csv", "text/tab-separated-values")
+    )
+    assert capabilities.media_types == expected_media_types
     assert capabilities.supports_projection is False
     assert capabilities.supports_filtering is False
     assert capabilities.supports_streaming is False

@@ -267,7 +267,7 @@ def test_ingest_inspect_and_normalize(tmp_path, monkeypatch) -> None:
     assert inspection["provider"] == "frictionless"
     assert inspection["capabilities"] == {
         "format_versions": ["1"],
-        "media_types": ["text/csv"],
+        "media_types": ["text/csv", "text/tab-separated-values"],
         "provider_id": "frictionless",
         "supported_transforms": [],
         "supports_filtering": False,

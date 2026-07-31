@@ -1,0 +1,19 @@
+{
+  "name": "operations-tsv-fixture",
+  "profile": "tabular-data-package",
+  "resources": [
+    {
+      "name": "operations_tsv",
+      "path": "valid/data.tsv",
+      "format": "tsv",
+      "dialect": {"delimiter": "\t"},
+      "schema": {
+        "primaryKey": "scenario_id",
+        "fields": [
+          {"name": "scenario_id", "type": "integer"},
+          {"name": "net_benefit", "type": "number"}
+        ]
+      }
+    }
+  ]
+}

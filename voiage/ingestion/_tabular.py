@@ -23,15 +23,32 @@ def read_csv(
     *,
     sha256: str | None = None,
     byte_size: int | None = None,
+    delimiter: str = ",",
+    suffix: str = ".csv",
 ) -> pa.Table:
-    """Read a declared CSV file after policy enforcement."""
-    if not reference.lower().endswith(".csv"):
-        raise IngestionError("built-in providers currently support CSV resources only")
+    """Read one declared local delimited-text resource after policy enforcement.
+
+    Built-in providers select the delimiter and filename suffix from their
+    documented profile.  This helper intentionally does not infer either from
+    source bytes or a filename.
+    """
+    if delimiter not in {",", "\t"}:
+        raise IngestionError("built-in providers support only comma or tab delimiters")
+    if suffix not in {".csv", ".tsv"}:
+        raise IngestionError("built-in providers support only CSV or TSV suffixes")
+    if not reference.lower().endswith(suffix):
+        raise IngestionError(
+            f"declared resource must use the supported {suffix} filename suffix"
+        )
     path = policy.materialize(reference, sha256=sha256, byte_size=byte_size)
     try:
-        return csv.read_csv(path)
+        if delimiter == ",":
+            return csv.read_csv(path)
+        return csv.read_csv(path, parse_options=csv.ParseOptions(delimiter=delimiter))
     except pa.ArrowException as error:
-        raise IngestionError("declared CSV resource cannot be parsed") from error
+        raise IngestionError(
+            "declared delimited-text resource cannot be parsed"
+        ) from error
 
 
 def materialization_receipt(
@@ -41,6 +58,7 @@ def materialization_receipt(
     *,
     sha256: str | None = None,
     byte_size: int | None = None,
+    media_type: str = "text/csv",
 ) -> ResourceManifest:
     """Return immutable local-resource identity after policy resolution."""
     path = policy.materialize(reference, sha256=sha256, byte_size=byte_size)
@@ -48,6 +66,6 @@ def materialization_receipt(
         resource_id=resource_id,
         uri=policy.source_uri(reference),
         sha256=digest_file(path),
-        media_type="text/csv",
+        media_type=media_type,
         byte_size=path.stat().st_size,
     )
