@@ -1,0 +1,5 @@
+Conductor evidence: P8 DataFrame conversion diagnostics refresh for PR #660.
+
+Scope: format-neutral __dataframe__ adapter diagnostics and consumer contracts.
+Validation: uv run --extra ci pytest -q tests/test_dataframe_interchange_sdk.py tests/test_standardized_ingestion_conformance.py --no-cov (12 passed); uv run --with ruff ruff check voiage/ingestion/dataframe.py tests/test_dataframe_interchange_sdk.py; uv run --with ruff ruff format --check voiage/ingestion/dataframe.py tests/test_dataframe_interchange_sdk.py; uv run --extra ci ty check voiage/ingestion/dataframe.py; uv run --extra ci python scripts/validate_conductor_github_cross_references.py; git diff --check origin/main..HEAD.
+Base: 5b50e21a.
