@@ -33,8 +33,8 @@
 - [x] **E9:** Implement the accepted Rust numerical kernels and versioned result
   envelopes, or record a reviewed exclusion if stable implementation is not
   scientifically supportable. (AC-05) [be07345b]
-- [ ] **E10:** Add the thin Python façade, typed diagnostics and deterministic
-  serialization without numerical fallback. (AC-02, AC-05)
+- [x] **E10:** Add the thin Python façade, typed diagnostics and deterministic
+  serialization without numerical fallback. (AC-02, AC-05) [80f42605]
 - [ ] **E11:** Add Monte Carlo uncertainty, convergence diagnostics, property
   assurance and benchmarks. (AC-04, AC-08)
 - [ ] **E12:** Run automated implementation review, focused tests, differential
