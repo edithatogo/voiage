@@ -38,8 +38,15 @@
 - [x] **U8:** Add versioned schemas, normative fixtures, deterministic
   serialization and root-diagnostic contracts. (AC-02, AC-03, AC-05)
   — `8a7b707`
-- [~] **U9:** Run independent evidence and numerical-boundary review. (AC-05,
-  AC-08)
+- [x] **U9:** Run independent evidence and numerical-boundary review. (AC-05,
+  AC-08) — `9e51994`
+
+### Phase 2 review fixes
+
+- [x] Add PPI, stakeholder-comparability and bounded solver-limit red
+  contracts; fully discriminate nested result diagnostics; require cost,
+  currency and price-date semantics; exclude CRRA risk aversion one; and
+  validate a complete normative result. — `9e51994`
 
 ## Phase 3 — Rust runtime and Python presentation
 
