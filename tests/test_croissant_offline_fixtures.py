@@ -10,7 +10,7 @@ from typing import cast
 import pytest
 
 from voiage import ingestion
-from voiage.ingestion.base import IngestionError, SourceAccessPolicy
+from voiage.ingestion.base import IngestionError, SourceAccessPolicy, SourceSelection
 from voiage.ingestion.croissant import (
     CroissantProvider,
     CroissantSelection,
@@ -249,6 +249,37 @@ def test_croissant_multi_pair_fixture_preserves_selected_receipt_identity() -> N
         "recordSet": "alternate_samples",
         "distribution": "#alternate",
     }
+
+
+def test_registry_selection_preserves_croissant_receipt_and_content_identity() -> None:
+    """The registry exposes the same explicit pair choice as the provider API."""
+    descriptor_path = _FIXTURE_ROOT / "valid" / "multi-pair-croissant.json"
+    registry = default_registry()
+
+    baseline = registry.ingest(
+        descriptor_path,
+        policy=SourceAccessPolicy(_FIXTURE_ROOT),
+        selection=SourceSelection(
+            provider_id="croissant",
+            values=(("record_set", "baseline_samples"), ("distribution", "#baseline")),
+        ),
+    )
+    alternate = registry.ingest(
+        descriptor_path,
+        policy=SourceAccessPolicy(_FIXTURE_ROOT),
+        selection=SourceSelection(
+            provider_id="croissant",
+            values=(
+                ("record_set", "alternate_samples"),
+                ("distribution", "#alternate"),
+            ),
+        ),
+    )
+
+    assert (
+        baseline.manifest.resources[0].sha256 != alternate.manifest.resources[0].sha256
+    )
+    assert baseline.content_digest != alternate.content_digest
 
 
 def test_croissant_selection_rejects_non_string_distribution_identifier(

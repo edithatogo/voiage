@@ -10,7 +10,9 @@ import pytest
 from typer.testing import CliRunner
 
 from voiage.cli import app
+from voiage.contracts import NormalizedInputBundle
 from voiage.ingestion import cli as ingestion_cli
+from voiage.ingestion.registry import default_registry as real_default_registry
 
 
 def test_ingest_cli_publishes_stable_domain_exit_codes(tmp_path) -> None:
@@ -315,6 +317,7 @@ def test_ingest_inspect_and_normalize(tmp_path, monkeypatch) -> None:
         "supports_filtering": False,
         "supports_projection": False,
         "supports_random_access": False,
+        "source_selection_keys": [],
         "supports_streaming": False,
     }
     assert inspection["binding_resolution"] is None
@@ -397,6 +400,117 @@ def test_inspect_does_not_materialize_declared_resource(tmp_path) -> None:
     assert normalized.exit_code == 3
     assert "declared resource does not exist" in validated.output
     assert "declared resource does not exist" in normalized.output
+
+
+def test_cli_croissant_source_selection_materializes_the_requested_pair(
+    tmp_path, monkeypatch
+) -> None:
+    """Materializing commands expose source-pair choice without projection flags."""
+    fixture_root = Path(__file__).parent / "fixtures" / "croissant_1_1"
+    descriptor = fixture_root / "valid" / "multi-pair-croissant.json"
+    output = tmp_path / "alternate.arrow"
+    runner = CliRunner()
+    monkeypatch.setattr(ingestion_cli, "evpi", lambda _: 0.0)
+    options = [
+        "--provider",
+        "croissant",
+        "--record-set",
+        "alternate_samples",
+        "--distribution",
+        "#alternate",
+        "--source-root",
+        str(fixture_root),
+    ]
+
+    validated = runner.invoke(app, ["ingest", "validate", str(descriptor), *options])
+    normalized = runner.invoke(
+        app,
+        ["ingest", "normalize", str(descriptor), "--output", str(output), *options],
+    )
+    calculated = runner.invoke(
+        app,
+        [
+            "ingest",
+            "calculate-from-dataset",
+            str(descriptor),
+            "--table",
+            "alternate_samples",
+            "--field",
+            "strategy_c",
+            "--field",
+            "strategy_d",
+            *options,
+        ],
+    )
+    missing_distribution = runner.invoke(
+        app,
+        [
+            "ingest",
+            "validate",
+            str(descriptor),
+            "--record-set",
+            "alternate_samples",
+        ],
+    )
+
+    validation = json.loads(validated.output)
+    normalization = json.loads(normalized.output)
+    assert validated.exit_code == normalized.exit_code == calculated.exit_code == 0
+    assert validation["tables"] == {"alternate_samples": 2}
+    assert (
+        normalization["content_digest"]
+        == NormalizedInputBundle.read_ipc(output).content_digest
+    )
+    assert json.loads(calculated.output)["evpi"] == 0.0
+    assert missing_distribution.exit_code == 3
+    assert (
+        "requires both --record-set and --distribution" in missing_distribution.output
+    )
+
+
+def test_normalize_materializes_once_and_reports_the_written_bundle_digest(
+    tmp_path, monkeypatch
+) -> None:
+    """Normalization does not re-ingest sources merely to render its summary."""
+    (tmp_path / "samples.csv").write_text("a,b\n1,2\n", encoding="utf-8")
+    descriptor = tmp_path / "datapackage.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "schema": {"fields": [{"name": "a"}, {"name": "b"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    output = tmp_path / "normalized.arrow"
+    observed = 0
+    registry = real_default_registry()
+    original_ingest = registry.ingest
+
+    def spy_ingest(*args, **kwargs):
+        nonlocal observed
+        observed += 1
+        return original_ingest(*args, **kwargs)
+
+    monkeypatch.setattr(registry, "ingest", spy_ingest)
+    monkeypatch.setattr(ingestion_cli, "default_registry", lambda: registry)
+
+    result = CliRunner().invoke(
+        app, ["ingest", "normalize", str(descriptor), "--output", str(output)]
+    )
+
+    assert result.exit_code == 0, result.output
+    assert observed == 1
+    assert (
+        json.loads(result.output)["content_digest"]
+        == NormalizedInputBundle.read_ipc(output).content_digest
+    )
 
 
 def test_ingest_cli_returns_safe_error_for_unrecognized_descriptor(tmp_path) -> None:

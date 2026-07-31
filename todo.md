@@ -79,6 +79,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
         existing direct Python/CSV APIs, explicit VOI semantic bindings, and
         strict separation between core contracts and optional Croissant or
         Frictionless parsers.
+    *   Keep source selection explicit and provider-owned: it may choose a
+        declared source pair but must never become implicit projection or row
+        filtering.
     *   Current merged increments establish the baseline contract, preparation
         boundary, optional CSV profiles, and provenance propagation. The
         unchecked acceptance criteria in the Conductor track remain active;

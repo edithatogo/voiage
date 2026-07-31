@@ -85,7 +85,9 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   integrity declarations. A local multi-pair fixture now requires explicit
   record-set and distribution selectors, proves their receipt/content identity,
   and rejects missing, mismatched, `FileObject`, or `FileSet` selections rather
-  than inferring a relationship (partial).
+  than inferring a relationship. The provider-neutral selection request now
+  carries this explicit source choice through the registry and materializing
+  CLI commands without exposing projection or filtering (partial).
 - [~] **P4-T3 / AC-04, AC-11:** Add fixtures for Croissant 1.1 conformance,
   parser-feature gaps, live datasets, citations, PROV, usage information,
   ODRL, and RAI metadata preservation. Offline governance fixture added
@@ -213,7 +215,8 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   `ingest normalize`, and `calculate-from-dataset` with explicit selection,
   binding, offline, and source-policy options. Every materializing command now
   accepts an explicit `--source-root` in addition to the cache, offline, and
-  resource-size policy controls.
+  resource-size policy controls. Multi-pair Croissant source selection is now
+  explicit through paired `--record-set` and `--distribution` options.
 - [~] **P6-T4 / AC-07, AC-11:** Keep inspection and materialization evidence
   distinct in stable machine-readable output. `ingest inspect` is now
   descriptor-only (provider capabilities and an explicit null binding

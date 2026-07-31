@@ -19,6 +19,7 @@ from voiage.ingestion.base import (
     IngestionProvider,
     ProviderCapabilities,
     SourceAccessPolicy,
+    SourceSelection,
 )
 
 _ENTRY_POINT_GROUP = "voiage.ingestion.providers"
@@ -81,7 +82,11 @@ class ProviderRegistry:
         self._providers = tuple(_validate_provider(provider) for provider in providers)
 
     def ingest(
-        self, descriptor_path: Path, *, policy: SourceAccessPolicy | None = None
+        self,
+        descriptor_path: Path,
+        *,
+        policy: SourceAccessPolicy | None = None,
+        selection: SourceSelection | None = None,
     ) -> NormalizedInputBundle:
         """Choose exactly one recognizer and convert its descriptor."""
         try:
@@ -97,7 +102,25 @@ class ProviderRegistry:
             raise IngestionError(
                 "descriptor must match exactly one registered provider"
             )
-        return matches[0].ingest(
+        provider = matches[0]
+        if selection is not None:
+            if selection.provider_id != provider.provider_id:
+                raise IngestionError(
+                    "source selection does not match the descriptor provider"
+                )
+            unsupported = {key for key, _ in selection.values}.difference(
+                provider.capabilities.source_selection_keys
+            )
+            if unsupported:
+                raise IngestionError(
+                    "provider does not support the requested source selection"
+                )
+            return provider.ingest(
+                descriptor_path,
+                policy=policy or SourceAccessPolicy(descriptor_path.parent),
+                selection=selection,
+            )
+        return provider.ingest(
             descriptor_path, policy=policy or SourceAccessPolicy(descriptor_path.parent)
         )
 
@@ -134,6 +157,7 @@ class ProviderRegistry:
                 "supports_filtering": capabilities.supports_filtering,
                 "supports_streaming": capabilities.supports_streaming,
                 "supports_random_access": capabilities.supports_random_access,
+                "source_selection_keys": capabilities.source_selection_keys,
             },
         }
 

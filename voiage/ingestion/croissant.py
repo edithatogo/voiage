@@ -20,6 +20,7 @@ from voiage.ingestion.base import (
     IngestionError,
     ProviderCapabilities,
     SourceAccessPolicy,
+    SourceSelection,
 )
 
 
@@ -31,6 +32,7 @@ class CroissantProvider:
         provider_id=provider_id,
         format_versions=("1.1",),
         media_types=("text/csv",),
+        source_selection_keys=("record_set", "distribution"),
     )
 
     def can_handle(self, descriptor: dict[str, object]) -> bool:
@@ -45,7 +47,7 @@ class CroissantProvider:
         descriptor_path: Path,
         *,
         policy: SourceAccessPolicy,
-        selection: CroissantSelection | None = None,
+        selection: CroissantSelection | SourceSelection | None = None,
     ) -> NormalizedInputBundle:
         """Materialize one explicitly selected local Croissant CSV pair.
 
@@ -81,7 +83,9 @@ class CroissantProvider:
                         cast("dict[str, object]", candidate)
                     )
         record_set, distribution = _select_local_pair(
-            record_sets, distributions, selection=selection
+            record_sets,
+            distributions,
+            selection=_croissant_selection(selection),
         )
         self._reject_unsupported_semantics(descriptor, distribution, record_set)
         table_id = record_set.get("name")
@@ -236,6 +240,24 @@ class CroissantSelection:
 
     record_set: str | None = None
     distribution: str | None = None
+
+
+def _croissant_selection(
+    selection: CroissantSelection | SourceSelection | None,
+) -> CroissantSelection | None:
+    """Adapt the provider-neutral request without accepting unknown selectors."""
+    if selection is None or isinstance(selection, CroissantSelection):
+        return selection
+    if selection.provider_id != CroissantProvider.provider_id:
+        raise IngestionError("source selection does not match the descriptor provider")
+    if {key for key, _ in selection.values} != {"record_set", "distribution"}:
+        raise IngestionError(
+            "Croissant source selection requires record_set and distribution"
+        )
+    return CroissantSelection(
+        record_set=selection.value_for("record_set"),
+        distribution=selection.value_for("distribution"),
+    )
 
 
 def _select_local_pair(
