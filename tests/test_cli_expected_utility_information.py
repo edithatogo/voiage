@@ -2,11 +2,14 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from typer.testing import CliRunner
 
 from voiage import cli
+
+if TYPE_CHECKING:
+    import pytest
 
 FIXTURES = (
     Path(__file__).parents[1]
@@ -124,3 +127,74 @@ def test_cli_surfaces_failed_price_root_instead_of_reporting_unavailable(
     assert response.exit_code == 1
     assert "bpi failed: discontinuous_no_root" in response.stderr
     assert "unavailable" not in response.stderr
+
+
+def test_cli_rejects_non_object_requests_and_canonical_evpi(tmp_path: Path) -> None:
+    """The command owns both request-shape and presentation-alias diagnostics."""
+    non_object = tmp_path / "list.json"
+    non_object.write_text("[]", encoding="utf-8")
+    shape_response = RUNNER.invoke(
+        cli.app,
+        ["calculate-expected-utility-information", str(non_object)],
+    )
+    assert shape_response.exit_code == 1
+    assert "must contain a JSON object" in shape_response.stderr
+
+    request = _request(tmp_path, "affine-clairvoyant.json")
+    evpi_response = RUNNER.invoke(
+        cli.app,
+        [
+            "calculate-expected-utility-information",
+            str(request),
+            "--measure",
+            "evpi",
+        ],
+    )
+    assert evpi_response.exit_code == 1
+    assert "requires --presentation voc" in evpi_response.stderr
+
+
+def test_cli_writes_and_announces_output_when_status_messages_are_enabled(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Output persistence remains separate from optional terminal status text."""
+    request = _request(tmp_path, "affine-clairvoyant.json")
+    output = tmp_path / "result.json"
+    monkeypatch.setattr(cli, "_should_echo_status_messages", lambda: True)
+
+    response = RUNNER.invoke(
+        cli.app,
+        [
+            "--format",
+            "json",
+            "calculate-expected-utility-information",
+            str(request),
+            "--output",
+            str(output),
+        ],
+    )
+
+    assert response.exit_code == 0, response.stdout
+    assert json.loads(output.read_text(encoding="utf-8"))["command"] == (
+        "calculate-expected-utility-information"
+    )
+    assert f"Result saved to {output}" in response.stdout
+
+
+def test_cli_converts_unexpected_expected_utility_failures_to_exit_one(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Unexpected facade failures do not escape the command boundary."""
+    request = _request(tmp_path, "affine-clairvoyant.json")
+
+    def unexpected(_: dict[str, object]) -> dict[str, object]:
+        raise RuntimeError("synthetic unexpected failure")
+
+    monkeypatch.setattr(cli, "expected_utility_information_value", unexpected)
+    response = RUNNER.invoke(
+        cli.app,
+        ["calculate-expected-utility-information", str(request)],
+    )
+
+    assert response.exit_code == 1
+    assert "An error occurred: synthetic unexpected failure" in response.stderr

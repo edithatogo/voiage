@@ -64,6 +64,49 @@ def test_voc_rejects_finite_signal_presentation() -> None:
         value_of_clairvoyance(request)
 
 
+@pytest.mark.parametrize(
+    ("payload", "selected_measure", "message"),
+    [
+        ({}, "eui", "information mapping"),
+        (_request("affine-clairvoyant.json"), "unknown", "Unsupported VoC"),
+    ],
+)
+def test_voc_rejects_invalid_public_presentation_inputs(
+    payload: dict[str, object], selected_measure: str, message: str
+) -> None:
+    """The public adapter validates malformed selection and metadata inputs."""
+    with pytest.raises(InputError, match=message):
+        value_of_clairvoyance(payload, selected_measure=selected_measure)
+
+
+@pytest.mark.parametrize("missing_key", ["affine_reduction", "presentation"])
+def test_voc_rejects_incomplete_canonical_results(
+    monkeypatch: pytest.MonkeyPatch, missing_key: str
+) -> None:
+    """A malformed Rust wire response cannot fabricate a presentation."""
+
+    def incomplete(_: dict[str, object]) -> dict[str, object]:
+        result: dict[str, object] = {
+            "affine_reduction": {"status": "available", "monetary_measure": "evpi"},
+            "presentation": {"presentation_label": "voc"},
+        }
+        del result[missing_key]
+        return result
+
+    monkeypatch.setattr(
+        "voiage.methods.utility_information.expected_utility_information_value",
+        incomplete,
+    )
+    selected_measure = "evpi" if missing_key == "affine_reduction" else "eui"
+    expected = (
+        "affine reduction" if missing_key == "affine_reduction" else "presentation"
+    )
+    with pytest.raises(InputError, match=expected):
+        value_of_clairvoyance(
+            _request("affine-clairvoyant.json"), selected_measure=selected_measure
+        )
+
+
 def test_decision_analysis_exposes_explicit_state_contract() -> None:
     analysis = DecisionAnalysis(nb_array=np.array([[0.0, 1.0], [1.0, 0.0]]))
     result = analysis.expected_utility_information(_request("affine-clairvoyant.json"))
