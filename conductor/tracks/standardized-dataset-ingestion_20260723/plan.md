@@ -287,7 +287,10 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   required).
 - [~] **P7-T5 / AC-08:** Verify Python 3.12–3.14, minimum/maximum dependencies,
   CPU fallback, numerical equivalence, Arrow round trips, base/extra wheels,
-  license inventory, and SBOM changes.
+  license inventory, and SBOM changes. The executable support matrix now binds
+  the supported Python range, built-in provider capabilities, and
+  dependency-neutral extras to the current runtime (partial: all-version,
+  dependency-frontier, and release-wheel execution remains hosted evidence).
 - [~] **P7-T6 / AC-08:** Run typing, Ruff, coverage, mutation targets,
   dependency audits, repository harness, full `tox`, and all hosted checks.
 - [~] **P7-T7 / AC-08:** Publish supported-standard compatibility and
@@ -295,6 +298,9 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   support matrix now distinguishes conservative supported Croissant,
   Frictionless, DataFrame, and normalized Arrow profiles from rejected
   remote/archive/transform and authoritative-live paths (`1dc545a7`, partial).
+  The machine-readable matrix additionally makes source-policy and release
+  claims executable while explicitly classifying workflow files as declarations,
+  not completed hosted or release evidence.
 - [~] **P7-T8 / AC-08:** Run automated review, resolve high-confidence
   findings, and complete the final implementation checkpoint.
 
