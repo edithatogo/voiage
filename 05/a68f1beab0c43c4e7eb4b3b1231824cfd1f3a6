@@ -1,0 +1,1 @@
+PR #637 hosted import-isolation repair: live probe export keeps built-in providers lazy; 7 focused probe/import tests and Ruff pass.
