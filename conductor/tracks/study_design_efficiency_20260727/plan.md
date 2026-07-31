@@ -33,7 +33,7 @@
 - [x] **S10:** Implement versioned Rust result envelopes and accepted numerical
   kernels for COSS and EVSI/EVPI, or record a reviewed exclusion. (AC-02,
   AC-03, AC-06) — `bf908ed`
-- [ ] **S11:** Implement the thin Python orchestration façade and deterministic
+- [~] **S11:** Implement the thin Python orchestration façade and deterministic
   design optimizer without numerical fallback. (AC-01, AC-02, AC-06)
 - [ ] **S12:** Reconcile or deprecate legacy optimizer behavior and preserve
   stable API compatibility. (AC-04)

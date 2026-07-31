@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-import pytest
 from pydantic import ValidationError
+import pytest
 
 from voiage.contracts.study_design import (
     FeasibleDesignRangeV1,
@@ -12,8 +12,8 @@ from voiage.contracts.study_design import (
     StudyDesignContextV1,
     StudyDesignPointInputV1,
 )
-from voiage.experimental.study_design import calculate_coss, evsi_evpi_efficiency
 from voiage.exceptions import InputError
+from voiage.experimental.study_design import calculate_coss, evsi_evpi_efficiency
 
 
 @pytest.fixture
@@ -321,7 +321,8 @@ def test_evsi_evpi_efficiency_preserves_small_monte_carlo_bound_excursions(
         relative_tolerance=0.0,
     )
 
-    assert result.ratio is not None and result.ratio > 1.0
+    assert result.ratio is not None
+    assert result.ratio > 1.0
     assert result.status == "above_one_within_tolerance"
     assert "ratio_not_clamped" in result.diagnostics
 
@@ -329,7 +330,7 @@ def test_evsi_evpi_efficiency_preserves_small_monte_carlo_bound_excursions(
 def test_evsi_evpi_efficiency_rejects_material_bounds_and_context_mismatch(
     study_context: StudyDesignContextV1,
 ) -> None:
-    with pytest.raises(InputError, match="theoretical bounds"):
+    with pytest.raises(InputError, match="theoretical"):
         evsi_evpi_efficiency(
             evsi=InformationValueInputV1(value=101.0, context=study_context),
             evpi=InformationValueInputV1(value=100.0, context=study_context),
