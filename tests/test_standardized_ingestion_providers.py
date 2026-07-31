@@ -1171,6 +1171,30 @@ def test_tabular_and_preparation_rejection_paths(tmp_path) -> None:
         digest_file(csv_source)
         == "309b0e45a73d3fc5325e2b6ed0a01ef8b9cde6b05a5633c1f893f970d52bfddc"
     )
+
+
+@pytest.mark.parametrize(
+    ("reference", "delimiter", "suffix", "message"),
+    [
+        ("samples.csv", ";", ".csv", "only comma or tab delimiters"),
+        ("samples.csv", ",", ".txt", "only CSV or TSV suffixes"),
+        ("samples.tsv", ",", ".csv", "must use the supported .csv"),
+    ],
+)
+def test_tabular_reader_rejects_unsupported_or_mismatched_profile_claims(
+    tmp_path, reference, delimiter, suffix, message
+) -> None:
+    """Delimited-text parsing must not infer a dialect or filename profile."""
+    (tmp_path / "samples.csv").write_text("id\n1\n", encoding="utf-8")
+    (tmp_path / "samples.tsv").write_text("id\n1\n", encoding="utf-8")
+
+    with pytest.raises(IngestionError, match=message):
+        read_csv(
+            reference,
+            SourceAccessPolicy(tmp_path),
+            delimiter=delimiter,
+            suffix=suffix,
+        )
     manifest = DatasetManifest(
         dataset_id="x",
         tables=(
