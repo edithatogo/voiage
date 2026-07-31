@@ -184,6 +184,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Bound TestPyPI JSON-to-Simple API propagation lag.
+    *   Retry the exact reviewed wheel download for the same bounded six
+        attempts used by the TestPyPI JSON and installation gates.
+    *   Preserve failure after the propagation window and all exact-hash,
+        provenance, and black-box smoke requirements.
+
 *   [x] Preserve strict TestPyPI attestation verification through its Integrity
     API.
     *   Retrieve each provenance object from TestPyPI and verify it against the

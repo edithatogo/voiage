@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "name": "operations_tsv",
+      "path": "valid/data.tsv",
+      "format": "tsv",
+      "dialect": {"delimiter": ","},
+      "schema": {
+        "fields": [
+          {"name": "scenario_id"},
+          {"name": "net_benefit"}
+        ]
+      }
+    }
+  ]
+}

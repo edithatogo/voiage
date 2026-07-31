@@ -7,11 +7,16 @@ import json
 import subprocess
 import sys
 from types import SimpleNamespace
+from typing import TYPE_CHECKING
 
 import pandas as pd
 import polars as pl
 import pyarrow as pa
+from pyarrow import parquet as pq
 import pytest
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 from voiage import ingestion
 from voiage.contracts import (
@@ -28,11 +33,18 @@ from voiage.ingestion import (
     IngestionProvider,
     ProviderCapabilities,
     SourceAccessPolicy,
+    _tabular,
     default_registry,
     discover_entry_point_providers,
     from_dataframe,
 )
-from voiage.ingestion._tabular import digest_file, read_csv
+from voiage.ingestion._tabular import (
+    digest_file,
+    read_arrow_ipc,
+    read_csv,
+    read_json_table,
+    read_parquet,
+)
 from voiage.ingestion.croissant import CroissantProvider
 from voiage.ingestion.frictionless import (
     FrictionlessProvider,
@@ -45,6 +57,114 @@ from voiage.ingestion.registry import ProviderRegistry
 
 def _write_csv(tmp_path) -> None:
     (tmp_path / "samples.csv").write_text("a,b\n1,2\n3,4\n", encoding="utf-8")
+
+
+def _write_arrow_ipc(path, *, stream: bool = False, nested: bool = False) -> None:
+    """Write a deterministic local Arrow file or deliberately unsupported stream."""
+    table = pa.table(
+        {
+            "id": pa.array([1, 2], type=pa.int64()),
+            "value": pa.array([1.5, 2.5], type=pa.float64()),
+            "label": pa.array(["one", "two"], type=pa.string()),
+        }
+        if not nested
+        else {"id": pa.array([[1], [2]])}
+    )
+    with pa.OSFile(str(path), "wb") as sink:
+        writer = (
+            pa.ipc.new_stream(sink, table.schema)
+            if stream
+            else pa.ipc.new_file(sink, table.schema)
+        )
+        with writer:
+            writer.write_table(table)
+
+
+class _PreflightOnlyPolicy(SourceAccessPolicy):
+    """Make accidental source resolution or materialization immediately visible."""
+
+    preflight_calls: int = 0
+    resolve_calls: int = 0
+    materialize_calls: int = 0
+
+    def source_uri(self, reference: str) -> str:
+        self.preflight_calls += 1
+        return super().source_uri(reference)
+
+    def resolve(self, reference: str) -> Path:
+        self.resolve_calls += 1
+        raise AssertionError(f"unexpected resolver call for {reference!r}")
+
+    def materialize(
+        self,
+        reference: str,
+        *,
+        sha256: str | None = None,
+        byte_size: int | None = None,
+    ) -> Path:
+        self.materialize_calls += 1
+        raise AssertionError(f"unexpected materializer call for {reference!r}")
+
+
+def _unsafe_descriptor(
+    provider_id: str, reference: str, *, transform: bool
+) -> dict[str, object]:
+    """Return a minimum descriptor with one deliberately unsupported source."""
+    if provider_id == "croissant":
+        distribution: dict[str, object] = {"contentUrl": reference}
+        if transform:
+            distribution["transform"] = {"script": "not-run"}
+        return {
+            "@context": "https://mlcommons.org/croissant/1.1",
+            "distribution": [distribution],
+            "recordSet": [{"name": "samples", "field": [{"name": "id"}]}],
+        }
+    resource: dict[str, object] = {
+        "name": "samples",
+        "path": reference,
+        "schema": {"fields": [{"name": "id", "type": "integer"}]},
+    }
+    if transform:
+        resource["transform"] = {"script": "not-run"}
+    return {"resources": [resource]}
+
+
+@pytest.mark.parametrize("provider_id", ["croissant", "frictionless"])
+@pytest.mark.parametrize(
+    ("reference", "transform"),
+    [
+        ("https://example.invalid/source.csv", False),
+        ("https://example.invalid/redirect.csv", False),
+        ("//metadata.internal/source.csv", False),
+        ("source.tar.gz", False),
+        ("samples.csv", True),
+    ],
+)
+def test_built_in_providers_reject_unsafe_sources_before_callbacks_or_receipts(
+    tmp_path, provider_id: str, reference: str, transform: bool
+) -> None:
+    """Unsupported source semantics cannot reach resolver, cache, or receipt code."""
+    descriptor_path = tmp_path / f"{provider_id}.json"
+    descriptor_path.write_text(
+        json.dumps(_unsafe_descriptor(provider_id, reference, transform=transform)),
+        encoding="utf-8",
+    )
+    cache = tmp_path / "cache"
+    policy = _PreflightOnlyPolicy(tmp_path, cache_dir=cache)
+    provider = (
+        CroissantProvider() if provider_id == "croissant" else FrictionlessProvider()
+    )
+
+    with pytest.raises(IngestionError):
+        provider.ingest(descriptor_path, policy=policy)
+
+    assert policy.resolve_calls == 0
+    assert policy.materialize_calls == 0
+    provider_rejects_before_policy = transform or (
+        provider_id == "croissant" and reference.lower().endswith(".tar.gz")
+    )
+    assert policy.preflight_calls == (0 if provider_rejects_before_policy else 1)
+    assert not cache.exists()
 
 
 @pytest.mark.parametrize(
@@ -93,6 +213,52 @@ def test_built_in_providers_normalize_supported_csv_profile(
         bundle.manifest.resources[0].byte_size
         == (tmp_path / "samples.csv").stat().st_size
     )
+
+
+@pytest.mark.parametrize("provider", ["croissant", "frictionless"])
+def test_built_in_providers_reject_a_resource_before_unbounded_row_materialization(
+    tmp_path, provider: str
+) -> None:
+    """Delimited rows are counted before a provider constructs an Arrow table."""
+    (tmp_path / "samples.csv").write_text("a,b\n1,2\n3,4\n4,5\n", encoding="utf-8")
+    if provider == "croissant":
+        descriptor = {
+            "@context": "https://mlcommons.org/croissant/1.1",
+            "distribution": [{"contentUrl": "samples.csv"}],
+            "recordSet": [{"name": "samples", "field": [{"name": "a"}, {"name": "b"}]}],
+        }
+        descriptor_name = "croissant.json"
+    else:
+        descriptor = {
+            "resources": [
+                {
+                    "name": "samples",
+                    "path": "samples.csv",
+                    "schema": {"fields": [{"name": "a"}, {"name": "b"}]},
+                }
+            ]
+        }
+        descriptor_name = "datapackage.json"
+    descriptor_path = tmp_path / descriptor_name
+    descriptor_path.write_text(json.dumps(descriptor), encoding="utf-8")
+
+    with pytest.raises(IngestionError, match="row limit"):
+        default_registry().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path, max_resource_rows=2)
+        )
+
+
+def test_tabular_reader_rejects_an_oversized_batch_before_table_construction(
+    tmp_path,
+) -> None:
+    """A streaming CSV batch cannot bypass the source policy's batch ceiling."""
+    (tmp_path / "samples.csv").write_text("a\n1\n2\n3\n", encoding="utf-8")
+
+    with pytest.raises(IngestionError, match="batch row limit"):
+        read_csv(
+            "samples.csv",
+            SourceAccessPolicy(tmp_path, max_resource_rows=10, max_batch_rows=1),
+        )
 
 
 def test_registry_inspect_reports_capabilities_without_materializing(tmp_path) -> None:
@@ -242,6 +408,693 @@ def test_frictionless_provider_validates_declared_types_constraints_and_primary_
     assert bundle.table("samples").column_names == ["id", "value"]
 
 
+def test_frictionless_provider_ingests_explicit_tab_separated_resource(
+    tmp_path,
+) -> None:
+    """The strict local profile accepts an explicitly declared TSV dialect."""
+    source = tmp_path / "samples.tsv"
+    source.write_text("id\tvalue\n1\t1.5\n2\t2.5\n", encoding="utf-8")
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "name": "tabular-operations-fixture",
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.tsv",
+                        "format": "tsv",
+                        "dialect": {"delimiter": "\t"},
+                        "schema": {
+                            "primaryKey": "id",
+                            "fields": [
+                                {"name": "id", "type": "integer"},
+                                {"name": "value", "type": "number"},
+                            ],
+                        },
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    bundle = FrictionlessProvider().ingest(
+        descriptor_path, policy=SourceAccessPolicy(tmp_path)
+    )
+
+    assert bundle.table("samples").to_pylist() == [
+        {"id": 1, "value": 1.5},
+        {"id": 2, "value": 2.5},
+    ]
+    assert bundle.manifest.resources[0].media_type == "text/tab-separated-values"
+    assert bundle.manifest.resources[0].sha256 == digest_file(source)
+
+
+def test_frictionless_provider_ingests_explicit_local_json_table(tmp_path) -> None:
+    """The local profile accepts only an explicit JSON array-of-object table."""
+    source = tmp_path / "samples.json"
+    source.write_text(
+        json.dumps([{"id": 1, "value": 1.5}, {"id": 2, "value": 2.5}]),
+        encoding="utf-8",
+    )
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "name": "json-table-operations-fixture",
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.json",
+                        "format": "json",
+                        "schema": {
+                            "primaryKey": "id",
+                            "fields": [
+                                {
+                                    "name": "id",
+                                    "type": "integer",
+                                    "constraints": {
+                                        "required": True,
+                                        "unique": True,
+                                    },
+                                },
+                                {"name": "value", "type": "number"},
+                            ],
+                        },
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    bundle = FrictionlessProvider().ingest(
+        descriptor_path, policy=SourceAccessPolicy(tmp_path)
+    )
+
+    assert bundle.table("samples").to_pylist() == [
+        {"id": 1, "value": 1.5},
+        {"id": 2, "value": 2.5},
+    ]
+    assert bundle.manifest.resources[0].media_type == "application/json"
+    assert bundle.manifest.resources[0].sha256 == digest_file(source)
+
+
+def test_frictionless_provider_ingests_strict_local_parquet_resource(tmp_path) -> None:
+    """The Parquet profile keeps Arrow schema and immutable receipt identity."""
+    source = tmp_path / "samples.parquet"
+    table = pa.table({"id": pa.array([1, 2]), "value": pa.array([1.5, 2.5])})
+    pq.write_table(table, source)
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": source.name,
+                        "format": "parquet",
+                        "hash": digest_file(source),
+                        "bytes": source.stat().st_size,
+                        "schema": {
+                            "primaryKey": "id",
+                            "fields": [
+                                {"name": "id", "type": "integer"},
+                                {"name": "value", "type": "number"},
+                            ],
+                        },
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    bundle = FrictionlessProvider().ingest(
+        descriptor_path, policy=SourceAccessPolicy(tmp_path)
+    )
+
+    assert bundle.table("samples").equals(table)
+    receipt = bundle.manifest.resources[0]
+    assert receipt.media_type == "application/vnd.apache.parquet"
+    assert receipt.sha256 == digest_file(source)
+    assert receipt.byte_size == source.stat().st_size
+
+
+def test_frictionless_parquet_profile_enforces_resource_row_limit(tmp_path) -> None:
+    """Parquet row groups cannot bypass the shared materialization policy."""
+    source = tmp_path / "samples.parquet"
+    pq.write_table(pa.table({"id": [1, 2, 3]}), source, row_group_size=3)
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": source.name,
+                        "format": "parquet",
+                        "schema": {"fields": [{"name": "id", "type": "integer"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match="row limit"):
+        FrictionlessProvider().ingest(
+            descriptor_path,
+            policy=SourceAccessPolicy(tmp_path, max_resource_rows=2),
+        )
+
+
+def test_parquet_reader_preserves_an_empty_declared_schema(tmp_path) -> None:
+    """An empty local Parquet table still carries its footer schema."""
+    source = tmp_path / "empty.parquet"
+    schema = pa.schema([("id", pa.int64()), ("value", pa.float64())])
+    pq.write_table(pa.Table.from_batches([], schema=schema), source)
+
+    table = read_parquet(source.name, SourceAccessPolicy(tmp_path))
+
+    assert table.num_rows == 0
+    assert table.schema == schema
+
+
+def test_parquet_reader_rejects_invalid_suffix_and_malformed_payload(tmp_path) -> None:
+    """Parquet parser and filename failures remain stable ingestion errors."""
+    policy = SourceAccessPolicy(tmp_path)
+    with pytest.raises(IngestionError, match="supported .parquet filename suffix"):
+        read_parquet("not-parquet.csv", policy)
+
+    (tmp_path / "malformed.parquet").write_bytes(b"not a parquet file")
+    with pytest.raises(IngestionError, match="Parquet resource cannot be parsed"):
+        read_parquet("malformed.parquet", policy)
+
+
+@pytest.mark.parametrize(
+    ("path", "dialect", "message"),
+    [
+        (
+            "samples.parquet",
+            {"delimiter": ","},
+            "Parquet resources do not support dialect declarations",
+        ),
+        ("samples.csv", None, "Parquet resources require a .parquet path"),
+    ],
+)
+def test_frictionless_provider_rejects_ambiguous_parquet_declarations(
+    tmp_path, path, dialect, message
+) -> None:
+    """Parquet support must not infer a dialect or filename semantics."""
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": path,
+                        "format": "parquet",
+                        "dialect": dialect,
+                        "schema": {"fields": [{"name": "id"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match=message):
+        FrictionlessProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path)
+        )
+
+
+@pytest.mark.parametrize(
+    ("filename", "resource_format"),
+    [("samples.arrow", "arrow"), ("samples.feather", "feather")],
+)
+def test_frictionless_provider_ingests_explicit_local_arrow_ipc_file(
+    tmp_path, filename: str, resource_format: str
+) -> None:
+    """The local profile accepts only an explicit Arrow IPC file container."""
+    source = tmp_path / filename
+    _write_arrow_ipc(source)
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "name": "arrow-operations-fixture",
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": filename,
+                        "format": resource_format,
+                        "hash": digest_file(source),
+                        "bytes": source.stat().st_size,
+                        "schema": {
+                            "primaryKey": "id",
+                            "fields": [
+                                {
+                                    "name": "id",
+                                    "type": "integer",
+                                    "constraints": {
+                                        "required": True,
+                                        "unique": True,
+                                    },
+                                },
+                                {"name": "value", "type": "number"},
+                                {"name": "label", "type": "string"},
+                            ],
+                        },
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    bundle = FrictionlessProvider().ingest(
+        descriptor_path, policy=SourceAccessPolicy(tmp_path)
+    )
+
+    assert bundle.table("samples").to_pylist() == [
+        {"id": 1, "value": 1.5, "label": "one"},
+        {"id": 2, "value": 2.5, "label": "two"},
+    ]
+    assert bundle.manifest.tables[0].primary_key == ("id",)
+    assert (
+        bundle.manifest.resources[0].media_type == "application/vnd.apache.arrow.file"
+    )
+    assert bundle.manifest.resources[0].sha256 == digest_file(source)
+
+
+def test_frictionless_arrow_ipc_profile_enforces_batch_row_policy(tmp_path) -> None:
+    """An Arrow file batch is rejected before a complete table is retained."""
+    source = tmp_path / "samples.arrow"
+    _write_arrow_ipc(source)
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": source.name,
+                        "format": "arrow",
+                        "schema": {
+                            "fields": [
+                                {"name": "id", "type": "integer"},
+                                {"name": "value", "type": "number"},
+                                {"name": "label", "type": "string"},
+                            ]
+                        },
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match="batch row limit"):
+        FrictionlessProvider().ingest(
+            descriptor_path,
+            policy=SourceAccessPolicy(tmp_path, max_resource_rows=2, max_batch_rows=1),
+        )
+
+
+def test_arrow_ipc_reader_rejects_invalid_suffix_and_parse_conversion_errors(
+    tmp_path, monkeypatch
+) -> None:
+    """Every low-level Arrow file failure stays inside the ingestion boundary."""
+    policy = SourceAccessPolicy(tmp_path)
+
+    with pytest.raises(IngestionError, match="support only Arrow IPC file suffixes"):
+        read_arrow_ipc("samples.arrow", policy, suffix=".ipc")
+    with pytest.raises(IngestionError, match="supported .feather suffix"):
+        read_arrow_ipc("samples.arrow", policy, suffix=".feather")
+
+    (tmp_path / "invalid.arrow").write_bytes(b"not-an-arrow-file")
+    with pytest.raises(IngestionError, match="cannot be parsed as an Arrow file"):
+        read_arrow_ipc("invalid.arrow", policy, suffix=".arrow")
+
+    source = tmp_path / "samples.arrow"
+    _write_arrow_ipc(source)
+
+    def fail_from_batches(*_: object, **__: object) -> object:
+        raise pa.ArrowInvalid("synthetic Arrow table construction failure")
+
+    monkeypatch.setattr(
+        _tabular.pa, "Table", SimpleNamespace(from_batches=fail_from_batches)
+    )
+    with pytest.raises(IngestionError, match="cannot be parsed as an Arrow file"):
+        read_arrow_ipc("samples.arrow", policy, suffix=".arrow")
+
+
+@pytest.mark.parametrize(
+    ("resource", "message"),
+    [
+        (
+            {"path": "samples.feather", "format": "arrow"},
+            "matching .arrow/.feather path and format",
+        ),
+        (
+            {"path": "samples.arrow", "format": "feather"},
+            "matching .arrow/.feather path and format",
+        ),
+        (
+            {"path": "samples.arrow", "format": "arrow", "dialect": {}},
+            "do not support parser declarations",
+        ),
+        (
+            {"path": "samples.arrow", "format": "arrow", "compression": "zstd"},
+            "do not support parser declarations",
+        ),
+        (
+            {"path": "https://example.invalid/samples.arrow", "format": "arrow"},
+            "network resource access is disabled",
+        ),
+    ],
+)
+def test_frictionless_arrow_ipc_declaration_errors_fail_closed(
+    tmp_path, resource, message
+) -> None:
+    """Profile/transport declarations fail without inferring an Arrow source."""
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        **resource,
+                        "schema": {"fields": [{"name": "id", "type": "integer"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match=message):
+        FrictionlessProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path)
+        )
+
+
+@pytest.mark.parametrize(
+    ("schema", "message"),
+    [
+        ({"fields": []}, "Arrow IPC schema requires at least one field"),
+        ({"fields": [{"type": "integer"}]}, "Arrow IPC fields require string names"),
+        (
+            {"fields": [{"name": "id", "format": "ignored"}]},
+            "Arrow IPC fields contain unsupported declarations",
+        ),
+    ],
+)
+def test_frictionless_arrow_ipc_field_declarations_fail_before_resource_reads(
+    tmp_path, schema, message
+) -> None:
+    """Unsupported Arrow field semantics are rejected before materialization."""
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "missing.arrow",
+                        "format": "arrow",
+                        "schema": schema,
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match=message):
+        FrictionlessProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path)
+        )
+
+
+@pytest.mark.parametrize(
+    ("stream", "nested", "message"),
+    [
+        (True, False, "cannot be parsed as an Arrow file"),
+        (False, True, "field type does not match"),
+    ],
+)
+def test_frictionless_arrow_ipc_rejects_streams_and_schema_mismatches(
+    tmp_path, stream: bool, nested: bool, message: str
+) -> None:
+    """IPC streams and Arrow types outside the declared primitive schema fail."""
+    source = tmp_path / "samples.arrow"
+    _write_arrow_ipc(source, stream=stream, nested=nested)
+    fields = (
+        [{"name": "id", "type": "string"}]
+        if nested
+        else [
+            {"name": "id", "type": "integer"},
+            {"name": "value", "type": "number"},
+            {"name": "label", "type": "string"},
+        ]
+    )
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": source.name,
+                        "format": "arrow",
+                        "schema": {"fields": fields},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match=message):
+        FrictionlessProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path)
+        )
+
+
+@pytest.mark.parametrize(
+    ("payload", "resource", "message"),
+    [
+        (
+            {"id": 1},
+            {"path": "samples.json", "format": "json"},
+            "JSON Table resource must contain a JSON array",
+        ),
+        (
+            [{"id": 1}, [2]],
+            {"path": "samples.json", "format": "json"},
+            "JSON Table rows must be JSON objects",
+        ),
+        (
+            [{"id": 1}],
+            {"path": "samples.json", "format": "json", "dialect": {}},
+            "JSON Table resources do not support dialect declarations",
+        ),
+        (
+            [{"id": 1}],
+            {"path": "samples.json", "format": "json", "encoding": "utf-16"},
+            "JSON Table resources do not support resource encoding declarations",
+        ),
+        (
+            [{"id": {"nested": 1}}],
+            {"path": "samples.json", "format": "json"},
+            "JSON Table rows must contain only scalar values",
+        ),
+        (
+            [{"id": 1}],
+            {
+                "path": "samples.json",
+                "format": "json",
+                "schema": {"fields": [{"name": "id", "format": "default"}]},
+            },
+            "JSON Table fields contain unsupported declarations",
+        ),
+    ],
+)
+def test_frictionless_provider_rejects_unsupported_json_table_shapes_before_normalizing(
+    tmp_path, payload, resource, message
+) -> None:
+    """Unsupported JSON Table semantics fail through the stable boundary."""
+    (tmp_path / "samples.json").write_text(json.dumps(payload), encoding="utf-8")
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        **resource,
+                        "schema": resource.get(
+                            "schema",
+                            {"fields": [{"name": "id", "type": "integer"}]},
+                        ),
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match=message):
+        FrictionlessProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path)
+        )
+
+
+def test_json_table_reader_rejects_suffix_decode_key_and_arrow_conversion_errors(
+    tmp_path, monkeypatch
+) -> None:
+    """Every JSON Table parser error remains a stable ingestion error."""
+    policy = SourceAccessPolicy(tmp_path)
+
+    with pytest.raises(IngestionError, match="must use a .json suffix"):
+        read_json_table("samples.txt", policy)
+
+    (tmp_path / "invalid.json").write_text("{not-json", encoding="utf-8")
+    with pytest.raises(IngestionError, match="not valid UTF-8 JSON"):
+        read_json_table("invalid.json", policy)
+
+    (tmp_path / "keys.json").write_text("[]", encoding="utf-8")
+    monkeypatch.setattr(_tabular.json, "loads", lambda _: [{1: "not-json-key"}])
+    with pytest.raises(IngestionError, match="field names must be strings"):
+        read_json_table("keys.json", policy)
+
+    monkeypatch.setattr(_tabular.json, "loads", lambda _: [{"id": 1}])
+
+    def fail_from_pylist(_: object) -> object:
+        raise pa.ArrowInvalid("synthetic conversion failure")
+
+    monkeypatch.setattr(
+        _tabular.pa, "Table", SimpleNamespace(from_pylist=fail_from_pylist)
+    )
+    with pytest.raises(IngestionError, match="cannot be converted to Arrow"):
+        read_json_table("keys.json", policy)
+
+
+@pytest.mark.parametrize(
+    ("resource", "schema", "message"),
+    [
+        (
+            {"path": "missing.csv", "format": "json"},
+            {"fields": [{"name": "id"}]},
+            "JSON Table resources require a .json path",
+        ),
+        (
+            {"path": "missing.json", "format": "json", "compression": "zip"},
+            {"fields": [{"name": "id"}]},
+            "JSON Table resources do not support parser declarations",
+        ),
+        (
+            {"path": "missing.json", "format": "json"},
+            {"fields": []},
+            "JSON Table schema requires at least one field",
+        ),
+        (
+            {"path": "missing.json", "format": "json"},
+            {"fields": [{"type": "integer"}]},
+            "JSON Table fields require string names",
+        ),
+    ],
+)
+def test_frictionless_json_table_declaration_errors_fail_before_resource_reads(
+    tmp_path, resource, schema, message
+) -> None:
+    """Unsupported JSON Table descriptor semantics do not touch source files."""
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        **resource,
+                        "schema": schema,
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match=message):
+        FrictionlessProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path)
+        )
+
+
+@pytest.mark.parametrize(
+    ("path", "resource_format", "dialect", "message"),
+    [
+        (
+            "samples.tsv",
+            "tsv",
+            {"delimiter": ","},
+            "TSV resources require an explicit tab delimiter",
+        ),
+        (
+            "samples.tsv",
+            "csv",
+            {"delimiter": "\t"},
+            "CSV resources require a .csv path and comma delimiter",
+        ),
+        (
+            "samples.csv",
+            "tsv",
+            {"delimiter": "\t"},
+            "TSV resources require a .tsv path",
+        ),
+        (
+            "samples.tsv",
+            "tsv",
+            {"delimiter": "\t", "quoteChar": '"'},
+            "strict CSV/TSV dialects accept only delimiter",
+        ),
+    ],
+)
+def test_frictionless_provider_rejects_ambiguous_or_unsupported_tsv_dialects(
+    tmp_path, path, resource_format, dialect, message
+) -> None:
+    """A TSV descriptor must make its local parsing semantics unambiguous."""
+    (tmp_path / path).write_text("id\tvalue\n1\t2\n", encoding="utf-8")
+    descriptor_path = tmp_path / "datapackage.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": path,
+                        "format": resource_format,
+                        "dialect": dialect,
+                        "schema": {"fields": [{"name": "id"}, {"name": "value"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match=message):
+        FrictionlessProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path)
+        )
+
+
 def test_frictionless_provider_preserves_package_governance_metadata(tmp_path) -> None:
     (tmp_path / "samples.csv").write_text("id,value\n1,1.5\n", encoding="utf-8")
     descriptor_path = tmp_path / "datapackage.json"
@@ -283,6 +1136,7 @@ def test_frictionless_provider_preserves_package_governance_metadata(tmp_path) -
     assert bundle.manifest.provenance.license == "CC-BY-4.0"
     assert bundle.manifest.provenance.citation == "Example et al. (2026)"
     assert bundle.manifest.extensions == {
+        "frictionlessdata.org:citation": "Example et al. (2026)",
         "frictionlessdata.org:contributors": (
             {"role": "author", "title": "Maintainer"},
         ),
@@ -297,6 +1151,51 @@ def test_frictionless_provider_preserves_package_governance_metadata(tmp_path) -
         "frictionlessdata.org:title": "Governed operations fixture",
         "frictionlessdata.org:version": "1.0.0",
     }
+
+
+def test_frictionless_provider_preserves_structured_governance_extensions(
+    tmp_path,
+) -> None:
+    """Structured provenance and custom namespaces survive normalization verbatim."""
+    (tmp_path / "samples.csv").write_text("id\n1\n", encoding="utf-8")
+    descriptor_path = tmp_path / "datapackage.json"
+    citation = {"title": "Synthetic evidence", "authors": ["Example"]}
+    usage = {"purpose": "test-only", "retention": "none"}
+    extension = {"classification": "synthetic", "sensitivity": "low"}
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "citation": citation,
+                "usage": usage,
+                "usageInfo": "No production decisions.",
+                "org.example:governance": extension,
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "schema": {"fields": [{"name": "id", "type": "integer"}]},
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    bundle = FrictionlessProvider().ingest(
+        descriptor_path, policy=SourceAccessPolicy(tmp_path)
+    )
+
+    assert bundle.manifest.provenance.citation is None
+    assert bundle.manifest.extensions["frictionlessdata.org:citation"] == {
+        "title": "Synthetic evidence",
+        "authors": ("Example",),
+    }
+    assert bundle.manifest.extensions["frictionlessdata.org:usage"] == usage
+    assert (
+        bundle.manifest.extensions["frictionlessdata.org:usageInfo"]
+        == "No production decisions."
+    )
+    assert bundle.manifest.extensions["org.example:governance"] == extension
 
 
 @pytest.mark.parametrize(
@@ -383,7 +1282,7 @@ def test_frictionless_provider_rejects_unsupported_or_invalid_schema_claims(
                 "dialect": {"delimiter": ";"},
                 "schema": {"fields": [{"name": "id"}]},
             },
-            "only CSV comma dialect",
+            "CSV resources require a .csv path and comma delimiter",
         ),
         (
             "id\n1\n",
@@ -536,7 +1435,18 @@ def test_provider_capabilities_declare_conservative_supported_profiles(
 
     assert capabilities.provider_id == provider.provider_id
     assert version in capabilities.format_versions
-    assert capabilities.media_types == ("text/csv",)
+    expected_media_types = (
+        ("text/csv",)
+        if provider.provider_id == "croissant"
+        else (
+            "text/csv",
+            "text/tab-separated-values",
+            "application/json",
+            "application/vnd.apache.parquet",
+            "application/vnd.apache.arrow.file",
+        )
+    )
+    assert capabilities.media_types == expected_media_types
     assert capabilities.supports_projection is False
     assert capabilities.supports_filtering is False
     assert capabilities.supports_streaming is False
@@ -1056,8 +1966,8 @@ def test_tabular_and_preparation_rejection_paths(tmp_path) -> None:
     csv_source.write_text("a\n1\n", encoding="utf-8")
     with pytest.MonkeyPatch.context() as monkeypatch:
         monkeypatch.setattr(
-            "voiage.ingestion._tabular.csv.read_csv",
-            lambda _: (_ for _ in ()).throw(pa.ArrowInvalid("bad CSV")),
+            "voiage.ingestion._tabular.csv.open_csv",
+            lambda *_args, **_kwargs: (_ for _ in ()).throw(pa.ArrowInvalid("bad CSV")),
         )
         with pytest.raises(IngestionError, match="cannot be parsed"):
             read_csv("unreadable.csv", SourceAccessPolicy(tmp_path))
@@ -1065,6 +1975,30 @@ def test_tabular_and_preparation_rejection_paths(tmp_path) -> None:
         digest_file(csv_source)
         == "309b0e45a73d3fc5325e2b6ed0a01ef8b9cde6b05a5633c1f893f970d52bfddc"
     )
+
+
+@pytest.mark.parametrize(
+    ("reference", "delimiter", "suffix", "message"),
+    [
+        ("samples.csv", ";", ".csv", "only comma or tab delimiters"),
+        ("samples.csv", ",", ".txt", "only CSV or TSV suffixes"),
+        ("samples.tsv", ",", ".csv", "must use the supported .csv"),
+    ],
+)
+def test_tabular_reader_rejects_unsupported_or_mismatched_profile_claims(
+    tmp_path, reference, delimiter, suffix, message
+) -> None:
+    """Delimited-text parsing must not infer a dialect or filename profile."""
+    (tmp_path / "samples.csv").write_text("id\n1\n", encoding="utf-8")
+    (tmp_path / "samples.tsv").write_text("id\n1\n", encoding="utf-8")
+
+    with pytest.raises(IngestionError, match=message):
+        read_csv(
+            reference,
+            SourceAccessPolicy(tmp_path),
+            delimiter=delimiter,
+            suffix=suffix,
+        )
     manifest = DatasetManifest(
         dataset_id="x",
         tables=(
@@ -1402,6 +2336,27 @@ def test_croissant_provider_validates_declared_local_sha256(
             .num_rows
             == 2
         )
+
+
+@pytest.mark.parametrize("checksum", [42, "not-a-sha256"])
+def test_croissant_provider_rejects_malformed_declared_sha256_before_reading(
+    tmp_path, checksum: object
+) -> None:
+    """Malformed Croissant integrity declarations fail before materialization."""
+    descriptor_path = tmp_path / "croissant.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "@context": "https://mlcommons.org/croissant/1.1",
+                "distribution": [{"contentUrl": "not-read.csv", "sha256": checksum}],
+                "recordSet": [{"name": "samples", "field": [{"name": "a"}]}],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match="sha256 must be a SHA-256 string"):
+        CroissantProvider().ingest(descriptor_path, policy=SourceAccessPolicy(tmp_path))
 
 
 def test_croissant_provider_preserves_non_checksum_ingestion_error(tmp_path) -> None:

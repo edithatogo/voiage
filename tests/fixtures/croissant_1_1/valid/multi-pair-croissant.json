@@ -1,0 +1,20 @@
+{
+  "@context": "https://mlcommons.org/croissant/1.1",
+  "name": "multi-pair-decision-samples",
+  "distribution": [
+    {"@id": "#baseline", "contentUrl": "valid/data.csv", "encodingFormat": "text/csv"},
+    {"@id": "#alternate", "contentUrl": "valid/alternate.csv", "encodingFormat": "text/csv"}
+  ],
+  "recordSet": [
+    {
+      "name": "baseline_samples",
+      "distribution": "#baseline",
+      "field": [{"name": "strategy_a"}, {"name": "strategy_b"}]
+    },
+    {
+      "name": "alternate_samples",
+      "distribution": "#alternate",
+      "field": [{"name": "strategy_c"}, {"name": "strategy_d"}]
+    }
+  ]
+}

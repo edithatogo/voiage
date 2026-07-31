@@ -1,22 +1,14 @@
 # Standardized Dataset Ingestion
 
-Status: in progress. PR #627 is merged with Phase 7 assurance evidence; the
-Phase 8 SDK and Phase 9 reference-case changes are now on `main` as `24e12977`
-and `c4106739`; PR #634 carries the remaining Phase 10 reconciliation evidence.
-Issues
-#325–#333, #467, and #468 remain open because the plan's outstanding provider,
-conformance, product, security, SDK, and worked-example criteria remain active.
-Project 28 has been reconciled: all linked items are `In Progress`, consistent
-with their still-open issues. Final review additionally found a pre-existing invalid
-append-only evidence-ledger chain. Its immutable legacy copy and a new valid
-ledger chain are bound by [the migration record](./evidence-migration.md).
-These are increments, not track-closeout evidence.
-
-Local evidence on the `codex/sdk-dataframe-worked-examples` branch extends the
-Phase 8–9 DataFrame SDK consumer contracts and routes both business reference
-cases through the public adapter with `allow_copy=False`. It is partial local
-evidence only: the related plan tasks, hosted matrix, and external GitHub
-acceptance checks remain open.
+Status: in progress. The additive [2026-07-31 Phase 10 reconciliation record]
+(./p10-reconciliation-20260731.md) maps 30 merged ingestion increments in
+PRs #639–#690 to exact commits, artifacts, and hosted-check provenance while
+recording scope exclusions. Issues #325–#333, #467, and #468 remain open, and
+their Project 28 items remain `In Progress`; neither fact is treated as
+closeout evidence. The pre-repair ledger is preserved byte-for-byte and the
+current valid chain is bound by [the integrity-repair record]
+(./evidence-integrity-repair-20260731.md). These are increments, not track
+closeout evidence.
 
 GitHub parent issue:
 [#325](https://github.com/edithatogo/voiage/issues/325)
@@ -28,5 +20,6 @@ GitHub Project:
 - [Implementation Plan](./plan.md)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
-- [Legacy Evidence](./evidence.legacy.jsonl)
-- [Evidence Migration](./evidence-migration.md)
+- [Pre-repair Evidence](./evidence.pre-integrity-repair-20260731.jsonl)
+- [Integrity Repair](./evidence-integrity-repair-20260731.md)
+- [P10 Reconciliation](./p10-reconciliation-20260731.md)

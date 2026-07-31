@@ -10,6 +10,164 @@ import pytest
 from typer.testing import CliRunner
 
 from voiage.cli import app
+from voiage.ingestion import cli as ingestion_cli
+
+
+def test_ingest_cli_publishes_stable_domain_exit_codes(tmp_path) -> None:
+    """CLI syntax, source, binding, and output failures remain distinguishable."""
+    (tmp_path / "samples.csv").write_text("a,b\n1,2\n", encoding="utf-8")
+    descriptor = tmp_path / "datapackage.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "schema": {"fields": [{"name": "a"}, {"name": "b"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    runner = CliRunner()
+
+    usage = runner.invoke(app, ["ingest", "validate", str(descriptor), "--unknown"])
+    source = runner.invoke(
+        app, ["ingest", "validate", str(descriptor), "--provider", "croissant"]
+    )
+    binding = runner.invoke(
+        app,
+        [
+            "ingest",
+            "calculate-from-dataset",
+            str(descriptor),
+            "--table",
+            "samples",
+            "--field",
+            "missing",
+        ],
+    )
+    output = runner.invoke(
+        app,
+        ["ingest", "normalize", str(descriptor), "--output", str(tmp_path)],
+    )
+
+    assert usage.exit_code == 2
+    assert source.exit_code == 3
+    assert binding.exit_code == 4
+    assert output.exit_code == 5
+
+
+def test_ingest_validate_rejects_a_resource_above_the_explicit_row_limit(
+    tmp_path,
+) -> None:
+    """The CLI maps row-policy rejection to the stable ingestion exit code."""
+    (tmp_path / "samples.csv").write_text("a,b\n1,2\n3,4\n", encoding="utf-8")
+    descriptor = tmp_path / "datapackage.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "schema": {"fields": [{"name": "a"}, {"name": "b"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    result = CliRunner().invoke(
+        app,
+        [
+            "ingest",
+            "validate",
+            str(descriptor),
+            "--max-resource-rows",
+            "1",
+        ],
+    )
+
+    assert result.exit_code == 3
+    assert "row limit" in result.output
+
+
+def test_ingest_cli_enforces_explicit_provider_and_binding_profile(
+    tmp_path, monkeypatch
+) -> None:
+    """Explicit provider and profile inputs are asserted, never inferred."""
+    (tmp_path / "samples.csv").write_text("a,b\n1,2\n", encoding="utf-8")
+    descriptor = tmp_path / "datapackage.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "schema": {"fields": [{"name": "a"}, {"name": "b"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    profile = tmp_path / "binding-profile.json"
+    profile.write_text(
+        json.dumps(
+            {
+                "schema_version": "1.0.0",
+                "bindings": [
+                    {
+                        "role": "net_benefit",
+                        "table_id": "samples",
+                        "field_ids": ("a", "b"),
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    runner = CliRunner()
+    monkeypatch.setattr(ingestion_cli, "evpi", lambda _: 0.0)
+
+    validated = runner.invoke(
+        app, ["ingest", "validate", str(descriptor), "--provider", "frictionless"]
+    )
+    calculated = runner.invoke(
+        app,
+        [
+            "ingest",
+            "calculate-from-dataset",
+            str(descriptor),
+            "--binding-profile",
+            str(profile),
+        ],
+    )
+    conflicting = runner.invoke(
+        app,
+        [
+            "ingest",
+            "calculate-from-dataset",
+            str(descriptor),
+            "--binding-profile",
+            str(profile),
+            "--table",
+            "samples",
+            "--field",
+            "a",
+        ],
+    )
+
+    assert validated.exit_code == 0, validated.output
+    assert calculated.exit_code == 0, calculated.output
+    assert json.loads(calculated.output)["binding_profile_digest"]
+    assert conflicting.exit_code == 4
+    assert "cannot be combined" in conflicting.output
 
 
 @pytest.mark.parametrize(
@@ -45,6 +203,36 @@ def test_reference_descriptors_have_safe_cli_walkthroughs(
     assert result["capabilities"]["provider_id"] == provider
 
 
+@pytest.mark.parametrize(
+    ("descriptor_name", "provider"),
+    [
+        ("canonical-decision.croissant.json", "croissant"),
+        ("canonical-decision.datapackage.json", "frictionless"),
+        ("cost-outcome-decision.croissant.json", "croissant"),
+        ("cost-outcome-decision.datapackage.json", "frictionless"),
+    ],
+)
+def test_cross_domain_reference_descriptors_validate_and_inspect(
+    descriptor_name: str, provider: str
+) -> None:
+    """P9 fixture descriptors retain one local, non-materializing CLI route."""
+    fixture_root = Path(__file__).parent / "fixtures" / "standardized_ingestion"
+    descriptor = fixture_root / descriptor_name
+    runner = CliRunner()
+
+    validated = runner.invoke(app, ["ingest", "validate", str(descriptor)])
+    inspected = runner.invoke(app, ["ingest", "inspect", str(descriptor)])
+
+    assert validated.exit_code == 0
+    validation = json.loads(validated.output)
+    assert validation["valid"] is True
+    assert validation["resources"][0]["sha256"]
+    assert inspected.exit_code == 0
+    inspection = json.loads(inspected.output)
+    assert inspection["provider"] == provider
+    assert inspection["binding_resolution"] is None
+
+
 def test_ingest_commands_publish_stable_help_surfaces() -> None:
     """All documented ingestion commands remain discoverable through the CLI."""
     runner = CliRunner()
@@ -64,7 +252,7 @@ def test_ingest_commands_publish_stable_help_surfaces() -> None:
         assert description in result.output
 
 
-def test_ingest_inspect_and_normalize(tmp_path) -> None:
+def test_ingest_inspect_and_normalize(tmp_path, monkeypatch) -> None:
     (tmp_path / "samples.csv").write_text("a,b\n1,2\n", encoding="utf-8")
     descriptor = tmp_path / "datapackage.json"
     descriptor.write_text(
@@ -85,6 +273,7 @@ def test_ingest_inspect_and_normalize(tmp_path) -> None:
         encoding="utf-8",
     )
     runner = CliRunner()
+    monkeypatch.setattr(ingestion_cli, "evpi", lambda _: 0.0)
 
     validated = runner.invoke(app, ["ingest", "validate", str(descriptor)])
     default_inspected = runner.invoke(app, ["ingest", "inspect", str(descriptor)])
@@ -114,7 +303,13 @@ def test_ingest_inspect_and_normalize(tmp_path) -> None:
     assert inspection["provider"] == "frictionless"
     assert inspection["capabilities"] == {
         "format_versions": ["1"],
-        "media_types": ["text/csv"],
+        "media_types": [
+            "text/csv",
+            "text/tab-separated-values",
+            "application/json",
+            "application/vnd.apache.parquet",
+            "application/vnd.apache.arrow.file",
+        ],
         "provider_id": "frictionless",
         "supported_transforms": [],
         "supports_filtering": False,
@@ -198,8 +393,8 @@ def test_inspect_does_not_materialize_declared_resource(tmp_path) -> None:
     assert inspected.exit_code == 0
     assert json.loads(inspected.output)["provider"] == "frictionless"
     assert json.loads(inspected.output)["binding_resolution"] is None
-    assert validated.exit_code == 2
-    assert normalized.exit_code == 2
+    assert validated.exit_code == 3
+    assert normalized.exit_code == 3
     assert "declared resource does not exist" in validated.output
     assert "declared resource does not exist" in normalized.output
 
@@ -211,9 +406,9 @@ def test_ingest_cli_returns_safe_error_for_unrecognized_descriptor(tmp_path) -> 
     result = CliRunner().invoke(app, ["ingest", "inspect", str(descriptor)])
     validated = CliRunner().invoke(app, ["ingest", "validate", str(descriptor)])
 
-    assert result.exit_code == 2
+    assert result.exit_code == 3
     assert "exactly one" in result.output
-    assert validated.exit_code == 2
+    assert validated.exit_code == 3
     assert "exactly one" in validated.output
 
 
@@ -237,7 +432,7 @@ def test_ingest_cli_redacts_credentials_from_rejected_resource_uris(tmp_path) ->
 
     result = CliRunner().invoke(app, ["ingest", "validate", str(descriptor)])
 
-    assert result.exit_code == 2
+    assert result.exit_code == 3
     assert "network resource access is disabled" in result.output
     assert "super-secret" not in result.output
     assert "example.invalid" not in result.output
@@ -252,7 +447,7 @@ def test_normalize_and_calculate_return_safe_errors(tmp_path) -> None:
             app,
             ["ingest", "normalize", str(descriptor), "-o", str(tmp_path / "x.arrow")],
         ).exit_code
-        == 2
+        == 3
     )
     assert (
         runner.invoke(
@@ -267,12 +462,12 @@ def test_normalize_and_calculate_return_safe_errors(tmp_path) -> None:
                 "a",
             ],
         ).exit_code
-        == 2
+        == 3
     )
 
 
 def test_materializing_ingest_commands_expose_explicit_source_policy_controls(
-    tmp_path,
+    tmp_path, monkeypatch
 ) -> None:
     """CLI callers can make materialization policy explicit and fail closed."""
     source_root = tmp_path / "declared-source-root"
@@ -295,6 +490,7 @@ def test_materializing_ingest_commands_expose_explicit_source_policy_controls(
     )
 
     runner = CliRunner()
+    monkeypatch.setattr(ingestion_cli, "evpi", lambda _: 0.0)
     source_policy = ["--source-root", str(source_root)]
     resolved = [
         runner.invoke(app, ["ingest", "validate", str(descriptor), *source_policy]),
@@ -352,7 +548,7 @@ def test_materializing_ingest_commands_expose_explicit_source_policy_controls(
 
     assert all(result.exit_code == 0 for result in resolved)
     assert json.loads(resolved[0].output)["valid"] is True
-    assert constrained.exit_code == 2
+    assert constrained.exit_code == 3
     assert "exceeds configured size limit" in constrained.output
     assert invalid_limit.exit_code == 2
     assert "Invalid value" in invalid_limit.output
@@ -388,7 +584,7 @@ def test_ingest_cli_applies_explicit_resource_size_policy(tmp_path) -> None:
         ],
     )
 
-    assert result.exit_code == 2
+    assert result.exit_code == 3
     assert "exceeds configured size limit" in result.output
 
 
@@ -536,6 +732,7 @@ def test_frictionless_validation_exposes_governance_and_receipt_identity(
     assert inspection["provenance"]["license"] == "CC-BY-4.0"
     assert inspection["provenance"]["citation"] == "Example et al. (2026)"
     assert inspection["governance"] == {
+        "frictionlessdata.org:citation": "Example et al. (2026)",
         "frictionlessdata.org:contributors": [
             {"role": "author", "title": "Maintainer"}
         ],

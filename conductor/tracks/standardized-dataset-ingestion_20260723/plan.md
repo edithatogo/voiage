@@ -80,7 +80,12 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   adversarial coverage: `5a3a7b04`. A combined context-array/governance fixture
   now proves descriptor-only inspection, retained non-semantic governance, and
   materialization receipt fields while rejecting unexpanded JSON-LD context
-  objects (`d814e6e1`, partial).
+  objects (`d814e6e1`, partial). The file-backed profile map also proves
+  `contentSize` byte-integrity validation and fail-closed non-byte/alternate
+  integrity declarations. A local multi-pair fixture now requires explicit
+  record-set and distribution selectors, proves their receipt/content identity,
+  and rejects missing, mismatched, `FileObject`, or `FileSet` selections rather
+  than inferring a relationship (partial).
 - [~] **P4-T3 / AC-04, AC-11:** Add fixtures for Croissant 1.1 conformance,
   parser-feature gaps, live datasets, citations, PROV, usage information,
   ODRL, and RAI metadata preservation. Offline governance fixture added
@@ -109,7 +114,23 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   Non-object descriptor-root handling is covered by the shared provider guard
   (`0c19fe1b`, `1e4e6bd7`); duplicate CSV-header and schema-field ambiguity
   now rejects through the stable ingestion error boundary (`8f60b184`,
-  partial). Remaining acceptance evidence is tracked below.
+  partial). Unsupported or non-boolean field constraints and declared Table
+  Schema `missingValues` now reject before a resource is read; structured
+  citation, usage, and namespaced governance extensions survive normalization
+  (`2c5a8cd`, partial). The strict local JSON Table increment accepts only
+  explicit `.json`/`format: json` UTF-8 arrays of scalar object rows with a
+  declared primitive field schema, verified receipt, and bounded-row policy;
+  JSON Lines, envelopes, JSON paths, nested values, parser declarations, and
+  remote/archive resources reject (`dc7d0fff`, partial). The strict local
+  Parquet profile accepts only `.parquet` resources explicitly declared as
+  `format: parquet` without a dialect, streams bounded PyArrow batches,
+  preserves verified receipts, and validates the same declared primitive fields
+  and keys (partial). The local Arrow IPC
+  file increment accepts exact `.arrow`/`format: arrow` and Feather
+  `.feather`/`format: feather` pairs through bounded Arrow file batches and
+  verified receipts; streams, Flight, dataset directories, parser
+  declarations, and remote/archive sources reject (partial). Remaining
+  acceptance evidence is tracked below.
 - [~] **P4-T8 / AC-05:** Implement the lazy optional Frictionless provider and
   documented supported profile. Public provider export is now lazy; profile
   acceptance evidence remains active (`2ad0a24a`, partial).
@@ -180,8 +201,11 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   that a rejected credential-bearing descriptor URI is redacted at the
   user-facing boundary, and all four ingestion commands have executable help
   contracts. Explicit non-default source-root tests now cover all materializing
-  commands and fail closed at the resource-byte limit (partial: complete Phase
-  6 acceptance reconciliation remains active).
+  commands and fail closed at the resource-byte limit. Provider/source-policy,
+  binding, and output failures now have stable differentiated exit codes while
+  Typer-owned usage errors retain exit code 2; explicit provider and binding
+  profile selection are enforced, and unsupported resource projection remains
+  absent (partial: complete Phase 6 acceptance reconciliation remains active).
 - [x] **P6-T2 / AC-07:** Add `croissant`, `frictionless`, and aggregate
   `ingestion` extras. The declared extras remain dependency-neutral because
   built-in providers require only the base Arrow/JSON stack.
@@ -202,8 +226,9 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 - [~] **P6-T6 / AC-07:** Update Astro data-structure, CLI, architecture, and
   security guidance plus README, changelog, roadmap, and todo. The Astro guide,
   changelog, roadmap/todo, and README now describe the supported profile,
-  explicit safety boundary, CLI, and cross-domain examples; final docs/links
-  and phase-checkpoint evidence remains active.
+  explicit safety boundary, CLI, cross-domain examples, CLI exit taxonomy, and
+  explicit provider/binding-profile boundary; final docs/links and
+  phase-checkpoint evidence remains active.
 - [ ] **P6-T7 / AC-07:** Run automated review, CLI/docs/Vale validation, clean
   install checks, and the phase checkpoint protocol.
 
@@ -213,8 +238,10 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   unauthorized-network, secret-leakage, unsafe-transform, and resource-limit
   tests. Local policy coverage now rejects URI schemes (including `file:` and
   `data:` forms) and archive suffixes before any file, DNS, redirect, or archive
-  operation; archive extraction remains explicitly unsupported (`749083d`,
-  partial).
+  operation; Croissant/Frictionless provider regressions additionally prove
+  URI-style, DNS-like, redirect-shaped, archive, and transform declarations
+  fail before a resolver/materializer callback, cache entry, or receipt can be
+  created. Archive extraction remains explicitly unsupported (partial).
 - [~] **P7-T2 / AC-08, AC-11:** Add DNS-rebinding, redirect-policy,
   cache-poisoning, checksum-mismatch, decompression-ratio, and mutable-live-data
   tests. Partial evidence: `d3550e9c` rejects a cache-namespace symlink whose
@@ -225,7 +252,12 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   authoritative live probes stay externally gated.
 - [~] **P7-T3 / AC-08, AC-11:** Complete source-policy enforcement,
   content-addressed verified caching, immutable materialization receipts,
-  offline replay, and streaming or bounded-batch behavior.
+  offline replay, and streaming or bounded-batch behavior. Built-in CSV/TSV
+  parsing now streams Arrow record batches and rejects configured per-resource
+  row ceilings and internal batch ceilings before retaining a batch or
+  constructing a table; all materializing CLI commands expose the explicit
+  `--max-resource-rows` policy option (partial: remote/archive streaming and
+  their policy evidence remain active).
 - [~] **P7-T4 / AC-08:** Benchmark parsing, normalization, Arrow conversion,
   memory use, and calculation separately; define representative
   non-regression thresholds.
@@ -257,12 +289,18 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   phases 1–5 establish stable core contracts and conformance evidence.
 - [~] **P8-T2 / AC-12:** Add typed protocol stubs, a minimal example provider,
   reusable contract tests, capability manifests, compatibility rules, and an
-  opt-in entry-point publication checklist.
+  opt-in entry-point publication checklist. The SDK v1 now has a versioned
+  machine-readable consumer fixture, regression tests for its public protocol
+  and capability fields, and registry rejection of empty provider identities
+  (partial: a separately installed third-party provider remains future evidence).
 - [~] **P8-T3 / AC-12:** Write failing DataFrame-interchange tests covering
   pandas, Polars, dtype/null/category/timezone/index handling, copy diagnostics,
   and clean optional environments. Partial diagnostics evidence: `fdda14a`;
   producer-specific nullable/category/timezone/index consumer evidence is added
-  in this increment. Clean optional-environment evidence remains pending.
+  in this increment. Dependency-neutral `croissant`, `frictionless`, and
+  aggregate `ingestion` extras now have subprocess import-isolation regression
+  coverage while enhanced parser modules are absent (partial: actual enhanced
+  parser extras remain intentionally unpromoted).
 - [~] **P8-T4 / AC-12:** Implement the generic `__dataframe__` adapter through
   Arrow and `NormalizedInputBundle`, with no alternate preparation or numerical
   path. Partial conversion-diagnostics evidence: `fdda14a`.
@@ -317,6 +355,16 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 - [~] **P10-T4 / AC-09:** Update metadata and registry status, perform the final
   automated Conductor review, and archive only when all track acceptance
   criteria are satisfied.
+
+### Additive reconciliation update — 2026-07-31
+
+`p10-reconciliation-20260731.md` maps the 30 merged ingestion increments in
+#639–#690 to exact merge commits, representative changed artifacts, and their
+hosted-check provenance. It records the absent, unmerged, open, and unrelated
+PR numbers rather than guessing associations. Project 28 confirms that #325–#333,
+#467, and #468 are present and `In Progress`; that field is not an
+acceptance-criterion verdict. P10-T4 remains active: all current and external
+acceptance boundaries still prohibit final review or archive.
 
 ## Current execution boundary
 

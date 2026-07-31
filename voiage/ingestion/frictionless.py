@@ -20,7 +20,13 @@ from voiage.contracts.normalized_input import (
     SourceProvenance,
     TableManifest,
 )
-from voiage.ingestion._tabular import materialization_receipt, read_csv
+from voiage.ingestion._tabular import (
+    materialization_receipt,
+    read_arrow_ipc,
+    read_csv,
+    read_json_table,
+    read_parquet,
+)
 from voiage.ingestion.base import (
     IngestionError,
     ProviderCapabilities,
@@ -29,13 +35,19 @@ from voiage.ingestion.base import (
 
 
 class FrictionlessProvider:
-    """Convert an offline Data Package with explicit local CSV resources."""
+    """Convert an offline Data Package with explicit local tabular resources."""
 
     provider_id = "frictionless"
     capabilities = ProviderCapabilities(
         provider_id=provider_id,
         format_versions=("1",),
-        media_types=("text/csv",),
+        media_types=(
+            "text/csv",
+            "text/tab-separated-values",
+            "application/json",
+            "application/vnd.apache.parquet",
+            "application/vnd.apache.arrow.file",
+        ),
     )
 
     def can_handle(self, descriptor: dict[str, object]) -> bool:
@@ -98,7 +110,7 @@ class FrictionlessProvider:
     ) -> tuple[
         str, pa.Table, TableManifest, ResourceManifest, tuple[KeyReference, ...]
     ]:
-        """Materialize one explicit CSV resource and its declared relationships."""
+        """Materialize one explicit local resource and its declared relationships."""
         table_id, reference, schema = (
             resource.get("name"),
             resource.get("path"),
@@ -117,26 +129,65 @@ class FrictionlessProvider:
         if not isinstance(fields, list):
             raise IngestionError("Data Package schema requires fields")
         fields = cast("list[object]", fields)
-        resource_format = resource.get("format")
-        if resource_format not in (None, "csv"):
-            raise IngestionError("supported Data Package profile requires CSV format")
+        self._validate_schema_declaration(schema, fields)
+        if resource.get("transform") not in (None, []):
+            raise IngestionError(
+                "supported Data Package profile does not support transformations"
+            )
         if "checksum" in resource:
             raise IngestionError(
                 "supported Data Package profile does not support integrity declarations"
             )
         declared_sha256 = _sha256(resource.get("hash"))
         declared_byte_size = _byte_size(resource.get("bytes"))
-        dialect = resource.get("dialect")
-        if dialect not in (None, {"delimiter": ","}):
-            raise IngestionError(
-                "supported Data Package profile accepts only CSV comma dialect"
+        # Built-in profiles have no resolver or transport path. Validate the
+        # descriptor reference before a tabular materializer can be invoked.
+        policy.source_uri(reference)
+        resource_format = resource.get("format")
+        if resource_format == "parquet":
+            _validate_parquet_declarations(resource)
+            table = read_parquet(
+                reference,
+                policy,
+                sha256=declared_sha256,
+                byte_size=declared_byte_size,
             )
-        table = read_csv(
-            reference,
-            policy,
-            sha256=declared_sha256,
-            byte_size=declared_byte_size,
-        )
+            media_type = "application/vnd.apache.parquet"
+        elif resource_format == "json":
+            _validate_json_table_declarations(resource)
+            _validate_json_table_field_schema(fields)
+            table = read_json_table(
+                reference,
+                policy,
+                sha256=declared_sha256,
+                byte_size=declared_byte_size,
+            )
+            media_type = "application/json"
+        elif resource_format in {"arrow", "feather"}:
+            suffix = _validate_arrow_ipc_declarations(resource)
+            _validate_arrow_ipc_field_schema(fields)
+            table = read_arrow_ipc(
+                reference,
+                policy,
+                sha256=declared_sha256,
+                byte_size=declared_byte_size,
+                suffix=suffix,
+            )
+            media_type = "application/vnd.apache.arrow.file"
+        else:
+            delimiter, suffix, media_type = _delimited_text_profile(
+                reference,
+                resource_format,
+                resource.get("dialect"),
+            )
+            table = read_csv(
+                reference,
+                policy,
+                sha256=declared_sha256,
+                byte_size=declared_byte_size,
+                delimiter=delimiter,
+                suffix=suffix,
+            )
         self._validate_schema(table, fields)
         primary_key = self._primary_key(schema)
         self._validate_primary_key(table, primary_key)
@@ -151,7 +202,7 @@ class FrictionlessProvider:
             table.column_names
         ):
             raise IngestionError(
-                "Data Package fields must exactly declare the CSV columns"
+                "Data Package fields must exactly declare resource columns"
             )
         return (
             table_id,
@@ -165,6 +216,7 @@ class FrictionlessProvider:
                 policy,
                 sha256=declared_sha256,
                 byte_size=declared_byte_size,
+                media_type=media_type,
             ),
             self._foreign_keys(schema, table_id),
         )
@@ -277,13 +329,42 @@ class FrictionlessProvider:
             raise IngestionError("Data Package primaryKey contains duplicate values")
 
     @staticmethod
+    def _validate_schema_declaration(
+        schema: dict[str, object], fields: list[object]
+    ) -> None:
+        """Reject schema semantics that the local profile cannot preserve.
+
+        This check runs before materializing the resource.  Otherwise a
+        descriptor could make a meaningful Table Schema claim (for example,
+        application-specific missing-value tokens) which the Arrow CSV reader
+        would silently interpret using different semantics.
+        """
+        if "missingValues" in schema:
+            raise IngestionError(
+                "supported Data Package profile does not support schema missingValues"
+            )
+        for item in fields:
+            if not isinstance(item, dict):
+                continue
+            field = cast("dict[str, object]", item)
+            constraints = field.get("constraints", {})
+            if not isinstance(constraints, dict):
+                raise IngestionError("Data Package field constraints must be an object")
+            unsupported = set(constraints).difference({"required", "unique"})
+            if unsupported:
+                raise IngestionError("unsupported Data Package field constraint")
+            if any(not isinstance(value, bool) for value in constraints.values()):
+                raise IngestionError("Data Package field constraints must be boolean")
+
+    @staticmethod
     def _validate_schema(table: pa.Table, fields: list[object]) -> None:
         """Validate the strict supported field names, types, and basic constraints."""
         declared_names: list[str] = []
         for item in fields:
             if not isinstance(item, dict) or not isinstance(item.get("name"), str):
                 raise IngestionError("Data Package fields require string names")
-            declared_names.append(cast("str", item["name"]))
+            field = cast("dict[str, object]", item)
+            declared_names.append(cast("str", field["name"]))
         if len(declared_names) != len(set(declared_names)):
             raise IngestionError(
                 "Data Package schema has ambiguous duplicate field names"
@@ -319,9 +400,7 @@ class FrictionlessProvider:
             }
             if field_type is not None and not type_matches[field_type]:
                 raise IngestionError("Data Package field type does not match CSV data")
-            constraints = field.get("constraints", {})
-            if not isinstance(constraints, dict):
-                raise IngestionError("Data Package field constraints must be an object")
+            constraints = cast("dict[str, bool]", field.get("constraints", {}))
             values = column.to_pylist()
             if constraints.get("required") is True and any(
                 value is None for value in values
@@ -380,9 +459,136 @@ def _byte_size(value: object) -> int | None:
     return value
 
 
+def _delimited_text_profile(
+    reference: str, resource_format: object, dialect: object
+) -> tuple[str, str, str]:
+    """Return one explicit local CSV or TSV profile without sniffing dialects.
+
+    The Data Package profile deliberately supports only exact descriptor/file
+    pairs.  In particular, a tab-separated resource must declare both its TSV
+    format and tab delimiter, avoiding an accidental comma parse of a `.tsv`
+    file or a hidden dialect feature that Arrow would interpret differently.
+    """
+    normalized_path = reference.casefold()
+    if resource_format in (None, "csv"):
+        if not normalized_path.endswith(".csv") or dialect not in (
+            None,
+            {"delimiter": ","},
+        ):
+            raise IngestionError(
+                "CSV resources require a .csv path and comma delimiter"
+            )
+        return ",", ".csv", "text/csv"
+    if resource_format != "tsv":
+        raise IngestionError(
+            "supported Data Package profile requires CSV or TSV format"
+        )
+    if not normalized_path.endswith(".tsv"):
+        raise IngestionError("TSV resources require a .tsv path")
+    if isinstance(dialect, dict) and set(dialect) != {"delimiter"}:
+        raise IngestionError("strict CSV/TSV dialects accept only delimiter")
+    if dialect != {"delimiter": "\t"}:
+        raise IngestionError("TSV resources require an explicit tab delimiter")
+    return "\t", ".tsv", "text/tab-separated-values"
+
+
+def _validate_json_table_declarations(resource: dict[str, object]) -> None:
+    """Reject JSON Table declarations the narrow local profile cannot honour."""
+    reference = resource.get("path")
+    if not isinstance(reference, str) or not reference.casefold().endswith(".json"):
+        raise IngestionError("JSON Table resources require a .json path")
+    if "dialect" in resource:
+        raise IngestionError("JSON Table resources do not support dialect declarations")
+    if "encoding" in resource:
+        raise IngestionError(
+            "JSON Table resources do not support resource encoding declarations"
+        )
+    unsupported = {
+        "compression",
+        "data",
+        "jsonPath",
+        "mediatype",
+        "pathType",
+        "transform",
+    }.intersection(resource)
+    if unsupported:
+        raise IngestionError("JSON Table resources do not support parser declarations")
+
+
+def _validate_parquet_declarations(resource: dict[str, object]) -> None:
+    """Reject declaration features outside the strict local Parquet profile."""
+    reference = resource.get("path")
+    if not isinstance(reference, str) or not reference.casefold().endswith(".parquet"):
+        raise IngestionError("Parquet resources require a .parquet path")
+    if "dialect" in resource:
+        raise IngestionError("Parquet resources do not support dialect declarations")
+
+
+def _validate_json_table_field_schema(fields: list[object]) -> None:
+    """Require the small field declaration subset the JSON profile enforces."""
+    if not fields:
+        raise IngestionError("JSON Table schema requires at least one field")
+    allowed = {"constraints", "description", "name", "title", "type"}
+    for raw_field in fields:
+        if not isinstance(raw_field, dict) or not isinstance(
+            raw_field.get("name"), str
+        ):
+            raise IngestionError("JSON Table fields require string names")
+        if set(raw_field).difference(allowed):
+            raise IngestionError("JSON Table fields contain unsupported declarations")
+
+
+def _validate_arrow_ipc_declarations(resource: dict[str, object]) -> str:
+    """Return the explicit Arrow IPC suffix or reject unpreservable semantics.
+
+    Arrow IPC and Feather v2 are file containers, not a general Arrow transport
+    selector. Requiring both an exact format and filename suffix avoids
+    sniffing a stream or treating an arbitrary binary payload as a table.
+    """
+    reference, resource_format = resource.get("path"), resource.get("format")
+    profiles = {"arrow": ".arrow", "feather": ".feather"}
+    suffix = profiles.get(resource_format) if isinstance(resource_format, str) else None
+    if (
+        not isinstance(reference, str)
+        or suffix is None
+        or not reference.casefold().endswith(suffix)
+    ):
+        raise IngestionError(
+            "Arrow IPC resources require matching .arrow/.feather path and format"
+        )
+    unsupported = {
+        "compression",
+        "data",
+        "dialect",
+        "encoding",
+        "jsonPath",
+        "mediatype",
+        "pathType",
+        "transform",
+    }.intersection(resource)
+    if unsupported:
+        raise IngestionError("Arrow IPC resources do not support parser declarations")
+    return suffix
+
+
+def _validate_arrow_ipc_field_schema(fields: list[object]) -> None:
+    """Require only the primitive field declarations this profile enforces."""
+    if not fields:
+        raise IngestionError("Arrow IPC schema requires at least one field")
+    allowed = {"constraints", "description", "name", "title", "type"}
+    for raw_field in fields:
+        if not isinstance(raw_field, dict) or not isinstance(
+            raw_field.get("name"), str
+        ):
+            raise IngestionError("Arrow IPC fields require string names")
+        if set(raw_field).difference(allowed):
+            raise IngestionError("Arrow IPC fields contain unsupported declarations")
+
+
 def _governance_extensions(descriptor: dict[str, object]) -> dict[str, object]:
     """Preserve standard package governance metadata without semantic inference."""
     keys = (
+        "citation",
         "licenses",
         "sources",
         "contributors",
@@ -390,9 +596,20 @@ def _governance_extensions(descriptor: dict[str, object]) -> dict[str, object]:
         "version",
         "title",
         "description",
+        "usage",
+        "usageInfo",
+        "usageRights",
     )
-    return {
+    extensions = {
         f"frictionlessdata.org:{key}": descriptor[key]
         for key in keys
         if key in descriptor
     }
+    extensions.update(
+        {
+            key: value
+            for key, value in descriptor.items()
+            if ":" in key and key not in extensions
+        }
+    )
+    return extensions

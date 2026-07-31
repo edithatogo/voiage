@@ -33,6 +33,11 @@
     "cost-outcome-decision.csv": "691decee94d6ad294372da2ab4690a018b9bbfd37ce083f9b68a41dacf8dcb18",
     "cost-outcome-decision.datapackage.json": "7012194bea0f0e030b383972be17ece7e51d0a91f2a4c6dd272307da143cd86b"
   },
+  "governance": {
+    "rights_status": "in-repository deterministic fixture; no external claim",
+    "synthetic": true,
+    "third_party_data": false
+  },
   "normalized": {
     "content_digest": "792402668c639eb5c43dd7caddf1efcea19c44d7f0c22116537e5b2782dffdf9",
     "resource_sha256": "691decee94d6ad294372da2ab4690a018b9bbfd37ce083f9b68a41dacf8dcb18",

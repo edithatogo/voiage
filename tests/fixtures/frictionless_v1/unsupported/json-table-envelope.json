@@ -1,0 +1,10 @@
+{
+  "resources": [
+    {
+      "name": "operations_json",
+      "path": "unsupported/json-table-envelope-data.json",
+      "format": "json",
+      "schema": {"fields": [{"name": "scenario_id", "type": "integer"}]}
+    }
+  ]
+}

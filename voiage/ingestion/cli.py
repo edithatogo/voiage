@@ -12,6 +12,7 @@ from typing import cast
 import typer
 
 from voiage.contracts.normalized_input import (
+    BindingProfile,
     DatasetManifest,
     NormalizedInputBundle,
     VOIBinding,
@@ -22,6 +23,42 @@ from voiage.ingestion.registry import default_registry
 from voiage.methods.basic import evpi
 
 app = typer.Typer(help="Validate and normalize standardized dataset descriptors.")
+
+_EXIT_INGESTION = 3
+_EXIT_BINDING = 4
+_EXIT_OUTPUT = 5
+
+
+def _assert_provider(bundle: NormalizedInputBundle, expected: str | None) -> None:
+    """Require a caller-selected provider without guessing the source format."""
+    if expected is not None and bundle.manifest.provenance.provider_id != expected:
+        raise IngestionError("descriptor does not match explicitly selected provider")
+
+
+def _binding_profile(path: Path) -> BindingProfile:
+    """Load one caller-selected binding profile without descriptor inference."""
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        raise ValueError("binding profile is not valid UTF-8 JSON") from error
+    if isinstance(payload, dict) and isinstance(payload.get("bindings"), list):
+        bindings: list[object] = []
+        for candidate in payload["bindings"]:
+            if isinstance(candidate, dict):
+                binding = dict(candidate)
+                for field in (
+                    "applicable_method_families",
+                    "field_ids",
+                    "strategy_names",
+                    "transformations",
+                ):
+                    if isinstance(binding.get(field), list):
+                        binding[field] = tuple(binding[field])
+                bindings.append(binding)
+            else:
+                bindings.append(candidate)
+        payload = {**payload, "bindings": tuple(bindings)}
+    return BindingProfile.model_validate(payload)
 
 
 def _prepared_summary(bundle: NormalizedInputBundle) -> dict[str, object]:
@@ -58,6 +95,7 @@ def _source_policy(
     offline: bool,
     cache_dir: Path | None,
     max_resource_bytes: int,
+    max_resource_rows: int,
 ) -> SourceAccessPolicy:
     """Build an explicit, local-only policy for one CLI invocation."""
     return SourceAccessPolicy(
@@ -65,6 +103,7 @@ def _source_policy(
         offline=offline,
         cache_dir=cache_dir,
         max_resource_bytes=max_resource_bytes,
+        max_resource_rows=max_resource_rows,
     )
 
 
@@ -73,10 +112,12 @@ def _bundle_summary(
     *,
     binding: VOIBinding | None = None,
     policy: SourceAccessPolicy | None = None,
+    expected_provider: str | None = None,
 ) -> dict[str, object]:
     """Return stable, non-secret metadata for a descriptor."""
     registry = default_registry()
     bundle = registry.ingest(descriptor, policy=policy)
+    _assert_provider(bundle, expected_provider)
     capabilities = registry.capabilities_for(bundle.manifest.provenance.provider_id)
     summary: dict[str, object] = {
         "capabilities": {
@@ -124,7 +165,9 @@ def _bundle_summary(
     return summary
 
 
-def _inspection_summary(descriptor: Path) -> dict[str, object]:
+def _inspection_summary(
+    descriptor: Path, *, expected_provider: str | None = None
+) -> dict[str, object]:
     """Return descriptor-only diagnostics without resolving any resources.
 
     Binding resolution, provenance receipts, and data-quality reports require
@@ -133,6 +176,8 @@ def _inspection_summary(descriptor: Path) -> dict[str, object]:
     than the metadata-only ``inspect`` command.
     """
     inspection = default_registry().inspect(descriptor)
+    if expected_provider is not None and inspection["provider_id"] != expected_provider:
+        raise IngestionError("descriptor does not match explicitly selected provider")
     capabilities = cast("dict[str, object]", inspection["capabilities"])
     return {
         "binding_resolution": None,
@@ -143,6 +188,42 @@ def _inspection_summary(descriptor: Path) -> dict[str, object]:
         "descriptor": inspection["descriptor"],
         "provider": inspection["provider_id"],
     }
+
+
+def _calculation_manifest(
+    bundle: NormalizedInputBundle,
+    *,
+    table: str | None,
+    field: list[str],
+    strategy: list[str],
+    binding_profile: Path | None,
+) -> DatasetManifest:
+    """Resolve exactly one explicit calculation binding contract."""
+    if binding_profile is not None:
+        if table is not None or field or strategy:
+            raise ValueError(
+                "--binding-profile cannot be combined with inline binding options"
+            )
+        return DatasetManifest(
+            **bundle.manifest.model_dump(
+                mode="python", exclude={"bindings", "binding_profile"}
+            ),
+            binding_profile=_binding_profile(binding_profile),
+        )
+    if table is None or not field:
+        raise ValueError(
+            "calculation requires --binding-profile or both --table and --field"
+        )
+    binding = VOIBinding(
+        role="net_benefit",
+        table_id=table,
+        field_ids=tuple(field),
+        strategy_names=tuple(strategy),
+    )
+    return DatasetManifest(
+        **bundle.manifest.model_dump(mode="python", exclude={"bindings"}),
+        bindings=(binding,),
+    )
 
 
 @app.command("validate")
@@ -166,6 +247,17 @@ def validate(
         min=1,
         help="Maximum accepted local resource size.",
     ),
+    max_resource_rows: int = typer.Option(
+        10_000_000,
+        "--max-resource-rows",
+        min=1,
+        help="Maximum accepted parsed rows in each local resource.",
+    ),
+    provider: str | None = typer.Option(
+        None,
+        "--provider",
+        help="Require this registered provider ID for the descriptor.",
+    ),
 ) -> None:
     """Validate a supported descriptor and its declared local resources."""
     try:
@@ -181,7 +273,9 @@ def validate(
                             offline=offline,
                             cache_dir=cache_dir,
                             max_resource_bytes=max_resource_bytes,
+                            max_resource_rows=max_resource_rows,
                         ),
+                        expected_provider=provider,
                     ),
                 },
                 sort_keys=True,
@@ -189,19 +283,29 @@ def validate(
         )
     except IngestionError as error:
         typer.echo(f"Error: {error}", err=True)
-        raise typer.Exit(2) from error
+        raise typer.Exit(_EXIT_INGESTION) from error
 
 
 @app.command()
 def inspect(
     descriptor: Path = typer.Argument(..., exists=True, readable=True),
+    provider: str | None = typer.Option(
+        None,
+        "--provider",
+        help="Require this registered provider ID for the descriptor.",
+    ),
 ) -> None:
     """Inspect descriptor identity and provider capabilities without loading data."""
     try:
-        typer.echo(json.dumps(_inspection_summary(descriptor), sort_keys=True))
+        typer.echo(
+            json.dumps(
+                _inspection_summary(descriptor, expected_provider=provider),
+                sort_keys=True,
+            )
+        )
     except IngestionError as error:
         typer.echo(f"Error: {error}", err=True)
-        raise typer.Exit(2) from error
+        raise typer.Exit(_EXIT_INGESTION) from error
 
 
 @app.command()
@@ -223,6 +327,12 @@ def normalize(
     max_resource_bytes: int = typer.Option(
         512 * 1024 * 1024, "--max-resource-bytes", min=1
     ),
+    max_resource_rows: int = typer.Option(10_000_000, "--max-resource-rows", min=1),
+    provider: str | None = typer.Option(
+        None,
+        "--provider",
+        help="Require this registered provider ID for the descriptor.",
+    ),
 ) -> None:
     """Normalize a descriptor into a deterministic Arrow IPC file."""
     try:
@@ -232,26 +342,43 @@ def normalize(
             offline=offline,
             cache_dir=cache_dir,
             max_resource_bytes=max_resource_bytes,
+            max_resource_rows=max_resource_rows,
         )
         bundle = default_registry().ingest(descriptor, policy=policy)
+        _assert_provider(bundle, provider)
         bundle.write_ipc(output)
         typer.echo(
-            json.dumps(_bundle_summary(descriptor, policy=policy), sort_keys=True)
+            json.dumps(
+                _bundle_summary(descriptor, policy=policy, expected_provider=provider),
+                sort_keys=True,
+            )
         )
     except IngestionError as error:
         typer.echo(f"Error: {error}", err=True)
-        raise typer.Exit(2) from error
+        raise typer.Exit(_EXIT_INGESTION) from error
+    except OSError as error:
+        typer.echo("Error: normalized output could not be written", err=True)
+        raise typer.Exit(_EXIT_OUTPUT) from error
 
 
 @app.command("calculate-from-dataset")
 def calculate_from_dataset(
     descriptor: Path = typer.Argument(..., exists=True, readable=True),
-    table: str = typer.Option(..., "--table", help="Explicit normalized table ID."),
+    table: str | None = typer.Option(
+        None, "--table", help="Explicit normalized table ID for an inline binding."
+    ),
     field: list[str] = typer.Option(
-        ..., "--field", help="Net-benefit field; repeat per strategy."
+        [], "--field", help="Net-benefit field; repeat per strategy."
     ),
     strategy: list[str] = typer.Option(
         [], "--strategy", help="Optional strategy name; repeat in field order."
+    ),
+    binding_profile: Path | None = typer.Option(
+        None,
+        "--binding-profile",
+        exists=True,
+        readable=True,
+        help="Explicit JSON BindingProfile; cannot be combined with inline binding flags.",
     ),
     source_root: Path | None = typer.Option(
         None,
@@ -268,6 +395,12 @@ def calculate_from_dataset(
     max_resource_bytes: int = typer.Option(
         512 * 1024 * 1024, "--max-resource-bytes", min=1
     ),
+    max_resource_rows: int = typer.Option(10_000_000, "--max-resource-rows", min=1),
+    provider: str | None = typer.Option(
+        None,
+        "--provider",
+        help="Require this registered provider ID for the descriptor.",
+    ),
 ) -> None:
     """Calculate EVPI from explicitly selected normalized net-benefit fields."""
     try:
@@ -279,17 +412,16 @@ def calculate_from_dataset(
                 offline=offline,
                 cache_dir=cache_dir,
                 max_resource_bytes=max_resource_bytes,
+                max_resource_rows=max_resource_rows,
             ),
         )
-        binding = VOIBinding(
-            role="net_benefit",
-            table_id=table,
-            field_ids=tuple(field),
-            strategy_names=tuple(strategy),
-        )
-        manifest = DatasetManifest(
-            **bundle.manifest.model_dump(mode="python", exclude={"bindings"}),
-            bindings=(binding,),
+        _assert_provider(bundle, provider)
+        manifest = _calculation_manifest(
+            bundle,
+            table=table,
+            field=field,
+            strategy=strategy,
+            binding_profile=binding_profile,
         )
         prepared = prepare_analysis_inputs(
             NormalizedInputBundle(manifest=manifest, tables=bundle.tables)
@@ -297,12 +429,16 @@ def calculate_from_dataset(
         typer.echo(
             json.dumps(
                 {
+                    "binding_profile_digest": prepared.binding_profile_digest,
                     "evpi": evpi(prepared.net_benefits),
                     "input_digest": prepared.input_digest,
                 },
                 sort_keys=True,
             )
         )
-    except (IngestionError, ValueError) as error:
+    except IngestionError as error:
         typer.echo(f"Error: {error}", err=True)
-        raise typer.Exit(2) from error
+        raise typer.Exit(_EXIT_INGESTION) from error
+    except ValueError as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(_EXIT_BINDING) from error

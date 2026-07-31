@@ -1,16 +1,16 @@
 ---
 title: Standardized dataset ingestion
-description: Bring Croissant ML and Frictionless Data Package CSV inputs into VOIAGE safely.
+description: Bring Croissant ML and strict Frictionless CSV, TSV, JSON Table, or Parquet inputs into VOIAGE safely.
 ---
 
 VOIAGE separates source parsing from calculation. A provider reads a descriptor
-and its explicitly declared local CSV resource, then returns an immutable,
+and its explicitly declared local resource, then returns an immutable,
 Arrow-backed `NormalizedInputBundle`. Calculation code only sees that bundle
 and an explicit VOI binding; it never depends on Croissant or Frictionless
 metadata.
 
-The built-in profiles are deliberately conservative: explicit local CSV resources
-and explicit table schemas. Remote URLs, archive extraction, implicit
+The built-in profiles are deliberately conservative: explicit local tabular
+resources and explicit table schemas. Remote URLs, archive extraction, implicit
 column inference, and path traversal are rejected. This makes an input
 portable, auditable, and suitable for an offline calculation workflow.
 
@@ -18,10 +18,10 @@ portable, auditable, and suitable for an offline calculation workflow.
 
 | Input surface | Supported profile | Explicit boundary |
 | --- | --- | --- |
-| Croissant ML | Croissant 1.1 with string-only JSON-LD context entries, one `recordSet`, one `text/csv` distribution, and fields that exactly match the CSV columns | Remote/live catalogs, archives, transforms, splits, keys, nested fields, field references, JSON-LD context objects, and non-CSV media types are rejected. |
-| Frictionless Data Package | One or more explicitly schematized comma-delimited CSV resources, declared primitive types, keys, and supported foreign keys | Remote/live resources, archives, custom dialects, unsupported formats, transforms, and undeclared or ambiguous resources are rejected. |
+| Croissant ML | Croissant 1.1 with string-only JSON-LD context entries, one legacy `recordSet`/CSV distribution pair or explicitly selected local pairs linked by `recordSet.distribution` to distribution `@id`, fields that exactly match the selected CSV columns, and optional `sha256`/integer-byte `contentSize` integrity declarations | Remote/live catalogs, archives, transforms, splits, keys, nested fields, field references, JSON-LD context objects, `FileObject`/`FileSet`, non-CSV media types, non-SHA-256 integrity forms, and textual/structured `contentSize` values are rejected. |
+| Frictionless Data Package | One or more explicitly schematized local CSV resources (`.csv`, comma), TSV resources (`.tsv`, `format: tsv`, explicit tab delimiter), JSON Table resources (`.json`, `format: json`, UTF-8 array of object rows), Parquet resources (`.parquet`, `format: parquet`, no dialect), or Arrow IPC file resources (`.arrow`, `format: arrow`; `.feather`, `format: feather`), with declared primitive types, primary/foreign keys, and boolean `required`/`unique` field constraints | Remote/live resources, archives, inferred or custom dialects, JSON Lines/envelopes/paths/nested rows, Arrow streams, Flight endpoints, dataset directories, unsupported formats, transforms, undeclared or ambiguous resources, non-boolean or unsupported constraints, and schema `missingValues` declarations are rejected. |
 | Direct DataFrame interchange | pandas, Polars, or another `__dataframe__` producer that can convert through Arrow with an explicit binding | The adapter does not infer a VOI role, silently copy a disallowed frame, or create a second calculation path. |
-| Arrow IPC and Parquet | A `NormalizedInputBundle` previously written by VOIAGE | These are normalized interchange artifacts, not source-descriptor parsers. |
+| Arrow IPC | A `NormalizedInputBundle` previously written by VOIAGE | This is a normalized interchange artifact, not a source-descriptor parser. |
 
 The built-in providers use only the base Arrow/JSON runtime. The named
 `croissant`, `frictionless`, and `ingestion` extras are stable installation
@@ -33,6 +33,14 @@ claimed by this local-profile matrix. A successful offline descriptor test is
 evidence for the documented profile only, not for every upstream feature or
 registry deployment.
 
+For a multi-pair Croissant descriptor, applications use
+`CroissantSelection(record_set="...", distribution="#...")`. Both selectors
+are mandatory and the selected record set must explicitly reference the
+selected distribution. This chooses one declared local source pair; it is not
+column projection or row filtering. CLI commands intentionally do not expose a
+generic selector, because the shared built-in provider capability profile does
+not support projection or filtering.
+
 ```bash
 voiage ingest validate datapackage.json
 voiage ingest inspect croissant.json
@@ -42,14 +50,35 @@ voiage ingest normalize datapackage.json --output normalized.arrow
 The materializing commands (`validate`, `normalize`, and
 `calculate-from-dataset`) accept the same local source-policy controls. They
 never enable network access: use `--max-resource-bytes` to set a stricter
-resource cap, `--cache-dir` to select a verified materialization cache, and
-`--offline` to require replay rather than reading a source path. For example:
+resource-size cap, `--max-resource-rows` to reject an oversized parsed resource
+before the provider constructs an Arrow table, `--cache-dir` to select
+a verified materialization cache, and `--offline` to require replay rather than
+reading a source path. Providers also enforce a bounded streaming record batch
+before retaining it; this is an implementation guard rather than a source
+format feature. For example:
 
 ```bash
 voiage ingest validate datapackage.json \
   --max-resource-bytes 10485760 \
+  --max-resource-rows 100000 \
   --cache-dir .voiage-cache
 ```
+
+Use `--provider croissant` or `--provider frictionless` to assert the expected
+built-in parser at any CLI boundary. This is an assertion, not a filename or
+content-type override: the descriptor must still match exactly one registered
+provider. `calculate-from-dataset` accepts either the inline `--table` and
+repeated `--field` binding, or an explicit `--binding-profile profile.json`.
+The two binding forms cannot be combined. The built-in providers do not offer a
+`--resource` selector because their declared capabilities do not support
+projection or filtering; each supported descriptor resource is validated as a
+whole rather than silently skipping a table.
+
+CLI usage errors retain exit code 2. VOIAGE-owned failures have stable,
+machine-actionable codes: 3 for safe descriptor, provider, or source-policy
+rejection; 4 for binding-profile or semantic-binding rejection; and 5 when a
+normalized output cannot be written. Error text remains redacted and does not
+authorize remote access.
 
 `croissant.json` is recognized from its Croissant context and
 `datapackage.json` from its Data Package resource list, not from the filename.
@@ -73,6 +102,10 @@ policy limit is rejected before parsing. Applications can set a smaller explicit
 `SourceAccessPolicy.max_resource_bytes` limit for constrained workloads. Cache
 namespace directories are also checked before every cache operation, so a
 symlink cannot redirect a materialization outside the configured cache root.
+For Croissant and Frictionless descriptors, this source-policy preflight occurs
+before a tabular materializer is called: unsupported URI-style, DNS-like,
+archive, redirect-shaped, or transform references create neither a cache entry
+nor a materialization receipt. It is rejection evidence, not remote support.
 
 ## Verified local replay
 
@@ -83,8 +116,9 @@ policy can replay only that verified digest; it never falls back to a changed or
 missing source file and never performs a network refresh.
 
 The built-in providers use this path directly. A Croissant distribution may
-declare `sha256`; a Frictionless CSV resource may declare a 64-character
-SHA-256 `hash` and non-negative `bytes`. With those declarations, ingesting
+declare a 64-character `sha256` and a non-negative integer `contentSize` byte
+count; a Frictionless supported resource may declare a 64-character SHA-256 `hash`
+and non-negative `bytes`. With those declarations, ingesting
 once with `cache_dir` creates the verified cache entry, and a later
 `voiage ingest ... --offline --cache-dir .voiage-cache` replays it even when
 the original local CSV is no longer present. Other hash algorithms and
@@ -146,8 +180,8 @@ complete implementation of either upstream standard.
 
 | Input family | Supported profile | Consumer contract | Explicitly not supported in the built-in provider |
 | --- | --- | --- | --- |
-| Croissant ML | Croissant 1.1 descriptor, one declared local CSV distribution, one `recordSet`, explicit fields, local SHA-256 when declared | Produces one Arrow-backed bundle; callers add explicit bindings before preparation. | Remote downloads, archives, transformations, multiple resources, executable metadata, implicit schema inference |
-| Frictionless Data Package | Data Package v1-style descriptor, one or more local CSV resources with explicit field schemas, primary keys, and intra-package foreign keys; optional SHA-256 `hash` and `bytes` verification | Produces Arrow-backed tables and preserved key references; callers add explicit bindings before preparation. | Remote URLs, archives, transformations, other integrity algorithms, implicit schema inference |
+| Croissant ML | Croissant 1.1 descriptor, one legacy local CSV pair or one explicitly selected and linked local record-set/distribution pair, explicit fields, local SHA-256 and integer-byte `contentSize` when declared | Produces one Arrow-backed bundle; callers add explicit bindings before preparation. | Remote downloads, archives, transformations, `FileObject`/`FileSet`, executable metadata, implicit schema inference, unverified integrity forms, and non-byte `contentSize` values |
+| Frictionless Data Package | Data Package v1-style descriptor, one or more local CSV resources (`.csv`, comma), explicitly declared TSV resources (`.tsv`, `format: tsv`, `dialect: {"delimiter": "\\t"}`), JSON Table resources (`.json`, `format: json`, UTF-8 JSON array of object rows), local Parquet resources (`.parquet`, `format: parquet`, no dialect), or Arrow IPC file resources (`.arrow`, `format: arrow`; `.feather`, `format: feather`), with explicit primitive field schemas, primary keys, and intra-package foreign keys; optional SHA-256 `hash` and `bytes` verification | Produces Arrow-backed tables and preserved key references; callers add explicit bindings before preparation. | Remote URLs, archives, transformations, inferred or custom dialects, JSON Lines/envelopes/JSON paths/nested rows, Arrow streams, Flight endpoints, dataset directories, other integrity algorithms, implicit schema inference |
 | DataFrame interchange | A producer accepted by Arrow's `__dataframe__` interchange conversion, with explicit VOI bindings supplied by the caller | `from_dataframe` preserves the Arrow schema and honours `allow_copy`; its bundle enters the same preparation path as providers and records conversion decisions. | Inferred decision semantics, unsupported nested values, and conversions that require copying when `allow_copy=False`. |
 
 All providers default to local-only access. Inputs that fall outside these
@@ -155,11 +189,15 @@ profiles fail with a stable `IngestionError`; they are not partially loaded or
 silently transformed. Compatibility will expand only with new fixtures,
 source-policy evidence, and a documented provider capability change.
 
-The file-backed Frictionless corpus includes a valid receipted CSV package,
-offline replay, metadata-only inspection of an absent declared resource, and
-fail-closed descriptor, field-identity, and dialect cases. It is evidence for
-this local profile only; it does not establish support for a remote catalogue,
-archive, Parquet/Arrow source resource, or the complete upstream specification.
+The file-backed Frictionless corpus includes valid receipted CSV, TSV, JSON
+Table, runtime-generated local Parquet, and Arrow IPC file packages, offline
+replay, metadata-only inspection of an absent declared resource, and fail-closed
+descriptor, field-identity, and dialect cases. The Arrow profile accepts only
+explicit local IPC file containers (`.arrow` or Feather v2 `.feather`) and
+checks each retained record batch against the source policy before table
+construction. It is evidence for this local profile only; it does not establish
+support for a remote catalogue, archive, Arrow streams/Flight/dataset
+directories, or the complete upstream specification.
 
 ## Authoritative interoperability probes
 
@@ -214,9 +252,10 @@ not resolve resources, access the network, or import optional parser stacks.
 resource through the supplied `SourceAccessPolicy`.
 
 The frozen v1 SDK additionally requires `capabilities.provider_id` to equal the
-provider's `provider_id`; registration rejects mismatches. Its versioned
-compatibility and publication rules live in
-`specs/core-api/ingestion-provider-sdk-v1.md`.
+provider's non-empty `provider_id`; registration rejects mismatches and empty
+identities. Its versioned compatibility and publication rules live in
+`specs/core-api/ingestion-provider-sdk-v1.md`, with a machine-readable consumer
+fixture at `specs/core-api/fixtures/v2/ingestion-provider-sdk-v1.json`.
 
 Publish an initialized provider instance under the
 `voiage.ingestion.providers` entry-point group. The entry-point name is the
@@ -248,3 +287,14 @@ unsupported version/media-type failures, traversal and network refusal by
 import isolation. Providers must declare unsupported projection, filtering,
 streaming, and random-access features as `False`; no data transformation may
 be inferred or performed implicitly.
+
+### Optional parser environments
+
+`voiage[croissant]`, `voiage[frictionless]`, and `voiage[ingestion]` are
+currently dependency-neutral installation profiles. They deliberately do not
+install `mlcroissant` or the third-party `frictionless` package: neither stack
+has been promoted into the built-in local-only source-policy and receipt
+contract. A clean install of any profile therefore retains the same lazy,
+offline-safe import boundary as the base package. A future enhanced provider
+must add a separate named dependency, fixtures, receipt evidence, and a new
+capability profile before this statement can change.

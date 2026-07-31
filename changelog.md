@@ -1,5 +1,29 @@
 # Changelog
 
+## Unreleased
+
+- Harden built-in Croissant and Frictionless source preflight so unsupported
+  URI-style, DNS-like, archive, redirect-shaped, and transform declarations
+  fail before resolver/materializer callbacks, cache creation, or receipt
+  construction.
+- Add a strict local Frictionless Parquet profile: descriptors must declare
+  `format: parquet`, use a `.parquet` path, declare primitive fields, and omit
+  dialect settings. Parquet input is streamed through bounded Arrow batches
+  and carries the same verified receipt and source-policy limits as CSV/TSV.
+- Add explicit, receipt-identified local Croissant record-set/distribution
+  selection for descriptors with multiple pairs. The profile rejects missing or
+  mismatched selectors and unsupported `FileObject` or `FileSet` distributions
+  without inferring a source relationship.
+- Add a strict local Frictionless JSON Table profile for explicit `.json`
+  resources containing UTF-8 arrays of object rows, with Arrow receipts and
+  fail-closed rejection of parser declarations and envelope shapes.
+- Add Croissant `contentSize` byte-integrity validation and a file-backed
+  supported/rejected profile map; unsupported integrity forms now fail before
+  resource materialization.
+- Add fail-closed parsed-row limits for built-in Croissant and Frictionless
+  delimited resources, including a `voiage ingest --max-resource-rows` policy
+  option on materializing commands.
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
@@ -16,6 +40,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   and separate gross/net EVSI and ENBS. Portfolio model effects and disjoint
   incremental costs now require provenance assurances, and optimizer ties are
   anchored to the fixed global maximum.
+- Hardened the strict Frictionless profile so unsupported field constraints and
+  declared `missingValues` fail before a resource is read; structured citation,
+  usage, and namespaced governance metadata now survive normalization.
+- Bound the frozen ingestion-provider SDK v1 to a machine-readable consumer
+  fixture, rejected empty provider identities at registry registration, and
+  added clean optional-parser import-isolation coverage while the intentionally
+  dependency-neutral ingestion extras remain unpromoted.
+- Added enforceable standardized-ingestion CLI provider assertions and explicit
+  binding-profile selection, with stable exit codes for safe source, binding,
+  and output failures. Resource projection remains unavailable where built-in
+  provider capabilities cannot enforce it.
 - Added pandas and Polars DataFrame-interchange consumer coverage for nullable
   categorical and timezone-aware columns, index exclusion, and conservative
   copy diagnostics based on the Arrow conversion actually returned.
@@ -115,6 +150,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Added a bounded retry around the TestPyPI Simple API download so propagation
+  lag after the JSON API exposes a reviewed release does not create a false
+  negative in the supported-Python smoke matrix.
 - Prepared the `v2.0.1-rc.4` TestPyPI candidate with explicit ecosystem version
   projections, a deterministic aggregate root for dependency-only Python SBOM
   input, and a source-bound UUIDv5 CycloneDX serial number required by GitHub
