@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from hashlib import sha256
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -80,6 +81,26 @@ def test_authoritative_probe_rejects_unmaterialized_descriptor() -> None:
         run_authoritative_probe(
             _DESCRIPTOR,
             source_root=Path(__file__).parent,
+            expected_descriptor_sha256=sha256(_DESCRIPTOR.read_bytes()).hexdigest(),
+            expected_resource_sha256="0" * 64,
+            enabled=True,
+        )
+
+
+def test_authoritative_probe_rejects_multiple_resource_receipts(monkeypatch) -> None:
+    """An approved probe remains single-artifact evidence, never an aggregate."""
+    bundle = SimpleNamespace(
+        manifest=SimpleNamespace(resources=(object(), object())),
+    )
+    monkeypatch.setattr(
+        "voiage.ingestion.live_probe.default_registry",
+        lambda: SimpleNamespace(ingest=lambda *_args, **_kwargs: bundle),
+    )
+
+    with pytest.raises(AuthoritativeProbeGateError, match="exactly one resource"):
+        run_authoritative_probe(
+            _DESCRIPTOR,
+            source_root=_FIXTURE_ROOT,
             expected_descriptor_sha256=sha256(_DESCRIPTOR.read_bytes()).hexdigest(),
             expected_resource_sha256="0" * 64,
             enabled=True,
