@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Bound the frozen ingestion-provider SDK v1 to a machine-readable consumer
+  fixture, rejected empty provider identities at registry registration, and
+  added clean optional-parser import-isolation coverage while the intentionally
+  dependency-neutral ingestion extras remain unpromoted.
 - Added pandas and Polars DataFrame-interchange consumer coverage for nullable
   categorical and timezone-aware columns, index exclusion, and conservative
   copy diagnostics based on the Arrow conversion actually returned.

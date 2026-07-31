@@ -27,12 +27,14 @@ _ENTRY_POINT_GROUP = "voiage.ingestion.providers"
 def _validate_provider(provider: object) -> IngestionProvider:
     """Validate an explicitly loaded provider without importing its package."""
     capabilities = getattr(provider, "capabilities", None)
+    provider_id = getattr(provider, "provider_id", None)
     if not (
-        isinstance(getattr(provider, "provider_id", None), str)
+        isinstance(provider_id, str)
+        and bool(provider_id)
         and callable(getattr(provider, "can_handle", None))
         and callable(getattr(provider, "ingest", None))
         and isinstance(capabilities, ProviderCapabilities)
-        and capabilities.provider_id == provider.provider_id
+        and capabilities.provider_id == provider_id
     ):
         raise IngestionError(
             "entry-point provider does not satisfy the provider contract"
