@@ -10,9 +10,9 @@
   — `e930186`
 - [x] **S3:** Freeze EVSI/EVPI units, scaling, zero-denominator, tolerance and
   bounds behavior. (AC-03) — `97ec51f`
-- [~] **S4:** Audit the existing plot and clinical optimizer, including the
+- [x] **S4:** Audit the existing plot and clinical optimizer, including the
   misnamed value/cost `voi_efficiency` field, and record compatibility or
-  deprecation decisions. (AC-04)
+  deprecation decisions. (AC-04) — `a747fb0`
 - [ ] **S5:** Run automated contract review and full Conductor validation.
   (AC-01–AC-04, AC-08)
 
