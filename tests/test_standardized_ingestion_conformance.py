@@ -14,6 +14,8 @@ from hypothesis import strategies as st
 import numpy as np
 import polars as pl
 import pyarrow as pa
+from pyarrow import ipc
+from pyarrow import parquet as pq
 import pytest
 import xarray as xr
 
@@ -73,6 +75,61 @@ def _direct_bundle(table: pa.Table) -> NormalizedInputBundle:
         ),
         tables={"samples": table},
     )
+
+
+def _canonical_frictionless_descriptor(
+    tmp_path: Path, *, resource_format: str
+) -> tuple[Path, Path]:
+    """Write one deterministic strict-local resource and its Data Package."""
+    values = {
+        "strategy_a": [10.0, 30.0, 20.0],
+        "strategy_b": [20.0, 10.0, 25.0],
+    }
+    suffix = {
+        "json": ".json",
+        "parquet": ".parquet",
+        "arrow": ".arrow",
+    }[resource_format]
+    resource_path = tmp_path / f"canonical-decision{suffix}"
+    if resource_format == "json":
+        resource_path.write_text(
+            json.dumps(
+                [
+                    {name: column[row] for name, column in values.items()}
+                    for row in range(3)
+                ]
+            ),
+            encoding="utf-8",
+        )
+    elif resource_format == "parquet":
+        pq.write_table(pa.table(values), resource_path)
+    else:
+        with ipc.new_file(resource_path, pa.table(values).schema) as writer:
+            writer.write_table(pa.table(values))
+    descriptor_path = tmp_path / f"canonical-decision-{resource_format}.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "name": "canonical-decision-fixture",
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": resource_path.name,
+                        "format": resource_format,
+                        "schema": {
+                            "fields": [
+                                {"name": "strategy_a", "type": "number"},
+                                {"name": "strategy_b", "type": "number"},
+                            ]
+                        },
+                    }
+                ],
+            },
+            sort_keys=True,
+        ),
+        encoding="utf-8",
+    )
+    return descriptor_path, resource_path
 
 
 def test_canonical_decision_fixture_manifest_pins_source_artifacts() -> None:
@@ -142,6 +199,87 @@ def test_canonical_decision_fixture_has_cross_format_evpi_parity(tmp_path) -> No
     assert {bundle.schema_fingerprint for bundle in bundles} == {
         direct.schema_fingerprint
     }
+
+
+@pytest.mark.parametrize(
+    ("resource_format", "media_type"),
+    [
+        ("json", "application/json"),
+        ("parquet", "application/vnd.apache.parquet"),
+        ("arrow", "application/vnd.apache.arrow.file"),
+    ],
+)
+def test_canonical_frictionless_binary_and_json_resources_have_evpi_and_receipt_parity(
+    tmp_path: Path, resource_format: str, media_type: str
+) -> None:
+    """Strict local JSON, Parquet, and Arrow profiles preserve decisions."""
+    descriptor_path, resource_path = _canonical_frictionless_descriptor(
+        tmp_path, resource_format=resource_format
+    )
+    direct = _direct_bundle(
+        pa.table(
+            {
+                "strategy_a": [10.0, 30.0, 20.0],
+                "strategy_b": [20.0, 10.0, 25.0],
+            }
+        )
+    )
+    ingested = _bound(
+        default_registry().ingest(descriptor_path, policy=SourceAccessPolicy(tmp_path))
+    )
+
+    direct_prepared = prepare_analysis_inputs(direct)
+    ingested_prepared = prepare_analysis_inputs(ingested)
+    assert ingested.schema_fingerprint == direct.schema_fingerprint
+    assert ingested_prepared.net_benefits.values.equals(
+        direct_prepared.net_benefits.values
+    )
+    assert evpi(ingested_prepared.net_benefits.numpy_values) == pytest.approx(
+        evpi(direct_prepared.net_benefits.numpy_values)
+    )
+    receipt = ingested.manifest.resources[0]
+    assert receipt.resource_id == "samples"
+    assert receipt.media_type == media_type
+    assert receipt.sha256 == sha256(resource_path.read_bytes()).hexdigest()
+    assert receipt.byte_size == resource_path.stat().st_size
+
+
+@pytest.mark.parametrize(
+    ("resource_format", "contents", "message"),
+    [
+        ("json", '{"not": "a row array"}', "JSON Table resource must contain"),
+        ("parquet", "not a parquet resource", "Parquet resource cannot be parsed"),
+    ],
+)
+def test_canonical_frictionless_json_and_parquet_reject_malformed_resources(
+    tmp_path: Path, resource_format: str, contents: str, message: str
+) -> None:
+    """The canonical profile does not recover from malformed source bytes."""
+    descriptor_path, resource_path = _canonical_frictionless_descriptor(
+        tmp_path, resource_format=resource_format
+    )
+    resource_path.write_text(contents, encoding="utf-8")
+
+    with pytest.raises(IngestionError, match=message):
+        default_registry().ingest(descriptor_path, policy=SourceAccessPolicy(tmp_path))
+
+
+def test_canonical_frictionless_arrow_rejects_ipc_streams(tmp_path: Path) -> None:
+    """The Arrow profile accepts files only; an IPC stream is not sniffed."""
+    descriptor_path, resource_path = _canonical_frictionless_descriptor(
+        tmp_path, resource_format="arrow"
+    )
+    table = pa.table(
+        {
+            "strategy_a": [10.0, 30.0, 20.0],
+            "strategy_b": [20.0, 10.0, 25.0],
+        }
+    )
+    with ipc.new_stream(resource_path, table.schema) as writer:
+        writer.write_table(table)
+
+    with pytest.raises(IngestionError, match="cannot be parsed as an Arrow file"):
+        default_registry().ingest(descriptor_path, policy=SourceAccessPolicy(tmp_path))
 
 
 def test_cross_format_preparation_has_identical_numpy_and_xarray_views() -> None:
