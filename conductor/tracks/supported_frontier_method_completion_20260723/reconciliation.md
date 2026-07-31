@@ -1,6 +1,6 @@
 # Child evidence reconciliation
 
-Audited against `origin/main` at `b8395abf` and the live GitHub hierarchy on
+Audited against `origin/main` through `9495fc3f` and the live GitHub hierarchy on
 2026-07-31. The machine-readable source is `child-dispositions.json`.
 
 ## Delivery evidence
@@ -9,7 +9,7 @@ Audited against `origin/main` at `b8395abf` and the live GitHub hierarchy on
 |---|---|---|---|
 | #571 | Experimental implementation merged | PR #679; completed study-design track | Scientific review and stable promotion |
 | #595 | Experimental implementation merged | PR #712; 60 exact-head checks passed, 5 intentionally skipped, 0 failed | Scientific review and stable promotion |
-| #619 | Experimental implementation branch | PR #676 | Merge/current-head checks, scientific review, vector covariance and stable promotion |
+| #619 | Experimental implementation merged | PR #676; 60 exact-head checks passed, 5 intentionally skipped, 0 failed | Scientific review, vector covariance and stable promotion |
 
 ## Residual accepted families
 

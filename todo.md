@@ -27,7 +27,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
         scientific review, rights, hosted CI, merge, release, publication,
         registry and human confirmation as separate gates.
 
-*   [ ] Implement estimation-focused variance-reduction VOI.
+*   [x] Implement estimation-focused variance-reduction VOI.
     *   Conductor track: `estimation_focused_variance_voi_20260727`.
     *   Planned contract: v1.2.0; MoSCoW: Must; canonical requirements M14/M17.
     *   GitHub issue: #619, native sub-issue of #318 under programme #313.
@@ -39,10 +39,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   Keep these estimands separate from decision-focused EVPPI/EVSI,
         sensitivity indices and estimator uncertainty.
     *   Experimental scalar Rust/Python execution, contracts, assurance,
-        CLI/report/plot surfaces and documentation are implemented on the
-        protected implementation branch. Hosted checks, merge, scientific
-        review for vector scalarization/stable promotion, release and issue
-        closure remain separate gates.
+        CLI/report/plot surfaces and documentation passed the exact-head hosted
+        matrix and merged in PR #676. Scientific review for vector
+        scalarization/stable promotion, release and issue closure remain
+        separate gates.
 
 *   [x] Implement governed study-design efficiency and experiment portfolios.
     *   Conductor track: `study_design_efficiency_20260727`.

@@ -117,9 +117,9 @@ existing issue/Project progress awaits evidence reconciliation.*
 native sub-issue of [#318](https://github.com/edithatogo/voiage/issues/318),
 under programme [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: repository implementation complete on draft PR
+*Status: experimental scalar repository implementation merged in PR
 [#676](https://github.com/edithatogo/voiage/pull/676); scientific review,
-merge, stable promotion, release and issue closure remain separate gates.*
+vector covariance, stable promotion, release and issue closure remain separate gates.*
 
 ---
 

@@ -18,8 +18,7 @@
 - [Implementation PR #676](https://github.com/edithatogo/voiage/pull/676)
 - [Canonical C16 implementation sync PR #64](https://github.com/edithatogo/vop_poc_nz/pull/64)
 
-Status: repository implementation complete on draft PR #676. Experimental
-scalar Rust/Python implementation, assurance and user surfaces passed the
-complete hosted matrix at exact head `d70fff636fa3a935902b3f590e368d1d63925d1a`.
-Scientific review, merge, stable promotion, release and issue closure remain
-separate gates, so the track remains active.
+Status: experimental scalar Rust/Python implementation, assurance and user
+surfaces passed 60 exact-head checks with 5 intentional skips and merged in PR
+#676 as `9495fc3f`. Scientific review, vector covariance, stable promotion,
+release and issue closure remain separate gates, so the track remains active.

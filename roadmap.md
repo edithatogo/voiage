@@ -140,8 +140,9 @@ C16 own the shared projection:
     and estimator uncertainty. The repository now contains an experimental
     scalar Rust implementation with a PyO3/Python façade, versioned schemas,
     independent references, deterministic bootstrap assurance, CLI/report/plot
-    surfaces and explicit polyglot dispositions. Vector execution and stable
-    promotion remain blocked on scientific review, hosted checks and merge.
+    surfaces and explicit polyglot dispositions. PR #676 passed its exact-head
+    hosted matrix and merged. Vector execution and stable promotion remain
+    blocked on scientific review.
 *   `study_design_efficiency_20260727` and refined GitHub issue #571 define a
     governed Curve of Optimal Sample Size result containing evaluated designs,
     feasible range/set, the signed ENBS curve, deterministic tie policy,

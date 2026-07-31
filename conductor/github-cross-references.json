@@ -59,10 +59,10 @@
         {
           "number": 676,
           "url": "https://github.com/edithatogo/voiage/pull/676",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "experimental-implementation-delivery",
-            "hosted-required-checks-pending"
+            "hosted-required-checks"
           ]
         },
         {
@@ -265,10 +265,10 @@
         {
           "number": 676,
           "url": "https://github.com/edithatogo/voiage/pull/676",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "experimental-implementation-delivery",
-            "hosted-required-checks-pending"
+            "hosted-required-checks"
           ]
         },
         {
@@ -470,7 +470,7 @@
         {
           "number": 676,
           "url": "https://github.com/edithatogo/voiage/pull/676",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "experimental-implementation-delivery",
             "hosted-required-checks"
