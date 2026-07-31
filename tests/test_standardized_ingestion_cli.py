@@ -522,6 +522,71 @@ def test_inspect_reports_declared_schema_boundaries_without_resource_io(tmp_path
     assert json.loads(result.output)["schema"] == {"tables": [{"table_id": "missing", "field_ids": ["id"], "primary_key": ["id"], "foreign_keys": []}], "unsupported_features": [{"code": "resource-dialect", "path": "resources[0].dialect"}, {"code": "resource-transform", "path": "resources[0].transform"}, {"code": "resource-format", "path": "resources[0].format"}, {"code": "schema-missing-values", "path": "resources[0].schema.missingValues"}]}
 
 
+def test_descriptor_schema_summary_covers_non_materializing_fallbacks() -> None:
+    """Every defensive descriptor-only branch remains safe and deterministic."""
+    assert ingestion_cli._descriptor_schema_summary({}, provider_id="unknown") == {
+        "tables": [],
+        "unsupported_features": [],
+    }
+    assert ingestion_cli._frictionless_descriptor_schema_summary(
+        {"resources": "not-a-list"}
+    ) == {"tables": [], "unsupported_features": []}
+    assert ingestion_cli._frictionless_descriptor_schema_summary(
+        {"resources": ["not-an-object"]}
+    ) == {
+        "tables": [],
+        "unsupported_features": [
+            {"code": "resource-not-object", "path": "resources[0]"}
+        ],
+    }
+    assert ingestion_cli._croissant_descriptor_schema_summary(
+        {"recordSet": "not-a-list"}
+    ) == {"tables": [], "unsupported_features": []}
+    assert ingestion_cli._croissant_descriptor_schema_summary(
+        {"recordSet": ["not-an-object"]}
+    ) == {
+        "tables": [],
+        "unsupported_features": [
+            {"code": "record-set-not-object", "path": "recordSet[0]"}
+        ],
+    }
+
+
+def test_descriptor_schema_summary_reports_croissant_field_boundaries() -> None:
+    """Field diagnostics are descriptor-only and do not select a source pair."""
+    summary = ingestion_cli._croissant_descriptor_schema_summary(
+        {
+            "recordSet": [
+                {
+                    "name": "samples",
+                    "field": [
+                        "not-an-object",
+                        {
+                            "name": "net_benefit",
+                            "references": "outside",
+                            "subField": [],
+                            "source": "derived",
+                        },
+                    ],
+                }
+            ]
+        }
+    )
+    assert summary["tables"] == [
+        {
+            "table_id": "samples",
+            "field_ids": ["net_benefit"],
+            "primary_key": [],
+            "foreign_keys": [],
+        }
+    ]
+    assert summary["unsupported_features"] == [
+        {"code": "field-references", "path": "recordSet[0].field[1].references"},
+        {"code": "field-subField", "path": "recordSet[0].field[1].subField"},
+        {"code": "field-source", "path": "recordSet[0].field[1].source"},
+    ]
+
+
 def test_ingest_cli_returns_safe_error_for_unrecognized_descriptor(tmp_path) -> None:
     descriptor = tmp_path / "unknown.json"
     descriptor.write_text("{}", encoding="utf-8")
