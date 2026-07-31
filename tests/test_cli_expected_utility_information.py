@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Any
 
 from typer.testing import CliRunner
 
@@ -91,3 +92,35 @@ def test_cli_rejects_nonlinear_monetary_evpi_and_has_no_calculate_voc(
     help_response = RUNNER.invoke(cli.app, ["--help"])
     assert "calculate-expected-utility-information" in help_response.stdout
     assert "calculate-voc" not in help_response.stdout
+
+
+def test_cli_surfaces_failed_price_root_instead_of_reporting_unavailable(
+    tmp_path: Path, monkeypatch: Any
+) -> None:
+    request = _request(tmp_path, "log-buy-sell-asymmetry.json")
+    original = cli.expected_utility_information_value
+
+    def failed_result(payload: dict[str, object]) -> dict[str, object]:
+        result = original(payload)
+        result["bpi"] = {
+            **result["bpi"],
+            "status": "failed",
+            "value": None,
+            "diagnostics_ref": "bpi_root",
+        }
+        result["bpi_root"] = {
+            **result["bpi_root"],
+            "status": "discontinuous_no_root",
+            "termination_reason": "discontinuous_no_root",
+        }
+        return result
+
+    monkeypatch.setattr(cli, "expected_utility_information_value", failed_result)
+    response = RUNNER.invoke(
+        cli.app,
+        ["calculate-expected-utility-information", str(request), "--measure", "bpi"],
+    )
+
+    assert response.exit_code == 1
+    assert "bpi failed: discontinuous_no_root" in response.stderr
+    assert "unavailable" not in response.stderr

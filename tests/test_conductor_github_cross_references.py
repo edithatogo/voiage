@@ -43,3 +43,19 @@ def test_manifest_preserves_no_pr_evidence_boundary() -> None:
         entry["pull_request_evidence"] == "none_found"
         for entry in completed_without_prs
     )
+
+
+def test_expected_utility_track_metadata_and_manifest_share_delivery_prs() -> None:
+    """The #595 track owns its VOIAGE delivery PR as well as canonical planning."""
+    manifest = json.loads(
+        (ROOT / "conductor" / "github-cross-references.json").read_text()
+    )
+    track_id = "risk_adjusted_information_pricing_20260731"
+    entry = next(item for item in manifest["tracks"] if item["track_id"] == track_id)
+    metadata = json.loads(
+        (ROOT / "conductor" / "tracks" / track_id / "metadata.json").read_text()
+    )
+
+    manifest_urls = {item["url"] for item in entry["pull_requests"]}
+    assert manifest_urls == set(metadata["github_cross_reference"]["pull_requests"])
+    assert "https://github.com/edithatogo/voiage/pull/712" in manifest_urls

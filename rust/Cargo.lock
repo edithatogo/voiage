@@ -537,6 +537,7 @@ name = "voiage-numerics"
 version = "2.0.1-rc.4"
 dependencies = [
  "proptest",
+ "serde_json",
  "voiage-diagnostics",
  "voiage-domain",
 ]

@@ -5,6 +5,8 @@ use voiage_numerics::{
     SolverSettings, UtilityDescriptor,
 };
 
+use serde_json::Value;
+
 fn clairvoyant_joint(probabilities: &[f64]) -> Vec<Vec<f64>> {
     probabilities
         .iter()
@@ -158,4 +160,113 @@ fn finite_signal_uses_joint_probabilities_not_clairvoyant_shortcut() {
         result.affine_reduction.monetary_measure,
         Some("evsi".into())
     );
+}
+
+fn strings(value: &Value) -> Vec<String> {
+    value
+        .as_array()
+        .expect("string array")
+        .iter()
+        .map(|item| item.as_str().expect("string").to_owned())
+        .collect()
+}
+
+fn numbers(value: &Value) -> Vec<f64> {
+    value
+        .as_array()
+        .expect("number array")
+        .iter()
+        .map(|item| item.as_f64().expect("number"))
+        .collect()
+}
+
+fn fixture_problem(payload: &Value) -> (ExpectedUtilityInformationInput, UtilityDescriptor) {
+    let request = &payload["request"];
+    let information = &request["information"];
+    let solver = &request["solver"];
+    let utility = &request["utility"];
+    let problem = ExpectedUtilityInformationInput {
+        schema_version: request["schema_version"].as_str().unwrap().into(),
+        decision_problem_id: request["decision_problem_id"].as_str().unwrap().into(),
+        stakeholder_scope_id: request["stakeholder_scope_id"].as_str().unwrap().into(),
+        action_ids: strings(&request["action_ids"]),
+        state_ids: strings(&request["state_ids"]),
+        payoffs: request["payoffs"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(numbers)
+            .collect(),
+        state_probabilities: numbers(&request["state_probabilities"]),
+        initial_wealth: request["initial_wealth"].as_f64().unwrap(),
+        payoff_unit: request["payoff_unit"].as_str().unwrap().into(),
+        currency: request["currency"].as_str().map(Into::into),
+        price_date: request["price_date"].as_str().map(Into::into),
+        information_cost_location: request["information_cost_location"]
+            .as_str()
+            .unwrap()
+            .into(),
+        information: InformationStructure {
+            kind: information["kind"].as_str().unwrap().into(),
+            signal_ids: strings(&information["signal_ids"]),
+            signal_state_probabilities: information["signal_state_probabilities"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .map(numbers)
+                .collect(),
+        },
+        terminal_outcome_floor: request["terminal_outcome_floor"].as_f64(),
+        solver: SolverSettings {
+            initial_upper: solver["initial_upper"].as_f64().unwrap(),
+            expansion_factor: solver["expansion_factor"].as_f64().unwrap(),
+            maximum_price: solver["maximum_price"].as_f64().unwrap(),
+            absolute_price_tolerance: solver["absolute_price_tolerance"].as_f64().unwrap(),
+            relative_price_tolerance: solver["relative_price_tolerance"].as_f64().unwrap(),
+            utility_tolerance: solver["utility_tolerance"].as_f64().unwrap(),
+            maximum_iterations: usize::try_from(solver["maximum_iterations"].as_u64().unwrap())
+                .unwrap(),
+            maximum_evaluations: usize::try_from(solver["maximum_evaluations"].as_u64().unwrap())
+                .unwrap(),
+        },
+    };
+    let descriptor = match utility["family"].as_str().unwrap() {
+        "affine" => UtilityDescriptor::Affine {
+            slope: utility["slope"].as_f64().unwrap(),
+            intercept: utility["intercept"].as_f64().unwrap(),
+        },
+        "log" => UtilityDescriptor::Log {
+            reference_wealth: utility["reference_wealth"].as_f64().unwrap(),
+        },
+        family => panic!("unsupported normative fixture utility: {family}"),
+    };
+    (problem, descriptor)
+}
+
+#[test]
+fn committed_normative_fixtures_drive_rust_conformance() {
+    let fixtures = [
+        include_str!(
+            "../../../../specs/frontier/expected-utility-information-pricing/v1/fixtures/normative/affine-clairvoyant.json"
+        ),
+        include_str!(
+            "../../../../specs/frontier/expected-utility-information-pricing/v1/fixtures/normative/log-buy-sell-asymmetry.json"
+        ),
+    ];
+    for fixture in fixtures {
+        let payload: Value = serde_json::from_str(fixture).expect("valid normative fixture");
+        let (problem, utility) = fixture_problem(&payload);
+        let result = expected_utility_information(&problem, &utility).expect("fixture executes");
+        let expected = &payload["expected"];
+        for (actual, field, tolerance) in [
+            (result.eui.value.unwrap(), "eui", 1.0e-9),
+            (result.cei.value.unwrap(), "cei", 1.0e-8),
+            (result.bpi.value.unwrap(), "bpi", 1.0e-7),
+            (result.spi.value.unwrap(), "spi", 1.0e-7),
+            (result.ppi.value.unwrap(), "ppi", 1.0e-10),
+        ] {
+            let reference = expected[field].as_f64().expect("numeric reference");
+            assert!((actual - reference).abs() < tolerance, "{field}");
+        }
+    }
 }

@@ -31,14 +31,6 @@
       ],
       "pull_requests": [
         {
-          "number": 712,
-          "url": "https://github.com/edithatogo/voiage/pull/712",
-          "status": "draft",
-          "evidence": [
-            "track-delivery"
-          ]
-        },
-        {
           "number": 621,
           "url": "https://github.com/edithatogo/voiage/pull/621",
           "status": "open",
@@ -449,6 +441,14 @@
         "https://github.com/edithatogo/voiage/issues/697"
       ],
       "pull_requests": [
+        {
+          "number": 712,
+          "url": "https://github.com/edithatogo/voiage/pull/712",
+          "status": "draft",
+          "evidence": [
+            "track-delivery"
+          ]
+        },
         {
           "number": 66,
           "url": "https://github.com/edithatogo/vop_poc_nz/pull/66",

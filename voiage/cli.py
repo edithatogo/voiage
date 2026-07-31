@@ -3961,14 +3961,20 @@ def calculate_expected_utility_information(
             presentation["selected_measure"] = selected_measure
             result["presentation"] = presentation
 
-        if selected_measure == "evpi":
-            selected_value = cast("dict[str, object]", result["affine_reduction"])[
-                "value"
-            ]
-        else:
-            selected_value = cast("dict[str, object]", result[selected_measure])[
-                "value"
-            ]
+        measure_result = cast(
+            "dict[str, object]",
+            result["affine_reduction" if selected_measure == "evpi" else selected_measure],
+        )
+        measure_status = cast("str", measure_result["status"])
+        selected_value = measure_result["value"]
+        if measure_status == "failed":
+            diagnostics_ref = measure_result.get("diagnostics_ref")
+            root = cast("dict[str, object]", result.get(diagnostics_ref, {}))
+            termination = root.get("termination_reason", "unspecified failure")
+            raise ValueError(
+                f"{selected_measure} failed: {termination} "
+                f"(diagnostics: {diagnostics_ref or 'none'})"
+            )
         text = (
             f"Expected-utility information ({selected_measure}): "
             f"{selected_value if selected_value is not None else 'unavailable'}"
@@ -3978,6 +3984,7 @@ def calculate_expected_utility_information(
             {
                 "command": "calculate-expected-utility-information",
                 "selected_measure": selected_measure,
+                "selected_status": measure_status,
                 "selected_value": selected_value,
                 "result": result,
             },

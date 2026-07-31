@@ -94,6 +94,7 @@ def test_declared_executable_surfaces_and_evidence_exist() -> None:
     rust_source = (
         ROOT / "rust/crates/voiage-numerics/src/utility_information.rs"
     ).read_text(encoding="utf-8")
+    rust_evidence = (ROOT / bindings["rust"]["evidence"]).read_text(encoding="utf-8")
     assert "pub fn expected_utility_information(" in rust_source
     assert callable(expected_utility_information_value)
     assert (
@@ -104,6 +105,9 @@ def test_declared_executable_surfaces_and_evidence_exist() -> None:
         (ROOT / entry["evidence"]).is_file()
         for entry in (bindings["rust"], bindings["python"])
     )
+    assert "committed_normative_fixtures_drive_rust_conformance" in rust_evidence
+    assert "affine-clairvoyant.json" in rust_evidence
+    assert "log-buy-sell-asymmetry.json" in rust_evidence
     assert (ROOT / capability["fixture_manifest"]).is_file()  # type: ignore[index]
     assert all(
         entry["fixture_evidence"] is True
