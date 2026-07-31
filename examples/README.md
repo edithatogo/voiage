@@ -17,6 +17,20 @@ This directory contains example notebooks demonstrating the usage of the voiage 
 - CLI samples: `cli_samples/coss_study_design.json` provides a synthetic,
   provenance-labelled input for the experimental COSS calculation and plot.
 
+## Runnable Python examples
+
+- [`expected_utility_information.py`](expected_utility_information.py): runs
+  the experimental Rust-backed EUI, CEI, BPI, SPI, anchored PPI, and VoC
+  presentation contract using a deterministic nonlinear fixture. VoC remains a
+  presentation of the shared result; the example does not claim a nonlinear
+  EVPI alias or R, Julia, or Mojo support.
+
+Run it from the repository root:
+
+```bash
+uv run python examples/expected_utility_information.py
+```
+
 ## Usage
 
 To run the examples, you'll need to have Jupyter installed:

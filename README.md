@@ -42,7 +42,7 @@ expected benefit of resolving some uncertainty justifies further research.
 - structural, network meta-analysis, subgroup, sequential, adaptive, and
   portfolio-oriented VOI workflows;
 - fixture-backed experimental work on perspective, equity, implementation,
-  and adjacent VOI questions.
+  expected-utility information pricing, and adjacent VOI questions.
 
 Stable and experimental surfaces are distinguished in the
 [method documentation](https://edithatogo.github.io/voiage/methods/) and
@@ -152,6 +152,7 @@ and business examples.
 | R and Julia EVPI | Released binding source | Direct versioned Rust interface; both require the separately supplied `voiage-ffi` library |
 | Broader R and Julia method parity | Partial | Advanced R paths retain the documented Python bridge; Julia is EVPI-focused |
 | Perspective and frontier extensions | Experimental | Fixture-backed contracts; not represented as stable |
+| Expected-utility information pricing and VoC | Experimental | Rust/Python EUI, CEI, BPI, SPI, and anchored PPI; VoC is presentation-only and the EVPI alias requires positive-affine utility; R/Julia are unsupported and Mojo is an external boundary |
 | Mojo binding | Not released | No publishable Mojo package is claimed |
 | FPGA and ASIC execution | Evidence only | Simulation and pre-silicon evidence do not establish production hardware support |
 
@@ -204,6 +205,7 @@ crates.io, and other external channels.
 - [Documentation home](https://edithatogo.github.io/voiage/)
 - [Getting started](https://edithatogo.github.io/voiage/getting-started/)
 - [Examples and tutorials](https://edithatogo.github.io/voiage/examples/)
+- [Expected-utility information example](https://edithatogo.github.io/voiage/examples/expected-utility-information/)
 - [Method reference](https://edithatogo.github.io/voiage/methods/)
 - [Data structures](https://edithatogo.github.io/voiage/data-structures/)
 - [Plotting](https://edithatogo.github.io/voiage/user-guide/plotting/)

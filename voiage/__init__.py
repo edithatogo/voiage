@@ -60,6 +60,14 @@ _ECOSYSTEM_EXPORTS = {
     "load_heoml_run_bundle": "load_heoml_run_bundle",
 }
 _EXTENSION_EXPORTS = {
+    "expected_utility_information_value": (
+        ".methods.utility_information",
+        "expected_utility_information_value",
+    ),
+    "value_of_clairvoyance": (
+        ".methods.utility_information",
+        "value_of_clairvoyance",
+    ),
     "AdaptiveLearningBanditResult": (
         ".methods.adaptive_learning_bandit",
         "AdaptiveLearningBanditResult",

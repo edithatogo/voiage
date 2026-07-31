@@ -18,6 +18,7 @@ The `voiage` command-line interface exposes calculation, plotting, and configura
 - `voiage calculate-distributional-equity`
 - `voiage calculate-implementation`
 - `voiage calculate-dynamic-real-options`
+- `voiage calculate-expected-utility-information`
 - `voiage plot-ceac`
 - `voiage plot-ceaf`
 - `voiage plot-voi-curves`
@@ -54,6 +55,25 @@ The plotting command consumes either the CLI envelope or a bare
 `CossResultV1` JSON document. Its high-contrast colours are reinforced by
 different markers and line styles for selected, feasible, and infeasible
 designs. COSS remains experimental and is not part of the stable v1 API.
+- `examples/expected_utility_information.py`
+
+## Expected-utility information pricing
+
+The experimental command consumes a JSON object conforming to
+`expected-utility-information-input-v1`:
+
+```sh
+voiage calculate-expected-utility-information request.json --measure bpi
+voiage --format json calculate-expected-utility-information request.json \
+  --presentation voc --measure eui --output result.json
+```
+
+The supported measures are `eui`, `cei`, `bpi`, `spi`, and `ppi`. The `evpi`
+display alias additionally requires `--presentation voc`, clairvoyant
+information, and positive-affine utility. VoC is only a presentation of the
+canonical result, so there is no separate `calculate-voc` command. JSON output
+retains the full result and diagnostics rather than returning only the selected
+number.
 
 ## Common errors
 

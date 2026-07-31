@@ -42,6 +42,9 @@ from voiage import (
     evsi as top_level_evsi,
 )
 from voiage import exceptions as exceptions_module
+from voiage import (
+    expected_utility_information_value as top_level_expected_utility_information_value,
+)
 from voiage import factory as factory_module
 from voiage import fluent as fluent_module
 from voiage import health_economics as health_economics_module
@@ -56,6 +59,7 @@ from voiage import schema as schema_module
 from voiage import (
     value_of_ambiguity_distribution_shift as top_level_value_of_ambiguity_distribution_shift,
 )
+from voiage import value_of_clairvoyance as top_level_value_of_clairvoyance
 from voiage import (
     value_of_distributional_equity as top_level_value_of_distributional_equity,
 )
@@ -239,6 +243,12 @@ from voiage.methods.sample_information import evsi as evsi_impl
 from voiage.methods.sequential import sequential_voi as sequential_voi_impl
 from voiage.methods.structural import structural_evpi as structural_evpi_impl
 from voiage.methods.structural import structural_evppi as structural_evppi_impl
+from voiage.methods.utility_information import (
+    expected_utility_information_value as expected_utility_information_value_impl,
+)
+from voiage.methods.utility_information import (
+    value_of_clairvoyance as value_of_clairvoyance_impl,
+)
 from voiage.plot import (
     plot_ceac,
     plot_ceaf,
@@ -314,6 +324,11 @@ def test_methods_package_exports_point_to_leaf_implementations() -> None:
     assert evppi is evppi_impl
     assert evsi is evsi_impl
     assert evsi_nma is evsi_nma_impl
+    assert (
+        top_level_expected_utility_information_value
+        is expected_utility_information_value_impl
+    )
+    assert top_level_value_of_clairvoyance is value_of_clairvoyance_impl
     assert portfolio_voi is portfolio_voi_impl
     assert sequential_voi is sequential_voi_impl
     assert structural_evpi is structural_evpi_impl
