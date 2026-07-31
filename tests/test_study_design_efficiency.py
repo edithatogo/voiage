@@ -9,6 +9,7 @@ from voiage.contracts.study_design import (
     StudyDesignPointInputV1,
 )
 from voiage.experimental.study_design import calculate_coss
+from voiage.exceptions import InputError
 
 
 @pytest.fixture
@@ -78,3 +79,111 @@ def test_coss_preserves_negative_enbs_without_a_zero_floor(
     assert result.maximum_enbs == -3.0
     assert result.optimal_design_id == "n-20"
     assert result.boundary_state == "lower"
+
+
+def _point(
+    design_id: str,
+    sample_size: int,
+    evsi: float,
+    cost: float,
+    *,
+    feasible: bool = True,
+) -> StudyDesignPointInputV1:
+    return StudyDesignPointInputV1(
+        design_id=design_id,
+        sample_size=sample_size,
+        evsi=evsi,
+        research_cost=cost,
+        feasible=feasible,
+        feasibility_codes=() if feasible else ("capacity_exceeded",),
+    )
+
+
+def test_coss_selects_an_interior_optimum_on_a_non_monotone_curve(
+    study_context: StudyDesignContextV1,
+) -> None:
+    designs = (
+        _point("n-20", 20, 8.0, 3.0),
+        _point("n-40", 40, 17.0, 6.0),
+        _point("n-60", 60, 14.0, 8.0),
+        _point("n-80", 80, 20.0, 12.0),
+    )
+
+    result = calculate_coss(context=study_context, designs=designs)
+
+    assert result.optimal_design_id == "n-40"
+    assert result.boundary_state == "interior"
+    assert "non_monotone_evsi" in result.diagnostics
+
+
+def test_coss_applies_declared_tie_policy_deterministically(
+    study_context: StudyDesignContextV1,
+) -> None:
+    designs = (
+        _point("large", 100, 15.0, 5.0),
+        _point("small-z", 50, 12.0, 2.0),
+        _point("small-a", 50, 11.0, 1.0),
+    )
+
+    smallest = calculate_coss(context=study_context, designs=designs)
+    largest = calculate_coss(
+        context=study_context, designs=designs, tie_policy="largest_sample_size"
+    )
+    first = calculate_coss(
+        context=study_context, designs=designs, tie_policy="first_declared"
+    )
+
+    assert smallest.optimal_design_id == "small-a"
+    assert smallest.tied_optimal_design_ids == ("large", "small-z", "small-a")
+    assert largest.optimal_design_id == "large"
+    assert first.optimal_design_id == "large"
+
+
+def test_coss_returns_no_optimum_when_every_design_is_infeasible(
+    study_context: StudyDesignContextV1,
+) -> None:
+    result = calculate_coss(
+        context=study_context,
+        designs=(
+            _point("n-20", 20, 9.0, 2.0, feasible=False),
+            _point("n-40", 40, 14.0, 3.0, feasible=False),
+        ),
+    )
+
+    assert result.optimal_design_id is None
+    assert result.optimal_sample_size is None
+    assert result.maximum_enbs is None
+    assert result.boundary_state == "none"
+    assert result.feasible_sample_sizes == ()
+    assert "no_feasible_design" in result.diagnostics
+
+
+def test_coss_reports_upper_boundary_and_retains_infeasible_records(
+    study_context: StudyDesignContextV1,
+) -> None:
+    result = calculate_coss(
+        context=study_context,
+        designs=(
+            _point("n-20", 20, 5.0, 2.0),
+            _point("n-40", 40, 12.0, 4.0),
+            _point("n-60", 60, 20.0, 5.0, feasible=False),
+        ),
+        declared_feasible_range=(20, 40),
+    )
+
+    assert result.optimal_design_id == "n-40"
+    assert result.boundary_state == "upper"
+    assert len(result.evaluated_designs) == 3
+    assert result.plot_data.feasible == (True, True, False)
+
+
+def test_coss_rejects_duplicate_design_identity_and_sample_size(
+    study_context: StudyDesignContextV1,
+) -> None:
+    duplicate_id = (_point("same", 20, 5.0, 2.0), _point("same", 40, 7.0, 3.0))
+    duplicate_size = (_point("a", 20, 5.0, 2.0), _point("b", 20, 7.0, 3.0))
+
+    with pytest.raises(InputError, match="design_id"):
+        calculate_coss(context=study_context, designs=duplicate_id)
+    with pytest.raises(InputError, match="sample_size"):
+        calculate_coss(context=study_context, designs=duplicate_size)
