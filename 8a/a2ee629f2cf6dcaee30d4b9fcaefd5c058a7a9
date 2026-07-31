@@ -1,0 +1,1 @@
+U1: froze the serializable decision-problem and utility contract for issue #595. Defined finite payoffs and joint signal/state probabilities, affine/CARA/log/CRRA descriptors, wealth/reference and units, ex-ante sure-transfer cost location, deterministic tie policy, result envelope, VoC presentation boundary and experimental maturity.
