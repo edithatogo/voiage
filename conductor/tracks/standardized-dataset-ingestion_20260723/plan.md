@@ -273,7 +273,14 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   their policy evidence remain active).
 - [~] **P7-T4 / AC-08:** Benchmark parsing, normalization, Arrow conversion,
   memory use, and calculation separately; define representative
-  non-regression thresholds.
+  non-regression thresholds. The deterministic local benchmark suite now
+  records parse-to-Arrow, normalization, EVPI, peak memory, bytes, and rows
+  for strict Croissant CSV and Frictionless CSV/JSON Table/Parquet/Arrow IPC
+  profiles. It enforces bounded three-row/64-KiB workloads and a 64-MiB memory
+  ceiling, while deliberately retaining elapsed time as runner-specific review
+  evidence rather than a portable or upstream-parser performance claim
+  (partial: representative large-scale and hosted release evidence remains
+  required).
 - [~] **P7-T5 / AC-08:** Verify Python 3.12–3.14, minimum/maximum dependencies,
   CPU fallback, numerical equivalence, Arrow round trips, base/extra wheels,
   license inventory, and SBOM changes.

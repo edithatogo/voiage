@@ -124,6 +124,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
         surface to its profile matrix, offline policy, and cross-domain examples.
     *   Verified offline-cache entries now reject symlinks and hard links so a
         cache object cannot be redirected or mutated through another path.
+    *   The local benchmark matrix records bounded Croissant CSV and
+        Frictionless CSV/JSON/Parquet/Arrow parse-to-Arrow, normalization,
+        calculation, input-size, and memory evidence without treating elapsed
+        time as a portable threshold or claiming remote/upstream performance.
 
 ## Completed public documentation
 
