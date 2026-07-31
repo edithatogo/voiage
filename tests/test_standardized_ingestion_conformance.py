@@ -233,7 +233,12 @@ def test_provider_rejects_declared_field_order_that_differs_from_csv_order(
     descriptor_path = tmp_path / descriptor_name
     descriptor_path.write_text(json.dumps(descriptor), encoding="utf-8")
 
-    with pytest.raises(IngestionError, match="exactly declare the CSV columns"):
+    expected = (
+        "exactly declare the CSV columns"
+        if descriptor_name.endswith(".croissant.json")
+        else "exactly declare resource columns"
+    )
+    with pytest.raises(IngestionError, match=expected):
         default_registry().ingest(descriptor_path, policy=SourceAccessPolicy(tmp_path))
 
 
