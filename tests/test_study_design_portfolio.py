@@ -307,6 +307,33 @@ def test_allocator_rejects_malformed_boundary_objects() -> None:
         )
 
 
+@pytest.mark.parametrize("value", [float("nan"), float("inf"), float("-inf")])
+@pytest.mark.parametrize("field", ["absolute_tolerance", "relative_tolerance"])
+def test_allocator_rejects_non_finite_tolerances(field: str, value: float) -> None:
+    kwargs = {field: value}
+    with pytest.raises(InputError, match="finite and non-negative"):
+        allocate_coss_portfolio(
+            candidates=(_candidate("a", evsi=5.0, cost=1.0),),
+            constraints=(
+                PortfolioCapacityConstraintV1(
+                    constraint_id="traffic", capacity=1.0, unit="slot"
+                ),
+            ),
+            **kwargs,  # type: ignore[arg-type]
+        )
+
+
+@pytest.mark.parametrize("target", ["model", "cost"])
+def test_candidate_rejects_blank_assurance_provenance_values(target: str) -> None:
+    payload = _candidate("a", evsi=5.0, cost=1.0).model_dump(mode="json")
+    if target == "model":
+        payload["model_assurances"][0]["provenance"] = {"basis": ""}
+    else:
+        payload["incremental_cost"]["provenance"] = {"basis": ""}
+    with pytest.raises(ValidationError, match="at least 1 character"):
+        CossPortfolioCandidateV1.model_validate_json(json.dumps(payload))
+
+
 def test_portfolio_carries_advanced_design_semantics_and_net_values() -> None:
     candidate = _candidate(
         "adjusted",

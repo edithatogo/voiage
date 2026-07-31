@@ -39,6 +39,12 @@ issue. These were also remediated before S19 closure:
 - malformed candidate or constraint objects again raise the governed
   `InputError` boundary rather than leaking `AttributeError`.
 
+The third pass reported no Critical or High findings. Its two Medium findings
+were closed by rejecting non-finite allocator tolerances at the domain boundary
+and by applying non-blank identifier constraints to assurance-provenance keys
+and values. The allocator documentation now describes its actual total-cost
+tie breaker.
+
 Focused remediation tests, Ruff and Basedpyright pass. Full repository,
 Conductor, documentation, Rust and hosted evidence are recorded by S19; merge,
 scientific promotion, release and issue closure remain separate gates.

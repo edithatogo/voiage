@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from itertools import combinations
-from math import isclose
+from math import isclose, isfinite
 from typing import TYPE_CHECKING
 
 from pydantic import ValidationError
@@ -98,7 +98,7 @@ def allocate_coss_portfolio(
 
     The empty portfolio is always admissible. Consequently, a study with
     negative incremental ENBS is never funded merely because spare capacity is
-    available. Ties are resolved by lower research cost and then the
+    available. Ties are resolved by lower total cost and then the
     lexicographically ordered study-ID tuple.
     """
     raw_candidates: tuple[object, ...] = tuple(candidates)
@@ -111,8 +111,13 @@ def allocate_coss_portfolio(
         raise InputError(
             f"exact portfolio allocation supports at most {_MAX_EXACT_CANDIDATES} candidates"
         )
-    if absolute_tolerance < 0.0 or relative_tolerance < 0.0:
-        raise InputError("portfolio tolerances must be non-negative")
+    if (
+        not isfinite(absolute_tolerance)
+        or not isfinite(relative_tolerance)
+        or absolute_tolerance < 0.0
+        or relative_tolerance < 0.0
+    ):
+        raise InputError("portfolio tolerances must be finite and non-negative")
     study_ids = [item.study_id for item in candidate_tuple]
     if len(set(study_ids)) != len(study_ids):
         raise InputError("portfolio study_id values must be unique")

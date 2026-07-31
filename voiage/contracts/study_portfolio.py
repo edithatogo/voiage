@@ -30,7 +30,7 @@ class PortfolioModelAssuranceV1(ContractModel):
 
     model_id: Identifier
     handling: Literal["no_effect", "already_reflected_in_coss"]
-    provenance: Mapping[Identifier, str]
+    provenance: Mapping[Identifier, Identifier]
 
     @field_serializer("provenance")
     def serialize_provenance(self, value: object) -> object:
@@ -52,7 +52,7 @@ class PortfolioIncrementalCostV1(ContractModel):
     implementation_delay_cost: float = Field(ge=0.0)
     excluded_from_coss_research_cost: Literal[True]
     basis_id: Identifier
-    provenance: Mapping[Identifier, str]
+    provenance: Mapping[Identifier, Identifier]
 
     @field_serializer("provenance")
     def serialize_provenance(self, value: object) -> object:
