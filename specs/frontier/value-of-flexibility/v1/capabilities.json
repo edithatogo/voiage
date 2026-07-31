@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "method_family": "value_of_flexibility",
+  "maturity": "planned-runtime",
+  "surfaces": {
+    "python": {"status": "planned", "evidence": "tests/test_value_of_flexibility.py"},
+    "rust": {"status": "unsupported", "reason": "No reviewed Rust ABI or kernel exists."},
+    "r": {"status": "unsupported", "reason": "No shared-fixture binding evidence exists."},
+    "julia": {"status": "unsupported", "reason": "No shared-fixture binding evidence exists."},
+    "mojo": {"status": "external", "reason": "Mojo is outside the repository build and release boundary."}
+  },
+  "unsupported": [
+    "transition-constrained lifecycle-period policies",
+    "embedded information-value decomposition",
+    "stable API or cross-language parity"
+  ]
+}

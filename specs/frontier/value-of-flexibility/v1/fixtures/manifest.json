@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "method_family": "value_of_flexibility",
+  "status": "experimental",
+  "fixtures": [
+    {
+      "fixture_id": "vof-enumerable-v1",
+      "input": "normative/input.json",
+      "expected": "normative/expected.json",
+      "reference": "conductor/tracks/supported_frontier_method_completion_20260723/value-of-flexibility-reference-review.md",
+      "tolerance": {"absolute": 1e-12, "relative": 1e-12}
+    }
+  ]
+}
