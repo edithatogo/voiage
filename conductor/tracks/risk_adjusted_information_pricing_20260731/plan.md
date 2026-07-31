@@ -56,7 +56,7 @@
 - [x] **U11:** Implement the thin Python facade, deterministic serialization,
   DecisionAnalysis integration and VoC presentation/delegation without a
   duplicate kernel. (AC-03, AC-04, AC-06) — `c179470`
-- [ ] **U12:** Add differential, property, serialization, failure and
+- [~] **U12:** Add differential, property, serialization, failure and
   performance assurance for the runtime boundary. (AC-05, AC-08)
 - [ ] **U13:** Run automated implementation review, focused validation and the
   repository harness. (AC-05, AC-08)
