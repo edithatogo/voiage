@@ -56,6 +56,9 @@
 - [x] **RF1:** Apply final automated-review fixes for formatter, CLI registry,
   extension policy and curated package-export contract coverage. (AC-06,
   AC-08) [5365512f]
-- [~] **E16:** Run final automated review, full local validation and hosted
+- [~] **RF2:** Preserve the immutable v1.0 extension-policy snapshot while
+  explicitly reconciling the separately governed post-v1 estimation module.
+  (AC-06, AC-08)
+- [ ] **E16:** Run final automated review, full local validation and hosted
   required checks; retain merge, release and issue closure as separate gates.
   (AC-08)
