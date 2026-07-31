@@ -1,3 +1,5 @@
+//! Independent references for expected-utility information pricing.
+
 use voiage_numerics::{
     expected_utility_information, ExpectedUtilityInformationInput, InformationStructure,
     SolverSettings, UtilityDescriptor,
@@ -17,6 +19,7 @@ fn clairvoyant_joint(probabilities: &[f64]) -> Vec<Vec<f64>> {
         .collect()
 }
 
+#[allow(clippy::needless_pass_by_value)]
 fn input(
     payoffs: Vec<Vec<f64>>,
     probabilities: Vec<f64>,

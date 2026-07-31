@@ -16,6 +16,7 @@ mod evsi_regression;
 mod heterogeneity;
 mod structural;
 mod study_design;
+mod utility_information;
 
 pub use dominance::{dominance, DominanceKernelResult, DominanceStatus};
 pub use enbs::enbs;
@@ -31,6 +32,11 @@ pub use heterogeneity::{heterogeneity, HeterogeneityKernelResult};
 pub use structural::{structural_evpi, structural_evppi};
 pub use study_design::{
     coss, evsi_evpi_efficiency, CossKernelResult, InformationEfficiencyKernelResult,
+};
+pub use utility_information::{
+    expected_utility_information, AffineReduction, Comparability, ExpectedUtilityError,
+    ExpectedUtilityInformationInput, ExpectedUtilityInformationResult, InformationStructure,
+    MeasureResult, PolicyResult, RootResult, SolverSettings, UtilityDescriptor,
 };
 
 /// Identifies this crate while numerical kernels are migrated.

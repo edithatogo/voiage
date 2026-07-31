@@ -1,3 +1,5 @@
+//! Boundary contracts for expected-utility information pricing.
+
 use voiage_numerics::{
     expected_utility_information, ExpectedUtilityInformationInput, InformationStructure,
     SolverSettings, UtilityDescriptor,
