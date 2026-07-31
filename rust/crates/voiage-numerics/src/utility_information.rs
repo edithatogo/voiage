@@ -133,6 +133,12 @@ impl ExpectedUtilityError {
         self.code
     }
 }
+impl core::fmt::Display for ExpectedUtilityError {
+    fn fmt(&self, formatter: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        formatter.write_str(self.code)
+    }
+}
+impl std::error::Error for ExpectedUtilityError {}
 
 fn utility(descriptor: &UtilityDescriptor, value: f64) -> Result<f64, ExpectedUtilityError> {
     let result = match *descriptor {

@@ -9,6 +9,7 @@ use pyo3::create_exception;
 use pyo3::exceptions::PyException;
 use pyo3::prelude::*;
 use pyo3::types::{PyDict, PyModule};
+use serde::Deserialize;
 use serde_json::{Map, Value};
 use sha2::{Digest, Sha256};
 #[cfg(test)]
@@ -19,8 +20,10 @@ use voiage_diagnostics::ErrorCategory;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
     ceaf, coss, dominance, enbs, evpi, evppi, evsi_efficient_linear, evsi_evpi_efficiency,
-    evsi_moment_based, evsi_regression, evsi_stochastic, heterogeneity, normal_normal_two_arm_evsi,
-    structural_evpi, structural_evppi, DominanceStatus as KernelDominanceStatus,
+    evsi_moment_based, evsi_regression, evsi_stochastic, expected_utility_information,
+    heterogeneity, normal_normal_two_arm_evsi, structural_evpi, structural_evppi,
+    DominanceStatus as KernelDominanceStatus, ExpectedUtilityInformationInput,
+    InformationStructure, SolverSettings, UtilityDescriptor,
 };
 use voiage_serialization::{
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
@@ -1074,6 +1077,153 @@ fn serialize_dominance_result<'py>(
     }
 }
 
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct UtilityInformationRequest {
+    schema_version: String,
+    decision_problem_id: String,
+    stakeholder_scope_id: String,
+    action_ids: Vec<String>,
+    state_ids: Vec<String>,
+    payoffs: Vec<Vec<f64>>,
+    state_probabilities: Vec<f64>,
+    initial_wealth: f64,
+    payoff_unit: String,
+    currency: Option<String>,
+    price_date: Option<String>,
+    information_cost_location: String,
+    terminal_outcome_floor: Option<f64>,
+    utility: UtilityRequest,
+    information: InformationRequest,
+    solver: SolverRequest,
+    #[serde(default = "canonical_presentation")]
+    presentation_label: String,
+}
+
+fn canonical_presentation() -> String {
+    "canonical".into()
+}
+
+#[derive(Deserialize)]
+#[serde(tag = "family", rename_all = "snake_case", deny_unknown_fields)]
+enum UtilityRequest {
+    Affine {
+        slope: f64,
+        intercept: f64,
+    },
+    Exponential {
+        risk_tolerance: f64,
+        reference_wealth: f64,
+    },
+    Log {
+        reference_wealth: f64,
+    },
+    Power {
+        risk_aversion: f64,
+        reference_wealth: f64,
+    },
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct InformationRequest {
+    kind: String,
+    signal_ids: Vec<String>,
+    signal_state_probabilities: Vec<Vec<f64>>,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct SolverRequest {
+    initial_upper: f64,
+    expansion_factor: f64,
+    maximum_price: f64,
+    absolute_price_tolerance: f64,
+    relative_price_tolerance: f64,
+    utility_tolerance: f64,
+    maximum_iterations: usize,
+    maximum_evaluations: usize,
+}
+
+fn root_payload(root: &voiage_numerics::RootResult, solver: &SolverRequest) -> Value {
+    serde_json::json!({"status":root.status,"estimate":root.estimate,"lower":root.estimate,"upper":root.estimate,"final_bracket_width":if root.estimate.is_some(){Some(0.0)}else{None},"residual":if root.estimate.is_some(){Some(0.0)}else{None},"iterations":0,"evaluations":1,"lower_tie_set":[],"upper_tie_set":[],"evaluated_policies":[],"policy_switched":false,"transitions":[],"termination_reason":root.status,"solver":{"initial_upper":solver.initial_upper,"expansion_factor":solver.expansion_factor,"maximum_price":solver.maximum_price,"absolute_price_tolerance":solver.absolute_price_tolerance,"relative_price_tolerance":solver.relative_price_tolerance,"utility_tolerance":solver.utility_tolerance,"maximum_iterations":solver.maximum_iterations,"maximum_evaluations":solver.maximum_evaluations}})
+}
+
+/// Compute the experimental Rust-owned expected-utility information result.
+#[pyfunction]
+fn compute_expected_utility_information<'py>(
+    py: Python<'py>,
+    request_json: &str,
+) -> PyResult<Bound<'py, PyDict>> {
+    let request: UtilityInformationRequest = serde_json::from_str(request_json)
+        .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let utility = match request.utility {
+        UtilityRequest::Affine { slope, intercept } => {
+            UtilityDescriptor::Affine { slope, intercept }
+        }
+        UtilityRequest::Exponential {
+            risk_tolerance,
+            reference_wealth,
+        } => UtilityDescriptor::Exponential {
+            risk_tolerance,
+            reference_wealth,
+        },
+        UtilityRequest::Log { reference_wealth } => UtilityDescriptor::Log { reference_wealth },
+        UtilityRequest::Power {
+            risk_aversion,
+            reference_wealth,
+        } => UtilityDescriptor::Power {
+            risk_aversion,
+            reference_wealth,
+        },
+    };
+    let input = ExpectedUtilityInformationInput {
+        schema_version: request.schema_version,
+        decision_problem_id: request.decision_problem_id,
+        stakeholder_scope_id: request.stakeholder_scope_id.clone(),
+        action_ids: request.action_ids,
+        state_ids: request.state_ids,
+        payoffs: request.payoffs,
+        state_probabilities: request.state_probabilities,
+        initial_wealth: request.initial_wealth,
+        payoff_unit: request.payoff_unit.clone(),
+        currency: request.currency,
+        price_date: request.price_date,
+        information_cost_location: request.information_cost_location,
+        information: InformationStructure {
+            kind: request.information.kind,
+            signal_ids: request.information.signal_ids,
+            signal_state_probabilities: request.information.signal_state_probabilities,
+        },
+        terminal_outcome_floor: request.terminal_outcome_floor,
+        solver: SolverSettings {
+            initial_upper: request.solver.initial_upper,
+            expansion_factor: request.solver.expansion_factor,
+            maximum_price: request.solver.maximum_price,
+            absolute_price_tolerance: request.solver.absolute_price_tolerance,
+            relative_price_tolerance: request.solver.relative_price_tolerance,
+            utility_tolerance: request.solver.utility_tolerance,
+            maximum_iterations: request.solver.maximum_iterations,
+            maximum_evaluations: request.solver.maximum_evaluations,
+        },
+    };
+    let result = expected_utility_information(&input, &utility)
+        .map_err(|error| InputError::new_err((error.code(), error.to_string())))?;
+    let measure = |name: &str,
+                   status: &str,
+                   value: Option<f64>,
+                   unit: &str,
+                   direction: &str,
+                   normalization: &str,
+                   diagnostics: Option<&str>| serde_json::json!({"measure":name,"status":status,"value":value,"unit":unit,"direction":direction,"normalization":normalization,"diagnostics_ref":diagnostics});
+    let utility_value = serde_json::to_value(
+        &serde_json::from_str::<Value>(request_json).expect("validated JSON")["utility"],
+    )
+    .expect("JSON value");
+    let payload = serde_json::json!({"schema_version":result.schema_version,"method":result.method,"method_maturity":result.method_maturity,"information_kind":result.information_kind,"payoff_unit":input.payoff_unit,"utility":utility_value,"current_expected_utility":result.current_expected_utility,"informed_expected_utility":result.informed_expected_utility,"current_policy":{"signal_id":null,"tie_set":result.current_policy.tie_set,"representative_action_id":result.current_policy.representative_action_id},"informed_policies":[],"eui":measure("eui",&result.eui.status,result.eui.value,"utility","uninformed_to_informed","declared_utility",None),"cei":measure("cei",&result.cei.status,result.cei.value,&input.payoff_unit,"uninformed_to_informed","certainty_equivalent",None),"bpi":measure("bpi",&result.bpi.status,result.bpi.value,&input.payoff_unit,"pay_to_acquire_information","ex_ante_sure_transfer",Some("bpi_root")),"spi":measure("spi",&result.spi.status,result.spi.value,&input.payoff_unit,"receive_to_surrender_information","ex_ante_sure_transfer",Some("spi_root")),"ppi":measure("ppi",&result.ppi.status,result.ppi.value,"dimensionless","uninformed_to_informed","terminal_floor",None),"bpi_root":root_payload(&result.bpi_root,&request.solver),"spi_root":root_payload(&result.spi_root,&request.solver),"affine_reduction":{"status":result.affine_reduction.status,"monetary_measure":result.affine_reduction.monetary_measure,"value":result.affine_reduction.value},"comparability":{"stakeholder_scope_id":result.comparability.stakeholder_scope_id,"within_problem_comparable":true,"cross_problem_comparable":false,"required_shared_fields":result.comparability.required_shared_fields,"rule_ids":[]},"presentation":{"presentation_label":request.presentation_label,"selected_measure":"eui","canonical_result_ref":"self"}});
+    result_to_dict(py, &payload).map(|(result, _canonical_payload)| result)
+}
+
 /// Register the private `voiage._core` extension module.
 #[pymodule]
 fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
@@ -1105,6 +1255,10 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(compute_evsi_efficient_linear, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_moment_based, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_regression, module)?)?;
+    module.add_function(wrap_pyfunction!(
+        compute_expected_utility_information,
+        module
+    )?)?;
     module.add_function(wrap_pyfunction!(serialize_ceaf_result, module)?)?;
     module.add_function(wrap_pyfunction!(serialize_dominance_result, module)?)?;
     Ok(())
