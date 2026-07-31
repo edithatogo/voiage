@@ -18,7 +18,6 @@ from voiage.contracts.estimation import (
 )
 from voiage.exceptions import DimensionMismatchError, InputError
 import voiage.methods.estimation as estimation_module
-from voiage.methods.estimation import evppi_var, evsi_var
 
 
 def _target() -> EstimationTargetSpec:
@@ -74,7 +73,7 @@ def _evsi_spec() -> EstimationVarianceSpec:
 
 
 def test_evppi_var_python_facade_matches_discrete_reference() -> None:
-    result = evppi_var(
+    result = estimation_module.evppi_var(
         [0.0, 2.0, 1.0, 3.0],
         ["a", "a", "b", "b"],
         specification=_evppi_spec(),
@@ -95,7 +94,7 @@ def test_evppi_var_python_facade_matches_discrete_reference() -> None:
 
 
 def test_evsi_var_python_facade_preserves_negative_raw_estimate() -> None:
-    result = evsi_var(
+    result = estimation_module.evsi_var(
         [0.0, 1.0, 2.0, 3.0],
         [1.5, 1.5],
         specification=_evsi_spec(),
@@ -109,14 +108,18 @@ def test_evsi_var_python_facade_preserves_negative_raw_estimate() -> None:
 
 def test_estimation_facade_translates_native_dimension_and_input_errors() -> None:
     with pytest.raises(DimensionMismatchError, match="conditioning-group count"):
-        _ = evppi_var([0.0, 1.0], ["only-one"], specification=_evppi_spec())
+        _ = estimation_module.evppi_var(
+            [0.0, 1.0], ["only-one"], specification=_evppi_spec()
+        )
     with pytest.raises(InputError, match="posterior variances must be nonnegative"):
-        _ = evsi_var([0.0, 1.0], [-0.1], specification=_evsi_spec())
+        _ = estimation_module.evsi_var([0.0, 1.0], [-0.1], specification=_evsi_spec())
 
 
 def test_estimation_facade_rejects_method_mismatch_before_native_dispatch() -> None:
     with pytest.raises(InputError, match="matching EstimationVarianceSpec"):
-        _ = evppi_var([0.0, 1.0], ["a", "b"], specification=_evsi_spec())
+        _ = estimation_module.evppi_var(
+            [0.0, 1.0], ["a", "b"], specification=_evsi_spec()
+        )
 
 
 def test_seeded_bootstrap_assurance_is_deterministic_and_typed() -> None:
@@ -129,12 +132,12 @@ def test_seeded_bootstrap_assurance_is_deterministic_and_typed() -> None:
             )
         }
     )
-    first = evppi_var(
+    first = estimation_module.evppi_var(
         [0.0, 2.0, 1.0, 3.0],
         ["a", "a", "b", "b"],
         specification=specification,
     )
-    second = evppi_var(
+    second = estimation_module.evppi_var(
         [0.0, 2.0, 1.0, 3.0],
         ["a", "a", "b", "b"],
         specification=specification,
@@ -166,7 +169,9 @@ def test_runtime_rejects_vector_targets_pending_scientific_review() -> None:
         }
     )
     with pytest.raises(InputError, match="scalar variance targets only"):
-        _ = evppi_var([0.0, 1.0], ["a", "b"], specification=specification)
+        _ = estimation_module.evppi_var(
+            [0.0, 1.0], ["a", "b"], specification=specification
+        )
 
 
 def _native_payload() -> dict[str, object]:
