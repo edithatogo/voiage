@@ -313,6 +313,11 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   machine-readable consumer fixture, regression tests for its public protocol
   and capability fields, and registry rejection of empty provider identities
   (partial: a separately installed third-party provider remains future evidence).
+  A disposable external-package wheel contract now builds and installs an
+  independent entry-point provider against a VOIAGE wheel, proves base-import
+  isolation, then performs an explicitly allow-listed discovery and ingest
+  round trip (local consumer evidence only; hosted/release-wheel evidence
+  remains active).
 - [~] **P8-T3 / AC-12:** Write failing DataFrame-interchange tests covering
   pandas, Polars, dtype/null/category/timezone/index handling, copy diagnostics,
   and clean optional environments. Partial diagnostics evidence: `fdda14a`;
