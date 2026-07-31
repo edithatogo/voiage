@@ -326,13 +326,19 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   pandas, Polars, dtype/null/category/timezone/index handling, copy diagnostics,
   and clean optional environments. Partial diagnostics evidence: `fdda14a`;
   producer-specific nullable/category/timezone/index consumer evidence is added
+  in this increment. Non-contiguous pandas-slice, typed zero-row, and no-column
+  producer contracts now preserve the same Arrow-backed schema/diagnostics and
+  preparation boundary (partial: producer coverage remains intentionally
+  limited).
   in this increment. Dependency-neutral `croissant`, `frictionless`, and
   aggregate `ingestion` extras now have subprocess import-isolation regression
   coverage while enhanced parser modules are absent (partial: actual enhanced
   parser extras remain intentionally unpromoted).
 - [~] **P8-T4 / AC-12:** Implement the generic `__dataframe__` adapter through
   Arrow and `NormalizedInputBundle`, with no alternate preparation or numerical
-  path. Partial conversion-diagnostics evidence: `fdda14a`.
+  path. Partial conversion-diagnostics evidence: `fdda14a`; edge-case consumer
+  tests now prove slice, zero-row, and no-column behavior without adapter
+  widening.
 - [~] **P8-T5 / AC-12:** Assess Hugging Face and OpenML Croissant support and
   create registry-specific providers only for documented, tested gaps.
 - [~] **P8-T6 / AC-12:** Run SDK consumer tests, conformance, numerical
