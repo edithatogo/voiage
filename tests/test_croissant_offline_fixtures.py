@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+import hashlib
 from pathlib import Path
 
 import pytest
 
 from voiage.ingestion.base import IngestionError, SourceAccessPolicy
 from voiage.ingestion.croissant import CroissantProvider
+from voiage.ingestion.registry import default_registry
 
 _FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "croissant_1_1"
 
@@ -18,6 +20,7 @@ _FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "croissant_1_1"
         ("unsupported/non-object-root.json", "descriptor root must be a JSON object"),
         ("unsupported/archive.json", "archives"),
         ("unsupported/checksum-mismatch.json", "SHA-256"),
+        ("unsupported/context-object.json", "string JSON-LD context entries"),
         ("unsupported/integrity-declaration.json", "integrity declarations"),
         ("unsupported/key.json", "keys"),
         ("unsupported/non-csv-media-type.json", "CSV media type"),
@@ -62,6 +65,12 @@ def test_croissant_offline_valid_profile_fixture_materializes() -> None:
         {"strategy_a": 100.0, "strategy_b": 80.0},
         {"strategy_a": 60.0, "strategy_b": 90.0},
     ]
+    receipt = bundle.manifest.resources[0]
+    resource_path = _FIXTURE_ROOT / "valid" / "data.csv"
+    assert receipt.resource_id == "decision_samples"
+    assert receipt.uri == resource_path.resolve().as_uri()
+    assert receipt.sha256 == hashlib.sha256(resource_path.read_bytes()).hexdigest()
+    assert receipt.byte_size == resource_path.stat().st_size
 
 
 def test_croissant_preserves_declared_field_data_type_as_descriptive_metadata(
@@ -136,3 +145,33 @@ def test_croissant_offline_governance_fixture_preserves_metadata() -> None:
     assert dict(governance["odrl"]) == {"permission": "use"}
     assert dict(governance["provenance"]) == {"wasGeneratedBy": "simulation"}
     assert dict(governance["rai"]) == {"risk": "low"}
+
+
+def test_croissant_context_array_governance_fixture_is_metadata_only() -> None:
+    """One fixture proves context arrays coexist with retained governance metadata."""
+    descriptor_path = _FIXTURE_ROOT / "valid" / "context-array-governed-croissant.json"
+    bundle = CroissantProvider().ingest(
+        descriptor_path,
+        policy=SourceAccessPolicy(_FIXTURE_ROOT),
+    )
+
+    assert bundle.manifest.dataset_id == "context-array-governed-decision-samples"
+    assert bundle.manifest.provenance.citation == "Example et al. (2026)"
+    governance = bundle.manifest.extensions["mlcommons.org:croissant-governance"]
+    assert governance["@id"] == "https://example.invalid/croissant/context-array"
+    assert tuple(dict(creator) for creator in governance["creator"]) == (
+        {"name": "Fixture maintainer"},
+    )
+    assert governance["usageInfo"] == "Synthetic offline fixture only."
+    assert dict(governance["provenance"]) == {"wasGeneratedBy": "simulation"}
+
+
+def test_croissant_fixture_inspection_is_descriptor_only() -> None:
+    """Inspection identifies the profile without creating receipts or governance output."""
+    descriptor_path = _FIXTURE_ROOT / "valid" / "context-array-governed-croissant.json"
+
+    inspection = default_registry().inspect(descriptor_path)
+
+    assert inspection["provider_id"] == "croissant"
+    assert inspection["capabilities"]["format_versions"] == ("1.1",)
+    assert set(inspection) == {"descriptor", "provider_id", "capabilities"}

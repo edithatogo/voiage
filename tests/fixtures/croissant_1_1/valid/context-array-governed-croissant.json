@@ -1,0 +1,22 @@
+{
+  "@context": [
+    "https://schema.org/",
+    "https://mlcommons.org/croissant/1.1"
+  ],
+  "conformsTo": "http://mlcommons.org/croissant/1.1",
+  "@id": "https://example.invalid/croissant/context-array",
+  "name": "context-array-governed-decision-samples",
+  "license": "CC-BY-4.0",
+  "citation": "Example et al. (2026)",
+  "creator": [{"name": "Fixture maintainer"}],
+  "usageInfo": "Synthetic offline fixture only.",
+  "provenance": {"wasGeneratedBy": "simulation"},
+  "distribution": [{
+    "contentUrl": "valid/data.csv",
+    "encodingFormat": "text/csv"
+  }],
+  "recordSet": [{
+    "name": "decision_samples",
+    "field": [{"name": "strategy_a"}, {"name": "strategy_b"}]
+  }]
+}
