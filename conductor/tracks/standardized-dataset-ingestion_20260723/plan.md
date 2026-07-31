@@ -88,10 +88,11 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   remains active.
 - [~] **P4-T5 / AC-04, AC-11:** Add Croissant inspection, diagnostics,
   provenance, governance metadata, and one opt-in authoritative live
-  interoperability probe. CLI inspection coverage now verifies stable provider,
-  checksum/byte receipt, provenance, and retained governance output for an
-  offline Croissant 1.1 fixture (`8d040bef`, partial); the opt-in authoritative
-  live probe remains an explicit external gate.
+  interoperability probe. Registry/CLI inspection now verifies stable provider
+  capabilities without resource materialization; materializing validation
+  verifies receipt, provenance, and retained governance for the offline
+  Croissant 1.1 fixture. The opt-in authoritative live probe remains an
+  explicit external gate.
 
 ### Frictionless Data
 
@@ -111,10 +112,11 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   acceptance evidence remains active (`2ad0a24a`, partial).
 - [~] **P4-T9 / AC-05, AC-11:** Add Frictionless inspection, diagnostics,
   provenance, licence/citation/usage preservation, and one opt-in authoritative
-  live interoperability probe. CLI inspection coverage now verifies stable
-  provider, checksum/byte receipt, provenance, and retained governance output
-  for an offline Data Package fixture (`ac6d05a9`, partial); the opt-in
-  authoritative live probe remains an explicit external gate.
+  live interoperability probe. Registry/CLI inspection now verifies stable
+  provider capabilities without resource materialization; materializing
+  validation verifies receipt, provenance, and retained governance for an
+  offline Data Package fixture. The opt-in authoritative live probe remains an
+  explicit external gate.
 
 ### Phase checkpoint
 
@@ -183,9 +185,13 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   binding, offline, and source-policy options. Every materializing command now
   accepts an explicit `--source-root` in addition to the cache, offline, and
   resource-size policy controls.
-- [x] **P6-T4 / AC-07, AC-11:** Make inspection output include data-quality,
-  provider-capability, binding-resolution, governance, and materialization
-  receipt details in stable machine-readable form.
+- [~] **P6-T4 / AC-07, AC-11:** Keep inspection and materialization evidence
+  distinct in stable machine-readable output. `ingest inspect` is now
+  descriptor-only (provider capabilities and an explicit null binding
+  resolution), so it cannot accidentally resolve resources; materializing
+  validation/normalization output carries provenance, governance, receipts,
+  and data-quality evidence. Broader receipt and live-source acceptance remains
+  active.
 - [x] **P6-T5 / AC-07:** Add Python, Croissant/ML, and
   Frictionless/operations-research examples.
 - [~] **P6-T6 / AC-07:** Update Astro data-structure, CLI, architecture, and
@@ -266,10 +272,11 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   evidence remains required).
 - [~] **P9-T3 / AC-13:** Add validation, inspection, data-quality, governance,
   materialization, Python API, and CLI walkthrough evidence. The canonical ML
-  Croissant and engineering Frictionless descriptors now execute the documented
-  validation/inspection path and assert provider, governance, binding-quality,
-  and materialization-receipt output; the direct DataFrame business walkthrough
-  remains covered by the executable reference example (partial).
+  Croissant and engineering Frictionless descriptors now execute a separate
+  metadata-only inspection path and materializing validation/calculation path;
+  the latter carries governance, binding-quality, and receipt evidence. The
+  direct DataFrame business walkthrough remains covered by the executable
+  reference example (partial).
 - [~] **P9-T4 / AC-13:** Assert normalized-object and numerical equivalence
   without adding domain-specific kernels or semantic inference. The reference
   runner now fails if any supported representation differs in EVPI (partial;

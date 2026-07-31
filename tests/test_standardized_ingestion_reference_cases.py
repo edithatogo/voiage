@@ -140,7 +140,7 @@ def test_reference_case_cli_walkthrough_validates_inspects_and_calculates(
     options = ["--table", "samples", "--field", "strategy_a", "--field", "strategy_b"]
 
     validated = runner.invoke(app, ["ingest", "validate", str(descriptor)])
-    inspected = runner.invoke(app, ["ingest", "inspect", str(descriptor), *options])
+    inspected = runner.invoke(app, ["ingest", "inspect", str(descriptor)])
     calculated = runner.invoke(
         app, ["ingest", "calculate-from-dataset", str(descriptor), *options]
     )
@@ -149,7 +149,7 @@ def test_reference_case_cli_walkthrough_validates_inspects_and_calculates(
     assert json.loads(validated.output)["valid"] is True
     inspection = json.loads(inspected.output)
     assert inspected.exit_code == 0
-    assert inspection["resources"][0]["sha256"]
-    assert inspection["binding_resolution"]["data_quality"]["row_count"] == 3
+    assert inspection["binding_resolution"] is None
+    assert inspection["provider"] in {"croissant", "frictionless"}
     assert calculated.exit_code == 0
     assert json.loads(calculated.output)["evpi"] == pytest.approx(5.0)

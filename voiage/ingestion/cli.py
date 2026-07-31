@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path  # noqa: TC003 - public CLI annotation
+from typing import cast
 
 import typer
 
@@ -48,24 +49,6 @@ def _prepared_summary(bundle: NormalizedInputBundle) -> dict[str, object]:
         },
         "input_digest": prepared.input_digest,
     }
-
-
-def _inspection_binding(
-    table: str | None, field: list[str], strategy: list[str]
-) -> VOIBinding | None:
-    """Build an optional explicit inspection binding without semantic inference."""
-    if (table is None) != (not field):
-        raise ValueError("--table and at least one --field must be supplied together")
-    return (
-        VOIBinding(
-            role="net_benefit",
-            table_id=table,
-            field_ids=tuple(field),
-            strategy_names=tuple(strategy),
-        )
-        if table is not None
-        else None
-    )
 
 
 def _source_policy(
@@ -141,6 +124,27 @@ def _bundle_summary(
     return summary
 
 
+def _inspection_summary(descriptor: Path) -> dict[str, object]:
+    """Return descriptor-only diagnostics without resolving any resources.
+
+    Binding resolution, provenance receipts, and data-quality reports require
+    materializing resources. Those details deliberately belong to the
+    materializing validation, normalization, and calculation commands rather
+    than the metadata-only ``inspect`` command.
+    """
+    inspection = default_registry().inspect(descriptor)
+    capabilities = cast("dict[str, object]", inspection["capabilities"])
+    return {
+        "binding_resolution": None,
+        "capabilities": {
+            "provider_id": inspection["provider_id"],
+            **capabilities,
+        },
+        "descriptor": inspection["descriptor"],
+        "provider": inspection["provider_id"],
+    }
+
+
 @app.command("validate")
 def validate(
     descriptor: Path = typer.Argument(..., exists=True, readable=True),
@@ -191,51 +195,11 @@ def validate(
 @app.command()
 def inspect(
     descriptor: Path = typer.Argument(..., exists=True, readable=True),
-    table: str | None = typer.Option(
-        None, "--table", help="Optional explicit table ID for binding resolution."
-    ),
-    field: list[str] = typer.Option(
-        [], "--field", help="Net-benefit field; repeat per strategy."
-    ),
-    strategy: list[str] = typer.Option(
-        [], "--strategy", help="Optional strategy name; repeat in field order."
-    ),
-    source_root: Path | None = typer.Option(
-        None,
-        "--source-root",
-        file_okay=False,
-        exists=True,
-        readable=True,
-        help="Explicit local root allowed for declared resources.",
-    ),
-    offline: bool = typer.Option(False, "--offline", help="Require an offline replay."),
-    cache_dir: Path | None = typer.Option(
-        None, "--cache-dir", help="Verified materialization cache directory."
-    ),
-    max_resource_bytes: int = typer.Option(
-        512 * 1024 * 1024, "--max-resource-bytes", min=1
-    ),
 ) -> None:
-    """Inspect identity and optionally resolve one explicit EVPI binding."""
+    """Inspect descriptor identity and provider capabilities without loading data."""
     try:
-        binding = _inspection_binding(table, field, strategy)
-        typer.echo(
-            json.dumps(
-                _bundle_summary(
-                    descriptor,
-                    binding=binding,
-                    policy=_source_policy(
-                        descriptor,
-                        source_root=source_root,
-                        offline=offline,
-                        cache_dir=cache_dir,
-                        max_resource_bytes=max_resource_bytes,
-                    ),
-                ),
-                sort_keys=True,
-            )
-        )
-    except (IngestionError, ValueError) as error:
+        typer.echo(json.dumps(_inspection_summary(descriptor), sort_keys=True))
+    except IngestionError as error:
         typer.echo(f"Error: {error}", err=True)
         raise typer.Exit(2) from error
 

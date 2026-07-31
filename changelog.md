@@ -128,6 +128,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Made `voiage ingest inspect` genuinely metadata-only. It now uses registry
+  inspection without resolving declared resources or VOI bindings; materialized
+  provenance, governance, receipt, and data-quality output remains available
+  from validation, normalization, and calculation.
 - Corrected the compiled conda recipe's runtime Python requirement so it
   satisfies conda-forge's non-noarch packaging contract.
 
