@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Harden built-in Croissant and Frictionless source preflight so unsupported
+  URI-style, DNS-like, archive, redirect-shaped, and transform declarations
+  fail before resolver/materializer callbacks, cache creation, or receipt
+  construction.
 - Add a strict local Frictionless Parquet profile: descriptors must declare
   `format: parquet`, use a `.parquet` path, declare primitive fields, and omit
   dialect settings. Parquet input is streamed through bounded Arrow batches

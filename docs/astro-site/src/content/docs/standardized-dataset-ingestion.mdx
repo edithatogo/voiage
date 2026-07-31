@@ -102,6 +102,10 @@ policy limit is rejected before parsing. Applications can set a smaller explicit
 `SourceAccessPolicy.max_resource_bytes` limit for constrained workloads. Cache
 namespace directories are also checked before every cache operation, so a
 symlink cannot redirect a materialization outside the configured cache root.
+For Croissant and Frictionless descriptors, this source-policy preflight occurs
+before a tabular materializer is called: unsupported URI-style, DNS-like,
+archive, redirect-shaped, or transform references create neither a cache entry
+nor a materialization receipt. It is rejection evidence, not remote support.
 
 ## Verified local replay
 

@@ -103,6 +103,9 @@ class CroissantProvider:
             raise IngestionError(
                 "supported Croissant profile does not support transformations"
             )
+        # Reject a URI, archive, or traversal reference before the tabular
+        # helper can invoke a materializer supplied by an application.
+        policy.source_uri(reference)
         declared_sha256 = _sha256(distribution.get("sha256"))
         declared_byte_size = _content_size(distribution.get("contentSize"))
         try:

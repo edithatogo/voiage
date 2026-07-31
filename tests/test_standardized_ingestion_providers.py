@@ -7,12 +7,16 @@ import json
 import subprocess
 import sys
 from types import SimpleNamespace
+from typing import TYPE_CHECKING
 
 import pandas as pd
 import polars as pl
 import pyarrow as pa
 from pyarrow import parquet as pq
 import pytest
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 from voiage import ingestion
 from voiage.contracts import (
@@ -74,6 +78,93 @@ def _write_arrow_ipc(path, *, stream: bool = False, nested: bool = False) -> Non
         )
         with writer:
             writer.write_table(table)
+
+
+class _PreflightOnlyPolicy(SourceAccessPolicy):
+    """Make accidental source resolution or materialization immediately visible."""
+
+    preflight_calls: int = 0
+    resolve_calls: int = 0
+    materialize_calls: int = 0
+
+    def source_uri(self, reference: str) -> str:
+        self.preflight_calls += 1
+        return super().source_uri(reference)
+
+    def resolve(self, reference: str) -> Path:
+        self.resolve_calls += 1
+        raise AssertionError(f"unexpected resolver call for {reference!r}")
+
+    def materialize(
+        self,
+        reference: str,
+        *,
+        sha256: str | None = None,
+        byte_size: int | None = None,
+    ) -> Path:
+        self.materialize_calls += 1
+        raise AssertionError(f"unexpected materializer call for {reference!r}")
+
+
+def _unsafe_descriptor(
+    provider_id: str, reference: str, *, transform: bool
+) -> dict[str, object]:
+    """Return a minimum descriptor with one deliberately unsupported source."""
+    if provider_id == "croissant":
+        distribution: dict[str, object] = {"contentUrl": reference}
+        if transform:
+            distribution["transform"] = {"script": "not-run"}
+        return {
+            "@context": "https://mlcommons.org/croissant/1.1",
+            "distribution": [distribution],
+            "recordSet": [{"name": "samples", "field": [{"name": "id"}]}],
+        }
+    resource: dict[str, object] = {
+        "name": "samples",
+        "path": reference,
+        "schema": {"fields": [{"name": "id", "type": "integer"}]},
+    }
+    if transform:
+        resource["transform"] = {"script": "not-run"}
+    return {"resources": [resource]}
+
+
+@pytest.mark.parametrize("provider_id", ["croissant", "frictionless"])
+@pytest.mark.parametrize(
+    ("reference", "transform"),
+    [
+        ("https://example.invalid/source.csv", False),
+        ("https://example.invalid/redirect.csv", False),
+        ("//metadata.internal/source.csv", False),
+        ("source.tar.gz", False),
+        ("samples.csv", True),
+    ],
+)
+def test_built_in_providers_reject_unsafe_sources_before_callbacks_or_receipts(
+    tmp_path, provider_id: str, reference: str, transform: bool
+) -> None:
+    """Unsupported source semantics cannot reach resolver, cache, or receipt code."""
+    descriptor_path = tmp_path / f"{provider_id}.json"
+    descriptor_path.write_text(
+        json.dumps(_unsafe_descriptor(provider_id, reference, transform=transform)),
+        encoding="utf-8",
+    )
+    cache = tmp_path / "cache"
+    policy = _PreflightOnlyPolicy(tmp_path, cache_dir=cache)
+    provider = (
+        CroissantProvider() if provider_id == "croissant" else FrictionlessProvider()
+    )
+
+    with pytest.raises(IngestionError):
+        provider.ingest(descriptor_path, policy=policy)
+
+    assert policy.resolve_calls == 0
+    assert policy.materialize_calls == 0
+    provider_rejects_before_policy = transform or (
+        provider_id == "croissant" and reference.lower().endswith(".tar.gz")
+    )
+    assert policy.preflight_calls == (0 if provider_rejects_before_policy else 1)
+    assert not cache.exists()
 
 
 @pytest.mark.parametrize(
