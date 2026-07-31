@@ -12,28 +12,44 @@ permissions: {}
 jobs:
   verify-base-release:
     name: Verify shared immutable release manifest
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
     steps:
+      - name: Checkout exact retained-binding tag
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
       - name: Download shared release identity
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           version="${GITHUB_REF_NAME#*-v}"
+          source_commit="$(git rev-parse HEAD)"
           gh release download "v${version}" --repo "$GITHUB_REPOSITORY" \
             --pattern release-manifest.json --pattern polyglot.sbom.cdx.json
-          jq -e --arg version "$version" \
+          jq -e --arg source_commit "$source_commit" \
             '.schema_version == "1.0.0" and
-             any(.artifacts[]; .name | contains($version))' \
+             .source_commit == $source_commit and
+             (.artifacts | type == "array" and length > 0)' \
             release-manifest.json
+          jq -e \
+            --arg version "$version" \
+            --arg source_commit "$source_commit" \
+            --arg source_tag "v${version}" \
+            '.metadata.component.version == $version and
+             any(.metadata.properties[];
+                 .name == "voiage:source:commit" and .value == $source_commit) and
+             any(.metadata.properties[];
+                 .name == "voiage:source:tag" and .value == $source_tag)' \
+            polyglot.sbom.cdx.json
 
   julia:
     name: Release Julia package
     needs: verify-base-release
     if: startsWith(github.ref_name, 'julia-v')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
     defaults:
@@ -44,13 +60,21 @@ jobs:
         with:
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: "1.85"
       - name: Build the Rust C ABI used by Julia
         working-directory: rust
         run: cargo build --release --locked --package voiage-ffi
       - uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32
         with:
           version: "1.11"
-      - run: echo "Project.toml version is $(grep '^version' Project.toml)"
+      - name: Verify Project.toml version matches release tag
+        shell: bash
+        run: |
+          expected="${GITHUB_REF_NAME#julia-v}"
+          actual="$(sed -n 's/^version = "\(.*\)"/\1/p' Project.toml)"
+          test -n "$actual"
+          test "$actual" = "$expected"
       - run: julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.test()'
         env:
           VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/rust/target/release/libvoiage_ffi.so
@@ -59,9 +83,9 @@ jobs:
     name: Release R package
     needs: verify-base-release
     if: startsWith(github.ref_name, 'r-v')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
-      contents: read
+      contents: write
     defaults:
       run:
         working-directory: r-package/voiageR
@@ -70,6 +94,8 @@ jobs:
         with:
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: "1.85"
       - name: Build the Rust C ABI used by R
         working-directory: rust
         run: cargo build --release --locked --package voiage-ffi
@@ -91,3 +117,21 @@ jobs:
       - run: Rscript -e 'rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")'
         env:
           VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/rust/target/release/libvoiage_ffi.so
+      - name: Publish immutable R source and manual release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          package_version="${GITHUB_REF_NAME#r-v}"
+          source_archive="$(find . -maxdepth 1 -name "voiageR_${package_version}.tar.gz" -print -quit)"
+          manual="$(find . -maxdepth 1 -name 'voiageR-manual.pdf' -print -quit)"
+          test -f "$source_archive"
+          test -f "$manual"
+          gh release create "$GITHUB_REF_NAME" \
+            "$source_archive" "$manual" \
+            --repo "$GITHUB_REPOSITORY" \
+            --verify-tag \
+            --title "voiageR ${package_version}" \
+            --generate-notes \
+            --latest=false

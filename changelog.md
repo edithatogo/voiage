@@ -83,6 +83,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Hardened stable and prerelease publishing across Python, Rust, R, and Julia:
+  TestPyPI now verifies the complete reviewed distribution set and every
+  attestation; prereleases cannot reach production PyPI or become the latest
+  GitHub release; Rust publication is bound to a signed tag and shared manifest;
+  and retained bindings validate exact shared source and version identity.
+- Expanded Renovate to cover declared R and Julia compatibility minima, added
+  merge-queue coverage to polyglot assurance, and repaired push-time dependency
+  inventory generation so its CycloneDX input always has a root component.
 - Recorded the authenticated SciCrunch submission, no-match duplicate check,
   account declarations, confirmation page, and pending external RRID curation.
 - Expanded the compiled conda-forge recipe from a Python 3.12-only build to

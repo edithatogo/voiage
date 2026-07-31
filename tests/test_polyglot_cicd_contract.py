@@ -31,6 +31,7 @@ def test_required_pr_workflows_support_merge_queue() -> None:
         "codeql.yml",
         "dependency-review.yml",
         "operational-assurance.yml",
+        "polyglot-assurance.yml",
     ):
         assert "merge_group:" in _text(name), name
 
@@ -104,7 +105,12 @@ def test_binding_releases_consume_the_shared_release_identity() -> None:
     workflow = _text("bindings-release.yml")
     assert "Verify shared immutable release manifest" in workflow
     assert "release-manifest.json" in workflow
+    assert ".source_commit == $source_commit" in workflow
+    assert ".metadata.component.version == $version" in workflow
+    assert 'toolchain: "1.85"' in workflow
+    assert "ubuntu-24.04" in workflow
     assert workflow.count("needs: verify-base-release") == 2
+    assert "Publish immutable R source and manual release" in workflow
 
 
 def test_shared_numerical_corpus_crosses_every_runtime_boundary() -> None:
@@ -141,6 +147,16 @@ def test_renovate_is_the_only_update_pr_producer() -> None:
     assert {"cargo", "github-actions", "npm", "pep621"} <= set(
         renovate["enabledManagers"]
     )
+    assert "custom.regex" in renovate["enabledManagers"]
+    custom_managers = renovate["customManagers"]
+    assert any(
+        "r-package/voiageR/DESCRIPTION" in manager["managerFilePatterns"][0]
+        for manager in custom_managers
+    )
+    assert any(
+        "bindings/julia/Project.toml" in manager["managerFilePatterns"][0]
+        for manager in custom_managers
+    )
     assert renovate["minimumReleaseAge"] == "14 days"
 
 
@@ -156,6 +172,14 @@ def test_dependency_graph_and_immutable_release_contracts_are_explicit() -> None
     assert "contents: write" in assurance
     assert "immutable release" in release.lower()
     assert "immutable releases" in quality.lower()
+
+
+def test_push_dependency_inventory_has_a_root_component() -> None:
+    """The push-only SBOM composition path must produce metadata.component."""
+    assurance = _text("polyglot-assurance.yml")
+    assert "cyclonedx-py environment .venv" in assurance
+    assert "--pyproject pyproject.toml --mc-type library" in assurance
+    assert "compose_polyglot_sbom.py compose" in assurance
 
 
 def test_ci_has_one_required_local_authority() -> None:

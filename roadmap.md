@@ -275,7 +275,7 @@ evidence and is not reopened by this queue.
 1.  **Automated Publishing Pipeline:**
     *   **Status: `✅ Done`**
     *   TestPyPI → PyPI publishing on `v*` tags, plus conda-forge feedstock recipe updates with the external feedstock merge remaining outside this repository.
-    *   Retained release workflows validate Rust workspace, Python, R, and Julia artifacts and attach GitHub release artifacts. The Rust workspace is intentionally internal (`publish = false`); no crates.io package, npm package, NuGet package, Go binding, TypeScript binding, .NET binding, or WASM surface is claimed. Registry-side indexing or approval remains external for conda-forge, CRAN/r-universe, and Julia General.
+    *   Retained release workflows validate Rust workspace, Python, R, and Julia artifacts and attach GitHub release artifacts. Four binding-independent Rust core crates publish through crates.io Trusted Publishing; the FFI, PyO3, and test-support crates remain `publish = false`. No npm package, NuGet package, Go binding, TypeScript binding, .NET binding, or WASM surface is claimed. Registry-side indexing or approval remains external for conda-forge, CRAN/r-universe, and Julia General.
     *   Repository versioning is now tag-derived for Python through
         `setuptools-scm`; external binding manifests stay synchronized to the
         latest released tag, and the version-sync validator is enforced in CI
@@ -351,7 +351,10 @@ evidence and is not reopened by this queue.
           Registrator publishes the `bindings/julia` subpackage to General and
           subpackage-aware TagBot creates collision-free releases. BinaryBuilder
           and General acceptance remain external.
-        - Rust: GitHub Releases for the internal `publish = false` workspace; a future crates.io facade would require a separate contract.
+        - Rust: four binding-independent core crates publish to crates.io from
+          signed `rust-v*` tags through short-lived Trusted Publishing
+          credentials; FFI, PyO3, and test-support crates remain private and
+          release through the shared GitHub artifact set.
     *   CI/CD must be language-specific and release-aware for every binding:
         - Build, lint/format, type/static checks, unit tests, docs checks, and shared conformance fixtures.
         - Package dry-run validation on pull requests.

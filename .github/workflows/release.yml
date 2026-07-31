@@ -63,6 +63,7 @@ jobs:
       RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
     outputs:
       tag_sha: ${{ steps.tag.outputs.tag_sha }}
+      is_prerelease: ${{ steps.tag.outputs.is_prerelease }}
     steps:
       - name: Check out repository for tag resolution
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
@@ -90,6 +91,11 @@ jobs:
           jq -e '.verification.verified == true' tag-verification.json >/dev/null
           test "$(jq -r '.tagger.email' tag-verification.json)" = "$APPROVED_TAGGER_EMAIL"
           echo "tag_sha=$tag_sha" >> "$GITHUB_OUTPUT"
+          if [[ "${RELEASE_TAG#v}" == *-* ]]; then
+            echo "is_prerelease=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "is_prerelease=false" >> "$GITHUB_OUTPUT"
+          fi
       - name: Install uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
@@ -614,7 +620,34 @@ jobs:
       - name: Compare TestPyPI bytes with reviewed payload
         shell: bash
         run: |
+          set -euo pipefail
           release_version="${RELEASE_TAG#v}"
+          expected_manifest="$RUNNER_TEMP/reviewed-testpypi-manifest"
+          remote_manifest="$RUNNER_TEMP/remote-testpypi-manifest"
+          release_json="$RUNNER_TEMP/testpypi-release.json"
+          for distribution in reviewed-dist/*; do
+            test -f "$distribution"
+            printf '%s  %s\n' \
+              "$(sha256sum "$distribution" | cut -d ' ' -f1)" \
+              "$(basename "$distribution")"
+          done | LC_ALL=C sort > "$expected_manifest"
+          for attempt in 1 2 3 4 5 6; do
+            if curl --fail --silent --show-error \
+              "https://test.pypi.org/pypi/voiage/${release_version}/json" \
+              > "$release_json"; then
+              jq -r '.urls[] | "\(.digests.sha256)  \(.filename)"' \
+                "$release_json" | LC_ALL=C sort > "$remote_manifest"
+              if cmp --silent "$expected_manifest" "$remote_manifest"; then
+                break
+              fi
+            fi
+            if [[ "$attempt" == "6" ]]; then
+              echo "TestPyPI distribution set does not match the reviewed payload" >&2
+              diff --unified "$expected_manifest" "$remote_manifest" || true
+              exit 1
+            fi
+            sleep 20
+          done
           mkdir testpypi-dist
           python -m pip download --no-deps --only-binary=:all: \
             --index-url https://test.pypi.org/simple/ \
@@ -628,19 +661,19 @@ jobs:
       - name: Verify TestPyPI distribution attestations
         shell: bash
         run: |
-          distribution="$(find testpypi-dist -maxdepth 1 -name '*.whl' -print -quit)"
+          set -euo pipefail
           release_version="${RELEASE_TAG#v}"
-          filename="$(basename "$distribution")"
-          distribution_url="$(
+          mapfile -t distribution_urls < <(
             curl --fail --silent --show-error \
               "https://test.pypi.org/pypi/voiage/${release_version}/json" |
-              jq --raw-output --arg filename "$filename" \
-                '.urls[] | select(.filename == $filename) | .url'
-          )"
-          test -n "$distribution_url"
-          uvx --from pypi-attestations pypi-attestations verify pypi --staging \
-            --repository "https://github.com/${GITHUB_REPOSITORY}" \
-            "$distribution_url"
+              jq --exit-status --raw-output '.urls[].url'
+          )
+          test "${#distribution_urls[@]}" -eq 4
+          for distribution_url in "${distribution_urls[@]}"; do
+            uvx --from pypi-attestations pypi-attestations verify pypi --staging \
+              --repository "https://github.com/${GITHUB_REPOSITORY}" \
+              "$distribution_url"
+          done
       - name: Install TestPyPI artifact with bounded retry
         shell: bash
         run: |
@@ -670,6 +703,7 @@ jobs:
   pypi:
     name: Publish to PyPI
     needs: [resolve-tag, test-pypi-smoke]
+    if: needs.resolve-tag.outputs.is_prerelease != 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     environment: pypi
@@ -708,6 +742,7 @@ jobs:
   github-release:
     name: Publish verified GitHub Release
     needs: [resolve-tag, pypi]
+    if: needs.resolve-tag.outputs.is_prerelease != 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:

@@ -181,6 +181,11 @@ def test_python_release_publish_job_is_exact_tag_and_least_privilege() -> None:
     assert "needs: [resolve-tag, test-pypi]" in release_workflow
     assert "needs: [resolve-tag, test-pypi-smoke]" in release_workflow
     assert "needs: [resolve-tag, pypi]" in release_workflow
+    assert "is_prerelease: ${{ steps.tag.outputs.is_prerelease }}" in release_workflow
+    assert (
+        release_workflow.count("if: needs.resolve-tag.outputs.is_prerelease != 'true'")
+        == 2
+    )
 
 
 def test_python_release_keeps_staging_separate_from_publication() -> None:
@@ -230,6 +235,19 @@ def test_python_release_keeps_staging_separate_from_publication() -> None:
     assert 'gh release edit "$RELEASE_TAG" --draft=false' in release_workflow
     assert "git cat-file -t" in release_workflow
     assert ".verification.verified == true" in release_workflow
+
+
+def test_testpypi_requires_the_complete_reviewed_distribution_set() -> None:
+    release_workflow = Path(".github/workflows/release.yml").read_text(encoding="utf-8")
+
+    assert "reviewed-testpypi-manifest" in release_workflow
+    assert "remote-testpypi-manifest" in release_workflow
+    assert (
+        "jq -r '.urls[] | \"\\(.digests.sha256)  \\(.filename)\"'" in release_workflow
+    )
+    assert 'cmp --silent "$expected_manifest" "$remote_manifest"' in release_workflow
+    assert 'test "${#distribution_urls[@]}" -eq 4' in release_workflow
+    assert 'for distribution_url in "${distribution_urls[@]}"; do' in release_workflow
 
 
 def test_release_wheels_are_installed_and_exercised_before_upload() -> None:
