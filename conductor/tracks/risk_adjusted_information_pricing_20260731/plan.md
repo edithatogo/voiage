@@ -50,7 +50,7 @@
 
 ## Phase 3 — Rust runtime and Python presentation
 
-- [ ] **U10:** Implement the accepted Rust utility, policy, information-value,
+- [~] **U10:** Implement the accepted Rust utility, policy, information-value,
   price and bounded root-solving kernels with versioned result envelopes.
   (AC-02, AC-03, AC-06)
 - [ ] **U11:** Implement the thin Python facade, deterministic serialization,
