@@ -17,8 +17,8 @@
 
 ## Phase 2 — Reference evidence before runtime
 
-- [ ] **E5:** Add failing analytical and enumerable reference tests for
-  `EVPPI_var` and `EVSI_var`. (AC-03)
+- [x] **E5:** Add failing analytical and enumerable reference tests for
+  `EVPPI_var` and `EVSI_var`. (AC-03) [9026751f]
 - [ ] **E6:** Add failing property tests for variance decompositions,
   zero/perfect-information limits and supported monotonicity cases. (AC-03,
   AC-04)
