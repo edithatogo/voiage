@@ -21,6 +21,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a deterministic validator and explicit regeneration path for the
   standardized-ingestion fixture digest manifests, covering both canonical
   Croissant/Frictionless source corpora.
+- Pinned each standardized-ingestion fixture corpus to a format-neutral
+  normalized schema and content identity, and added conformance checks for
+  declaration-order rejection and receipt-digest sensitivity.
 - Expanded the offline Croissant 1.1 fixture corpus with fail-closed coverage
   for integrity declarations, non-CSV media types, and field sources.
 - Reject malformed Croissant distribution and record-set entries through the

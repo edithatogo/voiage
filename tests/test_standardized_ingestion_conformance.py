@@ -17,6 +17,7 @@ import pyarrow as pa
 import pytest
 import xarray as xr
 
+from scripts import validate_standardized_ingestion_fixtures as fixture_validator
 from voiage.contracts import (
     DatasetManifest,
     FieldManifest,
@@ -27,6 +28,7 @@ from voiage.contracts import (
     prepare_analysis_inputs,
 )
 from voiage.ingestion import SourceAccessPolicy, default_registry, from_dataframe
+from voiage.ingestion.base import IngestionError
 from voiage.methods.basic import evpi
 
 _FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "standardized_ingestion"
@@ -92,6 +94,9 @@ def test_canonical_decision_fixture_manifest_pins_source_artifacts() -> None:
         for path in _FIXTURE_ROOT.glob("canonical-decision.*")
         if path.name != "canonical-decision.manifest.json"
     } == manifest["files"]
+    assert manifest["normalized"] == fixture_validator.normalized_identity(
+        _FIXTURE_ROOT / "canonical-decision.manifest.json"
+    )
 
 
 def test_canonical_decision_fixture_has_cross_format_evpi_parity(tmp_path) -> None:
@@ -202,6 +207,57 @@ def test_canonical_source_formats_preserve_binding_quality_and_receipt_parity() 
     ] == [
         receipt.model_dump(mode="json") for receipt in frictionless.manifest.resources
     ]
+
+
+@pytest.mark.parametrize(
+    ("descriptor_name", "field_path"),
+    [
+        ("canonical-decision.croissant.json", ("recordSet", 0, "field")),
+        ("canonical-decision.datapackage.json", ("resources", 0, "schema", "fields")),
+    ],
+)
+def test_provider_rejects_declared_field_order_that_differs_from_csv_order(
+    tmp_path: Path, descriptor_name: str, field_path: tuple[object, ...]
+) -> None:
+    """Descriptor order is an identity check, not an opportunity to reorder data."""
+    (tmp_path / "canonical-decision.csv").write_bytes(
+        (_FIXTURE_ROOT / "canonical-decision.csv").read_bytes()
+    )
+    descriptor = json.loads(
+        (_FIXTURE_ROOT / descriptor_name).read_text(encoding="utf-8")
+    )
+    target = descriptor
+    for part in field_path:
+        target = target[part]
+    target.reverse()
+    descriptor_path = tmp_path / descriptor_name
+    descriptor_path.write_text(json.dumps(descriptor), encoding="utf-8")
+
+    with pytest.raises(IngestionError, match="exactly declare the CSV columns"):
+        default_registry().ingest(descriptor_path, policy=SourceAccessPolicy(tmp_path))
+
+
+@pytest.mark.parametrize(
+    "descriptor_name",
+    ["canonical-decision.croissant.json", "canonical-decision.datapackage.json"],
+)
+def test_provider_receipts_are_content_digest_sensitive(
+    tmp_path: Path, descriptor_name: str
+) -> None:
+    """A changed local resource cannot retain a stale materialization receipt."""
+    for path in _FIXTURE_ROOT.glob("canonical-decision.*"):
+        if path.name != "canonical-decision.manifest.json":
+            (tmp_path / path.name).write_bytes(path.read_bytes())
+    descriptor_path = tmp_path / descriptor_name
+    policy = SourceAccessPolicy(tmp_path)
+    original = default_registry().ingest(descriptor_path, policy=policy)
+    (tmp_path / "canonical-decision.csv").write_text(
+        "strategy_a,strategy_b\n11,20\n30,10\n20,25\n", encoding="utf-8"
+    )
+    changed = default_registry().ingest(descriptor_path, policy=policy)
+
+    assert original.manifest.resources[0].sha256 != changed.manifest.resources[0].sha256
+    assert original.content_digest != changed.content_digest
 
 
 def test_arrow_round_trips_are_equivalent_in_a_fresh_python_process(tmp_path) -> None:
