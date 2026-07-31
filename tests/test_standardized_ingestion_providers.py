@@ -492,8 +492,8 @@ def test_frictionless_provider_rejects_required_null_field(tmp_path) -> None:
             "ambiguous duplicate field names",
         ),
         (
-            "id,value\n1,2\n",
-            [{"name": "id"}, {"name": "id"}],
+            "id,id\n1,2\n",
+            [{"name": "id"}, {"name": "value"}],
             "ambiguous duplicate field names",
         ),
     ],
