@@ -14,11 +14,42 @@
   ],
   "enabledManagers": [
     "cargo",
+    "custom.regex",
     "github-actions",
     "npm",
     "pep621",
     "pip_requirements",
     "pip_setup"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update CRAN minimum versions in the R DESCRIPTION",
+      "managerFilePatterns": ["/^r-package/voiageR/DESCRIPTION$/"],
+      "matchStrings": [
+        "(?<depName>reticulate) \\(>= (?<currentValue>[^)]+)\\)",
+        "(?<depName>knitr) \\(>= (?<currentValue>[^)]+)\\)",
+        "(?<depName>rmarkdown) \\(>= (?<currentValue>[^)]+)\\)",
+        "(?<depName>testthat) \\(>= (?<currentValue>[^)]+)\\)"
+      ],
+      "datasourceTemplate": "github-tags",
+      "packageNameTemplate": "{{#if (equals depName 'reticulate')}}rstudio/reticulate{{else}}{{#if (equals depName 'knitr')}}yihui/knitr{{else}}{{#if (equals depName 'rmarkdown')}}rstudio/rmarkdown{{else}}r-lib/testthat{{/if}}{{/if}}{{/if}}",
+      "extractVersionTemplate": "^v?(?<version>.*)$",
+      "versioningTemplate": "semver-coerced"
+    },
+    {
+      "customType": "regex",
+      "description": "Update non-stdlib Julia compatibility bounds",
+      "managerFilePatterns": ["/^bindings/julia/Project.toml$/"],
+      "matchStrings": [
+        "(?:^|\\n)(?<depName>Aqua) = \"(?<currentValue>[^\"]+)\"",
+        "(?:^|\\n)(?<depName>JSON) = \"(?<currentValue>[^\"]+)\""
+      ],
+      "datasourceTemplate": "github-tags",
+      "packageNameTemplate": "{{#if (equals depName 'Aqua')}}JuliaTesting/Aqua.jl{{else}}JuliaIO/JSON.jl{{/if}}",
+      "extractVersionTemplate": "^v(?<version>.*)$",
+      "versioningTemplate": "semver-coerced"
+    }
   ],
   "schedule": ["every weekend"],
   "minimumReleaseAge": "14 days",
@@ -39,6 +70,12 @@
       "automerge": true,
       "automergeType": "branch",
       "groupName": "github actions"
+    },
+    {
+      "matchManagers": ["custom.regex"],
+      "rangeStrategy": "bump",
+      "automerge": false,
+      "labels": ["dependencies", "polyglot"]
     },
     {
       "matchPackageNames": ["python"],

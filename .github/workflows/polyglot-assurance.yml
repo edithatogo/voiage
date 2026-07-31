@@ -1,6 +1,7 @@
 name: Polyglot Assurance Frontier
 
 on:
+  merge_group:
   pull_request:
     paths:
       - ".github/workflows/polyglot-assurance.yml"
@@ -75,11 +76,10 @@ jobs:
           python-version: "3.14"
       - name: Generate resolved Python dependency inventory
         run: |
-          uv export --frozen --no-dev --no-emit-project --format requirements-txt \
-            --output-file .polyglot-requirements.txt
-          uvx --from cyclonedx-bom==7.3.0 cyclonedx-py requirements \
-            .polyglot-requirements.txt --output-reproducible --of JSON \
-            -o python.sbom.cdx.json
+          uv sync --frozen --no-dev
+          uvx --from cyclonedx-bom==7.3.0 cyclonedx-py environment .venv \
+            --pyproject pyproject.toml --mc-type library \
+            --output-reproducible --of JSON -o python.sbom.cdx.json
       - name: Compose mixed-language dependency inventory
         run: >-
           python scripts/compose_polyglot_sbom.py compose
