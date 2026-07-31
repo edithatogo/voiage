@@ -282,6 +282,39 @@ def test_registry_selection_preserves_croissant_receipt_and_content_identity() -
     assert baseline.content_digest != alternate.content_digest
 
 
+@pytest.mark.parametrize(
+    ("selection", "message"),
+    [
+        (
+            SourceSelection(
+                provider_id="frictionless",
+                values=(
+                    ("record_set", "baseline_samples"),
+                    ("distribution", "#baseline"),
+                ),
+            ),
+            "does not match the descriptor provider",
+        ),
+        (
+            SourceSelection(
+                provider_id="croissant", values=(("record_set", "baseline_samples"),)
+            ),
+            "requires record_set and distribution",
+        ),
+    ],
+)
+def test_croissant_rejects_invalid_provider_neutral_selection_keys(
+    selection: SourceSelection, message: str
+) -> None:
+    """The adapter rejects foreign providers and incomplete selector key sets."""
+    with pytest.raises(IngestionError, match=message):
+        CroissantProvider().ingest(
+            _FIXTURE_ROOT / "valid" / "multi-pair-croissant.json",
+            policy=SourceAccessPolicy(_FIXTURE_ROOT),
+            selection=selection,
+        )
+
+
 def test_croissant_selection_rejects_non_string_distribution_identifier(
     tmp_path,
 ) -> None:

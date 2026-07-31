@@ -1761,6 +1761,36 @@ def test_registry_passes_only_advertised_source_selection_to_the_provider(
         )
 
 
+@pytest.mark.parametrize(
+    ("provider_id", "values"),
+    [
+        ("", (("source", "one"),)),
+        ("selected", ()),
+        ("selected", (("", "one"),)),
+        ("selected", (("source", ""),)),
+        ("selected", (("source", "one"), ("source", "two"))),
+    ],
+)
+def test_source_selection_rejects_ambiguous_public_requests(
+    provider_id, values
+) -> None:
+    """Provider-neutral source selectors must be complete before registry I/O."""
+    with pytest.raises(ValueError, match="source selection requires"):
+        SourceSelection(provider_id=provider_id, values=values)
+
+
+def test_frictionless_rejects_provider_owned_source_selection(tmp_path) -> None:
+    """A provider that advertises no selection keys rejects them at its boundary."""
+    with pytest.raises(IngestionError, match="does not support source selection"):
+        FrictionlessProvider().ingest(
+            tmp_path / "not-read.json",
+            policy=SourceAccessPolicy(tmp_path),
+            selection=SourceSelection(
+                provider_id="frictionless", values=(("resource", "one"),)
+            ),
+        )
+
+
 def test_registry_supports_a_fake_provider_with_injected_source_policy(
     tmp_path,
 ) -> None:
