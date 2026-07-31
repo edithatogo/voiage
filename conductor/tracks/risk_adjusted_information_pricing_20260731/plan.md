@@ -38,7 +38,7 @@
 - [x] **U8:** Add versioned schemas, normative fixtures, deterministic
   serialization and root-diagnostic contracts. (AC-02, AC-03, AC-05)
   — `8a7b707`
-- [ ] **U9:** Run independent evidence and numerical-boundary review. (AC-05,
+- [~] **U9:** Run independent evidence and numerical-boundary review. (AC-05,
   AC-08)
 
 ## Phase 3 — Rust runtime and Python presentation
