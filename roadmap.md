@@ -38,6 +38,19 @@ Research-software registry readiness follows that release in
 local preparation into external archival, identifier, submission, review, or
 acceptance evidence.
 
+The same track now owns a versioned cross-venue submission contract covering
+all retained package registries and archives plus potential pyOpenSci,
+rOpenSci, R Journal, Journal of Statistical Software, NumFOCUS, HPSF, and
+related routes. Issues #614--#617 own the contract and future decision lanes.
+The repository validates evidence paths, unresolved gates, and authority
+boundaries in tox and hosted CI. Passing that gate means the repository is
+prepared to evaluate a route; it does not authorize an inquiry or submission.
+The next execution sequence is issue-backed: #614 maintains all contract
+evidence; #616 closes Python community-review evidence; #615 closes the R
+installation/API/statistical-standards evidence; #622 prepares portable HPC
+recipes; and #617 makes explicit non-duplication decisions for distinct future
+routes. Author and external decisions remain outside these repository tasks.
+
 Conductor-to-GitHub traceability is being reconciled in
 `conductor-github-cross-reference-reconciliation_20260724`. Every completed
 track now has an individual issue, native parent, Project 28 item, and
@@ -270,6 +283,9 @@ evidence and is not reopened by this queue.
 2.  **Dependency Management:**
     *   **Status: `✅ Done`**
     *   uv for package management, Renovate for automated updates.
+    *   Renovate is the sole update-PR producer across supported managers;
+        GitHub vulnerability alerts remain an input and Dependabot update PRs
+        are not part of the automation architecture.
 3.  **Security & Quality:**
     *   **Status: `✅ Done / hosted controls applied`**
     *   CodeQL security scanning, Ruff linting/security rules, ty type checking,
@@ -282,6 +298,14 @@ evidence and is not reopened by this queue.
         now carry patched Python and Starlight documentation dependencies for
         the current advisory set; future update follow-up remains Renovate-owned
         follow-up work.
+    *   Polyglot CI modernization adds merge-queue event compatibility,
+        PEP 740 PyPI/TestPyPI attestations, exact-byte TestPyPI promotion,
+        release-bound CycloneDX attestations, a digest-bearing release
+        manifest, mixed-language dependency submission, shared numerical
+        corpus validation across Python/Rust/C/R/Julia, Astro type checking,
+        and a non-required Linux ARM64 observation lane. Hosted merge-queue,
+        immutable-release, environment, registry, and Trusted Publisher
+        settings remain external gates.
 4.  **Community Engagement:**
     *   **Status: `✅ Done`**
     *   Repository structured for contributions, Conductor workflow for AI-assisted development, and repository-level support, security, and community-health documents now provide a clear help path for users and contributors.

@@ -11,6 +11,13 @@ Make voiage's appropriate registry, archival, identifier, or research-software d
 - Record authoritative submission, acceptance, publication, archival, or identifier evidence when available.
 - Do not claim external completion from local preparation or a successful workflow alone.
 - Preserve existing repository contracts and rights constraints.
+- Maintain one machine-readable, fail-closed contract for every current and
+  potential submission destination. Each target must identify official
+  criteria, repository evidence, unresolved gates, action authority, and the
+  authoritative evidence required for acceptance.
+- Refresh external criteria before any action. A locally valid contract is
+  readiness evidence, not permission to inquire, upload, submit, register, or
+  apply.
 
 ## GitHub hierarchy
 
@@ -24,6 +31,16 @@ Parent: [#296](https://github.com/edithatogo/voiage/issues/296)
   - [#471](https://github.com/edithatogo/voiage/issues/471) — independent
     research-use, human community-engagement, or collaborative-input evidence
     before JOSS submission
+- [#614](https://github.com/edithatogo/voiage/issues/614) — cross-venue
+  submission-readiness contracts
+- [#615](https://github.com/edithatogo/voiage/issues/615) — possible rOpenSci
+  statistical-software review after R-package maturity gates
+- [#616](https://github.com/edithatogo/voiage/issues/616) — possible pyOpenSci
+  package review after the direct JOSS outcome
+- [#617](https://github.com/edithatogo/voiage/issues/617) — distinct post-JOSS
+  journal, sustainability, archival, and discoverability routes
+- [#622](https://github.com/edithatogo/voiage/issues/622) — locally validated
+  Spack/EasyBuild packaging before any HPC registry or curation decision
 
 ## Acceptance
 
@@ -38,3 +55,11 @@ pre-review signal rather than a hard pre-review gate. It does not count
 automated accounts or same-author repositories as human engagement. Individual
 registry deliverables close only with authoritative evidence or a documented
 ineligibility decision.
+
+The cross-venue contract covers existing releases and registrations as well as
+future considerations. It must reject missing evidence paths, unresolved
+requirements represented as ready, duplicate target identifiers, and any
+contract that grants repository automation authority over external acceptance.
+It must also map every required target to one or more GitHub-backed execution
+lanes so repository-controlled work is recoverable without treating human or
+external gates as implementation tasks.

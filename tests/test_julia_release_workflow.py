@@ -14,7 +14,7 @@ def test_julia_release_workflow_and_checklist_align() -> None:
     assert "Project.toml version" in workflow_text
     assert "Pkg.test()" in workflow_text
     assert 'gh release create "${GITHUB_REF_NAME}"' not in workflow_text
-    assert "GH_TOKEN: ${{ github.token }}" not in workflow_text
+    assert "permissions:\n      contents: read" in workflow_text
     assert "contents: read" in workflow_text
 
     assert (

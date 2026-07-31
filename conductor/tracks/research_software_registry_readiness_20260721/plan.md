@@ -84,6 +84,9 @@
   in Julia General with collision-free TagBot automation. BinaryBuilder,
   General registry bots, and registry maintainers remain external acceptance
   gates.
+- [~] Maintain the locally validated Spack/EasyBuild packaging handoff in
+  https://github.com/edithatogo/voiage/issues/622 before any HPC registry or
+  curation decision; registry acceptance remains external.
 
 ## Phase 2B: Independent simulated JOSS editorial review
 
