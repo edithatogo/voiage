@@ -3,8 +3,10 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import numpy as np
 import pytest
 
+from voiage.analysis import DecisionAnalysis
 from voiage.methods.utility_information import (
     expected_utility_information_value,
     value_of_clairvoyance,
@@ -57,3 +59,9 @@ def test_voc_rejects_finite_signal_presentation() -> None:
     request["information"]["kind"] = "finite_signal"
     with pytest.raises(Exception, match="clairvoyant"):
         value_of_clairvoyance(request)
+
+
+def test_decision_analysis_exposes_explicit_state_contract() -> None:
+    analysis = DecisionAnalysis(nb_array=np.array([[0.0, 1.0], [1.0, 0.0]]))
+    result = analysis.expected_utility_information(_request("affine-clairvoyant.json"))
+    assert result["affine_reduction"]["monetary_measure"] == "evpi"
