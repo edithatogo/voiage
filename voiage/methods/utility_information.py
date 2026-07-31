@@ -12,7 +12,7 @@ from voiage.exceptions import raise_input_error
 if TYPE_CHECKING:
     from collections.abc import Mapping
 
-_MEASURES = frozenset({"eui", "cei", "bpi", "spi", "ppi"})
+_MEASURES = frozenset({"eui", "cei", "bpi", "spi", "ppi", "evpi"})
 
 
 def expected_utility_information_value(
@@ -42,6 +42,16 @@ def value_of_clairvoyance(
         raise_input_error("VoC presentation requires information.kind='clairvoyant'.")
     payload["presentation_label"] = "voc"
     result = expected_utility_information_value(payload)
+    if selected_measure == "evpi":
+        reduction = dict(result["affine_reduction"])
+        if (
+            reduction.get("status") != "available"
+            or reduction.get("monetary_measure") != "evpi"
+        ):
+            raise_input_error(
+                "Monetary EVPI presentation requires an affine utility reduction.",
+                diagnostic_code="affine_reduction_required",
+            )
     presentation = dict(result["presentation"])
     presentation["selected_measure"] = selected_measure
     result["presentation"] = presentation

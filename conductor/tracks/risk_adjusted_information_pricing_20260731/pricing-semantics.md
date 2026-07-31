@@ -14,6 +14,17 @@ informed(c) = sum_signal max_action sum_state joint(signal, state)
 The maximizing action tie set is recomputed at every `c`. Holding the
 zero-price action fixed during BPI or SPI search violates the contract.
 
+At each transfer, feasibility is local to the probability support being
+optimized. The baseline support is the set of states with positive state
+probability; the conditional support for signal `s` is the set with positive
+`joint(s, state)`. An action whose terminal outcome is outside the named
+utility's domain on that support is an explicitly diagnosed infeasible action,
+not an action with an artificial utility of negative infinity. Optimization
+continues over the remaining feasible actions. The evaluation returns
+`utility_domain` only if a positive-probability baseline or signal-conditional
+scope has no feasible action. Zero-weight states and zero-probability signals
+cannot create a domain failure.
+
 ## Typed measure records
 
 Every measure record contains `measure`, `status`, `value`, `unit`,
@@ -36,27 +47,39 @@ genuine zero remains `available` with value `0.0`.
 Each price root record returns:
 
 - `status`: `converged`, `zero_boundary`, `not_bracketed`, `utility_domain`,
-  `non_monotone`, `max_iterations`, or `max_evaluations`;
+  `non_monotone`, `discontinuous_no_root`, `max_iterations`, or
+  `max_evaluations`;
 - lower and upper price bounds, estimate and final bracket width when a root
   is available;
 - raw utility residual at the estimate;
 - iteration and evaluation counts;
-- complete lexicographically sorted action tie sets at every evaluation, the
-  estimate, and both final bounds;
-- `policy_switched` plus the ordered set of observed complete tie-set
-  transitions, each retaining the transfer, prior and next tie sets, and
-  representative action IDs; and
+- complete lexicographically sorted signal-to-policy mappings at every
+  evaluation, the estimate, and both final bounds;
+- deterministic action-domain exclusions at every evaluation, sorted by
+  signal ID, action ID and state ID, with `signal_id` (null for baseline),
+  `action_id`, failed positive-support `state_ids`, and reason
+  `utility_domain`;
+- `policy_switched` plus the ordered set of observed complete-policy
+  transitions, each retaining the transfer and prior and next signal-policy
+  mappings; and
 - termination reason and the exact solver settings used.
 
-Convergence is based on
-`width <= absolute_price_tolerance + relative_price_tolerance*abs(estimate)`.
+The price-width criterion is
+`width <= absolute_price_tolerance + relative_price_tolerance*abs(estimate)`;
+convergence additionally requires `abs(residual) <= utility_tolerance`.
 Utility residual is diagnostic because it changes under utility
-normalization. Expansion is deterministic, bounded by `maximum_price`, and
-cannot step outside the utility domain.
+normalization. Expansion is deterministic and bounded by `maximum_price`.
+Crossing an individual action's domain boundary records an exclusion; crossing
+the boundary of the final feasible action in a positive-probability policy
+scope terminates with `utility_domain` and no fabricated price.
+Bracket width alone is not evidence of equality: convergence requires the
+price-width criterion and an evaluated residual within utility tolerance.
+Floating-point stagnation without both returns `discontinuous_no_root` and no
+price; `non_monotone` is reserved for an observed monotonicity violation.
 
-`policy_switched` is derived from the complete tie sets, not only the selected
-representative. It is therefore true when a tied action enters or leaves the
-set even if the first lexicographic action ID is unchanged.
+`policy_switched` is derived from the complete signal-policy mappings, not only
+the selected representatives. It is therefore true when any signal's tied
+action enters or leaves its tie set even if every representative is unchanged.
 
 ## Price direction and cost location
 
@@ -104,6 +127,13 @@ CEI = 3.8316186722 payoff units
 BPI = 3.7521886610 payoff units
 SPI = 3.4085030261 payoff units
 ```
+
+At the BPI, the risky action is outside the log domain in the adverse signal's
+positive-support state, while the safe action remains feasible there. The
+adverse/risky exclusion is recorded explicitly and the conditional optimizer
+selects safe; this is a valid contingent policy, not silent conversion of an
+undefined utility to negative infinity. If every action for that signal were
+outside the domain, BPI evaluation would fail with `utility_domain`.
 
 These values intentionally disprove a general CEI/BPI/SPI equality claim.
 

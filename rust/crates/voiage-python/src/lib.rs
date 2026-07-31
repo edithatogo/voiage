@@ -1145,18 +1145,85 @@ struct SolverRequest {
     maximum_evaluations: usize,
 }
 
-fn root_payload(root: &voiage_numerics::RootResult, solver: &SolverRequest) -> Value {
-    serde_json::json!({"status":root.status,"estimate":root.estimate,"lower":root.estimate,"upper":root.estimate,"final_bracket_width":if root.estimate.is_some(){Some(0.0)}else{None},"residual":if root.estimate.is_some(){Some(0.0)}else{None},"iterations":0,"evaluations":1,"lower_tie_set":[],"upper_tie_set":[],"evaluated_policies":[],"policy_switched":false,"transitions":[],"termination_reason":root.status,"solver":{"initial_upper":solver.initial_upper,"expansion_factor":solver.expansion_factor,"maximum_price":solver.maximum_price,"absolute_price_tolerance":solver.absolute_price_tolerance,"relative_price_tolerance":solver.relative_price_tolerance,"utility_tolerance":solver.utility_tolerance,"maximum_iterations":solver.maximum_iterations,"maximum_evaluations":solver.maximum_evaluations}})
+fn policy_payload(policy: &voiage_numerics::PolicyResult) -> Value {
+    serde_json::json!({
+        "signal_id": policy.signal_id,
+        "tie_set": policy.tie_set,
+        "representative_action_id": if policy.representative_action_id.is_empty() { None } else { Some(&policy.representative_action_id) },
+        "domain_exclusions": policy.domain_exclusions.iter().map(|exclusion| serde_json::json!({"signal_id": exclusion.signal_id, "action_id": exclusion.action_id, "state_ids": exclusion.state_ids, "reason": exclusion.reason})).collect::<Vec<_>>(),
+    })
+}
+
+fn root_payload(root: &voiage_numerics::RootResult) -> Value {
+    let evaluated_policies = root
+        .evaluated_policies
+        .iter()
+        .map(|policy| {
+            serde_json::json!({
+                "transfer": policy.transfer,
+                "objective_value": policy.objective_value,
+                "policies": policy.policies.iter().map(policy_payload).collect::<Vec<_>>(),
+            })
+        })
+        .collect::<Vec<_>>();
+    let transitions = root
+        .transitions
+        .iter()
+        .map(|transition| serde_json::json!({
+            "transfer": transition.transfer,
+            "prior_policies": transition.prior_policies.iter().map(policy_payload).collect::<Vec<_>>(),
+            "next_policies": transition.next_policies.iter().map(policy_payload).collect::<Vec<_>>(),
+        }))
+        .collect::<Vec<_>>();
+    let solver = &root.solver;
+    serde_json::json!({
+        "status": root.status,
+        "estimate": root.estimate,
+        "lower": root.lower,
+        "upper": root.upper,
+        "final_bracket_width": root.final_bracket_width,
+        "residual": root.residual,
+        "iterations": root.iterations,
+        "evaluations": root.evaluations,
+        "lower_policies": root.lower_policies.iter().map(policy_payload).collect::<Vec<_>>(),
+        "upper_policies": root.upper_policies.iter().map(policy_payload).collect::<Vec<_>>(),
+        "evaluated_policies": evaluated_policies,
+        "policy_switched": root.policy_switched,
+        "transitions": transitions,
+        "termination_reason": root.termination_reason,
+        "solver": {
+            "initial_upper": solver.initial_upper,
+            "expansion_factor": solver.expansion_factor,
+            "maximum_price": solver.maximum_price,
+            "absolute_price_tolerance": solver.absolute_price_tolerance,
+            "relative_price_tolerance": solver.relative_price_tolerance,
+            "utility_tolerance": solver.utility_tolerance,
+            "maximum_iterations": solver.maximum_iterations,
+            "maximum_evaluations": solver.maximum_evaluations,
+        },
+    })
 }
 
 /// Compute the experimental Rust-owned expected-utility information result.
 #[pyfunction]
+#[allow(clippy::too_many_lines)] // Preserve the explicit versioned wire mapping at the boundary.
 fn compute_expected_utility_information<'py>(
     py: Python<'py>,
     request_json: &str,
 ) -> PyResult<Bound<'py, PyDict>> {
-    let request: UtilityInformationRequest = serde_json::from_str(request_json)
+    let request_value: Value = serde_json::from_str(request_json)
         .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let canonical_request = canonical_payload_bytes(&request_value).map_err(serialization_error)?;
+    let input_digest = sha256_hex(&canonical_request);
+    let utility_value = request_value["utility"].clone();
+    let request: UtilityInformationRequest = serde_json::from_value(request_value)
+        .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    if !matches!(request.presentation_label.as_str(), "canonical" | "voc") {
+        return Err(InputError::new_err((
+            "invalid_input",
+            "presentation_label must be canonical or voc",
+        )));
+    }
     let utility = match request.utility {
         UtilityRequest::Affine { slope, intercept } => {
             UtilityDescriptor::Affine { slope, intercept }
@@ -1216,11 +1283,41 @@ fn compute_expected_utility_information<'py>(
                    direction: &str,
                    normalization: &str,
                    diagnostics: Option<&str>| serde_json::json!({"measure":name,"status":status,"value":value,"unit":unit,"direction":direction,"normalization":normalization,"diagnostics_ref":diagnostics});
-    let utility_value = serde_json::to_value(
-        &serde_json::from_str::<Value>(request_json).expect("validated JSON")["utility"],
-    )
-    .expect("JSON value");
-    let payload = serde_json::json!({"schema_version":result.schema_version,"method":result.method,"method_maturity":result.method_maturity,"information_kind":result.information_kind,"payoff_unit":input.payoff_unit,"utility":utility_value,"current_expected_utility":result.current_expected_utility,"informed_expected_utility":result.informed_expected_utility,"current_policy":{"signal_id":null,"tie_set":result.current_policy.tie_set,"representative_action_id":result.current_policy.representative_action_id},"informed_policies":[],"eui":measure("eui",&result.eui.status,result.eui.value,"utility","uninformed_to_informed","declared_utility",None),"cei":measure("cei",&result.cei.status,result.cei.value,&input.payoff_unit,"uninformed_to_informed","certainty_equivalent",None),"bpi":measure("bpi",&result.bpi.status,result.bpi.value,&input.payoff_unit,"pay_to_acquire_information","ex_ante_sure_transfer",Some("bpi_root")),"spi":measure("spi",&result.spi.status,result.spi.value,&input.payoff_unit,"receive_to_surrender_information","ex_ante_sure_transfer",Some("spi_root")),"ppi":measure("ppi",&result.ppi.status,result.ppi.value,"dimensionless","uninformed_to_informed","terminal_floor",None),"bpi_root":root_payload(&result.bpi_root,&request.solver),"spi_root":root_payload(&result.spi_root,&request.solver),"affine_reduction":{"status":result.affine_reduction.status,"monetary_measure":result.affine_reduction.monetary_measure,"value":result.affine_reduction.value},"comparability":{"stakeholder_scope_id":result.comparability.stakeholder_scope_id,"within_problem_comparable":true,"cross_problem_comparable":false,"required_shared_fields":result.comparability.required_shared_fields,"rule_ids":[]},"presentation":{"presentation_label":request.presentation_label,"selected_measure":"eui","canonical_result_ref":"self"}});
+    let informed_policies = result
+        .informed_policies
+        .iter()
+        .map(policy_payload)
+        .collect::<Vec<_>>();
+    let metadata = build_metadata();
+    let payload = serde_json::json!({
+        "schema_version": result.schema_version,
+        "method": result.method,
+        "method_maturity": result.method_maturity,
+        "input_digest": {"algorithm": DIGEST_ALGORITHM, "value": input_digest},
+        "provenance": {"source_revision": metadata.source_revision, "source_dirty": metadata.source_dirty, "source_tree_git_oid": metadata.source_tree_git_oid, "source_state_sha256": metadata.source_state_sha256, "build_id": metadata.build_id},
+        "decision_descriptor": {"decision_problem_id": input.decision_problem_id, "stakeholder_scope_id": input.stakeholder_scope_id, "action_ids": input.action_ids, "state_ids": input.state_ids, "initial_wealth": input.initial_wealth, "payoff_unit": input.payoff_unit, "currency": input.currency, "price_date": input.price_date, "information_cost_location": input.information_cost_location},
+        "backend": {"engine": "rust", "bridge": "pyo3", "crate": "voiage-python", "version": env!("CARGO_PKG_VERSION")},
+        "reporting_metadata": {"deterministic": true, "canonical_ordering": "rfc8785", "presentation_label": request.presentation_label},
+        "information_kind": result.information_kind,
+        "payoff_unit": input.payoff_unit,
+        "utility": utility_value,
+        "current_expected_utility": result.current_expected_utility,
+        "informed_expected_utility": result.informed_expected_utility,
+        "current_certainty_equivalent": result.current_certainty_equivalent,
+        "informed_certainty_equivalent": result.informed_certainty_equivalent,
+        "current_policy": policy_payload(&result.current_policy),
+        "informed_policies": informed_policies,
+        "eui": measure("eui",&result.eui.status,result.eui.value,"utility","uninformed_to_informed","declared_utility",None),
+        "cei": measure("cei",&result.cei.status,result.cei.value,&input.payoff_unit,"uninformed_to_informed","certainty_equivalent",None),
+        "bpi": measure("bpi",&result.bpi.status,result.bpi.value,&input.payoff_unit,"pay_to_acquire_information","ex_ante_sure_transfer",Some("bpi_root")),
+        "spi": measure("spi",&result.spi.status,result.spi.value,&input.payoff_unit,"receive_to_surrender_information","ex_ante_sure_transfer",Some("spi_root")),
+        "ppi": measure("ppi",&result.ppi.status,result.ppi.value,"dimensionless","uninformed_to_informed","terminal_floor",result.ppi.diagnostic_code.as_deref()),
+        "bpi_root": root_payload(&result.bpi_root),
+        "spi_root": root_payload(&result.spi_root),
+        "affine_reduction": {"status":result.affine_reduction.status,"monetary_measure":result.affine_reduction.monetary_measure,"value":result.affine_reduction.value},
+        "comparability": {"stakeholder_scope_id":result.comparability.stakeholder_scope_id,"numeric_within_problem":result.comparability.numeric_within_problem,"numeric_cross_problem":result.comparability.numeric_cross_problem,"required_shared_fields":result.comparability.required_shared_fields,"ranking_equivalence":result.comparability.ranking_equivalence.iter().map(|rule| serde_json::json!({"scope":rule.scope,"left_measure":rule.left_measure,"right_measure":rule.right_measure,"status":rule.status,"condition":rule.condition})).collect::<Vec<_>>()},
+        "presentation": {"presentation_label":request.presentation_label,"selected_measure":"eui","canonical_result_ref":"self"},
+    });
     result_to_dict(py, &payload).map(|(result, _canonical_payload)| result)
 }
 

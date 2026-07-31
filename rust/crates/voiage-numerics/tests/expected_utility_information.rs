@@ -93,6 +93,24 @@ fn logarithmic_reference_preserves_buy_sell_asymmetry() {
     assert!((result.spi.value.unwrap() - 3.408_503_026_1).abs() < 1e-7);
     assert!((result.ppi.value.unwrap() - 0.123_478_254_240_394_05).abs() < 1e-10);
     assert_ne!(result.bpi.value, result.spi.value);
+    // At this price the risky action is outside the log domain under the
+    // adverse signal, but safe remains feasible. Support-conditional action
+    // infeasibility must not invalidate the valid contingent policy.
+    assert_eq!(result.bpi_root.status, "converged");
+    assert!(result
+        .bpi_root
+        .evaluated_policies
+        .iter()
+        .flat_map(|evaluation| &evaluation.policies)
+        .flat_map(|policy| &policy.domain_exclusions)
+        .any(|exclusion| {
+            exclusion.signal_id.as_deref() == Some("state-1")
+                && exclusion.action_id == "action-1"
+                && exclusion.state_ids == ["state-1"]
+                && exclusion.reason == "utility_domain"
+        }));
+    assert!(!result.bpi_root.policy_switched);
+    assert!(result.bpi_root.transitions.is_empty());
     assert_eq!(result.affine_reduction.status, "unavailable");
 }
 

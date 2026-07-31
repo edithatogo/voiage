@@ -77,6 +77,7 @@ fn positive_affine_rescaling_preserves_prices_and_policies() {
 fn utility_domain_and_probability_failures_are_fail_closed() {
     let mut domain = base_input();
     domain.initial_wealth = 0.0;
+    domain.terminal_outcome_floor = None;
     let error = expected_utility_information(
         &domain,
         &UtilityDescriptor::Log {
@@ -121,6 +122,69 @@ fn bounded_search_reports_unbracketed_without_fabricating_a_price() {
 }
 
 #[test]
+fn price_evaluation_fails_when_a_positive_signal_has_no_domain_feasible_action() {
+    let mut problem = base_input();
+    problem.payoffs = vec![vec![0.0, 5.0], vec![0.0, -9.0]];
+    problem.state_probabilities = vec![0.8, 0.2];
+    problem.information.signal_state_probabilities = vec![vec![0.8, 0.0], vec![0.0, 0.2]];
+    // The first positive price evaluation is beyond the log-domain boundary
+    // of both actions in the adverse signal. No numeric sentinel may turn an
+    // undefined utility into an apparently valid policy or price.
+    problem.solver.initial_upper = 11.0;
+    problem.solver.maximum_price = 11.0;
+    let result = expected_utility_information(
+        &problem,
+        &UtilityDescriptor::Log {
+            reference_wealth: 1.0,
+        },
+    )
+    .unwrap();
+
+    assert_eq!(result.bpi_root.status, "utility_domain");
+    assert_eq!(result.bpi.status, "failed");
+    assert_eq!(result.bpi.value, None);
+    assert_eq!(result.bpi_root.estimate, None);
+}
+
+#[test]
+fn discontinuous_power_price_does_not_fabricate_an_indifference_root() {
+    let mut problem = base_input();
+    problem.action_ids = vec!["a".into(), "b".into(), "c".into()];
+    problem.payoffs = vec![
+        vec![
+            49.558_336_844_422_36,
+            0.003_568_197_657_342_509,
+            -7.478_383_586_731_64,
+        ],
+        vec![
+            24.636_982_298_532_345,
+            57.200_928_135_357_96,
+            12.789_300_699_438_66,
+        ],
+    ];
+    problem.state_probabilities = vec![0.5, 0.5];
+    problem.information = InformationStructure {
+        kind: "finite_signal".into(),
+        signal_ids: vec!["u".into(), "v".into()],
+        signal_state_probabilities: vec![vec![0.45, 0.05], vec![0.05, 0.45]],
+    };
+    problem.terminal_outcome_floor = Some(0.01);
+    let result = expected_utility_information(
+        &problem,
+        &UtilityDescriptor::Power {
+            risk_aversion: 0.5,
+            reference_wealth: 1.0,
+        },
+    )
+    .unwrap();
+
+    assert_eq!(result.bpi_root.status, "discontinuous_no_root");
+    assert_eq!(result.bpi.value, None);
+    assert_eq!(result.bpi_root.estimate, None);
+    assert!(result.bpi_root.lower.unwrap() < result.bpi_root.upper.unwrap());
+}
+
+#[test]
 fn result_retains_stakeholder_scope_and_cross_problem_requirements() {
     let result = expected_utility_information(
         &base_input(),
@@ -131,7 +195,7 @@ fn result_retains_stakeholder_scope_and_cross_problem_requirements() {
     )
     .unwrap();
     assert_eq!(result.comparability.stakeholder_scope_id, "stakeholder");
-    assert!(!result.comparability.cross_problem_comparable);
+    assert!(!result.comparability.numeric_cross_problem);
     assert!(result
         .comparability
         .required_shared_fields

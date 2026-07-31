@@ -54,6 +54,19 @@ joint weights are used directly so zero-probability signals never require
 posterior division. `I(c) >= B(c)` within numerical tolerance because the
 uninformed policy remains feasible after information.
 
+Utility-domain feasibility is evaluated on the probability support of the
+policy being optimized. An uninformed action is feasible at transfer `c` only
+when `U(Y[a,w] + c)` is defined for every state with `p[w] > 0`; an action
+conditional on signal `s` is feasible only when it is defined for every state
+with `pi[s,w] > 0`. An outcome outside the utility domain in a zero-weight
+state does not make an action infeasible. A domain-infeasible action is not
+assigned a numeric sentinel such as negative infinity: it is excluded from
+the candidate set and recorded explicitly with the signal (or null for the
+uninformed policy), action ID, support-state IDs that failed, and reason
+`utility_domain`. An evaluation fails with `utility_domain` only when a
+positive-probability policy scope has no feasible action. Zero-probability
+signals retain their empty policy and do not produce domain exclusions.
+
 The only v1 information-cost location is `ex_ante_sure_transfer`: the price is
 the same additive transfer in every terminal state before utility evaluation.
 State-, signal- or action-dependent costs must be included in the payoff model
@@ -95,22 +108,32 @@ The solver:
 2. returns a converged zero boundary only when that objective is within the
    declared utility tolerance;
 3. expands the upper bound geometrically without exceeding `maximum_price`;
-4. prevalidates utility domains at every evaluated transfer;
+4. determines and records support-conditional action feasibility at every
+   evaluated transfer, failing when a positive-probability policy scope has no
+   feasible action;
 5. requires a sign-changing bracket;
 6. bisects until the bracket-width tolerance is met; and
 7. returns lower/upper bounds, estimate, width, raw utility residual,
-   iterations, evaluations, action tie sets at every evaluated transfer and
-   both final bounds, ordered complete tie-set transitions, policy-switch
-   evidence, convergence and one of `converged`, `zero_boundary`,
-   `not_bracketed`, `utility_domain`, `non_monotone`, `max_iterations`, or
-   `max_evaluations`.
+   iterations, evaluations, the complete signal-to-policy mapping at every
+   evaluated transfer and both final bounds, ordered complete-policy
+   transitions, policy-switch
+   evidence, sorted action-domain exclusions, convergence and one of
+   `converged`, `zero_boundary`,
+   `not_bracketed`, `utility_domain`, `non_monotone`,
+   `discontinuous_no_root`, `max_iterations`, or `max_evaluations`.
 
 Unavailable prices use a discriminated status record. The maximum search
 price, a null, or a fabricated zero must not be returned as an estimate.
-`policy_switched` is true when any complete action tie set changes between
-ordered evaluations, even if the lexicographic representative remains the
-same. Every transition records the transfer, prior and next sorted tie sets,
-and their representative action IDs.
+Width alone cannot prove an indifference root when the objective is
+discontinuous. Convergence therefore requires both the price-width tolerance
+and an evaluated residual within utility tolerance. If bisection reaches
+floating-point stagnation without satisfying both, the solver returns
+`discontinuous_no_root` with no estimate. `non_monotone` is reserved for
+actual monotonicity violations.
+`policy_switched` is true when any complete signal-policy mapping changes
+between ordered evaluations, even if every lexicographic representative
+remains the same. Every transition records the transfer and prior and next
+canonically sorted signal-policy mappings.
 
 ## 6. Comparability
 
@@ -135,7 +158,9 @@ The result separately records numeric comparability and ranking equivalence.
 `voc` is a presentation label on this result with
 `information_kind = clairvoyant`. It selects EUI, CEI, BPI, SPI or PPI for
 display but does not serialize a second scalar and does not call another
-kernel.
+kernel. It may also select `evpi` as an affine-only presentation of the
+existing `affine_reduction.value`; nonlinear results fail that request with
+diagnostic `affine_reduction_required`.
 
 For `U(x) = slope*x + intercept`, `slope > 0`:
 
