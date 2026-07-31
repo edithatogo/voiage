@@ -749,9 +749,7 @@ def test_builtin_providers_do_not_silently_ignore_integrity_declarations(
         json.dumps(
             {
                 "@context": "https://mlcommons.org/croissant/1.1",
-                "distribution": [
-                    {"contentUrl": "samples.csv", "sha256": "0" * 64}
-                ],
+                "distribution": [{"contentUrl": "samples.csv", "sha256": "0" * 64}],
                 "recordSet": [
                     {"name": "samples", "field": [{"name": "a"}, {"name": "b"}]}
                 ],

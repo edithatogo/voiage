@@ -309,7 +309,7 @@ def test_dataframe_and_direct_input_preserve_explicit_binding_under_column_order
     )
 )
 def test_provider_mapping_property_preserves_rows_and_explicit_binding(
-    rows: list[tuple[int, int]]
+    rows: list[tuple[int, int]],
 ) -> None:
     """Both descriptor formats preserve generated CSV rows without inference."""
     with TemporaryDirectory() as directory:
@@ -371,9 +371,10 @@ def test_provider_mapping_property_preserves_rows_and_explicit_binding(
         )
         expected = [[strategy_a, strategy_b] for strategy_a, strategy_b in rows]
 
-        assert croissant.table("samples").to_pylist() == frictionless.table(
-            "samples"
-        ).to_pylist()
+        assert (
+            croissant.table("samples").to_pylist()
+            == frictionless.table("samples").to_pylist()
+        )
         for bundle in (croissant, frictionless):
             prepared = prepare_analysis_inputs(bundle)
             assert prepared.net_benefits.numpy_values.tolist() == expected
