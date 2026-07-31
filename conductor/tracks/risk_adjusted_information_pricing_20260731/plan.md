@@ -75,9 +75,9 @@
 - [x] **U14:** Add CLI/reporting, capability discovery, accessible examples
   and documentation that distinguish utility and monetary scales. (AC-07)
   — `db3a649`
-- [~] **U15:** Record and validate Rust, Python, R, Julia and Mojo capability
+- [x] **U15:** Record and validate Rust, Python, R, Julia and Mojo capability
   dispositions and shared-fixture evidence or explicit unsupported states.
-  (AC-06)
+  (AC-06) — `2163a89`
 - [ ] **U16:** Reconcile roadmap, todo, changelog, registries, v1.2.0 MoSCoW,
   Mermaid design, GitHub/Project 28, canonical C16 and remaining external
   gates. (AC-01, AC-07)
