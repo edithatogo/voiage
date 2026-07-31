@@ -14,13 +14,14 @@ from .live_probe import AuthoritativeProbeGateError, run_authoritative_probe
 from .registry import ProviderRegistry, default_registry, discover_entry_point_providers
 
 if TYPE_CHECKING:
-    from .croissant import CroissantProvider
+    from .croissant import CroissantProvider, CroissantSelection
     from .frictionless import FrictionlessProvider
 
 __all__ = [
     "INGESTION_PROVIDER_SDK_VERSION",
     "AuthoritativeProbeGateError",
     "CroissantProvider",
+    "CroissantSelection",
     "FrictionlessProvider",
     "IngestionError",
     "IngestionProvider",
@@ -40,6 +41,10 @@ def __getattr__(name: str) -> object:
         from .croissant import CroissantProvider
 
         return CroissantProvider
+    if name == "CroissantSelection":
+        from .croissant import CroissantSelection
+
+        return CroissantSelection
     if name == "FrictionlessProvider":
         from .frictionless import FrictionlessProvider
 

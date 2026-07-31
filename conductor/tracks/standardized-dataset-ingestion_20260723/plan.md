@@ -82,7 +82,10 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   materialization receipt fields while rejecting unexpanded JSON-LD context
   objects (`d814e6e1`, partial). The file-backed profile map also proves
   `contentSize` byte-integrity validation and fail-closed non-byte/alternate
-  integrity declarations (partial).
+  integrity declarations. A local multi-pair fixture now requires explicit
+  record-set and distribution selectors, proves their receipt/content identity,
+  and rejects missing, mismatched, `FileObject`, or `FileSet` selections rather
+  than inferring a relationship (partial).
 - [~] **P4-T3 / AC-04, AC-11:** Add fixtures for Croissant 1.1 conformance,
   parser-feature gaps, live datasets, citations, PROV, usage information,
   ODRL, and RAI metadata preservation. Offline governance fixture added

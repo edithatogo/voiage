@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 
 from voiage.ingestion.base import IngestionError, SourceAccessPolicy
-from voiage.ingestion.croissant import CroissantProvider
+from voiage.ingestion.croissant import CroissantProvider, CroissantSelection
 from voiage.ingestion.registry import default_registry
 
 _FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "croissant_1_1"
@@ -27,11 +27,12 @@ _FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "croissant_1_1"
         ("unsupported/content-size-text.json", "contentSize"),
         ("unsupported/key.json", "keys"),
         ("unsupported/non-csv-media-type.json", "CSV media type"),
-        ("unsupported/multiple-distributions.json", "exactly one distribution"),
-        ("unsupported/multiple-record-sets.json", "exactly one recordSet"),
+        ("unsupported/multiple-distributions.json", "recordSet selection is required"),
+        ("unsupported/multiple-record-sets.json", "recordSet selection is required"),
         ("unsupported/nested-field.json", "nested fields"),
         ("unsupported/references.json", "field references"),
         ("unsupported/field-source.json", "field sources"),
+        ("unsupported/fileset-distribution.json", "FileObject or FileSet"),
         ("unsupported/malformed-distribution.json", "distribution object"),
         ("unsupported/malformed-record-set.json", "recordSet object"),
         ("unsupported/split.json", "splits"),
@@ -147,6 +148,84 @@ def test_croissant_offline_context_array_fixture_materializes() -> None:
 
     assert bundle.manifest.dataset_id == "context-array-decision-samples"
     assert bundle.table("decision_samples").num_rows == 2
+
+
+def test_croissant_multi_pair_fixture_requires_explicit_local_selection() -> None:
+    """Multi-entry descriptors cannot silently choose a record set or file."""
+    descriptor_path = _FIXTURE_ROOT / "valid" / "multi-pair-croissant.json"
+
+    with pytest.raises(IngestionError, match="recordSet selection is required"):
+        CroissantProvider().ingest(
+            descriptor_path, policy=SourceAccessPolicy(_FIXTURE_ROOT)
+        )
+
+
+@pytest.mark.parametrize(
+    ("selection", "message"),
+    [
+        (
+            CroissantSelection(record_set="missing", distribution="#baseline"),
+            "selected Croissant recordSet is not declared",
+        ),
+        (
+            CroissantSelection(record_set="baseline_samples", distribution="#missing"),
+            "selected Croissant distribution is not declared",
+        ),
+        (
+            CroissantSelection(
+                record_set="baseline_samples", distribution="#alternate"
+            ),
+            "must explicitly reference the selected distribution",
+        ),
+    ],
+)
+def test_croissant_multi_pair_fixture_rejects_invalid_selection(
+    selection: CroissantSelection, message: str
+) -> None:
+    """Missing and mismatched selectors have stable non-materializing errors."""
+    descriptor_path = _FIXTURE_ROOT / "valid" / "multi-pair-croissant.json"
+
+    with pytest.raises(IngestionError, match=message):
+        CroissantProvider().ingest(
+            descriptor_path,
+            policy=SourceAccessPolicy(_FIXTURE_ROOT),
+            selection=selection,
+        )
+
+
+def test_croissant_multi_pair_fixture_preserves_selected_receipt_identity() -> None:
+    """Explicit selections produce the selected table, receipt, and identity digest."""
+    descriptor_path = _FIXTURE_ROOT / "valid" / "multi-pair-croissant.json"
+    provider = CroissantProvider()
+    baseline = provider.ingest(
+        descriptor_path,
+        policy=SourceAccessPolicy(_FIXTURE_ROOT),
+        selection=CroissantSelection(
+            record_set="baseline_samples", distribution="#baseline"
+        ),
+    )
+    alternate = provider.ingest(
+        descriptor_path,
+        policy=SourceAccessPolicy(_FIXTURE_ROOT),
+        selection=CroissantSelection(
+            record_set="alternate_samples", distribution="#alternate"
+        ),
+    )
+
+    assert baseline.manifest.resources[0].uri.endswith("/valid/data.csv")
+    assert alternate.manifest.resources[0].uri.endswith("/valid/alternate.csv")
+    assert (
+        baseline.manifest.resources[0].sha256 != alternate.manifest.resources[0].sha256
+    )
+    assert baseline.content_digest != alternate.content_digest
+    assert baseline.manifest.extensions["mlcommons.org:croissant-selection"] == {
+        "recordSet": "baseline_samples",
+        "distribution": "#baseline",
+    }
+    assert alternate.manifest.extensions["mlcommons.org:croissant-selection"] == {
+        "recordSet": "alternate_samples",
+        "distribution": "#alternate",
+    }
 
 
 def test_croissant_offline_identity_fixture_preserves_governance() -> None:
