@@ -25,7 +25,7 @@
 - [x] **S8:** Add failing EVSI/EVPI tests for common scaling, zero EVPI,
   theoretical limits, Monte Carlo tolerance and invalid inputs. (AC-03,
   AC-05) — `4b24b88`
-- [ ] **S9:** Review reference independence, cost provenance and estimator
+- [~] **S9:** Review reference independence, cost provenance and estimator
   uncertainty requirements. (AC-05)
 
 ## Phase 3 — Runtime and optimizer
