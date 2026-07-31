@@ -34,7 +34,9 @@ programme. The canonical cross-repository requirements are maintained in
   signed ENBS curve, deterministic tie policy, optimum, uncertainty and
   plotting inputs; EVSI/EVPI has common-unit, zero-EVPI and bounds behavior;
   the initial portfolio slice allocates governed optima under additive signed
-  ENBS, capacity, dependency, exclusion and guardrail constraints.
+  ENBS, capacity, dependency, exclusion and guardrail constraints while
+  declaring metrics, interference, multiplicity, sequential/stopping rules,
+  duration/delay, opportunity cost, policy changes, and gross/net outputs.
 - **M16 / planned v1.2.0:** VoC is #595's expected-utility value of a
   clairvoyant-policy presentation, not a duplicate kernel or unconditional
   monetary-EVPI alias.

@@ -41,10 +41,7 @@ def _native_indices(value: object, *, field: str, size: int) -> tuple[int, ...]:
     if not isinstance(value, list):
         raise TypeError(f"{field} must be a list")
     items = cast("list[object]", value)
-    if any(
-        type(index) is not int or index < 0 or index >= size
-        for index in items
-    ):
+    if any(type(index) is not int or index < 0 or index >= size for index in items):
         raise ValueError(f"{field} contains an invalid index")
     indices = tuple(cast("int", index) for index in items)
     if len(set(indices)) != len(indices):

@@ -180,3 +180,32 @@ This metric must be named information efficiency or EVSI/EVPI efficiency. It
 must never be used for `total_voi / total_cost`, return on investment,
 cost-effectiveness, ENBS, power, or the probability that a study changes the
 decision. Those quantities require distinct names, units and contracts.
+
+## Experiment-portfolio contract
+
+`CossPortfolioCandidateV1` binds one governed COSS optimum to the portfolio
+decision. It requires the primary and secondary metric identifiers, declared
+guardrails and failures, heterogeneous-effect, delayed-effect, interference,
+sequential-monitoring and multiplicity model identifiers, stopping rules,
+study duration and unit, opportunity and implementation-delay costs, expected
+policy change, dependencies, exclusions, and resource use. A declared
+no-effect or fixed-horizon model is valid; silently omitting the field is not.
+
+The exact allocator enumerates candidate subsets, admits the empty portfolio,
+and maximizes additive net signed ENBS subject to guardrails, dependencies,
+exclusion groups and capacity. For each candidate:
+
+- gross ENBS is gross EVSI minus research cost;
+- net EVSI is gross EVSI minus opportunity and implementation-delay costs; and
+- net ENBS is net EVSI minus research cost.
+
+The versioned result returns every candidate evaluation, selected studies,
+sample size and duration, per-study stopping rules and policy changes, gross
+and net EVSI/ENBS totals, used and binding capacities, tolerances and
+diagnostics. Relational fields are re-derived during deserialization; forged
+totals, unknown resources, or false binding constraints fail closed.
+
+The model identifiers are provenance-bearing declarations, not hidden
+estimators. Domain-specific interference, multiplicity, delayed-effect or
+sequential estimators and experiment-platform adapters may be added later only
+behind this contract and with separate assurance.

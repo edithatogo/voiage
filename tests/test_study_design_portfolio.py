@@ -45,6 +45,8 @@ def _candidate(
     required: tuple[str, ...] = (),
     exclusions: tuple[str, ...] = (),
     with_efficiency: bool = True,
+    opportunity_cost: float = 0.0,
+    implementation_delay_cost: float = 0.0,
 ) -> CossPortfolioCandidateV1:
     shared_context = context or _context()
     coss = calculate_coss(
@@ -73,6 +75,21 @@ def _candidate(
         required_study_ids=required,
         exclusion_group_ids=exclusions,
         guardrails_passed=guardrails_passed,
+        primary_metric_id="primary-net-benefit",
+        secondary_metric_ids=("secondary-safety",),
+        guardrail_ids=("safety",),
+        failed_guardrail_ids=() if guardrails_passed else ("safety",),
+        heterogeneous_effect_model_id="declared-no-heterogeneity-v1",
+        delayed_effect_model_id="declared-no-delay-v1",
+        interference_model_id="declared-no-interference-v1",
+        sequential_monitoring_plan_id="fixed-horizon-v1",
+        multiplicity_adjustment_id="single-primary-v1",
+        stopping_rule_ids=("fixed-sample-completion",),
+        study_duration=12.0,
+        duration_unit="months",
+        opportunity_cost=opportunity_cost,
+        implementation_delay_cost=implementation_delay_cost,
+        expected_policy_change_id=f"{study_id}-adopt-if-informative",
     )
 
 
@@ -93,8 +110,11 @@ def test_exact_portfolio_selects_highest_additive_enbs_bundle() -> None:
 
     assert result.selected_study_ids == ("medium", "small")
     assert result.total_gross_evsi == 17.0
+    assert result.total_net_evsi == 17.0
     assert result.total_research_cost == 4.0
     assert result.total_enbs == 13.0
+    assert result.total_gross_enbs == 13.0
+    assert result.total_net_enbs == 13.0
     assert result.used_capacity == {"traffic": 8.0}
     assert result.binding_constraint_ids == ("traffic",)
     assert [item.efficiency_ratio for item in result.evaluations] == [0.7, 0.45, 0.4]
@@ -186,9 +206,7 @@ def test_portfolio_rejects_incommensurate_or_unbound_inputs() -> None:
         allocate_coss_portfolio(candidates=(_candidate("a", evsi=5.0, cost=1.0),))
     with pytest.raises(InputError, match="unknown study_id"):
         allocate_coss_portfolio(
-            candidates=(
-                _candidate("a", evsi=5.0, cost=1.0, required=("missing",)),
-            ),
+            candidates=(_candidate("a", evsi=5.0, cost=1.0, required=("missing",)),),
             constraints=(
                 PortfolioCapacityConstraintV1(
                     constraint_id="traffic", capacity=2.0, unit="slot"
@@ -205,12 +223,47 @@ def test_candidate_rejects_efficiency_for_a_different_evsi() -> None:
         evpi=InformationValueInputV1(value=20.0, context=context),
     )
     with pytest.raises(ValidationError, match="EVSI must match"):
-        CossPortfolioCandidateV1(
-            study_id="a",
-            coss=valid.coss,
-            efficiency=wrong,
-            resource_use={"traffic": 1.0},
+        CossPortfolioCandidateV1.model_validate_json(
+            json.dumps(
+                {
+                    **valid.model_dump(mode="json"),
+                    "efficiency": wrong.model_dump(mode="json"),
+                }
+            )
         )
+
+
+def test_portfolio_carries_advanced_design_semantics_and_net_values() -> None:
+    candidate = _candidate(
+        "adjusted",
+        evsi=10.0,
+        cost=2.0,
+        traffic=1.0,
+        opportunity_cost=1.0,
+        implementation_delay_cost=2.0,
+    )
+    result = allocate_coss_portfolio(
+        candidates=(candidate,),
+        constraints=(
+            PortfolioCapacityConstraintV1(
+                constraint_id="traffic", capacity=1.0, unit="million-users"
+            ),
+        ),
+    )
+
+    evaluation = result.evaluations[0]
+    assert evaluation.gross_evsi == 10.0
+    assert evaluation.net_evsi == 7.0
+    assert evaluation.gross_enbs == 8.0
+    assert evaluation.net_enbs == 5.0
+    assert evaluation.enbs == evaluation.net_enbs
+    assert evaluation.interference_model_id == "declared-no-interference-v1"
+    assert evaluation.multiplicity_adjustment_id == "single-primary-v1"
+    assert evaluation.stopping_rule_ids == ("fixed-sample-completion",)
+    assert result.total_opportunity_cost == 1.0
+    assert result.total_implementation_delay_cost == 2.0
+    assert result.selected_policy_change_ids == ("adjusted-adopt-if-informative",)
+    assert result.selected_stopping_rule_ids == ("fixed-sample-completion",)
 
 
 def test_result_contract_rejects_corrupted_totals() -> None:
@@ -226,6 +279,26 @@ def test_result_contract_rejects_corrupted_totals() -> None:
     payload["total_enbs"] = 99.0
     with pytest.raises(ValidationError, match="totals"):
         StudyPortfolioResultV1.model_validate_json(json.dumps(payload))
+
+
+def test_result_contract_rejects_forged_bindings_and_resource_keys() -> None:
+    result = allocate_coss_portfolio(
+        candidates=(_candidate("a", evsi=5.0, cost=1.0, traffic=1.0),),
+        constraints=(
+            PortfolioCapacityConstraintV1(
+                constraint_id="traffic", capacity=1.0, unit="slot"
+            ),
+        ),
+    )
+    binding_payload = deepcopy(result.model_dump(mode="json"))
+    binding_payload["binding_constraint_ids"] = ["bogus"]
+    with pytest.raises(ValidationError, match="binding_constraint_ids"):
+        StudyPortfolioResultV1.model_validate_json(json.dumps(binding_payload))
+
+    resource_payload = deepcopy(result.model_dump(mode="json"))
+    resource_payload["evaluations"][0]["resource_use"]["undeclared"] = 1.0
+    with pytest.raises(ValidationError, match="undeclared constraint"):
+        StudyPortfolioResultV1.model_validate_json(json.dumps(resource_payload))
 
 
 def test_experimental_export_is_lazy_and_available() -> None:

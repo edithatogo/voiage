@@ -56,6 +56,6 @@
 - [x] **S18:** Reconcile roadmap, registry, documentation, v1.2.0 MoSCoW
   requirements, Mermaid design, canonical C16, GitHub, Project 28, Conductor
   and hosted evidence. (AC-06–AC-10) — `7fadc1c`
-- [ ] **S19:** Run final automated review, full local validation and hosted
+- [~] **S19:** Run final automated review, full local validation and hosted
   required checks; retain merge, release and issue closure as separate gates.
   (AC-09)

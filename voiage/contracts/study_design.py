@@ -249,6 +249,7 @@ class CossResultV1(ContractModel):
         ):
             raise ValueError("selection confidence set must reference feasible designs")
         if uncertainty.probability_by_design is not None:
+            probability_ids = set(uncertainty.probability_by_design)
             if any(item not in by_id for item in uncertainty.probability_by_design):
                 raise ValueError("selection probabilities reference unknown designs")
             if any(
@@ -258,6 +259,19 @@ class CossResultV1(ContractModel):
                 raise ValueError(
                     "positive selection probability requires a feasible design"
                 )
+            if feasible_ids <= probability_ids:
+                probability_tolerance = (
+                    self.absolute_tolerance + self.relative_tolerance
+                )
+                if not isclose(
+                    sum(uncertainty.probability_by_design.values()),
+                    1.0,
+                    rel_tol=0.0,
+                    abs_tol=probability_tolerance,
+                ):
+                    raise ValueError(
+                        "complete selection probability map must sum to one"
+                    )
         if not feasible:
             if (
                 any(
@@ -411,11 +425,21 @@ class InformationEfficiencyResultV1(ContractModel):
                 or abs(self.evpi) > self.bound_tolerance
             ):
                 raise ValueError("undefined_zero_evpi fields are inconsistent")
+            if abs(self.evsi) > self.bound_tolerance:
+                raise ValueError("zero EVPI requires EVSI to be numerically zero")
             return self
-        if self.evpi == 0.0 or self.ratio is None or self.percentage is None:
+        if (
+            self.evpi <= self.bound_tolerance
+            or self.ratio is None
+            or self.percentage is None
+        ):
             raise ValueError(
-                "defined efficiency requires non-zero EVPI and ratio fields"
+                "defined efficiency requires positive non-zero EVPI and ratio fields"
             )
+        if self.evsi < -self.bound_tolerance:
+            raise ValueError("EVSI is materially below zero")
+        if self.evsi > self.evpi + self.bound_tolerance:
+            raise ValueError("EVSI materially exceeds EVPI")
         expected_ratio = self.evsi / self.evpi
         if not isclose(
             self.ratio, expected_ratio, rel_tol=1e-15, abs_tol=0.0

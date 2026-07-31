@@ -18,8 +18,13 @@ or reuse the legacy value-to-cost `voi_efficiency` label.
 The initial portfolio surface performs exact subset enumeration over governed
 single-study COSS optima. It maximizes additive signed ENBS, permits the empty
 portfolio, and enforces declared capacity, dependency, exclusion, and guardrail
-constraints. Interference, multiplicity, sequential monitoring, delayed
-effects, and platform adapters are not implied by this initial contract.
+constraints. Each candidate must also declare primary and secondary metrics,
+heterogeneous and delayed-effect models, interference, multiplicity,
+sequential monitoring, stopping rules, duration, opportunity cost,
+implementation delay, and the expected policy change. The result preserves
+those declarations and reports gross and net EVSI/ENBS separately. VOIAGE does
+not invent domain-specific adjustment estimates when the caller has not
+supplied them, and experiment-platform adapters remain optional.
 
 Rust owns the numerical COSS and efficiency policy, while Python provides the
 strict experimental contracts, orchestration, CLI, reporting, and accessible

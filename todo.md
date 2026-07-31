@@ -54,10 +54,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
         strict distinction from `total_voi / total_cost`.
     *   Reconcile existing plotting and legacy clinical-optimizer helpers
         before any maturity promotion.
-    *   The exact initial portfolio slice covers additive signed ENBS, empty
-        selection, capacities, dependencies, exclusions and guardrails;
-        interference, sequential-monitoring, multiplicity, delayed-effect and
-        platform-adapter models remain follow-on scope.
+    *   The exact portfolio slice covers additive signed ENBS, empty selection,
+        capacities, dependencies, exclusions and guardrails; it requires
+        declared metric, interference, sequential-monitoring, multiplicity,
+        delayed-effect, duration/cost, stopping-rule and policy-change fields
+        and returns gross/net EVSI and ENBS. Domain-specific adjustment
+        estimators and platform adapters remain follow-on scope.
     *   Keep VoC in #595 as the expected-utility/clairvoyant-policy alias or
         presentation; do not create a duplicate numerical method.
     *   VoC classification is planned for v1.2.0 under canonical M16/M17 and

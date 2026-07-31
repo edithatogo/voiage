@@ -57,6 +57,7 @@ flowchart LR
     EVSI --> Ratio["EVSI / EVPI"]
     EVPI["Commensurate EVPI"] --> Ratio
     COSS --> Candidate["Governed portfolio candidate"]
+    PortfolioSemantics["Metrics + heterogeneity + delay + interference + multiplicity + stopping"] --> Candidate
     Candidate --> Portfolio["Exact signed-ENBS subset allocation"]
     PortfolioConstraints["Capacity + dependencies + exclusions + guardrails"] --> Portfolio
 

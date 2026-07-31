@@ -24,14 +24,22 @@ _DEFAULT_RTOL = 1e-8
 _MAX_EXACT_CANDIDATES = 24
 
 
-def _optimum(candidate: CossPortfolioCandidateV1) -> tuple[str, int, float, float, float]:
+def _optimum(
+    candidate: CossPortfolioCandidateV1,
+) -> tuple[str, int, float, float, float]:
     design_id = candidate.coss.optimal_design_id
     if design_id is None:  # guarded by the candidate contract
         raise InputError("portfolio candidate COSS must have a feasible optimum")
     point = next(
         item for item in candidate.coss.evaluated_designs if item.design_id == design_id
     )
-    return point.design_id, point.sample_size, point.evsi, point.research_cost, point.enbs
+    return (
+        point.design_id,
+        point.sample_size,
+        point.evsi,
+        point.research_cost,
+        point.enbs,
+    )
 
 
 def _is_admissible(
@@ -79,15 +87,6 @@ def allocate_coss_portfolio(
         raise InputError(
             f"exact portfolio allocation supports at most {_MAX_EXACT_CANDIDATES} candidates"
         )
-    if any(not isinstance(item, CossPortfolioCandidateV1) for item in candidate_tuple):
-        raise InputError("candidates must contain CossPortfolioCandidateV1 records")
-    if any(
-        not isinstance(item, PortfolioCapacityConstraintV1)
-        for item in constraint_tuple
-    ):
-        raise InputError(
-            "constraints must contain PortfolioCapacityConstraintV1 records"
-        )
     if absolute_tolerance < 0.0 or relative_tolerance < 0.0:
         raise InputError("portfolio tolerances must be non-negative")
     study_ids = [item.study_id for item in candidate_tuple]
@@ -117,13 +116,30 @@ def allocate_coss_portfolio(
         for subset in combinations(candidate_tuple, count):
             if not _is_admissible(subset, constraint_tuple, absolute_tolerance):
                 continue
-            enbs = sum(optimum[item.study_id][4] for item in subset)
-            cost = sum(optimum[item.study_id][3] for item in subset)
-            tolerance = absolute_tolerance + relative_tolerance * max(abs(best_enbs), 1.0)
+            enbs = sum(
+                optimum[item.study_id][4]
+                - item.opportunity_cost
+                - item.implementation_delay_cost
+                for item in subset
+            )
+            cost = sum(
+                optimum[item.study_id][3]
+                + item.opportunity_cost
+                + item.implementation_delay_cost
+                for item in subset
+            )
+            tolerance = absolute_tolerance + relative_tolerance * max(
+                abs(best_enbs), 1.0
+            )
             ordered_ids = tuple(sorted(item.study_id for item in subset))
             best_ids = tuple(sorted(item.study_id for item in best))
             if enbs > best_enbs + tolerance or (
-                isclose(enbs, best_enbs, rel_tol=relative_tolerance, abs_tol=absolute_tolerance)
+                isclose(
+                    enbs,
+                    best_enbs,
+                    rel_tol=relative_tolerance,
+                    abs_tol=absolute_tolerance,
+                )
                 and (cost, ordered_ids) < (best_cost, best_ids)
             ):
                 best = subset
@@ -138,10 +154,40 @@ def allocate_coss_portfolio(
             sample_size=optimum[item.study_id][1],
             selected=item.study_id in selected_ids,
             gross_evsi=optimum[item.study_id][2],
+            net_evsi=(
+                optimum[item.study_id][2]
+                - item.opportunity_cost
+                - item.implementation_delay_cost
+            ),
             research_cost=optimum[item.study_id][3],
-            enbs=optimum[item.study_id][4],
+            opportunity_cost=item.opportunity_cost,
+            implementation_delay_cost=item.implementation_delay_cost,
+            gross_enbs=optimum[item.study_id][4],
+            net_enbs=(
+                optimum[item.study_id][4]
+                - item.opportunity_cost
+                - item.implementation_delay_cost
+            ),
+            enbs=(
+                optimum[item.study_id][4]
+                - item.opportunity_cost
+                - item.implementation_delay_cost
+            ),
             efficiency_ratio=None if item.efficiency is None else item.efficiency.ratio,
             resource_use=item.resource_use,
+            primary_metric_id=item.primary_metric_id,
+            secondary_metric_ids=item.secondary_metric_ids,
+            guardrail_ids=item.guardrail_ids,
+            failed_guardrail_ids=item.failed_guardrail_ids,
+            heterogeneous_effect_model_id=item.heterogeneous_effect_model_id,
+            delayed_effect_model_id=item.delayed_effect_model_id,
+            interference_model_id=item.interference_model_id,
+            sequential_monitoring_plan_id=item.sequential_monitoring_plan_id,
+            multiplicity_adjustment_id=item.multiplicity_adjustment_id,
+            stopping_rule_ids=item.stopping_rule_ids,
+            study_duration=item.study_duration,
+            duration_unit=item.duration_unit,
+            expected_policy_change_id=item.expected_policy_change_id,
         )
         for item in candidate_tuple
     )
@@ -175,16 +221,33 @@ def allocate_coss_portfolio(
             constraints=constraint_tuple,
             selected_study_ids=tuple(item.study_id for item in selected),
             total_gross_evsi=sum(item.gross_evsi for item in selected),
+            total_net_evsi=sum(item.net_evsi for item in selected),
             total_research_cost=sum(item.research_cost for item in selected),
-            total_enbs=sum(item.enbs for item in selected),
+            total_opportunity_cost=sum(item.opportunity_cost for item in selected),
+            total_implementation_delay_cost=sum(
+                item.implementation_delay_cost for item in selected
+            ),
+            total_gross_enbs=sum(item.gross_enbs for item in selected),
+            total_net_enbs=sum(item.net_enbs for item in selected),
+            total_enbs=sum(item.net_enbs for item in selected),
             used_capacity=used_capacity,
             binding_constraint_ids=binding,
+            selected_policy_change_ids=tuple(
+                item.expected_policy_change_id for item in selected
+            ),
+            selected_stopping_rule_ids=tuple(
+                dict.fromkeys(
+                    rule for item in selected for rule in item.stopping_rule_ids
+                )
+            ),
             absolute_tolerance=absolute_tolerance,
             relative_tolerance=relative_tolerance,
             diagnostics=tuple(diagnostics),
         )
     except ValidationError as error:
-        raise InputError("portfolio result failed scientific contract validation") from error
+        raise InputError(
+            "portfolio result failed scientific contract validation"
+        ) from error
 
 
 __all__ = ["allocate_coss_portfolio"]

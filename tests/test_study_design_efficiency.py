@@ -296,6 +296,31 @@ def test_coss_records_unavailable_uncertainty_explicitly(
     assert "selection_uncertainty_unavailable" in result.diagnostics
 
 
+def test_complete_selection_probability_map_must_be_normalized(
+    study_context: StudyDesignContextV1,
+) -> None:
+    result = calculate_coss(
+        context=study_context,
+        designs=(
+            _point("n-20", 20, 5.0, 2.0),
+            _point("n-40", 40, 8.0, 3.0),
+        ),
+        selection_uncertainty=SelectionUncertaintyV1(
+            method="bootstrap",
+            replicate_count=100,
+            probability_by_design={"n-20": 0.4, "n-40": 0.6},
+        ),
+    )
+    payload = result.model_dump(mode="json")
+    payload["selection_uncertainty"]["probability_by_design"] = {
+        "n-20": 0.25,
+        "n-40": 0.25,
+    }
+
+    with pytest.raises(ValidationError, match="complete selection probability"):
+        type(result).model_validate_json(json.dumps(payload))
+
+
 def test_coss_reports_declared_range_disagreement_and_infeasible_members(
     study_context: StudyDesignContextV1,
 ) -> None:
@@ -352,6 +377,43 @@ def test_evsi_evpi_efficiency_has_explicit_zero_evpi_behavior(
             evsi=InformationValueInputV1(value=1.0, context=study_context),
             evpi=InformationValueInputV1(value=0.0, context=study_context),
         )
+
+
+def test_efficiency_deserialization_rejects_impossible_zero_and_bound_states(
+    study_context: StudyDesignContextV1,
+) -> None:
+    zero = evsi_evpi_efficiency(
+        evsi=InformationValueInputV1(value=0.0, context=study_context),
+        evpi=InformationValueInputV1(value=0.0, context=study_context),
+    )
+    zero_payload = zero.model_dump(mode="json")
+    zero_payload["evsi"] = 999.0
+    with pytest.raises(ValidationError, match="zero EVPI requires EVSI"):
+        type(zero).model_validate_json(json.dumps(zero_payload))
+
+    bounded = evsi_evpi_efficiency(
+        evsi=InformationValueInputV1(value=75.0, context=study_context),
+        evpi=InformationValueInputV1(value=100.0, context=study_context),
+    )
+    upper_payload = bounded.model_dump(mode="json")
+    upper_payload.update(
+        evsi=101.0,
+        ratio=1.01,
+        percentage=101.0,
+        status="above_one_within_tolerance",
+    )
+    with pytest.raises(ValidationError, match="materially exceeds EVPI"):
+        type(bounded).model_validate_json(json.dumps(upper_payload))
+
+    lower_payload = bounded.model_dump(mode="json")
+    lower_payload.update(
+        evsi=-1.0,
+        ratio=-0.01,
+        percentage=-1.0,
+        status="below_zero_within_tolerance",
+    )
+    with pytest.raises(ValidationError, match="materially below zero"):
+        type(bounded).model_validate_json(json.dumps(lower_payload))
 
 
 def test_evsi_evpi_efficiency_preserves_small_monte_carlo_bound_excursions(

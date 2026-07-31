@@ -12,6 +12,11 @@
 - **M15-S5:** Allocate governed single-study optima by signed additive ENBS,
   permitting the empty portfolio and enforcing declared capacity, dependency,
   exclusion and guardrail constraints.
+- **M15-S6:** Declare primary/secondary metrics, heterogeneous and delayed
+  effects, interference, multiplicity, sequential monitoring, duration,
+  stopping rules, opportunity cost, implementation delay and expected policy
+  changes; return gross/net EVSI and ENBS without silently estimating omitted
+  adjustments.
 
 ## Should
 
@@ -20,8 +25,9 @@
 
 ## Could
 
-- Extend the exact portfolio slice with interference, sequential monitoring,
-  multiplicity, delayed effects and optional experiment-platform adapters.
+- Add domain-specific estimators for interference, multiplicity and delayed
+  effects, plus optional experiment-platform adapters, behind the declared
+  portfolio contract.
 
 ## Won't
 
