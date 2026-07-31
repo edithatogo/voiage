@@ -1,6 +1,6 @@
 # Implementation Plan
 
-## Phase 1 — Contract and governance reconciliation
+## Phase 1 — Contract and governance reconciliation — checkpoint `4ec39a3`
 
 - [x] **U1:** Freeze the expected-utility decision problem, named utility,
   wealth/reference, units, probability, information, scope, cost-location and
