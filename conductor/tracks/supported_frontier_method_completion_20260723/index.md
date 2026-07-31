@@ -20,6 +20,7 @@
 - [Child evidence reconciliation](./reconciliation.md)
 - [Accepted-family contract freeze](./contract-freeze.json)
 - [Phase 1 contract review](./phase-1-review.md)
+- [Value of Flexibility reference review](./value-of-flexibility-reference-review.md)
 
 Status: in progress. Every owned child issue is being reconciled against
 executable evidence or a reviewed exclusion; existing Project or issue status
