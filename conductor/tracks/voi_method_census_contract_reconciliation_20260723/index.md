@@ -9,6 +9,7 @@
 - [Project 28](https://github.com/users/edithatogo/projects/28)
 - [Merged planning PR #621](https://github.com/edithatogo/voiage/pull/621)
 - [Live governance reconciliation](./governance-reconciliation.json)
+- [Prior-artifact reconciliation](./prior-artifact-reconciliation.md)
 
 Status: in progress. Issue #314 is an open child of #313 with exactly one
 native child, #566. Project 28 records #314 as In Progress and #566 as Todo.
