@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-07-31T14:46:00Z",
+  "generated_at": "2026-07-31T15:04:00Z",
   "repository": "edithatogo/voiage",
   "project_url": "https://github.com/users/edithatogo/projects/28",
   "association_policy": "PRs are included only when associated with commits recorded by a track, Git history for its path, or an explicit track reference. Empty completed-track lists are none_found, not inferred.",
@@ -3934,6 +3934,15 @@
           "url": "https://github.com/edithatogo/voiage/pull/690",
           "status": "merged",
           "evidence": ["aa500d733d0de86e2c6051461249a64f4a5dc585"]
+        },
+        {
+          "number": 715,
+          "url": "https://github.com/edithatogo/voiage/pull/715",
+          "status": "open",
+          "evidence": [
+            "69b330083c702ad3dd62c9c9f1c623237d23d4c6",
+            "70bdf78dd241a5f7b06febc8004e890fb5753b2f"
+          ]
         }
       ],
       "pull_request_evidence": "evidenced",
