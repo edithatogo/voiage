@@ -2,9 +2,9 @@
 
 ## Phase 1 — Contract and governance reconciliation
 
-- [~] **U1:** Freeze the expected-utility decision problem, named utility,
+- [x] **U1:** Freeze the expected-utility decision problem, named utility,
   wealth/reference, units, probability, information, scope, cost-location and
-  tie contracts. (AC-02)
+  tie contracts. (AC-02) — `8aa2ee6`
 - [ ] **U2:** Freeze EUI, CEI, BPI, SPI, PPI, policy re-optimization, signed-value,
   root-diagnostic and comparability semantics. (AC-03, AC-05)
 - [ ] **U3:** Freeze VoC as a presentation/delegating alias and audit adjacent
