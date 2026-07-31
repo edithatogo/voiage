@@ -37,8 +37,9 @@
 - [x] **F556-1 / #724:** Freeze #556 DSA MoSCoW requirements, Mermaid flow,
   independent reference review and failing analytical, metamorphic and
   pathology tests. (AC-02, AC-03, AC-09) `7fcf42b6`
-- [ ] **F556-2 / #725:** Add strict versioned DSA schemas, one-way/two-way/scenario
+- [x] **F556-2 / #725:** Add strict versioned DSA schemas, one-way/two-way/scenario
   fixtures, provenance, reproducibility and language dispositions. (AC-02–AC-06)
+  `a9e5ce74`
 - [ ] **F556-3 / #726:** Implement the shared Python DSA evaluator, normalized-record
   adapter, deterministic switch/tie policy and experimental public API.
   (AC-02–AC-05)
