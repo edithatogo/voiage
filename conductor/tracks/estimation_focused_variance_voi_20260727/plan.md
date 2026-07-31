@@ -42,8 +42,8 @@
 
 ## Phase 4 — User and polyglot surfaces
 
-- [ ] **E13:** Add CLI, reporting, provenance and accessible example/plot
-  surfaces. (AC-06)
+- [x] **E13:** Add CLI, reporting, provenance and accessible example/plot
+  surfaces. (AC-06) [5124e438]
 - [ ] **E14:** Record Rust, Python, R, Julia and Mojo capability dispositions
   and shared-fixture evidence or explicit unsupported failures. (AC-06)
 - [ ] **E15:** Reconcile the roadmap, method registry, documentation, bindings,
