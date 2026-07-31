@@ -145,10 +145,10 @@ exist; repository manifest, validation, and PR handoff are being finalized.*
   *GitHub: [#325](https://github.com/edithatogo/voiage/issues/325), with native
   implementation sub-issues
   [#326–#333, #467–#468](https://github.com/edithatogo/voiage/issues/325).*
-  *Status: in progress — PR #627 is merged; the SDK and reference-case changes
-  landed separately on `main`; PR #634 carries Phase 10 reconciliation evidence;
-  and Project 28 is reconciled as In Progress. The historical ledger is preserved
-  under a migration receipt.*
+  *Status: in progress — the 30 merged ingestion PRs #639–#690 are mapped to
+  exact commits in the 2026-07-31 Phase 10 reconciliation record. Every linked
+  Project 28 item remains In Progress; the historical ledger is preserved under
+  an integrity-repair receipt and archive remains prohibited.*
 
 ---
 

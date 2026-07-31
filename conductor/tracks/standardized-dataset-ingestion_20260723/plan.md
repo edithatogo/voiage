@@ -318,6 +318,16 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   automated Conductor review, and archive only when all track acceptance
   criteria are satisfied.
 
+### Additive reconciliation update — 2026-07-31
+
+`p10-reconciliation-20260731.md` maps the 30 merged ingestion increments in
+#639–#690 to exact merge commits, representative changed artifacts, and their
+hosted-check provenance. It records the absent, unmerged, open, and unrelated
+PR numbers rather than guessing associations. Project 28 confirms that #325–#333,
+#467, and #468 are present and `In Progress`; that field is not an
+acceptance-criterion verdict. P10-T4 remains active: all current and external
+acceptance boundaries still prohibit final review or archive.
+
 ## Current execution boundary
 
 - Track and issue/project initialization are authorized and complete. PR #334
