@@ -356,7 +356,6 @@ fn apply_assurance(
     mut reductions: Vec<f64>,
     convergence_threshold: f64,
 ) -> Result<EstimationVarianceKernelResult, NumericalInputError> {
-    let count = exact_count(reductions.len(), "bootstrap_replicates")?;
     let center = mean(&reductions, "bootstrap_reductions")?;
     let sum_squares = reductions.iter().try_fold(0.0, |total, value| {
         checked_sum(
@@ -366,7 +365,7 @@ fn apply_assurance(
         )
     })?;
     let denominator = exact_count(reductions.len() - 1, "bootstrap_replicates")?;
-    let standard_error = (sum_squares / denominator / count).sqrt();
+    let standard_error = (sum_squares / denominator).sqrt();
     if !standard_error.is_finite() {
         return Err(NumericalInputError::invalid(
             "bootstrap_reductions",
@@ -391,7 +390,8 @@ mod tests {
     use voiage_domain::SampleVector;
 
     use super::{
-        evppi_variance, evppi_variance_with_assurance, evsi_variance, evsi_variance_with_assurance,
+        apply_assurance, evppi_variance, evppi_variance_with_assurance, evsi_variance,
+        evsi_variance_with_assurance, make_result,
     };
 
     #[test]
@@ -468,5 +468,15 @@ mod tests {
         let groups = vec!["a".into(), "b".into()];
         assert!(evppi_variance_with_assurance(&samples, &groups, 1, 0, 0.01).is_err());
         assert!(evppi_variance_with_assurance(&samples, &groups, 2, 0, f64::NAN).is_err());
+    }
+
+    #[test]
+    fn bootstrap_standard_error_is_the_replicate_standard_deviation() {
+        let result = make_result(2.0, 1.0, 4, 2).unwrap();
+        let assured = apply_assurance(result, vec![0.0, 2.0], 1.0).unwrap();
+        let standard_error = assured
+            .monte_carlo_standard_error
+            .expect("bootstrap assurance reports a standard error");
+        assert!((standard_error - 2.0_f64.sqrt()).abs() < 1.0e-12);
     }
 }
