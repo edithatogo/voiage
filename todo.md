@@ -171,6 +171,13 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Prepare stable `v2.0.1` from the protected RC4 maintenance lineage.
+    *   Synchronize Cargo-derived Python, Rust, R, and Julia manifest versions
+        without creating binding- or crate-publication tags.
+    *   Run required pull-request and exact-commit post-merge assurance on the
+        protected `2.0.x` branch before creating the signed stable tag.
+    *   Keep later `main` features reserved for the next minor release.
+
 *   [x] Bound TestPyPI JSON-to-Simple API propagation lag.
     *   Retry the exact reviewed wheel download for the same bounded six
         attempts used by the TestPyPI JSON and installation gates.

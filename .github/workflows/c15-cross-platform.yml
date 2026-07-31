@@ -2,9 +2,9 @@ name: C15 Cross-platform Assurance
 
 on:
   push:
-    branches: [main]
+    branches: [main, 2.0.x]
   pull_request:
-    branches: [main]
+    branches: [main, 2.0.x]
   workflow_dispatch:
 
 permissions:

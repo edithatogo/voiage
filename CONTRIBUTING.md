@@ -79,7 +79,10 @@ the required CI, security, coverage, documentation, and contract checks pass.
         ```
 
 5.  **Push and Open a Pull Request:**
-    *   Push your branch to your fork and open a pull request against the `main` branch of the original repository.
+    *   Push your branch to your fork and open a pull request against the
+        `main` branch of the original repository. Stable patch-release work
+        instead targets its protected maintenance branch (for example,
+        `2.0.x`) so later features on `main` cannot enter the patch release.
 
 For a more detailed walkthrough of the Conductor workflow, docs structure, and
 testing expectations, see the [How to contribute guide](https://edithatogo.github.io/voiage/developer-guide/how-to-contribute/).

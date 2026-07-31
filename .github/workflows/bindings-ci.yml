@@ -4,7 +4,7 @@ on:
   merge_group:
     types: [checks_requested]
   pull_request:
-    branches: [main]
+    branches: [main, 2.0.x]
     paths:
       - "bindings/julia/**"
       - "r-package/**"
@@ -14,7 +14,7 @@ on:
       - "specs/core-api/fixtures/**"
       - "specs/numerical-reference/**"
   push:
-    branches: [main]
+    branches: [main, 2.0.x]
     paths:
       - "bindings/julia/**"
       - "r-package/**"

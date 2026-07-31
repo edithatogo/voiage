@@ -2,7 +2,7 @@ name: Python Rust Bridge CI
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, 2.0.x]
     paths:
       - ".github/workflows/python-rust-bridge.yml"
       - "build_backend.py"
@@ -16,7 +16,7 @@ on:
       - "tests/test_rust_workspace_contract.py"
       - "tests/packaging/**"
   push:
-    branches: [main]
+    branches: [main, 2.0.x]
     paths:
       - ".github/workflows/python-rust-bridge.yml"
       - "build_backend.py"

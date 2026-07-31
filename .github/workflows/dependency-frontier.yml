@@ -2,9 +2,9 @@ name: Dependency Assurance
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, 2.0.x]
   push:
-    branches: [main]
+    branches: [main, 2.0.x]
   workflow_dispatch:
   schedule:
     - cron: '17 5 * * 1'
