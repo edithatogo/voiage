@@ -1,6 +1,6 @@
 # Implementation Plan
 
-## Phase 1 — Contract and legacy reconciliation
+## Phase 1 — Contract and legacy reconciliation [checkpoint: c8285d5]
 
 - [x] **S1:** Freeze common study-design, cost, population, time-horizon,
   feasibility and reproducibility semantics. (AC-01) — `1037f06`
