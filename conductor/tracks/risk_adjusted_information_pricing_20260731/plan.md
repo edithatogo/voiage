@@ -26,7 +26,7 @@
   tie-set transition diagnostics across the frozen contract artifacts.
   — `dbf2021`
 
-## Phase 2 — Reference evidence before implementation
+## Phase 2 — Reference evidence before implementation — checkpoint `0aa8018`
 
 - [x] **U6:** Add failing independent affine, exponential and nonlinear
   reference tests for EUI, CEI, BPI, SPI, PPI and affine EVPI reduction. (AC-03,
