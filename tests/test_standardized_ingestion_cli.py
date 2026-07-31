@@ -4,10 +4,60 @@ from __future__ import annotations
 
 from hashlib import sha256
 import json
+from pathlib import Path
 
+import pytest
 from typer.testing import CliRunner
 
 from voiage.cli import app
+
+
+@pytest.mark.parametrize(
+    ("descriptor_name", "provider"),
+    [
+        (
+            "canonical-decision.croissant.json",
+            "croissant",
+        ),
+        (
+            "canonical-decision.datapackage.json",
+            "frictionless",
+        ),
+    ],
+)
+def test_reference_descriptors_have_safe_cli_walkthroughs(
+    descriptor_name: str, provider: str
+) -> None:
+    """ML and engineering fixtures expose the documented CLI evidence path."""
+    fixture_root = Path(__file__).parent / "fixtures" / "standardized_ingestion"
+    descriptor = fixture_root / descriptor_name
+    runner = CliRunner()
+
+    validated = runner.invoke(app, ["ingest", "validate", str(descriptor)])
+    inspected = runner.invoke(
+        app,
+        [
+            "ingest",
+            "inspect",
+            str(descriptor),
+            "--table",
+            "samples",
+            "--field",
+            "strategy_a",
+            "--field",
+            "strategy_b",
+        ],
+    )
+
+    assert validated.exit_code == 0
+    assert json.loads(validated.output)["valid"] is True
+    assert inspected.exit_code == 0
+    result = json.loads(inspected.output)
+    assert result["provider"] == provider
+    assert isinstance(result["governance"], dict)
+    assert result["binding_resolution"]["data_quality"]["row_count"] == 3
+    assert len(result["resources"]) == 1
+    assert len(result["resources"][0]["sha256"]) == 64
 
 
 def test_ingest_commands_publish_stable_help_surfaces() -> None:

@@ -77,6 +77,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
         xarray compute-facing views without introducing a second runtime path.
     *   CLI validation now has a credential-redaction regression contract for
         rejected descriptor resource URIs.
+    *   ML and engineering reference descriptors now have executable CLI
+        validation and inspection walkthroughs alongside the direct business
+        DataFrame example.
 
 ## Completed public documentation
 
