@@ -95,6 +95,52 @@ def test_built_in_providers_normalize_supported_csv_profile(
     )
 
 
+@pytest.mark.parametrize("provider", ["croissant", "frictionless"])
+def test_built_in_providers_reject_a_resource_before_unbounded_row_materialization(
+    tmp_path, provider: str
+) -> None:
+    """Delimited rows are counted before a provider constructs an Arrow table."""
+    (tmp_path / "samples.csv").write_text("a,b\n1,2\n3,4\n4,5\n", encoding="utf-8")
+    if provider == "croissant":
+        descriptor = {
+            "@context": "https://mlcommons.org/croissant/1.1",
+            "distribution": [{"contentUrl": "samples.csv"}],
+            "recordSet": [{"name": "samples", "field": [{"name": "a"}, {"name": "b"}]}],
+        }
+        descriptor_name = "croissant.json"
+    else:
+        descriptor = {
+            "resources": [
+                {
+                    "name": "samples",
+                    "path": "samples.csv",
+                    "schema": {"fields": [{"name": "a"}, {"name": "b"}]},
+                }
+            ]
+        }
+        descriptor_name = "datapackage.json"
+    descriptor_path = tmp_path / descriptor_name
+    descriptor_path.write_text(json.dumps(descriptor), encoding="utf-8")
+
+    with pytest.raises(IngestionError, match="row limit"):
+        default_registry().ingest(
+            descriptor_path, policy=SourceAccessPolicy(tmp_path, max_resource_rows=2)
+        )
+
+
+def test_tabular_reader_rejects_an_oversized_batch_before_table_construction(
+    tmp_path,
+) -> None:
+    """A streaming CSV batch cannot bypass the source policy's batch ceiling."""
+    (tmp_path / "samples.csv").write_text("a\n1\n2\n3\n", encoding="utf-8")
+
+    with pytest.raises(IngestionError, match="batch row limit"):
+        read_csv(
+            "samples.csv",
+            SourceAccessPolicy(tmp_path, max_resource_rows=10, max_batch_rows=1),
+        )
+
+
 def test_registry_inspect_reports_capabilities_without_materializing(tmp_path) -> None:
     descriptor_path = tmp_path / "croissant.json"
     descriptor_path.write_text(
@@ -1162,8 +1208,8 @@ def test_tabular_and_preparation_rejection_paths(tmp_path) -> None:
     csv_source.write_text("a\n1\n", encoding="utf-8")
     with pytest.MonkeyPatch.context() as monkeypatch:
         monkeypatch.setattr(
-            "voiage.ingestion._tabular.csv.read_csv",
-            lambda _: (_ for _ in ()).throw(pa.ArrowInvalid("bad CSV")),
+            "voiage.ingestion._tabular.csv.open_csv",
+            lambda *_args, **_kwargs: (_ for _ in ()).throw(pa.ArrowInvalid("bad CSV")),
         )
         with pytest.raises(IngestionError, match="cannot be parsed"):
             read_csv("unreadable.csv", SourceAccessPolicy(tmp_path))

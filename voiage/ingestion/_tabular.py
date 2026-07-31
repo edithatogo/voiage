@@ -42,9 +42,19 @@ def read_csv(
         )
     path = policy.materialize(reference, sha256=sha256, byte_size=byte_size)
     try:
-        if delimiter == ",":
-            return csv.read_csv(path)
-        return csv.read_csv(path, parse_options=csv.ParseOptions(delimiter=delimiter))
+        parse_options = (
+            None if delimiter == "," else csv.ParseOptions(delimiter=delimiter)
+        )
+        reader = csv.open_csv(path, parse_options=parse_options)
+        batches: list[pa.RecordBatch] = []
+        total_rows = 0
+        for batch in reader:
+            total_rows += batch.num_rows
+            policy.validate_tabular_batch(
+                batch_rows=batch.num_rows, total_rows=total_rows
+            )
+            batches.append(batch)
+        return pa.Table.from_batches(batches, schema=reader.schema)
     except pa.ArrowException as error:
         raise IngestionError(
             "declared delimited-text resource cannot be parsed"

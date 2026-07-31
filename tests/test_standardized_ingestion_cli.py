@@ -60,6 +60,42 @@ def test_ingest_cli_publishes_stable_domain_exit_codes(tmp_path) -> None:
     assert output.exit_code == 5
 
 
+def test_ingest_validate_rejects_a_resource_above_the_explicit_row_limit(
+    tmp_path,
+) -> None:
+    """The CLI maps row-policy rejection to the stable ingestion exit code."""
+    (tmp_path / "samples.csv").write_text("a,b\n1,2\n3,4\n", encoding="utf-8")
+    descriptor = tmp_path / "datapackage.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "schema": {"fields": [{"name": "a"}, {"name": "b"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    result = CliRunner().invoke(
+        app,
+        [
+            "ingest",
+            "validate",
+            str(descriptor),
+            "--max-resource-rows",
+            "1",
+        ],
+    )
+
+    assert result.exit_code == 3
+    assert "row limit" in result.output
+
+
 def test_ingest_cli_enforces_explicit_provider_and_binding_profile(
     tmp_path, monkeypatch
 ) -> None:
