@@ -189,10 +189,23 @@ guardrails and failures, heterogeneous-effect, delayed-effect, interference,
 sequential-monitoring and multiplicity model identifiers, stopping rules,
 study duration and unit, opportunity and implementation-delay costs, expected
 policy change, dependencies, exclusions, and resource use. A declared
-no-effect or fixed-horizon model is valid; silently omitting the field is not.
+no-effect or fixed-horizon model is valid only when every model has an exact
+`PortfolioModelAssuranceV1` disposition of `no_effect` or
+`already_reflected_in_coss` plus non-empty provenance. Missing, duplicate,
+extra, or silently ignored model declarations fail closed.
 
-The exact allocator enumerates candidate subsets, admits the empty portfolio,
-and maximizes additive net signed ENBS subject to guardrails, dependencies,
+Additional opportunity and implementation-delay costs use
+`PortfolioIncrementalCostV1`. Its literal exclusion declaration and non-empty
+cost-basis provenance assert that these components are not already present in
+the COSS research cost. A caller that cannot establish this disjointness must
+rebuild its COSS curve from a non-overlapping cost breakdown rather than use
+the portfolio allocator.
+
+The exact allocator enumerates all admissible candidate subsets, admits the
+empty portfolio, computes the fixed global maximum, constructs one tolerance
+tie set against that maximum, and then applies lower-total-cost and
+lexicographic-ID tie breaking. This prevents path-dependent tolerance drift.
+It maximizes additive net signed ENBS subject to guardrails, dependencies,
 exclusion groups and capacity. For each candidate:
 
 - gross ENBS is gross EVSI minus research cost;
@@ -205,7 +218,9 @@ and net EVSI/ENBS totals, used and binding capacities, tolerances and
 diagnostics. Relational fields are re-derived during deserialization; forged
 totals, unknown resources, or false binding constraints fail closed.
 
-The model identifiers are provenance-bearing declarations, not hidden
-estimators. Domain-specific interference, multiplicity, delayed-effect or
-sequential estimators and experiment-platform adapters may be added later only
-behind this contract and with separate assurance.
+The model assurances declare either that the model has no portfolio-level
+effect or that its effect is already reflected in the governed COSS curve;
+the allocator never silently estimates or ignores an unassured effect.
+Domain-specific interference, multiplicity, delayed-effect or sequential
+estimators and experiment-platform adapters may be added later only behind
+this contract and with separate assurance.

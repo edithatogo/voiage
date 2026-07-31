@@ -25,6 +25,48 @@ class PortfolioCapacityConstraintV1(ContractModel):
     unit: Identifier
 
 
+class PortfolioModelAssuranceV1(ContractModel):
+    """Fail-closed disposition for one model consumed by a COSS candidate."""
+
+    model_id: Identifier
+    handling: Literal["no_effect", "already_reflected_in_coss"]
+    provenance: Mapping[Identifier, str]
+
+    @field_serializer("provenance")
+    def serialize_provenance(self, value: object) -> object:
+        """Restore the JSON mapping shape for canonical serialization."""
+        return thaw_json(value)
+
+    @model_validator(mode="after")
+    def validate_provenance(self) -> Self:
+        """Require an auditable basis for every no-effect or applied claim."""
+        if not self.provenance:
+            raise ValueError("model assurance provenance must not be empty")
+        return self
+
+
+class PortfolioIncrementalCostV1(ContractModel):
+    """Additional costs proven disjoint from the governed COSS research cost."""
+
+    opportunity_cost: float = Field(ge=0.0)
+    implementation_delay_cost: float = Field(ge=0.0)
+    excluded_from_coss_research_cost: Literal[True]
+    basis_id: Identifier
+    provenance: Mapping[Identifier, str]
+
+    @field_serializer("provenance")
+    def serialize_provenance(self, value: object) -> object:
+        """Restore the JSON mapping shape for canonical serialization."""
+        return thaw_json(value)
+
+    @model_validator(mode="after")
+    def validate_provenance(self) -> Self:
+        """Require evidence for the non-overlap declaration."""
+        if not self.provenance:
+            raise ValueError("incremental cost provenance must not be empty")
+        return self
+
+
 class CossPortfolioCandidateV1(ContractModel):
     """A candidate study represented by its governed single-study optimum."""
 
@@ -45,10 +87,10 @@ class CossPortfolioCandidateV1(ContractModel):
     sequential_monitoring_plan_id: Identifier
     multiplicity_adjustment_id: Identifier
     stopping_rule_ids: tuple[Identifier, ...]
+    model_assurances: tuple[PortfolioModelAssuranceV1, ...]
     study_duration: float = Field(gt=0.0)
     duration_unit: Identifier
-    opportunity_cost: float = Field(ge=0.0)
-    implementation_delay_cost: float = Field(ge=0.0)
+    incremental_cost: PortfolioIncrementalCostV1
     expected_policy_change_id: Identifier
 
     @field_serializer("resource_use")
@@ -79,6 +121,21 @@ class CossPortfolioCandidateV1(ContractModel):
             self.stopping_rule_ids
         ):
             raise ValueError("stopping_rule_ids must be non-empty and unique")
+        declared_models = {
+            self.heterogeneous_effect_model_id,
+            self.delayed_effect_model_id,
+            self.interference_model_id,
+            self.sequential_monitoring_plan_id,
+            self.multiplicity_adjustment_id,
+            *self.stopping_rule_ids,
+        }
+        assured_models = {item.model_id for item in self.model_assurances}
+        if len(assured_models) != len(self.model_assurances):
+            raise ValueError("model assurances must have unique model_id values")
+        if assured_models != declared_models:
+            raise ValueError(
+                "model assurances must cover every declared portfolio model exactly"
+            )
         efficiency = self.efficiency
         if efficiency is not None:
             if (
@@ -125,8 +182,10 @@ class StudyPortfolioEvaluationV1(ContractModel):
     sequential_monitoring_plan_id: Identifier
     multiplicity_adjustment_id: Identifier
     stopping_rule_ids: tuple[Identifier, ...]
+    model_assurances: tuple[PortfolioModelAssuranceV1, ...]
     study_duration: float = Field(gt=0.0)
     duration_unit: Identifier
+    incremental_cost: PortfolioIncrementalCostV1
     expected_policy_change_id: Identifier
 
     @field_serializer("resource_use")
@@ -138,6 +197,14 @@ class StudyPortfolioEvaluationV1(ContractModel):
     def validate_enbs(self) -> Self:
         """Preserve the signed-ENBS identity at portfolio boundaries."""
         identities = (
+            (
+                self.opportunity_cost,
+                self.incremental_cost.opportunity_cost,
+            ),
+            (
+                self.implementation_delay_cost,
+                self.incremental_cost.implementation_delay_cost,
+            ),
             (
                 self.net_evsi,
                 self.gross_evsi
@@ -153,6 +220,21 @@ class StudyPortfolioEvaluationV1(ContractModel):
             for actual, expected in identities
         ):
             raise ValueError("portfolio value and signed-ENBS identities disagree")
+        declared_models = {
+            self.heterogeneous_effect_model_id,
+            self.delayed_effect_model_id,
+            self.interference_model_id,
+            self.sequential_monitoring_plan_id,
+            self.multiplicity_adjustment_id,
+            *self.stopping_rule_ids,
+        }
+        assured_models = {item.model_id for item in self.model_assurances}
+        if len(assured_models) != len(self.model_assurances):
+            raise ValueError("model assurances must have unique model_id values")
+        if assured_models != declared_models:
+            raise ValueError(
+                "model assurances must cover every declared portfolio model exactly"
+            )
         return self
 
 
@@ -274,6 +356,8 @@ class StudyPortfolioResultV1(ContractModel):
 __all__ = [
     "CossPortfolioCandidateV1",
     "PortfolioCapacityConstraintV1",
+    "PortfolioIncrementalCostV1",
+    "PortfolioModelAssuranceV1",
     "StudyPortfolioEvaluationV1",
     "StudyPortfolioResultV1",
 ]

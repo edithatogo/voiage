@@ -22,9 +22,14 @@ constraints. Each candidate must also declare primary and secondary metrics,
 heterogeneous and delayed-effect models, interference, multiplicity,
 sequential monitoring, stopping rules, duration, opportunity cost,
 implementation delay, and the expected policy change. The result preserves
-those declarations and reports gross and net EVSI/ENBS separately. VOIAGE does
-not invent domain-specific adjustment estimates when the caller has not
-supplied them, and experiment-platform adapters remain optional.
+those declarations and reports gross and net EVSI/ENBS separately. Every model
+must be dispositioned, with provenance, as having no effect or as already
+reflected in the COSS curve. Incremental opportunity and delay costs must carry
+a provenance-backed declaration that they are excluded from COSS research
+cost. The optimizer anchors tolerance ties to the fixed global maximum before
+using cost and study IDs to break ties. VOIAGE therefore fails closed instead
+of inventing or silently ignoring domain-specific adjustments; experiment-
+platform adapters remain optional.
 
 Rust owns the numerical COSS and efficiency policy, while Python provides the
 strict experimental contracts, orchestration, CLI, reporting, and accessible

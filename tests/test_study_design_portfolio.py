@@ -14,6 +14,8 @@ from voiage.contracts.study_design import (
 from voiage.contracts.study_portfolio import (
     CossPortfolioCandidateV1,
     PortfolioCapacityConstraintV1,
+    PortfolioIncrementalCostV1,
+    PortfolioModelAssuranceV1,
     StudyPortfolioResultV1,
 )
 from voiage.exceptions import InputError
@@ -85,10 +87,30 @@ def _candidate(
         sequential_monitoring_plan_id="fixed-horizon-v1",
         multiplicity_adjustment_id="single-primary-v1",
         stopping_rule_ids=("fixed-sample-completion",),
+        model_assurances=tuple(
+            PortfolioModelAssuranceV1(
+                model_id=model_id,
+                handling="no_effect",
+                provenance={"fixture": "explicit-null-effect"},
+            )
+            for model_id in (
+                "declared-no-heterogeneity-v1",
+                "declared-no-delay-v1",
+                "declared-no-interference-v1",
+                "fixed-horizon-v1",
+                "single-primary-v1",
+                "fixed-sample-completion",
+            )
+        ),
         study_duration=12.0,
         duration_unit="months",
-        opportunity_cost=opportunity_cost,
-        implementation_delay_cost=implementation_delay_cost,
+        incremental_cost=PortfolioIncrementalCostV1(
+            opportunity_cost=opportunity_cost,
+            implementation_delay_cost=implementation_delay_cost,
+            excluded_from_coss_research_cost=True,
+            basis_id="portfolio-incremental-cost-v1",
+            provenance={"fixture": "disjoint-cost-ledger"},
+        ),
         expected_policy_change_id=f"{study_id}-adopt-if-informative",
     )
 
@@ -189,6 +211,35 @@ def test_ties_prefer_lower_cost_then_lexicographic_ids() -> None:
     assert lexical.selected_study_ids == ("alpha",)
 
 
+def test_tolerance_ties_are_anchored_to_global_maximum_and_permutation_invariant() -> (
+    None
+):
+    candidates = (
+        _candidate("a", evsi=11.0, cost=10.0, traffic=1.0),
+        _candidate("b", evsi=9.91, cost=9.0, traffic=1.0),
+        _candidate("c", evsi=8.82, cost=8.0, traffic=1.0),
+    )
+    constraint = PortfolioCapacityConstraintV1(
+        constraint_id="traffic", capacity=1.0, unit="slot"
+    )
+    forward = allocate_coss_portfolio(
+        candidates=candidates,
+        constraints=(constraint,),
+        absolute_tolerance=0.1,
+        relative_tolerance=0.0,
+    )
+    reverse = allocate_coss_portfolio(
+        candidates=tuple(reversed(candidates)),
+        constraints=(constraint,),
+        absolute_tolerance=0.1,
+        relative_tolerance=0.0,
+    )
+
+    assert forward.selected_study_ids == ("b",)
+    assert reverse.selected_study_ids == ("b",)
+    assert forward.total_enbs == pytest.approx(0.91)
+
+
 def test_portfolio_rejects_incommensurate_or_unbound_inputs() -> None:
     with pytest.raises(InputError, match="commensurate"):
         allocate_coss_portfolio(
@@ -230,6 +281,29 @@ def test_candidate_rejects_efficiency_for_a_different_evsi() -> None:
                     "efficiency": wrong.model_dump(mode="json"),
                 }
             )
+        )
+
+
+def test_candidate_rejects_unassured_models_and_overlapping_costs() -> None:
+    valid = _candidate("a", evsi=5.0, cost=1.0)
+    payload = valid.model_dump(mode="json")
+    payload["interference_model_id"] = "spillover-model-v1"
+    with pytest.raises(ValidationError, match="cover every declared"):
+        CossPortfolioCandidateV1.model_validate_json(json.dumps(payload))
+
+    overlapping = deepcopy(valid.model_dump(mode="json"))
+    overlapping["incremental_cost"]["excluded_from_coss_research_cost"] = False
+    with pytest.raises(ValidationError, match="excluded_from_coss_research_cost"):
+        CossPortfolioCandidateV1.model_validate_json(json.dumps(overlapping))
+
+
+def test_allocator_rejects_malformed_boundary_objects() -> None:
+    with pytest.raises(InputError, match="CossPortfolioCandidateV1"):
+        allocate_coss_portfolio(candidates=[object()])  # type: ignore[list-item]
+    with pytest.raises(InputError, match="PortfolioCapacityConstraintV1"):
+        allocate_coss_portfolio(
+            candidates=(_candidate("a", evsi=5.0, cost=1.0),),
+            constraints=[object()],  # type: ignore[list-item]
         )
 
 

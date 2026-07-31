@@ -58,6 +58,9 @@ sub-issue of frontier programme issue
 
 - Retain #571's portfolio requirements for shared traffic, duration, capacity,
   guardrails, interference, multiplicity, delayed effects and dependencies.
+- Fail closed unless every advanced model is provenance-dispositioned as
+  no-effect or already reflected in COSS, and unless additional opportunity or
+  delay costs are provenance-declared as excluded from COSS research cost.
 - Return portfolio allocation, stopping rules, gross/net EVSI and ENBS, policy
   changes and diagnostics.
 - Audit `voiage.plot.plot_evsi_vs_sample_size` and

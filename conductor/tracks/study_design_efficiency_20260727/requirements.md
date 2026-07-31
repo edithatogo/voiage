@@ -16,7 +16,10 @@
   effects, interference, multiplicity, sequential monitoring, duration,
   stopping rules, opportunity cost, implementation delay and expected policy
   changes; return gross/net EVSI and ENBS without silently estimating omitted
-  adjustments.
+  adjustments. Every model requires a provenance disposition of no-effect or
+  prior COSS incorporation; added opportunity/delay costs require a
+  provenance-backed exclusion from COSS research cost, and tolerance ties are
+  anchored to the fixed global maximum.
 
 ## Should
 

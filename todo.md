@@ -58,7 +58,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
         capacities, dependencies, exclusions and guardrails; it requires
         declared metric, interference, sequential-monitoring, multiplicity,
         delayed-effect, duration/cost, stopping-rule and policy-change fields
-        and returns gross/net EVSI and ENBS. Domain-specific adjustment
+        and returns gross/net EVSI and ENBS. Each model needs a provenance
+        assurance of no effect or prior COSS incorporation; incremental costs
+        must be provenance-declared as disjoint from COSS research cost, and
+        tolerance ties use a fixed global maximum. Domain-specific adjustment
         estimators and platform adapters remain follow-on scope.
     *   Keep VoC in #595 as the expected-utility/clairvoyant-policy alias or
         presentation; do not create a duplicate numerical method.

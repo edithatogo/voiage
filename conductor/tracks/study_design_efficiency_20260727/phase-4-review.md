@@ -27,6 +27,18 @@ issues. All were remediated before this checkpoint:
   registry were reconciled, and `changelog.md` now records the user-facing
   experimental family.
 
+The exact-commit re-review found three further High issues and one Medium
+issue. These were also remediated before S19 closure:
+
+- every advanced model now has a provenance-bearing, fail-closed assurance
+  declaring either no portfolio effect or prior incorporation in COSS;
+- incremental opportunity and delay costs require a provenance-bearing
+  declaration that COSS research cost excludes them;
+- tolerance ties are constructed once against the fixed global maximum, with
+  chain-tolerance and permutation assurance; and
+- malformed candidate or constraint objects again raise the governed
+  `InputError` boundary rather than leaking `AttributeError`.
+
 Focused remediation tests, Ruff and Basedpyright pass. Full repository,
 Conductor, documentation, Rust and hosted evidence are recorded by S19; merge,
 scientific promotion, release and issue closure remain separate gates.

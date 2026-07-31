@@ -57,9 +57,12 @@ flowchart LR
     EVSI --> Ratio["EVSI / EVPI"]
     EVPI["Commensurate EVPI"] --> Ratio
     COSS --> Candidate["Governed portfolio candidate"]
-    PortfolioSemantics["Metrics + heterogeneity + delay + interference + multiplicity + stopping"] --> Candidate
+    PortfolioSemantics["Metrics + heterogeneity + delay + interference + multiplicity + stopping"] --> AssuranceDeclaration["No-effect or already-in-COSS assurance + provenance"]
+    AssuranceDeclaration --> Candidate
+    DisjointCosts["Incremental costs excluded from COSS + provenance"] --> Candidate
     Candidate --> Portfolio["Exact signed-ENBS subset allocation"]
     PortfolioConstraints["Capacity + dependencies + exclusions + guardrails"] --> Portfolio
+    Portfolio --> GlobalTieSet["Fixed global maximum + one tolerance tie set"]
 
     Utility["Utility + wealth/reference state"] --> Clairvoyant["Clairvoyant policy"]
     Clairvoyant --> VoC["VoC presentation governed by #595"]

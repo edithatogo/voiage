@@ -24,6 +24,28 @@ _DEFAULT_RTOL = 1e-8
 _MAX_EXACT_CANDIDATES = 24
 
 
+def _normalize_candidates(
+    values: Sequence[object],
+) -> tuple[CossPortfolioCandidateV1, ...]:
+    """Return governed candidates or fail with the public domain error."""
+    if any(not isinstance(item, CossPortfolioCandidateV1) for item in values):
+        raise InputError("candidates must contain CossPortfolioCandidateV1 objects")
+    return tuple(item for item in values if isinstance(item, CossPortfolioCandidateV1))
+
+
+def _normalize_constraints(
+    values: Sequence[object],
+) -> tuple[PortfolioCapacityConstraintV1, ...]:
+    """Return governed constraints or fail with the public domain error."""
+    if any(not isinstance(item, PortfolioCapacityConstraintV1) for item in values):
+        raise InputError(
+            "constraints must contain PortfolioCapacityConstraintV1 objects"
+        )
+    return tuple(
+        item for item in values if isinstance(item, PortfolioCapacityConstraintV1)
+    )
+
+
 def _optimum(
     candidate: CossPortfolioCandidateV1,
 ) -> tuple[str, int, float, float, float]:
@@ -79,8 +101,10 @@ def allocate_coss_portfolio(
     available. Ties are resolved by lower research cost and then the
     lexicographically ordered study-ID tuple.
     """
-    candidate_tuple = tuple(candidates)
-    constraint_tuple = tuple(constraints)
+    raw_candidates: tuple[object, ...] = tuple(candidates)
+    raw_constraints: tuple[object, ...] = tuple(constraints)
+    candidate_tuple = _normalize_candidates(raw_candidates)
+    constraint_tuple = _normalize_constraints(raw_constraints)
     if not candidate_tuple:
         raise InputError("at least one COSS portfolio candidate is required")
     if len(candidate_tuple) > _MAX_EXACT_CANDIDATES:
@@ -109,42 +133,38 @@ def allocate_coss_portfolio(
         raise InputError("portfolio COSS candidates must be commensurate")
 
     optimum = {item.study_id: _optimum(item) for item in candidate_tuple}
-    best: tuple[CossPortfolioCandidateV1, ...] = ()
-    best_enbs = 0.0
-    best_cost = 0.0
+    admissible: list[
+        tuple[tuple[CossPortfolioCandidateV1, ...], float, float, tuple[str, ...]]
+    ] = [((), 0.0, 0.0, ())]
     for count in range(1, len(candidate_tuple) + 1):
         for subset in combinations(candidate_tuple, count):
             if not _is_admissible(subset, constraint_tuple, absolute_tolerance):
                 continue
             enbs = sum(
                 optimum[item.study_id][4]
-                - item.opportunity_cost
-                - item.implementation_delay_cost
+                - item.incremental_cost.opportunity_cost
+                - item.incremental_cost.implementation_delay_cost
                 for item in subset
             )
             cost = sum(
                 optimum[item.study_id][3]
-                + item.opportunity_cost
-                + item.implementation_delay_cost
+                + item.incremental_cost.opportunity_cost
+                + item.incremental_cost.implementation_delay_cost
                 for item in subset
             )
-            tolerance = absolute_tolerance + relative_tolerance * max(
-                abs(best_enbs), 1.0
-            )
             ordered_ids = tuple(sorted(item.study_id for item in subset))
-            best_ids = tuple(sorted(item.study_id for item in best))
-            if enbs > best_enbs + tolerance or (
-                isclose(
-                    enbs,
-                    best_enbs,
-                    rel_tol=relative_tolerance,
-                    abs_tol=absolute_tolerance,
-                )
-                and (cost, ordered_ids) < (best_cost, best_ids)
-            ):
-                best = subset
-                best_enbs = enbs
-                best_cost = cost
+            admissible.append((subset, enbs, cost, ordered_ids))
+
+    global_max_enbs = max(item[1] for item in admissible)
+    tie_tolerance = absolute_tolerance + relative_tolerance * max(
+        abs(global_max_enbs), 1.0
+    )
+    tie_set = tuple(
+        item for item in admissible if global_max_enbs - item[1] <= tie_tolerance
+    )
+    best, _best_enbs, _best_cost, _best_ids = min(
+        tie_set, key=lambda item: (item[2], item[3])
+    )
 
     selected_ids = {item.study_id for item in best}
     evaluations = tuple(
@@ -156,22 +176,22 @@ def allocate_coss_portfolio(
             gross_evsi=optimum[item.study_id][2],
             net_evsi=(
                 optimum[item.study_id][2]
-                - item.opportunity_cost
-                - item.implementation_delay_cost
+                - item.incremental_cost.opportunity_cost
+                - item.incremental_cost.implementation_delay_cost
             ),
             research_cost=optimum[item.study_id][3],
-            opportunity_cost=item.opportunity_cost,
-            implementation_delay_cost=item.implementation_delay_cost,
+            opportunity_cost=item.incremental_cost.opportunity_cost,
+            implementation_delay_cost=item.incremental_cost.implementation_delay_cost,
             gross_enbs=optimum[item.study_id][4],
             net_enbs=(
                 optimum[item.study_id][4]
-                - item.opportunity_cost
-                - item.implementation_delay_cost
+                - item.incremental_cost.opportunity_cost
+                - item.incremental_cost.implementation_delay_cost
             ),
             enbs=(
                 optimum[item.study_id][4]
-                - item.opportunity_cost
-                - item.implementation_delay_cost
+                - item.incremental_cost.opportunity_cost
+                - item.incremental_cost.implementation_delay_cost
             ),
             efficiency_ratio=None if item.efficiency is None else item.efficiency.ratio,
             resource_use=item.resource_use,
@@ -185,8 +205,10 @@ def allocate_coss_portfolio(
             sequential_monitoring_plan_id=item.sequential_monitoring_plan_id,
             multiplicity_adjustment_id=item.multiplicity_adjustment_id,
             stopping_rule_ids=item.stopping_rule_ids,
+            model_assurances=item.model_assurances,
             study_duration=item.study_duration,
             duration_unit=item.duration_unit,
+            incremental_cost=item.incremental_cost,
             expected_policy_change_id=item.expected_policy_change_id,
         )
         for item in candidate_tuple
@@ -208,7 +230,12 @@ def allocate_coss_portfolio(
             abs_tol=absolute_tolerance,
         )
     )
-    diagnostics = ["additive_enbs_assumption"]
+    diagnostics = [
+        "additive_enbs_assumption",
+        "candidate_model_assurances_verified",
+        "incremental_cost_exclusion_declared",
+        "global_maximum_tie_set",
+    ]
     if not selected:
         diagnostics.append("empty_portfolio_selected")
     if any(not item.guardrails_passed for item in candidate_tuple):
