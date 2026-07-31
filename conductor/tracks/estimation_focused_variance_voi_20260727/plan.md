@@ -50,6 +50,12 @@
 - [x] **E15:** Reconcile the roadmap, method registry, documentation, bindings,
   v1.2.0 MoSCoW requirements, Mermaid design, canonical C16, GitHub issues,
   Project 28 and Conductor evidence. (AC-06, AC-07, AC-09) [23174bc2]
-- [~] **E16:** Run final automated review, full local validation and hosted
+
+## Phase 5 — Final review and hosted validation
+
+- [~] **RF1:** Apply final automated-review fixes for formatter, CLI registry,
+  extension policy and curated package-export contract coverage. (AC-06,
+  AC-08)
+- [ ] **E16:** Run final automated review, full local validation and hosted
   required checks; retain merge, release and issue closure as separate gates.
   (AC-08)
