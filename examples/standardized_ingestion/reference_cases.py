@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Any, cast
 
 import pyarrow as pa
 
@@ -21,6 +22,16 @@ from voiage.methods.basic import evpi
 
 _ROOT = Path(__file__).parents[2]
 _FIXTURES = _ROOT / "tests" / "fixtures" / "standardized_ingestion"
+
+
+def _artifact(stem: str) -> dict[str, Any]:
+    """Load the review-owned identity for one deterministic synthetic fixture."""
+    payload = json.loads(
+        (_FIXTURES / f"{stem}.manifest.json").read_text(encoding="utf-8")
+    )
+    if not isinstance(payload, dict):  # pragma: no cover - static JSON fixture
+        raise TypeError("reference fixture manifest must be a JSON object")
+    return payload
 
 
 def _binding() -> VOIBinding:
@@ -73,7 +84,9 @@ def _direct() -> NormalizedInputBundle:
             provenance=SourceProvenance(
                 provider_id="direct-reference-case",
                 source_uri="urn:voiage:reference-case:direct",
-                descriptor_digest="f" * 64,
+                descriptor_digest=_artifact("canonical-decision")["normalized"][
+                    "resource_sha256"
+                ],
             ),
             bindings=(_binding(),),
         ),
@@ -144,7 +157,9 @@ def _direct_cost_outcome() -> NormalizedInputBundle:
             provenance=SourceProvenance(
                 provider_id="direct-reference-case",
                 source_uri="urn:voiage:reference-case:direct-cost-outcome",
-                descriptor_digest="e" * 64,
+                descriptor_digest=_artifact("cost-outcome-decision")["normalized"][
+                    "resource_sha256"
+                ],
             ),
             bindings=_cost_outcome_bindings(),
         ),
@@ -251,5 +266,75 @@ def run_cost_outcome_reference_cases() -> dict[str, dict[str, float]]:
     return _repeat_for_domains(values)
 
 
+def run_cross_format_reference_cases() -> dict[str, dict[str, object]]:
+    """Return reproducible P9 evidence for every community and input surface.
+
+    The ML and business scenarios intentionally share the small explicit
+    net-benefit fixture; the engineering scenario uses explicit cost/outcome
+    bindings.  All forms are local, deterministic repository fixtures.  Their
+    accompanying records make no claim about a live registry, external source
+    rights, or inferred domain semantics.
+    """
+    net_benefit = cast("dict[str, Any]", run_reference_cases())
+    cost_outcome = run_cost_outcome_reference_cases()
+
+    def case(
+        *,
+        artifact_stem: str,
+        method: str,
+        surfaces: dict[str, float],
+    ) -> dict[str, object]:
+        artifact = _artifact(artifact_stem)
+        receipts = cast("dict[str, list[str]]", net_benefit["resource_digests"])
+        if artifact_stem == "cost-outcome-decision":
+            policy = SourceAccessPolicy(_FIXTURES)
+            receipts = {
+                surface: [resource.sha256 for resource in bundle.manifest.resources]
+                for surface, bundle in _cost_outcome_surfaces(
+                    policy, _cost_outcome_bindings()
+                ).items()
+            }
+        provider_receipts = {
+            surface: values[0]
+            for surface, values in receipts.items()
+            if surface in {"croissant", "frictionless"}
+        }
+        resource_sha256 = artifact["normalized"]["resource_sha256"]
+        if set(provider_receipts.values()) != {resource_sha256}:
+            raise RuntimeError("reference-case receipts must match pinned artifacts")
+        required = {
+            surface: surfaces[surface]
+            for surface in ("croissant", "direct", "frictionless")
+        }
+        if len(set(required.values())) != 1:
+            raise RuntimeError("reference-case surfaces must have identical EVPI")
+        return {
+            "artifact": artifact,
+            "expected_evpi": next(iter(required.values())),
+            "governance": artifact["governance"],
+            "method": method,
+            "receipt_sha256": resource_sha256,
+            "surfaces": surfaces,
+        }
+
+    return {
+        "ml": case(
+            artifact_stem="canonical-decision",
+            method="EVPI on explicit model-selection net benefits",
+            surfaces=cast("dict[str, float]", net_benefit["evpi"]["ml"]),
+        ),
+        "engineering": case(
+            artifact_stem="cost-outcome-decision",
+            method="EVPI on explicit cost/outcome net benefits at WTP 20,000",
+            surfaces=cost_outcome["engineering"],
+        ),
+        "business": case(
+            artifact_stem="canonical-decision",
+            method="EVPI on explicit investment-strategy net benefits",
+            surfaces=cast("dict[str, float]", net_benefit["evpi"]["business"]),
+        ),
+    }
+
+
 if __name__ == "__main__":
-    print(json.dumps(run_reference_cases(), sort_keys=True))
+    print(json.dumps(run_cross_format_reference_cases(), sort_keys=True))

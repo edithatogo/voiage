@@ -45,6 +45,36 @@ def test_reference_descriptors_have_safe_cli_walkthroughs(
     assert result["capabilities"]["provider_id"] == provider
 
 
+@pytest.mark.parametrize(
+    ("descriptor_name", "provider"),
+    [
+        ("canonical-decision.croissant.json", "croissant"),
+        ("canonical-decision.datapackage.json", "frictionless"),
+        ("cost-outcome-decision.croissant.json", "croissant"),
+        ("cost-outcome-decision.datapackage.json", "frictionless"),
+    ],
+)
+def test_cross_domain_reference_descriptors_validate_and_inspect(
+    descriptor_name: str, provider: str
+) -> None:
+    """P9 fixture descriptors retain one local, non-materializing CLI route."""
+    fixture_root = Path(__file__).parent / "fixtures" / "standardized_ingestion"
+    descriptor = fixture_root / descriptor_name
+    runner = CliRunner()
+
+    validated = runner.invoke(app, ["ingest", "validate", str(descriptor)])
+    inspected = runner.invoke(app, ["ingest", "inspect", str(descriptor)])
+
+    assert validated.exit_code == 0
+    validation = json.loads(validated.output)
+    assert validation["valid"] is True
+    assert validation["resources"][0]["sha256"]
+    assert inspected.exit_code == 0
+    inspection = json.loads(inspected.output)
+    assert inspection["provider"] == provider
+    assert inspection["binding_resolution"] is None
+
+
 def test_ingest_commands_publish_stable_help_surfaces() -> None:
     """All documented ingestion commands remain discoverable through the CLI."""
     runner = CliRunner()

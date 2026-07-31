@@ -74,6 +74,33 @@ def test_cost_outcome_reference_cases_are_equivalent_across_input_surfaces() -> 
         }
         for domain in ("ml", "engineering", "business")
     }
+
+
+def test_each_domain_reference_case_has_all_supported_input_surfaces() -> None:
+    """Each documented community can reproduce its case through every surface."""
+    path = (
+        Path(__file__).parents[1]
+        / "examples"
+        / "standardized_ingestion"
+        / "reference_cases.py"
+    )
+    spec = importlib.util.spec_from_file_location("reference_cases", path)
+    assert spec is not None
+    assert spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    cases = module.run_cross_format_reference_cases()
+
+    assert set(cases) == {"ml", "engineering", "business"}
+    for case in cases.values():
+        for surface in ("croissant", "direct", "frictionless"):
+            assert case["surfaces"][surface] == pytest.approx(case["expected_evpi"])
+        assert (
+            case["receipt_sha256"] == case["artifact"]["normalized"]["resource_sha256"]
+        )
+        assert case["governance"]["synthetic"] is True
+        assert case["governance"]["third_party_data"] is False
     assert (
         module._business_cost_outcome_dataframe().manifest.provenance.provider_id
         == ("dataframe-interchange")
