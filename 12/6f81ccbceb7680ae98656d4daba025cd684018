@@ -1,0 +1,1 @@
+PR #712 refresh (2026-08-01): rebased signed expected-utility/VoC history onto origin/main a07a7e52; focused expected-utility and CLI tests passed. Auto-squash remains enabled.
