@@ -31,7 +31,7 @@
 - [x] **U6:** Add failing independent affine, exponential and nonlinear
   reference tests for EUI, CEI, BPI, SPI, PPI and affine EVPI reduction. (AC-03,
   AC-05) — `5332ae7`
-- [ ] **U7:** Add failing property and pathological tests for positive-affine
+- [~] **U7:** Add failing property and pathological tests for positive-affine
   invariance, buy/sell asymmetry, ties, nonuniform probabilities, utility
   domains, bracketing/nonconvergence and stakeholder comparability. (AC-05)
 - [ ] **U8:** Add versioned schemas, normative fixtures, deterministic
