@@ -5,6 +5,22 @@
   "stable_claim_allowed": false,
   "artifacts": [
     {
+      "path": "specs/frontier/value-of-flexibility/v1/schemas/value-of-flexibility-input.schema.json",
+      "sha256": "15f9165441e95eff2ee1814676c63e49298bb59d5f1954bf383b07bb140fb5f4"
+    },
+    {
+      "path": "specs/frontier/value-of-flexibility/v1/schemas/value-of-flexibility-result.schema.json",
+      "sha256": "151d63bd2af7800234b54b90b24c07b20774de61682db6f3999161f4626ad2e5"
+    },
+    {
+      "path": "specs/frontier/value-of-flexibility/v1/capabilities.json",
+      "sha256": "4d380d6545527ef6f379a4b708c3e260111979ee2cf5de4137c985a064fdda57"
+    },
+    {
+      "path": "specs/frontier/value-of-flexibility/v1/fixtures/manifest.json",
+      "sha256": "44175c5e16dbf3a35838fe7eb3f6f25edbb5fe6bab0f39ae7ee7844111d47e50"
+    },
+    {
       "path": "specs/frontier/value-of-flexibility/v1/fixtures/normative/input.json",
       "sha256": "99e4232a110944eb175c48ed7a4e518dd6cdbf9136020e6465d49c4b2c346a13"
     },
@@ -15,6 +31,18 @@
     {
       "path": "conductor/tracks/supported_frontier_method_completion_20260723/value-of-flexibility-reference-review.md",
       "sha256": "b51c07195ef2f83dc3ba8ceb4f35a33581717aff0b4cf0a727350a25a21e88ed"
+    },
+    {
+      "path": "voiage/contracts/value_flexibility.py",
+      "sha256": "1aea1f4f3626b91da4f0e99f971ee849fa87ee1d889b090f9f110f5f068770bd"
+    },
+    {
+      "path": "voiage/methods/dynamic_real_options.py",
+      "sha256": "a0f575aca57b83dd39a78021684f49d582499fbc39773f7992ce5969d1e05968"
+    },
+    {
+      "path": "voiage/cli.py",
+      "sha256": "562942c91c007b991fbd66eb505eecd6a650f65ed7930c5f838ab5d5faef43d3"
     }
   ]
 }

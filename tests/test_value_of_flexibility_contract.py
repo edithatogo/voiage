@@ -65,6 +65,19 @@ def test_manifest_is_single_versioned_normative_reference() -> None:
 def test_fixture_evidence_is_sha256_pinned() -> None:
     evidence = _json(CONTRACT / "fixtures/evidence.json")
     assert evidence["stable_claim_allowed"] is False
+    expected_paths = {
+        "specs/frontier/value-of-flexibility/v1/schemas/value-of-flexibility-input.schema.json",
+        "specs/frontier/value-of-flexibility/v1/schemas/value-of-flexibility-result.schema.json",
+        "specs/frontier/value-of-flexibility/v1/capabilities.json",
+        "specs/frontier/value-of-flexibility/v1/fixtures/manifest.json",
+        "specs/frontier/value-of-flexibility/v1/fixtures/normative/input.json",
+        "specs/frontier/value-of-flexibility/v1/fixtures/normative/expected.json",
+        "conductor/tracks/supported_frontier_method_completion_20260723/value-of-flexibility-reference-review.md",
+        "voiage/contracts/value_flexibility.py",
+        "voiage/methods/dynamic_real_options.py",
+        "voiage/cli.py",
+    }
+    assert {artifact["path"] for artifact in evidence["artifacts"]} == expected_paths
     for artifact in evidence["artifacts"]:
         path = ROOT / artifact["path"]
         assert hashlib.sha256(path.read_bytes()).hexdigest() == artifact["sha256"]
