@@ -11,5 +11,5 @@
 - [Programme #313](https://github.com/edithatogo/voiage/issues/313)
 - [Project 28](https://github.com/users/edithatogo/projects/28)
 
-Status: new. The approved specification and plan are registered; no runtime
-implementation or release is claimed.
+Status: in progress. Runtime implementation and assurance are underway; no
+stable promotion, merge, or release is claimed.

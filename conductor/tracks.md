@@ -109,14 +109,14 @@ under programme [#313](https://github.com/edithatogo/voiage/issues/313), in
 
 ---
 
-## [ ] Track: Study-Design Efficiency, COSS and Experiment-Portfolio VOI
+## [~] Track: Study-Design Efficiency, COSS and Experiment-Portfolio VOI
 *Link: [./tracks/study_design_efficiency_20260727/index.md](./tracks/study_design_efficiency_20260727/index.md)*
 *GitHub: [issue #571](https://github.com/edithatogo/voiage/issues/571),
 native sub-issue of [#318](https://github.com/edithatogo/voiage/issues/318),
 under programme [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: new — COSS and EVSI/EVPI efficiency are now explicit in the approved
-specification and plan; implementation has not begun.*
+*Status: in progress — implementing the approved COSS, signed ENBS and
+EVSI/EVPI efficiency contracts under issue #571.*
 
 ---
 
