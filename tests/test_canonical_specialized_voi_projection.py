@@ -29,12 +29,13 @@ def test_c16_projection_maps_voc_family_to_dedicated_track() -> None:
         ).read_text(encoding="utf-8")
     )
     by_number = {item["number"]: item for item in projection["issues"]}
-    for number in (595, 694, 695, 696, 697):
-        assert (
-            by_number[number]["track_id"]
-            == "risk_adjusted_information_pricing_20260731"
-        )
-        assert set(by_number[number]["requirement_ids"]) == {"M16", "M17"}
+    issue = by_number[595]
+    assert issue["track_id"] == "risk_adjusted_information_pricing_20260731"
+    assert set(issue["requirement_ids"]) == {"M16", "M17"}
+    assert issue["subissues"] == [694, 695, 696, 697]
+    assert issue["capability_contract"].endswith(
+        "risk_adjusted_information_pricing_20260731/contract.md"
+    )
 
 
 def test_c16_projection_rejects_missing_consumer_registration(tmp_path: Path) -> None:
