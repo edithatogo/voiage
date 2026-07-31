@@ -28,7 +28,7 @@
 - [x] **S9:** Review reference independence, cost provenance and estimator
   uncertainty requirements. (AC-05) — `c7a0399`
 
-## Phase 3 — Runtime and optimizer
+## Phase 3 — Runtime and optimizer [checkpoint: 136b9b2]
 
 - [x] **S10:** Implement versioned Rust result envelopes and accepted numerical
   kernels for COSS and EVSI/EVPI, or record a reviewed exclusion. (AC-02,
