@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 from pathlib import Path
 
 import pytest
+from typer.testing import CliRunner
 
+from voiage.cli import app
 from voiage.ingestion import SourceAccessPolicy, default_registry
 
 
@@ -110,3 +113,32 @@ def test_direct_dataframe_provenance_digest_changes_when_content_changes() -> No
         original.manifest.provenance.descriptor_digest
         != changed.manifest.provenance.descriptor_digest
     )
+
+
+@pytest.mark.parametrize(
+    "descriptor_name",
+    ["canonical-decision.croissant.json", "canonical-decision.datapackage.json"],
+)
+def test_reference_case_cli_walkthrough_validates_inspects_and_calculates(
+    descriptor_name: str,
+) -> None:
+    """Published fixture walkthroughs expose stable records before calculation."""
+    fixtures = Path(__file__).parent / "fixtures" / "standardized_ingestion"
+    descriptor = fixtures / descriptor_name
+    runner = CliRunner()
+    options = ["--table", "samples", "--field", "strategy_a", "--field", "strategy_b"]
+
+    validated = runner.invoke(app, ["ingest", "validate", str(descriptor)])
+    inspected = runner.invoke(app, ["ingest", "inspect", str(descriptor), *options])
+    calculated = runner.invoke(
+        app, ["ingest", "calculate-from-dataset", str(descriptor), *options]
+    )
+
+    assert validated.exit_code == 0
+    assert json.loads(validated.output)["valid"] is True
+    inspection = json.loads(inspected.output)
+    assert inspected.exit_code == 0
+    assert inspection["resources"][0]["sha256"]
+    assert inspection["binding_resolution"]["data_quality"]["row_count"] == 3
+    assert calculated.exit_code == 0
+    assert json.loads(calculated.output)["evpi"] == pytest.approx(5.0)
