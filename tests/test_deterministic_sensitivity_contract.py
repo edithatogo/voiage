@@ -45,11 +45,11 @@ def test_dsa_schemas_reject_unknown_and_incomplete_payloads() -> None:
         Draft202012Validator(schema).validate(payload)
 
 
-def test_dsa_capabilities_remain_fail_closed_before_runtime() -> None:
+def test_dsa_capabilities_are_experimental_python_only() -> None:
     capabilities = _json(CONTRACT / "capabilities.json")
-    assert capabilities["maturity"] == "planned"
+    assert capabilities["maturity"] == "experimental"
     surfaces = capabilities["surfaces"]
-    assert surfaces["python"]["status"] == "planned"
+    assert surfaces["python"]["status"] == "executable"
     assert surfaces["rust"]["status"] == "unsupported"
     assert surfaces["r"]["status"] == "unsupported"
     assert surfaces["julia"]["status"] == "unsupported"
@@ -67,6 +67,7 @@ def test_dsa_fixture_evidence_is_exact_and_hash_pinned() -> None:
         "specs/frontier/deterministic-sensitivity-analysis/v1/fixtures/normative/input.json",
         "specs/frontier/deterministic-sensitivity-analysis/v1/fixtures/normative/expected.json",
         "conductor/tracks/supported_frontier_method_completion_20260723/deterministic-sensitivity-reference-review.md",
+        "voiage/methods/deterministic_sensitivity.py",
     }
     assert {item["path"] for item in evidence["artifacts"]} == expected
     for item in evidence["artifacts"]:

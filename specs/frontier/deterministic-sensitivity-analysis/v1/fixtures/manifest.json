@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "status": "contract-frozen",
+  "status": "fixture-backed",
   "evidence_artifact": "evidence.json",
   "normative": [{
     "name": "linear normalized-record DSA",

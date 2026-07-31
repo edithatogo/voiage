@@ -173,3 +173,11 @@ def test_scenarios_and_two_way_cells_are_explicit_and_reproducible() -> None:
     ]
     assert result.reporting["probabilistic_analysis"] is False
     assert result.reporting["information_value"] is False
+
+
+def test_dsa_experimental_exports_are_discoverable() -> None:
+    import voiage
+    from voiage import methods
+
+    assert voiage.deterministic_sensitivity is deterministic_sensitivity
+    assert methods.deterministic_sensitivity is deterministic_sensitivity

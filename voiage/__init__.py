@@ -60,6 +60,18 @@ _ECOSYSTEM_EXPORTS = {
     "load_heoml_run_bundle": "load_heoml_run_bundle",
 }
 _EXTENSION_EXPORTS = {
+    "DeterministicSensitivityResult": (
+        ".methods.deterministic_sensitivity",
+        "DeterministicSensitivityResult",
+    ),
+    "deterministic_sensitivity": (
+        ".methods.deterministic_sensitivity",
+        "deterministic_sensitivity",
+    ),
+    "deterministic_sensitivity_from_specification": (
+        ".methods.deterministic_sensitivity",
+        "deterministic_sensitivity_from_specification",
+    ),
     "expected_utility_information_value": (
         ".methods.utility_information",
         "expected_utility_information_value",

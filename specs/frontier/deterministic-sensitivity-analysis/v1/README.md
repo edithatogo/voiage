@@ -7,8 +7,7 @@ coordinate vector, raw alternative outcomes and declared units so that a
 consumer does not mistake a tornado range for a probability, EVPPI or global
 sensitivity measure.
 
-Python execution remains planned until the shared evaluator and record adapter
-land under #726. Rust, R and Julia are unsupported; Mojo remains outside the
-repository boundary. The fixture and schemas therefore freeze the wire
-contract without making an executable, stable, scientific-review or parity
-claim.
+Python provides an experimental shared evaluator for callback and normalized
+record inputs under #726. Rust, R and Julia remain unsupported; Mojo remains
+outside the repository boundary. This executable claim does not imply stable
+status, scientific approval or cross-language parity.

@@ -49,6 +49,11 @@
       "method_maturity": "experimental"
     },
     {
+      "name": "deterministic_sensitivity_analysis",
+      "path": "deterministic-sensitivity-analysis/v1/fixtures/manifest.json",
+      "method_maturity": "experimental"
+    },
+    {
       "name": "value_of_causal_transportability",
       "path": "causal-transportability/v1/fixtures/manifest.json",
       "method_maturity": "fixture-backed"
