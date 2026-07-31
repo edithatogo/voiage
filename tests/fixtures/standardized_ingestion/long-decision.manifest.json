@@ -1,0 +1,34 @@
+{
+  "binding": {
+    "field_ids": [
+      "net_benefit"
+    ],
+    "layout": "long",
+    "role": "net_benefit",
+    "sample_id_field_id": "sample_id",
+    "strategy_field_id": "strategy",
+    "strategy_names": [
+      "A",
+      "B"
+    ],
+    "table_id": "samples",
+    "value_field_id": "net_benefit"
+  },
+  "dataset_id": "long-decision-fixture",
+  "files": {
+    "long-decision.croissant.json": "eb3488789d950c1683defabe07eb9d68c5089ca2bce92f0d9a79f62546c86e09",
+    "long-decision.csv": "747a807344c26e9c36db56b2bfcb1d7291ddeb9b48710c3f1c460d5fc09d0527",
+    "long-decision.datapackage.json": "e1302f35f345c38d7c76c4515c663e0fd86ceeef5d1fb4e780b065503383d4f6"
+  },
+  "governance": {
+    "rights_status": "in-repository deterministic fixture; no external claim",
+    "synthetic": true,
+    "third_party_data": false
+  },
+  "normalized": {
+    "content_digest": "1eb9988c2795fbd12d993c2abcabf62f6b0f7bd61fe0ae06bb6aac82073e2d9f",
+    "resource_sha256": "747a807344c26e9c36db56b2bfcb1d7291ddeb9b48710c3f1c460d5fc09d0527",
+    "schema_fingerprint": "7936e848fb91f0689018ec83b1a58647f7ed797415596e1b7ce469b25115fc32"
+  },
+  "schema_version": "1.0.0"
+}

@@ -116,7 +116,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   The reference-case matrix now records the fixture-specific EVPI/CEAF
         applicability boundary and proves CEAF plus normalized net-benefit
         parity only for the paired engineering cost/outcome inputs; it does not
-        claim EVSI, EVPPI, ENBS, long-form, or perspective-split coverage.
+        claim EVSI, EVPPI, ENBS, or perspective-split coverage.
+    *   A separate explicit long net-benefit fixture now proves Croissant,
+        Frictionless, and direct Arrow normalization parity; it does not claim
+        that arbitrary long records have inferred decision semantics.
     *   The README now links the conservative Croissant/Frictionless ingestion
         surface to its profile matrix, offline policy, and cross-domain examples.
     *   Verified offline-cache entries now reject symlinks and hard links so a

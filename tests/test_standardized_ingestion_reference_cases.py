@@ -76,6 +76,36 @@ def test_cost_outcome_reference_cases_are_equivalent_across_input_surfaces() -> 
     }
 
 
+def test_long_reference_cases_normalize_identically_to_wide_inputs() -> None:
+    """Long rows use the same prepared ValueArray as the explicit wide case."""
+    path = (
+        Path(__file__).parents[1]
+        / "examples"
+        / "standardized_ingestion"
+        / "reference_cases.py"
+    )
+    spec = importlib.util.spec_from_file_location("reference_cases", path)
+    assert spec is not None
+    assert spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    result = module.run_long_reference_cases()
+
+    assert set(result["normalized_net_benefit"]) == {
+        "croissant",
+        "frictionless",
+        "direct",
+    }
+    assert (
+        len({repr(value) for value in result["normalized_net_benefit"].values()}) == 1
+    )
+    assert result["evpi"] == {
+        surface: pytest.approx(5.0)
+        for surface in ("croissant", "frictionless", "direct")
+    }
+
+
 def test_cost_outcome_ceaf_is_equivalent_across_input_surfaces() -> None:
     """CEAF is evidence only for the paired engineering cost/outcome fixture."""
     path = (

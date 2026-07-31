@@ -14,6 +14,9 @@
   prepared inputs, EVPI, schema fingerprints, and materialization receipts are
   checked against direct normalized input; malformed JSON/Parquet resources and
   Arrow streams remain rejected.
+- Add a declared long net-benefit fixture with Croissant, Frictionless, and
+  direct Arrow normalization and EVPI equivalence evidence; preserve explicit
+  sample, strategy, and value bindings rather than inferring long-table roles.
 - Add a deterministic cross-domain method-applicability matrix and CEAF
   equivalence evidence for the engineering cost/outcome reference fixture;
   explicitly bound the ML and business fixtures to the methods and data shapes

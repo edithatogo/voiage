@@ -1,0 +1,19 @@
+{
+  "@context": "https://mlcommons.org/croissant/1.1",
+  "distribution": [
+    {
+      "contentUrl": "long-decision.csv"
+    }
+  ],
+  "name": "long-decision-fixture",
+  "recordSet": [
+    {
+      "field": [
+        {"name": "sample_id"},
+        {"name": "strategy"},
+        {"name": "net_benefit"}
+      ],
+      "name": "samples"
+    }
+  ]
+}
