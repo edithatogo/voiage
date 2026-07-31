@@ -1,0 +1,9 @@
+{
+  "request": {
+    "schema_version": "expected-utility-information-input-v1", "decision_problem_id": "affine-clairvoyant", "stakeholder_scope_id": "reference", "action_ids": ["action-0", "action-1"], "state_ids": ["state-0", "state-1"], "payoffs": [[0, 4], [2, 0]], "state_probabilities": [0.5, 0.5], "initial_wealth": 10, "payoff_unit": "USD", "terminal_outcome_floor": 1,
+    "utility": {"family": "affine", "slope": 2, "intercept": 7},
+    "information": {"kind": "clairvoyant", "signal_ids": ["state-0", "state-1"], "signal_state_probabilities": [[0.5, 0], [0, 0.5]]},
+    "solver": {"initial_upper": 1, "expansion_factor": 2, "maximum_price": 100, "absolute_price_tolerance": 1e-10, "relative_price_tolerance": 1e-10, "utility_tolerance": 1e-12, "maximum_iterations": 200, "maximum_evaluations": 500}, "presentation_label": "voc"
+  },
+  "expected": {"eui": 2, "cei": 1, "bpi": 1, "spi": 1, "monetary_measure": "evpi", "monetary_value": 1}
+}

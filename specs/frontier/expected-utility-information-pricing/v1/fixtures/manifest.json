@@ -1,0 +1,11 @@
+{
+  "schema_version": "expected-utility-information-fixture-manifest-v1",
+  "method_family": "expected_utility_information_pricing",
+  "method_maturity": "experimental",
+  "request_schema": "../schemas/request.schema.json",
+  "result_schema": "../schemas/result.schema.json",
+  "fixtures": [
+    {"id": "affine-clairvoyant", "path": "normative/affine-clairvoyant.json", "sha256": "2b86d9d0dbf3df4a5dd18d2d690c32034f5a187f6a55fb52d2cafd932da4cd67", "reference": "enumeration-and-affine-reduction"},
+    {"id": "log-buy-sell-asymmetry", "path": "normative/log-buy-sell-asymmetry.json", "sha256": "76777124251fc04f2fd54da06e78771d65e9b4bb1099a291035c510a20cc7531", "reference": "independent-nonlinear-indifference-roots"}
+  ]
+}

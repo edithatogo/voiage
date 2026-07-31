@@ -1,0 +1,9 @@
+{
+  "request": {
+    "schema_version": "expected-utility-information-input-v1", "decision_problem_id": "log-buy-sell-asymmetry", "stakeholder_scope_id": "reference", "action_ids": ["safe", "risky"], "state_ids": ["favourable", "adverse"], "payoffs": [[0, 5], [0, -9]], "state_probabilities": [0.8, 0.2], "initial_wealth": 10, "payoff_unit": "USD", "terminal_outcome_floor": 1,
+    "utility": {"family": "log", "reference_wealth": 1},
+    "information": {"kind": "clairvoyant", "signal_ids": ["favourable", "adverse"], "signal_state_probabilities": [[0.8, 0], [0, 0.2]]},
+    "solver": {"initial_upper": 1, "expansion_factor": 2, "maximum_price": 100, "absolute_price_tolerance": 1e-10, "relative_price_tolerance": 1e-10, "utility_tolerance": 1e-12, "maximum_iterations": 200, "maximum_evaluations": 500}, "presentation_label": "voc"
+  },
+  "expected": {"eui": 0.3243720865, "cei": 3.8316186722, "bpi": 3.7521886610, "spi": 3.4085030261, "affine_reduction_status": "unavailable"}
+}

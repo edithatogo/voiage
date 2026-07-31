@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/expected-utility-information-pricing/v1/result.schema.json",
+  "title": "Expected utility information pricing result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "method", "method_maturity", "information_kind", "payoff_unit", "utility", "current_expected_utility", "informed_expected_utility", "current_policy", "informed_policies", "eui", "cei", "bpi", "spi", "ppi", "bpi_root", "spi_root", "affine_reduction", "comparability", "presentation"],
+  "properties": {
+    "schema_version": {"const": "expected-utility-information-result-v1"},
+    "method": {"const": "expected_utility_information"},
+    "method_maturity": {"const": "experimental"},
+    "information_kind": {"enum": ["clairvoyant", "finite_signal"]},
+    "payoff_unit": {"type": "string"},
+    "utility": {"type": "object"},
+    "current_expected_utility": {"type": "number"},
+    "informed_expected_utility": {"type": "number"},
+    "current_policy": {"$ref": "#/$defs/policy"},
+    "informed_policies": {"type": "array", "items": {"$ref": "#/$defs/policy"}},
+    "eui": {"$ref": "#/$defs/measure"}, "cei": {"$ref": "#/$defs/measure"},
+    "bpi": {"$ref": "#/$defs/measure"}, "spi": {"$ref": "#/$defs/measure"},
+    "ppi": {"$ref": "#/$defs/measure"},
+    "bpi_root": {"$ref": "#/$defs/root"}, "spi_root": {"$ref": "#/$defs/root"},
+    "affine_reduction": {"type": "object"}, "comparability": {"type": "object"},
+    "presentation": {"type": "object"}
+  },
+  "$defs": {
+    "measure": {"type": "object", "additionalProperties": false, "required": ["measure", "status", "value", "unit", "direction"], "properties": {"measure": {"type": "string"}, "status": {"enum": ["available", "unavailable", "failed"]}, "value": {"type": ["number", "null"]}, "unit": {"type": "string"}, "direction": {"type": "string"}}},
+    "policy": {"type": "object", "additionalProperties": false, "required": ["signal_id", "tie_set", "representative_action_id"], "properties": {"signal_id": {"type": ["string", "null"]}, "tie_set": {"type": "array", "items": {"type": "string"}}, "representative_action_id": {"type": ["string", "null"]}}},
+    "root": {"type": "object", "required": ["status", "estimate", "lower", "upper", "iterations", "evaluations", "policy_switched", "transitions"], "properties": {"status": {"type": "string"}, "estimate": {"type": ["number", "null"]}, "lower": {"type": ["number", "null"]}, "upper": {"type": ["number", "null"]}, "iterations": {"type": "integer"}, "evaluations": {"type": "integer"}, "policy_switched": {"type": "boolean"}, "transitions": {"type": "array"}}}
+  }
+}
