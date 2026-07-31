@@ -50,8 +50,9 @@
   `3030636`
 - [x] **S16:** Add CLI, reporting, provenance and accessible plotting/examples
   that consume the versioned result contract. (AC-06) — `9e74de2`
-- [~] **S17:** Record Rust, Python, R, Julia and Mojo capability dispositions
-  and shared-fixture evidence or explicit unsupported failures. (AC-07)
+- [x] **S17:** Record Rust, Python, R, Julia and Mojo capability dispositions
+  and shared-fixture evidence or explicit unsupported failures. (AC-07) —
+  `41dc45f`
 - [ ] **S18:** Reconcile roadmap, registry, documentation, v1.2.0 MoSCoW
   requirements, Mermaid design, canonical C16, GitHub, Project 28, Conductor
   and hosted evidence. (AC-06–AC-10)
