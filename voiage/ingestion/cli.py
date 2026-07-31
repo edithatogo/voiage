@@ -18,8 +18,8 @@ from voiage.contracts.normalized_input import (
     VOIBinding,
 )
 from voiage.contracts.preparation import prepare_analysis_inputs
-from voiage.ingestion.base import IngestionError, SourceAccessPolicy
-from voiage.ingestion.registry import default_registry
+from voiage.ingestion.base import IngestionError, SourceAccessPolicy, SourceSelection
+from voiage.ingestion.registry import ProviderRegistry, default_registry
 from voiage.methods.basic import evpi
 
 app = typer.Typer(help="Validate and normalize standardized dataset descriptors.")
@@ -107,17 +107,43 @@ def _source_policy(
     )
 
 
-def _bundle_summary(
+def _source_selection(
+    *, record_set: str | None, distribution: str | None
+) -> SourceSelection | None:
+    """Build the explicit Croissant local-pair request used by the CLI."""
+    if record_set is None and distribution is None:
+        return None
+    if record_set is None or distribution is None:
+        raise IngestionError(
+            "Croissant source selection requires both --record-set and --distribution"
+        )
+    return SourceSelection(
+        provider_id="croissant",
+        values=(("record_set", record_set), ("distribution", distribution)),
+    )
+
+
+def _ingest_bundle(
     descriptor: Path,
     *,
+    policy: SourceAccessPolicy,
+    expected_provider: str | None,
+    selection: SourceSelection | None,
+) -> tuple[NormalizedInputBundle, ProviderRegistry]:
+    """Materialize one explicit source exactly once for a CLI command."""
+    registry = default_registry()
+    bundle = registry.ingest(descriptor, policy=policy, selection=selection)
+    _assert_provider(bundle, expected_provider)
+    return bundle, registry
+
+
+def _bundle_summary(
+    bundle: NormalizedInputBundle,
+    registry: ProviderRegistry,
+    *,
     binding: VOIBinding | None = None,
-    policy: SourceAccessPolicy | None = None,
-    expected_provider: str | None = None,
 ) -> dict[str, object]:
     """Return stable, non-secret metadata for a descriptor."""
-    registry = default_registry()
-    bundle = registry.ingest(descriptor, policy=policy)
-    _assert_provider(bundle, expected_provider)
     capabilities = registry.capabilities_for(bundle.manifest.provenance.provider_id)
     summary: dict[str, object] = {
         "capabilities": {
@@ -258,25 +284,35 @@ def validate(
         "--provider",
         help="Require this registered provider ID for the descriptor.",
     ),
+    record_set: str | None = typer.Option(
+        None, "--record-set", help="Explicit Croissant recordSet name."
+    ),
+    distribution: str | None = typer.Option(
+        None, "--distribution", help="Explicit Croissant distribution @id."
+    ),
 ) -> None:
     """Validate a supported descriptor and its declared local resources."""
     try:
+        bundle, registry = _ingest_bundle(
+            descriptor,
+            policy=_source_policy(
+                descriptor,
+                source_root=source_root,
+                offline=offline,
+                cache_dir=cache_dir,
+                max_resource_bytes=max_resource_bytes,
+                max_resource_rows=max_resource_rows,
+            ),
+            expected_provider=provider,
+            selection=_source_selection(
+                record_set=record_set, distribution=distribution
+            ),
+        )
         typer.echo(
             json.dumps(
                 {
                     "valid": True,
-                    **_bundle_summary(
-                        descriptor,
-                        policy=_source_policy(
-                            descriptor,
-                            source_root=source_root,
-                            offline=offline,
-                            cache_dir=cache_dir,
-                            max_resource_bytes=max_resource_bytes,
-                            max_resource_rows=max_resource_rows,
-                        ),
-                        expected_provider=provider,
-                    ),
+                    **_bundle_summary(bundle, registry),
                 },
                 sort_keys=True,
             )
@@ -333,6 +369,12 @@ def normalize(
         "--provider",
         help="Require this registered provider ID for the descriptor.",
     ),
+    record_set: str | None = typer.Option(
+        None, "--record-set", help="Explicit Croissant recordSet name."
+    ),
+    distribution: str | None = typer.Option(
+        None, "--distribution", help="Explicit Croissant distribution @id."
+    ),
 ) -> None:
     """Normalize a descriptor into a deterministic Arrow IPC file."""
     try:
@@ -344,12 +386,18 @@ def normalize(
             max_resource_bytes=max_resource_bytes,
             max_resource_rows=max_resource_rows,
         )
-        bundle = default_registry().ingest(descriptor, policy=policy)
-        _assert_provider(bundle, provider)
+        bundle, registry = _ingest_bundle(
+            descriptor,
+            policy=policy,
+            expected_provider=provider,
+            selection=_source_selection(
+                record_set=record_set, distribution=distribution
+            ),
+        )
         bundle.write_ipc(output)
         typer.echo(
             json.dumps(
-                _bundle_summary(descriptor, policy=policy, expected_provider=provider),
+                _bundle_summary(bundle, registry),
                 sort_keys=True,
             )
         )
@@ -401,10 +449,16 @@ def calculate_from_dataset(
         "--provider",
         help="Require this registered provider ID for the descriptor.",
     ),
+    record_set: str | None = typer.Option(
+        None, "--record-set", help="Explicit Croissant recordSet name."
+    ),
+    distribution: str | None = typer.Option(
+        None, "--distribution", help="Explicit Croissant distribution @id."
+    ),
 ) -> None:
     """Calculate EVPI from explicitly selected normalized net-benefit fields."""
     try:
-        bundle = default_registry().ingest(
+        bundle, _ = _ingest_bundle(
             descriptor,
             policy=_source_policy(
                 descriptor,
@@ -414,8 +468,11 @@ def calculate_from_dataset(
                 max_resource_bytes=max_resource_bytes,
                 max_resource_rows=max_resource_rows,
             ),
+            expected_provider=provider,
+            selection=_source_selection(
+                record_set=record_set, distribution=distribution
+            ),
         )
-        _assert_provider(bundle, provider)
         manifest = _calculation_manifest(
             bundle,
             table=table,

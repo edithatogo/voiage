@@ -34,6 +34,39 @@ class ProviderCapabilities:
     supports_filtering: bool = False
     supports_streaming: bool = False
     supports_random_access: bool = False
+    source_selection_keys: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
+class SourceSelection:
+    """Explicit provider-owned source selectors passed through the registry.
+
+    Selection chooses a declared source relationship; it is intentionally not
+    Arrow projection, row filtering, or a generic query language.  The
+    registry validates the provider identity and advertised selector keys, then
+    the chosen provider validates their descriptor-specific semantics.
+    """
+
+    provider_id: str
+    values: tuple[tuple[str, str], ...]
+
+    def __post_init__(self) -> None:
+        """Reject ambiguous or empty provider-owned selector requests."""
+        if not self.provider_id:
+            raise ValueError("source selection requires a provider ID")
+        keys = tuple(key for key, _ in self.values)
+        if (
+            not self.values
+            or any(not key or not value for key, value in self.values)
+            or len(keys) != len(set(keys))
+        ):
+            raise ValueError(
+                "source selection requires unique non-empty string key/value pairs"
+            )
+
+    def value_for(self, key: str) -> str | None:
+        """Return one provider-owned selector without interpreting it."""
+        return dict(self.values).get(key)
 
 
 class SourceAccessPolicy:
@@ -235,6 +268,10 @@ class IngestionProvider(Protocol):
         """Return whether this provider recognizes the already-read descriptor."""
 
     def ingest(
-        self, descriptor_path: Path, *, policy: SourceAccessPolicy
+        self,
+        descriptor_path: Path,
+        *,
+        policy: SourceAccessPolicy,
+        selection: SourceSelection | None = None,
     ) -> NormalizedInputBundle:
         """Parse one descriptor and materialize its explicitly declared resources."""

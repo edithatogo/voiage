@@ -19,7 +19,8 @@
     "supports_projection",
     "supports_filtering",
     "supports_streaming",
-    "supports_random_access"
+    "supports_random_access",
+    "source_selection_keys"
   ],
   "optional_extra_profiles": {
     "croissant": {

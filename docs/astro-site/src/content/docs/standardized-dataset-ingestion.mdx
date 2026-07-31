@@ -33,18 +33,19 @@ claimed by this local-profile matrix. A successful offline descriptor test is
 evidence for the documented profile only, not for every upstream feature or
 registry deployment.
 
-For a multi-pair Croissant descriptor, applications use
-`CroissantSelection(record_set="...", distribution="#...")`. Both selectors
-are mandatory and the selected record set must explicitly reference the
-selected distribution. This chooses one declared local source pair; it is not
-column projection or row filtering. CLI commands intentionally do not expose a
-generic selector, because the shared built-in provider capability profile does
-not support projection or filtering.
+For a multi-pair Croissant descriptor, applications can pass a
+provider-neutral `SourceSelection` request through the registry, or use the
+materializing CLI commands' `--record-set` and `--distribution` options. Both
+selectors are mandatory and the selected record set must explicitly reference
+the selected distribution. This chooses one declared local source pair; it is
+not column projection or row filtering. `inspect` remains descriptor-only and
+does not accept or resolve source selections.
 
 ```bash
 voiage ingest validate datapackage.json
 voiage ingest inspect croissant.json
 voiage ingest normalize datapackage.json --output normalized.arrow
+voiage ingest validate croissant.json --record-set samples --distribution '#samples'
 ```
 
 The materializing commands (`validate`, `normalize`, and

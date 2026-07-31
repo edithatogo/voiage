@@ -31,6 +31,7 @@ from voiage.ingestion.base import (
     IngestionError,
     ProviderCapabilities,
     SourceAccessPolicy,
+    SourceSelection,
 )
 
 
@@ -58,9 +59,17 @@ class FrictionlessProvider:
         )
 
     def ingest(
-        self, descriptor_path: Path, *, policy: SourceAccessPolicy
+        self,
+        descriptor_path: Path,
+        *,
+        policy: SourceAccessPolicy,
+        selection: SourceSelection | None = None,
     ) -> NormalizedInputBundle:
         """Materialize the supported explicit-schema Data Package profile."""
+        if selection is not None:
+            raise IngestionError(
+                "Frictionless provider does not support source selection"
+            )
         raw = json.loads(descriptor_path.read_text(encoding="utf-8"))
         if not isinstance(raw, dict):
             raise IngestionError("descriptor root must be a JSON object")

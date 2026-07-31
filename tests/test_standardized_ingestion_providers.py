@@ -33,6 +33,7 @@ from voiage.ingestion import (
     IngestionProvider,
     ProviderCapabilities,
     SourceAccessPolicy,
+    SourceSelection,
     _tabular,
     default_registry,
     discover_entry_point_providers,
@@ -287,6 +288,7 @@ def test_registry_inspect_reports_capabilities_without_materializing(tmp_path) -
         "supports_filtering": False,
         "supports_streaming": False,
         "supports_random_access": False,
+        "source_selection_keys": ("record_set", "distribution"),
     }
 
 
@@ -1703,6 +1705,90 @@ def test_registry_rejects_invalid_and_ambiguous_descriptors(tmp_path) -> None:
     invalid.write_text("{}", encoding="utf-8")
     with pytest.raises(IngestionError, match="exactly one"):
         ProviderRegistry().ingest(invalid)
+
+
+def test_registry_passes_only_advertised_source_selection_to_the_provider(
+    tmp_path,
+) -> None:
+    """Selection is provider-owned and never becomes projection or filtering."""
+    source_path = tmp_path / "example.json"
+    source_path.write_text('{"provider": "selected"}', encoding="utf-8")
+    observed: list[SourceSelection | None] = []
+
+    class SelectedProvider:
+        provider_id = "selected"
+        capabilities = ProviderCapabilities(
+            provider_id="selected",
+            format_versions=("1",),
+            media_types=("application/json",),
+            source_selection_keys=("source",),
+        )
+
+        def can_handle(self, descriptor: dict[str, object]) -> bool:
+            return descriptor.get("provider") == "selected"
+
+        def ingest(
+            self,
+            descriptor_path,
+            *,
+            policy: SourceAccessPolicy,
+            selection: SourceSelection | None = None,
+        ) -> NormalizedInputBundle:
+            assert descriptor_path == source_path
+            assert policy.root == tmp_path
+            observed.append(selection)
+            return from_dataframe(pl.DataFrame({"value": [1]}), dataset_id="selected")
+
+    registry = ProviderRegistry((SelectedProvider(),))
+    selection = SourceSelection(provider_id="selected", values=(("source", "one"),))
+    assert (
+        registry.ingest(source_path, selection=selection).manifest.dataset_id
+        == "selected"
+    )
+    assert observed == [selection]
+
+    with pytest.raises(IngestionError, match="does not match the descriptor provider"):
+        registry.ingest(
+            source_path,
+            selection=SourceSelection(provider_id="other", values=(("source", "one"),)),
+        )
+    with pytest.raises(IngestionError, match="does not support the requested"):
+        registry.ingest(
+            source_path,
+            selection=SourceSelection(
+                provider_id="selected", values=(("other", "one"),)
+            ),
+        )
+
+
+@pytest.mark.parametrize(
+    ("provider_id", "values"),
+    [
+        ("", (("source", "one"),)),
+        ("selected", ()),
+        ("selected", (("", "one"),)),
+        ("selected", (("source", ""),)),
+        ("selected", (("source", "one"), ("source", "two"))),
+    ],
+)
+def test_source_selection_rejects_ambiguous_public_requests(
+    provider_id, values
+) -> None:
+    """Provider-neutral source selectors must be complete before registry I/O."""
+    with pytest.raises(ValueError, match="source selection requires"):
+        SourceSelection(provider_id=provider_id, values=values)
+
+
+def test_frictionless_rejects_provider_owned_source_selection(tmp_path) -> None:
+    """A provider that advertises no selection keys rejects them at its boundary."""
+    with pytest.raises(IngestionError, match="does not support source selection"):
+        FrictionlessProvider().ingest(
+            tmp_path / "not-read.json",
+            policy=SourceAccessPolicy(tmp_path),
+            selection=SourceSelection(
+                provider_id="frictionless", values=(("resource", "one"),)
+            ),
+        )
 
 
 def test_registry_supports_a_fake_provider_with_injected_source_policy(

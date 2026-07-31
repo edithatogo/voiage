@@ -8,6 +8,7 @@ from .base import (
     IngestionProvider,
     ProviderCapabilities,
     SourceAccessPolicy,
+    SourceSelection,
 )
 from .dataframe import from_dataframe
 from .live_probe import AuthoritativeProbeGateError, run_authoritative_probe
@@ -28,6 +29,7 @@ __all__ = [
     "ProviderCapabilities",
     "ProviderRegistry",
     "SourceAccessPolicy",
+    "SourceSelection",
     "default_registry",
     "discover_entry_point_providers",
     "from_dataframe",
