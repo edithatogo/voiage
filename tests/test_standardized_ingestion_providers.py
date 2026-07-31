@@ -145,6 +145,15 @@ def test_registry_inspect_rejects_invalid_or_unrecognized_descriptors(
         default_registry().inspect(descriptor_path)
 
 
+def test_registry_inspect_rejects_malformed_json_descriptor(tmp_path) -> None:
+    """Inspection exposes the same stable malformed-descriptor error as ingest."""
+    descriptor_path = tmp_path / "descriptor.json"
+    descriptor_path.write_text("{not valid JSON", encoding="utf-8")
+
+    with pytest.raises(IngestionError, match="descriptor is not valid UTF-8 JSON"):
+        default_registry().inspect(descriptor_path)
+
+
 @pytest.mark.parametrize("provider", ["croissant", "frictionless"])
 def test_built_in_provider_replays_a_verified_cached_resource_offline(
     tmp_path, provider
