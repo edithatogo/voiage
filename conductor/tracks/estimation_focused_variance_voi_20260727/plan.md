@@ -5,10 +5,11 @@
 - [x] **E1:** Add the estimation-focused method-registry classifications and
   aliases, explicitly separating variance VOI from decision VOI, sensitivity
   indices and estimator uncertainty. (AC-01) [df061cc0]
-- [ ] **E2:** Freeze scalar/vector target shape, component units, variance or
+- [x] **E2:** Freeze scalar/vector target shape, component units, variance or
   covariance functional, conditioning and sampling models, zero-variance
   behavior and finite-sample diagnostics after scientific review. (AC-01,
-  AC-02)
+  AC-02) [40c91636] *(experimental contract frozen; the stable-promotion
+  scientific-review gate remains pending)*
 - [ ] **E3:** Add versioned input/result schemas and compatibility fixtures.
   (AC-02)
 - [ ] **E4:** Run an automated contract review and full Conductor validation.
