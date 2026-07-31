@@ -105,7 +105,12 @@ pub struct Comparability {
 }
 #[derive(Clone, Debug, PartialEq)]
 pub struct ExpectedUtilityInformationResult {
+    pub schema_version: String,
+    pub method: String,
+    pub method_maturity: String,
     pub information_kind: String,
+    pub current_expected_utility: f64,
+    pub informed_expected_utility: f64,
     pub current_policy: PolicyResult,
     pub eui: MeasureResult,
     pub cei: MeasureResult,
@@ -491,7 +496,12 @@ pub fn expected_utility_information(
         }
     };
     Ok(ExpectedUtilityInformationResult {
+        schema_version: "expected-utility-information-result-v1".into(),
+        method: "expected_utility_information".into(),
+        method_maturity: "experimental".into(),
         information_kind: input.information.kind.clone(),
+        current_expected_utility: b0,
+        informed_expected_utility: i0,
         current_policy,
         eui: measure("eui", Some(eui), None),
         cei: measure("cei", Some(cei), None),
