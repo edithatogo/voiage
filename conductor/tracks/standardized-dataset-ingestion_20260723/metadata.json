@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-23T13:53:21Z",
-  "updated_at": "2026-07-31T11:58:23Z",
+  "updated_at": "2026-07-31T12:19:12Z",
   "description": "Add a format-neutral normalized input contract and optional Croissant ML and Frictionless Data ingestion providers without coupling source parsers to VOI calculation kernels.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
@@ -99,7 +99,13 @@
       "id": "evidence-ledger-integrity",
       "kind": "repository",
       "status": "satisfied",
-      "evidence": "The invalid historical ledger is preserved unchanged as evidence.legacy.jsonl (SHA-256 3f53b195f672333b1ac8c659a7a2dceeaba83c400dd1d467387e55edccce9656). A new evidence.jsonl chain starts with a migration receipt and never rewrites historical claims."
+      "evidence": "The invalid historical ledger is preserved unchanged as evidence.pre-integrity-repair-20260731.jsonl (SHA-256 e007a9316bc9084c565d33a69b5684675c3ece6dc6bfafd03e0131cbe0341738). A new evidence.jsonl chain starts with an integrity-repair receipt and never rewrites historical claims."
+    },
+    {
+      "id": "post-merge-reconciliation-20260731",
+      "kind": "repository",
+      "status": "satisfied",
+      "evidence": "The additive reconciliation record maps 30 merged ingestion PRs in #639-#690 to exact merge commits and changed artifacts, with explicit range exclusions. Project 28 confirms #325-#333, #467, and #468 are present and In Progress; that status is not used to close an issue or this active track."
     }
   ]
 }
