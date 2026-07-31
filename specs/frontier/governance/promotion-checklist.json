@@ -29,5 +29,6 @@
     ,{"name": "value_of_evidence_obsolescence_refresh", "owner": "repository", "current_state": "fixture-backed", "next_gate": "longitudinal-refresh-data-provenance-and-cross-language-parity", "blocked_state": "externally-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/evidence-obsolescence-refresh/v1"]}
     ,{"name": "value_of_strategic_behavior", "owner": "repository", "current_state": "fixture-backed", "next_gate": "calibrated-game-data-and-cross-language-parity", "blocked_state": "externally-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/strategic-behavior/v1"]}
     ,{"name": "study_design_efficiency", "owner": "repository", "current_state": "fixture-backed", "next_gate": "scientific-review-and-installed-polyglot-conformance", "blocked_state": "experimental", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/study-design-efficiency/v1"]}
+    ,{"name": "expected_utility_information_pricing", "owner": "repository", "current_state": "experimental", "next_gate": "scientific-review-and-cross-language-parity", "blocked_state": "externally-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/expected-utility-information-pricing/v1"]}
   ]
 }

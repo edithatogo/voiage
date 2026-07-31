@@ -155,14 +155,16 @@ C16 own the shared projection:
     draft PR #65, which depends on the open estimation-family sync PR #64.
 
 *   `risk_adjusted_information_pricing_20260731` and GitHub issue #595 define
-    one expected-utility information-pricing family spanning EUI, CEI, BPI,
+    one experimental expected-utility information-pricing family in Rust and
+    Python spanning EUI, CEI, BPI,
     SPI and anchored PPI with declared utility, wealth/reference, units,
     information/cost location, current and informed policies, stakeholder
     scope, root diagnostics and comparability. VoC is a presentation of its
     clairvoyant-policy result, not a duplicate kernel; monetary EVPI reduction
     is valid only for verified positive-affine utility. Native delivery
     subissues #694–#697 own contracts, runtime, assurance, and user/polyglot
-    surfaces respectively.
+    surfaces respectively. R and Julia remain explicitly unsupported for this
+    family, while Mojo remains an external boundary.
 
 All three issues are native sub-issues of frontier parent #318 under programme
 #313 and are represented in Project 28. Risk-sensitive/constrained VOI (#570)

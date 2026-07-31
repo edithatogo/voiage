@@ -72,11 +72,14 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   Conductor track: `risk_adjusted_information_pricing_20260731`.
     *   Planned contract: v1.2.0; MoSCoW: Must; canonical requirements M16/M17.
     *   GitHub issue #595 with native delivery subissues #694–#697 under #318.
-    *   Implement EUI, CEI, BPI, SPI and anchored PPI with declared utility,
-        wealth/reference, information/cost location, scope, root diagnostics,
-        comparability and deterministic provenance.
-    *   Keep VoC as the expected-utility/clairvoyant-policy presentation of the
-        same result; never create a duplicate kernel or unconditional EVPI alias.
+    *   Repository implementation now provides EUI, CEI, BPI, SPI and anchored
+        PPI with declared utility, wealth/reference, information/cost location,
+        scope, root diagnostics, comparability and deterministic provenance.
+    *   VoC delegates to the same expected-utility/clairvoyant-policy result;
+        only verified positive-affine utility exposes the monetary EVPI alias.
+    *   Rust and Python are executable; R and Julia are explicitly unsupported;
+        Mojo remains an external boundary. Keep this item in progress pending
+        scientific review, exact-head hosted checks and stable-promotion approval.
 
 *   [ ] Complete standardized dataset ingestion through one format-neutral
     conductor input contract and optional source-format providers.

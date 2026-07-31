@@ -17,6 +17,8 @@ registry used to keep them aligned.
 - `data-quality/`: data-quality, measurement-error, privacy, and linkage contracts.
 - `computational/`: computational VOI and model-refinement contracts.
 - `expert-synthesis/`: expert-elicitation and evidence-synthesis design contracts.
+- `expected-utility-information-pricing/`: experimental utility-equivalent
+  information prices and the delegating VoC presentation.
 - `shared-maturity/`: maturity labels, diagnostics, and reporting conventions.
 - `study-design-efficiency/`: experimental COSS, EVSI/EVPI and binding fixture evidence.
 - `fixtures/`: registry for deterministic frontier fixtures and family manifests.
@@ -26,6 +28,8 @@ family manifests. Each family keeps its own schema, examples, and normative
 payloads under its v1 subtree, and the shared-maturity family documents the
 review labels and diagnostics that keep the maturity transitions explicit.
 
-The registry schema lives at `fixtures/manifest.schema.json`.
+The registry schema lives at `fixtures/manifest.schema.json`. It supports the
+existing split input/output manifests and explicit bundled request/result
+fixtures with verified SHA-256 digests.
 
 The validation entrypoint lives at `scripts/validate_frontier_contract.py`.
