@@ -132,7 +132,14 @@ class SourceAccessPolicy:
     def _cache_path(self, digest: str) -> Path | None:
         if self.cache_dir is None:
             return None
-        return self.cache_dir / self._cache_context / digest[:2] / digest
+        candidate = self.cache_dir / self._cache_context / digest[:2] / digest
+        resolved_candidate = candidate.parent.resolve()
+        if (
+            resolved_candidate != self.cache_dir
+            and self.cache_dir not in resolved_candidate.parents
+        ):
+            raise IngestionError("cache path escapes the configured cache root")
+        return candidate
 
     def _local_candidate(self, reference: str) -> Path:
         """Validate a descriptor-relative local path before any file operation."""

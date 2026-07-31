@@ -225,6 +225,27 @@ def test_materialize_rejects_a_symlinked_cache_entry(tmp_path) -> None:
         policy.materialize("source.csv", sha256=digest)
 
 
+def test_materialize_rejects_a_cache_namespace_symlink_that_escapes_cache_root(
+    tmp_path,
+) -> None:
+    """A poisoned cache namespace must not redirect a materialized resource."""
+    source = tmp_path / "source.csv"
+    payload = b"value\n1\n"
+    source.write_bytes(payload)
+    cache = tmp_path / "cache"
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    policy = SourceAccessPolicy(tmp_path, cache_dir=cache)
+    namespace = cache / policy._cache_context
+    namespace.parent.mkdir()
+    namespace.symlink_to(outside, target_is_directory=True)
+
+    with pytest.raises(IngestionError, match="escapes the configured cache root"):
+        policy.materialize("source.csv", sha256=_digest(payload))
+
+    assert list(outside.iterdir()) == []
+
+
 def test_materialize_rejects_a_corrupt_copy_result(tmp_path, monkeypatch) -> None:
     source = tmp_path / "source.csv"
     payload = b"value\n1\n"

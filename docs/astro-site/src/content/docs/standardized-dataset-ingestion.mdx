@@ -63,7 +63,9 @@ Local resources are fail-closed: paths cannot escape the configured descriptor
 root, network access is disabled by default, and a resource larger than the
 default 512 MiB policy limit is rejected before parsing. Applications can set a
 smaller explicit `SourceAccessPolicy.max_resource_bytes` limit for constrained
-workloads.
+workloads. Cache namespace directories are also checked before every cache
+operation, so a symlink cannot redirect a materialization outside the configured
+cache root.
 
 ## Verified local replay
 
