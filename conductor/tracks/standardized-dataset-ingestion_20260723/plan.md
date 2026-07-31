@@ -205,8 +205,9 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   cache-poisoning, checksum-mismatch, decompression-ratio, and mutable-live-data
   tests. Partial evidence: `d3550e9c` rejects a cache-namespace symlink whose
   resolved directory escapes the configured cache root before it can redirect a
-  verified materialization; the remote/archive and mutable-live-source cases
-  remain active.
+  verified materialization; hard-linked cache entries are also rejected so a
+  verified object cannot share a writable inode with an alternate path
+  (partial). The remote/archive and mutable-live-source cases remain active.
 - [~] **P7-T3 / AC-08, AC-11:** Complete source-policy enforcement,
   content-addressed verified caching, immutable materialization receipts,
   offline replay, and streaming or bounded-batch behavior.
