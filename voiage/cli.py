@@ -3963,7 +3963,9 @@ def calculate_expected_utility_information(
 
         measure_result = cast(
             "dict[str, object]",
-            result["affine_reduction" if selected_measure == "evpi" else selected_measure],
+            result[
+                "affine_reduction" if selected_measure == "evpi" else selected_measure
+            ],
         )
         measure_status = cast("str", measure_result["status"])
         selected_value = measure_result["value"]

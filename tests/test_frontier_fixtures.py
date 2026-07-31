@@ -73,7 +73,9 @@ def test_frontier_paths_must_remain_inside_the_governed_root(
         if unsafe_kind == "absolute"
         else "../outside.json"
     )
-    with pytest.raises(validate_frontier_contract.ValidationError, match="forbidden|escapes"):
+    with pytest.raises(
+        validate_frontier_contract.ValidationError, match="forbidden|escapes"
+    ):
         validate_frontier_contract._resolve_contained(tmp_path, unsafe, "fixture")
 
 

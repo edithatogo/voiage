@@ -13,8 +13,7 @@ from voiage.methods.utility_information import expected_utility_information_valu
 
 ROOT = Path(__file__).parents[1]
 CAPABILITY_PATH = (
-    ROOT
-    / "specs/frontier/expected-utility-information-pricing/v1/capabilities.json"
+    ROOT / "specs/frontier/expected-utility-information-pricing/v1/capabilities.json"
 )
 
 
@@ -41,8 +40,7 @@ def test_expected_utility_capability_dispositions_are_exact() -> None:
                 "status": "executable",
                 "surface": "voiage_numerics::expected_utility_information",
                 "evidence": (
-                    "rust/crates/voiage-numerics/tests/"
-                    "expected_utility_information.rs"
+                    "rust/crates/voiage-numerics/tests/expected_utility_information.rs"
                 ),
                 "fixture_evidence": True,
             },
@@ -88,7 +86,8 @@ def test_expected_utility_capability_dispositions_are_exact() -> None:
 def test_declared_executable_surfaces_and_evidence_exist() -> None:
     capability = _capability()
     bindings = {
-        entry["language"]: entry for entry in capability["bindings"]  # type: ignore[index]
+        entry["language"]: entry
+        for entry in capability["bindings"]  # type: ignore[index]
     }
 
     rust_source = (
