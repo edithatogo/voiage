@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from hypothesis import given, settings
+from hypothesis import strategies as st
 from pydantic import ValidationError
 import pytest
 
@@ -14,6 +16,19 @@ from voiage.contracts.study_design import (
 )
 from voiage.exceptions import InputError
 from voiage.experimental.study_design import calculate_coss, evsi_evpi_efficiency
+
+
+def _context() -> StudyDesignContextV1:
+    return StudyDesignContextV1(
+        decision_problem_id="property-decision",
+        value_unit="unit",
+        population_scale=1.0,
+        time_horizon="horizon",
+        discounting_id="none",
+        study_model_id="enumerated",
+        cost_model_id="enumerated",
+        random_seed=571,
+    )
 
 
 @pytest.fixture
@@ -393,4 +408,123 @@ def test_evsi_evpi_efficiency_rejects_every_context_mismatch(
         evsi_evpi_efficiency(
             evsi=InformationValueInputV1(value=1.0, context=study_context),
             evpi=InformationValueInputV1(value=2.0, context=incompatible),
+        )
+
+
+@given(
+    evsi_values=st.lists(
+        st.integers(min_value=0, max_value=1_000_000),
+        min_size=1,
+        max_size=30,
+    ),
+    costs=st.lists(
+        st.integers(min_value=0, max_value=1_000_000),
+        min_size=1,
+        max_size=30,
+    ),
+    shift=st.integers(min_value=0, max_value=100_000),
+)
+@settings(max_examples=40, deadline=None)
+def test_coss_matches_independent_argmax_and_common_value_shift(
+    evsi_values: list[int], costs: list[int], shift: int
+) -> None:
+    size = min(len(evsi_values), len(costs))
+    designs = tuple(
+        _point(f"d-{index}", index + 1, float(evsi_values[index]), float(costs[index]))
+        for index in range(size)
+    )
+    shifted = tuple(
+        _point(
+            point.design_id,
+            point.sample_size,
+            point.evsi + shift,
+            point.research_cost + shift,
+        )
+        for point in designs
+    )
+
+    result = calculate_coss(context=_context(), designs=designs)
+    shifted_result = calculate_coss(context=_context(), designs=shifted)
+    expected = tuple(point.evsi - point.research_cost for point in designs)
+
+    assert tuple(point.enbs for point in result.evaluated_designs) == pytest.approx(
+        expected
+    )
+    assert tuple(
+        point.enbs for point in shifted_result.evaluated_designs
+    ) == pytest.approx(expected)
+    assert shifted_result.optimal_design_id == result.optimal_design_id
+
+
+@given(
+    evpi=st.floats(min_value=1.0, max_value=1e9, allow_nan=False, allow_infinity=False),
+    fraction=st.floats(
+        min_value=0.0, max_value=1.0, allow_nan=False, allow_infinity=False
+    ),
+    scale=st.floats(
+        min_value=1e-3, max_value=1e6, allow_nan=False, allow_infinity=False
+    ),
+)
+@settings(max_examples=40, deadline=None)
+def test_information_efficiency_property_is_scale_invariant(
+    evpi: float, fraction: float, scale: float
+) -> None:
+    base = evsi_evpi_efficiency(
+        evsi=InformationValueInputV1(value=evpi * fraction, context=_context()),
+        evpi=InformationValueInputV1(value=evpi, context=_context()),
+        absolute_tolerance=0.0,
+        relative_tolerance=1e-12,
+    )
+    scaled = evsi_evpi_efficiency(
+        evsi=InformationValueInputV1(value=evpi * fraction * scale, context=_context()),
+        evpi=InformationValueInputV1(value=evpi * scale, context=_context()),
+        absolute_tolerance=0.0,
+        relative_tolerance=1e-12,
+    )
+    assert scaled.ratio == pytest.approx(base.ratio)
+
+
+def test_coss_contract_round_trips_canonical_json_and_is_frozen(
+    study_context: StudyDesignContextV1,
+) -> None:
+    result = calculate_coss(
+        context=study_context,
+        designs=(_point("n-20", 20, 5.0, 2.0),),
+    )
+    payload = result.model_dump_json()
+
+    assert type(result).model_validate_json(payload) == result
+    with pytest.raises(ValidationError, match="frozen"):
+        result.maximum_enbs = 99.0  # type: ignore[misc]
+
+
+def test_coss_rejects_invalid_selection_uncertainty(
+    study_context: StudyDesignContextV1,
+) -> None:
+    uncertainty = SelectionUncertaintyV1(
+        method="bootstrap",
+        replicate_count=20,
+        probability_by_design={"n-20": 0.7, "n-40": 0.7},
+    )
+    with pytest.raises(InputError, match="sum to one"):
+        calculate_coss(
+            context=study_context,
+            designs=(_point("n-20", 20, 5.0, 2.0), _point("n-40", 40, 8.0, 3.0)),
+            selection_uncertainty=uncertainty,
+        )
+
+
+def test_coss_fails_closed_on_a_malformed_native_result(
+    monkeypatch: pytest.MonkeyPatch,
+    study_context: StudyDesignContextV1,
+) -> None:
+    from voiage.experimental import study_design as module
+
+    monkeypatch.setattr(
+        module._runtime, "compute_coss", lambda **_: {"contract_version": "9"}
+    )
+    with pytest.raises(InputError, match="native COSS result"):
+        module.calculate_coss(
+            context=study_context,
+            designs=(_point("n-20", 20, 5.0, 2.0),),
         )
