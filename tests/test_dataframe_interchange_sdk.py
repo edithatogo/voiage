@@ -241,3 +241,103 @@ def test_dataframe_sdk_reports_polars_nullable_category_and_timezone_decisions()
     assert decisions["cost"]["nullable"] is True
     assert decisions["observed_at"]["timezone"] == "UTC"
     assert decisions["observed_at"]["dtype"].startswith("timestamp[")
+
+
+def test_dataframe_sdk_preserves_a_non_contiguous_pandas_slice_on_the_standard_path() -> (
+    None
+):
+    """A sliced consumer frame retains rows and explicit binding semantics."""
+    pandas = pytest.importorskip("pandas")
+    frame = pandas.DataFrame(
+        {
+            "strategy_a": [10.0, 99.0, 30.0, 99.0, 20.0],
+            "strategy_b": [20.0, 99.0, 10.0, 99.0, 25.0],
+            "segment": pandas.Series(
+                ["a", "skip", "b", "skip", None], dtype="category"
+            ),
+        }
+    )
+    frame.index = pandas.Index([10, 11, 12, 13, 14], name="source_index")
+    frame = frame.iloc[::2]
+
+    bundle = from_dataframe(
+        frame,
+        dataset_id="sliced-consumer",
+        table_id="samples",
+        bindings=(_binding(),),
+    )
+    prepared = prepare_analysis_inputs(bundle)
+    decisions = bundle.manifest.model_dump(mode="json")["extensions"][
+        "voiage.dev:dataframe-interchange"
+    ]["field_decisions"]
+
+    assert bundle.table("samples").to_pylist() == [
+        {"strategy_a": 10.0, "strategy_b": 20.0, "segment": "a"},
+        {"strategy_a": 30.0, "strategy_b": 10.0, "segment": "b"},
+        {"strategy_a": 20.0, "strategy_b": 25.0, "segment": None},
+    ]
+    assert prepared.net_benefits.numpy_values.tolist() == [
+        [10.0, 20.0],
+        [30.0, 10.0],
+        [20.0, 25.0],
+    ]
+    assert "source_index" not in bundle.table("samples").column_names
+    assert {item["field_id"] for item in decisions} == {
+        "strategy_a",
+        "strategy_b",
+        "segment",
+    }
+
+
+def test_dataframe_sdk_retains_zero_row_schema_and_diagnostics() -> None:
+    """An empty-but-typed producer is an auditable normalized input."""
+    table = pa.table(
+        {
+            "strategy_a": pa.array([], type=pa.float64()),
+            "strategy_b": pa.array([], type=pa.float64()),
+        }
+    )
+
+    bundle = from_dataframe(
+        table,
+        dataset_id="zero-row",
+        table_id="samples",
+        bindings=(_binding(),),
+        allow_copy=False,
+    )
+
+    assert bundle.table("samples").num_rows == 0
+    assert bundle.schema_fingerprint
+    assert bundle.manifest.model_dump(mode="json")["extensions"][
+        "voiage.dev:dataframe-interchange"
+    ]["field_decisions"] == [
+        {
+            "field_id": "strategy_a",
+            "dtype": "double",
+            "nullable": True,
+            "categorical": False,
+            "timezone": None,
+        },
+        {
+            "field_id": "strategy_b",
+            "dtype": "double",
+            "nullable": True,
+            "categorical": False,
+            "timezone": None,
+        },
+    ]
+    assert bundle.manifest.diagnostics[0].code == "dataframe_interchange.copy.zero_copy"
+
+
+def test_dataframe_sdk_retains_a_no_column_producer_without_inventing_fields() -> None:
+    """The adapter reports an empty schema rather than producer-specific data."""
+    bundle = from_dataframe(pa.table({}), dataset_id="no-columns")
+    extension = bundle.manifest.model_dump(mode="json")["extensions"][
+        "voiage.dev:dataframe-interchange"
+    ]
+
+    assert bundle.table("data").num_rows == 0
+    assert bundle.table("data").column_names == []
+    assert bundle.manifest.tables[0].fields == ()
+    assert extension["field_decisions"] == []
+    assert extension["index_policy"] == "excluded_by_dataframe_interchange_protocol"
