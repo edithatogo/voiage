@@ -91,6 +91,35 @@ def test_built_in_providers_normalize_supported_csv_profile(
     )
 
 
+def test_registry_inspect_reports_capabilities_without_materializing(tmp_path) -> None:
+    descriptor_path = tmp_path / "croissant.json"
+    descriptor_path.write_text(
+        json.dumps(
+            {
+                "@context": "http://mlcommons.org/croissant/1.1",
+                "name": "inspect-fixture",
+                "distribution": [{"contentUrl": "missing.csv"}],
+                "recordSet": [{"name": "samples", "field": [{"name": "a"}]}],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    inspection = default_registry().inspect(descriptor_path)
+
+    assert inspection["provider_id"] == "croissant"
+    assert inspection["descriptor"] == str(descriptor_path)
+    assert inspection["capabilities"] == {
+        "format_versions": ("1.1",),
+        "media_types": ("text/csv",),
+        "supported_transforms": (),
+        "supports_projection": False,
+        "supports_filtering": False,
+        "supports_streaming": False,
+        "supports_random_access": False,
+    }
+
+
 def test_frictionless_provider_validates_declared_types_constraints_and_primary_key(
     tmp_path,
 ) -> None:

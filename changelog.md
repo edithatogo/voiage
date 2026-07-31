@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added metadata-only ingestion inspection diagnostics that report the selected
+  provider and declared capabilities without resolving or materializing source
+  resources.
+
+- Modernized polyglot CI/CD across Python, Rust, the C ABI, R, Julia, and
+  Astro/TypeScript with merge-queue compatibility, shared numerical-reference
+  checks, TestPyPI PEP 740 and exact-byte promotion gates, release-bound
+  provenance and CycloneDX attestations, a digest manifest, mixed-language
+  dependency submission, preview ARM64 observation, Renovate-only dependency
+  updates, crates.io OIDC Trusted Publishing, and a consolidated
+  tox/repository-harness authority.
+- Added a versioned, fail-closed submission-readiness contract covering 22
+  current and potential registries, archives, identifiers, journals, community
+  reviews, and sustainability affiliations, with local and hosted validation,
+  governance, and GitHub/Conductor traceability.
+- Added date-stamped, validator-enforced criteria-refresh evidence for every
+  retained submission destination and refreshed source-bound JOSS citation and
+  prose assurance after the current manuscript revision.
 - Switched dependency-update policy from Dependabot version updates to the
   Renovate configuration, covering Python/uv, Cargo, npm, and GitHub Actions.
 - Added a second standardized-ingestion reference case that derives EVPI from
@@ -29,6 +47,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Added evidence-gated future consideration of pyOpenSci, rOpenSci, the R
+  Journal, Journal of Statistical Software, and NumFOCUS to the existing
+  research-software registry plan without authorizing an inquiry or submission.
 - Recorded the successful `voiageR` 2.0.0 r-universe publication and its green
   cross-platform build matrix, and added the CRAN-specific submission comments
   and strict source-package preflight.
