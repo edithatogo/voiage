@@ -130,12 +130,19 @@ class FrictionlessProvider:
             raise IngestionError("Data Package schema requires fields")
         fields = cast("list[object]", fields)
         self._validate_schema_declaration(schema, fields)
+        if resource.get("transform") not in (None, []):
+            raise IngestionError(
+                "supported Data Package profile does not support transformations"
+            )
         if "checksum" in resource:
             raise IngestionError(
                 "supported Data Package profile does not support integrity declarations"
             )
         declared_sha256 = _sha256(resource.get("hash"))
         declared_byte_size = _byte_size(resource.get("bytes"))
+        # Built-in profiles have no resolver or transport path. Validate the
+        # descriptor reference before a tabular materializer can be invoked.
+        policy.source_uri(reference)
         resource_format = resource.get("format")
         if resource_format == "parquet":
             _validate_parquet_declarations(resource)

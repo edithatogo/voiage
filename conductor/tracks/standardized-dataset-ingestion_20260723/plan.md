@@ -238,8 +238,10 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   unauthorized-network, secret-leakage, unsafe-transform, and resource-limit
   tests. Local policy coverage now rejects URI schemes (including `file:` and
   `data:` forms) and archive suffixes before any file, DNS, redirect, or archive
-  operation; archive extraction remains explicitly unsupported (`749083d`,
-  partial).
+  operation; Croissant/Frictionless provider regressions additionally prove
+  URI-style, DNS-like, redirect-shaped, archive, and transform declarations
+  fail before a resolver/materializer callback, cache entry, or receipt can be
+  created. Archive extraction remains explicitly unsupported (partial).
 - [~] **P7-T2 / AC-08, AC-11:** Add DNS-rebinding, redirect-policy,
   cache-poisoning, checksum-mismatch, decompression-ratio, and mutable-live-data
   tests. Partial evidence: `d3550e9c` rejects a cache-namespace symlink whose
