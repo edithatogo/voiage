@@ -256,7 +256,9 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   opt-in entry-point publication checklist.
 - [~] **P8-T3 / AC-12:** Write failing DataFrame-interchange tests covering
   pandas, Polars, dtype/null/category/timezone/index handling, copy diagnostics,
-  and clean optional environments. Partial diagnostics evidence: `fdda14a`.
+  and clean optional environments. Partial diagnostics evidence: `fdda14a`;
+  producer-specific nullable/category/timezone/index consumer evidence is added
+  in this increment. Clean optional-environment evidence remains pending.
 - [~] **P8-T4 / AC-12:** Implement the generic `__dataframe__` adapter through
   Arrow and `NormalizedInputBundle`, with no alternate preparation or numerical
   path. Partial conversion-diagnostics evidence: `fdda14a`.
