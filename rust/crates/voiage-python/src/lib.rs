@@ -9,6 +9,7 @@ use pyo3::create_exception;
 use pyo3::exceptions::PyException;
 use pyo3::prelude::*;
 use pyo3::types::{PyDict, PyModule};
+use serde::Deserialize;
 use serde_json::{Map, Value};
 use sha2::{Digest, Sha256};
 #[cfg(test)]
@@ -19,8 +20,10 @@ use voiage_diagnostics::ErrorCategory;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
     ceaf, coss, dominance, enbs, evpi, evppi, evsi_efficient_linear, evsi_evpi_efficiency,
-    evsi_moment_based, evsi_regression, evsi_stochastic, heterogeneity, normal_normal_two_arm_evsi,
-    structural_evpi, structural_evppi, DominanceStatus as KernelDominanceStatus,
+    evsi_moment_based, evsi_regression, evsi_stochastic, expected_utility_information,
+    heterogeneity, normal_normal_two_arm_evsi, structural_evpi, structural_evppi,
+    DominanceStatus as KernelDominanceStatus, ExpectedUtilityInformationInput,
+    InformationStructure, SolverSettings, UtilityDescriptor,
 };
 use voiage_serialization::{
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
@@ -1074,6 +1077,250 @@ fn serialize_dominance_result<'py>(
     }
 }
 
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct UtilityInformationRequest {
+    schema_version: String,
+    decision_problem_id: String,
+    stakeholder_scope_id: String,
+    action_ids: Vec<String>,
+    state_ids: Vec<String>,
+    payoffs: Vec<Vec<f64>>,
+    state_probabilities: Vec<f64>,
+    initial_wealth: f64,
+    payoff_unit: String,
+    currency: Option<String>,
+    price_date: Option<String>,
+    information_cost_location: String,
+    terminal_outcome_floor: Option<f64>,
+    utility: UtilityRequest,
+    information: InformationRequest,
+    solver: SolverRequest,
+    #[serde(default = "canonical_presentation")]
+    presentation_label: String,
+}
+
+fn canonical_presentation() -> String {
+    "canonical".into()
+}
+
+#[derive(Deserialize)]
+#[serde(tag = "family", rename_all = "snake_case", deny_unknown_fields)]
+enum UtilityRequest {
+    Affine {
+        slope: f64,
+        intercept: f64,
+    },
+    Exponential {
+        risk_tolerance: f64,
+        reference_wealth: f64,
+    },
+    Log {
+        reference_wealth: f64,
+    },
+    Power {
+        risk_aversion: f64,
+        reference_wealth: f64,
+    },
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct InformationRequest {
+    kind: String,
+    signal_ids: Vec<String>,
+    signal_state_probabilities: Vec<Vec<f64>>,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct SolverRequest {
+    initial_upper: f64,
+    expansion_factor: f64,
+    maximum_price: f64,
+    absolute_price_tolerance: f64,
+    relative_price_tolerance: f64,
+    utility_tolerance: f64,
+    maximum_iterations: usize,
+    maximum_evaluations: usize,
+}
+
+fn policy_payload(policy: &voiage_numerics::PolicyResult) -> Value {
+    serde_json::json!({
+        "signal_id": policy.signal_id,
+        "tie_set": policy.tie_set,
+        "representative_action_id": if policy.representative_action_id.is_empty() { None } else { Some(&policy.representative_action_id) },
+        "domain_exclusions": policy.domain_exclusions.iter().map(|exclusion| serde_json::json!({"signal_id": exclusion.signal_id, "action_id": exclusion.action_id, "state_ids": exclusion.state_ids, "reason": exclusion.reason})).collect::<Vec<_>>(),
+    })
+}
+
+fn root_payload(root: &voiage_numerics::RootResult) -> Value {
+    let evaluated_policies = root
+        .evaluated_policies
+        .iter()
+        .map(|policy| {
+            serde_json::json!({
+                "transfer": policy.transfer,
+                "objective_value": policy.objective_value,
+                "policies": policy.policies.iter().map(policy_payload).collect::<Vec<_>>(),
+            })
+        })
+        .collect::<Vec<_>>();
+    let transitions = root
+        .transitions
+        .iter()
+        .map(|transition| serde_json::json!({
+            "transfer": transition.transfer,
+            "prior_policies": transition.prior_policies.iter().map(policy_payload).collect::<Vec<_>>(),
+            "next_policies": transition.next_policies.iter().map(policy_payload).collect::<Vec<_>>(),
+        }))
+        .collect::<Vec<_>>();
+    let solver = &root.solver;
+    serde_json::json!({
+        "status": root.status,
+        "estimate": root.estimate,
+        "lower": root.lower,
+        "upper": root.upper,
+        "final_bracket_width": root.final_bracket_width,
+        "residual": root.residual,
+        "iterations": root.iterations,
+        "evaluations": root.evaluations,
+        "lower_policies": root.lower_policies.iter().map(policy_payload).collect::<Vec<_>>(),
+        "upper_policies": root.upper_policies.iter().map(policy_payload).collect::<Vec<_>>(),
+        "evaluated_policies": evaluated_policies,
+        "policy_switched": root.policy_switched,
+        "transitions": transitions,
+        "termination_reason": root.termination_reason,
+        "solver": {
+            "initial_upper": solver.initial_upper,
+            "expansion_factor": solver.expansion_factor,
+            "maximum_price": solver.maximum_price,
+            "absolute_price_tolerance": solver.absolute_price_tolerance,
+            "relative_price_tolerance": solver.relative_price_tolerance,
+            "utility_tolerance": solver.utility_tolerance,
+            "maximum_iterations": solver.maximum_iterations,
+            "maximum_evaluations": solver.maximum_evaluations,
+        },
+    })
+}
+
+/// Compute the experimental Rust-owned expected-utility information result.
+#[pyfunction]
+#[allow(clippy::too_many_lines)] // Preserve the explicit versioned wire mapping at the boundary.
+fn compute_expected_utility_information<'py>(
+    py: Python<'py>,
+    request_json: &str,
+) -> PyResult<Bound<'py, PyDict>> {
+    let request_value: Value = serde_json::from_str(request_json)
+        .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let canonical_request = canonical_payload_bytes(&request_value).map_err(serialization_error)?;
+    let input_digest = sha256_hex(&canonical_request);
+    let utility_value = request_value["utility"].clone();
+    let request: UtilityInformationRequest = serde_json::from_value(request_value)
+        .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    if !matches!(request.presentation_label.as_str(), "canonical" | "voc") {
+        return Err(InputError::new_err((
+            "invalid_input",
+            "presentation_label must be canonical or voc",
+        )));
+    }
+    let utility = match request.utility {
+        UtilityRequest::Affine { slope, intercept } => {
+            UtilityDescriptor::Affine { slope, intercept }
+        }
+        UtilityRequest::Exponential {
+            risk_tolerance,
+            reference_wealth,
+        } => UtilityDescriptor::Exponential {
+            risk_tolerance,
+            reference_wealth,
+        },
+        UtilityRequest::Log { reference_wealth } => UtilityDescriptor::Log { reference_wealth },
+        UtilityRequest::Power {
+            risk_aversion,
+            reference_wealth,
+        } => UtilityDescriptor::Power {
+            risk_aversion,
+            reference_wealth,
+        },
+    };
+    let input = ExpectedUtilityInformationInput {
+        schema_version: request.schema_version,
+        decision_problem_id: request.decision_problem_id,
+        stakeholder_scope_id: request.stakeholder_scope_id.clone(),
+        action_ids: request.action_ids,
+        state_ids: request.state_ids,
+        payoffs: request.payoffs,
+        state_probabilities: request.state_probabilities,
+        initial_wealth: request.initial_wealth,
+        payoff_unit: request.payoff_unit.clone(),
+        currency: request.currency,
+        price_date: request.price_date,
+        information_cost_location: request.information_cost_location,
+        information: InformationStructure {
+            kind: request.information.kind,
+            signal_ids: request.information.signal_ids,
+            signal_state_probabilities: request.information.signal_state_probabilities,
+        },
+        terminal_outcome_floor: request.terminal_outcome_floor,
+        solver: SolverSettings {
+            initial_upper: request.solver.initial_upper,
+            expansion_factor: request.solver.expansion_factor,
+            maximum_price: request.solver.maximum_price,
+            absolute_price_tolerance: request.solver.absolute_price_tolerance,
+            relative_price_tolerance: request.solver.relative_price_tolerance,
+            utility_tolerance: request.solver.utility_tolerance,
+            maximum_iterations: request.solver.maximum_iterations,
+            maximum_evaluations: request.solver.maximum_evaluations,
+        },
+    };
+    let result = expected_utility_information(&input, &utility)
+        .map_err(|error| InputError::new_err((error.code(), error.to_string())))?;
+    let measure = |name: &str,
+                   status: &str,
+                   value: Option<f64>,
+                   unit: &str,
+                   direction: &str,
+                   normalization: &str,
+                   diagnostics: Option<&str>| serde_json::json!({"measure":name,"status":status,"value":value,"unit":unit,"direction":direction,"normalization":normalization,"diagnostics_ref":diagnostics});
+    let informed_policies = result
+        .informed_policies
+        .iter()
+        .map(policy_payload)
+        .collect::<Vec<_>>();
+    let metadata = build_metadata();
+    let payload = serde_json::json!({
+        "schema_version": result.schema_version,
+        "method": result.method,
+        "method_maturity": result.method_maturity,
+        "input_digest": {"algorithm": DIGEST_ALGORITHM, "value": input_digest},
+        "provenance": {"source_revision": metadata.source_revision, "source_dirty": metadata.source_dirty, "source_tree_git_oid": metadata.source_tree_git_oid, "source_state_sha256": metadata.source_state_sha256, "build_id": metadata.build_id},
+        "decision_descriptor": {"decision_problem_id": input.decision_problem_id, "stakeholder_scope_id": input.stakeholder_scope_id, "action_ids": input.action_ids, "state_ids": input.state_ids, "initial_wealth": input.initial_wealth, "payoff_unit": input.payoff_unit, "currency": input.currency, "price_date": input.price_date, "information_cost_location": input.information_cost_location},
+        "backend": {"engine": "rust", "bridge": "pyo3", "crate": "voiage-python", "version": env!("CARGO_PKG_VERSION")},
+        "reporting_metadata": {"deterministic": true, "canonical_ordering": "rfc8785", "presentation_label": request.presentation_label},
+        "information_kind": result.information_kind,
+        "payoff_unit": input.payoff_unit,
+        "utility": utility_value,
+        "current_expected_utility": result.current_expected_utility,
+        "informed_expected_utility": result.informed_expected_utility,
+        "current_certainty_equivalent": result.current_certainty_equivalent,
+        "informed_certainty_equivalent": result.informed_certainty_equivalent,
+        "current_policy": policy_payload(&result.current_policy),
+        "informed_policies": informed_policies,
+        "eui": measure("eui",&result.eui.status,result.eui.value,"utility","uninformed_to_informed","declared_utility",None),
+        "cei": measure("cei",&result.cei.status,result.cei.value,&input.payoff_unit,"uninformed_to_informed","certainty_equivalent",None),
+        "bpi": measure("bpi",&result.bpi.status,result.bpi.value,&input.payoff_unit,"pay_to_acquire_information","ex_ante_sure_transfer",Some("bpi_root")),
+        "spi": measure("spi",&result.spi.status,result.spi.value,&input.payoff_unit,"receive_to_surrender_information","ex_ante_sure_transfer",Some("spi_root")),
+        "ppi": measure("ppi",&result.ppi.status,result.ppi.value,"dimensionless","uninformed_to_informed","terminal_floor",result.ppi.diagnostic_code.as_deref()),
+        "bpi_root": root_payload(&result.bpi_root),
+        "spi_root": root_payload(&result.spi_root),
+        "affine_reduction": {"status":result.affine_reduction.status,"monetary_measure":result.affine_reduction.monetary_measure,"value":result.affine_reduction.value},
+        "comparability": {"stakeholder_scope_id":result.comparability.stakeholder_scope_id,"numeric_within_problem":result.comparability.numeric_within_problem,"numeric_cross_problem":result.comparability.numeric_cross_problem,"required_shared_fields":result.comparability.required_shared_fields,"ranking_equivalence":result.comparability.ranking_equivalence.iter().map(|rule| serde_json::json!({"scope":rule.scope,"left_measure":rule.left_measure,"right_measure":rule.right_measure,"status":rule.status,"condition":rule.condition})).collect::<Vec<_>>()},
+        "presentation": {"presentation_label":request.presentation_label,"selected_measure":"eui","canonical_result_ref":"self"},
+    });
+    result_to_dict(py, &payload).map(|(result, _canonical_payload)| result)
+}
+
 /// Register the private `voiage._core` extension module.
 #[pymodule]
 fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
@@ -1105,6 +1352,10 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(compute_evsi_efficient_linear, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_moment_based, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_regression, module)?)?;
+    module.add_function(wrap_pyfunction!(
+        compute_expected_utility_information,
+        module
+    )?)?;
     module.add_function(wrap_pyfunction!(serialize_ceaf_result, module)?)?;
     module.add_function(wrap_pyfunction!(serialize_dominance_result, module)?)?;
     Ok(())

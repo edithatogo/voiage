@@ -58,3 +58,8 @@ builds the FFI library, and runs `Pkg.test()`. TagBot is configured for the
 `bindings/julia` subpackage and will create collision-free `julia-v*` tags
 after Registrator accepts a version. The binding intentionally exposes only
 the stable EVPI contract currently available through the shared Rust ABI.
+
+The experimental expected-utility information-pricing family and its VoC
+presentation are not exposed by this Julia package because the stable C ABI
+has no corresponding symbol. The family capability record therefore marks
+Julia as `unsupported`; this is an explicit boundary, not a parity claim.

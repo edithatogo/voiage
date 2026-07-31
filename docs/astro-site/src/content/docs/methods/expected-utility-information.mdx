@@ -1,0 +1,108 @@
+---
+title: Expected-utility information pricing
+description: Experimental EUI, CEI, BPI, SPI, PPI, and VoC presentation contract
+---
+
+Expected-utility information pricing values evidence for a declared
+decision-maker utility, wealth basis, stakeholder scope, and information
+structure. It is an **experimental**, Rust-authoritative frontier method. Its
+contracts may change before stable promotion.
+
+Use this family when risk attitude is part of the decision model. It does not
+replace monetary EVPI or EVSI for risk-neutral net-benefit models, and it does
+not make different stakeholders or decision problems numerically comparable.
+
+## Measures and units
+
+Let `EU0` be optimized expected utility without the information and `EU1` the
+expected utility under the signal-contingent informed policy.
+
+| Measure | Interpretation | Unit |
+| --- | --- | --- |
+| EUI | `EU1 - EU0` | Declared utility scale |
+| CEI | Difference between the informed and current certainty equivalents | Payoff unit |
+| BPI | Largest ex-ante sure transfer paid to acquire information while preserving current expected utility | Payoff unit |
+| SPI | Smallest ex-ante sure transfer received to surrender information while preserving informed expected utility | Payoff unit |
+| PPI | EUI divided by the informed-utility gain above a declared terminal-outcome floor | Dimensionless |
+
+EUI values depend on utility normalization. CEI, BPI, and SPI are expressed in
+the declared payoff unit, but they need not be equal under nonlinear utility.
+PPI is available only when the declared floor is in the utility domain and
+creates a positive denominator. Consult the result's pairwise `comparability`
+matrix before ranking alternatives or comparing analyses.
+
+## Required decision contract
+
+Every request explicitly declares:
+
+- action and state identifiers, terminal payoff matrix, and state
+  probabilities;
+- initial wealth, payoff unit, three-letter currency, price date, and
+  stakeholder scope;
+- an affine, exponential, logarithmic, or power utility descriptor;
+- either clairvoyance or a finite signal through joint signal-state
+  probabilities;
+- the `ex_ante_sure_transfer` information-cost location; and
+- bounded root-solver tolerances and evaluation limits.
+
+The implementation optimizes both current and signal-conditional policies.
+For bounded-domain utilities, infeasible action/state combinations appear as
+structured `domain_exclusions`; they are not silently represented as infinite
+or missing payoffs.
+
+## Root assurance
+
+BPI and SPI are indifference-price roots. Read their complete `bpi_root` and
+`spi_root` records before using an estimate. A usable root reports its status,
+bracket, final width, residual, iteration and evaluation counts, evaluated
+policies, and policy transitions. Failure states such as `utility_domain`,
+`not_bracketed`, `discontinuous_no_root`, and exhausted iteration or evaluation
+limits do not fabricate a price.
+
+## Value of Clairvoyance presentation
+
+Value of Clairvoyance (VoC) is a presentation of this family's clairvoyant
+policy result. It is not a separate numerical method or kernel. The Python
+helper `value_of_clairvoyance(...)` therefore requires
+`information.kind="clairvoyant"` and returns the canonical result with a `voc`
+presentation label.
+
+The optional monetary `evpi` display alias is available only when the request
+uses a verified positive-affine utility. For exponential, logarithmic, or
+power utility, request EUI, CEI, BPI, SPI, or PPI instead; the implementation
+fails closed with `affine_reduction_required` rather than relabelling a
+nonlinear result as EVPI. A finite-signal positive-affine reduction is EVSI,
+not VoC or EVPI.
+
+## Python and CLI
+
+```python
+from voiage.methods.utility_information import (
+    expected_utility_information_value,
+    value_of_clairvoyance,
+)
+
+result = expected_utility_information_value(request)
+voc = value_of_clairvoyance(request, selected_measure="bpi")
+```
+
+The same versioned request object can be supplied as JSON:
+
+```sh
+voiage calculate-expected-utility-information request.json --measure bpi
+voiage calculate-expected-utility-information request.json \
+  --presentation voc --measure eui
+```
+
+There is deliberately no `calculate-voc` command. See the
+[accessible worked example](/examples/expected-utility-information/) and the
+[frontier contract](https://github.com/edithatogo/voiage/tree/main/specs/frontier/expected-utility-information-pricing/v1)
+for a runnable request and the complete result schema.
+
+## Maturity and language boundary
+
+Rust and Python execute this experimental family. R and Julia do not expose
+it, and Mojo remains an external interoperability boundary. Stable promotion
+requires scientific review, complete assurance evidence, hosted checks, and a
+separate approval; documentation and deterministic fixtures do not establish
+those outcomes.

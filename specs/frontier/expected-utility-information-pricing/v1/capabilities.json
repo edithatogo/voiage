@@ -1,0 +1,40 @@
+{
+  "schema_version": "expected-utility-information-capabilities-v1",
+  "method_family": "expected_utility_information_pricing",
+  "method_maturity": "experimental",
+  "execution_authority": "rust",
+  "fixture_manifest": "specs/frontier/expected-utility-information-pricing/v1/fixtures/manifest.json",
+  "python_modules": ["voiage/methods/utility_information.py"],
+  "bindings": [
+    {
+      "language": "rust",
+      "status": "executable",
+      "surface": "voiage_numerics::expected_utility_information",
+      "evidence": "rust/crates/voiage-numerics/tests/expected_utility_information.rs",
+      "fixture_evidence": true
+    },
+    {
+      "language": "python",
+      "status": "executable",
+      "surface": "voiage.methods.utility_information.expected_utility_information_value",
+      "adapter": "pyo3",
+      "evidence": "tests/test_expected_utility_information.py",
+      "fixture_evidence": true
+    },
+    {
+      "language": "r",
+      "status": "unsupported",
+      "reason": "No expected-utility information-pricing C ABI or R facade is implemented."
+    },
+    {
+      "language": "julia",
+      "status": "unsupported",
+      "reason": "No expected-utility information-pricing C ABI or Julia facade is implemented."
+    },
+    {
+      "language": "mojo",
+      "status": "external_boundary",
+      "reason": "The repository has no local Mojo binding; any future surface depends on upstream Rust interop."
+    }
+  ]
+}

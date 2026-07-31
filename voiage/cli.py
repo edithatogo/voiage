@@ -146,6 +146,10 @@ from voiage.methods.threshold import (
 from voiage.methods.threshold import (
     value_of_threshold as calculate_threshold_result,
 )
+from voiage.methods.utility_information import (
+    expected_utility_information_value,
+    value_of_clairvoyance,
+)
 from voiage.methods.validation import (
     ModelValidationResult,
     ValidationProfile,
@@ -3898,6 +3902,106 @@ def calculate_validation(
     except (json.JSONDecodeError, TypeError, ValueError) as e:
         typer.echo(f"Error: {e}", err=True)
         raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-expected-utility-information")
+def calculate_expected_utility_information(
+    request_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to the versioned expected-utility information request JSON",
+    ),
+    presentation_label: Literal["canonical", "voc"] = typer.Option(
+        "canonical",
+        "--presentation",
+        help="Render the canonical result directly or as a VoC presentation",
+    ),
+    selected_measure: Literal["eui", "cei", "bpi", "spi", "ppi", "evpi"] = typer.Option(
+        "eui",
+        "--measure",
+        help="Measure selected for presentation; evpi requires affine clairvoyance",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the result"
+    ),
+) -> None:
+    """Compute one canonical expected-utility information result.
+
+    ``voc`` is a presentation of the same clairvoyant result, not a second
+    numerical command or kernel.
+    """
+    try:
+        _log_cli_debug(
+            "calculate-expected-utility-information",
+            request_file=str(request_file),
+            presentation_label=presentation_label,
+            selected_measure=selected_measure,
+        )
+        request = _read_json_file(request_file)
+        if not isinstance(request, dict):
+            raise TypeError("Expected-utility request file must contain a JSON object.")
+        typed_request = dict(cast("dict[str, object]", request))
+        typed_request["presentation_label"] = presentation_label
+        if presentation_label == "voc":
+            result = value_of_clairvoyance(
+                typed_request,
+                selected_measure=selected_measure,
+            )
+        else:
+            if selected_measure == "evpi":
+                raise ValueError("The evpi display alias requires --presentation voc.")
+            result = expected_utility_information_value(typed_request)
+            presentation = dict(cast("dict[str, object]", result["presentation"]))
+            presentation["selected_measure"] = selected_measure
+            result["presentation"] = presentation
+
+        measure_result = cast(
+            "dict[str, object]",
+            result[
+                "affine_reduction" if selected_measure == "evpi" else selected_measure
+            ],
+        )
+        measure_status = cast("str", measure_result["status"])
+        selected_value = measure_result["value"]
+        if measure_status == "failed":
+            diagnostics_ref = measure_result.get("diagnostics_ref")
+            root = cast("dict[str, object]", result.get(diagnostics_ref, {}))
+            termination = root.get("termination_reason", "unspecified failure")
+            raise ValueError(
+                f"{selected_measure} failed: {termination} "
+                f"(diagnostics: {diagnostics_ref or 'none'})"
+            )
+        text = (
+            f"Expected-utility information ({selected_measure}): "
+            f"{selected_value if selected_value is not None else 'unavailable'}"
+        )
+        output_text = _format_output(
+            text,
+            {
+                "command": "calculate-expected-utility-information",
+                "selected_measure": selected_measure,
+                "selected_status": measure_status,
+                "selected_value": selected_value,
+                "result": result,
+            },
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except FileNotFoundError:
+        typer.echo(f"Error: Request file not found at '{request_file}'", err=True)
+        raise typer.Exit(code=1) from None
+    except (json.JSONDecodeError, TypeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
     except Exception as e:
         typer.echo(f"An error occurred: {e}", err=True)
         raise typer.Exit(code=1) from e

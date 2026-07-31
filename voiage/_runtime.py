@@ -131,6 +131,15 @@ def compute_evsi_evpi_efficiency(
     return dict(result)
 
 
+def compute_expected_utility_information(request_json: str) -> dict[str, object]:
+    """Compute the canonical expected-utility information result in Rust."""
+    try:
+        result = _native().compute_expected_utility_information(request_json)
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
 def compute_heterogeneity(
     net_benefit: list[list[float]], subgroups: list[str]
 ) -> dict[str, object]:

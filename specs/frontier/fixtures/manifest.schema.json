@@ -44,6 +44,13 @@
               "experimental",
               "fixture-backed"
             ]
+          },
+          "manifest_kind": {
+            "type": "string",
+            "enum": [
+              "split",
+              "bundled"
+            ]
           }
         }
       }

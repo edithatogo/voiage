@@ -41,8 +41,13 @@ def test_extension_policy_covers_every_methods_module() -> None:
         for path in (ROOT / "voiage/methods").glob("*.py")
         if path.name != "__init__.py"
     }
+    frontier_modules: set[str] = set()
+    for capability_path in (ROOT / "specs/frontier").glob("*/v1/capabilities.json"):
+        capability = json.loads(capability_path.read_text(encoding="utf-8"))
+        frontier_modules.update(capability.get("python_modules", []))
     declared = set(policy["modules"]) | set(policy["stable_kernel_facades"])
-    assert declared == actual
+    assert declared | frontier_modules == actual
+    assert declared.isdisjoint(frontier_modules)
     assert set(policy["stable_kernel_facades"]).isdisjoint(set(policy["modules"]))
     assert set(policy["modules"].values()) == {"optional_extension", "experimental"}
 

@@ -3,7 +3,7 @@
 """A module for the core decision analysis interface."""
 
 from collections import deque
-from collections.abc import Callable, Generator, Sequence
+from collections.abc import Callable, Generator, Mapping, Sequence
 from typing import Any, Protocol
 
 import numpy as np
@@ -432,6 +432,21 @@ class DecisionAnalysis:
                 self.parameter_samples = ParameterSet.from_numpy_or_dict(
                     combined_params
                 )
+
+    def expected_utility_information(
+        self, request: Mapping[str, object]
+    ) -> dict[str, object]:
+        """Run the experimental Rust expected-utility information contract.
+
+        The request must identify finite states and probabilities explicitly;
+        rows in the analysis PSA array are not silently reinterpreted as a
+        decision-maker's state distribution.
+        """
+        from voiage.methods.utility_information import (
+            expected_utility_information_value,
+        )
+
+        return expected_utility_information_value(request)
 
     def streaming_evpi(self) -> Generator[float, None, None]:
         """Yield EVPI repeatedly for the current data state.

@@ -63,10 +63,18 @@ This document lists the actionable tasks for `voiage` development. Agents should
         must be provenance-declared as disjoint from COSS research cost, and
         tolerance ties use a fixed global maximum. Domain-specific adjustment
         estimators and platform adapters remain follow-on scope.
-    *   Keep VoC in #595 as the expected-utility/clairvoyant-policy alias or
-        presentation; do not create a duplicate numerical method.
-    *   VoC classification is planned for v1.2.0 under canonical M16/M17 and
-        `supported_frontier_method_completion_20260723`.
+*   [~] Implement expected-utility information pricing and VoC presentation.
+    *   Conductor track: `risk_adjusted_information_pricing_20260731`.
+    *   Planned contract: v1.2.0; MoSCoW: Must; canonical requirements M16/M17.
+    *   GitHub issue #595 with native delivery subissues #694–#697 under #318.
+    *   Repository implementation now provides EUI, CEI, BPI, SPI and anchored
+        PPI with declared utility, wealth/reference, information/cost location,
+        scope, root diagnostics, comparability and deterministic provenance.
+    *   VoC delegates to the same expected-utility/clairvoyant-policy result;
+        only verified positive-affine utility exposes the monetary EVPI alias.
+    *   Rust and Python are executable; R and Julia are explicitly unsupported;
+        Mojo remains an external boundary. Keep this item in progress pending
+        scientific review, exact-head hosted checks and stable-promotion approval.
 
 *   [ ] Complete standardized dataset ingestion through one format-neutral
     conductor input contract and optional source-format providers.

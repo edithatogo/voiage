@@ -59,6 +59,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   binding-profile selection, with stable exit codes for safe source, binding,
   and output failures. Resource projection remains unavailable where built-in
   provider capabilities cannot enforce it.
+- Added the experimental Rust-authoritative expected-utility information-
+  pricing family with Python facade and CLI for EUI, CEI, BPI, SPI and anchored
+  PPI; VoC is a presentation of the same clairvoyant result, monetary EVPI is
+  restricted to verified affine reductions, and machine-readable capability
+  records preserve unsupported R/Julia and external Mojo boundaries.
 - Added pandas and Polars DataFrame-interchange consumer coverage for nullable
   categorical and timezone-aware columns, index exclusion, and conservative
   copy diagnostics based on the Arrow conversion actually returned.

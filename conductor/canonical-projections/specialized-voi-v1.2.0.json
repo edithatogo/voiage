@@ -51,8 +51,15 @@
       "repository": "edithatogo/voiage",
       "number": 595,
       "parent": 318,
-      "track_id": "supported_frontier_method_completion_20260723",
+      "track_id": "risk_adjusted_information_pricing_20260731",
       "record_id": "risk-adjusted-information-pricing",
+      "capability_contract": "conductor/tracks/risk_adjusted_information_pricing_20260731/contract.md",
+      "subissues": [
+        694,
+        695,
+        696,
+        697
+      ],
       "requirement_ids": [
         "M16",
         "M17"

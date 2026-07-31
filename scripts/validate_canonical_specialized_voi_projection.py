@@ -11,7 +11,7 @@ from typing import Any
 EXPECTED_ISSUES = {
     318: ("supported_frontier_method_completion_20260723", {"M16", "M17"}),
     571: ("study_design_efficiency_20260727", {"M15", "M17"}),
-    595: ("supported_frontier_method_completion_20260723", {"M16", "M17"}),
+    595: ("risk_adjusted_information_pricing_20260731", {"M16", "M17"}),
     619: ("estimation_focused_variance_voi_20260727", {"M14", "M17"}),
 }
 
@@ -50,7 +50,9 @@ def validate(projection_path: Path, repository_root: Path) -> None:
         raise TypeError("projection issues must be a list")
     actual = {issue.get("number"): issue for issue in issues if isinstance(issue, dict)}
     if set(actual) != set(EXPECTED_ISSUES):
-        raise ValueError("projection must contain exactly the governed specialized issues")
+        raise ValueError(
+            "projection must contain exactly the governed specialized issues"
+        )
 
     for number, (track_id, requirement_ids) in EXPECTED_ISSUES.items():
         issue = actual[number]
@@ -61,8 +63,18 @@ def validate(projection_path: Path, repository_root: Path) -> None:
         if set(issue.get("requirement_ids", [])) != requirement_ids:
             raise ValueError(f"#{number} requirement IDs do not match C16")
 
+    voc = actual[595]
+    if voc.get("subissues") != [694, 695, 696, 697]:
+        raise ValueError("#595 must own the four native utility-price subissues")
+    if voc.get("capability_contract") != (
+        "conductor/tracks/risk_adjusted_information_pricing_20260731/contract.md"
+    ):
+        raise ValueError("#595 capability contract does not match its delivery track")
+
     for track_id, requirement_ids in EXPECTED_ISSUES.values():
-        metadata = _load(repository_root / "conductor/tracks" / track_id / "metadata.json")
+        metadata = _load(
+            repository_root / "conductor/tracks" / track_id / "metadata.json"
+        )
         if metadata.get("canonical_track") != "C16":
             raise ValueError(f"{track_id} is not linked to C16")
         if metadata.get("planned_version") != "1.2.0":
