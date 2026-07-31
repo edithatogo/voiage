@@ -329,7 +329,9 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   runner now fails if any supported representation differs in EVPI. The
   engineering cost/outcome fixture additionally proves normalized net-benefit
   and CEAF equivalence across Croissant, Frictionless, direct Arrow, and
-  DataFrame inputs at declared WTP values; EVSI, EVPPI, ENBS, long-form, and
+  DataFrame inputs at declared WTP values. A separate explicitly bound long
+  net-benefit fixture now proves equivalent Croissant, Frictionless, and direct
+  Arrow normalization without semantic inference; EVSI, EVPPI, ENBS, and
   perspective-split claims remain explicitly out of scope for these fixtures
   (partial; broader hosted evidence remains required).
 - [~] **P9-T5 / AC-13:** Publish the support matrix and run fixture

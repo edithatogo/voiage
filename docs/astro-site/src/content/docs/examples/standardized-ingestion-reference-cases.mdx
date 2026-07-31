@@ -77,6 +77,26 @@ The scripts deliberately report a fixture as deterministic synthetic data,
 rather than presenting a substitute for a rights clearance or live provider
 receipt.
 
+## Long-layout equivalence
+
+`long-decision` records the same deterministic two-strategy samples as the
+canonical wide fixture, but declares a sample identifier, strategy label, and
+one net-benefit value per row. Its long binding explicitly names all three
+fields and fixes the strategy order; no column or label is inferred. The
+Croissant, Frictionless, and direct Arrow representations must each normalize
+to the same `ValueArray` as the wide fixture before EVPI is calculated.
+
+```python
+from examples.standardized_ingestion.reference_cases import run_long_reference_cases
+
+long_case = run_long_reference_cases()
+normalized = long_case["normalized_net_benefit"]
+assert normalized["croissant"] == normalized["frictionless"] == normalized["direct"]
+```
+
+This evidence covers declared long net-benefit rows only. It does not turn an
+arbitrary long table into a cost/outcome or perspective-specific dataset.
+
 ### CEAF equivalence
 
 The engineering fixture also supplies paired cost and outcome PSA rows for the
@@ -104,9 +124,9 @@ DataFrame surface is checked before the example returns.
 
 | Community | EVPI | CEAF | EVPPI / EVSI / ENBS | Shape coverage |
 | --- | --- | --- | --- | --- |
-| Machine learning | Evaluated on explicit wide net-benefit samples. | Not applicable: no cost/outcome WTP surface. | Not applicable: no conditional or study-design inputs. | Wide only; no long, cost/outcome, or perspective-split fixture. |
-| Engineering and operations | Evaluated at WTP 20,000. | Evaluated on paired cost/outcome PSA rows at WTP 10,000, 20,000, and 30,000. | Not applicable: no conditional or study-design inputs. | Cost/outcome wide rows; no long or perspective-split fixture. |
-| Business | Evaluated on explicit wide net-benefit samples. | Not applicable: no cost/outcome WTP surface. | Not applicable: no conditional or study-design inputs. | Wide only; no long, cost/outcome, or perspective-split fixture. |
+| Machine learning | Evaluated on explicit wide and declared long net-benefit samples. | Not applicable: no cost/outcome WTP surface. | Not applicable: no conditional or study-design inputs. | Wide and declared long net-benefit rows; no perspective-split fixture. |
+| Engineering and operations | Evaluated at WTP 20,000. | Evaluated on paired cost/outcome PSA rows at WTP 10,000, 20,000, and 30,000. | Not applicable: no conditional or study-design inputs. | Cost/outcome wide rows and declared long net-benefit rows; no perspective-split fixture. |
+| Business | Evaluated on explicit wide and declared long net-benefit samples. | Not applicable: no cost/outcome WTP surface. | Not applicable: no conditional or study-design inputs. | Wide and declared long net-benefit rows; no perspective-split fixture. |
 
 This matrix is a fixture-support boundary, not a statement that the omitted
 methods or shapes are unsupported by `voiage` generally. It prevents these

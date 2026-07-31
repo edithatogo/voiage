@@ -17,6 +17,7 @@ def test_checked_in_fixture_corpus_has_current_digests() -> None:
     assert [path.name for path in manifests] == [
         "canonical-decision.manifest.json",
         "cost-outcome-decision.manifest.json",
+        "long-decision.manifest.json",
     ]
     assert validator.main([str(FIXTURE_ROOT)]) == 0
 
