@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping  # noqa: TC003 - Pydantic resolves annotations
+from math import isclose
 from typing import Annotated, Literal, Self
 
 from pydantic import (
@@ -102,13 +103,31 @@ class CossCurvePointV1(ContractModel):
 
     design_id: Identifier
     sample_size: int = Field(ge=0)
-    evsi: float
+    evsi: float = Field(ge=0.0)
     research_cost: float = Field(ge=0.0)
     enbs: float
     feasible: bool
     feasibility_codes: tuple[Identifier, ...] = ()
     enbs_standard_error: float | None = Field(default=None, ge=0.0)
     enbs_confidence_interval: tuple[float, float] | None = None
+    estimator_provenance: Mapping[str, JsonValue] = Field(default_factory=dict)
+
+    @field_serializer("estimator_provenance")
+    def serialize_estimator_provenance(self, value: object) -> object:
+        """Restore the JSON mapping shape for canonical serialization."""
+        return thaw_json(value)
+
+    @model_validator(mode="after")
+    def validate_scientific_values(self) -> Self:
+        """Require signed subtraction and an ordered uncertainty interval."""
+        if not isclose(
+            self.enbs, self.evsi - self.research_cost, rel_tol=0.0, abs_tol=0.0
+        ):
+            raise ValueError("enbs must equal evsi minus research_cost")
+        interval = self.enbs_confidence_interval
+        if interval is not None and interval[0] > interval[1]:
+            raise ValueError("ENBS confidence interval lower bound exceeds upper bound")
+        return self
 
 
 class SelectionUncertaintyV1(ContractModel):
@@ -131,6 +150,10 @@ class SelectionUncertaintyV1(ContractModel):
             for probability in self.probability_by_design.values():
                 if not 0.0 <= probability <= 1.0:
                     raise ValueError("selection probabilities must be in [0, 1]")
+            if sum(self.probability_by_design.values()) > 1.0 + 1e-12:
+                raise ValueError("selection probability mass must not exceed one")
+        if self.method in {"bootstrap", "monte_carlo"} and self.replicate_count is None:
+            raise ValueError("simulation-based uncertainty requires replicate_count")
         if self.method == "unavailable" and (
             self.replicate_count is not None
             or self.probability_by_design is not None
@@ -194,6 +217,157 @@ class CossResultV1(ContractModel):
     selection_uncertainty: SelectionUncertaintyV1
     plot_data: CossPlotDataV1
     diagnostics: tuple[Identifier, ...] = ()
+    estimator_provenance: Mapping[str, JsonValue] = Field(default_factory=dict)
+
+    @field_serializer("estimator_provenance")
+    def serialize_estimator_provenance(self, value: object) -> object:
+        """Restore the JSON mapping shape for canonical serialization."""
+        return thaw_json(value)
+
+    @model_validator(mode="after")
+    def validate_result_relations(self) -> Self:
+        """Reject internally inconsistent or corrupted result envelopes."""
+        if not self.evaluated_designs:
+            raise ValueError("evaluated_designs must not be empty")
+        ids = tuple(point.design_id for point in self.evaluated_designs)
+        if len(set(ids)) != len(ids):
+            raise ValueError("evaluated design_id values must be unique")
+        feasible = tuple(point for point in self.evaluated_designs if point.feasible)
+        expected_sizes = tuple(sorted({point.sample_size for point in feasible}))
+        if self.feasible_sample_sizes != expected_sizes:
+            raise ValueError("feasible_sample_sizes disagree with evaluated designs")
+        by_id = {point.design_id: point for point in self.evaluated_designs}
+        feasible_ids = {point.design_id for point in feasible}
+        if any(
+            item not in by_id or not by_id[item].feasible
+            for item in self.tied_optimal_design_ids
+        ):
+            raise ValueError("tied optimum must reference feasible evaluated designs")
+        uncertainty = self.selection_uncertainty
+        if any(
+            item not in feasible_ids for item in uncertainty.confidence_set_design_ids
+        ):
+            raise ValueError("selection confidence set must reference feasible designs")
+        if uncertainty.probability_by_design is not None:
+            if any(item not in by_id for item in uncertainty.probability_by_design):
+                raise ValueError("selection probabilities reference unknown designs")
+            if any(
+                probability > 0.0 and item not in feasible_ids
+                for item, probability in uncertainty.probability_by_design.items()
+            ):
+                raise ValueError(
+                    "positive selection probability requires a feasible design"
+                )
+        if not feasible:
+            if (
+                any(
+                    value is not None
+                    for value in (
+                        self.optimal_design_id,
+                        self.optimal_sample_size,
+                        self.maximum_enbs,
+                    )
+                )
+                or self.tied_optimal_design_ids
+                or self.boundary_state != "none"
+            ):
+                raise ValueError(
+                    "a result without feasible designs cannot have an optimum"
+                )
+        else:
+            maximum = max(point.enbs for point in feasible)
+            if self.maximum_enbs is None or not isclose(
+                self.maximum_enbs, maximum, rel_tol=0.0, abs_tol=0.0
+            ):
+                raise ValueError("maximum_enbs disagrees with evaluated designs")
+            tolerance = self.absolute_tolerance + self.relative_tolerance * max(
+                abs(maximum), 1.0
+            )
+            expected_ties = tuple(
+                point.design_id
+                for point in feasible
+                if maximum - point.enbs <= tolerance
+            )
+            if self.tied_optimal_design_ids != expected_ties:
+                raise ValueError("tied optimum set disagrees with tolerance policy")
+            if self.optimal_design_id not in expected_ties:
+                raise ValueError(
+                    "optimal_design_id must belong to the tied optimum set"
+                )
+            optimum = by_id[self.optimal_design_id]
+            if self.optimal_sample_size != optimum.sample_size:
+                raise ValueError("optimal_sample_size disagrees with optimal_design_id")
+            if self.tie_policy == "first_declared":
+                expected_id = expected_ties[0]
+            elif self.tie_policy == "smallest_sample_size":
+                expected_id = min(
+                    expected_ties,
+                    key=lambda item: (by_id[item].sample_size, item),
+                )
+            else:
+                largest_size = max(by_id[item].sample_size for item in expected_ties)
+                expected_id = min(
+                    item
+                    for item in expected_ties
+                    if by_id[item].sample_size == largest_size
+                )
+            if self.optimal_design_id != expected_id:
+                raise ValueError("optimal_design_id disagrees with tie policy")
+            low, high = expected_sizes[0], expected_sizes[-1]
+            expected_boundary = (
+                "both"
+                if low == high
+                else "lower"
+                if optimum.sample_size == low
+                else "upper"
+                if optimum.sample_size == high
+                else "interior"
+            )
+            if self.boundary_state != expected_boundary:
+                raise ValueError("boundary_state disagrees with feasible designs")
+        expected_plot = (
+            ids,
+            tuple(point.sample_size for point in self.evaluated_designs),
+            tuple(point.evsi for point in self.evaluated_designs),
+            tuple(point.research_cost for point in self.evaluated_designs),
+            tuple(point.enbs for point in self.evaluated_designs),
+            tuple(point.feasible for point in self.evaluated_designs),
+            tuple(
+                None
+                if point.enbs_confidence_interval is None
+                else point.enbs_confidence_interval[0]
+                for point in self.evaluated_designs
+            ),
+            tuple(
+                None
+                if point.enbs_confidence_interval is None
+                else point.enbs_confidence_interval[1]
+                for point in self.evaluated_designs
+            ),
+        )
+        actual_plot = (
+            self.plot_data.design_ids,
+            self.plot_data.sample_sizes,
+            self.plot_data.evsi,
+            self.plot_data.research_cost,
+            self.plot_data.enbs,
+            self.plot_data.feasible,
+            self.plot_data.enbs_lower,
+            self.plot_data.enbs_upper,
+        )
+        if actual_plot != expected_plot or (
+            self.plot_data.optimal_design_id,
+            self.plot_data.tied_optimal_design_ids,
+            self.plot_data.boundary_state,
+        ) != (
+            self.optimal_design_id,
+            self.tied_optimal_design_ids,
+            self.boundary_state,
+        ):
+            raise ValueError("plot_data disagrees with the COSS result")
+        if not self.estimator_provenance:
+            raise ValueError("estimator_provenance must not be empty")
+        return self
 
 
 class InformationValueInputV1(ContractModel):
@@ -219,6 +393,46 @@ class InformationEfficiencyResultV1(ContractModel):
     relative_tolerance: float = Field(ge=0.0)
     bound_tolerance: float = Field(ge=0.0)
     diagnostics: tuple[Identifier, ...] = ()
+
+    @model_validator(mode="after")
+    def validate_result_relations(self) -> Self:
+        """Reject inconsistent ratios, percentages and status labels."""
+        expected_tolerance = self.absolute_tolerance + self.relative_tolerance * max(
+            abs(self.evpi), 1.0
+        )
+        if not isclose(
+            self.bound_tolerance, expected_tolerance, rel_tol=0.0, abs_tol=0.0
+        ):
+            raise ValueError("bound_tolerance disagrees with EVPI and tolerances")
+        if self.status == "undefined_zero_evpi":
+            if (
+                self.ratio is not None
+                or self.percentage is not None
+                or abs(self.evpi) > self.bound_tolerance
+            ):
+                raise ValueError("undefined_zero_evpi fields are inconsistent")
+            return self
+        if self.evpi == 0.0 or self.ratio is None or self.percentage is None:
+            raise ValueError(
+                "defined efficiency requires non-zero EVPI and ratio fields"
+            )
+        expected_ratio = self.evsi / self.evpi
+        if not isclose(
+            self.ratio, expected_ratio, rel_tol=1e-15, abs_tol=0.0
+        ) or not isclose(
+            self.percentage, 100.0 * expected_ratio, rel_tol=1e-15, abs_tol=0.0
+        ):
+            raise ValueError("ratio or percentage disagrees with EVSI and EVPI")
+        expected_status = (
+            "below_zero_within_tolerance"
+            if self.evsi < 0.0
+            else "above_one_within_tolerance"
+            if self.evsi > self.evpi
+            else "within_bounds"
+        )
+        if self.status != expected_status:
+            raise ValueError("status disagrees with EVSI and EVPI")
+        return self
 
 
 __all__ = [
