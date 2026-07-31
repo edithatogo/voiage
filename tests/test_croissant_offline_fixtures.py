@@ -5,11 +5,17 @@ from __future__ import annotations
 import hashlib
 import json
 from pathlib import Path
+from typing import cast
 
 import pytest
 
+from voiage import ingestion
 from voiage.ingestion.base import IngestionError, SourceAccessPolicy
-from voiage.ingestion.croissant import CroissantProvider, CroissantSelection
+from voiage.ingestion.croissant import (
+    CroissantProvider,
+    CroissantSelection,
+    _select_by_identifier,
+)
 from voiage.ingestion.registry import default_registry
 
 _FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "croissant_1_1"
@@ -160,6 +166,23 @@ def test_croissant_multi_pair_fixture_requires_explicit_local_selection() -> Non
         )
 
 
+def test_croissant_multi_pair_fixture_requires_a_distribution_selector() -> None:
+    """A record-set selector alone cannot silently choose a distribution."""
+    descriptor_path = _FIXTURE_ROOT / "valid" / "multi-pair-croissant.json"
+
+    with pytest.raises(IngestionError, match="distribution selection is required"):
+        CroissantProvider().ingest(
+            descriptor_path,
+            policy=SourceAccessPolicy(_FIXTURE_ROOT),
+            selection=CroissantSelection(record_set="baseline_samples"),
+        )
+
+
+def test_croissant_public_selection_export_stays_lazy_and_available() -> None:
+    """The source-pair selector is a lazy public adapter export."""
+    assert ingestion.CroissantSelection is CroissantSelection
+
+
 @pytest.mark.parametrize(
     ("selection", "message"),
     [
@@ -226,6 +249,73 @@ def test_croissant_multi_pair_fixture_preserves_selected_receipt_identity() -> N
         "recordSet": "alternate_samples",
         "distribution": "#alternate",
     }
+
+
+def test_croissant_selection_rejects_non_string_distribution_identifier(
+    tmp_path,
+) -> None:
+    """An invalid runtime selector cannot smuggle a non-string distribution ID."""
+    (tmp_path / "samples.csv").write_text("value\n1\n", encoding="utf-8")
+    descriptor = tmp_path / "croissant.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "@context": "https://mlcommons.org/croissant/1.1",
+                "distribution": [{"@id": True, "contentUrl": "samples.csv"}],
+                "recordSet": [
+                    {
+                        "name": "one",
+                        "distribution": True,
+                        "field": [{"name": "value"}],
+                    },
+                    {
+                        "name": "two",
+                        "distribution": True,
+                        "field": [{"name": "value"}],
+                    },
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(IngestionError, match="requires a string @id"):
+        CroissantProvider().ingest(
+            descriptor,
+            policy=SourceAccessPolicy(tmp_path),
+            selection=CroissantSelection(
+                record_set="one",
+                distribution=cast("str", True),
+            ),
+        )
+
+
+@pytest.mark.parametrize(
+    ("entries", "identifier", "message"),
+    [
+        (
+            ({"name": "one"}, {"name": "two"}),
+            None,
+            "recordSet selection is required",
+        ),
+        (
+            ({"name": "one"}, {"name": "one"}),
+            "one",
+            "recordSet identifiers must be unique",
+        ),
+    ],
+)
+def test_croissant_selector_helper_rejects_ambiguous_candidates(
+    entries: tuple[dict[str, object], ...], identifier: str | None, message: str
+) -> None:
+    """Selector helper emits stable diagnostics for every ambiguous state."""
+    with pytest.raises(IngestionError, match=message):
+        _select_by_identifier(
+            entries,
+            identifier=identifier,
+            member="name",
+            label="recordSet",
+        )
 
 
 def test_croissant_offline_identity_fixture_preserves_governance() -> None:
