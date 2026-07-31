@@ -63,11 +63,6 @@ This document lists the actionable tasks for `voiage` development. Agents should
         must be provenance-declared as disjoint from COSS research cost, and
         tolerance ties use a fixed global maximum. Domain-specific adjustment
         estimators and platform adapters remain follow-on scope.
-    *   Keep VoC in #595 as the expected-utility/clairvoyant-policy alias or
-        presentation; do not create a duplicate numerical method.
-    *   VoC classification is planned for v1.2.0 under canonical M16/M17 and
-        `supported_frontier_method_completion_20260723`.
-
 *   [~] Implement expected-utility information pricing and VoC presentation.
     *   Conductor track: `risk_adjusted_information_pricing_20260731`.
     *   Planned contract: v1.2.0; MoSCoW: Must; canonical requirements M16/M17.
