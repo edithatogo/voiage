@@ -11,13 +11,14 @@ from pydantic import ValidationError
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
+    from voiage.contracts.study_design import EfficiencyStatus
+
 from voiage import _runtime
 from voiage.contracts.study_design import (
     BoundaryState,
     CossCurvePointV1,
     CossPlotDataV1,
     CossResultV1,
-    EfficiencyStatus,
     FeasibleDesignRangeV1,
     InformationEfficiencyResultV1,
     InformationValueInputV1,
@@ -30,6 +31,19 @@ from voiage.exceptions import InputError
 
 _DEFAULT_ATOL = 1e-10
 _DEFAULT_RTOL = 1e-8
+
+
+def _efficiency_status(value: object) -> EfficiencyStatus:
+    """Validate the finite status vocabulary returned by the native boundary."""
+    status = str(value)
+    if status not in {
+        "within_bounds",
+        "below_zero_within_tolerance",
+        "above_one_within_tolerance",
+        "undefined_zero_evpi",
+    }:
+        raise ValueError("status")
+    return status
 
 
 def _require_contract_version(native: dict[str, object]) -> None:
@@ -429,7 +443,7 @@ def evsi_evpi_efficiency(
         _require_contract_version(native)
         ratio_raw = native["ratio"]
         ratio = None if ratio_raw is None else float(cast("float", ratio_raw))
-        status = cast("EfficiencyStatus", str(native["status"]))
+        status = _efficiency_status(native["status"])
         bound_tolerance = float(cast("float", native["bound_tolerance"]))
     except (KeyError, TypeError, ValueError) as error:
         raise InputError(

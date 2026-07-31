@@ -25,7 +25,6 @@ from voiage.contracts.study_portfolio import (
 from voiage.exceptions import InputError
 from voiage.experimental.study_design import calculate_coss, evsi_evpi_efficiency
 import voiage.experimental.study_portfolio as portfolio_module
-from voiage.experimental.study_portfolio import allocate_coss_portfolio
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -122,7 +121,7 @@ def _constraint(*, capacity: float = 1.0) -> PortfolioCapacityConstraintV1:
 
 
 def _result() -> StudyPortfolioResultV1:
-    return allocate_coss_portfolio(
+    return portfolio_module.allocate_coss_portfolio(
         candidates=(_candidate(),), constraints=(_constraint(),)
     )
 
@@ -381,28 +380,28 @@ def test_result_contract_rejects_an_empty_evaluation_set() -> None:
 
 def test_allocator_boundary_guards_and_optional_efficiency_diagnostic() -> None:
     with pytest.raises(InputError, match="at least one"):
-        allocate_coss_portfolio(candidates=())
+        portfolio_module.allocate_coss_portfolio(candidates=())
 
     candidates = tuple(
         _candidate().model_copy(update={"study_id": f"study-{index}"})
         for index in range(25)
     )
     with pytest.raises(InputError, match="at most 24"):
-        allocate_coss_portfolio(candidates=candidates)
+        portfolio_module.allocate_coss_portfolio(candidates=candidates)
 
     duplicate = _candidate()
     with pytest.raises(InputError, match="study_id values must be unique"):
-        allocate_coss_portfolio(
+        portfolio_module.allocate_coss_portfolio(
             candidates=(duplicate, duplicate), constraints=(_constraint(),)
         )
 
     constraint = _constraint()
     with pytest.raises(InputError, match="constraint_id values must be unique"):
-        allocate_coss_portfolio(
+        portfolio_module.allocate_coss_portfolio(
             candidates=(_candidate(),), constraints=(constraint, constraint)
         )
 
-    result = allocate_coss_portfolio(
+    result = portfolio_module.allocate_coss_portfolio(
         candidates=(_candidate(efficiency=False),), constraints=(_constraint(),)
     )
     assert "efficiency_not_supplied_for_all_candidates" in result.diagnostics
@@ -427,6 +426,6 @@ def test_allocator_translates_result_validation_failures(
     monkeypatch.setattr(portfolio_module, "StudyPortfolioResultV1", reject_result)
 
     with pytest.raises(InputError, match="scientific contract validation"):
-        allocate_coss_portfolio(
+        portfolio_module.allocate_coss_portfolio(
             candidates=(_candidate(),), constraints=(_constraint(),)
         )
