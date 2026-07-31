@@ -18,9 +18,9 @@ use std::sync::Mutex;
 use voiage_diagnostics::ErrorCategory;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
-    ceaf, dominance, enbs, evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_regression,
-    evsi_stochastic, heterogeneity, normal_normal_two_arm_evsi, structural_evpi, structural_evppi,
-    DominanceStatus as KernelDominanceStatus,
+    ceaf, coss, dominance, enbs, evpi, evppi, evsi_efficient_linear, evsi_evpi_efficiency,
+    evsi_moment_based, evsi_regression, evsi_stochastic, heterogeneity, normal_normal_two_arm_evsi,
+    structural_evpi, structural_evppi, DominanceStatus as KernelDominanceStatus,
 };
 use voiage_serialization::{
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
@@ -484,6 +484,76 @@ fn compute_evpi(net_benefit: &Bound<'_, PyAny>) -> PyResult<f64> {
 fn compute_enbs(evsi_result: f64, research_cost: f64) -> PyResult<f64> {
     enbs(evsi_result, research_cost)
         .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))
+}
+
+/// Compute an enumerated COSS curve and deterministic feasible optimum.
+#[pyfunction]
+#[allow(clippy::needless_pass_by_value, clippy::too_many_arguments)]
+#[pyo3(signature = (
+    sample_sizes,
+    evsi_values,
+    research_costs,
+    feasible,
+    tie_policy,
+    absolute_tolerance,
+    relative_tolerance
+))]
+fn compute_coss<'py>(
+    py: Python<'py>,
+    sample_sizes: Vec<u64>,
+    evsi_values: Vec<f64>,
+    research_costs: Vec<f64>,
+    feasible: Vec<bool>,
+    tie_policy: &str,
+    absolute_tolerance: f64,
+    relative_tolerance: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let result = coss(
+        &sample_sizes,
+        &evsi_values,
+        &research_costs,
+        &feasible,
+        tie_policy,
+        absolute_tolerance,
+        relative_tolerance,
+    )
+    .map_err(|error| match error.category() {
+        ErrorCategory::DimensionMismatch => {
+            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+        }
+        _ => InputError::new_err(("invalid_input", error.to_string())),
+    })?;
+    let output = PyDict::new(py);
+    output.set_item("contract_version", result.contract_version)?;
+    output.set_item("estimator", result.estimator)?;
+    output.set_item("enbs", result.enbs)?;
+    output.set_item("feasible_indices", result.feasible_indices)?;
+    output.set_item("tied_indices", result.tied_indices)?;
+    output.set_item("optimal_index", result.optimal_index)?;
+    output.set_item("maximum_enbs", result.maximum_enbs)?;
+    output.set_item("boundary_state", result.boundary_state)?;
+    Ok(output)
+}
+
+/// Compute the unclamped EVSI/EVPI information-efficiency diagnostic.
+#[pyfunction]
+#[allow(clippy::similar_names)]
+#[pyo3(signature = (evsi, evpi, atol, rtol))]
+fn compute_evsi_evpi_efficiency(
+    py: Python<'_>,
+    evsi: f64,
+    evpi: f64,
+    atol: f64,
+    rtol: f64,
+) -> PyResult<Bound<'_, PyDict>> {
+    let result = evsi_evpi_efficiency(evsi, evpi, atol, rtol)
+        .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let output = PyDict::new(py);
+    output.set_item("contract_version", result.contract_version)?;
+    output.set_item("ratio", result.ratio)?;
+    output.set_item("status", result.status)?;
+    output.set_item("bound_tolerance", result.bound_tolerance)?;
+    Ok(output)
 }
 
 /// Compute the stable value-of-heterogeneity kernel for Python callers.
@@ -1019,6 +1089,8 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(runtime_info, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evpi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_enbs, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_coss, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_evsi_evpi_efficiency, module)?)?;
     module.add_function(wrap_pyfunction!(compute_heterogeneity, module)?)?;
     module.add_function(wrap_pyfunction!(compute_structural_evpi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_structural_evppi, module)?)?;
@@ -1379,6 +1451,99 @@ mod tests {
                 .extract::<f64>()
                 .unwrap();
             assert!((result - 7.5).abs() <= 1.0e-12);
+        });
+    }
+
+    #[test]
+    fn compute_coss_returns_the_versioned_native_result() {
+        Python::initialize();
+        Python::attach(|py| {
+            let module = PyModule::new(py, "_core_test").unwrap();
+            module
+                .add_function(wrap_pyfunction!(compute_coss, &module).unwrap())
+                .unwrap();
+            let result = module
+                .getattr("compute_coss")
+                .unwrap()
+                .call1((
+                    vec![100_u64, 200, 300],
+                    vec![5.0_f64, 9.0, 10.0],
+                    vec![8.0_f64, 3.0, 12.0],
+                    vec![true, false, true],
+                    "smallest_sample_size",
+                    0.0_f64,
+                    0.0_f64,
+                ))
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            assert_eq!(
+                result
+                    .get_item("contract_version")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<String>()
+                    .unwrap(),
+                "1.0.0"
+            );
+            assert_eq!(
+                result
+                    .get_item("enbs")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<Vec<f64>>()
+                    .unwrap(),
+                vec![-3.0, 6.0, -2.0]
+            );
+            assert_eq!(
+                result
+                    .get_item("optimal_index")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<usize>()
+                    .unwrap(),
+                2
+            );
+        });
+    }
+
+    #[test]
+    fn compute_information_efficiency_returns_nullable_unclamped_ratio() {
+        Python::initialize();
+        Python::attach(|py| {
+            let module = PyModule::new(py, "_core_test").unwrap();
+            module
+                .add_function(wrap_pyfunction!(compute_evsi_evpi_efficiency, &module).unwrap())
+                .unwrap();
+            let function = module.getattr("compute_evsi_evpi_efficiency").unwrap();
+            let above = function
+                .call1((10.05_f64, 10.0_f64, 0.1_f64, 0.0_f64))
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            assert_eq!(
+                above
+                    .get_item("status")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<String>()
+                    .unwrap(),
+                "above_one_within_tolerance"
+            );
+            let ratio = above
+                .get_item("ratio")
+                .unwrap()
+                .unwrap()
+                .extract::<f64>()
+                .unwrap();
+            assert!((ratio - 1.005).abs() <= 1.0e-12);
+
+            let zero = function
+                .call1((0.0_f64, 0.0_f64, 1.0e-9_f64, 0.0_f64))
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            assert!(zero.get_item("ratio").unwrap().unwrap().is_none());
         });
     }
 

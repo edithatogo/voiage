@@ -30,7 +30,7 @@
 
 ## Phase 3 — Runtime and optimizer
 
-- [ ] **S10:** Implement versioned Rust result envelopes and accepted numerical
+- [~] **S10:** Implement versioned Rust result envelopes and accepted numerical
   kernels for COSS and EVSI/EVPI, or record a reviewed exclusion. (AC-02,
   AC-03, AC-06)
 - [ ] **S11:** Implement the thin Python orchestration façade and deterministic
