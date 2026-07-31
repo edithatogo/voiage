@@ -42,7 +42,6 @@
     "voiage/methods/strategic_behavior.py": "experimental",
     "voiage/methods/structural.py": "optional_extension",
     "voiage/methods/threshold.py": "optional_extension",
-    "voiage/methods/utility_information.py": "experimental",
     "voiage/methods/validation.py": "optional_extension"
   },
   "dispositions": {
