@@ -27,9 +27,10 @@
 - [x] **F559-2:** Add the versioned VoF schema, normative fixture, runtime
   fixture-conformance check, provenance and explicit language dispositions.
   (AC-02–AC-06) `500adfd0`
-- [ ] **F559-3:** Implement the corrected flexible-versus-commitment evaluator,
+- [x] **F559-3:** Implement the corrected flexible-versus-commitment evaluator,
   compatibility view, public Python/CLI surface and documentation without
   duplicating a numerical kernel or claiming information value. (AC-02–AC-05)
+  `02e182bd`
 - [ ] **F559-4:** Run independent implementation review, focused repository
   checks and hosted checks; then reconcile #559 without closing scientific,
   stable-promotion, release or issue gates. (AC-03–AC-07)
