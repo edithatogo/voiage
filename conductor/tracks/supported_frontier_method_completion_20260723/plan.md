@@ -9,9 +9,9 @@
   `b7836020`
 - [ ] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
   explicit exclusions. (AC-02, AC-05, AC-06)
-- [ ] **G3a:** Reconcile VoC as #595's expected-utility/clairvoyant-policy
+- [x] **G3a:** Reconcile VoC as #595's expected-utility/clairvoyant-policy
   alias or presentation, including affine-utility reduction conditions, and
-  prohibit a duplicate numerical kernel. (AC-02, AC-08)
+  prohibit a duplicate numerical kernel. (AC-02, AC-08) `91770f6a`
 - [ ] **G4:** Run automated contract review and full Conductor validation.
   (AC-01, AC-07)
 
