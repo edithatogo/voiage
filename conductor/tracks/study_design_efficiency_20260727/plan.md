@@ -45,8 +45,9 @@
 
 ## Phase 4 — Portfolio, user and binding surfaces
 
-- [~] **S15:** Integrate single-study COSS and efficiency outputs with #571's
-  experiment-portfolio allocation and constraint contract. (AC-01, AC-06)
+- [x] **S15:** Integrate single-study COSS and efficiency outputs with #571's
+  experiment-portfolio allocation and constraint contract. (AC-01, AC-06) —
+  `3030636`
 - [ ] **S16:** Add CLI, reporting, provenance and accessible plotting/examples
   that consume the versioned result contract. (AC-06)
 - [ ] **S17:** Record Rust, Python, R, Julia and Mojo capability dispositions
