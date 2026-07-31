@@ -18,9 +18,10 @@ use std::sync::Mutex;
 use voiage_diagnostics::ErrorCategory;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
-    ceaf, coss, dominance, enbs, evpi, evppi, evppi_variance, evsi_efficient_linear,
-    evsi_evpi_efficiency, evsi_moment_based, evsi_regression, evsi_stochastic, evsi_variance,
-    heterogeneity, normal_normal_two_arm_evsi, structural_evpi, structural_evppi,
+    ceaf, coss, dominance, enbs, evpi, evppi, evppi_variance, evppi_variance_with_assurance,
+    evsi_efficient_linear, evsi_evpi_efficiency, evsi_moment_based, evsi_regression,
+    evsi_stochastic, evsi_variance, evsi_variance_with_assurance, heterogeneity,
+    normal_normal_two_arm_evsi, structural_evpi, structural_evppi,
     DominanceStatus as KernelDominanceStatus, EstimationVarianceKernelResult,
 };
 use voiage_serialization::{
@@ -769,15 +770,32 @@ fn estimation_variance_result_to_dict<'py>(
         "posterior_evaluation_count",
         result.posterior_evaluation_count,
     )?;
+    output.set_item("bootstrap_replicates", result.bootstrap_replicates)?;
+    output.set_item(
+        "monte_carlo_standard_error",
+        result.monte_carlo_standard_error,
+    )?;
+    output.set_item("confidence_interval", result.confidence_interval)?;
+    output.set_item("converged", result.converged)?;
     Ok(output)
 }
 
 /// Compute scalar estimation-focused EVPPI variance reduction.
 #[pyfunction]
+#[pyo3(signature = (
+    target_samples,
+    conditioning_groups,
+    bootstrap_replicates = 0,
+    seed = 0,
+    convergence_threshold = 0.01
+))]
 fn compute_evppi_variance<'py>(
     py: Python<'py>,
     target_samples: &Bound<'_, PyAny>,
     conditioning_groups: &Bound<'_, PyAny>,
+    bootstrap_replicates: usize,
+    seed: u64,
+    convergence_threshold: f64,
 ) -> PyResult<Bound<'py, PyDict>> {
     let target_samples =
         SampleVector::try_from(vector_from_python(target_samples, "target_samples")?)
@@ -790,24 +808,42 @@ fn compute_evppi_variance<'py>(
                 format!("invalid conditioning_groups: {error}"),
             ))
         })?;
-    let result =
-        evppi_variance(&target_samples, &conditioning_groups).map_err(|error| {
-            match error.category() {
-                ErrorCategory::DimensionMismatch => {
-                    DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
-                }
-                _ => InputError::new_err(("invalid_input", error.to_string())),
-            }
-        })?;
+    let result = if bootstrap_replicates == 0 {
+        evppi_variance(&target_samples, &conditioning_groups)
+    } else {
+        evppi_variance_with_assurance(
+            &target_samples,
+            &conditioning_groups,
+            bootstrap_replicates,
+            seed,
+            convergence_threshold,
+        )
+    }
+    .map_err(|error| match error.category() {
+        ErrorCategory::DimensionMismatch => {
+            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+        }
+        _ => InputError::new_err(("invalid_input", error.to_string())),
+    })?;
     estimation_variance_result_to_dict(py, &result)
 }
 
 /// Aggregate scalar estimation-focused EVSI variance reduction.
 #[pyfunction]
+#[pyo3(signature = (
+    prior_target_samples,
+    posterior_variances,
+    bootstrap_replicates = 0,
+    seed = 0,
+    convergence_threshold = 0.01
+))]
 fn compute_evsi_variance<'py>(
     py: Python<'py>,
     prior_target_samples: &Bound<'_, PyAny>,
     posterior_variances: &Bound<'_, PyAny>,
+    bootstrap_replicates: usize,
+    seed: u64,
+    convergence_threshold: f64,
 ) -> PyResult<Bound<'py, PyDict>> {
     let prior_target_samples = SampleVector::try_from(vector_from_python(
         prior_target_samples,
@@ -819,15 +855,23 @@ fn compute_evsi_variance<'py>(
         "posterior_variances",
     )?)
     .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
-    let result =
-        evsi_variance(&prior_target_samples, &posterior_variances).map_err(|error| match error
-            .category()
-        {
-            ErrorCategory::DimensionMismatch => {
-                DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
-            }
-            _ => InputError::new_err(("invalid_input", error.to_string())),
-        })?;
+    let result = if bootstrap_replicates == 0 {
+        evsi_variance(&prior_target_samples, &posterior_variances)
+    } else {
+        evsi_variance_with_assurance(
+            &prior_target_samples,
+            &posterior_variances,
+            bootstrap_replicates,
+            seed,
+            convergence_threshold,
+        )
+    }
+    .map_err(|error| match error.category() {
+        ErrorCategory::DimensionMismatch => {
+            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+        }
+        _ => InputError::new_err(("invalid_input", error.to_string())),
+    })?;
     estimation_variance_result_to_dict(py, &result)
 }
 

@@ -99,6 +99,13 @@ class EstimatorAssuranceSpec(ContractModel):
     bootstrap_replicates: int = Field(default=0, ge=0)
     convergence_threshold: float = Field(default=0.01, gt=0.0)
 
+    @model_validator(mode="after")
+    def validate_bootstrap_replicates(self) -> Self:
+        """Require enough replicates to estimate a standard error."""
+        if self.bootstrap_replicates == 1:
+            raise ValueError("bootstrap_replicates must be zero or at least two")
+        return self
+
 
 class EstimationVarianceSpec(ContractModel):
     """Complete scientific contract for one variance-reduction estimand."""

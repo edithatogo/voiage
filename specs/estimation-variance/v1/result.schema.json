@@ -97,7 +97,10 @@
       "properties": {
         "prior_sample_count": {"type": "integer", "minimum": 2},
         "posterior_evaluation_count": {"type": "integer", "minimum": 1},
-        "bootstrap_replicates": {"type": "integer", "minimum": 0},
+        "bootstrap_replicates": {
+          "type": "integer",
+          "anyOf": [{"const": 0}, {"minimum": 2}]
+        },
         "monte_carlo_standard_error": {
           "type": ["number", "null"],
           "minimum": 0

@@ -10,7 +10,7 @@ from __future__ import annotations
 from hashlib import sha256
 import json
 from types import MappingProxyType
-from typing import TYPE_CHECKING, Final
+from typing import TYPE_CHECKING, Final, cast
 
 from voiage._runtime import compute_evppi_variance, compute_evsi_variance
 from voiage.contracts.estimation import (
@@ -139,6 +139,39 @@ def _integer(payload: Mapping[str, object], key: str) -> int:
     return value
 
 
+def _optional_number(payload: Mapping[str, object], key: str) -> float | None:
+    value = payload[key]
+    if value is None:
+        return None
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise TypeError(
+            f"native estimation result field {key!r} is not numeric or null"
+        )
+    return float(value)
+
+
+def _confidence_interval(
+    payload: Mapping[str, object],
+) -> tuple[float, float] | None:
+    value = payload["confidence_interval"]
+    if value is None:
+        return None
+    if not isinstance(value, (list, tuple)):
+        raise TypeError("native estimation confidence interval is not a pair")
+    components = cast("Sequence[object]", value)
+    if len(components) != 2:
+        raise TypeError("native estimation confidence interval is not a pair")
+    lower, upper = components
+    if (
+        isinstance(lower, bool)
+        or not isinstance(lower, (int, float))
+        or isinstance(upper, bool)
+        or not isinstance(upper, (int, float))
+    ):
+        raise TypeError("native estimation confidence interval is not numeric")
+    return float(lower), float(upper)
+
+
 def _specification_digest(specification: EstimationVarianceSpec) -> str:
     canonical = json.dumps(
         specification.model_dump(mode="json"),
@@ -163,6 +196,15 @@ def _result_from_native(
         raise TypeError("native estimation kernel version is not text")
     prior = _number(payload, "prior_variance")
     posterior = _number(payload, "expected_posterior_variance")
+    converged = payload["converged"]
+    if not isinstance(converged, bool):
+        raise TypeError("native estimation convergence field is not boolean")
+    standard_error = _optional_number(payload, "monte_carlo_standard_error")
+    diagnostic_codes = (
+        ("monte_carlo_uncertainty_not_estimated",)
+        if standard_error is None
+        else (() if converged else ("convergence_threshold_not_met",))
+    )
     return EstimationVarianceResult(
         method_id=specification.method_id,
         target=specification.target,
@@ -181,9 +223,11 @@ def _result_from_native(
             posterior_evaluation_count=_integer(
                 payload, "posterior_evaluation_count"
             ),
-            monte_carlo_standard_error=None,
-            converged=True,
-            diagnostic_codes=("monte_carlo_uncertainty_not_estimated",),
+            bootstrap_replicates=_integer(payload, "bootstrap_replicates"),
+            monte_carlo_standard_error=standard_error,
+            confidence_interval=_confidence_interval(payload),
+            converged=converged,
+            diagnostic_codes=diagnostic_codes,
         ),
         provenance=EstimationVarianceProvenance(
             backend="rust",
@@ -206,6 +250,9 @@ def evppi_var(
     payload = compute_evppi_variance(
         [float(value) for value in target_samples],
         [str(group) for group in conditioning_groups],
+        specification.estimator.bootstrap_replicates,
+        specification.estimator.seed,
+        specification.estimator.convergence_threshold,
     )
     return _result_from_native(specification, payload)
 
@@ -221,6 +268,9 @@ def evsi_var(
     payload = compute_evsi_variance(
         [float(value) for value in prior_target_samples],
         [float(value) for value in posterior_variances],
+        specification.estimator.bootstrap_replicates,
+        specification.estimator.seed,
+        specification.estimator.convergence_threshold,
     )
     return _result_from_native(specification, payload)
 

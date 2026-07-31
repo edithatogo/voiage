@@ -4,6 +4,8 @@ use voiage_domain::SampleVector;
 
 use crate::NumericalInputError;
 
+const MIX64: u64 = 0x9E37_79B9_7F4A_7C15;
+
 /// Rust-owned scalar variance-reduction result shared by estimation methods.
 #[derive(Clone, Debug, PartialEq)]
 pub struct EstimationVarianceKernelResult {
@@ -21,6 +23,14 @@ pub struct EstimationVarianceKernelResult {
     pub prior_sample_count: usize,
     /// Number of conditioning groups or posterior variance evaluations.
     pub posterior_evaluation_count: usize,
+    /// Number of seeded bootstrap replicates used for assurance.
+    pub bootstrap_replicates: usize,
+    /// Bootstrap standard error of the raw variance reduction.
+    pub monte_carlo_standard_error: Option<f64>,
+    /// Bootstrap percentile interval for the raw variance reduction.
+    pub confidence_interval: Option<(f64, f64)>,
+    /// Whether MCSE is within the declared fraction of prior variance.
+    pub converged: bool,
 }
 
 /// Estimate scalar `EVPPI_var` by exact aggregation over discrete groups.
@@ -122,6 +132,93 @@ pub fn evsi_variance(
     )
 }
 
+/// Estimate `EVPPI_var` with deterministic paired bootstrap assurance.
+///
+/// # Errors
+///
+/// Returns [`NumericalInputError`] for the same invalid inputs as
+/// [`evppi_variance`], fewer than two bootstrap replicates, or a non-positive
+/// convergence threshold.
+pub fn evppi_variance_with_assurance(
+    target_samples: &SampleVector,
+    conditioning_groups: &[String],
+    bootstrap_replicates: usize,
+    seed: u64,
+    convergence_threshold: f64,
+) -> Result<EstimationVarianceKernelResult, NumericalInputError> {
+    let result = evppi_variance(target_samples, conditioning_groups)?;
+    validate_assurance(bootstrap_replicates, convergence_threshold)?;
+    let mut reductions = Vec::with_capacity(bootstrap_replicates);
+    for replicate in 0..bootstrap_replicates {
+        let mut state = bootstrap_state(seed, replicate);
+        let mut samples = Vec::with_capacity(target_samples.len());
+        let mut groups = Vec::with_capacity(target_samples.len());
+        for _ in 0..target_samples.len() {
+            let index = next_index(&mut state, target_samples.len());
+            samples.push(target_samples.as_slice()[index]);
+            groups.push(conditioning_groups[index].clone());
+        }
+        let samples = SampleVector::try_from(samples).map_err(|_| {
+            NumericalInputError::invalid(
+                "target_samples",
+                "bootstrap produced invalid target samples",
+            )
+        })?;
+        reductions.push(evppi_variance(&samples, &groups)?.raw_reduction);
+    }
+    apply_assurance(result, reductions, convergence_threshold)
+}
+
+/// Estimate `EVSI_var` with deterministic independent bootstrap assurance.
+///
+/// Prior target samples and posterior-variance evaluations represent distinct
+/// Monte Carlo stages and are therefore resampled independently within each
+/// replicate.
+///
+/// # Errors
+///
+/// Returns [`NumericalInputError`] for the same invalid inputs as
+/// [`evsi_variance`], fewer than two bootstrap replicates, or a non-positive
+/// convergence threshold.
+pub fn evsi_variance_with_assurance(
+    prior_target_samples: &SampleVector,
+    posterior_variances: &SampleVector,
+    bootstrap_replicates: usize,
+    seed: u64,
+    convergence_threshold: f64,
+) -> Result<EstimationVarianceKernelResult, NumericalInputError> {
+    let result = evsi_variance(prior_target_samples, posterior_variances)?;
+    validate_assurance(bootstrap_replicates, convergence_threshold)?;
+    let mut reductions = Vec::with_capacity(bootstrap_replicates);
+    for replicate in 0..bootstrap_replicates {
+        let mut state = bootstrap_state(seed, replicate);
+        let prior = (0..prior_target_samples.len())
+            .map(|_| {
+                prior_target_samples.as_slice()[next_index(&mut state, prior_target_samples.len())]
+            })
+            .collect::<Vec<_>>();
+        let posterior = (0..posterior_variances.len())
+            .map(|_| {
+                posterior_variances.as_slice()[next_index(&mut state, posterior_variances.len())]
+            })
+            .collect::<Vec<_>>();
+        let prior = SampleVector::try_from(prior).map_err(|_| {
+            NumericalInputError::invalid(
+                "prior_target_samples",
+                "bootstrap produced invalid prior target samples",
+            )
+        })?;
+        let posterior = SampleVector::try_from(posterior).map_err(|_| {
+            NumericalInputError::invalid(
+                "posterior_variances",
+                "bootstrap produced invalid posterior variances",
+            )
+        })?;
+        reductions.push(evsi_variance(&prior, &posterior)?.raw_reduction);
+    }
+    apply_assurance(result, reductions, convergence_threshold)
+}
+
 fn require_prior_samples(samples: &SampleVector) -> Result<(), NumericalInputError> {
     if samples.len() < 2 {
         return Err(NumericalInputError::invalid(
@@ -212,14 +309,90 @@ fn make_result(
         relative_reduction,
         prior_sample_count,
         posterior_evaluation_count,
+        bootstrap_replicates: 0,
+        monte_carlo_standard_error: None,
+        confidence_interval: None,
+        converged: true,
     })
+}
+
+fn validate_assurance(
+    bootstrap_replicates: usize,
+    convergence_threshold: f64,
+) -> Result<(), NumericalInputError> {
+    if bootstrap_replicates < 2 {
+        return Err(NumericalInputError::invalid(
+            "bootstrap_replicates",
+            "bootstrap assurance requires at least two replicates",
+        ));
+    }
+    if !convergence_threshold.is_finite() || convergence_threshold <= 0.0 {
+        return Err(NumericalInputError::invalid(
+            "convergence_threshold",
+            "convergence threshold must be positive and finite",
+        ));
+    }
+    Ok(())
+}
+
+fn bootstrap_state(seed: u64, replicate: usize) -> u64 {
+    seed ^ ((replicate as u64 + 1).wrapping_mul(MIX64))
+}
+
+fn next_index(state: &mut u64, sample_count: usize) -> usize {
+    if *state == 0 {
+        *state = MIX64;
+    }
+    *state ^= *state >> 12;
+    *state ^= *state << 25;
+    *state ^= *state >> 27;
+    let mixed = (*state).wrapping_mul(0x2545_F491_4F6C_DD1D);
+    let modulus = u64::try_from(sample_count).expect("validated sample count fits u64");
+    usize::try_from(mixed % modulus).expect("bootstrap index is bounded by sample count")
+}
+
+fn apply_assurance(
+    mut result: EstimationVarianceKernelResult,
+    mut reductions: Vec<f64>,
+    convergence_threshold: f64,
+) -> Result<EstimationVarianceKernelResult, NumericalInputError> {
+    let count = exact_count(reductions.len(), "bootstrap_replicates")?;
+    let center = mean(&reductions, "bootstrap_reductions")?;
+    let sum_squares = reductions.iter().try_fold(0.0, |total, value| {
+        checked_sum(
+            total,
+            (value - center) * (value - center),
+            "bootstrap_reductions",
+        )
+    })?;
+    let denominator = exact_count(reductions.len() - 1, "bootstrap_replicates")?;
+    let standard_error = (sum_squares / denominator / count).sqrt();
+    if !standard_error.is_finite() {
+        return Err(NumericalInputError::invalid(
+            "bootstrap_reductions",
+            "bootstrap standard error must be finite",
+        ));
+    }
+    reductions.sort_by(f64::total_cmp);
+    let last = reductions.len() - 1;
+    let lower_index = last.saturating_mul(25) / 1_000;
+    let upper_index = last.saturating_mul(975).div_ceil(1_000);
+    let confidence_interval = (reductions[lower_index], reductions[upper_index.min(last)]);
+    let convergence_scale = result.prior_variance.max(f64::EPSILON);
+    result.bootstrap_replicates = reductions.len();
+    result.monte_carlo_standard_error = Some(standard_error);
+    result.confidence_interval = Some(confidence_interval);
+    result.converged = standard_error <= convergence_threshold * convergence_scale;
+    Ok(result)
 }
 
 #[cfg(test)]
 mod tests {
     use voiage_domain::SampleVector;
 
-    use super::{evppi_variance, evsi_variance};
+    use super::{
+        evppi_variance, evppi_variance_with_assurance, evsi_variance, evsi_variance_with_assurance,
+    };
 
     #[test]
     fn discrete_evppi_variance_matches_enumerable_reference() {
@@ -270,5 +443,30 @@ mod tests {
         assert!(evppi_variance(&samples, &[" ".into(), "b".into()]).is_err());
         let negative = SampleVector::try_from(vec![-0.1]).unwrap();
         assert!(evsi_variance(&samples, &negative).is_err());
+    }
+
+    #[test]
+    fn seeded_assurance_is_reproducible_and_reports_convergence() {
+        let samples = SampleVector::try_from(vec![0.0, 2.0, 1.0, 3.0]).unwrap();
+        let groups = vec!["a".into(), "a".into(), "b".into(), "b".into()];
+        let first = evppi_variance_with_assurance(&samples, &groups, 128, 17, 1.0).unwrap();
+        let second = evppi_variance_with_assurance(&samples, &groups, 128, 17, 1.0).unwrap();
+        assert_eq!(first, second);
+        assert_eq!(first.bootstrap_replicates, 128);
+        assert!(first.monte_carlo_standard_error.is_some());
+        assert!(first.confidence_interval.is_some());
+        assert!(first.converged);
+
+        let posterior = SampleVector::try_from(vec![0.8, 1.0, 1.2, 1.0]).unwrap();
+        let evsi = evsi_variance_with_assurance(&samples, &posterior, 128, 17, 1.0).unwrap();
+        assert!(evsi.monte_carlo_standard_error.is_some());
+    }
+
+    #[test]
+    fn malformed_assurance_settings_fail_closed() {
+        let samples = SampleVector::try_from(vec![0.0, 1.0]).unwrap();
+        let groups = vec!["a".into(), "b".into()];
+        assert!(evppi_variance_with_assurance(&samples, &groups, 1, 0, 0.01).is_err());
+        assert!(evppi_variance_with_assurance(&samples, &groups, 2, 0, f64::NAN).is_err());
     }
 }

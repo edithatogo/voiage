@@ -29,8 +29,18 @@ def _target() -> EstimationTargetSpec:
     )
 
 
-def _assurance(estimator_id: str) -> EstimatorAssuranceSpec:
-    return EstimatorAssuranceSpec(estimator_id=estimator_id, seed=17)
+def _assurance(
+    estimator_id: str,
+    *,
+    bootstrap_replicates: int = 0,
+    convergence_threshold: float = 0.01,
+) -> EstimatorAssuranceSpec:
+    return EstimatorAssuranceSpec(
+        estimator_id=estimator_id,
+        seed=17,
+        bootstrap_replicates=bootstrap_replicates,
+        convergence_threshold=convergence_threshold,
+    )
 
 
 def _evppi_spec() -> EstimationVarianceSpec:
@@ -103,3 +113,38 @@ def test_estimation_facade_translates_native_dimension_and_input_errors() -> Non
 def test_estimation_facade_rejects_method_mismatch_before_native_dispatch() -> None:
     with pytest.raises(InputError, match="matching EstimationVarianceSpec"):
         _ = evppi_var([0.0, 1.0], ["a", "b"], specification=_evsi_spec())
+
+
+def test_seeded_bootstrap_assurance_is_deterministic_and_typed() -> None:
+    specification = _evppi_spec().model_copy(
+        update={
+            "estimator": _assurance(
+                "discrete_conditioning",
+                bootstrap_replicates=128,
+                convergence_threshold=1.0,
+            )
+        }
+    )
+    first = evppi_var(
+        [0.0, 2.0, 1.0, 3.0],
+        ["a", "a", "b", "b"],
+        specification=specification,
+    )
+    second = evppi_var(
+        [0.0, 2.0, 1.0, 3.0],
+        ["a", "a", "b", "b"],
+        specification=specification,
+    )
+    assert first.model_dump_json() == second.model_dump_json()
+    assert first.diagnostics.bootstrap_replicates == 128
+    assert first.diagnostics.monte_carlo_standard_error is not None
+    assert first.diagnostics.confidence_interval is not None
+    assert first.diagnostics.converged is True
+    assert first.diagnostics.diagnostic_codes == ()
+
+
+def test_assurance_contract_rejects_one_bootstrap_replicate() -> None:
+    with pytest.raises(
+        ValueError, match="bootstrap_replicates must be zero or at least two"
+    ):
+        _ = _assurance("discrete_conditioning", bootstrap_replicates=1)

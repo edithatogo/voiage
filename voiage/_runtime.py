@@ -214,12 +214,18 @@ def compute_evppi(
 def compute_evppi_variance(
     target_samples: list[float],
     conditioning_groups: list[str],
+    bootstrap_replicates: int,
+    seed: int,
+    convergence_threshold: float,
 ) -> dict[str, object]:
     """Compute scalar estimation-focused EVPPI variance reduction in Rust."""
     try:
         result = _native().compute_evppi_variance(
             target_samples,
             conditioning_groups,
+            bootstrap_replicates,
+            seed,
+            convergence_threshold,
         )
     except Exception as error:
         _raise_native_error(error)
@@ -248,12 +254,18 @@ def compute_evsi(
 def compute_evsi_variance(
     prior_target_samples: list[float],
     posterior_variances: list[float],
+    bootstrap_replicates: int,
+    seed: int,
+    convergence_threshold: float,
 ) -> dict[str, object]:
     """Aggregate scalar estimation-focused EVSI variance reduction in Rust."""
     try:
         result = _native().compute_evsi_variance(
             prior_target_samples,
             posterior_variances,
+            bootstrap_replicates,
+            seed,
+            convergence_threshold,
         )
     except Exception as error:
         _raise_native_error(error)

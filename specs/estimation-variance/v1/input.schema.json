@@ -111,7 +111,10 @@
         "seed": {"type": "integer", "minimum": 0},
         "absolute_tolerance": {"type": "number", "minimum": 0},
         "relative_tolerance": {"type": "number", "minimum": 0},
-        "bootstrap_replicates": {"type": "integer", "minimum": 0},
+        "bootstrap_replicates": {
+          "type": "integer",
+          "anyOf": [{"const": 0}, {"minimum": 2}]
+        },
         "convergence_threshold": {"type": "number", "exclusiveMinimum": 0}
       }
     }
