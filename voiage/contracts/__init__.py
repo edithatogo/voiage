@@ -44,6 +44,13 @@ from .capabilities import (
     select_backend,
 )
 from .concerns import ConcernSpec, EvidenceReference
+from .estimation import (
+    ConditioningSpec,
+    EstimationTargetSpec,
+    EstimationVarianceSpec,
+    EstimatorAssuranceSpec,
+    SamplingModelSpec,
+)
 from .interchange import (
     analysis_result_table,
     schema_fingerprint,
@@ -100,6 +107,7 @@ __all__ = [
     "CapabilityBackend",
     "CapabilityReport",
     "ConcernSpec",
+    "ConditioningSpec",
     "ContractModel",
     "ContractPerformanceBudget",
     "CossCurvePointV1",
@@ -110,6 +118,9 @@ __all__ = [
     "DatasetManifest",
     "DiagnosticEnvelope",
     "DiagnosticRecord",
+    "EstimationTargetSpec",
+    "EstimationVarianceSpec",
+    "EstimatorAssuranceSpec",
     "EvidenceReference",
     "EvpiKernel",
     "FeasibleDesignRangeV1",
@@ -131,6 +142,7 @@ __all__ = [
     "Provenance",
     "ResourceManifest",
     "RunContext",
+    "SamplingModelSpec",
     "ScalarPayload",
     "SchemaEvolutionReport",
     "SelectionUncertaintyV1",
