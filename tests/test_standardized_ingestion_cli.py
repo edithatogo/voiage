@@ -327,6 +327,7 @@ def test_ingest_inspect_and_normalize(tmp_path, monkeypatch) -> None:
         "capabilities",
         "descriptor",
         "provider",
+        "schema",
     }
     assert normalized.exit_code == 0
     assert output.is_file()
