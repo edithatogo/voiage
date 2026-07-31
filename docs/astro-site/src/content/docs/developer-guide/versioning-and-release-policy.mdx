@@ -62,6 +62,14 @@ The version numbers in package manifests must align with the latest released
 Python tag. Tag prefixes and registry targets remain ecosystem-specific; only
 the version value is shared.
 
+For a Python release candidate, Cargo and Julia retain the canonical SemVer
+identity (for example, `2.0.1-rc.1`) while Python uses its normalized PEP 440
+distribution identity (`2.0.1rc1`). R cannot represent an alphanumeric
+prerelease in `DESCRIPTION`, so it uses a numeric development version below the
+target stable release and records the canonical identity in
+`Config/voiage/Release-Version`. Such a candidate is Python/TestPyPI-only: it
+does not create `r-v*`, `julia-v*`, or `rust-v*` publication tags.
+
 ## Validation
 
 The repo-local validator checks the canonical version against binding manifests:

@@ -19,6 +19,16 @@ from defusedxml import ElementTree
 
 REPO_ROOT = Path.cwd()
 _DESCRIPTION_VERSION_RE = re.compile(r"^Version:\s*(?P<version>\S+)\s*$")
+_DESCRIPTION_RELEASE_VERSION_RE = re.compile(
+    r"^Config/voiage/Release-Version:\s*(?P<version>\S+)\s*$"
+)
+_CANONICAL_VERSION_RE = re.compile(
+    r"^(?P<major>0|[1-9]\d*)\."
+    r"(?P<minor>0|[1-9]\d*)\."
+    r"(?P<patch>0|[1-9]\d*)"
+    r"(?:-rc\.(?P<rc>0|[1-9]\d*))?$"
+)
+_R_VERSION_RE = re.compile(r"^(?:0|[1-9]\d*)(?:\.(?:0|[1-9]\d*)){1,}$")
 
 
 @dataclass(frozen=True, slots=True)
@@ -38,6 +48,17 @@ class VersionMismatch:
     path: Path
     expected: str
     found: str
+
+
+@dataclass(frozen=True, slots=True)
+class ReleaseIdentity:
+    """Canonical release identity and its ecosystem-specific projections."""
+
+    canonical: str
+    python: str
+    cargo: str
+    julia: str
+    is_prerelease: bool
 
 
 class VersionSyncError(RuntimeError):
@@ -140,6 +161,83 @@ def _read_description_version(path: Path) -> str:
     raise VersionSyncError(f"{path}: missing Version field")
 
 
+def _read_description_release_version(path: Path) -> str | None:
+    """Read the optional canonical release identity from an R DESCRIPTION."""
+    for line in path.read_text(encoding="utf-8").splitlines():
+        match = _DESCRIPTION_RELEASE_VERSION_RE.match(line.strip())
+        if match:
+            return match.group("version").strip()
+    return None
+
+
+def release_identity(version: str) -> ReleaseIdentity:
+    """Validate a canonical version and project it into package ecosystems.
+
+    Stable versions are identical in Cargo, Julia, and Python. Release
+    candidates retain their SemVer spelling in Cargo and Julia while Python
+    uses its normalized PEP 440 spelling. Other prerelease labels are rejected
+    so release automation cannot silently invent ecosystem-specific mappings.
+    """
+    match = _CANONICAL_VERSION_RE.fullmatch(version)
+    if match is None:
+        raise VersionSyncError(
+            f"unsupported canonical version {version!r}; expected MAJOR.MINOR.PATCH"
+            " or MAJOR.MINOR.PATCH-rc.N"
+        )
+    rc = match.group("rc")
+    python_version = version if rc is None else version.split("-rc.", 1)[0] + f"rc{rc}"
+    return ReleaseIdentity(
+        canonical=version,
+        python=python_version,
+        cargo=version,
+        julia=version,
+        is_prerelease=rc is not None,
+    )
+
+
+def _read_r_release_identity(path: Path) -> str:
+    """Read the canonical identity represented by an R DESCRIPTION."""
+    return _read_description_release_version(path) or _read_description_version(path)
+
+
+def _r_version_mismatch(
+    path: Path,
+    identity: ReleaseIdentity,
+) -> VersionMismatch | None:
+    """Validate the native R version that represents a canonical identity."""
+    r_version = _read_description_version(path)
+    if not identity.is_prerelease:
+        if r_version == identity.canonical:
+            return None
+        return VersionMismatch("R", path, identity.canonical, r_version)
+
+    if _R_VERSION_RE.fullmatch(r_version) is None:
+        return VersionMismatch(
+            "R package version",
+            path,
+            "a numeric R development version",
+            r_version,
+        )
+
+    canonical_match = _CANONICAL_VERSION_RE.fullmatch(identity.canonical)
+    assert canonical_match is not None  # validated by release_identity
+    rc_number = int(canonical_match.group("rc") or "0")
+    r_parts = tuple(int(part) for part in r_version.split("."))
+    target_parts = tuple(
+        int(canonical_match.group(part)) for part in ("major", "minor", "patch")
+    )
+    expected_suffix = 9000 + rc_number
+    if r_parts[:3] >= target_parts or r_parts[-1] != expected_suffix:
+        return VersionMismatch(
+            "R package version",
+            path,
+            f"a numeric version below {'.'.join(map(str, target_parts))} "
+            f"ending in .{expected_suffix}",
+            r_version,
+        )
+    return None
+
+
 VERSION_TARGETS: tuple[VersionTarget, ...] = (
     VersionTarget(
         "Python Rust adapter",
@@ -148,7 +246,9 @@ VERSION_TARGETS: tuple[VersionTarget, ...] = (
     ),
     VersionTarget("Julia", Path("bindings/julia/Project.toml"), _read_toml_version),
     VersionTarget(
-        "R", Path("r-package/voiageR/DESCRIPTION"), _read_description_version
+        "R release identity",
+        Path("r-package/voiageR/DESCRIPTION"),
+        _read_r_release_identity,
     ),
 )
 
@@ -156,6 +256,7 @@ VERSION_TARGETS: tuple[VersionTarget, ...] = (
 def validate_release_tag(tag: str, repo_root: Path = REPO_ROOT) -> str:
     """Fail closed unless ``tag`` exactly matches the Cargo workspace version."""
     canonical = _read_canonical_version(repo_root / "pyproject.toml")
+    release_identity(canonical)
     expected = f"v{canonical}"
     if tag != expected:
         raise VersionSyncError(
@@ -169,6 +270,7 @@ def collect_version_mismatches(
 ) -> tuple[str, list[VersionMismatch]]:
     """Collect manifest version mismatches against the canonical repo version."""
     canonical = _read_canonical_version(repo_root / "pyproject.toml")
+    identity = release_identity(canonical)
     mismatches: list[VersionMismatch] = []
     for target in VERSION_TARGETS:
         manifest_path = repo_root / target.path
@@ -184,6 +286,12 @@ def collect_version_mismatches(
                     found=found,
                 )
             )
+    r_path = repo_root / "r-package/voiageR/DESCRIPTION"
+    r_mismatch = _r_version_mismatch(r_path, identity)
+    if r_mismatch is not None and not any(
+        mismatch.path == r_path for mismatch in mismatches
+    ):
+        mismatches.append(r_mismatch)
     return canonical, mismatches
 
 
@@ -229,6 +337,11 @@ def main(argv: list[str] | None = None) -> int:
         "--release-tag",
         help="Require an exact v<workspace-version> release tag.",
     )
+    parser.add_argument(
+        "--print-python-version",
+        action="store_true",
+        help="Print only the normalized Python package version.",
+    )
     args = parser.parse_args(argv)
 
     try:
@@ -239,20 +352,26 @@ def main(argv: list[str] | None = None) -> int:
         print(str(exc), file=sys.stderr)
         return 1
 
-    print(
-        f"validated version synchronization against {args.repo_root / 'pyproject.toml'} @ {canonical}"
-    )
+    if args.print_python_version:
+        print(release_identity(canonical).python)
+    else:
+        print(
+            f"validated version synchronization against "
+            f"{args.repo_root / 'pyproject.toml'} @ {canonical}"
+        )
     return 0
 
 
 __all__ = [
     "REPO_ROOT",
+    "ReleaseIdentity",
     "VersionMismatch",
     "VersionSyncError",
     "VersionTarget",
     "collect_version_mismatches",
     "format_version_mismatches",
     "main",
+    "release_identity",
     "validate_release_tag",
     "validate_version_sync",
 ]

@@ -169,6 +169,14 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## Done
 
+*   [x] Prepare the signed `v2.0.1-rc.1` TestPyPI candidate contract.
+    *   Added explicit Cargo/Julia SemVer, Python PEP 440, and R numeric
+        development-version projections without claiming R, Julia, or
+        crates.io prerelease publication.
+    *   Bound release filenames, TestPyPI queries, attestations, and smoke
+        installs to the normalized Python identity while preserving the
+        canonical signed tag and mixed-language SBOM identity.
+
 *   [x] Normalize and archive the historical Conductor registry.
     *   Archived track:
         `conductor/archive/conductor-registry-normalization_20260727/`.

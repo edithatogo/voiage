@@ -308,6 +308,12 @@ def _r_inventory(
             "voiage:inventory:source": "r-package/voiageR/DESCRIPTION",
         },
     )
+    release_identity = fields.get("Config/voiage/Release-Version")
+    if release_identity:
+        _set_properties(
+            root,
+            {"voiage:release:canonical-version": release_identity.strip()},
+        )
 
     components = [root]
     direct_refs: list[str] = []
@@ -559,12 +565,46 @@ def compose_sbom(
             )
             == "true"
         ]
-        first_party_components.extend((r_components[0], julia_components[0]))
+        first_party_components.append(julia_components[0])
         mismatches = [
             f"{component['name']}={component.get('version', '<missing>')}"
             for component in first_party_components
             if component.get("version") != source_version
         ]
+        r_component = r_components[0]
+        r_version = r_component.get("version")
+        r_properties = _property_map(r_component.get("properties"))
+        if r_version != source_version:
+            expected_r_identity = r_properties.get(
+                "voiage:release:canonical-version"
+            )
+            rc_match = re.fullmatch(
+                r"(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)"
+                r"-rc\.(?P<rc>\d+)",
+                source_version,
+            )
+            r_parts = (
+                tuple(int(part) for part in r_version.split("."))
+                if isinstance(r_version, str)
+                and re.fullmatch(r"\d+(?:\.\d+)+", r_version)
+                else ()
+            )
+            target_parts = (
+                tuple(
+                    int(rc_match.group(part))
+                    for part in ("major", "minor", "patch")
+                )
+                if rc_match is not None
+                else ()
+            )
+            if (
+                rc_match is None
+                or expected_r_identity != source_version
+                or len(r_parts) < 4
+                or r_parts[:3] >= target_parts
+                or r_parts[-1] != 9000 + int(rc_match.group("rc"))
+            ):
+                mismatches.append(f"{r_component['name']}={r_version or '<missing>'}")
         if mismatches:
             raise SbomError(
                 "release binding versions do not match source version "
