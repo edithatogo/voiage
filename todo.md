@@ -91,6 +91,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
         active under Phase 5.
     *   Canonical cross-format preparation now asserts identical NumPy and
         xarray compute-facing views without introducing a second runtime path.
+    *   The canonical decision matrix now also exercises deterministic strict
+        local Frictionless JSON Table, Parquet, and Arrow IPC file resources
+        against direct preparation, EVPI, schema, and receipt identities;
+        upstream-parser differential and live-source conformance remain active.
     *   CLI validation now has a credential-redaction regression contract for
         rejected descriptor resource URIs.
     *   ML and engineering reference descriptors now have executable CLI

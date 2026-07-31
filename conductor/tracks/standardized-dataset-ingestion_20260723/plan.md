@@ -160,7 +160,10 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   direct NumPy/xarray representations. The canonical corpus now asserts the
   same explicit preparation result across all listed source representations,
   including equal xarray and NumPy runtime views (partial: parser-differential
-  acceptance remains active under P5-T5).
+  acceptance remains active under P5-T5). Deterministic strict-local
+  Frictionless JSON Table, Parquet, and Arrow IPC file resources now exercise
+  the same canonical decision samples (partial: no upstream-parser differential
+  or live-standard claim).
 - [~] **P5-T2 / AC-06:** Add the deterministic fixture manifest with pinned
   descriptor, resource, schema, and content digests. Both checked-in fixture
   corpora are now verified through one deterministic digest-manifest validator
@@ -173,14 +176,19 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   and normalized-identity digests and supports explicit deterministic
   ``--write`` regeneration. Provider declarations that disagree with CSV order
   fail rather than reorder data, and changed resource bytes change receipts and
-  normalized content (partial: full parser-differential coverage remains
-  active).
+  normalized content. The canonical strict-local JSON/Parquet/Arrow resources
+  are generated deterministically in the conformance test and assert direct
+  schema, preparation, EVPI, and receipt identity parity (partial: full
+  parser-differential coverage remains active).
 - [~] **P5-T4 / AC-06, AC-10, AC-11:** Assert binding-profile, data-quality,
   governance-metadata, and materialization-receipt parity without requiring
   source formats to share irrelevant descriptive metadata. Canonical Croissant
   and Frictionless fixtures now assert explicit binding, binding-profile,
   data-quality, and receipt parity while leaving format-specific descriptive
-  provenance independent (`e9a22f0c`, partial).
+  provenance independent (`e9a22f0c`, partial). Format-specific canonical
+  JSON/Parquet/Arrow receipts are also checked for source digest, byte size,
+  media type, and resource identifier without incorrectly requiring distinct
+  source bytes to share a receipt (partial).
 - [~] **P5-T5 / AC-06:** Add malformed/adversarial cases, property-based mapping
   tests, parser-differential checks, and fresh-process PyArrow/Polars checks.
   A fresh-process IPC/Parquet round-trip now reads normalized bundles and
@@ -189,7 +197,9 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   assert identical rows and explicit binding preparation, while malformed
   parser nodes and mismatched declared resource digests fail through the
   stable error taxonomy (partial: broader parser-differential coverage remains
-  active; `0c6a2e7a`).
+  active; `0c6a2e7a`). Malformed canonical JSON and Parquet bytes, plus an
+  Arrow IPC stream presented as a local file resource, now fail through the
+  same boundary (partial: upstream parser differential remains active).
 - [~] **P5-T6 / AC-06:** Add the conformance matrix to tox and hosted CI; run
   automated review, validation, and the phase checkpoint protocol. The explicit
   `ingestion-conformance` tox environment and named hosted job now run the

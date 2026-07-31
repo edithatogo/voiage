@@ -200,6 +200,14 @@ construction. It is evidence for this local profile only; it does not establish
 support for a remote catalogue, archive, Arrow streams/Flight/dataset
 directories, or the complete upstream specification.
 
+The canonical decision conformance matrix additionally generates deterministic
+strict-local JSON Table, Parquet, and Arrow IPC file resources from the same
+three decision samples. Each must produce the direct input's prepared values,
+EVPI, and schema fingerprint, while its receipt retains the source resource's
+own digest, byte size, and media type. This is local-profile regression
+evidence only: it does not compare VOIAGE with an upstream parser or establish
+live or remote standards interoperability.
+
 ## Authoritative interoperability probes
 
 `run_authoritative_probe` is a deliberately gated evidence helper, not a
