@@ -93,9 +93,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Prepared the `v2.0.1-rc.1` TestPyPI candidate with explicit ecosystem version
-  projections: canonical Cargo/Julia SemVer, normalized Python PEP 440, and an
-  honest numeric R development version bound to the canonical release identity.
+- Prepared the `v2.0.1-rc.2` TestPyPI candidate with explicit ecosystem version
+  projections and a deterministic aggregate root for dependency-only Python
+  SBOM input. RC2 supersedes the unpublished RC1 staging attempt, which failed
+  closed before a draft release or registry publication.
 - Hardened stable and prerelease publishing across Python, Rust, R, and Julia:
   TestPyPI now verifies the complete reviewed distribution set and every
   attestation; prereleases cannot reach production PyPI or become the latest
