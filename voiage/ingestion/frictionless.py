@@ -24,6 +24,7 @@ from voiage.ingestion._tabular import (
     materialization_receipt,
     read_csv,
     read_json_table,
+    read_parquet,
 )
 from voiage.ingestion.base import (
     IngestionError,
@@ -39,7 +40,12 @@ class FrictionlessProvider:
     capabilities = ProviderCapabilities(
         provider_id=provider_id,
         format_versions=("1",),
-        media_types=("text/csv", "text/tab-separated-values", "application/json"),
+        media_types=(
+            "text/csv",
+            "text/tab-separated-values",
+            "application/json",
+            "application/vnd.apache.parquet",
+        ),
     )
 
     def can_handle(self, descriptor: dict[str, object]) -> bool:
@@ -129,7 +135,16 @@ class FrictionlessProvider:
         declared_sha256 = _sha256(resource.get("hash"))
         declared_byte_size = _byte_size(resource.get("bytes"))
         resource_format = resource.get("format")
-        if resource_format == "json":
+        if resource_format == "parquet":
+            _validate_parquet_declarations(resource)
+            table = read_parquet(
+                reference,
+                policy,
+                sha256=declared_sha256,
+                byte_size=declared_byte_size,
+            )
+            media_type = "application/vnd.apache.parquet"
+        elif resource_format == "json":
             _validate_json_table_declarations(resource)
             _validate_json_table_field_schema(fields)
             table = read_json_table(
@@ -478,6 +493,15 @@ def _validate_json_table_declarations(resource: dict[str, object]) -> None:
     }.intersection(resource)
     if unsupported:
         raise IngestionError("JSON Table resources do not support parser declarations")
+
+
+def _validate_parquet_declarations(resource: dict[str, object]) -> None:
+    """Reject declaration features outside the strict local Parquet profile."""
+    reference = resource.get("path")
+    if not isinstance(reference, str) or not reference.casefold().endswith(".parquet"):
+        raise IngestionError("Parquet resources require a .parquet path")
+    if "dialect" in resource:
+        raise IngestionError("Parquet resources do not support dialect declarations")
 
 
 def _validate_json_table_field_schema(fields: list[object]) -> None:

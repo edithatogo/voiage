@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add a strict local Frictionless Parquet profile: descriptors must declare
+  `format: parquet`, use a `.parquet` path, declare primitive fields, and omit
+  dialect settings. Parquet input is streamed through bounded Arrow batches
+  and carries the same verified receipt and source-policy limits as CSV/TSV.
 - Add explicit, receipt-identified local Croissant record-set/distribution
   selection for descriptors with multiple pairs. The profile rejects missing or
   mismatched selectors and unsupported `FileObject` or `FileSet` distributions

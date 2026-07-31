@@ -25,7 +25,7 @@ _FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "frictionless_v1"
             "unsupported/non-comma-dialect.json",
             "CSV resources require a .csv path and comma delimiter",
         ),
-        ("unsupported/non-csv-format.json", "requires CSV or TSV format"),
+        ("unsupported/non-csv-format.json", "Parquet resources require a .parquet"),
         ("unsupported/integrity-declaration.json", "hash must be a SHA-256"),
         ("unsupported/unsupported-type.json", "unsupported Data Package field type"),
         (

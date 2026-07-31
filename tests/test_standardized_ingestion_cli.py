@@ -307,6 +307,7 @@ def test_ingest_inspect_and_normalize(tmp_path, monkeypatch) -> None:
             "text/csv",
             "text/tab-separated-values",
             "application/json",
+            "application/vnd.apache.parquet",
         ],
         "provider_id": "frictionless",
         "supported_transforms": [],
