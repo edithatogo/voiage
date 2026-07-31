@@ -104,5 +104,7 @@ def test_runtime_matches_normative_fixture() -> None:
     actual = asdict(result)
     actual["policy_path_regret"] = result.policy_path_regret.tolist()
     for key in ("value_of_flexibility", "option_value"):
-        assert actual.pop(key) == pytest.approx(expected.pop(key))
+        actual_value = actual.pop(key)
+        expected_value = expected.pop(key)
+        assert actual_value == pytest.approx(expected_value)
     assert actual == expected

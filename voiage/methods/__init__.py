@@ -7,6 +7,7 @@ imported during ``import voiage``.
 
 from importlib import import_module
 
+from .dynamic_real_options import ValueOfFlexibilityResult, value_of_flexibility
 from .utility_information import (
     expected_utility_information_value,
     value_of_clairvoyance,
