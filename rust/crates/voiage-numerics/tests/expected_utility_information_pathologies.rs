@@ -14,6 +14,9 @@ fn base_input() -> ExpectedUtilityInformationInput {
         state_probabilities: vec![0.7, 0.3],
         initial_wealth: 10.0,
         payoff_unit: "USD".into(),
+        currency: Some("USD".into()),
+        price_date: Some("2026-07-31".into()),
+        information_cost_location: "ex_ante_sure_transfer".into(),
         information: InformationStructure {
             kind: "clairvoyant".into(),
             signal_ids: vec!["low".into(), "high".into()],
@@ -113,4 +116,52 @@ fn bounded_search_reports_unbracketed_without_fabricating_a_price() {
     assert_eq!(result.bpi.value, None);
     assert_eq!(result.bpi_root.status, "not_bracketed");
     assert!(result.bpi_root.estimate.is_none());
+}
+
+#[test]
+fn result_retains_stakeholder_scope_and_cross_problem_requirements() {
+    let result = expected_utility_information(
+        &base_input(),
+        &UtilityDescriptor::Affine {
+            slope: 1.0,
+            intercept: 0.0,
+        },
+    )
+    .unwrap();
+    assert_eq!(result.comparability.stakeholder_scope_id, "stakeholder");
+    assert!(!result.comparability.cross_problem_comparable);
+    assert!(result
+        .comparability
+        .required_shared_fields
+        .contains(&"stakeholder_scope_id".into()));
+}
+
+#[test]
+fn bounded_solver_reports_iteration_and_evaluation_limits() {
+    let mut problem = base_input();
+    problem.payoffs = vec![vec![0.0, 5.0], vec![0.0, -9.0]];
+    problem.state_probabilities = vec![0.8, 0.2];
+    problem.information.signal_state_probabilities = vec![vec![0.8, 0.0], vec![0.0, 0.2]];
+    problem.solver.maximum_iterations = 1;
+    let result = expected_utility_information(
+        &problem,
+        &UtilityDescriptor::Log {
+            reference_wealth: 1.0,
+        },
+    )
+    .unwrap();
+    assert_eq!(result.bpi_root.status, "max_iterations");
+    assert_eq!(result.bpi.value, None);
+
+    problem.solver.maximum_iterations = 200;
+    problem.solver.maximum_evaluations = 2;
+    let result = expected_utility_information(
+        &problem,
+        &UtilityDescriptor::Log {
+            reference_wealth: 1.0,
+        },
+    )
+    .unwrap();
+    assert_eq!(result.bpi_root.status, "max_evaluations");
+    assert_eq!(result.bpi.value, None);
 }

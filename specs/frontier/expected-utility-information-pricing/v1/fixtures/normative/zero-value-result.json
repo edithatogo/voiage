@@ -1,0 +1,23 @@
+{
+  "request": {
+    "schema_version": "expected-utility-information-input-v1", "decision_problem_id": "zero-value", "stakeholder_scope_id": "reference", "action_ids": ["alpha", "zeta"], "state_ids": ["low", "high"], "payoffs": [[0, 0], [0, 0]], "state_probabilities": [0.7, 0.3], "initial_wealth": 10, "payoff_unit": "USD", "currency": "USD", "price_date": "2026-07-31", "information_cost_location": "ex_ante_sure_transfer", "terminal_outcome_floor": 1,
+    "utility": {"family": "affine", "slope": 1, "intercept": 0},
+    "information": {"kind": "clairvoyant", "signal_ids": ["low", "high"], "signal_state_probabilities": [[0.7, 0], [0, 0.3]]},
+    "solver": {"initial_upper": 1, "expansion_factor": 2, "maximum_price": 100, "absolute_price_tolerance": 1e-10, "relative_price_tolerance": 1e-10, "utility_tolerance": 1e-12, "maximum_iterations": 200, "maximum_evaluations": 500}, "presentation_label": "voc"
+  },
+  "result": {
+    "schema_version": "expected-utility-information-result-v1", "method": "expected_utility_information", "method_maturity": "experimental", "information_kind": "clairvoyant", "payoff_unit": "USD", "utility": {"family": "affine", "slope": 1, "intercept": 0}, "current_expected_utility": 10, "informed_expected_utility": 10,
+    "current_policy": {"signal_id": null, "tie_set": ["alpha", "zeta"], "representative_action_id": "alpha"},
+    "informed_policies": [{"signal_id": "high", "tie_set": ["alpha", "zeta"], "representative_action_id": "alpha"}, {"signal_id": "low", "tie_set": ["alpha", "zeta"], "representative_action_id": "alpha"}],
+    "eui": {"measure": "eui", "status": "available", "value": 0, "unit": "utility", "direction": "uninformed_to_informed", "normalization": "affine:slope=1;intercept=0", "diagnostics_ref": null},
+    "cei": {"measure": "cei", "status": "available", "value": 0, "unit": "USD", "direction": "uninformed_to_informed", "normalization": "certainty_equivalent", "diagnostics_ref": null},
+    "bpi": {"measure": "bpi", "status": "available", "value": 0, "unit": "USD", "direction": "pay_to_acquire_information", "normalization": "ex_ante_sure_transfer", "diagnostics_ref": "bpi_root"},
+    "spi": {"measure": "spi", "status": "available", "value": 0, "unit": "USD", "direction": "receive_to_surrender_information", "normalization": "ex_ante_sure_transfer", "diagnostics_ref": "spi_root"},
+    "ppi": {"measure": "ppi", "status": "available", "value": 0, "unit": "dimensionless", "direction": "uninformed_to_informed", "normalization": "terminal_floor=1", "diagnostics_ref": null},
+    "bpi_root": {"status": "zero_boundary", "estimate": 0, "lower": 0, "upper": 0, "final_bracket_width": 0, "residual": 0, "iterations": 0, "evaluations": 1, "lower_tie_set": ["alpha", "zeta"], "upper_tie_set": ["alpha", "zeta"], "evaluated_policies": [{"transfer": 0, "tie_set": ["alpha", "zeta"], "representative_action_id": "alpha"}], "policy_switched": false, "transitions": [], "termination_reason": "zero objective within utility tolerance", "solver": {"initial_upper": 1, "expansion_factor": 2, "maximum_price": 100, "absolute_price_tolerance": 1e-10, "relative_price_tolerance": 1e-10, "utility_tolerance": 1e-12, "maximum_iterations": 200, "maximum_evaluations": 500}},
+    "spi_root": {"status": "zero_boundary", "estimate": 0, "lower": 0, "upper": 0, "final_bracket_width": 0, "residual": 0, "iterations": 0, "evaluations": 1, "lower_tie_set": ["alpha", "zeta"], "upper_tie_set": ["alpha", "zeta"], "evaluated_policies": [{"transfer": 0, "tie_set": ["alpha", "zeta"], "representative_action_id": "alpha"}], "policy_switched": false, "transitions": [], "termination_reason": "zero objective within utility tolerance", "solver": {"initial_upper": 1, "expansion_factor": 2, "maximum_price": 100, "absolute_price_tolerance": 1e-10, "relative_price_tolerance": 1e-10, "utility_tolerance": 1e-12, "maximum_iterations": 200, "maximum_evaluations": 500}},
+    "affine_reduction": {"status": "available", "monetary_measure": "evpi", "value": 0},
+    "comparability": {"stakeholder_scope_id": "reference", "within_problem_comparable": true, "cross_problem_comparable": false, "required_shared_fields": ["currency", "information_convention", "payoff_unit", "price_date", "stakeholder_scope_id", "utility_identity", "wealth_basis"], "rule_ids": ["affine-within-problem"]},
+    "presentation": {"presentation_label": "voc", "selected_measure": "eui", "canonical_result_ref": "self"}
+  }
+}

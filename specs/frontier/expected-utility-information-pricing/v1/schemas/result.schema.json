@@ -10,22 +10,72 @@
     "method": {"const": "expected_utility_information"},
     "method_maturity": {"const": "experimental"},
     "information_kind": {"enum": ["clairvoyant", "finite_signal"]},
-    "payoff_unit": {"type": "string"},
-    "utility": {"type": "object"},
+    "payoff_unit": {"type": "string", "minLength": 1},
+    "utility": {"$ref": "request.schema.json#/$defs/utility"},
     "current_expected_utility": {"type": "number"},
     "informed_expected_utility": {"type": "number"},
     "current_policy": {"$ref": "#/$defs/policy"},
     "informed_policies": {"type": "array", "items": {"$ref": "#/$defs/policy"}},
     "eui": {"$ref": "#/$defs/measure"}, "cei": {"$ref": "#/$defs/measure"},
-    "bpi": {"$ref": "#/$defs/measure"}, "spi": {"$ref": "#/$defs/measure"},
-    "ppi": {"$ref": "#/$defs/measure"},
+    "bpi": {"$ref": "#/$defs/measure"}, "spi": {"$ref": "#/$defs/measure"}, "ppi": {"$ref": "#/$defs/measure"},
     "bpi_root": {"$ref": "#/$defs/root"}, "spi_root": {"$ref": "#/$defs/root"},
-    "affine_reduction": {"type": "object"}, "comparability": {"type": "object"},
-    "presentation": {"type": "object"}
+    "affine_reduction": {"$ref": "#/$defs/affine_reduction"},
+    "comparability": {"$ref": "#/$defs/comparability"},
+    "presentation": {"$ref": "#/$defs/presentation"}
   },
   "$defs": {
-    "measure": {"type": "object", "additionalProperties": false, "required": ["measure", "status", "value", "unit", "direction"], "properties": {"measure": {"type": "string"}, "status": {"enum": ["available", "unavailable", "failed"]}, "value": {"type": ["number", "null"]}, "unit": {"type": "string"}, "direction": {"type": "string"}}},
-    "policy": {"type": "object", "additionalProperties": false, "required": ["signal_id", "tie_set", "representative_action_id"], "properties": {"signal_id": {"type": ["string", "null"]}, "tie_set": {"type": "array", "items": {"type": "string"}}, "representative_action_id": {"type": ["string", "null"]}}},
-    "root": {"type": "object", "required": ["status", "estimate", "lower", "upper", "iterations", "evaluations", "policy_switched", "transitions"], "properties": {"status": {"type": "string"}, "estimate": {"type": ["number", "null"]}, "lower": {"type": ["number", "null"]}, "upper": {"type": ["number", "null"]}, "iterations": {"type": "integer"}, "evaluations": {"type": "integer"}, "policy_switched": {"type": "boolean"}, "transitions": {"type": "array"}}}
+    "measure": {
+      "type": "object", "additionalProperties": false,
+      "required": ["measure", "status", "value", "unit", "direction", "normalization", "diagnostics_ref"],
+      "properties": {
+        "measure": {"enum": ["eui", "cei", "bpi", "spi", "ppi"]},
+        "status": {"enum": ["available", "unavailable", "failed"]},
+        "value": {"type": ["number", "null"]}, "unit": {"type": "string"}, "direction": {"type": "string"},
+        "normalization": {"type": "string", "minLength": 1}, "diagnostics_ref": {"type": ["string", "null"]}
+      }
+    },
+    "policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["signal_id", "tie_set", "representative_action_id"],
+      "properties": {"signal_id": {"type": ["string", "null"]}, "tie_set": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}, "representative_action_id": {"type": ["string", "null"]}}
+    },
+    "policy_evaluation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["transfer", "tie_set", "representative_action_id"],
+      "properties": {"transfer": {"type": "number"}, "tie_set": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}, "representative_action_id": {"type": ["string", "null"]}}
+    },
+    "transition": {
+      "type": "object", "additionalProperties": false,
+      "required": ["transfer", "prior_tie_set", "next_tie_set", "prior_representative_action_id", "next_representative_action_id"],
+      "properties": {"transfer": {"type": "number"}, "prior_tie_set": {"type": "array", "items": {"type": "string"}}, "next_tie_set": {"type": "array", "items": {"type": "string"}}, "prior_representative_action_id": {"type": ["string", "null"]}, "next_representative_action_id": {"type": ["string", "null"]}}
+    },
+    "root": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "estimate", "lower", "upper", "final_bracket_width", "residual", "iterations", "evaluations", "lower_tie_set", "upper_tie_set", "evaluated_policies", "policy_switched", "transitions", "termination_reason", "solver"],
+      "properties": {
+        "status": {"enum": ["converged", "zero_boundary", "not_bracketed", "utility_domain", "non_monotone", "max_iterations", "max_evaluations"]},
+        "estimate": {"type": ["number", "null"]}, "lower": {"type": ["number", "null"]}, "upper": {"type": ["number", "null"]}, "final_bracket_width": {"type": ["number", "null"]}, "residual": {"type": ["number", "null"]},
+        "iterations": {"type": "integer", "minimum": 0}, "evaluations": {"type": "integer", "minimum": 0},
+        "lower_tie_set": {"type": "array", "items": {"type": "string"}}, "upper_tie_set": {"type": "array", "items": {"type": "string"}},
+        "evaluated_policies": {"type": "array", "items": {"$ref": "#/$defs/policy_evaluation"}},
+        "policy_switched": {"type": "boolean"}, "transitions": {"type": "array", "items": {"$ref": "#/$defs/transition"}},
+        "termination_reason": {"type": "string", "minLength": 1}, "solver": {"$ref": "request.schema.json#/$defs/solver"}
+      }
+    },
+    "affine_reduction": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "monetary_measure", "value"],
+      "properties": {"status": {"enum": ["available", "unavailable"]}, "monetary_measure": {"type": ["string", "null"], "enum": ["evpi", "evsi", null]}, "value": {"type": ["number", "null"]}}
+    },
+    "comparability": {
+      "type": "object", "additionalProperties": false,
+      "required": ["stakeholder_scope_id", "within_problem_comparable", "cross_problem_comparable", "required_shared_fields", "rule_ids"],
+      "properties": {"stakeholder_scope_id": {"type": "string"}, "within_problem_comparable": {"type": "boolean"}, "cross_problem_comparable": {"type": "boolean"}, "required_shared_fields": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}, "rule_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}}
+    },
+    "presentation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["presentation_label", "selected_measure", "canonical_result_ref"],
+      "properties": {"presentation_label": {"enum": ["canonical", "voc"]}, "selected_measure": {"enum": ["eui", "cei", "bpi", "spi", "ppi"]}, "canonical_result_ref": {"const": "self"}}
+    }
   }
 }

@@ -4,7 +4,7 @@
   "title": "Expected utility information pricing request v1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "decision_problem_id", "stakeholder_scope_id", "action_ids", "state_ids", "payoffs", "state_probabilities", "initial_wealth", "payoff_unit", "utility", "information", "solver"],
+  "required": ["schema_version", "decision_problem_id", "stakeholder_scope_id", "action_ids", "state_ids", "payoffs", "state_probabilities", "initial_wealth", "payoff_unit", "currency", "price_date", "information_cost_location", "utility", "information", "solver"],
   "properties": {
     "schema_version": {"const": "expected-utility-information-input-v1"},
     "decision_problem_id": {"type": "string", "minLength": 1},
@@ -15,6 +15,9 @@
     "state_probabilities": {"type": "array", "minItems": 1, "items": {"type": "number", "minimum": 0, "maximum": 1}},
     "initial_wealth": {"type": "number"},
     "payoff_unit": {"type": "string", "minLength": 1},
+    "currency": {"type": "string", "minLength": 3, "maxLength": 3},
+    "price_date": {"type": "string", "format": "date"},
+    "information_cost_location": {"const": "ex_ante_sure_transfer"},
     "terminal_outcome_floor": {"type": ["number", "null"]},
     "utility": {"$ref": "#/$defs/utility"},
     "information": {"$ref": "#/$defs/information"},
@@ -27,7 +30,7 @@
         {"type": "object", "additionalProperties": false, "required": ["family", "slope", "intercept"], "properties": {"family": {"const": "affine"}, "slope": {"type": "number", "exclusiveMinimum": 0}, "intercept": {"type": "number"}}},
         {"type": "object", "additionalProperties": false, "required": ["family", "risk_tolerance", "reference_wealth"], "properties": {"family": {"const": "exponential"}, "risk_tolerance": {"type": "number", "exclusiveMinimum": 0}, "reference_wealth": {"type": "number"}}},
         {"type": "object", "additionalProperties": false, "required": ["family", "reference_wealth"], "properties": {"family": {"const": "log"}, "reference_wealth": {"type": "number", "exclusiveMinimum": 0}}},
-        {"type": "object", "additionalProperties": false, "required": ["family", "risk_aversion", "reference_wealth"], "properties": {"family": {"const": "power"}, "risk_aversion": {"type": "number", "exclusiveMinimum": 0}, "reference_wealth": {"type": "number", "exclusiveMinimum": 0}}}
+        {"type": "object", "additionalProperties": false, "required": ["family", "risk_aversion", "reference_wealth"], "properties": {"family": {"const": "power"}, "risk_aversion": {"type": "number", "exclusiveMinimum": 0}, "reference_wealth": {"type": "number", "exclusiveMinimum": 0}}, "not": {"properties": {"risk_aversion": {"const": 1}}}}
       ]
     },
     "information": {

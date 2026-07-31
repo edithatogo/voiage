@@ -5,7 +5,8 @@
   "request_schema": "../schemas/request.schema.json",
   "result_schema": "../schemas/result.schema.json",
   "fixtures": [
-    {"id": "affine-clairvoyant", "path": "normative/affine-clairvoyant.json", "sha256": "2b86d9d0dbf3df4a5dd18d2d690c32034f5a187f6a55fb52d2cafd932da4cd67", "reference": "enumeration-and-affine-reduction"},
-    {"id": "log-buy-sell-asymmetry", "path": "normative/log-buy-sell-asymmetry.json", "sha256": "76777124251fc04f2fd54da06e78771d65e9b4bb1099a291035c510a20cc7531", "reference": "independent-nonlinear-indifference-roots"}
+    {"id": "affine-clairvoyant", "path": "normative/affine-clairvoyant.json", "sha256": "e766c64090118be6ed4d083c1e727264de604df30da9539decd3a758f44c6a84", "reference": "enumeration-and-affine-reduction"},
+    {"id": "log-buy-sell-asymmetry", "path": "normative/log-buy-sell-asymmetry.json", "sha256": "0deac61be817975ec10865c37cc5ec89d25d9652f02627c08a3b81c86409309d", "reference": "independent-nonlinear-indifference-roots"},
+    {"id": "zero-value-result", "path": "normative/zero-value-result.json", "sha256": "3d50252c0251bc13afb27da0ca6e9033214306ff772cdbcb183499cbb698167a", "reference": "complete-result-wire-contract"}
   ]
 }

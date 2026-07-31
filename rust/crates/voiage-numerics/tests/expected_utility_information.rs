@@ -36,6 +36,9 @@ fn input(
         state_probabilities: probabilities.clone(),
         initial_wealth: wealth,
         payoff_unit: "USD".into(),
+        currency: Some("USD".into()),
+        price_date: Some("2026-07-31".into()),
+        information_cost_location: "ex_ante_sure_transfer".into(),
         information: InformationStructure {
             kind: "clairvoyant".into(),
             signal_ids: (0..states).map(|index| format!("state-{index}")).collect(),
@@ -62,6 +65,7 @@ fn affine_clairvoyance_reduces_to_monetary_evpi() {
     assert!((result.cei.value.unwrap() - 1.0).abs() < 1e-12);
     assert!((result.bpi.value.unwrap() - 1.0).abs() < 1e-8);
     assert!((result.spi.value.unwrap() - 1.0).abs() < 1e-8);
+    assert!((result.ppi.value.unwrap() - (1.0 / 12.0)).abs() < 1e-12);
     assert_eq!(
         result.affine_reduction.monetary_measure,
         Some("evpi".into())
@@ -84,6 +88,7 @@ fn logarithmic_reference_preserves_buy_sell_asymmetry() {
     assert!((result.cei.value.unwrap() - 3.831_618_672_2).abs() < 1e-8);
     assert!((result.bpi.value.unwrap() - 3.752_188_661_0).abs() < 1e-7);
     assert!((result.spi.value.unwrap() - 3.408_503_026_1).abs() < 1e-7);
+    assert!((result.ppi.value.unwrap() - 0.123_478_254_240_394_05).abs() < 1e-10);
     assert_ne!(result.bpi.value, result.spi.value);
     assert_eq!(result.affine_reduction.status, "unavailable");
 }
