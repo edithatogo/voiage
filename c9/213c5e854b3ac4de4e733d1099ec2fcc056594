@@ -1,0 +1,8 @@
+P4 Croissant integrity/profile increment
+
+Base: ae87d3c642ccda5e6c8b982053585e29c65ae77d (#702)
+Validation: uv run --extra ci --extra dev pytest tests/test_croissant_offline_fixtures.py tests/test_standardized_ingestion_providers.py -q (132 passed); Ruff check/format; ty check voiage/ingestion/croissant.py; Conductor full validation; GitHub cross-reference validation; git diff --check.
+
+Known limitation: tox -e vale did not complete after dependency installation in the isolated environment; no Vale success is claimed.
+
+Scope: integer contentSize is byte-verified through SourceAccessPolicy; textual/structured sizes and alternate integrity forms fail closed. Remote, archive, transform, and ML parser-feature support remain excluded.
