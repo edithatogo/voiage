@@ -1,0 +1,1 @@
+PR #710: regression coverage for strict Frictionless Parquet reader suffix, malformed-parser, and empty-schema branches. Focused ingestion tests, Ruff, ty, full Conductor, cross-references, and diff checks passed. Direct pytest-cov encountered a local NumPy dynamic-loader collision after Python 3.14 runs; hosted changed-code coverage is authoritative.
