@@ -25,11 +25,13 @@ strategies, outcomes, or decision semantics.
 
 `ProviderCapabilities` is the provider's conservative support declaration:
 format versions, media types, transformations, projection, filtering,
-streaming, and random access. A provider must declare unsupported operations as
-false or empty. Adding an optional capability is compatible only when the
-existing profile remains unchanged; changing a declared capability, provider
-identifier, error category, or normalized manifest meaning requires a new SDK
-major version.
+streaming, random access, and provider-owned `source_selection_keys`. A source
+selection chooses a declared source relationship; it is not Arrow projection,
+row filtering, or a generic query language. A provider must declare unsupported
+operations as false or empty. Adding an optional capability is compatible only
+when the existing profile remains unchanged; changing a declared capability,
+provider identifier, error category, or normalized manifest meaning requires a
+new SDK major version.
 
 Discovery is opt-in and allow-listed. Base imports and descriptor probing never
 load third-party entry points. The machine-readable consumer fixture is
