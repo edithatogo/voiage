@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 from pathlib import Path  # noqa: TC003 - public runtime annotation
 
 import pyarrow as pa
@@ -58,6 +59,54 @@ def read_csv(
     except pa.ArrowException as error:
         raise IngestionError(
             "declared delimited-text resource cannot be parsed"
+        ) from error
+
+
+def read_json_table(
+    reference: str,
+    policy: SourceAccessPolicy,
+    *,
+    sha256: str | None = None,
+    byte_size: int | None = None,
+) -> pa.Table:
+    """Read the supported local JSON Table profile after policy enforcement.
+
+    The profile is deliberately narrower than general JSON or JSON Table
+    tooling: it accepts one UTF-8 JSON array whose members are object rows.
+    It does not interpret JSON Pointer paths, top-level envelopes, JSON Lines,
+    nested data, or descriptor-supplied parser settings.
+    """
+    if not reference.casefold().endswith(".json"):
+        raise IngestionError("declared JSON Table resource must use a .json suffix")
+    path = policy.materialize(reference, sha256=sha256, byte_size=byte_size)
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise IngestionError(
+            "declared JSON Table resource is not valid UTF-8 JSON"
+        ) from error
+    if not isinstance(raw, list):
+        raise IngestionError("JSON Table resource must contain a JSON array")
+    if not all(isinstance(row, dict) for row in raw):
+        raise IngestionError("JSON Table rows must be JSON objects")
+    rows = [dict(row) for row in raw]
+    if any(not all(isinstance(key, str) for key in row) for row in rows):
+        raise IngestionError("JSON Table row field names must be strings")
+    scalar_types = (str, int, float, bool)
+    if any(
+        any(
+            value is not None and not isinstance(value, scalar_types)
+            for value in row.values()
+        )
+        for row in rows
+    ):
+        raise IngestionError("JSON Table rows must contain only scalar values")
+    policy.validate_tabular_batch(batch_rows=len(rows), total_rows=len(rows))
+    try:
+        return pa.Table.from_pylist(rows)
+    except pa.ArrowException as error:
+        raise IngestionError(
+            "declared JSON Table resource cannot be converted to Arrow"
         ) from error
 
 
