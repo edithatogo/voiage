@@ -24,9 +24,9 @@
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for
   #559 Value of Flexibility. (AC-03) `6fd474b1`
-- [ ] **F559-2:** Add the versioned VoF schema, normative fixture, runtime
+- [x] **F559-2:** Add the versioned VoF schema, normative fixture, runtime
   fixture-conformance check, provenance and explicit language dispositions.
-  (AC-02–AC-06)
+  (AC-02–AC-06) `500adfd0`
 - [ ] **F559-3:** Implement the corrected flexible-versus-commitment evaluator,
   compatibility view, public Python/CLI surface and documentation without
   duplicating a numerical kernel or claiming information value. (AC-02–AC-05)
