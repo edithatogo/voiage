@@ -1278,6 +1278,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added unified accelerator evidence packet validation and deterministic indexing for passed GPU and blocked TPU/Metal runs, preserving CPU fallback and external-gate reasons.
 ## Unreleased
 
+- Added an explicit `--source-root` policy control to every standardized
+  ingestion CLI command, allowing descriptor and verified local resource roots
+  to be selected independently without weakening fail-closed size, cache, or
+  offline policy enforcement.
+
 - Submitted the signed v2.0.0 Rust C ABI to BinaryBuilder through Yggdrasil,
   added the Julia package licence and Aqua checks, removed runtime-only test
   dependencies and the committed library manifest, expanded Julia CI across

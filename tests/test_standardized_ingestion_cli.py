@@ -288,6 +288,92 @@ def test_normalize_and_calculate_return_safe_errors(tmp_path) -> None:
     )
 
 
+def test_ingest_commands_expose_explicit_source_policy_controls(tmp_path) -> None:
+    """CLI callers can make materialization policy explicit and fail closed."""
+    source_root = tmp_path / "declared-source-root"
+    source_root.mkdir()
+    (source_root / "samples.csv").write_text("a,b\n1,2\n", encoding="utf-8")
+    descriptor = tmp_path / "datapackage.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "samples",
+                        "path": "samples.csv",
+                        "schema": {"fields": [{"name": "a"}, {"name": "b"}]},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    runner = CliRunner()
+    source_policy = ["--source-root", str(source_root)]
+    resolved = [
+        runner.invoke(app, ["ingest", "validate", str(descriptor), *source_policy]),
+        runner.invoke(app, ["ingest", "inspect", str(descriptor), *source_policy]),
+        runner.invoke(
+            app,
+            [
+                "ingest",
+                "normalize",
+                str(descriptor),
+                "--output",
+                str(tmp_path / "normalized.arrow"),
+                *source_policy,
+            ],
+        ),
+        runner.invoke(
+            app,
+            [
+                "ingest",
+                "calculate-from-dataset",
+                str(descriptor),
+                "--table",
+                "samples",
+                "--field",
+                "a",
+                "--field",
+                "b",
+                *source_policy,
+            ],
+        ),
+    ]
+    constrained = runner.invoke(
+        app,
+        [
+            "ingest",
+            "validate",
+            str(descriptor),
+            "--source-root",
+            str(source_root),
+            "--max-resource-bytes",
+            "1",
+        ],
+    )
+    invalid_limit = runner.invoke(
+        app,
+        [
+            "ingest",
+            "validate",
+            str(descriptor),
+            "--source-root",
+            str(source_root),
+            "--max-resource-bytes",
+            "0",
+        ],
+    )
+
+    assert all(result.exit_code == 0 for result in resolved)
+    assert json.loads(resolved[0].output)["valid"] is True
+    assert constrained.exit_code == 2
+    assert "exceeds configured size limit" in constrained.output
+    assert invalid_limit.exit_code == 2
+    assert "Invalid value" in invalid_limit.output
+
+
 def test_ingest_cli_applies_explicit_resource_size_policy(tmp_path) -> None:
     """CLI policy flags constrain provider materialization without network opt-in."""
     (tmp_path / "samples.csv").write_text("a,b\n1,2\n", encoding="utf-8")

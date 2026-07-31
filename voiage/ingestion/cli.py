@@ -71,13 +71,14 @@ def _inspection_binding(
 def _source_policy(
     descriptor: Path,
     *,
+    source_root: Path | None,
     offline: bool,
     cache_dir: Path | None,
     max_resource_bytes: int,
 ) -> SourceAccessPolicy:
     """Build an explicit, local-only policy for one CLI invocation."""
     return SourceAccessPolicy(
-        descriptor.parent,
+        source_root or descriptor.parent,
         offline=offline,
         cache_dir=cache_dir,
         max_resource_bytes=max_resource_bytes,
@@ -143,6 +144,14 @@ def _bundle_summary(
 @app.command("validate")
 def validate(
     descriptor: Path = typer.Argument(..., exists=True, readable=True),
+    source_root: Path | None = typer.Option(
+        None,
+        "--source-root",
+        file_okay=False,
+        exists=True,
+        readable=True,
+        help="Explicit local root allowed for declared resources.",
+    ),
     offline: bool = typer.Option(False, "--offline", help="Require an offline replay."),
     cache_dir: Path | None = typer.Option(
         None, "--cache-dir", help="Verified materialization cache directory."
@@ -164,6 +173,7 @@ def validate(
                         descriptor,
                         policy=_source_policy(
                             descriptor,
+                            source_root=source_root,
                             offline=offline,
                             cache_dir=cache_dir,
                             max_resource_bytes=max_resource_bytes,
@@ -190,6 +200,14 @@ def inspect(
     strategy: list[str] = typer.Option(
         [], "--strategy", help="Optional strategy name; repeat in field order."
     ),
+    source_root: Path | None = typer.Option(
+        None,
+        "--source-root",
+        file_okay=False,
+        exists=True,
+        readable=True,
+        help="Explicit local root allowed for declared resources.",
+    ),
     offline: bool = typer.Option(False, "--offline", help="Require an offline replay."),
     cache_dir: Path | None = typer.Option(
         None, "--cache-dir", help="Verified materialization cache directory."
@@ -208,6 +226,7 @@ def inspect(
                     binding=binding,
                     policy=_source_policy(
                         descriptor,
+                        source_root=source_root,
                         offline=offline,
                         cache_dir=cache_dir,
                         max_resource_bytes=max_resource_bytes,
@@ -225,6 +244,14 @@ def inspect(
 def normalize(
     descriptor: Path = typer.Argument(..., exists=True, readable=True),
     output: Path = typer.Option(..., "--output", "-o"),
+    source_root: Path | None = typer.Option(
+        None,
+        "--source-root",
+        file_okay=False,
+        exists=True,
+        readable=True,
+        help="Explicit local root allowed for declared resources.",
+    ),
     offline: bool = typer.Option(False, "--offline", help="Require an offline replay."),
     cache_dir: Path | None = typer.Option(
         None, "--cache-dir", help="Verified materialization cache directory."
@@ -237,6 +264,7 @@ def normalize(
     try:
         policy = _source_policy(
             descriptor,
+            source_root=source_root,
             offline=offline,
             cache_dir=cache_dir,
             max_resource_bytes=max_resource_bytes,
@@ -261,6 +289,14 @@ def calculate_from_dataset(
     strategy: list[str] = typer.Option(
         [], "--strategy", help="Optional strategy name; repeat in field order."
     ),
+    source_root: Path | None = typer.Option(
+        None,
+        "--source-root",
+        file_okay=False,
+        exists=True,
+        readable=True,
+        help="Explicit local root allowed for declared resources.",
+    ),
     offline: bool = typer.Option(False, "--offline", help="Require an offline replay."),
     cache_dir: Path | None = typer.Option(
         None, "--cache-dir", help="Verified materialization cache directory."
@@ -275,6 +311,7 @@ def calculate_from_dataset(
             descriptor,
             policy=_source_policy(
                 descriptor,
+                source_root=source_root,
                 offline=offline,
                 cache_dir=cache_dir,
                 max_resource_bytes=max_resource_bytes,
