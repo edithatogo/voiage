@@ -22,7 +22,7 @@
   tests with independent argmax calculations. (AC-02, AC-05) — `a14d3a2`
 - [x] **S7:** Add failing tests for interior, boundary, tied, infeasible and
   non-monotone design curves. (AC-02, AC-05) — `e016589`
-- [ ] **S8:** Add failing EVSI/EVPI tests for common scaling, zero EVPI,
+- [~] **S8:** Add failing EVSI/EVPI tests for common scaling, zero EVPI,
   theoretical limits, Monte Carlo tolerance and invalid inputs. (AC-03,
   AC-05)
 - [ ] **S9:** Review reference independence, cost provenance and estimator

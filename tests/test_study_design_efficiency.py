@@ -5,10 +5,11 @@ from __future__ import annotations
 import pytest
 
 from voiage.contracts.study_design import (
+    InformationValueInputV1,
     StudyDesignContextV1,
     StudyDesignPointInputV1,
 )
-from voiage.experimental.study_design import calculate_coss
+from voiage.experimental.study_design import calculate_coss, evsi_evpi_efficiency
 from voiage.exceptions import InputError
 
 
@@ -187,3 +188,75 @@ def test_coss_rejects_duplicate_design_identity_and_sample_size(
         calculate_coss(context=study_context, designs=duplicate_id)
     with pytest.raises(InputError, match="sample_size"):
         calculate_coss(context=study_context, designs=duplicate_size)
+
+
+def test_evsi_evpi_efficiency_is_dimensionless_and_scale_invariant(
+    study_context: StudyDesignContextV1,
+) -> None:
+    base = evsi_evpi_efficiency(
+        evsi=InformationValueInputV1(value=75.0, context=study_context),
+        evpi=InformationValueInputV1(value=100.0, context=study_context),
+    )
+    scaled_context = study_context.model_copy(update={"population_scale": 100_000.0})
+    scaled = evsi_evpi_efficiency(
+        evsi=InformationValueInputV1(value=750.0, context=scaled_context),
+        evpi=InformationValueInputV1(value=1_000.0, context=scaled_context),
+    )
+
+    assert base.ratio == pytest.approx(0.75)
+    assert scaled.ratio == pytest.approx(base.ratio)
+    assert base.percentage == pytest.approx(75.0)
+    assert base.status == "within_bounds"
+
+
+def test_evsi_evpi_efficiency_has_explicit_zero_evpi_behavior(
+    study_context: StudyDesignContextV1,
+) -> None:
+    result = evsi_evpi_efficiency(
+        evsi=InformationValueInputV1(value=0.0, context=study_context),
+        evpi=InformationValueInputV1(value=0.0, context=study_context),
+    )
+
+    assert result.ratio is None
+    assert result.percentage is None
+    assert result.status == "undefined_zero_evpi"
+
+    with pytest.raises(InputError, match="zero EVPI"):
+        evsi_evpi_efficiency(
+            evsi=InformationValueInputV1(value=1.0, context=study_context),
+            evpi=InformationValueInputV1(value=0.0, context=study_context),
+        )
+
+
+def test_evsi_evpi_efficiency_preserves_small_monte_carlo_bound_excursions(
+    study_context: StudyDesignContextV1,
+) -> None:
+    result = evsi_evpi_efficiency(
+        evsi=InformationValueInputV1(value=100.00000005, context=study_context),
+        evpi=InformationValueInputV1(value=100.0, context=study_context),
+        absolute_tolerance=1e-6,
+        relative_tolerance=0.0,
+    )
+
+    assert result.ratio is not None and result.ratio > 1.0
+    assert result.status == "above_one_within_tolerance"
+    assert "ratio_not_clamped" in result.diagnostics
+
+
+def test_evsi_evpi_efficiency_rejects_material_bounds_and_context_mismatch(
+    study_context: StudyDesignContextV1,
+) -> None:
+    with pytest.raises(InputError, match="theoretical bounds"):
+        evsi_evpi_efficiency(
+            evsi=InformationValueInputV1(value=101.0, context=study_context),
+            evpi=InformationValueInputV1(value=100.0, context=study_context),
+            absolute_tolerance=1e-6,
+            relative_tolerance=0.0,
+        )
+
+    incompatible = study_context.model_copy(update={"value_unit": "NZD_2026"})
+    with pytest.raises(InputError, match="commensurate"):
+        evsi_evpi_efficiency(
+            evsi=InformationValueInputV1(value=75.0, context=study_context),
+            evpi=InformationValueInputV1(value=100.0, context=incompatible),
+        )
