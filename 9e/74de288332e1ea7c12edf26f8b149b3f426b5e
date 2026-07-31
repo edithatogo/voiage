@@ -1,0 +1,11 @@
+Task: S16 Add COSS user and reporting surfaces
+
+Summary: Added experimental calculate-coss and plot-coss CLI commands, a versioned CHEERS-VOI reporting/provenance envelope, accessible backend-independent COSS plotting, and a synthetic governed example with documentation.
+
+Validation:
+- uv run ruff check focused S16 files: passed
+- uv run pytest focused COSS, plotting, and export tests: 48 passed
+- git diff --check: passed
+- basedpyright full CLI invocation reports pre-existing repository-wide CLI typing debt; no new fatal runtime failure was observed
+
+Why: COSS outputs must be reproducible, inspectable, and plot-ready without reshaping or losing scientific provenance.
