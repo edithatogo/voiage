@@ -189,6 +189,17 @@ non-executable dynamic-real-options fixture. Transition-constrained lifecycle
 paths, Rust/R/Julia execution, scientific review, stable promotion, merge,
 release and issue closure remain separate gates.
 
+Deterministic Sensitivity and Scenario Analysis (#556) now has an experimental
+Python callback and normalized-record engine on draft PR #723. Its exact v1
+contract preserves complete coordinate vectors, parameter and output units,
+frozen-baseline one-way grids, explicitly feasible two-way cells, named
+structural scenarios, complete tie sets, and observed exact/plateau/adjacent-
+bracket switches. The CLI validates the same contract from an installed wheel,
+and the accessible tornado plot uses evaluated grid extrema rather than
+inventing interpolation. Rust/R/Julia execution, independent scientific
+review, stable promotion, merge, release and issue closure remain separate
+gates.
+
 The complete Rust-first polyglot programme issue hierarchy is now materialized
 in Conductor rather than existing only in GitHub and Project 28:
 

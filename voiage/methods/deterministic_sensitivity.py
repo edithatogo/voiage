@@ -8,6 +8,9 @@ from typing import Any, Literal, Protocol, cast
 
 import numpy as np
 
+from voiage.contracts.deterministic_sensitivity import (
+    validate_deterministic_sensitivity_specification,
+)
 from voiage.exceptions import raise_input_error
 
 Direction = Literal["maximize", "minimize"]
@@ -599,6 +602,7 @@ def deterministic_sensitivity_from_specification(
     specification: Mapping[str, object],
 ) -> DeterministicSensitivityResult:
     """Evaluate the normalized deterministic-sensitivity-input-v1 contract."""
+    validate_deterministic_sensitivity_specification(specification)
     baseline_entries = cast("list[dict[str, Any]]", specification["baseline"])
     grid_entries = cast("list[dict[str, Any]]", specification["parameter_grids"])
     if not isinstance(baseline_entries, list) or not isinstance(grid_entries, list):

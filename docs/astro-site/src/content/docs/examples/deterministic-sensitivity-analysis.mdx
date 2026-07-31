@@ -1,0 +1,59 @@
+---
+title: Deterministic sensitivity analysis
+description: Experimental one-way, feasible two-way, and named scenario analysis
+---
+
+This experimental example varies declared model parameters over finite grids
+while freezing every other coordinate at the baseline. It reports the complete
+evaluated points, decision ties, adjacent switch brackets, named scenarios and
+one-way grid extrema used by a tornado plot. It is deterministic sensitivity
+analysis—not probabilistic sensitivity analysis, EVPPI, EVSI or a global
+sensitivity index.
+
+Run the normalized-record fixture from the repository root:
+
+```sh
+voiage --format json calculate-deterministic-sensitivity \
+  specs/frontier/deterministic-sensitivity-analysis/v1/fixtures/normative/input.json \
+  --output dsa-result.json
+```
+
+The installed package validates the exact v1 request contract without reading
+schema files from a source checkout. Unknown fields, missing units, mismatched
+parameter/output units, incomplete coordinate vectors, and incomplete
+alternative sets fail closed.
+
+## Python callback and tornado plot
+
+```python
+from voiage import deterministic_sensitivity
+from voiage.plot import plot_deterministic_sensitivity_tornado
+
+
+def model(parameters):
+    x, y = parameters["x"], parameters["y"]
+    return {"a": 10 + x - y, "b": 8 + 2 * x + y}
+
+
+result = deterministic_sensitivity(
+    model,
+    baseline_parameters={"x": 0.0, "y": 0.0},
+    parameter_grids={"x": [-2.0, 0.0, 2.0], "y": [-1.0, 0.0, 1.0]},
+    parameter_units={"x": "point", "y": "point"},
+    alternative_names=["a", "b"],
+    output_unit="net-benefit-point",
+    direction="maximize",
+)
+ax = plot_deterministic_sensitivity_tornado(result)
+ax.figure.savefig("dsa-tornado.png", bbox_inches="tight")
+```
+
+Each bar spans the minimum and maximum optimal metric actually observed on the
+declared one-way grid; the dashed line is the baseline optimum. The function
+does not interpolate between coordinates or infer a root. An exact tie or
+plateau is reported as observed; a change between adjacent non-tied points is
+reported only as a bracket.
+
+Python is the only executable surface in v1. Rust, R and Julia are explicitly
+unsupported and Mojo remains external. Scientific review, cross-language
+parity, stable promotion and release are separate gates.

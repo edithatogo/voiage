@@ -37,6 +37,17 @@ This document lists the actionable tasks for `voiage` development. Agents should
         checks, merge, scientific review, transition-aware policy extension,
         polyglot execution, stable promotion, release and issue closure.
 
+*   [ ] Complete deterministic sensitivity and scenario analysis after
+    experimental repository delivery.
+    *   GitHub issue #556; delivery subissues #724--#728; umbrella track
+        `supported_frontier_method_completion_20260723`; draft PR #723.
+    *   Python callback and normalized-record execution, exact installed-wheel
+        validation, one-way/two-way/scenario fixtures, CLI, tornado plot and
+        documentation are present on the branch.
+    *   Remaining gates: independent implementation review, hosted exact-head
+        checks, merge, scientific review, Rust/R/Julia execution, stable
+        promotion, release and issue closure.
+
 *   [x] Implement estimation-focused variance-reduction VOI.
     *   Conductor track: `estimation_focused_variance_voi_20260727`.
     *   Planned contract: v1.2.0; MoSCoW: Must; canonical requirements M14/M17.

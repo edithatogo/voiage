@@ -73,6 +73,9 @@ from voiage.methods.computational import (
 from voiage.methods.data_quality import (
     value_of_data_quality as calculate_data_quality_result,
 )
+from voiage.methods.deterministic_sensitivity import (
+    deterministic_sensitivity_from_specification as calculate_deterministic_sensitivity_result,
+)
 from voiage.methods.distributional import (
     DistributionalEquityResult,
     value_of_distributional_equity,
@@ -3348,6 +3351,45 @@ def calculate_dynamic_real_options(
     except FileNotFoundError as e:
         typer.echo(f"Error: File not found - {e}", err=True)
         raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-deterministic-sensitivity")
+def calculate_deterministic_sensitivity(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a deterministic-sensitivity-input-v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the deterministic sensitivity result",
+    ),
+) -> None:
+    """Calculate experimental deterministic one/two-way and scenario analysis."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError("DSA specification must be a JSON object.")
+        result = calculate_deterministic_sensitivity_result(payload)
+        result_payload = result.to_contract_dict()
+        output_text = _format_output(
+            "Deterministic sensitivity evaluated "
+            f"{result.evaluated_record_count} records ({result.output_unit})",
+            result_payload,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
 
 
 @app.command(name="calculate-value-of-flexibility")

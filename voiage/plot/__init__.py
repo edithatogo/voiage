@@ -2,6 +2,7 @@
 
 from .ceac import plot_ceac
 from .ceaf import plot_ceaf
+from .deterministic_sensitivity import plot_deterministic_sensitivity_tornado
 from .dominance import plot_cost_effectiveness_plane
 from .estimation_variance import plot_estimation_variance
 from .heterogeneity import plot_voh_by_subgroup
@@ -18,6 +19,7 @@ __all__ = [
     "plot_ceaf",
     "plot_coss",
     "plot_cost_effectiveness_plane",
+    "plot_deterministic_sensitivity_tornado",
     "plot_estimation_variance",
     "plot_evpi_vs_wtp",
     "plot_evppi_surface",

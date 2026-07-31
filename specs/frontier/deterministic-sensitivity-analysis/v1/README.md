@@ -8,6 +8,9 @@ consumer does not mistake a tornado range for a probability, EVPPI or global
 sensitivity measure.
 
 Python provides an experimental shared evaluator for callback and normalized
-record inputs under #726. Rust, R and Julia remain unsupported; Mojo remains
-outside the repository boundary. This executable claim does not imply stable
-status, scientific approval or cross-language parity.
+record inputs under #726. The #727 user surfaces add exact installed-wheel
+validation, a normalized-record CLI, and an accessible tornado plot whose bars
+are evaluated grid extrema rather than interpolated thresholds. Rust, R and
+Julia remain unsupported; Mojo remains outside the repository boundary. This
+executable claim does not imply stable status, scientific approval or
+cross-language parity.
