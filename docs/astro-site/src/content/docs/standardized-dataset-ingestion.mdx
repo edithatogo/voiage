@@ -51,6 +51,22 @@ voiage ingest validate datapackage.json \
   --cache-dir .voiage-cache
 ```
 
+Use `--provider croissant` or `--provider frictionless` to assert the expected
+built-in parser at any CLI boundary. This is an assertion, not a filename or
+content-type override: the descriptor must still match exactly one registered
+provider. `calculate-from-dataset` accepts either the inline `--table` and
+repeated `--field` binding, or an explicit `--binding-profile profile.json`.
+The two binding forms cannot be combined. The built-in providers do not offer a
+`--resource` selector because their declared capabilities do not support
+projection or filtering; each supported descriptor resource is validated as a
+whole rather than silently skipping a table.
+
+CLI usage errors retain exit code 2. VOIAGE-owned failures have stable,
+machine-actionable codes: 3 for safe descriptor, provider, or source-policy
+rejection; 4 for binding-profile or semantic-binding rejection; and 5 when a
+normalized output cannot be written. Error text remains redacted and does not
+authorize remote access.
+
 `croissant.json` is recognized from its Croissant context and
 `datapackage.json` from its Data Package resource list, not from the filename.
 `validate` resolves the descriptor and every declared local resource through

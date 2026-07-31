@@ -180,8 +180,11 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   that a rejected credential-bearing descriptor URI is redacted at the
   user-facing boundary, and all four ingestion commands have executable help
   contracts. Explicit non-default source-root tests now cover all materializing
-  commands and fail closed at the resource-byte limit (partial: complete Phase
-  6 acceptance reconciliation remains active).
+  commands and fail closed at the resource-byte limit. Provider/source-policy,
+  binding, and output failures now have stable differentiated exit codes while
+  Typer-owned usage errors retain exit code 2; explicit provider and binding
+  profile selection are enforced, and unsupported resource projection remains
+  absent (partial: complete Phase 6 acceptance reconciliation remains active).
 - [x] **P6-T2 / AC-07:** Add `croissant`, `frictionless`, and aggregate
   `ingestion` extras. The declared extras remain dependency-neutral because
   built-in providers require only the base Arrow/JSON stack.
@@ -202,8 +205,9 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 - [~] **P6-T6 / AC-07:** Update Astro data-structure, CLI, architecture, and
   security guidance plus README, changelog, roadmap, and todo. The Astro guide,
   changelog, roadmap/todo, and README now describe the supported profile,
-  explicit safety boundary, CLI, and cross-domain examples; final docs/links
-  and phase-checkpoint evidence remains active.
+  explicit safety boundary, CLI, cross-domain examples, CLI exit taxonomy, and
+  explicit provider/binding-profile boundary; final docs/links and
+  phase-checkpoint evidence remains active.
 - [ ] **P6-T7 / AC-07:** Run automated review, CLI/docs/Vale validation, clean
   install checks, and the phase checkpoint protocol.
 

@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   fixture, rejected empty provider identities at registry registration, and
   added clean optional-parser import-isolation coverage while the intentionally
   dependency-neutral ingestion extras remain unpromoted.
+- Added enforceable standardized-ingestion CLI provider assertions and explicit
+  binding-profile selection, with stable exit codes for safe source, binding,
+  and output failures. Resource projection remains unavailable where built-in
+  provider capabilities cannot enforce it.
 - Added pandas and Polars DataFrame-interchange consumer coverage for nullable
   categorical and timezone-aware columns, index exclusion, and conservative
   copy diagnostics based on the Arrow conversion actually returned.
