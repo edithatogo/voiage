@@ -103,6 +103,4 @@ def test_non_convergence_is_explicit_diagnostic_not_a_silent_success() -> None:
     )
     result = EstimationVarianceResult.model_validate(fields)
     assert result.diagnostics.converged is False
-    assert result.diagnostics.diagnostic_codes == (
-        "convergence_threshold_not_met",
-    )
+    assert result.diagnostics.diagnostic_codes == ("convergence_threshold_not_met",)

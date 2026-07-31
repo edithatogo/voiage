@@ -85,9 +85,12 @@ def test_evppi_var_python_facade_matches_discrete_reference() -> None:
     assert result.provenance.backend == "rust"
     assert result.provenance.estimator_id == "discrete_conditioning"
     assert result.diagnostics.monte_carlo_standard_error is None
-    assert result.model_dump_json() == EstimationVarianceResult.model_validate_json(
+    assert (
         result.model_dump_json()
-    ).model_dump_json()
+        == EstimationVarianceResult.model_validate_json(
+            result.model_dump_json()
+        ).model_dump_json()
+    )
 
 
 def test_evsi_var_python_facade_preserves_negative_raw_estimate() -> None:

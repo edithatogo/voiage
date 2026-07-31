@@ -214,15 +214,11 @@ def _result_from_native(
         expected_posterior_functional=posterior,
         raw_reduction=_number(payload, "raw_reduction"),
         absolute_reduction=_number(payload, "absolute_reduction"),
-        relative_reduction=(
-            None if relative_value is None else float(relative_value)
-        ),
+        relative_reduction=(None if relative_value is None else float(relative_value)),
         functional_units=f"{specification.target.component_units[0]}^2",
         diagnostics=EstimationVarianceDiagnostics(
             prior_sample_count=_integer(payload, "prior_sample_count"),
-            posterior_evaluation_count=_integer(
-                payload, "posterior_evaluation_count"
-            ),
+            posterior_evaluation_count=_integer(payload, "posterior_evaluation_count"),
             bootstrap_replicates=_integer(payload, "bootstrap_replicates"),
             monte_carlo_standard_error=standard_error,
             confidence_interval=_confidence_interval(payload),

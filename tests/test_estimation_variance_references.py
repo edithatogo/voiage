@@ -37,7 +37,11 @@ def test_evppi_var_discrete_reference_is_independently_enumerable() -> None:
     samples = [float(value) for value in case["target_samples"]]
     groups = [str(value) for value in case["conditioning_groups"]]
     group_values = {
-        group: [value for value, label in zip(samples, groups, strict=True) if label == group]
+        group: [
+            value
+            for value, label in zip(samples, groups, strict=True)
+            if label == group
+        ]
         for group in set(groups)
     }
 

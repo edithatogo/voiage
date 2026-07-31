@@ -400,6 +400,7 @@ def test_methods_package_exports_are_curated() -> None:
         "evpi",
         "evppi",
         "evsi",
+        "estimation_variance_method",
         "evsi_nma",
         "identify_optimal_subgroups",
         "perspective_optimal_strategies",

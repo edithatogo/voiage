@@ -18,8 +18,7 @@ def _discrete_decomposition(
         grouped[group].append(value)
     prior = pvariance(values)
     expected_within = sum(
-        len(members) / len(values) * pvariance(members)
-        for members in grouped.values()
+        len(members) / len(values) * pvariance(members) for members in grouped.values()
     )
     group_means = [fmean(grouped[group]) for group in groups]
     between = pvariance(group_means)
@@ -40,9 +39,7 @@ def test_discrete_evppi_var_obeys_total_variance(
 ) -> None:
     groups = [index % split for index in range(len(values))]
     prior, expected_within, between = _discrete_decomposition(values, groups)
-    assert prior == pytest.approx(
-        expected_within + between, rel=1.0e-12, abs=1.0e-8
-    )
+    assert prior == pytest.approx(expected_within + between, rel=1.0e-12, abs=1.0e-8)
     assert 0.0 <= between <= prior + 1.0e-6
 
 
@@ -55,8 +52,8 @@ def test_discrete_evppi_var_obeys_total_variance(
 )
 @settings(max_examples=50, deadline=None)
 def test_evppi_var_zero_and_perfect_information_limits(values: list[float]) -> None:
-    prior, no_information_posterior, no_information_reduction = (
-        _discrete_decomposition(values, [0] * len(values))
+    prior, no_information_posterior, no_information_reduction = _discrete_decomposition(
+        values, [0] * len(values)
     )
     assert no_information_posterior == pytest.approx(prior)
     assert no_information_reduction == pytest.approx(0.0, abs=1.0e-12)
@@ -69,12 +66,8 @@ def test_evppi_var_zero_and_perfect_information_limits(values: list[float]) -> N
 
 
 @given(
-    prior_variance=st.floats(
-        min_value=1.0e-9, max_value=1.0e6, allow_nan=False
-    ),
-    sampling_variance=st.floats(
-        min_value=1.0e-9, max_value=1.0e6, allow_nan=False
-    ),
+    prior_variance=st.floats(min_value=1.0e-9, max_value=1.0e6, allow_nan=False),
+    sampling_variance=st.floats(min_value=1.0e-9, max_value=1.0e6, allow_nan=False),
     smaller_sample=st.integers(min_value=1, max_value=1_000),
     increment=st.integers(min_value=0, max_value=1_000),
 )
@@ -88,9 +81,7 @@ def test_normal_normal_evsi_var_is_bounded_and_monotone_for_nested_samples(
     larger_sample = smaller_sample + increment
 
     def reduction(sample_size: int) -> float:
-        posterior = 1.0 / (
-            (1.0 / prior_variance) + (sample_size / sampling_variance)
-        )
+        posterior = 1.0 / ((1.0 / prior_variance) + (sample_size / sampling_variance))
         return prior_variance - posterior
 
     smaller = reduction(smaller_sample)

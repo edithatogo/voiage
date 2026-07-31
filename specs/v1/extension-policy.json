@@ -21,6 +21,7 @@
     "voiage/methods/distributional.py": "optional_extension",
     "voiage/methods/dynamic_real_options.py": "optional_extension",
     "voiage/methods/equity_information.py": "optional_extension",
+    "voiage/methods/estimation.py": "experimental",
     "voiage/methods/evidence_obsolescence_refresh.py": "optional_extension",
     "voiage/methods/expert_synthesis.py": "optional_extension",
     "voiage/methods/explainability_transparency.py": "optional_extension",
