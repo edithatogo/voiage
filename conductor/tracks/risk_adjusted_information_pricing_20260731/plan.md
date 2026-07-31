@@ -28,7 +28,7 @@
 
 ## Phase 2 — Reference evidence before implementation
 
-- [ ] **U6:** Add failing independent affine, exponential and nonlinear
+- [~] **U6:** Add failing independent affine, exponential and nonlinear
   reference tests for EUI, CEI, BPI, SPI, PPI and affine EVPI reduction. (AC-03,
   AC-05)
 - [ ] **U7:** Add failing property and pathological tests for positive-affine
