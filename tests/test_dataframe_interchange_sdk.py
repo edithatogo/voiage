@@ -61,6 +61,60 @@ def test_dataframe_sdk_forwards_copy_policy_and_preserves_nullable_schema() -> N
     assert bundle.manifest.tables[0].fields[2].dtype == "timestamp[s, tz=UTC]"
 
 
+def test_dataframe_sdk_records_copy_and_schema_conversion_diagnostics() -> None:
+    """Consumers can audit the non-semantic interchange decisions made."""
+    table = pa.table(
+        {
+            "tier": pa.array(["standard", None]).dictionary_encode(),
+            "observed_at": pa.array(
+                [datetime(2026, 1, 1, tzinfo=UTC), None],
+                type=pa.timestamp("s", tz="UTC"),
+            ),
+        }
+    )
+
+    bundle = from_dataframe(table, dataset_id="auditable-sdk", allow_copy=False)
+    extension = bundle.manifest.model_dump(mode="json")["extensions"][
+        "voiage.dev:dataframe-interchange"
+    ]
+
+    assert extension == {
+        "adapter_version": "1",
+        "copy_outcome": "zero_copy",
+        "copy_policy": "disallow_copy",
+        "field_decisions": [
+            {
+                "categorical": True,
+                "dtype": "dictionary<values=string, indices=int32, ordered=0>",
+                "field_id": "tier",
+                "nullable": True,
+                "timezone": None,
+            },
+            {
+                "categorical": False,
+                "dtype": "timestamp[s, tz=UTC]",
+                "field_id": "observed_at",
+                "nullable": True,
+                "timezone": "UTC",
+            },
+        ],
+        "index_policy": "excluded_by_dataframe_interchange_protocol",
+    }
+    assert bundle.manifest.diagnostics[0].code == "dataframe_interchange.copy.zero_copy"
+
+
+def test_dataframe_sdk_does_not_claim_an_unobservable_copy_outcome() -> None:
+    """Arrow's public interchange API does not report copies when allowed."""
+    bundle = from_dataframe(pa.table({"value": [1]}), dataset_id="auditable-sdk")
+    extension = bundle.manifest.model_dump(mode="json")["extensions"][
+        "voiage.dev:dataframe-interchange"
+    ]
+
+    assert extension["copy_policy"] == "allow_copy"
+    assert extension["copy_outcome"] == "not_observable"
+    assert bundle.manifest.diagnostics[0].code == "dataframe_interchange.copy.unknown"
+
+
 def test_dataframe_sdk_bundle_uses_the_standard_preparation_contract() -> None:
     """DataFrame callers receive the same explicit-binding VOI input as providers."""
     bundle = from_dataframe(
