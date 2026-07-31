@@ -726,6 +726,7 @@ def test_frictionless_validation_exposes_governance_and_receipt_identity(
     assert inspection["provenance"]["license"] == "CC-BY-4.0"
     assert inspection["provenance"]["citation"] == "Example et al. (2026)"
     assert inspection["governance"] == {
+        "frictionlessdata.org:citation": "Example et al. (2026)",
         "frictionlessdata.org:contributors": [
             {"role": "author", "title": "Maintainer"}
         ],
