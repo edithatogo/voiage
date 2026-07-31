@@ -95,7 +95,7 @@ def _validate_registry() -> list[dict[str, object]]:
 
     validated: list[dict[str, object]] = []
     names: set[str] = set()
-    paths: set[str] = set()
+    paths: set[Path] = set()
     for index, item in enumerate(families):
         if not isinstance(item, dict):
             raise ValidationError(f"$.families[{index}]: expected object")
@@ -112,11 +112,13 @@ def _validate_registry() -> list[dict[str, object]]:
             )
         if name in names:
             raise ValidationError(f"$.families[{index}].name: duplicate family name")
-        if relpath in paths:
+        resolved_manifest = _resolve_contained(
+            FRONTIER_ROOT, relpath, f"$.families[{index}].path"
+        )
+        if resolved_manifest in paths:
             raise ValidationError(f"$.families[{index}].path: duplicate manifest path")
-        _resolve_contained(FRONTIER_ROOT, relpath, f"$.families[{index}].path")
         names.add(name)
-        paths.add(relpath)
+        paths.add(resolved_manifest)
         manifest_kind = item.get("manifest_kind", "split")
         if manifest_kind not in {"split", "bundled"}:
             raise ValidationError(
@@ -223,7 +225,7 @@ def _validate_bundled_family_manifest(manifest_path: Path) -> None:
     if not isinstance(fixtures, list) or not fixtures:
         raise ValidationError(f"{manifest_path}: fixtures must not be empty")
     fixture_ids: set[str] = set()
-    fixture_paths: set[str] = set()
+    fixture_paths: set[Path] = set()
     for index, entry in enumerate(fixtures):
         if not isinstance(entry, dict):
             raise ValidationError(f"{manifest_path}: fixtures[{index}] must be an object")
@@ -238,17 +240,17 @@ def _validate_bundled_family_manifest(manifest_path: Path) -> None:
         )
         if fixture_id in fixture_ids:
             raise ValidationError(f"{manifest_path}: duplicate fixture id {fixture_id}")
-        if artifact in fixture_paths:
+        artifact_path = _resolve_contained(
+            fixture_root, artifact, f"{manifest_path}.fixtures[{index}].path"
+        )
+        if artifact_path in fixture_paths:
             raise ValidationError(f"{manifest_path}: duplicate fixture path {artifact}")
         if not re.fullmatch(r"[0-9a-f]{64}", expected_hash):
             raise ValidationError(
                 f"{manifest_path}: fixtures[{index}].sha256 must be lowercase SHA-256"
             )
         fixture_ids.add(fixture_id)
-        fixture_paths.add(artifact)
-        artifact_path = _resolve_contained(
-            fixture_root, artifact, f"{manifest_path}.fixtures[{index}].path"
-        )
+        fixture_paths.add(artifact_path)
         if not artifact_path.is_file():
             raise ValidationError(f"{manifest_path}: missing bundled artifact {artifact}")
         actual_hash = hashlib.sha256(artifact_path.read_bytes()).hexdigest()

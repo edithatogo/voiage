@@ -99,6 +99,49 @@ def test_frontier_registry_rejects_duplicate_names_and_paths(
         validate_frontier_contract._validate_registry()
 
 
+def test_frontier_registry_normalizes_paths_before_duplicate_checks(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    registry_root = tmp_path / "fixtures"
+    registry_root.mkdir()
+    registry = json.loads(Path("specs/frontier/fixtures/manifest.json").read_text())
+    alias = dict(registry["families"][0])
+    alias["name"] = "normalized-path-alias"
+    alias["path"] = alias["path"].replace("/v1/", "/v1/./")
+    registry["families"].append(alias)
+    manifest_path = registry_root / "manifest.json"
+    schema_path = registry_root / "manifest.schema.json"
+    manifest_path.write_text(json.dumps(registry), encoding="utf-8")
+    schema_path.write_text(
+        Path("specs/frontier/fixtures/manifest.schema.json").read_text(),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(validate_frontier_contract, "FRONTIER_ROOT", tmp_path)
+    monkeypatch.setattr(validate_frontier_contract, "REGISTRY_MANIFEST", manifest_path)
+    monkeypatch.setattr(validate_frontier_contract, "REGISTRY_SCHEMA", schema_path)
+
+    with pytest.raises(validate_frontier_contract.ValidationError, match="duplicate"):
+        validate_frontier_contract._validate_registry()
+
+
+def test_bundled_manifest_normalizes_paths_before_duplicate_checks(
+    tmp_path: Path,
+) -> None:
+    source = Path("specs/frontier/expected-utility-information-pricing/v1")
+    family_root = tmp_path / "v1"
+    shutil.copytree(source, family_root)
+    manifest_path = family_root / "fixtures/manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    alias = dict(manifest["fixtures"][0])
+    alias["id"] = "normalized-path-alias"
+    alias["path"] = alias["path"].replace("normative/", "normative/./")
+    manifest["fixtures"].append(alias)
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+
+    with pytest.raises(validate_frontier_contract.ValidationError, match="duplicate"):
+        validate_frontier_contract._validate_bundled_family_manifest(manifest_path)
+
+
 def test_bundled_fixture_payload_is_schema_validated_after_hash_verification(
     tmp_path: Path,
 ) -> None:

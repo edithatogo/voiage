@@ -16,7 +16,8 @@ governance, and the frozen v1 boundary.
   existence and hashes but was fail-open to duplicate or escaping paths and did
   not validate payload schemas. The validator now applies the registry schema,
   unique and contained paths, lowercase SHA-256, request/result/reference
-  schemas, and negative mutation tests.
+  schemas, normalized resolved-path duplicate detection (including symlink
+  aliases), and negative mutation tests.
 - **Medium — Rust shared-fixture evidence:** the first capability test proved
   only that the Rust evidence file existed. Rust now consumes both committed
   normative reference fixtures directly and compares all five measures.
