@@ -435,9 +435,10 @@ def test_testpypi_smoke_is_bounded_and_blocks_pypi() -> None:
         "resolve-tag",
         "test-pypi-smoke",
     ]
-    assert "for attempt in 1 2 3 4 5 6" in rendered
+    assert rendered.count("for attempt in 1 2 3 4 5 6") >= 3
     assert "sleep 20" in rendered
     assert "https://test.pypi.org/simple/" in rendered
+    assert "TestPyPI Simple API did not expose the reviewed release" in rendered
     assert "--no-deps" in rendered
     assert "test.pypi.org/integrity/voiage/${PYTHON_VERSION}" in rendered
     assert "pypi-attestations==0.0.30" in rendered
