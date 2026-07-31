@@ -108,6 +108,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Added a bounded retry around the TestPyPI Simple API download so propagation
+  lag after the JSON API exposes a reviewed release does not create a false
+  negative in the supported-Python smoke matrix.
 - Prepared the `v2.0.1-rc.4` TestPyPI candidate with explicit ecosystem version
   projections, a deterministic aggregate root for dependency-only Python SBOM
   input, and a source-bound UUIDv5 CycloneDX serial number required by GitHub
