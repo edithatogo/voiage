@@ -140,11 +140,10 @@ class NumpyBackend(Backend):
     def enbs_simple(
         self, net_benefit_array: ArrayLike, research_cost: ArrayLike
     ) -> float:
-        """Calculate ENBS directly from net benefit array.
+        """Return a legacy clipped EVPI-minus-cost screening score.
 
-        This is a simplified version that calculates ENBS as:
-        ENBS = EVPI - research_cost
-        where EVPI is calculated from the net benefit array.
+        This compatibility helper substitutes EVPI for EVSI and floors the
+        result at zero. It is not signed ENBS and must not be used for COSS.
         """
         # First calculate EVPI
         evpi = self.evpi(net_benefit_array)
@@ -724,11 +723,10 @@ try:
         def enbs_simple(
             self, net_benefit_array: ArrayLike, research_cost: ArrayLike
         ) -> float:
-            """Calculate ENBS directly from net benefit array.
+            """Return a legacy clipped EVPI-minus-cost screening score.
 
-            This is a simplified version that calculates ENBS as:
-            ENBS = EVPI - research_cost
-            where EVPI is calculated from the net benefit array.
+            This compatibility helper is not signed ENBS and must not be used
+            for COSS.
             """
             # First calculate EVPI
             evpi = self.evpi(net_benefit_array)
@@ -858,7 +856,7 @@ class AppleMetalBackend(Backend):
     def enbs_simple(
         self, net_benefit_array: ArrayLike, research_cost: ArrayLike
     ) -> float:
-        """Calculate ENBS directly from net benefit array."""
+        """Return a legacy clipped EVPI-minus-cost screening score, not COSS."""
         evpi = self.evpi(net_benefit_array)
         enbs_result = evpi - float(np.asarray(research_cost, dtype=float))
         return float(max(0.0, enbs_result))

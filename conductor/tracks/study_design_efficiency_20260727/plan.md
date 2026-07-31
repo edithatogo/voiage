@@ -36,7 +36,7 @@
 - [x] **S11:** Implement the thin Python orchestration façade and deterministic
   design optimizer without numerical fallback. (AC-01, AC-02, AC-06) —
   `9f22894`
-- [ ] **S12:** Reconcile or deprecate legacy optimizer behavior and preserve
+- [~] **S12:** Reconcile or deprecate legacy optimizer behavior and preserve
   stable API compatibility. (AC-04)
 - [ ] **S13:** Add property, differential, serialization, uncertainty,
   optimizer and benchmark assurance. (AC-05, AC-09)
