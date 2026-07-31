@@ -81,6 +81,6 @@
 - [x] **U16:** Reconcile roadmap, todo, changelog, registries, v1.2.0 MoSCoW,
   Mermaid design, GitHub/Project 28, canonical C16 and remaining external
   gates. (AC-01, AC-07) — `669642b8`
-- [~] **U17:** Run final automated review, full local validation and hosted
+- [x] **U17:** Run final automated review, full local validation and hosted
   required checks; retain merge, stable promotion, release and issue closure
-  as separate gates. (AC-08)
+  as separate gates. (AC-08) — `1048c4bc`

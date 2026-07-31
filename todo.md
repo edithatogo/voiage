@@ -44,14 +44,14 @@ This document lists the actionable tasks for `voiage` development. Agents should
         review for vector scalarization/stable promotion, release and issue
         closure remain separate gates.
 
-*   [ ] Implement governed study-design efficiency and experiment portfolios.
+*   [x] Implement governed study-design efficiency and experiment portfolios.
     *   Conductor track: `study_design_efficiency_20260727`.
     *   Planned contract: v1.2.0; MoSCoW: Must; canonical requirements M15/M17.
     *   GitHub issue: #571, native sub-issue of #318 under programme #313.
     *   Implementation sub-issues: #680 (runtime), #681 (portfolio and user
         surfaces), and #682 (bindings, governance and assurance).
-    *   Draft implementation PR: #679; repository work is active, not merged
-        or promoted to stable.
+    *   Merged implementation PR #679 supplies the experimental repository
+        contract; scientific review and stable promotion remain separate.
     *   Add COSS over signed ENBS with evaluated design records, feasible
         range/set, deterministic optimum/tie/boundary behavior, uncertainty
         around the optimum and plotting inputs.
@@ -68,7 +68,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
         must be provenance-declared as disjoint from COSS research cost, and
         tolerance ties use a fixed global maximum. Domain-specific adjustment
         estimators and platform adapters remain follow-on scope.
-*   [~] Implement expected-utility information pricing and VoC presentation.
+*   [x] Implement expected-utility information pricing and VoC presentation.
     *   Conductor track: `risk_adjusted_information_pricing_20260731`.
     *   Planned contract: v1.2.0; MoSCoW: Must; canonical requirements M16/M17.
     *   GitHub issue #595 with native delivery subissues #694–#697 under #318.
@@ -78,8 +78,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   VoC delegates to the same expected-utility/clairvoyant-policy result;
         only verified positive-affine utility exposes the monetary EVPI alias.
     *   Rust and Python are executable; R and Julia are explicitly unsupported;
-        Mojo remains an external boundary. Keep this item in progress pending
-        scientific review, exact-head hosted checks and stable-promotion approval.
+        Mojo remains an external boundary. PR #712 passed its exact-head hosted
+        matrix and merged; keep this item in progress pending scientific review
+        and stable-promotion approval.
 
 *   [ ] Complete standardized dataset ingestion through one format-neutral
     conductor input contract and optional source-format providers.

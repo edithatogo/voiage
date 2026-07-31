@@ -153,9 +153,9 @@ C16 own the shared projection:
     supplies the Rust-owned kernels, strict Python contracts, exact constrained
     portfolio slice, CLI/reporting/accessible plot, and shared fixture. Native
     sub-issues #680–#682 separate runtime, user/portfolio, and
-    binding/governance evidence. These capabilities remain experimental;
-    scientific review, hosted exact-head checks and stable promotion are still
-    separate gates. Canonical C16 synchronization is proposed by stacked VOP
+    binding/governance evidence. These capabilities remain experimental; their
+    exact-head hosted matrix passed before merge. Scientific review and stable
+    promotion are still separate gates. Canonical C16 synchronization is proposed by stacked VOP
     draft PR #65, which depends on the open estimation-family sync PR #64.
 
 *   `risk_adjusted_information_pricing_20260731` and GitHub issue #595 define
@@ -175,8 +175,9 @@ All three issues are native sub-issues of frontier parent #318 under programme
 and outcome-conditional/risk-of-low sample information (#600) remain separate
 risk-family plans. The dedicated #595 delivery track is a scoped execution
 record for the existing approved method family; it does not create a duplicate
-VoC method. Repository evidence remains experimental pending scientific review,
-hosted checks and separate stable-promotion approval.
+VoC method. Repository evidence remains experimental pending scientific review
+and separate stable-promotion approval; the #595 exact-head hosted matrix
+passed before PR #712 merged.
 
 The complete Rust-first polyglot programme issue hierarchy is now materialized
 in Conductor rather than existing only in GitHub and Project 28:
