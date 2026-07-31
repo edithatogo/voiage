@@ -63,3 +63,79 @@ tolerances and seed must produce byte-equivalent canonical JSON apart from
 explicitly excluded timing fields. Estimator provenance must identify whether
 uncertainty is unavailable, analytic, Monte Carlo, bootstrap or externally
 supplied.
+
+## COSS result envelope
+
+`CossResultV1` is a versioned, finite-validated envelope with these required
+components:
+
+- `schema_version = "1.0"`, method identifier and the complete common context;
+- an ordered `evaluated_designs` record for every supplied design;
+- an `enumerated_feasible_set` containing the feasible sample sizes and an
+  optional `declared_feasible_range` with inclusive lower/upper bounds;
+- the selected `optimal_design_id` and `optimal_sample_size`, or both null when
+  no design is feasible;
+- signed `maximum_enbs`, null only when no design is feasible;
+- the declared tie policy and absolute/relative tie tolerances;
+- `tied_optimal_design_ids`, including the selected design;
+- boundary state, diagnostics, estimator provenance and selection uncertainty;
+  and
+- a plotting-data view derived solely from the result records.
+
+Each evaluated record contains `design_id`, `sample_size`, `evsi`,
+`research_cost`, signed `enbs`, feasibility and reason codes, plus available
+standard errors and confidence intervals. If the caller supplies independent
+EVSI and cost standard errors but no covariance, ENBS uncertainty is not
+silently synthesized; the result records `enbs_uncertainty_unavailable`.
+Callers may instead supply an externally estimated ENBS standard error or
+interval with its estimator provenance.
+
+### Selection and ties
+
+Selection first finds the greatest signed ENBS among feasible designs. A
+design is tied when its ENBS differs from that maximum by no more than
+
+`absolute_tolerance + relative_tolerance * max(abs(maximum_enbs), 1)`.
+
+The default and stable policy is `smallest_sample_size`; ties are then resolved
+by sample size and finally by `design_id` in Unicode code-point order. The
+contract may also accept `largest_sample_size` and `first_declared`, which are
+resolved deterministically. Unknown policies and negative or non-finite
+tolerances are rejected. The full tied set is returned in caller order so the
+choice is auditable.
+
+### Boundary and feasible-set diagnostics
+
+Boundary state is computed over distinct feasible sample sizes:
+
+- `none` when no design is feasible;
+- `both` when exactly one distinct feasible sample size exists;
+- `lower` or `upper` when the selected sample size is respectively the
+  smallest or largest feasible size; and
+- `interior` otherwise.
+
+The result reports gaps, infeasible records inside a declared range, range/set
+disagreement and a non-monotone-EVSI diagnostic without altering the optimum.
+A negative maximum ENBS remains a valid optimum among the enumerated designs;
+whether to commission no study is a separate decision unless an explicit
+zero-cost no-study design is included.
+
+### Uncertainty around the optimum
+
+Uncertainty is descriptive and never changes deterministic point-estimate
+selection. `selection_uncertainty` records one of `unavailable`, `analytic`,
+`monte_carlo`, `bootstrap` or `externally_supplied`, its replicate count when
+applicable, an optional selection probability for each evaluated design, and
+an optional confidence set of design identifiers. Probabilities must be finite
+in `[0, 1]` and sum to one within the declared tolerance when complete. Missing
+uncertainty is represented explicitly, not as zero uncertainty.
+
+### Plotting-data contract
+
+`CossPlotDataV1` contains caller-ordered vectors for design identifiers, sample
+sizes, EVSI, research cost, signed ENBS, feasibility and available uncertainty
+bounds, together with the selected design, tied set and boundary state. It has
+no Matplotlib objects, colors, labels dependent on a backend, or rendering side
+effects. Plotting adapters consume this data and must expose the zero-ENBS
+reference, infeasible designs, uncertainty availability, ties and selected
+optimum accessibly.

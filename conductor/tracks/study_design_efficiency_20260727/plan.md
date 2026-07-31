@@ -4,7 +4,7 @@
 
 - [x] **S1:** Freeze common study-design, cost, population, time-horizon,
   feasibility and reproducibility semantics. (AC-01) — `1037f06`
-- [ ] **S2:** Freeze the exact COSS result contract: evaluated design records,
+- [~] **S2:** Freeze the exact COSS result contract: evaluated design records,
   feasible range/set, signed ENBS curve, optimum, deterministic tie policy,
   boundary state, uncertainty around the optimum and plotting inputs. (AC-02)
 - [ ] **S3:** Freeze EVSI/EVPI units, scaling, zero-denominator, tolerance and
