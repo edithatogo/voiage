@@ -45,9 +45,10 @@
   (AC-02–AC-05) `f72d3c3a`
 - [x] **F556-4 / #727:** Add exact-schema CLI, tornado plotting, documentation,
   discovery and generated-surface reconciliation. (AC-04–AC-06) `33135403`
-- [~] **F556-5 / #728:** Run independent implementation review, focused/full local
+- [x] **F556-5 / #728:** Run independent implementation review, focused/full local
   checks and hosted exact-head checks; reconcile #556 without claiming stable
   promotion, scientific approval, release, merge or closure. (AC-03–AC-07)
+  `4c705ce6`
 - [ ] **G5:** Add failing conformance, reference, property and pathological
   tests, or the corresponding reproducible review protocol. (AC-03)
 - [ ] **G6:** Add versioned schemas, fixtures, diagnostics and provenance
