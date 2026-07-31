@@ -1,0 +1,1 @@
+#721 controlled refresh: rebased P7 support/release evidence onto origin/main 9495fc3f. Preserved support matrix content and appended a chain-valid refresh receipt after concurrent ledger advances. Focused support-matrix tests and full Conductor validation passed; diff check clean. Signed head; auto-squash enabled; hosted exact-head checks remain the merge gate.
