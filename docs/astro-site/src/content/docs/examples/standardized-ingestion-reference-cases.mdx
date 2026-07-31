@@ -3,16 +3,17 @@ title: Standardized Ingestion Reference Cases
 description: Deterministic ML, engineering, and business EVPI examples using one explicit VOI binding.
 ---
 
-These three synthetic, rights-cleared reference cases use the same pinned
-decision samples and the same explicit net-benefit binding. They demonstrate
-format interoperability, not domain-specific modelling: no field names,
-strategies, units, or transformations are inferred.
+These deterministic, in-repository synthetic examples demonstrate format
+interoperability, not domain-specific modelling: no field names, strategies,
+units, or transformations are inferred. They contain no third-party source
+data and make no claim about external data rights, live provider availability,
+or a real-world decision recommendation.
 
-| Community | Descriptor or input | Decision interpretation |
-| --- | --- | --- |
-| Machine learning | Croissant 1.1 | Compare model-selection net benefits across posterior samples. |
-| Engineering and operations | Frictionless Data Package | Compare design alternatives across simulated operating scenarios. |
-| Business | Arrow DataFrame-interchange SDK | Compare investment strategies across decision scenarios. |
+| Community | Croissant | Frictionless | Direct normalized input | Explicit method |
+| --- | --- | --- | --- | --- |
+| Machine learning | `canonical-decision.croissant.json` | `canonical-decision.datapackage.json` | Explicit Arrow table and binding | EVPI on model-selection net benefits. |
+| Engineering and operations | `cost-outcome-decision.croissant.json` | `cost-outcome-decision.datapackage.json` | Explicit Arrow table and bindings | EVPI on cost/outcome net benefits at a declared WTP. |
+| Business | `canonical-decision.croissant.json` | `canonical-decision.datapackage.json` | Explicit Arrow table and binding | EVPI on investment-strategy net benefits. |
 
 The fixture records two strategies, `strategy_a` and `strategy_b`, and binds
 them explicitly as `A` and `B`:
@@ -32,22 +33,27 @@ Run the complete reproducible walkthrough from a source checkout:
 uv run python examples/standardized_ingestion/reference_cases.py
 ```
 
-The output contains identical EVPI values for `ml`, `engineering`, and
-`business`. The business case deliberately enters through
-`from_dataframe(..., allow_copy=False)`, using Arrow's standard DataFrame
-interchange protocol with an explicit zero-copy requirement. The runner fails
-if any format reaches a different value, making the example an executable
-cross-format regression check as well as a tutorial. Its machine-readable
-output also records the identical normalized Arrow schemas, the matching
-Croissant/Frictionless resource digests, and the content-addressed direct
-DataFrame provenance digest.
+The output is a machine-readable case catalogue. Every community has
+`croissant`, `frictionless`, and `direct` results; the optional `dataframe`
+result is an additional SDK-consumer check. The runner fails if a required
+surface reaches a different EVPI, a provider receipt differs from the pinned
+CSV digest, or the Arrow schema changes. The `dataframe` result exercises
+`from_dataframe(..., allow_copy=False)` with the explicit zero-copy requirement;
+it does not replace the direct normalized input.
 
 To inspect the descriptor-backed forms before calculating, run:
 
 ```bash
 voiage ingest validate tests/fixtures/standardized_ingestion/canonical-decision.croissant.json
 voiage ingest inspect tests/fixtures/standardized_ingestion/canonical-decision.datapackage.json
+voiage ingest validate tests/fixtures/standardized_ingestion/cost-outcome-decision.croissant.json
+voiage ingest inspect tests/fixtures/standardized_ingestion/cost-outcome-decision.datapackage.json
 ```
+
+`inspect` is deliberately metadata-only; it does not materialize a resource.
+`validate` materializes the declared local CSV and reports its receipt, pinned
+digest, retained governance metadata, and data-quality evidence. Binding
+resolution remains explicit in Python rather than inferred from the descriptor.
 
 ## Cost/outcome derivation case
 
@@ -67,6 +73,9 @@ assert run_cost_outcome_reference_cases()["ml"] == 20.0 / 3.0
 
 The pinned sources, digests, binding details, and willingness-to-pay value are
 recorded in `cost-outcome-decision.manifest.json` beside the fixture files.
+The scripts deliberately report a fixture as deterministic synthetic data,
+rather than presenting a substitute for a rights clearance or live provider
+receipt.
 
 The input descriptors and their SHA-256 digests live in
 [`tests/fixtures/standardized_ingestion/`](https://github.com/edithatogo/voiage/tree/main/tests/fixtures/standardized_ingestion).
