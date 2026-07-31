@@ -137,7 +137,11 @@ C16 own the shared projection:
     target shape, component units, variance or covariance functional,
     conditioning and sampling models, and estimator assurance. They remain
     explicitly separate from decision-focused EVPPI/EVSI, sensitivity indices,
-    and estimator uncertainty.
+    and estimator uncertainty. The repository now contains an experimental
+    scalar Rust implementation with a PyO3/Python façade, versioned schemas,
+    independent references, deterministic bootstrap assurance, CLI/report/plot
+    surfaces and explicit polyglot dispositions. Vector execution and stable
+    promotion remain blocked on scientific review, hosted checks and merge.
 *   `study_design_efficiency_20260727` and refined GitHub issue #571 define a
     governed Curve of Optimal Sample Size result containing evaluated designs,
     feasible range/set, the signed ENBS curve, deterministic tie policy,

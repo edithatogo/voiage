@@ -76,6 +76,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   distinct Croissant 1.10 context.
 - Reject hard-linked standardized-ingestion cache entries so a verified object
   cannot share a writable inode with an untrusted alternate path.
+- Added experimental scalar estimation-focused `EVPPI_var` and `EVSI_var`
+  methods backed by Rust, with versioned contracts, PyO3/Python façades,
+  deterministic bootstrap assurance, CLI/report/plot surfaces, independent
+  references, and explicit polyglot capability dispositions. Vector
+  scalarization and stable promotion remain scientific-review gated.
 - Added executable CLI walkthrough evidence for the canonical Croissant ML and
   Frictionless engineering reference descriptors.
 - Linked the README to the standardized Croissant and Frictionless ingestion

@@ -34,7 +34,7 @@ _EVPPI_VAR: Final[Mapping[str, object]] = MappingProxyType(
         "decision_focused": False,
         "sensitivity_index": False,
         "estimator_uncertainty": False,
-        "maturity": "planned",
+        "maturity": "experimental",
     }
 )
 _EVSI_VAR: Final[Mapping[str, object]] = MappingProxyType(
@@ -47,7 +47,7 @@ _EVSI_VAR: Final[Mapping[str, object]] = MappingProxyType(
         "decision_focused": False,
         "sensitivity_index": False,
         "estimator_uncertainty": False,
-        "maturity": "planned",
+        "maturity": "experimental",
     }
 )
 

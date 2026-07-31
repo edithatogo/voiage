@@ -1,0 +1,77 @@
+---
+title: Estimation Variance VOI
+description: Experimental variance-reduction EVPPI and EVSI for declared estimation targets
+---
+
+`evppi_var` and `evsi_var` value information by the reduction in uncertainty
+about a declared model output. They do not value a changed decision and are not
+aliases for decision-focused EVPPI/EVSI or Sobol sensitivity indices.
+
+For a scalar target `g(theta)`:
+
+```text
+EVPPI_var(S) = Var(g(theta)) - E[Var(g(theta) | theta_S)]
+```
+
+```text
+EVSI_var(d) = Var(g(theta)) - E_Y[Var(g(theta) | Y, d)]
+```
+
+The experimental runtime supports scalar population variance. The specification
+still records vector component units and an explicit covariance functional, but
+vector execution fails closed until scientific review approves the
+scalarization policy.
+
+```python
+from voiage.contracts.estimation import (
+    ConditioningSpec,
+    EstimationTargetSpec,
+    EstimationVarianceSpec,
+    EstimatorAssuranceSpec,
+)
+from voiage.methods.estimation import evppi_var
+
+specification = EstimationVarianceSpec(
+    method_id="evppi_var",
+    target=EstimationTargetSpec(
+        target_id="net_cases",
+        shape="scalar",
+        component_units=("count",),
+        covariance_functional="variance",
+    ),
+    prior_model_id="enumerable_prior",
+    conditioning=ConditioningSpec(
+        parameter_subset=("risk_state",),
+        sigma_field="sigma_risk_state",
+        averaging_convention="empirical_reference",
+    ),
+    estimator=EstimatorAssuranceSpec(
+        estimator_id="discrete_conditioning",
+        seed=17,
+        bootstrap_replicates=128,
+        convergence_threshold=1.0,
+    ),
+)
+
+result = evppi_var(
+    [0.0, 2.0, 1.0, 3.0],
+    ["a", "a", "b", "b"],
+    specification=specification,
+)
+```
+
+The result includes current and expected posterior variance, raw and clipped
+reduction, relative reduction, bootstrap uncertainty, convergence diagnostics,
+units and replay provenance. A zero prior variance yields absolute reduction
+zero and relative reduction `None`. Negative finite-sample estimates remain
+visible in `raw_reduction` while the reported absolute reduction is clipped at
+zero.
+
+Use `voiage calculate-estimation-variance SPECIFICATION.json DATA.json` for the
+CLI. The specification follows
+`specs/estimation-variance/v1/input.schema.json`; the separate runtime data file
+contains `target_samples` and `conditioning_groups` for `evppi_var`, or
+`prior_target_samples` and `posterior_variances` for `evsi_var`.
+
+This surface is experimental for planned v1.2.0. Scientific review, protected
+hosted checks, merge and release remain separate gates.
