@@ -112,7 +112,7 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   partial). Unsupported or non-boolean field constraints and declared Table
   Schema `missingValues` now reject before a resource is read; structured
   citation, usage, and namespaced governance extensions survive normalization
-  (`d4f8e1c`, partial). Remaining acceptance evidence is tracked below.
+  (`2c5a8cd`, partial). Remaining acceptance evidence is tracked below.
 - [~] **P4-T8 / AC-05:** Implement the lazy optional Frictionless provider and
   documented supported profile. Public provider export is now lazy; profile
   acceptance evidence remains active (`2ad0a24a`, partial).
