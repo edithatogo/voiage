@@ -59,6 +59,9 @@
 - [x] **RF2:** Preserve the immutable v1.0 extension-policy snapshot while
   explicitly reconciling the separately governed post-v1 estimation module.
   (AC-06, AC-08) [cde857ac]
-- [~] **E16:** Run final automated review, full local validation and hosted
+- [~] **RF3:** Remove the experimental registry helper from the curated package
+  export list after hosted CodeQL identified it as an explicit undefined
+  export; retain access through the governed estimation module. (AC-06, AC-08)
+- [ ] **E16:** Run final automated review, full local validation and hosted
   required checks; retain merge, release and issue closure as separate gates.
   (AC-08)
