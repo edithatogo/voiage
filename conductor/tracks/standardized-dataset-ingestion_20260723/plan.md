@@ -229,7 +229,12 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   authoritative live probes stay externally gated.
 - [~] **P7-T3 / AC-08, AC-11:** Complete source-policy enforcement,
   content-addressed verified caching, immutable materialization receipts,
-  offline replay, and streaming or bounded-batch behavior.
+  offline replay, and streaming or bounded-batch behavior. Built-in CSV/TSV
+  parsing now streams Arrow record batches and rejects configured per-resource
+  row ceilings and internal batch ceilings before retaining a batch or
+  constructing a table; all materializing CLI commands expose the explicit
+  `--max-resource-rows` policy option (partial: remote/archive streaming and
+  their policy evidence remain active).
 - [~] **P7-T4 / AC-08:** Benchmark parsing, normalization, Arrow conversion,
   memory use, and calculation separately; define representative
   non-regression thresholds.

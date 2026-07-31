@@ -63,19 +63,45 @@ class SourceAccessPolicy:
         *,
         allow_network: bool = False,
         max_resource_bytes: int = 512 * 1024 * 1024,
+        max_resource_rows: int = 10_000_000,
+        max_batch_rows: int | None = None,
         cache_dir: Path | None = None,
         cache_namespace: str | None = None,
         offline: bool = False,
     ) -> None:
         if max_resource_bytes <= 0:
             raise ValueError("max_resource_bytes must be positive")
+        if max_resource_rows <= 0:
+            raise ValueError("max_resource_rows must be positive")
+        effective_max_batch_rows = min(max_resource_rows, 1_000_000)
+        if max_batch_rows is not None:
+            effective_max_batch_rows = max_batch_rows
+        if effective_max_batch_rows <= 0:
+            raise ValueError("max_batch_rows must be positive")
+        if effective_max_batch_rows > max_resource_rows:
+            raise ValueError("max_batch_rows must not exceed max_resource_rows")
         self.root = root.resolve()
         self.allow_network = allow_network
         self.max_resource_bytes = max_resource_bytes
+        self.max_resource_rows = max_resource_rows
+        self.max_batch_rows = effective_max_batch_rows
         self.cache_dir = cache_dir.resolve() if cache_dir is not None else None
         self.offline = offline
         context = cache_namespace or f"root={self.root};network={allow_network}"
         self._cache_context = hashlib.sha256(context.encode("utf-8")).hexdigest()
+
+    def validate_tabular_batch(self, *, batch_rows: int, total_rows: int) -> None:
+        """Reject an oversized parsed batch before it becomes an Arrow table.
+
+        Built-in delimited-text providers use Arrow's streaming CSV reader and
+        call this method for each record batch before retaining it. This keeps
+        the policy at the source boundary rather than letting an unbounded
+        table reach normalization or calculation code.
+        """
+        if batch_rows > self.max_batch_rows:
+            raise IngestionError("declared resource exceeds configured batch row limit")
+        if total_rows > self.max_resource_rows:
+            raise IngestionError("declared resource exceeds configured row limit")
 
     def resolve(self, reference: str) -> Path:
         """Resolve a relative local reference without allowing path traversal."""

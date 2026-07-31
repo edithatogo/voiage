@@ -95,6 +95,7 @@ def _source_policy(
     offline: bool,
     cache_dir: Path | None,
     max_resource_bytes: int,
+    max_resource_rows: int,
 ) -> SourceAccessPolicy:
     """Build an explicit, local-only policy for one CLI invocation."""
     return SourceAccessPolicy(
@@ -102,6 +103,7 @@ def _source_policy(
         offline=offline,
         cache_dir=cache_dir,
         max_resource_bytes=max_resource_bytes,
+        max_resource_rows=max_resource_rows,
     )
 
 
@@ -245,6 +247,12 @@ def validate(
         min=1,
         help="Maximum accepted local resource size.",
     ),
+    max_resource_rows: int = typer.Option(
+        10_000_000,
+        "--max-resource-rows",
+        min=1,
+        help="Maximum accepted parsed rows in each local resource.",
+    ),
     provider: str | None = typer.Option(
         None,
         "--provider",
@@ -265,6 +273,7 @@ def validate(
                             offline=offline,
                             cache_dir=cache_dir,
                             max_resource_bytes=max_resource_bytes,
+                            max_resource_rows=max_resource_rows,
                         ),
                         expected_provider=provider,
                     ),
@@ -318,6 +327,7 @@ def normalize(
     max_resource_bytes: int = typer.Option(
         512 * 1024 * 1024, "--max-resource-bytes", min=1
     ),
+    max_resource_rows: int = typer.Option(10_000_000, "--max-resource-rows", min=1),
     provider: str | None = typer.Option(
         None,
         "--provider",
@@ -332,6 +342,7 @@ def normalize(
             offline=offline,
             cache_dir=cache_dir,
             max_resource_bytes=max_resource_bytes,
+            max_resource_rows=max_resource_rows,
         )
         bundle = default_registry().ingest(descriptor, policy=policy)
         _assert_provider(bundle, provider)
@@ -384,6 +395,7 @@ def calculate_from_dataset(
     max_resource_bytes: int = typer.Option(
         512 * 1024 * 1024, "--max-resource-bytes", min=1
     ),
+    max_resource_rows: int = typer.Option(10_000_000, "--max-resource-rows", min=1),
     provider: str | None = typer.Option(
         None,
         "--provider",
@@ -400,6 +412,7 @@ def calculate_from_dataset(
                 offline=offline,
                 cache_dir=cache_dir,
                 max_resource_bytes=max_resource_bytes,
+                max_resource_rows=max_resource_rows,
             ),
         )
         _assert_provider(bundle, provider)

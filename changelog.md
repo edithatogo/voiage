@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Add fail-closed parsed-row limits for built-in Croissant and Frictionless
+  delimited resources, including a `voiage ingest --max-resource-rows` policy
+  option on materializing commands.
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),

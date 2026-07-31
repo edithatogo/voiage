@@ -42,12 +42,17 @@ voiage ingest normalize datapackage.json --output normalized.arrow
 The materializing commands (`validate`, `normalize`, and
 `calculate-from-dataset`) accept the same local source-policy controls. They
 never enable network access: use `--max-resource-bytes` to set a stricter
-resource cap, `--cache-dir` to select a verified materialization cache, and
-`--offline` to require replay rather than reading a source path. For example:
+resource-size cap, `--max-resource-rows` to reject an oversized delimited-text
+resource before the provider constructs an Arrow table, `--cache-dir` to select
+a verified materialization cache, and `--offline` to require replay rather than
+reading a source path. Providers also enforce a bounded streaming record batch
+before retaining it; this is an implementation guard rather than a source
+format feature. For example:
 
 ```bash
 voiage ingest validate datapackage.json \
   --max-resource-bytes 10485760 \
+  --max-resource-rows 100000 \
   --cache-dir .voiage-cache
 ```
 
