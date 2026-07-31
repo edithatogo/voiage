@@ -27,6 +27,16 @@ This document lists the actionable tasks for `voiage` development. Agents should
         scientific review, rights, hosted CI, merge, release, publication,
         registry and human confirmation as separate gates.
 
+*   [ ] Complete Value of Flexibility after experimental repository delivery.
+    *   GitHub issue #559; umbrella track
+        `supported_frontier_method_completion_20260723`; draft PR #723.
+    *   Python timing-scenario execution, schemas, an enumerable fixture, CLI,
+        documentation and dynamic-real-options compatibility repair are present
+        on the branch.
+    *   Remaining gates: independent implementation review, hosted exact-head
+        checks, merge, scientific review, transition-aware policy extension,
+        polyglot execution, stable promotion, release and issue closure.
+
 *   [x] Implement estimation-focused variance-reduction VOI.
     *   Conductor track: `estimation_focused_variance_voi_20260727`.
     *   Planned contract: v1.2.0; MoSCoW: Must; canonical requirements M14/M17.

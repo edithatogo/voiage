@@ -180,6 +180,15 @@ VoC method. Repository evidence remains experimental pending scientific review
 and separate stable-promotion approval; the #595 exact-head hosted matrix
 passed before PR #712 merged.
 
+Value of Flexibility (#559) now has an experimental Python timing-scenario
+contract on draft PR #723. It compares a flexible feasible policy set with the
+best matched ex-ante commitment, returns both values and policy paths, and
+keeps its information-value component explicitly excluded. The implementation
+fixes the legacy strategy/stage axis mismatch and reconciles the previously
+non-executable dynamic-real-options fixture. Transition-constrained lifecycle
+paths, Rust/R/Julia execution, scientific review, stable promotion, merge,
+release and issue closure remain separate gates.
+
 The complete Rust-first polyglot programme issue hierarchy is now materialized
 in Conductor rather than existing only in GitHub and Project 28:
 

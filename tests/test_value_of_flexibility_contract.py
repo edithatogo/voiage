@@ -8,6 +8,7 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 import numpy as np
+import pytest
 
 from voiage.methods import dynamic_real_options
 
@@ -30,9 +31,9 @@ def test_value_of_flexibility_normative_fixture_validates() -> None:
 
 def test_capabilities_fail_closed_for_unimplemented_bindings() -> None:
     capabilities = _json(CONTRACT / "capabilities.json")
-    assert capabilities["maturity"] == "planned-runtime"
+    assert capabilities["maturity"] == "experimental"
     surfaces = capabilities["surfaces"]
-    assert surfaces["python"]["status"] == "planned"
+    assert surfaces["python"]["status"] == "executable"
     assert surfaces["rust"]["status"] == "unsupported"
     assert surfaces["r"]["status"] == "unsupported"
     assert surfaces["julia"]["status"] == "unsupported"
@@ -41,15 +42,16 @@ def test_capabilities_fail_closed_for_unimplemented_bindings() -> None:
 
 def test_manifest_is_single_versioned_normative_reference() -> None:
     manifest = _json(CONTRACT / "fixtures/manifest.json")
-    assert manifest["method_family"] == "value_of_flexibility"
-    assert manifest["status"] == "experimental"
-    assert manifest["fixtures"] == [
+    assert manifest["version"] == "v1"
+    assert manifest["status"] == "fixture-backed"
+    assert manifest["normative"] == [
         {
-            "fixture_id": "vof-enumerable-v1",
-            "input": "normative/input.json",
-            "expected": "normative/expected.json",
+            "name": "enumerable timing-scenario flexibility comparison",
+            "method_family": "value_of_flexibility",
+            "input_artifact": "normative/input.json",
+            "expected_output_artifact": "normative/expected.json",
             "reference": "conductor/tracks/supported_frontier_method_completion_20260723/value-of-flexibility-reference-review.md",
-            "tolerance": {"absolute": 1e-12, "relative": 1e-12},
+            "tolerance_policy": "absolute-1e-12",
         }
     ]
 
@@ -74,4 +76,6 @@ def test_runtime_matches_normative_fixture() -> None:
     )
     actual = asdict(result)
     actual["policy_path_regret"] = result.policy_path_regret.tolist()
+    for key in ("value_of_flexibility", "option_value"):
+        assert actual.pop(key) == pytest.approx(expected.pop(key))
     assert actual == expected

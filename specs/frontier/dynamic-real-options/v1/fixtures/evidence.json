@@ -6,9 +6,9 @@
   "artifacts": [
     {"path": "schemas/dynamic-real-options-set.schema.json", "sha256": "ec56b564a06f19c3377b40922286f91987a5d004622d92b5f66de0a4a7f6e99a"},
     {"path": "schemas/value-of-dynamic-real-options-result.schema.json", "sha256": "7ef8d080bd4e5e13a042c422a3d3d3f9a26dfd9199f220f8ef2ecd15e175120e"},
-    {"path": "fixtures/normative/dynamic-real-options-set.json", "sha256": "de6a676e8a5939c662d71a7334d9debd007a2a5b3ae8de9d102e20787272c526"},
-    {"path": "fixtures/normative/value-of-dynamic-real-options.json", "sha256": "24174402a9adba1d16a95215b1696d5f80b102799d235c06eec3ba90395524c3"},
-    {"path": "../../../../voiage/methods/dynamic_real_options.py", "sha256": "550ba25fd5eef51b309e0f2534d407b432e5e24b4131e84fa3a0e981d45dcd40"}
+    {"path": "fixtures/normative/dynamic-real-options-set.json", "sha256": "5fa4227bcc519702f0c31c3eeedae67b567708c15a32011aece82e29a3a8f24a"},
+    {"path": "fixtures/normative/value-of-dynamic-real-options.json", "sha256": "aa89d8ee9f4fbad1a5684ab2776a5cc43d017af77fda0e49e25586ce6189d067"},
+    {"path": "../../../../voiage/methods/dynamic_real_options.py", "sha256": "6fc61d92f9672b7dd4721676c9d61dd1c4039164b4ba11bca3dbe88a57818b0f"}
   ],
   "open_data": {
     "status": "blocked_external",

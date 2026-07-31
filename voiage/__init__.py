@@ -127,9 +127,17 @@ _EXTENSION_EXPORTS = {
         ".methods.dynamic_real_options",
         "DynamicRealOptionsResult",
     ),
+    "ValueOfFlexibilityResult": (
+        ".methods.dynamic_real_options",
+        "ValueOfFlexibilityResult",
+    ),
     "value_of_dynamic_real_options": (
         ".methods.dynamic_real_options",
         "value_of_dynamic_real_options",
+    ),
+    "value_of_flexibility": (
+        ".methods.dynamic_real_options",
+        "value_of_flexibility",
     ),
     "EquityInformationResult": (
         ".methods.equity_information",

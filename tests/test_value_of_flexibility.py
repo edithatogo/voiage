@@ -2,13 +2,20 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import numpy as np
 import pytest
+from typer.testing import CliRunner
 
+from voiage.cli import app
 from voiage.methods.dynamic_real_options import (
     value_of_dynamic_real_options,
     value_of_flexibility,
 )
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def _surface() -> np.ndarray:
@@ -129,3 +136,111 @@ def test_dynamic_real_options_compatibility_uses_stagewise_commitment_math() -> 
     assert result.option_value == pytest.approx(1.6)
     assert result.diagnostics["commitment_baseline"] == "b"
     assert result.reporting["adjacent_estimand"] == "value_of_flexibility"
+
+    with pytest.raises(ValueError, match="exercise_rules are not executable"):
+        value_of_dynamic_real_options(
+            _surface(),
+            ["now", "mid", "late"],
+            ["a", "b"],
+            exercise_rules={"now": "exercise"},
+        )
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "message"),
+    [
+        (
+            {"flexible_policy_sets": {"now": ["a"], "mid": ["a"]}},
+            "exactly match",
+        ),
+        (
+            {
+                "flexible_policy_sets": {
+                    "now": [],
+                    "mid": ["a"],
+                    "late": ["a"],
+                }
+            },
+            "non-empty and unique",
+        ),
+        (
+            {
+                "flexible_policy_sets": {
+                    "now": ["missing"],
+                    "mid": ["a"],
+                    "late": ["a"],
+                }
+            },
+            "Unknown flexible strategies",
+        ),
+        ({"constrained_strategy_names": []}, "non-empty and unique"),
+        ({"constrained_strategy_names": ["missing"]}, "Unknown constrained"),
+        (
+            {"stage_weights": {"now": 1.0, "mid": np.nan, "late": 1.0}},
+            "finite values",
+        ),
+        (
+            {
+                "irreversibility_penalty": 2.0,
+                "evidence_arrival_times": {"now": 0.0, "mid": 1.0, "late": 2.0},
+            },
+            "negative value",
+        ),
+    ],
+)
+def test_value_of_flexibility_rejects_invalid_policy_and_numeric_contracts(
+    kwargs: dict[str, object], message: str
+) -> None:
+    with pytest.raises(ValueError, match=message):
+        value_of_flexibility(
+            _surface(),
+            ["now", "mid", "late"],
+            ["a", "b"],
+            **kwargs,
+        )
+
+
+def test_value_of_flexibility_defends_subset_invariant(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(np, "dot", lambda *_args: -100.0)
+    with pytest.raises(ValueError, match="below its feasible commitment subset"):
+        value_of_flexibility(
+            _surface(), ["now", "mid", "late"], ["a", "b"]
+        )
+
+
+def test_value_of_flexibility_cli_returns_versioned_json(tmp_path: Path) -> None:
+    fixture = (
+        "specs/frontier/value-of-flexibility/v1/fixtures/normative/input.json"
+    )
+    output = tmp_path / "result.json"
+    result = CliRunner().invoke(
+        app,
+        [
+            "--format",
+            "json",
+            "calculate-value-of-flexibility",
+            fixture,
+            "--output",
+            str(output),
+        ],
+    )
+    assert result.exit_code == 0, result.stdout
+    assert '"analysis_type": "value_of_flexibility"' in result.stdout
+    assert '"value_of_flexibility": 1.5999999999999996' in result.stdout
+    assert '"information_value_component": 0.0' in result.stdout
+    assert '"value_of_flexibility"' in output.read_text(encoding="utf-8")
+
+
+@pytest.mark.parametrize("content", ["[]", "{}", "{"])
+def test_value_of_flexibility_cli_rejects_invalid_requests(
+    tmp_path: Path, content: str
+) -> None:
+    request = tmp_path / "invalid.json"
+    request.write_text(content, encoding="utf-8")
+    result = CliRunner().invoke(
+        app, ["calculate-value-of-flexibility", str(request)]
+    )
+    assert result.exit_code == 1
+    assert "Error:" in result.stderr

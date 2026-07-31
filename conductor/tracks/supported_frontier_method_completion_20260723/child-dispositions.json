@@ -63,14 +63,14 @@
       "issue": 559,
       "record_id": "value-of-flexibility",
       "issue_state": "open",
-      "project_status": "Todo",
-      "disposition": "adjacent_only",
-      "maturity": "planned",
+      "project_status": "In Progress",
+      "disposition": "experimental_branch",
+      "maturity": "experimental",
       "satisfies_ac06": false,
       "delivery_track": "supported_frontier_method_completion_20260723",
-      "implementation_pull_requests": [],
+      "implementation_pull_requests": [723],
       "review_artifacts": [],
-      "adjacent_artifacts": ["fixture-backed dynamic real-options", "option_value output"]
+      "adjacent_artifacts": ["reconciled dynamic-real-options compatibility view"]
     },
     {
       "issue": 560,

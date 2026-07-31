@@ -23,7 +23,11 @@ def test_dynamic_real_options_values_delay_and_lock_in() -> None:
         discount_rate=0.03,
         irreversibility_penalty=0.5,
         lock_in_penalty=0.25,
-        evidence_arrival_times={"after_phase_1": 1.0, "after_phase_2": 2.0},
+        evidence_arrival_times={
+            "now": 0.0,
+            "after_phase_1": 1.0,
+            "after_phase_2": 2.0,
+        },
     )
     assert result.method_maturity == "fixture-backed"
     assert result.expected_net_benefits.shape == (3, 3)

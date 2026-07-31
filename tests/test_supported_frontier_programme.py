@@ -75,12 +75,13 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
         for child in children
         if child["disposition"] in {"experimental_branch", "experimental_merged"}
     }
-    assert set(delivered) == {571, 595, 619}
+    assert set(delivered) == {559, 571, 595, 619}
     for child in delivered.values():
         assert child["delivery_track"]
         assert child["implementation_pull_requests"]
         assert child["maturity"] == "experimental"
     assert delivered[571]["implementation_pull_requests"] == [679]
+    assert delivered[559]["implementation_pull_requests"] == [723]
     assert delivered[595]["implementation_pull_requests"] == [712]
     assert delivered[619]["implementation_pull_requests"] == [676]
 
