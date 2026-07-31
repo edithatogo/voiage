@@ -10,8 +10,8 @@
   behavior and finite-sample diagnostics after scientific review. (AC-01,
   AC-02) [40c91636] *(experimental contract frozen; the stable-promotion
   scientific-review gate remains pending)*
-- [ ] **E3:** Add versioned input/result schemas and compatibility fixtures.
-  (AC-02)
+- [x] **E3:** Add versioned input/result schemas and compatibility fixtures.
+  (AC-02) [82c72afa]
 - [ ] **E4:** Run an automated contract review and full Conductor validation.
   (AC-01, AC-02, AC-07)
 
