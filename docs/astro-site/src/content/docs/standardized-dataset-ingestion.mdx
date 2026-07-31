@@ -307,6 +307,13 @@ import isolation. Providers must declare unsupported projection, filtering,
 streaming, and random-access features as `False`; no data transformation may
 be inferred or performed implicitly.
 
+The repository also ships a disposable external-package integration contract.
+It builds both a VOIAGE wheel and an independent provider wheel, installs both
+into a fresh virtual environment, proves that importing `voiage.ingestion`
+does not import the provider, then discovers the declared entry point only
+after an explicit allow-list request. It is consumer evidence for SDK v1, not
+an endorsed third-party provider or a claim of remote interoperability.
+
 ### Optional parser environments
 
 `voiage[croissant]`, `voiage[frictionless]`, and `voiage[ingestion]` are
