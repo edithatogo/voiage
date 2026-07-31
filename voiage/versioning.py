@@ -166,9 +166,7 @@ def _read_description_release_version(path: Path) -> str | None:
     for line in path.read_text(encoding="utf-8").splitlines():
         match = _DESCRIPTION_RELEASE_VERSION_RE.match(line.strip())
         if match:
-            version = match.group("version").strip()
-            if version:
-                return version
+            return match.group("version").strip()
     return None
 
 

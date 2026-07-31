@@ -107,6 +107,13 @@ def test_stable_release_identity_remains_exact() -> None:
     )
 
 
+def test_stable_release_rejects_r_version_drift(tmp_path: Path) -> None:
+    _write_versioned_repo(tmp_path, "2.0.1", r_version="2.0.0")
+
+    with pytest.raises(versioning.VersionSyncError, match="R"):
+        versioning.validate_version_sync(tmp_path)
+
+
 @pytest.mark.parametrize(
     "version",
     [
