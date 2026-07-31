@@ -31,6 +31,7 @@ _FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "croissant_1_1"
         ("unsupported/split.json", "splits"),
         ("unsupported/transform.json", "transformations"),
         ("unsupported/version-1-0.json", "version 1.1"),
+        ("unsupported/version-1-10.json", "version 1.1"),
         ("unsupported/wrong-columns.json", "exactly declare"),
     ],
 )
@@ -90,6 +91,22 @@ def test_croissant_rejects_a_non_scalar_declared_field_data_type(tmp_path) -> No
 
     with pytest.raises(IngestionError, match="dataType must be a string"):
         CroissantProvider().ingest(descriptor, policy=SourceAccessPolicy(tmp_path))
+
+
+def test_croissant_offline_context_array_fixture_materializes() -> None:
+    """A Croissant 1.1 context can coexist with other JSON-LD contexts."""
+    descriptor_path = _FIXTURE_ROOT / "valid" / "context-array-croissant.json"
+
+    assert CroissantProvider().can_handle(
+        {"@context": ["https://schema.org/", "https://mlcommons.org/croissant/1.1"]}
+    )
+    bundle = CroissantProvider().ingest(
+        descriptor_path,
+        policy=SourceAccessPolicy(_FIXTURE_ROOT),
+    )
+
+    assert bundle.manifest.dataset_id == "context-array-decision-samples"
+    assert bundle.table("decision_samples").num_rows == 2
 
 
 def test_croissant_offline_identity_fixture_preserves_governance() -> None:

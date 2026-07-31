@@ -1,0 +1,10 @@
+{
+  "@context": "https://mlcommons.org/croissant/1.10",
+  "distribution": [{"contentUrl": "../valid/data.csv", "encodingFormat": "text/csv"}],
+  "recordSet": [
+    {
+      "name": "decision_samples",
+      "field": [{"name": "strategy_a"}, {"name": "strategy_b"}]
+    }
+  ]
+}
