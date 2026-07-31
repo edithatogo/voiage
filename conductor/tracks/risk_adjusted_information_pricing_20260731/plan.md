@@ -14,8 +14,16 @@
 - [x] **U4:** Materialize GitHub subissues and synchronize Project 28,
   requirements, Mermaid design, cross-references and canonical C16 planning.
   (AC-01) — `766149f`
-- [ ] **U5:** Run automated contract review and full Conductor validation.
+- [~] **U5:** Run automated contract review and full Conductor validation.
   (AC-01–AC-05)
+
+### Phase 1 review fixes
+
+- [x] Preserve #694–#697 as nested #595 subissues in the canonical C16
+  projection rather than projecting them as independent frontier issues.
+  — `80e0a61`
+- [ ] Reconcile deterministic tie selection, finite-signal design, and complete
+  tie-set transition diagnostics across the frozen contract artifacts.
 
 ## Phase 2 — Reference evidence before implementation
 
