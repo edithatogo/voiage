@@ -21,12 +21,16 @@
     "discount_rate": 0.0,
     "irreversibility_penalty": 0.0,
     "lock_in_penalty": 0.0,
-    "assurance": "exact-enumeration"
+    "assurance": "exact-enumeration",
+    "tie_policy": "canonical-lexicographic",
+    "flexible_stage_ties": {"now": ["commit_a"], "mid": ["commit_b"], "late": ["commit_b"]},
+    "commitment_ties": ["commit_b"]
   },
   "reporting": {
     "analysis_type": "value_of_flexibility",
     "adjacent_to_information_value": true,
     "information_value_included": false,
-    "method_maturity": "experimental"
+    "method_maturity": "experimental",
+    "tie_policy": "canonical-lexicographic"
   }
 }

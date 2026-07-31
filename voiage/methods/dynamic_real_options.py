@@ -114,7 +114,15 @@ def _adjusted_scenario_values(
     irreversibility_penalty: float,
     lock_in_penalty: float,
     evidence_arrival_times: Mapping[str, float] | None,
+    *,
+    require_strict_arrival_times: bool = True,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    scalar_controls = np.asarray(
+        [discount_rate, irreversibility_penalty, lock_in_penalty],
+        dtype=DEFAULT_DTYPE,
+    )
+    if not np.all(np.isfinite(scalar_controls)):
+        raise_input_error("Rates and option penalties must be finite.")
     if discount_rate < 0 or irreversibility_penalty < 0 or lock_in_penalty < 0:
         raise_input_error("Rates and option penalties must be non-negative.")
     weights = _exact_named_mapping(
@@ -136,7 +144,12 @@ def _adjusted_scenario_values(
     )
     if np.any(times < 0):
         raise_input_error("evidence_arrival_times must be finite and non-negative.")
-    if len(times) > 1 and np.any(np.diff(times) <= 0):
+    if (
+        require_strict_arrival_times
+        and evidence_arrival_times is not None
+        and len(times) > 1
+        and np.any(np.diff(times) <= 0)
+    ):
         raise_input_error("evidence_arrival_times must be strictly increasing.")
     remaining = 1.0 - float(irreversibility_penalty) * times
     if np.any(remaining < -1e-12):
@@ -196,6 +209,21 @@ def _policy_sets(
     return flexible_indices, [strategy_index[name] for name in constrained]
 
 
+def _canonical_argmax(
+    candidates: Sequence[int], values: np.ndarray, strategy_names: Sequence[str]
+) -> tuple[int, list[str]]:
+    """Select the lexicographically first strategy among numerical ties."""
+    maximum = float(np.max(values))
+    tolerance = 1e-12 * max(1.0, abs(maximum))
+    tied = [
+        candidate
+        for candidate, value in zip(candidates, values, strict=True)
+        if abs(float(value) - maximum) <= tolerance
+    ]
+    ordered = sorted(tied, key=lambda candidate: strategy_names[candidate])
+    return ordered[0], [str(strategy_names[candidate]) for candidate in ordered]
+
+
 def value_of_flexibility(
     net_benefits: np.ndarray,
     decision_stage_names: Sequence[str],
@@ -244,15 +272,19 @@ def value_of_flexibility(
 
     flexible_path_indices: list[int] = []
     flexible_stage_values: list[float] = []
+    flexible_stage_ties: dict[str, list[str]] = {}
     for stage_index, feasible in enumerate(flexible_indices):
         local = adjusted[feasible, stage_index]
-        selected = feasible[int(np.argmax(local))]
+        selected, tied_names = _canonical_argmax(feasible, local, strategies)
         flexible_path_indices.append(selected)
         flexible_stage_values.append(float(adjusted[selected, stage_index]))
+        flexible_stage_ties[stages[stage_index]] = tied_names
     flexible_value = float(np.dot(weights, flexible_stage_values))
 
     commitment_values = adjusted[constrained_indices, :] @ weights
-    commitment_index = constrained_indices[int(np.argmax(commitment_values))]
+    commitment_index, commitment_ties = _canonical_argmax(
+        constrained_indices, commitment_values, strategies
+    )
     constrained_value = float(adjusted[commitment_index, :] @ weights)
     difference = flexible_value - constrained_value
     tolerance = 1e-12 * max(1.0, abs(flexible_value), abs(constrained_value))
@@ -294,12 +326,16 @@ def value_of_flexibility(
             "irreversibility_penalty": float(irreversibility_penalty),
             "lock_in_penalty": float(lock_in_penalty),
             "assurance": "exact-enumeration",
+            "tie_policy": "canonical-lexicographic",
+            "flexible_stage_ties": flexible_stage_ties,
+            "commitment_ties": commitment_ties,
         },
         reporting={
             "analysis_type": "value_of_flexibility",
             "adjacent_to_information_value": True,
             "information_value_included": False,
             "method_maturity": "experimental",
+            "tie_policy": "canonical-lexicographic",
         },
     )
 
@@ -328,6 +364,9 @@ def value_of_dynamic_real_options(
     values, stages, strategies = _named_values(
         net_benefits, decision_stage_names, strategy_names
     )
+    legacy_arrival_times = evidence_arrival_times
+    if legacy_arrival_times is None:
+        legacy_arrival_times = dict.fromkeys(stages, 0.0)
     adjusted, weights, times, discount = _adjusted_scenario_values(
         values,
         stages,
@@ -335,19 +374,20 @@ def value_of_dynamic_real_options(
         discount_rate,
         irreversibility_penalty,
         lock_in_penalty,
-        evidence_arrival_times,
+        legacy_arrival_times,
+        require_strict_arrival_times=False,
     )
     flexibility = value_of_flexibility(
-        values,
+        adjusted[None, :, :],
         stages,
         strategies,
         stage_weights,
-        discount_rate,
-        irreversibility_penalty,
-        lock_in_penalty,
-        evidence_arrival_times,
     )
-    optimal_names = flexibility.flexible_policy_path
+    # Preserve the legacy first-in-input tie presentation for this compatibility
+    # envelope; the versioned Value of Flexibility surface uses canonical ties.
+    optimal_names = [
+        strategies[index] for index in np.argmax(adjusted, axis=0).tolist()
+    ]
     option_value = flexibility.value_of_flexibility
     waiting_value = option_value
     regret = np.maximum(0.0, np.max(adjusted, axis=0)[None, :] - adjusted)

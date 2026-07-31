@@ -7,7 +7,9 @@
     "analysis_type", "method_maturity", "value_unit", "stage_semantics",
     "flexible_value", "constrained_value", "value_of_flexibility",
     "flexible_policy_path", "constrained_policy_path", "commitment_baseline",
-    "information_value_component", "decomposition_status", "diagnostics", "reporting"
+    "waiting_value", "option_value", "information_value_component",
+    "decomposition_status", "exercise_decisions", "policy_path_regret",
+    "diagnostics", "reporting"
   ],
   "properties": {
     "analysis_type": {"const": "value_of_flexibility"},
@@ -25,9 +27,51 @@
     "information_value_component": {"const": 0},
     "decomposition_status": {"const": "information-value-excluded"},
     "exercise_decisions": {"type": "array", "minItems": 1, "items": {"type": "boolean"}},
-    "policy_path_regret": {"type": "array"},
-    "diagnostics": {"type": "object"},
-    "reporting": {"type": "object"}
+    "policy_path_regret": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "array",
+        "minItems": 1,
+        "items": {"type": "number", "minimum": 0}
+      }
+    },
+    "diagnostics": {
+      "type": "object",
+      "required": [
+        "stage_weights", "evidence_arrival_times", "discount_rate",
+        "irreversibility_penalty", "lock_in_penalty", "assurance",
+        "tie_policy", "flexible_stage_ties", "commitment_ties"
+      ],
+      "properties": {
+        "stage_weights": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "number", "minimum": 0}},
+        "evidence_arrival_times": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "number", "minimum": 0}},
+        "discount_rate": {"type": "number", "minimum": 0},
+        "irreversibility_penalty": {"type": "number", "minimum": 0},
+        "lock_in_penalty": {"type": "number", "minimum": 0},
+        "assurance": {"const": "exact-enumeration"},
+        "tie_policy": {"const": "canonical-lexicographic"},
+        "flexible_stage_ties": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+        },
+        "commitment_ties": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      },
+      "additionalProperties": false
+    },
+    "reporting": {
+      "type": "object",
+      "required": ["analysis_type", "adjacent_to_information_value", "information_value_included", "method_maturity", "tie_policy"],
+      "properties": {
+        "analysis_type": {"const": "value_of_flexibility"},
+        "adjacent_to_information_value": {"const": true},
+        "information_value_included": {"const": false},
+        "method_maturity": {"const": "experimental"},
+        "tie_policy": {"const": "canonical-lexicographic"}
+      },
+      "additionalProperties": false
+    }
   },
   "additionalProperties": false
 }

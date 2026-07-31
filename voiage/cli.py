@@ -20,6 +20,8 @@ from pathlib import Path
 import re
 from typing import Any, Literal, cast
 
+from jsonschema import Draft202012Validator
+from jsonschema.exceptions import ValidationError as JsonSchemaValidationError
 import numpy as np
 import typer
 
@@ -32,6 +34,7 @@ from voiage.contracts.study_design import (
     StudyDesignPointInputV1,
     TiePolicy,
 )
+from voiage.contracts.value_flexibility import VALUE_OF_FLEXIBILITY_INPUT_SCHEMA_V1
 from voiage.core.io import (
     import_callable,
     read_parameter_set_csv,
@@ -3366,6 +3369,7 @@ def calculate_value_of_flexibility(
         payload = _read_json_file(specification_file)
         if not isinstance(payload, dict):
             raise TypeError("Value of Flexibility specification must be a JSON object.")
+        Draft202012Validator(VALUE_OF_FLEXIBILITY_INPUT_SCHEMA_V1).validate(payload)
         result = calculate_flexibility_result(
             np.asarray(payload["net_benefit"], dtype=float),
             cast("list[str]", payload["decision_stage_names"]),
@@ -3381,11 +3385,9 @@ def calculate_value_of_flexibility(
             constrained_strategy_names=cast(
                 "list[str] | None", payload.get("constrained_strategy_names")
             ),
-            value_unit=str(payload.get("value_unit", "value-unit")),
-            stage_semantics=str(payload.get("stage_semantics", "timing_scenarios")),
-            information_value_included=bool(
-                payload.get("information_value_included", False)
-            ),
+            value_unit=str(payload["value_unit"]),
+            stage_semantics=str(payload["stage_semantics"]),
+            information_value_included=bool(payload["information_value_included"]),
         )
         result_payload = {
             "analysis_type": result.analysis_type,
@@ -3417,7 +3419,13 @@ def calculate_value_of_flexibility(
             _write_output_file(output_file, output_text)
             if _should_echo_status_messages():
                 typer.echo(f"Result saved to {output_file}")
-    except (json.JSONDecodeError, KeyError, TypeError, ValueError) as error:
+    except (
+        json.JSONDecodeError,
+        JsonSchemaValidationError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
         typer.echo(f"Error: {error}", err=True)
         raise typer.Exit(code=1) from error
 

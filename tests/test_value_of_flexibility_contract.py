@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict
+import hashlib
 import json
 from pathlib import Path
 
@@ -10,6 +11,7 @@ from jsonschema import Draft202012Validator
 import numpy as np
 import pytest
 
+from voiage.contracts.value_flexibility import VALUE_OF_FLEXIBILITY_INPUT_SCHEMA_V1
 from voiage.methods import dynamic_real_options
 
 ROOT = Path(__file__).parents[1]
@@ -27,6 +29,15 @@ def test_value_of_flexibility_normative_fixture_validates() -> None:
     expected = _json(CONTRACT / "fixtures/normative/expected.json")
     Draft202012Validator(input_schema).validate(input_payload)
     Draft202012Validator(result_schema).validate(expected)
+    assert input_schema == VALUE_OF_FLEXIBILITY_INPUT_SCHEMA_V1
+
+
+def test_result_schema_rejects_materially_incomplete_output() -> None:
+    result_schema = _json(CONTRACT / "schemas/value-of-flexibility-result.schema.json")
+    incomplete = _json(CONTRACT / "fixtures/normative/expected.json")
+    incomplete.pop("policy_path_regret")
+    with pytest.raises(Exception, match="policy_path_regret"):
+        Draft202012Validator(result_schema).validate(incomplete)
 
 
 def test_capabilities_fail_closed_for_unimplemented_bindings() -> None:
@@ -44,16 +55,19 @@ def test_manifest_is_single_versioned_normative_reference() -> None:
     manifest = _json(CONTRACT / "fixtures/manifest.json")
     assert manifest["version"] == "v1"
     assert manifest["status"] == "fixture-backed"
-    assert manifest["normative"] == [
-        {
-            "name": "enumerable timing-scenario flexibility comparison",
-            "method_family": "value_of_flexibility",
-            "input_artifact": "normative/input.json",
-            "expected_output_artifact": "normative/expected.json",
-            "reference": "conductor/tracks/supported_frontier_method_completion_20260723/value-of-flexibility-reference-review.md",
-            "tolerance_policy": "absolute-1e-12",
-        }
-    ]
+    assert manifest["evidence_artifact"] == "evidence.json"
+    assert len(manifest["normative"]) == 1
+    record = manifest["normative"][0]
+    assert record["method_family"] == "value_of_flexibility"
+    assert record["tolerance_policy"] == "absolute-1e-12"
+
+
+def test_fixture_evidence_is_sha256_pinned() -> None:
+    evidence = _json(CONTRACT / "fixtures/evidence.json")
+    assert evidence["stable_claim_allowed"] is False
+    for artifact in evidence["artifacts"]:
+        path = ROOT / artifact["path"]
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == artifact["sha256"]
 
 
 def test_runtime_matches_normative_fixture() -> None:

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from typing import TYPE_CHECKING
 
 import numpy as np
@@ -59,6 +60,18 @@ def test_value_of_flexibility_is_invariant_to_strategy_permutation() -> None:
     )
     assert permuted.flexible_value == pytest.approx(original.flexible_value)
     assert permuted.constrained_value == pytest.approx(original.constrained_value)
+
+
+def test_ties_use_canonical_strategy_names_independent_of_input_order() -> None:
+    surface = np.asarray([[[5.0, 5.0], [5.0, 5.0]]])
+    original = value_of_flexibility(surface, ["early", "late"], ["z", "a"])
+    permuted = value_of_flexibility(
+        surface[:, ::-1, :], ["early", "late"], ["a", "z"]
+    )
+    assert original.commitment_baseline == permuted.commitment_baseline == "a"
+    assert original.flexible_policy_path == permuted.flexible_policy_path == ["a", "a"]
+    assert original.diagnostics["commitment_ties"] == ["a", "z"]
+    assert original.diagnostics["tie_policy"] == "canonical-lexicographic"
 
 
 def test_identical_flexible_and_commitment_sets_have_zero_value() -> None:
@@ -186,6 +199,10 @@ def test_dynamic_real_options_compatibility_uses_stagewise_commitment_math() -> 
             },
             "negative value",
         ),
+        ({"discount_rate": np.nan}, "must be finite"),
+        ({"discount_rate": np.inf}, "must be finite"),
+        ({"irreversibility_penalty": np.nan}, "must be finite"),
+        ({"lock_in_penalty": np.inf}, "must be finite"),
     ],
 )
 def test_value_of_flexibility_rejects_invalid_policy_and_numeric_contracts(
@@ -227,13 +244,49 @@ def test_value_of_flexibility_cli_returns_versioned_json(tmp_path: Path) -> None
         ],
     )
     assert result.exit_code == 0, result.stdout
-    assert '"analysis_type": "value_of_flexibility"' in result.stdout
-    assert '"value_of_flexibility": 1.5999999999999996' in result.stdout
-    assert '"information_value_component": 0.0' in result.stdout
+    payload = json.loads(result.stdout)
+    assert payload["analysis_type"] == "value_of_flexibility"
+    assert payload["value_of_flexibility"] == pytest.approx(1.6)
+    assert payload["information_value_component"] == 0.0
     assert '"value_of_flexibility"' in output.read_text(encoding="utf-8")
 
 
-@pytest.mark.parametrize("content", ["[]", "{}", "{"])
+@pytest.mark.parametrize(
+    "content",
+    [
+        "[]",
+        "{}",
+        "{",
+        json.dumps(
+            {
+                "decision_stage_names": ["now"],
+                "strategy_names": ["a"],
+                "net_benefit": [[[1.0]]],
+                "stage_semantics": "timing_scenarios",
+                "information_value_included": False,
+                "provenance": {
+                    "fixture_id": "missing-unit",
+                    "execution_mode": "deterministic",
+                },
+            }
+        ),
+        json.dumps(
+            {
+                "decision_stage_names": ["now"],
+                "strategy_names": ["a"],
+                "net_benefit": [[[1.0]]],
+                "value_unit": "point",
+                "stage_semantics": "timing_scenarios",
+                "information_value_included": False,
+                "provenance": {
+                    "fixture_id": "unknown-field",
+                    "execution_mode": "deterministic",
+                },
+                "unknown": True,
+            }
+        ),
+    ],
+)
 def test_value_of_flexibility_cli_rejects_invalid_requests(
     tmp_path: Path, content: str
 ) -> None:
@@ -244,3 +297,25 @@ def test_value_of_flexibility_cli_rejects_invalid_requests(
     )
     assert result.exit_code == 1
     assert "Error:" in result.stderr
+
+
+def test_legacy_dynamic_real_options_preserves_zero_time_default() -> None:
+    omitted = value_of_dynamic_real_options(
+        _surface(),
+        ["now", "mid", "late"],
+        ["a", "b"],
+        discount_rate=0.2,
+    )
+    explicit = value_of_dynamic_real_options(
+        _surface(),
+        ["now", "mid", "late"],
+        ["a", "b"],
+        discount_rate=0.2,
+        evidence_arrival_times={"now": 0.0, "mid": 0.0, "late": 0.0},
+    )
+    assert omitted.option_value == pytest.approx(explicit.option_value)
+    assert omitted.diagnostics["evidence_arrival_times"] == {
+        "now": 0.0,
+        "mid": 0.0,
+        "late": 0.0,
+    }

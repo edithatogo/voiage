@@ -1,0 +1,20 @@
+{
+  "method_family": "value_of_flexibility",
+  "version": "v1",
+  "maturity": "experimental",
+  "stable_claim_allowed": false,
+  "artifacts": [
+    {
+      "path": "specs/frontier/value-of-flexibility/v1/fixtures/normative/input.json",
+      "sha256": "99e4232a110944eb175c48ed7a4e518dd6cdbf9136020e6465d49c4b2c346a13"
+    },
+    {
+      "path": "specs/frontier/value-of-flexibility/v1/fixtures/normative/expected.json",
+      "sha256": "80f5a034f57d9b986695b21c7a58dc43d0fa4ce0795599256e19aa428207b561"
+    },
+    {
+      "path": "conductor/tracks/supported_frontier_method_completion_20260723/value-of-flexibility-reference-review.md",
+      "sha256": "b51c07195ef2f83dc3ba8ceb4f35a33581717aff0b4cf0a727350a25a21e88ed"
+    }
+  ]
+}

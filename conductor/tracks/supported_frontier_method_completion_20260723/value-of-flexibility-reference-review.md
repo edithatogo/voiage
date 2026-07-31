@@ -22,6 +22,11 @@ lifecycle-period aggregation and transition-constrained policy paths are not
 silently coerced into this scenario contract; a later dynamic-programming
 extension must declare them separately.
 
+Numerical ties use a frozen `canonical-lexicographic` policy: the runtime
+returns every tied strategy in canonical name order and presents the first name
+as the selected path or commitment baseline. This prevents input ordering from
+changing a versioned result while retaining the complete tie set for audit.
+
 ## Independent references
 
 - Grutters et al., [Real Options Analysis in Proton Therapy](https://pmc.ncbi.nlm.nih.gov/articles/PMC3248774/), provides enumerable adopt, delay and trial strategies with explicit reversibility and research cost.
@@ -38,3 +43,7 @@ incomparable or empty units, an infeasible commitment set, unsupported stage
 semantics and a declaration that information value is already embedded. It
 returns an information-value component of zero and does not label VoF as EVPI,
 EVSI, value of control, robustness or model-uncertainty value.
+
+The pre-existing dynamic-real-options compatibility envelope retains its
+historical zero-time default and first-in-input tie presentation. Those legacy
+presentation rules are not inherited by the experimental versioned VoF result.

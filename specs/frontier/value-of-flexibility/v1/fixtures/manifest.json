@@ -1,6 +1,7 @@
 {
   "version": "v1",
   "status": "fixture-backed",
+  "evidence_artifact": "evidence.json",
   "normative": [
     {
       "name": "enumerable timing-scenario flexibility comparison",

@@ -8,7 +8,7 @@
     {"path": "schemas/value-of-dynamic-real-options-result.schema.json", "sha256": "7ef8d080bd4e5e13a042c422a3d3d3f9a26dfd9199f220f8ef2ecd15e175120e"},
     {"path": "fixtures/normative/dynamic-real-options-set.json", "sha256": "5fa4227bcc519702f0c31c3eeedae67b567708c15a32011aece82e29a3a8f24a"},
     {"path": "fixtures/normative/value-of-dynamic-real-options.json", "sha256": "aa89d8ee9f4fbad1a5684ab2776a5cc43d017af77fda0e49e25586ce6189d067"},
-    {"path": "../../../../voiage/methods/dynamic_real_options.py", "sha256": "6fc61d92f9672b7dd4721676c9d61dd1c4039164b4ba11bca3dbe88a57818b0f"}
+    {"path": "../../../../voiage/methods/dynamic_real_options.py", "sha256": "a0f575aca57b83dd39a78021684f49d582499fbc39773f7992ce5969d1e05968"}
   ],
   "open_data": {
     "status": "blocked_external",
