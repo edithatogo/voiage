@@ -2,9 +2,9 @@
 
 ## Phase 1 — Scientific classification and contract
 
-- [ ] **E1:** Add the estimation-focused method-registry classifications and
+- [x] **E1:** Add the estimation-focused method-registry classifications and
   aliases, explicitly separating variance VOI from decision VOI, sensitivity
-  indices and estimator uncertainty. (AC-01)
+  indices and estimator uncertainty. (AC-01) [df061cc0]
 - [ ] **E2:** Freeze scalar/vector target shape, component units, variance or
   covariance functional, conditioning and sampling models, zero-variance
   behavior and finite-sample diagnostics after scientific review. (AC-01,
