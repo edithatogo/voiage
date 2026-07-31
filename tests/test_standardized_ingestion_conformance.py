@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import subprocess
 import sys
+from tempfile import TemporaryDirectory
 
 from hypothesis import given, settings
 from hypothesis import strategies as st
@@ -294,3 +295,87 @@ def test_dataframe_and_direct_input_preserve_explicit_binding_under_column_order
     assert evpi(direct_prepared.net_benefits.numpy_values) == pytest.approx(
         evpi(dataframe_prepared.net_benefits.numpy_values)
     )
+
+
+@settings(max_examples=20, deadline=None)
+@given(
+    rows=st.lists(
+        st.tuples(
+            st.integers(min_value=-10_000, max_value=10_000),
+            st.integers(min_value=-10_000, max_value=10_000),
+        ),
+        min_size=1,
+        max_size=8,
+    )
+)
+def test_provider_mapping_property_preserves_rows_and_explicit_binding(
+    rows: list[tuple[int, int]],
+) -> None:
+    """Both descriptor formats preserve generated CSV rows without inference."""
+    with TemporaryDirectory() as directory:
+        root = Path(directory)
+        csv_path = root / "samples.csv"
+        csv_path.write_text(
+            "strategy_a,strategy_b\n"
+            + "".join(
+                f"{strategy_a},{strategy_b}\n" for strategy_a, strategy_b in rows
+            ),
+            encoding="utf-8",
+        )
+        croissant_path = root / "croissant.json"
+        croissant_path.write_text(
+            json.dumps(
+                {
+                    "@context": "https://mlcommons.org/croissant/1.1",
+                    "name": "property-decision-fixture",
+                    "distribution": [{"contentUrl": csv_path.name}],
+                    "recordSet": [
+                        {
+                            "name": "samples",
+                            "field": [
+                                {"name": "strategy_a"},
+                                {"name": "strategy_b"},
+                            ],
+                        }
+                    ],
+                }
+            ),
+            encoding="utf-8",
+        )
+        frictionless_path = root / "datapackage.json"
+        frictionless_path.write_text(
+            json.dumps(
+                {
+                    "name": "property-decision-fixture",
+                    "resources": [
+                        {
+                            "name": "samples",
+                            "path": csv_path.name,
+                            "schema": {
+                                "fields": [
+                                    {"name": "strategy_a", "type": "integer"},
+                                    {"name": "strategy_b", "type": "integer"},
+                                ]
+                            },
+                        }
+                    ],
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        policy = SourceAccessPolicy(root)
+        croissant = _bound(default_registry().ingest(croissant_path, policy=policy))
+        frictionless = _bound(
+            default_registry().ingest(frictionless_path, policy=policy)
+        )
+        expected = [[strategy_a, strategy_b] for strategy_a, strategy_b in rows]
+
+        assert (
+            croissant.table("samples").to_pylist()
+            == frictionless.table("samples").to_pylist()
+        )
+        for bundle in (croissant, frictionless):
+            prepared = prepare_analysis_inputs(bundle)
+            assert prepared.net_benefits.numpy_values.tolist() == expected
+            assert prepared.net_benefits.strategy_names == ["A", "B"]
