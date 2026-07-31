@@ -1,0 +1,1 @@
+P8 DataFrame edge contracts (2026-08-01): test-only consumer slice covers non-contiguous pandas slicing, typed zero-row, and no-column dataframe-interchange inputs. It preserves the current Arrow conversion and explicit preparation boundary without claiming third-party integration. Focused SDK tests and Ruff passed locally.
