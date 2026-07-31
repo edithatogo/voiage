@@ -4,8 +4,9 @@
 
 - [x] **G1:** Verify the owning issue, native parent/children, Project 28,
   metadata, registry and cross-reference manifest. (AC-01) `e5462426`
-- [ ] **G2:** Reconcile existing repository artifacts and prior evidence
+- [x] **G2:** Reconcile existing repository artifacts and prior evidence
   without converting issue status into implementation evidence. (AC-01, AC-02)
+  `b7836020`
 - [ ] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
   explicit exclusions. (AC-02, AC-05, AC-06)
 - [ ] **G3a:** Reconcile VoC as #595's expected-utility/clairvoyant-policy
