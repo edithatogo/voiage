@@ -319,6 +319,33 @@ def test_public_api_cli_and_deterministic_copy(tmp_path: Path) -> None:
     assert json.loads(run.stdout) == contract
 
 
+def test_cli_rejects_non_object_input_and_reports_text_output_path(
+    tmp_path: Path,
+) -> None:
+    non_object = tmp_path / "non-object.json"
+    non_object.write_text("[]\n", encoding="utf-8")
+    rejected = CliRunner().invoke(
+        app,
+        ["calculate-heterogeneity-value", str(non_object)],
+    )
+    assert rejected.exit_code == 1
+    assert "Heterogeneity-value specification must be a JSON object" in rejected.output
+
+    output = tmp_path / "result.txt"
+    accepted = CliRunner().invoke(
+        app,
+        [
+            "calculate-heterogeneity-value",
+            str(FIXTURE / "input.json"),
+            "--output",
+            str(output),
+        ],
+    )
+    assert accepted.exit_code == 0, accepted.output
+    assert f"Result saved to {output}" in accepted.output
+    assert output.read_text(encoding="utf-8").startswith("Heterogeneity value:")
+
+
 def test_result_validator_rejects_negative_optimized_value() -> None:
     result = _result()
     result["four_value_decomposition"].update(

@@ -60,11 +60,11 @@
     },
     {
       "path": "tests/test_heterogeneity_value.py",
-      "sha256": "ad0cde761e565e8281ecbab7657c69d482e4d2fcc932baa7aae7a76630ee7a31"
+      "sha256": "420d10504696f4f32c3c3a62a3b17e61658771bfbd7ba0eac78137ee0f86e8eb"
     }
   ],
   "assurance": {
-    "focused_tests": 46,
+    "focused_tests": 47,
     "randomized_oracle_cases": 100,
     "relevant_statement_coverage_percent": 100,
     "relevant_branch_coverage_percent": 100,

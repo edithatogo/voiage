@@ -57,7 +57,7 @@ mutations and a coordinated audit/value rewrite are rejected.
 
 Final validation passed:
 
-- 46 focused heterogeneity-value tests, including 100 randomized independent
+- 47 focused heterogeneity-value tests, including 100 randomized independent
   oracle cases and the new commitment/mutation suite;
 - 100% statements and 100% branches across the changed contract and evaluator
   (277 statements, 88 branches, no misses or partial branches);
