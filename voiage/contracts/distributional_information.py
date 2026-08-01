@@ -9,7 +9,8 @@ from typing import Final, cast
 
 MAX_PROBABILITY_SUM_TOLERANCE: Final = 1e-6
 
-VALUE_OF_DISTRIBUTIONAL_INFORMATION_INPUT_SCHEMA_V1: Final[dict[str, object]] = (
+VALUE_OF_DISTRIBUTIONAL_INFORMATION_INPUT_SCHEMA_V1: Final[dict[str, object]] = cast(
+    "dict[str, object]",
     json.loads(
         r"""
 {
@@ -103,7 +104,7 @@ VALUE_OF_DISTRIBUTIONAL_INFORMATION_INPUT_SCHEMA_V1: Final[dict[str, object]] = 
   "additionalProperties": false
 }
 """
-    )
+    ),
 )
 
 
@@ -129,11 +130,22 @@ def validate_distributional_information_semantics(
         raise ValueError("model_ids must be a non-empty list.")
     if not isinstance(alternatives, list) or not alternatives:
         raise ValueError("alternative_names must be a non-empty list.")
-    if len(set(model_ids)) != len(model_ids):
+    model_id_objects = cast("list[object]", model_ids)
+    alternative_objects = cast("list[object]", alternatives)
+    if not all(_nonempty_string(item) for item in model_id_objects):
+        raise ValueError("model_ids must contain non-empty strings.")
+    if not all(_nonempty_string(item) for item in alternative_objects):
+        raise ValueError("alternative_names must contain non-empty strings.")
+    model_id_values = cast("list[str]", model_ids)
+    alternative_values = cast("list[str]", alternatives)
+    if len(set(model_id_values)) != len(model_id_values):
         raise ValueError("model_ids must be unique.")
-    if len(set(alternatives)) != len(alternatives):
+    if len(set(alternative_values)) != len(alternative_values):
         raise ValueError("alternative_names must be unique.")
-    if not isinstance(labels, Mapping) or set(labels) != set(model_ids):
+    if not isinstance(labels, Mapping):
+        raise TypeError("model_labels must be an object keyed by model_ids.")
+    label_record = cast("Mapping[str, object]", labels)
+    if set(label_record) != set(model_id_values):
         raise ValueError("model_labels keys must exactly match model_ids.")
     definition_fields = {
         "model_id",
@@ -145,9 +157,12 @@ def validate_distributional_information_semantics(
         "data_reference",
         "value_transformation",
     }
-    if not isinstance(definitions, list) or len(definitions) != len(model_ids):
+    if not isinstance(definitions, list):
+        raise TypeError("model_definitions must be a list aligned with model_ids.")
+    definition_objects = cast("list[object]", definitions)
+    if len(definition_objects) != len(model_id_values):
         raise ValueError("model_definitions must align with model_ids.")
-    if not all(isinstance(item, Mapping) for item in definitions):
+    if not all(isinstance(item, Mapping) for item in definition_objects):
         raise TypeError("model_definitions entries must be objects.")
     definition_records = cast("list[Mapping[str, object]]", definitions)
     if any(
@@ -156,7 +171,7 @@ def validate_distributional_information_semantics(
         for item in definition_records
     ):
         raise ValueError("model_definitions must contain complete non-empty records.")
-    if [item["model_id"] for item in definition_records] != model_ids:
+    if [item["model_id"] for item in definition_records] != model_id_values:
         raise ValueError("model_definitions must use model_ids order exactly.")
     assurance_fields = {
         "input_status",
@@ -165,9 +180,11 @@ def validate_distributional_information_semantics(
         "enumeration_method",
         "evidence_reference",
     }
-    if not isinstance(assurance, Mapping) or set(assurance) != assurance_fields:
-        raise ValueError("conditional_value_assurance is incomplete.")
+    if not isinstance(assurance, Mapping):
+        raise TypeError("conditional_value_assurance must be an object.")
     assurance_record = cast("Mapping[str, object]", assurance)
+    if set(assurance_record) != assurance_fields:
+        raise ValueError("conditional_value_assurance is incomplete.")
     if (
         assurance_record["input_status"] != "exact_enumerated_conditional_expectations"
         or assurance_record["source_values_exact"] is not True
@@ -187,30 +204,35 @@ def validate_distributional_information_semantics(
         "verified",
         "verification_reference",
     }
-    if (
-        not isinstance(comparability, Mapping)
-        or set(comparability) != comparability_fields
-    ):
-        raise ValueError("comparability must contain the complete verified contract.")
+    if not isinstance(comparability, Mapping):
+        raise TypeError("comparability must be an object.")
     comparability_record = cast("Mapping[str, object]", comparability)
+    if set(comparability_record) != comparability_fields:
+        raise ValueError("comparability must contain the complete verified contract.")
     if comparability_record["verified"] is not True or any(
         not _nonempty_string(comparability_record[field])
         for field in comparability_fields - {"verified"}
     ):
         raise ValueError("comparability must be explicitly verified with common IDs.")
-    if not isinstance(probabilities, list) or len(probabilities) != len(model_ids):
+    if not isinstance(probabilities, list):
+        raise TypeError("model_probabilities must be a list aligned with model_ids.")
+    probability_values = cast("list[object]", probabilities)
+    if len(probability_values) != len(model_id_values):
         raise ValueError("model_probabilities must align with model_ids.")
     if not all(
         isinstance(item, (int, float)) and math.isfinite(float(item))
-        for item in probabilities
+        for item in probability_values
     ):
         raise ValueError("model_probabilities must contain only finite numbers.")
-    numeric_probabilities = [float(cast("int | float", item)) for item in probabilities]
+    numeric_probabilities = [
+        float(cast("int | float", item)) for item in probability_values
+    ]
     if any(item < 0 for item in numeric_probabilities):
         raise ValueError("model_probabilities must be non-negative.")
     if not isinstance(tolerances, Mapping):
         raise TypeError("tolerances must be an object.")
-    probability_tolerance_value = tolerances.get("probability_sum", math.nan)
+    tolerance_record = cast("Mapping[str, object]", tolerances)
+    probability_tolerance_value = tolerance_record.get("probability_sum", math.nan)
     if not isinstance(probability_tolerance_value, (int, float)):
         raise TypeError("tolerances.probability_sum must be numeric.")
     probability_tolerance = float(probability_tolerance_value)
@@ -227,16 +249,24 @@ def validate_distributional_information_semantics(
         probability_sum, 1.0, rel_tol=0.0, abs_tol=probability_tolerance
     ):
         raise ValueError("model_probabilities must sum to 1 without renormalization.")
-    if not isinstance(values, list) or len(values) != len(model_ids):
+    if not isinstance(values, list):
+        raise TypeError("conditional_values must be a list of model rows.")
+    value_rows = cast("list[object]", values)
+    if len(value_rows) != len(model_id_values):
         raise ValueError("conditional_values rows must align with model_ids.")
-    for row in values:
-        if not isinstance(row, list) or len(row) != len(alternatives):
+    for row in value_rows:
+        if not isinstance(row, list):
+            raise TypeError(
+                "Every conditional_values row must align with alternative_names."
+            )
+        row_values = cast("list[object]", row)
+        if len(row_values) != len(alternative_values):
             raise ValueError(
                 "Every conditional_values row must align with alternative_names."
             )
         if not all(
             isinstance(item, (int, float)) and math.isfinite(float(item))
-            for item in row
+            for item in row_values
         ):
             raise ValueError("conditional_values must contain only finite numbers.")
     information_cost = payload.get("information_cost")
