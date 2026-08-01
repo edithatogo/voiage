@@ -1,0 +1,5 @@
+Conductor track: supported_frontier_method_completion_20260723
+Task: F557-4 / #734 CLI, docs and discovery
+Result: PASS exact-schema CLI and accessible documentation/discovery
+Validation: 48 focused tests; Ruff; ty; 95-page Astro build; frontier validator; full 144-track Conductor validation with zero errors and warnings
+Boundary: independent/scientific review, hosted checks, merge, stable promotion, polyglot execution, release and issue closure remain separate
