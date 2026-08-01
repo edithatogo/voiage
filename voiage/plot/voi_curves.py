@@ -310,6 +310,33 @@ def plot_coss(
             label="ENBS uncertainty interval",
         )
 
+    if data.tied_optimal_design_ids:
+        tied_indices = [
+            data.design_ids.index(design_id)
+            for design_id in data.tied_optimal_design_ids
+        ]
+        tied_label = ", ".join(data.tied_optimal_design_ids)
+        ax.scatter(  # type: ignore
+            sample_sizes[tied_indices],
+            enbs_values[tied_indices],
+            facecolors="none",
+            edgecolors="#CC79A7",
+            marker="D",
+            s=90,
+            linewidths=2.0,
+            label=f"Tied optima ({tied_label})",
+            zorder=5,
+        )
+
+    if isinstance(result, CossResultV1):
+        uncertainty_method = result.selection_uncertainty.method
+        uncertainty_label = (
+            "Selection uncertainty unavailable"
+            if uncertainty_method == "unavailable"
+            else f"Selection uncertainty available ({uncertainty_method})"
+        )
+        ax.plot([], [], linestyle="None", marker="", label=uncertainty_label)  # type: ignore
+
     if data.optimal_design_id is not None:
         optimum_index = data.design_ids.index(data.optimal_design_id)
         ax.scatter(  # type: ignore

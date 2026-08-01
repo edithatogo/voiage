@@ -97,9 +97,9 @@ pub fn evppi_variance(
 /// Aggregate scalar `EVSI_var` from posterior-variance evaluations.
 ///
 /// The caller owns the declared sampling model and supplies one finite
-/// posterior variance for each simulated or enumerated dataset. This kernel
-/// averages those values and applies the governed negative-estimate and
-/// zero-prior-variance policies.
+/// posterior variance and its prior-predictive probability for each simulated
+/// or enumerated dataset. This kernel takes their weighted expectation and
+/// applies the governed negative-estimate and zero-prior-variance policies.
 ///
 /// # Errors
 ///
@@ -108,8 +108,15 @@ pub fn evppi_variance(
 pub fn evsi_variance(
     prior_target_samples: &SampleVector,
     posterior_variances: &SampleVector,
+    predictive_probabilities: &SampleVector,
+    probability_tolerance: f64,
 ) -> Result<EstimationVarianceKernelResult, NumericalInputError> {
     require_prior_samples(prior_target_samples)?;
+    validate_predictive_probabilities(
+        posterior_variances,
+        predictive_probabilities,
+        probability_tolerance,
+    )?;
     if posterior_variances
         .as_slice()
         .iter()
@@ -123,7 +130,10 @@ pub fn evsi_variance(
 
     let prior_variance =
         population_variance(prior_target_samples.as_slice(), "prior_target_samples")?;
-    let expected_posterior_variance = mean(posterior_variances.as_slice(), "posterior_variances")?;
+    let expected_posterior_variance = weighted_mean(
+        posterior_variances.as_slice(),
+        predictive_probabilities.as_slice(),
+    )?;
     make_result(
         prior_variance,
         expected_posterior_variance,
@@ -183,11 +193,18 @@ pub fn evppi_variance_with_assurance(
 pub fn evsi_variance_with_assurance(
     prior_target_samples: &SampleVector,
     posterior_variances: &SampleVector,
+    predictive_probabilities: &SampleVector,
+    probability_tolerance: f64,
     bootstrap_replicates: usize,
     seed: u64,
     convergence_threshold: f64,
 ) -> Result<EstimationVarianceKernelResult, NumericalInputError> {
-    let result = evsi_variance(prior_target_samples, posterior_variances)?;
+    let result = evsi_variance(
+        prior_target_samples,
+        posterior_variances,
+        predictive_probabilities,
+        probability_tolerance,
+    )?;
     validate_assurance(bootstrap_replicates, convergence_threshold)?;
     let mut reductions = Vec::with_capacity(bootstrap_replicates);
     for replicate in 0..bootstrap_replicates {
@@ -199,7 +216,8 @@ pub fn evsi_variance_with_assurance(
             .collect::<Vec<_>>();
         let posterior = (0..posterior_variances.len())
             .map(|_| {
-                posterior_variances.as_slice()[next_index(&mut state, posterior_variances.len())]
+                posterior_variances.as_slice()
+                    [weighted_index(&mut state, predictive_probabilities.as_slice())]
             })
             .collect::<Vec<_>>();
         let prior = SampleVector::try_from(prior).map_err(|_| {
@@ -214,9 +232,85 @@ pub fn evsi_variance_with_assurance(
                 "bootstrap produced invalid posterior variances",
             )
         })?;
-        reductions.push(evsi_variance(&prior, &posterior)?.raw_reduction);
+        let replicate_prior_variance =
+            population_variance(prior.as_slice(), "prior_target_samples")?;
+        let replicate_posterior_variance = mean(posterior.as_slice(), "posterior_variances")?;
+        reductions.push(
+            make_result(
+                replicate_prior_variance,
+                replicate_posterior_variance,
+                prior.len(),
+                posterior.len(),
+            )?
+            .raw_reduction,
+        );
     }
     apply_assurance(result, reductions, convergence_threshold)
+}
+
+fn validate_predictive_probabilities(
+    posterior_variances: &SampleVector,
+    predictive_probabilities: &SampleVector,
+    probability_tolerance: f64,
+) -> Result<(), NumericalInputError> {
+    if !probability_tolerance.is_finite() || probability_tolerance < 0.0 {
+        return Err(NumericalInputError::invalid(
+            "probability_tolerance",
+            "probability tolerance must be finite and nonnegative",
+        ));
+    }
+    if posterior_variances.len() != predictive_probabilities.len() {
+        return Err(NumericalInputError::dimension(
+            "predictive_probabilities",
+            posterior_variances.len(),
+            predictive_probabilities.len(),
+            "predictive-probability count must match posterior-variance count",
+        ));
+    }
+    if predictive_probabilities
+        .as_slice()
+        .iter()
+        .any(|probability| *probability < 0.0)
+    {
+        return Err(NumericalInputError::invalid(
+            "predictive_probabilities",
+            "predictive probabilities must be nonnegative",
+        ));
+    }
+    let total = predictive_probabilities
+        .as_slice()
+        .iter()
+        .try_fold(0.0, |sum, probability| {
+            checked_sum(sum, *probability, "predictive_probabilities")
+        })?;
+    if (total - 1.0).abs() > probability_tolerance {
+        return Err(NumericalInputError::invalid(
+            "predictive_probabilities",
+            "predictive probabilities must sum to one within the declared tolerance",
+        ));
+    }
+    Ok(())
+}
+
+fn weighted_mean(values: &[f64], weights: &[f64]) -> Result<f64, NumericalInputError> {
+    let total_weight = weights.iter().try_fold(0.0, |sum, weight| {
+        checked_sum(sum, *weight, "predictive_probabilities")
+    })?;
+    let weighted_total = values
+        .iter()
+        .zip(weights)
+        .try_fold(0.0, |sum, (value, weight)| {
+            checked_sum(sum, value * weight, "posterior_variances")
+        })?;
+    let result = weighted_total / total_weight;
+    if result.is_finite() {
+        Ok(result)
+    } else {
+        Err(NumericalInputError::invalid(
+            "posterior_variances",
+            "weighted posterior variance must be finite",
+        ))
+    }
 }
 
 fn require_prior_samples(samples: &SampleVector) -> Result<(), NumericalInputError> {
@@ -340,15 +434,35 @@ fn bootstrap_state(seed: u64, replicate: usize) -> u64 {
 }
 
 fn next_index(state: &mut u64, sample_count: usize) -> usize {
+    let mixed = next_random(state);
+    let modulus = u64::try_from(sample_count).expect("validated sample count fits u64");
+    usize::try_from(mixed % modulus).expect("bootstrap index is bounded by sample count")
+}
+
+fn next_random(state: &mut u64) -> u64 {
     if *state == 0 {
         *state = MIX64;
     }
     *state ^= *state >> 12;
     *state ^= *state << 25;
     *state ^= *state >> 27;
-    let mixed = (*state).wrapping_mul(0x2545_F491_4F6C_DD1D);
-    let modulus = u64::try_from(sample_count).expect("validated sample count fits u64");
-    usize::try_from(mixed % modulus).expect("bootstrap index is bounded by sample count")
+    (*state).wrapping_mul(0x2545_F491_4F6C_DD1D)
+}
+
+fn weighted_index(state: &mut u64, weights: &[f64]) -> usize {
+    let total = weights.iter().sum::<f64>();
+    let upper_bits =
+        u32::try_from(next_random(state) >> 32).expect("upper 32 random bits always fit in u32");
+    let unit = f64::from(upper_bits) / (f64::from(u32::MAX) + 1.0);
+    let threshold = unit * total;
+    let mut cumulative = 0.0;
+    for (index, weight) in weights.iter().enumerate() {
+        cumulative += weight;
+        if threshold < cumulative {
+            return index;
+        }
+    }
+    weights.len() - 1
 }
 
 fn apply_assurance(
@@ -410,7 +524,8 @@ mod tests {
     fn posterior_variance_aggregation_retains_negative_raw_estimate() {
         let samples = SampleVector::try_from(vec![0.0, 1.0, 2.0, 3.0]).unwrap();
         let posterior = SampleVector::try_from(vec![1.5, 1.5]).unwrap();
-        let result = evsi_variance(&samples, &posterior).unwrap();
+        let probabilities = SampleVector::try_from(vec![0.5, 0.5]).unwrap();
+        let result = evsi_variance(&samples, &posterior, &probabilities, 1.0e-12).unwrap();
         assert!((result.prior_variance - 1.25).abs() < 1.0e-12);
         assert!((result.expected_posterior_variance - 1.5).abs() < 1.0e-12);
         assert!((result.raw_reduction + 0.25).abs() < 1.0e-12);
@@ -422,7 +537,8 @@ mod tests {
     fn zero_and_perfect_information_policies_are_explicit() {
         let constant = SampleVector::try_from(vec![2.0, 2.0]).unwrap();
         let posterior = SampleVector::try_from(vec![0.0]).unwrap();
-        let zero = evsi_variance(&constant, &posterior).unwrap();
+        let probabilities = SampleVector::try_from(vec![1.0]).unwrap();
+        let zero = evsi_variance(&constant, &posterior, &probabilities, 1.0e-12).unwrap();
         assert!(zero.absolute_reduction.abs() < 1.0e-12);
         assert_eq!(zero.relative_reduction, None);
 
@@ -442,7 +558,18 @@ mod tests {
         assert!(evppi_variance(&samples, &["a".into()]).is_err());
         assert!(evppi_variance(&samples, &[" ".into(), "b".into()]).is_err());
         let negative = SampleVector::try_from(vec![-0.1]).unwrap();
-        assert!(evsi_variance(&samples, &negative).is_err());
+        let probability = SampleVector::try_from(vec![1.0]).unwrap();
+        assert!(evsi_variance(&samples, &negative, &probability, 1.0e-12).is_err());
+
+        let posterior = SampleVector::try_from(vec![0.1, 0.2]).unwrap();
+        let mismatched = SampleVector::try_from(vec![1.0]).unwrap();
+        assert!(evsi_variance(&samples, &posterior, &mismatched, 1.0e-12).is_err());
+        let negative_probability = SampleVector::try_from(vec![1.1, -0.1]).unwrap();
+        assert!(evsi_variance(&samples, &posterior, &negative_probability, 1.0e-12).is_err());
+        let zero_mass = SampleVector::try_from(vec![0.0, 0.0]).unwrap();
+        assert!(evsi_variance(&samples, &posterior, &zero_mass, 1.0e-12).is_err());
+        let excess_mass = SampleVector::try_from(vec![0.8, 0.8]).unwrap();
+        assert!(evsi_variance(&samples, &posterior, &excess_mass, 1.0e-12).is_err());
     }
 
     #[test]
@@ -458,8 +585,44 @@ mod tests {
         assert!(first.converged);
 
         let posterior = SampleVector::try_from(vec![0.8, 1.0, 1.2, 1.0]).unwrap();
-        let evsi = evsi_variance_with_assurance(&samples, &posterior, 128, 17, 1.0).unwrap();
+        let probabilities = SampleVector::try_from(vec![0.1, 0.2, 0.3, 0.4]).unwrap();
+        let evsi = evsi_variance_with_assurance(
+            &samples,
+            &posterior,
+            &probabilities,
+            1.0e-12,
+            128,
+            17,
+            1.0,
+        )
+        .unwrap();
         assert!(evsi.monte_carlo_standard_error.is_some());
+    }
+
+    #[test]
+    fn posterior_variances_use_prior_predictive_probabilities() {
+        let samples = SampleVector::try_from(vec![-2.0, 0.0, 2.0]).unwrap();
+        let posterior = SampleVector::try_from(vec![0.0, 3.0]).unwrap();
+        let probabilities = SampleVector::try_from(vec![0.9, 0.1]).unwrap();
+        let result = evsi_variance(&samples, &posterior, &probabilities, 1.0e-12).unwrap();
+
+        assert!((result.prior_variance - (8.0 / 3.0)).abs() < 1.0e-12);
+        assert!((result.expected_posterior_variance - 0.3).abs() < 1.0e-12);
+        assert!((result.raw_reduction - ((8.0 / 3.0) - 0.3)).abs() < 1.0e-12);
+    }
+
+    #[test]
+    fn bootstrap_accepts_zero_tolerance_with_non_power_of_two_outcome_count() {
+        let prior = SampleVector::try_from(vec![0.0, 1.0, 2.0, 3.0]).unwrap();
+        let posterior = SampleVector::try_from(vec![0.1, 0.2, 0.3, 0.4, 0.5, 0.6]).unwrap();
+        let probabilities = SampleVector::try_from(vec![0.0, 0.0, 0.0, 0.0, 0.0, 1.0]).unwrap();
+
+        let result =
+            evsi_variance_with_assurance(&prior, &posterior, &probabilities, 0.0, 2, 17, 1.0)
+                .unwrap();
+
+        assert_eq!(result.bootstrap_replicates, 2);
+        assert!(result.monte_carlo_standard_error.is_some());
     }
 
     #[test]

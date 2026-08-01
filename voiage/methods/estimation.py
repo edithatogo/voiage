@@ -182,9 +182,22 @@ def _specification_digest(specification: EstimationVarianceSpec) -> str:
     return sha256(canonical).hexdigest()
 
 
+def _input_digest(payload: Mapping[str, object]) -> str:
+    canonical = json.dumps(
+        payload,
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+        allow_nan=False,
+    ).encode()
+    return sha256(canonical).hexdigest()
+
+
 def _result_from_native(
     specification: EstimationVarianceSpec,
     payload: Mapping[str, object],
+    *,
+    input_digest: str,
 ) -> EstimationVarianceResult:
     relative_value = payload["relative_reduction"]
     if relative_value is not None and (
@@ -233,6 +246,7 @@ def _result_from_native(
             estimator_id=specification.estimator.estimator_id,
             seed=specification.estimator.seed,
             specification_digest=_specification_digest(specification),
+            input_digest=input_digest,
         ),
     )
 
@@ -245,32 +259,64 @@ def evppi_var(
 ) -> EstimationVarianceResult:
     """Estimate scalar variance reduction from perfect discrete conditioning."""
     _validate_runtime_spec(specification, "evppi_var")
+    normalized_target_samples = [float(value) for value in target_samples]
+    normalized_conditioning_groups = [str(group) for group in conditioning_groups]
     payload = compute_evppi_variance(
-        [float(value) for value in target_samples],
-        [str(group) for group in conditioning_groups],
+        normalized_target_samples,
+        normalized_conditioning_groups,
         specification.estimator.bootstrap_replicates,
         specification.estimator.seed,
         specification.estimator.convergence_threshold,
     )
-    return _result_from_native(specification, payload)
+    return _result_from_native(
+        specification,
+        payload,
+        input_digest=_input_digest(
+            {
+                "target_samples": normalized_target_samples,
+                "conditioning_groups": normalized_conditioning_groups,
+            }
+        ),
+    )
 
 
 def evsi_var(
     prior_target_samples: Sequence[float],
     posterior_variances: Sequence[float],
+    predictive_probabilities: Sequence[float],
     *,
     specification: EstimationVarianceSpec,
 ) -> EstimationVarianceResult:
     """Aggregate scalar variance reduction across declared study outcomes."""
     _validate_runtime_spec(specification, "evsi_var")
+    normalized_prior_target_samples = [float(value) for value in prior_target_samples]
+    normalized_posterior_variances = [float(value) for value in posterior_variances]
+    normalized_predictive_probabilities = [
+        float(value) for value in predictive_probabilities
+    ]
     payload = compute_evsi_variance(
-        [float(value) for value in prior_target_samples],
-        [float(value) for value in posterior_variances],
+        normalized_prior_target_samples,
+        normalized_posterior_variances,
+        normalized_predictive_probabilities,
+        max(
+            specification.estimator.absolute_tolerance,
+            specification.estimator.relative_tolerance,
+        ),
         specification.estimator.bootstrap_replicates,
         specification.estimator.seed,
         specification.estimator.convergence_threshold,
     )
-    return _result_from_native(specification, payload)
+    return _result_from_native(
+        specification,
+        payload,
+        input_digest=_input_digest(
+            {
+                "prior_target_samples": normalized_prior_target_samples,
+                "posterior_variances": normalized_posterior_variances,
+                "predictive_probabilities": normalized_predictive_probabilities,
+            }
+        ),
+    )
 
 
 __all__ = [

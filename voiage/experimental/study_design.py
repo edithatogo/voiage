@@ -255,6 +255,7 @@ def _validate_selection_uncertainty(
     design_ids: set[str],
     feasible_design_ids: set[str],
     absolute_tolerance: float,
+    relative_tolerance: float,
 ) -> None:
     if any(item not in design_ids for item in uncertainty.confidence_set_design_ids):
         raise InputError("selection uncertainty references an unknown design_id")
@@ -275,10 +276,13 @@ def _validate_selection_uncertainty(
         raise InputError(
             "positive selection probability references an infeasible design_id"
         )
-    if set(probabilities) == feasible_design_ids and abs(
-        sum(probabilities.values()) - 1.0
-    ) > max(absolute_tolerance, 1e-12):
-        raise InputError("complete selection probabilities must sum to one")
+    probability_total = sum(probabilities.values())
+    probability_tolerance = absolute_tolerance + relative_tolerance
+    if set(probabilities) == feasible_design_ids:
+        if abs(probability_total - 1.0) > probability_tolerance:
+            raise InputError("complete selection probabilities must sum to one")
+    elif probability_total > 1.0 + probability_tolerance:
+        raise InputError("selection probability mass must not exceed one")
 
 
 def calculate_coss(
@@ -306,7 +310,11 @@ def calculate_coss(
     uncertainty = selection_uncertainty or SelectionUncertaintyV1()
     feasible_ids = {item.design_id for item in design_tuple if item.feasible}
     _validate_selection_uncertainty(
-        uncertainty, set(design_ids), feasible_ids, absolute_tolerance
+        uncertainty,
+        set(design_ids),
+        feasible_ids,
+        absolute_tolerance,
+        relative_tolerance,
     )
     feasible_range = _normalize_range(declared_feasible_range)
 

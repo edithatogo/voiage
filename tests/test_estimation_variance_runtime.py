@@ -97,6 +97,7 @@ def test_evsi_var_python_facade_preserves_negative_raw_estimate() -> None:
     result = estimation_module.evsi_var(
         [0.0, 1.0, 2.0, 3.0],
         [1.5, 1.5],
+        [0.5, 0.5],
         specification=_evsi_spec(),
     )
     assert result.raw_reduction == pytest.approx(-0.25)
@@ -112,7 +113,31 @@ def test_estimation_facade_translates_native_dimension_and_input_errors() -> Non
             [0.0, 1.0], ["only-one"], specification=_evppi_spec()
         )
     with pytest.raises(InputError, match="posterior variances must be nonnegative"):
-        _ = estimation_module.evsi_var([0.0, 1.0], [-0.1], specification=_evsi_spec())
+        _ = estimation_module.evsi_var(
+            [0.0, 1.0], [-0.1], [1.0], specification=_evsi_spec()
+        )
+
+
+@pytest.mark.parametrize(
+    ("probabilities", "message"),
+    [
+        ([1.0], "predictive-probability count must match"),
+        ([0.8, 0.8], "must sum to one"),
+        ([1.1, -0.1], "must be nonnegative"),
+        ([float("nan"), 0.0], "invalid domain collection"),
+    ],
+)
+def test_evsi_var_rejects_pathological_predictive_probabilities(
+    probabilities: list[float],
+    message: str,
+) -> None:
+    with pytest.raises((DimensionMismatchError, InputError), match=message):
+        _ = estimation_module.evsi_var(
+            [0.0, 1.0],
+            [0.1, 0.2],
+            probabilities,
+            specification=_evsi_spec(),
+        )
 
 
 def test_estimation_facade_rejects_method_mismatch_before_native_dispatch() -> None:
@@ -148,6 +173,31 @@ def test_seeded_bootstrap_assurance_is_deterministic_and_typed() -> None:
     assert first.diagnostics.confidence_interval is not None
     assert first.diagnostics.converged is True
     assert first.diagnostics.diagnostic_codes == ()
+
+
+def test_evsi_bootstrap_accepts_zero_tolerance_for_six_outcomes() -> None:
+    specification = _evsi_spec().model_copy(
+        update={
+            "estimator": EstimatorAssuranceSpec(
+                estimator_id="posterior_variance_aggregation",
+                seed=17,
+                absolute_tolerance=0.0,
+                relative_tolerance=0.0,
+                bootstrap_replicates=2,
+                convergence_threshold=1.0,
+            )
+        }
+    )
+
+    result = estimation_module.evsi_var(
+        [0.0, 1.0, 2.0, 3.0],
+        [0.1, 0.2, 0.3, 0.4, 0.5, 0.6],
+        [0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
+        specification=specification,
+    )
+
+    assert result.diagnostics.bootstrap_replicates == 2
+    assert result.diagnostics.monte_carlo_standard_error is not None
 
 
 def test_assurance_contract_rejects_one_bootstrap_replicate() -> None:
@@ -214,6 +264,7 @@ def test_native_result_boundary_rejects_malformed_fields(
         _ = estimation_module._result_from_native(
             _evppi_spec(),
             {**_native_payload(), **updates},
+            input_digest="b" * 64,
         )
 
 
@@ -229,7 +280,39 @@ def test_native_result_boundary_handles_null_interval_and_nonconvergence() -> No
             "raw_reduction": 0.0,
             "absolute_reduction": 0.0,
         },
+        input_digest="b" * 64,
     )
     assert result.relative_reduction is None
     assert result.diagnostics.confidence_interval is None
     assert result.diagnostics.diagnostic_codes == ("convergence_threshold_not_met",)
+
+
+def test_evsi_var_uses_unequal_prior_predictive_probabilities() -> None:
+    result = estimation_module.evsi_var(
+        [-2.0, 0.0, 2.0],
+        [0.0, 3.0],
+        [0.9, 0.1],
+        specification=_evsi_spec(),
+    )
+    assert result.prior_functional == pytest.approx(8.0 / 3.0)
+    assert result.expected_posterior_functional == pytest.approx(0.3)
+    assert result.raw_reduction == pytest.approx((8.0 / 3.0) - 0.3)
+
+
+def test_replay_digest_binds_actual_estimation_inputs() -> None:
+    first = estimation_module.evsi_var(
+        [0.0, 1.0], [0.1, 0.2], [0.25, 0.75], specification=_evsi_spec()
+    )
+    changed_value = estimation_module.evsi_var(
+        [0.0, 2.0], [0.1, 0.2], [0.25, 0.75], specification=_evsi_spec()
+    )
+    changed_weight = estimation_module.evsi_var(
+        [0.0, 1.0], [0.1, 0.2], [0.75, 0.25], specification=_evsi_spec()
+    )
+
+    assert (
+        first.provenance.specification_digest
+        == changed_value.provenance.specification_digest
+    )
+    assert first.provenance.input_digest != changed_value.provenance.input_digest
+    assert first.provenance.input_digest != changed_weight.provenance.input_digest

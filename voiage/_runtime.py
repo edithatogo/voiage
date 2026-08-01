@@ -263,6 +263,8 @@ def compute_evsi(
 def compute_evsi_variance(
     prior_target_samples: list[float],
     posterior_variances: list[float],
+    predictive_probabilities: list[float],
+    probability_tolerance: float,
     bootstrap_replicates: int,
     seed: int,
     convergence_threshold: float,
@@ -272,6 +274,8 @@ def compute_evsi_variance(
         result = _native().compute_evsi_variance(
             prior_target_samples,
             posterior_variances,
+            predictive_probabilities,
+            probability_tolerance,
             bootstrap_replicates,
             seed,
             convergence_threshold,

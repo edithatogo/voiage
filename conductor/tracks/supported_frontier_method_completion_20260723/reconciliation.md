@@ -1,9 +1,10 @@
 # Child evidence reconciliation
 
-Audited against `origin/main` at `69b00d0f` on 2026-08-01. The machine-readable
+Audited against `origin/main` at `366186b3` on 2026-08-01. The machine-readable
 state source is `child-dispositions.json`; the stage-one family artifact map is
 `g5-g13-evidence-map.json`, and `g5-g12-evidence-matrix.md` is its summary. G8
-remains pending where independent review provenance is absent.
+is satisfied for repository-owned independent evidence and boundary review;
+scientific, design and classification review remains separate.
 
 ## Delivery evidence
 
@@ -16,7 +17,7 @@ remains pending where independent review provenance is absent.
 | #560 | Experimental implementation merged | PR #751 merged as `e8aaba82`; exact finite additive-MCDA v1 schemas/fixture, Python/CLI/plots, independent implementation review, all exact-head hosted checks and canonical v1.3 dispatch/consumer runs | Scientific review, Rust/R/Julia parity, stable promotion and release |
 | #571 | Experimental implementation merged | PR #679; completed study-design track | Scientific review and stable promotion |
 | #595 | Experimental implementation merged | PR #712; 60 exact-head checks passed, 5 intentionally skipped, 0 failed | Scientific review and stable promotion |
-| #619 | Experimental implementation merged | PR #676; 60 exact-head checks passed, 5 intentionally skipped, 0 failed | Scientific review, vector covariance and stable promotion |
+| #619 | Experimental implementation and remediation merged | PR #676 delivery plus PR #837 predictive-weighting/replay remediation; PR #837 exact head `076a2907` completed 65 terminal checks (60 successful, four skipped, one neutral) with zero review threads before squash merge `366186b3` | Scientific review, vector covariance, parity, stable promotion and release |
 
 ## Complete experimental delivery inventory
 

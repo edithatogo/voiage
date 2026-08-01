@@ -10,12 +10,11 @@ relevant subagent review panel defined in
 The panel supplies structured evidence; maintainer approval and external
 release, registry, and publication decisions remain separate gates.
 
-*   [ ] Complete #318 programme closeout stages G8, G14 and G15.
-    *   G5–G7 and G9–G13 repository-owned evidence and governance
+*   [ ] Complete #318 programme closeout stages G14 and G15.
+    *   G5–G13 repository-owned evidence and governance
         reconciliation is complete in `g5-g13-evidence-map.json` at source
-        revision `69b00d0f`.
-    *   G8 remains open because #571/#595 phase or delivery reviews and #619's
-        delivery closeout do not supply genuine independent review provenance.
+        revision `366186b3`; G8 is satisfied by independent engineering review
+        for every accepted family without claiming scientific approval.
     *   G14 must run the fresh exact-head local/hosted programme matrix; G15
         must record repository completion separately from merge, stable
         promotion, release/publication and issue closure.
@@ -301,10 +300,16 @@ release, registry, and publication decisions remain separate gates.
         neutral CodeQL aggregation, zero bad or pending, and two resolved
         review threads before squash merge `9495fc3f`. Canonical sync PR #64
         passed 16 terminal contexts and merged as `cedc6fbb` with zero review
-        threads. Delivery subissues #671--#674 may close. E17 scientific
+        threads. Delivery subissues #671--#674 are closed. E17 scientific
         classification and vector scalarization review, stable promotion,
         release, parent #619 closure and umbrella #318 closure remain separate
-        gates.
+        gates. PR #837 exact head
+        `076a29075e839e3cad49d0487dff0c4e2639845f` delivered the independently
+        reviewed prior-predictive weighting, input-bound replay provenance and
+        scalar result-consistency remediation, passed 65 terminal checks (60
+        successes, four governed skips and one neutral conclusion) with zero
+        review threads, and squash-merged as
+        `366186b358abd775bea5fd2440d7e0ececb3ebaa`; the umbrella is resynchronized.
 
 *   [x] Implement governed study-design efficiency and experiment portfolios.
     *   Conductor track: `study_design_efficiency_20260727`.
@@ -315,7 +320,7 @@ release, registry, and publication decisions remain separate gates.
     *   PR #679 final exact head `ce5d7127` completed 65 terminal conclusions
         (60 successes, four governed skips and one neutral conclusion), with no
         pending or failed checks. Both review threads were resolved before
-        squash merge `5d059a80`. Only delivery subissues #680–#682 may close.
+        squash merge `5d059a80`. Delivery subissues #680–#682 are closed.
     *   Add COSS over signed ENBS with evaluated design records, feasible
         range/set, deterministic optimum/tie/boundary behavior, uncertainty
         around the optimum and plotting inputs.
@@ -347,8 +352,8 @@ release, registry, and publication decisions remain separate gates.
         Mojo remains an external boundary. PR #712 final exact head `1048c4bc`
         completed 65 terminal conclusions (60 successes, four governed skips
         and one neutral conclusion), with no pending or failed checks. Both
-        review threads were resolved before squash merge `b8395abf`. Only
-        delivery subissues #694–#697 may close.
+        review threads were resolved before squash merge `b8395abf`.
+        Delivery subissues #694–#697 are closed.
     *   Scientific review, Rust/R/Julia parity, stable promotion, release,
         parent #595 closure and umbrella #318 closure remain open; VoC remains
         a presentation/delegating alias rather than a duplicate numerical

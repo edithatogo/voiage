@@ -43,6 +43,14 @@ covers the experimental frontier entries only.
   refresh exact-head assurance and retain vector covariance, scientific review,
   stable promotion, release and closure as separate gates. (AC-01–AC-03)
   `43ec5868`
+- [x] **G2a-R:** Integrate the dedicated #619 predictive-weighting and replay-
+  provenance remediation after fresh exact-head hosted assurance and merge.
+  PR #837 exact head `076a29075e839e3cad49d0487dff0c4e2639845f`
+  completed 65 terminal checks (60 successes, four governed skips and one
+  neutral conclusion), with zero review threads, before squash merge
+  `366186b358abd775bea5fd2440d7e0ececb3ebaa` at 2026-08-01T16:58:05Z.
+  Scientific review, vector covariance, stable promotion, release and parent
+  closure remain separate gates. (AC-01–AC-03, AC-07)
 - [x] **G2b:** Reconcile #571's final PR #679 exact-head assurance and merge
   receipt so only delivery subissues #680–#682 become closure-eligible; retain
   scientific review, Rust/R/Julia parity, stable promotion, release, parent
@@ -424,10 +432,19 @@ covers the experimental frontier entries only.
 - [x] **G7:** Record the rights, privacy, scientific, practitioner and external
   gates without promoting repository evidence into external approval.
   (AC-05, AC-06) `786b5229`
-- [ ] **G8:** Complete genuine independent evidence and boundary review for
-  every family. #571 and #595 currently have phase/delivery reviews, and #619
-  has a delivery closeout, but those receipts do not satisfy independent
-  review provenance. (AC-03, AC-07)
+- [x] **G8:** Complete genuine independent evidence and boundary review for
+  every family. #571's fresh independent review found and drove remediation of
+  probability-tolerance and accessible tie/uncertainty-plot gaps; #595's
+  independent phase reviews and #619's fresh exact-commit remediation re-review
+  report no remaining Critical, High or Medium finding. This engineering-
+  evidence gate does not satisfy later scientific/design/classification review.
+  (AC-03, AC-07)
+- [x] **G8-R1 — Review Fixes:** Align complete/partial selection-probability
+  validation with declared absolute plus relative tolerance and expose complete
+  tied-optimum and selection-uncertainty availability states in accessible COSS
+  plots, with under/over-tolerance and rendering regressions. Fresh independent
+  re-review is recorded in `study-design-efficiency-independent-review-20260802.md`.
+  (AC-03, AC-07)
 
 ## Phase 3 — Delivery or reviewed exclusion
 
@@ -507,7 +524,7 @@ covers the experimental frontier entries only.
 ## Phase 4 — Programme and hosted closeout
 
 - [x] **G13:** Reconcile all 18 live child issue states and merged dispositions
-  at source revision `69b00d0f`; refresh roadmap, todo, registries, existing
+  at source revision `366186b3`; refresh roadmap, todo, registries, existing
   v1.2.0/v1.3.0 MoSCoW and Mermaid mappings, canonical C16/C17/C18 governance,
   release targets and remaining external gates. Record Project-normalization
   eligibility for closed #558 and #724–#728/#731–#735/#738–#742 without

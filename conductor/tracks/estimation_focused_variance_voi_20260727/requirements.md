@@ -9,6 +9,10 @@
   provenance and deterministic serialization.
 - **M14-E4:** Remain distinct from decision EVPPI/EVSI, sensitivity indices and
   estimator standard error.
+- **M14-E5:** Weight every EVSI posterior-variance evaluation by an aligned,
+  finite, nonnegative prior-predictive probability vector that sums to one
+  within the declared estimator tolerance; reject arbitrary unnormalised
+  weights and bind replay provenance to the actual runtime inputs.
 
 ## Should
 

@@ -134,6 +134,10 @@ class EstimationVarianceSpec(ContractModel):
                 raise ValueError("evsi_var requires sampling_model")
             if self.conditioning is not None:
                 raise ValueError("evsi_var does not accept conditioning")
+            if self.sampling_model.averaging_convention != "prior_predictive":
+                raise ValueError(
+                    "evsi_var requires prior_predictive sampling-model averaging"
+                )
         return self
 
 
@@ -168,6 +172,7 @@ class EstimationVarianceProvenance(ContractModel):
     estimator_id: Identifier
     seed: int = Field(ge=0)
     specification_digest: Sha256Digest
+    input_digest: Sha256Digest
 
 
 class EstimationVarianceResult(ContractModel):
@@ -211,6 +216,30 @@ class EstimationVarianceResult(ContractModel):
                 for right in range(dimension):
                     if abs(covariance[left][right] - covariance[right][left]) > 1e-10:
                         raise ValueError(f"{field_name} must be symmetric")
+
+        if self.target.shape == "scalar":
+            expected_units = f"{self.target.component_units[0]}^2"
+            if self.functional_units != expected_units:
+                raise ValueError(
+                    "functional_units must equal the squared scalar target units"
+                )
+            for field_name, covariance, functional in (
+                ("prior_covariance", self.prior_covariance, self.prior_functional),
+                (
+                    "expected_posterior_covariance",
+                    self.expected_posterior_covariance,
+                    self.expected_posterior_functional,
+                ),
+            ):
+                variance = covariance[0][0]
+                if variance < 0.0:
+                    raise ValueError(
+                        f"{field_name} scalar variance must be nonnegative"
+                    )
+                if variance != functional:
+                    raise ValueError(
+                        f"{field_name} scalar variance must equal its functional"
+                    )
 
         expected_raw = self.prior_functional - self.expected_posterior_functional
         if abs(self.raw_reduction - expected_raw) > 1e-10:

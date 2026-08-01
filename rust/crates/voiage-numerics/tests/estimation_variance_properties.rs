@@ -70,9 +70,13 @@ proptest! {
             .collect::<Vec<_>>()
             .try_into()
             .expect("posterior variances are finite");
-        let first = evsi_variance_with_assurance(&prior, &posterior, 16, seed, 0.1)
+        let probability = 1.0 / f64::from(u32::try_from(posterior.len()).expect("bounded generated length"));
+        let probabilities: SampleVector = vec![probability; posterior.len()]
+            .try_into()
+            .expect("predictive probabilities are finite");
+        let first = evsi_variance_with_assurance(&prior, &posterior, &probabilities, 1.0e-12, 16, seed, 0.1)
             .expect("valid assured EVSI-var");
-        let second = evsi_variance_with_assurance(&prior, &posterior, 16, seed, 0.1)
+        let second = evsi_variance_with_assurance(&prior, &posterior, &probabilities, 1.0e-12, 16, seed, 0.1)
             .expect("same assured EVSI-var");
 
         prop_assert_eq!(first, second);

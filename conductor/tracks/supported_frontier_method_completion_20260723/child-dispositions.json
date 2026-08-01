@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
   "track_id": "supported_frontier_method_completion_20260723",
-  "audited_at": "2026-08-01T15:35:00Z",
-  "source_revision": "69b00d0ff0c139b3cd5e9466cb48cc81396f907e",
+  "audited_at": "2026-08-01T17:02:29Z",
+  "source_revision": "366186b358abd775bea5fd2440d7e0ececb3ebaa",
   "parent_issue": 313,
   "issue": 318,
   "issue_state": "open",
@@ -127,7 +127,10 @@
       "satisfies_ac06": true,
       "delivery_track": "study_design_efficiency_20260727",
       "implementation_pull_requests": [679],
-      "review_artifacts": ["conductor/tracks/study_design_efficiency_20260727/phase-4-review.md"],
+      "review_artifacts": [
+        "conductor/tracks/study_design_efficiency_20260727/phase-4-review.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/study-design-efficiency-independent-review-20260802.md"
+      ],
       "adjacent_artifacts": [],
       "delivery_subissues": [680, 681, 682],
       "unresolved_gates": [
@@ -355,9 +358,15 @@
       "maturity": "experimental",
       "satisfies_ac06": true,
       "delivery_track": "estimation_focused_variance_voi_20260727",
-      "implementation_pull_requests": [676],
-      "review_artifacts": ["conductor/tracks/estimation_focused_variance_voi_20260727/delivery-closeout-20260801.md"],
-      "adjacent_artifacts": [],
+      "implementation_pull_requests": [676, 837],
+      "review_artifacts": [
+        "conductor/tracks/estimation_focused_variance_voi_20260727/delivery-closeout-20260801.md",
+        "conductor/tracks/estimation_focused_variance_voi_20260727/independent-review-remediation-20260802.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/estimation-variance-remediation-review.md"
+      ],
+      "adjacent_artifacts": [
+        "specs/estimation-variance/v1/runtime-data.schema.json"
+      ],
       "delivery_subissues": [671, 672, 673, 674],
       "unresolved_gates": [
         "E17 scientific classification and vector covariance scalarization review",

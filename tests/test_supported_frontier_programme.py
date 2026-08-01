@@ -58,20 +58,21 @@ def test_stage_one_evidence_map_closes_only_repository_owned_g5_to_g13() -> None
     plan = (track / "plan.md").read_text(encoding="utf-8")
 
     assert evidence_map["source_revision"] == (
-        "69b00d0ff0c139b3cd5e9466cb48cc81396f907e"
+        "366186b358abd775bea5fd2440d7e0ececb3ebaa"
     )
     assert {item["issue"] for item in evidence_map["families"]} == EXPECTED_CHILDREN
     assert set(evidence_map["completed_repository_gates"]) == {
         "G5",
         "G6",
         "G7",
+        "G8",
         "G9",
         "G10",
         "G11",
         "G12",
         "G13",
     }
-    assert evidence_map["pending_programme_gates"] == ["G8", "G14", "G15"]
+    assert evidence_map["pending_programme_gates"] == ["G14", "G15"]
     for family in evidence_map["families"]:
         for gate in ("G5", "G6", "G7", "G8", "G9", "G10", "G11", "G12"):
             assert family["evidence"][gate]
@@ -79,7 +80,7 @@ def test_stage_one_evidence_map_closes_only_repository_owned_g5_to_g13() -> None
             assert (ROOT / artifact).is_file(), artifact
     by_mapped_issue = {item["issue"]: item for item in evidence_map["families"]}
     for issue in (571, 595, 619):
-        assert by_mapped_issue[issue]["evidence"]["G8"].startswith("pending:")
+        assert "independent" in by_mapped_issue[issue]["evidence"]["G8"]
 
     by_issue = {item["issue"]: item for item in inventory["children"]}
     assert inventory["source_revision"] == evidence_map["source_revision"]
@@ -112,8 +113,29 @@ def test_stage_one_evidence_map_closes_only_repository_owned_g5_to_g13() -> None
         741,
         742,
     ]
-    for gate in ("G8", "G14", "G15"):
+    assert "- [x] **G8:**" in plan
+    for gate in ("G14", "G15"):
         assert f"- [ ] **{gate}:" in plan
+
+
+def test_stage_one_roadmap_does_not_reopen_merged_delivery_prs() -> None:
+    roadmap = (ROOT / "roadmap.md").read_text(encoding="utf-8")
+
+    for stale_claim in (
+        "draft PR #65",
+        "open estimation-family sync PR #64",
+        "contract on draft PR #723",
+        "engine on draft PR #723",
+        "hosted exact-head and installed-wheel evidence",
+    ):
+        assert stale_claim not in roadmap
+    for merge_receipt in (
+        "cedc6fbb",
+        "ac61bb9f",
+        "44e0067a",
+        "e8aaba82",
+    ):
+        assert merge_receipt in roadmap
 
 
 def test_inventory_never_promotes_adjacent_artifacts_to_delivery_evidence() -> None:
@@ -210,7 +232,7 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
     assert delivered[593]["disposition"] == "experimental_merged"
     assert delivered[595]["implementation_pull_requests"] == [712]
     assert delivered[600]["implementation_pull_requests"] == [831]
-    assert delivered[619]["implementation_pull_requests"] == [676]
+    assert delivered[619]["implementation_pull_requests"] == [676, 837]
 
 
 def test_issue_571_delivery_closeout_preserves_later_gates() -> None:
@@ -525,7 +547,7 @@ def test_issue_619_repository_delivery_and_open_scientific_gate_are_governed() -
     assert child["project_status"] == "In Progress"
     assert child["disposition"] == "experimental_merged"
     assert child["delivery_subissues"] == [671, 672, 673, 674]
-    assert child["implementation_pull_requests"] == [676]
+    assert child["implementation_pull_requests"] == [676, 837]
     assert child["satisfies_ac06"] is True
     scientific_gate = next(
         gate
@@ -546,12 +568,21 @@ def test_issue_619_repository_delivery_and_open_scientific_gate_are_governed() -
     )
     pull_requests = {item["number"]: item for item in cross_reference["pull_requests"]}
     assert pull_requests[676]["status"] == "merged"
+    assert pull_requests[837]["status"] == "merged"
+    assert "076a29075e839e3cad49d0487dff0c4e2639845f" in pull_requests[837][
+        "evidence"
+    ]
+    assert "366186b358abd775bea5fd2440d7e0ececb3ebaa" in pull_requests[837][
+        "evidence"
+    ]
     assert pull_requests[64]["status"] == "merged"
     for evidence in (
         "5e2c097fbdda8965d1907d7e930e910238fa24da",
         "9495fc3f372b9564701a180c6cf611a3ddc010dd",
         "6c3fd72358f3feef6c542e0a374d7ea74889f915",
         "cedc6fbb17a5d999cb12bb300a01f87d976ec02e",
+        "076a29075e839e3cad49d0487dff0c4e2639845f",
+        "366186b358abd775bea5fd2440d7e0ececb3ebaa",
         "65 terminal",
         "two resolved review threads",
         "E17 scientific classification",

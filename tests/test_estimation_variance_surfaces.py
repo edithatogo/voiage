@@ -134,6 +134,7 @@ def test_estimation_variance_cli_evsi_writes_output(tmp_path: Path) -> None:
             {
                 "prior_target_samples": [0.0, 1.0, 2.0, 3.0],
                 "posterior_variances": [0.5, 0.5],
+                "predictive_probabilities": [0.8, 0.2],
             }
         ),
         encoding="utf-8",
@@ -153,6 +154,47 @@ def test_estimation_variance_cli_evsi_writes_output(tmp_path: Path) -> None:
         json.loads(output_path.read_text(encoding="utf-8"))["result"]["method_id"]
         == "evsi_var"
     )
+
+
+def test_estimation_variance_cli_rejects_non_prior_predictive_evsi(
+    tmp_path: Path,
+) -> None:
+    specification = {
+        **_evppi_spec().model_dump(mode="json"),
+        "method_id": "evsi_var",
+        "conditioning": None,
+        "sampling_model": {
+            "design_id": "study",
+            "likelihood_id": "likelihood",
+            "conditioning_sigma_field": "sigma_y",
+            "averaging_convention": "posterior_predictive",
+        },
+    }
+    specification_path = tmp_path / "specification.json"
+    data_path = tmp_path / "data.json"
+    _ = specification_path.write_text(json.dumps(specification), encoding="utf-8")
+    _ = data_path.write_text(
+        json.dumps(
+            {
+                "prior_target_samples": [0.0, 1.0],
+                "posterior_variances": [0.2, 0.1],
+                "predictive_probabilities": [0.5, 0.5],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    invocation = runner.invoke(
+        app,
+        [
+            "calculate-estimation-variance",
+            str(specification_path),
+            str(data_path),
+        ],
+    )
+
+    assert invocation.exit_code == 1
+    assert "requires prior_predictive" in invocation.output
 
 
 @pytest.mark.parametrize(

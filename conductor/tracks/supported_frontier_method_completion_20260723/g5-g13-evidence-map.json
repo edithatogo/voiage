@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
   "track_id": "supported_frontier_method_completion_20260723",
-  "audited_at": "2026-08-01T15:35:00Z",
-  "source_revision": "69b00d0ff0c139b3cd5e9466cb48cc81396f907e",
-  "completed_repository_gates": ["G5", "G6", "G7", "G9", "G10", "G11", "G12", "G13"],
-  "pending_programme_gates": ["G8", "G14", "G15"],
+  "audited_at": "2026-08-01T17:02:29Z",
+  "source_revision": "366186b358abd775bea5fd2440d7e0ececb3ebaa",
+  "completed_repository_gates": ["G5", "G6", "G7", "G8", "G9", "G10", "G11", "G12", "G13"],
+  "pending_programme_gates": ["G14", "G15"],
   "families": [
     {
       "issue": 556,
@@ -106,10 +106,11 @@
         "tests/test_study_design_efficiency.py",
         "specs/frontier/study-design-efficiency/v1/fixtures/manifest.json",
         "conductor/tracks/study_design_efficiency_20260727/phase-4-review.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/study-design-efficiency-independent-review-20260802.md",
         "conductor/tracks/study_design_efficiency_20260727/bindings.json",
         "docs/astro-site/src/content/docs/study-design-efficiency.mdx"
       ],
-      "evidence": {"G5": "COSS, ENBS and efficiency tests", "G6": "normative study-design fixture", "G7": "scientific and funding-context gates retained", "G8": "pending: phase/delivery review is not independent evidence review", "G9": "experimental evaluator merged", "G10": "binding dispositions", "G11": "user and plot documentation", "G12": "focused and hosted assurance"}
+      "evidence": {"G5": "COSS, ENBS and efficiency tests", "G6": "normative study-design fixture", "G7": "scientific and funding-context gates retained", "G8": "fresh independent review and remediation re-review", "G9": "experimental evaluator merged", "G10": "binding dispositions", "G11": "user and accessible plot documentation", "G12": "focused and hosted assurance"}
     },
     {
       "issue": 572,
@@ -184,7 +185,7 @@
         "specs/frontier/expected-utility-information-pricing/v1/capabilities.json",
         "docs/astro-site/src/content/docs/methods/expected-utility-information.mdx"
       ],
-      "evidence": {"G5": "nonlinear-utility and root-diagnostic tests", "G6": "versioned utility-pricing contracts", "G7": "scientific and utility-comparability gates retained", "G8": "pending: phase/delivery review is not independent evidence review", "G9": "experimental evaluator and VoC presentation merged", "G10": "language capability dispositions", "G11": "method documentation", "G12": "focused and hosted assurance"}
+      "evidence": {"G5": "nonlinear-utility and root-diagnostic tests", "G6": "versioned utility-pricing contracts", "G7": "scientific and utility-comparability gates retained", "G8": "independent phase implementation reviews with no remaining Critical, High or Medium findings", "G9": "experimental evaluator and VoC presentation merged", "G10": "language capability dispositions", "G11": "method documentation", "G12": "focused and hosted assurance"}
     },
     {
       "issue": 596,
@@ -266,15 +267,17 @@
       "record_id": "estimation-focused-variance-voi",
       "issue_state": "open",
       "disposition": "experimental_merged",
-      "delivery_pull_requests": [676],
+      "delivery_pull_requests": [676, 837],
       "artifacts": [
         "tests/test_estimation_variance_voi.py",
         "specs/estimation-variance/v1/fixtures/manifest.json",
         "conductor/tracks/estimation_focused_variance_voi_20260727/delivery-closeout-20260801.md",
+        "conductor/tracks/estimation_focused_variance_voi_20260727/independent-review-remediation-20260802.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/estimation-variance-remediation-review.md",
         "specs/estimation-variance/v1/capabilities.json",
         "docs/astro-site/src/content/docs/methods/estimation-variance.mdx"
       ],
-      "evidence": {"G5": "reference, property and pathology tests", "G6": "versioned variance-reduction contracts", "G7": "scientific classification and covariance-scalarization gates retained", "G8": "pending: delivery closeout is not independent evidence review", "G9": "experimental evaluator merged", "G10": "language capability dispositions", "G11": "plot and method documentation", "G12": "focused and hosted assurance"}
+      "evidence": {"G5": "reference, property and pathology tests", "G6": "versioned variance-reduction contracts", "G7": "scientific classification and covariance-scalarization gates retained", "G8": "fresh independent exact-commit remediation review", "G9": "experimental evaluator and predictive-weighting remediation merged", "G10": "language capability dispositions", "G11": "plot and method documentation", "G12": "focused and hosted assurance"}
     }
   ],
   "remaining_gates": [
