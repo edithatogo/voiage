@@ -156,8 +156,12 @@ experimental exact finite Python contract for EV-problem/solution, EEV,
 recourse, wait-and-see, VSS/EVIU and EVPI. Two- and three-stage fixtures encode
 shared-history nonanticipativity, minimization/maximization, nonlinear
 point-estimate behavior and infeasible induced recourse. DVSS/VMS, scientific
-approval, hosted exact-head evidence, polyglot parity, stable promotion,
-release and closure remain pending.
+approval, polyglot parity, stable promotion and release remain pending. PR #798
+exact head `aa5d9fd8` completed all 42 hosted checks with 38 successes and four
+governed skips, including every installed-wheel contract, aggregate coverage,
+CodeQL and security assurance, with all four review threads resolved before
+squash merge `c5adca8f`. Repository-delivery subissues #774–#776 may close;
+parent #594 and umbrella #318 remain open.
 
 *   `estimation_focused_variance_voi_20260727` and GitHub issue #619 define
     estimation-focused `EVPPI_var` and `EVSI_var` with declared scalar/vector

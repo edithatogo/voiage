@@ -10,9 +10,14 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   The exact finite Python slice covers a declared point estimate,
         two-/multistage shared-history policies, EEV, recourse, wait-and-see,
         VSS/EVIU, EVPI, minimization/maximization and infeasible recourse.
-    *   Remaining gates are independent scientific review, hosted exact-head
-        checks, Rust/R/Julia parity, stable promotion, release and parent
-        closure. DVSS/VMS require separately approved reference contracts.
+    *   PR #798 exact head `aa5d9fd8` completed all 42 hosted checks with 38
+        successes and four governed skips; every wheel contract, aggregate
+        coverage, CodeQL and security assurance passed, and all four review
+        threads were resolved before squash merge `c5adca8f`.
+    *   Repository-delivery subissues #774–#776 may close. Remaining gates are
+        independent scientific review, Rust/R/Julia parity, stable promotion,
+        release, parent #594 closure and umbrella #318 closure. DVSS/VMS require
+        separately approved reference contracts.
 
 *   [ ] Complete implementation-information decomposition after experimental
     repository delivery.

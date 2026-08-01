@@ -21,5 +21,10 @@
 ## Phase 3 — Assurance and handoff
 
 - [~] **UMV5 / #776:** Run 100% changed-module branch coverage, focused/full
-  validation and independent implementation review; retain hosted,
-  scientific, parity, stable, release and closure gates. (AC-01–AC-05)
+  validation and independent implementation review. Independent review found
+  no unresolved Critical, High or Medium findings. PR #798 exact head
+  `aa5d9fd8` completed 42 hosted checks with 38 successes and four governed
+  skips, including all six wheel contracts and aggregate coverage, before
+  squash merge `c5adca8f`. Repository-delivery subissues #774–#776 may close;
+  scientific review, Rust/R/Julia parity, stable promotion, release, parent
+  #594 closure and umbrella #318 closure remain pending. (AC-01–AC-05)
