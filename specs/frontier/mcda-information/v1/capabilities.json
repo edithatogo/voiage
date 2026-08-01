@@ -6,6 +6,7 @@
   "maturity": "experimental",
   "aggregation_family": "compensatory_additive_value",
   "estimator": "exact_finite_enumeration",
+  "python_modules": ["voiage/methods/mcda_information.py"],
   "surfaces": {
     "python": {
       "status": "executable",
