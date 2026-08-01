@@ -1,0 +1,57 @@
+{
+  "artifacts": [
+    {
+      "path": "voiage/methods/belief_state_information.py",
+      "sha256": "cd0e290af9b25bf49bd1b3805f0e937f6f2903d412bbf885eaa04e123362f006"
+    },
+    {
+      "path": "specs/frontier/belief-state-information/v1/README.md",
+      "sha256": "1f237a68cf01c53c5a9a9d12ba779981d699c25ce2bbf0d2270a5c8954841bc1"
+    },
+    {
+      "path": "specs/frontier/belief-state-information/v1/capabilities.json",
+      "sha256": "ccffb35b51f7be32583cf25af717bafc7bbcd7c103de0635d7ade1f56a0b88fb"
+    },
+    {
+      "path": "specs/frontier/belief-state-information/v1/fixtures/manifest.json",
+      "sha256": "f1b5ddda757e256e3a63ae09cfae8cca989f5f33254a7f74a0618cefd8253ede"
+    },
+    {
+      "path": "specs/frontier/belief-state-information/v1/fixtures/normative/input.json",
+      "sha256": "67c2a02db362f2b2006b0826d5de8c073ab6282a47b993e70e3bd91f6d17c57f"
+    },
+    {
+      "path": "specs/frontier/belief-state-information/v1/fixtures/normative/expected.json",
+      "sha256": "2b784816a9b3af1a8868e78cf6b2b966145c32599bc885c23b4c7e2aa274596e"
+    },
+    {
+      "path": "specs/frontier/belief-state-information/v1/schemas/belief-state-information-input.schema.json",
+      "sha256": "a7fa0100f98d039482e51b668bbbf99e914a42a4e1b7f12dd1edb85cecd74acb"
+    },
+    {
+      "path": "specs/frontier/belief-state-information/v1/schemas/belief-state-information-result.schema.json",
+      "sha256": "64d31185b8b3fe464d47af1f1eb338d80e66776ed126162c7905cc55171c70eb"
+    },
+    {
+      "path": "docs/astro-site/src/content/docs/examples/belief-state-information.mdx",
+      "sha256": "3ac973a37ce62c1d348e12696a0ae0ff2bdefed471eddb2a0ab0e91ebdb3f661"
+    },
+    {
+      "path": "docs/astro-site/src/content/docs/cli-reference.mdx",
+      "sha256": "17a42b3636a6090c0415fb21bb822a83b08cfd0f553ed5dad28a02b7d527d743"
+    }
+  ],
+  "execution_status": "experimental_python",
+  "issue": 597,
+  "method_family": "belief_state_sequential_information_value",
+  "schema_version": "1.0.0",
+  "stable_claim_allowed": false,
+  "unresolved_gates": [
+    "independent implementation review",
+    "independent scientific review",
+    "hosted exact-head assurance",
+    "Rust, R and Julia parity",
+    "stable promotion and release",
+    "parent and umbrella closure"
+  ]
+}

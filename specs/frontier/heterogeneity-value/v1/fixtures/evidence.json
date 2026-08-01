@@ -56,7 +56,7 @@
     },
     {
       "path": "docs/astro-site/src/content/docs/cli-reference.mdx",
-      "sha256": "0357dfe2cbb2f9f9618873a413f2053bb8f415487e3a85b49df102bd1116b8b0"
+      "sha256": "17a42b3636a6090c0415fb21bb822a83b08cfd0f553ed5dad28a02b7d527d743"
     },
     {
       "path": "tests/test_heterogeneity_value.py",

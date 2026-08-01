@@ -27,6 +27,15 @@ assurance. Scientific validity, selection-bias and sparse-subgroup review,
 Rust/R/Julia parity, hosted exact-head evidence, stable promotion, release,
 parent #599 closure and umbrella #318 closure remain pending.
 
+#597 completed its governed experimental repository delivery. PR #807 exact
+head `35cfe522` completed all 42 terminal-allowed hosted checks with 38
+successes, three governed skips and one neutral CodeQL aggregation. All three
+review threads were resolved before squash merge `39de9c6a`. The exact finite
+belief MDP retains control-transition-observe-update chronology, matched
+closed-loop/no-information comparators and intervention-dependent learning
+diagnostics. Scientific review, Rust/R/Julia parity, stable promotion, release,
+parent #597 closure and umbrella #318 closure remain separate gates.
+
 #596 now has a test-first experimental Python delivery for C18/M27. It evaluates
 perfect event information, a symmetric imperfect binary channel and the
 policy-relative expected-utility density

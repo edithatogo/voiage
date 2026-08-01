@@ -14,6 +14,8 @@
       "M25",
       "M26",
       "M27",
+      "M28",
+      "M29",
       "M30"
     ]
   },
@@ -29,6 +31,8 @@
       "M25",
       "M26",
       "M27",
+      "M28",
+      "M29",
       "M30"
     ]
   },
@@ -51,6 +55,8 @@
         "M25",
         "M26",
         "M27",
+        "M28",
+        "M29",
         "M30"
       ],
       "path": "https://github.com/edithatogo/vop_poc_nz/tree/main/conductor/tracks/specialized-voi-v1-3-residual_20260801",
@@ -69,6 +75,8 @@
     "M25",
     "M26",
     "M27",
+    "M28",
+    "M29",
     "M30"
   ],
   "dependencies": [
@@ -105,7 +113,13 @@
     "https://github.com/edithatogo/voiage/issues/595",
     "https://github.com/edithatogo/voiage/issues/596",
     "https://github.com/edithatogo/voiage/issues/597",
+    "https://github.com/edithatogo/voiage/issues/780",
+    "https://github.com/edithatogo/voiage/issues/781",
+    "https://github.com/edithatogo/voiage/issues/782",
     "https://github.com/edithatogo/voiage/issues/598",
+    "https://github.com/edithatogo/voiage/issues/783",
+    "https://github.com/edithatogo/voiage/issues/784",
+    "https://github.com/edithatogo/voiage/issues/785",
     "https://github.com/edithatogo/voiage/issues/599",
     "https://github.com/edithatogo/voiage/issues/786",
     "https://github.com/edithatogo/voiage/issues/788",
@@ -142,7 +156,13 @@
       "https://github.com/edithatogo/voiage/issues/595",
       "https://github.com/edithatogo/voiage/issues/596",
       "https://github.com/edithatogo/voiage/issues/597",
+      "https://github.com/edithatogo/voiage/issues/780",
+      "https://github.com/edithatogo/voiage/issues/781",
+      "https://github.com/edithatogo/voiage/issues/782",
       "https://github.com/edithatogo/voiage/issues/598",
+      "https://github.com/edithatogo/voiage/issues/783",
+      "https://github.com/edithatogo/voiage/issues/784",
+      "https://github.com/edithatogo/voiage/issues/785",
       "https://github.com/edithatogo/voiage/issues/599",
       "https://github.com/edithatogo/voiage/issues/600",
       "https://github.com/edithatogo/voiage/issues/619",

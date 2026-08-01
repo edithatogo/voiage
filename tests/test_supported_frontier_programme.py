@@ -90,6 +90,7 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
         594,
         595,
         596,
+        597,
         619,
     }
     for child in delivered.values():
@@ -103,6 +104,10 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
     assert delivered[596]["implementation_pull_requests"] == [804]
     assert delivered[596]["review_artifacts"][-1].endswith(
         "event-localized-information-final-review.md"
+    )
+    assert delivered[597]["implementation_pull_requests"] == [807]
+    assert delivered[597]["review_artifacts"][-1].endswith(
+        "belief-state-information-fifth-review.md"
     )
     assert delivered[594]["review_artifacts"][-1].endswith(
         "uncertainty_modelling_value_20260801/independent-implementation-review.md"
@@ -284,6 +289,53 @@ def test_event_localized_information_experimental_delivery_is_governed() -> None
     assert child["disposition"] == "experimental_merged"
     assert child["implementation_pull_requests"] == [804]
     assert child["satisfies_ac06"] is True
+
+
+def test_belief_state_information_experimental_delivery_is_governed() -> None:
+    track = INVENTORY.parent
+    plan = (track / "plan.md").read_text(encoding="utf-8")
+    todo = (ROOT / "todo.md").read_text(encoding="utf-8")
+    child = next(child for child in _inventory()["children"] if child["issue"] == 597)
+
+    for issue in range(780, 783):
+        assert f"#{issue}" in plan
+    assert "#780--#782" in todo
+    assert child["issue_state"] == "open"
+    assert child["project_status"] == "In Progress"
+    assert child["disposition"] == "experimental_merged"
+    assert child["implementation_pull_requests"] == [807]
+    assert child["satisfies_ac06"] is True
+    assert "35cfe522c1b23b8dae3542442a8900b14f9bbcc0" in plan
+    assert "39de9c6ab2079b55a4666243baff2a5db7f10604" in plan
+    for gate in (
+        "scientific panel",
+        "Rust/R/Julia parity",
+        "stable promotion",
+        "release",
+        "parent #597 closure",
+        "umbrella #318 closure",
+    ):
+        assert gate in f"{plan}\n{todo}"
+
+
+def test_parallel_m26_to_m30_frontier_governance_is_additively_preserved() -> None:
+    track = INVENTORY.parent
+    metadata = json.loads((track / "metadata.json").read_text(encoding="utf-8"))
+    children = _inventory()["children"]
+    assert isinstance(children, list)
+    by_issue = {child["issue"]: child for child in children}
+    expected_requirements = {"M26", "M27", "M28", "M29", "M30"}
+
+    assert expected_requirements <= set(metadata["requirement_ids"])
+    assert expected_requirements <= set(metadata["planned_version_extensions"]["1.3.0"])
+    assert expected_requirements <= set(metadata["canonical_track_extensions"]["C18"])
+    assert by_issue[597]["delivery_subissues"] == [780, 781, 782]
+    assert by_issue[597]["implementation_pull_requests"] == [807]
+    assert by_issue[598]["delivery_subissues"] == [783, 784, 785]
+    assert by_issue[598]["disposition"] == "adjacent_only"
+    assert by_issue[599]["delivery_subissues"] == [786, 788, 789]
+    assert by_issue[599]["implementation_pull_requests"] == [809]
+    assert by_issue[599]["disposition"] == "contract_in_progress"
 
 
 def test_dsa_governance_is_versioned_and_cross_referenced() -> None:
