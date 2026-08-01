@@ -7,6 +7,6 @@
   "net_value": 26.0,
   "conditional_marginals": [10.0, 20.0],
   "gross_attribution": [15.0, 15.0],
-  "feasible_sequences": 11,
+  "feasible_sequences": 12,
   "pruned_sequences": 4
 }

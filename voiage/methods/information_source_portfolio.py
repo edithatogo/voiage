@@ -158,8 +158,10 @@ def _evaluate(payload: Mapping[str, Any]) -> dict[str, Any]:
             raw_cache[sequence] = _resolved(sequence, states, actions, baseline_tie, absolute, relative)
         return raw_cache[sequence]
 
-    evaluations: list[dict[str, Any]] = []
-    total_candidates = 0
+    evaluations: list[dict[str, Any]] = [
+        _sequence_evaluation((), source_by_id, raw, baseline_value, delay_rate)
+    ]
+    total_candidates = 1
     prune_reasons: dict[str, int] = defaultdict(int)
     max_sources = min(int(constraints["max_sources"]), len(source_ids))
     for length in range(1, max_sources + 1):

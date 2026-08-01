@@ -56,6 +56,16 @@ def test_redundant_duplicate_has_zero_conditional_value() -> None:
     assert redundant["conditional_marginals"][1]["gross_marginal_value"] == pytest.approx(0.0)
 
 
+def test_no_procurement_beats_every_negative_net_sequence() -> None:
+    payload = _input()
+    for source in payload["sources"]:
+        source["cost"] = 100.0
+    payload["constraints"]["max_cost"] = 1000.0
+    result = information_source_portfolio_value(payload).to_contract_dict()
+    assert result["optimum"]["source_sequence"] == []
+    assert result["optimum"]["net_value"] == pytest.approx(0.0)
+
+
 def test_complementary_sources_are_not_additive_evsi_scores() -> None:
     result = information_source_portfolio_value(_input()).to_contract_dict()
     by_sequence = {
@@ -81,7 +91,7 @@ def test_complete_sequence_and_policy_ties_are_preserved() -> None:
         }
     result = information_source_portfolio_value(payload).to_contract_dict()
     assert result["baseline"]["action_tie"] == ["act00", "act01", "act10", "act11"]
-    assert result["optimum"]["selected_sequence"] == ["survey"]
+    assert result["optimum"]["source_sequence"] == ["survey"]
     assert all(len(item["action_tie"]) == 2 for item in result["optimum"]["partitions"])
 
 
