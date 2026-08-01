@@ -98,7 +98,11 @@ def _objective_score(
     tail_mass = 1.0 - float(objective["confidence_level"])
     remaining = tail_mass
     weighted = 0.0
-    for state_id, value in sorted(values.items(), key=lambda item: (item[1], item[0])):
+    # Schema-valid probabilities sum to one and tail_mass is strictly below one,
+    # so the loop must exhaust the tail before it can fall through naturally.
+    for state_id, value in sorted(  # pragma: no branch
+        values.items(), key=lambda item: (item[1], item[0])
+    ):
         mass = min(remaining, probabilities[state_id])
         weighted += mass * value
         remaining -= mass
@@ -175,7 +179,9 @@ def _solve(
             mapping_candidates.append(
                 (score, choices, mapping, expected, regret, diagnostics)
             )
-    if not mapping_candidates:
+    # Every feasible baseline policy is also a feasible constant mapping, so this
+    # defensive error is unreachable after the baseline feasibility check above.
+    if not mapping_candidates:  # pragma: no cover - invariant documented above
         raise ValueError("no feasible post-information policy mapping")
     mapping_best = max(item[0] for item in mapping_candidates)
     mapping_ties = [

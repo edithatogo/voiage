@@ -191,6 +191,102 @@ def test_semantic_pathologies_fail_closed(mutate: Any, message: str) -> None:
         risk_sensitive_constrained_voi(payload)
 
 
+@pytest.mark.parametrize(
+    ("mutate", "message"),
+    [
+        (lambda p: p.pop("states"), "states.*required"),
+        (
+            lambda p: p["states"][1].update(state_id=p["states"][0]["state_id"]),
+            "state IDs must be unique",
+        ),
+        (
+            lambda p: p["policies"][1].update(policy_id=p["policies"][0]["policy_id"]),
+            "policy IDs must be unique",
+        ),
+        (
+            lambda p: p["constraints"][1].update(
+                constraint_id=p["constraints"][0]["constraint_id"]
+            ),
+            "constraint IDs must be unique",
+        ),
+        (
+            lambda p: p["policies"][0]["constraint_usage"].pop("service"),
+            "constraint usage keys",
+        ),
+        (
+            lambda p: p["policies"][0]["constraint_usage"]["budget"].pop("low"),
+            "constraint usage keys",
+        ),
+        (
+            lambda p: p["constraints"][0].update(minimum_satisfaction_probability=0.9),
+            "chance constraints alone",
+        ),
+        (
+            lambda p: p["constraints"][1].pop("minimum_satisfaction_probability"),
+            "chance constraints alone",
+        ),
+        (
+            lambda p: p["objective"].update(confidence_level=0.9),
+            "lower_tail_cvar alone",
+        ),
+        (
+            lambda p: (
+                p["objective"].update(kind="lower_tail_cvar"),
+                p["objective"].pop("confidence_level", None),
+            ),
+            "lower_tail_cvar alone",
+        ),
+        (
+            lambda p: p["objective"].update(
+                regret_reference_by_state={
+                    "high": 10.0,
+                    "mid": 9.0,
+                    "low": 11.0,
+                }
+            ),
+            "minimax_regret alone",
+        ),
+        (
+            lambda p: (
+                p["objective"].update(kind="minimax_regret"),
+                p["objective"].pop("regret_reference_by_state", None),
+            ),
+            "minimax_regret alone",
+        ),
+        (
+            lambda p: (
+                p["objective"].update(kind="minimax_regret"),
+                p["objective"].update(
+                    regret_reference_by_state={"high": 10.0, "mid": 9.0}
+                ),
+            ),
+            "regret reference state keys",
+        ),
+        (
+            lambda p: (
+                p["objective"].update(kind="minimax_regret"),
+                p["objective"].update(
+                    regret_reference_by_state={
+                        "high": 0.0,
+                        "mid": 0.0,
+                        "low": 0.0,
+                    }
+                ),
+            ),
+            "weakly exceed every policy objective",
+        ),
+    ],
+)
+def test_schema_and_cross_field_semantic_failures_are_explicit(
+    mutate: Any, message: str
+) -> None:
+    payload = _input()
+    mutate(payload)
+
+    with pytest.raises(InputError, match=message):
+        validate_risk_sensitive_voi_semantics(payload)
+
+
 def test_no_feasible_baseline_policy_is_explicit() -> None:
     payload = _input()
     payload["constraints"][0]["limit"] = 0.0
@@ -227,6 +323,42 @@ def test_cli_and_public_exports_execute_the_experimental_contract(
     assert payload["method_maturity"] == "experimental"
     assert voiage.RiskSensitiveVoiResult is RiskSensitiveVoiResult
     assert voiage.risk_sensitive_constrained_voi is risk_sensitive_constrained_voi
+
+
+def test_cli_text_output_reports_saved_result(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    output = tmp_path / "risk.txt"
+    monkeypatch.setattr("voiage.cli._should_echo_status_messages", lambda: True)
+
+    run = CliRunner().invoke(
+        app,
+        ["calculate-risk-sensitive-voi", str(INPUT), "--output", str(output)],
+    )
+
+    assert run.exit_code == 0, run.output
+    assert f"Result saved to {output}" in run.stdout
+    assert output.read_text(encoding="utf-8").startswith(
+        "Risk-sensitive constrained VOI:"
+    )
+
+
+def test_cli_rejects_non_object_specification(tmp_path: Path) -> None:
+    specification = tmp_path / "risk.json"
+    specification.write_text("[]", encoding="utf-8")
+
+    run = CliRunner().invoke(app, ["calculate-risk-sensitive-voi", str(specification)])
+
+    assert run.exit_code == 1
+    assert "specification must be a JSON object" in run.stderr
+
+
+def test_cli_text_output_without_file_has_no_saved_status() -> None:
+    run = CliRunner().invoke(app, ["calculate-risk-sensitive-voi", str(INPUT)])
+
+    assert run.exit_code == 0, run.output
+    assert run.stdout.startswith("Risk-sensitive constrained VOI:")
+    assert "Result saved to" not in run.stdout
 
 
 def test_capabilities_are_honest_about_language_and_promotion_gates() -> None:
