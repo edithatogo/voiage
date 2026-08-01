@@ -530,7 +530,12 @@ covers the experimental frontier entries only.
   eligibility for closed #558 and #724–#728/#731–#735/#738–#742 without
   mutating GitHub or Project 28. (AC-01, AC-05, AC-06, AC-08, AC-09)
   `786b5229`
-- [ ] **G14:** Run final full local validation and hosted required checks.
-  (AC-07)
-- [ ] **G15:** Record repository completion separately from merge, release,
-  publication, registry acceptance and issue closure. (AC-02, AC-07)
+- [x] **G14:** Final PR #836 exact head `8f1d70cb` completed 42 terminal
+  checks (38 successes, three governed skips and one neutral conclusion), with
+  zero failed, cancelled or pending conclusions, zero review threads, and
+  `CLEAN`/`MERGEABLE` status before squash merge `163825d8`. (AC-07)
+- [x] **G15:** Record repository completion at merge `163825d8` in
+  `repository-completion-receipt-20260802.md`, separately from scientific
+  review, parity, stable promotion, release/publication, registry acceptance
+  and issue closure. Parent #318 and open family-parent issues remain open.
+  (AC-02, AC-07)

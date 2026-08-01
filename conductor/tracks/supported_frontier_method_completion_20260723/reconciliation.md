@@ -27,10 +27,17 @@ experimental repository delivery. Only #558 is closed; the other family-parent
 issues and umbrella #318 remain open. This is not scientific, parity, stable,
 release or publication completion.
 
-Project-normalization eligibility is recorded, without mutation, for closed
-#558 and early closed delivery children #724–#728, #731–#735 and #738–#742.
-Direct Project 28 observation found #558 In Progress/Open/Unverified/Clean and
-#724 In Progress with Planned sync; eligibility is a target, not current state.
+Project 28 normalization was applied and directly read back for closed #558
+and early closed delivery children #724–#728, #731–#735 and #738–#742; each is
+`Done / Resolved / Verified / Clean`. Open #556, #557, #559 and #560 remain
+`In Progress / Mitigating / Unverified / Clean`, preserving their external
+scientific, parity, promotion and release gates.
+
+PR #836 exact head `8f1d70cb` completed G14 with 42 terminal conclusions (38
+successes, three governed skips and one neutral conclusion), no disallowed
+conclusions and zero review threads before squash merge `163825d8`. The G15
+repository-completion boundary is recorded in
+`repository-completion-receipt-20260802.md`; parent #318 remains open.
 
 ## Dependency and maturity boundaries
 
