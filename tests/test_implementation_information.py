@@ -401,3 +401,19 @@ def test_public_api_and_cli(tmp_path: Path) -> None:
     cli_payload = json.loads(invocation.output)
     assert cli_payload["analysis_type"] == "implementation_information_decomposition"
     assert json.loads(output.read_text()) == json.loads(EXPECTED.read_text())
+
+
+def test_cli_rejects_non_object_specification(tmp_path: Path) -> None:
+    specification = tmp_path / "non-object.json"
+    specification.write_text("[]")
+
+    invocation = CliRunner().invoke(
+        app,
+        ["calculate-implementation-information", str(specification)],
+    )
+
+    assert invocation.exit_code == 1
+    assert (
+        "Error: Implementation-information specification must be an object."
+        in invocation.output
+    )
