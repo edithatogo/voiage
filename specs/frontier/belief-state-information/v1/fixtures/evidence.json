@@ -1,0 +1,27 @@
+{
+  "artifacts": [
+    {"path": "voiage/methods/belief_state_information.py", "sha256": "e9ae292e4ccabae2ff042a82c70d95d5e87d12dc079ed5d59d098a4a3dbd75c2"},
+    {"path": "specs/frontier/belief-state-information/v1/README.md", "sha256": "310f83547fbe2b1cf300efc29eb921b4d1a0d69a6c211b6ce9478b24a496f0f1"},
+    {"path": "specs/frontier/belief-state-information/v1/capabilities.json", "sha256": "ccffb35b51f7be32583cf25af717bafc7bbcd7c103de0635d7ade1f56a0b88fb"},
+    {"path": "specs/frontier/belief-state-information/v1/fixtures/manifest.json", "sha256": "f1b5ddda757e256e3a63ae09cfae8cca989f5f33254a7f74a0618cefd8253ede"},
+    {"path": "specs/frontier/belief-state-information/v1/fixtures/normative/input.json", "sha256": "67c2a02db362f2b2006b0826d5de8c073ab6282a47b993e70e3bd91f6d17c57f"},
+    {"path": "specs/frontier/belief-state-information/v1/fixtures/normative/expected.json", "sha256": "726c1abb84171972235aa68e87ac3b589ec74aef82ac74316e00af825cabb48b"},
+    {"path": "specs/frontier/belief-state-information/v1/schemas/belief-state-information-input.schema.json", "sha256": "a72ee67289f5afd1a6d1cbc64322275504800c1e99953825773c0f54614efd35"},
+    {"path": "specs/frontier/belief-state-information/v1/schemas/belief-state-information-result.schema.json", "sha256": "427d393b3f644475f038055e059fe106c783f4df9cdaa98bfb258798e6f87940"},
+    {"path": "docs/astro-site/src/content/docs/examples/belief-state-information.mdx", "sha256": "9dc1151aee7954a2ea2977950aa6ffe299c21b06225a47043863d205187e0d7b"},
+    {"path": "docs/astro-site/src/content/docs/cli-reference.mdx", "sha256": "b3c5e91505c298d84d3d31b79bceddd6f86cf1b9c3faa2d442b763f6de564d0a"}
+  ],
+  "execution_status": "experimental_python",
+  "issue": 597,
+  "method_family": "belief_state_sequential_information_value",
+  "schema_version": "1.0.0",
+  "stable_claim_allowed": false,
+  "unresolved_gates": [
+    "independent implementation review",
+    "independent scientific review",
+    "hosted exact-head assurance",
+    "Rust, R and Julia parity",
+    "stable promotion and release",
+    "parent and umbrella closure"
+  ]
+}

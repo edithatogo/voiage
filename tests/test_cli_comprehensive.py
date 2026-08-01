@@ -740,6 +740,7 @@ def test_cli_command_registry_matches_expected_surface() -> None:
         "calculate-capacity-budget-constrained",
         "calculate-federated-privacy-preserving",
         "calculate-forecast-signal-information",
+        "calculate-belief-state-information",
         "calculate-ai-assisted-evidence-triage",
         "calculate-explainability-transparency",
         "calculate-interoperability-standardization",

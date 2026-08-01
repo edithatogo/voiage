@@ -4,6 +4,21 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+*   [ ] Complete belief-state and intervention-aware sequential information
+    value after experimental branch delivery.
+    *   GitHub issue #597; delivery subissues #780--#782; umbrella track
+        `supported_frontier_method_completion_20260723`; canonical C18/M28.
+    *   The exact finite Python contract uses control-transition-observe-update
+        chronology and matched closed-loop/no-information Bellman comparators.
+        It reports gross/net, myopic/nonmyopic and conditional sensing value,
+        complete ties, belief/policy trees, horizon value, regret, exact bounds,
+        null-sensor and posterior-martingale assurance.
+    *   Action-dependent learning and dual control are diagnostics; no unique
+        additive dual-control value is claimed.
+    *   Remaining gates include independent implementation and scientific
+        review, hosted exact-head assurance, merge, Rust/R/Julia parity, stable
+        promotion, release, parent #597 closure and umbrella #318 closure.
+
 *   [ ] Complete implementation-information decomposition after experimental
     repository delivery.
     *   GitHub issue #593; delivery subissues #766--#768; umbrella track

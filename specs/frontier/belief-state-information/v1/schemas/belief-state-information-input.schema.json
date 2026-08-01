@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/frontier/belief-state-information-input.v1.json",
+  "title": "BeliefStateInformationInputV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "analysis_id", "analysis_type", "method_maturity", "value_unit", "time_unit", "objective_direction", "horizon", "discount_factor", "chronology", "policy_class", "stopping", "latent_states", "control_actions", "observations", "transition_model", "rewards", "sensors", "constraints", "tolerances"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "analysis_id": {"type": "string", "minLength": 1},
+    "analysis_type": {"const": "belief_state_information"},
+    "method_maturity": {"const": "experimental"},
+    "value_unit": {"type": "string", "minLength": 1},
+    "time_unit": {"type": "string", "minLength": 1},
+    "objective_direction": {"enum": ["maximize", "minimize"]},
+    "horizon": {"type": "integer", "minimum": 1, "maximum": 12},
+    "discount_factor": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+    "chronology": {"const": ["control", "transition", "observe", "update"]},
+    "policy_class": {"const": "deterministic_markov_belief_policy"},
+    "stopping": {"type": "object", "additionalProperties": false, "required": ["kind"], "properties": {"kind": {"const": "fixed_horizon"}}},
+    "latent_states": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["state_id", "initial_probability"], "properties": {"state_id": {"type": "string", "minLength": 1}, "initial_probability": {"type": "number", "minimum": 0, "maximum": 1}}}},
+    "control_actions": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["action_id"], "properties": {"action_id": {"type": "string", "minLength": 1}}}},
+    "observations": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["observation_id"], "properties": {"observation_id": {"type": "string", "minLength": 1}}}},
+    "transition_model": {"$ref": "#/$defs/nestedNumbers"},
+    "rewards": {"$ref": "#/$defs/objectNumbers"},
+    "sensors": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["sensor_id", "null_sensor", "cost", "likelihood_by_control"], "properties": {"sensor_id": {"type": "string", "minLength": 1}, "null_sensor": {"type": "boolean"}, "cost": {"type": "number", "minimum": 0}, "likelihood_by_control": {"$ref": "#/$defs/nestedNumbers"}}}},
+    "constraints": {"type": "object", "additionalProperties": false, "required": ["allowed_control_action_ids_by_stage", "allowed_sensor_ids_by_control"], "properties": {"allowed_control_action_ids_by_stage": {"$ref": "#/$defs/objectStringArrays"}, "allowed_sensor_ids_by_control": {"$ref": "#/$defs/objectStringArrays"}}},
+    "tolerances": {"type": "object", "additionalProperties": false, "required": ["absolute_tie", "relative_tie", "probability"], "properties": {"absolute_tie": {"type": "number", "minimum": 0}, "relative_tie": {"type": "number", "minimum": 0}, "probability": {"type": "number", "minimum": 0}}}
+  },
+  "$defs": {
+    "numbers": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "number"}},
+    "objectNumbers": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/numbers"}},
+    "nestedNumbers": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/numbers"}}},
+    "objectStringArrays": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}}
+  }
+}

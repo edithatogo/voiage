@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Added an experimental exact finite belief-state sequential information
+  contract with intervention-aware learning, matched Bellman comparators,
+  gross/net and myopic/nonmyopic values, conditional sensing diagnostics,
+  complete policy trees, strict schemas, CLI execution and deterministic
+  assurance. Stable and polyglot claims remain gated.
+
 - Added an experimental exact finite risk-sensitive and constrained
   perfect-information contract for issue #570, with expected-value/utility,
   lower-tail CVaR, minimax-regret, deterministic/chance constraints, CLI,

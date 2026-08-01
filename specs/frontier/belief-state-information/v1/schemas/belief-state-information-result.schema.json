@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/frontier/belief-state-information-result.v1.json",
+  "title": "BeliefStateInformationResultV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "analysis_id", "analysis_type", "method_maturity", "value_unit", "time_unit", "objective_direction", "chronology", "horizon", "discount_factor", "policy_class", "values", "value_by_horizon", "conditional_sensing_values", "policy_tree", "stopping", "approximation_bounds", "assurance", "language_dispositions", "limitations"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "analysis_id": {"type": "string", "minLength": 1},
+    "analysis_type": {"const": "belief_state_information_result"},
+    "method_maturity": {"const": "experimental"},
+    "value_unit": {"type": "string", "minLength": 1},
+    "time_unit": {"type": "string", "minLength": 1},
+    "objective_direction": {"enum": ["maximize", "minimize"]},
+    "chronology": {"const": ["control", "transition", "observe", "update"]},
+    "horizon": {"type": "integer", "minimum": 1},
+    "discount_factor": {"type": "number"},
+    "policy_class": {"const": "deterministic_markov_belief_policy"},
+    "values": {"type": "object", "additionalProperties": false, "required": ["closed_loop_gross", "expected_sensing_cost", "closed_loop_net", "no_information", "gross_information_value", "net_information_value", "myopic_information_value", "nonmyopic_information_value", "nonmyopic_minus_myopic", "fully_observed_value", "partial_observability_regret"], "properties": {"closed_loop_gross": {"type": "number"}, "expected_sensing_cost": {"type": "number"}, "closed_loop_net": {"type": "number"}, "no_information": {"type": "number"}, "gross_information_value": {"type": "number"}, "net_information_value": {"type": "number"}, "myopic_information_value": {"type": "number"}, "nonmyopic_information_value": {"type": "number"}, "nonmyopic_minus_myopic": {"type": "number"}, "fully_observed_value": {"type": "number"}, "partial_observability_regret": {"type": "number"}}},
+    "value_by_horizon": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["horizon", "closed_loop_net", "no_information", "net_information_value"], "properties": {"horizon": {"type": "integer"}, "closed_loop_net": {"type": "number"}, "no_information": {"type": "number"}, "net_information_value": {"type": "number"}}}},
+    "conditional_sensing_values": {"type": "array", "items": {"type": "object"}},
+    "policy_tree": {"type": "object", "required": ["stage", "belief", "control_choice_tie", "selected_control", "sensor_choice_tie", "selected_sensor", "predictive_belief", "branches", "chronology"]},
+    "stopping": {"type": "object", "additionalProperties": false, "required": ["kind", "reason", "stage"], "properties": {"kind": {"const": "fixed_horizon"}, "reason": {"const": "horizon_reached"}, "stage": {"type": "integer"}}},
+    "approximation_bounds": {"type": "object", "additionalProperties": false, "required": ["lower", "upper", "gap"], "properties": {"lower": {"type": "number"}, "upper": {"type": "number"}, "gap": {"type": "number"}}},
+    "assurance": {"type": "object", "required": ["solver", "estimator", "exact_enumeration", "approximation_used", "posterior_martingale_verified", "posterior_martingale_max_residual", "null_sensor_reduction_verified", "no_information_reduction_verified", "complete_ties_reported", "action_dependent_transition", "action_dependent_learning", "dual_control_diagnostic", "unique_additive_dual_control_value_claimed"]},
+    "language_dispositions": {"type": "object", "additionalProperties": false, "required": ["python", "rust", "r", "julia", "mojo"], "properties": {"python": {"const": "executable-experimental"}, "rust": {"const": "unsupported"}, "r": {"const": "unsupported"}, "julia": {"const": "unsupported"}, "mojo": {"const": "external-boundary"}}},
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+  }
+}
