@@ -82,7 +82,8 @@
   experimental scalar scope; vector scalarization remains fail-closed and
   stable promotion remains pending. See `scientific-review-panel-20260801.md`.
   (AC-01, AC-02) [panel-20260801]
-- [ ] **E18:** Rebase onto the then-current protected base, merge the approved
-  implementation and canonical-sync pull requests, and handle stable
-  promotion, release and issue closure only through their separate governed
-  workflows. (AC-07, AC-09)
+- [~] **E18:** Rebase onto the then-current protected base and merge the
+  approved implementation and canonical-sync pull requests. PR #676 and
+  canonical sync PR #64 are merged; stable promotion, release, and issue
+  closure remain separate governed workflows and are not authorized by this
+  repository review. (AC-07, AC-09)
