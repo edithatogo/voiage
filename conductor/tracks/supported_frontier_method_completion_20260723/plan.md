@@ -94,7 +94,7 @@
   complete hosted exact-head/wheel and independent scientific review before
   reconciling #570. Local implementation evidence: `2da92322`; hosted,
   scientific, parity, stable-promotion, release and closure gates remain
-  pending. (AC-03–AC-07)
+  pending on PR #769. (AC-03–AC-07)
 
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for
