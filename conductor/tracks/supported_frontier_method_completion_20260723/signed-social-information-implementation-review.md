@@ -72,9 +72,26 @@ The Python 3.14 coverage loader required NumPy and JAX to be imported before
 pytest to avoid their known repeated-load/circular-import defects. The same
 source and focused tests then produced the complete coverage result above.
 
-## Remaining boundary
+## Fresh independent re-review
 
-A fresh independent implementation review, hosted exact-head and installed-
-wheel checks, and merge remain pending. Independent scientific review,
-Rust/R/Julia parity, stable promotion, release, parent #598 closure and
+PASS at signed head `d7d569b28664e9c529c5c039817f4c11f9805754`.
+A fresh reviewer who authored neither the original implementation nor the
+remediation independently repeated the contract, runtime, fixture, API/CLI,
+governance and assurance review. No Critical, High or Medium findings remain.
+
+The reviewer directly mutated each repaired semantic boundary. Altered role
+values, policy ties, selected policy, optimum design, winners, Blackwell
+checked values and assurance counts were all rejected. The normative result
+was accepted and independently reproduced role values `controller=0`,
+`decision_maker=-2`, `recipient=-2` and `stakeholder=4`. The signed negative
+social value remains unclipped.
+
+The re-review also passed 88 combined feature, API, CLI, export and frontier
+tests, Ruff check and formatting, BasedPyright, deterministic frontier and
+cross-reference validation, append-only evidence validation, and full
+Conductor validation of 148 tracks with zero errors and warnings.
+
+This re-review closes the local engineering-review gate only. Hosted exact-head
+and installed-wheel checks and merge remain pending. Independent scientific
+review, Rust/R/Julia parity, stable promotion, release, parent #598 closure and
 umbrella #318 closure also remain pending.

@@ -222,8 +222,10 @@ covers the experimental frontier entries only.
   then reconcile #598 without claiming parity, stable promotion, release or
   parent closure. The first implementation reviewer found and remediated
   portable derived-result and Blackwell-applicability defects in
-  `signed-social-information-implementation-review.md`; a fresh independent
-  re-review remains required. (AC-03–AC-07, AC-09)
+  `signed-social-information-implementation-review.md`. A fresh independent
+  re-review passed at `d7d569b2` with no remaining Critical, High or Medium
+  findings; hosted exact-head/wheel checks and merge remain pending.
+  (AC-03–AC-07, AC-09)
 
 - [x] **F598-R1 / #785 — Review Fixes:** Bind portable agent roles and exact
   evaluated identifiers; recompute signed roles, policy/design ties, optimum,
