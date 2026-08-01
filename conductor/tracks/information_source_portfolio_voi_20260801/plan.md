@@ -11,9 +11,10 @@
 
 ## Phase 2 — Experimental delivery
 
-- [~] **ISP3:** Implement the exact Python evaluator, deterministic result,
+- [x] **ISP3:** Implement the exact Python evaluator, deterministic result,
   conditional marginals, Shapley attribution and failure boundaries. (AC-01–AC-03)
-- [ ] **ISP4:** Add CLI, public experimental discovery, documentation and
+  `380d345f`; no-procurement comparator fix `8c8d413e`.
+- [~] **ISP4:** Add CLI, public experimental discovery, documentation and
   explicit language/maturity dispositions. (AC-04, AC-05)
 
 ## Phase 3 — Assurance and handoff
