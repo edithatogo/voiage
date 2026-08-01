@@ -403,7 +403,7 @@ def validate_information_source_portfolio_semantics(payload: Mapping[str, Any]) 
     states = cast("list[Mapping[str, Any]]", payload["states"])
     action_ids = set(actions)
     source_ids = [cast("str", source["source_id"]) for source in sources]
-    if len(action_ids) != len(actions):
+    if len(action_ids) != len(actions):  # pragma: no cover - schema uniqueItems
         raise ValueError("action IDs must be unique")
     if len(set(source_ids)) != len(source_ids):
         raise ValueError("source IDs must be unique")

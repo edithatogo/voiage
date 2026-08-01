@@ -1,6 +1,7 @@
 """Exact contract assurance for dependent information-source portfolios."""
 
 # pyright: reportAny=false, reportExplicitAny=false, reportUnknownArgumentType=false, reportUnknownLambdaType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnusedCallResult=false
+# pyright: reportPrivateUsage=false
 
 from __future__ import annotations
 
@@ -15,8 +16,12 @@ from typer.testing import CliRunner
 
 import voiage
 from voiage.cli import app
+from voiage.contracts.information_source_portfolio import (
+    validate_information_source_portfolio_result,
+)
 from voiage.exceptions import InputError
 from voiage.methods.information_source_portfolio import (
+    _sequence_is_feasible,
     information_source_portfolio_value,
 )
 
@@ -204,3 +209,170 @@ def test_cli_and_public_experimental_discovery(tmp_path: Path) -> None:
     assert (
         voiage.information_source_portfolio_value is information_source_portfolio_value
     )
+
+
+def test_cli_text_output_status_and_non_object_failure(tmp_path: Path) -> None:
+    output = tmp_path / "result.txt"
+    invoked = CliRunner().invoke(
+        app,
+        ["calculate-information-source-portfolio", str(INPUT), "--output", str(output)],
+    )
+    assert invoked.exit_code == 0, invoked.output
+    assert f"Result saved to {output}" in invoked.stdout
+    assert output.read_text(encoding="utf-8").startswith(
+        "Information-source portfolio:"
+    )
+
+    invalid = tmp_path / "array.json"
+    invalid.write_text("[]\n", encoding="utf-8")
+    rejected = CliRunner().invoke(
+        app, ["calculate-information-source-portfolio", str(invalid)]
+    )
+    assert rejected.exit_code == 1
+    assert "must be a JSON object" in rejected.output
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "reason"),
+    [
+        ("cost", 11.0, "cost"),
+        ("latency", 11.0, "latency"),
+        ("privacy_cost", 11.0, "privacy"),
+        ("sla_probability", 0.1, "sla"),
+        ("freshness_age", 11.0, "freshness"),
+    ],
+)
+def test_each_source_feasibility_constraint_reports_its_reason(
+    field: str, value: float, reason: str
+) -> None:
+    source = {
+        "cost": 0.0,
+        "latency": 0.0,
+        "privacy_cost": 0.0,
+        "sla_probability": 1.0,
+        "freshness_age": 0.0,
+        "coverage": ["required"],
+        "excludes": [],
+        "must_precede": [],
+    }
+    source[field] = value
+    feasible, observed = _sequence_is_feasible(
+        ["source"],
+        {"source": source},
+        {
+            "max_cost": 10.0,
+            "max_latency": 10.0,
+            "max_privacy_cost": 10.0,
+            "min_source_sla": 0.9,
+            "max_freshness_age": 10.0,
+            "required_coverage": ["required"],
+        },
+    )
+    assert feasible is False
+    assert observed == reason
+
+
+def test_source_exclusivity_reports_its_reason() -> None:
+    source = {
+        "cost": 0.0,
+        "latency": 0.0,
+        "privacy_cost": 0.0,
+        "sla_probability": 1.0,
+        "freshness_age": 0.0,
+        "coverage": ["required"],
+        "excludes": ["other"],
+        "must_precede": [],
+    }
+    other = {**source, "excludes": []}
+    feasible, reason = _sequence_is_feasible(
+        ["source", "other"],
+        {"source": source, "other": other},
+        {
+            "max_cost": 10.0,
+            "max_latency": 10.0,
+            "max_privacy_cost": 10.0,
+            "min_source_sla": 0.9,
+            "max_freshness_age": 10.0,
+            "required_coverage": ["required"],
+        },
+    )
+    assert feasible is False
+    assert reason == "exclusivity"
+
+
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        (
+            lambda data: data["sources"][1].update(
+                {"source_id": data["sources"][0]["source_id"]}
+            ),
+            "source IDs",
+        ),
+        (
+            lambda data: data["states"][1].update(
+                {"state_id": data["states"][0]["state_id"]}
+            ),
+            "state IDs",
+        ),
+        (
+            lambda data: data["states"][0]["action_values"].pop("act00"),
+            "every action",
+        ),
+        (
+            lambda data: data["sources"][0].update({"excludes": ["unknown"]}),
+            "other declared sources",
+        ),
+    ],
+)
+def test_cross_field_semantic_pathologies_fail_closed(
+    mutation: Any, message: str
+) -> None:
+    payload = _input()
+    mutation(payload)
+    with pytest.raises(InputError, match=message):
+        information_source_portfolio_value(payload)
+
+
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        (
+            lambda result: result["evaluated_sequences"][0].update(
+                {"resolved_value": result["baseline"]["value"] + 1.0}
+            ),
+            "resolved and gross",
+        ),
+        (
+            lambda result: result["evaluated_sequences"][0].update(
+                {"willingness_to_pay": 1.0}
+            ),
+            "willingness-to-pay",
+        ),
+        (
+            lambda result: result["evaluated_sequences"][0].update({"net_value": 1.0}),
+            "net decision-value",
+        ),
+        (
+            lambda result: result["evaluated_sequences"][1]["conditional_marginals"][
+                0
+            ].update({"gross_marginal_value": 999.0}),
+            "recover gross value",
+        ),
+        (
+            lambda result: result["optimum"].update({"net_value": -1.0}),
+            "not maximal",
+        ),
+        (
+            lambda result: result["attribution"][0].update(
+                {"gross_attribution": 999.0}
+            ),
+            "recover selected gross value",
+        ),
+    ],
+)
+def test_result_identity_validation_fails_closed(mutation: Any, message: str) -> None:
+    result = information_source_portfolio_value(_input()).to_contract_dict()
+    mutation(result)
+    with pytest.raises(ValueError, match=message):
+        validate_information_source_portfolio_result(result)
