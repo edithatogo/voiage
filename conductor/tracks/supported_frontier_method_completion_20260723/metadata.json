@@ -173,7 +173,13 @@
       "id": "risk-sensitive-local-runtime",
       "kind": "repository_evidence",
       "status": "satisfied",
-      "evidence": "Local experimental contract/runtime commit 2da92322; hosted exact-head evidence remains separately pending."
+      "evidence": "Experimental contract/runtime commit 2da92322; independent review and remediation culminated in PR #769 exact head f513416fa8d19db6c2f7f8857c84839fa97b984b."
+    },
+    {
+      "id": "risk-sensitive-hosted-assurance",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "PR #769 exact head f513416fa8d19db6c2f7f8857c84839fa97b984b passed 38 successful checks, with three governed skips and neutral CodeQL aggregation, before squash merge c25f3234ad9d3d44f5e31cc42ee4ae823562fe37; changed coverage was 215/215 lines and 68/68 branches."
     }
   ]
 }
