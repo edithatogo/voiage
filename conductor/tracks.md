@@ -54,6 +54,18 @@ evidence or a reviewed exclusion before programme closeout.*
 
 ---
 
+## [~] Track: Information-Source Portfolio VOI
+*Link: [./tracks/information_source_portfolio_voi_20260801/index.md](./tracks/information_source_portfolio_voi_20260801/index.md)*
+*GitHub: [issue #582](https://github.com/edithatogo/voiage/issues/582),
+native sub-issue of [#318](https://github.com/edithatogo/voiage/issues/318),
+under programme [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: in progress — delivering an exact finite experimental Python contract;
+scientific review, polyglot parity, stable promotion, hosted checks, release and
+issue closure remain separate gates.*
+
+---
+
 ## [x] Track: Risk-Adjusted Information Pricing and VoC Presentation
 *Link: [./tracks/risk_adjusted_information_pricing_20260731/index.md](./tracks/risk_adjusted_information_pricing_20260731/index.md)*
 *GitHub: [issue #595](https://github.com/edithatogo/voiage/issues/595),

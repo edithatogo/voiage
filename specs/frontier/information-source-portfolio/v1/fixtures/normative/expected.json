@@ -1,0 +1,12 @@
+{
+  "reference_method": "independent exhaustive finite enumeration",
+  "baseline_value": 10.0,
+  "selected_sequence": ["registry", "sensor"],
+  "gross_value": 30.0,
+  "willingness_to_pay": 29.0,
+  "net_value": 26.0,
+  "conditional_marginals": [10.0, 20.0],
+  "gross_attribution": [15.0, 15.0],
+  "feasible_sequences": 12,
+  "pruned_sequences": 4
+}

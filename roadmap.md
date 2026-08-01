@@ -282,6 +282,11 @@ reviewed exclusion, bindings, documentation and hosted evidence are
 reconciled. Completed native child #416 remains historical v1.0 programme
 evidence and is not reopened by this queue.
 
+Issue #582 is delivered experimentally through
+`information_source_portfolio_voi_20260801`, with dependent source sequences,
+feasibility constraints, conditional marginals and exact decision-value
+Shapley allocation governed under C18/M24 for planned v1.3.0.
+
 ---
 
 ### Phase 1: Foundation & API Refactoring ✅ **COMPLETE**
