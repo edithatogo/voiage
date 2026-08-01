@@ -8,7 +8,7 @@
   without converting issue status into implementation evidence. (AC-01, AC-02)
 - [x] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
   explicit exclusions. (AC-02, AC-05, AC-06)
-- [x] **G4:** Run automated contract review and full Conductor validation (delivery revision `f95c0ded`).
+- [x] **G4:** Run automated contract review and full Conductor validation.
   Existing Rust migration matrix, stable-kernel tests, bridge boundaries and
   release evidence are reconciled without claiming complete stable-method
   coverage or promotion. (2026-08-01; AC-01, AC-07)
