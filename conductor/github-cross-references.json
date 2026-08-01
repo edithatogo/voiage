@@ -76,11 +76,13 @@
         {
           "number": 787,
           "url": "https://github.com/edithatogo/voiage/pull/787",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "experimental-implementation-delivery",
             "independent-review",
-            "hosted-checks-pending"
+            "hosted-required-checks",
+            "de31458b556136359cb9195f8ced82cff9182ece",
+            "20e0c606fb02f282134e9cc876fa475178edfe40"
           ]
         },
         {
@@ -92,6 +94,18 @@
             "hosted-required-checks",
             "f513416fa8d19db6c2f7f8857c84839fa97b984b",
             "c25f3234ad9d3d44f5e31cc42ee4ae823562fe37"
+          ]
+        },
+        {
+          "number": 798,
+          "url": "https://github.com/edithatogo/voiage/pull/798",
+          "status": "merged",
+          "evidence": [
+            "experimental-uncertainty-modelling-delivery",
+            "independent-review",
+            "hosted-required-checks",
+            "aa5d9fd86a42fecd5e8746e77c74ba23e33bb092",
+            "c5adca8fd49b74a04312111168283fbdffc2dcbd"
           ]
         },
         {
@@ -320,11 +334,13 @@
         {
           "number": 787,
           "url": "https://github.com/edithatogo/voiage/pull/787",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "experimental-implementation-delivery",
             "independent-review",
-            "hosted-checks-pending"
+            "hosted-required-checks",
+            "de31458b556136359cb9195f8ced82cff9182ece",
+            "20e0c606fb02f282134e9cc876fa475178edfe40"
           ]
         },
         {
@@ -3790,12 +3806,12 @@
     },
     {
       "track_id": "standardized-dataset-ingestion_20260723",
-      "path": "conductor/tracks/standardized-dataset-ingestion_20260723",
-      "lifecycle": "active",
+      "path": "conductor/archive/standardized-dataset-ingestion_20260723",
+      "lifecycle": "archived",
       "issue": {
         "number": 325,
         "url": "https://github.com/edithatogo/voiage/issues/325",
-        "state": "open"
+        "state": "closed"
       },
       "parent_issue_url": null,
       "subissues": [
@@ -4605,6 +4621,38 @@
             "hosted-required-checks",
             "f1d6f77d3e6ef1024d5bf3ebecc6e6e3a39ea91c",
             "557710175baae8a2ee44a7be3e8f5d4f546e563e"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "uncertainty_modelling_value_20260801",
+      "metadata_track_id": "uncertainty_modelling_value_20260801",
+      "path": "conductor/tracks/uncertainty_modelling_value_20260801",
+      "lifecycle": "active",
+      "issue": {
+        "number": 594,
+        "url": "https://github.com/edithatogo/voiage/issues/594",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/318",
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/774",
+        "https://github.com/edithatogo/voiage/issues/775",
+        "https://github.com/edithatogo/voiage/issues/776"
+      ],
+      "pull_requests": [
+        {
+          "number": 798,
+          "url": "https://github.com/edithatogo/voiage/pull/798",
+          "status": "merged",
+          "evidence": [
+            "experimental-uncertainty-modelling-delivery",
+            "independent-review",
+            "hosted-required-checks",
+            "aa5d9fd86a42fecd5e8746e77c74ba23e33bb092",
+            "c5adca8fd49b74a04312111168283fbdffc2dcbd"
           ]
         }
       ],

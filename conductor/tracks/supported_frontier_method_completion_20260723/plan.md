@@ -1,5 +1,30 @@
 # Implementation Plan
 
+## Todo-to-issue-to-phase mapping
+
+The following mapping is the canonical traceability boundary for the
+experimental frontier entries in `todo.md`. Each phase is scoped to the
+corresponding GitHub issue or native sub-issue; implementation status is
+evidenced by the phase marker and receipt, while scientific review, parity,
+promotion, release, and issue closure remain separate gates.
+
+| `todo.md` workstream | GitHub issue | Conductor phases |
+| --- | --- | --- |
+| Uncertainty-modelling value | #594; #774–#776 | dedicated track `uncertainty_modelling_value_20260801`: F594-1–F594-5 |
+| Implementation-information decomposition | #593; #766–#768 | F593-1–F593-4 |
+| Forecast and signal information VOI | #572; #759, #760, #762 | F572-1–F572-3 |
+| Risk-sensitive and constrained VOI | #570; #757, #758, #761 | F570-1–F570-3 |
+| Value of Flexibility | #559 | F559-1–F559-4 |
+| Deterministic sensitivity/scenario analysis | #556; #724–#728 | F556-1–F556-5 |
+| Distribution-Family Information | #557; #731–#735 | F557-1–F557-5 |
+| Portable qualitative VOI | #558; #738–#742 | F558-1–F558-5 |
+| Finite additive MCDA information value | #560; #746–#750 | F560-1–F560-5 |
+| Dependent information-source portfolio | #582; #763–#765 | dedicated track `information_source_portfolio_voi_20260801` |
+
+The Rust-first programme and its remaining workstream tracks are governed by
+the separate root track `rust_polyglot_voi_completion_20260723`; this table
+covers the experimental frontier entries only.
+
 ## Phase 1 — Governance and contract reconciliation
 
 - [x] **G1:** Verify the owning issue, native parent/children, Project 28,
@@ -78,6 +103,32 @@
   `e8aaba82`. VOP run `30684893440` and VOIAGE receiver run `30684980076`
   verified the canonical v1.3 projection without opening a drift PR.
 
+- [x] **F594-1 / #774:** Freeze #594's exact finite EVIU/VSS estimand,
+  planned v1.3.0 Must requirements, point-estimate comparator, shared-history
+  nonanticipativity, information-acquisition boundary and DVSS/VMS disposition.
+  (AC-02, AC-05, AC-09) `c04d4c33`
+- [x] **F594-2 / #774:** Add strict schemas plus deterministic two-stage
+  nonlinear, multistage, infeasible-recourse and pathology fixtures with
+  independent finite references. (AC-02–AC-06) `c04d4c33`
+- [x] **F594-3 / #775:** Implement the exact experimental Python EV/EEV/RP/WS,
+  direction-aware VSS/EVIU/EVPI, complete ties, feasibility and policy audit.
+  (AC-02–AC-05) `c04d4c33`
+- [x] **F594-4 / #775:** Add deterministic API/CLI discovery, documentation and
+  explicit Python/Rust/R/Julia/Mojo dispositions without stable claims.
+  (AC-04–AC-06) `c04d4c33`
+- [~] **F594-5 / #776:** Run independent implementation review, 100% changed
+  branch coverage, full local and hosted exact-head assurance; retain
+  scientific, stable-promotion, parity, release and parent-closure gates.
+  Independent implementation review at signed commit `766e7b59` found no
+  unresolved Critical, High or Medium findings. PR #798 exact head `aa5d9fd8`
+  completed all 42 hosted checks with 38 successes and four governed skips;
+  all six wheel contracts, aggregate coverage, CodeQL and security checks
+  passed, and all four review threads were resolved before squash merge
+  `c5adca8f`. Repository-delivery subissues #774–#776 may close. Independent
+  scientific review, Rust/R/Julia parity, stable promotion, release, parent
+  #594 closure and umbrella #318 closure remain pending.
+  (AC-03–AC-07)
+
 - [x] **F593-1 / #766:** Freeze #593's four-cell information/implementation
   estimands, v1.3.0 M25 requirements, Mermaid flow, primary-reference review,
   non-independence boundary and terminology-candidate status. (AC-02, AC-03,
@@ -95,9 +146,12 @@
   claiming polyglot parity, stable promotion, release or parent closure.
   Independent repository implementation re-review passed with no open findings
   at signed review-artifact commit `f945f87b`, and the patch-equivalent rebased
-  review boundary is `f52feb28` on PR #787; named scientific review, incomplete
-  hosted exact-head checks, installed-wheel, parity, promotion, release and
-  closure gates remain pending.
+  review boundary is `f52feb28`. PR #787 exact head `de31458b` passed all 42
+  hosted checks (38 successes, one neutral aggregation and three governed
+  skips), including installed-wheel and changed-coverage assurance, and both
+  review threads were evidence-resolved before squash merge `20e0c606`.
+  Named scientific review, Rust/R/Julia parity, stable promotion, release,
+  parent #593 closure and umbrella #318 closure remain pending.
 
 - [x] **F596-1 / #777:** Freeze C18/M27's exact finite event-localized
   estimands, canonical policy-relative EUI density, explicitly signed centered

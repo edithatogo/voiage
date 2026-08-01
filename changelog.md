@@ -28,6 +28,12 @@
   separate compatibility surface; scientific review, polyglot parity, stable
   promotion and release remain gated.
 
+- Add experimental exact finite uncertainty-modelling value with declared
+  point-estimate, two-/multistage nonanticipative policies, EEV, recourse,
+  wait-and-see, direction-aware VSS/EVIU and EVPI, infeasible-recourse status,
+  strict schemas, fixtures, Python API and CLI. DVSS/VMS, scientific review,
+  stable promotion and polyglot parity remain gated.
+
 - Add experimental exact finite information-source portfolio VOI from a
   declared joint-world law, including governed procurement constraints,
   complete ties, gross/net value, willingness to pay, conditional marginals,

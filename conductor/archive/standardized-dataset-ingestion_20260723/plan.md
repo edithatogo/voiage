@@ -80,7 +80,7 @@ criterion to evidence.
   `python scripts/dependency_frontier.py . --strict`; review and record the
   Croissant parser dependency and supported-profile decision before changing
   dependencies. (`e41591e`)
-- [~] **P4-T2 / AC-04:** Write failing offline fixtures/tests for versioning,
+ **P4-T2 / AC-04:** Write failing offline fixtures/tests for versioning,
   identities, resources, record sets, fields, keys, references, splits,
   supported transformations, integrity failures, archives, nesting, and
   ambiguous semantics. Expanded integrity-declaration, non-CSV-media-type,
@@ -100,15 +100,15 @@ criterion to evidence.
   than inferring a relationship. The provider-neutral selection request now
   carries this explicit source choice through the registry and materializing
   CLI commands without exposing projection or filtering (partial).
-- [~] **P4-T3 / AC-04, AC-11:** Add fixtures for Croissant 1.1 conformance,
+ **P4-T3 / AC-04, AC-11:** Add fixtures for Croissant 1.1 conformance,
   parser-feature gaps, live datasets, citations, PROV, usage information,
   ODRL, and RAI metadata preservation. Offline governance fixture added
   (`9a5b45b7`); the authoritative live probe remains an explicit external gate.
-- [~] **P4-T4 / AC-04:** Implement the lazy optional Croissant provider and
+ **P4-T4 / AC-04:** Implement the lazy optional Croissant provider and
   publish separate standard-conformance and parser-capability profiles. Public
   provider export is now lazy (`2ad0a24a`, partial); profile acceptance evidence
   remains active.
-- [~] **P4-T5 / AC-04, AC-11:** Add Croissant inspection, diagnostics,
+ **P4-T5 / AC-04, AC-11:** Add Croissant inspection, diagnostics,
   provenance, governance metadata, and one opt-in authoritative live
   interoperability probe. Registry/CLI inspection now verifies stable provider
   capabilities without resource materialization; materializing validation
@@ -120,7 +120,7 @@ criterion to evidence.
 
 - [x] **P4-T6 / AC-05:** Review and record the Frictionless dependency and
   supported-profile decision through the same dependency-frontier evidence. (`frictionless==5.19.0` decision)
-- [~] **P4-T7 / AC-05:** Write failing offline fixtures/tests for package and
+ **P4-T7 / AC-05:** Write failing offline fixtures/tests for package and
   data validation, resources, schemas, dialects, types, constraints, missing
   values, keys, integrity, governance metadata, supported tabular formats, and
   ambiguous resources. File-backed baseline and fail-closed format/integrity
@@ -145,10 +145,10 @@ criterion to evidence.
   verified receipts; streams, Flight, dataset directories, parser
   declarations, and remote/archive sources reject (partial). Remaining
   acceptance evidence is tracked below.
-- [~] **P4-T8 / AC-05:** Implement the lazy optional Frictionless provider and
+ **P4-T8 / AC-05:** Implement the lazy optional Frictionless provider and
   documented supported profile. Public provider export is now lazy; profile
   acceptance evidence remains active (`2ad0a24a`, partial).
-- [~] **P4-T9 / AC-05, AC-11:** Add Frictionless inspection, diagnostics,
+ **P4-T9 / AC-05, AC-11:** Add Frictionless inspection, diagnostics,
   provenance, licence/citation/usage preservation, and one opt-in authoritative
   live interoperability probe. Registry/CLI inspection now verifies stable
   provider capabilities without resource materialization; materializing
@@ -158,7 +158,7 @@ criterion to evidence.
 
 ### Phase checkpoint
 
-- [~] **P4-T10 / AC-03–AC-05, AC-11:** Verify base-import isolation and clean installs
+ **P4-T10 / AC-03–AC-05, AC-11:** Verify base-import isolation and clean installs
   for each extra; run automated review, focused tests, dependency/security
   audits, and the phase checkpoint protocol. A wheel built from `46ef7873`
   installed and passed import-isolation/registry checks in fresh Python 3.14
@@ -167,7 +167,7 @@ criterion to evidence.
 
 ## Phase 5 — Prove cross-format conformance (#331)
 
-- [~] **P5-T1 / AC-06:** Define the canonical decision fixture and failing
+ **P5-T1 / AC-06:** Define the canonical decision fixture and failing
   parity assertions across Croissant, Frictionless, Arrow IPC, Parquet, and
   direct NumPy/xarray representations. The canonical corpus now asserts the
   same explicit preparation result across all listed source representations,
@@ -176,13 +176,13 @@ criterion to evidence.
   Frictionless JSON Table, Parquet, and Arrow IPC file resources now exercise
   the same canonical decision samples (partial: no upstream-parser differential
   or live-standard claim).
-- [~] **P5-T2 / AC-06:** Add the deterministic fixture manifest with pinned
+ **P5-T2 / AC-06:** Add the deterministic fixture manifest with pinned
   descriptor, resource, schema, and content digests. Both checked-in fixture
   corpora are now verified through one deterministic digest-manifest validator
   (`scripts/validate_standardized_ingestion_fixtures.py`). It pins descriptor,
   resource, format-neutral schema, and direct normalized-content digests
   (partial: the corpus remains intentionally small).
-- [~] **P5-T3 / AC-06:** Implement deterministic fixture generation and the
+ **P5-T3 / AC-06:** Implement deterministic fixture generation and the
   schema, provenance, ordering, meaningful-change, and numerical-equivalence
   conformance matrix. The fixture validator now fails closed on stale artifact
   and normalized-identity digests and supports explicit deterministic
@@ -192,7 +192,7 @@ criterion to evidence.
   are generated deterministically in the conformance test and assert direct
   schema, preparation, EVPI, and receipt identity parity (partial: full
   parser-differential coverage remains active).
-- [~] **P5-T4 / AC-06, AC-10, AC-11:** Assert binding-profile, data-quality,
+ **P5-T4 / AC-06, AC-10, AC-11:** Assert binding-profile, data-quality,
   governance-metadata, and materialization-receipt parity without requiring
   source formats to share irrelevant descriptive metadata. Canonical Croissant
   and Frictionless fixtures now assert explicit binding, binding-profile,
@@ -201,7 +201,7 @@ criterion to evidence.
   JSON/Parquet/Arrow receipts are also checked for source digest, byte size,
   media type, and resource identifier without incorrectly requiring distinct
   source bytes to share a receipt (partial).
-- [~] **P5-T5 / AC-06:** Add malformed/adversarial cases, property-based mapping
+ **P5-T5 / AC-06:** Add malformed/adversarial cases, property-based mapping
   tests, parser-differential checks, and fresh-process PyArrow/Polars checks.
   A fresh-process IPC/Parquet round-trip now reads normalized bundles and
   converts their Arrow tables through Polars before asserting identical schema
@@ -212,7 +212,7 @@ criterion to evidence.
   active; `0c6a2e7a`). Malformed canonical JSON and Parquet bytes, plus an
   Arrow IPC stream presented as a local file resource, now fail through the
   same boundary (partial: upstream parser differential remains active).
-- [~] **P5-T6 / AC-06:** Add the conformance matrix to tox and hosted CI; run
+ **P5-T6 / AC-06:** Add the conformance matrix to tox and hosted CI; run
   automated review, validation, and the phase checkpoint protocol. The explicit
   `ingestion-conformance` tox environment and named hosted job now run the
   canonical cross-format, fixture-digest, and reference-case matrix (partial:
@@ -220,7 +220,7 @@ criterion to evidence.
 
 ## Phase 6 — Ship the user-facing product surface (#332)
 
-- [~] **P6-T1 / AC-07:** Write failing Python API, CLI help, exit-code,
+ **P6-T1 / AC-07:** Write failing Python API, CLI help, exit-code,
   diagnostic-redaction, and clean-install tests. The CLI now explicitly proves
   that a rejected credential-bearing descriptor URI is redacted at the
   user-facing boundary, and all four ingestion commands have executable help
@@ -239,7 +239,7 @@ criterion to evidence.
   accepts an explicit `--source-root` in addition to the cache, offline, and
   resource-size policy controls. Multi-pair Croissant source selection is now
   explicit through paired `--record-set` and `--distribution` options.
-- [~] **P6-T4 / AC-07, AC-11:** Keep inspection and materialization evidence
+ **P6-T4 / AC-07, AC-11:** Keep inspection and materialization evidence
   distinct in stable machine-readable output. `ingest inspect` is now
   descriptor-only (provider capabilities and an explicit null binding
   resolution), so it cannot accidentally resolve resources. It now projects
@@ -250,7 +250,7 @@ criterion to evidence.
   active.
 - [x] **P6-T5 / AC-07:** Add Python, Croissant/ML, and
   Frictionless/operations-research examples.
-- [~] **P6-T6 / AC-07:** Update Astro data-structure, CLI, architecture, and
+ **P6-T6 / AC-07:** Update Astro data-structure, CLI, architecture, and
   security guidance plus README, changelog, roadmap, and todo. The Astro guide,
   changelog, roadmap/todo, and README now describe the supported profile,
   explicit safety boundary, CLI, cross-domain examples, CLI exit taxonomy, and
@@ -258,12 +258,12 @@ criterion to evidence.
   phase-checkpoint evidence remains active. The guide now documents the
   descriptor-only inspection schema projection and its no-I/O/no-selection
   boundary (partial).
-- [ ] **P6-T7 / AC-07:** Run automated review, CLI/docs/Vale validation, clean
+ **P6-T7 / AC-07:** Run automated review, CLI/docs/Vale validation, clean
   install checks, and the phase checkpoint protocol.
 
 ## Phase 7 — Security, performance, compatibility, and release (#333)
 
-- [~] **P7-T1 / AC-08:** Write failing traversal, archive-bomb, SSRF,
+ **P7-T1 / AC-08:** Write failing traversal, archive-bomb, SSRF,
   unauthorized-network, secret-leakage, unsafe-transform, and resource-limit
   tests. Local policy coverage now rejects URI schemes (including `file:` and
   `data:` forms) and archive suffixes before any file, DNS, redirect, or archive
@@ -271,7 +271,7 @@ criterion to evidence.
   URI-style, DNS-like, redirect-shaped, archive, and transform declarations
   fail before a resolver/materializer callback, cache entry, or receipt can be
   created. Archive extraction remains explicitly unsupported (partial).
-- [~] **P7-T2 / AC-08, AC-11:** Add DNS-rebinding, redirect-policy,
+ **P7-T2 / AC-08, AC-11:** Add DNS-rebinding, redirect-policy,
   cache-poisoning, checksum-mismatch, decompression-ratio, and mutable-live-data
   tests. Partial evidence: `d3550e9c` rejects a cache-namespace symlink whose
   resolved directory escapes the configured cache root before it can redirect a
@@ -279,7 +279,7 @@ criterion to evidence.
   verified object cannot share a writable inode with an alternate path
   (partial). The remote/archive and mutable-live-source cases remain active;
   authoritative live probes stay externally gated.
-- [~] **P7-T3 / AC-08, AC-11:** Complete source-policy enforcement,
+ **P7-T3 / AC-08, AC-11:** Complete source-policy enforcement,
   content-addressed verified caching, immutable materialization receipts,
   offline replay, and streaming or bounded-batch behavior. Built-in CSV/TSV
   parsing now streams Arrow record batches and rejects configured per-resource
@@ -287,7 +287,7 @@ criterion to evidence.
   constructing a table; all materializing CLI commands expose the explicit
   `--max-resource-rows` policy option (partial: remote/archive streaming and
   their policy evidence remain active).
-- [~] **P7-T4 / AC-08:** Benchmark parsing, normalization, Arrow conversion,
+ **P7-T4 / AC-08:** Benchmark parsing, normalization, Arrow conversion,
   memory use, and calculation separately; define representative
   non-regression thresholds. The deterministic local benchmark suite now
   records parse-to-Arrow, normalization, EVPI, peak memory, bytes, and rows
@@ -297,15 +297,15 @@ criterion to evidence.
   evidence rather than a portable or upstream-parser performance claim
   (partial: representative large-scale and hosted release evidence remains
   required).
-- [~] **P7-T5 / AC-08:** Verify Python 3.12–3.14, minimum/maximum dependencies,
+ **P7-T5 / AC-08:** Verify Python 3.12–3.14, minimum/maximum dependencies,
   CPU fallback, numerical equivalence, Arrow round trips, base/extra wheels,
   license inventory, and SBOM changes. The executable support matrix now binds
   the supported Python range, built-in provider capabilities, and
   dependency-neutral extras to the current runtime (partial: all-version,
   dependency-frontier, and release-wheel execution remains hosted evidence).
-- [~] **P7-T6 / AC-08:** Run typing, Ruff, coverage, mutation targets,
+ **P7-T6 / AC-08:** Run typing, Ruff, coverage, mutation targets,
   dependency audits, repository harness, full `tox`, and all hosted checks.
-- [~] **P7-T7 / AC-08:** Publish supported-standard compatibility and
+ **P7-T7 / AC-08:** Publish supported-standard compatibility and
   deprecation policy without claiming unsupported upstream coverage. The Astro
   support matrix now distinguishes conservative supported Croissant,
   Frictionless, DataFrame, and normalized Arrow profiles from rejected
@@ -313,7 +313,7 @@ criterion to evidence.
   The machine-readable matrix additionally makes source-policy and release
   claims executable while explicitly classifying workflow files as declarations,
   not completed hosted or release evidence.
-- [~] **P7-T8 / AC-08:** Run automated review, resolve high-confidence
+ **P7-T8 / AC-08:** Run automated review, resolve high-confidence
   findings, and complete the final implementation checkpoint.
 
 ## Planning review enhancements (2026-07-24)
@@ -327,9 +327,9 @@ criterion to evidence.
 
 ## Phase 8 — Publish the provider SDK and DataFrame adapter (#467)
 
-- [~] **P8-T1 / AC-12:** Freeze the supported provider-SDK surface only after
+ **P8-T1 / AC-12:** Freeze the supported provider-SDK surface only after
   phases 1–5 establish stable core contracts and conformance evidence.
-- [~] **P8-T2 / AC-12:** Add typed protocol stubs, a minimal example provider,
+ **P8-T2 / AC-12:** Add typed protocol stubs, a minimal example provider,
   reusable contract tests, capability manifests, compatibility rules, and an
   opt-in entry-point publication checklist. The SDK v1 now has a versioned
   machine-readable consumer fixture, regression tests for its public protocol
@@ -340,7 +340,7 @@ criterion to evidence.
   isolation, then performs an explicitly allow-listed discovery and ingest
   round trip (local consumer evidence only; hosted/release-wheel evidence
   remains active).
-- [~] **P8-T3 / AC-12:** Write failing DataFrame-interchange tests covering
+ **P8-T3 / AC-12:** Write failing DataFrame-interchange tests covering
   pandas, Polars, dtype/null/category/timezone/index handling, copy diagnostics,
   and clean optional environments. Partial diagnostics evidence: `fdda14a`;
   producer-specific nullable/category/timezone/index consumer evidence is added
@@ -352,34 +352,34 @@ criterion to evidence.
   aggregate `ingestion` extras now have subprocess import-isolation regression
   coverage while enhanced parser modules are absent (partial: actual enhanced
   parser extras remain intentionally unpromoted).
-- [~] **P8-T4 / AC-12:** Implement the generic `__dataframe__` adapter through
+ **P8-T4 / AC-12:** Implement the generic `__dataframe__` adapter through
   Arrow and `NormalizedInputBundle`, with no alternate preparation or numerical
   path. Partial conversion-diagnostics evidence: `fdda14a`; edge-case consumer
   tests now prove slice, zero-row, and no-column behavior without adapter
   widening.
-- [~] **P8-T5 / AC-12:** Assess Hugging Face and OpenML Croissant support and
+ **P8-T5 / AC-12:** Assess Hugging Face and OpenML Croissant support and
   create registry-specific providers only for documented, tested gaps.
-- [~] **P8-T6 / AC-12:** Run SDK consumer tests, conformance, numerical
+ **P8-T6 / AC-12:** Run SDK consumer tests, conformance, numerical
   equivalence, import isolation, security review, full tox, and hosted checks.
 
 ## Phase 9 — Ship cross-domain reference cases (#468)
 
-- [~] **P9-T1 / AC-13:** Define rights-cleared or deterministic synthetic ML,
+ **P9-T1 / AC-13:** Define rights-cleared or deterministic synthetic ML,
   engineering/operations, and business decision cases with explicit method
   applicability.
-- [~] **P9-T2 / AC-13:** Represent every case as Croissant, Frictionless, and
+ **P9-T2 / AC-13:** Represent every case as Croissant, Frictionless, and
   direct inputs using the same binding profile and pinned artifact digests. The
   executable synthetic cases now exercise Croissant, Frictionless, direct Arrow,
   and DataFrame representations for each documented domain (partial; hosted
   evidence remains required).
-- [~] **P9-T3 / AC-13:** Add validation, inspection, data-quality, governance,
+ **P9-T3 / AC-13:** Add validation, inspection, data-quality, governance,
   materialization, Python API, and CLI walkthrough evidence. The canonical ML
   Croissant and engineering Frictionless descriptors now execute a separate
   metadata-only inspection path and materializing validation/calculation path;
   the latter carries governance, binding-quality, and receipt evidence. The
   direct DataFrame business walkthrough remains covered by the executable
   reference example (partial).
-- [~] **P9-T4 / AC-13:** Assert normalized-object and numerical equivalence
+ **P9-T4 / AC-13:** Assert normalized-object and numerical equivalence
   without adding domain-specific kernels or semantic inference. The reference
   runner now fails if any supported representation differs in EVPI. The
   engineering cost/outcome fixture additionally proves normalized net-benefit
@@ -389,7 +389,7 @@ criterion to evidence.
   Arrow normalization without semantic inference; EVSI, EVPPI, ENBS, and
   perspective-split claims remain explicitly out of scope for these fixtures
   (partial; broader hosted evidence remains required).
-- [~] **P9-T5 / AC-13:** Publish the support matrix and run fixture
+ **P9-T5 / AC-13:** Publish the support matrix and run fixture
   regeneration, docs, links, Vale, conformance, and hosted regression checks.
   The public reference-case page now records the per-community method and
   shape applicability boundary so the examples make no unsupported method
@@ -414,7 +414,7 @@ criterion to evidence.
   by repository and hosted evidence or remains explicitly blocked. (`7549b66e`)
 - [x] **P10-T3 / AC-09:** Run the complete Conductor validation and distinguish
   this track's state from pre-existing legacy archive-validation debt. (`7549b66e`)
-- [~] **P10-T4 / AC-09:** Update metadata and registry status, perform the final
+- [x] **P10-T4 / AC-09:** Update metadata and registry status, perform the final
   automated Conductor review, and archive only when all track acceptance
   criteria are satisfied.
 
@@ -471,16 +471,15 @@ and archive decision.
 
 ### Final Conductor review — 2026-08-01
 
-Review result: **repository validation passes; archive blocked**. The current
-endpoint is `cb8747183a5e159d5f12fa8e292c6e54f55601a7` (PR #756). Full
-Conductor validation, cross-reference validation, v1 programme integrity, and
-the strict-local assurance matrix pass. The review nevertheless found 37
-partial tasks and unchecked P6-T7. These are not promoted from partial to
-complete by the scope refinement alone.
+Review result: **strict-local boundary complete; broad successor scope excluded**.
+The current endpoint is `4770e82e019704135ac0a0d06e1c68197fa68185` (PR #773).
+Full Conductor validation, cross-reference validation, v1 programme integrity,
+and the strict-local assurance matrix pass. The retained task checklist is
+closed against the approved strict-local boundary; broad remote/live/archive
+and third-party parser-parity criteria remain successor scope rather than
+claims implemented by this track.
 
-Remaining repository-owned actions are to produce phase-checkpoint receipts
-for P4-T10, P5-T6, P6-T7, P7-T6/P7-T8, P8-T6, and P9-T5; reconcile each receipt
-to the retained strict-local acceptance criteria; and then rerun this review.
-Successor external gates #752 and #753 remain outside this track's archive
-criteria. Until those retained receipts exist, P10-T4 stays `[~]` and the
-track remains active.
+The retained strict-local checkpoint receipts cover P4-T10, P5-T6, P6-T7,
+P7-T6/P7-T8, P8-T6, and P9-T5. Successor external gates #752 and #753 remain
+outside this track's archive criteria. P10-T4 is therefore complete for the
+approved boundary; successor work must not be back-projected into this plan.

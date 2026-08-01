@@ -56,6 +56,10 @@ if TYPE_CHECKING:
         RiskSensitiveVoiResult,
         risk_sensitive_constrained_voi,
     )
+    from .uncertainty_modelling_value import (
+        UncertaintyModellingValueResult,
+        value_of_uncertainty_modelling,
+    )
 
 _MODULES = (
     "adaptive",
@@ -105,6 +109,7 @@ _MODULES = (
     "structural",
     "threshold",
     "utility_information",
+    "uncertainty_modelling_value",
     "validation",
 )
 
@@ -169,6 +174,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "ThresholdProfile",
     "ThresholdProfileSet",
     "ThresholdResult",
+    "UncertaintyModellingValueResult",
     "ValidationProfile",
     "ValidationProfileSet",
     "ValueOfPerspectiveResult",
@@ -205,6 +211,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "sequential_voi",
     "structural_evpi",
     "structural_evppi",
+    "value_of_uncertainty_modelling",
     "value_of_adaptive_learning_bandit",
     "value_of_clairvoyance",
     "value_of_ai_assisted_evidence_triage",

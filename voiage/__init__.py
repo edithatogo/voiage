@@ -68,6 +68,18 @@ _EXTENSION_EXPORTS = {
         ".methods.event_localized_information",
         "event_localized_information_value",
     ),
+    "UncertaintyModellingValueResult": (
+        ".methods.uncertainty_modelling_value",
+        "UncertaintyModellingValueResult",
+    ),
+    "uncertainty_modelling_value": (
+        ".methods.uncertainty_modelling_value",
+        "value_of_uncertainty_modelling",
+    ),
+    "value_of_uncertainty_modelling": (
+        ".methods.uncertainty_modelling_value",
+        "value_of_uncertainty_modelling",
+    ),
     "ImplementationInformationResult": (
         ".methods.implementation_information",
         "ImplementationInformationResult",

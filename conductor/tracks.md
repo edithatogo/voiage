@@ -66,6 +66,20 @@ issue closure remain separate gates.*
 
 ---
 
+## [~] Track: Uncertainty-Modelling Value
+*Link: [./tracks/uncertainty_modelling_value_20260801/index.md](./tracks/uncertainty_modelling_value_20260801/index.md)*
+*GitHub: [issue #594](https://github.com/edithatogo/voiage/issues/594),
+native sub-issue of [#318](https://github.com/edithatogo/voiage/issues/318),
+with delivery subissues [#774](https://github.com/edithatogo/voiage/issues/774),
+[#775](https://github.com/edithatogo/voiage/issues/775), and
+[#776](https://github.com/edithatogo/voiage/issues/776), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: in progress — delivering canonical C18-M26 as an experimental exact
+finite Python contract; scientific review, hosted checks, polyglot parity,
+stable promotion, release and closure remain separate gates.*
+
+---
+
 ## [x] Track: Risk-Adjusted Information Pricing and VoC Presentation
 *Link: [./tracks/risk_adjusted_information_pricing_20260731/index.md](./tracks/risk_adjusted_information_pricing_20260731/index.md)*
 *GitHub: [issue #595](https://github.com/edithatogo/voiage/issues/595),
@@ -167,17 +181,16 @@ exist; repository manifest, validation, and PR handoff are being finalized.*
 
 ---
 
-## [~] Track: Standardized Dataset Ingestion
-  *Link: [./tracks/standardized-dataset-ingestion_20260723/index.md](./tracks/standardized-dataset-ingestion_20260723/index.md)*
+## [x] Track: Standardized Dataset Ingestion
+  *Link: [./archive/standardized-dataset-ingestion_20260723/index.md](./archive/standardized-dataset-ingestion_20260723/index.md)*
   *GitHub: [#325](https://github.com/edithatogo/voiage/issues/325), with native
   implementation sub-issues
   [#326–#333, #467–#468](https://github.com/edithatogo/voiage/issues/325).*
-  *Status: in progress — the 30 merged ingestion PRs #639–#690 are mapped to
-  exact commits in the 2026-07-31 Phase 10 reconciliation record. Every linked
-  Project 28 item remains In Progress; the historical ledger is preserved under
-  an integrity-repair receipt. The approved strict-local endpoint is being
-  reconciled; controlled live interoperability (#752) and remote-ingestion
-  security (#753) are separately governed successor tracks.*
+  *Status: completed for the approved strict-local boundary — deterministic
+  offline Croissant/Frictionless ingestion, conformance, security-policy,
+  SDK/DataFrame, CLI, support-matrix, and worked-example evidence is archived.
+  Broad remote/live/archive interoperability and remote-ingestion security are
+  successor scope in #752 and #753; linked GitHub issues remain open by design.*
 
 ---
 
