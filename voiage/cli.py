@@ -1465,7 +1465,10 @@ def calculate_estimation_variance(
         file_okay=True,
         dir_okay=False,
         readable=True,
-        help="Runtime sample JSON for the specified method",
+        help=(
+            "Runtime sample JSON; EVSI requires posterior_variances with aligned "
+            "predictive_probabilities"
+        ),
     ),
     output_file: Path | None = typer.Option(
         None,
@@ -1492,6 +1495,7 @@ def calculate_estimation_variance(
             result = evsi_var(
                 data["prior_target_samples"],
                 data["posterior_variances"],
+                data["predictive_probabilities"],
                 specification=specification,
             )
         payload = {

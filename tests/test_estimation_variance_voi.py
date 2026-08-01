@@ -316,6 +316,7 @@ def test_result_contract_preserves_raw_negative_estimate_and_zero_variance_polic
             estimator_id="posterior_variance_aggregation",
             seed=7,
             specification_digest="a" * 64,
+            input_digest="b" * 64,
         ),
     )
     assert result.absolute_reduction == 0.0
@@ -329,6 +330,9 @@ def test_versioned_estimation_variance_schemas_and_fixtures_validate() -> None:
     )
     result_schema = json.loads(
         (ESTIMATION_SPEC_ROOT / "result.schema.json").read_text(encoding="utf-8")
+    )
+    runtime_data_schema = json.loads(
+        (ESTIMATION_SPEC_ROOT / "runtime-data.schema.json").read_text(encoding="utf-8")
     )
     manifest = json.loads(
         (ESTIMATION_SPEC_ROOT / "fixtures" / "manifest.json").read_text(
@@ -362,3 +366,11 @@ def test_versioned_estimation_variance_schemas_and_fixtures_validate() -> None:
             ).model_dump(mode="json")
             == result_payload
         )
+
+    Draft202012Validator(runtime_data_schema).validate(
+        {
+            "prior_target_samples": [-2.0, 0.0, 2.0],
+            "posterior_variances": [0.0, 3.0],
+            "predictive_probabilities": [0.9, 0.1],
+        }
+    )

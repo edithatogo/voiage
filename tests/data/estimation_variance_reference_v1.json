@@ -31,15 +31,17 @@
       "variance_reduction": 2.909090909090909
     },
     {
-      "case_id": "evsi-var-binary-enumeration",
+      "case_id": "evsi-var-binary-unequal-predictive-enumeration",
       "method_id": "evsi_var",
       "reference_kind": "enumerable",
       "derivation": "Bayes enumeration over binary parameter and binary observation",
-      "prior_probability": 0.5,
+      "prior_probability": 0.2,
       "observation_accuracy": 0.75,
-      "prior_variance": 0.25,
-      "expected_posterior_variance": 0.1875,
-      "variance_reduction": 0.0625
+      "predictive_probabilities": [0.65, 0.35],
+      "posterior_variances": [0.07100591715976332, 0.24489795918367346],
+      "prior_variance": 0.16000000000000003,
+      "expected_posterior_variance": 0.13186813186813187,
+      "variance_reduction": 0.02813186813186816
     }
   ]
 }

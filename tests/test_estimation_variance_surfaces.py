@@ -134,6 +134,7 @@ def test_estimation_variance_cli_evsi_writes_output(tmp_path: Path) -> None:
             {
                 "prior_target_samples": [0.0, 1.0, 2.0, 3.0],
                 "posterior_variances": [0.5, 0.5],
+                "predictive_probabilities": [0.8, 0.2],
             }
         ),
         encoding="utf-8",

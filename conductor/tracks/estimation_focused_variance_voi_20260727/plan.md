@@ -70,6 +70,14 @@
 - [x] **RF5:** Reconcile the retained R package's embedded release-workflow
   assertion with the job-scoped write permission required to publish immutable
   source and manual assets. (AC-06, AC-08) [dc6ddd4d]
+- [x] **RF6:** Remediate independent review findings by enforcing explicit
+  prior-predictive EVSI weighting, input-bound replay digests and scalar
+  covariance/functional/unit consistency, with unequal-probability reference,
+  runtime and pathology coverage. Preserve experimental maturity and the
+  pending vector-scientific-review boundary. (AC-02–AC-05, AC-08)
+- [ ] **RF7:** Obtain fresh exact-head hosted checks and merge the dedicated
+  #619 remediation before reconciling any dependent umbrella pull request.
+  (AC-07, AC-08)
 - [x] **E16:** Run final automated review, full local validation and hosted
   required checks; retain merge, release and issue closure as separate gates.
   (AC-08) [d70fff63]

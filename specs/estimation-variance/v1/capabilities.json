@@ -5,6 +5,8 @@
   "planned_release": "1.2.0",
   "maturity": "experimental",
   "scientific_review_gate": "pending",
+  "runtime_data_schema": "specs/estimation-variance/v1/runtime-data.schema.json",
+  "evsi_averaging_contract": "aligned finite nonnegative prior-predictive probabilities summing to one within estimator tolerance",
   "target_capabilities": {
     "scalar_variance": "executable",
     "vector_covariance": "unsupported_pending_scientific_review"

@@ -79,9 +79,20 @@ fn main() {
             .collect::<Vec<_>>()
             .try_into()
             .expect("EVSI posterior variances");
+        let posterior_weights: SampleVector = vec![1.0 / 512.0; posterior.len()]
+            .try_into()
+            .expect("EVSI predictive probabilities");
         black_box(
-            evsi_variance_with_assurance(&prior, &posterior, 128, 42, 0.05)
-                .expect("EVSI variance benchmark"),
+            evsi_variance_with_assurance(
+                &prior,
+                &posterior,
+                &posterior_weights,
+                1.0e-12,
+                128,
+                42,
+                0.05,
+            )
+            .expect("EVSI variance benchmark"),
         );
     });
     benchmark("evsi_efficient_linear", || {

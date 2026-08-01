@@ -42,6 +42,7 @@ def _result_fields() -> dict[str, object]:
             estimator_id="discrete_conditioning",
             seed=0,
             specification_digest="a" * 64,
+            input_digest="b" * 64,
         ),
     }
 
@@ -126,6 +127,29 @@ def test_expected_posterior_covariance_is_also_dimension_checked() -> None:
     fields["expected_posterior_covariance"] = ((0.5, 0.0),)
     with pytest.raises(ValidationError, match="expected_posterior_covariance"):
         _ = EstimationVarianceResult.model_validate(fields)
+
+
+@pytest.mark.parametrize(
+    ("updates", "message"),
+    [
+        (
+            {"prior_covariance": ((1.0 + 1e-12,),)},
+            "prior_covariance scalar variance must equal",
+        ),
+        (
+            {"expected_posterior_covariance": ((0.4,),)},
+            "expected_posterior_covariance scalar variance must equal",
+        ),
+        ({"prior_covariance": ((-1.0,),)}, "scalar variance must be nonnegative"),
+        ({"functional_units": "count"}, "squared scalar target units"),
+    ],
+)
+def test_scalar_covariance_functional_and_units_fail_closed(
+    updates: dict[str, object],
+    message: str,
+) -> None:
+    with pytest.raises(ValidationError, match=message):
+        _ = EstimationVarianceResult.model_validate({**_result_fields(), **updates})
 
 
 def test_non_convergence_is_explicit_diagnostic_not_a_silent_success() -> None:

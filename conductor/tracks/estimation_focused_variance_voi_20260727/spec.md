@@ -30,6 +30,11 @@ in [Project 28](https://github.com/users/edithatogo/projects/28).
   EVSI_{var}(d)
   = Var(g(\theta)) - E_Y[Var(g(\theta)\mid Y,d)].
   \]
+- Evaluate the outer expectation using explicit prior-predictive probabilities
+  aligned one-for-one with posterior-variance evaluations. Probabilities must
+  be finite, nonnegative and sum to one within the estimator's declared
+  numerical tolerance; arbitrary positive weights are rejected rather than
+  silently normalized.
 - Declare whether \(g(\theta)\) is scalar or vector, its component units, the
   prior, parameter subset or study design, sampling model/likelihood,
   conditioning sigma-field and averaging convention, estimator, seed and
@@ -43,6 +48,11 @@ in [Project 28](https://github.com/users/edithatogo/projects/28).
   reduction and relative variance reduction.
 - Carry estimator uncertainty, convergence and degeneracy diagnostics,
   method settings, provenance and deterministic serialization.
+- Bind separate deterministic digests to the scientific specification and the
+  actual runtime values so replay identity changes when either changes.
+- For the executable scalar surface, require each 1-by-1 covariance entry to
+  be nonnegative and equal its variance functional, and require functional
+  units to be exactly the squared target component units.
 - Define behavior for zero prior variance, zero information, perfect
   information, non-finite inputs and finite-sample negative estimates.
 - Treat scalar-target variance as the first supported functional. Vector

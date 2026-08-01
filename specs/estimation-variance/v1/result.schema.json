@@ -132,7 +132,8 @@
         "kernel_version",
         "estimator_id",
         "seed",
-        "specification_digest"
+        "specification_digest",
+        "input_digest"
       ],
       "properties": {
         "backend": {"type": "string", "minLength": 1},
@@ -140,6 +141,10 @@
         "estimator_id": {"type": "string", "minLength": 1},
         "seed": {"type": "integer", "minimum": 0},
         "specification_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "input_digest": {
           "type": "string",
           "pattern": "^[a-f0-9]{64}$"
         }
