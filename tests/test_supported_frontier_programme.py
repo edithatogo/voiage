@@ -262,9 +262,7 @@ def test_event_localized_information_is_governed_without_premature_delivery() ->
     metadata = json.loads((track / "metadata.json").read_text(encoding="utf-8"))
     canonical = (ROOT / "conductor/requirements.md").read_text(encoding="utf-8")
     canonical_design = (ROOT / "conductor/design.md").read_text(encoding="utf-8")
-    child = next(
-        child for child in _inventory()["children"] if child["issue"] == 596
-    )
+    child = next(child for child in _inventory()["children"] if child["issue"] == 596)
 
     assert {"M27-S1", "M27-S2", "M27-S3", "M27-S4"} <= {
         line.split(":", maxsplit=1)[0].removeprefix("- **")
