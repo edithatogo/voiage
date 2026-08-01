@@ -200,6 +200,18 @@ inventing interpolation. Rust/R/Julia execution, independent scientific
 review, stable promotion, merge, release and issue closure remain separate
 gates.
 
+Value of Distribution-Family Information (#557) is governed for planned
+v1.2.0 delivery by canonical requirement M19 and nested delivery issues
+#731–#735. Its v1 contract resolves only a declared discrete model-family index
+after within-family uncertainty has been integrated out, returning the current
+mixture-optimal policy, family-resolved policies, complete ties, gross VDI and
+signed net VDI. This is an issue-facing presentation of discrete-index EVPPI,
+not distributional-equity VOI, full structural EVPI, model selection or
+model-discrimination EVSI. Experimental Python delivery may proceed from
+synthetic exact fixtures; terminology/partition review, real probability
+provenance, polyglot parity, stable promotion and release remain separate
+gates.
+
 The complete Rust-first polyglot programme issue hierarchy is now materialized
 in Conductor rather than existing only in GitHub and Project 28:
 

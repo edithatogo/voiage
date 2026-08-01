@@ -34,3 +34,21 @@ flowchart LR
     Ranking --> Tornado["Accessible tornado plot"]
     Result --> Boundary["Not PSA, EVPPI, global sensitivity or VoI"]
 ```
+
+## Value of Distribution-Family Information
+
+```mermaid
+flowchart LR
+    Evidence["Evidence D"] --> Probabilities["Declared P(M=m | D)"]
+    Families["Candidate family index M"] --> Conditional["Within-family E[U(a,Y) | M=m,D]"]
+    Alternatives["Common alternatives + direction + unit"] --> Conditional
+    Probabilities --> Current["Optimize probability-weighted current value"]
+    Conditional --> Current
+    Conditional --> Resolved["Optimize separately after learning M"]
+    Probabilities --> Resolved
+    Current --> VDI["Gross VDI = resolved - current"]
+    Resolved --> VDI
+    VDI --> Net["Signed net VDI = gross VDI - information cost"]
+    VDI --> Assurance["Exact enumeration + ties + invariants + bounds"]
+    Assurance --> Boundary["Discrete-index EVPPI; not structural EVPI or discrimination EVSI"]
+```

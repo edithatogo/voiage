@@ -2,6 +2,22 @@
 
 ## Must
 
+- **M19-U1:** #557 Value of Distribution-Family Information must identify the
+  uncertain model-family index, its evidence-conditioned probabilities, the
+  common alternatives, decision direction, comparable value unit and the
+  within-family conditional expected value for every family/alternative pair.
+- **M19-U2:** The v1 estimand must perfectly resolve only the discrete
+  model-family index while leaving within-family parameter and outcome
+  uncertainty integrated out. Return current and family-resolved values,
+  complete tie sets, probability-weighted contributions, gross VDI,
+  information cost and signed net VDI without silent renormalization or
+  clipping.
+- **M19-U3:** Record the exact conditioning order, family definitions,
+  probability and value provenance, comparability diagnostics, estimator
+  status and language dispositions. Treat the calculation as a discrete-index
+  EVPPI presentation, keep it distinct from full structural EVPI and
+  model-discrimination EVSI, and require scientific review before promotion.
+
 - **M18-U1:** #556 deterministic sensitivity analysis must declare a fixed
   baseline, parameter/scenario coordinates, compared alternatives, outcome
   direction and units before evaluating one-way, two-way or scenario surfaces.
@@ -33,6 +49,9 @@
 
 - Provide normalized tabular input, accessible tornado plotting, explicit
   estimated interpolation labels and independent analytical/brute-force tests.
+- Provide analytical enumeration, permutation/splitting/scaling invariants,
+  loss/minimization equivalence, bound checks against matched structural EVPI
+  and explicit Monte Carlo follow-on assurance requirements.
 - Provide nonlinear-utility counterexamples, probability-price anchors,
   root-finding diagnostics and explicit polyglot dispositions.
 
@@ -45,3 +64,6 @@
 - Treat deterministic ranges as probability distributions, uncertainty
   attribution or information value.
 - Create a duplicate VoC method or overwrite human-authored issue content.
+- Reuse the structural-EVPI kernel when it would also resolve within-family
+  uncertainty, infer model probabilities, or claim that VDI terminology is
+  scientifically standardized.

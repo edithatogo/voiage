@@ -125,3 +125,25 @@ def test_dsa_governance_is_versioned_and_cross_referenced() -> None:
     assert "M18" in metadata["requirement_ids"]
     for issue in range(724, 729):
         assert f"#{issue}" in plan
+
+
+def test_distribution_family_information_is_governed_and_cross_referenced() -> None:
+    track = INVENTORY.parent
+    requirements = (track / "requirements.md").read_text(encoding="utf-8")
+    design = (track / "design.md").read_text(encoding="utf-8")
+    plan = (track / "plan.md").read_text(encoding="utf-8")
+    metadata = json.loads((track / "metadata.json").read_text(encoding="utf-8"))
+    canonical = (ROOT / "conductor/requirements.md").read_text(encoding="utf-8")
+    canonical_design = (ROOT / "conductor/design.md").read_text(encoding="utf-8")
+
+    assert {"M19-U1", "M19-U2", "M19-U3"} <= {
+        line.split(":", maxsplit=1)[0].removeprefix("- **")
+        for line in requirements.splitlines()
+        if line.startswith("- **M19-")
+    }
+    assert "Value of Distribution-Family Information" in design
+    assert "M19 / planned v1.2.0" in canonical
+    assert "Declared model-family index" in canonical_design
+    assert "M19" in metadata["requirement_ids"]
+    for issue in range(731, 736):
+        assert f"#{issue}" in plan

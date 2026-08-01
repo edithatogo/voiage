@@ -86,6 +86,13 @@ flowchart LR
     DSASurfaces --> DSARanking["Deterministic ranges + ranking"]
     DSARanking --> DSATornado["Accessible tornado plot"]
     DSASwitches --> DSABoundary["Not PSA, EVPPI, global sensitivity or VoI"]
+
+    ModelFamilies["Declared model-family index + P(M|D)"] --> FamilyValues["Within-family conditional expected values"]
+    FamilyValues --> CurrentFamilyPolicy["Current mixture-optimal policy"]
+    FamilyValues --> ResolvedFamilyPolicies["Family-resolved policies"]
+    CurrentFamilyPolicy --> FamilyVDI["Gross and signed net VDI"]
+    ResolvedFamilyPolicies --> FamilyVDI
+    FamilyVDI --> FamilyBoundary["Discrete-index EVPPI; not full structural EVPI"]
 ```
 
 ```mermaid

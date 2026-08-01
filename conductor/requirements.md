@@ -56,6 +56,13 @@ programme. The canonical cross-repository requirements are maintained in
   increments, deterministic range/ranking and tie semantics, and observed or
   bracketed switch points. It fails closed on malformed coordinates and stays
   distinct from PSA, EVPPI, global sensitivity and information value.
+- **M19 / planned v1.2.0:** #557 Value of Distribution-Family Information
+  perfectly resolves a declared discrete model-family index after
+  within-family uncertainty has been integrated out. It requires comparable
+  conditional alternative values, evidence-conditioned family probabilities,
+  complete ties, conditioning/provenance, gross and signed net VDI, and exact
+  estimator assurance; it is a discrete-index EVPPI presentation rather than
+  full structural EVPI or model-discrimination EVSI.
 
 ### Should have
 
@@ -101,3 +108,4 @@ programme. The canonical cross-repository requirements are maintained in
 | v1.2.0 | Must | M16 | `risk_adjusted_information_pricing_20260731` | #595 and #694–#697 under #318 |
 | v1.2.0 | Must | M17 | canonical C16 plus the four specialized delivery tracks above | #313/#318 and Project 28 |
 | v1.2.0 | Must | M18 | governed deterministic sensitivity analysis | #556 under #318 |
+| v1.2.0 | Must | M19 | governed distribution-family information value | #557 under #318 |

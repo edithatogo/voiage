@@ -13,7 +13,8 @@
   "requirement_ids": [
     "M16",
     "M17",
-    "M18"
+    "M18",
+    "M19"
   ],
   "dependencies": [
     "voi_method_census_contract_reconciliation_20260723",
