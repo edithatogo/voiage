@@ -223,9 +223,12 @@ covers the experimental frontier entries only.
   hosted exact-head/installed-wheel assurance. Retain continuous-outcome and
   fitted-estimator validation, independent scientific review, risk-sensitive
   composition, Rust/R/Julia parity, stable promotion, release, parent #600 and
-  umbrella #318 closure as separate gates. The signed implementation branch is
-  ready for fresh independent review; no self-approval, hosted-check or merge
-  claim is made. (AC-03–AC-07, AC-09)
+  umbrella #318 closure as separate gates. Fresh independent implementation
+  review found and fixed the value-unit invariance defect at signed commit
+  `aaf77aaf`; no Critical, High or Medium implementation finding remains open.
+  Hosted exact-head and installed-wheel checks are still pending, and no
+  scientific-approval, merge, promotion, release or closure claim is made.
+  (AC-03–AC-07, AC-09)
 
 - [x] **F572-1 / #760:** Freeze #572's C18/M23 forecast-signal decision
   estimand, strict input/result schemas, analytical newsvendor fixture,

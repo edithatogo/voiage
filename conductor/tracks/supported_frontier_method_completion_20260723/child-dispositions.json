@@ -281,11 +281,13 @@
       "satisfies_ac06": true,
       "delivery_track": "supported_frontier_method_completion_20260723",
       "implementation_pull_requests": [],
-      "review_artifacts": [],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/outcome-conditional-sample-information-reference-review.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/outcome-conditional-sample-information-implementation-review.md"
+      ],
       "adjacent_artifacts": ["aggregate EVSI and estimator uncertainty"],
       "delivery_subissues": [790, 791, 792],
       "unresolved_gates": [
-        "fresh independent implementation review",
         "hosted exact-head and installed-wheel assurance",
         "continuous-outcome and fitted-estimator validation",
         "independent scientific review",
