@@ -2,9 +2,9 @@
   "track_id": "standardized-dataset-ingestion_20260723",
   "version": "1.3.0",
   "type": "feature",
-  "status": "in_progress",
+  "status": "completed",
   "created_at": "2026-07-23T13:53:21Z",
-  "updated_at": "2026-08-01T04:30:00Z",
+  "updated_at": "2026-08-01T08:10:00Z",
   "description": "Add a format-neutral normalized input contract and strict-local Croissant ML and Frictionless Data providers without coupling source parsers to VOI calculation kernels.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
@@ -55,9 +55,9 @@
     {
       "id": "functional-implementation",
       "kind": "repository",
-      "status": "pending",
-      "evidence": "Merged PRs #334, #477, #479, #481, #482, #484, #486, #487, #488, #490, #492, #494, #495, #519, #523, #525, #526, and #527 establish the tested baseline contract, preparation boundary, runtime provenance, data-quality reporting, EVPI capability declaration, direct-versus-normalized equivalence evidence, provider capability declarations, opt-in allow-listed discovery, provider-boundary test coverage, the third-party extension contract, explicit Croissant 1.1 and unsupported archive/transformation rejection, missing-extra error coverage, deterministic normalized Parquet interchange, the completed Phase 1 checkpoint, wide/long and cost/outcome normalized preparation, and strict Frictionless CSV schema validation. Commits e41591e and 0d782b58 record the Croissant and Frictionless parser-dependency decisions without adding parser dependencies. The full acceptance plan remains active: its remaining conformance, security, SDK, and cross-domain case criteria cannot be represented as complete.",
-      "legacy_status": "in_progress"
+      "status": "satisfied",
+      "evidence": "The approved strict-local boundary is complete at merge commit 4770e82e019704135ac0a0d06e1c68197fa68185 (PR #773). Deterministic offline Croissant and Frictionless providers, normalized preparation, conformance, security-policy, SDK/DataFrame, CLI, support-matrix, and worked-example evidence pass the retained local assurance matrix. Broad remote/live/archive interoperability and third-party parser parity are explicitly excluded and tracked by successor issues #752 and #753.",
+      "legacy_status": "completed"
     },
     {
       "id": "cross-reference-integration-order",
@@ -124,6 +124,12 @@
       "kind": "external",
       "status": "pending",
       "evidence": "Issue #753 requires a separately approved threat model and policy for DNS, redirects, SSRF, archives, caching, quotas, and mutable resources; it is outside this track's archive criteria."
+    },
+    {
+      "id": "strict-local-archive-boundary",
+      "kind": "repository",
+      "status": "satisfied",
+      "evidence": "Final review at 4770e82e019704135ac0a0d06e1c68197fa68185 passed full Conductor, GitHub cross-reference, v1 programme, quality, conformance, core-contract, provider/product, and strict-local assurance validation. The track is archived with successor scope preserved in #752 and #753."
     }
   ]
 }

@@ -167,17 +167,16 @@ exist; repository manifest, validation, and PR handoff are being finalized.*
 
 ---
 
-## [~] Track: Standardized Dataset Ingestion
-  *Link: [./tracks/standardized-dataset-ingestion_20260723/index.md](./tracks/standardized-dataset-ingestion_20260723/index.md)*
+## [x] Track: Standardized Dataset Ingestion
+  *Link: [./archive/standardized-dataset-ingestion_20260723/index.md](./archive/standardized-dataset-ingestion_20260723/index.md)*
   *GitHub: [#325](https://github.com/edithatogo/voiage/issues/325), with native
   implementation sub-issues
   [#326–#333, #467–#468](https://github.com/edithatogo/voiage/issues/325).*
-  *Status: in progress — the 30 merged ingestion PRs #639–#690 are mapped to
-  exact commits in the 2026-07-31 Phase 10 reconciliation record. Every linked
-  Project 28 item remains In Progress; the historical ledger is preserved under
-  an integrity-repair receipt. The approved strict-local endpoint is being
-  reconciled; controlled live interoperability (#752) and remote-ingestion
-  security (#753) are separately governed successor tracks.*
+  *Status: completed for the approved strict-local boundary — deterministic
+  offline Croissant/Frictionless ingestion, conformance, security-policy,
+  SDK/DataFrame, CLI, support-matrix, and worked-example evidence is archived.
+  Broad remote/live/archive interoperability and remote-ingestion security are
+  successor scope in #752 and #753; linked GitHub issues remain open by design.*
 
 ---
 
