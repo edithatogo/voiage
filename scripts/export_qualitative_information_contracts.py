@@ -46,6 +46,7 @@ EVIDENCE_ARTIFACTS = (
     "tests/test_qualitative_information_surfaces.py",
     "docs/astro-site/src/content/docs/examples/qualitative-information-assessment.mdx",
     "conductor/tracks/supported_frontier_method_completion_20260723/qualitative-voi-reference-review.md",
+    "conductor/tracks/supported_frontier_method_completion_20260723/qualitative-information-implementation-review.md",
 )
 
 
