@@ -23,9 +23,25 @@
   },
   "github_parent_issue": "https://github.com/edithatogo/voiage/issues/318",
   "github_subissues": [
-    "https://github.com/edithatogo/voiage/issues/582"
+    "https://github.com/edithatogo/voiage/issues/763",
+    "https://github.com/edithatogo/voiage/issues/764",
+    "https://github.com/edithatogo/voiage/issues/765"
   ],
   "github_project": "https://github.com/users/edithatogo/projects/28",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/582",
+    "parent_issue": "https://github.com/edithatogo/voiage/issues/318",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "subissues": [
+      "https://github.com/edithatogo/voiage/issues/763",
+      "https://github.com/edithatogo/voiage/issues/764",
+      "https://github.com/edithatogo/voiage/issues/765"
+    ],
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/772"
+    ],
+    "pull_request_evidence": "experimental_implementation_delivery"
+  },
   "gates": [
     {
       "id": "scientific-review",
