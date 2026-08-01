@@ -366,6 +366,68 @@ def test_issue_600_contract_and_native_delivery_children_are_governed() -> None:
     assert "ac1d31bf900c3ee6e817047202cae4229918d48f" in governed_text
 
 
+def test_issue_619_repository_delivery_and_open_scientific_gate_are_governed() -> None:
+    dedicated = ROOT / "conductor/tracks/estimation_focused_variance_voi_20260727"
+    child = next(item for item in _inventory()["children"] if item["issue"] == 619)
+    metadata = json.loads((dedicated / "metadata.json").read_text(encoding="utf-8"))
+    cross_references = json.loads(
+        (ROOT / "conductor/github-cross-references.json").read_text(encoding="utf-8")
+    )
+    cross_reference = next(
+        item
+        for item in cross_references["tracks"]
+        if item["track_id"] == "estimation_focused_variance_voi_20260727"
+    )
+    governed_text = " ".join(
+        (
+            (dedicated / "index.md").read_text(encoding="utf-8"),
+            (dedicated / "plan.md").read_text(encoding="utf-8"),
+            (dedicated / "delivery-closeout-20260801.md").read_text(encoding="utf-8"),
+            (ROOT / "roadmap.md").read_text(encoding="utf-8"),
+            (ROOT / "todo.md").read_text(encoding="utf-8"),
+        )
+    )
+
+    assert child["issue_state"] == "open"
+    assert child["project_status"] == "In Progress"
+    assert child["disposition"] == "experimental_merged"
+    assert child["delivery_subissues"] == [671, 672, 673, 674]
+    assert child["implementation_pull_requests"] == [676]
+    assert child["satisfies_ac06"] is True
+    scientific_gate = next(
+        gate
+        for gate in metadata["gates"]
+        if gate["id"] == "scientific-classification-review"
+    )
+    delivery_gate = next(
+        gate
+        for gate in metadata["gates"]
+        if gate["id"] == "implementation-and-canonical-sync-merge"
+    )
+    assert metadata["status"] == "in_progress"
+    assert scientific_gate["status"] == "pending"
+    assert delivery_gate["status"] == "satisfied"
+    assert cross_reference["issue"]["state"] == "open"
+    assert cross_reference["pull_request_evidence"] == (
+        "merged_track_delivery_and_canonical_sync"
+    )
+    pull_requests = {item["number"]: item for item in cross_reference["pull_requests"]}
+    assert pull_requests[676]["status"] == "merged"
+    assert pull_requests[64]["status"] == "merged"
+    for evidence in (
+        "5e2c097fbdda8965d1907d7e930e910238fa24da",
+        "9495fc3f372b9564701a180c6cf611a3ddc010dd",
+        "6c3fd72358f3feef6c542e0a374d7ea74889f915",
+        "cedc6fbb17a5d999cb12bb300a01f87d976ec02e",
+        "65 terminal",
+        "two resolved review threads",
+        "E17 scientific classification",
+        "parent #619 closure",
+        "umbrella #318 closure",
+    ):
+        assert evidence in governed_text
+
+
 def test_programme_records_unfinished_census_dependency() -> None:
     dependencies = _inventory()["dependencies"]
     assert dependencies == [

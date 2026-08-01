@@ -349,8 +349,15 @@
       "satisfies_ac06": true,
       "delivery_track": "estimation_focused_variance_voi_20260727",
       "implementation_pull_requests": [676],
-      "review_artifacts": ["conductor/tracks/estimation_focused_variance_voi_20260727/phase-4-review.md"],
-      "adjacent_artifacts": []
+      "review_artifacts": ["conductor/tracks/estimation_focused_variance_voi_20260727/delivery-closeout-20260801.md"],
+      "adjacent_artifacts": [],
+      "delivery_subissues": [671, 672, 673, 674],
+      "unresolved_gates": [
+        "E17 scientific classification and vector covariance scalarization review",
+        "stable promotion and release",
+        "parent #619 closure",
+        "umbrella #318 closure"
+      ]
     }
   ]
 }

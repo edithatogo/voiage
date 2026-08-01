@@ -79,7 +79,18 @@
 - [ ] **E17:** Obtain scientific classification review before any stable
   method-registry promotion, including a reviewed disposition for vector
   covariance scalarization. (AC-01, AC-02)
-- [ ] **E18:** Rebase onto the then-current protected base, merge the approved
+- [x] **E18:** Rebase onto the then-current protected base, merge the approved
   implementation and canonical-sync pull requests, and handle stable
   promotion, release and issue closure only through their separate governed
-  workflows. (AC-07, AC-09)
+  workflows. (AC-07, AC-09) *(VOIAGE PR #676 exact head
+  `5e2c097fbdda8965d1907d7e930e910238fa24da`: 65 terminal contexts, 60
+  successes, four governed skips, one neutral CodeQL aggregation, zero bad or
+  pending, two resolved review threads; squash merge
+  `9495fc3f372b9564701a180c6cf611a3ddc010dd` at
+  `2026-07-31T16:57:49Z`. Canonical VOP sync PR #64 exact head
+  `6c3fd72358f3feef6c542e0a374d7ea74889f915`: 16 terminal contexts, 15
+  successes, one governed skip, zero bad or pending, zero review threads;
+  squash merge `cedc6fbb17a5d999cb12bb300a01f87d976ec02e` at
+  `2026-08-01T03:38:52Z`. This makes delivery subissues #671--#674 eligible
+  for closure but does not satisfy E17 or authorize parent #619, umbrella
+  #318, stable-promotion or release closure.)*
