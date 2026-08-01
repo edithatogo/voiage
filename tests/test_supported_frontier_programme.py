@@ -62,24 +62,38 @@ def test_stage_one_evidence_map_closes_only_repository_owned_g5_to_g13() -> None
     )
     assert {item["issue"] for item in evidence_map["families"]} == EXPECTED_CHILDREN
     assert set(evidence_map["completed_repository_gates"]) == {
-        f"G{number}" for number in range(5, 14)
+        "G5",
+        "G6",
+        "G7",
+        "G9",
+        "G10",
+        "G11",
+        "G12",
+        "G13",
     }
-    assert evidence_map["pending_programme_gates"] == ["G14", "G15"]
+    assert evidence_map["pending_programme_gates"] == ["G8", "G14", "G15"]
     for family in evidence_map["families"]:
         for gate in ("G5", "G6", "G7", "G8", "G9", "G10", "G11", "G12"):
             assert family["evidence"][gate]
         for artifact in family["artifacts"]:
             assert (ROOT / artifact).is_file(), artifact
+    by_mapped_issue = {item["issue"]: item for item in evidence_map["families"]}
+    for issue in (571, 595, 619):
+        assert by_mapped_issue[issue]["evidence"]["G8"].startswith("pending:")
 
     by_issue = {item["issue"]: item for item in inventory["children"]}
     assert inventory["source_revision"] == evidence_map["source_revision"]
     assert by_issue[558]["issue_state"] == "closed"
-    assert by_issue[558]["project_status"] == "Done"
+    assert by_issue[558]["project_status"] == "In Progress"
     for issue in (556, 557, 558, 559):
         assert by_issue[issue]["disposition"] == "experimental_merged"
     assert (
         evidence_map["project_normalization_eligibility"]["mutation_performed"] is False
     )
+    assert evidence_map["project_normalization_eligibility"]["observations"] == {
+        "558": "In Progress / Open / Unverified / Clean",
+        "724": "In Progress / lifecycle not set / evidence not set / Planned",
+    }
     assert evidence_map["project_normalization_eligibility"]["issues"] == [
         558,
         724,
@@ -98,7 +112,7 @@ def test_stage_one_evidence_map_closes_only_repository_owned_g5_to_g13() -> None
         741,
         742,
     ]
-    for gate in ("G14", "G15"):
+    for gate in ("G8", "G14", "G15"):
         assert f"- [ ] **{gate}:" in plan
 
 
@@ -354,7 +368,7 @@ def test_issue_593_delivery_closeout_preserves_later_gates() -> None:
         )
     )
 
-    assert len(pull_requests) == 2
+    assert len(pull_requests) >= 2
     for pull_request in pull_requests:
         assert pull_request["status"] == "merged"
         assert "hosted-required-checks" in pull_request["evidence"]
@@ -415,7 +429,7 @@ def test_issue_594_delivery_closeout_preserves_later_gates() -> None:
     assert child["disposition"] == "experimental_merged"
     assert child["issue_state"] == "open"
     assert child["project_status"] == "In Progress"
-    assert len(pull_requests) == 2
+    assert len(pull_requests) >= 2
     for pull_request in pull_requests:
         assert pull_request["status"] == "merged"
         assert "hosted-required-checks" in pull_request["evidence"]

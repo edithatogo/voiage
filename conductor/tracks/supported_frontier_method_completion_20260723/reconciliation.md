@@ -1,8 +1,9 @@
 # Child evidence reconciliation
 
 Audited against `origin/main` at `69b00d0f` on 2026-08-01. The machine-readable
-state source is `child-dispositions.json`; the exact G5–G13 family artifact map
-is `g5-g13-evidence-map.json`, and `g5-g12-evidence-matrix.md` is its summary.
+state source is `child-dispositions.json`; the stage-one family artifact map is
+`g5-g13-evidence-map.json`, and `g5-g12-evidence-matrix.md` is its summary. G8
+remains pending where independent review provenance is absent.
 
 ## Delivery evidence
 
@@ -27,6 +28,8 @@ release or publication completion.
 
 Project-normalization eligibility is recorded, without mutation, for closed
 #558 and early closed delivery children #724–#728, #731–#735 and #738–#742.
+Direct Project 28 observation found #558 In Progress/Open/Unverified/Clean and
+#724 In Progress with Planned sync; eligibility is a target, not current state.
 
 ## Dependency and maturity boundaries
 

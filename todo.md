@@ -10,9 +10,12 @@ relevant subagent review panel defined in
 The panel supplies structured evidence; maintainer approval and external
 release, registry, and publication decisions remain separate gates.
 
-*   [ ] Complete #318 programme closeout stages G14 and G15.
-    *   G5–G13 repository-owned evidence and governance reconciliation is
-        complete in `g5-g13-evidence-map.json` at source revision `69b00d0f`.
+*   [ ] Complete #318 programme closeout stages G8, G14 and G15.
+    *   G5–G7 and G9–G13 repository-owned evidence and governance
+        reconciliation is complete in `g5-g13-evidence-map.json` at source
+        revision `69b00d0f`.
+    *   G8 remains open because #571/#595 phase or delivery reviews and #619's
+        delivery closeout do not supply genuine independent review provenance.
     *   G14 must run the fresh exact-head local/hosted programme matrix; G15
         must record repository completion separately from merge, stable
         promotion, release/publication and issue closure.

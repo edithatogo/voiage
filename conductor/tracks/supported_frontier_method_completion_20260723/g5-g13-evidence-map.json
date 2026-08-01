@@ -3,8 +3,8 @@
   "track_id": "supported_frontier_method_completion_20260723",
   "audited_at": "2026-08-01T15:35:00Z",
   "source_revision": "69b00d0ff0c139b3cd5e9466cb48cc81396f907e",
-  "completed_repository_gates": ["G5", "G6", "G7", "G8", "G9", "G10", "G11", "G12", "G13"],
-  "pending_programme_gates": ["G14", "G15"],
+  "completed_repository_gates": ["G5", "G6", "G7", "G9", "G10", "G11", "G12", "G13"],
+  "pending_programme_gates": ["G8", "G14", "G15"],
   "families": [
     {
       "issue": 556,
@@ -109,7 +109,7 @@
         "conductor/tracks/study_design_efficiency_20260727/bindings.json",
         "docs/astro-site/src/content/docs/study-design-efficiency.mdx"
       ],
-      "evidence": {"G5": "COSS, ENBS and efficiency tests", "G6": "normative study-design fixture", "G7": "scientific and funding-context gates retained", "G8": "phase reviews", "G9": "experimental evaluator merged", "G10": "binding dispositions", "G11": "user and plot documentation", "G12": "focused and hosted assurance"}
+      "evidence": {"G5": "COSS, ENBS and efficiency tests", "G6": "normative study-design fixture", "G7": "scientific and funding-context gates retained", "G8": "pending: phase/delivery review is not independent evidence review", "G9": "experimental evaluator merged", "G10": "binding dispositions", "G11": "user and plot documentation", "G12": "focused and hosted assurance"}
     },
     {
       "issue": 572,
@@ -184,7 +184,7 @@
         "specs/frontier/expected-utility-information-pricing/v1/capabilities.json",
         "docs/astro-site/src/content/docs/methods/expected-utility-information.mdx"
       ],
-      "evidence": {"G5": "nonlinear-utility and root-diagnostic tests", "G6": "versioned utility-pricing contracts", "G7": "scientific and utility-comparability gates retained", "G8": "phase reviews", "G9": "experimental evaluator and VoC presentation merged", "G10": "language capability dispositions", "G11": "method documentation", "G12": "focused and hosted assurance"}
+      "evidence": {"G5": "nonlinear-utility and root-diagnostic tests", "G6": "versioned utility-pricing contracts", "G7": "scientific and utility-comparability gates retained", "G8": "pending: phase/delivery review is not independent evidence review", "G9": "experimental evaluator and VoC presentation merged", "G10": "language capability dispositions", "G11": "method documentation", "G12": "focused and hosted assurance"}
     },
     {
       "issue": 596,
@@ -274,7 +274,7 @@
         "specs/estimation-variance/v1/capabilities.json",
         "docs/astro-site/src/content/docs/methods/estimation-variance.mdx"
       ],
-      "evidence": {"G5": "reference, property and pathology tests", "G6": "versioned variance-reduction contracts", "G7": "scientific classification and covariance-scalarization gates retained", "G8": "delivery boundary review", "G9": "experimental evaluator merged", "G10": "language capability dispositions", "G11": "plot and method documentation", "G12": "focused and hosted assurance"}
+      "evidence": {"G5": "reference, property and pathology tests", "G6": "versioned variance-reduction contracts", "G7": "scientific classification and covariance-scalarization gates retained", "G8": "pending: delivery closeout is not independent evidence review", "G9": "experimental evaluator merged", "G10": "language capability dispositions", "G11": "plot and method documentation", "G12": "focused and hosted assurance"}
     }
   ],
   "remaining_gates": [
@@ -292,7 +292,10 @@
     "mutation_performed": false,
     "issues": [558, 724, 725, 726, 727, 728, 731, 732, 733, 734, 735, 738, 739, 740, 741, 742],
     "observed_issue_state": "closed",
-    "observed_project_status": "Done",
+    "observations": {
+      "558": "In Progress / Open / Unverified / Clean",
+      "724": "In Progress / lifecycle not set / evidence not set / Planned"
+    },
     "eligible_target": "Done / Resolved / Verified / Clean",
     "note": "Eligibility only; this reconciliation does not mutate GitHub issues or Project 28."
   }

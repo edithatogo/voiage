@@ -87,7 +87,7 @@
     "voi_method_census_contract_reconciliation_20260723",
     "stable_voi_rust_core_completion_20260723"
   ],
-  "description": "Complete, consolidate, demote or explicitly exclude every accepted frontier method family with honest maturity and language dispositions. G5–G13 repository evidence is mapped at source revision 69b00d0f; fresh hosted closeout, repository completion, scientific review, polyglot parity, stable promotion, release and issue closure remain separate gates.",
+  "description": "Complete, consolidate, demote or explicitly exclude every accepted frontier method family with honest maturity and language dispositions. G5-G7 and G9-G13 repository evidence is mapped at source revision 69b00d0f; G8 independent review, fresh hosted closeout, repository completion, scientific review, polyglot parity, stable promotion, release and issue closure remain separate gates.",
   "evidence_schema": "1.0",
   "approval": {
     "status": "approved",
@@ -183,8 +183,12 @@
       "https://github.com/edithatogo/voiage/pull/712",
       "https://github.com/edithatogo/voiage/pull/676",
       "https://github.com/edithatogo/voiage/pull/723",
+      "https://github.com/edithatogo/voiage/pull/736",
+      "https://github.com/edithatogo/voiage/pull/743",
+      "https://github.com/edithatogo/voiage/pull/744",
       "https://github.com/edithatogo/voiage/pull/787",
       "https://github.com/edithatogo/voiage/pull/769",
+      "https://github.com/edithatogo/voiage/pull/772",
       "https://github.com/edithatogo/vop_poc_nz/pull/51",
       "https://github.com/edithatogo/vop_poc_nz/pull/64",
       "https://github.com/edithatogo/vop_poc_nz/pull/65",
@@ -194,7 +198,12 @@
       "https://github.com/edithatogo/vop_poc_nz/pull/70",
       "https://github.com/edithatogo/voiage/pull/751",
       "https://github.com/edithatogo/voiage/pull/770",
-      "https://github.com/edithatogo/voiage/pull/798"
+      "https://github.com/edithatogo/voiage/pull/798",
+      "https://github.com/edithatogo/voiage/pull/804",
+      "https://github.com/edithatogo/voiage/pull/807",
+      "https://github.com/edithatogo/voiage/pull/808",
+      "https://github.com/edithatogo/voiage/pull/809",
+      "https://github.com/edithatogo/voiage/pull/831"
     ],
     "pull_request_evidence": "track_delivery"
   },
@@ -266,10 +275,10 @@
       "evidence": "PR #712 final exact head 1048c4bc4354acdb0c468da17cb0b5d581961690 completed 65 terminal conclusions: 60 successes, four governed skips and one neutral conclusion, with no pending or failed checks. Both review threads were resolved before squash merge b8395abfc603509a2f1a2c87c9c33e6260fb5840 at 2026-07-31T16:33:52Z. Only delivery subissues #694-#697 may close; VoC remains a presentation/delegating alias, and scientific review, Rust/R/Julia parity, stable promotion, release, parent #595 closure and umbrella #318 closure remain pending."
     },
     {
-      "id": "g5-g13-repository-reconciliation",
+      "id": "stage-one-repository-reconciliation",
       "kind": "repository_evidence",
       "status": "satisfied",
-      "evidence": "g5-g13-evidence-map.json maps all 18 accepted families to G5-G12 repository artifacts and records G13 issue/governance reconciliation at source revision 69b00d0ff0c139b3cd5e9466cb48cc81396f907e. G14 and G15 remain pending; no GitHub or Project mutation is claimed."
+      "evidence": "g5-g13-evidence-map.json maps all 18 accepted families to repository artifacts and records G13 issue/governance reconciliation at source revision 69b00d0ff0c139b3cd5e9466cb48cc81396f907e. G8 remains pending where independent provenance is absent; G14 and G15 remain pending; no GitHub or Project mutation is claimed."
     }
   ]
 }

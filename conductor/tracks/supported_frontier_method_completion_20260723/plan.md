@@ -424,8 +424,10 @@ covers the experimental frontier entries only.
 - [x] **G7:** Record the rights, privacy, scientific, practitioner and external
   gates without promoting repository evidence into external approval.
   (AC-05, AC-06) `786b5229`
-- [x] **G8:** Reconcile the existing independent evidence and boundary-review
-  artifacts for all 18 live families. (AC-03, AC-07) `786b5229`
+- [ ] **G8:** Complete genuine independent evidence and boundary review for
+  every family. #571 and #595 currently have phase/delivery reviews, and #619
+  has a delivery closeout, but those receipts do not satisfy independent
+  review provenance. (AC-03, AC-07)
 
 ## Phase 3 — Delivery or reviewed exclusion
 
