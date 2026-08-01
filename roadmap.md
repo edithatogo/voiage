@@ -17,6 +17,16 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 
 Across the completed lanes, external registry, hardware, and speedup evidence gates remain explicit rather than treated as repository-owned completion criteria.
 
+Issue #318 stage-one programme reconciliation is complete at source revision
+`69b00d0f`: all 18 accepted families map to merged experimental delivery and
+their G5–G12 tests, contracts, reviews, language dispositions and documentation;
+G13 records the current issue and governance state. Only #558 is closed. Fresh
+exact-head programme assurance (G14) and the repository-completion receipt
+(G15) remain pending. External scientific/design/classification review, #599
+sparse-subgroup validity, #600 continuous/fitted-estimator and risk-composition
+evidence, #619 vector covariance scalarization, Rust/R/Julia parity, stable
+promotion, release/publication and family-parent/#318 closure remain open.
+
 The v1.3 residual frontier programme is governed canonically by VOP C18. Issue
 #599 completed its governed experimental repository delivery. Its exact finite
 Python contract preserves the existing stable descriptive helper while adding

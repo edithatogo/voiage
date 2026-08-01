@@ -1,0 +1,299 @@
+{
+  "schema_version": "1.0.0",
+  "track_id": "supported_frontier_method_completion_20260723",
+  "audited_at": "2026-08-01T15:35:00Z",
+  "source_revision": "69b00d0ff0c139b3cd5e9466cb48cc81396f907e",
+  "completed_repository_gates": ["G5", "G6", "G7", "G8", "G9", "G10", "G11", "G12", "G13"],
+  "pending_programme_gates": ["G14", "G15"],
+  "families": [
+    {
+      "issue": 556,
+      "record_id": "deterministic-sensitivity-analysis",
+      "issue_state": "open",
+      "disposition": "experimental_merged",
+      "delivery_pull_requests": [723],
+      "artifacts": [
+        "tests/test_deterministic_sensitivity.py",
+        "specs/frontier/deterministic-sensitivity-analysis/v1/fixtures/manifest.json",
+        "conductor/tracks/supported_frontier_method_completion_20260723/deterministic-sensitivity-implementation-review.md",
+        "specs/frontier/deterministic-sensitivity-analysis/v1/capabilities.json",
+        "docs/astro-site/src/content/docs/examples/deterministic-sensitivity-analysis.mdx"
+      ],
+      "evidence": {"G5": "analytical, metamorphic and pathology tests", "G6": "versioned schemas and normative fixtures", "G7": "scientific and maturity boundaries retained", "G8": "independent implementation review", "G9": "experimental evaluator merged", "G10": "language capability dispositions", "G11": "CLI, plot and worked documentation", "G12": "focused and hosted assurance"}
+    },
+    {
+      "issue": 557,
+      "record_id": "value-of-distributional-information",
+      "issue_state": "open",
+      "disposition": "experimental_merged",
+      "delivery_pull_requests": [736],
+      "artifacts": [
+        "tests/test_distributional_information.py",
+        "specs/frontier/value-of-distributional-information/v1/fixtures/manifest.json",
+        "conductor/tracks/supported_frontier_method_completion_20260723/distribution-family-information-implementation-review.md",
+        "specs/frontier/value-of-distributional-information/v1/capabilities.json",
+        "docs/astro-site/src/content/docs/examples/value-of-distributional-information.mdx"
+      ],
+      "evidence": {"G5": "reference and invariant tests", "G6": "versioned model-family contracts", "G7": "probability provenance and scientific gates retained", "G8": "independent reference and implementation review", "G9": "experimental evaluator merged", "G10": "language capability dispositions", "G11": "worked documentation", "G12": "focused and hosted assurance"}
+    },
+    {
+      "issue": 558,
+      "record_id": "qualitative-voi",
+      "issue_state": "closed",
+      "disposition": "experimental_merged",
+      "delivery_pull_requests": [743, 744],
+      "artifacts": [
+        "tests/test_qualitative_information.py",
+        "specs/frontier/qualitative-information/v1/fixtures/manifest.json",
+        "conductor/tracks/supported_frontier_method_completion_20260723/qualitative-information-implementation-review.md",
+        "specs/frontier/qualitative-information/v1/capabilities.json",
+        "docs/astro-site/src/content/docs/examples/qualitative-information-assessment.mdx"
+      ],
+      "evidence": {"G5": "conflict, incomplete and adversarial tests", "G6": "portable assessment and audit contracts", "G7": "privacy, AI-verification and practitioner gates retained", "G8": "implementation and accessibility review", "G9": "experimental workflow merged", "G10": "language capability dispositions", "G11": "accessible rendering documentation", "G12": "focused and hosted assurance"}
+    },
+    {
+      "issue": 559,
+      "record_id": "value-of-flexibility",
+      "issue_state": "open",
+      "disposition": "experimental_merged",
+      "delivery_pull_requests": [723],
+      "artifacts": [
+        "tests/test_value_of_flexibility.py",
+        "specs/frontier/value-of-flexibility/v1/fixtures/manifest.json",
+        "conductor/tracks/supported_frontier_method_completion_20260723/value-of-flexibility-implementation-review.md",
+        "specs/frontier/value-of-flexibility/v1/capabilities.json",
+        "docs/astro-site/src/content/docs/examples/value-of-flexibility.mdx"
+      ],
+      "evidence": {"G5": "chronology, comparability and pathology tests", "G6": "versioned timing-scenario contracts", "G7": "scientific and transition-policy gates retained", "G8": "independent implementation review", "G9": "experimental evaluator merged", "G10": "language capability dispositions", "G11": "compatibility and worked documentation", "G12": "focused and hosted assurance"}
+    },
+    {
+      "issue": 560,
+      "record_id": "mcda-voi",
+      "issue_state": "open",
+      "disposition": "experimental_merged",
+      "delivery_pull_requests": [751],
+      "artifacts": [
+        "tests/test_mcda_information.py",
+        "specs/frontier/mcda-information/v1/fixtures/manifest.json",
+        "conductor/tracks/supported_frontier_method_completion_20260723/mcda-information-implementation-review.md",
+        "specs/frontier/mcda-information/v1/capabilities.json",
+        "docs/astro-site/src/content/docs/examples/mcda-information-value.mdx"
+      ],
+      "evidence": {"G5": "correlation, tie and normalization tests", "G6": "versioned finite-MCDA contracts", "G7": "scientific and preference-elicitation gates retained", "G8": "reference and implementation review", "G9": "experimental evaluator merged", "G10": "language capability dispositions", "G11": "plots and worked documentation", "G12": "focused and hosted assurance"}
+    },
+    {
+      "issue": 570,
+      "record_id": "risk-sensitive-constrained-voi",
+      "issue_state": "open",
+      "disposition": "experimental_merged",
+      "delivery_pull_requests": [769],
+      "artifacts": [
+        "tests/test_risk_sensitive_voi.py",
+        "specs/frontier/risk-sensitive-constrained-voi/v1/fixtures/manifest.json",
+        "conductor/tracks/supported_frontier_method_completion_20260723/risk-sensitive-constrained-voi-implementation-review.md",
+        "specs/frontier/risk-sensitive-constrained-voi/v1/capabilities.json",
+        "docs/astro-site/src/content/docs/examples/risk-sensitive-constrained-voi.mdx"
+      ],
+      "evidence": {"G5": "risk-neutral, CVaR and infeasibility tests", "G6": "versioned constrained-policy contracts", "G7": "scientific and risk-model gates retained", "G8": "independent implementation review", "G9": "experimental evaluator merged", "G10": "language capability dispositions", "G11": "worked documentation", "G12": "focused and hosted assurance"}
+    },
+    {
+      "issue": 571,
+      "record_id": "experiment-portfolio-and-study-efficiency-voi",
+      "issue_state": "open",
+      "disposition": "experimental_merged",
+      "delivery_pull_requests": [679],
+      "artifacts": [
+        "tests/test_study_design_efficiency.py",
+        "specs/frontier/study-design-efficiency/v1/fixtures/manifest.json",
+        "conductor/tracks/study_design_efficiency_20260727/phase-4-review.md",
+        "conductor/tracks/study_design_efficiency_20260727/bindings.json",
+        "docs/astro-site/src/content/docs/study-design-efficiency.mdx"
+      ],
+      "evidence": {"G5": "COSS, ENBS and efficiency tests", "G6": "normative study-design fixture", "G7": "scientific and funding-context gates retained", "G8": "phase reviews", "G9": "experimental evaluator merged", "G10": "binding dispositions", "G11": "user and plot documentation", "G12": "focused and hosted assurance"}
+    },
+    {
+      "issue": 572,
+      "record_id": "forecast-signal-information-voi",
+      "issue_state": "open",
+      "disposition": "experimental_merged",
+      "delivery_pull_requests": [770],
+      "artifacts": [
+        "tests/test_forecast_signal_information.py",
+        "specs/frontier/forecast-signal-information/v1/fixtures/manifest.json",
+        "conductor/tracks/supported_frontier_method_completion_20260723/forecast-signal-implementation-review.md",
+        "specs/frontier/forecast-signal-information/v1/capabilities.json",
+        "specs/frontier/forecast-signal-information/v1/README.md"
+      ],
+      "evidence": {"G5": "no-skill, perfect and stale-signal tests", "G6": "versioned signal contracts", "G7": "calibration and scientific gates retained", "G8": "independent implementation review", "G9": "experimental evaluator merged", "G10": "language capability dispositions", "G11": "contract documentation", "G12": "focused and hosted assurance"}
+    },
+    {
+      "issue": 582,
+      "record_id": "information-source-portfolio-voi",
+      "issue_state": "open",
+      "disposition": "experimental_merged",
+      "delivery_pull_requests": [772],
+      "artifacts": [
+        "tests/test_information_source_portfolio.py",
+        "specs/frontier/information-source-portfolio/v1/fixtures/manifest.json",
+        "conductor/tracks/information_source_portfolio_voi_20260801/independent-implementation-review.md",
+        "specs/frontier/information-source-portfolio/v1/capabilities.json",
+        "docs/astro-site/src/content/docs/methods/information-source-portfolios.mdx"
+      ],
+      "evidence": {"G5": "dependency, rights and ordering tests", "G6": "versioned source-portfolio contracts", "G7": "rights, privacy and source-authority gates retained", "G8": "independent implementation review", "G9": "experimental evaluator merged", "G10": "language capability dispositions", "G11": "method documentation", "G12": "focused and hosted assurance"}
+    },
+    {
+      "issue": 593,
+      "record_id": "implementation-information-decomposition",
+      "issue_state": "open",
+      "disposition": "experimental_merged",
+      "delivery_pull_requests": [787],
+      "artifacts": [
+        "tests/test_implementation_information.py",
+        "specs/frontier/implementation-information/v1/fixtures/manifest.json",
+        "conductor/tracks/supported_frontier_method_completion_20260723/implementation-information-implementation-review.md",
+        "specs/frontier/implementation-information/v1/capabilities.json",
+        "docs/astro-site/src/content/docs/examples/implementation-information.mdx"
+      ],
+      "evidence": {"G5": "decomposition, dependence and pathology tests", "G6": "versioned matrix contracts", "G7": "scientific and implementation-model gates retained", "G8": "reference and implementation review", "G9": "experimental evaluator merged", "G10": "language capability dispositions", "G11": "worked documentation", "G12": "focused and hosted assurance"}
+    },
+    {
+      "issue": 594,
+      "record_id": "uncertainty-modelling-value",
+      "issue_state": "open",
+      "disposition": "experimental_merged",
+      "delivery_pull_requests": [798],
+      "artifacts": [
+        "tests/test_uncertainty_modelling_value.py",
+        "specs/frontier/uncertainty-modelling-value/v1/fixtures/manifest.json",
+        "conductor/tracks/uncertainty_modelling_value_20260801/independent-implementation-review.md",
+        "specs/frontier/uncertainty-modelling-value/v1/capabilities.json",
+        "docs/astro-site/src/content/docs/methods/uncertainty-modelling-value.mdx"
+      ],
+      "evidence": {"G5": "recourse, filtration and nonfinite tests", "G6": "versioned stochastic-solution contracts", "G7": "scientific and model-validity gates retained", "G8": "independent implementation review", "G9": "experimental evaluator merged", "G10": "language capability dispositions", "G11": "method documentation", "G12": "focused and hosted assurance"}
+    },
+    {
+      "issue": 595,
+      "record_id": "risk-adjusted-information-pricing",
+      "issue_state": "open",
+      "disposition": "experimental_merged",
+      "delivery_pull_requests": [712],
+      "artifacts": [
+        "tests/test_expected_utility_information.py",
+        "specs/frontier/expected-utility-information-pricing/v1/fixtures/manifest.json",
+        "conductor/tracks/risk_adjusted_information_pricing_20260731/phase-4-review.md",
+        "specs/frontier/expected-utility-information-pricing/v1/capabilities.json",
+        "docs/astro-site/src/content/docs/methods/expected-utility-information.mdx"
+      ],
+      "evidence": {"G5": "nonlinear-utility and root-diagnostic tests", "G6": "versioned utility-pricing contracts", "G7": "scientific and utility-comparability gates retained", "G8": "phase reviews", "G9": "experimental evaluator and VoC presentation merged", "G10": "language capability dispositions", "G11": "method documentation", "G12": "focused and hosted assurance"}
+    },
+    {
+      "issue": 596,
+      "record_id": "event-localized-information-value",
+      "issue_state": "open",
+      "disposition": "experimental_merged",
+      "delivery_pull_requests": [804],
+      "artifacts": [
+        "tests/test_event_localized_information.py",
+        "specs/frontier/event-localized-information/v1/fixtures/manifest.json",
+        "conductor/tracks/supported_frontier_method_completion_20260723/event-localized-information-final-review.md",
+        "specs/frontier/event-localized-information/v1/capabilities.json",
+        "docs/astro-site/src/content/docs/methods/event-localized-information.mdx"
+      ],
+      "evidence": {"G5": "partition, symmetry and adversarial tests", "G6": "versioned density/event contracts", "G7": "scientific localization gates retained", "G8": "reference and final independent review", "G9": "experimental evaluator merged", "G10": "language capability dispositions", "G11": "plot and method documentation", "G12": "focused and hosted assurance"}
+    },
+    {
+      "issue": 597,
+      "record_id": "belief-state-sequential-information-value",
+      "issue_state": "open",
+      "disposition": "experimental_merged",
+      "delivery_pull_requests": [807],
+      "artifacts": [
+        "tests/test_belief_state_information.py",
+        "specs/frontier/belief-state-information/v1/fixtures/manifest.json",
+        "conductor/tracks/supported_frontier_method_completion_20260723/belief-state-information-fifth-review.md",
+        "specs/frontier/belief-state-information/v1/capabilities.json",
+        "docs/astro-site/src/content/docs/examples/belief-state-information.mdx"
+      ],
+      "evidence": {"G5": "martingale, recursion-bound and adversarial tests", "G6": "versioned belief-MDP contracts", "G7": "scientific and intervention-policy gates retained", "G8": "five-stage independent remediation review", "G9": "experimental evaluator merged", "G10": "language capability dispositions", "G11": "worked documentation", "G12": "focused and hosted assurance"}
+    },
+    {
+      "issue": 598,
+      "record_id": "signed-social-information-value",
+      "issue_state": "open",
+      "disposition": "experimental_merged",
+      "delivery_pull_requests": [808],
+      "artifacts": [
+        "tests/test_signed_social_information.py",
+        "specs/frontier/signed-social-information/v1/fixtures/manifest.json",
+        "conductor/tracks/supported_frontier_method_completion_20260723/signed-social-information-implementation-review.md",
+        "specs/frontier/signed-social-information/v1/capabilities.json",
+        "docs/astro-site/src/content/docs/examples/signed-social-information-value.mdx"
+      ],
+      "evidence": {"G5": "harm, transfer and topology tests", "G6": "versioned social-ledger contracts", "G7": "rights, consent, privacy and scientific gates retained", "G8": "reference and implementation review", "G9": "experimental evaluator merged", "G10": "language capability dispositions", "G11": "worked documentation", "G12": "focused and hosted assurance"}
+    },
+    {
+      "issue": 599,
+      "record_id": "heterogeneity-value-decomposition",
+      "issue_state": "open",
+      "disposition": "experimental_merged",
+      "delivery_pull_requests": [809],
+      "artifacts": [
+        "tests/test_heterogeneity_value.py",
+        "specs/frontier/heterogeneity-value/v1/fixtures/manifest.json",
+        "conductor/tracks/supported_frontier_method_completion_20260723/heterogeneity-value-implementation-review.md",
+        "specs/frontier/heterogeneity-value/v1/capabilities.json",
+        "docs/astro-site/src/content/docs/methods/heterogeneity.mdx"
+      ],
+      "evidence": {"G5": "identity, selection and subgroup tests", "G6": "versioned heterogeneity contracts", "G7": "sparse-subgroup, fairness, privacy and scientific gates retained", "G8": "reference and implementation review", "G9": "experimental evaluator merged", "G10": "language capability dispositions", "G11": "method documentation", "G12": "focused and hosted assurance"}
+    },
+    {
+      "issue": 600,
+      "record_id": "outcome-conditional-sample-information-value",
+      "issue_state": "open",
+      "disposition": "experimental_merged",
+      "delivery_pull_requests": [831],
+      "artifacts": [
+        "tests/test_outcome_conditional_sample_information.py",
+        "specs/frontier/outcome-conditional-sample-information/v1/fixtures/manifest.json",
+        "conductor/tracks/supported_frontier_method_completion_20260723/outcome-conditional-sample-information-implementation-review.md",
+        "specs/frontier/outcome-conditional-sample-information/v1/capabilities.json",
+        "docs/astro-site/src/content/docs/methods/outcome-conditional-sample-information.mdx"
+      ],
+      "evidence": {"G5": "Bayes, identity, calibration and pathology tests", "G6": "versioned outcome-conditional contracts", "G7": "continuous/fitted-estimator, risk-composition and scientific gates retained", "G8": "reference and independent implementation review", "G9": "experimental evaluator merged", "G10": "language capability dispositions", "G11": "method documentation", "G12": "focused and hosted assurance"}
+    },
+    {
+      "issue": 619,
+      "record_id": "estimation-focused-variance-voi",
+      "issue_state": "open",
+      "disposition": "experimental_merged",
+      "delivery_pull_requests": [676],
+      "artifacts": [
+        "tests/test_estimation_variance_voi.py",
+        "specs/estimation-variance/v1/fixtures/manifest.json",
+        "conductor/tracks/estimation_focused_variance_voi_20260727/delivery-closeout-20260801.md",
+        "specs/estimation-variance/v1/capabilities.json",
+        "docs/astro-site/src/content/docs/methods/estimation-variance.mdx"
+      ],
+      "evidence": {"G5": "reference, property and pathology tests", "G6": "versioned variance-reduction contracts", "G7": "scientific classification and covariance-scalarization gates retained", "G8": "delivery boundary review", "G9": "experimental evaluator merged", "G10": "language capability dispositions", "G11": "plot and method documentation", "G12": "focused and hosted assurance"}
+    }
+  ],
+  "remaining_gates": [
+    "external scientific, practitioner, design and classification review",
+    "#599 selection-bias and sparse-subgroup validity review",
+    "#600 continuous-outcome and fitted-estimator validation",
+    "#600 risk-sensitive composition",
+    "#619 vector covariance scalarization",
+    "Rust/R/Julia parity and installed shared-fixture evidence",
+    "stable promotion",
+    "release and publication",
+    "open family-parent issues and umbrella #318 closure"
+  ],
+  "project_normalization_eligibility": {
+    "mutation_performed": false,
+    "issues": [558, 724, 725, 726, 727, 728, 731, 732, 733, 734, 735, 738, 739, 740, 741, 742],
+    "observed_issue_state": "closed",
+    "observed_project_status": "Done",
+    "eligible_target": "Done / Resolved / Verified / Clean",
+    "note": "Eligibility only; this reconciliation does not mutate GitHub issues or Project 28."
+  }
+}

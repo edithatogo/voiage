@@ -49,6 +49,59 @@ def test_inventory_covers_exact_live_native_hierarchy() -> None:
     assert len(children) == len(EXPECTED_CHILDREN)
 
 
+def test_stage_one_evidence_map_closes_only_repository_owned_g5_to_g13() -> None:
+    track = INVENTORY.parent
+    evidence_map = json.loads(
+        (track / "g5-g13-evidence-map.json").read_text(encoding="utf-8")
+    )
+    inventory = _inventory()
+    plan = (track / "plan.md").read_text(encoding="utf-8")
+
+    assert evidence_map["source_revision"] == (
+        "69b00d0ff0c139b3cd5e9466cb48cc81396f907e"
+    )
+    assert {item["issue"] for item in evidence_map["families"]} == EXPECTED_CHILDREN
+    assert set(evidence_map["completed_repository_gates"]) == {
+        f"G{number}" for number in range(5, 14)
+    }
+    assert evidence_map["pending_programme_gates"] == ["G14", "G15"]
+    for family in evidence_map["families"]:
+        for gate in ("G5", "G6", "G7", "G8", "G9", "G10", "G11", "G12"):
+            assert family["evidence"][gate]
+        for artifact in family["artifacts"]:
+            assert (ROOT / artifact).is_file(), artifact
+
+    by_issue = {item["issue"]: item for item in inventory["children"]}
+    assert inventory["source_revision"] == evidence_map["source_revision"]
+    assert by_issue[558]["issue_state"] == "closed"
+    assert by_issue[558]["project_status"] == "Done"
+    for issue in (556, 557, 558, 559):
+        assert by_issue[issue]["disposition"] == "experimental_merged"
+    assert (
+        evidence_map["project_normalization_eligibility"]["mutation_performed"] is False
+    )
+    assert evidence_map["project_normalization_eligibility"]["issues"] == [
+        558,
+        724,
+        725,
+        726,
+        727,
+        728,
+        731,
+        732,
+        733,
+        734,
+        735,
+        738,
+        739,
+        740,
+        741,
+        742,
+    ]
+    for gate in ("G14", "G15"):
+        assert f"- [ ] **{gate}:" in plan
+
+
 def test_inventory_never_promotes_adjacent_artifacts_to_delivery_evidence() -> None:
     children = _inventory()["children"]
     assert isinstance(children, list)

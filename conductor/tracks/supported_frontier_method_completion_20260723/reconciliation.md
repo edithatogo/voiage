@@ -1,34 +1,32 @@
 # Child evidence reconciliation
 
-Audited against `origin/main` at `2638d7cf` on 2026-08-01. The machine-readable
-source is `child-dispositions.json`; the G5–G12 gate summary is
-`g5-g12-evidence-matrix.md`.
+Audited against `origin/main` at `69b00d0f` on 2026-08-01. The machine-readable
+state source is `child-dispositions.json`; the exact G5–G13 family artifact map
+is `g5-g13-evidence-map.json`, and `g5-g12-evidence-matrix.md` is its summary.
 
 ## Delivery evidence
 
 | Issue | Disposition | Evidence | Remaining boundary |
 |---|---|---|---|
-| #556 | Experimental implementation | PR #723 lineage; exact v1 schemas/fixture; independent implementation review | Scientific review, polyglot execution and stable promotion |
-| #557 | Experimental implementation | PR #736 lineage; exact model-family-index v1 schemas/fixture; independent implementation review and hosted closeout receipts | Scientific terminology/partition review, real probability provenance, polyglot execution and stable promotion |
+| #556 | Experimental implementation merged | PR #723 merged; exact v1 schemas/fixture; independent implementation review | Scientific review, polyglot execution and stable promotion |
+| #557 | Experimental implementation merged | PR #736 merged; exact model-family-index v1 schemas/fixture; independent implementation review and hosted closeout receipts | Scientific terminology/partition review, real probability provenance, polyglot execution and stable promotion |
 | #558 | Experimental implementation merged | PRs #743 and #744; portable qualitative assessment/audit/rendering contracts; independent implementation and accessibility review | Practitioner/scientific review, polyglot execution, stable promotion and release |
-| #559 | Experimental implementation | PR #723 lineage; exact timing-scenario v1 schemas/fixture; independent implementation review | Scientific review, transition-constrained policies, polyglot execution and stable promotion |
+| #559 | Experimental implementation merged | PR #723 merged; exact timing-scenario v1 schemas/fixture; independent implementation review | Scientific review, transition-constrained policies, polyglot execution and stable promotion |
 | #560 | Experimental implementation merged | PR #751 merged as `e8aaba82`; exact finite additive-MCDA v1 schemas/fixture, Python/CLI/plots, independent implementation review, all exact-head hosted checks and canonical v1.3 dispatch/consumer runs | Scientific review, Rust/R/Julia parity, stable promotion and release |
 | #571 | Experimental implementation merged | PR #679; completed study-design track | Scientific review and stable promotion |
 | #595 | Experimental implementation merged | PR #712; 60 exact-head checks passed, 5 intentionally skipped, 0 failed | Scientific review and stable promotion |
 | #619 | Experimental implementation merged | PR #676; 60 exact-head checks passed, 5 intentionally skipped, 0 failed | Scientific review, vector covariance and stable promotion |
 
-## Residual accepted families
+## Complete experimental delivery inventory
 
-| Issues | Current evidence | Why it does not satisfy AC-06 |
-|---|---|---|
-| #570, #572, #582 | Constraint/risk helpers, finite-signal analysis, independent experiment portfolios | They omit the required joint policy, forecast, or source-observation semantics. |
-| #593, #594 | Implementation loss, EVPI and real-options helpers | They do not implement the joint implementation/information matrix or EVIU/VSS contract. |
-| #596–#600 | Threshold plots, sequential/bandit helpers, strategic/privacy helpers, heterogeneity, aggregate EVSI | They omit event density, belief-state control, signed social value, static/dynamic heterogeneity, or outcome-conditional sample value. |
+All 18 accepted families (#556, #557, #558, #559, #560, #570, #571, #572,
+#582, #593, #594, #595, #596, #597, #598, #599, #600 and #619) now have merged
+experimental repository delivery. Only #558 is closed; the other family-parent
+issues and umbrella #318 remain open. This is not scientific, parity, stable,
+release or publication completion.
 
-No residual family has a reviewed exclusion. They therefore remain accepted
-planned implementations. Excluding them would materially change issue #318 and
-requires an explicit scientific/contract decision rather than an agent-created
-blanket disposition.
+Project-normalization eligibility is recorded, without mutation, for closed
+#558 and early closed delivery children #724–#728, #731–#735 and #738–#742.
 
 ## Dependency and maturity boundaries
 
