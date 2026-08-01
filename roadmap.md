@@ -246,9 +246,13 @@ parent #594 and umbrella #318 remain open.
     supplies the Rust-owned kernels, strict Python contracts, exact constrained
     portfolio slice, CLI/reporting/accessible plot, and shared fixture. Native
     sub-issues #680–#682 separate runtime, user/portfolio, and
-    binding/governance evidence. These capabilities remain experimental; their
-    exact-head hosted matrix passed before merge. Scientific review and stable
-    promotion are still separate gates. Canonical C16 synchronization is proposed by stacked VOP
+    binding/governance evidence. PR #679 final exact head `ce5d7127` completed
+    65 terminal conclusions (60 successes, four governed skips and one neutral
+    conclusion), and both review threads were resolved before squash merge
+    `5d059a80`. Only delivery subissues #680–#682 may close. These capabilities
+    remain experimental; scientific review, Rust/R/Julia parity, stable
+    promotion, release, parent #571 closure and umbrella #318 closure remain
+    open. Canonical C16 synchronization is proposed by stacked VOP
     draft PR #65, which depends on the open estimation-family sync PR #64.
 
 *   `risk_adjusted_information_pricing_20260731` and GitHub issue #595 define

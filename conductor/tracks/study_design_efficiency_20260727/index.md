@@ -18,7 +18,7 @@
 - [Runtime sub-issue #680](https://github.com/edithatogo/voiage/issues/680)
 - [Portfolio and user-surface sub-issue #681](https://github.com/edithatogo/voiage/issues/681)
 - [Bindings and governance sub-issue #682](https://github.com/edithatogo/voiage/issues/682)
-- [Draft implementation PR #679](https://github.com/edithatogo/voiage/pull/679)
+- [Merged implementation PR #679](https://github.com/edithatogo/voiage/pull/679)
 - [Stacked canonical C16 sync PR #65](https://github.com/edithatogo/vop_poc_nz/pull/65)
 - [Frontier parent #318](https://github.com/edithatogo/voiage/issues/318)
 - [Programme #313](https://github.com/edithatogo/voiage/issues/313)
@@ -26,5 +26,7 @@
 
 Status: repository implementation complete. Runtime, contracts, portfolio,
 user surfaces, bindings, governance and assurance are delivered, with local
-and hosted checks passing. Scientific stable promotion, merge, release and
-issue closure remain separate gates and are not claimed.
+and final exact-head hosted checks passing before merge. Only delivery
+subissues #680, #681 and #682 are closure-eligible. Scientific review,
+Rust/R/Julia parity, stable promotion, release, parent #571 closure and
+umbrella #318 closure remain separate gates and are not claimed.

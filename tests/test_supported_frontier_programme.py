@@ -146,6 +146,70 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
     assert delivered[619]["implementation_pull_requests"] == [676]
 
 
+def test_issue_571_delivery_closeout_preserves_later_gates() -> None:
+    umbrella = ROOT / "conductor/tracks/supported_frontier_method_completion_20260723"
+    dedicated = ROOT / "conductor/tracks/study_design_efficiency_20260727"
+    child = next(item for item in _inventory()["children"] if item["issue"] == 571)
+    umbrella_metadata = json.loads(
+        (umbrella / "metadata.json").read_text(encoding="utf-8")
+    )
+    dedicated_metadata = json.loads(
+        (dedicated / "metadata.json").read_text(encoding="utf-8")
+    )
+    cross_references = json.loads(
+        (ROOT / "conductor/github-cross-references.json").read_text(encoding="utf-8")
+    )
+    governed_track = next(
+        item
+        for item in cross_references["tracks"]
+        if item["track_id"] == "study_design_efficiency_20260727"
+    )
+    pull_request = next(
+        item for item in governed_track["pull_requests"] if item["number"] == 679
+    )
+    umbrella_gate = next(
+        gate
+        for gate in umbrella_metadata["gates"]
+        if gate["id"] == "study-design-efficiency-hosted-assurance"
+    )
+    dedicated_gate = next(
+        gate
+        for gate in dedicated_metadata["gates"]
+        if gate["id"] == "hosted-required-checks"
+    )
+    pending_text = " ".join(
+        (
+            (umbrella / "plan.md").read_text(encoding="utf-8"),
+            (dedicated / "plan.md").read_text(encoding="utf-8"),
+            (ROOT / "roadmap.md").read_text(encoding="utf-8"),
+            (ROOT / "todo.md").read_text(encoding="utf-8"),
+        )
+    )
+
+    assert child["issue_state"] == "open"
+    assert child["project_status"] == "In Progress"
+    assert child["disposition"] == "experimental_merged"
+    assert child["delivery_subissues"] == [680, 681, 682]
+    assert pull_request["status"] == "merged"
+    assert "hosted-required-checks" in pull_request["evidence"]
+    assert "ce5d712779897bdd7d398e367de6a7e0bc743692" in pull_request["evidence"]
+    assert "5d059a80447afc85cee63eb85971fc1c9e80f40c" in pull_request["evidence"]
+    assert umbrella_gate["status"] == "satisfied"
+    assert dedicated_gate["status"] == "satisfied"
+    for evidence in (umbrella_gate["evidence"], dedicated_gate["evidence"]):
+        assert "65 terminal conclusions" in evidence
+        assert "Both review threads were resolved" in evidence
+    for gate in (
+        "scientific review",
+        "Rust/R/Julia parity",
+        "stable promotion",
+        "release",
+        "parent #571 closure",
+        "umbrella #318 closure",
+    ):
+        assert gate in pending_text
+
+
 def test_issue_593_delivery_closeout_preserves_later_gates() -> None:
     track = ROOT / "conductor/tracks/supported_frontier_method_completion_20260723"
     metadata = json.loads((track / "metadata.json").read_text(encoding="utf-8"))

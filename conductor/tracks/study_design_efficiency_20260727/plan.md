@@ -57,5 +57,12 @@
   requirements, Mermaid design, canonical C16, GitHub, Project 28, Conductor
   and hosted evidence. (AC-06–AC-10) — `7fadc1c`
 - [x] **S19:** Run final automated review, full local validation and hosted
-  required checks; retain merge, release and issue closure as separate gates.
+  required checks. PR #679 final exact head
+  `ce5d712779897bdd7d398e367de6a7e0bc743692` completed 65 terminal
+  conclusions (60 successes, four governed skips and one neutral conclusion),
+  with no pending or failed checks; both review threads were resolved before
+  squash merge `5d059a80447afc85cee63eb85971fc1c9e80f40c` at
+  `2026-07-31T15:38:47Z`. Only delivery subissues #680, #681 and #682 are
+  closure-eligible. Scientific review, Rust/R/Julia parity, stable promotion,
+  release, parent #571 closure and umbrella #318 closure remain pending.
   (AC-09) — `a9e626f`
