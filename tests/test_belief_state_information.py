@@ -18,7 +18,7 @@ from referencing import Registry, Resource
 from typer.testing import CliRunner
 
 import voiage
-from voiage import methods
+from voiage import cli, methods
 from voiage.cli import app
 from voiage.exceptions import InputError
 import voiage.methods.belief_state_information as belief_module
@@ -291,6 +291,32 @@ def test_public_api_cli_and_maturity_boundary(tmp_path: Path) -> None:
     failed = CliRunner().invoke(app, ["calculate-belief-state-information", str(bad)])
     assert failed.exit_code == 1
     assert "must be an object" in failed.output
+
+
+def test_cli_announces_saved_output_when_status_messages_are_enabled(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The optional terminal status branch remains covered and deterministic."""
+    output = tmp_path / "result.json"
+    monkeypatch.setattr(cli, "_should_echo_status_messages", lambda: True)
+
+    saved = CliRunner().invoke(
+        app,
+        [
+            "--format",
+            "json",
+            "calculate-belief-state-information",
+            str(INPUT),
+            "--output",
+            str(output),
+        ],
+    )
+
+    assert saved.exit_code == 0, saved.output
+    assert json.loads(output.read_text(encoding="utf-8"))["analysis_type"] == (
+        "belief_state_information_result"
+    )
+    assert f"Result saved to {output}" in saved.stdout
 
 
 def test_result_copy_is_independent() -> None:
