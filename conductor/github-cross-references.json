@@ -372,9 +372,12 @@
         {
           "number": 770,
           "url": "https://github.com/edithatogo/voiage/pull/770",
-          "status": "open",
+          "status": "merged",
           "evidence": [
-            "experimental-forecast-signal-implementation"
+            "experimental-forecast-signal-implementation",
+            "hosted-required-checks",
+            "c110706c561ca17d3ec8835af3567948b969b3cb",
+            "4657f94e69e4d99d960d6d820c5bfb3e5e8937b3"
           ]
         }
       ],

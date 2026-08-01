@@ -92,9 +92,12 @@
   closure as separate gates. The independent implementation review in
   `forecast-signal-implementation-review.md` found no blocking issue after
   bounded strictness and hosted-regression repairs. Live C18/M23 projection was
-  verified from merged VOP PRs #69 and #70. PR #770 is the hosted-assurance
-  vehicle; hosted exact-head, independent scientific review, parity,
-  stable-promotion, release and closure remain pending. (AC-03–AC-07, AC-09)
+  verified from merged VOP PRs #69 and #70. PR #770 exact head `c110706c`
+  passed all 42 hosted checks (38 successes, one neutral aggregation and three
+  governed skips), including 223/223 changed lines and 57/57 changed branches,
+  before squash merge `4657f94e`. Independent scientific review, parity,
+  stable-promotion, release and parent closure remain pending.
+  (AC-03–AC-07, AC-09)
 
 - [x] **F570-1 / #757:** Freeze C18/M22's finite risk-sensitive constrained
   perfect-information estimand; add strict v1.3.0 experimental input/result
