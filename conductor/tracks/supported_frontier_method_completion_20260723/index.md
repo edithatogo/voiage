@@ -28,6 +28,7 @@
 - [Value of Flexibility implementation review](./value-of-flexibility-implementation-review.md)
 - [MCDA information reference review](./mcda-information-reference-review.md)
 - [MCDA information implementation review](./mcda-information-implementation-review.md)
+- [Implementation-information reference review](./implementation-information-reference-review.md)
 - [GitHub issue #560](https://github.com/edithatogo/voiage/issues/560)
 - [MCDA delivery subissues #746–#750](https://github.com/edithatogo/voiage/issues/560)
 

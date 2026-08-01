@@ -1,0 +1,88 @@
+{
+  "schema_version": "v1",
+  "analysis_id": "screening-implementation-information",
+  "analysis_type": "implementation_information_decomposition",
+  "value_unit": "AUD",
+  "population": 1000,
+  "discounted_time_factor": 1,
+  "chronology": [
+    "current decision",
+    "optional sample signal",
+    "implementation response",
+    "outcome realization"
+  ],
+  "tie_tolerance": 1e-12,
+  "actions": ["standard", "new"],
+  "states": [
+    {
+      "state_id": "low",
+      "probability": 0.5,
+      "net_benefit": {"standard": 10, "new": 6}
+    },
+    {
+      "state_id": "high",
+      "probability": 0.5,
+      "net_benefit": {"standard": 10, "new": 18}
+    }
+  ],
+  "current_implementation": {
+    "low": {
+      "standard": {"standard": 1, "new": 0},
+      "new": {"standard": 0.8, "new": 0.2}
+    },
+    "high": {
+      "standard": {"standard": 1, "new": 0},
+      "new": {"standard": 0.4, "new": 0.6}
+    }
+  },
+  "specific_implementation": {
+    "low": {
+      "standard": {"standard": 1, "new": 0},
+      "new": {"standard": 0.6, "new": 0.4}
+    },
+    "high": {
+      "standard": {"standard": 1, "new": 0},
+      "new": {"standard": 0.2, "new": 0.8}
+    }
+  },
+  "sampling_model": {
+    "signals": [
+      {
+        "signal_id": "unfavourable",
+        "likelihood_by_state": {"low": 0.95, "high": 0.05}
+      },
+      {
+        "signal_id": "favourable",
+        "likelihood_by_state": {"low": 0.05, "high": 0.95}
+      }
+    ],
+    "post_sample_implementation": {
+      "unfavourable": {
+        "low": {
+          "standard": {"standard": 1, "new": 0},
+          "new": {"standard": 0.8, "new": 0.2}
+        },
+        "high": {
+          "standard": {"standard": 1, "new": 0},
+          "new": {"standard": 0.4, "new": 0.6}
+        }
+      },
+      "favourable": {
+        "low": {
+          "standard": {"standard": 1, "new": 0},
+          "new": {"standard": 0.6, "new": 0.4}
+        },
+        "high": {
+          "standard": {"standard": 1, "new": 0},
+          "new": {"standard": 0.2, "new": 0.8}
+        }
+      }
+    }
+  },
+  "costs": {
+    "perfect_information": 100,
+    "perfect_implementation": 200,
+    "specific_implementation": 50,
+    "sample": 75
+  }
+}

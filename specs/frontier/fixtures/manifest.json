@@ -65,6 +65,11 @@
       "method_maturity": "experimental"
     },
     {
+      "name": "implementation_information_decomposition",
+      "path": "implementation-information/v1/fixtures/manifest.json",
+      "method_maturity": "experimental"
+    },
+    {
       "name": "deterministic_sensitivity_analysis",
       "path": "deterministic-sensitivity-analysis/v1/fixtures/manifest.json",
       "method_maturity": "experimental"

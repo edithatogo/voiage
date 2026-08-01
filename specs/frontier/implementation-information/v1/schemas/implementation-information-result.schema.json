@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/frontier/implementation-information-result.v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "analysis_id", "analysis_type", "method_maturity",
+    "value_unit", "population", "discounted_time_factor", "chronology", "matrix",
+    "gross_components", "net_components", "identity_residuals", "decision_switches",
+    "terminology", "assurance"
+  ],
+  "properties": {
+    "schema_version": {"const": "v1"},
+    "analysis_id": {"type": "string"},
+    "analysis_type": {"const": "implementation_information_decomposition"},
+    "method_maturity": {"const": "experimental"},
+    "value_unit": {"type": "string"},
+    "population": {"type": "number"},
+    "discounted_time_factor": {"type": "number"},
+    "chronology": {"type": "array"},
+    "matrix": {"type": "object"},
+    "gross_components": {"type": "object"},
+    "net_components": {"type": "object"},
+    "identity_residuals": {"type": "object"},
+    "decision_switches": {"type": "object"},
+    "terminology": {"type": "object"},
+    "assurance": {"type": "object"}
+  }
+}
