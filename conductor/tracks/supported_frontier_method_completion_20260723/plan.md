@@ -5,7 +5,7 @@
 The following mapping is the canonical traceability boundary for the
 experimental frontier entries in `todo.md`. Each phase is scoped to the
 corresponding GitHub issue or native sub-issue; implementation status is
-evidenced by the phase marker and receipt, while scientific review, parity,
+evidenced by the phase marker and receipt, while panel review, parity,
 promotion, release, and issue closure remain separate gates.
 
 | `todo.md` workstream | GitHub issue | Conductor phases |
@@ -141,7 +141,8 @@ covers the experimental frontier entries only.
   current/perfect-information by current/perfect-implementation matrix, EVSIM,
   IA-EVSI, interaction identities, complete ties and CLI/API surfaces without
   an independence assumption. (AC-02–AC-05) `9cc93c63`
-- [~] **F593-4 / #768:** Complete independent implementation/scientific review,
+- [~] **F593-4 / #768:** Complete implementation review and the relevant
+  subagent scientific-review panel,
   hosted exact-head and installed-wheel assurance, then reconcile #593 without
   claiming polyglot parity, stable promotion, release or parent closure.
   Independent repository implementation re-review passed with no open findings
@@ -150,7 +151,7 @@ covers the experimental frontier entries only.
   hosted checks (38 successes, one neutral aggregation and three governed
   skips), including installed-wheel and changed-coverage assurance, and both
   review threads were evidence-resolved before squash merge `20e0c606`.
-  Named scientific review, Rust/R/Julia parity, stable promotion, release,
+  Named panel review, Rust/R/Julia parity, stable promotion, release,
   parent #593 closure and umbrella #318 closure remain pending.
 
 - [x] **F572-1 / #760:** Freeze #572's C18/M23 forecast-signal decision
@@ -161,7 +162,8 @@ covers the experimental frontier entries only.
   evaluator with baseline/oracle/deployed policies, signed value, calibration
   loss, regret, maximum price and no-skill/perfect/miscalibrated/late/stale
   limits. (AC-02–AC-05) `8c9a1885`
-- [~] **F572-3 / #762:** Complete independent scientific/implementation review,
+- [~] **F572-3 / #762:** Complete the relevant subagent scientific/implementation
+  review panel,
   hosted exact-head/full-suite assurance and canonical C18 projection
   reconciliation while retaining parity, stable-promotion, release and parent
   closure as separate gates. The independent implementation review in
@@ -170,7 +172,7 @@ covers the experimental frontier entries only.
   verified from merged VOP PRs #69 and #70. PR #770 exact head `c110706c`
   passed all 42 hosted checks (38 successes, one neutral aggregation and three
   governed skips), including 223/223 changed lines and 57/57 changed branches,
-  before squash merge `4657f94e`. Independent scientific review, parity,
+  before squash merge `4657f94e`. Panel review, parity,
   stable-promotion, release and parent closure remain pending.
   (AC-03–AC-07, AC-09)
 
@@ -187,7 +189,7 @@ covers the experimental frontier entries only.
   `2da92322`
 - [~] **F570-3 / #761:** Retain local exact-fixture, type, lint, registry and
   Conductor assurance plus honest Python/Rust/R/Julia/Mojo dispositions;
-  complete hosted exact-head/wheel and independent scientific review before
+  complete hosted exact-head/wheel and the relevant subagent review panel before
   reconciling #570. Local implementation evidence: `2da92322`; independent
   implementation review and bounded remediation: `58a119bc`; hosted lint/type
   remediation: `18747c8b`; changed-branch coverage remediation: `bfbfcea3`;
