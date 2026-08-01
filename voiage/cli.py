@@ -146,6 +146,9 @@ from voiage.methods.network_meta_analysis import (
     calculate_nma_evppi,
 )
 from voiage.methods.observational import voi_observational
+from voiage.methods.outcome_conditional_sample_information import (
+    outcome_conditional_sample_information_value as calculate_outcome_conditional_result,
+)
 from voiage.methods.perspective import (
     ValueOfPerspectiveResult,
 )
@@ -3646,6 +3649,60 @@ def calculate_event_localized_information(
             "Event-localized information value: "
             f"event {float(event['perfect_gross_voi']):.6f}; "
             f"density {float(density['information_value']):.6f} "
+            f"{contract['value_unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-outcome-conditional-sample-information")
+def calculate_outcome_conditional_sample_information(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to an outcome-conditional sample-information v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the outcome-conditional sample-information result",
+    ),
+) -> None:
+    """Evaluate exact finite experimental outcome-conditional sample value."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError(
+                "Outcome-conditional sample-information specification must be "
+                "a JSON object."
+            )
+        result = calculate_outcome_conditional_result(
+            cast("dict[str, object]", payload)
+        )
+        contract = result.to_contract_dict()
+        aggregate = cast("dict[str, object]", contract["aggregate"])
+        output_text = _format_output(
+            "Outcome-conditional sample-information value: "
+            f"EVSI {float(aggregate['evsi']):.6f}; "
+            f"sigma-VSI {float(aggregate['sigma_vsi']):.6f}; "
+            f"net {float(aggregate['net_evsi']):.6f} "
             f"{contract['value_unit']}",
             contract,
         )

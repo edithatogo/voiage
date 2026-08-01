@@ -1,0 +1,51 @@
+---
+title: Outcome-Conditional Sample Information
+description: Exact finite delta-EV, VSI, sigma-VSI and risk-of-low-value analysis
+---
+
+The experimental `outcome_conditional_sample_information_value` API reports
+what a proposed finite measurement may be worth for each possible outcome,
+rather than reporting EVSI alone.
+
+```python
+import json
+from pathlib import Path
+
+from voiage import outcome_conditional_sample_information_value
+
+request = json.loads(
+    Path(
+        "specs/frontier/outcome-conditional-sample-information/v1/fixtures/"
+        "normative/input.json"
+    ).read_text()
+)
+result = outcome_conditional_sample_information_value(request).to_contract_dict()
+
+print(result["aggregate"]["evsi"])
+print(result["aggregate"]["sigma_vsi"])
+print(result["aggregate"]["low_value_risks"])
+```
+
+For each outcome `x`, `delta_ev` is the direction-aware shift in the posterior
+optimal system objective, while `vsi` is the nonnegative posterior gain over
+the declared baseline-optimal reference action. Their expectations both equal
+EVSI; their outcome-wise values, variances, standard deviations and tails do
+not generally agree.
+
+`sigma_vsi` is Equation 10's predictive-probability-weighted population
+standard deviation (`ddof = 0`). It is not the unweighted sample standard
+deviation used by the paper's supplementary MATLAB/Table 3 calculation.
+`low_value_risks` reports `P(VSI_x <= delta)` for every declared nonnegative
+threshold. When policies tie, this probability is deliberately separate from
+reference-action exclusion, mandatory switching, and complete tie-set change.
+
+Run the same strict contract from the CLI:
+
+```sh
+voiage --format json calculate-outcome-conditional-sample-information request.json
+```
+
+The result is bound to a canonical input digest and can be reconstructed
+without the original runtime object. Continuous outcomes, fitted-estimator
+calibration, dynamic/adaptive sampling, underlying-system risk, Rust/R/Julia
+execution, stable promotion and scientific approval remain unsupported gates.

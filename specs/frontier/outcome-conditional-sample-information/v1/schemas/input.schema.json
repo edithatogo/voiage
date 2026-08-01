@@ -1,0 +1,245 @@
+{
+  "$id": "https://voiage.dev/specs/frontier/outcome-conditional-sample-information/v1/input.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "actions": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 2,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "analysis_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "analysis_type": {
+      "const": "outcome_conditional_sample_information_value"
+    },
+    "chronology": {
+      "const": [
+        "prior",
+        "measure",
+        "observe",
+        "update",
+        "act"
+      ]
+    },
+    "cost_placement": {
+      "const": "subtract_after_gross_vsi"
+    },
+    "discount_basis": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "horizon": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "information_cost": {
+      "minimum": 0,
+      "type": "number"
+    },
+    "low_value_thresholds": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "method_maturity": {
+      "const": "experimental"
+    },
+    "objective": {
+      "additionalProperties": false,
+      "properties": {
+        "direction": {
+          "enum": [
+            "maximize",
+            "minimize"
+          ]
+        },
+        "measure": {
+          "enum": [
+            "utility",
+            "loss"
+          ]
+        }
+      },
+      "required": [
+        "measure",
+        "direction"
+      ],
+      "type": "object"
+    },
+    "outcomes": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "likelihood_by_state": {
+            "additionalProperties": {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            "minProperties": 1,
+            "type": "object"
+          },
+          "outcome_id": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "outcome_id",
+          "likelihood_by_state"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "population": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "probability_tolerance": {
+      "exclusiveMinimum": 0,
+      "maximum": 1e-06,
+      "type": "number"
+    },
+    "provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "likelihood_source": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "probability_source": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "value_source": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "probability_source",
+        "likelihood_source",
+        "value_source"
+      ],
+      "type": "object"
+    },
+    "quantile_levels": {
+      "items": {
+        "maximum": 1,
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "reference_action": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "v1"
+    },
+    "scope": {
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "enum": [
+            "prospective",
+            "retrospective"
+          ]
+        },
+        "observed_outcome_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "mode",
+        "observed_outcome_id"
+      ],
+      "type": "object"
+    },
+    "states": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "action_values": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "minProperties": 2,
+            "type": "object"
+          },
+          "probability": {
+            "exclusiveMinimum": 0,
+            "maximum": 1,
+            "type": "number"
+          },
+          "state_id": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "state_id",
+          "probability",
+          "action_values"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "tie_tolerance": {
+      "maximum": 1e-06,
+      "minimum": 0,
+      "type": "number"
+    },
+    "value_unit": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "analysis_id",
+    "analysis_type",
+    "method_maturity",
+    "value_unit",
+    "population",
+    "horizon",
+    "discount_basis",
+    "objective",
+    "chronology",
+    "scope",
+    "actions",
+    "states",
+    "outcomes",
+    "reference_action",
+    "information_cost",
+    "cost_placement",
+    "low_value_thresholds",
+    "quantile_levels",
+    "tie_tolerance",
+    "probability_tolerance",
+    "provenance"
+  ],
+  "title": "OutcomeConditionalSampleInformationInputV1",
+  "type": "object"
+}

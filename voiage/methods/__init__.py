@@ -46,6 +46,10 @@ if TYPE_CHECKING:
         information_source_portfolio_value,
     )
     from .mcda_information import McdaInformationResult, mcda_information_value
+    from .outcome_conditional_sample_information import (
+        OutcomeConditionalSampleInformationResult,
+        outcome_conditional_sample_information_value,
+    )
     from .qualitative_information import (
         QualitativeInformationResult,
         QualitativeQuestionResult,
@@ -96,6 +100,7 @@ _MODULES = (
     "mcda_information",
     "network_nma",
     "observational",
+    "outcome_conditional_sample_information",
     "perspective",
     "portfolio",
     "preference",
@@ -158,6 +163,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "InteroperabilityStandardizationResult",
     "ModelValidationResult",
     "MonitoringSurveillanceResult",
+    "OutcomeConditionalSampleInformationResult",
     "McdaInformationResult",
     "Perspective",
     "PerspectiveSet",
@@ -200,6 +206,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "implementation_information_value",
     "information_source_portfolio_value",
     "mcda_information_value",
+    "outcome_conditional_sample_information_value",
     "perspective_optimal_strategies",
     "perspective_arrow_schema_fingerprint",
     "perspective_result_to_arrow",

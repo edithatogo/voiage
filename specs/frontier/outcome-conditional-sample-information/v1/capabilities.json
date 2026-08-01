@@ -1,0 +1,33 @@
+{
+  "canonical_requirement": "C18/M31",
+  "contract_version": "v1",
+  "estimands": [
+    "outcome-conditional shift in expected system value",
+    "outcome-conditional value of sample information",
+    "expected value of sample information",
+    "predictive-probability-weighted population sigma-VSI",
+    "risk of low sample-information value",
+    "weighted quantiles and lower-tail means"
+  ],
+  "languages": {
+    "Julia": "not_implemented",
+    "Mojo": "external_upstream_boundary",
+    "Python": "experimental_runtime",
+    "R": "not_implemented",
+    "Rust": "not_implemented"
+  },
+  "maturity": "experimental",
+  "method_family": "outcome_conditional_sample_information_value",
+  "planned_version": "v1.3.0",
+  "python_modules": [
+    "voiage/methods/outcome_conditional_sample_information.py"
+  ],
+  "unsupported": [
+    "continuous outcome integration or density estimation",
+    "fitted likelihood or posterior calibration claims",
+    "dynamic or adaptive sampling",
+    "risk in underlying system outcomes",
+    "unweighted sample standard deviation across outcome labels",
+    "stable or polyglot execution"
+  ]
+}

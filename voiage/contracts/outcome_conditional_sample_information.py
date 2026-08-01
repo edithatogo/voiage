@@ -2,6 +2,8 @@
 
 # pyright: reportAny=false, reportExplicitAny=false, reportUnknownArgumentType=false
 # pyright: reportUnknownMemberType=false, reportUnknownVariableType=false
+# pyright: reportImportCycles=false, reportMissingModuleSource=false
+# pyright: reportPrivateUsage=false, reportUnusedCallResult=false
 
 from __future__ import annotations
 
@@ -58,9 +60,7 @@ _PROVENANCE: Final[dict[str, object]] = {
     },
 }
 
-OUTCOME_CONDITIONAL_SAMPLE_INFORMATION_INPUT_SCHEMA_V1: Final[
-    dict[str, object]
-] = {
+OUTCOME_CONDITIONAL_SAMPLE_INFORMATION_INPUT_SCHEMA_V1: Final[dict[str, object]] = {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://voiage.dev/specs/frontier/outcome-conditional-sample-information/v1/input.schema.json",
     "title": "OutcomeConditionalSampleInformationInputV1",
@@ -93,9 +93,7 @@ OUTCOME_CONDITIONAL_SAMPLE_INFORMATION_INPUT_SCHEMA_V1: Final[
     "properties": {
         "schema_version": {"const": "v1"},
         "analysis_id": _TEXT,
-        "analysis_type": {
-            "const": "outcome_conditional_sample_information_value"
-        },
+        "analysis_type": {"const": "outcome_conditional_sample_information_value"},
         "method_maturity": {"const": "experimental"},
         "value_unit": _TEXT,
         "population": _TEXT,
@@ -110,9 +108,7 @@ OUTCOME_CONDITIONAL_SAMPLE_INFORMATION_INPUT_SCHEMA_V1: Final[
                 "direction": {"enum": ["maximize", "minimize"]},
             },
         },
-        "chronology": {
-            "const": ["prior", "measure", "observe", "update", "act"]
-        },
+        "chronology": {"const": ["prior", "measure", "observe", "update", "act"]},
         "scope": {
             "type": "object",
             "additionalProperties": False,
@@ -185,8 +181,8 @@ OUTCOME_CONDITIONAL_SAMPLE_INFORMATION_INPUT_SCHEMA_V1: Final[
 }
 
 _INPUT_CONTRACT = deepcopy(OUTCOME_CONDITIONAL_SAMPLE_INFORMATION_INPUT_SCHEMA_V1)
-_INPUT_CONTRACT.pop("$schema")
-_INPUT_CONTRACT.pop("$id")
+_ = _INPUT_CONTRACT.pop("$schema")
+_ = _INPUT_CONTRACT.pop("$id")
 
 _OUTCOME_RESULT: Final[dict[str, object]] = {
     "type": "object",
@@ -223,9 +219,7 @@ _OUTCOME_RESULT: Final[dict[str, object]] = {
     },
 }
 
-OUTCOME_CONDITIONAL_SAMPLE_INFORMATION_RESULT_SCHEMA_V1: Final[
-    dict[str, object]
-] = {
+OUTCOME_CONDITIONAL_SAMPLE_INFORMATION_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://voiage.dev/specs/frontier/outcome-conditional-sample-information/v1/result.schema.json",
     "title": "OutcomeConditionalSampleInformationResultV1",
@@ -273,9 +267,7 @@ OUTCOME_CONDITIONAL_SAMPLE_INFORMATION_RESULT_SCHEMA_V1: Final[
                 "direction": {"enum": ["maximize", "minimize"]},
             },
         },
-        "chronology": {
-            "const": ["prior", "measure", "observe", "update", "act"]
-        },
+        "chronology": {"const": ["prior", "measure", "observe", "update", "act"]},
         "scope": {
             "type": "object",
             "additionalProperties": False,
@@ -446,7 +438,7 @@ def validate_outcome_conditional_sample_information_semantics(
         payload,
         "input",
     )
-    from voiage.methods.outcome_conditional_sample_information import (  # noqa: PLC0415
+    from voiage.methods.outcome_conditional_sample_information import (
         _validate_and_build,
     )
 
@@ -465,7 +457,7 @@ def validate_outcome_conditional_sample_information_result_semantics(
     result = cast("dict[str, Any]", deepcopy(payload))
     assurance = cast("dict[str, Any]", result["input_assurance"])
     input_contract = cast("dict[str, Any]", assurance["input_contract"])
-    from voiage.methods.outcome_conditional_sample_information import (  # noqa: PLC0415
+    from voiage.methods.outcome_conditional_sample_information import (
         _contract_sha256,
         _evaluate_contract,
         _validate_and_build,

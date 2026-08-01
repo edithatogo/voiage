@@ -243,6 +243,51 @@ def test_issue_594_delivery_closeout_preserves_later_gates() -> None:
         assert gate in pending_text
 
 
+def test_issue_600_contract_and_native_delivery_children_are_governed() -> None:
+    track = ROOT / "conductor/tracks/supported_frontier_method_completion_20260723"
+    inventory = _inventory()
+    child = next(item for item in inventory["children"] if item["issue"] == 600)
+    metadata = json.loads((track / "metadata.json").read_text(encoding="utf-8"))
+    cross_references = json.loads(
+        (ROOT / "conductor/github-cross-references.json").read_text(encoding="utf-8")
+    )
+    cross_reference = next(
+        item
+        for item in cross_references["tracks"]
+        if item["track_id"] == "supported_frontier_method_completion_20260723"
+    )
+    governed_text = " ".join(
+        (
+            (track / "requirements.md").read_text(encoding="utf-8"),
+            (track / "design.md").read_text(encoding="utf-8"),
+            (track / "plan.md").read_text(encoding="utf-8"),
+            (ROOT / "roadmap.md").read_text(encoding="utf-8"),
+            (ROOT / "todo.md").read_text(encoding="utf-8"),
+        )
+    )
+
+    assert child["disposition"] == "contract_in_progress"
+    assert child["maturity"] == "experimental"
+    assert child["delivery_subissues"] == [790, 791, 792]
+    assert child["implementation_pull_requests"] == []
+    for issue in (600, 790, 791, 792):
+        issue_url = f"https://github.com/edithatogo/voiage/issues/{issue}"
+        assert issue_url in metadata["github_subissues"]
+        assert issue_url in cross_reference["subissues"]
+    for required_boundary in (
+        "weighted population",
+        "expectation-only",
+        "rVSI0",
+        "independent implementation review",
+        "hosted exact-head",
+        "Rust/R/Julia parity",
+        "stable promotion",
+        "parent #600",
+        "umbrella #318",
+    ):
+        assert required_boundary in governed_text
+
+
 def test_programme_records_unfinished_census_dependency() -> None:
     dependencies = _inventory()["dependencies"]
     assert dependencies == [
