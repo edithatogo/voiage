@@ -6,6 +6,8 @@
 # pyright: reportUnusedCallResult=false
 
 from copy import deepcopy
+import importlib
+import inspect
 import json
 from pathlib import Path
 from typing import Any
@@ -22,6 +24,7 @@ from voiage.contracts.event_localized_information import (
     EVENT_LOCALIZED_INFORMATION_INPUT_SCHEMA_V1,
     EVENT_LOCALIZED_INFORMATION_RESULT_SCHEMA_V1,
     validate_event_localized_information_result_semantics,
+    validate_event_localized_information_semantics,
 )
 from voiage.exceptions import InputError, PlottingError
 from voiage.methods.event_localized_information import (
@@ -451,6 +454,265 @@ def test_result_semantic_validator_rejects_mutations(
         validate_event_localized_information_result_semantics(result)
 
 
+@pytest.mark.parametrize(
+    ("mutation", "match"),
+    [
+        (lambda value: value["states"][0].update(probability=0.21), "sum to one"),
+        (
+            lambda value: value["states"][1].update(
+                state_id=value["states"][0]["state_id"]
+            ),
+            "identifiers must be unique",
+        ),
+        (
+            lambda value: value["density"].update(coordinate_units=["score"]),
+            "coordinate_units",
+        ),
+        (
+            lambda value: value["density"].update(base_coordinate=[0.0]),
+            "base_coordinate",
+        ),
+        (
+            lambda value: value["states"][0].update(coordinate=[0.0]),
+            "state coordinate",
+        ),
+        (
+            lambda value: value["states"][0]["action_values"].update(
+                unknown=value["states"][0]["action_values"].pop("safe")
+            ),
+            "action_values",
+        ),
+        (
+            lambda value: value["density"].update(reference_action="missing"),
+            "reference_action",
+        ),
+        (
+            lambda value: value["event"].update(
+                definition={"kind": "state_set", "state_ids": ["missing"]}
+            ),
+            "unknown state",
+        ),
+        (
+            lambda value: value["event"]["definition"].update(coordinate_index=2),
+            "outside the coordinate dimension",
+        ),
+        (
+            lambda value: value["states"][0]["action_values"].update(safe=float("inf")),
+            "numbers must be finite",
+        ),
+    ],
+)
+def test_input_semantic_validator_covers_fail_closed_invariants(
+    mutation: object, match: str
+) -> None:
+    payload = deepcopy(_input())
+    mutation(payload)  # type: ignore[operator]
+    with pytest.raises(ValueError, match=match):
+        validate_event_localized_information_semantics(payload)
+
+
+@pytest.mark.parametrize(
+    ("mutation", "match"),
+    [
+        (
+            lambda value: value["baseline"].update(reference_action="missing"),
+            "reference action is undeclared",
+        ),
+        (
+            lambda value: value["event"]["complement_state_ids"].append(
+                value["event"]["state_ids"][0]
+            ),
+            "must be disjoint",
+        ),
+        (
+            lambda value: value["event"]["partition_evidence"][1].update(
+                state_id=value["event"]["partition_evidence"][0]["state_id"]
+            ),
+            "identifiers must be unique",
+        ),
+        (
+            lambda value: value["event"]["partition_evidence"][1].update(
+                state_id="unknown"
+            ),
+            "does not cover",
+        ),
+        (
+            lambda value: value["event"]["imperfect_binary_channel"][1].update(
+                accuracy=value["event"]["imperfect_binary_channel"][0]["accuracy"]
+            ),
+            "accuracies must be unique",
+        ),
+        (
+            lambda value: value["density"].update(coordinate_units=["score"]),
+            "coordinate units",
+        ),
+        (
+            lambda value: value["density"].update(base_coordinate=[0.0]),
+            "base coordinate",
+        ),
+        (
+            lambda value: value["event"]["partition_evidence"][0].update(
+                coordinate=[0.0]
+            ),
+            "partition evidence coordinate",
+        ),
+        (
+            lambda value: value["event"]["definition"].update(coordinate_index=2),
+            "outside the dimension",
+        ),
+        (
+            lambda value: value["density"]["directions_from_base"][0].__setitem__(
+                0, 999.0
+            ),
+            "directions do not reconcile",
+        ),
+        (
+            lambda value: value["density"]["atoms"][0].update(
+                centered_density=float("inf")
+            ),
+            "numbers must be finite",
+        ),
+    ],
+)
+def test_result_validator_covers_additional_fail_closed_invariants(
+    mutation: object, match: str
+) -> None:
+    result = _result()
+    mutation(result)  # type: ignore[operator]
+    with pytest.raises(ValueError, match=match):
+        validate_event_localized_information_result_semantics(result)
+
+
+def test_sparse_assurance_rejects_fabricated_evaluations() -> None:
+    payload = _input()
+    payload["event"]["accuracy_grid"] = [0.2]
+    result = _result(payload)
+    result["assurance"]["maximum_binary_channel_symmetry_error"] = 0.0
+    with pytest.raises(ValueError, match="symmetry must be not evaluated"):
+        validate_event_localized_information_result_semantics(result)
+
+    result = _result(payload)
+    result["assurance"]["accuracy_half_no_information_residual"] = 0.0
+    with pytest.raises(ValueError, match="residual must be not evaluated"):
+        validate_event_localized_information_result_semantics(result)
+
+
+def test_complete_assurance_rejects_missing_half_accuracy_result() -> None:
+    result = _result()
+    result["assurance"]["accuracy_half_no_information_residual"] = None
+    with pytest.raises(ValueError, match="residual is missing"):
+        validate_event_localized_information_result_semantics(result)
+
+
+def test_result_assurance_rejects_nonzero_symmetry_and_half_residuals(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    contract_module = importlib.import_module(
+        "voiage.contracts.event_localized_information"
+    )
+    monkeypatch.setattr(contract_module, "_close", lambda *_args: None)
+
+    asymmetric = _result()
+    asymmetric["event"]["imperfect_binary_channel"][0]["gross_voi"] += 0.1
+    asymmetric["assurance"]["maximum_binary_channel_symmetry_error"] = 0.1
+    with pytest.raises(ValueError, match="symmetry exceeds tolerance"):
+        validate_event_localized_information_result_semantics(asymmetric)
+
+    half = _result()
+    half_row = next(
+        row
+        for row in half["event"]["imperfect_binary_channel"]
+        if row["accuracy"] == 0.5
+    )
+    half_row["gross_voi"] = 0.1
+    half["assurance"]["accuracy_half_no_information_residual"] = 0.1
+    with pytest.raises(ValueError, match="half residual exceeds tolerance"):
+        validate_event_localized_information_result_semantics(half)
+
+
+def test_runtime_defensive_invariant_guards(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    runtime = importlib.import_module("voiage.methods.event_localized_information")
+
+    with pytest.raises(ValueError, match="signal probability must be positive"):
+        runtime._conditional_summary([], ["a", "b"], {}, 0.0)
+
+    real_fsum = runtime.math.fsum
+
+    def biased_coordinate_fsum(values: object) -> float:
+        caller = inspect.currentframe().f_back
+        if caller is not None and caller.f_lineno in range(361, 368):
+            return -1.0
+        return real_fsum(values)
+
+    monkeypatch.setattr(runtime.math, "fsum", biased_coordinate_fsum)
+    with pytest.raises(ValueError, match="coordinate information value"):
+        event_localized_information_value(_input())
+
+    def biased_integral_fsum(values: object) -> float:
+        caller = inspect.currentframe().f_back
+        total = real_fsum(values)
+        if caller is not None and caller.f_lineno == 370:
+            return total + 1.0
+        return total
+
+    monkeypatch.setattr(runtime.math, "fsum", biased_integral_fsum)
+    with pytest.raises(ValueError, match="integral exceeds"):
+        event_localized_information_value(_input())
+
+    monkeypatch.setattr(runtime.math, "fsum", real_fsum)
+    real_clean = runtime._clean
+
+    def negative_perfect(value: float, tolerance: float) -> float:
+        caller = inspect.currentframe().f_back
+        if caller is not None and caller.f_lineno == 426:
+            return -1.0
+        return real_clean(value, tolerance)
+
+    monkeypatch.setattr(runtime, "_clean", negative_perfect)
+    with pytest.raises(ValueError, match="perfect event information"):
+        event_localized_information_value(_input())
+
+    def negative_imperfect(value: float, tolerance: float) -> float:
+        caller = inspect.currentframe().f_back
+        if caller is not None and caller.f_lineno == 465:
+            return -1.0
+        return real_clean(value, tolerance)
+
+    monkeypatch.setattr(runtime, "_clean", negative_imperfect)
+    with pytest.raises(ValueError, match="imperfect event information"):
+        event_localized_information_value(_input())
+
+    def asymmetric_channel(value: float, tolerance: float) -> float:
+        caller = inspect.currentframe().f_back
+        if (
+            caller is not None
+            and caller.f_lineno == 465
+            and caller.f_locals.get("accuracy") == 0.0
+        ):
+            return real_clean(value, tolerance) + 0.1
+        return real_clean(value, tolerance)
+
+    monkeypatch.setattr(runtime, "_clean", asymmetric_channel)
+    with pytest.raises(ValueError, match="symmetry exceeds"):
+        event_localized_information_value(_input())
+
+    def nonzero_half(value: float, tolerance: float) -> float:
+        caller = inspect.currentframe().f_back
+        if (
+            caller is not None
+            and caller.f_lineno == 465
+            and caller.f_locals.get("accuracy") == 0.5
+        ):
+            return 0.1
+        return real_clean(value, tolerance)
+
+    monkeypatch.setattr(runtime, "_clean", nonzero_half)
+    with pytest.raises(ValueError, match="accuracy 0.5 residual"):
+        event_localized_information_value(_input())
+
+
 def test_result_validator_rejects_duplicate_ungrouped_coordinate_atoms() -> None:
     result = _result()
     atom = result["density"]["atoms"][1]
@@ -501,6 +763,39 @@ def test_cli_api_exports_and_deterministic_copy(tmp_path: Path) -> None:
     )
     assert failed.exit_code == 1
     assert "must be a JSON object" in failed.stderr
+
+    output = tmp_path / "event-result.json"
+    written = CliRunner().invoke(
+        app,
+        [
+            "--format",
+            "json",
+            "calculate-event-localized-information",
+            str(INPUT),
+            "--output",
+            str(output),
+        ],
+    )
+    assert written.exit_code == 0, written.output
+    assert (
+        json.loads(output.read_text(encoding="utf-8"))["analysis_id"]
+        == _input()["analysis_id"]
+    )
+    text_output = tmp_path / "event-result.txt"
+    status = CliRunner().invoke(
+        app,
+        [
+            "calculate-event-localized-information",
+            str(INPUT),
+            "--output",
+            str(text_output),
+        ],
+    )
+    assert status.exit_code == 0, status.output
+    assert f"Result saved to {text_output}" in status.stdout
+    assert text_output.read_text(encoding="utf-8").startswith(
+        "Event-localized information value:"
+    )
 
 
 def test_plots_consume_result_only_and_label_units() -> None:

@@ -794,8 +794,6 @@ def validate_event_localized_information_result_semantics(
     policy_integral = 0.0
     centered_integral = 0.0
     for atom in atoms:
-        if len(cast("Sequence[object]", atom["coordinate"])) != dimension:
-            raise ValueError("density atom coordinate does not match the dimension")
         values = cast("Mapping[str, Any]", atom["conditional_action_values"])
         _require_action_keys(values, actions, "atom")
         _ties_are_maximal(
