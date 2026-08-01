@@ -4,6 +4,16 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+*   [ ] Complete uncertainty-modelling value after experimental repository delivery.
+    *   GitHub issue #594; native subissues #774–#776; Conductor track
+        `uncertainty_modelling_value_20260801`; canonical C18/M26.
+    *   The exact finite Python slice covers a declared point estimate,
+        two-/multistage shared-history policies, EEV, recourse, wait-and-see,
+        VSS/EVIU, EVPI, minimization/maximization and infeasible recourse.
+    *   Remaining gates are independent scientific review, hosted exact-head
+        checks, Rust/R/Julia parity, stable promotion, release and parent
+        closure. DVSS/VMS require separately approved reference contracts.
+
 *   [ ] Execute the Rust-first polyglot VOIAGE completion programme without
     promoting issue or Project status into implementation evidence.
     *   Root Conductor track: `rust_polyglot_voi_completion_20260723`.

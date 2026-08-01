@@ -166,14 +166,14 @@
       "issue": 594,
       "record_id": "uncertainty-modelling-value",
       "issue_state": "open",
-      "project_status": "Todo",
-      "disposition": "adjacent_only",
-      "maturity": "planned",
-      "satisfies_ac06": false,
-      "delivery_track": "supported_frontier_method_completion_20260723",
+      "project_status": "In Progress",
+      "disposition": "experimental_repository_evidence",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
+      "delivery_track": "uncertainty_modelling_value_20260801",
       "implementation_pull_requests": [],
-      "review_artifacts": [],
-      "adjacent_artifacts": ["EVPI", "real-options analysis"]
+      "review_artifacts": ["conductor/tracks/uncertainty_modelling_value_20260801/independent-implementation-review.md"],
+      "adjacent_artifacts": []
     },
     {
       "issue": 595,

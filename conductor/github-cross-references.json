@@ -4515,6 +4515,25 @@
         }
       ],
       "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "uncertainty_modelling_value_20260801",
+      "metadata_track_id": "uncertainty_modelling_value_20260801",
+      "path": "conductor/tracks/uncertainty_modelling_value_20260801",
+      "lifecycle": "active",
+      "issue": {
+        "number": 594,
+        "url": "https://github.com/edithatogo/voiage/issues/594",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/318",
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/774",
+        "https://github.com/edithatogo/voiage/issues/775",
+        "https://github.com/edithatogo/voiage/issues/776"
+      ],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
     }
   ]
 }
