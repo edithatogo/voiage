@@ -88,10 +88,14 @@ the source-access policy, then returns a stable JSON confirmation with
 provenance, governance metadata, diagnostics, row counts, schema fingerprint,
 and content digest. `inspect` is deliberately metadata-only: it reads only the
 JSON descriptor and reports the recognized provider, its declared capability
-profile, and `binding_resolution: null`. It does not resolve a resource,
+profile, `binding_resolution: null`, and a descriptor-only `schema` projection
+of declared tables, fields, keys, and known unsupported features. It does not
+resolve a resource,
 compute a receipt or data-quality report, or resolve a VOI binding. This means
 inspection can safely identify a descriptor even when its resource is not
-available; use a materializing command for validation or calculation.
+available. The projection is descriptive rather than a second parser: it does
+not validate source bytes, select Croissant pairs, or infer a binding. Use a
+materializing command for validation or calculation.
 
 Local resources are fail-closed: paths cannot escape the configured descriptor
 root, URI schemes (including `file:` and `data:` forms) are rejected before any

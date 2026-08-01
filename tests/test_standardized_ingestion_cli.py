@@ -327,6 +327,7 @@ def test_ingest_inspect_and_normalize(tmp_path, monkeypatch) -> None:
         "capabilities",
         "descriptor",
         "provider",
+        "schema",
     }
     assert normalized.exit_code == 0
     assert output.is_file()
@@ -511,6 +512,148 @@ def test_normalize_materializes_once_and_reports_the_written_bundle_digest(
         json.loads(result.output)["content_digest"]
         == NormalizedInputBundle.read_ipc(output).content_digest
     )
+
+
+def test_inspect_reports_declared_schema_boundaries_without_resource_io(
+    tmp_path,
+) -> None:
+    """Inspection projects unsupported metadata but never opens missing data."""
+    descriptor = tmp_path / "datapackage.json"
+    descriptor.write_text(
+        json.dumps(
+            {
+                "resources": [
+                    {
+                        "name": "missing",
+                        "path": "absent.csv",
+                        "format": "xlsx",
+                        "dialect": {"delimiter": ";"},
+                        "transform": [],
+                        "schema": {
+                            "fields": [{"name": "id"}],
+                            "primaryKey": "id",
+                            "missingValues": ["NA"],
+                        },
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    result = CliRunner().invoke(app, ["ingest", "inspect", str(descriptor)])
+    assert result.exit_code == 0
+    assert json.loads(result.output)["schema"] == {
+        "tables": [
+            {
+                "table_id": "missing",
+                "field_ids": ["id"],
+                "primary_key": ["id"],
+                "foreign_keys": [],
+            }
+        ],
+        "unsupported_features": [
+            {"code": "resource-dialect", "path": "resources[0].dialect"},
+            {"code": "resource-transform", "path": "resources[0].transform"},
+            {"code": "resource-format", "path": "resources[0].format"},
+            {
+                "code": "schema-missing-values",
+                "path": "resources[0].schema.missingValues",
+            },
+        ],
+    }
+
+
+def test_descriptor_schema_summary_covers_non_materializing_fallbacks() -> None:
+    """Every defensive descriptor-only branch remains safe and deterministic."""
+    assert ingestion_cli._descriptor_schema_summary({}, provider_id="unknown") == {
+        "tables": [],
+        "unsupported_features": [],
+    }
+    assert ingestion_cli._frictionless_descriptor_schema_summary(
+        {"resources": "not-a-list"}
+    ) == {"tables": [], "unsupported_features": []}
+    assert ingestion_cli._frictionless_descriptor_schema_summary(
+        {"resources": ["not-an-object"]}
+    ) == {
+        "tables": [],
+        "unsupported_features": [
+            {"code": "resource-not-object", "path": "resources[0]"}
+        ],
+    }
+    assert ingestion_cli._croissant_descriptor_schema_summary(
+        {"recordSet": "not-a-list"}
+    ) == {"tables": [], "unsupported_features": []}
+    assert ingestion_cli._croissant_descriptor_schema_summary(
+        {"recordSet": ["not-an-object"]}
+    ) == {
+        "tables": [],
+        "unsupported_features": [
+            {"code": "record-set-not-object", "path": "recordSet[0]"}
+        ],
+    }
+
+
+def test_descriptor_schema_summary_reports_croissant_field_boundaries() -> None:
+    """Field diagnostics are descriptor-only and do not select a source pair."""
+    summary = ingestion_cli._croissant_descriptor_schema_summary(
+        {
+            "recordSet": [
+                {
+                    "name": "samples",
+                    "field": [
+                        "not-an-object",
+                        {
+                            "name": "net_benefit",
+                            "references": "outside",
+                            "subField": [],
+                            "source": "derived",
+                        },
+                    ],
+                }
+            ]
+        }
+    )
+    assert summary["tables"] == [
+        {
+            "table_id": "samples",
+            "field_ids": ["net_benefit"],
+            "primary_key": [],
+            "foreign_keys": [],
+        }
+    ]
+    assert summary["unsupported_features"] == [
+        {"code": "field-references", "path": "recordSet[0].field[1].references"},
+        {"code": "field-subField", "path": "recordSet[0].field[1].subField"},
+        {"code": "field-source", "path": "recordSet[0].field[1].source"},
+    ]
+
+
+def test_descriptor_schema_summary_continues_after_a_non_list_field_declaration() -> (
+    None
+):
+    """One malformed record set cannot suppress later descriptor diagnostics."""
+    summary = ingestion_cli._croissant_descriptor_schema_summary(
+        {
+            "recordSet": [
+                {"name": "first", "field": "not-a-list"},
+                "not-an-object",
+            ]
+        }
+    )
+
+    assert summary == {
+        "tables": [
+            {
+                "table_id": "first",
+                "field_ids": [],
+                "primary_key": [],
+                "foreign_keys": [],
+            }
+        ],
+        "unsupported_features": [
+            {"code": "record-set-not-object", "path": "recordSet[1]"}
+        ],
+    }
 
 
 def test_ingest_cli_returns_safe_error_for_unrecognized_descriptor(tmp_path) -> None:

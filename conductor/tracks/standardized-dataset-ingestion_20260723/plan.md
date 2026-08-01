@@ -230,7 +230,9 @@ and a Conductor checkpoint under `conductor/workflow.md`.
 - [~] **P6-T4 / AC-07, AC-11:** Keep inspection and materialization evidence
   distinct in stable machine-readable output. `ingest inspect` is now
   descriptor-only (provider capabilities and an explicit null binding
-  resolution), so it cannot accidentally resolve resources; materializing
+  resolution), so it cannot accidentally resolve resources. It now projects
+  descriptor-declared tables, fields, keys, and stable known-unsupported
+  feature diagnostics without source I/O or selection controls; materializing
   validation/normalization output carries provenance, governance, receipts,
   and data-quality evidence. Broader receipt and live-source acceptance remains
   active.
@@ -241,7 +243,9 @@ and a Conductor checkpoint under `conductor/workflow.md`.
   changelog, roadmap/todo, and README now describe the supported profile,
   explicit safety boundary, CLI, cross-domain examples, CLI exit taxonomy, and
   explicit provider/binding-profile boundary; final docs/links and
-  phase-checkpoint evidence remains active.
+  phase-checkpoint evidence remains active. The guide now documents the
+  descriptor-only inspection schema projection and its no-I/O/no-selection
+  boundary (partial).
 - [ ] **P6-T7 / AC-07:** Run automated review, CLI/docs/Vale validation, clean
   install checks, and the phase checkpoint protocol.
 

@@ -162,6 +162,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
         upstream-parser differential and live-source conformance remain active.
     *   CLI validation now has a credential-redaction regression contract for
         rejected descriptor resource URIs.
+    *   Metadata-only CLI inspection now reports descriptor-declared tables,
+        fields, keys, and known unsupported-feature diagnostics without opening
+        resources or adding source-selection controls.
     *   ML and engineering reference descriptors now have executable CLI
         validation and inspection walkthroughs alongside the direct business
         DataFrame example.

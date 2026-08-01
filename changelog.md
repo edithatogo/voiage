@@ -34,6 +34,9 @@
   equivalence evidence for the engineering cost/outcome reference fixture;
   explicitly bound the ML and business fixtures to the methods and data shapes
   they actually provide.
+- Extend metadata-only `voiage ingest inspect` with descriptor-declared table,
+  field, and key summaries plus stable unsupported-feature diagnostics. This
+  projection never resolves a declared resource or selects a source pair.
 - Add a strict local Frictionless Parquet profile: descriptors must declare
   `format: parquet`, use a `.parquet` path, declare primitive fields, and omit
   dialect settings. Parquet input is streamed through bounded Arrow batches
