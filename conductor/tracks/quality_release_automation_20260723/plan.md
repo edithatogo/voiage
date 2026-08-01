@@ -43,3 +43,8 @@
   (AC-07)
 - [ ] **G15:** Record repository completion separately from merge, release,
   publication, registry acceptance and issue closure. (AC-02, AC-07)
+
+## Review remediation
+
+- [x] Synchronize the track index with delivery PR #822. (2026-08-01;
+  review fix for AC-01)
