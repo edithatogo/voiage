@@ -4,6 +4,18 @@
 functional phase. Each phase ends with automated review, focused validation,
 and a Conductor checkpoint under `conductor/workflow.md`.
 
+## Approved scope refinement — strict local profile (2026-08-01)
+
+The user approved the strict-local completion boundary on 2026-08-01. Existing
+completed and partial task evidence remains historical evidence. The following
+successor-only work is explicitly removed from this plan's archive criteria:
+authoritative live probes, general remote/DNS/redirect/mutable-source support,
+archive extraction, and third-party parser feature parity. It is owned by
+[#752](https://github.com/edithatogo/voiage/issues/752) and
+[#753](https://github.com/edithatogo/voiage/issues/753). This refinement does
+not mark any existing task complete; P10 must map each retained strict-local
+criterion to evidence.
+
 ## Phase 1 — Freeze the normalized input contract (#326)
 
 - [x] **P1-T1 / AC-01:** Write failing contract tests for strict validation,
