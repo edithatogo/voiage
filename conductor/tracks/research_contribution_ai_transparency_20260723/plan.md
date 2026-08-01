@@ -11,7 +11,7 @@
 - [x] **G4:** Run automated contract review and full Conductor validation.
   Existing AI-use disclosure, governance accountability, manuscript contract,
   and provenance records are reconciled without inferring authorship or human
-  attestation. (2026-08-01; AC-01, AC-07)
+  attestation. (2026-08-01; commit: 92ac1101; AC-01, AC-07)
 
 ## Phase 2 — Evidence before positive claims
 
