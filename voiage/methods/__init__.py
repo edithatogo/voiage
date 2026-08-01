@@ -60,6 +60,10 @@ if TYPE_CHECKING:
         RiskSensitiveVoiResult,
         risk_sensitive_constrained_voi,
     )
+    from .signed_social_information import (
+        SignedSocialInformationResult,
+        signed_social_information_value,
+    )
     from .uncertainty_modelling_value import (
         UncertaintyModellingValueResult,
         value_of_uncertainty_modelling,
@@ -108,6 +112,7 @@ _MODULES = (
     "regulatory_market_access",
     "replication_reproducibility",
     "risk_sensitive_voi",
+    "signed_social_information",
     "sample_information",
     "sequential",
     "strategic_behavior",
@@ -175,6 +180,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "RegulatoryMarketAccessResult",
     "ReplicationReproducibilityResult",
     "RiskSensitiveVoiResult",
+    "SignedSocialInformationResult",
     "ResolvedDistributionModel",
     "StrategicBehaviorResult",
     "ThresholdProfile",
@@ -215,6 +221,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "qualitative_information_from_specification",
     "render_qualitative_information_text",
     "risk_sensitive_constrained_voi",
+    "signed_social_information_value",
     "sequential_voi",
     "structural_evpi",
     "structural_evppi",

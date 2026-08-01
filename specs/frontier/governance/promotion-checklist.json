@@ -42,5 +42,6 @@
     ,{"name": "expected_utility_information_pricing", "owner": "repository", "current_state": "experimental", "next_gate": "scientific-review-and-cross-language-parity", "blocked_state": "externally-blocked", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/expected-utility-information-pricing/v1"]}
     ,{"name": "implementation_information_decomposition", "owner": "repository", "current_state": "experimental", "next_gate": "independent-scientific-review-hosted-assurance-and-cross-language-parity", "blocked_state": "experimental", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/implementation-information/v1"]}
     ,{"name": "belief_state_sequential_information_value", "owner": "repository", "current_state": "experimental", "next_gate": "independent-implementation-and-scientific-review-hosted-assurance-and-cross-language-parity", "blocked_state": "experimental", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/belief-state-information/v1"]}
+    ,{"name": "signed_social_information_value", "owner": "repository", "current_state": "experimental", "next_gate": "independent-implementation-and-scientific-review-hosted-assurance-and-cross-language-parity", "blocked_state": "experimental", "stable_claim_allowed": false, "artifact_paths": ["specs/frontier/signed-social-information/v1"]}
   ]
 }

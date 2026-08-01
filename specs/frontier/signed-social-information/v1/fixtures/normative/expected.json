@@ -1,0 +1,341 @@
+{
+  "agent_roles": {
+    "alice": [
+      "decision_maker",
+      "recipient"
+    ],
+    "board": [
+      "controller"
+    ],
+    "public": [
+      "stakeholder"
+    ]
+  },
+  "analysis_id": "li-pozzi-harmful-private-positive-social",
+  "analysis_type": "signed_social_information_value_result",
+  "assurance": {
+    "complete_joint_world_law": true,
+    "design_ids_evaluated": [
+      "no_sharing",
+      "selective_social_sharing"
+    ],
+    "designs_evaluated": 2,
+    "deterministic_serialization": true,
+    "finite_catalog_only": true,
+    "general_game_solver_used": false,
+    "negative_values_clipped": false,
+    "nonanticipativity": "one action per observable signal or one unobserved action",
+    "policies_evaluated": 2,
+    "policy_ids_evaluated": [
+      "safe_without_information",
+      "signal_contingent_social_policy"
+    ],
+    "rights_consent_purpose_receipts_checked": true,
+    "world_ids_evaluated": [
+      "adverse",
+      "beneficial"
+    ],
+    "worlds_evaluated": 2
+  },
+  "baseline": {
+    "blackwell_nonnegativity": {
+      "applicable": false,
+      "checked_value": null,
+      "passed": null,
+      "reasons_not_applicable": [
+        "refinement_assurance_not_declared"
+      ]
+    },
+    "comparator_design_id": null,
+    "design_id": "no_sharing",
+    "equilibrium_receipt": null,
+    "feasible": true,
+    "infeasibility_reasons": [],
+    "ledgers": {
+      "cost": {
+        "alice": 0.0,
+        "board": 0.0,
+        "public": 0.0
+      },
+      "post_transfer": {
+        "alice": 0.0,
+        "board": 0.0,
+        "public": 0.0
+      },
+      "pre_transfer": {
+        "alice": 0.0,
+        "board": 0.0,
+        "public": 0.0
+      },
+      "transfer": {
+        "alice": 0.0,
+        "board": 0.0,
+        "public": 0.0
+      }
+    },
+    "policies_evaluated": [
+      "safe_without_information"
+    ],
+    "policy_selector_values": {
+      "safe_without_information": 0.0
+    },
+    "policy_switch": false,
+    "policy_tie": [
+      "safe_without_information"
+    ],
+    "recipients": [],
+    "rights_receipts": [],
+    "selected_policy_id": "safe_without_information",
+    "selection_mode": "centralized",
+    "selector": "social_welfare",
+    "signed_values": {
+      "by_agent": {
+        "alice": 0.0,
+        "board": 0.0,
+        "public": 0.0
+      },
+      "by_role": {
+        "controller": 0.0,
+        "decision_maker": 0.0,
+        "recipient": 0.0,
+        "stakeholder": 0.0
+      },
+      "clipped_at_zero": false,
+      "comparator_design_id": null,
+      "social": 0.0
+    },
+    "social_post_transfer": 0.0,
+    "social_pre_transfer": 0.0
+  },
+  "designs": [
+    {
+      "blackwell_nonnegativity": {
+        "applicable": false,
+        "checked_value": null,
+        "passed": null,
+        "reasons_not_applicable": [
+          "refinement_assurance_not_declared"
+        ]
+      },
+      "comparator_design_id": null,
+      "design_id": "no_sharing",
+      "equilibrium_receipt": null,
+      "feasible": true,
+      "infeasibility_reasons": [],
+      "ledgers": {
+        "cost": {
+          "alice": 0.0,
+          "board": 0.0,
+          "public": 0.0
+        },
+        "post_transfer": {
+          "alice": 0.0,
+          "board": 0.0,
+          "public": 0.0
+        },
+        "pre_transfer": {
+          "alice": 0.0,
+          "board": 0.0,
+          "public": 0.0
+        },
+        "transfer": {
+          "alice": 0.0,
+          "board": 0.0,
+          "public": 0.0
+        }
+      },
+      "policies_evaluated": [
+        "safe_without_information"
+      ],
+      "policy_selector_values": {
+        "safe_without_information": 0.0
+      },
+      "policy_switch": false,
+      "policy_tie": [
+        "safe_without_information"
+      ],
+      "recipients": [],
+      "rights_receipts": [],
+      "selected_policy_id": "safe_without_information",
+      "selection_mode": "centralized",
+      "selector": "social_welfare",
+      "signed_values": {
+        "by_agent": {
+          "alice": 0.0,
+          "board": 0.0,
+          "public": 0.0
+        },
+        "by_role": {
+          "controller": 0.0,
+          "decision_maker": 0.0,
+          "recipient": 0.0,
+          "stakeholder": 0.0
+        },
+        "clipped_at_zero": false,
+        "comparator_design_id": null,
+        "social": 0.0
+      },
+      "social_post_transfer": 0.0,
+      "social_pre_transfer": 0.0
+    },
+    {
+      "blackwell_nonnegativity": {
+        "applicable": true,
+        "checked_value": 2.0,
+        "passed": true,
+        "reasons_not_applicable": []
+      },
+      "comparator_design_id": "no_sharing",
+      "design_id": "selective_social_sharing",
+      "equilibrium_receipt": null,
+      "feasible": true,
+      "infeasibility_reasons": [],
+      "ledgers": {
+        "cost": {
+          "alice": 0.0,
+          "board": 0.0,
+          "public": 0.0
+        },
+        "post_transfer": {
+          "alice": -2.0,
+          "board": 0.0,
+          "public": 4.0
+        },
+        "pre_transfer": {
+          "alice": -2.0,
+          "board": 0.0,
+          "public": 4.0
+        },
+        "transfer": {
+          "alice": 0.0,
+          "board": 0.0,
+          "public": 0.0
+        }
+      },
+      "policies_evaluated": [
+        "safe_without_information",
+        "signal_contingent_social_policy"
+      ],
+      "policy_selector_values": {
+        "safe_without_information": 0.0,
+        "signal_contingent_social_policy": 2.0
+      },
+      "policy_switch": true,
+      "policy_tie": [
+        "signal_contingent_social_policy"
+      ],
+      "recipients": [
+        "alice"
+      ],
+      "rights_receipts": [
+        "alice-purpose-consent",
+        "board-control-authority"
+      ],
+      "selected_policy_id": "signal_contingent_social_policy",
+      "selection_mode": "centralized",
+      "selector": "social_welfare",
+      "signed_values": {
+        "by_agent": {
+          "alice": -2.0,
+          "board": 0.0,
+          "public": 4.0
+        },
+        "by_role": {
+          "controller": 0.0,
+          "decision_maker": -2.0,
+          "recipient": -2.0,
+          "stakeholder": 4.0
+        },
+        "clipped_at_zero": false,
+        "comparator_design_id": "no_sharing",
+        "social": 2.0
+      },
+      "social_post_transfer": 2.0,
+      "social_pre_transfer": 2.0
+    }
+  ],
+  "diagnostics": {
+    "externality_by_design": {
+      "no_sharing": 0.0,
+      "selective_social_sharing": 4.0
+    },
+    "harmful_private_designs": [
+      "selective_social_sharing"
+    ],
+    "information_avoidance": [
+      {
+        "agent_id": "alice",
+        "design_id": "selective_social_sharing"
+      }
+    ],
+    "losers": [
+      "alice"
+    ],
+    "policy_switches": [
+      "selective_social_sharing"
+    ],
+    "winner_loser_design_id": "selective_social_sharing",
+    "winners": [
+      "public"
+    ]
+  },
+  "language_dispositions": {
+    "julia": "not_implemented",
+    "mojo": "external_upstream_boundary",
+    "python": "experimental_exact_finite_execution",
+    "r": "not_implemented",
+    "rust": "not_implemented"
+  },
+  "method_maturity": "experimental",
+  "optimum": {
+    "design_tie": [
+      "selective_social_sharing"
+    ],
+    "feasible_design_values": {
+      "no_sharing": 0.0,
+      "selective_social_sharing": 2.0
+    },
+    "selected_design_id": "selective_social_sharing",
+    "social_value": 2.0,
+    "tie_policy": {
+      "absolute_tolerance": 1e-12,
+      "relative_tolerance": 0.0
+    }
+  },
+  "provenance": {
+    "policy_source": "Declared bounded centralized catalog",
+    "rights_source": "Synthetic fixture receipts",
+    "utility_source": "Normative fixture only; not empirical evidence",
+    "world_law_source": "Governed finite construction based on Li and Pozzi negative-information framing"
+  },
+  "schema_version": "1.0.0",
+  "topology": {
+    "baseline_recipients": [],
+    "controller_agent_id": "board",
+    "eligible_recipients": [
+      "alice"
+    ],
+    "information_scope": "private",
+    "signal_id": "clinical_signal",
+    "source_agent_id": "board"
+  },
+  "unsupported_dispositions": {
+    "bayesian_persuasion": "adjacent_not_supported_in_v1",
+    "continuous_or_incomplete_world_laws": "not_supported_in_v1",
+    "general_game_solving": "adjacent_not_supported_in_v1",
+    "mechanism_design": "adjacent_not_supported_in_v1",
+    "rational_inattention": "adjacent_not_supported_in_v1"
+  },
+  "value_unit": "cardinal-welfare-unit",
+  "welfare_contract": {
+    "aggregator": "weighted_sum",
+    "cardinal_comparability": "declared",
+    "ledger_stage": "post_transfer",
+    "rationale": "Illustrative common-cardinal construction for the governed fixture",
+    "weights": {
+      "alice": 1.0,
+      "board": 0.0,
+      "public": 1.0
+    }
+  }
+}

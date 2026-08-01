@@ -91,6 +91,7 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
         595,
         596,
         597,
+        598,
         619,
     }
     for child in delivered.values():

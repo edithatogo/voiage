@@ -10,6 +10,21 @@ relevant subagent review panel defined in
 The panel supplies structured evidence; maintainer approval and external
 release, registry, and publication decisions remain separate gates.
 
+*   [ ] Complete signed/social information value after experimental repository delivery.
+    *   GitHub issue #598; native subissues #783–#785; umbrella track
+        `supported_frontier_method_completion_20260723`; phases F598-1–F598-5;
+        canonical C18/M29; planned v1.3.0 Should.
+    *   The local review-ready exact finite Python slice covers named agents and
+        roles, signal topology, nonanticipative centralized/fixed/declared-
+        response/verified-equilibrium catalogs, signed agent/role/social values,
+        selective sharing, full transfer/cost ledgers, rights receipts and
+        harm/avoidance/switch/winner-loser diagnostics without clipping.
+    *   Fresh independent engineering re-review passed with no remaining
+        Critical, High or Medium findings. Remaining gates are hosted exact-head
+        and installed-wheel assurance, merge, scientific review, Rust/R/Julia
+        parity, stable promotion, release, subissue and parent closure.
+        Persuasion, mechanism design, rational inattention and general games
+        remain adjacent.
 *   [ ] Complete belief-state and intervention-aware sequential information
     value after experimental repository delivery.
     *   GitHub issue #597; delivery subissues #780--#782; umbrella track

@@ -60,6 +60,14 @@ _ECOSYSTEM_EXPORTS = {
     "load_heoml_run_bundle": "load_heoml_run_bundle",
 }
 _EXTENSION_EXPORTS = {
+    "SignedSocialInformationResult": (
+        ".methods.signed_social_information",
+        "SignedSocialInformationResult",
+    ),
+    "signed_social_information_value": (
+        ".methods.signed_social_information",
+        "signed_social_information_value",
+    ),
     "BeliefStateInformationResult": (
         ".methods.belief_state_information",
         "BeliefStateInformationResult",

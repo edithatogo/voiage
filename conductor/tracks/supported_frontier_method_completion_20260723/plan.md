@@ -14,6 +14,7 @@ promotion, release, and issue closure remain separate gates.
 | Implementation-information decomposition | #593; #766–#768 | F593-1–F593-4 |
 | Forecast and signal information VOI | #572; #759, #760, #762 | F572-1–F572-3 |
 | Risk-sensitive and constrained VOI | #570; #757, #758, #761 | F570-1–F570-3 |
+| Signed, social and strategic information value | #598; #783–#785 | F598-1–F598-5 |
 | Value of Flexibility | #559 | F559-1–F559-4 |
 | Deterministic sensitivity/scenario analysis | #556; #724–#728 | F556-1–F556-5 |
 | Distribution-Family Information | #557; #731–#735 | F557-1–F557-5 |
@@ -247,6 +248,57 @@ covers the experimental frontier entries only.
   changed-branch coverage before squash merge `c25f3234`. Scientific, parity,
   stable-promotion, release and parent-closure gates remain pending.
   (AC-03–AC-07, AC-09)
+
+- [x] **F598-1 / #783:** Freeze C18/M29's complete finite joint-world law,
+  named agents/roles/topology/designs, nonanticipative policy catalogs, signed
+  estimands, welfare/cardinal-comparability declaration, selective-sharing
+  comparators, strict Blackwell applicability and adjacent-method exclusions.
+  (AC-02, AC-03, AC-09) `f04b1627`
+- [x] **F598-2 / #783:** Add strict versioned input/result schemas, the
+  Li-Pozzi-inspired harmful-private/positive-social fixture, provenance,
+  complete ties, transfer/cost ledgers and language dispositions. (AC-02–AC-06)
+  `f04b1627`
+- [x] **F598-3 / #784:** Implement exact experimental Python/API/CLI execution
+  for centralized, fixed, declared-response and receipt-verified finite-
+  equilibrium catalogs, signed agent/role/social values, selective sharing,
+  harm, avoidance, switches, winners/losers and rights receipts without
+  clipping. (AC-02–AC-06) `f04b1627`
+- [x] **F598-4 / #784:** Add deterministic discovery, documentation, registry,
+  export and governance surfaces while retaining persuasion, mechanism design,
+  rational inattention and general game solving as adjacent. (AC-04–AC-06)
+  `f04b1627`
+- [~] **F598-5 / #785:** Run independent implementation/scientific review,
+  changed-line/branch and full local assurance, hosted exact-head/wheel checks,
+  then reconcile #598 without claiming parity, stable promotion, release or
+  parent closure. The first implementation reviewer found and remediated
+  portable derived-result and Blackwell-applicability defects in
+  `signed-social-information-implementation-review.md`. A fresh independent
+  re-review passed at `d7d569b2` with no remaining Critical, High or Medium
+  findings. PR #808 carries the experimental branch delivery; its synchronized
+  exact-head/wheel checks and merge remain pending.
+  (AC-03–AC-07, AC-09)
+
+- [x] **F598-R1 / #785 — Review Fixes:** Bind portable agent roles and exact
+  evaluated identifiers; recompute signed roles, policy/design ties, optimum,
+  diagnostics, Blackwell values and assurance counts; exclude infeasible and
+  transfer/cost-bearing comparisons from Blackwell applicability; retain
+  negative social values without clipping. (AC-03–AC-07) `da119389`
+
+- [x] **F598-R2 / #785 — Hosted extension-policy remediation:** Declare the
+  signed/social experimental Python method in its frontier capability contract
+  and refresh the governed capability artifact hash. The exact extension-policy
+  regression, deterministic export/hash verification, frontier contract,
+  GitHub cross-reference and full 148-track Conductor validators pass locally.
+  A replacement exact-head hosted run remains mandatory before merge.
+  `0a7180ed`
+
+- [x] **F598-R3 / #785 — Hosted changed-branch remediation:** Exercise the
+  signed/social CLI's non-object rejection and human-readable output receipt
+  branches without changing runtime behavior or weakening coverage policy. The
+  hosted-equivalent full suite passes with 3627 tests, 94.14 percent aggregate
+  coverage, 444/444 changed executable lines and 198/198 changed branches. A
+  replacement exact-head hosted run remains mandatory before merge.
+  `7d68ce19`
 
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for
