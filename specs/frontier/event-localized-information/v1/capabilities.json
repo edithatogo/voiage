@@ -27,6 +27,7 @@
   "unsupported": [
     "continuous-density estimation or quadrature",
     "asymmetric or multiclass channels",
+    "raw minimization without a higher-is-better transformation",
     "monetary buying-price information",
     "stable or polyglot execution"
   ]

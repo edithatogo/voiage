@@ -18,6 +18,11 @@ from typer.testing import CliRunner
 import voiage
 from voiage import methods
 from voiage.cli import app
+from voiage.contracts.event_localized_information import (
+    EVENT_LOCALIZED_INFORMATION_INPUT_SCHEMA_V1,
+    EVENT_LOCALIZED_INFORMATION_RESULT_SCHEMA_V1,
+    validate_event_localized_information_result_semantics,
+)
 from voiage.exceptions import InputError, PlottingError
 from voiage.methods.event_localized_information import (
     event_localized_information_value,
@@ -152,7 +157,16 @@ def test_sparse_accuracy_grid_retains_explicit_unknown_assurance() -> None:
     payload["event"]["accuracy_grid"] = [0.2]
     result = _result(payload)
     assert result["assurance"]["accuracy_half_no_information_residual"] is None
-    assert result["assurance"]["maximum_binary_channel_symmetry_error"] == 0
+    assert result["assurance"]["maximum_binary_channel_symmetry_error"] is None
+
+
+def test_decimal_symmetric_accuracy_pair_is_matched_with_float_tolerance() -> None:
+    payload = _input()
+    payload["event"]["accuracy_grid"] = [0.07, 0.93]
+    result = _result(payload)
+    assert result["assurance"][
+        "maximum_binary_channel_symmetry_error"
+    ] == pytest.approx(0.0, abs=payload["integral_tolerance"])
 
 
 @pytest.mark.parametrize(
@@ -190,6 +204,15 @@ def test_reference_action_must_be_baseline_optimal() -> None:
     payload = _input()
     payload["density"]["reference_action"] = "safe"
     with pytest.raises(InputError, match="baseline-optimal"):
+        event_localized_information_value(payload)
+
+
+def test_tolerance_tie_cannot_replace_the_true_baseline_optimizer() -> None:
+    payload = _input()
+    payload["tie_tolerance"] = 1e-6
+    payload["states"][0]["action_values"]["safe"] += 0.8999995 / 0.2
+    payload["density"]["reference_action"] = "safe"
+    with pytest.raises(InputError, match="exactly baseline-optimal"):
         event_localized_information_value(payload)
 
 
@@ -270,7 +293,20 @@ def test_malformed_event_definitions_fail_closed(
         (lambda value: value["density"].update(coordinate_names=["x", "x"]), "unique"),
         (lambda value: value["density"].update(coordinate_units=["u"]), "dimension"),
         (lambda value: value["density"].update(base_coordinate=[0]), "dimension"),
-        (lambda value: value.update(tie_tolerance=-1), "non-negative"),
+        (lambda value: value.update(tie_tolerance=-1), r"\[0, 1e-6\]"),
+        (lambda value: value.update(tie_tolerance=1e-5), "1e-6"),
+        (lambda value: value.update(integral_tolerance=0), r"\(0, 1e-6\]"),
+        (lambda value: value.update(integral_tolerance=1e-5), "1e-6"),
+        (lambda value: value["event"].update(information_cost=True), "schema"),
+        (
+            lambda value: value["event"].update(
+                definition={
+                    "kind": "state_set",
+                    "state_ids": ["adverse", "adverse"],
+                }
+            ),
+            "schema",
+        ),
         (lambda value: value["provenance"].update(event_source=""), "non-empty"),
         (lambda value: value["provenance"].update(extra="bad"), "keys"),
     ],
@@ -285,6 +321,8 @@ def test_additional_strict_contract_failures(mutation: object, match: str) -> No
 def test_strict_schemas_and_capability_dispositions() -> None:
     input_schema = json.loads((CONTRACT / "schemas/input.schema.json").read_text())
     result_schema = json.loads((CONTRACT / "schemas/result.schema.json").read_text())
+    assert input_schema == EVENT_LOCALIZED_INFORMATION_INPUT_SCHEMA_V1
+    assert result_schema == EVENT_LOCALIZED_INFORMATION_RESULT_SCHEMA_V1
     Draft202012Validator(input_schema).validate(_input())
     Draft202012Validator(result_schema).validate(_result())
     invalid = _input()
@@ -302,6 +340,49 @@ def test_strict_schemas_and_capability_dispositions() -> None:
         "Mojo": "external_upstream_boundary",
     }
     assert "BPI" in capabilities["delegated"]
+
+
+@pytest.mark.parametrize(
+    ("mutation", "match"),
+    [
+        (lambda value: value["baseline"].update(reference_value=0), "baseline"),
+        (lambda value: value["event"].update(probability=0.6), "partition"),
+        (lambda value: value["event"].update(perfect_gross_voi=99), "gross VOI"),
+        (
+            lambda value: value["event"]["imperfect_binary_channel"][0][
+                "signal_probabilities"
+            ].update(event_reported=0.9),
+            "signal probabilities",
+        ),
+        (
+            lambda value: value["density"]["atoms"][0].update(
+                policy_relative_density=99
+            ),
+            "policy-relative density",
+        ),
+        (
+            lambda value: value["density"]["atoms"][0].update(
+                optimal_actions=["targeted"]
+            ),
+            "ties",
+        ),
+        (lambda value: value["density"].update(modes=[]), "modes"),
+        (
+            lambda value: value["assurance"].update(
+                maximum_binary_channel_symmetry_error=None
+            ),
+            "symmetry result is missing",
+        ),
+        (lambda value: value.update(unexpected=True), "schema violation"),
+    ],
+)
+def test_result_semantic_validator_rejects_mutations(
+    mutation: object, match: str
+) -> None:
+    result = _result()
+    mutation(result)  # type: ignore[operator]
+    with pytest.raises(ValueError, match=match):
+        validate_event_localized_information_result_semantics(result)
 
 
 def test_cli_api_exports_and_deterministic_copy(tmp_path: Path) -> None:

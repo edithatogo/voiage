@@ -118,6 +118,10 @@
 - [x] **F596-R1:** Preserve empty modes/directions when coordinate information
   value is zero, so tied zero-density atoms do not fabricate a direction of
   concern. `5964df04`
+- [~] **F596-R2:** Remediate independent-review findings for executable
+  input/result validation, true-max reference optimality, bounded raw-integral
+  tolerance and explicit binary-channel symmetry assurance. A fresh
+  independent reviewer remains required.
 
 - [x] **F572-1 / #760:** Freeze #572's C18/M23 forecast-signal decision
   estimand, strict input/result schemas, analytical newsvendor fixture,

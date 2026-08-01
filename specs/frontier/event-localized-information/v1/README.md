@@ -15,11 +15,19 @@ information value within the declared tolerance.
 When that value is zero, v1 returns no mode or direction rather than inventing
 a direction of concern from tied zero-density atoms.
 
+The v1 objective is higher-is-better and fixed to `maximize`; raw cost/loss
+minimization must first be transformed to a higher-is-better score. The
+reference action must attain the true baseline maximum. `tie_tolerance` is
+bounded to `[0, 1e-6]` and `integral_tolerance` to `(0, 1e-6]`. Raw atoms drive
+the integral assurance and cleanup is presentation-only.
+
 The event result reports exact event/complement probabilities, conditional
 actions and values, gross/net perfect-event VOI, and an accuracy curve for a
 symmetric binary channel. Accuracy `0.5` is uninformative, while accuracies
 `p` and `1-p` have identical gross value because the signal labels can be
 inverted. Plots consume the evaluated result only.
+The symmetry error is `null` when the requested grid contains no `p`/`1-p`
+pair, so missing assurance is never presented as an exact zero.
 
 The finite mass contract is source-grounded in Hazen, Borgonovo and Lu (2023),
 DOI `10.1287/deca.2022.0465`, and Bakır (2025), DOI

@@ -112,7 +112,9 @@
   declare a finite probability law, actions and value unit, a nontrivial event
   or threshold and complement, chronology, information cost, binary-channel
   accuracy grid, coordinate names/units, base coordinate and a declared
-  baseline-optimal reference action.
+  true-max baseline-optimal reference action. The v1 objective is
+  higher-is-better `maximize`; tie tolerance is in `[0, 1e-6]` and integral
+  tolerance is in `(0, 1e-6]`.
 - **M27-S2:** Use the canonical policy-relative EUI density
   `i(x) = f(x) [max_a g_a(x) - g_a*(x)]`. Return every probability-mass atom,
   conditional action value and complete tie, the nonnegative density integral,
@@ -123,7 +125,8 @@
   decisions and values, gross/net perfect-event VOI and an imperfect symmetric
   binary-channel accuracy curve. Verify event/complement partitioning,
   accuracy `p`/`1-p` symmetry, the uninformative `0.5` boundary, deterministic
-  serialization and density-integral tolerances.
+  serialization and raw-atom density-integral tolerances. A requested grid
+  without a complementary pair reports `null`, never a false zero residual.
 - **M27-S4:** Keep finite event/density EUI distinct from ordinary threshold
   plotting, DSA, parameter EVPPI, forecast accuracy and tail-risk measures.
   Monetary BPI remains delegated to #595. Python may be experimental; Rust, R

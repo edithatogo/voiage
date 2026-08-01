@@ -19,6 +19,10 @@ import json
 import math
 from typing import Any, cast
 
+from voiage.contracts.event_localized_information import (
+    validate_event_localized_information_result_semantics,
+    validate_event_localized_information_semantics,
+)
 from voiage.exceptions import raise_input_error
 
 _ROOT_KEYS = {
@@ -99,7 +103,7 @@ def _ties(values: dict[str, float], tolerance: float) -> list[str]:
 def _clean(value: float, tolerance: float) -> float:
     if abs(value) <= tolerance:
         return 0.0
-    return float(f"{value:.15g}")
+    return value
 
 
 def _event_members(
@@ -198,6 +202,10 @@ def event_localized_information_value(
     try:
         payload = cast("dict[str, Any]", json.loads(json.dumps(specification)))
         result = _evaluate(payload)
+        validate_event_localized_information_semantics(payload)
+        validate_event_localized_information_result_semantics(
+            result, tolerance=max(float(payload["integral_tolerance"]), 1e-12)
+        )
     except (ArithmeticError, KeyError, TypeError, ValueError) as error:
         raise_input_error(str(error))
     return EventLocalizedInformationResult(result)
@@ -228,8 +236,10 @@ def _evaluate(payload: dict[str, Any]) -> dict[str, Any]:
         raise ValueError("actions must contain at least two unique identifiers")
     tie_tolerance = _finite(payload["tie_tolerance"], "tie_tolerance")
     integral_tolerance = _finite(payload["integral_tolerance"], "integral_tolerance")
-    if tie_tolerance < 0.0 or integral_tolerance < 0.0:
-        raise ValueError("tolerances must be non-negative")
+    if not 0.0 <= tie_tolerance <= 1e-6:
+        raise ValueError("tie_tolerance must lie in [0, 1e-6]")
+    if not 0.0 < integral_tolerance <= 1e-6:
+        raise ValueError("integral_tolerance must lie in (0, 1e-6]")
 
     density = _exact_keys(payload["density"], _DENSITY_KEYS, "density")
     if density["measure"] != "probability_mass":
@@ -308,9 +318,9 @@ def _evaluate(payload: dict[str, Any]) -> dict[str, Any]:
     )
     if reference_action not in actions:
         raise ValueError("density reference_action must identify a declared action")
-    if reference_action not in baseline_ties:
-        raise ValueError("density reference_action must be baseline-optimal")
-    baseline_value = expected[reference_action]
+    baseline_value = max(expected.values())
+    if expected[reference_action] != baseline_value:
+        raise ValueError("density reference_action must be exactly baseline-optimal")
 
     groups: dict[tuple[float, ...], list[dict[str, Any]]] = {}
     for state in states:
@@ -318,6 +328,8 @@ def _evaluate(payload: dict[str, Any]) -> dict[str, Any]:
             state
         )
     atoms: list[dict[str, Any]] = []
+    raw_policy_densities: list[float] = []
+    raw_centered_densities: list[float] = []
     for coordinate in sorted(groups):
         group = groups[coordinate]
         mass = math.fsum(cast("float", state["probability"]) for state in group)
@@ -333,6 +345,8 @@ def _evaluate(payload: dict[str, Any]) -> dict[str, Any]:
         maximum = max(conditional.values())
         policy_relative = mass * (maximum - conditional[reference_action])
         centered = mass * (maximum - baseline_value)
+        raw_policy_densities.append(policy_relative)
+        raw_centered_densities.append(centered)
         atoms.append(
             {
                 "coordinate": list(coordinate),
@@ -353,8 +367,8 @@ def _evaluate(payload: dict[str, Any]) -> dict[str, Any]:
     )
     if coordinate_information_value < -integral_tolerance:
         raise ValueError("coordinate information value must be non-negative")
-    policy_integral = math.fsum(atom["policy_relative_density"] for atom in atoms)
-    centered_integral = math.fsum(atom["centered_density"] for atom in atoms)
+    policy_integral = math.fsum(raw_policy_densities)
+    centered_integral = math.fsum(raw_centered_densities)
     policy_error = policy_integral - coordinate_information_value
     centered_error = centered_integral - coordinate_information_value
     if (
@@ -471,15 +485,50 @@ def _evaluate(payload: dict[str, Any]) -> dict[str, Any]:
                 "net_voi": gross - information_cost,
             }
         )
-    curve_by_accuracy = {cast("float", row["accuracy"]): row for row in curve}
-    symmetry_errors = [
-        abs(
-            cast("float", row["gross_voi"])
-            - cast("float", curve_by_accuracy[1.0 - accuracy]["gross_voi"])
+    symmetry_errors: list[float] = []
+    for index, row in enumerate(curve):
+        target = 1.0 - cast("float", row["accuracy"])
+        counterpart = next(
+            (
+                candidate
+                for candidate in curve[index + 1 :]
+                if math.isclose(
+                    cast("float", candidate["accuracy"]),
+                    target,
+                    abs_tol=1e-12,
+                    rel_tol=0.0,
+                )
+            ),
+            None,
         )
-        for accuracy, row in curve_by_accuracy.items()
-        if 1.0 - accuracy in curve_by_accuracy
-    ]
+        if counterpart is not None:
+            symmetry_errors.append(
+                abs(
+                    cast("float", row["gross_voi"])
+                    - cast("float", counterpart["gross_voi"])
+                )
+            )
+    maximum_symmetry_error = max(symmetry_errors) if symmetry_errors else None
+    if (
+        maximum_symmetry_error is not None
+        and maximum_symmetry_error > integral_tolerance
+    ):
+        raise ValueError("binary-channel symmetry exceeds integral_tolerance")
+    half_row = next(
+        (
+            row
+            for row in curve
+            if math.isclose(
+                cast("float", row["accuracy"]), 0.5, abs_tol=1e-12, rel_tol=0.0
+            )
+        ),
+        None,
+    )
+    half_residual = (
+        cast("float", half_row["gross_voi"]) if half_row is not None else None
+    )
+    if half_residual is not None and abs(half_residual) > integral_tolerance:
+        raise ValueError("accuracy 0.5 residual exceeds integral_tolerance")
     provenance = _exact_keys(payload["provenance"], _PROVENANCE_KEYS, "provenance")
     for key in sorted(_PROVENANCE_KEYS):
         _ = _nonempty_string(provenance[key], f"provenance.{key}")
@@ -548,12 +597,8 @@ def _evaluate(payload: dict[str, Any]) -> dict[str, Any]:
             "complete_ties": True,
             "event_complement_partition": True,
             "density_integral_within_tolerance": True,
-            "maximum_binary_channel_symmetry_error": max(symmetry_errors, default=0.0),
-            "accuracy_half_no_information_residual": (
-                cast("float", curve_by_accuracy[0.5]["gross_voi"])
-                if 0.5 in curve_by_accuracy
-                else None
-            ),
+            "maximum_binary_channel_symmetry_error": maximum_symmetry_error,
+            "accuracy_half_no_information_residual": half_residual,
             "policy_relative_density_nonnegative": all(
                 cast("float", atom["policy_relative_density"]) >= -integral_tolerance
                 for atom in atoms

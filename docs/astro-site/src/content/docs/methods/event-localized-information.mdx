@@ -31,10 +31,19 @@ negative locally even though its sum recovers the same coordinate information
 value. The result retains complete ties, integral errors, modes and vectors
 from the declared base coordinate.
 
+The v1 objective is higher-is-better expected value or expected utility and
+therefore has `direction: "maximize"`. Convert a cost/loss objective to a
+higher-is-better score before calling the evaluator; raw minimization is
+rejected. The reference action must attain the true baseline maximum.
+`tie_tolerance` lies in `[0, 1e-6]`, while `integral_tolerance` must lie in
+`(0, 1e-6]`. Assurance integrals use the unrounded atoms; tolerance cleanup is
+applied only to the portable presentation.
+
 The same contract evaluates perfect revelation of a declared event and every
 requested accuracy of a symmetric imperfect binary channel. Accuracy `0.5` is
 uninformative; `p` and `1-p` have equal gross value because their signal labels
-can be inverted.
+can be inverted. The symmetry diagnostic uses tolerant accuracy matching and
+is `null`, not zero, when the requested grid contains no complementary pair.
 
 ```bash
 voiage --format json calculate-event-localized-information request.json

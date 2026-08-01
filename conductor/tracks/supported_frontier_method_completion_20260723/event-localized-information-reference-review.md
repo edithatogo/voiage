@@ -64,6 +64,9 @@ accuracy do not satisfy this estimand.
 - `p`/`1-p`, `p=0.5`, perfect-channel, action/state permutation and grouping
   cases;
 - strict deterministic schemas, fixtures, API/CLI and result-only plots;
+- runtime input and result-semantic validation, a true-max reference policy,
+  bounded tolerances, raw-atom integral assurance and explicit `null` for an
+  unevaluated `p`/`1-p` symmetry check;
 - experimental Python disposition, with Rust/R/Julia unsupported and Mojo an
   external upstream boundary;
 - independent implementation/scientific review and hosted exact-head evidence

@@ -33,7 +33,7 @@
   "density": {
     "atoms": [
       {
-        "centered_density": -0.18,
+        "centered_density": -0.18000000000000008,
         "conditional_action_values": {
           "safe": 4.0,
           "targeted": 0.0
@@ -50,7 +50,7 @@
         "reference_policy_value": 0.0
       },
       {
-        "centered_density": -0.27,
+        "centered_density": -0.2700000000000001,
         "conditional_action_values": {
           "safe": 4.0,
           "targeted": 3.0
@@ -67,7 +67,7 @@
         "reference_policy_value": 3.0
       },
       {
-        "centered_density": 1.55,
+        "centered_density": 1.5499999999999998,
         "conditional_action_values": {
           "safe": 4.0,
           "targeted": 8.0
@@ -89,7 +89,7 @@
       1.0
     ],
     "centered_diagnostic_formula": "f(x) * (max_a g_a(x) - V0)",
-    "centered_integral": 1.1,
+    "centered_integral": 1.0999999999999996,
     "coordinate_names": [
       "margin",
       "trajectory"
@@ -105,7 +105,7 @@
       ]
     ],
     "formula": "f(x) * (max_a g_a(x) - g_reference(x))",
-    "information_value": 1.1,
+    "information_value": 1.0999999999999996,
     "integral_errors": {
       "centered": 0.0,
       "policy_relative": 0.0
@@ -156,9 +156,9 @@
             "targeted": 8.0
           }
         },
-        "gross_voi": 1.1,
+        "gross_voi": 1.0999999999999996,
         "informed_value": 6.0,
-        "net_voi": 1.0,
+        "net_voi": 0.9999999999999997,
         "optimal_actions": {
           "complement_reported": [
             "safe"
@@ -184,9 +184,9 @@
             "targeted": 6.45
           }
         },
-        "gross_voi": 0.324999999999999,
+        "gross_voi": 0.3249999999999993,
         "informed_value": 5.225,
-        "net_voi": 0.224999999999999,
+        "net_voi": 0.22499999999999928,
         "optimal_actions": {
           "complement_reported": [
             "safe"
@@ -240,9 +240,9 @@
             "targeted": 3.3499999999999996
           }
         },
-        "gross_voi": 0.324999999999999,
+        "gross_voi": 0.3249999999999993,
         "informed_value": 5.225,
-        "net_voi": 0.224999999999999,
+        "net_voi": 0.22499999999999928,
         "optimal_actions": {
           "complement_reported": [
             "targeted"
@@ -268,9 +268,9 @@
             "targeted": 1.7999999999999998
           }
         },
-        "gross_voi": 1.1,
+        "gross_voi": 1.0999999999999996,
         "informed_value": 6.0,
-        "net_voi": 1.0,
+        "net_voi": 0.9999999999999997,
         "optimal_actions": {
           "complement_reported": [
             "targeted"
@@ -294,9 +294,9 @@
         "safe"
       ]
     },
-    "perfect_gross_voi": 1.1,
+    "perfect_gross_voi": 1.0999999999999996,
     "perfect_informed_value": 6.0,
-    "perfect_net_voi": 1.0,
+    "perfect_net_voi": 0.9999999999999997,
     "probability": 0.5,
     "state_ids": [
       "adverse",
