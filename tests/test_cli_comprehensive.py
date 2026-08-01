@@ -758,6 +758,7 @@ def test_cli_command_registry_matches_expected_surface() -> None:
         "calculate-evsi",
         "calculate-estimation-variance",
         "calculate-heterogeneity",
+        "calculate-heterogeneity-value",
         "calculate-implementation",
         "calculate-implementation-information",
         "calculate-information-source-portfolio",

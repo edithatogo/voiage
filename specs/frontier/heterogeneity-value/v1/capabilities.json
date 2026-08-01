@@ -3,7 +3,6 @@
   "maturity": "experimental",
   "method": "exact finite static and dynamic heterogeneity-value decomposition",
   "python_modules": [
-    "voiage/contracts/heterogeneity_value.py",
     "voiage/methods/heterogeneity_value.py"
   ],
   "stable_claim_allowed": false,

@@ -28,7 +28,7 @@
     },
     {
       "path": "specs/frontier/heterogeneity-value/v1/capabilities.json",
-      "sha256": "121c4b95329ebb84ecb00207fe0394aa8eca6d0be0f3ee383dd5ff4fd71fd4d0"
+      "sha256": "5531b48eacc1daf179068134cb60f2f6b95028a011489166b9d4f4b7f33ca453"
     },
     {
       "path": "specs/frontier/heterogeneity-value/v1/fixtures/manifest.json",
