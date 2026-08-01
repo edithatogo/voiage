@@ -41,10 +41,10 @@
   contract, planned v1.3.0 MoSCoW requirements, Mermaid flow, independent
   reference review and failing worked/disagreement/incomplete/adversarial
   tests. (AC-02, AC-03, AC-09) `be3631d1`
-- [~] **F558-2 / #739:** Add strict versioned assessment, result, audit-event and
+- [x] **F558-2 / #739:** Add strict versioned assessment, result, audit-event and
   rendering schemas; normative fixtures; provenance, redaction, AI-assistance,
-  human-review and language dispositions. (AC-02–AC-06)
-- [ ] **F558-3 / #740:** Implement the deterministic experimental Python
+  human-review and language dispositions. (AC-02–AC-06) `3bfea8b8`
+- [~] **F558-3 / #740:** Implement the deterministic experimental Python
   validator and state transition workflow with ordinal priorities, complete
   ties, dissent, conflicts, missingness and immutable audit history, without
   cardinal pseudo-scoring. (AC-02–AC-05)
