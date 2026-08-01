@@ -294,6 +294,32 @@
         "safe"
       ]
     },
+    "partition_evidence": [
+      {
+        "coordinate": [
+          -1.0,
+          0.0
+        ],
+        "event_member": true,
+        "state_id": "adverse"
+      },
+      {
+        "coordinate": [
+          0.0,
+          0.0
+        ],
+        "event_member": true,
+        "state_id": "borderline"
+      },
+      {
+        "coordinate": [
+          1.0,
+          1.0
+        ],
+        "event_member": false,
+        "state_id": "favourable"
+      }
+    ],
     "perfect_gross_voi": 1.0999999999999996,
     "perfect_informed_value": 6.0,
     "perfect_net_voi": 0.9999999999999997,

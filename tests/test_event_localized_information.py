@@ -352,7 +352,7 @@ def test_strict_schemas_and_capability_dispositions() -> None:
             lambda value: value["event"]["imperfect_binary_channel"][0][
                 "signal_probabilities"
             ].update(event_reported=0.9),
-            "signal probabilities",
+            "event-reported signal probability",
         ),
         (
             lambda value: value["density"]["atoms"][0].update(
@@ -373,6 +373,72 @@ def test_strict_schemas_and_capability_dispositions() -> None:
             ),
             "symmetry result is missing",
         ),
+        (
+            lambda value: value["baseline"]["action_expected_values"].update(safe=3.9),
+            "event marginal for safe",
+        ),
+        (
+            lambda value: value["event"]["conditional_action_values"]["event"].update(
+                safe=3.9
+            ),
+            "event marginal for safe",
+        ),
+        (
+            lambda value: value["event"]["imperfect_binary_channel"][1].update(
+                accuracy=0.3
+            ),
+            "conditional value",
+        ),
+        (
+            lambda value: value["event"]["imperfect_binary_channel"][1][
+                "conditional_action_values"
+            ]["event_reported"].update(safe=3.9),
+            "event-reported conditional value for safe",
+        ),
+        (
+            lambda value: value["density"].update(reference_action="safe"),
+            "reference actions do not reconcile",
+        ),
+        (
+            lambda value: value["density"]["atoms"][2][
+                "conditional_action_values"
+            ].update(safe=3.9),
+            "density marginal for safe",
+        ),
+        (
+            lambda value: value["event"]["definition"].update(threshold=999.0),
+            "threshold definition does not reconcile",
+        ),
+        (
+            lambda value: value["event"]["partition_evidence"][0].update(
+                event_member=False
+            ),
+            "membership does not reconcile",
+        ),
+        (
+            lambda value: value["event"]["partition_evidence"][2].update(
+                coordinate=[2.0, 1.0]
+            ),
+            "do not cover partition-evidence coordinates",
+        ),
+        (
+            lambda value: value["event"]["conditional_action_values"]["event"].update(
+                unknown=0.0
+            ),
+            "action identifiers do not reconcile",
+        ),
+        (
+            lambda value: value["event"]["imperfect_binary_channel"][1][
+                "conditional_action_values"
+            ]["event_reported"].update(unknown=0.0),
+            "action identifiers do not reconcile",
+        ),
+        (
+            lambda value: value["density"]["atoms"][1][
+                "conditional_action_values"
+            ].update(unknown=0.0),
+            "action identifiers do not reconcile",
+        ),
         (lambda value: value.update(unexpected=True), "schema violation"),
     ],
 )
@@ -382,6 +448,31 @@ def test_result_semantic_validator_rejects_mutations(
     result = _result()
     mutation(result)  # type: ignore[operator]
     with pytest.raises(ValueError, match=match):
+        validate_event_localized_information_result_semantics(result)
+
+
+def test_result_validator_rejects_duplicate_ungrouped_coordinate_atoms() -> None:
+    result = _result()
+    atom = result["density"]["atoms"][1]
+    duplicate = deepcopy(atom)
+    for row in (atom, duplicate):
+        row["probability_mass"] /= 2
+        row["policy_relative_density"] /= 2
+        row["centered_density"] /= 2
+    result["density"]["atoms"].insert(2, duplicate)
+    with pytest.raises(ValueError, match="unique grouped coordinates"):
+        validate_event_localized_information_result_semantics(result)
+
+
+def test_state_set_result_evidence_is_bound_to_the_declared_partition() -> None:
+    payload = _input()
+    payload["event"]["definition"] = {
+        "kind": "state_set",
+        "state_ids": ["adverse", "borderline"],
+    }
+    result = _result(payload)
+    result["event"]["definition"]["state_ids"] = ["adverse"]
+    with pytest.raises(ValueError, match="state-set definition"):
         validate_event_localized_information_result_semantics(result)
 
 

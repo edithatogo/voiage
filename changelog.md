@@ -5,6 +5,8 @@
 - Add an experimental exact finite event-localized information evaluator with
   perfect and imperfect binary-event VOI, policy-relative information density,
   signed centered diagnostics, strict fixtures, CLI/API and result-only plots.
+  Bind its portable result to auditable partition evidence and independently
+  reconstructed event, channel and density marginals.
 
 - Added an experimental exact finite risk-sensitive and constrained
   perfect-information contract for issue #570, with expected-value/utility,

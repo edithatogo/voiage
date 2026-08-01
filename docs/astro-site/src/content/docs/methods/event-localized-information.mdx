@@ -44,6 +44,10 @@ requested accuracy of a symmetric imperfect binary channel. Accuracy `0.5` is
 uninformative; `p` and `1-p` have equal gross value because their signal labels
 can be inverted. The symmetry diagnostic uses tolerant accuracy matching and
 is `null`, not zero, when the requested grid contains no complementary pair.
+The portable result includes state/coordinate membership evidence, allowing its
+strict validator to re-evaluate the declared threshold or state set and every
+event, channel and density marginal rather than trusting reported summaries.
+Equal coordinates must appear as one grouped density atom.
 
 ```bash
 voiage --format json calculate-event-localized-information request.json

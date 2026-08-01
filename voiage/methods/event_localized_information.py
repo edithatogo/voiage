@@ -550,6 +550,16 @@ def _evaluate(payload: dict[str, Any]) -> dict[str, Any]:
         "event": {
             "event_id": event_id,
             "definition": event["definition"],
+            "partition_evidence": [
+                {
+                    "state_id": cast("str", state["state_id"]),
+                    "coordinate": cast("list[float]", state["coordinate"]),
+                    "event_member": cast("str", state["state_id"]) in event_members,
+                }
+                for state in sorted(
+                    states, key=lambda value: cast("str", value["state_id"])
+                )
+            ],
             "state_ids": sorted(event_members),
             "complement_state_ids": sorted(set(state_ids) - event_members),
             "probability": event_probability,

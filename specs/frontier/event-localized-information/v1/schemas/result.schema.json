@@ -429,6 +429,13 @@
           "minProperties": 2,
           "type": "object"
         },
+        "partition_evidence": {
+          "items": {
+            "$ref": "#/$defs/partitionEvidence"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
         "perfect_gross_voi": {
           "minimum": 0,
           "type": "number"
@@ -457,6 +464,7 @@
       "required": [
         "event_id",
         "definition",
+        "partition_evidence",
         "state_ids",
         "complement_state_ids",
         "probability",
@@ -496,6 +504,31 @@
         "R",
         "Julia",
         "Mojo"
+      ],
+      "type": "object"
+    },
+    "partitionEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "coordinate": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "event_member": {
+          "type": "boolean"
+        },
+        "state_id": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "state_id",
+        "coordinate",
+        "event_member"
       ],
       "type": "object"
     },

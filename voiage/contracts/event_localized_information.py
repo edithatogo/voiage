@@ -3,6 +3,7 @@
 # pyright: reportAny=false, reportExplicitAny=false, reportUnknownArgumentType=false
 # pyright: reportUnknownMemberType=false, reportUnknownVariableType=false
 # pyright: reportMissingModuleSource=false
+# pyright: reportUnknownLambdaType=false
 
 from __future__ import annotations
 
@@ -294,6 +295,7 @@ EVENT_LOCALIZED_INFORMATION_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
             "required": [
                 "event_id",
                 "definition",
+                "partition_evidence",
                 "state_ids",
                 "complement_state_ids",
                 "probability",
@@ -309,6 +311,11 @@ EVENT_LOCALIZED_INFORMATION_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
             "properties": {
                 "event_id": _TEXT,
                 "definition": {"oneOf": [_THRESHOLD, _STATE_SET]},
+                "partition_evidence": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {"$ref": "#/$defs/partitionEvidence"},
+                },
                 "state_ids": _STRING_ARRAY,
                 "complement_state_ids": _STRING_ARRAY,
                 "probability": {
@@ -332,6 +339,16 @@ EVENT_LOCALIZED_INFORMATION_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
                     "minItems": 1,
                     "items": {"$ref": "#/$defs/channelRow"},
                 },
+            },
+        },
+        "partitionEvidence": {
+            "type": "object",
+            "additionalProperties": False,
+            "required": ["state_id", "coordinate", "event_member"],
+            "properties": {
+                "state_id": _TEXT,
+                "coordinate": _NUMBER_ARRAY,
+                "event_member": {"type": "boolean"},
             },
         },
         "atom": {
@@ -494,8 +511,15 @@ def _finite_tree(value: object, label: str = "payload") -> None:
 
 
 def _close(actual: float, expected: float, tolerance: float, label: str) -> None:
-    if not math.isclose(actual, expected, abs_tol=tolerance, rel_tol=tolerance):
+    if not math.isclose(actual, expected, abs_tol=tolerance, rel_tol=0.0):
         raise ValueError(f"{label} does not reconcile")
+
+
+def _require_action_keys(
+    values: Mapping[str, Any], actions: set[str], label: str
+) -> None:
+    if set(values) != actions:
+        raise ValueError(f"{label} action identifiers do not reconcile")
 
 
 def _ties_are_maximal(
@@ -559,6 +583,7 @@ def validate_event_localized_information_result_semantics(
     _finite_tree(payload)
     baseline = cast("Mapping[str, Any]", payload["baseline"])
     baseline_values = cast("Mapping[str, Any]", baseline["action_expected_values"])
+    actions = set(baseline_values)
     baseline_maximum = max(float(value) for value in baseline_values.values())
     _close(float(baseline["reference_value"]), baseline_maximum, tolerance, "baseline")
     reference = cast("str", baseline["reference_action"])
@@ -585,14 +610,48 @@ def validate_event_localized_information_result_semantics(
         cast("Sequence[str]", event["complement_state_ids"])
     ):
         raise ValueError("event and complement state identifiers must be disjoint")
+    state_ids = set(cast("Sequence[str]", event["state_ids"]))
+    complement_ids = set(cast("Sequence[str]", event["complement_state_ids"]))
+    partition_evidence = cast(
+        "Sequence[Mapping[str, Any]]", event["partition_evidence"]
+    )
+    evidence_ids = [cast("str", row["state_id"]) for row in partition_evidence]
+    if len(set(evidence_ids)) != len(evidence_ids):
+        raise ValueError("partition evidence state identifiers must be unique")
+    if set(evidence_ids) != state_ids | complement_ids:
+        raise ValueError("partition evidence does not cover the event partition")
+    evidenced_event_ids = {
+        cast("str", row["state_id"])
+        for row in partition_evidence
+        if bool(row["event_member"])
+    }
+    if evidenced_event_ids != state_ids:
+        raise ValueError("partition evidence membership does not reconcile")
+    definition = cast("Mapping[str, Any]", event["definition"])
+    if (
+        definition["kind"] == "state_set"
+        and set(cast("Sequence[str]", definition["state_ids"])) != state_ids
+    ):
+        raise ValueError("state-set definition does not reconcile with the partition")
     conditional = cast(
         "Mapping[str, Mapping[str, Any]]", event["conditional_action_values"]
     )
     policies = cast("Mapping[str, Sequence[str]]", event["optimal_actions"])
     perfect = 0.0
     for key, weight in (("event", probability), ("complement", complement_probability)):
+        _require_action_keys(conditional[key], actions, key)
         _ties_are_maximal(policies[key], conditional[key], tolerance, key)
         perfect += weight * max(float(value) for value in conditional[key].values())
+    for action in actions:
+        marginal = probability * float(conditional["event"][action]) + (
+            complement_probability * float(conditional["complement"][action])
+        )
+        _close(
+            float(baseline_values[action]),
+            marginal,
+            tolerance,
+            f"event marginal for {action}",
+        )
     _close(
         float(event["perfect_informed_value"]),
         perfect,
@@ -608,7 +667,31 @@ def validate_event_localized_information_result_semantics(
     if len({float(row["accuracy"]) for row in curve}) != len(curve):
         raise ValueError("result channel accuracies must be unique")
     for row in curve:
+        accuracy = float(row["accuracy"])
         probabilities = cast("Mapping[str, Any]", row["signal_probabilities"])
+        _require_action_keys(
+            probabilities,
+            {"event_reported", "complement_reported"},
+            "signal probabilities",
+        )
+        expected_report_event = accuracy * probability + (
+            (1.0 - accuracy) * complement_probability
+        )
+        expected_report_complement = (1.0 - accuracy) * probability + (
+            accuracy * complement_probability
+        )
+        _close(
+            float(probabilities["event_reported"]),
+            expected_report_event,
+            tolerance,
+            "event-reported signal probability",
+        )
+        _close(
+            float(probabilities["complement_reported"]),
+            expected_report_complement,
+            tolerance,
+            "complement-reported signal probability",
+        )
         _close(
             math.fsum(float(value) for value in probabilities.values()),
             1.0,
@@ -621,9 +704,33 @@ def validate_event_localized_information_result_semantics(
         row_policies = cast("Mapping[str, Sequence[str]]", row["optimal_actions"])
         informed = 0.0
         for key in ("event_reported", "complement_reported"):
+            _require_action_keys(row_values[key], actions, key)
             _ties_are_maximal(row_policies[key], row_values[key], tolerance, key)
             informed += float(probabilities[key]) * max(
                 float(value) for value in row_values[key].values()
+            )
+        for action in actions:
+            event_numerator = accuracy * probability * float(
+                conditional["event"][action]
+            ) + (1.0 - accuracy) * complement_probability * float(
+                conditional["complement"][action]
+            )
+            complement_numerator = (1.0 - accuracy) * probability * float(
+                conditional["event"][action]
+            ) + accuracy * complement_probability * float(
+                conditional["complement"][action]
+            )
+            _close(
+                float(row_values["event_reported"][action]),
+                event_numerator / expected_report_event,
+                tolerance,
+                f"event-reported conditional value for {action}",
+            )
+            _close(
+                float(row_values["complement_reported"][action]),
+                complement_numerator / expected_report_complement,
+                tolerance,
+                f"complement-reported conditional value for {action}",
             )
         _close(
             float(row["informed_value"]), informed, tolerance, "channel informed value"
@@ -633,12 +740,54 @@ def validate_event_localized_information_result_semantics(
         _close(float(row["net_voi"]), row_gross - cost, tolerance, "channel net VOI")
 
     density = cast("Mapping[str, Any]", payload["density"])
+    if density["reference_action"] != reference:
+        raise ValueError("density and baseline reference actions do not reconcile")
     atoms = cast("Sequence[Mapping[str, Any]]", density["atoms"])
     dimension = len(cast("Sequence[object]", density["coordinate_names"]))
     if len(cast("Sequence[object]", density["coordinate_units"])) != dimension:
         raise ValueError("result coordinate units do not match the dimension")
     if len(cast("Sequence[object]", density["base_coordinate"])) != dimension:
         raise ValueError("result base coordinate does not match the dimension")
+    evidence_coordinates: dict[str, Sequence[float]] = {}
+    for row in partition_evidence:
+        coordinate = cast("Sequence[float]", row["coordinate"])
+        if len(coordinate) != dimension:
+            raise ValueError(
+                "partition evidence coordinate does not match the dimension"
+            )
+        evidence_coordinates[cast("str", row["state_id"])] = coordinate
+    if definition["kind"] == "threshold":
+        index = int(definition["coordinate_index"])
+        if index >= dimension:
+            raise ValueError("result event coordinate_index is outside the dimension")
+        threshold = float(definition["threshold"])
+        operator = cast("str", definition["operator"])
+        predicates = {
+            "less_than": lambda value: value < threshold,
+            "less_than_or_equal": lambda value: value <= threshold,
+            "greater_than": lambda value: value > threshold,
+            "greater_than_or_equal": lambda value: value >= threshold,
+        }
+        expected_event_ids = {
+            state_id
+            for state_id, coordinate in evidence_coordinates.items()
+            if predicates[operator](float(coordinate[index]))
+        }
+        if expected_event_ids != state_ids:
+            raise ValueError(
+                "threshold definition does not reconcile with the partition"
+            )
+    coordinates = [
+        tuple(float(value) for value in cast("Sequence[Any]", atom["coordinate"]))
+        for atom in atoms
+    ]
+    if len(set(coordinates)) != len(coordinates):
+        raise ValueError("density atoms must have unique grouped coordinates")
+    if set(coordinates) != {
+        tuple(float(value) for value in coordinate)
+        for coordinate in evidence_coordinates.values()
+    }:
+        raise ValueError("density atoms do not cover partition-evidence coordinates")
     mass = math.fsum(float(atom["probability_mass"]) for atom in atoms)
     _close(mass, 1.0, tolerance, "density probability mass")
     resolved = 0.0
@@ -648,6 +797,7 @@ def validate_event_localized_information_result_semantics(
         if len(cast("Sequence[object]", atom["coordinate"])) != dimension:
             raise ValueError("density atom coordinate does not match the dimension")
         values = cast("Mapping[str, Any]", atom["conditional_action_values"])
+        _require_action_keys(values, actions, "atom")
         _ties_are_maximal(
             cast("Sequence[str]", atom["optimal_actions"]), values, tolerance, "atom"
         )
@@ -680,6 +830,20 @@ def validate_event_localized_information_result_semantics(
         )
         policy_integral += float(atom["policy_relative_density"])
         centered_integral += float(atom["centered_density"])
+    for action in actions:
+        marginal = math.fsum(
+            float(atom["probability_mass"])
+            * float(
+                cast("Mapping[str, Any]", atom["conditional_action_values"])[action]
+            )
+            for atom in atoms
+        )
+        _close(
+            float(baseline_values[action]),
+            marginal,
+            tolerance,
+            f"density marginal for {action}",
+        )
     information_value = resolved - baseline_maximum
     _close(
         float(density["information_value"]),

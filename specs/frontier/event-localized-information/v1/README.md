@@ -29,6 +29,13 @@ inverted. Plots consume the evaluated result only.
 The symmetry error is `null` when the requested grid contains no `p`/`1-p`
 pair, so missing assurance is never presented as an exact zero.
 
+Every result also carries deterministic partition evidence: each state
+identifier, its declared coordinate and its event-membership flag. Result
+validation re-evaluates threshold or state-set membership from that evidence,
+reconstructs every action's baseline value from both event cells and density
+atoms, and reconstructs every binary-channel posterior from its accuracy.
+Duplicate coordinate atoms and mismatched reference policies fail closed.
+
 The finite mass contract is source-grounded in Hazen, Borgonovo and Lu (2023),
 DOI `10.1287/deca.2022.0465`, and Bakır (2025), DOI
 `10.1287/deca.2024.0172`. It does not claim a continuous-density estimator or

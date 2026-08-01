@@ -127,6 +127,10 @@
   accuracy `p`/`1-p` symmetry, the uninformative `0.5` boundary, deterministic
   serialization and raw-atom density-integral tolerances. A requested grid
   without a complementary pair reports `null`, never a false zero residual.
+  Bind the portable result to auditable state/coordinate partition evidence;
+  re-evaluate the event definition and reconstruct every baseline, channel and
+  density action marginal, rejecting mismatched references or ungrouped equal
+  coordinates.
 - **M27-S4:** Keep finite event/density EUI distinct from ordinary threshold
   plotting, DSA, parameter EVPPI, forecast accuracy and tail-risk measures.
   Monetary BPI remains delegated to #595. Python may be experimental; Rust, R
