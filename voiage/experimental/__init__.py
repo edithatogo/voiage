@@ -16,6 +16,7 @@ _EXPORTS = {
     "calculate_coss": ".experimental.study_design",
     "evsi_evpi_efficiency": ".experimental.study_design",
     "allocate_coss_portfolio": ".experimental.study_portfolio",
+    "information_source_portfolio_value": ".methods.information_source_portfolio",
 }
 
 __all__ = list(_EXPORTS)

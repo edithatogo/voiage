@@ -68,6 +68,14 @@ _EXTENSION_EXPORTS = {
         ".methods.forecast_signal_information",
         "forecast_signal_information_value",
     ),
+    "InformationSourcePortfolioResult": (
+        ".methods.information_source_portfolio",
+        "InformationSourcePortfolioResult",
+    ),
+    "information_source_portfolio_value": (
+        ".methods.information_source_portfolio",
+        "information_source_portfolio_value",
+    ),
     "McdaInformationResult": (
         ".methods.mcda_information",
         "McdaInformationResult",
