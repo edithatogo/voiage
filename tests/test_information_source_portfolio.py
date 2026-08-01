@@ -47,6 +47,8 @@ def test_normative_joint_portfolio_matches_independent_reference() -> None:
     assert [
         item["gross_attribution"] for item in result["attribution"]
     ] == pytest.approx(expected["gross_attribution"])
+    assert result["assurance"]["feasible_sequences"] == expected["feasible_sequences"]
+    assert result["assurance"]["pruned_sequences"] == expected["pruned_sequences"]
 
 
 def test_redundant_duplicate_has_zero_conditional_value() -> None:
@@ -73,6 +75,13 @@ def test_no_procurement_beats_every_negative_net_sequence() -> None:
     result = information_source_portfolio_value(payload).to_contract_dict()
     assert result["optimum"]["source_sequence"] == []
     assert result["optimum"]["net_value"] == pytest.approx(0.0)
+
+
+def test_impossible_constraints_do_not_misreport_no_procurement_as_feasible() -> None:
+    payload = _input()
+    payload["constraints"]["required_coverage"] = ["unavailable-coverage"]
+    with pytest.raises(InputError, match="no feasible non-empty"):
+        information_source_portfolio_value(payload)
 
 
 def test_complementary_sources_are_not_additive_evsi_scores() -> None:
@@ -116,6 +125,16 @@ def test_complete_sequence_and_policy_ties_are_preserved() -> None:
         ),
         (lambda data: data["states"][0].update({"probability": 0.4}), "probabilities"),
         (lambda data: data["sources"][0].update({"cost_unit": "USD"}), "unit"),
+        (
+            lambda data: data["value_context"].update({"cost_unit": "USD"}),
+            "commensurate",
+        ),
+        (
+            lambda data: data["states"][0]["action_values"].update(
+                {"act00": float("nan")}
+            ),
+            "finite",
+        ),
         (lambda data: None, "cycle"),
     ],
 )

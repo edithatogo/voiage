@@ -210,7 +210,7 @@ def _evaluate(payload: Mapping[str, Any]) -> dict[str, Any]:
                     sequence, source_by_id, raw, baseline_value, delay_rate
                 )
             )
-    if not evaluations:
+    if len(evaluations) == 1:
         raise ValueError(
             "portfolio constraints leave no feasible non-empty source sequence"
         )

@@ -422,10 +422,49 @@ def validate_information_source_portfolio_semantics(payload: Mapping[str, Any]) 
             != expected_sources
         ):
             raise ValueError("every state must define every source observation")
-    cost_unit = cast("Mapping[str, Any]", payload["value_context"])["cost_unit"]
+    context = cast("Mapping[str, Any]", payload["value_context"])
+    cost_unit = context["cost_unit"]
+    if context["value_unit"] != cost_unit:
+        raise ValueError("value and cost units must be directly commensurate")
     if any(source["cost_unit"] != cost_unit for source in sources):
         raise ValueError(
             "every source cost unit must match the value context cost unit"
+        )
+    numeric_values = [
+        float(context["delay_cost_per_time"]),
+        *(float(state["probability"]) for state in states),
+        *(
+            float(value)
+            for state in states
+            for value in cast("Mapping[str, float]", state["action_values"]).values()
+        ),
+        *(
+            float(source[field])
+            for source in sources
+            for field in (
+                "cost",
+                "latency",
+                "privacy_cost",
+                "freshness_age",
+                "sla_probability",
+            )
+        ),
+        *(
+            float(cast("Mapping[str, Any]", payload["constraints"])[field])
+            for field in (
+                "max_cost",
+                "max_latency",
+                "max_privacy_cost",
+                "min_source_sla",
+                "max_freshness_age",
+            )
+        ),
+        float(cast("Mapping[str, Any]", payload["tie_policy"])["absolute_tolerance"]),
+        float(cast("Mapping[str, Any]", payload["tie_policy"])["relative_tolerance"]),
+    ]
+    if not all(math.isfinite(value) for value in numeric_values):
+        raise ValueError(
+            "all probabilities, values, costs and constraints must be finite"
         )
     references = set(source_ids)
     graph: dict[str, set[str]] = {}
@@ -459,3 +498,44 @@ def validate_information_source_portfolio_semantics(payload: Mapping[str, Any]) 
 def validate_information_source_portfolio_result(payload: Mapping[str, Any]) -> None:
     """Validate the portable result envelope."""
     _validate_schema(payload, INFORMATION_SOURCE_PORTFOLIO_RESULT_SCHEMA_V1)
+    baseline = float(cast("Mapping[str, Any]", payload["baseline"])["value"])
+    evaluations = cast("list[Mapping[str, Any]]", payload["evaluated_sequences"])
+    for evaluation in evaluations:
+        resolved = float(evaluation["resolved_value"])
+        gross = float(evaluation["gross_value"])
+        delay = float(evaluation["delay_cost"])
+        source_cost = float(evaluation["total_source_cost"])
+        if not math.isclose(resolved - baseline, gross, abs_tol=1e-9):
+            raise ValueError("resolved and gross decision-value identity failed")
+        if not math.isclose(
+            gross - delay,
+            float(evaluation["willingness_to_pay"]),
+            abs_tol=1e-9,
+        ):
+            raise ValueError("willingness-to-pay identity failed")
+        if not math.isclose(
+            gross - delay - source_cost,
+            float(evaluation["net_value"]),
+            abs_tol=1e-9,
+        ):
+            raise ValueError("net decision-value identity failed")
+        marginals = cast("list[Mapping[str, Any]]", evaluation["conditional_marginals"])
+        if not math.isclose(
+            math.fsum(float(item["gross_marginal_value"]) for item in marginals),
+            gross,
+            abs_tol=1e-9,
+        ):
+            raise ValueError("conditional marginal values must recover gross value")
+    optimum = cast("Mapping[str, Any]", payload["optimum"])
+    if (
+        float(optimum["net_value"])
+        < max(float(item["net_value"]) for item in evaluations) - 1e-9
+    ):
+        raise ValueError("reported optimum is not maximal")
+    attribution = cast("list[Mapping[str, Any]]", payload["attribution"])
+    if not math.isclose(
+        math.fsum(float(item["gross_attribution"]) for item in attribution),
+        float(optimum["gross_value"]),
+        abs_tol=1e-9,
+    ):
+        raise ValueError("decision-value attribution must recover selected gross value")
