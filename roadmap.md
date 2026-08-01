@@ -274,7 +274,9 @@ evidence and is not reopened by this queue.
 Issue #582 is delivered experimentally through
 `information_source_portfolio_voi_20260801`, with dependent source sequences,
 feasibility constraints, conditional marginals and exact decision-value
-Shapley allocation governed under C18/M24 for planned v1.3.0.
+Shapley allocation governed under C18/M24 for planned v1.3.0. PR #772 exact
+head `f1d6f77d` passed its hosted matrix and 100% changed coverage before
+squash merge `55771017`; scientific review and later maturity gates remain.
 
 ---
 
