@@ -294,7 +294,7 @@ covers the experimental frontier entries only.
   public API and CLI with closed-loop/no-information comparators, gross/net,
   myopic/nonmyopic, conditional-sensing, policy-tree, regret and horizon
   results. (AC-03–AC-06) `bdcb78b1`
-- [~] **F597-3 / #782:** Record posterior-martingale, exact-bound,
+- [x] **F597-3 / #782:** Record posterior-martingale, exact-bound,
   action-dependent-learning and dual-control diagnostics, explicit language
   dispositions, independent implementation review, full local validation and
   hosted exact-head assurance without claiming stable or scientific closure.
@@ -307,8 +307,14 @@ covers the experimental frontier entries only.
   review found and remediated remaining model-unbound assurance claims in
   `belief-state-information-fourth-review-remediation.md`. The fifth fresh
   independent review approved the bounded remediation in
-  `belief-state-information-fifth-review.md`; hosted exact-head assurance and
-  merge remain pending.
+  `belief-state-information-fifth-review.md`. PR #807 exact head
+  `35cfe522c1b23b8dae3542442a8900b14f9bbcc0`
+  passed all 42 terminal-allowed checks (38 successes, three governed skips
+  and one neutral CodeQL aggregation), including installed-wheel, full-suite
+  and exact-head assurance, with zero unresolved review threads before squash
+  merge `39de9c6ab2079b55a4666243baff2a5db7f10604`. Delivery subissues
+  #780–#782 may close; scientific review, Rust/R/Julia parity, stable promotion,
+  release, parent #597 closure and umbrella #318 closure remain separate gates.
   (AC-03–AC-07)
 
 - [x] **F597-R1 / #782 — Review Fixes:** Add conservative Bellman expansion
