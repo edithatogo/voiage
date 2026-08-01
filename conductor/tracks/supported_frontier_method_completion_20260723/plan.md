@@ -37,11 +37,11 @@
   hosted exact-head assurance; reconcile #557 without closing scientific,
   stable-promotion, release or issue gates. (AC-03–AC-07) `2aa5d2eb`
 
-- [~] **F558-1 / #738:** Freeze #558's portable non-cardinal assessment
+- [x] **F558-1 / #738:** Freeze #558's portable non-cardinal assessment
   contract, planned v1.3.0 MoSCoW requirements, Mermaid flow, independent
   reference review and failing worked/disagreement/incomplete/adversarial
-  tests. (AC-02, AC-03, AC-09)
-- [ ] **F558-2 / #739:** Add strict versioned assessment, result, audit-event and
+  tests. (AC-02, AC-03, AC-09) `be3631d1`
+- [~] **F558-2 / #739:** Add strict versioned assessment, result, audit-event and
   rendering schemas; normative fixtures; provenance, redaction, AI-assistance,
   human-review and language dispositions. (AC-02–AC-06)
 - [ ] **F558-3 / #740:** Implement the deterministic experimental Python
