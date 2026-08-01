@@ -23,6 +23,7 @@ from voiage.contracts.forecast_signal_information import (
     validate_forecast_signal_information_semantics,
 )
 from voiage.exceptions import InputError
+import voiage.methods.forecast_signal_information as forecast_signal_module
 from voiage.methods.forecast_signal_information import (
     ForecastSignalInformationResult,
     forecast_signal_information_value,
@@ -206,6 +207,47 @@ def test_late_or_stale_signal_has_zero_operational_value(
             lambda payload: payload["tolerances"].update(absolute_tie=float("nan")),
             "tolerances must be finite",
         ),
+        (
+            lambda payload: payload["signals"][1].update(
+                signal_id=payload["signals"][0]["signal_id"]
+            ),
+            "signal IDs must be unique",
+        ),
+        (
+            lambda payload: payload["signals"][0][
+                "reported_outcome_probabilities"
+            ].update({"demand-low": float("nan")}),
+            "reported outcome probabilities must be finite",
+        ),
+        (
+            lambda payload: payload["actions"][0]["outcome_values"].update(
+                unexpected=0.0
+            ),
+            "outcome-value map must exactly match outcomes",
+        ),
+        (
+            lambda payload: payload["actions"][0]["outcome_values"].update(
+                {"demand-low": float("inf")}
+            ),
+            "action outcome values must be finite",
+        ),
+        (
+            lambda payload: payload["signals"][0]["likelihood_by_outcome"].update(
+                unexpected=0.0
+            ),
+            "signal probability maps must exactly match outcomes",
+        ),
+        (
+            lambda payload: (
+                payload["signals"][0].update(
+                    likelihood_by_outcome={"demand-low": 0.0, "demand-high": 0.0}
+                ),
+                payload["signals"][1].update(
+                    likelihood_by_outcome={"demand-low": 1.0, "demand-high": 1.0}
+                ),
+            ),
+            "every declared signal must have positive marginal probability",
+        ),
     ],
 )
 def test_semantic_pathologies_fail_closed(mutation, message: str) -> None:
@@ -240,6 +282,29 @@ def test_result_value_identities_fail_closed(
     result["value"][field] = value
     with pytest.raises(ValueError, match=message):
         validate_forecast_signal_information_result_semantics(result)
+
+
+def test_result_rejects_unknown_baseline_choice_and_regret_mismatch() -> None:
+    result = _evaluate()
+    result["baseline"]["choice_tie"] = ["unknown"]
+    with pytest.raises(ValueError, match="baseline choices"):
+        validate_forecast_signal_information_result_semantics(result)
+
+    result = _evaluate()
+    result["regret"]["avoided"] = -999.0
+    with pytest.raises(ValueError, match="regret avoided"):
+        validate_forecast_signal_information_result_semantics(result)
+
+
+def test_runtime_wraps_internal_refinement_assurance_failure(monkeypatch) -> None:
+    policy_values = iter([1e9, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+    monkeypatch.setattr(
+        forecast_signal_module,
+        "_policy_value",
+        lambda *_args, **_kwargs: next(policy_values),
+    )
+    with pytest.raises(InputError, match="signal refinement assurance failed"):
+        forecast_signal_information_value(_input())
 
 
 def test_permutations_and_infeasible_actions_preserve_declared_decision() -> None:
@@ -279,6 +344,18 @@ def test_cli_json_text_and_public_exports(tmp_path: Path) -> None:
     payload = json.loads(result.stdout)
     assert payload["value"]["gross_deployed"] == pytest.approx(40.0)
     assert json.loads(output.read_text(encoding="utf-8")) == payload
+    text_output = tmp_path / "result.txt"
+    text_saved = CliRunner().invoke(
+        app,
+        [
+            "calculate-forecast-signal-information",
+            str(request),
+            "--output",
+            str(text_output),
+        ],
+    )
+    assert text_saved.exit_code == 0
+    assert f"Result saved to {text_output}" in text_saved.stdout
     text = CliRunner().invoke(
         app, ["calculate-forecast-signal-information", str(request)]
     )
