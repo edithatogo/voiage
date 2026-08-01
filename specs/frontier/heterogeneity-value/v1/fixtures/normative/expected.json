@@ -6,6 +6,130 @@
     "common_actions_evaluated": 2,
     "estimator": "exact_enumeration",
     "identity_verified": true,
+    "input_contract": {
+      "actions": [
+        {
+          "action_id": "a",
+          "label": "Action A"
+        },
+        {
+          "action_id": "b",
+          "label": "Action B"
+        }
+      ],
+      "analysis_id": "worked-heterogeneity-decomposition",
+      "analysis_type": "heterogeneity_value_decomposition",
+      "estimator_assurance": {
+        "candidate_space_complete": true,
+        "estimator": "exact_enumeration",
+        "model_revision": "worked-v1"
+      },
+      "method_maturity": "experimental",
+      "objective": {
+        "direction": "maximize",
+        "discount_basis": "already discounted",
+        "horizon_basis": "one decision horizon",
+        "population_basis": "eligible worked-example population",
+        "value_unit": "net-monetary-benefit-per-person"
+      },
+      "provenance": {
+        "effect_source": "synthetic finite values",
+        "research_model_source": "symmetric binary channel",
+        "software_version": "voiage experimental contract v1",
+        "subgroup_source": "synthetic worked fixture"
+      },
+      "sample_information": {
+        "cost": {
+          "amount": 0.25,
+          "basis": "population-average acquisition cost",
+          "unit": "net-monetary-benefit-per-person"
+        },
+        "research_action_id": "binary-effect-study",
+        "signals": [
+          {
+            "likelihood_by_state": {
+              "high": 0.2,
+              "low": 0.8
+            },
+            "signal_id": "low-signal"
+          },
+          {
+            "likelihood_by_state": {
+              "high": 0.8,
+              "low": 0.2
+            },
+            "signal_id": "high-signal"
+          }
+        ]
+      },
+      "schema_version": "1.0.0",
+      "states": [
+        {
+          "probability": 0.5,
+          "state_id": "low",
+          "subgroup_action_values": {
+            "g1": {
+              "a": 10.0,
+              "b": 0.0
+            },
+            "g2": {
+              "a": 6.0,
+              "b": 8.0
+            }
+          }
+        },
+        {
+          "probability": 0.5,
+          "state_id": "high",
+          "subgroup_action_values": {
+            "g1": {
+              "a": 10.0,
+              "b": 12.0
+            },
+            "g2": {
+              "a": 6.0,
+              "b": 8.0
+            }
+          }
+        }
+      ],
+      "subgroup_specification": {
+        "covariates": [
+          "biomarker-status"
+        ],
+        "fairness_constraints": "both actions considered in both groups",
+        "multiplicity_policy": "single prespecified partition",
+        "privacy_constraints": "synthetic aggregate finite fixture",
+        "selection_policy": "prespecified before effect estimation",
+        "specification_id": "prespecified-biomarker"
+      },
+      "subgroups": [
+        {
+          "eligible_action_ids": [
+            "a",
+            "b"
+          ],
+          "label": "Group 1",
+          "subgroup_id": "g1",
+          "weight": 0.5
+        },
+        {
+          "eligible_action_ids": [
+            "a",
+            "b"
+          ],
+          "label": "Group 2",
+          "subgroup_id": "g2",
+          "weight": 0.5
+        }
+      ],
+      "tolerances": {
+        "absolute_tie": 1e-12,
+        "probability_sum": 1e-12,
+        "relative_tie": 1e-12
+      }
+    },
+    "input_sha256": "26818908cdb705e382c7c126390b4bc7eae354d6146caf2dcdb757a39ade2681",
     "model_revision": "worked-v1",
     "selection_adjustment_performed": false,
     "sparse_subgroup_inference_performed": false,

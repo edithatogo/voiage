@@ -4,6 +4,9 @@
 
 from __future__ import annotations
 
+import hashlib
+import importlib
+import json
 import math
 from typing import Any, Final, cast
 
@@ -268,6 +271,19 @@ _SUBGROUP_SPEC_RESULT: Final[dict[str, object]] = cast(
 _PROVENANCE_RESULT: Final[dict[str, object]] = cast(
     "dict[str, object]", _INPUT_PROPERTIES["provenance"]
 )
+
+
+def canonical_heterogeneity_value_input_sha256(payload: dict[str, Any]) -> str:
+    """Return the canonical SHA-256 commitment for a strict input contract."""
+    encoded = json.dumps(
+        payload,
+        allow_nan=False,
+        ensure_ascii=False,
+        separators=(",", ":"),
+        sort_keys=True,
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
 
 HETEROGENEITY_VALUE_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -571,6 +587,8 @@ HETEROGENEITY_VALUE_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
                 "estimator",
                 "candidate_space_complete",
                 "model_revision",
+                "input_sha256",
+                "input_contract",
                 "states_evaluated",
                 "subgroups_evaluated",
                 "common_actions_evaluated",
@@ -582,6 +600,11 @@ HETEROGENEITY_VALUE_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
                 "estimator": {"const": "exact_enumeration"},
                 "candidate_space_complete": {"const": True},
                 "model_revision": _STRING,
+                "input_sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$",
+                },
+                "input_contract": HETEROGENEITY_VALUE_INPUT_SCHEMA_V1,
                 "states_evaluated": {"type": "integer", "minimum": 1},
                 "subgroups_evaluated": {"type": "integer", "minimum": 2},
                 "common_actions_evaluated": {"type": "integer", "minimum": 1},
@@ -903,3 +926,33 @@ def validate_heterogeneity_value_result(payload: dict[str, Any]) -> None:
             raise ValueError(  # pragma: no cover - implied by exact per-group audit
                 "subgroup EVSI contributions do not reconstruct EVSIf"
             )
+
+    assurance = cast("dict[str, Any]", payload["assurance"])
+    input_contract = cast("dict[str, Any]", assurance["input_contract"])
+    validate_heterogeneity_value_semantics(input_contract)
+    if canonical_heterogeneity_value_input_sha256(input_contract) != str(
+        assurance["input_sha256"]
+    ):
+        raise ValueError("result input contract commitment is invalid")
+
+    # Import lazily to preserve the contract/method dependency direction at
+    # module import time. _evaluate is deterministic and does not call the
+    # public validator, so this is an exact standalone reconstruction rather
+    # than a recursive validation path.
+    evaluator_module = importlib.import_module("voiage.methods.heterogeneity_value")
+    evaluate = evaluator_module._evaluate
+    expected_result = cast("dict[str, Any]", evaluate(input_contract))
+    if json.dumps(
+        payload,
+        allow_nan=False,
+        ensure_ascii=False,
+        separators=(",", ":"),
+        sort_keys=True,
+    ) != json.dumps(
+        expected_result,
+        allow_nan=False,
+        ensure_ascii=False,
+        separators=(",", ":"),
+        sort_keys=True,
+    ):
+        raise ValueError("result does not exactly reproduce its committed input")

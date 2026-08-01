@@ -10,6 +10,7 @@ import math
 from typing import TYPE_CHECKING, Any, cast
 
 from voiage.contracts.heterogeneity_value import (
+    canonical_heterogeneity_value_input_sha256,
     validate_heterogeneity_value_result,
     validate_heterogeneity_value_semantics,
 )
@@ -248,6 +249,8 @@ def _evaluate(data: dict[str, Any]) -> dict[str, Any]:
         },
         "assurance": {
             **data["estimator_assurance"],
+            "input_sha256": canonical_heterogeneity_value_input_sha256(data),
+            "input_contract": data,
             "states_evaluated": len(states),
             "subgroups_evaluated": len(groups),
             "common_actions_evaluated": len(common_actions),

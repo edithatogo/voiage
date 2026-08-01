@@ -402,3 +402,57 @@ def test_result_audit_mutations_fail_closed(mutation: object, message: str) -> N
     mutation(result)  # type: ignore[operator]
     with pytest.raises(ValueError, match=message):
         validate_heterogeneity_value_result(result)
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        lambda result: result["policy_audit"]["current_population_common"].update(
+            {"selected_action_id": "b"}
+        ),
+        lambda result: result["policy_audit"]["current_population_common"].update(
+            {"action_tie": ["b"]}
+        ),
+        lambda result: result["subgroup_results"][0].update(
+            {"selected_current_action_id": "b"}
+        ),
+        lambda result: result["subgroup_results"][0].update(
+            {"current_action_tie": ["b"]}
+        ),
+        lambda result: result["policy_audit"]["perfect_information_states"][0].update(
+            {"state_id": "fabricated"}
+        ),
+        lambda result: result["policy_audit"]["perfect_information_states"][0][
+            "population_common"
+        ].update({"selected_action_id": "a"}),
+        lambda result: result["sample_information"]["signals"][0][
+            "population_common"
+        ].update({"selected_action_id": "a"}),
+        lambda result: result["policy_audit"]["subgroup_specification"].update(
+            {"selection_policy": "post-hoc fabricated"}
+        ),
+        lambda result: result["assurance"].update({"states_evaluated": 99}),
+    ],
+)
+def test_result_commitment_rejects_previously_unchecked_mutations(
+    mutation: object,
+) -> None:
+    result = _result()
+    mutation(result)  # type: ignore[operator]
+    with pytest.raises(ValueError, match="committed input"):
+        validate_heterogeneity_value_result(result)
+
+
+def test_result_commitment_rejects_input_and_coordinated_value_rewrites() -> None:
+    result = _result()
+    result["assurance"]["input_contract"]["analysis_id"] = "different-analysis"
+    with pytest.raises(ValueError, match="commitment"):
+        validate_heterogeneity_value_result(result)
+
+    result = _result()
+    result["four_value_decomposition"].update({"c0": 9.0, "static_value": 0.0})
+    result["policy_audit"]["current_population_common"]["action_values"].update(
+        {"a": 9.0, "b": 8.0}
+    )
+    with pytest.raises(ValueError):
+        validate_heterogeneity_value_result(result)
