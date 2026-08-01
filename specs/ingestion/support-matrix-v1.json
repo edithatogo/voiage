@@ -1,0 +1,31 @@
+{
+  "schema_version": "voiage-ingestion-support-matrix-v1",
+  "runtime": {
+    "python_supported": ["3.12", "3.13", "3.14"],
+    "python_free_threaded": "observation-only"
+  },
+  "providers": {
+    "croissant": {
+      "format_versions": ["1.1"],
+      "media_types": ["text/csv"],
+      "supported_resources": ["local CSV recordSet/distribution pair"],
+      "unsupported": ["network", "archives", "transforms", "non-CSV media types"]
+    },
+    "frictionless": {
+      "format_versions": ["1"],
+      "media_types": ["text/csv", "text/tab-separated-values", "application/json", "application/vnd.apache.parquet", "application/vnd.apache.arrow.file"],
+      "supported_resources": ["local CSV", "local TSV", "local JSON Table", "local Parquet", "local Arrow IPC file"],
+      "unsupported": ["network", "archives", "transforms", "Arrow streams", "Flight endpoints"]
+    }
+  },
+  "optional_extras": {
+    "croissant": [],
+    "frictionless": [],
+    "ingestion": []
+  },
+  "security_and_release": {
+    "source_access": "local-only fail-closed policy; URI schemes and archive paths are rejected before resource access",
+    "workflow_controls": [".github/workflows/ci.yml", ".github/workflows/release.yml", ".github/workflows/sbom.yml"],
+    "hosted_evidence": "workflow declarations are not a completed release or hosted-check result"
+  }
+}
