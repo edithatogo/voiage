@@ -62,10 +62,11 @@ joint-world law, roles, topology, selective-sharing designs, nonanticipative
 bounded catalogs, welfare comparability, transfers, costs and rights receipts;
 retains negative values; and returns harm, avoidance, switches,
 winners/losers, externalities and strictly scoped Blackwell checks. Independent
-implementation re-review has passed without an unresolved Critical, High or
-Medium finding. PR #808 completed synchronized hosted exact-head assurance and
-merged as `d649c344`. Independent scientific review, Rust/R/Julia parity,
-stable promotion, release, delivery-subissue closure, parent #598 closure and
+implementation re-review passed without an unresolved Critical, High or Medium
+finding. PR #808 exact head `4d121b29` completed all 42 terminal-allowed checks,
+all 10 review threads were resolved, and the experimental delivery
+squash-merged as `d649c344`. Delivery subissues #783–#785 may close. Scientific
+review, Rust/R/Julia parity, stable promotion, release, parent #598 closure and
 umbrella #318 closure remain open.
 
 **June 25 follow-through closeout:** ✅ **ARCHIVED** - The June 25 follow-through queue is complete and archived for its repository-owned implementation and

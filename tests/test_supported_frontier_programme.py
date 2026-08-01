@@ -340,6 +340,35 @@ def test_parallel_m26_to_m30_frontier_governance_is_additively_preserved() -> No
     assert by_issue[599]["disposition"] == "contract_in_progress"
 
 
+def test_signed_social_information_experimental_delivery_is_governed() -> None:
+    track = INVENTORY.parent
+    plan = (track / "plan.md").read_text(encoding="utf-8")
+    todo = (ROOT / "todo.md").read_text(encoding="utf-8")
+    child = next(child for child in _inventory()["children"] if child["issue"] == 598)
+
+    for issue in range(783, 786):
+        assert f"#{issue}" in plan
+    assert "#783" in todo
+    assert "#785" in todo
+    assert child["issue_state"] == "open"
+    assert child["project_status"] == "In Progress"
+    assert child["disposition"] == "experimental_merged"
+    assert child["implementation_pull_requests"] == [808]
+    assert child["satisfies_ac06"] is True
+    assert "4d121b29bb50492bcc84b1cdfa6fb46df9e5e51c" in plan
+    assert "d649c344ef2493abe445fb9e3ef20da89c53fb75" in plan
+    assert "all 10 review threads were resolved" in plan
+    for gate in (
+        "Scientific review",
+        "Rust/R/Julia parity",
+        "stable promotion",
+        "release",
+        "parent #598 closure",
+        "umbrella #318 closure",
+    ):
+        assert gate in f"{plan}\n{todo}"
+
+
 def test_dsa_governance_is_versioned_and_cross_referenced() -> None:
     track = INVENTORY.parent
     requirements = (track / "requirements.md").read_text(encoding="utf-8")
