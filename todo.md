@@ -10,6 +10,21 @@ relevant subagent review panel defined in
 The panel supplies structured evidence; maintainer approval and external
 release, registry, and publication decisions remain separate gates.
 
+*   [ ] Complete belief-state and intervention-aware sequential information
+    value after experimental branch delivery.
+    *   GitHub issue #597; delivery subissues #780--#782; umbrella track
+        `supported_frontier_method_completion_20260723`; canonical C18/M28.
+    *   The exact finite Python contract uses control-transition-observe-update
+        chronology and matched closed-loop/no-information Bellman comparators.
+        It reports gross/net, myopic/nonmyopic and conditional sensing value,
+        complete ties, belief/policy trees, horizon value, regret, exact bounds,
+        null-sensor and posterior-martingale assurance.
+    *   Action-dependent learning and dual control are diagnostics; no unique
+        additive dual-control value is claimed.
+    *   Remaining gates include independent implementation and scientific
+        review, hosted exact-head assurance, merge, Rust/R/Julia parity, stable
+        promotion, release, parent #597 closure and umbrella #318 closure.
+
 *   [ ] Complete event-localized information value after experimental delivery.
     *   GitHub issue #596; delivery subissues #777–#779; umbrella track
         `supported_frontier_method_completion_20260723`; canonical C18/M27.
@@ -19,8 +34,10 @@ release, registry, and publication decisions remain separate gates.
         diagnostics, integral assurance, modes, directions, API/CLI and plots.
     *   PR #804 exact head `e6835358` passed all 42 hosted checks with 38
         successes and four governed skips, including installed-wheel and 100%
-        changed-branch assurance, before squash merge `e3a62eba`. Delivery
-        subissues #777–#779 may close. Monetary BPI remains delegated to #595.
+        changed-branch assurance, before squash merge `e3a62eba`; governed
+        closeout PR #805 exact head `d8f5e2e3` then passed all 37 checks and
+        squash-merged as `74113b5a`. Delivery subissues #777–#779 are closed.
+        Monetary BPI remains delegated to #595.
         Remaining gates are the named scientific panel, Rust/R/Julia parity,
         stable promotion, release, parent #596 closure and umbrella #318 closure.
 

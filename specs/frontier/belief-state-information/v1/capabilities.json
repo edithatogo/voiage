@@ -1,0 +1,28 @@
+{
+  "capability_id": "belief-state-information-v1",
+  "maturity": "experimental",
+  "method": "exact finite belief-state sequential information value",
+  "python_modules": ["voiage/methods/belief_state_information.py"],
+  "stable_claim_allowed": false,
+  "surfaces": {
+    "julia": {"status": "unsupported"},
+    "mojo": {"status": "external"},
+    "python": {"status": "executable"},
+    "r": {"status": "unsupported"},
+    "rust": {"status": "unsupported"}
+  },
+  "supported": [
+    "finite-horizon control-transition-observe-update belief MDP",
+    "matched closed-loop and no-information Bellman comparators",
+    "gross, net, myopic, nonmyopic and conditional sensing values",
+    "null-sensor and posterior-martingale assurance",
+    "action-dependent learning and dual-control diagnostics"
+  ],
+  "unsupported": [
+    "continuous state, action or observation spaces",
+    "approximate POMDP solvers",
+    "learned transition or observation models",
+    "a unique additive dual-control value",
+    "stable or polyglot execution"
+  ]
+}

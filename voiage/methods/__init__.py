@@ -23,6 +23,10 @@ from .utility_information import (
 )
 
 if TYPE_CHECKING:
+    from .belief_state_information import (
+        BeliefStateInformationResult,
+        belief_state_information_value,
+    )
     from .distributional_information import (
         DistributionalInformationResult,
         ResolvedDistributionModel,
@@ -67,6 +71,7 @@ _MODULES = (
     "ai_assisted_evidence_triage",
     "ambiguity_distribution_shift",
     "basic",
+    "belief_state_information",
     "calibration",
     "capacity_budget_constrained",
     "causal_transportability",
@@ -129,6 +134,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "AIAssistedEvidenceTriageResult",
     "AdaptiveLearningBanditResult",
     "AmbiguityDistributionShiftResult",
+    "BeliefStateInformationResult",
     "CEAFResult",
     "CapacityBudgetConstrainedResult",
     "CausalTransportabilityResult",
@@ -179,6 +185,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "ValidationProfileSet",
     "ValueOfPerspectiveResult",
     "adaptive_evsi",
+    "belief_state_information_value",
     "calculate_ceaf",
     "calculate_dominance",
     "calculate_extended_dominance",

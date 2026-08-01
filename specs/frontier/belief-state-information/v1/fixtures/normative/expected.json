@@ -1,0 +1,548 @@
+{
+  "analysis_id": "belief-probe-counterexample",
+  "analysis_type": "belief_state_information_result",
+  "approximation_bounds": {
+    "gap": 0.0,
+    "lower": 6.5,
+    "upper": 6.5
+  },
+  "assurance": {
+    "action_dependent_learning": true,
+    "action_dependent_transition": false,
+    "approximation_used": false,
+    "complete_ties_reported": true,
+    "dual_control_diagnostic": true,
+    "estimated_bellman_expansions": 82,
+    "estimator": "deterministic_exact",
+    "exact_enumeration": true,
+    "exact_enumeration_budget": 50000,
+    "no_information_reduction_verified": true,
+    "null_sensor_reduction_verified": true,
+    "posterior_martingale_max_residual": 0.0,
+    "posterior_martingale_verified": true,
+    "solver": "exact_finite_horizon_bellman_enumeration",
+    "unique_additive_dual_control_value_claimed": false,
+    "usable_downstream_learning_response": true
+  },
+  "chronology": [
+    "control",
+    "transition",
+    "observe",
+    "update"
+  ],
+  "conditional_sensing_values": [
+    {
+      "control_action_id": "choose_bad",
+      "sensors": [
+        {
+          "gross_value": 0.0,
+          "net_increment_vs_null": -0.5,
+          "net_value": -0.5,
+          "sensing_cost": 0.5,
+          "sensor_id": "diagnostic"
+        },
+        {
+          "gross_value": 0.0,
+          "net_increment_vs_null": 0.0,
+          "net_value": 0.0,
+          "sensing_cost": 0.0,
+          "sensor_id": "none"
+        }
+      ]
+    },
+    {
+      "control_action_id": "choose_good",
+      "sensors": [
+        {
+          "gross_value": 0.0,
+          "net_increment_vs_null": -0.5,
+          "net_value": -0.5,
+          "sensing_cost": 0.5,
+          "sensor_id": "diagnostic"
+        },
+        {
+          "gross_value": 0.0,
+          "net_increment_vs_null": 0.0,
+          "net_value": 0.0,
+          "sensing_cost": 0.0,
+          "sensor_id": "none"
+        }
+      ]
+    },
+    {
+      "control_action_id": "probe",
+      "sensors": [
+        {
+          "gross_value": 8.0,
+          "net_increment_vs_null": 7.5,
+          "net_value": 7.5,
+          "sensing_cost": 0.5,
+          "sensor_id": "diagnostic"
+        },
+        {
+          "gross_value": 0.0,
+          "net_increment_vs_null": 0.0,
+          "net_value": 0.0,
+          "sensing_cost": 0.0,
+          "sensor_id": "none"
+        }
+      ]
+    },
+    {
+      "control_action_id": "wait",
+      "sensors": [
+        {
+          "gross_value": 0.0,
+          "net_increment_vs_null": -0.5,
+          "net_value": -0.5,
+          "sensing_cost": 0.5,
+          "sensor_id": "diagnostic"
+        },
+        {
+          "gross_value": 0.0,
+          "net_increment_vs_null": 0.0,
+          "net_value": 0.0,
+          "sensing_cost": 0.0,
+          "sensor_id": "none"
+        }
+      ]
+    }
+  ],
+  "discount_factor": 1.0,
+  "horizon": 2,
+  "language_dispositions": {
+    "julia": "unsupported",
+    "mojo": "external-boundary",
+    "python": "executable-experimental",
+    "r": "unsupported",
+    "rust": "unsupported"
+  },
+  "limitations": [
+    "finite latent, action and observation spaces only",
+    "fixed-horizon deterministic Markov belief policies only",
+    "no unique additive dual-control value is claimed",
+    "scientific review and cross-language parity remain pending"
+  ],
+  "method_maturity": "experimental",
+  "model_assurance": {
+    "input_contract": {
+      "analysis_id": "belief-probe-counterexample",
+      "analysis_type": "belief_state_information",
+      "chronology": [
+        "control",
+        "transition",
+        "observe",
+        "update"
+      ],
+      "constraints": {
+        "allowed_control_action_ids_by_stage": {
+          "0": [
+            "choose_bad",
+            "choose_good",
+            "probe",
+            "wait"
+          ],
+          "1": [
+            "choose_bad",
+            "choose_good",
+            "probe",
+            "wait"
+          ]
+        },
+        "allowed_sensor_ids_by_control": {
+          "choose_bad": [
+            "none",
+            "diagnostic"
+          ],
+          "choose_good": [
+            "none",
+            "diagnostic"
+          ],
+          "probe": [
+            "none",
+            "diagnostic"
+          ],
+          "wait": [
+            "none",
+            "diagnostic"
+          ]
+        }
+      },
+      "control_actions": [
+        {
+          "action_id": "choose_bad"
+        },
+        {
+          "action_id": "choose_good"
+        },
+        {
+          "action_id": "probe"
+        },
+        {
+          "action_id": "wait"
+        }
+      ],
+      "discount_factor": 1.0,
+      "horizon": 2,
+      "latent_states": [
+        {
+          "initial_probability": 0.5,
+          "state_id": "bad"
+        },
+        {
+          "initial_probability": 0.5,
+          "state_id": "good"
+        }
+      ],
+      "method_maturity": "experimental",
+      "objective_direction": "maximize",
+      "observations": [
+        {
+          "observation_id": "negative"
+        },
+        {
+          "observation_id": "positive"
+        }
+      ],
+      "policy_class": "deterministic_markov_belief_policy",
+      "rewards": {
+        "choose_bad": {
+          "bad": 10.0,
+          "good": -10.0
+        },
+        "choose_good": {
+          "bad": -10.0,
+          "good": 10.0
+        },
+        "probe": {
+          "bad": -1.0,
+          "good": -1.0
+        },
+        "wait": {
+          "bad": 0.0,
+          "good": 0.0
+        }
+      },
+      "schema_version": "1.0.0",
+      "sensors": [
+        {
+          "cost": 0.0,
+          "likelihood_by_control": {
+            "choose_bad": {
+              "bad": {
+                "negative": 0.5,
+                "positive": 0.5
+              },
+              "good": {
+                "negative": 0.5,
+                "positive": 0.5
+              }
+            },
+            "choose_good": {
+              "bad": {
+                "negative": 0.5,
+                "positive": 0.5
+              },
+              "good": {
+                "negative": 0.5,
+                "positive": 0.5
+              }
+            },
+            "probe": {
+              "bad": {
+                "negative": 0.5,
+                "positive": 0.5
+              },
+              "good": {
+                "negative": 0.5,
+                "positive": 0.5
+              }
+            },
+            "wait": {
+              "bad": {
+                "negative": 0.5,
+                "positive": 0.5
+              },
+              "good": {
+                "negative": 0.5,
+                "positive": 0.5
+              }
+            }
+          },
+          "null_sensor": true,
+          "sensor_id": "none"
+        },
+        {
+          "cost": 0.5,
+          "likelihood_by_control": {
+            "choose_bad": {
+              "bad": {
+                "negative": 0.5,
+                "positive": 0.5
+              },
+              "good": {
+                "negative": 0.5,
+                "positive": 0.5
+              }
+            },
+            "choose_good": {
+              "bad": {
+                "negative": 0.5,
+                "positive": 0.5
+              },
+              "good": {
+                "negative": 0.5,
+                "positive": 0.5
+              }
+            },
+            "probe": {
+              "bad": {
+                "negative": 0.9,
+                "positive": 0.1
+              },
+              "good": {
+                "negative": 0.1,
+                "positive": 0.9
+              }
+            },
+            "wait": {
+              "bad": {
+                "negative": 0.5,
+                "positive": 0.5
+              },
+              "good": {
+                "negative": 0.5,
+                "positive": 0.5
+              }
+            }
+          },
+          "null_sensor": false,
+          "sensor_id": "diagnostic"
+        }
+      ],
+      "stopping": {
+        "kind": "fixed_horizon"
+      },
+      "time_unit": "decision-stage",
+      "tolerances": {
+        "absolute_tie": 1e-10,
+        "probability": 1e-10,
+        "relative_tie": 1e-10
+      },
+      "transition_model": {
+        "choose_bad": {
+          "bad": {
+            "bad": 1.0,
+            "good": 0.0
+          },
+          "good": {
+            "bad": 0.0,
+            "good": 1.0
+          }
+        },
+        "choose_good": {
+          "bad": {
+            "bad": 1.0,
+            "good": 0.0
+          },
+          "good": {
+            "bad": 0.0,
+            "good": 1.0
+          }
+        },
+        "probe": {
+          "bad": {
+            "bad": 1.0,
+            "good": 0.0
+          },
+          "good": {
+            "bad": 0.0,
+            "good": 1.0
+          }
+        },
+        "wait": {
+          "bad": {
+            "bad": 1.0,
+            "good": 0.0
+          },
+          "good": {
+            "bad": 0.0,
+            "good": 1.0
+          }
+        }
+      },
+      "value_unit": "utility-points"
+    },
+    "input_sha256": "2f2318c905b9d2a2141d9ce0fc61e0afadf1cfd4ad236b40c6f84e211b3b77a4"
+  },
+  "objective_direction": "maximize",
+  "policy_class": "deterministic_markov_belief_policy",
+  "policy_tree": {
+    "belief": {
+      "bad": 0.5,
+      "good": 0.5
+    },
+    "branches": [
+      {
+        "continuation": {
+          "belief": {
+            "bad": 0.9,
+            "good": 0.1
+          },
+          "branches": [
+            {
+              "continuation": null,
+              "observation_id": "negative",
+              "posterior_belief": {
+                "bad": 0.9,
+                "good": 0.1
+              },
+              "probability": 0.5
+            },
+            {
+              "continuation": null,
+              "observation_id": "positive",
+              "posterior_belief": {
+                "bad": 0.9,
+                "good": 0.1
+              },
+              "probability": 0.5
+            }
+          ],
+          "chronology": [
+            "control",
+            "transition",
+            "observe",
+            "update"
+          ],
+          "control_choice_tie": [
+            "choose_bad"
+          ],
+          "predictive_belief": {
+            "bad": 0.9,
+            "good": 0.1
+          },
+          "selected_control": "choose_bad",
+          "selected_sensor": "none",
+          "sensor_choice_tie": [
+            "none"
+          ],
+          "stage": 1
+        },
+        "observation_id": "negative",
+        "posterior_belief": {
+          "bad": 0.9,
+          "good": 0.1
+        },
+        "probability": 0.5
+      },
+      {
+        "continuation": {
+          "belief": {
+            "bad": 0.1,
+            "good": 0.9
+          },
+          "branches": [
+            {
+              "continuation": null,
+              "observation_id": "negative",
+              "posterior_belief": {
+                "bad": 0.1,
+                "good": 0.9
+              },
+              "probability": 0.5
+            },
+            {
+              "continuation": null,
+              "observation_id": "positive",
+              "posterior_belief": {
+                "bad": 0.1,
+                "good": 0.9
+              },
+              "probability": 0.5
+            }
+          ],
+          "chronology": [
+            "control",
+            "transition",
+            "observe",
+            "update"
+          ],
+          "control_choice_tie": [
+            "choose_good"
+          ],
+          "predictive_belief": {
+            "bad": 0.1,
+            "good": 0.9
+          },
+          "selected_control": "choose_good",
+          "selected_sensor": "none",
+          "sensor_choice_tie": [
+            "none"
+          ],
+          "stage": 1
+        },
+        "observation_id": "positive",
+        "posterior_belief": {
+          "bad": 0.1,
+          "good": 0.9
+        },
+        "probability": 0.5
+      }
+    ],
+    "chronology": [
+      "control",
+      "transition",
+      "observe",
+      "update"
+    ],
+    "control_choice_tie": [
+      "probe"
+    ],
+    "predictive_belief": {
+      "bad": 0.5,
+      "good": 0.5
+    },
+    "selected_control": "probe",
+    "selected_sensor": "diagnostic",
+    "sensor_choice_tie": [
+      "diagnostic"
+    ],
+    "stage": 0
+  },
+  "schema_version": "1.0.0",
+  "stopping": {
+    "kind": "fixed_horizon",
+    "reason": "horizon_reached",
+    "stage": 2
+  },
+  "time_unit": "decision-stage",
+  "value_by_horizon": [
+    {
+      "closed_loop_net": 0.0,
+      "horizon": 1,
+      "net_information_value": 0.0,
+      "no_information": 0.0
+    },
+    {
+      "closed_loop_net": 6.5,
+      "horizon": 2,
+      "net_information_value": 6.5,
+      "no_information": 0.0
+    }
+  ],
+  "value_unit": "utility-points",
+  "values": {
+    "closed_loop_gross": 7.0,
+    "closed_loop_net": 6.5,
+    "expected_sensing_cost": 0.5,
+    "fully_observed_value": 20.0,
+    "gross_information_value": 7.0,
+    "myopic_information_value": 0.0,
+    "net_information_value": 6.5,
+    "no_information": 0.0,
+    "nonmyopic_information_value": 6.5,
+    "nonmyopic_minus_myopic": 6.5,
+    "partial_observability_regret": 13.0
+  }
+}
