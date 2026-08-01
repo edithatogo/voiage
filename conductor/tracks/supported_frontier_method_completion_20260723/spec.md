@@ -6,6 +6,8 @@ Complete, consolidate, demote or explicitly exclude every accepted frontier meth
 The specialized estimation, study-efficiency and VoC governance slice targets
 v1.2.0 under canonical C16. The additive-MCDA continuation targets v1.3.0
 under canonical C17 requirement M21 without relabelling the C16 predecessor.
+The forecast-signal continuation targets v1.3.0 under canonical C18
+requirement M23 without rewriting the C17 additive-MCDA contract.
 
 Owning issue: [#318](https://github.com/edithatogo/voiage/issues/318). Parent programme issue [#313](https://github.com/edithatogo/voiage/issues/313).
 Project: [VOP–VOIAGE Conductor Roadmap](https://github.com/users/edithatogo/projects/28).
@@ -49,7 +51,7 @@ separate Conductor tracks unless they have an independently approved contract.
 - **AC-08:** The method registry, #595 contract and documentation resolve VoC
   to the expected-utility/clairvoyant-policy presentation without a duplicate
   kernel or an unconditional EVPI alias.
-- **AC-09:** The v1.2.0 C16 predecessor and v1.3.0 C17 continuation, MoSCoW
+- **AC-09:** The v1.2.0 C16 predecessor and v1.3.0 C17/C18 continuations, MoSCoW
   requirements, Mermaid design, versioned projections, GitHub hierarchy and
   Project 28 fields remain synchronized.
 
@@ -90,4 +92,4 @@ separate Conductor tracks unless they have an independently approved contract.
 - Repository default-branch baseline `cd53ce09`.
 - `conductor/requirements.md`, `conductor/design.md`, this track's
   `requirements.md` and `design.md`, canonical cross-repository C16 and its
-  C17 additive-MCDA continuation.
+  C17 additive-MCDA continuation and C18 forecast-signal continuation.

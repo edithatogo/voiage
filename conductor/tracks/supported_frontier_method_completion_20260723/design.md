@@ -1,5 +1,27 @@
 # Mermaid design — planned v1.2.0 and v1.3.0
 
+## Forecast and signal information value
+
+```mermaid
+flowchart LR
+    Prior["Outcome prior"] --> Joint["P(outcome) × P(signal | outcome)"]
+    Likelihood["Signal likelihood"] --> Joint
+    Joint --> Posterior["Signal marginal + posterior"]
+    Reported["Reported probabilities"] --> ReportedPolicy["Feasible deployed choice"]
+    Payoffs["Frozen action consequences + objective unit"] --> ReportedPolicy
+    Payoffs --> Oracle["Posterior-optimal timely choice"]
+    Posterior --> Oracle
+    Posterior --> ReportedPolicy
+    Timing["Horizon + freshness + latency + lead time"] --> Usable{"Usable at decision?"}
+    ReportedPolicy --> Usable
+    Usable -->|yes| Deployed["Signed deployed value"]
+    Usable -->|no| Baseline["Baseline policy; operational value zero"]
+    Oracle --> Loss["Oracle value + calibration loss"]
+    Deployed --> Economics["Cost + signed net + maximum price + regret avoided"]
+    Loss --> Diagnostics["Calibration L1 + Brier + signal coverage"]
+    Diagnostics --> Boundary["C18/M23; exact finite experimental Python; accuracy is not value"]
+```
+
 ## Additive MCDA information value
 
 ```mermaid

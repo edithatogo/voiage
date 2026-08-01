@@ -307,3 +307,30 @@ def test_contract_evidence_is_sha256_pinned_and_keeps_external_gates_open() -> N
     for artifact in evidence["artifacts"]:
         path = ROOT / artifact["path"]
         assert hashlib.sha256(path.read_bytes()).hexdigest() == artifact["sha256"]
+
+
+def test_c18_m23_and_native_delivery_subissues_are_governed() -> None:
+    track_id = "supported_frontier_method_completion_20260723"
+    track = ROOT / "conductor/tracks" / track_id
+    requirements = (ROOT / "conductor/requirements.md").read_text(encoding="utf-8")
+    plan = (track / "plan.md").read_text(encoding="utf-8")
+    metadata = _json(track / "metadata.json")
+    cross_references = _json(ROOT / "conductor/github-cross-references.json")
+    cross_reference = next(
+        item for item in cross_references["tracks"] if item["track_id"] == track_id
+    )
+    expected_issues = {
+        f"https://github.com/edithatogo/voiage/issues/{number}"
+        for number in (572, 759, 760, 762)
+    }
+
+    assert "M23 / planned v1.3.0" in requirements
+    assert "C18 governed forecast-signal decision value" in requirements
+    assert set(metadata["planned_version_extensions"]["1.3.0"]) == {"M21", "M23"}
+    assert "M23" in metadata["requirement_ids"]
+    assert expected_issues <= set(metadata["github_subissues"])
+    assert expected_issues <= set(cross_reference["subissues"])
+    assert "F572-1 / #760" in plan
+    assert "F572-2 / #759" in plan
+    assert "F572-3 / #762" in plan
+    assert "canonical C18 evidence remain pending" in plan

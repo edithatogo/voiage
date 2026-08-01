@@ -30,6 +30,8 @@
 - [MCDA information implementation review](./mcda-information-implementation-review.md)
 - [GitHub issue #560](https://github.com/edithatogo/voiage/issues/560)
 - [MCDA delivery subissues #746–#750](https://github.com/edithatogo/voiage/issues/560)
+- [Forecast-signal issue #572](https://github.com/edithatogo/voiage/issues/572)
+- [Forecast-signal delivery subissues #759/#760/#762](https://github.com/edithatogo/voiage/issues/572)
 
 Status: in progress. Every owned child issue is being reconciled against
 executable evidence or a reviewed exclusion; existing Project or issue status

@@ -92,6 +92,23 @@
 
 ## Should
 
+- **M23-S1:** #572 planned v1.3.0 forecast-signal information value must
+  consume a declared forecast artifact with outcome prior, signal likelihood,
+  reported conditional probabilities, objective/payoff units, feasible
+  actions and constraints, acquisition cost, horizon, freshness, latency and
+  lead time. It must not train or tune forecasting models.
+- **M23-S2:** Return baseline and signal-conditional policies, complete ties,
+  timely-oracle and signed deployed values, calibration loss, cost and signed
+  net value, nonnegative maximum price, regret avoided and per-signal value
+  contributions. Late or stale information has zero operational value while
+  retaining its counterfactual timely diagnostic.
+- **M23-S3:** Report calibration, Brier and signal-probability coverage
+  diagnostics without relabelling accuracy as value. Require analytical
+  newsvendor evidence and no-skill, perfect, miscalibrated, late, stale,
+  permutation and pathology limits; exact-enumeration assurance; explicit
+  Python/Rust/R/Julia/Mojo dispositions; independent scientific review and
+  hosted exact-head evidence before promotion.
+
 - Provide additive MCDA analytical enumeration, scale/alternative/state
   permutation invariants, correlation and complete-tie cases, normalization and
   weight pathologies, accessible information-value/rank/regret plots and an
