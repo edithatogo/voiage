@@ -105,8 +105,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   Experimental exact Python execution covers joint-world dependence,
         ordered feasible source sequences, conditional marginals and exact
         decision-value Shapley allocation without additive double-counting.
-    *   Remaining gates are hosted exact-head checks, scientific review,
-        Rust/R/Julia parity, stable promotion, release and parent closure.
+    *   PR #772 exact head `f1d6f77d` passed all hosted checks and 100% changed
+        coverage before squash merge `55771017`.
+    *   Remaining gates are scientific review, Rust/R/Julia parity, stable
+        promotion, release and parent closure.
 
 *   [x] Implement estimation-focused variance-reduction VOI.
     *   Conductor track: `estimation_focused_variance_voi_20260727`.

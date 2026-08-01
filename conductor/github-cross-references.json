@@ -4535,10 +4535,12 @@
         {
           "number": 772,
           "url": "https://github.com/edithatogo/voiage/pull/772",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "experimental-implementation-delivery",
-            "hosted-required-checks-pending"
+            "hosted-required-checks",
+            "f1d6f77d3e6ef1024d5bf3ebecc6e6e3a39ea91c",
+            "557710175baae8a2ee44a7be3e8f5d4f546e563e"
           ]
         }
       ],

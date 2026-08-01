@@ -22,5 +22,7 @@
 - [~] **ISP5:** Run focused coverage, full relevant validation and independent
   implementation review; retain hosted, scientific, parity, stable, release and
   closure gates. Independent implementation review passed with the
-  no-procurement assurance clarification; hosted and scientific gates remain.
+  no-procurement assurance clarification. PR #772 exact head `f1d6f77d` passed
+  all hosted checks, including 100% changed-line and changed-branch coverage,
+  before squash merge `55771017`; scientific and later gates remain.
   (AC-01–AC-05)

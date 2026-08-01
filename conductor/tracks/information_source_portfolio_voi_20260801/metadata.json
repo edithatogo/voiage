@@ -4,12 +4,14 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-08-01T00:00:00Z",
-  "updated_at": "2026-08-01T00:00:00Z",
+  "updated_at": "2026-08-01T06:55:44Z",
   "planned_version": "1.3.0",
   "moscow": "should",
   "requirement_ids": [
-    "M17"
+    "M17",
+    "M24"
   ],
+  "canonical_track": "C18",
   "dependencies": [
     "supported_frontier_method_completion_20260723"
   ],
@@ -52,8 +54,8 @@
     {
       "id": "hosted-required-checks",
       "kind": "hosted_validation",
-      "status": "pending",
-      "evidence": "Requires a future PR exact-head run."
+      "status": "satisfied",
+      "evidence": "PR #772 exact head f1d6f77d3e6ef1024d5bf3ebecc6e6e3a39ea91c passed 38 successful checks, with three governed skips and neutral CodeQL aggregation, before squash merge 557710175baae8a2ee44a7be3e8f5d4f546e563e."
     },
     {
       "id": "polyglot-parity",
