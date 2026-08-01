@@ -42,10 +42,11 @@ covers the experimental frontier entries only.
   refresh exact-head assurance and retain vector covariance, scientific review,
   stable promotion, release and closure as separate gates. (AC-01–AC-03)
   `43ec5868`
-- [~] **G2b:** Reconcile #571's final PR #679 exact-head assurance and merge
+- [x] **G2b:** Reconcile #571's final PR #679 exact-head assurance and merge
   receipt so only delivery subissues #680–#682 become closure-eligible; retain
   scientific review, Rust/R/Julia parity, stable promotion, release, parent
   #571 closure and umbrella #318 closure as separate gates. (AC-01–AC-03)
+  `75458e79`
 - [x] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
   explicit exclusions. (AC-02, AC-05, AC-06) `c622e859`
 - [x] **G3a:** Reconcile VoC as #595's expected-utility/clairvoyant-policy
