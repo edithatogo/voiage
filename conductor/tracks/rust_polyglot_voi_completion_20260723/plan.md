@@ -13,6 +13,8 @@
   evidence, and explicit external-gate boundaries are reconciled without
   claiming programme completion. (2026-08-01; commit: adbc5e13; AC-01,
   AC-07)
+- [x] Record options, recommendation, contingencies, and archive exit criteria
+  for programme-level blockers. (2026-08-01; see blocker-resolution-plan.md)
 
 ## Phase 2 — Evidence before positive claims
 

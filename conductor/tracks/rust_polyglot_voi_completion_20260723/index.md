@@ -8,6 +8,7 @@
 - [Project 28](https://github.com/users/edithatogo/projects/28)
 - [Draft planning PR #621](https://github.com/edithatogo/voiage/pull/621)
 - [Delivery PR #826](https://github.com/edithatogo/voiage/pull/826)
+- [Blocker-resolution plan](./blocker-resolution-plan.md)
 
 Status: in progress. The ten workstream tracks and Rust-authoritative release
 evidence are reconciled at their evidenced maturity; hosted, scientific,
