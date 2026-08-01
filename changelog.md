@@ -7,6 +7,13 @@
 
 ## Unreleased
 
+- Add an experimental exact finite outcome-conditional sample-information
+  evaluator with `delta-EV_x`, `VSI_x`, EVSI, predictive-probability-weighted
+  population `sigma-VSI`, `rVSI_delta`, weighted quantiles/tails, strict
+  schemas, deterministic API/CLI execution and independently reconstructable
+  result assurance. Expectation-only tower identities and complete-tie policy
+  diagnostics prevent `rVSI0` from being conflated with policy-switch mass.
+
 - Add experimental exact finite signed and social information value for issue
   #598/C18-M29. The strict Python/API/CLI contract retains negative private and
   social values, selective-sharing comparators, transfer/cost ledgers, complete

@@ -168,6 +168,16 @@ flowchart LR
     EventDensity --> EventAssurance["Integral + modes + directions"]
     EventChannel --> EventAssurance
     EventAssurance --> EventBoundary["Experimental Python; monetary BPI remains #595"]
+
+    SampleStates["Finite states + prior"] --> Predictive["Declared P(x | state) and predictive P(x)"]
+    SampleValues["Action utility or loss + common unit"] --> BaselineSample["Baseline complete ties + declared reference action"]
+    Predictive --> PosteriorSample["Posterior action values and complete ties by x"]
+    BaselineSample --> PosteriorSample
+    PosteriorSample --> ConditionalSample["delta-EV_x + VSI_x"]
+    ConditionalSample --> SampleDistribution["Weighted outcome distribution"]
+    SampleDistribution --> SampleSummary["EVSI + weighted population sigma-VSI + rVSI_delta + quantiles"]
+    SampleSummary --> SampleAssurance["Expectation-only tower identities + Bayes/probability/result assurance"]
+    SampleAssurance --> SampleBoundary["C18 / M31: exact finite experimental Python; not an EVSI interval or system-risk measure"]
 ```
 
 ```mermaid

@@ -38,7 +38,7 @@
     },
     {
       "path": "docs/astro-site/src/content/docs/cli-reference.mdx",
-      "sha256": "17a42b3636a6090c0415fb21bb822a83b08cfd0f553ed5dad28a02b7d527d743"
+      "sha256": "0091fc8b084e7d811111231834038051bc83bb4a69b941fcf2d6e78c80f1823d"
     }
   ],
   "execution_status": "experimental_python",

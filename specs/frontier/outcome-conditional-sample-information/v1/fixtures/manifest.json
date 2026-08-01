@@ -1,0 +1,12 @@
+{
+  "method_maturity": "experimental",
+  "normative": [
+    {
+      "expected_output_artifact": "normative/expected.json",
+      "id": "negative-delta-positive-vsi-exact",
+      "input_artifact": "normative/input.json"
+    }
+  ],
+  "status": "fixture-backed",
+  "version": "v1"
+}

@@ -92,6 +92,14 @@ _EXTENSION_EXPORTS = {
         ".methods.event_localized_information",
         "event_localized_information_value",
     ),
+    "OutcomeConditionalSampleInformationResult": (
+        ".methods.outcome_conditional_sample_information",
+        "OutcomeConditionalSampleInformationResult",
+    ),
+    "outcome_conditional_sample_information_value": (
+        ".methods.outcome_conditional_sample_information",
+        "outcome_conditional_sample_information_value",
+    ),
     "UncertaintyModellingValueResult": (
         ".methods.uncertainty_modelling_value",
         "UncertaintyModellingValueResult",

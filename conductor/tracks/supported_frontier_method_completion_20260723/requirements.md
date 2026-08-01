@@ -108,6 +108,36 @@
 
 ## Should
 
+- **M31-S1:** #600 planned v1.3.0 outcome-conditional sample-information value
+  must declare a finite state prior, finite measurement-outcome likelihood,
+  named actions, utility/maximization or loss/minimization orientation, common
+  value unit, population, horizon, discount basis, baseline reference policy,
+  nonnegative low-value thresholds, information-cost placement and prospective
+  or retrospective scope. The reference policy must attain the exact baseline
+  extremum. The declared complete-tie tolerance is only for tie-set and
+  presentation diagnostics; it never admits a non-extremal reference policy.
+- **M31-S2:** For each outcome `x`, return its predictive probability, posterior
+  state law, action values, complete optimal ties, direction-aware
+  `delta-EV_x`, nonnegative `VSI_x`, signed net `VSI_x`, and policy/tie
+  diagnostics. Return `EVSI = E_x[VSI_x] = E_x[delta-EV_x]` only as an
+  expectation-linear tower identity. Do not infer equality of variances,
+  standard deviations, quantiles, tails or outcome-wise estimands.
+- **M31-S3:** Implement Equation 10 as the predictive-probability-weighted
+  population standard deviation
+  `sigma-VSI = sqrt(sum_x p(x) (VSI_x - EVSI)^2)` with `ddof = 0`; never copy
+  the unweighted MATLAB/Table 3 calculation. Return monotone
+  `rVSI_delta = P(VSI_x <= delta)`, weighted quantiles/tails, and distinguish
+  `rVSI_0` from reference-action exclusion, mandatory-policy-switch and
+  complete-tie-set-change mass when baseline or posterior policies are tied.
+- **M31-S4:** Require exact finite enumeration, deterministic serialization, a
+  portable input commitment, independent result reconstruction, probability
+  and Bayes calibration residuals, negative `delta-EV_x` and nonnegative
+  `VSI_x` evidence, threshold monotonicity, and explicit
+  Python/Rust/R/Julia/Mojo dispositions. Continuous outcomes, dynamic/adaptive
+  sampling, fitted estimators, risk in underlying system outcomes, scientific
+  validity, stable promotion, parity, release and parent closure remain
+  separate gates.
+
 - **M30-S1:** #599 planned v1.3.0 must declare a prespecified subgroup
   partition, covariates, population weights, common value unit/direction,
   horizon and discount basis, subgroup policy eligibility, effect-state law,

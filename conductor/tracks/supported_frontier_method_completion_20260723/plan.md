@@ -24,6 +24,7 @@ promotion, release, and issue closure remain separate gates.
 | Signed/social information value | #598; #783–#785 | planned C18/M29; delivery remains separate |
 | Dependent information-source portfolio | #582; #763–#765 | dedicated track `information_source_portfolio_voi_20260801` |
 | Static/dynamic heterogeneity value | #599; #786, #788, #789 | F599-1–F599-4 |
+| Outcome-conditional sample-information value | #600; #790–#792 | F600-1–F600-4 |
 
 The Rust-first programme and its remaining workstream tracks are governed by
 the separate root track `rust_polyglot_voi_completion_20260723`; this table
@@ -205,6 +206,38 @@ covers the experimental frontier entries only.
   and evaluator. Replacement exact-head `e6835358` passed hosted coverage and
   every other required Action before merge.
   `e447c0e8`
+
+- [x] **F600-1 / #790:** Freeze C18/M31's exact finite outcome-conditional
+  estimands, Equation 10 weighted population standard deviation, expectation-
+  only tower identities, tie-aware `rVSI0` boundary, primary-reference review,
+  strict schemas, normative fixture and explicit exclusions. (AC-02, AC-03,
+  AC-09) `3080c1b4`
+- [x] **F600-2 / #791:** Implement deterministic experimental Python/API/CLI
+  execution for predictive/posterior outcome laws, `delta-EV_x`, `VSI_x`, EVSI,
+  weighted `sigma-VSI`, `rVSI_delta`, quantiles/tails, cost placement, complete
+  ties and prospective/retrospective presentation. (AC-02–AC-06) `6548dda7`
+- [x] **F600-3 / #792:** Add portable input/result assurance, independent result
+  reconstruction, probability/Bayes/identity/calibration diagnostics,
+  adversarial/tie/permutation/pathology tests, documentation, discovery,
+  fixture manifests and Python/Rust/R/Julia/Mojo dispositions. (AC-03–AC-06)
+  `6548dda7`; focused contract/evaluator coverage is 100% statements and
+  branches, with frontier, cross-reference, static and full Conductor
+  validation passing locally.
+- [~] **F600-4 / #792:** Run a fresh independent implementation review and
+  hosted exact-head/installed-wheel assurance. Retain continuous-outcome and
+  fitted-estimator validation, independent scientific review, risk-sensitive
+  composition, Rust/R/Julia parity, stable promotion, release, parent #600 and
+  umbrella #318 closure as separate gates. Fresh independent implementation
+  review found and fixed the value-unit invariance defect at signed commit
+  `aaf77aaf`. A second independent PR review found a High probability-
+  normalization defect and a Medium reference-policy wording inconsistency;
+  signed remediation `6eac2ba2` normalizes accepted near-unit vectors with
+  explicit assurance and aligns M31/schema/README wording on the exact
+  reference extremum. No Critical, High or Medium implementation finding
+  remains open. Replacement hosted exact-head and installed-wheel checks are
+  still pending, and no
+  scientific-approval, merge, promotion, release or closure claim is made.
+  (AC-03–AC-07, AC-09)
 
 - [x] **F572-1 / #760:** Freeze #572's C18/M23 forecast-signal decision
   estimand, strict input/result schemas, analytical newsvendor fixture,

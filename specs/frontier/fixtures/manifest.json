@@ -75,6 +75,11 @@
       "method_maturity": "experimental"
     },
     {
+      "name": "outcome_conditional_sample_information_value",
+      "path": "outcome-conditional-sample-information/v1/fixtures/manifest.json",
+      "method_maturity": "experimental"
+    },
+    {
       "name": "forecast_signal_information_value",
       "path": "forecast-signal-information/v1/fixtures/manifest.json",
       "method_maturity": "experimental"

@@ -16,7 +16,8 @@
       "M27",
       "M28",
       "M29",
-      "M30"
+      "M30",
+      "M31"
     ]
   },
   "moscow": "must",
@@ -33,7 +34,8 @@
       "M27",
       "M28",
       "M29",
-      "M30"
+      "M30",
+      "M31"
     ]
   },
   "canonical_projection": "https://github.com/edithatogo/vop_poc_nz/blob/main/conductor/tracks/specialized-voi-v1-2_20260727/projection.json",
@@ -57,7 +59,8 @@
         "M27",
         "M28",
         "M29",
-        "M30"
+        "M30",
+        "M31"
       ],
       "path": "https://github.com/edithatogo/vop_poc_nz/tree/main/conductor/tracks/specialized-voi-v1-3-residual_20260801",
       "pull_request": "https://github.com/edithatogo/vop_poc_nz/pull/69"
@@ -77,7 +80,8 @@
     "M27",
     "M28",
     "M29",
-    "M30"
+    "M30",
+    "M31"
   ],
   "dependencies": [
     "voi_method_census_contract_reconciliation_20260723",
@@ -125,6 +129,9 @@
     "https://github.com/edithatogo/voiage/issues/788",
     "https://github.com/edithatogo/voiage/issues/789",
     "https://github.com/edithatogo/voiage/issues/600",
+    "https://github.com/edithatogo/voiage/issues/790",
+    "https://github.com/edithatogo/voiage/issues/791",
+    "https://github.com/edithatogo/voiage/issues/792",
     "https://github.com/edithatogo/voiage/issues/619",
     "https://github.com/edithatogo/voiage/issues/757",
     "https://github.com/edithatogo/voiage/issues/758",

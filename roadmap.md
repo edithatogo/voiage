@@ -59,8 +59,8 @@ implementation multiplier is retained as a
 compatibility helper and is not described as EVPIM/EVSIM/IA-EVSI.
 
 C18/M29 issue #598 has completed its governed experimental Python repository
-delivery. The exact finite contract
-for exact finite signed, social and strategic information value. It freezes the
+delivery. The exact finite contract covers signed, social and strategic
+information value. It freezes the
 joint-world law, roles, topology, selective-sharing designs, nonanticipative
 bounded catalogs, welfare comparability, transfers, costs and rights receipts;
 retains negative values; and returns harm, avoidance, switches,
@@ -71,6 +71,22 @@ all 10 review threads were resolved, and the experimental delivery
 squash-merged as `d649c344`. Delivery subissues #783–#785 may close. Scientific
 review, Rust/R/Julia parity, stable promotion, release, parent #598 closure and
 umbrella #318 closure remain open.
+
+Outcome-conditional sample-information value (#600, C18/M31) is scoped as an
+exact finite experimental Python delivery under native subissues #790–#792.
+The contract reports predictive-probability-weighted `delta-EV_x` and `VSI_x`,
+EVSI, Equation 10's weighted population `sigma-VSI`, `rVSI_delta` and
+quantiles/tails with complete policies and result reconstruction. It treats the
+tower equalities as expectation-linear only, distinguishes `rVSI0` from
+policy-switch mass under ties, and explicitly rejects the source paper's
+unweighted MATLAB/Table 3 standard-deviation calculation as a normative
+implementation. Continuous outcomes, fitted estimators, scientific review,
+polyglot parity, stable promotion, release and parent closure remain open.
+The repository-owned branch is locally complete at signed implementation
+commit `6548dda7`, with value-unit remediation at `aaf77aaf`. Fresh independent
+implementation review found no open Critical, High or Medium finding. Hosted
+exact-head/installed-wheel assurance and merge remain mandatory before
+describing that branch as delivered on the default branch.
 
 **June 25 follow-through closeout:** ✅ **ARCHIVED** - The June 25 follow-through queue is complete and archived for its repository-owned implementation and
 evidence slices. Registry approval, external indexing, production accelerator

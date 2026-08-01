@@ -10,6 +10,29 @@ relevant subagent review panel defined in
 The panel supplies structured evidence; maintainer approval and external
 release, registry, and publication decisions remain separate gates.
 
+*   [ ] Complete outcome-conditional sample-information value after signed
+    experimental branch delivery.
+    *   GitHub issue #600; delivery subissues #790–#792; umbrella track
+        `supported_frontier_method_completion_20260723`; phases F600-1–F600-4;
+        canonical C18/M31; planned v1.3.0 Should.
+    *   The repository-owned slice is exact finite Python: predictive and
+        posterior outcome laws, `delta-EV_x`, `VSI_x`, EVSI, Equation 10's
+        weighted population `sigma-VSI`, `rVSI_delta`, quantiles/tails,
+        complete ties, strict schemas, API/CLI and result assurance.
+    *   Preserve expectation-only tower identities. Keep `rVSI0` distinct from
+        policy-switch/tie-set-change mass, and do not reproduce the paper's
+        unweighted MATLAB/Table 3 standard-deviation calculation.
+    *   Signed governance commit `3080c1b4`, implementation commit `6548dda7`
+        and value-unit remediation `aaf77aaf` complete the repository-owned
+        exact-finite contract/API/CLI, fixture, documentation and local-
+        assurance slice. Fresh independent implementation review found no open
+        Critical, High or Medium finding.
+    *   Remaining gates include hosted exact-head and installed-wheel
+        assurance, continuous outcomes, fitted-estimator and scientific
+        validity review, risk-sensitive composition, Rust/R/Julia parity,
+        stable promotion, release, parent #600 closure and umbrella #318
+        closure.
+
 *   [ ] Complete static/dynamic heterogeneity value after experimental merge.
     *   GitHub issue #599; delivery subissues #786/#788/#789; umbrella track
         `supported_frontier_method_completion_20260723`; phases F599-1–F599-4;

@@ -179,3 +179,4 @@ programme. The canonical cross-repository requirements are maintained in
 | v1.3.0 | Should | M29 | governed signed/social information value | #598 and #783–#785 under #318 |
 | v1.3.0 | Should | M30 | C18 governed heterogeneity-value decomposition | #599 and #786/#788/#789 under #318 |
 | v1.3.0 | Should | M27 | C18 governed event-localized information value and policy-relative density | #596 and #777–#779 under #318 |
+| v1.3.0 | Should | M31 | C18 governed outcome-conditional and low-value sample-information value | #600 and #790–#792 under #318 |
