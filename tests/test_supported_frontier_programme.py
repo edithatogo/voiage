@@ -89,6 +89,7 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
         593,
         594,
         595,
+        596,
         619,
     }
     for child in delivered.values():
@@ -99,6 +100,10 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
     assert delivered[570]["implementation_pull_requests"] == [769]
     assert delivered[572]["implementation_pull_requests"] == [770]
     assert delivered[594]["implementation_pull_requests"] == [798]
+    assert delivered[596]["implementation_pull_requests"] == [804]
+    assert delivered[596]["review_artifacts"][-1].endswith(
+        "event-localized-information-final-review.md"
+    )
     assert delivered[594]["review_artifacts"][-1].endswith(
         "uncertainty_modelling_value_20260801/independent-implementation-review.md"
     )
@@ -254,7 +259,7 @@ def test_programme_records_unfinished_census_dependency() -> None:
     ]
 
 
-def test_event_localized_information_is_governed_without_premature_delivery() -> None:
+def test_event_localized_information_experimental_delivery_is_governed() -> None:
     track = INVENTORY.parent
     requirements = (track / "requirements.md").read_text(encoding="utf-8")
     design = (track / "design.md").read_text(encoding="utf-8")
@@ -276,9 +281,9 @@ def test_event_localized_information_is_governed_without_premature_delivery() ->
     assert "C18/M27 policy-relative EUI density" in canonical_design
     for issue in range(777, 780):
         assert f"#{issue}" in plan
-    assert child["disposition"] == "contract_in_progress"
-    assert child["implementation_pull_requests"] == []
-    assert child["satisfies_ac06"] is False
+    assert child["disposition"] == "experimental_merged"
+    assert child["implementation_pull_requests"] == [804]
+    assert child["satisfies_ac06"] is True
 
 
 def test_dsa_governance_is_versioned_and_cross_referenced() -> None:
