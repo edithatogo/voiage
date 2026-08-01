@@ -15,6 +15,7 @@ promotion, release, and issue closure remain separate gates.
 | Forecast and signal information VOI | #572; #759, #760, #762 | F572-1–F572-3 |
 | Risk-sensitive and constrained VOI | #570; #757, #758, #761 | F570-1–F570-3 |
 | Study-design efficiency and experiment portfolios | #571; #680–#682 | dedicated track `study_design_efficiency_20260727`: S1–S19 |
+| Expected-utility information pricing and VoC presentation | #595; #694–#697 | dedicated track `risk_adjusted_information_pricing_20260731`: U1–U17 |
 | Signed, social and strategic information value | #598; #783–#785 | F598-1–F598-5 |
 | Value of Flexibility | #559 | F559-1–F559-4 |
 | Deterministic sensitivity/scenario analysis | #556; #724–#728 | F556-1–F556-5 |
@@ -47,6 +48,11 @@ covers the experimental frontier entries only.
   scientific review, Rust/R/Julia parity, stable promotion, release, parent
   #571 closure and umbrella #318 closure as separate gates. (AC-01–AC-03)
   `75458e79`
+- [~] **G2c:** Reconcile #595's final PR #712 exact-head assurance and merge
+  receipt so only delivery subissues #694–#697 become closure-eligible while
+  VoC remains a presentation/delegating alias; retain scientific review,
+  Rust/R/Julia parity, stable promotion, release, parent #595 closure and
+  umbrella #318 closure as separate gates. (AC-01–AC-03, AC-08)
 - [x] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
   explicit exclusions. (AC-02, AC-05, AC-06) `c622e859`
 - [x] **G3a:** Reconcile VoC as #595's expected-utility/clairvoyant-policy

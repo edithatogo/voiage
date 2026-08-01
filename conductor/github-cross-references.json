@@ -741,7 +741,10 @@
           "url": "https://github.com/edithatogo/voiage/pull/712",
           "status": "merged",
           "evidence": [
-            "track-delivery"
+            "track-delivery",
+            "hosted-required-checks",
+            "1048c4bc4354acdb0c468da17cb0b5d581961690",
+            "b8395abfc603509a2f1a2c87c9c33e6260fb5840"
           ]
         },
         {

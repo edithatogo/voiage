@@ -20,6 +20,9 @@
 - [Project 28](https://github.com/users/edithatogo/projects/28)
 - [Stacked canonical C16 sync PR #66](https://github.com/edithatogo/vop_poc_nz/pull/66)
 
-Status: repository implementation complete. PR #712 passed its exact-head
-hosted matrix and merged as `b8395abf`. Scientific review, stable promotion,
-release and issue closure remain separate gates.
+Status: repository implementation complete. PR #712 final exact head
+`1048c4bc` completed 65 terminal conclusions and both review threads were
+resolved before squash merge `b8395abf`. Only delivery subissues #694–#697 are
+closure-eligible. VoC remains a presentation/delegating alias; scientific
+review, Rust/R/Julia parity, stable promotion, release, parent #595 closure and
+umbrella #318 closure remain separate gates.
