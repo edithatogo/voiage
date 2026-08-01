@@ -48,11 +48,11 @@ covers the experimental frontier entries only.
   scientific review, Rust/R/Julia parity, stable promotion, release, parent
   #571 closure and umbrella #318 closure as separate gates. (AC-01–AC-03)
   `75458e79`
-- [~] **G2c:** Reconcile #595's final PR #712 exact-head assurance and merge
+- [x] **G2c:** Reconcile #595's final PR #712 exact-head assurance and merge
   receipt so only delivery subissues #694–#697 become closure-eligible while
   VoC remains a presentation/delegating alias; retain scientific review,
   Rust/R/Julia parity, stable promotion, release, parent #595 closure and
-  umbrella #318 closure as separate gates. (AC-01–AC-03, AC-08)
+  umbrella #318 closure as separate gates. (AC-01–AC-03, AC-08) `ac6b33c6`
 - [x] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
   explicit exclusions. (AC-02, AC-05, AC-06) `c622e859`
 - [x] **G3a:** Reconcile VoC as #595's expected-utility/clairvoyant-policy
