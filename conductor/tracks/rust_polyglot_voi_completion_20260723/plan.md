@@ -11,7 +11,8 @@
 - [x] **G4:** Run automated contract review and full Conductor validation.
   Existing workstream plans, Rust-authoritative contracts, polyglot release
   evidence, and explicit external-gate boundaries are reconciled without
-  claiming programme completion. (2026-08-01; AC-01, AC-07)
+  claiming programme completion. (2026-08-01; commit: adbc5e13; AC-01,
+  AC-07)
 
 ## Phase 2 — Evidence before positive claims
 
