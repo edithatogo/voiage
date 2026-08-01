@@ -14,11 +14,11 @@
 - [x] **ISP3:** Implement the exact Python evaluator, deterministic result,
   conditional marginals, Shapley attribution and failure boundaries. (AC-01–AC-03)
   `380d345f`; no-procurement comparator fix `8c8d413e`.
-- [~] **ISP4:** Add CLI, public experimental discovery, documentation and
-  explicit language/maturity dispositions. (AC-04, AC-05)
+- [x] **ISP4:** Add CLI, public experimental discovery, documentation and
+  explicit language/maturity dispositions. (AC-04, AC-05) `d6e01dee`
 
 ## Phase 3 — Assurance and handoff
 
-- [ ] **ISP5:** Run focused coverage, full relevant validation and independent
+- [~] **ISP5:** Run focused coverage, full relevant validation and independent
   implementation review; retain hosted, scientific, parity, stable, release and
   closure gates. (AC-01–AC-05)
