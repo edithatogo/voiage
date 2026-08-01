@@ -546,6 +546,7 @@ def test_public_api_and_cli_are_deterministic(tmp_path: Path) -> None:
 
 def test_cli_text_output_and_invalid_top_level_fail_closed(tmp_path: Path) -> None:
     runner = CliRunner()
+    output = tmp_path / "result.txt"
     text_result = runner.invoke(
         app,
         [
@@ -553,6 +554,8 @@ def test_cli_text_output_and_invalid_top_level_fail_closed(tmp_path: Path) -> No
             "text",
             "calculate-outcome-conditional-sample-information",
             str(INPUT),
+            "--output",
+            str(output),
         ],
     )
     assert text_result.exit_code == 0
@@ -560,6 +563,8 @@ def test_cli_text_output_and_invalid_top_level_fail_closed(tmp_path: Path) -> No
         "EVSI 1.000000; sigma-VSI 1.000000; net 0.750000 discounted utility points"
         in text_result.output
     )
+    assert f"Result saved to {output}" in text_result.output
+    assert "EVSI 1.000000" in output.read_text(encoding="utf-8")
 
     invalid = tmp_path / "invalid.json"
     invalid.write_text("[]", encoding="utf-8")
