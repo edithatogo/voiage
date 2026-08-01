@@ -645,6 +645,53 @@ def test_result_semantic_validator_rejects_mutations(mutation: object) -> None:
         validate_belief_state_information_result(result)
 
 
+@pytest.mark.parametrize(
+    "field",
+    [
+        "posterior_martingale_verified",
+        "null_sensor_reduction_verified",
+        "no_information_reduction_verified",
+        "complete_ties_reported",
+    ],
+)
+def test_result_validator_requires_successful_exact_assurance(field: str) -> None:
+    result = _result()
+    result["assurance"][field] = False
+    with pytest.raises(ValueError, match="exact assurance"):
+        validate_belief_state_information_result(result)
+
+
+def test_result_validator_requires_the_governed_expansion_budget() -> None:
+    result = _result()
+    result["assurance"]["exact_enumeration_budget"] = 50_001
+    with pytest.raises(ValueError, match="declared budget"):
+        validate_belief_state_information_result(result)
+
+
+def test_result_validator_requires_a_complete_fixed_horizon_policy_tree() -> None:
+    one_stage = _input()
+    one_stage["horizon"] = 1
+    one_stage["constraints"]["allowed_control_action_ids_by_stage"] = {
+        "0": ["choose_bad", "choose_good", "probe", "wait"]
+    }
+    one_stage_result = _result(one_stage)
+    one_stage_result["policy_tree"]["stage"] = 1
+    with pytest.raises(ValueError, match="stage must match"):
+        validate_belief_state_information_result(one_stage_result)
+
+    continued_past_horizon = _result(one_stage)
+    continued_past_horizon["policy_tree"]["branches"][0]["continuation"] = deepcopy(
+        continued_past_horizon["policy_tree"]
+    )
+    with pytest.raises(ValueError, match="stop at the fixed horizon"):
+        validate_belief_state_information_result(continued_past_horizon)
+
+    truncated = _result()
+    truncated["policy_tree"]["branches"][0]["continuation"] = None
+    with pytest.raises(ValueError, match="fixed horizon"):
+        validate_belief_state_information_result(truncated)
+
+
 def test_action_dependent_transition_is_reported() -> None:
     payload = _input()
     payload["transition_model"]["probe"] = {

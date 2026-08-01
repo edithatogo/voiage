@@ -1,6 +1,6 @@
 {
   "artifacts": [
-    {"path": "voiage/methods/belief_state_information.py", "sha256": "cd424a9371f85fde8ca01b2217b4b6ab53f5e64a61e17cf66c593f9112c66793"},
+    {"path": "voiage/methods/belief_state_information.py", "sha256": "6cfdff95b3e25b065dbff3a12e46ce3808320c98eb2ee7b043cb37be11184281"},
     {"path": "specs/frontier/belief-state-information/v1/README.md", "sha256": "a1094548b9cc20cf351a3ab0e5a9e2558d0bd3018a1a250fca6ab273cb86c6b8"},
     {"path": "specs/frontier/belief-state-information/v1/capabilities.json", "sha256": "ccffb35b51f7be32583cf25af717bafc7bbcd7c103de0635d7ade1f56a0b88fb"},
     {"path": "specs/frontier/belief-state-information/v1/fixtures/manifest.json", "sha256": "f1b5ddda757e256e3a63ae09cfae8cca989f5f33254a7f74a0618cefd8253ede"},

@@ -945,7 +945,13 @@ def _validate_probability_map(value: object, name: str) -> dict[str, Any]:
     return mapping
 
 
-def _validate_policy_tree(value: object, state_ids: set[str]) -> None:
+def _validate_policy_tree(
+    value: object,
+    state_ids: set[str],
+    *,
+    expected_stage: int,
+    horizon: int,
+) -> None:
     tree = _strict_keys(
         value,
         {
@@ -963,6 +969,8 @@ def _validate_policy_tree(value: object, state_ids: set[str]) -> None:
     )
     if isinstance(tree["stage"], bool) or not isinstance(tree["stage"], int):
         raise TypeError("policy_tree.stage must be an integer")
+    if tree["stage"] != expected_stage:
+        raise ValueError("policy_tree stage must match the fixed-horizon chronology")
     if tree["chronology"] != _CHRONOLOGY:
         raise ValueError("policy_tree chronology must match the contract")
     belief = _validate_probability_map(tree["belief"], "policy_tree.belief")
@@ -1008,10 +1016,18 @@ def _validate_policy_tree(value: object, state_ids: set[str]) -> None:
         if set(posterior) != state_ids:
             raise ValueError("posterior state IDs must match the root belief")
         continuation = branch["continuation"]
+        terminal_stage = expected_stage == horizon - 1
+        if terminal_stage and continuation is not None:
+            raise ValueError("policy-tree continuation must stop at the fixed horizon")
+        if not terminal_stage and continuation is None:
+            raise ValueError("policy-tree branches must continue to the fixed horizon")
         if continuation is not None:
-            _validate_policy_tree(continuation, state_ids)
-            if cast("Mapping[str, Any]", continuation)["stage"] != tree["stage"] + 1:
-                raise ValueError("policy-tree continuation stages must be consecutive")
+            _validate_policy_tree(
+                continuation,
+                state_ids,
+                expected_stage=expected_stage + 1,
+                horizon=horizon,
+            )
     if not math.isclose(branch_probability, 1.0, abs_tol=1e-6, rel_tol=0.0):
         raise ValueError("policy-tree branch probabilities must sum to one")
 
@@ -1158,7 +1174,7 @@ def validate_belief_state_information_result(payload: Mapping[str, object]) -> N
     tree = _require_mapping(result["policy_tree"], "policy_tree")
     root_belief = _require_mapping(tree.get("belief"), "policy_tree.belief")
     state_ids = set(root_belief)
-    _validate_policy_tree(tree, state_ids)
+    _validate_policy_tree(tree, state_ids, expected_stage=0, horizon=horizon)
     tree_martingale_residual = _policy_martingale_residual(tree, state_ids)
     horizon_curve = _require_list(result["value_by_horizon"], "value_by_horizon")
     if len(horizon_curve) != horizon:
@@ -1323,6 +1339,16 @@ def validate_belief_state_information_result(payload: Mapping[str, object]) -> N
         != assurance["action_dependent_learning"]
     ):
         raise ValueError("assurance constants or dual-control boundary are invalid")
+    if any(
+        assurance[field] is not True
+        for field in (
+            "posterior_martingale_verified",
+            "null_sensor_reduction_verified",
+            "no_information_reduction_verified",
+            "complete_ties_reported",
+        )
+    ):
+        raise ValueError("exact assurance checks must be reported as verified")
     estimate = assurance["estimated_bellman_expansions"]
     budget = assurance["exact_enumeration_budget"]
     if (
@@ -1331,6 +1357,7 @@ def validate_belief_state_information_result(payload: Mapping[str, object]) -> N
         or isinstance(budget, bool)
         or not isinstance(budget, int)
         or estimate < 1
+        or budget != _MAX_EXACT_BELLMAN_EXPANSIONS
         or estimate > budget
     ):
         raise ValueError("exact-enumeration estimate must fit the declared budget")
