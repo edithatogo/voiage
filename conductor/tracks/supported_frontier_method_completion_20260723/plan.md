@@ -283,6 +283,14 @@ covers the experimental frontier entries only.
   transfer/cost-bearing comparisons from Blackwell applicability; retain
   negative social values without clipping. (AC-03–AC-07) `da119389`
 
+- [x] **F598-R2 / #785 — Hosted extension-policy remediation:** Declare the
+  signed/social experimental Python method in its frontier capability contract
+  and refresh the governed capability artifact hash. The exact extension-policy
+  regression, deterministic export/hash verification, frontier contract,
+  GitHub cross-reference and full 148-track Conductor validators pass locally.
+  A replacement exact-head hosted run remains mandatory before merge.
+  `0a7180ed`
+
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for
   #559 Value of Flexibility. (AC-03) `6fd474b1`
