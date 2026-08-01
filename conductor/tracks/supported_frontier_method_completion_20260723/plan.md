@@ -204,8 +204,10 @@
   found and remediated residual result-assurance drift, recorded in
   `belief-state-information-third-review-remediation.md`. The fourth fresh
   review found and remediated remaining model-unbound assurance claims in
-  `belief-state-information-fourth-review-remediation.md`; a fifth fresh
-  independent review, hosted exact-head assurance and merge remain pending.
+  `belief-state-information-fourth-review-remediation.md`. The fifth fresh
+  independent review approved the bounded remediation in
+  `belief-state-information-fifth-review.md`; hosted exact-head assurance and
+  merge remain pending.
   (AC-03–AC-07)
 
 - [x] **F597-R1 / #782 — Review Fixes:** Add conservative Bellman expansion
@@ -230,6 +232,13 @@
   standalone validation, binding the expansion estimate, horizon values,
   policy selections/ties and transition/learning diagnostics to their source.
   (AC-03–AC-07) `08c371af`
+
+- [x] **F597-R5 / #782 — Independent Review:** Independently reproduce the
+  normative exact evaluation and reject altered expansion estimates, final
+  horizon cells, policy selections/ties, diagnostic flags and committed input
+  models. The review found no unresolved Critical, High or Medium finding in
+  the bounded repository delivery. (AC-03–AC-07)
+  `belief-state-information-fifth-review.md`
 
 - [ ] **G9:** Implement each accepted repository-owned capability or record a
   reviewed exclusion with migration guidance. (AC-02, AC-06)
