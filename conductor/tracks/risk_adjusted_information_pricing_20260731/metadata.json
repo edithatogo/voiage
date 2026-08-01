@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "completed",
   "created_at": "2026-07-31T12:34:37Z",
-  "updated_at": "2026-07-31T16:50:00Z",
+  "updated_at": "2026-08-01T15:16:08Z",
   "planned_version": "1.2.0",
   "moscow": "must",
   "canonical_track": "C16",
@@ -59,7 +59,7 @@
       "id": "hosted-required-checks",
       "kind": "hosted_validation",
       "status": "satisfied",
-      "evidence": "PR #712 exact head 1048c4bc completed 60 successful checks, 5 intentional skips and 0 failures before auto-merge as b8395abf."
+      "evidence": "PR #712 final exact head 1048c4bc4354acdb0c468da17cb0b5d581961690 completed 65 terminal conclusions: 60 successes, four governed skips and one neutral conclusion, with no pending or failed checks. Both review threads were resolved before squash merge b8395abfc603509a2f1a2c87c9c33e6260fb5840 at 2026-07-31T16:33:52Z. Only delivery subissues #694-#697 may close; VoC remains a presentation/delegating alias, and scientific review, Rust/R/Julia parity, stable promotion, release, parent #595 closure and umbrella #318 closure remain pending."
     }
   ]
 }

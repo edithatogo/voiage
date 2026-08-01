@@ -271,16 +271,20 @@ parent #594 and umbrella #318 remain open.
     is valid only for verified positive-affine utility. Native delivery
     subissues #694–#697 own contracts, runtime, assurance, and user/polyglot
     surfaces respectively. R and Julia remain explicitly unsupported for this
-    family, while Mojo remains an external boundary.
+    family, while Mojo remains an external boundary. PR #712 final exact head
+    `1048c4bc` completed 65 terminal conclusions (60 successes, four governed
+    skips and one neutral conclusion), and both review threads were resolved
+    before squash merge `b8395abf`. Only delivery subissues #694–#697 may
+    close.
 
 All three issues are native sub-issues of frontier parent #318 under programme
 #313 and are represented in Project 28. Risk-sensitive/constrained VOI (#570)
 and outcome-conditional/risk-of-low sample information (#600) remain separate
 risk-family plans. The dedicated #595 delivery track is a scoped execution
 record for the existing approved method family; it does not create a duplicate
-VoC method. Repository evidence remains experimental pending scientific review
-and separate stable-promotion approval; the #595 exact-head hosted matrix
-passed before PR #712 merged.
+VoC method. Repository evidence remains experimental; scientific review,
+Rust/R/Julia parity, stable promotion, release, parent #595 closure and
+umbrella #318 closure remain open.
 
 Risk-sensitive and constrained VOI (#570) now has experimental exact finite
 Python delivery under C18/M22. PR #769 exact head `f513416f` passed its hosted

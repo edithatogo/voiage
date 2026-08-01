@@ -82,5 +82,12 @@
   Mermaid design, GitHub/Project 28, canonical C16 and remaining external
   gates. (AC-01, AC-07) — `669642b8`
 - [x] **U17:** Run final automated review, full local validation and hosted
-  required checks; retain merge, stable promotion, release and issue closure
-  as separate gates. (AC-08) — `1048c4bc`
+  required checks. PR #712 final exact head
+  `1048c4bc4354acdb0c468da17cb0b5d581961690` completed 65 terminal
+  conclusions (60 successes, four governed skips and one neutral conclusion),
+  with no pending or failed checks; both review threads were resolved before
+  squash merge `b8395abfc603509a2f1a2c87c9c33e6260fb5840` at
+  `2026-07-31T16:33:52Z`. Only delivery subissues #694–#697 are closure-
+  eligible. VoC remains a presentation/delegating alias; scientific review,
+  Rust/R/Julia parity, stable promotion, release, parent #595 closure and
+  umbrella #318 closure remain pending. (AC-08) — `1048c4bc`

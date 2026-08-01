@@ -330,9 +330,15 @@ release, registry, and publication decisions remain separate gates.
     *   VoC delegates to the same expected-utility/clairvoyant-policy result;
         only verified positive-affine utility exposes the monetary EVPI alias.
     *   Rust and Python are executable; R and Julia are explicitly unsupported;
-        Mojo remains an external boundary. PR #712 passed its exact-head hosted
-        matrix and merged; keep this item in progress pending scientific review
-        and stable-promotion approval.
+        Mojo remains an external boundary. PR #712 final exact head `1048c4bc`
+        completed 65 terminal conclusions (60 successes, four governed skips
+        and one neutral conclusion), with no pending or failed checks. Both
+        review threads were resolved before squash merge `b8395abf`. Only
+        delivery subissues #694–#697 may close.
+    *   Scientific review, Rust/R/Julia parity, stable promotion, release,
+        parent #595 closure and umbrella #318 closure remain open; VoC remains
+        a presentation/delegating alias rather than a duplicate numerical
+        method.
 
 *   [ ] Complete standardized dataset ingestion through one format-neutral
     conductor input contract and optional source-format providers.
