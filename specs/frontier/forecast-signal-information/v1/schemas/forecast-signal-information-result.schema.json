@@ -1,0 +1,354 @@
+{
+  "$id": "https://voiage.dev/schemas/frontier/forecast-signal-information-result.v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+      "type": "string"
+    },
+    "analysis_type": {
+      "const": "forecast_signal_information_result"
+    },
+    "assurance": {
+      "additionalProperties": false,
+      "properties": {
+        "accuracy_is_value": {
+          "const": false
+        },
+        "decision_policy": {
+          "const": "reported_probabilities_evaluated_under_joint_law"
+        },
+        "estimator": {
+          "const": "exact_finite_enumeration"
+        },
+        "joint_law": {
+          "const": "outcome_prior_times_signal_likelihood"
+        },
+        "training_performed": {
+          "const": false
+        }
+      },
+      "required": [
+        "estimator",
+        "joint_law",
+        "decision_policy",
+        "accuracy_is_value",
+        "training_performed"
+      ],
+      "type": "object"
+    },
+    "baseline": {
+      "additionalProperties": false,
+      "properties": {
+        "choice_tie": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "expected_action_values": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "minProperties": 1,
+          "type": "object"
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "expected_action_values",
+        "choice_tie",
+        "value"
+      ],
+      "type": "object"
+    },
+    "diagnostics": {
+      "additionalProperties": false,
+      "properties": {
+        "excess_brier": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "posterior_reference_brier": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "reported_brier": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "signal_probability_coverage": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "weighted_calibration_l1": {
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "weighted_calibration_l1",
+        "reported_brier",
+        "posterior_reference_brier",
+        "excess_brier",
+        "signal_probability_coverage"
+      ],
+      "type": "object"
+    },
+    "language_dispositions": {
+      "additionalProperties": false,
+      "properties": {
+        "julia": {
+          "const": "unsupported"
+        },
+        "mojo": {
+          "const": "external"
+        },
+        "python": {
+          "const": "executable"
+        },
+        "r": {
+          "const": "unsupported"
+        },
+        "rust": {
+          "const": "unsupported"
+        }
+      },
+      "required": [
+        "python",
+        "rust",
+        "r",
+        "julia",
+        "mojo"
+      ],
+      "type": "object"
+    },
+    "method_maturity": {
+      "const": "experimental"
+    },
+    "regret": {
+      "additionalProperties": false,
+      "properties": {
+        "avoided": {
+          "type": "number"
+        },
+        "baseline_expected": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "deployed_expected": {
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "baseline_expected",
+        "deployed_expected",
+        "avoided"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "signal_partitions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "calibration_l1": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "deployed_choice_tie": {
+            "items": {
+              "minLength": 1,
+              "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "deployed_conditional_value": {
+            "type": "number"
+          },
+          "oracle_choice_tie": {
+            "items": {
+              "minLength": 1,
+              "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "oracle_conditional_value": {
+            "type": "number"
+          },
+          "posterior_outcomes": {
+            "additionalProperties": {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            "minProperties": 1,
+            "type": "object"
+          },
+          "probability": {
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number"
+          },
+          "reported_outcomes": {
+            "additionalProperties": {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            "minProperties": 1,
+            "type": "object"
+          },
+          "signal_id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "value_contribution": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "signal_id",
+          "probability",
+          "posterior_outcomes",
+          "reported_outcomes",
+          "oracle_choice_tie",
+          "deployed_choice_tie",
+          "oracle_conditional_value",
+          "deployed_conditional_value",
+          "value_contribution",
+          "calibration_l1"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "timing": {
+      "additionalProperties": false,
+      "properties": {
+        "freshness": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "horizon": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "latency": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "lead_time": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "operationally_usable": {
+          "type": "boolean"
+        },
+        "reason": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "time_unit": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "time_unit",
+        "horizon",
+        "freshness",
+        "latency",
+        "lead_time",
+        "operationally_usable",
+        "reason"
+      ],
+      "type": "object"
+    },
+    "unsupported_dispositions": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "value": {
+      "additionalProperties": false,
+      "properties": {
+        "calibration_loss": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "cost": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "counterfactual_timely_oracle": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "gross_deployed": {
+          "type": "number"
+        },
+        "maximum_price": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "net_deployed": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "counterfactual_timely_oracle",
+        "gross_deployed",
+        "calibration_loss",
+        "cost",
+        "net_deployed",
+        "maximum_price"
+      ],
+      "type": "object"
+    },
+    "value_unit": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "analysis_id",
+    "analysis_type",
+    "method_maturity",
+    "value_unit",
+    "timing",
+    "baseline",
+    "signal_partitions",
+    "value",
+    "regret",
+    "diagnostics",
+    "assurance",
+    "language_dispositions",
+    "unsupported_dispositions"
+  ],
+  "title": "ForecastSignalInformationResultV1Experimental",
+  "type": "object"
+}
