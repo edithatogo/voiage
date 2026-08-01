@@ -20,7 +20,7 @@
 
 ## Phase 3 — Assurance and handoff
 
-- [x] **UMV5 / #776:** Run 100% changed-module branch coverage, focused/full
+- [~] **UMV5 / #776:** Run 100% changed-module branch coverage, focused/full
   validation and the relevant subagent review panel. The implementation review found
   no unresolved Critical, High or Medium findings. PR #798 exact head
   `aa5d9fd8` completed 42 hosted checks with 38 successes and four governed
