@@ -120,6 +120,9 @@ from voiage.methods.implementation import (
 from voiage.methods.implementation_strategy import (
     value_of_implementation_strategy_comparison as calculate_implementation_strategy_result,
 )
+from voiage.methods.information_source_portfolio import (
+    information_source_portfolio_value as calculate_information_source_portfolio_result,
+)
 from voiage.methods.interoperability_standardization import (
     value_of_interoperability_standardization as calculate_interoperability_result,
 )
@@ -3624,6 +3627,61 @@ def calculate_risk_sensitive_voi(
             "Risk-sensitive constrained VOI: "
             f"gross {float(value['gross']):.6f}; net {float(value['net']):.6f} "
             f"{value['unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-information-source-portfolio")
+def calculate_information_source_portfolio(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to an information-source portfolio v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the information-source portfolio result",
+    ),
+) -> None:
+    """Optimize an experimental exact finite information-source sequence."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError(
+                "Information-source portfolio specification must be a JSON object."
+            )
+        result = calculate_information_source_portfolio_result(
+            cast("dict[str, object]", payload)
+        )
+        contract = result.to_contract_dict()
+        optimum = cast("dict[str, object]", contract["optimum"])
+        sequence = cast("list[str]", optimum["source_sequence"])
+        context = cast("dict[str, object]", contract["value_context"])
+        output_text = _format_output(
+            "Information-source portfolio: "
+            f"{', '.join(sequence) if sequence else 'no procurement'}; "
+            f"gross {float(cast('float', optimum['gross_value'])):.6f}; "
+            f"net {float(cast('float', optimum['net_value'])):.6f} "
+            f"{context['value_unit']}",
             contract,
         )
         typer.echo(output_text)

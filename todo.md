@@ -98,6 +98,16 @@ This document lists the actionable tasks for `voiage` development. Agents should
         Scientific review, hosted exact-head/wheel assurance, Rust/R/Julia
         parity, stable promotion, release and parent closure remain open.
 
+*   [ ] Complete the dependent information-source portfolio delivery.
+    *   GitHub issue #582; native subissues #763–#765; Conductor track
+        `information_source_portfolio_voi_20260801`; PR #772.
+    *   Planned contract: v1.3.0; MoSCoW: Should; canonical requirement C18/M24.
+    *   Experimental exact Python execution covers joint-world dependence,
+        ordered feasible source sequences, conditional marginals and exact
+        decision-value Shapley allocation without additive double-counting.
+    *   Remaining gates are hosted exact-head checks, scientific review,
+        Rust/R/Julia parity, stable promotion, release and parent closure.
+
 *   [x] Implement estimation-focused variance-reduction VOI.
     *   Conductor track: `estimation_focused_variance_voi_20260727`.
     *   Planned contract: v1.2.0; MoSCoW: Must; canonical requirements M14/M17.

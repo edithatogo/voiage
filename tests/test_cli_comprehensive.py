@@ -757,6 +757,7 @@ def test_cli_command_registry_matches_expected_surface() -> None:
         "calculate-estimation-variance",
         "calculate-heterogeneity",
         "calculate-implementation",
+        "calculate-information-source-portfolio",
         "calculate-mcda-information",
         "calculate-observational",
         "calculate-nma-voi",

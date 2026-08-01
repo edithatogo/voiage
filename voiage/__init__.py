@@ -68,6 +68,14 @@ _EXTENSION_EXPORTS = {
         ".methods.risk_sensitive_voi",
         "risk_sensitive_constrained_voi",
     ),
+    "InformationSourcePortfolioResult": (
+        ".methods.information_source_portfolio",
+        "InformationSourcePortfolioResult",
+    ),
+    "information_source_portfolio_value": (
+        ".methods.information_source_portfolio",
+        "information_source_portfolio_value",
+    ),
     "McdaInformationResult": (
         ".methods.mcda_information",
         "McdaInformationResult",

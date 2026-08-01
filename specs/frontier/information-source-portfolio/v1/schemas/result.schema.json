@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/frontier/information-source-portfolio-result.v1.json",
+  "title": "InformationSourcePortfolioResultV1Experimental",
+  "type": "object",
+  "required": ["schema_version", "analysis_id", "analysis_type", "method_maturity", "value_context", "baseline", "evaluated_sequences", "optimum", "conditional_marginals", "attribution", "switches", "assurance", "provenance", "language_dispositions", "unsupported_dispositions"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "analysis_id": {"type": "string", "minLength": 1},
+    "analysis_type": {"const": "information_source_portfolio_result"},
+    "method_maturity": {"const": "experimental"},
+    "value_context": {"type": "object"},
+    "baseline": {"type": "object", "required": ["expected_action_values", "action_tie", "value"]},
+    "evaluated_sequences": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "optimum": {"type": "object", "required": ["source_sequence", "optimal_sequence_tie", "gross_value", "net_value", "partitions"]},
+    "conditional_marginals": {"type": "array"},
+    "attribution": {"type": "array"},
+    "switches": {"type": "array"},
+    "assurance": {"type": "object"},
+    "provenance": {"type": "object"},
+    "language_dispositions": {"type": "object"},
+    "unsupported_dispositions": {"type": "array", "minItems": 1}
+  },
+  "additionalProperties": false
+}

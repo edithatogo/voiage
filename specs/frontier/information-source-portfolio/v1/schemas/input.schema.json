@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/frontier/information-source-portfolio-input.v1.json",
+  "title": "InformationSourcePortfolioInputV1Experimental",
+  "type": "object",
+  "required": ["schema_version", "analysis_id", "analysis_type", "method_maturity", "value_context", "actions", "states", "sources", "constraints", "tie_policy", "provenance"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "analysis_id": {"type": "string", "minLength": 1},
+    "analysis_type": {"const": "information_source_portfolio"},
+    "method_maturity": {"const": "experimental"},
+    "value_context": {"type": "object", "required": ["value_unit", "cost_unit", "time_unit", "population_basis", "horizon_basis", "discount_basis", "delay_cost_per_time"], "properties": {"value_unit": {"type": "string"}, "cost_unit": {"type": "string"}, "time_unit": {"type": "string"}, "population_basis": {"type": "string"}, "horizon_basis": {"type": "string"}, "discount_basis": {"type": "string"}, "delay_cost_per_time": {"type": "number", "minimum": 0}}, "additionalProperties": false},
+    "actions": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "states": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["state_id", "probability", "action_values", "source_observations"], "properties": {"state_id": {"type": "string"}, "probability": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}, "action_values": {"type": "object", "minProperties": 2, "additionalProperties": {"type": "number"}}, "source_observations": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string"}}}, "additionalProperties": false}},
+    "sources": {"type": "array", "minItems": 1, "maxItems": 7, "items": {"type": "object", "required": ["source_id", "label", "cost", "cost_unit", "latency", "privacy_cost", "freshness_age", "sla_probability", "coverage", "excludes", "must_precede", "rights"], "properties": {"source_id": {"type": "string"}, "label": {"type": "string"}, "cost": {"type": "number", "minimum": 0}, "cost_unit": {"type": "string"}, "latency": {"type": "number", "minimum": 0}, "privacy_cost": {"type": "number", "minimum": 0}, "freshness_age": {"type": "number", "minimum": 0}, "sla_probability": {"type": "number", "minimum": 0, "maximum": 1}, "coverage": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}, "excludes": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}, "must_precede": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}, "rights": {"type": "object"}}, "additionalProperties": false}},
+    "constraints": {"type": "object", "required": ["max_cost", "max_latency", "max_privacy_cost", "max_sources", "min_source_sla", "max_freshness_age", "required_coverage"], "properties": {"max_cost": {"type": "number", "minimum": 0}, "max_latency": {"type": "number", "minimum": 0}, "max_privacy_cost": {"type": "number", "minimum": 0}, "max_sources": {"type": "integer", "minimum": 1, "maximum": 7}, "min_source_sla": {"type": "number", "minimum": 0, "maximum": 1}, "max_freshness_age": {"type": "number", "minimum": 0}, "required_coverage": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}}, "additionalProperties": false},
+    "tie_policy": {"type": "object", "required": ["absolute_tolerance", "relative_tolerance", "sequence_selection"], "properties": {"absolute_tolerance": {"type": "number", "minimum": 0}, "relative_tolerance": {"type": "number", "minimum": 0}, "sequence_selection": {"const": "highest_net_then_lower_cost_latency_lexical"}}, "additionalProperties": false},
+    "provenance": {"type": "object", "required": ["decision_revision", "joint_world_source", "constraint_source", "evaluator", "software_version"], "properties": {"decision_revision": {"type": "string"}, "joint_world_source": {"type": "string"}, "constraint_source": {"type": "string"}, "evaluator": {"type": "string"}, "software_version": {"type": "string"}}, "additionalProperties": false}
+  },
+  "additionalProperties": false
+}

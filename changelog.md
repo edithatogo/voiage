@@ -7,6 +7,12 @@
 
 ## Unreleased
 
+- Add experimental exact finite information-source portfolio VOI from a
+  declared joint-world law, including governed procurement constraints,
+  complete ties, gross/net value, willingness to pay, conditional marginals,
+  decision-value Shapley attribution, schemas, fixtures, CLI and documentation.
+  Scientific review, stable promotion and polyglot parity remain gated.
+
 - Add experimental exact finite additive MCDA perfect-information value with
   fixed ex-ante normalization, correlated criterion/preference states,
   criterion/preference/joint decomposition, complete ties, regret,
