@@ -1,0 +1,1 @@
+PR #716 repair: refreshed the distributional contract changelog SHA-256 pin after descriptor-inspection release-note changes; focused descriptor CLI and contract tests, Ruff, Conductor full validation, and GitHub cross-reference validation passed locally.
