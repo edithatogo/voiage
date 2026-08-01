@@ -64,10 +64,13 @@ jobs:
               exit 2
               ;;
           esac
-      - run: >-
+      - env:
+          EXPECTED_PROJECTION_ID: ${{ steps.projection.outputs.projection_id }}
+          PROJECTION_PATH: ${{ steps.projection.outputs.source_path }}
+        run: >-
           python scripts/validate_canonical_specialized_voi_projection.py
-          --projection "${{ steps.projection.outputs.source_path }}"
-          --expected-projection-id "${{ steps.projection.outputs.projection_id }}"
+          --projection "$PROJECTION_PATH"
+          --expected-projection-id "$EXPECTED_PROJECTION_ID"
 
   propose-mirror-update:
     needs: validate

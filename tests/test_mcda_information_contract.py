@@ -12,12 +12,13 @@ from jsonschema import Draft202012Validator
 import pytest
 
 import voiage.contracts.mcda_information as mcda_contract
-from voiage.contracts.mcda_information import (
-    MCDA_INFORMATION_INPUT_SCHEMA_V1,
-    MCDA_INFORMATION_RESULT_SCHEMA_V1,
-    validate_mcda_information_result_semantics,
-    validate_mcda_information_semantics,
+
+MCDA_INFORMATION_INPUT_SCHEMA_V1 = mcda_contract.MCDA_INFORMATION_INPUT_SCHEMA_V1
+MCDA_INFORMATION_RESULT_SCHEMA_V1 = mcda_contract.MCDA_INFORMATION_RESULT_SCHEMA_V1
+validate_mcda_information_result_semantics = (
+    mcda_contract.validate_mcda_information_result_semantics
 )
+validate_mcda_information_semantics = mcda_contract.validate_mcda_information_semantics
 
 ROOT = Path(__file__).parents[1]
 CONTRACT = ROOT / "specs/frontier/mcda-information/v1"

@@ -18,7 +18,8 @@ import pytest
 from voiage.contracts.mcda_information import MCDA_INFORMATION_RESULT_SCHEMA_V1
 from voiage.exceptions import InputError
 import voiage.methods.mcda_information as mcda_information_module
-from voiage.methods.mcda_information import mcda_information_value
+
+mcda_information_value = mcda_information_module.mcda_information_value
 
 if TYPE_CHECKING:
     from collections.abc import Callable

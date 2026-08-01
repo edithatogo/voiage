@@ -18,11 +18,11 @@
     },
     {
       "path": "tests/test_mcda_information_contract.py",
-      "sha256": "7e9045201b959b4ade491f2dbe2fb1569f481c0a4d05d35f51eae698bf6be0f8"
+      "sha256": "c2da09802b438622290c2543e84cac110fd9a1d3e3f5d28bfff515d28bf2e9c5"
     },
     {
       "path": "tests/test_mcda_information.py",
-      "sha256": "828ba0d5a17962bc8b57dfd688499d946d0905c1eae406dd08fb770a23e3d3cd"
+      "sha256": "1036b811cbb45c1740dee61901e74001c77ebdbfb0f68cda5b3a1a7df7fc8d88"
     },
     {
       "path": "tests/test_mcda_information_surfaces.py",
