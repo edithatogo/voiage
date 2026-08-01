@@ -1,0 +1,1 @@
+Hosted BasedPyright remediation: narrowed all JSON-derived distribution-family contract values after runtime checks and cast the embedded schema to its declared mapping type. Exact hosted lint/type command now reports zero errors and zero warnings; 101 focused runtime/schema/wheel tests, 100% contract/runtime branch coverage and frontier validation passed.
