@@ -17,9 +17,12 @@ release, registry, and publication decisions remain separate gates.
         revelation, symmetric imperfect binary-channel accuracy and the
         policy-relative EUI density with complete ties, signed centered
         diagnostics, integral assurance, modes, directions, API/CLI and plots.
-    *   Monetary BPI remains delegated to #595. Remaining gates are independent
-        implementation and scientific review, hosted exact-head/wheel checks,
-        Rust/R/Julia parity, stable promotion, release and parent closure.
+    *   PR #804 exact head `e6835358` passed all 42 hosted checks with 38
+        successes and four governed skips, including installed-wheel and 100%
+        changed-branch assurance, before squash merge `e3a62eba`. Delivery
+        subissues #777–#779 may close. Monetary BPI remains delegated to #595.
+        Remaining gates are the named scientific panel, Rust/R/Julia parity,
+        stable promotion, release, parent #596 closure and umbrella #318 closure.
 
 *   [ ] Complete uncertainty-modelling value after experimental repository delivery.
     *   GitHub issue #594; native subissues #774–#776; Conductor track

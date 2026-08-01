@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
   "track_id": "supported_frontier_method_completion_20260723",
-  "audited_at": "2026-08-01T01:35:00Z",
-  "source_revision": "50bd25470f52f70fc098c490bb73ed6d9216aa7a",
+  "audited_at": "2026-08-01T10:31:00Z",
+  "source_revision": "e3a62ebacb8f0c80ae78e35fd50970f54c6760d0",
   "parent_issue": 313,
   "issue": 318,
   "issue_state": "open",
@@ -217,13 +217,15 @@
       "record_id": "event-localized-information-value",
       "issue_state": "open",
       "project_status": "In Progress",
-      "disposition": "contract_in_progress",
+      "disposition": "experimental_merged",
       "maturity": "experimental",
-      "satisfies_ac06": false,
+      "satisfies_ac06": true,
       "delivery_track": "supported_frontier_method_completion_20260723",
-      "implementation_pull_requests": [],
+      "implementation_pull_requests": [804],
       "review_artifacts": [
-        "conductor/tracks/supported_frontier_method_completion_20260723/event-localized-information-reference-review.md"
+        "conductor/tracks/supported_frontier_method_completion_20260723/event-localized-information-reference-review.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/event-localized-information-implementation-review.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/event-localized-information-final-review.md"
       ],
       "adjacent_artifacts": [
         "threshold and event-like plots",

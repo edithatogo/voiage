@@ -166,10 +166,13 @@ covers the experimental frontier entries only.
   installed discovery, documentation and governance projections without
   claiming continuous density estimation, monetary BPI or stable/polyglot
   execution. (AC-04–AC-06, AC-09) `8014c75f`
-- [~] **F596-4 / #779:** Complete independent implementation and source review,
+- [x] **F596-4 / #779:** Complete independent implementation and source review,
   focused/full local and hosted exact-head/wheel assurance; reconcile #596
   while retaining scientific approval, Rust/R/Julia parity, stable promotion,
-  release and parent closure as separate gates. (AC-03–AC-07, AC-09)
+  release and parent closure as separate gates. PR #804 exact head `e6835358`
+  passed all 42 hosted checks (38 successes and four governed skips), including
+  installed-wheel and 100% changed-branch assurance, with zero unresolved
+  review threads before squash merge `e3a62eba`. (AC-03–AC-07, AC-09)
 - [x] **F596-R1:** Preserve empty modes/directions when coordinate information
   value is zero, so tied zero-density atoms do not fabricate a direction of
   concern. `5964df04`
@@ -195,7 +198,8 @@ covers the experimental frontier entries only.
   were synchronized; result/input fail-closed invariants, defensive numerical
   guards and both CLI output branches now have executable coverage. Focused
   local coverage reports 100% statements and branches for the event contract
-  and evaluator. Replacement hosted exact-head Actions remain mandatory.
+  and evaluator. Replacement exact-head `e6835358` passed hosted coverage and
+  every other required Action before merge.
   `e447c0e8`
 
 - [x] **F572-1 / #760:** Freeze #572's C18/M23 forecast-signal decision
