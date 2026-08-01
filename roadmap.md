@@ -55,6 +55,19 @@ release, parent #593 closure and umbrella #318 closure remain open. The existing
 implementation multiplier is retained as a
 compatibility helper and is not described as EVPIM/EVSIM/IA-EVSI.
 
+C18/M29 issue #598 has completed its governed experimental Python repository
+delivery. The exact finite contract
+for exact finite signed, social and strategic information value. It freezes the
+joint-world law, roles, topology, selective-sharing designs, nonanticipative
+bounded catalogs, welfare comparability, transfers, costs and rights receipts;
+retains negative values; and returns harm, avoidance, switches,
+winners/losers, externalities and strictly scoped Blackwell checks. Independent
+implementation re-review has passed without an unresolved Critical, High or
+Medium finding. PR #808 completed synchronized hosted exact-head assurance and
+merged as `d649c344`. Independent scientific review, Rust/R/Julia parity,
+stable promotion, release, delivery-subissue closure, parent #598 closure and
+umbrella #318 closure remain open.
+
 **June 25 follow-through closeout:** ✅ **ARCHIVED** - The June 25 follow-through queue is complete and archived for its repository-owned implementation and
 evidence slices. Registry approval, external indexing, production accelerator
 speedup, cloud quota, physical FPGA runtime, and fabricated-silicon evidence

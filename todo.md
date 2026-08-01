@@ -25,6 +25,22 @@ release, registry, and publication decisions remain separate gates.
         Rust/R/Julia parity, stable promotion, release, parent #599 closure and
         umbrella #318 closure.
 
+*   [ ] Complete signed/social information value after experimental merge.
+    *   GitHub issue #598; native subissues #783–#785; umbrella track
+        `supported_frontier_method_completion_20260723`; phases F598-1–F598-5;
+        canonical C18/M29; planned v1.3.0 Should.
+    *   The merged exact finite Python slice covers named agents and
+        roles, signal topology, nonanticipative centralized/fixed/declared-
+        response/verified-equilibrium catalogs, signed agent/role/social values,
+        selective sharing, full transfer/cost ledgers, rights receipts and
+        harm/avoidance/switch/winner-loser diagnostics without clipping.
+    *   PR #808 merged after its exact-head hosted assurance and fresh independent
+        engineering re-review passed with no remaining Critical, High or Medium
+        findings. Remaining gates are scientific review, Rust/R/Julia parity,
+        stable promotion, release, subissue, parent #598 and umbrella #318
+        closure.
+        Persuasion, mechanism design, rational inattention and general games
+        remain adjacent.
 *   [ ] Complete belief-state and intervention-aware sequential information
     value after experimental repository delivery.
     *   GitHub issue #597; delivery subissues #780--#782; umbrella track

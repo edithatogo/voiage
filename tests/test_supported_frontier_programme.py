@@ -91,6 +91,7 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
         595,
         596,
         597,
+        598,
         619,
     }
     for child in delivered.values():
@@ -332,7 +333,8 @@ def test_parallel_m26_to_m30_frontier_governance_is_additively_preserved() -> No
     assert by_issue[597]["delivery_subissues"] == [780, 781, 782]
     assert by_issue[597]["implementation_pull_requests"] == [807]
     assert by_issue[598]["delivery_subissues"] == [783, 784, 785]
-    assert by_issue[598]["disposition"] == "adjacent_only"
+    assert by_issue[598]["implementation_pull_requests"] == [808]
+    assert by_issue[598]["disposition"] == "experimental_merged"
     assert by_issue[599]["delivery_subissues"] == [786, 788, 789]
     assert by_issue[599]["implementation_pull_requests"] == [809]
     assert by_issue[599]["disposition"] == "contract_in_progress"

@@ -117,6 +117,17 @@ programme. The canonical cross-repository requirements are maintained in
   returns calibration, Brier and signal-coverage diagnostics; consumes rather
   than trains forecast models; and preserves no-skill, perfect,
   miscalibrated, late and stale limits with exact-enumeration assurance.
+- **M29 / planned v1.3.0:** #598 evaluates a complete finite joint-world law
+  for named decision makers, recipients, controllers and stakeholders under a
+  declared signal topology, sharing designs and nonanticipative bounded policy
+  catalogs. It retains signed private/role/social values without clipping,
+  records pre-transfer, transfer, cost and post-transfer ledgers, requires a
+  cardinal-comparability declaration and welfare aggregator, returns selective-
+  sharing comparisons, ties, harm, avoidance, switches, winners/losers and
+  rights/consent/purpose receipts, and applies Blackwell nonnegativity only
+  when its aligned centralized refinement assumptions are verified. General
+  persuasion, mechanism-design, rational-inattention and game solving remain
+  adjacent.
 - New interchange profiles reuse the shared compatibility schema and canonical
   logical-field fingerprint algorithm.
 - Free-threaded Python remains a bounded observational lane until the required
@@ -165,5 +176,6 @@ programme. The canonical cross-repository requirements are maintained in
 | v1.3.0 | Must | M26 | `uncertainty_modelling_value_20260801` | #594 and #774–#776 under #318 |
 | v1.3.0 | Must | M22 | governed risk-sensitive constrained information value | #570 and #757/#758/#761 under #318 |
 | v1.3.0 | Should | M23 | C18 governed forecast-signal decision value | #572 and #759/#760/#762 under #318 |
+| v1.3.0 | Should | M29 | governed signed/social information value | #598 and #783–#785 under #318 |
 | v1.3.0 | Should | M30 | C18 governed heterogeneity-value decomposition | #599 and #786/#788/#789 under #318 |
 | v1.3.0 | Should | M27 | C18 governed event-localized information value and policy-relative density | #596 and #777–#779 under #318 |
