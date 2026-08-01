@@ -34,7 +34,7 @@
     },
     {
       "path": "specs/frontier/mcda-information/v1/capabilities.json",
-      "sha256": "f6d7891bb430e4b7683e1b009882edf241bfbba848692faa2aa2f6f41de43732"
+      "sha256": "1a85f01396d4057c2a846e7b236115dde919aee2e503b8741a8e4e9284a3e053"
     },
     {
       "path": "specs/frontier/mcda-information/v1/fixtures/manifest.json",

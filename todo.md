@@ -79,7 +79,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   Retain practitioner/scientific review, stable promotion, polyglot
         execution, release and parent closure as separate gates.
 
-*   [ ] Implement finite additive MCDA information value.
+*   [x] Implement experimental finite additive MCDA information value.
     *   GitHub issue #560; native delivery subissues #746–#750; umbrella track
         `supported_frontier_method_completion_20260723`.
     *   Planned contract: v1.3.0; MoSCoW: Should; canonical requirement M21.
@@ -93,6 +93,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
         enumeration assurance.
     *   Exclude AHP elicitation, outranking/veto/non-compensatory rules,
         post-information renormalization and imperfect-sample EVSI from v1.
+    *   PR #751 supplies the exact Python evaluator, installed API/CLI,
+        accessible plots, independent implementation review and fixtures.
+        Scientific review, hosted exact-head/wheel assurance, Rust/R/Julia
+        parity, stable promotion, release and parent closure remain open.
 
 *   [x] Implement estimation-focused variance-reduction VOI.
     *   Conductor track: `estimation_focused_variance_voi_20260727`.

@@ -56,23 +56,24 @@
   reconcile #558 while retaining practitioner/scientific, stable-promotion,
   parity, release and parent-closure gates. (AC-03–AC-07) `7bbf77cf`
 
-- [~] **F560-1 / #747:** Freeze #560's finite compensatory additive MCDA
+- [x] **F560-1 / #747:** Freeze #560's finite compensatory additive MCDA
   information estimand, planned v1.3.0 MoSCoW requirements, Mermaid flow,
   adjacent-surface/reference review and failing analytical, invariant and
-  pathology tests. (AC-02, AC-03, AC-09)
-- [ ] **F560-2 / #746:** Add strict versioned input/result schemas, finite
+  pathology tests. (AC-02, AC-03, AC-09) `e2dacd0f`
+- [x] **F560-2 / #746:** Add strict versioned input/result schemas, finite
   correlated-state fixtures, normalization/provenance assurance and explicit
-  Rust/Python/R/Julia/Mojo dispositions. (AC-02–AC-06)
-- [ ] **F560-3 / #749:** Implement the exact experimental Python additive-value
+  Rust/Python/R/Julia/Mojo dispositions. (AC-02–AC-06) `e2dacd0f`
+- [x] **F560-3 / #749:** Implement the exact experimental Python additive-value
   evaluator with fixed normalization, complete ties, criterion/preference/joint
-  information actions and no-double-counting diagnostics. (AC-02–AC-05)
-- [ ] **F560-4 / #748:** Add installed Python/CLI execution, accessible plots,
+  information actions and no-double-counting diagnostics. (AC-02–AC-05) `e2dacd0f`
+- [x] **F560-4 / #748:** Add installed Python/CLI execution, accessible plots,
   documentation, examples and discovery without claiming AHP, outranking,
-  non-compensatory or imperfect-sample support. (AC-04–AC-06)
-- [ ] **F560-5 / #750:** Run independent implementation/usability review,
+  non-compensatory or imperfect-sample support. (AC-04–AC-06) `e2dacd0f`
+- [~] **F560-5 / #750:** Run independent implementation/usability review,
   focused/full local and hosted exact-head assurance; reconcile #560 while
   retaining scientific, stable-promotion, parity, release and parent-closure
-  gates. (AC-03–AC-07)
+  gates. (AC-03–AC-07) Local review and assurance: `e2dacd0f`; hosted PR #751
+  is pending.
 
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for

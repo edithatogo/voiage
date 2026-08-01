@@ -44,8 +44,7 @@ def test_contract_status_partition_is_exact() -> None:
     assert by_status == {
         "candidate": {556, 557, 559, 570, 572, 582},
         "candidate-census-checkpoint": {593, 594, 596, 597, 598, 599, 600},
-        "frozen-experimental": {558, 571, 595, 619},
-        "frozen-planned": {560},
+        "frozen-experimental": {558, 560, 571, 595, 619},
     }
 
 

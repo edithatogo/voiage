@@ -40,8 +40,7 @@
     "stable API or cross-language parity"
   ],
   "remaining_gates": [
-    "F560-4 installed API, CLI, plots, documentation and discovery",
-    "independent implementation and scientific review",
+    "independent scientific review",
     "hosted exact-head and installed-wheel assurance",
     "stable promotion, release and parent issue closure"
   ]

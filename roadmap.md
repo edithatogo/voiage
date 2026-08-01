@@ -223,16 +223,19 @@ weighted pseudo-scores or a quantitative VOI estimand. Practitioner/scientific
 approval, stable promotion, polyglot execution, release and parent closure
 remain separate gates.
 
-Finite additive MCDA information value (#560) is the next planned v1.3.0
-frontier delivery under canonical requirement M21 and native subissues
-#746–#750. Its frozen v1 scope uses fixed ex-ante value functions and
+Finite additive MCDA information value (#560) now has experimental Python
+delivery on PR #751 under planned v1.3.0 canonical requirement M21 and native
+subissues #746–#750. Its frozen v1 scope uses fixed ex-ante value functions and
 normalization anchors, explicit criterion units/directions, normalized
 nonnegative weights and a correlated finite joint uncertainty law. It will
 value perfect resolution of criterion-performance, preference or joint latent
-variables and return baseline/conditional choices, complete ties, gross/net
+variables and returns baseline/conditional choices, complete ties, gross/net
 value, interaction, regret, rank acceptability and raw-criterion Pareto
 diagnostics. AHP elicitation, outranking/veto/non-compensatory rules,
 post-information renormalization and imperfect-sample EVSI are excluded.
+Independent scientific review, hosted exact-head and installed-wheel evidence,
+Rust/R/Julia parity, stable promotion, release and parent closure remain
+separate gates.
 
 The complete Rust-first polyglot programme issue hierarchy is now materialized
 in Conductor rather than existing only in GitHub and Project 28:
