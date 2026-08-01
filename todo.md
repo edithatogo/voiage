@@ -4,6 +4,19 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+*   [ ] Complete static/dynamic heterogeneity value after experimental branch delivery.
+    *   GitHub issue #599; delivery subissues #786/#788/#789; umbrella track
+        `supported_frontier_method_completion_20260723`; phases F599-1–F599-4;
+        canonical C18/M30; planned v1.3.0 Should.
+    *   The exact finite Python slice reports `C0`, `Cf`, `P0`, `Pf`, static and
+        dynamic value, population-common and subgroup-policy EVPI, subgroup
+        policies, complete ties, an optional separate EVSI extension and exact
+        identities without replacing the stable heterogeneity helper.
+    *   Remaining gates are independent implementation/scientific review,
+        hosted exact-head and changed-coverage assurance, selection-bias and
+        sparse-subgroup scientific validity, Rust/R/Julia parity, stable
+        promotion, release, parent #599 closure and umbrella #318 closure.
+
 *   [ ] Complete uncertainty-modelling value after experimental repository delivery.
     *   GitHub issue #594; native subissues #774–#776; Conductor track
         `uncertainty_modelling_value_20260801`; canonical C18/M26.

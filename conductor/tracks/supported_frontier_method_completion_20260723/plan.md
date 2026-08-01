@@ -20,6 +20,7 @@ promotion, release, and issue closure remain separate gates.
 | Portable qualitative VOI | #558; #738–#742 | F558-1–F558-5 |
 | Finite additive MCDA information value | #560; #746–#750 | F560-1–F560-5 |
 | Dependent information-source portfolio | #582; #763–#765 | dedicated track `information_source_portfolio_voi_20260801` |
+| Static/dynamic heterogeneity value | #599; #786, #788, #789 | F599-1–F599-4 |
 
 The Rust-first programme and its remaining workstream tracks are governed by
 the separate root track `rust_polyglot_voi_completion_20260723`; this table
@@ -197,6 +198,25 @@ covers the experimental frontier entries only.
   changed-branch coverage before squash merge `c25f3234`. Scientific, parity,
   stable-promotion, release and parent-closure gates remain pending.
   (AC-03–AC-07, AC-09)
+
+- [x] **F599-1 / #786:** Freeze #599's M30 four-value static/dynamic
+  heterogeneity estimand, optional EVSI extension, planned v1.3.0 Should
+  requirements, Mermaid flow and primary-reference boundary. (AC-02, AC-03,
+  AC-09) `pending-implementation-commit`
+- [x] **F599-2 / #786:** Add strict v1 schemas, deterministic opposing
+  static/dynamic fixture, declared subgroup selection, weights, eligibility,
+  fairness/privacy, research model, provenance and language dispositions.
+  (AC-02–AC-06) `pending-implementation-commit`
+- [x] **F599-3 / #788:** Implement exact experimental Python/API/CLI execution
+  for `C0`, `Cf`, `P0`, `Pf`, static/dynamic value, subgroup EVPI, optional
+  population/subgroup EVSI, complete ties and exact identities without
+  replacing the stable heterogeneity helper. (AC-02–AC-06)
+  `pending-implementation-commit`
+- [~] **F599-4 / #789:** Run independent implementation/scientific review,
+  complete changed-branch, local and hosted exact-head assurance; retain
+  scientific validity, selection-bias/sparse-subgroup review, Rust/R/Julia
+  parity, stable promotion, release, parent #599 and umbrella #318 closure as
+  separate gates. (AC-03–AC-07)
 
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for

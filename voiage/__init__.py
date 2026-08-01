@@ -60,6 +60,14 @@ _ECOSYSTEM_EXPORTS = {
     "load_heoml_run_bundle": "load_heoml_run_bundle",
 }
 _EXTENSION_EXPORTS = {
+    "HeterogeneityValueDecompositionResult": (
+        ".methods.heterogeneity_value",
+        "HeterogeneityValueDecompositionResult",
+    ),
+    "heterogeneity_value_decomposition": (
+        ".methods.heterogeneity_value",
+        "heterogeneity_value_decomposition",
+    ),
     "UncertaintyModellingValueResult": (
         ".methods.uncertainty_modelling_value",
         "UncertaintyModellingValueResult",

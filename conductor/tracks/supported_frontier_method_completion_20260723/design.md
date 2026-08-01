@@ -1,5 +1,28 @@
 # Mermaid design — planned v1.2.0 and v1.3.0
 
+## Static and dynamic heterogeneity value
+
+```mermaid
+flowchart LR
+    Partition["Prespecified subgroups + weights"] --> Current["Current-information policies"]
+    Eligibility["Eligibility + fairness/privacy constraints"] --> Current
+    Effects["Finite subgroup effect-state law"] --> Current
+    Current --> C0["C0: population-common current value"]
+    Current --> Cf["Cf: subgroup-policy current value"]
+    Effects --> Perfect["Perfect effect-state information"]
+    Perfect --> P0["P0: population-common perfect value"]
+    Perfect --> Pf["Pf: subgroup-policy perfect value"]
+    C0 --> Static["Static value = Cf - C0"]
+    Cf --> Static
+    P0 --> Dynamic["Dynamic value = Pf - P0"]
+    Pf --> Dynamic
+    Static --> Identity["dynamic - static = EVPIf - EVPI0"]
+    Dynamic --> Identity
+    Sample["Optional finite signal + study cost"] --> EVSI["S0/Sf + separate EVSI and net diagnostics"]
+    EVSI --> Boundary["Experimental exact Python; no subgroup discovery or validity claim"]
+    Identity --> Boundary
+```
+
 ## Implementation-information decomposition
 
 ```mermaid

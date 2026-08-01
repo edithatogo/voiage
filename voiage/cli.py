@@ -116,6 +116,9 @@ from voiage.methods.heterogeneity import (
     HeterogeneityResult,
     value_of_heterogeneity,
 )
+from voiage.methods.heterogeneity_value import (
+    heterogeneity_value_decomposition as calculate_heterogeneity_value_result,
+)
 from voiage.methods.implementation import (
     ImplementationAdjustedResult,
     value_of_implementation,
@@ -3796,6 +3799,57 @@ def calculate_information_source_portfolio(
             f"gross {float(cast('float', optimum['gross_value'])):.6f}; "
             f"net {float(cast('float', optimum['net_value'])):.6f} "
             f"{context['value_unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-heterogeneity-value")
+def calculate_heterogeneity_value(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a heterogeneity-value decomposition v1 specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the heterogeneity-value result",
+    ),
+) -> None:
+    """Evaluate experimental exact finite static/dynamic heterogeneity value."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError("Heterogeneity-value specification must be a JSON object.")
+        result = calculate_heterogeneity_value_result(
+            cast("dict[str, object]", payload)
+        )
+        contract = result.to_contract_dict()
+        decomposition = cast("dict[str, object]", contract["four_value_decomposition"])
+        objective = cast("dict[str, object]", contract["objective"])
+        output_text = _format_output(
+            "Heterogeneity value: "
+            f"Static {float(decomposition['static_value']):.6f}; "
+            f"dynamic {float(decomposition['dynamic_value']):.6f} "
+            f"{objective['value_unit']}",
             contract,
         )
         typer.echo(output_text)

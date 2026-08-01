@@ -255,14 +255,22 @@
       "issue": 599,
       "record_id": "heterogeneity-value-decomposition",
       "issue_state": "open",
-      "project_status": "Todo",
-      "disposition": "adjacent_only",
-      "maturity": "planned",
-      "satisfies_ac06": false,
+      "project_status": "In Progress",
+      "disposition": "contract_in_progress",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
       "delivery_track": "supported_frontier_method_completion_20260723",
       "implementation_pull_requests": [],
       "review_artifacts": [],
-      "adjacent_artifacts": ["static heterogeneity analysis"]
+      "adjacent_artifacts": ["stable static heterogeneity analysis"],
+      "delivery_subissues": [786, 788, 789],
+      "unresolved_gates": [
+        "independent scientific review",
+        "selection-bias and sparse-subgroup validity review",
+        "Rust/R/Julia parity",
+        "stable promotion and release",
+        "parent #599 and umbrella #318 closure"
+      ]
     },
     {
       "issue": 600,
