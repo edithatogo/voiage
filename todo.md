@@ -4,6 +4,17 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+*   [ ] Complete event-localized information value after experimental delivery.
+    *   GitHub issue #596; delivery subissues #777–#779; umbrella track
+        `supported_frontier_method_completion_20260723`; canonical C18/M27.
+    *   The exact finite Python contract evaluates declared event/complement
+        revelation, symmetric imperfect binary-channel accuracy and the
+        policy-relative EUI density with complete ties, signed centered
+        diagnostics, integral assurance, modes, directions, API/CLI and plots.
+    *   Monetary BPI remains delegated to #595. Remaining gates are independent
+        implementation and scientific review, hosted exact-head/wheel checks,
+        Rust/R/Julia parity, stable promotion, release and parent closure.
+
 *   [ ] Complete implementation-information decomposition after experimental
     repository delivery.
     *   GitHub issue #593; delivery subissues #766--#768; umbrella track

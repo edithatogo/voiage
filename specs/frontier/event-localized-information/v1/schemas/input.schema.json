@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/event-localized-information/v1/input.schema.json",
+  "title": "EventLocalizedInformationInputV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "analysis_id", "analysis_type", "value_unit",
+    "direction", "chronology", "actions", "states", "density", "event",
+    "tie_tolerance", "integral_tolerance", "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "v1"},
+    "analysis_id": {"type": "string", "minLength": 1},
+    "analysis_type": {"const": "event_localized_information_value"},
+    "value_unit": {"type": "string", "minLength": 1},
+    "direction": {"const": "maximize"},
+    "chronology": {"type": "array", "minItems": 3, "items": {"type": "string", "minLength": 1}},
+    "actions": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "states": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/state"}},
+    "density": {"$ref": "#/$defs/density"},
+    "event": {"$ref": "#/$defs/event"},
+    "tie_tolerance": {"type": "number", "minimum": 0},
+    "integral_tolerance": {"type": "number", "minimum": 0},
+    "provenance": {"$ref": "#/$defs/provenance"}
+  },
+  "$defs": {
+    "numberMap": {"type": "object", "minProperties": 2, "additionalProperties": {"type": "number"}},
+    "state": {
+      "type": "object", "additionalProperties": false,
+      "required": ["state_id", "probability", "coordinate", "action_values"],
+      "properties": {
+        "state_id": {"type": "string", "minLength": 1},
+        "probability": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+        "coordinate": {"type": "array", "minItems": 1, "items": {"type": "number"}},
+        "action_values": {"$ref": "#/$defs/numberMap"}
+      }
+    },
+    "density": {
+      "type": "object", "additionalProperties": false,
+      "required": ["measure", "coordinate_names", "coordinate_units", "base_coordinate", "reference_action"],
+      "properties": {
+        "measure": {"const": "probability_mass"},
+        "coordinate_names": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "coordinate_units": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "base_coordinate": {"type": "array", "minItems": 1, "items": {"type": "number"}},
+        "reference_action": {"type": "string", "minLength": 1}
+      }
+    },
+    "threshold": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "coordinate_index", "operator", "threshold"],
+      "properties": {
+        "kind": {"const": "threshold"},
+        "coordinate_index": {"type": "integer", "minimum": 0},
+        "operator": {"enum": ["less_than", "less_than_or_equal", "greater_than", "greater_than_or_equal"]},
+        "threshold": {"type": "number"}
+      }
+    },
+    "stateSet": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "state_ids"],
+      "properties": {
+        "kind": {"const": "state_set"},
+        "state_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "event": {
+      "type": "object", "additionalProperties": false,
+      "required": ["event_id", "definition", "information_cost", "accuracy_grid"],
+      "properties": {
+        "event_id": {"type": "string", "minLength": 1},
+        "definition": {"oneOf": [{"$ref": "#/$defs/threshold"}, {"$ref": "#/$defs/stateSet"}]},
+        "information_cost": {"type": "number", "minimum": 0},
+        "accuracy_grid": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "number", "minimum": 0, "maximum": 1}}
+      }
+    },
+    "provenance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["probability_source", "value_source", "event_source"],
+      "properties": {
+        "probability_source": {"type": "string", "minLength": 1},
+        "value_source": {"type": "string", "minLength": 1},
+        "event_source": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

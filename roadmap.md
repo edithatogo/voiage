@@ -18,6 +18,16 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 Across the completed lanes, external registry, hardware, and speedup evidence gates remain explicit rather than treated as repository-owned completion criteria.
 
 The v1.3 residual frontier programme is governed canonically by VOP C18. Issue
+#596 now has a test-first experimental Python delivery for C18/M27. It evaluates
+perfect event information, a symmetric imperfect binary channel and the
+policy-relative expected-utility density
+`f(x) [max_a g_a(x) - g_a*(x)]` on exact finite probability-mass supports,
+with complete ties, signed centered diagnostics, integral assurance and
+result-only plots. Monetary BPI remains delegated to #595. Independent review,
+hosted exact-head checks, scientific approval, Rust/R/Julia parity, stable
+promotion and release remain separate gates.
+
+The v1.3 residual frontier programme is governed canonically by VOP C18. Issue
 #593 now has an experimental Python-only joint information/implementation
 contract and exact finite evaluator; it remains in progress pending hosted
 exact-head assurance, scientific approval, polyglot parity, stable promotion

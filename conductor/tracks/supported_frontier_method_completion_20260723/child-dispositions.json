@@ -216,14 +216,19 @@
       "issue": 596,
       "record_id": "event-localized-information-value",
       "issue_state": "open",
-      "project_status": "Todo",
-      "disposition": "adjacent_only",
-      "maturity": "planned",
+      "project_status": "In Progress",
+      "disposition": "contract_in_progress",
+      "maturity": "experimental",
       "satisfies_ac06": false,
       "delivery_track": "supported_frontier_method_completion_20260723",
       "implementation_pull_requests": [],
-      "review_artifacts": [],
-      "adjacent_artifacts": ["threshold and event-like plots"]
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/event-localized-information-reference-review.md"
+      ],
+      "adjacent_artifacts": [
+        "threshold and event-like plots",
+        "specs/frontier/event-localized-information/v1"
+      ]
     },
     {
       "issue": 597,

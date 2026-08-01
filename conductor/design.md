@@ -147,6 +147,14 @@ flowchart LR
     RiskVOI --> RiskDiagnostics["Complete ties + switches + risk/constraint diagnostics"]
     RiskDiagnostics --> RiskShadow["Exact constraint-removal evidence, not local shadow prices"]
     RiskShadow --> RiskBoundary["Experimental C18/M22; no EVSI, continuous solver or parity claim"]
+
+    EventStates["Finite states + coordinates + declared event"] --> EventBaseline["Baseline-optimal reference policy"]
+    EventBaseline --> EventDensity["C18/M27 policy-relative EUI density"]
+    EventStates --> EventDensity
+    EventStates --> EventChannel["Perfect event + imperfect symmetric binary channel"]
+    EventDensity --> EventAssurance["Integral + modes + directions"]
+    EventChannel --> EventAssurance
+    EventAssurance --> EventBoundary["Experimental Python; monetary BPI remains #595"]
 ```
 
 ```mermaid

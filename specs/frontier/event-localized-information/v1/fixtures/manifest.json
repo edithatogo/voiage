@@ -1,0 +1,12 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "method_maturity": "experimental",
+  "normative": [
+    {
+      "id": "multivariate-tail-event-exact",
+      "input_artifact": "normative/input.json",
+      "expected_output_artifact": "normative/expected.json"
+    }
+  ]
+}

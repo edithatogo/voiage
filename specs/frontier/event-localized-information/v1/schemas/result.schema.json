@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/event-localized-information/v1/result.schema.json",
+  "title": "EventLocalizedInformationResultV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "analysis_id", "analysis_type", "method_maturity",
+    "value_unit", "direction", "chronology", "baseline", "event", "density",
+    "assurance", "provenance", "references", "language_dispositions"
+  ],
+  "properties": {
+    "schema_version": {"const": "v1"},
+    "analysis_id": {"type": "string", "minLength": 1},
+    "analysis_type": {"const": "event_localized_information_value_result"},
+    "method_maturity": {"const": "experimental"},
+    "value_unit": {"type": "string", "minLength": 1},
+    "direction": {"const": "maximize"},
+    "chronology": {"type": "array", "minItems": 3, "items": {"type": "string", "minLength": 1}},
+    "baseline": {"$ref": "#/$defs/baseline"},
+    "event": {"$ref": "#/$defs/eventResult"},
+    "density": {"$ref": "#/$defs/densityResult"},
+    "assurance": {"$ref": "#/$defs/assurance"},
+    "provenance": {"$ref": "#/$defs/provenance"},
+    "references": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/reference"}},
+    "language_dispositions": {"$ref": "#/$defs/languages"}
+  },
+  "$defs": {
+    "stringArray": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "numberArray": {"type": "array", "minItems": 1, "items": {"type": "number"}},
+    "numberMap": {"type": "object", "minProperties": 2, "additionalProperties": {"type": "number"}},
+    "policyMap": {"type": "object", "minProperties": 2, "additionalProperties": {"$ref": "#/$defs/stringArray"}},
+    "conditionalMap": {"type": "object", "minProperties": 2, "additionalProperties": {"$ref": "#/$defs/numberMap"}},
+    "baseline": {
+      "type": "object", "additionalProperties": false,
+      "required": ["action_expected_values", "optimal_actions", "reference_action", "reference_value"],
+      "properties": {
+        "action_expected_values": {"$ref": "#/$defs/numberMap"},
+        "optimal_actions": {"$ref": "#/$defs/stringArray"},
+        "reference_action": {"type": "string", "minLength": 1},
+        "reference_value": {"type": "number"}
+      }
+    },
+    "channelRow": {
+      "type": "object", "additionalProperties": false,
+      "required": ["accuracy", "signal_probabilities", "conditional_action_values", "optimal_actions", "informed_value", "gross_voi", "net_voi"],
+      "properties": {
+        "accuracy": {"type": "number", "minimum": 0, "maximum": 1},
+        "signal_probabilities": {"$ref": "#/$defs/numberMap"},
+        "conditional_action_values": {"$ref": "#/$defs/conditionalMap"},
+        "optimal_actions": {"$ref": "#/$defs/policyMap"},
+        "informed_value": {"type": "number"},
+        "gross_voi": {"type": "number", "minimum": 0},
+        "net_voi": {"type": "number"}
+      }
+    },
+    "eventResult": {
+      "type": "object", "additionalProperties": false,
+      "required": ["event_id", "definition", "state_ids", "complement_state_ids", "probability", "complement_probability", "conditional_action_values", "optimal_actions", "perfect_informed_value", "perfect_gross_voi", "information_cost", "perfect_net_voi", "imperfect_binary_channel"],
+      "properties": {
+        "event_id": {"type": "string", "minLength": 1},
+        "definition": {"oneOf": [{"$ref": "#/$defs/threshold"}, {"$ref": "#/$defs/stateSet"}]},
+        "state_ids": {"$ref": "#/$defs/stringArray"},
+        "complement_state_ids": {"$ref": "#/$defs/stringArray"},
+        "probability": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1},
+        "complement_probability": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1},
+        "conditional_action_values": {"$ref": "#/$defs/conditionalMap"},
+        "optimal_actions": {"$ref": "#/$defs/policyMap"},
+        "perfect_informed_value": {"type": "number"},
+        "perfect_gross_voi": {"type": "number", "minimum": 0},
+        "information_cost": {"type": "number", "minimum": 0},
+        "perfect_net_voi": {"type": "number"},
+        "imperfect_binary_channel": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/channelRow"}}
+      }
+    },
+    "atom": {
+      "type": "object", "additionalProperties": false,
+      "required": ["coordinate", "probability_mass", "conditional_action_values", "optimal_actions", "reference_policy_value", "policy_relative_density", "centered_density"],
+      "properties": {
+        "coordinate": {"$ref": "#/$defs/numberArray"},
+        "probability_mass": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+        "conditional_action_values": {"$ref": "#/$defs/numberMap"},
+        "optimal_actions": {"$ref": "#/$defs/stringArray"},
+        "reference_policy_value": {"type": "number"},
+        "policy_relative_density": {"type": "number", "minimum": 0},
+        "centered_density": {"type": "number"}
+      }
+    },
+    "integralErrors": {
+      "type": "object", "additionalProperties": false,
+      "required": ["policy_relative", "centered"],
+      "properties": {"policy_relative": {"type": "number"}, "centered": {"type": "number"}}
+    },
+    "densityResult": {
+      "type": "object", "additionalProperties": false,
+      "required": ["measure", "formula", "centered_diagnostic_formula", "coordinate_names", "coordinate_units", "base_coordinate", "reference_action", "atoms", "information_value", "policy_relative_integral", "centered_integral", "integral_errors", "modes", "directions_from_base"],
+      "properties": {
+        "measure": {"const": "probability_mass"},
+        "formula": {"const": "f(x) * (max_a g_a(x) - g_reference(x))"},
+        "centered_diagnostic_formula": {"const": "f(x) * (max_a g_a(x) - V0)"},
+        "coordinate_names": {"$ref": "#/$defs/stringArray"},
+        "coordinate_units": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "base_coordinate": {"$ref": "#/$defs/numberArray"},
+        "reference_action": {"type": "string", "minLength": 1},
+        "atoms": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/atom"}},
+        "information_value": {"type": "number", "minimum": 0},
+        "policy_relative_integral": {"type": "number", "minimum": 0},
+        "centered_integral": {"type": "number"},
+        "integral_errors": {"$ref": "#/$defs/integralErrors"},
+        "modes": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/numberArray"}},
+        "directions_from_base": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/numberArray"}}
+      }
+    },
+    "assurance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["estimator", "complete_ties", "event_complement_partition", "density_integral_within_tolerance", "maximum_binary_channel_symmetry_error", "accuracy_half_no_information_residual", "policy_relative_density_nonnegative", "centered_density_is_signed_diagnostic", "bpi_delegated_to_issue_595", "continuous_density_claimed"],
+      "properties": {
+        "estimator": {"const": "exact_finite_enumeration"},
+        "complete_ties": {"const": true},
+        "event_complement_partition": {"const": true},
+        "density_integral_within_tolerance": {"const": true},
+        "maximum_binary_channel_symmetry_error": {"type": "number", "minimum": 0},
+        "accuracy_half_no_information_residual": {"type": ["number", "null"]},
+        "policy_relative_density_nonnegative": {"const": true},
+        "centered_density_is_signed_diagnostic": {"const": true},
+        "bpi_delegated_to_issue_595": {"const": true},
+        "continuous_density_claimed": {"const": false}
+      }
+    },
+    "provenance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["probability_source", "value_source", "event_source"],
+      "properties": {
+        "probability_source": {"type": "string", "minLength": 1},
+        "value_source": {"type": "string", "minLength": 1},
+        "event_source": {"type": "string", "minLength": 1}
+      }
+    },
+    "reference": {
+      "type": "object", "additionalProperties": false,
+      "required": ["doi", "role"],
+      "properties": {"doi": {"type": "string", "minLength": 1}, "role": {"type": "string", "minLength": 1}}
+    },
+    "threshold": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "coordinate_index", "operator", "threshold"],
+      "properties": {
+        "kind": {"const": "threshold"},
+        "coordinate_index": {"type": "integer", "minimum": 0},
+        "operator": {"enum": ["less_than", "less_than_or_equal", "greater_than", "greater_than_or_equal"]},
+        "threshold": {"type": "number"}
+      }
+    },
+    "stateSet": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "state_ids"],
+      "properties": {
+        "kind": {"const": "state_set"},
+        "state_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "languages": {
+      "type": "object", "additionalProperties": false,
+      "required": ["Python", "Rust", "R", "Julia", "Mojo"],
+      "properties": {
+        "Python": {"const": "experimental_runtime"},
+        "Rust": {"const": "not_implemented"},
+        "R": {"const": "not_implemented"},
+        "Julia": {"const": "not_implemented"},
+        "Mojo": {"const": "external_upstream_boundary"}
+      }
+    }
+  }
+}

@@ -99,6 +99,23 @@
   hosted exact-head checks, installed-wheel, parity, promotion, release and
   closure gates remain pending.
 
+- [~] **F596-1 / #777:** Freeze C18/M27's exact finite event-localized
+  estimands, canonical policy-relative EUI density, explicitly signed centered
+  diagnostic, strict schemas, normative fixture, complete ties, source review,
+  exclusions and language dispositions. (AC-02–AC-06, AC-09)
+- [~] **F596-2 / #778:** Implement perfect event/complement value, the
+  imperfect symmetric binary-channel accuracy curve, finite univariate and
+  multivariate density atoms, integral assurance, modes/directions and
+  deterministic Python/API/CLI execution. (AC-02–AC-05)
+- [~] **F596-3 / #778:** Add result-only accessible density and accuracy plots,
+  installed discovery, documentation and governance projections without
+  claiming continuous density estimation, monetary BPI or stable/polyglot
+  execution. (AC-04–AC-06, AC-09)
+- [~] **F596-4 / #779:** Complete independent implementation and source review,
+  focused/full local and hosted exact-head/wheel assurance; reconcile #596
+  while retaining scientific approval, Rust/R/Julia parity, stable promotion,
+  release and parent closure as separate gates. (AC-03–AC-07, AC-09)
+
 - [x] **F572-1 / #760:** Freeze #572's C18/M23 forecast-signal decision
   estimand, strict input/result schemas, analytical newsvendor fixture,
   provenance, timing, cost, calibration and explicit language dispositions.
