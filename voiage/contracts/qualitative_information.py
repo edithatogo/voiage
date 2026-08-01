@@ -651,7 +651,13 @@ def validate_qualitative_information_semantics(
             raise ValueError("audit previous_event_id chain is broken")
         if event["previous_content_digest"] != previous_digest:
             raise ValueError("audit previous_content_digest chain is broken")
-        timestamp = datetime.fromisoformat(event["timestamp"])
+        try:
+            timestamp = datetime.fromisoformat(event["timestamp"])
+        except ValueError as error:
+            raise ValueError(
+                "invalid specification at /audit_history/"
+                f"{index - 1}/timestamp (constraint: format)"
+            ) from error
         if previous_timestamp is not None and timestamp < previous_timestamp:
             raise ValueError("audit timestamps must be non-decreasing")
         if event["assessment_version"] < previous_version:
