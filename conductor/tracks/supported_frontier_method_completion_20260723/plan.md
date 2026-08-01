@@ -267,15 +267,20 @@ covers the experimental frontier entries only.
   export and governance surfaces while retaining persuasion, mechanism design,
   rational inattention and general game solving as adjacent. (AC-04–AC-06)
   `f04b1627`
-- [~] **F598-5 / #785:** Run independent implementation/scientific review,
+- [x] **F598-5 / #785:** Run independent implementation/scientific review,
   changed-line/branch and full local assurance, hosted exact-head/wheel checks,
   then reconcile #598 without claiming parity, stable promotion, release or
   parent closure. The first implementation reviewer found and remediated
   portable derived-result and Blackwell-applicability defects in
   `signed-social-information-implementation-review.md`. A fresh independent
   re-review passed at `d7d569b2` with no remaining Critical, High or Medium
-  findings. PR #808 carries the experimental branch delivery; its synchronized
-  exact-head/wheel checks and merge remain pending.
+  findings. PR #808 exact implementation head
+  `4d121b29bb50492bcc84b1cdfa6fb46df9e5e51c` completed all 42 hosted checks
+  with 38 successes, three governed skips and one neutral CodeQL aggregation;
+  all 10 review threads were resolved before squash merge
+  `d649c344ef2493abe445fb9e3ef20da89c53fb75`. Delivery subissues #783–#785 may
+  close. Scientific review, Rust/R/Julia parity, stable promotion, release,
+  parent #598 closure and umbrella #318 closure remain pending.
   (AC-03–AC-07, AC-09)
 
 - [x] **F598-R1 / #785 — Review Fixes:** Bind portable agent roles and exact
@@ -289,16 +294,14 @@ covers the experimental frontier entries only.
   and refresh the governed capability artifact hash. The exact extension-policy
   regression, deterministic export/hash verification, frontier contract,
   GitHub cross-reference and full 148-track Conductor validators pass locally.
-  A replacement exact-head hosted run remains mandatory before merge.
-  `0a7180ed`
+  The replacement exact-head hosted run passed before merge. `0a7180ed`
 
 - [x] **F598-R3 / #785 — Hosted changed-branch remediation:** Exercise the
   signed/social CLI's non-object rejection and human-readable output receipt
   branches without changing runtime behavior or weakening coverage policy. The
   hosted-equivalent full suite passes with 3627 tests, 94.14 percent aggregate
   coverage, 444/444 changed executable lines and 198/198 changed branches. A
-  replacement exact-head hosted run remains mandatory before merge.
-  `7d68ce19`
+  replacement exact-head hosted run passed before merge. `7d68ce19`
 
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for
