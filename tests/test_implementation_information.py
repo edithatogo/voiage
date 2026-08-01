@@ -264,9 +264,7 @@ def test_invalid_contracts_fail_closed(mutation: object, match: str) -> None:
             "exactly the intended actions",
         ),
         (
-            lambda value: value["current_implementation"]["low"]["new"].pop(
-                "new"
-            ),
+            lambda value: value["current_implementation"]["low"]["new"].pop("new"),
             "exactly the declared actions",
         ),
         (
@@ -291,9 +289,7 @@ def test_invalid_contracts_fail_closed(mutation: object, match: str) -> None:
             "each signal must contain",
         ),
         (
-            lambda value: value["sampling_model"]["signals"][0].update(
-                signal_id=""
-            ),
+            lambda value: value["sampling_model"]["signals"][0].update(signal_id=""),
             "signal_id",
         ),
         (
@@ -303,9 +299,9 @@ def test_invalid_contracts_fail_closed(mutation: object, match: str) -> None:
             "signal identifiers must be unique",
         ),
         (
-            lambda value: value["sampling_model"][
-                "post_sample_implementation"
-            ].pop("unfavourable"),
+            lambda value: value["sampling_model"]["post_sample_implementation"].pop(
+                "unfavourable"
+            ),
             "must contain every signal",
         ),
         (lambda value: value.update(costs=[]), "costs must be an object"),
@@ -364,7 +360,9 @@ def test_finite_guards_reject_weighted_sample_aggregate_and_net_overflow(
         "_realised_value",
         overflow_only_after_scenario_cells,
     )
-    with pytest.raises(InputError, match="sample-weighted action values must be finite"):
+    with pytest.raises(
+        InputError, match="sample-weighted action values must be finite"
+    ):
         implementation_information_value(_input())
 
     monkeypatch.undo()
