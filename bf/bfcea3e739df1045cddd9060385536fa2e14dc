@@ -1,0 +1,1 @@
+Task: PR #769 changed-branch coverage remediation. Added focused schema, semantic and CLI branch tests; documented and excluded only two schema-invariant defensive paths; refreshed governed evidence hashes. Validation: 36 focused tests passed; ruff check and format passed.
