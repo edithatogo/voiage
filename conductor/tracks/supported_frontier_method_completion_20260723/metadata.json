@@ -65,7 +65,7 @@
     "voi_method_census_contract_reconciliation_20260723",
     "stable_voi_rust_core_completion_20260723"
   ],
-  "description": "Complete, consolidate, demote or explicitly exclude every accepted frontier method family with honest maturity and language dispositions. G5–G12 repository evidence is summarized in g5-g12-evidence-matrix.md; scientific review, polyglot parity, stable promotion, release, and issue closure remain independent gates.",
+  "description": "Complete, consolidate, demote or explicitly exclude every accepted frontier method family with honest maturity and language dispositions. G5–G12 repository evidence is summarized in g5-g12-evidence-matrix.md; relevant subagent panel review, polyglot parity, stable promotion, release, and issue closure remain separate gates.",
   "evidence_schema": "1.0",
   "approval": {
     "status": "approved",
