@@ -44,11 +44,11 @@
 - [x] **F558-2 / #739:** Add strict versioned assessment, result, audit-event and
   rendering schemas; normative fixtures; provenance, redaction, AI-assistance,
   human-review and language dispositions. (AC-02–AC-06) `3bfea8b8`
-- [~] **F558-3 / #740:** Implement the deterministic experimental Python
+- [x] **F558-3 / #740:** Implement the deterministic experimental Python
   validator and state transition workflow with ordinal priorities, complete
   ties, dissent, conflicts, missingness and immutable audit history, without
-  cardinal pseudo-scoring. (AC-02–AC-05)
-- [ ] **F558-4 / #741:** Add installed contracts, Python/CLI deterministic JSON
+  cardinal pseudo-scoring. (AC-02–AC-05) `0bd57c17`
+- [~] **F558-4 / #741:** Add installed contracts, Python/CLI deterministic JSON
   and accessible text rendering, documentation, examples and discovery without
   claiming quantitative VOI, stable or polyglot execution. (AC-04–AC-06)
 - [ ] **F558-5 / #742:** Run independent implementation, usability and
