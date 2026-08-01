@@ -128,7 +128,14 @@
       "delivery_track": "study_design_efficiency_20260727",
       "implementation_pull_requests": [679],
       "review_artifacts": ["conductor/tracks/study_design_efficiency_20260727/phase-4-review.md"],
-      "adjacent_artifacts": []
+      "adjacent_artifacts": [],
+      "delivery_subissues": [680, 681, 682],
+      "unresolved_gates": [
+        "scientific review",
+        "Rust/R/Julia parity",
+        "stable promotion and release",
+        "parent #571 and umbrella #318 closure"
+      ]
     },
     {
       "issue": 572,
