@@ -358,7 +358,8 @@
       "implementation_pull_requests": [676],
       "review_artifacts": [
         "conductor/tracks/estimation_focused_variance_voi_20260727/delivery-closeout-20260801.md",
-        "conductor/tracks/estimation_focused_variance_voi_20260727/independent-review-remediation-20260802.md"
+        "conductor/tracks/estimation_focused_variance_voi_20260727/independent-review-remediation-20260802.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/estimation-variance-remediation-review.md"
       ],
       "adjacent_artifacts": [
         "specs/estimation-variance/v1/runtime-data.schema.json"

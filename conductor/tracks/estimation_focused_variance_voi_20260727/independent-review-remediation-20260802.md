@@ -33,5 +33,7 @@ covariance, functional and unit equality. The follow-up fails closed unless
 EVSI declares prior-predictive averaging, calculates the sampled bootstrap mean
 directly, constrains scalar schema shape/nonnegativity/unit syntax, and marks
 the Pydantic result contract as the mandatory semantic validator for the
-cross-field identities. Fresh independent review of the resulting exact commit
-remains required before hosted delivery.
+cross-field identities. A clean, read-only independent re-review at exact
+signed commit `9e860887293dfcd2f95ce0648e25118026141bc5` reproduced all
+original and boundary cases and reported zero unresolved Critical, High or
+Medium findings. Hosted exact-head checks and merge remain required.
