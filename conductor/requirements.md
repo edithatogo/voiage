@@ -167,3 +167,4 @@ programme. The canonical cross-repository requirements are maintained in
 | v1.3.0 | Must | M22 | governed risk-sensitive constrained information value | #570 and #757/#758/#761 under #318 |
 | v1.3.0 | Should | M23 | C18 governed forecast-signal decision value | #572 and #759/#760/#762 under #318 |
 | v1.3.0 | Should | M29 | governed signed/social information value | #598 and #783–#785 under #318 |
+| v1.3.0 | Should | M27 | C18 governed event-localized information value and policy-relative density | #596 and #777–#779 under #318 |

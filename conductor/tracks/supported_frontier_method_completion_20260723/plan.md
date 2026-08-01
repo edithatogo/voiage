@@ -5,7 +5,7 @@
 The following mapping is the canonical traceability boundary for the
 experimental frontier entries in `todo.md`. Each phase is scoped to the
 corresponding GitHub issue or native sub-issue; implementation status is
-evidenced by the phase marker and receipt, while scientific review, parity,
+evidenced by the phase marker and receipt, while panel review, parity,
 promotion, release, and issue closure remain separate gates.
 
 | `todo.md` workstream | GitHub issue | Conductor phases |
@@ -142,7 +142,8 @@ covers the experimental frontier entries only.
   current/perfect-information by current/perfect-implementation matrix, EVSIM,
   IA-EVSI, interaction identities, complete ties and CLI/API surfaces without
   an independence assumption. (AC-02–AC-05) `9cc93c63`
-- [~] **F593-4 / #768:** Complete independent implementation/scientific review,
+- [~] **F593-4 / #768:** Complete implementation review and the relevant
+  subagent scientific-review panel,
   hosted exact-head and installed-wheel assurance, then reconcile #593 without
   claiming polyglot parity, stable promotion, release or parent closure.
   Independent repository implementation re-review passed with no open findings
@@ -151,8 +152,56 @@ covers the experimental frontier entries only.
   hosted checks (38 successes, one neutral aggregation and three governed
   skips), including installed-wheel and changed-coverage assurance, and both
   review threads were evidence-resolved before squash merge `20e0c606`.
-  Named scientific review, Rust/R/Julia parity, stable promotion, release,
+  Named panel review, Rust/R/Julia parity, stable promotion, release,
   parent #593 closure and umbrella #318 closure remain pending.
+
+- [x] **F596-1 / #777:** Freeze C18/M27's exact finite event-localized
+  estimands, canonical policy-relative EUI density, explicitly signed centered
+  diagnostic, strict schemas, normative fixture, complete ties, source review,
+  exclusions and language dispositions. (AC-02–AC-06, AC-09) `8014c75f`
+- [x] **F596-2 / #778:** Implement perfect event/complement value, the
+  imperfect symmetric binary-channel accuracy curve, finite univariate and
+  multivariate density atoms, integral assurance, modes/directions and
+  deterministic Python/API/CLI execution. (AC-02–AC-05) `8014c75f`
+- [x] **F596-3 / #778:** Add result-only accessible density and accuracy plots,
+  installed discovery, documentation and governance projections without
+  claiming continuous density estimation, monetary BPI or stable/polyglot
+  execution. (AC-04–AC-06, AC-09) `8014c75f`
+- [x] **F596-4 / #779:** Complete independent implementation and source review,
+  focused/full local and hosted exact-head/wheel assurance; reconcile #596
+  while retaining scientific approval, Rust/R/Julia parity, stable promotion,
+  release and parent closure as separate gates. PR #804 exact head `e6835358`
+  passed all 42 hosted checks (38 successes and four governed skips), including
+  installed-wheel and 100% changed-branch assurance, with zero unresolved
+  review threads before squash merge `e3a62eba`. (AC-03–AC-07, AC-09)
+- [x] **F596-R1:** Preserve empty modes/directions when coordinate information
+  value is zero, so tied zero-density atoms do not fabricate a direction of
+  concern. `5964df04`
+- [x] **F596-R2:** Remediate independent-review findings for executable
+  input/result validation, true-max reference optimality, bounded raw-integral
+  tolerance and explicit binary-channel symmetry assurance. A fresh
+  independent reviewer remains required. `6d712f82`
+- [x] **F596-R3:** Remediate the fresh result-integrity review by binding
+  auditable partition evidence, reconstructing every event/channel/density
+  action marginal, requiring a common reference policy and rejecting ungrouped
+  coordinate atoms. Shared focused/oracle/static/governance assurance passed;
+  hosted exact-head coverage and wheel evidence remain required. `893a2243`
+- [x] **F596-R4:** Complete a third fresh independent review of both
+  remediations. The review independently reproduced the normative values,
+  exercised the previously bypassed result mutations, and found no unresolved
+  Critical, High or Medium finding. Review record:
+  `event-localized-information-final-review.md`. Hosted exact-head coverage,
+  installed-wheel evidence and later scientific/parity/promotion/release gates
+  remain pending.
+- [x] **F596-R5:** Remediate exact-head hosted assurance failures without
+  weakening the experimental contract. The repository-wide command registry,
+  extension-policy projection, promotion checklist and inherited fixture hashes
+  were synchronized; result/input fail-closed invariants, defensive numerical
+  guards and both CLI output branches now have executable coverage. Focused
+  local coverage reports 100% statements and branches for the event contract
+  and evaluator. Replacement exact-head `e6835358` passed hosted coverage and
+  every other required Action before merge.
+  `e447c0e8`
 
 - [x] **F572-1 / #760:** Freeze #572's C18/M23 forecast-signal decision
   estimand, strict input/result schemas, analytical newsvendor fixture,
@@ -162,7 +211,8 @@ covers the experimental frontier entries only.
   evaluator with baseline/oracle/deployed policies, signed value, calibration
   loss, regret, maximum price and no-skill/perfect/miscalibrated/late/stale
   limits. (AC-02–AC-05) `8c9a1885`
-- [~] **F572-3 / #762:** Complete independent scientific/implementation review,
+- [~] **F572-3 / #762:** Complete the relevant subagent scientific/implementation
+  review panel,
   hosted exact-head/full-suite assurance and canonical C18 projection
   reconciliation while retaining parity, stable-promotion, release and parent
   closure as separate gates. The independent implementation review in
@@ -171,7 +221,7 @@ covers the experimental frontier entries only.
   verified from merged VOP PRs #69 and #70. PR #770 exact head `c110706c`
   passed all 42 hosted checks (38 successes, one neutral aggregation and three
   governed skips), including 223/223 changed lines and 57/57 changed branches,
-  before squash merge `4657f94e`. Independent scientific review, parity,
+  before squash merge `4657f94e`. Panel review, parity,
   stable-promotion, release and parent closure remain pending.
   (AC-03–AC-07, AC-09)
 
@@ -188,7 +238,7 @@ covers the experimental frontier entries only.
   `2da92322`
 - [~] **F570-3 / #761:** Retain local exact-fixture, type, lint, registry and
   Conductor assurance plus honest Python/Rust/R/Julia/Mojo dispositions;
-  complete hosted exact-head/wheel and independent scientific review before
+  complete hosted exact-head/wheel and the relevant subagent review panel before
   reconciling #570. Local implementation evidence: `2da92322`; independent
   implementation review and bounded remediation: `58a119bc`; hosted lint/type
   remediation: `18747c8b`; changed-branch coverage remediation: `bfbfcea3`;

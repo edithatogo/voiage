@@ -128,6 +128,34 @@
   keep persuasion, mechanism design, rational inattention and general game
   solving adjacent.
 
+- **M27-S1:** #596 planned v1.3.0 event-localized information value must
+  declare a finite probability law, actions and value unit, a nontrivial event
+  or threshold and complement, chronology, information cost, binary-channel
+  accuracy grid, coordinate names/units, base coordinate and a declared
+  true-max baseline-optimal reference action. The v1 objective is
+  higher-is-better `maximize`; tie tolerance is in `[0, 1e-6]` and integral
+  tolerance is in `(0, 1e-6]`.
+- **M27-S2:** Use the canonical policy-relative EUI density
+  `i(x) = f(x) [max_a g_a(x) - g_a*(x)]`. Return every probability-mass atom,
+  conditional action value and complete tie, the nonnegative density integral,
+  modes and directions from the declared base. The optional centered
+  `j(x) = f(x) [max_a g_a(x) - V0]` is an explicitly signed diagnostic; its
+  integral identity does not make each atom nonnegative.
+- **M27-S3:** Return exact event/complement probabilities, conditional
+  decisions and values, gross/net perfect-event VOI and an imperfect symmetric
+  binary-channel accuracy curve. Verify event/complement partitioning,
+  accuracy `p`/`1-p` symmetry, the uninformative `0.5` boundary, deterministic
+  serialization and raw-atom density-integral tolerances. A requested grid
+  without a complementary pair reports `null`, never a false zero residual.
+  Bind the portable result to auditable state/coordinate partition evidence;
+  re-evaluate the event definition and reconstruct every baseline, channel and
+  density action marginal, rejecting mismatched references or ungrouped equal
+  coordinates.
+- **M27-S4:** Keep finite event/density EUI distinct from ordinary threshold
+  plotting, DSA, parameter EVPPI, forecast accuracy and tail-risk measures.
+  Monetary BPI remains delegated to #595. Python may be experimental; Rust, R
+  and Julia remain unsupported and Mojo external until separate evidence.
+
 - **M23-S1:** #572 planned v1.3.0 forecast-signal information value must
   consume a declared forecast artifact with outcome prior, signal likelihood,
   reported conditional probabilities, objective/payoff units, feasible

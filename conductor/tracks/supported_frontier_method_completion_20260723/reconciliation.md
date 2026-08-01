@@ -1,16 +1,17 @@
 # Child evidence reconciliation
 
-Audited against `origin/main` and the live GitHub hierarchy through PR #751 on
-2026-08-01. The machine-readable source is `child-dispositions.json`.
+Audited against `origin/main` at `2638d7cf` on 2026-08-01. The machine-readable
+source is `child-dispositions.json`; the G5–G12 gate summary is
+`g5-g12-evidence-matrix.md`.
 
 ## Delivery evidence
 
 | Issue | Disposition | Evidence | Remaining boundary |
 |---|---|---|---|
-| #556 | Experimental implementation on branch | PR #723; exact v1 schemas/fixture; independent implementation review | Hosted exact-head checks, merge, scientific review, polyglot execution and stable promotion |
-| #557 | Experimental implementation on branch | PR #736; exact model-family-index v1 schemas/fixture; independent implementation review | Hosted exact-head checks, merge, scientific terminology/partition review, real probability provenance, polyglot execution and stable promotion |
+| #556 | Experimental implementation | PR #723 lineage; exact v1 schemas/fixture; independent implementation review | Scientific review, polyglot execution and stable promotion |
+| #557 | Experimental implementation | PR #736 lineage; exact model-family-index v1 schemas/fixture; independent implementation review and hosted closeout receipts | Scientific terminology/partition review, real probability provenance, polyglot execution and stable promotion |
 | #558 | Experimental implementation merged | PRs #743 and #744; portable qualitative assessment/audit/rendering contracts; independent implementation and accessibility review | Practitioner/scientific review, polyglot execution, stable promotion and release |
-| #559 | Experimental implementation on branch | PR #723; exact timing-scenario v1 schemas/fixture; independent implementation review | Hosted exact-head checks, merge, scientific review, transition-constrained policies, polyglot execution and stable promotion |
+| #559 | Experimental implementation | PR #723 lineage; exact timing-scenario v1 schemas/fixture; independent implementation review | Scientific review, transition-constrained policies, polyglot execution and stable promotion |
 | #560 | Experimental implementation merged | PR #751 merged as `e8aaba82`; exact finite additive-MCDA v1 schemas/fixture, Python/CLI/plots, independent implementation review, all exact-head hosted checks and canonical v1.3 dispatch/consumer runs | Scientific review, Rust/R/Julia parity, stable promotion and release |
 | #571 | Experimental implementation merged | PR #679; completed study-design track | Scientific review and stable promotion |
 | #595 | Experimental implementation merged | PR #712; 60 exact-head checks passed, 5 intentionally skipped, 0 failed | Scientific review and stable promotion |

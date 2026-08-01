@@ -140,6 +140,29 @@ flowchart LR
     Result --> Boundary["Not PSA, EVPPI, global sensitivity or VoI"]
 ```
 
+## Event-localized information value
+
+```mermaid
+flowchart LR
+    States["Finite states + probabilities + coordinates"] --> Baseline["Baseline-optimal reference action a*"]
+    Values["Action values + declared unit"] --> Baseline
+    States --> Conditional["Grouped conditional g_a(x)"]
+    Baseline --> PolicyDensity["i(x) = f(x) [max g_a(x) - g_a*(x)]"]
+    Conditional --> PolicyDensity
+    Baseline --> Centered["Signed j(x) = f(x) [max g_a(x) - V0]"]
+    Conditional --> Centered
+    PolicyDensity --> Integral["Coordinate information value + modes + directions"]
+    Centered --> Integral
+    Event["Declared event and complement"] --> Perfect["Exact perfect-event VOI"]
+    Event --> Channel["Symmetric binary channel over accuracy grid"]
+    Channel --> Curve["Gross/net VOI + complete signal-policy ties"]
+    Perfect --> Assurance["Partition, p versus 1-p symmetry and 0.5 limit"]
+    Integral --> Assurance
+    Curve --> Assurance
+    Assurance --> Plot["Result-only density and accuracy plots"]
+    Plot --> Boundary["C18/M27 experimental Python; BPI delegated to #595"]
+```
+
 ## Value of Distribution-Family Information
 
 ```mermaid

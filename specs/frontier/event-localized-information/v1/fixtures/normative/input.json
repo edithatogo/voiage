@@ -1,0 +1,59 @@
+{
+  "schema_version": "v1",
+  "analysis_id": "multivariate-tail-event-example",
+  "analysis_type": "event_localized_information_value",
+  "value_unit": "utility points",
+  "direction": "maximize",
+  "chronology": [
+    "choose information source",
+    "observe event signal",
+    "choose action",
+    "realize state value"
+  ],
+  "actions": ["safe", "targeted"],
+  "states": [
+    {
+      "state_id": "adverse",
+      "probability": 0.2,
+      "coordinate": [-1.0, 0.0],
+      "action_values": {"safe": 4.0, "targeted": 0.0}
+    },
+    {
+      "state_id": "borderline",
+      "probability": 0.3,
+      "coordinate": [0.0, 0.0],
+      "action_values": {"safe": 4.0, "targeted": 3.0}
+    },
+    {
+      "state_id": "favourable",
+      "probability": 0.5,
+      "coordinate": [1.0, 1.0],
+      "action_values": {"safe": 4.0, "targeted": 8.0}
+    }
+  ],
+  "density": {
+    "measure": "probability_mass",
+    "coordinate_names": ["margin", "trajectory"],
+    "coordinate_units": ["score", "score"],
+    "base_coordinate": [1.0, 1.0],
+    "reference_action": "targeted"
+  },
+  "event": {
+    "event_id": "nonpositive-margin",
+    "definition": {
+      "kind": "threshold",
+      "coordinate_index": 0,
+      "operator": "less_than_or_equal",
+      "threshold": 0.0
+    },
+    "information_cost": 0.1,
+    "accuracy_grid": [0.0, 0.25, 0.5, 0.75, 1.0]
+  },
+  "tie_tolerance": 1e-12,
+  "integral_tolerance": 1e-12,
+  "provenance": {
+    "probability_source": "synthetic exact fixture",
+    "value_source": "synthetic exact fixture",
+    "event_source": "prespecified synthetic threshold"
+  }
+}

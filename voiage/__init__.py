@@ -68,6 +68,14 @@ _EXTENSION_EXPORTS = {
         ".methods.signed_social_information",
         "signed_social_information_value",
     ),
+    "EventLocalizedInformationResult": (
+        ".methods.event_localized_information",
+        "EventLocalizedInformationResult",
+    ),
+    "event_localized_information_value": (
+        ".methods.event_localized_information",
+        "event_localized_information_value",
+    ),
     "UncertaintyModellingValueResult": (
         ".methods.uncertainty_modelling_value",
         "UncertaintyModellingValueResult",

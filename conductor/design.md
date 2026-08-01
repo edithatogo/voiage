@@ -160,6 +160,14 @@ flowchart LR
     SignedBlackwell -->|no| SignedReasons["Explicit inapplicability reasons"]
     SignedCheck --> SignedBoundary["Experimental C18/M29; no persuasion, mechanism or general-game solver"]
     SignedReasons --> SignedBoundary
+
+    EventStates["Finite states + coordinates + declared event"] --> EventBaseline["Baseline-optimal reference policy"]
+    EventBaseline --> EventDensity["C18/M27 policy-relative EUI density"]
+    EventStates --> EventDensity
+    EventStates --> EventChannel["Perfect event + imperfect symmetric binary channel"]
+    EventDensity --> EventAssurance["Integral + modes + directions"]
+    EventChannel --> EventAssurance
+    EventAssurance --> EventBoundary["Experimental Python; monetary BPI remains #595"]
 ```
 
 ```mermaid
