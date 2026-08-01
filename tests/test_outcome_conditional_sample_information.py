@@ -189,6 +189,61 @@ def test_loss_minimization_is_direction_aware() -> None:
     assert result["outcomes"][0]["delta_ev"] == pytest.approx(-1.0)
 
 
+@pytest.mark.parametrize("scale", [1e-12, 1e-9, 1e-6, 1e6])
+def test_value_unit_scaling_preserves_all_value_functionals(scale: float) -> None:
+    baseline = _result()
+    payload = _input()
+    for state in payload["states"]:
+        state["action_values"] = {
+            action: value * scale for action, value in state["action_values"].items()
+        }
+    payload["information_cost"] *= scale
+    payload["low_value_thresholds"] = [
+        threshold * scale for threshold in payload["low_value_thresholds"]
+    ]
+    payload["tie_tolerance"] *= scale
+    scaled = _result(payload)
+
+    for field in (
+        "evsi",
+        "expected_delta_ev",
+        "information_cost",
+        "net_evsi",
+        "sigma_vsi",
+        "minimum_vsi",
+        "maximum_vsi",
+    ):
+        assert math.isclose(
+            scaled["aggregate"][field],
+            baseline["aggregate"][field] * scale,
+            rel_tol=1e-12,
+            abs_tol=0.0,
+        )
+    assert math.isclose(
+        scaled["aggregate"]["variance_vsi"],
+        baseline["aggregate"]["variance_vsi"] * scale**2,
+        rel_tol=1e-12,
+        abs_tol=0.0,
+    )
+    assert scaled["aggregate"]["sigma_vsi"] > 0.0
+
+
+def test_tie_tolerance_uses_declared_value_unit_without_artificial_cap() -> None:
+    payload = _input()
+    payload["tie_tolerance"] = 2.0
+    result = _result(payload)
+    assert result["baseline"]["optimal_actions"] == ["adaptive", "status_quo"]
+
+
+def test_reference_action_must_be_exact_not_merely_numerically_close() -> None:
+    payload = _input()
+    payload["states"][0]["action_values"]["status_quo"] = 5.0 - 1e-14
+    payload["states"][1]["action_values"]["status_quo"] = 5.0 - 1e-14
+    payload["reference_action"] = "status_quo"
+    with pytest.raises(InputError, match="exactly baseline optimal"):
+        outcome_conditional_sample_information_value(payload)
+
+
 def test_retrospective_scope_selects_but_does_not_reweight_distribution() -> None:
     prospective = _result()
     payload = _input()
@@ -380,11 +435,11 @@ def test_semantic_builder_rejects_invalid_internal_values(
         (lambda: implementation._records([], "records"), "non-empty array"),
         (lambda: implementation._require_nonnegative_vsi(-1.0), "nonnegative"),
         (
-            lambda: implementation._assert_assurance(1.0, True, 1e-12),
+            lambda: implementation._assert_assurance(1.0, True, 1.0, 1.0),
             "tower identities",
         ),
         (
-            lambda: implementation._assert_assurance(0.0, False, 1e-12),
+            lambda: implementation._assert_assurance(0.0, False, 1.0, 1.0),
             "monotone",
         ),
     ],
@@ -408,6 +463,10 @@ def test_weighted_distribution_helper_defensive_fallbacks() -> None:
     [
         lambda value: value["aggregate"].update(evsi=999.0),
         lambda value: value["aggregate"].update(sigma_vsi=999.0),
+        lambda value: value["aggregate"]["low_value_risks"][0].update(probability=0.25),
+        lambda value: value["aggregate"]["weighted_quantiles"][0].update(vsi=1.0),
+        lambda value: value["aggregate"]["lower_tail_means"][0].update(mean_vsi=1.0),
+        lambda value: value["aggregate"].update(net_evsi=999.0),
         lambda value: value["outcomes"][0].update(vsi=999.0),
         lambda value: value["outcomes"][0].update(delta_ev=999.0),
         lambda value: value["outcomes"][0].update(optimal_actions=["adaptive"]),
@@ -415,6 +474,8 @@ def test_weighted_distribution_helper_defensive_fallbacks() -> None:
             complete_tie_set_changed_probability=0.0
         ),
         lambda value: value["assurance"].update(ddof=1),
+        lambda value: value["scope"].update(mode="retrospective"),
+        lambda value: value["baseline"].update(reference_action="status_quo"),
         lambda value: value["input_assurance"].update(input_sha256="0" * 64),
     ],
 )

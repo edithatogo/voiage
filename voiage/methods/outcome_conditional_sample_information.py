@@ -119,7 +119,20 @@ def _records(value: object, label: str) -> list[dict[str, Any]]:
     return [_mapping(record, f"{label} entry") for record in value]
 
 
-def _clean(value: float, tolerance: float) -> float:
+def _clean_probability(value: float, tolerance: float) -> float:
+    return 0.0 if abs(value) <= tolerance else value
+
+
+def _roundoff_tolerance(*values: float) -> float:
+    """Return a scale-aware tolerance in the same unit as ``values``."""
+    scale = max((abs(value) for value in values), default=0.0)
+    if scale == 0.0:
+        return 0.0
+    return max(64.0 * math.ulp(scale), 1e-12 * scale)
+
+
+def _clean_roundoff(value: float, *scale_values: float) -> float:
+    tolerance = _roundoff_tolerance(value, *scale_values)
     return 0.0 if abs(value) <= tolerance else value
 
 
@@ -129,9 +142,11 @@ def _require_nonnegative_vsi(vsi: float) -> None:
 
 
 def _assert_assurance(
-    tower_residual: float, threshold_monotonic: bool, probability_tolerance: float
+    tower_residual: float,
+    threshold_monotonic: bool,
+    *tower_scale_values: float,
 ) -> None:
-    if abs(tower_residual) > max(probability_tolerance, 1e-12):
+    if abs(tower_residual) > _roundoff_tolerance(*tower_scale_values):
         raise ValueError("expectation-only EVSI tower identities failed")
     if not threshold_monotonic:
         raise ValueError("low-value risk must be monotone in delta")
@@ -252,8 +267,8 @@ def _validate_and_build(payload: dict[str, Any]) -> _Model:
             )
 
     tie_tolerance = _finite(payload["tie_tolerance"], "tie_tolerance")
-    if not 0.0 <= tie_tolerance <= 1e-6:
-        raise ValueError("tie_tolerance must lie in [0, 1e-6]")
+    if tie_tolerance < 0.0:
+        raise ValueError("tie_tolerance must be nonnegative")
     baseline_values = {
         action: math.fsum(
             prior[state] * action_values[state][action] for state in states
@@ -264,12 +279,7 @@ def _validate_and_build(payload: dict[str, Any]) -> _Model:
     if reference_action not in actions:
         raise ValueError("reference_action must be a declared action")
     true_best = _best_value(baseline_values, sign)
-    if not math.isclose(
-        baseline_values[reference_action],
-        true_best,
-        abs_tol=1e-12,
-        rel_tol=0.0,
-    ):
+    if baseline_values[reference_action] != true_best:
         raise ValueError("reference_action must be exactly baseline optimal")
 
     information_cost = _finite(payload["information_cost"], "information_cost")
@@ -400,14 +410,8 @@ def _evaluate_contract(model: _Model) -> dict[str, Any]:
         optimal_actions = _ties(posterior_values, model.sign, model.tie_tolerance)
         posterior_best = _best_value(posterior_values, model.sign)
         reference_value = posterior_values[model.reference_action]
-        delta_ev = _clean(
-            model.sign * (posterior_best - baseline_best),
-            model.probability_tolerance,
-        )
-        vsi = _clean(
-            model.sign * (posterior_best - reference_value),
-            model.probability_tolerance,
-        )
+        delta_ev = model.sign * (posterior_best - baseline_best)
+        vsi = model.sign * (posterior_best - reference_value)
         _require_nonnegative_vsi(vsi)
         posterior_ties = set(optimal_actions)
         baseline_tie_set = set(baseline_ties)
@@ -445,7 +449,7 @@ def _evaluate_contract(model: _Model) -> dict[str, Any]:
         * (cast("float", row["vsi"]) - evsi) ** 2
         for row in outcome_rows
     )
-    variance_vsi = max(0.0, _clean(variance_vsi, 1e-15))
+    variance_vsi = max(0.0, variance_vsi)
     low_value_risks = [
         {
             "delta": delta,
@@ -513,7 +517,7 @@ def _evaluate_contract(model: _Model) -> dict[str, Any]:
     retrospective = next(
         (row for row in outcome_rows if row["outcome_id"] == observed), None
     )
-    tower_residual = _clean(evsi - expected_delta, model.probability_tolerance)
+    tower_residual = _clean_roundoff(evsi - expected_delta, evsi, expected_delta)
     result = {
         "schema_version": "v1",
         "analysis_id": model.payload["analysis_id"],
@@ -542,7 +546,7 @@ def _evaluate_contract(model: _Model) -> dict[str, Any]:
             "tower_identity_scope": "expectations_only",
             "evsi_vsi_residual": 0.0,
             "evsi_delta_ev_residual": tower_residual,
-            "predictive_probability_residual": _clean(
+            "predictive_probability_residual": _clean_probability(
                 predictive_total - 1.0, model.probability_tolerance
             ),
             "maximum_likelihood_row_residual": max(likelihood_residuals),
@@ -570,5 +574,5 @@ def _evaluate_contract(model: _Model) -> dict[str, Any]:
             "mojo": "external",
         },
     }
-    _assert_assurance(tower_residual, threshold_monotonic, model.probability_tolerance)
+    _assert_assurance(tower_residual, threshold_monotonic, evsi, expected_delta)
     return result

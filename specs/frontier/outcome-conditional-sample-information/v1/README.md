@@ -28,6 +28,12 @@ also includes weighted quantiles, lower-tail means, cost placement, probability
 and Bayes residuals, and a SHA-256-bound input copy used for independent result
 reconstruction.
 
+`tie_tolerance` is an absolute tolerance in the declared `value_unit`; it is
+not a dimensionless probability tolerance and has no artificial unit-dependent
+upper bound. Value metrics and Equation 10 dispersion are never zeroed with the
+probability tolerance. At lower-tail mass zero, v1 reports the limiting finite
+essential minimum, matching the level-zero weighted quantile convention.
+
 The finite contract is based on Akinlotan et al. (2024), DOI
 `10.1016/j.ecolind.2024.111828`, arXiv `2309.09452v2`. It does not claim
 continuous-outcome integration, fitted-estimator calibration, dynamic value,

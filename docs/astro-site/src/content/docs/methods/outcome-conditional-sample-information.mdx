@@ -38,6 +38,9 @@ deviation used by the paper's supplementary MATLAB/Table 3 calculation.
 `low_value_risks` reports `P(VSI_x <= delta)` for every declared nonnegative
 threshold. When policies tie, this probability is deliberately separate from
 reference-action exclusion, mandatory switching, and complete tie-set change.
+`tie_tolerance` is expressed in the declared value unit; probability tolerance
+is never used to truncate value metrics or Equation 10 dispersion. A lower-tail
+mass of zero reports the limiting finite essential minimum.
 
 Run the same strict contract from the CLI:
 

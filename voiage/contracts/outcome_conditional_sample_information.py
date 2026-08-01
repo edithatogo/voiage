@@ -170,7 +170,7 @@ OUTCOME_CONDITIONAL_SAMPLE_INFORMATION_INPUT_SCHEMA_V1: Final[dict[str, object]]
             "uniqueItems": True,
             "items": _PROBABILITY,
         },
-        "tie_tolerance": {"type": "number", "minimum": 0, "maximum": 1e-6},
+        "tie_tolerance": {"type": "number", "minimum": 0},
         "probability_tolerance": {
             "type": "number",
             "exclusiveMinimum": 0,
