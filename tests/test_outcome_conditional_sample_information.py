@@ -235,7 +235,7 @@ def test_tie_tolerance_uses_declared_value_unit_without_artificial_cap() -> None
     assert result["baseline"]["optimal_actions"] == ["adaptive", "status_quo"]
 
 
-@pytest.mark.parametrize("residual", [-5e-7, 5e-7])
+@pytest.mark.parametrize("residual", [-1e-6, 1e-6])
 def test_probability_vectors_are_normalized_within_tolerance(residual: float) -> None:
     payload = _input()
     payload["probability_tolerance"] = 1e-6
@@ -257,6 +257,22 @@ def test_probability_vectors_are_normalized_within_tolerance(residual: float) ->
     )
     assert result["assurance"]["probability_normalization_applied"] is True
     assert result["input_assurance"]["input_contract"] == payload
+
+
+@pytest.mark.parametrize("target", ["prior", "likelihood"])
+@pytest.mark.parametrize("residual", [-1.000001e-6, 1.000001e-6])
+def test_probability_vectors_reject_values_just_outside_tolerance(
+    target: str, residual: float
+) -> None:
+    payload = _input()
+    payload["probability_tolerance"] = 1e-6
+    if target == "prior":
+        payload["states"][1]["probability"] += residual
+    else:
+        payload["outcomes"][0]["likelihood_by_state"]["favourable"] += residual
+
+    with pytest.raises(InputError, match="sum to one"):
+        outcome_conditional_sample_information_value(payload)
 
 
 def test_roundoff_tolerance_is_exactly_zero_at_zero_scale() -> None:

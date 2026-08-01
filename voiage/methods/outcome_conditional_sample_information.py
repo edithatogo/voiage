@@ -104,6 +104,13 @@ def _finite(value: object, label: str) -> float:
     return number
 
 
+def _within_probability_tolerance(total: float, tolerance: float) -> bool:
+    """Apply an inclusive decimal tolerance without binary-boundary asymmetry."""
+    roundoff = max(math.ulp(total), math.ulp(1.0))
+    inclusive_boundary = math.nextafter(tolerance + roundoff, math.inf)
+    return abs(total - 1.0) <= inclusive_boundary
+
+
 def _identifier(value: object, label: str) -> str:
     if not isinstance(value, str) or not value:
         raise ValueError(f"{label} must be a non-empty string")
@@ -213,12 +220,7 @@ def _validate_and_build(payload: dict[str, Any]) -> _Model:
     if not 0.0 < probability_tolerance <= 1e-6:
         raise ValueError("probability_tolerance must lie in (0, 1e-6]")
     prior_total = math.fsum(prior.values())
-    if not math.isclose(
-        prior_total,
-        1.0,
-        abs_tol=probability_tolerance,
-        rel_tol=0.0,
-    ):
+    if not _within_probability_tolerance(prior_total, probability_tolerance):
         raise ValueError("state probabilities must sum to one")
     prior_probability_residual = abs(prior_total - 1.0)
     prior = {state: probability / prior_total for state, probability in prior.items()}
@@ -262,7 +264,7 @@ def _validate_and_build(payload: dict[str, Any]) -> _Model:
     likelihood_row_residuals: list[float] = []
     for state in states:
         row_sum = math.fsum(likelihood[outcome][state] for outcome in outcomes)
-        if not math.isclose(row_sum, 1.0, abs_tol=probability_tolerance, rel_tol=0.0):
+        if not _within_probability_tolerance(row_sum, probability_tolerance):
             raise ValueError("likelihood probabilities must sum to one by state")
         likelihood_row_residuals.append(abs(row_sum - 1.0))
         for outcome in outcomes:
