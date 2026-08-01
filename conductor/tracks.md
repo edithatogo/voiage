@@ -171,13 +171,13 @@ implementation or external-gate outcomes.*
 
 ---
 
-## [~] Track: Conductor GitHub Cross-Reference Reconciliation
+## [x] Track: Conductor GitHub Cross-Reference Reconciliation [completed: 2026-08-01]
 *Link: [./tracks/conductor-github-cross-reference-reconciliation_20260724/index.md](./tracks/conductor-github-cross-reference-reconciliation_20260724/index.md)*
 *GitHub: [issue #462](https://github.com/edithatogo/voiage/issues/462),
 native sub-issue of [#322](https://github.com/edithatogo/voiage/issues/322),
 in [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: in progress — all completed-track issues and native hierarchy links
-exist; repository manifest, validation, and PR handoff are being finalized.*
+*Status: complete — all completed-track issues and native hierarchy links exist;
+repository manifest, validation, and merged PR handoff are recorded.*
 
 ---
 

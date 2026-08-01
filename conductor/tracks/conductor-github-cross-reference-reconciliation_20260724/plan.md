@@ -30,8 +30,10 @@
 
 - [x] Push the signed branch, open pull request #465, and record it in the
   manifest. (`3d923ab8`)
-- [~] Monitor required hosted checks to a terminal state.
-- [ ] Keep issue closure and merge as explicit post-merge boundaries.
+- [x] Monitor required hosted checks to a terminal state. PR #465 merged as
+  `3d4306d7`; the exact hosted handoff is recorded in the evidence ledger.
+- [x] Keep issue closure and merge as explicit post-merge boundaries. Issue
+  #462 is closed after the merge and current-main validation.
 
 ## Review fixes: ingestion follow-on sub-issues
 
