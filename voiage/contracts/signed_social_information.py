@@ -785,7 +785,7 @@ _INPUT_VALIDATOR = Draft202012Validator(SIGNED_SOCIAL_INFORMATION_INPUT_SCHEMA_V
 _RESULT_VALIDATOR = Draft202012Validator(SIGNED_SOCIAL_INFORMATION_RESULT_SCHEMA_V1)
 
 
-def _validate(validator: Draft202012Validator, payload: Mapping[str, object]) -> None:
+def _validate(validator: Any, payload: Mapping[str, object]) -> None:
     error = next(iter(validator.iter_errors(cast("Any", dict(payload)))), None)
     if error is not None:
         path = "/".join(str(part) for part in error.absolute_path) or "<root>"
