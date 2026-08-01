@@ -91,7 +91,9 @@ def test_plot_coss_accepts_plot_contract_and_uses_redundant_encodings() -> None:
     plt.close(figure)
 
 
-def test_plot_coss_exposes_complete_ties_and_unavailable_selection_uncertainty() -> None:
+def test_plot_coss_exposes_complete_ties_and_unavailable_selection_uncertainty() -> (
+    None
+):
     payload = _calculate_example()["result"]
     assert isinstance(payload, dict)
     result = CossResultV1.model_validate_json(json.dumps(payload))

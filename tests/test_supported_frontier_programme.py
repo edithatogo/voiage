@@ -569,12 +569,8 @@ def test_issue_619_repository_delivery_and_open_scientific_gate_are_governed() -
     pull_requests = {item["number"]: item for item in cross_reference["pull_requests"]}
     assert pull_requests[676]["status"] == "merged"
     assert pull_requests[837]["status"] == "merged"
-    assert "076a29075e839e3cad49d0487dff0c4e2639845f" in pull_requests[837][
-        "evidence"
-    ]
-    assert "366186b358abd775bea5fd2440d7e0ececb3ebaa" in pull_requests[837][
-        "evidence"
-    ]
+    assert "076a29075e839e3cad49d0487dff0c4e2639845f" in pull_requests[837]["evidence"]
+    assert "366186b358abd775bea5fd2440d7e0ececb3ebaa" in pull_requests[837]["evidence"]
     assert pull_requests[64]["status"] == "merged"
     for evidence in (
         "5e2c097fbdda8965d1907d7e930e910238fa24da",

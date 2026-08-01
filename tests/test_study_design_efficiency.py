@@ -347,9 +347,9 @@ def test_complete_selection_probability_map_honors_declared_relative_tolerance(
         ),
     )
 
-    assert sum(result.selection_uncertainty.probability_by_design.values()) == pytest.approx(
-        sum(probabilities.values())
-    )
+    assert sum(
+        result.selection_uncertainty.probability_by_design.values()
+    ) == pytest.approx(sum(probabilities.values()))
 
 
 def test_coss_reports_declared_range_disagreement_and_infeasible_members(

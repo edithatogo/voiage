@@ -24,7 +24,7 @@
     {"path": "docs/astro-site/src/content/docs/examples/value-of-distributional-information.mdx", "sha256": "c99c508b5b500fb2ebbe55705d3ed3e04d4516b079e962d4506243593fb1c130"},
     {"path": "docs/astro-site/src/content/docs/examples/index.mdx", "sha256": "05a85be3eb59d963b1fd59973f87c8ff1378cdfa11c8638f8dc430415f9546b4"},
     {"path": "docs/astro-site/src/content/docs/cli-reference.mdx", "sha256": "0091fc8b084e7d811111231834038051bc83bb4a69b941fcf2d6e78c80f1823d"},
-    {"path": "changelog.md", "sha256": "b3c4ba20f38a2dd3646d99fea8c4f51df04114579a96ac20a2c3237961a63859"}
+    {"path": "changelog.md", "sha256": "2b7bb6dddb66ba466e281792fa473497f7d103ef5e1fd9a8a1bde92affd5eaa7"}
   ],
   "remaining_gates": [
     "independent implementation and scientific review",
