@@ -20,6 +20,7 @@ The `voiage` command-line interface exposes calculation, plotting, and configura
 - `voiage calculate-dynamic-real-options`
 - `voiage calculate-value-of-flexibility`
 - `voiage calculate-value-of-distributional-information`
+- `voiage calculate-mcda-information`
 - `voiage assess-qualitative-information`
 - `voiage calculate-expected-utility-information`
 - `voiage plot-ceac`
@@ -41,7 +42,38 @@ The `voiage` command-line interface exposes calculation, plotting, and configura
 - `examples/expected_utility_information.py`
 - `specs/frontier/value-of-flexibility/v1/fixtures/normative/input.json`
 - `specs/frontier/value-of-distributional-information/v1/fixtures/normative/input.json`
+- `specs/frontier/mcda-information/v1/fixtures/normative/input.json`
 - `specs/frontier/qualitative-information/v1/fixtures/normative/input.json`
+
+## Experimental finite additive MCDA information value
+
+`calculate-mcda-information` consumes a strict finite-state additive MCDA
+request. It evaluates the baseline policy and exactly one criterion,
+preference, and joint perfect-information partition while preserving the
+declared correlation between outcomes and preferences:
+
+```bash
+voiage --format json calculate-mcda-information \
+  specs/frontier/mcda-information/v1/fixtures/normative/input.json \
+  --output mcda-information-result.json
+
+voiage --format text calculate-mcda-information \
+  specs/frontier/mcda-information/v1/fixtures/normative/input.json
+```
+
+JSON output retains the versioned baseline and conditional policies, complete
+ties and rankings, gross and signed net information values, joint interaction,
+regret, fractional complete-tie rank acceptability, Pareto diagnostics,
+provenance, and exact-enumeration assurance. The text form reports criterion,
+preference, joint, and interaction values with the declared aggregate unit.
+
+Python also exposes `plot_mcda_information_value` and
+`plot_mcda_rank_acceptability`. The former uses hatching, outlines, labels, and
+numeric annotations; the latter uses distinct markers and a labelled legend,
+so neither plot relies on colour alone. This experimental surface excludes AHP,
+outranking, non-compensatory aggregation, post-information normalization, and
+imperfect/sample information. Scientific review, stable promotion, release,
+and Rust/R/Julia parity remain separate gates.
 
 ## Experimental qualitative information assessment
 

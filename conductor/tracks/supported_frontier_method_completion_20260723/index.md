@@ -15,7 +15,9 @@
 - [Merged expected-utility/VoC PR #712](https://github.com/edithatogo/voiage/pull/712)
 - [Umbrella implementation PR #723](https://github.com/edithatogo/voiage/pull/723)
 - [Canonical baseline PR #51](https://github.com/edithatogo/vop_poc_nz/pull/51)
-- [Pending C16 synchronization stack #64–#66](https://github.com/edithatogo/vop_poc_nz/pull/64)
+- [Merged C16 synchronization stack #64–#66](https://github.com/edithatogo/vop_poc_nz/pull/64)
+- [Merged canonical C17 projection PR #67](https://github.com/edithatogo/vop_poc_nz/pull/67)
+- [MCDA implementation PR #751](https://github.com/edithatogo/voiage/pull/751)
 - [Child disposition inventory](./child-dispositions.json)
 - [Child evidence reconciliation](./reconciliation.md)
 - [Accepted-family contract freeze](./contract-freeze.json)
@@ -24,6 +26,10 @@
 - [Distribution-Family Information implementation review](./distribution-family-information-implementation-review.md)
 - [Value of Flexibility reference review](./value-of-flexibility-reference-review.md)
 - [Value of Flexibility implementation review](./value-of-flexibility-implementation-review.md)
+- [MCDA information reference review](./mcda-information-reference-review.md)
+- [MCDA information implementation review](./mcda-information-implementation-review.md)
+- [GitHub issue #560](https://github.com/edithatogo/voiage/issues/560)
+- [MCDA delivery subissues #746–#750](https://github.com/edithatogo/voiage/issues/560)
 
 Status: in progress. Every owned child issue is being reconciled against
 executable evidence or a reviewed exclusion; existing Project or issue status

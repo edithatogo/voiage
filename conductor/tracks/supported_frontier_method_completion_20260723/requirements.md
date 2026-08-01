@@ -2,6 +2,30 @@
 
 ## Must
 
+- **M21-U1:** #560 planned v1.3.0 MCDA information value must declare named
+  alternatives; criteria with raw units, directions and fixed ex-ante value
+  functions/normalization anchors; nonnegative normalized preference weights;
+  a finite joint uncertainty law that preserves outcome/weight correlation;
+  the aggregation direction and aggregate-value unit; and provenance.
+- **M21-U2:** The v1 estimand must resolve only explicitly declared
+  criterion-performance, preference or joint latent variables while integrating
+  residual uncertainty. Return baseline expected aggregate scores/ranking/choice,
+  complete ties, conditional states/choices, action-specific gross and signed
+  net information value, criterion/preference/joint decompositions, interaction
+  and no-double-counting diagnostics, scenario regret and rank acceptability.
+- **M21-U3:** Define expected and statewise Pareto diagnostics against raw
+  direction-adjusted criterion performance rather than cost-effectiveness
+  dominance. Use one shared additive-value kernel; freeze normalization before
+  information; preserve correlations; reject non-finite or incoherent scales,
+  negative/unnormalized weights, missing uncertainty and unidentified actions.
+- **M21-U4:** Keep v1 distinct from qualitative priorities, DSA/PSA, scalar
+  net-benefit VOI, Value of Preference and arbitrary weighted scoring. AHP
+  elicitation/pairwise consistency, outranking, veto/threshold and other
+  non-compensatory methods, per-state/post-information renormalization and
+  imperfect-sample EVSI are explicitly unsupported pending separate contracts.
+  Require exact fixtures, pathology/property tests, installed execution,
+  language dispositions and independent scientific review before promotion.
+
 - **M20-U1:** #558 planned v1.3.0 qualitative VOI must use a versioned portable assessment
   contract that identifies the decision, information questions, uncertainty or
   evidence gaps, potential decision impact, feasibility, timeliness,
@@ -68,6 +92,10 @@
 
 ## Should
 
+- Provide additive MCDA analytical enumeration, scale/alternative/state
+  permutation invariants, correlation and complete-tie cases, normalization and
+  weight pathologies, accessible information-value/rank/regret plots and an
+  independently reviewed worked example.
 - Provide worked, disagreement, incomplete, redacted and adversarial
   qualitative assessments; schema/property/audit-chain tests; accessible text
   rendering; and reviewer-oriented explanations of every recommendation.
@@ -87,6 +115,9 @@
 
 ## Won't
 
+- Infer weights from qualitative classes, re-normalize after observing a state,
+  label AHP/outranking/veto outputs as supported, or describe predictive/ranking
+  accuracy as MCDA information value.
 - Infer cardinal distances between ordinal classes, aggregate them as numeric
   weights, silently resolve dissent, treat AI output as verified or describe
   the qualitative workflow as an EVPI/EVPPI/EVSI estimate.

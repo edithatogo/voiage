@@ -16,6 +16,9 @@ registry used to keep them aligned.
 - `qualitative-information/`: experimental non-cardinal assessment, audit and
   accessible-rendering contracts for ordinal information priorities, dissent,
   missingness, redaction, AI provenance and accountable human review.
+- `mcda-information/`: experimental exact finite additive-MCDA
+  perfect-information contracts, correlated-state fixtures, Python/CLI
+  execution, and accessible information-value and rank-acceptability plots.
 - `validation/`: model-validation and discrepancy-reduction contracts.
 - `threshold/`: threshold, tipping-point, and robust VOI contracts.
 - `dynamic-real-options/`: dynamic real-options VOI contracts.

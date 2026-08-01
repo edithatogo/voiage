@@ -56,6 +56,7 @@ def test_inventory_never_promotes_adjacent_artifacts_to_delivery_evidence() -> N
         assert child["disposition"] in {
             "planned_only",
             "adjacent_only",
+            "contract_in_progress",
             "experimental_branch",
             "experimental_merged",
             "reviewed_exclusion",
@@ -75,7 +76,7 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
         for child in children
         if child["disposition"] in {"experimental_branch", "experimental_merged"}
     }
-    assert set(delivered) == {556, 557, 559, 571, 595, 619}
+    assert set(delivered) == {556, 557, 558, 559, 560, 571, 595, 619}
     for child in delivered.values():
         assert child["delivery_track"]
         assert child["implementation_pull_requests"]
@@ -91,7 +92,16 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
         "conductor/tracks/supported_frontier_method_completion_20260723/"
         "distribution-family-information-implementation-review.md"
     ]
+    assert delivered[558]["implementation_pull_requests"] == [743, 744]
+    assert delivered[558]["review_artifacts"] == [
+        "conductor/tracks/supported_frontier_method_completion_20260723/"
+        "qualitative-information-implementation-review.md"
+    ]
     assert delivered[559]["implementation_pull_requests"] == [723]
+    assert delivered[560]["implementation_pull_requests"] == [751]
+    assert delivered[560]["review_artifacts"][-1].endswith(
+        "mcda-information-implementation-review.md"
+    )
     assert delivered[595]["implementation_pull_requests"] == [712]
     assert delivered[619]["implementation_pull_requests"] == [676]
 

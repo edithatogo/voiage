@@ -29,6 +29,7 @@ if TYPE_CHECKING:
         distributional_information_from_specification,
         value_of_distributional_information,
     )
+    from .mcda_information import McdaInformationResult, mcda_information_value
     from .qualitative_information import (
         QualitativeInformationResult,
         QualitativeQuestionResult,
@@ -64,6 +65,7 @@ _MODULES = (
     "implementation_strategy",
     "interoperability_standardization",
     "monitoring_surveillance",
+    "mcda_information",
     "network_nma",
     "observational",
     "perspective",
@@ -122,6 +124,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "InteroperabilityStandardizationResult",
     "ModelValidationResult",
     "MonitoringSurveillanceResult",
+    "McdaInformationResult",
     "Perspective",
     "PerspectiveSet",
     "PreferenceHeterogeneityResult",
@@ -156,6 +159,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "evsi_nma",
     "expected_utility_information_value",
     "identify_optimal_subgroups",
+    "mcda_information_value",
     "perspective_optimal_strategies",
     "perspective_arrow_schema_fingerprint",
     "perspective_result_to_arrow",

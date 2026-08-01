@@ -65,18 +65,38 @@ This document lists the actionable tasks for `voiage` development. Agents should
         real probability provenance, polyglot parity, stable promotion, release
         and parent issue closure.
 
-*   [ ] Implement the portable qualitative value-of-information workflow.
+*   [x] Implement the portable qualitative value-of-information workflow.
     *   GitHub issue #558; delivery subissues #738–#742; umbrella track
         `supported_frontier_method_completion_20260723`.
     *   Planned contract: v1.3.0; MoSCoW: Should; canonical requirement M20.
-    *   Add strict assessment/result/audit/rendering schemas, worked dissent and
-        incomplete fixtures, deterministic ordinal prioritization with complete
-        ties, immutable history, redaction and AI/human-review provenance,
-        installed Python/CLI execution, accessible rendering and discovery.
+    *   PRs #743 and #744 provide strict assessment/result/audit/rendering
+        schemas, worked dissent/incomplete/adversarial fixtures, deterministic
+        ordinal prioritization, immutable history, redaction, accountable
+        AI/human-review provenance, installed Python/CLI execution, accessible
+        rendering and complete changed-branch assurance.
     *   Never infer cardinal weights, probabilities, utilities, currency or a
         numerical VOI estimate from ordinal judgements.
     *   Retain practitioner/scientific review, stable promotion, polyglot
         execution, release and parent closure as separate gates.
+
+*   [x] Implement experimental finite additive MCDA information value.
+    *   GitHub issue #560; native delivery subissues #746–#750; umbrella track
+        `supported_frontier_method_completion_20260723`.
+    *   Planned contract: v1.3.0; MoSCoW: Should; canonical requirement M21.
+    *   Freeze raw criterion units/directions, ex-ante value functions and
+        normalization anchors, normalized nonnegative weights, the correlated
+        finite joint uncertainty law and criterion/preference/joint
+        perfect-resolution actions.
+    *   Return baseline/conditional rankings and choices, complete ties,
+        gross/net value, interaction/no-double-counting, regret, rank
+        acceptability and expected/statewise Pareto diagnostics with exact
+        enumeration assurance.
+    *   Exclude AHP elicitation, outranking/veto/non-compensatory rules,
+        post-information renormalization and imperfect-sample EVSI from v1.
+    *   PR #751 supplies the exact Python evaluator, installed API/CLI,
+        accessible plots, independent implementation review and fixtures.
+        Scientific review, hosted exact-head/wheel assurance, Rust/R/Julia
+        parity, stable promotion, release and parent closure remain open.
 
 *   [x] Implement estimation-focused variance-reduction VOI.
     *   Conductor track: `estimation_focused_variance_voi_20260727`.

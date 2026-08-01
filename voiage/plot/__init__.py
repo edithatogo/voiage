@@ -6,6 +6,7 @@ from .deterministic_sensitivity import plot_deterministic_sensitivity_tornado
 from .dominance import plot_cost_effectiveness_plane
 from .estimation_variance import plot_estimation_variance
 from .heterogeneity import plot_voh_by_subgroup
+from .mcda_information import plot_mcda_information_value, plot_mcda_rank_acceptability
 from .perspective import plot_perspective_regret
 from .voi_curves import (
     plot_coss,
@@ -24,6 +25,8 @@ __all__ = [
     "plot_evpi_vs_wtp",
     "plot_evppi_surface",
     "plot_evsi_vs_sample_size",
+    "plot_mcda_information_value",
+    "plot_mcda_rank_acceptability",
     "plot_perspective_regret",
     "plot_voh_by_subgroup",
 ]

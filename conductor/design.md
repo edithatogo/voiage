@@ -105,6 +105,18 @@ flowchart LR
     QualPriority --> QualResult
     QualResult --> QualAudit["Immutable audit history + accessible rendering"]
     QualAudit --> QualBoundary["Not numerical VOI, MCDA, Delphi or evidence grading"]
+
+    MCDAInputs["Alternatives + criteria units/directions + fixed value anchors"] --> MCDAKernel["Shared additive-value kernel"]
+    MCDAWeights["Normalized nonnegative preferences"] --> MCDAKernel
+    MCDAJoint["Finite correlated outcome/preference states"] --> MCDACurrent["Baseline ranking + complete choice ties"]
+    MCDAKernel --> MCDACurrent
+    MCDAActions["Criterion/preference/joint perfect resolution"] --> MCDAConditional["Conditional scores + choices"]
+    MCDAJoint --> MCDAConditional
+    MCDAKernel --> MCDAConditional
+    MCDACurrent --> MCDAVOI["Gross/net MCDA information value"]
+    MCDAConditional --> MCDAVOI
+    MCDAVOI --> MCDADiagnostics["Interaction, regret, rank acceptability + Pareto"]
+    MCDADiagnostics --> MCDABoundary["Not AHP, outranking, veto, renormalized scoring or EVSI"]
 ```
 
 ```mermaid

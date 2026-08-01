@@ -42,9 +42,9 @@ def test_contract_status_partition_is_exact() -> None:
         for status in {row["classification_status"] for row in contracts}
     }
     assert by_status == {
-        "candidate": {556, 557, 558, 559, 560, 570, 572, 582},
+        "candidate": {556, 557, 559, 570, 572, 582},
         "candidate-census-checkpoint": {593, 594, 596, 597, 598, 599, 600},
-        "frozen-experimental": {571, 595, 619},
+        "frozen-experimental": {558, 560, 571, 595, 619},
     }
 
 

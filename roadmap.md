@@ -213,15 +213,29 @@ changed-line/branch coverage and clean hosted exact-head checks. Scientific
 terminology/partition review, real probability provenance, polyglot
 parity, stable promotion and release remain separate gates.
 
-Qualitative Value of Information (#558) is the next planned v1.3.0 frontier
-delivery under canonical requirement M20 and native subissues #738–#742. It
-will provide a portable executable assessment, audit and accessible-rendering
+Qualitative Value of Information (#558) now has merged experimental Python
+delivery under canonical requirement M20 and native subissues #738–#742. PRs
+#743 and #744 provide a portable executable assessment, audit and accessible-rendering
 workflow for ordinal information priorities, complete ties, dissent,
 conflicts, missingness, redaction, sources, AI provenance and accountable human
 verification. It must not fabricate probabilities, utilities, currency,
 weighted pseudo-scores or a quantitative VOI estimand. Practitioner/scientific
 approval, stable promotion, polyglot execution, release and parent closure
 remain separate gates.
+
+Finite additive MCDA information value (#560) now has experimental Python
+delivery on PR #751 under planned v1.3.0 canonical requirement M21 and native
+subissues #746–#750. Its frozen v1 scope uses fixed ex-ante value functions and
+normalization anchors, explicit criterion units/directions, normalized
+nonnegative weights and a correlated finite joint uncertainty law. It will
+value perfect resolution of criterion-performance, preference or joint latent
+variables and returns baseline/conditional choices, complete ties, gross/net
+value, interaction, regret, rank acceptability and raw-criterion Pareto
+diagnostics. AHP elicitation, outranking/veto/non-compensatory rules,
+post-information renormalization and imperfect-sample EVSI are excluded.
+Independent scientific review, hosted exact-head and installed-wheel evidence,
+Rust/R/Julia parity, stable promotion, release and parent closure remain
+separate gates.
 
 The complete Rust-first polyglot programme issue hierarchy is now materialized
 in Conductor rather than existing only in GitHub and Project 28:
