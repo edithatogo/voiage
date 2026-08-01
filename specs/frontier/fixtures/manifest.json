@@ -54,6 +54,12 @@
       "method_maturity": "experimental"
     },
     {
+      "name": "qualitative_information_assessment",
+      "path": "qualitative-information/v1/fixtures/manifest.json",
+      "method_maturity": "experimental",
+      "manifest_kind": "bundled"
+    },
+    {
       "name": "deterministic_sensitivity_analysis",
       "path": "deterministic-sensitivity-analysis/v1/fixtures/manifest.json",
       "method_maturity": "experimental"

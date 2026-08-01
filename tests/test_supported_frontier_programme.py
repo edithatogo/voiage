@@ -152,3 +152,25 @@ def test_distribution_family_information_is_governed_and_cross_referenced() -> N
     assert "M19" in metadata["requirement_ids"]
     for issue in range(731, 736):
         assert f"#{issue}" in plan
+
+
+def test_qualitative_voi_is_governed_and_cross_referenced() -> None:
+    track = INVENTORY.parent
+    requirements = (track / "requirements.md").read_text(encoding="utf-8")
+    design = (track / "design.md").read_text(encoding="utf-8")
+    plan = (track / "plan.md").read_text(encoding="utf-8")
+    metadata = json.loads((track / "metadata.json").read_text(encoding="utf-8"))
+    canonical = (ROOT / "conductor/requirements.md").read_text(encoding="utf-8")
+    canonical_design = (ROOT / "conductor/design.md").read_text(encoding="utf-8")
+
+    assert {"M20-U1", "M20-U2", "M20-U3", "M20-U4"} <= {
+        line.split(":", maxsplit=1)[0].removeprefix("- **")
+        for line in requirements.splitlines()
+        if line.startswith("- **M20-")
+    }
+    assert "Qualitative value of information" in design
+    assert "M20 / planned v1.3.0" in canonical
+    assert "Versioned qualitative assessment" in canonical_design
+    assert "M20" in metadata["requirement_ids"]
+    for issue in range(738, 743):
+        assert f"#{issue}" in plan

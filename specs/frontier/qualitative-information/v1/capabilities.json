@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "method_family": "qualitative_information_assessment",
+  "contract_version": "1.0.0",
+  "planned_version": "v1.3.0",
+  "maturity": "experimental",
+  "numerical_estimand": false,
+  "cardinal_aggregation": "prohibited",
+  "python_modules": [
+    "voiage/methods/qualitative_information.py"
+  ],
+  "surfaces": {
+    "python": {
+      "status": "executable",
+      "module": "voiage.methods.qualitative_information",
+      "public_api": "voiage.methods.qualitative_information.qualitative_information_from_specification",
+      "cli": "voiage assess-qualitative-information",
+      "rendering": "voiage.methods.qualitative_information.render_qualitative_information_text",
+      "evidence": [
+        "tests/test_qualitative_information.py",
+        "tests/test_qualitative_information_contract.py",
+        "tests/test_qualitative_information_surfaces.py",
+        "tests/packaging/test_wheel_black_box.py"
+      ]
+    },
+    "rust": {
+      "status": "unsupported",
+      "reason": "No Rust validator or shared-fixture execution evidence."
+    },
+    "r": {
+      "status": "unsupported",
+      "reason": "Portable schema consumption is planned but not executed."
+    },
+    "julia": {
+      "status": "unsupported",
+      "reason": "Portable schema consumption is planned but not executed."
+    },
+    "mojo": {
+      "status": "external",
+      "reason": "No repository-owned Mojo runtime."
+    }
+  },
+  "remaining_gates": [
+    "independent implementation, usability and accessibility review",
+    "practitioner and scientific naming review",
+    "hosted exact-head and installed-wheel assurance",
+    "stable promotion, release and parent issue closure"
+  ]
+}

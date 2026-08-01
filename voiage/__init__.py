@@ -60,6 +60,22 @@ _ECOSYSTEM_EXPORTS = {
     "load_heoml_run_bundle": "load_heoml_run_bundle",
 }
 _EXTENSION_EXPORTS = {
+    "QualitativeInformationResult": (
+        ".methods.qualitative_information",
+        "QualitativeInformationResult",
+    ),
+    "QualitativeQuestionResult": (
+        ".methods.qualitative_information",
+        "QualitativeQuestionResult",
+    ),
+    "qualitative_information_from_specification": (
+        ".methods.qualitative_information",
+        "qualitative_information_from_specification",
+    ),
+    "render_qualitative_information_text": (
+        ".methods.qualitative_information",
+        "render_qualitative_information_text",
+    ),
     "DistributionalInformationResult": (
         ".methods.distributional_information",
         "DistributionalInformationResult",

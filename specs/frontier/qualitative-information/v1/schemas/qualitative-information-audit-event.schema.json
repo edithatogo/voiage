@@ -1,0 +1,129 @@
+{
+  "$id": "https://voiage.dev/schemas/frontier/qualitative-information-audit-event.v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "enum": [
+        "create",
+        "update",
+        "review",
+        "approve",
+        "redact",
+        "ai_assist"
+      ]
+    },
+    "actor": {
+      "additionalProperties": false,
+      "properties": {
+        "actor_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "actor_type": {
+          "enum": [
+            "human",
+            "ai",
+            "system"
+          ]
+        }
+      },
+      "required": [
+        "actor_id",
+        "actor_type"
+      ],
+      "type": "object"
+    },
+    "ai_provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "input_reference": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "model_version": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "provider": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "provider",
+        "model_version",
+        "input_reference"
+      ],
+      "type": "object"
+    },
+    "assessment_content_digest": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "assessment_version": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "content_digest": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "event_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "override_event_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "previous_content_digest": {
+      "oneOf": [
+        {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "previous_event_id": {
+      "oneOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "redacted": {
+      "type": "boolean"
+    },
+    "sequence": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "type": "string"
+    }
+  },
+  "required": [
+    "event_id",
+    "sequence",
+    "previous_event_id",
+    "timestamp",
+    "assessment_version",
+    "actor",
+    "action",
+    "content_digest",
+    "assessment_content_digest",
+    "previous_content_digest",
+    "redacted"
+  ],
+  "title": "QualitativeInformationAuditEventV1Experimental",
+  "type": "object"
+}

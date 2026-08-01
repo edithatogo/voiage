@@ -20,6 +20,7 @@ The `voiage` command-line interface exposes calculation, plotting, and configura
 - `voiage calculate-dynamic-real-options`
 - `voiage calculate-value-of-flexibility`
 - `voiage calculate-value-of-distributional-information`
+- `voiage assess-qualitative-information`
 - `voiage calculate-expected-utility-information`
 - `voiage plot-ceac`
 - `voiage plot-ceaf`
@@ -40,6 +41,31 @@ The `voiage` command-line interface exposes calculation, plotting, and configura
 - `examples/expected_utility_information.py`
 - `specs/frontier/value-of-flexibility/v1/fixtures/normative/input.json`
 - `specs/frontier/value-of-distributional-information/v1/fixtures/normative/input.json`
+- `specs/frontier/qualitative-information/v1/fixtures/normative/input.json`
+
+## Experimental qualitative information assessment
+
+`assess-qualitative-information` consumes a governed JSON assessment and
+returns its complete versioned result. JSON output is deterministic and keeps
+the ordinal groups, complete dissent or ties, unresolved questions, approval
+state, audit digest, source summary, provenance and diagnostics:
+
+```bash
+voiage --format json assess-qualitative-information \
+  specs/frontier/qualitative-information/v1/fixtures/normative/input.json \
+  --output qualitative-information-result.json
+
+voiage --format text assess-qualitative-information \
+  specs/frontier/qualitative-information/v1/fixtures/normative/input.json
+```
+
+The text form is a deterministic accessibility alternative with explicit
+headings, status labels, unresolved questions and preserved redaction markers;
+it does not rely on colour. Missing evidence, dissent or unverified AI
+assistance remains visible rather than being converted to a score. This
+experimental command produces no probability, utility, currency, aggregate
+score or quantitative VOI estimand. Python is the only executable surface;
+Rust, R and Julia remain unsupported.
 
 ## Experimental COSS workflow
 

@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0.0",
+  "assessment_id": "qualitative-information-reference-v1",
+  "assessment_version": 1,
+  "analysis_type": "qualitative_information_assessment",
+  "method_maturity": "experimental",
+  "numerical_estimand": false,
+  "workflow_status": "complete",
+  "human_approval_status": "approved",
+  "priority_groups": [
+    {
+      "priority_class": "urgent",
+      "question_ids": [
+        "q-01-trial"
+      ]
+    },
+    {
+      "priority_class": "high",
+      "question_ids": []
+    },
+    {
+      "priority_class": "routine",
+      "question_ids": [
+        "q-02-register"
+      ]
+    },
+    {
+      "priority_class": "defer",
+      "question_ids": []
+    }
+  ],
+  "unresolved_question_ids": [],
+  "question_results": [
+    {
+      "question_id": "q-01-trial",
+      "information_question": "Would a bounded pilot change the service decision?",
+      "priority_classes": [
+        "urgent"
+      ],
+      "recommendation_classes": [
+        "pursue_now"
+      ],
+      "resolved_priority_class": "urgent",
+      "resolved_recommendation_class": "pursue_now",
+      "consensus_status": "consensus",
+      "verified_human_reviewers": [
+        "reviewer-a",
+        "reviewer-b"
+      ],
+      "unverified_ai_contributors": [],
+      "missing_fields": [],
+      "redaction_status": "none",
+      "rationale_by_reviewer": {
+        "reviewer-a": "The pilot could resolve a decision-critical implementation gap.",
+        "reviewer-b": "A bounded pilot is timely and retains community oversight."
+      }
+    },
+    {
+      "question_id": "q-02-register",
+      "information_question": "[REDACTED]",
+      "priority_classes": [
+        "routine"
+      ],
+      "recommendation_classes": [
+        "monitor"
+      ],
+      "resolved_priority_class": "routine",
+      "resolved_recommendation_class": "monitor",
+      "consensus_status": "consensus",
+      "verified_human_reviewers": [
+        "reviewer-a",
+        "reviewer-b"
+      ],
+      "unverified_ai_contributors": [],
+      "missing_fields": [],
+      "redaction_status": "partial",
+      "rationale_by_reviewer": {
+        "reviewer-a": "[REDACTED]",
+        "reviewer-b": "[REDACTED]"
+      }
+    }
+  ],
+  "audit_history_digest": "f0764332909d0123fd569d3471d7aa546447b3a30c96ba8d60da5227abba8a8a",
+  "audit_event_count": 3,
+  "source_summary": {
+    "accessible": 1,
+    "redacted": 1,
+    "unavailable": 0
+  },
+  "provenance": {
+    "fixture_id": "qualitative-information-reference-v1",
+    "contract_reference": "M20/v1.3.0"
+  },
+  "diagnostics": {
+    "aggregation_policy": "none_non_cardinal",
+    "classification_policy": "accountable_human_declared_no_derivation",
+    "conflict_policy": "preserve_dissent_no_resolution",
+    "missingness_policy": "mark_incomplete",
+    "ai_policy": "human_verification_required",
+    "tie_policy": "complete_sets_declared_order",
+    "privacy_boundary": "redacted_content_not_returned",
+    "quantitative_voi_claim": false
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "assessment_id": "qualitative-information-reference-v1",
+  "media_type": "text/plain",
+  "accessibility": {
+    "wcag_reference": "WCAG-2.2",
+    "headings_present": true,
+    "no_colour_only_semantics": true,
+    "redactions_preserved": true
+  },
+  "content_sha256": "ce17677a691108e34ce1b41c3a88c4497b574deb807ea6662823359cacb816f3",
+  "content": "Qualitative information assessment\nAssessment: qualitative-information-reference-v1 (version 1)\nWorkflow status: complete\nHuman approval: approved\nPriority groups:\n- urgent: q-01-trial\n- high: none\n- routine: q-02-register\n- defer: none\nUnresolved questions: none\nQuestion dispositions:\n- q-01-trial: consensus; priority=urgent; recommendation=pursue_now\n- q-02-register: consensus; priority=routine; recommendation=monitor [REDACTED]\nBoundary: ordinal workflow only; no probability, utility, currency or numerical VOI.\n"
+}

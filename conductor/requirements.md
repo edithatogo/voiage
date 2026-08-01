@@ -66,6 +66,12 @@ programme. The canonical cross-repository requirements are maintained in
 
 ### Should have
 
+- **M20 / planned v1.3.0:** #558 provides a versioned portable qualitative-VOI
+  assessment and audit workflow for ordinal information priorities,
+  recommendation classes, complete ties, dissent, conflict, missingness,
+  redaction, sources, AI provenance and accountable human verification. It
+  never fabricates probabilities, utilities, currency, weighted scores or a
+  quantitative VOI estimand.
 - New interchange profiles reuse the shared compatibility schema and canonical
   logical-field fingerprint algorithm.
 - Free-threaded Python remains a bounded observational lane until the required
@@ -109,3 +115,4 @@ programme. The canonical cross-repository requirements are maintained in
 | v1.2.0 | Must | M17 | canonical C16 plus the four specialized delivery tracks above | #313/#318 and Project 28 |
 | v1.2.0 | Must | M18 | governed deterministic sensitivity analysis | #556 under #318 |
 | v1.2.0 | Must | M19 | governed distribution-family information value | #557 under #318 |
+| v1.3.0 | Should | M20 | governed portable qualitative-VOI assessment workflow | #558 and #738–#742 under #318 |

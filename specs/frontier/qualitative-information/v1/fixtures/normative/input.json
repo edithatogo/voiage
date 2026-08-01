@@ -1,0 +1,209 @@
+{
+  "schema_version": "1.0.0",
+  "assessment_id": "qualitative-information-reference-v1",
+  "assessment_version": 1,
+  "method_maturity": "experimental",
+  "numerical_estimand": false,
+  "decision": {
+    "decision_id": "synthetic-service-decision",
+    "title": "Choose whether to introduce a synthetic service",
+    "context": "A synthetic, non-clinical fixture for portable workflow assurance.",
+    "alternatives": [
+      "introduce",
+      "defer"
+    ],
+    "accountable_reviewer_ids": [
+      "reviewer-a"
+    ]
+  },
+  "reviewers": [
+    {
+      "reviewer_id": "reviewer-a",
+      "name": "Accountable reviewer",
+      "role": "decision owner"
+    },
+    {
+      "reviewer_id": "reviewer-b",
+      "name": "Independent reviewer",
+      "role": "community representative"
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "source-public",
+      "citation": "Synthetic public evidence summary",
+      "access_status": "accessible",
+      "provenance": "fixture:public-evidence-v1"
+    },
+    {
+      "source_id": "source-redacted",
+      "citation": "[REDACTED]",
+      "access_status": "redacted",
+      "provenance": "fixture:redacted-evidence-receipt-v1"
+    }
+  ],
+  "questions": [
+    {
+      "question_id": "q-01-trial",
+      "information_question": "Would a bounded pilot change the service decision?",
+      "uncertainty_or_evidence_gap": "Implementation feasibility has not been observed.",
+      "information_action": "Run a bounded synthetic pilot with accountable review.",
+      "missing_fields": [],
+      "redaction_status": "none",
+      "judgements": [
+        {
+          "reviewer_id": "reviewer-a",
+          "actor_type": "human",
+          "potential_impact": "major",
+          "feasibility": "feasible",
+          "timeliness": "timely",
+          "equity_ethics": "acceptable",
+          "cost_burden": "moderate",
+          "priority_class": "urgent",
+          "recommendation_class": "pursue_now",
+          "confidence": "moderate",
+          "rationale": "The pilot could resolve a decision-critical implementation gap.",
+          "source_ids": [
+            "source-public"
+          ],
+          "verification_state": "verified"
+        },
+        {
+          "reviewer_id": "reviewer-b",
+          "actor_type": "human",
+          "potential_impact": "major",
+          "feasibility": "feasible",
+          "timeliness": "timely",
+          "equity_ethics": "acceptable",
+          "cost_burden": "moderate",
+          "priority_class": "urgent",
+          "recommendation_class": "pursue_now",
+          "confidence": "moderate",
+          "rationale": "A bounded pilot is timely and retains community oversight.",
+          "source_ids": [
+            "source-public"
+          ],
+          "verification_state": "verified"
+        }
+      ]
+    },
+    {
+      "question_id": "q-02-register",
+      "information_question": "Should a redacted concern register be refreshed?",
+      "uncertainty_or_evidence_gap": "The private source is receipted but cannot be disclosed.",
+      "information_action": "Refresh the controlled register without exposing source content.",
+      "missing_fields": [],
+      "redaction_status": "partial",
+      "judgements": [
+        {
+          "reviewer_id": "reviewer-a",
+          "actor_type": "human",
+          "potential_impact": "limited",
+          "feasibility": "feasible",
+          "timeliness": "uncertain",
+          "equity_ethics": "concern",
+          "cost_burden": "low",
+          "priority_class": "routine",
+          "recommendation_class": "monitor",
+          "confidence": "low",
+          "rationale": "The receipt supports monitoring but not disclosure or immediate action.",
+          "source_ids": [
+            "source-redacted"
+          ],
+          "verification_state": "verified"
+        },
+        {
+          "reviewer_id": "reviewer-b",
+          "actor_type": "human",
+          "potential_impact": "limited",
+          "feasibility": "feasible",
+          "timeliness": "uncertain",
+          "equity_ethics": "concern",
+          "cost_burden": "low",
+          "priority_class": "routine",
+          "recommendation_class": "monitor",
+          "confidence": "low",
+          "rationale": "Routine review preserves the redaction and human accountability boundary.",
+          "source_ids": [
+            "source-redacted"
+          ],
+          "verification_state": "verified"
+        }
+      ]
+    }
+  ],
+  "audit_history": [
+    {
+      "event_id": "event-create",
+      "sequence": 1,
+      "previous_event_id": null,
+      "timestamp": "2026-08-01T00:00:00Z",
+      "assessment_version": 1,
+      "actor": {
+        "actor_id": "reviewer-a",
+        "actor_type": "human"
+      },
+      "action": "create",
+      "content_digest": "4b339ed242d829c4f18b5e2f4de47996393496d537e88981a6c44413f0743134",
+      "redacted": false,
+      "assessment_content_digest": "ae239ce9ecac5fe1bacf70c4e9e708aac8cacd43318002643cf97396ce024ca9",
+      "previous_content_digest": null
+    },
+    {
+      "event_id": "event-review",
+      "sequence": 2,
+      "previous_event_id": "event-create",
+      "timestamp": "2026-08-01T00:10:00Z",
+      "assessment_version": 1,
+      "actor": {
+        "actor_id": "reviewer-b",
+        "actor_type": "human"
+      },
+      "action": "review",
+      "content_digest": "883064d722f75e668839d57823e1bea89dfc63052c4619eb3eac188b6bb4e656",
+      "redacted": true,
+      "assessment_content_digest": "ae239ce9ecac5fe1bacf70c4e9e708aac8cacd43318002643cf97396ce024ca9",
+      "previous_content_digest": "4b339ed242d829c4f18b5e2f4de47996393496d537e88981a6c44413f0743134"
+    },
+    {
+      "event_id": "event-approve",
+      "sequence": 3,
+      "previous_event_id": "event-review",
+      "timestamp": "2026-08-01T00:20:00Z",
+      "assessment_version": 1,
+      "actor": {
+        "actor_id": "reviewer-a",
+        "actor_type": "human"
+      },
+      "action": "approve",
+      "content_digest": "51caeffde6f43fc831aacf4d3c5ebff0d0c8b0e08d3aef63a7c0d1cf74f24f1a",
+      "redacted": false,
+      "assessment_content_digest": "ae239ce9ecac5fe1bacf70c4e9e708aac8cacd43318002643cf97396ce024ca9",
+      "previous_content_digest": "883064d722f75e668839d57823e1bea89dfc63052c4619eb3eac188b6bb4e656"
+    }
+  ],
+  "policy": {
+    "priority_order": [
+      "urgent",
+      "high",
+      "routine",
+      "defer"
+    ],
+    "recommendation_order": [
+      "pursue_now",
+      "pursue_if_feasible",
+      "monitor",
+      "do_not_pursue"
+    ],
+    "conflict_policy": "preserve_dissent_no_resolution",
+    "missingness_policy": "mark_incomplete",
+    "ai_policy": "human_verification_required",
+    "tie_policy": "complete_sets_declared_order"
+  },
+  "provenance": {
+    "fixture_id": "qualitative-information-reference-v1",
+    "contract_reference": "M20/v1.3.0",
+    "source_snapshot": "synthetic-fixture-only",
+    "redaction_policy_reference": "fixture:redaction-policy-v1"
+  }
+}

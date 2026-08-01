@@ -1,0 +1,66 @@
+---
+title: Qualitative Information Assessment
+description: Experimental non-cardinal workflow for auditable information priorities
+---
+
+This experimental workflow helps a review group record which information gaps
+deserve attention when the evidence does not support a numerical Value of
+Information calculation. It preserves ordinal priorities, recommendations,
+dissent, missing fields, source access and a digest-linked, tamper-evident audit
+history when the digests are externally anchored. It does
+not turn those judgements into probabilities, utilities, currency, weighted
+scores or a quantitative VOI estimate.
+
+## Run the synthetic reference assessment
+
+From a source checkout, evaluate the governed fixture and retain the complete
+versioned result as JSON:
+
+```bash
+voiage --format json assess-qualitative-information \
+  specs/frontier/qualitative-information/v1/fixtures/normative/input.json \
+  --output qualitative-information-result.json
+```
+
+Use the text format when a concise, non-colour-dependent rendering is needed:
+
+```bash
+voiage --format text assess-qualitative-information \
+  specs/frontier/qualitative-information/v1/fixtures/normative/input.json
+```
+
+The synthetic example asks whether to run a bounded pilot and whether to
+refresh a redacted concern register. Two human reviewers agree
+that the pilot is `urgent` and should be `pursue_now`; the register is
+`routine` and should be `monitor`. The renderer preserves the redaction marker
+without exposing private source content.
+
+## What the workflow preserves
+
+Each request declares the decision and alternatives, ordered priority and
+recommendation classes, reviewers and accountable approvers, source access
+status, information questions, reviewer judgements, missing fields, redaction
+state, AI provenance where applicable, and a digest-linked audit sequence.
+
+The evaluator returns complete priority groups and question dispositions.
+Agreement is reported as consensus; competing classes remain explicit dissent
+or a complete tie and are not silently resolved. Missing required evidence or
+unverified AI assistance gives the workflow an explicit `unverified` state;
+missing evidence or dissent keeps it `incomplete`. Approval is reported
+only when a named accountable human records it after a complete review.
+
+The text alternative includes headings, explicit workflow and approval status,
+priority groups, unresolved questions, question dispositions and redaction
+markers. It never relies on colour alone.
+
+## Maturity and execution boundary
+
+This family is planned for v1.3.0 and remains experimental. Python is the only
+executable implementation. Rust, R and Julia are unsupported, Mojo is outside
+the repository boundary, and practitioner, scientific, usability and
+accessibility review remain required before any stable-promotion claim.
+
+The source fixture is repository-authored synthetic evidence. A completed
+assessment supports an accountable ordinal workflow only; it is not evidence
+that a study is cost-effective and must not be described as EVPI, EVPPI, EVSI
+or another numerical VOI result.
