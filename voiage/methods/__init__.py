@@ -15,6 +15,12 @@ from .deterministic_sensitivity import (
     deterministic_sensitivity,
     deterministic_sensitivity_from_specification,
 )
+from .distributional_information import (
+    DistributionalInformationResult,
+    ResolvedDistributionModel,
+    distributional_information_from_specification,
+    value_of_distributional_information,
+)
 from .dynamic_real_options import ValueOfFlexibilityResult, value_of_flexibility
 from .utility_information import (
     expected_utility_information_value,
@@ -34,6 +40,7 @@ _MODULES = (
     "computational",
     "data_quality",
     "distributional",
+    "distributional_information",
     "dominance",
     "dynamic_real_options",
     "deterministic_sensitivity",
@@ -86,6 +93,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "ComputationalResult",
     "DataQualityResult",
     "DistributionalEquityResult",
+    "DistributionalInformationResult",
     "DominanceResult",
     "DynamicRealOptionsResult",
     "DeterministicSensitivityResult",
@@ -111,6 +119,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "PreferenceProfileSet",
     "RegulatoryMarketAccessResult",
     "ReplicationReproducibilityResult",
+    "ResolvedDistributionModel",
     "StrategicBehaviorResult",
     "ThresholdProfile",
     "ThresholdProfileSet",
@@ -127,6 +136,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "cost_effectiveness_frontier",
     "deterministic_sensitivity",
     "deterministic_sensitivity_from_specification",
+    "distributional_information_from_specification",
     "enbs",
     "evpi",
     "evppi",
@@ -151,6 +161,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "value_of_computational_refinement",
     "value_of_data_quality",
     "value_of_distributional_equity",
+    "value_of_distributional_information",
     "value_of_dynamic_real_options",
     "value_of_flexibility",
     "value_of_equity_information",

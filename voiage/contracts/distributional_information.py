@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Mapping
 import json
 import math
-from typing import Final
+from typing import Final, cast
 
 VALUE_OF_DISTRIBUTIONAL_INFORMATION_INPUT_SCHEMA_V1: Final[dict[str, object]] = (
     json.loads(
@@ -100,14 +100,18 @@ def validate_distributional_information_semantics(
         for item in probabilities
     ):
         raise ValueError("model_probabilities must contain only finite numbers.")
-    if any(float(item) < 0 for item in probabilities):
+    numeric_probabilities = [float(cast("int | float", item)) for item in probabilities]
+    if any(item < 0 for item in numeric_probabilities):
         raise ValueError("model_probabilities must be non-negative.")
     if not isinstance(tolerances, Mapping):
         raise TypeError("tolerances must be an object.")
-    probability_tolerance = float(tolerances.get("probability_sum", math.nan))
+    probability_tolerance_value = tolerances.get("probability_sum", math.nan)
+    if not isinstance(probability_tolerance_value, (int, float)):
+        raise TypeError("tolerances.probability_sum must be numeric.")
+    probability_tolerance = float(probability_tolerance_value)
     if not math.isfinite(probability_tolerance) or probability_tolerance <= 0:
         raise ValueError("tolerances.probability_sum must be finite and positive.")
-    probability_sum = math.fsum(float(item) for item in probabilities)
+    probability_sum = math.fsum(numeric_probabilities)
     if not math.isclose(
         probability_sum, 1.0, rel_tol=0.0, abs_tol=probability_tolerance
     ):

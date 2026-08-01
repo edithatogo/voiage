@@ -13,6 +13,9 @@ from voiage.contracts.distributional_information import (
     VALUE_OF_DISTRIBUTIONAL_INFORMATION_INPUT_SCHEMA_V1,
     validate_distributional_information_semantics,
 )
+from voiage.methods.distributional_information import (
+    distributional_information_from_specification,
+)
 
 ROOT = Path(__file__).parents[1]
 CONTRACT = ROOT / "specs/frontier/value-of-distributional-information/v1"
@@ -24,12 +27,10 @@ def _json(path: Path) -> dict[str, object]:
 
 def test_normative_fixture_and_installed_schema_validate() -> None:
     input_schema = _json(
-        CONTRACT
-        / "schemas/value-of-distributional-information-input.schema.json"
+        CONTRACT / "schemas/value-of-distributional-information-input.schema.json"
     )
     result_schema = _json(
-        CONTRACT
-        / "schemas/value-of-distributional-information-result.schema.json"
+        CONTRACT / "schemas/value-of-distributional-information-result.schema.json"
     )
     payload = _json(CONTRACT / "fixtures/normative/input.json")
     expected = _json(CONTRACT / "fixtures/normative/expected.json")
@@ -61,8 +62,7 @@ def test_semantic_validator_fails_closed(
 
 def test_result_schema_requires_complete_policy_and_assurance() -> None:
     schema = _json(
-        CONTRACT
-        / "schemas/value-of-distributional-information-result.schema.json"
+        CONTRACT / "schemas/value-of-distributional-information-result.schema.json"
     )
     payload = _json(CONTRACT / "fixtures/normative/expected.json")
     payload.pop("resolved_models")
@@ -70,11 +70,11 @@ def test_result_schema_requires_complete_policy_and_assurance() -> None:
         Draft202012Validator(schema).validate(payload)
 
 
-def test_capabilities_fail_closed_before_runtime_delivery() -> None:
+def test_capabilities_fail_closed_for_unimplemented_bindings() -> None:
     capabilities = _json(CONTRACT / "capabilities.json")
     assert capabilities["maturity"] == "experimental"
     surfaces = capabilities["surfaces"]
-    assert surfaces["python"]["status"] == "planned"
+    assert surfaces["python"]["status"] == "executable"
     assert surfaces["rust"]["status"] == "unsupported"
     assert surfaces["r"]["status"] == "unsupported"
     assert surfaces["julia"]["status"] == "unsupported"
@@ -84,12 +84,14 @@ def test_capabilities_fail_closed_before_runtime_delivery() -> None:
 def test_contract_evidence_is_sha256_pinned() -> None:
     evidence = _json(CONTRACT / "fixtures/evidence.json")
     assert evidence["stable_claim_allowed"] is False
-    assert "runtime is not yet claimed" in evidence["evidence_scope"]
+    assert "experimental Python evaluator" in evidence["evidence_scope"]
     for artifact in evidence["artifacts"]:
         path = ROOT / artifact["path"]
         assert hashlib.sha256(path.read_bytes()).hexdigest() == artifact["sha256"]
 
 
-def test_runtime_fixture_conformance_is_intentionally_red_until_f557_3() -> None:
-    with pytest.raises(ModuleNotFoundError):
-        __import__("voiage.methods.distributional_information")
+def test_runtime_matches_normative_fixture() -> None:
+    payload = _json(CONTRACT / "fixtures/normative/input.json")
+    expected = _json(CONTRACT / "fixtures/normative/expected.json")
+    result = distributional_information_from_specification(payload)
+    assert result.to_contract_dict() == expected

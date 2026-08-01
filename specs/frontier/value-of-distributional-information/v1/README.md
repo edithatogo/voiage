@@ -15,7 +15,8 @@ without renormalization. The result preserves all numerical ties, reports gross
 VDI and signed net VDI after the information cost, and labels exact enumeration
 as exact rather than inventing a zero standard error.
 
-Python execution is delivered separately in F557-3. Rust, R and Julia remain
-unsupported until shared-fixture evidence exists; Mojo is external. Scientific
-review of the terminology, family partition and probability provenance is
-required before stable promotion.
+Python execution now evaluates the same strict exact-enumeration contract and
+returns complete ties plus a canonical presentation representative. Rust, R
+and Julia remain unsupported until shared-fixture evidence exists; Mojo is
+external. Scientific review of the terminology, family partition and
+probability provenance is required before stable promotion.

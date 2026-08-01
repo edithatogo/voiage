@@ -22,9 +22,20 @@ def _exact_result(**overrides: object):
             "fixture_id": "vdi-exact-v1",
             "probability_source": "synthetic-reference",
             "value_source": "conditional-expectation-table",
+            "family_definition_source": "synthetic-candidate-families",
+        },
+        "comparability": {
+            "population": "same",
+            "horizon": "same",
+            "discounting": "same",
+            "value_semantics": "conditional expected value",
+            "cost_location": "same scale",
         },
     }
     arguments.update(overrides)
+    arguments.setdefault(
+        "model_labels", {name: name for name in arguments["model_ids"]}
+    )
     return value_of_distributional_information(**arguments)
 
 
@@ -98,6 +109,82 @@ def test_information_cost_is_signed_and_not_clipped() -> None:
     assert result.net_vdi == pytest.approx(-1.0)
 
 
+def test_single_family_common_optimum_and_zero_probability_have_zero_value() -> None:
+    single = _exact_result(
+        conditional_values=[[5.0, 2.0]],
+        model_ids=["only"],
+        model_probabilities=[1.0],
+        information_cost=0.0,
+    )
+    common = _exact_result(
+        conditional_values=[[5.0, 2.0], [8.0, 1.0]], information_cost=0.0
+    )
+    zero_probability = _exact_result(
+        conditional_values=[[10.0, 6.0], [-1000.0, 1000.0]],
+        model_probabilities=[1.0, 0.0],
+        information_cost=0.0,
+    )
+    assert single.gross_vdi == common.gross_vdi == zero_probability.gross_vdi == 0.0
+
+
+def test_splitting_identical_family_preserves_value() -> None:
+    original = _exact_result(information_cost=0.0)
+    split = _exact_result(
+        conditional_values=[[10.0, 6.0], [10.0, 6.0], [4.0, 12.0]],
+        model_ids=["family-a-1", "family-a-2", "family-b"],
+        model_probabilities=[0.2, 0.3, 0.5],
+        information_cost=0.0,
+    )
+    assert split.gross_vdi == pytest.approx(original.gross_vdi)
+
+
+def test_positive_scaling_and_common_translation() -> None:
+    original = _exact_result(information_cost=0.0)
+    scaled = _exact_result(
+        conditional_values=3.0 * np.asarray([[10.0, 6.0], [4.0, 12.0]]),
+        information_cost=0.0,
+    )
+    shifted = _exact_result(
+        conditional_values=np.asarray([[10.0, 6.0], [4.0, 12.0]]) + 17.0,
+        information_cost=0.0,
+    )
+    assert scaled.gross_vdi == pytest.approx(3.0 * original.gross_vdi)
+    assert shifted.gross_vdi == pytest.approx(original.gross_vdi)
+
+
+def test_model_family_value_is_bounded_by_matched_full_information() -> None:
+    result = _exact_result(information_cost=0.0)
+    within_family_draws = np.asarray(
+        [
+            [[12.0, 4.0], [8.0, 8.0]],
+            [[7.0, 9.0], [1.0, 15.0]],
+        ]
+    )
+    full_information_value = float(
+        np.mean(np.max(within_family_draws, axis=2))
+        - np.max(np.mean(within_family_draws, axis=(0, 1)))
+    )
+    assert result.gross_vdi <= full_information_value + 1e-12
+
+
 def test_provenance_is_required_and_exact() -> None:
     with pytest.raises(ValueError, match="provenance"):
         _exact_result(provenance={})
+
+
+@pytest.mark.parametrize(
+    ("overrides", "message"),
+    [
+        ({"direction": "sideways"}, "direction"),
+        ({"information_cost": float("inf")}, "information_cost"),
+        ({"information_cost": -1.0}, "information_cost"),
+        ({"absolute_tolerance": -1.0}, "tolerances"),
+        ({"model_labels": {"family-a": "A"}}, "exactly match"),
+        ({"comparability": {}}, "comparability"),
+    ],
+)
+def test_runtime_metadata_and_numerical_controls_fail_closed(
+    overrides: dict[str, object], message: str
+) -> None:
+    with pytest.raises((ValueError, TypeError), match=message):
+        _exact_result(**overrides)
