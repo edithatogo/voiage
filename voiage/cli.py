@@ -3514,6 +3514,7 @@ def calculate_value_of_distributional_information(
         result = calculate_distributional_information_result(payload)
         output_text = _format_output(
             f"Distribution-family information value: {result.gross_vdi:.6f} "
+            f"{result.value_unit}; signed net VDI: {result.net_vdi:.6f} "
             f"{result.value_unit}",
             result.to_contract_dict(),
         )

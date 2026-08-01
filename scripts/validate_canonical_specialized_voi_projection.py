@@ -9,7 +9,10 @@ from pathlib import Path
 from typing import Any
 
 EXPECTED_ISSUES = {
-    318: ("supported_frontier_method_completion_20260723", {"M16", "M17", "M18"}),
+    318: (
+        "supported_frontier_method_completion_20260723",
+        {"M16", "M17", "M18", "M19"},
+    ),
     571: ("study_design_efficiency_20260727", {"M15", "M17"}),
     595: ("risk_adjusted_information_pricing_20260731", {"M16", "M17"}),
     619: ("estimation_focused_variance_voi_20260727", {"M14", "M17"}),

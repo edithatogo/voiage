@@ -48,6 +48,24 @@ def test_cli_returns_exact_versioned_json(tmp_path: Path) -> None:
     assert json.loads(output.read_text(encoding="utf-8")) == payload
 
 
+def test_cli_text_output_reports_gross_and_signed_net_values(tmp_path: Path) -> None:
+    output = tmp_path / "result.txt"
+    result = CliRunner().invoke(
+        app,
+        [
+            "calculate-value-of-distributional-information",
+            FIXTURE,
+            "--output",
+            str(output),
+        ],
+    )
+    assert result.exit_code == 0, result.stdout
+    assert "Distribution-family information value: 2.000000" in result.stdout
+    assert "signed net VDI: 1.500000" in result.stdout
+    assert f"Result saved to {output}" in result.stdout
+    assert "signed net VDI: 1.500000" in output.read_text(encoding="utf-8")
+
+
 def test_cli_and_installed_runtime_share_the_checked_schema() -> None:
     payload = json.loads(Path(FIXTURE).read_text(encoding="utf-8"))
     Draft202012Validator(VALUE_OF_DISTRIBUTIONAL_INFORMATION_INPUT_SCHEMA_V1).validate(

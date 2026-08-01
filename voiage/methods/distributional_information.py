@@ -6,9 +6,11 @@ from dataclasses import asdict, dataclass
 import math
 from typing import TYPE_CHECKING, Any, cast
 
+from jsonschema import Draft202012Validator
 import numpy as np
 
 from voiage.contracts.distributional_information import (
+    VALUE_OF_DISTRIBUTIONAL_INFORMATION_INPUT_SCHEMA_V1,
     validate_distributional_information_semantics,
 )
 from voiage.exceptions import raise_input_error
@@ -50,9 +52,11 @@ class DistributionalInformationResult:
     value_unit: str
     model_ids: list[str]
     model_labels: dict[str, str]
+    model_definitions: list[dict[str, str]]
     model_probabilities: list[float]
     alternative_names: list[str]
     conditional_values: list[list[float]]
+    conditional_value_assurance: dict[str, object]
     current_expected_values: list[float]
     current_value: float
     current_optimal_alternatives: list[str]
@@ -63,7 +67,7 @@ class DistributionalInformationResult:
     information_cost: float
     net_vdi: float
     estimator: dict[str, object]
-    comparability: dict[str, str]
+    comparability: dict[str, object]
     provenance: dict[str, str]
     diagnostics: dict[str, object]
 
@@ -73,9 +77,11 @@ class DistributionalInformationResult:
 
 
 def _named_strings(values: Sequence[str], *, label: str) -> list[str]:
-    names = [str(item).strip() for item in values]
-    if not names or any(not item for item in names):
+    if len(values) == 0 or any(
+        not isinstance(item, str) or not item.strip() for item in values
+    ):
         raise_input_error(f"{label} must contain non-empty strings.")
+    names = [item.strip() for item in values]
     if len(set(names)) != len(names):
         raise_input_error(f"{label} must be unique.")
     return names
@@ -86,10 +92,9 @@ def _exact_string_mapping(
 ) -> dict[str, str]:
     if set(value) != set(keys):
         raise_input_error(f"{label} keys must exactly match model_ids.")
-    result = {key: str(value[key]).strip() for key in keys}
-    if any(not item for item in result.values()):
+    if any(not isinstance(value[key], str) or not value[key].strip() for key in keys):
         raise_input_error(f"{label} values must be non-empty strings.")
-    return result
+    return {key: value[key].strip() for key in keys}
 
 
 def _metadata_mapping(
@@ -97,10 +102,31 @@ def _metadata_mapping(
 ) -> dict[str, str]:
     if set(value) != required:
         raise_input_error(f"{label} must contain exactly {sorted(required)}.")
-    result = {key: str(value[key]).strip() for key in sorted(required)}
-    if any(not item for item in result.values()):
+    if any(
+        not isinstance(value[key], str) or not value[key].strip() for key in required
+    ):
         raise_input_error(f"{label} values must be non-empty strings.")
-    return result
+    return {key: value[key].strip() for key in sorted(required)}
+
+
+def _validate_information_values(
+    *,
+    current_value: float,
+    expected_resolved: float,
+    gross: float,
+    cost: float,
+    net: float,
+) -> None:
+    """Reject violations of the exact value-of-information arithmetic contract."""
+    if gross < 0:
+        raise ArithmeticError(
+            "Computed VDI is negative; exact conditioning or arithmetic is inconsistent."
+        )
+    if not all(
+        math.isfinite(item)
+        for item in (current_value, expected_resolved, gross, cost, net)
+    ):
+        raise ArithmeticError("Computed distribution-family information is non-finite.")
 
 
 def _optimal_set(
@@ -134,7 +160,9 @@ def value_of_distributional_information(
     provenance: Mapping[str, str],
     *,
     model_labels: Mapping[str, str],
-    comparability: Mapping[str, str],
+    model_definitions: Sequence[Mapping[str, str]],
+    conditional_value_assurance: Mapping[str, object],
+    comparability: Mapping[str, object],
     analysis_id: str = "distribution-family-information-analysis",
     direction: str = "maximize",
     information_cost: float = 0.0,
@@ -150,12 +178,12 @@ def value_of_distributional_information(
     """
     models = _named_strings(model_ids, label="model_ids")
     alternatives = _named_strings(alternative_names, label="alternative_names")
-    unit = str(value_unit).strip()
-    identifier = str(analysis_id).strip()
-    if not unit:
+    if not isinstance(value_unit, str) or not value_unit.strip():
         raise_input_error("value_unit must be a non-empty string.")
-    if not identifier:
+    unit = value_unit.strip()
+    if not isinstance(analysis_id, str) or not analysis_id.strip():
         raise_input_error("analysis_id must be a non-empty string.")
+    identifier = analysis_id.strip()
     if direction not in {"maximize", "minimize"}:
         raise_input_error("direction must be 'maximize' or 'minimize'.")
     tolerances = np.asarray(
@@ -172,11 +200,9 @@ def value_of_distributional_information(
         models,
         label="model_labels",
     )
-    comparable = _metadata_mapping(
-        comparability,
-        {"population", "horizon", "discounting", "value_semantics", "cost_location"},
-        label="comparability",
-    )
+    definition_records = [dict(item) for item in model_definitions]
+    assurance_record = dict(conditional_value_assurance)
+    comparable = dict(comparability)
     provenance_record = _metadata_mapping(
         provenance,
         {
@@ -194,28 +220,37 @@ def value_of_distributional_information(
         "model_ids": models,
         "alternative_names": alternatives,
         "model_labels": labels,
+        "model_definitions": definition_records,
         "model_probabilities": probabilities.tolist(),
         "conditional_values": values.tolist(),
+        "conditional_value_assurance": assurance_record,
         "information_cost": information_cost,
         "tolerances": {
             "absolute": absolute_tolerance,
             "relative": relative_tolerance,
             "probability_sum": probability_sum_tolerance,
         },
+        "comparability": comparable,
     }
     try:
         validate_distributional_information_semantics(payload)
     except (TypeError, ValueError) as error:
         raise_input_error(str(error))
-    if values.shape != (len(models), len(alternatives)):
-        raise_input_error(
-            "conditional_values must be a model-by-alternative rectangular matrix."
-        )
     cost = float(information_cost)
     if cost < 0:
         raise_input_error("information_cost must be non-negative.")
 
-    current_expected = probabilities @ values
+    current_expected = np.asarray(
+        [
+            math.fsum(
+                float(probabilities[model_index])
+                * float(values[model_index, alternative_index])
+                for model_index in range(len(models))
+            )
+            for alternative_index in range(len(alternatives))
+        ],
+        dtype=float,
+    )
     current_value, current_ties, current_representative = _optimal_set(
         current_expected,
         alternatives,
@@ -253,20 +288,15 @@ def value_of_distributional_information(
         if direction == "maximize"
         else current_value - expected_resolved
     )
-    numerical_tolerance = absolute_tolerance + relative_tolerance * max(
-        abs(current_value), abs(expected_resolved), 1.0
-    )
-    if raw_gross < -numerical_tolerance:
-        raise ArithmeticError(
-            "Computed VDI is negative beyond tolerance; conditioning is inconsistent."
-        )
-    gross = 0.0 if raw_gross < 0 else float(raw_gross)
+    gross = float(raw_gross)
     net = gross - cost
-    if not all(
-        math.isfinite(item)
-        for item in (current_value, expected_resolved, gross, cost, net)
-    ):
-        raise ArithmeticError("Computed distribution-family information is non-finite.")
+    _validate_information_values(
+        current_value=current_value,
+        expected_resolved=expected_resolved,
+        gross=gross,
+        cost=cost,
+        net=net,
+    )
 
     return DistributionalInformationResult(
         schema_version="1.0.0",
@@ -279,9 +309,14 @@ def value_of_distributional_information(
         value_unit=unit,
         model_ids=models,
         model_labels=labels,
+        model_definitions=[
+            {key: str(value) for key, value in record.items()}
+            for record in definition_records
+        ],
         model_probabilities=[float(item) for item in probabilities],
         alternative_names=alternatives,
         conditional_values=[[float(item) for item in row] for row in values],
+        conditional_value_assurance=assurance_record,
         current_expected_values=[float(item) for item in current_expected],
         current_value=current_value,
         current_optimal_alternatives=current_ties,
@@ -294,6 +329,8 @@ def value_of_distributional_information(
         estimator={
             "status": "exact_enumeration",
             "uncertainty_status": "exact",
+            "input_value_status": assurance_record["input_status"],
+            "evidence_reference": assurance_record["evidence_reference"],
             "absolute_tolerance": float(absolute_tolerance),
             "relative_tolerance": float(relative_tolerance),
         },
@@ -302,8 +339,10 @@ def value_of_distributional_information(
         diagnostics={
             "tie_policy": TIE_POLICY,
             "probability_sum": float(math.fsum(probabilities)),
-            "nonnegativity_residual": float(min(raw_gross, 0.0)),
-            "conditioning_verified": True,
+            "nonnegativity_residual": 0.0,
+            "conditioning_verified": bool(
+                comparable["verified"] and assurance_record["source_values_exact"]
+            ),
             "structural_evpi_relation": (
                 "not_computed_model_family_only_is_bounded_by_matched_full_information"
             ),
@@ -315,6 +354,10 @@ def distributional_information_from_specification(
     payload: Mapping[str, object],
 ) -> DistributionalInformationResult:
     """Evaluate a semantically validated v1 JSON-compatible request."""
+    Draft202012Validator(VALUE_OF_DISTRIBUTIONAL_INFORMATION_INPUT_SCHEMA_V1).validate(
+        payload
+    )
+    validate_distributional_information_semantics(payload)
     tolerances = cast("Mapping[str, float]", payload["tolerances"])
     return value_of_distributional_information(
         conditional_values=cast(
@@ -326,7 +369,13 @@ def distributional_information_from_specification(
         value_unit=str(payload["value_unit"]),
         provenance=cast("Mapping[str, str]", payload["provenance"]),
         model_labels=cast("Mapping[str, str]", payload["model_labels"]),
-        comparability=cast("Mapping[str, str]", payload["comparability"]),
+        model_definitions=cast(
+            "Sequence[Mapping[str, str]]", payload["model_definitions"]
+        ),
+        conditional_value_assurance=cast(
+            "Mapping[str, object]", payload["conditional_value_assurance"]
+        ),
+        comparability=cast("Mapping[str, object]", payload["comparability"]),
         analysis_id=str(payload["analysis_id"]),
         direction=str(payload["direction"]),
         information_cost=float(cast("float", payload["information_cost"])),

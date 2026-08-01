@@ -6,6 +6,7 @@ import numpy as np
 import pytest
 
 from voiage.methods.distributional_information import (
+    _validate_information_values,
     value_of_distributional_information,
 )
 
@@ -25,16 +26,41 @@ def _exact_result(**overrides: object):
             "family_definition_source": "synthetic-candidate-families",
         },
         "comparability": {
-            "population": "same",
-            "horizon": "same",
-            "discounting": "same",
-            "value_semantics": "conditional expected value",
-            "cost_location": "same scale",
+            "population_id": "same-population",
+            "horizon_id": "same-horizon",
+            "discounting_id": "same-discounting",
+            "value_semantics_id": "conditional-expected-value",
+            "cost_location_id": "same-cost-location",
+            "verified": True,
+            "verification_reference": "test:comparability",
+        },
+        "conditional_value_assurance": {
+            "input_status": "exact_enumerated_conditional_expectations",
+            "source_values_exact": True,
+            "source_uncertainty": "none_by_construction",
+            "enumeration_method": "test analytical enumeration",
+            "evidence_reference": "test:exact-values",
         },
     }
     arguments.update(overrides)
     arguments.setdefault(
         "model_labels", {name: name for name in arguments["model_ids"]}
+    )
+    arguments.setdefault(
+        "model_definitions",
+        [
+            {
+                "model_id": name,
+                "family_or_assumption": f"synthetic {name}",
+                "parameterization": "finite exact table",
+                "within_family_integration": "analytical expectation",
+                "definition_source": "test definition",
+                "parameter_source": "test exact parameters",
+                "data_reference": f"test:{name}",
+                "value_transformation": "identity",
+            }
+            for name in arguments["model_ids"]
+        ],
     )
     return value_of_distributional_information(**arguments)
 
@@ -50,6 +76,21 @@ def test_exact_two_family_reference() -> None:
         ["A"],
         ["B"],
     ]
+    assert [item.model_id for item in result.resolved_models] == result.model_ids
+    assert [item.probability for item in result.resolved_models] == (
+        result.model_probabilities
+    )
+    assert sum(item.weighted_contribution for item in result.resolved_models) == (
+        pytest.approx(result.expected_resolved_value)
+    )
+    assert (
+        result.estimator["input_value_status"]
+        == (result.conditional_value_assurance["input_status"])
+    )
+    assert (
+        result.estimator["evidence_reference"]
+        == (result.conditional_value_assurance["evidence_reference"])
+    )
 
 
 def test_model_and_alternative_permutations_preserve_value() -> None:
@@ -175,6 +216,64 @@ def test_provenance_is_required_and_exact() -> None:
 @pytest.mark.parametrize(
     ("overrides", "message"),
     [
+        ({"model_ids": []}, "model_ids"),
+        ({"model_ids": ["family-a", " "]}, "model_ids"),
+        ({"model_ids": ["family-a", 2]}, "model_ids"),
+        ({"alternative_names": []}, "alternative_names"),
+        ({"alternative_names": ["A", " "]}, "alternative_names"),
+        ({"model_labels": {"family-a": "A", "family-b": " "}}, "model_labels"),
+        ({"analysis_id": " "}, "analysis_id"),
+        ({"value_unit": 7}, "value_unit"),
+        ({"probability_sum_tolerance": 0.0}, "probability_sum_tolerance"),
+        (
+            {
+                "model_probabilities": [0.0, 0.0],
+                "probability_sum_tolerance": 1.0,
+            },
+            "at most 1e-6",
+        ),
+        (
+            {
+                "provenance": {
+                    "fixture_id": "vdi-exact-v1",
+                    "probability_source": " ",
+                    "value_source": "conditional-expectation-table",
+                    "family_definition_source": "synthetic-candidate-families",
+                }
+            },
+            "provenance",
+        ),
+    ],
+)
+def test_direct_runtime_rejects_non_string_or_blank_metadata(
+    overrides: dict[str, object], message: str
+) -> None:
+    with pytest.raises((TypeError, ValueError), match=message):
+        _exact_result(**overrides)
+
+
+def test_defensive_arithmetic_contract_rejects_impossible_results() -> None:
+    with pytest.raises(ArithmeticError, match="negative"):
+        _validate_information_values(
+            current_value=2.0,
+            expected_resolved=1.0,
+            gross=-1.0,
+            cost=0.0,
+            net=-1.0,
+        )
+    with pytest.raises(ArithmeticError, match="non-finite"):
+        _validate_information_values(
+            current_value=1.0,
+            expected_resolved=1.0,
+            gross=0.0,
+            cost=0.0,
+            net=float("nan"),
+        )
+
+
+@pytest.mark.parametrize(
+    ("overrides", "message"),
+    [
         ({"direction": "sideways"}, "direction"),
         ({"information_cost": float("inf")}, "information_cost"),
         ({"information_cost": -1.0}, "information_cost"),
@@ -188,3 +287,57 @@ def test_runtime_metadata_and_numerical_controls_fail_closed(
 ) -> None:
     with pytest.raises((ValueError, TypeError), match=message):
         _exact_result(**overrides)
+
+
+def test_model_definitions_are_complete_and_ordered() -> None:
+    with pytest.raises(ValueError, match="model_definitions"):
+        _exact_result(model_definitions=[])
+    with pytest.raises(ValueError, match="model_ids order"):
+        _exact_result(
+            model_definitions=[
+                {
+                    "model_id": "family-b",
+                    "family_or_assumption": "B",
+                    "parameterization": "exact",
+                    "within_family_integration": "analytical",
+                    "definition_source": "test",
+                    "parameter_source": "test",
+                    "data_reference": "test:B",
+                    "value_transformation": "identity",
+                },
+                {
+                    "model_id": "family-a",
+                    "family_or_assumption": "A",
+                    "parameterization": "exact",
+                    "within_family_integration": "analytical",
+                    "definition_source": "test",
+                    "parameter_source": "test",
+                    "data_reference": "test:A",
+                    "value_transformation": "identity",
+                },
+            ]
+        )
+
+
+def test_estimated_or_unverified_inputs_cannot_be_certified_exact() -> None:
+    with pytest.raises(ValueError, match="exact enumerated input values"):
+        _exact_result(
+            conditional_value_assurance={
+                "input_status": "monte_carlo_estimate",
+                "source_values_exact": False,
+                "source_uncertainty": "unknown",
+                "enumeration_method": "simulation",
+                "evidence_reference": "test:simulation",
+            }
+        )
+    comparability = {
+        "population_id": "same",
+        "horizon_id": "same",
+        "discounting_id": "same",
+        "value_semantics_id": "same",
+        "cost_location_id": "same",
+        "verified": False,
+        "verification_reference": "test:not-verified",
+    }
+    with pytest.raises(ValueError, match="explicitly verified"):
+        _exact_result(comparability=comparability)

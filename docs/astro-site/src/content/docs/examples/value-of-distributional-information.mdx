@@ -26,6 +26,10 @@ model-discrimination EVSI.
 
 ## Run the exact fixture
 
+The repository-relative fixture path below is available from a source checkout.
+Installed-wheel users should supply the same JSON request from their own path;
+the installed Python schema and CLI perform the same strict validation.
+
 ```bash
 voiage --format json calculate-value-of-distributional-information \
   specs/frontier/value-of-distributional-information/v1/fixtures/normative/input.json \
@@ -37,11 +41,21 @@ The current decision is `B` with value 9, the family-resolved expected value is
 11, gross VDI is 2, and the declared information cost of 0.5 gives signed net
 VDI 1.5, all in `net-benefit-point` units.
 
-The request must name the family partition, probabilities and their source,
-the common alternatives, value unit, direction, comparability conditions and
-within-family conditional values. Probabilities are never inferred or silently
-renormalized. The result returns complete numerical tie sets and labels exact
-enumeration as exact rather than reporting a fabricated standard error.
+The request must give each candidate family a structured definition,
+parameterization, within-family integration method, sources, data reference and
+value transformation. It must also name probabilities and their source, the
+common alternatives, value unit and direction. The five comparability IDs
+(population, horizon, discounting, value semantics and cost location) must be
+affirmatively verified with an evidence reference.
+
+Version 1 accepts only exact enumerated conditional expectations, recorded in
+`conditional_value_assurance`; a simulation or uncertain estimate cannot be
+relabelled as exact. Probabilities are never inferred or silently renormalized.
+The result preserves the assurance and comparability records, returns complete
+numerical tie sets, and labels exact enumeration as exact rather than reporting
+a fabricated standard error. The checked-in result schema is available from a
+source distribution or repository checkout; the wheel installs the input
+schema and evaluator but does not separately advertise a result-schema resource.
 
 Python is the only executable surface. Rust, R and Julia remain unsupported,
 Mojo is external, and scientific review of the terminology, partition and

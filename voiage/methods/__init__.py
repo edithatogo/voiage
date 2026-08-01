@@ -15,12 +15,6 @@ from .deterministic_sensitivity import (
     deterministic_sensitivity,
     deterministic_sensitivity_from_specification,
 )
-from .distributional_information import (
-    DistributionalInformationResult,
-    ResolvedDistributionModel,
-    distributional_information_from_specification,
-    value_of_distributional_information,
-)
 from .dynamic_real_options import ValueOfFlexibilityResult, value_of_flexibility
 from .utility_information import (
     expected_utility_information_value,

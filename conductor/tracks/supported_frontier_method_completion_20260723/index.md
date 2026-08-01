@@ -21,6 +21,7 @@
 - [Accepted-family contract freeze](./contract-freeze.json)
 - [Phase 1 contract review](./phase-1-review.md)
 - [Distribution-Family Information reference review](./distribution-family-information-reference-review.md)
+- [Distribution-Family Information implementation review](./distribution-family-information-implementation-review.md)
 - [Value of Flexibility reference review](./value-of-flexibility-reference-review.md)
 - [Value of Flexibility implementation review](./value-of-flexibility-implementation-review.md)
 
