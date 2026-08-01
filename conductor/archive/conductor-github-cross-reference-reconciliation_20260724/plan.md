@@ -21,8 +21,9 @@
 - [x] Add the central cross-reference manifest, per-track metadata/index links,
   and automated validator tests. (`c89c4a35`)
 - [x] Run focused tests, repository harness checks, full `tox`, and Conductor
-  validation; retain the pre-existing 222-error full-validator baseline.
-  (`c89c4a35`)
+  validation. The current full validator passes with no errors or warnings;
+  the historical 222-error baseline is retained only in the append-only
+  evidence history. (`c89c4a35`)
 - [x] Self-review the complete diff and verify the live GitHub hierarchy and
   Project 28 state. (`c89c4a35`)
 
