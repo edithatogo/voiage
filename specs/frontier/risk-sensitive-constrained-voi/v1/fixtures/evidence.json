@@ -15,7 +15,7 @@
     {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/fixtures/normative/expected.json", "sha256": "1c41ea4f7c2270c1c8ba5a4ac7578ae9c2dca2b176ed6b9d42ce5ece93497860"},
     {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/schemas/risk-sensitive-voi-input.schema.json", "sha256": "27df704e284efddb5bf1b9d6dfa482f0460536373292e954b0557422dd1329d1"},
     {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/schemas/risk-sensitive-voi-result.schema.json", "sha256": "853ceee265e5a72518b4b6b7bca15f054595079d1648a775fa04b9e974588bc6"},
-    {"path": "tests/test_risk_sensitive_voi.py", "sha256": "5b199d9e35520797c2194120c00e94a643c92069f2ab9b966ed5f598907fcbe2"},
+    {"path": "tests/test_risk_sensitive_voi.py", "sha256": "c66aa1c8d201489d3f7888f5267f701db4cea1b5a093c728a29a998c8746b082"},
     {"path": "docs/astro-site/src/content/docs/examples/risk-sensitive-constrained-voi.mdx", "sha256": "976e601f25d32a034ca3e28493e2fcef66e98b4e2b285430c4a735bb69979db4"}
   ]
 }

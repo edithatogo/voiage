@@ -190,3 +190,30 @@ def test_evidence_hashes_pin_the_experimental_delivery_artifacts() -> None:
         path = ROOT / artifact["path"]
         assert path.is_file()
         assert hashlib.sha256(path.read_bytes()).hexdigest() == artifact["sha256"]
+
+
+def test_c18_m22_and_native_children_are_governed_without_closing_parent() -> None:
+    track = ROOT / "conductor/tracks/supported_frontier_method_completion_20260723"
+    metadata = _json(track / "metadata.json")
+    assert metadata["canonical_track_extensions"]["C18"] == ["M22"]
+    assert "M22" in metadata["planned_version_extensions"]["1.3.0"]
+    child_urls = {
+        f"https://github.com/edithatogo/voiage/issues/{issue}"
+        for issue in (757, 758, 761)
+    }
+    assert child_urls <= set(metadata["github_subissues"])
+    plan = (track / "plan.md").read_text(encoding="utf-8")
+    assert "F570-1 / #757" in plan
+    assert "F570-2 / #758" in plan
+    assert "[~] **F570-3 / #761" in plan
+    requirements = (ROOT / "conductor/requirements.md").read_text(encoding="utf-8")
+    design = (ROOT / "conductor/design.md").read_text(encoding="utf-8")
+    assert "M22 / planned v1.3.0" in requirements
+    assert "C18 / M22 planned v1.3.0" in design
+    cross_references = _json(ROOT / "conductor/github-cross-references.json")
+    record = next(
+        item
+        for item in cross_references["tracks"]
+        if item["track_id"] == "supported_frontier_method_completion_20260723"
+    )
+    assert child_urls <= set(record["subissues"])
