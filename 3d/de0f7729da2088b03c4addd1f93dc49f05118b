@@ -1,0 +1,3 @@
+Task: #597 C18/M28 third implementation review record
+Summary: Records the Medium result-assurance finding, signed remediation commit 6d696ca4, exact recursive-call recomputation, complete coverage and governance validation; marks F597-R3 complete while keeping F597-3 in progress.
+Boundary: The third reviewer became the remediator, so a fourth fresh independent review and hosted exact-head assurance remain mandatory before merge. Scientific review, parity, promotion, release and issue/programme closure remain pending.
