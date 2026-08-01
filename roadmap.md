@@ -187,6 +187,12 @@ VoC method. Repository evidence remains experimental pending scientific review
 and separate stable-promotion approval; the #595 exact-head hosted matrix
 passed before PR #712 merged.
 
+Risk-sensitive and constrained VOI (#570) now has experimental exact finite
+Python delivery under C18/M22. PR #769 exact head `f513416f` passed its hosted
+matrix and 100% changed coverage before squash merge `c25f3234`. Scientific
+review, Rust/R/Julia parity, stable promotion, release and parent closure remain
+separate gates.
+
 Value of Flexibility (#559) now has an experimental Python timing-scenario
 contract on draft PR #723. It compares a flexible feasible policy set with the
 best matched ex-ante commitment, returns both values and policy paths, and
