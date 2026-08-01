@@ -6,7 +6,7 @@
   "evidence_scope": "Portable schemas, exact finite Python evaluator, normative and pathology tests, CLI and documentation.",
   "artifacts": [
     {"path": "scripts/export_risk_sensitive_voi_contracts.py", "sha256": "5ec4488e314d3634010f727a1419bae96d3014796d2dc29d802e0a8875add45d"},
-    {"path": "voiage/contracts/risk_sensitive_voi.py", "sha256": "6ae8aa870cdf0a8d6d24d0f8fe6e6043d0df0691561626b37da24a638b443b08"},
+    {"path": "voiage/contracts/risk_sensitive_voi.py", "sha256": "aab8f88d6aef271d8d16c8c8ca72634f0ee5f053f7441fc8a0164254d0e60f2e"},
     {"path": "voiage/methods/risk_sensitive_voi.py", "sha256": "268640f88e25f415f6617cb6ea930b3abfcd1370da06ad2d1695757a1b086b36"},
     {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/README.md", "sha256": "630dce9f9bf9a83f776ed1e2a62b0db4c917d899827488ba55fe3e05f1fd6453"},
     {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/capabilities.json", "sha256": "6747f1b93b7c6117781be0e0b06deead3222338e58b673c08c3992e1820fe6fa"},
