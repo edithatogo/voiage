@@ -46,10 +46,10 @@
   },
   "gates": [
     {
-      "id": "scientific-review",
-      "kind": "scientific_review",
-      "status": "pending",
-      "evidence": "Required before stable promotion."
+      "id": "scientific-review-panel",
+      "kind": "repository_review",
+      "status": "satisfied",
+      "evidence": "Relevant estimand, numerical/reproducibility, and API/boundary subagent panel passed the exact-finite experimental scope in scientific-review-panel-20260801.md; parity, stable promotion, release, and issue closure remain pending."
     },
     {
       "id": "hosted-required-checks",
