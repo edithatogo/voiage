@@ -4,8 +4,10 @@
 
 - [ ] **L1 / AC-01:** Record the approved Croissant and Frictionless source
   packets, digests, rights, citation, terms, and source-selection rationale.
-- [ ] **L2 / AC-01:** Add fail-closed tests proving a missing approval, changed
-  digest, or changed resource cannot run a probe.
+- [x] **L2 / AC-01:** Add fail-closed tests proving a missing approval, changed
+  digest, or changed resource cannot run a probe. Existing authoritative-probe
+  tests cover explicit opt-in, descriptor/resource digests, materialization,
+  and single-receipt enforcement. (2026-08-01)
 - [ ] **L3 / AC-01:** Run Conductor review and validation checkpoint.
 
 ## Phase 2 — Controlled probes
