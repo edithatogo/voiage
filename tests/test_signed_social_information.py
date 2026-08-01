@@ -288,6 +288,45 @@ def test_public_api_cli_and_input_semantics(tmp_path: Path) -> None:
     )
 
 
+def test_cli_rejects_non_object_specification(tmp_path: Path) -> None:
+    specification = tmp_path / "signed-social-list.json"
+    specification.write_text("[]\n", encoding="utf-8")
+
+    invocation = CliRunner().invoke(
+        app,
+        ["calculate-signed-social-information", str(specification)],
+    )
+
+    assert invocation.exit_code == 1
+    assert (
+        "Signed-social information specification must be a JSON object."
+        in invocation.output
+    )
+
+
+def test_cli_reports_saved_text_output(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    monkeypatch.setattr("voiage.cli._should_echo_status_messages", lambda: True)
+    output = tmp_path / "signed-social-result.txt"
+
+    invocation = CliRunner().invoke(
+        app,
+        [
+            "calculate-signed-social-information",
+            str(FIXTURE),
+            "--output",
+            str(output),
+        ],
+    )
+
+    assert invocation.exit_code == 0, invocation.output
+    assert f"Result saved to {output}" in invocation.output
+    assert output.read_text(encoding="utf-8").startswith(
+        "Signed-social information value:"
+    )
+
+
 def _apply_semantic_pathology(name: str, data: dict[str, Any]) -> None:
     """Apply one schema-valid cross-record pathology."""
     if name == "nonfinite":
