@@ -1,0 +1,471 @@
+{
+  "schema_version": "1.0",
+  "requires_python": ">=3.12",
+  "all_direct_dependencies_at_frontier": false,
+  "dependencies": [
+    {
+      "scope": "core",
+      "package": "click",
+      "declared_minimum": "8.3.3",
+      "latest": "8.4.2",
+      "at_frontier": false,
+      "specifier": "<9,>=8.3.3"
+    },
+    {
+      "scope": "core",
+      "package": "numpy",
+      "declared_minimum": "2.2.6",
+      "latest": "2.5.1",
+      "at_frontier": false,
+      "specifier": "<3.0,>=2.2.6"
+    },
+    {
+      "scope": "core",
+      "package": "scipy",
+      "declared_minimum": "1.16.3",
+      "latest": "1.18.0",
+      "at_frontier": false,
+      "specifier": "<1.17,>=1.16.3"
+    },
+    {
+      "scope": "core",
+      "package": "pandas",
+      "declared_minimum": "1.3",
+      "latest": "3.0.5",
+      "at_frontier": false,
+      "specifier": "<3.0,>=1.3"
+    },
+    {
+      "scope": "core",
+      "package": "xarray",
+      "declared_minimum": "0.19",
+      "latest": "2026.7.0",
+      "at_frontier": false,
+      "specifier": "<2025.0,>=0.19"
+    },
+    {
+      "scope": "core",
+      "package": "scikit-learn",
+      "declared_minimum": "1.7.2",
+      "latest": "1.9.0",
+      "at_frontier": false,
+      "specifier": "<2.0,>=1.7.2"
+    },
+    {
+      "scope": "core",
+      "package": "pyarrow",
+      "declared_minimum": "25.0.0",
+      "latest": "25.0.0",
+      "at_frontier": true,
+      "specifier": "<26,>=25.0.0"
+    },
+    {
+      "scope": "core",
+      "package": "polars",
+      "declared_minimum": "1.42.1",
+      "latest": "1.43.2",
+      "at_frontier": false,
+      "specifier": "<2,>=1.42.1"
+    },
+    {
+      "scope": "core",
+      "package": "pydantic",
+      "declared_minimum": "2.13.4",
+      "latest": "2.13.4",
+      "at_frontier": true,
+      "specifier": "<3,>=2.13.4"
+    },
+    {
+      "scope": "core",
+      "package": "jsonschema",
+      "declared_minimum": "4.26.0",
+      "latest": "4.26.0",
+      "at_frontier": true,
+      "specifier": "<5.0,>=4.26.0"
+    },
+    {
+      "scope": "core",
+      "package": "typing_extensions",
+      "declared_minimum": "4.16.0",
+      "latest": "4.16.0",
+      "at_frontier": true,
+      "specifier": ">=4.16.0"
+    },
+    {
+      "scope": "core",
+      "package": "typer",
+      "declared_minimum": "0.9",
+      "latest": "0.27.0",
+      "at_frontier": false,
+      "specifier": "<1.0,>=0.9"
+    },
+    {
+      "scope": "optional:ecosystem",
+      "package": "defusedxml",
+      "declared_minimum": "0.7.1",
+      "latest": "0.7.1",
+      "at_frontier": true,
+      "specifier": "<1.0,>=0.7.1"
+    },
+    {
+      "scope": "optional:jax",
+      "package": "jax",
+      "declared_minimum": "0.7.1",
+      "latest": "0.11.0",
+      "at_frontier": false,
+      "specifier": "<0.8,>=0.7.1"
+    },
+    {
+      "scope": "optional:ci",
+      "package": "defusedxml",
+      "declared_minimum": "0.7.1",
+      "latest": "0.7.1",
+      "at_frontier": true,
+      "specifier": "<1.0,>=0.7.1"
+    },
+    {
+      "scope": "optional:ci",
+      "package": "docutils",
+      "declared_minimum": "0.23",
+      "latest": "0.23",
+      "at_frontier": true,
+      "specifier": "<1,>=0.23"
+    },
+    {
+      "scope": "optional:ci",
+      "package": "fastapi",
+      "declared_minimum": "0.139.2",
+      "latest": "0.141.1",
+      "at_frontier": false,
+      "specifier": "<1.0,>=0.139.2"
+    },
+    {
+      "scope": "optional:ci",
+      "package": "httpx",
+      "declared_minimum": "0.28.1",
+      "latest": "0.28.1",
+      "at_frontier": true,
+      "specifier": "<1.0,>=0.28.1"
+    },
+    {
+      "scope": "optional:ci",
+      "package": "hypothesis",
+      "declared_minimum": "6.157.0",
+      "latest": "6.164.0",
+      "at_frontier": false,
+      "specifier": "<7.0,>=6.157.0"
+    },
+    {
+      "scope": "optional:ci",
+      "package": "jax",
+      "declared_minimum": "0.7.1",
+      "latest": "0.11.0",
+      "at_frontier": false,
+      "specifier": "<0.8,>=0.7.1"
+    },
+    {
+      "scope": "optional:ci",
+      "package": "matplotlib",
+      "declared_minimum": "3.4",
+      "latest": "3.11.1",
+      "at_frontier": false,
+      "specifier": "<4.0,>=3.4"
+    },
+    {
+      "scope": "optional:ci",
+      "package": "maturin",
+      "declared_minimum": "1.9",
+      "latest": "1.14.1",
+      "at_frontier": false,
+      "specifier": "<2.0,>=1.9"
+    },
+    {
+      "scope": "optional:ci",
+      "package": "psutil",
+      "declared_minimum": "5.9",
+      "latest": "7.2.2",
+      "at_frontier": false,
+      "specifier": "<8.0,>=5.9"
+    },
+    {
+      "scope": "optional:ci",
+      "package": "pytest",
+      "declared_minimum": "9.1.1",
+      "latest": "9.1.1",
+      "at_frontier": true,
+      "specifier": "<10.0,>=9.1.1"
+    },
+    {
+      "scope": "optional:ci",
+      "package": "pytest-benchmark",
+      "declared_minimum": "5.2.3",
+      "latest": "5.2.3",
+      "at_frontier": true,
+      "specifier": "<6.0,>=5.2.3"
+    },
+    {
+      "scope": "optional:ci",
+      "package": "pytest-cov",
+      "declared_minimum": "7.1.0",
+      "latest": "7.1.0",
+      "at_frontier": true,
+      "specifier": "<8.0,>=7.1.0"
+    },
+    {
+      "scope": "optional:ci",
+      "package": "pytest-integration",
+      "declared_minimum": "0.2.3",
+      "latest": "0.2.3",
+      "at_frontier": true,
+      "specifier": "<0.3,>=0.2.3"
+    },
+    {
+      "scope": "optional:ci",
+      "package": "pytest-xdist",
+      "declared_minimum": "3.8.0",
+      "latest": "3.8.0",
+      "at_frontier": true,
+      "specifier": "<4.0,>=3.8.0"
+    },
+    {
+      "scope": "optional:ci",
+      "package": "PyYAML",
+      "declared_minimum": "6.0.3",
+      "latest": "6.0.3",
+      "at_frontier": true,
+      "specifier": "<7.0,>=6.0.3"
+    },
+    {
+      "scope": "optional:ci",
+      "package": "rfc8785",
+      "declared_minimum": "0.1",
+      "latest": "0.1.4",
+      "at_frontier": false,
+      "specifier": "<0.2,>=0.1"
+    },
+    {
+      "scope": "optional:ci",
+      "package": "tomli",
+      "declared_minimum": "2.4.1",
+      "latest": "2.4.1",
+      "at_frontier": true,
+      "specifier": "<3.0,>=2.4.1"
+    },
+    {
+      "scope": "optional:dev",
+      "package": "maturin",
+      "declared_minimum": "1.9",
+      "latest": "1.14.1",
+      "at_frontier": false,
+      "specifier": "<2.0,>=1.9"
+    },
+    {
+      "scope": "optional:dev",
+      "package": "mutmut",
+      "declared_minimum": "3.6.0",
+      "latest": "3.7.0",
+      "at_frontier": false,
+      "specifier": "<4.0,>=3.6.0"
+    },
+    {
+      "scope": "optional:dev",
+      "package": "scalene",
+      "declared_minimum": "2.3.0",
+      "latest": "2.3.0",
+      "at_frontier": true,
+      "specifier": "<3.0,>=2.3.0"
+    },
+    {
+      "scope": "optional:dev",
+      "package": "ruff",
+      "declared_minimum": "0.15.22",
+      "latest": "0.16.1",
+      "at_frontier": false,
+      "specifier": "<0.16.0,>=0.15.22"
+    },
+    {
+      "scope": "optional:dev",
+      "package": "bandit",
+      "declared_minimum": "1.9.4",
+      "latest": "1.9.4",
+      "at_frontier": true,
+      "specifier": "<2.0,>=1.9.4"
+    },
+    {
+      "scope": "optional:dev",
+      "package": "nox",
+      "declared_minimum": "2026.7.11",
+      "latest": "2026.7.11",
+      "at_frontier": true,
+      "specifier": "<2027,>=2026.7.11"
+    },
+    {
+      "scope": "optional:dev",
+      "package": "ty",
+      "declared_minimum": "0.0.61",
+      "latest": "0.0.65",
+      "at_frontier": false,
+      "specifier": "<1.0,>=0.0.61"
+    },
+    {
+      "scope": "optional:dev",
+      "package": "basedpyright",
+      "declared_minimum": "1.39.9",
+      "latest": "1.39.9",
+      "at_frontier": true,
+      "specifier": "<2.0,>=1.39.9"
+    },
+    {
+      "scope": "optional:dev",
+      "package": "types-setuptools",
+      "declared_minimum": "83.0.0.20260716",
+      "latest": "83.0.0.20260724",
+      "at_frontier": false,
+      "specifier": ">=83.0.0.20260716"
+    },
+    {
+      "scope": "optional:dev",
+      "package": "types-requests",
+      "declared_minimum": "2.33.0.20260712",
+      "latest": "2.33.0.20260712",
+      "at_frontier": true,
+      "specifier": ">=2.33.0.20260712"
+    },
+    {
+      "scope": "optional:dev",
+      "package": "jupyterlab",
+      "declared_minimum": "4.6.2",
+      "latest": "4.6.2",
+      "at_frontier": true,
+      "specifier": "<5.0,>=4.6.2"
+    },
+    {
+      "scope": "optional:dev",
+      "package": "ipykernel",
+      "declared_minimum": "7.3.0",
+      "latest": "7.3.0",
+      "at_frontier": true,
+      "specifier": "<8,>=7.3.0"
+    },
+    {
+      "scope": "optional:dev",
+      "package": "pre-commit",
+      "declared_minimum": "4.6.0",
+      "latest": "4.6.1",
+      "at_frontier": false,
+      "specifier": "<5.0,>=4.6.0"
+    },
+    {
+      "scope": "optional:dev",
+      "package": "vulture",
+      "declared_minimum": "2.16",
+      "latest": "2.16",
+      "at_frontier": true,
+      "specifier": "<3.0,>=2.16"
+    },
+    {
+      "scope": "optional:dev",
+      "package": "tox",
+      "declared_minimum": "4.57.0",
+      "latest": "4.58.0",
+      "at_frontier": false,
+      "specifier": "<5.0,>=4.57.0"
+    },
+    {
+      "scope": "optional:dev",
+      "package": "tomli",
+      "declared_minimum": "2.4.1",
+      "latest": "2.4.1",
+      "at_frontier": true,
+      "specifier": "<3.0,>=2.4.1"
+    },
+    {
+      "scope": "optional:experimental",
+      "package": "duckdb",
+      "declared_minimum": "1.5.4",
+      "latest": "1.5.5",
+      "at_frontier": false,
+      "specifier": "<2,>=1.5.4"
+    },
+    {
+      "scope": "optional:experimental",
+      "package": "orjson",
+      "declared_minimum": "3.11.9",
+      "latest": "3.11.9",
+      "at_frontier": true,
+      "specifier": "<4,>=3.11.9"
+    },
+    {
+      "scope": "optional:experimental",
+      "package": "msgspec",
+      "declared_minimum": "0.21.1",
+      "latest": "0.21.1",
+      "at_frontier": true,
+      "specifier": "<1,>=0.21.1"
+    },
+    {
+      "scope": "optional:plotting",
+      "package": "matplotlib",
+      "declared_minimum": "3.11.1",
+      "latest": "3.11.1",
+      "at_frontier": true,
+      "specifier": "<4,>=3.11.1"
+    },
+    {
+      "scope": "optional:plotting",
+      "package": "seaborn",
+      "declared_minimum": "0.13.2",
+      "latest": "0.13.2",
+      "at_frontier": true,
+      "specifier": "<1,>=0.13.2"
+    },
+    {
+      "scope": "optional:performance",
+      "package": "psutil",
+      "declared_minimum": "5.9",
+      "latest": "7.2.2",
+      "at_frontier": false,
+      "specifier": "<8.0,>=5.9"
+    },
+    {
+      "scope": "optional:deep_learning",
+      "package": "torch",
+      "declared_minimum": "2.13.0",
+      "latest": "2.13.0",
+      "at_frontier": true,
+      "specifier": "<3.0,>=2.13.0"
+    },
+    {
+      "scope": "optional:web",
+      "package": "fastapi",
+      "declared_minimum": "0.139.2",
+      "latest": "0.141.1",
+      "at_frontier": false,
+      "specifier": "<1.0,>=0.139.2"
+    },
+    {
+      "scope": "optional:web",
+      "package": "httpx",
+      "declared_minimum": "0.28.1",
+      "latest": "0.28.1",
+      "at_frontier": true,
+      "specifier": "<1.0,>=0.28.1"
+    },
+    {
+      "scope": "optional:web",
+      "package": "uvicorn",
+      "declared_minimum": "0.51.0",
+      "latest": "0.52.0",
+      "at_frontier": false,
+      "specifier": "<1.0,>=0.51.0"
+    },
+    {
+      "scope": "build",
+      "package": "maturin",
+      "declared_minimum": "1.9",
+      "latest": "1.14.1",
+      "at_frontier": false,
+      "specifier": "<2.0,>=1.9"
+    }
+  ]
+}
