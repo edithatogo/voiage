@@ -1,1 +1,0 @@
-Task: correct the append-only remediation revision receipt. Summary: binds the prior receipt to actual signed commit f54b485d0007e75fe9b71deb6e9ef6d34a8e541c without rewriting ledger history.
