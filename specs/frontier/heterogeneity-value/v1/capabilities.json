@@ -1,0 +1,23 @@
+{
+  "capability_id": "heterogeneity-value-decomposition-v1",
+  "maturity": "experimental",
+  "method": "exact finite static and dynamic heterogeneity-value decomposition",
+  "python_modules": [
+    "voiage/methods/heterogeneity_value.py"
+  ],
+  "stable_claim_allowed": false,
+  "surfaces": {
+    "julia": {"status": "unsupported"},
+    "mojo": {"status": "external"},
+    "python": {"status": "executable"},
+    "r": {"status": "unsupported"},
+    "rust": {"status": "unsupported"}
+  },
+  "unsupported": [
+    "subgroup discovery or effect estimation",
+    "post-selection or multiplicity adjustment",
+    "sparse-subgroup scientific validity claims",
+    "continuous or multistage research models",
+    "stable or polyglot execution"
+  ]
+}

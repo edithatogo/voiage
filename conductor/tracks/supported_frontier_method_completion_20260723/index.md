@@ -40,6 +40,8 @@
 - [Forecast-signal issue #572](https://github.com/edithatogo/voiage/issues/572)
 - [Forecast-signal delivery subissues #759/#760/#762](https://github.com/edithatogo/voiage/issues/572)
 - [Forecast-signal implementation PR #770](https://github.com/edithatogo/voiage/pull/770)
+- [Heterogeneity-value reference review](./heterogeneity-value-reference-review.md)
+- [Heterogeneity-value issue #599 and delivery subissues #786/#788/#789](https://github.com/edithatogo/voiage/issues/599)
 
 Status: in progress. Every owned child issue is being reconciled against
 executable evidence or a reviewed exclusion; existing Project or issue status

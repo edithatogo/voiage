@@ -38,7 +38,7 @@
     },
     {
       "path": "docs/astro-site/src/content/docs/cli-reference.mdx",
-      "sha256": "e169e154d4d3f5083b75a3cbc15d718d77c106f61247863474b78332050023c6"
+      "sha256": "0091fc8b084e7d811111231834038051bc83bb4a69b941fcf2d6e78c80f1823d"
     }
   ],
   "execution_status": "experimental_python",
@@ -47,7 +47,9 @@
   "schema_version": "1.0.0",
   "stable_claim_allowed": false,
   "unresolved_gates": [
+    "independent implementation review",
     "independent scientific review",
+    "hosted exact-head assurance",
     "Rust, R and Julia parity",
     "stable promotion and release",
     "parent and umbrella closure"

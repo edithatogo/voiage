@@ -235,6 +235,10 @@ def test_tie_tolerance_uses_declared_value_unit_without_artificial_cap() -> None
     assert result["baseline"]["optimal_actions"] == ["adaptive", "status_quo"]
 
 
+def test_roundoff_tolerance_is_exactly_zero_at_zero_scale() -> None:
+    assert implementation._roundoff_tolerance(0.0, -0.0) == 0.0
+
+
 def test_reference_action_must_be_exact_not_merely_numerically_close() -> None:
     payload = _input()
     payload["states"][0]["action_values"]["status_quo"] = 5.0 - 1e-14

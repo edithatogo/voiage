@@ -14,8 +14,8 @@
     {"path": "specs/frontier/value-of-distributional-information/v1/README.md", "sha256": "cda82e1a704b5172d11fb551d77318dca9cb80972a49889bb763dba098862bae"},
     {"path": "voiage/contracts/distributional_information.py", "sha256": "a2a9a8f4a9c85173f00fa34e928e6b6c04619885be2dc647a3a9ab91ba4e5854"},
     {"path": "voiage/methods/distributional_information.py", "sha256": "cd8fef252073109450fbfa7f422cb08eb084827ebfad35da412d99ad07c75f28"},
-    {"path": "voiage/cli.py", "sha256": "de74e681f8e691ff2af3fc14645d18ac9ab58f50f589ae5724f95e0d23cd4035"},
-    {"path": "voiage/__init__.py", "sha256": "341cea1a0ff2f74adcdd954223c2684c281d04175f31f7165ec5cd00b783cd1b"},
+    {"path": "voiage/cli.py", "sha256": "26c1800fb11669b8b038bb73af82c96de601073046cf5601fe8f8fc55b61a48a"},
+    {"path": "voiage/__init__.py", "sha256": "2e730f2d1ed15a8ae331b901700343b30a41ebbe6a6985da04e91b4abced9ea1"},
     {"path": "conductor/tracks/supported_frontier_method_completion_20260723/distribution-family-information-reference-review.md", "sha256": "d0fcdacde3d0340684428298259551a8d58fb6e0b4efcb780b48b7b106337548"},
     {"path": "conductor/tracks/supported_frontier_method_completion_20260723/distribution-family-information-implementation-review.md", "sha256": "075ade9e26efcc4d0a680ea46536352fa31b672c65259c48c7fc1a6a6ab51f0b"},
     {"path": "tests/test_distributional_information.py", "sha256": "c6dadac00dea8e9294c0dba7518fdeda3e10848645fdaab6840e16e0563d6c25"},
@@ -23,8 +23,8 @@
     {"path": "tests/test_distributional_information_surfaces.py", "sha256": "26c2ecaa206a78ee89b4bee14c7dbf83f5de587c0b38c5e4bd0ddfe6c3e402a9"},
     {"path": "docs/astro-site/src/content/docs/examples/value-of-distributional-information.mdx", "sha256": "c99c508b5b500fb2ebbe55705d3ed3e04d4516b079e962d4506243593fb1c130"},
     {"path": "docs/astro-site/src/content/docs/examples/index.mdx", "sha256": "05a85be3eb59d963b1fd59973f87c8ff1378cdfa11c8638f8dc430415f9546b4"},
-    {"path": "docs/astro-site/src/content/docs/cli-reference.mdx", "sha256": "e169e154d4d3f5083b75a3cbc15d718d77c106f61247863474b78332050023c6"},
-    {"path": "changelog.md", "sha256": "2615d546878bab01a77b880854ce2acd35b6cb58be9854aee963ce4523466c3d"}
+    {"path": "docs/astro-site/src/content/docs/cli-reference.mdx", "sha256": "0091fc8b084e7d811111231834038051bc83bb4a69b941fcf2d6e78c80f1823d"},
+    {"path": "changelog.md", "sha256": "b3c4ba20f38a2dd3646d99fea8c4f51df04114579a96ac20a2c3237961a63859"}
   ],
   "remaining_gates": [
     "independent implementation and scientific review",

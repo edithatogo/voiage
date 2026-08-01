@@ -10,7 +10,7 @@
     {"path": "specs/frontier/forecast-signal-information/v1/fixtures/normative/expected.json", "sha256": "f3b98cc6feeb17d878379e5aa16923ec64bb48f5008035905b5e4798bdb8e313"},
     {"path": "specs/frontier/forecast-signal-information/v1/schemas/forecast-signal-information-input.schema.json", "sha256": "ed1020144f80f1971b21804152ead0838165b6c4e4a74af98673fd3f9319a57e"},
     {"path": "specs/frontier/forecast-signal-information/v1/schemas/forecast-signal-information-result.schema.json", "sha256": "2f76f7d865b6380d3fe31866bb69d94aef7dd5d427a5f58099f88e633365e7e9"},
-    {"path": "docs/astro-site/src/content/docs/cli-reference.mdx", "sha256": "e169e154d4d3f5083b75a3cbc15d718d77c106f61247863474b78332050023c6"}
+    {"path": "docs/astro-site/src/content/docs/cli-reference.mdx", "sha256": "0091fc8b084e7d811111231834038051bc83bb4a69b941fcf2d6e78c80f1823d"}
   ],
   "execution_status": "experimental_python",
   "issue": 572,

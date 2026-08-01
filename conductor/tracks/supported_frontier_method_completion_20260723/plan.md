@@ -20,8 +20,11 @@ promotion, release, and issue closure remain separate gates.
 | Distribution-Family Information | #557; #731–#735 | F557-1–F557-5 |
 | Portable qualitative VOI | #558; #738–#742 | F558-1–F558-5 |
 | Finite additive MCDA information value | #560; #746–#750 | F560-1–F560-5 |
-| Outcome-conditional sample-information value | #600; #790–#792 | F600-1–F600-4 |
+| Belief-state sequential information value | #597; #780–#782 | F597-1–F597-R5 |
+| Signed/social information value | #598; #783–#785 | planned C18/M29; delivery remains separate |
 | Dependent information-source portfolio | #582; #763–#765 | dedicated track `information_source_portfolio_voi_20260801` |
+| Static/dynamic heterogeneity value | #599; #786, #788, #789 | F599-1–F599-4 |
+| Outcome-conditional sample-information value | #600; #790–#792 | F600-1–F600-4 |
 
 The Rust-first programme and its remaining workstream tracks are governed by
 the separate root track `rust_polyglot_voi_completion_20260723`; this table
@@ -277,6 +280,36 @@ covers the experimental frontier entries only.
   stable-promotion, release and parent-closure gates remain pending.
   (AC-03–AC-07, AC-09)
 
+- [x] **F599-1 / #786:** Freeze #599's M30 four-value static/dynamic
+  heterogeneity estimand, optional EVSI extension, planned v1.3.0 Should
+  requirements, Mermaid flow and primary-reference boundary. (AC-02, AC-03,
+  AC-09) `1a075383`
+- [x] **F599-2 / #786:** Add strict v1 schemas, deterministic opposing
+  static/dynamic fixture, declared subgroup selection, weights, eligibility,
+  fairness/privacy, research model, provenance and language dispositions.
+  (AC-02–AC-06) `1a075383`
+- [x] **F599-3 / #788:** Implement exact experimental Python/API/CLI execution
+  for `C0`, `Cf`, `P0`, `Pf`, static/dynamic value, subgroup EVPI, optional
+  population/subgroup EVSI, complete ties and exact identities without
+  replacing the stable heterogeneity helper. (AC-02–AC-06)
+  `1a075383`
+- [x] **F599-4 / #789:** Run independent implementation/scientific review,
+  complete changed-branch, local and hosted exact-head assurance; retain
+  scientific validity, selection-bias/sparse-subgroup review, Rust/R/Julia
+  parity, stable promotion, release, parent #599 and umbrella #318 closure as
+  separate gates. Independent review found and remediated model-unbound result
+  assurance in `4b5d8d08`; the final review record is
+  `heterogeneity-value-implementation-review.md`. Local focused, mutation,
+  100% changed statement/branch, static, frontier, cross-reference and full
+  Conductor gates pass. PR #809 exact implementation head
+  `b0fc8db75796ffac9e66720ab45fdcf341c0b516` completed all 42 hosted checks
+  with 38 successes, three governed skips and one neutral CodeQL aggregation;
+  there were zero review threads before squash merge
+  `1a37526af0ee87acc57dd14a629eb52aef2e182c`. Delivery subissues #786, #788
+  and #789 may close. Scientific review, selection-bias and sparse-subgroup
+  validity review, Rust/R/Julia parity, stable promotion, release, parent #599
+  closure and umbrella #318 closure remain pending. (AC-03–AC-07)
+
 - [x] **F598-1 / #783:** Freeze C18/M29's complete finite joint-world law,
   named agents/roles/topology/designs, nonanticipative policy catalogs, signed
   estimands, welfare/cardinal-comparability declaration, selective-sharing
@@ -297,8 +330,9 @@ covers the experimental frontier entries only.
   `f04b1627`
 - [x] **F598-5 / #785:** Run independent implementation/scientific review,
   changed-line/branch and full local assurance, hosted exact-head/wheel checks,
-  then reconcile #598 without claiming parity, stable promotion, release or
-  parent closure. The first implementation reviewer found and remediated
+  and merge the bounded experimental delivery without claiming scientific
+  approval, parity, stable promotion, release or parent closure. The first
+  implementation reviewer found and remediated
   portable derived-result and Blackwell-applicability defects in
   `signed-social-information-implementation-review.md`. A fresh independent
   re-review passed at `d7d569b2` with no remaining Critical, High or Medium

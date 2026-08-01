@@ -76,6 +76,14 @@ _EXTENSION_EXPORTS = {
         ".methods.belief_state_information",
         "belief_state_information_value",
     ),
+    "HeterogeneityValueDecompositionResult": (
+        ".methods.heterogeneity_value",
+        "HeterogeneityValueDecompositionResult",
+    ),
+    "heterogeneity_value_decomposition": (
+        ".methods.heterogeneity_value",
+        "heterogeneity_value_decomposition",
+    ),
     "EventLocalizedInformationResult": (
         ".methods.event_localized_information",
         "EventLocalizedInformationResult",

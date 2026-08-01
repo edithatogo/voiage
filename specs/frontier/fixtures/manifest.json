@@ -100,6 +100,11 @@
       "method_maturity": "experimental"
     },
     {
+      "name": "heterogeneity_value_decomposition",
+      "path": "heterogeneity-value/v1/fixtures/manifest.json",
+      "method_maturity": "experimental"
+    },
+    {
       "name": "deterministic_sensitivity_analysis",
       "path": "deterministic-sensitivity-analysis/v1/fixtures/manifest.json",
       "method_maturity": "experimental"

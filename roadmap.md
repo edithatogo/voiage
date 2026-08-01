@@ -18,14 +18,26 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 Across the completed lanes, external registry, hardware, and speedup evidence gates remain explicit rather than treated as repository-owned completion criteria.
 
 The v1.3 residual frontier programme is governed canonically by VOP C18. Issue
-#597 now has experimental Python repository delivery for an exact finite belief
-MDP with control-transition-observe-update chronology, matched closed-loop/no-
-information Bellman comparators, intervention-dependent learning diagnostics
-and explicit null-sensor assurance. PR #807 exact head `35cfe522` passed its
-hosted exact-head, installed-wheel and full-suite matrix before squash merge
-`39de9c6a`; governed closeout commit `f6589d60` retains scientific review,
-polyglot parity, stable promotion, release, parent #597 closure and umbrella
-#318 closure as separate gates.
+#599 completed its governed experimental repository delivery. Its exact finite
+Python contract preserves the existing stable descriptive helper while adding
+the four policy values `C0`/`Cf`/`P0`/`Pf`, population and subgroup EVPI, an
+optional separately reported EVSI extension, strict subgroup selection,
+eligibility, fairness and privacy declarations, and exact decomposition
+assurance. PR #809 exact head `b0fc8db7` completed all 42 terminal-allowed
+checks with 38 successes, three governed skips and one neutral CodeQL
+aggregation; it had zero review threads before squash merge `1a37526a`.
+Delivery subissues #786, #788 and #789 may close. Scientific validity,
+selection-bias and sparse-subgroup review, Rust/R/Julia parity, stable
+promotion, release, parent #599 closure and umbrella #318 closure remain open.
+
+#597 completed its governed experimental repository delivery. PR #807 exact
+head `35cfe522` completed all 42 terminal-allowed hosted checks with 38
+successes, three governed skips and one neutral CodeQL aggregation. All three
+review threads were resolved before squash merge `39de9c6a`. The exact finite
+belief MDP retains control-transition-observe-update chronology, matched
+closed-loop/no-information comparators and intervention-dependent learning
+diagnostics. Scientific review, Rust/R/Julia parity, stable promotion, release,
+parent #597 closure and umbrella #318 closure remain separate gates.
 
 #596 now has a test-first experimental Python delivery for C18/M27. It evaluates
 perfect event information, a symmetric imperfect binary channel and the
@@ -46,8 +58,9 @@ release, parent #593 closure and umbrella #318 closure remain open. The existing
 implementation multiplier is retained as a
 compatibility helper and is not described as EVPIM/EVSIM/IA-EVSI.
 
-C18/M29 issue #598 now has experimental Python repository delivery for exact
-finite signed, social and strategic information value. It freezes the
+C18/M29 issue #598 has completed its governed experimental Python repository
+delivery. The exact finite contract covers signed, social and strategic
+information value. It freezes the
 joint-world law, roles, topology, selective-sharing designs, nonanticipative
 bounded catalogs, welfare comparability, transfers, costs and rights receipts;
 retains negative values; and returns harm, avoidance, switches,
@@ -58,6 +71,22 @@ all 10 review threads were resolved, and the experimental delivery
 squash-merged as `d649c344`. Delivery subissues #783–#785 may close. Scientific
 review, Rust/R/Julia parity, stable promotion, release, parent #598 closure and
 umbrella #318 closure remain open.
+
+Outcome-conditional sample-information value (#600, C18/M31) is scoped as an
+exact finite experimental Python delivery under native subissues #790–#792.
+The contract reports predictive-probability-weighted `delta-EV_x` and `VSI_x`,
+EVSI, Equation 10's weighted population `sigma-VSI`, `rVSI_delta` and
+quantiles/tails with complete policies and result reconstruction. It treats the
+tower equalities as expectation-linear only, distinguishes `rVSI0` from
+policy-switch mass under ties, and explicitly rejects the source paper's
+unweighted MATLAB/Table 3 standard-deviation calculation as a normative
+implementation. Continuous outcomes, fitted estimators, scientific review,
+polyglot parity, stable promotion, release and parent closure remain open.
+The repository-owned branch is locally complete at signed implementation
+commit `6548dda7`, with value-unit remediation at `aaf77aaf`. Fresh independent
+implementation review found no open Critical, High or Medium finding. Hosted
+exact-head/installed-wheel assurance and merge remain mandatory before
+describing that branch as delivered on the default branch.
 
 **June 25 follow-through closeout:** ✅ **ARCHIVED** - The June 25 follow-through queue is complete and archived for its repository-owned implementation and
 evidence slices. Registry approval, external indexing, production accelerator
@@ -241,22 +270,6 @@ record for the existing approved method family; it does not create a duplicate
 VoC method. Repository evidence remains experimental pending scientific review
 and separate stable-promotion approval; the #595 exact-head hosted matrix
 passed before PR #712 merged.
-
-Outcome-conditional sample-information value (#600, C18/M31) is now scoped as
-an exact finite experimental Python delivery under native subissues #790–#792.
-The contract reports predictive-probability-weighted `delta-EV_x` and `VSI_x`,
-EVSI, Equation 10's weighted population `sigma-VSI`, `rVSI_delta` and
-quantiles/tails with complete policies and result reconstruction. It treats the
-tower equalities as expectation-linear only, distinguishes `rVSI0` from
-policy-switch mass under ties, and explicitly rejects the source paper's
-unweighted MATLAB/Table 3 standard-deviation calculation as a normative
-implementation. Continuous outcomes, fitted estimators, scientific review,
-polyglot parity, stable promotion, release and parent closure remain open.
-The repository-owned branch is locally complete at signed implementation
-commit `6548dda7`, with value-unit remediation at `aaf77aaf`. Fresh independent
-implementation review found no open Critical, High or Medium finding. Hosted
-exact-head/installed-wheel assurance and merge remain mandatory before
-describing that branch as delivered on the default branch.
 
 Risk-sensitive and constrained VOI (#570) now has experimental exact finite
 Python delivery under C18/M22. PR #769 exact head `f513416f` passed its hosted
