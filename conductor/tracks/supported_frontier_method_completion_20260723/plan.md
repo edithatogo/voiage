@@ -21,9 +21,9 @@
 
 ## Phase 2 — Evidence before positive claims
 
-- [ ] **F557-1 / #731:** Freeze #557's distribution-family estimand, terminology,
+- [x] **F557-1 / #731:** Freeze #557's distribution-family estimand, terminology,
   MoSCoW requirements, Mermaid flow, independent reference review and failing
-  analytical/property/pathology tests. (AC-02, AC-03, AC-09)
+  analytical/property/pathology tests. (AC-02, AC-03, AC-09) `b78120e1`
 - [ ] **F557-2 / #732:** Add strict versioned schemas, exact normative fixtures,
   provenance, comparability, estimator status and language dispositions.
   (AC-02–AC-06)
