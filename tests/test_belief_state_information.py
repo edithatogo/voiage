@@ -479,6 +479,47 @@ def test_exact_enumeration_budget_fails_closed_before_expansion() -> None:
         belief_state_information_value(payload)
 
 
+def test_fully_observed_state_branching_is_included_in_preflight() -> None:
+    payload = _input()
+    state_ids = [f"state-{index}" for index in range(20)]
+    payload["horizon"] = 4
+    payload["latent_states"] = [
+        {
+            "state_id": state_id,
+            "initial_probability": 1.0 if index == 0 else 0.0,
+        }
+        for index, state_id in enumerate(state_ids)
+    ]
+    payload["control_actions"] = [{"action_id": "wait"}]
+    payload["observations"] = [{"observation_id": "none"}]
+    deterministic = {
+        state_id: 1.0 if index == 0 else 0.0 for index, state_id in enumerate(state_ids)
+    }
+    payload["transition_model"] = {
+        "wait": {state_id: dict(deterministic) for state_id in state_ids}
+    }
+    payload["rewards"] = {"wait": dict.fromkeys(state_ids, 0.0)}
+    payload["sensors"] = [
+        {
+            "sensor_id": "none",
+            "null_sensor": True,
+            "cost": 0.0,
+            "likelihood_by_control": {
+                "wait": {state_id: {"none": 1.0} for state_id in state_ids}
+            },
+        }
+    ]
+    payload["constraints"] = {
+        "allowed_control_action_ids_by_stage": {
+            str(stage): ["wait"] for stage in range(4)
+        },
+        "allowed_sensor_ids_by_control": {"wait": ["none"]},
+    }
+
+    with pytest.raises(InputError, match="expansion estimate 168453 exceeds"):
+        belief_state_information_value(payload)
+
+
 def test_small_branching_problem_can_use_the_declared_maximum_horizon() -> None:
     payload = _input()
     payload["horizon"] = 12
@@ -494,6 +535,7 @@ def test_small_branching_problem_can_use_the_declared_maximum_horizon() -> None:
         result["assurance"]["estimated_bellman_expansions"]
         <= result["assurance"]["exact_enumeration_budget"]
     )
+    assert result["assurance"]["estimated_bellman_expansions"] == 24_649
 
 
 @pytest.mark.parametrize(

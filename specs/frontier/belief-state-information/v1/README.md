@@ -24,9 +24,11 @@ existing `sequential_voi`, real-options, monitoring, or bandit helpers.
 
 Assurance includes a posterior-martingale check, null-sensor and
 no-information reductions, complete tolerance ties, deterministic
-serialization, strict result-identity validation, a conservative 50,000-node
-Bellman-expansion budget, memoization of repeated belief states, and exact
-zero-gap bounds. Action-dependent transition is reported separately. The
+serialization, strict result-identity validation, a conservative 50,000-call
+recursive-evaluator budget covering adaptive, no-information, myopic,
+conditional-sensing and fully observed regret calculations, memoization of
+repeated belief states, and exact zero-gap bounds. Action-dependent transition
+is reported separately. The
 dual-control diagnostic is true only when an action changes a state-informative
 observation law and the selected policy has a usable downstream control
 response. Action-dependent marginal observation frequency without state

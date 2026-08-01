@@ -8,7 +8,7 @@
     "approximation_used": false,
     "complete_ties_reported": true,
     "dual_control_diagnostic": true,
-    "estimated_bellman_expansions": 52,
+    "estimated_bellman_expansions": 82,
     "estimator": "deterministic_exact",
     "exact_enumeration_budget": 50000,
     "exact_enumeration": true,

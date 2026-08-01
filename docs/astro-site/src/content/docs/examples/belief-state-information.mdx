@@ -35,9 +35,11 @@ costs, updates its belief, and selects a state-directed control.
 The JSON result includes the complete chosen belief/policy tree, all
 tolerance-tied controls and sensors, conditional sensor values, gross and net
 value, value by horizon, the posterior-martingale residual, exact bounds, and
-language dispositions. The exact evaluator reports a conservative expansion
-estimate and rejects requests above its 50,000-expansion budget before
-recursion. Repeated belief states are memoized.
+language dispositions. The exact evaluator reports a conservative recursive
+evaluator-call estimate covering adaptive, no-information, myopic,
+conditional-sensing and fully observed regret calculations. It rejects
+requests above its 50,000-call budget before recursion. Repeated belief states
+are memoized.
 
 `dual_control_diagnostic` requires both an action-dependent,
 state-informative observation law and a usable downstream control response.

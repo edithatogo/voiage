@@ -1,14 +1,14 @@
 {
   "artifacts": [
-    {"path": "voiage/methods/belief_state_information.py", "sha256": "b779a4601fd94130780e2871f28a6159c1de8e347cc18bb6f7b623534cb5a475"},
-    {"path": "specs/frontier/belief-state-information/v1/README.md", "sha256": "c563f59a560d2230d4b1cb86f7a98c35049268fce6fa83fa8542c2bfd878b97d"},
+    {"path": "voiage/methods/belief_state_information.py", "sha256": "cd424a9371f85fde8ca01b2217b4b6ab53f5e64a61e17cf66c593f9112c66793"},
+    {"path": "specs/frontier/belief-state-information/v1/README.md", "sha256": "a1094548b9cc20cf351a3ab0e5a9e2558d0bd3018a1a250fca6ab273cb86c6b8"},
     {"path": "specs/frontier/belief-state-information/v1/capabilities.json", "sha256": "ccffb35b51f7be32583cf25af717bafc7bbcd7c103de0635d7ade1f56a0b88fb"},
     {"path": "specs/frontier/belief-state-information/v1/fixtures/manifest.json", "sha256": "f1b5ddda757e256e3a63ae09cfae8cca989f5f33254a7f74a0618cefd8253ede"},
     {"path": "specs/frontier/belief-state-information/v1/fixtures/normative/input.json", "sha256": "67c2a02db362f2b2006b0826d5de8c073ab6282a47b993e70e3bd91f6d17c57f"},
-    {"path": "specs/frontier/belief-state-information/v1/fixtures/normative/expected.json", "sha256": "20281a941db2da38db0c597649f33169c809763bf990a5a6133fd976dffb6251"},
+    {"path": "specs/frontier/belief-state-information/v1/fixtures/normative/expected.json", "sha256": "449d984ecd2cc325e2d86ff935d30e2e0ea978d00e474da0eb9cf0cde137823d"},
     {"path": "specs/frontier/belief-state-information/v1/schemas/belief-state-information-input.schema.json", "sha256": "a7fa0100f98d039482e51b668bbbf99e914a42a4e1b7f12dd1edb85cecd74acb"},
     {"path": "specs/frontier/belief-state-information/v1/schemas/belief-state-information-result.schema.json", "sha256": "4664a3b43af6afd63bbd9fba92f1ec9389e7440f72912f55b7d5a5b18d73f8f0"},
-    {"path": "docs/astro-site/src/content/docs/examples/belief-state-information.mdx", "sha256": "53a727f00d155fcd699a65ead7700908aa3e52fce40ad3ad5f3f1460ad91934f"},
+    {"path": "docs/astro-site/src/content/docs/examples/belief-state-information.mdx", "sha256": "7e046af0ab36fe20f3e8e7d59f74a2b9ea125b31618c7fa37d6562f3d472fd9a"},
     {"path": "docs/astro-site/src/content/docs/cli-reference.mdx", "sha256": "b3c5e91505c298d84d3d31b79bceddd6f86cf1b9c3faa2d442b763f6de564d0a"}
   ],
   "execution_status": "experimental_python",

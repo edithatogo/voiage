@@ -376,6 +376,7 @@ def _validate_and_build(payload: dict[str, Any]) -> _Model:
 
     estimated_expansions = _estimate_bellman_expansions(
         horizon=horizon,
+        states=len(states),
         observations=len(observations),
         allowed_actions=allowed_actions,
         allowed_sensors=allowed_sensors,
@@ -412,24 +413,67 @@ def _validate_and_build(payload: dict[str, Any]) -> _Model:
 def _estimate_bellman_expansions(
     *,
     horizon: int,
+    states: int,
     observations: int,
     allowed_actions: Mapping[int, Sequence[str]],
     allowed_sensors: Mapping[str, Sequence[str]],
 ) -> int:
-    """Return a deterministic conservative bound for recursive expansions."""
-    calls_by_stage = [0] * horizon
-    calls_by_stage[-1] = 1
-    for stage in range(horizon - 2, -1, -1):
-        branch_factor = observations * sum(
-            len(allowed_sensors[action]) for action in allowed_actions[stage]
-        )
-        calls_by_stage[stage] = 1 + branch_factor * calls_by_stage[stage + 1]
-    full_and_horizon_curve = calls_by_stage[0] + math.fsum(calls_by_stage)
-    conditional_branches = observations * sum(
-        len(allowed_sensors[action]) for action in allowed_actions[0]
+    """Return a conservative bound for every recursive evaluator invocation.
+
+    The bound deliberately ignores adaptive-cache hits. It therefore remains
+    safe when numerically equal beliefs have different floating-point
+    representations, while memoization can still reduce actual work. The
+    fully observed comparator branches over every declared latent-state entry,
+    including zero-probability transitions, so its state factor must be counted
+    independently of the observation-space factor used by the belief solver.
+    """
+
+    def recursive_calls(branch_factors: Sequence[int]) -> int:
+        calls = 1
+        for branch_factor in reversed(branch_factors[:-1]):
+            calls = 1 + branch_factor * calls
+        return calls
+
+    adaptive_factors = [
+        observations
+        * sum(len(allowed_sensors[action]) for action in allowed_actions[stage])
+        for stage in range(horizon)
+    ]
+    no_information_factors = [len(allowed_actions[stage]) for stage in range(horizon)]
+    fully_observed_factors = [
+        states * len(allowed_actions[stage]) for stage in range(horizon)
+    ]
+
+    adaptive_full = recursive_calls(adaptive_factors)
+    adaptive_horizon_curve = sum(
+        recursive_calls(adaptive_factors[:partial_horizon])
+        for partial_horizon in range(1, horizon + 1)
     )
-    conditional = conditional_branches * calls_by_stage[1] if horizon > 1 else 0
-    return int(full_and_horizon_curve + conditional + 1)
+    adaptive_myopic = 1
+    conditional = (
+        adaptive_factors[0] * recursive_calls(adaptive_factors[1:])
+        if horizon > 1
+        else 0
+    )
+
+    no_information_full = recursive_calls(no_information_factors)
+    no_information_horizon_curve = sum(
+        recursive_calls(no_information_factors[:partial_horizon])
+        for partial_horizon in range(1, horizon + 1)
+    )
+    no_information_myopic = 1
+
+    fully_observed = states * recursive_calls(fully_observed_factors)
+    return (
+        adaptive_full
+        + adaptive_horizon_curve
+        + adaptive_myopic
+        + conditional
+        + no_information_full
+        + no_information_horizon_curve
+        + no_information_myopic
+        + fully_observed
+    )
 
 
 def _expected_reward(model: _Model, belief: Mapping[str, float], action: str) -> float:

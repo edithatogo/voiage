@@ -5,6 +5,9 @@
 Independent implementation review of issue #597 / C18-M28 at signed branch
 head `395aedde`, followed by bounded remediation. This record is an engineering
 review, not independent scientific approval or stable-promotion evidence.
+A fresh re-review at signed head `5693b3ee` found one residual runtime-bound
+defect. The fresh reviewer then became the second remediator, so a third
+independent implementation review remains required.
 
 ## Findings and disposition
 
@@ -34,6 +37,16 @@ review, not independent scientific approval or stable-promotion evidence.
    tolerances. Remediated by bounding the declared tolerance at `1e-6`, applying
    it consistently with zero relative tolerance and preserving declared inputs
    without silent normalization.
+5. **High — incomplete recursive-work preflight.** The first remediation
+   bounded adaptive observation branches but omitted the fully observed regret
+   comparator's latent-state recursion. A valid 20-state, four-stage model
+   reported only 18 estimated expansions while exceeding 50,000 fully observed
+   calls. Remediated by conservatively summing every recursive evaluator run:
+   full and horizon-curve adaptive policies, the myopic policy, conditional
+   sensing, matched no-information comparators and the fully observed regret
+   comparator. The adversarial model now rejects before recursion at an exact
+   conservative estimate of 168,453 calls; the accepted one-action,
+   one-sensor, two-state horizon-twelve boundary reports 24,649 calls.
 
 ## Independent recomputation
 
@@ -48,8 +61,9 @@ normative result.
 
 ## Remaining boundary
 
-Because the independent reviewer implemented the remediation, this record does
-not self-approve the final patch. A fresh independent implementation reviewer
-must review the remediation before publication, hosted exact-head assurance and
-merge. Independent scientific review, Rust/R/Julia parity, stable promotion,
-release, parent #597 closure and umbrella #318 closure remain pending.
+Because each independent reviewer implemented the remediation it found, this
+record does not self-approve the final patch. A third fresh independent
+implementation reviewer must review the complete remediation before
+publication, hosted exact-head assurance and merge. Independent scientific
+review, Rust/R/Julia parity, stable promotion, release, parent #597 closure and
+umbrella #318 closure remain pending.
