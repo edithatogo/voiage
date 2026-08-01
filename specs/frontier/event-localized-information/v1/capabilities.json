@@ -18,8 +18,7 @@
     "Mojo": "external_upstream_boundary"
   },
   "python_modules": [
-    "voiage/methods/event_localized_information.py",
-    "voiage/plot/event_localized_information.py"
+    "voiage/methods/event_localized_information.py"
   ],
   "delegated": {
     "BPI": "issue #595 expected-utility information-pricing contract"
