@@ -18,7 +18,7 @@ planning PR #621 are reconciled; classification and review remain pending.*
 
 ---
 
-## [ ] Track: External VOI Library Landscape and Feature-Parity Review
+## [~] Track: External VOI Library Landscape and Feature-Parity Review
 *Link: [./tracks/external_voi_library_feature_parity_20260723/index.md](./tracks/external_voi_library_feature_parity_20260723/index.md)*
 *GitHub: [issue #315](https://github.com/edithatogo/voiage/issues/315), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
