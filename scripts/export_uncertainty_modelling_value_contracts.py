@@ -7,7 +7,8 @@ from __future__ import annotations
 from copy import deepcopy
 import json
 from pathlib import Path
-from typing import Any, cast
+import typing
+from typing import cast
 
 from voiage.contracts.uncertainty_modelling_value import (
     UNCERTAINTY_MODELLING_VALUE_INPUT_SCHEMA_V1,
@@ -15,7 +16,7 @@ from voiage.contracts.uncertainty_modelling_value import (
 )
 from voiage.methods.uncertainty_modelling_value import value_of_uncertainty_modelling
 
-type _JsonObject = dict[str, Any]
+type _JsonObject = dict[str, typing.Any]
 
 ROOT = Path(__file__).parents[1]
 CONTRACT = ROOT / "specs/frontier/uncertainty-modelling-value/v1"

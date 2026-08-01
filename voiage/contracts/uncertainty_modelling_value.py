@@ -7,14 +7,15 @@ from __future__ import annotations
 from collections.abc import Mapping
 from itertools import pairwise
 import math
-from typing import TYPE_CHECKING, Any, Final, cast
+import typing
+from typing import TYPE_CHECKING, Final, cast
 
 from jsonschema import Draft202012Validator
 
 if TYPE_CHECKING:
     from jsonschema.exceptions import ValidationError
 
-type _JsonObject = dict[str, Any]
+type _JsonObject = dict[str, typing.Any]
 
 _ID: Final[dict[str, object]] = {
     "type": "string",
@@ -577,7 +578,7 @@ UNCERTAINTY_MODELLING_VALUE_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
 def _validate(schema: Mapping[str, object], instance: Mapping[str, object]) -> None:
     validator = Draft202012Validator(schema)
     errors: list[ValidationError] = sorted(
-        validator.iter_errors(cast("Any", instance)),
+        validator.iter_errors(cast("typing.Any", instance)),
         key=lambda error: list(error.absolute_path),
     )
     if errors:
@@ -592,7 +593,7 @@ def validate_uncertainty_modelling_value_semantics(
     """Validate cross-record identities and finite exact-policy semantics."""
     _validate(UNCERTAINTY_MODELLING_VALUE_INPUT_SCHEMA_V1, payload)
     data = cast("_JsonObject", payload)
-    states = cast("list[dict[str, Any]]", data["states"])
+    states = cast("list[dict[str, typing.Any]]", data["states"])
     state_ids = [str(state["state_id"]) for state in states]
     if len(state_ids) != len(set(state_ids)):
         raise ValueError("state identifiers must be unique")
@@ -602,7 +603,7 @@ def validate_uncertainty_modelling_value_semantics(
     ):
         raise ValueError("state probabilities must be finite and sum to one")
 
-    stages = cast("list[dict[str, Any]]", data["stages"])
+    stages = cast("list[dict[str, typing.Any]]", data["stages"])
     stage_ids = [str(stage["stage_id"]) for stage in stages]
     orders = [int(stage["order"]) for stage in stages]
     if len(stage_ids) != len(set(stage_ids)) or sorted(orders) != list(
@@ -617,7 +618,7 @@ def validate_uncertainty_modelling_value_semantics(
         if not previous_information.issubset(available):
             raise ValueError("information available must be cumulative across stages")
         previous_information = available
-    histories = cast("list[dict[str, Any]]", data["histories"])
+    histories = cast("list[dict[str, typing.Any]]", data["histories"])
     history_ids = [str(history["history_id"]) for history in histories]
     if len(history_ids) != len(set(history_ids)):
         raise ValueError("history identifiers must be unique")
@@ -661,18 +662,18 @@ def validate_uncertainty_modelling_value_semantics(
                     "later-stage histories must refine the prior-stage partition"
                 )
 
-    policies = cast("list[dict[str, Any]]", data["policies"])
+    policies = cast("list[dict[str, typing.Any]]", data["policies"])
     policy_ids = [str(policy["policy_id"]) for policy in policies]
     if len(policy_ids) != len(set(policy_ids)):
         raise ValueError("policy identifiers must be unique")
     for policy in policies:
-        decisions = cast("list[dict[str, Any]]", policy["history_decisions"])
+        decisions = cast("list[dict[str, typing.Any]]", policy["history_decisions"])
         decision_histories = [str(decision["history_id"]) for decision in decisions]
         if sorted(decision_histories) != sorted(history_ids):
             raise ValueError(
                 "every policy must declare one decision per shared history"
             )
-        outcomes = cast("list[dict[str, Any]]", policy["state_outcomes"])
+        outcomes = cast("list[dict[str, typing.Any]]", policy["state_outcomes"])
         outcome_ids = [str(outcome["state_id"]) for outcome in outcomes]
         if sorted(outcome_ids) != sorted(state_ids):
             raise ValueError("every policy must declare one outcome per state")
@@ -688,7 +689,7 @@ def validate_uncertainty_modelling_value_semantics(
             if not feasible and value is not None:
                 raise ValueError("infeasible outcomes require a null objective value")
 
-    candidates = cast("list[dict[str, Any]]", data["deterministic_candidates"])
+    candidates = cast("list[dict[str, typing.Any]]", data["deterministic_candidates"])
     candidate_ids = [str(candidate["candidate_id"]) for candidate in candidates]
     if len(candidate_ids) != len(set(candidate_ids)):
         raise ValueError("deterministic candidate identifiers must be unique")
