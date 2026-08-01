@@ -5,6 +5,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
+from voiage.exceptions import InputError
 from voiage.methods.distributional_information import (
     _validate_information_values,
     value_of_distributional_information,
@@ -141,6 +142,24 @@ def test_complete_ties_and_canonical_representative() -> None:
 )
 def test_fail_closed_pathologies(overrides: dict[str, object], message: str) -> None:
     with pytest.raises(ValueError, match=message):
+        _exact_result(**overrides)
+
+
+@pytest.mark.parametrize(
+    "overrides",
+    [
+        {"conditional_values": object()},
+        {"model_probabilities": object()},
+        {"model_definitions": [None]},
+        {"conditional_value_assurance": object()},
+        {"comparability": object()},
+        {"information_cost": object()},
+    ],
+)
+def test_direct_api_normalizes_prevalidation_failures(
+    overrides: dict[str, object],
+) -> None:
+    with pytest.raises(InputError):
         _exact_result(**overrides)
 
 

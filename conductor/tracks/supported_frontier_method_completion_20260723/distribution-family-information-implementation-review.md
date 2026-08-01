@@ -47,6 +47,16 @@ finding concerning oversized direct-API probability tolerances was remediated
 by enforcing the schema's `1e-6` maximum in shared semantic validation and by a
 zero-sum regression test. No Critical, High, Medium, or Low findings remain.
 
+Hosted review automation subsequently identified that malformed direct-call
+objects could fail during Python conversion before reaching the shared semantic
+validator. The public evaluator now preserves existing `InputError` failures
+and normalizes conversion `TypeError`, `ValueError`, and `OverflowError` into
+the same fail-closed boundary. Regression cases cover malformed values,
+probabilities, model definitions, assurance, comparability, and information
+cost. The separate empty-tie warning is unreachable: semantic validation
+requires a non-empty finite value row, and the selected finite maximum or
+minimum is itself exactly present and therefore always `isclose` to itself.
+
 Focused contract/runtime/surface assurance passed 87 tests. The wider
 integration slice passed 146 tests, including wheel, CLI registry, canonical
 projection, stable extension policy, and shared DSA/VoF evidence. Ruff, Ty, all

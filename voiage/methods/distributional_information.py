@@ -13,7 +13,7 @@ from voiage.contracts.distributional_information import (
     VALUE_OF_DISTRIBUTIONAL_INFORMATION_INPUT_SCHEMA_V1,
     validate_distributional_information_semantics,
 )
-from voiage.exceptions import raise_input_error
+from voiage.exceptions import InputError, raise_input_error
 
 if TYPE_CHECKING:
     from collections.abc import Mapping, Sequence
@@ -176,67 +176,69 @@ def value_of_distributional_information(
     This function never optimizes within family draws and never infers or
     renormalizes model probabilities.
     """
-    models = _named_strings(model_ids, label="model_ids")
-    alternatives = _named_strings(alternative_names, label="alternative_names")
-    if not isinstance(value_unit, str) or not value_unit.strip():
-        raise_input_error("value_unit must be a non-empty string.")
-    unit = value_unit.strip()
-    if not isinstance(analysis_id, str) or not analysis_id.strip():
-        raise_input_error("analysis_id must be a non-empty string.")
-    identifier = analysis_id.strip()
-    if direction not in {"maximize", "minimize"}:
-        raise_input_error("direction must be 'maximize' or 'minimize'.")
-    tolerances = np.asarray(
-        [absolute_tolerance, relative_tolerance, probability_sum_tolerance],
-        dtype=float,
-    )
-    if not np.all(np.isfinite(tolerances)) or np.any(tolerances < 0):
-        raise_input_error("tolerances must be finite and non-negative.")
-    if probability_sum_tolerance <= 0:
-        raise_input_error("probability_sum_tolerance must be positive.")
-
-    labels = _exact_string_mapping(
-        model_labels,
-        models,
-        label="model_labels",
-    )
-    definition_records = [dict(item) for item in model_definitions]
-    assurance_record = dict(conditional_value_assurance)
-    comparable = dict(comparability)
-    provenance_record = _metadata_mapping(
-        provenance,
-        {
-            "fixture_id",
-            "probability_source",
-            "value_source",
-            "family_definition_source",
-        },
-        label="provenance",
-    )
-
-    values = np.asarray(conditional_values, dtype=float)
-    probabilities = np.asarray(model_probabilities, dtype=float)
-    payload = {
-        "model_ids": models,
-        "alternative_names": alternatives,
-        "model_labels": labels,
-        "model_definitions": definition_records,
-        "model_probabilities": probabilities.tolist(),
-        "conditional_values": values.tolist(),
-        "conditional_value_assurance": assurance_record,
-        "information_cost": information_cost,
-        "tolerances": {
-            "absolute": absolute_tolerance,
-            "relative": relative_tolerance,
-            "probability_sum": probability_sum_tolerance,
-        },
-        "comparability": comparable,
-    }
     try:
+        models = _named_strings(model_ids, label="model_ids")
+        alternatives = _named_strings(alternative_names, label="alternative_names")
+        if not isinstance(value_unit, str) or not value_unit.strip():
+            raise_input_error("value_unit must be a non-empty string.")
+        unit = value_unit.strip()
+        if not isinstance(analysis_id, str) or not analysis_id.strip():
+            raise_input_error("analysis_id must be a non-empty string.")
+        identifier = analysis_id.strip()
+        if direction not in {"maximize", "minimize"}:
+            raise_input_error("direction must be 'maximize' or 'minimize'.")
+        tolerances = np.asarray(
+            [absolute_tolerance, relative_tolerance, probability_sum_tolerance],
+            dtype=float,
+        )
+        if not np.all(np.isfinite(tolerances)) or np.any(tolerances < 0):
+            raise_input_error("tolerances must be finite and non-negative.")
+        if probability_sum_tolerance <= 0:
+            raise_input_error("probability_sum_tolerance must be positive.")
+
+        labels = _exact_string_mapping(
+            model_labels,
+            models,
+            label="model_labels",
+        )
+        definition_records = [dict(item) for item in model_definitions]
+        assurance_record = dict(conditional_value_assurance)
+        comparable = dict(comparability)
+        provenance_record = _metadata_mapping(
+            provenance,
+            {
+                "fixture_id",
+                "probability_source",
+                "value_source",
+                "family_definition_source",
+            },
+            label="provenance",
+        )
+
+        values = np.asarray(conditional_values, dtype=float)
+        probabilities = np.asarray(model_probabilities, dtype=float)
+        payload = {
+            "model_ids": models,
+            "alternative_names": alternatives,
+            "model_labels": labels,
+            "model_definitions": definition_records,
+            "model_probabilities": probabilities.tolist(),
+            "conditional_values": values.tolist(),
+            "conditional_value_assurance": assurance_record,
+            "information_cost": information_cost,
+            "tolerances": {
+                "absolute": absolute_tolerance,
+                "relative": relative_tolerance,
+                "probability_sum": probability_sum_tolerance,
+            },
+            "comparability": comparable,
+        }
         validate_distributional_information_semantics(payload)
-    except (TypeError, ValueError) as error:
+        cost = float(information_cost)
+    except InputError:
+        raise
+    except (TypeError, ValueError, OverflowError) as error:
         raise_input_error(str(error))
-    cost = float(information_cost)
     if cost < 0:
         raise_input_error("information_cost must be non-negative.")
 
