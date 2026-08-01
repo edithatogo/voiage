@@ -6,16 +6,16 @@
   "evidence_scope": "Portable schemas, exact finite Python evaluator, normative and pathology tests, CLI and documentation.",
   "artifacts": [
     {"path": "scripts/export_risk_sensitive_voi_contracts.py", "sha256": "5ec4488e314d3634010f727a1419bae96d3014796d2dc29d802e0a8875add45d"},
-    {"path": "voiage/contracts/risk_sensitive_voi.py", "sha256": "aab8f88d6aef271d8d16c8c8ca72634f0ee5f053f7441fc8a0164254d0e60f2e"},
-    {"path": "voiage/methods/risk_sensitive_voi.py", "sha256": "268640f88e25f415f6617cb6ea930b3abfcd1370da06ad2d1695757a1b086b36"},
-    {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/README.md", "sha256": "630dce9f9bf9a83f776ed1e2a62b0db4c917d899827488ba55fe3e05f1fd6453"},
+    {"path": "voiage/contracts/risk_sensitive_voi.py", "sha256": "8e0ad6b5a0f42af6e70db96ce4d7421b4c143626038a39bab1253ee24ed089ba"},
+    {"path": "voiage/methods/risk_sensitive_voi.py", "sha256": "afc85ca8b9fed6258a1eef1308b9d93a117ec4ebcb1793b9d25bd333a859ff37"},
+    {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/README.md", "sha256": "c904ba22b878fb8b656320740d177dc649c3319853838dcdb51315eee47e2cf1"},
     {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/capabilities.json", "sha256": "6747f1b93b7c6117781be0e0b06deead3222338e58b673c08c3992e1820fe6fa"},
     {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/fixtures/manifest.json", "sha256": "ada2f72e71aa272de8b2a08fc9f8467125a3fc30041b149723ccb31d684d13c8"},
     {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/fixtures/normative/input.json", "sha256": "1427cbeb28930902a099c416eb5cccfb2602e780a190b3a64fcd5d6874fa87ae"},
-    {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/fixtures/normative/expected.json", "sha256": "1c41ea4f7c2270c1c8ba5a4ac7578ae9c2dca2b176ed6b9d42ce5ece93497860"},
+    {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/fixtures/normative/expected.json", "sha256": "51d869a2d408f8d9a1acd5fe1ceb06524ff7e577eed629decd3d180a93f81a4c"},
     {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/schemas/risk-sensitive-voi-input.schema.json", "sha256": "27df704e284efddb5bf1b9d6dfa482f0460536373292e954b0557422dd1329d1"},
-    {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/schemas/risk-sensitive-voi-result.schema.json", "sha256": "853ceee265e5a72518b4b6b7bca15f054595079d1648a775fa04b9e974588bc6"},
-    {"path": "tests/test_risk_sensitive_voi.py", "sha256": "c66aa1c8d201489d3f7888f5267f701db4cea1b5a093c728a29a998c8746b082"},
+    {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/schemas/risk-sensitive-voi-result.schema.json", "sha256": "4c9dd611bf59dd4c3795815d15e4873798769e3f6230435f19063bb5278e0763"},
+    {"path": "tests/test_risk_sensitive_voi.py", "sha256": "c5ccb335a80e2416e55b808f6ae7e7f7aab7ab82c108407d78edc38dfdfe6f7d"},
     {"path": "docs/astro-site/src/content/docs/examples/risk-sensitive-constrained-voi.mdx", "sha256": "976e601f25d32a034ca3e28493e2fcef66e98b4e2b285430c4a735bb69979db4"}
   ]
 }

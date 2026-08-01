@@ -155,7 +155,7 @@
   "enumeration": {
     "exact": true,
     "estimator": "exact_finite_enumeration",
-    "tie_policy": "lexicographic_minimum_with_complete_ties",
+    "tie_policy": "exact_argmax_lexicographic_with_tolerance_ties",
     "policy_count": 3,
     "state_count": 3,
     "mapping_count_evaluated": 27,

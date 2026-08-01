@@ -485,7 +485,7 @@
           "const": "exact_finite_enumeration"
         },
         "tie_policy": {
-          "const": "lexicographic_minimum_with_complete_ties"
+          "const": "exact_argmax_lexicographic_with_tolerance_ties"
         },
         "policy_count": {
           "type": "integer",

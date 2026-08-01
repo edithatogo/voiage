@@ -762,6 +762,7 @@ def test_cli_command_registry_matches_expected_surface() -> None:
         "calculate-nma-voi",
         "calculate-perspective",
         "calculate-preference",
+        "calculate-risk-sensitive-voi",
         "calculate-portfolio-voi",
         "calculate-sequential-voi",
         "calculate-structural-evpi",

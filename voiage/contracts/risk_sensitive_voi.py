@@ -5,16 +5,14 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 import math
-from typing import TYPE_CHECKING, Any, Final, cast
+from typing import Any, Final, cast
 
 from jsonschema import Draft202012Validator
 from jsonschema.exceptions import ValidationError
 
 from voiage.exceptions import InputError, raise_input_error
-
-if TYPE_CHECKING:
-    from collections.abc import Mapping
 
 _ID: Final[dict[str, object]] = {
     "type": "string",
@@ -465,7 +463,9 @@ RISK_SENSITIVE_VOI_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
             "properties": {
                 "exact": {"const": True},
                 "estimator": {"const": "exact_finite_enumeration"},
-                "tie_policy": {"const": "lexicographic_minimum_with_complete_ties"},
+                "tie_policy": {
+                    "const": "exact_argmax_lexicographic_with_tolerance_ties"
+                },
                 "policy_count": {"type": "integer", "minimum": 2},
                 "state_count": {"type": "integer", "minimum": 1},
                 "mapping_count_evaluated": {"type": "integer", "minimum": 1},
@@ -488,6 +488,21 @@ _INPUT_VALIDATOR = Draft202012Validator(RISK_SENSITIVE_VOI_INPUT_SCHEMA_V1)
 _RESULT_VALIDATOR = Draft202012Validator(RISK_SENSITIVE_VOI_RESULT_SCHEMA_V1)
 
 
+def _reject_non_finite(value: object, path: str = "root") -> None:
+    if isinstance(value, Mapping):
+        for key, item in value.items():
+            _reject_non_finite(item, f"{path}/{key}")
+    elif isinstance(value, list):
+        for index, item in enumerate(value):
+            _reject_non_finite(item, f"{path}/{index}")
+    elif (
+        isinstance(value, (int, float))
+        and not isinstance(value, bool)
+        and not math.isfinite(float(value))
+    ):
+        raise_input_error(f"{path}: numeric values must be finite")
+
+
 def _schema_error(validator: Any, payload: Mapping[str, Any]) -> None:
     errors = sorted(validator.iter_errors(payload), key=lambda error: list(error.path))
     if errors:
@@ -500,6 +515,7 @@ def validate_risk_sensitive_voi_semantics(payload: Mapping[str, Any]) -> None:
     """Validate schema and cross-field semantics for the finite v1 request."""
     try:
         _schema_error(_INPUT_VALIDATOR, payload)
+        _reject_non_finite(payload)
         states = cast("list[Mapping[str, Any]]", payload["states"])
         state_ids = [cast("str", state["state_id"]) for state in states]
         if len(state_ids) != len(set(state_ids)):
@@ -596,6 +612,7 @@ def validate_risk_sensitive_voi_semantics(payload: Mapping[str, Any]) -> None:
 def validate_risk_sensitive_voi_result(payload: Mapping[str, Any]) -> None:
     """Validate the portable v1 result envelope."""
     _schema_error(_RESULT_VALIDATOR, payload)
+    _reject_non_finite(payload)
 
 
 __all__ = [

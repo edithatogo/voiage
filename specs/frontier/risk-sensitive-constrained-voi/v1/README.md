@@ -15,9 +15,12 @@ enforcement. These labels do not change the arithmetic: each constraint still
 declares its own unit, sense, limit, statewise policy usage, provenance, and
 required satisfaction probability.
 
-The result retains the baseline and post-information policies, all objective
-ties, gross and signed net value, policy switches, risk diagnostics, exact
-enumeration counts, and selected-policy constraint slacks. Constraint-removal
+The result retains the baseline and post-information policies, all declared-
+tolerance objective ties, gross and signed net value, policy switches, risk
+diagnostics, exact enumeration counts, and selected-policy constraint slacks.
+The selected policy remains an exact objective optimum, with lexicographic
+selection only between exact optima, so presentation tolerances cannot make
+the gross value of perfect information negative. Constraint-removal
 effects are reported as discrete diagnostic evidence. They are explicitly not
 continuous local shadow prices or dual multipliers.
 

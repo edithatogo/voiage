@@ -148,7 +148,10 @@ def _solve(
         for item in baseline_candidates
         if math.isclose(item[0], baseline_best, abs_tol=absolute, rel_tol=relative)
     ]
-    baseline = min(baseline_ties, key=lambda item: item[1])
+    baseline = min(
+        (item for item in baseline_candidates if item[0] == baseline_best),
+        key=lambda item: item[1],
+    )
 
     mapping_candidates: list[
         tuple[
@@ -180,7 +183,10 @@ def _solve(
         for item in mapping_candidates
         if math.isclose(item[0], mapping_best, abs_tol=absolute, rel_tol=relative)
     ]
-    informed = min(mapping_ties, key=lambda item: item[1])
+    informed = min(
+        (item for item in mapping_candidates if item[0] == mapping_best),
+        key=lambda item: item[1],
+    )
     return {
         "baseline": baseline,
         "baseline_ties": baseline_ties,
@@ -286,7 +292,7 @@ def risk_sensitive_constrained_voi(
             "enumeration": {
                 "exact": True,
                 "estimator": "exact_finite_enumeration",
-                "tie_policy": "lexicographic_minimum_with_complete_ties",
+                "tie_policy": "exact_argmax_lexicographic_with_tolerance_ties",
                 "policy_count": len(payload["policies"]),
                 "state_count": len(payload["states"]),
                 "mapping_count_evaluated": solved["mapping_count"],

@@ -17,6 +17,7 @@ from voiage.cli import app
 from voiage.contracts.risk_sensitive_voi import (
     RISK_SENSITIVE_VOI_INPUT_SCHEMA_V1,
     RISK_SENSITIVE_VOI_RESULT_SCHEMA_V1,
+    validate_risk_sensitive_voi_result,
     validate_risk_sensitive_voi_semantics,
 )
 from voiage.exceptions import InputError
@@ -119,6 +120,48 @@ def test_complete_ties_are_retained_with_lexicographic_presentation() -> None:
     assert result["perfect_information"]["tied_policy_mappings"]
 
 
+def test_tolerance_ties_do_not_replace_the_true_information_optimum() -> None:
+    payload = _input()
+    payload["states"] = [
+        {"state_id": "s1", "probability": 0.5},
+        {"state_id": "s2", "probability": 0.5},
+    ]
+    values = {
+        "a": {"s1": 0.09, "s2": 0.0},
+        "b": {"s1": 0.02, "s2": 0.03},
+        "c": {"s1": 0.19, "s2": 0.17},
+    }
+    payload["policies"] = [
+        {
+            "policy_id": policy_id,
+            "label": policy_id.upper(),
+            "objective_by_state": objective_by_state,
+            "constraint_usage": {
+                "budget": {"s1": 0.0, "s2": 0.0},
+                "service": {"s1": 1.0, "s2": 1.0},
+            },
+            "source_reference": "tie-tolerance regression",
+        }
+        for policy_id, objective_by_state in values.items()
+    ]
+    payload["tolerances"]["absolute_tie"] = 0.1
+
+    result = risk_sensitive_constrained_voi(payload).to_contract_dict()
+
+    assert result["baseline"]["selected_policy_id"] == "c"
+    assert result["perfect_information"]["selected_policy_by_state"] == {
+        "s1": "c",
+        "s2": "c",
+    }
+    assert {"s1": "a", "s2": "c"} in result["perfect_information"][
+        "tied_policy_mappings"
+    ]
+    assert result["value"]["gross"] == pytest.approx(0.0)
+    assert result["enumeration"]["tie_policy"] == (
+        "exact_argmax_lexicographic_with_tolerance_ties"
+    )
+
+
 @pytest.mark.parametrize(
     ("mutate", "message"),
     [
@@ -135,6 +178,10 @@ def test_complete_ties_are_retained_with_lexicographic_presentation() -> None:
             lambda p: p["assurance"].update(max_policy_mappings=2),
             "exceeds max_policy_mappings",
         ),
+        (
+            lambda p: p["information_action"]["cost"].update(amount=float("nan")),
+            "numeric values must be finite",
+        ),
     ],
 )
 def test_semantic_pathologies_fail_closed(mutate: Any, message: str) -> None:
@@ -149,6 +196,14 @@ def test_no_feasible_baseline_policy_is_explicit() -> None:
     payload["constraints"][0]["limit"] = 0.0
     with pytest.raises(InputError, match="no feasible baseline policy"):
         risk_sensitive_constrained_voi(payload)
+
+
+def test_non_finite_result_values_fail_portable_validation() -> None:
+    result = _json(EXPECTED)
+    result["value"]["gross"] = float("inf")
+
+    with pytest.raises(InputError, match="numeric values must be finite"):
+        validate_risk_sensitive_voi_result(result)
 
 
 def test_cli_and_public_exports_execute_the_experimental_contract(
