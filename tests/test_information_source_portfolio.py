@@ -1,6 +1,6 @@
 """Exact contract assurance for dependent information-source portfolios."""
 
-# pyright: reportAny=false, reportExplicitAny=false, reportUnknownMemberType=false, reportUnknownVariableType=false
+# pyright: reportAny=false, reportExplicitAny=false, reportUnknownArgumentType=false, reportUnknownLambdaType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnusedCallResult=false
 
 from __future__ import annotations
 
@@ -11,7 +11,10 @@ from typing import Any
 
 from jsonschema import Draft202012Validator
 import pytest
+from typer.testing import CliRunner
 
+import voiage
+from voiage.cli import app
 from voiage.exceptions import InputError
 from voiage.methods.information_source_portfolio import (
     information_source_portfolio_value,
@@ -38,8 +41,12 @@ def test_normative_joint_portfolio_matches_independent_reference() -> None:
     assert result["optimum"]["source_sequence"] == expected["selected_sequence"]
     assert result["optimum"]["gross_value"] == pytest.approx(expected["gross_value"])
     assert result["optimum"]["net_value"] == pytest.approx(expected["net_value"])
-    assert [item["gross_marginal_value"] for item in result["conditional_marginals"]] == pytest.approx(expected["conditional_marginals"])
-    assert [item["gross_attribution"] for item in result["attribution"]] == pytest.approx(expected["gross_attribution"])
+    assert [
+        item["gross_marginal_value"] for item in result["conditional_marginals"]
+    ] == pytest.approx(expected["conditional_marginals"])
+    assert [
+        item["gross_attribution"] for item in result["attribution"]
+    ] == pytest.approx(expected["gross_attribution"])
 
 
 def test_redundant_duplicate_has_zero_conditional_value() -> None:
@@ -53,7 +60,9 @@ def test_redundant_duplicate_has_zero_conditional_value() -> None:
         if item["source_sequence"] == ["registry", "survey"]
     )
     assert redundant["gross_value"] == pytest.approx(10.0)
-    assert redundant["conditional_marginals"][1]["gross_marginal_value"] == pytest.approx(0.0)
+    assert redundant["conditional_marginals"][1][
+        "gross_marginal_value"
+    ] == pytest.approx(0.0)
 
 
 def test_no_procurement_beats_every_negative_net_sequence() -> None:
@@ -69,8 +78,7 @@ def test_no_procurement_beats_every_negative_net_sequence() -> None:
 def test_complementary_sources_are_not_additive_evsi_scores() -> None:
     result = information_source_portfolio_value(_input()).to_contract_dict()
     by_sequence = {
-        tuple(item["source_sequence"]): item
-        for item in result["evaluated_sequences"]
+        tuple(item["source_sequence"]): item for item in result["evaluated_sequences"]
     }
     registry = by_sequence[("registry",)]["gross_value"]
     sensor = by_sequence[("sensor",)]["gross_value"]
@@ -98,8 +106,14 @@ def test_complete_sequence_and_policy_ties_are_preserved() -> None:
 @pytest.mark.parametrize(
     ("mutation", "message"),
     [
-        (lambda data: data["sources"][0]["rights"].update({"status": "uncleared"}), "rights"),
-        (lambda data: data["states"][0]["source_observations"].pop("sensor"), "observation"),
+        (
+            lambda data: data["sources"][0]["rights"].update({"status": "uncleared"}),
+            "rights",
+        ),
+        (
+            lambda data: data["states"][0]["source_observations"].pop("sensor"),
+            "observation",
+        ),
         (lambda data: data["states"][0].update({"probability": 0.4}), "probabilities"),
         (lambda data: data["sources"][0].update({"cost_unit": "USD"}), "unit"),
         (lambda data: None, "cycle"),
@@ -112,7 +126,7 @@ def test_pathologies_fail_closed(mutation: Any, message: str) -> None:
         payload["sources"][2]["must_precede"] = ["registry"]
     mutation(payload)
     with pytest.raises(InputError, match=message):
-        information_source_portfolio_value(payload)
+        _ = information_source_portfolio_value(payload)
 
 
 def test_strict_schemas_validate_normative_contracts() -> None:
@@ -142,3 +156,27 @@ def test_result_copy_is_independent() -> None:
     first = result.to_contract_dict()
     first["optimum"]["source_sequence"].append("tampered")
     assert "tampered" not in result.to_contract_dict()["optimum"]["source_sequence"]
+
+
+def test_cli_and_public_experimental_discovery(tmp_path: Path) -> None:
+    output = tmp_path / "result.json"
+    invoked = CliRunner().invoke(
+        app,
+        [
+            "--format",
+            "json",
+            "calculate-information-source-portfolio",
+            str(INPUT),
+            "--output",
+            str(output),
+        ],
+    )
+    assert invoked.exit_code == 0, invoked.output
+    payload = json.loads(invoked.stdout)
+    assert payload["analysis_type"] == "information_source_portfolio_result"
+    assert payload["method_maturity"] == "experimental"
+    assert payload["optimum"]["source_sequence"] == ["registry", "sensor"]
+    assert json.loads(output.read_text(encoding="utf-8")) == payload
+    assert (
+        voiage.information_source_portfolio_value is information_source_portfolio_value
+    )

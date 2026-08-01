@@ -60,6 +60,14 @@ _ECOSYSTEM_EXPORTS = {
     "load_heoml_run_bundle": "load_heoml_run_bundle",
 }
 _EXTENSION_EXPORTS = {
+    "InformationSourcePortfolioResult": (
+        ".methods.information_source_portfolio",
+        "InformationSourcePortfolioResult",
+    ),
+    "information_source_portfolio_value": (
+        ".methods.information_source_portfolio",
+        "information_source_portfolio_value",
+    ),
     "McdaInformationResult": (
         ".methods.mcda_information",
         "McdaInformationResult",

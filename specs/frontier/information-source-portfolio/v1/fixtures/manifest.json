@@ -1,7 +1,20 @@
 {
-  "schema_version": "1.0.0",
+  "version": "v1",
+  "status": "fixture-backed",
   "method": "information_source_portfolio_value",
   "authority": "independent finite enumeration and pathology mutations",
+  "normative": [
+    {
+      "name": "complementary-redundant-source-portfolio",
+      "input_artifact": "normative/input.json",
+      "expected_output_artifact": "normative/expected.json"
+    }
+  ],
+  "pathologies": [
+    "cases/incomplete-joint-observation.json",
+    "cases/order-cycle.json",
+    "cases/rights-uncleared.json"
+  ],
   "files": [
     {"path": "normative/input.json", "sha256": "eb0b154b2dfbe3c8259f78da7c2203be616310637bc3cc78e63b2d63c8203587"},
     {"path": "normative/expected.json", "sha256": "d8f7cd06bb40cac8a155a3b350afe6fabd9bc30e564c87d15d813d809183ddec"},

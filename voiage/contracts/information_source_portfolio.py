@@ -4,12 +4,15 @@
 
 from __future__ import annotations
 
-from collections.abc import Mapping
 import math
-from typing import Any, Final, cast
+from typing import TYPE_CHECKING, Any, Final, cast
 
 from jsonschema import Draft202012Validator
-from jsonschema.exceptions import ValidationError
+
+if TYPE_CHECKING:
+    from collections.abc import Mapping
+
+    from jsonschema.exceptions import ValidationError
 
 _ID: Final[dict[str, object]] = {
     "type": "string",
@@ -92,12 +95,29 @@ INFORMATION_SOURCE_PORTFOLIO_INPUT_SCHEMA_V1: Final[dict[str, object]] = {
             "minItems": 1,
             "items": {
                 "type": "object",
-                "required": ["state_id", "probability", "action_values", "source_observations"],
+                "required": [
+                    "state_id",
+                    "probability",
+                    "action_values",
+                    "source_observations",
+                ],
                 "properties": {
                     "state_id": _ID,
-                    "probability": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
-                    "action_values": {"type": "object", "minProperties": 2, "additionalProperties": _NUMBER},
-                    "source_observations": {"type": "object", "minProperties": 1, "additionalProperties": _STRING},
+                    "probability": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "maximum": 1,
+                    },
+                    "action_values": {
+                        "type": "object",
+                        "minProperties": 2,
+                        "additionalProperties": _NUMBER,
+                    },
+                    "source_observations": {
+                        "type": "object",
+                        "minProperties": 1,
+                        "additionalProperties": _STRING,
+                    },
                 },
                 "additionalProperties": False,
             },
@@ -109,9 +129,18 @@ INFORMATION_SOURCE_PORTFOLIO_INPUT_SCHEMA_V1: Final[dict[str, object]] = {
             "items": {
                 "type": "object",
                 "required": [
-                    "source_id", "label", "cost", "cost_unit", "latency",
-                    "privacy_cost", "freshness_age", "sla_probability",
-                    "coverage", "excludes", "must_precede", "rights"
+                    "source_id",
+                    "label",
+                    "cost",
+                    "cost_unit",
+                    "latency",
+                    "privacy_cost",
+                    "freshness_age",
+                    "sla_probability",
+                    "coverage",
+                    "excludes",
+                    "must_precede",
+                    "rights",
                 ],
                 "properties": {
                     "source_id": _ID,
@@ -133,8 +162,13 @@ INFORMATION_SOURCE_PORTFOLIO_INPUT_SCHEMA_V1: Final[dict[str, object]] = {
         "constraints": {
             "type": "object",
             "required": [
-                "max_cost", "max_latency", "max_privacy_cost", "max_sources",
-                "min_source_sla", "max_freshness_age", "required_coverage"
+                "max_cost",
+                "max_latency",
+                "max_privacy_cost",
+                "max_sources",
+                "min_source_sla",
+                "max_freshness_age",
+                "required_coverage",
             ],
             "properties": {
                 "max_cost": _NONNEGATIVE,
@@ -149,17 +183,29 @@ INFORMATION_SOURCE_PORTFOLIO_INPUT_SCHEMA_V1: Final[dict[str, object]] = {
         },
         "tie_policy": {
             "type": "object",
-            "required": ["absolute_tolerance", "relative_tolerance", "sequence_selection"],
+            "required": [
+                "absolute_tolerance",
+                "relative_tolerance",
+                "sequence_selection",
+            ],
             "properties": {
                 "absolute_tolerance": _NONNEGATIVE,
                 "relative_tolerance": _NONNEGATIVE,
-                "sequence_selection": {"const": "highest_net_then_lower_cost_latency_lexical"},
+                "sequence_selection": {
+                    "const": "highest_net_then_lower_cost_latency_lexical"
+                },
             },
             "additionalProperties": False,
         },
         "provenance": {
             "type": "object",
-            "required": ["decision_revision", "joint_world_source", "constraint_source", "evaluator", "software_version"],
+            "required": [
+                "decision_revision",
+                "joint_world_source",
+                "constraint_source",
+                "evaluator",
+                "software_version",
+            ],
             "properties": {
                 "decision_revision": _STRING,
                 "joint_world_source": _STRING,
@@ -175,12 +221,24 @@ INFORMATION_SOURCE_PORTFOLIO_INPUT_SCHEMA_V1: Final[dict[str, object]] = {
 
 _PARTITION: Final[dict[str, object]] = {
     "type": "object",
-    "required": ["partition_id", "observations", "probability", "conditional_action_values", "action_tie", "conditional_value", "switch_from_baseline"],
+    "required": [
+        "partition_id",
+        "observations",
+        "probability",
+        "conditional_action_values",
+        "action_tie",
+        "conditional_value",
+        "switch_from_baseline",
+    ],
     "properties": {
         "partition_id": _ID,
         "observations": {"type": "object", "additionalProperties": _STRING},
         "probability": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
-        "conditional_action_values": {"type": "object", "minProperties": 2, "additionalProperties": _NUMBER},
+        "conditional_action_values": {
+            "type": "object",
+            "minProperties": 2,
+            "additionalProperties": _NUMBER,
+        },
         "action_tie": {**_ID_ARRAY, "minItems": 1},
         "conditional_value": _NUMBER,
         "switch_from_baseline": {"type": "boolean"},
@@ -189,7 +247,15 @@ _PARTITION: Final[dict[str, object]] = {
 }
 _MARGINAL: Final[dict[str, object]] = {
     "type": "object",
-    "required": ["position", "source_id", "conditioning_sources", "gross_marginal_value", "incremental_source_cost", "incremental_delay_cost", "net_marginal_value"],
+    "required": [
+        "position",
+        "source_id",
+        "conditioning_sources",
+        "gross_marginal_value",
+        "incremental_source_cost",
+        "incremental_delay_cost",
+        "net_marginal_value",
+    ],
     "properties": {
         "position": {"type": "integer", "minimum": 1},
         "source_id": _ID,
@@ -203,7 +269,19 @@ _MARGINAL: Final[dict[str, object]] = {
 }
 _EVALUATION: Final[dict[str, object]] = {
     "type": "object",
-    "required": ["source_sequence", "total_source_cost", "total_latency", "total_privacy_cost", "delay_cost", "resolved_value", "gross_value", "willingness_to_pay", "net_value", "partitions", "conditional_marginals"],
+    "required": [
+        "source_sequence",
+        "total_source_cost",
+        "total_latency",
+        "total_privacy_cost",
+        "delay_cost",
+        "resolved_value",
+        "gross_value",
+        "willingness_to_pay",
+        "net_value",
+        "partitions",
+        "conditional_marginals",
+    ],
     "properties": {
         "source_sequence": _ID_ARRAY,
         "total_source_cost": _NONNEGATIVE,
@@ -237,7 +315,23 @@ INFORMATION_SOURCE_PORTFOLIO_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
     "$id": "https://voiage.dev/schemas/frontier/information-source-portfolio-result.v1.json",
     "title": "InformationSourcePortfolioResultV1Experimental",
     "type": "object",
-    "required": ["schema_version", "analysis_id", "analysis_type", "method_maturity", "value_context", "baseline", "evaluated_sequences", "optimum", "conditional_marginals", "attribution", "switches", "assurance", "provenance", "language_dispositions", "unsupported_dispositions"],
+    "required": [
+        "schema_version",
+        "analysis_id",
+        "analysis_type",
+        "method_maturity",
+        "value_context",
+        "baseline",
+        "evaluated_sequences",
+        "optimum",
+        "conditional_marginals",
+        "attribution",
+        "switches",
+        "assurance",
+        "provenance",
+        "language_dispositions",
+        "unsupported_dispositions",
+    ],
     "properties": {
         "schema_version": {"const": "1.0.0"},
         "analysis_id": _ID,
@@ -248,7 +342,11 @@ INFORMATION_SOURCE_PORTFOLIO_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
             "type": "object",
             "required": ["expected_action_values", "action_tie", "value"],
             "properties": {
-                "expected_action_values": {"type": "object", "minProperties": 2, "additionalProperties": _NUMBER},
+                "expected_action_values": {
+                    "type": "object",
+                    "minProperties": 2,
+                    "additionalProperties": _NUMBER,
+                },
                 "action_tie": {**_ID_ARRAY, "minItems": 1},
                 "value": _NUMBER,
             },
@@ -262,14 +360,21 @@ INFORMATION_SOURCE_PORTFOLIO_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
             "items": {
                 "type": "object",
                 "required": ["source_id", "gross_attribution", "attribution_method"],
-                "properties": {"source_id": _ID, "gross_attribution": _NUMBER, "attribution_method": {"const": "exact_decision_value_shapley"}},
+                "properties": {
+                    "source_id": _ID,
+                    "gross_attribution": _NUMBER,
+                    "attribution_method": {"const": "exact_decision_value_shapley"},
+                },
                 "additionalProperties": False,
             },
         },
         "switches": {"type": "array", "items": _PARTITION},
         "assurance": {"type": "object"},
         "provenance": {"type": "object"},
-        "language_dispositions": {"type": "object", "additionalProperties": {"type": "string"}},
+        "language_dispositions": {
+            "type": "object",
+            "additionalProperties": {"type": "string"},
+        },
         "unsupported_dispositions": {"type": "array", "minItems": 1, "items": _STRING},
     },
     "additionalProperties": False,
@@ -282,7 +387,10 @@ def _validation_message(error: ValidationError) -> str:
 
 
 def _validate_schema(payload: Mapping[str, Any], schema: Mapping[str, object]) -> None:
-    errors = sorted(Draft202012Validator(schema).iter_errors(payload), key=lambda item: list(item.absolute_path))
+    errors = sorted(
+        Draft202012Validator(schema).iter_errors(payload),
+        key=lambda item: list(item.absolute_path),
+    )
     if errors:
         raise ValueError(_validation_message(errors[0]))
 
@@ -309,11 +417,16 @@ def validate_information_source_portfolio_semantics(payload: Mapping[str, Any]) 
     for state in states:
         if set(cast("Mapping[str, Any]", state["action_values"])) != action_ids:
             raise ValueError("every state must define every action value")
-        if set(cast("Mapping[str, Any]", state["source_observations"])) != expected_sources:
+        if (
+            set(cast("Mapping[str, Any]", state["source_observations"]))
+            != expected_sources
+        ):
             raise ValueError("every state must define every source observation")
     cost_unit = cast("Mapping[str, Any]", payload["value_context"])["cost_unit"]
     if any(source["cost_unit"] != cost_unit for source in sources):
-        raise ValueError("every source cost unit must match the value context cost unit")
+        raise ValueError(
+            "every source cost unit must match the value context cost unit"
+        )
     references = set(source_ids)
     graph: dict[str, set[str]] = {}
     for source in sources:
@@ -321,7 +434,9 @@ def validate_information_source_portfolio_semantics(payload: Mapping[str, Any]) 
         excludes = set(cast("list[str]", source["excludes"]))
         precedes = set(cast("list[str]", source["must_precede"]))
         if source_id in excludes | precedes or not (excludes | precedes) <= references:
-            raise ValueError("source order and exclusion references must name other declared sources")
+            raise ValueError(
+                "source order and exclusion references must name other declared sources"
+            )
         graph[source_id] = precedes
     visiting: set[str] = set()
     visited: set[str] = set()

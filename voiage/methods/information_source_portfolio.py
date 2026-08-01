@@ -105,34 +105,64 @@ def _sequence_is_feasible(
     constraints: Mapping[str, Any],
 ) -> tuple[bool, str | None]:
     selected = set(sequence)
+    reason: str | None = None
     for index, source_id in enumerate(sequence):
         source = source_by_id[source_id]
-        if any(excluded in selected for excluded in cast("list[str]", source["excludes"])):
-            return False, "exclusivity"
+        if any(
+            excluded in selected for excluded in cast("list[str]", source["excludes"])
+        ):
+            reason = "exclusivity"
+            break
         for successor in cast("list[str]", source["must_precede"]):
             if successor in selected and index >= sequence.index(successor):
-                return False, "ordering"
+                reason = "ordering"
+                break
+        if reason is not None:
+            break
+    if reason is not None:
+        return False, reason
     sources = [source_by_id[source_id] for source_id in sequence]
-    if math.fsum(float(source["cost"]) for source in sources) > float(constraints["max_cost"]):
-        return False, "cost"
-    if math.fsum(float(source["latency"]) for source in sources) > float(constraints["max_latency"]):
-        return False, "latency"
-    if math.fsum(float(source["privacy_cost"]) for source in sources) > float(constraints["max_privacy_cost"]):
-        return False, "privacy"
-    if any(float(source["sla_probability"]) < float(constraints["min_source_sla"]) for source in sources):
-        return False, "sla"
-    if any(float(source["freshness_age"]) > float(constraints["max_freshness_age"]) for source in sources):
-        return False, "freshness"
-    coverage = set().union(*(set(cast("list[str]", source["coverage"])) for source in sources))
-    if not set(cast("list[str]", constraints["required_coverage"])) <= coverage:
-        return False, "coverage"
-    return True, None
+    if math.fsum(float(source["cost"]) for source in sources) > float(
+        constraints["max_cost"]
+    ):
+        reason = "cost"
+    elif math.fsum(float(source["latency"]) for source in sources) > float(
+        constraints["max_latency"]
+    ):
+        reason = "latency"
+    elif math.fsum(float(source["privacy_cost"]) for source in sources) > float(
+        constraints["max_privacy_cost"]
+    ):
+        reason = "privacy"
+    elif any(
+        float(source["sla_probability"]) < float(constraints["min_source_sla"])
+        for source in sources
+    ):
+        reason = "sla"
+    elif any(
+        float(source["freshness_age"]) > float(constraints["max_freshness_age"])
+        for source in sources
+    ):
+        reason = "freshness"
+    else:
+        coverage = set().union(
+            *(set(cast("list[str]", source["coverage"])) for source in sources)
+        )
+        if not set(cast("list[str]", constraints["required_coverage"])) <= coverage:
+            reason = "coverage"
+    return reason is None, reason
 
 
 def _evaluate(payload: Mapping[str, Any]) -> dict[str, Any]:
     actions = sorted(cast("list[str]", payload["actions"]))
-    states = sorted(cast("list[Mapping[str, Any]]", payload["states"]), key=lambda item: cast("str", item["state_id"]))
-    sources = sorted(cast("list[Mapping[str, Any]]", payload["sources"]), key=lambda item: cast("str", item["source_id"]))
+    states = sorted(
+        cast("list[Mapping[str, Any]]", payload["states"]),
+        key=lambda item: cast("str", item["state_id"]),
+    )
+    sources = sorted(
+        cast("list[Mapping[str, Any]]", payload["sources"]),
+        key=lambda item: cast("str", item["source_id"]),
+    )
     source_by_id = {cast("str", source["source_id"]): source for source in sources}
     source_ids = sorted(source_by_id)
     constraints = cast("Mapping[str, Any]", payload["constraints"])
@@ -155,7 +185,9 @@ def _evaluate(payload: Mapping[str, Any]) -> dict[str, Any]:
 
     def raw(sequence: tuple[str, ...]) -> tuple[float, list[dict[str, Any]]]:
         if sequence not in raw_cache:
-            raw_cache[sequence] = _resolved(sequence, states, actions, baseline_tie, absolute, relative)
+            raw_cache[sequence] = _resolved(
+                sequence, states, actions, baseline_tie, absolute, relative
+            )
         return raw_cache[sequence]
 
     evaluations: list[dict[str, Any]] = [
@@ -167,35 +199,59 @@ def _evaluate(payload: Mapping[str, Any]) -> dict[str, Any]:
     for length in range(1, max_sources + 1):
         for sequence in permutations(source_ids, length):
             total_candidates += 1
-            feasible, reason = _sequence_is_feasible(sequence, source_by_id, constraints)
+            feasible, reason = _sequence_is_feasible(
+                sequence, source_by_id, constraints
+            )
             if not feasible:
                 prune_reasons[cast("str", reason)] += 1
                 continue
             evaluations.append(
-                _sequence_evaluation(sequence, source_by_id, raw, baseline_value, delay_rate)
+                _sequence_evaluation(
+                    sequence, source_by_id, raw, baseline_value, delay_rate
+                )
             )
     if not evaluations:
-        raise ValueError("portfolio constraints leave no feasible non-empty source sequence")
+        raise ValueError(
+            "portfolio constraints leave no feasible non-empty source sequence"
+        )
     evaluations.sort(key=lambda item: tuple(cast("list[str]", item["source_sequence"])))
     best_net = max(float(item["net_value"]) for item in evaluations)
     tied = [
         item
         for item in evaluations
-        if math.isclose(float(item["net_value"]), best_net, abs_tol=absolute, rel_tol=relative)
+        if math.isclose(
+            float(item["net_value"]), best_net, abs_tol=absolute, rel_tol=relative
+        )
     ]
-    tied.sort(key=lambda item: (float(item["total_source_cost"]), float(item["total_latency"]), tuple(cast("list[str]", item["source_sequence"]))))
+    tied.sort(
+        key=lambda item: (
+            float(item["total_source_cost"]),
+            float(item["total_latency"]),
+            tuple(cast("list[str]", item["source_sequence"])),
+        )
+    )
     selected = dict(tied[0])
-    selected["optimal_sequence_tie"] = [cast("list[str]", item["source_sequence"]) for item in tied]
+    selected["optimal_sequence_tie"] = [
+        cast("list[str]", item["source_sequence"]) for item in tied
+    ]
     sequence = tuple(cast("list[str]", selected["source_sequence"]))
     attribution = _shapley(sequence, raw, baseline_value)
-    switches = [partition for partition in cast("list[dict[str, Any]]", selected["partitions"]) if partition["switch_from_baseline"]]
+    switches = [
+        partition
+        for partition in cast("list[dict[str, Any]]", selected["partitions"])
+        if partition["switch_from_baseline"]
+    ]
     return {
         "schema_version": "1.0.0",
         "analysis_id": payload["analysis_id"],
         "analysis_type": "information_source_portfolio_result",
         "method_maturity": "experimental",
         "value_context": dict(value_context),
-        "baseline": {"expected_action_values": expected, "action_tie": baseline_tie, "value": baseline_value},
+        "baseline": {
+            "expected_action_values": expected,
+            "action_tie": baseline_tie,
+            "value": baseline_value,
+        },
         "evaluated_sequences": evaluations,
         "optimum": selected,
         "conditional_marginals": selected["conditional_marginals"],
@@ -216,7 +272,12 @@ def _evaluate(payload: Mapping[str, Any]) -> dict[str, Any]:
         "provenance": {
             **dict(cast("Mapping[str, Any]", payload["provenance"])),
             "source_receipts": [
-                {"source_id": source_id, **dict(cast("Mapping[str, Any]", source_by_id[source_id]["rights"]))}
+                {
+                    "source_id": source_id,
+                    **dict(
+                        cast("Mapping[str, Any]", source_by_id[source_id]["rights"])
+                    ),
+                }
                 for source_id in source_ids
             ],
         },
@@ -268,7 +329,9 @@ def _sequence_evaluation(
                 "gross_marginal_value": gross_marginal,
                 "incremental_source_cost": float(source["cost"]),
                 "incremental_delay_cost": incremental_delay,
-                "net_marginal_value": gross_marginal - float(source["cost"]) - incremental_delay,
+                "net_marginal_value": gross_marginal
+                - float(source["cost"])
+                - incremental_delay,
             }
         )
         previous_gross = prefix_gross
@@ -306,8 +369,18 @@ def _shapley(
         others = tuple(item for item in members if item != source_id)
         contribution = 0.0
         for size in range(len(others) + 1):
-            weight = math.factorial(size) * math.factorial(count - size - 1) / denominator
+            weight = (
+                math.factorial(size) * math.factorial(count - size - 1) / denominator
+            )
             for coalition in combinations(others, size):
-                contribution += weight * (value((*coalition, source_id)) - value(coalition))
-        result.append({"source_id": source_id, "gross_attribution": contribution, "attribution_method": "exact_decision_value_shapley"})
+                contribution += weight * (
+                    value((*coalition, source_id)) - value(coalition)
+                )
+        result.append(
+            {
+                "source_id": source_id,
+                "gross_attribution": contribution,
+                "attribution_method": "exact_decision_value_shapley",
+            }
+        )
     return result
