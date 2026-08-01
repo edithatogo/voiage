@@ -75,6 +75,11 @@ def test_no_procurement_beats_every_negative_net_sequence() -> None:
     result = information_source_portfolio_value(payload).to_contract_dict()
     assert result["optimum"]["source_sequence"] == []
     assert result["optimum"]["net_value"] == pytest.approx(0.0)
+    assert result["assurance"]["no_procurement_comparator_included"] is True
+    assert result["assurance"]["no_procurement_subject_to_source_constraints"] is False
+    assert result["assurance"]["feasible_non_empty_sequences"] == (
+        result["assurance"]["feasible_sequences"] - 1
+    )
 
 
 def test_impossible_constraints_do_not_misreport_no_procurement_as_feasible() -> None:

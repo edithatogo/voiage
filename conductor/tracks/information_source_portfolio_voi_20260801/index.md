@@ -6,6 +6,7 @@
 - [Mermaid Design](./design.md)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
+- [Independent implementation review](./independent-implementation-review.md)
 - [GitHub issue #582](https://github.com/edithatogo/voiage/issues/582)
 - [Frontier parent #318](https://github.com/edithatogo/voiage/issues/318)
 - [Programme #313](https://github.com/edithatogo/voiage/issues/313)

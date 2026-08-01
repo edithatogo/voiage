@@ -22,6 +22,10 @@ game; it is not predictive Data Shapley.
 The evaluator exhaustively enumerates at most seven sources and applies budget,
 latency, privacy, freshness, SLA, coverage, exclusivity and order constraints.
 All source rights and provenance receipts must be cleared before evaluation.
+The no-procurement option is an always-available external comparator rather
+than a source sequence; assurance therefore reports feasible non-empty
+sequences separately and states that source constraints do not apply to the
+comparator.
 
 This is experimental Python evidence only. Adaptive stopping, branching
 acquisition, probabilistic source channels outside the declared worlds,

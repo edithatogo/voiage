@@ -21,4 +21,6 @@
 
 - [~] **ISP5:** Run focused coverage, full relevant validation and independent
   implementation review; retain hosted, scientific, parity, stable, release and
-  closure gates. (AC-01–AC-05)
+  closure gates. Independent implementation review passed with the
+  no-procurement assurance clarification; hosted and scientific gates remain.
+  (AC-01–AC-05)
