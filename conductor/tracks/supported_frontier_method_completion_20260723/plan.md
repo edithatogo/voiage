@@ -185,14 +185,15 @@
 
 ## Phase 3 — Delivery or reviewed exclusion
 
-- [~] **F597-1 / #780:** Freeze the exact finite belief-MDP contract, strict
+- [x] **F597-1 / #780:** Freeze the exact finite belief-MDP contract, strict
   schemas, normative nonmyopic intervention fixture, chronology, estimands,
   null-sensor reduction and complete-tie policy. (AC-02, AC-03, AC-09)
-- [ ] **F597-2 / #781:** Implement the experimental Python Bellman evaluator,
+  `bdcb78b1`
+- [x] **F597-2 / #781:** Implement the experimental Python Bellman evaluator,
   public API and CLI with closed-loop/no-information comparators, gross/net,
   myopic/nonmyopic, conditional-sensing, policy-tree, regret and horizon
-  results. (AC-03–AC-06)
-- [ ] **F597-3 / #782:** Record posterior-martingale, exact-bound,
+  results. (AC-03–AC-06) `bdcb78b1`
+- [~] **F597-3 / #782:** Record posterior-martingale, exact-bound,
   action-dependent-learning and dual-control diagnostics, explicit language
   dispositions, independent implementation review, full local validation and
   hosted exact-head assurance without claiming stable or scientific closure.
