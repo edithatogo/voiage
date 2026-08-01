@@ -95,9 +95,12 @@
   claiming polyglot parity, stable promotion, release or parent closure.
   Independent repository implementation re-review passed with no open findings
   at signed review-artifact commit `f945f87b`, and the patch-equivalent rebased
-  review boundary is `f52feb28` on PR #787; named scientific review, incomplete
-  hosted exact-head checks, installed-wheel, parity, promotion, release and
-  closure gates remain pending.
+  review boundary is `f52feb28`. PR #787 exact head `de31458b` passed all 42
+  hosted checks (38 successes, one neutral aggregation and three governed
+  skips), including installed-wheel and changed-coverage assurance, and both
+  review threads were evidence-resolved before squash merge `20e0c606`.
+  Named scientific review, Rust/R/Julia parity, stable promotion, release,
+  parent #593 closure and umbrella #318 closure remain pending.
 
 - [x] **F572-1 / #760:** Freeze #572's C18/M23 forecast-signal decision
   estimand, strict input/result schemas, analytical newsvendor fixture,

@@ -14,9 +14,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   Retain the legacy `value_of_implementation` multiplier as a distinct
         compatibility helper. Independent repository re-review passed at signed
         review-artifact commit `f945f87b`, with patch-equivalent rebased
-        boundary `f52feb28` on PR #787. Remaining gates are incomplete hosted
-        exact-head/wheel assurance, scientific review, Rust/R/Julia parity,
-        stable promotion, release and issue closure.
+        boundary `f52feb28`. PR #787 exact head `de31458b` passed all 42 hosted
+        checks, including installed-wheel and 100% changed-branch assurance;
+        both review threads were evidence-resolved before squash merge
+        `20e0c606`. Remaining gates are named scientific review, Rust/R/Julia
+        parity, stable promotion, release, parent #593 closure and umbrella
+        #318 closure.
 
 *   [ ] Complete forecast and signal information VOI after experimental delivery.
     *   GitHub issue #572; native subissues #759, #760 and #762; umbrella track

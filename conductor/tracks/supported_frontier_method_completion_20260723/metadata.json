@@ -196,6 +196,12 @@
       "kind": "hosted_validation",
       "status": "satisfied",
       "evidence": "PR #770 exact head c110706c561ca17d3ec8835af3567948b969b3cb passed 38 successful checks, with three governed skips and neutral CodeQL aggregation, before squash merge 4657f94e69e4d99d960d6d820c5bfb3e5e8937b3; changed coverage was 223/223 lines and 57/57 branches."
+    },
+    {
+      "id": "implementation-information-hosted-assurance",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "PR #787 exact head de31458b556136359cb9195f8ced82cff9182ece passed 38 successful checks, with three governed skips and neutral CodeQL aggregation, before squash merge 20e0c606fb02f282134e9cc876fa475178edfe40; both review threads were evidence-resolved and changed coverage satisfied the 95 percent line and 100 percent branch policies."
     }
   ]
 }

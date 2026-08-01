@@ -76,11 +76,13 @@
         {
           "number": 787,
           "url": "https://github.com/edithatogo/voiage/pull/787",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "experimental-implementation-delivery",
             "independent-review",
-            "hosted-checks-pending"
+            "hosted-required-checks",
+            "de31458b556136359cb9195f8ced82cff9182ece",
+            "20e0c606fb02f282134e9cc876fa475178edfe40"
           ]
         },
         {
@@ -320,11 +322,13 @@
         {
           "number": 787,
           "url": "https://github.com/edithatogo/voiage/pull/787",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "experimental-implementation-delivery",
             "independent-review",
-            "hosted-checks-pending"
+            "hosted-required-checks",
+            "de31458b556136359cb9195f8ced82cff9182ece",
+            "20e0c606fb02f282134e9cc876fa475178edfe40"
           ]
         },
         {

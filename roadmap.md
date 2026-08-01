@@ -19,12 +19,12 @@ Across the completed lanes, external registry, hardware, and speedup evidence ga
 
 The v1.3 residual frontier programme is governed canonically by VOP C18. Issue
 #593 now has an experimental Python-only joint information/implementation
-contract and exact finite evaluator; it remains in progress pending hosted
-exact-head assurance, scientific approval, polyglot parity, stable promotion
-and release. The independent repository re-review passed at signed
-review-artifact commit `f945f87b`, with patch-equivalent rebased boundary
-`f52feb28` on PR #787; incomplete hosted checks, scientific review and later
-gates remain open. The existing
+contract and exact finite evaluator. PR #787 exact head `de31458b` passed all
+42 hosted checks (38 successes, one neutral aggregation and three governed
+skips), both review threads were evidence-resolved, and the implementation was
+squash-merged as `20e0c606`. The repository-delivery subissues may therefore
+close, while named scientific review, Rust/R/Julia parity, stable promotion,
+release, parent #593 closure and umbrella #318 closure remain open. The existing
 implementation multiplier is retained as a
 compatibility helper and is not described as EVPIM/EVSIM/IA-EVSI.
 
