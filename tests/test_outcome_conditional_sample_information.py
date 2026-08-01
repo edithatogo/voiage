@@ -7,6 +7,7 @@
 # pyright: reportPrivateUsage=false
 
 from copy import deepcopy
+from importlib import import_module
 import json
 import math
 from pathlib import Path
@@ -16,7 +17,6 @@ from jsonschema import Draft202012Validator
 import pytest
 from typer.testing import CliRunner
 
-import voiage
 from voiage import methods
 from voiage.cli import app
 from voiage.contracts.outcome_conditional_sample_information import (
@@ -558,7 +558,8 @@ def test_schemas_are_strict_and_match_exported_files() -> None:
 
 
 def test_public_api_and_cli_are_deterministic(tmp_path: Path) -> None:
-    assert voiage.outcome_conditional_sample_information_value is (
+    voiage_package = import_module("voiage")
+    assert voiage_package.outcome_conditional_sample_information_value is (
         outcome_conditional_sample_information_value
     )
     assert methods.outcome_conditional_sample_information_value is (

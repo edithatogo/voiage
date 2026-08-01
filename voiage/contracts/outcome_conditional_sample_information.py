@@ -8,8 +8,9 @@
 from __future__ import annotations
 
 from copy import deepcopy
+from importlib import import_module
 import json
-from typing import Any, Final, cast
+from typing import Final, cast
 
 from jsonschema import Draft202012Validator
 from jsonschema.exceptions import ValidationError
@@ -450,11 +451,12 @@ def validate_outcome_conditional_sample_information_semantics(
         payload,
         "input",
     )
-    from voiage.methods.outcome_conditional_sample_information import (
-        _validate_and_build,
+    implementation = import_module(
+        "voiage.methods.outcome_conditional_sample_information"
     )
-
-    _validate_and_build(cast("dict[str, Any]", deepcopy(payload)))
+    implementation._validate_and_build(
+        cast("dict[str, object]", deepcopy(payload))
+    )
 
 
 def validate_outcome_conditional_sample_information_result_semantics(
@@ -466,18 +468,18 @@ def validate_outcome_conditional_sample_information_result_semantics(
         payload,
         "result",
     )
-    result = cast("dict[str, Any]", deepcopy(payload))
-    assurance = cast("dict[str, Any]", result["input_assurance"])
-    input_contract = cast("dict[str, Any]", assurance["input_contract"])
-    from voiage.methods.outcome_conditional_sample_information import (
-        _contract_sha256,
-        _evaluate_contract,
-        _validate_and_build,
+    result = cast("dict[str, object]", deepcopy(payload))
+    assurance = cast("dict[str, object]", result["input_assurance"])
+    input_contract = cast("dict[str, object]", assurance["input_contract"])
+    implementation = import_module(
+        "voiage.methods.outcome_conditional_sample_information"
     )
 
-    if _contract_sha256(input_contract) != assurance["input_sha256"]:
+    if implementation._contract_sha256(input_contract) != assurance["input_sha256"]:
         raise ValueError("result input commitment digest is inconsistent")
-    expected = _evaluate_contract(_validate_and_build(input_contract))
+    expected = implementation._evaluate_contract(
+        implementation._validate_and_build(input_contract)
+    )
     if json.dumps(result, sort_keys=True, allow_nan=False) != json.dumps(
         expected, sort_keys=True, allow_nan=False
     ):
