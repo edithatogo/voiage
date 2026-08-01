@@ -1,0 +1,300 @@
+{
+  "analysis_id": "three-stage-maximization",
+  "analysis_type": "uncertainty_modelling_value_result",
+  "assurance": {
+    "candidate_space_complete": true,
+    "deterministic_candidates_evaluated": 2,
+    "deterministic_serialization": true,
+    "feasibility_tolerance": 1e-12,
+    "feasible_policies": 2,
+    "infeasible_policies": 0,
+    "information_acquisition_modelled": false,
+    "information_acquisition_separate_from_uncertainty_modelling": true,
+    "model_revision": "three-stage-finite-policy-v1",
+    "nonanticipativity_representation": "one_decision_per_shared_history",
+    "objective_bound": 8.5,
+    "objective_bound_tolerance": 1e-12,
+    "optimality_gap": 0.0,
+    "policies_evaluated": 2,
+    "recourse_feasibility_checked": true,
+    "solver_type": "exact_enumeration",
+    "states_evaluated": 3
+  },
+  "decomposition": {
+    "eviu": 0.0,
+    "eviu_comparator": "declared_point_estimate_ev_solution",
+    "eviu_equals_vss_under_v1_contract": true,
+    "evpi": 1.5,
+    "identity_status": "verified",
+    "vss": 0.0
+  },
+  "expected_result_of_ev_solution": {
+    "infeasible_states": [],
+    "status": "feasible",
+    "value": 8.5
+  },
+  "expected_value_problem": {
+    "candidate_tie": [
+      "commit-at-median"
+    ],
+    "candidate_values": {
+      "adaptive-at-median": 7.0,
+      "commit-at-median": 9.0
+    },
+    "induced_policy_id": "commit-policy",
+    "point_objective_value": 9.0,
+    "selected_candidate_id": "commit-at-median",
+    "selected_first_stage_decision": "full-launch"
+  },
+  "language_dispositions": {
+    "julia": "not_implemented",
+    "mojo": "external_upstream_boundary",
+    "python": "experimental_exact_finite_execution",
+    "r": "not_implemented",
+    "rust": "not_implemented"
+  },
+  "method_maturity": "experimental",
+  "objective": {
+    "direction": "maximize",
+    "discount_basis": "present value",
+    "horizon_basis": "three stages",
+    "population_basis": "one governed programme",
+    "risk_criterion": "expected_value",
+    "value_unit": "net-benefit-units"
+  },
+  "point_estimate": {
+    "deterministic_model_revision": "median-demand-v1",
+    "functional": "median",
+    "parameter_unit": "demand-units",
+    "value": 2.0
+  },
+  "policy_audit": [
+    {
+      "expected_value": 8.5,
+      "feasible_all_states": true,
+      "first_stage_decision": "pilot",
+      "history_decisions": [
+        {
+          "decision": "contract",
+          "history_id": "adapt-down"
+        },
+        {
+          "decision": "hold",
+          "history_id": "adapt-flat"
+        },
+        {
+          "decision": "expand",
+          "history_id": "adapt-up"
+        },
+        {
+          "decision": "prepare-expansion",
+          "history_id": "review-high"
+        },
+        {
+          "decision": "preserve-option",
+          "history_id": "review-low"
+        }
+      ],
+      "infeasible_states": [],
+      "policy_id": "adaptive-policy",
+      "state_outcomes": [
+        {
+          "feasible": true,
+          "objective_value": 4.0,
+          "recourse_status": "feasible",
+          "state_id": "down"
+        },
+        {
+          "feasible": true,
+          "objective_value": 8.0,
+          "recourse_status": "feasible",
+          "state_id": "flat"
+        },
+        {
+          "feasible": true,
+          "objective_value": 14.0,
+          "recourse_status": "feasible",
+          "state_id": "up"
+        }
+      ]
+    },
+    {
+      "expected_value": 8.5,
+      "feasible_all_states": true,
+      "first_stage_decision": "full-launch",
+      "history_decisions": [
+        {
+          "decision": "continue",
+          "history_id": "adapt-down"
+        },
+        {
+          "decision": "continue",
+          "history_id": "adapt-flat"
+        },
+        {
+          "decision": "continue",
+          "history_id": "adapt-up"
+        },
+        {
+          "decision": "continue",
+          "history_id": "review-high"
+        },
+        {
+          "decision": "continue",
+          "history_id": "review-low"
+        }
+      ],
+      "infeasible_states": [],
+      "policy_id": "commit-policy",
+      "state_outcomes": [
+        {
+          "feasible": true,
+          "objective_value": -2.0,
+          "recourse_status": "feasible",
+          "state_id": "down"
+        },
+        {
+          "feasible": true,
+          "objective_value": 9.0,
+          "recourse_status": "feasible",
+          "state_id": "flat"
+        },
+        {
+          "feasible": true,
+          "objective_value": 18.0,
+          "recourse_status": "feasible",
+          "state_id": "up"
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "independent_reference": "hand-calculated finite policy table",
+    "policy_generator": "independent complete finite enumeration",
+    "scenario_source": "synthetic three-stage tree",
+    "software_version": "1.3.0-planned"
+  },
+  "recourse_problem": {
+    "policy_tie": [
+      "adaptive-policy",
+      "commit-policy"
+    ],
+    "selected_policy_id": "adaptive-policy",
+    "value": 8.5
+  },
+  "scenario_structure": {
+    "histories": [
+      {
+        "history_id": "adapt-down",
+        "reachable_states": [
+          "down"
+        ],
+        "stage_id": "adapt"
+      },
+      {
+        "history_id": "adapt-flat",
+        "reachable_states": [
+          "flat"
+        ],
+        "stage_id": "adapt"
+      },
+      {
+        "history_id": "adapt-up",
+        "reachable_states": [
+          "up"
+        ],
+        "stage_id": "adapt"
+      },
+      {
+        "history_id": "review-high",
+        "reachable_states": [
+          "up"
+        ],
+        "stage_id": "review"
+      },
+      {
+        "history_id": "review-low",
+        "reachable_states": [
+          "down",
+          "flat"
+        ],
+        "stage_id": "review"
+      }
+    ],
+    "stages": [
+      {
+        "information_available": [],
+        "order": 1,
+        "stage_id": "launch"
+      },
+      {
+        "information_available": [
+          "early-band"
+        ],
+        "order": 2,
+        "stage_id": "review"
+      },
+      {
+        "information_available": [
+          "early-band",
+          "late-band"
+        ],
+        "order": 3,
+        "stage_id": "adapt"
+      }
+    ],
+    "states": [
+      {
+        "probability": 0.25,
+        "state_id": "down"
+      },
+      {
+        "probability": 0.5,
+        "state_id": "flat"
+      },
+      {
+        "probability": 0.25,
+        "state_id": "up"
+      }
+    ]
+  },
+  "schema_version": "1.0.0",
+  "unsupported_dispositions": {
+    "approximate_or_external_solvers": "not_supported_in_v1",
+    "dvss": "deferred_pending_separate_multistage_reference_contract",
+    "risk_criteria_beyond_expected_value": "not_supported_in_v1",
+    "vms": "deferred_pending_separate_multistage_reference_contract"
+  },
+  "wait_and_see": {
+    "state_solutions": [
+      {
+        "objective_value": 4.0,
+        "policy_tie": [
+          "adaptive-policy"
+        ],
+        "probability": 0.25,
+        "selected_policy_id": "adaptive-policy",
+        "state_id": "down"
+      },
+      {
+        "objective_value": 9.0,
+        "policy_tie": [
+          "commit-policy"
+        ],
+        "probability": 0.5,
+        "selected_policy_id": "commit-policy",
+        "state_id": "flat"
+      },
+      {
+        "objective_value": 18.0,
+        "policy_tie": [
+          "commit-policy"
+        ],
+        "probability": 0.25,
+        "selected_policy_id": "commit-policy",
+        "state_id": "up"
+      }
+    ],
+    "value": 10.0
+  }
+}

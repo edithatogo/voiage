@@ -87,7 +87,9 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
         572,
         582,
         593,
+        594,
         595,
+        596,
         619,
     }
     for child in delivered.values():
@@ -97,6 +99,14 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
     assert delivered[571]["implementation_pull_requests"] == [679]
     assert delivered[570]["implementation_pull_requests"] == [769]
     assert delivered[572]["implementation_pull_requests"] == [770]
+    assert delivered[594]["implementation_pull_requests"] == [798]
+    assert delivered[596]["implementation_pull_requests"] == [804]
+    assert delivered[596]["review_artifacts"][-1].endswith(
+        "event-localized-information-final-review.md"
+    )
+    assert delivered[594]["review_artifacts"][-1].endswith(
+        "uncertainty_modelling_value_20260801/independent-implementation-review.md"
+    )
     assert delivered[572]["review_artifacts"][-1].endswith(
         "forecast-signal-implementation-review.md"
     )
@@ -171,6 +181,68 @@ def test_issue_593_delivery_closeout_preserves_later_gates() -> None:
         assert gate in pending_text
 
 
+def test_issue_594_delivery_closeout_preserves_later_gates() -> None:
+    umbrella = ROOT / "conductor/tracks/supported_frontier_method_completion_20260723"
+    dedicated = ROOT / "conductor/tracks/uncertainty_modelling_value_20260801"
+    inventory = _inventory()
+    child = next(item for item in inventory["children"] if item["issue"] == 594)
+    umbrella_metadata = json.loads(
+        (umbrella / "metadata.json").read_text(encoding="utf-8")
+    )
+    dedicated_metadata = json.loads(
+        (dedicated / "metadata.json").read_text(encoding="utf-8")
+    )
+    cross_references = json.loads(
+        (ROOT / "conductor/github-cross-references.json").read_text(encoding="utf-8")
+    )
+    pull_requests = [
+        pull_request
+        for governed_track in cross_references["tracks"]
+        for pull_request in governed_track["pull_requests"]
+        if pull_request["number"] == 798
+    ]
+    umbrella_gate = next(
+        gate
+        for gate in umbrella_metadata["gates"]
+        if gate["id"] == "uncertainty-modelling-hosted-assurance"
+    )
+    dedicated_gate = next(
+        gate
+        for gate in dedicated_metadata["gates"]
+        if gate["id"] == "hosted-required-checks"
+    )
+    pending_text = " ".join(
+        (
+            (umbrella / "plan.md").read_text(encoding="utf-8"),
+            (dedicated / "plan.md").read_text(encoding="utf-8"),
+            (ROOT / "roadmap.md").read_text(encoding="utf-8"),
+            (ROOT / "todo.md").read_text(encoding="utf-8"),
+        )
+    )
+
+    assert child["disposition"] == "experimental_merged"
+    assert child["issue_state"] == "open"
+    assert child["project_status"] == "In Progress"
+    assert len(pull_requests) == 2
+    for pull_request in pull_requests:
+        assert pull_request["status"] == "merged"
+        assert "hosted-required-checks" in pull_request["evidence"]
+        assert "aa5d9fd86a42fecd5e8746e77c74ba23e33bb092" in pull_request["evidence"]
+        assert "c5adca8fd49b74a04312111168283fbdffc2dcbd" in pull_request["evidence"]
+    assert umbrella_gate["status"] == "satisfied"
+    assert dedicated_gate["status"] == "satisfied"
+    assert "42 hosted checks" in umbrella_gate["evidence"]
+    for gate in (
+        "scientific review",
+        "Rust/R/Julia parity",
+        "stable promotion",
+        "release",
+        "parent #594 closure",
+        "umbrella #318 closure",
+    ):
+        assert gate in pending_text
+
+
 def test_programme_records_unfinished_census_dependency() -> None:
     dependencies = _inventory()["dependencies"]
     assert dependencies == [
@@ -185,6 +257,33 @@ def test_programme_records_unfinished_census_dependency() -> None:
             "blocking_claim": "stable-core dependency complete",
         },
     ]
+
+
+def test_event_localized_information_experimental_delivery_is_governed() -> None:
+    track = INVENTORY.parent
+    requirements = (track / "requirements.md").read_text(encoding="utf-8")
+    design = (track / "design.md").read_text(encoding="utf-8")
+    plan = (track / "plan.md").read_text(encoding="utf-8")
+    metadata = json.loads((track / "metadata.json").read_text(encoding="utf-8"))
+    canonical = (ROOT / "conductor/requirements.md").read_text(encoding="utf-8")
+    canonical_design = (ROOT / "conductor/design.md").read_text(encoding="utf-8")
+    child = next(child for child in _inventory()["children"] if child["issue"] == 596)
+
+    assert {"M27-S1", "M27-S2", "M27-S3", "M27-S4"} <= {
+        line.split(":", maxsplit=1)[0].removeprefix("- **")
+        for line in requirements.splitlines()
+        if line.startswith("- **M27-")
+    }
+    assert "Event-localized information value" in design
+    assert "M27" in metadata["requirement_ids"]
+    assert "M27" in metadata["canonical_track_extensions"]["C18"]
+    assert "C18 governed event-localized" in canonical
+    assert "C18/M27 policy-relative EUI density" in canonical_design
+    for issue in range(777, 780):
+        assert f"#{issue}" in plan
+    assert child["disposition"] == "experimental_merged"
+    assert child["implementation_pull_requests"] == [804]
+    assert child["satisfies_ac06"] is True
 
 
 def test_dsa_governance_is_versioned_and_cross_referenced() -> None:

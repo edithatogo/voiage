@@ -1,0 +1,62 @@
+---
+title: Event-Localized Information Value
+description: Exact experimental event VOI and policy-relative information density
+---
+
+Use `event_localized_information_value` to identify both how much a declared
+event is worth learning and which regions of a finite uncertainty support create
+the value of resolving a coordinate. The v1 evaluator is exact and Python-only.
+
+```python
+import json
+from pathlib import Path
+
+from voiage import event_localized_information_value
+
+request = json.loads(
+    Path("specs/frontier/event-localized-information/v1/fixtures/normative/input.json")
+    .read_text()
+)
+result = event_localized_information_value(request)
+payload = result.to_contract_dict()
+print(payload["event"]["perfect_gross_voi"])
+print(payload["density"]["information_value"])
+```
+
+The canonical policy-relative density is
+`f(x) [max_a g_a(x) - g_a*(x)]`, where `a*` is the declared
+baseline-optimal reference action. It is nonnegative at every finite atom. The
+separately labelled centered diagnostic `f(x) [max_a g_a(x) - V0]` can be
+negative locally even though its sum recovers the same coordinate information
+value. The result retains complete ties, integral errors, modes and vectors
+from the declared base coordinate.
+
+The v1 objective is higher-is-better expected value or expected utility and
+therefore has `direction: "maximize"`. Convert a cost/loss objective to a
+higher-is-better score before calling the evaluator; raw minimization is
+rejected. The reference action must attain the true baseline maximum.
+`tie_tolerance` lies in `[0, 1e-6]`, while `integral_tolerance` must lie in
+`(0, 1e-6]`. Assurance integrals use the unrounded atoms; tolerance cleanup is
+applied only to the portable presentation.
+
+The same contract evaluates perfect revelation of a declared event and every
+requested accuracy of a symmetric imperfect binary channel. Accuracy `0.5` is
+uninformative; `p` and `1-p` have equal gross value because their signal labels
+can be inverted. The symmetry diagnostic uses tolerant accuracy matching and
+is `null`, not zero, when the requested grid contains no complementary pair.
+The portable result includes state/coordinate membership evidence, allowing its
+strict validator to re-evaluate the declared threshold or state set and every
+event, channel and density marginal rather than trusting reported summaries.
+Equal coordinates must appear as one grouped density atom.
+
+```bash
+voiage --format json calculate-event-localized-information request.json
+```
+
+`plot_information_density(result)` and `plot_event_accuracy_curve(result)` use
+the result only. They do not re-evaluate the model or infer observations from a
+plot. This finite probability-mass implementation does not claim continuous
+density estimation. Monetary buying-price information is owned by the #595
+expected-utility pricing family. Rust, R and Julia are unsupported; Mojo is an
+external upstream boundary. Scientific review and stable promotion remain
+separate gates.

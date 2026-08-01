@@ -4,6 +4,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+For experimental frontier items, references to scientific review mean the
+relevant subagent review panel defined in
+`conductor/tracks/supported_frontier_method_completion_20260723/scientific-review-panel.md`.
+The panel supplies structured evidence; maintainer approval and external
+release, registry, and publication decisions remain separate gates.
+
 *   [ ] Complete belief-state and intervention-aware sequential information
     value after experimental branch delivery.
     *   GitHub issue #597; delivery subissues #780--#782; umbrella track
@@ -19,10 +25,42 @@ This document lists the actionable tasks for `voiage` development. Agents should
         review, hosted exact-head assurance, merge, Rust/R/Julia parity, stable
         promotion, release, parent #597 closure and umbrella #318 closure.
 
+*   [ ] Complete event-localized information value after experimental delivery.
+    *   GitHub issue #596; delivery subissues #777–#779; umbrella track
+        `supported_frontier_method_completion_20260723`; canonical C18/M27.
+    *   The exact finite Python contract evaluates declared event/complement
+        revelation, symmetric imperfect binary-channel accuracy and the
+        policy-relative EUI density with complete ties, signed centered
+        diagnostics, integral assurance, modes, directions, API/CLI and plots.
+    *   PR #804 exact head `e6835358` passed all 42 hosted checks with 38
+        successes and four governed skips, including installed-wheel and 100%
+        changed-branch assurance, before squash merge `e3a62eba`; governed
+        closeout PR #805 exact head `d8f5e2e3` then passed all 37 checks and
+        squash-merged as `74113b5a`. Delivery subissues #777–#779 are closed.
+        Monetary BPI remains delegated to #595.
+        Remaining gates are the named scientific panel, Rust/R/Julia parity,
+        stable promotion, release, parent #596 closure and umbrella #318 closure.
+
+*   [ ] Complete uncertainty-modelling value after experimental repository delivery.
+    *   GitHub issue #594; native subissues #774–#776; Conductor track
+        `uncertainty_modelling_value_20260801`; canonical C18/M26.
+    *   The exact finite Python slice covers a declared point estimate,
+        two-/multistage shared-history policies, EEV, recourse, wait-and-see,
+        VSS/EVIU, EVPI, minimization/maximization and infeasible recourse.
+    *   PR #798 exact head `aa5d9fd8` completed all 42 hosted checks with 38
+        successes and four governed skips; every wheel contract, aggregate
+        coverage, CodeQL and security assurance passed, and all four review
+        threads were resolved before squash merge `c5adca8f`.
+    *   Repository-delivery subissues #774–#776 may close. Remaining gates are
+        independent scientific review, Rust/R/Julia parity, stable promotion,
+        release, parent #594 closure and umbrella #318 closure. DVSS/VMS require
+        separately approved reference contracts.
+
 *   [ ] Complete implementation-information decomposition after experimental
     repository delivery.
     *   GitHub issue #593; delivery subissues #766--#768; umbrella track
-        `supported_frontier_method_completion_20260723`; canonical C18/M25.
+        `supported_frontier_method_completion_20260723`; phases F593-1--F593-4;
+        canonical C18/M25.
     *   The strict finite Python contract covers EVPIM, EVSIM, realizable EVPI,
         EVP, IA-EVSI, interaction, uptake changes, exact identities and CLI/API
         execution without an implementation-information independence assumption.
@@ -38,7 +76,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 *   [ ] Complete forecast and signal information VOI after experimental delivery.
     *   GitHub issue #572; native subissues #759, #760 and #762; umbrella track
-        `supported_frontier_method_completion_20260723`; canonical C18/M23.
+        `supported_frontier_method_completion_20260723`; phases F572-1--F572-3;
+        canonical C18/M23.
     *   The exact finite Python contract separates timely-oracle value, signed
         deployed value, calibration loss, regret avoided and maximum price.
     *   PR #770 exact head `c110706c` passed all hosted checks and 100% changed
@@ -49,7 +88,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 *   [ ] Complete risk-sensitive and constrained VOI after experimental delivery.
     *   GitHub issue #570; native subissues #757, #758 and #761; umbrella track
-        `supported_frontier_method_completion_20260723`; canonical C18/M22.
+        `supported_frontier_method_completion_20260723`; phases F570-1--F570-3;
+        canonical C18/M22.
     *   The exact finite Python contract covers declared expected utility,
         lower-tail CVaR, minimax regret, deterministic/chance constraints,
         matched feasible policy sets, complete ties and fail-closed assurance.
@@ -83,7 +123,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 *   [ ] Complete Value of Flexibility after experimental repository delivery.
     *   GitHub issue #559; umbrella track
-        `supported_frontier_method_completion_20260723`; draft PR #723.
+        `supported_frontier_method_completion_20260723`; phases F559-1--F559-4;
+        draft PR #723.
     *   Python timing-scenario execution, schemas, an enumerable fixture, CLI,
         documentation and dynamic-real-options compatibility repair are present
         on the branch.
@@ -94,7 +135,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 *   [ ] Complete deterministic sensitivity and scenario analysis after
     experimental repository delivery.
     *   GitHub issue #556; delivery subissues #724--#728; umbrella track
-        `supported_frontier_method_completion_20260723`; draft PR #723.
+        `supported_frontier_method_completion_20260723`; phases F556-1--F556-5;
+        draft PR #723.
     *   Python callback and normalized-record execution, exact installed-wheel
         validation, one-way/two-way/scenario fixtures, CLI, tornado plot and
         documentation are present on the branch.
@@ -105,7 +147,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 *   [ ] Complete Value of Distribution-Family Information after experimental
     repository delivery.
     *   GitHub issue #557; delivery subissues #731–#735; umbrella track
-        `supported_frontier_method_completion_20260723`; PR #736.
+        `supported_frontier_method_completion_20260723`; phases F557-1--F557-5;
+        PR #736.
     *   Planned contract: v1.2.0; MoSCoW: Must; canonical requirements M19/M17.
     *   Experimental Python execution, strict installed schema/CLI, exact
         fixture, complete ties, signed net VDI, provenance, estimator assurance,

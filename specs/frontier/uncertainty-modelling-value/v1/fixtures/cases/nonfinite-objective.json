@@ -1,0 +1,6 @@
+{
+  "case_id": "nonfinite-objective",
+  "base_fixture": "../normative/two-stage-nonlinear-input.json",
+  "mutation": {"path": "/policies/0/state_outcomes/0/objective_value", "value_token": "NaN"},
+  "expected_error_contains": "finite objective"
+}

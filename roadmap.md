@@ -26,7 +26,16 @@ hosted exact-head checks, merge, scientific review, polyglot parity, stable
 promotion, release, parent #597 closure and umbrella #318 closure remain
 separate gates.
 
-Issue #593 now has an experimental Python-only joint information/implementation
+#596 now has a test-first experimental Python delivery for C18/M27. It evaluates
+perfect event information, a symmetric imperfect binary channel and the
+policy-relative expected-utility density
+`f(x) [max_a g_a(x) - g_a*(x)]` on exact finite probability-mass supports,
+with complete ties, signed centered diagnostics, integral assurance and
+result-only plots. Monetary BPI remains delegated to #595. Independent review,
+hosted exact-head checks, scientific approval, Rust/R/Julia parity, stable
+promotion and release remain separate gates.
+
+#593 now has an experimental Python-only joint information/implementation
 contract and exact finite evaluator. PR #787 exact head `de31458b` passed all
 42 hosted checks (38 successes, one neutral aggregation and three governed
 skips), both review threads were evidence-resolved, and the implementation was
@@ -157,6 +166,19 @@ Three additive frontier delivery plans target the governed v1.2.0 contract and c
 specialized gaps identified on 27 July 2026 without changing the released
 stable core. Canonical MoSCoW requirements M14–M17 and cross-repository track
 C16 own the shared projection:
+
+Canonical C18 extends the planned v1.3.0 frontier. Requirement M26 and GitHub
+issue #594 are delivered in `uncertainty_modelling_value_20260801` as an
+experimental exact finite Python contract for EV-problem/solution, EEV,
+recourse, wait-and-see, VSS/EVIU and EVPI. Two- and three-stage fixtures encode
+shared-history nonanticipativity, minimization/maximization, nonlinear
+point-estimate behavior and infeasible induced recourse. DVSS/VMS, scientific
+approval, polyglot parity, stable promotion and release remain pending. PR #798
+exact head `aa5d9fd8` completed all 42 hosted checks with 38 successes and four
+governed skips, including every installed-wheel contract, aggregate coverage,
+CodeQL and security assurance, with all four review threads resolved before
+squash merge `c5adca8f`. Repository-delivery subissues #774–#776 may close;
+parent #594 and umbrella #318 remain open.
 
 *   `estimation_focused_variance_voi_20260727` and GitHub issue #619 define
     estimation-focused `EVPPI_var` and `EVSI_var` with declared scalar/vector

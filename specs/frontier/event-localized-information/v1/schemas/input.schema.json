@@ -1,0 +1,260 @@
+{
+  "$id": "https://voiage.dev/specs/frontier/event-localized-information/v1/input.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "actions": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 2,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "analysis_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "analysis_type": {
+      "const": "event_localized_information_value"
+    },
+    "chronology": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 3,
+      "type": "array"
+    },
+    "density": {
+      "additionalProperties": false,
+      "properties": {
+        "base_coordinate": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "coordinate_names": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "coordinate_units": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "measure": {
+          "const": "probability_mass"
+        },
+        "reference_action": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "measure",
+        "coordinate_names",
+        "coordinate_units",
+        "base_coordinate",
+        "reference_action"
+      ],
+      "type": "object"
+    },
+    "direction": {
+      "const": "maximize"
+    },
+    "event": {
+      "additionalProperties": false,
+      "properties": {
+        "accuracy_grid": {
+          "items": {
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "definition": {
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "coordinate_index": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "kind": {
+                  "const": "threshold"
+                },
+                "operator": {
+                  "enum": [
+                    "less_than",
+                    "less_than_or_equal",
+                    "greater_than",
+                    "greater_than_or_equal"
+                  ]
+                },
+                "threshold": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "kind",
+                "coordinate_index",
+                "operator",
+                "threshold"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "state_set"
+                },
+                "state_ids": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "minItems": 1,
+                  "type": "array",
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "kind",
+                "state_ids"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "event_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "information_cost": {
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "event_id",
+        "definition",
+        "information_cost",
+        "accuracy_grid"
+      ],
+      "type": "object"
+    },
+    "integral_tolerance": {
+      "exclusiveMinimum": 0,
+      "maximum": 1e-06,
+      "type": "number"
+    },
+    "provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "event_source": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "probability_source": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "value_source": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "probability_source",
+        "value_source",
+        "event_source"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "v1"
+    },
+    "states": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "action_values": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "minProperties": 2,
+            "type": "object"
+          },
+          "coordinate": {
+            "items": {
+              "type": "number"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "probability": {
+            "exclusiveMinimum": 0,
+            "maximum": 1,
+            "type": "number"
+          },
+          "state_id": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "state_id",
+          "probability",
+          "coordinate",
+          "action_values"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "tie_tolerance": {
+      "maximum": 1e-06,
+      "minimum": 0,
+      "type": "number"
+    },
+    "value_unit": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "analysis_id",
+    "analysis_type",
+    "value_unit",
+    "direction",
+    "chronology",
+    "actions",
+    "states",
+    "density",
+    "event",
+    "tie_tolerance",
+    "integral_tolerance",
+    "provenance"
+  ],
+  "title": "EventLocalizedInformationInputV1",
+  "type": "object"
+}

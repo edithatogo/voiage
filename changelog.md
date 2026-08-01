@@ -13,6 +13,12 @@
   learning with a usable downstream response. Stable and polyglot claims remain
   gated.
 
+- Add an experimental exact finite event-localized information evaluator with
+  perfect and imperfect binary-event VOI, policy-relative information density,
+  signed centered diagnostics, strict fixtures, CLI/API and result-only plots.
+  Bind its portable result to auditable partition evidence and independently
+  reconstructed event, channel and density marginals.
+
 - Added an experimental exact finite risk-sensitive and constrained
   perfect-information contract for issue #570, with expected-value/utility,
   lower-tail CVaR, minimax-regret, deterministic/chance constraints, CLI,
@@ -32,6 +38,12 @@
   The legacy `value_of_implementation` multiplier remains available as a
   separate compatibility surface; scientific review, polyglot parity, stable
   promotion and release remain gated.
+
+- Add experimental exact finite uncertainty-modelling value with declared
+  point-estimate, two-/multistage nonanticipative policies, EEV, recourse,
+  wait-and-see, direction-aware VSS/EVIU and EVPI, infeasible-recourse status,
+  strict schemas, fixtures, Python API and CLI. DVSS/VMS, scientific review,
+  stable promotion and polyglot parity remain gated.
 
 - Add experimental exact finite information-source portfolio VOI from a
   declared joint-world law, including governed procurement constraints,

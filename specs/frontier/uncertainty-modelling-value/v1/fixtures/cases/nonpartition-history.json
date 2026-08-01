@@ -1,0 +1,6 @@
+{
+  "case_id": "nonpartition-history",
+  "base_fixture": "../normative/two-stage-nonlinear-input.json",
+  "mutation": {"path": "/histories/0/reachable_states", "value": ["high"]},
+  "expected_error_contains": "partition states"
+}

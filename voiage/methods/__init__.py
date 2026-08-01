@@ -33,6 +33,10 @@ if TYPE_CHECKING:
         distributional_information_from_specification,
         value_of_distributional_information,
     )
+    from .event_localized_information import (
+        EventLocalizedInformationResult,
+        event_localized_information_value,
+    )
     from .forecast_signal_information import (
         ForecastSignalInformationResult,
         forecast_signal_information_value,
@@ -56,6 +60,10 @@ if TYPE_CHECKING:
         RiskSensitiveVoiResult,
         risk_sensitive_constrained_voi,
     )
+    from .uncertainty_modelling_value import (
+        UncertaintyModellingValueResult,
+        value_of_uncertainty_modelling,
+    )
 
 _MODULES = (
     "adaptive",
@@ -76,6 +84,7 @@ _MODULES = (
     "dynamic_real_options",
     "deterministic_sensitivity",
     "equity_information",
+    "event_localized_information",
     "estimation",
     "evidence_obsolescence_refresh",
     "expert_synthesis",
@@ -105,6 +114,7 @@ _MODULES = (
     "structural",
     "threshold",
     "utility_information",
+    "uncertainty_modelling_value",
     "validation",
 )
 
@@ -140,6 +150,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "DsaSwitchInterval",
     "ValueOfFlexibilityResult",
     "EquityInformationResult",
+    "EventLocalizedInformationResult",
     "EvidenceObsolescenceRefreshResult",
     "ExpertSynthesisResult",
     "ExplainabilityTransparencyResult",
@@ -169,6 +180,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "ThresholdProfile",
     "ThresholdProfileSet",
     "ThresholdResult",
+    "UncertaintyModellingValueResult",
     "ValidationProfile",
     "ValidationProfileSet",
     "ValueOfPerspectiveResult",
@@ -188,6 +200,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "evppi",
     "evsi",
     "evsi_nma",
+    "event_localized_information_value",
     "expected_utility_information_value",
     "forecast_signal_information_value",
     "identify_optimal_subgroups",
@@ -205,6 +218,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "sequential_voi",
     "structural_evpi",
     "structural_evppi",
+    "value_of_uncertainty_modelling",
     "value_of_adaptive_learning_bandit",
     "value_of_clairvoyance",
     "value_of_ai_assisted_evidence_triage",

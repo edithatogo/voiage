@@ -1,0 +1,357 @@
+{
+  "analysis_id": "multivariate-tail-event-example",
+  "analysis_type": "event_localized_information_value_result",
+  "assurance": {
+    "accuracy_half_no_information_residual": 0.0,
+    "bpi_delegated_to_issue_595": true,
+    "centered_density_is_signed_diagnostic": true,
+    "complete_ties": true,
+    "continuous_density_claimed": false,
+    "density_integral_within_tolerance": true,
+    "estimator": "exact_finite_enumeration",
+    "event_complement_partition": true,
+    "maximum_binary_channel_symmetry_error": 0.0,
+    "policy_relative_density_nonnegative": true
+  },
+  "baseline": {
+    "action_expected_values": {
+      "safe": 4.0,
+      "targeted": 4.9
+    },
+    "optimal_actions": [
+      "targeted"
+    ],
+    "reference_action": "targeted",
+    "reference_value": 4.9
+  },
+  "chronology": [
+    "choose information source",
+    "observe event signal",
+    "choose action",
+    "realize state value"
+  ],
+  "density": {
+    "atoms": [
+      {
+        "centered_density": -0.18000000000000008,
+        "conditional_action_values": {
+          "safe": 4.0,
+          "targeted": 0.0
+        },
+        "coordinate": [
+          -1.0,
+          0.0
+        ],
+        "optimal_actions": [
+          "safe"
+        ],
+        "policy_relative_density": 0.8,
+        "probability_mass": 0.2,
+        "reference_policy_value": 0.0
+      },
+      {
+        "centered_density": -0.2700000000000001,
+        "conditional_action_values": {
+          "safe": 4.0,
+          "targeted": 3.0
+        },
+        "coordinate": [
+          0.0,
+          0.0
+        ],
+        "optimal_actions": [
+          "safe"
+        ],
+        "policy_relative_density": 0.3,
+        "probability_mass": 0.3,
+        "reference_policy_value": 3.0
+      },
+      {
+        "centered_density": 1.5499999999999998,
+        "conditional_action_values": {
+          "safe": 4.0,
+          "targeted": 8.0
+        },
+        "coordinate": [
+          1.0,
+          1.0
+        ],
+        "optimal_actions": [
+          "targeted"
+        ],
+        "policy_relative_density": 0.0,
+        "probability_mass": 0.5,
+        "reference_policy_value": 8.0
+      }
+    ],
+    "base_coordinate": [
+      1.0,
+      1.0
+    ],
+    "centered_diagnostic_formula": "f(x) * (max_a g_a(x) - V0)",
+    "centered_integral": 1.0999999999999996,
+    "coordinate_names": [
+      "margin",
+      "trajectory"
+    ],
+    "coordinate_units": [
+      "score",
+      "score"
+    ],
+    "directions_from_base": [
+      [
+        -2.0,
+        -1.0
+      ]
+    ],
+    "formula": "f(x) * (max_a g_a(x) - g_reference(x))",
+    "information_value": 1.0999999999999996,
+    "integral_errors": {
+      "centered": 0.0,
+      "policy_relative": 0.0
+    },
+    "measure": "probability_mass",
+    "modes": [
+      [
+        -1.0,
+        0.0
+      ]
+    ],
+    "policy_relative_integral": 1.1,
+    "reference_action": "targeted"
+  },
+  "direction": "maximize",
+  "event": {
+    "complement_probability": 0.5,
+    "complement_state_ids": [
+      "favourable"
+    ],
+    "conditional_action_values": {
+      "complement": {
+        "safe": 4.0,
+        "targeted": 8.0
+      },
+      "event": {
+        "safe": 4.0,
+        "targeted": 1.7999999999999998
+      }
+    },
+    "definition": {
+      "coordinate_index": 0,
+      "kind": "threshold",
+      "operator": "less_than_or_equal",
+      "threshold": 0.0
+    },
+    "event_id": "nonpositive-margin",
+    "imperfect_binary_channel": [
+      {
+        "accuracy": 0.0,
+        "conditional_action_values": {
+          "complement_reported": {
+            "safe": 4.0,
+            "targeted": 1.7999999999999998
+          },
+          "event_reported": {
+            "safe": 4.0,
+            "targeted": 8.0
+          }
+        },
+        "gross_voi": 1.0999999999999996,
+        "informed_value": 6.0,
+        "net_voi": 0.9999999999999997,
+        "optimal_actions": {
+          "complement_reported": [
+            "safe"
+          ],
+          "event_reported": [
+            "targeted"
+          ]
+        },
+        "signal_probabilities": {
+          "complement_reported": 0.5,
+          "event_reported": 0.5
+        }
+      },
+      {
+        "accuracy": 0.25,
+        "conditional_action_values": {
+          "complement_reported": {
+            "safe": 4.0,
+            "targeted": 3.3499999999999996
+          },
+          "event_reported": {
+            "safe": 4.0,
+            "targeted": 6.45
+          }
+        },
+        "gross_voi": 0.3249999999999993,
+        "informed_value": 5.225,
+        "net_voi": 0.22499999999999928,
+        "optimal_actions": {
+          "complement_reported": [
+            "safe"
+          ],
+          "event_reported": [
+            "targeted"
+          ]
+        },
+        "signal_probabilities": {
+          "complement_reported": 0.5,
+          "event_reported": 0.5
+        }
+      },
+      {
+        "accuracy": 0.5,
+        "conditional_action_values": {
+          "complement_reported": {
+            "safe": 4.0,
+            "targeted": 4.9
+          },
+          "event_reported": {
+            "safe": 4.0,
+            "targeted": 4.9
+          }
+        },
+        "gross_voi": 0.0,
+        "informed_value": 4.9,
+        "net_voi": -0.1,
+        "optimal_actions": {
+          "complement_reported": [
+            "targeted"
+          ],
+          "event_reported": [
+            "targeted"
+          ]
+        },
+        "signal_probabilities": {
+          "complement_reported": 0.5,
+          "event_reported": 0.5
+        }
+      },
+      {
+        "accuracy": 0.75,
+        "conditional_action_values": {
+          "complement_reported": {
+            "safe": 4.0,
+            "targeted": 6.45
+          },
+          "event_reported": {
+            "safe": 4.0,
+            "targeted": 3.3499999999999996
+          }
+        },
+        "gross_voi": 0.3249999999999993,
+        "informed_value": 5.225,
+        "net_voi": 0.22499999999999928,
+        "optimal_actions": {
+          "complement_reported": [
+            "targeted"
+          ],
+          "event_reported": [
+            "safe"
+          ]
+        },
+        "signal_probabilities": {
+          "complement_reported": 0.5,
+          "event_reported": 0.5
+        }
+      },
+      {
+        "accuracy": 1.0,
+        "conditional_action_values": {
+          "complement_reported": {
+            "safe": 4.0,
+            "targeted": 8.0
+          },
+          "event_reported": {
+            "safe": 4.0,
+            "targeted": 1.7999999999999998
+          }
+        },
+        "gross_voi": 1.0999999999999996,
+        "informed_value": 6.0,
+        "net_voi": 0.9999999999999997,
+        "optimal_actions": {
+          "complement_reported": [
+            "targeted"
+          ],
+          "event_reported": [
+            "safe"
+          ]
+        },
+        "signal_probabilities": {
+          "complement_reported": 0.5,
+          "event_reported": 0.5
+        }
+      }
+    ],
+    "information_cost": 0.1,
+    "optimal_actions": {
+      "complement": [
+        "targeted"
+      ],
+      "event": [
+        "safe"
+      ]
+    },
+    "partition_evidence": [
+      {
+        "coordinate": [
+          -1.0,
+          0.0
+        ],
+        "event_member": true,
+        "state_id": "adverse"
+      },
+      {
+        "coordinate": [
+          0.0,
+          0.0
+        ],
+        "event_member": true,
+        "state_id": "borderline"
+      },
+      {
+        "coordinate": [
+          1.0,
+          1.0
+        ],
+        "event_member": false,
+        "state_id": "favourable"
+      }
+    ],
+    "perfect_gross_voi": 1.0999999999999996,
+    "perfect_informed_value": 6.0,
+    "perfect_net_voi": 0.9999999999999997,
+    "probability": 0.5,
+    "state_ids": [
+      "adverse",
+      "borderline"
+    ]
+  },
+  "language_dispositions": {
+    "Julia": "not_implemented",
+    "Mojo": "external_upstream_boundary",
+    "Python": "experimental_runtime",
+    "R": "not_implemented",
+    "Rust": "not_implemented"
+  },
+  "method_maturity": "experimental",
+  "provenance": {
+    "event_source": "prespecified synthetic threshold",
+    "probability_source": "synthetic exact fixture",
+    "value_source": "synthetic exact fixture"
+  },
+  "references": [
+    {
+      "doi": "10.1287/deca.2022.0465",
+      "role": "policy-relative expected-utility information density"
+    },
+    {
+      "doi": "10.1287/deca.2024.0172",
+      "role": "perfect and imperfect tail-event information"
+    }
+  ],
+  "schema_version": "v1",
+  "value_unit": "utility points"
+}
