@@ -172,7 +172,7 @@ implementation or external-gate outcomes.*
 ---
 
 ## [x] Track: Conductor GitHub Cross-Reference Reconciliation [completed: 2026-08-01]
-*Link: [./tracks/conductor-github-cross-reference-reconciliation_20260724/index.md](./tracks/conductor-github-cross-reference-reconciliation_20260724/index.md)*
+*Link: [./archive/conductor-github-cross-reference-reconciliation_20260724/index.md](./archive/conductor-github-cross-reference-reconciliation_20260724/index.md)*
 *GitHub: [issue #462](https://github.com/edithatogo/voiage/issues/462),
 native sub-issue of [#322](https://github.com/edithatogo/voiage/issues/322),
 in [Project 28](https://github.com/users/edithatogo/projects/28).*
