@@ -197,7 +197,17 @@
   action-dependent-learning and dual-control diagnostics, explicit language
   dispositions, independent implementation review, full local validation and
   hosted exact-head assurance without claiming stable or scientific closure.
-  (AC-03–AC-07)
+  Initial review found and remediated false dual-control classification,
+  unbounded exact-enumeration work, open nested result contracts and
+  inconsistent probability tolerance. The remediator's engineering record is
+  `belief-state-information-remediation-review.md`; a fresh independent review,
+  hosted exact-head assurance and merge remain pending. (AC-03–AC-07)
+
+- [x] **F597-R1 / #782 — Review Fixes:** Add conservative Bellman expansion
+  preflight, repeated-belief memoization, strict recursive input/result
+  validation, semantic identity and martingale checks, and state-informative
+  usable-response dual-control diagnostics with adversarial regressions.
+  (AC-03–AC-07) `b9e8bd92`
 
 - [ ] **G9:** Implement each accepted repository-owned capability or record a
   reviewed exclusion with migration guidance. (AC-02, AC-06)
