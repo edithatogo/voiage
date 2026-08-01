@@ -6,6 +6,7 @@
 # pyright: reportUnusedCallResult=false
 
 from copy import deepcopy
+import hashlib
 import json
 from pathlib import Path
 from typing import Any
@@ -19,7 +20,10 @@ from voiage import methods
 from voiage.cli import app
 from voiage.exceptions import InputError
 import voiage.methods.belief_state_information as belief_module
-from voiage.methods.belief_state_information import belief_state_information_value
+from voiage.methods.belief_state_information import (
+    belief_state_information_value,
+    validate_belief_state_information_result,
+)
 
 ROOT = Path(__file__).parents[1]
 CONTRACT = ROOT / "specs/frontier/belief-state-information/v1"
@@ -46,6 +50,13 @@ def test_portable_schemas_and_normative_fixture() -> None:
     result = _result()
     Draft202012Validator(result_schema).validate(result)
     assert result == json.loads(EXPECTED.read_text(encoding="utf-8"))
+
+
+def test_contract_evidence_hashes_are_exact() -> None:
+    evidence = json.loads((CONTRACT / "fixtures/evidence.json").read_text())
+    for artifact in evidence["artifacts"]:
+        payload = (ROOT / artifact["path"]).read_bytes()
+        assert hashlib.sha256(payload).hexdigest() == artifact["sha256"]
 
 
 def test_nonmyopic_intervention_value_and_matched_comparator() -> None:
@@ -102,6 +113,7 @@ def test_conditional_sensing_null_sensor_and_martingale_assurance() -> None:
     assert assurance["approximation_used"] is False
     assert assurance["complete_ties_reported"] is True
     assert assurance["action_dependent_learning"] is True
+    assert assurance["usable_downstream_learning_response"] is True
     assert assurance["dual_control_diagnostic"] is True
     assert assurance["unique_additive_dual_control_value_claimed"] is False
     assert result["language_dispositions"] == {
@@ -404,6 +416,191 @@ def test_zero_probability_observation_and_action_independence_are_exact() -> Non
     result = _result(payload)
     assert result["assurance"]["action_dependent_learning"] is False
     assert result["policy_tree"]["branches"][0]["observation_id"] == "negative"
+
+
+def test_state_independent_action_dependent_observations_do_not_claim_learning() -> (
+    None
+):
+    payload = _input()
+    for sensor in payload["sensors"]:
+        for action_id, by_state in sensor["likelihood_by_control"].items():
+            probabilities = (
+                {"negative": 0.8, "positive": 0.2}
+                if action_id == "probe"
+                else {"negative": 0.4, "positive": 0.6}
+            )
+            for state_id in by_state:
+                by_state[state_id] = dict(probabilities)
+    result = _result(payload)
+    assert result["values"]["net_information_value"] == pytest.approx(0.0)
+    assert result["assurance"]["usable_downstream_learning_response"] is False
+    assert result["assurance"]["action_dependent_learning"] is False
+    assert result["assurance"]["dual_control_diagnostic"] is False
+
+
+def test_state_informative_but_action_independent_learning_is_not_dual_control() -> (
+    None
+):
+    payload = _input()
+    informative = payload["sensors"][1]["likelihood_by_control"]["probe"]
+    for action_id in payload["sensors"][1]["likelihood_by_control"]:
+        payload["sensors"][1]["likelihood_by_control"][action_id] = deepcopy(
+            informative
+        )
+    assurance = _result(payload)["assurance"]
+    assert assurance["usable_downstream_learning_response"] is True
+    assert assurance["action_dependent_learning"] is False
+    assert assurance["dual_control_diagnostic"] is False
+
+
+def test_transition_dependence_alone_does_not_claim_dual_control() -> None:
+    payload = _input()
+    for sensor in payload["sensors"]:
+        for by_state in sensor["likelihood_by_control"].values():
+            for state_id in by_state:
+                by_state[state_id] = {"negative": 0.5, "positive": 0.5}
+    payload["transition_model"]["probe"] = {
+        "bad": {"bad": 0.0, "good": 1.0},
+        "good": {"bad": 1.0, "good": 0.0},
+    }
+    assurance = _result(payload)["assurance"]
+    assert assurance["action_dependent_transition"] is True
+    assert assurance["action_dependent_learning"] is False
+    assert assurance["dual_control_diagnostic"] is False
+
+
+def test_exact_enumeration_budget_fails_closed_before_expansion() -> None:
+    payload = _input()
+    payload["horizon"] = 5
+    payload["constraints"]["allowed_control_action_ids_by_stage"] = {
+        str(stage): ["choose_bad", "choose_good", "probe", "wait"] for stage in range(5)
+    }
+    with pytest.raises(InputError, match="expansion estimate.*exceeds"):
+        belief_state_information_value(payload)
+
+
+def test_small_branching_problem_can_use_the_declared_maximum_horizon() -> None:
+    payload = _input()
+    payload["horizon"] = 12
+    payload["constraints"]["allowed_control_action_ids_by_stage"] = {
+        str(stage): ["wait"] for stage in range(12)
+    }
+    payload["constraints"]["allowed_sensor_ids_by_control"] = {
+        action["action_id"]: ["none"] for action in payload["control_actions"]
+    }
+    result = _result(payload)
+    assert result["horizon"] == 12
+    assert (
+        result["assurance"]["estimated_bellman_expansions"]
+        <= result["assurance"]["exact_enumeration_budget"]
+    )
+
+
+@pytest.mark.parametrize(
+    "target",
+    ["latent_states", "control_actions", "observations"],
+)
+def test_nested_identifier_records_are_strict_at_runtime(target: str) -> None:
+    payload = _input()
+    payload[target][0]["extra"] = True
+    with pytest.raises(InputError, match="entry fields must be strict"):
+        belief_state_information_value(payload)
+
+
+def test_sensor_boolean_is_strict_at_runtime() -> None:
+    payload = _input()
+    payload["sensors"][1]["null_sensor"] = 0
+    with pytest.raises(InputError, match="must be boolean"):
+        belief_state_information_value(payload)
+
+
+def test_probability_tolerance_is_bounded_and_used_consistently() -> None:
+    too_loose = _input()
+    too_loose["tolerances"]["probability"] = 1e-3
+    with pytest.raises(InputError, match="must not exceed"):
+        belief_state_information_value(too_loose)
+
+    tolerated = _input()
+    tolerated["tolerances"]["probability"] = 1e-6
+    tolerated["latent_states"][0]["initial_probability"] = 0.5000004
+    result = _result(tolerated)
+    assert result["assurance"]["posterior_martingale_max_residual"] <= 1e-6
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        lambda value: value["assurance"].update(extra=True),
+        lambda value: value["policy_tree"]["branches"][0].update(extra=True),
+        lambda value: value["conditional_sensing_values"][0]["sensors"][0].update(
+            extra=True
+        ),
+        lambda value: value["values"].update(net_information_value=99.0),
+        lambda value: value["value_by_horizon"][-1].update(net_information_value=99.0),
+        lambda value: value["assurance"].update(dual_control_diagnostic=False),
+        lambda value: value["assurance"].update(posterior_martingale_max_residual=0.5),
+        lambda value: value["conditional_sensing_values"][2]["sensors"][0].update(
+            net_increment_vs_null=99.0
+        ),
+        lambda value: value.update(schema_version="2.0.0"),
+        lambda value: value.update(analysis_id=""),
+        lambda value: value.update(objective_direction="sideways"),
+        lambda value: value.update(horizon=True),
+        lambda value: value.update(discount_factor=0.0),
+        lambda value: value["policy_tree"].update(belief={}),
+        lambda value: value["policy_tree"].update(belief={"bad": 2.0}),
+        lambda value: value["policy_tree"].update(stage=True),
+        lambda value: value["policy_tree"].update(chronology=[]),
+        lambda value: value["policy_tree"]["predictive_belief"].update(extra=0.0),
+        lambda value: value["policy_tree"]["control_choice_tie"].append("probe"),
+        lambda value: value["policy_tree"].update(selected_control="unknown"),
+        lambda value: value["policy_tree"].update(selected_sensor="unknown"),
+        lambda value: value["policy_tree"]["branches"][0].update(observation_id=""),
+        lambda value: value["policy_tree"]["branches"][1].update(
+            observation_id=value["policy_tree"]["branches"][0]["observation_id"]
+        ),
+        lambda value: value["policy_tree"]["branches"][0].update(probability=0.0),
+        lambda value: value["policy_tree"]["branches"][0]["posterior_belief"].update(
+            extra=0.0
+        ),
+        lambda value: value["policy_tree"]["branches"][0]["continuation"].update(
+            stage=9
+        ),
+        lambda value: value["policy_tree"]["branches"][0].update(probability=0.4),
+        lambda value: value["values"].update(expected_sensing_cost=-1.0),
+        lambda value: value["values"].update(
+            myopic_information_value=-1.0, nonmyopic_minus_myopic=7.5
+        ),
+        lambda value: value["value_by_horizon"].pop(),
+        lambda value: value["value_by_horizon"][0].update(horizon=2),
+        lambda value: value["value_by_horizon"][-1].update(
+            closed_loop_net=1.0, net_information_value=1.0
+        ),
+        lambda value: value["conditional_sensing_values"][1].update(
+            control_action_id=value["conditional_sensing_values"][0][
+                "control_action_id"
+            ]
+        ),
+        lambda value: value["conditional_sensing_values"][0]["sensors"][1].update(
+            sensor_id=value["conditional_sensing_values"][0]["sensors"][0]["sensor_id"]
+        ),
+        lambda value: value["conditional_sensing_values"][0]["sensors"][0].update(
+            net_value=99.0
+        ),
+        lambda value: value["stopping"].update(stage=99),
+        lambda value: value["approximation_bounds"].update(gap=1.0),
+        lambda value: value["assurance"].update(exact_enumeration=1),
+        lambda value: value["assurance"].update(solver="approximate"),
+        lambda value: value["assurance"].update(estimated_bellman_expansions=999999),
+        lambda value: value["language_dispositions"].update(rust="stable"),
+        lambda value: value.update(limitations=[""]),
+    ],
+)
+def test_result_semantic_validator_rejects_mutations(mutation: object) -> None:
+    result = _result()
+    mutation(result)  # type: ignore[operator]
+    with pytest.raises((TypeError, ValueError)):
+        validate_belief_state_information_result(result)
 
 
 def test_action_dependent_transition_is_reported() -> None:

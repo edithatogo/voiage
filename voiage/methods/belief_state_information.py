@@ -16,6 +16,7 @@ if TYPE_CHECKING:
     from collections.abc import Mapping, Sequence
 
 _CHRONOLOGY = ["control", "transition", "observe", "update"]
+_MAX_EXACT_BELLMAN_EXPANSIONS = 50_000
 _TOP_LEVEL_FIELDS = {
     "schema_version",
     "analysis_id",
@@ -79,6 +80,8 @@ class _Model:
     sign: float
     absolute_tie: float
     relative_tie: float
+    probability_tolerance: float
+    estimated_bellman_expansions: int
 
 
 def belief_state_information_value(
@@ -98,6 +101,7 @@ def belief_state_information_value(
         )
         model = _validate_and_build(payload)
         result = _evaluate(model)
+        validate_belief_state_information_result(result)
     except (ArithmeticError, KeyError, TypeError, ValueError) as error:
         raise_input_error(str(error))
     return BeliefStateInformationResult(result)
@@ -148,6 +152,15 @@ def _unique_ids(records: object, field: str, name: str) -> tuple[str, ...]:
     identifiers: list[str] = []
     for item in items:
         record = _require_mapping(item, f"{name} entry")
+        expected_fields = (
+            {field, "initial_probability"}
+            if name == "latent_states"
+            else {field}
+            if name in {"control_actions", "observations"}
+            else None
+        )
+        if expected_fields is not None and set(record) != expected_fields:
+            raise ValueError(f"{name} entry fields must be strict")
         identifier = record.get(field)
         if not isinstance(identifier, str) or not identifier:
             raise ValueError(f"{name}.{field} must be a non-empty string")
@@ -202,6 +215,8 @@ def _validate_and_build(payload: dict[str, Any]) -> _Model:
     probability_tolerance = _finite(tolerances["probability"], "probability")
     if min(absolute, relative, probability_tolerance) < 0.0:
         raise ValueError("tolerances must be nonnegative")
+    if max(absolute, relative, probability_tolerance) > 1e-6:
+        raise ValueError("tolerances must not exceed 1e-6")
 
     states = _unique_ids(payload["latent_states"], "state_id", "latent_states")
     actions = _unique_ids(payload["control_actions"], "action_id", "control_actions")
@@ -215,7 +230,10 @@ def _validate_and_build(payload: dict[str, Any]) -> _Model:
         for item in _require_list(payload["latent_states"], "latent_states")
     }
     if not math.isclose(
-        math.fsum(initial.values()), 1.0, abs_tol=probability_tolerance
+        math.fsum(initial.values()),
+        1.0,
+        abs_tol=probability_tolerance,
+        rel_tol=0.0,
     ):
         raise ValueError("initial probabilities must sum to one")
     if any(value < 0.0 or value > 1.0 for value in initial.values()):
@@ -271,6 +289,8 @@ def _validate_and_build(payload: dict[str, Any]) -> _Model:
         if set(record) != {"sensor_id", "null_sensor", "cost", "likelihood_by_control"}:
             raise ValueError("sensor fields must be strict")
         sensor_id = cast("str", record["sensor_id"])
+        if type(record["null_sensor"]) is not bool:
+            raise TypeError("sensor null_sensor must be boolean")
         cost = _finite(record["cost"], f"sensor {sensor_id} cost")
         if cost < 0.0:
             raise ValueError("sensor costs must be nonnegative")
@@ -301,7 +321,16 @@ def _validate_and_build(payload: dict[str, Any]) -> _Model:
     for action in actions:
         reference = likelihood[null_sensor][action][states[0]]
         if any(
-            likelihood[null_sensor][action][state] != reference for state in states[1:]
+            any(
+                not math.isclose(
+                    likelihood[null_sensor][action][state][observation],
+                    reference[observation],
+                    abs_tol=probability_tolerance,
+                    rel_tol=0.0,
+                )
+                for observation in observations
+            )
+            for state in states[1:]
         ):
             raise ValueError("null sensor must be state independent")
 
@@ -345,6 +374,17 @@ def _validate_and_build(payload: dict[str, Any]) -> _Model:
             raise ValueError("allowed sensors must be known, unique and include null")
         allowed_sensors[action] = allowed
 
+    estimated_expansions = _estimate_bellman_expansions(
+        horizon=horizon,
+        observations=len(observations),
+        allowed_actions=allowed_actions,
+        allowed_sensors=allowed_sensors,
+    )
+    if estimated_expansions > _MAX_EXACT_BELLMAN_EXPANSIONS:
+        message = f"exact Bellman expansion estimate {estimated_expansions} exceeds the supported budget {_MAX_EXACT_BELLMAN_EXPANSIONS}"
+        message += "; reduce the horizon or finite spaces"
+        raise ValueError(message)
+
     return _Model(
         payload=payload,
         states=states,
@@ -364,7 +404,32 @@ def _validate_and_build(payload: dict[str, Any]) -> _Model:
         sign=1.0 if payload["objective_direction"] == "maximize" else -1.0,
         absolute_tie=absolute,
         relative_tie=relative,
+        probability_tolerance=probability_tolerance,
+        estimated_bellman_expansions=estimated_expansions,
     )
+
+
+def _estimate_bellman_expansions(
+    *,
+    horizon: int,
+    observations: int,
+    allowed_actions: Mapping[int, Sequence[str]],
+    allowed_sensors: Mapping[str, Sequence[str]],
+) -> int:
+    """Return a deterministic conservative bound for recursive expansions."""
+    calls_by_stage = [0] * horizon
+    calls_by_stage[-1] = 1
+    for stage in range(horizon - 2, -1, -1):
+        branch_factor = observations * sum(
+            len(allowed_sensors[action]) for action in allowed_actions[stage]
+        )
+        calls_by_stage[stage] = 1 + branch_factor * calls_by_stage[stage + 1]
+    full_and_horizon_curve = calls_by_stage[0] + math.fsum(calls_by_stage)
+    conditional_branches = observations * sum(
+        len(allowed_sensors[action]) for action in allowed_actions[0]
+    )
+    conditional = conditional_branches * calls_by_stage[1] if horizon > 1 else 0
+    return int(full_and_horizon_curve + conditional + 1)
 
 
 def _expected_reward(model: _Model, belief: Mapping[str, float], action: str) -> float:
@@ -406,7 +471,12 @@ def _observe(
             for state in model.states
         }
         branches.append((observation, probability, posterior))
-    if not math.isclose(math.fsum(item[1] for item in branches), 1.0, abs_tol=1e-10):
+    if not math.isclose(
+        math.fsum(item[1] for item in branches),
+        1.0,
+        abs_tol=model.probability_tolerance,
+        rel_tol=0.0,
+    ):
         raise ArithmeticError("observation branches must sum to one")
     return branches
 
@@ -425,7 +495,18 @@ def _ties(model: _Model, values: Mapping[str, float]) -> list[str]:
     )
 
 
-def _adaptive(model: _Model, stage: int, belief: dict[str, float]) -> _Evaluation:
+def _adaptive(
+    model: _Model,
+    stage: int,
+    belief: dict[str, float],
+    cache: dict[tuple[int, tuple[float, ...]], _Evaluation] | None = None,
+) -> _Evaluation:
+    if cache is None:
+        cache = {}
+    cache_key = (stage, tuple(belief[state] for state in model.states))
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return cached
     action_evaluations: dict[str, _Evaluation] = {}
     for action in model.allowed_actions[stage]:
         immediate_original = _expected_reward(model, belief, action)
@@ -440,7 +521,7 @@ def _adaptive(model: _Model, stage: int, belief: dict[str, float]) -> _Evaluatio
             future_cost = 0.0
             for observation, probability, posterior in branches:
                 child = (
-                    _adaptive(model, stage + 1, posterior)
+                    _adaptive(model, stage + 1, posterior, cache)
                     if stage + 1 < model.horizon
                     else _Evaluation(0.0, 0.0, 0.0, {})
                 )
@@ -497,7 +578,9 @@ def _adaptive(model: _Model, stage: int, belief: dict[str, float]) -> _Evaluatio
         }
     )
     tree.pop("control_action_id")
-    return _Evaluation(selected.net, selected.gross, selected.sensing_cost, tree)
+    evaluation = _Evaluation(selected.net, selected.gross, selected.sensing_cost, tree)
+    cache[cache_key] = evaluation
+    return evaluation
 
 
 def _no_information(model: _Model, stage: int, belief: dict[str, float]) -> float:
@@ -529,7 +612,10 @@ def _fully_observed(model: _Model, stage: int, state: str) -> float:
     return max(values)
 
 
-def _conditional_sensing(model: _Model) -> list[dict[str, Any]]:
+def _conditional_sensing(
+    model: _Model,
+    cache: dict[tuple[int, tuple[float, ...]], _Evaluation],
+) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
     belief = model.initial_belief
     for action in model.allowed_actions[0]:
@@ -543,7 +629,7 @@ def _conditional_sensing(model: _Model) -> list[dict[str, Any]]:
                 model, predictive, action, sensor
             ):
                 if model.horizon > 1:
-                    child = _adaptive(model, 1, posterior)
+                    child = _adaptive(model, 1, posterior, cache)
                     future_net += probability * child.net
                     future_gross_oriented += probability * model.sign * child.gross
             gross = model.discount * future_gross_oriented
@@ -586,17 +672,78 @@ def _martingale_residual(model: _Model, tree: Mapping[str, Any]) -> float:
     return residual
 
 
-def _action_dependent_learning(model: _Model) -> bool:
-    for sensor in model.sensors:
-        for left in model.actions:
-            for right in model.actions:
-                if model.likelihood[sensor][left] != model.likelihood[sensor][right]:
-                    return True
+def _state_informative(model: _Model, sensor: str, action: str) -> bool:
+    reference = model.likelihood[sensor][action][model.states[0]]
+    return any(
+        any(
+            not math.isclose(
+                model.likelihood[sensor][action][state][observation],
+                reference[observation],
+                abs_tol=model.probability_tolerance,
+                rel_tol=0.0,
+            )
+            for observation in model.observations
+        )
+        for state in model.states[1:]
+    )
+
+
+def _selected_policy_uses_learning(tree: Mapping[str, Any]) -> bool:
+    continuations = [
+        branch["continuation"]
+        for branch in cast("list[Mapping[str, Any]]", tree["branches"])
+        if isinstance(branch["continuation"], dict)
+    ]
+    if (
+        len(
+            {
+                cast("str", continuation["selected_control"])
+                for continuation in continuations
+            }
+        )
+        > 1
+    ):
+        return True
+    return any(
+        _selected_policy_uses_learning(cast("Mapping[str, Any]", continuation))
+        for continuation in continuations
+    )
+
+
+def _action_dependent_learning(model: _Model, usable_response: bool) -> bool:
+    if not usable_response or model.horizon < 2:
+        return False
+    for stage in range(model.horizon - 1):
+        for sensor in model.sensors:
+            usable_actions = [
+                action
+                for action in model.allowed_actions[stage]
+                if sensor in model.allowed_sensors[action]
+            ]
+            for index, left in enumerate(usable_actions):
+                for right in usable_actions[index + 1 :]:
+                    if (
+                        _state_informative(model, sensor, left)
+                        or _state_informative(model, sensor, right)
+                    ) and any(
+                        any(
+                            not math.isclose(
+                                model.likelihood[sensor][left][state][observation],
+                                model.likelihood[sensor][right][state][observation],
+                                abs_tol=model.probability_tolerance,
+                                rel_tol=0.0,
+                            )
+                            for observation in model.observations
+                        )
+                        for state in model.states
+                    ):
+                        return True
     return False
 
 
 def _evaluate(model: _Model) -> dict[str, Any]:
-    adaptive = _adaptive(model, 0, model.initial_belief)
+    adaptive_cache: dict[tuple[int, tuple[float, ...]], _Evaluation] = {}
+    adaptive = _adaptive(model, 0, model.initial_belief, adaptive_cache)
     no_information_oriented = _no_information(model, 0, model.initial_belief)
     fully_observed_oriented = math.fsum(
         model.initial_belief[state] * _fully_observed(model, 0, state)
@@ -637,7 +784,8 @@ def _evaluate(model: _Model) -> dict[str, Any]:
             }
         )
     martingale_residual = _martingale_residual(model, adaptive.tree)
-    action_learning = _action_dependent_learning(model)
+    usable_learning_response = _selected_policy_uses_learning(adaptive.tree)
+    action_learning = _action_dependent_learning(model, usable_learning_response)
     transition_dependent = (
         len(
             {
@@ -647,7 +795,7 @@ def _evaluate(model: _Model) -> dict[str, Any]:
         )
         > 1
     )
-    conditional = _conditional_sensing(model)
+    conditional = _conditional_sensing(model, adaptive_cache)
     null_reduction = all(
         math.isclose(
             next(
@@ -703,15 +851,20 @@ def _evaluate(model: _Model) -> dict[str, Any]:
             "estimator": "deterministic_exact",
             "exact_enumeration": True,
             "approximation_used": False,
-            "posterior_martingale_verified": martingale_residual <= 1e-10,
+            "posterior_martingale_verified": (
+                martingale_residual <= model.probability_tolerance
+            ),
             "posterior_martingale_max_residual": martingale_residual,
             "null_sensor_reduction_verified": null_reduction,
             "no_information_reduction_verified": net_voi >= -model.absolute_tie,
             "complete_ties_reported": True,
             "action_dependent_transition": transition_dependent,
             "action_dependent_learning": action_learning,
-            "dual_control_diagnostic": action_learning or transition_dependent,
+            "usable_downstream_learning_response": usable_learning_response,
+            "dual_control_diagnostic": action_learning,
             "unique_additive_dual_control_value_claimed": False,
+            "estimated_bellman_expansions": model.estimated_bellman_expansions,
+            "exact_enumeration_budget": _MAX_EXACT_BELLMAN_EXPANSIONS,
         },
         "language_dispositions": {
             "python": "executable-experimental",
@@ -729,4 +882,449 @@ def _evaluate(model: _Model) -> dict[str, Any]:
     }
 
 
-__all__ = ["BeliefStateInformationResult", "belief_state_information_value"]
+def _strict_keys(value: object, expected: set[str], name: str) -> dict[str, Any]:
+    mapping = _require_mapping(value, name)
+    if set(mapping) != expected:
+        raise ValueError(f"{name} fields must be strict")
+    return mapping
+
+
+def _validate_probability_map(value: object, name: str) -> dict[str, Any]:
+    mapping = _require_mapping(value, name)
+    if not mapping:
+        raise ValueError(f"{name} must be non-empty")
+    probabilities = [_finite(item, name) for item in mapping.values()]
+    if any(item < 0.0 or item > 1.0 for item in probabilities) or not math.isclose(
+        math.fsum(probabilities), 1.0, abs_tol=1e-6, rel_tol=0.0
+    ):
+        raise ValueError(f"{name} must be a probability distribution")
+    return mapping
+
+
+def _validate_policy_tree(value: object, state_ids: set[str]) -> None:
+    tree = _strict_keys(
+        value,
+        {
+            "stage",
+            "belief",
+            "control_choice_tie",
+            "selected_control",
+            "sensor_choice_tie",
+            "selected_sensor",
+            "predictive_belief",
+            "branches",
+            "chronology",
+        },
+        "policy_tree",
+    )
+    if isinstance(tree["stage"], bool) or not isinstance(tree["stage"], int):
+        raise TypeError("policy_tree.stage must be an integer")
+    if tree["chronology"] != _CHRONOLOGY:
+        raise ValueError("policy_tree chronology must match the contract")
+    belief = _validate_probability_map(tree["belief"], "policy_tree.belief")
+    predictive = _validate_probability_map(
+        tree["predictive_belief"], "policy_tree.predictive_belief"
+    )
+    if set(belief) != state_ids or set(predictive) != state_ids:
+        raise ValueError("policy-tree belief state IDs must remain constant")
+    control_tie = _require_list(tree["control_choice_tie"], "control_choice_tie")
+    sensor_tie = _require_list(tree["sensor_choice_tie"], "sensor_choice_tie")
+    if (
+        any(not isinstance(item, str) or not item for item in control_tie + sensor_tie)
+        or len(set(control_tie)) != len(control_tie)
+        or len(set(sensor_tie)) != len(sensor_tie)
+    ):
+        raise ValueError("policy-tree ties must contain unique non-empty strings")
+    if tree["selected_control"] not in control_tie:
+        raise ValueError("selected control must belong to the reported tie")
+    if tree["selected_sensor"] not in sensor_tie:
+        raise ValueError("selected sensor must belong to the reported tie")
+    branches = _require_list(tree["branches"], "policy_tree.branches")
+    branch_probability = 0.0
+    observation_ids: set[str] = set()
+    for raw_branch in branches:
+        branch = _strict_keys(
+            raw_branch,
+            {"observation_id", "probability", "posterior_belief", "continuation"},
+            "policy_tree branch",
+        )
+        observation_id = branch["observation_id"]
+        if not isinstance(observation_id, str) or not observation_id:
+            raise ValueError("branch observation IDs must be non-empty strings")
+        if observation_id in observation_ids:
+            raise ValueError("policy-tree branch observation IDs must be unique")
+        observation_ids.add(observation_id)
+        probability = _finite(branch["probability"], "branch probability")
+        if probability <= 0.0 or probability > 1.0:
+            raise ValueError("reported branches must have positive probability")
+        branch_probability += probability
+        posterior = _validate_probability_map(
+            branch["posterior_belief"], "branch posterior"
+        )
+        if set(posterior) != state_ids:
+            raise ValueError("posterior state IDs must match the root belief")
+        continuation = branch["continuation"]
+        if continuation is not None:
+            _validate_policy_tree(continuation, state_ids)
+            if cast("Mapping[str, Any]", continuation)["stage"] != tree["stage"] + 1:
+                raise ValueError("policy-tree continuation stages must be consecutive")
+    if not math.isclose(branch_probability, 1.0, abs_tol=1e-6, rel_tol=0.0):
+        raise ValueError("policy-tree branch probabilities must sum to one")
+
+
+def _policy_martingale_residual(tree: Mapping[str, Any], state_ids: set[str]) -> float:
+    predictive = cast("Mapping[str, Any]", tree["predictive_belief"])
+    branches = cast("list[Mapping[str, Any]]", tree["branches"])
+    residual = max(
+        abs(
+            math.fsum(
+                float(branch["probability"])
+                * float(cast("Mapping[str, Any]", branch["posterior_belief"])[state])
+                for branch in branches
+            )
+            - float(predictive[state])
+        )
+        for state in state_ids
+    )
+    for branch in branches:
+        continuation = branch["continuation"]
+        if isinstance(continuation, dict):
+            residual = max(
+                residual,
+                _policy_martingale_residual(continuation, state_ids),
+            )
+    return residual
+
+
+def validate_belief_state_information_result(payload: Mapping[str, object]) -> None:
+    """Fail closed on structural or numerical drift in a result envelope."""
+    result = _strict_keys(
+        payload,
+        {
+            "schema_version",
+            "analysis_id",
+            "analysis_type",
+            "method_maturity",
+            "value_unit",
+            "time_unit",
+            "objective_direction",
+            "chronology",
+            "horizon",
+            "discount_factor",
+            "policy_class",
+            "values",
+            "value_by_horizon",
+            "conditional_sensing_values",
+            "policy_tree",
+            "stopping",
+            "approximation_bounds",
+            "assurance",
+            "language_dispositions",
+            "limitations",
+        },
+        "belief-state information result",
+    )
+    if (
+        result["schema_version"] != "1.0.0"
+        or result["analysis_type"] != "belief_state_information_result"
+        or result["method_maturity"] != "experimental"
+        or result["chronology"] != _CHRONOLOGY
+        or result["policy_class"] != "deterministic_markov_belief_policy"
+    ):
+        raise ValueError("result envelope constants do not match the v1 contract")
+    for field in ("analysis_id", "value_unit", "time_unit"):
+        if not isinstance(result[field], str) or not result[field]:
+            raise ValueError(f"result {field} must be a non-empty string")
+    direction = result["objective_direction"]
+    if direction not in {"maximize", "minimize"}:
+        raise ValueError("result objective direction must be maximize or minimize")
+    horizon = result["horizon"]
+    if isinstance(horizon, bool) or not isinstance(horizon, int) or horizon < 1:
+        raise TypeError("result horizon must be a positive integer")
+    discount = _finite(result["discount_factor"], "result discount factor")
+    if not 0.0 < discount <= 1.0:
+        raise ValueError("result discount factor must be in (0, 1]")
+    values = _strict_keys(
+        result["values"],
+        {
+            "closed_loop_gross",
+            "expected_sensing_cost",
+            "closed_loop_net",
+            "no_information",
+            "gross_information_value",
+            "net_information_value",
+            "myopic_information_value",
+            "nonmyopic_information_value",
+            "nonmyopic_minus_myopic",
+            "fully_observed_value",
+            "partial_observability_regret",
+        },
+        "result values",
+    )
+    numeric_values = {key: _finite(value, key) for key, value in values.items()}
+    sign = 1.0 if direction == "maximize" else -1.0
+    gross = numeric_values["closed_loop_gross"]
+    cost = numeric_values["expected_sensing_cost"]
+    net = numeric_values["closed_loop_net"]
+    baseline = numeric_values["no_information"]
+    identities = [
+        (net, gross - sign * cost, "closed-loop gross/cost/net"),
+        (
+            numeric_values["gross_information_value"],
+            sign * (gross - baseline),
+            "gross information value",
+        ),
+        (
+            numeric_values["net_information_value"],
+            max(0.0, sign * (net - baseline)),
+            "net information value",
+        ),
+        (
+            numeric_values["nonmyopic_information_value"],
+            numeric_values["net_information_value"],
+            "nonmyopic information value",
+        ),
+        (
+            numeric_values["nonmyopic_minus_myopic"],
+            numeric_values["nonmyopic_information_value"]
+            - numeric_values["myopic_information_value"],
+            "myopic/nonmyopic difference",
+        ),
+        (
+            numeric_values["partial_observability_regret"],
+            sign * (numeric_values["fully_observed_value"] - gross),
+            "partial-observability regret",
+        ),
+    ]
+    for actual, expected, name in identities:
+        if not math.isclose(actual, expected, abs_tol=1e-8, rel_tol=1e-8):
+            raise ValueError(f"{name} identity failed")
+    if (
+        cost < 0.0
+        or min(
+            numeric_values["net_information_value"],
+            numeric_values["myopic_information_value"],
+            numeric_values["nonmyopic_information_value"],
+            numeric_values["partial_observability_regret"],
+        )
+        < -1e-8
+    ):
+        raise ValueError("result costs, values and regret must be nonnegative")
+
+    tree = _require_mapping(result["policy_tree"], "policy_tree")
+    root_belief = _require_mapping(tree.get("belief"), "policy_tree.belief")
+    state_ids = set(root_belief)
+    _validate_policy_tree(tree, state_ids)
+    tree_martingale_residual = _policy_martingale_residual(tree, state_ids)
+    horizon_curve = _require_list(result["value_by_horizon"], "value_by_horizon")
+    if len(horizon_curve) != horizon:
+        raise ValueError("value-by-horizon must contain every horizon")
+    for index, raw_record in enumerate(horizon_curve, start=1):
+        record = _strict_keys(
+            raw_record,
+            {"horizon", "closed_loop_net", "no_information", "net_information_value"},
+            "horizon value",
+        )
+        if record["horizon"] != index:
+            raise ValueError("value-by-horizon records must be consecutive")
+        record_net = _finite(record["closed_loop_net"], "horizon closed-loop net")
+        record_baseline = _finite(record["no_information"], "horizon baseline")
+        record_value = _finite(record["net_information_value"], "horizon value")
+        if not math.isclose(
+            record_value,
+            sign * (record_net - record_baseline),
+            abs_tol=1e-8,
+            rel_tol=1e-8,
+        ):
+            raise ValueError("horizon information-value identity failed")
+    final_horizon = cast("Mapping[str, Any]", horizon_curve[-1])
+    if not math.isclose(
+        float(final_horizon["net_information_value"]),
+        numeric_values["net_information_value"],
+        abs_tol=1e-8,
+        rel_tol=1e-8,
+    ):
+        raise ValueError("final horizon must match the reported information value")
+
+    conditional = _require_list(result["conditional_sensing_values"], "conditional")
+    control_ids: set[str] = set()
+    for raw_record in conditional:
+        record = _strict_keys(
+            raw_record, {"control_action_id", "sensors"}, "conditional control"
+        )
+        control_id = record["control_action_id"]
+        if (
+            not isinstance(control_id, str)
+            or not control_id
+            or control_id in control_ids
+        ):
+            raise ValueError("conditional control IDs must be unique non-empty strings")
+        control_ids.add(control_id)
+        sensor_ids: set[str] = set()
+        for raw_sensor in _require_list(record["sensors"], "conditional sensors"):
+            sensor = _strict_keys(
+                raw_sensor,
+                {
+                    "sensor_id",
+                    "gross_value",
+                    "sensing_cost",
+                    "net_value",
+                    "net_increment_vs_null",
+                },
+                "conditional sensor",
+            )
+            sensor_id = sensor["sensor_id"]
+            if (
+                not isinstance(sensor_id, str)
+                or not sensor_id
+                or sensor_id in sensor_ids
+            ):
+                raise ValueError("conditional sensor IDs must be unique strings")
+            sensor_ids.add(sensor_id)
+            conditional_gross = _finite(sensor["gross_value"], "conditional gross")
+            conditional_cost = _finite(sensor["sensing_cost"], "conditional cost")
+            conditional_net = _finite(sensor["net_value"], "conditional net")
+            _ = _finite(sensor["net_increment_vs_null"], "conditional increment")
+            if conditional_cost < 0.0 or not math.isclose(
+                conditional_net,
+                conditional_gross - conditional_cost,
+                abs_tol=1e-8,
+                rel_tol=1e-8,
+            ):
+                raise ValueError("conditional sensing gross/cost/net identity failed")
+        sensors = cast("list[Mapping[str, Any]]", record["sensors"])
+        null_candidates = [
+            float(sensor["net_value"])
+            for sensor in sensors
+            if math.isclose(float(sensor["sensing_cost"]), 0.0, abs_tol=1e-8)
+            and math.isclose(float(sensor["net_increment_vs_null"]), 0.0, abs_tol=1e-8)
+        ]
+        if not null_candidates or not all(
+            any(
+                math.isclose(
+                    float(sensor["net_increment_vs_null"]),
+                    float(sensor["net_value"]) - null_net,
+                    abs_tol=1e-8,
+                    rel_tol=1e-8,
+                )
+                for null_net in null_candidates
+            )
+            for sensor in sensors
+        ):
+            raise ValueError("conditional sensor increments must use a null comparator")
+
+    stopping = _strict_keys(result["stopping"], {"kind", "reason", "stage"}, "stopping")
+    if stopping != {
+        "kind": "fixed_horizon",
+        "reason": "horizon_reached",
+        "stage": horizon,
+    }:
+        raise ValueError("stopping result must identify the fixed horizon")
+    bounds = _strict_keys(
+        result["approximation_bounds"], {"lower", "upper", "gap"}, "bounds"
+    )
+    lower, upper, gap = (
+        _finite(bounds[key], f"bound {key}") for key in ("lower", "upper", "gap")
+    )
+    if not (
+        math.isclose(lower, numeric_values["net_information_value"], abs_tol=1e-8)
+        and math.isclose(upper, lower, abs_tol=1e-8)
+        and math.isclose(gap, 0.0, abs_tol=1e-8)
+    ):
+        raise ValueError("exact approximation bounds must have zero gap")
+    assurance = _strict_keys(
+        result["assurance"],
+        {
+            "solver",
+            "estimator",
+            "exact_enumeration",
+            "approximation_used",
+            "posterior_martingale_verified",
+            "posterior_martingale_max_residual",
+            "null_sensor_reduction_verified",
+            "no_information_reduction_verified",
+            "complete_ties_reported",
+            "action_dependent_transition",
+            "action_dependent_learning",
+            "usable_downstream_learning_response",
+            "dual_control_diagnostic",
+            "unique_additive_dual_control_value_claimed",
+            "estimated_bellman_expansions",
+            "exact_enumeration_budget",
+        },
+        "assurance",
+    )
+    boolean_fields = {
+        "exact_enumeration",
+        "approximation_used",
+        "posterior_martingale_verified",
+        "null_sensor_reduction_verified",
+        "no_information_reduction_verified",
+        "complete_ties_reported",
+        "action_dependent_transition",
+        "action_dependent_learning",
+        "usable_downstream_learning_response",
+        "dual_control_diagnostic",
+        "unique_additive_dual_control_value_claimed",
+    }
+    if any(type(assurance[field]) is not bool for field in boolean_fields):
+        raise TypeError("assurance flags must be booleans")
+    if (
+        assurance["solver"] != "exact_finite_horizon_bellman_enumeration"
+        or assurance["estimator"] != "deterministic_exact"
+        or assurance["exact_enumeration"] is not True
+        or assurance["approximation_used"] is not False
+        or assurance["unique_additive_dual_control_value_claimed"] is not False
+        or assurance["dual_control_diagnostic"]
+        != assurance["action_dependent_learning"]
+    ):
+        raise ValueError("assurance constants or dual-control boundary are invalid")
+    estimate = assurance["estimated_bellman_expansions"]
+    budget = assurance["exact_enumeration_budget"]
+    if (
+        isinstance(estimate, bool)
+        or not isinstance(estimate, int)
+        or isinstance(budget, bool)
+        or not isinstance(budget, int)
+        or estimate < 1
+        or estimate > budget
+    ):
+        raise ValueError("exact-enumeration estimate must fit the declared budget")
+    reported_martingale_residual = _finite(
+        assurance["posterior_martingale_max_residual"], "martingale residual"
+    )
+    if not math.isclose(
+        reported_martingale_residual,
+        tree_martingale_residual,
+        abs_tol=1e-10,
+        rel_tol=1e-10,
+    ) or (
+        assurance["posterior_martingale_verified"] is True
+        and reported_martingale_residual > 1e-6
+    ):
+        raise ValueError(
+            "posterior-martingale assurance does not match the policy tree"
+        )
+    language = _strict_keys(
+        result["language_dispositions"],
+        {"python", "rust", "r", "julia", "mojo"},
+        "language dispositions",
+    )
+    if language != {
+        "python": "executable-experimental",
+        "rust": "unsupported",
+        "r": "unsupported",
+        "julia": "unsupported",
+        "mojo": "external-boundary",
+    }:
+        raise ValueError("language dispositions must match experimental evidence")
+    limitations = _require_list(result["limitations"], "limitations")
+    if not all(isinstance(item, str) and item for item in limitations):
+        raise ValueError("limitations must be non-empty strings")
+
+
+__all__ = [
+    "BeliefStateInformationResult",
+    "belief_state_information_value",
+    "validate_belief_state_information_result",
+]

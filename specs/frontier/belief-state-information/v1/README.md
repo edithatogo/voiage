@@ -24,9 +24,15 @@ existing `sequential_voi`, real-options, monitoring, or bandit helpers.
 
 Assurance includes a posterior-martingale check, null-sensor and
 no-information reductions, complete tolerance ties, deterministic
-serialization, and exact zero-gap bounds. Action-dependent transition and
-observation kernels produce dual-control diagnostics only. The contract does
-not claim that dual control has one unique additive numerical component.
+serialization, strict result-identity validation, a conservative 50,000-node
+Bellman-expansion budget, memoization of repeated belief states, and exact
+zero-gap bounds. Action-dependent transition is reported separately. The
+dual-control diagnostic is true only when an action changes a state-informative
+observation law and the selected policy has a usable downstream control
+response. Action-dependent marginal observation frequency without state
+information, or transition dependence alone, cannot trigger that diagnostic.
+The contract does not claim that dual control has one unique additive
+numerical component.
 
 Python is executable only at experimental maturity. Rust, R, and Julia are
 unsupported, Mojo remains an external boundary, and scientific review, stable

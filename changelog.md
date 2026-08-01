@@ -6,7 +6,11 @@
   contract with intervention-aware learning, matched Bellman comparators,
   gross/net and myopic/nonmyopic values, conditional sensing diagnostics,
   complete policy trees, strict schemas, CLI execution and deterministic
-  assurance. Stable and polyglot claims remain gated.
+  assurance. Independent remediation now makes nested input/result validation
+  fail closed, bounds exact enumeration before recursion, memoizes repeated
+  beliefs, and restricts dual-control diagnostics to state-informative,
+  action-dependent learning with a usable downstream response. Stable and
+  polyglot claims remain gated.
 
 - Added an experimental exact finite risk-sensitive and constrained
   perfect-information contract for issue #570, with expected-value/utility,

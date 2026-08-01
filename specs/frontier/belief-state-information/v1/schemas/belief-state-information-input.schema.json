@@ -25,7 +25,7 @@
     "rewards": {"$ref": "#/$defs/objectNumbers"},
     "sensors": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["sensor_id", "null_sensor", "cost", "likelihood_by_control"], "properties": {"sensor_id": {"type": "string", "minLength": 1}, "null_sensor": {"type": "boolean"}, "cost": {"type": "number", "minimum": 0}, "likelihood_by_control": {"$ref": "#/$defs/nestedNumbers"}}}},
     "constraints": {"type": "object", "additionalProperties": false, "required": ["allowed_control_action_ids_by_stage", "allowed_sensor_ids_by_control"], "properties": {"allowed_control_action_ids_by_stage": {"$ref": "#/$defs/objectStringArrays"}, "allowed_sensor_ids_by_control": {"$ref": "#/$defs/objectStringArrays"}}},
-    "tolerances": {"type": "object", "additionalProperties": false, "required": ["absolute_tie", "relative_tie", "probability"], "properties": {"absolute_tie": {"type": "number", "minimum": 0}, "relative_tie": {"type": "number", "minimum": 0}, "probability": {"type": "number", "minimum": 0}}}
+    "tolerances": {"type": "object", "additionalProperties": false, "required": ["absolute_tie", "relative_tie", "probability"], "properties": {"absolute_tie": {"type": "number", "minimum": 0, "maximum": 1e-6}, "relative_tie": {"type": "number", "minimum": 0, "maximum": 1e-6}, "probability": {"type": "number", "minimum": 0, "maximum": 1e-6}}}
   },
   "$defs": {
     "numbers": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "number"}},
