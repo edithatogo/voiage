@@ -2,6 +2,7 @@
   "base": "../normative/input.json",
   "operations": [
     {
+      "op": "replace",
       "path": "/audit_history/1/previous_event_id",
       "value": "forged-event"
     }

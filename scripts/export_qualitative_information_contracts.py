@@ -121,7 +121,7 @@ def main() -> None:
         "version": "v1",
         "maturity": "experimental",
         "stable_claim_allowed": False,
-        "scope": "synthetic contract, Python runtime, CLI and accessible rendering",
+        "scope": "synthetic contract, Python runtime and accessible family documentation",
         "remaining_gates": [
             "practitioner, privacy, accessibility and scientific naming approval",
             "Rust, R and Julia execution parity disposition",

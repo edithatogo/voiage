@@ -21,6 +21,7 @@ from voiage.methods.qualitative_information import (
 
 ROOT = Path(__file__).parents[1]
 INPUT = ROOT / "specs/frontier/qualitative-information/v1/fixtures/normative/input.json"
+CASES = ROOT / "specs/frontier/qualitative-information/v1/fixtures/cases"
 
 
 def _payload() -> dict[str, Any]:
@@ -35,6 +36,21 @@ def _rebind(payload: dict[str, Any]) -> None:
         event["previous_content_digest"] = previous_digest
         event["content_digest"] = qualitative_audit_event_digest(event)
         previous_digest = event["content_digest"]
+
+
+def _apply_recipe(payload: dict[str, Any], recipe: dict[str, Any]) -> None:
+    for operation in recipe["operations"]:
+        parts = operation["path"].strip("/").split("/")
+        target: Any = payload
+        for part in parts[:-1]:
+            target = target[int(part)] if isinstance(target, list) else target[part]
+        final = parts[-1]
+        if operation["op"] == "add" and final == "-":
+            target.append(operation["value"])
+        elif isinstance(target, list):
+            target[int(final)] = operation["value"]
+        else:
+            target[final] = operation["value"]
 
 
 def test_no_cardinal_pseudo_score_is_emitted() -> None:
@@ -62,6 +78,7 @@ def test_dissent_is_preserved_and_never_silently_resolved() -> None:
     judgements = payload["questions"][0]["judgements"]
     judgements[1]["priority_class"] = "routine"
     judgements[1]["recommendation_class"] = "do_not_pursue"
+    payload["audit_history"][-1]["action"] = "review"
     _rebind(payload)
     result = qualitative_information_from_specification(payload)
     question = result.question_results[0]
@@ -96,11 +113,12 @@ def test_missing_evidence_and_unverified_ai_keep_result_incomplete() -> None:
             },
         }
     )
+    payload["audit_history"][-1]["action"] = "review"
     _rebind(payload)
     result = qualitative_information_from_specification(payload)
-    assert result.workflow_status == "incomplete"
+    assert result.workflow_status == "unverified"
     assert result.human_approval_status == "pending"
-    assert result.question_results[0].consensus_status == "incomplete"
+    assert result.question_results[0].consensus_status == "unverified"
 
 
 def test_redacted_source_content_is_not_rendered() -> None:
@@ -149,6 +167,14 @@ def test_current_approval_is_required_and_stale_approval_is_unverified() -> None
     assert result.human_approval_status == "pending"
 
 
+def test_approval_cannot_coexist_with_missing_or_dissenting_assessment() -> None:
+    payload = _payload()
+    payload["questions"][0]["missing_fields"] = ["equity_ethics"]
+    _rebind(payload)
+    with pytest.raises(InputError, match="complete verified consensus"):
+        qualitative_information_from_specification(payload)
+
+
 def test_system_approval_and_forged_human_override_fail_closed() -> None:
     system_payload = _payload()
     system_payload["audit_history"][-1]["actor"] = {
@@ -179,6 +205,41 @@ def test_system_approval_and_forged_human_override_fail_closed() -> None:
     _rebind(override_payload)
     with pytest.raises(InputError, match="accountable review"):
         qualitative_information_from_specification(override_payload)
+
+
+def test_human_override_must_bind_current_version_and_snapshot() -> None:
+    payload = _payload()
+    payload["decision"]["accountable_reviewer_ids"].append("reviewer-b")
+    judgement = deepcopy(payload["questions"][0]["judgements"][0])
+    judgement.update(
+        reviewer_id="ai-reviewed",
+        actor_type="ai",
+        verification_state="human_verified",
+        ai_provenance={
+            "provider": "synthetic",
+            "model_version": "1",
+            "input_reference": "fixture",
+        },
+        human_override={
+            "reviewer_id": "reviewer-b",
+            "audit_event_id": "event-review",
+        },
+    )
+    payload["questions"][0]["judgements"].append(judgement)
+    _rebind(payload)
+    payload["audit_history"][1]["assessment_content_digest"] = "0" * 64
+    payload["audit_history"][1]["content_digest"] = qualitative_audit_event_digest(
+        payload["audit_history"][1]
+    )
+    for index in range(2, len(payload["audit_history"])):
+        payload["audit_history"][index]["previous_content_digest"] = payload[
+            "audit_history"
+        ][index - 1]["content_digest"]
+        payload["audit_history"][index]["content_digest"] = (
+            qualitative_audit_event_digest(payload["audit_history"][index])
+        )
+    with pytest.raises(InputError, match="current assessment"):
+        qualitative_information_from_specification(payload)
 
 
 def test_redaction_applies_to_result_rendering_and_validation_errors() -> None:
@@ -229,3 +290,28 @@ def test_equal_priorities_form_a_complete_deterministic_tie_group() -> None:
         "priority_class": "urgent",
         "question_ids": ["q-00-tied", "q-01-trial"],
     }
+
+
+@pytest.mark.parametrize("name", ["disagreement", "incomplete-ai"])
+def test_committed_case_recipes_execute_to_their_expected_states(name: str) -> None:
+    recipe = json.loads((CASES / f"{name}.json").read_text(encoding="utf-8"))
+    payload = _payload()
+    _apply_recipe(payload, recipe)
+    _rebind(payload)
+    result = qualitative_information_from_specification(payload).to_contract_dict()
+    expected = recipe["expected"]
+    assert result["workflow_status"] == expected["workflow_status"]
+    question = next(
+        item
+        for item in result["question_results"]
+        if item["question_id"] == expected["question_id"]
+    )
+    assert question["consensus_status"] == expected["consensus_status"]
+
+
+def test_committed_adversarial_recipe_fails_closed() -> None:
+    recipe = json.loads((CASES / "adversarial-audit.json").read_text(encoding="utf-8"))
+    payload = _payload()
+    _apply_recipe(payload, recipe)
+    with pytest.raises(InputError, match=recipe["expected_error"]):
+        qualitative_information_from_specification(payload)

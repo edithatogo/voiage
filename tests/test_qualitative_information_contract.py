@@ -131,6 +131,30 @@ def test_runtime_matches_normative_fixture() -> None:
             lambda result: result.update(unresolved_question_ids=["q-01-trial"]),
             "unresolved question IDs",
         ),
+        (
+            lambda result: result["question_results"][0].update(
+                resolved_priority_class="routine"
+            ),
+            "resolved priority",
+        ),
+        (
+            lambda result: result["question_results"][0].update(
+                verified_human_reviewers=[]
+            ),
+            "verified human",
+        ),
+        (
+            lambda result: result["question_results"][1].update(
+                information_question="private", rationale_by_reviewer={"r": "private"}
+            ),
+            "redacted result",
+        ),
+        (
+            lambda result: result["question_results"][0].update(
+                unverified_ai_contributors=["ai"]
+            ),
+            "unverified AI",
+        ),
     ],
 )
 def test_result_contract_rejects_contradictions_and_cardinal_fields(
@@ -139,6 +163,19 @@ def test_result_contract_rejects_contradictions_and_cardinal_fields(
     result = _json(CONTRACT / "fixtures/normative/expected.json")
     mutation(result)
     with pytest.raises(ValueError, match=message):
+        validate_qualitative_information_result_semantics(result)
+
+
+def test_result_rejects_approval_for_an_incomplete_workflow() -> None:
+    result = _json(CONTRACT / "fixtures/normative/expected.json")
+    question = result["question_results"][0]
+    question["consensus_status"] = "incomplete"
+    question["resolved_priority_class"] = None
+    question["resolved_recommendation_class"] = None
+    result["priority_groups"][0]["question_ids"] = []
+    result["unresolved_question_ids"] = [question["question_id"]]
+    result["workflow_status"] = "incomplete"
+    with pytest.raises(ValueError, match="approval"):
         validate_qualitative_information_result_semantics(result)
 
 

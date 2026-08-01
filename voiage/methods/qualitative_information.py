@@ -121,10 +121,10 @@ def qualitative_information_from_specification(
             recommendation_order,
         )
         missing = sorted(question["missing_fields"])
-        if missing or not human:
-            consensus = "incomplete"
-        elif unverified_ai:
+        if unverified_ai:
             consensus = "unverified"
+        elif missing or not human:
+            consensus = "incomplete"
         elif len(priorities) > 1 or len(recommendations) > 1:
             consensus = "dissent"
         else:

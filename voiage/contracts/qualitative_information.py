@@ -695,6 +695,36 @@ def validate_qualitative_information_semantics(
                 )
             if event["action"] not in {"review", "approve"}:
                 raise ValueError("AI human override must reference review or approval")
+            if (
+                event["assessment_version"] != payload["assessment_version"]
+                or event["assessment_content_digest"] != current_content_digest
+            ):
+                raise ValueError(
+                    "AI human override must reference the current assessment"
+                )
+
+    approval_blocked = False
+    for question in questions:
+        human = [
+            judgement
+            for judgement in question["judgements"]
+            if judgement["actor_type"] == "human"
+        ]
+        priorities = {judgement["priority_class"] for judgement in human}
+        recommendations = {judgement["recommendation_class"] for judgement in human}
+        unverified_ai = any(
+            judgement["actor_type"] == "ai"
+            and judgement["verification_state"] != "human_verified"
+            for judgement in question["judgements"]
+        )
+        approval_blocked = approval_blocked or bool(
+            question["missing_fields"]
+            or unverified_ai
+            or len(priorities) != 1
+            or len(recommendations) != 1
+        )
+    if audit[-1]["action"] == "approve" and approval_blocked:
+        raise ValueError("approval requires complete verified consensus")
 
 
 def validate_qualitative_information_result_semantics(
@@ -738,6 +768,32 @@ def validate_qualitative_information_result_semantics(
         )
         if is_consensus != resolved:
             raise ValueError("question consensus and resolved classes are inconsistent")
+        if (
+            question["resolved_priority_class"] is not None
+            and question["resolved_priority_class"] not in question["priority_classes"]
+        ):
+            raise ValueError("resolved priority must be a reported priority class")
+        if (
+            question["resolved_recommendation_class"] is not None
+            and question["resolved_recommendation_class"]
+            not in question["recommendation_classes"]
+        ):
+            raise ValueError("resolved recommendation must be a reported class")
+        if is_consensus and not question["verified_human_reviewers"]:
+            raise ValueError("consensus requires a verified human reviewer")
+        if (
+            question["unverified_ai_contributors"]
+            and question["consensus_status"] != "unverified"
+        ):
+            raise ValueError("unverified AI contributors require unverified status")
+        if question["redaction_status"] != "none" and (
+            question["information_question"] != "[REDACTED]"
+            or any(
+                rationale != "[REDACTED]"
+                for rationale in question["rationale_by_reviewer"].values()
+            )
+        ):
+            raise ValueError("redacted result content must use stable markers")
     expected_unresolved = [
         question["question_id"]
         for question in questions
@@ -754,6 +810,11 @@ def validate_qualitative_information_result_semantics(
         expected_workflow = "complete"
     if payload["workflow_status"] != expected_workflow:
         raise ValueError("workflow status does not match question and approval states")
+    if (
+        payload["human_approval_status"] == "approved"
+        and payload["workflow_status"] != "complete"
+    ):
+        raise ValueError("accountable approval requires a complete workflow")
     if (
         payload["workflow_status"] == "complete"
         and payload["human_approval_status"] != "approved"

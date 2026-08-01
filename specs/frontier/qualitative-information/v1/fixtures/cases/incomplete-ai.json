@@ -2,6 +2,7 @@
   "base": "../normative/input.json",
   "operations": [
     {
+      "op": "replace",
       "path": "/questions/0/missing_fields",
       "value": ["equity_ethics"]
     },
@@ -28,13 +29,18 @@
           "input_reference": "fixture:redacted-input"
         }
       }
+    },
+    {
+      "op": "replace",
+      "path": "/audit_history/2/action",
+      "value": "review"
     }
   ],
   "expected": {
-    "workflow_status": "incomplete",
+    "workflow_status": "unverified",
     "human_approval_status": "pending",
     "question_id": "q-01-trial",
-    "consensus_status": "incomplete",
+    "consensus_status": "unverified",
     "unverified_ai_contributors": ["ai-helper"]
   },
   "boundary": "An unverified AI judgement cannot replace the missing human field or approve the assessment."

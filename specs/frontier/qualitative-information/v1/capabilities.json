@@ -6,6 +6,9 @@
   "maturity": "experimental",
   "numerical_estimand": false,
   "cardinal_aggregation": "prohibited",
+  "python_modules": [
+    "voiage/methods/qualitative_information.py"
+  ],
   "surfaces": {
     "python": {
       "status": "executable",
