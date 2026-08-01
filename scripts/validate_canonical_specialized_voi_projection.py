@@ -82,8 +82,26 @@ def validate(projection_path: Path, repository_root: Path) -> None:
             raise ValueError(f"{track_id} is not linked to C16")
         if metadata.get("planned_version") != "1.2.0":
             raise ValueError(f"{track_id} planned version is not 1.2.0")
-        if set(metadata.get("requirement_ids", [])) != requirement_ids:
-            raise ValueError(f"{track_id} requirement IDs drift from the projection")
+        metadata_requirements = set(metadata.get("requirement_ids", []))
+        if not requirement_ids.issubset(metadata_requirements):
+            raise ValueError(f"{track_id} is missing projected C16 requirement IDs")
+        additional = metadata_requirements - requirement_ids
+        if additional:
+            extensions = metadata.get("planned_version_extensions")
+            if (
+                not isinstance(extensions, dict)
+                or set().union(
+                    *(
+                        set(value)
+                        for value in extensions.values()
+                        if isinstance(value, list)
+                    )
+                )
+                != additional
+            ):
+                raise ValueError(
+                    f"{track_id} additional requirements need versioned extensions"
+                )
 
 
 def main() -> int:

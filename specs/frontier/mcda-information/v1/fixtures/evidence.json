@@ -1,0 +1,93 @@
+{
+  "artifacts": [
+    {
+      "path": "scripts/export_mcda_information_contracts.py",
+      "sha256": "133b8dc98e644105b142e3831a7782c14f3a41c7cb74be7547ce3ff862eec4fa"
+    },
+    {
+      "path": "voiage/contracts/mcda_information.py",
+      "sha256": "790be4deaa04652f5697a21060ba505d80cefc45ec1dcce5a62893ee252c0822"
+    },
+    {
+      "path": "voiage/methods/mcda_information.py",
+      "sha256": "c7d8435d9f31abcbe68a6fa34c5d8adcc89b9666fa353739a19b1bf940cfd027"
+    },
+    {
+      "path": "voiage/plot/mcda_information.py",
+      "sha256": "449c31859ea6950324da8ca131575df374c5d5a72c17e5e9cbaf13617b498431"
+    },
+    {
+      "path": "tests/test_mcda_information_contract.py",
+      "sha256": "0f1a850e2360006f29ca32b891e765d857ff3d6e8abd89721c682add2938f5eb"
+    },
+    {
+      "path": "tests/test_mcda_information.py",
+      "sha256": "6d69494fa9ee3026f9406ecd4d12943048baae3cc1d25b045d07b7cb12e6e0a6"
+    },
+    {
+      "path": "tests/test_mcda_information_surfaces.py",
+      "sha256": "9482ce69288234302f34a98958f3390351c0aaddef7e10968b184c34e95daf8f"
+    },
+    {
+      "path": "specs/frontier/mcda-information/v1/README.md",
+      "sha256": "02042c3e9ff351edfae8e3795859af41dd617ceab01c23aea394ec7332e264d3"
+    },
+    {
+      "path": "specs/frontier/mcda-information/v1/capabilities.json",
+      "sha256": "f6d7891bb430e4b7683e1b009882edf241bfbba848692faa2aa2f6f41de43732"
+    },
+    {
+      "path": "specs/frontier/mcda-information/v1/fixtures/manifest.json",
+      "sha256": "1adf97400e8765bd52a0a21c0cba4f34760162a1455c69f9c4ae82482d895f6f"
+    },
+    {
+      "path": "specs/frontier/mcda-information/v1/fixtures/normative/input.json",
+      "sha256": "c8cc10765cfee255a1578a80e36f59d69b57841454ec7ce7e63e9521a1acce53"
+    },
+    {
+      "path": "specs/frontier/mcda-information/v1/fixtures/normative/expected.json",
+      "sha256": "bd32aca541a367b434a288f6564d33dba392e1d7e84f34a5fcac37a0ab246bc0"
+    },
+    {
+      "path": "specs/frontier/mcda-information/v1/fixtures/cases/probability-sum.json",
+      "sha256": "0383301a8327fd2a90c7efd7b31845dd7bde29cab9bdc1b3996478db4e9908d8"
+    },
+    {
+      "path": "specs/frontier/mcda-information/v1/fixtures/cases/negative-weight.json",
+      "sha256": "7654c197780f1b3992c898a7819c23ac278a93931d91e66b19265716647a3efc"
+    },
+    {
+      "path": "specs/frontier/mcda-information/v1/fixtures/cases/unknown-partition.json",
+      "sha256": "2db7d9ddf24346e517d17f2229dd82fa0ccb16f88ebf516897b89d3ecab1b2be"
+    },
+    {
+      "path": "specs/frontier/mcda-information/v1/fixtures/cases/post-information-normalization.json",
+      "sha256": "9f7a4dc9ec2850eae4f0257fe8f0abc6c726b2fecd52f25cbd30c500184371a4"
+    },
+    {
+      "path": "specs/frontier/mcda-information/v1/schemas/mcda-information-input.schema.json",
+      "sha256": "ec9283784d22897888e924923b6a4cddc67ba3f17e1c38bd2dbe5a3ad0cc7225"
+    },
+    {
+      "path": "specs/frontier/mcda-information/v1/schemas/mcda-information-result.schema.json",
+      "sha256": "da29fad7f4faa0e4ba307c66d66cbd03b92b326ee1d933ad121266ad1dd93f62"
+    },
+    {
+      "path": "docs/astro-site/src/content/docs/examples/mcda-information-value.mdx",
+      "sha256": "606afc56175cadcecaf4ed78885e951b4ec3378fce66f3a3b0edcd3792220d75"
+    },
+    {
+      "path": "conductor/tracks/supported_frontier_method_completion_20260723/mcda-information-reference-review.md",
+      "sha256": "4813872747a14627527ef3841f2f757ffb8661c43724e194dfbe5311b213589b"
+    },
+    {
+      "path": "conductor/tracks/supported_frontier_method_completion_20260723/mcda-information-implementation-review.md",
+      "sha256": "95d87a129d57c4be7b7d233f186be46a8353779bfa42fef26ec8b9dbcf89c0e0"
+    }
+  ],
+  "evidence_scope": "Portable schemas, independently reviewed analytical fixture, pathology fixtures, exact Python evaluator, CLI, accessible plots and documentation.",
+  "execution_status": "experimental_python",
+  "method_family": "finite_additive_mcda_perfect_information",
+  "schema_version": "1.0.0",
+  "stable_claim_allowed": false
+}

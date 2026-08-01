@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Add experimental exact finite additive MCDA perfect-information value with
+  fixed ex-ante normalization, correlated criterion/preference states,
+  criterion/preference/joint decomposition, complete ties, regret,
+  rank-acceptability and Pareto diagnostics, an installed Python API and CLI,
+  and two accessible plots. Scientific review, stable promotion, release, and
+  Rust/R/Julia parity remain gated.
+
 - Add experimental exact Value of Distribution-Family Information with strict
   schemas, a discrete-index EVPPI evaluator, complete ties, signed net VDI,
   provenance, CLI, documentation and explicit unsupported language surfaces.

@@ -241,6 +241,140 @@ def test_installed_wheel_executes_noncardinal_qualitative_assessment() -> None:
     ) == render_qualitative_information_text(result)
 
 
+def test_installed_wheel_executes_finite_additive_mcda_information() -> None:
+    """The exact MCDA evaluator runs without repository fixtures."""
+    from jsonschema import Draft202012Validator
+
+    from voiage.contracts.mcda_information import MCDA_INFORMATION_INPUT_SCHEMA_V1
+    from voiage.methods.mcda_information import mcda_information_value
+
+    criteria = [
+        {
+            "criterion_id": criterion_id,
+            "label": criterion_id.title(),
+            "raw_unit": "point",
+            "direction": "higher_is_better",
+            "operational_definition": f"Synthetic {criterion_id} score.",
+            "value_function": {
+                "family": "linear_fixed_anchors",
+                "normalization_scope": "fixed_ex_ante",
+                "anchors": [
+                    {"raw": 0.0, "value": 0.0},
+                    {"raw": 1.0, "value": 1.0},
+                ],
+                "valid_domain": [0.0, 1.0],
+                "extrapolation_policy": "reject",
+                "elicitation_source": "wheel synthetic anchors",
+            },
+            "source_reference": "wheel synthetic model",
+        }
+        for criterion_id in ("benefit", "burden")
+    ]
+    joint_states = []
+    for state_id, outcome, preference, probability, a_benefit, weight in (
+        ("s1", "high", "benefit-heavy", 0.35, 1.0, 0.8),
+        ("s2", "high", "burden-heavy", 0.15, 1.0, 0.2),
+        ("s3", "low", "benefit-heavy", 0.15, 0.0, 0.8),
+        ("s4", "low", "burden-heavy", 0.35, 0.0, 0.2),
+    ):
+        joint_states.append(
+            {
+                "state_id": state_id,
+                "probability": probability,
+                "partition_values": {
+                    "outcome": outcome,
+                    "preference": preference,
+                },
+                "performances": {
+                    "A": {"benefit": a_benefit, "burden": 0.0},
+                    "B": {"benefit": 0.5, "burden": 1.0},
+                },
+                "weights": {"benefit": weight, "burden": 1.0 - weight},
+            }
+        )
+
+    def action(
+        action_id: str,
+        action_type: str,
+        outcome_keys: list[str],
+        preference_keys: list[str],
+    ) -> dict[str, object]:
+        return {
+            "action_id": action_id,
+            "action_type": action_type,
+            "outcome_partition_keys": outcome_keys,
+            "preference_partition_keys": preference_keys,
+            "cost": {
+                "original_amount": 0.0,
+                "original_unit": "normalized value",
+                "aggregate_amount": 0.0,
+                "conversion_reference": "identity",
+                "population_basis": "one synthetic person",
+                "horizon_basis": "one synthetic period",
+                "discount_basis": "none",
+                "cost_scope": "action_specific_disjoint",
+            },
+        }
+
+    payload = {
+        "schema_version": "1.0.0",
+        "analysis_id": "wheel-mcda",
+        "analysis_type": "mcda_perfect_information",
+        "method_maturity": "experimental",
+        "aggregation_family": "compensatory_additive_value",
+        "aggregate_direction": "maximize",
+        "aggregate_unit": "normalized value",
+        "alternatives": [
+            {"alternative_id": name, "label": name, "definition_source": "wheel"}
+            for name in ("A", "B")
+        ],
+        "criteria": criteria,
+        "default_weights": {"benefit": 0.5, "burden": 0.5},
+        "latent_partitions": {
+            "outcome_keys": ["outcome"],
+            "preference_keys": ["preference"],
+            "dependence_assumption": "submitted correlated finite joint law",
+        },
+        "joint_states": joint_states,
+        "information_actions": [
+            action("learn-outcome", "criterion", ["outcome"], []),
+            action("learn-preference", "preference", [], ["preference"]),
+            action("learn-joint", "joint", ["outcome"], ["preference"]),
+        ],
+        "tolerances": {
+            "absolute_tie": 1e-12,
+            "relative_tie": 1e-12,
+            "probability_sum": 1e-12,
+            "weight_sum": 1e-12,
+            "pareto_absolute": 1e-12,
+        },
+        "provenance": dict.fromkeys(
+            (
+                "decision_revision",
+                "model_revision",
+                "weight_elicitation_source",
+                "joint_probability_source",
+                "normalization_anchor_source",
+                "partition_source",
+                "cost_source",
+                "tie_policy_source",
+                "evaluator",
+                "software_version",
+            ),
+            "wheel synthetic evidence",
+        ),
+    }
+    payload["provenance"]["data_sources"] = ["wheel synthetic evidence"]
+    payload["provenance"]["transformation_sources"] = ["fixed linear anchors"]
+    Draft202012Validator(MCDA_INFORMATION_INPUT_SCHEMA_V1).validate(payload)
+    result = mcda_information_value(payload).to_contract_dict()
+    assert result["language_dispositions"]["python"] == "executable"
+    assert result["decomposition"]["joint_gross_voi"] >= 0.0
+    assert result["rank_acceptability"]["tie_convention"] == (
+        "fractional_complete_tie_groups"
+    )
+
+
 def test_installed_wheel_metadata_keeps_jax_optional() -> None:
     """Verify the built artifact, rather than only source TOML metadata."""
     if os.environ.get("WHEEL_VENV") is None:

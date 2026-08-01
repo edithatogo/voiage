@@ -123,6 +123,9 @@ from voiage.methods.implementation_strategy import (
 from voiage.methods.interoperability_standardization import (
     value_of_interoperability_standardization as calculate_interoperability_result,
 )
+from voiage.methods.mcda_information import (
+    mcda_information_value as calculate_mcda_information_result,
+)
 from voiage.methods.monitoring_surveillance import (
     value_of_monitoring_surveillance as calculate_monitoring_surveillance_result,
 )
@@ -3532,6 +3535,56 @@ def calculate_value_of_distributional_information(
     except (
         json.JSONDecodeError,
         JsonSchemaValidationError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-mcda-information")
+def calculate_mcda_information(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a finite additive MCDA information v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the MCDA information result",
+    ),
+) -> None:
+    """Evaluate experimental exact finite additive-MCDA information value."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError("MCDA information specification must be a JSON object.")
+        result = calculate_mcda_information_result(cast("dict[str, object]", payload))
+        contract = result.to_contract_dict()
+        decomposition = cast("dict[str, object]", contract["decomposition"])
+        output_text = _format_output(
+            "MCDA information value: "
+            f"joint {float(decomposition['joint_gross_voi']):.6f}; "
+            f"criterion {float(decomposition['criterion_gross_voi']):.6f}; "
+            f"preference {float(decomposition['preference_gross_voi']):.6f}; "
+            f"interaction {float(decomposition['interaction']):.6f} "
+            f"{contract['aggregate_unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
         ArithmeticError,
         KeyError,
         TypeError,

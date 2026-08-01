@@ -1,0 +1,84 @@
+---
+title: Finite additive MCDA information value
+description: Exact experimental criterion, preference, and joint perfect-information value
+---
+
+This experimental workflow values perfect information inside a finite,
+compensatory additive multi-criteria decision model. The request fixes the
+alternatives, criterion directions and raw units, ex-ante value-function
+anchors, normalized nonnegative weights, and the joint outcome/preference law
+before any information is resolved.
+
+For alternative `a` and finite state `omega`, the additive value is
+
+```text
+U(a, omega) = sum_k w_k(omega) v_k(x[a, k, omega])
+```
+
+The current value optimizes expected utility before learning a partition. Each
+information action then conditions on its declared criterion, preference, or
+joint partition and re-optimizes. Gross information value is the resolved
+value minus the current value; net value additionally subtracts that action's
+declared, disjoint cost.
+
+## Run the exact correlated-state fixture
+
+From a source checkout, run:
+
+```sh
+voiage --format json calculate-mcda-information \
+  specs/frontier/mcda-information/v1/fixtures/normative/input.json \
+  --output mcda-information-result.json
+```
+
+The four-state synthetic fixture preserves correlation between criterion
+performance and preferences. Criterion-only and preference-only resolution do
+not change the baseline choice, so each has zero gross value. Joint resolution
+changes the choice in one state and has gross value `0.028`, entirely recorded
+as an interaction in the declared normalized decision-value unit. Costs remain
+visible, so a zero gross value may correctly have a negative signed net value.
+
+The result also preserves complete choice ties, full rankings, statewise and
+expected regret, fractional complete-tie rank acceptability, and expected and
+statewise Pareto diagnostics. It never silently renormalizes probabilities or
+weights and never moves the fixed value-function anchors after information is
+observed.
+
+## Python and accessible plots
+
+```python
+import json
+from pathlib import Path
+
+from voiage import mcda_information_value
+from voiage.plot import (
+    plot_mcda_information_value,
+    plot_mcda_rank_acceptability,
+)
+
+request = json.loads(
+    Path(
+        "specs/frontier/mcda-information/v1/fixtures/normative/input.json"
+    ).read_text()
+)
+result = mcda_information_value(request)
+
+value_ax = plot_mcda_information_value(result)
+value_ax.figure.savefig("mcda-information-value.png", bbox_inches="tight")
+
+rank_ax = plot_mcda_rank_acceptability(result)
+rank_ax.figure.savefig("mcda-rank-acceptability.png", bbox_inches="tight")
+```
+
+The information-value chart distinguishes criterion, preference, and joint
+resolution with hatching, outlines, labels, and numeric annotations rather
+than colour alone. The rank-acceptability chart uses distinct markers and a
+labelled legend and explicitly identifies probabilities as fractional-tie
+probabilities.
+
+Version 1 deliberately excludes AHP elicitation, outranking and veto methods,
+non-compensatory or nonlinear aggregation, post-information normalization,
+ordinal labels treated as cardinal weights, imperfect/sample information,
+social-choice aggregation, and endogenous feasible sets. Python is the only
+executable surface. Scientific review, stable promotion, release, and
+Rust/R/Julia parity remain separate gates; Mojo remains external.

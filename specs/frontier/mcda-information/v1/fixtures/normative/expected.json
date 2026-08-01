@@ -1,0 +1,304 @@
+{
+  "schema_version": "1.0.0",
+  "analysis_id": "mcda-synergy-example",
+  "analysis_type": "mcda_perfect_information_result",
+  "method_maturity": "experimental",
+  "aggregate_unit": "normalized decision value per eligible person",
+  "alternative_ids": ["service-a", "service-b"],
+  "criterion_ids": ["quality", "burden"],
+  "baseline": {
+    "expected_scores": {"service-a": 0.485, "service-b": 0.63375},
+    "ranking": [
+      {"rank": 1, "alternative_ids": ["service-b"], "score": 0.63375},
+      {"rank": 2, "alternative_ids": ["service-a"], "score": 0.485}
+    ],
+    "choice_tie": ["service-b"],
+    "value": 0.63375
+  },
+  "conditional_actions": [
+    {
+      "action_id": "learn-outcome",
+      "action_type": "criterion",
+      "resolved_partition_keys": ["outcome_regime"],
+      "partitions": [
+        {
+          "partition_id": "outcome-favourable",
+          "key_values": {"outcome_regime": "favourable"},
+          "probability": 0.5,
+          "conditional_scores": {"service-a": 0.625, "service-b": 0.635},
+          "ranking": [
+            {"rank": 1, "alternative_ids": ["service-b"], "score": 0.635},
+            {"rank": 2, "alternative_ids": ["service-a"], "score": 0.625}
+          ],
+          "choice_tie": ["service-b"],
+          "conditional_value": 0.635
+        },
+        {
+          "partition_id": "outcome-unfavourable",
+          "key_values": {"outcome_regime": "unfavourable"},
+          "probability": 0.5,
+          "conditional_scores": {"service-a": 0.345, "service-b": 0.6325},
+          "ranking": [
+            {"rank": 1, "alternative_ids": ["service-b"], "score": 0.6325},
+            {"rank": 2, "alternative_ids": ["service-a"], "score": 0.345}
+          ],
+          "choice_tie": ["service-b"],
+          "conditional_value": 0.6325
+        }
+      ],
+      "resolved_value": 0.63375,
+      "gross_voi": 0.0,
+      "cost": {
+        "original_amount": 5000.0,
+        "original_unit": "AUD per eligible person equivalent",
+        "aggregate_amount": 0.005,
+        "conversion_reference": "synthetic willingness-to-pay conversion revision 1",
+        "population_basis": "one eligible person",
+        "horizon_basis": "one year",
+        "discount_basis": "undiscounted one-year horizon",
+        "cost_scope": "action_specific_disjoint"
+      },
+      "net_voi": -0.005,
+      "expected_regret": 0.028,
+      "statewise_regret": [
+        {"state_id": "state-1", "policy_tie": ["service-b"], "regret": 0.08},
+        {"state_id": "state-2", "policy_tie": ["service-b"], "regret": 0.0},
+        {"state_id": "state-3", "policy_tie": ["service-b"], "regret": 0.0},
+        {"state_id": "state-4", "policy_tie": ["service-b"], "regret": 0.0}
+      ]
+    },
+    {
+      "action_id": "learn-preference",
+      "action_type": "preference",
+      "resolved_partition_keys": ["preference_regime"],
+      "partitions": [
+        {
+          "partition_id": "preference-quality-heavy",
+          "key_values": {"preference_regime": "quality-heavy"},
+          "probability": 0.5,
+          "conditional_scores": {"service-a": 0.604, "service-b": 0.608},
+          "ranking": [
+            {"rank": 1, "alternative_ids": ["service-b"], "score": 0.608},
+            {"rank": 2, "alternative_ids": ["service-a"], "score": 0.604}
+          ],
+          "choice_tie": ["service-b"],
+          "conditional_value": 0.608
+        },
+        {
+          "partition_id": "preference-burden-heavy",
+          "key_values": {"preference_regime": "burden-heavy"},
+          "probability": 0.5,
+          "conditional_scores": {"service-a": 0.366, "service-b": 0.6595},
+          "ranking": [
+            {"rank": 1, "alternative_ids": ["service-b"], "score": 0.6595},
+            {"rank": 2, "alternative_ids": ["service-a"], "score": 0.366}
+          ],
+          "choice_tie": ["service-b"],
+          "conditional_value": 0.6595
+        }
+      ],
+      "resolved_value": 0.63375,
+      "gross_voi": 0.0,
+      "cost": {
+        "original_amount": 4000.0,
+        "original_unit": "AUD per eligible person equivalent",
+        "aggregate_amount": 0.004,
+        "conversion_reference": "synthetic willingness-to-pay conversion revision 1",
+        "population_basis": "one eligible person",
+        "horizon_basis": "one year",
+        "discount_basis": "undiscounted one-year horizon",
+        "cost_scope": "action_specific_disjoint"
+      },
+      "net_voi": -0.004,
+      "expected_regret": 0.028,
+      "statewise_regret": [
+        {"state_id": "state-1", "policy_tie": ["service-b"], "regret": 0.08},
+        {"state_id": "state-2", "policy_tie": ["service-b"], "regret": 0.0},
+        {"state_id": "state-3", "policy_tie": ["service-b"], "regret": 0.0},
+        {"state_id": "state-4", "policy_tie": ["service-b"], "regret": 0.0}
+      ]
+    },
+    {
+      "action_id": "learn-joint",
+      "action_type": "joint",
+      "resolved_partition_keys": ["outcome_regime", "preference_regime"],
+      "partitions": [
+        {
+          "partition_id": "joint-1",
+          "key_values": {"outcome_regime": "favourable", "preference_regime": "quality-heavy"},
+          "probability": 0.35,
+          "conditional_scores": {"service-a": 0.7, "service-b": 0.62},
+          "ranking": [
+            {"rank": 1, "alternative_ids": ["service-a"], "score": 0.7},
+            {"rank": 2, "alternative_ids": ["service-b"], "score": 0.62}
+          ],
+          "choice_tie": ["service-a"],
+          "conditional_value": 0.7
+        },
+        {
+          "partition_id": "joint-2",
+          "key_values": {"outcome_regime": "favourable", "preference_regime": "burden-heavy"},
+          "probability": 0.15,
+          "conditional_scores": {"service-a": 0.45, "service-b": 0.67},
+          "ranking": [
+            {"rank": 1, "alternative_ids": ["service-b"], "score": 0.67},
+            {"rank": 2, "alternative_ids": ["service-a"], "score": 0.45}
+          ],
+          "choice_tie": ["service-b"],
+          "conditional_value": 0.67
+        },
+        {
+          "partition_id": "joint-3",
+          "key_values": {"outcome_regime": "unfavourable", "preference_regime": "quality-heavy"},
+          "probability": 0.15,
+          "conditional_scores": {"service-a": 0.38, "service-b": 0.58},
+          "ranking": [
+            {"rank": 1, "alternative_ids": ["service-b"], "score": 0.58},
+            {"rank": 2, "alternative_ids": ["service-a"], "score": 0.38}
+          ],
+          "choice_tie": ["service-b"],
+          "conditional_value": 0.58
+        },
+        {
+          "partition_id": "joint-4",
+          "key_values": {"outcome_regime": "unfavourable", "preference_regime": "burden-heavy"},
+          "probability": 0.35,
+          "conditional_scores": {"service-a": 0.33, "service-b": 0.655},
+          "ranking": [
+            {"rank": 1, "alternative_ids": ["service-b"], "score": 0.655},
+            {"rank": 2, "alternative_ids": ["service-a"], "score": 0.33}
+          ],
+          "choice_tie": ["service-b"],
+          "conditional_value": 0.655
+        }
+      ],
+      "resolved_value": 0.66175,
+      "gross_voi": 0.028,
+      "cost": {
+        "original_amount": 10000.0,
+        "original_unit": "AUD per eligible person equivalent",
+        "aggregate_amount": 0.01,
+        "conversion_reference": "synthetic willingness-to-pay conversion revision 1",
+        "population_basis": "one eligible person",
+        "horizon_basis": "one year",
+        "discount_basis": "undiscounted one-year horizon",
+        "cost_scope": "action_specific_disjoint"
+      },
+      "net_voi": 0.018,
+      "expected_regret": 0.0,
+      "statewise_regret": [
+        {"state_id": "state-1", "policy_tie": ["service-a"], "regret": 0.0},
+        {"state_id": "state-2", "policy_tie": ["service-b"], "regret": 0.0},
+        {"state_id": "state-3", "policy_tie": ["service-b"], "regret": 0.0},
+        {"state_id": "state-4", "policy_tie": ["service-b"], "regret": 0.0}
+      ]
+    }
+  ],
+  "decomposition": {
+    "criterion_action_id": "learn-outcome",
+    "preference_action_id": "learn-preference",
+    "joint_action_id": "learn-joint",
+    "criterion_gross_voi": 0.0,
+    "preference_gross_voi": 0.0,
+    "joint_gross_voi": 0.028,
+    "interaction": 0.028,
+    "joint_increment_over_criterion": 0.028,
+    "joint_increment_over_preference": 0.028,
+    "no_double_counting_identity_residual": 0.0
+  },
+  "regret": {
+    "definition": "state_optimum_minus_policy_score",
+    "baseline_expected": 0.028,
+    "statewise": [
+      {"state_id": "state-1", "probability": 0.35, "optimal_tie": ["service-a"], "baseline_policy_regret": 0.08},
+      {"state_id": "state-2", "probability": 0.15, "optimal_tie": ["service-b"], "baseline_policy_regret": 0.0},
+      {"state_id": "state-3", "probability": 0.15, "optimal_tie": ["service-b"], "baseline_policy_regret": 0.0},
+      {"state_id": "state-4", "probability": 0.35, "optimal_tie": ["service-b"], "baseline_policy_regret": 0.0}
+    ]
+  },
+  "rank_acceptability": {
+    "tie_convention": "fractional_complete_tie_groups",
+    "by_alternative": {"service-a": [0.35, 0.65], "service-b": [0.65, 0.35]},
+    "state_tie_groups": {
+      "state-1": [
+        {"rank": 1, "alternative_ids": ["service-a"], "score": 0.7},
+        {"rank": 2, "alternative_ids": ["service-b"], "score": 0.62}
+      ],
+      "state-2": [
+        {"rank": 1, "alternative_ids": ["service-b"], "score": 0.67},
+        {"rank": 2, "alternative_ids": ["service-a"], "score": 0.45}
+      ],
+      "state-3": [
+        {"rank": 1, "alternative_ids": ["service-b"], "score": 0.58},
+        {"rank": 2, "alternative_ids": ["service-a"], "score": 0.38}
+      ],
+      "state-4": [
+        {"rank": 1, "alternative_ids": ["service-b"], "score": 0.655},
+        {"rank": 2, "alternative_ids": ["service-a"], "score": 0.33}
+      ]
+    }
+  },
+  "pareto": {
+    "basis": "fixed_direction_normalized_criterion_values",
+    "expectation_law": "submitted_joint_state_probabilities",
+    "tie_tolerance": 1e-12,
+    "expected_value_vectors": {
+      "service-a": {"quality": 0.6, "burden": 0.3},
+      "service-b": {"quality": 0.575, "burden": 0.7}
+    },
+    "expected_dominance": [],
+    "expected_non_dominated": ["service-a", "service-b"],
+    "statewise": [
+      {
+        "state_id": "state-1",
+        "value_vectors": {"service-a": {"quality": 0.8, "burden": 0.3}, "service-b": {"quality": 0.6, "burden": 0.7}},
+        "dominance": [],
+        "non_dominated": ["service-a", "service-b"]
+      },
+      {
+        "state_id": "state-2",
+        "value_vectors": {"service-a": {"quality": 0.8, "burden": 0.3}, "service-b": {"quality": 0.6, "burden": 0.7}},
+        "dominance": [],
+        "non_dominated": ["service-a", "service-b"]
+      },
+      {
+        "state_id": "state-3",
+        "value_vectors": {"service-a": {"quality": 0.4, "burden": 0.3}, "service-b": {"quality": 0.55, "burden": 0.7}},
+        "dominance": [{"dominant": "service-b", "dominated": "service-a"}],
+        "non_dominated": ["service-b"]
+      },
+      {
+        "state_id": "state-4",
+        "value_vectors": {"service-a": {"quality": 0.4, "burden": 0.3}, "service-b": {"quality": 0.55, "burden": 0.7}},
+        "dominance": [{"dominant": "service-b", "dominated": "service-a"}],
+        "non_dominated": ["service-b"]
+      }
+    ]
+  },
+  "assurance": {
+    "estimator": "exact_finite_enumeration",
+    "arithmetic": "binary64_with_declared_tolerances",
+    "joint_dependence_preserved": true,
+    "normalization_frozen_ex_ante": true,
+    "gross_voi_clipped": false,
+    "probabilities_reconciled": true,
+    "weights_reconciled": true,
+    "fixture_status": "analytically_reviewed_contract_fixture"
+  },
+  "language_dispositions": {
+    "python": "executable",
+    "rust": "unsupported",
+    "r": "unsupported",
+    "julia": "unsupported",
+    "mojo": "external"
+  },
+  "unsupported_dispositions": [
+    "AHP pairwise elicitation and consistency diagnostics",
+    "outranking, vetoes and non-compensatory thresholds",
+    "multiplicative, fuzzy, interval, robust or risk-sensitive aggregation",
+    "endogenous or post-information normalization",
+    "imperfect or sample information EVSI",
+    "social-choice aggregation and endogenous feasible sets",
+    "stable API or cross-language parity"
+  ]
+}

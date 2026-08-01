@@ -1,0 +1,749 @@
+{
+  "$id": "https://voiage.dev/schemas/frontier/mcda-information-result.v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "aggregate_unit": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "alternative_ids": {
+      "items": {
+        "minLength": 1,
+        "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+        "type": "string"
+      },
+      "minItems": 2,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "analysis_id": {
+      "minLength": 1,
+      "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+      "type": "string"
+    },
+    "analysis_type": {
+      "const": "mcda_perfect_information_result"
+    },
+    "assurance": {
+      "additionalProperties": false,
+      "properties": {
+        "arithmetic": {
+          "const": "binary64_with_declared_tolerances"
+        },
+        "estimator": {
+          "const": "exact_finite_enumeration"
+        },
+        "fixture_status": {
+          "const": "analytically_reviewed_contract_fixture"
+        },
+        "gross_voi_clipped": {
+          "const": false
+        },
+        "joint_dependence_preserved": {
+          "const": true
+        },
+        "normalization_frozen_ex_ante": {
+          "const": true
+        },
+        "probabilities_reconciled": {
+          "const": true
+        },
+        "weights_reconciled": {
+          "const": true
+        }
+      },
+      "required": [
+        "estimator",
+        "arithmetic",
+        "joint_dependence_preserved",
+        "normalization_frozen_ex_ante",
+        "gross_voi_clipped",
+        "probabilities_reconciled",
+        "weights_reconciled",
+        "fixture_status"
+      ],
+      "type": "object"
+    },
+    "baseline": {
+      "additionalProperties": false,
+      "properties": {
+        "choice_tie": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "expected_scores": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "minProperties": 2,
+          "type": "object"
+        },
+        "ranking": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "alternative_ids": {
+                "items": {
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "rank": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "score": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "rank",
+              "alternative_ids",
+              "score"
+            ],
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "expected_scores",
+        "ranking",
+        "choice_tie",
+        "value"
+      ],
+      "type": "object"
+    },
+    "conditional_actions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "action_id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "action_type": {
+            "enum": [
+              "criterion",
+              "preference",
+              "joint"
+            ]
+          },
+          "cost": {
+            "additionalProperties": false,
+            "properties": {
+              "aggregate_amount": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "conversion_reference": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "cost_scope": {
+                "const": "action_specific_disjoint"
+              },
+              "discount_basis": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "horizon_basis": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "original_amount": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "original_unit": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "population_basis": {
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "original_amount",
+              "original_unit",
+              "aggregate_amount",
+              "conversion_reference",
+              "population_basis",
+              "horizon_basis",
+              "discount_basis",
+              "cost_scope"
+            ],
+            "type": "object"
+          },
+          "expected_regret": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "gross_voi": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "net_voi": {
+            "type": "number"
+          },
+          "partitions": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "choice_tie": {
+                  "items": {
+                    "minLength": 1,
+                    "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                    "type": "string"
+                  },
+                  "minItems": 1,
+                  "type": "array",
+                  "uniqueItems": true
+                },
+                "conditional_scores": {
+                  "additionalProperties": {
+                    "type": "number"
+                  },
+                  "minProperties": 2,
+                  "type": "object"
+                },
+                "conditional_value": {
+                  "type": "number"
+                },
+                "key_values": {
+                  "additionalProperties": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "minProperties": 1,
+                  "type": "object"
+                },
+                "partition_id": {
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                  "type": "string"
+                },
+                "probability": {
+                  "maximum": 1,
+                  "minimum": 0,
+                  "type": "number"
+                },
+                "ranking": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "alternative_ids": {
+                        "items": {
+                          "minLength": 1,
+                          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                          "type": "string"
+                        },
+                        "minItems": 1,
+                        "type": "array",
+                        "uniqueItems": true
+                      },
+                      "rank": {
+                        "minimum": 1,
+                        "type": "integer"
+                      },
+                      "score": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "rank",
+                      "alternative_ids",
+                      "score"
+                    ],
+                    "type": "object"
+                  },
+                  "minItems": 1,
+                  "type": "array"
+                }
+              },
+              "required": [
+                "partition_id",
+                "key_values",
+                "probability",
+                "conditional_scores",
+                "ranking",
+                "choice_tie",
+                "conditional_value"
+              ],
+              "type": "object"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "resolved_partition_keys": {
+            "items": {
+              "minLength": 1,
+              "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "resolved_value": {
+            "type": "number"
+          },
+          "statewise_regret": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "policy_tie": {
+                  "items": {
+                    "minLength": 1,
+                    "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                    "type": "string"
+                  },
+                  "minItems": 1,
+                  "type": "array",
+                  "uniqueItems": true
+                },
+                "regret": {
+                  "minimum": 0,
+                  "type": "number"
+                },
+                "state_id": {
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "state_id",
+                "policy_tie",
+                "regret"
+              ],
+              "type": "object"
+            },
+            "minItems": 1,
+            "type": "array"
+          }
+        },
+        "required": [
+          "action_id",
+          "action_type",
+          "resolved_partition_keys",
+          "partitions",
+          "resolved_value",
+          "gross_voi",
+          "cost",
+          "net_voi",
+          "expected_regret",
+          "statewise_regret"
+        ],
+        "type": "object"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "type": "array"
+    },
+    "criterion_ids": {
+      "items": {
+        "minLength": 1,
+        "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+        "type": "string"
+      },
+      "minItems": 2,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "decomposition": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_action_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+          "type": "string"
+        },
+        "criterion_gross_voi": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "interaction": {
+          "type": "number"
+        },
+        "joint_action_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+          "type": "string"
+        },
+        "joint_gross_voi": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "joint_increment_over_criterion": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "joint_increment_over_preference": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "no_double_counting_identity_residual": {
+          "type": "number"
+        },
+        "preference_action_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+          "type": "string"
+        },
+        "preference_gross_voi": {
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "criterion_action_id",
+        "preference_action_id",
+        "joint_action_id",
+        "criterion_gross_voi",
+        "preference_gross_voi",
+        "joint_gross_voi",
+        "interaction",
+        "joint_increment_over_criterion",
+        "joint_increment_over_preference",
+        "no_double_counting_identity_residual"
+      ],
+      "type": "object"
+    },
+    "language_dispositions": {
+      "additionalProperties": false,
+      "properties": {
+        "julia": {
+          "const": "unsupported"
+        },
+        "mojo": {
+          "const": "external"
+        },
+        "python": {
+          "const": "executable"
+        },
+        "r": {
+          "const": "unsupported"
+        },
+        "rust": {
+          "const": "unsupported"
+        }
+      },
+      "required": [
+        "python",
+        "rust",
+        "r",
+        "julia",
+        "mojo"
+      ],
+      "type": "object"
+    },
+    "method_maturity": {
+      "const": "experimental"
+    },
+    "pareto": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "const": "fixed_direction_normalized_criterion_values"
+        },
+        "expectation_law": {
+          "const": "submitted_joint_state_probabilities"
+        },
+        "expected_dominance": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "dominant": {
+                "minLength": 1,
+                "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                "type": "string"
+              },
+              "dominated": {
+                "minLength": 1,
+                "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "dominant",
+              "dominated"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "expected_non_dominated": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "expected_value_vectors": {
+          "additionalProperties": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "minProperties": 2,
+            "type": "object"
+          },
+          "minProperties": 2,
+          "type": "object"
+        },
+        "statewise": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "dominance": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "dominant": {
+                      "minLength": 1,
+                      "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                      "type": "string"
+                    },
+                    "dominated": {
+                      "minLength": 1,
+                      "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "dominant",
+                    "dominated"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "non_dominated": {
+                "items": {
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "state_id": {
+                "minLength": 1,
+                "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                "type": "string"
+              },
+              "value_vectors": {
+                "additionalProperties": {
+                  "additionalProperties": {
+                    "type": "number"
+                  },
+                  "minProperties": 2,
+                  "type": "object"
+                },
+                "minProperties": 2,
+                "type": "object"
+              }
+            },
+            "required": [
+              "state_id",
+              "value_vectors",
+              "dominance",
+              "non_dominated"
+            ],
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "tie_tolerance": {
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "basis",
+        "expectation_law",
+        "tie_tolerance",
+        "expected_value_vectors",
+        "expected_dominance",
+        "expected_non_dominated",
+        "statewise"
+      ],
+      "type": "object"
+    },
+    "rank_acceptability": {
+      "additionalProperties": false,
+      "properties": {
+        "by_alternative": {
+          "additionalProperties": {
+            "items": {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            "minItems": 2,
+            "type": "array"
+          },
+          "minProperties": 2,
+          "type": "object"
+        },
+        "state_tie_groups": {
+          "additionalProperties": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "alternative_ids": {
+                  "items": {
+                    "minLength": 1,
+                    "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                    "type": "string"
+                  },
+                  "minItems": 1,
+                  "type": "array",
+                  "uniqueItems": true
+                },
+                "rank": {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "score": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "rank",
+                "alternative_ids",
+                "score"
+              ],
+              "type": "object"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "minProperties": 1,
+          "type": "object"
+        },
+        "tie_convention": {
+          "const": "fractional_complete_tie_groups"
+        }
+      },
+      "required": [
+        "tie_convention",
+        "by_alternative",
+        "state_tie_groups"
+      ],
+      "type": "object"
+    },
+    "regret": {
+      "additionalProperties": false,
+      "properties": {
+        "baseline_expected": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "definition": {
+          "const": "state_optimum_minus_policy_score"
+        },
+        "statewise": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "baseline_policy_regret": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "optimal_tie": {
+                "items": {
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "probability": {
+                "maximum": 1,
+                "minimum": 0,
+                "type": "number"
+              },
+              "state_id": {
+                "minLength": 1,
+                "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "state_id",
+              "probability",
+              "optimal_tie",
+              "baseline_policy_regret"
+            ],
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "definition",
+        "baseline_expected",
+        "statewise"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "unsupported_dispositions": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "schema_version",
+    "analysis_id",
+    "analysis_type",
+    "method_maturity",
+    "aggregate_unit",
+    "alternative_ids",
+    "criterion_ids",
+    "baseline",
+    "conditional_actions",
+    "decomposition",
+    "regret",
+    "rank_acceptability",
+    "pareto",
+    "assurance",
+    "language_dispositions",
+    "unsupported_dispositions"
+  ],
+  "title": "McdaInformationResultV1Experimental",
+  "type": "object"
+}

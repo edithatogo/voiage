@@ -60,6 +60,14 @@ _ECOSYSTEM_EXPORTS = {
     "load_heoml_run_bundle": "load_heoml_run_bundle",
 }
 _EXTENSION_EXPORTS = {
+    "McdaInformationResult": (
+        ".methods.mcda_information",
+        "McdaInformationResult",
+    ),
+    "mcda_information_value": (
+        ".methods.mcda_information",
+        "mcda_information_value",
+    ),
     "QualitativeInformationResult": (
         ".methods.qualitative_information",
         "QualitativeInformationResult",

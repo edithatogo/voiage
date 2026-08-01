@@ -1,0 +1,8 @@
+{
+  "case_id": "post-information-normalization",
+  "description": "Normalization anchors must be fixed ex ante, never recomputed after information.",
+  "operations": [
+    {"op": "replace", "path": "/criteria/0/value_function/normalization_scope", "value": "per_partition"}
+  ],
+  "expected_error": "constraint: const"
+}

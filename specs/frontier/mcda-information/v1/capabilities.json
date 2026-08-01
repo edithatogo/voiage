@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "method_family": "finite_additive_mcda_perfect_information",
+  "contract_version": "1.0.0",
+  "planned_version": "v1.3.0",
+  "maturity": "experimental",
+  "aggregation_family": "compensatory_additive_value",
+  "estimator": "exact_finite_enumeration",
+  "surfaces": {
+    "python": {
+      "status": "executable",
+      "module": "voiage.methods.mcda_information",
+      "reason": "The exact finite evaluator executes the portable v1 contract."
+    },
+    "rust": {
+      "status": "unsupported",
+      "reason": "No reviewed Rust kernel or shared-fixture execution evidence."
+    },
+    "r": {
+      "status": "unsupported",
+      "reason": "No R binding or shared-fixture execution evidence."
+    },
+    "julia": {
+      "status": "unsupported",
+      "reason": "No Julia binding or shared-fixture execution evidence."
+    },
+    "mojo": {
+      "status": "external",
+      "reason": "No repository-owned Mojo runtime."
+    }
+  },
+  "unsupported": [
+    "AHP pairwise elicitation and consistency diagnostics",
+    "outranking, vetoes and non-compensatory thresholds",
+    "multiplicative, fuzzy, interval, robust or risk-sensitive aggregation",
+    "endogenous, alternative-relative or post-information normalization",
+    "ordinal importance labels treated as cardinal weights",
+    "imperfect or sample information EVSI",
+    "social-choice aggregation and endogenous feasible sets",
+    "stable API or cross-language parity"
+  ],
+  "remaining_gates": [
+    "F560-4 installed API, CLI, plots, documentation and discovery",
+    "independent implementation and scientific review",
+    "hosted exact-head and installed-wheel assurance",
+    "stable promotion, release and parent issue closure"
+  ]
+}
