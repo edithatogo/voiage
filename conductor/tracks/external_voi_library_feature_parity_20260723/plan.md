@@ -10,7 +10,13 @@
   explicit exclusions. (AC-02, AC-05, AC-06)
 - [x] **G4:** Run automated contract review and full Conductor validation.
   Existing bounded landscape records, paper state-of-field evidence, and full
-  Conductor/cross-reference validation pass. (2026-08-01; AC-01, AC-07)
+  Conductor/cross-reference validation pass. (2026-08-01; commit: adb7e44;
+  AC-01, AC-07)
+
+## Review remediation
+
+- [x] Correct track status projection and record delivery PR #819 in metadata.
+  (2026-08-01; review fix for AC-01)
 
 ## Phase 2 — Evidence before positive claims
 
