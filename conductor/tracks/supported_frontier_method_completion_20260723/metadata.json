@@ -180,6 +180,12 @@
       "kind": "hosted_validation",
       "status": "satisfied",
       "evidence": "PR #769 exact head f513416fa8d19db6c2f7f8857c84839fa97b984b passed 38 successful checks, with three governed skips and neutral CodeQL aggregation, before squash merge c25f3234ad9d3d44f5e31cc42ee4ae823562fe37; changed coverage was 215/215 lines and 68/68 branches."
+    },
+    {
+      "id": "forecast-signal-hosted-assurance",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "PR #770 exact head c110706c561ca17d3ec8835af3567948b969b3cb passed 38 successful checks, with three governed skips and neutral CodeQL aggregation, before squash merge 4657f94e69e4d99d960d6d820c5bfb3e5e8937b3; changed coverage was 223/223 lines and 57/57 branches."
     }
   ]
 }

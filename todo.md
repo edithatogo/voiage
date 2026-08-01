@@ -4,6 +4,17 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+*   [ ] Complete forecast and signal information VOI after experimental delivery.
+    *   GitHub issue #572; native subissues #759, #760 and #762; umbrella track
+        `supported_frontier_method_completion_20260723`; canonical C18/M23.
+    *   The exact finite Python contract separates timely-oracle value, signed
+        deployed value, calibration loss, regret avoided and maximum price.
+    *   PR #770 exact head `c110706c` passed all hosted checks and 100% changed
+        coverage before squash merge `4657f94e`.
+    *   Remaining gates are independent scientific review, continuous and
+        multistage methods, Rust/R/Julia parity, stable promotion, release and
+        parent closure.
+
 *   [ ] Complete risk-sensitive and constrained VOI after experimental delivery.
     *   GitHub issue #570; native subissues #757, #758 and #761; umbrella track
         `supported_frontier_method_completion_20260723`; canonical C18/M22.
