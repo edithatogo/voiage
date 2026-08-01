@@ -194,7 +194,7 @@ repository manifest, validation, and merged PR handoff are recorded.*
 
 ---
 
-## [ ] Track: Controlled Live Standardized-Dataset Interoperability
+## [~] Track: Controlled Live Standardized-Dataset Interoperability
 *Link: [./tracks/controlled_live_dataset_interoperability_20260801/index.md](./tracks/controlled_live_dataset_interoperability_20260801/index.md)*
 *GitHub: [issue #752](https://github.com/edithatogo/voiage/issues/752), native
 sub-issue of [#325](https://github.com/edithatogo/voiage/issues/325).*
