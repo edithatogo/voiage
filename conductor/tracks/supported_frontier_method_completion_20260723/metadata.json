@@ -49,7 +49,9 @@
         "M22",
         "M23",
         "M25",
-        "M27"
+        "M26",
+        "M27",
+        "M29"
       ],
       "path": "https://github.com/edithatogo/vop_poc_nz/tree/main/conductor/tracks/specialized-voi-v1-3-residual_20260801",
       "pull_request": "https://github.com/edithatogo/vop_poc_nz/pull/69"
