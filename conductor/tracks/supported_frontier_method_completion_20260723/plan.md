@@ -115,6 +115,9 @@
   focused/full local and hosted exact-head/wheel assurance; reconcile #596
   while retaining scientific approval, Rust/R/Julia parity, stable promotion,
   release and parent closure as separate gates. (AC-03–AC-07, AC-09)
+- [x] **F596-R1:** Preserve empty modes/directions when coordinate information
+  value is zero, so tied zero-density atoms do not fabricate a direction of
+  concern. `5964df04`
 
 - [x] **F572-1 / #760:** Freeze #572's C18/M23 forecast-signal decision
   estimand, strict input/result schemas, analytical newsvendor fixture,
