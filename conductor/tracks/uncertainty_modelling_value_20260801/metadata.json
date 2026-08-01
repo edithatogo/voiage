@@ -45,10 +45,10 @@
   },
   "gates": [
     {
-      "id": "scientific-review",
-      "kind": "scientific_review",
-      "status": "pending",
-      "evidence": "Independent scientific review required before stable promotion."
+      "id": "scientific-review-panel",
+      "kind": "repository_review",
+      "status": "satisfied",
+      "evidence": "Relevant estimand, numerical, and API/boundary subagent panel passed the exact-finite experimental scope at c5adca8fd49b74a04312111168283fbdffc2dcbd; stable promotion still requires reference recomputation, parity, maintainer approval, and release evidence."
     },
     {
       "id": "hosted-required-checks",
