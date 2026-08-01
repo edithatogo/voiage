@@ -8,7 +8,8 @@
   for the external approval blocker. (2026-08-01; see blocker-resolution-plan.md)
 - [ ] **R2 / AC-01:** Obtain explicit security-policy approval before enabling
   any remote I/O.
-- [ ] **R3 / AC-01:** Run Conductor review and validation checkpoint.
+- [x] **R3 / AC-01:** Run Conductor review and validation checkpoint.
+  (2026-08-01; local validators pass; remote approval remains pending)
 
 ## Phase 2 — Fail-closed implementation
 
