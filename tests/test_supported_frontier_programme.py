@@ -93,6 +93,7 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
         597,
         598,
         599,
+        600,
         619,
     }
     for child in delivered.values():
@@ -141,6 +142,7 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
     assert delivered[593]["implementation_pull_requests"] == [787]
     assert delivered[593]["disposition"] == "experimental_merged"
     assert delivered[595]["implementation_pull_requests"] == [712]
+    assert delivered[600]["implementation_pull_requests"] == [831]
     assert delivered[619]["implementation_pull_requests"] == [676]
 
 
@@ -273,10 +275,13 @@ def test_issue_600_contract_and_native_delivery_children_are_governed() -> None:
         )
     )
 
-    assert child["disposition"] == "contract_in_progress"
+    assert child["issue_state"] == "open"
+    assert child["project_status"] == "In Progress"
+    assert child["disposition"] == "experimental_merged"
     assert child["maturity"] == "experimental"
     assert child["delivery_subissues"] == [790, 791, 792]
-    assert child["implementation_pull_requests"] == []
+    assert child["implementation_pull_requests"] == [831]
+    assert child["satisfies_ac06"] is True
     for issue in (600, 790, 791, 792):
         issue_url = f"https://github.com/edithatogo/voiage/issues/{issue}"
         assert issue_url in metadata["github_subissues"]
@@ -286,13 +291,15 @@ def test_issue_600_contract_and_native_delivery_children_are_governed() -> None:
         "expectation-only",
         "rVSI0",
         "independent implementation review",
-        "hosted exact-head",
+        "All five CodeQL review threads were resolved",
         "Rust/R/Julia parity",
         "stable promotion",
         "parent #600",
         "umbrella #318",
     ):
         assert required_boundary in governed_text
+    assert "eb5a201d82350631dc3ba0b636dfdf43563ea64f" in governed_text
+    assert "ac1d31bf900c3ee6e817047202cae4229918d48f" in governed_text
 
 
 def test_programme_records_unfinished_census_dependency() -> None:
@@ -365,13 +372,13 @@ def test_belief_state_information_experimental_delivery_is_governed() -> None:
         assert gate in f"{plan}\n{todo}"
 
 
-def test_parallel_m26_to_m30_frontier_governance_is_additively_preserved() -> None:
+def test_parallel_m26_to_m31_frontier_governance_is_additively_preserved() -> None:
     track = INVENTORY.parent
     metadata = json.loads((track / "metadata.json").read_text(encoding="utf-8"))
     children = _inventory()["children"]
     assert isinstance(children, list)
     by_issue = {child["issue"]: child for child in children}
-    expected_requirements = {"M26", "M27", "M28", "M29", "M30"}
+    expected_requirements = {"M26", "M27", "M28", "M29", "M30", "M31"}
 
     assert expected_requirements <= set(metadata["requirement_ids"])
     assert expected_requirements <= set(metadata["planned_version_extensions"]["1.3.0"])
@@ -384,6 +391,9 @@ def test_parallel_m26_to_m30_frontier_governance_is_additively_preserved() -> No
     assert by_issue[599]["delivery_subissues"] == [786, 788, 789]
     assert by_issue[599]["implementation_pull_requests"] == [809]
     assert by_issue[599]["disposition"] == "experimental_merged"
+    assert by_issue[600]["delivery_subissues"] == [790, 791, 792]
+    assert by_issue[600]["implementation_pull_requests"] == [831]
+    assert by_issue[600]["disposition"] == "experimental_merged"
 
 
 def test_heterogeneity_value_experimental_delivery_is_governed() -> None:

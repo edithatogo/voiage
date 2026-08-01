@@ -10,8 +10,8 @@ relevant subagent review panel defined in
 The panel supplies structured evidence; maintainer approval and external
 release, registry, and publication decisions remain separate gates.
 
-*   [ ] Complete outcome-conditional sample-information value after signed
-    experimental branch delivery.
+*   [ ] Complete outcome-conditional sample-information value after
+    experimental merge.
     *   GitHub issue #600; delivery subissues #790–#792; umbrella track
         `supported_frontier_method_completion_20260723`; phases F600-1–F600-4;
         canonical C18/M31; planned v1.3.0 Should.
@@ -22,16 +22,17 @@ release, registry, and publication decisions remain separate gates.
     *   Preserve expectation-only tower identities. Keep `rVSI0` distinct from
         policy-switch/tie-set-change mass, and do not reproduce the paper's
         unweighted MATLAB/Table 3 standard-deviation calculation.
-    *   Signed governance commit `3080c1b4`, implementation commit `6548dda7`
-        and value-unit remediation `aaf77aaf` complete the repository-owned
-        exact-finite contract/API/CLI, fixture, documentation and local-
-        assurance slice. Fresh independent implementation review found no open
-        Critical, High or Medium finding.
-    *   Remaining gates include hosted exact-head and installed-wheel
-        assurance, continuous outcomes, fitted-estimator and scientific
-        validity review, risk-sensitive composition, Rust/R/Julia parity,
-        stable promotion, release, parent #600 closure and umbrella #318
-        closure.
+    *   Final independent re-review found no open Critical, High or Medium
+        finding after probability normalization, exact-reference and inclusive-
+        boundary remediation. PR #831 exact head `eb5a201d` completed all 42
+        terminal-allowed checks with 38 successes, three governed skips and one
+        neutral CodeQL aggregation. All five review threads were resolved
+        before squash merge `ac1d31bf`. Delivery subissues #790, #791 and #792
+        may close.
+    *   Remaining gates include continuous-outcome and fitted-estimator
+        validation, independent scientific review, risk-sensitive composition,
+        Rust/R/Julia parity, stable promotion, release, parent #600 closure and
+        umbrella #318 closure.
 
 *   [ ] Complete static/dynamic heterogeneity value after experimental merge.
     *   GitHub issue #599; delivery subissues #786/#788/#789; umbrella track
