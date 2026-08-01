@@ -5,13 +5,13 @@
 - [x] **ISP1:** Freeze the finite joint-world estimand, MoSCoW requirements,
   Mermaid design, constraints, exclusions and exact-search assurance. (AC-01,
   AC-05) `57e30b07`
-- [~] **ISP2:** Add strict schemas plus complementary, redundant, correlated
+- [x] **ISP2:** Add strict schemas plus complementary, redundant, correlated
   and pathological fixtures with independent reference expectations. (AC-02,
-  AC-04)
+  AC-04) `baa19609`
 
 ## Phase 2 — Experimental delivery
 
-- [ ] **ISP3:** Implement the exact Python evaluator, deterministic result,
+- [~] **ISP3:** Implement the exact Python evaluator, deterministic result,
   conditional marginals, Shapley attribution and failure boundaries. (AC-01–AC-03)
 - [ ] **ISP4:** Add CLI, public experimental discovery, documentation and
   explicit language/maturity dispositions. (AC-04, AC-05)
