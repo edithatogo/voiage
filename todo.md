@@ -22,15 +22,35 @@ release, registry, and publication decisions remain separate gates.
     *   Preserve expectation-only tower identities. Keep `rVSI0` distinct from
         policy-switch/tie-set-change mass, and do not reproduce the paper's
         unweighted MATLAB/Table 3 standard-deviation calculation.
-    *   Signed governance commit `3080c1b4` and implementation commit
-        `6548dda7` complete the repository-owned exact-finite contract/API/CLI,
-        fixture, documentation and local-assurance slice without a merge or
-        maturity-promotion claim.
-    *   Remaining gates include fresh independent implementation review,
-        hosted exact-head and installed-wheel assurance, continuous outcomes,
-        fitted-estimator and scientific validity review, risk-sensitive
-        composition, Rust/R/Julia parity, stable promotion, release, parent
-        #600 closure and umbrella #318 closure.
+    *   Signed governance commit `3080c1b4`, implementation commit `6548dda7`
+        and value-unit remediation `aaf77aaf` complete the repository-owned
+        exact-finite contract/API/CLI, fixture, documentation and local-
+        assurance slice. Fresh independent implementation review found no open
+        Critical, High or Medium finding.
+    *   Remaining gates include hosted exact-head and installed-wheel
+        assurance, continuous outcomes, fitted-estimator and scientific
+        validity review, risk-sensitive composition, Rust/R/Julia parity,
+        stable promotion, release, parent #600 closure and umbrella #318
+        closure.
+
+*   [ ] Complete belief-state and intervention-aware sequential information
+    value after experimental repository delivery.
+    *   GitHub issue #597; delivery subissues #780--#782; umbrella track
+        `supported_frontier_method_completion_20260723`; canonical C18/M28.
+    *   The exact finite Python contract uses control-transition-observe-update
+        chronology and matched closed-loop/no-information Bellman comparators.
+        It reports gross/net, myopic/nonmyopic and conditional sensing value,
+        complete ties, belief/policy trees, horizon value, regret, exact bounds,
+        null-sensor and posterior-martingale assurance.
+    *   Action-dependent learning and dual control are diagnostics; no unique
+        additive dual-control value is claimed.
+    *   PR #807 exact head `35cfe522` completed all 42 terminal-allowed checks
+        with 38 successes, three governed skips and one neutral CodeQL
+        aggregation, including installed-wheel and full-suite assurance. All
+        three review threads were resolved before squash merge `39de9c6a`.
+        Delivery subissues #780–#782 may close. Remaining gates are the named
+        scientific panel, Rust/R/Julia parity, stable promotion, release,
+        parent #597 closure and umbrella #318 closure.
 
 *   [ ] Complete event-localized information value after experimental delivery.
     *   GitHub issue #596; delivery subissues #777–#779; umbrella track
@@ -41,8 +61,10 @@ release, registry, and publication decisions remain separate gates.
         diagnostics, integral assurance, modes, directions, API/CLI and plots.
     *   PR #804 exact head `e6835358` passed all 42 hosted checks with 38
         successes and four governed skips, including installed-wheel and 100%
-        changed-branch assurance, before squash merge `e3a62eba`. Delivery
-        subissues #777–#779 may close. Monetary BPI remains delegated to #595.
+        changed-branch assurance, before squash merge `e3a62eba`; governed
+        closeout PR #805 exact head `d8f5e2e3` then passed all 37 checks and
+        squash-merged as `74113b5a`. Delivery subissues #777–#779 are closed.
+        Monetary BPI remains delegated to #595.
         Remaining gates are the named scientific panel, Rust/R/Julia parity,
         stable promotion, release, parent #596 closure and umbrella #318 closure.
 

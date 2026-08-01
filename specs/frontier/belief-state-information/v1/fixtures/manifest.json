@@ -1,0 +1,19 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "evidence_artifact": "evidence.json",
+  "normative": [
+    {
+      "expected_output_artifact": "normative/expected.json",
+      "input_artifact": "normative/input.json",
+      "method_family": "belief_state_sequential_information_value",
+      "name": "learning-by-intervention nonmyopic counterexample",
+      "reference": "issue-597 exact finite belief-MDP derivation",
+      "tolerance_policy": "declared absolute, relative and probability tolerances"
+    }
+  ],
+  "pathologies": [
+    "one-stage information value is zero while two-stage value is positive",
+    "null sensor reduces to the matched no-information comparator"
+  ]
+}

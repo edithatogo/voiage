@@ -9,6 +9,17 @@
   result assurance. Expectation-only tower identities and complete-tie policy
   diagnostics prevent `rVSI0` from being conflated with policy-switch mass.
 
+- Added an experimental exact finite belief-state sequential information
+  contract with intervention-aware learning, matched Bellman comparators,
+  gross/net and myopic/nonmyopic values, conditional sensing diagnostics,
+  complete policy trees, strict schemas, CLI execution and deterministic
+  assurance. Independent remediation now makes nested input/result validation
+  fail closed, bounds adaptive, no-information, myopic, conditional-sensing and
+  fully observed regret recursion before evaluation, memoizes repeated beliefs,
+  and restricts dual-control diagnostics to state-informative, action-dependent
+  learning with a usable downstream response. Stable and polyglot claims remain
+  gated.
+
 - Add an experimental exact finite event-localized information evaluator with
   perfect and imperfect binary-event VOI, policy-relative information density,
   signed centered diagnostics, strict fixtures, CLI/API and result-only plots.

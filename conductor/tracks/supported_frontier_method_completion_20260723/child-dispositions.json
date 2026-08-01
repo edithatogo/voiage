@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
   "track_id": "supported_frontier_method_completion_20260723",
-  "audited_at": "2026-08-01T10:31:00Z",
-  "source_revision": "e3a62ebacb8f0c80ae78e35fd50970f54c6760d0",
+  "audited_at": "2026-08-01T11:42:36Z",
+  "source_revision": "39de9c6ab2079b55a4666243baff2a5db7f10604",
   "parent_issue": 313,
   "issue": 318,
   "issue_state": "open",
@@ -236,14 +236,22 @@
       "issue": 597,
       "record_id": "belief-state-sequential-information-value",
       "issue_state": "open",
-      "project_status": "Todo",
-      "disposition": "adjacent_only",
-      "maturity": "planned",
-      "satisfies_ac06": false,
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
       "delivery_track": "supported_frontier_method_completion_20260723",
-      "implementation_pull_requests": [],
-      "review_artifacts": [],
-      "adjacent_artifacts": ["sequential", "adaptive", "bandit and monitoring helpers"]
+      "implementation_pull_requests": [807],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/belief-state-information-remediation-review.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/belief-state-information-third-review-remediation.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/belief-state-information-fourth-review-remediation.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/belief-state-information-fifth-review.md"
+      ],
+      "adjacent_artifacts": [
+        "sequential, adaptive, bandit and monitoring helpers",
+        "specs/frontier/belief-state-information/v1"
+      ]
     },
     {
       "issue": 598,

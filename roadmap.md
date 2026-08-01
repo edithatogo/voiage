@@ -18,6 +18,15 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 Across the completed lanes, external registry, hardware, and speedup evidence gates remain explicit rather than treated as repository-owned completion criteria.
 
 The v1.3 residual frontier programme is governed canonically by VOP C18. Issue
+#597 now has experimental Python repository delivery for an exact finite belief
+MDP with control-transition-observe-update chronology, matched closed-loop/no-
+information Bellman comparators, intervention-dependent learning diagnostics
+and explicit null-sensor assurance. PR #807 exact head `35cfe522` passed its
+hosted exact-head, installed-wheel and full-suite matrix before squash merge
+`39de9c6a`; governed closeout commit `f6589d60` retains scientific review,
+polyglot parity, stable promotion, release, parent #597 closure and umbrella
+#318 closure as separate gates.
+
 #596 now has a test-first experimental Python delivery for C18/M27. It evaluates
 perfect event information, a symmetric imperfect binary channel and the
 policy-relative expected-utility density
@@ -27,7 +36,6 @@ result-only plots. Monetary BPI remains delegated to #595. Independent review,
 hosted exact-head checks, scientific approval, Rust/R/Julia parity, stable
 promotion and release remain separate gates.
 
-The v1.3 residual frontier programme is governed canonically by VOP C18. Issue
 #593 now has an experimental Python-only joint information/implementation
 contract and exact finite evaluator. PR #787 exact head `de31458b` passed all
 42 hosted checks (38 successes, one neutral aggregation and three governed
@@ -232,9 +240,10 @@ unweighted MATLAB/Table 3 standard-deviation calculation as a normative
 implementation. Continuous outcomes, fitted estimators, scientific review,
 polyglot parity, stable promotion, release and parent closure remain open.
 The repository-owned branch is locally complete at signed implementation
-commit `6548dda7` with 100% focused statement and branch coverage; fresh
-independent review, hosted exact-head/installed-wheel assurance and merge remain
-mandatory before describing that branch as delivered on the default branch.
+commit `6548dda7`, with value-unit remediation at `aaf77aaf`. Fresh independent
+implementation review found no open Critical, High or Medium finding. Hosted
+exact-head/installed-wheel assurance and merge remain mandatory before
+describing that branch as delivered on the default branch.
 
 Risk-sensitive and constrained VOI (#570) now has experimental exact finite
 Python delivery under C18/M22. PR #769 exact head `f513416f` passed its hosted
