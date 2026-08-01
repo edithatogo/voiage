@@ -4,6 +4,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+For experimental frontier items, references to scientific review mean the
+relevant subagent review panel defined in
+`conductor/tracks/supported_frontier_method_completion_20260723/scientific-review-panel.md`.
+The panel supplies structured evidence; maintainer approval and external
+release, registry, and publication decisions remain separate gates.
+
 *   [ ] Complete static/dynamic heterogeneity value after experimental branch delivery.
     *   GitHub issue #599; delivery subissues #786/#788/#789; umbrella track
         `supported_frontier_method_completion_20260723`; phases F599-1–F599-4;
@@ -12,10 +18,28 @@ This document lists the actionable tasks for `voiage` development. Agents should
         dynamic value, population-common and subgroup-policy EVPI, subgroup
         policies, complete ties, an optional separate EVSI extension and exact
         identities without replacing the stable heterogeneity helper.
-    *   Remaining gates are independent implementation/scientific review,
-        hosted exact-head and changed-coverage assurance, selection-bias and
-        sparse-subgroup scientific validity, Rust/R/Julia parity, stable
-        promotion, release, parent #599 closure and umbrella #318 closure.
+    *   Fresh independent engineering review found and remediated a High
+        model-bound result-assurance defect, then passed with no remaining
+        Critical, High or Medium findings. Remaining gates are hosted exact-
+        head and changed-coverage assurance, named subgroup scientific validity,
+        Rust/R/Julia parity, stable promotion, release, parent #599 closure and
+        umbrella #318 closure.
+
+*   [ ] Complete event-localized information value after experimental delivery.
+    *   GitHub issue #596; delivery subissues #777–#779; umbrella track
+        `supported_frontier_method_completion_20260723`; canonical C18/M27.
+    *   The exact finite Python contract evaluates declared event/complement
+        revelation, symmetric imperfect binary-channel accuracy and the
+        policy-relative EUI density with complete ties, signed centered
+        diagnostics, integral assurance, modes, directions, API/CLI and plots.
+    *   PR #804 exact head `e6835358` passed all 42 hosted checks with 38
+        successes and four governed skips, including installed-wheel and 100%
+        changed-branch assurance, before squash merge `e3a62eba`; governed
+        closeout PR #805 exact head `d8f5e2e3` then passed all 37 checks and
+        squash-merged as `74113b5a`. Delivery subissues #777–#779 are closed.
+        Monetary BPI remains delegated to #595.
+        Remaining gates are the named scientific panel, Rust/R/Julia parity,
+        stable promotion, release, parent #596 closure and umbrella #318 closure.
 
 *   [ ] Complete uncertainty-modelling value after experimental repository delivery.
     *   GitHub issue #594; native subissues #774–#776; Conductor track

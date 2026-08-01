@@ -27,7 +27,15 @@ assurance. Scientific validity, selection-bias and sparse-subgroup review,
 Rust/R/Julia parity, hosted exact-head evidence, stable promotion, release,
 parent #599 closure and umbrella #318 closure remain pending.
 
-Within the same C18 residual programme, issue
+#596 now has a test-first experimental Python delivery for C18/M27. It evaluates
+perfect event information, a symmetric imperfect binary channel and the
+policy-relative expected-utility density
+`f(x) [max_a g_a(x) - g_a*(x)]` on exact finite probability-mass supports,
+with complete ties, signed centered diagnostics, integral assurance and
+result-only plots. Monetary BPI remains delegated to #595. Independent review,
+hosted exact-head checks, scientific approval, Rust/R/Julia parity, stable
+promotion and release remain separate gates.
+
 #593 now has an experimental Python-only joint information/implementation
 contract and exact finite evaluator. PR #787 exact head `de31458b` passed all
 42 hosted checks (38 successes, one neutral aggregation and three governed
