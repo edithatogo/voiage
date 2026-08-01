@@ -4,6 +4,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+For experimental frontier items, references to scientific review mean the
+relevant subagent review panel defined in
+`conductor/tracks/supported_frontier_method_completion_20260723/scientific-review-panel.md`.
+The panel supplies structured evidence; maintainer approval and external
+release, registry, and publication decisions remain separate gates.
+
 *   [ ] Complete event-localized information value after experimental delivery.
     *   GitHub issue #596; delivery subissues #777–#779; umbrella track
         `supported_frontier_method_completion_20260723`; canonical C18/M27.
