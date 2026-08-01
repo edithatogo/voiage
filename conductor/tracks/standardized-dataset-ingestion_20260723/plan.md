@@ -468,3 +468,19 @@ remote/archive/live interoperability and remote-ingestion security are
 successor scope in #752 and #753 and remain externally gated there. P10-T4 is
 the only remaining task for this track: final review, metadata/registry update,
 and archive decision.
+
+### Final Conductor review — 2026-08-01
+
+Review result: **repository validation passes; archive blocked**. The current
+endpoint is `cb8747183a5e159d5f12fa8e292c6e54f55601a7` (PR #756). Full
+Conductor validation, cross-reference validation, v1 programme integrity, and
+the strict-local assurance matrix pass. The review nevertheless found 37
+partial tasks and unchecked P6-T7. These are not promoted from partial to
+complete by the scope refinement alone.
+
+Remaining repository-owned actions are to produce phase-checkpoint receipts
+for P4-T10, P5-T6, P6-T7, P7-T6/P7-T8, P8-T6, and P9-T5; reconcile each receipt
+to the retained strict-local acceptance criteria; and then rerun this review.
+Successor external gates #752 and #753 remain outside this track's archive
+criteria. Until those retained receipts exist, P10-T4 stays `[~]` and the
+track remains active.
