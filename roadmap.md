@@ -17,6 +17,17 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 
 Across the completed lanes, external registry, hardware, and speedup evidence gates remain explicit rather than treated as repository-owned completion criteria.
 
+The v1.3 residual frontier programme is governed canonically by VOP C18. Issue
+#593 now has an experimental Python-only joint information/implementation
+contract and exact finite evaluator; it remains in progress pending hosted
+exact-head assurance, scientific approval, polyglot parity, stable promotion
+and release. The independent repository re-review passed at signed
+review-artifact commit `f945f87b`, with patch-equivalent rebased boundary
+`f52feb28` on PR #787; incomplete hosted checks, scientific review and later
+gates remain open. The existing
+implementation multiplier is retained as a
+compatibility helper and is not described as EVPIM/EVSIM/IA-EVSI.
+
 **June 25 follow-through closeout:** ✅ **ARCHIVED** - The June 25 follow-through queue is complete and archived for its repository-owned implementation and
 evidence slices. Registry approval, external indexing, production accelerator
 speedup, cloud quota, physical FPGA runtime, and fabricated-silicon evidence

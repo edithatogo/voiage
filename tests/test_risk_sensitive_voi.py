@@ -382,7 +382,7 @@ def test_evidence_hashes_pin_the_experimental_delivery_artifacts() -> None:
 def test_c18_m22_and_native_children_are_governed_without_closing_parent() -> None:
     track = ROOT / "conductor/tracks/supported_frontier_method_completion_20260723"
     metadata = _json(track / "metadata.json")
-    assert metadata["canonical_track_extensions"]["C18"] == ["M22", "M23"]
+    assert {"M22", "M23", "M25"} <= set(metadata["canonical_track_extensions"]["C18"])
     assert "M22" in metadata["planned_version_extensions"]["1.3.0"]
     child_urls = {
         f"https://github.com/edithatogo/voiage/issues/{issue}"

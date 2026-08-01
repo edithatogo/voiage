@@ -5,9 +5,11 @@
 Complete, consolidate, demote or explicitly exclude every accepted frontier method family with honest maturity and language dispositions.
 The specialized estimation, study-efficiency and VoC governance slice targets
 v1.2.0 under canonical C16. The additive-MCDA continuation targets v1.3.0
-under canonical C17 requirement M21 without relabelling the C16 predecessor.
-The forecast-signal continuation targets v1.3.0 under canonical C18
-requirement M23 without rewriting the C17 additive-MCDA contract.
+under canonical C17 requirement M21, while residual frontier families target
+v1.3.0 under canonical C18 requirements M22–M31, without relabelling either
+predecessor.
+The forecast-signal continuation is governed specifically by C18/M23 without
+rewriting the C17 additive-MCDA contract.
 
 Owning issue: [#318](https://github.com/edithatogo/voiage/issues/318). Parent programme issue [#313](https://github.com/edithatogo/voiage/issues/313).
 Project: [VOP–VOIAGE Conductor Roadmap](https://github.com/users/edithatogo/projects/28).

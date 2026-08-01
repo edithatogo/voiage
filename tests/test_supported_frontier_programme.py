@@ -86,6 +86,7 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
         571,
         572,
         582,
+        593,
         595,
         619,
     }
@@ -120,6 +121,7 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
     assert delivered[560]["review_artifacts"][-1].endswith(
         "mcda-information-implementation-review.md"
     )
+    assert delivered[593]["implementation_pull_requests"] == [787]
     assert delivered[595]["implementation_pull_requests"] == [712]
     assert delivered[619]["implementation_pull_requests"] == [676]
 

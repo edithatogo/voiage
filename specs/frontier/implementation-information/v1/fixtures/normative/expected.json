@@ -1,0 +1,421 @@
+{
+  "analysis_id": "screening-implementation-information",
+  "analysis_type": "implementation_information_decomposition",
+  "assurance": {
+    "estimator": "exact_finite_enumeration",
+    "implementation_information_independence_assumed": false,
+    "language_dispositions": {
+      "Julia": "not_implemented",
+      "Mojo": "not_implemented",
+      "Python": "experimental_runtime",
+      "R": "not_implemented",
+      "Rust": "not_implemented"
+    },
+    "signal_dependent_post_sample_implementation_supported": true,
+    "state_dependent_current_implementation_observed": true,
+    "tie_policy": "complete_ties_sorted_by_action_id",
+    "tie_tolerance": 1e-12
+  },
+  "chronology": [
+    "current decision",
+    "optional sample signal",
+    "implementation response",
+    "outcome realization"
+  ],
+  "decision_switches": {
+    "current_to_perfect_implementation": false,
+    "current_to_perfect_information": true,
+    "current_to_specific_implementation": false,
+    "sample_information": {
+      "favourable": [
+        "new"
+      ],
+      "unfavourable": [
+        "standard"
+      ]
+    }
+  },
+  "discounted_time_factor": 1.0,
+  "gross_components": {
+    "evp": 2000.0,
+    "evpi_under_perfect_implementation": 2000.0,
+    "evpim": 0.0,
+    "evsim": 399.9999999999986,
+    "ia_evsi": 1000.0,
+    "interaction": 1600.0000000000014,
+    "realizable_evpi": 399.9999999999986
+  },
+  "identity_residuals": {
+    "evp_equals_realizable_evpi_plus_evpim_plus_interaction": 0.0,
+    "perfect_implementation_evpi_equals_evp_minus_evpim": 0.0
+  },
+  "implementation_audit": {
+    "current": {
+      "high": {
+        "new": {
+          "new": 0.6,
+          "standard": 0.4
+        },
+        "standard": {
+          "new": 0.0,
+          "standard": 1.0
+        }
+      },
+      "low": {
+        "new": {
+          "new": 0.2,
+          "standard": 0.8
+        },
+        "standard": {
+          "new": 0.0,
+          "standard": 1.0
+        }
+      }
+    },
+    "perfect": {
+      "high": {
+        "new": {
+          "new": 1.0,
+          "standard": 0.0
+        },
+        "standard": {
+          "new": 0.0,
+          "standard": 1.0
+        }
+      },
+      "low": {
+        "new": {
+          "new": 1.0,
+          "standard": 0.0
+        },
+        "standard": {
+          "new": 0.0,
+          "standard": 1.0
+        }
+      }
+    },
+    "post_sample_by_signal": {
+      "favourable": {
+        "high": {
+          "new": {
+            "new": 0.8,
+            "standard": 0.2
+          },
+          "standard": {
+            "new": 0.0,
+            "standard": 1.0
+          }
+        },
+        "low": {
+          "new": {
+            "new": 0.4,
+            "standard": 0.6
+          },
+          "standard": {
+            "new": 0.0,
+            "standard": 1.0
+          }
+        }
+      },
+      "unfavourable": {
+        "high": {
+          "new": {
+            "new": 0.6,
+            "standard": 0.4
+          },
+          "standard": {
+            "new": 0.0,
+            "standard": 1.0
+          }
+        },
+        "low": {
+          "new": {
+            "new": 0.2,
+            "standard": 0.8
+          },
+          "standard": {
+            "new": 0.0,
+            "standard": 1.0
+          }
+        }
+      }
+    },
+    "specific": {
+      "high": {
+        "new": {
+          "new": 0.8,
+          "standard": 0.2
+        },
+        "standard": {
+          "new": 0.0,
+          "standard": 1.0
+        }
+      },
+      "low": {
+        "new": {
+          "new": 0.4,
+          "standard": 0.6
+        },
+        "standard": {
+          "new": 0.0,
+          "standard": 1.0
+        }
+      }
+    }
+  },
+  "matrix": {
+    "current_information_current_implementation": {
+      "aggregate_value": 12000.0,
+      "per_person_time_value": 12.0,
+      "policy_ties": {
+        "all": [
+          "new"
+        ]
+      },
+      "state_action_values": {
+        "high": {
+          "new": 14.799999999999999,
+          "standard": 10.0
+        },
+        "low": {
+          "new": 9.2,
+          "standard": 10.0
+        }
+      }
+    },
+    "current_information_perfect_implementation": {
+      "aggregate_value": 12000.0,
+      "per_person_time_value": 12.0,
+      "policy_ties": {
+        "all": [
+          "new"
+        ]
+      },
+      "state_action_values": {
+        "high": {
+          "new": 18.0,
+          "standard": 10.0
+        },
+        "low": {
+          "new": 6.0,
+          "standard": 10.0
+        }
+      }
+    },
+    "current_information_specific_implementation": {
+      "aggregate_value": 12399.999999999998,
+      "per_person_time_value": 12.399999999999999,
+      "policy_ties": {
+        "all": [
+          "new"
+        ]
+      },
+      "state_action_values": {
+        "high": {
+          "new": 16.4,
+          "standard": 10.0
+        },
+        "low": {
+          "new": 8.4,
+          "standard": 10.0
+        }
+      }
+    },
+    "perfect_information_current_implementation": {
+      "aggregate_value": 12399.999999999998,
+      "per_person_time_value": 12.399999999999999,
+      "policy_ties": {
+        "high": [
+          "new"
+        ],
+        "low": [
+          "standard"
+        ]
+      },
+      "state_action_values": {
+        "high": {
+          "new": 14.799999999999999,
+          "standard": 10.0
+        },
+        "low": {
+          "new": 9.2,
+          "standard": 10.0
+        }
+      }
+    },
+    "perfect_information_perfect_implementation": {
+      "aggregate_value": 14000.0,
+      "per_person_time_value": 14.0,
+      "policy_ties": {
+        "high": [
+          "new"
+        ],
+        "low": [
+          "standard"
+        ]
+      },
+      "state_action_values": {
+        "high": {
+          "new": 18.0,
+          "standard": 10.0
+        },
+        "low": {
+          "new": 6.0,
+          "standard": 10.0
+        }
+      }
+    },
+    "perfect_information_specific_implementation": {
+      "aggregate_value": 13200.0,
+      "per_person_time_value": 13.2,
+      "policy_ties": {
+        "high": [
+          "new"
+        ],
+        "low": [
+          "standard"
+        ]
+      },
+      "state_action_values": {
+        "high": {
+          "new": 16.4,
+          "standard": 10.0
+        },
+        "low": {
+          "new": 8.4,
+          "standard": 10.0
+        }
+      }
+    },
+    "sample_information_post_sample_implementation": {
+      "aggregate_value": 13000.0,
+      "per_person_time_value": 13.0,
+      "policy_ties": {
+        "favourable": [
+          "new"
+        ],
+        "unfavourable": [
+          "standard"
+        ]
+      },
+      "signal_action_joint_values": {
+        "favourable": {
+          "new": 7.999999999999999,
+          "standard": 5.0
+        },
+        "unfavourable": {
+          "new": 4.739999999999999,
+          "standard": 5.0
+        }
+      }
+    }
+  },
+  "method_maturity": "experimental",
+  "net_components": {
+    "evp": 1700.0,
+    "evpim": -200.0,
+    "evsim": 349.9999999999986,
+    "ia_evsi": 925.0,
+    "realizable_evpi": 299.9999999999986
+  },
+  "population": 1000.0,
+  "schema_version": "v1",
+  "terminology": {
+    "EVEIm": "review_candidate_for_expected_value_of_eliminating_implementation_imperfection",
+    "EVSEIm": "review_candidate_for_expected_value_of_a_specific_implementation_intervention",
+    "status": "presentation_alias_candidates_not_new_estimands"
+  },
+  "uptake_changes": {
+    "perfect_minus_current": {
+      "high": {
+        "new": {
+          "new": 0.4,
+          "standard": -0.4
+        },
+        "standard": {
+          "new": 0.0,
+          "standard": 0.0
+        }
+      },
+      "low": {
+        "new": {
+          "new": 0.8,
+          "standard": -0.8
+        },
+        "standard": {
+          "new": 0.0,
+          "standard": 0.0
+        }
+      }
+    },
+    "post_sample_minus_current_by_signal": {
+      "favourable": {
+        "high": {
+          "new": {
+            "new": 0.20000000000000007,
+            "standard": -0.2
+          },
+          "standard": {
+            "new": 0.0,
+            "standard": 0.0
+          }
+        },
+        "low": {
+          "new": {
+            "new": 0.2,
+            "standard": -0.20000000000000007
+          },
+          "standard": {
+            "new": 0.0,
+            "standard": 0.0
+          }
+        }
+      },
+      "unfavourable": {
+        "high": {
+          "new": {
+            "new": 0.0,
+            "standard": 0.0
+          },
+          "standard": {
+            "new": 0.0,
+            "standard": 0.0
+          }
+        },
+        "low": {
+          "new": {
+            "new": 0.0,
+            "standard": 0.0
+          },
+          "standard": {
+            "new": 0.0,
+            "standard": 0.0
+          }
+        }
+      }
+    },
+    "specific_minus_current": {
+      "high": {
+        "new": {
+          "new": 0.20000000000000007,
+          "standard": -0.2
+        },
+        "standard": {
+          "new": 0.0,
+          "standard": 0.0
+        }
+      },
+      "low": {
+        "new": {
+          "new": 0.2,
+          "standard": -0.20000000000000007
+        },
+        "standard": {
+          "new": 0.0,
+          "standard": 0.0
+        }
+      }
+    }
+  },
+  "value_unit": "AUD"
+}

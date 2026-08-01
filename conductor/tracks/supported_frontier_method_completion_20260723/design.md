@@ -1,5 +1,25 @@
 # Mermaid design — planned v1.2.0 and v1.3.0
 
+## Implementation-information decomposition
+
+```mermaid
+flowchart LR
+    States["Uncertain states + net benefit by action"] --> Cells["Four joint value cells"]
+    Current["State- and policy-dependent current implementation"] --> Cells
+    Perfect["Perfect implementation"] --> Cells
+    Specific["Specific implementation intervention"] --> Extra["EVSIM cells"]
+    Signals["Sampling likelihood + signal-dependent implementation"] --> Sample["IA-EVSI cell"]
+    Cells --> Matrix["Current/perfect information x current/perfect implementation matrix"]
+    Extra --> Components["EVPIM, EVSIM, realizable EVPI, EVP"]
+    Sample --> Components
+    Matrix --> Components
+    Components --> Interaction["Interaction + exact identity residuals"]
+    Costs["Action-specific aggregate costs"] --> Net["Signed net components"]
+    Components --> Net
+    Interaction --> Assurance["Complete ties, switches, provenance and language dispositions"]
+    Assurance --> Boundary["EVEIm/EVSEIm are candidate labels; no independence or stable claim"]
+```
+
 ## Forecast and signal information value
 
 ```mermaid

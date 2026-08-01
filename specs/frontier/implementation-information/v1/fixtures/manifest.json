@@ -1,0 +1,21 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "normative": [
+    {
+      "name": "state-dependent implementation and signal response",
+      "method_family": "implementation_information_decomposition",
+      "input_artifact": "normative/input.json",
+      "expected_output_artifact": "normative/expected.json",
+      "reference": "conductor/tracks/supported_frontier_method_completion_20260723/implementation-information-reference-review.md",
+      "tolerance_policy": "exact-finite-enumeration-with-declared-tie-tolerance"
+    }
+  ],
+  "pathologies": [
+    "probabilities that do not sum to one",
+    "missing state-action uptake cells",
+    "non-finite net benefit",
+    "zero population",
+    "incomplete signal likelihoods"
+  ]
+}

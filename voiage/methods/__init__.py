@@ -33,6 +33,10 @@ if TYPE_CHECKING:
         ForecastSignalInformationResult,
         forecast_signal_information_value,
     )
+    from .implementation_information import (
+        ImplementationInformationResult,
+        implementation_information_value,
+    )
     from .information_source_portfolio import (
         InformationSourcePortfolioResult,
         information_source_portfolio_value,
@@ -75,6 +79,7 @@ _MODULES = (
     "forecast_signal_information",
     "heterogeneity",
     "implementation",
+    "implementation_information",
     "implementation_strategy",
     "interoperability_standardization",
     "information_source_portfolio",
@@ -136,6 +141,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "ForecastSignalInformationResult",
     "HeterogeneityResult",
     "ImplementationAdjustedResult",
+    "ImplementationInformationResult",
     "ImplementationStrategyComparisonResult",
     "InformationSourcePortfolioResult",
     "InteroperabilityStandardizationResult",
@@ -178,6 +184,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "expected_utility_information_value",
     "forecast_signal_information_value",
     "identify_optimal_subgroups",
+    "implementation_information_value",
     "information_source_portfolio_value",
     "mcda_information_value",
     "perspective_optimal_strategies",

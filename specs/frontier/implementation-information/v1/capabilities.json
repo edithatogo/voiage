@@ -1,0 +1,29 @@
+{
+  "contract_version": "v1",
+  "method_family": "implementation_information_decomposition",
+  "maturity": "experimental",
+  "estimands": [
+    "EVPIM",
+    "EVSIM",
+    "realizable EVPI",
+    "EVP",
+    "IA-EVSI",
+    "information-implementation interaction"
+  ],
+  "terminology_candidates": ["EVEIm", "EVSEIm"],
+  "implementation_dependence": "state- and signal-dependent uptake is explicit",
+  "languages": {
+    "Python": "experimental_runtime",
+    "Rust": "not_implemented",
+    "R": "not_implemented",
+    "Julia": "not_implemented",
+    "Mojo": "not_implemented"
+  },
+  "python_modules": ["voiage/methods/implementation_information.py"],
+  "unsupported": [
+    "continuous-state integration",
+    "causal identification of uptake",
+    "automatic population or time extrapolation",
+    "stable or polyglot execution"
+  ]
+}

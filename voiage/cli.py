@@ -120,6 +120,9 @@ from voiage.methods.implementation import (
     ImplementationAdjustedResult,
     value_of_implementation,
 )
+from voiage.methods.implementation_information import (
+    implementation_information_value as calculate_implementation_information_result,
+)
 from voiage.methods.implementation_strategy import (
     value_of_implementation_strategy_comparison as calculate_implementation_strategy_result,
 )
@@ -3585,6 +3588,58 @@ def calculate_mcda_information(
             f"preference {float(decomposition['preference_gross_voi']):.6f}; "
             f"interaction {float(decomposition['interaction']):.6f} "
             f"{contract['aggregate_unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-implementation-information")
+def calculate_implementation_information(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to an implementation-information v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the implementation-information result",
+    ),
+) -> None:
+    """Evaluate the experimental finite information/implementation matrix."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError(
+                "Implementation-information specification must be an object."
+            )
+        result = calculate_implementation_information_result(
+            cast("dict[str, object]", payload)
+        )
+        contract = result.to_contract_dict()
+        gross = cast("dict[str, object]", contract["gross_components"])
+        output_text = _format_output(
+            "Implementation-information value: "
+            f"EVP {float(gross['evp']):.6f}; "
+            f"realizable EVPI {float(gross['realizable_evpi']):.6f}; "
+            f"EVPIM {float(gross['evpim']):.6f} {contract['value_unit']}",
             contract,
         )
         typer.echo(output_text)

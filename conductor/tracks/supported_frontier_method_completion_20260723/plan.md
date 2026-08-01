@@ -78,6 +78,27 @@
   `e8aaba82`. VOP run `30684893440` and VOIAGE receiver run `30684980076`
   verified the canonical v1.3 projection without opening a drift PR.
 
+- [x] **F593-1 / #766:** Freeze #593's four-cell information/implementation
+  estimands, v1.3.0 M25 requirements, Mermaid flow, primary-reference review,
+  non-independence boundary and terminology-candidate status. (AC-02, AC-03,
+  AC-09) `9cc93c63`
+- [x] **F593-2 / #767:** Add strict portable v1 input/result schemas, an exact
+  state-dependent normative fixture, current/specific/perfect and signal-
+  dependent implementation contracts, population/time/cost semantics and
+  explicit language dispositions. (AC-02–AC-06) `9cc93c63`
+- [x] **F593-3 / #767:** Implement the exact experimental Python evaluator,
+  current/perfect-information by current/perfect-implementation matrix, EVSIM,
+  IA-EVSI, interaction identities, complete ties and CLI/API surfaces without
+  an independence assumption. (AC-02–AC-05) `9cc93c63`
+- [~] **F593-4 / #768:** Complete independent implementation/scientific review,
+  hosted exact-head and installed-wheel assurance, then reconcile #593 without
+  claiming polyglot parity, stable promotion, release or parent closure.
+  Independent repository implementation re-review passed with no open findings
+  at signed review-artifact commit `f945f87b`, and the patch-equivalent rebased
+  review boundary is `f52feb28` on PR #787; named scientific review, incomplete
+  hosted exact-head checks, installed-wheel, parity, promotion, release and
+  closure gates remain pending.
+
 - [x] **F572-1 / #760:** Freeze #572's C18/M23 forecast-signal decision
   estimand, strict input/result schemas, analytical newsvendor fixture,
   provenance, timing, cost, calibration and explicit language dispositions.

@@ -13,6 +13,15 @@
   price; and expose strict Python, CLI, schema and fixture surfaces. Forecast
   training, stable promotion and polyglot parity remain gated.
 
+- Add an experimental exact finite implementation-information decomposition
+  for EVPIM, EVSIM, realizable EVPI, EVP, IA-EVSI and their interaction. The
+  strict v1 contract exposes state/action cell values, realised-action uptake,
+  uptake changes, complete ties, costs, population/time scaling and identity
+  residuals without assuming implementation is independent of information.
+  The legacy `value_of_implementation` multiplier remains available as a
+  separate compatibility surface; scientific review, polyglot parity, stable
+  promotion and release remain gated.
+
 - Add experimental exact finite information-source portfolio VOI from a
   declared joint-world law, including governed procurement constraints,
   complete ties, gross/net value, willingness to pay, conditional marginals,

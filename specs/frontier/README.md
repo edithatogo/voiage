@@ -19,6 +19,9 @@ registry used to keep them aligned.
 - `mcda-information/`: experimental exact finite additive-MCDA
   perfect-information contracts, correlated-state fixtures, Python/CLI
   execution, and accessible information-value and rank-acceptability plots.
+- `implementation-information/`: experimental exact finite EVPIM, EVSIM,
+  realizable-EVPI, EVP and IA-EVSI decomposition with explicit state- and
+  signal-dependent implementation and no independence assumption.
 - `forecast-signal-information/`: experimental exact finite decision value for
   declared probabilistic forecast artifacts, timing, calibration and cost.
 - `validation/`: model-validation and discrepancy-reduction contracts.
