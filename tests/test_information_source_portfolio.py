@@ -1,0 +1,134 @@
+"""Exact contract assurance for dependent information-source portfolios."""
+
+# pyright: reportAny=false, reportExplicitAny=false, reportUnknownMemberType=false, reportUnknownVariableType=false
+
+from __future__ import annotations
+
+from copy import deepcopy
+import json
+from pathlib import Path
+from typing import Any
+
+from jsonschema import Draft202012Validator
+import pytest
+
+from voiage.exceptions import InputError
+from voiage.methods.information_source_portfolio import (
+    information_source_portfolio_value,
+)
+
+ROOT = Path(__file__).parents[1]
+CONTRACT = ROOT / "specs/frontier/information-source-portfolio/v1"
+INPUT = CONTRACT / "fixtures/normative/input.json"
+EXPECTED = CONTRACT / "fixtures/normative/expected.json"
+
+
+def _json(path: Path) -> dict[str, Any]:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _input() -> dict[str, Any]:
+    return _json(INPUT)
+
+
+def test_normative_joint_portfolio_matches_independent_reference() -> None:
+    result = information_source_portfolio_value(_input()).to_contract_dict()
+    expected = _json(EXPECTED)
+    assert result["baseline"]["value"] == pytest.approx(expected["baseline_value"])
+    assert result["optimum"]["source_sequence"] == expected["selected_sequence"]
+    assert result["optimum"]["gross_value"] == pytest.approx(expected["gross_value"])
+    assert result["optimum"]["net_value"] == pytest.approx(expected["net_value"])
+    assert [item["gross_marginal_value"] for item in result["conditional_marginals"]] == pytest.approx(expected["conditional_marginals"])
+    assert [item["gross_attribution"] for item in result["attribution"]] == pytest.approx(expected["gross_attribution"])
+
+
+def test_redundant_duplicate_has_zero_conditional_value() -> None:
+    payload = _input()
+    payload["constraints"]["required_coverage"] = ["clinical"]
+    payload["constraints"]["max_sources"] = 2
+    result = information_source_portfolio_value(payload).to_contract_dict()
+    redundant = next(
+        item
+        for item in result["evaluated_sequences"]
+        if item["source_sequence"] == ["registry", "survey"]
+    )
+    assert redundant["gross_value"] == pytest.approx(10.0)
+    assert redundant["conditional_marginals"][1]["gross_marginal_value"] == pytest.approx(0.0)
+
+
+def test_complementary_sources_are_not_additive_evsi_scores() -> None:
+    result = information_source_portfolio_value(_input()).to_contract_dict()
+    by_sequence = {
+        tuple(item["source_sequence"]): item
+        for item in result["evaluated_sequences"]
+    }
+    registry = by_sequence[("registry",)]["gross_value"]
+    sensor = by_sequence[("sensor",)]["gross_value"]
+    joint = by_sequence[("registry", "sensor")]["gross_value"]
+    assert joint > registry + sensor
+    assert result["assurance"]["independent_additive_evsi_used"] is False
+
+
+def test_complete_sequence_and_policy_ties_are_preserved() -> None:
+    payload = _input()
+    payload["sources"] = [payload["sources"][0]]
+    payload["constraints"]["required_coverage"] = ["clinical"]
+    payload["constraints"]["max_sources"] = 1
+    payload["sources"][0]["cost"] = 0.0
+    for state in payload["states"]:
+        state["source_observations"] = {
+            "survey": state["source_observations"]["survey"]
+        }
+    result = information_source_portfolio_value(payload).to_contract_dict()
+    assert result["baseline"]["action_tie"] == ["act00", "act01", "act10", "act11"]
+    assert result["optimum"]["selected_sequence"] == ["survey"]
+    assert all(len(item["action_tie"]) == 2 for item in result["optimum"]["partitions"])
+
+
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        (lambda data: data["sources"][0]["rights"].update({"status": "uncleared"}), "rights"),
+        (lambda data: data["states"][0]["source_observations"].pop("sensor"), "observation"),
+        (lambda data: data["states"][0].update({"probability": 0.4}), "probabilities"),
+        (lambda data: data["sources"][0].update({"cost_unit": "USD"}), "unit"),
+        (lambda data: None, "cycle"),
+    ],
+)
+def test_pathologies_fail_closed(mutation: Any, message: str) -> None:
+    payload = _input()
+    if message == "cycle":
+        payload["sources"][1]["must_precede"] = ["sensor"]
+        payload["sources"][2]["must_precede"] = ["registry"]
+    mutation(payload)
+    with pytest.raises(InputError, match=message):
+        information_source_portfolio_value(payload)
+
+
+def test_strict_schemas_validate_normative_contracts() -> None:
+    input_schema = _json(CONTRACT / "schemas/input.schema.json")
+    result_schema = _json(CONTRACT / "schemas/result.schema.json")
+    Draft202012Validator(input_schema).validate(_input())
+    Draft202012Validator(result_schema).validate(
+        information_source_portfolio_value(_input()).to_contract_dict()
+    )
+    invalid = deepcopy(_input())
+    invalid["unexpected"] = True
+    assert list(Draft202012Validator(input_schema).iter_errors(invalid))
+
+
+def test_source_order_and_input_order_do_not_change_the_optimum() -> None:
+    payload = _input()
+    forward = information_source_portfolio_value(payload).to_contract_dict()
+    payload["sources"].reverse()
+    payload["states"].reverse()
+    reverse = information_source_portfolio_value(payload).to_contract_dict()
+    assert forward["optimum"] == reverse["optimum"]
+    assert forward["evaluated_sequences"] == reverse["evaluated_sequences"]
+
+
+def test_result_copy_is_independent() -> None:
+    result = information_source_portfolio_value(_input())
+    first = result.to_contract_dict()
+    first["optimum"]["source_sequence"].append("tampered")
+    assert "tampered" not in result.to_contract_dict()["optimum"]["source_sequence"]

@@ -1,0 +1,9 @@
+{
+  "case_id": "order-cycle",
+  "base_fixture": "../normative/input.json",
+  "mutations": [
+    {"path": "/sources/1/must_precede", "value": ["sensor"]},
+    {"path": "/sources/2/must_precede", "value": ["registry"]}
+  ],
+  "expected_error_contains": "cycle"
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "method": "information_source_portfolio_value",
+  "authority": "independent finite enumeration and pathology mutations",
+  "files": [
+    {"path": "normative/input.json", "sha256": "eb0b154b2dfbe3c8259f78da7c2203be616310637bc3cc78e63b2d63c8203587"},
+    {"path": "normative/expected.json", "sha256": "683979dae9cb8f862fab92d94252e196348d099acb4bb9e33d2e90d45feaf9da"},
+    {"path": "cases/incomplete-joint-observation.json", "sha256": "00b512b070c1e3587535eef1eb421ec27afac1ec0a0b33527dbbe92ce283ede8"},
+    {"path": "cases/order-cycle.json", "sha256": "3ef2c28552438bbcaf1b12552fb849e102c2226ec36c956fca6b12f441283a38"},
+    {"path": "cases/rights-uncleared.json", "sha256": "840b4c6e9ecae7aad5be0ee4d0509cc12d98c16f438a7c4eef0fe506efb501d3"},
+    {"path": "../schemas/input.schema.json", "sha256": "dfdbda6e2e239815b9cada0bfd4665ca59bc87caf14ad6130724013554941b45"},
+    {"path": "../schemas/result.schema.json", "sha256": "6fffac3024e148b37bc1f71c32ad9be286b6691baa17252ea835575961c4c416"}
+  ]
+}
