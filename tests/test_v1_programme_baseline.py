@@ -11,6 +11,7 @@ BASELINE_PATH = Path("conductor/v1-programme-baseline.json")
 TRACK_ID = "mature-hardened-v1-release-programme_20260719"
 ACTIVE_TRACK_IDS = [
     "conductor-github-cross-reference-reconciliation_20260724",
+    "controlled_live_dataset_interoperability_20260801",
     "datasets_worked_examples_20260723",
     "estimation_focused_variance_voi_20260727",
     "external_voi_library_feature_parity_20260723",
@@ -20,6 +21,7 @@ ACTIVE_TRACK_IDS = [
     "research_contribution_ai_transparency_20260723",
     "research_software_registry_readiness_20260721",
     "risk_adjusted_information_pricing_20260731",
+    "remote_dataset_ingestion_security_20260801",
     "rust_polyglot_voi_completion_20260723",
     "stable_voi_rust_core_completion_20260723",
     "standardized-dataset-ingestion_20260723",
@@ -68,6 +70,7 @@ def test_v1_programme_baseline_classifies_tracks_and_execution_lanes() -> None:
         "historical_groundwork": "conductor/archive/",
         "post_v1_or_optional": [
             "conductor-github-cross-reference-reconciliation_20260724",
+            "controlled_live_dataset_interoperability_20260801",
             "datasets_worked_examples_20260723",
             "estimation_focused_variance_voi_20260727",
             "external_voi_library_feature_parity_20260723",
@@ -77,6 +80,7 @@ def test_v1_programme_baseline_classifies_tracks_and_execution_lanes() -> None:
             "research_contribution_ai_transparency_20260723",
             "research_software_registry_readiness_20260721",
             "risk_adjusted_information_pricing_20260731",
+            "remote_dataset_ingestion_security_20260801",
             "rust_polyglot_voi_completion_20260723",
             "stable_voi_rust_core_completion_20260723",
             "standardized-dataset-ingestion_20260723",
