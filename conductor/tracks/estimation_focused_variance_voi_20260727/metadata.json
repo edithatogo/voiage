@@ -52,10 +52,10 @@
       "evidence": "User request dated 2026-07-27."
     },
     {
-      "id": "scientific-classification-review",
-      "kind": "scientific_review",
-      "status": "pending",
-      "evidence": "Required before stable method-registry promotion."
+      "id": "scientific-review-panel",
+      "kind": "repository_review",
+      "status": "satisfied",
+      "evidence": "Relevant estimand, numerical, and API/boundary subagent panel passed the experimental scalar scope in scientific-review-panel-20260801.md; vector scalarization, parity, stable promotion, release, and issue closure remain pending."
     },
     {
       "id": "hosted-required-checks",

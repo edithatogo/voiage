@@ -76,9 +76,12 @@
 
 ## Phase 6 — External promotion and delivery gates
 
-- [ ] **E17:** Obtain scientific classification review before any stable
+- [x] **E17:** Obtain scientific classification review before any stable
   method-registry promotion, including a reviewed disposition for vector
-  covariance scalarization. (AC-01, AC-02)
+  covariance scalarization. The relevant subagent review panel passed the
+  experimental scalar scope; vector scalarization remains fail-closed and
+  stable promotion remains pending. See `scientific-review-panel-20260801.md`.
+  (AC-01, AC-02) [panel-20260801]
 - [ ] **E18:** Rebase onto the then-current protected base, merge the approved
   implementation and canonical-sync pull requests, and handle stable
   promotion, release and issue closure only through their separate governed
