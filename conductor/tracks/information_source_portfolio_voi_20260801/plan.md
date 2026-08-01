@@ -2,10 +2,10 @@
 
 ## Phase 1 — Contract and evidence
 
-- [~] **ISP1:** Freeze the finite joint-world estimand, MoSCoW requirements,
+- [x] **ISP1:** Freeze the finite joint-world estimand, MoSCoW requirements,
   Mermaid design, constraints, exclusions and exact-search assurance. (AC-01,
-  AC-05)
-- [ ] **ISP2:** Add strict schemas plus complementary, redundant, correlated
+  AC-05) `57e30b07`
+- [~] **ISP2:** Add strict schemas plus complementary, redundant, correlated
   and pathological fixtures with independent reference expectations. (AC-02,
   AC-04)
 
