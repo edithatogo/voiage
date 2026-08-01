@@ -50,12 +50,23 @@ def _ties(
     absolute: float,
     relative: float,
 ) -> list[str]:
-    best = min(values.values()) if direction == "minimize" else max(values.values())
+    best = _best_value(values, direction)
     return sorted(
         key
         for key, value in values.items()
         if math.isclose(value, best, abs_tol=absolute, rel_tol=relative)
     )
+
+
+def _best_value(values: Mapping[str, float], direction: str) -> float:
+    """Return the mathematical optimum without applying reporting tolerance."""
+    return min(values.values()) if direction == "minimize" else max(values.values())
+
+
+def _exact_best_id(values: Mapping[str, float], direction: str) -> str:
+    """Select lexically only among policies attaining the exact optimum."""
+    best = _best_value(values, direction)
+    return min(key for key, value in values.items() if value == best)
 
 
 def _policy_outcomes(policy: Mapping[str, Any]) -> dict[str, Mapping[str, Any]]:
@@ -84,7 +95,7 @@ def _evaluate(data: dict[str, Any]) -> dict[str, Any]:
         for candidate in candidates
     }
     ev_tie = _ties(point_values, direction, absolute, relative)
-    selected_candidate_id = ev_tie[0]
+    selected_candidate_id = _exact_best_id(point_values, direction)
     selected_candidate = next(
         candidate
         for candidate in candidates
@@ -145,7 +156,8 @@ def _evaluate(data: dict[str, Any]) -> dict[str, Any]:
     if not feasible_policy_values:
         raise ValueError("recourse problem has no policy feasible in every state")
     rp_tie = _ties(feasible_policy_values, direction, absolute, relative)
-    rp_value = feasible_policy_values[rp_tie[0]]
+    selected_rp_policy_id = _exact_best_id(feasible_policy_values, direction)
+    rp_value = _best_value(feasible_policy_values, direction)
 
     ws_states: list[dict[str, Any]] = []
     for state in sorted(states, key=lambda item: item["state_id"]):
@@ -158,13 +170,14 @@ def _evaluate(data: dict[str, Any]) -> dict[str, Any]:
         if not feasible:  # pragma: no cover - RP feasibility proves this invariant
             raise ValueError(f"wait-and-see problem infeasible in state {state_id}")
         state_tie = _ties(feasible, direction, absolute, relative)
+        selected_state_policy_id = _exact_best_id(feasible, direction)
         ws_states.append(
             {
                 "state_id": state_id,
                 "probability": probabilities[state_id],
                 "policy_tie": state_tie,
-                "selected_policy_id": state_tie[0],
-                "objective_value": feasible[state_tie[0]],
+                "selected_policy_id": selected_state_policy_id,
+                "objective_value": _best_value(feasible, direction),
             }
         )
     ws_value = math.fsum(
@@ -215,7 +228,7 @@ def _evaluate(data: dict[str, Any]) -> dict[str, Any]:
         "recourse_problem": {
             "value": rp_value,
             "policy_tie": rp_tie,
-            "selected_policy_id": rp_tie[0],
+            "selected_policy_id": selected_rp_policy_id,
         },
         "wait_and_see": {"value": ws_value, "state_solutions": ws_states},
         "decomposition": {

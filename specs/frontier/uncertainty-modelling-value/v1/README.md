@@ -19,6 +19,9 @@ decision for each shared history node. Histories partition the finite states at
 every recourse stage. Feasible state objectives, scenario probabilities,
 objective direction and common value units are explicit. The evaluator does
 not buy, observe or price information; EVPI is a diagnostic upper contrast.
+Later-stage partitions must refine earlier partitions and declared available
+information must be cumulative, so crossing histories or forgotten signals
+cannot masquerade as a coherent filtration.
 
 The two-stage fixture is a nonlinear point-estimate counterexample. The
 deterministic objective at the mean selects a policy whose expected uncertain

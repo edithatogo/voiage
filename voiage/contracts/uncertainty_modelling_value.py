@@ -4,14 +4,14 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping
+from itertools import pairwise
 import math
 from typing import TYPE_CHECKING, Any, Final, cast
 
 from jsonschema import Draft202012Validator
 
 if TYPE_CHECKING:
-    from collections.abc import Mapping
-
     from jsonschema.exceptions import ValidationError
 
 _ID: Final[dict[str, object]] = {
@@ -608,6 +608,13 @@ def validate_uncertainty_modelling_value_semantics(
     ):
         raise ValueError("stages require unique identifiers and contiguous order")
     first_stage = stage_ids[orders.index(1)]
+    ordered_stages = sorted(stages, key=lambda stage: int(stage["order"]))
+    previous_information: set[str] = set()
+    for stage in ordered_stages:
+        available = set(cast("list[str]", stage["information_available"]))
+        if not previous_information.issubset(available):
+            raise ValueError("information available must be cumulative across stages")
+        previous_information = available
     histories = cast("list[dict[str, Any]]", data["histories"])
     history_ids = [str(history["history_id"]) for history in histories]
     if len(history_ids) != len(set(history_ids)):
@@ -631,6 +638,26 @@ def validate_uncertainty_modelling_value_semantics(
             raise ValueError(
                 "histories must partition states once at each recourse stage"
             )
+    recourse_stage_ids = [
+        str(stage["stage_id"])
+        for stage in ordered_stages
+        if stage["stage_id"] != first_stage
+    ]
+    for prior_stage_id, later_stage_id in pairwise(recourse_stage_ids):
+        prior_parts = [
+            set(cast("list[str]", history["reachable_states"]))
+            for history in histories
+            if history["stage_id"] == prior_stage_id
+        ]
+        for later in (
+            set(cast("list[str]", history["reachable_states"]))
+            for history in histories
+            if history["stage_id"] == later_stage_id
+        ):
+            if sum(later.issubset(prior) for prior in prior_parts) != 1:
+                raise ValueError(
+                    "later-stage histories must refine the prior-stage partition"
+                )
 
     policies = cast("list[dict[str, Any]]", data["policies"])
     policy_ids = [str(policy["policy_id"]) for policy in policies]
@@ -694,3 +721,15 @@ def validate_uncertainty_modelling_value_result(
 ) -> None:
     """Validate the portable result envelope."""
     _validate(UNCERTAINTY_MODELLING_VALUE_RESULT_SCHEMA_V1, payload)
+    _ensure_finite_json(payload, "<root>")
+
+
+def _ensure_finite_json(value: object, path: str) -> None:
+    if isinstance(value, float) and not math.isfinite(value):
+        raise ValueError(f"result contains a non-finite number at {path}")
+    if isinstance(value, Mapping):
+        for key, item in value.items():
+            _ensure_finite_json(item, f"{path}/{key}")
+    elif isinstance(value, list):
+        for index, item in enumerate(value):
+            _ensure_finite_json(item, f"{path}/{index}")

@@ -78,6 +78,34 @@ def test_multistage_maximization_and_nonanticipativity_reference() -> None:
     assert len(result["policy_audit"][0]["state_outcomes"]) == 3
 
 
+def test_multistage_histories_form_a_filtration() -> None:
+    payload = _json(MULTISTAGE)
+    payload["histories"] = [
+        *[
+            history
+            for history in payload["histories"]
+            if history["stage_id"] == "review"
+        ],
+        {
+            "history_id": "adapt-cross",
+            "stage_id": "adapt",
+            "reachable_states": ["down", "up"],
+        },
+        {
+            "history_id": "adapt-flat",
+            "stage_id": "adapt",
+            "reachable_states": ["flat"],
+        },
+    ]
+    with pytest.raises(InputError, match="refine the prior-stage"):
+        _result(payload)
+
+    payload = _json(MULTISTAGE)
+    payload["stages"][2]["information_available"] = ["late-band"]
+    with pytest.raises(InputError, match="information available must be cumulative"):
+        _result(payload)
+
+
 def test_infeasible_recourse_for_ev_solution_is_explicit() -> None:
     payload = _json(CONTRACT / "fixtures/normative/infeasible-recourse-input.json")
     result = _result(payload)
@@ -225,6 +253,10 @@ def test_strict_schemas_and_result_validator() -> None:
     nested["objective"]["unexpected"] = True
     with pytest.raises(ValueError, match="objective"):
         validate_uncertainty_modelling_value_semantics(nested)
+    nonfinite_result = deepcopy(result)
+    nonfinite_result["decomposition"]["evpi"] = float("nan")
+    with pytest.raises(ValueError, match="non-finite number"):
+        validate_uncertainty_modelling_value_result(nonfinite_result)
 
 
 def test_input_order_and_result_copy_are_deterministic() -> None:
@@ -242,6 +274,37 @@ def test_input_order_and_result_copy_are_deterministic() -> None:
     assert (
         "tampered" not in baseline.to_contract_dict()["recourse_problem"]["policy_tie"]
     )
+
+
+def test_tolerance_ties_do_not_replace_exact_optimum_values() -> None:
+    payload = _input()
+    balanced_candidate = next(
+        item
+        for item in payload["deterministic_candidates"]
+        if item["candidate_id"] == "balanced-at-mean"
+    )
+    balanced_candidate["point_objective_value"] = 4.0 + 5e-13
+    balanced_policy = next(
+        item for item in payload["policies"] if item["policy_id"] == "balanced-policy"
+    )
+    for outcome in balanced_policy["state_outcomes"]:
+        outcome["objective_value"] = 8.0 + 5e-13
+
+    result = _result(payload)
+    assert result["expected_value_problem"]["candidate_tie"] == [
+        "balanced-at-mean",
+        "risky-at-mean",
+    ]
+    assert result["expected_value_problem"]["selected_candidate_id"] == "risky-at-mean"
+    assert result["expected_value_problem"]["point_objective_value"] == 4.0
+    assert result["recourse_problem"]["policy_tie"] == [
+        "balanced-policy",
+        "safe-policy",
+    ]
+    assert result["recourse_problem"]["selected_policy_id"] == "safe-policy"
+    assert result["recourse_problem"]["value"] == 8.0
+    assert result["assurance"]["objective_bound"] == 8.0
+    assert result["assurance"]["optimality_gap"] == 0.0
 
 
 def test_cli_and_public_experimental_discovery(tmp_path: Path) -> None:

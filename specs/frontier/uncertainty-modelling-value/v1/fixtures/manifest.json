@@ -9,11 +9,13 @@
     {"name": "infeasible-induced-recourse", "input_artifact": "normative/infeasible-recourse-input.json", "expected_output_artifact": "normative/infeasible-recourse-expected.json"}
   ],
   "pathologies": [
+    "cases/crossing-history-filtration.json",
     "cases/nonpartition-history.json",
     "cases/nonfinite-objective.json",
     "cases/no-relatively-complete-recourse.json"
   ],
   "files": [
+    {"path": "cases/crossing-history-filtration.json", "sha256": "e2cd2fe531f40b76fc34ca91d047a2b76fe38eab6b66e5ed7263d09ca5d84c6c"},
     {"path": "normative/two-stage-nonlinear-input.json", "sha256": "5467f3216c5ccf09c6773fc58899059d85c99d2ab6fead59efec0c142998cb40"},
     {"path": "normative/two-stage-nonlinear-expected.json", "sha256": "10c6ab788be383691a3ccc34aa7453bb023c6ae26c54d59fed193517dc769231"},
     {"path": "normative/multistage-input.json", "sha256": "bc0490c3480cc328a91e9c6899e5bd7a4ce4a9751729f75b9fc4011607a7aec9"},

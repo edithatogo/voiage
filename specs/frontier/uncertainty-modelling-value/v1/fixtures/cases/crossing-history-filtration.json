@@ -1,0 +1,6 @@
+{
+  "case_id": "crossing-history-filtration",
+  "base_fixture": "../normative/multistage-input.json",
+  "mutation_description": "replace singleton adapt histories with crossing {down,up} and {flat} partitions",
+  "expected_error_contains": "refine the prior-stage partition"
+}

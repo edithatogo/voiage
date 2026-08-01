@@ -17,7 +17,9 @@ expected-value risk, tie tolerances and exact-enumeration solver evidence.
 
 Every policy has one first-stage decision and exactly one recourse decision per
 shared history. Histories partition the states at every recourse stage, making
-nonanticipativity auditable rather than inferred. State outcomes are either
+nonanticipativity auditable rather than inferred. Later history partitions
+must refine earlier partitions and available information must be cumulative,
+forming a coherent filtration. State outcomes are either
 finite and feasible or explicitly infeasible with null objective value.
 
 For minimization, `VSS = EEV - RP` and `EVPI = RP - WS`; maximization reverses
