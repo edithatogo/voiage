@@ -283,7 +283,9 @@ def test_internal_evaluation_rejects_raw_performance_outside_fixed_domain() -> N
         _ = mcda_information_module._linear_value(101.0, criterion)
 
 
-def test_internal_evaluation_rejects_nonfinite_scores_and_negative_information() -> None:
+def test_internal_evaluation_rejects_nonfinite_scores_and_negative_information() -> (
+    None
+):
     """Malformed internal payloads fail closed even when public validation is bypassed."""
     nonfinite = _input()
     criterion = next(
@@ -301,7 +303,8 @@ def test_internal_evaluation_rejects_nonfinite_scores_and_negative_information()
     signed_probability["joint_states"][0]["probability"] = -0.5
     signed_probability["joint_states"][1]["probability"] = 1.5
     with pytest.raises(
-        ValueError, match="partition refinement produced negative gross information value"
+        ValueError,
+        match="partition refinement produced negative gross information value",
     ):
         _ = mcda_information_module._evaluate(signed_probability)
 
