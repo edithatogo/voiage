@@ -174,6 +174,12 @@
         "predictive_probability_residual": {
           "type": "number"
         },
+        "prior_probability_residual": {
+          "type": "number"
+        },
+        "probability_normalization_applied": {
+          "type": "boolean"
+        },
         "r_vsi_zero_distinct_from_switch_metrics": {
           "const": true
         },
@@ -198,7 +204,9 @@
         "evsi_vsi_residual",
         "evsi_delta_ev_residual",
         "predictive_probability_residual",
+        "prior_probability_residual",
         "maximum_likelihood_row_residual",
+        "probability_normalization_applied",
         "maximum_bayes_reconstruction_error",
         "minimum_vsi",
         "threshold_monotonic",
@@ -410,6 +418,7 @@
               "uniqueItems": true
             },
             "reference_action": {
+              "description": "Declared action that must attain the exact baseline extremum; tie_tolerance never makes a non-extremal reference admissible.",
               "minLength": 1,
               "type": "string"
             },
@@ -470,6 +479,7 @@
               "type": "array"
             },
             "tie_tolerance": {
+              "description": "Absolute value-unit tolerance for complete tie-set and presentation diagnostics only; not reference-action admissibility.",
               "minimum": 0,
               "type": "number"
             },

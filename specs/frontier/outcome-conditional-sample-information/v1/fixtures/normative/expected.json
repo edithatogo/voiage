@@ -74,6 +74,8 @@
     "maximum_likelihood_row_residual": 0.0,
     "minimum_vsi": 0.0,
     "predictive_probability_residual": 0.0,
+    "prior_probability_residual": 0.0,
+    "probability_normalization_applied": false,
     "r_vsi_zero_distinct_from_switch_metrics": true,
     "result_reconstructed_from_input": true,
     "standard_deviation_functional": "predictive_probability_weighted_population",

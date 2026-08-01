@@ -44,6 +44,9 @@ class _Model:
     sign: float
     tie_tolerance: float
     probability_tolerance: float
+    prior_probability_residual: float
+    maximum_likelihood_row_residual: float
+    probability_normalization_applied: bool
     reference_action: str
     information_cost: float
     thresholds: tuple[float, ...]
@@ -209,13 +212,16 @@ def _validate_and_build(payload: dict[str, Any]) -> _Model:
     )
     if not 0.0 < probability_tolerance <= 1e-6:
         raise ValueError("probability_tolerance must lie in (0, 1e-6]")
+    prior_total = math.fsum(prior.values())
     if not math.isclose(
-        math.fsum(prior.values()),
+        prior_total,
         1.0,
         abs_tol=probability_tolerance,
         rel_tol=0.0,
     ):
         raise ValueError("state probabilities must sum to one")
+    prior_probability_residual = abs(prior_total - 1.0)
+    prior = {state: probability / prior_total for state, probability in prior.items()}
 
     action_values: dict[str, dict[str, float]] = {}
     for state in states:
@@ -253,10 +259,15 @@ def _validate_and_build(payload: dict[str, Any]) -> _Model:
         }
         if any(value < 0.0 or value > 1.0 for value in likelihood[outcome].values()):
             raise ValueError("likelihood probabilities must lie in [0, 1]")
+    likelihood_row_residuals: list[float] = []
     for state in states:
         row_sum = math.fsum(likelihood[outcome][state] for outcome in outcomes)
         if not math.isclose(row_sum, 1.0, abs_tol=probability_tolerance, rel_tol=0.0):
             raise ValueError("likelihood probabilities must sum to one by state")
+        likelihood_row_residuals.append(abs(row_sum - 1.0))
+        for outcome in outcomes:
+            likelihood[outcome][state] /= row_sum
+    maximum_likelihood_row_residual = max(likelihood_row_residuals)
     for outcome in outcomes:
         predictive = math.fsum(
             prior[state] * likelihood[outcome][state] for state in states
@@ -327,6 +338,11 @@ def _validate_and_build(payload: dict[str, Any]) -> _Model:
         sign=sign,
         tie_tolerance=tie_tolerance,
         probability_tolerance=probability_tolerance,
+        prior_probability_residual=prior_probability_residual,
+        maximum_likelihood_row_residual=maximum_likelihood_row_residual,
+        probability_normalization_applied=(
+            prior_probability_residual > 0.0 or maximum_likelihood_row_residual > 0.0
+        ),
         reference_action=reference_action,
         information_cost=information_cost,
         thresholds=thresholds,
@@ -384,13 +400,6 @@ def _evaluate_contract(model: _Model) -> dict[str, Any]:
     baseline_ties = _ties(baseline_values, model.sign, model.tie_tolerance)
     baseline_best = _best_value(baseline_values, model.sign)
     outcome_rows: list[dict[str, Any]] = []
-    likelihood_residuals = [
-        abs(
-            math.fsum(model.likelihood[outcome][state] for outcome in model.outcomes)
-            - 1.0
-        )
-        for state in model.states
-    ]
     for outcome in model.outcomes:
         predictive = math.fsum(
             model.prior[state] * model.likelihood[outcome][state]
@@ -549,7 +558,9 @@ def _evaluate_contract(model: _Model) -> dict[str, Any]:
             "predictive_probability_residual": _clean_probability(
                 predictive_total - 1.0, model.probability_tolerance
             ),
-            "maximum_likelihood_row_residual": max(likelihood_residuals),
+            "prior_probability_residual": model.prior_probability_residual,
+            "maximum_likelihood_row_residual": model.maximum_likelihood_row_residual,
+            "probability_normalization_applied": model.probability_normalization_applied,
             "maximum_bayes_reconstruction_error": maximum_bayes_error,
             "minimum_vsi": aggregate["minimum_vsi"],
             "threshold_monotonic": threshold_monotonic,

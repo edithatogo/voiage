@@ -113,8 +113,9 @@
   named actions, utility/maximization or loss/minimization orientation, common
   value unit, population, horizon, discount basis, baseline reference policy,
   nonnegative low-value thresholds, information-cost placement and prospective
-  or retrospective scope. The reference policy must be baseline optimal under
-  the declared complete-tie tolerance.
+  or retrospective scope. The reference policy must attain the exact baseline
+  extremum. The declared complete-tie tolerance is only for tie-set and
+  presentation diagnostics; it never admits a non-extremal reference policy.
 - **M31-S2:** For each outcome `x`, return its predictive probability, posterior
   state law, action values, complete optimal ties, direction-aware
   `delta-EV_x`, nonnegative `VSI_x`, signed net `VSI_x`, and policy/tie

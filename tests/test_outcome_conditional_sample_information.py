@@ -10,7 +10,7 @@ from copy import deepcopy
 import json
 import math
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from jsonschema import Draft202012Validator
 import pytest
@@ -233,6 +233,30 @@ def test_tie_tolerance_uses_declared_value_unit_without_artificial_cap() -> None
     payload["tie_tolerance"] = 2.0
     result = _result(payload)
     assert result["baseline"]["optimal_actions"] == ["adaptive", "status_quo"]
+
+
+@pytest.mark.parametrize("residual", [-5e-7, 5e-7])
+def test_probability_vectors_are_normalized_within_tolerance(residual: float) -> None:
+    payload = _input()
+    payload["probability_tolerance"] = 1e-6
+    payload["states"][1]["probability"] += residual
+    payload["outcomes"][0]["likelihood_by_state"]["favourable"] += residual
+
+    result = _result(payload)
+
+    assert math.fsum(row["predictive_probability"] for row in result["outcomes"]) == (
+        pytest.approx(1.0)
+    )
+    assert result["assurance"]["evsi_delta_ev_residual"] == 0.0
+    assert result["assurance"]["predictive_probability_residual"] == 0.0
+    assert result["assurance"]["prior_probability_residual"] == pytest.approx(
+        abs(residual)
+    )
+    assert result["assurance"]["maximum_likelihood_row_residual"] == (
+        pytest.approx(abs(residual))
+    )
+    assert result["assurance"]["probability_normalization_applied"] is True
+    assert result["input_assurance"]["input_contract"] == payload
 
 
 def test_roundoff_tolerance_is_exactly_zero_at_zero_scale() -> None:
@@ -507,6 +531,14 @@ def test_schemas_are_strict_and_match_exported_files() -> None:
         )
         == OUTCOME_CONDITIONAL_SAMPLE_INFORMATION_RESULT_SCHEMA_V1
     )
+    properties = cast(
+        "dict[str, dict[str, Any]]",
+        OUTCOME_CONDITIONAL_SAMPLE_INFORMATION_INPUT_SCHEMA_V1["properties"],
+    )
+    reference = properties["reference_action"]
+    tie_tolerance = properties["tie_tolerance"]
+    assert "exact baseline extremum" in reference["description"]
+    assert "not reference-action admissibility" in tie_tolerance["description"]
 
 
 def test_public_api_and_cli_are_deterministic(tmp_path: Path) -> None:

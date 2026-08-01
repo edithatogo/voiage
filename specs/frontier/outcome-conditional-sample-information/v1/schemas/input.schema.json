@@ -147,6 +147,7 @@
       "uniqueItems": true
     },
     "reference_action": {
+      "description": "Declared action that must attain the exact baseline extremum; tie_tolerance never makes a non-extremal reference admissible.",
       "minLength": 1,
       "type": "string"
     },
@@ -207,6 +208,7 @@
       "type": "array"
     },
     "tie_tolerance": {
+      "description": "Absolute value-unit tolerance for complete tie-set and presentation diagnostics only; not reference-action admissibility.",
       "minimum": 0,
       "type": "number"
     },

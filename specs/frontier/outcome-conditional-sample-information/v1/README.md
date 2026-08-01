@@ -30,9 +30,17 @@ reconstruction.
 
 `tie_tolerance` is an absolute tolerance in the declared `value_unit`; it is
 not a dimensionless probability tolerance and has no artificial unit-dependent
-upper bound. Value metrics and Equation 10 dispersion are never zeroed with the
-probability tolerance. At lower-tail mass zero, v1 reports the limiting finite
-essential minimum, matching the level-zero weighted quantile convention.
+upper bound. It controls complete tie-set and presentation diagnostics only:
+the declared reference action must attain the exact baseline extremum. Value
+metrics and Equation 10 dispersion are never zeroed with the probability
+tolerance. At lower-tail mass zero, v1 reports the limiting finite essential
+minimum, matching the level-zero weighted quantile convention.
+
+Prior and state-conditional likelihood vectors whose sums are within the
+declared `probability_tolerance` are normalized before any value calculation.
+The result retains the original input contract and reports the pre-normalization
+prior and maximum likelihood-row residuals together with an explicit
+normalization-applied flag. Vectors outside the tolerance fail closed.
 
 The finite contract is based on Akinlotan et al. (2024), DOI
 `10.1016/j.ecolind.2024.111828`, arXiv `2309.09452v2`. It does not claim
