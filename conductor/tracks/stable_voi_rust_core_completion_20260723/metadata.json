@@ -2,9 +2,9 @@
   "track_id": "stable_voi_rust_core_completion_20260723",
   "version": "1.0.0",
   "type": "feature",
-  "status": "new",
+  "status": "in_progress",
   "created_at": "2026-07-27T08:15:00Z",
-  "updated_at": "2026-07-27T08:15:00Z",
+  "updated_at": "2026-08-01T18:35:00Z",
   "description": "Make Rust the explicit numerical authority for every accepted stable VOI method while preserving versioned v1 semantics.",
   "evidence_schema": "1.0",
   "approval": {

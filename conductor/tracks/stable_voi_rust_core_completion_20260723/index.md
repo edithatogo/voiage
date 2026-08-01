@@ -9,6 +9,7 @@
 - [Project 28](https://github.com/users/edithatogo/projects/28)
 - [Draft planning PR #621](https://github.com/edithatogo/voiage/pull/621)
 
-Status: new. The issue-claimed track is now materially registered with an
-approved specification and plan; existing Project or issue status is not
-treated as implementation completion.
+Status: in progress. Rust-authoritative stable-kernel contracts, migration
+matrix, bridge boundaries, and release evidence are reconciled; complete
+method coverage, installed parity, promotion, hosted and registry gates remain
+pending.
