@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "method_family": "qualitative_information_assessment",
+  "contract_version": "1.0.0",
+  "planned_version": "v1.3.0",
+  "maturity": "experimental",
+  "numerical_estimand": false,
+  "cardinal_aggregation": "prohibited",
+  "surfaces": {
+    "python": {
+      "status": "executable",
+      "module": "voiage.methods.qualitative_information"
+    },
+    "rust": {
+      "status": "unsupported",
+      "reason": "No Rust validator or shared-fixture execution evidence."
+    },
+    "r": {
+      "status": "unsupported",
+      "reason": "Portable schema consumption is planned but not executed."
+    },
+    "julia": {
+      "status": "unsupported",
+      "reason": "Portable schema consumption is planned but not executed."
+    },
+    "mojo": {
+      "status": "external",
+      "reason": "No repository-owned Mojo runtime."
+    }
+  },
+  "remaining_gates": [
+    "independent implementation, usability and accessibility review",
+    "practitioner and scientific naming review",
+    "hosted exact-head and installed-wheel assurance",
+    "stable promotion, release and parent issue closure"
+  ]
+}

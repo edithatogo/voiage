@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "method_family": "qualitative_information_assessment",
+  "normative": {
+    "input": "normative/input.json",
+    "expected": "normative/expected.json",
+    "rendering": "normative/rendering.json"
+  },
+  "cases": [
+    "cases/disagreement.json",
+    "cases/incomplete-ai.json",
+    "cases/adversarial-audit.json"
+  ],
+  "data_status": "synthetic_only",
+  "rights_status": "repository-authored synthetic fixture",
+  "scientific_status": "contract reference only; practitioner and scientific approval pending"
+}

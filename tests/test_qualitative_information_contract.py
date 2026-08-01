@@ -51,9 +51,9 @@ def test_normative_fixture_and_portable_schemas_validate() -> None:
     ("path", "value", "message"),
     [
         (("decision", "alternatives"), ["same", "same"], "unique"),
-        (("assessment_version",), 0, "positive"),
+        (("assessment_version",), 0, "less than the minimum"),
         (("audit_history", 1, "previous_event_id"), "wrong", "chain"),
-        (("questions", 0, "judgements", 0, "priority_class"), 3, "string"),
+        (("questions", 0, "judgements", 0, "priority_class"), 3, "not one of"),
     ],
 )
 def test_contract_and_semantics_fail_closed(

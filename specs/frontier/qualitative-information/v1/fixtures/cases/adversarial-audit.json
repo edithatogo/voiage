@@ -1,0 +1,10 @@
+{
+  "base": "../normative/input.json",
+  "operations": [
+    {
+      "path": "/audit_history/1/previous_event_id",
+      "value": "forged-event"
+    }
+  ],
+  "expected_error": "audit previous_event_id chain is broken"
+}

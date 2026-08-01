@@ -1,0 +1,16 @@
+{
+  "base": "../normative/input.json",
+  "operations": [
+    {
+      "path": "/questions/0/missing_fields",
+      "value": ["equity_ethics"]
+    }
+  ],
+  "expected": {
+    "workflow_status": "incomplete",
+    "human_approval_status": "pending",
+    "question_id": "q-01-trial",
+    "consensus_status": "incomplete"
+  },
+  "boundary": "An unverified AI judgement cannot replace the missing human field or approve the assessment."
+}

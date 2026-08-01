@@ -1,0 +1,269 @@
+{
+  "$id": "https://voiage.dev/schemas/frontier/qualitative-information-result.v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "analysis_type": {
+      "const": "qualitative_information_assessment"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "assessment_version": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "audit_event_count": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "audit_history_digest": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "diagnostics": {
+      "type": "object"
+    },
+    "human_approval_status": {
+      "enum": [
+        "approved",
+        "pending"
+      ]
+    },
+    "method_maturity": {
+      "const": "experimental"
+    },
+    "numerical_estimand": {
+      "const": false
+    },
+    "priority_groups": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "priority_class": {
+            "enum": [
+              "urgent",
+              "high",
+              "routine",
+              "defer"
+            ]
+          },
+          "question_ids": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "priority_class",
+          "question_ids"
+        ],
+        "type": "object"
+      },
+      "maxItems": 4,
+      "minItems": 4,
+      "type": "array"
+    },
+    "provenance": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "type": "object"
+    },
+    "question_results": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "consensus_status": {
+            "enum": [
+              "consensus",
+              "dissent",
+              "incomplete"
+            ]
+          },
+          "information_question": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "missing_fields": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "priority_classes": {
+            "items": {
+              "enum": [
+                "urgent",
+                "high",
+                "routine",
+                "defer"
+              ]
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "question_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "rationale_by_reviewer": {
+            "additionalProperties": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "recommendation_classes": {
+            "items": {
+              "enum": [
+                "pursue_now",
+                "pursue_if_feasible",
+                "monitor",
+                "do_not_pursue"
+              ]
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "redaction_status": {
+            "enum": [
+              "none",
+              "partial",
+              "full"
+            ]
+          },
+          "resolved_priority_class": {
+            "oneOf": [
+              {
+                "enum": [
+                  "urgent",
+                  "high",
+                  "routine",
+                  "defer"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "resolved_recommendation_class": {
+            "oneOf": [
+              {
+                "enum": [
+                  "pursue_now",
+                  "pursue_if_feasible",
+                  "monitor",
+                  "do_not_pursue"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "unverified_ai_contributors": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "verified_human_reviewers": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "question_id",
+          "information_question",
+          "priority_classes",
+          "recommendation_classes",
+          "resolved_priority_class",
+          "resolved_recommendation_class",
+          "consensus_status",
+          "verified_human_reviewers",
+          "unverified_ai_contributors",
+          "missing_fields",
+          "redaction_status",
+          "rationale_by_reviewer"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "source_summary": {
+      "additionalProperties": false,
+      "properties": {
+        "accessible": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "redacted": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "unavailable": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "accessible",
+        "redacted",
+        "unavailable"
+      ],
+      "type": "object"
+    },
+    "unresolved_question_ids": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "workflow_status": {
+      "enum": [
+        "complete",
+        "incomplete"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "assessment_id",
+    "assessment_version",
+    "analysis_type",
+    "method_maturity",
+    "numerical_estimand",
+    "workflow_status",
+    "human_approval_status",
+    "priority_groups",
+    "unresolved_question_ids",
+    "question_results",
+    "audit_history_digest",
+    "audit_event_count",
+    "source_summary",
+    "provenance",
+    "diagnostics"
+  ],
+  "title": "QualitativeInformationResultV1Experimental",
+  "type": "object"
+}
