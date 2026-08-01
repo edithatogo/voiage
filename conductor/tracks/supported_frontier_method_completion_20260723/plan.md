@@ -43,6 +43,11 @@ covers the experimental frontier entries only.
   refresh exact-head assurance and retain vector covariance, scientific review,
   stable promotion, release and closure as separate gates. (AC-01–AC-03)
   `43ec5868`
+- [ ] **G2a-R:** Integrate the dedicated #619 predictive-weighting and replay-
+  provenance remediation only after its fresh exact-head hosted checks pass
+  and it merges; then rebase and revalidate any dependent umbrella change.
+  Scientific review, vector covariance, stable promotion, release and parent
+  closure remain separate gates. (AC-01–AC-03, AC-07)
 - [x] **G2b:** Reconcile #571's final PR #679 exact-head assurance and merge
   receipt so only delivery subissues #680–#682 become closure-eligible; retain
   scientific review, Rust/R/Julia parity, stable promotion, release, parent

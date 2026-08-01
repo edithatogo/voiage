@@ -831,10 +831,13 @@ fn compute_evppi_variance<'py>(
 }
 
 /// Aggregate scalar estimation-focused EVSI variance reduction.
+#[allow(clippy::too_many_arguments)]
 #[pyfunction]
 #[pyo3(signature = (
     prior_target_samples,
     posterior_variances,
+    predictive_probabilities,
+    probability_tolerance = 1e-12,
     bootstrap_replicates = 0,
     seed = 0,
     convergence_threshold = 0.01
@@ -843,6 +846,8 @@ fn compute_evsi_variance<'py>(
     py: Python<'py>,
     prior_target_samples: &Bound<'_, PyAny>,
     posterior_variances: &Bound<'_, PyAny>,
+    predictive_probabilities: &Bound<'_, PyAny>,
+    probability_tolerance: f64,
     bootstrap_replicates: usize,
     seed: u64,
     convergence_threshold: f64,
@@ -857,12 +862,24 @@ fn compute_evsi_variance<'py>(
         "posterior_variances",
     )?)
     .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let predictive_probabilities = SampleVector::try_from(vector_from_python(
+        predictive_probabilities,
+        "predictive_probabilities",
+    )?)
+    .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
     let result = if bootstrap_replicates == 0 {
-        evsi_variance(&prior_target_samples, &posterior_variances)
+        evsi_variance(
+            &prior_target_samples,
+            &posterior_variances,
+            &predictive_probabilities,
+            probability_tolerance,
+        )
     } else {
         evsi_variance_with_assurance(
             &prior_target_samples,
             &posterior_variances,
+            &predictive_probabilities,
+            probability_tolerance,
             bootstrap_replicates,
             seed,
             convergence_threshold,

@@ -290,7 +290,10 @@ release, registry, and publication decisions remain separate gates.
         threads. Delivery subissues #671--#674 may close. E17 scientific
         classification and vector scalarization review, stable promotion,
         release, parent #619 closure and umbrella #318 closure remain separate
-        gates.
+        gates. Independent post-merge review remediation for explicit
+        prior-predictive weighting, input-bound replay provenance and scalar
+        result consistency is implemented locally but remains pending fresh
+        exact-head hosted checks, merge and umbrella resynchronization.
 
 *   [x] Implement governed study-design efficiency and experiment portfolios.
     *   Conductor track: `study_design_efficiency_20260727`.

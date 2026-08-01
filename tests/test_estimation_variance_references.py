@@ -75,7 +75,7 @@ def test_evsi_var_normal_normal_reference_matches_closed_form() -> None:
 
 
 def test_evsi_var_binary_reference_enumerates_posterior_outcomes() -> None:
-    case = _cases()["evsi-var-binary-enumeration"]
+    case = _cases()["evsi-var-binary-unequal-predictive-enumeration"]
     prior_probability = float(case["prior_probability"])
     accuracy = float(case["observation_accuracy"])
     expected_posterior_variance = 0.0
@@ -101,3 +101,4 @@ def test_evsi_var_binary_reference_enumerates_posterior_outcomes() -> None:
         case["expected_posterior_variance"]
     )
     assert reduction == pytest.approx(case["variance_reduction"])
+    assert case["predictive_probabilities"] == pytest.approx([0.65, 0.35])

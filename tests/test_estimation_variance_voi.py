@@ -228,6 +228,35 @@ def test_evsi_variance_requires_sampling_model_and_forbids_conditioning_subset()
     assert specification.conditioning is None
 
 
+@pytest.mark.parametrize(
+    "averaging_convention", ["posterior_predictive", "empirical_reference"]
+)
+def test_evsi_variance_rejects_non_prior_predictive_averaging(
+    averaging_convention: str,
+) -> None:
+    with pytest.raises(ValidationError, match="requires prior_predictive"):
+        _ = EstimationVarianceSpec(
+            method_id="evsi_var",
+            target=EstimationTargetSpec(
+                target_id="prevalence",
+                shape="scalar",
+                component_units=("proportion",),
+                covariance_functional="variance",
+            ),
+            prior_model_id="beta-prior-v1",
+            sampling_model=SamplingModelSpec(
+                design_id="binomial-n20",
+                likelihood_id="binomial",
+                conditioning_sigma_field="sigma(Y,design)",
+                averaging_convention=averaging_convention,  # type: ignore[arg-type]
+            ),
+            estimator=EstimatorAssuranceSpec(
+                estimator_id="enumerated_prior_predictive",
+                seed=1,
+            ),
+        )
+
+
 def test_method_specific_information_contracts_reject_opposite_inputs() -> None:
     target = EstimationTargetSpec(
         target_id="prevalence",
@@ -316,6 +345,7 @@ def test_result_contract_preserves_raw_negative_estimate_and_zero_variance_polic
             estimator_id="posterior_variance_aggregation",
             seed=7,
             specification_digest="a" * 64,
+            input_digest="b" * 64,
         ),
     )
     assert result.absolute_reduction == 0.0
@@ -329,6 +359,14 @@ def test_versioned_estimation_variance_schemas_and_fixtures_validate() -> None:
     )
     result_schema = json.loads(
         (ESTIMATION_SPEC_ROOT / "result.schema.json").read_text(encoding="utf-8")
+    )
+    runtime_data_schema = json.loads(
+        (ESTIMATION_SPEC_ROOT / "runtime-data.schema.json").read_text(encoding="utf-8")
+    )
+    assert result_schema["x-semantic-validation-required"] is True
+    assert (
+        result_schema["x-semantic-validator"]
+        == "voiage.contracts.estimation.EstimationVarianceResult"
     )
     manifest = json.loads(
         (ESTIMATION_SPEC_ROOT / "fixtures" / "manifest.json").read_text(
@@ -362,3 +400,41 @@ def test_versioned_estimation_variance_schemas_and_fixtures_validate() -> None:
             ).model_dump(mode="json")
             == result_payload
         )
+
+        non_prior_spec = {
+            **input_payload,
+            "method_id": "evsi_var",
+            "conditioning": None,
+            "sampling_model": {
+                "design_id": "study",
+                "likelihood_id": "likelihood",
+                "conditioning_sigma_field": "sigma_y",
+                "averaging_convention": "posterior_predictive",
+            },
+        }
+        assert list(Draft202012Validator(input_schema).iter_errors(non_prior_spec))
+
+        forged_result = {
+            **result_payload,
+            "prior_covariance": [[999.0]],
+            "expected_posterior_covariance": [[888.0]],
+        }
+        assert not list(Draft202012Validator(result_schema).iter_errors(forged_result))
+        with pytest.raises(ValidationError, match="must equal its functional"):
+            _ = EstimationVarianceResult.model_validate_json(json.dumps(forged_result))
+        for structural_forgery in (
+            {**result_payload, "prior_covariance": [[-1.0]]},
+            {**result_payload, "prior_covariance": [[1.25, 0.0], [0.0, 1.0]]},
+            {**result_payload, "functional_units": "bananas"},
+        ):
+            assert list(
+                Draft202012Validator(result_schema).iter_errors(structural_forgery)
+            )
+
+    Draft202012Validator(runtime_data_schema).validate(
+        {
+            "prior_target_samples": [-2.0, 0.0, 2.0],
+            "posterior_variances": [0.0, 3.0],
+            "predictive_probabilities": [0.9, 0.1],
+        }
+    )

@@ -91,7 +91,7 @@
         "likelihood_id": {"type": "string", "minLength": 1},
         "conditioning_sigma_field": {"type": "string", "minLength": 1},
         "averaging_convention": {
-          "enum": ["prior_predictive", "posterior_predictive", "empirical_reference"]
+          "const": "prior_predictive"
         }
       }
     },

@@ -240,7 +240,13 @@ parent #594 and umbrella #318 remain open.
     threads. Delivery subissues #671--#674 may close. E17 scientific
     classification and vector covariance scalarization review, vector
     execution, stable promotion, release, parent #619 closure and umbrella
-    #318 closure remain open.
+    #318 closure remain open. A post-merge independent review subsequently
+    found that the EVSI outer expectation required explicit prior-predictive
+    weighting, replay provenance did not bind runtime values and scalar result
+    consistency was under-validated. A dedicated remediation now exists
+    locally, but it is not integrated until its fresh exact-head hosted checks
+    pass and it merges; dependent umbrella work must then be rebased and
+    revalidated.
 *   `study_design_efficiency_20260727` and refined GitHub issue #571 define a
     governed Curve of Optimal Sample Size result containing evaluated designs,
     feasible range/set, the signed ENBS curve, deterministic tie policy,
