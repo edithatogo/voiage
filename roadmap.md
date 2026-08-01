@@ -72,21 +72,22 @@ squash-merged as `d649c344`. Delivery subissues #783–#785 may close. Scientifi
 review, Rust/R/Julia parity, stable promotion, release, parent #598 closure and
 umbrella #318 closure remain open.
 
-Outcome-conditional sample-information value (#600, C18/M31) is scoped as an
-exact finite experimental Python delivery under native subissues #790–#792.
+Outcome-conditional sample-information value (#600, C18/M31) completed its
+governed exact finite experimental Python repository delivery under native
+subissues #790–#792.
 The contract reports predictive-probability-weighted `delta-EV_x` and `VSI_x`,
 EVSI, Equation 10's weighted population `sigma-VSI`, `rVSI_delta` and
 quantiles/tails with complete policies and result reconstruction. It treats the
 tower equalities as expectation-linear only, distinguishes `rVSI0` from
 policy-switch mass under ties, and explicitly rejects the source paper's
 unweighted MATLAB/Table 3 standard-deviation calculation as a normative
-implementation. Continuous outcomes, fitted estimators, scientific review,
-polyglot parity, stable promotion, release and parent closure remain open.
-The repository-owned branch is locally complete at signed implementation
-commit `6548dda7`, with value-unit remediation at `aaf77aaf`. Fresh independent
-implementation review found no open Critical, High or Medium finding. Hosted
-exact-head/installed-wheel assurance and merge remain mandatory before
-describing that branch as delivered on the default branch.
+implementation. PR #831 exact implementation head `eb5a201d` completed all 42
+terminal-allowed checks with 38 successes, three governed skips and one neutral
+CodeQL aggregation. All five CodeQL review threads were resolved before squash
+merge `ac1d31bf`. Delivery subissues #790, #791 and #792 may close. Continuous
+outcomes, fitted estimators, independent scientific review, risk-sensitive
+composition, Rust/R/Julia parity, stable promotion, release, parent #600
+closure and umbrella #318 closure remain open.
 
 **June 25 follow-through closeout:** ✅ **ARCHIVED** - The June 25 follow-through queue is complete and archived for its repository-owned implementation and
 evidence slices. Registry approval, external indexing, production accelerator

@@ -223,7 +223,7 @@ covers the experimental frontier entries only.
   `6548dda7`; focused contract/evaluator coverage is 100% statements and
   branches, with frontier, cross-reference, static and full Conductor
   validation passing locally.
-- [~] **F600-4 / #792:** Run a fresh independent implementation review and
+- [x] **F600-4 / #792:** Run a fresh independent implementation review and
   hosted exact-head/installed-wheel assurance. Retain continuous-outcome and
   fitted-estimator validation, independent scientific review, risk-sensitive
   composition, Rust/R/Julia parity, stable promotion, release, parent #600 and
@@ -233,11 +233,17 @@ covers the experimental frontier entries only.
   normalization defect and a Medium reference-policy wording inconsistency;
   signed remediation `6eac2ba2` normalizes accepted near-unit vectors with
   explicit assurance and aligns M31/schema/README wording on the exact
-  reference extremum. No Critical, High or Medium implementation finding
-  remains open. Replacement hosted exact-head and installed-wheel checks are
-  still pending, and no
-  scientific-approval, merge, promotion, release or closure claim is made.
-  (AC-03–AC-07, AC-09)
+  reference extremum. Final independent re-review of exact head `027f59d2`
+  found no remaining Critical, High or Medium finding after the inclusive
+  probability-boundary remediation. PR #831 exact implementation head
+  `eb5a201d82350631dc3ba0b636dfdf43563ea64f` completed all 42 terminal-
+  allowed hosted checks with 38 successes, three governed skips and one neutral
+  CodeQL aggregation. All five CodeQL review threads were resolved before
+  squash merge `ac1d31bf900c3ee6e817047202cae4229918d48f`. Delivery subissues
+  #790, #791 and #792 may close. Continuous-outcome and fitted-estimator
+  validation, independent scientific review, risk-sensitive composition,
+  Rust/R/Julia parity, stable promotion, release, parent #600 closure and
+  umbrella #318 closure remain pending. (AC-03–AC-07, AC-09)
 
 - [x] **F572-1 / #760:** Freeze #572's C18/M23 forecast-signal decision
   estimand, strict input/result schemas, analytical newsvendor fixture,

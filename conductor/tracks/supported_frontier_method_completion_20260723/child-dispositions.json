@@ -312,11 +312,11 @@
       "record_id": "outcome-conditional-sample-information-value",
       "issue_state": "open",
       "project_status": "In Progress",
-      "disposition": "contract_in_progress",
+      "disposition": "experimental_merged",
       "maturity": "experimental",
       "satisfies_ac06": true,
       "delivery_track": "supported_frontier_method_completion_20260723",
-      "implementation_pull_requests": [],
+      "implementation_pull_requests": [831],
       "review_artifacts": [
         "conductor/tracks/supported_frontier_method_completion_20260723/outcome-conditional-sample-information-reference-review.md",
         "conductor/tracks/supported_frontier_method_completion_20260723/outcome-conditional-sample-information-implementation-review.md"
@@ -324,13 +324,12 @@
       "adjacent_artifacts": ["aggregate EVSI and estimator uncertainty"],
       "delivery_subissues": [790, 791, 792],
       "unresolved_gates": [
-        "hosted exact-head and installed-wheel assurance",
         "continuous-outcome and fitted-estimator validation",
         "independent scientific review",
         "risk-sensitive composition",
         "Rust/R/Julia parity",
         "stable promotion and release",
-        "parent #600 and umbrella #318 closure"
+        "delivery subissue, parent #600 and umbrella #318 closure"
       ]
     },
     {
