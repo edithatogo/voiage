@@ -248,6 +248,10 @@ The consumer tests exercise pandas and Polars nullable categorical and
 timezone-aware columns. They assert the Arrow decisions actually returned by
 the installed producer and preserve a pandas index exclusion, but do not imply
 that every producer, dtype, or future producer version has identical behavior.
+They also cover a non-contiguous pandas slice, typed zero-row input, and a
+no-column producer. Those cases preserve the adapter's Arrow schema and
+diagnostics; an empty input is not implicitly promoted into a valid VOI
+calculation without a separately valid explicit binding and data values.
 The supported SDK contract covers explicit bindings, source-neutral provenance,
 and Arrow schema preservation; it does not promise identical behaviour for
 every DataFrame library or unsupported nested dtype.

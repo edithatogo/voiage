@@ -11,6 +11,10 @@
   record conversion stages and workload dimensions without adding flaky
   wall-clock budgets or remote-parser performance claims.
 
+- Add DataFrame-interchange consumer edge-case contracts for non-contiguous
+  pandas slices, typed zero-row inputs, and no-column producers while
+  preserving the single Arrow-backed preparation path and diagnostics.
+
 - Add experimental deterministic sensitivity and scenario analysis with an
   exact installed-wheel request contract, complete ties and switch brackets,
   normalized-record CLI, accessible evaluated-grid tornado plot, and explicit

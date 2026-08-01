@@ -175,6 +175,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   A separate explicit long net-benefit fixture now proves Croissant,
         Frictionless, and direct Arrow normalization parity; it does not claim
         that arbitrary long records have inferred decision semantics.
+    *   DataFrame-interchange consumer tests now cover non-contiguous pandas
+        slices, typed zero-row tables, and no-column producers without widening
+        the supported producer contract.
     *   The README now links the conservative Croissant/Frictionless ingestion
         surface to its profile matrix, offline policy, and cross-domain examples.
     *   Verified offline-cache entries now reject symlinks and hard links so a
