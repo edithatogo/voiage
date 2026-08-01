@@ -8,7 +8,10 @@
   digest, or changed resource cannot run a probe. Existing authoritative-probe
   tests cover explicit opt-in, descriptor/resource digests, materialization,
   and single-receipt enforcement. (2026-08-01)
-- [ ] **L3 / AC-01:** Run Conductor review and validation checkpoint.
+- [x] **L3 / AC-01:** Run Conductor review and validation checkpoint. Focused
+  live-probe tests, full Conductor validation, cross-reference validation, and
+  v1 programme integrity all pass; L1 source authorization remains pending.
+  (2026-08-01)
 
 ## Phase 2 — Controlled probes
 
