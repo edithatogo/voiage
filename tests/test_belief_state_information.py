@@ -17,8 +17,13 @@ import pytest
 from referencing import Registry, Resource
 from typer.testing import CliRunner
 
-import voiage
-from voiage import cli, methods
+from voiage import (
+    belief_state_information_value as exported_belief_state_value,
+)
+from voiage import (
+    cli,
+    methods,
+)
 from voiage.cli import app
 from voiage.exceptions import InputError
 import voiage.methods.belief_state_information as belief_module
@@ -259,7 +264,7 @@ def test_schema_rejects_open_envelopes() -> None:
 
 
 def test_public_api_cli_and_maturity_boundary(tmp_path: Path) -> None:
-    assert voiage.belief_state_information_value is belief_state_information_value
+    assert exported_belief_state_value is belief_state_information_value
     assert methods.belief_state_information_value is belief_state_information_value
 
     run = CliRunner().invoke(
