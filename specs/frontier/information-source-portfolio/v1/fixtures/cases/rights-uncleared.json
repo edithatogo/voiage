@@ -1,0 +1,6 @@
+{
+  "case_id": "rights-uncleared",
+  "base_fixture": "../normative/input.json",
+  "mutation": {"path": "/sources/0/rights/status", "value": "uncleared"},
+  "expected_error_contains": "rights"
+}

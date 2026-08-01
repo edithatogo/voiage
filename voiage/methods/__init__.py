@@ -29,6 +29,10 @@ if TYPE_CHECKING:
         distributional_information_from_specification,
         value_of_distributional_information,
     )
+    from .information_source_portfolio import (
+        InformationSourcePortfolioResult,
+        information_source_portfolio_value,
+    )
     from .mcda_information import McdaInformationResult, mcda_information_value
     from .qualitative_information import (
         QualitativeInformationResult,
@@ -64,6 +68,7 @@ _MODULES = (
     "implementation",
     "implementation_strategy",
     "interoperability_standardization",
+    "information_source_portfolio",
     "monitoring_surveillance",
     "mcda_information",
     "network_nma",
@@ -121,6 +126,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "HeterogeneityResult",
     "ImplementationAdjustedResult",
     "ImplementationStrategyComparisonResult",
+    "InformationSourcePortfolioResult",
     "InteroperabilityStandardizationResult",
     "ModelValidationResult",
     "MonitoringSurveillanceResult",
@@ -159,6 +165,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "evsi_nma",
     "expected_utility_information_value",
     "identify_optimal_subgroups",
+    "information_source_portfolio_value",
     "mcda_information_value",
     "perspective_optimal_strategies",
     "perspective_arrow_schema_fingerprint",

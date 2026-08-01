@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "method": "information_source_portfolio_value",
+  "issue": 582,
+  "maturity": "experimental",
+  "stable_claim_allowed": false,
+  "python_modules": ["voiage/methods/information_source_portfolio.py"],
+  "execution": {
+    "python": "experimental_exact_runtime",
+    "rust": "unsupported",
+    "r": "unsupported",
+    "julia": "unsupported",
+    "mojo": "external_boundary"
+  },
+  "supported": [
+    "finite complete joint-world law",
+    "exact bounded source-sequence enumeration",
+    "cost latency privacy freshness SLA coverage exclusivity and order constraints",
+    "gross and net decision value plus willingness to pay",
+    "complete policy and sequence ties",
+    "prefix-conditional marginal value",
+    "exact decision-value Shapley attribution",
+    "rights and provenance fail-closed validation"
+  ],
+  "unsupported": [
+    "independent additive EVSI closure",
+    "adaptive stopping or branching acquisition",
+    "probabilistic observation channels outside joint worlds",
+    "approximate optimization",
+    "predictive Data Shapley",
+    "stable or polyglot execution"
+  ],
+  "next_gates": [
+    "independent scientific review",
+    "hosted exact-head and installed-wheel assurance",
+    "Rust R and Julia parity",
+    "separate stable-promotion approval",
+    "release and issue closure"
+  ]
+}

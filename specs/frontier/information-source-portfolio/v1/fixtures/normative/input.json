@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.0.0",
+  "analysis_id": "complementary-source-portfolio",
+  "analysis_type": "information_source_portfolio",
+  "method_maturity": "experimental",
+  "value_context": {
+    "value_unit": "AUD",
+    "cost_unit": "AUD",
+    "time_unit": "day",
+    "population_basis": "one governed decision cohort",
+    "horizon_basis": "one decision cycle",
+    "discount_basis": "undiscounted synthetic reference",
+    "delay_cost_per_time": 0.5
+  },
+  "actions": ["act00", "act01", "act10", "act11"],
+  "states": [
+    {
+      "state_id": "world00",
+      "probability": 0.25,
+      "action_values": {"act00": 40.0, "act01": 0.0, "act10": 0.0, "act11": 0.0},
+      "source_observations": {"survey": "low", "registry": "low", "sensor": "low"}
+    },
+    {
+      "state_id": "world01",
+      "probability": 0.25,
+      "action_values": {"act00": 0.0, "act01": 40.0, "act10": 0.0, "act11": 0.0},
+      "source_observations": {"survey": "low", "registry": "low", "sensor": "high"}
+    },
+    {
+      "state_id": "world10",
+      "probability": 0.25,
+      "action_values": {"act00": 0.0, "act01": 0.0, "act10": 40.0, "act11": 0.0},
+      "source_observations": {"survey": "high", "registry": "high", "sensor": "low"}
+    },
+    {
+      "state_id": "world11",
+      "probability": 0.25,
+      "action_values": {"act00": 0.0, "act01": 0.0, "act10": 0.0, "act11": 40.0},
+      "source_observations": {"survey": "high", "registry": "high", "sensor": "high"}
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "survey",
+      "label": "Licensed survey",
+      "cost": 3.0,
+      "cost_unit": "AUD",
+      "latency": 1.0,
+      "privacy_cost": 1.0,
+      "freshness_age": 5.0,
+      "sla_probability": 0.99,
+      "coverage": ["clinical"],
+      "excludes": [],
+      "must_precede": [],
+      "rights": {
+        "status": "cleared",
+        "license_id": "synthetic-cc0",
+        "basis": "synthetic fixture generated for exact conformance",
+        "source_uri": "https://voiage.dev/fixtures/source-survey",
+        "content_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+      }
+    },
+    {
+      "source_id": "registry",
+      "label": "Rights-cleared registry extract",
+      "cost": 1.0,
+      "cost_unit": "AUD",
+      "latency": 1.0,
+      "privacy_cost": 1.0,
+      "freshness_age": 2.0,
+      "sla_probability": 0.99,
+      "coverage": ["clinical"],
+      "excludes": [],
+      "must_precede": ["sensor"],
+      "rights": {
+        "status": "cleared",
+        "license_id": "synthetic-cc0",
+        "basis": "synthetic fixture generated for exact conformance",
+        "source_uri": "https://voiage.dev/fixtures/source-registry",
+        "content_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+      }
+    },
+    {
+      "source_id": "sensor",
+      "label": "Governed sensor feed",
+      "cost": 2.0,
+      "cost_unit": "AUD",
+      "latency": 1.0,
+      "privacy_cost": 1.0,
+      "freshness_age": 1.0,
+      "sla_probability": 0.99,
+      "coverage": ["operational"],
+      "excludes": [],
+      "must_precede": [],
+      "rights": {
+        "status": "cleared",
+        "license_id": "synthetic-cc0",
+        "basis": "synthetic fixture generated for exact conformance",
+        "source_uri": "https://voiage.dev/fixtures/source-sensor",
+        "content_sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+      }
+    }
+  ],
+  "constraints": {
+    "max_cost": 10.0,
+    "max_latency": 10.0,
+    "max_privacy_cost": 10.0,
+    "max_sources": 3,
+    "min_source_sla": 0.9,
+    "max_freshness_age": 30.0,
+    "required_coverage": []
+  },
+  "tie_policy": {
+    "absolute_tolerance": 1e-12,
+    "relative_tolerance": 1e-12,
+    "sequence_selection": "highest_net_then_lower_cost_latency_lexical"
+  },
+  "provenance": {
+    "decision_revision": "synthetic-reference-v1",
+    "joint_world_source": "independent finite enumeration encoded in this fixture",
+    "constraint_source": "synthetic governed procurement limits",
+    "evaluator": "voiage-information-source-portfolio-v1",
+    "software_version": "1.3.0-planned"
+  }
+}
