@@ -202,16 +202,16 @@ covers the experimental frontier entries only.
 - [x] **F599-1 / #786:** Freeze #599's M30 four-value static/dynamic
   heterogeneity estimand, optional EVSI extension, planned v1.3.0 Should
   requirements, Mermaid flow and primary-reference boundary. (AC-02, AC-03,
-  AC-09) `pending-implementation-commit`
+  AC-09) `1a075383`
 - [x] **F599-2 / #786:** Add strict v1 schemas, deterministic opposing
   static/dynamic fixture, declared subgroup selection, weights, eligibility,
   fairness/privacy, research model, provenance and language dispositions.
-  (AC-02–AC-06) `pending-implementation-commit`
+  (AC-02–AC-06) `1a075383`
 - [x] **F599-3 / #788:** Implement exact experimental Python/API/CLI execution
   for `C0`, `Cf`, `P0`, `Pf`, static/dynamic value, subgroup EVPI, optional
   population/subgroup EVSI, complete ties and exact identities without
   replacing the stable heterogeneity helper. (AC-02–AC-06)
-  `pending-implementation-commit`
+  `1a075383`
 - [~] **F599-4 / #789:** Run independent implementation/scientific review,
   complete changed-branch, local and hosted exact-head assurance; retain
   scientific validity, selection-bias/sparse-subgroup review, Rust/R/Julia
