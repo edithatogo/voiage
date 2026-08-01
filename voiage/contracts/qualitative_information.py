@@ -655,8 +655,7 @@ def validate_qualitative_information_semantics(
             timestamp = datetime.fromisoformat(event["timestamp"])
         except ValueError as error:
             raise ValueError(
-                "invalid specification at /audit_history/"
-                f"{index - 1}/timestamp (constraint: format)"
+                f"invalid specification at /audit_history/{index - 1}/timestamp (constraint: format)"
             ) from error
         if previous_timestamp is not None and timestamp < previous_timestamp:
             raise ValueError("audit timestamps must be non-decreasing")

@@ -73,7 +73,7 @@
     },
     {
       "path": "voiage/contracts/qualitative_information.py",
-      "sha256": "cf3780fe8e81bfb7ef9605be4640718d2dd89138245ed2dcea60f5767cbb80cd"
+      "sha256": "df3575e604132653bbf89d1b1b66ffcdb3fb67f8db5dfabb2272b2765e668472"
     },
     {
       "path": "voiage/methods/qualitative_information.py",
