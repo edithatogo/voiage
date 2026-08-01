@@ -12,6 +12,7 @@ import pytest
 from voiage.contracts.qualitative_information import (
     qualitative_assessment_content_digest,
     qualitative_audit_event_digest,
+    validate_qualitative_information_result_semantics,
 )
 from voiage.exceptions import InputError
 from voiage.methods.qualitative_information import (
@@ -21,6 +22,9 @@ from voiage.methods.qualitative_information import (
 
 ROOT = Path(__file__).parents[1]
 INPUT = ROOT / "specs/frontier/qualitative-information/v1/fixtures/normative/input.json"
+EXPECTED = (
+    ROOT / "specs/frontier/qualitative-information/v1/fixtures/normative/expected.json"
+)
 CASES = ROOT / "specs/frontier/qualitative-information/v1/fixtures/cases"
 
 
@@ -36,6 +40,28 @@ def _rebind(payload: dict[str, Any]) -> None:
         event["previous_content_digest"] = previous_digest
         event["content_digest"] = qualitative_audit_event_digest(event)
         previous_digest = event["content_digest"]
+
+
+def _verified_ai_judgement(
+    payload: dict[str, Any], *, reviewer_id: str, event_id: str
+) -> dict[str, Any]:
+    judgement = deepcopy(payload["questions"][0]["judgements"][0])
+    judgement.update(
+        reviewer_id="ai-reviewed",
+        actor_type="ai",
+        verification_state="human_verified",
+        ai_provenance={
+            "provider": "synthetic",
+            "model_version": "1",
+            "input_reference": "fixture",
+        },
+        human_override={"reviewer_id": reviewer_id, "audit_event_id": event_id},
+    )
+    return judgement
+
+
+def _expected() -> dict[str, Any]:
+    return json.loads(EXPECTED.read_text(encoding="utf-8"))
 
 
 def _apply_recipe(payload: dict[str, Any], recipe: dict[str, Any]) -> None:
@@ -119,6 +145,16 @@ def test_missing_evidence_and_unverified_ai_keep_result_incomplete() -> None:
     assert result.workflow_status == "unverified"
     assert result.human_approval_status == "pending"
     assert result.question_results[0].consensus_status == "unverified"
+
+
+def test_missing_evidence_without_ai_produces_incomplete_consensus() -> None:
+    payload = _payload()
+    payload["questions"][0]["missing_fields"] = ["equity_ethics"]
+    payload["audit_history"][-1]["action"] = "review"
+    _rebind(payload)
+    result = qualitative_information_from_specification(payload)
+    assert result.workflow_status == "incomplete"
+    assert result.question_results[0].consensus_status == "incomplete"
 
 
 def test_redacted_source_content_is_not_rendered() -> None:
@@ -277,6 +313,158 @@ def test_audit_digest_timestamp_and_version_tampering_fail_closed() -> None:
     _rebind(version_payload)
     with pytest.raises(InputError, match="versions must be non-decreasing"):
         qualitative_information_from_specification(version_payload)
+
+
+def test_additional_audit_chain_and_binding_tampering_fail_closed() -> None:
+    chain_payload = _payload()
+    chain_payload["audit_history"][1]["previous_content_digest"] = "0" * 64
+    with pytest.raises(InputError, match="previous_content_digest chain"):
+        qualitative_information_from_specification(chain_payload)
+
+    binding_payload = _payload()
+    binding_payload["audit_history"][-1]["assessment_content_digest"] = "0" * 64
+    binding_payload["audit_history"][-1]["content_digest"] = (
+        qualitative_audit_event_digest(binding_payload["audit_history"][-1])
+    )
+    with pytest.raises(InputError, match="bind the current assessment content"):
+        qualitative_information_from_specification(binding_payload)
+
+
+def test_ai_audit_events_require_provenance_and_cannot_approve() -> None:
+    approving_payload = _payload()
+    event = approving_payload["audit_history"][1]
+    event["actor"] = {"actor_id": "ai-auditor", "actor_type": "ai"}
+    event["action"] = "approve"
+    event["ai_provenance"] = {
+        "provider": "synthetic",
+        "model_version": "1",
+        "input_reference": "fixture",
+    }
+    _rebind(approving_payload)
+    with pytest.raises(InputError, match="AI audit actor cannot approve"):
+        qualitative_information_from_specification(approving_payload)
+
+    reviewing_payload = _payload()
+    event = reviewing_payload["audit_history"][1]
+    event["actor"] = {"actor_id": "ai-auditor", "actor_type": "ai"}
+    event["ai_provenance"] = {
+        "provider": "synthetic",
+        "model_version": "1",
+        "input_reference": "fixture",
+    }
+    _rebind(reviewing_payload)
+    assert (
+        qualitative_information_from_specification(reviewing_payload).workflow_status
+        == "complete"
+    )
+
+
+def test_human_override_actor_action_and_current_binding_are_enforced() -> None:
+    actor_payload = _payload()
+    actor_payload["questions"][0]["judgements"].append(
+        _verified_ai_judgement(
+            actor_payload, reviewer_id="reviewer-a", event_id="event-review"
+        )
+    )
+    _rebind(actor_payload)
+    with pytest.raises(InputError, match="actor does not match"):
+        qualitative_information_from_specification(actor_payload)
+
+    action_payload = _payload()
+    action_payload["questions"][0]["judgements"].append(
+        _verified_ai_judgement(
+            action_payload, reviewer_id="reviewer-a", event_id="event-create"
+        )
+    )
+    _rebind(action_payload)
+    with pytest.raises(InputError, match="reference review or approval"):
+        qualitative_information_from_specification(action_payload)
+
+    valid_payload = _payload()
+    valid_payload["questions"][0]["judgements"].append(
+        _verified_ai_judgement(
+            valid_payload, reviewer_id="reviewer-a", event_id="event-approve"
+        )
+    )
+    _rebind(valid_payload)
+    assert (
+        qualitative_information_from_specification(valid_payload).workflow_status
+        == "complete"
+    )
+
+
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        (
+            lambda result: result["priority_groups"].reverse(),
+            "declared complete order",
+        ),
+        (
+            lambda result: result["priority_groups"][0].update(question_ids=[]),
+            "every resolved question",
+        ),
+        (
+            lambda result: result["question_results"][0].update(
+                resolved_recommendation_class=None
+            ),
+            "consensus and resolved classes",
+        ),
+        (
+            lambda result: result["question_results"][0].update(
+                priority_classes=["routine"]
+            ),
+            "reported priority class",
+        ),
+        (
+            lambda result: result["question_results"][0].update(
+                recommendation_classes=["monitor"]
+            ),
+            "reported class",
+        ),
+    ],
+)
+def test_portable_result_rejects_additional_state_contradictions(
+    mutation, message: str
+) -> None:
+    result = _expected()
+    mutation(result)
+    with pytest.raises(ValueError, match=message):
+        validate_qualitative_information_result_semantics(result)
+
+
+def test_portable_result_accepts_a_consistent_incomplete_question() -> None:
+    result = _expected()
+    question = result["question_results"][0]
+    question.update(
+        consensus_status="incomplete",
+        resolved_priority_class=None,
+        resolved_recommendation_class=None,
+    )
+    result["priority_groups"][0]["question_ids"] = []
+    result["unresolved_question_ids"] = [question["question_id"]]
+    result["workflow_status"] = "incomplete"
+    result["human_approval_status"] = "pending"
+    validate_qualitative_information_result_semantics(result)
+
+
+def test_portable_result_rechecks_complete_workflow_approval(monkeypatch) -> None:
+    class ApprovalChangesAfterDerivation(dict[str, Any]):
+        reads = 0
+
+        def __getitem__(self, key: str) -> Any:
+            if key == "human_approval_status":
+                self.reads += 1
+                return "approved" if self.reads == 1 else "pending"
+            return super().__getitem__(key)
+
+    monkeypatch.setattr(
+        "voiage.contracts.qualitative_information.Draft202012Validator.validate",
+        lambda self, instance: None,
+    )
+    result = ApprovalChangesAfterDerivation(_expected())
+    with pytest.raises(ValueError, match="complete workflow requires"):
+        validate_qualitative_information_result_semantics(result)
 
 
 def test_equal_priorities_form_a_complete_deterministic_tie_group() -> None:

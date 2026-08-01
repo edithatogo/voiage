@@ -81,7 +81,7 @@
     },
     {
       "path": "tests/test_qualitative_information.py",
-      "sha256": "377d642cde56c46fed9a265e7b5532698a5bf87e535fb216673cacef42b8a73c"
+      "sha256": "5798c7ad3436c013d0029837c9e753f5adfed3c5f0ba2aa700a6b7a7912905d2"
     },
     {
       "path": "tests/test_qualitative_information_contract.py",
