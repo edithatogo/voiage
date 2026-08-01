@@ -319,6 +319,27 @@ def test_belief_state_information_experimental_delivery_is_governed() -> None:
         assert gate in f"{plan}\n{todo}"
 
 
+def test_parallel_m26_to_m30_frontier_governance_is_additively_preserved() -> None:
+    track = INVENTORY.parent
+    metadata = json.loads((track / "metadata.json").read_text(encoding="utf-8"))
+    children = _inventory()["children"]
+    assert isinstance(children, list)
+    by_issue = {child["issue"]: child for child in children}
+    expected_requirements = {"M26", "M27", "M28", "M29", "M30"}
+
+    assert expected_requirements <= set(metadata["requirement_ids"])
+    assert expected_requirements <= set(metadata["planned_version_extensions"]["1.3.0"])
+    assert expected_requirements <= set(metadata["canonical_track_extensions"]["C18"])
+    assert by_issue[597]["delivery_subissues"] == [780, 781, 782]
+    assert by_issue[597]["implementation_pull_requests"] == [807]
+    assert by_issue[598]["delivery_subissues"] == [783, 784, 785]
+    assert by_issue[598]["implementation_pull_requests"] == [808]
+    assert by_issue[598]["disposition"] == "experimental_merged"
+    assert by_issue[599]["delivery_subissues"] == [786, 788, 789]
+    assert by_issue[599]["implementation_pull_requests"] == [809]
+    assert by_issue[599]["disposition"] == "contract_in_progress"
+
+
 def test_signed_social_information_experimental_delivery_is_governed() -> None:
     track = INVENTORY.parent
     plan = (track / "plan.md").read_text(encoding="utf-8")

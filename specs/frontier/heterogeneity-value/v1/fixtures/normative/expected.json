@@ -1,0 +1,429 @@
+{
+  "analysis_id": "worked-heterogeneity-decomposition",
+  "analysis_type": "heterogeneity_value_decomposition_result",
+  "assurance": {
+    "candidate_space_complete": true,
+    "common_actions_evaluated": 2,
+    "estimator": "exact_enumeration",
+    "identity_verified": true,
+    "input_contract": {
+      "actions": [
+        {
+          "action_id": "a",
+          "label": "Action A"
+        },
+        {
+          "action_id": "b",
+          "label": "Action B"
+        }
+      ],
+      "analysis_id": "worked-heterogeneity-decomposition",
+      "analysis_type": "heterogeneity_value_decomposition",
+      "estimator_assurance": {
+        "candidate_space_complete": true,
+        "estimator": "exact_enumeration",
+        "model_revision": "worked-v1"
+      },
+      "method_maturity": "experimental",
+      "objective": {
+        "direction": "maximize",
+        "discount_basis": "already discounted",
+        "horizon_basis": "one decision horizon",
+        "population_basis": "eligible worked-example population",
+        "value_unit": "net-monetary-benefit-per-person"
+      },
+      "provenance": {
+        "effect_source": "synthetic finite values",
+        "research_model_source": "symmetric binary channel",
+        "software_version": "voiage experimental contract v1",
+        "subgroup_source": "synthetic worked fixture"
+      },
+      "sample_information": {
+        "cost": {
+          "amount": 0.25,
+          "basis": "population-average acquisition cost",
+          "unit": "net-monetary-benefit-per-person"
+        },
+        "research_action_id": "binary-effect-study",
+        "signals": [
+          {
+            "likelihood_by_state": {
+              "high": 0.2,
+              "low": 0.8
+            },
+            "signal_id": "low-signal"
+          },
+          {
+            "likelihood_by_state": {
+              "high": 0.8,
+              "low": 0.2
+            },
+            "signal_id": "high-signal"
+          }
+        ]
+      },
+      "schema_version": "1.0.0",
+      "states": [
+        {
+          "probability": 0.5,
+          "state_id": "low",
+          "subgroup_action_values": {
+            "g1": {
+              "a": 10.0,
+              "b": 0.0
+            },
+            "g2": {
+              "a": 6.0,
+              "b": 8.0
+            }
+          }
+        },
+        {
+          "probability": 0.5,
+          "state_id": "high",
+          "subgroup_action_values": {
+            "g1": {
+              "a": 10.0,
+              "b": 12.0
+            },
+            "g2": {
+              "a": 6.0,
+              "b": 8.0
+            }
+          }
+        }
+      ],
+      "subgroup_specification": {
+        "covariates": [
+          "biomarker-status"
+        ],
+        "fairness_constraints": "both actions considered in both groups",
+        "multiplicity_policy": "single prespecified partition",
+        "privacy_constraints": "synthetic aggregate finite fixture",
+        "selection_policy": "prespecified before effect estimation",
+        "specification_id": "prespecified-biomarker"
+      },
+      "subgroups": [
+        {
+          "eligible_action_ids": [
+            "a",
+            "b"
+          ],
+          "label": "Group 1",
+          "subgroup_id": "g1",
+          "weight": 0.5
+        },
+        {
+          "eligible_action_ids": [
+            "a",
+            "b"
+          ],
+          "label": "Group 2",
+          "subgroup_id": "g2",
+          "weight": 0.5
+        }
+      ],
+      "tolerances": {
+        "absolute_tie": 1e-12,
+        "probability_sum": 1e-12,
+        "relative_tie": 1e-12
+      }
+    },
+    "input_sha256": "26818908cdb705e382c7c126390b4bc7eae354d6146caf2dcdb757a39ade2681",
+    "model_revision": "worked-v1",
+    "selection_adjustment_performed": false,
+    "sparse_subgroup_inference_performed": false,
+    "states_evaluated": 2,
+    "subgroups_evaluated": 2
+  },
+  "four_value_decomposition": {
+    "c0": 8.0,
+    "cf": 9.0,
+    "dynamic_value": 0.5,
+    "identity_residual": 0.0,
+    "p0": 9.0,
+    "pf": 9.5,
+    "static_value": 1.0
+  },
+  "language_dispositions": {
+    "julia": "not_implemented",
+    "mojo": "external_upstream_boundary",
+    "python": "experimental_exact_execution",
+    "r": "not_implemented",
+    "rust": "not_implemented"
+  },
+  "method_maturity": "experimental",
+  "objective": {
+    "direction": "maximize",
+    "discount_basis": "already discounted",
+    "horizon_basis": "one decision horizon",
+    "population_basis": "eligible worked-example population",
+    "value_unit": "net-monetary-benefit-per-person"
+  },
+  "perfect_information": {
+    "difference_identity": -0.5,
+    "population_common_evpi": 1.0,
+    "subgroup_policy_evpi": 0.5
+  },
+  "policy_audit": {
+    "current_population_common": {
+      "action_tie": [
+        "a"
+      ],
+      "action_values": {
+        "a": 8.0,
+        "b": 7.0
+      },
+      "selected_action_id": "a"
+    },
+    "perfect_information_states": [
+      {
+        "population_common": {
+          "action_tie": [
+            "b"
+          ],
+          "action_values": {
+            "a": 8.0,
+            "b": 10.0
+          },
+          "selected_action_id": "b",
+          "value": 10.0
+        },
+        "probability": 0.5,
+        "state_id": "high",
+        "subgroup_policies": {
+          "g1": {
+            "action_tie": [
+              "b"
+            ],
+            "action_values": {
+              "a": 10.0,
+              "b": 12.0
+            },
+            "selected_action_id": "b",
+            "value": 12.0
+          },
+          "g2": {
+            "action_tie": [
+              "b"
+            ],
+            "action_values": {
+              "a": 6.0,
+              "b": 8.0
+            },
+            "selected_action_id": "b",
+            "value": 8.0
+          }
+        }
+      },
+      {
+        "population_common": {
+          "action_tie": [
+            "a"
+          ],
+          "action_values": {
+            "a": 8.0,
+            "b": 4.0
+          },
+          "selected_action_id": "a",
+          "value": 8.0
+        },
+        "probability": 0.5,
+        "state_id": "low",
+        "subgroup_policies": {
+          "g1": {
+            "action_tie": [
+              "a"
+            ],
+            "action_values": {
+              "a": 10.0,
+              "b": 0.0
+            },
+            "selected_action_id": "a",
+            "value": 10.0
+          },
+          "g2": {
+            "action_tie": [
+              "b"
+            ],
+            "action_values": {
+              "a": 6.0,
+              "b": 8.0
+            },
+            "selected_action_id": "b",
+            "value": 8.0
+          }
+        }
+      }
+    ],
+    "subgroup_specification": {
+      "covariates": [
+        "biomarker-status"
+      ],
+      "fairness_constraints": "both actions considered in both groups",
+      "multiplicity_policy": "single prespecified partition",
+      "privacy_constraints": "synthetic aggregate finite fixture",
+      "selection_policy": "prespecified before effect estimation",
+      "specification_id": "prespecified-biomarker"
+    }
+  },
+  "provenance": {
+    "effect_source": "synthetic finite values",
+    "research_model_source": "symmetric binary channel",
+    "software_version": "voiage experimental contract v1",
+    "subgroup_source": "synthetic worked fixture"
+  },
+  "sample_information": {
+    "cost": {
+      "amount": 0.25,
+      "basis": "population-average acquisition cost",
+      "unit": "net-monetary-benefit-per-person"
+    },
+    "current_subgroup_action_values": {
+      "g1": {
+        "a": 10.0,
+        "b": 6.0
+      },
+      "g2": {
+        "a": 6.0,
+        "b": 8.0
+      }
+    },
+    "identity_residual": 0.0,
+    "population_common_evsi": 0.40000000000000036,
+    "population_common_net_evsi": 0.15000000000000036,
+    "research_action_id": "binary-effect-study",
+    "s0": 8.4,
+    "sample_informed_segmentation_value": 0.5999999999999996,
+    "sf": 9.0,
+    "signals": [
+      {
+        "population_common": {
+          "action_tie": [
+            "b"
+          ],
+          "joint_weighted_action_values": {
+            "a": 4.0,
+            "b": 4.4
+          },
+          "selected_action_id": "b"
+        },
+        "probability": 0.5,
+        "signal_id": "high-signal",
+        "subgroup_policies": {
+          "g1": {
+            "action_tie": [
+              "a"
+            ],
+            "joint_weighted_action_values": {
+              "a": 5.0,
+              "b": 4.800000000000001
+            },
+            "selected_action_id": "a"
+          },
+          "g2": {
+            "action_tie": [
+              "b"
+            ],
+            "joint_weighted_action_values": {
+              "a": 3.0000000000000004,
+              "b": 4.0
+            },
+            "selected_action_id": "b"
+          }
+        }
+      },
+      {
+        "population_common": {
+          "action_tie": [
+            "a"
+          ],
+          "joint_weighted_action_values": {
+            "a": 4.0,
+            "b": 2.6
+          },
+          "selected_action_id": "a"
+        },
+        "probability": 0.5,
+        "signal_id": "low-signal",
+        "subgroup_policies": {
+          "g1": {
+            "action_tie": [
+              "a"
+            ],
+            "joint_weighted_action_values": {
+              "a": 5.0,
+              "b": 1.2000000000000002
+            },
+            "selected_action_id": "a"
+          },
+          "g2": {
+            "action_tie": [
+              "b"
+            ],
+            "joint_weighted_action_values": {
+              "a": 3.0000000000000004,
+              "b": 4.0
+            },
+            "selected_action_id": "b"
+          }
+        }
+      }
+    ],
+    "subgroup_evsi": [
+      {
+        "current_value": 10.0,
+        "evsi": 0.0,
+        "sample_value": 10.0,
+        "subgroup_id": "g1",
+        "weight": 0.5,
+        "weighted_evsi_contribution": 0.0
+      },
+      {
+        "current_value": 8.0,
+        "evsi": 0.0,
+        "sample_value": 8.0,
+        "subgroup_id": "g2",
+        "weight": 0.5,
+        "weighted_evsi_contribution": 0.0
+      }
+    ],
+    "subgroup_policy_evsi": 0.0,
+    "subgroup_policy_net_evsi": -0.25
+  },
+  "schema_version": "1.0.0",
+  "subgroup_results": [
+    {
+      "current_action_tie": [
+        "a"
+      ],
+      "current_action_values": {
+        "a": 10.0,
+        "b": 6.0
+      },
+      "current_value": 10.0,
+      "evpi": 1.0,
+      "label": "Group 1",
+      "perfect_information_value": 11.0,
+      "selected_current_action_id": "a",
+      "subgroup_id": "g1",
+      "weight": 0.5
+    },
+    {
+      "current_action_tie": [
+        "b"
+      ],
+      "current_action_values": {
+        "a": 6.0,
+        "b": 8.0
+      },
+      "current_value": 8.0,
+      "evpi": 0.0,
+      "label": "Group 2",
+      "perfect_information_value": 8.0,
+      "selected_current_action_id": "b",
+      "subgroup_id": "g2",
+      "weight": 0.5
+    }
+  ]
+}

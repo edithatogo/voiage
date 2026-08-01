@@ -1,0 +1,16 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "evidence_artifact": "evidence.json",
+  "normative": [
+    {
+      "expected_output_artifact": "normative/expected.json",
+      "input_artifact": "normative/input.json",
+      "method_family": "heterogeneity_value_decomposition",
+      "name": "opposing static and dynamic subgroup values",
+      "reference": "Espinoza et al. 2014 finite four-value construction",
+      "tolerance_policy": "declared absolute and relative tolerances"
+    }
+  ],
+  "pathologies": []
+}

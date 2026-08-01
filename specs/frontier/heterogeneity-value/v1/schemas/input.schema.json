@@ -1,0 +1,365 @@
+{
+  "$id": "https://voiage.dev/schemas/frontier/heterogeneity-value-input.v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "actions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "action_id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "label": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "action_id",
+          "label"
+        ],
+        "type": "object"
+      },
+      "minItems": 2,
+      "type": "array"
+    },
+    "analysis_id": {
+      "minLength": 1,
+      "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+      "type": "string"
+    },
+    "analysis_type": {
+      "const": "heterogeneity_value_decomposition"
+    },
+    "estimator_assurance": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_space_complete": {
+          "const": true
+        },
+        "estimator": {
+          "const": "exact_enumeration"
+        },
+        "model_revision": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "estimator",
+        "candidate_space_complete",
+        "model_revision"
+      ],
+      "type": "object"
+    },
+    "method_maturity": {
+      "const": "experimental"
+    },
+    "objective": {
+      "additionalProperties": false,
+      "properties": {
+        "direction": {
+          "enum": [
+            "maximize",
+            "minimize"
+          ]
+        },
+        "discount_basis": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "horizon_basis": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "population_basis": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "value_unit": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "direction",
+        "value_unit",
+        "population_basis",
+        "horizon_basis",
+        "discount_basis"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "effect_source": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "research_model_source": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "software_version": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "subgroup_source": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "subgroup_source",
+        "effect_source",
+        "research_model_source",
+        "software_version"
+      ],
+      "type": "object"
+    },
+    "sample_information": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "cost": {
+              "additionalProperties": false,
+              "properties": {
+                "amount": {
+                  "minimum": 0,
+                  "type": "number"
+                },
+                "basis": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "unit": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "amount",
+                "unit",
+                "basis"
+              ],
+              "type": "object"
+            },
+            "research_action_id": {
+              "minLength": 1,
+              "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+              "type": "string"
+            },
+            "signals": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "likelihood_by_state": {
+                    "additionalProperties": {
+                      "maximum": 1,
+                      "minimum": 0,
+                      "type": "number"
+                    },
+                    "minProperties": 1,
+                    "type": "object"
+                  },
+                  "signal_id": {
+                    "minLength": 1,
+                    "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "signal_id",
+                  "likelihood_by_state"
+                ],
+                "type": "object"
+              },
+              "minItems": 1,
+              "type": "array"
+            }
+          },
+          "required": [
+            "research_action_id",
+            "cost",
+            "signals"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "states": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "probability": {
+            "exclusiveMinimum": 0,
+            "maximum": 1,
+            "type": "number"
+          },
+          "state_id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "subgroup_action_values": {
+            "additionalProperties": {
+              "additionalProperties": {
+                "type": "number"
+              },
+              "minProperties": 1,
+              "type": "object"
+            },
+            "minProperties": 2,
+            "type": "object"
+          }
+        },
+        "required": [
+          "state_id",
+          "probability",
+          "subgroup_action_values"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "subgroup_specification": {
+      "additionalProperties": false,
+      "properties": {
+        "covariates": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "fairness_constraints": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "multiplicity_policy": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "privacy_constraints": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "selection_policy": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "specification_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "specification_id",
+        "covariates",
+        "selection_policy",
+        "multiplicity_policy",
+        "fairness_constraints",
+        "privacy_constraints"
+      ],
+      "type": "object"
+    },
+    "subgroups": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "eligible_action_ids": {
+            "items": {
+              "minLength": 1,
+              "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "label": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "subgroup_id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "weight": {
+            "exclusiveMinimum": 0,
+            "maximum": 1,
+            "type": "number"
+          }
+        },
+        "required": [
+          "subgroup_id",
+          "label",
+          "weight",
+          "eligible_action_ids"
+        ],
+        "type": "object"
+      },
+      "minItems": 2,
+      "type": "array"
+    },
+    "tolerances": {
+      "additionalProperties": false,
+      "properties": {
+        "absolute_tie": {
+          "maximum": 1e-06,
+          "minimum": 0,
+          "type": "number"
+        },
+        "probability_sum": {
+          "exclusiveMinimum": 0,
+          "maximum": 1e-06,
+          "type": "number"
+        },
+        "relative_tie": {
+          "maximum": 1e-06,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "probability_sum",
+        "absolute_tie",
+        "relative_tie"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "analysis_id",
+    "analysis_type",
+    "method_maturity",
+    "objective",
+    "subgroup_specification",
+    "actions",
+    "subgroups",
+    "states",
+    "sample_information",
+    "tolerances",
+    "estimator_assurance",
+    "provenance"
+  ],
+  "title": "HeterogeneityValueInputV1Experimental",
+  "type": "object"
+}

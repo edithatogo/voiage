@@ -41,6 +41,10 @@ if TYPE_CHECKING:
         ForecastSignalInformationResult,
         forecast_signal_information_value,
     )
+    from .heterogeneity_value import (
+        HeterogeneityValueDecompositionResult,
+        heterogeneity_value_decomposition,
+    )
     from .implementation_information import (
         ImplementationInformationResult,
         implementation_information_value,
@@ -96,6 +100,7 @@ _MODULES = (
     "federated_privacy_preserving",
     "forecast_signal_information",
     "heterogeneity",
+    "heterogeneity_value",
     "implementation",
     "implementation_information",
     "implementation_strategy",
@@ -162,6 +167,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "FederatedPrivacyPreservingResult",
     "ForecastSignalInformationResult",
     "HeterogeneityResult",
+    "HeterogeneityValueDecompositionResult",
     "ImplementationAdjustedResult",
     "ImplementationInformationResult",
     "ImplementationStrategyComparisonResult",
@@ -244,6 +250,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "value_of_explainability_transparency",
     "value_of_federated_privacy_preserving",
     "value_of_heterogeneity",
+    "heterogeneity_value_decomposition",
     "value_of_implementation",
     "value_of_implementation_strategy_comparison",
     "value_of_interoperability_standardization",

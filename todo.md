@@ -10,11 +10,26 @@ relevant subagent review panel defined in
 The panel supplies structured evidence; maintainer approval and external
 release, registry, and publication decisions remain separate gates.
 
-*   [ ] Complete signed/social information value after experimental repository delivery.
+*   [ ] Complete static/dynamic heterogeneity value after experimental branch delivery.
+    *   GitHub issue #599; delivery subissues #786/#788/#789; umbrella track
+        `supported_frontier_method_completion_20260723`; phases F599-1–F599-4;
+        canonical C18/M30; planned v1.3.0 Should.
+    *   The exact finite Python slice reports `C0`, `Cf`, `P0`, `Pf`, static and
+        dynamic value, population-common and subgroup-policy EVPI, subgroup
+        policies, complete ties, an optional separate EVSI extension and exact
+        identities without replacing the stable heterogeneity helper.
+    *   Fresh independent engineering review found and remediated a High
+        model-bound result-assurance defect, then passed with no remaining
+        Critical, High or Medium findings. Remaining gates are hosted exact-
+        head and changed-coverage assurance, named subgroup scientific validity,
+        Rust/R/Julia parity, stable promotion, release, parent #599 closure and
+        umbrella #318 closure.
+
+*   [ ] Complete signed/social information value after experimental merge.
     *   GitHub issue #598; native subissues #783–#785; umbrella track
         `supported_frontier_method_completion_20260723`; phases F598-1–F598-5;
         canonical C18/M29; planned v1.3.0 Should.
-    *   The local review-ready exact finite Python slice covers named agents and
+    *   The merged exact finite Python slice covers named agents and
         roles, signal topology, nonanticipative centralized/fixed/declared-
         response/verified-equilibrium catalogs, signed agent/role/social values,
         selective sharing, full transfer/cost ledgers, rights receipts and
@@ -40,11 +55,10 @@ release, registry, and publication decisions remain separate gates.
         additive dual-control value is claimed.
     *   PR #807 exact head `35cfe522` completed all 42 terminal-allowed checks
         with 38 successes, three governed skips and one neutral CodeQL
-        aggregation, including installed-wheel and full-suite assurance. All
-        three review threads were resolved before squash merge `39de9c6a`.
-        Delivery subissues #780–#782 may close. Remaining gates are the named
-        scientific panel, Rust/R/Julia parity, stable promotion, release,
-        parent #597 closure and umbrella #318 closure.
+        aggregation. All three review threads were resolved before squash merge
+        `39de9c6a`; delivery subissues #780–#782 may close. Remaining gates are
+        the named scientific panel, Rust/R/Julia parity, stable promotion,
+        release, parent #597 closure and umbrella #318 closure.
 
 *   [ ] Complete event-localized information value after experimental delivery.
     *   GitHub issue #596; delivery subissues #777–#779; umbrella track

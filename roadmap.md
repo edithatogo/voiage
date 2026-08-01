@@ -18,13 +18,23 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 Across the completed lanes, external registry, hardware, and speedup evidence gates remain explicit rather than treated as repository-owned completion criteria.
 
 The v1.3 residual frontier programme is governed canonically by VOP C18. Issue
-#597 now has an isolated experimental Python implementation in progress for an
-exact finite belief MDP with control-transition-observe-update chronology,
-matched closed-loop/no-information Bellman comparators, intervention-dependent
-learning diagnostics and explicit null-sensor assurance. Independent review,
-hosted exact-head checks, merge, scientific review, polyglot parity, stable
-promotion, release, parent #597 closure and umbrella #318 closure remain
-separate gates.
+#599 now has an experimental exact finite Python contract for static and
+dynamic heterogeneity value. It preserves the existing stable descriptive
+helper while adding the four policy values `C0`/`Cf`/`P0`/`Pf`, population and
+subgroup EVPI, an optional separately reported EVSI extension, strict subgroup
+selection/eligibility/fairness/privacy declarations and exact decomposition
+assurance. Scientific validity, selection-bias and sparse-subgroup review,
+Rust/R/Julia parity, hosted exact-head evidence, stable promotion, release,
+parent #599 closure and umbrella #318 closure remain pending.
+
+#597 completed its governed experimental repository delivery. PR #807 exact
+head `35cfe522` completed all 42 terminal-allowed hosted checks with 38
+successes, three governed skips and one neutral CodeQL aggregation. All three
+review threads were resolved before squash merge `39de9c6a`. The exact finite
+belief MDP retains control-transition-observe-update chronology, matched
+closed-loop/no-information comparators and intervention-dependent learning
+diagnostics. Scientific review, Rust/R/Julia parity, stable promotion, release,
+parent #597 closure and umbrella #318 closure remain separate gates.
 
 #596 now has a test-first experimental Python delivery for C18/M27. It evaluates
 perfect event information, a symmetric imperfect binary channel and the
@@ -45,7 +55,8 @@ release, parent #593 closure and umbrella #318 closure remain open. The existing
 implementation multiplier is retained as a
 compatibility helper and is not described as EVPIM/EVSIM/IA-EVSI.
 
-C18/M29 issue #598 now has a local review-ready experimental Python contract
+C18/M29 issue #598 has completed its governed experimental Python repository
+delivery. The exact finite contract
 for exact finite signed, social and strategic information value. It freezes the
 joint-world law, roles, topology, selective-sharing designs, nonanticipative
 bounded catalogs, welfare comparability, transfers, costs and rights receipts;

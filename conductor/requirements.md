@@ -84,6 +84,16 @@ programme. The canonical cross-repository requirements are maintained in
 
 ### Should have
 
+- **M30 / planned v1.3.0:** #599 declares a prespecified subgroup partition,
+  population weights, common objective units/direction, subgroup eligibility,
+  effect-state uncertainty, selection/multiplicity policy, fairness/privacy
+  constraints and a research action. It returns `C0`, `Cf`, `P0`, `Pf`, static
+  and dynamic heterogeneity value, population-common and subgroup-policy EVPI,
+  subgroup policies and exact identity assurance. A declared imperfect signal
+  may additionally return `S0`, `Sf`, population-common and subgroup-policy
+  EVSI and the corresponding identity without conflating EVSI with dynamic
+  value or net value with gross value.
+
 - **M20 / planned v1.3.0:** #558 provides a versioned portable qualitative-VOI
   assessment and audit workflow for ordinal information priorities,
   recommendation classes, complete ties, dissent, conflict, missingness,
@@ -167,4 +177,5 @@ programme. The canonical cross-repository requirements are maintained in
 | v1.3.0 | Must | M22 | governed risk-sensitive constrained information value | #570 and #757/#758/#761 under #318 |
 | v1.3.0 | Should | M23 | C18 governed forecast-signal decision value | #572 and #759/#760/#762 under #318 |
 | v1.3.0 | Should | M29 | governed signed/social information value | #598 and #783–#785 under #318 |
+| v1.3.0 | Should | M30 | C18 governed heterogeneity-value decomposition | #599 and #786/#788/#789 under #318 |
 | v1.3.0 | Should | M27 | C18 governed event-localized information value and policy-relative density | #596 and #777–#779 under #318 |

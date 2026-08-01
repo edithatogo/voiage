@@ -108,6 +108,26 @@
 
 ## Should
 
+- **M30-S1:** #599 planned v1.3.0 must declare a prespecified subgroup
+  partition, covariates, population weights, common value unit/direction,
+  horizon and discount basis, subgroup policy eligibility, effect-state law,
+  selection/multiplicity policy, fairness/privacy constraints and provenance.
+- **M30-S2:** Return current-information population-common and subgroup-policy
+  values (`C0`, `Cf`), their perfect-information counterparts (`P0`, `Pf`),
+  direction-aware static and dynamic value, population-common and subgroup-
+  policy EVPI, subgroup policies, complete ties, switches and the exact
+  identity `dynamic - static = EVPIf - EVPI0`.
+- **M30-S3:** A declared finite sampling model may return `S0`, `Sf`,
+  population-common EVSI, subgroup-policy EVSI, sample-informed segmentation
+  value, study cost and signed net diagnostics with an analogous identity.
+  Keep these distinct from dynamic perfect-information value, subgroup effect
+  estimation and estimator uncertainty.
+- **M30-S4:** Require enumerable opposing/zero cases, population-weighting and
+  direction invariants, strict schemas, deterministic serialization, exact
+  estimator assurance and Python/Rust/R/Julia/Mojo dispositions. Selection
+  bias, sparse-subgroup validity, causal identification, fairness/privacy
+  approval, stable promotion and release remain separate gates.
+
 - **M29-S1:** #598 planned v1.3.0 signed/social information value must declare a
   complete finite joint-world law, named agents and roles, signal topology,
   eligible and actual recipients, bounded nonanticipative policy catalogs,

@@ -279,11 +279,17 @@
         "https://github.com/edithatogo/voiage/issues/595",
         "https://github.com/edithatogo/voiage/issues/596",
         "https://github.com/edithatogo/voiage/issues/597",
+        "https://github.com/edithatogo/voiage/issues/780",
+        "https://github.com/edithatogo/voiage/issues/781",
+        "https://github.com/edithatogo/voiage/issues/782",
         "https://github.com/edithatogo/voiage/issues/598",
         "https://github.com/edithatogo/voiage/issues/783",
         "https://github.com/edithatogo/voiage/issues/784",
         "https://github.com/edithatogo/voiage/issues/785",
         "https://github.com/edithatogo/voiage/issues/599",
+        "https://github.com/edithatogo/voiage/issues/786",
+        "https://github.com/edithatogo/voiage/issues/788",
+        "https://github.com/edithatogo/voiage/issues/789",
         "https://github.com/edithatogo/voiage/issues/600",
         "https://github.com/edithatogo/voiage/issues/619",
         "https://github.com/edithatogo/voiage/issues/757",
@@ -428,6 +434,38 @@
             "hosted-required-checks",
             "c110706c561ca17d3ec8835af3567948b969b3cb",
             "4657f94e69e4d99d960d6d820c5bfb3e5e8937b3"
+          ]
+        },
+        {
+          "number": 807,
+          "url": "https://github.com/edithatogo/voiage/pull/807",
+          "status": "merged",
+          "evidence": [
+            "belief-state-experimental-delivery",
+            "hosted-required-checks",
+            "35cfe522",
+            "39de9c6a"
+          ]
+        },
+        {
+          "number": 808,
+          "url": "https://github.com/edithatogo/voiage/pull/808",
+          "status": "merged",
+          "evidence": [
+            "signed-social-experimental-delivery",
+            "independent-review",
+            "hosted-required-checks",
+            "d649c344"
+          ]
+        },
+        {
+          "number": 809,
+          "url": "https://github.com/edithatogo/voiage/pull/809",
+          "status": "open",
+          "evidence": [
+            "heterogeneity-experimental-delivery",
+            "independent-review",
+            "hosted-required-checks-pending"
           ]
         }
       ],

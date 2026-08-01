@@ -251,6 +251,13 @@
       "adjacent_artifacts": [
         "sequential, adaptive, bandit and monitoring helpers",
         "specs/frontier/belief-state-information/v1"
+      ],
+      "delivery_subissues": [780, 781, 782],
+      "unresolved_gates": [
+        "independent scientific review",
+        "Rust/R/Julia parity",
+        "stable promotion and release",
+        "parent #597 and umbrella #318 closure"
       ]
     },
     {
@@ -267,20 +274,39 @@
         "conductor/tracks/supported_frontier_method_completion_20260723/signed-social-information-reference-review.md",
         "conductor/tracks/supported_frontier_method_completion_20260723/signed-social-information-implementation-review.md"
       ],
-      "adjacent_artifacts": ["strategic", "privacy and equity helpers"]
+      "adjacent_artifacts": ["strategic", "privacy and equity helpers"],
+      "delivery_subissues": [783, 784, 785],
+      "unresolved_gates": [
+        "independent scientific review",
+        "Rust/R/Julia parity",
+        "stable promotion and release",
+        "delivery subissue, parent #598 and umbrella #318 closure"
+      ]
     },
     {
       "issue": 599,
       "record_id": "heterogeneity-value-decomposition",
       "issue_state": "open",
-      "project_status": "Todo",
-      "disposition": "adjacent_only",
-      "maturity": "planned",
-      "satisfies_ac06": false,
+      "project_status": "In Progress",
+      "disposition": "contract_in_progress",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
       "delivery_track": "supported_frontier_method_completion_20260723",
-      "implementation_pull_requests": [],
-      "review_artifacts": [],
-      "adjacent_artifacts": ["static heterogeneity analysis"]
+      "implementation_pull_requests": [809],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/heterogeneity-value-reference-review.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/heterogeneity-value-implementation-review.md"
+      ],
+      "adjacent_artifacts": ["stable static heterogeneity analysis"],
+      "delivery_subissues": [786, 788, 789],
+      "unresolved_gates": [
+        "hosted exact-head and installed-wheel assurance",
+        "independent scientific review",
+        "selection-bias and sparse-subgroup validity review",
+        "Rust/R/Julia parity",
+        "stable promotion and release",
+        "parent #599 and umbrella #318 closure"
+      ]
     },
     {
       "issue": 600,

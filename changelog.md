@@ -1,5 +1,10 @@
 # Changelog
 
+- Added an experimental exact finite static/dynamic heterogeneity-value
+  decomposition for #599, including the four-value identity, an optional EVSI
+  extension, strict schemas, CLI/API execution and honest selection/parity
+  boundaries.
+
 ## Unreleased
 
 - Add experimental exact finite signed and social information value for issue
