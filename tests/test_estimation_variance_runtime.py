@@ -175,6 +175,31 @@ def test_seeded_bootstrap_assurance_is_deterministic_and_typed() -> None:
     assert first.diagnostics.diagnostic_codes == ()
 
 
+def test_evsi_bootstrap_accepts_zero_tolerance_for_six_outcomes() -> None:
+    specification = _evsi_spec().model_copy(
+        update={
+            "estimator": EstimatorAssuranceSpec(
+                estimator_id="posterior_variance_aggregation",
+                seed=17,
+                absolute_tolerance=0.0,
+                relative_tolerance=0.0,
+                bootstrap_replicates=2,
+                convergence_threshold=1.0,
+            )
+        }
+    )
+
+    result = estimation_module.evsi_var(
+        [0.0, 1.0, 2.0, 3.0],
+        [0.1, 0.2, 0.3, 0.4, 0.5, 0.6],
+        [0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
+        specification=specification,
+    )
+
+    assert result.diagnostics.bootstrap_replicates == 2
+    assert result.diagnostics.monte_carlo_standard_error is not None
+
+
 def test_assurance_contract_rejects_one_bootstrap_replicate() -> None:
     with pytest.raises(
         ValueError, match="bootstrap_replicates must be zero or at least two"

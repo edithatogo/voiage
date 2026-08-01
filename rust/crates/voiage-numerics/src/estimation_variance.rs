@@ -232,20 +232,15 @@ pub fn evsi_variance_with_assurance(
                 "bootstrap produced invalid posterior variances",
             )
         })?;
-        let posterior_count = exact_count(posterior.len(), "posterior_variances")?;
-        let equal_probabilities =
-            SampleVector::try_from(vec![1.0 / posterior_count; posterior.len()]).map_err(|_| {
-                NumericalInputError::invalid(
-                    "predictive_probabilities",
-                    "bootstrap produced invalid predictive probabilities",
-                )
-            })?;
+        let replicate_prior_variance =
+            population_variance(prior.as_slice(), "prior_target_samples")?;
+        let replicate_posterior_variance = mean(posterior.as_slice(), "posterior_variances")?;
         reductions.push(
-            evsi_variance(
-                &prior,
-                &posterior,
-                &equal_probabilities,
-                probability_tolerance,
+            make_result(
+                replicate_prior_variance,
+                replicate_posterior_variance,
+                prior.len(),
+                posterior.len(),
             )?
             .raw_reduction,
         );
@@ -614,6 +609,20 @@ mod tests {
         assert!((result.prior_variance - (8.0 / 3.0)).abs() < 1.0e-12);
         assert!((result.expected_posterior_variance - 0.3).abs() < 1.0e-12);
         assert!((result.raw_reduction - ((8.0 / 3.0) - 0.3)).abs() < 1.0e-12);
+    }
+
+    #[test]
+    fn bootstrap_accepts_zero_tolerance_with_non_power_of_two_outcome_count() {
+        let prior = SampleVector::try_from(vec![0.0, 1.0, 2.0, 3.0]).unwrap();
+        let posterior = SampleVector::try_from(vec![0.1, 0.2, 0.3, 0.4, 0.5, 0.6]).unwrap();
+        let probabilities = SampleVector::try_from(vec![0.0, 0.0, 0.0, 0.0, 0.0, 1.0]).unwrap();
+
+        let result =
+            evsi_variance_with_assurance(&prior, &posterior, &probabilities, 0.0, 2, 17, 1.0)
+                .unwrap();
+
+        assert_eq!(result.bootstrap_replicates, 2);
+        assert!(result.monte_carlo_standard_error.is_some());
     }
 
     #[test]

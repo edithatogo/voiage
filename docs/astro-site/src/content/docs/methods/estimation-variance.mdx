@@ -94,6 +94,13 @@ zero and relative reduction `None`. Negative finite-sample estimates remain
 visible in `raw_reduction` while the reported absolute reduction is clipped at
 zero.
 
+The result JSON Schema is a portable structural check, not a complete
+scientific validator. Consumers must also validate results with
+`voiage.contracts.estimation.EstimationVarianceResult`; that governed semantic
+layer checks scalar covariance-functional equality and derives the required
+squared units from the declared target. Schema-only acceptance must not be
+reported as a valid estimation-variance result.
+
 Use `voiage calculate-estimation-variance SPECIFICATION.json DATA.json` for the
 CLI. The specification follows
 `specs/estimation-variance/v1/input.schema.json`; the separate runtime data file

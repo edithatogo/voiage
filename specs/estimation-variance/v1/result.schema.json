@@ -2,6 +2,9 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://voiage.dev/specs/estimation-variance/v1/result.schema.json",
   "title": "EstimationVarianceResultV1",
+  "description": "Portable structural schema. Consumers MUST also apply the governed semantic validator voiage.contracts.estimation.EstimationVarianceResult, which enforces covariance-functional equality and units derived from the declared target.",
+  "x-semantic-validator": "voiage.contracts.estimation.EstimationVarianceResult",
+  "x-semantic-validation-required": true,
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -40,6 +43,26 @@
     "diagnostics": {"$ref": "#/$defs/diagnostics"},
     "provenance": {"$ref": "#/$defs/provenance"}
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "target": {
+            "properties": {"shape": {"const": "scalar"}},
+            "required": ["shape"]
+          }
+        },
+        "required": ["target"]
+      },
+      "then": {
+        "properties": {
+          "prior_covariance": {"$ref": "#/$defs/scalar_covariance"},
+          "expected_posterior_covariance": {"$ref": "#/$defs/scalar_covariance"},
+          "functional_units": {"type": "string", "pattern": "^.+\\^2$"}
+        }
+      }
+    }
+  ],
   "$defs": {
     "target": {
       "type": "object",
@@ -80,6 +103,19 @@
         "minItems": 1,
         "items": {"type": "number"}
       }
+    },
+    "scalar_covariance": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "prefixItems": [
+        {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "prefixItems": [{"type": "number", "minimum": 0}]
+        }
+      ]
     },
     "diagnostics": {
       "type": "object",

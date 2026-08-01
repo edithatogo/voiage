@@ -24,3 +24,14 @@ covariance and unit pathologies cover the corrections. The surface remains
 experimental; vector covariance execution and scalarization remain pending
 scientific review. Fresh hosted checks and merge remain mandatory and are not
 claimed by this local remediation record.
+
+A fresh independent boundary review then found that non-prior-predictive EVSI
+specifications were still accepted, that bootstrap could reject valid inputs
+at zero tolerance by revalidating internally generated equal weights, and that
+portable JSON Schema validation alone could not prove cross-field scalar
+covariance, functional and unit equality. The follow-up fails closed unless
+EVSI declares prior-predictive averaging, calculates the sampled bootstrap mean
+directly, constrains scalar schema shape/nonnegativity/unit syntax, and marks
+the Pydantic result contract as the mandatory semantic validator for the
+cross-field identities. Fresh independent review of the resulting exact commit
+remains required before hosted delivery.

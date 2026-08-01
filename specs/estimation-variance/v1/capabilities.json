@@ -6,6 +6,7 @@
   "maturity": "experimental",
   "scientific_review_gate": "pending",
   "runtime_data_schema": "specs/estimation-variance/v1/runtime-data.schema.json",
+  "result_schema_validation": "structural schema plus mandatory voiage.contracts.estimation.EstimationVarianceResult semantic validation",
   "evsi_averaging_contract": "aligned finite nonnegative prior-predictive probabilities summing to one within estimator tolerance",
   "target_capabilities": {
     "scalar_variance": "executable",

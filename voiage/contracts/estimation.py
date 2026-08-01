@@ -134,6 +134,10 @@ class EstimationVarianceSpec(ContractModel):
                 raise ValueError("evsi_var requires sampling_model")
             if self.conditioning is not None:
                 raise ValueError("evsi_var does not accept conditioning")
+            if self.sampling_model.averaging_convention != "prior_predictive":
+                raise ValueError(
+                    "evsi_var requires prior_predictive sampling-model averaging"
+                )
         return self
 
 
