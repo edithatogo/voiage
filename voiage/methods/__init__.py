@@ -29,6 +29,10 @@ if TYPE_CHECKING:
         distributional_information_from_specification,
         value_of_distributional_information,
     )
+    from .event_localized_information import (
+        EventLocalizedInformationResult,
+        event_localized_information_value,
+    )
     from .forecast_signal_information import (
         ForecastSignalInformationResult,
         forecast_signal_information_value,
@@ -75,6 +79,7 @@ _MODULES = (
     "dynamic_real_options",
     "deterministic_sensitivity",
     "equity_information",
+    "event_localized_information",
     "estimation",
     "evidence_obsolescence_refresh",
     "expert_synthesis",
@@ -139,6 +144,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "DsaSwitchInterval",
     "ValueOfFlexibilityResult",
     "EquityInformationResult",
+    "EventLocalizedInformationResult",
     "EvidenceObsolescenceRefreshResult",
     "ExpertSynthesisResult",
     "ExplainabilityTransparencyResult",
@@ -187,6 +193,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "evppi",
     "evsi",
     "evsi_nma",
+    "event_localized_information_value",
     "expected_utility_information_value",
     "forecast_signal_information_value",
     "identify_optimal_subgroups",

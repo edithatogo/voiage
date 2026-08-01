@@ -12,7 +12,8 @@
       "M22",
       "M23",
       "M25",
-      "M26"
+      "M26",
+      "M27"
     ]
   },
   "moscow": "must",
@@ -25,7 +26,8 @@
       "M22",
       "M23",
       "M25",
-      "M26"
+      "M26",
+      "M27"
     ]
   },
   "canonical_projection": "https://github.com/edithatogo/vop_poc_nz/blob/main/conductor/tracks/specialized-voi-v1-2_20260727/projection.json",
@@ -43,7 +45,9 @@
       "track": "C18",
       "requirement_ids": [
         "M22",
-        "M23"
+        "M23",
+        "M25",
+        "M27"
       ],
       "path": "https://github.com/edithatogo/vop_poc_nz/tree/main/conductor/tracks/specialized-voi-v1-3-residual_20260801",
       "pull_request": "https://github.com/edithatogo/vop_poc_nz/pull/69"
@@ -59,7 +63,8 @@
     "M22",
     "M23",
     "M25",
-    "M26"
+    "M26",
+    "M27"
   ],
   "dependencies": [
     "voi_method_census_contract_reconciliation_20260723",

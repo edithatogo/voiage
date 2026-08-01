@@ -154,6 +154,50 @@ covers the experimental frontier entries only.
   Named panel review, Rust/R/Julia parity, stable promotion, release,
   parent #593 closure and umbrella #318 closure remain pending.
 
+- [x] **F596-1 / #777:** Freeze C18/M27's exact finite event-localized
+  estimands, canonical policy-relative EUI density, explicitly signed centered
+  diagnostic, strict schemas, normative fixture, complete ties, source review,
+  exclusions and language dispositions. (AC-02–AC-06, AC-09) `8014c75f`
+- [x] **F596-2 / #778:** Implement perfect event/complement value, the
+  imperfect symmetric binary-channel accuracy curve, finite univariate and
+  multivariate density atoms, integral assurance, modes/directions and
+  deterministic Python/API/CLI execution. (AC-02–AC-05) `8014c75f`
+- [x] **F596-3 / #778:** Add result-only accessible density and accuracy plots,
+  installed discovery, documentation and governance projections without
+  claiming continuous density estimation, monetary BPI or stable/polyglot
+  execution. (AC-04–AC-06, AC-09) `8014c75f`
+- [~] **F596-4 / #779:** Complete independent implementation and source review,
+  focused/full local and hosted exact-head/wheel assurance; reconcile #596
+  while retaining scientific approval, Rust/R/Julia parity, stable promotion,
+  release and parent closure as separate gates. (AC-03–AC-07, AC-09)
+- [x] **F596-R1:** Preserve empty modes/directions when coordinate information
+  value is zero, so tied zero-density atoms do not fabricate a direction of
+  concern. `5964df04`
+- [x] **F596-R2:** Remediate independent-review findings for executable
+  input/result validation, true-max reference optimality, bounded raw-integral
+  tolerance and explicit binary-channel symmetry assurance. A fresh
+  independent reviewer remains required. `6d712f82`
+- [x] **F596-R3:** Remediate the fresh result-integrity review by binding
+  auditable partition evidence, reconstructing every event/channel/density
+  action marginal, requiring a common reference policy and rejecting ungrouped
+  coordinate atoms. Shared focused/oracle/static/governance assurance passed;
+  hosted exact-head coverage and wheel evidence remain required. `893a2243`
+- [x] **F596-R4:** Complete a third fresh independent review of both
+  remediations. The review independently reproduced the normative values,
+  exercised the previously bypassed result mutations, and found no unresolved
+  Critical, High or Medium finding. Review record:
+  `event-localized-information-final-review.md`. Hosted exact-head coverage,
+  installed-wheel evidence and later scientific/parity/promotion/release gates
+  remain pending.
+- [x] **F596-R5:** Remediate exact-head hosted assurance failures without
+  weakening the experimental contract. The repository-wide command registry,
+  extension-policy projection, promotion checklist and inherited fixture hashes
+  were synchronized; result/input fail-closed invariants, defensive numerical
+  guards and both CLI output branches now have executable coverage. Focused
+  local coverage reports 100% statements and branches for the event contract
+  and evaluator. Replacement hosted exact-head Actions remain mandatory.
+  `e447c0e8`
+
 - [x] **F572-1 / #760:** Freeze #572's C18/M23 forecast-signal decision
   estimand, strict input/result schemas, analytical newsvendor fixture,
   provenance, timing, cost, calibration and explicit language dispositions.

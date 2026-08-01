@@ -60,6 +60,14 @@ _ECOSYSTEM_EXPORTS = {
     "load_heoml_run_bundle": "load_heoml_run_bundle",
 }
 _EXTENSION_EXPORTS = {
+    "EventLocalizedInformationResult": (
+        ".methods.event_localized_information",
+        "EventLocalizedInformationResult",
+    ),
+    "event_localized_information_value": (
+        ".methods.event_localized_information",
+        "event_localized_information_value",
+    ),
     "UncertaintyModellingValueResult": (
         ".methods.uncertainty_modelling_value",
         "UncertaintyModellingValueResult",
