@@ -64,7 +64,9 @@ the required CI, security, coverage, documentation, and contract checks pass.
         ```bash
         tox -e frontier-contract
         ```
-    *   If you prefer the uv-backed runner, `nox` mirrors the same core sessions:
+    *   `tox is the required local CI authority`, together with the repository
+        harness. `nox is an optional developer interface` that mirrors selected
+        uv-backed sessions; it is not a second required gate:
         ```bash
         uv run nox
         ```

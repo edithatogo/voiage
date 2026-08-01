@@ -52,6 +52,67 @@ still routes review responsibility without creating an impossible independent
 approval gate. Hosted settings must be verified through the GitHub API because
 they are not represented by files in the checkout.
 
+## Polyglot CI/CD contract
+
+Required pull-request workflows also listen for GitHub's `merge_group` event,
+so a future merge queue can test the synthesized result against current
+`main`. The queue itself is a hosted ruleset setting and is not enabled merely
+by committing the event triggers.
+
+The retained language surfaces have independent native evidence:
+
+- Python 3.12--3.14 tests and ABI3 wheel smoke tests;
+- Rust stable and MSRV tests, Clippy, coverage, cargo-deny, Miri, fuzzing, and
+  sanitizer-backed C ABI consumers;
+- R package build, CRAN-style checks, documentation, and installed-package
+  native smoke tests;
+- Julia 1.10--1.12 tests on Linux, macOS, and Windows, including Aqua;
+- Astro and TypeScript checking plus a frozen pnpm production build.
+
+All callable language boundaries consume the same numerical-reference corpus.
+An ARM64 hosted lane is intentionally observational while its runner image is
+in preview; a green observation is not yet a supported release-architecture
+claim.
+
+## Staging, provenance, and promotion
+
+TestPyPI is a promotion gate, not merely an upload smoke test. The workflow
+publishes the reviewed distribution set with PEP 740 attestations, downloads
+the index-served wheel, compares its digest with the reviewed payload, verifies
+the index attestation, and exercises the native extension across every
+supported Python version before PyPI publication.
+
+The release workflow creates one digest-bearing release manifest, GitHub build
+provenance, and a CycloneDX SBOM attestation bound to the released wheels and
+sdist. R, Julia, Rust, and downstream packaging should consume that immutable
+identity or record why a registry-specific rebuild is unavoidable.
+The crates.io workflow uses its Trusted Publishing OIDC exchange rather than a
+stored registry token; enabling the corresponding crates.io publisher remains
+a registry-owner gate.
+
+GitHub immutable releases should be enabled in hosted repository settings.
+Once enabled, the existing draft-first workflow attaches every asset before
+publication, after which GitHub locks the tag and asset set. Local workflow
+validation cannot establish that this hosted setting is active.
+
+Resolved Python, Cargo, R, and Julia dependencies are also submitted as one
+mixed-language dependency-graph snapshot. This improves dependency review and
+alert visibility; it does not authorize Dependabot update pull requests.
+
+## Dependency automation and tool consolidation
+
+Renovate is the sole dependency-update pull-request producer. It owns Python,
+Cargo, GitHub Actions, npm/pnpm, and lockfile maintenance, uses a dependency
+dashboard and delayed automerge, and may consume vulnerability alerts. R and
+Julia packages retain their native compatibility/check tooling where Renovate
+does not provide a reliable native manager.
+
+Tox and `scripts/repo_harness.py` are the required local automation authority.
+Nox is an optional developer interface to the same uv-backed checks. CodeQL,
+dependency review, Scorecard, Zizmor, cargo-deny, Miri, fuzzing, sanitizers,
+language-native package checks, and artifact attestations have distinct
+purposes; adding another generic scanner would mostly duplicate evidence.
+
 ## Owner and organization gates
 
 Some controls cannot be configured from this repository alone:

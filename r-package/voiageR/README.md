@@ -106,6 +106,26 @@ Custom `trial_simulator` and `posterior_sampler` callbacks remain Python-only.
 The R facade does not convert or execute them and does not claim custom-model
 parity.
 
+## Lifecycle and review scope
+
+`voiageR` is in an initially stable state with active development expected.
+The current independently native scope is the direct Rust-backed EVPI
+interface. EVPPI and EVSI remain bridge functions over the Python package and
+are not represented as native R parity.
+
+The package is not yet presented as ready for rOpenSci review. A future
+readiness decision requires a self-contained installation path, confirmed
+distribution, and a complete mapping to the applicable rOpenSci general and
+Bayesian/Monte Carlo statistical-software standards.
+
+## Related R software
+
+The R packages `voi` and `BCEA` provide established value-of-information and
+Bayesian cost-effectiveness workflows. `voiageR` currently offers a narrower
+R-facing interface to the shared `voiage` Rust/Python architecture; it does not
+claim broader native R functionality than those packages. Method citations and
+the maintained comparison are in the repository JOSS paper and documentation.
+
 ## Functions
 
 - `evpi()`: Calculate Expected Value of Perfect Information

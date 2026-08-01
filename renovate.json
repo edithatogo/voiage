@@ -1,7 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended",
+    "config:best-practices",
+    ":dependencyDashboard",
     ":semanticCommits",
     ":semanticCommitTypeAll(chore)",
     ":automergeMinor",
@@ -20,6 +21,9 @@
     "pip_setup"
   ],
   "schedule": ["every weekend"],
+  "minimumReleaseAge": "14 days",
+  "osvVulnerabilityAlerts": true,
+  "dependencyDashboardOSVVulnerabilitySummary": "unresolved",
   "packageRules": [
     {
       "matchManagers": ["pep621", "pip_requirements", "pip_setup"],

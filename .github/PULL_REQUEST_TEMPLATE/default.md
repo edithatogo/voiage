@@ -29,6 +29,9 @@ Please describe the tests that you ran to verify your changes. Provide instructi
 
 - [ ] I updated support, security, or community docs if this change affects
   user onboarding or support expectations
+- [ ] I updated `specs/submission-readiness/targets.json` if this changes a
+  release, registry, archive, identifier, manuscript, review, or affiliation
+  contract
 
 ## Checklist
 

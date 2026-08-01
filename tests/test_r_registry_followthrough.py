@@ -14,5 +14,5 @@ HANDOFF = next(
 def test_r_registry_handoff_preserves_local_readiness_and_external_gates() -> None:
     summary = validate_handoff(HANDOFF)
     assert summary["status"] == "blocked"
-    assert summary["command_count"] == 6
+    assert summary["command_count"] == 8
     assert summary["evidence_count"] == 4

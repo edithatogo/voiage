@@ -51,6 +51,24 @@ An implemented method is not, by itself, evidence that it is appropriate for a
 particular decision problem; users remain responsible for model structure,
 inputs, assumptions, and interpretation.
 
+## Method foundations and related software
+
+`voiage` implements established value-of-information estimands and cites their
+methodological foundations in the
+[method documentation](https://edithatogo.github.io/voiage/methods/) and
+[`paper.md`](paper.md). The project distinguishes implementation validation
+from validation of an analytical method.
+
+Related R software includes
+[`voi`](https://cran.r-project.org/package=voi),
+[`BCEA`](https://cran.r-project.org/package=BCEA), and the Sheffield
+Accelerated Value of Information tools. Related Python projects address parts
+of probabilistic modelling, decision analysis, or health-economic workflows.
+`voiage` does not claim to replace all of these tools; its reviewed scope is a
+versioned, cross-language decision-problem contract with a Rust-backed
+numerical core and a broader Python orchestration surface. The JOSS paper
+contains the maintained comparison and citations.
+
 ## Installation
 
 Install the released Python package:
@@ -240,11 +258,12 @@ and [SECURITY.md](SECURITY.md).
   [`swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32`](https://archive.softwareheritage.org/swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32)
 
 The canonical preprint source is [`paper/main.tex`](paper/main.tex). Repository
-automation builds, lints, audits, and packages the manuscript. Authenticated
-arXiv submission `7861466` is verified as submitted, but a permanent arXiv
-identifier and announcement have not yet been assigned. The separate
-[`paper.md`](paper.md) adaptation passes repository-owned JOSS preflight; no
-JOSS submission, review, or acceptance is claimed.
+automation builds, lints, audits, and packages the manuscript. Prior arXiv
+submission `7861466` is absent, while replacement `7870358` remains an
+incomplete start-stage draft; neither is evidence of a completed submission or
+permanent identifier. The separate [`paper.md`](paper.md) adaptation passes
+repository-owned JOSS preflight; no JOSS submission, review, or acceptance is
+claimed.
 
 ## Project status and roadmap
 
@@ -270,6 +289,8 @@ but no independent approval requirement. See:
 
 - [Contributing guide](CONTRIBUTING.md)
 - [Support](SUPPORT.md)
+- [Governance](GOVERNANCE.md)
+- [AI usage disclosure](AI_USAGE.md)
 - [Code of conduct](CODE_OF_CONDUCT.md)
 - [Security policy](SECURITY.md)
 - [Changelog](changelog.md)
