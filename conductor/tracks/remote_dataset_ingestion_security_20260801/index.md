@@ -8,6 +8,5 @@
 - [Parent issue #325](https://github.com/edithatogo/voiage/issues/325)
 - [Project 28](https://github.com/users/edithatogo/projects/28)
 
-Status: new. The existing providers deliberately reject remote and archive
-inputs. This track cannot authorize remote I/O without its explicit threat
-model and policy gate.
+Status: in progress. The bounded threat model is recorded; explicit
+security-policy approval is still required before any remote I/O.
