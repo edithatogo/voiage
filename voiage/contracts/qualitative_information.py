@@ -1,5 +1,7 @@
 """Installed portable contract for experimental qualitative information assessment."""
 
+# pyright: reportAny=false, reportExplicitAny=false, reportUnknownMemberType=false, reportUnusedCallResult=false
+
 from __future__ import annotations
 
 from datetime import datetime
