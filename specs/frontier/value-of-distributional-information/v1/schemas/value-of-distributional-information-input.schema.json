@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/frontier/value-of-distributional-information-input.v1.json",
+  "title": "ValueOfDistributionalInformationInputV1Experimental",
+  "type": "object",
+  "required": ["schema_version", "analysis_id", "analysis_type", "method_maturity", "information_target", "conditioning_order", "direction", "value_unit", "model_ids", "model_labels", "model_probabilities", "alternative_names", "conditional_values", "information_cost", "tolerances", "comparability", "provenance"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "analysis_id": {"type": "string", "minLength": 1},
+    "analysis_type": {"const": "distribution_family_information_value"},
+    "method_maturity": {"const": "experimental"},
+    "information_target": {"const": "model_family_index"},
+    "conditioning_order": {"const": "integrate_within_family_then_resolve_family_index"},
+    "direction": {"enum": ["maximize", "minimize"]},
+    "value_unit": {"type": "string", "minLength": 1},
+    "model_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "model_labels": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string", "minLength": 1}},
+    "model_probabilities": {"type": "array", "minItems": 1, "items": {"type": "number", "minimum": 0, "maximum": 1}},
+    "alternative_names": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "conditional_values": {"type": "array", "minItems": 1, "items": {"type": "array", "minItems": 1, "items": {"type": "number"}}},
+    "information_cost": {"type": "number", "minimum": 0},
+    "tolerances": {
+      "type": "object",
+      "required": ["absolute", "relative", "probability_sum"],
+      "properties": {
+        "absolute": {"type": "number", "minimum": 0},
+        "relative": {"type": "number", "minimum": 0},
+        "probability_sum": {"type": "number", "exclusiveMinimum": 0, "maximum": 0.000001}
+      },
+      "additionalProperties": false
+    },
+    "comparability": {
+      "type": "object",
+      "required": ["population", "horizon", "discounting", "value_semantics", "cost_location"],
+      "properties": {
+        "population": {"type": "string", "minLength": 1},
+        "horizon": {"type": "string", "minLength": 1},
+        "discounting": {"type": "string", "minLength": 1},
+        "value_semantics": {"type": "string", "minLength": 1},
+        "cost_location": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["fixture_id", "probability_source", "value_source", "family_definition_source"],
+      "properties": {
+        "fixture_id": {"type": "string", "minLength": 1},
+        "probability_source": {"type": "string", "minLength": 1},
+        "value_source": {"type": "string", "minLength": 1},
+        "family_definition_source": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "version": "v1",
+  "status": "fixture-backed",
+  "method_maturity": "experimental",
+  "evidence_artifact": "evidence.json",
+  "normative": [
+    {
+      "name": "vdi two-family exact enumeration",
+      "method_family": "distribution_family_information_value",
+      "input_artifact": "normative/input.json",
+      "expected_output_artifact": "normative/expected.json",
+      "reference": "conductor/tracks/supported_frontier_method_completion_20260723/distribution-family-information-reference-review.md",
+      "tolerance_policy": "absolute-1e-12"
+    }
+  ]
+}

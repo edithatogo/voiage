@@ -11,6 +11,8 @@ registry used to keep them aligned.
 - `implementation/`: implementation-adjusted VOI contracts and fixtures.
 - `preference/`: preference heterogeneity and individualized-care contracts and fixtures.
 - `value-of-flexibility/`: experimental flexible-versus-commitment option-value contract and fixtures.
+- `value-of-distributional-information/`: experimental model-family-index
+  information-value contract and exact fixtures; distinct from distributional equity.
 - `validation/`: model-validation and discrepancy-reduction contracts.
 - `threshold/`: threshold, tipping-point, and robust VOI contracts.
 - `dynamic-real-options/`: dynamic real-options VOI contracts.

@@ -49,6 +49,11 @@
       "method_maturity": "experimental"
     },
     {
+      "name": "distribution_family_information_value",
+      "path": "value-of-distributional-information/v1/fixtures/manifest.json",
+      "method_maturity": "experimental"
+    },
+    {
       "name": "deterministic_sensitivity_analysis",
       "path": "deterministic-sensitivity-analysis/v1/fixtures/manifest.json",
       "method_maturity": "experimental"

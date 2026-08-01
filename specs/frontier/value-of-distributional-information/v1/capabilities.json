@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0",
+  "method_family": "distribution_family_information_value",
+  "maturity": "experimental",
+  "surfaces": {
+    "python": {"status": "planned", "reason": "F557-3 runtime is not yet implemented."},
+    "rust": {"status": "unsupported", "reason": "No reviewed Rust ABI or shared-fixture kernel exists."},
+    "r": {"status": "unsupported", "reason": "No shared-fixture binding evidence exists."},
+    "julia": {"status": "unsupported", "reason": "No shared-fixture binding evidence exists."},
+    "mojo": {"status": "external", "reason": "Mojo is outside the repository build and release boundary."}
+  },
+  "unsupported": [
+    "perfect information about both model family and within-family parameters",
+    "imperfect model-discrimination EVSI",
+    "goodness-of-fit, Bayes-factor or model-selection scoring",
+    "distributional-equity or subgroup VOI",
+    "stable API or cross-language parity"
+  ]
+}
