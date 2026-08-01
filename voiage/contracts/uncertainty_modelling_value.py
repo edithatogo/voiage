@@ -14,6 +14,8 @@ from jsonschema import Draft202012Validator
 if TYPE_CHECKING:
     from jsonschema.exceptions import ValidationError
 
+type _JsonObject = dict[str, Any]
+
 _ID: Final[dict[str, object]] = {
     "type": "string",
     "minLength": 1,
@@ -589,7 +591,7 @@ def validate_uncertainty_modelling_value_semantics(
 ) -> None:
     """Validate cross-record identities and finite exact-policy semantics."""
     _validate(UNCERTAINTY_MODELLING_VALUE_INPUT_SCHEMA_V1, payload)
-    data = cast("dict[str, Any]", payload)
+    data = cast("_JsonObject", payload)
     states = cast("list[dict[str, Any]]", data["states"])
     state_ids = [str(state["state_id"]) for state in states]
     if len(state_ids) != len(set(state_ids)):

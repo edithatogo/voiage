@@ -15,6 +15,8 @@ from voiage.contracts.uncertainty_modelling_value import (
 )
 from voiage.methods.uncertainty_modelling_value import value_of_uncertainty_modelling
 
+type _JsonObject = dict[str, Any]
+
 ROOT = Path(__file__).parents[1]
 CONTRACT = ROOT / "specs/frontier/uncertainty-modelling-value/v1"
 
@@ -39,14 +41,14 @@ def main() -> None:
     for name in ("two-stage-nonlinear", "multistage"):
         input_path = CONTRACT / f"fixtures/normative/{name}-input.json"
         payload = cast(
-            "dict[str, Any]", json.loads(input_path.read_text(encoding="utf-8"))
+            "_JsonObject", json.loads(input_path.read_text(encoding="utf-8"))
         )
         _write(
             CONTRACT / f"fixtures/normative/{name}-expected.json",
             value_of_uncertainty_modelling(payload).to_contract_dict(),
         )
     source = cast(
-        "dict[str, Any]",
+        "_JsonObject",
         json.loads(
             (CONTRACT / "fixtures/normative/two-stage-nonlinear-input.json").read_text(
                 encoding="utf-8"

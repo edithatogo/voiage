@@ -13,7 +13,10 @@ from jsonschema import Draft202012Validator
 import pytest
 from typer.testing import CliRunner
 
-import voiage
+from voiage import (
+    UncertaintyModellingValueResult as PublicUncertaintyModellingValueResult,
+)
+from voiage import uncertainty_modelling_value as public_uncertainty_modelling_value
 from voiage.cli import app
 from voiage.contracts.uncertainty_modelling_value import (
     validate_uncertainty_modelling_value_result,
@@ -324,8 +327,8 @@ def test_cli_and_public_experimental_discovery(tmp_path: Path) -> None:
     payload = json.loads(invoked.stdout)
     assert payload["analysis_type"] == "uncertainty_modelling_value_result"
     assert json.loads(output.read_text(encoding="utf-8")) == payload
-    assert voiage.uncertainty_modelling_value is value_of_uncertainty_modelling
-    assert voiage.UncertaintyModellingValueResult is not None
+    assert public_uncertainty_modelling_value is value_of_uncertainty_modelling
+    assert PublicUncertaintyModellingValueResult is not None
 
 
 def test_cli_text_and_non_object_failure(tmp_path: Path) -> None:

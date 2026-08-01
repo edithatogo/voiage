@@ -16,7 +16,7 @@ from voiage.contracts.uncertainty_modelling_value import (
 from voiage.exceptions import raise_input_error
 
 if TYPE_CHECKING:
-    from collections.abc import Mapping, Sequence
+    from collections.abc import Mapping
 
 
 @dataclass(frozen=True)
@@ -72,7 +72,7 @@ def _exact_best_id(values: Mapping[str, float], direction: str) -> str:
 def _policy_outcomes(policy: Mapping[str, Any]) -> dict[str, Mapping[str, Any]]:
     return {
         str(item["state_id"]): item
-        for item in cast("Sequence[Mapping[str, Any]]", policy["state_outcomes"])
+        for item in cast("list[Mapping[str, Any]]", policy["state_outcomes"])
     }
 
 
