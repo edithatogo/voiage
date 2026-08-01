@@ -69,6 +69,10 @@
             ],
             "type": "object"
           },
+          "assessment_content_digest": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
           "assessment_version": {
             "minimum": 1,
             "type": "integer"
@@ -84,6 +88,17 @@
           "override_event_id": {
             "minLength": 1,
             "type": "string"
+          },
+          "previous_content_digest": {
+            "oneOf": [
+              {
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "previous_event_id": {
             "oneOf": [
@@ -117,6 +132,8 @@
           "actor",
           "action",
           "content_digest",
+          "assessment_content_digest",
+          "previous_content_digest",
           "redacted"
         ],
         "type": "object"
@@ -258,6 +275,29 @@
           "judgements": {
             "items": {
               "additionalProperties": false,
+              "allOf": [
+                {
+                  "else": {
+                    "not": {
+                      "required": [
+                        "human_override"
+                      ]
+                    }
+                  },
+                  "if": {
+                    "properties": {
+                      "verification_state": {
+                        "const": "human_verified"
+                      }
+                    }
+                  },
+                  "then": {
+                    "required": [
+                      "human_override"
+                    ]
+                  }
+                }
+              ],
               "properties": {
                 "actor_type": {
                   "enum": [
@@ -317,6 +357,24 @@
                     "uncertain",
                     "not_feasible"
                   ]
+                },
+                "human_override": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "audit_event_id": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "reviewer_id": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "reviewer_id",
+                    "audit_event_id"
+                  ],
+                  "type": "object"
                 },
                 "potential_impact": {
                   "enum": [

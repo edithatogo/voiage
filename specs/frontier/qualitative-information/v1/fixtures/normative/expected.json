@@ -10,7 +10,9 @@
   "priority_groups": [
     {
       "priority_class": "urgent",
-      "question_ids": ["q-01-trial"]
+      "question_ids": [
+        "q-01-trial"
+      ]
     },
     {
       "priority_class": "high",
@@ -18,7 +20,9 @@
     },
     {
       "priority_class": "routine",
-      "question_ids": ["q-02-register"]
+      "question_ids": [
+        "q-02-register"
+      ]
     },
     {
       "priority_class": "defer",
@@ -30,12 +34,19 @@
     {
       "question_id": "q-01-trial",
       "information_question": "Would a bounded pilot change the service decision?",
-      "priority_classes": ["urgent"],
-      "recommendation_classes": ["pursue_now"],
+      "priority_classes": [
+        "urgent"
+      ],
+      "recommendation_classes": [
+        "pursue_now"
+      ],
       "resolved_priority_class": "urgent",
       "resolved_recommendation_class": "pursue_now",
       "consensus_status": "consensus",
-      "verified_human_reviewers": ["reviewer-a", "reviewer-b"],
+      "verified_human_reviewers": [
+        "reviewer-a",
+        "reviewer-b"
+      ],
       "unverified_ai_contributors": [],
       "missing_fields": [],
       "redaction_status": "none",
@@ -46,23 +57,30 @@
     },
     {
       "question_id": "q-02-register",
-      "information_question": "Should a redacted concern register be refreshed?",
-      "priority_classes": ["routine"],
-      "recommendation_classes": ["monitor"],
+      "information_question": "[REDACTED]",
+      "priority_classes": [
+        "routine"
+      ],
+      "recommendation_classes": [
+        "monitor"
+      ],
       "resolved_priority_class": "routine",
       "resolved_recommendation_class": "monitor",
       "consensus_status": "consensus",
-      "verified_human_reviewers": ["reviewer-a", "reviewer-b"],
+      "verified_human_reviewers": [
+        "reviewer-a",
+        "reviewer-b"
+      ],
       "unverified_ai_contributors": [],
       "missing_fields": [],
       "redaction_status": "partial",
       "rationale_by_reviewer": {
-        "reviewer-a": "The receipt supports monitoring but not disclosure or immediate action.",
-        "reviewer-b": "Routine review preserves the redaction and human accountability boundary."
+        "reviewer-a": "[REDACTED]",
+        "reviewer-b": "[REDACTED]"
       }
     }
   ],
-  "audit_history_digest": "3b83594ffcc48f21bfd6c3b65211b003500885e643af672344438c206a6bf9fb",
+  "audit_history_digest": "f0764332909d0123fd569d3471d7aa546447b3a30c96ba8d60da5227abba8a8a",
   "audit_event_count": 3,
   "source_summary": {
     "accessible": 1,
@@ -70,18 +88,17 @@
     "unavailable": 0
   },
   "provenance": {
-    "contract_reference": "M20/v1.3.0",
     "fixture_id": "qualitative-information-reference-v1",
-    "redaction_policy_reference": "fixture:redaction-policy-v1",
-    "source_snapshot": "synthetic-fixture-only"
+    "contract_reference": "M20/v1.3.0"
   },
   "diagnostics": {
     "aggregation_policy": "none_non_cardinal",
+    "classification_policy": "accountable_human_declared_no_derivation",
     "conflict_policy": "preserve_dissent_no_resolution",
     "missingness_policy": "mark_incomplete",
     "ai_policy": "human_verification_required",
     "tie_policy": "complete_sets_declared_order",
-    "privacy_boundary": "redacted_source_content_not_returned",
+    "privacy_boundary": "redacted_content_not_returned",
     "quantitative_voi_claim": false
   }
 }

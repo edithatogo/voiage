@@ -5,9 +5,14 @@ from __future__ import annotations
 from copy import deepcopy
 import json
 from pathlib import Path
+from typing import Any
 
 import pytest
 
+from voiage.contracts.qualitative_information import (
+    qualitative_assessment_content_digest,
+    qualitative_audit_event_digest,
+)
 from voiage.exceptions import InputError
 from voiage.methods.qualitative_information import (
     qualitative_information_from_specification,
@@ -18,8 +23,18 @@ ROOT = Path(__file__).parents[1]
 INPUT = ROOT / "specs/frontier/qualitative-information/v1/fixtures/normative/input.json"
 
 
-def _payload() -> dict[str, object]:
+def _payload() -> dict[str, Any]:
     return json.loads(INPUT.read_text(encoding="utf-8"))
+
+
+def _rebind(payload: dict[str, Any]) -> None:
+    assessment_digest = qualitative_assessment_content_digest(payload)
+    previous_digest = None
+    for event in payload["audit_history"]:
+        event["assessment_content_digest"] = assessment_digest
+        event["previous_content_digest"] = previous_digest
+        event["content_digest"] = qualitative_audit_event_digest(event)
+        previous_digest = event["content_digest"]
 
 
 def test_no_cardinal_pseudo_score_is_emitted() -> None:
@@ -35,6 +50,7 @@ def test_question_order_does_not_change_groups_or_result_order() -> None:
     payload = _payload()
     reversed_payload = deepcopy(payload)
     reversed_payload["questions"] = list(reversed(payload["questions"]))
+    _rebind(reversed_payload)
     original = qualitative_information_from_specification(payload)
     permuted = qualitative_information_from_specification(reversed_payload)
     assert original.question_results == permuted.question_results
@@ -46,6 +62,7 @@ def test_dissent_is_preserved_and_never_silently_resolved() -> None:
     judgements = payload["questions"][0]["judgements"]
     judgements[1]["priority_class"] = "routine"
     judgements[1]["recommendation_class"] = "do_not_pursue"
+    _rebind(payload)
     result = qualitative_information_from_specification(payload)
     question = result.question_results[0]
     assert question.consensus_status == "dissent"
@@ -64,6 +81,11 @@ def test_missing_evidence_and_unverified_ai_keep_result_incomplete() -> None:
             "priority_class": "urgent",
             "recommendation_class": "pursue_now",
             "confidence": "high",
+            "potential_impact": "unknown",
+            "feasibility": "uncertain",
+            "timeliness": "uncertain",
+            "equity_ethics": "uncertain",
+            "cost_burden": "unknown",
             "rationale": "Unverified machine suggestion.",
             "source_ids": ["source-redacted"],
             "verification_state": "unverified",
@@ -74,6 +96,7 @@ def test_missing_evidence_and_unverified_ai_keep_result_incomplete() -> None:
             },
         }
     )
+    _rebind(payload)
     result = qualitative_information_from_specification(payload)
     assert result.workflow_status == "incomplete"
     assert result.human_approval_status == "pending"
@@ -113,3 +136,96 @@ def test_text_rendering_is_deterministic_and_accessible() -> None:
     assert "Qualitative information assessment" in first
     assert "Workflow status:" in first
     assert "Unresolved questions:" in first
+
+
+def test_current_approval_is_required_and_stale_approval_is_unverified() -> None:
+    payload = _payload()
+    payload["assessment_version"] = 2
+    payload["audit_history"][-1]["assessment_version"] = 2
+    payload["audit_history"][-1]["action"] = "update"
+    _rebind(payload)
+    result = qualitative_information_from_specification(payload)
+    assert result.workflow_status == "unverified"
+    assert result.human_approval_status == "pending"
+
+
+def test_system_approval_and_forged_human_override_fail_closed() -> None:
+    system_payload = _payload()
+    system_payload["audit_history"][-1]["actor"] = {
+        "actor_id": "reviewer-a",
+        "actor_type": "system",
+    }
+    _rebind(system_payload)
+    with pytest.raises(InputError, match="accountable human"):
+        qualitative_information_from_specification(system_payload)
+
+    override_payload = _payload()
+    judgement = deepcopy(override_payload["questions"][0]["judgements"][0])
+    judgement.update(
+        reviewer_id="ai-reviewed",
+        actor_type="ai",
+        verification_state="human_verified",
+        ai_provenance={
+            "provider": "synthetic",
+            "model_version": "1",
+            "input_reference": "fixture",
+        },
+        human_override={
+            "reviewer_id": "reviewer-a",
+            "audit_event_id": "forged-event",
+        },
+    )
+    override_payload["questions"][0]["judgements"].append(judgement)
+    _rebind(override_payload)
+    with pytest.raises(InputError, match="accountable review"):
+        qualitative_information_from_specification(override_payload)
+
+
+def test_redaction_applies_to_result_rendering_and_validation_errors() -> None:
+    private_marker = "private-source-content-558"
+    payload = _payload()
+    question = payload["questions"][1]
+    question["information_question"] = private_marker
+    for judgement in question["judgements"]:
+        judgement["rationale"] = private_marker
+    _rebind(payload)
+    result = qualitative_information_from_specification(payload)
+    assert private_marker not in json.dumps(result.to_contract_dict())
+    assert private_marker not in render_qualitative_information_text(result)
+
+    invalid = _payload()
+    invalid["questions"][0]["judgements"][0]["priority_class"] = private_marker
+    with pytest.raises(InputError) as captured:
+        qualitative_information_from_specification(invalid)
+    assert private_marker not in str(captured.value)
+
+
+def test_audit_digest_timestamp_and_version_tampering_fail_closed() -> None:
+    digest_payload = _payload()
+    digest_payload["audit_history"][1]["content_digest"] = "0" * 64
+    with pytest.raises(InputError, match="content_digest"):
+        qualitative_information_from_specification(digest_payload)
+
+    timestamp_payload = _payload()
+    timestamp_payload["audit_history"][1]["timestamp"] = "not-a-time"
+    with pytest.raises(InputError, match="constraint: format"):
+        qualitative_information_from_specification(timestamp_payload)
+
+    version_payload = _payload()
+    version_payload["audit_history"][0]["assessment_version"] = 2
+    _rebind(version_payload)
+    with pytest.raises(InputError, match="versions must be non-decreasing"):
+        qualitative_information_from_specification(version_payload)
+
+
+def test_equal_priorities_form_a_complete_deterministic_tie_group() -> None:
+    payload = _payload()
+    tied = deepcopy(payload["questions"][0])
+    tied["question_id"] = "q-00-tied"
+    payload["questions"].append(tied)
+    _rebind(payload)
+    result = qualitative_information_from_specification(payload)
+    assert result.priority_groups[0] == {
+        "priority_class": "urgent",
+        "question_ids": ["q-00-tied", "q-01-trial"],
+    }

@@ -23,6 +23,43 @@
       "type": "string"
     },
     "diagnostics": {
+      "additionalProperties": false,
+      "properties": {
+        "aggregation_policy": {
+          "const": "none_non_cardinal"
+        },
+        "ai_policy": {
+          "const": "human_verification_required"
+        },
+        "classification_policy": {
+          "const": "accountable_human_declared_no_derivation"
+        },
+        "conflict_policy": {
+          "const": "preserve_dissent_no_resolution"
+        },
+        "missingness_policy": {
+          "const": "mark_incomplete"
+        },
+        "privacy_boundary": {
+          "const": "redacted_content_not_returned"
+        },
+        "quantitative_voi_claim": {
+          "const": false
+        },
+        "tie_policy": {
+          "const": "complete_sets_declared_order"
+        }
+      },
+      "required": [
+        "aggregation_policy",
+        "classification_policy",
+        "conflict_policy",
+        "missingness_policy",
+        "ai_policy",
+        "tie_policy",
+        "privacy_boundary",
+        "quantitative_voi_claim"
+      ],
       "type": "object"
     },
     "human_approval_status": {
@@ -69,9 +106,21 @@
       "type": "array"
     },
     "provenance": {
-      "additionalProperties": {
-        "type": "string"
+      "additionalProperties": false,
+      "properties": {
+        "contract_reference": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "fixture_id": {
+          "minLength": 1,
+          "type": "string"
+        }
       },
+      "required": [
+        "fixture_id",
+        "contract_reference"
+      ],
       "type": "object"
     },
     "question_results": {
@@ -82,7 +131,8 @@
             "enum": [
               "consensus",
               "dissent",
-              "incomplete"
+              "incomplete",
+              "unverified"
             ]
           },
           "information_question": {
@@ -242,7 +292,8 @@
     "workflow_status": {
       "enum": [
         "complete",
-        "incomplete"
+        "incomplete",
+        "unverified"
       ]
     }
   },

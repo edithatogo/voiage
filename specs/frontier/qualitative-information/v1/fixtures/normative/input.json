@@ -8,8 +8,13 @@
     "decision_id": "synthetic-service-decision",
     "title": "Choose whether to introduce a synthetic service",
     "context": "A synthetic, non-clinical fixture for portable workflow assurance.",
-    "alternatives": ["introduce", "defer"],
-    "accountable_reviewer_ids": ["reviewer-a"]
+    "alternatives": [
+      "introduce",
+      "defer"
+    ],
+    "accountable_reviewer_ids": [
+      "reviewer-a"
+    ]
   },
   "reviewers": [
     {
@@ -58,7 +63,9 @@
           "recommendation_class": "pursue_now",
           "confidence": "moderate",
           "rationale": "The pilot could resolve a decision-critical implementation gap.",
-          "source_ids": ["source-public"],
+          "source_ids": [
+            "source-public"
+          ],
           "verification_state": "verified"
         },
         {
@@ -73,7 +80,9 @@
           "recommendation_class": "pursue_now",
           "confidence": "moderate",
           "rationale": "A bounded pilot is timely and retains community oversight.",
-          "source_ids": ["source-public"],
+          "source_ids": [
+            "source-public"
+          ],
           "verification_state": "verified"
         }
       ]
@@ -98,7 +107,9 @@
           "recommendation_class": "monitor",
           "confidence": "low",
           "rationale": "The receipt supports monitoring but not disclosure or immediate action.",
-          "source_ids": ["source-redacted"],
+          "source_ids": [
+            "source-redacted"
+          ],
           "verification_state": "verified"
         },
         {
@@ -113,7 +124,9 @@
           "recommendation_class": "monitor",
           "confidence": "low",
           "rationale": "Routine review preserves the redaction and human accountability boundary.",
-          "source_ids": ["source-redacted"],
+          "source_ids": [
+            "source-redacted"
+          ],
           "verification_state": "verified"
         }
       ]
@@ -131,8 +144,10 @@
         "actor_type": "human"
       },
       "action": "create",
-      "content_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      "redacted": false
+      "content_digest": "4b339ed242d829c4f18b5e2f4de47996393496d537e88981a6c44413f0743134",
+      "redacted": false,
+      "assessment_content_digest": "ae239ce9ecac5fe1bacf70c4e9e708aac8cacd43318002643cf97396ce024ca9",
+      "previous_content_digest": null
     },
     {
       "event_id": "event-review",
@@ -145,8 +160,10 @@
         "actor_type": "human"
       },
       "action": "review",
-      "content_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-      "redacted": true
+      "content_digest": "883064d722f75e668839d57823e1bea89dfc63052c4619eb3eac188b6bb4e656",
+      "redacted": true,
+      "assessment_content_digest": "ae239ce9ecac5fe1bacf70c4e9e708aac8cacd43318002643cf97396ce024ca9",
+      "previous_content_digest": "4b339ed242d829c4f18b5e2f4de47996393496d537e88981a6c44413f0743134"
     },
     {
       "event_id": "event-approve",
@@ -159,13 +176,25 @@
         "actor_type": "human"
       },
       "action": "approve",
-      "content_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-      "redacted": false
+      "content_digest": "51caeffde6f43fc831aacf4d3c5ebff0d0c8b0e08d3aef63a7c0d1cf74f24f1a",
+      "redacted": false,
+      "assessment_content_digest": "ae239ce9ecac5fe1bacf70c4e9e708aac8cacd43318002643cf97396ce024ca9",
+      "previous_content_digest": "883064d722f75e668839d57823e1bea89dfc63052c4619eb3eac188b6bb4e656"
     }
   ],
   "policy": {
-    "priority_order": ["urgent", "high", "routine", "defer"],
-    "recommendation_order": ["pursue_now", "pursue_if_feasible", "monitor", "do_not_pursue"],
+    "priority_order": [
+      "urgent",
+      "high",
+      "routine",
+      "defer"
+    ],
+    "recommendation_order": [
+      "pursue_now",
+      "pursue_if_feasible",
+      "monitor",
+      "do_not_pursue"
+    ],
     "conflict_policy": "preserve_dissent_no_resolution",
     "missingness_policy": "mark_incomplete",
     "ai_policy": "human_verification_required",

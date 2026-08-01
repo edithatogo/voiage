@@ -5,12 +5,16 @@ from __future__ import annotations
 import hashlib
 import json
 from pathlib import Path
+from typing import Any
 
 from jsonschema import Draft202012Validator
 import pytest
 
 from voiage.contracts.qualitative_information import (
     QUALITATIVE_INFORMATION_ASSESSMENT_SCHEMA_V1,
+    qualitative_assessment_content_digest,
+    qualitative_audit_event_digest,
+    validate_qualitative_information_result_semantics,
     validate_qualitative_information_semantics,
 )
 from voiage.methods.qualitative_information import (
@@ -21,7 +25,7 @@ ROOT = Path(__file__).parents[1]
 CONTRACT = ROOT / "specs/frontier/qualitative-information/v1"
 
 
-def _json(path: Path) -> dict[str, object]:
+def _json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
@@ -51,16 +55,16 @@ def test_normative_fixture_and_portable_schemas_validate() -> None:
     ("path", "value", "message"),
     [
         (("decision", "alternatives"), ["same", "same"], "unique"),
-        (("assessment_version",), 0, "less than the minimum"),
+        (("assessment_version",), 0, "constraint: minimum"),
         (("audit_history", 1, "previous_event_id"), "wrong", "chain"),
-        (("questions", 0, "judgements", 0, "priority_class"), 3, "not one of"),
+        (("questions", 0, "judgements", 0, "priority_class"), 3, "constraint: enum"),
     ],
 )
 def test_contract_and_semantics_fail_closed(
-    path: tuple[object, ...], value: object, message: str
+    path: tuple[str | int, ...], value: Any, message: str
 ) -> None:
     payload = _json(CONTRACT / "fixtures/normative/input.json")
-    target: object = payload
+    target: Any = payload
     for part in path[:-1]:
         target = target[part]  # type: ignore[index]
     target[path[-1]] = value  # type: ignore[index]
@@ -95,3 +99,143 @@ def test_runtime_matches_normative_fixture() -> None:
         qualitative_information_from_specification(payload).to_contract_dict()
         == expected
     )
+
+
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        (lambda result: result.update(workflow_status="unverified"), "workflow status"),
+        (
+            lambda result: result["diagnostics"].update(score=99),
+            "additionalProperties",
+        ),
+        (
+            lambda result: result["priority_groups"][0].update(
+                question_ids=["q-02-register"]
+            ),
+            "priority group",
+        ),
+        (
+            lambda result: result.update(unresolved_question_ids=["q-01-trial"]),
+            "unresolved question IDs",
+        ),
+    ],
+)
+def test_result_contract_rejects_contradictions_and_cardinal_fields(
+    mutation, message: str
+) -> None:
+    result = _json(CONTRACT / "fixtures/normative/expected.json")
+    mutation(result)
+    with pytest.raises(ValueError, match=message):
+        validate_qualitative_information_result_semantics(result)
+
+
+def _apply_semantic_pathology(payload: dict[str, Any], case: str) -> None:
+    reviewers = payload["reviewers"]
+    sources = payload["sources"]
+    questions = payload["questions"]
+    audit = payload["audit_history"]
+    if case == "duplicate-reviewer":
+        reviewers[1]["reviewer_id"] = reviewers[0]["reviewer_id"]
+    elif case == "duplicate-source":
+        sources[1]["source_id"] = sources[0]["source_id"]
+    elif case == "duplicate-question":
+        questions[1]["question_id"] = questions[0]["question_id"]
+    elif case == "duplicate-event":
+        audit[1]["event_id"] = audit[0]["event_id"]
+    elif case == "unknown-accountable":
+        payload["decision"]["accountable_reviewer_ids"] = ["reviewer-unknown"]
+    elif case == "redacted-citation":
+        sources[1]["citation"] = "private text"
+    elif case == "unavailable-citation":
+        sources[0]["access_status"] = "unavailable"
+    elif case == "duplicate-judgement":
+        questions[0]["judgements"][1]["reviewer_id"] = "reviewer-a"
+    elif case == "unknown-source":
+        questions[0]["judgements"][0]["source_ids"] = ["source-unknown"]
+    elif case == "unknown-human":
+        questions[0]["judgements"][0]["reviewer_id"] = "reviewer-unknown"
+    elif case == "unverified-human":
+        questions[0]["judgements"][0]["verification_state"] = "unverified"
+    elif case == "human-ai-provenance":
+        questions[0]["judgements"][0]["ai_provenance"] = {
+            "provider": "none",
+            "model_version": "none",
+            "input_reference": "none",
+        }
+    elif case in {"ai-no-provenance", "ai-self-verified", "no-human"}:
+        targets = (
+            questions[0]["judgements"]
+            if case == "no-human"
+            else [questions[0]["judgements"][0]]
+        )
+        for index, judgement in enumerate(targets):
+            judgement["reviewer_id"] = f"ai-{index}"
+            judgement["actor_type"] = "ai"
+            judgement["verification_state"] = (
+                "verified" if case == "ai-self-verified" else "unverified"
+            )
+            if case != "ai-no-provenance":
+                judgement["ai_provenance"] = {
+                    "provider": "synthetic",
+                    "model_version": "1",
+                    "input_reference": "fixture",
+                }
+    elif case == "backwards-time":
+        audit[1]["timestamp"] = "2025-01-01T00:00:00Z"
+    elif case == "unknown-human-actor":
+        audit[1]["actor"]["actor_id"] = "reviewer-unknown"
+    elif case == "ai-event-no-provenance":
+        audit[1]["actor"] = {"actor_id": "ai", "actor_type": "ai"}
+    elif case == "non-accountable-approval":
+        audit[2]["actor"]["actor_id"] = "reviewer-b"
+    elif case == "version-mismatch":
+        audit[-1]["assessment_version"] = 2
+    else:  # pragma: no cover - guarded by the parametrized case list
+        raise AssertionError(case)
+
+    if case in {
+        "unknown-human-actor",
+        "ai-event-no-provenance",
+        "non-accountable-approval",
+        "version-mismatch",
+    }:
+        assessment_digest = qualitative_assessment_content_digest(payload)
+        previous_digest = None
+        for event in audit:
+            event["assessment_content_digest"] = assessment_digest
+            event["previous_content_digest"] = previous_digest
+            event["content_digest"] = qualitative_audit_event_digest(event)
+            previous_digest = event["content_digest"]
+
+
+@pytest.mark.parametrize(
+    ("case", "message"),
+    [
+        ("duplicate-reviewer", "reviewer IDs must be unique"),
+        ("duplicate-source", "source IDs must be unique"),
+        ("duplicate-question", "question IDs must be unique"),
+        ("duplicate-event", "audit event IDs must be unique"),
+        ("unknown-accountable", "accountable reviewer IDs"),
+        ("redacted-citation", "redacted source citation"),
+        ("unavailable-citation", "unavailable source citation"),
+        ("duplicate-judgement", "judgement reviewer IDs"),
+        ("unknown-source", "source IDs must identify"),
+        ("unknown-human", "declared reviewer"),
+        ("unverified-human", "verification state"),
+        ("human-ai-provenance", "must not declare AI"),
+        ("ai-no-provenance", "requires provider"),
+        ("ai-self-verified", "cannot self-declare"),
+        ("no-human", "requires a human judgement"),
+        ("backwards-time", "non-decreasing"),
+        ("unknown-human-actor", "human audit actor"),
+        ("ai-event-no-provenance", "AI audit event requires"),
+        ("non-accountable-approval", "accountable human reviewer"),
+        ("version-mismatch", "must match assessment_version"),
+    ],
+)
+def test_cross_field_semantic_pathologies_fail_closed(case: str, message: str) -> None:
+    payload = _json(CONTRACT / "fixtures/normative/input.json")
+    _apply_semantic_pathology(payload, case)
+    with pytest.raises(ValueError, match=message):
+        validate_qualitative_information_semantics(payload)
