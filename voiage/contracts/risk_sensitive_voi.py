@@ -490,10 +490,12 @@ _RESULT_VALIDATOR = Draft202012Validator(RISK_SENSITIVE_VOI_RESULT_SCHEMA_V1)
 
 def _reject_non_finite(value: object, path: str = "root") -> None:
     if isinstance(value, Mapping):
-        for key, item in value.items():
+        mapping = cast("Mapping[object, object]", value)
+        for key, item in mapping.items():
             _reject_non_finite(item, f"{path}/{key}")
     elif isinstance(value, list):
-        for index, item in enumerate(value):
+        items = cast("list[object]", value)
+        for index, item in enumerate(items):
             _reject_non_finite(item, f"{path}/{index}")
     elif (
         isinstance(value, (int, float))
