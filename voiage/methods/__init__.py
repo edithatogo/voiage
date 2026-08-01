@@ -6,6 +6,7 @@ imported during ``import voiage``.
 """
 
 from importlib import import_module
+from typing import TYPE_CHECKING
 
 from .deterministic_sensitivity import (
     DeterministicSensitivityResult,
@@ -20,6 +21,14 @@ from .utility_information import (
     expected_utility_information_value,
     value_of_clairvoyance,
 )
+
+if TYPE_CHECKING:
+    from .distributional_information import (
+        DistributionalInformationResult,
+        ResolvedDistributionModel,
+        distributional_information_from_specification,
+        value_of_distributional_information,
+    )
 
 _MODULES = (
     "adaptive",
