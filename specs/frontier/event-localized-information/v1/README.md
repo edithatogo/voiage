@@ -12,6 +12,8 @@ conditional ties remain in the result. The optional centered diagnostic
 `j(x) = f(x) [max_a g_a(x) - V0]` is explicitly signed; it is not substituted
 for the nonnegative policy-relative density. Both sums recover the coordinate
 information value within the declared tolerance.
+When that value is zero, v1 returns no mode or direction rather than inventing
+a direction of concern from tied zero-density atoms.
 
 The event result reports exact event/complement probabilities, conditional
 actions and values, gross/net perfect-event VOI, and an accuracy curve for a

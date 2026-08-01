@@ -365,16 +365,20 @@ def _evaluate(payload: dict[str, Any]) -> dict[str, Any]:
     maximum_density = max(
         cast("float", atom["policy_relative_density"]) for atom in atoms
     )
-    modes = [
-        cast("list[float]", atom["coordinate"])
-        for atom in atoms
-        if math.isclose(
-            cast("float", atom["policy_relative_density"]),
-            maximum_density,
-            abs_tol=tie_tolerance,
-            rel_tol=0.0,
-        )
-    ]
+    modes = (
+        []
+        if maximum_density <= integral_tolerance
+        else [
+            cast("list[float]", atom["coordinate"])
+            for atom in atoms
+            if math.isclose(
+                cast("float", atom["policy_relative_density"]),
+                maximum_density,
+                abs_tol=tie_tolerance,
+                rel_tol=0.0,
+            )
+        ]
+    )
 
     event = _exact_keys(payload["event"], _EVENT_KEYS, "event")
     event_id = _nonempty_string(event["event_id"], "event_id")

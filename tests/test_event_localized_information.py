@@ -98,6 +98,8 @@ def test_complete_ties_reference_policy_and_grouped_coordinates() -> None:
         for atom in result["density"]["atoms"]
     )
     assert result["density"]["information_value"] == pytest.approx(0)
+    assert result["density"]["modes"] == []
+    assert result["density"]["directions_from_base"] == []
 
 
 def test_state_and_action_permutations_preserve_estimands() -> None:

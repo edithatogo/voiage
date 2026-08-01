@@ -107,8 +107,8 @@
         "policy_relative_integral": {"type": "number", "minimum": 0},
         "centered_integral": {"type": "number"},
         "integral_errors": {"$ref": "#/$defs/integralErrors"},
-        "modes": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/numberArray"}},
-        "directions_from_base": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/numberArray"}}
+        "modes": {"type": "array", "items": {"$ref": "#/$defs/numberArray"}},
+        "directions_from_base": {"type": "array", "items": {"$ref": "#/$defs/numberArray"}}
       }
     },
     "assurance": {
