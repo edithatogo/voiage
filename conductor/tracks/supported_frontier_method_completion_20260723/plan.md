@@ -202,7 +202,9 @@
   inconsistent probability tolerance. The remediator's engineering record is
   `belief-state-information-remediation-review.md`. The third fresh review
   found and remediated residual result-assurance drift, recorded in
-  `belief-state-information-third-review-remediation.md`; a fourth fresh
+  `belief-state-information-third-review-remediation.md`. The fourth fresh
+  review found and remediated remaining model-unbound assurance claims in
+  `belief-state-information-fourth-review-remediation.md`; a fifth fresh
   independent review, hosted exact-head assurance and merge remain pending.
   (AC-03–AC-07)
 
@@ -222,6 +224,12 @@
   complete stage-zero fixed-horizon policy tree, successful exact-assurance
   flags and the governed 50,000-call budget; add adversarial early/late tree,
   false-assurance and enlarged-budget regressions. (AC-03–AC-07) `6d696ca4`
+
+- [x] **F597-R4 / #782 — Review Fixes:** Commit the strict source input model
+  inside each result and reconstruct the exact bounded evaluation during
+  standalone validation, binding the expansion estimate, horizon values,
+  policy selections/ties and transition/learning diagnostics to their source.
+  (AC-03–AC-07) `08c371af`
 
 - [ ] **G9:** Implement each accepted repository-owned capability or record a
   reviewed exclusion with migration guidance. (AC-02, AC-06)

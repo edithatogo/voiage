@@ -235,7 +235,11 @@
       "satisfies_ac06": false,
       "delivery_track": "supported_frontier_method_completion_20260723",
       "implementation_pull_requests": [],
-      "review_artifacts": [],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/belief-state-information-remediation-review.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/belief-state-information-third-review-remediation.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/belief-state-information-fourth-review-remediation.md"
+      ],
       "adjacent_artifacts": [
         "sequential, adaptive, bandit and monitoring helpers",
         "specs/frontier/belief-state-information/v1"
