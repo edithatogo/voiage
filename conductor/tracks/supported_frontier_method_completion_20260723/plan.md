@@ -199,23 +199,25 @@ covers the experimental frontier entries only.
   stable-promotion, release and parent-closure gates remain pending.
   (AC-03–AC-07, AC-09)
 
-- [~] **F598-1 / #783:** Freeze C18/M29's complete finite joint-world law,
+- [x] **F598-1 / #783:** Freeze C18/M29's complete finite joint-world law,
   named agents/roles/topology/designs, nonanticipative policy catalogs, signed
   estimands, welfare/cardinal-comparability declaration, selective-sharing
   comparators, strict Blackwell applicability and adjacent-method exclusions.
-  (AC-02, AC-03, AC-09)
-- [ ] **F598-2 / #783:** Add strict versioned input/result schemas, the
+  (AC-02, AC-03, AC-09) `f04b1627`
+- [x] **F598-2 / #783:** Add strict versioned input/result schemas, the
   Li-Pozzi-inspired harmful-private/positive-social fixture, provenance,
   complete ties, transfer/cost ledgers and language dispositions. (AC-02–AC-06)
-- [ ] **F598-3 / #784:** Implement exact experimental Python/API/CLI execution
+  `f04b1627`
+- [x] **F598-3 / #784:** Implement exact experimental Python/API/CLI execution
   for centralized, fixed, declared-response and receipt-verified finite-
   equilibrium catalogs, signed agent/role/social values, selective sharing,
   harm, avoidance, switches, winners/losers and rights receipts without
-  clipping. (AC-02–AC-06)
-- [ ] **F598-4 / #784:** Add deterministic discovery, documentation, registry,
+  clipping. (AC-02–AC-06) `f04b1627`
+- [x] **F598-4 / #784:** Add deterministic discovery, documentation, registry,
   export and governance surfaces while retaining persuasion, mechanism design,
   rational inattention and general game solving as adjacent. (AC-04–AC-06)
-- [ ] **F598-5 / #785:** Run independent implementation/scientific review,
+  `f04b1627`
+- [~] **F598-5 / #785:** Run independent implementation/scientific review,
   changed-line/branch and full local assurance, hosted exact-head/wheel checks,
   then reconcile #598 without claiming parity, stable promotion, release or
   parent closure. (AC-03–AC-07, AC-09)
