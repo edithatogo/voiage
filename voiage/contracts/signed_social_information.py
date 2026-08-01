@@ -8,7 +8,8 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 import math
-from typing import Any, Final, cast
+import typing
+from typing import Final, cast
 
 from jsonschema import Draft202012Validator
 
@@ -785,8 +786,8 @@ _INPUT_VALIDATOR = Draft202012Validator(SIGNED_SOCIAL_INFORMATION_INPUT_SCHEMA_V
 _RESULT_VALIDATOR = Draft202012Validator(SIGNED_SOCIAL_INFORMATION_RESULT_SCHEMA_V1)
 
 
-def _validate(validator: Any, payload: Mapping[str, object]) -> None:
-    error = next(iter(validator.iter_errors(cast("Any", dict(payload)))), None)
+def _validate(validator: typing.Any, payload: Mapping[str, object]) -> None:
+    error = next(iter(validator.iter_errors(cast("typing.Any", dict(payload)))), None)
     if error is not None:
         path = "/".join(str(part) for part in error.absolute_path) or "<root>"
         raise ValueError(f"{path}: {error.message}")
@@ -809,8 +810,8 @@ def validate_signed_social_information_semantics(
     """Validate the strict schema and cross-record finite-model invariants."""
     _validate(_INPUT_VALIDATOR, payload)
     _ensure_finite(payload)
-    data = cast("dict[str, Any]", dict(payload))
-    agents = cast("list[dict[str, Any]]", data["agents"])
+    data = cast("dict[str, typing.Any]", dict(payload))
+    agents = cast("list[dict[str, typing.Any]]", data["agents"])
     agent_ids = [str(agent["agent_id"]) for agent in agents]
     if len(agent_ids) != len(set(agent_ids)):
         raise ValueError("agent identifiers must be unique")
@@ -823,7 +824,7 @@ def validate_signed_social_information_semantics(
     if data["welfare"]["cardinal_comparability"] != "declared":  # pragma: no cover
         raise ValueError("cardinal comparability must be explicitly declared")
 
-    topology = cast("dict[str, Any]", data["topology"])
+    topology = cast("dict[str, typing.Any]", data["topology"])
     for key in ("source_agent_id", "controller_agent_id"):
         if topology[key] not in agent_set:
             raise ValueError(f"topology {key} references an unknown agent")
@@ -834,7 +835,7 @@ def validate_signed_social_information_semantics(
 
     actions = cast("list[str]", data["actions"])
     action_set = set(actions)
-    worlds = cast("list[dict[str, Any]]", data["worlds"])
+    worlds = cast("list[dict[str, typing.Any]]", data["worlds"])
     world_ids = [str(world["world_id"]) for world in worlds]
     if len(world_ids) != len(set(world_ids)):
         raise ValueError("world identifiers must be unique")
@@ -852,7 +853,7 @@ def validate_signed_social_information_semantics(
         if any(set(values) != agent_set for values in utilities.values()):
             raise ValueError("each action utility must contain every declared agent")
 
-    policies = cast("list[dict[str, Any]]", data["policies"])
+    policies = cast("list[dict[str, typing.Any]]", data["policies"])
     policy_ids = [str(policy["policy_id"]) for policy in policies]
     if len(policy_ids) != len(set(policy_ids)):
         raise ValueError("policy identifiers must be unique")
@@ -874,7 +875,7 @@ def validate_signed_social_information_semantics(
             raise ValueError("policy decision references an unknown action")
         policy_observations[str(policy["policy_id"])] = observation_set
 
-    receipts = cast("list[dict[str, Any]]", data["receipts"])
+    receipts = cast("list[dict[str, typing.Any]]", data["receipts"])
     receipt_ids = [str(receipt["receipt_id"]) for receipt in receipts]
     if len(receipt_ids) != len(set(receipt_ids)):
         raise ValueError("receipt identifiers must be unique")
@@ -885,7 +886,7 @@ def validate_signed_social_information_semantics(
         if receipt["purpose"] != data["purpose"]:
             raise ValueError("every rights receipt must match the declared purpose")
 
-    designs = cast("list[dict[str, Any]]", data["designs"])
+    designs = cast("list[dict[str, typing.Any]]", data["designs"])
     design_ids = [str(design["design_id"]) for design in designs]
     if len(design_ids) != len(set(design_ids)):
         raise ValueError("design identifiers must be unique")
@@ -946,7 +947,7 @@ def validate_signed_social_information_semantics(
                 raise ValueError("equilibrium receipt must reference catalog policies")
         elif equilibrium is not None:
             raise ValueError("equilibrium receipt is only valid for verified catalogs")
-        for transfer in cast("list[dict[str, Any]]", design["transfers"]):
+        for transfer in cast("list[dict[str, typing.Any]]", design["transfers"]):
             if (
                 transfer["payer_agent_id"] not in agent_set
                 or transfer["recipient_agent_id"] not in agent_set
@@ -954,7 +955,7 @@ def validate_signed_social_information_semantics(
                 raise ValueError("transfer references an unknown agent")
             if transfer["payer_agent_id"] == transfer["recipient_agent_id"]:
                 raise ValueError("transfer payer and recipient must differ")
-        for cost in cast("list[dict[str, Any]]", design["costs"]):
+        for cost in cast("list[dict[str, typing.Any]]", design["costs"]):
             if cost["agent_id"] not in agent_set:
                 raise ValueError("cost references an unknown agent")
         design_receipts = set(cast("list[str]", design["rights_receipt_ids"]))
@@ -997,9 +998,9 @@ def validate_signed_social_information_result(
     """Validate the portable result envelope and signed accounting identities."""
     _validate(_RESULT_VALIDATOR, payload)
     _ensure_finite(payload)
-    data = cast("dict[str, Any]", dict(payload))
-    baseline = cast("dict[str, Any]", data["baseline"])
-    designs = cast("list[dict[str, Any]]", data["designs"])
+    data = cast("dict[str, typing.Any]", dict(payload))
+    baseline = cast("dict[str, typing.Any]", data["baseline"])
+    designs = cast("list[dict[str, typing.Any]]", data["designs"])
     design_ids = [str(design["design_id"]) for design in designs]
     if len(design_ids) != len(set(design_ids)):
         raise ValueError("result design identifiers must be unique")
@@ -1089,7 +1090,7 @@ def validate_signed_social_information_result(
         if comparator is None:
             raise ValueError("result design references an unknown comparator")
         comparator_ledgers = cast("dict[str, dict[str, float]]", comparator["ledgers"])
-        signed = cast("dict[str, Any]", design["signed_values"])
+        signed = cast("dict[str, typing.Any]", design["signed_values"])
         if signed["comparator_design_id"] != comparator_id:
             raise ValueError("signed value comparator must match the design comparator")
         by_agent = cast("dict[str, float]", signed["by_agent"])
@@ -1133,7 +1134,7 @@ def validate_signed_social_information_result(
         expected_switch = selected_policy_id != str(comparator["selected_policy_id"])
         if design["policy_switch"] is not expected_switch:
             raise ValueError("policy-switch diagnostic disagrees with the comparator")
-        blackwell = cast("dict[str, Any]", design["blackwell_nonnegativity"])
+        blackwell = cast("dict[str, typing.Any]", design["blackwell_nonnegativity"])
         if bool(blackwell["applicable"]):
             selector = str(design["selector"])
             expected_checked = (
@@ -1175,7 +1176,7 @@ def validate_signed_social_information_result(
         for design in designs
         if bool(design["feasible"])
     }
-    optimum = cast("dict[str, Any]", data["optimum"])
+    optimum = cast("dict[str, typing.Any]", data["optimum"])
     reported_feasible = cast("dict[str, float]", optimum["feasible_design_values"])
     if set(reported_feasible) != set(feasible_social) or any(
         not math.isclose(float(reported_feasible[design_id]), value, abs_tol=1e-12)
@@ -1247,7 +1248,7 @@ def validate_signed_social_information_result(
         )
         for design in designs
     }
-    diagnostics = cast("dict[str, Any]", data["diagnostics"])
+    diagnostics = cast("dict[str, typing.Any]", data["diagnostics"])
     reported_externality = cast(
         "dict[str, float]", diagnostics["externality_by_design"]
     )
@@ -1268,7 +1269,7 @@ def validate_signed_social_information_result(
     ):
         raise ValueError("signed/social diagnostics are inconsistent")
 
-    assurance = cast("dict[str, Any]", data["assurance"])
+    assurance = cast("dict[str, typing.Any]", data["assurance"])
     world_ids = cast("list[str]", assurance["world_ids_evaluated"])
     policy_ids = cast("list[str]", assurance["policy_ids_evaluated"])
     design_ids_evaluated = cast("list[str]", assurance["design_ids_evaluated"])

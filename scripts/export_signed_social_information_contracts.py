@@ -8,7 +8,7 @@ import hashlib
 import json
 from pathlib import Path
 import shutil
-from typing import Any, cast
+import typing
 
 from voiage.contracts.signed_social_information import (
     SIGNED_SOCIAL_INFORMATION_INPUT_SCHEMA_V1,
@@ -46,8 +46,8 @@ def main() -> None:
     _write_json(result_schema, SIGNED_SOCIAL_INFORMATION_RESULT_SCHEMA_V1)
     fixture_input.parent.mkdir(parents=True, exist_ok=True)
     _ = shutil.copyfile(SOURCE_FIXTURE, fixture_input)
-    specification = cast(
-        "dict[str, Any]", json.loads(fixture_input.read_text(encoding="utf-8"))
+    specification = typing.cast(
+        "dict[str, typing.Any]", json.loads(fixture_input.read_text(encoding="utf-8"))
     )
     _write_json(
         fixture_expected,
