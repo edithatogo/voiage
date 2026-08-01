@@ -22,11 +22,11 @@
     },
     {
       "path": "tests/test_mcda_information.py",
-      "sha256": "6d69494fa9ee3026f9406ecd4d12943048baae3cc1d25b045d07b7cb12e6e0a6"
+      "sha256": "f74233c1c6dc731d883b4358b4088c5e04f465977d176c7ab6e59be39736d9a4"
     },
     {
       "path": "tests/test_mcda_information_surfaces.py",
-      "sha256": "9482ce69288234302f34a98958f3390351c0aaddef7e10968b184c34e95daf8f"
+      "sha256": "7df03fb554b8259df19907858bc279f6bb5f34161bea1710317e6b88c50dce2c"
     },
     {
       "path": "specs/frontier/mcda-information/v1/README.md",

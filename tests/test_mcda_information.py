@@ -17,6 +17,7 @@ import pytest
 
 from voiage.contracts.mcda_information import MCDA_INFORMATION_RESULT_SCHEMA_V1
 from voiage.exceptions import InputError
+import voiage.methods.mcda_information as mcda_information_module
 from voiage.methods.mcda_information import mcda_information_value
 
 if TYPE_CHECKING:
@@ -270,6 +271,39 @@ def test_invalid_domains_and_contract_boundaries_raise_public_input_error(
     mutation(payload)
     with pytest.raises(InputError):
         _ = mcda_information_value(payload)
+
+
+def test_internal_evaluation_rejects_raw_performance_outside_fixed_domain() -> None:
+    """Keep the defensive evaluator guard covered independently of schema checks."""
+    criterion = next(
+        item for item in _input()["criteria"] if item["criterion_id"] == "quality"
+    )
+
+    with pytest.raises(ValueError, match="falls outside the fixed valid domain"):
+        _ = mcda_information_module._linear_value(101.0, criterion)
+
+
+def test_internal_evaluation_rejects_nonfinite_scores_and_negative_information() -> None:
+    """Malformed internal payloads fail closed even when public validation is bypassed."""
+    nonfinite = _input()
+    criterion = next(
+        item for item in nonfinite["criteria"] if item["criterion_id"] == "quality"
+    )
+    criterion["value_function"]["extrapolation_policy"] = "allow"
+    criterion["value_function"]["anchors"][1]["value"] = 1e308
+    for state in nonfinite["joint_states"]:
+        for performances in state["performances"].values():
+            performances["quality"] = 1e308
+    with pytest.raises(ValueError, match="aggregate MCDA score must be finite"):
+        _ = mcda_information_module._evaluate(nonfinite)
+
+    signed_probability = _input()
+    signed_probability["joint_states"][0]["probability"] = -0.5
+    signed_probability["joint_states"][1]["probability"] = 1.5
+    with pytest.raises(
+        ValueError, match="partition refinement produced negative gross information value"
+    ):
+        _ = mcda_information_module._evaluate(signed_probability)
 
 
 def test_result_copy_is_independent_and_json_compatible() -> None:

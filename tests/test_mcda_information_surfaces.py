@@ -12,11 +12,13 @@ from typer.testing import CliRunner
 
 import voiage
 from voiage.cli import app
+from voiage.exceptions import PlottingError
 from voiage.methods.mcda_information import (
     McdaInformationResult,
     mcda_information_value,
 )
 from voiage.plot import plot_mcda_information_value, plot_mcda_rank_acceptability
+import voiage.plot.mcda_information as mcda_plot_module
 
 matplotlib.use("Agg")
 
@@ -26,6 +28,21 @@ FIXTURE = "specs/frontier/mcda-information/v1/fixtures/normative/input.json"
 def _result() -> McdaInformationResult:
     payload = json.loads(Path(FIXTURE).read_text(encoding="utf-8"))
     return mcda_information_value(payload)
+
+
+def test_plot_axes_helper_rejects_missing_matplotlib_and_preserves_given_axes(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(mcda_plot_module, "MATPLOTLIB_AVAILABLE", False)
+    with pytest.raises(PlottingError):
+        _ = mcda_plot_module._axes(None)
+
+    monkeypatch.setattr(mcda_plot_module, "MATPLOTLIB_AVAILABLE", True)
+    figure, axes = plt.subplots()
+    try:
+        assert mcda_plot_module._axes(axes) is axes
+    finally:
+        plt.close(figure)
 
 
 def test_cli_returns_versioned_json_and_writes_identical_output(tmp_path: Path) -> None:
