@@ -17,6 +17,18 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 
 Across the completed lanes, external registry, hardware, and speedup evidence gates remain explicit rather than treated as repository-owned completion criteria.
 
+Issue #318 stage-one programme reconciliation is current at source revision
+`366186b3`: all 18 accepted families map to merged experimental delivery and
+their G5–G13 tests, contracts, independent engineering reviews, dispositions,
+documentation and governance state. Only #558 is closed among the family
+parents, while its Project item remains In Progress/Open/Unverified/Clean.
+Fresh exact-head programme assurance (G14) and the repository-completion
+receipt (G15) remain pending. External
+scientific/design/classification review, #599
+sparse-subgroup validity, #600 continuous/fitted-estimator and risk-composition
+evidence, #619 vector covariance scalarization, Rust/R/Julia parity, stable
+promotion, release/publication and family-parent/#318 closure remain open.
+
 The v1.3 residual frontier programme is governed canonically by VOP C18. Issue
 #599 completed its governed experimental repository delivery. Its exact finite
 Python contract preserves the existing stable descriptive helper while adding
@@ -237,16 +249,19 @@ parent #594 and umbrella #318 remain open.
     governed skips and one neutral CodeQL aggregation), with both review
     threads resolved, before squash merge `9495fc3f`. Canonical sync PR #64
     completed 16 terminal contexts and merged as `cedc6fbb` with zero review
-    threads. Delivery subissues #671--#674 may close. E17 scientific
+    threads. Delivery subissues #671--#674 are closed. E17 scientific
     classification and vector covariance scalarization review, vector
     execution, stable promotion, release, parent #619 closure and umbrella
     #318 closure remain open. A post-merge independent review subsequently
     found that the EVSI outer expectation required explicit prior-predictive
     weighting, replay provenance did not bind runtime values and scalar result
-    consistency was under-validated. A dedicated remediation now exists
-    locally, but it is not integrated until its fresh exact-head hosted checks
-    pass and it merges; dependent umbrella work must then be rebased and
-    revalidated.
+    consistency was under-validated. PR #837 exact head
+    `076a29075e839e3cad49d0487dff0c4e2639845f` remediated
+    those boundaries and completed 65 terminal checks (60 successes, four
+    governed skips and one neutral conclusion) with zero review threads before
+    squash merge `366186b358abd775bea5fd2440d7e0ececb3ebaa`. The umbrella was
+    then resynchronized; scientific,
+    vector, parity, promotion, release and closure gates remain open.
 *   `study_design_efficiency_20260727` and refined GitHub issue #571 define a
     governed Curve of Optimal Sample Size result containing evaluated designs,
     feasible range/set, the signed ENBS curve, deterministic tie policy,
@@ -261,11 +276,12 @@ parent #594 and umbrella #318 remain open.
     binding/governance evidence. PR #679 final exact head `ce5d7127` completed
     65 terminal conclusions (60 successes, four governed skips and one neutral
     conclusion), and both review threads were resolved before squash merge
-    `5d059a80`. Only delivery subissues #680–#682 may close. These capabilities
+    `5d059a80`. Delivery subissues #680–#682 are closed. These capabilities
     remain experimental; scientific review, Rust/R/Julia parity, stable
     promotion, release, parent #571 closure and umbrella #318 closure remain
-    open. Canonical C16 synchronization is proposed by stacked VOP
-    draft PR #65, which depends on the open estimation-family sync PR #64.
+    open. Canonical C16 synchronization PRs in VOP are merged: estimation-
+    family PR #64 exact head `6c3fd723` merged as `cedc6fbb`, followed by
+    study-design PR #65 exact head `d2b74b4f` merged as `ac61bb9f`.
 
 *   `risk_adjusted_information_pricing_20260731` and GitHub issue #595 define
     one experimental expected-utility information-pricing family in Rust and
@@ -280,8 +296,7 @@ parent #594 and umbrella #318 remain open.
     family, while Mojo remains an external boundary. PR #712 final exact head
     `1048c4bc` completed 65 terminal conclusions (60 successes, four governed
     skips and one neutral conclusion), and both review threads were resolved
-    before squash merge `b8395abf`. Only delivery subissues #694–#697 may
-    close.
+    before squash merge `b8395abf`. Delivery subissues #694–#697 are closed.
 
 All three issues are native sub-issues of frontier parent #318 under programme
 #313 and are represented in Project 28. Risk-sensitive/constrained VOI (#570)
@@ -298,24 +313,26 @@ matrix and 100% changed coverage before squash merge `c25f3234`. Scientific
 review, Rust/R/Julia parity, stable promotion, release and parent closure remain
 separate gates.
 
-Value of Flexibility (#559) now has an experimental Python timing-scenario
-contract on draft PR #723. It compares a flexible feasible policy set with the
+Value of Flexibility (#559) now has a merged experimental Python timing-
+scenario contract from PR #723 exact head `3dddf63a`, squash-merged as
+`44e0067a`. It compares a flexible feasible policy set with the
 best matched ex-ante commitment, returns both values and policy paths, and
 keeps its information-value component explicitly excluded. The implementation
 fixes the legacy strategy/stage axis mismatch and reconciles the previously
 non-executable dynamic-real-options fixture. Transition-constrained lifecycle
-paths, Rust/R/Julia execution, scientific review, stable promotion, merge,
-release and issue closure remain separate gates.
+paths, Rust/R/Julia execution, scientific review, stable promotion, release
+and issue closure remain separate gates.
 
-Deterministic Sensitivity and Scenario Analysis (#556) now has an experimental
-Python callback and normalized-record engine on draft PR #723. Its exact v1
+Deterministic Sensitivity and Scenario Analysis (#556) now has a merged
+experimental Python callback and normalized-record engine from PR #723 exact
+head `3dddf63a`, squash-merged as `44e0067a`. Its exact v1
 contract preserves complete coordinate vectors, parameter and output units,
 frozen-baseline one-way grids, explicitly feasible two-way cells, named
 structural scenarios, complete tie sets, and observed exact/plateau/adjacent-
 bracket switches. The CLI validates the same contract from an installed wheel,
 and the accessible tornado plot uses evaluated grid extrema rather than
 inventing interpolation. Rust/R/Julia execution, independent scientific
-review, stable promotion, merge, release and issue closure remain separate
+review, stable promotion, release and issue closure remain separate
 gates.
 
 Value of Distribution-Family Information (#557) now has merged experimental
@@ -341,8 +358,9 @@ weighted pseudo-scores or a quantitative VOI estimand. Practitioner/scientific
 approval, stable promotion, polyglot execution, release and parent closure
 remain separate gates.
 
-Finite additive MCDA information value (#560) now has experimental Python
-delivery on PR #751 under planned v1.3.0 canonical requirement M21 and native
+Finite additive MCDA information value (#560) now has merged experimental
+Python delivery from PR #751 exact head `60297ba3`, squash-merged as
+`e8aaba82`, under planned v1.3.0 canonical requirement M21 and native
 subissues #746–#750. Its frozen v1 scope uses fixed ex-ante value functions and
 normalization anchors, explicit criterion units/directions, normalized
 nonnegative weights and a correlated finite joint uncertainty law. It will
@@ -351,9 +369,9 @@ variables and returns baseline/conditional choices, complete ties, gross/net
 value, interaction, regret, rank acceptability and raw-criterion Pareto
 diagnostics. AHP elicitation, outranking/veto/non-compensatory rules,
 post-information renormalization and imperfect-sample EVSI are excluded.
-Independent scientific review, hosted exact-head and installed-wheel evidence,
-Rust/R/Julia parity, stable promotion, release and parent closure remain
-separate gates.
+Independent scientific review, Rust/R/Julia parity, stable promotion, release
+and parent closure remain separate gates; hosted exact-head and installed-wheel
+assurance passed before merge.
 
 Forecast and signal information value (#572) now has an experimental finite
 Python contract. It consumes a declared forecast artifact, outcome-signal law,

@@ -20,6 +20,8 @@
 - [MCDA implementation PR #751](https://github.com/edithatogo/voiage/pull/751)
 - [Child disposition inventory](./child-dispositions.json)
 - [Child evidence reconciliation](./reconciliation.md)
+- [G5–G13 evidence map](./g5-g13-evidence-map.json)
+- [G5–G12 evidence summary](./g5-g12-evidence-matrix.md)
 - [Accepted-family contract freeze](./contract-freeze.json)
 - [Phase 1 contract review](./phase-1-review.md)
 - [Distribution-Family Information reference review](./distribution-family-information-reference-review.md)

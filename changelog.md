@@ -7,6 +7,14 @@
 
 ## Unreleased
 
+- Align experimental COSS selection-probability normalization with its declared
+  absolute and relative tolerances, and expose complete tied-optimum sets plus
+  selection-uncertainty availability through accessible plot encodings.
+
+- Correct estimation-focused EVSI variance aggregation to use declared prior-
+  predictive probabilities, bind replay assurance to the actual runtime input,
+  and enforce the scalar result contract across Rust, Python, CLI and schemas.
+
 - Add an experimental exact finite outcome-conditional sample-information
   evaluator with `delta-EV_x`, `VSI_x`, EVSI, predictive-probability-weighted
   population `sigma-VSI`, `rVSI_delta`, weighted quantiles/tails, strict

@@ -321,6 +321,85 @@ def test_complete_selection_probability_map_must_be_normalized(
         type(result).model_validate_json(json.dumps(payload))
 
 
+def test_partial_selection_probability_map_rejects_excess_mass_in_result_contract(
+    study_context: StudyDesignContextV1,
+) -> None:
+    result = calculate_coss(
+        context=study_context,
+        designs=(
+            _point("n-20", 20, 5.0, 2.0),
+            _point("n-40", 40, 8.0, 3.0),
+            _point("n-60", 60, 9.0, 4.0),
+        ),
+        selection_uncertainty=SelectionUncertaintyV1(
+            method="bootstrap",
+            replicate_count=100,
+            probability_by_design={"n-20": 0.2, "n-40": 0.3, "n-60": 0.5},
+        ),
+    )
+    payload = result.model_dump(mode="json")
+    payload["selection_uncertainty"]["probability_by_design"] = {
+        "n-20": 0.6,
+        "n-40": 0.6,
+    }
+
+    with pytest.raises(ValidationError, match="mass must not exceed one"):
+        type(result).model_validate_json(json.dumps(payload))
+
+
+def test_partial_selection_probability_map_preserves_unallocated_mass(
+    study_context: StudyDesignContextV1,
+) -> None:
+    probabilities = {"n-20": 0.2, "n-40": 0.3}
+
+    result = calculate_coss(
+        context=study_context,
+        designs=(
+            _point("n-20", 20, 5.0, 2.0),
+            _point("n-40", 40, 8.0, 3.0),
+            _point("n-60", 60, 9.0, 4.0),
+        ),
+        selection_uncertainty=SelectionUncertaintyV1(
+            method="bootstrap",
+            replicate_count=100,
+            probability_by_design=probabilities,
+        ),
+    )
+
+    assert result.selection_uncertainty.probability_by_design == probabilities
+
+
+@pytest.mark.parametrize(
+    "probabilities",
+    [
+        {"n-20": 0.45, "n-40": 0.50},
+        {"n-20": 0.55, "n-40": 0.50},
+    ],
+)
+def test_complete_selection_probability_map_honors_declared_relative_tolerance(
+    study_context: StudyDesignContextV1,
+    probabilities: dict[str, float],
+) -> None:
+    result = calculate_coss(
+        context=study_context,
+        designs=(
+            _point("n-20", 20, 5.0, 2.0),
+            _point("n-40", 40, 8.0, 3.0),
+        ),
+        absolute_tolerance=0.0,
+        relative_tolerance=0.1,
+        selection_uncertainty=SelectionUncertaintyV1(
+            method="bootstrap",
+            replicate_count=100,
+            probability_by_design=probabilities,
+        ),
+    )
+
+    assert sum(
+        result.selection_uncertainty.probability_by_design.values()
+    ) == pytest.approx(sum(probabilities.values()))
+
+
 def test_coss_reports_declared_range_disagreement_and_infeasible_members(
     study_context: StudyDesignContextV1,
 ) -> None:
@@ -710,11 +789,34 @@ def test_result_contracts_reject_corrupted_serialized_relations(
 def test_selection_uncertainty_rejects_excess_mass_and_infeasible_probability(
     study_context: StudyDesignContextV1,
 ) -> None:
-    with pytest.raises(ValidationError, match="mass"):
-        SelectionUncertaintyV1(
-            method="bootstrap",
-            replicate_count=10,
-            probability_by_design={"a": 0.8, "b": 0.8},
+    excess_mass = SelectionUncertaintyV1(
+        method="bootstrap",
+        replicate_count=10,
+        probability_by_design={"a": 0.8, "b": 0.8},
+    )
+    with pytest.raises(InputError, match="sum to one"):
+        calculate_coss(
+            context=study_context,
+            designs=(
+                _point("a", 20, 5.0, 2.0),
+                _point("b", 40, 8.0, 3.0),
+            ),
+            selection_uncertainty=excess_mass,
+        )
+    partial_excess_mass = SelectionUncertaintyV1(
+        method="bootstrap",
+        replicate_count=10,
+        probability_by_design={"a": 0.6, "b": 0.6},
+    )
+    with pytest.raises(InputError, match="mass must not exceed one"):
+        calculate_coss(
+            context=study_context,
+            designs=(
+                _point("a", 20, 5.0, 2.0),
+                _point("b", 40, 8.0, 3.0),
+                _point("c", 60, 9.0, 4.0),
+            ),
+            selection_uncertainty=partial_excess_mass,
         )
     uncertainty = SelectionUncertaintyV1(
         method="bootstrap",

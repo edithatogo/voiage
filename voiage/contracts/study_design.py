@@ -150,8 +150,6 @@ class SelectionUncertaintyV1(ContractModel):
             for probability in self.probability_by_design.values():
                 if not 0.0 <= probability <= 1.0:
                     raise ValueError("selection probabilities must be in [0, 1]")
-            if sum(self.probability_by_design.values()) > 1.0 + 1e-12:
-                raise ValueError("selection probability mass must not exceed one")
         if self.method in {"bootstrap", "monte_carlo"} and self.replicate_count is None:
             raise ValueError("simulation-based uncertainty requires replicate_count")
         if self.method == "unavailable" and (
@@ -259,12 +257,11 @@ class CossResultV1(ContractModel):
                 raise ValueError(
                     "positive selection probability requires a feasible design"
                 )
+            probability_tolerance = self.absolute_tolerance + self.relative_tolerance
+            probability_total = sum(uncertainty.probability_by_design.values())
             if feasible_ids <= probability_ids:
-                probability_tolerance = (
-                    self.absolute_tolerance + self.relative_tolerance
-                )
                 if not isclose(
-                    sum(uncertainty.probability_by_design.values()),
+                    probability_total,
                     1.0,
                     rel_tol=0.0,
                     abs_tol=probability_tolerance,
@@ -272,6 +269,8 @@ class CossResultV1(ContractModel):
                     raise ValueError(
                         "complete selection probability map must sum to one"
                     )
+            elif probability_total > 1.0 + probability_tolerance:
+                raise ValueError("selection probability mass must not exceed one")
         if not feasible:
             if (
                 any(

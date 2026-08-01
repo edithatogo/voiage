@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from typer.testing import CliRunner
 
 from voiage import cli
-from voiage.contracts.study_design import CossPlotDataV1
+from voiage.contracts.study_design import CossPlotDataV1, CossResultV1
 from voiage.plot.voi_curves import plot_coss
 
 runner = CliRunner()
@@ -89,3 +89,30 @@ def test_plot_coss_accepts_plot_contract_and_uses_redundant_encodings() -> None:
     assert "Selected optimum (d-2)" in labels
     assert "ENBS uncertainty interval" in labels
     plt.close(figure)
+
+
+def test_plot_coss_exposes_complete_ties_and_unavailable_selection_uncertainty() -> (
+    None
+):
+    payload = _calculate_example()["result"]
+    assert isinstance(payload, dict)
+    result = CossResultV1.model_validate_json(json.dumps(payload))
+    tied_data = result.plot_data.model_copy(
+        update={"tied_optimal_design_ids": ("n-100", "n-200")}
+    )
+
+    figure, axis = plt.subplots()
+    try:
+        _ = plot_coss(tied_data, ax=axis)
+        labels = axis.get_legend_handles_labels()[1]
+        assert "Tied optima (n-100, n-200)" in labels
+    finally:
+        plt.close(figure)
+
+    figure, axis = plt.subplots()
+    try:
+        _ = plot_coss(result, ax=axis)
+        labels = axis.get_legend_handles_labels()[1]
+        assert "Selection uncertainty unavailable" in labels
+    finally:
+        plt.close(figure)
