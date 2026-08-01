@@ -231,6 +231,10 @@ policy-switch mass under ties, and explicitly rejects the source paper's
 unweighted MATLAB/Table 3 standard-deviation calculation as a normative
 implementation. Continuous outcomes, fitted estimators, scientific review,
 polyglot parity, stable promotion, release and parent closure remain open.
+The repository-owned branch is locally complete at signed implementation
+commit `6548dda7` with 100% focused statement and branch coverage; fresh
+independent review, hosted exact-head/installed-wheel assurance and merge remain
+mandatory before describing that branch as delivered on the default branch.
 
 Risk-sensitive and constrained VOI (#570) now has experimental exact finite
 Python delivery under C18/M22. PR #769 exact head `f513416f` passed its hosted

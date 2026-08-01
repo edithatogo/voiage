@@ -10,7 +10,7 @@ relevant subagent review panel defined in
 The panel supplies structured evidence; maintainer approval and external
 release, registry, and publication decisions remain separate gates.
 
-*   [ ] Complete outcome-conditional sample-information value after
+*   [ ] Complete outcome-conditional sample-information value after signed
     experimental branch delivery.
     *   GitHub issue #600; delivery subissues #790–#792; umbrella track
         `supported_frontier_method_completion_20260723`; phases F600-1–F600-4;
@@ -22,6 +22,10 @@ release, registry, and publication decisions remain separate gates.
     *   Preserve expectation-only tower identities. Keep `rVSI0` distinct from
         policy-switch/tie-set-change mass, and do not reproduce the paper's
         unweighted MATLAB/Table 3 standard-deviation calculation.
+    *   Signed governance commit `3080c1b4` and implementation commit
+        `6548dda7` complete the repository-owned exact-finite contract/API/CLI,
+        fixture, documentation and local-assurance slice without a merge or
+        maturity-promotion claim.
     *   Remaining gates include fresh independent implementation review,
         hosted exact-head and installed-wheel assurance, continuous outcomes,
         fitted-estimator and scientific validity review, risk-sensitive

@@ -203,24 +203,29 @@ covers the experimental frontier entries only.
   every other required Action before merge.
   `e447c0e8`
 
-- [~] **F600-1 / #790:** Freeze C18/M31's exact finite outcome-conditional
+- [x] **F600-1 / #790:** Freeze C18/M31's exact finite outcome-conditional
   estimands, Equation 10 weighted population standard deviation, expectation-
   only tower identities, tie-aware `rVSI0` boundary, primary-reference review,
   strict schemas, normative fixture and explicit exclusions. (AC-02, AC-03,
-  AC-09)
-- [ ] **F600-2 / #791:** Implement deterministic experimental Python/API/CLI
+  AC-09) `3080c1b4`
+- [x] **F600-2 / #791:** Implement deterministic experimental Python/API/CLI
   execution for predictive/posterior outcome laws, `delta-EV_x`, `VSI_x`, EVSI,
   weighted `sigma-VSI`, `rVSI_delta`, quantiles/tails, cost placement, complete
-  ties and prospective/retrospective presentation. (AC-02–AC-06)
-- [ ] **F600-3 / #792:** Add portable input/result assurance, independent result
+  ties and prospective/retrospective presentation. (AC-02–AC-06) `6548dda7`
+- [x] **F600-3 / #792:** Add portable input/result assurance, independent result
   reconstruction, probability/Bayes/identity/calibration diagnostics,
   adversarial/tie/permutation/pathology tests, documentation, discovery,
   fixture manifests and Python/Rust/R/Julia/Mojo dispositions. (AC-03–AC-06)
-- [ ] **F600-4 / #792:** Run a fresh independent implementation review and
+  `6548dda7`; focused contract/evaluator coverage is 100% statements and
+  branches, with frontier, cross-reference, static and full Conductor
+  validation passing locally.
+- [~] **F600-4 / #792:** Run a fresh independent implementation review and
   hosted exact-head/installed-wheel assurance. Retain continuous-outcome and
   fitted-estimator validation, independent scientific review, risk-sensitive
   composition, Rust/R/Julia parity, stable promotion, release, parent #600 and
-  umbrella #318 closure as separate gates. (AC-03–AC-07, AC-09)
+  umbrella #318 closure as separate gates. The signed implementation branch is
+  ready for fresh independent review; no self-approval, hosted-check or merge
+  claim is made. (AC-03–AC-07, AC-09)
 
 - [x] **F572-1 / #760:** Freeze #572's C18/M23 forecast-signal decision
   estimand, strict input/result schemas, analytical newsvendor fixture,
