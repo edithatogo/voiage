@@ -298,8 +298,10 @@ release, registry, and publication decisions remain separate gates.
     *   GitHub issue: #571, native sub-issue of #318 under programme #313.
     *   Implementation sub-issues: #680 (runtime), #681 (portfolio and user
         surfaces), and #682 (bindings, governance and assurance).
-    *   Merged implementation PR #679 supplies the experimental repository
-        contract; scientific review and stable promotion remain separate.
+    *   PR #679 final exact head `ce5d7127` completed 65 terminal conclusions
+        (60 successes, four governed skips and one neutral conclusion), with no
+        pending or failed checks. Both review threads were resolved before
+        squash merge `5d059a80`. Only delivery subissues #680–#682 may close.
     *   Add COSS over signed ENBS with evaluated design records, feasible
         range/set, deterministic optimum/tie/boundary behavior, uncertainty
         around the optimum and plotting inputs.
@@ -316,6 +318,8 @@ release, registry, and publication decisions remain separate gates.
         must be provenance-declared as disjoint from COSS research cost, and
         tolerance ties use a fixed global maximum. Domain-specific adjustment
         estimators and platform adapters remain follow-on scope.
+    *   Scientific review, Rust/R/Julia parity, stable promotion, release,
+        parent #571 closure and umbrella #318 closure remain open.
 *   [x] Implement expected-utility information pricing and VoC presentation.
     *   Conductor track: `risk_adjusted_information_pricing_20260731`.
     *   Planned contract: v1.2.0; MoSCoW: Must; canonical requirements M16/M17.
