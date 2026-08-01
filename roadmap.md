@@ -200,18 +200,28 @@ inventing interpolation. Rust/R/Julia execution, independent scientific
 review, stable promotion, merge, release and issue closure remain separate
 gates.
 
-Value of Distribution-Family Information (#557) now has experimental Python
-delivery on PR #736 under canonical requirement M19 and nested delivery issues
+Value of Distribution-Family Information (#557) now has merged experimental
+Python delivery from PR #736 and governed closeout #737 under canonical requirement M19 and nested delivery issues
 #731–#735. Its strict v1 contract resolves only a declared discrete model-family index
 after within-family uncertainty has been integrated out, returning the current
 mixture-optimal policy, family-resolved policies, complete ties, gross VDI and
 signed net VDI. This is an issue-facing presentation of discrete-index EVPPI,
 not distributional-equity VOI, full structural EVPI, model selection or
 model-discrimination EVSI. The implementation is exercised by synthetic exact
-fixtures, an installed schema/CLI contract, independent review and complete
-changed-line/branch coverage. Hosted exact-head checks and merge remain
-pending; terminology/partition review, real probability provenance, polyglot
+fixtures, an installed schema/CLI contract, independent review, complete
+changed-line/branch coverage and clean hosted exact-head checks. Scientific
+terminology/partition review, real probability provenance, polyglot
 parity, stable promotion and release remain separate gates.
+
+Qualitative Value of Information (#558) is the next planned v1.3.0 frontier
+delivery under canonical requirement M20 and native subissues #738–#742. It
+will provide a portable executable assessment, audit and accessible-rendering
+workflow for ordinal information priorities, complete ties, dissent,
+conflicts, missingness, redaction, sources, AI provenance and accountable human
+verification. It must not fabricate probabilities, utilities, currency,
+weighted pseudo-scores or a quantitative VOI estimand. Practitioner/scientific
+approval, stable promotion, polyglot execution, release and parent closure
+remain separate gates.
 
 The complete Rust-first polyglot programme issue hierarchy is now materialized
 in Conductor rather than existing only in GitHub and Project 28:

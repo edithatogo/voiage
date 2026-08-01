@@ -1,5 +1,26 @@
 # Mermaid design — planned v1.2.0
 
+## Qualitative value of information
+
+```mermaid
+flowchart LR
+    Decision["Decision + accountable reviewers"] --> Assessment["Versioned qualitative assessment"]
+    Gaps["Information questions + evidence gaps"] --> Assessment
+    Judgements["Impact, feasibility, timeliness, equity/ethics, burden and confidence"] --> Assessment
+    Sources["Sources + missingness + redaction markers"] --> Assessment
+    Assessment --> Validate{"Portable contract valid?"}
+    Validate -->|no| Incomplete["Incomplete or unverified result"]
+    Validate -->|yes| Prioritize["Deterministic ordinal priority + complete ties"]
+    Dissent["Dissent + conflict declarations"] --> Prioritize
+    Prioritize --> Recommendations["Ordinal recommendation classes + rationale"]
+    AI["AI contribution + model/version provenance"] --> Human{"Human verified?"}
+    Human -->|no| Incomplete
+    Human -->|yes| Recommendations
+    Recommendations --> Audit["Append-only versioned audit history"]
+    Audit --> Render["Deterministic accessible serialization and rendering"]
+    Render --> Boundary["Not quantitative VOI, MCDA, Delphi or evidence grading"]
+```
+
 ```mermaid
 flowchart LR
     Utility["Utility + wealth/reference state"] --> Current["Current policy EU"]

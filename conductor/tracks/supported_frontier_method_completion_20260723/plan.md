@@ -37,6 +37,25 @@
   hosted exact-head assurance; reconcile #557 without closing scientific,
   stable-promotion, release or issue gates. (AC-03–AC-07) `2aa5d2eb`
 
+- [~] **F558-1 / #738:** Freeze #558's portable non-cardinal assessment
+  contract, planned v1.3.0 MoSCoW requirements, Mermaid flow, independent
+  reference review and failing worked/disagreement/incomplete/adversarial
+  tests. (AC-02, AC-03, AC-09)
+- [ ] **F558-2 / #739:** Add strict versioned assessment, result, audit-event and
+  rendering schemas; normative fixtures; provenance, redaction, AI-assistance,
+  human-review and language dispositions. (AC-02–AC-06)
+- [ ] **F558-3 / #740:** Implement the deterministic experimental Python
+  validator and state transition workflow with ordinal priorities, complete
+  ties, dissent, conflicts, missingness and immutable audit history, without
+  cardinal pseudo-scoring. (AC-02–AC-05)
+- [ ] **F558-4 / #741:** Add installed contracts, Python/CLI deterministic JSON
+  and accessible text rendering, documentation, examples and discovery without
+  claiming quantitative VOI, stable or polyglot execution. (AC-04–AC-06)
+- [ ] **F558-5 / #742:** Run independent implementation, usability and
+  accessibility review, focused/full local and hosted exact-head assurance;
+  reconcile #558 while retaining practitioner/scientific, stable-promotion,
+  parity, release and parent-closure gates. (AC-03–AC-07)
+
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for
   #559 Value of Flexibility. (AC-03) `6fd474b1`

@@ -60,9 +60,23 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   Keep this discrete-index EVPPI presentation distinct from
         distributional-equity VOI, full structural EVPI, model-discrimination
         EVSI and goodness-of-fit/model selection.
-    *   Remaining gates include hosted exact-head assurance, merge, scientific
-        terminology/partition approval, real probability provenance, polyglot
-        parity, stable promotion, release and issue closure.
+    *   PR #736 and governed closeout #737 are merged; #731–#735 are Done.
+    *   Remaining gates include scientific terminology/partition approval,
+        real probability provenance, polyglot parity, stable promotion, release
+        and parent issue closure.
+
+*   [ ] Implement the portable qualitative value-of-information workflow.
+    *   GitHub issue #558; delivery subissues #738–#742; umbrella track
+        `supported_frontier_method_completion_20260723`.
+    *   Planned contract: v1.3.0; MoSCoW: Should; canonical requirement M20.
+    *   Add strict assessment/result/audit/rendering schemas, worked dissent and
+        incomplete fixtures, deterministic ordinal prioritization with complete
+        ties, immutable history, redaction and AI/human-review provenance,
+        installed Python/CLI execution, accessible rendering and discovery.
+    *   Never infer cardinal weights, probabilities, utilities, currency or a
+        numerical VOI estimate from ordinal judgements.
+    *   Retain practitioner/scientific review, stable promotion, polyglot
+        execution, release and parent closure as separate gates.
 
 *   [x] Implement estimation-focused variance-reduction VOI.
     *   Conductor track: `estimation_focused_variance_voi_20260727`.

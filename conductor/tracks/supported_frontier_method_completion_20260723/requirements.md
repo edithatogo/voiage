@@ -1,6 +1,27 @@
-# MoSCoW requirements — planned v1.2.0
+# MoSCoW requirements — planned v1.2.0 and v1.3.0
 
 ## Must
+
+- **M20-U1:** #558 planned v1.3.0 qualitative VOI must use a versioned portable assessment
+  contract that identifies the decision, information questions, uncertainty or
+  evidence gaps, potential decision impact, feasibility, timeliness,
+  equity/ethics, proposed information action, cost or burden, confidence,
+  rationale, sources, missingness and accountable human reviewers.
+- **M20-U2:** Return deterministic ordinal priority and recommendation classes,
+  complete tie groups, unresolved conflicts, dissent and an explicit
+  complete/incomplete/unverified state without converting ordinal judgements
+  into probabilities, utilities, currency, weighted scores or quantitative
+  VOI. Sorting, tie and missing-data policies must be declared and auditable.
+- **M20-U3:** Preserve immutable assessment and audit-event identifiers,
+  versioned history, source and transformation provenance, redaction markers,
+  actor roles and timestamps. AI-assisted contributions must record provider,
+  model/version, prompt or input reference, verification state and human
+  override; AI output cannot satisfy human approval.
+- **M20-U4:** Keep the workflow distinct from MCDA, expert elicitation, Delphi
+  consensus, evidence grading, risk-of-bias assessment and numerical VOI.
+  Require deterministic serialization/rendering, conflict and adversarial
+  fixtures, accessibility/usability review, explicit language dispositions and
+  scientific/practitioner review before promotion.
 
 - **M19-U1:** #557 Value of Distribution-Family Information must identify the
   uncertain model-family index, its evidence-conditioned probabilities, the
@@ -47,6 +68,9 @@
 
 ## Should
 
+- Provide worked, disagreement, incomplete, redacted and adversarial
+  qualitative assessments; schema/property/audit-chain tests; accessible text
+  rendering; and reviewer-oriented explanations of every recommendation.
 - Provide normalized tabular input, accessible tornado plotting, explicit
   estimated interpolation labels and independent analytical/brute-force tests.
 - Provide analytical enumeration, permutation/splitting/scaling invariants,
@@ -57,10 +81,15 @@
 
 ## Could
 
+- Add further non-cardinal presentation views over the same portable
+  qualitative assessment contract.
 - Add further reviewed presentation labels without new kernels.
 
 ## Won't
 
+- Infer cardinal distances between ordinal classes, aggregate them as numeric
+  weights, silently resolve dissent, treat AI output as verified or describe
+  the qualitative workflow as an EVPI/EVPPI/EVSI estimate.
 - Treat deterministic ranges as probability distributions, uncertainty
   attribution or information value.
 - Create a duplicate VoC method or overwrite human-authored issue content.

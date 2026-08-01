@@ -93,6 +93,18 @@ flowchart LR
     CurrentFamilyPolicy --> FamilyVDI["Gross and signed net VDI"]
     ResolvedFamilyPolicies --> FamilyVDI
     FamilyVDI --> FamilyBoundary["Discrete-index EVPPI; not full structural EVPI"]
+
+    QualDecision["Decision + accountable human reviewers"] --> QualAssessment["Versioned qualitative assessment"]
+    QualGaps["Information questions + evidence gaps"] --> QualAssessment
+    QualJudgements["Ordinal impact, feasibility, timeliness, equity/ethics, burden and confidence"] --> QualAssessment
+    QualAssessment --> QualPriority["Deterministic priority classes + complete ties"]
+    QualDissent["Dissent + conflict + missingness"] --> QualPriority
+    QualAI["AI provenance + unverified state"] --> QualHuman{"Human verified?"}
+    QualHuman -->|no| QualIncomplete["Incomplete/unverified"]
+    QualHuman -->|yes| QualResult["Recommendation classes + rationale"]
+    QualPriority --> QualResult
+    QualResult --> QualAudit["Immutable audit history + accessible rendering"]
+    QualAudit --> QualBoundary["Not numerical VOI, MCDA, Delphi or evidence grading"]
 ```
 
 ```mermaid
