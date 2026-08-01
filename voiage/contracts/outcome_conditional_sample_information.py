@@ -454,9 +454,7 @@ def validate_outcome_conditional_sample_information_semantics(
     implementation = import_module(
         "voiage.methods.outcome_conditional_sample_information"
     )
-    implementation._validate_and_build(
-        cast("dict[str, object]", deepcopy(payload))
-    )
+    implementation._validate_and_build(cast("dict[str, object]", deepcopy(payload)))
 
 
 def validate_outcome_conditional_sample_information_result_semantics(
