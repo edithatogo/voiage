@@ -13,6 +13,9 @@
 - [Merged study-efficiency PR #679](https://github.com/edithatogo/voiage/pull/679)
 - [Merged estimation-variance PR #676](https://github.com/edithatogo/voiage/pull/676)
 - [Merged expected-utility/VoC PR #712](https://github.com/edithatogo/voiage/pull/712)
+- [Merged programme reconciliation PR #836](https://github.com/edithatogo/voiage/pull/836)
+- [G14/G15 repository-completion receipt](./repository-completion-receipt-20260802.md)
+- [Project 28 normalization readback](./project-normalization-readback-20260802.json)
 - [Umbrella implementation PR #723](https://github.com/edithatogo/voiage/pull/723)
 - [Canonical baseline PR #51](https://github.com/edithatogo/vop_poc_nz/pull/51)
 - [Merged C16 synchronization stack #64–#66](https://github.com/edithatogo/vop_poc_nz/pull/64)
@@ -20,7 +23,7 @@
 - [MCDA implementation PR #751](https://github.com/edithatogo/voiage/pull/751)
 - [Child disposition inventory](./child-dispositions.json)
 - [Child evidence reconciliation](./reconciliation.md)
-- [G5–G13 evidence map](./g5-g13-evidence-map.json)
+- [G5–G15 evidence map](./g5-g13-evidence-map.json)
 - [G5–G12 evidence summary](./g5-g12-evidence-matrix.md)
 - [Accepted-family contract freeze](./contract-freeze.json)
 - [Phase 1 contract review](./phase-1-review.md)
@@ -45,6 +48,7 @@
 - [Heterogeneity-value reference review](./heterogeneity-value-reference-review.md)
 - [Heterogeneity-value issue #599 and delivery subissues #786/#788/#789](https://github.com/edithatogo/voiage/issues/599)
 
-Status: in progress. Every owned child issue is being reconciled against
-executable evidence or a reviewed exclusion; existing Project or issue status
-is not treated as implementation completion.
+Status: repository-owned programme work is complete; the track remains in
+progress for the explicitly external scientific, parity, promotion, release,
+publication, registry, and issue-closure gates. Project or issue status is not
+treated as implementation completion.

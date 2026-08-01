@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "audited_at": "2026-08-01T18:12:05Z",
+  "project": {
+    "number": 28,
+    "id": "PVT_kwHOAOYc4M4Bd0Tx",
+    "url": "https://github.com/users/edithatogo/projects/28"
+  },
+  "repository": "edithatogo/voiage",
+  "source_revision": "163825d8b09e064a65cbab8a5807904629bbf05e",
+  "mutation_performed": true,
+  "closed_items": [
+    {"issue": 558, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0Kquo", "status": "Done", "lifecycle": "Resolved", "evidence_state": "Verified", "sync_state": "Clean"},
+    {"issue": 724, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0118M", "status": "Done", "lifecycle": "Resolved", "evidence_state": "Verified", "sync_state": "Clean"},
+    {"issue": 725, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg011-0", "status": "Done", "lifecycle": "Resolved", "evidence_state": "Verified", "sync_state": "Clean"},
+    {"issue": 726, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg012AU", "status": "Done", "lifecycle": "Resolved", "evidence_state": "Verified", "sync_state": "Clean"},
+    {"issue": 727, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg012B8", "status": "Done", "lifecycle": "Resolved", "evidence_state": "Verified", "sync_state": "Clean"},
+    {"issue": 728, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg012C8", "status": "Done", "lifecycle": "Resolved", "evidence_state": "Verified", "sync_state": "Clean"},
+    {"issue": 731, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg03p3E", "status": "Done", "lifecycle": "Resolved", "evidence_state": "Verified", "sync_state": "Clean"},
+    {"issue": 732, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg03p3Q", "status": "Done", "lifecycle": "Resolved", "evidence_state": "Verified", "sync_state": "Clean"},
+    {"issue": 733, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg03p3A", "status": "Done", "lifecycle": "Resolved", "evidence_state": "Verified", "sync_state": "Clean"},
+    {"issue": 734, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg03p38", "status": "Done", "lifecycle": "Resolved", "evidence_state": "Verified", "sync_state": "Clean"},
+    {"issue": 735, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg03p4A", "status": "Done", "lifecycle": "Resolved", "evidence_state": "Verified", "sync_state": "Clean"},
+    {"issue": 738, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg036RM", "status": "Done", "lifecycle": "Resolved", "evidence_state": "Verified", "sync_state": "Clean"},
+    {"issue": 739, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg036RY", "status": "Done", "lifecycle": "Resolved", "evidence_state": "Verified", "sync_state": "Clean"},
+    {"issue": 740, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg036RI", "status": "Done", "lifecycle": "Resolved", "evidence_state": "Verified", "sync_state": "Clean"},
+    {"issue": 741, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg036RU", "status": "Done", "lifecycle": "Resolved", "evidence_state": "Verified", "sync_state": "Clean"},
+    {"issue": 742, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg036SQ", "status": "Done", "lifecycle": "Resolved", "evidence_state": "Verified", "sync_state": "Clean"}
+  ],
+  "open_items": [
+    {"issue": 318, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzgz2Fiw", "status": "In Progress", "lifecycle": "Mitigating", "evidence_state": "Unverified", "sync_state": "Clean"},
+    {"issue": 556, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0Kqsw", "status": "In Progress", "lifecycle": "Mitigating", "evidence_state": "Unverified", "sync_state": "Clean"},
+    {"issue": 557, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0Kqto", "status": "In Progress", "lifecycle": "Mitigating", "evidence_state": "Unverified", "sync_state": "Clean"},
+    {"issue": 559, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0KqvY", "status": "In Progress", "lifecycle": "Mitigating", "evidence_state": "Unverified", "sync_state": "Clean"},
+    {"issue": 560, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0KqxQ", "status": "In Progress", "lifecycle": "Mitigating", "evidence_state": "Unverified", "sync_state": "Clean"},
+    {"issue": 570, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0K8jU", "status": "In Progress", "lifecycle": "Mitigating", "evidence_state": "Unverified", "sync_state": "Clean"},
+    {"issue": 571, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0K8jo", "status": "In Progress", "lifecycle": "Mitigating", "evidence_state": "Unverified", "sync_state": "Clean"},
+    {"issue": 572, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0K8kI", "status": "In Progress", "lifecycle": "Mitigating", "evidence_state": "Unverified", "sync_state": "Clean"},
+    {"issue": 582, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0K8jk", "status": "In Progress", "lifecycle": "Mitigating", "evidence_state": "Unverified", "sync_state": "Clean"},
+    {"issue": 593, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0LcV4", "status": "In Progress", "lifecycle": "Mitigating", "evidence_state": "Unverified", "sync_state": "Clean"},
+    {"issue": 594, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0LcXQ", "status": "In Progress", "lifecycle": "Mitigating", "evidence_state": "Unverified", "sync_state": "Clean"},
+    {"issue": 595, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0LcX4", "status": "In Progress", "lifecycle": "Mitigating", "evidence_state": "Unverified", "sync_state": "Clean"},
+    {"issue": 596, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0LcYo", "status": "In Progress", "lifecycle": "Mitigating", "evidence_state": "Unverified", "sync_state": "Clean"},
+    {"issue": 597, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0LcZQ", "status": "In Progress", "lifecycle": "Mitigating", "evidence_state": "Unverified", "sync_state": "Clean"},
+    {"issue": 598, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0LcZo", "status": "In Progress", "lifecycle": "Mitigating", "evidence_state": "Unverified", "sync_state": "Clean"},
+    {"issue": 599, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0LcbA", "status": "In Progress", "lifecycle": "Mitigating", "evidence_state": "Unverified", "sync_state": "Clean"},
+    {"issue": 600, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0LcbY", "status": "In Progress", "lifecycle": "Mitigating", "evidence_state": "Unverified", "sync_state": "Clean"},
+    {"issue": 619, "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0MapE", "status": "In Progress", "lifecycle": "Mitigating", "evidence_state": "Unverified", "sync_state": "Clean"}
+  ],
+  "issue_619": {
+    "state": "OPEN",
+    "body_synchronized": true,
+    "delivery_subissues_complete": [671, 672, 673, 674],
+    "merged_pull_requests": [676, 837, 836]
+  }
+}

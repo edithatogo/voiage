@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
   "track_id": "supported_frontier_method_completion_20260723",
-  "audited_at": "2026-08-01T17:02:29Z",
-  "source_revision": "366186b358abd775bea5fd2440d7e0ececb3ebaa",
-  "completed_repository_gates": ["G5", "G6", "G7", "G8", "G9", "G10", "G11", "G12", "G13"],
-  "pending_programme_gates": ["G14", "G15"],
+  "audited_at": "2026-08-01T17:57:13Z",
+  "source_revision": "163825d8b09e064a65cbab8a5807904629bbf05e",
+  "completed_repository_gates": ["G5", "G6", "G7", "G8", "G9", "G10", "G11", "G12", "G13", "G14", "G15"],
+  "pending_programme_gates": [],
   "families": [
     {
       "issue": 556,
@@ -292,14 +292,28 @@
     "open family-parent issues and umbrella #318 closure"
   ],
   "project_normalization_eligibility": {
-    "mutation_performed": false,
+    "mutation_performed": true,
     "issues": [558, 724, 725, 726, 727, 728, 731, 732, 733, 734, 735, 738, 739, 740, 741, 742],
     "observed_issue_state": "closed",
     "observations": {
-      "558": "In Progress / Open / Unverified / Clean",
-      "724": "In Progress / lifecycle not set / evidence not set / Planned"
+      "558": "Done / Resolved / Verified / Clean",
+      "724": "Done / Resolved / Verified / Clean",
+      "556": "In Progress / Mitigating / Unverified / Clean"
     },
     "eligible_target": "Done / Resolved / Verified / Clean",
-    "note": "Eligibility only; this reconciliation does not mutate GitHub issues or Project 28."
+    "readback": "conductor/tracks/supported_frontier_method_completion_20260723/project-normalization-readback-20260802.json",
+    "note": "Project 28 was normalized and directly read back; open family parents retain unresolved external gates."
+  },
+  "repository_completion": {
+    "receipt": "conductor/tracks/supported_frontier_method_completion_20260723/repository-completion-receipt-20260802.md",
+    "pull_request": 836,
+    "exact_head": "8f1d70cb6bc67d5f1b07d95cd254171d8d3a913d",
+    "merge_commit": "163825d8b09e064a65cbab8a5807904629bbf05e",
+    "checks": {"success": 38, "skipped": 3, "neutral": 1, "failed": 0, "cancelled": 0, "pending": 0},
+    "review_threads": 0,
+    "github_merge_state": "CLEAN",
+    "github_mergeable": "MERGEABLE",
+    "repository_complete": true,
+    "issue_318_closed": false
   }
 }

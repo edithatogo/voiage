@@ -10,14 +10,14 @@ relevant subagent review panel defined in
 The panel supplies structured evidence; maintainer approval and external
 release, registry, and publication decisions remain separate gates.
 
-*   [ ] Complete #318 programme closeout stages G14 and G15.
-    *   G5–G13 repository-owned evidence and governance
-        reconciliation is complete in `g5-g13-evidence-map.json` at source
-        revision `366186b3`; G8 is satisfied by independent engineering review
-        for every accepted family without claiming scientific approval.
-    *   G14 must run the fresh exact-head local/hosted programme matrix; G15
-        must record repository completion separately from merge, stable
-        promotion, release/publication and issue closure.
+*   [x] Complete #318 repository-owned programme closeout stages G14 and G15.
+    *   G5–G15 repository-owned evidence and governance reconciliation is
+        complete in `g5-g13-evidence-map.json` and
+        `repository-completion-receipt-20260802.md` at source revision
+        `163825d8`; G8 remains engineering review rather than scientific
+        approval.
+    *   PR #836 exact head `8f1d70cb` passed all 42 terminal-allowed checks,
+        had zero review threads, and merged as `163825d8`.
     *   Do not close #318 or open family-parent issues from this stage. Retain
         scientific/design/classification, #599 sparse-subgroup, #600
         continuous/fitted-estimator and risk-composition, #619 covariance

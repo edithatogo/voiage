@@ -49,7 +49,7 @@ def test_inventory_covers_exact_live_native_hierarchy() -> None:
     assert len(children) == len(EXPECTED_CHILDREN)
 
 
-def test_stage_one_evidence_map_closes_only_repository_owned_g5_to_g13() -> None:
+def test_programme_evidence_map_closes_only_repository_owned_g5_to_g15() -> None:
     track = INVENTORY.parent
     evidence_map = json.loads(
         (track / "g5-g13-evidence-map.json").read_text(encoding="utf-8")
@@ -58,7 +58,7 @@ def test_stage_one_evidence_map_closes_only_repository_owned_g5_to_g13() -> None
     plan = (track / "plan.md").read_text(encoding="utf-8")
 
     assert evidence_map["source_revision"] == (
-        "366186b358abd775bea5fd2440d7e0ececb3ebaa"
+        "163825d8b09e064a65cbab8a5807904629bbf05e"
     )
     assert {item["issue"] for item in evidence_map["families"]} == EXPECTED_CHILDREN
     assert set(evidence_map["completed_repository_gates"]) == {
@@ -71,8 +71,10 @@ def test_stage_one_evidence_map_closes_only_repository_owned_g5_to_g13() -> None
         "G11",
         "G12",
         "G13",
+        "G14",
+        "G15",
     }
-    assert evidence_map["pending_programme_gates"] == ["G14", "G15"]
+    assert evidence_map["pending_programme_gates"] == []
     for family in evidence_map["families"]:
         for gate in ("G5", "G6", "G7", "G8", "G9", "G10", "G11", "G12"):
             assert family["evidence"][gate]
@@ -85,15 +87,14 @@ def test_stage_one_evidence_map_closes_only_repository_owned_g5_to_g13() -> None
     by_issue = {item["issue"]: item for item in inventory["children"]}
     assert inventory["source_revision"] == evidence_map["source_revision"]
     assert by_issue[558]["issue_state"] == "closed"
-    assert by_issue[558]["project_status"] == "In Progress"
+    assert by_issue[558]["project_status"] == "Done"
     for issue in (556, 557, 558, 559):
         assert by_issue[issue]["disposition"] == "experimental_merged"
-    assert (
-        evidence_map["project_normalization_eligibility"]["mutation_performed"] is False
-    )
+    assert evidence_map["project_normalization_eligibility"]["mutation_performed"]
     assert evidence_map["project_normalization_eligibility"]["observations"] == {
-        "558": "In Progress / Open / Unverified / Clean",
-        "724": "In Progress / lifecycle not set / evidence not set / Planned",
+        "558": "Done / Resolved / Verified / Clean",
+        "724": "Done / Resolved / Verified / Clean",
+        "556": "In Progress / Mitigating / Unverified / Clean",
     }
     assert evidence_map["project_normalization_eligibility"]["issues"] == [
         558,
@@ -113,9 +114,122 @@ def test_stage_one_evidence_map_closes_only_repository_owned_g5_to_g13() -> None
         741,
         742,
     ]
+    readback_path = ROOT / evidence_map["project_normalization_eligibility"]["readback"]
+    readback = json.loads(readback_path.read_text(encoding="utf-8"))
+    assert {item["issue"] for item in readback["closed_items"]} == {
+        558,
+        724,
+        725,
+        726,
+        727,
+        728,
+        731,
+        732,
+        733,
+        734,
+        735,
+        738,
+        739,
+        740,
+        741,
+        742,
+    }
+    assert {item["issue"] for item in readback["open_items"]} == {
+        318,
+        556,
+        557,
+        559,
+        560,
+        570,
+        571,
+        572,
+        582,
+        593,
+        594,
+        595,
+        596,
+        597,
+        598,
+        599,
+        600,
+        619,
+    }
+    assert {
+        (item["status"], item["lifecycle"], item["evidence_state"], item["sync_state"])
+        for item in readback["closed_items"]
+    } == {("Done", "Resolved", "Verified", "Clean")}
+    assert {
+        (item["status"], item["lifecycle"], item["evidence_state"], item["sync_state"])
+        for item in readback["open_items"]
+    } == {("In Progress", "Mitigating", "Unverified", "Clean")}
+    assert readback["issue_619"]["state"] == "OPEN"
+    assert readback["issue_619"]["body_synchronized"] is True
     assert "- [x] **G8:**" in plan
     for gate in ("G14", "G15"):
-        assert f"- [ ] **{gate}:" in plan
+        assert f"- [x] **{gate}:" in plan
+
+    completion = evidence_map["repository_completion"]
+    assert completion["exact_head"] == "8f1d70cb6bc67d5f1b07d95cd254171d8d3a913d"
+    assert completion["merge_commit"] == ("163825d8b09e064a65cbab8a5807904629bbf05e")
+    assert completion["checks"] == {
+        "success": 38,
+        "skipped": 3,
+        "neutral": 1,
+        "failed": 0,
+        "cancelled": 0,
+        "pending": 0,
+    }
+    assert completion["review_threads"] == 0
+    assert completion["repository_complete"] is True
+    assert completion["issue_318_closed"] is False
+    receipt = ROOT / completion["receipt"]
+    assert receipt.is_file()
+    receipt_text = receipt.read_text(encoding="utf-8")
+    for boundary in (
+        "scientific approval",
+        "cross-language parity",
+        "stable promotion",
+        "release",
+        "issue closure",
+    ):
+        assert boundary in receipt_text
+
+    cross_references = json.loads(
+        (ROOT / "conductor/github-cross-references.json").read_text(encoding="utf-8")
+    )
+    umbrella_xref = next(
+        item
+        for item in cross_references["tracks"]
+        if item["track_id"] == "supported_frontier_method_completion_20260723"
+    )
+    pr_836 = next(
+        item for item in umbrella_xref["pull_requests"] if item["number"] == 836
+    )
+    assert pr_836["status"] == "merged"
+    assert completion["exact_head"] in pr_836["evidence"]
+    assert completion["merge_commit"] in pr_836["evidence"]
+
+    metadata = json.loads((track / "metadata.json").read_text(encoding="utf-8"))
+    hosted_gate = next(
+        gate for gate in metadata["gates"] if gate["id"] == "hosted-required-checks"
+    )
+    assert hosted_gate["status"] == "satisfied"
+    assert not [
+        gate
+        for gate in metadata["gates"]
+        if gate["kind"] == "hosted_validation" and gate["status"] == "pending"
+    ]
+    metadata_prs = set(metadata["github_cross_reference"]["pull_requests"])
+    central_prs = {item["url"] for item in umbrella_xref["pull_requests"]}
+    pr_836_url = "https://github.com/edithatogo/voiage/pull/836"
+    assert pr_836_url in metadata_prs
+    assert pr_836_url in central_prs
+    assert metadata["updated_at"] >= "2026-08-01T17:57:13Z"
+    assert cross_references["generated_at"] >= "2026-08-01T17:57:13Z"
+
+    index = (track / "index.md").read_text(encoding="utf-8")
+    assert "is being reconciled" not in index
+    assert "repository-owned programme work is complete" in index
 
 
 def test_stage_one_roadmap_does_not_reopen_merged_delivery_prs() -> None:

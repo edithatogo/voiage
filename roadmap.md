@@ -17,13 +17,16 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 
 Across the completed lanes, external registry, hardware, and speedup evidence gates remain explicit rather than treated as repository-owned completion criteria.
 
-Issue #318 stage-one programme reconciliation is current at source revision
-`366186b3`: all 18 accepted families map to merged experimental delivery and
-their G5–G13 tests, contracts, independent engineering reviews, dispositions,
-documentation and governance state. Only #558 is closed among the family
-parents, while its Project item remains In Progress/Open/Unverified/Clean.
-Fresh exact-head programme assurance (G14) and the repository-completion
-receipt (G15) remain pending. External
+Issue #318 repository-owned programme reconciliation is complete at source
+revision `163825d8`: all 18 accepted families map to merged experimental
+delivery and the programme's G5–G14 tests, contracts, independent engineering
+reviews, dispositions, documentation, governance state and exact-head hosted
+assurance; G15 is recorded by the separate repository-completion receipt. PR
+#836 exact head `8f1d70cb` completed 42
+terminal checks (38 successes, three governed skips and one neutral
+conclusion), had zero review threads, and merged as `163825d8`. Project 28 is
+normalized for the governed closed issues while open parents remain
+In Progress/Mitigating. External
 scientific/design/classification review, #599
 sparse-subgroup validity, #600 continuous/fitted-estimator and risk-composition
 evidence, #619 vector covariance scalarization, Rust/R/Julia parity, stable
