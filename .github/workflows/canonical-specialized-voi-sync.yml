@@ -136,6 +136,10 @@ jobs:
             git fetch origin "$AUTOMATION_BRANCH:refs/remotes/origin/$AUTOMATION_BRANCH"
           fi
           git switch -C "$AUTOMATION_BRANCH" "origin/$DEFAULT_BRANCH"
+          if cmp --silent "$SOURCE_PATH" "$TARGET_PATH"; then
+            echo "Canonical projection mirror became current on the default branch."
+            exit 0
+          fi
           cp "$SOURCE_PATH" "$TARGET_PATH"
           git add "$TARGET_PATH"
           git commit -m "chore(governance): refresh $VERSION projection mirror"
