@@ -6,7 +6,7 @@
     },
     {
       "path": "specs/frontier/signed-social-information/v1/capabilities.json",
-      "sha256": "90d7d7bcf1770bf4de3cde7ca25ec218187d659f5c05a0a9cfbeb67fd73f138d"
+      "sha256": "3004dced61144e20474d1235b6b35b976e7d2ca23dda40a39f3a58edcee6d285"
     },
     {
       "path": "specs/frontier/signed-social-information/v1/fixtures/manifest.json",
