@@ -318,9 +318,7 @@ def test_issue_619_repository_delivery_and_open_scientific_gate_are_governed() -
         (
             (dedicated / "index.md").read_text(encoding="utf-8"),
             (dedicated / "plan.md").read_text(encoding="utf-8"),
-            (dedicated / "delivery-closeout-20260801.md").read_text(
-                encoding="utf-8"
-            ),
+            (dedicated / "delivery-closeout-20260801.md").read_text(encoding="utf-8"),
             (ROOT / "roadmap.md").read_text(encoding="utf-8"),
             (ROOT / "todo.md").read_text(encoding="utf-8"),
         )
