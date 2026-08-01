@@ -110,7 +110,7 @@ existing issue/Project progress awaits evidence reconciliation.*
 
 ---
 
-## [ ] Track: Datasets and Executable Worked Examples
+## [~] Track: Datasets and Executable Worked Examples
 *Link: [./tracks/datasets_worked_examples_20260723/index.md](./tracks/datasets_worked_examples_20260723/index.md)*
 *GitHub: [issue #321](https://github.com/edithatogo/voiage/issues/321), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
