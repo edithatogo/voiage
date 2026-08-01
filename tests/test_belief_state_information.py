@@ -4,6 +4,7 @@
 # pyright: reportUnknownMemberType=false, reportUnknownVariableType=false
 # pyright: reportMissingModuleSource=false, reportUnknownLambdaType=false
 # pyright: reportUnusedCallResult=false
+# pyright: reportMissingImports=false, reportPrivateUsage=false
 
 from copy import deepcopy
 import hashlib
@@ -13,6 +14,7 @@ from typing import Any
 
 from jsonschema import Draft202012Validator
 import pytest
+from referencing import Registry, Resource
 from typer.testing import CliRunner
 
 import voiage
@@ -39,6 +41,15 @@ def _result(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     return belief_state_information_value(payload or _input()).to_contract_dict()
 
 
+def _result_schema_validator(
+    input_schema: dict[str, object], result_schema: dict[str, object]
+) -> Draft202012Validator:
+    registry = Registry().with_resource(
+        str(input_schema["$id"]), Resource.from_contents(input_schema)
+    )
+    return Draft202012Validator(result_schema, registry=registry)
+
+
 def test_portable_schemas_and_normative_fixture() -> None:
     input_schema = json.loads(
         (CONTRACT / "schemas/belief-state-information-input.schema.json").read_text()
@@ -48,7 +59,7 @@ def test_portable_schemas_and_normative_fixture() -> None:
     )
     Draft202012Validator(input_schema).validate(_input())
     result = _result()
-    Draft202012Validator(result_schema).validate(result)
+    _result_schema_validator(input_schema, result_schema).validate(result)
     assert result == json.loads(EXPECTED.read_text(encoding="utf-8"))
 
 
@@ -233,7 +244,18 @@ def test_schema_rejects_open_envelopes() -> None:
     assert list(Draft202012Validator(input_schema).iter_errors(invalid_input))
     invalid_result = _result()
     invalid_result["values"] = {}
-    assert list(Draft202012Validator(result_schema).iter_errors(invalid_result))
+    assert list(
+        _result_schema_validator(input_schema, result_schema).iter_errors(
+            invalid_result
+        )
+    )
+    invalid_model_assurance = _result()
+    invalid_model_assurance["model_assurance"]["input_contract"]["surprise"] = True
+    assert list(
+        _result_schema_validator(input_schema, result_schema).iter_errors(
+            invalid_model_assurance
+        )
+    )
 
 
 def test_public_api_cli_and_maturity_boundary(tmp_path: Path) -> None:
@@ -666,6 +688,53 @@ def test_result_validator_requires_the_governed_expansion_budget() -> None:
     result["assurance"]["exact_enumeration_budget"] = 50_001
     with pytest.raises(ValueError, match="declared budget"):
         validate_belief_state_information_result(result)
+
+
+def test_result_validator_reconstructs_all_model_derived_assurance() -> None:
+    mutations = [
+        lambda result: result["assurance"].update(estimated_bellman_expansions=1),
+        lambda result: result["value_by_horizon"][-1].update(
+            closed_loop_net=result["value_by_horizon"][-1]["closed_loop_net"] + 100.0,
+            no_information=result["value_by_horizon"][-1]["no_information"] + 100.0,
+        ),
+        lambda result: result["policy_tree"].update(
+            control_choice_tie=["fabricated"], selected_control="fabricated"
+        ),
+        lambda result: result["assurance"].update(
+            action_dependent_transition=not result["assurance"][
+                "action_dependent_transition"
+            ]
+        ),
+        lambda result: result["assurance"].update(
+            usable_downstream_learning_response=not result["assurance"][
+                "usable_downstream_learning_response"
+            ]
+        ),
+    ]
+    for mutation in mutations:
+        result = _result()
+        mutation(result)
+        with pytest.raises(ValueError, match="reproduce the committed input model"):
+            validate_belief_state_information_result(result)
+
+
+def test_result_validator_requires_an_exact_input_model_commitment() -> None:
+    result = _result()
+    result["model_assurance"]["input_contract"]["rewards"]["probe"]["bad"] = 99.0
+    with pytest.raises(ValueError, match="input model commitment"):
+        validate_belief_state_information_result(result)
+
+
+def test_result_model_reconstruction_accepts_only_its_committed_source() -> None:
+    result = _result()
+    validate_belief_state_information_result(result)
+
+    source_model = belief_module._validate_and_build(_input())
+    source_model.payload["analysis_id"] = "different-source"
+    with pytest.raises(ValueError, match="source model does not match"):
+        belief_module._validate_belief_state_information_result(
+            result, source_model=source_model
+        )
 
 
 def test_result_validator_requires_a_complete_fixed_horizon_policy_tree() -> None:

@@ -27,8 +27,12 @@ no-information reductions, complete tolerance ties, deterministic
 serialization, strict result-identity validation, a conservative 50,000-call
 recursive-evaluator budget covering adaptive, no-information, myopic,
 conditional-sensing and fully observed regret calculations, memoization of
-repeated belief states, and exact zero-gap bounds. Action-dependent transition
-is reported separately. The
+repeated belief states, and exact zero-gap bounds. Every result carries the
+strict input contract and its canonical SHA-256 commitment. A standalone
+result validation therefore reconstructs the exact finite evaluation and binds
+the expansion estimate, horizon curve, policy selections and complete ties,
+and transition/learning diagnostics to the committed model instead of trusting
+self-asserted flags. Action-dependent transition is reported separately. The
 dual-control diagnostic is true only when an action changes a state-informative
 observation law and the selected policy has a usable downstream control
 response. Action-dependent marginal observation frequency without state

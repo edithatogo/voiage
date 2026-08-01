@@ -39,7 +39,11 @@ language dispositions. The exact evaluator reports a conservative recursive
 evaluator-call estimate covering adaptive, no-information, myopic,
 conditional-sensing and fully observed regret calculations. It rejects
 requests above its 50,000-call budget before recursion. Repeated belief states
-are memoized.
+are memoized. The result also embeds the strict input contract and its
+canonical SHA-256 commitment. Standalone result validation reruns the bounded
+exact evaluator, so the reported expansion count, horizon values, selected
+policy and ties, and diagnostic flags remain auditable without trusting the
+result envelope itself.
 
 `dual_control_diagnostic` requires both an action-dependent,
 state-informative observation law and a usable downstream control response.

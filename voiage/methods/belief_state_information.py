@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
+import hashlib
 import json
 import math
 from typing import TYPE_CHECKING, Any, cast
@@ -101,7 +102,7 @@ def belief_state_information_value(
         )
         model = _validate_and_build(payload)
         result = _evaluate(model)
-        validate_belief_state_information_result(result)
+        _validate_belief_state_information_result(result, source_model=model)
     except (ArithmeticError, KeyError, TypeError, ValueError) as error:
         raise_input_error(str(error))
     return BeliefStateInformationResult(result)
@@ -126,6 +127,17 @@ def _finite(value: object, name: str) -> float:
     if not math.isfinite(number):
         raise ValueError(f"{name} must be finite")
     return number
+
+
+def _contract_sha256(payload: Mapping[str, object]) -> str:
+    encoded = json.dumps(
+        payload,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+        allow_nan=False,
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
 
 
 def _probabilities(
@@ -864,6 +876,12 @@ def _evaluate(model: _Model) -> dict[str, Any]:
         "horizon": model.horizon,
         "discount_factor": model.discount,
         "policy_class": model.payload["policy_class"],
+        "model_assurance": {
+            "input_sha256": _contract_sha256(model.payload),
+            "input_contract": cast(
+                "dict[str, Any]", json.loads(json.dumps(model.payload))
+            ),
+        },
         "values": {
             "closed_loop_gross": adaptive.gross,
             "expected_sensing_cost": adaptive.sensing_cost,
@@ -1056,8 +1074,10 @@ def _policy_martingale_residual(tree: Mapping[str, Any], state_ids: set[str]) ->
     return residual
 
 
-def validate_belief_state_information_result(payload: Mapping[str, object]) -> None:
-    """Fail closed on structural or numerical drift in a result envelope."""
+def _validate_belief_state_information_result(
+    payload: Mapping[str, object], *, source_model: _Model | None
+) -> None:
+    """Validate a result, optionally reusing its already evaluated source model."""
     result = _strict_keys(
         payload,
         {
@@ -1072,6 +1092,7 @@ def validate_belief_state_information_result(payload: Mapping[str, object]) -> N
             "horizon",
             "discount_factor",
             "policy_class",
+            "model_assurance",
             "values",
             "value_by_horizon",
             "conditional_sensing_values",
@@ -1392,6 +1413,37 @@ def validate_belief_state_information_result(payload: Mapping[str, object]) -> N
     limitations = _require_list(result["limitations"], "limitations")
     if not all(isinstance(item, str) and item for item in limitations):
         raise ValueError("limitations must be non-empty strings")
+
+    model_assurance = _strict_keys(
+        result["model_assurance"],
+        {"input_sha256", "input_contract"},
+        "model assurance",
+    )
+    input_contract = _require_mapping(
+        model_assurance["input_contract"], "model assurance input contract"
+    )
+    input_sha256 = model_assurance["input_sha256"]
+    if (
+        not isinstance(input_sha256, str)
+        or len(input_sha256) != 64
+        or any(character not in "0123456789abcdef" for character in input_sha256)
+        or _contract_sha256(input_contract) != input_sha256
+    ):
+        raise ValueError("result input model commitment is invalid")
+    committed_payload = cast(
+        "dict[str, Any]", json.loads(json.dumps(input_contract, ensure_ascii=False))
+    )
+    committed_model = _validate_and_build(committed_payload)
+    if source_model is not None:
+        if _contract_sha256(source_model.payload) != input_sha256:
+            raise ValueError("evaluated source model does not match its commitment")
+    elif _evaluate(committed_model) != result:
+        raise ValueError("result does not reproduce the committed input model")
+
+
+def validate_belief_state_information_result(payload: Mapping[str, object]) -> None:
+    """Fail closed on structural, numerical or committed-model result drift."""
+    _validate_belief_state_information_result(payload, source_model=None)
 
 
 __all__ = [
