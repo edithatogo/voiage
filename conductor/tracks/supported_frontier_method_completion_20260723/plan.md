@@ -209,6 +209,12 @@
   usable-response dual-control diagnostics with adversarial regressions.
   (AC-03–AC-07) `b9e8bd92`
 
+- [x] **F597-R2 / #782 — Review Fixes:** Extend the 50,000-call preflight
+  across adaptive full/horizon/myopic/conditional, no-information and fully
+  observed regret recursion; add high-cardinality rejection and accepted
+  horizon-boundary regressions while preserving memoization. (AC-03–AC-07)
+  `eaa2f194`
+
 - [ ] **G9:** Implement each accepted repository-owned capability or record a
   reviewed exclusion with migration guidance. (AC-02, AC-06)
 - [ ] **G10:** Add Rust/Python/R/Julia/Mojo dispositions and installed
