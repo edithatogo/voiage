@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-27T07:59:23Z",
-  "updated_at": "2026-07-31T16:58:30Z",
+  "updated_at": "2026-08-01T15:00:00Z",
   "planned_version": "1.2.0",
   "moscow": "must",
   "canonical_track": "C16",
@@ -42,7 +42,7 @@
       "https://github.com/edithatogo/voiage/pull/676",
       "https://github.com/edithatogo/vop_poc_nz/pull/64"
     ],
-    "pull_request_evidence": "track_delivery_and_canonical_sync"
+    "pull_request_evidence": "merged_track_delivery_and_canonical_sync"
   },
   "gates": [
     {
@@ -61,7 +61,13 @@
       "id": "hosted-required-checks",
       "kind": "hosted_validation",
       "status": "satisfied",
-      "evidence": "PR #676 exact head 5e2c097fbdda8965d1907d7e930e910238fa24da passed 60 checks with 5 intentional skips and merged as 9495fc3f on 2026-07-31."
+      "evidence": "PR #676 exact head 5e2c097fbdda8965d1907d7e930e910238fa24da completed 65 hosted contexts: 60 SUCCESS, 4 SKIPPED and 1 NEUTRAL, with 0 pending or bad conclusions. Both review threads were resolved before squash merge 9495fc3f372b9564701a180c6cf611a3ddc010dd at 2026-07-31T16:57:49Z."
+    },
+    {
+      "id": "implementation-and-canonical-sync-merge",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "VOIAGE PR #676 merged as 9495fc3f372b9564701a180c6cf611a3ddc010dd. Canonical VOP sync PR #64 exact head 6c3fd72358f3feef6c542e0a374d7ea74889f915 completed 16 contexts (15 SUCCESS, 1 SKIPPED, 0 pending or bad), had zero review threads and merged as cedc6fbb17a5d999cb12bb300a01f87d976ec02e at 2026-08-01T03:38:52Z. This satisfies E18 repository delivery only; E17 remains pending."
     }
   ]
 }

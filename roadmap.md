@@ -232,9 +232,15 @@ parent #594 and umbrella #318 remain open.
     and estimator uncertainty. The repository now contains an experimental
     scalar Rust implementation with a PyO3/Python façade, versioned schemas,
     independent references, deterministic bootstrap assurance, CLI/report/plot
-    surfaces and explicit polyglot dispositions. PR #676 passed its exact-head
-    hosted matrix and merged. Vector execution and stable promotion remain
-    blocked on scientific review.
+    surfaces and explicit polyglot dispositions. PR #676 exact head
+    `5e2c097f` completed 65 terminal hosted contexts (60 successes, four
+    governed skips and one neutral CodeQL aggregation), with both review
+    threads resolved, before squash merge `9495fc3f`. Canonical sync PR #64
+    completed 16 terminal contexts and merged as `cedc6fbb` with zero review
+    threads. Delivery subissues #671--#674 may close. E17 scientific
+    classification and vector covariance scalarization review, vector
+    execution, stable promotion, release, parent #619 closure and umbrella
+    #318 closure remain open.
 *   `study_design_efficiency_20260727` and refined GitHub issue #571 define a
     governed Curve of Optimal Sample Size result containing evaluated designs,
     feasible range/set, the signed ENBS curve, deterministic tie policy,

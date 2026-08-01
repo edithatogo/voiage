@@ -655,13 +655,13 @@
         {
           "number": 64,
           "url": "https://github.com/edithatogo/vop_poc_nz/pull/64",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "canonical-cross-repository-implementation-sync"
           ]
         }
       ],
-      "pull_request_evidence": "track_delivery"
+      "pull_request_evidence": "merged_track_delivery_and_canonical_sync"
     },
     {
       "track_id": "study_design_efficiency_20260727",

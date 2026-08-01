@@ -282,10 +282,15 @@ release, registry, and publication decisions remain separate gates.
     *   Keep these estimands separate from decision-focused EVPPI/EVSI,
         sensitivity indices and estimator uncertainty.
     *   Experimental scalar Rust/Python execution, contracts, assurance,
-        CLI/report/plot surfaces and documentation passed the exact-head hosted
-        matrix and merged in PR #676. Scientific review for vector
-        scalarization/stable promotion, release and issue closure remain
-        separate gates.
+        CLI/report/plot surfaces and documentation passed PR #676's exact-head
+        matrix: 65 terminal contexts, 60 successes, four governed skips, one
+        neutral CodeQL aggregation, zero bad or pending, and two resolved
+        review threads before squash merge `9495fc3f`. Canonical sync PR #64
+        passed 16 terminal contexts and merged as `cedc6fbb` with zero review
+        threads. Delivery subissues #671--#674 may close. E17 scientific
+        classification and vector scalarization review, stable promotion,
+        release, parent #619 closure and umbrella #318 closure remain separate
+        gates.
 
 *   [x] Implement governed study-design efficiency and experiment portfolios.
     *   Conductor track: `study_design_efficiency_20260727`.

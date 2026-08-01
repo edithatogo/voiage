@@ -6,6 +6,7 @@
 - [Mermaid Design](./design.md)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
+- [Governed delivery closeout](./delivery-closeout-20260801.md)
 - [GitHub issue #619](https://github.com/edithatogo/voiage/issues/619)
 - Subissues:
   [#671](https://github.com/edithatogo/voiage/issues/671),
@@ -19,6 +20,10 @@
 - [Canonical C16 implementation sync PR #64](https://github.com/edithatogo/vop_poc_nz/pull/64)
 
 Status: experimental scalar Rust/Python implementation, assurance and user
-surfaces passed 60 exact-head checks with 5 intentional skips and merged in PR
-#676 as `9495fc3f`. Scientific review, vector covariance, stable promotion,
-release and issue closure remain separate gates, so the track remains active.
+surfaces passed PR #676's 65 exact-head contexts (60 successes, four governed
+skips and one neutral CodeQL aggregation) and merged as `9495fc3f`. Canonical
+sync PR #64 also passed its 16-context matrix and merged as `cedc6fbb`.
+Repository-delivery subissues #671--#674 are eligible for closure. Scientific
+classification review, vector covariance, stable promotion, release, parent
+#619 closure and umbrella #318 closure remain separate gates, so the track
+remains active.
