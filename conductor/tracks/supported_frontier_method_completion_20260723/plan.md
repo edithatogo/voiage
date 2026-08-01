@@ -90,8 +90,9 @@
   hosted exact-head/full-suite assurance and canonical C18 projection
   reconciliation while retaining parity, stable-promotion, release and parent
   closure as separate gates. Local focused, coverage, type, frontier,
-  Conductor and installed-wheel assurance passed at `8c9a1885`; hosted and
-  canonical C18 evidence remain pending. (AC-03–AC-07, AC-09)
+  Conductor and installed-wheel assurance passed at `8c9a1885`; PR #770 is the
+  review and hosted-assurance vehicle, while hosted and canonical C18 evidence
+  remain pending. (AC-03–AC-07, AC-09)
 
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for

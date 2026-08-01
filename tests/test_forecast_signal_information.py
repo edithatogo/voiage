@@ -333,4 +333,8 @@ def test_c18_m23_and_native_delivery_subissues_are_governed() -> None:
     assert "F572-1 / #760" in plan
     assert "F572-2 / #759" in plan
     assert "F572-3 / #762" in plan
-    assert "canonical C18 evidence remain pending" in plan
+    assert "canonical C18" in plan
+    assert "remain pending" in plan
+    pr_url = "https://github.com/edithatogo/voiage/pull/770"
+    assert pr_url in metadata["github_cross_reference"]["pull_requests"]
+    assert any(item["url"] == pr_url for item in cross_reference["pull_requests"])
