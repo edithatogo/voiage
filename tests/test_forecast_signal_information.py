@@ -194,6 +194,18 @@ def test_late_or_stale_signal_has_zero_operational_value(
             lambda payload: payload["signal_cost"].update(unit="USD"),
             "cost unit must match",
         ),
+        (
+            lambda payload: payload["timing"].update(maximum_freshness=float("nan")),
+            "timing values must be finite",
+        ),
+        (
+            lambda payload: payload["signal_cost"].update(amount=float("inf")),
+            "signal cost amount must be finite",
+        ),
+        (
+            lambda payload: payload["tolerances"].update(absolute_tie=float("nan")),
+            "tolerances must be finite",
+        ),
     ],
 )
 def test_semantic_pathologies_fail_closed(mutation, message: str) -> None:

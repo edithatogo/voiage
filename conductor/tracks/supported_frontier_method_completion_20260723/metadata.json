@@ -19,13 +19,17 @@
   "canonical_continuations": [
     {
       "track": "C17",
-      "requirement_ids": ["M21"],
+      "requirement_ids": [
+        "M21"
+      ],
       "path": "https://github.com/edithatogo/vop_poc_nz/tree/main/conductor/tracks/specialized-voi-v1-3_20260801",
       "pull_request": "https://github.com/edithatogo/vop_poc_nz/pull/67"
     },
     {
       "track": "C18",
-      "requirement_ids": ["M23"],
+      "requirement_ids": [
+        "M23"
+      ],
       "path": "https://github.com/edithatogo/vop_poc_nz/tree/main/conductor/tracks/specialized-voi-v1-3-residual_20260801",
       "pull_request": null
     }

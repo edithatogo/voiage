@@ -1,6 +1,6 @@
 {
   "artifacts": [
-    {"path": "voiage/contracts/forecast_signal_information.py", "sha256": "44400ba609418af9d51c72141873773f0ff6e484b658f26e79567eaa44c831be"},
+    {"path": "voiage/contracts/forecast_signal_information.py", "sha256": "f439ae98e211f1b4f9624db9b51d37344dd23970d9b1d9c97ec6528c13572cbd"},
     {"path": "voiage/methods/forecast_signal_information.py", "sha256": "49b8fe67bbb137c0905bdf4d7afc670021620f497cf4adcce591866ef9262840"},
     {"path": "scripts/export_forecast_signal_information_contracts.py", "sha256": "86aa702879a1d2223e04e4f2ee6a683a52e84598d01422d725a11490e670796e"},
     {"path": "specs/frontier/forecast-signal-information/v1/README.md", "sha256": "50dee620f9e9eea0c2d16f1286a672a92aa175f64d07497cbe785d50fd92319a"},

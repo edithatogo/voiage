@@ -433,6 +433,9 @@ def validate_forecast_signal_information_semantics(payload: Mapping[str, Any]) -
     tolerance = float(
         cast("Mapping[str, Any]", payload["tolerances"])["probability_sum"]
     )
+    tolerances = cast("Mapping[str, Any]", payload["tolerances"])
+    if not all(math.isfinite(float(value)) for value in tolerances.values()):
+        raise ValueError("tolerances must be finite")
     outcomes = cast("list[Mapping[str, Any]]", payload["outcomes"])
     actions = cast("list[Mapping[str, Any]]", payload["actions"])
     signals = cast("list[Mapping[str, Any]]", payload["signals"])
@@ -485,10 +488,18 @@ def validate_forecast_signal_information_semantics(payload: Mapping[str, Any]) -
     available = float(timing["information_available"])
     decision = float(timing["decision_time"])
     outcome = float(timing["outcome_time"])
+    maximum_freshness = float(timing["maximum_freshness"])
+    if not all(
+        math.isfinite(value)
+        for value in (origin, available, decision, outcome, maximum_freshness)
+    ):
+        raise ValueError("timing values must be finite")
     if not origin <= available <= outcome or not origin <= decision <= outcome:
         raise ValueError("timing must satisfy origin <= available/decision <= outcome")
     objective = cast("Mapping[str, Any]", payload["objective"])
     cost = cast("Mapping[str, Any]", payload["signal_cost"])
+    if not math.isfinite(float(cost["amount"])):
+        raise ValueError("signal cost amount must be finite")
     if cost["unit"] != objective["value_unit"]:
         raise ValueError("signal cost unit must match objective value unit")
 
