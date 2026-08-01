@@ -33,6 +33,24 @@ release, registry, and publication decisions remain separate gates.
         stable promotion, release, parent #600 closure and umbrella #318
         closure.
 
+*   [ ] Complete signed/social information value after experimental repository delivery.
+    *   GitHub issue #598; native subissues #783–#785; umbrella track
+        `supported_frontier_method_completion_20260723`; phases F598-1–F598-5;
+        canonical C18/M29; planned v1.3.0 Should.
+    *   The local review-ready exact finite Python slice covers named agents and
+        roles, signal topology, nonanticipative centralized/fixed/declared-
+        response/verified-equilibrium catalogs, signed agent/role/social values,
+        selective sharing, full transfer/cost ledgers, rights receipts and
+        harm/avoidance/switch/winner-loser diagnostics without clipping.
+    *   PR #808 exact head `4d121b29` completed all 42 terminal-allowed checks
+        with 38 successes, three governed skips and one neutral CodeQL
+        aggregation, including installed-wheel and full-suite assurance. All 10
+        review threads were resolved before squash merge `d649c344`. Delivery
+        subissues #783–#785 may close. Remaining gates are the named scientific
+        panel, Rust/R/Julia parity, stable promotion, release, parent #598
+        closure and umbrella #318 closure. Persuasion, mechanism design,
+        rational inattention and general games remain adjacent.
+
 *   [ ] Complete belief-state and intervention-aware sequential information
     value after experimental repository delivery.
     *   GitHub issue #597; delivery subissues #780--#782; umbrella track

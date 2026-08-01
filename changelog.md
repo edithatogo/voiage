@@ -9,6 +9,12 @@
   result assurance. Expectation-only tower identities and complete-tie policy
   diagnostics prevent `rVSI0` from being conflated with policy-switch mass.
 
+- Add experimental exact finite signed and social information value for issue
+  #598/C18-M29. The strict Python/API/CLI contract retains negative private and
+  social values, selective-sharing comparators, transfer/cost ledgers, complete
+  ties, rights receipts, harm/avoidance/switch/winner-loser diagnostics and
+  scoped Blackwell checks. Persuasion, mechanism design, rational inattention,
+  general game solving, stable promotion and polyglot parity remain gated.
 - Added an experimental exact finite belief-state sequential information
   contract with intervention-aware learning, matched Bellman comparators,
   gross/net and myopic/nonmyopic values, conditional sensing diagnostics,

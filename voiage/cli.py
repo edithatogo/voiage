@@ -181,6 +181,9 @@ from voiage.methods.risk_sensitive_voi import (
 )
 from voiage.methods.sample_information import enbs, evsi
 from voiage.methods.sequential import sequential_voi
+from voiage.methods.signed_social_information import (
+    signed_social_information_value as calculate_signed_social_information_result,
+)
 from voiage.methods.strategic_behavior import (
     value_of_strategic_behavior as calculate_strategic_result,
 )
@@ -4014,6 +4017,57 @@ def calculate_uncertainty_modelling_value(
             f"EVIU/VSS {decomposition['vss']}; "
             f"EVPI {float(cast('float', decomposition['evpi'])):.6f} "
             f"{objective['value_unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-signed-social-information")
+def calculate_signed_social_information(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a signed-social information v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the signed-social information result",
+    ),
+) -> None:
+    """Evaluate experimental exact finite signed/social information value."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError(
+                "Signed-social information specification must be a JSON object."
+            )
+        contract = calculate_signed_social_information_result(
+            cast("dict[str, object]", payload)
+        ).to_contract_dict()
+        optimum = cast("dict[str, object]", contract["optimum"])
+        output_text = _format_output(
+            "Signed-social information value: "
+            f"design {optimum['selected_design_id']}; "
+            f"social {float(optimum['social_value']):.6f} "
+            f"{contract['value_unit']}",
             contract,
         )
         typer.echo(output_text)

@@ -24,6 +24,9 @@ registry used to keep them aligned.
   signal-dependent implementation and no independence assumption.
 - `forecast-signal-information/`: experimental exact finite decision value for
   declared probabilistic forecast artifacts, timing, calibration and cost.
+- `signed-social-information/`: experimental exact finite signed private,
+  recipient, controller, stakeholder and social value with selective sharing,
+  explicit ledgers, rights receipts and bounded policy catalogs.
 - `belief-state-information/`: experimental exact finite belief-MDP value for
   intervention-aware sequential sensing and control.
 - `validation/`: model-validation and discrepancy-reduction contracts.

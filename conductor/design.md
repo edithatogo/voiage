@@ -148,6 +148,19 @@ flowchart LR
     RiskDiagnostics --> RiskShadow["Exact constraint-removal evidence, not local shadow prices"]
     RiskShadow --> RiskBoundary["Experimental C18/M22; no EVSI, continuous solver or parity claim"]
 
+    SignedWorlds["Complete finite joint-world law"] --> SignedPolicies["Nonanticipative bounded policy catalogs"]
+    SignedTopology["Agents, roles, topology + sharing designs"] --> SignedPolicies
+    SignedPolicies --> SignedLedgers["Pre-transfer + transfer + cost + post-transfer ledgers"]
+    SignedWelfare["Declared cardinal comparability + welfare aggregator"] --> SignedLedgers
+    SignedLedgers --> SignedValues["Signed private, role + social values"]
+    SignedRights["Rights + consent + purpose receipts"] --> SignedValues
+    SignedValues --> SignedDiagnostics["Selective sharing + harm + avoidance + switches + winners/losers"]
+    SignedDiagnostics --> SignedBlackwell{"Aligned centralized refinement?"}
+    SignedBlackwell -->|yes| SignedCheck["Strict gross nonnegativity check"]
+    SignedBlackwell -->|no| SignedReasons["Explicit inapplicability reasons"]
+    SignedCheck --> SignedBoundary["Experimental C18/M29; no persuasion, mechanism or general-game solver"]
+    SignedReasons --> SignedBoundary
+
     EventStates["Finite states + coordinates + declared event"] --> EventBaseline["Baseline-optimal reference policy"]
     EventBaseline --> EventDensity["C18/M27 policy-relative EUI density"]
     EventStates --> EventDensity
