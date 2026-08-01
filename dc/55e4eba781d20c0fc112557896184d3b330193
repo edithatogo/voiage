@@ -1,0 +1,1 @@
+Task: remediate PR #836 changed-line coverage failure. Summary: adds public-boundary and serialized-contract regressions for partial selection-probability maps; full 3,901-test Python run reaches 94.51% aggregate and 100% changed lines/branches.
