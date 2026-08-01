@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+import hashlib
 import json
 from pathlib import Path
 import random
@@ -277,6 +278,20 @@ def test_installed_schema_artifacts_match_runtime_contracts() -> None:
         json.loads((schemas / "result.schema.json").read_text(encoding="utf-8"))
         == HETEROGENEITY_VALUE_RESULT_SCHEMA_V1
     )
+
+
+def test_contract_evidence_is_hash_pinned_and_keeps_external_gates_open() -> None:
+    evidence = json.loads(
+        (FIXTURE.parent / "evidence.json").read_text(encoding="utf-8")
+    )
+    assert evidence["execution_status"] == "experimental_python"
+    assert evidence["stable_claim_allowed"] is False
+    assert (
+        "hosted exact-head and installed-wheel checks" in evidence["unresolved_gates"]
+    )
+    for artifact in evidence["artifacts"]:
+        path = ROOT / artifact["path"]
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == artifact["sha256"]
 
 
 def test_public_api_cli_and_deterministic_copy(tmp_path: Path) -> None:

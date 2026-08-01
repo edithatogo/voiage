@@ -18,3 +18,9 @@ selection and multiplicity policies, fairness/privacy constraints, common units
 and exact estimator assurance. It does not estimate subgroup effects, discover
 segments, adjust selection bias, claim sparse-subgroup validity, or implement
 stable/polyglot execution.
+
+Each portable result embeds the complete strict input contract under
+`assurance.input_contract`, commits to its canonical JSON with
+`assurance.input_sha256`, and must exactly reproduce under standalone
+re-evaluation. This binds policies, complete ties, subgroup declarations,
+provenance, counts and every reported value to the evaluated model.

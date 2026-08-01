@@ -12,11 +12,11 @@
   "artifacts": [
     {
       "path": "voiage/contracts/heterogeneity_value.py",
-      "sha256": "5c486bb8a416985ea4b3a53eb1150c7902e70d4ae81c8e21fc2741e5e9bc4d1e"
+      "sha256": "6768d5b65a8851d9895540f6011be7d97d7d668ddc85a2f0f243dd08aeca1ca6"
     },
     {
       "path": "voiage/methods/heterogeneity_value.py",
-      "sha256": "62362511aa8d12ba004db7813d6ea68c8a37b5512335e4fafb58fb775ec73721"
+      "sha256": "80a202a496443eabe501839df9aff2500c00ddabe5bf5c653f30afa837d07a0f"
     },
     {
       "path": "scripts/export_heterogeneity_value_contracts.py",
@@ -24,7 +24,7 @@
     },
     {
       "path": "specs/frontier/heterogeneity-value/v1/README.md",
-      "sha256": "a515f7b6dba267b7080bbf246c310b65b3be07050f88e2edb404ad58611fa1a7"
+      "sha256": "563cacfa2cd95956ebef0462d2e2b7975cc083bd7313c47696021ccf243209be"
     },
     {
       "path": "specs/frontier/heterogeneity-value/v1/capabilities.json",
@@ -40,7 +40,7 @@
     },
     {
       "path": "specs/frontier/heterogeneity-value/v1/fixtures/normative/expected.json",
-      "sha256": "9dbaf65a2f8a26e0cead67b8d14ef9b8cdebc9ebf79ba7fcc37d21ec08a86a7f"
+      "sha256": "ce392bea317d3a442613ec6a5b98f100c1a87bdd69ff483450464354df39fd66"
     },
     {
       "path": "specs/frontier/heterogeneity-value/v1/schemas/input.schema.json",
@@ -48,7 +48,7 @@
     },
     {
       "path": "specs/frontier/heterogeneity-value/v1/schemas/result.schema.json",
-      "sha256": "545f2eff0b04640c1fc2e13ffcbaf1416452aa8dcb2f2b1399309feae742e964"
+      "sha256": "b2dfdac8c13fb6b37ec77bda150a195cb91e62032ad63a4b98a0d4a2c8ae22fb"
     },
     {
       "path": "docs/astro-site/src/content/docs/methods/heterogeneity.mdx",
@@ -60,11 +60,11 @@
     },
     {
       "path": "tests/test_heterogeneity_value.py",
-      "sha256": "35f4c6a7aed3c4da98fda12d741c1738e0f32d8deea23d9ac102edf14b54c3a6"
+      "sha256": "ad0cde761e565e8281ecbab7657c69d482e4d2fcc932baa7aae7a76630ee7a31"
     }
   ],
   "assurance": {
-    "focused_tests": 35,
+    "focused_tests": 46,
     "randomized_oracle_cases": 100,
     "relevant_statement_coverage_percent": 100,
     "relevant_branch_coverage_percent": 100,
@@ -73,9 +73,8 @@
     "full_conductor": "passed"
   },
   "unresolved_gates": [
-    "independent implementation and scientific review",
+    "named selection-bias and sparse-subgroup scientific review",
     "hosted exact-head and installed-wheel checks",
-    "selection-bias and sparse-subgroup scientific validity",
     "Rust, R and Julia parity",
     "stable promotion and release",
     "parent #599 and umbrella #318 closure"

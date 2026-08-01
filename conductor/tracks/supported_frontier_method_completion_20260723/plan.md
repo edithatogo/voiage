@@ -216,7 +216,12 @@ covers the experimental frontier entries only.
   complete changed-branch, local and hosted exact-head assurance; retain
   scientific validity, selection-bias/sparse-subgroup review, Rust/R/Julia
   parity, stable promotion, release, parent #599 and umbrella #318 closure as
-  separate gates. (AC-03–AC-07)
+  separate gates. Independent review found and remediated model-unbound result
+  assurance in `4b5d8d08`; the final review record is
+  `heterogeneity-value-implementation-review.md`. Local focused, mutation,
+  100% changed statement/branch, static, frontier, cross-reference and full
+  Conductor gates pass. Hosted exact-head and installed-wheel checks remain
+  pending. (AC-03–AC-07)
 
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for
