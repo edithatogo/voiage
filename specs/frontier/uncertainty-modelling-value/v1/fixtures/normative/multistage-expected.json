@@ -96,7 +96,27 @@
         }
       ],
       "infeasible_states": [],
-      "policy_id": "adaptive-policy"
+      "policy_id": "adaptive-policy",
+      "state_outcomes": [
+        {
+          "feasible": true,
+          "objective_value": 4.0,
+          "recourse_status": "feasible",
+          "state_id": "down"
+        },
+        {
+          "feasible": true,
+          "objective_value": 8.0,
+          "recourse_status": "feasible",
+          "state_id": "flat"
+        },
+        {
+          "feasible": true,
+          "objective_value": 14.0,
+          "recourse_status": "feasible",
+          "state_id": "up"
+        }
+      ]
     },
     {
       "expected_value": 8.5,
@@ -125,7 +145,27 @@
         }
       ],
       "infeasible_states": [],
-      "policy_id": "commit-policy"
+      "policy_id": "commit-policy",
+      "state_outcomes": [
+        {
+          "feasible": true,
+          "objective_value": -2.0,
+          "recourse_status": "feasible",
+          "state_id": "down"
+        },
+        {
+          "feasible": true,
+          "objective_value": 9.0,
+          "recourse_status": "feasible",
+          "state_id": "flat"
+        },
+        {
+          "feasible": true,
+          "objective_value": 18.0,
+          "recourse_status": "feasible",
+          "state_id": "up"
+        }
+      ]
     }
   ],
   "provenance": {
@@ -141,6 +181,82 @@
     ],
     "selected_policy_id": "adaptive-policy",
     "value": 8.5
+  },
+  "scenario_structure": {
+    "histories": [
+      {
+        "history_id": "adapt-down",
+        "reachable_states": [
+          "down"
+        ],
+        "stage_id": "adapt"
+      },
+      {
+        "history_id": "adapt-flat",
+        "reachable_states": [
+          "flat"
+        ],
+        "stage_id": "adapt"
+      },
+      {
+        "history_id": "adapt-up",
+        "reachable_states": [
+          "up"
+        ],
+        "stage_id": "adapt"
+      },
+      {
+        "history_id": "review-high",
+        "reachable_states": [
+          "up"
+        ],
+        "stage_id": "review"
+      },
+      {
+        "history_id": "review-low",
+        "reachable_states": [
+          "down",
+          "flat"
+        ],
+        "stage_id": "review"
+      }
+    ],
+    "stages": [
+      {
+        "information_available": [],
+        "order": 1,
+        "stage_id": "launch"
+      },
+      {
+        "information_available": [
+          "early-band"
+        ],
+        "order": 2,
+        "stage_id": "review"
+      },
+      {
+        "information_available": [
+          "early-band",
+          "late-band"
+        ],
+        "order": 3,
+        "stage_id": "adapt"
+      }
+    ],
+    "states": [
+      {
+        "probability": 0.25,
+        "state_id": "down"
+      },
+      {
+        "probability": 0.5,
+        "state_id": "flat"
+      },
+      {
+        "probability": 0.25,
+        "state_id": "up"
+      }
+    ]
   },
   "schema_version": "1.0.0",
   "unsupported_dispositions": {

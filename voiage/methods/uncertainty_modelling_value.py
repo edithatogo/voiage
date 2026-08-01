@@ -137,6 +137,9 @@ def _evaluate(data: dict[str, Any]) -> dict[str, Any]:
                 "expected_value": expected_value,
                 "feasible_all_states": not infeasible,
                 "infeasible_states": infeasible,
+                "state_outcomes": sorted(
+                    policy["state_outcomes"], key=lambda item: item["state_id"]
+                ),
             }
         )
     if not feasible_policy_values:
@@ -191,6 +194,11 @@ def _evaluate(data: dict[str, Any]) -> dict[str, Any]:
         "method_maturity": "experimental",
         "objective": objective,
         "point_estimate": data["point_estimate"],
+        "scenario_structure": {
+            "stages": sorted(data["stages"], key=lambda item: item["order"]),
+            "states": sorted(data["states"], key=lambda item: item["state_id"]),
+            "histories": sorted(data["histories"], key=lambda item: item["history_id"]),
+        },
         "expected_value_problem": {
             "candidate_values": dict(sorted(point_values.items())),
             "candidate_tie": ev_tie,

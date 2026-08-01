@@ -278,6 +278,7 @@ UNCERTAINTY_MODELLING_VALUE_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
         "method_maturity",
         "objective",
         "point_estimate",
+        "scenario_structure",
         "expected_value_problem",
         "expected_result_of_ev_solution",
         "recourse_problem",
@@ -308,6 +309,34 @@ UNCERTAINTY_MODELLING_VALUE_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
                 UNCERTAINTY_MODELLING_VALUE_INPUT_SCHEMA_V1["properties"],
             )["point_estimate"],
         ),
+        "scenario_structure": {
+            "type": "object",
+            "required": ["stages", "states", "histories"],
+            "properties": {
+                "stages": cast(
+                    "dict[str, object]",
+                    cast(
+                        "dict[str, object]",
+                        UNCERTAINTY_MODELLING_VALUE_INPUT_SCHEMA_V1["properties"],
+                    )["stages"],
+                ),
+                "states": cast(
+                    "dict[str, object]",
+                    cast(
+                        "dict[str, object]",
+                        UNCERTAINTY_MODELLING_VALUE_INPUT_SCHEMA_V1["properties"],
+                    )["states"],
+                ),
+                "histories": cast(
+                    "dict[str, object]",
+                    cast(
+                        "dict[str, object]",
+                        UNCERTAINTY_MODELLING_VALUE_INPUT_SCHEMA_V1["properties"],
+                    )["histories"],
+                ),
+            },
+            "additionalProperties": False,
+        },
         "expected_value_problem": {
             "type": "object",
             "required": [
@@ -420,6 +449,7 @@ UNCERTAINTY_MODELLING_VALUE_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
                     "expected_value",
                     "feasible_all_states",
                     "infeasible_states",
+                    "state_outcomes",
                 ],
                 "properties": {
                     "policy_id": _ID,
@@ -428,6 +458,26 @@ UNCERTAINTY_MODELLING_VALUE_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
                     "expected_value": _OPTIONAL_NUMBER,
                     "feasible_all_states": {"type": "boolean"},
                     "infeasible_states": _ID_ARRAY,
+                    "state_outcomes": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                            "type": "object",
+                            "required": [
+                                "state_id",
+                                "feasible",
+                                "objective_value",
+                                "recourse_status",
+                            ],
+                            "properties": {
+                                "state_id": _ID,
+                                "feasible": {"type": "boolean"},
+                                "objective_value": _OPTIONAL_NUMBER,
+                                "recourse_status": {"enum": ["feasible", "infeasible"]},
+                            },
+                            "additionalProperties": False,
+                        },
+                    },
                 },
                 "additionalProperties": False,
             },

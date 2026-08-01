@@ -386,6 +386,46 @@
             "minLength": 1,
             "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
             "type": "string"
+          },
+          "state_outcomes": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "feasible": {
+                  "type": "boolean"
+                },
+                "objective_value": {
+                  "oneOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "recourse_status": {
+                  "enum": [
+                    "feasible",
+                    "infeasible"
+                  ]
+                },
+                "state_id": {
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "state_id",
+                "feasible",
+                "objective_value",
+                "recourse_status"
+              ],
+              "type": "object"
+            },
+            "minItems": 1,
+            "type": "array"
           }
         },
         "required": [
@@ -394,7 +434,8 @@
           "history_decisions",
           "expected_value",
           "feasible_all_states",
-          "infeasible_states"
+          "infeasible_states",
+          "state_outcomes"
         ],
         "type": "object"
       },
@@ -455,6 +496,109 @@
         "value",
         "policy_tie",
         "selected_policy_id"
+      ],
+      "type": "object"
+    },
+    "scenario_structure": {
+      "additionalProperties": false,
+      "properties": {
+        "histories": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "history_id": {
+                "minLength": 1,
+                "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                "type": "string"
+              },
+              "reachable_states": {
+                "items": {
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "stage_id": {
+                "minLength": 1,
+                "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "history_id",
+              "stage_id",
+              "reachable_states"
+            ],
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "stages": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "information_available": {
+                "items": {
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                  "type": "string"
+                },
+                "type": "array",
+                "uniqueItems": true
+              },
+              "order": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "stage_id": {
+                "minLength": 1,
+                "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "stage_id",
+              "order",
+              "information_available"
+            ],
+            "type": "object"
+          },
+          "minItems": 2,
+          "type": "array"
+        },
+        "states": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "probability": {
+                "exclusiveMinimum": 0,
+                "maximum": 1,
+                "type": "number"
+              },
+              "state_id": {
+                "minLength": 1,
+                "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "state_id",
+              "probability"
+            ],
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "stages",
+        "states",
+        "histories"
       ],
       "type": "object"
     },
@@ -551,6 +695,7 @@
     "method_maturity",
     "objective",
     "point_estimate",
+    "scenario_structure",
     "expected_value_problem",
     "expected_result_of_ev_solution",
     "recourse_problem",

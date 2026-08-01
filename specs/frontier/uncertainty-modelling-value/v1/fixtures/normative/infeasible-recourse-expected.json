@@ -83,7 +83,21 @@
         }
       ],
       "infeasible_states": [],
-      "policy_id": "balanced-policy"
+      "policy_id": "balanced-policy",
+      "state_outcomes": [
+        {
+          "feasible": true,
+          "objective_value": 11.0,
+          "recourse_status": "feasible",
+          "state_id": "high"
+        },
+        {
+          "feasible": true,
+          "objective_value": 6.0,
+          "recourse_status": "feasible",
+          "state_id": "low"
+        }
+      ]
     },
     {
       "expected_value": null,
@@ -98,7 +112,21 @@
       "infeasible_states": [
         "high"
       ],
-      "policy_id": "risky-policy"
+      "policy_id": "risky-policy",
+      "state_outcomes": [
+        {
+          "feasible": false,
+          "objective_value": null,
+          "recourse_status": "infeasible",
+          "state_id": "high"
+        },
+        {
+          "feasible": true,
+          "objective_value": 2.0,
+          "recourse_status": "feasible",
+          "state_id": "low"
+        }
+      ]
     },
     {
       "expected_value": 8.0,
@@ -111,7 +139,21 @@
         }
       ],
       "infeasible_states": [],
-      "policy_id": "safe-policy"
+      "policy_id": "safe-policy",
+      "state_outcomes": [
+        {
+          "feasible": true,
+          "objective_value": 8.0,
+          "recourse_status": "feasible",
+          "state_id": "high"
+        },
+        {
+          "feasible": true,
+          "objective_value": 8.0,
+          "recourse_status": "feasible",
+          "state_id": "low"
+        }
+      ]
     }
   ],
   "provenance": {
@@ -126,6 +168,42 @@
     ],
     "selected_policy_id": "safe-policy",
     "value": 8.0
+  },
+  "scenario_structure": {
+    "histories": [
+      {
+        "history_id": "unresolved",
+        "reachable_states": [
+          "high",
+          "low"
+        ],
+        "stage_id": "recourse"
+      }
+    ],
+    "stages": [
+      {
+        "information_available": [],
+        "order": 1,
+        "stage_id": "commit"
+      },
+      {
+        "information_available": [
+          "no-revelation"
+        ],
+        "order": 2,
+        "stage_id": "recourse"
+      }
+    ],
+    "states": [
+      {
+        "probability": 0.5,
+        "state_id": "high"
+      },
+      {
+        "probability": 0.5,
+        "state_id": "low"
+      }
+    ]
   },
   "schema_version": "1.0.0",
   "unsupported_dispositions": {

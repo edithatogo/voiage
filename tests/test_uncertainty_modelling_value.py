@@ -70,6 +70,12 @@ def test_multistage_maximization_and_nonanticipativity_reference() -> None:
     assert result["assurance"]["nonanticipativity_representation"] == (
         "one_decision_per_shared_history"
     )
+    assert [stage["stage_id"] for stage in result["scenario_structure"]["stages"]] == [
+        "launch",
+        "review",
+        "adapt",
+    ]
+    assert len(result["policy_audit"][0]["state_outcomes"]) == 3
 
 
 def test_infeasible_recourse_for_ev_solution_is_explicit() -> None:
