@@ -1,0 +1,48 @@
+---
+title: Value of Distribution-Family Information
+description: Exact experimental value of perfectly resolving a model-family index
+---
+
+This experimental workflow asks whether a decision would improve if the
+correct member of a declared set of distribution families were learned
+perfectly. It first integrates parameter and outcome uncertainty inside every
+family. It then optimizes once under the current probability mixture and once
+inside each family after the family index is revealed.
+
+For family probabilities `p_m` and comparable conditional expected values
+`Q[m,a]`, the maximizing form is:
+
+```text
+current  = max_a sum_m p_m Q[m,a]
+resolved = sum_m p_m max_a Q[m,a]
+gross VDI = resolved - current
+net VDI = gross VDI - information cost
+```
+
+This is discrete-index EVPPI presented under issue #557's VDI name. It is not
+distributional-equity VOI, full structural EVPI (which would also resolve
+within-family uncertainty), goodness-of-fit/model selection, or imperfect
+model-discrimination EVSI.
+
+## Run the exact fixture
+
+```bash
+voiage --format json calculate-value-of-distributional-information \
+  specs/frontier/value-of-distributional-information/v1/fixtures/normative/input.json \
+  --output vdi-result.json
+```
+
+The synthetic fixture has two equally probable families and two alternatives.
+The current decision is `B` with value 9, the family-resolved expected value is
+11, gross VDI is 2, and the declared information cost of 0.5 gives signed net
+VDI 1.5, all in `net-benefit-point` units.
+
+The request must name the family partition, probabilities and their source,
+the common alternatives, value unit, direction, comparability conditions and
+within-family conditional values. Probabilities are never inferred or silently
+renormalized. The result returns complete numerical tie sets and labels exact
+enumeration as exact rather than reporting a fabricated standard error.
+
+Python is the only executable surface. Rust, R and Julia remain unsupported,
+Mojo is external, and scientific review of the terminology, partition and
+probability provenance is required before stable promotion.

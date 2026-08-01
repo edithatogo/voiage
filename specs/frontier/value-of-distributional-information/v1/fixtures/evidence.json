@@ -3,7 +3,7 @@
   "method_family": "distribution_family_information_value",
   "method_maturity": "experimental",
   "stable_claim_allowed": false,
-  "evidence_scope": "F557-2/F557-3 strict contract, exact normative fixture and experimental Python evaluator",
+  "evidence_scope": "F557-2 through F557-4 strict contract, exact fixture, experimental Python evaluator, CLI, documentation and discovery",
   "artifacts": [
     {"path": "specs/frontier/value-of-distributional-information/v1/schemas/value-of-distributional-information-input.schema.json", "sha256": "f648e3dcef9e3ff8bb8b3fab40a8089057a1e29cb71e14a8e323d87f04cb9ad5"},
     {"path": "specs/frontier/value-of-distributional-information/v1/schemas/value-of-distributional-information-result.schema.json", "sha256": "9d34bc674b40afd96599087c857345146083608f62ac5aa878272dc82f5c1bd3"},
@@ -14,12 +14,18 @@
     {"path": "specs/frontier/value-of-distributional-information/v1/README.md", "sha256": "b77391e8fa4c1cd45ec23eb22f48b13012aea520d4994c005aa8b5ba7ebdeee3"},
     {"path": "voiage/contracts/distributional_information.py", "sha256": "1eb59046533625329efb3fae0b61be5bc43ac249408c992bd9719d895b859e6e"},
     {"path": "voiage/methods/distributional_information.py", "sha256": "90e8e81588ec7a5cb956a68e62b6fd7cb8238f2468d39dcd5b0117a71fcb7ca4"},
+    {"path": "voiage/cli.py", "sha256": "180d8693715a39522577d04ce659921493cc6459a18d3d29e506bb4c8bd5acd4"},
+    {"path": "voiage/__init__.py", "sha256": "bf1ddb4881f2d9a09bed1c59424fb9df2a4d9d82308173dc770c5665ac6e6c87"},
     {"path": "conductor/tracks/supported_frontier_method_completion_20260723/distribution-family-information-reference-review.md", "sha256": "d0fcdacde3d0340684428298259551a8d58fb6e0b4efcb780b48b7b106337548"},
     {"path": "tests/test_distributional_information.py", "sha256": "b6db07ae80e30e0cde5c95cc57fd473e4e36623fb9eaf3b70e187216283466c9"},
-    {"path": "tests/test_distributional_information_contract.py", "sha256": "35c60cb8582f8e242ada482e46c049d7f4e18fcca8eac1ded623b5319176aaff"}
+    {"path": "tests/test_distributional_information_contract.py", "sha256": "35c60cb8582f8e242ada482e46c049d7f4e18fcca8eac1ded623b5319176aaff"},
+    {"path": "tests/test_distributional_information_surfaces.py", "sha256": "cf452c2cd08758ce63496200390ed8f39e79bc8439997e0b6997066f3b57a3f0"},
+    {"path": "docs/astro-site/src/content/docs/examples/value-of-distributional-information.mdx", "sha256": "124b0d96c2cce3b74efab2afa5172823321be0b8c42a32bfee14d3878d4e2af9"},
+    {"path": "docs/astro-site/src/content/docs/examples/index.mdx", "sha256": "1fed30737925232b97af7eae09b50b834b10ee9a8fb093ad05bcc8aa2650ab33"},
+    {"path": "docs/astro-site/src/content/docs/cli-reference.mdx", "sha256": "e82551703513adc6cc6a640d5534a325f5764ede50a6b257f0e0032eb222d743"},
+    {"path": "changelog.md", "sha256": "3e00c4be4ddf816805ae7b0b642b01dc0a4767eceabfd27fbe3ca91eea396bc1"}
   ],
   "remaining_gates": [
-    "F557-4 CLI, documentation and discovery",
     "independent implementation and scientific review",
     "hosted exact-head assurance and cross-language parity",
     "stable promotion, release and issue closure"

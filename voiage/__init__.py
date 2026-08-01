@@ -60,6 +60,18 @@ _ECOSYSTEM_EXPORTS = {
     "load_heoml_run_bundle": "load_heoml_run_bundle",
 }
 _EXTENSION_EXPORTS = {
+    "DistributionalInformationResult": (
+        ".methods.distributional_information",
+        "DistributionalInformationResult",
+    ),
+    "distributional_information_from_specification": (
+        ".methods.distributional_information",
+        "distributional_information_from_specification",
+    ),
+    "value_of_distributional_information": (
+        ".methods.distributional_information",
+        "value_of_distributional_information",
+    ),
     "DeterministicSensitivityResult": (
         ".methods.deterministic_sensitivity",
         "DeterministicSensitivityResult",

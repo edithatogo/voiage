@@ -25,6 +25,9 @@ from jsonschema.exceptions import ValidationError as JsonSchemaValidationError
 import numpy as np
 import typer
 
+from voiage.contracts.distributional_information import (
+    VALUE_OF_DISTRIBUTIONAL_INFORMATION_INPUT_SCHEMA_V1,
+)
 from voiage.contracts.estimation import EstimationVarianceSpec
 from voiage.contracts.study_design import (
     CossResultV1,
@@ -79,6 +82,9 @@ from voiage.methods.deterministic_sensitivity import (
 from voiage.methods.distributional import (
     DistributionalEquityResult,
     value_of_distributional_equity,
+)
+from voiage.methods.distributional_information import (
+    distributional_information_from_specification as calculate_distributional_information_result,
 )
 from voiage.methods.dominance import calculate_dominance as calculate_dominance_result
 from voiage.methods.dynamic_real_options import (
@@ -3469,6 +3475,57 @@ def calculate_value_of_flexibility(
     except (
         json.JSONDecodeError,
         JsonSchemaValidationError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-value-of-distributional-information")
+def calculate_value_of_distributional_information(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a distribution-family-information v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the distribution-family information result",
+    ),
+) -> None:
+    """Calculate experimental perfect model-family-index information value."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError(
+                "Distribution-family information specification must be a JSON object."
+            )
+        Draft202012Validator(
+            VALUE_OF_DISTRIBUTIONAL_INFORMATION_INPUT_SCHEMA_V1
+        ).validate(payload)
+        result = calculate_distributional_information_result(payload)
+        output_text = _format_output(
+            f"Distribution-family information value: {result.gross_vdi:.6f} "
+            f"{result.value_unit}",
+            result.to_contract_dict(),
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        JsonSchemaValidationError,
+        ArithmeticError,
         KeyError,
         TypeError,
         ValueError,
