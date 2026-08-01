@@ -89,10 +89,12 @@
 - [~] **F572-3 / #762:** Complete independent scientific/implementation review,
   hosted exact-head/full-suite assurance and canonical C18 projection
   reconciliation while retaining parity, stable-promotion, release and parent
-  closure as separate gates. Local focused, coverage, type, frontier,
-  Conductor and installed-wheel assurance passed at `8c9a1885`; PR #770 is the
-  review and hosted-assurance vehicle, while hosted and canonical C18 evidence
-  remain pending. (AC-03–AC-07, AC-09)
+  closure as separate gates. The independent implementation review in
+  `forecast-signal-implementation-review.md` found no blocking issue after
+  bounded strictness and hosted-regression repairs. Live C18/M23 projection was
+  verified from merged VOP PRs #69 and #70. PR #770 is the hosted-assurance
+  vehicle; hosted exact-head, independent scientific review, parity,
+  stable-promotion, release and closure remain pending. (AC-03–AC-07, AC-09)
 
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for
