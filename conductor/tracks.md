@@ -163,7 +163,27 @@ exist; repository manifest, validation, and PR handoff are being finalized.*
   *Status: in progress — the 30 merged ingestion PRs #639–#690 are mapped to
   exact commits in the 2026-07-31 Phase 10 reconciliation record. Every linked
   Project 28 item remains In Progress; the historical ledger is preserved under
-  an integrity-repair receipt and archive remains prohibited.*
+  an integrity-repair receipt. The approved strict-local endpoint is being
+  reconciled; controlled live interoperability (#752) and remote-ingestion
+  security (#753) are separately governed successor tracks.*
+
+---
+
+## [ ] Track: Controlled Live Standardized-Dataset Interoperability
+*Link: [./tracks/controlled_live_dataset_interoperability_20260801/index.md](./tracks/controlled_live_dataset_interoperability_20260801/index.md)*
+*GitHub: [issue #752](https://github.com/edithatogo/voiage/issues/752), native
+sub-issue of [#325](https://github.com/edithatogo/voiage/issues/325).*
+*Status: new — blocked pending approved rights-cleared, hash-pinned source
+artifacts and explicit use authority.*
+
+---
+
+## [ ] Track: Remote Standardized-Dataset Ingestion Security
+*Link: [./tracks/remote_dataset_ingestion_security_20260801/index.md](./tracks/remote_dataset_ingestion_security_20260801/index.md)*
+*GitHub: [issue #753](https://github.com/edithatogo/voiage/issues/753), native
+sub-issue of [#325](https://github.com/edithatogo/voiage/issues/325).*
+*Status: new — blocked pending a separate approved remote-transport threat
+model and policy.*
 
 ---
 

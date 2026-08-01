@@ -13,6 +13,22 @@ The repository's `conductor/` directory remains the programme-governance
 surface. Runtime contracts belong under `voiage/contracts/`; format-specific
 providers belong under `voiage/ingestion/`.
 
+## Approved strict-local completion boundary (2026-08-01)
+
+The repository-owned endpoint for this track is a deterministic, offline-first
+profile. It accepts explicitly selected, local, hash-verifiable resources and
+routes both Croissant and Frictionless descriptors through the one
+`NormalizedInputBundle` and preparation boundary. It includes the provider
+SDK, DataFrame interchange adapter, CLI diagnostics, supported-profile
+documentation, and synthetic cross-domain examples.
+
+This amendment does **not** relax security controls or reinterpret a rejected
+feature as supported. General remote transport, archive extraction, mutable
+live sources, and parser-library feature parity are out of scope for this
+track. They are separately governed by GitHub sub-issues
+[#752](https://github.com/edithatogo/voiage/issues/752) and
+[#753](https://github.com/edithatogo/voiage/issues/753), respectively.
+
 ```text
 croissant.json   -> Croissant provider   --\
                                              -> NormalizedInputBundle
@@ -100,7 +116,7 @@ imports during base package import or format probing. Provider capabilities
 MUST declare supported versions, media types, transformations, projection,
 filtering, streaming, and random-access behavior.
 
-### R5 — Croissant ML provider
+### R5 — Croissant ML provider (strict local profile)
 
 An optional Croissant provider MUST validate version declarations, JSON-LD
 identities and references, resources, `RecordSet` fields, keys, relationships,
@@ -117,7 +133,7 @@ versions, live-dataset status, citations, provenance, usage information, ODRL,
 and RAI extensions MUST be preserved when present, but experimental extensions
 MUST NOT alter VOI semantics without explicit bindings.
 
-### R6 — Frictionless Data provider
+### R6 — Frictionless Data provider (strict local profile)
 
 An optional Frictionless provider MUST validate package descriptors and data,
 preserve package/resource metadata, Table Schema types and constraints, CSV
@@ -229,10 +245,10 @@ architecture, not additional implementations of VOI mathematics.
   runtime objects and results.
 - **AC-03:** The provider protocol works in a base installation with neither
   optional parser installed.
-- **AC-04:** The Croissant provider passes its supported-profile fixtures and
-  fails explicitly for unsupported or unsafe inputs.
-- **AC-05:** The Frictionless provider passes its supported-profile fixtures
+- **AC-04:** The Croissant strict-local profile passes its documented fixtures
   and fails explicitly for unsupported or unsafe inputs.
+- **AC-05:** The Frictionless strict-local profile passes its documented
+  fixtures and fails explicitly for unsupported or unsafe inputs.
 - **AC-06:** The cross-format fixture matrix satisfies schema, provenance,
   digest, and numerical-equivalence assertions.
 - **AC-07:** CLI/API users can validate and inspect before normalization or
@@ -243,12 +259,16 @@ architecture, not additional implementations of VOI mathematics.
   Project 28 remain reconciled.
 - **AC-10:** Binding profiles are independently versioned, schema-valid,
   deterministic, explicit about units and transformations, and conflict-safe.
-- **AC-11:** Remote or live inputs can be reproduced offline from verified
+- **AC-11:** Supported local inputs can be replayed from verified
   materializations, with data-quality and governance metadata retained.
 - **AC-12:** A third party can implement and test a provider without importing
   calculation internals, and DataFrame-protocol inputs use the canonical path.
 - **AC-13:** ML, engineering/operations, and business reference cases reproduce
   equivalent results across Croissant, Frictionless, and direct inputs.
+
+The external live-interop and remote-transport acceptance criteria formerly
+included in AC-04--AC-11 are successor acceptance criteria, not hidden open
+work in this track.
 
 ## Non-functional constraints
 

@@ -1,11 +1,11 @@
 {
   "track_id": "standardized-dataset-ingestion_20260723",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-23T13:53:21Z",
-  "updated_at": "2026-08-01T00:00:00Z",
-  "description": "Add a format-neutral normalized input contract and optional Croissant ML and Frictionless Data ingestion providers without coupling source parsers to VOI calculation kernels.",
+  "updated_at": "2026-08-01T04:30:00Z",
+  "description": "Add a format-neutral normalized input contract and strict-local Croissant ML and Frictionless Data providers without coupling source parsers to VOI calculation kernels.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
   "base_revision": "f86957f6acb08284619523f75a326795650af38f",
@@ -106,6 +106,24 @@
       "kind": "repository",
       "status": "satisfied",
       "evidence": "The additive reconciliation record maps 30 merged ingestion PRs in #639-#690 to exact merge commits and changed artifacts, with explicit range exclusions. Project 28 confirms #325-#333, #467, and #468 are present and In Progress; that status is not used to close an issue or this active track."
+    },
+    {
+      "id": "strict-local-scope-refinement",
+      "kind": "human_approval",
+      "status": "satisfied",
+      "evidence": "On 2026-08-01 the user approved the recommended strict-local completion boundary and successor tracks #752 (controlled live interoperability) and #753 (remote-ingestion security policy)."
+    },
+    {
+      "id": "controlled-live-interoperability",
+      "kind": "external",
+      "status": "pending",
+      "evidence": "Issue #752 requires approved rights-cleared, hash-pinned authoritative descriptors/resources and explicit usage authority; it is outside this track's archive criteria."
+    },
+    {
+      "id": "remote-ingestion-security-policy",
+      "kind": "external",
+      "status": "pending",
+      "evidence": "Issue #753 requires a separately approved threat model and policy for DNS, redirects, SSRF, archives, caching, quotas, and mutable resources; it is outside this track's archive criteria."
     }
   ]
 }

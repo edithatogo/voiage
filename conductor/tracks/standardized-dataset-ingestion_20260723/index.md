@@ -10,6 +10,13 @@ current valid chain is bound by [the integrity-repair record]
 (./evidence-integrity-repair-20260731.md). These are increments, not track
 closeout evidence.
 
+The approved 2026-08-01 strict-local completion boundary retains deterministic,
+offline Croissant and Frictionless support in this track. Controlled live
+interoperability and any general remote-ingestion policy are successor work in
+[#752](https://github.com/edithatogo/voiage/issues/752) and
+[#753](https://github.com/edithatogo/voiage/issues/753); neither is evidence
+that this track supports live or remote sources.
+
 GitHub parent issue:
 [#325](https://github.com/edithatogo/voiage/issues/325)
 

@@ -174,6 +174,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   The deterministic fixture-manifest validator now pins both checked-in
         source corpora; semantic and parser-differential conformance remains
         active under Phase 5.
+    *   The current repository-owned endpoint is strict-local and offline-first.
+        Controlled live interoperability is follow-on track
+        `controlled_live_dataset_interoperability_20260801` / issue #752,
+        pending approved rights-cleared source packets. General remote transport
+        is follow-on track `remote_dataset_ingestion_security_20260801` / issue
+        #753, pending an approved security policy and threat model.
     *   Canonical cross-format preparation now asserts identical NumPy and
         xarray compute-facing views without introducing a second runtime path.
     *   The canonical decision matrix now also exercises deterministic strict

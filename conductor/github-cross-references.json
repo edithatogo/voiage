@@ -4438,5 +4438,36 @@
       ],
       "pull_request_evidence": "evidenced"
     }
+    ,
+    {
+      "track_id": "controlled_live_dataset_interoperability_20260801",
+      "metadata_track_id": "controlled_live_dataset_interoperability_20260801",
+      "path": "conductor/tracks/controlled_live_dataset_interoperability_20260801",
+      "lifecycle": "active",
+      "issue": {
+        "number": 752,
+        "url": "https://github.com/edithatogo/voiage/issues/752",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/325",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "remote_dataset_ingestion_security_20260801",
+      "metadata_track_id": "remote_dataset_ingestion_security_20260801",
+      "path": "conductor/tracks/remote_dataset_ingestion_security_20260801",
+      "lifecycle": "active",
+      "issue": {
+        "number": 753,
+        "url": "https://github.com/edithatogo/voiage/issues/753",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/325",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    }
   ]
 }
