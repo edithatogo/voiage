@@ -1,0 +1,5 @@
+Independent review fixes for issue #570 / PR #769.
+
+Fixed tolerance-based near-optimum selection that could report negative gross perfect-information value; preserved complete tolerance ties while selecting an exact argmax. Added finite-number validation for request/result envelopes. Reconciled the CLI registry and frontier promotion checklist failures observed in hosted run 30687309902. Regenerated the portable result schema, normative result, and pinned evidence hashes.
+
+Validation: 75 focused feature/governance tests passed without coverage; Ruff passed; ty passed with two redundant-cast diagnostics; BasedPyright passed with zero errors; frontier and full 146-track Conductor validation passed. Local coverage collection was unavailable due a repeatable NumPy import-process error; hosted exact-head coverage remains required.
