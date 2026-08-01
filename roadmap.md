@@ -17,6 +17,17 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 
 Across the completed lanes, external registry, hardware, and speedup evidence gates remain explicit rather than treated as repository-owned completion criteria.
 
+The v1.3 residual frontier programme is governed canonically by VOP C18. Issue
+#593 now has an experimental Python-only joint information/implementation
+contract and exact finite evaluator. PR #787 exact head `de31458b` passed all
+42 hosted checks (38 successes, one neutral aggregation and three governed
+skips), both review threads were evidence-resolved, and the implementation was
+squash-merged as `20e0c606`. The repository-delivery subissues may therefore
+close, while named scientific review, Rust/R/Julia parity, stable promotion,
+release, parent #593 closure and umbrella #318 closure remain open. The existing
+implementation multiplier is retained as a
+compatibility helper and is not described as EVPIM/EVSIM/IA-EVSI.
+
 **June 25 follow-through closeout:** ✅ **ARCHIVED** - The June 25 follow-through queue is complete and archived for its repository-owned implementation and
 evidence slices. Registry approval, external indexing, production accelerator
 speedup, cloud quota, physical FPGA runtime, and fabricated-silicon evidence
@@ -258,6 +269,17 @@ post-information renormalization and imperfect-sample EVSI are excluded.
 Independent scientific review, hosted exact-head and installed-wheel evidence,
 Rust/R/Julia parity, stable promotion, release and parent closure remain
 separate gates.
+
+Forecast and signal information value (#572) now has an experimental finite
+Python contract. It consumes a declared forecast artifact, outcome-signal law,
+reported probabilities, feasible actions, frozen payoffs, horizon, freshness,
+latency, lead time and acquisition cost. It separates timely-oracle value from
+signed deployed value, calibration loss, regret avoided and maximum price;
+predictive accuracy alone is not value. PR #770 exact head `c110706c` passed
+all hosted checks with 100% changed-line and changed-branch coverage before
+squash merge `4657f94e`. Independent scientific review, continuous and
+multistage methods, Rust/R/Julia parity, stable promotion, release and parent
+closure remain separate gates.
 
 The complete Rust-first polyglot programme issue hierarchy is now materialized
 in Conductor rather than existing only in GitHub and Project 28:

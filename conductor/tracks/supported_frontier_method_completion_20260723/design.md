@@ -1,5 +1,47 @@
 # Mermaid design — planned v1.2.0 and v1.3.0
 
+## Implementation-information decomposition
+
+```mermaid
+flowchart LR
+    States["Uncertain states + net benefit by action"] --> Cells["Four joint value cells"]
+    Current["State- and policy-dependent current implementation"] --> Cells
+    Perfect["Perfect implementation"] --> Cells
+    Specific["Specific implementation intervention"] --> Extra["EVSIM cells"]
+    Signals["Sampling likelihood + signal-dependent implementation"] --> Sample["IA-EVSI cell"]
+    Cells --> Matrix["Current/perfect information x current/perfect implementation matrix"]
+    Extra --> Components["EVPIM, EVSIM, realizable EVPI, EVP"]
+    Sample --> Components
+    Matrix --> Components
+    Components --> Interaction["Interaction + exact identity residuals"]
+    Costs["Action-specific aggregate costs"] --> Net["Signed net components"]
+    Components --> Net
+    Interaction --> Assurance["Complete ties, switches, provenance and language dispositions"]
+    Assurance --> Boundary["EVEIm/EVSEIm are candidate labels; no independence or stable claim"]
+```
+
+## Forecast and signal information value
+
+```mermaid
+flowchart LR
+    Prior["Outcome prior"] --> Joint["P(outcome) × P(signal | outcome)"]
+    Likelihood["Signal likelihood"] --> Joint
+    Joint --> Posterior["Signal marginal + posterior"]
+    Reported["Reported probabilities"] --> ReportedPolicy["Feasible deployed choice"]
+    Payoffs["Frozen action consequences + objective unit"] --> ReportedPolicy
+    Payoffs --> Oracle["Posterior-optimal timely choice"]
+    Posterior --> Oracle
+    Posterior --> ReportedPolicy
+    Timing["Horizon + freshness + latency + lead time"] --> Usable{"Usable at decision?"}
+    ReportedPolicy --> Usable
+    Usable -->|yes| Deployed["Signed deployed value"]
+    Usable -->|no| Baseline["Baseline policy; operational value zero"]
+    Oracle --> Loss["Oracle value + calibration loss"]
+    Deployed --> Economics["Cost + signed net + maximum price + regret avoided"]
+    Loss --> Diagnostics["Calibration L1 + Brier + signal coverage"]
+    Diagnostics --> Boundary["C18/M23; exact finite experimental Python; accuracy is not value"]
+```
+
 ## Additive MCDA information value
 
 ```mermaid

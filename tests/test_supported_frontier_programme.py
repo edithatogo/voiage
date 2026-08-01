@@ -76,13 +76,30 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
         for child in children
         if child["disposition"] in {"experimental_branch", "experimental_merged"}
     }
-    assert set(delivered) == {556, 557, 558, 559, 560, 570, 571, 582, 595, 619}
+    assert set(delivered) == {
+        556,
+        557,
+        558,
+        559,
+        560,
+        570,
+        571,
+        572,
+        582,
+        593,
+        595,
+        619,
+    }
     for child in delivered.values():
         assert child["delivery_track"]
         assert child["implementation_pull_requests"]
         assert child["maturity"] == "experimental"
     assert delivered[571]["implementation_pull_requests"] == [679]
     assert delivered[570]["implementation_pull_requests"] == [769]
+    assert delivered[572]["implementation_pull_requests"] == [770]
+    assert delivered[572]["review_artifacts"][-1].endswith(
+        "forecast-signal-implementation-review.md"
+    )
     assert delivered[582]["implementation_pull_requests"] == [772]
     assert delivered[556]["implementation_pull_requests"] == [723]
     assert delivered[556]["review_artifacts"] == [
@@ -104,8 +121,54 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
     assert delivered[560]["review_artifacts"][-1].endswith(
         "mcda-information-implementation-review.md"
     )
+    assert delivered[593]["implementation_pull_requests"] == [787]
+    assert delivered[593]["disposition"] == "experimental_merged"
     assert delivered[595]["implementation_pull_requests"] == [712]
     assert delivered[619]["implementation_pull_requests"] == [676]
+
+
+def test_issue_593_delivery_closeout_preserves_later_gates() -> None:
+    track = ROOT / "conductor/tracks/supported_frontier_method_completion_20260723"
+    metadata = json.loads((track / "metadata.json").read_text(encoding="utf-8"))
+    cross_references = json.loads(
+        (ROOT / "conductor/github-cross-references.json").read_text(encoding="utf-8")
+    )
+    pull_requests = [
+        pull_request
+        for governed_track in cross_references["tracks"]
+        for pull_request in governed_track["pull_requests"]
+        if pull_request["number"] == 787
+    ]
+    hosted_gate = next(
+        gate
+        for gate in metadata["gates"]
+        if gate["id"] == "implementation-information-hosted-assurance"
+    )
+    pending_text = " ".join(
+        (
+            (track / "plan.md").read_text(encoding="utf-8"),
+            (ROOT / "roadmap.md").read_text(encoding="utf-8"),
+            (ROOT / "todo.md").read_text(encoding="utf-8"),
+        )
+    )
+
+    assert len(pull_requests) == 2
+    for pull_request in pull_requests:
+        assert pull_request["status"] == "merged"
+        assert "hosted-required-checks" in pull_request["evidence"]
+        assert "de31458b556136359cb9195f8ced82cff9182ece" in pull_request["evidence"]
+        assert "20e0c606fb02f282134e9cc876fa475178edfe40" in pull_request["evidence"]
+    assert hosted_gate["status"] == "satisfied"
+    assert "38 successful checks" in hosted_gate["evidence"]
+    for gate in (
+        "scientific review",
+        "Rust/R/Julia parity",
+        "stable promotion",
+        "release",
+        "parent #593 closure",
+        "umbrella #318 closure",
+    ):
+        assert gate in pending_text
 
 
 def test_programme_records_unfinished_census_dependency() -> None:

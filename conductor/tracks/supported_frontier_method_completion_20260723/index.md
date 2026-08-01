@@ -28,9 +28,18 @@
 - [Value of Flexibility implementation review](./value-of-flexibility-implementation-review.md)
 - [MCDA information reference review](./mcda-information-reference-review.md)
 - [MCDA information implementation review](./mcda-information-implementation-review.md)
+- [Implementation-information reference review](./implementation-information-reference-review.md)
+- [Implementation-information implementation review](./implementation-information-implementation-review.md)
+- [GitHub issue #593](https://github.com/edithatogo/voiage/issues/593)
+- [Implementation-information subissues #766–#768](https://github.com/edithatogo/voiage/issues/593)
+- [Implementation-information delivery PR #787](https://github.com/edithatogo/voiage/pull/787)
 - [Risk-sensitive constrained VOI implementation review](./risk-sensitive-constrained-voi-implementation-review.md)
+- [Risk-sensitive constrained VOI delivery PR #769](https://github.com/edithatogo/voiage/pull/769)
 - [GitHub issue #560](https://github.com/edithatogo/voiage/issues/560)
 - [MCDA delivery subissues #746–#750](https://github.com/edithatogo/voiage/issues/560)
+- [Forecast-signal issue #572](https://github.com/edithatogo/voiage/issues/572)
+- [Forecast-signal delivery subissues #759/#760/#762](https://github.com/edithatogo/voiage/issues/572)
+- [Forecast-signal implementation PR #770](https://github.com/edithatogo/voiage/pull/770)
 
 Status: in progress. Every owned child issue is being reconciled against
 executable evidence or a reviewed exclusion; existing Project or issue status

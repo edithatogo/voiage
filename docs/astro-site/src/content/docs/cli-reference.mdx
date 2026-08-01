@@ -21,6 +21,8 @@ The `voiage` command-line interface exposes calculation, plotting, and configura
 - `voiage calculate-value-of-flexibility`
 - `voiage calculate-value-of-distributional-information`
 - `voiage calculate-mcda-information`
+- `voiage calculate-forecast-signal-information`
+- `voiage calculate-information-source-portfolio`
 - `voiage assess-qualitative-information`
 - `voiage calculate-expected-utility-information`
 - `voiage plot-ceac`
@@ -43,6 +45,8 @@ The `voiage` command-line interface exposes calculation, plotting, and configura
 - `specs/frontier/value-of-flexibility/v1/fixtures/normative/input.json`
 - `specs/frontier/value-of-distributional-information/v1/fixtures/normative/input.json`
 - `specs/frontier/mcda-information/v1/fixtures/normative/input.json`
+- `specs/frontier/forecast-signal-information/v1/fixtures/normative/input.json`
+- `specs/frontier/information-source-portfolio/v1/fixtures/normative/input.json`
 - `specs/frontier/qualitative-information/v1/fixtures/normative/input.json`
 
 ## Experimental finite additive MCDA information value
@@ -74,6 +78,48 @@ so neither plot relies on colour alone. This experimental surface excludes AHP,
 outranking, non-compensatory aggregation, post-information normalization, and
 imperfect/sample information. Scientific review, stable promotion, release,
 and Rust/R/Julia parity remain separate gates.
+
+## Experimental forecast and signal information value
+
+`calculate-forecast-signal-information` consumes a finite forecast artifact,
+outcome prior, signal likelihoods, reported conditional probabilities, frozen
+payoffs, feasible actions, timing and acquisition cost:
+
+```bash
+voiage --format json calculate-forecast-signal-information \
+  specs/frontier/forecast-signal-information/v1/fixtures/normative/input.json \
+  --output forecast-signal-result.json
+```
+
+The result distinguishes timely-oracle signal value from signed deployed
+forecast value. It reports policy changes by signal, horizon, freshness,
+latency, lead time, regret avoided, maximum price, calibration error, Brier
+diagnostics and signal-probability coverage. A late or stale signal has zero
+operational value. Accuracy alone is never reported as value.
+
+The experimental Python evaluator performs exact finite enumeration and does
+not train forecasting models. Continuous signals, multistage recourse,
+endogenous temporal-dependence estimation, stable status and Rust/R/Julia
+execution remain gated.
+
+## Experimental information-source portfolio value
+
+`calculate-information-source-portfolio` consumes a finite joint-world law,
+candidate information sources, feasible procurement sequences, frozen action
+payoffs and acquisition costs:
+
+```bash
+voiage --format json calculate-information-source-portfolio \
+  specs/frontier/information-source-portfolio/v1/fixtures/normative/input.json \
+  --output information-source-portfolio-result.json
+```
+
+The result reports every evaluated design, complete action and sequence ties,
+gross and signed net value, willingness to pay, prefix-conditional marginal
+values and exact decision-value Shapley attribution. Dependence is evaluated
+from the declared joint-world law; source values are not added independently.
+The method remains experimental pending scientific review, stable promotion
+and Rust/R/Julia parity.
 
 ## Experimental qualitative information assessment
 

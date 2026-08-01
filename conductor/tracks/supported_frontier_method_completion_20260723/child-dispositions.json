@@ -134,14 +134,20 @@
       "issue": 572,
       "record_id": "forecast-signal-information-voi",
       "issue_state": "open",
-      "project_status": "Todo",
-      "disposition": "adjacent_only",
-      "maturity": "planned",
-      "satisfies_ac06": false,
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
       "delivery_track": "supported_frontier_method_completion_20260723",
-      "implementation_pull_requests": [],
-      "review_artifacts": [],
-      "adjacent_artifacts": ["finite-signal expected-utility analysis", "monitoring helpers"]
+      "implementation_pull_requests": [770],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/forecast-signal-implementation-review.md"
+      ],
+      "adjacent_artifacts": [
+        "finite-signal expected-utility analysis",
+        "monitoring helpers",
+        "specs/frontier/forecast-signal-information/v1"
+      ]
     },
     {
       "issue": 582,
@@ -165,14 +171,20 @@
       "issue": 593,
       "record_id": "implementation-information-decomposition",
       "issue_state": "open",
-      "project_status": "Todo",
-      "disposition": "adjacent_only",
-      "maturity": "planned",
-      "satisfies_ac06": false,
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
       "delivery_track": "supported_frontier_method_completion_20260723",
-      "implementation_pull_requests": [],
-      "review_artifacts": [],
-      "adjacent_artifacts": ["implementation-loss helper"]
+      "implementation_pull_requests": [787],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/implementation-information-reference-review.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/implementation-information-implementation-review.md"
+      ],
+      "adjacent_artifacts": [
+        "implementation-loss helper",
+        "specs/frontier/implementation-information/v1"
+      ]
     },
     {
       "issue": 594,

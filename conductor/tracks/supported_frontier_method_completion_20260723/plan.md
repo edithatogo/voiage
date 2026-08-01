@@ -96,6 +96,51 @@
   scientific, stable-promotion, parity, release and parent-closure gates.
   (AC-03–AC-07)
 
+- [x] **F593-1 / #766:** Freeze #593's four-cell information/implementation
+  estimands, v1.3.0 M25 requirements, Mermaid flow, primary-reference review,
+  non-independence boundary and terminology-candidate status. (AC-02, AC-03,
+  AC-09) `9cc93c63`
+- [x] **F593-2 / #767:** Add strict portable v1 input/result schemas, an exact
+  state-dependent normative fixture, current/specific/perfect and signal-
+  dependent implementation contracts, population/time/cost semantics and
+  explicit language dispositions. (AC-02–AC-06) `9cc93c63`
+- [x] **F593-3 / #767:** Implement the exact experimental Python evaluator,
+  current/perfect-information by current/perfect-implementation matrix, EVSIM,
+  IA-EVSI, interaction identities, complete ties and CLI/API surfaces without
+  an independence assumption. (AC-02–AC-05) `9cc93c63`
+- [~] **F593-4 / #768:** Complete independent implementation/scientific review,
+  hosted exact-head and installed-wheel assurance, then reconcile #593 without
+  claiming polyglot parity, stable promotion, release or parent closure.
+  Independent repository implementation re-review passed with no open findings
+  at signed review-artifact commit `f945f87b`, and the patch-equivalent rebased
+  review boundary is `f52feb28`. PR #787 exact head `de31458b` passed all 42
+  hosted checks (38 successes, one neutral aggregation and three governed
+  skips), including installed-wheel and changed-coverage assurance, and both
+  review threads were evidence-resolved before squash merge `20e0c606`.
+  Named scientific review, Rust/R/Julia parity, stable promotion, release,
+  parent #593 closure and umbrella #318 closure remain pending.
+
+- [x] **F572-1 / #760:** Freeze #572's C18/M23 forecast-signal decision
+  estimand, strict input/result schemas, analytical newsvendor fixture,
+  provenance, timing, cost, calibration and explicit language dispositions.
+  (AC-02–AC-06, AC-09) `8c9a1885`
+- [x] **F572-2 / #759:** Implement the exact finite experimental Python/API/CLI
+  evaluator with baseline/oracle/deployed policies, signed value, calibration
+  loss, regret, maximum price and no-skill/perfect/miscalibrated/late/stale
+  limits. (AC-02–AC-05) `8c9a1885`
+- [~] **F572-3 / #762:** Complete independent scientific/implementation review,
+  hosted exact-head/full-suite assurance and canonical C18 projection
+  reconciliation while retaining parity, stable-promotion, release and parent
+  closure as separate gates. The independent implementation review in
+  `forecast-signal-implementation-review.md` found no blocking issue after
+  bounded strictness and hosted-regression repairs. Live C18/M23 projection was
+  verified from merged VOP PRs #69 and #70. PR #770 exact head `c110706c`
+  passed all 42 hosted checks (38 successes, one neutral aggregation and three
+  governed skips), including 223/223 changed lines and 57/57 changed branches,
+  before squash merge `4657f94e`. Independent scientific review, parity,
+  stable-promotion, release and parent closure remain pending.
+  (AC-03–AC-07, AC-09)
+
 - [x] **F570-1 / #757:** Freeze C18/M22's finite risk-sensitive constrained
   perfect-information estimand; add strict v1.3.0 experimental input/result
   schemas, a fully enumerable normative fixture, risk-neutral/CVaR/regret

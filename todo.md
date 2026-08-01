@@ -14,6 +14,34 @@ This document lists the actionable tasks for `voiage` development. Agents should
         checks, Rust/R/Julia parity, stable promotion, release and parent
         closure. DVSS/VMS require separately approved reference contracts.
 
+*   [ ] Complete implementation-information decomposition after experimental
+    repository delivery.
+    *   GitHub issue #593; delivery subissues #766--#768; umbrella track
+        `supported_frontier_method_completion_20260723`; canonical C18/M25.
+    *   The strict finite Python contract covers EVPIM, EVSIM, realizable EVPI,
+        EVP, IA-EVSI, interaction, uptake changes, exact identities and CLI/API
+        execution without an implementation-information independence assumption.
+    *   Retain the legacy `value_of_implementation` multiplier as a distinct
+        compatibility helper. Independent repository re-review passed at signed
+        review-artifact commit `f945f87b`, with patch-equivalent rebased
+        boundary `f52feb28`. PR #787 exact head `de31458b` passed all 42 hosted
+        checks, including installed-wheel and 100% changed-branch assurance;
+        both review threads were evidence-resolved before squash merge
+        `20e0c606`. Remaining gates are named scientific review, Rust/R/Julia
+        parity, stable promotion, release, parent #593 closure and umbrella
+        #318 closure.
+
+*   [ ] Complete forecast and signal information VOI after experimental delivery.
+    *   GitHub issue #572; native subissues #759, #760 and #762; umbrella track
+        `supported_frontier_method_completion_20260723`; canonical C18/M23.
+    *   The exact finite Python contract separates timely-oracle value, signed
+        deployed value, calibration loss, regret avoided and maximum price.
+    *   PR #770 exact head `c110706c` passed all hosted checks and 100% changed
+        coverage before squash merge `4657f94e`.
+    *   Remaining gates are independent scientific review, continuous and
+        multistage methods, Rust/R/Julia parity, stable promotion, release and
+        parent closure.
+
 *   [ ] Complete risk-sensitive and constrained VOI after experimental delivery.
     *   GitHub issue #570; native subissues #757, #758 and #761; umbrella track
         `supported_frontier_method_completion_20260723`; canonical C18/M22.

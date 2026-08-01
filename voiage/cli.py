@@ -109,6 +109,9 @@ from voiage.methods.explainability_transparency import (
 from voiage.methods.federated_privacy_preserving import (
     value_of_federated_privacy_preserving as calculate_federated_privacy_result,
 )
+from voiage.methods.forecast_signal_information import (
+    forecast_signal_information_value as calculate_forecast_signal_information_result,
+)
 from voiage.methods.heterogeneity import (
     HeterogeneityResult,
     value_of_heterogeneity,
@@ -116,6 +119,9 @@ from voiage.methods.heterogeneity import (
 from voiage.methods.implementation import (
     ImplementationAdjustedResult,
     value_of_implementation,
+)
+from voiage.methods.implementation_information import (
+    implementation_information_value as calculate_implementation_information_result,
 )
 from voiage.methods.implementation_strategy import (
     value_of_implementation_strategy_comparison as calculate_implementation_strategy_result,
@@ -3585,6 +3591,111 @@ def calculate_mcda_information(
             f"preference {float(decomposition['preference_gross_voi']):.6f}; "
             f"interaction {float(decomposition['interaction']):.6f} "
             f"{contract['aggregate_unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-implementation-information")
+def calculate_implementation_information(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to an implementation-information v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the implementation-information result",
+    ),
+) -> None:
+    """Evaluate the experimental finite information/implementation matrix."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError(
+                "Implementation-information specification must be an object."
+            )
+        result = calculate_implementation_information_result(
+            cast("dict[str, object]", payload)
+        )
+        contract = result.to_contract_dict()
+        gross = cast("dict[str, object]", contract["gross_components"])
+        output_text = _format_output(
+            "Implementation-information value: "
+            f"EVP {float(gross['evp']):.6f}; "
+            f"realizable EVPI {float(gross['realizable_evpi']):.6f}; "
+            f"EVPIM {float(gross['evpim']):.6f} {contract['value_unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-forecast-signal-information")
+def calculate_forecast_signal_information(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a finite forecast-signal information v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the forecast-signal information result",
+    ),
+) -> None:
+    """Evaluate experimental finite forecast-signal decision value."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError(
+                "forecast-signal information specification must be a JSON object."
+            )
+        result = calculate_forecast_signal_information_result(
+            cast("dict[str, object]", payload)
+        )
+        contract = result.to_contract_dict()
+        value = cast("dict[str, object]", contract["value"])
+        output_text = _format_output(
+            "Forecast-signal information value: "
+            f"gross {float(value['gross_deployed']):.6f}; "
+            f"net {float(value['net_deployed']):.6f}; "
+            f"maximum price {float(value['maximum_price']):.6f} "
+            f"{contract['value_unit']}",
             contract,
         )
         typer.echo(output_text)

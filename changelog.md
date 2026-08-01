@@ -1,11 +1,26 @@
 # Changelog
 
+## Unreleased
+
 - Added an experimental exact finite risk-sensitive and constrained
   perfect-information contract for issue #570, with expected-value/utility,
   lower-tail CVaR, minimax-regret, deterministic/chance constraints, CLI,
   fixtures, and explicit non-Python/stable-promotion gates.
 
-## Unreleased
+- Add experimental exact finite forecast-signal decision value with declared
+  horizon, freshness, latency, lead time, feasible actions and costs; separate
+  oracle and deployed value, calibration loss, regret avoided and maximum
+  price; and expose strict Python, CLI, schema and fixture surfaces. Forecast
+  training, stable promotion and polyglot parity remain gated.
+
+- Add an experimental exact finite implementation-information decomposition
+  for EVPIM, EVSIM, realizable EVPI, EVP, IA-EVSI and their interaction. The
+  strict v1 contract exposes state/action cell values, realised-action uptake,
+  uptake changes, complete ties, costs, population/time scaling and identity
+  residuals without assuming implementation is independent of information.
+  The legacy `value_of_implementation` multiplier remains available as a
+  separate compatibility surface; scientific review, polyglot parity, stable
+  promotion and release remain gated.
 
 - Add experimental exact finite uncertainty-modelling value with declared
   point-estimate, two-/multistage nonanticipative policies, EEV, recourse,

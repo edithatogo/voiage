@@ -72,6 +72,22 @@ _EXTENSION_EXPORTS = {
         ".methods.uncertainty_modelling_value",
         "value_of_uncertainty_modelling",
     ),
+    "ImplementationInformationResult": (
+        ".methods.implementation_information",
+        "ImplementationInformationResult",
+    ),
+    "implementation_information_value": (
+        ".methods.implementation_information",
+        "implementation_information_value",
+    ),
+    "ForecastSignalInformationResult": (
+        ".methods.forecast_signal_information",
+        "ForecastSignalInformationResult",
+    ),
+    "forecast_signal_information_value": (
+        ".methods.forecast_signal_information",
+        "forecast_signal_information_value",
+    ),
     "RiskSensitiveVoiResult": (
         ".methods.risk_sensitive_voi",
         "RiskSensitiveVoiResult",
