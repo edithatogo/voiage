@@ -249,7 +249,8 @@
       "delivery_track": "supported_frontier_method_completion_20260723",
       "implementation_pull_requests": [],
       "review_artifacts": [
-        "conductor/tracks/supported_frontier_method_completion_20260723/signed-social-information-reference-review.md"
+        "conductor/tracks/supported_frontier_method_completion_20260723/signed-social-information-reference-review.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/signed-social-information-implementation-review.md"
       ],
       "adjacent_artifacts": ["strategic", "privacy and equity helpers"]
     },

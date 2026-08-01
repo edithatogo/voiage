@@ -220,7 +220,16 @@ covers the experimental frontier entries only.
 - [~] **F598-5 / #785:** Run independent implementation/scientific review,
   changed-line/branch and full local assurance, hosted exact-head/wheel checks,
   then reconcile #598 without claiming parity, stable promotion, release or
-  parent closure. (AC-03–AC-07, AC-09)
+  parent closure. The first implementation reviewer found and remediated
+  portable derived-result and Blackwell-applicability defects in
+  `signed-social-information-implementation-review.md`; a fresh independent
+  re-review remains required. (AC-03–AC-07, AC-09)
+
+- [x] **F598-R1 / #785 — Review Fixes:** Bind portable agent roles and exact
+  evaluated identifiers; recompute signed roles, policy/design ties, optimum,
+  diagnostics, Blackwell values and assurance counts; exclude infeasible and
+  transfer/cost-bearing comparisons from Blackwell applicability; retain
+  negative social values without clipping. (AC-03–AC-07) `da119389`
 
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for
