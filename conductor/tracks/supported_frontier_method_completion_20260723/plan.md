@@ -1,5 +1,30 @@
 # Implementation Plan
 
+## Todo-to-issue-to-phase mapping
+
+The following mapping is the canonical traceability boundary for the
+experimental frontier entries in `todo.md`. Each phase is scoped to the
+corresponding GitHub issue or native sub-issue; implementation status is
+evidenced by the phase marker and receipt, while scientific review, parity,
+promotion, release, and issue closure remain separate gates.
+
+| `todo.md` workstream | GitHub issue | Conductor phases |
+| --- | --- | --- |
+| Uncertainty-modelling value | #594; #774–#776 | dedicated track `uncertainty_modelling_value_20260801`: F594-1–F594-5 |
+| Implementation-information decomposition | #593; #766–#768 | F593-1–F593-4 |
+| Forecast and signal information VOI | #572; #759, #760, #762 | F572-1–F572-3 |
+| Risk-sensitive and constrained VOI | #570; #757, #758, #761 | F570-1–F570-3 |
+| Value of Flexibility | #559 | F559-1–F559-4 |
+| Deterministic sensitivity/scenario analysis | #556; #724–#728 | F556-1–F556-5 |
+| Distribution-Family Information | #557; #731–#735 | F557-1–F557-5 |
+| Portable qualitative VOI | #558; #738–#742 | F558-1–F558-5 |
+| Finite additive MCDA information value | #560; #746–#750 | F560-1–F560-5 |
+| Dependent information-source portfolio | #582; #763–#765 | dedicated track `information_source_portfolio_voi_20260801` |
+
+The Rust-first programme and its remaining workstream tracks are governed by
+the separate root track `rust_polyglot_voi_completion_20260723`; this table
+covers the experimental frontier entries only.
+
 ## Phase 1 — Governance and contract reconciliation
 
 - [x] **G1:** Verify the owning issue, native parent/children, Project 28,
