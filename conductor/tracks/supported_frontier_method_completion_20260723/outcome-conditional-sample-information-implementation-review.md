@@ -87,6 +87,18 @@ None open. One adversarial finding was fixed in signed remediation commit
   scales from `1e-12` through `1e6` and require positive, correctly scaled
   sigma and variance.
 
+A second independent PR review found and signed remediation commit
+`6eac2ba2e3896229cd2969591135063e7e12771b` fixed a probability-coherence
+defect:
+
+- Prior and likelihood-row totals within `probability_tolerance` were accepted
+  but evaluated without normalization, so valid-by-contract near-unit vectors
+  could violate the tighter tower identity or leave non-unit predictive mass.
+  The evaluator now normalizes every accepted vector before calculation,
+  retains the original committed input, and reports the pre-normalization
+  residuals and whether normalization was applied. Boundary cases on both
+  sides of one are covered; vectors outside tolerance still fail closed.
+
 ### Medium
 
 None open. Two unit/contract inconsistencies were fixed with the High finding:
@@ -101,6 +113,13 @@ None open. Two unit/contract inconsistencies were fixed with the High finding:
 
 The lower-tail mass-zero limiting convention is now stated explicitly in both
 the portable contract README and the method documentation.
+
+The second independent PR review also found that canonical M31-S1 described
+the reference as optimal under tie tolerance while runtime correctly required
+the exact extremum needed by the EVSI tower identity. M31-S1, the standalone
+and embedded input schemas, the portable README and traceability tests now all
+state that the reference must attain the exact baseline extremum and that
+`tie_tolerance` controls tie-set/presentation diagnostics only.
 
 ### Low
 
@@ -119,19 +138,19 @@ or action values.
 
 ## Validation evidence
 
-- 72 focused outcome-contract, exact-evaluator, API, CLI and schema tests pass.
+- 75 focused outcome-contract, exact-evaluator, API, CLI and schema tests pass.
 - 50 frontier registry, governance, fixture and package-export tests pass.
 - Ruff and BasedPyright pass with zero findings on changed Python files.
 - frontier-contract and GitHub cross-reference validators pass.
 - full Conductor validation passes for 148 tracks with zero errors and zero
   warnings.
 
-The shared source-only Python 3.14 environment cannot instrument coverage
-because its NumPy extension rejects the tracer's second module load, and it
-lacks the native Rust extension required by unrelated stable CLI tests. No
-coverage, installed-wheel or broad stable-runtime claim is made from that
-environment. Those checks remain correctly assigned to hosted exact-head and
-installed-wheel assurance.
+An isolated Python 3.13 source environment reports 244/244 evaluator statements
+and 92/92 evaluator branches plus 42/42 contract statements and 4/4 contract
+branches covered. The remediated CLI save-status line and branch are covered.
+The source checkout still lacks the native Rust extension required by unrelated
+stable CLI tests, so installed-wheel and broad stable-runtime assurance remain
+correctly assigned to hosted exact-head checks.
 
 ## Disposition
 

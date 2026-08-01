@@ -229,8 +229,13 @@ covers the experimental frontier entries only.
   composition, Rust/R/Julia parity, stable promotion, release, parent #600 and
   umbrella #318 closure as separate gates. Fresh independent implementation
   review found and fixed the value-unit invariance defect at signed commit
-  `aaf77aaf`; no Critical, High or Medium implementation finding remains open.
-  Hosted exact-head and installed-wheel checks are still pending, and no
+  `aaf77aaf`. A second independent PR review found a High probability-
+  normalization defect and a Medium reference-policy wording inconsistency;
+  signed remediation `6eac2ba2` normalizes accepted near-unit vectors with
+  explicit assurance and aligns M31/schema/README wording on the exact
+  reference extremum. No Critical, High or Medium implementation finding
+  remains open. Replacement hosted exact-head and installed-wheel checks are
+  still pending, and no
   scientific-approval, merge, promotion, release or closure claim is made.
   (AC-03–AC-07, AC-09)
 
