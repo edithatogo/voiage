@@ -96,6 +96,30 @@
   scientific, stable-promotion, parity, release and parent-closure gates.
   (AC-03–AC-07)
 
+- [x] **F570-1 / #757:** Freeze C18/M22's finite risk-sensitive constrained
+  perfect-information estimand; add strict v1.3.0 experimental input/result
+  schemas, a fully enumerable normative fixture, risk-neutral/CVaR/regret
+  reductions, pathological tests, provenance and explicit exclusions.
+  (AC-02, AC-03, AC-09) `2da92322`
+- [x] **F570-2 / #758:** Implement exact bounded Python enumeration of matched
+  current and perfect-state feasible policy problems with expected
+  value/declared utility, lower-tail CVaR, minimax regret,
+  deterministic/chance constraints, complete ties, infeasibility, gross/net
+  value, switches, diagnostics, CLI, documentation and discovery. (AC-02–AC-06)
+  `2da92322`
+- [~] **F570-3 / #761:** Retain local exact-fixture, type, lint, registry and
+  Conductor assurance plus honest Python/Rust/R/Julia/Mojo dispositions;
+  complete hosted exact-head/wheel and independent scientific review before
+  reconciling #570. Local implementation evidence: `2da92322`; independent
+  implementation review and bounded remediation: `58a119bc`; hosted lint/type
+  remediation: `18747c8b`; changed-branch coverage remediation: `bfbfcea3`;
+  review record:
+  `risk-sensitive-constrained-voi-implementation-review.md`. PR #769 exact
+  head `f513416f` passed all hosted checks with 100% changed-line and
+  changed-branch coverage before squash merge `c25f3234`. Scientific, parity,
+  stable-promotion, release and parent-closure gates remain pending.
+  (AC-03–AC-07, AC-09)
+
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for
   #559 Value of Flexibility. (AC-03) `6fd474b1`

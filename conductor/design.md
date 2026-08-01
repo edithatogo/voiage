@@ -117,6 +117,35 @@ flowchart LR
     MCDAConditional --> MCDAVOI
     MCDAVOI --> MCDADiagnostics["Interaction, regret, rank acceptability + Pareto"]
     MCDADiagnostics --> MCDABoundary["Not AHP, outranking, veto, renormalized scoring or EVSI"]
+
+    RiskStates["Finite states + declared probabilities"] --> RiskCurrent["Current feasible policy problem"]
+    RiskPolicies["Statewise policy objective or declared utility"] --> RiskCurrent
+    RiskFunctional["Expected value/utility, lower-tail CVaR or minimax regret"] --> RiskCurrent
+    RiskConstraints["Deterministic/chance operational constraints"] --> RiskCurrent
+    RiskStates --> RiskInformed["Perfect-state contingent policy problem"]
+    RiskPolicies --> RiskInformed
+    RiskFunctional --> RiskInformed
+    RiskConstraints --> RiskInformed
+    RiskCurrent --> RiskVOI["Gross/net risk-sensitive constrained VOI"]
+    RiskInformed --> RiskVOI
+    RiskVOI --> RiskDiagnostics["Complete ties + switches + risk/constraint diagnostics"]
+    RiskDiagnostics --> RiskShadow["Exact constraint-removal evidence, not local shadow prices"]
+    RiskShadow --> RiskBoundary["Experimental C18/M22; no EVSI, continuous solver or parity claim"]
+```
+
+```mermaid
+flowchart LR
+    C16Risk["C16 / v1.2 predecessors"] --> C18Risk["C18 / M22 planned v1.3.0"]
+    C17MCDA["C17 / M21 sibling"] -. "separate v1.3 wave" .-> C18Risk
+    C18Risk --> Parent570["#570"]
+    Parent570 --> Contract757["#757 contract + fixtures"]
+    Parent570 --> Runtime758["#758 evaluator + surfaces"]
+    Parent570 --> Assurance761["#761 assurance + parity"]
+    Contract757 --> Experimental570["Exact experimental Python evidence"]
+    Runtime758 --> Experimental570
+    Assurance761 --> Gate570{"Hosted + science + parity + promotion?"}
+    Experimental570 --> Gate570
+    Gate570 -->|"pending"| RemainExperimental570["Remain experimental"]
 ```
 
 ```mermaid

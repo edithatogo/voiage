@@ -72,6 +72,14 @@ _EXTENSION_EXPORTS = {
         ".methods.uncertainty_modelling_value",
         "value_of_uncertainty_modelling",
     ),
+    "RiskSensitiveVoiResult": (
+        ".methods.risk_sensitive_voi",
+        "RiskSensitiveVoiResult",
+    ),
+    "risk_sensitive_constrained_voi": (
+        ".methods.risk_sensitive_voi",
+        "risk_sensitive_constrained_voi",
+    ),
     "InformationSourcePortfolioResult": (
         ".methods.information_source_portfolio",
         "InformationSourcePortfolioResult",

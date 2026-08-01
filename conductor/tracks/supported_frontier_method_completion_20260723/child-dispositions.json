@@ -101,14 +101,21 @@
       "issue": 570,
       "record_id": "risk-sensitive-constrained-voi",
       "issue_state": "open",
-      "project_status": "Todo",
-      "disposition": "adjacent_only",
-      "maturity": "planned",
-      "satisfies_ac06": false,
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
       "delivery_track": "supported_frontier_method_completion_20260723",
-      "implementation_pull_requests": [],
-      "review_artifacts": [],
-      "adjacent_artifacts": ["capacity-budget constraints", "CVaR", "robust and ambiguity helpers"]
+      "implementation_pull_requests": [769],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/risk-sensitive-constrained-voi-implementation-review.md"
+      ],
+      "adjacent_artifacts": [
+        "capacity-budget constraints",
+        "CVaR",
+        "robust and ambiguity helpers",
+        "specs/frontier/risk-sensitive-constrained-voi/v1"
+      ]
     },
     {
       "issue": 571,
@@ -140,14 +147,19 @@
       "issue": 582,
       "record_id": "information-source-portfolio-voi",
       "issue_state": "open",
-      "project_status": "Todo",
-      "disposition": "adjacent_only",
-      "maturity": "planned",
-      "satisfies_ac06": false,
-      "delivery_track": "supported_frontier_method_completion_20260723",
-      "implementation_pull_requests": [],
-      "review_artifacts": [],
-      "adjacent_artifacts": ["independent experiment portfolio allocation"]
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
+      "delivery_track": "information_source_portfolio_voi_20260801",
+      "implementation_pull_requests": [772],
+      "review_artifacts": [
+        "conductor/tracks/information_source_portfolio_voi_20260801/independent-implementation-review.md"
+      ],
+      "adjacent_artifacts": [
+        "independent experiment portfolio allocation",
+        "specs/frontier/information-source-portfolio/v1"
+      ]
     },
     {
       "issue": 593,
@@ -167,7 +179,7 @@
       "record_id": "uncertainty-modelling-value",
       "issue_state": "open",
       "project_status": "In Progress",
-      "disposition": "experimental_repository_evidence",
+      "disposition": "contract_in_progress",
       "maturity": "experimental",
       "satisfies_ac06": true,
       "delivery_track": "uncertainty_modelling_value_20260801",
