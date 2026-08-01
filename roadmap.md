@@ -18,14 +18,17 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 Across the completed lanes, external registry, hardware, and speedup evidence gates remain explicit rather than treated as repository-owned completion criteria.
 
 The v1.3 residual frontier programme is governed canonically by VOP C18. Issue
-#599 now has an experimental exact finite Python contract for static and
-dynamic heterogeneity value. It preserves the existing stable descriptive
-helper while adding the four policy values `C0`/`Cf`/`P0`/`Pf`, population and
-subgroup EVPI, an optional separately reported EVSI extension, strict subgroup
-selection/eligibility/fairness/privacy declarations and exact decomposition
-assurance. Scientific validity, selection-bias and sparse-subgroup review,
-Rust/R/Julia parity, hosted exact-head evidence, stable promotion, release,
-parent #599 closure and umbrella #318 closure remain pending.
+#599 completed its governed experimental repository delivery. Its exact finite
+Python contract preserves the existing stable descriptive helper while adding
+the four policy values `C0`/`Cf`/`P0`/`Pf`, population and subgroup EVPI, an
+optional separately reported EVSI extension, strict subgroup selection,
+eligibility, fairness and privacy declarations, and exact decomposition
+assurance. PR #809 exact head `b0fc8db7` completed all 42 terminal-allowed
+checks with 38 successes, three governed skips and one neutral CodeQL
+aggregation; it had zero review threads before squash merge `1a37526a`.
+Delivery subissues #786, #788 and #789 may close. Scientific validity,
+selection-bias and sparse-subgroup review, Rust/R/Julia parity, stable
+promotion, release, parent #599 closure and umbrella #318 closure remain open.
 
 #597 completed its governed experimental repository delivery. PR #807 exact
 head `35cfe522` completed all 42 terminal-allowed hosted checks with 38

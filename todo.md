@@ -10,7 +10,7 @@ relevant subagent review panel defined in
 The panel supplies structured evidence; maintainer approval and external
 release, registry, and publication decisions remain separate gates.
 
-*   [ ] Complete static/dynamic heterogeneity value after experimental branch delivery.
+*   [ ] Complete static/dynamic heterogeneity value after experimental merge.
     *   GitHub issue #599; delivery subissues #786/#788/#789; umbrella track
         `supported_frontier_method_completion_20260723`; phases F599-1–F599-4;
         canonical C18/M30; planned v1.3.0 Should.
@@ -20,8 +20,12 @@ release, registry, and publication decisions remain separate gates.
         identities without replacing the stable heterogeneity helper.
     *   Fresh independent engineering review found and remediated a High
         model-bound result-assurance defect, then passed with no remaining
-        Critical, High or Medium findings. Remaining gates are hosted exact-
-        head and changed-coverage assurance, named subgroup scientific validity,
+        Critical, High or Medium findings. PR #809 exact head `b0fc8db7`
+        completed all 42 terminal-allowed checks with 38 successes, three
+        governed skips and one neutral CodeQL aggregation; it had zero review
+        threads before squash merge `1a37526a`. Delivery subissues #786, #788
+        and #789 may close. Remaining gates are named subgroup scientific
+        validity, selection-bias and sparse-subgroup validity review,
         Rust/R/Julia parity, stable promotion, release, parent #599 closure and
         umbrella #318 closure.
 

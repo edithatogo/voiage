@@ -265,7 +265,7 @@ covers the experimental frontier entries only.
   population/subgroup EVSI, complete ties and exact identities without
   replacing the stable heterogeneity helper. (AC-02–AC-06)
   `1a075383`
-- [~] **F599-4 / #789:** Run independent implementation/scientific review,
+- [x] **F599-4 / #789:** Run independent implementation/scientific review,
   complete changed-branch, local and hosted exact-head assurance; retain
   scientific validity, selection-bias/sparse-subgroup review, Rust/R/Julia
   parity, stable promotion, release, parent #599 and umbrella #318 closure as
@@ -273,8 +273,14 @@ covers the experimental frontier entries only.
   assurance in `4b5d8d08`; the final review record is
   `heterogeneity-value-implementation-review.md`. Local focused, mutation,
   100% changed statement/branch, static, frontier, cross-reference and full
-  Conductor gates pass. Hosted exact-head and installed-wheel checks remain
-  pending. (AC-03–AC-07)
+  Conductor gates pass. PR #809 exact implementation head
+  `b0fc8db75796ffac9e66720ab45fdcf341c0b516` completed all 42 hosted checks
+  with 38 successes, three governed skips and one neutral CodeQL aggregation;
+  there were zero review threads before squash merge
+  `1a37526af0ee87acc57dd14a629eb52aef2e182c`. Delivery subissues #786, #788
+  and #789 may close. Scientific review, selection-bias and sparse-subgroup
+  validity review, Rust/R/Julia parity, stable promotion, release, parent #599
+  closure and umbrella #318 closure remain pending. (AC-03–AC-07)
 
 - [x] **F598-1 / #783:** Freeze C18/M29's complete finite joint-world law,
   named agents/roles/topology/designs, nonanticipative policy catalogs, signed

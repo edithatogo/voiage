@@ -92,6 +92,7 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
         596,
         597,
         598,
+        599,
         619,
     }
     for child in delivered.values():
@@ -337,7 +338,36 @@ def test_parallel_m26_to_m30_frontier_governance_is_additively_preserved() -> No
     assert by_issue[598]["disposition"] == "experimental_merged"
     assert by_issue[599]["delivery_subissues"] == [786, 788, 789]
     assert by_issue[599]["implementation_pull_requests"] == [809]
-    assert by_issue[599]["disposition"] == "contract_in_progress"
+    assert by_issue[599]["disposition"] == "experimental_merged"
+
+
+def test_heterogeneity_value_experimental_delivery_is_governed() -> None:
+    track = INVENTORY.parent
+    plan = (track / "plan.md").read_text(encoding="utf-8")
+    todo = (ROOT / "todo.md").read_text(encoding="utf-8")
+    child = next(child for child in _inventory()["children"] if child["issue"] == 599)
+
+    for issue in (786, 788, 789):
+        assert f"#{issue}" in plan
+        assert f"#{issue}" in todo
+    assert child["issue_state"] == "open"
+    assert child["project_status"] == "In Progress"
+    assert child["disposition"] == "experimental_merged"
+    assert child["implementation_pull_requests"] == [809]
+    assert child["satisfies_ac06"] is True
+    assert "b0fc8db75796ffac9e66720ab45fdcf341c0b516" in plan
+    assert "1a37526af0ee87acc57dd14a629eb52aef2e182c" in plan
+    assert "zero review threads" in plan
+    for gate in (
+        "Scientific review",
+        "selection-bias and sparse-subgroup validity review",
+        "Rust/R/Julia parity",
+        "stable promotion",
+        "release",
+        "parent #599 closure",
+        "umbrella #318 closure",
+    ):
+        assert gate in f"{plan}\n{todo}"
 
 
 def test_signed_social_information_experimental_delivery_is_governed() -> None:
