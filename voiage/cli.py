@@ -158,6 +158,9 @@ from voiage.methods.regulatory_market_access import (
 from voiage.methods.replication_reproducibility import (
     value_of_replication_reproducibility as calculate_replication_result,
 )
+from voiage.methods.risk_sensitive_voi import (
+    risk_sensitive_constrained_voi as calculate_risk_sensitive_voi_result,
+)
 from voiage.methods.sample_information import enbs, evsi
 from voiage.methods.sequential import sequential_voi
 from voiage.methods.strategic_behavior import (
@@ -3576,6 +3579,51 @@ def calculate_mcda_information(
             f"preference {float(decomposition['preference_gross_voi']):.6f}; "
             f"interaction {float(decomposition['interaction']):.6f} "
             f"{contract['aggregate_unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-risk-sensitive-voi")
+def calculate_risk_sensitive_voi(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a risk-sensitive constrained VOI v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the risk-sensitive VOI result"
+    ),
+) -> None:
+    """Evaluate experimental exact finite risk-sensitive constrained VOI."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError("Risk-sensitive VOI specification must be a JSON object.")
+        contract = calculate_risk_sensitive_voi_result(
+            cast("dict[str, object]", payload)
+        ).to_contract_dict()
+        value = cast("dict[str, object]", contract["value"])
+        output_text = _format_output(
+            "Risk-sensitive constrained VOI: "
+            f"gross {float(value['gross']):.6f}; net {float(value['net']):.6f} "
+            f"{value['unit']}",
             contract,
         )
         typer.echo(output_text)
