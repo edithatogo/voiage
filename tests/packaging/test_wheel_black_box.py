@@ -128,9 +128,9 @@ def test_installed_wheel_executes_external_distribution_family_request() -> None
             "family_definition_source": "wheel black-box test",
         },
     }
-    Draft202012Validator(
-        VALUE_OF_DISTRIBUTIONAL_INFORMATION_INPUT_SCHEMA_V1
-    ).validate(payload)
+    Draft202012Validator(VALUE_OF_DISTRIBUTIONAL_INFORMATION_INPUT_SCHEMA_V1).validate(
+        payload
+    )
     result = distributional_information_from_specification(payload)
     assert result.gross_vdi == 2.0
     assert result.net_vdi == 1.5
