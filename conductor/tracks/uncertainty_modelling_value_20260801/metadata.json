@@ -38,8 +38,10 @@
       "https://github.com/edithatogo/voiage/issues/775",
       "https://github.com/edithatogo/voiage/issues/776"
     ],
-    "pull_requests": [],
-    "pull_request_evidence": "pending_experimental_delivery"
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/798"
+    ],
+    "pull_request_evidence": "independent_review_and_open_experimental_delivery"
   },
   "gates": [
     {

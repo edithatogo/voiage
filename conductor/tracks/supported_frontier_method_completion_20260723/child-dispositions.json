@@ -191,11 +191,11 @@
       "record_id": "uncertainty-modelling-value",
       "issue_state": "open",
       "project_status": "In Progress",
-      "disposition": "contract_in_progress",
+      "disposition": "experimental_branch",
       "maturity": "experimental",
       "satisfies_ac06": true,
       "delivery_track": "uncertainty_modelling_value_20260801",
-      "implementation_pull_requests": [],
+      "implementation_pull_requests": [798],
       "review_artifacts": ["conductor/tracks/uncertainty_modelling_value_20260801/independent-implementation-review.md"],
       "adjacent_artifacts": []
     },
