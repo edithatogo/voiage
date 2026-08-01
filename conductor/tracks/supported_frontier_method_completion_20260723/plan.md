@@ -90,9 +90,12 @@
   current/perfect-information by current/perfect-implementation matrix, EVSIM,
   IA-EVSI, interaction identities, complete ties and CLI/API surfaces without
   an independence assumption. (AC-02–AC-05) `4f7f1dec`
-- [ ] **F593-4 / #768:** Complete independent implementation/scientific review,
+- [~] **F593-4 / #768:** Complete independent implementation/scientific review,
   hosted exact-head and installed-wheel assurance, then reconcile #593 without
   claiming polyglot parity, stable promotion, release or parent closure.
+  Independent repository implementation re-review passed with no open findings
+  at signed commit `8570b4e3`; named scientific review, hosted exact-head,
+  installed-wheel, parity, promotion, release and closure gates remain pending.
 
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for
