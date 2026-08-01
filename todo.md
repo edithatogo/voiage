@@ -11,7 +11,7 @@ The panel supplies structured evidence; maintainer approval and external
 release, registry, and publication decisions remain separate gates.
 
 *   [ ] Complete belief-state and intervention-aware sequential information
-    value after experimental branch delivery.
+    value after experimental repository delivery.
     *   GitHub issue #597; delivery subissues #780--#782; umbrella track
         `supported_frontier_method_completion_20260723`; canonical C18/M28.
     *   The exact finite Python contract uses control-transition-observe-update
@@ -21,9 +21,13 @@ release, registry, and publication decisions remain separate gates.
         null-sensor and posterior-martingale assurance.
     *   Action-dependent learning and dual control are diagnostics; no unique
         additive dual-control value is claimed.
-    *   Remaining gates include independent implementation and scientific
-        review, hosted exact-head assurance, merge, Rust/R/Julia parity, stable
-        promotion, release, parent #597 closure and umbrella #318 closure.
+    *   PR #807 exact head `35cfe522` completed all 42 terminal-allowed checks
+        with 38 successes, three governed skips and one neutral CodeQL
+        aggregation, including installed-wheel and full-suite assurance. All
+        three review threads were resolved before squash merge `39de9c6a`.
+        Delivery subissues #780–#782 may close. Remaining gates are the named
+        scientific panel, Rust/R/Julia parity, stable promotion, release,
+        parent #597 closure and umbrella #318 closure.
 
 *   [ ] Complete event-localized information value after experimental delivery.
     *   GitHub issue #596; delivery subissues #777–#779; umbrella track
