@@ -126,8 +126,14 @@
   auditable partition evidence, reconstructing every event/channel/density
   action marginal, requiring a common reference policy and rejecting ungrouped
   coordinate atoms. Shared focused/oracle/static/governance assurance passed;
-  third fresh review, hosted exact-head coverage and wheel evidence remain
-  required. `893a2243`
+  hosted exact-head coverage and wheel evidence remain required. `893a2243`
+- [x] **F596-R4:** Complete a third fresh independent review of both
+  remediations. The review independently reproduced the normative values,
+  exercised the previously bypassed result mutations, and found no unresolved
+  Critical, High or Medium finding. Review record:
+  `event-localized-information-final-review.md`. Hosted exact-head coverage,
+  installed-wheel evidence and later scientific/parity/promotion/release gates
+  remain pending.
 
 - [x] **F572-1 / #760:** Freeze #572's C18/M23 forecast-signal decision
   estimand, strict input/result schemas, analytical newsvendor fixture,
