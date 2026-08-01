@@ -57,6 +57,11 @@ No Critical, High or Medium finding remains open.
   was absent from the exact public-command registry and the registered family
   was absent from the frontier promotion checklist. Both registries now
   include the experimental #570 surface without permitting a stable claim.
+- **Medium — fixed:** hosted run `30688015038` treated four BasedPyright
+  `Unknown` traversal warnings in the recursive finite-number validator as a
+  failed lint/type job. Commit `18747c8b` explicitly narrows mapping keys and
+  values plus list items to `object`; the hosted-equivalent local command now
+  reports zero errors and zero warnings.
 
 Independent enumeration confirmed the normative expected-value result, the
 fractional lower-tail CVaR result, minimax-regret reduction, deterministic and
@@ -67,9 +72,9 @@ evidence rather than local shadow prices.
 ## Assurance
 
 - 75 focused feature, CLI, frontier and Conductor-governance tests passed.
-- Ruff passed. `ty` passed with two redundant-cast diagnostics retained to
-  satisfy the stricter BasedPyright schema typing. BasedPyright reported zero
-  errors.
+- The complete hosted-equivalent Ruff check/format, Bandit and `ty` scope
+  passed. BasedPyright reported zero errors and zero warnings across
+  `voiage/logging.py`, `voiage/contracts` and `scripts/export_v2_contracts.py`.
 - Frontier-contract validation passed, including
   `risk_sensitive_constrained_perfect_information`.
 - Full Conductor validation passed for 146 tracks with zero errors and zero
