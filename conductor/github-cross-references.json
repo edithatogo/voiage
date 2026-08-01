@@ -88,7 +88,10 @@
           "url": "https://github.com/edithatogo/voiage/pull/769",
           "status": "merged",
           "evidence": [
-            "risk-sensitive-experimental-delivery"
+            "risk-sensitive-experimental-delivery",
+            "hosted-required-checks",
+            "f513416fa8d19db6c2f7f8857c84839fa97b984b",
+            "c25f3234ad9d3d44f5e31cc42ee4ae823562fe37"
           ]
         },
         {

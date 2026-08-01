@@ -117,9 +117,11 @@
   implementation review and bounded remediation: `58a119bc`; hosted lint/type
   remediation: `18747c8b`; changed-branch coverage remediation: `bfbfcea3`;
   review record:
-  `risk-sensitive-constrained-voi-implementation-review.md`. Hosted,
-  scientific, canonical C18, parity, stable-promotion, release and closure
-  gates remain pending on PR #769. (AC-03–AC-07, AC-09)
+  `risk-sensitive-constrained-voi-implementation-review.md`. PR #769 exact
+  head `f513416f` passed all hosted checks with 100% changed-line and
+  changed-branch coverage before squash merge `c25f3234`. Scientific, parity,
+  stable-promotion, release and parent-closure gates remain pending.
+  (AC-03–AC-07, AC-09)
 
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for

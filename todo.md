@@ -18,6 +18,17 @@ This document lists the actionable tasks for `voiage` development. Agents should
         exact-head/wheel assurance, scientific review, Rust/R/Julia parity,
         stable promotion, release and issue closure.
 
+*   [ ] Complete risk-sensitive and constrained VOI after experimental delivery.
+    *   GitHub issue #570; native subissues #757, #758 and #761; umbrella track
+        `supported_frontier_method_completion_20260723`; canonical C18/M22.
+    *   The exact finite Python contract covers declared expected utility,
+        lower-tail CVaR, minimax regret, deterministic/chance constraints,
+        matched feasible policy sets, complete ties and fail-closed assurance.
+    *   PR #769 exact head `f513416f` passed all hosted checks and 100% changed
+        coverage before squash merge `c25f3234`.
+    *   Remaining gates are scientific review, Rust/R/Julia parity, stable
+        promotion, release and parent closure.
+
 *   [ ] Execute the Rust-first polyglot VOIAGE completion programme without
     promoting issue or Project status into implementation evidence.
     *   Root Conductor track: `rust_polyglot_voi_completion_20260723`.
