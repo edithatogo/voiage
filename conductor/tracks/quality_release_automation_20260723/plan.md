@@ -12,7 +12,7 @@
   Existing quality/security workflows, release SBOM/provenance evidence,
   registry-audit snapshots and fail-closed external-gate documentation are
   reconciled without claiming connected adapter or publication completion.
-  (2026-08-01; AC-01, AC-07)
+  (2026-08-01; commit: 20f022d2; AC-01, AC-07)
 
 ## Phase 2 — Evidence before positive claims
 
