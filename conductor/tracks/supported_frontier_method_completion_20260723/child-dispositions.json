@@ -288,7 +288,7 @@
       "record_id": "heterogeneity-value-decomposition",
       "issue_state": "open",
       "project_status": "In Progress",
-      "disposition": "contract_in_progress",
+      "disposition": "experimental_merged",
       "maturity": "experimental",
       "satisfies_ac06": true,
       "delivery_track": "supported_frontier_method_completion_20260723",
@@ -300,12 +300,11 @@
       "adjacent_artifacts": ["stable static heterogeneity analysis"],
       "delivery_subissues": [786, 788, 789],
       "unresolved_gates": [
-        "hosted exact-head and installed-wheel assurance",
         "independent scientific review",
         "selection-bias and sparse-subgroup validity review",
         "Rust/R/Julia parity",
         "stable promotion and release",
-        "parent #599 and umbrella #318 closure"
+        "delivery subissue, parent #599 and umbrella #318 closure"
       ]
     },
     {
