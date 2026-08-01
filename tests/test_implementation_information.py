@@ -417,3 +417,21 @@ def test_cli_rejects_non_object_specification(tmp_path: Path) -> None:
         "Error: Implementation-information specification must be an object."
         in invocation.output
     )
+
+
+def test_cli_reports_saved_human_output(tmp_path: Path) -> None:
+    output = tmp_path / "result.txt"
+
+    invocation = CliRunner().invoke(
+        app,
+        [
+            "calculate-implementation-information",
+            str(INPUT),
+            "--output",
+            str(output),
+        ],
+    )
+
+    assert invocation.exit_code == 0, invocation.output
+    assert f"Result saved to {output}" in invocation.output
+    assert output.read_text().startswith("Implementation-information value:")
