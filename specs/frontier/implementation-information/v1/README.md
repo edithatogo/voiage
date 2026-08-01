@@ -14,3 +14,9 @@ ties, population/time scaling, costs and exact decomposition residuals.
 Python is the only experimental runtime in v1. Rust, R, Julia and Mojo remain
 explicitly unimplemented. This fixture-backed contract is not a stable-method
 or release claim.
+
+The older `value_of_implementation` function remains a scalar multiplier-based
+compatibility helper. It is not an alias for this joint matrix and does not by
+itself estimate EVPIM, EVSIM, realizable EVPI, EVP or IA-EVSI. Migrate analyses
+that require those estimands to `implementation_information_value` with an
+explicit v1 specification; no legacy result is silently reinterpreted.

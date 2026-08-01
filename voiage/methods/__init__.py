@@ -66,6 +66,7 @@ _MODULES = (
     "federated_privacy_preserving",
     "heterogeneity",
     "implementation",
+    "implementation_information",
     "implementation_strategy",
     "interoperability_standardization",
     "monitoring_surveillance",

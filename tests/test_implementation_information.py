@@ -1,14 +1,20 @@
 """Contract and numerical tests for joint implementation-information value."""
 
+# pyright: reportAny=false, reportExplicitAny=false, reportUnknownArgumentType=false
+# pyright: reportUnknownLambdaType=false, reportUnknownMemberType=false
+# pyright: reportUnknownVariableType=false, reportUnusedCallResult=false
+
 from copy import deepcopy
 import json
 from pathlib import Path
+from typing import Any
 
 from jsonschema import Draft202012Validator
 import pytest
 from typer.testing import CliRunner
 
 import voiage
+from voiage import methods
 from voiage.cli import app
 from voiage.exceptions import InputError
 from voiage.methods.implementation_information import implementation_information_value
@@ -19,11 +25,11 @@ INPUT = CONTRACT / "fixtures/normative/input.json"
 EXPECTED = CONTRACT / "fixtures/normative/expected.json"
 
 
-def _input() -> dict[str, object]:
+def _input() -> dict[str, Any]:
     return json.loads(INPUT.read_text())
 
 
-def _result(payload: dict[str, object] | None = None) -> dict[str, object]:
+def _result(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     return implementation_information_value(payload or _input()).to_contract_dict()
 
 
@@ -87,6 +93,18 @@ def test_specific_implementation_and_signal_dependent_ia_evsi() -> None:
     assert assurance["implementation_information_independence_assumed"] is False
     assert assurance["state_dependent_current_implementation_observed"] is True
     assert assurance["signal_dependent_post_sample_implementation_supported"] is True
+    audit = result["implementation_audit"]
+    changes = result["uptake_changes"]
+    assert audit["current"]["low"]["new"] == {"standard": 0.8, "new": 0.2}
+    assert audit["specific"]["high"]["new"] == {"standard": 0.2, "new": 0.8}
+    assert changes["specific_minus_current"]["high"]["new"]["new"] == pytest.approx(0.2)
+    assert changes["post_sample_minus_current_by_signal"]["favourable"]["high"]["new"][
+        "new"
+    ] == pytest.approx(0.2)
+    matrix = result["matrix"]
+    assert matrix["perfect_information_current_implementation"]["state_action_values"][
+        "high"
+    ]["new"] == pytest.approx(14.8)
 
 
 def test_zero_uptake_edge_case_is_enumerated_without_independence() -> None:
@@ -104,6 +122,80 @@ def test_zero_uptake_edge_case_is_enumerated_without_independence() -> None:
         "aggregate_value"
     ] == pytest.approx(10000)
     assert result["gross_components"]["evpim"] == pytest.approx(2000)
+
+
+def test_complete_ties_and_false_switch_regression() -> None:
+    tied = _input()
+    for state in tied["states"]:
+        state["net_benefit"] = {"standard": 10, "new": 10}
+    tied_result = _result(tied)
+    assert tied_result["matrix"]["current_information_current_implementation"][
+        "policy_ties"
+    ]["all"] == ["new", "standard"]
+
+    no_switch = _input()
+    for state in no_switch["states"]:
+        state["net_benefit"] = {"standard": 10, "new": 20}
+    no_switch_result = _result(no_switch)
+    assert (
+        no_switch_result["decision_switches"]["current_to_perfect_information"] is False
+    )
+
+
+def test_state_and_action_permutations_preserve_estimands() -> None:
+    forward = _result()
+    permuted = _input()
+    permuted["states"].reverse()
+    permuted["actions"].reverse()
+    reverse = _result(permuted)
+    assert reverse["gross_components"] == forward["gross_components"]
+    assert reverse["net_components"] == forward["net_components"]
+
+
+def test_strict_schemas_reject_open_scientific_envelopes() -> None:
+    input_schema = json.loads(
+        (CONTRACT / "schemas/implementation-information-input.schema.json").read_text()
+    )
+    result_schema = json.loads(
+        (CONTRACT / "schemas/implementation-information-result.schema.json").read_text()
+    )
+    invalid_input = _input()
+    invalid_input["states"] = [{}]
+    assert list(Draft202012Validator(input_schema).iter_errors(invalid_input))
+    invalid_result = _result()
+    invalid_result["matrix"] = {}
+    assert list(Draft202012Validator(result_schema).iter_errors(invalid_result))
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "match"),
+    [
+        ("value_unit", "", "value_unit"),
+        ("chronology", "not-a-sequence", "chronology"),
+        ("population", 1e308, "product must be finite"),
+    ],
+)
+def test_nonportable_units_chronology_and_scaling_fail_closed(
+    field: str, value: object, match: str
+) -> None:
+    payload = _input()
+    payload[field] = value
+    if field == "population":
+        payload["discounted_time_factor"] = 1e308
+    with pytest.raises(InputError, match=match):
+        implementation_information_value(payload)
+
+
+def test_unknown_cost_and_nonfinite_value_fail_closed() -> None:
+    unknown_cost = _input()
+    unknown_cost["costs"]["mystery"] = 100
+    with pytest.raises(InputError, match="unknown cost"):
+        implementation_information_value(unknown_cost)
+
+    nonfinite = _input()
+    nonfinite["states"][0]["net_benefit"]["new"] = float("inf")
+    with pytest.raises(InputError, match="finite"):
+        implementation_information_value(nonfinite)
 
 
 @pytest.mark.parametrize(
@@ -133,6 +225,11 @@ def test_invalid_contracts_fail_closed(mutation: object, match: str) -> None:
 
 def test_public_api_and_cli(tmp_path: Path) -> None:
     assert voiage.implementation_information_value is implementation_information_value
+    assert methods.implementation_information_value is implementation_information_value
+    assert (
+        methods.ImplementationInformationResult.__name__
+        == "ImplementationInformationResult"
+    )
     output = tmp_path / "result.json"
     invocation = CliRunner().invoke(
         app,

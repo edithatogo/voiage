@@ -4,6 +4,18 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+*   [ ] Complete implementation-information decomposition after experimental
+    repository delivery.
+    *   GitHub issue #593; delivery subissues #766--#768; umbrella track
+        `supported_frontier_method_completion_20260723`; canonical C18/M25.
+    *   The strict finite Python contract covers EVPIM, EVSIM, realizable EVPI,
+        EVP, IA-EVSI, interaction, uptake changes, exact identities and CLI/API
+        execution without an implementation-information independence assumption.
+    *   Retain the legacy `value_of_implementation` multiplier as a distinct
+        compatibility helper. Remaining gates are independent re-review,
+        hosted exact-head/wheel assurance, scientific review, Rust/R/Julia
+        parity, stable promotion, release and issue closure.
+
 *   [ ] Execute the Rust-first polyglot VOIAGE completion programme without
     promoting issue or Project status into implementation evidence.
     *   Root Conductor track: `rust_polyglot_voi_completion_20260723`.
