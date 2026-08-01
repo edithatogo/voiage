@@ -121,6 +121,13 @@ independently from package releases, and remote or live inputs require verified
 materialization receipts, explicit selection, data-quality evidence, and
 preserved citation/licence/usage metadata.
 
+The approved repository-owned endpoint is now its strict-local, offline-first
+profile. Controlled live interoperability is separately tracked in
+`controlled_live_dataset_interoperability_20260801` (issue #752), pending
+approved rights-cleared, hash-pinned source packets. General remote transport
+security is separately tracked in `remote_dataset_ingestion_security_20260801`
+(issue #753), pending a threat model and explicit security-policy approval.
+
 Follow-on sub-issues #467 and #468 extend the same programme only after the
 canonical contract and conformance matrix stabilize: #467 publishes a provider
 SDK and generic DataFrame-interchange adapter, while #468 supplies reproducible
