@@ -122,6 +122,12 @@
   input/result validation, true-max reference optimality, bounded raw-integral
   tolerance and explicit binary-channel symmetry assurance. A fresh
   independent reviewer remains required. `6d712f82`
+- [x] **F596-R3:** Remediate the fresh result-integrity review by binding
+  auditable partition evidence, reconstructing every event/channel/density
+  action marginal, requiring a common reference policy and rejecting ungrouped
+  coordinate atoms. Shared focused/oracle/static/governance assurance passed;
+  third fresh review, hosted exact-head coverage and wheel evidence remain
+  required. `893a2243`
 
 - [x] **F572-1 / #760:** Freeze #572's C18/M23 forecast-signal decision
   estimand, strict input/result schemas, analytical newsvendor fixture,
