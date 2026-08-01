@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
   "track_id": "supported_frontier_method_completion_20260723",
-  "audited_at": "2026-07-31T16:38:03Z",
-  "source_revision": "9495fc3f372b9564701a180c6cf611a3ddc010dd",
+  "audited_at": "2026-08-01T01:35:00Z",
+  "source_revision": "50bd25470f52f70fc098c490bb73ed6d9216aa7a",
   "parent_issue": 313,
   "issue": 318,
   "issue_state": "open",
@@ -37,14 +37,16 @@
       "issue": 557,
       "record_id": "value-of-distributional-information",
       "issue_state": "open",
-      "project_status": "Todo",
-      "disposition": "adjacent_only",
-      "maturity": "planned",
-      "satisfies_ac06": false,
+      "project_status": "In Progress",
+      "disposition": "experimental_branch",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
       "delivery_track": "supported_frontier_method_completion_20260723",
-      "implementation_pull_requests": [],
-      "review_artifacts": [],
-      "adjacent_artifacts": ["distributional-equity VOI"]
+      "implementation_pull_requests": [736],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/distribution-family-information-implementation-review.md"
+      ],
+      "adjacent_artifacts": []
     },
     {
       "issue": 558,

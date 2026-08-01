@@ -8,6 +8,7 @@ Audited against `origin/main` through `9495fc3f` and the live GitHub hierarchy o
 | Issue | Disposition | Evidence | Remaining boundary |
 |---|---|---|---|
 | #556 | Experimental implementation on branch | PR #723; exact v1 schemas/fixture; independent implementation review | Hosted exact-head checks, merge, scientific review, polyglot execution and stable promotion |
+| #557 | Experimental implementation on branch | PR #736; exact model-family-index v1 schemas/fixture; independent implementation review | Hosted exact-head checks, merge, scientific terminology/partition review, real probability provenance, polyglot execution and stable promotion |
 | #559 | Experimental implementation on branch | PR #723; exact timing-scenario v1 schemas/fixture; independent implementation review | Hosted exact-head checks, merge, scientific review, transition-constrained policies, polyglot execution and stable promotion |
 | #571 | Experimental implementation merged | PR #679; completed study-design track | Scientific review and stable promotion |
 | #595 | Experimental implementation merged | PR #712; 60 exact-head checks passed, 5 intentionally skipped, 0 failed | Scientific review and stable promotion |
@@ -17,7 +18,7 @@ Audited against `origin/main` through `9495fc3f` and the live GitHub hierarchy o
 
 | Issues | Current evidence | Why it does not satisfy AC-06 |
 |---|---|---|
-| #557, #560 | Distributional equity and mock MCDA/Pareto helpers | Adjacent estimands or mocks are not the named contracts. |
+| #560 | Mock MCDA/Pareto helpers | Adjacent estimands or mocks are not the named contract. |
 | #570, #572, #582 | Constraint/risk helpers, finite-signal analysis, independent experiment portfolios | They omit the required joint policy, forecast, or source-observation semantics. |
 | #593, #594 | Implementation loss, EVPI and real-options helpers | They do not implement the joint implementation/information matrix or EVIU/VSS contract. |
 | #596–#600 | Threshold plots, sequential/bandit helpers, strategic/privacy helpers, heterogeneity, aggregate EVSI | They omit event density, belief-state control, signed social value, static/dynamic heterogeneity, or outcome-conditional sample value. |

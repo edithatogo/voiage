@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/frontier/value-of-distributional-information-input.v1.json",
+  "title": "ValueOfDistributionalInformationInputV1Experimental",
+  "type": "object",
+  "required": ["schema_version", "analysis_id", "analysis_type", "method_maturity", "information_target", "conditioning_order", "direction", "value_unit", "model_ids", "model_labels", "model_definitions", "model_probabilities", "alternative_names", "conditional_values", "conditional_value_assurance", "information_cost", "tolerances", "comparability", "provenance"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "analysis_id": {"type": "string", "minLength": 1},
+    "analysis_type": {"const": "distribution_family_information_value"},
+    "method_maturity": {"const": "experimental"},
+    "information_target": {"const": "model_family_index"},
+    "conditioning_order": {"const": "integrate_within_family_then_resolve_family_index"},
+    "direction": {"enum": ["maximize", "minimize"]},
+    "value_unit": {"type": "string", "minLength": 1},
+    "model_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "model_labels": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string", "minLength": 1}},
+    "model_definitions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["model_id", "family_or_assumption", "parameterization", "within_family_integration", "definition_source", "parameter_source", "data_reference", "value_transformation"],
+        "properties": {
+          "model_id": {"type": "string", "minLength": 1},
+          "family_or_assumption": {"type": "string", "minLength": 1},
+          "parameterization": {"type": "string", "minLength": 1},
+          "within_family_integration": {"type": "string", "minLength": 1},
+          "definition_source": {"type": "string", "minLength": 1},
+          "parameter_source": {"type": "string", "minLength": 1},
+          "data_reference": {"type": "string", "minLength": 1},
+          "value_transformation": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "model_probabilities": {"type": "array", "minItems": 1, "items": {"type": "number", "minimum": 0, "maximum": 1}},
+    "alternative_names": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "conditional_values": {"type": "array", "minItems": 1, "items": {"type": "array", "minItems": 1, "items": {"type": "number"}}},
+    "conditional_value_assurance": {
+      "type": "object",
+      "required": ["input_status", "source_values_exact", "source_uncertainty", "enumeration_method", "evidence_reference"],
+      "properties": {
+        "input_status": {"const": "exact_enumerated_conditional_expectations"},
+        "source_values_exact": {"const": true},
+        "source_uncertainty": {"const": "none_by_construction"},
+        "enumeration_method": {"type": "string", "minLength": 1},
+        "evidence_reference": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "information_cost": {"type": "number", "minimum": 0},
+    "tolerances": {
+      "type": "object",
+      "required": ["absolute", "relative", "probability_sum"],
+      "properties": {
+        "absolute": {"type": "number", "minimum": 0},
+        "relative": {"type": "number", "minimum": 0},
+        "probability_sum": {"type": "number", "exclusiveMinimum": 0, "maximum": 0.000001}
+      },
+      "additionalProperties": false
+    },
+    "comparability": {
+      "type": "object",
+      "required": ["population_id", "horizon_id", "discounting_id", "value_semantics_id", "cost_location_id", "verified", "verification_reference"],
+      "properties": {
+        "population_id": {"type": "string", "minLength": 1},
+        "horizon_id": {"type": "string", "minLength": 1},
+        "discounting_id": {"type": "string", "minLength": 1},
+        "value_semantics_id": {"type": "string", "minLength": 1},
+        "cost_location_id": {"type": "string", "minLength": 1},
+        "verified": {"const": true},
+        "verification_reference": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["fixture_id", "probability_source", "value_source", "family_definition_source"],
+      "properties": {
+        "fixture_id": {"type": "string", "minLength": 1},
+        "probability_source": {"type": "string", "minLength": 1},
+        "value_source": {"type": "string", "minLength": 1},
+        "family_definition_source": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

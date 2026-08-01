@@ -75,7 +75,7 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
         for child in children
         if child["disposition"] in {"experimental_branch", "experimental_merged"}
     }
-    assert set(delivered) == {556, 559, 571, 595, 619}
+    assert set(delivered) == {556, 557, 559, 571, 595, 619}
     for child in delivered.values():
         assert child["delivery_track"]
         assert child["implementation_pull_requests"]
@@ -85,6 +85,11 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
     assert delivered[556]["review_artifacts"] == [
         "conductor/tracks/supported_frontier_method_completion_20260723/"
         "deterministic-sensitivity-implementation-review.md"
+    ]
+    assert delivered[557]["implementation_pull_requests"] == [736]
+    assert delivered[557]["review_artifacts"] == [
+        "conductor/tracks/supported_frontier_method_completion_20260723/"
+        "distribution-family-information-implementation-review.md"
     ]
     assert delivered[559]["implementation_pull_requests"] == [723]
     assert delivered[595]["implementation_pull_requests"] == [712]
@@ -124,4 +129,26 @@ def test_dsa_governance_is_versioned_and_cross_referenced() -> None:
     assert "DSA baseline + direction + units" in canonical_design
     assert "M18" in metadata["requirement_ids"]
     for issue in range(724, 729):
+        assert f"#{issue}" in plan
+
+
+def test_distribution_family_information_is_governed_and_cross_referenced() -> None:
+    track = INVENTORY.parent
+    requirements = (track / "requirements.md").read_text(encoding="utf-8")
+    design = (track / "design.md").read_text(encoding="utf-8")
+    plan = (track / "plan.md").read_text(encoding="utf-8")
+    metadata = json.loads((track / "metadata.json").read_text(encoding="utf-8"))
+    canonical = (ROOT / "conductor/requirements.md").read_text(encoding="utf-8")
+    canonical_design = (ROOT / "conductor/design.md").read_text(encoding="utf-8")
+
+    assert {"M19-U1", "M19-U2", "M19-U3"} <= {
+        line.split(":", maxsplit=1)[0].removeprefix("- **")
+        for line in requirements.splitlines()
+        if line.startswith("- **M19-")
+    }
+    assert "Value of Distribution-Family Information" in design
+    assert "M19 / planned v1.2.0" in canonical
+    assert "Declared model-family index" in canonical_design
+    assert "M19" in metadata["requirement_ids"]
+    for issue in range(731, 736):
         assert f"#{issue}" in plan

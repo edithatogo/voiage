@@ -61,6 +61,81 @@ def test_imports_resolve_inside_the_wheel_environment() -> None:
     assert Path(native.__file__).resolve().is_relative_to(root)
 
 
+def test_installed_wheel_executes_external_distribution_family_request() -> None:
+    """The experimental adapter and installed schema work without repository specs."""
+    from jsonschema import Draft202012Validator
+
+    from voiage.contracts.distributional_information import (
+        VALUE_OF_DISTRIBUTIONAL_INFORMATION_INPUT_SCHEMA_V1,
+    )
+    from voiage.methods.distributional_information import (
+        distributional_information_from_specification,
+    )
+
+    payload = {
+        "schema_version": "1.0.0",
+        "analysis_id": "wheel-external-vdi",
+        "analysis_type": "distribution_family_information_value",
+        "method_maturity": "experimental",
+        "information_target": "model_family_index",
+        "conditioning_order": "integrate_within_family_then_resolve_family_index",
+        "direction": "maximize",
+        "value_unit": "point",
+        "model_ids": ["m1", "m2"],
+        "model_labels": {"m1": "Model 1", "m2": "Model 2"},
+        "model_definitions": [
+            {
+                "model_id": model_id,
+                "family_or_assumption": label,
+                "parameterization": "finite exact table",
+                "within_family_integration": "analytical expectation",
+                "definition_source": "wheel black-box test",
+                "parameter_source": "exact synthetic values",
+                "data_reference": f"wheel:{model_id}",
+                "value_transformation": "identity",
+            }
+            for model_id, label in (("m1", "family one"), ("m2", "family two"))
+        ],
+        "model_probabilities": [0.5, 0.5],
+        "alternative_names": ["A", "B"],
+        "conditional_values": [[10.0, 6.0], [4.0, 12.0]],
+        "conditional_value_assurance": {
+            "input_status": "exact_enumerated_conditional_expectations",
+            "source_values_exact": True,
+            "source_uncertainty": "none_by_construction",
+            "enumeration_method": "finite exact table",
+            "evidence_reference": "wheel:black-box",
+        },
+        "information_cost": 0.5,
+        "tolerances": {
+            "absolute": 1e-12,
+            "relative": 1e-12,
+            "probability_sum": 1e-12,
+        },
+        "comparability": {
+            "population_id": "wheel-population",
+            "horizon_id": "wheel-horizon",
+            "discounting_id": "wheel-discounting",
+            "value_semantics_id": "wheel-conditional-value",
+            "cost_location_id": "wheel-cost-location",
+            "verified": True,
+            "verification_reference": "wheel:comparability",
+        },
+        "provenance": {
+            "fixture_id": "wheel-external-vdi",
+            "probability_source": "synthetic equal weights",
+            "value_source": "exact finite table",
+            "family_definition_source": "wheel black-box test",
+        },
+    }
+    Draft202012Validator(VALUE_OF_DISTRIBUTIONAL_INFORMATION_INPUT_SCHEMA_V1).validate(
+        payload
+    )
+    result = distributional_information_from_specification(payload)
+    assert result.gross_vdi == 2.0
+    assert result.net_vdi == 1.5
+
+
 def test_installed_wheel_metadata_keeps_jax_optional() -> None:
     """Verify the built artifact, rather than only source TOML metadata."""
     if os.environ.get("WHEEL_VENV") is None:

@@ -21,6 +21,22 @@
 
 ## Phase 2 — Evidence before positive claims
 
+- [x] **F557-1 / #731:** Freeze #557's distribution-family estimand, terminology,
+  MoSCoW requirements, Mermaid flow, independent reference review and failing
+  analytical/property/pathology tests. (AC-02, AC-03, AC-09) `b78120e1`
+- [x] **F557-2 / #732:** Add strict versioned schemas, exact normative fixtures,
+  provenance, comparability, estimator status and language dispositions.
+  (AC-02–AC-06) `7976e49a`
+- [x] **F557-3 / #733:** Implement the exact experimental Python evaluator with
+  family-first conditioning, complete ties and a signed net-value result.
+  (AC-02–AC-05) `ec39ed2a`
+- [x] **F557-4 / #734:** Add exact-schema CLI, documentation, discovery and generated
+  governance surfaces without claiming stable or polyglot support. (AC-04–AC-06)
+  `f154cb67`
+- [~] **F557-5 / #735:** Run independent implementation review, focused/full local and
+  hosted exact-head assurance; reconcile #557 without closing scientific,
+  stable-promotion, release or issue gates. (AC-03–AC-07)
+
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for
   #559 Value of Flexibility. (AC-03) `6fd474b1`

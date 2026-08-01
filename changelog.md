@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add experimental exact Value of Distribution-Family Information with strict
+  schemas, a discrete-index EVPPI evaluator, complete ties, signed net VDI,
+  provenance, CLI, documentation and explicit unsupported language surfaces.
+
 - Expand standardized-ingestion benchmark evidence to bounded local Croissant
   CSV and Frictionless CSV, JSON Table, Parquet, and Arrow IPC profiles;
   record conversion stages and workload dimensions without adding flaky

@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "analysis_id": "vdi-two-family-exact-v1",
+  "analysis_type": "distribution_family_information_value",
+  "method_maturity": "experimental",
+  "information_target": "model_family_index",
+  "conditioning_order": "integrate_within_family_then_resolve_family_index",
+  "direction": "maximize",
+  "value_unit": "net-benefit-point",
+  "model_ids": ["family-a", "family-b"],
+  "model_labels": {"family-a": "Distribution family A", "family-b": "Distribution family B"},
+  "model_definitions": [
+    {"model_id": "family-a", "family_or_assumption": "synthetic family A", "parameterization": "finite exact table A", "within_family_integration": "analytical expectation over enumerated states", "definition_source": "synthetic fixture definition", "parameter_source": "synthetic exact parameters", "data_reference": "fixture:vdi-two-family-exact-v1:A", "value_transformation": "identity to net-benefit-point"},
+    {"model_id": "family-b", "family_or_assumption": "synthetic family B", "parameterization": "finite exact table B", "within_family_integration": "analytical expectation over enumerated states", "definition_source": "synthetic fixture definition", "parameter_source": "synthetic exact parameters", "data_reference": "fixture:vdi-two-family-exact-v1:B", "value_transformation": "identity to net-benefit-point"}
+  ],
+  "model_probabilities": [0.5, 0.5],
+  "alternative_names": ["A", "B"],
+  "conditional_values": [[10.0, 6.0], [4.0, 12.0]],
+  "conditional_value_assurance": {
+    "input_status": "exact_enumerated_conditional_expectations",
+    "source_values_exact": true,
+    "source_uncertainty": "none_by_construction",
+    "enumeration_method": "closed-form synthetic finite-state expectation",
+    "evidence_reference": "fixture:vdi-two-family-exact-v1"
+  },
+  "information_cost": 0.5,
+  "tolerances": {"absolute": 1e-12, "relative": 1e-12, "probability_sum": 1e-12},
+  "comparability": {
+    "population_id": "synthetic-population-v1",
+    "horizon_id": "synthetic-single-horizon-v1",
+    "discounting_id": "already-reflected-common-v1",
+    "value_semantics_id": "conditional-expected-net-benefit-v1",
+    "cost_location_id": "same-population-net-benefit-v1",
+    "verified": true,
+    "verification_reference": "fixture:vdi-two-family-exact-v1:comparability"
+  },
+  "provenance": {
+    "fixture_id": "vdi-two-family-exact-v1",
+    "probability_source": "synthetic equal-weight reference",
+    "value_source": "analytical conditional-expectation table",
+    "family_definition_source": "synthetic mutually exclusive candidate families"
+  }
+}

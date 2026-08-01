@@ -6,6 +6,7 @@ imported during ``import voiage``.
 """
 
 from importlib import import_module
+from typing import TYPE_CHECKING
 
 from .deterministic_sensitivity import (
     DeterministicSensitivityResult,
@@ -21,6 +22,14 @@ from .utility_information import (
     value_of_clairvoyance,
 )
 
+if TYPE_CHECKING:
+    from .distributional_information import (
+        DistributionalInformationResult,
+        ResolvedDistributionModel,
+        distributional_information_from_specification,
+        value_of_distributional_information,
+    )
+
 _MODULES = (
     "adaptive",
     "adaptive_learning_bandit",
@@ -34,6 +43,7 @@ _MODULES = (
     "computational",
     "data_quality",
     "distributional",
+    "distributional_information",
     "dominance",
     "dynamic_real_options",
     "deterministic_sensitivity",
@@ -86,6 +96,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "ComputationalResult",
     "DataQualityResult",
     "DistributionalEquityResult",
+    "DistributionalInformationResult",
     "DominanceResult",
     "DynamicRealOptionsResult",
     "DeterministicSensitivityResult",
@@ -111,6 +122,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "PreferenceProfileSet",
     "RegulatoryMarketAccessResult",
     "ReplicationReproducibilityResult",
+    "ResolvedDistributionModel",
     "StrategicBehaviorResult",
     "ThresholdProfile",
     "ThresholdProfileSet",
@@ -127,6 +139,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "cost_effectiveness_frontier",
     "deterministic_sensitivity",
     "deterministic_sensitivity_from_specification",
+    "distributional_information_from_specification",
     "enbs",
     "evpi",
     "evppi",
@@ -151,6 +164,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "value_of_computational_refinement",
     "value_of_data_quality",
     "value_of_distributional_equity",
+    "value_of_distributional_information",
     "value_of_dynamic_real_options",
     "value_of_flexibility",
     "value_of_equity_information",

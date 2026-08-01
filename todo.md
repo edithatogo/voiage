@@ -48,6 +48,22 @@ This document lists the actionable tasks for `voiage` development. Agents should
         checks, merge, scientific review, Rust/R/Julia execution, stable
         promotion, release and issue closure.
 
+*   [ ] Complete Value of Distribution-Family Information after experimental
+    repository delivery.
+    *   GitHub issue #557; delivery subissues #731–#735; umbrella track
+        `supported_frontier_method_completion_20260723`; PR #736.
+    *   Planned contract: v1.2.0; MoSCoW: Must; canonical requirements M19/M17.
+    *   Experimental Python execution, strict installed schema/CLI, exact
+        fixture, complete ties, signed net VDI, provenance, estimator assurance,
+        independent implementation review and complete changed coverage are
+        present on the branch.
+    *   Keep this discrete-index EVPPI presentation distinct from
+        distributional-equity VOI, full structural EVPI, model-discrimination
+        EVSI and goodness-of-fit/model selection.
+    *   Remaining gates include hosted exact-head assurance, merge, scientific
+        terminology/partition approval, real probability provenance, polyglot
+        parity, stable promotion, release and issue closure.
+
 *   [x] Implement estimation-focused variance-reduction VOI.
     *   Conductor track: `estimation_focused_variance_voi_20260727`.
     *   Planned contract: v1.2.0; MoSCoW: Must; canonical requirements M14/M17.
