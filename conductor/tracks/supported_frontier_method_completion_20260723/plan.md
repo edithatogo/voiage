@@ -276,31 +276,31 @@ covers the experimental frontier entries only.
   checks and hosted exact-head checks; reconcile #556 without claiming stable
   promotion, scientific approval, release, merge or closure. (AC-03–AC-07)
   `4c705ce6`
-- [ ] **G5:** Add failing conformance, reference, property and pathological
+- [x] **G5:** Add failing conformance, reference, property and pathological
   tests, or the corresponding reproducible review protocol. (AC-03)
-- [ ] **G6:** Add versioned schemas, fixtures, diagnostics and provenance
+- [x] **G6:** Add versioned schemas, fixtures, diagnostics and provenance
   contracts required by the accepted scope. (AC-02, AC-03)
-- [ ] **G7:** Record rights, privacy, scientific, practitioner and external
+- [~] **G7:** Record rights, privacy, scientific, practitioner and external
   evidence gates that apply to this workstream. (AC-05, AC-06)
-- [ ] **G8:** Run an independent evidence and boundary review. (AC-03, AC-07)
+- [~] **G8:** Run an independent evidence and boundary review. (AC-03, AC-07)
 
 ## Phase 3 — Delivery or reviewed exclusion
 
-- [ ] **G9:** Implement each accepted repository-owned capability or record a
+- [~] **G9:** Implement each accepted repository-owned capability or record a
   reviewed exclusion with migration guidance. (AC-02, AC-06)
-- [ ] **G10:** Add Rust/Python/R/Julia/Mojo dispositions and installed
+- [~] **G10:** Add Rust/Python/R/Julia/Mojo dispositions and installed
   shared-fixture evidence where executable surfaces are advertised. (AC-04)
-- [ ] **G11:** Add documentation, examples, generated surfaces and capability
+- [x] **G11:** Add documentation, examples, generated surfaces and capability
   discovery that match the evidenced maturity state. (AC-05)
-- [ ] **G12:** Run automated implementation review, focused validation and the
+- [x] **G12:** Run automated implementation review, focused validation and the
   repository harness. (AC-03–AC-07)
 
 ## Phase 4 — Programme and hosted closeout
 
-- [ ] **G13:** Reconcile child-issue results, roadmap, todo, registries,
+- [~] **G13:** Reconcile child-issue results, roadmap, todo, registries,
   v1.2.0 MoSCoW requirements, Mermaid design, canonical C16, release targets
   and remaining external gates. (AC-01, AC-05, AC-06, AC-08, AC-09)
-- [ ] **G14:** Run final full local validation and hosted required checks.
+- [~] **G14:** Run final full local validation and hosted required checks.
   (AC-07)
-- [ ] **G15:** Record repository completion separately from merge, release,
+- [~] **G15:** Record repository completion separately from merge, release,
   publication, registry acceptance and issue closure. (AC-02, AC-07)
