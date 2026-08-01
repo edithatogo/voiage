@@ -291,6 +291,14 @@ covers the experimental frontier entries only.
   A replacement exact-head hosted run remains mandatory before merge.
   `0a7180ed`
 
+- [x] **F598-R3 / #785 — Hosted changed-branch remediation:** Exercise the
+  signed/social CLI's non-object rejection and human-readable output receipt
+  branches without changing runtime behavior or weakening coverage policy. The
+  hosted-equivalent full suite passes with 3627 tests, 94.14 percent aggregate
+  coverage, 444/444 changed executable lines and 198/198 changed branches. A
+  replacement exact-head hosted run remains mandatory before merge.
+  `7d68ce19`
+
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for
   #559 Value of Flexibility. (AC-03) `6fd474b1`
