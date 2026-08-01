@@ -1,0 +1,160 @@
+{
+  "analysis_id": "infeasible-induced-recourse",
+  "analysis_type": "uncertainty_modelling_value_result",
+  "assurance": {
+    "candidate_space_complete": true,
+    "deterministic_candidates_evaluated": 3,
+    "deterministic_serialization": true,
+    "feasibility_tolerance": 1e-12,
+    "feasible_policies": 2,
+    "infeasible_policies": 1,
+    "information_acquisition_modelled": false,
+    "information_acquisition_separate_from_uncertainty_modelling": true,
+    "model_revision": "finite-policy-reference-v1",
+    "nonanticipativity_representation": "one_decision_per_shared_history",
+    "objective_bound": 8.0,
+    "objective_bound_tolerance": 1e-12,
+    "optimality_gap": 0.0,
+    "policies_evaluated": 3,
+    "recourse_feasibility_checked": true,
+    "solver_type": "exact_enumeration",
+    "states_evaluated": 2
+  },
+  "decomposition": {
+    "eviu": null,
+    "eviu_comparator": "declared_point_estimate_ev_solution",
+    "eviu_equals_vss_under_v1_contract": true,
+    "evpi": 3.0,
+    "identity_status": "not_estimable_infeasible_eev",
+    "vss": null
+  },
+  "expected_result_of_ev_solution": {
+    "infeasible_states": [
+      "high"
+    ],
+    "status": "infeasible_recourse",
+    "value": null
+  },
+  "expected_value_problem": {
+    "candidate_tie": [
+      "risky-at-mean"
+    ],
+    "candidate_values": {
+      "balanced-at-mean": 8.2,
+      "risky-at-mean": 4.0,
+      "safe-at-mean": 8.0
+    },
+    "induced_policy_id": "risky-policy",
+    "point_objective_value": 4.0,
+    "selected_candidate_id": "risky-at-mean",
+    "selected_first_stage_decision": "lean-capacity"
+  },
+  "language_dispositions": {
+    "julia": "not_implemented",
+    "mojo": "external_upstream_boundary",
+    "python": "experimental_exact_finite_execution",
+    "r": "not_implemented",
+    "rust": "not_implemented"
+  },
+  "method_maturity": "experimental",
+  "objective": {
+    "direction": "minimize",
+    "discount_basis": "already discounted to stage zero",
+    "horizon_basis": "two stages",
+    "population_basis": "one governed decision cohort",
+    "risk_criterion": "expected_value",
+    "value_unit": "discounted-cost-units"
+  },
+  "point_estimate": {
+    "deterministic_model_revision": "nonlinear-cost-at-mean-v1",
+    "functional": "expectation",
+    "parameter_unit": "demand-units",
+    "value": 5.0
+  },
+  "policy_audit": [
+    {
+      "expected_value": 8.5,
+      "feasible_all_states": true,
+      "first_stage_decision": "balanced-capacity",
+      "history_decisions": [
+        {
+          "decision": "balanced-recourse",
+          "history_id": "unresolved"
+        }
+      ],
+      "infeasible_states": [],
+      "policy_id": "balanced-policy"
+    },
+    {
+      "expected_value": null,
+      "feasible_all_states": false,
+      "first_stage_decision": "lean-capacity",
+      "history_decisions": [
+        {
+          "decision": "expedite-if-needed",
+          "history_id": "unresolved"
+        }
+      ],
+      "infeasible_states": [
+        "high"
+      ],
+      "policy_id": "risky-policy"
+    },
+    {
+      "expected_value": 8.0,
+      "feasible_all_states": true,
+      "first_stage_decision": "safe-capacity",
+      "history_decisions": [
+        {
+          "decision": "standard-recourse",
+          "history_id": "unresolved"
+        }
+      ],
+      "infeasible_states": [],
+      "policy_id": "safe-policy"
+    }
+  ],
+  "provenance": {
+    "independent_reference": "hand-calculated EEV 9, RP 8, WS 5",
+    "policy_generator": "independent complete finite enumeration",
+    "scenario_source": "synthetic nonlinear point-estimate counterexample",
+    "software_version": "1.3.0-planned"
+  },
+  "recourse_problem": {
+    "policy_tie": [
+      "safe-policy"
+    ],
+    "selected_policy_id": "safe-policy",
+    "value": 8.0
+  },
+  "schema_version": "1.0.0",
+  "unsupported_dispositions": {
+    "approximate_or_external_solvers": "not_supported_in_v1",
+    "dvss": "deferred_pending_separate_multistage_reference_contract",
+    "risk_criteria_beyond_expected_value": "not_supported_in_v1",
+    "vms": "deferred_pending_separate_multistage_reference_contract"
+  },
+  "wait_and_see": {
+    "state_solutions": [
+      {
+        "objective_value": 8.0,
+        "policy_tie": [
+          "safe-policy"
+        ],
+        "probability": 0.5,
+        "selected_policy_id": "safe-policy",
+        "state_id": "high"
+      },
+      {
+        "objective_value": 2.0,
+        "policy_tie": [
+          "risky-policy"
+        ],
+        "probability": 0.5,
+        "selected_policy_id": "risky-policy",
+        "state_id": "low"
+      }
+    ],
+    "value": 5.0
+  }
+}

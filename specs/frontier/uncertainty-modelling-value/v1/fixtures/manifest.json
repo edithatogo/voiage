@@ -1,0 +1,29 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "method": "value_of_uncertainty_modelling",
+  "authority": "independent finite policy-table enumeration and pathology mutations",
+  "normative": [
+    {"name": "two-stage-nonlinear-point-estimate", "input_artifact": "normative/two-stage-nonlinear-input.json", "expected_output_artifact": "normative/two-stage-nonlinear-expected.json"},
+    {"name": "three-stage-maximization", "input_artifact": "normative/multistage-input.json", "expected_output_artifact": "normative/multistage-expected.json"},
+    {"name": "infeasible-induced-recourse", "input_artifact": "normative/infeasible-recourse-input.json", "expected_output_artifact": "normative/infeasible-recourse-expected.json"}
+  ],
+  "pathologies": [
+    "cases/nonpartition-history.json",
+    "cases/nonfinite-objective.json",
+    "cases/no-relatively-complete-recourse.json"
+  ],
+  "files": [
+    {"path": "normative/two-stage-nonlinear-input.json", "sha256": "5467f3216c5ccf09c6773fc58899059d85c99d2ab6fead59efec0c142998cb40"},
+    {"path": "normative/two-stage-nonlinear-expected.json", "sha256": "583ae70e0278d0e55521a651572b00fa712a31650a3ef7228fe595901da5eb9c"},
+    {"path": "normative/multistage-input.json", "sha256": "bc0490c3480cc328a91e9c6899e5bd7a4ce4a9751729f75b9fc4011607a7aec9"},
+    {"path": "normative/multistage-expected.json", "sha256": "d5d658825545358dba5e1528291bdf884355f43338e55cee3580d12b296fbdfa"},
+    {"path": "normative/infeasible-recourse-input.json", "sha256": "1e03db05d089261b8fb1596c8c7ec380954ca4ddb6254ad4df651ad9ef69b3e9"},
+    {"path": "normative/infeasible-recourse-expected.json", "sha256": "9c879ed7899865641d249e8db6572879691bb69847cc77d741293ddfd04649ec"},
+    {"path": "cases/nonpartition-history.json", "sha256": "c6fbbce82e0b98e227202c88bfaef5ff8ec0050d9c20d915d118b6ac7d089208"},
+    {"path": "cases/nonfinite-objective.json", "sha256": "c294338d4ef7c534f17d428ea7612bc22fc8f60da6bbd1812a7b5f2f92f1dee1"},
+    {"path": "cases/no-relatively-complete-recourse.json", "sha256": "e49d0c3dff5a34770ea3890ed09b3a79d089b13ddbb19b39497edae9bdaa4cca"},
+    {"path": "../schemas/input.schema.json", "sha256": "cc9b0e8af9d196ec07dd909cfb3c16e1bc4addab21a0d4b60b31e74bdb40aa13"},
+    {"path": "../schemas/result.schema.json", "sha256": "9e24536dac596cd505e34d464f210e532cf0907e1f45cfd9b8754044f230ed3a"}
+  ]
+}

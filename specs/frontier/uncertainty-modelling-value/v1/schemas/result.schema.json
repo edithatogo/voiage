@@ -1,0 +1,567 @@
+{
+  "$id": "https://voiage.dev/schemas/frontier/uncertainty-modelling-value-result.v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+      "type": "string"
+    },
+    "analysis_type": {
+      "const": "uncertainty_modelling_value_result"
+    },
+    "assurance": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_space_complete": {
+          "const": true
+        },
+        "deterministic_candidates_evaluated": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "deterministic_serialization": {
+          "const": true
+        },
+        "feasibility_tolerance": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "feasible_policies": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "infeasible_policies": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "information_acquisition_modelled": {
+          "const": false
+        },
+        "information_acquisition_separate_from_uncertainty_modelling": {
+          "const": true
+        },
+        "model_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "nonanticipativity_representation": {
+          "const": "one_decision_per_shared_history"
+        },
+        "objective_bound": {
+          "type": "number"
+        },
+        "objective_bound_tolerance": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "optimality_gap": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "policies_evaluated": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "recourse_feasibility_checked": {
+          "const": true
+        },
+        "solver_type": {
+          "const": "exact_enumeration"
+        },
+        "states_evaluated": {
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "solver_type",
+        "candidate_space_complete",
+        "objective_bound_tolerance",
+        "feasibility_tolerance",
+        "model_revision",
+        "states_evaluated",
+        "policies_evaluated",
+        "deterministic_candidates_evaluated",
+        "nonanticipativity_representation",
+        "recourse_feasibility_checked",
+        "information_acquisition_modelled",
+        "information_acquisition_separate_from_uncertainty_modelling",
+        "deterministic_serialization",
+        "objective_bound",
+        "optimality_gap",
+        "feasible_policies",
+        "infeasible_policies"
+      ],
+      "type": "object"
+    },
+    "decomposition": {
+      "additionalProperties": false,
+      "properties": {
+        "eviu": {
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "eviu_comparator": {
+          "const": "declared_point_estimate_ev_solution"
+        },
+        "eviu_equals_vss_under_v1_contract": {
+          "const": true
+        },
+        "evpi": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "identity_status": {
+          "enum": [
+            "verified",
+            "not_estimable_infeasible_eev"
+          ]
+        },
+        "vss": {
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "vss",
+        "eviu",
+        "evpi",
+        "eviu_comparator",
+        "eviu_equals_vss_under_v1_contract",
+        "identity_status"
+      ],
+      "type": "object"
+    },
+    "expected_result_of_ev_solution": {
+      "additionalProperties": false,
+      "properties": {
+        "infeasible_states": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "status": {
+          "enum": [
+            "feasible",
+            "infeasible_recourse"
+          ]
+        },
+        "value": {
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "value",
+        "infeasible_states"
+      ],
+      "type": "object"
+    },
+    "expected_value_problem": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_tie": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "candidate_values": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "minProperties": 1,
+          "type": "object"
+        },
+        "induced_policy_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+          "type": "string"
+        },
+        "point_objective_value": {
+          "type": "number"
+        },
+        "selected_candidate_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+          "type": "string"
+        },
+        "selected_first_stage_decision": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "candidate_values",
+        "candidate_tie",
+        "selected_candidate_id",
+        "selected_first_stage_decision",
+        "point_objective_value",
+        "induced_policy_id"
+      ],
+      "type": "object"
+    },
+    "language_dispositions": {
+      "additionalProperties": false,
+      "properties": {
+        "julia": {
+          "const": "not_implemented"
+        },
+        "mojo": {
+          "const": "external_upstream_boundary"
+        },
+        "python": {
+          "const": "experimental_exact_finite_execution"
+        },
+        "r": {
+          "const": "not_implemented"
+        },
+        "rust": {
+          "const": "not_implemented"
+        }
+      },
+      "required": [
+        "python",
+        "rust",
+        "r",
+        "julia",
+        "mojo"
+      ],
+      "type": "object"
+    },
+    "method_maturity": {
+      "const": "experimental"
+    },
+    "objective": {
+      "additionalProperties": false,
+      "properties": {
+        "direction": {
+          "enum": [
+            "minimize",
+            "maximize"
+          ]
+        },
+        "discount_basis": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "horizon_basis": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "population_basis": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "risk_criterion": {
+          "const": "expected_value"
+        },
+        "value_unit": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "direction",
+        "value_unit",
+        "population_basis",
+        "horizon_basis",
+        "discount_basis",
+        "risk_criterion"
+      ],
+      "type": "object"
+    },
+    "point_estimate": {
+      "additionalProperties": false,
+      "properties": {
+        "deterministic_model_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "functional": {
+          "enum": [
+            "expectation",
+            "median",
+            "declared_custom"
+          ]
+        },
+        "parameter_unit": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "functional",
+        "parameter_unit",
+        "value",
+        "deterministic_model_revision"
+      ],
+      "type": "object"
+    },
+    "policy_audit": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "expected_value": {
+            "oneOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "feasible_all_states": {
+            "type": "boolean"
+          },
+          "first_stage_decision": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "history_decisions": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "decision": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "history_id": {
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "history_id",
+                "decision"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "infeasible_states": {
+            "items": {
+              "minLength": 1,
+              "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "policy_id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "policy_id",
+          "first_stage_decision",
+          "history_decisions",
+          "expected_value",
+          "feasible_all_states",
+          "infeasible_states"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "independent_reference": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "policy_generator": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "scenario_source": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "software_version": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "scenario_source",
+        "policy_generator",
+        "independent_reference",
+        "software_version"
+      ],
+      "type": "object"
+    },
+    "recourse_problem": {
+      "additionalProperties": false,
+      "properties": {
+        "policy_tie": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "selected_policy_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "value",
+        "policy_tie",
+        "selected_policy_id"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "unsupported_dispositions": {
+      "additionalProperties": false,
+      "properties": {
+        "approximate_or_external_solvers": {
+          "const": "not_supported_in_v1"
+        },
+        "dvss": {
+          "const": "deferred_pending_separate_multistage_reference_contract"
+        },
+        "risk_criteria_beyond_expected_value": {
+          "const": "not_supported_in_v1"
+        },
+        "vms": {
+          "const": "deferred_pending_separate_multistage_reference_contract"
+        }
+      },
+      "required": [
+        "dvss",
+        "vms",
+        "approximate_or_external_solvers",
+        "risk_criteria_beyond_expected_value"
+      ],
+      "type": "object"
+    },
+    "wait_and_see": {
+      "additionalProperties": false,
+      "properties": {
+        "state_solutions": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "objective_value": {
+                "type": "number"
+              },
+              "policy_tie": {
+                "items": {
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "probability": {
+                "exclusiveMinimum": 0,
+                "maximum": 1,
+                "type": "number"
+              },
+              "selected_policy_id": {
+                "minLength": 1,
+                "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                "type": "string"
+              },
+              "state_id": {
+                "minLength": 1,
+                "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "state_id",
+              "probability",
+              "policy_tie",
+              "selected_policy_id",
+              "objective_value"
+            ],
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "value",
+        "state_solutions"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "analysis_id",
+    "analysis_type",
+    "method_maturity",
+    "objective",
+    "point_estimate",
+    "expected_value_problem",
+    "expected_result_of_ev_solution",
+    "recourse_problem",
+    "wait_and_see",
+    "decomposition",
+    "policy_audit",
+    "assurance",
+    "language_dispositions",
+    "unsupported_dispositions",
+    "provenance"
+  ],
+  "title": "UncertaintyModellingValueResultV1Experimental",
+  "type": "object"
+}

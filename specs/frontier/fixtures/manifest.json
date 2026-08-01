@@ -168,6 +168,11 @@
       "name": "study_design_efficiency",
       "path": "study-design-efficiency/v1/fixtures/manifest.json",
       "method_maturity": "fixture-backed"
+    },
+    {
+      "name": "value_of_uncertainty_modelling",
+      "path": "uncertainty-modelling-value/v1/fixtures/manifest.json",
+      "method_maturity": "fixture-backed"
     }
   ],
   "notes": [
