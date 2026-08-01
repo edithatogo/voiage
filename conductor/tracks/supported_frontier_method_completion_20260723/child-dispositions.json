@@ -258,7 +258,7 @@
       "record_id": "signed-social-information-value",
       "issue_state": "open",
       "project_status": "In Progress",
-      "disposition": "experimental_branch",
+      "disposition": "experimental_merged",
       "maturity": "experimental",
       "satisfies_ac06": true,
       "delivery_track": "supported_frontier_method_completion_20260723",
