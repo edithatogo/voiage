@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-07-31T16:50:00Z",
+  "generated_at": "2026-08-01T05:30:00Z",
   "repository": "edithatogo/voiage",
   "project_url": "https://github.com/users/edithatogo/projects/28",
   "association_policy": "PRs are included only when associated with commits recorded by a track, Git history for its path, or an explicit track reference. Empty completed-track lists are none_found, not inferred.",
@@ -4078,7 +4078,7 @@
         {
           "number": 715,
           "url": "https://github.com/edithatogo/voiage/pull/715",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "69b330083c702ad3dd62c9c9f1c623237d23d4c6",
             "70bdf78dd241a5f7b06febc8004e890fb5753b2f"
@@ -4087,7 +4087,7 @@
         {
           "number": 716,
           "url": "https://github.com/edithatogo/voiage/pull/716",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "002ca00bb03eda67253789e1b258e09b050630eb",
             "8e08b1ce0f26e8540c2b0eea9eda71813222cc6b"
@@ -4096,11 +4096,29 @@
         {
           "number": 719,
           "url": "https://github.com/edithatogo/voiage/pull/719",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "fc393d67dca9f47893290eafe6dc08b056b7e08c",
             "7127a5470b20d971d13c60f8158d1d56bcff8f0f"
           ]
+        },
+        {
+          "number": 721,
+          "url": "https://github.com/edithatogo/voiage/pull/721",
+          "status": "merged",
+          "evidence": ["53eabb8583dff1645a91cdb3591f37930d6724b8"]
+        },
+        {
+          "number": 751,
+          "url": "https://github.com/edithatogo/voiage/pull/751",
+          "status": "merged",
+          "evidence": ["e8aaba82848819e8aff2779356d95a01b3d376c7"]
+        },
+        {
+          "number": 754,
+          "url": "https://github.com/edithatogo/voiage/pull/754",
+          "status": "merged",
+          "evidence": ["4919e8b94e1fd6ba7a04bf36808265975b2ed792"]
         }
       ],
       "pull_request_evidence": "evidenced",

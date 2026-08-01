@@ -457,3 +457,14 @@ acceptance boundaries still prohibit final review or archive.
   is now appendable without rewriting historical claims.
 - Publication, external submission, authenticated dataset access, and
   relaxation of security or quality gates are not authorized by this plan.
+
+### Additive reconciliation update — 2026-08-01
+
+`p10-reconciliation-20260801.md` records exact merge commits and successful
+hosted checks for PRs #716, #719, #721, #751, and #754. Under the approved
+strict-local boundary, retained provider, conformance, security-policy,
+SDK/DataFrame, and worked-example criteria are repository-backed. General
+remote/archive/live interoperability and remote-ingestion security are
+successor scope in #752 and #753 and remain externally gated there. P10-T4 is
+the only remaining task for this track: final review, metadata/registry update,
+and archive decision.
