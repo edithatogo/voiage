@@ -444,7 +444,7 @@ covers the experimental frontier entries only.
   tied-optimum and selection-uncertainty availability states in accessible COSS
   plots, with under/over-tolerance and rendering regressions. Fresh independent
   re-review is recorded in `study-design-efficiency-independent-review-20260802.md`.
-  (AC-03, AC-07)
+  (AC-03, AC-07) `b0078969`
 
 ## Phase 3 — Delivery or reviewed exclusion
 

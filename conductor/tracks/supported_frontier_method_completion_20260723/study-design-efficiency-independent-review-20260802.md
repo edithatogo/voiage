@@ -8,10 +8,12 @@ exact head `ce5d712779897bdd7d398e367de6a7e0bc743692`, squash merge
 `5d059a80447afc85cee63eb85971fc1c9e80f40c`, and their byte-identical tree
 `3d7f52423d8135cec7366fea545bc4a4c463505a`.
 
-The remediation re-review covered branch base
-`5665b3e35b70c991954472a000634931080b2aeb` plus the current merge-resolution
-working tree. Its exact immutable commit binding is recorded by the subsequent
-umbrella evidence receipt after the signed merge commit.
+The remediation re-review is bound to signed merge commit
+`b007896912528d478db4de4b8430533422a35f72`, tree
+`59a5c4f6bab3e24a0438188d41c2f4deab616e84`, with parents
+`5665b3e35b70c991954472a000634931080b2aeb` and
+`366186b358abd775bea5fd2440d7e0ececb3ebaa`. Git reported a valid signature
+for Dylan Mordaunt, and the worktree was clean at that exact commit.
 
 ## Initial findings
 
@@ -37,9 +39,9 @@ state whether selection uncertainty is unavailable or available with its
 declared method. An analytic two-way tie reproduced labels `Tied optima (a, b)`
 and `Selection uncertainty available (analytic)`.
 
-The independent re-review passed 81 focused Python tests and Ruff. Final
-working-tree verdict: zero Critical, zero High and zero Medium findings. The
-reviewer made no edits.
+The independent exact-tree re-review passed 81 focused Python tests and Ruff.
+Final verdict: zero Critical, zero High and zero Medium findings. The reviewer
+made no edits.
 
 ## Retained boundaries
 

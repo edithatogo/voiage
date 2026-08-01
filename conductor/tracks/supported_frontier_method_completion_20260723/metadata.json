@@ -285,7 +285,7 @@
       "id": "independent-engineering-review",
       "kind": "repository_evidence",
       "status": "satisfied",
-      "evidence": "g5-g13-evidence-map.json maps all 18 families to independent reference or implementation review. #571, #595 and #619 have exact review artifacts with no remaining Critical, High or Medium findings. This does not satisfy scientific, design or classification review."
+      "evidence": "g5-g13-evidence-map.json maps all 18 families to independent reference or implementation review. #571 exact signed merge b007896912528d478db4de4b8430533422a35f72, #595's phase reviews and #619 exact remediation review have no remaining Critical, High or Medium findings. This does not satisfy scientific, design or classification review."
     },
     {
       "id": "stage-one-repository-reconciliation",
