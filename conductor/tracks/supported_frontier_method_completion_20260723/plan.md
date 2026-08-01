@@ -416,13 +416,16 @@ covers the experimental frontier entries only.
   checks and hosted exact-head checks; reconcile #556 without claiming stable
   promotion, scientific approval, release, merge or closure. (AC-03–AC-07)
   `4c705ce6`
-- [ ] **G5:** Add failing conformance, reference, property and pathological
-  tests, or the corresponding reproducible review protocol. (AC-03)
-- [ ] **G6:** Add versioned schemas, fixtures, diagnostics and provenance
-  contracts required by the accepted scope. (AC-02, AC-03)
-- [ ] **G7:** Record rights, privacy, scientific, practitioner and external
-  evidence gates that apply to this workstream. (AC-05, AC-06)
-- [ ] **G8:** Run an independent evidence and boundary review. (AC-03, AC-07)
+- [x] **G5:** Map each accepted family to its conformance, reference, property
+  and pathological tests or reproducible review protocol in
+  `g5-g13-evidence-map.json`. (AC-03) `786b5229`
+- [x] **G6:** Map each family to its versioned schemas, fixtures, diagnostics
+  and provenance contracts. (AC-02, AC-03) `786b5229`
+- [x] **G7:** Record the rights, privacy, scientific, practitioner and external
+  gates without promoting repository evidence into external approval.
+  (AC-05, AC-06) `786b5229`
+- [x] **G8:** Reconcile the existing independent evidence and boundary-review
+  artifacts for all 18 live families. (AC-03, AC-07) `786b5229`
 
 ## Phase 3 — Delivery or reviewed exclusion
 
@@ -487,20 +490,27 @@ covers the experimental frontier entries only.
   the bounded repository delivery. (AC-03–AC-07)
   `belief-state-information-fifth-review.md`
 
-- [ ] **G9:** Implement each accepted repository-owned capability or record a
-  reviewed exclusion with migration guidance. (AC-02, AC-06)
-- [ ] **G10:** Add Rust/Python/R/Julia/Mojo dispositions and installed
-  shared-fixture evidence where executable surfaces are advertised. (AC-04)
-- [ ] **G11:** Add documentation, examples, generated surfaces and capability
-  discovery that match the evidenced maturity state. (AC-05)
-- [ ] **G12:** Run automated implementation review, focused validation and the
-  repository harness. (AC-03–AC-07)
+- [x] **G9:** Evidence-map every accepted repository-owned capability to its
+  merged experimental delivery; no reviewed exclusion or stable claim is
+  introduced. (AC-02, AC-06) `786b5229`
+- [x] **G10:** Map the explicit Rust/Python/R/Julia/Mojo or binding disposition
+  artifact for each family; native parity and installed shared-fixture
+  evidence remain later gates. (AC-04) `786b5229`
+- [x] **G11:** Map documentation, examples, generated surfaces and capability
+  discovery to the experimental maturity state. (AC-05) `786b5229`
+- [x] **G12:** Reconcile existing automated implementation reviews and focused,
+  repository-harness and hosted delivery receipts; G14 remains the fresh
+  exact-head programme check. (AC-03–AC-07) `786b5229`
 
 ## Phase 4 — Programme and hosted closeout
 
-- [ ] **G13:** Reconcile child-issue results, roadmap, todo, registries,
-  v1.2.0 MoSCoW requirements, Mermaid design, canonical C16, release targets
-  and remaining external gates. (AC-01, AC-05, AC-06, AC-08, AC-09)
+- [x] **G13:** Reconcile all 18 live child issue states and merged dispositions
+  at source revision `69b00d0f`; refresh roadmap, todo, registries, existing
+  v1.2.0/v1.3.0 MoSCoW and Mermaid mappings, canonical C16/C17/C18 governance,
+  release targets and remaining external gates. Record Project-normalization
+  eligibility for closed #558 and #724–#728/#731–#735/#738–#742 without
+  mutating GitHub or Project 28. (AC-01, AC-05, AC-06, AC-08, AC-09)
+  `786b5229`
 - [ ] **G14:** Run final full local validation and hosted required checks.
   (AC-07)
 - [ ] **G15:** Record repository completion separately from merge, release,
