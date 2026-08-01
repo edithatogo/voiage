@@ -68,6 +68,14 @@ _EXTENSION_EXPORTS = {
         ".methods.forecast_signal_information",
         "forecast_signal_information_value",
     ),
+    "RiskSensitiveVoiResult": (
+        ".methods.risk_sensitive_voi",
+        "RiskSensitiveVoiResult",
+    ),
+    "risk_sensitive_constrained_voi": (
+        ".methods.risk_sensitive_voi",
+        "risk_sensitive_constrained_voi",
+    ),
     "InformationSourcePortfolioResult": (
         ".methods.information_source_portfolio",
         "InformationSourcePortfolioResult",

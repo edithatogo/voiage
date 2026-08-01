@@ -415,7 +415,11 @@ def test_c18_m23_and_native_delivery_subissues_are_governed() -> None:
 
     assert "M23 / planned v1.3.0" in requirements
     assert "C18 governed forecast-signal decision value" in requirements
-    assert set(metadata["planned_version_extensions"]["1.3.0"]) == {"M21", "M23"}
+    assert set(metadata["planned_version_extensions"]["1.3.0"]) == {
+        "M21",
+        "M22",
+        "M23",
+    }
     assert "M23" in metadata["requirement_ids"]
     assert expected_issues <= set(metadata["github_subissues"])
     assert expected_issues <= set(cross_reference["subissues"])

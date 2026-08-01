@@ -63,6 +63,16 @@ programme. The canonical cross-repository requirements are maintained in
   complete ties, conditioning/provenance, gross and signed net VDI, and exact
   estimator assurance; it is a discrete-index EVPPI presentation rather than
   full structural EVPI or model-discrimination EVSI.
+- **M22 / planned v1.3.0:** #570 compares matched current and
+  post-information feasible policy problems under one declared expected-value,
+  expected-utility, lower-tail CVaR/expected-shortfall or minimax-regret
+  functional. It fixes objective direction/units, state probabilities,
+  deterministic or chance-constrained budget, capacity, eligibility, fairness,
+  regulation, carbon, liquidity and service-level semantics, and information
+  cost placement across both problems. Results retain complete ties,
+  infeasibility, current/informed policies, gross/net value, switches,
+  risk/constraint diagnostics and constraint-removal evidence without
+  mislabelling discrete removal effects as local shadow prices.
 
 ### Should have
 
@@ -134,4 +144,5 @@ programme. The canonical cross-repository requirements are maintained in
 | v1.2.0 | Must | M19 | governed distribution-family information value | #557 under #318 |
 | v1.3.0 | Should | M20 | governed portable qualitative-VOI assessment workflow | #558 and #738–#742 under #318 |
 | v1.3.0 | Should | M21 | governed additive MCDA information value | #560 and #746–#750 under #318 |
+| v1.3.0 | Must | M22 | governed risk-sensitive constrained information value | #570 and #757/#758/#761 under #318 |
 | v1.3.0 | Should | M23 | C18 governed forecast-signal decision value | #572 and #759/#760/#762 under #318 |

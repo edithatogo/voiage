@@ -70,6 +70,11 @@
       "method_maturity": "experimental"
     },
     {
+      "name": "risk_sensitive_constrained_perfect_information",
+      "path": "risk-sensitive-constrained-voi/v1/fixtures/manifest.json",
+      "method_maturity": "experimental"
+    },
+    {
       "name": "information_source_portfolio_value",
       "path": "information-source-portfolio/v1/fixtures/manifest.json",
       "method_maturity": "experimental"

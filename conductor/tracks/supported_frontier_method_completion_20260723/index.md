@@ -28,6 +28,7 @@
 - [Value of Flexibility implementation review](./value-of-flexibility-implementation-review.md)
 - [MCDA information reference review](./mcda-information-reference-review.md)
 - [MCDA information implementation review](./mcda-information-implementation-review.md)
+- [Risk-sensitive constrained VOI implementation review](./risk-sensitive-constrained-voi-implementation-review.md)
 - [GitHub issue #560](https://github.com/edithatogo/voiage/issues/560)
 - [MCDA delivery subissues #746–#750](https://github.com/edithatogo/voiage/issues/560)
 - [Forecast-signal issue #572](https://github.com/edithatogo/voiage/issues/572)

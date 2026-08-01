@@ -74,6 +74,15 @@
           ]
         },
         {
+          "number": 769,
+          "url": "https://github.com/edithatogo/voiage/pull/769",
+          "status": "open",
+          "evidence": [
+            "risk-sensitive-experimental-delivery",
+            "hosted-exact-head-pending"
+          ]
+        },
+        {
           "number": 51,
           "url": "https://github.com/edithatogo/vop_poc_nz/pull/51",
           "status": "merged",
@@ -84,7 +93,7 @@
         {
           "number": 64,
           "url": "https://github.com/edithatogo/vop_poc_nz/pull/64",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "canonical-sync-proposal"
           ]
@@ -92,7 +101,7 @@
         {
           "number": 65,
           "url": "https://github.com/edithatogo/vop_poc_nz/pull/65",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "canonical-sync-proposal"
           ]
@@ -100,7 +109,7 @@
         {
           "number": 66,
           "url": "https://github.com/edithatogo/vop_poc_nz/pull/66",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "canonical-sync-proposal"
           ]
@@ -244,7 +253,10 @@
         "https://github.com/edithatogo/voiage/issues/598",
         "https://github.com/edithatogo/voiage/issues/599",
         "https://github.com/edithatogo/voiage/issues/600",
-        "https://github.com/edithatogo/voiage/issues/619"
+        "https://github.com/edithatogo/voiage/issues/619",
+        "https://github.com/edithatogo/voiage/issues/757",
+        "https://github.com/edithatogo/voiage/issues/758",
+        "https://github.com/edithatogo/voiage/issues/761"
       ],
       "pull_requests": [
         {
@@ -328,6 +340,22 @@
           "status": "merged",
           "evidence": [
             "canonical-c17-projection"
+          ]
+        },
+        {
+          "number": 69,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/69",
+          "status": "merged",
+          "evidence": [
+            "canonical-c18-m22-governance"
+          ]
+        },
+        {
+          "number": 70,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/70",
+          "status": "merged",
+          "evidence": [
+            "canonical-c18-moscow-correction"
           ]
         },
         {
