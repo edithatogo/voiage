@@ -1,6 +1,7 @@
 {
   "schema_version": "uncertainty-modelling-value-capabilities-v1",
   "method_maturity": "experimental",
+  "python_modules": ["voiage/methods/uncertainty_modelling_value.py"],
   "execution": {"python": "exact-finite", "rust": false, "r": false, "julia": false, "mojo": "external"},
   "supported": ["EVIU", "VSS", "EEV", "recourse-problem", "wait-and-see", "EVPI", "two-stage", "multistage-explicit-policy-tree", "minimize", "maximize", "infeasible-induced-recourse"],
   "deferred": ["DVSS", "VMS", "approximate-solvers", "external-solvers", "risk-criteria-beyond-expected-value", "information-acquisition"]
