@@ -15,6 +15,10 @@
   pandas slices, typed zero-row inputs, and no-column producers while
   preserving the single Arrow-backed preparation path and diagnostics.
 
+- Add an executable standardized-ingestion support matrix tied to current
+  provider capabilities, supported Python versions, dependency-neutral extras,
+  and local source-policy/workflow evidence boundaries.
+
 - Add experimental deterministic sensitivity and scenario analysis with an
   exact installed-wheel request contract, complete ties and switch brackets,
   normalized-record CLI, accessible evaluated-grid tornado plot, and explicit
