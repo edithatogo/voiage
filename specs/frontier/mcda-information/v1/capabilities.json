@@ -42,7 +42,7 @@
   ],
   "remaining_gates": [
     "independent scientific review",
-    "hosted exact-head and installed-wheel assurance",
+    "Rust, R and Julia shared-fixture parity",
     "stable promotion, release and parent issue closure"
   ]
 }
