@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Add experimental exact finite forecast-signal decision value with declared
+  horizon, freshness, latency, lead time, feasible actions and costs; separate
+  oracle and deployed value, calibration loss, regret avoided and maximum
+  price; and expose strict Python, CLI, schema and fixture surfaces. Forecast
+  training, stable promotion and polyglot parity remain gated.
+
 - Add experimental exact finite additive MCDA perfect-information value with
   fixed ex-ante normalization, correlated criterion/preference states,
   criterion/preference/joint decomposition, complete ties, regret,

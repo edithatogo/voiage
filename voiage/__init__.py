@@ -60,6 +60,14 @@ _ECOSYSTEM_EXPORTS = {
     "load_heoml_run_bundle": "load_heoml_run_bundle",
 }
 _EXTENSION_EXPORTS = {
+    "ForecastSignalInformationResult": (
+        ".methods.forecast_signal_information",
+        "ForecastSignalInformationResult",
+    ),
+    "forecast_signal_information_value": (
+        ".methods.forecast_signal_information",
+        "forecast_signal_information_value",
+    ),
     "McdaInformationResult": (
         ".methods.mcda_information",
         "McdaInformationResult",

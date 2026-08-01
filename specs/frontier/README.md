@@ -19,6 +19,8 @@ registry used to keep them aligned.
 - `mcda-information/`: experimental exact finite additive-MCDA
   perfect-information contracts, correlated-state fixtures, Python/CLI
   execution, and accessible information-value and rank-acceptability plots.
+- `forecast-signal-information/`: experimental exact finite decision value for
+  declared probabilistic forecast artifacts, timing, calibration and cost.
 - `validation/`: model-validation and discrepancy-reduction contracts.
 - `threshold/`: threshold, tipping-point, and robust VOI contracts.
 - `dynamic-real-options/`: dynamic real-options VOI contracts.

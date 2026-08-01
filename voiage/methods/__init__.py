@@ -29,6 +29,10 @@ if TYPE_CHECKING:
         distributional_information_from_specification,
         value_of_distributional_information,
     )
+    from .forecast_signal_information import (
+        ForecastSignalInformationResult,
+        forecast_signal_information_value,
+    )
     from .mcda_information import McdaInformationResult, mcda_information_value
     from .qualitative_information import (
         QualitativeInformationResult,
@@ -60,6 +64,7 @@ _MODULES = (
     "expert_synthesis",
     "explainability_transparency",
     "federated_privacy_preserving",
+    "forecast_signal_information",
     "heterogeneity",
     "implementation",
     "implementation_strategy",
@@ -118,6 +123,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "ExpertSynthesisResult",
     "ExplainabilityTransparencyResult",
     "FederatedPrivacyPreservingResult",
+    "ForecastSignalInformationResult",
     "HeterogeneityResult",
     "ImplementationAdjustedResult",
     "ImplementationStrategyComparisonResult",
@@ -158,6 +164,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "evsi",
     "evsi_nma",
     "expected_utility_information_value",
+    "forecast_signal_information_value",
     "identify_optimal_subgroups",
     "mcda_information_value",
     "perspective_optimal_strategies",

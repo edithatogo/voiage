@@ -65,6 +65,11 @@
       "method_maturity": "experimental"
     },
     {
+      "name": "forecast_signal_information_value",
+      "path": "forecast-signal-information/v1/fixtures/manifest.json",
+      "method_maturity": "experimental"
+    },
+    {
       "name": "deterministic_sensitivity_analysis",
       "path": "deterministic-sensitivity-analysis/v1/fixtures/manifest.json",
       "method_maturity": "experimental"
