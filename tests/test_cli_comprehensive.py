@@ -761,6 +761,7 @@ def test_cli_command_registry_matches_expected_surface() -> None:
         "calculate-implementation-information",
         "calculate-information-source-portfolio",
         "calculate-uncertainty-modelling-value",
+        "calculate-signed-social-information",
         "calculate-mcda-information",
         "calculate-observational",
         "calculate-nma-voi",

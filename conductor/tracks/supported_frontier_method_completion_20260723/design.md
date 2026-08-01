@@ -44,6 +44,27 @@ flowchart LR
 
 ## Additive MCDA information value
 
+## Signed and social information value
+
+```mermaid
+flowchart LR
+    Worlds["Complete finite joint-world law"] --> Policies["Nonanticipative finite policies"]
+    Roles["Decision maker + recipient + controller + stakeholders"] --> Designs["Baseline + selective-sharing designs"]
+    Topology["Private, public or team signal topology"] --> Designs
+    Policies --> Designs
+    Designs --> Selector{"Centralized, fixed, declared response or verified finite equilibrium"}
+    Selector --> Ledger["Pre-transfer + transfer + cost + post-transfer ledgers"]
+    Welfare["Declared cardinal comparability + weighted welfare"] --> Ledger
+    Rights["Rights, consent + purpose receipts"] --> Ledger
+    Ledger --> Values["Signed agent, role + social comparator values"]
+    Values --> Diagnostics["Harm + avoidance + switches + winners/losers + externalities"]
+    Diagnostics --> Blackwell{"Aligned verified centralized refinement?"}
+    Blackwell -->|yes| Check["Gross selector value must be nonnegative"]
+    Blackwell -->|no| Reasons["Return theorem-inapplicability reasons"]
+    Check --> Boundary["C18/M29 experimental Python; adjacent strategic methods excluded"]
+    Reasons --> Boundary
+```
+
 ```mermaid
 flowchart LR
     Alternatives["Named alternatives"] --> Kernel["Fixed additive-value kernel"]

@@ -4,6 +4,20 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+*   [ ] Complete signed/social information value after experimental repository delivery.
+    *   GitHub issue #598; native subissues #783–#785; umbrella track
+        `supported_frontier_method_completion_20260723`; phases F598-1–F598-5;
+        canonical C18/M29; planned v1.3.0 Should.
+    *   The local review-ready exact finite Python slice covers named agents and
+        roles, signal topology, nonanticipative centralized/fixed/declared-
+        response/verified-equilibrium catalogs, signed agent/role/social values,
+        selective sharing, full transfer/cost ledgers, rights receipts and
+        harm/avoidance/switch/winner-loser diagnostics without clipping.
+    *   Remaining gates are independent implementation and scientific review,
+        hosted exact-head and installed-wheel assurance, Rust/R/Julia parity,
+        stable promotion, release, subissue and parent closure. Persuasion,
+        mechanism design, rational inattention and general games remain adjacent.
+
 *   [ ] Complete uncertainty-modelling value after experimental repository delivery.
     *   GitHub issue #594; native subissues #774–#776; Conductor track
         `uncertainty_modelling_value_20260801`; canonical C18/M26.

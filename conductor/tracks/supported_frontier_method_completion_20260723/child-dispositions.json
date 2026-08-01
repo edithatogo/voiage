@@ -242,13 +242,15 @@
       "issue": 598,
       "record_id": "signed-social-information-value",
       "issue_state": "open",
-      "project_status": "Todo",
-      "disposition": "adjacent_only",
-      "maturity": "planned",
+      "project_status": "In Progress",
+      "disposition": "contract_in_progress",
+      "maturity": "experimental",
       "satisfies_ac06": false,
       "delivery_track": "supported_frontier_method_completion_20260723",
       "implementation_pull_requests": [],
-      "review_artifacts": [],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/signed-social-information-reference-review.md"
+      ],
       "adjacent_artifacts": ["strategic", "privacy and equity helpers"]
     },
     {

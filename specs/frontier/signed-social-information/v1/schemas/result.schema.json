@@ -1,0 +1,685 @@
+{
+  "$defs": {
+    "blackwell": {
+      "additionalProperties": false,
+      "properties": {
+        "applicable": {
+          "type": "boolean"
+        },
+        "checked_value": {
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "passed": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reasons_not_applicable": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "applicable",
+        "checked_value",
+        "passed",
+        "reasons_not_applicable"
+      ],
+      "type": "object"
+    },
+    "design": {
+      "additionalProperties": false,
+      "properties": {
+        "blackwell_nonnegativity": {
+          "$ref": "#/$defs/blackwell"
+        },
+        "comparator_design_id": {
+          "oneOf": [
+            {
+              "minLength": 1,
+              "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "design_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+          "type": "string"
+        },
+        "equilibrium_receipt": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "solution_concept": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "verification_method": {
+                  "const": "complete_catalog_best_response_check"
+                },
+                "verified_policy_ids": {
+                  "items": {
+                    "minLength": 1,
+                    "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                    "type": "string"
+                  },
+                  "minItems": 1,
+                  "type": "array",
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "solution_concept",
+                "verification_method",
+                "verified_policy_ids"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "feasible": {
+          "type": "boolean"
+        },
+        "infeasibility_reasons": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "ledgers": {
+          "$ref": "#/$defs/ledger"
+        },
+        "policies_evaluated": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "policy_selector_values": {
+          "$ref": "#/$defs/number_map"
+        },
+        "policy_switch": {
+          "type": "boolean"
+        },
+        "policy_tie": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "recipients": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "rights_receipts": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "selected_policy_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+          "type": "string"
+        },
+        "selection_mode": {
+          "enum": [
+            "centralized",
+            "fixed",
+            "declared_response",
+            "verified_finite_equilibrium"
+          ]
+        },
+        "selector": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "signed_values": {
+          "$ref": "#/$defs/signed_values"
+        },
+        "social_post_transfer": {
+          "type": "number"
+        },
+        "social_pre_transfer": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "design_id",
+        "comparator_design_id",
+        "recipients",
+        "selection_mode",
+        "selector",
+        "feasible",
+        "infeasibility_reasons",
+        "policies_evaluated",
+        "policy_selector_values",
+        "policy_tie",
+        "selected_policy_id",
+        "ledgers",
+        "social_pre_transfer",
+        "social_post_transfer",
+        "rights_receipts",
+        "equilibrium_receipt",
+        "signed_values",
+        "policy_switch",
+        "blackwell_nonnegativity"
+      ],
+      "type": "object"
+    },
+    "ledger": {
+      "additionalProperties": false,
+      "properties": {
+        "cost": {
+          "$ref": "#/$defs/number_map"
+        },
+        "post_transfer": {
+          "$ref": "#/$defs/number_map"
+        },
+        "pre_transfer": {
+          "$ref": "#/$defs/number_map"
+        },
+        "transfer": {
+          "$ref": "#/$defs/number_map"
+        }
+      },
+      "required": [
+        "pre_transfer",
+        "transfer",
+        "cost",
+        "post_transfer"
+      ],
+      "type": "object"
+    },
+    "number_map": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "type": "object"
+    },
+    "signed_values": {
+      "additionalProperties": false,
+      "properties": {
+        "by_agent": {
+          "$ref": "#/$defs/number_map"
+        },
+        "by_role": {
+          "$ref": "#/$defs/number_map"
+        },
+        "clipped_at_zero": {
+          "const": false
+        },
+        "comparator_design_id": {
+          "oneOf": [
+            {
+              "minLength": 1,
+              "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "social": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "by_agent",
+        "by_role",
+        "social",
+        "comparator_design_id",
+        "clipped_at_zero"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://voiage.dev/schemas/frontier/signed-social-information-result.v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+      "type": "string"
+    },
+    "analysis_type": {
+      "const": "signed_social_information_value_result"
+    },
+    "assurance": {
+      "additionalProperties": false,
+      "properties": {
+        "complete_joint_world_law": {
+          "const": true
+        },
+        "designs_evaluated": {
+          "minimum": 2,
+          "type": "integer"
+        },
+        "deterministic_serialization": {
+          "const": true
+        },
+        "finite_catalog_only": {
+          "const": true
+        },
+        "general_game_solver_used": {
+          "const": false
+        },
+        "negative_values_clipped": {
+          "const": false
+        },
+        "nonanticipativity": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "policies_evaluated": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "rights_consent_purpose_receipts_checked": {
+          "const": true
+        },
+        "worlds_evaluated": {
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "worlds_evaluated",
+        "policies_evaluated",
+        "designs_evaluated",
+        "complete_joint_world_law",
+        "nonanticipativity",
+        "finite_catalog_only",
+        "general_game_solver_used",
+        "negative_values_clipped",
+        "rights_consent_purpose_receipts_checked",
+        "deterministic_serialization"
+      ],
+      "type": "object"
+    },
+    "baseline": {
+      "$ref": "#/$defs/design"
+    },
+    "designs": {
+      "items": {
+        "$ref": "#/$defs/design"
+      },
+      "minItems": 2,
+      "type": "array"
+    },
+    "diagnostics": {
+      "additionalProperties": false,
+      "properties": {
+        "externality_by_design": {
+          "$ref": "#/$defs/number_map"
+        },
+        "harmful_private_designs": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "information_avoidance": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "agent_id": {
+                "minLength": 1,
+                "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                "type": "string"
+              },
+              "design_id": {
+                "minLength": 1,
+                "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "agent_id",
+              "design_id"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "losers": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "policy_switches": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "winner_loser_design_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+          "type": "string"
+        },
+        "winners": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "winners",
+        "losers",
+        "harmful_private_designs",
+        "information_avoidance",
+        "policy_switches",
+        "winner_loser_design_id",
+        "externality_by_design"
+      ],
+      "type": "object"
+    },
+    "language_dispositions": {
+      "additionalProperties": false,
+      "properties": {
+        "julia": {
+          "const": "not_implemented"
+        },
+        "mojo": {
+          "const": "external_upstream_boundary"
+        },
+        "python": {
+          "const": "experimental_exact_finite_execution"
+        },
+        "r": {
+          "const": "not_implemented"
+        },
+        "rust": {
+          "const": "not_implemented"
+        }
+      },
+      "required": [
+        "python",
+        "rust",
+        "r",
+        "julia",
+        "mojo"
+      ],
+      "type": "object"
+    },
+    "method_maturity": {
+      "const": "experimental"
+    },
+    "optimum": {
+      "additionalProperties": false,
+      "properties": {
+        "design_tie": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "feasible_design_values": {
+          "$ref": "#/$defs/number_map"
+        },
+        "selected_design_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+          "type": "string"
+        },
+        "social_value": {
+          "type": "number"
+        },
+        "tie_policy": {
+          "additionalProperties": false,
+          "properties": {
+            "absolute_tolerance": {
+              "type": "number"
+            },
+            "relative_tolerance": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "absolute_tolerance",
+            "relative_tolerance"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "feasible_design_values",
+        "design_tie",
+        "selected_design_id",
+        "social_value",
+        "tie_policy"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "policy_source": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "rights_source": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "utility_source": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "world_law_source": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "world_law_source",
+        "utility_source",
+        "policy_source",
+        "rights_source"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "topology": {
+      "additionalProperties": false,
+      "properties": {
+        "baseline_recipients": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "controller_agent_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+          "type": "string"
+        },
+        "eligible_recipients": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "information_scope": {
+          "enum": [
+            "private",
+            "public",
+            "team"
+          ]
+        },
+        "signal_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+          "type": "string"
+        },
+        "source_agent_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "signal_id",
+        "source_agent_id",
+        "controller_agent_id",
+        "information_scope",
+        "eligible_recipients",
+        "baseline_recipients"
+      ],
+      "type": "object"
+    },
+    "unsupported_dispositions": {
+      "additionalProperties": false,
+      "properties": {
+        "bayesian_persuasion": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "continuous_or_incomplete_world_laws": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "general_game_solving": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "mechanism_design": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "rational_inattention": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "bayesian_persuasion",
+        "mechanism_design",
+        "rational_inattention",
+        "general_game_solving",
+        "continuous_or_incomplete_world_laws"
+      ],
+      "type": "object"
+    },
+    "value_unit": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "welfare_contract": {
+      "additionalProperties": false,
+      "properties": {
+        "aggregator": {
+          "const": "weighted_sum"
+        },
+        "cardinal_comparability": {
+          "const": "declared"
+        },
+        "ledger_stage": {
+          "enum": [
+            "pre_transfer",
+            "post_transfer"
+          ]
+        },
+        "rationale": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "weights": {
+          "$ref": "#/$defs/number_map"
+        }
+      },
+      "required": [
+        "aggregator",
+        "cardinal_comparability",
+        "ledger_stage",
+        "weights",
+        "rationale"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "analysis_id",
+    "analysis_type",
+    "method_maturity",
+    "value_unit",
+    "welfare_contract",
+    "topology",
+    "baseline",
+    "designs",
+    "optimum",
+    "diagnostics",
+    "assurance",
+    "language_dispositions",
+    "unsupported_dispositions",
+    "provenance"
+  ],
+  "title": "SignedSocialInformationResultV1Experimental",
+  "type": "object"
+}

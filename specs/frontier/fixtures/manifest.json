@@ -188,6 +188,11 @@
       "name": "value_of_uncertainty_modelling",
       "path": "uncertainty-modelling-value/v1/fixtures/manifest.json",
       "method_maturity": "fixture-backed"
+    },
+    {
+      "name": "signed_social_information_value",
+      "path": "signed-social-information/v1/fixtures/manifest.json",
+      "method_maturity": "experimental"
     }
   ],
   "notes": [

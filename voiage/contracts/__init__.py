@@ -87,6 +87,12 @@ from .risk_sensitive_voi import (
     validate_risk_sensitive_voi_result,
     validate_risk_sensitive_voi_semantics,
 )
+from .signed_social_information import (
+    SIGNED_SOCIAL_INFORMATION_INPUT_SCHEMA_V1,
+    SIGNED_SOCIAL_INFORMATION_RESULT_SCHEMA_V1,
+    validate_signed_social_information_result,
+    validate_signed_social_information_semantics,
+)
 from .study_design import (
     CossCurvePointV1,
     CossPlotDataV1,
@@ -108,6 +114,8 @@ from .study_portfolio import (
 __all__ = [
     "RISK_SENSITIVE_VOI_INPUT_SCHEMA_V1",
     "RISK_SENSITIVE_VOI_RESULT_SCHEMA_V1",
+    "SIGNED_SOCIAL_INFORMATION_INPUT_SCHEMA_V1",
+    "SIGNED_SOCIAL_INFORMATION_RESULT_SCHEMA_V1",
     "AnalysisResult",
     "AnalysisSpec",
     "BackendCapabilities",
@@ -188,6 +196,8 @@ __all__ = [
     "validate_risk_sensitive_voi_result",
     "validate_risk_sensitive_voi_semantics",
     "validate_schema_evolution",
+    "validate_signed_social_information_result",
+    "validate_signed_social_information_semantics",
     "verify_contract_bundle",
     "verify_pinned_contract_bundle",
     "write_analysis_result_ipc",

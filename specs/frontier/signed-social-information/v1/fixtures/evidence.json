@@ -1,0 +1,37 @@
+{
+  "artifacts": [
+    {
+      "path": "specs/frontier/signed-social-information/v1/README.md",
+      "sha256": "085ce9c3968a6122ddf6e903f3a626f280cb3370c7f0662ff867953c44eb86fd"
+    },
+    {
+      "path": "specs/frontier/signed-social-information/v1/capabilities.json",
+      "sha256": "90d7d7bcf1770bf4de3cde7ca25ec218187d659f5c05a0a9cfbeb67fd73f138d"
+    },
+    {
+      "path": "specs/frontier/signed-social-information/v1/fixtures/manifest.json",
+      "sha256": "941e8b1dd613950d54af9b0b7c657846066df5b9c1b4f01333033a01afe4da6f"
+    },
+    {
+      "path": "specs/frontier/signed-social-information/v1/fixtures/normative/input.json",
+      "sha256": "4d5fafa91b63e0fe05e9b7bc75789a9f53cd22cfaddd7687a28949a630045834"
+    },
+    {
+      "path": "specs/frontier/signed-social-information/v1/fixtures/normative/expected.json",
+      "sha256": "bdb962ff958b79791a1875ce14d86249ce437c7bd3a98557188ac14a83d065de"
+    },
+    {
+      "path": "specs/frontier/signed-social-information/v1/schemas/input.schema.json",
+      "sha256": "33a896d515bc97d8230eae08cb119c474be5b228cf6bad59ca59b0d6a2c3300f"
+    },
+    {
+      "path": "specs/frontier/signed-social-information/v1/schemas/result.schema.json",
+      "sha256": "d6348b9b279526fe8085876a085297df99d5427a7d3d98d6f12a59d90837a6ae"
+    },
+    {
+      "path": "docs/astro-site/src/content/docs/examples/signed-social-information-value.mdx",
+      "sha256": "285cc01ec16c99cf3308ee7e9ea8c91d16444d1300eb52e7e0695fc16b309e14"
+    }
+  ],
+  "schema_version": "signed-social-information-evidence-v1"
+}

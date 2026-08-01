@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Add experimental exact finite signed and social information value for issue
+  #598/C18-M29. The strict Python/API/CLI contract retains negative private and
+  social values, selective-sharing comparators, transfer/cost ledgers, complete
+  ties, rights receipts, harm/avoidance/switch/winner-loser diagnostics and
+  scoped Blackwell checks. Persuasion, mechanism design, rational inattention,
+  general game solving, stable promotion and polyglot parity remain gated.
+
 - Added an experimental exact finite risk-sensitive and constrained
   perfect-information contract for issue #570, with expected-value/utility,
   lower-tail CVaR, minimax-regret, deterministic/chance constraints, CLI,

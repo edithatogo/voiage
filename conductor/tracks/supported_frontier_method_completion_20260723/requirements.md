@@ -108,6 +108,26 @@
 
 ## Should
 
+- **M29-S1:** #598 planned v1.3.0 signed/social information value must declare a
+  complete finite joint-world law, named agents and roles, signal topology,
+  eligible and actual recipients, bounded nonanticipative policy catalogs,
+  comparator-linked sharing designs, value units and provenance.
+- **M29-S2:** Return selected policies, complete ties, pre-transfer, transfer,
+  cost and post-transfer ledgers, signed agent/role/social comparator values,
+  selective-sharing comparisons, harm, avoidance, switches, winners/losers,
+  externalities and rights/consent/purpose receipts without clipping.
+- **M29-S3:** Require an explicit cardinal-comparability declaration and named
+  welfare aggregator. Apply Blackwell nonnegativity only to a verified aligned
+  centralized refinement with unchanged preferences and constraints and an
+  embedded comparator catalog; otherwise return explicit inapplicability
+  reasons.
+- **M29-S4:** Limit v1 execution to centralized, fixed, declared-response and
+  receipt-verified finite-equilibrium catalogs. Require deterministic exact
+  fixtures, adversarial pathology tests, explicit Python/Rust/R/Julia/Mojo
+  dispositions, independent scientific review and hosted exact-head evidence;
+  keep persuasion, mechanism design, rational inattention and general game
+  solving adjacent.
+
 - **M23-S1:** #572 planned v1.3.0 forecast-signal information value must
   consume a declared forecast artifact with outcome prior, signal likelihood,
   reported conditional probabilities, objective/payoff units, feasible
@@ -160,3 +180,9 @@
 - Reuse the structural-EVPI kernel when it would also resolve within-family
   uncertainty, infer model probabilities, or claim that VDI terminology is
   scientifically standardized.
+- Clip negative private or social information value, infer cardinal welfare
+  comparability, omit transfer/cost ledgers or apply Blackwell nonnegativity
+  outside a verified aligned centralized refinement.
+- Treat the bounded fixed/declared-response/verified-equilibrium catalogs for
+  C18/M29 as Bayesian persuasion, mechanism design, rational inattention or a
+  general game solver.

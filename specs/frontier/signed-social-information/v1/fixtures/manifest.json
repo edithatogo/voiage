@@ -1,0 +1,32 @@
+{
+  "authority": "exact independent finite-world enumeration and pathology mutations",
+  "files": [
+    {
+      "path": "normative/input.json",
+      "sha256": "4d5fafa91b63e0fe05e9b7bc75789a9f53cd22cfaddd7687a28949a630045834"
+    },
+    {
+      "path": "normative/expected.json",
+      "sha256": "bdb962ff958b79791a1875ce14d86249ce437c7bd3a98557188ac14a83d065de"
+    },
+    {
+      "path": "../schemas/input.schema.json",
+      "sha256": "33a896d515bc97d8230eae08cb119c474be5b228cf6bad59ca59b0d6a2c3300f"
+    },
+    {
+      "path": "../schemas/result.schema.json",
+      "sha256": "d6348b9b279526fe8085876a085297df99d5427a7d3d98d6f12a59d90837a6ae"
+    }
+  ],
+  "method": "signed_social_information_value",
+  "normative": [
+    {
+      "expected_output_artifact": "normative/expected.json",
+      "input_artifact": "normative/input.json",
+      "name": "Li-Pozzi harmful-private positive-social construction"
+    }
+  ],
+  "pathologies": [],
+  "status": "fixture-backed",
+  "version": "v1"
+}
