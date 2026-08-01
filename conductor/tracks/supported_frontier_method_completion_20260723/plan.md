@@ -69,11 +69,14 @@
 - [x] **F560-4 / #748:** Add installed Python/CLI execution, accessible plots,
   documentation, examples and discovery without claiming AHP, outranking,
   non-compensatory or imperfect-sample support. (AC-04–AC-06) `e2dacd0f`
-- [~] **F560-5 / #750:** Run independent implementation/usability review,
+- [x] **F560-5 / #750:** Run independent implementation/usability review,
   focused/full local and hosted exact-head assurance; reconcile #560 while
   retaining scientific, stable-promotion, parity, release and parent-closure
-  gates. (AC-03–AC-07) Local review and assurance: `e2dacd0f`; hosted PR #751
-  is pending.
+  gates. (AC-03–AC-07) Local review and assurance: `e2dacd0f`; PR #751 exact
+  head `60297ba3` passed every hosted check, including Python 3.12–3.14,
+  installed-wheel, aggregate and changed-branch coverage, then squash-merged as
+  `e8aaba82`. VOP run `30684893440` and VOIAGE receiver run `30684980076`
+  verified the canonical v1.3 projection without opening a drift PR.
 
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for
