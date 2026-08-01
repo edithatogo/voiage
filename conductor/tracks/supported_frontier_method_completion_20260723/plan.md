@@ -99,6 +99,27 @@
   hosted exact-head checks, installed-wheel, parity, promotion, release and
   closure gates remain pending.
 
+- [x] **F572-1 / #760:** Freeze #572's C18/M23 forecast-signal decision
+  estimand, strict input/result schemas, analytical newsvendor fixture,
+  provenance, timing, cost, calibration and explicit language dispositions.
+  (AC-02–AC-06, AC-09) `8c9a1885`
+- [x] **F572-2 / #759:** Implement the exact finite experimental Python/API/CLI
+  evaluator with baseline/oracle/deployed policies, signed value, calibration
+  loss, regret, maximum price and no-skill/perfect/miscalibrated/late/stale
+  limits. (AC-02–AC-05) `8c9a1885`
+- [~] **F572-3 / #762:** Complete independent scientific/implementation review,
+  hosted exact-head/full-suite assurance and canonical C18 projection
+  reconciliation while retaining parity, stable-promotion, release and parent
+  closure as separate gates. The independent implementation review in
+  `forecast-signal-implementation-review.md` found no blocking issue after
+  bounded strictness and hosted-regression repairs. Live C18/M23 projection was
+  verified from merged VOP PRs #69 and #70. PR #770 exact head `c110706c`
+  passed all 42 hosted checks (38 successes, one neutral aggregation and three
+  governed skips), including 223/223 changed lines and 57/57 changed branches,
+  before squash merge `4657f94e`. Independent scientific review, parity,
+  stable-promotion, release and parent closure remain pending.
+  (AC-03–AC-07, AC-09)
+
 - [x] **F570-1 / #757:** Freeze C18/M22's finite risk-sensitive constrained
   perfect-information estimand; add strict v1.3.0 experimental input/result
   schemas, a fully enumerable normative fixture, risk-neutral/CVaR/regret

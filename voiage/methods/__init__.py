@@ -29,6 +29,10 @@ if TYPE_CHECKING:
         distributional_information_from_specification,
         value_of_distributional_information,
     )
+    from .forecast_signal_information import (
+        ForecastSignalInformationResult,
+        forecast_signal_information_value,
+    )
     from .implementation_information import (
         ImplementationInformationResult,
         implementation_information_value,
@@ -72,6 +76,7 @@ _MODULES = (
     "expert_synthesis",
     "explainability_transparency",
     "federated_privacy_preserving",
+    "forecast_signal_information",
     "heterogeneity",
     "implementation",
     "implementation_information",
@@ -133,6 +138,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "ExpertSynthesisResult",
     "ExplainabilityTransparencyResult",
     "FederatedPrivacyPreservingResult",
+    "ForecastSignalInformationResult",
     "HeterogeneityResult",
     "ImplementationAdjustedResult",
     "ImplementationInformationResult",
@@ -176,6 +182,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "evsi",
     "evsi_nma",
     "expected_utility_information_value",
+    "forecast_signal_information_value",
     "identify_optimal_subgroups",
     "implementation_information_value",
     "information_source_portfolio_value",

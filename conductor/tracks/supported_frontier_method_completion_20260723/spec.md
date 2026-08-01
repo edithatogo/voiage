@@ -8,6 +8,8 @@ v1.2.0 under canonical C16. The additive-MCDA continuation targets v1.3.0
 under canonical C17 requirement M21, while residual frontier families target
 v1.3.0 under canonical C18 requirements M22–M31, without relabelling either
 predecessor.
+The forecast-signal continuation is governed specifically by C18/M23 without
+rewriting the C17 additive-MCDA contract.
 
 Owning issue: [#318](https://github.com/edithatogo/voiage/issues/318). Parent programme issue [#313](https://github.com/edithatogo/voiage/issues/313).
 Project: [VOP–VOIAGE Conductor Roadmap](https://github.com/users/edithatogo/projects/28).
@@ -92,4 +94,4 @@ separate Conductor tracks unless they have an independently approved contract.
 - Repository default-branch baseline `cd53ce09`.
 - `conductor/requirements.md`, `conductor/design.md`, this track's
   `requirements.md` and `design.md`, canonical cross-repository C16 and its
-  C17 additive-MCDA continuation.
+  C17 additive-MCDA continuation and C18 forecast-signal continuation.

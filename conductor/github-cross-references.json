@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-01T06:06:17Z",
+  "generated_at": "2026-08-01T06:07:02Z",
   "repository": "edithatogo/voiage",
   "project_url": "https://github.com/users/edithatogo/projects/28",
   "association_policy": "PRs are included only when associated with commits recorded by a track, Git history for its path, or an explicit track reference. Empty completed-track lists are none_found, not inferred.",
@@ -253,6 +253,9 @@
         "https://github.com/edithatogo/voiage/issues/570",
         "https://github.com/edithatogo/voiage/issues/571",
         "https://github.com/edithatogo/voiage/issues/572",
+        "https://github.com/edithatogo/voiage/issues/759",
+        "https://github.com/edithatogo/voiage/issues/760",
+        "https://github.com/edithatogo/voiage/issues/762",
         "https://github.com/edithatogo/voiage/issues/582",
         "https://github.com/edithatogo/voiage/issues/593",
         "https://github.com/edithatogo/voiage/issues/766",
@@ -343,7 +346,7 @@
         {
           "number": 64,
           "url": "https://github.com/edithatogo/vop_poc_nz/pull/64",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "canonical-sync-proposal"
           ]
@@ -351,7 +354,7 @@
         {
           "number": 65,
           "url": "https://github.com/edithatogo/vop_poc_nz/pull/65",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "canonical-sync-proposal"
           ]
@@ -359,9 +362,17 @@
         {
           "number": 66,
           "url": "https://github.com/edithatogo/vop_poc_nz/pull/66",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "canonical-sync-proposal"
+          ]
+        },
+        {
+          "number": 67,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/67",
+          "status": "merged",
+          "evidence": [
+            "canonical-c17-projection"
           ]
         },
         {
@@ -378,6 +389,26 @@
           "status": "merged",
           "evidence": [
             "canonical-c18-moscow-correction"
+          ]
+        },
+        {
+          "number": 751,
+          "url": "https://github.com/edithatogo/voiage/pull/751",
+          "status": "merged",
+          "evidence": [
+            "experimental-mcda-implementation",
+            "hosted-required-checks"
+          ]
+        },
+        {
+          "number": 770,
+          "url": "https://github.com/edithatogo/voiage/pull/770",
+          "status": "merged",
+          "evidence": [
+            "experimental-forecast-signal-implementation",
+            "hosted-required-checks",
+            "c110706c561ca17d3ec8835af3567948b969b3cb",
+            "4657f94e69e4d99d960d6d820c5bfb3e5e8937b3"
           ]
         }
       ],

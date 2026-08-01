@@ -84,6 +84,7 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
         560,
         570,
         571,
+        572,
         582,
         593,
         595,
@@ -95,6 +96,10 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
         assert child["maturity"] == "experimental"
     assert delivered[571]["implementation_pull_requests"] == [679]
     assert delivered[570]["implementation_pull_requests"] == [769]
+    assert delivered[572]["implementation_pull_requests"] == [770]
+    assert delivered[572]["review_artifacts"][-1].endswith(
+        "forecast-signal-implementation-review.md"
+    )
     assert delivered[582]["implementation_pull_requests"] == [772]
     assert delivered[556]["implementation_pull_requests"] == [723]
     assert delivered[556]["review_artifacts"] == [

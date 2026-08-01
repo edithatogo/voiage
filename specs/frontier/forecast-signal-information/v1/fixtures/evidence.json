@@ -1,0 +1,26 @@
+{
+  "artifacts": [
+    {"path": "voiage/contracts/forecast_signal_information.py", "sha256": "f439ae98e211f1b4f9624db9b51d37344dd23970d9b1d9c97ec6528c13572cbd"},
+    {"path": "voiage/methods/forecast_signal_information.py", "sha256": "49b8fe67bbb137c0905bdf4d7afc670021620f497cf4adcce591866ef9262840"},
+    {"path": "scripts/export_forecast_signal_information_contracts.py", "sha256": "86aa702879a1d2223e04e4f2ee6a683a52e84598d01422d725a11490e670796e"},
+    {"path": "specs/frontier/forecast-signal-information/v1/README.md", "sha256": "50dee620f9e9eea0c2d16f1286a672a92aa175f64d07497cbe785d50fd92319a"},
+    {"path": "specs/frontier/forecast-signal-information/v1/capabilities.json", "sha256": "613a9404c2d177a5ae5e36290768c0b6d14d6fab01f872be3affc8817d8cf430"},
+    {"path": "specs/frontier/forecast-signal-information/v1/fixtures/manifest.json", "sha256": "12d1307d94b2b57a748949a947a38d01dcae9e1924a43ef1effb5d9abd0190ad"},
+    {"path": "specs/frontier/forecast-signal-information/v1/fixtures/normative/input.json", "sha256": "cd3a679e9d4a25e68d00697736d08390f14932c19426cf1c67cd3fbb0441867a"},
+    {"path": "specs/frontier/forecast-signal-information/v1/fixtures/normative/expected.json", "sha256": "f3b98cc6feeb17d878379e5aa16923ec64bb48f5008035905b5e4798bdb8e313"},
+    {"path": "specs/frontier/forecast-signal-information/v1/schemas/forecast-signal-information-input.schema.json", "sha256": "ed1020144f80f1971b21804152ead0838165b6c4e4a74af98673fd3f9319a57e"},
+    {"path": "specs/frontier/forecast-signal-information/v1/schemas/forecast-signal-information-result.schema.json", "sha256": "2f76f7d865b6380d3fe31866bb69d94aef7dd5d427a5f58099f88e633365e7e9"},
+    {"path": "docs/astro-site/src/content/docs/cli-reference.mdx", "sha256": "08a53632afcb65724b5e03f2241e028a089b341cbdefb9eee4b5e89be345a1b7"}
+  ],
+  "execution_status": "experimental_python",
+  "issue": 572,
+  "method_family": "forecast_signal_information_value",
+  "schema_version": "1.0.0",
+  "stable_claim_allowed": false,
+  "unresolved_gates": [
+    "independent scientific review",
+    "continuous and multistage estimator review",
+    "Rust, R and Julia parity",
+    "stable promotion and release"
+  ]
+}

@@ -22,6 +22,8 @@ registry used to keep them aligned.
 - `implementation-information/`: experimental exact finite EVPIM, EVSIM,
   realizable-EVPI, EVP and IA-EVSI decomposition with explicit state- and
   signal-dependent implementation and no independence assumption.
+- `forecast-signal-information/`: experimental exact finite decision value for
+  declared probabilistic forecast artifacts, timing, calibration and cost.
 - `validation/`: model-validation and discrepancy-reduction contracts.
 - `threshold/`: threshold, tipping-point, and robust VOI contracts.
 - `dynamic-real-options/`: dynamic real-options VOI contracts.

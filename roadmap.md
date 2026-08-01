@@ -261,6 +261,17 @@ Independent scientific review, hosted exact-head and installed-wheel evidence,
 Rust/R/Julia parity, stable promotion, release and parent closure remain
 separate gates.
 
+Forecast and signal information value (#572) now has an experimental finite
+Python contract. It consumes a declared forecast artifact, outcome-signal law,
+reported probabilities, feasible actions, frozen payoffs, horizon, freshness,
+latency, lead time and acquisition cost. It separates timely-oracle value from
+signed deployed value, calibration loss, regret avoided and maximum price;
+predictive accuracy alone is not value. PR #770 exact head `c110706c` passed
+all hosted checks with 100% changed-line and changed-branch coverage before
+squash merge `4657f94e`. Independent scientific review, continuous and
+multistage methods, Rust/R/Julia parity, stable promotion, release and parent
+closure remain separate gates.
+
 The complete Rust-first polyglot programme issue hierarchy is now materialized
 in Conductor rather than existing only in GitHub and Project 28:
 

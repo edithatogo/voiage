@@ -39,7 +39,7 @@ sequenceDiagram
     T-->>V: Pass or fail closed
 ```
 
-## Specialized VOI v1.2.0
+## Specialized VOI v1.2.0–v1.3.0
 
 ```mermaid
 flowchart LR
@@ -117,6 +117,22 @@ flowchart LR
     MCDAConditional --> MCDAVOI
     MCDAVOI --> MCDADiagnostics["Interaction, regret, rank acceptability + Pareto"]
     MCDADiagnostics --> MCDABoundary["Not AHP, outranking, veto, renormalized scoring or EVSI"]
+
+    ForecastArtifact["Declared forecast artifact; no training"] --> SignalLaw["P(outcome) × P(signal | outcome)"]
+    SignalLaw --> Posterior["Signal probability + calibrated posterior"]
+    Reported["Reported outcome probabilities"] --> DeployedPolicy["Feasible deployed action"]
+    Posterior --> OraclePolicy["Timely oracle action"]
+    Posterior --> DeployedPolicy
+    Timing["Horizon + freshness + latency + lead time"] --> Usable{"Available and fresh at decision?"}
+    DeployedPolicy --> Usable
+    Usable -->|yes| ForecastValue["Signed deployed value + regret avoided"]
+    Usable -->|no| BaselinePolicy["Baseline action; operational value zero"]
+    OraclePolicy --> CalibrationLoss["Oracle value − timely deployed value"]
+    ForecastValue --> MaximumPrice["max(0, deployed value)"]
+    Cost["Acquisition cost in objective units"] --> NetForecast["Signed net deployed value"]
+    ForecastValue --> NetForecast
+    CalibrationLoss --> ForecastDiagnostics["Calibration L1 + Brier + coverage"]
+    ForecastDiagnostics --> ForecastBoundary["C18 / M23: accuracy is not value; experimental Python only"]
 
     RiskStates["Finite states + declared probabilities"] --> RiskCurrent["Current feasible policy problem"]
     RiskPolicies["Statewise policy objective or declared utility"] --> RiskCurrent

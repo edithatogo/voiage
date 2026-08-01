@@ -90,6 +90,15 @@ programme. The canonical cross-repository requirements are maintained in
   baseline/conditional choices, complete ties, gross and signed net value,
   interaction/no-double-counting, regret, rank acceptability and precisely
   defined Pareto diagnostics with exact-enumeration assurance.
+- **M23 / planned v1.3.0:** #572 values a declared probabilistic forecast or
+  signal through downstream decisions rather than predictive accuracy alone.
+  The contract fixes outcome priors, signal likelihoods, reported posterior
+  probabilities, feasible actions, objective units, timing, lead time and
+  acquisition cost. It separates counterfactual timely-oracle value from
+  signed deployed value, calibration loss, regret avoided and maximum price;
+  returns calibration, Brier and signal-coverage diagnostics; consumes rather
+  than trains forecast models; and preserves no-skill, perfect,
+  miscalibrated, late and stale limits with exact-enumeration assurance.
 - New interchange profiles reuse the shared compatibility schema and canonical
   logical-field fingerprint algorithm.
 - Free-threaded Python remains a bounded observational lane until the required
@@ -136,3 +145,4 @@ programme. The canonical cross-repository requirements are maintained in
 | v1.3.0 | Should | M20 | governed portable qualitative-VOI assessment workflow | #558 and #738–#742 under #318 |
 | v1.3.0 | Should | M21 | governed additive MCDA information value | #560 and #746–#750 under #318 |
 | v1.3.0 | Must | M22 | governed risk-sensitive constrained information value | #570 and #757/#758/#761 under #318 |
+| v1.3.0 | Should | M23 | C18 governed forecast-signal decision value | #572 and #759/#760/#762 under #318 |
