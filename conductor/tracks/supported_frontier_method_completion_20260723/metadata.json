@@ -206,6 +206,12 @@
       "kind": "hosted_validation",
       "status": "satisfied",
       "evidence": "PR #787 exact head de31458b556136359cb9195f8ced82cff9182ece passed 38 successful checks, with three governed skips and neutral CodeQL aggregation, before squash merge 20e0c606fb02f282134e9cc876fa475178edfe40; both review threads were evidence-resolved and changed coverage satisfied the 95 percent line and 100 percent branch policies."
+    },
+    {
+      "id": "uncertainty-modelling-hosted-assurance",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "PR #798 exact head aa5d9fd86a42fecd5e8746e77c74ba23e33bb092 completed 42 hosted checks with 38 successes and four governed skips before squash merge c5adca8fd49b74a04312111168283fbdffc2dcbd; all six installed-wheel contracts, aggregate coverage, CodeQL and security checks passed, and all four review threads were resolved."
     }
   ]
 }

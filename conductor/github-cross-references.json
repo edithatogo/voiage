@@ -99,10 +99,13 @@
         {
           "number": 798,
           "url": "https://github.com/edithatogo/voiage/pull/798",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "experimental-uncertainty-modelling-delivery",
-            "independent-review"
+            "independent-review",
+            "hosted-required-checks",
+            "aa5d9fd86a42fecd5e8746e77c74ba23e33bb092",
+            "c5adca8fd49b74a04312111168283fbdffc2dcbd"
           ]
         },
         {
@@ -4643,10 +4646,13 @@
         {
           "number": 798,
           "url": "https://github.com/edithatogo/voiage/pull/798",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "experimental-uncertainty-modelling-delivery",
-            "independent-review"
+            "independent-review",
+            "hosted-required-checks",
+            "aa5d9fd86a42fecd5e8746e77c74ba23e33bb092",
+            "c5adca8fd49b74a04312111168283fbdffc2dcbd"
           ]
         }
       ],
