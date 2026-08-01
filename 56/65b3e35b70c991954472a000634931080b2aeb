@@ -1,0 +1,1 @@
+Immutable correction for PR #836 review findings. Owning PR inventory and direct Project observations corrected; G8 remains pending and is not eligible to merge. Current 42-test/frontier/xref/ledger/full Conductor validation passes.
