@@ -8,6 +8,7 @@
 - [Parent issue #325](https://github.com/edithatogo/voiage/issues/325)
 - [Project 28](https://github.com/users/edithatogo/projects/28)
 - [Delivery PR #824](https://github.com/edithatogo/voiage/pull/824)
+- [Blocker-resolution plan](./blocker-resolution-plan.md)
 
 Status: in progress. The bounded threat model is recorded; explicit
 security-policy approval is still required before any remote I/O.
