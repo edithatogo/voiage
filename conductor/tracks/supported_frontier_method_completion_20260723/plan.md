@@ -92,9 +92,11 @@
 - [~] **F570-3 / #761:** Retain local exact-fixture, type, lint, registry and
   Conductor assurance plus honest Python/Rust/R/Julia/Mojo dispositions;
   complete hosted exact-head/wheel and independent scientific review before
-  reconciling #570. Local implementation evidence: `2da92322`; hosted,
-  scientific, parity, stable-promotion, release and closure gates remain
-  pending on PR #769. (AC-03–AC-07)
+  reconciling #570. Local implementation evidence: `2da92322`; independent
+  implementation review and bounded remediation: `58a119bc` and
+  `risk-sensitive-constrained-voi-implementation-review.md`. Hosted,
+  scientific, canonical C18, parity, stable-promotion, release and closure
+  gates remain pending on PR #769. (AC-03–AC-07, AC-09)
 
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for
