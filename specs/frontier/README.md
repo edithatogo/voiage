@@ -13,6 +13,9 @@ registry used to keep them aligned.
 - `value-of-flexibility/`: experimental flexible-versus-commitment option-value contract and fixtures.
 - `value-of-distributional-information/`: experimental model-family-index
   information-value contract and exact fixtures; distinct from distributional equity.
+- `qualitative-information/`: experimental non-cardinal assessment, audit and
+  accessible-rendering contracts for ordinal information priorities, dissent,
+  missingness, redaction, AI provenance and accountable human review.
 - `validation/`: model-validation and discrepancy-reduction contracts.
 - `threshold/`: threshold, tipping-point, and robust VOI contracts.
 - `dynamic-real-options/`: dynamic real-options VOI contracts.

@@ -29,6 +29,12 @@ if TYPE_CHECKING:
         distributional_information_from_specification,
         value_of_distributional_information,
     )
+    from .qualitative_information import (
+        QualitativeInformationResult,
+        QualitativeQuestionResult,
+        qualitative_information_from_specification,
+        render_qualitative_information_text,
+    )
 
 _MODULES = (
     "adaptive",
@@ -63,6 +69,7 @@ _MODULES = (
     "perspective",
     "portfolio",
     "preference",
+    "qualitative_information",
     "regulatory_market_access",
     "replication_reproducibility",
     "sample_information",
@@ -120,6 +127,8 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "PreferenceHeterogeneityResult",
     "PreferenceProfile",
     "PreferenceProfileSet",
+    "QualitativeInformationResult",
+    "QualitativeQuestionResult",
     "RegulatoryMarketAccessResult",
     "ReplicationReproducibilityResult",
     "ResolvedDistributionModel",
@@ -152,6 +161,8 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "perspective_result_to_arrow",
     "portfolio_voi",
     "preference_optimal_strategies",
+    "qualitative_information_from_specification",
+    "render_qualitative_information_text",
     "sequential_voi",
     "structural_evpi",
     "structural_evppi",

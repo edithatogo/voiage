@@ -3,7 +3,10 @@
 This directory defines the planned v1.3.0 portable contract for issue #558.
 The workflow preserves human-entered ordinal judgements and produces
 deterministic priority groups, recommendation classes, complete dissent and
-incomplete states. It does not calculate EVPI, EVPPI, EVSI, utility, currency,
+incomplete or unverified states. The substantive criteria and ordinal classes
+are accountable human judgements; the runtime validates and groups them but
+does not derive a recommendation from a hidden rule or score. It does not
+calculate EVPI, EVPPI, EVSI, utility, currency,
 weighted scores or cardinal distance between classes.
 
 ## Contract files
@@ -21,10 +24,18 @@ weighted scores or cardinal distance between classes.
 ## Human and AI boundary
 
 AI judgements and audit events require provider, model-version and input
-provenance. They remain unverified until a declared human action verifies them;
-an AI actor cannot approve an assessment. Redacted and unavailable source
-content is represented only by stable markers. Reviewer identities in these
-fixtures are synthetic roles, not personal data.
+provenance. Human-verified AI contributions link to an accountable human review
+event; an AI or system actor cannot approve an assessment. Only a final,
+current-version accountable approval can make the workflow complete. Redacted
+question text and source-linked rationales are replaced by stable markers in
+results and renderings. Reviewer identities in these fixtures are synthetic
+roles, not personal data.
+
+Each audit event records the prior event identifier and digest, its own
+canonical SHA-256 digest, and an assessment-content digest. The validator
+recomputes the event chain and requires the final event to bind the current
+assessment snapshot. This is tamper-evident repository evidence, not a digital
+signature or an external append-only ledger.
 
 ## Language disposition
 

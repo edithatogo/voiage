@@ -22,6 +22,31 @@ from voiage.methods.qualitative_information import (
 ROOT = Path(__file__).parents[1]
 SCHEMAS = ROOT / "specs/frontier/qualitative-information/v1/schemas"
 NORMATIVE = ROOT / "specs/frontier/qualitative-information/v1/fixtures/normative"
+CONTRACT = ROOT / "specs/frontier/qualitative-information/v1"
+EVIDENCE_ARTIFACTS = (
+    "scripts/export_qualitative_information_contracts.py",
+    "specs/frontier/qualitative-information/v1/README.md",
+    "specs/frontier/qualitative-information/v1/capabilities.json",
+    "specs/frontier/qualitative-information/v1/fixtures/manifest.json",
+    "specs/frontier/qualitative-information/v1/fixtures/normative/input.json",
+    "specs/frontier/qualitative-information/v1/fixtures/normative/expected.json",
+    "specs/frontier/qualitative-information/v1/fixtures/normative/rendering.json",
+    "specs/frontier/qualitative-information/v1/fixtures/normative/request-result.json",
+    "specs/frontier/qualitative-information/v1/fixtures/cases/disagreement.json",
+    "specs/frontier/qualitative-information/v1/fixtures/cases/incomplete-ai.json",
+    "specs/frontier/qualitative-information/v1/fixtures/cases/adversarial-audit.json",
+    "specs/frontier/qualitative-information/v1/schemas/qualitative-information-assessment.schema.json",
+    "specs/frontier/qualitative-information/v1/schemas/qualitative-information-audit-event.schema.json",
+    "specs/frontier/qualitative-information/v1/schemas/qualitative-information-rendering.schema.json",
+    "specs/frontier/qualitative-information/v1/schemas/qualitative-information-result.schema.json",
+    "voiage/contracts/qualitative_information.py",
+    "voiage/methods/qualitative_information.py",
+    "tests/test_qualitative_information.py",
+    "tests/test_qualitative_information_contract.py",
+    "tests/test_qualitative_information_surfaces.py",
+    "docs/astro-site/src/content/docs/examples/qualitative-information-assessment.mdx",
+    "conductor/tracks/supported_frontier_method_completion_20260723/qualitative-voi-reference-review.md",
+)
 
 
 def main() -> None:
@@ -55,6 +80,25 @@ def main() -> None:
         json.dumps(result.to_contract_dict(), indent=2, sort_keys=False) + "\n",
         encoding="utf-8",
     )
+    bundle_path = NORMATIVE / "request-result.json"
+    bundle_path.write_text(
+        json.dumps(
+            {"request": payload, "result": result.to_contract_dict()},
+            ensure_ascii=False,
+            sort_keys=False,
+            separators=(",", ":"),
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    manifest_path = CONTRACT / "fixtures/manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["fixtures"][0]["sha256"] = hashlib.sha256(
+        bundle_path.read_bytes()
+    ).hexdigest()
+    manifest_path.write_text(
+        json.dumps(manifest, indent=2, sort_keys=False) + "\n", encoding="utf-8"
+    )
     content = render_qualitative_information_text(result)
     rendering = {
         "schema_version": "1.0.0",
@@ -71,6 +115,29 @@ def main() -> None:
     }
     (NORMATIVE / "rendering.json").write_text(
         json.dumps(rendering, indent=2, sort_keys=False) + "\n", encoding="utf-8"
+    )
+    evidence = {
+        "method_family": "qualitative_information_assessment",
+        "version": "v1",
+        "maturity": "experimental",
+        "stable_claim_allowed": False,
+        "scope": "synthetic contract, Python runtime, CLI and accessible rendering",
+        "remaining_gates": [
+            "practitioner, privacy, accessibility and scientific naming approval",
+            "Rust, R and Julia execution parity disposition",
+            "hosted exact-head and installed-wheel assurance",
+            "stable promotion and release decision",
+        ],
+        "artifacts": [
+            {
+                "path": path,
+                "sha256": hashlib.sha256((ROOT / path).read_bytes()).hexdigest(),
+            }
+            for path in EVIDENCE_ARTIFACTS
+        ],
+    }
+    (CONTRACT / "fixtures/evidence.json").write_text(
+        json.dumps(evidence, indent=2, sort_keys=False) + "\n", encoding="utf-8"
     )
 
 

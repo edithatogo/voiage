@@ -12,6 +12,9 @@ import pytest
 
 from voiage.contracts.qualitative_information import (
     QUALITATIVE_INFORMATION_ASSESSMENT_SCHEMA_V1,
+    QUALITATIVE_INFORMATION_AUDIT_EVENT_SCHEMA_V1,
+    QUALITATIVE_INFORMATION_RENDERING_SCHEMA_V1,
+    QUALITATIVE_INFORMATION_RESULT_SCHEMA_V1,
     qualitative_assessment_content_digest,
     qualitative_audit_event_digest,
     validate_qualitative_information_result_semantics,
@@ -48,7 +51,16 @@ def test_normative_fixture_and_portable_schemas_validate() -> None:
     for event in payload["audit_history"]:
         Draft202012Validator(schemas[2]).validate(event)
     validate_qualitative_information_semantics(payload)
-    assert schemas[0] == QUALITATIVE_INFORMATION_ASSESSMENT_SCHEMA_V1
+    assert schemas == [
+        QUALITATIVE_INFORMATION_ASSESSMENT_SCHEMA_V1,
+        QUALITATIVE_INFORMATION_RESULT_SCHEMA_V1,
+        QUALITATIVE_INFORMATION_AUDIT_EVENT_SCHEMA_V1,
+        QUALITATIVE_INFORMATION_RENDERING_SCHEMA_V1,
+    ]
+    assert (
+        hashlib.sha256(rendering["content"].encode()).hexdigest()
+        == rendering["content_sha256"]
+    )
 
 
 @pytest.mark.parametrize(

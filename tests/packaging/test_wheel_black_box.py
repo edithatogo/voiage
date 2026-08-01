@@ -136,6 +136,111 @@ def test_installed_wheel_executes_external_distribution_family_request() -> None
     assert result.net_vdi == 1.5
 
 
+def test_installed_wheel_executes_noncardinal_qualitative_assessment() -> None:
+    """The experimental qualitative contract runs without repository fixtures."""
+    from voiage.contracts.qualitative_information import (
+        qualitative_assessment_content_digest,
+        qualitative_audit_event_digest,
+    )
+    from voiage.methods.qualitative_information import (
+        qualitative_information_from_specification,
+        render_qualitative_information_text,
+    )
+
+    payload = {
+        "schema_version": "1.0.0",
+        "assessment_id": "wheel-qualitative",
+        "assessment_version": 1,
+        "method_maturity": "experimental",
+        "numerical_estimand": False,
+        "decision": {
+            "decision_id": "d1",
+            "title": "Synthetic decision",
+            "context": "Wheel-only contract check",
+            "alternatives": ["A", "B"],
+            "accountable_reviewer_ids": ["human-1"],
+        },
+        "reviewers": [{"reviewer_id": "human-1", "name": "Role", "role": "owner"}],
+        "sources": [
+            {
+                "source_id": "s1",
+                "citation": "Synthetic",
+                "access_status": "accessible",
+                "provenance": "wheel",
+            }
+        ],
+        "questions": [
+            {
+                "question_id": "q1",
+                "information_question": "Would evidence change the choice?",
+                "uncertainty_or_evidence_gap": "Synthetic gap",
+                "information_action": "Review synthetic evidence",
+                "missing_fields": [],
+                "redaction_status": "none",
+                "judgements": [
+                    {
+                        "reviewer_id": "human-1",
+                        "actor_type": "human",
+                        "potential_impact": "moderate",
+                        "feasibility": "feasible",
+                        "timeliness": "timely",
+                        "equity_ethics": "acceptable",
+                        "cost_burden": "low",
+                        "priority_class": "high",
+                        "recommendation_class": "pursue_if_feasible",
+                        "confidence": "moderate",
+                        "rationale": "Synthetic rationale",
+                        "source_ids": ["s1"],
+                        "verification_state": "verified",
+                    }
+                ],
+            }
+        ],
+        "audit_history": [],
+        "policy": {
+            "priority_order": ["urgent", "high", "routine", "defer"],
+            "recommendation_order": [
+                "pursue_now",
+                "pursue_if_feasible",
+                "monitor",
+                "do_not_pursue",
+            ],
+            "conflict_policy": "preserve_dissent_no_resolution",
+            "missingness_policy": "mark_incomplete",
+            "ai_policy": "human_verification_required",
+            "tie_policy": "complete_sets_declared_order",
+        },
+        "provenance": {
+            "fixture_id": "wheel",
+            "contract_reference": "v1",
+            "source_snapshot": "synthetic",
+            "redaction_policy_reference": "none",
+        },
+    }
+    event = {
+        "event_id": "approve",
+        "sequence": 1,
+        "previous_event_id": None,
+        "previous_content_digest": None,
+        "timestamp": "2026-08-01T00:00:00Z",
+        "assessment_version": 1,
+        "actor": {"actor_id": "human-1", "actor_type": "human"},
+        "action": "approve",
+        "assessment_content_digest": qualitative_assessment_content_digest(payload),
+        "content_digest": "0" * 64,
+        "redacted": False,
+    }
+    event["content_digest"] = qualitative_audit_event_digest(event)
+    payload["audit_history"] = [event]
+    result = qualitative_information_from_specification(payload)
+    assert result.workflow_status == "complete"
+    assert result.numerical_estimand is False
+    assert "score" not in str(result.to_contract_dict()).lower()
+    assert render_qualitative_information_text(
+        result
+    ) == render_qualitative_information_text(result)
+
+
 def test_installed_wheel_metadata_keeps_jax_optional() -> None:
     """Verify the built artifact, rather than only source TOML metadata."""
     if os.environ.get("WHEEL_VENV") is None:

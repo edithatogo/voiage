@@ -9,7 +9,16 @@
   "surfaces": {
     "python": {
       "status": "executable",
-      "module": "voiage.methods.qualitative_information"
+      "module": "voiage.methods.qualitative_information",
+      "public_api": "voiage.methods.qualitative_information.qualitative_information_from_specification",
+      "cli": "voiage assess-qualitative-information",
+      "rendering": "voiage.methods.qualitative_information.render_qualitative_information_text",
+      "evidence": [
+        "tests/test_qualitative_information.py",
+        "tests/test_qualitative_information_contract.py",
+        "tests/test_qualitative_information_surfaces.py",
+        "tests/packaging/test_wheel_black_box.py"
+      ]
     },
     "rust": {
       "status": "unsupported",

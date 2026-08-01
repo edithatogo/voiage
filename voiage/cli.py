@@ -143,6 +143,12 @@ from voiage.methods.preference import (
     PreferenceProfile,
     PreferenceProfileSet,
 )
+from voiage.methods.qualitative_information import (
+    qualitative_information_from_specification as calculate_qualitative_information_result,
+)
+from voiage.methods.qualitative_information import (
+    render_qualitative_information_text,
+)
 from voiage.methods.regulatory_market_access import (
     value_of_regulatory_market_access as calculate_market_access_result,
 )
@@ -3531,6 +3537,46 @@ def calculate_value_of_distributional_information(
         TypeError,
         ValueError,
     ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="assess-qualitative-information")
+def assess_qualitative_information(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a qualitative-information assessment v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the qualitative assessment result",
+    ),
+) -> None:
+    """Evaluate an experimental non-cardinal qualitative information workflow."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError(
+                "Qualitative information specification must be a JSON object."
+            )
+        payload = cast("dict[str, object]", payload)
+        result = calculate_qualitative_information_result(payload)
+        output_text = _format_output(
+            render_qualitative_information_text(result).rstrip(),
+            result.to_contract_dict(),
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError) as error:
         typer.echo(f"Error: {error}", err=True)
         raise typer.Exit(code=1) from error
 

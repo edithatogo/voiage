@@ -4,13 +4,38 @@
     {
       "path": "/questions/0/missing_fields",
       "value": ["equity_ethics"]
+    },
+    {
+      "op": "add",
+      "path": "/questions/0/judgements/-",
+      "value": {
+        "reviewer_id": "ai-helper",
+        "actor_type": "ai",
+        "potential_impact": "unknown",
+        "feasibility": "uncertain",
+        "timeliness": "uncertain",
+        "equity_ethics": "uncertain",
+        "cost_burden": "unknown",
+        "priority_class": "urgent",
+        "recommendation_class": "pursue_now",
+        "confidence": "low",
+        "rationale": "Unverified synthetic machine suggestion.",
+        "source_ids": ["source-redacted"],
+        "verification_state": "unverified",
+        "ai_provenance": {
+          "provider": "synthetic-provider",
+          "model_version": "synthetic-model-1",
+          "input_reference": "fixture:redacted-input"
+        }
+      }
     }
   ],
   "expected": {
     "workflow_status": "incomplete",
     "human_approval_status": "pending",
     "question_id": "q-01-trial",
-    "consensus_status": "incomplete"
+    "consensus_status": "incomplete",
+    "unverified_ai_contributors": ["ai-helper"]
   },
   "boundary": "An unverified AI judgement cannot replace the missing human field or approve the assessment."
 }

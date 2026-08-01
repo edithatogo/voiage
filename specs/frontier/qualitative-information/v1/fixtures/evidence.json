@@ -1,0 +1,103 @@
+{
+  "method_family": "qualitative_information_assessment",
+  "version": "v1",
+  "maturity": "experimental",
+  "stable_claim_allowed": false,
+  "scope": "synthetic contract, Python runtime, CLI and accessible rendering",
+  "remaining_gates": [
+    "practitioner, privacy, accessibility and scientific naming approval",
+    "Rust, R and Julia execution parity disposition",
+    "hosted exact-head and installed-wheel assurance",
+    "stable promotion and release decision"
+  ],
+  "artifacts": [
+    {
+      "path": "scripts/export_qualitative_information_contracts.py",
+      "sha256": "c542d0d0b7a85b6d0e721b0be1f72b747757ce899f280ba271e9897d1a1c63d8"
+    },
+    {
+      "path": "specs/frontier/qualitative-information/v1/README.md",
+      "sha256": "ccaad5a19c8c07a226b51cbc2142b958980973038cf22f6647cb2dc376eaa3ae"
+    },
+    {
+      "path": "specs/frontier/qualitative-information/v1/capabilities.json",
+      "sha256": "26ac2923a079002fc4537c76a7d183b3733106b627ef3161a596faa622380f11"
+    },
+    {
+      "path": "specs/frontier/qualitative-information/v1/fixtures/manifest.json",
+      "sha256": "cd3a2b1a173055787899efdbe11392f5587418b9f4512e4681ab18f6e31cd732"
+    },
+    {
+      "path": "specs/frontier/qualitative-information/v1/fixtures/normative/input.json",
+      "sha256": "3476135083a99cc93e6e28a9580be97f1267dd995db4ffb44bdbe449b8833717"
+    },
+    {
+      "path": "specs/frontier/qualitative-information/v1/fixtures/normative/expected.json",
+      "sha256": "5f09afa5340b7cd476aedf5f9360e133778dfa90aef2f2f1f245aafd7472af53"
+    },
+    {
+      "path": "specs/frontier/qualitative-information/v1/fixtures/normative/rendering.json",
+      "sha256": "b05803c30b14c9377ac07d04cca829ddc4b1ea21bed67e485f160528467186f9"
+    },
+    {
+      "path": "specs/frontier/qualitative-information/v1/fixtures/normative/request-result.json",
+      "sha256": "8e8370dbb769eb2662b5dc51a50197c48a27f76b2f8bf5c720c040f6f6c8f2ed"
+    },
+    {
+      "path": "specs/frontier/qualitative-information/v1/fixtures/cases/disagreement.json",
+      "sha256": "288df1457c478c427ea0682483093559ca3a0f089728bd87ed5f739886cd7bdf"
+    },
+    {
+      "path": "specs/frontier/qualitative-information/v1/fixtures/cases/incomplete-ai.json",
+      "sha256": "6e3122007ec6a3d3c9121b5fca36b38c722f3ed93c7150f887ee03193f385a53"
+    },
+    {
+      "path": "specs/frontier/qualitative-information/v1/fixtures/cases/adversarial-audit.json",
+      "sha256": "81599e80473be4d203a8aa823a89dad9b1d6ab73e7dc781abb971ebba779eb2a"
+    },
+    {
+      "path": "specs/frontier/qualitative-information/v1/schemas/qualitative-information-assessment.schema.json",
+      "sha256": "6f6363f23445a8cec03f52f1315483c66f47de3a763442ab2ff5326ec2cbad97"
+    },
+    {
+      "path": "specs/frontier/qualitative-information/v1/schemas/qualitative-information-audit-event.schema.json",
+      "sha256": "836a5d88a28d2a0415104ec723f9d0dfdf5ca8ba5a366c8cfbc93b17ad76a4f2"
+    },
+    {
+      "path": "specs/frontier/qualitative-information/v1/schemas/qualitative-information-rendering.schema.json",
+      "sha256": "4d02e7cef661e24f05d95da0d7e5242f345d6969dba20f1d5dd68144e380e0b7"
+    },
+    {
+      "path": "specs/frontier/qualitative-information/v1/schemas/qualitative-information-result.schema.json",
+      "sha256": "4c805123f18121938be38ba7560a83c0997a6f7e5ed5ad79ab103615a67682f6"
+    },
+    {
+      "path": "voiage/contracts/qualitative_information.py",
+      "sha256": "58c4c3b41dfeece8037ae443c31c678c46a21afc62f5ea12974c960f9dc3f79b"
+    },
+    {
+      "path": "voiage/methods/qualitative_information.py",
+      "sha256": "f2be96bc62a97bf88f7d2948297ca00e0fa5b85d187003f0a86050976a37ab46"
+    },
+    {
+      "path": "tests/test_qualitative_information.py",
+      "sha256": "92370891a7a1a6e5d335e4164dea821663dac619fc9f6c4ebe5d20943e208d94"
+    },
+    {
+      "path": "tests/test_qualitative_information_contract.py",
+      "sha256": "e3a7fe943b2d9a6af07845cdce3f7f67caa08e5fc99b8030081a763d71d7cf0b"
+    },
+    {
+      "path": "tests/test_qualitative_information_surfaces.py",
+      "sha256": "f2f499ded22cf4b1f87426dff14a072fc5fefa8455f77f52986f9ed92c60b8be"
+    },
+    {
+      "path": "docs/astro-site/src/content/docs/examples/qualitative-information-assessment.mdx",
+      "sha256": "8db323f5ade925b1e9fd0fbae5a6bafd8e40a12bb1793ccfa35e3a4e39d11801"
+    },
+    {
+      "path": "conductor/tracks/supported_frontier_method_completion_20260723/qualitative-voi-reference-review.md",
+      "sha256": "074f88ded09c9d750ffbc24ce71891759c405650eddbf38b1f923fddbedc9052"
+    }
+  ]
+}
