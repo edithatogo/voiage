@@ -142,6 +142,27 @@ flowchart LR
     Plot --> Boundary["C18/M27 experimental Python; BPI delegated to #595"]
 ```
 
+## Outcome-conditional sample-information value
+
+```mermaid
+flowchart LR
+    Prior["Finite state prior"] --> Predictive["Predictive P(x) = sum_s P(s) P(x | s)"]
+    Likelihood["Finite measurement likelihood"] --> Predictive
+    Values["Action utility/maximize or loss/minimize"] --> Baseline["Baseline values, complete ties and reference action"]
+    Predictive --> Posterior["Posterior P(s | x) and action values"]
+    Baseline --> Posterior
+    Posterior --> Metrics["delta-EV_x and nonnegative VSI_x"]
+    Metrics --> Weighted["Predictive-probability-weighted outcome distribution"]
+    Weighted --> Mean["EVSI = E[VSI_x] = E[delta-EV_x]"]
+    Weighted --> Dispersion["Equation 10 weighted population sigma-VSI; ddof 0"]
+    Weighted --> Low["rVSI_delta + weighted quantiles/tails"]
+    Mean --> Assurance["Expectation-only tower scope"]
+    Dispersion --> Assurance
+    Low --> Assurance
+    Assurance --> Ties["rVSI0 kept distinct from reference exclusion, mandatory switch and tie-set change mass"]
+    Ties --> Boundary["C18/M31 exact finite experimental Python; continuous/scientific/parity/promotion/release gates open"]
+```
+
 ## Value of Distribution-Family Information
 
 ```mermaid

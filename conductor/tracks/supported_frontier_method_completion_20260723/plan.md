@@ -19,6 +19,7 @@ promotion, release, and issue closure remain separate gates.
 | Distribution-Family Information | #557; #731–#735 | F557-1–F557-5 |
 | Portable qualitative VOI | #558; #738–#742 | F558-1–F558-5 |
 | Finite additive MCDA information value | #560; #746–#750 | F560-1–F560-5 |
+| Outcome-conditional sample-information value | #600; #790–#792 | F600-1–F600-4 |
 | Dependent information-source portfolio | #582; #763–#765 | dedicated track `information_source_portfolio_voi_20260801` |
 
 The Rust-first programme and its remaining workstream tracks are governed by
@@ -201,6 +202,25 @@ covers the experimental frontier entries only.
   and evaluator. Replacement exact-head `e6835358` passed hosted coverage and
   every other required Action before merge.
   `e447c0e8`
+
+- [~] **F600-1 / #790:** Freeze C18/M31's exact finite outcome-conditional
+  estimands, Equation 10 weighted population standard deviation, expectation-
+  only tower identities, tie-aware `rVSI0` boundary, primary-reference review,
+  strict schemas, normative fixture and explicit exclusions. (AC-02, AC-03,
+  AC-09)
+- [ ] **F600-2 / #791:** Implement deterministic experimental Python/API/CLI
+  execution for predictive/posterior outcome laws, `delta-EV_x`, `VSI_x`, EVSI,
+  weighted `sigma-VSI`, `rVSI_delta`, quantiles/tails, cost placement, complete
+  ties and prospective/retrospective presentation. (AC-02–AC-06)
+- [ ] **F600-3 / #792:** Add portable input/result assurance, independent result
+  reconstruction, probability/Bayes/identity/calibration diagnostics,
+  adversarial/tie/permutation/pathology tests, documentation, discovery,
+  fixture manifests and Python/Rust/R/Julia/Mojo dispositions. (AC-03–AC-06)
+- [ ] **F600-4 / #792:** Run a fresh independent implementation review and
+  hosted exact-head/installed-wheel assurance. Retain continuous-outcome and
+  fitted-estimator validation, independent scientific review, risk-sensitive
+  composition, Rust/R/Julia parity, stable promotion, release, parent #600 and
+  umbrella #318 closure as separate gates. (AC-03–AC-07, AC-09)
 
 - [x] **F572-1 / #760:** Freeze #572's C18/M23 forecast-signal decision
   estimand, strict input/result schemas, analytical newsvendor fixture,

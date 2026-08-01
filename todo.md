@@ -10,6 +10,24 @@ relevant subagent review panel defined in
 The panel supplies structured evidence; maintainer approval and external
 release, registry, and publication decisions remain separate gates.
 
+*   [ ] Complete outcome-conditional sample-information value after
+    experimental branch delivery.
+    *   GitHub issue #600; delivery subissues #790–#792; umbrella track
+        `supported_frontier_method_completion_20260723`; phases F600-1–F600-4;
+        canonical C18/M31; planned v1.3.0 Should.
+    *   The repository-owned slice is exact finite Python: predictive and
+        posterior outcome laws, `delta-EV_x`, `VSI_x`, EVSI, Equation 10's
+        weighted population `sigma-VSI`, `rVSI_delta`, quantiles/tails,
+        complete ties, strict schemas, API/CLI and result assurance.
+    *   Preserve expectation-only tower identities. Keep `rVSI0` distinct from
+        policy-switch/tie-set-change mass, and do not reproduce the paper's
+        unweighted MATLAB/Table 3 standard-deviation calculation.
+    *   Remaining gates include fresh independent implementation review,
+        hosted exact-head and installed-wheel assurance, continuous outcomes,
+        fitted-estimator and scientific validity review, risk-sensitive
+        composition, Rust/R/Julia parity, stable promotion, release, parent
+        #600 closure and umbrella #318 closure.
+
 *   [ ] Complete event-localized information value after experimental delivery.
     *   GitHub issue #596; delivery subissues #777–#779; umbrella track
         `supported_frontier_method_completion_20260723`; canonical C18/M27.
