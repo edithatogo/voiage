@@ -5,6 +5,9 @@ against named agents, roles, sharing designs and nonanticipative policy
 catalogs. It reports signed agent, role and social values without clipping,
 together with transfers, costs, winners, losers, avoidance, policy switches,
 rights receipts and strictly scoped Blackwell nonnegativity checks.
+Portable results retain the declared agent-role map and the exact world,
+policy and design identifiers evaluated, allowing semantic validation to
+recompute role aggregates, ties, optima, diagnostics and assurance counts.
 
 The welfare aggregator is a declared weighted sum over cardinally comparable
 agent utilities. That declaration is an assumption, not an empirical finding.
@@ -13,6 +16,8 @@ purpose receipts, policy-selection mode and feasible finite catalog. Fixed and
 declared responses are evaluated as supplied. A verified finite-equilibrium
 entry requires a complete-catalog verification receipt; VOIAGE does not solve
 a general game.
+Infeasible designs and designs or comparators with transfer/cost accounting
+are explicitly outside the Blackwell nonnegativity check.
 
 The normative fixture is a finite construction informed by Li and Pozzi's
 negative-information analysis: the selected signal-contingent policy harms the

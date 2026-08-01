@@ -389,6 +389,23 @@ SIGNED_SOCIAL_INFORMATION_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
     "title": "SignedSocialInformationResultV1Experimental",
     "$defs": {
         "number_map": {"type": "object", "additionalProperties": _NUMBER},
+        "agent_roles": {
+            "type": "object",
+            "minProperties": 2,
+            "additionalProperties": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": True,
+                "items": {
+                    "enum": [
+                        "decision_maker",
+                        "recipient",
+                        "controller",
+                        "stakeholder",
+                    ]
+                },
+            },
+        },
         "ledger": {
             "type": "object",
             "required": ["pre_transfer", "transfer", "cost", "post_transfer"],
@@ -546,6 +563,7 @@ SIGNED_SOCIAL_INFORMATION_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
         "analysis_type",
         "method_maturity",
         "value_unit",
+        "agent_roles",
         "welfare_contract",
         "topology",
         "baseline",
@@ -563,6 +581,7 @@ SIGNED_SOCIAL_INFORMATION_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
         "analysis_type": {"const": "signed_social_information_value_result"},
         "method_maturity": {"const": "experimental"},
         "value_unit": _STRING,
+        "agent_roles": {"$ref": "#/$defs/agent_roles"},
         "welfare_contract": {
             "type": "object",
             "required": [
@@ -667,8 +686,11 @@ SIGNED_SOCIAL_INFORMATION_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
             "type": "object",
             "required": [
                 "worlds_evaluated",
+                "world_ids_evaluated",
                 "policies_evaluated",
+                "policy_ids_evaluated",
                 "designs_evaluated",
+                "design_ids_evaluated",
                 "complete_joint_world_law",
                 "nonanticipativity",
                 "finite_catalog_only",
@@ -679,8 +701,26 @@ SIGNED_SOCIAL_INFORMATION_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
             ],
             "properties": {
                 "worlds_evaluated": {"type": "integer", "minimum": 1},
+                "world_ids_evaluated": {
+                    "type": "array",
+                    "minItems": 1,
+                    "uniqueItems": True,
+                    "items": _ID,
+                },
                 "policies_evaluated": {"type": "integer", "minimum": 1},
+                "policy_ids_evaluated": {
+                    "type": "array",
+                    "minItems": 1,
+                    "uniqueItems": True,
+                    "items": _ID,
+                },
                 "designs_evaluated": {"type": "integer", "minimum": 2},
+                "design_ids_evaluated": {
+                    "type": "array",
+                    "minItems": 2,
+                    "uniqueItems": True,
+                    "items": _ID,
+                },
                 "complete_joint_world_law": {"const": True},
                 "nonanticipativity": _STRING,
                 "finite_catalog_only": {"const": True},
@@ -971,8 +1011,46 @@ def validate_signed_social_information_result(
         raise ValueError("result baseline must not declare a comparator")
     weights = cast("dict[str, float]", data["welfare_contract"]["weights"])
     agent_ids = set(weights)
+    agent_roles = cast("dict[str, list[str]]", data["agent_roles"])
+    if set(agent_roles) != agent_ids:
+        raise ValueError("result roles must contain exactly the welfare agents")
     ledger_stage = str(data["welfare_contract"]["ledger_stage"])
+    tie_policy = cast("dict[str, float]", data["optimum"]["tie_policy"])
+    absolute = float(tie_policy["absolute_tolerance"])
+    relative = float(tie_policy["relative_tolerance"])
+    if absolute < 0.0 or relative < 0.0:
+        raise ValueError("result tie tolerances must be nonnegative")
     for design in designs:
+        policies_evaluated = cast("list[str]", design["policies_evaluated"])
+        selector_values = cast("dict[str, float]", design["policy_selector_values"])
+        if set(selector_values) != set(policies_evaluated):
+            raise ValueError("policy selector values must cover evaluated policies")
+        selected_policy_id = str(design["selected_policy_id"])
+        if selected_policy_id not in selector_values:
+            raise ValueError("selected policy must be an evaluated policy")
+        if design["selection_mode"] == "centralized":
+            best = max(float(value) for value in selector_values.values())
+            expected_selected = min(
+                policy_id
+                for policy_id, value in selector_values.items()
+                if float(value) == best
+            )
+            expected_tie = sorted(
+                policy_id
+                for policy_id, value in selector_values.items()
+                if math.isclose(float(value), best, abs_tol=absolute, rel_tol=relative)
+            )
+        else:
+            expected_selected = selected_policy_id
+            expected_tie = [selected_policy_id]
+        if (
+            selected_policy_id != expected_selected
+            or design["policy_tie"] != expected_tie
+        ):
+            raise ValueError("selected policy or complete policy tie is inconsistent")
+        reasons = cast("list[str]", design["infeasibility_reasons"])
+        if bool(design["feasible"]) == bool(reasons):
+            raise ValueError("design feasibility and reasons are inconsistent")
         ledgers = cast("dict[str, dict[str, float]]", design["ledgers"])
         if any(set(ledger) != agent_ids for ledger in ledgers.values()):
             raise ValueError("result ledgers must contain exactly the welfare agents")
@@ -1012,6 +1090,8 @@ def validate_signed_social_information_result(
             raise ValueError("result design references an unknown comparator")
         comparator_ledgers = cast("dict[str, dict[str, float]]", comparator["ledgers"])
         signed = cast("dict[str, Any]", design["signed_values"])
+        if signed["comparator_design_id"] != comparator_id:
+            raise ValueError("signed value comparator must match the design comparator")
         by_agent = cast("dict[str, float]", signed["by_agent"])
         if set(by_agent) != agent_ids:
             raise ValueError("signed values must contain exactly the welfare agents")
@@ -1033,6 +1113,176 @@ def validate_signed_social_information_result(
         )
         if not math.isclose(expected_social, float(signed["social"]), abs_tol=1e-12):
             raise ValueError("signed social value disagrees with comparator ledger")
+        roles = ("decision_maker", "recipient", "controller", "stakeholder")
+        expected_by_role = {
+            role: math.fsum(
+                float(by_agent[agent_id])
+                for agent_id in agent_ids
+                if role in agent_roles[agent_id]
+            )
+            for role in roles
+        }
+        reported_by_role = cast("dict[str, float]", signed["by_role"])
+        if set(reported_by_role) != set(roles) or any(
+            not math.isclose(
+                float(reported_by_role[role]), expected_by_role[role], abs_tol=1e-12
+            )
+            for role in roles
+        ):
+            raise ValueError("signed role values disagree with agent roles")
+        expected_switch = selected_policy_id != str(comparator["selected_policy_id"])
+        if design["policy_switch"] is not expected_switch:
+            raise ValueError("policy-switch diagnostic disagrees with the comparator")
+        blackwell = cast("dict[str, Any]", design["blackwell_nonnegativity"])
+        if bool(blackwell["applicable"]):
+            selector = str(design["selector"])
+            expected_checked = (
+                float(design["social_pre_transfer"])
+                - float(comparator["social_pre_transfer"])
+                if selector == "social_welfare"
+                else float(ledgers["pre_transfer"][selector.removeprefix("agent:")])
+                - float(
+                    comparator_ledgers["pre_transfer"][selector.removeprefix("agent:")]
+                )
+            )
+            if (
+                blackwell["reasons_not_applicable"]
+                or blackwell["checked_value"] is None
+                or blackwell["passed"] is not True
+                or not math.isclose(
+                    float(blackwell["checked_value"]),
+                    expected_checked,
+                    abs_tol=1e-12,
+                )
+                or expected_checked < -absolute
+            ):
+                raise ValueError("applicable Blackwell assurance is inconsistent")
+        elif (
+            blackwell["checked_value"] is not None
+            or blackwell["passed"] is not None
+            or not blackwell["reasons_not_applicable"]
+        ):
+            raise ValueError("inapplicable Blackwell assurance needs explicit reasons")
+
+    feasible_social = {
+        str(design["design_id"]): float(
+            design[
+                "social_pre_transfer"
+                if ledger_stage == "pre_transfer"
+                else "social_post_transfer"
+            ]
+        )
+        for design in designs
+        if bool(design["feasible"])
+    }
+    optimum = cast("dict[str, Any]", data["optimum"])
+    reported_feasible = cast("dict[str, float]", optimum["feasible_design_values"])
+    if set(reported_feasible) != set(feasible_social) or any(
+        not math.isclose(float(reported_feasible[design_id]), value, abs_tol=1e-12)
+        for design_id, value in feasible_social.items()
+    ):
+        raise ValueError("optimum feasible-design values are inconsistent")
+    best_social = max(feasible_social.values())
+    expected_design = min(
+        design_id
+        for design_id, value in feasible_social.items()
+        if value == best_social
+    )
+    expected_design_tie = sorted(
+        design_id
+        for design_id, value in feasible_social.items()
+        if math.isclose(value, best_social, abs_tol=absolute, rel_tol=relative)
+    )
+    if (
+        optimum["selected_design_id"] != expected_design
+        or optimum["design_tie"] != expected_design_tie
+        or not math.isclose(float(optimum["social_value"]), best_social, abs_tol=1e-12)
+    ):
+        raise ValueError("optimum selection, tie or social value is inconsistent")
+
+    selected_design = design_by_id[expected_design]
+    selected_values = cast(
+        "dict[str, float]", selected_design["signed_values"]["by_agent"]
+    )
+    expected_winners = sorted(
+        agent_id
+        for agent_id, value in selected_values.items()
+        if float(value) > absolute
+    )
+    expected_losers = sorted(
+        agent_id
+        for agent_id, value in selected_values.items()
+        if float(value) < -absolute
+    )
+    recipient_agents = {
+        agent_id for agent_id, roles in agent_roles.items() if "recipient" in roles
+    }
+    expected_harmful = sorted(
+        str(design["design_id"])
+        for design in designs
+        if design["comparator_design_id"] is not None
+        and any(
+            float(design["signed_values"]["by_agent"][agent_id]) < -absolute
+            for agent_id in recipient_agents
+        )
+    )
+    expected_avoidance = sorted(
+        (
+            {"agent_id": agent_id, "design_id": str(design["design_id"])}
+            for design in designs
+            if design["comparator_design_id"] is not None
+            for agent_id, value in design["signed_values"]["by_agent"].items()
+            if float(value) < -absolute
+        ),
+        key=lambda record: (record["agent_id"], record["design_id"]),
+    )
+    expected_switches = sorted(
+        str(design["design_id"]) for design in designs if bool(design["policy_switch"])
+    )
+    expected_externality = {
+        str(design["design_id"]): float(design["signed_values"]["social"])
+        - math.fsum(
+            float(design["signed_values"]["by_agent"][agent_id])
+            for agent_id in design["recipients"]
+        )
+        for design in designs
+    }
+    diagnostics = cast("dict[str, Any]", data["diagnostics"])
+    reported_externality = cast(
+        "dict[str, float]", diagnostics["externality_by_design"]
+    )
+    if (
+        diagnostics["winners"] != expected_winners
+        or diagnostics["losers"] != expected_losers
+        or diagnostics["harmful_private_designs"] != expected_harmful
+        or diagnostics["information_avoidance"] != expected_avoidance
+        or diagnostics["policy_switches"] != expected_switches
+        or diagnostics["winner_loser_design_id"] != expected_design
+        or set(reported_externality) != set(expected_externality)
+        or any(
+            not math.isclose(
+                float(reported_externality[design_id]), value, abs_tol=1e-12
+            )
+            for design_id, value in expected_externality.items()
+        )
+    ):
+        raise ValueError("signed/social diagnostics are inconsistent")
+
+    assurance = cast("dict[str, Any]", data["assurance"])
+    world_ids = cast("list[str]", assurance["world_ids_evaluated"])
+    policy_ids = cast("list[str]", assurance["policy_ids_evaluated"])
+    design_ids_evaluated = cast("list[str]", assurance["design_ids_evaluated"])
+    used_policy_ids = {
+        policy_id for design in designs for policy_id in design["policies_evaluated"]
+    }
+    if (
+        assurance["worlds_evaluated"] != len(world_ids)
+        or assurance["policies_evaluated"] != len(policy_ids)
+        or not used_policy_ids.issubset(policy_ids)
+        or assurance["designs_evaluated"] != len(design_ids_evaluated)
+        or set(design_ids_evaluated) != set(design_ids)
+    ):
+        raise ValueError("evaluated-world, policy or design assurance is inconsistent")
 
 
 def validate_signed_social_information_input_or_raise(

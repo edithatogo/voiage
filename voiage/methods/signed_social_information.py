@@ -180,6 +180,14 @@ def _blackwell_check(
         reasons.append("comparator_not_centralized")
     if design["selector"] != comparator["selector"]:
         reasons.append("selector_not_aligned")
+    if not bool(evaluated["feasible"]):
+        reasons.append("design_infeasible")
+    if not bool(comparator_evaluated["feasible"]):
+        reasons.append("comparator_infeasible")
+    if design["transfers"] or design["costs"]:
+        reasons.append("design_has_transfers_or_costs")
+    if comparator["transfers"] or comparator["costs"]:
+        reasons.append("comparator_has_transfers_or_costs")
     if assurance is None:
         reasons.append("refinement_assurance_not_declared")
     applicable = not reasons
@@ -383,6 +391,10 @@ def _evaluate(data: dict[str, Any]) -> dict[str, Any]:
         "analysis_type": "signed_social_information_value_result",
         "method_maturity": "experimental",
         "value_unit": data["value_unit"],
+        "agent_roles": {
+            str(agent["agent_id"]): sorted(cast("list[str]", agent["roles"]))
+            for agent in sorted(agents, key=lambda item: str(item["agent_id"]))
+        },
         "welfare_contract": welfare,
         "topology": data["topology"],
         "baseline": baseline,
@@ -416,8 +428,11 @@ def _evaluate(data: dict[str, Any]) -> dict[str, Any]:
         },
         "assurance": {
             "worlds_evaluated": len(worlds),
+            "world_ids_evaluated": sorted(str(world["world_id"]) for world in worlds),
             "policies_evaluated": len(policies),
+            "policy_ids_evaluated": sorted(policy_by_id),
             "designs_evaluated": len(designs),
+            "design_ids_evaluated": sorted(design_by_id),
             "complete_joint_world_law": True,
             "nonanticipativity": "one action per observable signal or one unobserved action",
             "finite_catalog_only": True,

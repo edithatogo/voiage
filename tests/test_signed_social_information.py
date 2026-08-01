@@ -139,6 +139,19 @@ def test_transfer_cost_and_declared_response_ledgers_are_signed() -> None:
     )
 
 
+def test_negative_social_value_is_retained_without_clipping() -> None:
+    specification = _specification()
+    specification["designs"][1]["costs"] = [
+        {"agent_id": "alice", "category": "information", "amount": 10.0}
+    ]
+    result = signed_social_information_value(specification).to_contract_dict()
+    informed = result["designs"][1]
+    assert informed["signed_values"]["social"] == -8.0
+    assert informed["signed_values"]["clipped_at_zero"] is False
+    assert result["assurance"]["negative_values_clipped"] is False
+    assert result["optimum"]["selected_design_id"] == "no_sharing"
+
+
 @pytest.mark.parametrize(
     ("mutation", "message"),
     [
@@ -179,6 +192,57 @@ def test_denied_consent_marks_design_infeasible_without_hiding_it() -> None:
     assert design["feasible"] is False
     assert design["infeasibility_reasons"] == ["consent_denied:alice"]
     assert payload["optimum"]["selected_design_id"] == "no_sharing"
+
+
+def test_blackwell_check_excludes_infeasible_and_transfer_cost_designs() -> None:
+    denied = _specification()
+    denied["receipts"][0]["consent_status"] = "denied"
+    denied_check = signed_social_information_value(denied).to_contract_dict()[
+        "designs"
+    ][1]["blackwell_nonnegativity"]
+    assert denied_check["applicable"] is False
+    assert "design_infeasible" in denied_check["reasons_not_applicable"]
+
+    comparator_denied = _specification()
+    comparator_denied["receipts"].append(
+        {
+            "receipt_id": "baseline-denied",
+            "subject_agent_id": "public",
+            "consent_status": "denied",
+            "purpose": comparator_denied["purpose"],
+            "legal_basis": "synthetic_denial",
+            "data_scope": "clinical_signal",
+        }
+    )
+    comparator_denied["designs"][0]["rights_receipt_ids"] = ["baseline-denied"]
+    comparator_denied_check = signed_social_information_value(
+        comparator_denied
+    ).to_contract_dict()["designs"][1]["blackwell_nonnegativity"]
+    assert comparator_denied_check["applicable"] is False
+    assert "comparator_infeasible" in comparator_denied_check["reasons_not_applicable"]
+
+    costed = _specification()
+    costed["designs"][1]["costs"] = [
+        {"agent_id": "alice", "category": "information", "amount": 0.5}
+    ]
+    costed_check = signed_social_information_value(costed).to_contract_dict()[
+        "designs"
+    ][1]["blackwell_nonnegativity"]
+    assert costed_check["applicable"] is False
+    assert "design_has_transfers_or_costs" in costed_check["reasons_not_applicable"]
+
+    comparator_costed = _specification()
+    comparator_costed["designs"][0]["costs"] = [
+        {"agent_id": "board", "category": "information", "amount": 0.25}
+    ]
+    comparator_check = signed_social_information_value(
+        comparator_costed
+    ).to_contract_dict()["designs"][1]["blackwell_nonnegativity"]
+    assert comparator_check["applicable"] is False
+    assert (
+        "comparator_has_transfers_or_costs"
+        in comparator_check["reasons_not_applicable"]
+    )
 
 
 def test_verified_equilibrium_is_a_catalog_not_a_general_solver() -> None:
@@ -501,3 +565,58 @@ def test_result_semantics_and_public_error_adapter_fail_closed() -> None:
     invalid["unexpected"] = True
     with pytest.raises(InputError):
         validate_signed_social_information_input_or_raise(invalid)
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        lambda value: value["designs"][1]["signed_values"]["by_role"].update(
+            recipient=999.0
+        ),
+        lambda value: value["designs"][1].update(
+            selected_policy_id="safe_without_information"
+        ),
+        lambda value: value["designs"][1].update(
+            policy_tie=["safe_without_information"]
+        ),
+        lambda value: value["optimum"].update(selected_design_id="no_sharing"),
+        lambda value: value["optimum"].update(social_value=999.0),
+        lambda value: value["diagnostics"].update(winners=["alice"]),
+        lambda value: value["designs"][1]["blackwell_nonnegativity"].update(
+            checked_value=999.0
+        ),
+        lambda value: value["assurance"].update(worlds_evaluated=999),
+        lambda value: value["agent_roles"].pop("public"),
+        lambda value: value["optimum"]["tie_policy"].update(absolute_tolerance=-1.0),
+        lambda value: value["designs"][1]["policy_selector_values"].pop(
+            "safe_without_information"
+        ),
+        lambda value: (
+            value["designs"][1].update(policies_evaluated=["safe_without_information"]),
+            value["designs"][1].update(
+                policy_selector_values={"safe_without_information": 0.0}
+            ),
+        ),
+        lambda value: value["designs"][1].update(
+            feasible=False, infeasibility_reasons=[]
+        ),
+        lambda value: value["designs"][1]["signed_values"].update(
+            comparator_design_id=None
+        ),
+        lambda value: value["designs"][1].update(policy_switch=False),
+        lambda value: value["designs"][0]["blackwell_nonnegativity"].update(
+            checked_value=0.0
+        ),
+        lambda value: value["designs"][1]["blackwell_nonnegativity"].update(
+            applicable=False
+        ),
+        lambda value: value["optimum"]["feasible_design_values"].update(
+            selective_social_sharing=999.0
+        ),
+    ],
+)
+def test_result_validator_rejects_derived_surface_drift(mutation: Any) -> None:
+    result = signed_social_information_value(_specification()).to_contract_dict()
+    mutation(result)
+    with pytest.raises(ValueError):
+        validate_signed_social_information_result(result)

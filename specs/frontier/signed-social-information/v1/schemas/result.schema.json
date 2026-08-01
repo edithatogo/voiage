@@ -1,5 +1,22 @@
 {
   "$defs": {
+    "agent_roles": {
+      "additionalProperties": {
+        "items": {
+          "enum": [
+            "decision_maker",
+            "recipient",
+            "controller",
+            "stakeholder"
+          ]
+        },
+        "minItems": 1,
+        "type": "array",
+        "uniqueItems": true
+      },
+      "minProperties": 2,
+      "type": "object"
+    },
     "blackwell": {
       "additionalProperties": false,
       "properties": {
@@ -282,6 +299,9 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
+    "agent_roles": {
+      "$ref": "#/$defs/agent_roles"
+    },
     "analysis_id": {
       "minLength": 1,
       "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
@@ -295,6 +315,16 @@
       "properties": {
         "complete_joint_world_law": {
           "const": true
+        },
+        "design_ids_evaluated": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "minItems": 2,
+          "type": "array",
+          "uniqueItems": true
         },
         "designs_evaluated": {
           "minimum": 2,
@@ -320,8 +350,28 @@
           "minimum": 1,
           "type": "integer"
         },
+        "policy_ids_evaluated": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
         "rights_consent_purpose_receipts_checked": {
           "const": true
+        },
+        "world_ids_evaluated": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
         },
         "worlds_evaluated": {
           "minimum": 1,
@@ -330,8 +380,11 @@
       },
       "required": [
         "worlds_evaluated",
+        "world_ids_evaluated",
         "policies_evaluated",
+        "policy_ids_evaluated",
         "designs_evaluated",
+        "design_ids_evaluated",
         "complete_joint_world_law",
         "nonanticipativity",
         "finite_catalog_only",
@@ -669,6 +722,7 @@
     "analysis_type",
     "method_maturity",
     "value_unit",
+    "agent_roles",
     "welfare_contract",
     "topology",
     "baseline",

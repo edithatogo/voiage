@@ -7,7 +7,7 @@
     },
     {
       "path": "normative/expected.json",
-      "sha256": "bdb962ff958b79791a1875ce14d86249ce437c7bd3a98557188ac14a83d065de"
+      "sha256": "b9fba55306b19dc426459952507dc4f0f00cf70fa0c4725c7f2a2f342e4240e0"
     },
     {
       "path": "../schemas/input.schema.json",
@@ -15,7 +15,7 @@
     },
     {
       "path": "../schemas/result.schema.json",
-      "sha256": "d6348b9b279526fe8085876a085297df99d5427a7d3d98d6f12a59d90837a6ae"
+      "sha256": "c7c9c066dd97460486170b25c596791ab807db584c1c427907dbfe4335aa644e"
     }
   ],
   "method": "signed_social_information_value",
