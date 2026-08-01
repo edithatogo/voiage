@@ -29,6 +29,8 @@
 - [MCDA information reference review](./mcda-information-reference-review.md)
 - [MCDA information implementation review](./mcda-information-implementation-review.md)
 - [Implementation-information reference review](./implementation-information-reference-review.md)
+- [GitHub issue #593](https://github.com/edithatogo/voiage/issues/593)
+- [Implementation-information subissues #766–#768](https://github.com/edithatogo/voiage/issues/593)
 - [GitHub issue #560](https://github.com/edithatogo/voiage/issues/560)
 - [MCDA delivery subissues #746–#750](https://github.com/edithatogo/voiage/issues/560)
 

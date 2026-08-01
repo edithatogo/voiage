@@ -78,6 +78,22 @@
   `e8aaba82`. VOP run `30684893440` and VOIAGE receiver run `30684980076`
   verified the canonical v1.3 projection without opening a drift PR.
 
+- [x] **F593-1 / #766:** Freeze #593's four-cell information/implementation
+  estimands, v1.3.0 M25 requirements, Mermaid flow, primary-reference review,
+  non-independence boundary and terminology-candidate status. (AC-02, AC-03,
+  AC-09) `4f7f1dec`
+- [x] **F593-2 / #767:** Add strict portable v1 input/result schemas, an exact
+  state-dependent normative fixture, current/specific/perfect and signal-
+  dependent implementation contracts, population/time/cost semantics and
+  explicit language dispositions. (AC-02–AC-06) `4f7f1dec`
+- [x] **F593-3 / #767:** Implement the exact experimental Python evaluator,
+  current/perfect-information by current/perfect-implementation matrix, EVSIM,
+  IA-EVSI, interaction identities, complete ties and CLI/API surfaces without
+  an independence assumption. (AC-02–AC-05) `4f7f1dec`
+- [ ] **F593-4 / #768:** Complete independent implementation/scientific review,
+  hosted exact-head and installed-wheel assurance, then reconcile #593 without
+  claiming polyglot parity, stable promotion, release or parent closure.
+
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for
   #559 Value of Flexibility. (AC-03) `6fd474b1`

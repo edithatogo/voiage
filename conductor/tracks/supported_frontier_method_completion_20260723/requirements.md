@@ -2,6 +2,22 @@
 
 ## Must
 
+- **M25-U1:** #593 planned v1.3.0 must declare current, specific, perfect and
+  post-sample implementation as conditional distributions over realised
+  actions, with uncertain states, intended policies, sample likelihoods,
+  chronology, value units, population, discounted time factor and costs.
+- **M25-U2:** Return the auditable current/perfect-information by
+  current/perfect-implementation matrix; specific-implementation and
+  sample-information cells when declared; EVPIM, EVSIM, realizable EVPI, EVP,
+  IA-EVSI, signed net components, complete policy ties, switches, interaction
+  and exact decomposition residuals. Do not assume implementation and
+  information are independent.
+- **M25-U3:** Treat EVEIm and EVSEIm as review-candidate presentation labels,
+  reconcile rather than replace the existing implementation-loss helper, and
+  require exact fixtures, zero-uptake/dependence/pathology tests, estimator
+  assurance, deterministic serialization and explicit Python/Rust/R/Julia/Mojo
+  dispositions before promotion.
+
 - **M21-U1:** #560 planned v1.3.0 MCDA information value must declare named
   alternatives; criteria with raw units, directions and fixed ex-ante value
   functions/normalization anchors; nonnegative normalized preference weights;
