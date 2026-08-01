@@ -1,5 +1,10 @@
 # Changelog
 
+- Added an experimental exact finite risk-sensitive and constrained
+  perfect-information contract for issue #570, with expected-value/utility,
+  lower-tail CVaR, minimax-regret, deterministic/chance constraints, CLI,
+  fixtures, and explicit non-Python/stable-promotion gates.
+
 ## Unreleased
 
 - Add experimental exact finite information-source portfolio VOI from a

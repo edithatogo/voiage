@@ -40,6 +40,10 @@ if TYPE_CHECKING:
         qualitative_information_from_specification,
         render_qualitative_information_text,
     )
+    from .risk_sensitive_voi import (
+        RiskSensitiveVoiResult,
+        risk_sensitive_constrained_voi,
+    )
 
 _MODULES = (
     "adaptive",
@@ -79,6 +83,7 @@ _MODULES = (
     "qualitative_information",
     "regulatory_market_access",
     "replication_reproducibility",
+    "risk_sensitive_voi",
     "sample_information",
     "sequential",
     "strategic_behavior",
@@ -140,6 +145,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "QualitativeQuestionResult",
     "RegulatoryMarketAccessResult",
     "ReplicationReproducibilityResult",
+    "RiskSensitiveVoiResult",
     "ResolvedDistributionModel",
     "StrategicBehaviorResult",
     "ThresholdProfile",
@@ -174,6 +180,7 @@ __all__ = [  # noqa: RUF022 - public export order is a compatibility contract
     "preference_optimal_strategies",
     "qualitative_information_from_specification",
     "render_qualitative_information_text",
+    "risk_sensitive_constrained_voi",
     "sequential_voi",
     "structural_evpi",
     "structural_evppi",

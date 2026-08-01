@@ -1,0 +1,40 @@
+---
+title: Risk-sensitive constrained VOI
+description: Exact finite experimental perfect-information analysis under risk criteria and operational constraints
+---
+
+Issue #570's experimental v1 surface answers a deliberately narrow question:
+how much does perfect state information improve a decision when the same risk
+functional and operational constraints govern both the current and informed
+policy problems?
+
+```python
+import json
+from pathlib import Path
+
+from voiage import risk_sensitive_constrained_voi
+
+request = json.loads(
+    Path("specs/frontier/risk-sensitive-constrained-voi/v1/fixtures/normative/input.json")
+    .read_text()
+)
+result = risk_sensitive_constrained_voi(request).to_contract_dict()
+print(result["value"])
+```
+
+The objective can be expected value, already-declared utility, lower-tail
+CVaR, or minimax regret. A utility transform or regret reference must be fixed
+before calling the evaluator; VOIAGE does not infer risk preferences from raw
+outcomes. Constraints declare their unit, direction, limit, enforcement, and
+provenance. Chance constraints apply to the probability mass on which the
+selected policy mapping satisfies the limit.
+
+```sh
+voiage --format json calculate-risk-sensitive-voi \
+  specs/frontier/risk-sensitive-constrained-voi/v1/fixtures/normative/input.json
+```
+
+The evaluator exactly enumerates bounded finite mappings. Its
+constraint-removal results are global discrete diagnostics, not local shadow
+prices. Continuous optimization, sample information, stable maturity, and
+cross-language parity remain future gates.

@@ -60,6 +60,14 @@ _ECOSYSTEM_EXPORTS = {
     "load_heoml_run_bundle": "load_heoml_run_bundle",
 }
 _EXTENSION_EXPORTS = {
+    "RiskSensitiveVoiResult": (
+        ".methods.risk_sensitive_voi",
+        "RiskSensitiveVoiResult",
+    ),
+    "risk_sensitive_constrained_voi": (
+        ".methods.risk_sensitive_voi",
+        "risk_sensitive_constrained_voi",
+    ),
     "InformationSourcePortfolioResult": (
         ".methods.information_source_portfolio",
         "InformationSourcePortfolioResult",
