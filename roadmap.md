@@ -150,6 +150,15 @@ specialized gaps identified on 27 July 2026 without changing the released
 stable core. Canonical MoSCoW requirements M14–M17 and cross-repository track
 C16 own the shared projection:
 
+Canonical C18 extends the planned v1.3.0 frontier. Requirement M26 and GitHub
+issue #594 are delivered in `uncertainty_modelling_value_20260801` as an
+experimental exact finite Python contract for EV-problem/solution, EEV,
+recourse, wait-and-see, VSS/EVIU and EVPI. Two- and three-stage fixtures encode
+shared-history nonanticipativity, minimization/maximization, nonlinear
+point-estimate behavior and infeasible induced recourse. DVSS/VMS, scientific
+approval, hosted exact-head evidence, polyglot parity, stable promotion,
+release and closure remain pending.
+
 *   `estimation_focused_variance_voi_20260727` and GitHub issue #619 define
     estimation-focused `EVPPI_var` and `EVSI_var` with declared scalar/vector
     target shape, component units, variance or covariance functional,

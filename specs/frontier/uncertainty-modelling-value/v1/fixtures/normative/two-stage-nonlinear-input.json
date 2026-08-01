@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0.0",
+  "analysis_id": "nonlinear-two-stage",
+  "analysis_type": "uncertainty_modelling_value",
+  "method_maturity": "experimental",
+  "objective": {
+    "direction": "minimize",
+    "value_unit": "discounted-cost-units",
+    "population_basis": "one governed decision cohort",
+    "horizon_basis": "two stages",
+    "discount_basis": "already discounted to stage zero",
+    "risk_criterion": "expected_value"
+  },
+  "point_estimate": {
+    "functional": "expectation",
+    "parameter_unit": "demand-units",
+    "value": 5.0,
+    "deterministic_model_revision": "nonlinear-cost-at-mean-v1"
+  },
+  "stages": [
+    {"stage_id": "commit", "order": 1, "information_available": []},
+    {"stage_id": "recourse", "order": 2, "information_available": ["no-revelation"]}
+  ],
+  "states": [
+    {"state_id": "high", "probability": 0.5},
+    {"state_id": "low", "probability": 0.5}
+  ],
+  "histories": [
+    {"history_id": "unresolved", "stage_id": "recourse", "reachable_states": ["high", "low"]}
+  ],
+  "policies": [
+    {
+      "policy_id": "balanced-policy",
+      "first_stage_decision": "balanced-capacity",
+      "history_decisions": [{"history_id": "unresolved", "decision": "balanced-recourse"}],
+      "state_outcomes": [
+        {"state_id": "high", "feasible": true, "objective_value": 11.0, "recourse_status": "feasible"},
+        {"state_id": "low", "feasible": true, "objective_value": 6.0, "recourse_status": "feasible"}
+      ]
+    },
+    {
+      "policy_id": "risky-policy",
+      "first_stage_decision": "lean-capacity",
+      "history_decisions": [{"history_id": "unresolved", "decision": "expedite-if-needed"}],
+      "state_outcomes": [
+        {"state_id": "high", "feasible": true, "objective_value": 16.0, "recourse_status": "feasible"},
+        {"state_id": "low", "feasible": true, "objective_value": 2.0, "recourse_status": "feasible"}
+      ]
+    },
+    {
+      "policy_id": "safe-policy",
+      "first_stage_decision": "safe-capacity",
+      "history_decisions": [{"history_id": "unresolved", "decision": "standard-recourse"}],
+      "state_outcomes": [
+        {"state_id": "high", "feasible": true, "objective_value": 8.0, "recourse_status": "feasible"},
+        {"state_id": "low", "feasible": true, "objective_value": 8.0, "recourse_status": "feasible"}
+      ]
+    }
+  ],
+  "deterministic_candidates": [
+    {"candidate_id": "balanced-at-mean", "first_stage_decision": "balanced-capacity", "point_objective_value": 8.2, "induced_policy_id": "balanced-policy"},
+    {"candidate_id": "risky-at-mean", "first_stage_decision": "lean-capacity", "point_objective_value": 4.0, "induced_policy_id": "risky-policy"},
+    {"candidate_id": "safe-at-mean", "first_stage_decision": "safe-capacity", "point_objective_value": 8.0, "induced_policy_id": "safe-policy"}
+  ],
+  "tie_policy": {"absolute_tolerance": 1e-12, "relative_tolerance": 1e-12, "selection": "complete_ties_then_lexical"},
+  "solver_assurance": {
+    "solver_type": "exact_enumeration",
+    "candidate_space_complete": true,
+    "objective_bound_tolerance": 1e-12,
+    "feasibility_tolerance": 1e-12,
+    "model_revision": "finite-policy-reference-v1"
+  },
+  "provenance": {
+    "scenario_source": "synthetic nonlinear point-estimate counterexample",
+    "policy_generator": "independent complete finite enumeration",
+    "independent_reference": "hand-calculated EEV 9, RP 8, WS 5",
+    "software_version": "1.3.0-planned"
+  }
+}

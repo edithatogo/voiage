@@ -27,6 +27,7 @@ ACTIVE_TRACK_IDS = [
     "stable_voi_rust_core_completion_20260723",
     "study_design_efficiency_20260727",
     "supported_frontier_method_completion_20260723",
+    "uncertainty_modelling_value_20260801",
     "value_of_perspective_completion_20260723",
     "voi_method_census_contract_reconciliation_20260723",
 ]
@@ -87,6 +88,7 @@ def test_v1_programme_baseline_classifies_tracks_and_execution_lanes() -> None:
             "standardized-dataset-ingestion_20260723",
             "study_design_efficiency_20260727",
             "supported_frontier_method_completion_20260723",
+            "uncertainty_modelling_value_20260801",
             "value_of_perspective_completion_20260723",
             "voi_method_census_contract_reconciliation_20260723",
             "accelerator production-speedup evidence",

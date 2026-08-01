@@ -78,6 +78,27 @@
   `e8aaba82`. VOP run `30684893440` and VOIAGE receiver run `30684980076`
   verified the canonical v1.3 projection without opening a drift PR.
 
+- [x] **F594-1 / #774:** Freeze #594's exact finite EVIU/VSS estimand,
+  planned v1.3.0 Must requirements, point-estimate comparator, shared-history
+  nonanticipativity, information-acquisition boundary and DVSS/VMS disposition.
+  (AC-02, AC-05, AC-09) `c04d4c33`
+- [x] **F594-2 / #774:** Add strict schemas plus deterministic two-stage
+  nonlinear, multistage, infeasible-recourse and pathology fixtures with
+  independent finite references. (AC-02–AC-06) `c04d4c33`
+- [x] **F594-3 / #775:** Implement the exact experimental Python EV/EEV/RP/WS,
+  direction-aware VSS/EVIU/EVPI, complete ties, feasibility and policy audit.
+  (AC-02–AC-05) `c04d4c33`
+- [x] **F594-4 / #775:** Add deterministic API/CLI discovery, documentation and
+  explicit Python/Rust/R/Julia/Mojo dispositions without stable claims.
+  (AC-04–AC-06) `c04d4c33`
+- [~] **F594-5 / #776:** Run independent implementation review, 100% changed
+  branch coverage, full local and hosted exact-head assurance; retain
+  scientific, stable-promotion, parity, release and parent-closure gates.
+  Independent implementation review at signed commit `766e7b59` found no
+  unresolved Critical, High or Medium findings. PR #798 carries the reviewed
+  experimental delivery; hosted exact-head assurance remains in progress.
+  (AC-03–AC-07)
+
 - [x] **F593-1 / #766:** Freeze #593's four-cell information/implementation
   estimands, v1.3.0 M25 requirements, Mermaid flow, primary-reference review,
   non-independence boundary and terminology-candidate status. (AC-02, AC-03,

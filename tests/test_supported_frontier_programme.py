@@ -87,6 +87,7 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
         572,
         582,
         593,
+        594,
         595,
         619,
     }
@@ -97,6 +98,10 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
     assert delivered[571]["implementation_pull_requests"] == [679]
     assert delivered[570]["implementation_pull_requests"] == [769]
     assert delivered[572]["implementation_pull_requests"] == [770]
+    assert delivered[594]["implementation_pull_requests"] == [798]
+    assert delivered[594]["review_artifacts"][-1].endswith(
+        "uncertainty_modelling_value_20260801/independent-implementation-review.md"
+    )
     assert delivered[572]["review_artifacts"][-1].endswith(
         "forecast-signal-implementation-review.md"
     )

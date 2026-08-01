@@ -184,6 +184,9 @@ from voiage.methods.threshold import (
 from voiage.methods.threshold import (
     value_of_threshold as calculate_threshold_result,
 )
+from voiage.methods.uncertainty_modelling_value import (
+    value_of_uncertainty_modelling as calculate_uncertainty_modelling_value_result,
+)
 from voiage.methods.utility_information import (
     expected_utility_information_value,
     value_of_clairvoyance,
@@ -3793,6 +3796,59 @@ def calculate_information_source_portfolio(
             f"gross {float(cast('float', optimum['gross_value'])):.6f}; "
             f"net {float(cast('float', optimum['net_value'])):.6f} "
             f"{context['value_unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-uncertainty-modelling-value")
+def calculate_uncertainty_modelling_value(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to an uncertainty-modelling value v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the EVIU/VSS result",
+    ),
+) -> None:
+    """Evaluate experimental exact finite EVIU, VSS and EVPI diagnostics."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError(
+                "Uncertainty-modelling value specification must be a JSON object."
+            )
+        result = calculate_uncertainty_modelling_value_result(
+            cast("dict[str, object]", payload)
+        )
+        contract = result.to_contract_dict()
+        decomposition = cast("dict[str, object]", contract["decomposition"])
+        objective = cast("dict[str, object]", contract["objective"])
+        output_text = _format_output(
+            "Uncertainty-modelling value: "
+            f"EVIU/VSS {decomposition['vss']}; "
+            f"EVPI {float(cast('float', decomposition['evpi'])):.6f} "
+            f"{objective['value_unit']}",
             contract,
         )
         typer.echo(output_text)

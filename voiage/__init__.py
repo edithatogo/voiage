@@ -60,6 +60,18 @@ _ECOSYSTEM_EXPORTS = {
     "load_heoml_run_bundle": "load_heoml_run_bundle",
 }
 _EXTENSION_EXPORTS = {
+    "UncertaintyModellingValueResult": (
+        ".methods.uncertainty_modelling_value",
+        "UncertaintyModellingValueResult",
+    ),
+    "uncertainty_modelling_value": (
+        ".methods.uncertainty_modelling_value",
+        "value_of_uncertainty_modelling",
+    ),
+    "value_of_uncertainty_modelling": (
+        ".methods.uncertainty_modelling_value",
+        "value_of_uncertainty_modelling",
+    ),
     "ImplementationInformationResult": (
         ".methods.implementation_information",
         "ImplementationInformationResult",

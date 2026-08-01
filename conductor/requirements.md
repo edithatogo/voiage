@@ -8,6 +8,14 @@ programme. The canonical cross-repository requirements are maintained in
 
 ### Must have
 
+- **M26 / planned v1.3.0:** #594 declares objective direction and common value
+  units, a named point-estimate functional, scenario probabilities, stages,
+  shared histories, nonanticipativity, recourse, policy class, feasibility,
+  risk criterion and exact solver assurance. It returns the deterministic EV
+  problem/solution, EEV, stochastic/recourse value, wait-and-see value,
+  direction-aware VSS/EVIU and EVPI, complete ties and infeasibility diagnostics
+  while keeping information acquisition separate.
+
 - Directional current-information EVoP and perspective methods retain versioned,
   deterministic, public contracts.
 - The pinned VOP compatibility contract, Arrow schema fingerprint, IPC/Parquet
@@ -144,5 +152,6 @@ programme. The canonical cross-repository requirements are maintained in
 | v1.2.0 | Must | M19 | governed distribution-family information value | #557 under #318 |
 | v1.3.0 | Should | M20 | governed portable qualitative-VOI assessment workflow | #558 and #738–#742 under #318 |
 | v1.3.0 | Should | M21 | governed additive MCDA information value | #560 and #746–#750 under #318 |
+| v1.3.0 | Must | M26 | `uncertainty_modelling_value_20260801` | #594 and #774–#776 under #318 |
 | v1.3.0 | Must | M22 | governed risk-sensitive constrained information value | #570 and #757/#758/#761 under #318 |
 | v1.3.0 | Should | M23 | C18 governed forecast-signal decision value | #572 and #759/#760/#762 under #318 |
