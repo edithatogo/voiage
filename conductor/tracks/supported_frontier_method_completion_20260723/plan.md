@@ -24,9 +24,9 @@
 - [x] **F557-1 / #731:** Freeze #557's distribution-family estimand, terminology,
   MoSCoW requirements, Mermaid flow, independent reference review and failing
   analytical/property/pathology tests. (AC-02, AC-03, AC-09) `b78120e1`
-- [ ] **F557-2 / #732:** Add strict versioned schemas, exact normative fixtures,
+- [x] **F557-2 / #732:** Add strict versioned schemas, exact normative fixtures,
   provenance, comparability, estimator status and language dispositions.
-  (AC-02–AC-06)
+  (AC-02–AC-06) `7976e49a`
 - [ ] **F557-3 / #733:** Implement the exact experimental Python evaluator with
   family-first conditioning, complete ties and a signed net-value result.
   (AC-02–AC-05)
