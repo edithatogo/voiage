@@ -14,8 +14,8 @@
     {"path": "specs/frontier/value-of-distributional-information/v1/README.md", "sha256": "cda82e1a704b5172d11fb551d77318dca9cb80972a49889bb763dba098862bae"},
     {"path": "voiage/contracts/distributional_information.py", "sha256": "a2a9a8f4a9c85173f00fa34e928e6b6c04619885be2dc647a3a9ab91ba4e5854"},
     {"path": "voiage/methods/distributional_information.py", "sha256": "cd8fef252073109450fbfa7f422cb08eb084827ebfad35da412d99ad07c75f28"},
-    {"path": "voiage/cli.py", "sha256": "87857458e1813989a5e1f13c49954a50783a78850a955af43f1c685f9575ad8c"},
-    {"path": "voiage/__init__.py", "sha256": "eb0f237706bea8f3dcdf47dcff4840622d237bf23454e2d16faa2a6edd7ee860"},
+    {"path": "voiage/cli.py", "sha256": "87c4fb6d56af9653a62d20da7f6e24daebad07fd36635dd7ef8e8f92148dcd90"},
+    {"path": "voiage/__init__.py", "sha256": "2da32453ab4a335675b2d20f744d20cabdbc9864f17ef0b8056f3a8e8e7d69f1"},
     {"path": "conductor/tracks/supported_frontier_method_completion_20260723/distribution-family-information-reference-review.md", "sha256": "d0fcdacde3d0340684428298259551a8d58fb6e0b4efcb780b48b7b106337548"},
     {"path": "conductor/tracks/supported_frontier_method_completion_20260723/distribution-family-information-implementation-review.md", "sha256": "075ade9e26efcc4d0a680ea46536352fa31b672c65259c48c7fc1a6a6ab51f0b"},
     {"path": "tests/test_distributional_information.py", "sha256": "c6dadac00dea8e9294c0dba7518fdeda3e10848645fdaab6840e16e0563d6c25"},
@@ -24,7 +24,7 @@
     {"path": "docs/astro-site/src/content/docs/examples/value-of-distributional-information.mdx", "sha256": "c99c508b5b500fb2ebbe55705d3ed3e04d4516b079e962d4506243593fb1c130"},
     {"path": "docs/astro-site/src/content/docs/examples/index.mdx", "sha256": "05a85be3eb59d963b1fd59973f87c8ff1378cdfa11c8638f8dc430415f9546b4"},
     {"path": "docs/astro-site/src/content/docs/cli-reference.mdx", "sha256": "ebdb63cf8417ff9c1f7f5b1fef038fbe0ae7f4a2e6d128cdea79f8c8fd72f0c5"},
-    {"path": "changelog.md", "sha256": "830242fec7836596bf3b58e4b0f228702970383195e256dc21ab3b50e5f720a8"}
+    {"path": "changelog.md", "sha256": "bd0faca86290e4cb947dabe665345393c2a6adca73f5bd342bec2f1508632883"}
   ],
   "remaining_gates": [
     "independent implementation and scientific review",
