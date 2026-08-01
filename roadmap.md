@@ -18,6 +18,14 @@ The project has a solid foundation with core VOI methods implemented, modern CI/
 Across the completed lanes, external registry, hardware, and speedup evidence gates remain explicit rather than treated as repository-owned completion criteria.
 
 The v1.3 residual frontier programme is governed canonically by VOP C18. Issue
+#597 now has an isolated experimental Python implementation in progress for an
+exact finite belief MDP with control-transition-observe-update chronology,
+matched closed-loop/no-information Bellman comparators, intervention-dependent
+learning diagnostics and explicit null-sensor assurance. Independent review,
+hosted exact-head checks, merge, scientific review, polyglot parity, stable
+promotion, release, parent #597 closure and umbrella #318 closure remain
+separate gates.
+
 #596 now has a test-first experimental Python delivery for C18/M27. It evaluates
 perfect event information, a symmetric imperfect binary channel and the
 policy-relative expected-utility density
@@ -27,7 +35,6 @@ result-only plots. Monetary BPI remains delegated to #595. Independent review,
 hosted exact-head checks, scientific approval, Rust/R/Julia parity, stable
 promotion and release remain separate gates.
 
-The v1.3 residual frontier programme is governed canonically by VOP C18. Issue
 #593 now has an experimental Python-only joint information/implementation
 contract and exact finite evaluator. PR #787 exact head `de31458b` passed all
 42 hosted checks (38 successes, one neutral aggregation and three governed
@@ -44,9 +51,11 @@ joint-world law, roles, topology, selective-sharing designs, nonanticipative
 bounded catalogs, welfare comparability, transfers, costs and rights receipts;
 retains negative values; and returns harm, avoidance, switches,
 winners/losers, externalities and strictly scoped Blackwell checks. Independent
-implementation/scientific review, hosted exact-head assurance, Rust/R/Julia
-parity, stable promotion, release, parent #598 closure and umbrella #318
-closure remain open; no PR or merge is claimed by this local state.
+implementation re-review has passed without an unresolved Critical, High or
+Medium finding, and PR #808 carries the experimental branch delivery.
+Synchronized hosted exact-head assurance, merge, scientific review,
+Rust/R/Julia parity, stable promotion, release, parent #598 closure and umbrella
+#318 closure remain open.
 
 **June 25 follow-through closeout:** ✅ **ARCHIVED** - The June 25 follow-through queue is complete and archived for its repository-owned implementation and
 evidence slices. Registry approval, external indexing, production accelerator

@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.0",
+  "analysis_id": "belief-probe-counterexample",
+  "analysis_type": "belief_state_information",
+  "method_maturity": "experimental",
+  "value_unit": "utility-points",
+  "time_unit": "decision-stage",
+  "objective_direction": "maximize",
+  "horizon": 2,
+  "discount_factor": 1.0,
+  "chronology": ["control", "transition", "observe", "update"],
+  "policy_class": "deterministic_markov_belief_policy",
+  "stopping": {"kind": "fixed_horizon"},
+  "latent_states": [
+    {"state_id": "bad", "initial_probability": 0.5},
+    {"state_id": "good", "initial_probability": 0.5}
+  ],
+  "control_actions": [
+    {"action_id": "choose_bad"},
+    {"action_id": "choose_good"},
+    {"action_id": "probe"},
+    {"action_id": "wait"}
+  ],
+  "observations": [
+    {"observation_id": "negative"},
+    {"observation_id": "positive"}
+  ],
+  "transition_model": {
+    "choose_bad": {"bad": {"bad": 1.0, "good": 0.0}, "good": {"bad": 0.0, "good": 1.0}},
+    "choose_good": {"bad": {"bad": 1.0, "good": 0.0}, "good": {"bad": 0.0, "good": 1.0}},
+    "probe": {"bad": {"bad": 1.0, "good": 0.0}, "good": {"bad": 0.0, "good": 1.0}},
+    "wait": {"bad": {"bad": 1.0, "good": 0.0}, "good": {"bad": 0.0, "good": 1.0}}
+  },
+  "rewards": {
+    "choose_bad": {"bad": 10.0, "good": -10.0},
+    "choose_good": {"bad": -10.0, "good": 10.0},
+    "probe": {"bad": -1.0, "good": -1.0},
+    "wait": {"bad": 0.0, "good": 0.0}
+  },
+  "sensors": [
+    {
+      "sensor_id": "none",
+      "null_sensor": true,
+      "cost": 0.0,
+      "likelihood_by_control": {
+        "choose_bad": {"bad": {"negative": 0.5, "positive": 0.5}, "good": {"negative": 0.5, "positive": 0.5}},
+        "choose_good": {"bad": {"negative": 0.5, "positive": 0.5}, "good": {"negative": 0.5, "positive": 0.5}},
+        "probe": {"bad": {"negative": 0.5, "positive": 0.5}, "good": {"negative": 0.5, "positive": 0.5}},
+        "wait": {"bad": {"negative": 0.5, "positive": 0.5}, "good": {"negative": 0.5, "positive": 0.5}}
+      }
+    },
+    {
+      "sensor_id": "diagnostic",
+      "null_sensor": false,
+      "cost": 0.5,
+      "likelihood_by_control": {
+        "choose_bad": {"bad": {"negative": 0.5, "positive": 0.5}, "good": {"negative": 0.5, "positive": 0.5}},
+        "choose_good": {"bad": {"negative": 0.5, "positive": 0.5}, "good": {"negative": 0.5, "positive": 0.5}},
+        "probe": {"bad": {"negative": 0.9, "positive": 0.1}, "good": {"negative": 0.1, "positive": 0.9}},
+        "wait": {"bad": {"negative": 0.5, "positive": 0.5}, "good": {"negative": 0.5, "positive": 0.5}}
+      }
+    }
+  ],
+  "constraints": {
+    "allowed_control_action_ids_by_stage": {
+      "0": ["choose_bad", "choose_good", "probe", "wait"],
+      "1": ["choose_bad", "choose_good", "probe", "wait"]
+    },
+    "allowed_sensor_ids_by_control": {
+      "choose_bad": ["none", "diagnostic"],
+      "choose_good": ["none", "diagnostic"],
+      "probe": ["none", "diagnostic"],
+      "wait": ["none", "diagnostic"]
+    }
+  },
+  "tolerances": {
+    "absolute_tie": 1e-10,
+    "relative_tie": 1e-10,
+    "probability": 1e-10
+  }
+}

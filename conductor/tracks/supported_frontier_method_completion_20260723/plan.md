@@ -274,7 +274,8 @@ covers the experimental frontier entries only.
   portable derived-result and Blackwell-applicability defects in
   `signed-social-information-implementation-review.md`. A fresh independent
   re-review passed at `d7d569b2` with no remaining Critical, High or Medium
-  findings; hosted exact-head/wheel checks and merge remain pending.
+  findings. PR #808 carries the experimental branch delivery; its synchronized
+  exact-head/wheel checks and merge remain pending.
   (AC-03–AC-07, AC-09)
 
 - [x] **F598-R1 / #785 — Review Fixes:** Bind portable agent roles and exact
@@ -336,6 +337,67 @@ covers the experimental frontier entries only.
 - [ ] **G8:** Run an independent evidence and boundary review. (AC-03, AC-07)
 
 ## Phase 3 — Delivery or reviewed exclusion
+
+- [x] **F597-1 / #780:** Freeze the exact finite belief-MDP contract, strict
+  schemas, normative nonmyopic intervention fixture, chronology, estimands,
+  null-sensor reduction and complete-tie policy. (AC-02, AC-03, AC-09)
+  `bdcb78b1`
+- [x] **F597-2 / #781:** Implement the experimental Python Bellman evaluator,
+  public API and CLI with closed-loop/no-information comparators, gross/net,
+  myopic/nonmyopic, conditional-sensing, policy-tree, regret and horizon
+  results. (AC-03–AC-06) `bdcb78b1`
+- [x] **F597-3 / #782:** Record posterior-martingale, exact-bound,
+  action-dependent-learning and dual-control diagnostics, explicit language
+  dispositions, independent implementation review, full local validation and
+  hosted exact-head assurance without claiming stable or scientific closure.
+  Initial review found and remediated false dual-control classification,
+  unbounded exact-enumeration work, open nested result contracts and
+  inconsistent probability tolerance. The remediator's engineering record is
+  `belief-state-information-remediation-review.md`. The third fresh review
+  found and remediated residual result-assurance drift, recorded in
+  `belief-state-information-third-review-remediation.md`. The fourth fresh
+  review found and remediated remaining model-unbound assurance claims in
+  `belief-state-information-fourth-review-remediation.md`. The fifth fresh
+  independent review approved the bounded remediation in
+  `belief-state-information-fifth-review.md`. PR #807 exact head
+  `35cfe522c1b23b8dae3542442a8900b14f9bbcc0`
+  passed all 42 terminal-allowed checks (38 successes, three governed skips
+  and one neutral CodeQL aggregation), including installed-wheel, full-suite
+  and exact-head assurance, with zero unresolved review threads before squash
+  merge `39de9c6ab2079b55a4666243baff2a5db7f10604`. Delivery subissues
+  #780–#782 may close; scientific review, Rust/R/Julia parity, stable promotion,
+  release, parent #597 closure and umbrella #318 closure remain separate gates.
+  (AC-03–AC-07)
+
+- [x] **F597-R1 / #782 — Review Fixes:** Add conservative Bellman expansion
+  preflight, repeated-belief memoization, strict recursive input/result
+  validation, semantic identity and martingale checks, and state-informative
+  usable-response dual-control diagnostics with adversarial regressions.
+  (AC-03–AC-07) `b9e8bd92`
+
+- [x] **F597-R2 / #782 — Review Fixes:** Extend the 50,000-call preflight
+  across adaptive full/horizon/myopic/conditional, no-information and fully
+  observed regret recursion; add high-cardinality rejection and accepted
+  horizon-boundary regressions while preserving memoization. (AC-03–AC-07)
+  `eaa2f194`
+
+- [x] **F597-R3 / #782 — Review Fixes:** Bind the public result validator to a
+  complete stage-zero fixed-horizon policy tree, successful exact-assurance
+  flags and the governed 50,000-call budget; add adversarial early/late tree,
+  false-assurance and enlarged-budget regressions. (AC-03–AC-07) `6d696ca4`
+
+- [x] **F597-R4 / #782 — Review Fixes:** Commit the strict source input model
+  inside each result and reconstruct the exact bounded evaluation during
+  standalone validation, binding the expansion estimate, horizon values,
+  policy selections/ties and transition/learning diagnostics to their source.
+  (AC-03–AC-07) `08c371af`
+
+- [x] **F597-R5 / #782 — Independent Review:** Independently reproduce the
+  normative exact evaluation and reject altered expansion estimates, final
+  horizon cells, policy selections/ties, diagnostic flags and committed input
+  models. The review found no unresolved Critical, High or Medium finding in
+  the bounded repository delivery. (AC-03–AC-07)
+  `belief-state-information-fifth-review.md`
 
 - [ ] **G9:** Implement each accepted repository-owned capability or record a
   reviewed exclusion with migration guidance. (AC-02, AC-06)

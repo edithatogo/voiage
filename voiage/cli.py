@@ -62,6 +62,9 @@ from voiage.methods.ambiguity_distribution_shift import (
     value_of_ambiguity_distribution_shift as calculate_ambiguity_shift_result,
 )
 from voiage.methods.basic import evpi, evppi
+from voiage.methods.belief_state_information import (
+    belief_state_information_value as calculate_belief_state_information_result,
+)
 from voiage.methods.calibration import voi_calibration
 from voiage.methods.capacity_budget_constrained import (
     value_of_capacity_budget_constrained as calculate_capacity_budget_result,
@@ -3702,6 +3705,55 @@ def calculate_implementation_information(
             f"EVP {float(gross['evp']):.6f}; "
             f"realizable EVPI {float(gross['realizable_evpi']):.6f}; "
             f"EVPIM {float(gross['evpim']):.6f} {contract['value_unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-belief-state-information")
+def calculate_belief_state_information(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a belief-state information v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the belief-state information result",
+    ),
+) -> None:
+    """Evaluate experimental finite belief-state sequential information."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError("Belief-state information specification must be an object.")
+        contract = calculate_belief_state_information_result(
+            cast("dict[str, object]", payload)
+        ).to_contract_dict()
+        values = cast("dict[str, object]", contract["values"])
+        output_text = _format_output(
+            "Belief-state information value: "
+            f"net {float(values['net_information_value']):.6f}; "
+            f"gross {float(values['gross_information_value']):.6f} "
+            f"{contract['value_unit']}",
             contract,
         )
         typer.echo(output_text)

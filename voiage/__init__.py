@@ -68,6 +68,14 @@ _EXTENSION_EXPORTS = {
         ".methods.signed_social_information",
         "signed_social_information_value",
     ),
+    "BeliefStateInformationResult": (
+        ".methods.belief_state_information",
+        "BeliefStateInformationResult",
+    ),
+    "belief_state_information_value": (
+        ".methods.belief_state_information",
+        "belief_state_information_value",
+    ),
     "EventLocalizedInformationResult": (
         ".methods.event_localized_information",
         "EventLocalizedInformationResult",

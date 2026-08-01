@@ -27,6 +27,8 @@ registry used to keep them aligned.
 - `signed-social-information/`: experimental exact finite signed private,
   recipient, controller, stakeholder and social value with selective sharing,
   explicit ledgers, rights receipts and bounded policy catalogs.
+- `belief-state-information/`: experimental exact finite belief-MDP value for
+  intervention-aware sequential sensing and control.
 - `validation/`: model-validation and discrepancy-reduction contracts.
 - `threshold/`: threshold, tipping-point, and robust VOI contracts.
 - `dynamic-real-options/`: dynamic real-options VOI contracts.
