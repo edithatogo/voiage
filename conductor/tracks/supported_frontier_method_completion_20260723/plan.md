@@ -188,6 +188,14 @@ covers the experimental frontier entries only.
   `event-localized-information-final-review.md`. Hosted exact-head coverage,
   installed-wheel evidence and later scientific/parity/promotion/release gates
   remain pending.
+- [x] **F596-R5:** Remediate exact-head hosted assurance failures without
+  weakening the experimental contract. The repository-wide command registry,
+  extension-policy projection, promotion checklist and inherited fixture hashes
+  were synchronized; result/input fail-closed invariants, defensive numerical
+  guards and both CLI output branches now have executable coverage. Focused
+  local coverage reports 100% statements and branches for the event contract
+  and evaluator. Replacement hosted exact-head Actions remain mandatory.
+  `e447c0e8`
 
 - [x] **F572-1 / #760:** Freeze #572's C18/M23 forecast-signal decision
   estimand, strict input/result schemas, analytical newsvendor fixture,
