@@ -129,6 +129,31 @@ def test_expected_posterior_covariance_is_also_dimension_checked() -> None:
         _ = EstimationVarianceResult.model_validate(fields)
 
 
+def test_vector_result_still_applies_shared_reduction_validation() -> None:
+    fields = _result_fields()
+    fields.update(
+        {
+            "target": EstimationTargetSpec(
+                target_id="two_outputs",
+                shape="vector",
+                component_units=("count", "usd"),
+                covariance_functional="trace",
+            ),
+            "prior_covariance": ((1.0, 0.0), (0.0, 2.0)),
+            "expected_posterior_covariance": ((0.5, 0.0), (0.0, 1.0)),
+            "prior_functional": 3.0,
+            "expected_posterior_functional": 1.5,
+            "raw_reduction": 1.4,
+            "absolute_reduction": 1.5,
+            "relative_reduction": 0.5,
+            "functional_units": "declared_pending_vector_review",
+        }
+    )
+
+    with pytest.raises(ValidationError, match="raw_reduction must equal"):
+        _ = EstimationVarianceResult.model_validate(fields)
+
+
 @pytest.mark.parametrize(
     ("updates", "message"),
     [
