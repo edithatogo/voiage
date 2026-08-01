@@ -200,8 +200,11 @@
   Initial review found and remediated false dual-control classification,
   unbounded exact-enumeration work, open nested result contracts and
   inconsistent probability tolerance. The remediator's engineering record is
-  `belief-state-information-remediation-review.md`; a fresh independent review,
-  hosted exact-head assurance and merge remain pending. (AC-03–AC-07)
+  `belief-state-information-remediation-review.md`. The third fresh review
+  found and remediated residual result-assurance drift, recorded in
+  `belief-state-information-third-review-remediation.md`; a fourth fresh
+  independent review, hosted exact-head assurance and merge remain pending.
+  (AC-03–AC-07)
 
 - [x] **F597-R1 / #782 — Review Fixes:** Add conservative Bellman expansion
   preflight, repeated-belief memoization, strict recursive input/result
@@ -214,6 +217,11 @@
   observed regret recursion; add high-cardinality rejection and accepted
   horizon-boundary regressions while preserving memoization. (AC-03–AC-07)
   `eaa2f194`
+
+- [x] **F597-R3 / #782 — Review Fixes:** Bind the public result validator to a
+  complete stage-zero fixed-horizon policy tree, successful exact-assurance
+  flags and the governed 50,000-call budget; add adversarial early/late tree,
+  false-assurance and enlarged-budget regressions. (AC-03–AC-07) `6d696ca4`
 
 - [ ] **G9:** Implement each accepted repository-owned capability or record a
   reviewed exclusion with migration guidance. (AC-02, AC-06)
