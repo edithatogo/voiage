@@ -1,0 +1,3 @@
+Governed review update for issue #570 after hosted lint/type remediation.
+
+The F570-3 status remains in progress. The independent implementation review now records hosted run 30688015038, signed remediation 18747c8b, and exact BasedPyright zero-error/zero-warning evidence while retaining hosted full-suite, scientific, C18, parity, promotion, release, and closure gates.
