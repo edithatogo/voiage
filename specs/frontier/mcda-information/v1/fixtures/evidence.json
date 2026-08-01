@@ -18,7 +18,7 @@
     },
     {
       "path": "tests/test_mcda_information_contract.py",
-      "sha256": "0f1a850e2360006f29ca32b891e765d857ff3d6e8abd89721c682add2938f5eb"
+      "sha256": "7e9045201b959b4ade491f2dbe2fb1569f481c0a4d05d35f51eae698bf6be0f8"
     },
     {
       "path": "tests/test_mcda_information.py",

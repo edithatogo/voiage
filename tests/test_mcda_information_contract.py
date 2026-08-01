@@ -11,6 +11,7 @@ from typing import Any
 from jsonschema import Draft202012Validator
 import pytest
 
+import voiage.contracts.mcda_information as mcda_contract
 from voiage.contracts.mcda_information import (
     MCDA_INFORMATION_INPUT_SCHEMA_V1,
     MCDA_INFORMATION_RESULT_SCHEMA_V1,
@@ -83,6 +84,18 @@ def test_normative_fixture_retains_joint_interaction_without_double_counting() -
             "weights must sum to 1",
         ),
         (
+            lambda payload: payload["alternatives"][1].update(
+                alternative_id="service-a"
+            ),
+            "alternative IDs must be unique",
+        ),
+        (
+            lambda payload: payload["default_weights"].update(
+                unknown=payload["default_weights"].pop("burden")
+            ),
+            "weight keys must exactly match criterion IDs",
+        ),
+        (
             lambda payload: payload["joint_states"][0]["performances"].update(
                 {"service-x": {"quality": 50.0, "burden": 50.0}}
             ),
@@ -101,6 +114,12 @@ def test_normative_fixture_retains_joint_interaction_without_double_counting() -
             "anchors and domain must increase",
         ),
         (
+            lambda payload: payload["criteria"][0]["value_function"].update(
+                valid_domain=[10.0, 100.0]
+            ),
+            "anchors must lie inside the valid domain",
+        ),
+        (
             lambda payload: payload["criteria"][0]["value_function"]["anchors"][
                 1
             ].update(value=0.0),
@@ -113,10 +132,32 @@ def test_normative_fixture_retains_joint_interaction_without_double_counting() -
             "outside a reject-extrapolation domain",
         ),
         (
+            lambda payload: payload["latent_partitions"]["preference_keys"].append(
+                "outcome_regime"
+            ),
+            "partition keys must be disjoint",
+        ),
+        (
+            lambda payload: payload["joint_states"][0]["performances"][
+                "service-a"
+            ].update(
+                unknown=payload["joint_states"][0]["performances"]["service-a"].pop(
+                    "burden"
+                )
+            ),
+            "performance rows must exactly match criteria",
+        ),
+        (
             lambda payload: payload["information_actions"][0].update(
                 outcome_partition_keys=["unknown"]
             ),
             "unknown partition key",
+        ),
+        (
+            lambda payload: payload["information_actions"][0].update(
+                preference_partition_keys=["preference_regime"]
+            ),
+            "keys must match its declared type",
         ),
         (
             lambda payload: payload["information_actions"][0].update(
@@ -146,6 +187,51 @@ def test_v1_requires_exactly_one_action_of_each_information_type() -> None:
     payload["information_actions"].append(deepcopy(payload["information_actions"][0]))
     payload["information_actions"][-1]["action_id"] = "learn-outcome-again"
     with pytest.raises(ValueError, match="constraint: maxItems"):
+        validate_mcda_information_semantics(payload)
+
+
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        (
+            lambda payload: payload["default_weights"].update(quality="not-a-number"),
+            "weights must be finite",
+        ),
+        (
+            lambda payload: payload["default_weights"].update(quality=-0.1, burden=1.1),
+            "weights must be non-negative",
+        ),
+        (
+            lambda payload: payload["tolerances"].update(probability_sum=0.0),
+            "probability tolerance must be",
+        ),
+        (
+            lambda payload: payload["tolerances"].update(weight_sum=0.0),
+            "weight tolerance must be",
+        ),
+        (
+            lambda payload: payload["joint_states"][0].update(probability=-0.1),
+            "state probabilities must be non-negative",
+        ),
+        (
+            lambda payload: payload["information_actions"][0]["cost"].update(
+                original_amount=-1.0
+            ),
+            "information costs must be non-negative",
+        ),
+    ],
+)
+def test_semantics_defend_numeric_boundaries_beyond_schema(
+    monkeypatch, mutation, message: str
+) -> None:
+    monkeypatch.setattr(
+        mcda_contract.Draft202012Validator,
+        "validate",
+        lambda self, instance: None,
+    )
+    payload = _input()
+    mutation(payload)
+    with pytest.raises((TypeError, ValueError), match=message):
         validate_mcda_information_semantics(payload)
 
 
@@ -206,6 +292,47 @@ def test_zero_mass_joint_states_are_rejected_before_conditioning() -> None:
             ),
             "baseline score must be finite",
         ),
+        (
+            lambda result: result["baseline"]["expected_scores"].update(
+                {"service-x": result["baseline"]["expected_scores"].pop("service-a")}
+            ),
+            "baseline scores must exactly match alternatives",
+        ),
+        (
+            lambda result: result["conditional_actions"][0]["partitions"][0][
+                "conditional_scores"
+            ].update(
+                {
+                    "service-x": result["conditional_actions"][0]["partitions"][0][
+                        "conditional_scores"
+                    ].pop("service-a")
+                }
+            ),
+            "conditional scores must exactly match alternatives",
+        ),
+        (
+            lambda result: result["decomposition"].update(
+                criterion_action_id="unknown-action"
+            ),
+            "action IDs must identify result actions",
+        ),
+        (
+            lambda result: result["decomposition"].update(
+                criterion_action_id="learn-preference",
+                preference_action_id="learn-outcome",
+            ),
+            "action IDs must match their action types",
+        ),
+        (
+            lambda result: result["rank_acceptability"]["by_alternative"].update(
+                {
+                    "service-x": result["rank_acceptability"]["by_alternative"].pop(
+                        "service-a"
+                    )
+                }
+            ),
+            "rank acceptability must exactly match alternatives",
+        ),
     ],
 )
 def test_result_semantics_fail_closed(mutation, message: str) -> None:
@@ -213,6 +340,26 @@ def test_result_semantics_fail_closed(mutation, message: str) -> None:
     mutation(result)
     with pytest.raises((TypeError, ValueError), match=message):
         validate_mcda_information_result_semantics(result)
+
+
+def test_result_schema_errors_are_redacted_to_path_and_constraint() -> None:
+    result = _expected()
+    result.pop("unsupported_dispositions")
+    with pytest.raises(ValueError, match="invalid MCDA information result.*required"):
+        validate_mcda_information_result_semantics(result)
+
+
+def test_result_rejects_action_id_reconciliation_drift(monkeypatch) -> None:
+    original_ids = mcda_contract._ids
+
+    def ids_with_ghost(
+        records: list[dict[str, Any]], key: str, label: str
+    ) -> list[str]:
+        return [*original_ids(records, key, label), "ghost-action"]
+
+    monkeypatch.setattr(mcda_contract, "_ids", ids_with_ghost)
+    with pytest.raises(ValueError, match="result action IDs must be unique"):
+        validate_mcda_information_result_semantics(_expected())
 
 
 @pytest.mark.parametrize(
