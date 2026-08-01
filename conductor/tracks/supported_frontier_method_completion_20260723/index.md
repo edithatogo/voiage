@@ -33,6 +33,8 @@
 - [GitHub issue #593](https://github.com/edithatogo/voiage/issues/593)
 - [Implementation-information subissues #766–#768](https://github.com/edithatogo/voiage/issues/593)
 - [Implementation-information delivery PR #787](https://github.com/edithatogo/voiage/pull/787)
+- [Risk-sensitive constrained VOI implementation review](./risk-sensitive-constrained-voi-implementation-review.md)
+- [Risk-sensitive constrained VOI delivery PR #769](https://github.com/edithatogo/voiage/pull/769)
 - [GitHub issue #560](https://github.com/edithatogo/voiage/issues/560)
 - [MCDA delivery subissues #746–#750](https://github.com/edithatogo/voiage/issues/560)
 

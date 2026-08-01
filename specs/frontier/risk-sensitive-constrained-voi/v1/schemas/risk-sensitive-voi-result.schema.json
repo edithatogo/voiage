@@ -1,0 +1,538 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/frontier/risk-sensitive-voi-result.v1.json",
+  "title": "RiskSensitiveConstrainedVoiResultV1Experimental",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "analysis_id",
+    "analysis_type",
+    "method_maturity",
+    "planned_version",
+    "objective",
+    "baseline",
+    "perfect_information",
+    "value",
+    "switches",
+    "risk_diagnostics",
+    "constraint_diagnostics",
+    "shadow_value_evidence",
+    "enumeration",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "analysis_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+    },
+    "analysis_type": {
+      "const": "risk_sensitive_constrained_perfect_information_result"
+    },
+    "method_maturity": {
+      "const": "experimental"
+    },
+    "planned_version": {
+      "const": "v1.3.0"
+    },
+    "objective": {
+      "type": "object",
+      "required": [
+        "kind",
+        "direction",
+        "unit",
+        "operational_definition"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "expected_value",
+            "expected_utility",
+            "lower_tail_cvar",
+            "minimax_regret"
+          ]
+        },
+        "direction": {
+          "const": "maximize"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operational_definition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "confidence_level": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 1
+        },
+        "regret_reference_by_state": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "number"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "baseline": {
+      "type": "object",
+      "required": [
+        "selected_policy_id",
+        "tied_policy_ids",
+        "objective_score",
+        "expected_value",
+        "worst_case_regret"
+      ],
+      "properties": {
+        "objective_score": {
+          "type": "number"
+        },
+        "expected_value": {
+          "type": "number"
+        },
+        "worst_case_regret": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "selected_policy_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "tied_policy_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "perfect_information": {
+      "type": "object",
+      "required": [
+        "selected_policy_by_state",
+        "tied_policy_mappings",
+        "objective_score",
+        "expected_value",
+        "worst_case_regret"
+      ],
+      "properties": {
+        "objective_score": {
+          "type": "number"
+        },
+        "expected_value": {
+          "type": "number"
+        },
+        "worst_case_regret": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "selected_policy_by_state": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          }
+        },
+        "tied_policy_mappings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "value": {
+      "type": "object",
+      "required": [
+        "gross",
+        "information_cost",
+        "net",
+        "unit"
+      ],
+      "properties": {
+        "gross": {
+          "type": "number"
+        },
+        "information_cost": {
+          "type": "number",
+          "minimum": 0
+        },
+        "net": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "switches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "state_id",
+          "from_policy_id",
+          "to_policy_id"
+        ],
+        "properties": {
+          "state_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          },
+          "from_policy_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          },
+          "to_policy_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "risk_diagnostics": {
+      "type": "object",
+      "required": [
+        "objective_kind",
+        "baseline_objective_score",
+        "perfect_information_objective_score",
+        "baseline_expected_value",
+        "perfect_information_expected_value",
+        "baseline_worst_case_regret",
+        "perfect_information_worst_case_regret",
+        "lower_tail_mass"
+      ],
+      "properties": {
+        "objective_kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "baseline_objective_score": {
+          "type": "number"
+        },
+        "perfect_information_objective_score": {
+          "type": "number"
+        },
+        "baseline_expected_value": {
+          "type": "number"
+        },
+        "perfect_information_expected_value": {
+          "type": "number"
+        },
+        "baseline_worst_case_regret": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "perfect_information_worst_case_regret": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "lower_tail_mass": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "constraint_diagnostics": {
+      "type": "object",
+      "required": [
+        "baseline",
+        "perfect_information"
+      ],
+      "properties": {
+        "baseline": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "constraint_id",
+              "kind",
+              "unit",
+              "enforcement",
+              "required_satisfaction_probability",
+              "satisfaction_probability",
+              "feasible",
+              "worst_slack",
+              "slack_by_state",
+              "violating_state_ids"
+            ],
+            "properties": {
+              "constraint_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+              },
+              "kind": {
+                "type": "string",
+                "minLength": 1
+              },
+              "unit": {
+                "type": "string",
+                "minLength": 1
+              },
+              "enforcement": {
+                "enum": [
+                  "deterministic",
+                  "chance"
+                ]
+              },
+              "required_satisfaction_probability": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "satisfaction_probability": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "feasible": {
+                "type": "boolean"
+              },
+              "worst_slack": {
+                "type": "number"
+              },
+              "slack_by_state": {
+                "type": "object",
+                "minProperties": 1,
+                "additionalProperties": {
+                  "type": "number"
+                }
+              },
+              "violating_state_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "perfect_information": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "constraint_id",
+              "kind",
+              "unit",
+              "enforcement",
+              "required_satisfaction_probability",
+              "satisfaction_probability",
+              "feasible",
+              "worst_slack",
+              "slack_by_state",
+              "violating_state_ids"
+            ],
+            "properties": {
+              "constraint_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+              },
+              "kind": {
+                "type": "string",
+                "minLength": 1
+              },
+              "unit": {
+                "type": "string",
+                "minLength": 1
+              },
+              "enforcement": {
+                "enum": [
+                  "deterministic",
+                  "chance"
+                ]
+              },
+              "required_satisfaction_probability": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "satisfaction_probability": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "feasible": {
+                "type": "boolean"
+              },
+              "worst_slack": {
+                "type": "number"
+              },
+              "slack_by_state": {
+                "type": "object",
+                "minProperties": 1,
+                "additionalProperties": {
+                  "type": "number"
+                }
+              },
+              "violating_state_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "shadow_value_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "constraint_id",
+          "shadow_value_status",
+          "method",
+          "gross_voi_without_constraint",
+          "constraint_removal_effect_on_gross_voi",
+          "unit"
+        ],
+        "properties": {
+          "constraint_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          },
+          "shadow_value_status": {
+            "const": "not_a_local_shadow_price"
+          },
+          "method": {
+            "const": "exact_constraint_removal"
+          },
+          "gross_voi_without_constraint": {
+            "type": "number"
+          },
+          "constraint_removal_effect_on_gross_voi": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "enumeration": {
+      "type": "object",
+      "required": [
+        "exact",
+        "estimator",
+        "tie_policy",
+        "policy_count",
+        "state_count",
+        "mapping_count_evaluated",
+        "feasible_baseline_count",
+        "feasible_mapping_count"
+      ],
+      "properties": {
+        "exact": {
+          "const": true
+        },
+        "estimator": {
+          "const": "exact_finite_enumeration"
+        },
+        "tie_policy": {
+          "const": "exact_argmax_lexicographic_with_tolerance_ties"
+        },
+        "policy_count": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "state_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "mapping_count_evaluated": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "feasible_baseline_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "feasible_mapping_count": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "model_source",
+        "probability_source",
+        "constraint_source"
+      ],
+      "properties": {
+        "model_source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "probability_source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "constraint_source": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

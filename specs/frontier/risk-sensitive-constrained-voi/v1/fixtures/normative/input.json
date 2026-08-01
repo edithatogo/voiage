@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "analysis_id": "regional-service-risk-voi",
+  "analysis_type": "risk_sensitive_constrained_perfect_information",
+  "method_maturity": "experimental",
+  "planned_version": "v1.3.0",
+  "objective": {
+    "kind": "expected_value",
+    "direction": "maximize",
+    "unit": "million_nzd_npv",
+    "operational_definition": "Net service value already expressed on a higher-is-better common scale."
+  },
+  "states": [
+    {"state_id": "high", "probability": 0.5},
+    {"state_id": "mid", "probability": 0.3},
+    {"state_id": "low", "probability": 0.2}
+  ],
+  "policies": [
+    {
+      "policy_id": "adaptive",
+      "label": "Adaptive surge",
+      "objective_by_state": {"high": 10.0, "mid": 4.0, "low": 2.0},
+      "constraint_usage": {
+        "budget": {"high": 8.0, "mid": 8.0, "low": 8.0},
+        "service": {"high": 0.95, "mid": 0.7, "low": 0.6}
+      },
+      "source_reference": "governed synthetic exact-enumeration fixture"
+    },
+    {
+      "policy_id": "steady",
+      "label": "Steady service",
+      "objective_by_state": {"high": 7.0, "mid": 7.0, "low": 7.0},
+      "constraint_usage": {
+        "budget": {"high": 6.0, "mid": 6.0, "low": 6.0},
+        "service": {"high": 0.85, "mid": 0.85, "low": 0.85}
+      },
+      "source_reference": "governed synthetic exact-enumeration fixture"
+    },
+    {
+      "policy_id": "expansive",
+      "label": "Expansion",
+      "objective_by_state": {"high": 3.0, "mid": 9.0, "low": 11.0},
+      "constraint_usage": {
+        "budget": {"high": 5.0, "mid": 9.0, "low": 12.0},
+        "service": {"high": 0.8, "mid": 0.9, "low": 0.95}
+      },
+      "source_reference": "governed synthetic exact-enumeration fixture"
+    }
+  ],
+  "constraints": [
+    {
+      "constraint_id": "budget",
+      "kind": "budget",
+      "label": "State budget ceiling",
+      "unit": "million_nzd",
+      "sense": "less_than_or_equal",
+      "limit": 10.0,
+      "enforcement": "deterministic",
+      "source_reference": "synthetic operational ceiling"
+    },
+    {
+      "constraint_id": "service",
+      "kind": "service_level",
+      "label": "Service attainment",
+      "unit": "proportion",
+      "sense": "greater_than_or_equal",
+      "limit": 0.8,
+      "enforcement": "chance",
+      "minimum_satisfaction_probability": 0.8,
+      "source_reference": "synthetic service standard"
+    }
+  ],
+  "information_action": {
+    "action_id": "perfect-demand-state",
+    "resolution": "perfect_state",
+    "cost": {
+      "amount": 0.5,
+      "unit": "million_nzd_npv",
+      "placement": "deduct_after_objective_comparison",
+      "scope": "action_specific_disjoint"
+    }
+  },
+  "tolerances": {"absolute_tie": 1e-12, "relative_tie": 1e-12, "probability_sum": 1e-9},
+  "assurance": {
+    "estimator": "exact_finite_enumeration",
+    "max_policy_mappings": 100,
+    "independent_reference": "manual enumeration of all 3^3 mappings",
+    "fixture_provenance": "synthetic issue-570 normative fixture"
+  },
+  "provenance": {
+    "model_source": "synthetic exact-enumeration example",
+    "probability_source": "declared synthetic probabilities",
+    "constraint_source": "declared synthetic operational limits"
+  }
+}

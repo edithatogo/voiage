@@ -101,14 +101,21 @@
       "issue": 570,
       "record_id": "risk-sensitive-constrained-voi",
       "issue_state": "open",
-      "project_status": "Todo",
-      "disposition": "adjacent_only",
-      "maturity": "planned",
-      "satisfies_ac06": false,
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
       "delivery_track": "supported_frontier_method_completion_20260723",
-      "implementation_pull_requests": [],
-      "review_artifacts": [],
-      "adjacent_artifacts": ["capacity-budget constraints", "CVaR", "robust and ambiguity helpers"]
+      "implementation_pull_requests": [769],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/risk-sensitive-constrained-voi-implementation-review.md"
+      ],
+      "adjacent_artifacts": [
+        "capacity-budget constraints",
+        "CVaR",
+        "robust and ambiguity helpers",
+        "specs/frontier/risk-sensitive-constrained-voi/v1"
+      ]
     },
     {
       "issue": 571,
