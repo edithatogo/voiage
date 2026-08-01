@@ -32,6 +32,7 @@
 - [Implementation-information implementation review](./implementation-information-implementation-review.md)
 - [GitHub issue #593](https://github.com/edithatogo/voiage/issues/593)
 - [Implementation-information subissues #766–#768](https://github.com/edithatogo/voiage/issues/593)
+- [Implementation-information delivery PR #787](https://github.com/edithatogo/voiage/pull/787)
 - [GitHub issue #560](https://github.com/edithatogo/voiage/issues/560)
 - [MCDA delivery subissues #746–#750](https://github.com/edithatogo/voiage/issues/560)
 

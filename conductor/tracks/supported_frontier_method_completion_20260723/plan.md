@@ -81,21 +81,23 @@
 - [x] **F593-1 / #766:** Freeze #593's four-cell information/implementation
   estimands, v1.3.0 M25 requirements, Mermaid flow, primary-reference review,
   non-independence boundary and terminology-candidate status. (AC-02, AC-03,
-  AC-09) `4f7f1dec`
+  AC-09) `9cc93c63`
 - [x] **F593-2 / #767:** Add strict portable v1 input/result schemas, an exact
   state-dependent normative fixture, current/specific/perfect and signal-
   dependent implementation contracts, population/time/cost semantics and
-  explicit language dispositions. (AC-02–AC-06) `4f7f1dec`
+  explicit language dispositions. (AC-02–AC-06) `9cc93c63`
 - [x] **F593-3 / #767:** Implement the exact experimental Python evaluator,
   current/perfect-information by current/perfect-implementation matrix, EVSIM,
   IA-EVSI, interaction identities, complete ties and CLI/API surfaces without
-  an independence assumption. (AC-02–AC-05) `4f7f1dec`
+  an independence assumption. (AC-02–AC-05) `9cc93c63`
 - [~] **F593-4 / #768:** Complete independent implementation/scientific review,
   hosted exact-head and installed-wheel assurance, then reconcile #593 without
   claiming polyglot parity, stable promotion, release or parent closure.
   Independent repository implementation re-review passed with no open findings
-  at signed commit `8570b4e3`; named scientific review, hosted exact-head,
-  installed-wheel, parity, promotion, release and closure gates remain pending.
+  at signed review-artifact commit `f945f87b`, and the patch-equivalent rebased
+  review boundary is `f52feb28` on PR #787; named scientific review, incomplete
+  hosted exact-head checks, installed-wheel, parity, promotion, release and
+  closure gates remain pending.
 
 - [x] **F559-1:** Add failing analytical, invariant, permutation, chronology,
   comparability and double-counting tests plus independent reference review for

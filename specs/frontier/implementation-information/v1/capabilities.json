@@ -19,6 +19,7 @@
     "Julia": "not_implemented",
     "Mojo": "not_implemented"
   },
+  "python_modules": ["voiage/methods/implementation_information.py"],
   "unsupported": [
     "continuous-state integration",
     "causal identification of uptake",

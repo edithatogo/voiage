@@ -13,9 +13,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
         execution without an implementation-information independence assumption.
     *   Retain the legacy `value_of_implementation` multiplier as a distinct
         compatibility helper. Independent repository re-review passed at signed
-        commit `8570b4e3`. Remaining gates are hosted exact-head/wheel
-        assurance, scientific review, Rust/R/Julia parity, stable promotion,
-        release and issue closure.
+        review-artifact commit `f945f87b`, with patch-equivalent rebased
+        boundary `f52feb28` on PR #787. Remaining gates are incomplete hosted
+        exact-head/wheel assurance, scientific review, Rust/R/Julia parity,
+        stable promotion, release and issue closure.
 
 *   [ ] Execute the Rust-first polyglot VOIAGE completion programme without
     promoting issue or Project status into implementation evidence.

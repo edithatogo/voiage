@@ -21,8 +21,10 @@ The v1.3 residual frontier programme is governed canonically by VOP C18. Issue
 #593 now has an experimental Python-only joint information/implementation
 contract and exact finite evaluator; it remains in progress pending hosted
 exact-head assurance, scientific approval, polyglot parity, stable promotion
-and release. The independent repository re-review passed at signed commit
-`8570b4e3`; hosted, scientific and later gates remain open. The existing
+and release. The independent repository re-review passed at signed
+review-artifact commit `f945f87b`, with patch-equivalent rebased boundary
+`f52feb28` on PR #787; incomplete hosted checks, scientific review and later
+gates remain open. The existing
 implementation multiplier is retained as a
 compatibility helper and is not described as EVPIM/EVSIM/IA-EVSI.
 

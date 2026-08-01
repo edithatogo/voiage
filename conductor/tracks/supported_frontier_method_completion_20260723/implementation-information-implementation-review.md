@@ -4,7 +4,7 @@ Issue: [#593](https://github.com/edithatogo/voiage/issues/593), with delivery
 subissues #766–#768 under frontier programme #318.
 
 Review date: 2026-08-01. Reviewed revision:
-`4b8bb869466a691343bfc8c2c4614466be41781d`. Reviewed maturity:
+`b6d8bedb77bbff6e3da3161e3569024eb7a64fc8`. Reviewed maturity:
 experimental Python implementation planned for v1.3.0 under canonical C18/M25.
 
 This is an independent repository implementation and contract review. It is
@@ -170,11 +170,33 @@ completed, the repository still requires:
 Subject to those external and later gates, the reviewed experimental Python
 implementation satisfies the repository-owned #593/M25 contract.
 
+## Rebase ratification
+
+The reviewed six-commit range was rebased without patch changes onto
+`origin/main` at `76e7f397239ccdbcb683ca23db87e675ec115388`. Stable range-diff
+matched each historical reviewed commit to its signed replacement:
+
+- implementation: `4f7f1dec` → `9cc93c63`;
+- governance: `e3797ee7` → `4d7b7151`;
+- shared assurance: `a01aa606` → `db1baf89`;
+- hardening: `4b8bb869` → `b6d8bedb`;
+- review artifact: `8570b4e3` → `f945f87b`; and
+- review boundary: `8959c720` → `f52feb28`.
+
+All six replacement commits have valid repository-configured GPG signatures.
+[PR #787](https://github.com/edithatogo/voiage/pull/787) is open against
+`main` at exact head `f52feb2877d4802e9ef9da8a918eb5df46afd81b`.
+The hosted-check snapshot contained both successful and in-progress checks, so
+this ratification is content-equivalence and review provenance evidence, not a
+hosted-gate completion claim. Historical hashes remain unchanged in the
+append-only evidence ledger; a new correction entry binds this ratification to
+the rebased exact head and PR.
+
 ## Reviewer attestation
 
 Reviewer role: independent Codex review agent, separate from the implementing
 root agent. Attested result: **PASS**, with no open Critical, High, Medium or
-Low implementation findings at reviewed revision `4b8bb869466a691343bfc8c2c4614466be41781d`.
+Low implementation findings at reviewed revision `b6d8bedb77bbff6e3da3161e3569024eb7a64fc8`.
 This artifact is committed in the repository's configured GPG-signed review
 commit; its exact commit is recorded in F593-4 and the append-only evidence
 ledger.

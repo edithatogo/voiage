@@ -154,11 +154,11 @@
       "record_id": "implementation-information-decomposition",
       "issue_state": "open",
       "project_status": "In Progress",
-      "disposition": "experimental_repository_evidence",
+      "disposition": "experimental_branch",
       "maturity": "experimental",
       "satisfies_ac06": true,
       "delivery_track": "supported_frontier_method_completion_20260723",
-      "implementation_pull_requests": [],
+      "implementation_pull_requests": [787],
       "review_artifacts": [
         "conductor/tracks/supported_frontier_method_completion_20260723/implementation-information-reference-review.md",
         "conductor/tracks/supported_frontier_method_completion_20260723/implementation-information-implementation-review.md"

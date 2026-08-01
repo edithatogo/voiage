@@ -17,6 +17,7 @@ import voiage
 from voiage import methods
 from voiage.cli import app
 from voiage.exceptions import InputError
+import voiage.methods.implementation_information as implementation_information_module
 from voiage.methods.implementation_information import implementation_information_value
 
 ROOT = Path(__file__).parents[1]
@@ -221,6 +222,162 @@ def test_invalid_contracts_fail_closed(mutation: object, match: str) -> None:
     mutation(payload)  # type: ignore[operator]
     with pytest.raises(InputError, match=match):
         implementation_information_value(payload)
+
+
+@pytest.mark.parametrize(
+    ("mutation", "match"),
+    [
+        (lambda value: value.update(unexpected=True), "keys must match"),
+        (lambda value: value.update(schema_version="v2"), "schema_version"),
+        (lambda value: value.update(analysis_type="evpi"), "analysis_type"),
+        (lambda value: value.update(analysis_id=""), "analysis_id"),
+        (lambda value: value.update(actions=["standard"]), "at least two"),
+        (
+            lambda value: value.update(actions=["standard", "standard"]),
+            "unique identifiers",
+        ),
+        (lambda value: value.update(actions=["standard", ""]), "non-empty strings"),
+        (lambda value: value.update(states=[]), "states must be a non-empty"),
+        (lambda value: value["states"][0].pop("net_benefit"), "each state"),
+        (lambda value: value["states"][0].update(state_id=""), "state_id"),
+        (
+            lambda value: value["states"][1].update(
+                state_id=value["states"][0]["state_id"]
+            ),
+            "state identifiers must be unique",
+        ),
+        (
+            lambda value: value["states"][0].update(probability=-0.1),
+            "finite and non-negative",
+        ),
+        (
+            lambda value: value.update(discounted_time_factor=0),
+            "discounted_time_factor",
+        ),
+        (lambda value: value.update(tie_tolerance=-1), "tie_tolerance"),
+        (
+            lambda value: value["current_implementation"].pop("high"),
+            "exactly the declared states",
+        ),
+        (
+            lambda value: value["current_implementation"]["low"].pop("new"),
+            "exactly the intended actions",
+        ),
+        (
+            lambda value: value["current_implementation"]["low"]["new"].pop(
+                "new"
+            ),
+            "exactly the declared actions",
+        ),
+        (
+            lambda value: value["current_implementation"]["low"]["new"].update(
+                standard=-0.1, new=1.1
+            ),
+            "finite and non-negative",
+        ),
+        (lambda value: value.update(sampling_model=[]), "must be an object"),
+        (
+            lambda value: value["sampling_model"].update(unexpected=True),
+            "sampling_model keys",
+        ),
+        (
+            lambda value: value["sampling_model"].update(signals=[]),
+            "signals must be non-empty",
+        ),
+        (
+            lambda value: value["sampling_model"]["signals"][0].pop(
+                "likelihood_by_state"
+            ),
+            "each signal must contain",
+        ),
+        (
+            lambda value: value["sampling_model"]["signals"][0].update(
+                signal_id=""
+            ),
+            "signal_id",
+        ),
+        (
+            lambda value: value["sampling_model"]["signals"][1].update(
+                signal_id=value["sampling_model"]["signals"][0]["signal_id"]
+            ),
+            "signal identifiers must be unique",
+        ),
+        (
+            lambda value: value["sampling_model"][
+                "post_sample_implementation"
+            ].pop("unfavourable"),
+            "must contain every signal",
+        ),
+        (lambda value: value.update(costs=[]), "costs must be an object"),
+        (
+            lambda value: value["costs"].update(perfect_information=-1),
+            "costs must be finite and non-negative",
+        ),
+    ],
+)
+def test_runtime_contract_rejects_every_invalid_envelope(
+    mutation: object, match: str
+) -> None:
+    payload = deepcopy(_input())
+    mutation(payload)  # type: ignore[operator]
+    with pytest.raises(InputError, match=match):
+        implementation_information_value(payload)
+
+
+def test_optional_specific_and_sampling_contracts_can_be_omitted() -> None:
+    payload = _input()
+    payload.pop("specific_implementation")
+    payload.pop("sampling_model")
+    result = _result(payload)
+    assert "evsim" not in result["gross_components"]
+    assert "ia_evsi" not in result["gross_components"]
+    assert "specific" not in result["implementation_audit"]
+    assert "post_sample_by_signal" not in result["implementation_audit"]
+    assert result["decision_switches"]["current_to_specific_implementation"] is None
+    assert result["decision_switches"]["sample_information"] is None
+
+
+def test_finite_guards_reject_weighted_sample_aggregate_and_net_overflow(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(
+        implementation_information_module,
+        "_realised_value",
+        lambda *_args: float("inf"),
+    )
+    with pytest.raises(InputError, match="state/action values must be finite"):
+        implementation_information_value(_input())
+
+    monkeypatch.undo()
+    original = implementation_information_module._realised_value
+    calls = 0
+
+    def overflow_only_after_scenario_cells(*args: object) -> float:
+        nonlocal calls
+        calls += 1
+        if calls > 24:
+            return float("inf")
+        return original(*args)  # type: ignore[arg-type]
+
+    monkeypatch.setattr(
+        implementation_information_module,
+        "_realised_value",
+        overflow_only_after_scenario_cells,
+    )
+    with pytest.raises(InputError, match="sample-weighted action values must be finite"):
+        implementation_information_value(_input())
+
+    monkeypatch.undo()
+    aggregate = _input()
+    aggregate["population"] = 1e308
+    with pytest.raises(InputError, match="aggregate value must be finite"):
+        implementation_information_value(aggregate)
+
+    net = _input()
+    net["costs"]["perfect_information"] = 1e308
+    net["costs"]["perfect_implementation"] = 1e308
+    with pytest.raises(InputError, match="net components must be finite"):
+        implementation_information_value(net)
 
 
 def test_public_api_and_cli(tmp_path: Path) -> None:
