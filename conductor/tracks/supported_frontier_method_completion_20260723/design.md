@@ -1,4 +1,25 @@
-# Mermaid design — planned v1.2.0
+# Mermaid design — planned v1.2.0 and v1.3.0
+
+## Additive MCDA information value
+
+```mermaid
+flowchart LR
+    Alternatives["Named alternatives"] --> Kernel["Fixed additive-value kernel"]
+    Criteria["Raw units + directions + fixed value anchors"] --> Kernel
+    Preferences["Nonnegative normalized weights"] --> Kernel
+    JointLaw["Finite correlated outcome/preference states"] --> Current["Baseline expected scores, ranking and complete choice ties"]
+    Kernel --> Current
+    Actions["Criterion, preference or joint perfect-resolution actions"] --> Conditional["Conditional scores and optimal choices"]
+    JointLaw --> Conditional
+    Kernel --> Conditional
+    Current --> Value["Gross and signed net information value"]
+    Conditional --> Value
+    Value --> Decomposition["Criterion/preference/joint interaction + no-double-counting"]
+    Conditional --> Diagnostics["Regret + rank acceptability + expected/statewise Pareto"]
+    Decomposition --> Assurance["Exact enumeration, invariants, provenance and language dispositions"]
+    Diagnostics --> Assurance
+    Assurance --> Boundary["Not AHP elicitation, outranking, veto, post-information normalization or EVSI"]
+```
 
 ## Qualitative value of information
 

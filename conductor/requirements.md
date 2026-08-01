@@ -72,6 +72,14 @@ programme. The canonical cross-repository requirements are maintained in
   redaction, sources, AI provenance and accountable human verification. It
   never fabricates probabilities, utilities, currency, weighted scores or a
   quantitative VOI estimand.
+- **M21 / planned v1.3.0:** #560 provides finite compensatory additive MCDA
+  information value under fixed ex-ante value functions, normalization anchors,
+  criterion units/directions, nonnegative normalized weights and a declared
+  correlated joint uncertainty law. Perfect-resolution actions identify
+  criterion-performance, preference or joint latent variables and return
+  baseline/conditional choices, complete ties, gross and signed net value,
+  interaction/no-double-counting, regret, rank acceptability and precisely
+  defined Pareto diagnostics with exact-enumeration assurance.
 - New interchange profiles reuse the shared compatibility schema and canonical
   logical-field fingerprint algorithm.
 - Free-threaded Python remains a bounded observational lane until the required
@@ -116,3 +124,4 @@ programme. The canonical cross-repository requirements are maintained in
 | v1.2.0 | Must | M18 | governed deterministic sensitivity analysis | #556 under #318 |
 | v1.2.0 | Must | M19 | governed distribution-family information value | #557 under #318 |
 | v1.3.0 | Should | M20 | governed portable qualitative-VOI assessment workflow | #558 and #738–#742 under #318 |
+| v1.3.0 | Should | M21 | governed additive MCDA information value | #560 and #746–#750 under #318 |

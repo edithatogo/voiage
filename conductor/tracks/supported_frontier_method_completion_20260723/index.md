@@ -24,6 +24,9 @@
 - [Distribution-Family Information implementation review](./distribution-family-information-implementation-review.md)
 - [Value of Flexibility reference review](./value-of-flexibility-reference-review.md)
 - [Value of Flexibility implementation review](./value-of-flexibility-implementation-review.md)
+- [MCDA information reference review](./mcda-information-reference-review.md)
+- [GitHub issue #560](https://github.com/edithatogo/voiage/issues/560)
+- [MCDA delivery subissues #746–#750](https://github.com/edithatogo/voiage/issues/560)
 
 Status: in progress. Every owned child issue is being reconciled against
 executable evidence or a reviewed exclusion; existing Project or issue status
