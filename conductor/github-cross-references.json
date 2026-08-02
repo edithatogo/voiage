@@ -910,7 +910,7 @@
     {
       "track_id": "study_design_efficiency_20260727",
       "metadata_track_id": "study_design_efficiency_20260727",
-      "path": "conductor/tracks/study_design_efficiency_20260727",
+      "path": "conductor/archive/study_design_efficiency_20260727",
       "lifecycle": "active",
       "issue": {
         "number": 571,
@@ -965,7 +965,7 @@
     {
       "track_id": "risk_adjusted_information_pricing_20260731",
       "metadata_track_id": "risk_adjusted_information_pricing_20260731",
-      "path": "conductor/tracks/risk_adjusted_information_pricing_20260731",
+      "path": "conductor/archive/risk_adjusted_information_pricing_20260731",
       "lifecycle": "active",
       "issue": {
         "number": 595,

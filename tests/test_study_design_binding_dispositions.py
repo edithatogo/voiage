@@ -14,7 +14,7 @@ from voiage.experimental.study_design import calculate_coss, evsi_evpi_efficienc
 
 ROOT = Path(__file__).parents[1]
 DISPOSITIONS = (
-    ROOT / "conductor" / "tracks" / "study_design_efficiency_20260727" / "bindings.json"
+    ROOT / "conductor" / "archive" / "study_design_efficiency_20260727" / "bindings.json"
 )
 FIXTURE = (
     ROOT

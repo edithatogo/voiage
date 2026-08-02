@@ -161,7 +161,7 @@ def validate(
         if voc.get("subissues") != [694, 695, 696, 697]:
             raise ValueError("#595 must own the four native utility-price subissues")
         if voc.get("capability_contract") != (
-            "conductor/tracks/risk_adjusted_information_pricing_20260731/contract.md"
+            "conductor/archive/risk_adjusted_information_pricing_20260731/contract.md"
         ):
             raise ValueError(
                 "#595 capability contract does not match its delivery track"
@@ -202,9 +202,10 @@ def validate(
         if track_id in checked_tracks:
             continue
         checked_tracks.add(track_id)
-        metadata = _load(
-            repository_root / "conductor/tracks" / track_id / "metadata.json"
-        )
+        track_root = repository_root / "conductor/tracks" / track_id
+        if not track_root.is_dir():
+            track_root = repository_root / "conductor/archive" / track_id
+        metadata = _load(track_root / "metadata.json")
         if metadata.get("canonical_track") != "C16":
             raise ValueError(f"{track_id} is not linked to C16")
         if metadata.get("planned_version") != "1.2.0":

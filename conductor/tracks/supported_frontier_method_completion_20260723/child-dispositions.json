@@ -128,7 +128,7 @@
       "delivery_track": "study_design_efficiency_20260727",
       "implementation_pull_requests": [679],
       "review_artifacts": [
-        "conductor/tracks/study_design_efficiency_20260727/phase-4-review.md",
+        "conductor/archive/study_design_efficiency_20260727/phase-4-review.md",
         "conductor/tracks/supported_frontier_method_completion_20260723/study-design-efficiency-independent-review-20260802.md"
       ],
       "adjacent_artifacts": [],
@@ -219,7 +219,7 @@
       "satisfies_ac06": true,
       "delivery_track": "risk_adjusted_information_pricing_20260731",
       "implementation_pull_requests": [712],
-      "review_artifacts": ["conductor/tracks/risk_adjusted_information_pricing_20260731/phase-4-review.md"],
+      "review_artifacts": ["conductor/archive/risk_adjusted_information_pricing_20260731/phase-4-review.md"],
       "adjacent_artifacts": [],
       "delivery_subissues": [694, 695, 696, 697],
       "unresolved_gates": [

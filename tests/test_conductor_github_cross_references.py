@@ -53,7 +53,7 @@ def test_expected_utility_track_metadata_and_manifest_share_delivery_prs() -> No
     track_id = "risk_adjusted_information_pricing_20260731"
     entry = next(item for item in manifest["tracks"] if item["track_id"] == track_id)
     metadata = json.loads(
-        (ROOT / "conductor" / "tracks" / track_id / "metadata.json").read_text()
+        (ROOT / "conductor" / "archive" / track_id / "metadata.json").read_text()
     )
 
     manifest_urls = {item["url"] for item in entry["pull_requests"]}
