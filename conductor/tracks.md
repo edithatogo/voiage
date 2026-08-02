@@ -122,7 +122,7 @@ checks remain pending.*
 
 ---
 
-## [ ] Track: Quality, Security, Release and Registry Automation
+## [~] Track: Quality, Security, Release and Registry Automation
 *Link: [./tracks/quality_release_automation_20260723/index.md](./tracks/quality_release_automation_20260723/index.md)*
 *GitHub: [issue #322](https://github.com/edithatogo/voiage/issues/322), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
