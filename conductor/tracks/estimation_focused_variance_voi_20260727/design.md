@@ -7,6 +7,9 @@ flowchart LR
     Prior --> EVSI["EVSI_var"]
     Functional --> EVPPI
     Functional --> EVSI
+    Functional --> VectorGate{"Scalar target?"}
+    VectorGate -->|"No"| Reserved["Reserved vector vocabulary: fail closed"]
+    Reserved --> HumanReview["Candidate-bound independent scientific and named human review"]
     Sampling["Sampling model + design"] --> EVSI
     Conditioning["Conditioning + averaging convention"] --> EVPPI
     Conditioning --> EVSI
