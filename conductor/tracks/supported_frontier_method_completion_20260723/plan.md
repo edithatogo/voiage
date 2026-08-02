@@ -546,7 +546,7 @@ This phase executes the pending scientific gate without reopening G1–G15.
 Repository defects discovered by a panel are delivered through separate
 issue-backed remediation slices and rebound to a fresh review candidate.
 
-- [~] **SR1 — Freeze inventory and candidate:** Create #841 as the #318
+- [x] **SR1 — Freeze inventory and candidate:** Create #841 as the #318
   scientific-review governance child and #842–#850 as its governed wave,
   remediation, evidence and sampling-harm issue hierarchy; freeze the exact
   issue/Project/roadmap/canonical inventory, candidate commit/tree, artifact
@@ -554,6 +554,7 @@ issue-backed remediation slices and rebound to a fresh review candidate.
   GitHub–Project–Conductor version, gate and lifecycle fields, including #570
   v1.3.0/C18/M22, or publish a blocking discrepancy register. Reject dirty,
   moving or unreconciled candidates. (M17-R1–M17-R4; AC-01, AC-09, AC-10)
+  `a7f6446`
 - [ ] **SR2 / #842 — Materialize evidence contracts:** Add versioned schemas and
   validators for review packets, artifact manifests, reviewer attestations,
   role reports, findings, disagreements, dispositions, adjudication,
