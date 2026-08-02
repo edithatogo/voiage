@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-08-03T01:15:00Z",
+  "release_candidate_revision": "0a1bc90cec1ec99eac852d3c2bd5ffebc5259ef8",
+  "local": {
+    "full_conductor_validation": {"status": "passed", "errors": 0, "warnings": 0},
+    "github_cross_reference_validation": "passed",
+    "coverage_report": {"status": "blocked", "coverage": 94.51, "passed": 3889, "failed": 21, "skipped": 15},
+    "blocker_report": "conductor/tracks/rust_polyglot_voi_completion_20260723/g12-broader-validation-blockers.md"
+  },
+  "hosted": {
+    "matching_pull_request": "NOT_FOUND",
+    "matching_workflow_run": "NOT_FOUND",
+    "latest_observed_runs": {"head_sha": "3b9024c503c171e7e321ddfaacc3665589e4d5e8", "conclusion": "success", "not_exact_head": true},
+    "decision": "pending_exact_head_checks"
+  },
+  "fail_closed": true,
+  "next_actions": [
+    "Resolve the G12 broader-validation failures.",
+    "Push or otherwise expose the exact release-candidate revision through the authorized PR workflow.",
+    "Capture all required exact-head workflow conclusions before merge or release."
+  ]
+}
