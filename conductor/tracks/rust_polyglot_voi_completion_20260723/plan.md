@@ -40,6 +40,9 @@
 
 ## Phase 4 — Programme and hosted closeout
 
+- [~] **Closeout plan:** Order remaining local, hosted and external blockers
+  with options, contingencies and fail-closed archive rules.
+
 - [~] **G13:** Reconcile child-issue results, roadmap, todo, registries,
   release targets and remaining external gates. (AC-01, AC-05, AC-06)
   - [x] Define distinct registry/release/publication/parent-closure states,
