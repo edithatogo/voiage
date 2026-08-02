@@ -36,6 +36,8 @@
         "estimator_provenance": {"fixture": "enumerable-v1"}
       }
     ],
+    "enumeration_scope": "complete_feasible_set",
+    "no_study_enbs": 0,
     "efficiency": {"evsi": 60, "evpi": 100}
   },
   "expected": {
@@ -43,6 +45,10 @@
     "optimal_design_id": "n-200",
     "optimal_sample_size": 200,
     "maximum_enbs": 35,
+    "commissioning_status": "recommend_commission",
+    "recommended_design_id": "n-200",
+    "economic_viability": true,
+    "regret_if_no_study": 35,
     "efficiency_ratio": 0.6,
     "efficiency_percentage": 60
   }

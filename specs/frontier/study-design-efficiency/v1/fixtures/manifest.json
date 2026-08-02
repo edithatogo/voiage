@@ -2,6 +2,10 @@
   "version": "v1",
   "status": "fixture-backed",
   "method_family": "study_design_efficiency",
+  "contract_version": "1.0.0",
+  "request_schemas": ["../schemas/coss-request.schema.json", "../schemas/efficiency-request.schema.json"],
+  "result_schemas": ["../schemas/coss-result.schema.json", "../schemas/efficiency-result.schema.json"],
+  "capabilities": "../capabilities.json",
   "normative": [
     {
       "name": "enumerated COSS and EVSI/EVPI efficiency",

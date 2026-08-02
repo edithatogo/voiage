@@ -54,7 +54,12 @@ def test_python_facade_matches_the_rust_owned_shared_fixture() -> None:
         for item in fixture["input"]["designs"]
     )
 
-    coss = calculate_coss(context=context, designs=designs)
+    coss = calculate_coss(
+        context=context,
+        designs=designs,
+        enumeration_scope=fixture["input"]["enumeration_scope"],
+        no_study_enbs=fixture["input"]["no_study_enbs"],
+    )
     efficiency = evsi_evpi_efficiency(
         evsi=InformationValueInputV1(
             value=fixture["input"]["efficiency"]["evsi"], context=context
@@ -69,6 +74,10 @@ def test_python_facade_matches_the_rust_owned_shared_fixture() -> None:
     assert coss.optimal_design_id == expected["optimal_design_id"]
     assert coss.optimal_sample_size == expected["optimal_sample_size"]
     assert coss.maximum_enbs == expected["maximum_enbs"]
+    assert coss.commissioning_status == expected["commissioning_status"]
+    assert coss.recommended_design_id == expected["recommended_design_id"]
+    assert coss.economic_viability is expected["economic_viability"]
+    assert coss.regret_if_no_study == expected["regret_if_no_study"]
     assert [point.enbs for point in coss.evaluated_designs] == expected["enbs"]
     assert efficiency.ratio == expected["efficiency_ratio"]
     assert efficiency.percentage == expected["efficiency_percentage"]

@@ -15,10 +15,13 @@ if TYPE_CHECKING:
 
 from voiage import _runtime
 from voiage.contracts.study_design import (
+    BoundarySensitivity,
     BoundaryState,
+    CommissioningStatus,
     CossCurvePointV1,
     CossPlotDataV1,
     CossResultV1,
+    EnumerationScope,
     FeasibleDesignRangeV1,
     InformationEfficiencyResultV1,
     InformationValueInputV1,
@@ -294,6 +297,8 @@ def calculate_coss(
     absolute_tolerance: float = _DEFAULT_ATOL,
     relative_tolerance: float = _DEFAULT_RTOL,
     selection_uncertainty: SelectionUncertaintyV1 | None = None,
+    enumeration_scope: EnumerationScope = "evaluated_set_only",
+    no_study_enbs: float = 0.0,
 ) -> CossResultV1:
     """Evaluate a finite COSS curve using the Rust signed-ENBS kernel."""
     design_tuple = tuple(designs)
@@ -383,6 +388,37 @@ def calculate_coss(
     optimal_size = (
         None if optimal_index is None else design_tuple[optimal_index].sample_size
     )
+    comparison_tolerance = absolute_tolerance + relative_tolerance * max(
+        abs(no_study_enbs), abs(maximum_enbs or 0.0), 1.0
+    )
+    if maximum_enbs is None:
+        commissioning_status: CommissioningStatus = "no_feasible_design"
+        recommended_design_id = None
+        economic_viability = False
+        regret_if_no_study = 0.0
+        boundary_sensitivity: BoundarySensitivity = "no_feasible_design"
+    else:
+        difference = maximum_enbs - no_study_enbs
+        if difference > comparison_tolerance:
+            commissioning_status = "recommend_commission"
+            recommended_design_id = optimal_id
+            economic_viability = True
+        elif difference < -comparison_tolerance:
+            commissioning_status = "do_not_commission"
+            recommended_design_id = None
+            economic_viability = False
+        else:
+            commissioning_status = "indifferent"
+            recommended_design_id = None
+            economic_viability = False
+        regret_if_no_study = max(difference, 0.0)
+        boundary_sensitivity = (
+            "complete_enumeration"
+            if enumeration_scope == "complete_feasible_set"
+            else "requires_evaluated_set_expansion"
+            if boundary_state in {"lower", "upper", "both"}
+            else "no_boundary_signal"
+        )
     intervals = tuple(item.enbs_confidence_interval for item in design_tuple)
     plot_data = CossPlotDataV1(
         design_ids=tuple(design_ids),
@@ -406,6 +442,7 @@ def calculate_coss(
             estimator=estimator,
             context=context,
             evaluated_designs=curve,
+            enumeration_scope=enumeration_scope,
             feasible_sample_sizes=tuple(
                 sorted({item.sample_size for item in design_tuple if item.feasible})
             ),
@@ -415,12 +452,31 @@ def calculate_coss(
             relative_tolerance=relative_tolerance,
             tied_optimal_design_ids=tied_ids,
             optimal_design_id=optimal_id,
+            best_evaluated_design_id=optimal_id,
             optimal_sample_size=optimal_size,
             maximum_enbs=maximum_enbs,
+            no_study_enbs=no_study_enbs,
+            commissioning_status=commissioning_status,
+            recommended_design_id=recommended_design_id,
+            economic_viability=economic_viability,
+            regret_if_no_study=regret_if_no_study,
             boundary_state=boundary_state,
+            boundary_sensitivity=boundary_sensitivity,
             selection_uncertainty=uncertainty,
             plot_data=plot_data,
-            diagnostics=_diagnostics(design_tuple, feasible_range, uncertainty),
+            diagnostics=(
+                *_diagnostics(design_tuple, feasible_range, uncertainty),
+                *(
+                    ("best_evaluated_is_not_sampling_recommendation",)
+                    if commissioning_status != "recommend_commission"
+                    else ()
+                ),
+                *(
+                    ("evaluated_set_boundary_requires_sensitivity",)
+                    if boundary_sensitivity == "requires_evaluated_set_expansion"
+                    else ()
+                ),
+            ),
             estimator_provenance={
                 "runtime": "rust",
                 "kernel": estimator,

@@ -1,0 +1,177 @@
+{
+  "$defs": {
+    "StudyDesignContextV1": {
+      "additionalProperties": false,
+      "description": "Commensurability and provenance shared by study values and costs.",
+      "properties": {
+        "cost_model_id": {
+          "minLength": 1,
+          "title": "Cost Model Id",
+          "type": "string"
+        },
+        "decision_problem_id": {
+          "minLength": 1,
+          "title": "Decision Problem Id",
+          "type": "string"
+        },
+        "discounting_id": {
+          "minLength": 1,
+          "title": "Discounting Id",
+          "type": "string"
+        },
+        "population_scale": {
+          "exclusiveMinimum": 0.0,
+          "title": "Population Scale",
+          "type": "number"
+        },
+        "random_seed": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Random Seed"
+        },
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "study_model_id": {
+          "minLength": 1,
+          "title": "Study Model Id",
+          "type": "string"
+        },
+        "time_horizon": {
+          "minLength": 1,
+          "title": "Time Horizon",
+          "type": "string"
+        },
+        "value_unit": {
+          "minLength": 1,
+          "title": "Value Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "decision_problem_id",
+        "value_unit",
+        "population_scale",
+        "time_horizon",
+        "discounting_id",
+        "study_model_id",
+        "cost_model_id"
+      ],
+      "title": "StudyDesignContextV1",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Dimensionless EVSI/EVPI diagnostic with explicit undefined state.",
+  "properties": {
+    "absolute_tolerance": {
+      "minimum": 0.0,
+      "title": "Absolute Tolerance",
+      "type": "number"
+    },
+    "bound_tolerance": {
+      "minimum": 0.0,
+      "title": "Bound Tolerance",
+      "type": "number"
+    },
+    "context": {
+      "$ref": "#/$defs/StudyDesignContextV1"
+    },
+    "diagnostics": {
+      "default": [],
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Diagnostics",
+      "type": "array"
+    },
+    "estimator": {
+      "minLength": 1,
+      "title": "Estimator",
+      "type": "string"
+    },
+    "evpi": {
+      "title": "Evpi",
+      "type": "number"
+    },
+    "evsi": {
+      "title": "Evsi",
+      "type": "number"
+    },
+    "method": {
+      "const": "evsi_evpi_efficiency",
+      "default": "evsi_evpi_efficiency",
+      "title": "Method",
+      "type": "string"
+    },
+    "percentage": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Percentage"
+    },
+    "ratio": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Ratio"
+    },
+    "relative_tolerance": {
+      "minimum": 0.0,
+      "title": "Relative Tolerance",
+      "type": "number"
+    },
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "within_bounds",
+        "below_zero_within_tolerance",
+        "above_one_within_tolerance",
+        "undefined_zero_evpi"
+      ],
+      "title": "Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "estimator",
+    "context",
+    "evsi",
+    "evpi",
+    "ratio",
+    "percentage",
+    "status",
+    "absolute_tolerance",
+    "relative_tolerance",
+    "bound_tolerance"
+  ],
+  "title": "InformationEfficiencyResultV1",
+  "type": "object"
+}

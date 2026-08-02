@@ -19,6 +19,16 @@ from .analysis import ContractModel, thaw_json
 Identifier = Annotated[str, StringConstraints(min_length=1, strip_whitespace=True)]
 TiePolicy = Literal["smallest_sample_size", "largest_sample_size", "first_declared"]
 BoundaryState = Literal["none", "lower", "upper", "both", "interior"]
+EnumerationScope = Literal["complete_feasible_set", "evaluated_set_only"]
+CommissioningStatus = Literal[
+    "recommend_commission", "do_not_commission", "indifferent", "no_feasible_design"
+]
+BoundarySensitivity = Literal[
+    "complete_enumeration",
+    "requires_evaluated_set_expansion",
+    "no_boundary_signal",
+    "no_feasible_design",
+]
 SelectionUncertaintyMethod = Literal[
     "unavailable", "analytic", "monte_carlo", "bootstrap", "externally_supplied"
 ]
@@ -202,6 +212,7 @@ class CossResultV1(ContractModel):
     estimator: Identifier
     context: StudyDesignContextV1
     evaluated_designs: tuple[CossCurvePointV1, ...]
+    enumeration_scope: EnumerationScope
     feasible_sample_sizes: tuple[int, ...]
     declared_feasible_range: FeasibleDesignRangeV1 | None = None
     tie_policy: TiePolicy
@@ -209,9 +220,16 @@ class CossResultV1(ContractModel):
     relative_tolerance: float = Field(ge=0.0)
     tied_optimal_design_ids: tuple[Identifier, ...] = ()
     optimal_design_id: Identifier | None = None
+    best_evaluated_design_id: Identifier | None = None
     optimal_sample_size: int | None = Field(default=None, ge=0)
     maximum_enbs: float | None = None
+    no_study_enbs: float
+    commissioning_status: CommissioningStatus
+    recommended_design_id: Identifier | None = None
+    economic_viability: bool
+    regret_if_no_study: float = Field(ge=0.0)
     boundary_state: BoundaryState
+    boundary_sensitivity: BoundarySensitivity
     selection_uncertainty: SelectionUncertaintyV1
     plot_data: CossPlotDataV1
     diagnostics: tuple[Identifier, ...] = ()
@@ -287,6 +305,8 @@ class CossResultV1(ContractModel):
                 raise ValueError(
                     "a result without feasible designs cannot have an optimum"
                 )
+            if self.best_evaluated_design_id is not None:
+                raise ValueError("best_evaluated_design_id requires a feasible design")
         else:
             maximum = max(point.enbs for point in feasible)
             if self.maximum_enbs is None or not isclose(
@@ -326,6 +346,10 @@ class CossResultV1(ContractModel):
                 )
             if self.optimal_design_id != expected_id:
                 raise ValueError("optimal_design_id disagrees with tie policy")
+            if self.best_evaluated_design_id != self.optimal_design_id:
+                raise ValueError(
+                    "best_evaluated_design_id must preserve the curve argmax"
+                )
             low, high = expected_sizes[0], expected_sizes[-1]
             expected_boundary = (
                 "both"
@@ -338,6 +362,53 @@ class CossResultV1(ContractModel):
             )
             if self.boundary_state != expected_boundary:
                 raise ValueError("boundary_state disagrees with feasible designs")
+        comparison_tolerance = self.absolute_tolerance + self.relative_tolerance * max(
+            abs(self.no_study_enbs), abs(self.maximum_enbs or 0.0), 1.0
+        )
+        if self.maximum_enbs is None:
+            expected_commissioning: CommissioningStatus = "no_feasible_design"
+            expected_recommendation = None
+            expected_regret = 0.0
+            expected_viability = False
+            expected_sensitivity: BoundarySensitivity = "no_feasible_design"
+        else:
+            difference = self.maximum_enbs - self.no_study_enbs
+            if difference > comparison_tolerance:
+                expected_commissioning = "recommend_commission"
+                expected_recommendation = self.optimal_design_id
+                expected_viability = True
+            elif difference < -comparison_tolerance:
+                expected_commissioning = "do_not_commission"
+                expected_recommendation = None
+                expected_viability = False
+            else:
+                expected_commissioning = "indifferent"
+                expected_recommendation = None
+                expected_viability = False
+            expected_regret = max(difference, 0.0)
+            expected_sensitivity = (
+                "complete_enumeration"
+                if self.enumeration_scope == "complete_feasible_set"
+                else "requires_evaluated_set_expansion"
+                if self.boundary_state in {"lower", "upper", "both"}
+                else "no_boundary_signal"
+            )
+        if (
+            self.commissioning_status != expected_commissioning
+            or self.recommended_design_id != expected_recommendation
+            or self.economic_viability is not expected_viability
+            or not isclose(
+                self.regret_if_no_study,
+                expected_regret,
+                rel_tol=0.0,
+                abs_tol=0.0,
+            )
+        ):
+            raise ValueError(
+                "commissioning recommendation disagrees with no-study comparison"
+            )
+        if self.boundary_sensitivity != expected_sensitivity:
+            raise ValueError("boundary_sensitivity disagrees with enumeration scope")
         expected_plot = (
             ids,
             tuple(point.sample_size for point in self.evaluated_designs),
@@ -388,6 +459,51 @@ class InformationValueInputV1(ContractModel):
 
     value: float
     context: StudyDesignContextV1
+
+
+class CossRequestV1(ContractModel):
+    """Portable request envelope for an enumerated COSS calculation."""
+
+    schema_version: Literal["1.0.0"] = "1.0.0"
+    context: StudyDesignContextV1
+    designs: tuple[StudyDesignPointInputV1, ...] = Field(min_length=1)
+    declared_feasible_range: FeasibleDesignRangeV1 | None = None
+    tie_policy: TiePolicy = "smallest_sample_size"
+    absolute_tolerance: float = Field(default=1e-10, ge=0.0)
+    relative_tolerance: float = Field(default=1e-8, ge=0.0)
+    selection_uncertainty: SelectionUncertaintyV1 = Field(
+        default_factory=SelectionUncertaintyV1
+    )
+    enumeration_scope: EnumerationScope = "evaluated_set_only"
+    no_study_enbs: float = 0.0
+
+    @model_validator(mode="after")
+    def validate_design_identity(self) -> Self:
+        """Reject duplicate design identifiers at the portable boundary."""
+        design_ids = tuple(item.design_id for item in self.designs)
+        if len(set(design_ids)) != len(design_ids):
+            raise ValueError("design_id values must be unique")
+        return self
+
+
+class InformationEfficiencyRequestV1(ContractModel):
+    """Portable request envelope for an EVSI/EVPI efficiency diagnostic."""
+
+    schema_version: Literal["1.0.0"] = "1.0.0"
+    evsi: InformationValueInputV1
+    evpi: InformationValueInputV1
+    absolute_tolerance: float = Field(default=1e-10, ge=0.0)
+    relative_tolerance: float = Field(default=1e-8, ge=0.0)
+
+    @model_validator(mode="after")
+    def validate_commensurability(self) -> Self:
+        """Require a common economic interpretation before division."""
+        if (
+            self.evsi.context.commensurability_key()
+            != self.evpi.context.commensurability_key()
+        ):
+            raise ValueError("EVSI and EVPI must be commensurate")
+        return self
 
 
 class InformationEfficiencyResultV1(ContractModel):

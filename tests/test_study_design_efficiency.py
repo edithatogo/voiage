@@ -296,6 +296,52 @@ def test_coss_records_unavailable_uncertainty_explicitly(
     assert "selection_uncertainty_unavailable" in result.diagnostics
 
 
+def test_coss_separates_best_evaluated_design_from_sampling_recommendation(
+    study_context: StudyDesignContextV1,
+) -> None:
+    result = calculate_coss(
+        context=study_context,
+        designs=(
+            _point("n-20", 20, 2.0, 5.0),
+            _point("n-40", 40, 4.0, 6.0),
+        ),
+        enumeration_scope="evaluated_set_only",
+        no_study_enbs=0.0,
+    )
+
+    assert result.optimal_design_id == "n-40"
+    assert result.best_evaluated_design_id == "n-40"
+    assert result.maximum_enbs == -2.0
+    assert result.no_study_enbs == 0.0
+    assert result.commissioning_status == "do_not_commission"
+    assert result.recommended_design_id is None
+    assert result.economic_viability is False
+    assert result.regret_if_no_study == 0.0
+    assert result.boundary_sensitivity == "requires_evaluated_set_expansion"
+    assert "best_evaluated_is_not_sampling_recommendation" in result.diagnostics
+
+
+def test_complete_enumeration_can_recommend_sampling_without_changing_argmax(
+    study_context: StudyDesignContextV1,
+) -> None:
+    result = calculate_coss(
+        context=study_context,
+        designs=(
+            _point("n-20", 20, 5.0, 2.0),
+            _point("n-40", 40, 9.0, 3.0),
+        ),
+        enumeration_scope="complete_feasible_set",
+        no_study_enbs=0.0,
+    )
+
+    assert result.best_evaluated_design_id == result.optimal_design_id == "n-40"
+    assert result.commissioning_status == "recommend_commission"
+    assert result.recommended_design_id == "n-40"
+    assert result.economic_viability is True
+    assert result.regret_if_no_study == 6.0
+    assert result.boundary_sensitivity == "complete_enumeration"
+
+
 def test_complete_selection_probability_map_must_be_normalized(
     study_context: StudyDesignContextV1,
 ) -> None:

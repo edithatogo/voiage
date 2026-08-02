@@ -1,0 +1,364 @@
+{
+  "$defs": {
+    "FeasibleDesignRangeV1": {
+      "additionalProperties": false,
+      "description": "Inclusive sample-size range optionally declaring a regular step.",
+      "properties": {
+        "lower_sample_size": {
+          "minimum": 0,
+          "title": "Lower Sample Size",
+          "type": "integer"
+        },
+        "step": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step"
+        },
+        "upper_sample_size": {
+          "minimum": 0,
+          "title": "Upper Sample Size",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "lower_sample_size",
+        "upper_sample_size"
+      ],
+      "title": "FeasibleDesignRangeV1",
+      "type": "object"
+    },
+    "JsonValue": {},
+    "SelectionUncertaintyV1": {
+      "additionalProperties": false,
+      "description": "Descriptive uncertainty in the point-estimate COSS selection.",
+      "properties": {
+        "confidence_set_design_ids": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Confidence Set Design Ids",
+          "type": "array"
+        },
+        "method": {
+          "default": "unavailable",
+          "enum": [
+            "unavailable",
+            "analytic",
+            "monte_carlo",
+            "bootstrap",
+            "externally_supplied"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "probability_by_design": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "number"
+              },
+              "propertyNames": {
+                "minLength": 1
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Probability By Design"
+        },
+        "replicate_count": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Replicate Count"
+        }
+      },
+      "title": "SelectionUncertaintyV1",
+      "type": "object"
+    },
+    "StudyDesignContextV1": {
+      "additionalProperties": false,
+      "description": "Commensurability and provenance shared by study values and costs.",
+      "properties": {
+        "cost_model_id": {
+          "minLength": 1,
+          "title": "Cost Model Id",
+          "type": "string"
+        },
+        "decision_problem_id": {
+          "minLength": 1,
+          "title": "Decision Problem Id",
+          "type": "string"
+        },
+        "discounting_id": {
+          "minLength": 1,
+          "title": "Discounting Id",
+          "type": "string"
+        },
+        "population_scale": {
+          "exclusiveMinimum": 0.0,
+          "title": "Population Scale",
+          "type": "number"
+        },
+        "random_seed": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Random Seed"
+        },
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "study_model_id": {
+          "minLength": 1,
+          "title": "Study Model Id",
+          "type": "string"
+        },
+        "time_horizon": {
+          "minLength": 1,
+          "title": "Time Horizon",
+          "type": "string"
+        },
+        "value_unit": {
+          "minLength": 1,
+          "title": "Value Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "decision_problem_id",
+        "value_unit",
+        "population_scale",
+        "time_horizon",
+        "discounting_id",
+        "study_model_id",
+        "cost_model_id"
+      ],
+      "title": "StudyDesignContextV1",
+      "type": "object"
+    },
+    "StudyDesignPointInputV1": {
+      "additionalProperties": false,
+      "description": "One evaluated design and its commensurate EVSI and research cost.",
+      "properties": {
+        "cost_standard_error": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cost Standard Error"
+        },
+        "design_id": {
+          "minLength": 1,
+          "title": "Design Id",
+          "type": "string"
+        },
+        "enbs_confidence_interval": {
+          "anyOf": [
+            {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Enbs Confidence Interval"
+        },
+        "enbs_standard_error": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Enbs Standard Error"
+        },
+        "estimator_provenance": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Estimator Provenance",
+          "type": "object"
+        },
+        "evsi": {
+          "minimum": 0.0,
+          "title": "Evsi",
+          "type": "number"
+        },
+        "evsi_standard_error": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evsi Standard Error"
+        },
+        "feasibility_codes": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Feasibility Codes",
+          "type": "array"
+        },
+        "feasible": {
+          "default": true,
+          "title": "Feasible",
+          "type": "boolean"
+        },
+        "research_cost": {
+          "minimum": 0.0,
+          "title": "Research Cost",
+          "type": "number"
+        },
+        "sample_size": {
+          "minimum": 0,
+          "title": "Sample Size",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "design_id",
+        "sample_size",
+        "evsi",
+        "research_cost"
+      ],
+      "title": "StudyDesignPointInputV1",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Portable request envelope for an enumerated COSS calculation.",
+  "properties": {
+    "absolute_tolerance": {
+      "default": 1e-10,
+      "minimum": 0.0,
+      "title": "Absolute Tolerance",
+      "type": "number"
+    },
+    "context": {
+      "$ref": "#/$defs/StudyDesignContextV1"
+    },
+    "declared_feasible_range": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/FeasibleDesignRangeV1"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "designs": {
+      "items": {
+        "$ref": "#/$defs/StudyDesignPointInputV1"
+      },
+      "minItems": 1,
+      "title": "Designs",
+      "type": "array"
+    },
+    "enumeration_scope": {
+      "default": "evaluated_set_only",
+      "enum": [
+        "complete_feasible_set",
+        "evaluated_set_only"
+      ],
+      "title": "Enumeration Scope",
+      "type": "string"
+    },
+    "no_study_enbs": {
+      "default": 0.0,
+      "title": "No Study Enbs",
+      "type": "number"
+    },
+    "relative_tolerance": {
+      "default": 1e-08,
+      "minimum": 0.0,
+      "title": "Relative Tolerance",
+      "type": "number"
+    },
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "selection_uncertainty": {
+      "$ref": "#/$defs/SelectionUncertaintyV1"
+    },
+    "tie_policy": {
+      "default": "smallest_sample_size",
+      "enum": [
+        "smallest_sample_size",
+        "largest_sample_size",
+        "first_declared"
+      ],
+      "title": "Tie Policy",
+      "type": "string"
+    }
+  },
+  "required": [
+    "context",
+    "designs"
+  ],
+  "title": "CossRequestV1",
+  "type": "object"
+}

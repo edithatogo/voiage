@@ -1,0 +1,128 @@
+{
+  "$defs": {
+    "InformationValueInputV1": {
+      "additionalProperties": false,
+      "description": "One finite information value bound to its interpretation context.",
+      "properties": {
+        "context": {
+          "$ref": "#/$defs/StudyDesignContextV1"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "value",
+        "context"
+      ],
+      "title": "InformationValueInputV1",
+      "type": "object"
+    },
+    "StudyDesignContextV1": {
+      "additionalProperties": false,
+      "description": "Commensurability and provenance shared by study values and costs.",
+      "properties": {
+        "cost_model_id": {
+          "minLength": 1,
+          "title": "Cost Model Id",
+          "type": "string"
+        },
+        "decision_problem_id": {
+          "minLength": 1,
+          "title": "Decision Problem Id",
+          "type": "string"
+        },
+        "discounting_id": {
+          "minLength": 1,
+          "title": "Discounting Id",
+          "type": "string"
+        },
+        "population_scale": {
+          "exclusiveMinimum": 0.0,
+          "title": "Population Scale",
+          "type": "number"
+        },
+        "random_seed": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Random Seed"
+        },
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "study_model_id": {
+          "minLength": 1,
+          "title": "Study Model Id",
+          "type": "string"
+        },
+        "time_horizon": {
+          "minLength": 1,
+          "title": "Time Horizon",
+          "type": "string"
+        },
+        "value_unit": {
+          "minLength": 1,
+          "title": "Value Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "decision_problem_id",
+        "value_unit",
+        "population_scale",
+        "time_horizon",
+        "discounting_id",
+        "study_model_id",
+        "cost_model_id"
+      ],
+      "title": "StudyDesignContextV1",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Portable request envelope for an EVSI/EVPI efficiency diagnostic.",
+  "properties": {
+    "absolute_tolerance": {
+      "default": 1e-10,
+      "minimum": 0.0,
+      "title": "Absolute Tolerance",
+      "type": "number"
+    },
+    "evpi": {
+      "$ref": "#/$defs/InformationValueInputV1"
+    },
+    "evsi": {
+      "$ref": "#/$defs/InformationValueInputV1"
+    },
+    "relative_tolerance": {
+      "default": 1e-08,
+      "minimum": 0.0,
+      "title": "Relative Tolerance",
+      "type": "number"
+    },
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "evsi",
+    "evpi"
+  ],
+  "title": "InformationEfficiencyRequestV1",
+  "type": "object"
+}

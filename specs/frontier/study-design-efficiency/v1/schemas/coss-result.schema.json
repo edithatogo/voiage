@@ -1,0 +1,624 @@
+{
+  "$defs": {
+    "CossCurvePointV1": {
+      "additionalProperties": false,
+      "description": "One returned point on the complete signed-ENBS design curve.",
+      "properties": {
+        "design_id": {
+          "minLength": 1,
+          "title": "Design Id",
+          "type": "string"
+        },
+        "enbs": {
+          "title": "Enbs",
+          "type": "number"
+        },
+        "enbs_confidence_interval": {
+          "anyOf": [
+            {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Enbs Confidence Interval"
+        },
+        "enbs_standard_error": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Enbs Standard Error"
+        },
+        "estimator_provenance": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Estimator Provenance",
+          "type": "object"
+        },
+        "evsi": {
+          "minimum": 0.0,
+          "title": "Evsi",
+          "type": "number"
+        },
+        "feasibility_codes": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Feasibility Codes",
+          "type": "array"
+        },
+        "feasible": {
+          "title": "Feasible",
+          "type": "boolean"
+        },
+        "research_cost": {
+          "minimum": 0.0,
+          "title": "Research Cost",
+          "type": "number"
+        },
+        "sample_size": {
+          "minimum": 0,
+          "title": "Sample Size",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "design_id",
+        "sample_size",
+        "evsi",
+        "research_cost",
+        "enbs",
+        "feasible"
+      ],
+      "title": "CossCurvePointV1",
+      "type": "object"
+    },
+    "CossPlotDataV1": {
+      "additionalProperties": false,
+      "description": "Backend-independent aligned vectors for accessible COSS rendering.",
+      "properties": {
+        "boundary_state": {
+          "enum": [
+            "none",
+            "lower",
+            "upper",
+            "both",
+            "interior"
+          ],
+          "title": "Boundary State",
+          "type": "string"
+        },
+        "design_ids": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Design Ids",
+          "type": "array"
+        },
+        "enbs": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Enbs",
+          "type": "array"
+        },
+        "enbs_lower": {
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Enbs Lower",
+          "type": "array"
+        },
+        "enbs_upper": {
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Enbs Upper",
+          "type": "array"
+        },
+        "evsi": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Evsi",
+          "type": "array"
+        },
+        "feasible": {
+          "items": {
+            "type": "boolean"
+          },
+          "title": "Feasible",
+          "type": "array"
+        },
+        "optimal_design_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Optimal Design Id"
+        },
+        "research_cost": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Research Cost",
+          "type": "array"
+        },
+        "sample_sizes": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Sample Sizes",
+          "type": "array"
+        },
+        "tied_optimal_design_ids": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Tied Optimal Design Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "design_ids",
+        "sample_sizes",
+        "evsi",
+        "research_cost",
+        "enbs",
+        "feasible",
+        "enbs_lower",
+        "enbs_upper",
+        "boundary_state"
+      ],
+      "title": "CossPlotDataV1",
+      "type": "object"
+    },
+    "FeasibleDesignRangeV1": {
+      "additionalProperties": false,
+      "description": "Inclusive sample-size range optionally declaring a regular step.",
+      "properties": {
+        "lower_sample_size": {
+          "minimum": 0,
+          "title": "Lower Sample Size",
+          "type": "integer"
+        },
+        "step": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step"
+        },
+        "upper_sample_size": {
+          "minimum": 0,
+          "title": "Upper Sample Size",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "lower_sample_size",
+        "upper_sample_size"
+      ],
+      "title": "FeasibleDesignRangeV1",
+      "type": "object"
+    },
+    "JsonValue": {},
+    "SelectionUncertaintyV1": {
+      "additionalProperties": false,
+      "description": "Descriptive uncertainty in the point-estimate COSS selection.",
+      "properties": {
+        "confidence_set_design_ids": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Confidence Set Design Ids",
+          "type": "array"
+        },
+        "method": {
+          "default": "unavailable",
+          "enum": [
+            "unavailable",
+            "analytic",
+            "monte_carlo",
+            "bootstrap",
+            "externally_supplied"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "probability_by_design": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "number"
+              },
+              "propertyNames": {
+                "minLength": 1
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Probability By Design"
+        },
+        "replicate_count": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Replicate Count"
+        }
+      },
+      "title": "SelectionUncertaintyV1",
+      "type": "object"
+    },
+    "StudyDesignContextV1": {
+      "additionalProperties": false,
+      "description": "Commensurability and provenance shared by study values and costs.",
+      "properties": {
+        "cost_model_id": {
+          "minLength": 1,
+          "title": "Cost Model Id",
+          "type": "string"
+        },
+        "decision_problem_id": {
+          "minLength": 1,
+          "title": "Decision Problem Id",
+          "type": "string"
+        },
+        "discounting_id": {
+          "minLength": 1,
+          "title": "Discounting Id",
+          "type": "string"
+        },
+        "population_scale": {
+          "exclusiveMinimum": 0.0,
+          "title": "Population Scale",
+          "type": "number"
+        },
+        "random_seed": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Random Seed"
+        },
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "study_model_id": {
+          "minLength": 1,
+          "title": "Study Model Id",
+          "type": "string"
+        },
+        "time_horizon": {
+          "minLength": 1,
+          "title": "Time Horizon",
+          "type": "string"
+        },
+        "value_unit": {
+          "minLength": 1,
+          "title": "Value Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "decision_problem_id",
+        "value_unit",
+        "population_scale",
+        "time_horizon",
+        "discounting_id",
+        "study_model_id",
+        "cost_model_id"
+      ],
+      "title": "StudyDesignContextV1",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Versioned governed result for a finite Curve of Optimal Sample Size.",
+  "properties": {
+    "absolute_tolerance": {
+      "minimum": 0.0,
+      "title": "Absolute Tolerance",
+      "type": "number"
+    },
+    "best_evaluated_design_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Best Evaluated Design Id"
+    },
+    "boundary_sensitivity": {
+      "enum": [
+        "complete_enumeration",
+        "requires_evaluated_set_expansion",
+        "no_boundary_signal",
+        "no_feasible_design"
+      ],
+      "title": "Boundary Sensitivity",
+      "type": "string"
+    },
+    "boundary_state": {
+      "enum": [
+        "none",
+        "lower",
+        "upper",
+        "both",
+        "interior"
+      ],
+      "title": "Boundary State",
+      "type": "string"
+    },
+    "commissioning_status": {
+      "enum": [
+        "recommend_commission",
+        "do_not_commission",
+        "indifferent",
+        "no_feasible_design"
+      ],
+      "title": "Commissioning Status",
+      "type": "string"
+    },
+    "context": {
+      "$ref": "#/$defs/StudyDesignContextV1"
+    },
+    "declared_feasible_range": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/FeasibleDesignRangeV1"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "diagnostics": {
+      "default": [],
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Diagnostics",
+      "type": "array"
+    },
+    "economic_viability": {
+      "title": "Economic Viability",
+      "type": "boolean"
+    },
+    "enumeration_scope": {
+      "enum": [
+        "complete_feasible_set",
+        "evaluated_set_only"
+      ],
+      "title": "Enumeration Scope",
+      "type": "string"
+    },
+    "estimator": {
+      "minLength": 1,
+      "title": "Estimator",
+      "type": "string"
+    },
+    "estimator_provenance": {
+      "additionalProperties": {
+        "$ref": "#/$defs/JsonValue"
+      },
+      "title": "Estimator Provenance",
+      "type": "object"
+    },
+    "evaluated_designs": {
+      "items": {
+        "$ref": "#/$defs/CossCurvePointV1"
+      },
+      "title": "Evaluated Designs",
+      "type": "array"
+    },
+    "feasible_sample_sizes": {
+      "items": {
+        "type": "integer"
+      },
+      "title": "Feasible Sample Sizes",
+      "type": "array"
+    },
+    "maximum_enbs": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Maximum Enbs"
+    },
+    "method": {
+      "const": "coss",
+      "default": "coss",
+      "title": "Method",
+      "type": "string"
+    },
+    "no_study_enbs": {
+      "title": "No Study Enbs",
+      "type": "number"
+    },
+    "optimal_design_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Optimal Design Id"
+    },
+    "optimal_sample_size": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Optimal Sample Size"
+    },
+    "plot_data": {
+      "$ref": "#/$defs/CossPlotDataV1"
+    },
+    "recommended_design_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Recommended Design Id"
+    },
+    "regret_if_no_study": {
+      "minimum": 0.0,
+      "title": "Regret If No Study",
+      "type": "number"
+    },
+    "relative_tolerance": {
+      "minimum": 0.0,
+      "title": "Relative Tolerance",
+      "type": "number"
+    },
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "selection_uncertainty": {
+      "$ref": "#/$defs/SelectionUncertaintyV1"
+    },
+    "tie_policy": {
+      "enum": [
+        "smallest_sample_size",
+        "largest_sample_size",
+        "first_declared"
+      ],
+      "title": "Tie Policy",
+      "type": "string"
+    },
+    "tied_optimal_design_ids": {
+      "default": [],
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Tied Optimal Design Ids",
+      "type": "array"
+    }
+  },
+  "required": [
+    "estimator",
+    "context",
+    "evaluated_designs",
+    "enumeration_scope",
+    "feasible_sample_sizes",
+    "tie_policy",
+    "absolute_tolerance",
+    "relative_tolerance",
+    "no_study_enbs",
+    "commissioning_status",
+    "economic_viability",
+    "regret_if_no_study",
+    "boundary_state",
+    "boundary_sensitivity",
+    "selection_uncertainty",
+    "plot_data"
+  ],
+  "title": "CossResultV1",
+  "type": "object"
+}
