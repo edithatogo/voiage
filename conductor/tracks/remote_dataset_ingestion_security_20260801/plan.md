@@ -2,8 +2,8 @@
 
 ## Phase 1 — Threat model and policy
 
-- [~] **R1 / AC-01:** Produce the bounded remote-ingestion threat model and
-  source-policy contract.
+- [x] **R1 / AC-01:** Produce the bounded remote-ingestion threat model and
+  source-policy contract. — `f035c50`
 - [ ] **R2 / AC-01:** Obtain explicit security-policy approval before enabling
   any remote I/O.
   - [x] Record the decision options, authority boundary and fail-closed
