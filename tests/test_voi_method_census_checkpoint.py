@@ -91,4 +91,4 @@ def test_phase_one_freeze_preserves_delivery_and_promotion_boundaries() -> None:
     assert "- [ ] **G15:**" in plan
     assert "open #566 remains a" in plan
     assert gates["scientific-and-contract-review"]["status"] == "pending"
-    assert gates["hosted-required-checks"]["status"] == "pending"
+    assert gates["hosted-required-checks"]["status"] == "satisfied"
