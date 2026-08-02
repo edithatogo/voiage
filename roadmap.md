@@ -48,6 +48,19 @@ scientific verdict, and scientific acceptance remains separate from maintainer
 promotion, hosted assurance, release, publication, registry and issue-closure
 decisions.
 
+Sampling-acquisition harm is now materialized as the planned v1.3.0 Must
+C18/M32 family in
+`conductor/tracks/sampling_acquisition_harm_voi_20260802/`. Issue #850 owns
+native children #851–#853 for the fail-closed capability contract, primary-
+source/estimand packet and candidate-bound accountable review. The automated
+Phase 1 advisory panel closed all Critical/High repository findings for the
+scoped estimand, including explicit `d0` increments, observable filtration,
+upper-tail positive-loss CVaR, mutually exclusive outcome accounting and tri-
+state mathematical feasibility. This is governed research scoping only: no
+sampling-harm runtime exists, and H8 independent reports, the named human
+verdict, real-study authorization, parity, hosted assurance, promotion,
+release, publication, registry acceptance and closure remain pending.
+
 The v1.3 residual frontier programme is governed canonically by VOP C18. Issue
 #599 completed its governed experimental repository delivery. Its exact finite
 Python contract preserves the existing stable descriptive helper while adding
