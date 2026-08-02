@@ -546,7 +546,7 @@ This phase executes the pending scientific gate without reopening G1–G15.
 Repository defects discovered by a panel are delivered through separate
 issue-backed remediation slices and rebound to a fresh review candidate.
 
-- [ ] **SR1 — Freeze inventory and candidate:** Create the #318 scientific-
+- [~] **SR1 — Freeze inventory and candidate:** Create the #318 scientific-
   review governance child and nested wave/remediation issues; freeze the exact
   issue/Project/roadmap/canonical inventory, candidate commit/tree, artifact
   manifest, tools, references and known limitations. First reconcile live
