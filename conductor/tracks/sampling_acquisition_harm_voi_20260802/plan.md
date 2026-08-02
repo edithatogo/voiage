@@ -45,6 +45,10 @@
   schema change, and add negative method-family and integrity tests. This is
   repository scope selection, not a completed reviewed exclusion or human
   confirmation. (AC-02, AC-03, AC-07–AC-10) `79d58ec5`
+- [x] **H8-A-CI1:** Replace the Python-version-dependent impossible-calendar
+  mutation with a deterministic canonical-UTC violation covered by the
+  schema's explicit `Z` suffix rule. The contract and authority boundary are
+  unchanged. (AC-07, AC-09, AC-10) `6802131a`
 - [x] **H8-B:** Harden the scientific-review evidence contract: separate Git
   OIDs from SHA-256 content digests, define canonical hashing, verify manifest
   bytes, exact finding inventories, Medium dispositions, role separation,
