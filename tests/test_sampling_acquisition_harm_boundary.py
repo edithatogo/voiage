@@ -331,16 +331,29 @@ def test_h8c_candidate_inputs_are_complete_but_never_claim_review() -> None:
 
 
 def test_h8c_candidate_cross_artifact_bindings_and_freshness() -> None:
-    candidate = _json(CONTRACT / "review-candidate.json")
-    sources = _json(ROOT / candidate["source_register"])
-    snapshot = _json(ROOT / candidate["governance_snapshot"])
-    findings = _json(ROOT / candidate["prior_history"]["finding_inventory"])
+    git = shutil.which("git")
+    assert git is not None
+    preparation = _json(CONTRACT / "review-preparation.json")
+    commit = preparation["candidate_commit"]["value"]
 
-    ledger_path = ROOT / candidate["prior_history"]["evidence_ledger"]
-    assert hashlib.sha256(ledger_path.read_bytes()).hexdigest() == candidate[
+    def frozen_bytes(path: str) -> bytes:
+        return subprocess.check_output([git, "show", f"{commit}:{path}"], cwd=ROOT)
+
+    def frozen_json(path: str) -> dict[str, Any]:
+        return json.loads(frozen_bytes(path))
+
+    candidate = frozen_json(
+        "specs/frontier/sampling-acquisition-harm/v1/review-candidate.json"
+    )
+    sources = frozen_json(candidate["source_register"])
+    snapshot = frozen_json(candidate["governance_snapshot"])
+    findings = frozen_json(candidate["prior_history"]["finding_inventory"])
+
+    ledger_bytes = frozen_bytes(candidate["prior_history"]["evidence_ledger"])
+    assert hashlib.sha256(ledger_bytes).hexdigest() == candidate[
         "prior_history"
     ]["evidence_ledger_sha256"]
-    ledger = [json.loads(line) for line in ledger_path.read_text().splitlines()]
+    ledger = [json.loads(line) for line in ledger_bytes.splitlines()]
     ledger_entries = {entry["entry_sha256"] for entry in ledger}
     assert ledger[-1]["entry_sha256"] == candidate["prior_history"][
         "latest_entry_sha256"
@@ -351,8 +364,6 @@ def test_h8c_candidate_cross_artifact_bindings_and_freshness() -> None:
     assert {item["evidence_entry_sha256"] for item in findings["review_batches"]} <= (
         ledger_entries
     )
-    git = shutil.which("git")
-    assert git is not None
     for batch in findings["review_batches"]:
         subprocess.run(
             [git, "cat-file", "-e", f"{batch['reachable_merge_commit']}^{{commit}}"],
@@ -373,12 +384,12 @@ def test_h8c_candidate_cross_artifact_bindings_and_freshness() -> None:
             json.loads(line)["entry_sha256"] for line in merged_ledger.splitlines()
         }
 
-    source_manifest = ROOT / sources["source_manifest"]
-    assert hashlib.sha256(source_manifest.read_bytes()).hexdigest() == sources[
+    source_manifest = frozen_bytes(sources["source_manifest"])
+    assert hashlib.sha256(source_manifest).hexdigest() == sources[
         "source_manifest_sha256"
     ]
     for artifact in snapshot["canonical_projection"]["artifacts"]:
-        assert hashlib.sha256((ROOT / artifact["path"]).read_bytes()).hexdigest() == (
+        assert hashlib.sha256(frozen_bytes(artifact["path"])).hexdigest() == (
             artifact["sha256"]
         )
     for issue in snapshot["issues"]:
