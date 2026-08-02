@@ -2,7 +2,7 @@
 
 ## Phase 1 — Primary-source and estimand scoping
 
-- [ ] **H1:** Freeze primary sources, adjacent contracts and the candidate
+- [~] **H1:** Freeze primary sources, adjacent contracts and the candidate
   estimand; record source scope and limitations. (AC-02, AC-03, AC-06)
 - [ ] **H2:** Publish the zero-harm reduction, separability/commensurability
   rule, catastrophic constraint boundary and enumerable counterexample plan.
