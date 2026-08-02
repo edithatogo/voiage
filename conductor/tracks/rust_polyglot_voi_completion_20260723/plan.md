@@ -40,7 +40,7 @@
 
 ## Phase 4 — Programme and hosted closeout
 
-- [ ] **G13:** Reconcile child-issue results, roadmap, todo, registries,
+- [~] **G13:** Reconcile child-issue results, roadmap, todo, registries,
   release targets and remaining external gates. (AC-01, AC-05, AC-06)
   - [x] Define distinct registry/release/publication/parent-closure states,
     evidence lanes and authority boundaries. — `b4a1f20`
