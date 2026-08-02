@@ -37,7 +37,7 @@
   candidate or a reviewed exclusion of a generic executable kernel; retain
   `unsupported_research_scoping` until the complete gate succeeds. (AC-02,
   AC-03, AC-08)
-- [ ] **H8-B:** Harden the scientific-review evidence contract: separate Git
+- [~] **H8-B:** Harden the scientific-review evidence contract: separate Git
   OIDs from SHA-256 content digests, define canonical hashing, verify manifest
   bytes, exact finding inventories, Medium dispositions, role separation,
   signed human receipts, expiry/supersession and narrow delta classification.
