@@ -2,14 +2,16 @@
 
 ## Phase 1 — Governance and contract reconciliation
 
-- [ ] **G1:** Verify the owning issue, native parent/children, Project 28,
+- [x] **G1:** Verify the owning issue, native parent/children, Project 28,
   metadata, registry and cross-reference manifest. (AC-01)
-- [ ] **G2:** Reconcile existing repository artifacts and prior evidence
+- [x] **G2:** Reconcile existing repository artifacts and prior evidence
   without converting issue status into implementation evidence. (AC-01, AC-02)
-- [ ] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
+- [x] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
   explicit exclusions. (AC-02, AC-05, AC-06)
-- [ ] **G4:** Run automated contract review and full Conductor validation.
-  (AC-01, AC-07)
+- [x] **G4:** Run automated contract review and full Conductor validation.
+  Existing metamodel, model-validation, structural/calibration VOI, and
+  state-of-field records are reconciled without claiming ML/LLM/agent parity.
+  (2026-08-01; commit: d06ea195; AC-01, AC-07)
 
 ## Phase 2 — Evidence before positive claims
 
@@ -40,3 +42,8 @@
   (AC-07)
 - [ ] **G15:** Record repository completion separately from merge, release,
   publication, registry acceptance and issue closure. (AC-02, AC-07)
+
+## Review remediation
+
+- [x] Synchronize the track index with delivery PR #820. (2026-08-01;
+  review fix for AC-01)
