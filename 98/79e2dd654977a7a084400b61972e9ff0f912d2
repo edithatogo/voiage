@@ -1,0 +1,5 @@
+Task U19 / #845 — CRRA stability and VoC presentation provenance
+
+Implemented stable power/CRRA utility evaluation with expm1 and inversion with log1p, including the exact logarithmic limit at risk aversion one. Added Rust and Python continuity, policy, price and root-residual sweeps. Bound presentation contract version, selected measure and canonical input digest into a deterministic presentation digest without adding a VoC kernel. Updated schemas, fixture and documentation.
+
+Validation: 14 Rust utility tests; Rust Clippy/fmt; 37 Python utility/frontier tests; Ruff; frontier registry validator.
