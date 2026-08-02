@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-08-03T05:00:00Z",
+  "candidate_revision": "3b9024c503c171e7e321ddfaacc3665589e4d5e8",
+  "issues": {"598": "open", "599": "open", "600": "open"},
+  "tests": {
+    "command": "uv run --extra ci --extra dev pytest tests/test_signed_social_information.py tests/test_heterogeneity_value.py tests/test_outcome_conditional_sample_information.py --no-cov -q",
+    "status": "passed",
+    "result": "199 passed"
+  },
+  "scope": "Repository-owned numerical and contract evidence only; scientific review, parity, stable promotion, release and issue closure remain pending.",
+  "decision": "experimental_implementation_assured",
+  "fail_closed": true
+}
