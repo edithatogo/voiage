@@ -122,13 +122,13 @@
   and dependence-preserving nested/coupled assurance plus independently
   executable Rust/Python EVPPI and EVSI fixtures. (M14-E7, M14-E9; AC-03–
   AC-06, AC-08) `9a20b6a`
-- [~] **E22a:** Harden the pre-review vector boundary: retain trace,
+- [x] **E22a:** Harden the pre-review vector boundary: retain trace,
   determinant and weighted quadratic only as reserved schema vocabulary;
   reject every vector runtime request before native dispatch and every vector
   result envelope during semantic validation; declare that no conformant
   vector result/runtime exists; and add fail-closed schema, capability,
   dispatch and matrix-case tests. This repository-owned remediation does not
-  satisfy E22 or the scientific-review gate. (M14-E8a; AC-02–AC-05)
+  satisfy E22 or the scientific-review gate. (M14-E8a; AC-02–AC-05) `4397f16`
 - [ ] **E22:** Complete vector covariance scientific review with PSD policy,
   units, scalarization, regularization, recomputation and multivariate oracles;
   otherwise retain a reviewed vector exclusion. (M14-E8; AC-02–AC-05)
