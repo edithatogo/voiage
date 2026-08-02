@@ -20,7 +20,8 @@
   contracts required by the accepted scope. (AC-02, AC-03) — `e7622eb`
 - [ ] **G7:** Record rights, privacy, scientific, practitioner and external
   evidence gates that apply to this workstream. (AC-05, AC-06)
-- [~] **G8:** Run an independent evidence and boundary review. (AC-03, AC-07)
+- [x] **G8:** Run an independent evidence and boundary review. (AC-03, AC-07)
+  — `f8a3337`
 
 ## Phase 3 — Delivery or reviewed exclusion
 
