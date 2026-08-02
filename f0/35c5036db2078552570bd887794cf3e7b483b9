@@ -1,0 +1,1 @@
+Task R1: Added bounded remote-ingestion threat model and source-policy contract covering SSRF, DNS rebinding, redirects, credentials, archives, cache poisoning, quotas, telemetry redaction, receipts, and fail-closed boundaries. Remote I/O remains disabled pending R2 approval.
