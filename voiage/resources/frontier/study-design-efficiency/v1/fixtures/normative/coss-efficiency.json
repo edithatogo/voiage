@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "fixture_id": "coss-efficiency-enumerable-v1",
+  "input": {
+    "context": {
+      "schema_version": "1.0.0",
+      "decision_problem_id": "fixture-policy-choice",
+      "value_unit": "AUD-2026-present-value",
+      "population_scale": 100000,
+      "time_horizon": "five-years",
+      "discounting_id": "annual-3.5-percent",
+      "study_model_id": "enumerated-fixture-v1",
+      "cost_model_id": "full-economic-cost-v1",
+      "random_seed": 571
+    },
+    "designs": [
+      {
+        "design_id": "n-100",
+        "sample_size": 100,
+        "evsi": 40,
+        "research_cost": 20,
+        "estimator_provenance": {"fixture": "enumerable-v1"}
+      },
+      {
+        "design_id": "n-200",
+        "sample_size": 200,
+        "evsi": 60,
+        "research_cost": 25,
+        "estimator_provenance": {"fixture": "enumerable-v1"}
+      },
+      {
+        "design_id": "n-300",
+        "sample_size": 300,
+        "evsi": 70,
+        "research_cost": 45,
+        "estimator_provenance": {"fixture": "enumerable-v1"}
+      }
+    ],
+    "enumeration_scope": "complete_feasible_set",
+    "no_study_enbs": 0,
+    "joint_enbs_replicates_artifact": "joint-enbs-replicates.json",
+    "efficiency": {
+      "evsi": 60,
+      "evpi": 100,
+      "paired_replicates_artifact": "paired-efficiency-replicates.json"
+    }
+  },
+  "expected": {
+    "enbs": [20, 35, 25],
+    "optimal_design_id": "n-200",
+    "optimal_sample_size": 200,
+    "maximum_enbs": 35,
+    "commissioning_status": "recommend_commission",
+    "recommended_design_id": "n-200",
+    "economic_viability": true,
+    "regret_if_no_study": 35,
+    "selection_uncertainty": {
+      "selection_count_by_design": {"n-100": 1, "n-200": 2, "n-300": 1},
+      "probability_by_design": {"n-100": 0.25, "n-200": 0.5, "n-300": 0.25},
+      "near_tie_probability": 0.25,
+      "expected_selection_regret": 0.75,
+      "winner_optimism": 2.5,
+      "mean_selected_design_enbs": 32.5
+    },
+    "efficiency_ratio": 0.6,
+    "efficiency_percentage": 60,
+    "efficiency_uncertainty": {
+      "calibration_status": "paired_replicate_empirical",
+      "point_ratio_in_interval": true
+    }
+  }
+}

@@ -523,11 +523,14 @@ class CossRequestV1(ContractModel):
     tie_policy: TiePolicy = "smallest_sample_size"
     absolute_tolerance: float = Field(default=1e-10, ge=0.0)
     relative_tolerance: float = Field(default=1e-8, ge=0.0)
-    selection_uncertainty: SelectionUncertaintyV1 = Field(
-        default_factory=SelectionUncertaintyV1
-    )
+    selection_uncertainty: SelectionUncertaintyV1 | None = None
     enumeration_scope: EnumerationScope = "evaluated_set_only"
     no_study_enbs: float = 0.0
+    joint_enbs_replicates: tuple[tuple[float, ...], ...] | None = None
+    joint_replicate_method: Literal[
+        "joint_bootstrap", "joint_monte_carlo"
+    ] = "joint_bootstrap"
+    replay_artifact: Identifier | None = None
 
     @model_validator(mode="after")
     def validate_design_identity(self) -> Self:
@@ -535,6 +538,22 @@ class CossRequestV1(ContractModel):
         design_ids = tuple(item.design_id for item in self.designs)
         if len(set(design_ids)) != len(design_ids):
             raise ValueError("design_id values must be unique")
+        if (
+            self.selection_uncertainty is not None
+            and self.joint_enbs_replicates is not None
+        ):
+            raise ValueError(
+                "selection_uncertainty and joint_enbs_replicates are mutually exclusive"
+            )
+        if self.joint_enbs_replicates is not None:
+            if self.replay_artifact is None:
+                raise ValueError("joint ENBS replicates require replay_artifact")
+            if not self.joint_enbs_replicates:
+                raise ValueError("joint ENBS replicates must not be empty")
+            if any(len(row) != len(self.designs) for row in self.joint_enbs_replicates):
+                raise ValueError("joint ENBS replicate rows must align with designs")
+        elif self.replay_artifact is not None:
+            raise ValueError("replay_artifact requires joint ENBS replicates")
         return self
 
 

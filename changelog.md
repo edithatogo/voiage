@@ -7,6 +7,11 @@
 
 ## Unreleased
 
+- Strengthen experimental COSS and EVSI/EVPI efficiency assurance with an
+  explicit no-study commissioning decision, replayable joint selection
+  uncertainty, paired ratio uncertainty, portable request/result schemas and
+  packaged fixtures/capabilities that execute from an installed wheel.
+
 - Align experimental COSS selection-probability normalization with its declared
   absolute and relative tolerances, and expose complete tied-optimum sets plus
   selection-uncertainty availability through accessible plot encodings.
