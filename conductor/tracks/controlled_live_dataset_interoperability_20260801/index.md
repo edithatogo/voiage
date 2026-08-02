@@ -8,6 +8,7 @@
 - [Parent issue #325](https://github.com/edithatogo/voiage/issues/325)
 - [Project 28](https://github.com/users/edithatogo/projects/28)
 
-Status: new. No network retrieval or live dataset is authorized merely by this
-track. Work begins only with approved rights-cleared, hash-pinned source
-artifacts and a recorded source-use decision.
+Status: in progress but authorization-blocked. Fail-closed local probe tests
+and the Phase 1 review checkpoint pass, but no network retrieval or live
+dataset is authorized. Controlled source work begins only with approved
+rights-cleared, hash-pinned artifacts and a recorded source-use decision.
