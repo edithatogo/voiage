@@ -8,7 +8,7 @@ other tracks retain their evidenced lifecycle and external-gate boundaries.
 *GitHub: [issue #313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
 *Status: in progress — the issue-claimed specification and plan are now materialized;
-existing issue/Project progress awaits evidence reconciliation.*
+existing issue/Project progress awaits evidence reconciliation; scientific, installed-parity, rights and hosted gates remain pending.*
 
 ---
 
