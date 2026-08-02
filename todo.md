@@ -37,8 +37,12 @@ separate gates.
         are complete; #851 (unsupported capability and negative discovery) and
         #852 (source/estimand packet) are repository-owned slices. #853/H8
         candidate-bound independent reports and human confirmations remain
-        pending. H8-A–H8-H now govern a narrow candidate or reviewed exclusion,
-        evidence-contract hardening, exact #850 freeze, independent role panel,
+        pending. H8-A selects only the generic automatic-scalar or study-
+        authorizing kernel as the review target for a proposed exclusion;
+        parameterized constrained/vector research remains outside that scope.
+        The exclusion itself is not yet reviewed. H8-B evidence-contract
+        hardening is complete; H8-C–H8-H
+        govern the exact #850 freeze, independent role panel,
         separate orchestrator synthesis, finding/dissent disposition, two
         distinct scientific and domain/ethics humans, a conditional chair,
         separate maintainer decision and fail-closed governance readback. No

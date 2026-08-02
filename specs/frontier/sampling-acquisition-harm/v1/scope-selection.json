@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0.0",
+  "selection_id": "sampling-acquisition-harm-h8a-20260803",
+  "track_id": "sampling_acquisition_harm_voi_20260802",
+  "planned_version": "1.3.0",
+  "issue_refs": [
+    "https://github.com/edithatogo/voiage/issues/850",
+    "https://github.com/edithatogo/voiage/issues/853"
+  ],
+  "reviewed_source_commit": {
+    "algorithm": "sha1",
+    "value": "645725eb8d1a71ec75118c42757675aca6447114"
+  },
+  "reviewed_source_tree": {
+    "algorithm": "sha1",
+    "value": "7fa899d9791688f8d3528bd97659f22390483be6"
+  },
+  "selected_at": "2026-08-02T17:49:24Z",
+  "selected_review_path": "generic_kernel_exclusion_review",
+  "proposed_disposition": "reviewed_exclusion",
+  "selection_status": "selected_for_candidate_bound_review",
+  "scientific_disposition": "pending",
+  "review_target": {
+    "capability": "generic_automatic_scalar_or_authorizing_sampling_acquisition_harm_kernel",
+    "domain": "unspecified",
+    "jurisdiction": "unspecified",
+    "population": "unspecified",
+    "sampling_activity": "unspecified",
+    "comparator": "unspecified",
+    "affected_parties": "unspecified",
+    "harm_categories": "unspecified",
+    "excluded_semantics": "automatic_scalar_aggregation_or_study_authorization"
+  },
+  "rationale": [
+    "No narrow domain, jurisdiction, population, sampling activity, affected-party set or applicable-authority profile is instantiated.",
+    "No candidate-specific harm law, empirical identification basis, estimator, truth-known suite or false-safe error budget exists.",
+    "A generic automatic-scalar or authorizing kernel would encode unsupported commensurability, separability, risk-ordering and authorization choices.",
+    "Every repository execution surface is intentionally unsupported and exposes no sampling-acquisition-harm symbol."
+  ],
+  "alternatives_considered": [
+    {
+      "id": "clinical-human-subject-trial",
+      "status": "not_reviewable",
+      "reason": "No exact population, procedure, comparator, harm law or applicable jurisdictional authority is specified."
+    },
+    {
+      "id": "safe-active-learning-exploration",
+      "status": "not_reviewable",
+      "reason": "Methodological analogies do not establish a candidate-specific health-economic harm estimand or accountable authorization."
+    },
+    {
+      "id": "privacy-data-acquisition",
+      "status": "not_reviewable",
+      "reason": "No privacy mechanism, affected-party model, jurisdiction, empirical harm law or estimator-assurance packet is specified."
+    },
+    {
+      "id": "parameterized-constrained-vector-research-contract",
+      "status": "future_candidate_class",
+      "reason": "A non-authorizing constrained or vector contract remains mathematically coherent when a user supplies a narrow candidate, ordering rules and assurance evidence; it is not part of the proposed exclusion."
+    }
+  ],
+  "evidence_refs": [
+    {"path": "conductor/tracks/sampling_acquisition_harm_voi_20260802/primary-source-manifest-20260802.json", "sha256": "9a04bddf98608ee8ffaf05eeba45bc3df86bcee96ff2d99706ba8cc3a65f3cb5"},
+    {"path": "conductor/tracks/sampling_acquisition_harm_voi_20260802/primary-source-estimand-review-20260802.md", "sha256": "bd0e7e8ecb5a063b65852c99836519a1bfea6dfc76e2366f18be89462ae5ca40"},
+    {"path": "conductor/tracks/sampling_acquisition_harm_voi_20260802/estimand-counterexamples-and-sensitivity.md", "sha256": "d2cd534cd2ff2874e6abcfccffd5f6119ceffd19d811a824946c33c2679c3097"},
+    {"path": "conductor/tracks/sampling_acquisition_harm_voi_20260802/h8a-scope-selection-review-20260803.md", "sha256": "395a2dd4631fe60e333d1d0f9fdab41afca310d1d90f32f96a0e21eaca775097"},
+    {"path": "specs/frontier/sampling-acquisition-harm/v1/research-disposition.json", "sha256": "9bbfcffa0dbc86f3690ec1c1304e95f390d42648c33d0224260bb04d68d9fdfc"},
+    {"path": "specs/frontier/sampling-acquisition-harm/v1/capabilities.json", "sha256": "5d3e831709f16878fe9b9c16562a5a03bb1240912e0335c9d684c9e260ba769c"}
+  ],
+  "runtime_disposition": "unsupported_research_scoping",
+  "review_completed": false,
+  "human_confirmation_received": false,
+  "real_study_authorized": false,
+  "approved_runtime_symbols": [],
+  "next_tasks": ["H8-C", "H8-D", "H8-E", "H8-F", "H8-G", "H8-H"],
+  "reconsideration_entry_requirements": [
+    "narrow_domain_candidate",
+    "applicable_jurisdiction_authority",
+    "defined_population_and_affected_parties",
+    "defined_sampling_action_and_comparator",
+    "identified_harm_law_and_data",
+    "defined_reporting_and_dropout_model",
+    "declared_risk_ordering_and_component_ledger",
+    "estimator_assurance_plan"
+  ],
+  "downstream_review_gates": [
+    "candidate_bound_independent_review",
+    "two_named_human_confirmations",
+    "estimator_assurance",
+    "maintainer_implementation_decision"
+  ],
+  "not_authorized": [
+    "completed_reviewed_exclusion",
+    "scientific_acceptance",
+    "maintainer_disposition",
+    "runtime_implementation",
+    "polyglot_parity",
+    "stable_promotion",
+    "real_study_activity",
+    "ethics_regulatory_authorization",
+    "release",
+    "publication",
+    "registry_acceptance",
+    "issue_closure"
+  ]
+}
