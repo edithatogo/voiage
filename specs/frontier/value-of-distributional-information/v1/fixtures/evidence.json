@@ -23,7 +23,7 @@
     {"path": "tests/test_distributional_information_surfaces.py", "sha256": "26c2ecaa206a78ee89b4bee14c7dbf83f5de587c0b38c5e4bd0ddfe6c3e402a9"},
     {"path": "docs/astro-site/src/content/docs/examples/value-of-distributional-information.mdx", "sha256": "c99c508b5b500fb2ebbe55705d3ed3e04d4516b079e962d4506243593fb1c130"},
     {"path": "docs/astro-site/src/content/docs/examples/index.mdx", "sha256": "05a85be3eb59d963b1fd59973f87c8ff1378cdfa11c8638f8dc430415f9546b4"},
-    {"path": "docs/astro-site/src/content/docs/cli-reference.mdx", "sha256": "0091fc8b084e7d811111231834038051bc83bb4a69b941fcf2d6e78c80f1823d"},
+    {"path": "docs/astro-site/src/content/docs/cli-reference.mdx", "sha256": "5fcf6526809dd981aaf0194a7d33fab6a081eb019add523950f673b2a0fbb447"},
     {"path": "changelog.md", "sha256": "2b7bb6dddb66ba466e281792fa473497f7d103ef5e1fd9a8a1bde92affd5eaa7"}
   ],
   "remaining_gates": [

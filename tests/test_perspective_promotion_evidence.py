@@ -33,3 +33,33 @@ def test_perspective_catalog_and_promotion_gates_are_explicit() -> None:
         assert path.is_file()
         if artifact["sha256"] != "pending":
             assert hashlib.sha256(path.read_bytes()).hexdigest() == artifact["sha256"]
+
+
+def test_perspective_readme_preserves_unsupported_estimand_boundary() -> None:
+    readme = (ROOT / "README.md").read_text()
+    assert "current-information estimand" in readme
+    assert "Perfect perspective information" in readme
+    assert "Partial or sample perspective information" in readme
+    assert "Unsupported rows must remain fail-closed" in readme
+
+
+def test_perspective_capability_dispositions_are_explicit() -> None:
+    capabilities = json.loads((ROOT / "capabilities.json").read_text())
+    assert capabilities["execution"] == {
+        "python": "executable-experimental",
+        "rust": "unsupported",
+        "r": "unsupported",
+        "julia": "unsupported",
+        "mojo": "external-boundary",
+    }
+    assert capabilities["installed_shared_fixture"]["status"] == "pending"
+    assert capabilities["stable_claim_allowed"] is False
+
+
+def test_cli_reference_links_to_repository_perspective_contracts() -> None:
+    cli_reference = (
+        ROOT.parents[3] / "docs/astro-site/src/content/docs/cli-reference.mdx"
+    ).read_text()
+    prefix = "../../../../../specs/frontier/perspective/v1/"
+    assert f"{prefix}README.md" in cli_reference
+    assert f"{prefix}capabilities.json" in cli_reference
