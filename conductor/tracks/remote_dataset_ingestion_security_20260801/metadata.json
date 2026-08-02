@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-08-01T04:30:00Z",
-  "updated_at": "2026-08-02T13:05:00Z",
+  "updated_at": "2026-08-02T13:10:00Z",
   "description": "Define and implement an approved security policy for any future remote standardized-dataset ingestion.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
@@ -31,7 +31,7 @@
       "id": "remote-security-policy-approval",
       "kind": "external",
       "status": "pending",
-      "evidence": "A reviewed threat model and explicit security-policy approval are required before remote I/O."
+      "evidence": "Threat model and approval packet recorded in r1-threat-model.md and r2-security-policy-approval-packet.md; accountable security-policy approval remains pending before remote I/O."
     },
     {
       "id": "hosted-required-checks",
