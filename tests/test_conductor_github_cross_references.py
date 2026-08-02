@@ -155,8 +155,10 @@ def test_polyglot_parity_track_projects_current_delivery_state() -> None:
     assert metadata["status"] == "in_progress"
 
     registry = (ROOT / "conductor" / "tracks.md").read_text()
+    umbrella_section = registry.split("\n---", 1)[0]
     section = registry.split("## [~] Track: Polyglot ABI and Binding Parity", 1)[1]
     section = section.split("\n---\n", 1)[0]
+    assert "governance and capability reconciliation" not in umbrella_section
     assert "*Status: in progress" in section
     assert "*Status: new" not in section
 
