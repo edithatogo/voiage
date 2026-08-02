@@ -9,8 +9,8 @@
   — `cd7bfa3`
 - [x] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
   explicit exclusions. (AC-02, AC-05, AC-06) — `cd7bfa3`
-- [x] **G4:** Run automated contract review and full Conductor validation.
-  (AC-01, AC-07) — 4fe2d8d
+- [ ] **G4:** Run automated contract review and full Conductor validation.
+  (AC-01, AC-07)
 
 ## Phase 2 — Evidence before positive claims
 
