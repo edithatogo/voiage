@@ -4,15 +4,16 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-08-01T04:30:00Z",
-  "updated_at": "2026-08-02T13:10:00Z",
+  "updated_at": "2026-08-02T14:15:00Z",
   "description": "Define and implement an approved security policy for any future remote standardized-dataset ingestion.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
   "approval": {
     "status": "approved",
+    "kind": "track_scope_only",
     "approved_on": "2026-08-01",
     "recorded_at": "2026-08-01T04:30:00Z",
-    "evidence": "User approved the staged strict-local closure recommendation and creation of successor tracks."
+    "evidence": "User approved the staged strict-local closure recommendation and creation of successor tracks. This is track-scope approval only, not accountable security or infrastructure approval for remote I/O."
   },
   "github_parent_issue": "https://github.com/edithatogo/voiage/issues/325",
   "github_issue": "https://github.com/edithatogo/voiage/issues/753",
