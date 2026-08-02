@@ -46,7 +46,7 @@
     evidence lanes and authority boundaries. — `b4a1f20`
   - [ ] Refresh each destination from authoritative receipts and reconcile
     child and parent issue state.
-- [ ] **G14:** Run final full local validation and hosted required checks.
+- [~] **G14:** Run final full local validation and hosted required checks.
   (AC-07)
   - [ ] Bind the final validation packet to the exact release candidate and
     hosted check run.
