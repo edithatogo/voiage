@@ -76,10 +76,10 @@
   no-study comparator, economic viability, sampling recommendation, boundary
   sensitivity and regret semantics without changing the curve argmax.
   (M15-S7, M15-S8, M15-S11; AC-02, AC-05, AC-06) `b3fb0b8`
-- [~] **S22:** Bind selection uncertainty to replayable joint replicates and
+- [x] **S22:** Bind selection uncertainty to replayable joint replicates and
   add paired efficiency uncertainty, calibration, near-tie and winner's-curse
-  evidence. (M15-S9–M15-S11; AC-02, AC-03, AC-05)
-- [x] **S23:** **Legacy follow-up (not part of completed track acceptance):** Add portable request/result schemas and capability metadata,
+  evidence. (M15-S9–M15-S11; AC-02, AC-03, AC-05) `d926e31`
+- [ ] **S23:** Add portable request/result schemas and capability metadata,
   correct the `1.0`/`1.0.0` contract-version mismatch, execute installed-wheel
   fixtures and downgrade any unsupported `fixture-backed` claim until the
   evidence exists. (AC-02, AC-06–AC-10)
