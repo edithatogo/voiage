@@ -1,0 +1,16 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://voiage.dev/schemas/sampling-acquisition-harm/reviewer-intake-readiness-v1.0.0.json","type":"object","additionalProperties":false,
+  "required":["schema_version","artifact_kind","status","required_scientific_roles","human_confirmation_roles","eligibility_fields","post_review_receipt_fields","precommission_prerequisites","downstream_gates","receipt_received","authority"],
+  "properties":{
+    "schema_version":{"const":"1.0.0"},"artifact_kind":{"const":"commissioning_readiness_only_not_a_receipt"},"status":{"const":"awaiting_eligible_human_assignment"},
+    "required_scientific_roles":{"type":"array","minItems":5,"maxItems":5,"prefixItems":[{"allOf":[{"$ref":"#/$defs/role"},{"properties":{"role_id":{"const":"estimand_domain"}}}]},{"allOf":[{"$ref":"#/$defs/role"},{"properties":{"role_id":{"const":"estimator_assurance"}}}]},{"allOf":[{"$ref":"#/$defs/role"},{"properties":{"role_id":{"const":"cross_language_api"}}}]},{"allOf":[{"$ref":"#/$defs/role"},{"properties":{"role_id":{"const":"governance_publication"}}}]},{"allOf":[{"$ref":"#/$defs/role"},{"properties":{"role_id":{"const":"domain_specialist"}}}]}],"items":false},
+    "human_confirmation_roles":{"type":"array","minItems":2,"maxItems":2,"prefixItems":[{"allOf":[{"$ref":"#/$defs/role"},{"properties":{"role_id":{"const":"named_independent_human_scientific_verdict"}}}]},{"allOf":[{"$ref":"#/$defs/role"},{"properties":{"role_id":{"const":"distinct_domain_ethics_human_verdict"}}}]}],"items":false},
+    "eligibility_fields":{"const":["legal_name_or_verified_identity","role_claim","relevant_qualifications","contribution_history","conflicts_of_interest","independence_attestation","reviewed_packet_digest","signing_mechanism"]},
+    "post_review_receipt_fields":{"const":["reviewed_packet_digest","finding_dispositions","conditions","dissent_references","signed_verdict_digest","issued_at","expires_at","supersedes"]},
+    "precommission_prerequisites":{"type":"object","additionalProperties":false,"required":["source_review_ready","replacement_packet_frozen"],"properties":{"source_review_ready":{"const":false},"replacement_packet_frozen":{"const":false}}},
+    "downstream_gates":{"type":"object","additionalProperties":false,"required":["all_findings_dispositioned","signed_verdict_received"],"properties":{"all_findings_dispositioned":{"const":false},"signed_verdict_received":{"const":false}}},
+    "receipt_received":{"const":false},
+    "authority":{"type":"object","additionalProperties":false,"required":["independent_review","human_confirmation","scientific_disposition","maintainer_decision"],"properties":{"independent_review":{"const":false},"human_confirmation":{"const":false},"scientific_disposition":{"const":false},"maintainer_decision":{"const":false}}}
+  },
+  "$defs":{"role":{"type":"object","additionalProperties":false,"required":["role_id","separation_requirement","assignment_status","eligible"],"properties":{"role_id":{"type":"string","minLength":1},"separation_requirement":{"type":"string","minLength":1},"assignment_status":{"const":"unassigned"},"eligible":{"const":false}}}}
+}

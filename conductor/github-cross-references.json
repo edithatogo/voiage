@@ -5055,7 +5055,8 @@
       "subissues": [
         "https://github.com/edithatogo/voiage/issues/851",
         "https://github.com/edithatogo/voiage/issues/852",
-        "https://github.com/edithatogo/voiage/issues/853"
+        "https://github.com/edithatogo/voiage/issues/853",
+        "https://github.com/edithatogo/voiage/issues/864"
       ],
       "pull_requests": [
         {
@@ -5078,6 +5079,17 @@
             "14b9f6d836c831eb62cad41f589133d83ddd9493",
             "62d22743b1547266bd554b215f957934bf577234",
             "60-successes-four-governed-skips-one-neutral-zero-unresolved-threads"
+          ]
+        },
+        {
+          "number": 863,
+          "url": "https://github.com/edithatogo/voiage/pull/863",
+          "status": "merged",
+          "evidence": [
+            "automated-challenge-and-governance-sync",
+            "13456c7af74a7136b8aa71a74a01c47e64019480",
+            "0c3f4314368693a07d0f9f6996e123a1d20ef208",
+            "38-successes-three-governed-skips-one-neutral-zero-unresolved-threads"
           ]
         }
       ],

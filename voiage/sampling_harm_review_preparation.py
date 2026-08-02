@@ -17,6 +17,10 @@ from jsonschema import Draft202012Validator, FormatChecker
 from jsonschema.exceptions import ValidationError as JsonSchemaValidationError
 from referencing import Registry, Resource
 
+from voiage.sampling_harm_automated_challenge import (
+    SamplingHarmAutomatedChallengeError,
+    validate_sampling_harm_automated_challenge,
+)
 from voiage.scientific_review_evidence import canonical_json_sha256
 
 CONTRACT_ROOT = PurePosixPath("specs/frontier/sampling-acquisition-harm/v1")
@@ -26,6 +30,19 @@ SNAPSHOT_PATH = CONTRACT_ROOT / "governance-snapshot.json"
 ENVELOPE_PATH = CONTRACT_ROOT / "review-preparation.json"
 MANIFEST_PATH = CONTRACT_ROOT / "review-artifact-manifest.json"
 PACKET_PATH = CONTRACT_ROOT / "review-packet.json"
+REMEDIATION_ARTIFACTS = {
+    "adjacent-method-non-alias-delta.json": (
+        "adjacent-method-non-alias-delta.schema.json"
+    ),
+    "governance-administrative-delta-20260803.json": (
+        "governance-administrative-delta.schema.json"
+    ),
+    "remediation-register.json": "remediation-register.schema.json",
+    "reviewer-intake-readiness.json": "reviewer-intake-readiness.schema.json",
+    "source-review-intake-readiness.json": (
+        "source-review-intake-readiness.schema.json"
+    ),
+}
 FROZEN_CANDIDATE_COMMIT = "8d6c67879050f161258ed95d878a72e2bb6b22dd"
 TRUSTED_PACKAGE_COMMIT = "d00e0e20752f44c52581dbb7ee45ce27c9b7d6dd"
 EXPECTED_INVENTORY_SHA256 = (
@@ -420,3 +437,128 @@ def load_and_validate_sampling_harm_review_preparation(
         expected_package_commit=expected_package_commit,
         now=now,
     )
+
+
+def load_and_validate_sampling_harm_remediation_intake(
+    *, repository_root: Path
+) -> dict[str, Any]:
+    """Validate the live H8-D-B artifacts and compose the effective boundary."""
+    root = repository_root.resolve()
+    loaded: dict[str, dict[str, Any]] = {}
+    for artifact_name, schema_name in REMEDIATION_ARTIFACTS.items():
+        artifact_path = root / CONTRACT_ROOT / artifact_name
+        schema_path = root / CONTRACT_ROOT / "schemas" / schema_name
+        try:
+            artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+            schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as error:
+            raise SamplingHarmReviewPreparationError(
+                f"cannot load remediation artifact {artifact_name}: {error}"
+            ) from error
+        if not isinstance(artifact, dict) or not isinstance(schema, dict):
+            raise SamplingHarmReviewPreparationError(
+                f"remediation artifact and schema must be objects: {artifact_name}"
+            )
+        _validate_json(artifact, schema, label=artifact_name)
+        loaded[artifact_name] = artifact
+
+    base_path = root / CONTRACT_ROOT / "research-disposition.json"
+    base_bytes = base_path.read_bytes()
+    delta = loaded["adjacent-method-non-alias-delta.json"]
+    if hashlib.sha256(base_bytes).hexdigest() != delta["base_disposition_sha256"]:
+        raise SamplingHarmReviewPreparationError(
+            "effective disposition base binding mismatch"
+        )
+    issues = [record["issue"] for record in delta["issues"]]
+    if issues != [570, 571, 595, 598]:
+        raise SamplingHarmReviewPreparationError(
+            "effective adjacent-method projection is incomplete"
+        )
+    if any(record["execution_reuse_allowed"] for record in delta["issues"]):
+        raise SamplingHarmReviewPreparationError(
+            "effective adjacent-method projection permits execution reuse"
+        )
+    register = loaded["remediation-register.json"]
+    synthesis_path = root / CONTRACT_ROOT / register["source_synthesis"]
+    synthesis = json.loads(synthesis_path.read_text(encoding="utf-8"))
+    try:
+        challenge_receipt = validate_sampling_harm_automated_challenge(
+            synthesis, repository_root=root
+        )
+    except SamplingHarmAutomatedChallengeError as error:
+        raise SamplingHarmReviewPreparationError(
+            f"automated challenge authentication failed: {error}"
+        ) from error
+    if (
+        challenge_receipt["synthesis_sha256"]
+        != register["bindings"]["synthesis_sha256"]
+    ):
+        raise SamplingHarmReviewPreparationError(
+            "remediation register synthesis digest mismatch"
+        )
+    expected_findings = {
+        item["finding_id"]: item["normalized_severity"]
+        for item in synthesis["findings"]
+    }
+    actual_findings = {
+        item["finding_id"]: item["severity"] for item in register["findings"]
+    }
+    if actual_findings != expected_findings:
+        raise SamplingHarmReviewPreparationError(
+            "remediation register finding identity or severity drift"
+        )
+    if register["summary"] != synthesis["finding_summary"]:
+        raise SamplingHarmReviewPreparationError("remediation register summary drift")
+    bindings = synthesis["bindings"]
+    if register["bindings"] != {
+        "candidate_commit": bindings["candidate_commit"]["value"],
+        "candidate_tree": bindings["candidate_tree"]["value"],
+        "trusted_package_commit": bindings["trusted_package_commit"]["value"],
+        "review_packet_sha256": bindings["review_packet"]["sha256"],
+        "synthesis_sha256": synthesis["synthesis_sha256"],
+    }:
+        raise SamplingHarmReviewPreparationError(
+            "remediation register evidence binding drift"
+        )
+    governance = loaded["governance-administrative-delta-20260803.json"]
+    observed_at = datetime.fromisoformat(governance["observed_at"])
+    expires_at = datetime.fromisoformat(governance["expires_at"])
+    if observed_at > datetime.now(UTC):
+        raise SamplingHarmReviewPreparationError(
+            "governance delta observation time is in the future"
+        )
+    if expires_at <= observed_at or datetime.now(UTC) > expires_at:
+        raise SamplingHarmReviewPreparationError(
+            "governance delta is expired or has an invalid expiry"
+        )
+    snapshot_path = root / CONTRACT_ROOT / governance["historical_snapshot"]["path"]
+    snapshot_digest = hashlib.sha256(snapshot_path.read_bytes()).hexdigest()
+    if snapshot_digest != governance["historical_snapshot"]["sha256"]:
+        raise SamplingHarmReviewPreparationError(
+            "historical governance snapshot binding mismatch"
+        )
+    project_issues = [item["issue"] for item in governance["project_28"]["items"]]
+    if project_issues != [850, 853, 864]:
+        raise SamplingHarmReviewPreparationError(
+            "governance delta Project readback is incomplete"
+        )
+    projection_only = {
+        "issue",
+        "item_id",
+        "item_updated_at",
+        "project_fields_sha256",
+    }
+    for item in governance["project_28"]["items"]:
+        project_fields = {
+            key: value for key, value in item.items() if key not in projection_only
+        }
+        if canonical_json_sha256(project_fields) != item["project_fields_sha256"]:
+            raise SamplingHarmReviewPreparationError(
+                f"Project field digest mismatch for issue {item['issue']}"
+            )
+    return {
+        "base_disposition_sha256": delta["base_disposition_sha256"],
+        "effective_adjacent_issues": issues,
+        "runtime_authority": False,
+        "artifacts": sorted(loaded),
+    }

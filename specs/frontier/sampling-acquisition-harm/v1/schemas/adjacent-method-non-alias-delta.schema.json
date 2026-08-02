@@ -1,0 +1,10 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://voiage.dev/schemas/sampling-acquisition-harm/adjacent-method-non-alias-delta-v1.0.0.json","type":"object","additionalProperties":false,
+  "required":["schema_version","delta_id","historical_disposition_preserved","base_disposition_sha256","issues","runtime_authority"],
+  "properties":{
+    "schema_version":{"const":"1.0.0"},"delta_id":{"const":"sampling-harm-adjacent-non-alias-h8db-20260803"},"historical_disposition_preserved":{"const":true},"base_disposition_sha256":{"const":"9bbfcffa0dbc86f3690ec1c1304e95f390d42648c33d0224260bb04d68d9fdfc"},
+    "issues":{"type":"array","minItems":4,"maxItems":4,"prefixItems":[{"allOf":[{"$ref":"#/$defs/record"},{"properties":{"issue":{"const":570}}}]},{"allOf":[{"$ref":"#/$defs/record"},{"properties":{"issue":{"const":571}}}]},{"allOf":[{"$ref":"#/$defs/record"},{"properties":{"issue":{"const":595}}}]},{"allOf":[{"$ref":"#/$defs/record"},{"properties":{"issue":{"const":598}}}]}],"items":false},
+    "runtime_authority":{"const":false}
+  },
+  "$defs":{"record":{"type":"object","additionalProperties":false,"required":["issue","method","relationship","execution_reuse_allowed","reason"],"properties":{"issue":{"type":"integer"},"method":{"type":"string","minLength":1},"relationship":{"const":"not_sampling_acquisition_harm"},"execution_reuse_allowed":{"const":false},"reason":{"type":"string","minLength":1}}}}
+}

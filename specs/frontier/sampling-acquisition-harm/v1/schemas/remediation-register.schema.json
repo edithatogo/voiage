@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/sampling-acquisition-harm/remediation-register-v1.0.0.json",
+  "title": "Sampling-acquisition-harm remediation register",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "register_id", "source_synthesis", "bindings", "disposition_paths", "summary", "findings", "authority"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "register_id": {"const": "sampling-harm-h8db-remediation-20260803"},
+    "source_synthesis": {"const": "reviews/h8d-automated-challenge-synthesis-20260803.json"},
+    "bindings": {
+      "type":"object","additionalProperties":false,"required":["candidate_commit","candidate_tree","trusted_package_commit","review_packet_sha256","synthesis_sha256"],
+      "properties":{"candidate_commit":{"const":"8d6c67879050f161258ed95d878a72e2bb6b22dd"},"candidate_tree":{"const":"18289bd04081f6a6810cb91ef2beec7decafe61f"},"trusted_package_commit":{"const":"d00e0e20752f44c52581dbb7ee45ce27c9b7d6dd"},"review_packet_sha256":{"const":"e1298da5a609ee9ed7a8cc8509ab117a2d2fd384d20d464c48ec32f4f033f29b"},"synthesis_sha256":{"const":"29fdd684d356fba6d57d2dc164a2ba31c1d5e37d2318c8b484851ba649908820"}}
+    },
+    "disposition_paths": {
+      "type":"object","additionalProperties":false,"required":["applies_to_every_finding","reviewed_generic_exclusion","future_narrow_candidate","selection_authorized","ds03_blocking_in_both"],
+      "properties":{"applies_to_every_finding":{"const":true},"reviewed_generic_exclusion":{"type":"object","additionalProperties":false,"required":["authorized","required_evidence"],"properties":{"authorized":{"const":false},"required_evidence":{"type":"string","minLength":1}}},"future_narrow_candidate":{"type":"object","additionalProperties":false,"required":["authorized","required_evidence"],"properties":{"authorized":{"const":false},"required_evidence":{"type":"string","minLength":1}}},"selection_authorized":{"const":false},"ds03_blocking_in_both":{"const":true}}
+    },
+    "summary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["total", "critical", "high", "medium", "pending", "resolved"],
+      "properties": {
+        "total": {"const": 19}, "critical": {"const": 1}, "high": {"const": 15},
+        "medium": {"const": 3}, "pending": {"const": 19}, "resolved": {"const": 0}
+      }
+    },
+    "findings": {
+      "type": "array", "minItems": 19, "maxItems": 19,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["finding_id", "severity", "root_cause", "proposed_action", "evidence_needed", "accountable_role", "dependency", "invalidation", "disposition_status", "preserves_dissent"],
+        "properties": {
+          "finding_id": {"type": "string", "pattern": "^H8D-"},
+          "severity": {"enum": ["Critical", "High", "Medium"]},
+          "root_cause": {"type": "string", "minLength": 1},
+          "proposed_action": {"type": "string", "minLength": 1},
+          "evidence_needed": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+          "accountable_role": {"type": "string", "minLength": 1},
+          "dependency": {"enum": ["repository", "human", "external", "human_and_external"]},
+          "invalidation": {"const": "substantive_new_packet_required"},
+          "disposition_status": {"const": "pending"},
+          "preserves_dissent": {"type": "boolean"}
+        }
+      }
+    },
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["h8_d_satisfied", "h8_e_satisfied", "h8_f_satisfied", "scientific_acceptance", "runtime", "real_study", "publication", "release"],
+      "properties": {
+        "h8_d_satisfied": {"const": false}, "h8_e_satisfied": {"const": false},
+        "h8_f_satisfied": {"const": false}, "scientific_acceptance": {"const": false},
+        "runtime": {"const": false}, "real_study": {"const": false},
+        "publication": {"const": false}, "release": {"const": false}
+      }
+    }
+  }
+}

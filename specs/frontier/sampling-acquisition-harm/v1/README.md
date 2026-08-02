@@ -15,8 +15,9 @@ remain pending.
 Issues #570 and #571 govern adjacent risk-sensitive and study-design methods;
 #595 presents expected-utility information value and VoC, while #598 covers
 signed, private or social information. None executes sampling-acquisition harm.
-This contract does not alias, wrap or reinterpret those methods as an
-acquisition-harm implementation.
+The separately versioned non-alias delta and composed production validator
+cover all four issues and prohibit execution reuse, aliasing, wrapping or
+reinterpretation as an acquisition-harm implementation.
 
 The JSON schemas validate the capability, research disposition, H8-A scope
 selection and H8-C candidate inputs. The H8-C inputs itemize prior repository
@@ -26,6 +27,13 @@ review bundle, request/result schemas or numerical behavior. Scientific
 acceptance, a named human verdict, ethics or regulatory authorization,
 estimator assurance, language parity, hosted checks, promotion and release all
 remain separate gates.
+
+The H8-D-B remediation register retains every automated challenge finding as
+pending. Separate source-review and reviewer-intake readiness records enumerate
+what future evidence must contain without inventing sources, rights, identities
+or receipts. The historical H8-C snapshot remains untouched; a separately dated
+governance delta records post-PR-#863 administrative facts and requires a new
+exact packet after substantive remediation.
 
 `review-preparation.json` binds the exact candidate commit/tree to the
 canonical digests in `review-artifact-manifest.json` and `review-packet.json`.

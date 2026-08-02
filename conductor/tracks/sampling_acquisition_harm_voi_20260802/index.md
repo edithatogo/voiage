@@ -7,12 +7,19 @@
 - [Human-confirmation gates](./human-confirmation-gates.md)
 - [H8-C frozen review preparation](./h8c-frozen-review-preparation-20260803.md)
 - [H8-D/H8-E automated challenge panel](./h8d-h8e-automated-challenge-20260803.md)
+- [H8-D-B remediation and reviewer-intake preparation](./h8d-b-remediation-intake-20260803.md)
+- [Post-#863 governance delta](../../../specs/frontier/sampling-acquisition-harm/v1/governance-administrative-delta-20260803.json)
+- [Four-issue adjacent-method non-alias delta](../../../specs/frontier/sampling-acquisition-harm/v1/adjacent-method-non-alias-delta.json)
+- [Nineteen-finding remediation register](../../../specs/frontier/sampling-acquisition-harm/v1/remediation-register.json)
+- [Qualified-reviewer intake readiness](../../../specs/frontier/sampling-acquisition-harm/v1/reviewer-intake-readiness.json)
+- [Source-review intake readiness](../../../specs/frontier/sampling-acquisition-harm/v1/source-review-intake-readiness.json)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
 - [GitHub issue #850](https://github.com/edithatogo/voiage/issues/850)
 - [Unsupported capability subissue #851](https://github.com/edithatogo/voiage/issues/851)
 - [Source and estimand subissue #852](https://github.com/edithatogo/voiage/issues/852)
 - [Candidate-bound review subissue #853](https://github.com/edithatogo/voiage/issues/853)
+- [Remediation and reviewer-intake subissue #864](https://github.com/edithatogo/voiage/issues/864)
 - [Owning parent #570](https://github.com/edithatogo/voiage/issues/570)
 - [Study-design dependency #571](https://github.com/edithatogo/voiage/issues/571)
 - [Scientific-review umbrella #841](https://github.com/edithatogo/voiage/issues/841)
@@ -20,6 +27,7 @@
 - [Canonical VOP C18/M32 synchronization PR #71](https://github.com/edithatogo/vop_poc_nz/pull/71)
 - [VOIAGE repository delivery PR #855](https://github.com/edithatogo/voiage/pull/855)
 - [Human-confirmation governance PR #859](https://github.com/edithatogo/voiage/pull/859)
+- [Automated challenge preparation PR #863](https://github.com/edithatogo/voiage/pull/863)
 
 Status: in progress. Automated primary-source, estimand and advisory scoping is
 complete, and VOP PR #71 merged the canonical C18/M32 planning projection as
