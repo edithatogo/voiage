@@ -136,6 +136,8 @@ def test_scientific_review_plan_requires_orchestrated_independent_panel() -> Non
         task_prefix,
     ) in owning_requirements.items():
         owning_track = ROOT / "conductor" / "tracks" / track_id
+        if not owning_track.is_dir():
+            owning_track = ROOT / "conductor" / "archive" / track_id
         owning_req_text = (owning_track / "requirements.md").read_text(encoding="utf-8")
         owning_plan_text = (owning_track / "plan.md").read_text(encoding="utf-8")
         for req_id in req_ids:

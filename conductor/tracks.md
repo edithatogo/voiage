@@ -1,5 +1,8 @@
 # Project Tracks
 
+The Rust-first polyglot programme is registered as the current programme; all
+other tracks retain their evidenced lifecycle and external-gate boundaries.
+
 ## [~] Track: Rust-First Polyglot VOIAGE Completion Programme
 *Link: [./tracks/rust_polyglot_voi_completion_20260723/index.md](./tracks/rust_polyglot_voi_completion_20260723/index.md)*
 *GitHub: [issue #313](https://github.com/edithatogo/voiage/issues/313), in
