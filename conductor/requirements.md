@@ -81,6 +81,18 @@ programme. The canonical cross-repository requirements are maintained in
   infeasibility, current/informed policies, gross/net value, switches,
   risk/constraint diagnostics and constraint-removal evidence without
   mislabelling discrete removal effects as local shadow prices.
+- **M32 / planned v1.3.0:** #850 and nested #851–#853 govern a distinct
+  sampling-acquisition-harm research scope under C18. It declares a sampling
+  action and explicit no-sampling comparator, design-indexed potential
+  outcomes and observable filtration, incremental ordinary cost, affected
+  parties, a joint acquisition-harm law, catastrophe and tail-risk semantics,
+  uncertainty and a mutually exclusive outcome-component ledger. Additive net
+  value is defined only for separable, commensurate, non-overlapping components;
+  otherwise the result remains joint-welfare, constrained or vector-valued.
+  Mathematical feasibility remains separate from consent, ethics and
+  regulatory authorization. The materialized track
+  `sampling_acquisition_harm_voi_20260802` is fail-closed research scoping, not
+  human scientific approval or an executable runtime.
 
 ### Should have
 
@@ -180,3 +192,4 @@ programme. The canonical cross-repository requirements are maintained in
 | v1.3.0 | Should | M30 | C18 governed heterogeneity-value decomposition | #599 and #786/#788/#789 under #318 |
 | v1.3.0 | Should | M27 | C18 governed event-localized information value and policy-relative density | #596 and #777–#779 under #318 |
 | v1.3.0 | Should | M31 | C18 governed outcome-conditional and low-value sample-information value | #600 and #790–#792 under #318 |
+| v1.3.0 | Must | M32 | C18 governed fail-closed sampling-acquisition-harm research scope | #850 and #851–#853 under #318/#841 |

@@ -575,11 +575,14 @@ issue-backed remediation slices and rebound to a fresh review candidate.
   stability near risk aversion one; VoC alias and presentation-digest
   integrity; and auditable promotion evidence.
   (M17-R3–M17-R5; AC-02–AC-06, AC-08, AC-10)
-- [ ] **SR4 / #850 — Sampling-harm scoping:** Create a #570 child dependent on #571
-  for stochastic harms caused by the sampling process, conduct a primary-
-  source and estimand review, and either materialize a governed method track or
-  record a reviewed exclusion. Do not present it as an existing #570 kernel or
-  collapse it into #595's VoC presentation.
+- [x] **SR4 / #850 — Sampling-harm scoping:** Materialize
+  `sampling_acquisition_harm_voi_20260802` as the C18/M32 planned v1.3.0 Must
+  track for the #570 child dependent on #571, with #851–#853 as governed nested
+  follow-through. Primary-source, estimand and automated advisory review define
+  a fail-closed research scope only. Candidate-bound independent human review,
+  runtime implementation, ethics/regulatory authorization, promotion, release
+  and closure remain pending; this is not an existing #570 kernel and is not
+  #595's VoC presentation.
   (M17-R6; AC-02, AC-03, AC-10)
 - [ ] **SR5 / #846 — Wave B high-risk panel:** Review #570 and #597–#600 with required
   domain specialists, including #570 v1.3.0/C18/M22 synchronization, sequential

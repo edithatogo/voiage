@@ -196,6 +196,24 @@ flowchart LR
 ```
 
 ```mermaid
+flowchart LR
+    Scope850["#850 sampling-acquisition-harm scope"] --> Track["sampling_acquisition_harm_voi_20260802"]
+    Subissues["#851–#853 governed follow-through"] --> Track
+    Track --> Contract["C18 / M32 planned v1.3.0 Must"]
+    Action["Sampling action d + explicit no-sampling d0"] --> Joint["Design-indexed information, state and harm law"]
+    Joint --> Ledger{"Separable, commensurate and mutually exclusive ledger?"}
+    Ledger -->|"yes"| Scalar["Signed incremental value"]
+    Ledger -->|"no"| NonScalar["Joint-welfare, constrained or vector result"]
+    Scalar --> MathStatus["Feasible, infeasible or indeterminate"]
+    NonScalar --> MathStatus
+    Contract --> Action
+    MathStatus --> ScopeGate{"Candidate-bound independent human review?"}
+    ScopeGate -->|"pending"| Unsupported["Fail-closed governed research scope; no runtime"]
+    ScopeGate -->|"future approval only"| Future["Separate implementation track and assurance"]
+    Unsupported --> External["No ethics, regulatory, promotion, release or closure claim"]
+```
+
+```mermaid
 flowchart TD
     C16["Canonical C16 / v1.2.0"] --> Projection["Versioned public projection"]
     Projection --> Planner["Three-way conflict-safe planner"]

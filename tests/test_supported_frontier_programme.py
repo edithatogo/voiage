@@ -154,6 +154,51 @@ def test_scientific_review_plan_requires_orchestrated_independent_panel() -> Non
             )
 
 
+def test_sampling_harm_scoping_is_canonical_and_fail_closed() -> None:
+    track = INVENTORY.parent
+    metadata = json.loads((track / "metadata.json").read_text(encoding="utf-8"))
+    plan = (track / "plan.md").read_text(encoding="utf-8")
+    canonical_requirements = (ROOT / "conductor/requirements.md").read_text(
+        encoding="utf-8"
+    )
+    canonical_design = (ROOT / "conductor/design.md").read_text(encoding="utf-8")
+
+    assert "**M32 / planned v1.3.0:**" in canonical_requirements
+    assert "| v1.3.0 | Must | M32 |" in canonical_requirements
+    assert "C18 / M32" in canonical_design
+    assert "sampling_acquisition_harm_voi_20260802" in canonical_design
+
+    assert "M32" in metadata["requirement_ids"]
+    assert "M32" in metadata["planned_version_extensions"]["1.3.0"]
+    assert "M32" in metadata["canonical_track_extensions"]["C18"]
+    for issue in range(850, 854):
+        issue_url = f"https://github.com/edithatogo/voiage/issues/{issue}"
+        assert issue_url in metadata["github_subissues"]
+        assert issue_url in metadata["github_cross_reference"]["subissues"]
+
+    scope_gate = next(
+        gate for gate in metadata["gates"] if gate["id"] == "sampling-harm-scoping"
+    )
+    assert scope_gate["status"] == "satisfied"
+    for boundary in (
+        "sampling_acquisition_harm_voi_20260802",
+        "fail-closed",
+        "human",
+        "runtime",
+    ):
+        assert boundary in scope_gate["evidence"]
+
+    assert re.search(r"^- \[x\] \*\*SR4 / #850", plan, re.MULTILINE)
+    for reference in (
+        "#851\N{EN DASH}#853",
+        "sampling_acquisition_harm_voi_20260802",
+        "fail-closed",
+        "human",
+        "runtime",
+    ):
+        assert reference in plan
+
+
 def test_scientific_review_candidate_freezes_live_governance_and_artifacts() -> None:
     track = INVENTORY.parent
     candidate = json.loads(
