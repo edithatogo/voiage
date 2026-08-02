@@ -23,6 +23,7 @@
 - [Frontier parent #318](https://github.com/edithatogo/voiage/issues/318)
 - [Programme #313](https://github.com/edithatogo/voiage/issues/313)
 - [Project 28](https://github.com/users/edithatogo/projects/28)
+- [Scientific remediation issue #844](https://github.com/edithatogo/voiage/issues/844)
 
 Status: repository implementation complete. Runtime, contracts, portfolio,
 user surfaces, bindings, governance and assurance are delivered, with local

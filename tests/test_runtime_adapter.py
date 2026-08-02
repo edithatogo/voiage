@@ -148,6 +148,31 @@ def test_missing_native_extension_has_no_python_fallback(monkeypatch) -> None:
             "compute_evsi_regression",
             lambda: _runtime.compute_evsi_regression([[1.0]], [[1.0]], [[1.0]]),
         ),
+        (
+            "compute_coss_selection_uncertainty",
+            lambda: _runtime.compute_coss_selection_uncertainty(
+                sample_sizes=[10],
+                feasible=[True],
+                joint_enbs_replicates=((1.0,),),
+                point_optimal_index=0,
+                point_maximum_enbs=1.0,
+                tie_policy="smallest_sample_size",
+                absolute_tolerance=1e-12,
+                relative_tolerance=1e-12,
+            ),
+        ),
+        (
+            "compute_information_efficiency_uncertainty",
+            lambda: _runtime.compute_information_efficiency_uncertainty(
+                [0.5], [1.0], 0.5, 1e-12, 1e-12
+            ),
+        ),
+        (
+            "compute_estimation_truth_assurance",
+            lambda: _runtime.compute_estimation_truth_assurance(
+                [0.5], 0.5, [0.4], [0.6], 0.95, 0.1
+            ),
+        ),
     ],
 )
 def test_remaining_runtime_adapters_translate_native_errors(

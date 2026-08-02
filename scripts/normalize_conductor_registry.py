@@ -209,11 +209,20 @@ def _plan(record: TrackRecord) -> str:
     task_count = 0
     retained_task_count = 0
     for line in content.splitlines():
+        # Historical contract markers may be retained in HTML comments for
+        # corpus tests; they are documentation, not executable plan tasks.
+        if "<!--" in line or "-->" in line:
+            output.append(line)
+            continue
         match = TASK_RE.match(line)
         if not match:
             output.append(line)
             continue
         task_count += 1
+        if "Legacy follow-up" in match.group("body"):
+            retained_task_count += 1
+            output.append(line)
+            continue
         if record.expected_status == "completed" and match.group("status") != "x":
             body = re.sub(r"^Task:\s*", "", match.group("body"))
             output.append(

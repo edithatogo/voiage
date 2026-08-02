@@ -22,7 +22,12 @@
     "absolute_tolerance": 1e-12,
     "relative_tolerance": 1e-10,
     "bootstrap_replicates": 0,
-    "convergence_threshold": 0.01
+    "convergence_threshold": 0.01,
+    "estimator_design": "exact",
+    "outer_replicates": null,
+    "inner_replicates": null,
+    "coupling_id": null,
+    "solver_id": "rust-estimation-variance-v1"
   },
   "zero_variance_policy": "absolute_zero_relative_null"
 }

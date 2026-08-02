@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0.0",
+  "capability_id": "sampling-acquisition-harm-v1",
+  "method_family": "sampling_acquisition_harm_voi",
+  "contract_version": "1.0.0",
+  "planned_version": "v1.3.0",
+  "maturity": "unsupported_research_scoping",
+  "runtime_available": false,
+  "stable_claim_allowed": false,
+  "discovery": {
+    "status": "unsupported",
+    "executable": false,
+    "callable": null,
+    "reason": "No candidate-bound scientific approval or executable contract exists."
+  },
+  "surfaces": {
+    "stable_python_api": {
+      "status": "unsupported",
+      "symbols": [],
+      "reason": "No stable Python API is authorized."
+    },
+    "experimental_python": {
+      "status": "unsupported",
+      "symbols": [],
+      "reason": "No experimental Python runtime is authorized."
+    },
+    "rust_kernel": {
+      "status": "unsupported",
+      "symbols": [],
+      "reason": "No reviewed Rust numerical kernel exists."
+    },
+    "native_abi": {
+      "status": "unsupported",
+      "symbols": [],
+      "reason": "The versioned native ABI exposes no sampling-harm operation or capability bit."
+    },
+    "r": {
+      "status": "unsupported",
+      "symbols": [],
+      "reason": "No R binding or shared-fixture evidence exists."
+    },
+    "julia": {
+      "status": "unsupported",
+      "symbols": [],
+      "reason": "No Julia binding or shared-fixture evidence exists."
+    },
+    "mojo": {
+      "status": "external_boundary",
+      "symbols": [],
+      "reason": "Mojo remains outside the repository-owned runtime boundary."
+    }
+  },
+  "governance": {
+    "issue": "https://github.com/edithatogo/voiage/issues/850",
+    "parent_issue": "https://github.com/edithatogo/voiage/issues/570",
+    "adjacent_issue": "https://github.com/edithatogo/voiage/issues/595",
+    "track": "sampling_acquisition_harm_voi_20260802",
+    "disposition": "research-disposition.json"
+  }
+}

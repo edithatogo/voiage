@@ -546,14 +546,16 @@ This phase executes the pending scientific gate without reopening G1–G15.
 Repository defects discovered by a panel are delivered through separate
 issue-backed remediation slices and rebound to a fresh review candidate.
 
-- [ ] **SR1 — Freeze inventory and candidate:** Create the #318 scientific-
-  review governance child and nested wave/remediation issues; freeze the exact
+- [x] **SR1 — Freeze inventory and candidate:** Create #841 as the #318
+  scientific-review governance child and #842–#850 as its governed wave,
+  remediation, evidence and sampling-harm issue hierarchy; freeze the exact
   issue/Project/roadmap/canonical inventory, candidate commit/tree, artifact
   manifest, tools, references and known limitations. First reconcile live
   GitHub–Project–Conductor version, gate and lifecycle fields, including #570
   v1.3.0/C18/M22, or publish a blocking discrepancy register. Reject dirty,
   moving or unreconciled candidates. (M17-R1–M17-R4; AC-01, AC-09, AC-10)
-- [ ] **SR2 — Materialize evidence contracts:** Add versioned schemas and
+  `a7f6446`
+- [x] **SR2 / #842 — Materialize evidence contracts:** Add versioned schemas and
   validators for review packets, artifact manifests, reviewer attestations,
   role reports, findings, disagreements, dispositions, adjudication,
   scientific approval, promotion receipts and candidate-delta invalidation.
@@ -562,8 +564,8 @@ issue-backed remediation slices and rebound to a fresh review candidate.
   date, expiry and supersession. Promotion approval must not be satisfiable by
   unbound Boolean flags. Bounded delta review requires deterministic
   classification and independent governance/scientific signatures.
-  (M17-R1–M17-R3; AC-03, AC-07, AC-10)
-- [ ] **SR3 — Wave A panel (#619/#571/#595):** The orchestrator commissions
+  (M17-R1–M17-R3; AC-03, AC-07, AC-10) `41e5255`
+- [~] **SR3 / #843–#845 — Wave A panel (#619/#571/#595):** The orchestrator commissions
   independent estimand/domain, estimator-assurance, cross-language/API and
   governance/publication reviewers, normalizes their reports and publishes a
   synthesis. Resolve or block on COSS commissioning semantics; estimation
@@ -573,22 +575,27 @@ issue-backed remediation slices and rebound to a fresh review candidate.
   stability near risk aversion one; VoC alias and presentation-digest
   integrity; and auditable promotion evidence.
   (M17-R3–M17-R5; AC-02–AC-06, AC-08, AC-10)
-- [ ] **SR4 — Sampling-harm scoping:** Create a #570 child dependent on #571
-  for stochastic harms caused by the sampling process, conduct a primary-
-  source and estimand review, and either materialize a governed method track or
-  record a reviewed exclusion. Do not present it as an existing #570 kernel or
-  collapse it into #595's VoC presentation.
-  (M17-R6; AC-02, AC-03, AC-10)
-- [ ] **SR5 — Wave B high-risk panel:** Review #570 and #597–#600 with required
+  - [x] Materialize and execute the PR #855 stale-branch, normalization-drift and
+    exact-head hosted-evidence closeout plan.
+- [x] **SR4 / #850 — Sampling-harm scoping:** Materialize
+  `sampling_acquisition_harm_voi_20260802` as the C18/M32 planned v1.3.0 Must
+  track for the #570 child dependent on #571, with #851–#853 as governed nested
+  follow-through. Primary-source, estimand and automated advisory review define
+  a fail-closed research scope only. Candidate-bound independent human review,
+  runtime implementation, ethics/regulatory authorization, promotion, release
+  and closure remain pending; this is not an existing #570 kernel and is not
+  #595's VoC presentation.
+  (M17-R6; AC-02, AC-03, AC-10) `ea6100d2`
+- [ ] **SR5 / #846 — Wave B high-risk panel:** Review #570 and #597–#600 with required
   domain specialists, including #570 v1.3.0/C18/M22 synchronization, sequential
   model validity, signed/social harms, sparse-subgroup validity and continuous
   or fitted outcome-conditional estimator assurance. (M17-R3, M17-R4; AC-01–
   AC-06, AC-09, AC-10)
-- [ ] **SR6 — Wave C remaining-family panel:** Review #556–#560, #572, #582
+- [ ] **SR6 / #847 — Wave C remaining-family panel:** Review #556–#560, #572, #582
   and #593–#596 in estimand-coherent cohorts. Preserve a separate report and
   verdict for every family; grouping cannot hide a failed required dimension.
   (M17-R3, M17-R4; AC-02–AC-06, AC-10)
-- [ ] **SR7 — Cross-cutting installed and parity review:** Verify packaged
+- [ ] **SR7 / #848 — Cross-cutting installed and parity review:** Verify packaged
   schemas/capabilities, clean-wheel execution outside the checkout, shared
   Rust/Python fixtures, governed R/Julia unsupported behavior or execution,
   version consistency, central capability discovery and negative stable-API/
@@ -599,7 +606,7 @@ issue-backed remediation slices and rebound to a fresh review candidate.
   every prior finding to a permitted disposition and commission fresh affected
   reviewers. No author/remediator self-approves. (M17-R1–M17-R3; AC-03,
   AC-07, AC-10)
-- [ ] **SR9 — Orchestrator synthesis and disagreement adjudication:** Publish
+- [ ] **SR9 / #849 — Orchestrator synthesis and disagreement adjudication:** Publish
   the family verdict matrix, unresolved finding and dissent registers,
   dependency order and evidence-backed recommendation. Distinguish governed
   pending gates, new defects, research questions, human decisions and release

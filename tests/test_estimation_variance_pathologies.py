@@ -6,6 +6,7 @@ from pydantic import ValidationError
 import pytest
 
 from voiage.contracts.estimation import (
+    EstimationRuntimeBinding,
     EstimationTargetSpec,
     EstimationVarianceDiagnostics,
     EstimationVarianceProvenance,
@@ -14,6 +15,19 @@ from voiage.contracts.estimation import (
 
 
 def _result_fields() -> dict[str, object]:
+    runtime_binding = EstimationRuntimeBinding(
+        method_id="evppi_var",
+        target_id="net_cases",
+        target_shape="scalar",
+        component_units=("count",),
+        covariance_functional="variance",
+        prior_model_id="prior-v1",
+        parameter_subset=("theta",),
+        conditioning_sigma_field="sigma(theta)",
+        averaging_convention="prior_predictive",
+        estimator_design="exact",
+        solver_id="rust-estimation-variance-v1",
+    )
     return {
         "method_id": "evppi_var",
         "target": EstimationTargetSpec(
@@ -22,6 +36,7 @@ def _result_fields() -> dict[str, object]:
             component_units=("count",),
             covariance_functional="variance",
         ),
+        "runtime_binding": runtime_binding,
         "prior_covariance": ((1.0,),),
         "expected_posterior_covariance": ((0.5,),),
         "prior_functional": 1.0,
@@ -43,6 +58,8 @@ def _result_fields() -> dict[str, object]:
             seed=0,
             specification_digest="a" * 64,
             input_digest="b" * 64,
+            runtime_binding_digest=runtime_binding.content_digest(),
+            runtime_request_digest="c" * 64,
         ),
     }
 
@@ -65,7 +82,7 @@ def test_diagnostics_reject_insufficient_prior_samples() -> None:
         )
 
 
-def test_result_rejects_dimension_mismatch_and_asymmetric_covariance() -> None:
+def test_vector_matrix_cases_cannot_bypass_reserved_boundary() -> None:
     fields = _result_fields()
     target = EstimationTargetSpec(
         target_id="two_outputs",
@@ -74,9 +91,10 @@ def test_result_rejects_dimension_mismatch_and_asymmetric_covariance() -> None:
         covariance_functional="trace",
     )
 
-    for covariance, message in (
-        (((1.0,),), "square with the target component count"),
-        (((1.0, 0.2), (0.1, 2.0)), "must be symmetric"),
+    for covariance in (
+        ((1.0,),),
+        ((1.0, 0.2), (0.1, 2.0)),
+        ((1.0, 2.0), (2.0, 1.0)),
     ):
         case: dict[str, object] = {
             **fields,
@@ -89,7 +107,7 @@ def test_result_rejects_dimension_mismatch_and_asymmetric_covariance() -> None:
             "absolute_reduction": 1.5,
             "relative_reduction": 0.5,
         }
-        with pytest.raises(ValidationError, match=message):
+        with pytest.raises(ValidationError, match="reserved vocabulary only"):
             _ = EstimationVarianceResult.model_validate(case)
 
 
@@ -129,7 +147,7 @@ def test_expected_posterior_covariance_is_also_dimension_checked() -> None:
         _ = EstimationVarianceResult.model_validate(fields)
 
 
-def test_vector_result_still_applies_shared_reduction_validation() -> None:
+def test_vector_result_envelopes_fail_closed_before_matrix_claims() -> None:
     fields = _result_fields()
     fields.update(
         {
@@ -150,7 +168,7 @@ def test_vector_result_still_applies_shared_reduction_validation() -> None:
         }
     )
 
-    with pytest.raises(ValidationError, match="raw_reduction must equal"):
+    with pytest.raises(ValidationError, match="reserved vocabulary only"):
         _ = EstimationVarianceResult.model_validate(fields)
 
 
@@ -189,3 +207,21 @@ def test_non_convergence_is_explicit_diagnostic_not_a_silent_success() -> None:
     result = EstimationVarianceResult.model_validate(fields)
     assert result.diagnostics.converged is False
     assert result.diagnostics.diagnostic_codes == ("convergence_threshold_not_met",)
+
+
+def test_runtime_binding_and_digest_forgery_fail_closed() -> None:
+    fields = _result_fields()
+    binding = fields["runtime_binding"]
+    assert isinstance(binding, EstimationRuntimeBinding)
+    fields["runtime_binding"] = binding.model_copy(update={"target_id": "forged"})
+    with pytest.raises(ValidationError, match="runtime_binding disagrees"):
+        EstimationVarianceResult.model_validate(fields)
+
+    fields = _result_fields()
+    provenance = fields["provenance"]
+    assert isinstance(provenance, EstimationVarianceProvenance)
+    fields["provenance"] = provenance.model_copy(
+        update={"runtime_binding_digest": "d" * 64}
+    )
+    with pytest.raises(ValidationError, match="runtime_binding_digest disagrees"):
+        EstimationVarianceResult.model_validate(fields)

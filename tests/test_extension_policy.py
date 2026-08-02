@@ -93,3 +93,26 @@ def test_extension_surface_policy_covers_every_runtime_python_file() -> None:
             if any(fnmatch.fnmatch(file, pattern) for pattern in category_patterns)
         ]
         assert len(matches) == 1, f"{file} has {len(matches)} extension dispositions"
+
+
+def test_scientific_review_support_is_assurance_not_runtime_authority() -> None:
+    surface_policy = json.loads(
+        (ROOT / "specs/v2/extension-surface-policy.json").read_text(encoding="utf-8")
+    )
+    inventory = json.loads(
+        (ROOT / "specs/v2/python-runtime-inventory.json").read_text(encoding="utf-8")
+    )
+
+    assurance_patterns = set(surface_policy["patterns"]["assurance"])
+    assert {
+        "voiage/resources/**",
+        "voiage/scientific_review_evidence.py",
+    } <= assurance_patterns
+    assurance_roots = set(inventory["categories"]["assurance"]["roots"])
+    assert {
+        "voiage/resources/",
+        "voiage/scientific_review_evidence.py",
+    } <= assurance_roots
+    assert (
+        "never a numerical execution authority" in surface_policy["rules"]["assurance"]
+    )

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
@@ -44,11 +45,30 @@ def test_cli_emits_the_canonical_result_without_a_voc_kernel(tmp_path: Path) -> 
     assert payload["command"] == "calculate-expected-utility-information"
     assert payload["selected_measure"] == "bpi"
     assert payload["selected_value"] == payload["result"]["bpi"]["value"]
-    assert payload["result"]["presentation"] == {
+    presentation = payload["result"]["presentation"]
+    assert {
+        key: presentation[key]
+        for key in ("canonical_result_ref", "presentation_label", "selected_measure")
+    } == {
         "canonical_result_ref": "self",
         "presentation_label": "canonical",
         "selected_measure": "bpi",
     }
+    assert presentation["presentation_contract_version"] == "1.0.0"
+    assert (
+        presentation["canonical_input_digest"]
+        == payload["result"]["input_digest"]["value"]
+    )
+    digest_input = {
+        "canonical_input_digest": presentation["canonical_input_digest"],
+        "presentation_contract_version": "1.0.0",
+        "presentation_label": "canonical",
+        "selected_measure": "bpi",
+    }
+    encoded = json.dumps(
+        digest_input, ensure_ascii=False, separators=(",", ":"), sort_keys=True
+    ).encode()
+    assert presentation["presentation_digest"] == hashlib.sha256(encoded).hexdigest()
     assert "voc" not in payload["result"]
 
 

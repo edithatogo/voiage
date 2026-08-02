@@ -2,6 +2,9 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://voiage.dev/specs/estimation-variance/v1/input.schema.json",
   "title": "EstimationVarianceSpecV1",
+  "description": "Portable structural schema. Consumers MUST also apply voiage.contracts.estimation.EstimationVarianceSpec for method-specific and estimator-design cross-field validation.",
+  "x-semantic-validator": "voiage.contracts.estimation.EstimationVarianceSpec",
+  "x-semantic-validation-required": true,
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -104,7 +107,12 @@
         "absolute_tolerance",
         "relative_tolerance",
         "bootstrap_replicates",
-        "convergence_threshold"
+        "convergence_threshold",
+        "estimator_design",
+        "outer_replicates",
+        "inner_replicates",
+        "coupling_id",
+        "solver_id"
       ],
       "properties": {
         "estimator_id": {"type": "string", "minLength": 1},
@@ -115,7 +123,20 @@
           "type": "integer",
           "anyOf": [{"const": 0}, {"minimum": 2}]
         },
-        "convergence_threshold": {"type": "number", "exclusiveMinimum": 0}
+        "convergence_threshold": {"type": "number", "exclusiveMinimum": 0},
+        "estimator_design": {
+          "enum": ["exact", "outer_monte_carlo", "nested_monte_carlo", "coupled_nested_monte_carlo"]
+        },
+        "outer_replicates": {
+          "anyOf": [{"type": "integer", "minimum": 2}, {"type": "null"}]
+        },
+        "inner_replicates": {
+          "anyOf": [{"type": "integer", "minimum": 2}, {"type": "null"}]
+        },
+        "coupling_id": {
+          "anyOf": [{"type": "string", "minLength": 1}, {"type": "null"}]
+        },
+        "solver_id": {"type": "string", "minLength": 1}
       }
     }
   }

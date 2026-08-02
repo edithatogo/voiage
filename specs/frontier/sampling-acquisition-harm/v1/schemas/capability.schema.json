@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/sampling-acquisition-harm/v1/schemas/capability.schema.json",
+  "title": "SamplingAcquisitionHarmCapabilityV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "capability_id",
+    "method_family",
+    "contract_version",
+    "planned_version",
+    "maturity",
+    "runtime_available",
+    "stable_claim_allowed",
+    "discovery",
+    "surfaces",
+    "governance"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "capability_id": {"const": "sampling-acquisition-harm-v1"},
+    "method_family": {"const": "sampling_acquisition_harm_voi"},
+    "contract_version": {"const": "1.0.0"},
+    "planned_version": {"const": "v1.3.0"},
+    "maturity": {"const": "unsupported_research_scoping"},
+    "runtime_available": {"const": false},
+    "stable_claim_allowed": {"const": false},
+    "discovery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "executable", "callable", "reason"],
+      "properties": {
+        "status": {"const": "unsupported"},
+        "executable": {"const": false},
+        "callable": {"type": "null"},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "surfaces": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stable_python_api",
+        "experimental_python",
+        "rust_kernel",
+        "native_abi",
+        "r",
+        "julia",
+        "mojo"
+      ],
+      "properties": {
+        "stable_python_api": {"$ref": "#/$defs/unsupported_surface"},
+        "experimental_python": {"$ref": "#/$defs/unsupported_surface"},
+        "rust_kernel": {"$ref": "#/$defs/unsupported_surface"},
+        "native_abi": {"$ref": "#/$defs/unsupported_surface"},
+        "r": {"$ref": "#/$defs/unsupported_surface"},
+        "julia": {"$ref": "#/$defs/unsupported_surface"},
+        "mojo": {"$ref": "#/$defs/external_surface"}
+      }
+    },
+    "governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["issue", "parent_issue", "adjacent_issue", "track", "disposition"],
+      "properties": {
+        "issue": {"const": "https://github.com/edithatogo/voiage/issues/850"},
+        "parent_issue": {"const": "https://github.com/edithatogo/voiage/issues/570"},
+        "adjacent_issue": {"const": "https://github.com/edithatogo/voiage/issues/595"},
+        "track": {"const": "sampling_acquisition_harm_voi_20260802"},
+        "disposition": {"const": "research-disposition.json"}
+      }
+    }
+  },
+  "$defs": {
+    "unsupported_surface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "symbols", "reason"],
+      "properties": {
+        "status": {"const": "unsupported"},
+        "symbols": {"type": "array", "maxItems": 0},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "external_surface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "symbols", "reason"],
+      "properties": {
+        "status": {"const": "external_boundary"},
+        "symbols": {"type": "array", "maxItems": 0},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

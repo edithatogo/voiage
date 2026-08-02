@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "method_family": "study_design_efficiency",
+  "contract_version": "1.0.0",
+  "planned_version": "v1.2.0",
+  "maturity": "experimental",
+  "installed_wheel_verified": true,
+  "portable_schemas": [
+    "schemas/coss-request.schema.json",
+    "schemas/coss-result.schema.json",
+    "schemas/efficiency-request.schema.json",
+    "schemas/efficiency-result.schema.json"
+  ],
+  "surfaces": {
+    "rust": {
+      "status": "kernel",
+      "reason": "Rust owns signed ENBS, feasible-set argmax, ties, boundaries and efficiency division."
+    },
+    "python": {
+      "status": "executable",
+      "module": "voiage.experimental.study_design",
+      "reason": "Python binds governed context, no-study commissioning semantics and portable result envelopes to the Rust kernel."
+    },
+    "r": {
+      "status": "unsupported",
+      "reason": "No installed R shared-fixture execution evidence exists."
+    },
+    "julia": {
+      "status": "unsupported",
+      "reason": "No installed Julia shared-fixture execution evidence exists."
+    },
+    "mojo": {
+      "status": "external",
+      "reason": "Mojo remains outside the repository-owned runtime boundary."
+    }
+  },
+  "remaining_gates": [
+    "independent scientific review and named human approval",
+    "Rust, R and Julia shared-fixture parity or governed unsupported receipts",
+    "stable promotion, release and parent issue closure"
+  ]
+}

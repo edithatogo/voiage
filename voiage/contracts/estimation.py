@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from hashlib import sha256
+import json
 from typing import Literal, Self
 
 from pydantic import Field, model_validator
@@ -98,12 +100,56 @@ class EstimatorAssuranceSpec(ContractModel):
     relative_tolerance: float = Field(default=1e-10, ge=0.0)
     bootstrap_replicates: int = Field(default=0, ge=0)
     convergence_threshold: float = Field(default=0.01, gt=0.0)
+    estimator_design: Literal[
+        "exact",
+        "outer_monte_carlo",
+        "nested_monte_carlo",
+        "coupled_nested_monte_carlo",
+    ] = "exact"
+    outer_replicates: int | None = Field(default=None, ge=2)
+    inner_replicates: int | None = Field(default=None, ge=2)
+    coupling_id: Identifier | None = None
+    solver_id: Identifier = "rust-estimation-variance-v1"
 
     @model_validator(mode="after")
     def validate_bootstrap_replicates(self) -> Self:
         """Require enough replicates to estimate a standard error."""
         if self.bootstrap_replicates == 1:
             raise ValueError("bootstrap_replicates must be zero or at least two")
+        if self.estimator_design == "exact":
+            if any(
+                value is not None
+                for value in (
+                    self.outer_replicates,
+                    self.inner_replicates,
+                    self.coupling_id,
+                )
+            ):
+                raise ValueError(
+                    "exact estimators do not accept simulation design fields"
+                )
+        elif self.estimator_design == "outer_monte_carlo":
+            if self.outer_replicates is None:
+                raise ValueError("outer_monte_carlo requires outer_replicates")
+            if self.inner_replicates is not None or self.coupling_id is not None:
+                raise ValueError(
+                    "outer_monte_carlo does not accept inner or coupling fields"
+                )
+        elif self.estimator_design == "nested_monte_carlo":
+            if self.outer_replicates is None or self.inner_replicates is None:
+                raise ValueError(
+                    "nested_monte_carlo requires outer_replicates and inner_replicates"
+                )
+            if self.coupling_id is not None:
+                raise ValueError("nested_monte_carlo does not accept coupling_id")
+        elif (
+            self.outer_replicates is None
+            or self.inner_replicates is None
+            or self.coupling_id is None
+        ):
+            raise ValueError(
+                "coupled_nested_monte_carlo requires outer, inner and coupling fields"
+            )
         return self
 
 
@@ -164,6 +210,138 @@ class EstimationVarianceDiagnostics(ContractModel):
         return self
 
 
+class TruthKnownAssuranceSpec(ContractModel):
+    """Replayable truth-known evidence over complete outer replications."""
+
+    true_reduction: float
+    replicate_reductions: tuple[float, ...] = Field(min_length=2)
+    confidence_intervals: tuple[tuple[float, float], ...] = ()
+    confidence_level: float = Field(default=0.95, gt=0.0, lt=1.0)
+    replicate_unit: Literal["complete_outer_dataset"] = "complete_outer_dataset"
+    dependence_structure: Literal[
+        "independent_outer",
+        "paired_outer",
+        "nested_shared_outer",
+        "coupled_common_random_numbers",
+    ]
+    replay_artifact: Identifier
+
+    @model_validator(mode="after")
+    def validate_intervals(self) -> Self:
+        """Require optional intervals to remain aligned by outer replicate."""
+        if self.confidence_intervals and len(self.confidence_intervals) != len(
+            self.replicate_reductions
+        ):
+            raise ValueError("confidence intervals must align with replicates")
+        if any(lower > upper for lower, upper in self.confidence_intervals):
+            raise ValueError("confidence intervals must be ordered")
+        return self
+
+    def content_digest(self) -> str:
+        """Return a deterministic replay digest for the truth-known packet."""
+        payload = json.dumps(
+            self.model_dump(mode="json"),
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=False,
+        ).encode()
+        return sha256(payload).hexdigest()
+
+
+class TruthKnownAssuranceResult(ContractModel):
+    """Bias, RMSE, coverage, calibration and convergence evidence."""
+
+    contract_version: Literal["1.0.0"] = "1.0.0"
+    replicate_count: int = Field(ge=2)
+    bias: float
+    rmse: float = Field(ge=0.0)
+    standard_error: float = Field(ge=0.0)
+    empirical_coverage: float | None = Field(default=None, ge=0.0, le=1.0)
+    calibration_error: float | None = Field(default=None, ge=0.0, le=1.0)
+    converged: bool
+    replicate_unit: Literal["complete_outer_dataset"]
+    dependence_structure: Literal[
+        "independent_outer",
+        "paired_outer",
+        "nested_shared_outer",
+        "coupled_common_random_numbers",
+    ]
+    replay_artifact: Identifier
+    replay_digest: Sha256Digest
+
+    @model_validator(mode="after")
+    def validate_coverage_pair(self) -> Self:
+        """Require coverage and calibration to be jointly available."""
+        if (self.empirical_coverage is None) != (self.calibration_error is None):
+            raise ValueError("coverage and calibration must be jointly available")
+        return self
+
+
+class EstimationRuntimeBinding(ContractModel):
+    """Auditable binding from the scientific specification to one solver request."""
+
+    schema_version: Literal["1.0.0"] = "1.0.0"
+    method_id: Literal["evppi_var", "evsi_var"]
+    target_id: Identifier
+    target_shape: Literal["scalar", "vector"]
+    component_units: tuple[Identifier, ...] = Field(min_length=1)
+    covariance_functional: Literal[
+        "variance", "trace", "determinant", "weighted_quadratic"
+    ]
+    functional_weights: tuple[float, ...] | None = None
+    prior_model_id: Identifier
+    parameter_subset: tuple[Identifier, ...] = ()
+    conditioning_sigma_field: Identifier | None = None
+    design_id: Identifier | None = None
+    likelihood_id: Identifier | None = None
+    sampling_conditioning_sigma_field: Identifier | None = None
+    averaging_convention: Literal[
+        "prior_predictive", "posterior_predictive", "empirical_reference"
+    ]
+    estimator_design: Literal[
+        "exact",
+        "outer_monte_carlo",
+        "nested_monte_carlo",
+        "coupled_nested_monte_carlo",
+    ]
+    outer_replicates: int | None = Field(default=None, ge=2)
+    inner_replicates: int | None = Field(default=None, ge=2)
+    coupling_id: Identifier | None = None
+    solver_id: Identifier
+
+    @model_validator(mode="after")
+    def validate_method_binding(self) -> Self:
+        """Reject missing or cross-method scientific bindings."""
+        sample_fields = (
+            self.design_id,
+            self.likelihood_id,
+            self.sampling_conditioning_sigma_field,
+        )
+        if self.method_id == "evppi_var":
+            if not self.parameter_subset or self.conditioning_sigma_field is None:
+                raise ValueError("evppi_var runtime binding requires conditioning")
+            if any(value is not None for value in sample_fields):
+                raise ValueError("evppi_var runtime binding forbids sampling fields")
+        else:
+            if self.parameter_subset or self.conditioning_sigma_field is not None:
+                raise ValueError("evsi_var runtime binding forbids perfect fields")
+            if any(value is None for value in sample_fields):
+                raise ValueError("evsi_var runtime binding requires sampling fields")
+            if self.averaging_convention != "prior_predictive":
+                raise ValueError("evsi_var runtime binding requires prior_predictive")
+        return self
+
+    def content_digest(self) -> str:
+        """Return the canonical digest of the declared solver binding."""
+        payload = json.dumps(
+            self.model_dump(mode="json"),
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=False,
+        ).encode()
+        return sha256(payload).hexdigest()
+
+
 class EstimationVarianceProvenance(ContractModel):
     """Replay identity for an estimation-focused variance result."""
 
@@ -173,6 +351,8 @@ class EstimationVarianceProvenance(ContractModel):
     seed: int = Field(ge=0)
     specification_digest: Sha256Digest
     input_digest: Sha256Digest
+    runtime_binding_digest: Sha256Digest
+    runtime_request_digest: Sha256Digest
 
 
 class EstimationVarianceResult(ContractModel):
@@ -181,6 +361,7 @@ class EstimationVarianceResult(ContractModel):
     schema_version: Literal["1.0.0"] = "1.0.0"
     method_id: Literal["evppi_var", "evsi_var"]
     target: EstimationTargetSpec
+    runtime_binding: EstimationRuntimeBinding
     prior_covariance: tuple[tuple[float, ...], ...]
     expected_posterior_covariance: tuple[tuple[float, ...], ...]
     prior_functional: float = Field(ge=0.0)
@@ -196,11 +377,17 @@ class EstimationVarianceResult(ContractModel):
         "absolute_zero_relative_null"
     )
     diagnostics: EstimationVarianceDiagnostics
+    truth_known_assurance: TruthKnownAssuranceResult | None = None
     provenance: EstimationVarianceProvenance
 
     @model_validator(mode="after")
     def validate_covariance_and_reduction(self) -> Self:
         """Require dimension-compatible covariance and reduction fields."""
+        if self.target.shape == "vector":
+            raise ValueError(
+                "vector result envelopes are reserved vocabulary only and remain "
+                + "unsupported pending candidate-bound scientific review"
+            )
         dimension = len(self.target.component_units)
         for field_name, covariance in (
             ("prior_covariance", self.prior_covariance),
@@ -264,11 +451,24 @@ class EstimationVarianceResult(ContractModel):
                 raise ValueError(
                     "relative_reduction must equal absolute/prior functional"
                 )
+        binding = self.runtime_binding
+        if (
+            binding.method_id != self.method_id
+            or binding.target_id != self.target.target_id
+            or binding.target_shape != self.target.shape
+            or binding.component_units != self.target.component_units
+            or binding.covariance_functional != self.target.covariance_functional
+            or binding.functional_weights != self.target.functional_weights
+        ):
+            raise ValueError("runtime_binding disagrees with method or target")
+        if self.provenance.runtime_binding_digest != binding.content_digest():
+            raise ValueError("runtime_binding_digest disagrees with runtime_binding")
         return self
 
 
 __all__ = [
     "ConditioningSpec",
+    "EstimationRuntimeBinding",
     "EstimationTargetSpec",
     "EstimationVarianceDiagnostics",
     "EstimationVarianceProvenance",
@@ -276,4 +476,6 @@ __all__ = [
     "EstimationVarianceSpec",
     "EstimatorAssuranceSpec",
     "SamplingModelSpec",
+    "TruthKnownAssuranceResult",
+    "TruthKnownAssuranceSpec",
 ]

@@ -24,6 +24,11 @@
   tolerances, nonnegative diagonals, declared covariance regularization,
   component units, unit-safe scalarization, functional recomputation and an
   independent multivariate oracle.
+- **M14-E8a:** Until M14-E8 receives candidate-bound independent scientific
+  review and a named human verdict, treat vector functionals as reserved
+  contract vocabulary only: reject every vector runtime request before native
+  dispatch and every vector result envelope during semantic validation. Do not
+  describe rejected pathological matrices as multivariate oracle coverage.
 - **M14-E9:** Provide independently executable portable EVPPI and EVSI fixtures
   consumed by Rust and Python, including finite discrete and normal-normal
   references, exact-enumeration, nested/coupled, rare-outcome, singular,

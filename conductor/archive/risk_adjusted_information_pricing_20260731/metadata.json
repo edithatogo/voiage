@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "completed",
   "created_at": "2026-07-31T12:34:37Z",
-  "updated_at": "2026-08-02T12:39:20Z",
+  "updated_at": "2026-08-02T13:12:00Z",
   "planned_version": "1.2.0",
   "moscow": "must",
   "canonical_track": "C16",
@@ -34,7 +34,8 @@
       "https://github.com/edithatogo/voiage/issues/694",
       "https://github.com/edithatogo/voiage/issues/695",
       "https://github.com/edithatogo/voiage/issues/696",
-      "https://github.com/edithatogo/voiage/issues/697"
+      "https://github.com/edithatogo/voiage/issues/697",
+      "https://github.com/edithatogo/voiage/issues/845"
     ],
     "pull_requests": [
       "https://github.com/edithatogo/voiage/pull/712",

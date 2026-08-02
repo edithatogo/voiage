@@ -2,8 +2,12 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
+import re
+import shutil
+import subprocess
 
 ROOT = Path(__file__).parents[1]
 INVENTORY = (
@@ -73,7 +77,7 @@ def test_scientific_review_plan_requires_orchestrated_independent_panel() -> Non
         assert automatic_blocker in protocol
 
     for task in range(1, 11):
-        assert f"- [ ] **SR{task}" in plan
+        assert re.search(rf"^- \[[ x~]\] \*\*SR{task}(?:\s|\s*/)", plan, re.MULTILINE)
     for issue in (570, 571, 595, 619):
         assert f"#{issue}" in plan
     for requirement in range(1, 7):
@@ -143,7 +147,117 @@ def test_scientific_review_plan_requires_orchestrated_independent_panel() -> Non
         for req_id in req_ids:
             assert f"**{req_prefix}{req_id}:**" in owning_req_text
         for task_id in task_ids:
-            assert f"- [ ] **{task_prefix}{task_id}:**" in owning_plan_text
+            assert re.search(
+                rf"^- \[[ x~]\] \*\*{task_prefix}{task_id}:\*\*",
+                owning_plan_text,
+                re.MULTILINE,
+            )
+
+
+def test_sampling_harm_scoping_is_canonical_and_fail_closed() -> None:
+    track = INVENTORY.parent
+    metadata = json.loads((track / "metadata.json").read_text(encoding="utf-8"))
+    plan = (track / "plan.md").read_text(encoding="utf-8")
+    canonical_requirements = (ROOT / "conductor/requirements.md").read_text(
+        encoding="utf-8"
+    )
+    canonical_design = (ROOT / "conductor/design.md").read_text(encoding="utf-8")
+
+    assert "**M32 / planned v1.3.0:**" in canonical_requirements
+    assert "| v1.3.0 | Must | M32 |" in canonical_requirements
+    assert "C18 / M32" in canonical_design
+    assert "sampling_acquisition_harm_voi_20260802" in canonical_design
+
+    assert "M32" in metadata["requirement_ids"]
+    assert "M32" in metadata["planned_version_extensions"]["1.3.0"]
+    assert "M32" in metadata["canonical_track_extensions"]["C18"]
+    for issue in range(850, 854):
+        issue_url = f"https://github.com/edithatogo/voiage/issues/{issue}"
+        assert issue_url in metadata["github_subissues"]
+        assert issue_url in metadata["github_cross_reference"]["subissues"]
+
+    scope_gate = next(
+        gate for gate in metadata["gates"] if gate["id"] == "sampling-harm-scoping"
+    )
+    assert scope_gate["status"] == "satisfied"
+    for boundary in (
+        "sampling_acquisition_harm_voi_20260802",
+        "fail-closed",
+        "human",
+        "runtime",
+    ):
+        assert boundary in scope_gate["evidence"]
+
+    assert re.search(r"^- \[x\] \*\*SR4 / #850", plan, re.MULTILINE)
+    for reference in (
+        "#851\N{EN DASH}#853",
+        "sampling_acquisition_harm_voi_20260802",
+        "fail-closed",
+        "human",
+        "runtime",
+    ):
+        assert reference in plan
+
+
+def test_scientific_review_candidate_freezes_live_governance_and_artifacts() -> None:
+    track = INVENTORY.parent
+    candidate = json.loads(
+        (track / "scientific-review-candidate-20260802.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    manifest = json.loads(
+        (track / candidate["artifact_manifest"]).read_text(encoding="utf-8")
+    )
+    readback = json.loads(
+        (track / candidate["governance_readback"]).read_text(encoding="utf-8")
+    )
+
+    assert candidate["commit"] == "3b9024c503c171e7e321ddfaacc3665589e4d5e8"
+    assert candidate["tree"] == "e4f13cb9eea99a62a1330b39b3ac6f13faa76559"
+    assert candidate["owning_issue"] == 841
+    assert candidate["implementation_issues"] == list(range(842, 851))
+    assert candidate["review_entry_state"] == "ready_with_explicit_external_gates"
+    assert (
+        "any candidate change invalidates"
+        in candidate["invalidation_policy"]["default"]
+    )
+
+    assert manifest["candidate_id"] == candidate["candidate_id"]
+    assert len(manifest["artifacts"]) >= 15
+    git = shutil.which("git")
+    assert git is not None
+    for artifact in manifest["artifacts"]:
+        content = subprocess.run(
+            [git, "show", f"{candidate['commit']}:{artifact['path']}"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+        ).stdout
+        assert hashlib.sha256(content).hexdigest() == artifact["sha256"]
+
+    hierarchy = {item["issue"]: item for item in readback["hierarchy"]}
+    assert set(hierarchy) == set(range(841, 851))
+    assert hierarchy[841]["parent"] == 318
+    assert hierarchy[843]["parent"] == 619
+    assert hierarchy[844]["parent"] == 571
+    assert hierarchy[845]["parent"] == 595
+    assert hierarchy[850]["parent"] == 570
+    assert hierarchy[850]["dependency"] == 571
+    assert readback["normalized_existing_issue"] == {
+        "issue": 570,
+        "release_target": "v1.3.0 (C18/M22)",
+        "project_contract_version": "1.3.0",
+        "project_gate": "Human",
+        "project_risk": "High",
+        "project_sync_state": "Clean",
+        "review_due": "2026-11-30",
+    }
+
+    metadata = json.loads((track / "metadata.json").read_text(encoding="utf-8"))
+    metadata_issues = set(metadata["github_subissues"])
+    for issue in range(841, 851):
+        assert f"https://github.com/edithatogo/voiage/issues/{issue}" in metadata_issues
 
 
 def test_inventory_covers_exact_live_native_hierarchy() -> None:

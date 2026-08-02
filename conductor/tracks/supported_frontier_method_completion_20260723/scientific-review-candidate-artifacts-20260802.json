@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "frontier-scientific-review-20260802",
+  "hash_algorithm": "sha256",
+  "artifacts": [
+    {
+      "path": "conductor/tracks/supported_frontier_method_completion_20260723/scientific-review-panel.md",
+      "sha256": "f16e7f74d161b77c267eeef6b6dbbafffa0e6a173e4b43b42dd285070972ee16"
+    },
+    {
+      "path": "conductor/tracks/supported_frontier_method_completion_20260723/spec.md",
+      "sha256": "f964e33a3eebcaf567971ef40da3d4b13dc372ff988e7e42aad6f1421ef386b1"
+    },
+    {
+      "path": "conductor/tracks/supported_frontier_method_completion_20260723/requirements.md",
+      "sha256": "596177b42a5d70028bd20e21ef98fbdff2c86317f02b2b44e0b57d81e0e7c26d"
+    },
+    {
+      "path": "conductor/tracks/supported_frontier_method_completion_20260723/plan.md",
+      "sha256": "f402555d0c017a059f3930c3f875e57d951e8732cddbec1f3169e26dcdaabc06"
+    },
+    {
+      "path": "conductor/tracks/estimation_focused_variance_voi_20260727/spec.md",
+      "sha256": "38d5978cd57ffa0d907d551d5cfef373251badd0deb74a441415f4c31833bcb3"
+    },
+    {
+      "path": "conductor/tracks/study_design_efficiency_20260727/contract.md",
+      "sha256": "298370212f7ae00336442b959b26711320d9561d1adfe7db8805673f54e6cd41"
+    },
+    {
+      "path": "conductor/tracks/risk_adjusted_information_pricing_20260731/contract.md",
+      "sha256": "28e4e0be12bfc8ba8934ac33b65b8ffb86fe7a496a2343a1a73e2e1ca3cb0621"
+    },
+    {
+      "path": "voiage/contracts/estimation.py",
+      "sha256": "fa4867c5887ceff27239d20568c2f7e1d5568dab8a3c7747e19db16cbffd29b1"
+    },
+    {
+      "path": "voiage/methods/estimation.py",
+      "sha256": "c10b324dfd522e7b536eba3c2fb4e1bbfee15c85d8512f881b86ef3ee8cd4043"
+    },
+    {
+      "path": "voiage/contracts/study_design.py",
+      "sha256": "bc2444f9382e04fc75492e268421890cb4cb3c68fdba4d889683f6041c642b19"
+    },
+    {
+      "path": "voiage/experimental/study_design.py",
+      "sha256": "1dadcc12681792b8151602699a550eb2379d8fab0b3c7c9567b16798b3d87a79"
+    },
+    {
+      "path": "voiage/methods/utility_information.py",
+      "sha256": "89eb8d6490680ee390f6a6c5ab6f6058367c513fa97a25139a0fd7cfca715aee"
+    },
+    {
+      "path": "rust/crates/voiage-numerics/src/study_design.rs",
+      "sha256": "bbe72e98b3b33b3bcc407f1e08160debda53aa91c087471c1be71cd8b061e95b"
+    },
+    {
+      "path": "rust/crates/voiage-numerics/src/utility_information.rs",
+      "sha256": "b37fe19d631cab61149f8bfa17cdad6148a60da7b45450f7ca4ebf93a2ea6606"
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "5aba044531cb33979586ac888fa83dd0f42a14b02dc1af823507d91491b0d75d"
+    },
+    {
+      "path": "uv.lock",
+      "sha256": "cbfcc01e6d5c5684c079409225591698ad3886d1f69068fbf2d142946de29361"
+    },
+    {
+      "path": "rust/Cargo.lock",
+      "sha256": "3f60b4919f358f127a3dbe055f4cd0a52792735e473b1554d5a2a122c48fcce4"
+    }
+  ]
+}

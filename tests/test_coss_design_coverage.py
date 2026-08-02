@@ -8,6 +8,10 @@ from pydantic import ValidationError
 import pytest
 
 from voiage.contracts.study_design import (
+    CossRequestV1,
+    FeasibleDesignRangeV1,
+    InformationEfficiencyRequestV1,
+    InformationEfficiencyUncertaintyV1,
     InformationValueInputV1,
     SelectionUncertaintyV1,
     StudyDesignContextV1,
@@ -339,3 +343,338 @@ def test_efficiency_wraps_native_and_result_contract_failures(
     )
     with pytest.raises(InputError, match="scientific contract validation"):
         module.evsi_evpi_efficiency(evsi=evsi, evpi=evpi)
+
+
+def _joint_uncertainty_payload() -> dict[str, object]:
+    return {
+        "method": "joint_bootstrap",
+        "replicate_count": 2,
+        "replicate_design_ids": ("a",),
+        "selection_count_by_design": {"a": 2},
+        "joint_replicate_digest": "digest",
+        "replay_artifact": "replay.json",
+        "near_tie_probability": 0.0,
+        "expected_selection_regret": 0.0,
+        "winner_optimism": 0.0,
+        "mean_selected_design_enbs": 1.0,
+        "calibration_status": "joint_replicate_empirical",
+    }
+
+
+@pytest.mark.parametrize(
+    ("changes", "message"),
+    [
+        ({"replay_artifact": None}, "replay metadata"),
+        ({"calibration_status": "not_assessed"}, "calibration status"),
+        ({"selection_count_by_design": {"a": -1}}, "non-negative"),
+        ({"selection_count_by_design": {"a": 1}}, "sum to replicate_count"),
+    ],
+)
+def test_joint_selection_uncertainty_rejects_incomplete_or_invalid_replay_metadata(
+    changes: dict[str, object], message: str
+) -> None:
+    payload = _joint_uncertainty_payload()
+    payload.update(changes)
+
+    with pytest.raises(ValidationError, match=message):
+        SelectionUncertaintyV1(**payload)  # type: ignore[arg-type]
+
+
+def test_non_joint_selection_uncertainty_rejects_joint_replay_metadata() -> None:
+    with pytest.raises(ValidationError, match="joint replay metadata"):
+        SelectionUncertaintyV1(
+            method="bootstrap",
+            replicate_count=2,
+            replay_artifact="replay.json",
+        )
+
+
+@pytest.mark.parametrize(
+    ("changes", "message"),
+    [
+        ({"designs": (_point("a", 20, 5.0, 2.0),) * 2}, "unique"),
+        (
+            {
+                "selection_uncertainty": SelectionUncertaintyV1(),
+                "joint_enbs_replicates": ((1.0,), (2.0,)),
+                "replay_artifact": "replay.json",
+            },
+            "mutually exclusive",
+        ),
+        ({"joint_enbs_replicates": ((1.0,),)}, "require replay_artifact"),
+        (
+            {"joint_enbs_replicates": (), "replay_artifact": "replay.json"},
+            "must not be empty",
+        ),
+        (
+            {
+                "joint_enbs_replicates": ((1.0, 2.0),),
+                "replay_artifact": "replay.json",
+            },
+            "align with designs",
+        ),
+        ({"replay_artifact": "replay.json"}, "requires joint ENBS replicates"),
+    ],
+)
+def test_coss_request_rejects_invalid_identity_and_replay_combinations(
+    changes: dict[str, object], message: str
+) -> None:
+    payload: dict[str, object] = {
+        "context": _context(),
+        "designs": (_point("a", 20, 5.0, 2.0),),
+    }
+    payload.update(changes)
+
+    with pytest.raises(ValidationError, match=message):
+        CossRequestV1(**payload)  # type: ignore[arg-type]
+
+
+def test_coss_request_accepts_a_minimal_request_without_replay_metadata() -> None:
+    request = CossRequestV1(
+        context=_context(),
+        designs=(_point("a", 20, 5.0, 2.0),),
+    )
+
+    assert request.joint_enbs_replicates is None
+    assert request.replay_artifact is None
+
+    replay_request = CossRequestV1(
+        context=_context(),
+        designs=(_point("a", 20, 5.0, 2.0),),
+        joint_enbs_replicates=((3.0,), (4.0,)),
+        replay_artifact="joint.json",
+    )
+    assert replay_request.joint_enbs_replicates == ((3.0,), (4.0,))
+
+
+def _different_context() -> StudyDesignContextV1:
+    return StudyDesignContextV1(
+        decision_problem_id="coverage-decision",
+        value_unit="USD_2026",
+        population_scale=1_000.0,
+        time_horizon="2027-2036",
+        discounting_id="none",
+        study_model_id="enumerated",
+        cost_model_id="enumerated",
+    )
+
+
+@pytest.mark.parametrize(
+    ("changes", "message"),
+    [
+        (
+            {"evpi": InformationValueInputV1(value=10.0, context=_different_context())},
+            "commensurate",
+        ),
+        ({"paired_evsi_replicates": (0.4, 0.5)}, "must be paired"),
+        (
+            {
+                "paired_evsi_replicates": (0.4,),
+                "paired_evpi_replicates": (1.0,),
+                "replay_artifact": "replay.json",
+            },
+            "at least two",
+        ),
+        (
+            {
+                "paired_evsi_replicates": (0.4, 0.5),
+                "paired_evpi_replicates": (1.0, 1.0),
+            },
+            "require replay_artifact",
+        ),
+        ({"replay_artifact": "replay.json"}, "requires paired efficiency replicates"),
+    ],
+)
+def test_efficiency_request_rejects_invalid_context_and_replay_combinations(
+    changes: dict[str, object], message: str
+) -> None:
+    payload: dict[str, object] = {
+        "evsi": InformationValueInputV1(value=5.0, context=_context()),
+        "evpi": InformationValueInputV1(value=10.0, context=_context()),
+    }
+    payload.update(changes)
+
+    with pytest.raises(ValidationError, match=message):
+        InformationEfficiencyRequestV1(**payload)  # type: ignore[arg-type]
+
+
+def test_efficiency_request_accepts_commensurate_values_without_replicates() -> None:
+    request = InformationEfficiencyRequestV1(
+        evsi=InformationValueInputV1(value=5.0, context=_context()),
+        evpi=InformationValueInputV1(value=10.0, context=_context()),
+    )
+
+    assert request.paired_evsi_replicates is None
+    assert request.replay_artifact is None
+
+    replay_request = InformationEfficiencyRequestV1(
+        evsi=InformationValueInputV1(value=5.0, context=_context()),
+        evpi=InformationValueInputV1(value=10.0, context=_context()),
+        paired_evsi_replicates=(4.0, 5.0),
+        paired_evpi_replicates=(10.0, 10.0),
+        replay_artifact="paired.json",
+    )
+    assert replay_request.paired_evsi_replicates == (4.0, 5.0)
+
+
+def test_efficiency_uncertainty_rejects_inverted_interval() -> None:
+    with pytest.raises(ValidationError, match="interval is inverted"):
+        InformationEfficiencyUncertaintyV1(
+            replicate_count=2,
+            mean_ratio=0.5,
+            standard_error=0.1,
+            confidence_interval=(0.6, 0.4),
+            estimated_bias=0.0,
+            point_ratio_in_interval=True,
+            paired_replicate_digest="digest",
+            replay_artifact="replay.json",
+        )
+
+
+@pytest.mark.parametrize(
+    ("changes", "message"),
+    [
+        ({"best_evaluated_design_id": "a"}, "curve argmax"),
+        ({"economic_viability": False}, "commissioning recommendation"),
+        ({"boundary_sensitivity": "complete_enumeration"}, "boundary_sensitivity"),
+    ],
+)
+def test_coss_result_rejects_additional_cross_field_corruption(
+    changes: dict[str, object], message: str
+) -> None:
+    result_type, payload = _result_payload()
+    payload.update(changes)
+
+    with pytest.raises(ValidationError, match=message):
+        result_type.model_validate_json(json.dumps(payload))  # type: ignore[attr-defined]
+
+
+def test_no_feasible_coss_result_rejects_best_evaluated_design() -> None:
+    result = module.calculate_coss(
+        context=_context(),
+        designs=(_point("blocked", 20, 5.0, 2.0, feasible=False),),
+    )
+    payload = result.model_dump(mode="json")
+    payload["best_evaluated_design_id"] = "blocked"
+
+    with pytest.raises(ValidationError, match="requires a feasible design"):
+        type(result).model_validate_json(json.dumps(payload))
+
+
+def _paired_efficiency_result():
+    return module.evsi_evpi_efficiency(
+        evsi=InformationValueInputV1(value=5.0, context=_context()),
+        evpi=InformationValueInputV1(value=10.0, context=_context()),
+        paired_evsi_replicates=(4.0, 5.0, 6.0),
+        paired_evpi_replicates=(10.0, 10.0, 10.0),
+        replay_artifact="paired.json",
+    )
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("point_ratio_in_interval", False, "containment flag"),
+        ("estimated_bias", 99.0, "bias disagrees"),
+    ],
+)
+def test_efficiency_result_rejects_uncertainty_cross_field_corruption(
+    field: str, value: object, message: str
+) -> None:
+    result = _paired_efficiency_result()
+    payload = result.model_dump(mode="json")
+    payload["uncertainty"][field] = value
+
+    with pytest.raises(ValidationError, match=message):
+        type(result).model_validate_json(json.dumps(payload))
+
+
+def test_undefined_efficiency_rejects_uncertainty() -> None:
+    result = _paired_efficiency_result()
+    payload = result.model_dump(mode="json")
+    payload.update(
+        evsi=0.0,
+        evpi=0.0,
+        ratio=None,
+        percentage=None,
+        status="undefined_zero_evpi",
+        bound_tolerance=float(payload["absolute_tolerance"])
+        + float(payload["relative_tolerance"]),
+    )
+
+    with pytest.raises(ValidationError, match="cannot carry uncertainty"):
+        type(result).model_validate_json(json.dumps(payload))
+
+
+def test_complete_stepped_range_has_no_gap_diagnostic() -> None:
+    result = module.calculate_coss(
+        context=_context(),
+        designs=(
+            _point("a", 20, 5.0, 2.0),
+            _point("b", 40, 8.0, 3.0),
+        ),
+        declared_feasible_range=FeasibleDesignRangeV1(
+            lower_sample_size=20,
+            upper_sample_size=40,
+            step=20,
+        ),
+    )
+
+    assert "feasible_set_has_gaps" not in result.diagnostics
+
+
+def test_joint_replicates_require_a_feasible_point_optimum() -> None:
+    with pytest.raises(InputError, match="feasible point optimum"):
+        module.calculate_coss(
+            context=_context(),
+            designs=(_point("blocked", 20, 5.0, 2.0, feasible=False),),
+            joint_enbs_replicates=((1.0,), (2.0,)),
+            replay_artifact="joint.json",
+        )
+
+
+def test_joint_uncertainty_rejects_misaligned_native_vectors(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(
+        module._runtime,
+        "compute_coss_selection_uncertainty",
+        lambda **_: {
+            "contract_version": "1.0.0",
+            "selection_probabilities": [1.0],
+            "selection_counts": [2],
+        },
+    )
+
+    with pytest.raises(InputError, match="selection uncertainty violated"):
+        module.calculate_coss(
+            context=_context(),
+            designs=(
+                _point("a", 20, 5.0, 2.0),
+                _point("b", 40, 8.0, 3.0),
+            ),
+            joint_enbs_replicates=((3.0, 5.0), (3.0, 5.0)),
+            replay_artifact="joint.json",
+        )
+
+
+def test_efficiency_replay_artifact_requires_replicates() -> None:
+    with pytest.raises(InputError, match="requires paired efficiency replicates"):
+        module.evsi_evpi_efficiency(
+            evsi=InformationValueInputV1(value=5.0, context=_context()),
+            evpi=InformationValueInputV1(value=10.0, context=_context()),
+            replay_artifact="paired.json",
+        )
+
+
+def test_efficiency_rejects_malformed_native_uncertainty(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(
+        module._runtime,
+        "compute_information_efficiency_uncertainty",
+        lambda *_: {"contract_version": "1.0.0"},
+    )
+
+    with pytest.raises(InputError, match="native efficiency uncertainty"):
+        _paired_efficiency_result()

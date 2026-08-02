@@ -59,6 +59,18 @@ evidence or a reviewed exclusion before programme closeout.*
 
 ---
 
+## [~] Track: Sampling-Acquisition-Harm Value of Information
+*Link: [./tracks/sampling_acquisition_harm_voi_20260802/index.md](./tracks/sampling_acquisition_harm_voi_20260802/index.md)*
+*GitHub: [issue #850](https://github.com/edithatogo/voiage/issues/850), child
+of [#570](https://github.com/edithatogo/voiage/issues/570), dependent on
+[#571](https://github.com/edithatogo/voiage/issues/571), under scientific-review
+umbrella [#841](https://github.com/edithatogo/voiage/issues/841), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: in progress — primary-source and estimand scoping is in progress; no runtime
+capability exists and scientific/domain review remains pending.*
+
+---
+
 ## [~] Track: Information-Source Portfolio VOI
 *Link: [./tracks/information_source_portfolio_voi_20260801/index.md](./tracks/information_source_portfolio_voi_20260801/index.md)*
 *GitHub: [issue #582](https://github.com/edithatogo/voiage/issues/582),

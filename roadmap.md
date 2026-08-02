@@ -32,8 +32,11 @@ sparse-subgroup validity, #600 continuous/fitted-estimator and risk-composition
 evidence, #619 vector covariance scalarization, Rust/R/Julia parity, stable
 promotion, release/publication and family-parent/#318 closure remain open.
 
-The next #318 stage is a planned, fail-closed scientific review programme under
-Phase 5 SR1–SR10. A separate orchestrating agent freezes each content-addressed
+The next #318 stage is the fail-closed scientific review programme governed by
+umbrella issue #841 and Phase 5 SR1–SR10. Evidence-contract work is tracked by
+#842; review waves by #843–#847; installed/parity assurance by #848; synthesis
+and adjudication by #849; and sampling-acquisition harm scoping by #850. A
+separate orchestrating agent freezes each content-addressed
 candidate and synthesizes independent estimand/domain, estimator-assurance,
 cross-language/API and governance/publication subagent reports. Wave A covers
 #619, #571 and #595; Wave B covers #570 and #597–#600; Wave C covers the
@@ -44,6 +47,24 @@ packets. Subagent evidence does not replace a named independent human
 scientific verdict, and scientific acceptance remains separate from maintainer
 promotion, hosted assurance, release, publication, registry and issue-closure
 decisions.
+
+Sampling-acquisition harm is now materialized as the planned v1.3.0 Must
+C18/M32 family in
+`conductor/tracks/sampling_acquisition_harm_voi_20260802/`. Issue #850 owns
+native children #851–#853 for the fail-closed capability contract, primary-
+source/estimand packet and candidate-bound accountable review. The automated
+Phase 1 advisory panel closed all Critical/High repository findings for the
+scoped estimand, including explicit `d0` increments, observable filtration,
+upper-tail positive-loss CVaR, mutually exclusive outcome accounting and tri-
+state mathematical feasibility. This is governed research scoping only: no
+sampling-harm runtime exists, and H8 independent reports, the named human
+verdict, real-study authorization, parity, hosted assurance, promotion,
+release, publication, registry acceptance and closure remain pending.
+
+Canonical C18/M32 planning is synchronized through VOP PR #71, squash-merged
+as `e0ff1d2ce3361d52ee22bb01e105b92653ed606c` after 16 terminal successful
+checks and one governed scheduled-only skip. That cross-repository merge is
+planning evidence only; it does not satisfy H8 or authorize a runtime.
 
 The v1.3 residual frontier programme is governed canonically by VOP C18. Issue
 #599 completed its governed experimental repository delivery. Its exact finite

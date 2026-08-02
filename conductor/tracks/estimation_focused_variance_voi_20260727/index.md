@@ -18,6 +18,7 @@
 - [Project 28](https://github.com/users/edithatogo/projects/28)
 - [Implementation PR #676](https://github.com/edithatogo/voiage/pull/676)
 - [Canonical C16 implementation sync PR #64](https://github.com/edithatogo/vop_poc_nz/pull/64)
+- [Scientific remediation issue #843](https://github.com/edithatogo/voiage/issues/843)
 
 Status: experimental scalar Rust/Python implementation, assurance and user
 surfaces passed PR #676's 65 exact-head contexts (60 successes, four governed

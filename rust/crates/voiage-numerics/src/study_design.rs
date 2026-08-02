@@ -36,6 +36,50 @@ pub struct InformationEfficiencyKernelResult {
     pub bound_tolerance: f64,
 }
 
+/// Dependence-preserving uncertainty summary for a point-estimate COSS choice.
+#[derive(Clone, Debug, PartialEq)]
+pub struct CossSelectionUncertaintyKernelResult {
+    /// Version of the native result contract.
+    pub contract_version: &'static str,
+    /// Stable identifier for the numerical procedure.
+    pub estimator: &'static str,
+    /// Number of joint ENBS replicate rows.
+    pub replicate_count: usize,
+    /// Selection counts in caller design order.
+    pub selection_counts: Vec<usize>,
+    /// Selection probabilities in caller design order.
+    pub selection_probabilities: Vec<f64>,
+    /// Probability that at least two designs are tied within tolerance.
+    pub near_tie_probability: f64,
+    /// Expected regret from retaining the point-estimate selected design.
+    pub expected_selection_regret: f64,
+    /// Point maximum less replicate-mean ENBS of the selected design.
+    pub winner_optimism: f64,
+    /// Replicate-mean ENBS of the point-estimate selected design.
+    pub mean_selected_design_enbs: f64,
+}
+
+/// Paired-replicate uncertainty for the EVSI/EVPI efficiency ratio.
+#[derive(Clone, Debug, PartialEq)]
+pub struct InformationEfficiencyUncertaintyKernelResult {
+    /// Version of the native result contract.
+    pub contract_version: &'static str,
+    /// Number of paired replicate rows.
+    pub replicate_count: usize,
+    /// Mean paired ratio.
+    pub mean_ratio: f64,
+    /// Monte Carlo standard error of the mean paired ratio.
+    pub standard_error: f64,
+    /// Deterministic empirical 2.5 percent quantile.
+    pub confidence_lower: f64,
+    /// Deterministic empirical 97.5 percent quantile.
+    pub confidence_upper: f64,
+    /// Mean paired ratio less the point ratio.
+    pub estimated_bias: f64,
+    /// Whether the empirical interval contains the point ratio.
+    pub point_ratio_in_interval: bool,
+}
+
 fn validate_tolerances(
     absolute_tolerance: f64,
     relative_tolerance: f64,
@@ -63,6 +107,19 @@ fn validate_value(value: f64, field: &'static str) -> Result<(), NumericalInputE
         ));
     }
     Ok(())
+}
+
+fn exact_count(count: usize, field: &'static str) -> Result<f64, NumericalInputError> {
+    u32::try_from(count).map(f64::from).map_err(|_| {
+        NumericalInputError::invalid(field, "replicate count exceeds the supported exact range")
+    })
+}
+
+fn is_known_tie_policy(tie_policy: &str) -> bool {
+    matches!(
+        tie_policy,
+        "smallest_sample_size" | "largest_sample_size" | "first_declared"
+    )
 }
 
 fn select_optimum(tied_indices: &[usize], sample_sizes: &[u64], tie_policy: &str) -> Option<usize> {
@@ -146,10 +203,7 @@ pub fn coss(
         }
     }
     validate_tolerances(absolute_tolerance, relative_tolerance)?;
-    if !matches!(
-        tie_policy,
-        "smallest_sample_size" | "largest_sample_size" | "first_declared"
-    ) {
+    if !is_known_tie_policy(tie_policy) {
         return Err(NumericalInputError::invalid(
             "tie_policy",
             "tie policy must be smallest_sample_size, largest_sample_size, or first_declared",
@@ -219,6 +273,126 @@ pub fn coss(
         optimal_index: Some(optimal_index),
         maximum_enbs: Some(maximum_enbs),
         boundary_state,
+    })
+}
+
+/// Summarizes COSS selection uncertainty from joint, dependence-preserving replicates.
+///
+/// # Errors
+///
+/// Returns [`NumericalInputError`] for empty or misaligned replicate matrices,
+/// invalid point selections, non-finite values, tolerances, or tie policies.
+#[allow(clippy::too_many_arguments)]
+pub fn coss_selection_uncertainty(
+    sample_sizes: &[u64],
+    feasible: &[bool],
+    joint_enbs_replicates: &[Vec<f64>],
+    point_optimal_index: usize,
+    point_maximum_enbs: f64,
+    tie_policy: &str,
+    absolute_tolerance: f64,
+    relative_tolerance: f64,
+) -> Result<CossSelectionUncertaintyKernelResult, NumericalInputError> {
+    validate_tolerances(absolute_tolerance, relative_tolerance)?;
+    let design_count = sample_sizes.len();
+    if design_count == 0 || feasible.len() != design_count {
+        return Err(NumericalInputError::dimension(
+            "feasible",
+            design_count,
+            feasible.len(),
+            "sample sizes and feasibility must align",
+        ));
+    }
+    if joint_enbs_replicates.len() < 2 {
+        return Err(NumericalInputError::invalid(
+            "joint_enbs_replicates",
+            "at least two joint replicate rows are required",
+        ));
+    }
+    if point_optimal_index >= design_count || !feasible[point_optimal_index] {
+        return Err(NumericalInputError::invalid(
+            "point_optimal_index",
+            "point optimum must identify a feasible design",
+        ));
+    }
+    if !point_maximum_enbs.is_finite() {
+        return Err(NumericalInputError::invalid(
+            "point_maximum_enbs",
+            "point maximum must be finite",
+        ));
+    }
+    if !is_known_tie_policy(tie_policy) {
+        return Err(NumericalInputError::invalid(
+            "tie_policy",
+            "unknown tie policy",
+        ));
+    }
+
+    let feasible_indices = feasible
+        .iter()
+        .enumerate()
+        .filter_map(|(index, &included)| included.then_some(index))
+        .collect::<Vec<_>>();
+    let mut selection_counts = vec![0_usize; design_count];
+    let mut near_ties = 0_usize;
+    let mut regret_sum = 0.0;
+    let mut selected_enbs_sum = 0.0;
+    for row in joint_enbs_replicates {
+        if row.len() != design_count {
+            return Err(NumericalInputError::dimension(
+                "joint_enbs_replicates",
+                design_count,
+                row.len(),
+                "each joint replicate row must align with designs",
+            ));
+        }
+        if row.iter().any(|value| !value.is_finite()) {
+            return Err(NumericalInputError::invalid(
+                "joint_enbs_replicates",
+                "joint replicate values must be finite",
+            ));
+        }
+        let maximum = feasible_indices
+            .iter()
+            .map(|&index| row[index])
+            .max_by(f64::total_cmp)
+            .ok_or_else(|| {
+                NumericalInputError::invalid(
+                    "feasible",
+                    "point optimum requires at least one feasible design",
+                )
+            })?;
+        let tolerance = absolute_tolerance + relative_tolerance * maximum.abs().max(1.0);
+        let tied = feasible_indices
+            .iter()
+            .copied()
+            .filter(|&index| maximum - row[index] <= tolerance)
+            .collect::<Vec<_>>();
+        let selected = select_optimum(&tied, sample_sizes, tie_policy).ok_or_else(|| {
+            NumericalInputError::invalid("tie_policy", "tie policy selected no replicate design")
+        })?;
+        selection_counts[selected] += 1;
+        near_ties += usize::from(tied.len() > 1);
+        regret_sum += maximum - row[point_optimal_index];
+        selected_enbs_sum += row[point_optimal_index];
+    }
+    let count = joint_enbs_replicates.len();
+    let denominator = exact_count(count, "joint_enbs_replicates")?;
+    let mean_selected_design_enbs = selected_enbs_sum / denominator;
+    let selection_probabilities = selection_counts
+        .iter()
+        .map(|&value| exact_count(value, "joint_enbs_replicates").map(|count| count / denominator))
+        .collect::<Result<Vec<_>, _>>()?;
+    Ok(CossSelectionUncertaintyKernelResult {
+        contract_version: "1.0.0",
+        estimator: "joint_replicate_selection",
+        replicate_count: count,
+        selection_probabilities,
+        selection_counts,
+        near_tie_probability: exact_count(near_ties, "joint_enbs_replicates")? / denominator,
+        expected_selection_regret: regret_sum / denominator,
+        winner_optimism: point_maximum_enbs - mean_selected_design_enbs,
+        mean_selected_design_enbs,
     })
 }
 
@@ -293,6 +467,75 @@ pub fn evsi_evpi_efficiency(
     })
 }
 
+/// Summarizes EVSI/EVPI efficiency uncertainty from paired replicates.
+///
+/// # Errors
+///
+/// Returns [`NumericalInputError`] when vectors are unpaired, contain fewer
+/// than two rows, or contain an invalid replicate efficiency denominator.
+pub fn information_efficiency_uncertainty(
+    sample_information_draws: &[f64],
+    perfect_information_draws: &[f64],
+    point_ratio: f64,
+    absolute_tolerance: f64,
+    relative_tolerance: f64,
+) -> Result<InformationEfficiencyUncertaintyKernelResult, NumericalInputError> {
+    validate_tolerances(absolute_tolerance, relative_tolerance)?;
+    if sample_information_draws.len() != perfect_information_draws.len()
+        || sample_information_draws.len() < 2
+    {
+        return Err(NumericalInputError::dimension(
+            "paired_efficiency_replicates",
+            sample_information_draws.len(),
+            perfect_information_draws.len(),
+            "at least two paired EVSI/EVPI replicates are required",
+        ));
+    }
+    if !point_ratio.is_finite() {
+        return Err(NumericalInputError::invalid(
+            "point_ratio",
+            "point ratio must be finite",
+        ));
+    }
+    let mut ratios = Vec::with_capacity(sample_information_draws.len());
+    for (&evsi, &evpi) in sample_information_draws
+        .iter()
+        .zip(perfect_information_draws)
+    {
+        let result = evsi_evpi_efficiency(evsi, evpi, absolute_tolerance, relative_tolerance)?;
+        let ratio = result.ratio.ok_or_else(|| {
+            NumericalInputError::invalid(
+                "evpi_replicates",
+                "paired uncertainty cannot use a numerically zero EVPI replicate",
+            )
+        })?;
+        ratios.push(ratio);
+    }
+    let count = ratios.len();
+    let denominator = exact_count(count, "paired_efficiency_replicates")?;
+    let mean_ratio = ratios.iter().sum::<f64>() / denominator;
+    let sample_variance = ratios
+        .iter()
+        .map(|value| (value - mean_ratio).powi(2))
+        .sum::<f64>()
+        / (denominator - 1.0);
+    let standard_error = (sample_variance / denominator).sqrt();
+    ratios.sort_by(f64::total_cmp);
+    let last = count - 1;
+    let confidence_lower = ratios[last * 25 / 1000];
+    let confidence_upper = ratios[last * 975 / 1000];
+    Ok(InformationEfficiencyUncertaintyKernelResult {
+        contract_version: "1.0.0",
+        replicate_count: count,
+        mean_ratio,
+        standard_error,
+        confidence_lower,
+        confidence_upper,
+        estimated_bias: mean_ratio - point_ratio,
+        point_ratio_in_interval: (confidence_lower..=confidence_upper).contains(&point_ratio),
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -344,6 +587,50 @@ mod tests {
         .unwrap();
         assert_eq!(largest.optimal_index, Some(0));
         assert_eq!(largest.boundary_state, "upper");
+    }
+
+    #[test]
+    fn joint_replicates_preserve_selection_dependence_and_quantify_regret() {
+        let result = coss_selection_uncertainty(
+            &[100, 200],
+            &[true, true],
+            &[
+                vec![4.0, 2.0],
+                vec![1.0, 5.0],
+                vec![3.0, 3.0],
+                vec![2.0, 4.0],
+            ],
+            0,
+            4.0,
+            "smallest_sample_size",
+            0.0,
+            0.0,
+        )
+        .unwrap();
+        assert_eq!(result.selection_counts, vec![2, 2]);
+        assert_eq!(result.selection_probabilities, vec![0.5, 0.5]);
+        assert!((result.near_tie_probability - 0.25).abs() < f64::EPSILON);
+        assert!((result.expected_selection_regret - 1.5).abs() < f64::EPSILON);
+        assert!((result.mean_selected_design_enbs - 2.5).abs() < f64::EPSILON);
+        assert!((result.winner_optimism - 1.5).abs() < f64::EPSILON);
+    }
+
+    #[test]
+    fn paired_efficiency_replicates_report_uncertainty_without_unpairing() {
+        let result = information_efficiency_uncertainty(
+            &[5.0, 6.0, 7.0, 8.0],
+            &[10.0, 10.0, 10.0, 10.0],
+            0.65,
+            0.0,
+            0.0,
+        )
+        .unwrap();
+        assert_eq!(result.replicate_count, 4);
+        assert!((result.mean_ratio - 0.65).abs() < 1.0e-12);
+        assert!((result.standard_error - 0.064_549_722_436_790_27).abs() < 1.0e-12);
+        assert!((result.confidence_lower - 0.5).abs() < f64::EPSILON);
+        assert!((result.confidence_upper - 0.7).abs() < f64::EPSILON);
+        assert!(result.point_ratio_in_interval);
     }
 
     #[test]

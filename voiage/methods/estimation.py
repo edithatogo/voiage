@@ -12,12 +12,19 @@ import json
 from types import MappingProxyType
 from typing import TYPE_CHECKING, Final, cast
 
-from voiage._runtime import compute_evppi_variance, compute_evsi_variance
+from voiage._runtime import (
+    compute_estimation_truth_assurance,
+    compute_evppi_variance,
+    compute_evsi_variance,
+)
 from voiage.contracts.estimation import (
+    EstimationRuntimeBinding,
     EstimationVarianceDiagnostics,
     EstimationVarianceProvenance,
     EstimationVarianceResult,
     EstimationVarianceSpec,
+    TruthKnownAssuranceResult,
+    TruthKnownAssuranceSpec,
 )
 from voiage.exceptions import InputError
 
@@ -193,11 +200,50 @@ def _input_digest(payload: Mapping[str, object]) -> str:
     return sha256(canonical).hexdigest()
 
 
+def _runtime_binding(
+    specification: EstimationVarianceSpec,
+) -> EstimationRuntimeBinding:
+    estimator = specification.estimator
+    common: dict[str, object] = {
+        "method_id": specification.method_id,
+        "target_id": specification.target.target_id,
+        "target_shape": specification.target.shape,
+        "component_units": specification.target.component_units,
+        "covariance_functional": specification.target.covariance_functional,
+        "functional_weights": specification.target.functional_weights,
+        "prior_model_id": specification.prior_model_id,
+        "estimator_design": estimator.estimator_design,
+        "outer_replicates": estimator.outer_replicates,
+        "inner_replicates": estimator.inner_replicates,
+        "coupling_id": estimator.coupling_id,
+        "solver_id": estimator.solver_id,
+    }
+    if specification.method_id == "evppi_var":
+        assert specification.conditioning is not None
+        common.update(
+            parameter_subset=specification.conditioning.parameter_subset,
+            conditioning_sigma_field=specification.conditioning.sigma_field,
+            averaging_convention=specification.conditioning.averaging_convention,
+        )
+    else:
+        assert specification.sampling_model is not None
+        common.update(
+            design_id=specification.sampling_model.design_id,
+            likelihood_id=specification.sampling_model.likelihood_id,
+            sampling_conditioning_sigma_field=(
+                specification.sampling_model.conditioning_sigma_field
+            ),
+            averaging_convention=specification.sampling_model.averaging_convention,
+        )
+    return EstimationRuntimeBinding.model_validate(common)
+
+
 def _result_from_native(
     specification: EstimationVarianceSpec,
     payload: Mapping[str, object],
     *,
     input_digest: str,
+    truth_assurance: TruthKnownAssuranceSpec | None = None,
 ) -> EstimationVarianceResult:
     relative_value = payload["relative_reduction"]
     if relative_value is not None and (
@@ -220,9 +266,19 @@ def _result_from_native(
         if standard_error is None
         else (() if converged else ("convergence_threshold_not_met",))
     )
+    runtime_binding = _runtime_binding(specification)
+    runtime_binding_digest = runtime_binding.content_digest()
+    runtime_request_digest = _input_digest(
+        {
+            "runtime_binding": runtime_binding.model_dump(mode="json"),
+            "input_digest": input_digest,
+        }
+    )
+    truth_result = _truth_assurance_result(specification, truth_assurance)
     return EstimationVarianceResult(
         method_id=specification.method_id,
         target=specification.target,
+        runtime_binding=runtime_binding,
         prior_covariance=((prior,),),
         expected_posterior_covariance=((posterior,),),
         prior_functional=prior,
@@ -240,6 +296,7 @@ def _result_from_native(
             converged=converged,
             diagnostic_codes=diagnostic_codes,
         ),
+        truth_known_assurance=truth_result,
         provenance=EstimationVarianceProvenance(
             backend="rust",
             kernel_version=kernel_version,
@@ -247,8 +304,66 @@ def _result_from_native(
             seed=specification.estimator.seed,
             specification_digest=_specification_digest(specification),
             input_digest=input_digest,
+            runtime_binding_digest=runtime_binding_digest,
+            runtime_request_digest=runtime_request_digest,
         ),
     )
+
+
+def _truth_assurance_result(
+    specification: EstimationVarianceSpec,
+    assurance: TruthKnownAssuranceSpec | None,
+) -> TruthKnownAssuranceResult | None:
+    if assurance is None:
+        return None
+    expected_dependence = {
+        "exact": {"independent_outer", "paired_outer"},
+        "outer_monte_carlo": {"independent_outer", "paired_outer"},
+        "nested_monte_carlo": {"nested_shared_outer"},
+        "coupled_nested_monte_carlo": {"coupled_common_random_numbers"},
+    }[specification.estimator.estimator_design]
+    if assurance.dependence_structure not in expected_dependence:
+        raise InputError(
+            "truth-known assurance dependence disagrees with estimator design",
+            diagnostic_code="estimation_assurance_dependence_mismatch",
+        )
+    lower = [interval[0] for interval in assurance.confidence_intervals]
+    upper = [interval[1] for interval in assurance.confidence_intervals]
+    native = compute_estimation_truth_assurance(
+        list(assurance.replicate_reductions),
+        assurance.true_reduction,
+        lower,
+        upper,
+        assurance.confidence_level,
+        specification.estimator.convergence_threshold,
+    )
+    try:
+        contract_version = native["contract_version"]
+        converged = native["converged"]
+    except KeyError as error:
+        raise InputError(
+            "native truth-known assurance violated contract version 1.0.0"
+        ) from error
+    if contract_version != "1.0.0" or not isinstance(converged, bool):
+        raise InputError("native truth-known assurance violated contract version 1.0.0")
+    try:
+        return TruthKnownAssuranceResult(
+            replicate_count=_integer(native, "replicate_count"),
+            bias=_number(native, "bias"),
+            rmse=_number(native, "rmse"),
+            standard_error=_number(native, "standard_error"),
+            empirical_coverage=_optional_number(native, "empirical_coverage"),
+            calibration_error=_optional_number(native, "calibration_error"),
+            converged=converged,
+            replicate_unit=assurance.replicate_unit,
+            dependence_structure=assurance.dependence_structure,
+            replay_artifact=assurance.replay_artifact,
+            replay_digest=assurance.content_digest(),
+        )
+    except (KeyError, TypeError, ValueError) as error:
+        raise InputError(
+            "native truth-known assurance violated contract version 1.0.0"
+        ) from error
 
 
 def evppi_var(
@@ -256,6 +371,7 @@ def evppi_var(
     conditioning_groups: Sequence[str],
     *,
     specification: EstimationVarianceSpec,
+    truth_assurance: TruthKnownAssuranceSpec | None = None,
 ) -> EstimationVarianceResult:
     """Estimate scalar variance reduction from perfect discrete conditioning."""
     _validate_runtime_spec(specification, "evppi_var")
@@ -277,6 +393,7 @@ def evppi_var(
                 "conditioning_groups": normalized_conditioning_groups,
             }
         ),
+        truth_assurance=truth_assurance,
     )
 
 
@@ -286,6 +403,7 @@ def evsi_var(
     predictive_probabilities: Sequence[float],
     *,
     specification: EstimationVarianceSpec,
+    truth_assurance: TruthKnownAssuranceSpec | None = None,
 ) -> EstimationVarianceResult:
     """Aggregate scalar variance reduction across declared study outcomes."""
     _validate_runtime_spec(specification, "evsi_var")
@@ -316,6 +434,7 @@ def evsi_var(
                 "predictive_probabilities": normalized_predictive_probabilities,
             }
         ),
+        truth_assurance=truth_assurance,
     )
 
 

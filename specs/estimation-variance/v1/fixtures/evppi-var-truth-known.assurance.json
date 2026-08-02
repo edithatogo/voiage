@@ -1,0 +1,9 @@
+{
+  "true_reduction": 0.25,
+  "replicate_reductions": [0.2, 0.25, 0.3, 0.35],
+  "confidence_intervals": [[0.1, 0.3], [0.2, 0.3], [0.2, 0.4], [0.3, 0.4]],
+  "confidence_level": 0.95,
+  "replicate_unit": "complete_outer_dataset",
+  "dependence_structure": "independent_outer",
+  "replay_artifact": "evppi-var-truth-known.assurance.json"
+}

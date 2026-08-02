@@ -5,7 +5,9 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
+from pydantic import ValidationError
 import pytest
 
 from voiage.contracts.estimation import (
@@ -15,9 +17,13 @@ from voiage.contracts.estimation import (
     EstimationVarianceSpec,
     EstimatorAssuranceSpec,
     SamplingModelSpec,
+    TruthKnownAssuranceSpec,
 )
 from voiage.exceptions import DimensionMismatchError, InputError
 import voiage.methods.estimation as estimation_module
+
+ROOT = Path(__file__).resolve().parents[1]
+ESTIMATION_FIXTURES = ROOT / "specs" / "estimation-variance" / "v1" / "fixtures"
 
 
 def _target() -> EstimationTargetSpec:
@@ -207,21 +213,57 @@ def test_assurance_contract_rejects_one_bootstrap_replicate() -> None:
         _ = _assurance("discrete_conditioning", bootstrap_replicates=1)
 
 
-def test_runtime_rejects_vector_targets_pending_scientific_review() -> None:
-    specification = _evppi_spec().model_copy(
-        update={
-            "target": EstimationTargetSpec(
-                target_id="joint",
-                shape="vector",
-                component_units=("count", "count"),
-                covariance_functional="trace",
-            )
-        }
+@pytest.mark.parametrize(
+    ("method_id", "functional"),
+    [
+        ("evppi_var", "trace"),
+        ("evppi_var", "determinant"),
+        ("evppi_var", "weighted_quadratic"),
+        ("evsi_var", "trace"),
+        ("evsi_var", "determinant"),
+        ("evsi_var", "weighted_quadratic"),
+    ],
+)
+def test_runtime_rejects_all_vector_targets_before_native_dispatch(
+    monkeypatch: pytest.MonkeyPatch,
+    method_id: str,
+    functional: str,
+) -> None:
+    def unexpected_native_dispatch(*_args: object, **_kwargs: object) -> None:
+        pytest.fail("vector request reached the native scalar kernel")
+
+    monkeypatch.setattr(
+        estimation_module, "compute_evppi_variance", unexpected_native_dispatch
     )
-    with pytest.raises(InputError, match="scalar variance targets only"):
-        _ = estimation_module.evppi_var(
-            [0.0, 1.0], ["a", "b"], specification=specification
+    monkeypatch.setattr(
+        estimation_module, "compute_evsi_variance", unexpected_native_dispatch
+    )
+    target = EstimationTargetSpec(
+        target_id="joint",
+        shape="vector",
+        component_units=("count", "count"),
+        covariance_functional=functional,
+        functional_weights=(1.0, 1.0) if functional == "weighted_quadratic" else None,
+    )
+    specification = (
+        _evppi_spec() if method_id == "evppi_var" else _evsi_spec()
+    ).model_copy(update={"target": target})
+
+    def request_vector_result() -> object:
+        if method_id == "evppi_var":
+            return estimation_module.evppi_var(
+                [0.0, 1.0], ["a", "b"], specification=specification
+            )
+        return estimation_module.evsi_var(
+            [0.0, 1.0],
+            [0.1, 0.2],
+            [0.5, 0.5],
+            specification=specification,
         )
+
+    with pytest.raises(InputError, match="scalar variance targets only") as captured:
+        _ = request_vector_result()
+    assert captured.value.diagnostic_code == "unsupported_estimation_target"
 
 
 def _native_payload() -> dict[str, object]:
@@ -316,3 +358,227 @@ def test_replay_digest_binds_actual_estimation_inputs() -> None:
     )
     assert first.provenance.input_digest != changed_value.provenance.input_digest
     assert first.provenance.input_digest != changed_weight.provenance.input_digest
+
+
+def test_runtime_binding_covers_scientific_and_solver_request() -> None:
+    specification = _evsi_spec().model_copy(
+        update={
+            "estimator": EstimatorAssuranceSpec(
+                estimator_id="nested-posterior-variance",
+                seed=17,
+                estimator_design="coupled_nested_monte_carlo",
+                outer_replicates=128,
+                inner_replicates=64,
+                coupling_id="common-random-numbers-v1",
+                solver_id="rust-nested-variance-v1",
+            )
+        }
+    )
+    result = estimation_module.evsi_var(
+        [0.0, 1.0],
+        [0.1, 0.2],
+        [0.25, 0.75],
+        specification=specification,
+    )
+
+    binding = result.runtime_binding
+    assert binding.method_id == "evsi_var"
+    assert binding.target_id == specification.target.target_id
+    assert binding.design_id == specification.sampling_model.design_id
+    assert binding.likelihood_id == specification.sampling_model.likelihood_id
+    assert binding.estimator_design == "coupled_nested_monte_carlo"
+    assert binding.outer_replicates == 128
+    assert binding.inner_replicates == 64
+    assert binding.coupling_id == "common-random-numbers-v1"
+    assert binding.solver_id == "rust-nested-variance-v1"
+    assert len(result.provenance.runtime_binding_digest) == 64
+    assert len(result.provenance.runtime_request_digest) == 64
+
+
+@pytest.mark.parametrize(
+    "updates",
+    [
+        {"estimator_design": "outer_monte_carlo"},
+        {
+            "estimator_design": "nested_monte_carlo",
+            "outer_replicates": 20,
+        },
+        {
+            "estimator_design": "coupled_nested_monte_carlo",
+            "outer_replicates": 20,
+            "inner_replicates": 10,
+        },
+        {"estimator_design": "exact", "outer_replicates": 20},
+    ],
+)
+def test_estimator_design_contract_rejects_incomplete_or_contradictory_requests(
+    updates: dict[str, object],
+) -> None:
+    with pytest.raises(ValidationError):
+        EstimatorAssuranceSpec(estimator_id="invalid", seed=0, **updates)
+
+
+def test_truth_known_outer_replicates_report_bias_rmse_coverage_and_calibration() -> (
+    None
+):
+    result = estimation_module.evppi_var(
+        [0.0, 2.0, 1.0, 3.0],
+        ["a", "a", "b", "b"],
+        specification=_evppi_spec().model_copy(
+            update={
+                "estimator": _assurance(
+                    "discrete_conditioning", convergence_threshold=1.0
+                )
+            }
+        ),
+        truth_assurance=TruthKnownAssuranceSpec(
+            true_reduction=0.25,
+            replicate_reductions=(0.2, 0.25, 0.3, 0.35),
+            confidence_intervals=(
+                (0.1, 0.3),
+                (0.2, 0.3),
+                (0.2, 0.4),
+                (0.3, 0.4),
+            ),
+            dependence_structure="independent_outer",
+            replay_artifact="fixtures/evppi-truth-known-outer-v1.json",
+        ),
+    )
+
+    assurance = result.truth_known_assurance
+    assert assurance is not None
+    assert assurance.bias == pytest.approx(0.025)
+    assert assurance.rmse == pytest.approx(0.00375**0.5)
+    assert assurance.standard_error == pytest.approx(0.03227486121839514)
+    assert assurance.empirical_coverage == pytest.approx(0.75)
+    assert assurance.calibration_error == pytest.approx(0.2)
+    assert assurance.converged is True
+    assert assurance.replicate_unit == "complete_outer_dataset"
+    assert len(assurance.replay_digest) == 64
+
+
+def test_truth_known_portable_fixture_replays_through_python_and_rust() -> None:
+    assurance_payload = json.loads(
+        (ESTIMATION_FIXTURES / "evppi-var-truth-known.assurance.json").read_text()
+    )
+    expected = json.loads(
+        (ESTIMATION_FIXTURES / "evppi-var-truth-known.result.json").read_text()
+    )
+    result = estimation_module.evppi_var(
+        [0.0, 2.0, 1.0, 3.0],
+        ["a", "a", "b", "b"],
+        specification=_evppi_spec(),
+        truth_assurance=TruthKnownAssuranceSpec.model_validate_json(
+            json.dumps(assurance_payload)
+        ),
+    )
+    assert result.truth_known_assurance is not None
+    assert result.truth_known_assurance.model_dump(mode="json") == expected
+
+
+def test_nested_and_coupled_assurance_require_dependence_preserving_outer_units() -> (
+    None
+):
+    nested_spec = _evsi_spec().model_copy(
+        update={
+            "estimator": EstimatorAssuranceSpec(
+                estimator_id="nested",
+                seed=1,
+                estimator_design="nested_monte_carlo",
+                outer_replicates=20,
+                inner_replicates=10,
+            )
+        }
+    )
+    independent = TruthKnownAssuranceSpec(
+        true_reduction=0.1,
+        replicate_reductions=(0.08, 0.12),
+        dependence_structure="independent_outer",
+        replay_artifact="fixture.json",
+    )
+    with pytest.raises(InputError, match="dependence disagrees"):
+        estimation_module.evsi_var(
+            [0.0, 1.0],
+            [0.1, 0.2],
+            [0.5, 0.5],
+            specification=nested_spec,
+            truth_assurance=independent,
+        )
+
+    accepted = estimation_module.evsi_var(
+        [0.0, 1.0],
+        [0.1, 0.2],
+        [0.5, 0.5],
+        specification=nested_spec,
+        truth_assurance=independent.model_copy(
+            update={"dependence_structure": "nested_shared_outer"}
+        ),
+    )
+    assert accepted.truth_known_assurance is not None
+    assert accepted.truth_known_assurance.dependence_structure == "nested_shared_outer"
+
+
+def _truth_native_payload() -> dict[str, object]:
+    return {
+        "contract_version": "1.0.0",
+        "replicate_count": 2,
+        "bias": 0.0,
+        "rmse": 0.1,
+        "standard_error": 0.01,
+        "empirical_coverage": None,
+        "calibration_error": None,
+        "converged": True,
+    }
+
+
+def _truth_specification() -> TruthKnownAssuranceSpec:
+    return TruthKnownAssuranceSpec(
+        true_reduction=0.2,
+        replicate_reductions=(0.1, 0.3),
+        dependence_structure="independent_outer",
+        replay_artifact="truth-known.json",
+    )
+
+
+@pytest.mark.parametrize("missing_key", ["contract_version", "converged"])
+def test_truth_assurance_rejects_missing_native_contract_fields(
+    monkeypatch: pytest.MonkeyPatch,
+    missing_key: str,
+) -> None:
+    payload = _truth_native_payload()
+    del payload[missing_key]
+    monkeypatch.setattr(
+        estimation_module,
+        "compute_estimation_truth_assurance",
+        lambda *_args: payload,
+    )
+
+    with pytest.raises(InputError, match="violated contract version"):
+        _ = estimation_module._truth_assurance_result(
+            _evppi_spec(), _truth_specification()
+        )
+
+
+@pytest.mark.parametrize(
+    "updates",
+    [
+        {"contract_version": "2.0.0"},
+        {"converged": 1},
+        {"replicate_count": True},
+    ],
+)
+def test_truth_assurance_rejects_malformed_native_contract(
+    monkeypatch: pytest.MonkeyPatch,
+    updates: dict[str, object],
+) -> None:
+    payload = {**_truth_native_payload(), **updates}
+    monkeypatch.setattr(
+        estimation_module,
+        "compute_estimation_truth_assurance",
+        lambda *_args: payload,
+    )
+
+    with pytest.raises(InputError, match="violated contract version"):
+        _ = estimation_module._truth_assurance_result(
+            _evppi_spec(), _truth_specification()
+        )

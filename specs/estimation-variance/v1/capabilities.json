@@ -8,9 +8,28 @@
   "runtime_data_schema": "specs/estimation-variance/v1/runtime-data.schema.json",
   "result_schema_validation": "structural schema plus mandatory voiage.contracts.estimation.EstimationVarianceResult semantic validation",
   "evsi_averaging_contract": "aligned finite nonnegative prior-predictive probabilities summing to one within estimator tolerance",
+  "estimator_design_contract": {
+    "exact": "executable",
+    "outer_monte_carlo": "runtime-bound upstream estimator design",
+    "nested_monte_carlo": "runtime-bound upstream estimator design with executable complete-outer-replicate assurance summary",
+    "coupled_nested_monte_carlo": "runtime-bound upstream estimator design with dependence-preserving complete-outer-replicate assurance summary"
+  },
+  "truth_known_assurance": {
+    "status": "executable_outer_replicate_summary",
+    "replicate_unit": "complete_outer_dataset",
+    "metrics": ["bias", "rmse", "standard_error", "empirical_coverage", "calibration_error", "convergence"],
+    "boundary": "Callers supply replayable truth-known complete outer replicates; the Rust kernel summarizes but does not generate nested simulations."
+  },
   "target_capabilities": {
     "scalar_variance": "executable",
-    "vector_covariance": "unsupported_pending_scientific_review"
+    "vector_covariance": "reserved_contract_vocabulary_only_unsupported"
+  },
+  "vector_covariance_boundary": {
+    "status": "unsupported_pending_candidate_bound_independent_scientific_review",
+    "runtime": "All vector targets fail with unsupported_estimation_target before native dispatch.",
+    "result_semantics": "No portable or executable vector result envelope is conformant.",
+    "reserved_functionals": ["trace", "determinant", "weighted_quadratic"],
+    "promotion_allowed": false
   },
   "bindings": [
     {

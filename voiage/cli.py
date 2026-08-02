@@ -203,6 +203,7 @@ from voiage.methods.uncertainty_modelling_value import (
     value_of_uncertainty_modelling as calculate_uncertainty_modelling_value_result,
 )
 from voiage.methods.utility_information import (
+    _bind_presentation,
     expected_utility_information_value,
     value_of_clairvoyance,
 )
@@ -4860,9 +4861,7 @@ def calculate_expected_utility_information(
             if selected_measure == "evpi":
                 raise ValueError("The evpi display alias requires --presentation voc.")
             result = expected_utility_information_value(typed_request)
-            presentation = dict(cast("dict[str, object]", result["presentation"]))
-            presentation["selected_measure"] = selected_measure
-            result["presentation"] = presentation
+            result = _bind_presentation(result, selected_measure=selected_measure)
 
         measure_result = cast(
             "dict[str, object]",

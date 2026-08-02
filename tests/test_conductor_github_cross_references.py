@@ -28,6 +28,31 @@ def test_repository_cross_references_are_complete() -> None:
     assert _validator().validate(ROOT) == []
 
 
+def test_sampling_acquisition_harm_track_owns_native_issue_hierarchy() -> None:
+    """The fail-closed C18/M32 track is distinct from its umbrella listing."""
+    manifest = json.loads(
+        (ROOT / "conductor" / "github-cross-references.json").read_text()
+    )
+    track_id = "sampling_acquisition_harm_voi_20260802"
+    entry = next(item for item in manifest["tracks"] if item["track_id"] == track_id)
+    metadata = json.loads(
+        (ROOT / "conductor" / "tracks" / track_id / "metadata.json").read_text()
+    )
+
+    assert entry["issue"]["number"] == 850
+    assert entry["parent_issue_url"].endswith("/570")
+    assert entry["subissues"] == [
+        "https://github.com/edithatogo/voiage/issues/851",
+        "https://github.com/edithatogo/voiage/issues/852",
+        "https://github.com/edithatogo/voiage/issues/853",
+    ]
+    assert metadata["planned_version"] == "1.3.0"
+    assert metadata["moscow"] == "must"
+    assert metadata["canonical_track"] == "C18"
+    assert "M32" in metadata["requirement_ids"]
+    assert metadata["github_cross_reference"]["subissues"] == entry["subissues"]
+
+
 def test_manifest_preserves_no_pr_evidence_boundary() -> None:
     """Legacy tracks without a provable PR state that boundary explicitly."""
     manifest = json.loads(

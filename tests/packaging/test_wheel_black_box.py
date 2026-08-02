@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 from importlib.metadata import requires, version
+from importlib.resources import files
 import os
 from pathlib import Path
 import re
@@ -59,6 +60,58 @@ def test_imports_resolve_inside_the_wheel_environment() -> None:
     root = Path(environment).resolve()
     assert Path(voiage.__file__).resolve().is_relative_to(root)
     assert Path(native.__file__).resolve().is_relative_to(root)
+
+
+def test_installed_wheel_executes_packaged_study_design_fixture() -> None:
+    """Packaged COSS schemas, capabilities and fixtures execute off-checkout."""
+    import json
+
+    from voiage.contracts.study_design import (
+        InformationValueInputV1,
+        StudyDesignContextV1,
+        StudyDesignPointInputV1,
+    )
+    from voiage.experimental.study_design import calculate_coss, evsi_evpi_efficiency
+
+    contract = files("voiage").joinpath("resources/frontier/study-design-efficiency/v1")
+    capability = json.loads(contract.joinpath("capabilities.json").read_text())
+    fixture = json.loads(
+        contract.joinpath("fixtures/normative/coss-efficiency.json").read_text()
+    )
+    joint = json.loads(
+        contract.joinpath("fixtures/normative/joint-enbs-replicates.json").read_text()
+    )
+    paired = json.loads(
+        contract.joinpath(
+            "fixtures/normative/paired-efficiency-replicates.json"
+        ).read_text()
+    )
+    context = StudyDesignContextV1.model_validate(fixture["input"]["context"])
+    designs = tuple(
+        StudyDesignPointInputV1.model_validate(item)
+        for item in fixture["input"]["designs"]
+    )
+    coss = calculate_coss(
+        context=context,
+        designs=designs,
+        enumeration_scope=fixture["input"]["enumeration_scope"],
+        no_study_enbs=fixture["input"]["no_study_enbs"],
+        joint_enbs_replicates=joint["joint_enbs_replicates"],
+        replay_artifact="fixtures/normative/joint-enbs-replicates.json",
+    )
+    efficiency = evsi_evpi_efficiency(
+        evsi=InformationValueInputV1(value=paired["input"]["evsi"], context=context),
+        evpi=InformationValueInputV1(value=paired["input"]["evpi"], context=context),
+        paired_evsi_replicates=paired["input"]["paired_evsi_replicates"],
+        paired_evpi_replicates=paired["input"]["paired_evpi_replicates"],
+        replay_artifact="fixtures/normative/paired-efficiency-replicates.json",
+    )
+
+    assert capability["installed_wheel_verified"] is True
+    assert capability["contract_version"] == "1.0.0"
+    assert coss.optimal_design_id == fixture["expected"]["optimal_design_id"]
+    assert efficiency.uncertainty is not None
+    assert efficiency.uncertainty.mean_ratio == paired["expected"]["mean_ratio"]
 
 
 def test_installed_wheel_executes_external_distribution_family_request() -> None:

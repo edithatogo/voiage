@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0",
+  "fixture_id": "joint-coss-selection-replicates-v1",
+  "design_ids": ["n-100", "n-200", "n-300"],
+  "joint_enbs_replicates": [
+    [20, 35, 25],
+    [22, 30, 33],
+    [25, 25, 20],
+    [10, 40, 15]
+  ],
+  "expected": {
+    "selection_count_by_design": {"n-100": 1, "n-200": 2, "n-300": 1},
+    "probability_by_design": {"n-100": 0.25, "n-200": 0.5, "n-300": 0.25},
+    "near_tie_probability": 0.25,
+    "expected_selection_regret": 0.75,
+    "winner_optimism": 2.5,
+    "mean_selected_design_enbs": 32.5
+  }
+}

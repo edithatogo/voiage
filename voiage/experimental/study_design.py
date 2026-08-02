@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import hashlib
 from itertools import pairwise
+import json
 from math import isfinite
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, Literal, cast
 
 from pydantic import ValidationError
 
@@ -15,12 +17,16 @@ if TYPE_CHECKING:
 
 from voiage import _runtime
 from voiage.contracts.study_design import (
+    BoundarySensitivity,
     BoundaryState,
+    CommissioningStatus,
     CossCurvePointV1,
     CossPlotDataV1,
     CossResultV1,
+    EnumerationScope,
     FeasibleDesignRangeV1,
     InformationEfficiencyResultV1,
+    InformationEfficiencyUncertaintyV1,
     InformationValueInputV1,
     SelectionUncertaintyV1,
     StudyDesignContextV1,
@@ -61,6 +67,13 @@ def _native_indices(value: object, *, field: str, size: int) -> tuple[int, ...]:
     if len(set(indices)) != len(indices):
         raise ValueError(f"{field} contains duplicate indices")
     return indices
+
+
+def _require_joint_vector_lengths(
+    probabilities: tuple[float, ...], counts: tuple[int, ...], size: int
+) -> None:
+    if len(probabilities) != size or len(counts) != size:
+        raise ValueError("selection uncertainty vector length mismatch")
 
 
 def _expected_boundary(
@@ -294,6 +307,13 @@ def calculate_coss(
     absolute_tolerance: float = _DEFAULT_ATOL,
     relative_tolerance: float = _DEFAULT_RTOL,
     selection_uncertainty: SelectionUncertaintyV1 | None = None,
+    enumeration_scope: EnumerationScope = "evaluated_set_only",
+    no_study_enbs: float = 0.0,
+    joint_enbs_replicates: Sequence[Sequence[float]] | None = None,
+    joint_replicate_method: Literal[
+        "joint_bootstrap", "joint_monte_carlo"
+    ] = "joint_bootstrap",
+    replay_artifact: str | None = None,
 ) -> CossResultV1:
     """Evaluate a finite COSS curve using the Rust signed-ENBS kernel."""
     design_tuple = tuple(designs)
@@ -307,15 +327,22 @@ def calculate_coss(
     design_ids = [item.design_id for item in design_tuple]
     if len(set(design_ids)) != len(design_ids):
         raise InputError("design_id values must be unique")
+    if selection_uncertainty is not None and joint_enbs_replicates is not None:
+        raise InputError(
+            "selection_uncertainty and joint_enbs_replicates are mutually exclusive"
+        )
+    if joint_enbs_replicates is not None and not replay_artifact:
+        raise InputError("joint ENBS replicates require a replay_artifact")
     uncertainty = selection_uncertainty or SelectionUncertaintyV1()
     feasible_ids = {item.design_id for item in design_tuple if item.feasible}
-    _validate_selection_uncertainty(
-        uncertainty,
-        set(design_ids),
-        feasible_ids,
-        absolute_tolerance,
-        relative_tolerance,
-    )
+    if joint_enbs_replicates is None:
+        _validate_selection_uncertainty(
+            uncertainty,
+            set(design_ids),
+            feasible_ids,
+            absolute_tolerance,
+            relative_tolerance,
+        )
     feasible_range = _normalize_range(declared_feasible_range)
 
     native = _runtime.compute_coss(
@@ -383,6 +410,106 @@ def calculate_coss(
     optimal_size = (
         None if optimal_index is None else design_tuple[optimal_index].sample_size
     )
+    if joint_enbs_replicates is not None:
+        if optimal_index is None or maximum_enbs is None:
+            raise InputError(
+                "joint selection uncertainty requires a feasible point optimum"
+            )
+        replicate_rows = tuple(
+            tuple(float(value) for value in row) for row in joint_enbs_replicates
+        )
+        encoded_replicates = json.dumps(
+            replicate_rows,
+            allow_nan=False,
+            ensure_ascii=False,
+            separators=(",", ":"),
+        ).encode()
+        native_uncertainty = _runtime.compute_coss_selection_uncertainty(
+            sample_sizes=[item.sample_size for item in design_tuple],
+            feasible=[item.feasible for item in design_tuple],
+            joint_enbs_replicates=replicate_rows,
+            point_optimal_index=optimal_index,
+            point_maximum_enbs=maximum_enbs,
+            tie_policy=tie_policy,
+            absolute_tolerance=absolute_tolerance,
+            relative_tolerance=relative_tolerance,
+        )
+        try:
+            _require_contract_version(native_uncertainty)
+            probabilities = tuple(
+                float(value) for value in native_uncertainty["selection_probabilities"]
+            )
+            counts = tuple(
+                int(value) for value in native_uncertainty["selection_counts"]
+            )
+            _require_joint_vector_lengths(probabilities, counts, len(design_tuple))
+            uncertainty = SelectionUncertaintyV1(
+                method=joint_replicate_method,
+                replicate_count=int(native_uncertainty["replicate_count"]),
+                probability_by_design=dict(zip(design_ids, probabilities, strict=True)),
+                confidence_set_design_ids=tuple(
+                    design_id
+                    for design_id, probability in zip(
+                        design_ids, probabilities, strict=True
+                    )
+                    if probability > 0.0
+                ),
+                replicate_design_ids=tuple(design_ids),
+                selection_count_by_design=dict(zip(design_ids, counts, strict=True)),
+                joint_replicate_digest=hashlib.sha256(encoded_replicates).hexdigest(),
+                replay_artifact=replay_artifact,
+                near_tie_probability=float(native_uncertainty["near_tie_probability"]),
+                expected_selection_regret=float(
+                    native_uncertainty["expected_selection_regret"]
+                ),
+                winner_optimism=float(native_uncertainty["winner_optimism"]),
+                mean_selected_design_enbs=float(
+                    native_uncertainty["mean_selected_design_enbs"]
+                ),
+                calibration_status="joint_replicate_empirical",
+            )
+        except (KeyError, TypeError, ValueError, ValidationError) as error:
+            raise InputError(
+                "native COSS selection uncertainty violated contract version 1.0.0"
+            ) from error
+        _validate_selection_uncertainty(
+            uncertainty,
+            set(design_ids),
+            feasible_ids,
+            absolute_tolerance,
+            relative_tolerance,
+        )
+    comparison_tolerance = absolute_tolerance + relative_tolerance * max(
+        abs(no_study_enbs), abs(maximum_enbs or 0.0), 1.0
+    )
+    if maximum_enbs is None:
+        commissioning_status: CommissioningStatus = "no_feasible_design"
+        recommended_design_id = None
+        economic_viability = False
+        regret_if_no_study = 0.0
+        boundary_sensitivity: BoundarySensitivity = "no_feasible_design"
+    else:
+        difference = maximum_enbs - no_study_enbs
+        if difference > comparison_tolerance:
+            commissioning_status = "recommend_commission"
+            recommended_design_id = optimal_id
+            economic_viability = True
+        elif difference < -comparison_tolerance:
+            commissioning_status = "do_not_commission"
+            recommended_design_id = None
+            economic_viability = False
+        else:
+            commissioning_status = "indifferent"
+            recommended_design_id = None
+            economic_viability = False
+        regret_if_no_study = max(difference, 0.0)
+        boundary_sensitivity = (
+            "complete_enumeration"
+            if enumeration_scope == "complete_feasible_set"
+            else "requires_evaluated_set_expansion"
+            if boundary_state in {"lower", "upper", "both"}
+            else "no_boundary_signal"
+        )
     intervals = tuple(item.enbs_confidence_interval for item in design_tuple)
     plot_data = CossPlotDataV1(
         design_ids=tuple(design_ids),
@@ -406,6 +533,7 @@ def calculate_coss(
             estimator=estimator,
             context=context,
             evaluated_designs=curve,
+            enumeration_scope=enumeration_scope,
             feasible_sample_sizes=tuple(
                 sorted({item.sample_size for item in design_tuple if item.feasible})
             ),
@@ -415,12 +543,31 @@ def calculate_coss(
             relative_tolerance=relative_tolerance,
             tied_optimal_design_ids=tied_ids,
             optimal_design_id=optimal_id,
+            best_evaluated_design_id=optimal_id,
             optimal_sample_size=optimal_size,
             maximum_enbs=maximum_enbs,
+            no_study_enbs=no_study_enbs,
+            commissioning_status=commissioning_status,
+            recommended_design_id=recommended_design_id,
+            economic_viability=economic_viability,
+            regret_if_no_study=regret_if_no_study,
             boundary_state=boundary_state,
+            boundary_sensitivity=boundary_sensitivity,
             selection_uncertainty=uncertainty,
             plot_data=plot_data,
-            diagnostics=_diagnostics(design_tuple, feasible_range, uncertainty),
+            diagnostics=(
+                *_diagnostics(design_tuple, feasible_range, uncertainty),
+                *(
+                    ("best_evaluated_is_not_sampling_recommendation",)
+                    if commissioning_status != "recommend_commission"
+                    else ()
+                ),
+                *(
+                    ("evaluated_set_boundary_requires_sensitivity",)
+                    if boundary_sensitivity == "requires_evaluated_set_expansion"
+                    else ()
+                ),
+            ),
             estimator_provenance={
                 "runtime": "rust",
                 "kernel": estimator,
@@ -437,10 +584,19 @@ def evsi_evpi_efficiency(
     evpi: InformationValueInputV1,
     absolute_tolerance: float = _DEFAULT_ATOL,
     relative_tolerance: float = _DEFAULT_RTOL,
+    paired_evsi_replicates: Sequence[float] | None = None,
+    paired_evpi_replicates: Sequence[float] | None = None,
+    replay_artifact: str | None = None,
 ) -> InformationEfficiencyResultV1:
     """Return the unclamped dimensionless EVSI/EVPI efficiency diagnostic."""
     if evsi.context.commensurability_key() != evpi.context.commensurability_key():
         raise InputError("EVSI and EVPI must be commensurate")
+    if (paired_evsi_replicates is None) != (paired_evpi_replicates is None):
+        raise InputError("EVSI and EVPI uncertainty replicates must be paired")
+    if paired_evsi_replicates is not None and not replay_artifact:
+        raise InputError("paired efficiency replicates require a replay_artifact")
+    if paired_evsi_replicates is None and replay_artifact is not None:
+        raise InputError("replay_artifact requires paired efficiency replicates")
     native = _runtime.compute_evsi_evpi_efficiency(
         evsi.value,
         evpi.value,
@@ -460,6 +616,49 @@ def evsi_evpi_efficiency(
     diagnostics = () if status == "within_bounds" else (status,)
     if status in {"below_zero_within_tolerance", "above_one_within_tolerance"}:
         diagnostics = (*diagnostics, "ratio_not_clamped")
+    uncertainty = None
+    if paired_evsi_replicates is not None:
+        assert paired_evpi_replicates is not None
+        if ratio is None:
+            raise InputError("paired efficiency uncertainty requires non-zero EVPI")
+        evsi_replicates = tuple(float(value) for value in paired_evsi_replicates)
+        evpi_replicates = tuple(float(value) for value in paired_evpi_replicates)
+        encoded_replicates = json.dumps(
+            {"evpi": evpi_replicates, "evsi": evsi_replicates},
+            allow_nan=False,
+            ensure_ascii=False,
+            separators=(",", ":"),
+            sort_keys=True,
+        ).encode()
+        native_uncertainty = _runtime.compute_information_efficiency_uncertainty(
+            list(evsi_replicates),
+            list(evpi_replicates),
+            ratio,
+            absolute_tolerance,
+            relative_tolerance,
+        )
+        try:
+            _require_contract_version(native_uncertainty)
+            uncertainty = InformationEfficiencyUncertaintyV1(
+                replicate_count=int(native_uncertainty["replicate_count"]),
+                mean_ratio=float(native_uncertainty["mean_ratio"]),
+                standard_error=float(native_uncertainty["standard_error"]),
+                confidence_interval=(
+                    float(native_uncertainty["confidence_lower"]),
+                    float(native_uncertainty["confidence_upper"]),
+                ),
+                estimated_bias=float(native_uncertainty["estimated_bias"]),
+                point_ratio_in_interval=bool(
+                    native_uncertainty["point_ratio_in_interval"]
+                ),
+                paired_replicate_digest=hashlib.sha256(encoded_replicates).hexdigest(),
+                replay_artifact=replay_artifact,
+            )
+        except (KeyError, TypeError, ValueError, ValidationError) as error:
+            raise InputError(
+                "native efficiency uncertainty violated contract version 1.0.0"
+            ) from error
+        diagnostics = (*diagnostics, "paired_efficiency_uncertainty")
     try:
         return InformationEfficiencyResultV1(
             estimator="derived_evsi_evpi_ratio",
@@ -472,6 +671,7 @@ def evsi_evpi_efficiency(
             absolute_tolerance=absolute_tolerance,
             relative_tolerance=relative_tolerance,
             bound_tolerance=bound_tolerance,
+            uncertainty=uncertainty,
             diagnostics=diagnostics,
         )
     except ValidationError as error:

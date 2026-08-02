@@ -19,11 +19,12 @@ use std::sync::Mutex;
 use voiage_diagnostics::ErrorCategory;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
-    ceaf, coss, dominance, enbs, evpi, evppi, evppi_variance, evppi_variance_with_assurance,
-    evsi_efficient_linear, evsi_evpi_efficiency, evsi_moment_based, evsi_regression,
-    evsi_stochastic, evsi_variance, evsi_variance_with_assurance, expected_utility_information,
-    heterogeneity, normal_normal_two_arm_evsi, structural_evpi, structural_evppi,
-    DominanceStatus as KernelDominanceStatus, EstimationVarianceKernelResult,
+    ceaf, coss, coss_selection_uncertainty, dominance, enbs, estimation_truth_assurance, evpi,
+    evppi, evppi_variance, evppi_variance_with_assurance, evsi_efficient_linear,
+    evsi_evpi_efficiency, evsi_moment_based, evsi_regression, evsi_stochastic, evsi_variance,
+    evsi_variance_with_assurance, expected_utility_information, heterogeneity,
+    information_efficiency_uncertainty, normal_normal_two_arm_evsi, structural_evpi,
+    structural_evppi, DominanceStatus as KernelDominanceStatus, EstimationVarianceKernelResult,
     ExpectedUtilityInformationInput, InformationStructure, SolverSettings, UtilityDescriptor,
 };
 use voiage_serialization::{
@@ -539,6 +540,65 @@ fn compute_coss<'py>(
     Ok(output)
 }
 
+/// Summarize COSS selection uncertainty from joint ENBS replicates.
+#[pyfunction]
+#[allow(clippy::needless_pass_by_value, clippy::too_many_arguments)]
+#[pyo3(signature = (
+    sample_sizes,
+    feasible,
+    joint_enbs_replicates,
+    point_optimal_index,
+    point_maximum_enbs,
+    tie_policy,
+    absolute_tolerance,
+    relative_tolerance
+))]
+fn compute_coss_selection_uncertainty<'py>(
+    py: Python<'py>,
+    sample_sizes: Vec<u64>,
+    feasible: Vec<bool>,
+    joint_enbs_replicates: Vec<Vec<f64>>,
+    point_optimal_index: usize,
+    point_maximum_enbs: f64,
+    tie_policy: &str,
+    absolute_tolerance: f64,
+    relative_tolerance: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let result = coss_selection_uncertainty(
+        &sample_sizes,
+        &feasible,
+        &joint_enbs_replicates,
+        point_optimal_index,
+        point_maximum_enbs,
+        tie_policy,
+        absolute_tolerance,
+        relative_tolerance,
+    )
+    .map_err(|error| match error.category() {
+        ErrorCategory::DimensionMismatch => {
+            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+        }
+        _ => InputError::new_err(("invalid_input", error.to_string())),
+    })?;
+    let output = PyDict::new(py);
+    output.set_item("contract_version", result.contract_version)?;
+    output.set_item("estimator", result.estimator)?;
+    output.set_item("replicate_count", result.replicate_count)?;
+    output.set_item("selection_counts", result.selection_counts)?;
+    output.set_item("selection_probabilities", result.selection_probabilities)?;
+    output.set_item("near_tie_probability", result.near_tie_probability)?;
+    output.set_item(
+        "expected_selection_regret",
+        result.expected_selection_regret,
+    )?;
+    output.set_item("winner_optimism", result.winner_optimism)?;
+    output.set_item(
+        "mean_selected_design_enbs",
+        result.mean_selected_design_enbs,
+    )?;
+    Ok(output)
+}
+
 /// Compute the unclamped EVSI/EVPI information-efficiency diagnostic.
 #[pyfunction]
 #[allow(clippy::similar_names)]
@@ -557,6 +617,40 @@ fn compute_evsi_evpi_efficiency(
     output.set_item("ratio", result.ratio)?;
     output.set_item("status", result.status)?;
     output.set_item("bound_tolerance", result.bound_tolerance)?;
+    Ok(output)
+}
+
+/// Summarize paired EVSI/EVPI efficiency replicates.
+#[pyfunction]
+// PyO3 owns these vectors after extracting Python sequences, while the public
+// keyword names intentionally retain the EVSI/EVPI contract vocabulary.
+#[allow(clippy::needless_pass_by_value, clippy::similar_names)]
+#[pyo3(signature = (evsi_replicates, evpi_replicates, point_ratio, atol, rtol))]
+fn compute_information_efficiency_uncertainty(
+    py: Python<'_>,
+    evsi_replicates: Vec<f64>,
+    evpi_replicates: Vec<f64>,
+    point_ratio: f64,
+    atol: f64,
+    rtol: f64,
+) -> PyResult<Bound<'_, PyDict>> {
+    let result = information_efficiency_uncertainty(
+        &evsi_replicates,
+        &evpi_replicates,
+        point_ratio,
+        atol,
+        rtol,
+    )
+    .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let output = PyDict::new(py);
+    output.set_item("contract_version", result.contract_version)?;
+    output.set_item("replicate_count", result.replicate_count)?;
+    output.set_item("mean_ratio", result.mean_ratio)?;
+    output.set_item("standard_error", result.standard_error)?;
+    output.set_item("confidence_lower", result.confidence_lower)?;
+    output.set_item("confidence_upper", result.confidence_upper)?;
+    output.set_item("estimated_bias", result.estimated_bias)?;
+    output.set_item("point_ratio_in_interval", result.point_ratio_in_interval)?;
     Ok(output)
 }
 
@@ -892,6 +986,53 @@ fn compute_evsi_variance<'py>(
         _ => InputError::new_err(("invalid_input", error.to_string())),
     })?;
     estimation_variance_result_to_dict(py, &result)
+}
+
+/// Summarize truth-known estimation assurance over complete outer replicates.
+// PyO3 owns these vectors after extracting Python sequences.
+#[allow(clippy::needless_pass_by_value, clippy::too_many_arguments)]
+#[pyfunction]
+#[pyo3(signature = (
+    replicate_estimates,
+    true_reduction,
+    interval_lower,
+    interval_upper,
+    confidence_level,
+    convergence_threshold
+))]
+fn compute_estimation_truth_assurance(
+    py: Python<'_>,
+    replicate_estimates: Vec<f64>,
+    true_reduction: f64,
+    interval_lower: Vec<f64>,
+    interval_upper: Vec<f64>,
+    confidence_level: f64,
+    convergence_threshold: f64,
+) -> PyResult<Bound<'_, PyDict>> {
+    let result = estimation_truth_assurance(
+        &replicate_estimates,
+        true_reduction,
+        &interval_lower,
+        &interval_upper,
+        confidence_level,
+        convergence_threshold,
+    )
+    .map_err(|error| match error.category() {
+        ErrorCategory::DimensionMismatch => {
+            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+        }
+        _ => InputError::new_err(("invalid_input", error.to_string())),
+    })?;
+    let output = PyDict::new(py);
+    output.set_item("contract_version", result.contract_version)?;
+    output.set_item("replicate_count", result.replicate_count)?;
+    output.set_item("bias", result.bias)?;
+    output.set_item("rmse", result.rmse)?;
+    output.set_item("standard_error", result.standard_error)?;
+    output.set_item("empirical_coverage", result.empirical_coverage)?;
+    output.set_item("calibration_error", result.calibration_error)?;
+    output.set_item("converged", result.converged)?;
+    Ok(output)
 }
 
 /// Compute the explicit seeded-bootstrap EVSI kernel for Python callers.
@@ -1479,7 +1620,15 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(compute_evpi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_enbs, module)?)?;
     module.add_function(wrap_pyfunction!(compute_coss, module)?)?;
+    module.add_function(wrap_pyfunction!(
+        compute_coss_selection_uncertainty,
+        module
+    )?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_evpi_efficiency, module)?)?;
+    module.add_function(wrap_pyfunction!(
+        compute_information_efficiency_uncertainty,
+        module
+    )?)?;
     module.add_function(wrap_pyfunction!(compute_heterogeneity, module)?)?;
     module.add_function(wrap_pyfunction!(compute_structural_evpi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_structural_evppi, module)?)?;
@@ -1489,6 +1638,10 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(compute_evppi_variance, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_variance, module)?)?;
+    module.add_function(wrap_pyfunction!(
+        compute_estimation_truth_assurance,
+        module
+    )?)?;
     module.add_function(wrap_pyfunction!(
         compute_normal_normal_two_arm_evsi,
         module

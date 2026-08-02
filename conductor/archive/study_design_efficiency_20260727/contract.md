@@ -72,7 +72,7 @@ supplied.
 `CossResultV1` is a versioned, finite-validated envelope with these required
 components:
 
-- `schema_version = "1.0"`, method identifier and the complete common context;
+- `schema_version = "1.0.0"`, method identifier and the complete common context;
 - an ordered `evaluated_designs` record for every supplied design;
 - an `enumerated_feasible_set` containing the feasible sample sizes and an
   optional `declared_feasible_range` with inclusive lower/upper bounds;

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -42,7 +43,11 @@ def test_voc_presentation_delegates_to_canonical_callable(monkeypatch) -> None:
 
     def canonical(request: dict[str, object]) -> dict[str, object]:
         calls.append(request)
-        return {"presentation": {"presentation_label": "voc"}, "eui": {"value": 2.0}}
+        return {
+            "input_digest": {"algorithm": "rfc8785-sha256-v1", "value": "a" * 64},
+            "presentation": {"presentation_label": "voc"},
+            "eui": {"value": 2.0},
+        }
 
     monkeypatch.setattr(
         "voiage.methods.utility_information.expected_utility_information_value",
@@ -54,7 +59,44 @@ def test_voc_presentation_delegates_to_canonical_callable(monkeypatch) -> None:
     assert len(calls) == 1
     assert calls[0]["presentation_label"] == "voc"
     assert result["presentation"]["selected_measure"] == "bpi"
+    assert result["presentation"]["presentation_contract_version"] == "1.0.0"
+    digest_input = {
+        "canonical_input_digest": "a" * 64,
+        "presentation_contract_version": "1.0.0",
+        "presentation_label": "voc",
+        "selected_measure": "bpi",
+    }
+    encoded = json.dumps(
+        digest_input, ensure_ascii=False, separators=(",", ":"), sort_keys=True
+    ).encode()
+    assert (
+        result["presentation"]["presentation_digest"]
+        == hashlib.sha256(encoded).hexdigest()
+    )
     assert "voc" not in result
+
+
+def test_power_utility_matches_log_at_and_near_risk_aversion_one() -> None:
+    logarithmic = _request("log-buy-sell-asymmetry.json")
+    log_result = expected_utility_information_value(logarithmic)
+    for risk_aversion in (1.0 - 1.0e-10, 1.0, 1.0 + 1.0e-10):
+        power = json.loads(json.dumps(logarithmic))
+        power["utility"] = {
+            "family": "power",
+            "risk_aversion": risk_aversion,
+            "reference_wealth": 1.0,
+        }
+        result = expected_utility_information_value(power)
+        assert result["eui"]["value"] == pytest.approx(
+            log_result["eui"]["value"], abs=1.0e-9
+        )
+        assert result["cei"]["value"] == pytest.approx(
+            log_result["cei"]["value"], abs=1.0e-8
+        )
+        assert (
+            result["current_policy"]["tie_set"]
+            == log_result["current_policy"]["tie_set"]
+        )
 
 
 def test_voc_rejects_finite_signal_presentation() -> None:
@@ -88,6 +130,7 @@ def test_voc_rejects_incomplete_canonical_results(
     def incomplete(_: dict[str, object]) -> dict[str, object]:
         result: dict[str, object] = {
             "affine_reduction": {"status": "available", "monetary_measure": "evpi"},
+            "input_digest": {"algorithm": "rfc8785-sha256-v1", "value": "a" * 64},
             "presentation": {"presentation_label": "voc"},
         }
         del result[missing_key]
@@ -105,6 +148,27 @@ def test_voc_rejects_incomplete_canonical_results(
         value_of_clairvoyance(
             _request("affine-clairvoyant.json"), selected_measure=selected_measure
         )
+
+
+@pytest.mark.parametrize("input_digest", [None, {"value": 1}])
+def test_voc_rejects_missing_or_malformed_canonical_input_digest(
+    monkeypatch: pytest.MonkeyPatch, input_digest: object
+) -> None:
+    """Presentation provenance must contain a string canonical digest."""
+
+    def incomplete(_: dict[str, object]) -> dict[str, object]:
+        return {
+            "input_digest": input_digest,
+            "presentation": {"presentation_label": "voc"},
+        }
+
+    monkeypatch.setattr(
+        "voiage.methods.utility_information.expected_utility_information_value",
+        incomplete,
+    )
+
+    with pytest.raises(InputError, match="input digest"):
+        value_of_clairvoyance(_request("affine-clairvoyant.json"))
 
 
 def test_decision_analysis_exposes_explicit_state_contract() -> None:

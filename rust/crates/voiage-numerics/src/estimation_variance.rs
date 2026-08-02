@@ -33,6 +33,147 @@ pub struct EstimationVarianceKernelResult {
     pub converged: bool,
 }
 
+/// Truth-known assurance summary over dependence-preserving outer replicates.
+#[derive(Clone, Debug, PartialEq)]
+pub struct EstimationTruthAssuranceKernelResult {
+    /// Portable contract version.
+    pub contract_version: &'static str,
+    /// Number of outer-replicate estimates.
+    pub replicate_count: usize,
+    /// Mean signed error relative to the known truth.
+    pub bias: f64,
+    /// Root mean squared error relative to the known truth.
+    pub rmse: f64,
+    /// Monte Carlo standard error of the replicate mean.
+    pub standard_error: f64,
+    /// Empirical interval coverage when intervals were supplied.
+    pub empirical_coverage: Option<f64>,
+    /// Absolute difference between empirical and nominal coverage.
+    pub calibration_error: Option<f64>,
+    /// Whether MCSE meets the declared scale-relative threshold.
+    pub converged: bool,
+}
+
+/// Summarize truth-known assurance without breaking outer-replicate dependence.
+///
+/// Each estimate must already represent one complete independent or coupled
+/// outer replication. Optional interval vectors must be empty or aligned.
+///
+/// # Errors
+///
+/// Returns [`NumericalInputError`] for fewer than two estimates, non-finite
+/// values, misaligned or inverted intervals, invalid confidence levels, or a
+/// non-positive convergence threshold.
+pub fn estimation_truth_assurance(
+    replicate_estimates: &[f64],
+    true_reduction: f64,
+    interval_lower: &[f64],
+    interval_upper: &[f64],
+    confidence_level: f64,
+    convergence_threshold: f64,
+) -> Result<EstimationTruthAssuranceKernelResult, NumericalInputError> {
+    if replicate_estimates.len() < 2 {
+        return Err(NumericalInputError::invalid(
+            "replicate_estimates",
+            "at least two outer-replicate estimates are required",
+        ));
+    }
+    if !true_reduction.is_finite()
+        || !confidence_level.is_finite()
+        || !(0.0..1.0).contains(&confidence_level)
+        || !convergence_threshold.is_finite()
+        || convergence_threshold <= 0.0
+        || replicate_estimates.iter().any(|value| !value.is_finite())
+    {
+        return Err(NumericalInputError::invalid(
+            "truth_assurance",
+            "truth assurance values and settings must be finite and valid",
+        ));
+    }
+    let intervals_supplied = !interval_lower.is_empty() || !interval_upper.is_empty();
+    if intervals_supplied
+        && (interval_lower.len() != replicate_estimates.len()
+            || interval_upper.len() != replicate_estimates.len())
+    {
+        return Err(NumericalInputError::dimension(
+            "confidence_intervals",
+            replicate_estimates.len(),
+            interval_lower.len().max(interval_upper.len()),
+            "confidence intervals must align with outer replicates",
+        ));
+    }
+    if interval_lower
+        .iter()
+        .zip(interval_upper)
+        .any(|(lower, upper)| !lower.is_finite() || !upper.is_finite() || lower > upper)
+    {
+        return Err(NumericalInputError::invalid(
+            "confidence_intervals",
+            "confidence intervals must be finite and ordered",
+        ));
+    }
+    let count = exact_count(replicate_estimates.len(), "replicate_estimates")?;
+    let bias = replicate_estimates
+        .iter()
+        .try_fold(0.0, |total, estimate| {
+            checked_sum(
+                total,
+                (estimate - true_reduction) / count,
+                "replicate_estimates",
+            )
+        })?;
+    let mean_squared_error = replicate_estimates
+        .iter()
+        .try_fold(0.0, |total, estimate| {
+            checked_sum(
+                total,
+                (estimate - true_reduction).powi(2) / count,
+                "replicate_estimates",
+            )
+        })?;
+    let mean_estimate = true_reduction + bias;
+    let sample_variance = replicate_estimates
+        .iter()
+        .try_fold(0.0, |total, estimate| {
+            checked_sum(
+                total,
+                (estimate - mean_estimate).powi(2),
+                "replicate_estimates",
+            )
+        })?
+        / exact_count(replicate_estimates.len() - 1, "replicate_estimates")?;
+    let standard_error = (sample_variance / count).sqrt();
+    let rmse = mean_squared_error.sqrt();
+    if !bias.is_finite() || !rmse.is_finite() || !standard_error.is_finite() {
+        return Err(NumericalInputError::invalid(
+            "replicate_estimates",
+            "truth assurance summary must be finite",
+        ));
+    }
+    let empirical_coverage = if intervals_supplied {
+        let covered_count = interval_lower
+            .iter()
+            .zip(interval_upper)
+            .filter(|(lower, upper)| **lower <= true_reduction && true_reduction <= **upper)
+            .count();
+        Some(exact_count(covered_count, "confidence_intervals")? / count)
+    } else {
+        None
+    };
+    let calibration_error = empirical_coverage.map(|coverage| (coverage - confidence_level).abs());
+    let scale = true_reduction.abs().max(f64::EPSILON);
+    Ok(EstimationTruthAssuranceKernelResult {
+        contract_version: "1.0.0",
+        replicate_count: replicate_estimates.len(),
+        bias,
+        rmse,
+        standard_error,
+        empirical_coverage,
+        calibration_error,
+        converged: standard_error <= convergence_threshold * scale,
+    })
+}
+
 /// Estimate scalar `EVPPI_var` by exact aggregation over discrete groups.
 ///
 /// Population variance is used because the supplied equally weighted samples
@@ -504,8 +645,8 @@ mod tests {
     use voiage_domain::SampleVector;
 
     use super::{
-        apply_assurance, evppi_variance, evppi_variance_with_assurance, evsi_variance,
-        evsi_variance_with_assurance, make_result,
+        apply_assurance, estimation_truth_assurance, evppi_variance, evppi_variance_with_assurance,
+        evsi_variance, evsi_variance_with_assurance, make_result,
     };
 
     #[test]
@@ -641,5 +782,23 @@ mod tests {
             .monte_carlo_standard_error
             .expect("bootstrap assurance reports a standard error");
         assert!((standard_error - 2.0_f64.sqrt()).abs() < 1.0e-12);
+    }
+
+    #[test]
+    fn truth_known_assurance_reports_bias_rmse_coverage_and_convergence() {
+        let result = estimation_truth_assurance(
+            &[0.2, 0.25, 0.3, 0.35],
+            0.25,
+            &[0.1, 0.2, 0.2, 0.3],
+            &[0.3, 0.3, 0.4, 0.4],
+            0.95,
+            1.0,
+        )
+        .unwrap();
+        assert!((result.bias - 0.025).abs() < 1.0e-12);
+        assert!((result.rmse - 0.00375_f64.sqrt()).abs() < 1.0e-12);
+        assert_eq!(result.empirical_coverage, Some(0.75));
+        assert!((result.calibration_error.expect("calibration") - 0.2).abs() < 1.0e-12);
+        assert!(result.converged);
     }
 }
