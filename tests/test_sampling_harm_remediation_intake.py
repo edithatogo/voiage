@@ -10,6 +10,7 @@ from typing import Any
 from jsonschema import Draft202012Validator, FormatChecker, ValidationError
 import pytest
 
+import voiage.sampling_harm_review_preparation as review_preparation
 from voiage.sampling_harm_review_preparation import (
     SamplingHarmReviewPreparationError,
     load_and_validate_sampling_harm_remediation_intake,
@@ -80,6 +81,107 @@ def test_effective_disposition_rejects_duplicate_issue_mutation(tmp_path: Path) 
         load_and_validate_sampling_harm_remediation_intake(repository_root=tmp_path)
 
 
+def test_remediation_loader_wraps_invalid_json(tmp_path: Path) -> None:
+    contract = _copy_contract(tmp_path)
+    (contract / "reviewer-intake-readiness.json").write_text(
+        "not-json", encoding="utf-8"
+    )
+    with pytest.raises(
+        SamplingHarmReviewPreparationError,
+        match="cannot load remediation artifact reviewer-intake-readiness.json",
+    ):
+        load_and_validate_sampling_harm_remediation_intake(repository_root=tmp_path)
+
+
+def test_remediation_loader_rejects_non_object_artifact(tmp_path: Path) -> None:
+    contract = _copy_contract(tmp_path)
+    (contract / "reviewer-intake-readiness.json").write_text("[]", encoding="utf-8")
+    with pytest.raises(
+        SamplingHarmReviewPreparationError,
+        match="remediation artifact and schema must be objects",
+    ):
+        load_and_validate_sampling_harm_remediation_intake(repository_root=tmp_path)
+
+
+def test_effective_disposition_rejects_base_byte_drift(tmp_path: Path) -> None:
+    contract = _copy_contract(tmp_path)
+    base = contract / "research-disposition.json"
+    base.write_text(base.read_text(encoding="utf-8") + "\n", encoding="utf-8")
+    with pytest.raises(
+        SamplingHarmReviewPreparationError,
+        match="effective disposition base binding mismatch",
+    ):
+        load_and_validate_sampling_harm_remediation_intake(repository_root=tmp_path)
+
+
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        ("issue", "effective adjacent-method projection is incomplete"),
+        ("reuse", "effective adjacent-method projection permits execution reuse"),
+    ],
+)
+def test_effective_disposition_semantics_defend_beyond_schema(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    mutation: str,
+    message: str,
+) -> None:
+    contract = _copy_contract(tmp_path)
+    delta_path = contract / "adjacent-method-non-alias-delta.json"
+    delta = _json(delta_path)
+    if mutation == "issue":
+        delta["issues"][1]["issue"] = 999
+    else:
+        delta["issues"][1]["execution_reuse_allowed"] = True
+    delta_path.write_text(json.dumps(delta), encoding="utf-8")
+    monkeypatch.setattr(review_preparation, "_validate_json", lambda *_a, **_k: None)
+    with pytest.raises(SamplingHarmReviewPreparationError, match=message):
+        load_and_validate_sampling_harm_remediation_intake(repository_root=tmp_path)
+
+
+def test_remediation_register_rejects_authenticated_synthesis_digest_mismatch(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _copy_contract(tmp_path)
+    monkeypatch.setattr(
+        review_preparation,
+        "validate_sampling_harm_automated_challenge",
+        lambda *_a, **_k: {"synthesis_sha256": "0" * 64},
+    )
+    with pytest.raises(
+        SamplingHarmReviewPreparationError,
+        match="remediation register synthesis digest mismatch",
+    ):
+        load_and_validate_sampling_harm_remediation_intake(repository_root=tmp_path)
+
+
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        ("summary", "remediation register summary drift"),
+        ("bindings", "remediation register evidence binding drift"),
+    ],
+)
+def test_remediation_register_semantics_defend_beyond_schema(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    mutation: str,
+    message: str,
+) -> None:
+    contract = _copy_contract(tmp_path)
+    register_path = contract / "remediation-register.json"
+    register = _json(register_path)
+    if mutation == "summary":
+        register["summary"]["pending"] = 18
+    else:
+        register["bindings"]["candidate_commit"] = "0" * 40
+    register_path.write_text(json.dumps(register), encoding="utf-8")
+    monkeypatch.setattr(review_preparation, "_validate_json", lambda *_a, **_k: None)
+    with pytest.raises(SamplingHarmReviewPreparationError, match=message):
+        load_and_validate_sampling_harm_remediation_intake(repository_root=tmp_path)
+
+
 def test_semantic_validator_rejects_register_severity_mutation(tmp_path: Path) -> None:
     contract = _copy_contract(tmp_path)
     register = _json(contract / "remediation-register.json")
@@ -114,6 +216,71 @@ def test_semantic_validator_rejects_snapshot_mutation(tmp_path: Path) -> None:
     contract = _copy_contract(tmp_path)
     (contract / "governance-snapshot.json").write_text("{}", encoding="utf-8")
     with pytest.raises(SamplingHarmReviewPreparationError):
+        load_and_validate_sampling_harm_remediation_intake(repository_root=tmp_path)
+
+
+def test_governance_delta_rejects_future_observation(tmp_path: Path) -> None:
+    contract = _copy_contract(tmp_path)
+    governance_path = contract / "governance-administrative-delta-20260803.json"
+    governance = _json(governance_path)
+    governance["observed_at"] = "2999-01-01T00:00:00Z"
+    governance["expires_at"] = "2999-01-02T00:00:00Z"
+    governance_path.write_text(json.dumps(governance), encoding="utf-8")
+    with pytest.raises(
+        SamplingHarmReviewPreparationError,
+        match="governance delta observation time is in the future",
+    ):
+        load_and_validate_sampling_harm_remediation_intake(repository_root=tmp_path)
+
+
+@pytest.mark.parametrize(
+    ("observed_at", "expires_at"),
+    [
+        ("2026-08-02T21:19:47Z", "2026-08-02T21:19:47Z"),
+        ("2020-01-01T00:00:00Z", "2021-01-01T00:00:00Z"),
+    ],
+)
+def test_governance_delta_rejects_invalid_or_expired_window(
+    tmp_path: Path, observed_at: str, expires_at: str
+) -> None:
+    contract = _copy_contract(tmp_path)
+    governance_path = contract / "governance-administrative-delta-20260803.json"
+    governance = _json(governance_path)
+    governance["observed_at"] = observed_at
+    governance["expires_at"] = expires_at
+    governance_path.write_text(json.dumps(governance), encoding="utf-8")
+    with pytest.raises(
+        SamplingHarmReviewPreparationError,
+        match="governance delta is expired or has an invalid expiry",
+    ):
+        load_and_validate_sampling_harm_remediation_intake(repository_root=tmp_path)
+
+
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        ("project_order", "governance delta Project readback is incomplete"),
+        ("project_digest", "Project field digest mismatch for issue 850"),
+    ],
+)
+def test_governance_project_semantics_defend_beyond_schema(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    mutation: str,
+    message: str,
+) -> None:
+    contract = _copy_contract(tmp_path)
+    governance_path = contract / "governance-administrative-delta-20260803.json"
+    governance = _json(governance_path)
+    if mutation == "project_order":
+        governance["project_28"]["items"][:2] = reversed(
+            governance["project_28"]["items"][:2]
+        )
+    else:
+        governance["project_28"]["items"][0]["owner_role"] = "mutated owner"
+    governance_path.write_text(json.dumps(governance), encoding="utf-8")
+    monkeypatch.setattr(review_preparation, "_validate_json", lambda *_a, **_k: None)
+    with pytest.raises(SamplingHarmReviewPreparationError, match=message):
         load_and_validate_sampling_harm_remediation_intake(repository_root=tmp_path)
 
 
