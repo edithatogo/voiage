@@ -21,6 +21,8 @@ from voiage.contracts.estimation import (
     EstimationVarianceSpec,
     EstimatorAssuranceSpec,
     SamplingModelSpec,
+    TruthKnownAssuranceResult,
+    TruthKnownAssuranceSpec,
 )
 from voiage.methods.estimation import (
     ESTIMATION_VARIANCE_METHODS,
@@ -312,6 +314,144 @@ def test_diagnostics_reject_inverted_confidence_interval() -> None:
             confidence_interval=(0.2, 0.1),
             converged=False,
         )
+
+
+def test_estimator_simulation_design_branches_are_explicit() -> None:
+    """Exercise valid and contradictory outer/nested simulation contracts."""
+    outer = EstimatorAssuranceSpec(
+        estimator_id="outer",
+        seed=1,
+        estimator_design="outer_monte_carlo",
+        outer_replicates=20,
+    )
+    assert outer.inner_replicates is None
+
+    nested = EstimatorAssuranceSpec(
+        estimator_id="nested",
+        seed=1,
+        estimator_design="nested_monte_carlo",
+        outer_replicates=20,
+        inner_replicates=10,
+    )
+    assert nested.coupling_id is None
+
+    with pytest.raises(ValidationError, match="does not accept inner or coupling"):
+        _ = EstimatorAssuranceSpec(
+            estimator_id="outer-with-inner",
+            seed=1,
+            estimator_design="outer_monte_carlo",
+            outer_replicates=20,
+            inner_replicates=10,
+        )
+    with pytest.raises(ValidationError, match="does not accept coupling_id"):
+        _ = EstimatorAssuranceSpec(
+            estimator_id="nested-with-coupling",
+            seed=1,
+            estimator_design="nested_monte_carlo",
+            outer_replicates=20,
+            inner_replicates=10,
+            coupling_id="unexpected-coupling",
+        )
+
+
+def test_truth_known_contract_rejects_misaligned_and_inverted_intervals() -> None:
+    common: dict[str, object] = {
+        "true_reduction": 0.2,
+        "replicate_reductions": (0.1, 0.3),
+        "dependence_structure": "independent_outer",
+        "replay_artifact": "truth-known.json",
+    }
+    with pytest.raises(ValidationError, match="align with replicates"):
+        _ = TruthKnownAssuranceSpec.model_validate(
+            {**common, "confidence_intervals": ((0.0, 0.2),)}
+        )
+    with pytest.raises(ValidationError, match="must be ordered"):
+        _ = TruthKnownAssuranceSpec.model_validate(
+            {
+                **common,
+                "confidence_intervals": ((0.2, 0.0), (0.1, 0.4)),
+            }
+        )
+
+
+@pytest.mark.parametrize(
+    ("coverage", "calibration"),
+    [(0.9, None), (None, 0.1)],
+)
+def test_truth_known_result_requires_joint_coverage_fields(
+    coverage: float | None,
+    calibration: float | None,
+) -> None:
+    with pytest.raises(ValidationError, match="jointly available"):
+        _ = TruthKnownAssuranceResult(
+            replicate_count=2,
+            bias=0.0,
+            rmse=0.1,
+            standard_error=0.01,
+            empirical_coverage=coverage,
+            calibration_error=calibration,
+            converged=True,
+            replicate_unit="complete_outer_dataset",
+            dependence_structure="independent_outer",
+            replay_artifact="truth-known.json",
+            replay_digest="a" * 64,
+        )
+
+
+@pytest.mark.parametrize(
+    "updates",
+    [
+        {
+            "method_id": "evppi_var",
+            "parameter_subset": (),
+            "conditioning_sigma_field": None,
+        },
+        {
+            "method_id": "evppi_var",
+            "parameter_subset": ("theta",),
+            "conditioning_sigma_field": "sigma_theta",
+            "design_id": "forbidden-study",
+        },
+        {
+            "method_id": "evsi_var",
+            "parameter_subset": ("theta",),
+            "conditioning_sigma_field": "sigma_theta",
+            "design_id": "study",
+            "likelihood_id": "likelihood",
+            "sampling_conditioning_sigma_field": "sigma_y",
+        },
+        {"method_id": "evsi_var"},
+        {
+            "method_id": "evsi_var",
+            "design_id": "study",
+            "likelihood_id": "likelihood",
+            "sampling_conditioning_sigma_field": "sigma_y",
+            "averaging_convention": "posterior_predictive",
+        },
+    ],
+)
+def test_runtime_binding_rejects_each_cross_method_branch(
+    updates: dict[str, object],
+) -> None:
+    payload: dict[str, object] = {
+        "method_id": "evppi_var",
+        "target_id": "target",
+        "target_shape": "scalar",
+        "component_units": ("count",),
+        "covariance_functional": "variance",
+        "prior_model_id": "prior",
+        "parameter_subset": ("theta",),
+        "conditioning_sigma_field": "sigma_theta",
+        "averaging_convention": "prior_predictive",
+        "estimator_design": "exact",
+        "solver_id": "solver",
+    }
+    if updates.get("method_id") == "evsi_var":
+        payload.update(parameter_subset=(), conditioning_sigma_field=None)
+    payload.update(updates)
+
+    with pytest.raises(ValidationError, match="runtime binding"):
+        _ = EstimationRuntimeBinding.model_validate(payload)
 
 
 def test_result_contract_preserves_raw_negative_estimate_and_zero_variance_policy() -> (

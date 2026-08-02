@@ -516,3 +516,69 @@ def test_nested_and_coupled_assurance_require_dependence_preserving_outer_units(
     )
     assert accepted.truth_known_assurance is not None
     assert accepted.truth_known_assurance.dependence_structure == "nested_shared_outer"
+
+
+def _truth_native_payload() -> dict[str, object]:
+    return {
+        "contract_version": "1.0.0",
+        "replicate_count": 2,
+        "bias": 0.0,
+        "rmse": 0.1,
+        "standard_error": 0.01,
+        "empirical_coverage": None,
+        "calibration_error": None,
+        "converged": True,
+    }
+
+
+def _truth_specification() -> TruthKnownAssuranceSpec:
+    return TruthKnownAssuranceSpec(
+        true_reduction=0.2,
+        replicate_reductions=(0.1, 0.3),
+        dependence_structure="independent_outer",
+        replay_artifact="truth-known.json",
+    )
+
+
+@pytest.mark.parametrize("missing_key", ["contract_version", "converged"])
+def test_truth_assurance_rejects_missing_native_contract_fields(
+    monkeypatch: pytest.MonkeyPatch,
+    missing_key: str,
+) -> None:
+    payload = _truth_native_payload()
+    del payload[missing_key]
+    monkeypatch.setattr(
+        estimation_module,
+        "compute_estimation_truth_assurance",
+        lambda *_args: payload,
+    )
+
+    with pytest.raises(InputError, match="violated contract version"):
+        _ = estimation_module._truth_assurance_result(
+            _evppi_spec(), _truth_specification()
+        )
+
+
+@pytest.mark.parametrize(
+    "updates",
+    [
+        {"contract_version": "2.0.0"},
+        {"converged": 1},
+        {"replicate_count": True},
+    ],
+)
+def test_truth_assurance_rejects_malformed_native_contract(
+    monkeypatch: pytest.MonkeyPatch,
+    updates: dict[str, object],
+) -> None:
+    payload = {**_truth_native_payload(), **updates}
+    monkeypatch.setattr(
+        estimation_module,
+        "compute_estimation_truth_assurance",
+        lambda *_args: payload,
+    )
+
+    with pytest.raises(InputError, match="violated contract version"):
+        _ = estimation_module._truth_assurance_result(
+            _evppi_spec(), _truth_specification()
+        )
