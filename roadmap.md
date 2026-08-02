@@ -57,9 +57,16 @@ Phase 1 advisory panel closed all Critical/High repository findings for the
 scoped estimand, including explicit `d0` increments, observable filtration,
 upper-tail positive-loss CVaR, mutually exclusive outcome accounting and tri-
 state mathematical feasibility. This is governed research scoping only: no
-sampling-harm runtime exists, and H8 independent reports, the named human
-verdict, real-study authorization, parity, promotion, release, publication,
-registry acceptance and closure remain pending.
+sampling-harm runtime exists. The amended H8 plan first repairs canonical
+hashing, Git-object, role-separation, finding-closure and transition evidence,
+then chooses a narrow domain/jurisdiction candidate or reviewed exclusion and
+freezes a #850-specific packet. Independent role subagents report to a separate
+non-deciding orchestrator, which preserves findings, dissent, options,
+contingencies, rationale and recommendation. A positive path requires two
+distinct humans for scientific and domain/ethics confirmation, with a chair
+only for dispute, dissent or reviewer remediation, followed by a separate
+maintainer product decision. Real-study authorization, parity, promotion,
+release, publication, registry acceptance and closure remain pending.
 
 Canonical C18/M32 planning is synchronized through VOP PR #71, squash-merged
 as `e0ff1d2ce3361d52ee22bb01e105b92653ed606c` after 16 terminal successful

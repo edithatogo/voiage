@@ -4,6 +4,7 @@
 - [Implementation Plan](./plan.md)
 - [MoSCoW requirements](./requirements.md)
 - [Mermaid design](./design.md)
+- [Human-confirmation gates](./human-confirmation-gates.md)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
 - [GitHub issue #850](https://github.com/edithatogo/voiage/issues/850)

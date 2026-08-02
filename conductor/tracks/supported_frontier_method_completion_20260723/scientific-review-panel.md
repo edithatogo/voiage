@@ -164,3 +164,44 @@ The panel may recommend only:
 The maintainer separately records the product/maturity decision. Scientific
 acceptance does not imply installed parity, promotion, hosted exact-head
 assurance, release, publication, registry acceptance or issue closure.
+
+## Human-confirmation execution contract
+
+Before soliciting a human decision, the candidate must be `candidate_frozen`,
+not a moving preparation record. Git commit and tree OIDs use their declared
+Git object format; packet, manifest and artifact digests use SHA-256 over
+documented canonical bytes. Validators recompute every digest, verify manifest
+members against the frozen tree and reconcile the complete prior finding and
+disagreement inventory. Preparation templates use a distinct filename and
+schema and cannot enter a normative review bundle.
+
+Role reports must match the reviewer's attestation for identity, scope,
+qualifications, conflicts, contribution and remediation history. The
+orchestrator, author/remediator, independent reviewer, chair and approving
+human are separated according to the family risk. Issue #850 additionally
+requires two distinct humans: an independent scientific approver and a
+domain/ethics-qualified reviewer. A separate chair is required only for
+disputed findings, scientific dissent or reviewer remediation.
+
+Accepted human receipt channels are a verified signed commit, an authenticated
+GitHub review or comment with immutable URL/event identifier and body digest,
+or an external authoritative receipt URI and digest. Each receipt records the
+verification method and signed payload digest without retaining credentials or
+secrets. Expired, withdrawn, superseded or materially stale receipts cannot be
+relied upon.
+
+The orchestrator's synthesis preserves all reports and dissent and presents
+options, contingencies, rationale and an evidence-backed recommendation. It is
+not an approval. Any Critical/High finding requires an independently verified
+fix or reviewed exclusion; every Medium requires disposition and affected-role
+re-review. A reviewed exclusion binds the omitted capability scope. Delta
+review is limited to narrowly enumerated administrative fields; changes to
+specifications, contracts, schemas, fixtures, estimators, claims, review
+evidence or executable documentation trigger affected full review.
+
+State changes occur in order: preparation, frozen candidate, review,
+remediation and re-freeze when needed, scientific outcome, separate maintainer
+decision, downstream parity/promotion/release gates, then issue closure. After
+any GitHub or Project mutation, read back the exact values before appending
+Conductor evidence. A partial mutation sets Sync State to `Conflict`, keeps the
+gate pending and prohibits closure.

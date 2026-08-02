@@ -21,8 +21,15 @@ flowchart LR
     Feasible -->|"Infeasible"| Excluded["Exclude design; d0 remains an evaluated comparator"]
     Feasible -->|"Indeterminate"| InsufficientEvidence["Fail closed; obtain more evidence"]
     Feasible -->|"Feasible"| Candidate["Nondominated candidate set, complete ties and uncertainty"]
-    Candidate --> Human["Candidate-bound independent reports and named human verdict"]
-    Human --> Runtime{"Runtime implementation approved separately?"}
+    Candidate --> Freeze["Verified #850 packet: Git OIDs, SHA-256 manifest, sources, claims and findings"]
+    Freeze --> Panel["Independent role subagents plus domain/ethics specialist"]
+    Panel --> Orchestrator["Separate orchestrator: findings, dissent, options, contingencies, rationale and recommendation"]
+    Orchestrator --> Human{"Named scientific and domain/ethics humans confirm exact candidate?"}
+    Human -->|"No, expired or conflicted"| UnsupportedRuntime
+    Human -->|"Disputed"| Chair["Independent chair adjudication and fresh evidence"]
+    Chair --> Freeze
+    Human -->|"Yes"| Maintainer["Separate maintainer product/maturity decision"]
+    Maintainer --> Runtime{"Runtime implementation approved separately?"}
     Runtime -->|"No"| UnsupportedRuntime["C18/M32 unsupported research scope"]
     Runtime -->|"Yes"| Future["Separately implemented Rust-authoritative family"]
     Candidate -. "real-study deployment only" .-> Authorization{"Accountable ethics and regulatory authorization, where applicable?"}

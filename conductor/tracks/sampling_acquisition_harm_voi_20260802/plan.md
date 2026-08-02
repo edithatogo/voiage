@@ -33,11 +33,45 @@
 
 ## Phase 3 — Candidate-bound decision
 
-- [ ] **H8:** Freeze the exact review packet and obtain independent
-  scientific/domain/ethics reports plus the named human verdict. (AC-08)
+- [ ] **H8-A:** Select either one narrow domain/jurisdiction/population
+  candidate or a reviewed exclusion of a generic executable kernel; retain
+  `unsupported_research_scoping` until the complete gate succeeds. (AC-02,
+  AC-03, AC-08)
+- [ ] **H8-B:** Harden the scientific-review evidence contract: separate Git
+  OIDs from SHA-256 content digests, define canonical hashing, verify manifest
+  bytes, exact finding inventories, Medium dispositions, role separation,
+  signed human receipts, expiry/supersession and narrow delta classification.
+  (AC-08, AC-09)
+- [ ] **H8-C:** Freeze a clean #850/#853-specific packet containing the exact
+  commit/tree, track artifacts, sources and retrieval receipts, claims,
+  capability boundary, fixtures, estimator thresholds, uncertainty rules,
+  issue/Project snapshot, limitations and prior findings. Reject stale,
+  moving, dirty or preparation-only records. (AC-06, AC-08)
+- [ ] **H8-D:** Pre-screen and commission independent estimand/domain,
+  estimator-assurance, cross-language/API and governance/publication subagents
+  plus a domain/ethics specialist. Record identity, qualifications,
+  contribution/remediation history, conflicts and independence. (AC-08)
+- [ ] **H8-E:** Have a separate orchestrating agent normalize the reports,
+  preserve every finding and disagreement, and synthesize options,
+  contingencies, rationale and an evidence-backed recommendation without
+  voting, remediating or approving. (AC-08)
+- [ ] **H8-F:** Disposition every finding; independently verify Critical/High
+  fixes or reviewed exclusions, disposition every Medium and repeat affected
+  roles against a fresh packet after substantive remediation. Use an
+  independent chair for disputed findings, dissent or reviewer remediation.
+  (AC-08, AC-09)
+- [ ] **H8-G:** Obtain candidate-bound confirmation from two distinct named
+  humans, one scientific and one domain/ethics qualified, with signed receipts,
+  conditions, dissent references, expiry and supersession, followed by the
+  separate maintainer product/maturity decision. These receipts do not
+  authorize a real study. (AC-08, AC-09)
+- [ ] **H8-H:** Synchronize #853/#850, Project 28, roadmap, todo, canonical
+  projections and metadata, read back every mutation and mark partial sync as
+  `Conflict`. Append the transition receipt only after successful readback.
+  (AC-01, AC-08, AC-09)
 - [ ] **H9:** If approved, refine this track with the exact estimator, Rust
   runtime, assurance, fixture and binding tasks; otherwise record the reviewed
-  exclusion. Do not infer either outcome before H8. (AC-03–AC-09)
+  exclusion. Do not infer either outcome before H8-A–H8-H. (AC-03–AC-09)
 - [ ] **H10:** Keep hosted checks, parity, stable promotion, release,
   publication, registry acceptance and issue closure separately evidenced.
   (AC-09)

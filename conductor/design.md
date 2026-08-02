@@ -207,9 +207,18 @@ flowchart LR
     Scalar --> MathStatus["Feasible, infeasible or indeterminate"]
     NonScalar --> MathStatus
     Contract --> Action
-    MathStatus --> ScopeGate{"Candidate-bound independent human review?"}
-    ScopeGate -->|"pending"| Unsupported["Fail-closed governed research scope; no runtime"]
-    ScopeGate -->|"future approval only"| Future["Separate implementation track and assurance"]
+    MathStatus --> ScopeChoice{"Narrow domain/jurisdiction candidate or reviewed exclusion?"}
+    ScopeChoice -->|"generic or unavailable"| Unsupported["Fail-closed governed research scope; no runtime"]
+    ScopeChoice -->|"narrow candidate"| Freeze850["Verify Git OIDs, canonical SHA-256 packet, tree bytes, sources, claims and findings"]
+    Freeze850 --> Panel850["Independent role subagents plus domain/ethics specialist"]
+    Panel850 --> Orchestrator850["Non-deciding synthesis: findings, dissent, options, contingencies, rationale and recommendation"]
+    Orchestrator850 --> Humans850{"Two distinct scientific and domain/ethics humans confirm?"}
+    Humans850 -->|"dissent or dispute"| Chair850["Independent chair; remediate, refreeze and re-review"]
+    Chair850 --> Freeze850
+    Humans850 -->|"no, expired or conflicted"| Unsupported
+    Humans850 -->|"yes"| Maintainer850{"Separate maintainer implementation decision?"}
+    Maintainer850 -->|"retain or exclude"| Unsupported
+    Maintainer850 -->|"authorize future work"| Future["Separate implementation track and assurance"]
     Unsupported --> External["No ethics, regulatory, promotion, release or closure claim"]
 ```
 

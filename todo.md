@@ -36,8 +36,13 @@ separate gates.
         Automated primary-source/estimand review and Critical/High remediation
         are complete; #851 (unsupported capability and negative discovery) and
         #852 (source/estimand packet) are repository-owned slices. #853/H8
-        candidate-bound independent reports and the separate named human
-        verdict remain pending. No runtime or real-study authorization exists.
+        candidate-bound independent reports and human confirmations remain
+        pending. H8-A–H8-H now govern a narrow candidate or reviewed exclusion,
+        evidence-contract hardening, exact #850 freeze, independent role panel,
+        separate orchestrator synthesis, finding/dissent disposition, two
+        distinct scientific and domain/ethics humans, a conditional chair,
+        separate maintainer decision and fail-closed governance readback. No
+        runtime or real-study authorization exists.
         Canonical VOP C18/M32 planning is synchronized by merged PR #71 at
         `e0ff1d2ce3361d52ee22bb01e105b92653ed606c`; this is planning evidence,
         not H8 approval or runtime authority.
