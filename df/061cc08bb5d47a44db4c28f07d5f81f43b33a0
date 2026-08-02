@@ -1,0 +1,7 @@
+Task: E1 estimation-focused method classifications
+
+Summary: Added immutable evppi_var and evsi_var descriptors and explicit aliases that reject decision EVPPI/EVSI, sensitivity indices, and posterior-estimator uncertainty.
+
+Files: voiage/methods/estimation.py; voiage/methods/__init__.py; tests/test_estimation_variance_voi.py
+
+Why: Prevent estimation-focused variance reduction from being silently conflated with decision value or adjacent uncertainty metrics.

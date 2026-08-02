@@ -1,0 +1,8 @@
+Phase 2 implementation commit for rust-frontier-numerics-migration-completion track.
+
+Deliverables:
+- Registered rust_python_bridge_policy.rst in the developer guide toctree.
+- Added See also cross-reference in rust_core_handoff.rst to the bridge policy and migration matrix.
+- Recorded Phase 2 validation evidence (pytest 10 passed, sphinx-build success).
+
+Verification: uv run python -m pytest tests/test_rust_migration_matrix.py --no-cov -q (10 passed); sphinx-build -b html -q docs docs/_build/html (success, only pre-existing toctree warnings).

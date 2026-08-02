@@ -1,0 +1,1 @@
+#718 controlled refresh: rebased P9 method-applicability onto origin/main 9495fc3f. Preserved the cross-domain method/CEAF and declared long-layout evidence through signed commits 6529911b and cb5e0216. Focused reference and fixture-validator suite: 13 passed; diff check clean. Auto-squash enabled; hosted exact-head checks remain the merge gate.

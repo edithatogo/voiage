@@ -1,0 +1,1 @@
+PR #679 exact-main refresh: rebased the signed governed COSS branch onto origin/main bd26cca4 after PR #711. Post-rebase COSS portfolio and study-efficiency tests: 68 passed; Ruff passed. Squash auto-merge retained.

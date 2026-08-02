@@ -1,0 +1,1 @@
+PR #637 coverage repair: tests fail-closed rejection of an aggregate materialization receipt; 87 provider/probe tests and Ruff pass.

@@ -1,0 +1,1 @@
+Phase 2 review fixes: added PPI, stakeholder comparability, solver-limit red contracts, complete strict result diagnostics, cost/currency/date semantics, CRRA exclusion, and full result-schema validation. Four contract tests pass; Rust reference suites remain red only on intentionally absent runtime symbols.

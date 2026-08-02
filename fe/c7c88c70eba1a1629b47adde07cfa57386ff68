@@ -1,0 +1,10 @@
+Conductor evidence: P5-T6 / AC-06 standardized-ingestion conformance lane.
+
+Rebased onto origin/main 6e609c69817d0f3ea038545a26e7ad90c9a49f6b.
+Validation:
+- uv run --with tox tox -e ingestion-conformance (pass; packaged wheel)
+- .tox/ingestion-conformance/bin/pytest tests/test_standardized_ingestion_conformance.py tests/test_standardized_ingestion_fixture_validator.py tests/test_standardized_ingestion_reference_cases.py --no-cov -q (12 passed)
+- uv run python scripts/validate_conductor_github_cross_references.py . (pass)
+- git diff --check origin/main...HEAD (pass)
+
+Hosted Standardized Ingestion Conformance job remains the authoritative exact-head CI gate.

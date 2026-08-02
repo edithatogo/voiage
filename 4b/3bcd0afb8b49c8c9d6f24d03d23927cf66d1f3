@@ -1,0 +1,1 @@
+Rebased onto main after #295 merge. Full local validation: CI=true uv run tox -q; all 12 environments passed, including Astro build, Python 3.12-3.14, min/max dependencies, coverage, harness, typing, and version/frontier contracts.

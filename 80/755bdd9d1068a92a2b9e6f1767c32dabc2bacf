@@ -1,0 +1,13 @@
+Phase 2 review remediation
+
+Summary: Added pre-implementation red tests for complete plotting vectors, direct ENBS and selection uncertainty, explicit unavailable uncertainty, range gaps, tolerance-aware ties, lower bounds, relative tolerances, invalid inputs and all five commensurability dimensions. Relaxed sample-size uniqueness so distinct design IDs may share a total sample size.
+
+Red result: governed contract module remains absent as expected before Phase 3.
+Validation: Full Conductor validation passed with zero errors and warnings; git diff --check passed.
+
+Files modified:
+- tests/test_study_design_efficiency.py
+- conductor/tracks/study_design_efficiency_20260727/contract.md
+- conductor/tracks/study_design_efficiency_20260727/reference-review.md
+
+Why: Required behavior must be pinned before implementation, and multidimensional designs may legitimately share a sample size.

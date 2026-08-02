@@ -1,0 +1,1 @@
+Follow-up validation for explicit experimental namespace. Updated the curated top-level export contract to include the explicit lazy experimental namespace; targeted package export, stable API, extension policy, and namespace tests pass.

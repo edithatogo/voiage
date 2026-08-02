@@ -1,0 +1,1 @@
+U11 integration slice: DecisionAnalysis exposes the expected-utility request contract while refusing to infer state probabilities from anonymous PSA rows. Eight focused Python tests pass.

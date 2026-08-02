@@ -1,0 +1,1 @@
+#719 second controlled refresh: rebased P8 DataFrame-interchange edge contracts onto origin/main 3161961f after #718 merged. All original test, documentation, cross-reference, and chain-valid refresh evidence is retained. Focused SDK and conformance suite: 28 passed; diff check clean. Signed head 3d3a3600; auto-squash enabled; hosted exact-head checks remain the merge gate.

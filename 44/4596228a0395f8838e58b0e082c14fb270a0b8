@@ -1,0 +1,1 @@
+S19 coverage evidence for #571. Records the initial hosted changed-coverage failure and exact-head remediation: aggregate 92.36 percent, changed lines and branches 100 percent, no unmeasured files. Hosted rerun pending.

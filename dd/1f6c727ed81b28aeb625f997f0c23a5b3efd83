@@ -1,0 +1,7 @@
+Task: Add schema-validated expected-loss, CEAF, and dominance result-envelope JSON transports.
+
+Summary: Added ABI v1.13 structured result JSON exports backed by existing Rust DTO validation and the shared fail-closed caller-owned query/copy transport. Updated the header, capability bitset, symbol baseline, C/C++/sanitizer smoke contracts, Astro reference, roadmap, todo, and changelog.
+
+Evidence: Complete voiage-serialization and voiage-ffi tests passed; Clippy passed with warnings denied; strict C11/C++17 syntax checks passed; 40 focused Python contract tests passed; Astro reported zero diagnostics; repository harness reported zero findings across 27 workflows.
+
+Why: Complete the remaining stable structured result-envelope JSON families without duplicating scientific invariants or weakening C ABI ownership semantics.

@@ -1,0 +1,1 @@
+Phase 7 hardening slice: added executable workflow/matrix checks for all retained binding build, test, package, ABI lifecycle, and error gates. Red: Python matrix entry was initially uncovered; fixed by including the canonical CI workflow. Validation: uv run pytest -q tests/test_binding_lifecycle_contract.py passed.

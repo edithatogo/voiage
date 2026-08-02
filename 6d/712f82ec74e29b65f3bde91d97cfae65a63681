@@ -1,0 +1,7 @@
+Task: F596-R2 independent-review remediation
+
+Summary: Enforced embedded strict input/result schemas, cross-field result reconciliation, true-max baseline/reference semantics, bounded tolerances, raw-atom integral assurance, tolerant p/1-p matching, and explicit null when symmetry is unevaluated. Added adversarial and result-mutation regressions plus governed remediation evidence.
+
+Validation: 98 focused tests passed; changed-module branch coverage 92%; 250 randomized direct-enumeration comparisons passed; Ruff/format/BasedPyright passed; frontier/cross-reference validators passed; full Conductor 147 tracks with zero errors/warnings.
+
+Boundary: remediation only; fresh independent review, hosted exact-head, wheel, scientific approval, parity, promotion and release remain separate.

@@ -1,0 +1,1 @@
+Auditable append-only evidence repair: preserved the invalid current standardized-ingestion ledger byte-for-byte as evidence.pre-integrity-repair-20260731.jsonl, bound its SHA-256 in an integrity-repair record, and initialized a new valid schema-1.0 chain. The repair did not rewrite, reinterpret, or validate the defective historic entries.

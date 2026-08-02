@@ -1,0 +1,1 @@
+PR #751 exact-head repair: added executable assurance for the five hosted coverage-policy branches; refreshed immutable MCDA artifact pins. Focused MCDA suite passed (68 tests) and Ruff passed. Local pytest-cov startup remains blocked by the shared environment NumPy extension reload error.

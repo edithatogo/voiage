@@ -1,0 +1,7 @@
+Conductor task: F556-5 hosted lint remediation
+
+Applied Ruff canonical formatting to the new DSA coverage test and refreshed its pinned evidence digest.
+
+Verification: the exact CI formatting scope (voiage tests) reports 435 files formatted; CI Ruff scope passes; 32 focused tests, frontier validation and diff check pass.
+
+Boundary: formatting-only correction; hosted exact-head rerun remains authoritative.

@@ -1,0 +1,9 @@
+Task: Phase 2 CEAF and dominance result-contract lane
+
+Summary: Added closed Draft 2020-12 result schemas and deterministic canonical examples for CEAF and dominance, registered both pairs in the core API contract index, and added dedicated validation tests using jsonschema and the repository validator.
+
+Files: specs/core-api/schemas/v1/results/ceaf.schema.json; specs/core-api/schemas/v1/results/dominance.schema.json; specs/core-api/examples/v1/ceaf.example.json; specs/core-api/examples/v1/dominance.example.json; specs/core-api/contract-index.md; tests/test_ceaf_dominance_result_contracts.py
+
+Why: Complete the stable v1 result-contract evidence for CEAFResult and DominanceResult without changing runtime behavior.
+
+Validation: uv run pytest -q tests/test_ceaf_dominance_result_contracts.py tests/test_core_api_contract_validator.py (39 passed); Ruff check and format check passed; four JSON artifacts parsed; git diff --check passed.

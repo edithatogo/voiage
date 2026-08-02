@@ -1,0 +1,1 @@
+Archived E4S follow-through after implementation PR #227 merged as 46791be. Preserved curation, package-stack verification, and prerequisite Spack/EasyBuild upstream gates. Focused tests and Ruff checks pass.

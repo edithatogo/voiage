@@ -1,0 +1,5 @@
+Task: #597 C18/M28 belief-state sequential information value
+Summary: Adds strict exact finite belief-MDP schemas and fixture, control-transition-observe-update Bellman evaluator, matched no-information and fully observed comparators, gross/net/myopic/nonmyopic/conditional values, policy trees, posterior-martingale and null-sensor assurance, API/CLI/docs/registry/governance surfaces, and explicit experimental Python-only maturity.
+Why: One-step acquisition, generic sequential EVSI, bandit and monitoring helpers did not establish the governed intervention-aware belief-state estimand.
+Validation at commit preparation: 54 focused behavior/schema/CLI tests pass; new module has 338/338 statements and 144/144 branches covered; Ruff and BasedPyright pass; frontier and full Conductor validators pass with zero errors/warnings.
+Boundaries: independent implementation/scientific review, hosted exact-head checks, merge, polyglot parity, stable promotion, release and parent/umbrella closure remain pending.

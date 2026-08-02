@@ -1,0 +1,9 @@
+Task: S5 Phase 1 automated contract review fixes
+
+Summary: Tightened the frozen contract to require integer sample sizes and directly represent ENBS uncertainty, avoiding an invalid inference from marginal EVSI and cost standard errors without covariance. Marked the review task in progress.
+
+Files modified:
+- conductor/tracks/study_design_efficiency_20260727/contract.md
+- conductor/tracks/study_design_efficiency_20260727/plan.md
+
+Why: Exact result contracts must not fabricate ENBS uncertainty and must match the integer-valued Rust sample-size domain.

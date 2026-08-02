@@ -1,0 +1,1 @@
+PR #663 refresh evidence (2026-07-31): rebased signed metadata-only inspection history onto origin/main 25722c32473874be48d0fac477fb11c0876c43af. Passed: uv run --extra ci pytest -q tests/test_standardized_ingestion_providers.py --no-cov (85 passed); scoped Ruff; scripts/validate_conductor_github_cross_references.py .; git diff --check.

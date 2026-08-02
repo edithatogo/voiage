@@ -1,0 +1,1 @@
+PR #652 re-signed and rebased onto origin/main 657b0daa after #636. Focused release/registry validation passed: 12 pytest assertions (research registry, release evidence, registry audit) and scripts/validate_submission_readiness.py (22 targets; 10 pyOpenSci; 10 rOpenSci). GitHub verification reports valid.

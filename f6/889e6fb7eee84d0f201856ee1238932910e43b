@@ -1,0 +1,5 @@
+Conductor evidence: PR #660 plan evidence rebased on main.
+
+Records bounded Phase 8 DataFrame diagnostics evidence without claiming completion of remaining SDK/DataFrame acceptance criteria.
+Validation: focused DataFrame/conformance pytest, Ruff, ty, Conductor cross-reference validator, and diff check passed.
+Base: 5b50e21a.

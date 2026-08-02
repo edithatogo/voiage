@@ -1,0 +1,5 @@
+Track: distributional-implementation-voi-stable-promotion_20260625
+Archive: moved the completed repository-owned evidence track to conductor/archive and updated registry, metadata, plan, todo, and changelog.
+Hosted evidence: PR #161 merged as 138d301 with required checks green; ruleset restored active.
+Validation: 14 focused tests passed; repository harness passed with zero findings.
+Remaining external gates: non-Python/Rust parity and stable method approval remain explicit and unclaimed.

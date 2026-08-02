@@ -1,0 +1,1 @@
+External VOI feature census checkpoint: all 40 observed external features now have reviewed upstream artifact evidence. GitHub repository evidence is pinned to exact commits; missing source, tests, examples, or schemas is explicit. Focused registry tests, Astro check/build, repository harness, immutable-link verification, and live governance validation passed.

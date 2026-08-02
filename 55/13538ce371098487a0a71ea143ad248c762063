@@ -1,0 +1,5 @@
+Conductor partial P8-T3 evidence: added pandas and Polars consumer-contract tests for nullable categorical and timezone-aware columns, pandas index exclusion, and conservative Arrow copy diagnostics.
+
+Post-rebase validation against origin/main 5c3f9d72: uv run --extra ci --extra dev pytest tests/test_dataframe_interchange_sdk.py tests/test_standardized_ingestion_providers.py -q --no-cov (98 passed); Ruff check/format, ty check voiage/ingestion/dataframe.py, full Conductor validation, GitHub cross-reference validation, and diff check passed.
+
+P8-T3 and P8-T4 remain in progress: no clean optional-environment or full Phase 8/hosted evidence claim.

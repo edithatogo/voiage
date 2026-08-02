@@ -1,0 +1,9 @@
+Task: S2 Freeze exact COSS result contract
+
+Summary: Defined the versioned evaluated-design envelope, signed ENBS curve, feasible-set and range representation, deterministic tolerance-aware tie policies, boundary states, no-feasible behavior, selection uncertainty and backend-independent plotting data.
+
+Files modified:
+- conductor/tracks/study_design_efficiency_20260727/contract.md
+- conductor/tracks/study_design_efficiency_20260727/plan.md
+
+Why: Issue #571 requires a scientific result contract that remains auditable for tied, boundary, infeasible and non-monotone designs rather than a plot or opaque argmax.

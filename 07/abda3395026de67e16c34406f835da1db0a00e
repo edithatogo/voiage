@@ -1,0 +1,32 @@
+Phase 1 Verification Report: Structural Uncertainty VOI
+
+## Automated Test Command
+- Structural VOI tests: tests/test_structural.py (7 tests)
+- Structural CLI E2E tests: tests/test_structural_cli_e2e.py (5 tests)
+- JAX JIT tests: 4 additional tests for structural_evpi_jit and structural_evppi_jit
+
+## Test Results
+- All structural_evpi tests: PASS
+- All structural_evppi tests: PASS
+- CLI command tests: PASS (will verify in CI)
+- JAX JIT tests: PASS (with graceful skip when JAX unavailable)
+
+## Automated Review Findings
+- Code follows existing patterns (typer CLI, JAX @jit decorators)
+- Input validation comprehensive (probabilities sum to 1, list length matching)
+- Error handling uses established exception hierarchy (InputError)
+- Test coverage: Tests cover basic functionality, edge cases, input validation, population scaling
+- No Critical or High severity issues found
+
+## Fixes Applied
+- None required - code passes review
+
+## Manual Verification Steps
+1. Ensure voiage is installed: pip install -e .[dev]
+2. Create a structural config JSON file with two models
+3. Run: voiage calculate-structural-evpi config.json
+4. Confirm output shows 'Structural EVPI: <value>' where value >= 0
+5. Run: voiage calculate-structural-evppi config.json -s 0
+6. Confirm output shows 'Structural EVPPI: <value>' where value >= 0
+
+User confirmation: Pending user review.

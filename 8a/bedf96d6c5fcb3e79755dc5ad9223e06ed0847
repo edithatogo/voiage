@@ -1,0 +1,7 @@
+Task: Reconcile Conductor and GitHub track traceability
+
+Summary: Added a unique issue/native parent/Project 28 record for every completed track, evidence-based PR associations, a 129-entry central manifest covering completed/active/proposed tracks, per-track backlinks, and automated validation.
+
+Validation: full tox passed; coverage 91.01%; live audit confirmed 126 closed issues, 126 native parents, and 126 Done project items. Full Conductor validation retained the pre-existing 222-error baseline with zero new errors.
+
+Why: Replace collective historical ledgers with auditable track-level, bidirectional traceability without guessing PR associations.

@@ -1,0 +1,5 @@
+Track: perspective-uncertainty-voi-mature-stable_20260625
+Review: audited existing perspective runtime, result envelope, CLI, docs, schemas, and deterministic fixtures against spec acceptance criteria.
+Changes: added seven-perspective stakeholder catalog, hash-pinned evidence manifest, explicit real-data attribution gate, parity gates, documentation, and regression tests.
+Validation: 26 focused tests passed; frontier contract validation passed; repository harness passed with finding_count 0.
+Remaining blockers: real-data perspective-specific transforms, cross-language/Rust parity, and mature/stable approval.

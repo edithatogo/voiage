@@ -1,0 +1,1 @@
+Task: Establish Astro as the sole documentation system. Migrated public README and contributor links from legacy RST paths to Astro/Starlight URLs and added regression coverage. Validation passed: uv run pytest -q tests/test_active_docs_links.py; uv run ruff check tests/test_active_docs_links.py.

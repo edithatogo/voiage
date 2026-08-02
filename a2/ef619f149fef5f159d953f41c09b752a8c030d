@@ -1,0 +1,1 @@
+Rebased #660 onto origin/main 725de00d46579688a5cb2c05f659ec6565297e6a. Validation: 12 focused DataFrame/conformance tests passed; Ruff and ty passed; Conductor cross-reference manifest and governance tests passed; git diff --check passed.

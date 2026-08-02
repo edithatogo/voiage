@@ -1,0 +1,15 @@
+Task: Phase 3 stable machine-readable diagnostic error taxonomy
+
+Summary:
+- Added stable language-neutral categories for input, dimension mismatch, backend unavailable, numerical, and serialization failures.
+- Added stable code identifiers, structured field/dimension/backend/context details, and message-independent error records.
+- Reserved deterministic numeric ABI status mappings without adding FFI exports or implementation.
+- Added four unit tests covering category/code/status mappings, structured details, message independence, and fixed status values.
+
+Files:
+- rust/crates/voiage-diagnostics/src/lib.rs
+
+TDD evidence:
+- Red: cargo test -p voiage-diagnostics failed on unresolved contract types.
+- Green (detached clean worktree because concurrent domain manifest edits made shared workspace invalid): cargo fmt --all --check; cargo clippy -p voiage-diagnostics --all-targets --locked -- -D warnings; cargo test -p voiage-diagnostics --locked.
+- Result: formatting and Clippy passed; 4 unit tests passed; doc tests passed.

@@ -1,0 +1,1 @@
+EVSI bridge red phase: added a PyO3 module test requiring compute_evsi to return the committed seed-42 stochastic summary (EVSI 0.75) for nested Python sequences. Expected failure is unresolved compute_evsi.

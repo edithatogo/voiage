@@ -1,0 +1,1 @@
+Review fix: ensure a validation error in one track does not suppress file inspection for later tracks.

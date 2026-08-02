@@ -1,0 +1,1 @@
+EVSI refactor evidence: added reproducibility/nonnegative/one-strategy properties, committed EVSI benchmark workload and baseline contract, and preserved the seed-42 stochastic fixture. Validation: focused EVSI tests, property tests, clippy warnings denied, optimized benchmark output for EVPI/ENBS/EVPPI/EVSI/dominance/CEAF, benchmark contract check, diff check.

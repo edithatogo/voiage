@@ -1,0 +1,5 @@
+Track: dynamic-real-options-voi-mature-stable_20260625
+Archive: moved the completed runtime/CLI/evidence track to conductor/archive and advanced the executable queue to order 08.
+Hosted evidence: PR #165 merged as 067d8a5 with required checks and Python CodeQL passing; ruleset restored active.
+Validation: registry/evidence focused tests passed; repository harness finding_count 0.
+Remaining external gates: longitudinal open data, cross-language/Rust parity, and mature/stable approval.

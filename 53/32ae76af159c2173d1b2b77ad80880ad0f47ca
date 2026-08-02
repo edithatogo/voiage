@@ -1,0 +1,1 @@
+U6 red phase: affine EVPI reduction, exponential translation-invariant pricing, nonlinear log buy/sell asymmetry, and finite-signal references were committed before the runtime API exists. cargo test fails as expected on unresolved expected_utility_information symbols.

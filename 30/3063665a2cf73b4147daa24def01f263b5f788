@@ -1,0 +1,10 @@
+Task: S15 Integrate COSS with portfolio allocation
+
+Summary: Added versioned portfolio candidate, capacity, evaluation and result contracts plus exact subset allocation over governed COSS optima. The allocator maximizes signed additive ENBS, permits the empty portfolio, enforces capacity, dependency, exclusion and guardrail constraints, and carries EVSI/EVPI efficiency as a diagnostic.
+
+Validation:
+- uv run ruff check focused S15 files: passed
+- uv run pytest -q tests/test_study_design_portfolio.py tests/test_portfolio_comprehensive.py: 23 passed, 1 pre-existing skip
+- git diff --check: passed
+
+Why: #571 covers both exact single-study design optimization and constrained experiment-portfolio selection.

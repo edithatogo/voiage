@@ -1,0 +1,5 @@
+Task: P4-T2 partial Croissant offline negative fixtures
+
+Adds offline regression cases proving that unsupported identities, incompatible conformsTo declarations, non-CSV media types, unverified integrity declarations, keys, splits, field references, nesting, and field sources fail before materialization. The broader P4-T2 task remains in progress for supported-profile and fixture coverage.
+
+Validation: uv run --extra ci --extra dev pytest tests/test_standardized_ingestion_providers.py -k "unsupported_profile_semantics or unsupported_archives_and_transformations" --no-cov (11 passed); Ruff and ty passed.

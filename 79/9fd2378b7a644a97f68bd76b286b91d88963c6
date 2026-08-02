@@ -1,0 +1,1 @@
+Phase 7 task: added specs/v1/binding-matrix.json as the canonical retained surface, registry, adapter, tag, CI, fixture, and external-gate matrix; added drift tests and linked release documentation. Red: missing matrix caused two test failures. Green: uv run pytest -q tests/test_binding_matrix.py passed.

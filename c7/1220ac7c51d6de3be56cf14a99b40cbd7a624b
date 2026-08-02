@@ -1,0 +1,1 @@
+PR #716 coverage repair (2026-08-01): targeted descriptor-only fallback and Croissant field-diagnostic tests cover changed inspection branches; focused CLI suite and Ruff passed. No production behavior changed.

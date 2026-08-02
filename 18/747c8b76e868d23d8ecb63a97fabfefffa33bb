@@ -1,0 +1,5 @@
+Hosted lint/type remediation for PR #769.
+
+Run 30688015038 job 91337525868 failed only because BasedPyright treated four Unknown traversal warnings in the recursive finite-number validator as a nonzero result. Explicit Mapping[object, object] and list[object] narrowing removes the warnings without changing runtime behavior; the pinned contract-source hash was refreshed.
+
+Exact hosted-equivalent local scope passed: Ruff check and format, Bandit, ty, and BasedPyright with 0 errors/0 warnings. Forty targeted tests, frontier validation, and full 146-track Conductor validation passed.

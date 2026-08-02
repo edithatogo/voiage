@@ -1,0 +1,9 @@
+Task: Establish the production Rust workspace using TDD (red phase)
+
+Summary: Added failing contract assertions for the seven-crate production workspace, Cargo resolver and centralized MSRV/lints, inward dependency direction, FFI/WASM leaf-adapter boundaries, and exclusion of binding-specific dependencies from domain and numerics.
+
+Files: tests/test_rust_workspace_contract.py
+
+Evidence: .venv/bin/pytest -q tests/test_rust_workspace_contract.py -> 5 failed as expected because the current Rust manifest is a package rather than a workspace and the production crate manifests do not yet exist. Ruff and diff checks pass.
+
+Why: Freeze the Phase 3 architecture as executable red tests before workspace implementation.

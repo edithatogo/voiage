@@ -1,0 +1,15 @@
+Task: Fix cross-language canonical payload digest High finding
+
+Summary:
+- Canonicalize result payloads with RFC 8785 JCS before SHA-256 hashing and Python deserialization.
+- Publish rfc8785-sha256-v1 digest metadata and voiage-build-id-sha256-v1 build identity metadata under runtime schema v2.
+- Expose source-tree Git OID and rename attempts telemetry to native_entries while retaining calls as the successes alias.
+- Prove JCS numeric, signed-zero, Unicode, escaping, recursive key-order, fixed digest, and pre-native PyO3 extraction behavior.
+
+Files:
+- rust/crates/voiage-python/src/lib.rs
+- rust/crates/voiage-python/Cargo.toml
+- rust/Cargo.lock
+
+Why:
+Make payload lineage independently reproducible across Python and Rust and keep runtime diagnostics semantically honest.

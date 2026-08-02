@@ -1,0 +1,1 @@
+Rebased onto origin/main a51d10b4 (PR #667). Local evidence: 20 focused release-registry/submission-readiness tests passed; scripts/validate_submission_readiness.py passed (22 targets; 10 pyOpenSci and 10 rOpenSci criteria); Ruff passed. Commit signature verified locally.

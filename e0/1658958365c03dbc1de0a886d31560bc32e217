@@ -1,0 +1,12 @@
+Task: S7 Add failing COSS edge-case tests
+
+Summary: Defined interior and upper-boundary selection, non-monotone EVSI diagnostics, all three deterministic tie policies, no-feasible behavior, retention of infeasible records, and duplicate identity/sample-size rejection.
+
+Red command: uv run pytest tests/test_study_design_efficiency.py --no-cov -q
+Red result: collection failed with the expected missing governed contract module.
+
+Files modified:
+- tests/test_study_design_efficiency.py
+- conductor/tracks/study_design_efficiency_20260727/plan.md
+
+Why: Edge behavior must be fixed before the optimizer is implemented so no accidental array-order or zero-floor semantics become contractual.
