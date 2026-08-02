@@ -10,6 +10,6 @@
 - [Merged planning PR #621](https://github.com/edithatogo/voiage/pull/621)
 - [Delivery PR #821](https://github.com/edithatogo/voiage/pull/821)
 
-Status: in progress. Existing Rust/C ABI, Python, R and Julia contracts are
-reconciled at their evidenced maturity; complete installed parity and hosted
-or registry gates remain pending.
+Status: in progress. Its governance PR #821 is merged; implementation and
+approved specification and plan; existing Project or issue status is not
+treated as implementation completion.

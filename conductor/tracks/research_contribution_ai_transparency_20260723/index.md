@@ -11,8 +11,6 @@
 - [Delivery PR #825](https://github.com/edithatogo/voiage/pull/825)
 - [Blocker-resolution plan](./blocker-resolution-plan.md)
 
-Status: in progress. Existing AI-use, governance, manuscript-contract and
-accountability records are reconciled; canonical CRediT data, detailed
-release-linked provenance and human attestation remain pending. Delivery PR
-#825 exact head `f00e63d05562d4fc5165aa261c5ab0a296265dd2` passed required hosted
-checks and merged as `4d890aafeb760a0df84a03efa5db95ba5ec85005`.
+Status: in progress. Its governance PR #825 is merged; implementation and
+approved specification and plan; existing Project or issue status is not
+treated as implementation completion.

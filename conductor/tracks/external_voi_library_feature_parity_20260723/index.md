@@ -10,6 +10,6 @@
 - [Merged planning PR #621](https://github.com/edithatogo/voiage/pull/621)
 - [Delivery PR #819](https://github.com/edithatogo/voiage/pull/819)
 
-Status: in progress. Governance and bounded-scope reconciliation is complete;
-full landscape, parity, review, hosted-check and external-evidence gates remain
-pending.
+Status: in progress. Its governance PR #819 is merged; implementation and
+approved specification and plan; existing Project or issue status is not
+treated as implementation completion.
