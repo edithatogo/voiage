@@ -69,12 +69,14 @@ def test_portable_coss_request_carries_replayable_joint_replicates() -> None:
         )
     )["joint_enbs_replicates"]
     request = CossRequestV1.model_validate_json(
-        json.dumps({
-            "context": fixture["input"]["context"],
-            "designs": fixture["input"]["designs"],
-            "joint_enbs_replicates": replicates,
-            "replay_artifact": "fixtures/normative/joint-enbs-replicates.json",
-        })
+        json.dumps(
+            {
+                "context": fixture["input"]["context"],
+                "designs": fixture["input"]["designs"],
+                "joint_enbs_replicates": replicates,
+                "replay_artifact": "fixtures/normative/joint-enbs-replicates.json",
+            }
+        )
     )
 
     assert len(request.joint_enbs_replicates or ()) == 4
@@ -88,9 +90,7 @@ def test_portable_coss_request_carries_replayable_joint_replicates() -> None:
 
 
 def test_packaged_study_design_resources_match_canonical_specs() -> None:
-    packaged = files("voiage").joinpath(
-        "resources/frontier/study-design-efficiency/v1"
-    )
+    packaged = files("voiage").joinpath("resources/frontier/study-design-efficiency/v1")
     for relative in (
         "capabilities.json",
         "fixtures/manifest.json",
@@ -102,4 +102,6 @@ def test_packaged_study_design_resources_match_canonical_specs() -> None:
         "schemas/efficiency-request.schema.json",
         "schemas/efficiency-result.schema.json",
     ):
-        assert packaged.joinpath(relative).read_bytes() == (ROOT / relative).read_bytes()
+        assert (
+            packaged.joinpath(relative).read_bytes() == (ROOT / relative).read_bytes()
+        )

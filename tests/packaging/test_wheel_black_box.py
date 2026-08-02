@@ -73,17 +73,13 @@ def test_installed_wheel_executes_packaged_study_design_fixture() -> None:
     )
     from voiage.experimental.study_design import calculate_coss, evsi_evpi_efficiency
 
-    contract = files("voiage").joinpath(
-        "resources/frontier/study-design-efficiency/v1"
-    )
+    contract = files("voiage").joinpath("resources/frontier/study-design-efficiency/v1")
     capability = json.loads(contract.joinpath("capabilities.json").read_text())
     fixture = json.loads(
         contract.joinpath("fixtures/normative/coss-efficiency.json").read_text()
     )
     joint = json.loads(
-        contract.joinpath(
-            "fixtures/normative/joint-enbs-replicates.json"
-        ).read_text()
+        contract.joinpath("fixtures/normative/joint-enbs-replicates.json").read_text()
     )
     paired = json.loads(
         contract.joinpath(

@@ -17,9 +17,7 @@ from voiage.contracts.study_design import (
 ROOT = Path(__file__).parents[1]
 OUTPUT = ROOT / "specs/frontier/study-design-efficiency/v1/schemas"
 CONTRACT = OUTPUT.parent
-PACKAGED = (
-    ROOT / "voiage/resources/frontier/study-design-efficiency/v1"
-)
+PACKAGED = ROOT / "voiage/resources/frontier/study-design-efficiency/v1"
 MODELS = {
     "coss-request.schema.json": CossRequestV1,
     "coss-result.schema.json": CossResultV1,

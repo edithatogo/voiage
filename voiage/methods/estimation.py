@@ -345,9 +345,7 @@ def _truth_assurance_result(
             "native truth-known assurance violated contract version 1.0.0"
         ) from error
     if contract_version != "1.0.0" or not isinstance(converged, bool):
-        raise InputError(
-            "native truth-known assurance violated contract version 1.0.0"
-        )
+        raise InputError("native truth-known assurance violated contract version 1.0.0")
     try:
         return TruthKnownAssuranceResult(
             replicate_count=_integer(native, "replicate_count"),

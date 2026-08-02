@@ -113,6 +113,6 @@ def test_scientific_review_support_is_assurance_not_runtime_authority() -> None:
         "voiage/resources/",
         "voiage/scientific_review_evidence.py",
     } <= assurance_roots
-    assert "never a numerical execution authority" in surface_policy["rules"][
-        "assurance"
-    ]
+    assert (
+        "never a numerical execution authority" in surface_policy["rules"]["assurance"]
+    )

@@ -527,9 +527,9 @@ class CossRequestV1(ContractModel):
     enumeration_scope: EnumerationScope = "evaluated_set_only"
     no_study_enbs: float = 0.0
     joint_enbs_replicates: tuple[tuple[float, ...], ...] | None = None
-    joint_replicate_method: Literal[
-        "joint_bootstrap", "joint_monte_carlo"
-    ] = "joint_bootstrap"
+    joint_replicate_method: Literal["joint_bootstrap", "joint_monte_carlo"] = (
+        "joint_bootstrap"
+    )
     replay_artifact: Identifier | None = None
 
     @model_validator(mode="after")
@@ -583,7 +583,9 @@ class InformationEfficiencyRequestV1(ContractModel):
         if paired[0] is not None:
             assert paired[1] is not None
             if len(paired[0]) != len(paired[1]) or len(paired[0]) < 2:
-                raise ValueError("at least two paired efficiency replicates are required")
+                raise ValueError(
+                    "at least two paired efficiency replicates are required"
+                )
             if self.replay_artifact is None:
                 raise ValueError("paired efficiency replicates require replay_artifact")
         elif self.replay_artifact is not None:

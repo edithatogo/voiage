@@ -651,9 +651,7 @@ def evsi_evpi_efficiency(
                 point_ratio_in_interval=bool(
                     native_uncertainty["point_ratio_in_interval"]
                 ),
-                paired_replicate_digest=hashlib.sha256(
-                    encoded_replicates
-                ).hexdigest(),
+                paired_replicate_digest=hashlib.sha256(encoded_replicates).hexdigest(),
                 replay_artifact=replay_artifact,
             )
         except (KeyError, TypeError, ValueError, ValidationError) as error:
