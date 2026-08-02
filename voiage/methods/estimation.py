@@ -14,6 +14,7 @@ from typing import TYPE_CHECKING, Final, cast
 
 from voiage._runtime import compute_evppi_variance, compute_evsi_variance
 from voiage.contracts.estimation import (
+    EstimationRuntimeBinding,
     EstimationVarianceDiagnostics,
     EstimationVarianceProvenance,
     EstimationVarianceResult,
@@ -193,6 +194,44 @@ def _input_digest(payload: Mapping[str, object]) -> str:
     return sha256(canonical).hexdigest()
 
 
+def _runtime_binding(
+    specification: EstimationVarianceSpec,
+) -> EstimationRuntimeBinding:
+    estimator = specification.estimator
+    common: dict[str, object] = {
+        "method_id": specification.method_id,
+        "target_id": specification.target.target_id,
+        "target_shape": specification.target.shape,
+        "component_units": specification.target.component_units,
+        "covariance_functional": specification.target.covariance_functional,
+        "functional_weights": specification.target.functional_weights,
+        "prior_model_id": specification.prior_model_id,
+        "estimator_design": estimator.estimator_design,
+        "outer_replicates": estimator.outer_replicates,
+        "inner_replicates": estimator.inner_replicates,
+        "coupling_id": estimator.coupling_id,
+        "solver_id": estimator.solver_id,
+    }
+    if specification.method_id == "evppi_var":
+        assert specification.conditioning is not None
+        common.update(
+            parameter_subset=specification.conditioning.parameter_subset,
+            conditioning_sigma_field=specification.conditioning.sigma_field,
+            averaging_convention=specification.conditioning.averaging_convention,
+        )
+    else:
+        assert specification.sampling_model is not None
+        common.update(
+            design_id=specification.sampling_model.design_id,
+            likelihood_id=specification.sampling_model.likelihood_id,
+            sampling_conditioning_sigma_field=(
+                specification.sampling_model.conditioning_sigma_field
+            ),
+            averaging_convention=specification.sampling_model.averaging_convention,
+        )
+    return EstimationRuntimeBinding.model_validate(common)
+
+
 def _result_from_native(
     specification: EstimationVarianceSpec,
     payload: Mapping[str, object],
@@ -220,9 +259,18 @@ def _result_from_native(
         if standard_error is None
         else (() if converged else ("convergence_threshold_not_met",))
     )
+    runtime_binding = _runtime_binding(specification)
+    runtime_binding_digest = runtime_binding.content_digest()
+    runtime_request_digest = _input_digest(
+        {
+            "runtime_binding": runtime_binding.model_dump(mode="json"),
+            "input_digest": input_digest,
+        }
+    )
     return EstimationVarianceResult(
         method_id=specification.method_id,
         target=specification.target,
+        runtime_binding=runtime_binding,
         prior_covariance=((prior,),),
         expected_posterior_covariance=((posterior,),),
         prior_functional=prior,
@@ -247,6 +295,8 @@ def _result_from_native(
             seed=specification.estimator.seed,
             specification_digest=_specification_digest(specification),
             input_digest=input_digest,
+            runtime_binding_digest=runtime_binding_digest,
+            runtime_request_digest=runtime_request_digest,
         ),
     )
 

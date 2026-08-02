@@ -11,6 +11,7 @@
     "schema_version",
     "method_id",
     "target",
+    "runtime_binding",
     "prior_covariance",
     "expected_posterior_covariance",
     "prior_functional",
@@ -28,6 +29,7 @@
     "schema_version": {"const": "1.0.0"},
     "method_id": {"enum": ["evppi_var", "evsi_var"]},
     "target": {"$ref": "#/$defs/target"},
+    "runtime_binding": {"$ref": "#/$defs/runtime_binding"},
     "prior_covariance": {"$ref": "#/$defs/covariance"},
     "expected_posterior_covariance": {"$ref": "#/$defs/covariance"},
     "prior_functional": {"type": "number", "minimum": 0},
@@ -64,6 +66,39 @@
     }
   ],
   "$defs": {
+    "runtime_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version", "method_id", "target_id", "target_shape",
+        "component_units", "covariance_functional", "functional_weights",
+        "prior_model_id", "parameter_subset", "conditioning_sigma_field",
+        "design_id", "likelihood_id", "sampling_conditioning_sigma_field",
+        "averaging_convention", "estimator_design", "outer_replicates",
+        "inner_replicates", "coupling_id", "solver_id"
+      ],
+      "properties": {
+        "schema_version": {"const": "1.0.0"},
+        "method_id": {"enum": ["evppi_var", "evsi_var"]},
+        "target_id": {"type": "string", "minLength": 1},
+        "target_shape": {"enum": ["scalar", "vector"]},
+        "component_units": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "covariance_functional": {"enum": ["variance", "trace", "determinant", "weighted_quadratic"]},
+        "functional_weights": {"anyOf": [{"type": "array", "items": {"type": "number"}}, {"type": "null"}]},
+        "prior_model_id": {"type": "string", "minLength": 1},
+        "parameter_subset": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "conditioning_sigma_field": {"anyOf": [{"type": "string", "minLength": 1}, {"type": "null"}]},
+        "design_id": {"anyOf": [{"type": "string", "minLength": 1}, {"type": "null"}]},
+        "likelihood_id": {"anyOf": [{"type": "string", "minLength": 1}, {"type": "null"}]},
+        "sampling_conditioning_sigma_field": {"anyOf": [{"type": "string", "minLength": 1}, {"type": "null"}]},
+        "averaging_convention": {"enum": ["prior_predictive", "posterior_predictive", "empirical_reference"]},
+        "estimator_design": {"enum": ["exact", "outer_monte_carlo", "nested_monte_carlo", "coupled_nested_monte_carlo"]},
+        "outer_replicates": {"anyOf": [{"type": "integer", "minimum": 2}, {"type": "null"}]},
+        "inner_replicates": {"anyOf": [{"type": "integer", "minimum": 2}, {"type": "null"}]},
+        "coupling_id": {"anyOf": [{"type": "string", "minLength": 1}, {"type": "null"}]},
+        "solver_id": {"type": "string", "minLength": 1}
+      }
+    },
     "target": {
       "type": "object",
       "additionalProperties": false,
@@ -169,7 +204,9 @@
         "estimator_id",
         "seed",
         "specification_digest",
-        "input_digest"
+        "input_digest",
+        "runtime_binding_digest",
+        "runtime_request_digest"
       ],
       "properties": {
         "backend": {"type": "string", "minLength": 1},
@@ -181,6 +218,14 @@
           "pattern": "^[a-f0-9]{64}$"
         },
         "input_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "runtime_binding_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "runtime_request_digest": {
           "type": "string",
           "pattern": "^[a-f0-9]{64}$"
         }

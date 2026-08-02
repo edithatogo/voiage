@@ -8,6 +8,12 @@
   "runtime_data_schema": "specs/estimation-variance/v1/runtime-data.schema.json",
   "result_schema_validation": "structural schema plus mandatory voiage.contracts.estimation.EstimationVarianceResult semantic validation",
   "evsi_averaging_contract": "aligned finite nonnegative prior-predictive probabilities summing to one within estimator tolerance",
+  "estimator_design_contract": {
+    "exact": "executable",
+    "outer_monte_carlo": "runtime-bound upstream estimator design",
+    "nested_monte_carlo": "runtime-bound upstream estimator design; assurance pending E21",
+    "coupled_nested_monte_carlo": "runtime-bound upstream estimator design; dependence assurance pending E21"
+  },
   "target_capabilities": {
     "scalar_variance": "executable",
     "vector_covariance": "unsupported_pending_scientific_review"

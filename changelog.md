@@ -12,6 +12,11 @@
   uncertainty, paired ratio uncertainty, portable request/result schemas and
   packaged fixtures/capabilities that execute from an installed wheel.
 
+- Bind experimental estimation-focused variance results to their declared
+  target, conditioning or sampling model, estimator design and solver request;
+  expose separate specification, runtime-input, binding and full-request
+  replay digests for exact, outer, nested and coupled estimator designs.
+
 - Align experimental COSS selection-probability normalization with its declared
   absolute and relative tolerances, and expose complete tied-optimum sets plus
   selection-uncertainty availability through accessible plot encodings.

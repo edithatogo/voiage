@@ -9,6 +9,27 @@
     "covariance_functional": "variance",
     "functional_weights": null
   },
+  "runtime_binding": {
+    "schema_version": "1.0.0",
+    "method_id": "evppi_var",
+    "target_id": "outcome",
+    "target_shape": "scalar",
+    "component_units": ["units"],
+    "covariance_functional": "variance",
+    "functional_weights": null,
+    "prior_model_id": "enumerated-four-state-prior",
+    "parameter_subset": ["theta_s"],
+    "conditioning_sigma_field": "sigma(theta_s)",
+    "design_id": null,
+    "likelihood_id": null,
+    "sampling_conditioning_sigma_field": null,
+    "averaging_convention": "prior_predictive",
+    "estimator_design": "exact",
+    "outer_replicates": null,
+    "inner_replicates": null,
+    "coupling_id": null,
+    "solver_id": "rust-estimation-variance-v1"
+  },
   "prior_covariance": [[1.25]],
   "expected_posterior_covariance": [[1.0]],
   "prior_functional": 1.25,
@@ -35,6 +56,8 @@
     "estimator_id": "exact_discrete_conditioning",
     "seed": 0,
     "specification_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    "input_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    "input_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "runtime_binding_digest": "ba5e7fdc8b3a7786053bdec46a821a373953c778bc5179fee32a1a242b82bc6d",
+    "runtime_request_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
   }
 }

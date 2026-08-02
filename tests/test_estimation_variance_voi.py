@@ -13,6 +13,7 @@ import pytest
 
 from voiage.contracts.estimation import (
     ConditioningSpec,
+    EstimationRuntimeBinding,
     EstimationTargetSpec,
     EstimationVarianceDiagnostics,
     EstimationVarianceProvenance,
@@ -316,6 +317,20 @@ def test_diagnostics_reject_inverted_confidence_interval() -> None:
 def test_result_contract_preserves_raw_negative_estimate_and_zero_variance_policy() -> (
     None
 ):
+    runtime_binding = EstimationRuntimeBinding(
+        method_id="evsi_var",
+        target_id="constant",
+        target_shape="scalar",
+        component_units=("count",),
+        covariance_functional="variance",
+        prior_model_id="prior-v1",
+        design_id="study-v1",
+        likelihood_id="likelihood-v1",
+        sampling_conditioning_sigma_field="sigma(Y)",
+        averaging_convention="prior_predictive",
+        estimator_design="exact",
+        solver_id="rust-estimation-variance-v1",
+    )
     result = EstimationVarianceResult(
         method_id="evsi_var",
         target=EstimationTargetSpec(
@@ -324,6 +339,7 @@ def test_result_contract_preserves_raw_negative_estimate_and_zero_variance_polic
             component_units=("count",),
             covariance_functional="variance",
         ),
+        runtime_binding=runtime_binding,
         prior_covariance=((0.0,),),
         expected_posterior_covariance=((0.1,),),
         prior_functional=0.0,
@@ -346,6 +362,8 @@ def test_result_contract_preserves_raw_negative_estimate_and_zero_variance_polic
             seed=7,
             specification_digest="a" * 64,
             input_digest="b" * 64,
+            runtime_binding_digest=runtime_binding.content_digest(),
+            runtime_request_digest="c" * 64,
         ),
     )
     assert result.absolute_reduction == 0.0

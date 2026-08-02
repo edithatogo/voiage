@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import json
 
+from pydantic import ValidationError
 import pytest
 
 from voiage.contracts.estimation import (
@@ -316,3 +317,61 @@ def test_replay_digest_binds_actual_estimation_inputs() -> None:
     )
     assert first.provenance.input_digest != changed_value.provenance.input_digest
     assert first.provenance.input_digest != changed_weight.provenance.input_digest
+
+
+def test_runtime_binding_covers_scientific_and_solver_request() -> None:
+    specification = _evsi_spec().model_copy(
+        update={
+            "estimator": EstimatorAssuranceSpec(
+                estimator_id="nested-posterior-variance",
+                seed=17,
+                estimator_design="coupled_nested_monte_carlo",
+                outer_replicates=128,
+                inner_replicates=64,
+                coupling_id="common-random-numbers-v1",
+                solver_id="rust-nested-variance-v1",
+            )
+        }
+    )
+    result = estimation_module.evsi_var(
+        [0.0, 1.0],
+        [0.1, 0.2],
+        [0.25, 0.75],
+        specification=specification,
+    )
+
+    binding = result.runtime_binding
+    assert binding.method_id == "evsi_var"
+    assert binding.target_id == specification.target.target_id
+    assert binding.design_id == specification.sampling_model.design_id
+    assert binding.likelihood_id == specification.sampling_model.likelihood_id
+    assert binding.estimator_design == "coupled_nested_monte_carlo"
+    assert binding.outer_replicates == 128
+    assert binding.inner_replicates == 64
+    assert binding.coupling_id == "common-random-numbers-v1"
+    assert binding.solver_id == "rust-nested-variance-v1"
+    assert len(result.provenance.runtime_binding_digest) == 64
+    assert len(result.provenance.runtime_request_digest) == 64
+
+
+@pytest.mark.parametrize(
+    "updates",
+    [
+        {"estimator_design": "outer_monte_carlo"},
+        {
+            "estimator_design": "nested_monte_carlo",
+            "outer_replicates": 20,
+        },
+        {
+            "estimator_design": "coupled_nested_monte_carlo",
+            "outer_replicates": 20,
+            "inner_replicates": 10,
+        },
+        {"estimator_design": "exact", "outer_replicates": 20},
+    ],
+)
+def test_estimator_design_contract_rejects_incomplete_or_contradictory_requests(
+    updates: dict[str, object],
+) -> None:
+    with pytest.raises(ValidationError):
+        EstimatorAssuranceSpec(estimator_id="invalid", seed=0, **updates)
