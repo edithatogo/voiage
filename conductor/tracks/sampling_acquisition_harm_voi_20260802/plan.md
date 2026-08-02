@@ -50,6 +50,10 @@
   narrow, justified suppressions for the fixed, shell-free Git verifier and
   repeat the exact lint/security/type/focused-test gates. (AC-09, AC-10)
   `888be418`
+- [x] **H8-B-CI2:** Remediate the hosted changed-line and changed-branch
+  coverage findings with direct fail-closed contract tests, including digest,
+  Git-object, identity, disposition, dissent, delta, expiry and repository
+  binding paths. No coverage exclusions are used. (AC-08–AC-10) `f7dfbcea`
 - [ ] **H8-C:** Freeze a clean #850/#853-specific packet containing the exact
   commit/tree, track artifacts, sources and retrieval receipts, claims,
   capability boundary, fixtures, estimator thresholds, uncertainty rules,
