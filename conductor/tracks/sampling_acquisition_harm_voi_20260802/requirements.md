@@ -2,18 +2,20 @@
 
 ## Must
 
-- **M32-H1:** Declare sampling action, no-sampling comparator, information law,
-  downstream decision policy, ordinary research cost and joint acquisition-
-  harm law.
+- **M32-H1:** Declare sampling action, explicit no-sampling comparator,
+  candidate set, design-indexed potential outcomes, observable filtration,
+  downstream policy, incremental ordinary cost and joint acquisition-harm law.
 - **M32-H2:** Declare affected parties, harm types/units, timing, severity,
   reversibility, dependence, catastrophic/absorbing states and reporting
   uncertainty.
 - **M32-H3:** Declare a commensurate welfare valuation or a named expected,
-  chance, CVaR/expected-shortfall, lexicographic or separately reviewed safety
-  criterion and constraint set.
-- **M32-H4:** Permit additive net information value only under verified
-  separability and commensurability; otherwise retain constrained or vector
-  outputs.
+  chance, upper-tail positive-loss or lower-tail signed-value CVaR/expected-
+  shortfall, lexicographic or separately reviewed safety criterion and
+  constraint set, including sign, level, quantile and atom conventions.
+- **M32-H4:** Permit additive incremental net information value only when the
+  acquisition leaves the state/action set unchanged, valued harm is policy-
+  independent, and separability and commensurability hold; otherwise retain
+  joint-welfare, constrained or vector outputs and all nondominated designs.
 - **M32-H5:** Reduce exactly to ordinary #571 EVSI/ENBS under zero harm and
   matched feasibility.
 - **M32-H6:** Provide enumerable catastrophe, correlation, heterogeneous-party,
@@ -24,6 +26,9 @@
   narrow contract.
 - **M32-H8:** Keep scientific acceptance, ethics/regulatory authorization,
   parity, promotion, hosted assurance, release and closure as separate gates.
+- **M32-H9:** Report mathematical constraint status as feasible, infeasible or
+  indeterminate under a declared statistical assurance method; never treat it
+  as ethics or regulatory authorization.
 
 ## Should
 

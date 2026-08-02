@@ -16,34 +16,44 @@ narrow contract.
 
 ## Requirements
 
-1. Declare the sampling action, no-sampling comparator, population and affected
-   parties, timing, horizon, information observation, downstream decision
-   policy, ordinary research cost and a joint law for acquisition harm.
+1. Declare the sampling action `d`, explicit no-sampling comparator `d0`,
+   candidate set, population and affected parties, time filtration, decision-
+   time observable history, horizon, downstream policy, and incremental
+   ordinary cost and acquisition harm relative to `d0`.
 2. Declare harm types, physical/psychological/privacy/community or other units,
    severity, reversibility, attribution, catastrophic and absorbing outcomes,
    dependence on design/information/state, and missingness or under-reporting.
 3. Use one explicitly selected risk treatment: commensurate expected welfare
-   loss, constrained expected harm, chance constraint, lower-tail
-   CVaR/expected shortfall, lexicographic safety constraint, or a separately
-   reviewed criterion. Never convert heterogeneous harms to money or utility
-   without a declared valuation and stakeholder scope.
+   loss, constrained expected harm, chance constraint, upper-tail CVaR or
+   expected shortfall for positive loss, lower-tail CVaR or expected shortfall
+   for signed welfare/value, lexicographic safety constraint, or a separately
+   reviewed criterion. Declare sign, confidence level, quantile convention and
+   atom handling. Never convert heterogeneous harms to money or utility without
+   a declared valuation, perspective, cardinal scale, numeraire, horizon,
+   discount convention, source date and affected-party scope.
 4. Define gross information value and sampling-acquisition harm on the same
-   probability space. Additive `EVSI - cost - harm` is valid only when the harm
-   value is separable and commensurate; otherwise retain a constrained or
-   vector result instead of fabricating a scalar net value.
+   design-indexed causal probability space. The downstream policy may use only
+   its declared observable history. Additive incremental `EVSI - cost - harm`
+   is valid only when acquisition does not alter the state/action set, valued
+   harm is policy-independent, and value, cost and harm are separable and
+   commensurate; otherwise use a joint-welfare, constrained or vector result.
 5. Include an explicit no-sampling design. Under zero acquisition harm and
    identical feasibility, the scalar separable case must reduce to #571's
    ordinary EVSI/ENBS contract.
-6. Return feasibility, expected and tail harm, catastrophe probability,
-   constraint margins, selected/no-sampling design, signed net information
-   value where defined, affected-party diagnostics, uncertainty and
-   provenance. Do not imply that a positive economic ENBS overrides an ethical,
-   regulatory or safety constraint.
+6. Return mathematical feasibility as `feasible`, `infeasible` or
+   `indeterminate`; expected and tail harm; catastrophe probability;
+   constraint margins; all nondominated designs and complete ties; a selected
+   design only under a declared ordering; signed net information value where
+   defined; party/subgroup diagnostics; uncertainty; and provenance. Keep
+   mathematical feasibility separate from accountable ethics/regulatory scope
+   authorization.
 7. Require enumerable opposing examples: high-information catastrophic harm,
    low-information safe sampling, rare absorbing harm, correlated
    information/harm, heterogeneous parties, zero harm, and no-sampling
    optimality. Sensitivity must cover harm probability, severity, valuation,
-   risk tolerance, constraint threshold and under-reporting.
+   risk tolerance, constraint threshold and under-reporting. Model latent harm,
+   reporting, dropout and validation data explicitly; return `not_identified`
+   or bounds where the observed law cannot identify the harm law.
 8. Keep the capability `unsupported_research_scoping` until primary-source
    review, independent domain/scientific approval, estimator assurance,
    portable contracts, fixtures, bindings and exact-head hosted checks are all
@@ -55,8 +65,9 @@ narrow contract.
   28, C18/M32, roadmap, todo, track metadata and cross-references agree.
 - **AC-02:** The estimand distinguishes sampling harm, ordinary study cost,
   downstream decision harm, risk-sensitive perfect information and VoC.
-- **AC-03:** Sampling action, harm law, parties, timing, units, catastrophe,
-  risk criterion, constraints and no-sampling comparator are explicit.
+- **AC-03:** Sampling action and `d0`, design-indexed potential outcomes,
+  observable filtration, harm law, parties, timing, units, catastrophe, risk
+  criterion, constraints and authorization boundary are explicit.
 - **AC-04:** Additive net value is permitted only under declared separability
   and commensurability; otherwise the result remains constrained or vector.
 - **AC-05:** Zero harm reduces to ordinary EVSI/ENBS, and enumerable
@@ -74,7 +85,9 @@ narrow contract.
 
 - Preserve Rust as numerical authority for any future accepted kernel.
 - Use finite, versioned, deterministic, content-addressed contracts.
-- Preserve complete ties and no-sampling feasibility.
+- Preserve complete ties, nondominated sets and no-sampling evaluation; never
+  assume that no sampling is ethically feasible without the same accountable
+  assessment applied to other alternatives.
 - Never silently clip signed value or repair safety-constraint violations.
 - Treat consent, regulatory and ethics review as external accountable gates,
   not numeric outputs that software can approve.
@@ -108,17 +121,23 @@ narrow contract.
   https://www.hhs.gov/ohrp/regulations-and-policy/belmont-report/read-the-belmont-report/index.html
 - HHS, *45 CFR 46*, official OHRP regulation index, accessed 2026-08-02:
   https://www.hhs.gov/ohrp/regulations-and-policy/regulations/45-cfr-46/index.html
-- ICH E6(R3), Principle 7 and risk-proportionate trial processes, Step 4
-  presentation dated 2025-01-23:
-  https://database.ich.org/sites/default/files/ICH_E6%28R3%29_Step%204_Presentation_2025_0123.pdf
+- ICH E6(R3), *Good Clinical Practice*, Step 4 final guideline dated
+  2025-01-06, especially Principles 2, 3, 6 and 7:
+  https://database.ich.org/sites/default/files/ICH_E6%28R3%29_Step4_FinalGuideline_2025_0106.pdf
 - Camilleri et al., *Active Learning with Safety Constraints*, NeurIPS 2022:
   https://proceedings.neurips.cc/paper_files/paper/2022/hash/d6929af3791b2cec21c136b573aa87f2-Abstract-Conference.html
 - Bottero et al., *Information-Theoretic Safe Exploration with Gaussian
   Processes*, NeurIPS 2022:
   https://proceedings.neurips.cc/paper_files/paper/2022/hash/c628644624c1be9c8cfb1541fa6421fd-Abstract-Conference.html
-- Strong et al., *Value of Information for Clinical Trial Design: The
-  Importance of Considering All Relevant Comparators*, PharmacoEconomics
-  2024, DOI 10.1007/s40273-024-01372-0.
+- Heath, Anna; Baio, Gianluca; Manolopoulou, Ioanna; and Welton, Nicky J.,
+  *Value of Information for Clinical Trial Design: The Importance of
+  Considering All Relevant Comparators*, PharmacoEconomics 42 (2024), DOI
+  10.1007/s40273-024-01372-0.
+
+The versioned retrieval and applicability record is
+`primary-source-manifest-20260802.json`. Human-subject and domain requirements
+must select jurisdiction- and domain-applicable authorities; these sources do
+not establish a universal cross-domain ethics rule.
 
 These sources establish distinct economic-value, safety-constraint and
 research-protection considerations. They do not by themselves establish one

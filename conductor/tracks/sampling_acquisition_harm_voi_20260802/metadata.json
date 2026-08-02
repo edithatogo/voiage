@@ -4,10 +4,14 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-08-02T14:20:00Z",
-  "updated_at": "2026-08-02T14:26:20Z",
+  "updated_at": "2026-08-02T14:37:00Z",
   "planned_version": "1.3.0",
   "moscow": "must",
-  "requirement_ids": ["M17", "M22", "M32"],
+  "requirement_ids": [
+    "M17",
+    "M22",
+    "M32"
+  ],
   "canonical_track": "C18",
   "dependencies": [
     "study_design_efficiency_20260727",
@@ -15,11 +19,27 @@
   ],
   "description": "Governed research scope for stochastic harms caused by the information-sampling action itself.",
   "evidence_schema": "1.0",
-  "approval": {
-    "status": "approved",
-    "approved_on": "2026-08-02",
+  "repository_scope_authorization": {
+    "status": "authorized",
+    "authorized_on": "2026-08-02",
     "recorded_at": "2026-08-02T14:20:00Z",
-    "evidence": "User explicitly instructed incorporation of the recommendations into Conductor followed by autonomous implementation."
+    "authorizes": [
+      "repository research scoping",
+      "fail-closed capability documentation",
+      "automated advisory review",
+      "negative discovery and contract tests"
+    ],
+    "does_not_authorize": [
+      "scientific acceptance",
+      "human-subject or real-study activity",
+      "ethics or regulatory approval",
+      "runtime implementation",
+      "stable promotion",
+      "release or publication",
+      "registry acceptance",
+      "issue closure"
+    ],
+    "evidence": "User instructed incorporation into Conductor and implementation only within the governed fail-closed repository scope."
   },
   "github_parent_issue": "https://github.com/edithatogo/voiage/issues/570",
   "github_issue": "https://github.com/edithatogo/voiage/issues/850",
@@ -31,7 +51,8 @@
       "id": "primary-source-estimand-review",
       "kind": "repository_review",
       "status": "pending",
-      "evidence": "H1-H3 pending."
+      "evidence": "H1 and H2 complete; H3 automated advisory-panel remediation pending.",
+      "legacy_status": "in_progress"
     },
     {
       "id": "named-independent-human-verdict",
@@ -46,10 +67,52 @@
       "evidence": "Runtime is prohibited until the scientific gate approves a narrow contract."
     },
     {
-      "id": "stable-promotion-release-closure",
-      "kind": "external",
+      "id": "real-study-ethics-regulatory-authorization",
+      "kind": "accountable_external",
       "status": "pending",
-      "evidence": "Promotion, release, publication, registry acceptance and closure remain separate."
+      "evidence": "No real-study ethics, regulatory, custodian or participant authorization is claimed."
+    },
+    {
+      "id": "hosted-exact-head-assurance",
+      "kind": "hosted_ci",
+      "status": "pending",
+      "evidence": "No exact-head hosted checks exist for this candidate."
+    },
+    {
+      "id": "polyglot-parity",
+      "kind": "implementation_assurance",
+      "status": "pending",
+      "evidence": "No runtime or bindings exist."
+    },
+    {
+      "id": "stable-promotion",
+      "kind": "maintainer_maturity",
+      "status": "pending",
+      "evidence": "No stable-promotion decision exists."
+    },
+    {
+      "id": "release",
+      "kind": "release_authority",
+      "status": "pending",
+      "evidence": "No release approval or artifact exists."
+    },
+    {
+      "id": "publication",
+      "kind": "publication_authority",
+      "status": "pending",
+      "evidence": "No publication approval exists."
+    },
+    {
+      "id": "registry-acceptance",
+      "kind": "registry_authority",
+      "status": "pending",
+      "evidence": "No registry acceptance exists."
+    },
+    {
+      "id": "issue-closure",
+      "kind": "maintainer_closeout",
+      "status": "pending",
+      "evidence": "Issue closure remains separately governed."
     }
   ]
 }
