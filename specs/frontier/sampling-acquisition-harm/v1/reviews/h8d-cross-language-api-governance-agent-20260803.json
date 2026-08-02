@@ -1,0 +1,89 @@
+{
+  "evidence_kind": "role-report",
+  "schema_version": "1.1.0",
+  "report_id": "H8D-CROSS-LANGUAGE-API-GOVERNANCE-AGENT-20260803",
+  "candidate_commit": {
+    "algorithm": "sha1",
+    "value": "8d6c67879050f161258ed95d878a72e2bb6b22dd"
+  },
+  "candidate_tree": {
+    "algorithm": "sha1",
+    "value": "18289bd04081f6a6810cb91ef2beec7decafe61f"
+  },
+  "packet_sha256": "e1298da5a609ee9ed7a8cc8509ab117a2d2fd384d20d464c48ec32f4f033f29b",
+  "reviewer_role": "cross_language_api",
+  "reviewer": {
+    "identity": "codex-subagent:h8d_api_governance",
+    "display_name": "H8-D Cross-Language API and Governance Automated Reviewer",
+    "actor_type": "agent",
+    "role": "cross_language_api",
+    "qualifications": [
+      "Automated static review of Python, Rust, native ABI, R and Julia capability surfaces and machine-readable governance contracts; no named human scientific, ethics, regulatory, publication or jurisdiction-specific qualification is claimed."
+    ],
+    "prior_contributions": [],
+    "conflicts": [
+      "This automated reviewer was commissioned inside the same Codex task and shares its repository and tooling environment, although it did not author or remediate the frozen candidate or trusted package.",
+      "The single schema role is cross_language_api; governance and publication observations in this report are advisory dual-role coverage and cannot satisfy the separately required governance_publication role.",
+      "No retained primary-source bytes were available and independent source retrieval and drift comparison remain blocked."
+    ],
+    "conflict_status": "non_disqualifying",
+    "independent": true
+  },
+  "scope": {
+    "family": "sampling_acquisition_harm_voi",
+    "capabilities": [
+      "generic_automatic_scalar_or_authorizing_sampling_acquisition_harm_kernel"
+    ]
+  },
+  "verdict": "major_revision",
+  "rubric": [
+    {
+      "dimension": "exact frozen bindings and contribution independence",
+      "verdict": "pass",
+      "rationale": "The canonical preparation validator passed for candidate 8d6c67879050f161258ed95d878a72e2bb6b22dd, tree 18289bd04081f6a6810cb91ef2beec7decafe61f, trusted package d00e0e20752f44c52581dbb7ee45ce27c9b7d6dd, manifest 4f18ac9b08717416e54133849c1a381b4245543d7e5dd85f51efa1cd789164c5 and packet e1298da5a609ee9ed7a8cc8509ab117a2d2fd384d20d464c48ec32f4f033f29b. This reviewer has no candidate authorship or remediation history."
+    },
+    {
+      "dimension": "runtime, ABI, binding and discovery boundary",
+      "verdict": "pass",
+      "rationale": "The frozen capability record fails closed: runtime_available and stable_claim_allowed are false, discovery is non-executable with no callable, Python stable and experimental, Rust, native ABI, R and Julia surfaces are unsupported with zero symbols, and Mojo is an external boundary. Repository scans found no exact sampling-acquisition-harm family implementation outside the assurance-only preparation validator; adjacent ENBS, EVSI, active-learning and sampling-burden code is not thereby reclassified as this capability. No runtime, ABI, binding or parity claim is supported."
+    },
+    {
+      "dimension": "machine-readable non-alias completeness",
+      "verdict": "major_revision",
+      "rationale": "Finding H8D-API-GOV-01, severity High, disposition pending: review-candidate.json declares issues 570, 571, 595 and 598 as adjacent methods not aliased, and README prose describes all four, but research-disposition.json and its schema permit exactly two machine-readable adjacent-method records and test only 570 and 595. Issues 571 and 598 therefore lack the same machine-enforced relationship, execution_reuse_allowed=false and reason contract. Before a reviewed exclusion or API disposition, add exact 571 and 598 records and negative tests, then treat the semantic contract change as substantive and freeze a new candidate packet for affected-role re-review."
+    },
+    {
+      "dimension": "issue, Project and roadmap synchronization",
+      "verdict": "major_revision",
+      "rationale": "Finding H8D-API-GOV-02, severity Medium, disposition pending: the frozen governance snapshot records issue-body digests 3e50108f4c183a9cdc7af8207dbf0ae3ba77e7ec70a242087d045038a3ee4164 for #850 and 5691290486d5cca51276b2d5c9f8779285b85cfce5a7cd5ed4ee5e2d55ab4f1f for #853, but authenticated readback after PR #862 merged produced a43f78072dadfbb170e3df58fd3022797f5e4f8602f2f595ff9517bcbcfa7e1e and c5b9fb8da4ec3b6e931aaef8fcf072f84ecb9c3e5da132b50b1b4f6276db4f2f. The live issues correctly keep H8-D through H8-H open and Project 28 remains In Progress, Human, Unverified, Mitigating, Critical, P1, Must, v1.3.0 and Clean, but the packet's own refresh-on-drift condition is met before calendar expiry. Refresh and classify the governance delta before synthesis or disposition; do not describe the frozen snapshot itself as current."
+    },
+    {
+      "dimension": "publication wording and authority separation",
+      "verdict": "pass",
+      "rationale": "The frozen packet, README, roadmap, Conductor requirements and live issues consistently describe planned v1.3.0 C18/M32 research scoping, not an implemented method. They separate repository validation and merged CI from scientific review, human confirmation, maintainer disposition, real-study authority, parity, promotion, release, publication, registry acceptance and closure. PR #862 is accurately presented as an H8-C preparation merge, not H8-D or H8-G completion."
+    },
+    {
+      "dimension": "source reproducibility and publication support",
+      "verdict": "major_revision",
+      "rationale": "Finding H8D-API-GOV-03, severity High, disposition pending: the source register retains zero source bytes, five observations cannot reproduce the cited content, Belmont retrieval returned HTTP 403 without a content digest, and no redistribution rights, current-source drift comparison or candidate-jurisdiction applicability is established. Repository and locator integrity are adequate for preparation but cannot support scientific publication, source-authority or applicability claims without independent retrieval, rights review and drift comparison."
+    },
+    {
+      "dimension": "dual-role eligibility and accountable confirmation",
+      "verdict": "major_revision",
+      "rationale": "Finding H8D-API-GOV-04, severity High, disposition pending: this fresh automated reviewer can supply one cross_language_api report only. Its advisory governance and publication observations do not constitute the separately enumerated governance_publication report, a named human qualification, either H8-G human confirmation, chair adjudication, or a maintainer decision. A distinct eligible governance/publication reviewer remains required, followed by the separately governed human gates."
+    },
+    {
+      "dimension": "dissent and non-authorizing verdict",
+      "verdict": "major_revision",
+      "rationale": "There is no dissent from retaining unsupported_research_scoping and zero runtime symbols while the evidence is incomplete. There is explicit dissent from treating the proposed exclusion as complete while issues 571 and 598 lack equivalent machine-readable non-alias enforcement, from treating the drifted governance snapshot as current, and from treating this automated dual-scope report as a second role, named human confirmation, scientific or ethics approval, source-rights decision, publication approval, maintainer disposition, runtime authorization, release or real-study authority. The verdict authorizes no remediation, implementation, sampling activity, promotion, publication, release or issue closure."
+    }
+  ],
+  "finding_ids": [
+    "H8D-API-GOV-01",
+    "H8D-API-GOV-02",
+    "H8D-API-GOV-03",
+    "H8D-API-GOV-04"
+  ],
+  "signed_at": "2026-08-02T19:52:03Z",
+  "report_sha256": "60ca65137265561ab0d9e2ee18b8a4ff187f6212d5b6e265066b4cff33d27e4d"
+}

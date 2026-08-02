@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-08-02T14:20:00Z",
-  "updated_at": "2026-08-02T19:09:17Z",
+  "updated_at": "2026-08-02T20:08:00Z",
   "planned_version": "1.3.0",
   "moscow": "must",
   "requirement_ids": [
@@ -62,7 +62,8 @@
       "https://github.com/edithatogo/voiage/pull/855",
       "https://github.com/edithatogo/voiage/pull/859",
       "https://github.com/edithatogo/voiage/pull/860",
-      "https://github.com/edithatogo/voiage/pull/861"
+      "https://github.com/edithatogo/voiage/pull/861",
+      "https://github.com/edithatogo/voiage/pull/862"
     ]
   },
   "gates": [
@@ -91,16 +92,22 @@
       "evidence": "H8-B commit 4c549584fafb90cd844701ad1116865d733433ec and chained evidence 932d279c30311485b41dbbe7c093d0a324026e462c11b64521d88c37f21c9944 implement contract v1.1 typed Git OIDs, canonical content bindings, frozen-tree verification, complete finding/disagreement histories, affected-role Medium re-review, separated accountable roles, identity-bound receipts, expiry/supersession and field-level administrative deltas. This does not satisfy the still-pending #850 candidate-integrity or human gates."
     },
     {
+      "id": "automated-challenge-panel",
+      "kind": "review_preparation",
+      "status": "satisfied",
+      "evidence": "H8-D-A/H8-E-A retain five schema-valid automated role reports and separate synthesis 29fdd684d356fba6d57d2dc164a2ba31c1d5e37d2318c8b484851ba649908820 bound to the H8-C candidate and all nineteen pending findings. Role-shaped coverage is complete, but the reports are non-human, estimator-assurance declares disqualifying independence, source review is blocked, and every authority flag is false. This preparation does not satisfy H8-D or H8-E."
+    },
+    {
       "id": "orchestrator-synthesis",
       "kind": "review_preparation",
-      "status": "pending",
-      "evidence": "The planned independent role reports, disagreement register, options, contingencies, rationale and recommendation have not been synthesized for a frozen #850 candidate."
+      "status": "blocked",
+      "evidence": "A separate automated orchestrator preserved the five reports, all nineteen findings, dissent, options, contingencies, rationale and recommendation. H8-E remains blocked because accountable reviewer eligibility and source review fail; synthesis cannot cure those inputs or grant authority."
     },
     {
       "id": "candidate-bound-independent-review",
       "kind": "scientific_review",
       "status": "pending",
-      "evidence": "No exact-candidate independent role reports, reviewer independence/conflict declarations or dissent disposition exist. Automated H3 advisory reports cannot satisfy this gate."
+      "evidence": "Five exact-candidate automated role reports now record qualifications, contribution history, conflicts, independence and dissent. They are non-human challenge evidence; the estimator-assurance report declares a disqualifying conflict and independent false, all nineteen findings remain pending, and source review is blocked. H8-D therefore remains unsatisfied."
     },
     {
       "id": "named-independent-human-verdict",

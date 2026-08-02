@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/sampling-acquisition-harm/v1/schemas/automated-challenge-synthesis.schema.json",
+  "title": "SamplingHarmAutomatedChallengeSynthesisV1",
+  "type": "object",
+  "required": [
+    "evidence_kind", "schema_version", "synthesis_id", "actor", "bindings",
+    "required_roles", "role_reports", "role_completeness", "reviewer_eligibility",
+    "source_review", "severity_normalization", "findings", "finding_summary",
+    "dissent", "options", "contingencies", "recommendation", "gate_status",
+    "authority", "synthesized_at", "synthesis_sha256"
+  ],
+  "properties": {
+    "evidence_kind": {"const": "automated-challenge-synthesis"},
+    "schema_version": {"const": "1.0.0"},
+    "synthesis_id": {"type": "string", "minLength": 1},
+    "actor": {
+      "type": "object",
+      "required": ["identity", "actor_type", "human", "authorizing", "role", "limitations"],
+      "properties": {
+        "identity": {"type": "string", "minLength": 1},
+        "actor_type": {"const": "agent"},
+        "human": {"const": false},
+        "authorizing": {"const": false},
+        "role": {"const": "separate_automated_synthesis_orchestrator"},
+        "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      },
+      "additionalProperties": false
+    },
+    "bindings": {
+      "type": "object",
+      "required": ["candidate_commit", "candidate_tree", "trusted_package_commit", "artifact_manifest", "review_packet"],
+      "properties": {
+        "candidate_commit": {"$ref": "#/$defs/gitOid"},
+        "candidate_tree": {"$ref": "#/$defs/gitOid"},
+        "trusted_package_commit": {"$ref": "#/$defs/gitOid"},
+        "artifact_manifest": {"$ref": "#/$defs/artifactRef"},
+        "review_packet": {"$ref": "#/$defs/artifactRef"}
+      },
+      "additionalProperties": false
+    },
+    "required_roles": {
+      "const": ["estimand_domain", "estimator_assurance", "cross_language_api", "governance_publication", "domain_specialist"]
+    },
+    "role_reports": {
+      "type": "array", "minItems": 5, "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["role", "path", "report_id", "report_sha256", "digest_verified", "verdict", "reviewer_eligible", "eligibility_reason"],
+        "properties": {
+          "role": {"$ref": "#/$defs/role"},
+          "path": {"type": "string", "pattern": "^specs/frontier/sampling-acquisition-harm/v1/reviews/[^/]+\\.json$"},
+          "report_id": {"type": "string", "minLength": 1},
+          "report_sha256": {"$ref": "#/$defs/sha256"},
+          "digest_verified": {"const": true},
+          "verdict": {"const": "major_revision"},
+          "reviewer_eligible": {"const": false},
+          "eligibility_reason": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "role_completeness": {
+      "type": "object",
+      "required": ["all_required_roles_have_reports", "report_count", "required_role_count", "duplicate_roles", "missing_roles"],
+      "properties": {
+        "all_required_roles_have_reports": {"const": true},
+        "report_count": {"const": 5},
+        "required_role_count": {"const": 5},
+        "duplicate_roles": {"const": []},
+        "missing_roles": {"const": []}
+      },
+      "additionalProperties": false
+    },
+    "reviewer_eligibility": {
+      "type": "object",
+      "required": ["all_required_roles_have_eligible_independent_reviewers", "independent_eligibility_satisfied", "reason"],
+      "properties": {
+        "all_required_roles_have_eligible_independent_reviewers": {"const": false},
+        "independent_eligibility_satisfied": {"const": false},
+        "reason": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "source_review": {
+      "type": "object",
+      "required": ["source_review_satisfied", "status", "reason"],
+      "properties": {
+        "source_review_satisfied": {"const": false},
+        "status": {"const": "blocked_pending_independent_retrieval_rights_review_and_drift_comparison"},
+        "reason": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "severity_normalization": {
+      "type": "object",
+      "required": ["rule", "source_reports_modified"],
+      "properties": {
+        "rule": {"type": "string", "minLength": 1},
+        "source_reports_modified": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "findings": {
+      "type": "array", "minItems": 19, "maxItems": 19,
+      "items": {
+        "type": "object",
+        "required": ["finding_id", "source_role", "source_report_sha256", "source_declared_severity", "normalized_severity", "disposition", "summary"],
+        "properties": {
+          "finding_id": {"type": "string", "minLength": 1},
+          "source_role": {"$ref": "#/$defs/role"},
+          "source_report_sha256": {"$ref": "#/$defs/sha256"},
+          "source_declared_severity": {"type": ["string", "null"], "enum": ["Critical", "High", "Medium", null]},
+          "normalized_severity": {"enum": ["Critical", "High", "Medium"]},
+          "disposition": {"const": "pending"},
+          "summary": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "finding_summary": {
+      "const": {"total": 19, "critical": 1, "high": 15, "medium": 3, "pending": 19, "resolved": 0}
+    },
+    "dissent": {"$ref": "#/$defs/statementList"},
+    "options": {
+      "type": "array", "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["option_id", "name", "recommended", "rationale"],
+        "properties": {
+          "option_id": {"type": "string", "minLength": 1},
+          "name": {"type": "string", "minLength": 1},
+          "recommended": {"type": "boolean"},
+          "rationale": {"type": "string", "minLength": 1},
+          "required_actions": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "contingencies": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["condition", "response"],
+        "properties": {"condition": {"type": "string", "minLength": 1}, "response": {"type": "string", "minLength": 1}},
+        "additionalProperties": false
+      }
+    },
+    "recommendation": {
+      "type": "object",
+      "required": ["option_id", "decision", "rationale", "does_not_authorize"],
+      "properties": {
+        "option_id": {"const": "A"},
+        "decision": {"const": "retain_unsupported_research_scoping_and_prepare_new_reviewable_packet"},
+        "rationale": {"type": "string", "minLength": 1},
+        "does_not_authorize": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      },
+      "additionalProperties": false
+    },
+    "gate_status": {
+      "type": "object",
+      "required": ["required_role_reports_complete", "independent_eligibility_satisfied", "source_review_satisfied", "h8d_satisfied", "h8e_satisfied", "h8f_satisfied", "h8g_satisfied", "h8h_satisfied", "reason"],
+      "properties": {
+        "required_role_reports_complete": {"const": true},
+        "independent_eligibility_satisfied": {"const": false},
+        "source_review_satisfied": {"const": false},
+        "h8d_satisfied": {"const": false},
+        "h8e_satisfied": {"const": false},
+        "h8f_satisfied": {"const": false},
+        "h8g_satisfied": {"const": false},
+        "h8h_satisfied": {"const": false},
+        "reason": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "authority": {
+      "type": "object",
+      "required": [
+        "scientific_authority", "human_confirmation_authority",
+        "ethics_authority", "regulatory_authority", "source_rights_authority",
+        "maintainer_disposition_authority", "runtime_authority",
+        "real_study_authority", "promotion_authority", "release_authority",
+        "publication_authority", "activation_authority", "closure_authority"
+      ],
+      "propertyNames": {
+        "enum": [
+          "scientific_authority", "human_confirmation_authority",
+          "ethics_authority", "regulatory_authority", "source_rights_authority",
+          "maintainer_disposition_authority", "runtime_authority",
+          "real_study_authority", "promotion_authority", "release_authority",
+          "publication_authority", "activation_authority", "closure_authority"
+        ]
+      },
+      "additionalProperties": {"const": false}
+    },
+    "synthesized_at": {"type": "string", "format": "date-time"},
+    "synthesis_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "gitOid": {
+      "type": "object",
+      "required": ["algorithm", "value"],
+      "properties": {"algorithm": {"const": "sha1"}, "value": {"type": "string", "pattern": "^[0-9a-f]{40}$"}},
+      "additionalProperties": false
+    },
+    "artifactRef": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}},
+      "additionalProperties": false
+    },
+    "role": {"enum": ["estimand_domain", "estimator_assurance", "cross_language_api", "governance_publication", "domain_specialist"]},
+    "statementList": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["source_roles", "statement"],
+        "properties": {"source_roles": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/role"}}, "statement": {"type": "string", "minLength": 1}},
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

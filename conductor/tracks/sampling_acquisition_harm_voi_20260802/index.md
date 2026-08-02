@@ -6,6 +6,7 @@
 - [Mermaid design](./design.md)
 - [Human-confirmation gates](./human-confirmation-gates.md)
 - [H8-C frozen review preparation](./h8c-frozen-review-preparation-20260803.md)
+- [H8-D/H8-E automated challenge panel](./h8d-h8e-automated-challenge-20260803.md)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
 - [GitHub issue #850](https://github.com/edithatogo/voiage/issues/850)
@@ -29,3 +30,9 @@ named human verdict, real-study authorization,
 implementation, parity, promotion, release, publication, registry acceptance
 and closure remain separate gates. Repository hosted assurance is satisfied by
 merged PR #855; it does not satisfy any of those remaining gates.
+
+The H8-D/H8-E automated challenge panel now retains five role-shaped reports
+and a separate synthesis covering all nineteen findings. It is non-human and
+non-authorizing; one reviewer declares disqualifying independence, source
+review remains blocked, and the Critical/High findings remain pending. H8-D
+through H8-H therefore remain open.

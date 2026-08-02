@@ -72,6 +72,14 @@ only for dispute, dissent or reviewer remediation, followed by a separate
 maintainer product decision. Real-study authorization, parity, promotion,
 release, publication, registry acceptance and closure remain pending.
 
+The first H8-D/H8-E automated challenge pass is now retained as preparation:
+five role-shaped reports and a separate synthesis bind the frozen candidate and
+preserve nineteen pending findings (one Critical, fifteen High and three
+Medium). This panel is non-human and non-authorizing; estimator-assurance
+independence is disqualifying and independent source review remains blocked.
+Consequently H8-D through H8-H remain open, and a new candidate packet is
+required after substantive remediation.
+
 Canonical C18/M32 planning is synchronized through VOP PR #71, squash-merged
 as `e0ff1d2ce3361d52ee22bb01e105b92653ed606c` after 16 terminal successful
 checks and one governed scheduled-only skip. That cross-repository merge is

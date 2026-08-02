@@ -78,10 +78,22 @@
   estimator-assurance, cross-language/API and governance/publication subagents
   plus a domain/ethics specialist. Record identity, qualifications,
   contribution/remediation history, conflicts and independence. (AC-08)
+- [x] **H8-D-A:** Retain five exact-candidate automated challenge reports with
+  complete role-shaped coverage, self-digests, qualifications, contribution
+  history, conflicts and independence declarations. These reports expose one
+  Critical, fifteen High and three Medium pending findings, but are non-human;
+  the estimator-assurance agent also declares a disqualifying independence
+  limitation. This evidence therefore does not satisfy H8-D. (AC-08)
 - [ ] **H8-E:** Have a separate orchestrating agent normalize the reports,
   preserve every finding and disagreement, and synthesize options,
   contingencies, rationale and an evidence-backed recommendation without
   voting, remediating or approving. (AC-08)
+- [x] **H8-E-A:** Retain the separate automated challenge synthesis bound to
+  the frozen candidate, five report digests and all nineteen findings. Its
+  recommendation is to retain unsupported research scoping and prepare a new
+  reviewable packet. Independent eligibility, source review, H8-D, H8-E and
+  every authority flag remain false, so this preparation does not satisfy
+  H8-E or advance H8-F. (AC-08)
 - [ ] **H8-F:** Disposition every finding; independently verify Critical/High
   fixes or reviewed exclusions, disposition every Medium and repeat affected
   roles against a fresh packet after substantive remediation. Use an
