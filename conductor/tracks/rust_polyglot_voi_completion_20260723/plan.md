@@ -14,14 +14,13 @@
 
 ## Phase 2 — Evidence before positive claims
 
-- [x] **G5:** Add failing conformance, reference, property and pathological
-  tests, or the corresponding reproducible review protocol. (AC-03) — 23900b8
-- [x] **G6:** Add versioned schemas, fixtures, diagnostics and provenance
-  contracts required by the accepted scope. (AC-02, AC-03) — `e7622eb`
-- [x] **G7:** Record rights, privacy, scientific, practitioner and external
-  evidence gates that apply to this workstream. (AC-05, AC-06) — 67857b5
-- [x] **G8:** Run an independent evidence and boundary review. (AC-03, AC-07)
-  — `f8a3337`
+- [ ] **G5:** Add failing conformance, reference, property and pathological
+  tests, or the corresponding reproducible review protocol. (AC-03)
+- [~] **G6:** Add versioned schemas, fixtures, diagnostics and provenance
+  contracts required by the accepted scope. (AC-02, AC-03)
+- [ ] **G7:** Record rights, privacy, scientific, practitioner and external
+  evidence gates that apply to this workstream. (AC-05, AC-06)
+- [ ] **G8:** Run an independent evidence and boundary review. (AC-03, AC-07)
 
 ## Phase 3 — Delivery or reviewed exclusion
 
