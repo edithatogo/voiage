@@ -33,6 +33,9 @@
   manifest. (`3d923ab8`)
 - [x] Monitor required hosted checks to a terminal state. PR #465 merged as
   `3d4306d7`; the exact hosted handoff is recorded in the evidence ledger.
+- [x] Reconcile closeout PR #810 exact head
+  `8eccc1581729b10a29db957f827ff3cb752f010e`, merged as
+  `50cf258fe317d5d2e331b060083dbad70a4dd691`, without rewriting history.
 - [x] Keep issue closure and merge as explicit post-merge boundaries. Issue
   #462 is closed after the merge and current-main validation.
 

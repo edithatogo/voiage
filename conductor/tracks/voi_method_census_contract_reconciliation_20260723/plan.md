@@ -44,7 +44,9 @@
 
 - [ ] **G13:** Reconcile child-issue results, roadmap, todo, registries,
   release targets and remaining external gates. (AC-01, AC-05, AC-06)
-- [ ] **G14:** Run final full local validation and hosted required checks.
-  (AC-07)
+- [x] **G14:** Run final full local validation and hosted required checks. PR
+  #816 exact head `1a159e02af95fc3a6bce46f2bf8909561be0b9bd` passed the
+  required matrix before merge `68cb15dfcb8706ab653f8a1631b433a7f63ba322`.
+  Residual classification and promotion remain separate. (AC-07)
 - [ ] **G15:** Record repository completion separately from merge, release,
   publication, registry acceptance and issue closure. (AC-02, AC-07)

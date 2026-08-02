@@ -29,4 +29,9 @@ Paper hierarchy: [#299](https://github.com/edithatogo/voiage/issues/299) >
 
 - Track issue: [#296](https://github.com/edithatogo/voiage/issues/296)
 - Project: [VOP–VOIAGE Conductor Roadmap](https://github.com/users/edithatogo/projects/28)
-- Pull requests: [#300](https://github.com/edithatogo/voiage/pull/300), [#308](https://github.com/edithatogo/voiage/pull/308), [#309](https://github.com/edithatogo/voiage/pull/309), [#310](https://github.com/edithatogo/voiage/pull/310), [#311](https://github.com/edithatogo/voiage/pull/311), [#469](https://github.com/edithatogo/voiage/pull/469), [#470](https://github.com/edithatogo/voiage/pull/470), [#472](https://github.com/edithatogo/voiage/pull/472), [#473](https://github.com/edithatogo/voiage/pull/473), [#480](https://github.com/edithatogo/voiage/pull/480)
+- Pull requests: [#300](https://github.com/edithatogo/voiage/pull/300), [#308](https://github.com/edithatogo/voiage/pull/308), [#309](https://github.com/edithatogo/voiage/pull/309), [#310](https://github.com/edithatogo/voiage/pull/310), [#311](https://github.com/edithatogo/voiage/pull/311), [#469](https://github.com/edithatogo/voiage/pull/469), [#470](https://github.com/edithatogo/voiage/pull/470), [#472](https://github.com/edithatogo/voiage/pull/472), [#473](https://github.com/edithatogo/voiage/pull/473), [#480](https://github.com/edithatogo/voiage/pull/480), [#561](https://github.com/edithatogo/voiage/pull/561), [#813](https://github.com/edithatogo/voiage/pull/813)
+
+PR #480 and Julia publication-readiness PR #561 are merged. Governance PR #813
+exact head `144c0e0fbc20a5a55225f2b884e73eee11c9db64` merged as
+`9d49572ade4a27bd340c30f1fa1869c090f2bb6d`; external registry decisions
+remain separate gates.

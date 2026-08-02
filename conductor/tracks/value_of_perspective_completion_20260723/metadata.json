@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-27T08:15:00Z",
-  "updated_at": "2026-08-02T09:33:23Z",
+  "updated_at": "2026-08-02T11:40:00Z",
   "description": "Complete the perspective-information family without conflating perspective, preference, heterogeneity, equity or ordinary EVPI.",
   "evidence_schema": "1.0",
   "approval": {
@@ -43,8 +43,8 @@
     {
       "id": "hosted-required-checks",
       "kind": "hosted_validation",
-      "status": "pending",
-      "evidence": "Required after repository delivery and before merge."
+      "status": "satisfied",
+      "evidence": "PR #828 exact head e63f31e4929081201c2ca5df3372ab73c9714eba completed 32 successful checks, three governed skips and one neutral check before squash merge 168156a3e0910e99babecbf4ec06bbfb86b85f56."
     }
   ]
 }

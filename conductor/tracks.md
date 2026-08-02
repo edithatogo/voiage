@@ -4,8 +4,10 @@
 *Link: [./tracks/rust_polyglot_voi_completion_20260723/index.md](./tracks/rust_polyglot_voi_completion_20260723/index.md)*
 *GitHub: [issue #313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: new — the issue-claimed specification and plan are now materialized;
-existing issue/Project progress awaits evidence reconciliation.*
+*Status: in progress — ten workstreams are registered as the current programme
+inventory and existing Rust-authoritative evidence is indexed; child
+reconciliation, scientific, installed-parity, registry, publication, release,
+and closure gates remain pending. PR #826 delivery checks are satisfied.*
 
 ---
 
@@ -13,8 +15,9 @@ existing issue/Project progress awaits evidence reconciliation.*
 *Link: [./tracks/voi_method_census_contract_reconciliation_20260723/index.md](./tracks/voi_method_census_contract_reconciliation_20260723/index.md)*
 *GitHub: [issue #314](https://github.com/edithatogo/voiage/issues/314), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: in progress — live issue hierarchy, Project state, metadata and merged
-planning PR #621 are reconciled; classification and review remain pending.*
+*Status: in progress — live issue hierarchy, Project state, metadata, merged
+planning PR #621, and delivery PR #816 are reconciled; residual classification
+and promotion remain pending.*
 
 ---
 
@@ -32,8 +35,9 @@ external registry evidence remain pending.*
 *Link: [./tracks/stable_voi_rust_core_completion_20260723/index.md](./tracks/stable_voi_rust_core_completion_20260723/index.md)*
 *GitHub: [issue #316](https://github.com/edithatogo/voiage/issues/316), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: new — the issue-claimed specification and plan are now materialized;
-existing issue/Project progress awaits evidence reconciliation.*
+*Status: in progress — Rust-authoritative stable-kernel contracts, migration
+matrix, bridge boundaries, and delivery PR #827 are reconciled; complete method
+coverage, installed parity, promotion, and registry gates remain pending.*
 
 ---
 
@@ -41,8 +45,10 @@ existing issue/Project progress awaits evidence reconciliation.*
 *Link: [./tracks/value_of_perspective_completion_20260723/index.md](./tracks/value_of_perspective_completion_20260723/index.md)*
 *GitHub: [issue #317](https://github.com/edithatogo/voiage/issues/317), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: new — the issue-claimed specification and plan are now materialized;
-existing issue/Project progress awaits evidence reconciliation.*
+*Status: in progress — directional current-information EVoP is the
+fixture-backed experimental Python boundary and PR #828 delivery assurance is
+satisfied; unsupported estimands, installed parity, promotion, and closure
+remain explicit gates.*
 
 ---
 
@@ -61,9 +67,9 @@ evidence or a reviewed exclusion before programme closeout.*
 native sub-issue of [#318](https://github.com/edithatogo/voiage/issues/318),
 under programme [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: in progress — delivering an exact finite experimental Python contract;
-scientific review, polyglot parity, stable promotion, hosted checks, release and
-issue closure remain separate gates.*
+*Status: in progress — the exact finite experimental Python contract and PR
+#812 repository-review delivery are reconciled; independent scientific review,
+polyglot parity, stable promotion, release, and issue closure remain separate.*
 
 ---
 
@@ -126,8 +132,9 @@ checks remain pending.*
 *Link: [./tracks/quality_release_automation_20260723/index.md](./tracks/quality_release_automation_20260723/index.md)*
 *GitHub: [issue #322](https://github.com/edithatogo/voiage/issues/322), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: new — the issue-claimed specification and plan are now materialized;
-existing issue/Project progress awaits evidence reconciliation.*
+*Status: in progress — quality, security, release, SBOM, provenance, and
+registry-audit evidence plus PR #822 delivery assurance are reconciled;
+connected adapters and external publication remain pending.*
 
 ---
 
@@ -135,8 +142,9 @@ existing issue/Project progress awaits evidence reconciliation.*
 *Link: [./tracks/research_contribution_ai_transparency_20260723/index.md](./tracks/research_contribution_ai_transparency_20260723/index.md)*
 *GitHub: [issue #323](https://github.com/edithatogo/voiage/issues/323), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: new — the issue-claimed specification and plan are now materialized;
-existing issue/Project progress awaits evidence reconciliation.*
+*Status: in progress — existing accountability records and PR #825 delivery
+assurance are reconciled; canonical CRediT data, release-linked provenance, and
+human attestation remain pending.*
 
 ---
 
@@ -202,8 +210,9 @@ repository manifest, validation, and merged PR handoff are recorded.*
 *GitHub: [issue #752](https://github.com/edithatogo/voiage/issues/752), native
 sub-issue of [#325](https://github.com/edithatogo/voiage/issues/325).*
 *Status: in progress but authorization-blocked — fail-closed local probe
-assurance passes; approved rights-cleared, hash-pinned source artifacts and
-explicit use authority remain mandatory before network I/O.*
+assurance and PR #817 hosted delivery checks pass; approved rights-cleared,
+hash-pinned source artifacts and explicit use authority remain mandatory before
+network I/O.*
 
 ---
 
@@ -211,8 +220,8 @@ explicit use authority remain mandatory before network I/O.*
 *Link: [./tracks/remote_dataset_ingestion_security_20260801/index.md](./tracks/remote_dataset_ingestion_security_20260801/index.md)*
 *GitHub: [issue #753](https://github.com/edithatogo/voiage/issues/753), native
 sub-issue of [#325](https://github.com/edithatogo/voiage/issues/325).*
-*Status: new — blocked pending a separate approved remote-transport threat
-model and policy.*
+*Status: in progress — the PR #824 threat model and hosted delivery assurance
+are recorded; remote I/O remains blocked pending explicit policy approval.*
 
 ---
 
@@ -224,7 +233,8 @@ release and archival evidence.*
 Software Heritage, SBOM, provenance, digest, and clean-install evidence are
 complete; conda-forge PR #34308 is submitted. RRID curation, arXiv
 identification, human JOSS evidence, and external language-registry outcomes
-remain explicit gates.*
+remain explicit gates. PR #561 Julia readiness and PR #813 governance are
+merged and cross-referenced.*
 
 ---
 

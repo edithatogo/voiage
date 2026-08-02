@@ -20,5 +20,8 @@
   bundle and numerical-equivalence path.
 - [ ] **L6 / AC-04:** Publish narrow support documentation and operational
   guidance without claiming general live-data support.
-- [ ] **L7 / AC-02--AC-04:** Run security, dependency, full tox, hosted checks,
-  Conductor review, and issue/Project evidence reconciliation.
+- [x] **L7 / AC-02--AC-04:** Run security, dependency, full tox, hosted checks,
+  Conductor review, and issue/Project evidence reconciliation. PR #817 exact
+  head `d40f5b617df847fe517759f5892a1562f25bc4d9` passed its required
+  matrix before merge `33537325ad7262dc15bcddb4283a6aa51cfdb323`.
+  This does not satisfy L1 or authorize network I/O.

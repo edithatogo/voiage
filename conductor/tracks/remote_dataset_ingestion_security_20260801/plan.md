@@ -9,7 +9,8 @@
 - [ ] **R2 / AC-01:** Obtain explicit security-policy approval before enabling
   any remote I/O.
 - [x] **R3 / AC-01:** Run Conductor review and validation checkpoint.
-  (2026-08-01; local validators pass; remote approval remains pending)
+  (2026-08-01; local validators and PR #824 required hosted checks pass;
+  remote approval remains pending)
 
 ## Phase 2 — Fail-closed implementation
 
