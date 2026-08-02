@@ -14,7 +14,7 @@
 ## Phase 2 — Evidence before positive claims
 
 - [x] **G5:** Add failing conformance, reference, property and pathological
-  tests, or the corresponding reproducible review protocol. (AC-03) — `d06eccc8`
+  tests, or the corresponding reproducible review protocol. (AC-03) — `d06eccc`
 - [ ] **G6:** Add versioned schemas, fixtures, diagnostics and provenance
   contracts required by the accepted scope. (AC-02, AC-03)
 - [x] **G7:** Record rights, privacy, scientific, practitioner and external
@@ -46,4 +46,4 @@
 ## Review Fixes
 
 - [x] **RF-G5:** Add explicit independent repository references, refresh track
-  metadata timestamp and normalize the recorded task SHA. (Conductor review) — `74cbb55`
+  metadata timestamp and normalize the recorded task SHA. (Conductor review)
