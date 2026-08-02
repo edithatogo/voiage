@@ -2,9 +2,9 @@
   "track_id": "polyglot_abi_binding_parity_20260723",
   "version": "1.0.0",
   "type": "feature",
-  "status": "new",
+  "status": "in_progress",
   "created_at": "2026-07-27T08:15:00Z",
-  "updated_at": "2026-07-27T08:15:00Z",
+  "updated_at": "2026-08-01T17:00:00Z",
   "description": "Expose maturity-tiered VOI and the portable industry Decision Problem consistently through Rust, C ABI, Python, R, Julia and Mojo.",
   "evidence_schema": "1.0",
   "approval": {
@@ -26,7 +26,8 @@
       "https://github.com/edithatogo/voiage/issues/579"
     ],
     "pull_requests": [
-      "https://github.com/edithatogo/voiage/pull/621"
+      "https://github.com/edithatogo/voiage/pull/621",
+      "https://github.com/edithatogo/voiage/pull/821"
     ],
     "pull_request_evidence": "track_delivery"
   },

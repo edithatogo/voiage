@@ -128,3 +128,38 @@ def test_ml_llm_agent_track_syncs_pr_states_lifecycle_and_pending_gates() -> Non
     assert "bounded governance" not in umbrella_section
     assert "Status: in progress" in ml_section
     assert "scientific, installed-parity, rights and hosted gates" in ml_section
+
+
+def test_polyglot_parity_track_projects_current_delivery_state() -> None:
+    """The #320 projections agree on merged planning and active delivery."""
+    track_id = "polyglot_abi_binding_parity_20260723"
+    manifest = json.loads(
+        (ROOT / "conductor" / "github-cross-references.json").read_text()
+    )
+    entry = next(item for item in manifest["tracks"] if item["track_id"] == track_id)
+    metadata = json.loads(
+        (ROOT / "conductor" / "tracks" / track_id / "metadata.json").read_text()
+    )
+    pull_requests = {item["number"]: item for item in entry["pull_requests"]}
+
+    assert {item["url"] for item in entry["pull_requests"]} == set(
+        metadata["github_cross_reference"]["pull_requests"]
+    )
+    assert pull_requests[621]["status"] == "merged"
+    assert "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3" in pull_requests[621]["evidence"]
+    assert pull_requests[821]["status"] == "open"
+    assert "polyglot-parity-governance-delivery" in pull_requests[821]["evidence"]
+    assert entry["lifecycle"] == "active"
+    assert metadata["status"] == "in_progress"
+
+    registry = (ROOT / "conductor" / "tracks.md").read_text()
+    umbrella_section = registry.split("\n---", 1)[0]
+    section = registry.split("## [~] Track: Polyglot ABI and Binding Parity", 1)[1]
+    section = section.split("\n---\n", 1)[0]
+    assert "governance and capability reconciliation" not in umbrella_section
+    assert "*Status: in progress" in section
+    assert "*Status: new" not in section
+
+    index = (ROOT / "conductor" / "tracks" / track_id / "index.md").read_text()
+    assert "Merged planning PR #621" in index
+    assert "Delivery PR #821" in index
