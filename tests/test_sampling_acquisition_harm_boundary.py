@@ -214,7 +214,7 @@ def test_scope_selection_schema_rejects_authority_or_integrity_relaxation() -> N
     changed["evidence_refs"][0]["path"] = "../outside.json"
     invalid.append(changed)
     changed = deepcopy(valid)
-    changed["selected_at"] = "2026-02-30T25:61:00Z"
+    changed["selected_at"] = "2026-08-02T18:00:00+00:00"
     invalid.append(changed)
 
     validator = Draft202012Validator(schema, format_checker=FormatChecker())
