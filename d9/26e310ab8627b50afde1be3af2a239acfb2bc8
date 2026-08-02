@@ -1,0 +1,7 @@
+Task S22 — replayable COSS and efficiency uncertainty
+
+Summary: Added native Rust kernels and Python contracts for dependence-preserving joint COSS selection uncertainty and paired EVSI/EVPI efficiency uncertainty. Results now expose empirical selection probabilities, near-tie probability, selection regret, winner optimism, paired uncertainty intervals, bias and replay digests. Added portable generated schemas, normative replay fixtures and binding/behavior tests.
+
+Why: Pointwise or unpaired summaries cannot quantify design-selection instability or preserve dependence across candidate designs and information-value estimates.
+
+Validation: Rust study-design tests (8 passed); Rust Python binding check; local extension rebuild; focused Python tests (50 passed); Ruff; frontier contract validator; full Conductor validator (148 tracks, zero errors/warnings). Coverage instrumentation was not accepted as evidence because Python 3.14/NumPy failed during import before collection.
