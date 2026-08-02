@@ -19,14 +19,16 @@
 
 ## Phase 2 — Governed unsupported capability
 
-- [ ] **H4:** Synchronize C18/M32 MoSCoW, Mermaid, roadmap, todo, #850,
+- [x] **H4:** Synchronize C18/M32 MoSCoW, Mermaid, roadmap, todo, #850,
   nested subissues, Project 28 and cross-references. (AC-01)
-- [ ] **H5:** Add a versioned research-disposition/capability artifact and
+  `ea6100d2`, `69c9ac32`
+- [x] **H5:** Add a versioned research-disposition/capability artifact and
   validator that state no runtime exists and enumerate every prerequisite for
-  reconsideration. (AC-03, AC-07, AC-08)
-- [ ] **H6:** Add fail-closed discovery, schema and negative API/ABI tests; no
+  reconsideration. (AC-03, AC-07, AC-08) `af83b4d4`
+- [x] **H6:** Add fail-closed discovery, schema and negative API/ABI tests; no
   #570 or #595 surface may advertise sampling-harm execution. (AC-02, AC-07)
-- [ ] **H7:** Run repository, frontier and full Conductor validation and
+  `af83b4d4`
+- [~] **H7:** Run repository, frontier and full Conductor validation and
   complete the phase checkpoint. (AC-07, AC-09)
 
 ## Phase 3 — Candidate-bound decision
