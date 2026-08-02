@@ -118,10 +118,10 @@
   sampling model and solver request to runtime inputs and replay provenance;
   distinguish exact, outer, nested and coupled estimator designs. (M14-E6,
   M14-E7; AC-02–AC-05) `9d85df1`
-- [~] **E21:** Add truth-known bias, RMSE, coverage, calibration, convergence
+- [x] **E21:** Add truth-known bias, RMSE, coverage, calibration, convergence
   and dependence-preserving nested/coupled assurance plus independently
   executable Rust/Python EVPPI and EVSI fixtures. (M14-E7, M14-E9; AC-03–
-  AC-06, AC-08)
+  AC-06, AC-08) `9a20b6a`
 - [ ] **E22:** Complete vector covariance scientific review with PSD policy,
   units, scalarization, regularization, recomputation and multivariate oracles;
   otherwise retain a reviewed vector exclusion. (M14-E8; AC-02–AC-05)
