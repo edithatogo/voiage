@@ -207,7 +207,7 @@ explicit use authority remain mandatory before network I/O.*
 
 ---
 
-## [ ] Track: Remote Standardized-Dataset Ingestion Security
+## [~] Track: Remote Standardized-Dataset Ingestion Security
 *Link: [./tracks/remote_dataset_ingestion_security_20260801/index.md](./tracks/remote_dataset_ingestion_security_20260801/index.md)*
 *GitHub: [issue #753](https://github.com/edithatogo/voiage/issues/753), native
 sub-issue of [#325](https://github.com/edithatogo/voiage/issues/325).*

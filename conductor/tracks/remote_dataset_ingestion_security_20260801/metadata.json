@@ -2,9 +2,9 @@
   "track_id": "remote_dataset_ingestion_security_20260801",
   "version": "1.0.0",
   "type": "feature",
-  "status": "new",
+  "status": "in_progress",
   "created_at": "2026-08-01T04:30:00Z",
-  "updated_at": "2026-08-01T04:30:00Z",
+  "updated_at": "2026-08-01T17:45:00Z",
   "description": "Define and implement an approved security policy for any future remote standardized-dataset ingestion.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
@@ -21,7 +21,10 @@
     "issue": "https://github.com/edithatogo/voiage/issues/753",
     "parent_issue": "https://github.com/edithatogo/voiage/issues/325",
     "project": "https://github.com/users/edithatogo/projects/28",
-    "pull_request_evidence": "none_found"
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/824"
+    ],
+    "pull_request_evidence": "track_delivery"
   },
   "gates": [
     {
