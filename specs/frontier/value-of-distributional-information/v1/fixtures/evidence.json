@@ -14,7 +14,7 @@
     {"path": "specs/frontier/value-of-distributional-information/v1/README.md", "sha256": "cda82e1a704b5172d11fb551d77318dca9cb80972a49889bb763dba098862bae"},
     {"path": "voiage/contracts/distributional_information.py", "sha256": "a2a9a8f4a9c85173f00fa34e928e6b6c04619885be2dc647a3a9ab91ba4e5854"},
     {"path": "voiage/methods/distributional_information.py", "sha256": "cd8fef252073109450fbfa7f422cb08eb084827ebfad35da412d99ad07c75f28"},
-    {"path": "voiage/cli.py", "sha256": "f21c22d345d735f531f4d28e58c60652f52c3353ebd2eebd1205facea279e27c"},
+    {"path": "voiage/cli.py", "sha256": "e63fb6520b2cca9d682a6513c131180e6d0613efdad456c38ab053cf26a6eb15"},
     {"path": "voiage/__init__.py", "sha256": "2e730f2d1ed15a8ae331b901700343b30a41ebbe6a6985da04e91b4abced9ea1"},
     {"path": "conductor/tracks/supported_frontier_method_completion_20260723/distribution-family-information-reference-review.md", "sha256": "d0fcdacde3d0340684428298259551a8d58fb6e0b4efcb780b48b7b106337548"},
     {"path": "conductor/tracks/supported_frontier_method_completion_20260723/distribution-family-information-implementation-review.md", "sha256": "075ade9e26efcc4d0a680ea46536352fa31b672c65259c48c7fc1a6a6ab51f0b"},
@@ -24,7 +24,7 @@
     {"path": "docs/astro-site/src/content/docs/examples/value-of-distributional-information.mdx", "sha256": "c99c508b5b500fb2ebbe55705d3ed3e04d4516b079e962d4506243593fb1c130"},
     {"path": "docs/astro-site/src/content/docs/examples/index.mdx", "sha256": "05a85be3eb59d963b1fd59973f87c8ff1378cdfa11c8638f8dc430415f9546b4"},
     {"path": "docs/astro-site/src/content/docs/cli-reference.mdx", "sha256": "5fcf6526809dd981aaf0194a7d33fab6a081eb019add523950f673b2a0fbb447"},
-    {"path": "changelog.md", "sha256": "2b7bb6dddb66ba466e281792fa473497f7d103ef5e1fd9a8a1bde92affd5eaa7"}
+    {"path": "changelog.md", "sha256": "8786a7aac9d6a45327766a6114583281a57e703a604b41590d5a40343fc561c1"}
   ],
   "remaining_gates": [
     "independent implementation and scientific review",
