@@ -5,9 +5,9 @@
 - [x] **H1:** Freeze primary sources, adjacent contracts and the candidate
   estimand; record source scope and limitations. (AC-02, AC-03, AC-06)
   `29dac20`
-- [~] **H2:** Publish the zero-harm reduction, separability/commensurability
+- [x] **H2:** Publish the zero-harm reduction, separability/commensurability
   rule, catastrophic constraint boundary and enumerable counterexample plan.
-  (AC-02–AC-06)
+  (AC-02–AC-06) `97bd208`
 - [ ] **H3:** Run an automated estimand/domain, assurance and governance panel,
   resolve Critical/High findings, and complete the phase checkpoint. (AC-06,
   AC-08, AC-09)
