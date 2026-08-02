@@ -16,7 +16,7 @@
 
 - [ ] **G5:** Add failing conformance, reference, property and pathological
   tests, or the corresponding reproducible review protocol. (AC-03)
-- [ ] **G6:** Add versioned schemas, fixtures, diagnostics and provenance
+- [~] **G6:** Add versioned schemas, fixtures, diagnostics and provenance
   contracts required by the accepted scope. (AC-02, AC-03)
 - [ ] **G7:** Record rights, privacy, scientific, practitioner and external
   evidence gates that apply to this workstream. (AC-05, AC-06)
