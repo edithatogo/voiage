@@ -28,3 +28,13 @@ ethics, regulatory, runtime, promotion, release or publication authorization.
 No initial reviewer found evidence supporting a generic executable method. All
 runtime discovery remains fail closed. A repeat review must find no unresolved
 Critical or High item before the automated Phase 1 checkpoint can complete.
+
+## Final repeat-review result
+
+The estimand/domain, statistical-assurance and governance/API roles repeated
+their read-only reviews against exact commit
+`eeb50c303246b4865c4a0b92e4669c92dd8196ea`. Each reported zero unresolved
+Critical or High findings. Evidence entry `064902d9afd4e7683507ae3b420138ba18ad50ebf0fd2cafb8f1022d56919881`
+supersedes the original H1/H2 pins and records the exact validation commands.
+This closes only the automated Phase 1 repository checkpoint; H8 remains
+pending and runtime remains prohibited.

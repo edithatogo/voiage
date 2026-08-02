@@ -8,13 +8,14 @@
 - [x] **H2:** Publish the zero-harm reduction, separability/commensurability
   rule, catastrophic constraint boundary and enumerable counterexample plan.
   (AC-02–AC-06) `97bd208`
-- [~] **H3:** Run an automated estimand/domain, assurance and governance panel,
+- [x] **H3:** Run an automated estimand/domain, assurance and governance panel,
   resolve Critical/High findings, and complete the phase checkpoint. (AC-06,
-  AC-08, AC-09)
-- [~] **H3-R1:** Remediate the automated advisory panel's High and Medium
+  AC-08, AC-09) `eeb50c3`
+- [x] **H3-R1:** Remediate the automated advisory panel's High and Medium
   findings, append superseding evidence where H1/H2 artifacts change, and
   repeat the exact-candidate review before completing H3. This automated panel
   is not the independent human verdict required by H8. (AC-02–AC-09)
+  `064902d9`
 
 ## Phase 2 — Governed unsupported capability
 
