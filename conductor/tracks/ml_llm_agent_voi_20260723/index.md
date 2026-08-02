@@ -7,8 +7,9 @@
 - [GitHub issue #319](https://github.com/edithatogo/voiage/issues/319)
 - [Parent issue #313](https://github.com/edithatogo/voiage/issues/313)
 - [Project 28](https://github.com/users/edithatogo/projects/28)
-- [Draft planning PR #621](https://github.com/edithatogo/voiage/pull/621)
+- [Merged planning PR #621](https://github.com/edithatogo/voiage/pull/621)
+- [Delivery PR #820](https://github.com/edithatogo/voiage/pull/820)
 
-Status: new. The issue-claimed track is now materially registered with an
-approved specification and plan; existing Project or issue status is not
-treated as implementation completion.
+Status: in progress. Governance and bounded-scope reconciliation is underway;
+ML/LLM/agent parity, scientific and rights review, and hosted evidence remain
+pending.
