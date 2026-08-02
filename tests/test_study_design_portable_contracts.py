@@ -35,9 +35,18 @@ def test_portable_schemas_match_authoritative_models() -> None:
 
 def test_capability_metadata_is_honest_about_installed_parity() -> None:
     capability = json.loads((ROOT / "capabilities.json").read_text(encoding="utf-8"))
+    registry = json.loads(
+        (ROOT.parents[1] / "fixtures/manifest.json").read_text(encoding="utf-8")
+    )
+    registered = next(
+        item
+        for item in registry["families"]
+        if item["name"] == "study_design_efficiency"
+    )
 
     assert capability["contract_version"] == "1.0.0"
     assert capability["maturity"] == "experimental"
+    assert registered["method_maturity"] == "experimental"
     assert capability["surfaces"]["rust"]["status"] == "kernel"
     assert capability["surfaces"]["python"]["status"] == "executable"
     for language in ("r", "julia"):
