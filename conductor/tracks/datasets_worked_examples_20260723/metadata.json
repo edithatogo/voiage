@@ -2,9 +2,9 @@
   "track_id": "datasets_worked_examples_20260723",
   "version": "1.0.0",
   "type": "feature",
-  "status": "new",
+  "status": "in_progress",
   "created_at": "2026-07-27T08:15:00Z",
-  "updated_at": "2026-07-27T08:15:00Z",
+  "updated_at": "2026-08-01T16:00:00Z",
   "description": "Provide executable, rights-governed evidence for real decisions beyond health economics using reusable templates rather than one-off numerical engines.",
   "evidence_schema": "1.0",
   "approval": {
@@ -30,7 +30,8 @@
       "https://github.com/edithatogo/voiage/issues/577"
     ],
     "pull_requests": [
-      "https://github.com/edithatogo/voiage/pull/621"
+      "https://github.com/edithatogo/voiage/pull/621",
+      "https://github.com/edithatogo/voiage/pull/818"
     ],
     "pull_request_evidence": "track_delivery"
   },
