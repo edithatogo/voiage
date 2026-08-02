@@ -381,8 +381,10 @@ def value_of_perspective(
     perspective_names : sequence of str, optional
         Perspective labels used when ``perspectives`` is omitted.
     perspective_weights : sequence or mapping, optional
-        Non-negative weights used for consensus and weighted switching value.
-        Mappings must be keyed by perspective id.
+        Non-negative normative stakeholder-importance weights used for
+        consensus and weighted switching value. They are not probabilities
+        over which perspective is true. Mappings must be keyed by perspective
+        id.
     reference_perspective : str or int, optional
         Perspective whose optimal strategy is used as the reference decision
         rule. Defaults to the first perspective.
@@ -404,6 +406,12 @@ def value_of_perspective(
     The reported switching value compares the reference perspective's optimal
     strategy with each perspective's own optimum, and the returned value is
     the weighted average of those switching values.
+
+    ``tie_policy="split"`` is a reporting diagnostic: tied optimal strategies
+    are averaged to summarize regret and does not claim that an executable
+    randomized policy was deployed. The returned normal 1.96 intervals are
+    exploratory plug-in intervals and require finite-sample/model assumptions
+    before scientific interpretation.
 
     References
     ----------
@@ -560,6 +568,13 @@ def value_of_perspective(
             "decision_rule": "expected_value",
             "method_contract_version": METHOD_CONTRACT_VERSION,
             "tie_policy": tie_policy,
+            "tie_policy_semantics": (
+                "reporting_mixture_not_executable_randomized_policy"
+                if tie_policy == "split"
+                else "deterministic_or_error"
+            ),
+            "perspective_weight_semantics": "normative_stakeholder_importance",
+            "switching_ci95_status": "exploratory_plugin_interval",
             "ties_detected": ties_detected.tolist(),
             "switching_standard_errors": switching_se,
             "switching_ci95": switching_ci95,
