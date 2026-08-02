@@ -69,8 +69,10 @@
 - [~] **H8-C:** Freeze a clean #850/#853-specific packet containing the exact
   commit/tree, track artifacts, sources and retrieval receipts, claims,
   capability boundary, fixtures, estimator thresholds, uncertainty rules,
-  issue/Project snapshot, limitations and prior findings. Reject stale,
-  moving, dirty or preparation-only records. (AC-06, AC-08)
+  issue/Project snapshot, limitations and prior findings. The governed H8-C
+  output is a frozen preparation for H8-D; reject stale, moving, dirty or
+  falsely complete records, and reject the preparation at the complete-bundle
+  gate until H8-D–H8-G evidence exists. (AC-06, AC-08)
 - [ ] **H8-D:** Pre-screen and commission independent estimand/domain,
   estimator-assurance, cross-language/API and governance/publication subagents
   plus a domain/ethics specialist. Record identity, qualifications,

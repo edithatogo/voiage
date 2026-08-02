@@ -11,7 +11,7 @@
     "status": {"const": "frozen_review_preparation"},
     "candidate_commit": {"$ref": "#/$defs/gitOid"}, "candidate_tree": {"$ref": "#/$defs/gitOid"},
     "candidate_worktree_state_at_freeze": {"const": "clean"},
-    "artifact_manifest": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "artifact_count"], "properties": {"path": {"const": "specs/frontier/sampling-acquisition-harm/v1/review-artifact-manifest.json"}, "sha256": {"$ref": "#/$defs/sha256"}, "artifact_count": {"const": 38}}},
+    "artifact_manifest": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "artifact_count"], "properties": {"path": {"const": "specs/frontier/sampling-acquisition-harm/v1/review-artifact-manifest.json"}, "sha256": {"$ref": "#/$defs/sha256"}, "artifact_count": {"const": 50}}},
     "review_packet": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"const": "specs/frontier/sampling-acquisition-harm/v1/review-packet.json"}, "sha256": {"$ref": "#/$defs/sha256"}}},
     "candidate_input": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"const": "specs/frontier/sampling-acquisition-harm/v1/review-candidate.json"}, "sha256": {"$ref": "#/$defs/sha256"}}},
     "governance_snapshot": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "expires_at"], "properties": {"path": {"const": "specs/frontier/sampling-acquisition-harm/v1/governance-snapshot.json"}, "sha256": {"$ref": "#/$defs/sha256"}, "expires_at": {"type": "string", "format": "date-time", "pattern": "Z$"}}},

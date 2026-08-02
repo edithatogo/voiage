@@ -15,17 +15,22 @@ if TYPE_CHECKING:
 
 from jsonschema import Draft202012Validator, FormatChecker
 from jsonschema.exceptions import ValidationError as JsonSchemaValidationError
+from referencing import Registry, Resource
 
-from voiage.scientific_review_evidence import (
-    ScientificReviewEvidenceError,
-    canonical_json_sha256,
-    validate_scientific_review_evidence,
-)
+from voiage.scientific_review_evidence import canonical_json_sha256
 
-CONTRACT_ROOT = Path("specs/frontier/sampling-acquisition-harm/v1")
+CONTRACT_ROOT = PurePosixPath("specs/frontier/sampling-acquisition-harm/v1")
 ENVELOPE_SCHEMA = CONTRACT_ROOT / "schemas/review-preparation.schema.json"
 CANDIDATE_PATH = CONTRACT_ROOT / "review-candidate.json"
 SNAPSHOT_PATH = CONTRACT_ROOT / "governance-snapshot.json"
+ENVELOPE_PATH = CONTRACT_ROOT / "review-preparation.json"
+MANIFEST_PATH = CONTRACT_ROOT / "review-artifact-manifest.json"
+PACKET_PATH = CONTRACT_ROOT / "review-packet.json"
+FROZEN_CANDIDATE_COMMIT = "8d6c67879050f161258ed95d878a72e2bb6b22dd"
+TRUSTED_PACKAGE_COMMIT = "PACKAGE_COMMIT_PENDING"
+EXPECTED_INVENTORY_SHA256 = (
+    "7a3bafee13b44d21f095c528bec64472a13b81acdab20aa6b439d8d0cbe90a6e"
+)
 REQUIRED_ROLES = (
     "estimand_domain",
     "estimator_assurance",
@@ -85,28 +90,80 @@ def _git_json(root: Path, commit: str, path: PurePosixPath) -> dict[str, Any]:
     return value
 
 
+def _validate_json(
+    value: object,
+    schema: dict[str, Any],
+    *,
+    label: str,
+    registry: Registry[Any] | None = None,
+) -> None:
+    try:
+        Draft202012Validator.check_schema(schema)
+        Draft202012Validator(
+            schema, registry=registry or Registry(), format_checker=FormatChecker()
+        ).validate(value)
+    except JsonSchemaValidationError as error:
+        location = "/".join(str(item) for item in error.absolute_path) or "$"
+        raise SamplingHarmReviewPreparationError(
+            f"{label} invalid at {location}: {error.message}"
+        ) from error
+
+
+def _frozen_schema_registry(root: Path, commit: str) -> Registry[Any]:
+    common_path = PurePosixPath(
+        "specs/frontier/governance/scientific-review/v1/schemas/common.schema.json"
+    )
+    common = _git_json(root, commit, common_path)
+    return Registry().with_resource(str(common["$id"]), Resource.from_contents(common))
+
+
 def validate_sampling_harm_review_preparation(
     envelope: Mapping[str, Any],
     *,
     repository_root: Path,
-    expected_candidate_commit: str | None = None,
+    expected_candidate_commit: str,
+    expected_package_commit: str,
     now: datetime | None = None,
-) -> None:
+) -> dict[str, str]:
     """Validate a preparation package against exact frozen Git-tree bytes."""
     root = repository_root.resolve()
-    schema = _load_json(root / ENVELOPE_SCHEMA)
-    try:
-        Draft202012Validator.check_schema(schema)
-        Draft202012Validator(schema, format_checker=FormatChecker()).validate(envelope)
-    except JsonSchemaValidationError as error:
-        location = "/".join(str(item) for item in error.absolute_path) or "$"
+    if expected_candidate_commit != FROZEN_CANDIDATE_COMMIT:
+        raise SamplingHarmReviewPreparationError("unexpected candidate commit")
+    if expected_package_commit != TRUSTED_PACKAGE_COMMIT:
+        raise SamplingHarmReviewPreparationError("unexpected package commit")
+    if _git_output(
+        root,
+        "merge-base",
+        "--is-ancestor",
+        expected_candidate_commit,
+        expected_package_commit,
+    ):
+        pass
+
+    frozen_envelope = _git_json(root, expected_package_commit, ENVELOPE_PATH)
+    if dict(envelope) != frozen_envelope:
         raise SamplingHarmReviewPreparationError(
-            f"review preparation invalid at {location}: {error.message}"
-        ) from error
+            "working envelope differs from trusted package commit"
+        )
+    schema = _git_json(root, expected_package_commit, ENVELOPE_SCHEMA)
+    _validate_json(envelope, schema, label="review preparation")
+    dirty = _git_output(
+        root,
+        "status",
+        "--porcelain",
+        "--",
+        str(ENVELOPE_PATH),
+        str(MANIFEST_PATH),
+        str(PACKET_PATH),
+    ).decode()
+    if dirty:
+        raise SamplingHarmReviewPreparationError(
+            "canonical packaging artifacts have working-tree substitutions"
+        )
 
     commit = str(envelope["candidate_commit"]["value"])
     tree = str(envelope["candidate_tree"]["value"])
-    if expected_candidate_commit is not None and commit != expected_candidate_commit:
+    if commit != expected_candidate_commit:
         raise SamplingHarmReviewPreparationError("unexpected candidate commit")
     actual_tree = _git_output(root, "rev-parse", f"{commit}^{{tree}}").decode().strip()
     if actual_tree != tree:
@@ -114,13 +171,28 @@ def validate_sampling_harm_review_preparation(
 
     manifest_ref = envelope["artifact_manifest"]
     packet_ref = envelope["review_packet"]
-    manifest = _load_json(root / _safe_path(manifest_ref["path"]))
-    packet = _load_json(root / _safe_path(packet_ref["path"]))
-    try:
-        validate_scientific_review_evidence("artifact-manifest", manifest)
-        validate_scientific_review_evidence("review-packet", packet)
-    except ScientificReviewEvidenceError as error:
-        raise SamplingHarmReviewPreparationError(str(error)) from error
+    manifest_path = _safe_path(manifest_ref["path"])
+    packet_path = _safe_path(packet_ref["path"])
+    if manifest_path != MANIFEST_PATH or packet_path != PACKET_PATH:
+        raise SamplingHarmReviewPreparationError("canonical packaging path mismatch")
+    manifest = _git_json(root, expected_package_commit, manifest_path)
+    packet = _git_json(root, expected_package_commit, packet_path)
+    schema_root = PurePosixPath(
+        "specs/frontier/governance/scientific-review/v1/schemas"
+    )
+    registry = _frozen_schema_registry(root, commit)
+    _validate_json(
+        manifest,
+        _git_json(root, commit, schema_root / "artifact-manifest.schema.json"),
+        label="artifact manifest",
+        registry=registry,
+    )
+    _validate_json(
+        packet,
+        _git_json(root, commit, schema_root / "review-packet.schema.json"),
+        label="review packet",
+        registry=registry,
+    )
 
     manifest_digest = canonical_json_sha256(
         manifest, excluded_json_pointers={"/manifest_sha256"}
@@ -146,6 +218,16 @@ def validate_sampling_harm_review_preparation(
         raise SamplingHarmReviewPreparationError("manifest artifact paths must be unique")
     if len(paths) != manifest_ref["artifact_count"]:
         raise SamplingHarmReviewPreparationError("manifest artifact count mismatch")
+    inventory_digest = canonical_json_sha256(
+        {
+            "artifacts": sorted(
+                ({"path": item["path"], "role": item["role"]} for item in artifacts),
+                key=lambda item: item["path"],
+            )
+        }
+    )
+    if inventory_digest != EXPECTED_INVENTORY_SHA256:
+        raise SamplingHarmReviewPreparationError("required path and role inventory mismatch")
     for item, path in zip(artifacts, paths, strict=True):
         content = _git_output(root, "show", f"{commit}:{path}")
         if hashlib.sha256(content).hexdigest() != item["sha256"]:
@@ -162,8 +244,34 @@ def validate_sampling_harm_review_preparation(
         if manifest_by_path.get(str(path)) != ref["sha256"]:
             raise SamplingHarmReviewPreparationError("envelope artifact binding mismatch")
 
-    candidate = _git_json(root, commit, candidate_path)
-    snapshot = _git_json(root, commit, snapshot_path)
+    candidate_contracts = {
+        "capabilities.json": "capability.schema.json",
+        "estimand-boundary.json": "estimand-boundary.schema.json",
+        "governance-snapshot.json": "governance-snapshot.schema.json",
+        "prior-findings.json": "prior-findings.schema.json",
+        "research-disposition.json": "research-disposition.schema.json",
+        "review-candidate.json": "review-candidate.schema.json",
+        "scope-selection.json": "scope-selection.schema.json",
+        "source-and-retrieval-register.json": (
+            "source-and-retrieval-register.schema.json"
+        ),
+    }
+    frozen: dict[str, dict[str, Any]] = {}
+    for artifact_name, schema_name in candidate_contracts.items():
+        artifact_path = CONTRACT_ROOT / artifact_name
+        artifact = _git_json(root, commit, artifact_path)
+        artifact_schema = _git_json(root, commit, CONTRACT_ROOT / "schemas" / schema_name)
+        _validate_json(artifact, artifact_schema, label=artifact_name)
+        frozen[artifact_name] = artifact
+
+    candidate = frozen["review-candidate.json"]
+    snapshot = frozen["governance-snapshot.json"]
+    boundary = frozen["estimand-boundary.json"]
+    sources = frozen["source-and-retrieval-register.json"]
+    findings = frozen["prior-findings.json"]
+    capabilities = frozen["capabilities.json"]
+    disposition = frozen["research-disposition.json"]
+    selection = frozen["scope-selection.json"]
     if candidate["scope"]["scientific_disposition"] != "pending":
         raise SamplingHarmReviewPreparationError("candidate disposition is not pending")
     if candidate["scope"]["runtime_available"] is not False:
@@ -172,8 +280,47 @@ def validate_sampling_harm_review_preparation(
         raise SamplingHarmReviewPreparationError("candidate reviewer roles are incomplete")
     if tuple(envelope["required_independent_review_roles"]) != REQUIRED_ROLES:
         raise SamplingHarmReviewPreparationError("preparation reviewer roles are incomplete")
+    if candidate["next_tasks"] != envelope["pending_tasks"]:
+        raise SamplingHarmReviewPreparationError("candidate pending-task binding mismatch")
+    if candidate["adjacent_methods_not_aliased"] != [570, 571, 595, 598]:
+        raise SamplingHarmReviewPreparationError("adjacent-method boundary mismatch")
+    preserved = [
+        "candidate_specific_non_authorizing_scalar_with_declared_commensurate_ledger",
+        "parameterized_non_authorizing_constrained_candidate",
+        "parameterized_non_authorizing_vector_candidate",
+    ]
+    if candidate["preserved_candidate_classes"] != preserved:
+        raise SamplingHarmReviewPreparationError("preserved candidate classes mismatch")
+    if boundary["preserved_research"] != preserved:
+        raise SamplingHarmReviewPreparationError("estimand preservation boundary mismatch")
+    if boundary["scientific_disposition"] != "pending" or boundary["runtime_available"]:
+        raise SamplingHarmReviewPreparationError("estimand boundary claims completion")
+    if sources["exact_source_review_status"] != envelope["source_review_status"]:
+        raise SamplingHarmReviewPreparationError("source-review status mismatch")
+    if findings["candidate_bound_independent_verification"] is not False:
+        raise SamplingHarmReviewPreparationError("prior findings claim independent review")
+    if capabilities["runtime_available"] or capabilities["stable_claim_allowed"]:
+        raise SamplingHarmReviewPreparationError("capability unexpectedly claims maturity")
+    if disposition["runtime_prohibited"] is not True:
+        raise SamplingHarmReviewPreparationError("research disposition permits runtime")
+    if selection["scientific_disposition"] != "pending":
+        raise SamplingHarmReviewPreparationError("scope selection claims disposition")
     if snapshot["authority_boundary"]["scientific_review_completed"] is not False:
         raise SamplingHarmReviewPreparationError("snapshot claims scientific review completion")
+    false_authority_groups = (
+        candidate["authority_boundary"],
+        snapshot["authority_boundary"],
+        sources["authority_boundary"],
+        envelope["authority_boundary"],
+    )
+    for group in false_authority_groups:
+        for key, value in group.items():
+            if key == "preparation_only":
+                continue
+            if value is not False:
+                raise SamplingHarmReviewPreparationError(
+                    f"authority boundary is not false: {key}"
+                )
 
     expires = datetime.fromisoformat(snapshot["expires_at"])
     if snapshot_ref["expires_at"] != snapshot["expires_at"]:
@@ -184,19 +331,29 @@ def validate_sampling_harm_review_preparation(
     if current > expires:
         raise SamplingHarmReviewPreparationError("governance snapshot is expired")
 
+    return {
+        "package_commit": expected_package_commit,
+        "candidate_commit": commit,
+        "candidate_tree": tree,
+        "manifest_sha256": manifest_digest,
+        "packet_sha256": packet_digest,
+    }
+
 
 def load_and_validate_sampling_harm_review_preparation(
     envelope_path: Path,
     *,
     repository_root: Path,
-    expected_candidate_commit: str | None = None,
+    expected_candidate_commit: str,
+    expected_package_commit: str,
     now: datetime | None = None,
-) -> None:
+) -> dict[str, str]:
     """Load and validate one review-preparation envelope."""
     envelope = _load_json(envelope_path)
-    validate_sampling_harm_review_preparation(
+    return validate_sampling_harm_review_preparation(
         envelope,
         repository_root=repository_root,
         expected_candidate_commit=expected_candidate_commit,
+        expected_package_commit=expected_package_commit,
         now=now,
     )

@@ -472,8 +472,9 @@ def test_readme_never_claims_570_or_595_executes_sampling_harm() -> None:
 
     assert "No runtime exists" in readme
     assert "#570" in readme
-    assert "#595" in readme
-    assert "does not execute sampling-acquisition harm" in readme
+    for issue in ("#570", "#571", "#595", "#598"):
+        assert issue in readme
+    assert "None executes sampling-acquisition harm" in readme
 
 
 def test_human_confirmation_plan_is_fail_closed_and_role_separated() -> None:

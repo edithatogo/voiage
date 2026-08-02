@@ -6,16 +6,17 @@ for issue #850. No runtime exists. Discovery reports
 zero symbols, and the companion disposition records the gates that must be
 satisfied before an executable candidate can be considered. H8-A selects only
 the generic automatic-scalar or study-authorizing kernel as the candidate-bound
-review target for a proposed `reviewed_exclusion`; parameterized constrained or
-vector research remains a possible future candidate class. The scope selection
+review target for a proposed `reviewed_exclusion`; a candidate-specific,
+non-authorizing scalar with a declared commensurate ledger and parameterized
+constrained or vector research remain possible future candidate classes. The scope selection
 explicitly records that review, human confirmation and scientific disposition
 remain pending.
 
-Issue #570 models risk-sensitive constrained perfect information and issue
-#595 presents expected-utility information value and VoC. Each is an adjacent
-decision-analysis method and does not execute sampling-acquisition harm. This
-contract does not alias, wrap or reinterpret either method as an acquisition-
-harm implementation.
+Issues #570 and #571 govern adjacent risk-sensitive and study-design methods;
+#595 presents expected-utility information value and VoC, while #598 covers
+signed, private or social information. None executes sampling-acquisition harm.
+This contract does not alias, wrap or reinterpret those methods as an
+acquisition-harm implementation.
 
 The JSON schemas validate the capability, research disposition, H8-A scope
 selection and H8-C candidate inputs. The H8-C inputs itemize prior repository

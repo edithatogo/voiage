@@ -21,6 +21,7 @@ from voiage.scientific_review_evidence import (
 ROOT = Path(__file__).parents[1]
 CONTRACT = ROOT / "specs/frontier/sampling-acquisition-harm/v1"
 CANDIDATE = "8d6c67879050f161258ed95d878a72e2bb6b22dd"
+PACKAGE = "PACKAGE_COMMIT_PENDING"
 
 
 def _json(path: Path) -> dict[str, object]:
@@ -34,6 +35,7 @@ def _validate(payload: dict[str, object]) -> None:
         payload,
         repository_root=ROOT,
         expected_candidate_commit=CANDIDATE,
+        expected_package_commit=PACKAGE,
         now=datetime(2026, 8, 3, tzinfo=UTC),
     )
 
@@ -85,6 +87,7 @@ def test_preparation_rejects_wrong_candidate_or_expired_snapshot() -> None:
             payload,
             repository_root=ROOT,
             expected_candidate_commit="f" * 40,
+            expected_package_commit=PACKAGE,
             now=datetime(2026, 8, 3, tzinfo=UTC),
         )
     with pytest.raises(SamplingHarmReviewPreparationError, match="snapshot is expired"):
@@ -92,6 +95,7 @@ def test_preparation_rejects_wrong_candidate_or_expired_snapshot() -> None:
             payload,
             repository_root=ROOT,
             expected_candidate_commit=CANDIDATE,
+            expected_package_commit=PACKAGE,
             now=datetime(2026, 8, 10, tzinfo=UTC),
         )
 
