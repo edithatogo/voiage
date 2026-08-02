@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-08-01T04:30:00Z",
-  "updated_at": "2026-08-01T15:00:00Z",
+  "updated_at": "2026-08-02T11:30:00Z",
   "description": "Add narrowly controlled, opt-in live interoperability probes for approved Croissant and Frictionless datasets.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
@@ -21,7 +21,10 @@
     "issue": "https://github.com/edithatogo/voiage/issues/752",
     "parent_issue": "https://github.com/edithatogo/voiage/issues/325",
     "project": "https://github.com/users/edithatogo/projects/28",
-    "pull_request_evidence": "none_found"
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/817"
+    ],
+    "pull_request_evidence": "track_delivery"
   },
   "gates": [
     {
@@ -33,8 +36,8 @@
     {
       "id": "hosted-required-checks",
       "kind": "hosted_validation",
-      "status": "pending",
-      "evidence": "Required after repository implementation and before merge."
+      "status": "satisfied",
+      "evidence": "PR #817 exact head d40f5b617df847fe517759f5892a1562f25bc4d9 completed 32 successful checks, three governed skips and one neutral check before squash merge 33537325ad7262dc15bcddb4283a6aa51cfdb323."
     }
   ]
 }

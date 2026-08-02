@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-27T08:15:00Z",
-  "updated_at": "2026-08-01T18:00:00Z",
+  "updated_at": "2026-08-02T11:30:00Z",
   "description": "Provide canonical human CRediT records and release-linked machine-readable AI-assistance provenance with accountable human review.",
   "evidence_schema": "1.0",
   "approval": {
@@ -43,8 +43,8 @@
     {
       "id": "hosted-required-checks",
       "kind": "hosted_validation",
-      "status": "pending",
-      "evidence": "Required after repository delivery and before merge."
+      "status": "satisfied",
+      "evidence": "PR #825 exact head f00e63d05562d4fc5165aa261c5ab0a296265dd2 completed 32 successful checks, three governed skips and one neutral check before squash merge 4d890aafeb760a0df84a03efa5db95ba5ec85005."
     }
   ]
 }

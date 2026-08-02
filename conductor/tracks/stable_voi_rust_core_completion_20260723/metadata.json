@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-27T08:15:00Z",
-  "updated_at": "2026-08-01T22:03:00Z",
+  "updated_at": "2026-08-02T11:30:00Z",
   "description": "Make Rust the explicit numerical authority for every accepted stable VOI method while preserving versioned v1 semantics.",
   "evidence_schema": "1.0",
   "approval": {
@@ -43,8 +43,8 @@
     {
       "id": "hosted-required-checks",
       "kind": "hosted_validation",
-      "status": "pending",
-      "evidence": "Required after repository delivery and before merge."
+      "status": "satisfied",
+      "evidence": "PR #827 exact head d2881921d5fb17dc3b5fb10ad4c9374b047b6a9f completed 32 successful checks, three governed skips and one neutral check before squash merge 211044c5fd1ce773ea64a161a92293d00c987f81."
     }
   ]
 }
