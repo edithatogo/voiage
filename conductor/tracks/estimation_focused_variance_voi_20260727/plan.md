@@ -114,10 +114,10 @@
 - [ ] **E19:** Under umbrella Phase 5, freeze a candidate-bound review packet
   and run the estimand/domain, estimator-assurance, cross-language/API and
   governance/publication panel roles. (M14-E6–M14-E9; AC-01–AC-04, AC-08)
-- [~] **E20:** Bind the declared target, conditioning, design, likelihood,
+- [x] **E20:** Bind the declared target, conditioning, design, likelihood,
   sampling model and solver request to runtime inputs and replay provenance;
   distinguish exact, outer, nested and coupled estimator designs. (M14-E6,
-  M14-E7; AC-02–AC-05)
+  M14-E7; AC-02–AC-05) `9d85df1`
 - [ ] **E21:** Add truth-known bias, RMSE, coverage, calibration, convergence
   and dependence-preserving nested/coupled assurance plus independently
   executable Rust/Python EVPPI and EVSI fixtures. (M14-E7, M14-E9; AC-03–
