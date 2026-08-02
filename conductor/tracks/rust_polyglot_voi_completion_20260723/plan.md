@@ -48,8 +48,9 @@
   release targets and remaining external gates. (AC-01, AC-05, AC-06)
   - [x] Define distinct registry/release/publication/parent-closure states,
     evidence lanes and authority boundaries. — `b4a1f20`
-  - [ ] Refresh each destination from authoritative receipts and reconcile
-    child and parent issue state.
+  - [~] Refresh each destination from authoritative receipts and reconcile
+    child and parent issue state. Live issue receipts captured; Project 28
+    membership is not found and requires authorized GitHub reconciliation.
 - [~] **G14:** Run final full local validation and hosted required checks.
   (AC-07)
   - [ ] Bind the final validation packet to the exact release candidate and
