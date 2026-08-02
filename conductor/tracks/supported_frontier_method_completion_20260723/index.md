@@ -27,6 +27,7 @@
 - [Frozen scientific-review candidate](./scientific-review-candidate-20260802.json)
 - [Candidate artifact manifest](./scientific-review-candidate-artifacts-20260802.json)
 - [Live governance readback](./scientific-review-governance-readback-20260802.json)
+- [PR #855 stale-branch and hosted-evidence closeout plan](./pr-855-closeout-plan.md)
 - [G14/G15 repository-completion receipt](./repository-completion-receipt-20260802.md)
 - [Project 28 normalization readback](./project-normalization-readback-20260802.json)
 - [Umbrella implementation PR #723](https://github.com/edithatogo/voiage/pull/723)

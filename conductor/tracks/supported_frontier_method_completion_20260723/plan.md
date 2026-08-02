@@ -575,6 +575,8 @@ issue-backed remediation slices and rebound to a fresh review candidate.
   stability near risk aversion one; VoC alias and presentation-digest
   integrity; and auditable promotion evidence.
   (M17-R3–M17-R5; AC-02–AC-06, AC-08, AC-10)
+  - [x] Materialize and execute the PR #855 stale-branch, normalization-drift and
+    exact-head hosted-evidence closeout plan.
 - [x] **SR4 / #850 — Sampling-harm scoping:** Materialize
   `sampling_acquisition_harm_voi_20260802` as the C18/M32 planned v1.3.0 Must
   track for the #570 child dependent on #571, with #851–#853 as governed nested
