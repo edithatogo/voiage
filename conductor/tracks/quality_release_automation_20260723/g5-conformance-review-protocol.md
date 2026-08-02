@@ -53,15 +53,3 @@ to the relevant Conductor task and GitHub issue/PR; they are not silently
 converted into exclusions. This protocol is evidence preparation only: an
 independent evidence review, hosted checks, release authority, registry
 acceptance and scientific/practitioner review remain separate gates.
-
-## Independent repository references
-
-The review compares observed behavior with these independently maintained
-contracts rather than with this protocol's expected results alone:
-
-- `conductor/workflow.md` — task lifecycle, validation and evidence rules.
-- `conductor/github-cross-references.json` — issue, Project and PR linkage.
-- `specs/v1/stable-api.json` — stable API and version compatibility contract.
-- `.github/workflows/` — hosted quality, security and release automation.
-- `conductor/tracks/quality_release_automation_20260723/spec.md` — this
-  track's maturity, privacy and external-gate boundaries.
