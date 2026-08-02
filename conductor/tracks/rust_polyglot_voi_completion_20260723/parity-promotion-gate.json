@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "track_id": "rust_polyglot_voi_completion_20260723",
+  "decision": "blocked",
+  "promotion_state": "experimental_or_fixture_backed_only",
+  "authoritative_contract": "specs/v1/binding-matrix.json",
+  "migration_matrix": "specs/rust/migration_matrix.json",
+  "required_languages": ["rust", "python", "r", "julia"],
+  "external_boundary_languages": ["mojo"],
+  "required_evidence": [
+    "shared_fixture_manifest_hash",
+    "clean_installed_runtime_runs",
+    "canonical_output_and_diagnostic_hashes",
+    "abi_symbol_and_layout_match",
+    "unsupported_capability_checks",
+    "benchmark_and_tolerance_results",
+    "panel_review"
+  ],
+  "external_gates": [
+    "scientific_review",
+    "maintainer_stable_promotion",
+    "release_signing",
+    "r_registry_review",
+    "julia_general_or_jll_review"
+  ],
+  "fail_closed": true,
+  "reason": "No stable promotion or cross-language parity claim without the complete installed shared-fixture evidence packet."
+}

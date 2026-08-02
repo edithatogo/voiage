@@ -136,6 +136,8 @@ def test_scientific_review_plan_requires_orchestrated_independent_panel() -> Non
         task_prefix,
     ) in owning_requirements.items():
         owning_track = ROOT / "conductor" / "tracks" / track_id
+        if not owning_track.is_dir():
+            owning_track = ROOT / "conductor" / "archive" / track_id
         owning_req_text = (owning_track / "requirements.md").read_text(encoding="utf-8")
         owning_plan_text = (owning_track / "plan.md").read_text(encoding="utf-8")
         for req_id in req_ids:
@@ -458,7 +460,7 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
 
 def test_issue_571_delivery_closeout_preserves_later_gates() -> None:
     umbrella = ROOT / "conductor/tracks/supported_frontier_method_completion_20260723"
-    dedicated = ROOT / "conductor/tracks/study_design_efficiency_20260727"
+    dedicated = ROOT / "conductor/archive/study_design_efficiency_20260727"
     child = next(item for item in _inventory()["children"] if item["issue"] == 571)
     umbrella_metadata = json.loads(
         (umbrella / "metadata.json").read_text(encoding="utf-8")
@@ -522,7 +524,7 @@ def test_issue_571_delivery_closeout_preserves_later_gates() -> None:
 
 def test_issue_595_delivery_closeout_preserves_alias_and_later_gates() -> None:
     umbrella = ROOT / "conductor/tracks/supported_frontier_method_completion_20260723"
-    dedicated = ROOT / "conductor/tracks/risk_adjusted_information_pricing_20260731"
+    dedicated = ROOT / "conductor/archive/risk_adjusted_information_pricing_20260731"
     child = next(item for item in _inventory()["children"] if item["issue"] == 595)
     umbrella_metadata = json.loads(
         (umbrella / "metadata.json").read_text(encoding="utf-8")

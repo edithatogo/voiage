@@ -10,6 +10,7 @@
 - [Merged planning PR #621](https://github.com/edithatogo/voiage/pull/621)
 - [Delivery PR #820](https://github.com/edithatogo/voiage/pull/820)
 
-Status: in progress. Governance and bounded-scope reconciliation is underway;
-ML/LLM/agent parity, scientific and rights review, and hosted evidence remain
-pending.
+Status: in progress. Governance PR #820 is merged and Phase 1 governance
+reconciliation is evidenced; implementation, independent scientific review and
+capability-promotion gates remain open. The scientific, installed-parity, rights
+and hosted gates remain explicitly pending.

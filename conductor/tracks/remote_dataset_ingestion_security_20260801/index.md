@@ -10,7 +10,7 @@
 - [Delivery PR #824](https://github.com/edithatogo/voiage/pull/824)
 - [Blocker-resolution plan](./blocker-resolution-plan.md)
 
-Status: in progress. The bounded threat model is recorded; explicit
-security-policy approval is still required before any remote I/O. PR #824
-exact head `3635b5d3ca9b680fdfffcddec092db94854cc8e0` passed required hosted
-checks and merged as `9934da329ca3c06bd54094ba95c18fe282c42bb6`.
+Status: in progress. Governance PR #824 is merged and track scope is approved;
+that approval is not security or infrastructure sign-off. Existing providers
+deliberately reject remote and archive inputs. This track cannot authorize
+remote I/O without its explicit threat model and policy gate.

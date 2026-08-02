@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "track_id": "remote_dataset_ingestion_security_20260801",
+  "decision": "pending",
+  "authority": {
+    "name": null,
+    "role": null,
+    "evidence_uri": null
+  },
+  "recorded_at": null,
+  "policy": {
+    "threat_model_sha256": "c83737f9e0080036874e587bbcfe02e8f3c20bd85fbb84527a5e7f56caf1b61c",
+    "approval_packet_sha256": "0cb6880867622a35ac2471cddeeb8f1df49f16974fa2cabd43bc157f91ad701f",
+    "allowed_schemes": [],
+    "allowed_hosts": [],
+    "allowed_ports": [],
+    "credential_boundary": "none",
+    "quota_profile": "strict-local-first",
+    "expiry_or_review_at": null
+  },
+  "conditions": [],
+  "external_gates": [
+    "security-policy-approval",
+    "infrastructure-network-approval"
+  ],
+  "fail_closed": true,
+  "notes": "Pending accountable approval. Remote I/O, credentials and live probes remain disabled."
+}

@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-27T08:15:00Z",
-  "updated_at": "2026-08-02T11:30:00Z",
+  "updated_at": "2026-08-02T13:40:00Z",
   "description": "Provide canonical human CRediT records and release-linked machine-readable AI-assistance provenance with accountable human review.",
   "evidence_schema": "1.0",
   "approval": {

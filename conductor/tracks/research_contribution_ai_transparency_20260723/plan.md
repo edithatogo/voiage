@@ -3,23 +3,19 @@
 ## Phase 1 — Governance and contract reconciliation
 
 - [x] **G1:** Verify the owning issue, native parent/children, Project 28,
-  metadata, registry and cross-reference manifest. (AC-01)
+  metadata, registry and cross-reference manifest. (AC-01) — `a4632a8`
 - [x] **G2:** Reconcile existing repository artifacts and prior evidence
   without converting issue status into implementation evidence. (AC-01, AC-02)
+  — `9c75755`
 - [x] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
-  explicit exclusions. (AC-02, AC-05, AC-06)
-- [x] **G4:** Run automated contract review and full Conductor validation.
-  Existing AI-use disclosure, governance accountability, manuscript contract,
-  and provenance records are reconciled without inferring authorship or human
-  attestation. (2026-08-01; commit: 92ac1101; AC-01, AC-07)
-- [x] Record options, recommendation, contingencies, and archive exit criteria
-  for human attestation and release-provenance blockers. (2026-08-01; see
-  blocker-resolution-plan.md)
+  explicit exclusions. (AC-02, AC-05, AC-06) — `9c75755`
+- [ ] **G4:** Run automated contract review and full Conductor validation.
+  (AC-01, AC-07)
 
 ## Phase 2 — Evidence before positive claims
 
-- [ ] **G5:** Add failing conformance, reference, property and pathological
-  tests, or the corresponding reproducible review protocol. (AC-03)
+- [x] **G5:** Add failing conformance, reference, property and pathological
+  tests, or the corresponding reproducible review protocol. (AC-03) — `0d4bcc6`
 - [ ] **G6:** Add versioned schemas, fixtures, diagnostics and provenance
   contracts required by the accepted scope. (AC-02, AC-03)
 - [ ] **G7:** Record rights, privacy, scientific, practitioner and external

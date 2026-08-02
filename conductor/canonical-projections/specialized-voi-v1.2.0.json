@@ -44,7 +44,7 @@
       "track_id": "study_design_efficiency_20260727",
       "record_id": "experiment-portfolio-and-study-efficiency-voi",
       "implementation_status": "experimental_repository_evidence",
-      "capability_contract": "conductor/tracks/study_design_efficiency_20260727/contract.md",
+      "capability_contract": "conductor/archive/study_design_efficiency_20260727/contract.md",
       "subissues": [
         680,
         681,
@@ -62,7 +62,7 @@
       "parent": 318,
       "track_id": "risk_adjusted_information_pricing_20260731",
       "record_id": "risk-adjusted-information-pricing",
-      "capability_contract": "conductor/tracks/risk_adjusted_information_pricing_20260731/contract.md",
+      "capability_contract": "conductor/archive/risk_adjusted_information_pricing_20260731/contract.md",
       "subissues": [
         694,
         695,

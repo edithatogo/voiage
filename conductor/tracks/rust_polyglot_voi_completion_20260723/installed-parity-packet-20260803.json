@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-08-03T00:05:00Z",
+  "track_id": "rust_polyglot_voi_completion_20260723",
+  "fixture_manifest_sha256": "68496332e0ab7c34338bfb856ef7135fd6b33095ce8143613e17af4a1d6d4d81",
+  "fixture_manifest": "specs/core-api/fixtures/v1/compatibility-manifest.json",
+  "platform": "macOS arm64",
+  "rust_toolchain": "cargo/rustc 1.97.1",
+  "r_runtime": "R 4.3.0",
+  "julia_runtime": "Julia 1.12.6 (supported package tests plus direct FFI smoke)",
+  "python_runtime": "Python 3.13.14",
+  "artifacts": {
+    "wheel": {
+      "path": "/private/tmp/voiage-g10-dist/voiage-2.0.1rc4-cp312-abi3-macosx_11_0_arm64.whl",
+      "sha256": "8063e08524ba00e94c7c41e80ed7c4812e77d5ffdd95dab2afdb028fb4ae81f3"
+    },
+    "ffi": {
+      "path": "rust/target/release/libvoiage_ffi.dylib",
+      "sha256": "9e44250afa96a1332e78b2c40cbda1c9566f258f214c785fa6c750da331262a8"
+    }
+  },
+  "runs": {
+    "rust": {
+      "status": "passed",
+      "command": "cargo test --manifest-path rust/Cargo.toml --workspace --all-targets"
+    },
+    "python_installed_wheel": {
+      "status": "passed",
+      "command": "uv venv --python /opt/homebrew/bin/python3.13 /private/tmp/voiage-g10-py313; uv pip install wheel; import voiage from /private/tmp"
+    },
+    "r_installed_package": {
+      "status": "passed",
+      "command": "R_LIBS_USER=/private/tmp/voiageR-lib-installed-20260802 VOIAGE_FFI_LIBRARY=rust/target/release/libvoiage_ffi.dylib Rscript direct EVPI smoke",
+      "notes": "Native FFI smoke passed; four pkgload-dependent mock tests remain development-context-only."
+    },
+    "julia_installed_package": {
+      "status": "passed",
+      "command": "VOIAGE_FFI_LIBRARY=rust/target/release/libvoiage_ffi.dylib julia --project=bindings/julia -e using Pkg; Pkg.test(); direct EVPI smoke",
+      "notes": "Package quality, EVPI and shared numerical reference tests passed."
+    }
+  },
+  "promotion_decision": "pending",
+  "next_actions": [
+    "Run hosted exact-head shared-fixture packet and attach workflow receipts.",
+    "Convene scientific/contract panel and obtain maintainer promotion decision.",
+    "Do not promote fixture-backed methods or close external lanes without receipts."
+  ]
+}

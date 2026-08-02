@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-27T08:15:00Z",
-  "updated_at": "2026-08-01T16:45:00Z",
+  "updated_at": "2026-08-02T12:37:09Z",
   "description": "Provide decision-theoretic model, policy, LLM and agent VOI without relabelling entropy, accuracy, uplift or uncertainty sampling as economic information value.",
   "evidence_schema": "1.0",
   "approval": {
@@ -50,19 +50,19 @@
       "id": "hosted-required-checks",
       "kind": "hosted_validation",
       "status": "pending",
-      "evidence": "Required after repository delivery and before merge."
+      "evidence": "PR #820 is open; exact-head hosted checks and merge remain pending."
     },
     {
       "id": "installed-polyglot-parity",
-      "kind": "cross_language_parity",
+      "kind": "parity_validation",
       "status": "pending",
-      "evidence": "Clean installed shared-fixture evidence is required before any ML, LLM or agent cross-language parity claim."
+      "evidence": "Installed parity packet and promotion decision remain pending."
     },
     {
       "id": "rights-and-human-approval",
       "kind": "human_approval",
       "status": "pending",
-      "evidence": "Applicable rights, privacy, practitioner and authorship confirmation remains human-owned."
+      "evidence": "Rights and accountable human approval remain external gates."
     }
   ]
 }

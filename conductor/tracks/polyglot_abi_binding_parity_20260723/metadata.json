@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-27T08:15:00Z",
-  "updated_at": "2026-08-01T17:00:00Z",
+  "updated_at": "2026-08-02T12:37:09Z",
   "description": "Expose maturity-tiered VOI and the portable industry Decision Problem consistently through Rust, C ABI, Python, R, Julia and Mojo.",
   "evidence_schema": "1.0",
   "approval": {
@@ -47,8 +47,8 @@
     {
       "id": "hosted-required-checks",
       "kind": "hosted_validation",
-      "status": "pending",
-      "evidence": "Required after repository delivery and before merge."
+      "status": "satisfied",
+      "evidence": "PR #821 merged; current main assurance suite is green on the merged lineage."
     }
   ]
 }

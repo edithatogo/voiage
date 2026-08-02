@@ -10,8 +10,6 @@
 - [Merged planning PR #621](https://github.com/edithatogo/voiage/pull/621)
 - [Delivery PR #822](https://github.com/edithatogo/voiage/pull/822)
 
-Status: in progress. Existing quality, security, release, SBOM, provenance and
-registry-audit evidence is reconciled; connected adapters and external
-publication gates remain pending. Delivery PR #822 exact head
-`7e12a5fbc6f7091166d7f5d64c6f2b5b45764f72` passed required hosted checks
-and merged as `0df988125b89f8d0bad08def0bd5b2ea03cd54f5`.
+Status: in progress. Governance PR #822 is merged and Phase 1 governance
+reconciliation is evidenced; implementation, release automation, independent
+review and publication gates remain open.

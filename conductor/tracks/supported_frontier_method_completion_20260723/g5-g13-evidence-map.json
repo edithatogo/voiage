@@ -105,9 +105,9 @@
       "artifacts": [
         "tests/test_study_design_efficiency.py",
         "specs/frontier/study-design-efficiency/v1/fixtures/manifest.json",
-        "conductor/tracks/study_design_efficiency_20260727/phase-4-review.md",
+        "conductor/archive/study_design_efficiency_20260727/phase-4-review.md",
         "conductor/tracks/supported_frontier_method_completion_20260723/study-design-efficiency-independent-review-20260802.md",
-        "conductor/tracks/study_design_efficiency_20260727/bindings.json",
+        "conductor/archive/study_design_efficiency_20260727/bindings.json",
         "docs/astro-site/src/content/docs/study-design-efficiency.mdx"
       ],
       "evidence": {"G5": "COSS, ENBS and efficiency tests", "G6": "normative study-design fixture", "G7": "scientific and funding-context gates retained", "G8": "fresh independent review and remediation re-review", "G9": "experimental evaluator merged", "G10": "binding dispositions", "G11": "user and accessible plot documentation", "G12": "focused and hosted assurance"}
@@ -181,7 +181,7 @@
       "artifacts": [
         "tests/test_expected_utility_information.py",
         "specs/frontier/expected-utility-information-pricing/v1/fixtures/manifest.json",
-        "conductor/tracks/risk_adjusted_information_pricing_20260731/phase-4-review.md",
+        "conductor/archive/risk_adjusted_information_pricing_20260731/phase-4-review.md",
         "specs/frontier/expected-utility-information-pricing/v1/capabilities.json",
         "docs/astro-site/src/content/docs/methods/expected-utility-information.mdx"
       ],

@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "fixture_root": "specs/core-api/fixtures",
+  "fixture_contract": "specs/v1/compatibility-policy.json",
+  "methods": ["evpi", "enbs", "ceaf", "dominance", "evppi", "evsi"],
+  "canonicalization": "sorted-key JSON with UTF-8 and newline terminator",
+  "numeric_policy": {"absolute_tolerance": 1e-12, "relative_tolerance": 1e-10},
+  "diagnostic_policy": "stable code, severity and structured details; messages are non-normative",
+  "provenance_required": ["commit", "toolchain", "runtime", "platform", "command", "fixture_sha256"],
+  "promotion_boundary": "fixture-backed until installed Rust/Python/R/Julia runs and panel review pass"
+}

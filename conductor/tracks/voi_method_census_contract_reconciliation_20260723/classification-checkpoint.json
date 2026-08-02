@@ -45,7 +45,7 @@
       "evidence_strength": "Merged PR #712 with dedicated contract, phase review and exact-head hosted evidence; scientific and stable-promotion gates remain open.",
       "search_limit": "Dedicated track references; no stable-promotion approval.",
       "no_positive_claim": "Do not equate nonlinear-utility VoC with monetary EVPI or claim cross-problem cardinal comparability, stable maturity or polyglot parity.",
-      "sources": ["https://github.com/edithatogo/voiage/issues/595", "https://github.com/edithatogo/voiage/pull/712", "conductor/tracks/risk_adjusted_information_pricing_20260731/contract.md"]
+      "sources": ["https://github.com/edithatogo/voiage/issues/595", "https://github.com/edithatogo/voiage/pull/712", "conductor/archive/risk_adjusted_information_pricing_20260731/contract.md"]
     },
     {
       "issue": 596,

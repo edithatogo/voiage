@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-08-03T03:45:00Z",
+  "repository": "edithatogo/voiage",
+  "project": "https://github.com/users/edithatogo/projects/28",
+  "issues": {
+    "313-323": {"state": "open", "note": "All eleven programme issues remain open; no closure inferred."},
+    "841-849": {"state": "open", "note": "Parent scientific-review issue and all eight children remain open; no promotion inferred."}
+  },
+  "project_items": {
+    "313": "In Progress", "314": "In Progress", "315": "In Progress",
+    "316": "In Progress", "317": "Todo", "318": "In Progress",
+    "319": "Todo", "320": "Todo", "321": "Todo", "322": "In Progress",
+    "323": "Todo", "841": "In Progress", "842": "In Progress",
+    "843": "In Progress", "844": "In Progress", "845": "In Progress",
+    "846": "In Progress", "847": "In Progress", "848": "In Progress",
+    "849": "In Progress"
+  },
+  "decisions": {
+    "issue_closure": "pending",
+    "scientific_promotion": "pending",
+    "project_reconciliation": "matched_for_313_323_and_841_849"
+  },
+  "fail_closed": true,
+  "next_actions": [
+    "Keep all listed issues open until their evidence and accountable gates are complete.",
+    "Reconcile Project 28 statuses only when authoritative Conductor evidence changes.",
+    "Do not treat project status as scientific approval, release readiness or issue closure."
+  ]
+}

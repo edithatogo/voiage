@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/polyglot-parity-evidence-1.0.json",
+  "title": "voiage installed polyglot parity evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "track_id", "fixture_manifest_sha256", "runs", "promotion"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "track_id": {"const": "rust_polyglot_voi_completion_20260723"},
+    "fixture_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["language", "runtime", "commit", "command", "status", "output_sha256", "diagnostics_sha256"],
+        "properties": {
+          "language": {"enum": ["rust", "python", "r", "julia"]},
+          "runtime": {"type": "string", "minLength": 1},
+          "commit": {"type": "string", "pattern": "^[0-9a-f]{7,40}$"},
+          "command": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+          "status": {"enum": ["passed", "blocked", "failed"]},
+          "output_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+          "diagnostics_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+          "tolerance": {"type": ["number", "null"], "minimum": 0},
+          "unsupported_capabilities": {"type": "array", "items": {"type": "string"}}
+        }
+      },
+      "minItems": 1
+    },
+    "promotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "review_required", "external_gates"],
+      "properties": {
+        "status": {"enum": ["blocked", "eligible_for_panel", "approved"]},
+        "review_required": {"const": true},
+        "external_gates": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

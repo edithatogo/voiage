@@ -10,9 +10,6 @@
 - [Delivery PR #826](https://github.com/edithatogo/voiage/pull/826)
 - [Blocker-resolution plan](./blocker-resolution-plan.md)
 
-Status: in progress. The ten workstream tracks are the registered current-state
-programme inventory and existing Rust-authoritative release evidence is
-indexed; child reconciliation, scientific, installed-parity, registry,
-publication, and issue-closure gates remain separate. Delivery PR #826 exact
-head `e23155e4fa2c39167d7d92a36d34029b6d9c1ee6` passed required hosted
-checks and merged as `0e19b46815af61031e4879a60158864b72748be4`.
+Status: in progress. Its governance PR #826 is merged; implementation and
+approved specification and plan; existing Project or issue status is not
+treated as implementation completion.
