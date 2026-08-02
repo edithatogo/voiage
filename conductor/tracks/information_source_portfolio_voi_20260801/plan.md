@@ -19,10 +19,13 @@
 
 ## Phase 3 — Assurance and handoff
 
-- [~] **ISP5:** Run focused coverage, full relevant validation and independent
+- [~] **ISP5:** Run focused coverage, full relevant validation and the relevant
   implementation review; retain hosted, scientific, parity, stable, release and
   closure gates. Independent implementation review passed with the
   no-procurement assurance clarification. PR #772 exact head `f1d6f77d` passed
   all hosted checks, including 100% changed-line and changed-branch coverage,
   before squash merge `55771017`; scientific and later gates remain.
+  The relevant subagent repository-review panel passed the exact-finite
+  experimental scope; see `scientific-review-panel-20260801.md`. Independent
+  scientific evidence for stable promotion remains pending.
   (AC-01–AC-05)

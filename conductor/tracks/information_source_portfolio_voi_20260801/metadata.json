@@ -46,10 +46,16 @@
   },
   "gates": [
     {
+      "id": "scientific-review-panel",
+      "kind": "repository_review",
+      "status": "satisfied",
+      "evidence": "Relevant estimand, numerical/reproducibility, and API/boundary subagent panel passed the exact-finite experimental repository scope in scientific-review-panel-20260801.md. This repository review does not satisfy the independent scientific evidence required for stable promotion."
+    },
+    {
       "id": "scientific-review",
       "kind": "scientific_review",
       "status": "pending",
-      "evidence": "Required before stable promotion."
+      "evidence": "Independent scientific evidence remains required before stable promotion; the repository subagent panel is not a substitute."
     },
     {
       "id": "hosted-required-checks",
