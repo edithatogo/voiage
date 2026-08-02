@@ -74,6 +74,10 @@ def test_fail_closed_capability_and_research_disposition_validate() -> None:
             schemas / "source-and-retrieval-register.schema.json",
             CONTRACT / "source-and-retrieval-register.json",
         ),
+        (
+            schemas / "review-preparation.schema.json",
+            CONTRACT / "review-preparation.json",
+        ),
     )
     for schema_path, artifact_path in pairs:
         schema = _json(schema_path)
@@ -269,8 +273,15 @@ def test_sampling_harm_method_family_has_no_runtime_declaration() -> None:
     )
     for source_root, pattern in source_roots:
         for path in source_root.rglob(pattern):
+            if path.name == "sampling_harm_review_preparation.py":
+                continue
             source = path.read_text(encoding="utf-8")
             assert all(token not in source for token in family_tokens), path
+
+    governance_module = ROOT / "voiage/sampling_harm_review_preparation.py"
+    governance_source = governance_module.read_text(encoding="utf-8")
+    assert "compute_sampling_acquisition_harm" not in governance_source
+    assert 'runtime_available"] is not False' in governance_source
 
     schemas = {path.name for path in (CONTRACT / "schemas").glob("*.json")}
     assert schemas == {
@@ -279,6 +290,7 @@ def test_sampling_harm_method_family_has_no_runtime_declaration() -> None:
         "governance-snapshot.schema.json",
         "prior-findings.schema.json",
         "review-candidate.schema.json",
+        "review-preparation.schema.json",
         "research-disposition.schema.json",
         "scope-selection.schema.json",
         "source-and-retrieval-register.schema.json",

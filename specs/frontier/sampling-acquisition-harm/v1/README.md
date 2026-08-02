@@ -25,3 +25,10 @@ review bundle, request/result schemas or numerical behavior. Scientific
 acceptance, a named human verdict, ethics or regulatory authorization,
 estimator assurance, language parity, hosted checks, promotion and release all
 remain separate gates.
+
+`review-preparation.json` binds the exact candidate commit/tree to the
+canonical digests in `review-artifact-manifest.json` and `review-packet.json`.
+The dedicated validator reads every listed byte with `git show`; it rejects
+moving, mismatched, stale or authority-claiming records. The preparation is
+deliberately invalid as a complete scientific-review bundle until H8-D through
+H8-G supply eligible reports, synthesis, dispositions and human receipts.
