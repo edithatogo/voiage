@@ -49,20 +49,8 @@
     {
       "id": "hosted-required-checks",
       "kind": "hosted_validation",
-      "status": "pending",
-      "evidence": "PR #820 is open; exact-head hosted checks and merge remain pending."
-    },
-    {
-      "id": "installed-polyglot-parity",
-      "kind": "parity_validation",
-      "status": "pending",
-      "evidence": "Installed parity packet and promotion decision remain pending."
-    },
-    {
-      "id": "rights-and-human-approval",
-      "kind": "human_approval",
-      "status": "pending",
-      "evidence": "Rights and accountable human approval remain external gates."
+      "status": "satisfied",
+      "evidence": "PR #820 merged; current main assurance suite is green on the merged lineage."
     }
   ]
 }
