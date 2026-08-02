@@ -17,6 +17,7 @@
 - [Project 28](https://github.com/users/edithatogo/projects/28)
 - [Canonical VOP C18/M32 synchronization PR #71](https://github.com/edithatogo/vop_poc_nz/pull/71)
 - [VOIAGE repository delivery PR #855](https://github.com/edithatogo/voiage/pull/855)
+- [Human-confirmation governance PR #859](https://github.com/edithatogo/voiage/pull/859)
 
 Status: in progress. Automated primary-source, estimand and advisory scoping is
 complete, and VOP PR #71 merged the canonical C18/M32 planning projection as
