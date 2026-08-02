@@ -2,9 +2,9 @@
   "track_id": "stable_voi_rust_core_completion_20260723",
   "version": "1.0.0",
   "type": "feature",
-  "status": "new",
+  "status": "in_progress",
   "created_at": "2026-07-27T08:15:00Z",
-  "updated_at": "2026-07-27T08:15:00Z",
+  "updated_at": "2026-08-01T22:03:00Z",
   "description": "Make Rust the explicit numerical authority for every accepted stable VOI method while preserving versioned v1 semantics.",
   "evidence_schema": "1.0",
   "approval": {
@@ -22,7 +22,8 @@
     "project": "https://github.com/users/edithatogo/projects/28",
     "subissues": [],
     "pull_requests": [
-      "https://github.com/edithatogo/voiage/pull/621"
+      "https://github.com/edithatogo/voiage/pull/621",
+      "https://github.com/edithatogo/voiage/pull/827"
     ],
     "pull_request_evidence": "track_delivery"
   },
