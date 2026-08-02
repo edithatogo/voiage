@@ -2,14 +2,21 @@
 
 ## Phase 1 — Governance and contract reconciliation
 
-- [ ] **G1:** Verify the owning issue, native parent/children, Project 28,
+- [x] **G1:** Verify the owning issue, native parent/children, Project 28,
   metadata, registry and cross-reference manifest. (AC-01)
-- [ ] **G2:** Reconcile existing repository artifacts and prior evidence
+- [x] **G2:** Reconcile existing repository artifacts and prior evidence
   without converting issue status into implementation evidence. (AC-01, AC-02)
-- [ ] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
+- [x] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
   explicit exclusions. (AC-02, AC-05, AC-06)
-- [ ] **G4:** Run automated contract review and full Conductor validation.
-  (AC-01, AC-07)
+- [x] **G4:** Run automated contract review and full Conductor validation.
+  Existing bounded landscape records, paper state-of-field evidence, and full
+  Conductor/cross-reference validation pass. (2026-08-01; commit: adb7e44;
+  AC-01, AC-07)
+
+## Review remediation
+
+- [x] Correct track status projection and record delivery PR #819 in metadata.
+  (2026-08-01; review fix for AC-01)
 
 ## Phase 2 — Evidence before positive claims
 
