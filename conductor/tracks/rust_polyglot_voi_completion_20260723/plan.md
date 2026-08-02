@@ -36,8 +36,8 @@
     external. — `installed-parity-packet-20260803`
 - [x] **G11:** Add documentation, examples, generated surfaces and capability
   discovery that match the evidenced maturity state. (AC-05) — 7a2f296
-- [~] **G12:** Run automated implementation review, focused validation and the
-  repository harness. (AC-03–AC-07) — broader coverage blockers recorded
+- [x] **G12:** Run automated implementation review, focused validation and the
+  repository harness. (AC-03–AC-07) — `381bc917`; dedicated v1 and full Conductor validation pass
 
 ## Phase 4 — Programme and hosted closeout
 
