@@ -58,7 +58,8 @@
     ],
     "project": "https://github.com/users/edithatogo/projects/28",
     "pull_requests": [
-      "https://github.com/edithatogo/vop_poc_nz/pull/71"
+      "https://github.com/edithatogo/vop_poc_nz/pull/71",
+      "https://github.com/edithatogo/voiage/pull/855"
     ]
   },
   "gates": [
@@ -107,8 +108,8 @@
     {
       "id": "hosted-exact-head-assurance",
       "kind": "hosted_ci",
-      "status": "pending",
-      "evidence": "No exact-head hosted checks exist for this candidate."
+      "status": "satisfied",
+      "evidence": "VOIAGE PR #855 exact head 14b9f6d836c831eb62cad41f589133d83ddd9493 completed 60 successful checks, four governed skips and one neutral result with zero unresolved review threads before squash merge 62d22743b1547266bd554b215f957934bf577234 at 2026-08-02T16:05:25Z. This satisfies repository hosted assurance only and does not satisfy H8 or authorize runtime."
     },
     {
       "id": "polyglot-parity",

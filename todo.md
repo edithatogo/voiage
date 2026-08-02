@@ -41,6 +41,10 @@ separate gates.
         Canonical VOP C18/M32 planning is synchronized by merged PR #71 at
         `e0ff1d2ce3361d52ee22bb01e105b92653ed606c`; this is planning evidence,
         not H8 approval or runtime authority.
+        VOIAGE PR #855 merged the repository delivery as
+        `62d22743b1547266bd554b215f957934bf577234` after its exact-head matrix;
+        hosted assurance is satisfied without satisfying #853/H8 or runtime
+        authority.
 
 *   [x] Complete #318 repository-owned programme closeout stages G14 and G15.
     *   G5–G15 repository-owned evidence and governance reconciliation is

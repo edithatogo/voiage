@@ -58,13 +58,20 @@ scoped estimand, including explicit `d0` increments, observable filtration,
 upper-tail positive-loss CVaR, mutually exclusive outcome accounting and tri-
 state mathematical feasibility. This is governed research scoping only: no
 sampling-harm runtime exists, and H8 independent reports, the named human
-verdict, real-study authorization, parity, hosted assurance, promotion,
-release, publication, registry acceptance and closure remain pending.
+verdict, real-study authorization, parity, promotion, release, publication,
+registry acceptance and closure remain pending.
 
 Canonical C18/M32 planning is synchronized through VOP PR #71, squash-merged
 as `e0ff1d2ce3361d52ee22bb01e105b92653ed606c` after 16 terminal successful
 checks and one governed scheduled-only skip. That cross-repository merge is
 planning evidence only; it does not satisfy H8 or authorize a runtime.
+
+VOIAGE PR #855 delivered this repository scope at exact head
+`14b9f6d836c831eb62cad41f589133d83ddd9493`, with 60 successful checks, four
+governed skips, one neutral result and zero unresolved review threads before
+squash merge `62d22743b1547266bd554b215f957934bf577234`. Repository hosted assurance is
+therefore satisfied; H8 and every runtime, real-study, parity, promotion,
+release, publication, registry and closure gate remain pending.
 
 The v1.3 residual frontier programme is governed canonically by VOP C18. Issue
 #599 completed its governed experimental repository delivery. Its exact finite
