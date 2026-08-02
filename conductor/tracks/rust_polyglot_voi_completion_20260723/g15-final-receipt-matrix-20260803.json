@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-08-03T01:40:00Z",
+  "track_id": "rust_polyglot_voi_completion_20260723",
+  "repository_revision": "1e2ee527",
+  "states": {
+    "repository_implementation": "partial_with_documented_blockers",
+    "local_validation": "partial",
+    "hosted_merge": "pending_exact_head",
+    "release": "pending",
+    "publication": "pending",
+    "registry_acceptance": "pending",
+    "github_issue_closure": "pending"
+  },
+  "evidence": {
+    "repository": ["G4", "G5", "G6", "G7", "G8", "G9", "G10", "G11"],
+    "local_blockers": ["G12 broader-validation blockers", "G14 coverage and exact-head receipt"],
+    "external": ["scientific/contract panel", "maintainer promotion", "hosted checks", "signing", "registry receipts", "Project 28 reconciliation"]
+  },
+  "archive_rule": "Do not archive the track as complete until all repository-owned required tasks pass. Do not represent pending external lanes as completed.",
+  "decision": "blocked",
+  "next_actions": [
+    "Resolve G12 runtime and projection failures.",
+    "Obtain an exact-head hosted PR/check receipt for G14.",
+    "Obtain panel and maintainer promotion decisions, then update release and registry lanes from authoritative receipts.",
+    "Close child and parent issues only after the corresponding evidence and authority events exist."
+  ]
+}
