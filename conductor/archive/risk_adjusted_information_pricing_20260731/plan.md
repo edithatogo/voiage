@@ -97,10 +97,11 @@
 - [x] **U18:** **Legacy follow-up (not part of completed track acceptance):** Freeze the candidate and run the umbrella Phase 5 four-role
   panel against expected-utility pricing and every VoC presentation.
   (M16-U5, M16-U6; AC-01–AC-05, AC-08)
-- [~] **U19:** Implement stable CRRA log-limit/expm1 evaluation and inversion
+- [x] **U19:** Implement stable CRRA log-limit/expm1 evaluation and inversion
   near risk aversion one with high-precision sweeps, continuity, policy/tie
   invariance and root-residual evidence. (M16-U5; AC-03, AC-05, AC-06)
-- [x] **U20:** **Legacy follow-up (not part of completed track acceptance):** Bind the selected presentation and version into deterministic
+  `9879e2d`
+- [ ] **U20:** Bind the selected presentation and version into deterministic
   presentation provenance without duplicating the numerical kernel; execute
   expected-utility and VoC fixtures from a clean installed wheel with packaged
   schemas and capabilities. (M16-U3, M16-U6; AC-03–AC-07)
