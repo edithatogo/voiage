@@ -8,7 +8,7 @@
 - [x] **H2:** Publish the zero-harm reduction, separability/commensurability
   rule, catastrophic constraint boundary and enumerable counterexample plan.
   (AC-02–AC-06) `97bd208`
-- [ ] **H3:** Run an automated estimand/domain, assurance and governance panel,
+- [~] **H3:** Run an automated estimand/domain, assurance and governance panel,
   resolve Critical/High findings, and complete the phase checkpoint. (AC-06,
   AC-08, AC-09)
 
