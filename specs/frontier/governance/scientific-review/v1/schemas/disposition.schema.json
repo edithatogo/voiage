@@ -1,10 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://voiage.dev/specs/frontier/governance/scientific-review/v1/schemas/disposition.schema.json", "title": "ScientificReviewFindingDispositionV1", "type": "object",
-  "required": ["evidence_kind", "schema_version", "disposition_id", "finding_id", "candidate_commit", "candidate_tree", "packet_sha256", "disposition", "rationale", "accountable_owner", "evidence_refs", "independently_verified", "reviewer", "decided_at"],
+  "required": ["evidence_kind", "schema_version", "disposition_id", "finding_id", "candidate_commit", "candidate_tree", "packet_sha256", "disposition", "rationale", "accountable_owner", "evidence_refs", "independently_verified", "reviewer", "rereview_report_ids", "affected_reviewer_roles", "excluded_capabilities", "decided_at"],
   "properties": {
-    "evidence_kind": {"const": "disposition"}, "schema_version": {"const": "1.0.0"}, "disposition_id": {"$ref": "common.schema.json#/$defs/nonempty"}, "finding_id": {"$ref": "common.schema.json#/$defs/nonempty"},
-    "candidate_commit": {"$ref": "common.schema.json#/$defs/sha256"}, "candidate_tree": {"$ref": "common.schema.json#/$defs/sha256"}, "packet_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "evidence_kind": {"const": "disposition"}, "schema_version": {"const": "1.1.0"}, "disposition_id": {"$ref": "common.schema.json#/$defs/nonempty"}, "finding_id": {"$ref": "common.schema.json#/$defs/nonempty"},
+    "candidate_commit": {"$ref": "common.schema.json#/$defs/gitOid"}, "candidate_tree": {"$ref": "common.schema.json#/$defs/gitOid"}, "packet_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
     "disposition": {"enum": ["fixed", "reviewed_exclusion", "accepted_experimental_risk", "deferred_with_explicit_exclusion", "disputed"]}, "rationale": {"$ref": "common.schema.json#/$defs/nonempty"}, "accountable_owner": {"$ref": "common.schema.json#/$defs/nonempty"},
-    "evidence_refs": {"type": "array", "minItems": 1, "items": {"$ref": "common.schema.json#/$defs/nonempty"}}, "independently_verified": {"type": "boolean"}, "reviewer": {"$ref": "common.schema.json#/$defs/reviewer"}, "decided_at": {"$ref": "common.schema.json#/$defs/timestamp"}
+    "evidence_refs": {"type": "array", "minItems": 1, "items": {"$ref": "common.schema.json#/$defs/nonempty"}}, "independently_verified": {"type": "boolean"}, "reviewer": {"$ref": "common.schema.json#/$defs/reviewer"}, "rereview_report_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/nonempty"}}, "affected_reviewer_roles": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/nonempty"}}, "excluded_capabilities": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/nonempty"}}, "decided_at": {"$ref": "common.schema.json#/$defs/timestamp"}
   }, "additionalProperties": false
 }

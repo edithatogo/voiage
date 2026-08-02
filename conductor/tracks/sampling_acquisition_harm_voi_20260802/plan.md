@@ -37,11 +37,23 @@
   candidate or a reviewed exclusion of a generic executable kernel; retain
   `unsupported_research_scoping` until the complete gate succeeds. (AC-02,
   AC-03, AC-08)
-- [ ] **H8-B:** Harden the scientific-review evidence contract: separate Git
+- [x] **H8-B:** Harden the scientific-review evidence contract: separate Git
   OIDs from SHA-256 content digests, define canonical hashing, verify manifest
   bytes, exact finding inventories, Medium dispositions, role separation,
   signed human receipts, expiry/supersession and narrow delta classification.
-  (AC-08, AC-09)
+  (AC-08, AC-09) `4c549584`
+- [x] **H8-B-R1:** Apply the Conductor review fixes: bind human receipts to
+  accountable signer identities, require affected-role Medium re-review, and
+  reject unknown disposition or dropped dissent history. This remains a
+  repository evidence contract, not a human verdict. (AC-08–AC-10) `4c549584`
+- [x] **H8-B-CI1:** Remediate the hosted Bandit B404/B603 findings with
+  narrow, justified suppressions for the fixed, shell-free Git verifier and
+  repeat the exact lint/security/type/focused-test gates. (AC-09, AC-10)
+  `888be418`
+- [x] **H8-B-CI2:** Remediate the hosted changed-line and changed-branch
+  coverage findings with direct fail-closed contract tests, including digest,
+  Git-object, identity, disposition, dissent, delta, expiry and repository
+  binding paths. No coverage exclusions are used. (AC-08–AC-10) `f7dfbcea`
 - [ ] **H8-C:** Freeze a clean #850/#853-specific packet containing the exact
   commit/tree, track artifacts, sources and retrieval receipts, claims,
   capability boundary, fixtures, estimator thresholds, uncertainty rules,

@@ -4,12 +4,12 @@
   "title": "ScientificReviewRoleReportV1", "type": "object",
   "required": ["evidence_kind", "schema_version", "report_id", "candidate_commit", "candidate_tree", "packet_sha256", "reviewer_role", "reviewer", "scope", "verdict", "rubric", "finding_ids", "signed_at", "report_sha256"],
   "properties": {
-    "evidence_kind": {"const": "role-report"}, "schema_version": {"const": "1.0.0"}, "report_id": {"$ref": "common.schema.json#/$defs/nonempty"},
-    "candidate_commit": {"$ref": "common.schema.json#/$defs/sha256"}, "candidate_tree": {"$ref": "common.schema.json#/$defs/sha256"}, "packet_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "evidence_kind": {"const": "role-report"}, "schema_version": {"const": "1.1.0"}, "report_id": {"$ref": "common.schema.json#/$defs/nonempty"},
+    "candidate_commit": {"$ref": "common.schema.json#/$defs/gitOid"}, "candidate_tree": {"$ref": "common.schema.json#/$defs/gitOid"}, "packet_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
     "reviewer_role": {"enum": ["estimand_domain", "estimator_assurance", "cross_language_api", "governance_publication", "domain_specialist"]},
     "reviewer": {"$ref": "common.schema.json#/$defs/reviewer"}, "scope": {"$ref": "common.schema.json#/$defs/scope"},
     "verdict": {"enum": ["pass", "minor_revision", "major_revision", "fail", "not_applicable"]},
     "rubric": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["dimension", "verdict", "rationale"], "properties": {"dimension": {"$ref": "common.schema.json#/$defs/nonempty"}, "verdict": {"enum": ["pass", "minor_revision", "major_revision", "fail", "not_applicable"]}, "rationale": {"$ref": "common.schema.json#/$defs/nonempty"}}, "additionalProperties": false}},
-    "finding_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/nonempty"}}, "signed_at": {"$ref": "common.schema.json#/$defs/timestamp"}, "report_sha256": {"$ref": "common.schema.json#/$defs/sha256"}
+    "finding_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/nonempty"}}, "signed_at": {"$ref": "common.schema.json#/$defs/timestamp"}, "report_sha256": {"$ref": "common.schema.json#/$defs/sha256"}, "human_receipt": {"$ref": "common.schema.json#/$defs/humanReceipt"}
   }, "additionalProperties": false
 }

@@ -18,10 +18,15 @@ def main() -> int:
     """Validate the requested JSON bundle and return a shell status."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("bundle", type=Path)
+    parser.add_argument(
+        "--repository-root",
+        type=Path,
+        help="Git repository used to verify candidate OIDs and frozen artifact bytes",
+    )
     args = parser.parse_args()
     try:
         payload = json.loads(args.bundle.read_text(encoding="utf-8"))
-        validate_scientific_review_bundle(payload)
+        validate_scientific_review_bundle(payload, repository_root=args.repository_root)
     except (OSError, json.JSONDecodeError, ScientificReviewEvidenceError) as error:
         print(f"scientific-review evidence invalid: {error}", file=sys.stderr)
         return 1
