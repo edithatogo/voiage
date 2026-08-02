@@ -41,8 +41,12 @@ separate gates.
         authorizing kernel as the review target for a proposed exclusion;
         parameterized constrained/vector research remains outside that scope.
         The exclusion itself is not yet reviewed. H8-B evidence-contract
-        hardening is complete; H8-C–H8-H
-        govern the exact #850 freeze, independent role panel,
+        hardening and H8-C exact freeze are complete. H8-D-A/H8-E-A retain a
+        five-role automated challenge panel and separate synthesis with one
+        Critical, fifteen High and three Medium pending findings. The panel is
+        non-human, estimator-assurance independence is disqualifying and
+        source review remains blocked, so H8-D/H8-E are not satisfied. H8-D–H8-H
+        continue to govern the exact #850 freeze, eligible independent panel,
         separate orchestrator synthesis, finding/dissent disposition, two
         distinct scientific and domain/ethics humans, a conditional chair,
         separate maintainer decision and fail-closed governance readback. No

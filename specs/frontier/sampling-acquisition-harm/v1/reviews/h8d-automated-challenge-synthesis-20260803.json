@@ -1,0 +1,433 @@
+{
+  "evidence_kind": "automated-challenge-synthesis",
+  "schema_version": "1.0.0",
+  "synthesis_id": "H8D-H8E-AUTOMATED-CHALLENGE-SYNTHESIS-20260803",
+  "actor": {
+    "identity": "codex-subagent:h8e_synthesis_orchestrator",
+    "actor_type": "agent",
+    "human": false,
+    "authorizing": false,
+    "role": "separate_automated_synthesis_orchestrator",
+    "limitations": [
+      "The actor is an automated non-human agent operating in the same repository-owner Codex task.",
+      "The actor did not author, edit, vote on, remediate or adjudicate any role report or finding.",
+      "Automated challenge evidence cannot satisfy named qualified human scientific, domain, ethics, governance, publication or maintainer gates."
+    ]
+  },
+  "bindings": {
+    "candidate_commit": {
+      "algorithm": "sha1",
+      "value": "8d6c67879050f161258ed95d878a72e2bb6b22dd"
+    },
+    "candidate_tree": {
+      "algorithm": "sha1",
+      "value": "18289bd04081f6a6810cb91ef2beec7decafe61f"
+    },
+    "trusted_package_commit": {
+      "algorithm": "sha1",
+      "value": "d00e0e20752f44c52581dbb7ee45ce27c9b7d6dd"
+    },
+    "artifact_manifest": {
+      "path": "specs/frontier/sampling-acquisition-harm/v1/review-artifact-manifest.json",
+      "sha256": "4f18ac9b08717416e54133849c1a381b4245543d7e5dd85f51efa1cd789164c5"
+    },
+    "review_packet": {
+      "path": "specs/frontier/sampling-acquisition-harm/v1/review-packet.json",
+      "sha256": "e1298da5a609ee9ed7a8cc8509ab117a2d2fd384d20d464c48ec32f4f033f29b"
+    }
+  },
+  "required_roles": [
+    "estimand_domain",
+    "estimator_assurance",
+    "cross_language_api",
+    "governance_publication",
+    "domain_specialist"
+  ],
+  "role_reports": [
+    {
+      "role": "estimand_domain",
+      "path": "specs/frontier/sampling-acquisition-harm/v1/reviews/h8d-estimand-domain-agent-20260803.json",
+      "report_id": "H8D-ESTIMAND-DOMAIN-AGENT-20260803",
+      "report_sha256": "b1d071c6e07b6e14f649b364884f46d102e2e2440941cda1c55529fcfc4fe64d",
+      "digest_verified": true,
+      "verdict": "major_revision",
+      "reviewer_eligible": false,
+      "eligibility_reason": "Automated contribution-independent challenge evidence, not a named qualified or accountable human review receipt."
+    },
+    {
+      "role": "estimator_assurance",
+      "path": "specs/frontier/sampling-acquisition-harm/v1/reviews/h8d-estimator-assurance-automated-20260803.json",
+      "report_id": "H8D-ESTIMATOR-ASSURANCE-AUTOMATED-20260803",
+      "report_sha256": "1c47ddf52a277388eb213417e92f80c55fd3dea53b43378eba34e1dd3175f58c",
+      "digest_verified": true,
+      "verdict": "major_revision",
+      "reviewer_eligible": false,
+      "eligibility_reason": "The source report records conflict_status disqualifying and independent false, and no verified human scientific qualification."
+    },
+    {
+      "role": "cross_language_api",
+      "path": "specs/frontier/sampling-acquisition-harm/v1/reviews/h8d-cross-language-api-governance-agent-20260803.json",
+      "report_id": "H8D-CROSS-LANGUAGE-API-GOVERNANCE-AGENT-20260803",
+      "report_sha256": "60ca65137265561ab0d9e2ee18b8a4ff187f6212d5b6e265066b4cff33d27e4d",
+      "digest_verified": true,
+      "verdict": "major_revision",
+      "reviewer_eligible": false,
+      "eligibility_reason": "Automated contribution-independent challenge evidence; dual-scope observations do not satisfy a second role or any named human gate."
+    },
+    {
+      "role": "governance_publication",
+      "path": "specs/frontier/sampling-acquisition-harm/v1/reviews/h8d-governance-publication-agent-20260803.json",
+      "report_id": "H8D-GOVERNANCE-PUBLICATION-AGENT-20260803",
+      "report_sha256": "0ff33d8d44a0f0bf4e28d143bb18320b366fc39e60bce0b34610b02ec51a41fb",
+      "digest_verified": true,
+      "verdict": "major_revision",
+      "reviewer_eligible": false,
+      "eligibility_reason": "Automated contribution-independent challenge evidence, not a named qualified human or accountable publication authority."
+    },
+    {
+      "role": "domain_specialist",
+      "path": "specs/frontier/sampling-acquisition-harm/v1/reviews/h8d-domain-specialist-agent-20260803.json",
+      "report_id": "H8D-DOMAIN-SPECIALIST-AGENT-20260803",
+      "report_sha256": "eeb88310f1a568afca6868c8f0a8ae2285519bc834aed83baafad7990b6522b4",
+      "digest_verified": true,
+      "verdict": "major_revision",
+      "reviewer_eligible": false,
+      "eligibility_reason": "Automated challenge evidence without human professional, clinical, ethics, regulatory, legal or jurisdiction-specific qualification."
+    }
+  ],
+  "role_completeness": {
+    "all_required_roles_have_reports": true,
+    "report_count": 5,
+    "required_role_count": 5,
+    "duplicate_roles": [],
+    "missing_roles": []
+  },
+  "reviewer_eligibility": {
+    "all_required_roles_have_eligible_independent_reviewers": false,
+    "independent_eligibility_satisfied": false,
+    "reason": "Role-shaped automated reports are complete, but they do not establish the governed qualifications and accountable independence required for H8-D; estimator_assurance additionally declares a disqualifying conflict and independent false."
+  },
+  "source_review": {
+    "source_review_satisfied": false,
+    "status": "blocked_pending_independent_retrieval_rights_review_and_drift_comparison",
+    "reason": "The source register retains zero source bytes, Belmont retrieval returned HTTP 403 without a content digest, and rights, currentness and candidate-jurisdiction applicability are unverified."
+  },
+  "severity_normalization": {
+    "rule": "Preserve an explicitly declared Critical, High or Medium severity. Where the estimator-assurance report names a finding but omits an explicit severity, record source_declared_severity as null and derive High from a primary major_revision rubric or Medium from a primary minor_revision rubric; this is synthesis triage, not a change to the source report.",
+    "source_reports_modified": false
+  },
+  "findings": [
+    {
+      "finding_id": "H8D-ED-01",
+      "source_role": "estimand_domain",
+      "source_report_sha256": "b1d071c6e07b6e14f649b364884f46d102e2e2440941cda1c55529fcfc4fe64d",
+      "source_declared_severity": "High",
+      "normalized_severity": "High",
+      "disposition": "pending",
+      "summary": "Define candidate-specific catastrophic, absorbing and irreversible states, horizons, affected-party thresholds and acceptable residual risk before scientific disposition."
+    },
+    {
+      "finding_id": "H8D-ED-02",
+      "source_role": "estimand_domain",
+      "source_report_sha256": "b1d071c6e07b6e14f649b364884f46d102e2e2440941cda1c55529fcfc4fe64d",
+      "source_declared_severity": "Medium",
+      "normalized_severity": "Medium",
+      "disposition": "pending",
+      "summary": "Prove every zero-harm assumption, including unchanged state-action-outcome mapping, no double counting and no harm reintroduced through dropout or reporting."
+    },
+    {
+      "finding_id": "H8D-ED-03",
+      "source_role": "estimand_domain",
+      "source_report_sha256": "b1d071c6e07b6e14f649b364884f46d102e2e2440941cda1c55529fcfc4fe64d",
+      "source_declared_severity": "High",
+      "normalized_severity": "High",
+      "disposition": "pending",
+      "summary": "Declare a narrow domain, jurisdiction, population, activity, comparator, affected parties and authority profile and obtain qualified human review before any applicability or real-study claim."
+    },
+    {
+      "finding_id": "H8D-ED-04",
+      "source_role": "estimand_domain",
+      "source_report_sha256": "b1d071c6e07b6e14f649b364884f46d102e2e2440941cda1c55529fcfc4fe64d",
+      "source_declared_severity": "High",
+      "normalized_severity": "High",
+      "disposition": "pending",
+      "summary": "Independently retrieve source bytes, review rights and compare current sources for drift and candidate-jurisdiction applicability."
+    },
+    {
+      "finding_id": "H8D-EST-001",
+      "source_role": "estimator_assurance",
+      "source_report_sha256": "1c47ddf52a277388eb213417e92f80c55fd3dea53b43378eba34e1dd3175f58c",
+      "source_declared_severity": null,
+      "normalized_severity": "High",
+      "disposition": "pending",
+      "summary": "No estimator, thresholds, truth-known suite, false-safe error budget, convergence and interval rules, tail assurance, calibration, executable cases or deterministic replay receipts exist."
+    },
+    {
+      "finding_id": "H8D-EST-002",
+      "source_role": "estimator_assurance",
+      "source_report_sha256": "1c47ddf52a277388eb213417e92f80c55fd3dea53b43378eba34e1dd3175f58c",
+      "source_declared_severity": null,
+      "normalized_severity": "High",
+      "disposition": "pending",
+      "summary": "Scientific source assurance is blocked by zero retained source bytes, Belmont HTTP 403 and absent applicability and drift comparison."
+    },
+    {
+      "finding_id": "H8D-EST-003",
+      "source_role": "estimator_assurance",
+      "source_report_sha256": "1c47ddf52a277388eb213417e92f80c55fd3dea53b43378eba34e1dd3175f58c",
+      "source_declared_severity": null,
+      "normalized_severity": "Medium",
+      "disposition": "pending",
+      "summary": "Preserve dissent against treating the current runtime exclusion as a universal impossibility theorem or exclusion of future candidate-specific scalar, constrained or vector research."
+    },
+    {
+      "finding_id": "H8D-EST-004",
+      "source_role": "estimator_assurance",
+      "source_report_sha256": "1c47ddf52a277388eb213417e92f80c55fd3dea53b43378eba34e1dd3175f58c",
+      "source_declared_severity": null,
+      "normalized_severity": "High",
+      "disposition": "pending",
+      "summary": "The automated reviewer declares a disqualifying independence limitation and cannot satisfy the accountable H8-D role gate."
+    },
+    {
+      "finding_id": "H8D-API-GOV-01",
+      "source_role": "cross_language_api",
+      "source_report_sha256": "60ca65137265561ab0d9e2ee18b8a4ff187f6212d5b6e265066b4cff33d27e4d",
+      "source_declared_severity": "High",
+      "normalized_severity": "High",
+      "disposition": "pending",
+      "summary": "Machine-readable non-alias contracts and negative tests cover issues 570 and 595 but omit adjacent issues 571 and 598."
+    },
+    {
+      "finding_id": "H8D-API-GOV-02",
+      "source_role": "cross_language_api",
+      "source_report_sha256": "60ca65137265561ab0d9e2ee18b8a4ff187f6212d5b6e265066b4cff33d27e4d",
+      "source_declared_severity": "Medium",
+      "normalized_severity": "Medium",
+      "disposition": "pending",
+      "summary": "The frozen issue snapshot drifted after PR 862 and must be refreshed and classified without rewriting the historical packet."
+    },
+    {
+      "finding_id": "H8D-API-GOV-03",
+      "source_role": "cross_language_api",
+      "source_report_sha256": "60ca65137265561ab0d9e2ee18b8a4ff187f6212d5b6e265066b4cff33d27e4d",
+      "source_declared_severity": "High",
+      "normalized_severity": "High",
+      "disposition": "pending",
+      "summary": "Source locators without retained bytes, rights review, drift comparison or applicability cannot support source-authority or publication claims."
+    },
+    {
+      "finding_id": "H8D-API-GOV-04",
+      "source_role": "cross_language_api",
+      "source_report_sha256": "60ca65137265561ab0d9e2ee18b8a4ff187f6212d5b6e265066b4cff33d27e4d",
+      "source_declared_severity": "High",
+      "normalized_severity": "High",
+      "disposition": "pending",
+      "summary": "One automated cross-language report cannot satisfy a separate governance role, named human confirmation, chair adjudication or maintainer decision."
+    },
+    {
+      "finding_id": "H8D-GP-01",
+      "source_role": "governance_publication",
+      "source_report_sha256": "0ff33d8d44a0f0bf4e28d143bb18320b366fc39e60bce0b34610b02ec51a41fb",
+      "source_declared_severity": "High",
+      "normalized_severity": "High",
+      "disposition": "pending",
+      "summary": "Preserve the historical snapshot, bind the post-PR-862 administrative delta, synchronize roadmap and track metadata, then read back every hosted surface."
+    },
+    {
+      "finding_id": "H8D-GP-02",
+      "source_role": "governance_publication",
+      "source_report_sha256": "0ff33d8d44a0f0bf4e28d143bb18320b366fc39e60bce0b34610b02ec51a41fb",
+      "source_declared_severity": "High",
+      "normalized_severity": "High",
+      "disposition": "pending",
+      "summary": "Independent source retrieval, rights review, drift comparison and applicability assessment are required before publication-ready or real-study source claims."
+    },
+    {
+      "finding_id": "H8D-DS-01",
+      "source_role": "domain_specialist",
+      "source_report_sha256": "eeb88310f1a568afca6868c8f0a8ae2285519bc834aed83baafad7990b6522b4",
+      "source_declared_severity": "High",
+      "normalized_severity": "High",
+      "disposition": "pending",
+      "summary": "No domain-specific acceptability, proportionality, external validity or applicability follows until domain, jurisdiction, population, activity, comparator and authorities are declared and reviewed."
+    },
+    {
+      "finding_id": "H8D-DS-02",
+      "source_role": "domain_specialist",
+      "source_report_sha256": "eeb88310f1a568afca6868c8f0a8ae2285519bc834aed83baafad7990b6522b4",
+      "source_declared_severity": "High",
+      "normalized_severity": "High",
+      "disposition": "pending",
+      "summary": "Identify affected parties, consent and recruitment, vulnerable populations, accessibility, compensation, data governance, withdrawal and distributional burdens."
+    },
+    {
+      "finding_id": "H8D-DS-03",
+      "source_role": "domain_specialist",
+      "source_report_sha256": "eeb88310f1a568afca6868c8f0a8ae2285519bc834aed83baafad7990b6522b4",
+      "source_declared_severity": "Critical",
+      "normalized_severity": "Critical",
+      "disposition": "pending",
+      "summary": "Operationalize catastrophic, absorbing and irreversible harm definitions, monitoring, stopping, rescue, escalation, residual-risk tolerances and halt authority; positive scalar value cannot override them."
+    },
+    {
+      "finding_id": "H8D-DS-04",
+      "source_role": "domain_specialist",
+      "source_report_sha256": "eeb88310f1a568afca6868c8f0a8ae2285519bc834aed83baafad7990b6522b4",
+      "source_declared_severity": "High",
+      "normalized_severity": "High",
+      "disposition": "pending",
+      "summary": "Map current ethics, consent, privacy, registration, safety, clinical governance, product, site, indemnity, compensation, engagement and regulatory requirements."
+    },
+    {
+      "finding_id": "H8D-DS-05",
+      "source_role": "domain_specialist",
+      "source_report_sha256": "eeb88310f1a568afca6868c8f0a8ae2285519bc834aed83baafad7990b6522b4",
+      "source_declared_severity": "High",
+      "normalized_severity": "High",
+      "disposition": "pending",
+      "summary": "Retrieve sources independently, assess rights and drift, and create a candidate-specific authority map before a qualified domain reviewer relies on the source basis."
+    }
+  ],
+  "finding_summary": {
+    "total": 19,
+    "critical": 1,
+    "high": 15,
+    "medium": 3,
+    "pending": 19,
+    "resolved": 0
+  },
+  "dissent": [
+    {
+      "source_roles": [
+        "estimand_domain",
+        "estimator_assurance",
+        "domain_specialist"
+      ],
+      "statement": "The generic automatic scalar or study-authorizing kernel may remain excluded from runtime now, but that is not a universal impossibility theorem and does not bar future candidate-specific non-authorizing scalar models with a declared commensurate ledger, constrained models or vector models."
+    },
+    {
+      "source_roles": [
+        "cross_language_api"
+      ],
+      "statement": "The proposed exclusion is not machine-complete while adjacent issues 571 and 598 lack the same non-alias and execution-reuse prohibition contract as issues 570 and 595."
+    },
+    {
+      "source_roles": [
+        "cross_language_api",
+        "governance_publication"
+      ],
+      "statement": "A historical governance snapshot must not be described as current after observed post-PR-862 drift, and Project Sync State Clean is not proof that issue, roadmap and track projections are synchronized."
+    },
+    {
+      "source_roles": [
+        "estimand_domain",
+        "estimator_assurance",
+        "cross_language_api",
+        "governance_publication",
+        "domain_specialist"
+      ],
+      "statement": "Automated reports, repository validation, source locators and positive EVSI or ENBS cannot be presented as human confirmation, source rights, ethics or regulatory approval, scientific disposition, publication approval or real-study authority."
+    }
+  ],
+  "options": [
+    {
+      "option_id": "A",
+      "name": "Retain unsupported research scoping and build a new reviewable packet",
+      "recommended": true,
+      "rationale": "It preserves the fail-closed runtime boundary and all dissent while permitting repository-owned repairs, independent source assurance, qualified review and a new exact freeze without overstating the current evidence.",
+      "required_actions": [
+        "Keep runtime, ABI, bindings, promotion, release, publication and real-study authority disabled.",
+        "Retrieve and retain lawful source evidence independently; record rights, drift and applicability.",
+        "Complete the issue 571 and 598 non-alias contract, governance delta, roadmap and metadata synchronization.",
+        "For any narrow candidate, define affected parties, units, catastrophic and irreversible harms, controls, authorities, estimator, thresholds and assurance.",
+        "Freeze a new candidate packet after substantive changes and commission qualified independent reviewers, then obtain the two distinct named human confirmations and a separate maintainer decision."
+      ]
+    },
+    {
+      "option_id": "B",
+      "name": "Seek a reviewed generic-kernel exclusion after remediation",
+      "recommended": false,
+      "rationale": "This could formally retain the narrow exclusion, but only after all Critical and High findings receive governed dispositions, affected-role re-review and eligible human confirmation; the current automated panel cannot supply that disposition."
+    },
+    {
+      "option_id": "C",
+      "name": "Develop one narrow domain- and jurisdiction-specific research candidate",
+      "recommended": false,
+      "rationale": "This is scientifically more testable but expands the evidence, ethics, estimator, safety, regulatory and human-review burden and must begin as a new candidate rather than inherit approval from this packet."
+    },
+    {
+      "option_id": "D",
+      "name": "Proceed on the current automated evidence",
+      "recommended": false,
+      "rationale": "Rejected: one Critical and fifteen High normalized findings remain pending, source review and reviewer eligibility fail, and no human or maintainer authority exists."
+    }
+  ],
+  "contingencies": [
+    {
+      "condition": "Independent source retrieval or redistribution rights remain unavailable",
+      "response": "Retain unsupported research scoping, record the external blocker and do not claim source completeness, scientific disposition, publication readiness or real-study applicability."
+    },
+    {
+      "condition": "No eligible independent reviewer can be commissioned",
+      "response": "Keep H8-D and H8-E unsatisfied and do not advance to finding closure, human confirmation or maintainer maturity disposition."
+    },
+    {
+      "condition": "A Critical or High finding changes the candidate, contract, estimator, evidence or claim",
+      "response": "Freeze a new candidate and packet, supersede affected automated evidence and obtain affected-role re-review."
+    },
+    {
+      "condition": "A narrow candidate introduces materially plausible catastrophic, absorbing or irreversible harm",
+      "response": "Treat the candidate as non-feasible until defined constraints, monitoring, stopping, rescue, escalation, residual-risk tolerances and accountable halt authority are independently reviewed."
+    },
+    {
+      "condition": "The hosted issue, Project, roadmap or track state changes",
+      "response": "Preserve the frozen historical snapshot and add a separately bound, authenticated administrative delta before making synchronization claims."
+    }
+  ],
+  "recommendation": {
+    "option_id": "A",
+    "decision": "retain_unsupported_research_scoping_and_prepare_new_reviewable_packet",
+    "rationale": "The automated panel is useful challenge evidence and has complete role-shaped coverage, but it exposes a Critical catastrophic-harm contract gap, numerous High scientific, source, governance, API, estimator, domain and eligibility gaps, and three Medium gaps. No finding has been remediated or independently re-reviewed. The only defensible current course is to preserve the non-runtime boundary, address repository-owned findings, obtain independent source evidence and qualified reviewers, then freeze a new packet for accountable review.",
+    "does_not_authorize": [
+      "finding_disposition",
+      "scientific_acceptance",
+      "human_confirmation",
+      "maintainer_maturity_decision",
+      "runtime_or_binding_implementation",
+      "study_or_sampling_activity",
+      "promotion",
+      "release",
+      "publication",
+      "issue_or_track_closure"
+    ]
+  },
+  "gate_status": {
+    "required_role_reports_complete": true,
+    "independent_eligibility_satisfied": false,
+    "source_review_satisfied": false,
+    "h8d_satisfied": false,
+    "h8e_satisfied": false,
+    "h8f_satisfied": false,
+    "h8g_satisfied": false,
+    "h8h_satisfied": false,
+    "reason": "Automated role coverage and synthesis are preparation artifacts only; eligible independent review, source assurance, finding disposition and re-review, named human confirmations, maintainer decision and final synchronization remain pending."
+  },
+  "authority": {
+    "scientific_authority": false,
+    "human_confirmation_authority": false,
+    "ethics_authority": false,
+    "regulatory_authority": false,
+    "source_rights_authority": false,
+    "maintainer_disposition_authority": false,
+    "runtime_authority": false,
+    "real_study_authority": false,
+    "promotion_authority": false,
+    "release_authority": false,
+    "publication_authority": false,
+    "activation_authority": false,
+    "closure_authority": false
+  },
+  "synthesized_at": "2026-08-02T20:08:00Z",
+  "synthesis_sha256": "29fdd684d356fba6d57d2dc164a2ba31c1d5e37d2318c8b484851ba649908820"
+}

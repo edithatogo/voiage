@@ -1,0 +1,87 @@
+{
+  "evidence_kind": "role-report",
+  "schema_version": "1.1.0",
+  "report_id": "H8D-ESTIMAND-DOMAIN-AGENT-20260803",
+  "candidate_commit": {
+    "algorithm": "sha1",
+    "value": "8d6c67879050f161258ed95d878a72e2bb6b22dd"
+  },
+  "candidate_tree": {
+    "algorithm": "sha1",
+    "value": "18289bd04081f6a6810cb91ef2beec7decafe61f"
+  },
+  "packet_sha256": "e1298da5a609ee9ed7a8cc8509ab117a2d2fd384d20d464c48ec32f4f033f29b",
+  "reviewer_role": "estimand_domain",
+  "reviewer": {
+    "identity": "codex-subagent:h8d_estimand_domain",
+    "display_name": "H8-D Estimand and Domain Automated Reviewer",
+    "actor_type": "agent",
+    "role": "estimand_domain",
+    "qualifications": [
+      "Model-based analysis of mathematical estimands, units, conditioning, decision boundaries and fail-closed scientific evidence contracts; no human professional, clinical, ethics, regulatory or jurisdiction-specific qualification is claimed."
+    ],
+    "prior_contributions": [],
+    "conflicts": [
+      "Automated subagent operating in the repository owner's Codex task; not a named qualified human or accountable domain specialist, and unable to supply human confirmation, source rights or ethics and regulatory authority."
+    ],
+    "conflict_status": "non_disqualifying",
+    "independent": true
+  },
+  "scope": {
+    "family": "sampling_acquisition_harm_voi",
+    "capabilities": [
+      "generic_automatic_scalar_or_authorizing_sampling_acquisition_harm_kernel"
+    ]
+  },
+  "verdict": "major_revision",
+  "rubric": [
+    {
+      "dimension": "exact bindings and contribution independence",
+      "verdict": "pass",
+      "rationale": "The review-preparation validator passed against candidate 8d6c67879050f161258ed95d878a72e2bb6b22dd, tree 18289bd04081f6a6810cb91ef2beec7decafe61f and trusted package d00e0e20752f44c52581dbb7ee45ce27c9b7d6dd. This report binds packet e1298da5a609ee9ed7a8cc8509ab117a2d2fd384d20d464c48ec32f4f033f29b and its manifest digest 4f18ac9b08717416e54133849c1a381b4245543d7e5dd85f51efa1cd789164c5. The reviewer has no candidate authorship or remediation history."
+    },
+    {
+      "dimension": "estimand coherence, conditioning and decision boundary",
+      "verdict": "pass",
+      "rationale": "For the frozen exclusion question, the decision unit, candidate-specific conditioning, affected-party declaration, harm-component declaration, non-authorizing study semantics and separation from adjacent issues 570, 571, 595 and 598 are coherent. The object is an exclusion of a universal automatic scalar or authorizing kernel, not a numeric harm estimator, and the preserved scalar, constrained and vector candidate classes prevent the exclusion from becoming a blanket ban on research."
+    },
+    {
+      "dimension": "units, commensurability and aggregation",
+      "verdict": "pass",
+      "rationale": "The boundary correctly leaves an automatic scalar undefined when components are incommensurate and requires candidate-specific cardinal commensurability, units, perspective, numeraire, horizon, discounting, attribution, provenance and a mutually exclusive and collectively scoped ledger. It also requires hard or lexicographic constraints to precede positive scalar value, avoiding an unsupported total ordering."
+    },
+    {
+      "dimension": "catastrophic and absorbing outcomes",
+      "verdict": "major_revision",
+      "rationale": "Finding H8D-ED-01, severity High, disposition pending: the frozen exclusion correctly says a catastrophic constraint violation overrides positive scalar value, but it cannot supply candidate-specific definitions of catastrophe, absorbing states, irreversibility, transition horizons, affected-party thresholds or acceptable residual risk because no domain, population, activity or authority profile is present. Any future narrow candidate must define these semantics and independently verify that scalar gains cannot mask constraint breach before scientific disposition."
+    },
+    {
+      "dimension": "zero-harm reduction",
+      "verdict": "minor_revision",
+      "rationale": "Finding H8D-ED-02, severity Medium, disposition pending: ordinary EVSI or ENBS is recovered only conditionally after candidate-specific zero-harm assumptions. A future candidate must show that acquisition leaves the state-action-outcome mapping unchanged, that no downstream welfare term is double counted, that policy-independent valued harm is exactly zero, and that dropout and reporting laws do not reintroduce harm; the present no-runtime exclusion appropriately makes no numeric reduction claim."
+    },
+    {
+      "dimension": "domain, ethics and real-study limits",
+      "verdict": "major_revision",
+      "rationale": "Finding H8D-ED-03, severity High, disposition pending: no narrow domain, jurisdiction, population, sampling activity, comparator, affected-party set, applicable authority profile or named qualified human domain and ethics reviewer exists. The report therefore cannot confirm applicability, proportionality, acceptability, regulatory compliance or authorization of any real sampling activity. These are accountable human gates and cannot be inferred from repository validation or a positive EVSI or ENBS."
+    },
+    {
+      "dimension": "source authority and reproducibility",
+      "verdict": "major_revision",
+      "rationale": "Finding H8D-ED-04, severity High, disposition pending: the source register retains zero source bytes. Five observations are locator and hash records rather than independently reproducible source content, Belmont retrieval is blocked by HTTP 403 with no content digest, locators grant no source rights, and source drift and candidate-jurisdiction applicability have not been assessed. Independent retrieval, rights review and current-source comparison remain necessary."
+    },
+    {
+      "dimension": "dissent and non-authorizing verdict",
+      "verdict": "major_revision",
+      "rationale": "There is no dissent from using a fail-closed reviewed-exclusion candidate as the current repository direction. There is explicit dissent from treating this automated model review as a named qualified human domain opinion, completed independent scientific confirmation, ethics or regulatory approval, source-rights determination, maintainer disposition, runtime approval, promotion, publication, release or real-study authorization. The verdict is non-authorizing and all listed findings remain pending."
+    }
+  ],
+  "finding_ids": [
+    "H8D-ED-01",
+    "H8D-ED-02",
+    "H8D-ED-03",
+    "H8D-ED-04"
+  ],
+  "signed_at": "2026-08-02T19:49:37Z",
+  "report_sha256": "b1d071c6e07b6e14f649b364884f46d102e2e2440941cda1c55529fcfc4fe64d"
+}

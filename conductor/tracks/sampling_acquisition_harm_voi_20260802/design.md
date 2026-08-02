@@ -22,7 +22,10 @@ flowchart LR
     Feasible -->|"Indeterminate"| InsufficientEvidence["Fail closed; obtain more evidence"]
     Feasible -->|"Feasible"| Candidate["Nondominated candidate set, complete ties and uncertainty"]
     Candidate --> Freeze["Verified #850 packet: Git OIDs, SHA-256 manifest, sources, claims and findings"]
-    Freeze --> Panel["Independent role subagents plus domain/ethics specialist"]
+    Freeze --> AutomatedPanel["Automated challenge panel: five role-shaped reports"]
+    AutomatedPanel --> AutomatedSynthesis["Separate automated synthesis: all findings and dissent retained"]
+    AutomatedSynthesis --> ChallengeOnly["Challenge preparation only; H8-D and H8-E remain false"]
+    Freeze --> Panel["Eligible independent reviewers plus domain/ethics specialist"]
     Panel --> Orchestrator["Separate orchestrator: findings, dissent, options, contingencies, rationale and recommendation"]
     Orchestrator --> Human{"Named scientific and domain/ethics humans confirm exact candidate?"}
     Human -->|"No, expired or conflicted"| UnsupportedRuntime

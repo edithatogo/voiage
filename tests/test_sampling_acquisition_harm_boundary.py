@@ -277,7 +277,10 @@ def test_sampling_harm_method_family_has_no_runtime_declaration() -> None:
     )
     for source_root, pattern in source_roots:
         for path in source_root.rglob(pattern):
-            if path.name == "sampling_harm_review_preparation.py":
+            if path.name in {
+                "sampling_harm_automated_challenge.py",
+                "sampling_harm_review_preparation.py",
+            }:
                 continue
             source = path.read_text(encoding="utf-8")
             assert all(token not in source for token in family_tokens), path
@@ -286,9 +289,15 @@ def test_sampling_harm_method_family_has_no_runtime_declaration() -> None:
     governance_source = governance_module.read_text(encoding="utf-8")
     assert "compute_sampling_acquisition_harm" not in governance_source
     assert 'runtime_available"] is not False' in governance_source
+    challenge_source = (ROOT / "voiage/sampling_harm_automated_challenge.py").read_text(
+        encoding="utf-8"
+    )
+    assert "compute_sampling_acquisition_harm" not in challenge_source
+    assert "all authority flags must remain false" in challenge_source
 
     schemas = {path.name for path in (CONTRACT / "schemas").glob("*.json")}
     assert schemas == {
+        "automated-challenge-synthesis.schema.json",
         "capability.schema.json",
         "estimand-boundary.schema.json",
         "governance-snapshot.schema.json",

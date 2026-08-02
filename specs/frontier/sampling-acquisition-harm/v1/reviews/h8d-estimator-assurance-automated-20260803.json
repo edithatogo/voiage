@@ -1,0 +1,88 @@
+{
+  "evidence_kind": "role-report",
+  "schema_version": "1.1.0",
+  "report_id": "H8D-ESTIMATOR-ASSURANCE-AUTOMATED-20260803",
+  "candidate_commit": {
+    "algorithm": "sha1",
+    "value": "8d6c67879050f161258ed95d878a72e2bb6b22dd"
+  },
+  "candidate_tree": {
+    "algorithm": "sha1",
+    "value": "18289bd04081f6a6810cb91ef2beec7decafe61f"
+  },
+  "packet_sha256": "e1298da5a609ee9ed7a8cc8509ab117a2d2fd384d20d464c48ec32f4f033f29b",
+  "reviewer_role": "estimator_assurance",
+  "reviewer": {
+    "identity": "codex-agent:/root/h8d_estimator_assurance",
+    "display_name": "H8-D automated estimator-assurance reviewer",
+    "actor_type": "agent",
+    "role": "estimator_assurance",
+    "qualifications": [
+      "Automated numerical-assurance analysis only; this is not a verified human scientific qualification."
+    ],
+    "prior_contributions": [],
+    "conflicts": [
+      "This reviewer is a Codex subagent operating inside the same orchestration, repository and tool environment as the candidate authors, so governance-eligible institutional independence is not established.",
+      "No retained primary-source bytes were available and the declared source review remains blocked pending independent retrieval and drift comparison."
+    ],
+    "conflict_status": "disqualifying",
+    "independent": false
+  },
+  "scope": {
+    "family": "sampling_acquisition_harm_voi",
+    "capabilities": [
+      "generic_automatic_scalar_or_authorizing_sampling_acquisition_harm_kernel"
+    ]
+  },
+  "verdict": "major_revision",
+  "rubric": [
+    {
+      "dimension": "exact frozen bindings and review independence",
+      "verdict": "major_revision",
+      "rationale": "The candidate commit, tree and canonical packet digest resolve exactly, and this reviewer has no prior contribution or remediation history. However, the reviewer is automated, has no verified human qualification or confirmation, shares the orchestration environment, and records a disqualifying independence limitation. Finding H8D-EST-004 therefore prevents this report from satisfying the accountable H8-D role gate."
+    },
+    {
+      "dimension": "estimator definition and numerical thresholds",
+      "verdict": "major_revision",
+      "rationale": "No estimator, numerical thresholds, truth-known suite, false-safe error budget, convergence rule, interval procedure, tail effective-sample-size rule, or constraint-calibration evidence exists. Finding H8D-EST-001 blocks every executable, accuracy, feasibility, optimization and real-study claim; absence is compatible only with a non-runtime reviewed exclusion."
+    },
+    {
+      "dimension": "conditioning units and identification",
+      "verdict": "pass",
+      "rationale": "The frozen boundary correctly requires candidate-specific domain, jurisdiction, population, activity, comparator and authorities, and requires harm components, units, perspective, numeraire, horizon, discounting, attribution and a mutually exclusive component ledger. It fails closed to undefined, not identified or indeterminate when commensurability, separability, reporting or joint-law conditions are absent."
+    },
+    {
+      "dimension": "uncertainty and feasibility classification",
+      "verdict": "pass",
+      "rationale": "The materials distinguish aleatory harm from epistemic estimator uncertainty, use one-sided bounds for feasible, infeasible and indeterminate states, retain indeterminacy under non-identification, address simultaneous search, and reject zero-event evidence as proof of an alpha-zero constraint. These are requirements, not demonstrated estimator properties."
+    },
+    {
+      "dimension": "counterexamples sensitivity and degeneracy",
+      "verdict": "minor_revision",
+      "rationale": "The conceptual suite covers nonzero baselines, zero harm, scalar reversal, catastrophic constraints, incommensurate units, information-harm dependence, informative dropout, tail direction, partial identification and double counting, while the sensitivity contract covers design switches and no-sampling regions. Finding H8D-EST-001 remains because no finite executable reference cases, degeneracy tests, truth-known replicates, thresholds or deterministic replay receipts demonstrate these requirements."
+    },
+    {
+      "dimension": "reproducibility and source assurance",
+      "verdict": "major_revision",
+      "rationale": "Git bindings and repository artifacts are reproducible, but scientific source review is not: zero source bytes are retained, one Belmont retrieval returned HTTP 403, and observation hashes cannot reproduce the cited content. Finding H8D-EST-002 requires independent retrieval, applicability assessment and drift comparison before a human scientific reviewer can rely on the source basis."
+    },
+    {
+      "dimension": "proposed reviewed exclusion and dissent",
+      "verdict": "minor_revision",
+      "rationale": "The estimator-assurance evidence supports excluding the generic automatic scalar or study-authorizing kernel from runtime now. Finding H8D-EST-003 records dissent from reading that result as a universal impossibility theorem or as excluding candidate-specific non-authorizing scalar models with a declared commensurate ledger, constrained models, or vector models; those preserved classes require new candidate-bound estimators and assurance."
+    },
+    {
+      "dimension": "authority boundary",
+      "verdict": "pass",
+      "rationale": "This automated report supplies advisory challenge evidence only. It is not human confirmation, independent scientific approval, ethics or regulatory authority, maintainer disposition, runtime authorization, real-study authorization, promotion, release or publication approval, and it authorizes no remediation or sampling action."
+    }
+  ],
+  "finding_ids": [
+    "H8D-EST-001",
+    "H8D-EST-002",
+    "H8D-EST-003",
+    "H8D-EST-004"
+  ],
+  "signed_at": "2026-08-02T19:49:32Z",
+  "report_sha256": "1c47ddf52a277388eb213417e92f80c55fd3dea53b43378eba34e1dd3175f58c"
+}
