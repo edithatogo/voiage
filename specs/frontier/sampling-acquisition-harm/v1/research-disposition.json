@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.0",
+  "disposition_id": "sampling-acquisition-harm-research-v1",
+  "capability_id": "sampling-acquisition-harm-v1",
+  "disposition": "unsupported_research_scoping",
+  "candidate_scope": "research_contract_only",
+  "runtime_prohibited": true,
+  "approved_runtime_symbols": [],
+  "permitted_claims": [
+    "The repository contains a governed research scope for sampling-acquisition harm.",
+    "No executable sampling-acquisition-harm method currently exists.",
+    "Any future scalar method requires a non-overlapping, commensurate outcome-component ledger."
+  ],
+  "prohibited_claims": [
+    "A positive economic ENBS authorizes a study.",
+    "Issue 570 risk-sensitive perfect information executes sampling-acquisition harm.",
+    "Issue 595 expected-utility or VoC presentation executes sampling-acquisition harm.",
+    "Any Python, Rust, native ABI, R, Julia or Mojo sampling-acquisition-harm runtime is available.",
+    "Repository validation supplies scientific, ethics or regulatory approval."
+  ],
+  "adjacent_methods": [
+    {
+      "issue": 570,
+      "method": "risk-sensitive constrained perfect information",
+      "relationship": "not_sampling_acquisition_harm",
+      "execution_reuse_allowed": false,
+      "reason": "It compares matched current and clairvoyant policy problems; it does not model harm caused by sampling."
+    },
+    {
+      "issue": 595,
+      "method": "expected-utility information pricing and VoC presentation",
+      "relationship": "not_sampling_acquisition_harm",
+      "execution_reuse_allowed": false,
+      "reason": "It values clairvoyant policy information under declared utility; it does not model the acquisition action."
+    }
+  ],
+  "gates": [
+    {
+      "id": "candidate-specific-estimand",
+      "status": "pending",
+      "authority": "maintainer and scientific review packet",
+      "evidence": "No narrow executable candidate has been frozen."
+    },
+    {
+      "id": "independent-scientific-domain-review",
+      "status": "external_pending",
+      "authority": "independent scientific and domain reviewers",
+      "evidence": "No candidate-bound independent report exists."
+    },
+    {
+      "id": "named-human-verdict",
+      "status": "external_pending",
+      "authority": "named accountable human",
+      "evidence": "No candidate-bound human verdict exists."
+    },
+    {
+      "id": "estimator-assurance",
+      "status": "blocked",
+      "authority": "repository assurance contract",
+      "evidence": "No approved estimator, truth-known suite or false-safe error budget exists."
+    },
+    {
+      "id": "portable-runtime-contracts-bindings",
+      "status": "blocked",
+      "authority": "repository implementation review",
+      "evidence": "No runtime request/result schema, kernel, ABI or language binding exists."
+    },
+    {
+      "id": "exact-head-hosted-checks",
+      "status": "blocked",
+      "authority": "GitHub protected checks",
+      "evidence": "No executable candidate exists for exact-head hosted assurance."
+    },
+    {
+      "id": "stable-promotion-release",
+      "status": "blocked",
+      "authority": "maintainer maturity and release decision",
+      "evidence": "Stable promotion and release are not authorized."
+    }
+  ]
+}
