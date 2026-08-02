@@ -45,18 +45,6 @@ class SamplingHarmReviewPreparationError(ValueError):
     """Raised when a frozen review preparation is incomplete or stale."""
 
 
-def _load_json(path: Path) -> dict[str, Any]:
-    try:
-        value = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as error:
-        raise SamplingHarmReviewPreparationError(
-            f"cannot load {path}: {error}"
-        ) from error
-    if not isinstance(value, dict):
-        raise SamplingHarmReviewPreparationError(f"{path} must contain an object")
-    return value
-
-
 def _safe_path(value: object) -> PurePosixPath:
     if not isinstance(value, str):
         raise SamplingHarmReviewPreparationError("artifact path must be a string")
@@ -135,14 +123,13 @@ def validate_sampling_harm_review_preparation(
         raise SamplingHarmReviewPreparationError("unexpected candidate commit")
     if expected_package_commit != TRUSTED_PACKAGE_COMMIT:
         raise SamplingHarmReviewPreparationError("unexpected package commit")
-    if _git_output(
+    _git_output(
         root,
         "merge-base",
         "--is-ancestor",
         expected_candidate_commit,
         expected_package_commit,
-    ):
-        pass
+    )
 
     frozen_envelope = _git_json(root, expected_package_commit, ENVELOPE_PATH)
     if dict(envelope) != frozen_envelope:
