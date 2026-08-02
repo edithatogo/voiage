@@ -103,7 +103,7 @@ pending.*
 
 ---
 
-## [ ] Track: Polyglot ABI and Binding Parity
+## [~] Track: Polyglot ABI and Binding Parity
 *Link: [./tracks/polyglot_abi_binding_parity_20260723/index.md](./tracks/polyglot_abi_binding_parity_20260723/index.md)*
 *GitHub: [issue #320](https://github.com/edithatogo/voiage/issues/320), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
