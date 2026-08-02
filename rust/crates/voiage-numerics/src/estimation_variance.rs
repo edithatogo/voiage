@@ -150,14 +150,16 @@ pub fn estimation_truth_assurance(
             "truth assurance summary must be finite",
         ));
     }
-    let empirical_coverage = intervals_supplied.then(|| {
-        interval_lower
+    let empirical_coverage = if intervals_supplied {
+        let covered_count = interval_lower
             .iter()
             .zip(interval_upper)
             .filter(|(lower, upper)| **lower <= true_reduction && true_reduction <= **upper)
-            .count() as f64
-            / count
-    });
+            .count();
+        Some(exact_count(covered_count, "confidence_intervals")? / count)
+    } else {
+        None
+    };
     let calibration_error = empirical_coverage.map(|coverage| (coverage - confidence_level).abs());
     let scale = true_reduction.abs().max(f64::EPSILON);
     Ok(EstimationTruthAssuranceKernelResult {

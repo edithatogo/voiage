@@ -109,6 +109,19 @@ fn validate_value(value: f64, field: &'static str) -> Result<(), NumericalInputE
     Ok(())
 }
 
+fn exact_count(count: usize, field: &'static str) -> Result<f64, NumericalInputError> {
+    u32::try_from(count).map(f64::from).map_err(|_| {
+        NumericalInputError::invalid(field, "replicate count exceeds the supported exact range")
+    })
+}
+
+fn is_known_tie_policy(tie_policy: &str) -> bool {
+    matches!(
+        tie_policy,
+        "smallest_sample_size" | "largest_sample_size" | "first_declared"
+    )
+}
+
 fn select_optimum(tied_indices: &[usize], sample_sizes: &[u64], tie_policy: &str) -> Option<usize> {
     match tie_policy {
         "smallest_sample_size" => tied_indices
@@ -190,10 +203,7 @@ pub fn coss(
         }
     }
     validate_tolerances(absolute_tolerance, relative_tolerance)?;
-    if !matches!(
-        tie_policy,
-        "smallest_sample_size" | "largest_sample_size" | "first_declared"
-    ) {
+    if !is_known_tie_policy(tie_policy) {
         return Err(NumericalInputError::invalid(
             "tie_policy",
             "tie policy must be smallest_sample_size, largest_sample_size, or first_declared",
@@ -311,10 +321,7 @@ pub fn coss_selection_uncertainty(
             "point maximum must be finite",
         ));
     }
-    if !matches!(
-        tie_policy,
-        "smallest_sample_size" | "largest_sample_size" | "first_declared"
-    ) {
+    if !is_known_tie_policy(tie_policy) {
         return Err(NumericalInputError::invalid(
             "tie_policy",
             "unknown tie policy",
@@ -349,7 +356,12 @@ pub fn coss_selection_uncertainty(
             .iter()
             .map(|&index| row[index])
             .max_by(f64::total_cmp)
-            .expect("point optimum guarantees a feasible design");
+            .ok_or_else(|| {
+                NumericalInputError::invalid(
+                    "feasible",
+                    "point optimum requires at least one feasible design",
+                )
+            })?;
         let tolerance = absolute_tolerance + relative_tolerance * maximum.abs().max(1.0);
         let tied = feasible_indices
             .iter()
@@ -365,18 +377,19 @@ pub fn coss_selection_uncertainty(
         selected_enbs_sum += row[point_optimal_index];
     }
     let count = joint_enbs_replicates.len();
-    let denominator = count as f64;
+    let denominator = exact_count(count, "joint_enbs_replicates")?;
     let mean_selected_design_enbs = selected_enbs_sum / denominator;
+    let selection_probabilities = selection_counts
+        .iter()
+        .map(|&value| exact_count(value, "joint_enbs_replicates").map(|count| count / denominator))
+        .collect::<Result<Vec<_>, _>>()?;
     Ok(CossSelectionUncertaintyKernelResult {
         contract_version: "1.0.0",
         estimator: "joint_replicate_selection",
         replicate_count: count,
-        selection_probabilities: selection_counts
-            .iter()
-            .map(|&value| value as f64 / denominator)
-            .collect(),
+        selection_probabilities,
         selection_counts,
-        near_tie_probability: near_ties as f64 / denominator,
+        near_tie_probability: exact_count(near_ties, "joint_enbs_replicates")? / denominator,
         expected_selection_regret: regret_sum / denominator,
         winner_optimism: point_maximum_enbs - mean_selected_design_enbs,
         mean_selected_design_enbs,
@@ -461,18 +474,20 @@ pub fn evsi_evpi_efficiency(
 /// Returns [`NumericalInputError`] when vectors are unpaired, contain fewer
 /// than two rows, or contain an invalid replicate efficiency denominator.
 pub fn information_efficiency_uncertainty(
-    evsi_replicates: &[f64],
-    evpi_replicates: &[f64],
+    sample_information_draws: &[f64],
+    perfect_information_draws: &[f64],
     point_ratio: f64,
     absolute_tolerance: f64,
     relative_tolerance: f64,
 ) -> Result<InformationEfficiencyUncertaintyKernelResult, NumericalInputError> {
     validate_tolerances(absolute_tolerance, relative_tolerance)?;
-    if evsi_replicates.len() != evpi_replicates.len() || evsi_replicates.len() < 2 {
+    if sample_information_draws.len() != perfect_information_draws.len()
+        || sample_information_draws.len() < 2
+    {
         return Err(NumericalInputError::dimension(
             "paired_efficiency_replicates",
-            evsi_replicates.len(),
-            evpi_replicates.len(),
+            sample_information_draws.len(),
+            perfect_information_draws.len(),
             "at least two paired EVSI/EVPI replicates are required",
         ));
     }
@@ -482,8 +497,11 @@ pub fn information_efficiency_uncertainty(
             "point ratio must be finite",
         ));
     }
-    let mut ratios = Vec::with_capacity(evsi_replicates.len());
-    for (&evsi, &evpi) in evsi_replicates.iter().zip(evpi_replicates) {
+    let mut ratios = Vec::with_capacity(sample_information_draws.len());
+    for (&evsi, &evpi) in sample_information_draws
+        .iter()
+        .zip(perfect_information_draws)
+    {
         let result = evsi_evpi_efficiency(evsi, evpi, absolute_tolerance, relative_tolerance)?;
         let ratio = result.ratio.ok_or_else(|| {
             NumericalInputError::invalid(
@@ -494,7 +512,7 @@ pub fn information_efficiency_uncertainty(
         ratios.push(ratio);
     }
     let count = ratios.len();
-    let denominator = count as f64;
+    let denominator = exact_count(count, "paired_efficiency_replicates")?;
     let mean_ratio = ratios.iter().sum::<f64>() / denominator;
     let sample_variance = ratios
         .iter()
@@ -591,10 +609,10 @@ mod tests {
         .unwrap();
         assert_eq!(result.selection_counts, vec![2, 2]);
         assert_eq!(result.selection_probabilities, vec![0.5, 0.5]);
-        assert_eq!(result.near_tie_probability, 0.25);
-        assert_eq!(result.expected_selection_regret, 1.5);
-        assert_eq!(result.mean_selected_design_enbs, 2.5);
-        assert_eq!(result.winner_optimism, 1.5);
+        assert!((result.near_tie_probability - 0.25).abs() < f64::EPSILON);
+        assert!((result.expected_selection_regret - 1.5).abs() < f64::EPSILON);
+        assert!((result.mean_selected_design_enbs - 2.5).abs() < f64::EPSILON);
+        assert!((result.winner_optimism - 1.5).abs() < f64::EPSILON);
     }
 
     #[test]
@@ -610,8 +628,8 @@ mod tests {
         assert_eq!(result.replicate_count, 4);
         assert!((result.mean_ratio - 0.65).abs() < 1.0e-12);
         assert!((result.standard_error - 0.064_549_722_436_790_27).abs() < 1.0e-12);
-        assert_eq!(result.confidence_lower, 0.5);
-        assert_eq!(result.confidence_upper, 0.7);
+        assert!((result.confidence_lower - 0.5).abs() < f64::EPSILON);
+        assert!((result.confidence_upper - 0.7).abs() < f64::EPSILON);
         assert!(result.point_ratio_in_interval);
     }
 

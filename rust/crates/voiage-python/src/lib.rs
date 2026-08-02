@@ -622,6 +622,9 @@ fn compute_evsi_evpi_efficiency(
 
 /// Summarize paired EVSI/EVPI efficiency replicates.
 #[pyfunction]
+// PyO3 owns these vectors after extracting Python sequences, while the public
+// keyword names intentionally retain the EVSI/EVPI contract vocabulary.
+#[allow(clippy::needless_pass_by_value, clippy::similar_names)]
 #[pyo3(signature = (evsi_replicates, evpi_replicates, point_ratio, atol, rtol))]
 fn compute_information_efficiency_uncertainty(
     py: Python<'_>,
@@ -986,7 +989,8 @@ fn compute_evsi_variance<'py>(
 }
 
 /// Summarize truth-known estimation assurance over complete outer replicates.
-#[allow(clippy::too_many_arguments)]
+// PyO3 owns these vectors after extracting Python sequences.
+#[allow(clippy::needless_pass_by_value, clippy::too_many_arguments)]
 #[pyfunction]
 #[pyo3(signature = (
     replicate_estimates,
@@ -996,15 +1000,15 @@ fn compute_evsi_variance<'py>(
     confidence_level,
     convergence_threshold
 ))]
-fn compute_estimation_truth_assurance<'py>(
-    py: Python<'py>,
+fn compute_estimation_truth_assurance(
+    py: Python<'_>,
     replicate_estimates: Vec<f64>,
     true_reduction: f64,
     interval_lower: Vec<f64>,
     interval_upper: Vec<f64>,
     confidence_level: f64,
     convergence_threshold: f64,
-) -> PyResult<Bound<'py, PyDict>> {
+) -> PyResult<Bound<'_, PyDict>> {
     let result = estimation_truth_assurance(
         &replicate_estimates,
         true_reduction,
