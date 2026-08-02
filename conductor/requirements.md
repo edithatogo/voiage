@@ -92,7 +92,14 @@ programme. The canonical cross-repository requirements are maintained in
   Mathematical feasibility remains separate from consent, ethics and
   regulatory authorization. The materialized track
   `sampling_acquisition_harm_voi_20260802` is fail-closed research scoping, not
-  human scientific approval or an executable runtime.
+  human scientific approval or an executable runtime. H8 first repairs the
+  evidence boundary and freezes a narrow #850-specific packet; independent
+  role subagents feed a separate non-deciding orchestrator that preserves
+  findings, dissent, options, contingencies, rationale and recommendation.
+  Two distinct humans then confirm scientific and domain/ethics adequacy, with
+  a chair only for dispute, dissent or reviewer remediation. The maintainer's
+  product decision, real-study authority and every downstream gate remain
+  separate; partial governance synchronization is `Conflict`, never closure.
 
 ### Should have
 

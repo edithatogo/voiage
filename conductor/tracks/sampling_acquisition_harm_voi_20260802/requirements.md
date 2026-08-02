@@ -31,6 +31,26 @@
 - **M32-H9:** Report mathematical constraint status as feasible, infeasible or
   indeterminate under a declared statistical assurance method; never treat it
   as ethics or regulatory authorization.
+- **M32-H10:** Before H8 review begins, freeze a clean #850-specific packet and
+  verified artifact manifest that bind the Git object format, exact commit and
+  tree, SHA-256 content digests, sources, claims, capability boundary,
+  estimator thresholds, issue/Project state and prior finding inventory.
+- **M32-H11:** Use independent estimand/domain, estimator-assurance,
+  cross-language/API and governance/publication subagents plus a required
+  domain/ethics specialist. A separate orchestrating agent must preserve their
+  reports, findings, dissent, options, contingencies, rationale and
+  recommendation without exercising a human decision right.
+- **M32-H12:** Require candidate-bound confirmation by two distinct named
+  humans, one scientific and one domain/ethics qualified, with verified
+  identity, qualifications, contribution and remediation history, conflicts,
+  independence, signed-payload receipt,
+  conditions, expiry and supersession. Require an independent chair for
+  disputed findings, unresolved dissent or reviewer remediation.
+- **M32-H13:** Enforce complete finding closure, affected-role re-review,
+  narrow administrative-only delta classification, material-change
+  invalidation and fail-closed issue/Project/Conductor transitions. The sole
+  maintainer's separate product decision cannot satisfy scientific
+  independence or real-study authorization.
 
 ## Should
 
@@ -38,6 +58,9 @@
   harm and consent model.
 - Report expected, tail and catastrophic harm alongside signed economic value
   without allowing one aggregate score to hide a failed safety constraint.
+- Seek affected-party or community input when justice or safety claims
+  materially affect them, while retaining accountable scientific and external
+  authorization roles.
 
 ## Could
 

@@ -613,8 +613,12 @@ issue-backed remediation slices and rebound to a fresh review candidate.
   gates; never promote by majority vote. (M17-R3, M17-R4; AC-02, AC-10)
 - [ ] **SR10 — Accountable decision and synchronized closeout:** Obtain the
   named independent human scientific/domain verdict and a separate maintainer
-  maturity decision; run candidate-delta and exact-head checks; synchronize
+  maturity decision. For #850, require two distinct scientific and
+  domain/ethics humans and use a chair only for dissent, dispute or reviewer
+  remediation. Verify authenticated receipt digests, expiry, supersession,
+  complete finding closure, candidate delta and exact head; synchronize
   issues, Project 28, roadmap, todo, canonical projections and metadata. Record
-  parity, stable promotion, release, publication, registry acceptance and
-  parent/#318 closure independently. (M17-R1–M17-R4; AC-01, AC-07, AC-09,
+  readback or set Sync State to `Conflict`. Record parity, stable promotion,
+  release, publication, registry acceptance and parent/#318 closure
+  independently. (M17-R1–M17-R4, M17-R7–M17-R9; AC-01, AC-07, AC-09,
   AC-10)

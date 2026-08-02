@@ -42,6 +42,21 @@
   sensitive policy value or #595 expected-utility/VoC. Create a separately
   scoped estimand and primary-source review before making a risk-adjusted
   sampling-harm claim; until then record the capability as unsupported.
+- **M17-R7:** Human-confirmation preparation must distinguish Git OIDs from
+  SHA-256 content digests, recompute canonical hashes, verify frozen-tree
+  bytes, reconcile complete findings and enforce contribution-aware separation
+  among orchestrator, author/remediator, reviewer, chair and approver. Pending
+  templates cannot masquerade as normative evidence.
+- **M17-R8:** The orchestrator must synthesize the panel's findings, dissent,
+  options, contingencies, rationale and recommendation without deciding.
+  Candidate-bound human receipts must use an auditable authenticated channel,
+  record conditions, expiry and supersession, and fail closed after material
+  change. #850 requires distinct scientific and domain/ethics humans, with an
+  independent chair only when dissent, dispute or remediation requires one.
+- **M17-R9:** Enforce complete Critical/High and Medium dispositions,
+  capability-bound reviewed exclusions, narrow administrative-only delta
+  review and ordered GitHub/Project/Conductor transitions. Partial
+  synchronization sets Sync State to `Conflict` and prohibits closure.
 - **M17-X1:** Add portable request/result schemas and a capability artifact for
   #571; downgrade unsupported `fixture-backed` classification until present.
 - **M17-X2:** Execute #619, #571 and #595 Python callables, packaged discovery

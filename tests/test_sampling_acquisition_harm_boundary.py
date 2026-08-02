@@ -123,3 +123,22 @@ def test_readme_never_claims_570_or_595_executes_sampling_harm() -> None:
     assert "#570" in readme
     assert "#595" in readme
     assert "does not execute sampling-acquisition harm" in readme
+
+
+def test_human_confirmation_plan_is_fail_closed_and_role_separated() -> None:
+    track = ROOT / "conductor/tracks/sampling_acquisition_harm_voi_20260802"
+    plan = (track / "plan.md").read_text(encoding="utf-8")
+    gates = (track / "human-confirmation-gates.md").read_text(encoding="utf-8")
+    requirements = (track / "requirements.md").read_text(encoding="utf-8")
+    normalized_gates = " ".join(gates.split())
+
+    for task in ("H8-A", "H8-B", "H8-C", "H8-D", "H8-E", "H8-F", "H8-G", "H8-H"):
+        assert f"**{task}:**" in plan
+
+    assert "two distinct named" in requirements
+    assert "orchestrating agent" in requirements
+    assert "options, contingencies, rationale and" in requirements
+    assert "`unsupported_research_scoping`" in gates
+    assert "never provide the named human confirmation" in normalized_gates
+    assert "partial mutation sets Sync State to `Conflict`" in gates
+    assert "Issue closure is the final synchronized transition" in gates

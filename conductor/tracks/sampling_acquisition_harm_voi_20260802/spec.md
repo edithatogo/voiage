@@ -82,8 +82,17 @@ narrow contract.
   no sampling-harm runtime currently exists.
 - **AC-08:** A named independent human scientific/domain verdict bound to the
   exact candidate is required before any runtime or promotion task may start.
+  Independent role reports and a separate orchestrator must supply findings,
+  options, contingencies, rationale and recommendation, but cannot satisfy the
+  human verdict. A distinct domain/ethics human is additionally required for
+  this high-risk family; an independent chair adjudicates disputed findings,
+  scientific dissent or reviewer remediation.
 - **AC-09:** Repository validation, hosted checks, stable promotion, release,
   publication and issue closure remain separate gates.
+- **AC-10:** Human-confirmation evidence cryptographically binds canonical
+  packet and artifact bytes, Git OIDs, complete finding history, reviewer
+  eligibility, signed receipts, expiry/supersession and fail-closed state
+  transitions; stale, moving or partially synchronized evidence is rejected.
 
 ## Non-functional constraints
 
@@ -114,6 +123,9 @@ narrow contract.
   incomparable stakeholder utilities.
 - Claiming that a positive expected net value makes an unethical or infeasible
   study permissible.
+
+The executable H8 plan, decision rights, options, contingencies and transition
+model are defined in `human-confirmation-gates.md`.
 
 ## Authoritative inputs
 
