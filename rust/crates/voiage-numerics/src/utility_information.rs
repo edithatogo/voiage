@@ -203,12 +203,14 @@ fn utility(descriptor: &UtilityDescriptor, value: f64) -> Result<f64, ExpectedUt
         UtilityDescriptor::Power {
             risk_aversion,
             reference_wealth,
-        } if risk_aversion > 0.0
-            && (risk_aversion - 1.0).abs() > f64::EPSILON
-            && reference_wealth > 0.0
-            && value > 0.0 =>
-        {
-            ((value / reference_wealth).powf(1.0 - risk_aversion) - 1.0) / (1.0 - risk_aversion)
+        } if risk_aversion > 0.0 && reference_wealth > 0.0 && value > 0.0 => {
+            let log_ratio = (value / reference_wealth).ln();
+            let exponent = 1.0 - risk_aversion;
+            if exponent == 0.0 {
+                log_ratio
+            } else {
+                (exponent * log_ratio).exp_m1() / exponent
+            }
         }
         _ => {
             return Err(ExpectedUtilityError {
@@ -237,9 +239,12 @@ fn inverse(descriptor: &UtilityDescriptor, value: f64) -> Result<f64, ExpectedUt
             risk_aversion,
             reference_wealth,
         } => {
-            let base = 1.0 + (1.0 - risk_aversion) * value;
-            if base > 0.0 {
-                Ok(reference_wealth * base.powf(1.0 / (1.0 - risk_aversion)))
+            let exponent = 1.0 - risk_aversion;
+            let scaled = exponent * value;
+            if exponent == 0.0 {
+                Ok(reference_wealth * value.exp())
+            } else if scaled > -1.0 {
+                Ok(reference_wealth * (scaled.ln_1p() / exponent).exp())
             } else {
                 Err(ExpectedUtilityError {
                     code: "utility_domain",
@@ -325,7 +330,6 @@ fn validate(
         } => {
             risk_aversion.is_finite()
                 && risk_aversion > 0.0
-                && (risk_aversion - 1.0).abs() > f64::EPSILON
                 && reference_wealth.is_finite()
                 && reference_wealth > 0.0
         }

@@ -117,6 +117,37 @@ fn logarithmic_reference_preserves_buy_sell_asymmetry() {
 }
 
 #[test]
+fn power_utility_is_continuous_and_invertible_at_log_limit() {
+    let problem = input(vec![vec![0.0, 5.0], vec![0.0, -9.0]], vec![0.8, 0.2], 10.0);
+    let logarithmic = expected_utility_information(
+        &problem,
+        &UtilityDescriptor::Log {
+            reference_wealth: 1.0,
+        },
+    )
+    .expect("valid logarithmic reference");
+
+    for risk_aversion in [1.0 - 1.0e-10, 1.0, 1.0 + 1.0e-10] {
+        let power = expected_utility_information(
+            &problem,
+            &UtilityDescriptor::Power {
+                risk_aversion,
+                reference_wealth: 1.0,
+            },
+        )
+        .expect("power utility includes its logarithmic limit");
+        assert!((power.eui.value.unwrap() - logarithmic.eui.value.unwrap()).abs() < 1.0e-9);
+        assert!((power.cei.value.unwrap() - logarithmic.cei.value.unwrap()).abs() < 1.0e-8);
+        assert!((power.bpi.value.unwrap() - logarithmic.bpi.value.unwrap()).abs() < 1.0e-7);
+        assert_eq!(
+            power.current_policy.tie_set,
+            logarithmic.current_policy.tie_set
+        );
+        assert!(power.bpi_root.residual.unwrap().abs() < 1.0e-10);
+    }
+}
+
+#[test]
 fn exponential_reference_has_translation_invariant_prices() {
     let problem = input(vec![vec![0.0, 4.0], vec![2.0, 0.0]], vec![0.5, 0.5], 10.0);
     let result = expected_utility_information(

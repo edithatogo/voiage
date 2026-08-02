@@ -4,6 +4,11 @@ Experimental Rust-authoritative contract for EUI, CEI, BPI, SPI, anchored PPI,
 and the VoC presentation. Inputs are finite terminal-payoff decisions with a
 named utility and either clairvoyant or finite-signal joint probabilities.
 VoC is a presentation of the canonical result and is not a second kernel.
+Power/CRRA utility includes its logarithmic limit at risk aversion one and uses
+stable `expm1`/`log1p` evaluation and inversion near that limit. Every result
+binds the presentation contract version, selected measure and canonical input
+digest into a deterministic presentation digest; changing the VoC display
+selection changes only this presentation provenance, never the Rust kernel.
 
 The request and result schemas reject unknown fields. Normative fixtures freeze
 independently calculated affine and nonlinear references before implementation.

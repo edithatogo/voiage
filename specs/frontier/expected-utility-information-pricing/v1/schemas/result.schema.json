@@ -91,8 +91,8 @@
     },
     "presentation": {
       "type": "object", "additionalProperties": false,
-      "required": ["presentation_label", "selected_measure", "canonical_result_ref"],
-      "properties": {"presentation_label": {"enum": ["canonical", "voc"]}, "selected_measure": {"enum": ["eui", "cei", "bpi", "spi", "ppi", "evpi"]}, "canonical_result_ref": {"const": "self"}}
+      "required": ["presentation_label", "selected_measure", "canonical_result_ref", "presentation_contract_version", "canonical_input_digest", "presentation_digest"],
+      "properties": {"presentation_label": {"enum": ["canonical", "voc"]}, "selected_measure": {"enum": ["eui", "cei", "bpi", "spi", "ppi", "evpi"]}, "canonical_result_ref": {"const": "self"}, "presentation_contract_version": {"const": "1.0.0"}, "canonical_input_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "presentation_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
     },
     "input_digest": {
       "type": "object", "additionalProperties": false,

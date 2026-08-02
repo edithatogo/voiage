@@ -30,7 +30,7 @@
         {"type": "object", "additionalProperties": false, "required": ["family", "slope", "intercept"], "properties": {"family": {"const": "affine"}, "slope": {"type": "number", "exclusiveMinimum": 0}, "intercept": {"type": "number"}}},
         {"type": "object", "additionalProperties": false, "required": ["family", "risk_tolerance", "reference_wealth"], "properties": {"family": {"const": "exponential"}, "risk_tolerance": {"type": "number", "exclusiveMinimum": 0}, "reference_wealth": {"type": "number"}}},
         {"type": "object", "additionalProperties": false, "required": ["family", "reference_wealth"], "properties": {"family": {"const": "log"}, "reference_wealth": {"type": "number", "exclusiveMinimum": 0}}},
-        {"type": "object", "additionalProperties": false, "required": ["family", "risk_aversion", "reference_wealth"], "properties": {"family": {"const": "power"}, "risk_aversion": {"type": "number", "exclusiveMinimum": 0}, "reference_wealth": {"type": "number", "exclusiveMinimum": 0}}, "not": {"properties": {"risk_aversion": {"const": 1}}}}
+        {"type": "object", "additionalProperties": false, "required": ["family", "risk_aversion", "reference_wealth"], "properties": {"family": {"const": "power"}, "risk_aversion": {"type": "number", "exclusiveMinimum": 0}, "reference_wealth": {"type": "number", "exclusiveMinimum": 0}}}
       ]
     },
     "information": {

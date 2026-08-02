@@ -58,7 +58,7 @@ def test_result_contract_has_no_duplicate_voc_scalar() -> None:
     jsonschema.Draft202012Validator(schema).validate(fixture["result"])
 
 
-def test_power_utility_and_currency_contracts_fail_closed() -> None:
+def test_power_utility_log_limit_and_currency_contracts() -> None:
     schema = _load(ROOT / "schemas/request.schema.json")
     request = _load(ROOT / "fixtures/normative/affine-clairvoyant.json")["request"]
     request["utility"] = {
@@ -66,8 +66,7 @@ def test_power_utility_and_currency_contracts_fail_closed() -> None:
         "risk_aversion": 1,
         "reference_wealth": 10,
     }
-    with pytest.raises(jsonschema.ValidationError):
-        jsonschema.Draft202012Validator(schema).validate(request)
+    jsonschema.Draft202012Validator(schema).validate(request)
     request = _load(ROOT / "fixtures/normative/affine-clairvoyant.json")["request"]
     del request["currency"]
     with pytest.raises(jsonschema.ValidationError):
