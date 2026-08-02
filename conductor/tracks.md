@@ -130,7 +130,7 @@ existing issue/Project progress awaits evidence reconciliation.*
 
 ---
 
-## [ ] Track: Contributor and AI Contribution Transparency
+## [~] Track: Contributor and AI Contribution Transparency
 *Link: [./tracks/research_contribution_ai_transparency_20260723/index.md](./tracks/research_contribution_ai_transparency_20260723/index.md)*
 *GitHub: [issue #323](https://github.com/edithatogo/voiage/issues/323), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*

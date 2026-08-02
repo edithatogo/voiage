@@ -2,9 +2,9 @@
   "track_id": "research_contribution_ai_transparency_20260723",
   "version": "1.0.0",
   "type": "feature",
-  "status": "new",
+  "status": "in_progress",
   "created_at": "2026-07-27T08:15:00Z",
-  "updated_at": "2026-07-27T08:15:00Z",
+  "updated_at": "2026-08-01T18:00:00Z",
   "description": "Provide canonical human CRediT records and release-linked machine-readable AI-assistance provenance with accountable human review.",
   "evidence_schema": "1.0",
   "approval": {
@@ -22,7 +22,8 @@
     "project": "https://github.com/users/edithatogo/projects/28",
     "subissues": [],
     "pull_requests": [
-      "https://github.com/edithatogo/voiage/pull/621"
+      "https://github.com/edithatogo/voiage/pull/621",
+      "https://github.com/edithatogo/voiage/pull/825"
     ],
     "pull_request_evidence": "track_delivery"
   },
