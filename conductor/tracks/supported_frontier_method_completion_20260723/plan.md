@@ -555,7 +555,7 @@ issue-backed remediation slices and rebound to a fresh review candidate.
   v1.3.0/C18/M22, or publish a blocking discrepancy register. Reject dirty,
   moving or unreconciled candidates. (M17-R1–M17-R4; AC-01, AC-09, AC-10)
   `a7f6446`
-- [ ] **SR2 / #842 — Materialize evidence contracts:** Add versioned schemas and
+- [~] **SR2 / #842 — Materialize evidence contracts:** Add versioned schemas and
   validators for review packets, artifact manifests, reviewer attestations,
   role reports, findings, disagreements, dispositions, adjudication,
   scientific approval, promotion receipts and candidate-delta invalidation.
