@@ -150,6 +150,27 @@ def test_voc_rejects_incomplete_canonical_results(
         )
 
 
+@pytest.mark.parametrize("input_digest", [None, {"value": 1}])
+def test_voc_rejects_missing_or_malformed_canonical_input_digest(
+    monkeypatch: pytest.MonkeyPatch, input_digest: object
+) -> None:
+    """Presentation provenance must contain a string canonical digest."""
+
+    def incomplete(_: dict[str, object]) -> dict[str, object]:
+        return {
+            "input_digest": input_digest,
+            "presentation": {"presentation_label": "voc"},
+        }
+
+    monkeypatch.setattr(
+        "voiage.methods.utility_information.expected_utility_information_value",
+        incomplete,
+    )
+
+    with pytest.raises(InputError, match="input digest"):
+        value_of_clairvoyance(_request("affine-clairvoyant.json"))
+
+
 def test_decision_analysis_exposes_explicit_state_contract() -> None:
     analysis = DecisionAnalysis(nb_array=np.array([[0.0, 1.0], [1.0, 0.0]]))
     result = analysis.expected_utility_information(_request("affine-clairvoyant.json"))

@@ -8,6 +8,7 @@ from pathlib import Path
 
 import pytest
 
+import voiage.scientific_review_evidence as review_evidence
 from voiage.scientific_review_evidence import (
     ScientificReviewEvidenceError,
     load_scientific_review_schemas,
@@ -42,6 +43,32 @@ def test_all_scientific_review_evidence_schemas_are_valid() -> None:
         "role-report",
         "scientific-approval",
     }
+
+
+@pytest.mark.parametrize(
+    ("schema_contents", "message"),
+    [
+        (None, "cannot load schema"),
+        ("{", "cannot load schema"),
+        ("[]", "must be an object"),
+    ],
+)
+def test_schema_loading_fails_closed_for_missing_or_malformed_json(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    schema_contents: str | None,
+    message: str,
+) -> None:
+    schema_root = tmp_path / "schemas"
+    schema_root.mkdir()
+    if schema_contents is not None:
+        (schema_root / "common.schema.json").write_text(
+            schema_contents, encoding="utf-8"
+        )
+    monkeypatch.setattr(review_evidence, "SCHEMA_ROOT", schema_root)
+
+    with pytest.raises(ScientificReviewEvidenceError, match=message):
+        load_scientific_review_schemas()
 
 
 def test_valid_review_bundle_is_candidate_bound_and_complete() -> None:
@@ -133,6 +160,13 @@ def test_required_roles_and_unresolved_high_findings_block_acceptance() -> None:
         validate_scientific_review_bundle(bundle)
 
 
+def test_independently_verified_high_finding_is_accepted() -> None:
+    bundle = _bundle()
+    bundle["evidence"]["finding"][0]["severity"] = "high"
+
+    validate_scientific_review_bundle(bundle)
+
+
 def test_every_report_requires_a_matching_attestation_and_scope() -> None:
     bundle = _bundle()
     bundle["evidence"]["reviewer-attestation"] = bundle["evidence"][
@@ -219,6 +253,26 @@ def test_bounded_delta_requires_metadata_only_paths_and_two_signatures() -> None
         validate_scientific_review_bundle(bundle)
 
 
+@pytest.mark.parametrize("changed_path", ["/absolute.md", "docs/../review.md"])
+def test_bounded_delta_rejects_absolute_and_parent_traversal_paths(
+    changed_path: str,
+) -> None:
+    bundle = _bundle()
+    bundle["evidence"]["delta-classification"][0]["changed_paths"] = [changed_path]
+
+    with pytest.raises(ScientificReviewEvidenceError, match="metadata-only"):
+        validate_scientific_review_bundle(bundle)
+
+
+def test_full_invalidation_delta_does_not_use_metadata_only_exception() -> None:
+    bundle = _bundle()
+    delta = bundle["evidence"]["delta-classification"][0]
+    delta["classification"] = "full_invalidation"
+    delta["changed_paths"] = ["voiage/scientific_review_evidence.py"]
+
+    validate_scientific_review_bundle(bundle)
+
+
 def test_promotion_digest_decision_and_supersession_are_fail_closed() -> None:
     bundle = _bundle()
     bundle["evidence"]["promotion-receipt"]["scientific_approval_sha256"] = "f" * 64
@@ -253,3 +307,18 @@ def test_expired_or_superseded_approval_cannot_authorize_promotion() -> None:
 
     with pytest.raises(ScientificReviewEvidenceError, match="expired"):
         validate_scientific_review_bundle(bundle)
+
+
+def test_current_approval_can_authorize_promotion() -> None:
+    bundle = _bundle()
+    bundle["evidence"]["promotion-receipt"]["decision"] = "promote"
+
+    validate_scientific_review_bundle(bundle)
+
+
+@pytest.mark.parametrize("timestamp", [None, "not-a-timestamp"])
+def test_timestamp_parser_fails_closed_for_non_timestamp_values(
+    timestamp: object,
+) -> None:
+    with pytest.raises(ScientificReviewEvidenceError, match="RFC 3339"):
+        review_evidence._parse_timestamp(timestamp, "approval.expires_at")
