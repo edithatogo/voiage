@@ -41,10 +41,15 @@
 
 - [ ] **G13:** Reconcile child-issue results, roadmap, todo, registries,
   release targets and remaining external gates. (AC-01, AC-05, AC-06)
-- [x] **G14:** Run final full local validation and hosted required checks for
-  the governed programme delivery. PR #826 exact head
-  `e23155e4fa2c39167d7d92a36d34029b6d9c1ee6` passed the required
-  matrix before merge `0e19b46815af61031e4879a60158864b72748be4`.
-  Child-track and external gates remain separate. (AC-07)
+  - [x] Define distinct registry/release/publication/parent-closure states,
+    evidence lanes and authority boundaries. — `b4a1f20`
+  - [ ] Refresh each destination from authoritative receipts and reconcile
+    child and parent issue state.
+- [ ] **G14:** Run final full local validation and hosted required checks.
+  (AC-07)
+  - [ ] Bind the final validation packet to the exact release candidate and
+    hosted check run.
 - [ ] **G15:** Record repository completion separately from merge, release,
   publication, registry acceptance and issue closure. (AC-02, AC-07)
+  - [x] Define the fail-closed parent-closure rule and final receipt fields.
+    — `b4a1f20`
