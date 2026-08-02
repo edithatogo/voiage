@@ -25,9 +25,9 @@
 
 ## Phase 3 — Delivery or reviewed exclusion
 
-- [x] **G9:** Implement each accepted repository-owned capability or record a
-  reviewed exclusion with migration guidance. (AC-02, AC-06) — 6ab9c88
-- [~] **G10:** Add Rust/Python/R/Julia/Mojo dispositions and installed
+- [~] **G9:** Implement each accepted repository-owned capability or record a
+  reviewed exclusion with migration guidance. (AC-02, AC-06)
+- [ ] **G10:** Add Rust/Python/R/Julia/Mojo dispositions and installed
   shared-fixture evidence where executable surfaces are advertised. (AC-04)
   - [x] Freeze the ordered parity and promotion gates, evidence packet fields,
     and fail-closed disposition. — `82ec400`
