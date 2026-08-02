@@ -33,7 +33,7 @@
     and fail-closed disposition. — `82ec400`
   - [ ] Execute clean installed Rust/Python/R/Julia shared-fixture runs and
     obtain the required panel and maintainer promotion decisions.
-- [ ] **G11:** Add documentation, examples, generated surfaces and capability
+- [~] **G11:** Add documentation, examples, generated surfaces and capability
   discovery that match the evidenced maturity state. (AC-05)
 - [ ] **G12:** Run automated implementation review, focused validation and the
   repository harness. (AC-03–AC-07)
