@@ -625,9 +625,18 @@
         {
           "number": 621,
           "url": "https://github.com/edithatogo/voiage/pull/621",
+          "status": "merged",
+          "evidence": [
+            "track-delivery",
+            "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3"
+          ]
+        },
+        {
+          "number": 820,
+          "url": "https://github.com/edithatogo/voiage/pull/820",
           "status": "open",
           "evidence": [
-            "track-delivery"
+            "ml-llm-agent-governance-delivery"
           ]
         }
       ],

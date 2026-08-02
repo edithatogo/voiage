@@ -51,6 +51,18 @@
       "kind": "hosted_validation",
       "status": "pending",
       "evidence": "Required after repository delivery and before merge."
+    },
+    {
+      "id": "installed-polyglot-parity",
+      "kind": "cross_language_parity",
+      "status": "pending",
+      "evidence": "Clean installed shared-fixture evidence is required before any ML, LLM or agent cross-language parity claim."
+    },
+    {
+      "id": "rights-and-human-approval",
+      "kind": "human_approval",
+      "status": "pending",
+      "evidence": "Applicable rights, privacy, practitioner and authorship confirmation remains human-owned."
     }
   ]
 }

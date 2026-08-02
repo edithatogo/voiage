@@ -85,3 +85,40 @@ def test_external_landscape_track_preserves_phase_one_pr_boundaries() -> None:
     assert "- [ ] **G15:**" in plan
     assert gates["scientific-and-contract-review"]["status"] == "pending"
     assert gates["hosted-required-checks"]["status"] == "pending"
+
+
+def test_ml_llm_agent_track_syncs_pr_states_lifecycle_and_pending_gates() -> None:
+    """The #319 projections agree without promoting delivery or external gates."""
+    manifest = json.loads(
+        (ROOT / "conductor" / "github-cross-references.json").read_text()
+    )
+    track_id = "ml_llm_agent_voi_20260723"
+    entry = next(item for item in manifest["tracks"] if item["track_id"] == track_id)
+    track_root = ROOT / "conductor" / "tracks" / track_id
+    metadata = json.loads((track_root / "metadata.json").read_text())
+
+    manifest_urls = {item["url"] for item in entry["pull_requests"]}
+    assert manifest_urls == set(metadata["github_cross_reference"]["pull_requests"])
+    planning = next(item for item in entry["pull_requests"] if item["number"] == 621)
+    delivery = next(item for item in entry["pull_requests"] if item["number"] == 820)
+    assert planning["status"] == "merged"
+    assert "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3" in planning["evidence"]
+    assert delivery["status"] == "open"
+    assert entry["lifecycle"] == "active"
+    assert metadata["status"] == "in_progress"
+
+    gates = {gate["id"]: gate["status"] for gate in metadata["gates"]}
+    for gate_id in (
+        "scientific-and-contract-review",
+        "hosted-required-checks",
+        "installed-polyglot-parity",
+        "rights-and-human-approval",
+    ):
+        assert gates[gate_id] == "pending"
+
+    index = (track_root / "index.md").read_text()
+    registry = (ROOT / "conductor" / "tracks.md").read_text()
+    assert "Merged planning PR #621" in index
+    assert "Status: in progress" in index
+    assert "Status: in progress" in registry
+    assert "scientific, installed-parity, rights and hosted gates" in registry

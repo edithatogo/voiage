@@ -45,5 +45,6 @@
 
 ## Review remediation
 
-- [x] Synchronize the track index with delivery PR #820. (2026-08-01;
-  review fix for AC-01)
+- [x] Synchronize metadata, the track index, registry and canonical manifest
+  with merged planning PR #621 and open delivery PR #820; preserve scientific,
+  installed-parity, rights and hosted gates. (2026-08-02; review fix for AC-01)
