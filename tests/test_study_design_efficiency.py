@@ -342,6 +342,59 @@ def test_complete_enumeration_can_recommend_sampling_without_changing_argmax(
     assert result.boundary_sensitivity == "complete_enumeration"
 
 
+def test_joint_replicates_drive_replayable_selection_uncertainty(
+    study_context: StudyDesignContextV1,
+) -> None:
+    result = calculate_coss(
+        context=study_context,
+        designs=(
+            _point("n-100", 100, 6.0, 2.0),
+            _point("n-200", 200, 7.0, 4.0),
+        ),
+        joint_enbs_replicates=(
+            (4.0, 2.0),
+            (1.0, 5.0),
+            (3.0, 3.0),
+            (2.0, 4.0),
+        ),
+        replay_artifact="fixtures/joint-enbs-replicates-v1.json",
+        absolute_tolerance=0.0,
+        relative_tolerance=0.0,
+    )
+
+    uncertainty = result.selection_uncertainty
+    assert uncertainty.method == "joint_bootstrap"
+    assert uncertainty.replicate_count == 4
+    assert uncertainty.selection_count_by_design == {"n-100": 2, "n-200": 2}
+    assert uncertainty.probability_by_design == {"n-100": 0.5, "n-200": 0.5}
+    assert uncertainty.near_tie_probability == 0.25
+    assert uncertainty.expected_selection_regret == 1.5
+    assert uncertainty.winner_optimism == 1.5
+    assert uncertainty.mean_selected_design_enbs == 2.5
+    assert len(uncertainty.joint_replicate_digest or "") == 64
+    assert uncertainty.replay_artifact == "fixtures/joint-enbs-replicates-v1.json"
+
+
+def test_joint_replicates_require_replay_reference_and_exclude_external_summary(
+    study_context: StudyDesignContextV1,
+) -> None:
+    designs = (_point("n-20", 20, 5.0, 2.0),)
+    with pytest.raises(InputError, match="replay_artifact"):
+        calculate_coss(
+            context=study_context,
+            designs=designs,
+            joint_enbs_replicates=((3.0,), (4.0,)),
+        )
+    with pytest.raises(InputError, match="mutually exclusive"):
+        calculate_coss(
+            context=study_context,
+            designs=designs,
+            selection_uncertainty=SelectionUncertaintyV1(),
+            joint_enbs_replicates=((3.0,), (4.0,)),
+            replay_artifact="fixture.json",
+        )
+
+
 def test_complete_selection_probability_map_must_be_normalized(
     study_context: StudyDesignContextV1,
 ) -> None:
@@ -501,6 +554,58 @@ def test_evsi_evpi_efficiency_has_explicit_zero_evpi_behavior(
         evsi_evpi_efficiency(
             evsi=InformationValueInputV1(value=1.0, context=study_context),
             evpi=InformationValueInputV1(value=0.0, context=study_context),
+        )
+
+
+def test_evsi_evpi_efficiency_reports_replayable_paired_uncertainty(
+    study_context: StudyDesignContextV1,
+) -> None:
+    result = evsi_evpi_efficiency(
+        evsi=InformationValueInputV1(value=6.5, context=study_context),
+        evpi=InformationValueInputV1(value=10.0, context=study_context),
+        paired_evsi_replicates=(5.0, 6.0, 7.0, 8.0),
+        paired_evpi_replicates=(10.0, 10.0, 10.0, 10.0),
+        replay_artifact="fixtures/paired-efficiency-replicates-v1.json",
+    )
+
+    uncertainty = result.uncertainty
+    assert uncertainty is not None
+    assert uncertainty.replicate_count == 4
+    assert uncertainty.mean_ratio == pytest.approx(0.65)
+    assert uncertainty.standard_error == pytest.approx(0.06454972243679027)
+    assert uncertainty.confidence_interval == pytest.approx((0.5, 0.7))
+    assert uncertainty.estimated_bias == pytest.approx(0.0)
+    assert uncertainty.point_ratio_in_interval is True
+    assert len(uncertainty.paired_replicate_digest) == 64
+    assert uncertainty.replay_artifact.endswith("paired-efficiency-replicates-v1.json")
+    assert "paired_efficiency_uncertainty" in result.diagnostics
+
+
+def test_paired_efficiency_uncertainty_requires_complete_replayable_pairs(
+    study_context: StudyDesignContextV1,
+) -> None:
+    evsi = InformationValueInputV1(value=6.5, context=study_context)
+    evpi = InformationValueInputV1(value=10.0, context=study_context)
+    with pytest.raises(InputError, match="must be paired"):
+        evsi_evpi_efficiency(
+            evsi=evsi,
+            evpi=evpi,
+            paired_evsi_replicates=(5.0, 6.0),
+        )
+    with pytest.raises(InputError, match="replay_artifact"):
+        evsi_evpi_efficiency(
+            evsi=evsi,
+            evpi=evpi,
+            paired_evsi_replicates=(5.0, 6.0),
+            paired_evpi_replicates=(10.0, 10.0),
+        )
+    with pytest.raises(InputError, match="non-zero EVPI"):
+        evsi_evpi_efficiency(
+            evsi=InformationValueInputV1(value=0.0, context=study_context),
+            evpi=InformationValueInputV1(value=0.0, context=study_context),
+            paired_evsi_replicates=(0.0, 0.0),
+            paired_evpi_replicates=(0.0, 0.0),
+            replay_artifact="fixture.json",
         )
 
 

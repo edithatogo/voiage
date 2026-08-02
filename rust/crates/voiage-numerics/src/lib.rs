@@ -36,7 +36,9 @@ pub use evsi_regression::{evsi_regression, EvsiRegressionResult};
 pub use heterogeneity::{heterogeneity, HeterogeneityKernelResult};
 pub use structural::{structural_evpi, structural_evppi};
 pub use study_design::{
-    coss, evsi_evpi_efficiency, CossKernelResult, InformationEfficiencyKernelResult,
+    coss, coss_selection_uncertainty, evsi_evpi_efficiency, information_efficiency_uncertainty,
+    CossKernelResult, CossSelectionUncertaintyKernelResult, InformationEfficiencyKernelResult,
+    InformationEfficiencyUncertaintyKernelResult,
 };
 pub use utility_information::{
     expected_utility_information, AffineReduction, Comparability, DomainExclusion,

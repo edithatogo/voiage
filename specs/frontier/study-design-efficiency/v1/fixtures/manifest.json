@@ -13,6 +13,20 @@
       "input_artifact": "normative/coss-efficiency.json",
       "expected_output_artifact": "normative/coss-efficiency.json",
       "tolerance_policy": "exact"
+    },
+    {
+      "name": "joint dependence-preserving COSS selection uncertainty",
+      "method_family": "study_design_efficiency",
+      "input_artifact": "normative/joint-enbs-replicates.json",
+      "expected_output_artifact": "normative/joint-enbs-replicates.json",
+      "tolerance_policy": "exact"
+    },
+    {
+      "name": "paired EVSI/EVPI efficiency uncertainty",
+      "method_family": "study_design_efficiency",
+      "input_artifact": "normative/paired-efficiency-replicates.json",
+      "expected_output_artifact": "normative/paired-efficiency-replicates.json",
+      "tolerance_policy": "exact"
     }
   ],
   "promotion_boundary": {

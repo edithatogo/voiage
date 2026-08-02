@@ -106,11 +106,54 @@
     "evsi": {
       "$ref": "#/$defs/InformationValueInputV1"
     },
+    "paired_evpi_replicates": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Paired Evpi Replicates"
+    },
+    "paired_evsi_replicates": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Paired Evsi Replicates"
+    },
     "relative_tolerance": {
       "default": 1e-08,
       "minimum": 0.0,
       "title": "Relative Tolerance",
       "type": "number"
+    },
+    "replay_artifact": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Replay Artifact"
     },
     "schema_version": {
       "const": "1.0.0",

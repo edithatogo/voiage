@@ -112,6 +112,34 @@ def compute_coss(
     return dict(result)
 
 
+def compute_coss_selection_uncertainty(
+    *,
+    sample_sizes: list[int],
+    feasible: list[bool],
+    joint_enbs_replicates: tuple[tuple[float, ...], ...],
+    point_optimal_index: int,
+    point_maximum_enbs: float,
+    tie_policy: str,
+    absolute_tolerance: float,
+    relative_tolerance: float,
+) -> dict[str, object]:
+    """Summarize dependence-preserving COSS selection uncertainty in Rust."""
+    try:
+        result = _native().compute_coss_selection_uncertainty(
+            sample_sizes,
+            feasible,
+            joint_enbs_replicates,
+            point_optimal_index,
+            point_maximum_enbs,
+            tie_policy,
+            absolute_tolerance,
+            relative_tolerance,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
 def compute_evsi_evpi_efficiency(
     evsi: float,
     evpi: float,
@@ -123,6 +151,27 @@ def compute_evsi_evpi_efficiency(
         result = _native().compute_evsi_evpi_efficiency(
             evsi,
             evpi,
+            absolute_tolerance,
+            relative_tolerance,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
+def compute_information_efficiency_uncertainty(
+    evsi_replicates: list[float],
+    evpi_replicates: list[float],
+    point_ratio: float,
+    absolute_tolerance: float,
+    relative_tolerance: float,
+) -> dict[str, object]:
+    """Summarize paired EVSI/EVPI efficiency replicates in Rust."""
+    try:
+        result = _native().compute_information_efficiency_uncertainty(
+            evsi_replicates,
+            evpi_replicates,
+            point_ratio,
             absolute_tolerance,
             relative_tolerance,
         )

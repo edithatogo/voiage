@@ -30,7 +30,13 @@ BoundarySensitivity = Literal[
     "no_feasible_design",
 ]
 SelectionUncertaintyMethod = Literal[
-    "unavailable", "analytic", "monte_carlo", "bootstrap", "externally_supplied"
+    "unavailable",
+    "analytic",
+    "monte_carlo",
+    "bootstrap",
+    "joint_monte_carlo",
+    "joint_bootstrap",
+    "externally_supplied",
 ]
 EfficiencyStatus = Literal[
     "within_bounds",
@@ -147,9 +153,25 @@ class SelectionUncertaintyV1(ContractModel):
     replicate_count: int | None = Field(default=None, ge=1)
     probability_by_design: Mapping[Identifier, float] | None = None
     confidence_set_design_ids: tuple[Identifier, ...] = ()
+    replicate_design_ids: tuple[Identifier, ...] = ()
+    selection_count_by_design: Mapping[Identifier, int] | None = None
+    joint_replicate_digest: Identifier | None = None
+    replay_artifact: Identifier | None = None
+    near_tie_probability: float | None = Field(default=None, ge=0.0, le=1.0)
+    expected_selection_regret: float | None = Field(default=None, ge=0.0)
+    winner_optimism: float | None = None
+    mean_selected_design_enbs: float | None = None
+    calibration_status: Literal["not_assessed", "joint_replicate_empirical"] = (
+        "not_assessed"
+    )
 
     @field_serializer("probability_by_design")
     def serialize_probabilities(self, value: object) -> object:
+        """Restore the JSON mapping shape for canonical serialization."""
+        return thaw_json(value)
+
+    @field_serializer("selection_count_by_design")
+    def serialize_selection_counts(self, value: object) -> object:
         """Restore the JSON mapping shape for canonical serialization."""
         return thaw_json(value)
 
@@ -160,8 +182,38 @@ class SelectionUncertaintyV1(ContractModel):
             for probability in self.probability_by_design.values():
                 if not 0.0 <= probability <= 1.0:
                     raise ValueError("selection probabilities must be in [0, 1]")
-        if self.method in {"bootstrap", "monte_carlo"} and self.replicate_count is None:
+        simulation_methods = {
+            "bootstrap",
+            "monte_carlo",
+            "joint_bootstrap",
+            "joint_monte_carlo",
+        }
+        if self.method in simulation_methods and self.replicate_count is None:
             raise ValueError("simulation-based uncertainty requires replicate_count")
+        joint_fields = (
+            self.replicate_design_ids,
+            self.selection_count_by_design,
+            self.joint_replicate_digest,
+            self.replay_artifact,
+            self.near_tie_probability,
+            self.expected_selection_regret,
+            self.winner_optimism,
+            self.mean_selected_design_enbs,
+        )
+        if self.method in {"joint_bootstrap", "joint_monte_carlo"}:
+            if any(value in (None, ()) for value in joint_fields):
+                raise ValueError("joint replicate uncertainty requires replay metadata")
+            if self.calibration_status != "joint_replicate_empirical":
+                raise ValueError(
+                    "joint replicate uncertainty requires calibration status"
+                )
+            assert self.selection_count_by_design is not None
+            if any(value < 0 for value in self.selection_count_by_design.values()):
+                raise ValueError("selection counts must be non-negative")
+            if sum(self.selection_count_by_design.values()) != self.replicate_count:
+                raise ValueError("selection counts must sum to replicate_count")
+        elif any(value not in (None, ()) for value in joint_fields):
+            raise ValueError("joint replay metadata requires a joint replicate method")
         if self.method == "unavailable" and (
             self.replicate_count is not None
             or self.probability_by_design is not None
@@ -494,6 +546,9 @@ class InformationEfficiencyRequestV1(ContractModel):
     evpi: InformationValueInputV1
     absolute_tolerance: float = Field(default=1e-10, ge=0.0)
     relative_tolerance: float = Field(default=1e-8, ge=0.0)
+    paired_evsi_replicates: tuple[float, ...] | None = None
+    paired_evpi_replicates: tuple[float, ...] | None = None
+    replay_artifact: Identifier | None = None
 
     @model_validator(mode="after")
     def validate_commensurability(self) -> Self:
@@ -503,6 +558,42 @@ class InformationEfficiencyRequestV1(ContractModel):
             != self.evpi.context.commensurability_key()
         ):
             raise ValueError("EVSI and EVPI must be commensurate")
+        paired = (self.paired_evsi_replicates, self.paired_evpi_replicates)
+        if (paired[0] is None) != (paired[1] is None):
+            raise ValueError("EVSI and EVPI uncertainty replicates must be paired")
+        if paired[0] is not None:
+            assert paired[1] is not None
+            if len(paired[0]) != len(paired[1]) or len(paired[0]) < 2:
+                raise ValueError("at least two paired efficiency replicates are required")
+            if self.replay_artifact is None:
+                raise ValueError("paired efficiency replicates require replay_artifact")
+        elif self.replay_artifact is not None:
+            raise ValueError("replay_artifact requires paired efficiency replicates")
+        return self
+
+
+class InformationEfficiencyUncertaintyV1(ContractModel):
+    """Replayable uncertainty summary for a paired efficiency estimator."""
+
+    method: Literal["paired_empirical"] = "paired_empirical"
+    replicate_count: int = Field(ge=2)
+    mean_ratio: float
+    standard_error: float = Field(ge=0.0)
+    confidence_interval: tuple[float, float]
+    estimated_bias: float
+    point_ratio_in_interval: bool
+    paired_replicate_digest: Identifier
+    replay_artifact: Identifier
+    calibration_status: Literal["paired_replicate_empirical"] = (
+        "paired_replicate_empirical"
+    )
+
+    @model_validator(mode="after")
+    def validate_interval(self) -> Self:
+        """Require an ordered interval consistent with its containment flag."""
+        lower, upper = self.confidence_interval
+        if lower > upper:
+            raise ValueError("efficiency uncertainty interval is inverted")
         return self
 
 
@@ -521,6 +612,7 @@ class InformationEfficiencyResultV1(ContractModel):
     absolute_tolerance: float = Field(ge=0.0)
     relative_tolerance: float = Field(ge=0.0)
     bound_tolerance: float = Field(ge=0.0)
+    uncertainty: InformationEfficiencyUncertaintyV1 | None = None
     diagnostics: tuple[Identifier, ...] = ()
 
     @model_validator(mode="after")
@@ -542,6 +634,8 @@ class InformationEfficiencyResultV1(ContractModel):
                 raise ValueError("undefined_zero_evpi fields are inconsistent")
             if abs(self.evsi) > self.bound_tolerance:
                 raise ValueError("zero EVPI requires EVSI to be numerically zero")
+            if self.uncertainty is not None:
+                raise ValueError("undefined efficiency cannot carry uncertainty")
             return self
         if (
             self.evpi <= self.bound_tolerance
@@ -571,6 +665,20 @@ class InformationEfficiencyResultV1(ContractModel):
         )
         if self.status != expected_status:
             raise ValueError("status disagrees with EVSI and EVPI")
+        if self.uncertainty is not None:
+            lower, upper = self.uncertainty.confidence_interval
+            expected_contains = lower <= self.ratio <= upper
+            if self.uncertainty.point_ratio_in_interval is not expected_contains:
+                raise ValueError(
+                    "efficiency uncertainty containment flag disagrees with ratio"
+                )
+            if not isclose(
+                self.uncertainty.estimated_bias,
+                self.uncertainty.mean_ratio - self.ratio,
+                rel_tol=1e-15,
+                abs_tol=1e-15,
+            ):
+                raise ValueError("efficiency uncertainty bias disagrees with ratio")
         return self
 
 
@@ -582,6 +690,7 @@ __all__ = [
     "EfficiencyStatus",
     "FeasibleDesignRangeV1",
     "InformationEfficiencyResultV1",
+    "InformationEfficiencyUncertaintyV1",
     "InformationValueInputV1",
     "SelectionUncertaintyV1",
     "StudyDesignContextV1",

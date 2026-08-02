@@ -258,6 +258,15 @@
       "additionalProperties": false,
       "description": "Descriptive uncertainty in the point-estimate COSS selection.",
       "properties": {
+        "calibration_status": {
+          "default": "not_assessed",
+          "enum": [
+            "not_assessed",
+            "joint_replicate_empirical"
+          ],
+          "title": "Calibration Status",
+          "type": "string"
+        },
         "confidence_set_design_ids": {
           "default": [],
           "items": {
@@ -267,6 +276,44 @@
           "title": "Confidence Set Design Ids",
           "type": "array"
         },
+        "expected_selection_regret": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expected Selection Regret"
+        },
+        "joint_replicate_digest": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Joint Replicate Digest"
+        },
+        "mean_selected_design_enbs": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mean Selected Design Enbs"
+        },
         "method": {
           "default": "unavailable",
           "enum": [
@@ -274,10 +321,26 @@
             "analytic",
             "monte_carlo",
             "bootstrap",
+            "joint_monte_carlo",
+            "joint_bootstrap",
             "externally_supplied"
           ],
           "title": "Method",
           "type": "string"
+        },
+        "near_tie_probability": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Near Tie Probability"
         },
         "probability_by_design": {
           "anyOf": [
@@ -297,6 +360,19 @@
           "default": null,
           "title": "Probability By Design"
         },
+        "replay_artifact": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Replay Artifact"
+        },
         "replicate_count": {
           "anyOf": [
             {
@@ -309,6 +385,45 @@
           ],
           "default": null,
           "title": "Replicate Count"
+        },
+        "replicate_design_ids": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Replicate Design Ids",
+          "type": "array"
+        },
+        "selection_count_by_design": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "integer"
+              },
+              "propertyNames": {
+                "minLength": 1
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Selection Count By Design"
+        },
+        "winner_optimism": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Winner Optimism"
         }
       },
       "title": "SelectionUncertaintyV1",

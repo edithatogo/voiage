@@ -1,5 +1,81 @@
 {
   "$defs": {
+    "InformationEfficiencyUncertaintyV1": {
+      "additionalProperties": false,
+      "description": "Replayable uncertainty summary for a paired efficiency estimator.",
+      "properties": {
+        "calibration_status": {
+          "const": "paired_replicate_empirical",
+          "default": "paired_replicate_empirical",
+          "title": "Calibration Status",
+          "type": "string"
+        },
+        "confidence_interval": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Confidence Interval",
+          "type": "array"
+        },
+        "estimated_bias": {
+          "title": "Estimated Bias",
+          "type": "number"
+        },
+        "mean_ratio": {
+          "title": "Mean Ratio",
+          "type": "number"
+        },
+        "method": {
+          "const": "paired_empirical",
+          "default": "paired_empirical",
+          "title": "Method",
+          "type": "string"
+        },
+        "paired_replicate_digest": {
+          "minLength": 1,
+          "title": "Paired Replicate Digest",
+          "type": "string"
+        },
+        "point_ratio_in_interval": {
+          "title": "Point Ratio In Interval",
+          "type": "boolean"
+        },
+        "replay_artifact": {
+          "minLength": 1,
+          "title": "Replay Artifact",
+          "type": "string"
+        },
+        "replicate_count": {
+          "minimum": 2,
+          "title": "Replicate Count",
+          "type": "integer"
+        },
+        "standard_error": {
+          "minimum": 0.0,
+          "title": "Standard Error",
+          "type": "number"
+        }
+      },
+      "required": [
+        "replicate_count",
+        "mean_ratio",
+        "standard_error",
+        "confidence_interval",
+        "estimated_bias",
+        "point_ratio_in_interval",
+        "paired_replicate_digest",
+        "replay_artifact"
+      ],
+      "title": "InformationEfficiencyUncertaintyV1",
+      "type": "object"
+    },
     "StudyDesignContextV1": {
       "additionalProperties": false,
       "description": "Commensurability and provenance shared by study values and costs.",
@@ -158,6 +234,17 @@
       ],
       "title": "Status",
       "type": "string"
+    },
+    "uncertainty": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/InformationEfficiencyUncertaintyV1"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
     }
   },
   "required": [
