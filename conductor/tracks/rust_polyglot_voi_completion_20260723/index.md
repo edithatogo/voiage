@@ -7,7 +7,10 @@
 - [GitHub issue #313](https://github.com/edithatogo/voiage/issues/313)
 - [Project 28](https://github.com/users/edithatogo/projects/28)
 - [Draft planning PR #621](https://github.com/edithatogo/voiage/pull/621)
+- [Delivery PR #826](https://github.com/edithatogo/voiage/pull/826)
+- [Blocker-resolution plan](./blocker-resolution-plan.md)
 
-Status: new. The issue-claimed track is now materially registered with an
-approved specification and plan; existing Project or issue status is not
-treated as implementation completion.
+Status: in progress. The ten workstream tracks and Rust-authoritative release
+evidence are reconciled at their evidenced maturity; hosted, scientific,
+installed-parity, registry, publication, and issue-closure gates remain
+separate.

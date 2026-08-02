@@ -1,6 +1,6 @@
 # Project Tracks
 
-## [ ] Track: Rust-First Polyglot VOIAGE Completion Programme
+## [~] Track: Rust-First Polyglot VOIAGE Completion Programme
 *Link: [./tracks/rust_polyglot_voi_completion_20260723/index.md](./tracks/rust_polyglot_voi_completion_20260723/index.md)*
 *GitHub: [issue #313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*

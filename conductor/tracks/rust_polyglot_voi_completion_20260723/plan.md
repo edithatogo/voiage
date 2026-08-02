@@ -2,14 +2,19 @@
 
 ## Phase 1 — Governance and contract reconciliation
 
-- [ ] **G1:** Verify the owning issue, native parent/children, Project 28,
+- [x] **G1:** Verify the owning issue, native parent/children, Project 28,
   metadata, registry and cross-reference manifest. (AC-01)
-- [ ] **G2:** Reconcile existing repository artifacts and prior evidence
+- [x] **G2:** Reconcile existing repository artifacts and prior evidence
   without converting issue status into implementation evidence. (AC-01, AC-02)
-- [ ] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
+- [x] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
   explicit exclusions. (AC-02, AC-05, AC-06)
-- [ ] **G4:** Run automated contract review and full Conductor validation.
-  (AC-01, AC-07)
+- [x] **G4:** Run automated contract review and full Conductor validation.
+  Existing workstream plans, Rust-authoritative contracts, polyglot release
+  evidence, and explicit external-gate boundaries are reconciled without
+  claiming programme completion. (2026-08-01; commit: adbc5e13; AC-01,
+  AC-07)
+- [x] Record options, recommendation, contingencies, and archive exit criteria
+  for programme-level blockers. (2026-08-01; see blocker-resolution-plan.md)
 
 ## Phase 2 — Evidence before positive claims
 
