@@ -70,6 +70,7 @@ def test_external_landscape_track_preserves_phase_one_pr_boundaries() -> None:
     entry = next(item for item in manifest["tracks"] if item["track_id"] == track_id)
     track = ROOT / "conductor" / "tracks" / track_id
     metadata = json.loads((track / "metadata.json").read_text())
+    index = (track / "index.md").read_text()
     plan = (track / "plan.md").read_text()
     gates = {gate["id"]: gate for gate in metadata["gates"]}
 
@@ -77,6 +78,8 @@ def test_external_landscape_track_preserves_phase_one_pr_boundaries() -> None:
     assert set(manifest_prs) == set(metadata["github_cross_reference"]["pull_requests"])
     assert manifest_prs["https://github.com/edithatogo/voiage/pull/621"] == "merged"
     assert manifest_prs["https://github.com/edithatogo/voiage/pull/819"] == "open"
+    assert "Merged planning PR #621" in index
+    assert "Delivery PR #819" in index
     assert "- [x] **G4:**" in plan
     assert "- [ ] **G5:**" in plan
     assert "- [ ] **G15:**" in plan
