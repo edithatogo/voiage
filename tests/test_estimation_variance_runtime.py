@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 from pydantic import ValidationError
 import pytest
@@ -16,9 +17,13 @@ from voiage.contracts.estimation import (
     EstimationVarianceSpec,
     EstimatorAssuranceSpec,
     SamplingModelSpec,
+    TruthKnownAssuranceSpec,
 )
 from voiage.exceptions import DimensionMismatchError, InputError
 import voiage.methods.estimation as estimation_module
+
+ROOT = Path(__file__).resolve().parents[1]
+ESTIMATION_FIXTURES = ROOT / "specs" / "estimation-variance" / "v1" / "fixtures"
 
 
 def _target() -> EstimationTargetSpec:
@@ -375,3 +380,106 @@ def test_estimator_design_contract_rejects_incomplete_or_contradictory_requests(
 ) -> None:
     with pytest.raises(ValidationError):
         EstimatorAssuranceSpec(estimator_id="invalid", seed=0, **updates)
+
+
+def test_truth_known_outer_replicates_report_bias_rmse_coverage_and_calibration() -> (
+    None
+):
+    result = estimation_module.evppi_var(
+        [0.0, 2.0, 1.0, 3.0],
+        ["a", "a", "b", "b"],
+        specification=_evppi_spec().model_copy(
+            update={
+                "estimator": _assurance(
+                    "discrete_conditioning", convergence_threshold=1.0
+                )
+            }
+        ),
+        truth_assurance=TruthKnownAssuranceSpec(
+            true_reduction=0.25,
+            replicate_reductions=(0.2, 0.25, 0.3, 0.35),
+            confidence_intervals=(
+                (0.1, 0.3),
+                (0.2, 0.3),
+                (0.2, 0.4),
+                (0.3, 0.4),
+            ),
+            dependence_structure="independent_outer",
+            replay_artifact="fixtures/evppi-truth-known-outer-v1.json",
+        ),
+    )
+
+    assurance = result.truth_known_assurance
+    assert assurance is not None
+    assert assurance.bias == pytest.approx(0.025)
+    assert assurance.rmse == pytest.approx(0.00375**0.5)
+    assert assurance.standard_error == pytest.approx(0.03227486121839514)
+    assert assurance.empirical_coverage == pytest.approx(0.75)
+    assert assurance.calibration_error == pytest.approx(0.2)
+    assert assurance.converged is True
+    assert assurance.replicate_unit == "complete_outer_dataset"
+    assert len(assurance.replay_digest) == 64
+
+
+def test_truth_known_portable_fixture_replays_through_python_and_rust() -> None:
+    assurance_payload = json.loads(
+        (ESTIMATION_FIXTURES / "evppi-var-truth-known.assurance.json").read_text()
+    )
+    expected = json.loads(
+        (ESTIMATION_FIXTURES / "evppi-var-truth-known.result.json").read_text()
+    )
+    result = estimation_module.evppi_var(
+        [0.0, 2.0, 1.0, 3.0],
+        ["a", "a", "b", "b"],
+        specification=_evppi_spec(),
+        truth_assurance=TruthKnownAssuranceSpec.model_validate_json(
+            json.dumps(assurance_payload)
+        ),
+    )
+    assert result.truth_known_assurance is not None
+    assert result.truth_known_assurance.model_dump(mode="json") == expected
+
+
+def test_nested_and_coupled_assurance_require_dependence_preserving_outer_units() -> (
+    None
+):
+    nested_spec = _evsi_spec().model_copy(
+        update={
+            "estimator": EstimatorAssuranceSpec(
+                estimator_id="nested",
+                seed=1,
+                estimator_design="nested_monte_carlo",
+                outer_replicates=20,
+                inner_replicates=10,
+            )
+        }
+    )
+    independent = TruthKnownAssuranceSpec(
+        true_reduction=0.1,
+        replicate_reductions=(0.08, 0.12),
+        dependence_structure="independent_outer",
+        replay_artifact="fixture.json",
+    )
+    with pytest.raises(InputError, match="dependence disagrees"):
+        estimation_module.evsi_var(
+            [0.0, 1.0],
+            [0.1, 0.2],
+            [0.5, 0.5],
+            specification=nested_spec,
+            truth_assurance=independent,
+        )
+
+    accepted = estimation_module.evsi_var(
+        [0.0, 1.0],
+        [0.1, 0.2],
+        [0.5, 0.5],
+        specification=nested_spec,
+        truth_assurance=independent.model_copy(
+            update={"dependence_structure": "nested_shared_outer"}
+        ),
+    )
+    assert accepted.truth_known_assurance is not None
+    assert (
+        accepted.truth_known_assurance.dependence_structure
+        == "nested_shared_outer"
+    )

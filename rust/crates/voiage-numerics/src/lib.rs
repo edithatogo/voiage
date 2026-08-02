@@ -23,7 +23,8 @@ pub use dominance::{dominance, DominanceKernelResult, DominanceStatus};
 pub use enbs::enbs;
 pub use error::NumericalInputError;
 pub use estimation_variance::{
-    evppi_variance, evppi_variance_with_assurance, evsi_variance, evsi_variance_with_assurance,
+    estimation_truth_assurance, evppi_variance, evppi_variance_with_assurance, evsi_variance,
+    evsi_variance_with_assurance, EstimationTruthAssuranceKernelResult,
     EstimationVarianceKernelResult,
 };
 pub use evpi::evpi;

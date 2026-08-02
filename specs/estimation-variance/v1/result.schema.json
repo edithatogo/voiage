@@ -43,6 +43,12 @@
     "negative_estimate_policy": {"const": "retain_raw_clip_reported"},
     "zero_variance_policy": {"const": "absolute_zero_relative_null"},
     "diagnostics": {"$ref": "#/$defs/diagnostics"},
+    "truth_known_assurance": {
+      "anyOf": [
+        {"$ref": "#/$defs/truth_known_assurance"},
+        {"type": "null"}
+      ]
+    },
     "provenance": {"$ref": "#/$defs/provenance"}
   },
   "allOf": [
@@ -193,6 +199,45 @@
           "type": "array",
           "items": {"type": "string", "minLength": 1}
         }
+      }
+    },
+    "truth_known_assurance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version", "replicate_count", "bias", "rmse",
+        "standard_error", "empirical_coverage", "calibration_error",
+        "converged", "replicate_unit", "dependence_structure",
+        "replay_artifact", "replay_digest"
+      ],
+      "properties": {
+        "contract_version": {"const": "1.0.0"},
+        "replicate_count": {"type": "integer", "minimum": 2},
+        "bias": {"type": "number"},
+        "rmse": {"type": "number", "minimum": 0},
+        "standard_error": {"type": "number", "minimum": 0},
+        "empirical_coverage": {
+          "anyOf": [
+            {"type": "number", "minimum": 0, "maximum": 1},
+            {"type": "null"}
+          ]
+        },
+        "calibration_error": {
+          "anyOf": [
+            {"type": "number", "minimum": 0, "maximum": 1},
+            {"type": "null"}
+          ]
+        },
+        "converged": {"type": "boolean"},
+        "replicate_unit": {"const": "complete_outer_dataset"},
+        "dependence_structure": {
+          "enum": [
+            "independent_outer", "paired_outer", "nested_shared_outer",
+            "coupled_common_random_numbers"
+          ]
+        },
+        "replay_artifact": {"type": "string", "minLength": 1},
+        "replay_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
       }
     },
     "provenance": {

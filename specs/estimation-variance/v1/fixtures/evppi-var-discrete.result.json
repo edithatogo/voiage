@@ -50,6 +50,7 @@
     "converged": true,
     "diagnostic_codes": ["exact_enumeration"]
   },
+  "truth_known_assurance": null,
   "provenance": {
     "backend": "reference",
     "kernel_version": "1.0.0",

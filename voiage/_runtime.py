@@ -334,6 +334,29 @@ def compute_evsi_variance(
     return dict(result)
 
 
+def compute_estimation_truth_assurance(
+    replicate_estimates: list[float],
+    true_reduction: float,
+    interval_lower: list[float],
+    interval_upper: list[float],
+    confidence_level: float,
+    convergence_threshold: float,
+) -> dict[str, object]:
+    """Summarize truth-known outer-replicate assurance in Rust."""
+    try:
+        result = _native().compute_estimation_truth_assurance(
+            replicate_estimates,
+            true_reduction,
+            interval_lower,
+            interval_upper,
+            confidence_level,
+            convergence_threshold,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
 def compute_normal_normal_two_arm_evsi(
     prior_mean: float,
     prior_standard_deviation: float,

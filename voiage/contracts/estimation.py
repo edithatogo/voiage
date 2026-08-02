@@ -208,6 +208,73 @@ class EstimationVarianceDiagnostics(ContractModel):
         return self
 
 
+class TruthKnownAssuranceSpec(ContractModel):
+    """Replayable truth-known evidence over complete outer replications."""
+
+    true_reduction: float
+    replicate_reductions: tuple[float, ...] = Field(min_length=2)
+    confidence_intervals: tuple[tuple[float, float], ...] = ()
+    confidence_level: float = Field(default=0.95, gt=0.0, lt=1.0)
+    replicate_unit: Literal["complete_outer_dataset"] = "complete_outer_dataset"
+    dependence_structure: Literal[
+        "independent_outer",
+        "paired_outer",
+        "nested_shared_outer",
+        "coupled_common_random_numbers",
+    ]
+    replay_artifact: Identifier
+
+    @model_validator(mode="after")
+    def validate_intervals(self) -> Self:
+        """Require optional intervals to remain aligned by outer replicate."""
+        if self.confidence_intervals and len(self.confidence_intervals) != len(
+            self.replicate_reductions
+        ):
+            raise ValueError("confidence intervals must align with replicates")
+        if any(lower > upper for lower, upper in self.confidence_intervals):
+            raise ValueError("confidence intervals must be ordered")
+        return self
+
+    def content_digest(self) -> str:
+        """Return a deterministic replay digest for the truth-known packet."""
+        payload = json.dumps(
+            self.model_dump(mode="json"),
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=False,
+        ).encode()
+        return sha256(payload).hexdigest()
+
+
+class TruthKnownAssuranceResult(ContractModel):
+    """Bias, RMSE, coverage, calibration and convergence evidence."""
+
+    contract_version: Literal["1.0.0"] = "1.0.0"
+    replicate_count: int = Field(ge=2)
+    bias: float
+    rmse: float = Field(ge=0.0)
+    standard_error: float = Field(ge=0.0)
+    empirical_coverage: float | None = Field(default=None, ge=0.0, le=1.0)
+    calibration_error: float | None = Field(default=None, ge=0.0, le=1.0)
+    converged: bool
+    replicate_unit: Literal["complete_outer_dataset"]
+    dependence_structure: Literal[
+        "independent_outer",
+        "paired_outer",
+        "nested_shared_outer",
+        "coupled_common_random_numbers",
+    ]
+    replay_artifact: Identifier
+    replay_digest: Sha256Digest
+
+    @model_validator(mode="after")
+    def validate_coverage_pair(self) -> Self:
+        """Require coverage and calibration to be jointly available."""
+        if (self.empirical_coverage is None) != (self.calibration_error is None):
+            raise ValueError("coverage and calibration must be jointly available")
+        return self
+
+
 class EstimationRuntimeBinding(ContractModel):
     """Auditable binding from the scientific specification to one solver request."""
 
@@ -308,6 +375,7 @@ class EstimationVarianceResult(ContractModel):
         "absolute_zero_relative_null"
     )
     diagnostics: EstimationVarianceDiagnostics
+    truth_known_assurance: TruthKnownAssuranceResult | None = None
     provenance: EstimationVarianceProvenance
 
     @model_validator(mode="after")
@@ -401,4 +469,6 @@ __all__ = [
     "EstimationVarianceSpec",
     "EstimatorAssuranceSpec",
     "SamplingModelSpec",
+    "TruthKnownAssuranceResult",
+    "TruthKnownAssuranceSpec",
 ]

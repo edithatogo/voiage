@@ -19,12 +19,12 @@ use std::sync::Mutex;
 use voiage_diagnostics::ErrorCategory;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
-    ceaf, coss, coss_selection_uncertainty, dominance, enbs, evpi, evppi, evppi_variance,
-    evppi_variance_with_assurance, evsi_efficient_linear, evsi_evpi_efficiency, evsi_moment_based,
-    evsi_regression, evsi_stochastic, evsi_variance, evsi_variance_with_assurance,
-    expected_utility_information, heterogeneity, information_efficiency_uncertainty,
-    normal_normal_two_arm_evsi, structural_evpi, structural_evppi,
-    DominanceStatus as KernelDominanceStatus, EstimationVarianceKernelResult,
+    ceaf, coss, coss_selection_uncertainty, dominance, enbs, estimation_truth_assurance, evpi,
+    evppi, evppi_variance, evppi_variance_with_assurance, evsi_efficient_linear,
+    evsi_evpi_efficiency, evsi_moment_based, evsi_regression, evsi_stochastic, evsi_variance,
+    evsi_variance_with_assurance, expected_utility_information, heterogeneity,
+    information_efficiency_uncertainty, normal_normal_two_arm_evsi, structural_evpi,
+    structural_evppi, DominanceStatus as KernelDominanceStatus, EstimationVarianceKernelResult,
     ExpectedUtilityInformationInput, InformationStructure, SolverSettings, UtilityDescriptor,
 };
 use voiage_serialization::{
@@ -985,6 +985,52 @@ fn compute_evsi_variance<'py>(
     estimation_variance_result_to_dict(py, &result)
 }
 
+/// Summarize truth-known estimation assurance over complete outer replicates.
+#[allow(clippy::too_many_arguments)]
+#[pyfunction]
+#[pyo3(signature = (
+    replicate_estimates,
+    true_reduction,
+    interval_lower,
+    interval_upper,
+    confidence_level,
+    convergence_threshold
+))]
+fn compute_estimation_truth_assurance<'py>(
+    py: Python<'py>,
+    replicate_estimates: Vec<f64>,
+    true_reduction: f64,
+    interval_lower: Vec<f64>,
+    interval_upper: Vec<f64>,
+    confidence_level: f64,
+    convergence_threshold: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let result = estimation_truth_assurance(
+        &replicate_estimates,
+        true_reduction,
+        &interval_lower,
+        &interval_upper,
+        confidence_level,
+        convergence_threshold,
+    )
+    .map_err(|error| match error.category() {
+        ErrorCategory::DimensionMismatch => {
+            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+        }
+        _ => InputError::new_err(("invalid_input", error.to_string())),
+    })?;
+    let output = PyDict::new(py);
+    output.set_item("contract_version", result.contract_version)?;
+    output.set_item("replicate_count", result.replicate_count)?;
+    output.set_item("bias", result.bias)?;
+    output.set_item("rmse", result.rmse)?;
+    output.set_item("standard_error", result.standard_error)?;
+    output.set_item("empirical_coverage", result.empirical_coverage)?;
+    output.set_item("calibration_error", result.calibration_error)?;
+    output.set_item("converged", result.converged)?;
+    Ok(output)
+}
+
 /// Compute the explicit seeded-bootstrap EVSI kernel for Python callers.
 #[pyfunction]
 #[pyo3(signature = (net_benefit, trial_sample_size, resample_count, seed))]
@@ -1588,6 +1634,10 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(compute_evppi_variance, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_variance, module)?)?;
+    module.add_function(wrap_pyfunction!(
+        compute_estimation_truth_assurance,
+        module
+    )?)?;
     module.add_function(wrap_pyfunction!(
         compute_normal_normal_two_arm_evsi,
         module

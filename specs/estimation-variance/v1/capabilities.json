@@ -11,8 +11,14 @@
   "estimator_design_contract": {
     "exact": "executable",
     "outer_monte_carlo": "runtime-bound upstream estimator design",
-    "nested_monte_carlo": "runtime-bound upstream estimator design; assurance pending E21",
-    "coupled_nested_monte_carlo": "runtime-bound upstream estimator design; dependence assurance pending E21"
+    "nested_monte_carlo": "runtime-bound upstream estimator design with executable complete-outer-replicate assurance summary",
+    "coupled_nested_monte_carlo": "runtime-bound upstream estimator design with dependence-preserving complete-outer-replicate assurance summary"
+  },
+  "truth_known_assurance": {
+    "status": "executable_outer_replicate_summary",
+    "replicate_unit": "complete_outer_dataset",
+    "metrics": ["bias", "rmse", "standard_error", "empirical_coverage", "calibration_error", "convergence"],
+    "boundary": "Callers supply replayable truth-known complete outer replicates; the Rust kernel summarizes but does not generate nested simulations."
   },
   "target_capabilities": {
     "scalar_variance": "executable",

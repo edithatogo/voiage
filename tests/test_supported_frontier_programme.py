@@ -147,7 +147,11 @@ def test_scientific_review_plan_requires_orchestrated_independent_panel() -> Non
         for req_id in req_ids:
             assert f"**{req_prefix}{req_id}:**" in owning_req_text
         for task_id in task_ids:
-            assert f"- [ ] **{task_prefix}{task_id}:**" in owning_plan_text
+            assert re.search(
+                rf"^- \[[ x~]\] \*\*{task_prefix}{task_id}:\*\*",
+                owning_plan_text,
+                re.MULTILINE,
+            )
 
 
 def test_scientific_review_candidate_freezes_live_governance_and_artifacts() -> None:

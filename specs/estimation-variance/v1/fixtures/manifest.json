@@ -6,6 +6,8 @@
       "fixture_id": "evppi-var-discrete-zero-information",
       "input": "evppi-var-discrete.input.json",
       "result": "evppi-var-discrete.result.json",
+      "truth_assurance": "evppi-var-truth-known.assurance.json",
+      "truth_assurance_result": "evppi-var-truth-known.result.json",
       "reference": "independently enumerable two-stratum target"
     }
   ]
