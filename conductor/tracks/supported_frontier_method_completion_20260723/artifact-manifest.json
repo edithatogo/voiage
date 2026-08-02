@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0",
+  "status": "pending_freeze",
+  "candidate_packet": "scientific-review-packet-20260803.json",
+  "candidate_revision": "ace96fbf4ac9edc1be7dd5b33d8824d23d8ca962",
+  "artifacts": [],
+  "rule": "Populate hashes only after the exact candidate is frozen."
+}

@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0",
+  "status": "pending",
+  "candidate_packet": "scientific-review-packet-20260803.json",
+  "attestations": [],
+  "required_roles": ["orchestrating agent", "Estimand and domain reviewer", "Estimator-assurance reviewer", "Cross-language and API reviewer", "Governance and publication reviewer"],
+  "boundary": "No reviewer identity, qualification, independence or approval is inferred locally."
+}

@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0",
+  "status": "pending",
+  "candidate_packet": "scientific-review-packet-20260803.json",
+  "decision": null,
+  "boundary": "Requires an eligible accountable adjudicator; subagent orchestration cannot self-approve."
+}
