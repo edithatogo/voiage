@@ -55,8 +55,8 @@
     {
       "id": "hosted-required-checks",
       "kind": "hosted_validation",
-      "status": "pending",
-      "evidence": "PR #819 is open; exact-head hosted checks and merge remain pending."
+      "status": "satisfied",
+      "evidence": "PR #819 merged; current main assurance suite is green on the merged lineage."
     }
   ]
 }
