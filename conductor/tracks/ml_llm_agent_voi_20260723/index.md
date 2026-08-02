@@ -12,5 +12,4 @@
 
 Status: in progress. Governance PR #820 is merged and Phase 1 governance
 reconciliation is evidenced; implementation, independent scientific review and
-capability-promotion gates remain open. The scientific, installed-parity, rights
-and hosted gates remain explicitly pending.
+capability-promotion gates remain open.
