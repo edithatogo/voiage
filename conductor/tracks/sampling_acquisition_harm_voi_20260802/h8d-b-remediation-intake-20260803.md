@@ -2,6 +2,8 @@
 
 This repository-owned step converts the automated challenge into a fail-closed remediation and commissioning surface. It does not perform scientific review, assign a human, retrieve or license a source, freeze a replacement review packet, authorize implementation, or close H8.
 
+Repository preparation completed in PR #865 at exact head `973a79dca58cd831d5f1d5a5edce745cd22903b5`, squash-merged as `03277fef312e848e00cb405bca19cbf331b3603d` at 2026-08-02T22:08:37Z after 38 successful checks, three governed skips, one neutral result and zero failures, pending checks or unresolved review threads. This receipt does not alter the boundaries below.
+
 ## Bounded result
 
 - The non-alias contract now explicitly covers adjacent issues #570, #571, #595 and #598. No adjacent method may be reused as a sampling-acquisition-harm execution path.

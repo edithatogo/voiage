@@ -65,7 +65,8 @@
       "https://github.com/edithatogo/voiage/pull/860",
       "https://github.com/edithatogo/voiage/pull/861",
       "https://github.com/edithatogo/voiage/pull/862",
-      "https://github.com/edithatogo/voiage/pull/863"
+      "https://github.com/edithatogo/voiage/pull/863",
+      "https://github.com/edithatogo/voiage/pull/865"
     ]
   },
   "gates": [
@@ -102,8 +103,8 @@
     {
       "id": "h8db-remediation-and-review-intake",
       "kind": "review_preparation",
-      "status": "pending",
-      "evidence": "Issue #864 is preparing a complete nineteen-finding pending remediation register, effective four-issue adjacent-method non-alias validation, a separately bound post-PR-863 governance delta, and fail-closed source and eligible-human reviewer intake. Exact-head hosted evidence and post-merge readback remain required; H8-D through H8-H remain pending."
+      "status": "satisfied",
+      "evidence": "VOIAGE PR #865 exact head 973a79dca58cd831d5f1d5a5edce745cd22903b5 completed 38 successful checks, three governed skips and one neutral result with zero failures, pending checks or unresolved review threads before squash merge 03277fef312e848e00cb405bca19cbf331b3603d at 2026-08-02T22:08:37Z. The merged preparation preserves all nineteen findings as pending, enforces the four-issue non-alias boundary and materializes fail-closed source and eligible-human reviewer intake. This satisfies H8-D-B repository preparation only; H8-D through H8-H and every human, scientific, runtime, study, publication, registry, promotion and release authority remain pending or false."
     },
     {
       "id": "orchestrator-synthesis",

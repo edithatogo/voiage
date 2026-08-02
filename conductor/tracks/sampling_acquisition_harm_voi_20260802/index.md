@@ -28,6 +28,7 @@
 - [VOIAGE repository delivery PR #855](https://github.com/edithatogo/voiage/pull/855)
 - [Human-confirmation governance PR #859](https://github.com/edithatogo/voiage/pull/859)
 - [Automated challenge preparation PR #863](https://github.com/edithatogo/voiage/pull/863)
+- [H8-D-B remediation and reviewer-intake PR #865](https://github.com/edithatogo/voiage/pull/865)
 
 Status: in progress. Automated primary-source, estimand and advisory scoping is
 complete, and VOP PR #71 merged the canonical C18/M32 planning projection as
@@ -44,3 +45,10 @@ and a separate synthesis covering all nineteen findings. It is non-human and
 non-authorizing; one reviewer declares disqualifying independence, source
 review remains blocked, and the Critical/High findings remain pending. H8-D
 through H8-H therefore remain open.
+
+H8-D-B repository preparation is complete through PR #865 exact head
+`973a79dca58cd831d5f1d5a5edce745cd22903b5`, squash-merged as
+`03277fef312e848e00cb405bca19cbf331b3603d` after 38 successful checks, three
+governed skips, one neutral result and zero failures, pending checks or
+unresolved review threads. This completion does not disposition any finding or
+satisfy H8-D through H8-H.

@@ -84,14 +84,17 @@
   Critical, fifteen High and three Medium pending findings, but are non-human;
   the estimator-assurance agent also declares a disqualifying independence
   limitation. This evidence therefore does not satisfy H8-D. (AC-08)
-- [~] **H8-D-B:** Repair the repository-owned governance/API drift exposed by
+- [x] **H8-D-B:** Repair the repository-owned governance/API drift exposed by
   the automated challenge: enforce all four adjacent-method non-aliases,
   preserve the historical H8-C snapshot while binding a post-#863
   administrative delta, synchronize current governance prose and metadata,
   and materialize fail-closed source/reviewer intake readiness plus the full
   nineteen-finding remediation register. This preparation must leave H8-D,
   H8-E, H8-F and every human or downstream authority gate pending. (AC-06,
-  AC-08–AC-10)
+  AC-08–AC-10) Completed by PR #865 exact head `973a79dc`, with 38 successful
+  checks, three governed skips, one neutral result and zero failures, pending
+  checks or unresolved threads before squash merge `03277fef`. All nineteen
+  findings and H8-D through H8-H remain pending.
 - [ ] **H8-E:** Have a separate orchestrating agent normalize the reports,
   preserve every finding and disagreement, and synthesize options,
   contingencies, rationale and an evidence-backed recommendation without
