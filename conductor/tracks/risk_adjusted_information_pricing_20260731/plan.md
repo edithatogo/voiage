@@ -91,3 +91,19 @@
   eligible. VoC remains a presentation/delegating alias; scientific review,
   Rust/R/Julia parity, stable promotion, release, parent #595 closure and
   umbrella #318 closure remain pending. (AC-08) — `1048c4bc`
+
+## Phase 5 — Orchestrated scientific remediation and re-review
+
+- [ ] **U18:** Freeze the candidate and run the umbrella Phase 5 four-role
+  panel against expected-utility pricing and every VoC presentation.
+  (M16-U5, M16-U6; AC-01–AC-05, AC-08)
+- [ ] **U19:** Implement stable CRRA log-limit/expm1 evaluation and inversion
+  near risk aversion one with high-precision sweeps, continuity, policy/tie
+  invariance and root-residual evidence. (M16-U5; AC-03, AC-05, AC-06)
+- [ ] **U20:** Bind the selected presentation and version into deterministic
+  presentation provenance without duplicating the numerical kernel; execute
+  expected-utility and VoC fixtures from a clean installed wheel with packaged
+  schemas and capabilities. (M16-U3, M16-U6; AC-03–AC-07)
+- [ ] **U21:** Remediate through nested #595 issues, rebind the candidate and
+  obtain affected-role plus named independent human re-review; retain parity,
+  promotion, release and closure as separate gates. (AC-01, AC-05, AC-08)

@@ -18,6 +18,14 @@
 - **M17-U1:** Keep canonical C16, #595 and its native subissues, Project 28,
   this track, and registered repository projections synchronized without
   overwriting human-authored content.
+- **M16-U5:** Evaluate CRRA/power utility and its inversion stably near risk
+  aversion one using a declared log-limit/expm1 switching tolerance and error
+  budget. Require sweeps around one, payoff-scale sweeps, high-precision
+  oracles, continuity and root-residual evidence.
+- **M16-U6:** Bind presentation selection and presentation-contract version to
+  a deterministic presentation digest derived from the native result. EUI,
+  BPI, SPI, PPI and affine-EVPI views must retain a shared numerical kernel but
+  carry auditable, distinct presentation provenance.
 
 ## Should
 

@@ -20,11 +20,26 @@
   prior COSS incorporation; added opportunity/delay costs require a
   provenance-backed exclusion from COSS research cost, and tolerance ties are
   anchored to the fixed global maximum.
+- **M15-S7:** Distinguish a complete design enumeration from an evaluated-set-
+  only result and label the optimum accordingly. Never infer optimality beyond
+  the declared feasible set or evaluated designs.
+- **M15-S8:** Add an explicit no-sampling comparator, economic-viability state
+  and commissioning recommendation separately from the curve argmax and
+  `best_evaluated_design`; all-negative ENBS must not recommend sampling.
+- **M15-S9:** Make selection uncertainty replayable with a joint-replicate
+  digest, seed/source, replicate count and unit, feasibility, tie policy,
+  complete selection-probability mass, confidence level, confidence-set method
+  and calibration status. Externally supplied probabilities remain labelled as
+  externally supplied and do not imply calibrated assurance.
 
 ## Should
 
 - Reconcile legacy clinical and plotting helpers and provide polyglot
   dispositions and independent argmax references.
+- **M15-S10:** Propagate paired EVSI/EVPI uncertainty and suppress efficiency
+  summaries for zero, weak or incompatible denominators.
+- **M15-S11:** Report design-range expansion, boundary sensitivity, regret,
+  near ties and winner's-curse diagnostics.
 
 ## Could
 

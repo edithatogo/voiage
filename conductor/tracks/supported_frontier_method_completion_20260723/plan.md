@@ -539,3 +539,75 @@ covers the experimental frontier entries only.
   review, parity, stable promotion, release/publication, registry acceptance
   and issue closure. Parent #318 and open family-parent issues remain open.
   (AC-02, AC-07)
+
+## Phase 5 — Orchestrated scientific review and adjudication
+
+This phase executes the pending scientific gate without reopening G1–G15.
+Repository defects discovered by a panel are delivered through separate
+issue-backed remediation slices and rebound to a fresh review candidate.
+
+- [ ] **SR1 — Freeze inventory and candidate:** Create the #318 scientific-
+  review governance child and nested wave/remediation issues; freeze the exact
+  issue/Project/roadmap/canonical inventory, candidate commit/tree, artifact
+  manifest, tools, references and known limitations. First reconcile live
+  GitHub–Project–Conductor version, gate and lifecycle fields, including #570
+  v1.3.0/C18/M22, or publish a blocking discrepancy register. Reject dirty,
+  moving or unreconciled candidates. (M17-R1–M17-R4; AC-01, AC-09, AC-10)
+- [ ] **SR2 — Materialize evidence contracts:** Add versioned schemas and
+  validators for review packets, artifact manifests, reviewer attestations,
+  role reports, findings, disagreements, dispositions, adjudication,
+  scientific approval, promotion receipts and candidate-delta invalidation.
+  Receipts require independent decision-maker identity/qualification/conflict,
+  candidate/tree and packet hash, family/capability scope, conditions, dissent,
+  date, expiry and supersession. Promotion approval must not be satisfiable by
+  unbound Boolean flags. Bounded delta review requires deterministic
+  classification and independent governance/scientific signatures.
+  (M17-R1–M17-R3; AC-03, AC-07, AC-10)
+- [ ] **SR3 — Wave A panel (#619/#571/#595):** The orchestrator commissions
+  independent estimand/domain, estimator-assurance, cross-language/API and
+  governance/publication reviewers, normalizes their reports and publishes a
+  synthesis. Resolve or block on COSS commissioning semantics; estimation
+  conditioning/model/provenance, nested uncertainty and vector covariance;
+  executable fixtures; portable schemas/capabilities; installed artifacts;
+  replayable joint COSS selection uncertainty; maturity discovery; CRRA
+  stability near risk aversion one; VoC alias and presentation-digest
+  integrity; and auditable promotion evidence.
+  (M17-R3–M17-R5; AC-02–AC-06, AC-08, AC-10)
+- [ ] **SR4 — Sampling-harm scoping:** Create a #570 child dependent on #571
+  for stochastic harms caused by the sampling process, conduct a primary-
+  source and estimand review, and either materialize a governed method track or
+  record a reviewed exclusion. Do not present it as an existing #570 kernel or
+  collapse it into #595's VoC presentation.
+  (M17-R6; AC-02, AC-03, AC-10)
+- [ ] **SR5 — Wave B high-risk panel:** Review #570 and #597–#600 with required
+  domain specialists, including #570 v1.3.0/C18/M22 synchronization, sequential
+  model validity, signed/social harms, sparse-subgroup validity and continuous
+  or fitted outcome-conditional estimator assurance. (M17-R3, M17-R4; AC-01–
+  AC-06, AC-09, AC-10)
+- [ ] **SR6 — Wave C remaining-family panel:** Review #556–#560, #572, #582
+  and #593–#596 in estimand-coherent cohorts. Preserve a separate report and
+  verdict for every family; grouping cannot hide a failed required dimension.
+  (M17-R3, M17-R4; AC-02–AC-06, AC-10)
+- [ ] **SR7 — Cross-cutting installed and parity review:** Verify packaged
+  schemas/capabilities, clean-wheel execution outside the checkout, shared
+  Rust/Python fixtures, governed R/Julia unsupported behavior or execution,
+  version consistency, central capability discovery and negative stable-API/
+  ABI assertions. Implement M17-X1–M17-X7 through nested #318/#571/#619/#595
+  issues. (M17-R3–M17-R5, M17-X1–M17-X7; AC-03–AC-05, AC-10)
+- [ ] **SR8 — Remediation and independent re-review:** Implement accepted
+  findings only in their owning issue-backed slices; freeze new packets, map
+  every prior finding to a permitted disposition and commission fresh affected
+  reviewers. No author/remediator self-approves. (M17-R1–M17-R3; AC-03,
+  AC-07, AC-10)
+- [ ] **SR9 — Orchestrator synthesis and disagreement adjudication:** Publish
+  the family verdict matrix, unresolved finding and dissent registers,
+  dependency order and evidence-backed recommendation. Distinguish governed
+  pending gates, new defects, research questions, human decisions and release
+  gates; never promote by majority vote. (M17-R3, M17-R4; AC-02, AC-10)
+- [ ] **SR10 — Accountable decision and synchronized closeout:** Obtain the
+  named independent human scientific/domain verdict and a separate maintainer
+  maturity decision; run candidate-delta and exact-head checks; synchronize
+  issues, Project 28, roadmap, todo, canonical projections and metadata. Record
+  parity, stable promotion, release, publication, registry acceptance and
+  parent/#318 closure independently. (M17-R1–M17-R4; AC-01, AC-07, AC-09,
+  AC-10)

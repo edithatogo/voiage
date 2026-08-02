@@ -1,29 +1,166 @@
-# Scientific review panel protocol
+# Scientific review panel and orchestration protocol
 
-Experimental frontier promotion uses a panel of relevant subagents instead of
-a single independent scientific reviewer. The panel gathers challenge evidence
-but does not authorize stable promotion, publication, registry submission, or
-release.
+Experimental-frontier scientific review uses a panel of role-specific
+subagents coordinated by a separate orchestrating agent. The panel produces
+challenge evidence and a promotion-readiness recommendation. It does not
+authorize stable promotion, publication, registry submission, release or issue
+closure; those decisions remain separate accountable gates.
 
-## Required composition
+## Roles and independence
 
-Each method family requires at least three role-specific subagents:
+The **orchestrating agent** freezes the candidate, commissions reviewers,
+normalizes reports, challenges unsupported claims, maintains the finding and
+disagreement registers, and synthesizes recommendations. It does not review its
+own synthesis, vote away dissent, remediate findings, or approve promotion.
 
-1. **Estimand reviewer** — definitions, assumptions, units, utility, cost,
-   policy, and limiting cases.
-2. **Numerical reviewer** — fixtures, identities, convergence, pathologies,
-   ties, feasibility, and reproducibility.
-3. **Boundary reviewer** — API maturity, language dispositions, provenance,
-   unsupported claims, security, and release wording.
+Each family requires reports from at least four specialist roles:
 
-Add a domain reviewer where the method requires specialist context. A panel
-requires all core roles to report, no unresolved High/Critical finding, and an
-explicit disposition for every Medium finding.
+1. **Estimand and domain reviewer** — definitions, conditioning, assumptions,
+   units, utility, costs, population, horizon, ethics and limiting cases.
+2. **Estimator-assurance reviewer** — reference calculations, bias, RMSE,
+   coverage, calibration, convergence, uncertainty, pathologies and
+   reproducibility.
+3. **Cross-language and API reviewer** — schemas, fixtures, installed-wheel
+   execution, Rust/Python/R/Julia/Mojo dispositions, compatibility and
+   capability discovery.
+4. **Governance and publication reviewer** — reviewer eligibility, conflicts,
+   evidence integrity, claims, issue/Project/roadmap traceability,
+   adjudication and publication boundaries.
 
-## Evidence boundary
+Add another qualified domain reviewer when clinical, environmental, financial,
+equity, safety or regulatory claims require specialist expertise. Every
+reviewer records identity, role, relevant qualifications, prior contribution,
+conflicts and an independence attestation. An author or remediator may explain
+the work but cannot independently approve that slice. If a reviewer remediates
+a finding, a fresh eligible reviewer re-reviews it.
 
-Record each panel report, reviewed revision, commands, artifacts, and finding
-dispositions in the Conductor ledger. The maintainer retains the final
-scientific, stable-promotion, release, and publication decision. If the panel
-disagrees, retain the method as experimental and record the disagreement and
-required follow-up; do not promote by majority vote alone.
+Automated or subagent reports are structured challenge evidence. Before a
+stable or publication claim, each family and frozen candidate requires a named
+qualified human scientific reviewer independent of the implementation to sign
+its scientific verdict, plus a domain-qualified reviewer for high-risk claims.
+Disqualifying financial, organizational, authorship, remediation, supervisory
+or personal conflicts require recusal and replacement. A single-person
+repository does not require routine peer approval for ordinary merging, but
+that does not make an independence claim self-satisfying.
+
+## Review packet and entry criteria
+
+The orchestrator must reject a dirty, moving or incomplete candidate. Freeze an
+immutable packet containing:
+
+- exact commit and tree identifiers plus an artifact SHA-256 manifest;
+- dependency lock, toolchain, platform and deterministic command record;
+- estimands, schemas, fixtures, algorithms, tests, documentation and claims;
+- issue hierarchy, Project fields, roadmap, todo and canonical projections;
+- reference identifiers, independently reconstructed calculations and known
+  limitations;
+- language/runtime dispositions and prior review/finding history.
+
+The packet is valid only for the frozen candidate. A later scientific,
+numerical, runtime, schema, fixture or claim change invalidates the affected
+approval. Every delta invalidates approval by default. A deterministic allowlist
+may classify a metadata-only delta for bounded review only when both the
+governance reviewer and an affected scientific reviewer independently sign the
+classification, hashes and rationale.
+
+## Review waves
+
+Run reviews in risk and dependency order. Reviewers submit their reports before
+seeing the orchestrator's consolidated adjudication.
+
+1. **Wave A — specialized v1.2.0 families:** #619 estimation variance, #571
+   COSS/ENBS/efficiency and #595 expected utility/VoC.
+2. **Wave B — high-risk v1.3.0 families:** #570 risk-sensitive/constrained,
+   #599 heterogeneity and sparse subgroups, #600 outcome-conditional sample
+   information, #597 sequential belief-state and #598 signed/social value.
+3. **Wave C — remaining C17/C18 families:** #556–#560, #572, #582 and
+   #593–#596, grouped only where estimands and evidence remain separable.
+4. **Cross-cutting wave:** installed artifacts, portable fixtures, capability
+   discovery, language parity, reproducibility and stable-promotion evidence.
+
+Finding remediation occurs in issue-backed implementation slices, not inside
+the scientific-review verdict. Each new candidate is rebound to a fresh packet
+and receives the affected role reviews again.
+
+## Reviewer rubric and acceptance matrix
+
+For every applicable row, report `Pass`, `Minor revision`, `Major revision`,
+`Fail`, or `Not applicable` with a rationale. No total score or majority vote
+may mask a failed required row.
+
+| Dimension | Minimum acceptance evidence |
+| --- | --- |
+| Estimand | Target, decision/estimation focus, conditioning, comparator and interpretation are mathematically explicit. |
+| Units and scope | Units, population, horizon, discounting, utility/cost placement, stakeholder and comparability are coherent. |
+| Assumptions | Identification, independence, regularity, feasibility and perfect/imperfect-information assumptions are testable. |
+| References | Equations and algorithms map to primary or authoritative sources and an independent reconstruction. |
+| Numerical validity | Bias, RMSE, coverage/calibration, convergence, tolerances, ties, bounds, degeneracy and pathologies are addressed. |
+| Sensitivity | Conclusions are tested across scientifically relevant priors, designs, utilities, models and grids. |
+| Uncertainty | Nested-estimator uncertainty, Monte Carlo error and uncertainty around selected optima are reported without overclaiming. |
+| Vector targets | Covariance functional, units and any scalarization are declared and unit-safe. |
+| COSS commissioning | No-study comparison is explicit, or the result is unambiguously labelled as conditional on commissioning. |
+| Sampling-process harm | Any harm caused by sampling has an explicit estimand and evidence, or is declared unsupported and separately scoped. |
+| Reproducibility | An independent reviewer can install, replay seeds, validate fixtures and reproduce results from the packet. |
+| Contract integrity | Schemas, semantic validation, serialization, provenance, versions and reconstructed result relations agree. |
+| Maturity and claims | API, docs, registry, issue, Project, roadmap and publication language stay within the evidence. |
+| Parity | Installed language implementations consume the same normative fixtures and tolerances, or return governed unsupported states. |
+| Ethics and domain | Equity, safety, consent, regulatory, environmental and financial risks are addressed where applicable. |
+| Evidence integrity | Revision, hashes, commands, identities, conflicts, reports, findings, dissent and adjudication are complete and immutable. |
+
+Automatic failure conditions are an unidentified or conflicted approving
+reviewer, missing revision or artifact digest, failed independent reproduction,
+unsupported stable/parity/publication claim, stale packet, missing required
+domain reviewer, unresolved Critical/High finding, disputed scientific validity,
+or approval represented only as a Boolean.
+
+## Finding, disagreement and adjudication rules
+
+Every finding records an identifier, severity, affected estimand or claim,
+exact artifact, evidence, reproducible case, required disposition, owner,
+dependency and promotion impact. Findings are never silently deleted or
+downgraded. Allowed dispositions are `fixed`, `reviewed_exclusion`,
+`accepted_experimental_risk`, `deferred_with_explicit_exclusion`, or `disputed`;
+the latter four require a rationale and accountable owner.
+
+- A Critical or High finding may be dispositioned only as independently
+  verified `fixed` or `reviewed_exclusion`. The excluded capability cannot be
+  promoted. Any other Critical/High disposition blocks scientific acceptance
+  and stable promotion.
+- Every Medium finding requires reviewer and maintainer disposition plus
+  affected-role re-review.
+- Low findings may enter a versioned backlog only when they cannot affect
+  validity, reproducibility or claims.
+- Scientific-validity dissent keeps the family experimental. The orchestrator
+  records both positions and the evidence needed to resolve them; it cannot
+  settle the dispute by majority vote.
+
+The orchestrator produces a synthesis that distinguishes: already governed
+pending gates, newly discovered repository defects, separately scoped research
+questions, external human decisions and release/publication gates.
+
+## Required outputs and verdicts
+
+The append-only evidence set comprises `review-packet.json`,
+`artifact-manifest.json`, `reviewer-attestations.json`, one signed report per
+role, `finding-dispositions.json`, `disagreement-register.json`,
+`orchestrator-synthesis.md`, `adjudication.json`, `scientific-approval.json`
+and, only when separately authorized, `promotion-receipt.json` and
+release/publication receipts.
+
+Every adjudication or approval receipt requires the adjudicator/approver's
+identity, role, qualifications, conflict and independence status; exact
+candidate commit/tree and packet hash; family and capability scope; decision,
+conditions and dissent references; issue and evidence references; decision
+date, expiry and supersession link. Adjudication is performed by an eligible
+independent chair who did not author or remediate the affected slice.
+
+The panel may recommend only:
+
+- `scientifically_acceptable_experimental`;
+- `conditional_remediation_and_rereview`;
+- `major_revision_and_full_rereview`; or
+- `reviewed_exclusion`.
+
+The maintainer separately records the product/maturity decision. Scientific
+acceptance does not imply installed parity, promotion, hosted exact-head
+assurance, release, publication, registry acceptance or issue closure.

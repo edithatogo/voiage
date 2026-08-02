@@ -2,6 +2,77 @@
 
 ## Must
 
+- **M17-R1:** The planned v1.2.0 scientific-review programme must use a
+  separate orchestrating agent and at least four role-specific subagents for
+  estimand/domain, estimator assurance, cross-language/API and
+  governance/publication review. Record reviewer identity, qualifications,
+  contribution history, conflicts and independence; a remediator cannot
+  independently approve the remediated slice.
+- **M17-R2:** Freeze every review candidate to an exact commit/tree and
+  SHA-256 artifact manifest containing contracts, fixtures, algorithms, tests,
+  documentation, claims, toolchain, commands, issue/Project state, canonical
+  projections and references. Every change invalidates approval by default;
+  bounded metadata-only re-review requires deterministic allowlist
+  classification independently signed by the governance reviewer and an
+  affected scientific reviewer.
+- **M17-R3:** Use the governed acceptance matrix and structured finding,
+  disagreement, adjudication and synthesis records. Critical/High findings may
+  close only as independently verified fixes or reviewed exclusions, and an
+  excluded capability cannot be promoted. Scientific dissent blocks
+  acceptance; every Medium requires an explicit disposition and affected-role
+  re-review. Approval/adjudication receipts bind an independent qualified
+  decision-maker, conflicts, candidate/tree and packet hash, family/capability
+  scope, conditions, dissent, date, expiry and supersession. Boolean-only
+  promotion approval is insufficient.
+- **M17-R4:** Run risk-ordered review waves: #619/#571/#595 first; #570/#597–
+  #600 next; remaining C17/C18 families next; then cross-cutting installed
+  artifact, fixture, capability, parity, reproducibility and promotion review.
+  Keep scientific acceptance, installed parity, stable promotion, hosted
+  assurance, release, publication, registry acceptance and issue closure as
+  separate gates.
+- **M17-R5:** Wave A must resolve or explicitly block on the panel's initial
+  High findings: COSS no-study versus conditional-on-commissioning semantics;
+  #619 conditioning/model/provenance binding, nested-estimator uncertainty and
+  unit-safe vector covariance scalarization; executable EVPPI/EVSI fixtures;
+  #571 portable schemas/capabilities; installed-wheel execution and resources;
+  replayable COSS selection uncertainty; #595 numerically stable CRRA behavior
+  near risk aversion one and presentation-bound VoC provenance; unified
+  maturity/capability discovery; and auditable promotion receipts.
+- **M17-R6:** Sampling-process harm must not be inferred from #570 risk-
+  sensitive policy value or #595 expected-utility/VoC. Create a separately
+  scoped estimand and primary-source review before making a risk-adjusted
+  sampling-harm claim; until then record the capability as unsupported.
+- **M17-X1:** Add portable request/result schemas and a capability artifact for
+  #571; downgrade unsupported `fixture-backed` classification until present.
+- **M17-X2:** Execute #619, #571 and #595 Python callables, packaged discovery
+  and failure cases from clean installed wheels outside the source checkout.
+- **M17-X3:** Add portable executable #619 EVPPI and EVSI fixtures consumed
+  independently by Rust and Python.
+- **M17-X4:** Package versioned schemas, capability records and fixture
+  metadata in wheels behind an installed resource API.
+- **M17-X5:** Create one canonical capability registry for #619, #571 and #595
+  covering maturity, contract versions, surfaces and all governed language
+  dispositions.
+- **M17-X6:** Enforce exact contract, fixture, runtime envelope and capability
+  version consistency, including correction of #571's `1.0`/`1.0.0` drift.
+- **M17-X7:** Require stable API/ABI negative tests and an evidence-bearing
+  promotion validator so no experimental capability is promoted by an unbound
+  flag, source-checkout test or missing registry entry.
+
+- **M22-U1:** #570 planned v1.3.0/C18 risk-sensitive constrained information
+  value must compare matched current and post-information feasible policy
+  problems under one declared expected-value, expected-utility, lower-tail
+  CVaR/expected-shortfall or minimax-regret functional.
+- **M22-U2:** Fix objective direction and units, state probabilities,
+  deterministic or chance-constrained budget, capacity, eligibility, fairness,
+  regulation, carbon, liquidity and service-level semantics, plus information-
+  cost placement across both policy problems.
+- **M22-U3:** Return complete ties, infeasibility, current/informed policies,
+  gross/net value, switches, risk/constraint diagnostics and constraint-removal
+  evidence without presenting discrete removal effects as local shadow prices.
+  Normalize the owning issue, Project gate/version, roadmap and canonical C18
+  projection before scientific review entry.
+
 - **M25-U1:** #593 planned v1.3.0 must declare current, specific, perfect and
   post-sample implementation as conditional distributions over realised
   actions, with uncertain states, intended policies, sample likelihoods,

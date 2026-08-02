@@ -23,7 +23,7 @@ Status: experimental scalar Rust/Python implementation, assurance and user
 surfaces passed PR #676's 65 exact-head contexts (60 successes, four governed
 skips and one neutral CodeQL aggregation) and merged as `9495fc3f`. Canonical
 sync PR #64 also passed its 16-context matrix and merged as `cedc6fbb`.
-Repository-delivery subissues #671--#674 are eligible for closure. Scientific
-classification review, vector covariance, stable promotion, release, parent
-#619 closure and umbrella #318 closure remain separate gates, so the track
-remains active.
+Repository-delivery subissues #671--#674 are eligible for closure. Planned
+Phase 7 E19–E23 scientific remediation/re-review, vector covariance, stable
+promotion, release, parent #619 closure and umbrella #318 closure remain
+separate gates, so the track remains active.

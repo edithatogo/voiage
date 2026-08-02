@@ -24,5 +24,6 @@ Status: repository implementation complete. PR #712 final exact head
 `1048c4bc` completed 65 terminal conclusions and both review threads were
 resolved before squash merge `b8395abf`. Only delivery subissues #694–#697 are
 closure-eligible. VoC remains a presentation/delegating alias; scientific
-review, Rust/R/Julia parity, stable promotion, release, parent #595 closure and
-umbrella #318 closure remain separate gates.
+review, including planned Phase 5 U18–U21 remediation/re-review, Rust/R/Julia
+parity, stable promotion, release, parent #595 closure and umbrella #318
+closure remain separate gates; the track therefore remains active.
