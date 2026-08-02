@@ -33,7 +33,7 @@
 
 ## Phase 3 — Candidate-bound decision
 
-- [ ] **H8-A:** Select either one narrow domain/jurisdiction/population
+- [~] **H8-A:** Select either one narrow domain/jurisdiction/population
   candidate or a reviewed exclusion of a generic executable kernel; retain
   `unsupported_research_scoping` until the complete gate succeeds. (AC-02,
   AC-03, AC-08)
