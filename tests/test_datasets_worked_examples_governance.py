@@ -34,3 +34,24 @@ def test_governance_reconciliation_preserves_delivery_and_review_gates() -> None
     assert "- [ ] **G15:**" in plan
     assert gates["scientific-and-contract-review"]["status"] == "pending"
     assert gates["hosted-required-checks"]["status"] == "pending"
+
+
+def test_delivery_pull_requests_match_canonical_manifest() -> None:
+    """Track metadata and the canonical manifest share live-verified PR state."""
+    metadata = json.loads((TRACK / "metadata.json").read_text(encoding="utf-8"))
+    manifest = json.loads(
+        Path("conductor/github-cross-references.json").read_text(encoding="utf-8")
+    )
+    entry = next(
+        item
+        for item in manifest["tracks"]
+        if item["track_id"] == "datasets_worked_examples_20260723"
+    )
+    pull_requests = {item["number"]: item for item in entry["pull_requests"]}
+
+    assert {item["url"] for item in entry["pull_requests"]} == set(
+        metadata["github_cross_reference"]["pull_requests"]
+    )
+    assert pull_requests[621]["status"] == "merged"
+    assert "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3" in pull_requests[621]["evidence"]
+    assert pull_requests[818]["status"] == "open"
