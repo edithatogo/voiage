@@ -146,9 +146,7 @@ def test_polyglot_parity_track_projects_current_delivery_state() -> None:
         metadata["github_cross_reference"]["pull_requests"]
     )
     assert pull_requests[621]["status"] == "merged"
-    assert "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3" in pull_requests[621][
-        "evidence"
-    ]
+    assert "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3" in pull_requests[621]["evidence"]
     assert pull_requests[821]["status"] == "open"
     assert "polyglot-parity-governance-delivery" in pull_requests[821]["evidence"]
     assert entry["lifecycle"] == "active"
