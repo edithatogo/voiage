@@ -118,7 +118,13 @@ def test_ml_llm_agent_track_syncs_pr_states_lifecycle_and_pending_gates() -> Non
 
     index = (track_root / "index.md").read_text()
     registry = (ROOT / "conductor" / "tracks.md").read_text()
+    umbrella_section = registry.split("\n---", 1)[0]
+    ml_section = registry.split(
+        "## [~] Track: ML, LLM and Agent Value of Information", 1
+    )[1].split("\n---", 1)[0]
     assert "Merged planning PR #621" in index
     assert "Status: in progress" in index
-    assert "Status: in progress" in registry
-    assert "scientific, installed-parity, rights and hosted gates" in registry
+    assert "Status: new" in umbrella_section
+    assert "bounded governance" not in umbrella_section
+    assert "Status: in progress" in ml_section
+    assert "scientific, installed-parity, rights and hosted gates" in ml_section

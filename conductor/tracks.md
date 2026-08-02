@@ -4,9 +4,8 @@
 *Link: [./tracks/rust_polyglot_voi_completion_20260723/index.md](./tracks/rust_polyglot_voi_completion_20260723/index.md)*
 *GitHub: [issue #313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: in progress — bounded governance and existing artifact reconciliation
-are underway; scientific, installed-parity, rights and hosted gates remain
-pending.*
+*Status: new — the issue-claimed specification and plan are now materialized;
+existing issue/Project progress awaits evidence reconciliation.*
 
 ---
 
@@ -98,8 +97,9 @@ remain separate gates.*
 *Link: [./tracks/ml_llm_agent_voi_20260723/index.md](./tracks/ml_llm_agent_voi_20260723/index.md)*
 *GitHub: [issue #319](https://github.com/edithatogo/voiage/issues/319), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: new — the issue-claimed specification and plan are now materialized;
-existing issue/Project progress awaits evidence reconciliation.*
+*Status: in progress — bounded governance and existing artifact reconciliation
+are underway; scientific, installed-parity, rights and hosted gates remain
+pending.*
 
 ---
 
