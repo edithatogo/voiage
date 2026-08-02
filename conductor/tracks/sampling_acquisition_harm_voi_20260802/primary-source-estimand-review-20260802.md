@@ -36,7 +36,7 @@ requires systematic consideration of alternative ways of obtaining the
 benefit and gives risks to immediate subjects special weight. HHS 45 CFR 46
 provides the applicable US human-subject protection framework and additional
 protections for specified populations. The ICH E6(R3) Step 4 final guideline,
-including Principles 2, 3, 6 and 7, requires participant rights, safety and
+including Principles 1, 2, 3, 6 and 7, requires participant rights, safety and
 well-being, informed consent, quality by design and proportionate processes.
 
 These authorities are domain and jurisdiction specific. Any future candidate
@@ -52,8 +52,9 @@ They rule out any software claim that positive ENBS alone authorizes a study.
 Let `d0` denote the explicit no-sampling comparator and `d` a declared
 sampling action. For each design, declare design-indexed potential outcomes:
 state `theta_d`, acquisition harm `H_d`, observation and reporting process,
-decision-time observable history `O_d`, admissible action set `A_d`, and
-downstream outcome `B_d(a, theta_d, H_d)`. A policy `pi_d` must be measurable
+decision-time observable history `O_d`, admissible action set `A_d(O_d)`, and
+downstream outcome `B_down,d(a, theta_d)`, which excludes every acquisition-
+harm consequence assigned to `L_d`. A policy `pi_d` must be measurable
 with respect to `O_d`; it cannot use latent harm or information observed only
 after the decision. Interference, spillovers, harm-induced dropout and
 sampling-induced downstream changes must be explicit.
@@ -61,7 +62,7 @@ sampling-induced downstream changes must be explicit.
 Define the optimized downstream value
 
 ```text
-W_B(d) = sup over pi_d E[B_d(pi_d(O_d), theta_d, H_d)]
+W_B(d) = sup over admissible pi_d E[B_down,d(pi_d(O_d), theta_d)]
 G(d; d0) = W_B(d) - W_B(d0).
 ```
 
@@ -117,6 +118,19 @@ quantile/interpolation convention. An exact zero-catastrophe threshold needs a
 structural exclusion or logically sufficient bound: observing zero events is
 not proof of zero probability.
 
+### No-double-counting rule
+
+The scalar contract requires an outcome-component ledger that partitions every
+valued outcome exactly once between `B_down,d`, ordinary cost `C(d)` and
+acquisition-harm valuation `L_d`. `B_down,d` excludes health, action, cost or
+other consequences carried by `L_d`; `L_d` includes every direct and downstream
+consequence attributed to acquisition. If acquisition changes the state or
+action set, or a consequence cannot be partitioned without changing the policy
+problem, the additive scalar is undefined. Define total joint welfare once as
+`J_d(a, theta_d, H_d)` and optimize its increment net of `C(d)` subject to harm
+constraints, without separately subtracting `L_d`. Constrained and vector
+results use the same mutually exclusive component ledger.
+
 ### Affected-party and authorization record
 
 Every candidate must retain an unaggregated role matrix with participants,
@@ -130,7 +144,7 @@ not utilities emitted by the estimator.
 |---|---|
 | Parties | participants, researchers, carers, bystanders, communities, data subjects, payers and domain-specific groups |
 | Incidence | benefit recipients, burden bearers, transfers and spillovers |
-| Distribution | party/subgroup expectation, quantiles, adverse tail, catastrophe probability and uncertainty |
+| Distribution | party/subgroup and, where applicable, participant-level or defensible risk-unit ceilings; expectation, quantiles, adverse tail, catastrophe probability and uncertainty |
 | Noncompensatory boundary | consent, autonomy, rights, justice, legal prohibitions and accountable ethics/regulatory authorization |
 | Aggregation | perspective, cardinal scale, numeraire, weights, valuation source/date, horizon and discount base, while retaining unaggregated results |
 
@@ -163,7 +177,7 @@ review and a named human verdict.
 |---|---|---|---|
 | Belmont Report | HHS/OHRP official record | harm kinds, probability/magnitude, alternatives, affected parties | numerical aggregation |
 | 45 CFR 46 | HHS/OHRP regulation index | accountable human-subject protection boundary | universal cross-jurisdiction law or formula |
-| ICH E6(R3) | Step 4 final guideline, 2025-01-06, Principles 2, 3, 6 and 7 | rights, consent, quality and participant-risk proportionality | scalar VOI estimand or cross-domain authorization |
+| ICH E6(R3) | Step 4 final guideline, 2025-01-06, Principles 1, 2, 3, 6 and 7 | rights, consent, quality and participant-risk proportionality | scalar VOI estimand or cross-domain authorization |
 | Heath et al. | DOI `10.1007/s40273-024-01372-0`; PharmacoEconomics 42 (2024) | full decision context and ordinary net research value | acquisition-harm equivalence |
 | Camilleri et al. | DOI `10.52202/068431-2406` | safety-constrained active experimental design | health-economic EVSI implementation |
 | Bottero et al. | DOI `10.52202/068431-2226` | information-directed safe exploration | human-subject ethics approval |

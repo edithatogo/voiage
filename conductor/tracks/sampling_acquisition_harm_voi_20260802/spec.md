@@ -36,7 +36,9 @@ narrow contract.
    its declared observable history. Additive incremental `EVSI - cost - harm`
    is valid only when acquisition does not alter the state/action set, valued
    harm is policy-independent, and value, cost and harm are separable and
-   commensurate; otherwise use a joint-welfare, constrained or vector result.
+   commensurate and a mutually exclusive outcome-component ledger prevents
+   double counting; otherwise use total joint welfare once, or a constrained
+   or vector result.
 5. Include an explicit no-sampling design. Under zero acquisition harm and
    identical feasibility, the scalar separable case must reduce to #571's
    ordinary EVSI/ENBS contract.
@@ -69,7 +71,8 @@ narrow contract.
   observable filtration, harm law, parties, timing, units, catastrophe, risk
   criterion, constraints and authorization boundary are explicit.
 - **AC-04:** Additive net value is permitted only under declared separability
-  and commensurability; otherwise the result remains constrained or vector.
+  and commensurability with a mutually exclusive component ledger; otherwise
+  the result uses total joint welfare once or remains constrained/vector.
 - **AC-05:** Zero harm reduces to ordinary EVSI/ENBS, and enumerable
   counterexamples prove that positive EVSI need not justify sampling.
 - **AC-06:** Primary sources and sensitivity requirements are recorded with
@@ -122,7 +125,7 @@ narrow contract.
 - HHS, *45 CFR 46*, official OHRP regulation index, accessed 2026-08-02:
   https://www.hhs.gov/ohrp/regulations-and-policy/regulations/45-cfr-46/index.html
 - ICH E6(R3), *Good Clinical Practice*, Step 4 final guideline dated
-  2025-01-06, especially Principles 2, 3, 6 and 7:
+  2025-01-06, especially Principles 1, 2, 3, 6 and 7:
   https://database.ich.org/sites/default/files/ICH_E6%28R3%29_Step4_FinalGuideline_2025_0106.pdf
 - Camilleri et al., *Active Learning with Safety Constraints*, NeurIPS 2022:
   https://proceedings.neurips.cc/paper_files/paper/2022/hash/d6929af3791b2cec21c136b573aa87f2-Abstract-Conference.html

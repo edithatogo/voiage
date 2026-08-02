@@ -21,11 +21,13 @@ spillovers. Model latent harm, reporting, misclassification and informative
 dropout; without validation data or defensible restrictions, return
 `not_identified` or partial-identification bounds.
 
-Let `B_d(a, theta, H_d)` be downstream value in declared common cardinal units
-and `A_d` the action set. Define
+Let `B_down,d(a, theta)` be downstream value in declared common cardinal units,
+excluding every acquisition-harm consequence assigned to `L_d`, and let
+`A_d(O_d)` be the admissible action correspondence. Define
 
 ```text
-W_B(d) = sup over O_d-measurable pi_d E[B_d(pi_d(O_d), theta_d, H_d)]
+W_B(d) = sup over O_d-measurable pi_d with pi_d(O_d) in A_d(O_d) almost surely
+         E[B_down,d(pi_d(O_d), theta_d)]
 G(d; d0) = W_B(d) - W_B(d0).
 ```
 
@@ -44,6 +46,14 @@ If any condition fails, `NIV_H` is undefined. Report `G`, `C`, harm
 distributions and feasibility separately and solve the declared constrained or
 vector problem. Do not insert an arbitrary exchange rate merely to produce a
 number.
+
+The candidate supplies an outcome-component ledger that assigns every health,
+action, cost and other valued consequence exactly once to `B_down,d`, `C(d)`
+or `L_d`. If harm changes state or available actions, or the components cannot
+be partitioned without changing the policy problem, define total joint welfare
+once as `J_d(a, theta_d, H_d)` and optimize its increment net of ordinary cost
+and subject to harm constraints. Do not subtract `L_d` again. If the supremum
+is not attained, report the supremum without a selected policy.
 
 ## Zero-harm reduction
 
@@ -78,8 +88,13 @@ risk convention, state definition, probability, severity and reversibility.
 The optimization forms above determine behavior at atoms; sign, confidence
 level, quantile and interpolation conventions remain explicit metadata. A
 finite expected penalty cannot override a hard prohibition. Feasibility is
-`feasible`, `infeasible` or `indeterminate` under a declared one-sided bound,
-posterior or robust method, including equality and multiple-comparison rules.
+`feasible` only when the declared upper bound or corresponding posterior/robust
+worst case is at or below the threshold, `infeasible` only when the declared
+lower bound is above it, and `indeterminate` otherwise. Equality is feasible
+under this closed constraint unless the candidate states another reviewed
+convention. Apply a declared familywise or simultaneous method across searched
+designs and constraints. `not_identified` maps to `indeterminate` unless valid
+partial-identification bounds lie wholly on one side of the threshold.
 Separate aleatory harm uncertainty from epistemic estimator uncertainty. An
 `alpha=0` constraint requires structural exclusion or a logically sufficient
 bound; zero observed catastrophes alone cannot establish it.
@@ -90,15 +105,16 @@ bound; zero observed catastrophes alone cannot establish it.
 |---|---|---|
 | Nonzero baseline comparator | `W_B(d)=20`, `W_B(d0)=12`, `C(d)=5`, `C(d0)=1`, `E[L_d]=3`, `E[L_d0]=1` | `G=8`, incremental cost `4`, incremental harm `2`, so `NIV_H=2` |
 | Zero harm | `G=12`, incremental cost `4`, both harms zero | `NIV_H=8`, exactly ordinary ENBS |
-| Expected harm reverses commissioning | `G=10`, `C=2`, `E[L]=9` | `NIV_H=-1`; no sampling dominates |
+| Expected harm reverses commissioning | relative to `d0`, `G=10`, incremental cost `2`, incremental valued harm `9`, and `NIV_H(d0;d0)=0` | `NIV_H=-1`; no sampling dominates |
 | Positive scalar but prohibited catastrophe | `G=100`, `C=1`, catastrophe probability `0.001`, expected valued harm `0.1`, `alpha=0` | scalar candidate `98.9` is irrelevant; design infeasible |
 | Rare absorbing harm | probability `0.0001` of an irreversible prohibited outcome | reject under lexicographic rule even with positive expected net value |
 | Incommensurate affected parties | health-system benefit in currency; participant privacy harm on a noncardinal category | scalar `NIV_H` undefined; retain vector/constrained result |
-| Correlated information and harm | design A has two equiprobable states `(information gain, loss)=(8,8),(0,0)`; design B has `(8,0),(0,8)` | both marginals match, but `E[gain-loss]` by state and conditional/tail constraints differ; joint-law reporting exposes the difference |
+| Correlated information and harm | design A has two equiprobable states `(information gain, loss)=(8,8),(0,0)`; design B has `(8,0),(0,8)` | both marginals and expected net match; net is always `0` for A and is `+8/-8` for B, so lower-tail welfare ES at mass `0.5` is `0` for A and `-8` for B |
 | Harm-induced missingness | severe harm causes dropout before `Y_d` is observed | recompute the information law; do not use the no-dropout EVSI |
 | Safe low-information design | `G=4`, `C=1`, no harm versus unsafe `G=8`, `C=1` | selected design depends on declared risk constraints, not gross EVSI alone |
 | Positive-loss upper tail | loss is `0` with probability `0.99` and `100` with probability `0.01`; compare loss `200` at probability `0.02` | upper-tail CVaR cannot improve when adverse mass and severity increase; a lower-tail loss convention would give the unsafe direction |
 | Partial identification | latent harm prevalence is observed only through an unknown under-reporting rate | return `not_identified` or declared bounds, never a point feasibility claim |
+| Downstream injury without double counting | sampling injury reduces downstream health by `5` and removes an action | additive `NIV_H` is undefined; represent the health/action consequence once in `J_d` and retain the separate harm constraint |
 
 ## Sensitivity requirements
 
@@ -140,6 +156,10 @@ all cases above and prove:
   and nullable selection when no reviewed ordering exists;
 - empirical bias, RMSE, coverage and constraint-calibration evidence for any
   simulation estimator, including rare-event assurance, one-sided feasibility
-  bounds, equality/multiple-constraint handling and indeterminate cases; and
+  bounds, equality/multiple-constraint handling and indeterminate cases;
+- a truth-known replicate unit and predeclared thresholds for false-safe and
+  false-infeasible classification, familywise error after design/constraint
+  search, tail effective sample size, interval and CVaR coverage, selection-
+  induced bias, convergence, seed/replay digest and deterministic replay; and
 - failure on non-finite, unnormalized, missing-party, mixed-unit or undeclared
   catastrophe inputs.

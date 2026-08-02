@@ -55,6 +55,12 @@
       "legacy_status": "in_progress"
     },
     {
+      "id": "candidate-bound-independent-review",
+      "kind": "scientific_review",
+      "status": "pending",
+      "evidence": "No exact-candidate independent role reports, reviewer independence/conflict declarations or dissent disposition exist. Automated H3 advisory reports cannot satisfy this gate."
+    },
+    {
       "id": "named-independent-human-verdict",
       "kind": "scientific_review",
       "status": "pending",
@@ -64,7 +70,7 @@
       "id": "runtime-capability",
       "kind": "implementation",
       "status": "blocked",
-      "evidence": "Runtime is prohibited until the scientific gate approves a narrow contract."
+      "evidence": "Runtime is prohibited until both candidate-bound independent review and the named human verdict approve the same narrow candidate, followed by separately governed implementation prerequisites."
     },
     {
       "id": "real-study-ethics-regulatory-authorization",

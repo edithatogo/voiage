@@ -14,10 +14,12 @@
   constraint set, including sign, level, quantile and atom conventions.
 - **M32-H4:** Permit additive incremental net information value only when the
   acquisition leaves the state/action set unchanged, valued harm is policy-
-  independent, and separability and commensurability hold; otherwise retain
-  joint-welfare, constrained or vector outputs and all nondominated designs.
+  independent, separability and commensurability hold, and a mutually exclusive
+  outcome-component ledger prevents double counting; otherwise use total joint
+  welfare once or retain constrained/vector outputs and nondominated designs.
 - **M32-H5:** Reduce exactly to ordinary #571 EVSI/ENBS under zero harm and
-  matched feasibility.
+  matched state, action set, outcome mapping, comparator information,
+  feasibility, perspective, horizon and incremental-cost conventions.
 - **M32-H6:** Provide enumerable catastrophe, correlation, heterogeneous-party,
   no-sampling and zero-harm counterexamples plus sensitivity and estimator
   assurance.

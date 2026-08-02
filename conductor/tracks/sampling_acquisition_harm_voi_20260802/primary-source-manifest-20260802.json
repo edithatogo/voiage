@@ -1,7 +1,8 @@
 {
   "schema_version": "1.0",
   "recorded_at": "2026-08-02T14:37:00Z",
-  "capture_policy": "Remote representations were hashed at retrieval but not redistributed. A hash identifies only the retrieved bytes at recorded_at and is not a claim that the publisher resource is immutable.",
+  "capture_policy": "Remote representations were hashed at retrieval but not redistributed. These are observation hashes, not reproducible archived source artifacts or claims that dynamic publisher resources are immutable.",
+  "retrieval_tool": "curl 8.7.1 (x86_64-apple-darwin25.0, SecureTransport)",
   "domain_classifier": {
     "status": "required_per_candidate",
     "required_fields": [
@@ -23,7 +24,7 @@
       "stable_identifier": "doi:10.1007/s40273-024-01372-0",
       "canonical_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11039417/",
       "precise_locator": "full article; trial-design objective and net-value discussion",
-      "retrieval": {"status": "retrieved", "sha256": "a9d3f6f6d2629f1eff220126e04cb8266587acddf24c3ecf0313adf9e99605fb", "bytes_retained": false},
+      "retrieval": {"retrieved_at": "2026-08-02T14:32:00Z", "status": "retrieved_observation", "http_status": 200, "mime_type": "text/html", "final_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11039417/", "method": "curl -L -f", "sha256": "a9d3f6f6d2629f1eff220126e04cb8266587acddf24c3ecf0313adf9e99605fb", "bytes_retained": false},
       "applicability": "ordinary clinical-trial VOI and relevant-comparator context",
       "limitation": "does not establish acquisition-harm equivalence or ethics authorization"
     },
@@ -35,7 +36,7 @@
       "stable_identifier": "HHS-OHRP-Belmont",
       "canonical_url": "https://www.hhs.gov/ohrp/regulations-and-policy/belmont-report/read-the-belmont-report/index.html",
       "precise_locator": "Part C.2, Assessment of Risks and Benefits",
-      "retrieval": {"status": "remote_unavailable_http_403_to_cli", "sha256": null, "bytes_retained": false},
+      "retrieval": {"retrieved_at": "2026-08-02T14:32:00Z", "status": "remote_unavailable_http_403_to_cli_web_observed", "http_status": 403, "mime_type": null, "final_url": "https://www.hhs.gov/ohrp/regulations-and-policy/belmont-report/read-the-belmont-report/index.html", "alternate_official_url": "https://www.hhs.gov/ohrp/sites/default/files/the-belmont-report-508c_FINAL.pdf", "method": "curl -L -f; official page and PDF independently observed with web retrieval", "sha256": null, "bytes_retained": false},
       "applicability": "US human-subject ethical principles",
       "limitation": "not a numerical formula or universal cross-jurisdiction authority"
     },
@@ -47,7 +48,7 @@
       "stable_identifier": "45-CFR-Part-46",
       "canonical_url": "https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-A/part-46",
       "precise_locator": "current consolidated Part 46 as observed 2026-08-02",
-      "retrieval": {"status": "retrieved", "sha256": "56b5ea07c4f1ee587cffda8a757a07dcc46dc3661db57449b52463323e768241", "bytes_retained": false},
+      "retrieval": {"retrieved_at": "2026-08-02T14:32:00Z", "status": "retrieved_observation", "http_status": 200, "mime_type": "text/html", "final_url": "https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-A/part-46", "method": "curl -L -f", "sha256": "56b5ea07c4f1ee587cffda8a757a07dcc46dc3661db57449b52463323e768241", "bytes_retained": false},
       "applicability": "covered US human-subject research",
       "limitation": "applicability is fact- and jurisdiction-dependent"
     },
@@ -58,8 +59,8 @@
       "publication": "Step 4 final guideline, 2025-01-06",
       "stable_identifier": "ICH-E6-R3-Step4",
       "canonical_url": "https://database.ich.org/sites/default/files/ICH_E6%28R3%29_Step4_FinalGuideline_2025_0106.pdf",
-      "precise_locator": "Principles 2, 3, 6 and 7",
-      "retrieval": {"status": "retrieved", "sha256": "e6ce19e36ce7d2e294f89ee89492b9e035178c3cca48984392bbd92eec9b002c", "bytes_retained": false},
+      "precise_locator": "Principles 1, 2, 3, 6 and 7",
+      "retrieval": {"retrieved_at": "2026-08-02T14:32:00Z", "status": "retrieved_observation", "http_status": 200, "mime_type": "application/pdf", "final_url": "https://database.ich.org/sites/default/files/ICH_E6%28R3%29_Step4_FinalGuideline_2025_0106.pdf", "method": "curl -L -f", "sha256": "e6ce19e36ce7d2e294f89ee89492b9e035178c3cca48984392bbd92eec9b002c", "bytes_retained": false},
       "applicability": "clinical trials under adopting authorities",
       "limitation": "not a scalar VOI estimand or software ethics authorization"
     },
@@ -71,7 +72,7 @@
       "stable_identifier": "doi:10.52202/068431-2406",
       "canonical_url": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/d6929af3791b2cec21c136b573aa87f2-Abstract-Conference.html",
       "precise_locator": "abstract and linked paper",
-      "retrieval": {"status": "retrieved", "sha256": "be43be78334db829a9575d499ec0e7e5be8fa29ae5927578109e810bdff3ccf0", "bytes_retained": false},
+      "retrieval": {"retrieved_at": "2026-08-02T14:32:00Z", "status": "retrieved_observation", "http_status": 200, "mime_type": "text/html", "final_url": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/d6929af3791b2cec21c136b573aa87f2-Abstract-Conference.html", "method": "curl -L -f", "sha256": "be43be78334db829a9575d499ec0e7e5be8fa29ae5927578109e810bdff3ccf0", "bytes_retained": false},
       "applicability": "methodological analogy for safety-constrained acquisition",
       "limitation": "not health-economic EVSI or human-subject approval"
     },
@@ -83,7 +84,7 @@
       "stable_identifier": "doi:10.52202/068431-2226",
       "canonical_url": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/c628644624c1be9c8cfb1541fa6421fd-Abstract-Conference.html",
       "precise_locator": "abstract and linked paper",
-      "retrieval": {"status": "retrieved", "sha256": "80d7508c5f2e1aa043988bf542a5afbc1bf00c23e4b634e5569b396f262c993d", "bytes_retained": false},
+      "retrieval": {"retrieved_at": "2026-08-02T14:32:00Z", "status": "retrieved_observation", "http_status": 200, "mime_type": "text/html", "final_url": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/c628644624c1be9c8cfb1541fa6421fd-Abstract-Conference.html", "method": "curl -L -f", "sha256": "80d7508c5f2e1aa043988bf542a5afbc1bf00c23e4b634e5569b396f262c993d", "bytes_retained": false},
       "applicability": "methodological analogy for information-directed safe exploration",
       "limitation": "not human-subject ethics approval"
     }

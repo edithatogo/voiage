@@ -23,6 +23,7 @@ ethics, regulatory, runtime, promotion, release or publication authorization.
 | Medium | Vector/constrained optimization could fabricate one selected design. | Retain nondominated sets and complete ties; selection is nullable without a reviewed ordering. |
 | Medium | Candidate, mathematical and authorized sets were conflated. | Separate evaluated candidates, mathematical constraint status and accountable authorization. |
 | Medium | Lifecycle text and H1/H2 status drifted. | Synchronize track index and gate metadata. |
+| High on repeat review | Acquisition-harm consequences could appear in both downstream welfare and the separately subtracted harm valuation. | Require a mutually exclusive outcome-component ledger; restrict the scalar to a non-overlapping decomposition and otherwise use total joint welfare exactly once. |
 
 No initial reviewer found evidence supporting a generic executable method. All
 runtime discovery remains fail closed. A repeat review must find no unresolved
