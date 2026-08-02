@@ -1,0 +1,7 @@
+Task SR2 / #842 — Materialize evidence contracts
+
+Added 11 Draft 2020-12 scientific-review evidence schemas, shared definitions, a versioned manifest and non-authorizing synthetic bundle. Implemented schema and semantic validation for candidate/packet/scope binding, reviewer roles and attestations, conflicts and independence, finding dispositions, dissent, approval/promotion separation, delta signatures, expiry and supersession. Added a CLI and comprehensive negative tests.
+
+Why: review and promotion evidence must be machine-checkable, candidate-bound and impossible to satisfy with an unbound Boolean.
+
+Validation: 14 focused tests; 94% branch-aware coverage for the new module; 87 combined governance tests; Ruff; JSON/CLI validators; full 148-track Conductor validation with zero errors/warnings.
