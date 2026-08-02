@@ -11,9 +11,12 @@ from jsonschema import Draft202012Validator, FormatChecker, ValidationError
 import pytest
 
 import voiage.sampling_harm_review_preparation as review_preparation
-from voiage.sampling_harm_review_preparation import (
-    SamplingHarmReviewPreparationError,
-    load_and_validate_sampling_harm_remediation_intake,
+
+SamplingHarmReviewPreparationError = (
+    review_preparation.SamplingHarmReviewPreparationError
+)
+load_and_validate_sampling_harm_remediation_intake = (
+    review_preparation.load_and_validate_sampling_harm_remediation_intake
 )
 
 ROOT = Path(__file__).parents[1]
