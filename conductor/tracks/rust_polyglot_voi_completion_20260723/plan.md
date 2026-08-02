@@ -31,13 +31,12 @@
   shared-fixture evidence where executable surfaces are advertised. (AC-04)
   - [x] Freeze the ordered parity and promotion gates, evidence packet fields,
     and fail-closed disposition. — `82ec400`
-  - [x] Execute clean installed Rust/Python/R/Julia shared-fixture runs and
-    capture the parity packet; panel and maintainer promotion decisions remain
-    external. — `installed-parity-packet-20260803`
-- [x] **G11:** Add documentation, examples, generated surfaces and capability
-  discovery that match the evidenced maturity state. (AC-05) — 7a2f296
-- [x] **G12:** Run automated implementation review, focused validation and the
-  repository harness. (AC-03–AC-07) — `381bc917`; dedicated v1 and full Conductor validation pass
+  - [ ] Execute clean installed Rust/Python/R/Julia shared-fixture runs and
+    obtain the required panel and maintainer promotion decisions.
+- [ ] **G11:** Add documentation, examples, generated surfaces and capability
+  discovery that match the evidenced maturity state. (AC-05)
+- [ ] **G12:** Run automated implementation review, focused validation and the
+  repository harness. (AC-03–AC-07)
 
 ## Phase 4 — Programme and hosted closeout
 
