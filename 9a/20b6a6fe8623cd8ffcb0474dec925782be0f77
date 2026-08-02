@@ -1,0 +1,7 @@
+Task E21 — truth-known estimator assurance
+
+Summary: Added native Rust and Python contracts for replayable truth-known complete-outer-replicate assurance. Results report bias, RMSE, Monte Carlo standard error, empirical coverage, calibration error and convergence, enforce nested/coupled dependence compatibility, and bind portable fixture digests.
+
+Boundary: Callers supply complete outer replicates; the kernel summarizes them and does not claim to generate nested simulations. E19, E22 and E23 remain separate scientific and human-review gates.
+
+Validation: 106 focused Python tests; 10 Rust estimation tests; Rust Python binding check; Ruff; frontier contract validator; full Conductor validator (148 tracks, zero errors/warnings).
