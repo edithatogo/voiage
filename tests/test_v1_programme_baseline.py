@@ -10,7 +10,6 @@ import sys
 BASELINE_PATH = Path("conductor/v1-programme-baseline.json")
 TRACK_ID = "mature-hardened-v1-release-programme_20260719"
 ACTIVE_TRACK_IDS = [
-    "conductor-github-cross-reference-reconciliation_20260724",
     "controlled_live_dataset_interoperability_20260801",
     "datasets_worked_examples_20260723",
     "estimation_focused_variance_voi_20260727",
@@ -63,14 +62,13 @@ def test_v1_programme_baseline_classifies_tracks_and_execution_lanes() -> None:
     conductor = baseline["conductor"]
 
     assert conductor["active_track_ids"] == ACTIVE_TRACK_IDS
-    assert conductor["archived_track_count"] == 128
+    assert conductor["archived_track_count"] == 129
     assert conductor["classifications"] == {
         "v1_required": [
             "repository-owned mature-v1 programme completed; external publication gates transferred to research_software_registry_readiness_20260721"
         ],
         "historical_groundwork": "conductor/archive/",
         "post_v1_or_optional": [
-            "conductor-github-cross-reference-reconciliation_20260724",
             "controlled_live_dataset_interoperability_20260801",
             "datasets_worked_examples_20260723",
             "estimation_focused_variance_voi_20260727",
@@ -138,6 +136,20 @@ def test_roadmap_and_backlog_name_the_active_v1_programme() -> None:
         assert track_id in roadmap
         assert track_id in todo
     assert "## [~] Track: Research Software Registry Readiness" in registry
+
+
+def test_cross_reference_reconciliation_archive_records_merged_handoff() -> None:
+    """The archived track must not retain its pre-merge status projection."""
+    archive = Path(
+        "conductor/archive/conductor-github-cross-reference-reconciliation_20260724"
+    )
+    index = (archive / "index.md").read_text(encoding="utf-8")
+    metadata = json.loads((archive / "metadata.json").read_text(encoding="utf-8"))
+
+    assert metadata["status"] == "completed"
+    assert "Status: completed and archived" in index
+    assert "pull/465" in index
+    assert "No pull request proven" not in index
 
 
 def _run_validator(root: Path) -> subprocess.CompletedProcess[str]:
