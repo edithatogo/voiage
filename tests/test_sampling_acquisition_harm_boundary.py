@@ -37,6 +37,10 @@ def test_fail_closed_capability_and_research_disposition_validate() -> None:
             schemas / "research-disposition.schema.json",
             CONTRACT / "research-disposition.json",
         ),
+        (
+            schemas / "scope-selection.schema.json",
+            CONTRACT / "scope-selection.json",
+        ),
     )
     for schema_path, artifact_path in pairs:
         schema = _json(schema_path)
@@ -77,6 +81,7 @@ def test_research_disposition_prohibits_runtime_and_adjacent_method_aliases() ->
     assert disposition["disposition"] == "unsupported_research_scoping"
     assert disposition["runtime_prohibited"] is True
     assert disposition["candidate_scope"] == "research_contract_only"
+    assert disposition["scope_selection_ref"] == "scope-selection.json"
     assert disposition["approved_runtime_symbols"] == []
     adjacent = {item["issue"]: item for item in disposition["adjacent_methods"]}
     assert adjacent[570]["relationship"] == "not_sampling_acquisition_harm"
@@ -84,6 +89,42 @@ def test_research_disposition_prohibits_runtime_and_adjacent_method_aliases() ->
     assert adjacent[570]["execution_reuse_allowed"] is False
     assert adjacent[595]["execution_reuse_allowed"] is False
     assert all(item["status"] != "satisfied" for item in disposition["gates"])
+
+
+def test_h8a_selects_generic_kernel_exclusion_without_claiming_review() -> None:
+    selection = _json(CONTRACT / "scope-selection.json")
+
+    assert selection["selected_review_path"] == "generic_kernel_exclusion_review"
+    assert selection["proposed_disposition"] == "reviewed_exclusion"
+    assert selection["selection_status"] == "selected_for_candidate_bound_review"
+    assert selection["scientific_disposition"] == "pending"
+    assert selection["review_target"] == {
+        "capability": "generic_cross_domain_sampling_acquisition_harm_kernel",
+        "domain": "unspecified",
+        "jurisdiction": "unspecified",
+        "population": "unspecified",
+    }
+    assert selection["runtime_disposition"] == "unsupported_research_scoping"
+    assert selection["review_completed"] is False
+    assert selection["human_confirmation_received"] is False
+    assert selection["real_study_authorized"] is False
+    assert selection["approved_runtime_symbols"] == []
+    assert selection["next_tasks"] == [
+        "H8-C",
+        "H8-D",
+        "H8-E",
+        "H8-F",
+        "H8-G",
+        "H8-H",
+    ]
+    assert {
+        "narrow_domain_candidate",
+        "applicable_jurisdiction_authority",
+        "defined_population_and_affected_parties",
+        "candidate_bound_independent_review",
+        "two_named_human_confirmations",
+        "estimator_assurance",
+    } <= set(selection["reconsideration_requirements"])
 
 
 def test_no_python_native_or_binding_execution_symbol_exists() -> None:

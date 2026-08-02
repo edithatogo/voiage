@@ -107,19 +107,21 @@ not a substitute scientific or regulatory approval.
 
 ## Options, rationale and contingencies
 
-### Option A — narrow candidate and distinct human reviewers (recommended)
+### Option A — narrow candidate and distinct human reviewers (future contingency)
 
 Freeze one domain- and jurisdiction-specific candidate, use distinct
 scientific and domain/ethics humans, and commission a chair only if needed.
 This gives the clearest accountability and smallest re-review blast radius,
 while preserving the possibility of a future runtime.
 
-### Option B — reviewed exclusion of a generic kernel
+### Option B — generic-kernel exclusion review (selected for H8-A)
 
-Confirm that no universal scalar or authorization rule is supportable and keep
-only the unsupported constrained/vector research scope. This is the safest and
-fastest scientifically honest outcome when a narrow candidate or reviewers
-cannot be secured, but it intentionally prevents runtime implementation.
+Freeze the generic cross-domain executable kernel as the review target for a
+proposed `reviewed_exclusion`. No universal scalar or authorization rule is
+currently supportable, so this is the scientifically honest path for the
+present evidence. Selection is not completion: H8-C–H8-H must still bind and
+review the exclusion, obtain the two named human confirmations and record the
+separate maintainer disposition. Runtime remains prohibited throughout.
 
 ### Option C — umbrella root with family-specific leaf packets
 

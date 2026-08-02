@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "selection_id": "sampling-acquisition-harm-h8a-20260803",
+  "track_id": "sampling_acquisition_harm_voi_20260802",
+  "planned_version": "1.3.0",
+  "issue_refs": [
+    "https://github.com/edithatogo/voiage/issues/850",
+    "https://github.com/edithatogo/voiage/issues/853"
+  ],
+  "reviewed_source_revision": "645725eb8d1a71ec75118c42757675aca6447114",
+  "selected_at": "2026-08-02T17:49:24Z",
+  "selected_review_path": "generic_kernel_exclusion_review",
+  "proposed_disposition": "reviewed_exclusion",
+  "selection_status": "selected_for_candidate_bound_review",
+  "scientific_disposition": "pending",
+  "review_target": {
+    "capability": "generic_cross_domain_sampling_acquisition_harm_kernel",
+    "domain": "unspecified",
+    "jurisdiction": "unspecified",
+    "population": "unspecified"
+  },
+  "rationale": [
+    "No narrow domain, jurisdiction, population, sampling activity, affected-party set or applicable-authority profile is instantiated.",
+    "No candidate-specific harm law, empirical identification basis, estimator, truth-known suite or false-safe error budget exists.",
+    "A generic scalar kernel would encode unsupported commensurability, separability, risk-ordering and authorization choices.",
+    "Every repository execution surface is intentionally unsupported and exposes no sampling-acquisition-harm symbol."
+  ],
+  "alternatives_considered": [
+    {
+      "id": "clinical-human-subject-trial",
+      "status": "not_reviewable",
+      "reason": "No exact population, procedure, comparator, harm law or applicable jurisdictional authority is specified."
+    },
+    {
+      "id": "safe-active-learning-exploration",
+      "status": "not_reviewable",
+      "reason": "Methodological analogies do not establish a candidate-specific health-economic harm estimand or accountable authorization."
+    },
+    {
+      "id": "privacy-data-acquisition",
+      "status": "not_reviewable",
+      "reason": "No privacy mechanism, affected-party model, jurisdiction, empirical harm law or estimator-assurance packet is specified."
+    }
+  ],
+  "evidence_refs": [
+    "conductor/tracks/sampling_acquisition_harm_voi_20260802/primary-source-manifest-20260802.json",
+    "conductor/tracks/sampling_acquisition_harm_voi_20260802/primary-source-estimand-review-20260802.md",
+    "conductor/tracks/sampling_acquisition_harm_voi_20260802/estimand-counterexamples-and-sensitivity.md",
+    "conductor/tracks/sampling_acquisition_harm_voi_20260802/h8a-scope-selection-review-20260803.md",
+    "specs/frontier/sampling-acquisition-harm/v1/research-disposition.json",
+    "specs/frontier/sampling-acquisition-harm/v1/capabilities.json"
+  ],
+  "runtime_disposition": "unsupported_research_scoping",
+  "review_completed": false,
+  "human_confirmation_received": false,
+  "real_study_authorized": false,
+  "approved_runtime_symbols": [],
+  "next_tasks": ["H8-C", "H8-D", "H8-E", "H8-F", "H8-G", "H8-H"],
+  "reconsideration_requirements": [
+    "narrow_domain_candidate",
+    "applicable_jurisdiction_authority",
+    "defined_population_and_affected_parties",
+    "defined_sampling_action_and_comparator",
+    "identified_harm_law_and_data",
+    "reviewed_risk_ordering_and_component_ledger",
+    "candidate_bound_independent_review",
+    "two_named_human_confirmations",
+    "estimator_assurance"
+  ],
+  "not_authorized": [
+    "completed_reviewed_exclusion",
+    "scientific_acceptance",
+    "runtime_implementation",
+    "stable_promotion",
+    "real_study_activity",
+    "release_publication_or_issue_closure"
+  ]
+}
