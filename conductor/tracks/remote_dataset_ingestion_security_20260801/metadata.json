@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-08-01T04:30:00Z",
-  "updated_at": "2026-08-01T17:45:00Z",
+  "updated_at": "2026-08-02T11:30:00Z",
   "description": "Define and implement an approved security policy for any future remote standardized-dataset ingestion.",
   "evidence_schema": "1.0",
   "owner_repo": "edithatogo/voiage",
@@ -36,8 +36,8 @@
     {
       "id": "hosted-required-checks",
       "kind": "hosted_validation",
-      "status": "pending",
-      "evidence": "Required after repository implementation and before merge."
+      "status": "satisfied",
+      "evidence": "PR #824 exact head 3635b5d3ca9b680fdfffcddec092db94854cc8e0 completed 32 successful checks, three governed skips and one neutral check before squash merge 9934da329ca3c06bd54094ba95c18fe282c42bb6."
     }
   ]
 }

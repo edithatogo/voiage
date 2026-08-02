@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-27T08:15:00Z",
-  "updated_at": "2026-08-01T17:15:00Z",
+  "updated_at": "2026-08-02T11:30:00Z",
   "description": "Extend assurance and release automation across the polyglot programme and add auditable local adoption surfaces without weakening numerical, privacy or external-gate boundaries.",
   "evidence_schema": "1.0",
   "approval": {
@@ -55,8 +55,8 @@
     {
       "id": "hosted-required-checks",
       "kind": "hosted_validation",
-      "status": "pending",
-      "evidence": "Required after repository delivery and before merge."
+      "status": "satisfied",
+      "evidence": "PR #822 exact head 7e12a5fbc6f7091166d7f5d64c6f2b5b45764f72 completed 32 successful checks, three governed skips and one neutral check before squash merge 0df988125b89f8d0bad08def0bd5b2ea03cd54f5."
     }
   ]
 }

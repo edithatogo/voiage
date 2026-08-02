@@ -35,7 +35,9 @@
           "url": "https://github.com/edithatogo/voiage/pull/621",
           "status": "merged",
           "evidence": [
-            "track-delivery"
+            "track-delivery",
+            "edd14dd202f74941cfb2e57f8bdd7faf764092a2",
+            "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3"
           ]
         },
         {
@@ -154,6 +156,16 @@
           "evidence": [
             "canonical-sync-proposal"
           ]
+        },
+        {
+          "number": 826,
+          "url": "https://github.com/edithatogo/voiage/pull/826",
+          "status": "merged",
+          "evidence": [
+            "programme-governance-delivery",
+            "e23155e4fa2c39167d7d92a36d34029b6d9c1ee6",
+            "0e19b46815af61031e4879a60158864b72748be4"
+          ]
         }
       ],
       "pull_request_evidence": "track_delivery"
@@ -178,7 +190,19 @@
           "url": "https://github.com/edithatogo/voiage/pull/621",
           "status": "merged",
           "evidence": [
-            "track-delivery"
+            "track-delivery",
+            "edd14dd202f74941cfb2e57f8bdd7faf764092a2",
+            "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3"
+          ]
+        },
+        {
+          "number": 816,
+          "url": "https://github.com/edithatogo/voiage/pull/816",
+          "status": "merged",
+          "evidence": [
+            "contract-freeze-delivery",
+            "1a159e02af95fc3a6bce46f2bf8909561be0b9bd",
+            "68cb15dfcb8706ab653f8a1631b433a7f63ba322"
           ]
         }
       ],
@@ -239,9 +263,21 @@
         {
           "number": 621,
           "url": "https://github.com/edithatogo/voiage/pull/621",
-          "status": "open",
+          "status": "merged",
           "evidence": [
-            "track-delivery"
+            "track-delivery",
+            "edd14dd202f74941cfb2e57f8bdd7faf764092a2",
+            "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3"
+          ]
+        },
+        {
+          "number": 827,
+          "url": "https://github.com/edithatogo/voiage/pull/827",
+          "status": "merged",
+          "evidence": [
+            "stable-rust-core-governance-delivery",
+            "d2881921d5fb17dc3b5fb10ad4c9374b047b6a9f",
+            "211044c5fd1ce773ea64a161a92293d00c987f81"
           ]
         }
       ],
@@ -263,9 +299,21 @@
         {
           "number": 621,
           "url": "https://github.com/edithatogo/voiage/pull/621",
-          "status": "open",
+          "status": "merged",
           "evidence": [
-            "track-delivery"
+            "track-delivery",
+            "edd14dd202f74941cfb2e57f8bdd7faf764092a2",
+            "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3"
+          ]
+        },
+        {
+          "number": 828,
+          "url": "https://github.com/edithatogo/voiage/pull/828",
+          "status": "merged",
+          "evidence": [
+            "perspective-governance-delivery",
+            "e63f31e4929081201c2ca5df3372ab73c9714eba",
+            "168156a3e0910e99babecbf4ec06bbfb86b85f56"
           ]
         }
       ],
@@ -736,9 +784,21 @@
         {
           "number": 621,
           "url": "https://github.com/edithatogo/voiage/pull/621",
-          "status": "open",
+          "status": "merged",
           "evidence": [
-            "track-delivery"
+            "track-delivery",
+            "edd14dd202f74941cfb2e57f8bdd7faf764092a2",
+            "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3"
+          ]
+        },
+        {
+          "number": 822,
+          "url": "https://github.com/edithatogo/voiage/pull/822",
+          "status": "merged",
+          "evidence": [
+            "quality-automation-delivery",
+            "7e12a5fbc6f7091166d7f5d64c6f2b5b45764f72",
+            "0df988125b89f8d0bad08def0bd5b2ea03cd54f5"
           ]
         }
       ],
@@ -760,9 +820,21 @@
         {
           "number": 621,
           "url": "https://github.com/edithatogo/voiage/pull/621",
-          "status": "open",
+          "status": "merged",
           "evidence": [
-            "track-delivery"
+            "track-delivery",
+            "edd14dd202f74941cfb2e57f8bdd7faf764092a2",
+            "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3"
+          ]
+        },
+        {
+          "number": 825,
+          "url": "https://github.com/edithatogo/voiage/pull/825",
+          "status": "merged",
+          "evidence": [
+            "transparency-governance-delivery",
+            "f00e63d05562d4fc5165aa261c5ab0a296265dd2",
+            "4d890aafeb760a0df84a03efa5db95ba5ec85005"
           ]
         }
       ],
@@ -1665,8 +1737,8 @@
     },
     {
       "track_id": "conductor-github-cross-reference-reconciliation_20260724",
-      "path": "conductor/tracks/conductor-github-cross-reference-reconciliation_20260724",
-      "lifecycle": "active",
+      "path": "conductor/archive/conductor-github-cross-reference-reconciliation_20260724",
+      "lifecycle": "completed",
       "issue": {
         "number": 462,
         "url": "https://github.com/edithatogo/voiage/issues/462",
@@ -1680,7 +1752,19 @@
           "url": "https://github.com/edithatogo/voiage/pull/465",
           "status": "merged",
           "evidence": [
-            "track-delivery"
+            "track-delivery",
+            "de16689eb8a7ae3d136b8582218fb563993fe9a0",
+            "3d4306d72485a8da6bc4691d230dacc5d7c18c2e"
+          ]
+        },
+        {
+          "number": 810,
+          "url": "https://github.com/edithatogo/voiage/pull/810",
+          "status": "merged",
+          "evidence": [
+            "governance-closeout",
+            "8eccc1581729b10a29db957f827ff3cb752f010e",
+            "50cf258fe317d5d2e331b060083dbad70a4dd691"
           ]
         }
       ],
@@ -3664,6 +3748,7 @@
         "https://github.com/edithatogo/voiage/issues/299",
         "https://github.com/edithatogo/voiage/issues/312",
         "https://github.com/edithatogo/voiage/issues/471",
+        "https://github.com/edithatogo/voiage/issues/555",
         "https://github.com/edithatogo/voiage/issues/614",
         "https://github.com/edithatogo/voiage/issues/615",
         "https://github.com/edithatogo/voiage/issues/616",
@@ -3750,9 +3835,31 @@
         {
           "number": 480,
           "url": "https://github.com/edithatogo/voiage/pull/480",
-          "status": "open",
+          "status": "merged",
           "evidence": [
-            "07cf3f83098952439f7b94773c62a8cbf9c176c1"
+            "scientific-contract-delivery",
+            "a7bc14a0154f3ff2e7ca1c10122defba44047717",
+            "8a49bcf3c16d8eaa1270c8691eaf282cbc6b4547"
+          ]
+        },
+        {
+          "number": 561,
+          "url": "https://github.com/edithatogo/voiage/pull/561",
+          "status": "merged",
+          "evidence": [
+            "julia-publication-readiness",
+            "2ba35efabbb3046de23e0fe12465fc1864cb21a8",
+            "ba1826201439079ae2e0194713600607629c878a"
+          ]
+        },
+        {
+          "number": 813,
+          "url": "https://github.com/edithatogo/voiage/pull/813",
+          "status": "merged",
+          "evidence": [
+            "registry-governance-delivery",
+            "144c0e0fbc20a5a55225f2b884e73eee11c9db64",
+            "9d49572ade4a27bd340c30f1fa1869c090f2bb6d"
           ]
         }
       ],
@@ -4864,7 +4971,18 @@
       },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/325",
       "subissues": [],
-      "pull_requests": [],
+      "pull_requests": [
+        {
+          "number": 817,
+          "url": "https://github.com/edithatogo/voiage/pull/817",
+          "status": "merged",
+          "evidence": [
+            "controlled-probe-assurance",
+            "d40f5b617df847fe517759f5892a1562f25bc4d9",
+            "33537325ad7262dc15bcddb4283a6aa51cfdb323"
+          ]
+        }
+      ],
       "pull_request_evidence": "none_found"
     },
     {
@@ -4879,7 +4997,18 @@
       },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/325",
       "subissues": [],
-      "pull_requests": [],
+      "pull_requests": [
+        {
+          "number": 824,
+          "url": "https://github.com/edithatogo/voiage/pull/824",
+          "status": "merged",
+          "evidence": [
+            "threat-model-delivery",
+            "3635b5d3ca9b680fdfffcddec092db94854cc8e0",
+            "9934da329ca3c06bd54094ba95c18fe282c42bb6"
+          ]
+        }
+      ],
       "pull_request_evidence": "none_found"
     },
     {
@@ -4908,6 +5037,16 @@
             "hosted-required-checks",
             "f1d6f77d3e6ef1024d5bf3ebecc6e6e3a39ea91c",
             "557710175baae8a2ee44a7be3e8f5d4f546e563e"
+          ]
+        },
+        {
+          "number": 812,
+          "url": "https://github.com/edithatogo/voiage/pull/812",
+          "status": "merged",
+          "evidence": [
+            "independent-review-delivery",
+            "3a2227d12721ffa418d6bf0d7e925ebe70182c59",
+            "286f1700b3c06824b6ab56cc6afb84348958190d"
           ]
         }
       ],

@@ -1,5 +1,11 @@
 # Implementation Plan
 
+## Merged review delivery reconciliation
+
+- [x] Record PR #812 exact head `3a2227d12721ffa418d6bf0d7e925ebe70182c59`,
+  merge `286f1700b3c06824b6ab56cc6afb84348958190d`, while preserving
+  scientific review, parity, promotion, release, and closure as separate gates.
+
 ## Phase 1 — Contract and evidence
 
 - [x] **ISP1:** Freeze the finite joint-world estimand, MoSCoW requirements,

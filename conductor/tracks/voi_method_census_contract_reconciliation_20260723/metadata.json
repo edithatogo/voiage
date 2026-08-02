@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-27T08:15:00Z",
-  "updated_at": "2026-08-01T14:00:00Z",
+  "updated_at": "2026-08-02T11:30:00Z",
   "description": "Maintain canonical method and Decision Problem registries that distinguish estimands, estimators, decompositions, diagnostics, applications, aliases and adjacent methods.",
   "evidence_schema": "1.0",
   "approval": {
@@ -26,7 +26,8 @@
       "https://github.com/edithatogo/voiage/issues/566"
     ],
     "pull_requests": [
-      "https://github.com/edithatogo/voiage/pull/621"
+      "https://github.com/edithatogo/voiage/pull/621",
+      "https://github.com/edithatogo/voiage/pull/816"
     ],
     "pull_request_evidence": "track_delivery"
   },
@@ -46,8 +47,8 @@
     {
       "id": "hosted-required-checks",
       "kind": "hosted_validation",
-      "status": "pending",
-      "evidence": "Required after repository delivery and before merge."
+      "status": "satisfied",
+      "evidence": "PR #816 exact head 1a159e02af95fc3a6bce46f2bf8909561be0b9bd completed 32 successful checks, three governed skips and one neutral check before squash merge 68cb15dfcb8706ab653f8a1631b433a7f63ba322."
     }
   ]
 }

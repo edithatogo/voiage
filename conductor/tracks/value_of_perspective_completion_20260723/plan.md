@@ -60,10 +60,11 @@
   release targets and remaining external gates. Repository reconciliation
   validators pass; external parity, hosted, promotion, release and issue
   closure gates remain explicitly pending. (AC-01, AC-05, AC-06)
-- [~] **G14:** Run final full local validation and hosted required checks after
-  the panel synthesis and any remediation. Local validation is complete. The
-  old PR head exposed stale evidence hashes after the CLI documentation change;
-  the replacement repairs those pins, but a fresh exact-head hosted run remains
-  required and therefore blocks this task. (AC-07)
+- [x] **G14:** Run final full local validation and hosted required checks after
+  panel synthesis and remediation. PR #828 exact head
+  `e63f31e4929081201c2ca5df3372ab73c9714eba` completed 32 successful
+  checks, three governed skips, and one neutral check before merge
+  `168156a3e0910e99babecbf4ec06bbfb86b85f56`. Installed parity and
+  promotion remain separate. (AC-07)
 - [ ] **G15:** Record repository completion separately from merge, release,
   publication, registry acceptance and issue closure. (AC-02, AC-07)

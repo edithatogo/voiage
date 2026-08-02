@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-07-27T08:15:00Z",
-  "updated_at": "2026-08-01T18:20:00Z",
+  "updated_at": "2026-08-02T11:30:00Z",
   "description": "Govern the complete Rust-authoritative, polyglot VOI programme without collapsing planning, runtime evidence, binding parity, publication or adoption into one completion claim.",
   "evidence_schema": "1.0",
   "approval": {
@@ -47,6 +47,18 @@
     ],
     "pull_requests": [
       "https://github.com/edithatogo/voiage/pull/621",
+      "https://github.com/edithatogo/voiage/pull/679",
+      "https://github.com/edithatogo/voiage/pull/712",
+      "https://github.com/edithatogo/voiage/pull/676",
+      "https://github.com/edithatogo/voiage/pull/837",
+      "https://github.com/edithatogo/voiage/pull/723",
+      "https://github.com/edithatogo/voiage/pull/787",
+      "https://github.com/edithatogo/voiage/pull/769",
+      "https://github.com/edithatogo/voiage/pull/798",
+      "https://github.com/edithatogo/vop_poc_nz/pull/51",
+      "https://github.com/edithatogo/vop_poc_nz/pull/64",
+      "https://github.com/edithatogo/vop_poc_nz/pull/65",
+      "https://github.com/edithatogo/vop_poc_nz/pull/66",
       "https://github.com/edithatogo/voiage/pull/826"
     ],
     "pull_request_evidence": "track_delivery"
@@ -67,8 +79,8 @@
     {
       "id": "hosted-required-checks",
       "kind": "hosted_validation",
-      "status": "pending",
-      "evidence": "Required after repository delivery and before merge."
+      "status": "satisfied",
+      "evidence": "PR #826 exact head e23155e4fa2c39167d7d92a36d34029b6d9c1ee6 completed 32 successful checks, three governed skips and one neutral check before squash merge 0e19b46815af61031e4879a60158864b72748be4."
     }
   ]
 }

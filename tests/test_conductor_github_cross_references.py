@@ -124,8 +124,8 @@ def test_ml_llm_agent_track_syncs_pr_states_lifecycle_and_pending_gates() -> Non
     )[1].split("\n---", 1)[0]
     assert "Merged planning PR #621" in index
     assert "Status: in progress" in index
-    assert "Status: new" in umbrella_section
     assert "bounded governance" not in umbrella_section
+    assert "registered as the current programme" in umbrella_section
     assert "Status: in progress" in ml_section
     assert "scientific, installed-parity, rights and hosted gates" in ml_section
 
@@ -163,3 +163,123 @@ def test_polyglot_parity_track_projects_current_delivery_state() -> None:
     index = (ROOT / "conductor" / "tracks" / track_id / "index.md").read_text()
     assert "Merged planning PR #621" in index
     assert "Delivery PR #821" in index
+
+
+def test_final_governed_delivery_reconciliation_is_exact_and_additive() -> None:
+    """Merged queue facts agree across manifest, metadata, index, and gates."""
+    manifest = json.loads(
+        (ROOT / "conductor" / "github-cross-references.json").read_text()
+    )
+    deliveries = {
+        "conductor-github-cross-reference-reconciliation_20260724": (
+            810,
+            "8eccc1581729b10a29db957f827ff3cb752f010e",
+            "50cf258fe317d5d2e331b060083dbad70a4dd691",
+        ),
+        "information_source_portfolio_voi_20260801": (
+            812,
+            "3a2227d12721ffa418d6bf0d7e925ebe70182c59",
+            "286f1700b3c06824b6ab56cc6afb84348958190d",
+        ),
+        "research_software_registry_readiness_20260721": (
+            813,
+            "144c0e0fbc20a5a55225f2b884e73eee11c9db64",
+            "9d49572ade4a27bd340c30f1fa1869c090f2bb6d",
+        ),
+        "voi_method_census_contract_reconciliation_20260723": (
+            816,
+            "1a159e02af95fc3a6bce46f2bf8909561be0b9bd",
+            "68cb15dfcb8706ab653f8a1631b433a7f63ba322",
+        ),
+        "controlled_live_dataset_interoperability_20260801": (
+            817,
+            "d40f5b617df847fe517759f5892a1562f25bc4d9",
+            "33537325ad7262dc15bcddb4283a6aa51cfdb323",
+        ),
+        "quality_release_automation_20260723": (
+            822,
+            "7e12a5fbc6f7091166d7f5d64c6f2b5b45764f72",
+            "0df988125b89f8d0bad08def0bd5b2ea03cd54f5",
+        ),
+        "remote_dataset_ingestion_security_20260801": (
+            824,
+            "3635b5d3ca9b680fdfffcddec092db94854cc8e0",
+            "9934da329ca3c06bd54094ba95c18fe282c42bb6",
+        ),
+        "research_contribution_ai_transparency_20260723": (
+            825,
+            "f00e63d05562d4fc5165aa261c5ab0a296265dd2",
+            "4d890aafeb760a0df84a03efa5db95ba5ec85005",
+        ),
+        "rust_polyglot_voi_completion_20260723": (
+            826,
+            "e23155e4fa2c39167d7d92a36d34029b6d9c1ee6",
+            "0e19b46815af61031e4879a60158864b72748be4",
+        ),
+        "stable_voi_rust_core_completion_20260723": (
+            827,
+            "d2881921d5fb17dc3b5fb10ad4c9374b047b6a9f",
+            "211044c5fd1ce773ea64a161a92293d00c987f81",
+        ),
+        "value_of_perspective_completion_20260723": (
+            828,
+            "e63f31e4929081201c2ca5df3372ab73c9714eba",
+            "168156a3e0910e99babecbf4ec06bbfb86b85f56",
+        ),
+    }
+
+    for track_id, (number, head, merge) in deliveries.items():
+        entry = next(
+            item for item in manifest["tracks"] if item["track_id"] == track_id
+        )
+        track_root = ROOT / entry["path"]
+        metadata = json.loads((track_root / "metadata.json").read_text())
+        pull_request = next(
+            item for item in entry["pull_requests"] if item["number"] == number
+        )
+        assert pull_request["status"] == "merged"
+        assert head in pull_request["evidence"]
+        assert merge in pull_request["evidence"]
+        assert {item["url"] for item in entry["pull_requests"]} == set(
+            metadata["github_cross_reference"]["pull_requests"]
+        )
+        assert f"pull/{number}" in (track_root / "index.md").read_text()
+
+    registry = (ROOT / "conductor" / "tracks.md").read_text()
+    root_section = registry.split("\n---\n", 1)[0]
+    assert "registered as the current programme" in root_section
+    assert "workstream tracks" not in root_section
+
+    registry_entry = next(
+        item
+        for item in manifest["tracks"]
+        if item["track_id"] == "research_software_registry_readiness_20260721"
+    )
+    registry_prs = {item["number"]: item for item in registry_entry["pull_requests"]}
+    for number in (480, 561, 813):
+        assert registry_prs[number]["status"] == "merged"
+    registry_metadata = json.loads(
+        (
+            ROOT
+            / "conductor"
+            / "tracks"
+            / "research_software_registry_readiness_20260721"
+            / "metadata.json"
+        ).read_text()
+    )
+    assert set(registry_entry["subissues"]) == set(
+        registry_metadata["github_subissues"]
+    )
+    assert (
+        registry_entry["path"]
+        == "conductor/tracks/research_software_registry_readiness_20260721"
+    )
+
+    archive_entry = next(
+        item
+        for item in manifest["tracks"]
+        if item["track_id"]
+        == "conductor-github-cross-reference-reconciliation_20260724"
+    )
+    assert archive_entry["lifecycle"] == "completed"
+    assert archive_entry["path"].startswith("conductor/archive/")

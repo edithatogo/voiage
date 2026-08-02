@@ -11,4 +11,6 @@
 - [Blocker-resolution plan](./blocker-resolution-plan.md)
 
 Status: in progress. The bounded threat model is recorded; explicit
-security-policy approval is still required before any remote I/O.
+security-policy approval is still required before any remote I/O. PR #824
+exact head `3635b5d3ca9b680fdfffcddec092db94854cc8e0` passed required hosted
+checks and merged as `9934da329ca3c06bd54094ba95c18fe282c42bb6`.

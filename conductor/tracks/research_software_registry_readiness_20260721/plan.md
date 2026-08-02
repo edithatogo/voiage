@@ -1,5 +1,11 @@
 # Implementation Plan
 
+## Merged governance reconciliation
+
+- [x] Record merged scientific contract PR #480, Julia publication-readiness
+  PR #561, and governance PR #813 with full head and merge SHAs while
+  preserving external registry decisions as pending.
+
 ## Phase 1: Readiness and prerequisites
 
 - [x] Confirm scope, rights, licensing, metadata, release, and persistence prerequisites in the parent issue. (`483fe29c`; live readiness audit recorded in the subsequent handoff commit)

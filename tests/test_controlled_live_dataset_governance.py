@@ -19,15 +19,17 @@ def test_live_probe_track_is_active_but_authorization_blocked() -> None:
     assert "Status: in progress but authorization-blocked" in index
     assert "## [~] Track: Controlled Live" in registry
     assert gates["source-rights-and-use-authority"]["status"] == "pending"
-    assert gates["hosted-required-checks"]["status"] == "pending"
+    assert gates["hosted-required-checks"]["status"] == "satisfied"
+    assert "does not authorize network retrieval" in index
 
 
 def test_probe_assurance_does_not_complete_controlled_source_work() -> None:
-    """Only L2/L3 are complete; authorization and delivery remain open."""
+    """Delivery assurance does not complete source authorization work."""
     plan = (TRACK / "plan.md").read_text(encoding="utf-8")
 
     assert "- [ ] **L1 / AC-01:**" in plan
     assert "- [x] **L2 / AC-01:**" in plan
     assert "- [x] **L3 / AC-01:**" in plan
     assert "- [ ] **L4 / AC-02:**" in plan
-    assert "- [ ] **L7 / AC-02--AC-04:**" in plan
+    assert "- [x] **L7 / AC-02--AC-04:**" in plan
+    assert "does not satisfy L1 or authorize network I/O" in plan
