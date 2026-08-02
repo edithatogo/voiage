@@ -97,13 +97,16 @@
   target, structured metadata and section validation, claim ledger,
   SourceRight queued-reference sidecars, selected Authentext checks, and
   review-only Textstat workflow.
-- [~] Reproduce and remediate the panel's scientific EVSI finding: move the
+- [x] Reproduce and remediate the panel's scientific EVSI finding: move the
   validated normal-normal study model into the public package, correct the
   built-in estimator so current, predictive, and posterior calculations use
   one coherent fitted Gaussian prior; retain correlations through a numerically
   guarded joint update; add explicit custom two-loop callbacks; and remove
   stable scientific claims from generic estimators that lack complete
-  method-specific validation.
+  method-specific validation. Implemented and published in merged v2
+  contract PR #480 (`8a49bcf3`), with focused scientific and changed-coverage
+  tests passing; remaining JOSS, adoption, AI-attestation, and registry gates
+  are external.
 - [x] Synthesize and prioritize the panel findings from manuscript purpose and
   structure through paragraph, claim, citation, and sentence-level changes.
 - [x] Implement the evidence-supported revisions and rerun the repository-owned
