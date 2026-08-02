@@ -49,6 +49,11 @@ def test_registry_track_records_native_paper_issue_hierarchy() -> None:
     assert all(issue in specification for issue in submission_contract_issues)
     assert hpc_packaging_issue in plan
     assert hpc_packaging_issue in specification
+    assert "- [x] Reproduce and remediate the panel's scientific EVSI finding" in plan
+    index = (track / "index.md").read_text()
+    assert "merged v2 scientific EVSI contract" in index
+    assert "the track remains active" in index
+    assert "JOSS/arXiv submission, curation, indexing, and registry acceptance" in index
     assert handoff["arxiv_preprint_evidence"]["review_pr"].endswith("/pull/311")
     assert handoff["arxiv_preprint_evidence"]["prior_submission_id"] == "7861466"
     assert handoff["arxiv_preprint_evidence"]["submission_id"] == "7870358"
