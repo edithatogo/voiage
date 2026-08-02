@@ -7,6 +7,12 @@
 
 ## Unreleased
 
+- Prepare the sampling-acquisition-harm H8-D-B remediation and independent-
+  review intake: retain all 19 findings as pending, cover all four adjacent
+  methods with negative non-alias tests, preserve the historical H8-C snapshot,
+  and add fail-closed source and eligible-human commissioning contracts without
+  claiming scientific, source, runtime, study, publication or release authority.
+
 - Strengthen experimental COSS and EVSI/EVPI efficiency assurance with an
   explicit no-study commissioning decision, replayable joint selection
   uncertainty, paired ratio uncertainty, portable request/result schemas and

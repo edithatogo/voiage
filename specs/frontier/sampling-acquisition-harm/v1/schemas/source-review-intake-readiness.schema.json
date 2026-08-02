@@ -1,0 +1,10 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://voiage.dev/schemas/sampling-acquisition-harm/source-review-intake-readiness-v1.0.0.json","type":"object","additionalProperties":false,
+  "required":["schema_version","artifact_kind","status","finding_ids","required_record_fields","retained_source_bytes","retention_required","rights_review_complete","applicability_review_complete","drift_review_complete","independent_retrieval_receipt","source_authority","rights_inference_prohibited"],
+  "properties":{
+    "schema_version":{"const":"1.0.0"},"artifact_kind":{"const":"source_review_intake_only_not_source_evidence"},"status":{"const":"blocked_external_evidence"},
+    "finding_ids":{"type":"array","minItems":5,"maxItems":5,"uniqueItems":true,"items":{"enum":["H8D-ED-04","H8D-EST-002","H8D-API-GOV-03","H8D-GP-02","H8D-DS-05"]}},
+    "required_record_fields":{"const":["stable_source_id","official_locator","retrieved_at","retrieval_status","retention_rights_status","redistribution_rights_status","retained_bytes_sha256_if_permitted","observation_sha256","independent_retrieval_receipt","drift_assessment","jurisdiction_applicability"]},
+    "retained_source_bytes":{"const":false},"retention_required":{"const":false},"rights_review_complete":{"const":false},"applicability_review_complete":{"const":false},"drift_review_complete":{"const":false},"independent_retrieval_receipt":{"const":false},"source_authority":{"const":false},"rights_inference_prohibited":{"const":true}
+  }
+}

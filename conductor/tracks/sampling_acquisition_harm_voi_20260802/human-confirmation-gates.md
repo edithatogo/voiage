@@ -9,18 +9,21 @@ confirmation.
 
 ## Current entry state
 
-H8 is not ready to solicit a human verdict. The historical frozen packet is
-stale relative to the current branch, the newer umbrella packet remains a
-moving preparation record, and neither packet binds #850 and this track as a
-separate family. No candidate-specific manifest, complete reviewer
-attestations, adjudication or scientific approval exists. Runtime discovery
-therefore remains `unsupported_research_scoping`.
+H8 is not ready to solicit a human verdict. H8-C binds a historical
+#850-specific packet and H8-D-A/H8-E-A retain five automated role-shaped
+reports plus a separate synthesis, but the packet has been substantively
+affected by post-freeze remediation and governance drift. All nineteen
+findings remain pending; source review is blocked and the automated reviewers
+are not eligible humans. No complete eligible reviewer attestations,
+adjudication or scientific approval exists. Runtime discovery therefore
+remains `unsupported_research_scoping`.
 
-Before review begins, the evidence contract must also distinguish Git object
-identifiers from SHA-256 content digests, recompute every declared digest from
-canonical bytes, verify manifest members against the frozen Git tree, enforce
-role separation and complete finding closure, and replace broad
-documentation-path delta exemptions with a narrow administrative allowlist.
+The evidence contract now distinguishes Git object identifiers from SHA-256
+content digests, verifies frozen-tree bytes, enforces role separation and
+limits administrative deltas. The next repository-owned step is to repair the
+machine findings, retain a complete remediation register and prepare
+fail-closed source and reviewer intake. A fresh packet must then supersede the
+affected H8-C packet before qualified reviewers are commissioned.
 
 ## Decision rights
 

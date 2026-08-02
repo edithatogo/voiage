@@ -1,0 +1,19 @@
+{
+  "schema_version":"1.0.0",
+  "delta_id":"sampling-harm-post-863-governance-delta-20260803",
+  "observed_at":"2026-08-02T21:19:47Z",
+  "expires_at":"2026-08-09T21:19:47Z",
+  "supersedes":[],
+  "historical_snapshot":{"path":"governance-snapshot.json","sha256":"98df86d0340d5921134fb0371b58d75cf4b32531f8f4cdef38aff7201c48f87f","preserved":true,"current_status":"historical_not_current"},
+  "hosted_change_classification":"bounded_metadata_only",
+  "candidate_semantic_delta_requires_new_packet":true,
+  "issues":{
+    "850":{"url":"https://github.com/edithatogo/voiage/issues/850","state":"OPEN","updated_at":"2026-08-02T20:58:15Z","body_sha256":"2a739678116a1c984998703f45ec508893166d200035d2c16601cc1b959582d8"},
+    "853":{"url":"https://github.com/edithatogo/voiage/issues/853","state":"OPEN","updated_at":"2026-08-02T20:58:17Z","body_sha256":"3f8293ab4eb46633031965ab5296ad5481a14913b63be5e5b821824c1fcb6756"},
+    "864":{"url":"https://github.com/edithatogo/voiage/issues/864","state":"OPEN","updated_at":"2026-08-02T21:03:55Z","body_sha256":"38464e37df37b8ece642a0e2ddd533f47cee08d04d69b099d4a83892f94ae001","node_id":"I_kwDOPF8PXM8AAAABLKxOOA","native_parent":853}
+  },
+  "project_28":{"project_id":"PVT_kwHOAOYc4M4Bd0Tx","items":[{"issue":850,"item_id":"PVTI_lAHOAOYc4M4Bd0Txzg0-O4U","item_updated_at":"2026-08-02T20:58:17Z","status":"In Progress","gate":"Human","evidence_state":"Unverified","lifecycle":"Mitigating","risk_level":"Critical","priority":"P1","moscow":"Must","contract_version":"1.3.0","sync_state":"Clean","review_due":"2026-11-30","owner_role":"Risk and sampling domain reviewer","record_id":"SAMPLING-HARM-850","record_type":"Current track","repository":"https://github.com/edithatogo/voiage","track_id":"sampling_acquisition_harm_voi_20260802","project_fields_sha256":"7c5c7564bcdae8fd0acf9f2fd85b0318831d85cf5312aed073daad87e17843d6"},{"issue":853,"item_id":"PVTI_lAHOAOYc4M4Bd0Txzg0-m44","item_updated_at":"2026-08-02T20:58:18Z","status":"In Progress","gate":"Human","evidence_state":"Unverified","lifecycle":"Mitigating","risk_level":"Critical","priority":"P1","moscow":"Must","contract_version":"1.3.0","sync_state":"Clean","review_due":"2026-11-30","owner_role":"Independent scientific/domain adjudicator","record_id":"SAMPLING-HARM-853","record_type":"Current track","repository":"https://github.com/edithatogo/voiage","track_id":"sampling_acquisition_harm_voi_20260802","project_fields_sha256":"44b5a7df94668f0fbe48e2e8102545f1a0e74083535ecfc0e8693821cd0e1943"},{"issue":864,"item_id":"PVTI_lAHOAOYc4M4Bd0Txzg0_4GM","item_updated_at":"2026-08-02T21:04:55Z","status":"In Progress","gate":"Human","evidence_state":"Unverified","lifecycle":"Mitigating","risk_level":"Critical","priority":"P1","moscow":"Must","contract_version":"1.3.0","sync_state":"Clean","review_due":"2026-11-30","owner_role":"Scientific review commissioning coordinator","record_id":"SAMPLING-HARM-864","record_type":"Current track","repository":"https://github.com/edithatogo/voiage","track_id":"sampling_acquisition_harm_voi_20260802","project_fields_sha256":"323eda4a9d5bcf15637f318d447960d799d76637922f700706d5bd0453f3ca2d"}]},
+  "pull_request_863":{"url":"https://github.com/edithatogo/voiage/pull/863","head_sha":"13456c7af74a7136b8aa71a74a01c47e64019480","merge_sha":"0c3f4314368693a07d0f9f6996e123a1d20ef208","merged_at":"2026-08-02T20:57:06Z","checks":{"success":38,"governed_skip":3,"neutral":1,"failed":0,"pending":0,"unresolved_threads":0}},
+  "main_merge_sha":"0c3f4314368693a07d0f9f6996e123a1d20ef208",
+  "authority":{"h8_d":false,"h8_e":false,"h8_f":false,"h8_g":false,"h8_h":false,"scientific_acceptance":false,"source_authority":false,"human_confirmation":false,"runtime":false,"real_study":false,"publication":false,"release":false,"registry_acceptance":false,"issue_closure":false}
+}

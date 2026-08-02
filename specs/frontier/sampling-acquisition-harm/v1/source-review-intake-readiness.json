@@ -1,0 +1,15 @@
+{
+  "schema_version":"1.0.0",
+  "artifact_kind":"source_review_intake_only_not_source_evidence",
+  "status":"blocked_external_evidence",
+  "finding_ids":["H8D-ED-04","H8D-EST-002","H8D-API-GOV-03","H8D-GP-02","H8D-DS-05"],
+  "required_record_fields":["stable_source_id","official_locator","retrieved_at","retrieval_status","retention_rights_status","redistribution_rights_status","retained_bytes_sha256_if_permitted","observation_sha256","independent_retrieval_receipt","drift_assessment","jurisdiction_applicability"],
+  "retained_source_bytes":false,
+  "retention_required":false,
+  "rights_review_complete":false,
+  "applicability_review_complete":false,
+  "drift_review_complete":false,
+  "independent_retrieval_receipt":false,
+  "source_authority":false,
+  "rights_inference_prohibited":true
+}
