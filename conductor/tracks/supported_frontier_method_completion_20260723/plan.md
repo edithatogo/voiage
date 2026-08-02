@@ -583,7 +583,7 @@ issue-backed remediation slices and rebound to a fresh review candidate.
   runtime implementation, ethics/regulatory authorization, promotion, release
   and closure remain pending; this is not an existing #570 kernel and is not
   #595's VoC presentation.
-  (M17-R6; AC-02, AC-03, AC-10)
+  (M17-R6; AC-02, AC-03, AC-10) `ea6100d2`
 - [ ] **SR5 / #846 — Wave B high-risk panel:** Review #570 and #597–#600 with required
   domain specialists, including #570 v1.3.0/C18/M22 synchronization, sequential
   model validity, signed/social harms, sparse-subgroup validity and continuous
