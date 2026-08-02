@@ -5068,9 +5068,20 @@
             "e0ff1d2ce3361d52ee22bb01e105b92653ed606c",
             "16-terminal-successes-and-one-governed-scheduled-only-skip"
           ]
+        },
+        {
+          "number": 855,
+          "url": "https://github.com/edithatogo/voiage/pull/855",
+          "status": "merged",
+          "evidence": [
+            "repository-delivery",
+            "14b9f6d836c831eb62cad41f589133d83ddd9493",
+            "62d22743b1547266bd554b215f957934bf577234",
+            "60-successes-four-governed-skips-one-neutral-zero-unresolved-threads"
+          ]
         }
       ],
-      "pull_request_evidence": "canonical_planning_sync"
+      "pull_request_evidence": "merged_repository_delivery_and_canonical_planning_sync"
     },
     {
       "track_id": "information_source_portfolio_voi_20260801",
