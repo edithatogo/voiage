@@ -87,8 +87,8 @@ stable promotion, release and closure remain separate gates.*
 
 ---
 
-## [~] Track: Risk-Adjusted Information Pricing and VoC Presentation
-*Link: [./tracks/risk_adjusted_information_pricing_20260731/index.md](./tracks/risk_adjusted_information_pricing_20260731/index.md)*
+## [x] Track: Risk-Adjusted Information Pricing and VoC Presentation
+*Link: [./archive/risk_adjusted_information_pricing_20260731/index.md](./archive/risk_adjusted_information_pricing_20260731/index.md)*
 *GitHub: [issue #595](https://github.com/edithatogo/voiage/issues/595),
 native sub-issue of [#318](https://github.com/edithatogo/voiage/issues/318),
 under programme [#313](https://github.com/edithatogo/voiage/issues/313), in
@@ -160,8 +160,8 @@ vector covariance, stable promotion, release and issue closure remain separate g
 
 ---
 
-## [~] Track: Study-Design Efficiency, COSS and Experiment-Portfolio VOI
-*Link: [./tracks/study_design_efficiency_20260727/index.md](./tracks/study_design_efficiency_20260727/index.md)*
+## [x] Track: Study-Design Efficiency, COSS and Experiment-Portfolio VOI
+*Link: [./archive/study_design_efficiency_20260727/index.md](./archive/study_design_efficiency_20260727/index.md)*
 *GitHub: [issue #571](https://github.com/edithatogo/voiage/issues/571),
 native sub-issue of [#318](https://github.com/edithatogo/voiage/issues/318),
 under programme [#313](https://github.com/edithatogo/voiage/issues/313), in
