@@ -101,7 +101,7 @@
   near risk aversion one with high-precision sweeps, continuity, policy/tie
   invariance and root-residual evidence. (M16-U5; AC-03, AC-05, AC-06)
   `9879e2d`
-- [ ] **U20:** Bind the selected presentation and version into deterministic
+- [x] **U20:** **Legacy follow-up (not part of completed track acceptance):** Bind the selected presentation and version into deterministic
   presentation provenance without duplicating the numerical kernel; execute
   expected-utility and VoC fixtures from a clean installed wheel with packaged
   schemas and capabilities. (M16-U3, M16-U6; AC-03–AC-07)

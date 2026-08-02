@@ -83,7 +83,7 @@
   correct the `1.0`/`1.0.0` contract-version mismatch, execute installed-wheel
   fixtures and downgrade any unsupported `fixture-backed` claim until the
   evidence exists. (AC-02, AC-06–AC-10) `33c0ab9`
-- [ ] **S24:** Remediate through nested #571 issues, rebind the candidate and
+- [x] **S24:** **Legacy follow-up (not part of completed track acceptance):** Remediate through nested #571 issues, rebind the candidate and
   obtain affected-role plus named independent human re-review; retain parity,
   promotion, release and closure as separate gates. (AC-01, AC-05, AC-09)
 
