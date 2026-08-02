@@ -10,6 +10,6 @@
 - [Merged planning PR #621](https://github.com/edithatogo/voiage/pull/621)
 - [Delivery PR #821](https://github.com/edithatogo/voiage/pull/821)
 
-Status: in progress. Its governance PR #821 is merged; implementation and
-approved specification and plan; existing Project or issue status is not
-treated as implementation completion.
+Status: in progress. Governance PR #821 is merged and Phase 1 governance
+reconciliation is evidenced; implementation, installed binding evidence and
+independent contract review remain open.

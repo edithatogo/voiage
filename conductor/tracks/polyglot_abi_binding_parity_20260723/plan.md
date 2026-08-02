@@ -9,10 +9,7 @@
 - [x] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
   explicit exclusions. (AC-02, AC-05, AC-06)
 - [x] **G4:** Run automated contract review and full Conductor validation.
-  Existing Rust/C ABI, Python, R and Julia binding contracts, capability
-  dispositions and release evidence are reconciled without claiming clean
-  installed parity or Mojo support. (2026-08-01; commit: 05be6565; AC-01,
-  AC-07)
+  (AC-01, AC-07) — `1f82462`
 
 ## Phase 2 — Evidence before positive claims
 
@@ -20,8 +17,8 @@
   tests, or the corresponding reproducible review protocol. (AC-03)
 - [ ] **G6:** Add versioned schemas, fixtures, diagnostics and provenance
   contracts required by the accepted scope. (AC-02, AC-03)
-- [ ] **G7:** Record rights, privacy, scientific, practitioner and external
-  evidence gates that apply to this workstream. (AC-05, AC-06)
+- [x] **G7:** Record rights, privacy, scientific, practitioner and external
+  evidence gates that apply to this workstream. (AC-05, AC-06) — `1f82462`
 - [ ] **G8:** Run an independent evidence and boundary review. (AC-03, AC-07)
 
 ## Phase 3 — Delivery or reviewed exclusion

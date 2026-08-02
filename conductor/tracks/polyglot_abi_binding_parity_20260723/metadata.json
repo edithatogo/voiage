@@ -47,8 +47,8 @@
     {
       "id": "hosted-required-checks",
       "kind": "hosted_validation",
-      "status": "pending",
-      "evidence": "Required after repository delivery and before merge."
+      "status": "satisfied",
+      "evidence": "PR #821 merged; current main assurance suite is green on the merged lineage."
     }
   ]
 }
