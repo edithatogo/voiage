@@ -54,7 +54,8 @@
 - [~] **G14:** Run final full local validation and hosted required checks.
   (AC-07)
   - [ ] Bind the final validation packet to the exact release candidate and
-    hosted check run.
+    hosted check run. Local candidate receipt captured; exact-head hosted run
+    is not available.
 - [ ] **G15:** Record repository completion separately from merge, release,
   publication, registry acceptance and issue closure. (AC-02, AC-07)
   - [x] Define the fail-closed parent-closure rule and final receipt fields.
