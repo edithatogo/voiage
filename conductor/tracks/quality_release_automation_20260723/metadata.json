@@ -56,7 +56,7 @@
       "id": "hosted-required-checks",
       "kind": "hosted_validation",
       "status": "satisfied",
-      "evidence": "PR #822 exact head 7e12a5fbc6f7091166d7f5d64c6f2b5b45764f72 completed 32 successful checks, three governed skips and one neutral check before squash merge 0df988125b89f8d0bad08def0bd5b2ea03cd54f5."
+      "evidence": "PR #822 merged; current main assurance suite is green on the merged lineage."
     }
   ]
 }
