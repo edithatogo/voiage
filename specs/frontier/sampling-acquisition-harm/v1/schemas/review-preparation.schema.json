@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/sampling-acquisition-harm/v1/schemas/review-preparation.schema.json",
+  "title": "SamplingAcquisitionHarmReviewPreparationV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "preparation_id", "status", "candidate_commit", "candidate_tree", "candidate_worktree_state_at_freeze", "artifact_manifest", "review_packet", "candidate_input", "governance_snapshot", "required_independent_review_roles", "pending_tasks", "source_review_status", "authority_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "preparation_id": {"const": "sampling-harm-h8c-frozen-preparation-20260803"},
+    "status": {"const": "frozen_review_preparation"},
+    "candidate_commit": {"$ref": "#/$defs/gitOid"}, "candidate_tree": {"$ref": "#/$defs/gitOid"},
+    "candidate_worktree_state_at_freeze": {"const": "clean"},
+    "artifact_manifest": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "artifact_count"], "properties": {"path": {"const": "specs/frontier/sampling-acquisition-harm/v1/review-artifact-manifest.json"}, "sha256": {"$ref": "#/$defs/sha256"}, "artifact_count": {"const": 50}}},
+    "review_packet": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"const": "specs/frontier/sampling-acquisition-harm/v1/review-packet.json"}, "sha256": {"$ref": "#/$defs/sha256"}}},
+    "candidate_input": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"const": "specs/frontier/sampling-acquisition-harm/v1/review-candidate.json"}, "sha256": {"$ref": "#/$defs/sha256"}}},
+    "governance_snapshot": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "expires_at"], "properties": {"path": {"const": "specs/frontier/sampling-acquisition-harm/v1/governance-snapshot.json"}, "sha256": {"$ref": "#/$defs/sha256"}, "expires_at": {"type": "string", "format": "date-time", "pattern": "Z$"}}},
+    "required_independent_review_roles": {"type": "array", "prefixItems": [{"const": "estimand_domain"}, {"const": "estimator_assurance"}, {"const": "cross_language_api"}, {"const": "governance_publication"}, {"const": "domain_specialist"}], "minItems": 5, "maxItems": 5},
+    "pending_tasks": {"type": "array", "prefixItems": [{"const": "H8-D"}, {"const": "H8-E"}, {"const": "H8-F"}, {"const": "H8-G"}, {"const": "H8-H"}], "minItems": 5, "maxItems": 5},
+    "source_review_status": {"const": "blocked_pending_independent_retrieval_and_drift_comparison"},
+    "authority_boundary": {"type": "object", "additionalProperties": false, "required": ["preparation_only", "complete_scientific_review_bundle", "scientific_review_completed", "human_confirmation_received", "maintainer_disposition_recorded", "runtime_authorized", "real_study_authorized", "promotion_authorized", "release_authorized"], "properties": {"preparation_only": {"const": true}, "complete_scientific_review_bundle": {"const": false}, "scientific_review_completed": {"const": false}, "human_confirmation_received": {"const": false}, "maintainer_disposition_recorded": {"const": false}, "runtime_authorized": {"const": false}, "real_study_authorized": {"const": false}, "promotion_authorized": {"const": false}, "release_authorized": {"const": false}}}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "gitOid": {"type": "object", "additionalProperties": false, "required": ["algorithm", "value"], "properties": {"algorithm": {"const": "sha1"}, "value": {"type": "string", "pattern": "^[0-9a-f]{40}$"}}}
+  }
+}

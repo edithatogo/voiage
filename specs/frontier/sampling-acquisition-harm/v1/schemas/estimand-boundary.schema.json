@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/sampling-acquisition-harm/v1/schemas/estimand-boundary.schema.json",
+  "title": "SamplingAcquisitionHarmEstimandBoundaryV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "candidate_id", "question", "decision_unit", "affected_parties", "harm_components", "ordering_rule", "automatic_definition", "conditioning", "uncertainty", "study_authorization_semantics", "zero_harm_reduction", "scalar_validity_conditions", "fail_closed_consequences", "preserved_research", "scientific_disposition", "runtime_available"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "candidate_id": {"const": "sampling-harm-generic-kernel-exclusion-review-v1"},
+    "question": {"type": "string", "minLength": 1},
+    "decision_unit": {"type": "string", "minLength": 1},
+    "affected_parties": {"const": "must_be_declared_per_candidate"},
+    "harm_components": {"const": "must_be_declared_with_units_time_horizon_and_attribution_per_candidate"},
+    "ordering_rule": {"const": "no_automatic_total_order_without_declared_commensurate_component_ledger"},
+    "automatic_definition": {"const": "software_selects_or_applies_scalarization_without_candidate_specific_declared_and_reviewed_semantics"},
+    "conditioning": {"const": "candidate_specific_domain_jurisdiction_population_activity_comparator_and_authorities"},
+    "uncertainty": {"const": "indeterminate_without_candidate_specific_harm_law_data_and_estimator_assurance"},
+    "study_authorization_semantics": {"const": "always_out_of_scope_for_software_output"},
+    "zero_harm_reduction": {"const": "ordinary_evsi_or_enbs_only_after_candidate_specific_zero_harm_assumptions"},
+    "scalar_validity_conditions": {"type": "array", "prefixItems": [{"const": "state_action_outcome_mapping_is_unchanged_by_the_sampling_process"}, {"const": "valued_harm_is_policy_independent_and_not_already_counted_downstream"}, {"const": "cardinal_commensurability_is_declared_for_every_component"}, {"const": "harm_and_information_value_are_separable_under_the_declared_model"}, {"const": "perspective_numeraire_time_horizon_discounting_and_provenance_are_named"}, {"const": "component_ledger_is_mutually_exclusive_and_collectively_scoped"}, {"const": "hard_or_lexicographic_constraints_take_precedence_over_positive_scalar_value"}, {"const": "joint_harm_information_dropout_and_reporting_law_is_declared"}], "minItems": 8, "maxItems": 8},
+    "fail_closed_consequences": {"type": "array", "prefixItems": [{"const": "incommensurate_components_make_the_scalar_undefined"}, {"const": "catastrophic_constraint_violation_overrides_positive_scalar_value"}, {"const": "changed_state_action_or_outcome_mapping_is_not_ordinary_evsi"}, {"const": "missing_joint_dropout_or_reporting_law_makes_the_result_indeterminate"}, {"const": "zero_harm_reduction_is_conditional_not_automatic"}], "minItems": 5, "maxItems": 5},
+    "preserved_research": {"type": "array", "prefixItems": [{"const": "candidate_specific_non_authorizing_scalar_with_declared_commensurate_ledger"}, {"const": "parameterized_non_authorizing_constrained_candidate"}, {"const": "parameterized_non_authorizing_vector_candidate"}], "minItems": 3, "maxItems": 3},
+    "scientific_disposition": {"const": "pending"},
+    "runtime_available": {"const": false}
+  }
+}

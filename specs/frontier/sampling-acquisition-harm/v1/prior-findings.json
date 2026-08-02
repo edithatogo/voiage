@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "sampling-harm-generic-kernel-exclusion-review-v1",
+  "inventory_status": "repository_review_history_not_candidate_bound_independent_review",
+  "review_batches": [
+    {"stage": "phase_1_advisory", "historical_revision": "eeb50c303246b4865c4a0b92e4669c92dd8196ea", "git_object_status": "unreachable_after_squash_merge", "reachable_merge_commit": "62d22743b1547266bd554b215f957934bf577234", "evidence_entry_sha256": "064902d9afd4e7683507ae3b420138ba18ad50ebf0fd2cafb8f1022d56919881"},
+    {"stage": "h8a_scope_review", "historical_revision": null, "git_object_status": "evidence_bound_to_reachable_merge", "reachable_merge_commit": "2367074d4b8ea14590746286649d9afb8ebebaef", "evidence_entry_sha256": "a0ebb956441f41923563a9f6d314513326b8ac950913ff9d48abef3dc49aa436"},
+    {"stage": "h8a_hosted_ci", "historical_revision": "6802131ade656168e5564546a84fde2ce557c5d3", "git_object_status": "unreachable_after_squash_merge", "reachable_merge_commit": "2367074d4b8ea14590746286649d9afb8ebebaef", "evidence_entry_sha256": "8856a26c9899d4f5cb18e18e2549d453902dea350e44174d97cb6b409234b3c9"},
+    {"stage": "h8b_contract_review", "historical_revision": "4c549584fafb90cd844701ad1116865d733433ec", "git_object_status": "unreachable_after_squash_merge", "reachable_merge_commit": "645725eb8d1a71ec75118c42757675aca6447114", "evidence_entry_sha256": "932d279c30311485b41dbbe7c093d0a324026e462c11b64521d88c37f21c9944"},
+    {"stage": "h8b_hosted_ci", "historical_revision": "888be418e80695c327c6e33a357321959056dc0a", "git_object_status": "unreachable_after_squash_merge", "reachable_merge_commit": "645725eb8d1a71ec75118c42757675aca6447114", "evidence_entry_sha256": "cca7c2e3b137ec93e933bf3b630f5c0b16d3fa817aaa801a7a62abc209924b45"},
+    {"stage": "h8b_coverage_ci", "historical_revision": "f7dfbcea24cdb0143a85c4cf316b6065885a062b", "git_object_status": "unreachable_after_squash_merge", "reachable_merge_commit": "645725eb8d1a71ec75118c42757675aca6447114", "evidence_entry_sha256": "ea1c5b4921199a77ec14494e673d93ff1326ee99298a5a243eab7e605335af2b"}
+  ],
+  "findings": [
+    {"id": "P1-01", "stage": "phase_1_advisory", "severity": "High", "summary": "The scalar candidate lacked an explicit baseline decision.", "disposition": "remediated", "revision": "eeb50c303246b4865c4a0b92e4669c92dd8196ea"},
+    {"id": "P1-02", "stage": "phase_1_advisory", "severity": "High", "summary": "Information, causal and downstream consequences were underspecified.", "disposition": "remediated", "revision": "eeb50c303246b4865c4a0b92e4669c92dd8196ea"},
+    {"id": "P1-03", "stage": "phase_1_advisory", "severity": "High", "summary": "The lower-tail CVaR convention was incorrect.", "disposition": "remediated", "revision": "eeb50c303246b4865c4a0b92e4669c92dd8196ea"},
+    {"id": "P1-04", "stage": "phase_1_advisory", "severity": "High", "summary": "Separability, commensurability and affected-party requirements were too weak.", "disposition": "remediated", "revision": "eeb50c303246b4865c4a0b92e4669c92dd8196ea"},
+    {"id": "P1-05", "stage": "phase_1_advisory", "severity": "High", "summary": "Feasibility could be mistaken for ethical authorization.", "disposition": "remediated", "revision": "eeb50c303246b4865c4a0b92e4669c92dd8196ea"},
+    {"id": "P1-06", "stage": "phase_1_advisory", "severity": "High", "summary": "Source attribution and retrieval provenance were incomplete.", "disposition": "remediated", "revision": "eeb50c303246b4865c4a0b92e4669c92dd8196ea"},
+    {"id": "P1-07", "stage": "phase_1_advisory", "severity": "High", "summary": "Repository authorization resembled scientific approval.", "disposition": "remediated", "revision": "eeb50c303246b4865c4a0b92e4669c92dd8196ea"},
+    {"id": "P1-08", "stage": "phase_1_advisory", "severity": "High", "summary": "Downstream welfare and harm could be double counted.", "disposition": "remediated", "revision": "eeb50c303246b4865c4a0b92e4669c92dd8196ea"},
+    {"id": "P1-09", "stage": "phase_1_advisory", "severity": "Medium", "summary": "Under-reporting appeared only as a sensitivity.", "disposition": "remediated", "revision": "eeb50c303246b4865c4a0b92e4669c92dd8196ea"},
+    {"id": "P1-10", "stage": "phase_1_advisory", "severity": "Medium", "summary": "Vector or constrained results could fabricate a single preferred design.", "disposition": "remediated", "revision": "eeb50c303246b4865c4a0b92e4669c92dd8196ea"},
+    {"id": "P1-11", "stage": "phase_1_advisory", "severity": "Medium", "summary": "Candidate, mathematical and authorized status were conflated.", "disposition": "remediated", "revision": "eeb50c303246b4865c4a0b92e4669c92dd8196ea"},
+    {"id": "P1-12", "stage": "phase_1_advisory", "severity": "Medium", "summary": "Lifecycle and H1/H2 evidence could drift after remediation.", "disposition": "remediated", "revision": "eeb50c303246b4865c4a0b92e4669c92dd8196ea"},
+    {"id": "H8A-01", "stage": "h8a_scope_review", "severity": "High", "summary": "The proposed exclusion was too broad and had to preserve parameterized constrained and vector research.", "disposition": "remediated", "revision": "2367074d4b8ea14590746286649d9afb8ebebaef"},
+    {"id": "H8A-02", "stage": "h8a_scope_review", "severity": "High", "summary": "Reopening requirements were circular and needed separate entry evidence and downstream gates.", "disposition": "remediated", "revision": "2367074d4b8ea14590746286649d9afb8ebebaef"},
+    {"id": "H8A-03", "stage": "h8a_scope_review", "severity": "High", "summary": "A fixed symbol denylist did not prove absence of a method-family implementation.", "disposition": "remediated", "revision": "2367074d4b8ea14590746286649d9afb8ebebaef"},
+    {"id": "H8A-04", "stage": "h8a_scope_review", "severity": "High", "summary": "The research-disposition schema changed without a version increment.", "disposition": "remediated", "revision": "2367074d4b8ea14590746286649d9afb8ebebaef"},
+    {"id": "H8A-05", "stage": "h8a_scope_review", "severity": "Medium", "summary": "The selected source needed exact typed commit and tree binding.", "disposition": "remediated", "revision": "2367074d4b8ea14590746286649d9afb8ebebaef"},
+    {"id": "H8A-06", "stage": "h8a_scope_review", "severity": "Medium", "summary": "Evidence references needed safe paths, SHA-256 digests and byte verification.", "disposition": "remediated", "revision": "2367074d4b8ea14590746286649d9afb8ebebaef"},
+    {"id": "H8A-07", "stage": "h8a_scope_review", "severity": "Medium", "summary": "Scope needed sampling activity, comparator, affected parties, harm categories and excluded semantics.", "disposition": "remediated", "revision": "2367074d4b8ea14590746286649d9afb8ebebaef"},
+    {"id": "H8A-08", "stage": "h8a_scope_review", "severity": "Medium", "summary": "Not-authorized states and the two-human roadmap rule needed explicit separation.", "disposition": "remediated", "revision": "2367074d4b8ea14590746286649d9afb8ebebaef"},
+    {"id": "H8A-09", "stage": "h8a_scope_review", "severity": "Medium", "summary": "Negative mutation coverage and advisory-panel provenance wording were incomplete.", "disposition": "remediated", "revision": "2367074d4b8ea14590746286649d9afb8ebebaef"},
+    {"id": "H8A-CI-01", "stage": "h8a_hosted_ci", "severity": "High", "summary": "A date mutation behaved differently on Python 3.14.", "disposition": "remediated", "revision": "6802131ade656168e5564546a84fde2ce557c5d3"},
+    {"id": "H8B-01", "stage": "h8b_contract_review", "severity": "High", "summary": "Human receipts were not bound to accountable signer identities.", "disposition": "remediated", "revision": "4c549584fafb90cd844701ad1116865d733433ec"},
+    {"id": "H8B-02", "stage": "h8b_contract_review", "severity": "High", "summary": "Medium remediation did not require affected-role re-review.", "disposition": "remediated", "revision": "4c549584fafb90cd844701ad1116865d733433ec"},
+    {"id": "H8B-03", "stage": "h8b_contract_review", "severity": "High", "summary": "Unknown dispositions or dropped dissent history were not rejected.", "disposition": "remediated", "revision": "4c549584fafb90cd844701ad1116865d733433ec"},
+    {"id": "H8B-CI-01", "stage": "h8b_hosted_ci", "severity": "High", "summary": "Bandit B404 and B603 flagged the fixed shell-free Git verifier.", "disposition": "remediated", "revision": "888be418e80695c327c6e33a357321959056dc0a"},
+    {"id": "H8B-CI-02", "stage": "h8b_hosted_ci", "severity": "High", "summary": "Changed-line and changed-branch coverage gates were incomplete.", "disposition": "remediated", "revision": "f7dfbcea24cdb0143a85c4cf316b6065885a062b"}
+  ],
+  "evidence_refs": [
+    {"stage": "phase_1_advisory", "entry_sha256": "064902d9afd4e7683507ae3b420138ba18ad50ebf0fd2cafb8f1022d56919881"},
+    {"stage": "h8a_scope_review", "entry_sha256": "a0ebb956441f41923563a9f6d314513326b8ac950913ff9d48abef3dc49aa436"},
+    {"stage": "h8a_hosted_ci", "entry_sha256": "8856a26c9899d4f5cb18e18e2549d453902dea350e44174d97cb6b409234b3c9"},
+    {"stage": "h8b_contract_review", "entry_sha256": "932d279c30311485b41dbbe7c093d0a324026e462c11b64521d88c37f21c9944"},
+    {"stage": "h8b_hosted_ci", "entry_sha256": "cca7c2e3b137ec93e933bf3b630f5c0b16d3fa817aaa801a7a62abc209924b45"},
+    {"stage": "h8b_coverage_ci", "entry_sha256": "ea1c5b4921199a77ec14494e673d93ff1326ee99298a5a243eab7e605335af2b"}
+  ],
+  "all_findings_repository_remediated": true,
+  "candidate_bound_independent_verification": false,
+  "provenance_limitations": [
+    "H8-A source notes reported nine fixed review findings but did not assign stable finding identifiers; this register assigns migration identifiers without changing their dispositions.",
+    "Historical semantic and CI revisions were squash-merged and are not reachable in a clean clone; each batch therefore records the historical identifier, reachable merge commit and exact evidence-ledger digest separately.",
+    "No item in this inventory is a candidate-bound H8-D independent review finding."
+  ]
+}

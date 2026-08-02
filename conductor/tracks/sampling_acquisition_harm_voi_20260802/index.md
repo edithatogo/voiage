@@ -5,6 +5,7 @@
 - [MoSCoW requirements](./requirements.md)
 - [Mermaid design](./design.md)
 - [Human-confirmation gates](./human-confirmation-gates.md)
+- [H8-C frozen review preparation](./h8c-frozen-review-preparation-20260803.md)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
 - [GitHub issue #850](https://github.com/edithatogo/voiage/issues/850)
@@ -22,8 +23,9 @@
 Status: in progress. Automated primary-source, estimand and advisory scoping is
 complete, and VOP PR #71 merged the canonical C18/M32 planning projection as
 `e0ff1d2ce3361d52ee22bb01e105b92653ed606c`. No sampling-acquisition-harm
-runtime exists; candidate-bound
-independent review, named human verdict, real-study authorization,
+runtime exists. H8-C now binds the exact candidate and 50-artifact preparation;
+exact-source retrieval/drift work and candidate-bound independent review,
+named human verdict, real-study authorization,
 implementation, parity, promotion, release, publication, registry acceptance
 and closure remain separate gates. Repository hosted assurance is satisfied by
 merged PR #855; it does not satisfy any of those remaining gates.
