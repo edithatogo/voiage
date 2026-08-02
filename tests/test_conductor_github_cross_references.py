@@ -258,6 +258,18 @@ def test_final_governed_delivery_reconciliation_is_exact_and_additive() -> None:
     registry_prs = {item["number"]: item for item in registry_entry["pull_requests"]}
     for number in (480, 561, 813):
         assert registry_prs[number]["status"] == "merged"
+    registry_metadata = json.loads(
+        (
+            ROOT
+            / "conductor"
+            / "tracks"
+            / "research_software_registry_readiness_20260721"
+            / "metadata.json"
+        ).read_text()
+    )
+    assert set(registry_entry["subissues"]) == set(
+        registry_metadata["github_subissues"]
+    )
     assert (
         registry_entry["path"]
         == "conductor/tracks/research_software_registry_readiness_20260721"
