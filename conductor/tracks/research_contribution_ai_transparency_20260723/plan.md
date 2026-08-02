@@ -14,8 +14,8 @@
 
 ## Phase 2 — Evidence before positive claims
 
-- [ ] **G5:** Add failing conformance, reference, property and pathological
-  tests, or the corresponding reproducible review protocol. (AC-03)
+- [x] **G5:** Add failing conformance, reference, property and pathological
+  tests, or the corresponding reproducible review protocol. (AC-03) — `0d4bcc6`
 - [ ] **G6:** Add versioned schemas, fixtures, diagnostics and provenance
   contracts required by the accepted scope. (AC-02, AC-03)
 - [ ] **G7:** Record rights, privacy, scientific, practitioner and external
