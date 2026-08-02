@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "as_of": "2026-08-03T00:00:00Z",
+  "accountability": "single-maintainer",
+  "policy": "Do not close from local tests, panel synthesis, merged PRs, or Project status alone.",
+  "records": [
+    {
+      "issue": "#313-#323",
+      "status": "open",
+      "closure_receipt": null,
+      "blocker": "scientific, parity, promotion, release, publication, registry, or parent acceptance remains open"
+    },
+    {
+      "issue": "#325",
+      "status": "closed-inconsistent",
+      "closure_receipt": null,
+      "blocker": "issue is closed while its body retains unchecked acceptance criteria; maintainer decision required"
+    },
+    {
+      "issue": "#467/#468",
+      "status": "closed",
+      "closure_receipt": "external issue state observed; no additional approval inferred"
+    },
+    {
+      "issue": "#841/#843-#849",
+      "status": "open",
+      "closure_receipt": null,
+      "blocker": "scientific review and accountable maintainer decisions pending"
+    }
+  ]
+}
