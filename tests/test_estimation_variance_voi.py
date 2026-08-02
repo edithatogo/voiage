@@ -382,6 +382,7 @@ def test_versioned_estimation_variance_schemas_and_fixtures_validate() -> None:
         (ESTIMATION_SPEC_ROOT / "runtime-data.schema.json").read_text(encoding="utf-8")
     )
     assert result_schema["x-semantic-validation-required"] is True
+    assert "Reserved vocabulary only" in result_schema["x-vector-boundary"]
     assert (
         result_schema["x-semantic-validator"]
         == "voiage.contracts.estimation.EstimationVarianceResult"

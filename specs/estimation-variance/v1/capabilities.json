@@ -22,7 +22,14 @@
   },
   "target_capabilities": {
     "scalar_variance": "executable",
-    "vector_covariance": "unsupported_pending_scientific_review"
+    "vector_covariance": "reserved_contract_vocabulary_only_unsupported"
+  },
+  "vector_covariance_boundary": {
+    "status": "unsupported_pending_candidate_bound_independent_scientific_review",
+    "runtime": "All vector targets fail with unsupported_estimation_target before native dispatch.",
+    "result_semantics": "No portable or executable vector result envelope is conformant.",
+    "reserved_functionals": ["trace", "determinant", "weighted_quadratic"],
+    "promotion_allowed": false
   },
   "bindings": [
     {

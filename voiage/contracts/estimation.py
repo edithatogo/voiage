@@ -125,7 +125,9 @@ class EstimatorAssuranceSpec(ContractModel):
                     self.coupling_id,
                 )
             ):
-                raise ValueError("exact estimators do not accept simulation design fields")
+                raise ValueError(
+                    "exact estimators do not accept simulation design fields"
+                )
         elif self.estimator_design == "outer_monte_carlo":
             if self.outer_replicates is None:
                 raise ValueError("outer_monte_carlo requires outer_replicates")
@@ -381,6 +383,11 @@ class EstimationVarianceResult(ContractModel):
     @model_validator(mode="after")
     def validate_covariance_and_reduction(self) -> Self:
         """Require dimension-compatible covariance and reduction fields."""
+        if self.target.shape == "vector":
+            raise ValueError(
+                "vector result envelopes are reserved vocabulary only and "
+                "remain unsupported pending candidate-bound scientific review"
+            )
         dimension = len(self.target.component_units)
         for field_name, covariance in (
             ("prior_covariance", self.prior_covariance),

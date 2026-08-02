@@ -213,21 +213,57 @@ def test_assurance_contract_rejects_one_bootstrap_replicate() -> None:
         _ = _assurance("discrete_conditioning", bootstrap_replicates=1)
 
 
-def test_runtime_rejects_vector_targets_pending_scientific_review() -> None:
-    specification = _evppi_spec().model_copy(
-        update={
-            "target": EstimationTargetSpec(
-                target_id="joint",
-                shape="vector",
-                component_units=("count", "count"),
-                covariance_functional="trace",
-            )
-        }
+@pytest.mark.parametrize(
+    ("method_id", "functional"),
+    [
+        ("evppi_var", "trace"),
+        ("evppi_var", "determinant"),
+        ("evppi_var", "weighted_quadratic"),
+        ("evsi_var", "trace"),
+        ("evsi_var", "determinant"),
+        ("evsi_var", "weighted_quadratic"),
+    ],
+)
+def test_runtime_rejects_all_vector_targets_before_native_dispatch(
+    monkeypatch: pytest.MonkeyPatch,
+    method_id: str,
+    functional: str,
+) -> None:
+    def unexpected_native_dispatch(*_args: object, **_kwargs: object) -> None:
+        pytest.fail("vector request reached the native scalar kernel")
+
+    monkeypatch.setattr(
+        estimation_module, "compute_evppi_variance", unexpected_native_dispatch
     )
-    with pytest.raises(InputError, match="scalar variance targets only"):
-        _ = estimation_module.evppi_var(
-            [0.0, 1.0], ["a", "b"], specification=specification
+    monkeypatch.setattr(
+        estimation_module, "compute_evsi_variance", unexpected_native_dispatch
+    )
+    target = EstimationTargetSpec(
+        target_id="joint",
+        shape="vector",
+        component_units=("count", "count"),
+        covariance_functional=functional,
+        functional_weights=(1.0, 1.0) if functional == "weighted_quadratic" else None,
+    )
+    specification = (
+        _evppi_spec() if method_id == "evppi_var" else _evsi_spec()
+    ).model_copy(update={"target": target})
+
+    def request_vector_result() -> object:
+        if method_id == "evppi_var":
+            return estimation_module.evppi_var(
+                [0.0, 1.0], ["a", "b"], specification=specification
+            )
+        return estimation_module.evsi_var(
+            [0.0, 1.0],
+            [0.1, 0.2],
+            [0.5, 0.5],
+            specification=specification,
         )
+
+    with pytest.raises(InputError, match="scalar variance targets only") as captured:
+        _ = request_vector_result()
+    assert captured.value.diagnostic_code == "unsupported_estimation_target"
 
 
 def _native_payload() -> dict[str, object]:
@@ -479,7 +515,4 @@ def test_nested_and_coupled_assurance_require_dependence_preserving_outer_units(
         ),
     )
     assert accepted.truth_known_assurance is not None
-    assert (
-        accepted.truth_known_assurance.dependence_structure
-        == "nested_shared_outer"
-    )
+    assert accepted.truth_known_assurance.dependence_structure == "nested_shared_outer"

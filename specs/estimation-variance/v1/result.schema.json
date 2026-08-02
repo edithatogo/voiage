@@ -5,6 +5,7 @@
   "description": "Portable structural schema. Consumers MUST also apply the governed semantic validator voiage.contracts.estimation.EstimationVarianceResult, which enforces covariance-functional equality and units derived from the declared target.",
   "x-semantic-validator": "voiage.contracts.estimation.EstimationVarianceResult",
   "x-semantic-validation-required": true,
+  "x-vector-boundary": "Reserved vocabulary only; semantic validation rejects every vector result pending candidate-bound independent scientific review.",
   "type": "object",
   "additionalProperties": false,
   "required": [

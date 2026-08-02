@@ -20,7 +20,17 @@ def test_estimation_variance_capabilities_cover_retained_binding_matrix() -> Non
     assert set(dispositions) == {binding["id"] for binding in matrix["bindings"]}
     assert capability["target_capabilities"] == {
         "scalar_variance": "executable",
-        "vector_covariance": "unsupported_pending_scientific_review",
+        "vector_covariance": "reserved_contract_vocabulary_only_unsupported",
+    }
+    boundary = capability["vector_covariance_boundary"]
+    assert boundary["status"] == (
+        "unsupported_pending_candidate_bound_independent_scientific_review"
+    )
+    assert boundary["promotion_allowed"] is False
+    assert set(boundary["reserved_functionals"]) == {
+        "trace",
+        "determinant",
+        "weighted_quadratic",
     }
 
 
