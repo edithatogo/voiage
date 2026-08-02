@@ -9,7 +9,7 @@ import hashlib
 import json
 from pathlib import Path, PurePosixPath
 import shutil
-import subprocess
+import subprocess  # nosec B404
 from typing import Any, cast
 
 from jsonschema import Draft202012Validator, FormatChecker
@@ -322,7 +322,9 @@ def _git_output(repository_root: Path, *arguments: str, binary: bool = False) ->
         )
     command = [GIT_EXECUTABLE, "-C", str(repository_root), *arguments]
     try:
-        return subprocess.check_output(command, text=not binary)  # noqa: S603
+        return subprocess.check_output(  # noqa: S603  # nosec B603
+            command, text=not binary
+        )
     except (OSError, subprocess.CalledProcessError) as error:
         raise ScientificReviewEvidenceError(
             f"cannot verify frozen Git evidence with {' '.join(arguments)}"
