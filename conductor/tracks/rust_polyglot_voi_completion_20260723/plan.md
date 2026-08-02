@@ -60,3 +60,5 @@
   publication, registry acceptance and issue closure. (AC-02, AC-07)
   - [x] Define the fail-closed parent-closure rule and final receipt fields.
     — `b4a1f20`
+  - [x] Record the final receipt matrix with repository and external states.
+    — `g15-final-receipt-matrix-20260803`
