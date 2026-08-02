@@ -47,17 +47,13 @@
   release targets and remaining external gates. (AC-01, AC-05, AC-06)
   - [x] Define distinct registry/release/publication/parent-closure states,
     evidence lanes and authority boundaries. — `b4a1f20`
-  - [~] Refresh each destination from authoritative receipts and reconcile
-    child and parent issue state. Live issue receipts captured; Project 28
-    membership is not found and requires authorized GitHub reconciliation.
-- [~] **G14:** Run final full local validation and hosted required checks.
+  - [ ] Refresh each destination from authoritative receipts and reconcile
+    child and parent issue state.
+- [ ] **G14:** Run final full local validation and hosted required checks.
   (AC-07)
   - [ ] Bind the final validation packet to the exact release candidate and
-    hosted check run. Local candidate receipt captured; exact-head hosted run
-    is not available.
+    hosted check run.
 - [ ] **G15:** Record repository completion separately from merge, release,
   publication, registry acceptance and issue closure. (AC-02, AC-07)
   - [x] Define the fail-closed parent-closure rule and final receipt fields.
     — `b4a1f20`
-  - [x] Record the final receipt matrix with repository and external states.
-    — `g15-final-receipt-matrix-20260803`
