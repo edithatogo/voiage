@@ -385,8 +385,8 @@ class EstimationVarianceResult(ContractModel):
         """Require dimension-compatible covariance and reduction fields."""
         if self.target.shape == "vector":
             raise ValueError(
-                "vector result envelopes are reserved vocabulary only and "
-                "remain unsupported pending candidate-bound scientific review"
+                "vector result envelopes are reserved vocabulary only and remain "
+                + "unsupported pending candidate-bound scientific review"
             )
         dimension = len(self.target.component_units)
         for field_name, covariance in (
