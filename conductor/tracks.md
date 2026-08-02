@@ -102,7 +102,7 @@ and issue closure remain separate gates.*
 *GitHub: [issue #319](https://github.com/edithatogo/voiage/issues/319), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
 *Status: in progress — the issue-claimed specification and plan are now materialized;
-existing issue/Project progress awaits evidence reconciliation.*
+existing issue/Project progress awaits evidence reconciliation; scientific, installed-parity, rights and hosted gates remain pending.*
 
 ---
 
@@ -111,7 +111,8 @@ existing issue/Project progress awaits evidence reconciliation.*
 *GitHub: [issue #320](https://github.com/edithatogo/voiage/issues/320), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
 *Status: in progress — the issue-claimed specification and plan are now materialized;
-existing issue/Project progress awaits evidence reconciliation.*
+existing issue/Project progress awaits evidence reconciliation; scientific,
+installed-parity, rights and hosted gates remain pending.*
 
 ---
 
