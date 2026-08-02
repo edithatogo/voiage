@@ -198,8 +198,9 @@ repository manifest, validation, and merged PR handoff are recorded.*
 *Link: [./tracks/controlled_live_dataset_interoperability_20260801/index.md](./tracks/controlled_live_dataset_interoperability_20260801/index.md)*
 *GitHub: [issue #752](https://github.com/edithatogo/voiage/issues/752), native
 sub-issue of [#325](https://github.com/edithatogo/voiage/issues/325).*
-*Status: new — blocked pending approved rights-cleared, hash-pinned source
-artifacts and explicit use authority.*
+*Status: in progress but authorization-blocked — fail-closed local probe
+assurance passes; approved rights-cleared, hash-pinned source artifacts and
+explicit use authority remain mandatory before network I/O.*
 
 ---
 
