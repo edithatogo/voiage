@@ -33,10 +33,18 @@
 
 ## Phase 3 — Candidate-bound decision
 
-- [~] **H8-A:** Select either one narrow domain/jurisdiction/population
-  candidate or a reviewed exclusion of a generic executable kernel; retain
-  `unsupported_research_scoping` until the complete gate succeeds. (AC-02,
-  AC-03, AC-08)
+- [x] **H8-A:** Select the generic automatic-scalar or study-authorizing
+  kernel as the candidate-bound review target, with proposed disposition
+  `reviewed_exclusion`; retain `unsupported_research_scoping` until the
+  complete gate succeeds. Parameterized constrained or vector research
+  remains eligible for a future narrow candidate. (AC-02, AC-03, AC-08)
+  `2922592c`, `79d58ec5`
+- [x] **H8-A-R1:** Apply the advisory panel remediation: narrow the exclusion
+  target, separate candidate-entry evidence from downstream review gates,
+  bind the source commit/tree and evidence digests, version the disposition
+  schema change, and add negative method-family and integrity tests. This is
+  repository scope selection, not a completed reviewed exclusion or human
+  confirmation. (AC-02, AC-03, AC-07–AC-10) `79d58ec5`
 - [x] **H8-B:** Harden the scientific-review evidence contract: separate Git
   OIDs from SHA-256 content digests, define canonical hashing, verify manifest
   bytes, exact finding inventories, Medium dispositions, role separation,
