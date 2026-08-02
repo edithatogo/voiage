@@ -6,6 +6,7 @@
 - [Mermaid Design](./design.md)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
+- [Scientific review panel and orchestration protocol](./scientific-review-panel.md)
 - [GitHub issue #318](https://github.com/edithatogo/voiage/issues/318)
 - [Parent issue #313](https://github.com/edithatogo/voiage/issues/313)
 - [Project 28](https://github.com/users/edithatogo/projects/28)
@@ -48,7 +49,8 @@
 - [Heterogeneity-value reference review](./heterogeneity-value-reference-review.md)
 - [Heterogeneity-value issue #599 and delivery subissues #786/#788/#789](https://github.com/edithatogo/voiage/issues/599)
 
-Status: repository-owned programme work is complete; the track remains in
-progress for the explicitly external scientific, parity, promotion, release,
-publication, registry, and issue-closure gates. Project or issue status is not
+Status: repository-owned programme work is complete. Phase 5 SR1–SR10 now
+plans the orchestrated scientific review and issue-backed remediation programme;
+the track remains in progress for scientific, parity, promotion, release,
+publication, registry and issue-closure gates. Project or issue status is not
 treated as implementation completion.

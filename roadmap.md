@@ -32,6 +32,19 @@ sparse-subgroup validity, #600 continuous/fitted-estimator and risk-composition
 evidence, #619 vector covariance scalarization, Rust/R/Julia parity, stable
 promotion, release/publication and family-parent/#318 closure remain open.
 
+The next #318 stage is a planned, fail-closed scientific review programme under
+Phase 5 SR1–SR10. A separate orchestrating agent freezes each content-addressed
+candidate and synthesizes independent estimand/domain, estimator-assurance,
+cross-language/API and governance/publication subagent reports. Wave A covers
+#619, #571 and #595; Wave B covers #570 and #597–#600; Wave C covers the
+remaining C17/C18 families; a cross-cutting wave covers installed artifacts,
+portable fixtures, capability discovery, reproducibility and parity. Findings
+are remediated in nested issue-backed slices and rebound to fresh review
+packets. Subagent evidence does not replace a named independent human
+scientific verdict, and scientific acceptance remains separate from maintainer
+promotion, hosted assurance, release, publication, registry and issue-closure
+decisions.
+
 The v1.3 residual frontier programme is governed canonically by VOP C18. Issue
 #599 completed its governed experimental repository delivery. Its exact finite
 Python contract preserves the existing stable descriptive helper while adding

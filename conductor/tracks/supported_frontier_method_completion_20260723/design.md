@@ -1,5 +1,46 @@
 # Mermaid design — planned v1.2.0 and v1.3.0
 
+## Orchestrated scientific review
+
+```mermaid
+flowchart TD
+    Candidate["Freeze exact candidate, tree and artifact hashes"] --> Packet["Immutable review packet"]
+    Packet --> Orchestrator["Orchestrating agent"]
+    Orchestrator --> Estimand["Estimand and domain subagent"]
+    Orchestrator --> Assurance["Estimator-assurance subagent"]
+    Orchestrator --> Parity["Cross-language and API subagent"]
+    Orchestrator --> Governance["Governance and publication subagent"]
+    Estimand --> Reports["Independent structured reports"]
+    Assurance --> Reports
+    Parity --> Reports
+    Governance --> Reports
+    Reports --> Register["Finding and disagreement registers"]
+    Register --> Blocked{"Critical, High or scientific dissent?"}
+    Blocked -->|yes| Remediate["Issue-backed remediation"]
+    Remediate --> Rebind["Freeze new candidate and re-review affected roles"]
+    Rebind --> Packet
+    Blocked -->|no| Synthesis["Orchestrator synthesis and family verdict matrix"]
+    Synthesis --> Human["Named independent human scientific verdict"]
+    Human --> Maintainer["Separate maintainer maturity decision"]
+    Maintainer --> Gates["Parity, promotion, hosted, release, publication and closure gates remain separate"]
+```
+
+## Risk-sensitive and constrained information value
+
+```mermaid
+flowchart LR
+    States["Finite states and probabilities"] --> Current["Matched current feasible policy problem"]
+    Risk["Declared expectation, utility, CVaR or regret functional"] --> Current
+    Constraints["Budget, capacity, fairness, regulation and service constraints"] --> Current
+    States --> Informed["Matched post-information feasible policy problem"]
+    Risk --> Informed
+    Constraints --> Informed
+    Current --> Value["Gross and signed net information value"]
+    Informed --> Value
+    Value --> Diagnostics["Complete ties, infeasibility, switches and risk/constraint diagnostics"]
+    Diagnostics --> Boundary["C18/M22 experimental capability; sampling-acquisition harm is separately scoped"]
+```
+
 ## Static and dynamic heterogeneity value
 
 ```mermaid

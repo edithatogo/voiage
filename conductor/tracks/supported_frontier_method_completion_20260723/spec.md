@@ -27,6 +27,11 @@ Project: [VOP–VOIAGE Conductor Roadmap](https://github.com/users/edithatogo/pr
    declared utility, wealth/reference state and information structure. VoC
    does not create a duplicate numerical method, and raw monetary EVPI is not
    risk-adjusted VoC unless affine-utility reduction conditions hold.
+6. Govern scientific review through the role-specific subagent panel and
+   separate orchestrating agent in `scientific-review-panel.md`, with immutable
+   candidate packets, independence/conflict attestations, a family-specific
+   rubric, explicit dissent, remediation re-review and accountable human
+   scientific approval before any stable or publication claim.
 
 ## Owned issue records
 
@@ -56,6 +61,12 @@ separate Conductor tracks unless they have an independently approved contract.
 - **AC-09:** The v1.2.0 C16 predecessor and v1.3.0 C17/C18 continuations, MoSCoW
   requirements, Mermaid design, versioned projections, GitHub hierarchy and
   Project 28 fields remain synchronized.
+- **AC-10:** The scientific-review programme is executable as a fail-closed
+  process: an orchestrator freezes and hashes the candidate, four independent
+  role reports use the acceptance matrix, all findings and disagreements are
+  dispositioned, affected remediations are re-reviewed, and the synthesis does
+  not substitute for accountable human approval or downstream parity,
+  promotion, release and publication gates.
 
 ## Non-functional constraints
 

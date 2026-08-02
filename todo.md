@@ -5,10 +5,28 @@ This document lists the actionable tasks for `voiage` development. Agents should
 ## To Do
 
 For experimental frontier items, references to scientific review mean the
-relevant subagent review panel defined in
+role-specific subagent review panel and separate orchestrating agent defined in
 `conductor/tracks/supported_frontier_method_completion_20260723/scientific-review-panel.md`.
-The panel supplies structured evidence; maintainer approval and external
-release, registry, and publication decisions remain separate gates.
+The orchestrator freezes the candidate, gathers independent reports, preserves
+dissent and synthesizes recommendations. The panel supplies structured
+challenge evidence; named independent human scientific approval, maintainer
+approval and external release, registry and publication decisions remain
+separate gates.
+
+*   [ ] Execute #318 Phase 5 orchestrated scientific review.
+    *   SR1–SR10 govern candidate freeze, evidence schemas, the #619/#571/#595
+        Wave A panel, stochastic sampling-harm scoping, high-risk and remaining-
+        family waves, installed/parity review, remediation re-review,
+        orchestrator synthesis and accountable decision receipts.
+    *   Initial panel findings include COSS commissioning and selection-
+        uncertainty semantics, estimation specification/runtime and nested-
+        assurance gaps, vector covariance units/scalarization, CRRA near-log
+        stability, VoC presentation provenance, portable/installed evidence,
+        lifecycle synchronization and Boolean-only promotion evidence.
+    *   Any unresolved Critical/High finding or scientific dissent keeps the
+        affected family experimental. Do not infer scientific acceptance,
+        parity, promotion, release, publication, registry acceptance or issue
+        closure from repository delivery or hosted-green checks.
 
 *   [x] Complete #318 repository-owned programme closeout stages G14 and G15.
     *   G5–G15 repository-owned evidence and governance reconciliation is

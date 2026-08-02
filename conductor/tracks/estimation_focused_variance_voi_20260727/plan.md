@@ -108,3 +108,24 @@
   `2026-08-01T03:38:52Z`. This makes delivery subissues #671--#674 eligible
   for closure but does not satisfy E17 or authorize parent #619, umbrella
   #318, stable-promotion or release closure.)*
+
+## Phase 7 — Orchestrated scientific remediation and re-review
+
+- [ ] **E19:** Under umbrella Phase 5, freeze a candidate-bound review packet
+  and run the estimand/domain, estimator-assurance, cross-language/API and
+  governance/publication panel roles. (M14-E6–M14-E9; AC-01–AC-04, AC-08)
+- [ ] **E20:** Bind the declared target, conditioning, design, likelihood,
+  sampling model and solver request to runtime inputs and replay provenance;
+  distinguish exact, outer, nested and coupled estimator designs. (M14-E6,
+  M14-E7; AC-02–AC-05)
+- [ ] **E21:** Add truth-known bias, RMSE, coverage, calibration, convergence
+  and dependence-preserving nested/coupled assurance plus independently
+  executable Rust/Python EVPPI and EVSI fixtures. (M14-E7, M14-E9; AC-03–
+  AC-06, AC-08)
+- [ ] **E22:** Complete vector covariance scientific review with PSD policy,
+  units, scalarization, regularization, recomputation and multivariate oracles;
+  otherwise retain a reviewed vector exclusion. (M14-E8; AC-02–AC-05)
+- [ ] **E23:** Remediate findings in nested #619 issues, rebind the candidate,
+  obtain fresh affected-role and named independent human review, and retain
+  parity, promotion, release and closure as separate gates. (AC-01, AC-07–
+  AC-09)

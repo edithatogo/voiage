@@ -28,5 +28,6 @@ Status: repository implementation complete. Runtime, contracts, portfolio,
 user surfaces, bindings, governance and assurance are delivered, with local
 and final exact-head hosted checks passing before merge. Only delivery
 subissues #680, #681 and #682 are closure-eligible. Scientific review,
-Rust/R/Julia parity, stable promotion, release, parent #571 closure and
-umbrella #318 closure remain separate gates and are not claimed.
+including planned Phase 5 S20–S24 remediation/re-review, Rust/R/Julia parity,
+stable promotion, release, parent #571 closure and umbrella #318 closure remain
+separate gates and are not claimed; the track therefore remains active.

@@ -66,3 +66,23 @@
   closure-eligible. Scientific review, Rust/R/Julia parity, stable promotion,
   release, parent #571 closure and umbrella #318 closure remain pending.
   (AC-09) — `a9e626f`
+
+## Phase 5 — Orchestrated scientific remediation and re-review
+
+- [ ] **S20:** Freeze the candidate and run the umbrella Phase 5 four-role
+  panel against COSS, ENBS and EVSI/EVPI efficiency. (M15-S7–M15-S11; AC-01–
+  AC-05, AC-09)
+- [ ] **S21:** Separate complete-enumeration and evaluated-set results; add the
+  no-study comparator, economic viability, sampling recommendation, boundary
+  sensitivity and regret semantics without changing the curve argmax.
+  (M15-S7, M15-S8, M15-S11; AC-02, AC-05, AC-06)
+- [ ] **S22:** Bind selection uncertainty to replayable joint replicates and
+  add paired efficiency uncertainty, calibration, near-tie and winner's-curse
+  evidence. (M15-S9–M15-S11; AC-02, AC-03, AC-05)
+- [ ] **S23:** Add portable request/result schemas and capability metadata,
+  correct the `1.0`/`1.0.0` contract-version mismatch, execute installed-wheel
+  fixtures and downgrade any unsupported `fixture-backed` claim until the
+  evidence exists. (AC-02, AC-06–AC-10)
+- [ ] **S24:** Remediate through nested #571 issues, rebind the candidate and
+  obtain affected-role plus named independent human re-review; retain parity,
+  promotion, release and closure as separate gates. (AC-01, AC-05, AC-09)

@@ -37,6 +37,113 @@ def _inventory() -> dict[str, object]:
     return json.loads(INVENTORY.read_text(encoding="utf-8"))
 
 
+def test_scientific_review_plan_requires_orchestrated_independent_panel() -> None:
+    track = INVENTORY.parent
+    protocol = (track / "scientific-review-panel.md").read_text(encoding="utf-8")
+    plan = (track / "plan.md").read_text(encoding="utf-8")
+    requirements = (track / "requirements.md").read_text(encoding="utf-8")
+    design = (track / "design.md").read_text(encoding="utf-8")
+    metadata = json.loads((track / "metadata.json").read_text(encoding="utf-8"))
+
+    for role in (
+        "orchestrating agent",
+        "Estimand and domain reviewer",
+        "Estimator-assurance reviewer",
+        "Cross-language and API reviewer",
+        "Governance and publication reviewer",
+    ):
+        assert role in protocol
+    for evidence in (
+        "review-packet.json",
+        "artifact-manifest.json",
+        "reviewer-attestations.json",
+        "finding-dispositions.json",
+        "disagreement-register.json",
+        "orchestrator-synthesis.md",
+        "adjudication.json",
+        "scientific-approval.json",
+        "promotion-receipt.json",
+    ):
+        assert evidence in protocol
+    for automatic_blocker in (
+        "unresolved Critical/High finding",
+        "disputed scientific validity",
+        "approval represented only as a Boolean",
+    ):
+        assert automatic_blocker in protocol
+
+    for task in range(1, 11):
+        assert f"- [ ] **SR{task}" in plan
+    for issue in (570, 571, 595, 619):
+        assert f"#{issue}" in plan
+    for requirement in range(1, 7):
+        assert f"**M17-R{requirement}:**" in requirements
+    for requirement in range(1, 8):
+        assert f"**M17-X{requirement}:**" in requirements
+    assert "Critical or High finding may be dispositioned only" in protocol
+    assert "Every delta invalidates approval by default" in protocol
+    assert "governance reviewer and an affected scientific reviewer" in protocol
+    assert "each family and frozen candidate requires" in protocol
+    for receipt_field in (
+        "identity",
+        "qualifications",
+        "conflict and independence status",
+        "candidate commit/tree and packet hash",
+        "family and capability scope",
+        "conditions and dissent references",
+        "date, expiry and supersession link",
+    ):
+        assert receipt_field in protocol
+    assert "Scientific acceptance does not imply installed parity" in " ".join(
+        protocol.split()
+    )
+    assert "Reject dirty,\n  moving or unreconciled candidates" in plan
+    assert "Orchestrating agent" in design
+    assert "Independent structured reports" in design
+
+    scientific_gate = next(
+        gate
+        for gate in metadata["gates"]
+        if gate["id"] == "scientific-and-contract-review"
+    )
+    assert scientific_gate["status"] == "pending"
+    assert "No review packet or approval receipt" in scientific_gate["evidence"]
+
+    owning_requirements = {
+        "estimation_focused_variance_voi_20260727": (
+            range(6, 10),
+            "M14-E",
+            range(19, 24),
+            "E",
+        ),
+        "study_design_efficiency_20260727": (
+            range(7, 12),
+            "M15-S",
+            range(20, 25),
+            "S",
+        ),
+        "risk_adjusted_information_pricing_20260731": (
+            range(5, 7),
+            "M16-U",
+            range(18, 22),
+            "U",
+        ),
+    }
+    for track_id, (
+        req_ids,
+        req_prefix,
+        task_ids,
+        task_prefix,
+    ) in owning_requirements.items():
+        owning_track = ROOT / "conductor" / "tracks" / track_id
+        owning_req_text = (owning_track / "requirements.md").read_text(encoding="utf-8")
+        owning_plan_text = (owning_track / "plan.md").read_text(encoding="utf-8")
+        for req_id in req_ids:
+            assert f"**{req_prefix}{req_id}:**" in owning_req_text
+        for task_id in task_ids:
+            assert f"- [ ] **{task_prefix}{task_id}:**" in owning_plan_text
+
+
 def test_inventory_covers_exact_live_native_hierarchy() -> None:
     inventory = _inventory()
     assert inventory["schema_version"] == "1.0.0"

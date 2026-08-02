@@ -87,15 +87,15 @@ stable promotion, release and closure remain separate gates.*
 
 ---
 
-## [x] Track: Risk-Adjusted Information Pricing and VoC Presentation
+## [~] Track: Risk-Adjusted Information Pricing and VoC Presentation
 *Link: [./tracks/risk_adjusted_information_pricing_20260731/index.md](./tracks/risk_adjusted_information_pricing_20260731/index.md)*
 *GitHub: [issue #595](https://github.com/edithatogo/voiage/issues/595),
 native sub-issue of [#318](https://github.com/edithatogo/voiage/issues/318),
 under programme [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
 *Status: repository implementation complete — PR #712 merged after exact-head
-assurance; scientific review, stable promotion, release and issue closure
-remain separate gates.*
+assurance; Phase 5 scientific remediation/re-review, stable promotion, release
+and issue closure remain separate gates.*
 
 ---
 
@@ -160,15 +160,15 @@ vector covariance, stable promotion, release and issue closure remain separate g
 
 ---
 
-## [x] Track: Study-Design Efficiency, COSS and Experiment-Portfolio VOI
+## [~] Track: Study-Design Efficiency, COSS and Experiment-Portfolio VOI
 *Link: [./tracks/study_design_efficiency_20260727/index.md](./tracks/study_design_efficiency_20260727/index.md)*
 *GitHub: [issue #571](https://github.com/edithatogo/voiage/issues/571),
 native sub-issue of [#318](https://github.com/edithatogo/voiage/issues/318),
 under programme [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
 *Status: repository implementation complete — local and hosted assurance pass;
-scientific stable promotion, merge, release and issue closure remain separate
-gates.*
+Phase 5 scientific remediation/re-review, stable promotion, release and issue
+closure remain separate gates.*
 
 ---
 
