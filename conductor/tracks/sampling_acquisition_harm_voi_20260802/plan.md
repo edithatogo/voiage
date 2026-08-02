@@ -46,6 +46,10 @@
   accountable signer identities, require affected-role Medium re-review, and
   reject unknown disposition or dropped dissent history. This remains a
   repository evidence contract, not a human verdict. (AC-08–AC-10) `4c549584`
+- [x] **H8-B-CI1:** Remediate the hosted Bandit B404/B603 findings with
+  narrow, justified suppressions for the fixed, shell-free Git verifier and
+  repeat the exact lint/security/type/focused-test gates. (AC-09, AC-10)
+  `888be418`
 - [ ] **H8-C:** Freeze a clean #850/#853-specific packet containing the exact
   commit/tree, track artifacts, sources and retrieval receipts, claims,
   capability boundary, fixtures, estimator thresholds, uncertainty rules,
