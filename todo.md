@@ -31,6 +31,13 @@ separate gates.
         affected family experimental. Do not infer scientific acceptance,
         parity, promotion, release, publication, registry acceptance or issue
         closure from repository delivery or hosted-green checks.
+    *   [~] Materialize #850 sampling-acquisition-harm governance as v1.3.0
+        Must C18/M32 in track `sampling_acquisition_harm_voi_20260802`.
+        Automated primary-source/estimand review and Critical/High remediation
+        are complete; #851 (unsupported capability and negative discovery) and
+        #852 (source/estimand packet) are repository-owned slices. #853/H8
+        candidate-bound independent reports and the separate named human
+        verdict remain pending. No runtime or real-study authorization exists.
 
 *   [x] Complete #318 repository-owned programme closeout stages G14 and G15.
     *   G5–G15 repository-owned evidence and governance reconciliation is

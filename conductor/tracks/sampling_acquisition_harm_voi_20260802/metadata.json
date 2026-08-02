@@ -46,6 +46,19 @@
   "github_dependency_issue": "https://github.com/edithatogo/voiage/issues/571",
   "github_umbrella_issue": "https://github.com/edithatogo/voiage/issues/841",
   "github_project": "https://github.com/users/edithatogo/projects/28",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/850",
+    "parent_issue": "https://github.com/edithatogo/voiage/issues/570",
+    "dependency_issue": "https://github.com/edithatogo/voiage/issues/571",
+    "umbrella_issue": "https://github.com/edithatogo/voiage/issues/841",
+    "subissues": [
+      "https://github.com/edithatogo/voiage/issues/851",
+      "https://github.com/edithatogo/voiage/issues/852",
+      "https://github.com/edithatogo/voiage/issues/853"
+    ],
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": []
+  },
   "gates": [
     {
       "id": "primary-source-estimand-review",

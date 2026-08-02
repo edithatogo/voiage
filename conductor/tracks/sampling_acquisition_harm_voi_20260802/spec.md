@@ -63,8 +63,9 @@ narrow contract.
 
 ## Acceptance criteria
 
-- **AC-01:** Issue #850, parent #570, dependency #571, umbrella #841, Project
-  28, C18/M32, roadmap, todo, track metadata and cross-references agree.
+- **AC-01:** Issue #850, native subissues #851–#853, parent #570, dependency
+  #571, umbrella #841, Project 28, C18/M32, roadmap, todo, track metadata and
+  cross-references agree.
 - **AC-02:** The estimand distinguishes sampling harm, ordinary study cost,
   downstream decision harm, risk-sensitive perfect information and VoC.
 - **AC-03:** Sampling action and `d0`, design-indexed potential outcomes,
