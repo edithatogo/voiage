@@ -1,8 +1,10 @@
 # Scientific review panel — information-source portfolio VOI
 
-Date: 2026-08-01  
+Date: 2026-08-01
+
 Scope: exact-finite experimental joint-world information-source portfolio
-optimizer  
+optimizer
+
 Panel: estimand, numerical/reproducibility, and API/boundary/maturity reviewers
 
 ## Disposition
