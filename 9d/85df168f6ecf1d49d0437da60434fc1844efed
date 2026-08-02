@@ -1,0 +1,7 @@
+Task E20 — scientific and solver request binding
+
+Summary: Added explicit exact, outer, nested and coupled estimator-design contracts; bound target, units, covariance functional, prior, conditioning or study design/likelihood, averaging, simulation dimensions, coupling and solver identity into each result. Added canonical binding and full runtime-request digests alongside specification and input digests. Updated portable schemas, fixtures, capability metadata, pathology tests and changelog.
+
+Why: Hashing model values and the high-level specification separately did not prove which declared scientific objects and solver request produced a runtime result.
+
+Validation: 89 focused estimation tests passed; Ruff, JSON Schema fixture validation, frontier contracts and the full 148-track Conductor validator passed with zero errors/warnings. Nested/coupled assurance and vector execution remain explicitly pending E21/E22.
