@@ -1,90 +1,812 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "fixture_status": "synthetic_contract_example_not_an_approval",
   "evidence": {
     "artifact-manifest": {
-      "evidence_kind": "artifact-manifest", "schema_version": "1.0.0",
-      "candidate_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      "candidate_tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-      "manifest_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-      "artifacts": [{"path": "specs/example.json", "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "role": "normative contract"}]
+      "evidence_kind": "artifact-manifest",
+      "schema_version": "1.1.0",
+      "candidate_commit": {
+        "algorithm": "sha1",
+        "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "candidate_tree": {
+        "algorithm": "sha1",
+        "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "manifest_sha256": "b20ffe16745cf36cc6678911316dde31c6f692a06a23853efcc991e8e49a2520",
+      "artifacts": [
+        {
+          "path": "specs/example.json",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "role": "normative contract"
+        }
+      ]
     },
     "review-packet": {
-      "evidence_kind": "review-packet", "schema_version": "1.0.0", "packet_id": "synthetic-packet-v1",
-      "candidate_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      "candidate_tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-      "packet_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-      "artifact_manifest_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-      "scope": {"family": "synthetic_example_family", "capabilities": ["synthetic_example_capability"]},
-      "dependency_lock": ["uv.lock@sha256:synthetic"], "toolchain": ["python-3.14"], "platform": "synthetic-platform",
-      "commands": ["pytest synthetic-contract"], "references": ["synthetic-primary-reference"],
-      "known_limitations": ["This fixture is not scientific or promotion approval."], "created_at": "2026-08-02T00:00:00Z"
+      "evidence_kind": "review-packet",
+      "schema_version": "1.1.0",
+      "packet_id": "synthetic-packet-v1",
+      "candidate_commit": {
+        "algorithm": "sha1",
+        "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "candidate_tree": {
+        "algorithm": "sha1",
+        "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "packet_sha256": "1b03d250aeef0b5266fc75b836d734da37a042bbcf351f1cbb49b89841cf272e",
+      "artifact_manifest_sha256": "b20ffe16745cf36cc6678911316dde31c6f692a06a23853efcc991e8e49a2520",
+      "scope": {
+        "family": "synthetic_example_family",
+        "capabilities": [
+          "synthetic_example_capability"
+        ]
+      },
+      "dependency_lock": [
+        "uv.lock@sha256:synthetic"
+      ],
+      "toolchain": [
+        "python-3.14"
+      ],
+      "platform": "synthetic-platform",
+      "commands": [
+        "pytest synthetic-contract"
+      ],
+      "references": [
+        "synthetic-primary-reference"
+      ],
+      "known_limitations": [
+        "This fixture is not scientific or promotion approval."
+      ],
+      "created_at": "2026-08-02T00:00:00Z",
+      "orchestrator_identity": "synthetic-orchestrator",
+      "author_identities": [
+        "synthetic-author"
+      ],
+      "remediator_identities": []
     },
     "reviewer-attestation": [
       {
-        "evidence_kind": "reviewer-attestation", "schema_version": "1.0.0", "attestation_id": "ATT-ESTIMAND",
-        "candidate_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "candidate_tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "packet_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-        "reviewer": {"identity": "reviewer-estimand", "display_name": "Synthetic Estimand Reviewer", "role": "estimand_domain", "qualifications": ["synthetic qualification"], "prior_contributions": [], "conflicts": [], "conflict_status": "none", "independent": true},
-        "scope": {"family": "synthetic_example_family", "capabilities": ["synthetic_example_capability"]}, "attested_at": "2026-08-02T00:00:00Z", "attestation_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+        "evidence_kind": "reviewer-attestation",
+        "schema_version": "1.1.0",
+        "attestation_id": "ATT-ESTIMAND",
+        "candidate_commit": {
+          "algorithm": "sha1",
+          "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "candidate_tree": {
+          "algorithm": "sha1",
+          "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "packet_sha256": "1b03d250aeef0b5266fc75b836d734da37a042bbcf351f1cbb49b89841cf272e",
+        "reviewer": {
+          "identity": "reviewer-estimand",
+          "display_name": "Synthetic Estimand Reviewer",
+          "role": "estimand_domain",
+          "qualifications": [
+            "synthetic qualification"
+          ],
+          "prior_contributions": [],
+          "conflicts": [],
+          "conflict_status": "none",
+          "independent": true,
+          "actor_type": "agent"
+        },
+        "scope": {
+          "family": "synthetic_example_family",
+          "capabilities": [
+            "synthetic_example_capability"
+          ]
+        },
+        "attested_at": "2026-08-02T00:00:00Z",
+        "attestation_sha256": "8ef9328e18ace6be3bf4736f095bb8587f67c4271f50020d36007244cabc7884"
       },
       {
-        "evidence_kind": "reviewer-attestation", "schema_version": "1.0.0", "attestation_id": "ATT-ESTIMATOR", "candidate_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "candidate_tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "packet_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "reviewer": {"identity": "reviewer-estimator", "display_name": "Synthetic Estimator Reviewer", "role": "estimator_assurance", "qualifications": ["synthetic qualification"], "prior_contributions": [], "conflicts": [], "conflict_status": "none", "independent": true}, "scope": {"family": "synthetic_example_family", "capabilities": ["synthetic_example_capability"]}, "attested_at": "2026-08-02T00:00:00Z", "attestation_sha256": "2323232323232323232323232323232323232323232323232323232323232323"
+        "evidence_kind": "reviewer-attestation",
+        "schema_version": "1.1.0",
+        "attestation_id": "ATT-ESTIMATOR",
+        "candidate_commit": {
+          "algorithm": "sha1",
+          "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "candidate_tree": {
+          "algorithm": "sha1",
+          "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "packet_sha256": "1b03d250aeef0b5266fc75b836d734da37a042bbcf351f1cbb49b89841cf272e",
+        "reviewer": {
+          "identity": "reviewer-estimator",
+          "display_name": "Synthetic Estimator Reviewer",
+          "role": "estimator_assurance",
+          "qualifications": [
+            "synthetic qualification"
+          ],
+          "prior_contributions": [],
+          "conflicts": [],
+          "conflict_status": "none",
+          "independent": true,
+          "actor_type": "agent"
+        },
+        "scope": {
+          "family": "synthetic_example_family",
+          "capabilities": [
+            "synthetic_example_capability"
+          ]
+        },
+        "attested_at": "2026-08-02T00:00:00Z",
+        "attestation_sha256": "85188fd6f48c5cce23721a7856d04e70432dbb340a131131858554d4d3210348"
       },
       {
-        "evidence_kind": "reviewer-attestation", "schema_version": "1.0.0", "attestation_id": "ATT-API", "candidate_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "candidate_tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "packet_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "reviewer": {"identity": "reviewer-api", "display_name": "Synthetic API Reviewer", "role": "cross_language_api", "qualifications": ["synthetic qualification"], "prior_contributions": [], "conflicts": [], "conflict_status": "none", "independent": true}, "scope": {"family": "synthetic_example_family", "capabilities": ["synthetic_example_capability"]}, "attested_at": "2026-08-02T00:00:00Z", "attestation_sha256": "2424242424242424242424242424242424242424242424242424242424242424"
+        "evidence_kind": "reviewer-attestation",
+        "schema_version": "1.1.0",
+        "attestation_id": "ATT-API",
+        "candidate_commit": {
+          "algorithm": "sha1",
+          "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "candidate_tree": {
+          "algorithm": "sha1",
+          "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "packet_sha256": "1b03d250aeef0b5266fc75b836d734da37a042bbcf351f1cbb49b89841cf272e",
+        "reviewer": {
+          "identity": "reviewer-api",
+          "display_name": "Synthetic API Reviewer",
+          "role": "cross_language_api",
+          "qualifications": [
+            "synthetic qualification"
+          ],
+          "prior_contributions": [],
+          "conflicts": [],
+          "conflict_status": "none",
+          "independent": true,
+          "actor_type": "agent"
+        },
+        "scope": {
+          "family": "synthetic_example_family",
+          "capabilities": [
+            "synthetic_example_capability"
+          ]
+        },
+        "attested_at": "2026-08-02T00:00:00Z",
+        "attestation_sha256": "9848f7e34d2f999c45aca0b2ec7d6a1308345da7027262f24486e8e83765cbab"
       },
       {
-        "evidence_kind": "reviewer-attestation", "schema_version": "1.0.0", "attestation_id": "ATT-GOV", "candidate_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "candidate_tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "packet_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "reviewer": {"identity": "reviewer-governance", "display_name": "Synthetic Governance Reviewer", "role": "governance_publication", "qualifications": ["synthetic qualification"], "prior_contributions": [], "conflicts": [], "conflict_status": "none", "independent": true}, "scope": {"family": "synthetic_example_family", "capabilities": ["synthetic_example_capability"]}, "attested_at": "2026-08-02T00:00:00Z", "attestation_sha256": "2525252525252525252525252525252525252525252525252525252525252525"
+        "evidence_kind": "reviewer-attestation",
+        "schema_version": "1.1.0",
+        "attestation_id": "ATT-GOV",
+        "candidate_commit": {
+          "algorithm": "sha1",
+          "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "candidate_tree": {
+          "algorithm": "sha1",
+          "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "packet_sha256": "1b03d250aeef0b5266fc75b836d734da37a042bbcf351f1cbb49b89841cf272e",
+        "reviewer": {
+          "identity": "reviewer-governance",
+          "display_name": "Synthetic Governance Reviewer",
+          "role": "governance_publication",
+          "qualifications": [
+            "synthetic qualification"
+          ],
+          "prior_contributions": [],
+          "conflicts": [],
+          "conflict_status": "none",
+          "independent": true,
+          "actor_type": "agent"
+        },
+        "scope": {
+          "family": "synthetic_example_family",
+          "capabilities": [
+            "synthetic_example_capability"
+          ]
+        },
+        "attested_at": "2026-08-02T00:00:00Z",
+        "attestation_sha256": "58952aa043756bc0aca797cea8dfeab45aaac2817a547831e1d23c0f6d3ab0b0"
+      },
+      {
+        "evidence_kind": "reviewer-attestation",
+        "schema_version": "1.1.0",
+        "attestation_id": "ATT-CHAIR",
+        "candidate_commit": {
+          "algorithm": "sha1",
+          "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "candidate_tree": {
+          "algorithm": "sha1",
+          "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "packet_sha256": "1b03d250aeef0b5266fc75b836d734da37a042bbcf351f1cbb49b89841cf272e",
+        "reviewer": {
+          "identity": "review-chair",
+          "display_name": "Synthetic Chair",
+          "role": "independent_chair",
+          "qualifications": [
+            "synthetic qualification"
+          ],
+          "prior_contributions": [],
+          "conflicts": [],
+          "conflict_status": "none",
+          "independent": true,
+          "actor_type": "human"
+        },
+        "scope": {
+          "family": "synthetic_example_family",
+          "capabilities": [
+            "synthetic_example_capability"
+          ]
+        },
+        "attested_at": "2026-08-02T00:00:00Z",
+        "attestation_sha256": "e1e4a8911b8db66d26085922c69304e290e8c25dd494bc562b6a0dc6fa1cbe9c",
+        "human_receipt": {
+          "verification_method": "external_authoritative_receipt",
+          "immutable_reference": "synthetic:chair:attestation",
+          "payload_sha256": "e1e4a8911b8db66d26085922c69304e290e8c25dd494bc562b6a0dc6fa1cbe9c",
+          "verified_at": "2026-08-02T00:00:00Z",
+          "signer_identity": "review-chair",
+          "verification_status": "verified",
+          "verifier_identity": "synthetic-contract-verifier"
+        }
+      },
+      {
+        "evidence_kind": "reviewer-attestation",
+        "schema_version": "1.1.0",
+        "attestation_id": "ATT-APPROVER",
+        "candidate_commit": {
+          "algorithm": "sha1",
+          "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "candidate_tree": {
+          "algorithm": "sha1",
+          "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "packet_sha256": "1b03d250aeef0b5266fc75b836d734da37a042bbcf351f1cbb49b89841cf272e",
+        "reviewer": {
+          "identity": "scientific-approver",
+          "display_name": "Synthetic Scientific Approver",
+          "role": "independent_scientific_approver",
+          "qualifications": [
+            "synthetic qualification"
+          ],
+          "prior_contributions": [],
+          "conflicts": [],
+          "conflict_status": "none",
+          "independent": true,
+          "actor_type": "human"
+        },
+        "scope": {
+          "family": "synthetic_example_family",
+          "capabilities": [
+            "synthetic_example_capability"
+          ]
+        },
+        "attested_at": "2026-08-02T00:00:00Z",
+        "attestation_sha256": "42a84749089b9c419df94fefd9069d02f04588670c96c93bddbc35ad551fb86e",
+        "human_receipt": {
+          "verification_method": "external_authoritative_receipt",
+          "immutable_reference": "synthetic:approver:attestation",
+          "payload_sha256": "42a84749089b9c419df94fefd9069d02f04588670c96c93bddbc35ad551fb86e",
+          "verified_at": "2026-08-02T00:00:00Z",
+          "signer_identity": "scientific-approver",
+          "verification_status": "verified",
+          "verifier_identity": "synthetic-contract-verifier"
+        }
       }
     ],
     "role-report": [
       {
-        "evidence_kind": "role-report", "schema_version": "1.0.0", "report_id": "REPORT-ESTIMAND", "candidate_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "candidate_tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "packet_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "reviewer_role": "estimand_domain",
-        "reviewer": {"identity": "reviewer-estimand", "display_name": "Synthetic Estimand Reviewer", "role": "estimand_domain", "qualifications": ["synthetic qualification"], "prior_contributions": [], "conflicts": [], "conflict_status": "none", "independent": true},
-        "scope": {"family": "synthetic_example_family", "capabilities": ["synthetic_example_capability"]}, "verdict": "pass", "rubric": [{"dimension": "estimand", "verdict": "pass", "rationale": "Synthetic contract exercise only."}], "finding_ids": ["F-LOW-1"], "signed_at": "2026-08-02T00:00:00Z", "report_sha256": "1212121212121212121212121212121212121212121212121212121212121212"
+        "evidence_kind": "role-report",
+        "schema_version": "1.1.0",
+        "report_id": "REPORT-ESTIMAND",
+        "candidate_commit": {
+          "algorithm": "sha1",
+          "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "candidate_tree": {
+          "algorithm": "sha1",
+          "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "packet_sha256": "1b03d250aeef0b5266fc75b836d734da37a042bbcf351f1cbb49b89841cf272e",
+        "reviewer_role": "estimand_domain",
+        "reviewer": {
+          "identity": "reviewer-estimand",
+          "display_name": "Synthetic Estimand Reviewer",
+          "role": "estimand_domain",
+          "qualifications": [
+            "synthetic qualification"
+          ],
+          "prior_contributions": [],
+          "conflicts": [],
+          "conflict_status": "none",
+          "independent": true,
+          "actor_type": "agent"
+        },
+        "scope": {
+          "family": "synthetic_example_family",
+          "capabilities": [
+            "synthetic_example_capability"
+          ]
+        },
+        "verdict": "pass",
+        "rubric": [
+          {
+            "dimension": "estimand",
+            "verdict": "pass",
+            "rationale": "Synthetic contract exercise only."
+          }
+        ],
+        "finding_ids": [
+          "F-LOW-1"
+        ],
+        "signed_at": "2026-08-02T00:00:00Z",
+        "report_sha256": "d4d51f4bc6d5981a5d024195c4eaefbbd4aef72dcfe5eaf1725a1b122d573cd9"
       },
       {
-        "evidence_kind": "role-report", "schema_version": "1.0.0", "report_id": "REPORT-ESTIMATOR", "candidate_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "candidate_tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "packet_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "reviewer_role": "estimator_assurance",
-        "reviewer": {"identity": "reviewer-estimator", "display_name": "Synthetic Estimator Reviewer", "role": "estimator_assurance", "qualifications": ["synthetic qualification"], "prior_contributions": [], "conflicts": [], "conflict_status": "none", "independent": true},
-        "scope": {"family": "synthetic_example_family", "capabilities": ["synthetic_example_capability"]}, "verdict": "pass", "rubric": [{"dimension": "numerical validity", "verdict": "pass", "rationale": "Synthetic contract exercise only."}], "finding_ids": [], "signed_at": "2026-08-02T00:00:00Z", "report_sha256": "1313131313131313131313131313131313131313131313131313131313131313"
+        "evidence_kind": "role-report",
+        "schema_version": "1.1.0",
+        "report_id": "REPORT-ESTIMATOR",
+        "candidate_commit": {
+          "algorithm": "sha1",
+          "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "candidate_tree": {
+          "algorithm": "sha1",
+          "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "packet_sha256": "1b03d250aeef0b5266fc75b836d734da37a042bbcf351f1cbb49b89841cf272e",
+        "reviewer_role": "estimator_assurance",
+        "reviewer": {
+          "identity": "reviewer-estimator",
+          "display_name": "Synthetic Estimator Reviewer",
+          "role": "estimator_assurance",
+          "qualifications": [
+            "synthetic qualification"
+          ],
+          "prior_contributions": [],
+          "conflicts": [],
+          "conflict_status": "none",
+          "independent": true,
+          "actor_type": "agent"
+        },
+        "scope": {
+          "family": "synthetic_example_family",
+          "capabilities": [
+            "synthetic_example_capability"
+          ]
+        },
+        "verdict": "pass",
+        "rubric": [
+          {
+            "dimension": "numerical validity",
+            "verdict": "pass",
+            "rationale": "Synthetic contract exercise only."
+          }
+        ],
+        "finding_ids": [],
+        "signed_at": "2026-08-02T00:00:00Z",
+        "report_sha256": "702b36ad8af162f3013e9e2906db10d37ee6953ca2bb77d427792f2226d93df1"
       },
       {
-        "evidence_kind": "role-report", "schema_version": "1.0.0", "report_id": "REPORT-API", "candidate_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "candidate_tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "packet_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "reviewer_role": "cross_language_api",
-        "reviewer": {"identity": "reviewer-api", "display_name": "Synthetic API Reviewer", "role": "cross_language_api", "qualifications": ["synthetic qualification"], "prior_contributions": [], "conflicts": [], "conflict_status": "none", "independent": true},
-        "scope": {"family": "synthetic_example_family", "capabilities": ["synthetic_example_capability"]}, "verdict": "pass", "rubric": [{"dimension": "contract integrity", "verdict": "pass", "rationale": "Synthetic contract exercise only."}], "finding_ids": [], "signed_at": "2026-08-02T00:00:00Z", "report_sha256": "1414141414141414141414141414141414141414141414141414141414141414"
+        "evidence_kind": "role-report",
+        "schema_version": "1.1.0",
+        "report_id": "REPORT-API",
+        "candidate_commit": {
+          "algorithm": "sha1",
+          "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "candidate_tree": {
+          "algorithm": "sha1",
+          "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "packet_sha256": "1b03d250aeef0b5266fc75b836d734da37a042bbcf351f1cbb49b89841cf272e",
+        "reviewer_role": "cross_language_api",
+        "reviewer": {
+          "identity": "reviewer-api",
+          "display_name": "Synthetic API Reviewer",
+          "role": "cross_language_api",
+          "qualifications": [
+            "synthetic qualification"
+          ],
+          "prior_contributions": [],
+          "conflicts": [],
+          "conflict_status": "none",
+          "independent": true,
+          "actor_type": "agent"
+        },
+        "scope": {
+          "family": "synthetic_example_family",
+          "capabilities": [
+            "synthetic_example_capability"
+          ]
+        },
+        "verdict": "pass",
+        "rubric": [
+          {
+            "dimension": "contract integrity",
+            "verdict": "pass",
+            "rationale": "Synthetic contract exercise only."
+          }
+        ],
+        "finding_ids": [],
+        "signed_at": "2026-08-02T00:00:00Z",
+        "report_sha256": "2f61ddfdafe68d8ed90e08d028d055effb7eb297f22346bd0cfe02013fb062b0"
       },
       {
-        "evidence_kind": "role-report", "schema_version": "1.0.0", "report_id": "REPORT-GOV", "candidate_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "candidate_tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "packet_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "reviewer_role": "governance_publication",
-        "reviewer": {"identity": "reviewer-governance", "display_name": "Synthetic Governance Reviewer", "role": "governance_publication", "qualifications": ["synthetic qualification"], "prior_contributions": [], "conflicts": [], "conflict_status": "none", "independent": true},
-        "scope": {"family": "synthetic_example_family", "capabilities": ["synthetic_example_capability"]}, "verdict": "pass", "rubric": [{"dimension": "evidence integrity", "verdict": "pass", "rationale": "Synthetic contract exercise only."}], "finding_ids": [], "signed_at": "2026-08-02T00:00:00Z", "report_sha256": "1515151515151515151515151515151515151515151515151515151515151515"
+        "evidence_kind": "role-report",
+        "schema_version": "1.1.0",
+        "report_id": "REPORT-GOV",
+        "candidate_commit": {
+          "algorithm": "sha1",
+          "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "candidate_tree": {
+          "algorithm": "sha1",
+          "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "packet_sha256": "1b03d250aeef0b5266fc75b836d734da37a042bbcf351f1cbb49b89841cf272e",
+        "reviewer_role": "governance_publication",
+        "reviewer": {
+          "identity": "reviewer-governance",
+          "display_name": "Synthetic Governance Reviewer",
+          "role": "governance_publication",
+          "qualifications": [
+            "synthetic qualification"
+          ],
+          "prior_contributions": [],
+          "conflicts": [],
+          "conflict_status": "none",
+          "independent": true,
+          "actor_type": "agent"
+        },
+        "scope": {
+          "family": "synthetic_example_family",
+          "capabilities": [
+            "synthetic_example_capability"
+          ]
+        },
+        "verdict": "pass",
+        "rubric": [
+          {
+            "dimension": "evidence integrity",
+            "verdict": "pass",
+            "rationale": "Synthetic contract exercise only."
+          }
+        ],
+        "finding_ids": [],
+        "signed_at": "2026-08-02T00:00:00Z",
+        "report_sha256": "ac4683798e5eec56e7f1e49eed127d1b69ec731b58b86d6039f54d7f6f25960a"
       }
     ],
-    "finding": [{
-      "evidence_kind": "finding", "schema_version": "1.0.0", "finding_id": "F-LOW-1", "candidate_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "candidate_tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "packet_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "severity": "low", "affected_claim": "synthetic fixture clarity", "artifact_path": "specs/example.json", "evidence": "Synthetic wording can be clearer.", "reproduction": "Read the synthetic fixture.", "required_disposition": "Clarify wording.", "owner": "synthetic-owner", "dependencies": [], "promotion_impact": "none", "raised_by": "reviewer-estimand", "raised_at": "2026-08-02T00:00:00Z"
-    }],
+    "finding": [
+      {
+        "evidence_kind": "finding",
+        "schema_version": "1.1.0",
+        "finding_id": "F-LOW-1",
+        "candidate_commit": {
+          "algorithm": "sha1",
+          "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "candidate_tree": {
+          "algorithm": "sha1",
+          "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "packet_sha256": "1b03d250aeef0b5266fc75b836d734da37a042bbcf351f1cbb49b89841cf272e",
+        "severity": "low",
+        "affected_claim": "synthetic fixture clarity",
+        "artifact_path": "specs/example.json",
+        "evidence": "Synthetic wording can be clearer.",
+        "reproduction": "Read the synthetic fixture.",
+        "required_disposition": "Clarify wording.",
+        "owner": "synthetic-owner",
+        "dependencies": [],
+        "promotion_impact": "none",
+        "raised_by": "reviewer-estimand",
+        "raised_at": "2026-08-02T00:00:00Z"
+      }
+    ],
     "disagreement": [],
-    "disposition": [{
-      "evidence_kind": "disposition", "schema_version": "1.0.0", "disposition_id": "D-LOW-1", "finding_id": "F-LOW-1", "candidate_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "candidate_tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "packet_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "disposition": "fixed", "rationale": "Synthetic wording clarified.", "accountable_owner": "synthetic-owner", "evidence_refs": ["synthetic-diff"], "independently_verified": true,
-      "reviewer": {"identity": "reviewer-estimand", "display_name": "Synthetic Estimand Reviewer", "role": "estimand_domain", "qualifications": ["synthetic qualification"], "prior_contributions": [], "conflicts": [], "conflict_status": "none", "independent": true}, "decided_at": "2026-08-02T00:00:00Z"
-    }],
+    "disposition": [
+      {
+        "evidence_kind": "disposition",
+        "schema_version": "1.1.0",
+        "disposition_id": "D-LOW-1",
+        "finding_id": "F-LOW-1",
+        "candidate_commit": {
+          "algorithm": "sha1",
+          "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "candidate_tree": {
+          "algorithm": "sha1",
+          "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "packet_sha256": "1b03d250aeef0b5266fc75b836d734da37a042bbcf351f1cbb49b89841cf272e",
+        "disposition": "fixed",
+        "rationale": "Synthetic wording clarified.",
+        "accountable_owner": "synthetic-owner",
+        "evidence_refs": [
+          "synthetic-diff"
+        ],
+        "independently_verified": true,
+        "reviewer": {
+          "identity": "reviewer-estimand",
+          "display_name": "Synthetic Estimand Reviewer",
+          "role": "estimand_domain",
+          "qualifications": [
+            "synthetic qualification"
+          ],
+          "prior_contributions": [],
+          "conflicts": [],
+          "conflict_status": "none",
+          "independent": true,
+          "actor_type": "agent"
+        },
+        "decided_at": "2026-08-02T00:00:00Z",
+        "rereview_report_ids": [],
+        "excluded_capabilities": [],
+        "affected_reviewer_roles": []
+      }
+    ],
     "adjudication": {
-      "evidence_kind": "adjudication", "schema_version": "1.0.0", "adjudication_id": "ADJ-1", "candidate_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "candidate_tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "packet_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "scope": {"family": "synthetic_example_family", "capabilities": ["synthetic_example_capability"]},
-      "chair": {"identity": "review-chair", "display_name": "Synthetic Chair", "role": "independent_chair", "qualifications": ["synthetic qualification"], "prior_contributions": [], "conflicts": [], "conflict_status": "none", "independent": true}, "decision": "scientifically_acceptable_experimental", "conditions": ["No real-world claim is authorized."], "dissent_refs": [], "issue_refs": ["synthetic-issue"], "evidence_refs": ["REPORT-ESTIMAND", "REPORT-ESTIMATOR", "REPORT-API", "REPORT-GOV"], "decision_at": "2026-08-02T00:00:00Z", "expires_at": "2027-08-02T00:00:00Z", "superseded_by": null
+      "evidence_kind": "adjudication",
+      "schema_version": "1.1.0",
+      "adjudication_id": "ADJ-1",
+      "candidate_commit": {
+        "algorithm": "sha1",
+        "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "candidate_tree": {
+        "algorithm": "sha1",
+        "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "packet_sha256": "1b03d250aeef0b5266fc75b836d734da37a042bbcf351f1cbb49b89841cf272e",
+      "scope": {
+        "family": "synthetic_example_family",
+        "capabilities": [
+          "synthetic_example_capability"
+        ]
+      },
+      "chair": {
+        "identity": "review-chair",
+        "display_name": "Synthetic Chair",
+        "role": "independent_chair",
+        "qualifications": [
+          "synthetic qualification"
+        ],
+        "prior_contributions": [],
+        "conflicts": [],
+        "conflict_status": "none",
+        "independent": true,
+        "actor_type": "human"
+      },
+      "decision": "scientifically_acceptable_experimental",
+      "conditions": [
+        "No real-world claim is authorized."
+      ],
+      "dissent_refs": [],
+      "issue_refs": [
+        "synthetic-issue"
+      ],
+      "evidence_refs": [
+        "REPORT-ESTIMAND",
+        "REPORT-ESTIMATOR",
+        "REPORT-API",
+        "REPORT-GOV"
+      ],
+      "decision_at": "2026-08-02T00:00:00Z",
+      "expires_at": "2027-08-02T00:00:00Z",
+      "superseded_by": null,
+      "adjudication_sha256": "ed11c63666f0300d76574e407888b2225df5ff3f6a1dede580d33ba2738fda9b",
+      "human_receipt": {
+        "verification_method": "external_authoritative_receipt",
+        "immutable_reference": "synthetic:adjudication",
+        "payload_sha256": "ed11c63666f0300d76574e407888b2225df5ff3f6a1dede580d33ba2738fda9b",
+        "verified_at": "2026-08-02T00:00:00Z",
+        "signer_identity": "review-chair",
+        "verification_status": "verified",
+        "verifier_identity": "synthetic-contract-verifier"
+      }
     },
     "scientific-approval": {
-      "evidence_kind": "scientific-approval", "schema_version": "1.0.0", "approval_id": "APPROVAL-1", "candidate_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "candidate_tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "packet_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "scope": {"family": "synthetic_example_family", "capabilities": ["synthetic_example_capability"]},
-      "approver": {"identity": "scientific-approver", "display_name": "Synthetic Scientific Approver", "role": "independent_scientific_approver", "qualifications": ["synthetic qualification"], "prior_contributions": [], "conflicts": [], "conflict_status": "none", "independent": true}, "decision": "scientifically_acceptable_experimental", "conditions": ["Synthetic contract exercise only."], "dissent_refs": [], "issue_refs": ["synthetic-issue"], "evidence_refs": ["ADJ-1"], "decision_at": "2026-08-02T00:00:00Z", "expires_at": "2027-08-02T00:00:00Z", "superseded_by": null, "approval_sha256": "1616161616161616161616161616161616161616161616161616161616161616"
+      "evidence_kind": "scientific-approval",
+      "schema_version": "1.1.0",
+      "approval_id": "APPROVAL-1",
+      "candidate_commit": {
+        "algorithm": "sha1",
+        "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "candidate_tree": {
+        "algorithm": "sha1",
+        "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "packet_sha256": "1b03d250aeef0b5266fc75b836d734da37a042bbcf351f1cbb49b89841cf272e",
+      "scope": {
+        "family": "synthetic_example_family",
+        "capabilities": [
+          "synthetic_example_capability"
+        ]
+      },
+      "approver": {
+        "identity": "scientific-approver",
+        "display_name": "Synthetic Scientific Approver",
+        "role": "independent_scientific_approver",
+        "qualifications": [
+          "synthetic qualification"
+        ],
+        "prior_contributions": [],
+        "conflicts": [],
+        "conflict_status": "none",
+        "independent": true,
+        "actor_type": "human"
+      },
+      "decision": "scientifically_acceptable_experimental",
+      "conditions": [
+        "Synthetic contract exercise only."
+      ],
+      "dissent_refs": [],
+      "issue_refs": [
+        "synthetic-issue"
+      ],
+      "evidence_refs": [
+        "ADJ-1"
+      ],
+      "decision_at": "2026-08-02T00:00:00Z",
+      "expires_at": "2027-08-02T00:00:00Z",
+      "superseded_by": null,
+      "approval_sha256": "c9f39efa7aa20c217a09986bb3ef6cf2db023e740af008fed81d306ffaec5c3d",
+      "human_receipt": {
+        "verification_method": "external_authoritative_receipt",
+        "immutable_reference": "synthetic:approval",
+        "payload_sha256": "c9f39efa7aa20c217a09986bb3ef6cf2db023e740af008fed81d306ffaec5c3d",
+        "verified_at": "2026-08-02T00:00:00Z",
+        "signer_identity": "scientific-approver",
+        "verification_status": "verified",
+        "verifier_identity": "synthetic-contract-verifier"
+      }
     },
     "promotion-receipt": {
-      "evidence_kind": "promotion-receipt", "schema_version": "1.0.0", "receipt_id": "PROMOTION-1", "candidate_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "candidate_tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "packet_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "scope": {"family": "synthetic_example_family", "capabilities": ["synthetic_example_capability"]},
-      "maintainer": {"identity": "maintainer", "display_name": "Synthetic Maintainer", "role": "maintainer", "qualifications": ["synthetic qualification"], "prior_contributions": [], "conflicts": [], "conflict_status": "non_disqualifying", "independent": false}, "decision": "retain_experimental", "scientific_approval_sha256": "1616161616161616161616161616161616161616161616161616161616161616", "conditions": ["No promotion is represented by this synthetic fixture."], "dissent_refs": [], "issue_refs": ["synthetic-issue"], "evidence_refs": ["APPROVAL-1"], "decision_at": "2026-08-02T00:00:00Z", "expires_at": "2027-08-02T00:00:00Z", "superseded_by": null, "receipt_sha256": "1717171717171717171717171717171717171717171717171717171717171717"
+      "evidence_kind": "promotion-receipt",
+      "schema_version": "1.1.0",
+      "receipt_id": "PROMOTION-1",
+      "candidate_commit": {
+        "algorithm": "sha1",
+        "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "candidate_tree": {
+        "algorithm": "sha1",
+        "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "packet_sha256": "1b03d250aeef0b5266fc75b836d734da37a042bbcf351f1cbb49b89841cf272e",
+      "scope": {
+        "family": "synthetic_example_family",
+        "capabilities": [
+          "synthetic_example_capability"
+        ]
+      },
+      "maintainer": {
+        "identity": "maintainer",
+        "display_name": "Synthetic Maintainer",
+        "role": "maintainer",
+        "qualifications": [
+          "synthetic qualification"
+        ],
+        "prior_contributions": [],
+        "conflicts": [],
+        "conflict_status": "non_disqualifying",
+        "independent": false,
+        "actor_type": "human"
+      },
+      "decision": "retain_experimental",
+      "scientific_approval_sha256": "c9f39efa7aa20c217a09986bb3ef6cf2db023e740af008fed81d306ffaec5c3d",
+      "conditions": [
+        "No promotion is represented by this synthetic fixture."
+      ],
+      "dissent_refs": [],
+      "issue_refs": [
+        "synthetic-issue"
+      ],
+      "evidence_refs": [
+        "APPROVAL-1"
+      ],
+      "decision_at": "2026-08-02T00:00:00Z",
+      "expires_at": "2027-08-02T00:00:00Z",
+      "superseded_by": null,
+      "receipt_sha256": "fb203a784e433a592a070e6de1832a0408227ff464f095a923a846ee614c7f76",
+      "human_receipt": {
+        "verification_method": "external_authoritative_receipt",
+        "immutable_reference": "synthetic:promotion",
+        "payload_sha256": "fb203a784e433a592a070e6de1832a0408227ff464f095a923a846ee614c7f76",
+        "verified_at": "2026-08-02T00:00:00Z",
+        "signer_identity": "maintainer",
+        "verification_status": "verified",
+        "verifier_identity": "synthetic-contract-verifier"
+      }
     },
-    "delta-classification": [{
-      "evidence_kind": "delta-classification", "schema_version": "1.0.0", "classification_id": "DELTA-1", "candidate_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "candidate_tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "packet_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "base_candidate_commit": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "base_packet_sha256": "1818181818181818181818181818181818181818181818181818181818181818", "classification": "bounded_metadata_only", "changed_paths": ["docs/synthetic-review.md"], "changed_artifact_hashes": [{"path": "docs/synthetic-review.md", "before_sha256": "1919191919191919191919191919191919191919191919191919191919191919", "after_sha256": "2020202020202020202020202020202020202020202020202020202020202020"}], "rationale": "Synthetic prose-only delta.", "affected_scope": {"family": "synthetic_example_family", "capabilities": ["synthetic_example_capability"]},
-      "signatures": [
-        {"reviewer_role": "governance_publication", "reviewer": {"identity": "reviewer-governance", "display_name": "Synthetic Governance Reviewer", "role": "governance_publication", "qualifications": ["synthetic qualification"], "prior_contributions": [], "conflicts": [], "conflict_status": "none", "independent": true}, "signed_at": "2026-08-02T00:00:00Z", "evidence_sha256": "2121212121212121212121212121212121212121212121212121212121212121"},
-        {"reviewer_role": "affected_scientific", "reviewer": {"identity": "reviewer-estimand", "display_name": "Synthetic Estimand Reviewer", "role": "estimand_domain", "qualifications": ["synthetic qualification"], "prior_contributions": [], "conflicts": [], "conflict_status": "none", "independent": true}, "signed_at": "2026-08-02T00:00:00Z", "evidence_sha256": "2222222222222222222222222222222222222222222222222222222222222222"}
-      ], "classified_at": "2026-08-02T00:00:00Z"
-    }]
-  }
+    "delta-classification": [
+      {
+        "evidence_kind": "delta-classification",
+        "schema_version": "1.1.0",
+        "classification_id": "DELTA-1",
+        "candidate_commit": {
+          "algorithm": "sha1",
+          "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "candidate_tree": {
+          "algorithm": "sha1",
+          "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "packet_sha256": "1b03d250aeef0b5266fc75b836d734da37a042bbcf351f1cbb49b89841cf272e",
+        "base_candidate_commit": {
+          "algorithm": "sha1",
+          "value": "ffffffffffffffffffffffffffffffffffffffff"
+        },
+        "base_packet_sha256": "1818181818181818181818181818181818181818181818181818181818181818",
+        "classification": "bounded_metadata_only",
+        "changed_paths": [
+          "conductor/tracks/synthetic/metadata.json"
+        ],
+        "changed_artifact_hashes": [
+          {
+            "path": "conductor/tracks/synthetic/metadata.json",
+            "before_sha256": "1919191919191919191919191919191919191919191919191919191919191919",
+            "after_sha256": "2020202020202020202020202020202020202020202020202020202020202020",
+            "changed_fields": [
+              "/updated_at"
+            ]
+          }
+        ],
+        "rationale": "Synthetic prose-only delta.",
+        "affected_scope": {
+          "family": "synthetic_example_family",
+          "capabilities": [
+            "synthetic_example_capability"
+          ]
+        },
+        "signatures": [
+          {
+            "reviewer_role": "governance_publication",
+            "reviewer": {
+              "identity": "reviewer-governance",
+              "display_name": "Synthetic Governance Reviewer",
+              "role": "governance_publication",
+              "qualifications": [
+                "synthetic qualification"
+              ],
+              "prior_contributions": [],
+              "conflicts": [],
+              "conflict_status": "none",
+              "independent": true,
+              "actor_type": "agent"
+            },
+            "signed_at": "2026-08-02T00:00:00Z",
+            "evidence_sha256": "2121212121212121212121212121212121212121212121212121212121212121"
+          },
+          {
+            "reviewer_role": "affected_scientific",
+            "reviewer": {
+              "identity": "reviewer-estimand",
+              "display_name": "Synthetic Estimand Reviewer",
+              "role": "estimand_domain",
+              "qualifications": [
+                "synthetic qualification"
+              ],
+              "prior_contributions": [],
+              "conflicts": [],
+              "conflict_status": "none",
+              "independent": true,
+              "actor_type": "agent"
+            },
+            "signed_at": "2026-08-02T00:00:00Z",
+            "evidence_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+          }
+        ],
+        "classified_at": "2026-08-02T00:00:00Z"
+      }
+    ]
+  },
+  "expected_finding_ids": [
+    "F-LOW-1"
+  ],
+  "expected_disagreement_ids": []
 }

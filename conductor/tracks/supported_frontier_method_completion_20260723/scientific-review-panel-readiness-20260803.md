@@ -21,13 +21,13 @@ can substitute for an accountable scientific or maintainer decision.
 ## Required local artifacts
 
 - `scientific-review-packet-20260803.json` — scope and gate boundary.
-- `artifact-manifest.json` — immutable packet member hashes.
-- `reviewer-attestations.json` — identity, qualifications, conflicts and
+- `artifact-manifest-preparation.json` — pending immutable packet member hashes.
+- `reviewer-attestations-preparation.json` — pending identity, qualifications, conflicts and
   independence status for every role.
-- `finding-dispositions.json` and `disagreement-register.json` — append-only
+- `finding-dispositions-preparation.json` and `disagreement-register-preparation.json` — pending
   findings and dissent.
 - `orchestrator-synthesis.md` — recommendation and unresolved conditions.
-- `adjudication.json` and `scientific-approval.json` — templates only until
+- `adjudication-preparation.json` and `scientific-approval-preparation.json` — templates only until
   accountable decisions exist.
 
 The packet must remain `not_started` until the candidate is frozen and all
