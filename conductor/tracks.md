@@ -22,8 +22,9 @@ planning PR #621 are reconciled; classification and review remain pending.*
 *Link: [./tracks/external_voi_library_feature_parity_20260723/index.md](./tracks/external_voi_library_feature_parity_20260723/index.md)*
 *GitHub: [issue #315](https://github.com/edithatogo/voiage/issues/315), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: new — the issue-claimed specification and plan are now materialized;
-existing issue/Project progress awaits evidence reconciliation.*
+*Status: in progress — Phase 1 bounded governance reconciliation passes;
+landscape evidence, parity, scientific review, rights, hosted checks, and
+external registry evidence remain pending.*
 
 ---
 

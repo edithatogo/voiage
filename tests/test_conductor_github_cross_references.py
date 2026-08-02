@@ -59,3 +59,26 @@ def test_expected_utility_track_metadata_and_manifest_share_delivery_prs() -> No
     manifest_urls = {item["url"] for item in entry["pull_requests"]}
     assert manifest_urls == set(metadata["github_cross_reference"]["pull_requests"])
     assert "https://github.com/edithatogo/voiage/pull/712" in manifest_urls
+
+
+def test_external_landscape_track_preserves_phase_one_pr_boundaries() -> None:
+    """The canonical manifest owns both planning and open delivery PRs."""
+    manifest = json.loads(
+        (ROOT / "conductor" / "github-cross-references.json").read_text()
+    )
+    track_id = "external_voi_library_feature_parity_20260723"
+    entry = next(item for item in manifest["tracks"] if item["track_id"] == track_id)
+    track = ROOT / "conductor" / "tracks" / track_id
+    metadata = json.loads((track / "metadata.json").read_text())
+    plan = (track / "plan.md").read_text()
+    gates = {gate["id"]: gate for gate in metadata["gates"]}
+
+    manifest_prs = {item["url"]: item["status"] for item in entry["pull_requests"]}
+    assert set(manifest_prs) == set(metadata["github_cross_reference"]["pull_requests"])
+    assert manifest_prs["https://github.com/edithatogo/voiage/pull/621"] == "merged"
+    assert manifest_prs["https://github.com/edithatogo/voiage/pull/819"] == "open"
+    assert "- [x] **G4:**" in plan
+    assert "- [ ] **G5:**" in plan
+    assert "- [ ] **G15:**" in plan
+    assert gates["scientific-and-contract-review"]["status"] == "pending"
+    assert gates["hosted-required-checks"]["status"] == "pending"
