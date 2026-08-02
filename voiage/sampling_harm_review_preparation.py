@@ -349,7 +349,39 @@ def load_and_validate_sampling_harm_review_preparation(
     now: datetime | None = None,
 ) -> dict[str, str]:
     """Load and validate one review-preparation envelope."""
-    envelope = _load_json(envelope_path)
+    root = repository_root.resolve()
+    if expected_candidate_commit != FROZEN_CANDIDATE_COMMIT:
+        raise SamplingHarmReviewPreparationError("unexpected candidate commit")
+    if expected_package_commit != TRUSTED_PACKAGE_COMMIT:
+        raise SamplingHarmReviewPreparationError("unexpected package commit")
+    canonical_path = (root / ENVELOPE_PATH).resolve()
+    if envelope_path.resolve() != canonical_path:
+        raise SamplingHarmReviewPreparationError(
+            "envelope path is not the canonical package path"
+        )
+    try:
+        envelope_bytes = envelope_path.read_bytes()
+    except OSError as error:
+        raise SamplingHarmReviewPreparationError(
+            f"cannot load {envelope_path}: {error}"
+        ) from error
+    frozen_bytes = _git_output(
+        root, "show", f"{expected_package_commit}:{ENVELOPE_PATH}"
+    )
+    if envelope_bytes != frozen_bytes:
+        raise SamplingHarmReviewPreparationError(
+            "envelope bytes differ from trusted package commit"
+        )
+    try:
+        envelope = json.loads(envelope_bytes)
+    except json.JSONDecodeError as error:
+        raise SamplingHarmReviewPreparationError(
+            f"cannot load {envelope_path}: {error}"
+        ) from error
+    if not isinstance(envelope, dict):
+        raise SamplingHarmReviewPreparationError(
+            f"{envelope_path} must contain an object"
+        )
     return validate_sampling_harm_review_preparation(
         envelope,
         repository_root=repository_root,

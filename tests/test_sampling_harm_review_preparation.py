@@ -216,7 +216,9 @@ def test_preparation_rejects_dirty_packaging_or_naive_validation_time(
         )
 
 
-def test_canonical_cli_emits_receipt_and_rejects_wrong_package() -> None:
+def test_canonical_cli_emits_receipt_and_rejects_wrong_package(
+    tmp_path: Path,
+) -> None:
     command = [
         sys.executable,
         str(ROOT / "scripts/validate_sampling_harm_review_preparation.py"),
@@ -240,3 +242,16 @@ def test_canonical_cli_emits_receipt_and_rejects_wrong_package() -> None:
     )
     assert invalid.returncode != 0
     assert "unexpected package commit" in invalid.stderr
+
+    reserialized = tmp_path / "review-preparation.json"
+    reserialized.write_text(
+        json.dumps(_json(CONTRACT / "review-preparation.json")), encoding="utf-8"
+    )
+    substituted = subprocess.run(
+        [sys.executable, command[1], str(reserialized), *command[3:]],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert substituted.returncode != 0
+    assert "canonical package path" in substituted.stderr
