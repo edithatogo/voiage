@@ -16,14 +16,17 @@ if TYPE_CHECKING:
 import pytest
 
 import voiage.sampling_harm_review_preparation as preparation_module
-from voiage.sampling_harm_review_preparation import (
-    SamplingHarmReviewPreparationError,
-    validate_sampling_harm_review_preparation,
-)
 from voiage.scientific_review_evidence import (
     ScientificReviewEvidenceError,
     canonical_json_sha256,
     validate_scientific_review_bundle,
+)
+
+SamplingHarmReviewPreparationError = (
+    preparation_module.SamplingHarmReviewPreparationError
+)
+validate_sampling_harm_review_preparation = (
+    preparation_module.validate_sampling_harm_review_preparation
 )
 
 ROOT = Path(__file__).parents[1]

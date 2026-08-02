@@ -21,6 +21,7 @@ def main() -> int:
     parser.add_argument("--expected-candidate-commit", required=True)
     parser.add_argument("--expected-package-commit", required=True)
     args = parser.parse_args()
+    receipt: dict[str, str] = {}
     try:
         receipt = load_and_validate_sampling_harm_review_preparation(
             args.envelope,
