@@ -36,3 +36,19 @@ Until an accountable maintainer/security authority records a dated approval,
 R2 remains `pending`, remote I/O remains disabled, and no implementation,
 hosted check or live-probe result may be represented as enabled security
 evidence.
+
+## Conductor decision workflow
+
+1. An accountable security/infrastructure authority selects **approve**,
+   **reject**, or **request-revision** in `r2-approval-record.json` (or an
+   authoritative portal whose immutable receipt is recorded there).
+2. The authority records identity/role, UTC timestamp, policy and threat-model
+   SHA-256 values, allowed schemes/hosts/ports, quota profile, credential
+   boundary, expiry/review date, and any infrastructure conditions. Secrets,
+   tokens and personal data are excluded.
+3. Conductor verifies the hashes and required fields. Only an `approve` record
+   with valid hashes may move `remote-security-policy-approval` to satisfied.
+   `reject` closes the track as a reviewed exclusion; `request-revision`
+   returns to R1 without enabling I/O.
+4. After approval, R3 review and R4 adversarial tests still precede transport
+   implementation. Approval never authorizes controlled probes in issue #752.

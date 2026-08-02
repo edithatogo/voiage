@@ -6,9 +6,13 @@
   source-policy contract. — `f035c50`
 - [ ] **R2 / AC-01:** Obtain explicit security-policy approval before enabling
   any remote I/O.
-- [x] **R3 / AC-01:** Run Conductor review and validation checkpoint.
-  (2026-08-01; local validators and PR #824 required hosted checks pass;
-  remote approval remains pending)
+  - [x] Record the decision options, authority boundary and fail-closed
+    approval-record schema in the Conductor track.
+  - [ ] Obtain a dated decision from an accountable security/infrastructure
+    authority; attach the signed or portal-bound evidence without secrets.
+  - [ ] Revalidate the threat-model and policy hashes against the approved
+    record before changing any gate or enabling implementation.
+- [ ] **R3 / AC-01:** Run Conductor review and validation checkpoint.
 
 ## Phase 2 — Fail-closed implementation
 
