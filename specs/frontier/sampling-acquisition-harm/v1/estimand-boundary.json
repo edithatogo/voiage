@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "sampling-harm-generic-kernel-exclusion-review-v1",
+  "question": "Whether a universal kernel may automatically scalarize undeclared or incommensurate sampling-acquisition harms or authorize a study.",
+  "decision_unit": "candidate-specific proposed sampling activity and comparator",
+  "affected_parties": "must_be_declared_per_candidate",
+  "harm_components": "must_be_declared_with_units_time_horizon_and_attribution_per_candidate",
+  "ordering_rule": "no_automatic_total_order_without_declared_commensurate_component_ledger",
+  "automatic_definition": "software_selects_or_applies_scalarization_without_candidate_specific_declared_and_reviewed_semantics",
+  "conditioning": "candidate_specific_domain_jurisdiction_population_activity_comparator_and_authorities",
+  "uncertainty": "indeterminate_without_candidate_specific_harm_law_data_and_estimator_assurance",
+  "study_authorization_semantics": "always_out_of_scope_for_software_output",
+  "zero_harm_reduction": "ordinary_evsi_or_enbs_only_after_candidate_specific_zero_harm_assumptions",
+  "scalar_validity_conditions": [
+    "state_action_outcome_mapping_is_unchanged_by_the_sampling_process",
+    "valued_harm_is_policy_independent_and_not_already_counted_downstream",
+    "cardinal_commensurability_is_declared_for_every_component",
+    "harm_and_information_value_are_separable_under_the_declared_model",
+    "perspective_numeraire_time_horizon_discounting_and_provenance_are_named",
+    "component_ledger_is_mutually_exclusive_and_collectively_scoped",
+    "hard_or_lexicographic_constraints_take_precedence_over_positive_scalar_value",
+    "joint_harm_information_dropout_and_reporting_law_is_declared"
+  ],
+  "fail_closed_consequences": [
+    "incommensurate_components_make_the_scalar_undefined",
+    "catastrophic_constraint_violation_overrides_positive_scalar_value",
+    "changed_state_action_or_outcome_mapping_is_not_ordinary_evsi",
+    "missing_joint_dropout_or_reporting_law_makes_the_result_indeterminate",
+    "zero_harm_reduction_is_conditional_not_automatic"
+  ],
+  "preserved_research": [
+    "candidate_specific_non_authorizing_scalar_with_declared_commensurate_ledger",
+    "parameterized_non_authorizing_constrained_candidate",
+    "parameterized_non_authorizing_vector_candidate"
+  ],
+  "scientific_disposition": "pending",
+  "runtime_available": false
+}

@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/sampling-acquisition-harm/v1/schemas/review-candidate.schema.json",
+  "title": "SamplingAcquisitionHarmReviewCandidateV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "candidate_id", "status", "track_id", "planned_version", "canonical_requirement", "issue_refs", "scope", "estimand_boundary", "claims_under_review", "prohibited_claims", "estimator_assurance", "fixtures", "prior_history", "source_register", "governance_snapshot", "preserved_candidate_classes", "adjacent_methods_not_aliased", "required_independent_review_roles", "downstream_accountable_gates", "known_limitations", "next_tasks", "authority_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "candidate_id": {"const": "sampling-harm-generic-kernel-exclusion-review-v1"},
+    "status": {"const": "candidate_inputs_ready_for_commit_freeze"},
+    "track_id": {"const": "sampling_acquisition_harm_voi_20260802"},
+    "planned_version": {"const": "1.3.0"}, "canonical_requirement": {"const": "C18/M32"},
+    "issue_refs": {"type": "array", "prefixItems": [{"const": "https://github.com/edithatogo/voiage/issues/850"}, {"const": "https://github.com/edithatogo/voiage/issues/853"}], "minItems": 2, "maxItems": 2},
+    "scope": {
+      "type": "object", "additionalProperties": false,
+      "required": ["family", "capability", "excluded_semantics", "proposed_disposition", "scientific_disposition", "runtime_available", "approved_runtime_symbols"],
+      "properties": {
+        "family": {"const": "sampling_acquisition_harm_voi"},
+        "capability": {"const": "generic_automatic_scalar_or_authorizing_sampling_acquisition_harm_kernel"},
+        "excluded_semantics": {"const": "automatic_scalar_aggregation_or_study_authorization"},
+        "proposed_disposition": {"const": "reviewed_exclusion"},
+        "scientific_disposition": {"const": "pending"},
+        "runtime_available": {"const": false},
+        "approved_runtime_symbols": {"type": "array", "maxItems": 0}
+      }
+    },
+    "estimand_boundary": {"const": "specs/frontier/sampling-acquisition-harm/v1/estimand-boundary.json"},
+    "claims_under_review": {"type": "array", "prefixItems": [{"const": "No universal automatic scalar may aggregate incomparable acquisition harms without a candidate-specific commensurate component ledger."}, {"const": "No sampling-acquisition-harm result may authorize a real study or sampling action."}, {"const": "Parameterized non-authorizing constrained or vector research remains eligible for a future narrow candidate-bound review."}], "minItems": 3, "maxItems": 3},
+    "prohibited_claims": {"type": "array", "prefixItems": [{"const": "The proposed exclusion is scientifically complete."}, {"const": "A sampling-acquisition-harm estimator or runtime exists."}, {"const": "Repository validation supplies ethics, regulatory or real-study authorization."}, {"const": "A positive EVSI or ENBS authorizes sampling."}], "minItems": 4, "maxItems": 4},
+    "estimator_assurance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "approved_estimator_present", "numerical_thresholds_present", "truth_known_suite_present", "false_safe_error_budget_present", "uncertainty_rule"],
+      "properties": {
+        "status": {"const": "absent_blocks_runtime"}, "approved_estimator_present": {"const": false},
+        "numerical_thresholds_present": {"const": false}, "truth_known_suite_present": {"const": false},
+        "false_safe_error_budget_present": {"const": false},
+        "uncertainty_rule": {"const": "indeterminate_until_candidate_specific_estimator_and_assurance_exist"}
+      }
+    },
+    "fixtures": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "counterexample_register", "synthetic_governance_fixture_is_scientific_evidence"],
+      "properties": {
+        "status": {"const": "counterexamples_only_no_estimator_fixture"},
+        "counterexample_register": {"const": "conductor/tracks/sampling_acquisition_harm_voi_20260802/estimand-counterexamples-and-sensitivity.md"},
+        "synthetic_governance_fixture_is_scientific_evidence": {"const": false}
+      }
+    },
+    "prior_history": {
+      "type": "object", "additionalProperties": false,
+      "required": ["evidence_ledger", "evidence_ledger_sha256", "latest_entry_sha256", "finding_inventory", "candidate_bound_independent_review"],
+      "properties": {
+        "evidence_ledger": {"const": "conductor/tracks/sampling_acquisition_harm_voi_20260802/evidence.jsonl"},
+        "evidence_ledger_sha256": {"$ref": "#/$defs/sha256"}, "latest_entry_sha256": {"$ref": "#/$defs/sha256"},
+        "finding_inventory": {"const": "specs/frontier/sampling-acquisition-harm/v1/prior-findings.json"},
+        "candidate_bound_independent_review": {"const": "not_started"}
+      }
+    },
+    "source_register": {"const": "specs/frontier/sampling-acquisition-harm/v1/source-and-retrieval-register.json"},
+    "governance_snapshot": {"const": "specs/frontier/sampling-acquisition-harm/v1/governance-snapshot.json"},
+    "preserved_candidate_classes": {"type": "array", "prefixItems": [{"const": "candidate_specific_non_authorizing_scalar_with_declared_commensurate_ledger"}, {"const": "parameterized_non_authorizing_constrained_candidate"}, {"const": "parameterized_non_authorizing_vector_candidate"}], "minItems": 3, "maxItems": 3},
+    "adjacent_methods_not_aliased": {"type": "array", "prefixItems": [{"const": 570}, {"const": 571}, {"const": 595}, {"const": 598}], "minItems": 4, "maxItems": 4},
+    "required_independent_review_roles": {"type": "array", "prefixItems": [{"const": "estimand_domain"}, {"const": "estimator_assurance"}, {"const": "cross_language_api"}, {"const": "governance_publication"}, {"const": "domain_specialist"}], "minItems": 5, "maxItems": 5},
+    "downstream_accountable_gates": {"type": "array", "prefixItems": [{"type": "object", "additionalProperties": false, "required": ["gate", "status"], "properties": {"gate": {"const": "independent_scientific_human_confirmation"}, "status": {"const": "pending"}}}, {"type": "object", "additionalProperties": false, "required": ["gate", "status"], "properties": {"gate": {"const": "independent_domain_ethics_human_confirmation"}, "status": {"const": "pending"}}}, {"type": "object", "additionalProperties": false, "required": ["gate", "status"], "properties": {"gate": {"const": "conditional_independent_chair_adjudication"}, "status": {"const": "pending_if_triggered"}}}, {"type": "object", "additionalProperties": false, "required": ["gate", "status"], "properties": {"gate": {"const": "separate_maintainer_product_maturity_decision"}, "status": {"const": "pending"}}}], "minItems": 4, "maxItems": 4},
+    "known_limitations": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "next_tasks": {"type": "array", "prefixItems": [{"const": "H8-D"}, {"const": "H8-E"}, {"const": "H8-F"}, {"const": "H8-G"}, {"const": "H8-H"}], "minItems": 5, "maxItems": 5},
+    "authority_boundary": {"$ref": "#/$defs/authority"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["preparation_only", "review_completed", "human_confirmation_received", "maintainer_disposition_recorded", "runtime_authorized", "real_study_authorized"],
+      "properties": {
+        "preparation_only": {"const": true}, "review_completed": {"const": false},
+        "human_confirmation_received": {"const": false}, "maintainer_disposition_recorded": {"const": false},
+        "runtime_authorized": {"const": false}, "real_study_authorized": {"const": false}
+      }
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0.0",
+  "snapshot_id": "sampling-harm-h8c-governance-20260803",
+  "observed_at": "2026-08-02T18:25:00Z",
+  "expires_at": "2026-08-09T18:25:00Z",
+  "observation_method": "authenticated_github_cli_and_repository_bytes",
+  "issues": [
+    {
+      "number": 850,
+      "node_id": "I_kwDOPF8PXM8AAAABLI5yug",
+      "project_item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0-O4U",
+      "project_item_updated_at": "2026-08-02T18:23:26Z",
+      "url": "https://github.com/edithatogo/voiage/issues/850",
+      "state": "OPEN",
+      "updated_at": "2026-08-02T18:23:24Z",
+      "body_sha256": "3e50108f4c183a9cdc7af8207dbf0ae3ba77e7ec70a242087d045038a3ee4164",
+      "project_status": "In Progress",
+      "project_fields": {
+        "contract_version": "1.3.0", "evidence_state": "Unverified", "gate": "Human",
+        "lifecycle": "Mitigating", "moscow": "Must", "owner_role": "Risk and sampling domain reviewer",
+        "priority": "P1", "record_id": "SAMPLING-HARM-850", "record_type": "Current track",
+        "repository": "https://github.com/edithatogo/voiage",
+        "review_due": "2026-11-30", "risk_level": "Critical", "status": "In Progress",
+        "sync_state": "Clean", "track_id": "sampling_acquisition_harm_voi_20260802"
+      },
+      "project_fields_sha256": "7c5c7564bcdae8fd0acf9f2fd85b0318831d85cf5312aed073daad87e17843d6"
+    },
+    {
+      "number": 853,
+      "node_id": "I_kwDOPF8PXM8AAAABLJXLWw",
+      "project_item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0-m44",
+      "project_item_updated_at": "2026-08-02T18:22:45Z",
+      "url": "https://github.com/edithatogo/voiage/issues/853",
+      "state": "OPEN",
+      "updated_at": "2026-08-02T18:22:45Z",
+      "body_sha256": "5691290486d5cca51276b2d5c9f8779285b85cfce5a7cd5ed4ee5e2d55ab4f1f",
+      "project_status": "In Progress",
+      "project_fields": {
+        "contract_version": "1.3.0", "evidence_state": "Unverified", "gate": "Human",
+        "lifecycle": "Mitigating", "moscow": "Must", "owner_role": "Independent scientific/domain adjudicator",
+        "priority": "P1", "record_id": "SAMPLING-HARM-853", "record_type": "Current track",
+        "repository": "https://github.com/edithatogo/voiage",
+        "review_due": "2026-11-30", "risk_level": "Critical", "status": "In Progress",
+        "sync_state": "Clean", "track_id": "sampling_acquisition_harm_voi_20260802"
+      },
+      "project_fields_sha256": "44b5a7df94668f0fbe48e2e8102545f1a0e74083535ecfc0e8693821cd0e1943"
+    }
+  ],
+  "project": {
+    "number": 28,
+    "node_id": "PVT_kwHOAOYc4M4Bd0Tx",
+    "url": "https://github.com/users/edithatogo/projects/28",
+    "status": "In Progress",
+    "gate": "Human",
+    "evidence_state": "Unverified",
+    "lifecycle": "Mitigating",
+    "risk_level": "Critical",
+    "priority": "P1",
+    "moscow": "Must",
+    "contract_version": "1.3.0",
+    "review_due": "2026-11-30",
+    "sync_state": "Clean"
+  },
+  "merge_evidence": {
+    "pull_request": "https://github.com/edithatogo/voiage/pull/861",
+    "head_commit": "1aa6e748bbaab19ac9adcbb9ee5d77308c5ec020",
+    "merge_commit": "2367074d4b8ea14590746286649d9afb8ebebaef",
+    "successful_checks": 32,
+    "governed_skips": 3,
+    "neutral_checks": 1,
+    "failed_or_pending_checks": 0,
+    "unresolved_review_threads": 0
+  },
+  "merge_evidence_scope": "pull_request_head_only",
+  "exact_candidate_check_state": "not_run_candidate_commit_not_yet_created",
+  "canonical_projection": {
+    "track_id": "sampling_acquisition_harm_voi_20260802",
+    "canonical_track": "C18",
+    "requirement": "M32",
+    "planned_version": "1.3.0",
+    "moscow": "Must",
+    "artifacts": [
+      {"path": "conductor/requirements.md", "sha256": "86d6e76907ebf97945b3803ed2875353b37962b2724c05bb094779b428a87f69"},
+      {"path": "conductor/design.md", "sha256": "4307123ccfa632e0d40a17effef4658bb40c45ef1591641abe29cfa71c775904"},
+      {"path": "conductor/tracks/sampling_acquisition_harm_voi_20260802/requirements.md", "sha256": "c2ad90226cb7f04643ae376c2b8b9e1a3dc804526fd72aa0f3f018ad1bd6544d"},
+      {"path": "conductor/tracks/sampling_acquisition_harm_voi_20260802/design.md", "sha256": "235f65ec64e81cb80a9c129c2ac982b36c90401db0b3ce08e032a9aee99b8cdf"}
+    ]
+  },
+  "authority_boundary": {
+    "preparation_only": true,
+    "scientific_review_completed": false,
+    "human_confirmation_received": false,
+    "maintainer_disposition_recorded": false,
+    "runtime_authorized": false,
+    "real_study_authorized": false
+  }
+}

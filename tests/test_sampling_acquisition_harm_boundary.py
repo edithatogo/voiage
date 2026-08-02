@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+from datetime import UTC, datetime
 import hashlib
 import importlib
 import json
@@ -34,6 +35,13 @@ def _json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def _canonical_sha256(payload: object) -> str:
+    encoded = json.dumps(
+        payload, ensure_ascii=False, allow_nan=False, separators=(",", ":"), sort_keys=True
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
 def test_fail_closed_capability_and_research_disposition_validate() -> None:
     schemas = CONTRACT / "schemas"
     pairs = (
@@ -45,6 +53,26 @@ def test_fail_closed_capability_and_research_disposition_validate() -> None:
         (
             schemas / "scope-selection.schema.json",
             CONTRACT / "scope-selection.json",
+        ),
+        (
+            schemas / "governance-snapshot.schema.json",
+            CONTRACT / "governance-snapshot.json",
+        ),
+        (
+            schemas / "review-candidate.schema.json",
+            CONTRACT / "review-candidate.json",
+        ),
+        (
+            schemas / "estimand-boundary.schema.json",
+            CONTRACT / "estimand-boundary.json",
+        ),
+        (
+            schemas / "prior-findings.schema.json",
+            CONTRACT / "prior-findings.json",
+        ),
+        (
+            schemas / "source-and-retrieval-register.schema.json",
+            CONTRACT / "source-and-retrieval-register.json",
         ),
     )
     for schema_path, artifact_path in pairs:
@@ -247,9 +275,154 @@ def test_sampling_harm_method_family_has_no_runtime_declaration() -> None:
     schemas = {path.name for path in (CONTRACT / "schemas").glob("*.json")}
     assert schemas == {
         "capability.schema.json",
+        "estimand-boundary.schema.json",
+        "governance-snapshot.schema.json",
+        "prior-findings.schema.json",
+        "review-candidate.schema.json",
         "research-disposition.schema.json",
         "scope-selection.schema.json",
+        "source-and-retrieval-register.schema.json",
     }
+
+
+def test_h8c_candidate_inputs_are_complete_but_never_claim_review() -> None:
+    candidate = _json(CONTRACT / "review-candidate.json")
+    boundary = _json(CONTRACT / "estimand-boundary.json")
+    sources = _json(CONTRACT / "source-and-retrieval-register.json")
+    findings = _json(CONTRACT / "prior-findings.json")
+    snapshot = _json(CONTRACT / "governance-snapshot.json")
+
+    assert candidate["scope"]["scientific_disposition"] == "pending"
+    assert candidate["scope"]["runtime_available"] is False
+    assert candidate["scope"]["approved_runtime_symbols"] == []
+    assert candidate["adjacent_methods_not_aliased"] == [570, 571, 595, 598]
+    assert candidate["required_independent_review_roles"] == [
+        "estimand_domain",
+        "estimator_assurance",
+        "cross_language_api",
+        "governance_publication",
+        "domain_specialist",
+    ]
+    assert boundary["scientific_disposition"] == "pending"
+    assert boundary["study_authorization_semantics"] == (
+        "always_out_of_scope_for_software_output"
+    )
+    assert sources["retained_source_bytes"] == 0
+    assert sources["exact_source_review_status"] == (
+        "blocked_pending_independent_retrieval_and_drift_comparison"
+    )
+    assert sources["failed_retrievals"][0]["http_status"] == 403
+    assert len(findings["findings"]) == 27
+    assert len({item["id"] for item in findings["findings"]}) == 27
+    assert all(item["disposition"] == "remediated" for item in findings["findings"])
+    assert all(value is False for key, value in snapshot["authority_boundary"].items() if key != "preparation_only")
+
+
+def test_h8c_candidate_cross_artifact_bindings_and_freshness() -> None:
+    candidate = _json(CONTRACT / "review-candidate.json")
+    sources = _json(ROOT / candidate["source_register"])
+    snapshot = _json(ROOT / candidate["governance_snapshot"])
+    findings = _json(ROOT / candidate["prior_history"]["finding_inventory"])
+
+    ledger_path = ROOT / candidate["prior_history"]["evidence_ledger"]
+    assert hashlib.sha256(ledger_path.read_bytes()).hexdigest() == candidate[
+        "prior_history"
+    ]["evidence_ledger_sha256"]
+    ledger = [json.loads(line) for line in ledger_path.read_text().splitlines()]
+    ledger_entries = {entry["entry_sha256"] for entry in ledger}
+    assert ledger[-1]["entry_sha256"] == candidate["prior_history"][
+        "latest_entry_sha256"
+    ]
+    assert {item["entry_sha256"] for item in findings["evidence_refs"]} <= (
+        ledger_entries
+    )
+    assert {item["evidence_entry_sha256"] for item in findings["review_batches"]} <= (
+        ledger_entries
+    )
+    git = shutil.which("git")
+    assert git is not None
+    for batch in findings["review_batches"]:
+        subprocess.run(
+            [git, "cat-file", "-e", f"{batch['reachable_merge_commit']}^{{commit}}"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+        )
+        merged_ledger = subprocess.check_output(
+            [
+                git,
+                "show",
+                f"{batch['reachable_merge_commit']}:{candidate['prior_history']['evidence_ledger']}",
+            ],
+            cwd=ROOT,
+            text=True,
+        )
+        assert batch["evidence_entry_sha256"] in {
+            json.loads(line)["entry_sha256"] for line in merged_ledger.splitlines()
+        }
+
+    source_manifest = ROOT / sources["source_manifest"]
+    assert hashlib.sha256(source_manifest.read_bytes()).hexdigest() == sources[
+        "source_manifest_sha256"
+    ]
+    for artifact in snapshot["canonical_projection"]["artifacts"]:
+        assert hashlib.sha256((ROOT / artifact["path"]).read_bytes()).hexdigest() == (
+            artifact["sha256"]
+        )
+    for issue in snapshot["issues"]:
+        assert _canonical_sha256(issue["project_fields"]) == issue[
+            "project_fields_sha256"
+        ]
+
+    observed = datetime.fromisoformat(snapshot["observed_at"])
+    expires = datetime.fromisoformat(snapshot["expires_at"])
+    assert observed < expires
+    assert datetime.now(UTC) <= expires
+
+
+def test_h8c_candidate_schemas_reject_authority_scope_or_history_relaxation() -> None:
+    cases = []
+    for schema_name, artifact_name, mutate in (
+        (
+            "review-candidate.schema.json",
+            "review-candidate.json",
+            lambda item: item["authority_boundary"].__setitem__("review_completed", True),
+        ),
+        (
+            "review-candidate.schema.json",
+            "review-candidate.json",
+            lambda item: item["scope"].__setitem__("runtime_available", True),
+        ),
+        (
+            "estimand-boundary.schema.json",
+            "estimand-boundary.json",
+            lambda item: item.__setitem__("scientific_disposition", "reviewed_exclusion"),
+        ),
+        (
+            "source-and-retrieval-register.schema.json",
+            "source-and-retrieval-register.json",
+            lambda item: item.__setitem__("retained_source_bytes", 1),
+        ),
+        (
+            "prior-findings.schema.json",
+            "prior-findings.json",
+            lambda item: item["findings"].pop(),
+        ),
+        (
+            "governance-snapshot.schema.json",
+            "governance-snapshot.json",
+            lambda item: item["authority_boundary"].__setitem__(
+                "scientific_review_completed", True
+            ),
+        ),
+    ):
+        artifact = _json(CONTRACT / artifact_name)
+        mutate(artifact)
+        cases.append((_json(CONTRACT / "schemas" / schema_name), artifact))
+
+    for schema, artifact in cases:
+        with pytest.raises(ValidationError):
+            Draft202012Validator(schema).validate(artifact)
 
 
 def test_no_python_native_or_binding_execution_symbol_exists() -> None:

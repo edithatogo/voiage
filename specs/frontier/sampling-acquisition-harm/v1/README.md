@@ -17,8 +17,11 @@ decision-analysis method and does not execute sampling-acquisition harm. This
 contract does not alias, wrap or reinterpret either method as an acquisition-
 harm implementation.
 
-The JSON schemas validate the capability, research disposition and H8-A scope
-selection. They are not request/result schemas and do not define numerical
-behavior. Scientific acceptance, a named human verdict, ethics or regulatory
-authorization, estimator assurance, language parity, hosted checks, promotion
-and release all remain separate gates.
+The JSON schemas validate the capability, research disposition, H8-A scope
+selection and H8-C candidate inputs. The H8-C inputs itemize prior repository
+findings, source-retrieval limitations, exact issue/Project identities and the
+estimand boundary. They are preparation records, not a completed scientific-
+review bundle, request/result schemas or numerical behavior. Scientific
+acceptance, a named human verdict, ethics or regulatory authorization,
+estimator assurance, language parity, hosted checks, promotion and release all
+remain separate gates.

@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0.0",
+  "source_manifest": "conductor/tracks/sampling_acquisition_harm_voi_20260802/primary-source-manifest-20260802.json",
+  "source_manifest_sha256": "9a04bddf98608ee8ffaf05eeba45bc3df86bcee96ff2d99706ba8cc3a65f3cb5",
+  "source_count": 6,
+  "retained_source_bytes": 0,
+  "retrieved_observations": 5,
+  "failed_cli_retrievals": 1,
+  "exact_source_review_status": "blocked_pending_independent_retrieval_and_drift_comparison",
+  "failed_retrievals": [
+    {
+      "source_id": "belmont-report",
+      "status": "remote_unavailable_http_403_to_cli_web_observed",
+      "http_status": 403,
+      "content_sha256": null
+    }
+  ],
+  "limitations": [
+    "Observation hashes do not provide retained or independently reproducible source bytes.",
+    "The Belmont source returned HTTP 403 to CLI retrieval and has no content digest.",
+    "Locators do not grant redistribution rights or establish applicability in a candidate jurisdiction.",
+    "Independent reviewers must retrieve and assess applicable current sources themselves."
+  ],
+  "authority_boundary": {
+    "source_rights_granted": false,
+    "scientific_applicability_confirmed": false,
+    "ethics_or_regulatory_authority_confirmed": false
+  }
+}
