@@ -20,7 +20,6 @@
   },
   "conductor": {
   "active_track_ids": [
-    "conductor-github-cross-reference-reconciliation_20260724",
     "controlled_live_dataset_interoperability_20260801",
     "datasets_worked_examples_20260723",
       "estimation_focused_variance_voi_20260727",
@@ -41,14 +40,13 @@
       "value_of_perspective_completion_20260723",
       "voi_method_census_contract_reconciliation_20260723"
     ],
-  "archived_track_count": 128,
+  "archived_track_count": 129,
     "classifications": {
       "v1_required": [
         "repository-owned mature-v1 programme completed; external publication gates transferred to research_software_registry_readiness_20260721"
       ],
       "historical_groundwork": "conductor/archive/",
     "post_v1_or_optional": [
-      "conductor-github-cross-reference-reconciliation_20260724",
       "controlled_live_dataset_interoperability_20260801",
         "datasets_worked_examples_20260723",
         "estimation_focused_variance_voi_20260727",
