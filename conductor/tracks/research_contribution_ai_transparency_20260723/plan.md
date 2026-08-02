@@ -4,7 +4,7 @@
 
 - [x] **G1:** Verify the owning issue, native parent/children, Project 28,
   metadata, registry and cross-reference manifest. (AC-01) — `a4632a8`
-- [ ] **G2:** Reconcile existing repository artifacts and prior evidence
+- [x] **G2:** Reconcile existing repository artifacts and prior evidence
   without converting issue status into implementation evidence. (AC-01, AC-02)
   — `9c75755`
 - [x] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
