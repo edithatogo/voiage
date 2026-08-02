@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/governance/scientific-review/v1/schemas/review-packet.schema.json",
+  "title": "ScientificReviewPacketV1",
+  "type": "object",
+  "required": ["evidence_kind", "schema_version", "packet_id", "candidate_commit", "candidate_tree", "packet_sha256", "artifact_manifest_sha256", "scope", "dependency_lock", "toolchain", "platform", "commands", "references", "known_limitations", "created_at"],
+  "properties": {
+    "evidence_kind": {"const": "review-packet"}, "schema_version": {"const": "1.0.0"},
+    "packet_id": {"$ref": "common.schema.json#/$defs/nonempty"},
+    "candidate_commit": {"$ref": "common.schema.json#/$defs/sha256"}, "candidate_tree": {"$ref": "common.schema.json#/$defs/sha256"}, "packet_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "artifact_manifest_sha256": {"$ref": "common.schema.json#/$defs/sha256"}, "scope": {"$ref": "common.schema.json#/$defs/scope"},
+    "dependency_lock": {"type": "array", "minItems": 1, "items": {"$ref": "common.schema.json#/$defs/nonempty"}},
+    "toolchain": {"type": "array", "minItems": 1, "items": {"$ref": "common.schema.json#/$defs/nonempty"}},
+    "platform": {"$ref": "common.schema.json#/$defs/nonempty"}, "commands": {"type": "array", "minItems": 1, "items": {"$ref": "common.schema.json#/$defs/nonempty"}},
+    "references": {"type": "array", "minItems": 1, "items": {"$ref": "common.schema.json#/$defs/nonempty"}},
+    "known_limitations": {"type": "array", "minItems": 1, "items": {"$ref": "common.schema.json#/$defs/nonempty"}},
+    "created_at": {"$ref": "common.schema.json#/$defs/timestamp"}
+  },
+  "additionalProperties": false
+}

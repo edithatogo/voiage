@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 from pathlib import Path
+import re
 import shutil
 import subprocess
 
@@ -76,7 +77,7 @@ def test_scientific_review_plan_requires_orchestrated_independent_panel() -> Non
         assert automatic_blocker in protocol
 
     for task in range(1, 11):
-        assert f"- [ ] **SR{task}" in plan
+        assert re.search(rf"^- \[[ x~]\] \*\*SR{task}(?:\s|\s*/)", plan, re.MULTILINE)
     for issue in (570, 571, 595, 619):
         assert f"#{issue}" in plan
     for requirement in range(1, 7):

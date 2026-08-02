@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "status": "governance-contract",
+  "issue": "https://github.com/edithatogo/voiage/issues/842",
+  "schemas": [
+    "schemas/adjudication.schema.json",
+    "schemas/artifact-manifest.schema.json",
+    "schemas/delta-classification.schema.json",
+    "schemas/disagreement.schema.json",
+    "schemas/disposition.schema.json",
+    "schemas/finding.schema.json",
+    "schemas/promotion-receipt.schema.json",
+    "schemas/review-packet.schema.json",
+    "schemas/reviewer-attestation.schema.json",
+    "schemas/role-report.schema.json",
+    "schemas/scientific-approval.schema.json"
+  ],
+  "shared_schema": "schemas/common.schema.json",
+  "semantic_validator": "voiage.scientific_review_evidence.validate_scientific_review_bundle",
+  "synthetic_fixture": "fixtures/valid-review-bundle.json",
+  "fixture_is_approval": false
+}

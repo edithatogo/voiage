@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/governance/scientific-review/v1/schemas/reviewer-attestation.schema.json",
+  "title": "ScientificReviewerAttestationV1", "type": "object",
+  "required": ["evidence_kind", "schema_version", "attestation_id", "candidate_commit", "candidate_tree", "packet_sha256", "reviewer", "scope", "attested_at", "attestation_sha256"],
+  "properties": {
+    "evidence_kind": {"const": "reviewer-attestation"}, "schema_version": {"const": "1.0.0"}, "attestation_id": {"$ref": "common.schema.json#/$defs/nonempty"},
+    "candidate_commit": {"$ref": "common.schema.json#/$defs/sha256"}, "candidate_tree": {"$ref": "common.schema.json#/$defs/sha256"}, "packet_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "reviewer": {"$ref": "common.schema.json#/$defs/reviewer"}, "scope": {"$ref": "common.schema.json#/$defs/scope"}, "attested_at": {"$ref": "common.schema.json#/$defs/timestamp"}, "attestation_sha256": {"$ref": "common.schema.json#/$defs/sha256"}
+  }, "additionalProperties": false
+}

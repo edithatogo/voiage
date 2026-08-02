@@ -7,6 +7,7 @@
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
 - [Scientific review panel and orchestration protocol](./scientific-review-panel.md)
+- [Scientific-review evidence contract v1](../../../specs/frontier/governance/scientific-review/v1/README.md)
 - [GitHub issue #318](https://github.com/edithatogo/voiage/issues/318)
 - [Parent issue #313](https://github.com/edithatogo/voiage/issues/313)
 - [Project 28](https://github.com/users/edithatogo/projects/28)
