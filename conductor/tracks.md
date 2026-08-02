@@ -37,7 +37,7 @@ existing issue/Project progress awaits evidence reconciliation.*
 
 ---
 
-## [ ] Track: Value of Perspective Method Completion
+## [~] Track: Value of Perspective Method Completion
 *Link: [./tracks/value_of_perspective_completion_20260723/index.md](./tracks/value_of_perspective_completion_20260723/index.md)*
 *GitHub: [issue #317](https://github.com/edithatogo/voiage/issues/317), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
