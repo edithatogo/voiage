@@ -60,12 +60,14 @@ state mathematical feasibility. This is governed research scoping only: no
 sampling-harm runtime exists. The amended H8 plan first repairs canonical
 hashing, Git-object, role-separation, finding-closure and transition evidence,
 then chooses a narrow domain/jurisdiction candidate or reviewed exclusion and
-freezes a #850-specific packet. H8-A now selects the generic cross-domain
-kernel as the review target for a proposed exclusion because no narrow
-candidate is evidenced; this does not complete the exclusion. Independent role
+freezes a #850-specific packet. H8-A now selects the generic automatic-scalar
+or study-authorizing kernel as the review target for a proposed exclusion
+because no narrow candidate is evidenced; this does not complete the
+exclusion. Independent role
 subagents report to a separate non-deciding orchestrator, which preserves findings, dissent, options,
-contingencies, rationale and recommendation. A positive path requires two
-distinct humans for scientific and domain/ethics confirmation, with a chair
+contingencies, rationale and recommendation. Completing either scientific
+disposition, including `reviewed_exclusion`, requires two distinct humans for
+scientific and domain/ethics confirmation, with a chair
 only for dispute, dissent or reviewer remediation, followed by a separate
 maintainer product decision. Real-study authorization, parity, promotion,
 release, publication, registry acceptance and closure remain pending.

@@ -116,12 +116,12 @@ while preserving the possibility of a future runtime.
 
 ### Option B — generic-kernel exclusion review (selected for H8-A)
 
-Freeze the generic cross-domain executable kernel as the review target for a
-proposed `reviewed_exclusion`. No universal scalar or authorization rule is
-currently supportable, so this is the scientifically honest path for the
-present evidence. Selection is not completion: H8-C–H8-H must still bind and
-review the exclusion, obtain the two named human confirmations and record the
-separate maintainer disposition. Runtime remains prohibited throughout.
+Freeze only the generic automatic-scalar or study-authorizing kernel as the
+review target for a proposed `reviewed_exclusion`. A parameterized,
+non-authorizing constrained or vector research contract remains a possible
+future candidate class. Selection is not completion: H8-C–H8-H must still bind
+and review the exclusion, obtain the two named human confirmations and record
+the separate maintainer disposition. Runtime remains prohibited throughout.
 
 ### Option C — umbrella root with family-specific leaf packets
 

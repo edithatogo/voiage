@@ -4,10 +4,12 @@ This directory is a versioned, machine-readable negative capability contract
 for issue #850. No runtime exists. Discovery reports
 `unsupported_research_scoping`, all repository-owned execution surfaces expose
 zero symbols, and the companion disposition records the gates that must be
-satisfied before an executable candidate can be considered. H8-A selects the
-generic cross-domain executable kernel as the candidate-bound review target
-for a proposed `reviewed_exclusion`; `scope-selection.json` explicitly records
-that review, human confirmation and scientific disposition remain pending.
+satisfied before an executable candidate can be considered. H8-A selects only
+the generic automatic-scalar or study-authorizing kernel as the candidate-bound
+review target for a proposed `reviewed_exclusion`; parameterized constrained or
+vector research remains a possible future candidate class. The scope selection
+explicitly records that review, human confirmation and scientific disposition
+remain pending.
 
 Issue #570 models risk-sensitive constrained perfect information and issue
 #595 presents expected-utility information value and VoC. Each is an adjacent

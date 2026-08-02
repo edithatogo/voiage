@@ -2,12 +2,17 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
+import hashlib
 import importlib
 import json
 from pathlib import Path
+import shutil
+import subprocess
 from typing import Any
 
-from jsonschema import Draft202012Validator
+from jsonschema import Draft202012Validator, FormatChecker, ValidationError
+import pytest
 
 import voiage
 import voiage.experimental
@@ -78,6 +83,7 @@ def test_discovery_is_explicitly_unsupported_on_every_execution_surface() -> Non
 def test_research_disposition_prohibits_runtime_and_adjacent_method_aliases() -> None:
     disposition = _json(CONTRACT / "research-disposition.json")
 
+    assert disposition["schema_version"] == "1.1.0"
     assert disposition["disposition"] == "unsupported_research_scoping"
     assert disposition["runtime_prohibited"] is True
     assert disposition["candidate_scope"] == "research_contract_only"
@@ -99,10 +105,15 @@ def test_h8a_selects_generic_kernel_exclusion_without_claiming_review() -> None:
     assert selection["selection_status"] == "selected_for_candidate_bound_review"
     assert selection["scientific_disposition"] == "pending"
     assert selection["review_target"] == {
-        "capability": "generic_cross_domain_sampling_acquisition_harm_kernel",
+        "capability": "generic_automatic_scalar_or_authorizing_sampling_acquisition_harm_kernel",
         "domain": "unspecified",
         "jurisdiction": "unspecified",
         "population": "unspecified",
+        "sampling_activity": "unspecified",
+        "comparator": "unspecified",
+        "affected_parties": "unspecified",
+        "harm_categories": "unspecified",
+        "excluded_semantics": "automatic_scalar_aggregation_or_study_authorization",
     }
     assert selection["runtime_disposition"] == "unsupported_research_scoping"
     assert selection["review_completed"] is False
@@ -117,14 +128,128 @@ def test_h8a_selects_generic_kernel_exclusion_without_claiming_review() -> None:
         "H8-G",
         "H8-H",
     ]
-    assert {
+    assert set(selection["reconsideration_entry_requirements"]) == {
         "narrow_domain_candidate",
         "applicable_jurisdiction_authority",
         "defined_population_and_affected_parties",
+        "defined_sampling_action_and_comparator",
+        "identified_harm_law_and_data",
+        "defined_reporting_and_dropout_model",
+        "declared_risk_ordering_and_component_ledger",
+        "estimator_assurance_plan",
+    }
+    assert set(selection["downstream_review_gates"]) == {
         "candidate_bound_independent_review",
         "two_named_human_confirmations",
         "estimator_assurance",
-    } <= set(selection["reconsideration_requirements"])
+        "maintainer_implementation_decision",
+    }
+    assert set(selection["not_authorized"]) == {
+        "completed_reviewed_exclusion",
+        "scientific_acceptance",
+        "maintainer_disposition",
+        "runtime_implementation",
+        "polyglot_parity",
+        "stable_promotion",
+        "real_study_activity",
+        "ethics_regulatory_authorization",
+        "release",
+        "publication",
+        "registry_acceptance",
+        "issue_closure",
+    }
+
+
+def test_h8a_source_and_evidence_bindings_resolve_exactly() -> None:
+    selection = _json(CONTRACT / "scope-selection.json")
+    commit = selection["reviewed_source_commit"]
+    tree = selection["reviewed_source_tree"]
+    assert commit["algorithm"] == tree["algorithm"] == "sha1"
+    git = shutil.which("git")
+    assert git is not None
+    actual_tree = subprocess.check_output(
+        [git, "-C", str(ROOT), "rev-parse", f"{commit['value']}^{{tree}}"],
+        text=True,
+    ).strip()
+    assert actual_tree == tree["value"]
+
+    for evidence_ref in selection["evidence_refs"]:
+        path = Path(evidence_ref["path"])
+        assert not path.is_absolute()
+        assert ".." not in path.parts
+        artifact = ROOT / path
+        assert artifact.is_file()
+        assert (
+            hashlib.sha256(artifact.read_bytes()).hexdigest() == evidence_ref["sha256"]
+        )
+
+
+def test_scope_selection_schema_rejects_authority_or_integrity_relaxation() -> None:
+    schema = _json(CONTRACT / "schemas/scope-selection.schema.json")
+    valid = _json(CONTRACT / "scope-selection.json")
+    invalid: list[dict[str, Any]] = []
+
+    for field, value in (
+        ("review_completed", True),
+        ("human_confirmation_received", True),
+        ("real_study_authorized", True),
+        ("scientific_disposition", "reviewed_exclusion"),
+        ("approved_runtime_symbols", ["compute_harm_adjusted_enbs"]),
+    ):
+        changed = deepcopy(valid)
+        changed[field] = value
+        invalid.append(changed)
+
+    for field in (
+        "next_tasks",
+        "reconsideration_entry_requirements",
+        "downstream_review_gates",
+        "not_authorized",
+    ):
+        changed = deepcopy(valid)
+        changed[field] = changed[field][:-1]
+        invalid.append(changed)
+
+    changed = deepcopy(valid)
+    changed["evidence_refs"][0]["path"] = "../outside.json"
+    invalid.append(changed)
+    changed = deepcopy(valid)
+    changed["selected_at"] = "2026-02-30T25:61:00Z"
+    invalid.append(changed)
+
+    validator = Draft202012Validator(schema, format_checker=FormatChecker())
+    for changed in invalid:
+        with pytest.raises(ValidationError):
+            validator.validate(changed)
+
+
+def test_sampling_harm_method_family_has_no_runtime_declaration() -> None:
+    capability = _json(CONTRACT / "capabilities.json")
+    assert capability["method_family"] == "sampling_acquisition_harm_voi"
+    assert all(surface["symbols"] == [] for surface in capability["surfaces"].values())
+
+    family_tokens = (
+        "sampling_acquisition_harm_voi",
+        "sampling_acquisition_harm",
+        "sampling-acquisition-harm",
+    )
+    source_roots = (
+        (ROOT / "voiage", "*.py"),
+        (ROOT / "rust", "*.rs"),
+        (ROOT / "bindings", "*.jl"),
+        (ROOT / "r-package", "*.R"),
+    )
+    for source_root, pattern in source_roots:
+        for path in source_root.rglob(pattern):
+            source = path.read_text(encoding="utf-8")
+            assert all(token not in source for token in family_tokens), path
+
+    schemas = {path.name for path in (CONTRACT / "schemas").glob("*.json")}
+    assert schemas == {
+        "capability.schema.json",
+        "research-disposition.schema.json",
+        "scope-selection.schema.json",
+    }
 
 
 def test_no_python_native_or_binding_execution_symbol_exists() -> None:

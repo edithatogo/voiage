@@ -19,7 +19,7 @@
     "gates"
   ],
   "properties": {
-    "schema_version": {"const": "1.0.0"},
+    "schema_version": {"const": "1.1.0"},
     "disposition_id": {"const": "sampling-acquisition-harm-research-v1"},
     "capability_id": {"const": "sampling-acquisition-harm-v1"},
     "scope_selection_ref": {"const": "scope-selection.json"},

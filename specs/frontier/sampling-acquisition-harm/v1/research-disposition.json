@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "disposition_id": "sampling-acquisition-harm-research-v1",
   "capability_id": "sampling-acquisition-harm-v1",
   "scope_selection_ref": "scope-selection.json",
@@ -40,7 +40,7 @@
       "id": "candidate-specific-estimand",
       "status": "pending",
       "authority": "maintainer and scientific review packet",
-      "evidence": "No narrow executable candidate exists. H8-A selected the generic cross-domain kernel as the review target for a proposed reviewed exclusion; scientific disposition remains pending."
+      "evidence": "No narrow executable candidate exists. H8-A selected only a generic automatic-scalar or study-authorizing kernel as the review target for a proposed reviewed exclusion; parameterized constrained or vector research contracts remain eligible for future candidate-bound review, and scientific disposition remains pending."
     },
     {
       "id": "independent-scientific-domain-review",
