@@ -394,10 +394,15 @@ def test_independently_verified_high_finding_is_accepted() -> None:
 
 def test_every_report_requires_a_matching_attestation_and_scope() -> None:
     bundle = _bundle()
-    bundle["evidence"]["reviewer-attestation"] = bundle["evidence"][
-        "reviewer-attestation"
-    ][:-1]
-    with pytest.raises(ScientificReviewEvidenceError, match="attestation"):
+    bundle["evidence"]["reviewer-attestation"] = [
+        item
+        for item in bundle["evidence"]["reviewer-attestation"]
+        if item["reviewer"]["identity"] != "reviewer-estimand"
+    ]
+    with pytest.raises(
+        ScientificReviewEvidenceError,
+        match="role report reviewer lacks a matching attestation: reviewer-estimand",
+    ):
         validate_scientific_review_bundle(bundle)
 
     bundle = _bundle()
@@ -436,8 +441,14 @@ def test_open_scientific_dissent_blocks_positive_approval() -> None:
             "recorded_at": "2026-08-02T00:00:00Z",
         }
     ]
+    bundle["expected_disagreement_ids"] = ["DISSENT-1"]
+    for kind in ("adjudication", "scientific-approval", "promotion-receipt"):
+        bundle["evidence"][kind]["dissent_refs"] = ["DISSENT-1"]
     bundle = _rebind(bundle)
-    with pytest.raises(ScientificReviewEvidenceError, match="dissent"):
+    with pytest.raises(
+        ScientificReviewEvidenceError,
+        match="unresolved scientific-validity dissent blocks positive approval",
+    ):
         validate_scientific_review_bundle(bundle)
 
 
@@ -568,3 +579,333 @@ def test_timestamp_parser_fails_closed_for_non_timestamp_values(
 ) -> None:
     with pytest.raises(ScientificReviewEvidenceError, match="RFC 3339"):
         review_evidence._parse_timestamp(timestamp, "approval.expires_at")
+
+
+def test_canonical_pointer_and_administrative_path_helpers_fail_closed() -> None:
+    payload = {"nested": {"value": 1}, "a/b": {"~key": 2}}
+    with pytest.raises(ValueError, match="absolute"):
+        review_evidence._remove_json_pointer(payload, "nested/value")
+    review_evidence._remove_json_pointer(payload, "/missing/value")
+    review_evidence._remove_json_pointer(payload, "/a~1b/~0key")
+    assert payload == {"nested": {"value": 1}, "a/b": {}}
+    scalar_payload = {"nested": 1}
+    review_evidence._remove_json_pointer(scalar_payload, "/nested/value")
+    assert scalar_payload == {"nested": 1}
+
+    assert review_evidence._is_administrative_only(
+        "conductor/governance-readback.json", ["/observed_at"]
+    )
+    assert not review_evidence._is_administrative_only(
+        "conductor/governance-readback.json", []
+    )
+    assert not review_evidence._is_administrative_only(
+        "conductor/tracks/example/metadata.json", ["/status"]
+    )
+
+
+def test_timestamp_and_human_receipt_helpers_reject_invalid_assurance() -> None:
+    with pytest.raises(ScientificReviewEvidenceError, match="UTC offset"):
+        review_evidence._parse_timestamp("2026-08-02T00:00:00", "decision_at")
+
+    artifact = _bundle()["evidence"]["scientific-approval"]
+    digest = review_evidence._declared_digest("scientific-approval", artifact)
+    for field, value, message in (
+        ("verification_method", "email", "unsupported"),
+        ("payload_sha256", "f" * 64, "canonical digest"),
+        ("verification_status", "pending", "not verified"),
+    ):
+        changed = deepcopy(artifact)
+        changed["human_receipt"][field] = value
+        with pytest.raises(ScientificReviewEvidenceError, match=message):
+            review_evidence._verify_human_receipt(changed, digest, "approval")
+
+
+def test_role_and_inventory_identifiers_must_be_unique_and_complete() -> None:
+    mutations = []
+
+    def duplicate_attestation(bundle: dict[str, object]) -> None:
+        bundle["evidence"]["reviewer-attestation"].append(
+            deepcopy(bundle["evidence"]["reviewer-attestation"][0])
+        )
+
+    mutations.append((duplicate_attestation, "unique identities"))
+
+    def duplicate_report(bundle: dict[str, object]) -> None:
+        bundle["evidence"]["role-report"][1]["report_id"] = bundle["evidence"][
+            "role-report"
+        ][0]["report_id"]
+
+    mutations.append((duplicate_report, "report IDs"))
+
+    def duplicate_finding(bundle: dict[str, object]) -> None:
+        bundle["evidence"]["finding"].append(deepcopy(bundle["evidence"]["finding"][0]))
+
+    mutations.append((duplicate_finding, "finding IDs"))
+
+    def incomplete_report_findings(bundle: dict[str, object]) -> None:
+        bundle["evidence"]["role-report"][0]["finding_ids"] = []
+
+    mutations.append((incomplete_report_findings, "finding inventory is incomplete"))
+
+    def duplicate_disposition(bundle: dict[str, object]) -> None:
+        duplicate = deepcopy(bundle["evidence"]["disposition"][0])
+        duplicate["disposition_id"] = "D-LOW-2"
+        bundle["evidence"]["disposition"].append(duplicate)
+
+    mutations.append((duplicate_disposition, "only one disposition"))
+
+    for mutate, message in mutations:
+        bundle = _bundle()
+        mutate(bundle)
+        bundle = _rebind(bundle)
+        with pytest.raises(ScientificReviewEvidenceError) as caught:
+            validate_scientific_review_bundle(bundle)
+        assert message in str(caught.value), mutate.__name__
+
+    bundle = _rebind(_bundle())
+    bundle["expected_finding_ids"] = []
+    with pytest.raises(ScientificReviewEvidenceError, match="finding inventory"):
+        validate_scientific_review_bundle(bundle)
+
+
+def test_finding_severity_disposition_rules_fail_closed() -> None:
+    bundle = _bundle()
+    bundle["evidence"]["disposition"] = []
+    bundle = _rebind(bundle)
+    with pytest.raises(ScientificReviewEvidenceError, match="Low finding"):
+        validate_scientific_review_bundle(bundle)
+
+    bundle = _bundle()
+    bundle["evidence"]["finding"][0]["severity"] = "medium"
+    bundle["evidence"]["disposition"][0]["independently_verified"] = False
+    bundle = _rebind(bundle)
+    with pytest.raises(ScientificReviewEvidenceError, match="unresolved Medium"):
+        validate_scientific_review_bundle(bundle)
+
+    bundle = _bundle()
+    bundle["evidence"]["finding"][0]["severity"] = "critical"
+    bundle["evidence"]["disposition"][0]["disposition"] = "accepted_experimental_risk"
+    bundle = _rebind(bundle)
+    with pytest.raises(ScientificReviewEvidenceError, match="Critical/High"):
+        validate_scientific_review_bundle(bundle)
+
+
+def test_human_decision_makers_and_receipt_digests_are_enforced() -> None:
+    bundle = _bundle()
+    bundle["evidence"]["role-report"][0]["report_sha256"] = "f" * 64
+    with pytest.raises(ScientificReviewEvidenceError, match="canonical digest"):
+        validate_scientific_review_bundle(bundle)
+
+    for decision_kind, actor_field in (
+        ("adjudication", "chair"),
+        ("scientific-approval", "approver"),
+    ):
+        bundle = _bundle()
+        bundle["evidence"][decision_kind][actor_field]["actor_type"] = "agent"
+        bundle = _rebind(bundle)
+        with pytest.raises(ScientificReviewEvidenceError, match="must be human"):
+            validate_scientific_review_bundle(bundle)
+
+    bundle = _bundle()
+    bundle["evidence"]["reviewer-attestation"] = [
+        item
+        for item in bundle["evidence"]["reviewer-attestation"]
+        if item["reviewer"]["identity"] != "review-chair"
+    ]
+    with pytest.raises(ScientificReviewEvidenceError, match="matching attestation"):
+        validate_scientific_review_bundle(bundle)
+
+
+def test_disagreement_and_dissent_inventories_are_exact() -> None:
+    bundle = _bundle()
+    bundle["expected_disagreement_ids"] = ["D-MISSING"]
+    with pytest.raises(ScientificReviewEvidenceError, match="disagreement inventory"):
+        validate_scientific_review_bundle(bundle)
+
+    bundle = _bundle()
+    bundle["evidence"]["scientific-approval"]["dissent_refs"] = ["D-MISSING"]
+    bundle = _rebind(bundle)
+    with pytest.raises(ScientificReviewEvidenceError, match="dissent references"):
+        validate_scientific_review_bundle(bundle)
+
+
+def test_delta_hashes_and_attested_signers_are_exact() -> None:
+    bundle = _bundle()
+    delta = bundle["evidence"]["delta-classification"][0]
+    delta["changed_artifact_hashes"][0]["after_sha256"] = delta[
+        "changed_artifact_hashes"
+    ][0]["before_sha256"]
+    with pytest.raises(ScientificReviewEvidenceError, match="changed-path inventory"):
+        validate_scientific_review_bundle(bundle)
+
+    bundle = _bundle()
+    delta = bundle["evidence"]["delta-classification"][0]
+    delta["signatures"][0]["reviewer"]["qualifications"] = ["mismatched"]
+    with pytest.raises(ScientificReviewEvidenceError, match="attestation exactly"):
+        validate_scientific_review_bundle(bundle)
+
+
+def test_promotion_requires_human_current_scope_and_unexcluded_capability() -> None:
+    bundle = _bundle()
+    bundle["evidence"]["promotion-receipt"]["maintainer"]["actor_type"] = "agent"
+    bundle = _rebind(bundle)
+    with pytest.raises(ScientificReviewEvidenceError, match="human maintainer"):
+        validate_scientific_review_bundle(bundle)
+
+    bundle = _bundle()
+    disposition = bundle["evidence"]["disposition"][0]
+    disposition["disposition"] = "reviewed_exclusion"
+    disposition["excluded_capabilities"] = ["synthetic_example_capability"]
+    bundle["evidence"]["promotion-receipt"]["decision"] = "promote"
+    bundle = _rebind(bundle)
+    with pytest.raises(ScientificReviewEvidenceError, match="excluded capability"):
+        validate_scientific_review_bundle(bundle)
+
+    for decision_kind in ("adjudication", "promotion-receipt"):
+        bundle = _bundle()
+        bundle["evidence"][decision_kind]["superseded_by"] = "NEXT-DECISION"
+        bundle = _rebind(bundle)
+        with pytest.raises(ScientificReviewEvidenceError, match="superseded"):
+            validate_scientific_review_bundle(bundle)
+
+
+def test_non_synthetic_evidence_requires_repository_and_safe_git_objects(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    bundle = _bundle()
+    bundle["fixture_status"] = "candidate_bound_contract_test"
+    with pytest.raises(ScientificReviewEvidenceError, match="repository_root"):
+        validate_scientific_review_bundle(bundle)
+
+    monkeypatch.setattr(review_evidence, "GIT_EXECUTABLE", None)
+    with pytest.raises(ScientificReviewEvidenceError, match="git is unavailable"):
+        validate_scientific_review_bundle(bundle, repository_root=tmp_path)
+
+
+def test_binder_allows_evidence_without_optional_candidate_fields() -> None:
+    bundle = _bundle()
+    del bundle["evidence"]["finding"][0]["candidate_tree"]
+
+    bound = _rebind(bundle)
+
+    assert "candidate_tree" not in bound["evidence"]["finding"][0]
+
+
+def test_packet_manifest_digest_binding_is_verified_directly() -> None:
+    evidence = _rebind(_bundle())["evidence"]
+    evidence["review-packet"]["artifact_manifest_sha256"] = "f" * 64
+    evidence["review-packet"]["packet_sha256"] = review_evidence._declared_digest(
+        "review-packet", evidence["review-packet"]
+    )
+
+    with pytest.raises(ScientificReviewEvidenceError, match="artifact-manifest"):
+        review_evidence._verify_declared_digests(evidence)
+
+
+def test_git_command_and_frozen_object_failures_are_rejected(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    evidence = _bundle()["evidence"]
+
+    def fail_command(*_args: object, **_kwargs: object) -> bytes:
+        raise OSError("unavailable")
+
+    monkeypatch.setattr(review_evidence.subprocess, "check_output", fail_command)
+    with pytest.raises(ScientificReviewEvidenceError, match="cannot verify frozen"):
+        review_evidence._git_output(tmp_path, "rev-parse", "HEAD")
+
+    def object_format_mismatch(
+        _root: Path, *arguments: str, binary: bool = False
+    ) -> str | bytes:
+        del binary
+        if arguments == ("rev-parse", "--show-object-format"):
+            return "sha256\n"
+        return b"artifact" if arguments[0] == "show" else "b" * 40
+
+    monkeypatch.setattr(review_evidence, "_git_output", object_format_mismatch)
+    with pytest.raises(ScientificReviewEvidenceError, match="object format"):
+        review_evidence._verify_repository_evidence(evidence, tmp_path)
+
+    def tree_mismatch(
+        _root: Path, *arguments: str, binary: bool = False
+    ) -> str | bytes:
+        del binary
+        if arguments == ("rev-parse", "--show-object-format"):
+            return "sha1\n"
+        return "c" * 40
+
+    monkeypatch.setattr(review_evidence, "_git_output", tree_mismatch)
+    with pytest.raises(ScientificReviewEvidenceError, match="candidate tree"):
+        review_evidence._verify_repository_evidence(evidence, tmp_path)
+
+    unsafe = deepcopy(evidence)
+    unsafe["artifact-manifest"]["artifacts"][0]["path"] = "/absolute.json"
+
+    def valid_git(_root: Path, *arguments: str, binary: bool = False) -> str | bytes:
+        if arguments == ("rev-parse", "--show-object-format"):
+            return "sha1\n"
+        if arguments[0] == "rev-parse":
+            return "b" * 40
+        return b"artifact" if binary else "artifact"
+
+    monkeypatch.setattr(review_evidence, "_git_output", valid_git)
+    with pytest.raises(ScientificReviewEvidenceError, match="path is unsafe"):
+        review_evidence._verify_repository_evidence(unsafe, tmp_path)
+
+    duplicate = deepcopy(evidence)
+    duplicate["artifact-manifest"]["artifacts"].append(
+        deepcopy(duplicate["artifact-manifest"]["artifacts"][0])
+    )
+    for artifact in duplicate["artifact-manifest"]["artifacts"]:
+        artifact["sha256"] = hashlib.sha256(b"artifact").hexdigest()
+    with pytest.raises(ScientificReviewEvidenceError, match="paths must be unique"):
+        review_evidence._verify_repository_evidence(duplicate, tmp_path)
+
+
+def test_human_role_report_and_attestation_receipts_are_verified() -> None:
+    bundle = _bundle()
+    report = bundle["evidence"]["role-report"][0]
+    attestation = bundle["evidence"]["reviewer-attestation"][0]
+    report["reviewer"]["actor_type"] = "human"
+    attestation["reviewer"]["actor_type"] = "human"
+    bundle["evidence"]["delta-classification"][0]["signatures"][1]["reviewer"][
+        "actor_type"
+    ] = "human"
+    receipt = deepcopy(bundle["evidence"]["scientific-approval"]["human_receipt"])
+    receipt["signer_identity"] = report["reviewer"]["identity"]
+    report["human_receipt"] = deepcopy(receipt)
+    attestation["human_receipt"] = deepcopy(receipt)
+    bundle = _rebind(bundle)
+
+    validate_scientific_review_bundle(bundle)
+
+
+def test_valid_medium_rereview_and_reviewed_exclusion_paths() -> None:
+    bundle = _bundle()
+    bundle["evidence"]["finding"][0]["severity"] = "medium"
+    disposition = bundle["evidence"]["disposition"][0]
+    disposition["affected_reviewer_roles"] = ["estimand_domain"]
+    disposition["rereview_report_ids"] = ["REPORT-ESTIMAND"]
+    disposition["decided_at"] = "2026-08-01T00:00:00Z"
+    bundle = _rebind(bundle)
+    validate_scientific_review_bundle(bundle)
+
+    bundle = _bundle()
+    disposition = bundle["evidence"]["disposition"][0]
+    disposition["disposition"] = "reviewed_exclusion"
+    disposition["excluded_capabilities"] = ["synthetic_example_capability"]
+    bundle = _rebind(bundle)
+    validate_scientific_review_bundle(bundle)
+
+
+def test_positive_decisions_expire_at_explicit_evaluation_time() -> None:
+    bundle = _bundle()
+    bundle["evidence"]["adjudication"]["expires_at"] = "2026-08-03T00:00:00Z"
+    bundle = _rebind(bundle)
+
+    with pytest.raises(
+        ScientificReviewEvidenceError, match="adjudication decision is expired"
+    ):
+        validate_scientific_review_bundle(
+            bundle, at_time=datetime(2026, 8, 4, tzinfo=UTC)
+        )
