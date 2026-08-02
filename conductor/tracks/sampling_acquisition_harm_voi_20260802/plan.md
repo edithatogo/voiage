@@ -66,7 +66,7 @@
   coverage findings with direct fail-closed contract tests, including digest,
   Git-object, identity, disposition, dissent, delta, expiry and repository
   binding paths. No coverage exclusions are used. (AC-08–AC-10) `f7dfbcea`
-- [ ] **H8-C:** Freeze a clean #850/#853-specific packet containing the exact
+- [~] **H8-C:** Freeze a clean #850/#853-specific packet containing the exact
   commit/tree, track artifacts, sources and retrieval receipts, claims,
   capability boundary, fixtures, estimator thresholds, uncertainty rules,
   issue/Project snapshot, limitations and prior findings. Reject stale,
