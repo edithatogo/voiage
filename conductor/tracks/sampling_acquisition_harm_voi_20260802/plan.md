@@ -28,8 +28,8 @@
 - [x] **H6:** Add fail-closed discovery, schema and negative API/ABI tests; no
   #570 or #595 surface may advertise sampling-harm execution. (AC-02, AC-07)
   `af83b4d4`
-- [~] **H7:** Run repository, frontier and full Conductor validation and
-  complete the phase checkpoint. (AC-07, AC-09)
+- [x] **H7:** Run repository, frontier and full Conductor validation and
+  complete the phase checkpoint. (AC-07, AC-09) `2e98a3d5`
 
 ## Phase 3 — Candidate-bound decision
 
