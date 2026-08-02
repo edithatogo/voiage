@@ -49,7 +49,9 @@ def _load_json(path: Path) -> dict[str, Any]:
     try:
         value = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as error:
-        raise SamplingHarmReviewPreparationError(f"cannot load {path}: {error}") from error
+        raise SamplingHarmReviewPreparationError(
+            f"cannot load {path}: {error}"
+        ) from error
     if not isinstance(value, dict):
         raise SamplingHarmReviewPreparationError(f"{path} must contain an object")
     return value
@@ -86,7 +88,9 @@ def _git_json(root: Path, commit: str, path: PurePosixPath) -> dict[str, Any]:
             f"frozen artifact is not valid JSON: {path}"
         ) from error
     if not isinstance(value, dict):
-        raise SamplingHarmReviewPreparationError(f"frozen artifact is not an object: {path}")
+        raise SamplingHarmReviewPreparationError(
+            f"frozen artifact is not an object: {path}"
+        )
     return value
 
 
@@ -200,22 +204,38 @@ def validate_sampling_harm_review_preparation(
     packet_digest = canonical_json_sha256(
         packet, excluded_json_pointers={"/packet_sha256"}
     )
-    if manifest_digest != manifest["manifest_sha256"] or manifest_digest != manifest_ref["sha256"]:
-        raise SamplingHarmReviewPreparationError("artifact manifest canonical digest mismatch")
-    if packet_digest != packet["packet_sha256"] or packet_digest != packet_ref["sha256"]:
-        raise SamplingHarmReviewPreparationError("review packet canonical digest mismatch")
+    if (
+        manifest_digest != manifest["manifest_sha256"]
+        or manifest_digest != manifest_ref["sha256"]
+    ):
+        raise SamplingHarmReviewPreparationError(
+            "artifact manifest canonical digest mismatch"
+        )
+    if (
+        packet_digest != packet["packet_sha256"]
+        or packet_digest != packet_ref["sha256"]
+    ):
+        raise SamplingHarmReviewPreparationError(
+            "review packet canonical digest mismatch"
+        )
     if packet["artifact_manifest_sha256"] != manifest_digest:
-        raise SamplingHarmReviewPreparationError("packet does not bind artifact manifest")
+        raise SamplingHarmReviewPreparationError(
+            "packet does not bind artifact manifest"
+        )
     for value in (manifest, packet):
         if value["candidate_commit"] != envelope["candidate_commit"]:
-            raise SamplingHarmReviewPreparationError("candidate commit binding mismatch")
+            raise SamplingHarmReviewPreparationError(
+                "candidate commit binding mismatch"
+            )
         if value["candidate_tree"] != envelope["candidate_tree"]:
             raise SamplingHarmReviewPreparationError("candidate tree binding mismatch")
 
     artifacts = manifest["artifacts"]
     paths = [str(_safe_path(item["path"])) for item in artifacts]
     if len(paths) != len(set(paths)):
-        raise SamplingHarmReviewPreparationError("manifest artifact paths must be unique")
+        raise SamplingHarmReviewPreparationError(
+            "manifest artifact paths must be unique"
+        )
     if len(paths) != manifest_ref["artifact_count"]:
         raise SamplingHarmReviewPreparationError("manifest artifact count mismatch")
     inventory_digest = canonical_json_sha256(
@@ -227,7 +247,9 @@ def validate_sampling_harm_review_preparation(
         }
     )
     if inventory_digest != EXPECTED_INVENTORY_SHA256:
-        raise SamplingHarmReviewPreparationError("required path and role inventory mismatch")
+        raise SamplingHarmReviewPreparationError(
+            "required path and role inventory mismatch"
+        )
     for item, path in zip(artifacts, paths, strict=True):
         content = _git_output(root, "show", f"{commit}:{path}")
         if hashlib.sha256(content).hexdigest() != item["sha256"]:
@@ -242,7 +264,9 @@ def validate_sampling_harm_review_preparation(
     manifest_by_path = {item["path"]: item["sha256"] for item in artifacts}
     for ref, path in ((candidate_ref, candidate_path), (snapshot_ref, snapshot_path)):
         if manifest_by_path.get(str(path)) != ref["sha256"]:
-            raise SamplingHarmReviewPreparationError("envelope artifact binding mismatch")
+            raise SamplingHarmReviewPreparationError(
+                "envelope artifact binding mismatch"
+            )
 
     candidate_contracts = {
         "capabilities.json": "capability.schema.json",
@@ -260,7 +284,9 @@ def validate_sampling_harm_review_preparation(
     for artifact_name, schema_name in candidate_contracts.items():
         artifact_path = CONTRACT_ROOT / artifact_name
         artifact = _git_json(root, commit, artifact_path)
-        artifact_schema = _git_json(root, commit, CONTRACT_ROOT / "schemas" / schema_name)
+        artifact_schema = _git_json(
+            root, commit, CONTRACT_ROOT / "schemas" / schema_name
+        )
         _validate_json(artifact, artifact_schema, label=artifact_name)
         frozen[artifact_name] = artifact
 
@@ -275,13 +301,21 @@ def validate_sampling_harm_review_preparation(
     if candidate["scope"]["scientific_disposition"] != "pending":
         raise SamplingHarmReviewPreparationError("candidate disposition is not pending")
     if candidate["scope"]["runtime_available"] is not False:
-        raise SamplingHarmReviewPreparationError("candidate unexpectedly claims runtime")
+        raise SamplingHarmReviewPreparationError(
+            "candidate unexpectedly claims runtime"
+        )
     if tuple(candidate["required_independent_review_roles"]) != REQUIRED_ROLES:
-        raise SamplingHarmReviewPreparationError("candidate reviewer roles are incomplete")
+        raise SamplingHarmReviewPreparationError(
+            "candidate reviewer roles are incomplete"
+        )
     if tuple(envelope["required_independent_review_roles"]) != REQUIRED_ROLES:
-        raise SamplingHarmReviewPreparationError("preparation reviewer roles are incomplete")
+        raise SamplingHarmReviewPreparationError(
+            "preparation reviewer roles are incomplete"
+        )
     if candidate["next_tasks"] != envelope["pending_tasks"]:
-        raise SamplingHarmReviewPreparationError("candidate pending-task binding mismatch")
+        raise SamplingHarmReviewPreparationError(
+            "candidate pending-task binding mismatch"
+        )
     if candidate["adjacent_methods_not_aliased"] != [570, 571, 595, 598]:
         raise SamplingHarmReviewPreparationError("adjacent-method boundary mismatch")
     preserved = [
@@ -292,21 +326,29 @@ def validate_sampling_harm_review_preparation(
     if candidate["preserved_candidate_classes"] != preserved:
         raise SamplingHarmReviewPreparationError("preserved candidate classes mismatch")
     if boundary["preserved_research"] != preserved:
-        raise SamplingHarmReviewPreparationError("estimand preservation boundary mismatch")
+        raise SamplingHarmReviewPreparationError(
+            "estimand preservation boundary mismatch"
+        )
     if boundary["scientific_disposition"] != "pending" or boundary["runtime_available"]:
         raise SamplingHarmReviewPreparationError("estimand boundary claims completion")
     if sources["exact_source_review_status"] != envelope["source_review_status"]:
         raise SamplingHarmReviewPreparationError("source-review status mismatch")
     if findings["candidate_bound_independent_verification"] is not False:
-        raise SamplingHarmReviewPreparationError("prior findings claim independent review")
+        raise SamplingHarmReviewPreparationError(
+            "prior findings claim independent review"
+        )
     if capabilities["runtime_available"] or capabilities["stable_claim_allowed"]:
-        raise SamplingHarmReviewPreparationError("capability unexpectedly claims maturity")
+        raise SamplingHarmReviewPreparationError(
+            "capability unexpectedly claims maturity"
+        )
     if disposition["runtime_prohibited"] is not True:
         raise SamplingHarmReviewPreparationError("research disposition permits runtime")
     if selection["scientific_disposition"] != "pending":
         raise SamplingHarmReviewPreparationError("scope selection claims disposition")
     if snapshot["authority_boundary"]["scientific_review_completed"] is not False:
-        raise SamplingHarmReviewPreparationError("snapshot claims scientific review completion")
+        raise SamplingHarmReviewPreparationError(
+            "snapshot claims scientific review completion"
+        )
     false_authority_groups = (
         candidate["authority_boundary"],
         snapshot["authority_boundary"],
@@ -327,7 +369,9 @@ def validate_sampling_harm_review_preparation(
         raise SamplingHarmReviewPreparationError("snapshot expiry binding mismatch")
     current = now or datetime.now(UTC)
     if current.tzinfo is None or current.utcoffset() is None:
-        raise SamplingHarmReviewPreparationError("validation time must be timezone-aware")
+        raise SamplingHarmReviewPreparationError(
+            "validation time must be timezone-aware"
+        )
     if current > expires:
         raise SamplingHarmReviewPreparationError("governance snapshot is expired")
 

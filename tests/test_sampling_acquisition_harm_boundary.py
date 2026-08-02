@@ -37,7 +37,11 @@ def _json(path: Path) -> dict[str, Any]:
 
 def _canonical_sha256(payload: object) -> str:
     encoded = json.dumps(
-        payload, ensure_ascii=False, allow_nan=False, separators=(",", ":"), sort_keys=True
+        payload,
+        ensure_ascii=False,
+        allow_nan=False,
+        separators=(",", ":"),
+        sort_keys=True,
     ).encode("utf-8")
     return hashlib.sha256(encoded).hexdigest()
 
@@ -327,7 +331,11 @@ def test_h8c_candidate_inputs_are_complete_but_never_claim_review() -> None:
     assert len(findings["findings"]) == 27
     assert len({item["id"] for item in findings["findings"]}) == 27
     assert all(item["disposition"] == "remediated" for item in findings["findings"])
-    assert all(value is False for key, value in snapshot["authority_boundary"].items() if key != "preparation_only")
+    assert all(
+        value is False
+        for key, value in snapshot["authority_boundary"].items()
+        if key != "preparation_only"
+    )
 
 
 def test_h8c_candidate_cross_artifact_bindings_and_freshness() -> None:
@@ -350,14 +358,15 @@ def test_h8c_candidate_cross_artifact_bindings_and_freshness() -> None:
     findings = frozen_json(candidate["prior_history"]["finding_inventory"])
 
     ledger_bytes = frozen_bytes(candidate["prior_history"]["evidence_ledger"])
-    assert hashlib.sha256(ledger_bytes).hexdigest() == candidate[
-        "prior_history"
-    ]["evidence_ledger_sha256"]
+    assert (
+        hashlib.sha256(ledger_bytes).hexdigest()
+        == candidate["prior_history"]["evidence_ledger_sha256"]
+    )
     ledger = [json.loads(line) for line in ledger_bytes.splitlines()]
     ledger_entries = {entry["entry_sha256"] for entry in ledger}
-    assert ledger[-1]["entry_sha256"] == candidate["prior_history"][
-        "latest_entry_sha256"
-    ]
+    assert (
+        ledger[-1]["entry_sha256"] == candidate["prior_history"]["latest_entry_sha256"]
+    )
     assert {item["entry_sha256"] for item in findings["evidence_refs"]} <= (
         ledger_entries
     )
@@ -385,17 +394,18 @@ def test_h8c_candidate_cross_artifact_bindings_and_freshness() -> None:
         }
 
     source_manifest = frozen_bytes(sources["source_manifest"])
-    assert hashlib.sha256(source_manifest).hexdigest() == sources[
-        "source_manifest_sha256"
-    ]
+    assert (
+        hashlib.sha256(source_manifest).hexdigest() == sources["source_manifest_sha256"]
+    )
     for artifact in snapshot["canonical_projection"]["artifacts"]:
-        assert hashlib.sha256(frozen_bytes(artifact["path"])).hexdigest() == (
-            artifact["sha256"]
+        assert (
+            hashlib.sha256(frozen_bytes(artifact["path"])).hexdigest()
+            == (artifact["sha256"])
         )
     for issue in snapshot["issues"]:
-        assert _canonical_sha256(issue["project_fields"]) == issue[
-            "project_fields_sha256"
-        ]
+        assert (
+            _canonical_sha256(issue["project_fields"]) == issue["project_fields_sha256"]
+        )
 
     observed = datetime.fromisoformat(snapshot["observed_at"])
     expires = datetime.fromisoformat(snapshot["expires_at"])
@@ -409,7 +419,9 @@ def test_h8c_candidate_schemas_reject_authority_scope_or_history_relaxation() ->
         (
             "review-candidate.schema.json",
             "review-candidate.json",
-            lambda item: item["authority_boundary"].__setitem__("review_completed", True),
+            lambda item: item["authority_boundary"].__setitem__(
+                "review_completed", True
+            ),
         ),
         (
             "review-candidate.schema.json",
@@ -419,7 +431,9 @@ def test_h8c_candidate_schemas_reject_authority_scope_or_history_relaxation() ->
         (
             "estimand-boundary.schema.json",
             "estimand-boundary.json",
-            lambda item: item.__setitem__("scientific_disposition", "reviewed_exclusion"),
+            lambda item: item.__setitem__(
+                "scientific_disposition", "reviewed_exclusion"
+            ),
         ),
         (
             "source-and-retrieval-register.schema.json",

@@ -90,7 +90,9 @@ def test_preparation_rejects_integrity_or_authority_mutation(
 
 def test_preparation_rejects_wrong_candidate_or_expired_snapshot() -> None:
     payload = _json(CONTRACT / "review-preparation.json")
-    with pytest.raises(SamplingHarmReviewPreparationError, match="unexpected candidate"):
+    with pytest.raises(
+        SamplingHarmReviewPreparationError, match="unexpected candidate"
+    ):
         validate_sampling_harm_review_preparation(
             payload,
             repository_root=ROOT,
@@ -187,7 +189,9 @@ def test_self_consistent_artifact_hash_substitution_fails_frozen_bytes(
         return original(root, commit, path)  # type: ignore[arg-type]
 
     monkeypatch.setattr(preparation_module, "_git_json", fake_git_json)
-    with pytest.raises(SamplingHarmReviewPreparationError, match="frozen artifact bytes"):
+    with pytest.raises(
+        SamplingHarmReviewPreparationError, match="frozen artifact bytes"
+    ):
         _validate(envelope)
 
 
@@ -199,7 +203,9 @@ def test_preparation_rejects_dirty_packaging_or_naive_validation_time(
 
     def dirty_git_output(root: Path, *args: str) -> bytes:
         if args and args[0] == "status":
-            return b" M specs/frontier/sampling-acquisition-harm/v1/review-packet.json\n"
+            return (
+                b" M specs/frontier/sampling-acquisition-harm/v1/review-packet.json\n"
+            )
         return original(root, *args)
 
     monkeypatch.setattr(preparation_module, "_git_output", dirty_git_output)
