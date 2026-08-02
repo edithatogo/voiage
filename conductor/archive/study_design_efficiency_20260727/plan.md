@@ -72,7 +72,7 @@
 - [x] **S20:** **Legacy follow-up (not part of completed track acceptance):** Freeze the candidate and run the umbrella Phase 5 four-role
   panel against COSS, ENBS and EVSI/EVPI efficiency. (M15-S7–M15-S11; AC-01–
   AC-05, AC-09)
-- [x] **S21:** **Legacy follow-up (not part of completed track acceptance):** Separate complete-enumeration and evaluated-set results; add the
+- [~] **S21:** Separate complete-enumeration and evaluated-set results; add the
   no-study comparator, economic viability, sampling recommendation, boundary
   sensitivity and regret semantics without changing the curve argmax.
   (M15-S7, M15-S8, M15-S11; AC-02, AC-05, AC-06)
