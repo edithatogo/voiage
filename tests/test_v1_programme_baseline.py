@@ -20,11 +20,9 @@ ACTIVE_TRACK_IDS = [
     "quality_release_automation_20260723",
     "research_contribution_ai_transparency_20260723",
     "research_software_registry_readiness_20260721",
-    "risk_adjusted_information_pricing_20260731",
     "remote_dataset_ingestion_security_20260801",
     "rust_polyglot_voi_completion_20260723",
     "stable_voi_rust_core_completion_20260723",
-    "study_design_efficiency_20260727",
     "supported_frontier_method_completion_20260723",
     "uncertainty_modelling_value_20260801",
     "value_of_perspective_completion_20260723",
@@ -62,7 +60,7 @@ def test_v1_programme_baseline_classifies_tracks_and_execution_lanes() -> None:
     conductor = baseline["conductor"]
 
     assert conductor["active_track_ids"] == ACTIVE_TRACK_IDS
-    assert conductor["archived_track_count"] == 129
+    assert conductor["archived_track_count"] == 131
     assert conductor["classifications"] == {
         "v1_required": [
             "repository-owned mature-v1 programme completed; external publication gates transferred to research_software_registry_readiness_20260721"
