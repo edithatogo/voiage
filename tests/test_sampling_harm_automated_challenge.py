@@ -9,13 +9,18 @@ import sys
 import pytest
 
 import voiage.sampling_harm_automated_challenge as challenge_module
-from voiage.sampling_harm_automated_challenge import (
-    SYNTHESIS_PATH,
-    SamplingHarmAutomatedChallengeError,
-    load_and_validate_sampling_harm_automated_challenge,
-    validate_sampling_harm_automated_challenge,
-)
 from voiage.scientific_review_evidence import canonical_json_sha256
+
+SYNTHESIS_PATH = challenge_module.SYNTHESIS_PATH
+SamplingHarmAutomatedChallengeError = (
+    challenge_module.SamplingHarmAutomatedChallengeError
+)
+load_and_validate_sampling_harm_automated_challenge = (
+    challenge_module.load_and_validate_sampling_harm_automated_challenge
+)
+validate_sampling_harm_automated_challenge = (
+    challenge_module.validate_sampling_harm_automated_challenge
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 

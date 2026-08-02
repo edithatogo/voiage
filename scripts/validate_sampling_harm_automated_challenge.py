@@ -19,6 +19,7 @@ def main() -> int:
     parser.add_argument("synthesis", type=Path)
     parser.add_argument("--repository-root", type=Path, default=Path.cwd())
     args = parser.parse_args()
+    receipt: dict[str, object] = {}
     try:
         receipt = load_and_validate_sampling_harm_automated_challenge(
             args.synthesis, repository_root=args.repository_root
