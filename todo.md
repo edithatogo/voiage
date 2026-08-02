@@ -38,6 +38,9 @@ separate gates.
         #852 (source/estimand packet) are repository-owned slices. #853/H8
         candidate-bound independent reports and the separate named human
         verdict remain pending. No runtime or real-study authorization exists.
+        Canonical VOP C18/M32 planning is synchronized by merged PR #71 at
+        `e0ff1d2ce3361d52ee22bb01e105b92653ed606c`; this is planning evidence,
+        not H8 approval or runtime authority.
 
 *   [x] Complete #318 repository-owned programme closeout stages G14 and G15.
     *   G5–G15 repository-owned evidence and governance reconciliation is

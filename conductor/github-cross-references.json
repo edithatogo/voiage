@@ -5057,8 +5057,20 @@
         "https://github.com/edithatogo/voiage/issues/852",
         "https://github.com/edithatogo/voiage/issues/853"
       ],
-      "pull_requests": [],
-      "pull_request_evidence": "none_found"
+      "pull_requests": [
+        {
+          "number": 71,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/71",
+          "status": "merged",
+          "evidence": [
+            "canonical-c18-m32-planning-sync",
+            "3d7637a732be7254d92c8fd38183afcd900ea6d3",
+            "e0ff1d2ce3361d52ee22bb01e105b92653ed606c",
+            "16-terminal-successes-and-one-governed-scheduled-only-skip"
+          ]
+        }
+      ],
+      "pull_request_evidence": "canonical_planning_sync"
     },
     {
       "track_id": "information_source_portfolio_voi_20260801",
