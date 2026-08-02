@@ -565,7 +565,7 @@ issue-backed remediation slices and rebound to a fresh review candidate.
   unbound Boolean flags. Bounded delta review requires deterministic
   classification and independent governance/scientific signatures.
   (M17-R1–M17-R3; AC-03, AC-07, AC-10) `41e5255`
-- [ ] **SR3 / #843–#845 — Wave A panel (#619/#571/#595):** The orchestrator commissions
+- [~] **SR3 / #843–#845 — Wave A panel (#619/#571/#595):** The orchestrator commissions
   independent estimand/domain, estimator-assurance, cross-language/API and
   governance/publication reviewers, normalizes their reports and publishes a
   synthesis. Resolve or block on COSS commissioning semantics; estimation
