@@ -1,0 +1,1 @@
+G12: focused Python, source-policy, cross-reference, metadata and diff checks passed; Rust workspace core and ABI checks passed but the PyO3 test target remains blocked by missing libpython3.13.dylib.
