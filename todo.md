@@ -14,6 +14,10 @@ approval and external release, registry and publication decisions remain
 separate gates.
 
 *   [ ] Execute #318 Phase 5 orchestrated scientific review.
+    *   Umbrella #841 governs the programme. Nested implementation issues are
+        #842 (evidence contracts), #843–#845 (Wave A remediation), #846–#847
+        (remaining review waves), #848 (installed/parity assurance), #849
+        (synthesis/adjudication), and #850 (sampling-acquisition harms).
     *   SR1–SR10 govern candidate freeze, evidence schemas, the #619/#571/#595
         Wave A panel, stochastic sampling-harm scoping, high-risk and remaining-
         family waves, installed/parity review, remediation re-review,

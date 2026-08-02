@@ -32,8 +32,11 @@ sparse-subgroup validity, #600 continuous/fitted-estimator and risk-composition
 evidence, #619 vector covariance scalarization, Rust/R/Julia parity, stable
 promotion, release/publication and family-parent/#318 closure remain open.
 
-The next #318 stage is a planned, fail-closed scientific review programme under
-Phase 5 SR1–SR10. A separate orchestrating agent freezes each content-addressed
+The next #318 stage is the fail-closed scientific review programme governed by
+umbrella issue #841 and Phase 5 SR1–SR10. Evidence-contract work is tracked by
+#842; review waves by #843–#847; installed/parity assurance by #848; synthesis
+and adjudication by #849; and sampling-acquisition harm scoping by #850. A
+separate orchestrating agent freezes each content-addressed
 candidate and synthesizes independent estimand/domain, estimator-assurance,
 cross-language/API and governance/publication subagent reports. Wave A covers
 #619, #571 and #595; Wave B covers #570 and #597–#600; Wave C covers the

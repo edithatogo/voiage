@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
+import shutil
+import subprocess
 
 ROOT = Path(__file__).parents[1]
 INVENTORY = (
@@ -144,6 +147,67 @@ def test_scientific_review_plan_requires_orchestrated_independent_panel() -> Non
             assert f"**{req_prefix}{req_id}:**" in owning_req_text
         for task_id in task_ids:
             assert f"- [ ] **{task_prefix}{task_id}:**" in owning_plan_text
+
+
+def test_scientific_review_candidate_freezes_live_governance_and_artifacts() -> None:
+    track = INVENTORY.parent
+    candidate = json.loads(
+        (track / "scientific-review-candidate-20260802.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    manifest = json.loads(
+        (track / candidate["artifact_manifest"]).read_text(encoding="utf-8")
+    )
+    readback = json.loads(
+        (track / candidate["governance_readback"]).read_text(encoding="utf-8")
+    )
+
+    assert candidate["commit"] == "3b9024c503c171e7e321ddfaacc3665589e4d5e8"
+    assert candidate["tree"] == "e4f13cb9eea99a62a1330b39b3ac6f13faa76559"
+    assert candidate["owning_issue"] == 841
+    assert candidate["implementation_issues"] == list(range(842, 851))
+    assert candidate["review_entry_state"] == "ready_with_explicit_external_gates"
+    assert (
+        "any candidate change invalidates"
+        in candidate["invalidation_policy"]["default"]
+    )
+
+    assert manifest["candidate_id"] == candidate["candidate_id"]
+    assert len(manifest["artifacts"]) >= 15
+    git = shutil.which("git")
+    assert git is not None
+    for artifact in manifest["artifacts"]:
+        content = subprocess.run(
+            [git, "show", f"{candidate['commit']}:{artifact['path']}"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+        ).stdout
+        assert hashlib.sha256(content).hexdigest() == artifact["sha256"]
+
+    hierarchy = {item["issue"]: item for item in readback["hierarchy"]}
+    assert set(hierarchy) == set(range(841, 851))
+    assert hierarchy[841]["parent"] == 318
+    assert hierarchy[843]["parent"] == 619
+    assert hierarchy[844]["parent"] == 571
+    assert hierarchy[845]["parent"] == 595
+    assert hierarchy[850]["parent"] == 570
+    assert hierarchy[850]["dependency"] == 571
+    assert readback["normalized_existing_issue"] == {
+        "issue": 570,
+        "release_target": "v1.3.0 (C18/M22)",
+        "project_contract_version": "1.3.0",
+        "project_gate": "Human",
+        "project_risk": "High",
+        "project_sync_state": "Clean",
+        "review_due": "2026-11-30",
+    }
+
+    metadata = json.loads((track / "metadata.json").read_text(encoding="utf-8"))
+    metadata_issues = set(metadata["github_subissues"])
+    for issue in range(841, 851):
+        assert f"https://github.com/edithatogo/voiage/issues/{issue}" in metadata_issues
 
 
 def test_inventory_covers_exact_live_native_hierarchy() -> None:

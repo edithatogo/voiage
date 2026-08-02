@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-02T09:38:58Z",
+  "generated_at": "2026-08-02T13:12:00Z",
   "repository": "edithatogo/voiage",
   "project_url": "https://github.com/users/edithatogo/projects/28",
   "association_policy": "PRs are included only when associated with commits recorded by a track, Git history for its path, or an explicit track reference. Empty completed-track lists are none_found, not inferred.",
@@ -369,9 +369,30 @@
         "https://github.com/edithatogo/voiage/issues/619",
         "https://github.com/edithatogo/voiage/issues/757",
         "https://github.com/edithatogo/voiage/issues/758",
-        "https://github.com/edithatogo/voiage/issues/761"
+        "https://github.com/edithatogo/voiage/issues/761",
+        "https://github.com/edithatogo/voiage/issues/841",
+        "https://github.com/edithatogo/voiage/issues/842",
+        "https://github.com/edithatogo/voiage/issues/843",
+        "https://github.com/edithatogo/voiage/issues/844",
+        "https://github.com/edithatogo/voiage/issues/845",
+        "https://github.com/edithatogo/voiage/issues/846",
+        "https://github.com/edithatogo/voiage/issues/847",
+        "https://github.com/edithatogo/voiage/issues/848",
+        "https://github.com/edithatogo/voiage/issues/849",
+        "https://github.com/edithatogo/voiage/issues/850"
       ],
       "pull_requests": [
+        {
+          "number": 840,
+          "url": "https://github.com/edithatogo/voiage/pull/840",
+          "status": "merged",
+          "evidence": [
+            "scientific-review-planning",
+            "hosted-required-checks",
+            "55e523b209948a2b66b9a2211469f31495931a1a",
+            "3b9024c503c171e7e321ddfaacc3665589e4d5e8"
+          ]
+        },
         {
           "number": 836,
           "url": "https://github.com/edithatogo/voiage/pull/836",
@@ -855,7 +876,8 @@
         "https://github.com/edithatogo/voiage/issues/671",
         "https://github.com/edithatogo/voiage/issues/672",
         "https://github.com/edithatogo/voiage/issues/673",
-        "https://github.com/edithatogo/voiage/issues/674"
+        "https://github.com/edithatogo/voiage/issues/674",
+        "https://github.com/edithatogo/voiage/issues/843"
       ],
       "pull_requests": [
         {
@@ -921,15 +943,18 @@
       "subissues": [
         "https://github.com/edithatogo/voiage/issues/680",
         "https://github.com/edithatogo/voiage/issues/681",
-        "https://github.com/edithatogo/voiage/issues/682"
+        "https://github.com/edithatogo/voiage/issues/682",
+        "https://github.com/edithatogo/voiage/issues/844"
       ],
       "pull_requests": [
         {
           "number": 621,
           "url": "https://github.com/edithatogo/voiage/pull/621",
-          "status": "open",
+          "status": "merged",
           "evidence": [
-            "track-delivery"
+            "track-delivery",
+            "edd14dd202f74941cfb2e57f8bdd7faf764092a2",
+            "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3"
           ]
         },
         {
@@ -954,9 +979,11 @@
         {
           "number": 65,
           "url": "https://github.com/edithatogo/vop_poc_nz/pull/65",
-          "status": "open",
+          "status": "merged",
           "evidence": [
-            "canonical-c16-study-efficiency-sync"
+            "canonical-c16-study-efficiency-sync",
+            "d2b74b4f53d56f05a665736936a3edc7365be728",
+            "ac61bb9f46136dad480379785641bdf381ade7c2"
           ]
         }
       ],
@@ -977,7 +1004,8 @@
         "https://github.com/edithatogo/voiage/issues/694",
         "https://github.com/edithatogo/voiage/issues/695",
         "https://github.com/edithatogo/voiage/issues/696",
-        "https://github.com/edithatogo/voiage/issues/697"
+        "https://github.com/edithatogo/voiage/issues/697",
+        "https://github.com/edithatogo/voiage/issues/845"
       ],
       "pull_requests": [
         {
@@ -994,9 +1022,11 @@
         {
           "number": 66,
           "url": "https://github.com/edithatogo/vop_poc_nz/pull/66",
-          "status": "open",
+          "status": "merged",
           "evidence": [
-            "canonical-planning-sync"
+            "canonical-planning-sync",
+            "0a0d50c078120f4d3c964a031d1ae72be0360938",
+            "9c250572750b5ae760ef8bc1e52b8060a9758d56"
           ]
         }
       ],

@@ -19,6 +19,7 @@
 - [Programme #313](https://github.com/edithatogo/voiage/issues/313)
 - [Project 28](https://github.com/users/edithatogo/projects/28)
 - [Stacked canonical C16 sync PR #66](https://github.com/edithatogo/vop_poc_nz/pull/66)
+- [Scientific remediation issue #845](https://github.com/edithatogo/voiage/issues/845)
 
 Status: repository implementation complete. PR #712 final exact head
 `1048c4bc` completed 65 terminal conclusions and both review threads were
