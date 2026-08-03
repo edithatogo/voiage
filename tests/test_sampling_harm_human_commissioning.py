@@ -10,7 +10,9 @@ import pytest
 from voiage.sampling_harm_human_commissioning import (
     SamplingHarmHumanCommissioningError,
     _load_object,
+    load_and_validate_sampling_harm_candidate_decision,
     load_and_validate_sampling_harm_human_commissioning,
+    validate_sampling_harm_candidate_decision,
     validate_sampling_harm_human_commissioning,
 )
 
@@ -34,6 +36,18 @@ def _inputs() -> tuple[dict[str, Any], ...]:
     )
 
 
+def _decision_inputs() -> tuple[dict[str, Any], ...]:
+    preflight, _preflight_schema, delta, reviewers, sources = _inputs()
+    return (
+        _json(CONTRACT / "candidate-context-decision-20260803.json"),
+        _json(CONTRACT / "schemas/candidate-context-decision.schema.json"),
+        preflight,
+        delta,
+        reviewers,
+        sources,
+    )
+
+
 def test_canonical_preflight_is_blocked_without_claiming_authority() -> None:
     result = load_and_validate_sampling_harm_human_commissioning(ROOT)
     assert result["commissioning_status"] == "blocked_prerequisites"
@@ -42,6 +56,98 @@ def test_canonical_preflight_is_blocked_without_claiming_authority() -> None:
     assert result["source_prerequisites"] == 5
     assert result["eligible_reviewers"] == 0
     assert result["ready"] is False
+
+
+def test_authenticated_option_one_decision_advances_only_candidate_gate() -> None:
+    result = load_and_validate_sampling_harm_candidate_decision(ROOT)
+    assert result == {
+        "commissioning_status": "blocked_prerequisites",
+        "candidate_decision": "selected",
+        "selected_option": "reviewed_exclusion_generic_kernel",
+        "remaining_blockers": 6,
+        "pending_findings": 19,
+        "source_review_ready": False,
+        "eligible_reviewers": 0,
+        "ready": False,
+    }
+
+
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        (
+            lambda decision: decision.__setitem__(
+                "selected_option_id", "bounded_non_authorizing_candidate"
+            ),
+            "decision receipt invalid",
+        ),
+        (
+            lambda decision: decision["authenticated_receipt"].__setitem__(
+                "url", "https://github.com/edithatogo/voiage/issues/873"
+            ),
+            "decision receipt invalid",
+        ),
+        (
+            lambda decision: decision["remaining_blocker_ids"].pop(),
+            "decision receipt invalid",
+        ),
+        (
+            lambda decision: decision["authority_boundary"].__setitem__(
+                "reviewer_eligibility", True
+            ),
+            "decision receipt invalid",
+        ),
+    ],
+)
+def test_candidate_decision_mutations_fail_closed(
+    mutation: Any, message: str
+) -> None:
+    decision, schema, preflight, delta, reviewers, sources = map(
+        deepcopy, _decision_inputs()
+    )
+    mutation(decision)
+    with pytest.raises(SamplingHarmHumanCommissioningError, match=message):
+        validate_sampling_harm_candidate_decision(
+            decision,
+            preflight,
+            delta,
+            reviewers,
+            sources,
+            schema=schema,
+        )
+
+
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        (
+            lambda decision: decision["remaining_blocker_ids"].pop(),
+            "remaining blocker inventory mismatch",
+        ),
+        (
+            lambda decision: decision["authority_boundary"].__setitem__(
+                "reviewer_eligibility", True
+            ),
+            "decision receipt claims unavailable authority",
+        ),
+    ],
+)
+def test_candidate_decision_semantic_guards_reject_schema_bypass(
+    mutation: Any, message: str
+) -> None:
+    decision, _schema, preflight, delta, reviewers, sources = map(
+        deepcopy, _decision_inputs()
+    )
+    mutation(decision)
+    with pytest.raises(SamplingHarmHumanCommissioningError, match=message):
+        validate_sampling_harm_candidate_decision(
+            decision,
+            preflight,
+            delta,
+            reviewers,
+            sources,
+            schema={"type": "object"},
+        )
 
 
 def test_loader_rejects_non_object(tmp_path: Path) -> None:
