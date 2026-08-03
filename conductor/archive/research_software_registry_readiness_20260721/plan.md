@@ -138,6 +138,11 @@
   remaining external gate is explicit. Repository completion does not close
   issues or claim registry, journal, archive, or publication acceptance.
 
+## Final review fixes
+
+- [x] Synchronize the v1 programme active/archive baseline and the
+  changelog-bound distributional evidence digest after archival. (`3923309e`)
+
 ## Current evidence boundary
 
 - Repository readiness audit: complete at 2026-07-22T00:41:31Z.
