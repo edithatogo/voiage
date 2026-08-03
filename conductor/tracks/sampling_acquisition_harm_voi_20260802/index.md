@@ -44,6 +44,7 @@
 - [H8-D-C source readiness PR #868](https://github.com/edithatogo/voiage/pull/868)
 - [H8-D-D human commissioning preflight PR #871](https://github.com/edithatogo/voiage/pull/871)
 - [H8-D-E accountable choice-gate materialization PR #874](https://github.com/edithatogo/voiage/pull/874)
+- [H8-D-E option-one decision receipt PR #877](https://github.com/edithatogo/voiage/pull/877)
 
 Status: in progress. Automated primary-source, estimand and advisory scoping is
 complete, and VOP PR #71 merged the canonical C18/M32 planning projection as

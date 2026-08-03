@@ -5140,17 +5140,28 @@
           "33-successes-four-governed-skips-zero-failures-pending-or-unresolved-threads"
         ]
       },
-      {
-        "number": 874,
+        {
+          "number": 874,
         "url": "https://github.com/edithatogo/voiage/pull/874",
         "status": "merged",
         "evidence": [
           "h8de-accountable-choice-gate-materialization",
           "4e678625c0c358bceea825019cefb48bd02553a4",
           "cd3cf454a830dab2b0db9a091123d8f7b1ef8227",
-          "33-successes-three-governed-skips-one-neutral-zero-failures-pending-or-unresolved-threads"
-        ]
-      }
+            "33-successes-three-governed-skips-one-neutral-zero-failures-pending-or-unresolved-threads"
+          ]
+        },
+        {
+          "number": 877,
+          "url": "https://github.com/edithatogo/voiage/pull/877",
+          "status": "merged",
+          "evidence": [
+            "h8de-option-one-decision-receipt",
+            "8de3a40ad9606904b19c28f2dad202a4cab31214",
+            "b3138ae787531068397690300806ae9d110dd568",
+            "38-successes-four-governed-skips-or-neutral-zero-failures-pending-or-unresolved-threads"
+          ]
+        }
     ],
     "pull_request_evidence": "merged_repository_delivery_canonical_planning_h8db_h8dc_h8dd_and_h8de_gate_preparation"
     },

@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-08-02T14:20:00Z",
-  "updated_at": "2026-08-03T13:10:19Z",
+  "updated_at": "2026-08-03T13:54:30Z",
   "planned_version": "1.3.0",
   "moscow": "must",
   "requirement_ids": [
@@ -74,7 +74,8 @@
       "https://github.com/edithatogo/voiage/pull/868",
       "https://github.com/edithatogo/voiage/pull/871",
       "https://github.com/edithatogo/voiage/pull/872",
-      "https://github.com/edithatogo/voiage/pull/874"
+      "https://github.com/edithatogo/voiage/pull/874",
+      "https://github.com/edithatogo/voiage/pull/877"
     ]
   },
   "gates": [
@@ -130,7 +131,7 @@
       "id": "h8de-accountable-candidate-context-choice",
       "kind": "human_decision",
       "status": "satisfied",
-      "evidence": "The accountable maintainer selected option 1 in owner-authored #873 comment 5166647873 at 2026-08-03T13:03:46Z: seek independent review of the proposed generic-kernel reviewed exclusion while preserving narrower non-authorizing research. Issue #873 and Project 28 read back Closed, Done, Resolved, Verified and Clean while retaining Gate Human and Risk Critical. Functional commit b9cf55536e9ff34911e94874fd63b578164776c2 adds a separate validated receipt without rewriting the historical unset preflight. This satisfies H8-D-E only; source, reviewer, finding, replacement-packet, H8-D through H8-H, runtime, study, release and publication authority remain pending or false."
+      "evidence": "The accountable maintainer selected option 1 in owner-authored #873 comment 5166647873 at 2026-08-03T13:03:46Z: seek independent review of the proposed generic-kernel reviewed exclusion while preserving narrower non-authorizing research. Issue #873 and Project 28 read back Closed, Done, Resolved, Verified and Clean while retaining Gate Human and Risk Critical. PR #877 exact head 8de3a40ad9606904b19c28f2dad202a4cab31214 completed 38 successful checks and four governed skips or neutral outcomes with zero failures, pending checks or unresolved review threads before squash merge b3138ae787531068397690300806ae9d110dd568 at 2026-08-03T13:53:35Z. This satisfies H8-D-E only; source, reviewer, finding, replacement-packet, H8-D through H8-H, runtime, study, release and publication authority remain pending or false."
     },
     {
       "id": "h8df-independent-source-and-reviewer-commissioning",
