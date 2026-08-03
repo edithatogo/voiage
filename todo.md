@@ -79,17 +79,15 @@ separate gates.
         governed skips with zero failures, pending checks or unresolved review
         threads before squash merge `8c710245`; #870 and Project 28 read back
         Closed/Done/Resolved/Verified/Clean while retaining Human/Critical.
-        Native child #873 isolates the still-blocked accountable
-        candidate-context choice as an In Progress Human/Critical Project gate.
-        PR #874 exact head `4e678625` completed 33 successful checks, three
-        governed skips and one neutral rollup with zero failures, pending checks
-        or unresolved review threads before squash merge `cd3cf454`. This
-        materializes the gate only: #873 remains Open and its Project item
-        remains In Progress/Blocked/Human/Critical/Clean. It requires one
-        authenticated option and rationale; no generic continuation, repository
-        merge or automated review may select it or satisfy any source, reviewer,
-        finding, H8-D through H8-H, runtime, study, release or publication
-        boundary.
+        Native child #873 now records owner-authored option 1: independently
+        review the proposed generic-kernel exclusion while preserving narrower
+        non-authorizing research. It and Project 28 read back
+        Closed/Done/Resolved/Verified/Clean. The receipt advances only candidate
+        selection and preserves the historical unset preflight. Native child
+        #876 is Open/In Progress/Blocked/Human/Critical/Clean for independent
+        source retrieval, rights/applicability review, eligible reviewer
+        assignment and a replacement packet. All nineteen findings, H8-D
+        through H8-H, runtime, study, release and publication remain pending.
         Canonical VOP C18/M32 planning is synchronized by merged PR #71 at
         `e0ff1d2ce3361d52ee22bb01e105b92653ed606c`; this is planning evidence,
         not H8 approval or runtime authority.

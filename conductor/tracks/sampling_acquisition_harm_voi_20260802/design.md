@@ -28,7 +28,8 @@ flowchart LR
     Readiness --> Commissioning["#870 candidate decision, reviewer screening, receipt contracts and privacy-safe handoff"]
     Commissioning --> CandidateChoice{"#873 exact accountable candidate-context choice recorded?"}
     CandidateChoice -->|"No"| ChallengeOnly
-    CandidateChoice -->|"Yes, one authenticated option"| PacketGate{"Independent retrieval, rights, applicability and eligible humans complete?"}
+    CandidateChoice -->|"Yes: option 1"| SelectedExclusion["Proposed generic-kernel reviewed exclusion; narrower non-authorizing research preserved"]
+    SelectedExclusion --> PacketGate{"#876 independent retrieval, rights, applicability and eligible humans complete?"}
     PacketGate -->|"No"| ChallengeOnly["Preparation only; no replacement freeze and H8-D/H8-E remain false"]
     PacketGate -->|"Yes, with accountable evidence"| Freeze
     Freeze --> Panel["Eligible independent reviewers plus domain/ethics specialist"]
