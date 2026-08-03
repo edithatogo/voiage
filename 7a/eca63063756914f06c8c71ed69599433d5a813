@@ -1,0 +1,1 @@
+Phase 3 automated review: replaced fabricated diagnostics, preserved per-signal policies, made bounded-domain exclusions explicit, rejected discontinuous no-root prices, completed pairwise comparability and provenance, validated VoC affine EVPI presentation, and passed 12 Rust numerics, 21 PyO3, 24 focused Python, 95 wider boundary tests plus full Conductor validation.

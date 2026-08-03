@@ -1,0 +1,1 @@
+PR #716 refreshed onto origin/main 3161961fe6a48e0c69d922e25d071a013556b1b5. Preserved #713 selection/single-materialization integration and #716 descriptor-only inspection evidence; combined CLI/provider/Conductor/cross-reference/Ruff validation passed on 2026-08-01.

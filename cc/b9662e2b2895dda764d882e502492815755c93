@@ -1,0 +1,1 @@
+#719 controlled refresh: rebased DataFrame edge-contract work onto origin/main 5d059a80. Focused DataFrame SDK lint and pytest invocation completed locally; diff check clean. Signed rebased head ccb9662e; the existing receipt/evidence trail is retained, auto-squash re-enabled, and hosted checks remain the merge gate.

@@ -1,0 +1,1 @@
+Track 23 implementation: runtime API, CLI, deterministic Hypothesis-tested fixtures, frontier contract, Astro docs, governance registration. Local focused tests 52 passed; lint, harness, typecheck, docs, frontier-contract, and version-sync passed. Maturity remains fixture-backed pending evidence-production data provenance, cross-language parity, and governance review.

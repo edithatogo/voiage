@@ -1,0 +1,1 @@
+E12 review fix: corrected bootstrap uncertainty to the standard deviation of bootstrap estimator replicates, rather than the standard error of their mean; added direct regression evidence. Validation: full voiage-numerics suite, property/differential tests, PyO3 tests, clippy -D warnings, 35 focused Python tests, repository harness, full Conductor.

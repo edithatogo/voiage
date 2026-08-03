@@ -1,0 +1,1 @@
+S19 third integration checkpoint for #571. Merged two current origin/main ingestion/release-hardening commits automatically without rewriting governed history. The 62 coverage-remediation tests plus affected mainline tests, full Conductor validation, and repository harness pass; hosted checks pending.

@@ -1,0 +1,5 @@
+Task: Record completion evidence for ecosystem drift proposals.
+
+Summary: Marked the registry/toolchain/lockfile/Action/plugin drift proposal task complete and added its validation evidence while keeping external parity implementation open.
+
+Verification: metadata/evidence JSON parsed and live GitHub programme validation passed.

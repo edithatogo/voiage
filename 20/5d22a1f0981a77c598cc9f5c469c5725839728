@@ -1,0 +1,10 @@
+Conductor extended frontier recommendation tracks
+
+Summary:
+- Added dedicated mature/stable tracks for adaptive-learning and bandit VOI, capacity and budget-constrained VOI, federated/privacy-preserving VOI, and AI-assisted evidence-triage VOI.
+- Updated Conductor registry, SOTA frontier docs, roadmap, todo, changelog, and validation tests.
+
+Verification:
+- git diff --check
+- uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov: 11 passed
+- uv run --with ruff ruff check tests/test_conductor_followthrough_tracks.py: passed

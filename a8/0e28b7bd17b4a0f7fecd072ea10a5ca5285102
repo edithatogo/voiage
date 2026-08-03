@@ -1,0 +1,1 @@
+Conductor standardized-dataset-ingestion_20260723 P5-T2/P5-T3 partial evidence: deterministic manifest verification and explicit regeneration command. Local validation: fixture-validator tests, Ruff, fixture validator CLI, and cross-reference validator passed; native EVPI equivalence remains hosted-wheel evidence.

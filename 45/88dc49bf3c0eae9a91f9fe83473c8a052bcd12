@@ -1,0 +1,1 @@
+Plan update: Go and TypeScript binding tests pass locally; Rust non-PyO3 workspace/ABI/kernel tests pass. Local PyO3 all-features execution is blocked by missing libpython3.13.dylib; local .NET execution is blocked by SDK 10.0 versus required net11.0; R/Julia and hosted supported-version evidence remain.

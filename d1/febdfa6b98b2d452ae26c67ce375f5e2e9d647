@@ -1,0 +1,1 @@
+Track initialization for issue #595. Materialized the dedicated approved specification, MoSCoW requirements, Mermaid design, phased implementation plan, metadata, index, evidence ledger, and registry entry. The dedicated track prevents completion of #595 from falsely completing the omnibus #318 frontier programme.

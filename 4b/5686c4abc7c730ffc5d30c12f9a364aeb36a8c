@@ -1,0 +1,20 @@
+Task: Close Phase 3 aggregate domain contract gap
+
+Summary:
+- Added private validated ValueArray and ParameterSet contracts.
+- Added private validated TrialArm and TrialDesign contracts.
+- Added aligned CEAC domain result with exact discriminator and probability validation.
+- Added fail-closed Serde wire conversion with unknown-field rejection.
+- Added focused constructor, dimension, duplicate, non-finite, and deserialization tests.
+
+Files:
+- rust/crates/voiage-domain/src/lib.rs
+- rust/crates/voiage-domain/src/core_contracts.rs
+- rust/crates/voiage-domain/tests/core_contracts.rs
+
+Validation:
+- cargo clippy -p voiage-domain --all-targets --locked -- -D warnings: passed
+- cargo test -p voiage-domain --all-targets --locked: 19 passed
+- scoped git diff --check: passed
+
+Scope: Domain-only High-gap slice; concurrent Phase 3 changes and docs/astro-site/.astro were preserved.

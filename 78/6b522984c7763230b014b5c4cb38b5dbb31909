@@ -1,0 +1,1 @@
+Issue #318 stage one maps all 18 accepted families to G5-G12 repository evidence, reconciles G13 issue/disposition/governance state at source 69b00d0f, and leaves G14/G15 plus external scientific, parity, promotion, release and closure gates pending. Focused 42 tests, Ruff, frontier/xref, ledger, 90 artifact paths and full 148-track Conductor validation pass.

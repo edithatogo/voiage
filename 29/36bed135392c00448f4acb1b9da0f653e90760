@@ -1,0 +1,1 @@
+Review fix: deterministic CEAF compatibility execution now reports out-of-range strategy indices as contract errors instead of panicking. Focused voiage-test-support and voiage-numerics tests, clippy, fmt, and diff checks passed.

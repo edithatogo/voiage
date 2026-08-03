@@ -1,0 +1,1 @@
+S19 second-pass review remediation for #571. TDD red/green closes three High and one Medium findings: exact model-assurance coverage with provenance; explicit disjoint incremental-cost contract; global-maximum-anchored tolerance tie set with permutation assurance; governed InputError boundaries for malformed objects. Focused portfolio tests, Ruff, and Basedpyright pass.

@@ -1,0 +1,9 @@
+Task: S3 Freeze EVSI/EVPI efficiency semantics
+
+Summary: Defined exact commensurability, finite validation, value-scale bounds tolerances, unclamped near-bound behavior, materially invalid inputs, zero-EVPI undefined state, and required separation from value-to-cost metrics.
+
+Files modified:
+- conductor/tracks/study_design_efficiency_20260727/contract.md
+- conductor/tracks/study_design_efficiency_20260727/plan.md
+
+Why: A dimensionless information-efficiency diagnostic requires explicit scaling and denominator rules and must preserve rather than conceal Monte Carlo deviations.

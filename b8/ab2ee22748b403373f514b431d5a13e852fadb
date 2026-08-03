@@ -1,0 +1,1 @@
+Validation: rebase onto origin/main a51d10b4; pytest tests/test_standardized_ingestion_conformance.py tests/test_standardized_ingestion_providers.py -q --no-cov (91 passed); ruff check focused tests; validate_conductor_github_cross_references.py .; git diff --check.

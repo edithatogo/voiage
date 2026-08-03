@@ -1,0 +1,3 @@
+Task: #597 C18/M28 chained third-review evidence
+Summary: Appends review, validation and append-only SHA-correction entries for F597-R3, preserving the Medium finding, signed remediation, 100% module coverage, exact recursive-call audit and clean governance validators.
+Boundary: A fourth fresh independent implementation review and hosted exact-head assurance remain mandatory before merge; scientific review, parity, promotion, release and parent/programme closure remain pending.

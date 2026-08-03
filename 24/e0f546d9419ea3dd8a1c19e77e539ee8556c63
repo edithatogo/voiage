@@ -1,0 +1,5 @@
+Freeze the comprehensive software-landscape schema and review protocol.
+
+Added nested product/version/schema/capability/subfeature/option/evidence/rights/duplicate/adoption contracts and a separate protocol for evidence ordering, claim ceilings, discovery, inclusion/exclusion, freshness, commercial observability, deterministic generation, and analyst decisions.
+
+Red/green evidence: the new protocol test first failed because the artifacts were absent, then passed. Full landscape tests: 21 passed. Ruff, local programme validation, Vale, JSON parsing, and diff checks passed. No external software code was executed and no parity state was promoted.

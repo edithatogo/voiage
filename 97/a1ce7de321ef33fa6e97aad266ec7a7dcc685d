@@ -1,0 +1,1 @@
+Review fix: tox minimum/maximum environments now honor the declared NumPy, Pandas, and SciPy bounds instead of injecting incompatible newer constraints. Refreshed uv.lock with uv lock --upgrade. Validation: min_versions passed, lock check and programme validator passed.

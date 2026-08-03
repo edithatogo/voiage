@@ -1,0 +1,1 @@
+S19 complete for #571. Four-pass review is clean at all severities; local full matrix and hosted exact-head matrix pass. Hosted head 0c74229eb41b4f33b6c92f3d5182b796e353d4aa completed 60 successful, four skipped, and one neutral checks with no failures. Merge, release, scientific promotion, and issue closure remain separate gates.

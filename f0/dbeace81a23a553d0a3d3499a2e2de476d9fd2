@@ -1,0 +1,14 @@
+Task: reconcile ABI consumers after concurrent lifecycle hardening
+
+Summary:
+- aligned C11 and C++17 consumers with the caller-owned u64 handle output contract
+- used the common fixed-width status for lifecycle calls
+- removed the obsolete separate lifecycle-status layout entry
+
+Validation:
+- C11 and C++17 warning-clean compile smoke passed
+- cargo build -p voiage-ffi --locked passed
+- built dylib exports exactly all five allowlisted voiage_v1 symbols
+- git diff --check passed
+
+Boundary: cargo test -p voiage-ffi is blocked by concurrent Rust integration tests that use unsafe calls under inherited unsafe_code=forbid; those Rust files are outside this strict artifact-only scope.

@@ -1,0 +1,1 @@
+Rebased PR #665 onto origin/main a51d10b4; focused reference-case and standardized-ingestion conformance tests, Ruff, conductor cross-reference validation, and diff check passed locally.

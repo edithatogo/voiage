@@ -1,0 +1,1 @@
+E9: added Rust-authoritative scalar EVPPI-var discrete-conditioning and EVSI-var posterior-variance aggregation kernels with population-variance convention, versioned-envelope fields, negative/zero policies, deterministic grouping, and fail-closed inputs. Validation: cargo fmt, 4 focused Rust tests, clippy -D warnings.

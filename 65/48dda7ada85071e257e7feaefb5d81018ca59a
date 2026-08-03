@@ -1,0 +1,7 @@
+Task: Implement issue #600 and delivery subissues #790-#792
+
+Summary: Added the strict exact-finite experimental Python contract, deterministic API/CLI, normative fixture, registry and documentation surfaces, standalone result reconstruction, probability/Bayes/tower assurance, tie diagnostics, and adversarial tests.
+
+Validation: Focused method and contract coverage reached 100 percent statements and branches; frontier, cross-reference, static-analysis, focused governance, and full Conductor validation passed locally.
+
+Boundary: Independent implementation review, hosted exact-head and installed-wheel assurance, continuous/fitted estimator validation, scientific review, risk-sensitive composition, polyglot parity, stable promotion, release, and parent/umbrella closure remain pending.

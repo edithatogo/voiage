@@ -1,0 +1,1 @@
+Phase 1 review fix: aligned the VOIAGE C16 consumer projection with the canonical nested-subissue shape. #595 remains the governed top-level issue and owns #694-#697 through its subissues field; the validator now checks that relationship and the capability contract without inventing duplicate top-level records. Focused projection/xref tests and full Conductor validation passed.

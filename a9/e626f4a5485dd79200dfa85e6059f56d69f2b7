@@ -1,0 +1,1 @@
+S19 hosted coverage remediation for #571. Added 62 behavior-focused tests with no production changes. Full local coverage policy passes: aggregate 92.35 percent, changed lines 100 percent, changed branches 100 percent, no unmeasured files; focused pytest and Ruff pass.

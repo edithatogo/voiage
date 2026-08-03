@@ -1,0 +1,5 @@
+Task: Record complete P0 census and parity verification gates
+Summary: Marked the registry/citation/SourceRight/docs/full-repository gate and the license/provenance/docs/quality gate complete with append-only evidence.
+Files: census and parity plan.md and evidence.jsonl
+Why: Make the complete tox, SourceRight, generated-registry, repository-harness, and live-GitHub evidence auditable while retaining human scientific approval and external observability as pending.
+Verification: 23 focused governance/landscape tests passed; evidence JSONL parsed; live GitHub programme validation passed; git diff --check passed.

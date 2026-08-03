@@ -1,0 +1,26 @@
+Task: Implement the Phase 4 native Green serialization bridge
+
+Summary:
+- Registered the private voiage-python leaf workspace crate with PyO3 abi3-py310.
+- Added Rust-owned validated CEAF and dominance DTO serialization with no numerical calculation or voiage-numerics dependency.
+- Added native runtime provenance, atomic successful-call counters, and stable InputError, DimensionMismatchError, and SerializationError categories.
+
+Files created:
+- rust/crates/voiage-python/Cargo.toml
+- rust/crates/voiage-python/src/lib.rs
+
+Files modified:
+- rust/Cargo.toml
+- rust/Cargo.lock
+
+Why:
+Establish the private compiled Python-to-Rust production seam before numerical kernel migration while preserving the frozen public API and Phase 5 numerical boundary.
+
+Validation:
+- cargo fmt --check: passed
+- cargo clippy --all-targets --all-features --locked -- -D warnings: passed
+- cargo test with repository Python 3.12: 1 passed, doc tests passed
+- rustdoc with -D warnings: passed
+- Rust 1.85 cargo check: passed
+- maturin abi3 editable build plus CEAF/dominance native keyword smoke: passed
+- cargo tree: no voiage-numerics dependency

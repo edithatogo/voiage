@@ -1,0 +1,1 @@
+EVSI red phase: added canonical moment-based EVSI parity for a linear fixture (0.75) and stable sample-dimension error identity. Expected failure is unresolved voiage_numerics::evsi_moment_based export.

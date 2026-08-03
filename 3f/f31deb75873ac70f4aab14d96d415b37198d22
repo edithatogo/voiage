@@ -1,0 +1,1 @@
+Partial P4 Croissant/Frictionless conformance increment: both direct providers now reject non-object JSON descriptor roots with IngestionError before provider-specific parsing. Test-first fixtures demonstrated two AttributeError leaks; focused provider suites, Ruff, and type checks pass after the fix.

@@ -1,0 +1,1 @@
+PR #637 refreshed onto origin/main 0252352b (includes #606 and #675). Verified: pytest tests/test_standardized_ingestion_live_probe.py --no-cov (6 passed); ruff check live-probe surface; standardized-ingestion fixture validator; Conductor GitHub cross-reference validator; git diff --check. Authoritative probes remain explicitly gated and are not activated by this change.

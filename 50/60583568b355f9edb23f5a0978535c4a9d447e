@@ -1,0 +1,1 @@
+Refresh the Phase 10 reconciliation record after pushing commit 5dd69f1a to PR #631. The track remains active: #629's refreshed hosted matrix is pending, #631 depends on it, Project 28 field state needs GraphQL access, and the inherited evidence ledger remains invalid and append-blocked.

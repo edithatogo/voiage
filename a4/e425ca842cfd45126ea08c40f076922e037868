@@ -1,0 +1,5 @@
+Task: Guard offline CPU and optional ML backend contracts
+
+Summary: Added tests requiring offline CPU references, optional provider backends, and no private-data transfer for ML/LLM VOI work.
+
+Validation: focused ML contract tests, Ruff, formatting, and diff checks passed.

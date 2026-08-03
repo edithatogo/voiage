@@ -1,0 +1,1 @@
+Governed #594 closeout replacement head integrates origin/main 4a28f2c2 additively, preserving uncertainty-modelling and ingestion governance. Exact local evidence: 65 focused tests; normalizer changed_count 0; cross-reference, v1, frontier, both append-only ledgers, Ruff and full Conductor 148/0/0 passed; git diff check clean.

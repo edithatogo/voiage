@@ -1,0 +1,2 @@
+Conductor task: supported_frontier_method_completion_20260723 F559-2
+Evidence: input/result schemas, normative exact-enumeration fixture, manifest, provenance and explicit Python/Rust/R/Julia/Mojo dispositions added. Three schema/capability tests pass; runtime conformance remains intentionally red pending F559-3.

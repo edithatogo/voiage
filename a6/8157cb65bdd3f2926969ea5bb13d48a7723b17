@@ -1,0 +1,14 @@
+Task: S12 Reconcile legacy optimizer behavior
+
+Summary: Classified the clinical optimizer as a legacy power/QALY heuristic, documented voi_efficiency as value per cost rather than EVSI/EVPI, and labelled enbs_simple backends as clipped EVPI-minus-cost screening scores unsuitable for signed COSS. No stable signatures, keys or numerical behavior changed.
+
+Validation:
+- Ruff passed
+- 59 clinical, backend and Apple Metal compatibility tests passed
+
+Files modified:
+- voiage/clinical_trials.py
+- voiage/main_backends.py
+- conductor/tracks/study_design_efficiency_20260727/plan.md
+
+Why: Adjacent legacy names must not be mistaken for the governed COSS and dimensionless efficiency contracts while compatibility is preserved.

@@ -1,0 +1,1 @@
+Official append-only umbrella reconciliation after signed merge fc17c76a; both ledgers validate against HEAD and full Conductor remains 148 tracks, zero errors/warnings.

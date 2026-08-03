@@ -1,0 +1,3 @@
+Conductor task: supported_frontier_method_completion_20260723 F559-4 corrective review slice
+Evidence: fixed two High and four Medium independent-review findings: finite scalar validation, exact runtime schema validation, complete result schema, SHA-256 fixture evidence, canonical tie policy, and preserved legacy timing defaults. 49 focused runtime/contract/compatibility tests and Ruff passed.
+Boundary: hosted exact-head checks and independent re-review remain required before F559-4 completion; experimental maturity is unchanged.

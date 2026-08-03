@@ -1,0 +1,1 @@
+S19 fourth integration checkpoint for #571. Merged origin/main cross-domain ingestion reference cases without conflicts or history rewrite. Focused reference-case and #571 coverage tests plus exact coverage policy and Conductor validation follow.

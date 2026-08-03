@@ -1,0 +1,1 @@
+Review fix: applied repository Ruff formatting to the EVSI/CEAF/dominance retirement paths and tests. Validation: uv run ruff format affected files; uv run ruff check voiage tests --exit-non-zero-on-fix (passed).

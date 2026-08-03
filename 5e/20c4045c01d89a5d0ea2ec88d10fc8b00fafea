@@ -1,0 +1,1 @@
+EVPPI bridge red phase: added a PyO3 module test requiring compute_evppi to execute the canonical 0.05 Rust kernel result for Python sequences. The expected failure is unresolved compute_evppi; voiage-numerics is declared as the adapter dependency.

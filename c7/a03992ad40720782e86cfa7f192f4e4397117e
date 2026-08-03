@@ -1,0 +1,14 @@
+Task: S9 Review reference evidence
+
+Summary: Confirmed independent enumerable ENBS/argmax references, explicit cost provenance, no-study interpretation, covariance requirements for ENBS uncertainty, joint-replicate requirements for selection uncertainty, and independent context checks for efficiency.
+
+Validation: Full Conductor validation passed with zero errors and warnings; git diff --check passed. The runtime test suite remains intentionally red until Phase 3.
+
+Files created:
+- conductor/tracks/study_design_efficiency_20260727/reference-review.md
+
+Files modified:
+- conductor/tracks/study_design_efficiency_20260727/index.md
+- conductor/tracks/study_design_efficiency_20260727/plan.md
+
+Why: Scientific references must be independent of the implementation and must not invent cost or uncertainty assumptions.

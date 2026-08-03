@@ -1,0 +1,1 @@
+Review fix: the C15 exact runner identity assertion now runs only in the approved Python 3.14 tox lane; compatibility lanes skip it explicitly. Validation passed: Ruff and C15 tests.

@@ -1,0 +1,9 @@
+Runtime CodeQL cleanup evidence
+
+- Removed redundant JAX EVPI assignments
+- Made optional dependency probes explicit and non-empty
+- Disambiguated stdlib logging from voiage.logging
+- Made data-frame reader assignment exhaustive
+- Focused analysis/backend/logging/contracts/CLI/ecosystem tests: pass
+- Ruff and ty: pass
+- Exact-ref CodeQL rescan required for closure evidence

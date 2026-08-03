@@ -1,0 +1,1 @@
+Conductor standardized-dataset-ingestion_20260723 P6-T1 partial evidence: each ingestion command has an executable help contract. Focused pytest, Ruff, fixture validator, and cross-reference validation passed.

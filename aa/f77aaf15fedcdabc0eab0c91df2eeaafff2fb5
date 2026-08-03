@@ -1,0 +1,7 @@
+Task: Remediate issue #600 independent implementation review findings
+
+Finding: Fixed a High unit-invariance defect where dimensionless probability and fixed absolute cutoffs truncated value-unit VSI and Equation 10 dispersion; also removed the artificial absolute cap on value-unit tie tolerance and enforced the frozen exact reference optimizer contract.
+
+Validation: 72 focused tests passed; Ruff and BasedPyright passed. Added scale factors from 1e-12 through 1e6 and broader standalone result mutation checks. Coverage instrumentation in the shared Python 3.14 environment was blocked by a NumPy reload error and is not claimed by this commit.
+
+Boundary: This is repository-owned remediation, not hosted exact-head, installed-wheel, scientific, parity, promotion, release, or merge evidence.

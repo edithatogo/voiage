@@ -1,0 +1,1 @@
+Hosted Lint & Type Check remediation: applied repository Ruff formatting to the new distribution-family installed-wheel test. Full voiage/tests format check and six wheel black-box tests passed locally.

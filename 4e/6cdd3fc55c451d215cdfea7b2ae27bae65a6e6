@@ -1,0 +1,7 @@
+Task: E2 estimation variance scientific contracts
+
+Summary: Added strict immutable target, conditioning, sampling-model, estimator-assurance, and method specification contracts. Scalar variance and explicit vector covariance scalarizations are validated; EVPPI_var and EVSI_var require their distinct information models; zero-prior-variance relative reduction is explicitly nullable.
+
+Files: voiage/contracts/estimation.py; voiage/contracts/__init__.py; tests/test_estimation_variance_voi.py
+
+Why: Freeze scientific meaning and fail-closed boundaries before adding numerical kernels.
