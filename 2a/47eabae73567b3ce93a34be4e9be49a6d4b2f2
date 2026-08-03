@@ -1,0 +1,1 @@
+Validation: CI=true uv run tox -q passed 2026-07-21; Python runtime inventory validator passed; coverage 91.11%; Rust rank-aware EVSI focused tests and clippy passed.

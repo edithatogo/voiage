@@ -1,0 +1,1 @@
+Task: Generate trustworthy API and binding references. Published the retained binding matrix in Astro/Starlight and added executable drift coverage against specs/v1/binding-matrix.json. Validation: uv run pytest -q tests/test_binding_reference_docs.py; uv run ruff check tests/test_binding_reference_docs.py; docs/astro-site pnpm run check. Result: pass.

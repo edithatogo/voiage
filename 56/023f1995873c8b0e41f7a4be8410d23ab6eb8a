@@ -1,0 +1,1 @@
+Track: preference-voi-stable-promotion_20260625\nStatus: completed and archived after PR #157 merge.\nValidation: focused contract tests and registry tests pass; repository harness pass with zero findings; full tox recorded in archive plan.

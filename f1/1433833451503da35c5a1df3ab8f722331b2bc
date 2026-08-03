@@ -1,0 +1,1 @@
+Conductor standardized-dataset-ingestion_20260723 P5-T5 partial evidence: fresh-process IPC/Parquet Arrow bundle round trip through Polars. Focused pytest, Ruff, and cross-reference validation passed after rebase onto main 623fa73b.

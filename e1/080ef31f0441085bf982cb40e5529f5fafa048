@@ -1,0 +1,9 @@
+Task: Make external-library license and exclusion evidence machine-verifiable.
+
+Summary: Added complete license-rights records for all 29 tools, reviewed dispositions for every excluded or non-reproducible feature, freshness enforcement, gap-report and public-matrix projection, and corrected the unsupported heemod adapter claim to planned.
+
+Files: specs/software-landscape license/disposition schemas and records; registry, README, gap report; matrix and gap generators; freshness validator; landscape tests; generated Astro matrix.
+
+Why: External parity cannot be considered comprehensive when reuse rights and negative dispositions are free text or when an adapter is claimed without an executable adapter and fixture.
+
+Verification: 22 focused landscape/governance tests passed; Ruff passed; generated report and matrix checks passed; Astro check/build passed with 619 generated Python pages and zero diagnostics; repository harness and live GitHub programme validation passed.

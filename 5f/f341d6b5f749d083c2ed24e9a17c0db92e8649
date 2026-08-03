@@ -1,0 +1,5 @@
+Track: monitoring-surveillance-voi-mature-stable_20260625
+Merged implementation PR #175 at 07760be7dda321f9c9a204202d234df5d37f2414.
+Hosted substantive CI, coverage, frontier contract, and Python CodeQL passed.
+External gates preserved: open-data attribution, cross-language/Rust parity, and mature/stable approval.
+Active executable queue is now orders 13-32 (20 tracks); GitHub issues remain zero.

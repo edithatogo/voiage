@@ -1,0 +1,5 @@
+Task: Remove Astro package publication-age delay
+
+Summary: Set minimumReleaseAge to zero for the Astro workspace while retaining frozen-lockfile integrity and the esbuild/sharp build allowlist. Added an executable contract and changelog entry.
+
+Validation: red test observed expected failure; ordinary pnpm install --frozen-lockfile passed; astro check reported zero diagnostics; 80-page production build passed; 14 focused tests passed; CI=true uv run tox -q -e lint,harness,docs,frontier-contract,version-sync passed.

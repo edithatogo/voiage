@@ -1,0 +1,1 @@
+#720 refresh: rebased onto refreshed #718 parent c9990864. Resolved changelog-only conflict preserving both independent entries. Focused ingestion conformance suite: 24 passed; diff check clean. Signed head 65e685d3; auto-squash retained. This dependent PR must wait for #718 plus its own hosted checks.

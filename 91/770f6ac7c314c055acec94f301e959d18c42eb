@@ -1,0 +1,1 @@
+Task G3a: reviewed merged #595 implementation and confirmed VoC is a presentation of the sole expected-utility clairvoyant-policy kernel, with monetary EVPI only under verified positive-affine utility. No duplicate CLI, kernel, ABI, R or Julia execution surface exists. Validation: 39 focused tests, Ruff and full 144-track Conductor validation passed.

@@ -1,0 +1,1 @@
+Hosted CI root-cause fix: moved new entries into the existing Unreleased Fixed section so the changelog has one canonical Keep a Changelog section sequence. Focused cleanup and registry tests passed.

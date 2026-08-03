@@ -1,0 +1,1 @@
+S19 third-pass review remediation for #571. Closed two Medium findings and doc drift: allocator rejects non-finite tolerances with InputError; provenance keys and values are non-blank identifiers; tie documentation names total cost. Focused 21-test portfolio suite, Ruff, and Basedpyright pass.

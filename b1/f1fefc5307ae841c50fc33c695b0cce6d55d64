@@ -1,0 +1,3 @@
+Conductor task: supported_frontier_method_completion_20260723 F559-4 corrective review slice
+Evidence: promoted jsonschema from CI-only to base runtime dependency, verified isolated no-dev CLI import, and expanded SHA-256 evidence to both schemas, capabilities, manifest, normative fixtures, reference review, runtime contract, implementation and CLI. 40 focused tests and Ruff passed.
+Boundary: independent re-review and hosted exact-head checks remain required before F559-4 completion.

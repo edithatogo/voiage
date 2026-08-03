@@ -1,0 +1,8 @@
+Phase 1 boundary commit for rust-frontier-numerics-migration-completion track.
+
+Deliverables:
+- specs/rust/migration_matrix.json: kernel inventory with owner, rust_status, python_wrapper_status, parity_status, benchmark_status, migration_priority.
+- docs/developer_guide/rust_python_bridge_policy.rst: PyO3/maturin decision record, Python facade preservation, fallback, fixture parity, benchmarks.
+- tests/test_rust_migration_matrix.py: 10 regression tests (all pass).
+
+Verification: uv run python -m pytest tests/test_rust_migration_matrix.py --no-cov -q (10 passed); ruff check/format clean.

@@ -1,0 +1,1 @@
+Implemented Julia General follow-through handoff. Julia 1.12.6 Pkg.test passed 2/2, Project/source/test and TagBot/release workflows were hashed, Julia General Package.toml and Versions.toml returned HTTP 404, and registration/maintainer approval remain external gates. Focused tests: 21 passed.

@@ -1,0 +1,5 @@
+Task: Record adversarial ML/agent fixture contract
+
+Summary: Recorded the deterministic adversarial scenario evidence in the quality track and ML/LLM track plan, retaining implementation and validation gates as open.
+
+Validation: JSON/JSONL validation, focused tests, Ruff, formatting, and diff checks passed.

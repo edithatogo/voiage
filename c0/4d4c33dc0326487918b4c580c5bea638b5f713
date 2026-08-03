@@ -1,0 +1,1 @@
+UMV1-UMV4 (#774/#775): exact finite experimental uncertainty-modelling value. Adds strict schemas, two-/multistage and infeasible-recourse fixtures, direction-aware EV/EEV/RP/WS/VSS/EVIU/EVPI runtime, policy/solver assurance, Python API/CLI and documentation. Information acquisition, DVSS/VMS, polyglot parity and stable promotion remain excluded.

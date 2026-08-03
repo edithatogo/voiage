@@ -1,0 +1,7 @@
+Phase 3 workspace task evidence
+
+Red: 568f5f6 defined the production workspace contract and initially produced five expected failures against the legacy single-crate layout.
+Green: 563982f created the seven-crate production workspace; ea88e3d added cross-platform CI.
+Refactor/fix: 570b2ad enforced Rust 1.85 MSRV inheritance, lint policy, dependency boundaries, non-skippable CI metadata validation, and corrected the workspace contract root.
+Documentation: 8fdef00 recorded the compatibility-facade boundary.
+Validation: 5 workspace-contract tests passed; cargo fmt, metadata --locked, Clippy -D warnings, workspace tests, rustdoc -D warnings, Ruff and diff checks passed; Rust 1.85 check and tests passed.

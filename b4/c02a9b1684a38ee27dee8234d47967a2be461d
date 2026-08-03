@@ -1,0 +1,1 @@
+S19 integration checkpoint for #571. Merged current origin/main without rewriting governed task commits or notes; resolved the sole changelog conflict by retaining both the study-efficiency and standardized-ingestion entries. Exact post-merge validation and hosted checks remain pending.

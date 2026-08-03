@@ -1,0 +1,9 @@
+crates.io trusted-publishing hardening evidence
+
+- Replaced long-lived registry secret with official short-lived OIDC action
+- Action pinned to v1.0.5 commit c6f97d4
+- Added job-scoped id-token permission and crates-io environment
+- Release workflow/quality/harness/code-scanning tests: 43 passed
+- Repository harness: pass
+- zizmor workflow audit: pass
+- Live registry trusted-publisher registration remains an explicit external human gate

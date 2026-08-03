@@ -1,0 +1,1 @@
+E6: added property evidence for total-variance decomposition, zero/perfect-information limits, and bounded monotonic conjugate EVSI-var for nested sample sizes. Validation: Hypothesis suite, ruff, basedpyright, diff check.

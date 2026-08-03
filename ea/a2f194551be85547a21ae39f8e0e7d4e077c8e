@@ -1,0 +1,4 @@
+Task: #597 C18/M28 recursive-work remediation
+Summary: Extends the fail-closed 50,000-call preflight across adaptive full/horizon/myopic/conditional, no-information, and fully observed regret recursion; adds 20-state rejection and accepted horizon-12 boundary regressions; refreshes exact fixture evidence and maturity documentation.
+Validation: 108 belief-state tests; 100% statements and branches for voiage.methods.belief_state_information (559 statements, 258 branches); Ruff, format and BasedPyright zero; frontier, cross-reference and full 147-track Conductor validation zero errors/warnings.
+Boundary: The fresh reviewer became remediator, so a third independent implementation review, hosted exact-head checks, merge, scientific review, parity, promotion, release and closure remain pending.

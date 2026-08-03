@@ -1,0 +1,1 @@
+Conductor P7-T3 evidence event for cf014005: digest-bound record of the focused 241-test ingestion matrix and related local quality checks. It records that local CSV/TSV row and record-batch bounds are implemented while remote/archive streaming remains unsupported or externally gated.

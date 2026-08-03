@@ -1,0 +1,1 @@
+Archived Track 31 after PR #213 merged as 624818b. Repository-owned TPU/CPU schema, deterministic validator, CPU fallback, and explicit unavailable-runtime packet are complete. Authenticated Colab/gcloud allocation and reviewed production speedup remain external gates. Focused tests: 27 passed.

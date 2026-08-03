@@ -1,0 +1,1 @@
+Conductor ISP5 assurance hardening for #582: finite and commensurate inputs, result arithmetic and attribution identities, explicit infeasible non-empty portfolio failure, focused tests and validators green. Coverage remains blocked by local Python 3.14 NumPy plugin import failure; independent review and hosted gates remain pending.

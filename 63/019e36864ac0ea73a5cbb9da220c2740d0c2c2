@@ -1,0 +1,5 @@
+Task: Record ML privacy and fallback guard
+
+Summary: Recorded privacy-safe evidence and degraded-backend diagnostics validation in the ML/LLM track.
+
+Validation: metadata/evidence JSON, focused tests, Ruff, formatting, and diff checks passed.

@@ -1,0 +1,1 @@
+Plan reconciliation: dynamic release metadata is implemented and evidenced by b51fb0f, 0d834d4 and 58d5ddd; current version-sync tests and CI lane validate the Rust workspace authority and binding manifest propagation. Publication and registry installability remain separate external gates.

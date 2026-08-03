@@ -1,0 +1,1 @@
+Conductor standardized-dataset-ingestion_20260723 P5-T6: refreshed over #659; packaged-wheel uv run --with tox tox -e ingestion-conformance passed (12 tests).

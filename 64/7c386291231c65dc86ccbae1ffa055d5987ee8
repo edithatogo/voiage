@@ -1,0 +1,6 @@
+Coverage follow-up for PR #703
+
+Base: b8def8e474db0cc0bb32139d9a4cfc37eedac281
+Tests: 134 focused Croissant/provider tests pass without coverage instrumentation; the two new cases reject non-string non-None and malformed string sha256 values before source reading. Ruff check/format, ty provider module, Conductor full validation, cross-reference validation, and diff check pass.
+
+Coverage caveat: pytest-cov/coverage instrumentation fails before collection in both isolated CPython 3.14 and 3.13 environments because NumPy reports `cannot load module more than once per process`; no local changed-coverage claim is made. The added tests execute the two previously missed source branches; hosted changed-code coverage remains authoritative.

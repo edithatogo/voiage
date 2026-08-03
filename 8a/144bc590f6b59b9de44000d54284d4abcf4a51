@@ -1,0 +1,1 @@
+PR #669 rebase evidence: rebased onto origin/main c3394a915086f3d93ef6130de319838e393e5354; signed commits verified; 91 standardized ingestion conformance/provider tests passed; Ruff, Conductor GitHub cross-reference validation, and git diff --check passed locally on 2026-07-31.

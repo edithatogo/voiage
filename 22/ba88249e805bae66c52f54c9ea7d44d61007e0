@@ -1,0 +1,1 @@
+Rebased gated authoritative live-probe harness onto origin/main a51d10b4; focused live-probe/provider tests (87 passed) and Ruff passed on 2026-07-31. Cross-reference helper scripts are not present in this checkout.

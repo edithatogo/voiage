@@ -1,0 +1,5 @@
+Task: Add fail-closed scientific-freeze approval recording
+Summary: Added a schema-governed append-only recorder binding the exact candidate digest, candidate artifact, requested decisions, accountable reviewer, UTC timestamp, and HTTPS evidence while retaining non-waived implementation and external gates.
+Files: approval recorder/schema/tests, generated freeze-review docs, landscape README, changelog
+Why: Prevent stale, inferred, incomplete, or overwritten human approval evidence before the stable-core contract starts.
+Verification: 28 focused tests passed; Ruff and ty passed; deterministic candidate check passed; Astro built 708 pages with valid links; repository harness found zero findings across 27 workflows; live GitHub reconciliation passed.

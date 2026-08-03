@@ -1,0 +1,1 @@
+Task: Migrate value of heterogeneity to the Rust core. Added a binding-independent subgroup aggregation kernel with fail-closed validation, deterministic lexical labels, PyO3 exposure, Python runtime routing, parity tests, and migration evidence. The Python facade retains validation, numeric binning, strategy naming, and reporting.

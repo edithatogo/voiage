@@ -1,0 +1,1 @@
+PR #676 exact-head refresh (2026-08-01): rebased signed estimation-variance history onto bd26cca48ce3600fc49e18c1e7fa7433fef73c41. Focused estimation capability test passed locally; full focused estimation/extension/CLI validation was started on the clean private Python 3.14 environment. Auto-squash merge remains enabled; exact-head hosted protected checks are authoritative.

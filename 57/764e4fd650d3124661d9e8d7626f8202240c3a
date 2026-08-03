@@ -1,0 +1,1 @@
+Rebased PR #607 onto 6e609c69 after cache hardening merge; normalized input contract tests and Ruff pass.

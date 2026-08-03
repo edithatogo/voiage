@@ -1,0 +1,1 @@
+Review fix: resolved repository lint findings for Python 3.12 generic syntax, type aliases, imports, and export ordering. Validation passed: ruff check, ruff format --check, and affected contract/parallel/logging/statistics tests.

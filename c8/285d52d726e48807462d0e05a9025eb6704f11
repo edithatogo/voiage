@@ -1,0 +1,10 @@
+Phase: Phase 1 — Contract and legacy reconciliation
+
+Verification report:
+- Scope: issue #571 contract tasks S1-S5 from baseline 25722c32
+- Focused command: uv run --extra ci --extra dev pytest tests/test_conductor_github_cross_references.py tests/test_conductor_followthrough_tracks.py tests/test_conductor_registry_normalization.py tests/test_v1_programme_baseline.py --no-cov -q
+- Result: 25 passed with two upstream xarray deprecation warnings
+- Full Conductor validator: 143 tracks, zero errors, zero warnings
+- Automated review: passed after clarifying integer sample sizes and direct ENBS uncertainty; no Critical or High findings remain
+- Compatibility: stable ENBS, clinical optimizer, plotting helper and CLI unchanged
+- External boundaries: scientific review before stable promotion and hosted checks before merge remain pending

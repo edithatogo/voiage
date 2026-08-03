@@ -1,0 +1,1 @@
+H8-D-D hosted coverage remediation: add direct schema-bypass tests for unavailable authority/precondition and sensitive-data semantic guards. The new commissioning validator now has 99/99 changed executable lines and 44/44 changed branches covered locally; no runtime or authority semantics changed.

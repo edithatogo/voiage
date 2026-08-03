@@ -1,0 +1,1 @@
+Quality-gate fix: Applied Ruff's deterministic formatting to the statistical-assurance schema regression test after the first full tox attempt identified this single formatting-only failure.

@@ -1,0 +1,1 @@
+Conductor scope refinement: records the user-approved strict-local Croissant/Frictionless endpoint; initializes #752 controlled-live interoperability and #753 remote-ingestion security successor tracks; retains external source-rights and security-policy gates. Validation: full Conductor validation, Conductor/GitHub cross-reference validation, JSON parsing, and diff check passed.

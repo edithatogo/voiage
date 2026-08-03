@@ -1,0 +1,1 @@
+PR #606 refresh evidence (2026-07-31): rebased onto origin/main 2ae771c3; signed commit 268a8c68; pytest -q tests/test_standardized_ingestion_reference_cases.py --no-cov (6 passed); Ruff check and format check passed; scripts/validate_conductor_github_cross_references.py passed.

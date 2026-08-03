@@ -1,0 +1,5 @@
+Task: Ratchet whole-program dead-code assurance
+
+Summary: Cleared all high-confidence Vulture findings while preserving public parameter names and made the CI Vulture check blocking. Added a regression test and refreshed the reviewed ecosystem-drift baseline.
+
+Validation: uv run vulture voiage --min-confidence 80; uv run ruff check voiage tests; uv run ruff format --check voiage tests; uv run tox; selected matrix completed with congratulations and 2145 passed / 16 skipped on Python 3.14, minimum, maximum, and coverage lanes.

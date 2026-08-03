@@ -1,0 +1,1 @@
+Task ISP4: added deterministic CLI, lazy top-level/methods/experimental discovery, frontier fixture and promotion registries, capability disposition, documentation and changelog. Mechanical formatting and type-safe validation refactors were included after focused lint/type checks.

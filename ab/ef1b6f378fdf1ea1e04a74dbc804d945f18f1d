@@ -1,0 +1,1 @@
+Hosted Python 3.14 correction: PR #702 originally missed the new intentional frictionlessdata.org:citation output in a CLI governance expectation. This commit adds only that asserted field. Clean Python 3.14 targeted CLI, Frictionless fixture, and provider suites passed (157 tests).

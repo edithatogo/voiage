@@ -1,0 +1,1 @@
+PR #717 exact-head refresh: rebased signed external-provider wheel consumer evidence onto origin/main 5d059a80447afc85cee63eb85971fc1c9e80f40c. Disposable clean-wheel integration and focused SDK/provider checks passed locally; Ruff, ty, full Conductor validation, cross-reference validation, and diff check passed. Hosted exact-head checks remain authoritative.

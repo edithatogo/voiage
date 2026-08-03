@@ -1,0 +1,13 @@
+Task: S18 Synchronize roadmap and governance surfaces
+
+Summary: Reconciled v1.2.0 Must requirements, Mermaid design, roadmap/todo, capability and fixture registries, user documentation, track metadata, and the central GitHub cross-reference ledger. Materialized native #571 subissues #680-#682, added all four items to Project 28 with governed fields, and proposed canonical C16 implementation evidence in stacked VOP draft PR #65.
+
+Validation:
+- Full Conductor: 143 tracks, zero errors, zero warnings
+- Focused governance/binding suite: 27 passed
+- GitHub cross-reference validator: passed
+- Astro documentation build: 89 pages built
+- Live GitHub: #571 has native subissues #680-#682; Project 28 fields verified
+- Canonical VOP PR #65 local validation: 78 passed, Ruff and Basedpyright clean, 17 tracks/33 issues with zero validator findings
+
+Gates retained: PR #679 and #65 are draft; #65 depends on #64; scientific review, hosted exact-head checks, merge, stable promotion, release and closure remain separate.

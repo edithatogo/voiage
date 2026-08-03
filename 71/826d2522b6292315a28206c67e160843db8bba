@@ -1,0 +1,20 @@
+Task: Phase 3 Rust diagnostics and method metadata contracts
+
+Summary:
+- Added validated diagnostic status and warning records.
+- Enforced analysis identifiers, unique nonblank labels, unsupported/degraded/approximate consistency, and explanatory warning requirements.
+- Added method maturity and approximation metadata consistency validation.
+
+Files:
+- rust/crates/voiage-diagnostics/src/contracts.rs
+- rust/crates/voiage-diagnostics/src/lib.rs
+- rust/crates/voiage-diagnostics/tests/contracts.rs
+
+TDD evidence:
+- Red: cargo test -p voiage-diagnostics --test contracts --locked failed on missing contract types.
+- Green: cargo clippy -p voiage-diagnostics --all-targets --offline --no-deps -- -D warnings
+- Green: cargo test -p voiage-diagnostics --all-targets --offline (9 passed)
+- Green: cargo test -p voiage-diagnostics --doc --offline
+- Green: cargo fmt -p voiage-diagnostics -- --check
+
+Note: --locked was blocked by concurrent out-of-scope Cargo.lock/workspace changes; no out-of-scope files were staged.

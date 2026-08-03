@@ -1,0 +1,9 @@
+Task: Record completion evidence for external license rights and negative dispositions.
+
+Summary: Marked machine-readable license normalization, source-rights boundaries, unavailable-tool preservation, and reviewed exclusions complete while retaining migration adapters as pending evidence-backed work.
+
+Files: external parity plan, metadata, and append-only evidence ledger.
+
+Why: Conductor must distinguish completed rights/disposition assurance from unimplemented adapters and broader feature parity.
+
+Verification: metadata and evidence JSON parsed; live GitHub programme validation passed.

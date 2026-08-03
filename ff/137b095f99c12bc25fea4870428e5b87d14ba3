@@ -1,0 +1,9 @@
+Completed cleanup of archived Conductor tracks:
+
+- Removed dataset-registry-and-example-corpus_20260625 from tracks/ (archived)
+- Removed voi-frontier-architecture-dependency-governance_20260625 from tracks/ (archived)
+- gitignored conductor/setup_state.json
+- Updated changelog (### Removed section)
+- Updated test to permit ### Removed as valid changelog section
+
+All checks: ruff (pass), bandit (0 issues), ty (pass), pytest (40/40 pass)

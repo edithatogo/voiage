@@ -1,0 +1,7 @@
+Task: Governed closeout for merged #599 heterogeneity delivery
+
+Summary: Recorded PR #809 exact implementation head b0fc8db75796ffac9e66720ab45fdcf341c0b516, 42 terminal-allowed checks (38 success, three governed skips, one neutral CodeQL aggregation), zero review threads, and squash merge 1a37526af0ee87acc57dd14a629eb52aef2e182c. Updated #599 to experimental_merged and F599-4 complete while retaining scientific, subgroup-validity, parity, promotion, release, parent #599 and umbrella #318 gates open. No issue or project state was changed.
+
+Validation: 61 focused tests, Ruff, Vale, frontier and canonical projection, GitHub cross-references, both append-only ledgers and full 148-track Conductor validation passed.
+
+Boundary: Delivery subissues #786, #788 and #789 may close but were not closed. Parent #599 and umbrella #318 remain open.

@@ -1,0 +1,1 @@
+Conductor standardized-dataset-ingestion: rebased the packaged standardized conformance CI lane onto origin/main c3394a91. Validation: uv run --with tox tox -e ingestion-conformance (12 passed); uv run python scripts/validate_conductor_github_cross_references.py; uv run --with ruff ruff check voiage tests; git diff --check origin/main...HEAD. All passed.

@@ -1,0 +1,1 @@
+Rebased onto origin/main c3394a91 (2026-07-31). Validation: uv run --extra ci pytest -q tests/test_standardized_ingestion_reference_cases.py tests/test_standardized_ingestion_conformance.py --no-cov (10 passed); Ruff; conductor GitHub cross-reference validator; git diff --check.

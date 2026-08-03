@@ -1,0 +1,1 @@
+Conductor evidence update for P8-T3/P8-T4: records b1dbbb6 as partial DataFrame conversion-diagnostics evidence. Changelog describes the user-facing diagnostics contract. Tasks remain in progress pending SDK consumer, clean-install, full tox, security, and hosted evidence.

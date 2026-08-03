@@ -1,0 +1,5 @@
+Task: Retire orphan validation scripts
+
+Summary: Removed four unreferenced ad-hoc utilities that duplicated the governed tox, Astro, benchmark, and hosted validation surfaces. Updated the canonical Unreleased changelog.
+
+Validation: uv run pytest -q tests/test_backends.py tests/test_repo_cleanup.py --no-cov (36 passed); CI=true uv run tox -q -e lint,harness; git diff --check.

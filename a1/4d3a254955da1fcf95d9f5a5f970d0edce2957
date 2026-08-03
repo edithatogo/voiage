@@ -1,0 +1,14 @@
+Task: S6 Add failing analytical and enumerable COSS references
+
+Summary: Added independent signed-ENBS enumeration and argmax checks, including an all-negative curve that prohibits zero flooring. Confirmed the intended red state because the governed contracts are not implemented.
+
+Red command: uv run pytest tests/test_study_design_efficiency.py --no-cov -q
+Red result: collection failed with ModuleNotFoundError for voiage.contracts.study_design, as expected.
+
+Files created:
+- tests/test_study_design_efficiency.py
+
+Files modified:
+- conductor/tracks/study_design_efficiency_20260727/plan.md
+
+Why: Independent references must define the scientific behavior before the Rust kernel and Python façade exist.

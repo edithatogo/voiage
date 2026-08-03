@@ -1,0 +1,1 @@
+Additive C ABI v1.1 typed EVPI result: retained scalar symbols, added a self-describing fixed-width 56-byte result with dimensions and assurance, extended capabilities and manifests, and exercised Rust, C, C++, and sanitizer consumers. Rust tests, warnings-denied Clippy, 40 focused governance tests, Astro/polyglot diagnostics, and the repository harness passed.

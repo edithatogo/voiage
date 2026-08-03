@@ -1,0 +1,1 @@
+U15 completed: exact Rust, Python, R, Julia and Mojo capability dispositions and shared-fixture boundaries are machine-readable and fail-closed. Twenty-one focused tests and Ruff pass; frozen v1 ABI remains unchanged.

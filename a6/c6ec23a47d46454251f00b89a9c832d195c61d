@@ -1,0 +1,1 @@
+PR #716 final coverage repair (2026-08-01): regression covers the Croissant descriptor inspection continuation after non-list fields, exercising the last changed branch without production changes. Focused CLI tests and Ruff passed.

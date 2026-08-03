@@ -1,0 +1,1 @@
+PR #721 repair: refreshed the distribution-family evidence fixture only after its changelog digest drifted during the support-matrix refresh. Focused distributional-contract and ingestion support-matrix suites passed (56 tests); a direct all-artifact SHA-256 assertion verified all 20 pinned artifacts. Signed head awaits fresh exact-head checks.

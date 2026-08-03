@@ -1,0 +1,1 @@
+Track: validation-threshold-voi-stable-promotion_20260625\nCheckpoint: hashed validation and threshold schemas/fixtures with explicit fixture-backed maturity and external parity gates.\nValidation: 17 focused tests passed; repository harness pass with zero findings.\nNext: run full tox, push PR, and retain non-Python parity as external until evidenced.
