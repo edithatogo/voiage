@@ -183,6 +183,43 @@ def test_preflight_mutations_fail_closed(mutation: Any, message: str) -> None:
         )
 
 
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        (
+            lambda preflight: preflight["preconditions"].__setitem__(
+                "candidate_context_selected", True
+            ),
+            "claims unavailable authority",
+        ),
+        (
+            lambda preflight: preflight["authority_boundary"].__setitem__(
+                "reviewer_eligibility", True
+            ),
+            "claims unavailable authority",
+        ),
+        (
+            lambda preflight: preflight["privacy_and_security"].__setitem__(
+                "credentials_in_repository", True
+            ),
+            "permits sensitive repository data",
+        ),
+    ],
+)
+def test_semantic_guards_reject_schema_bypass(mutation: Any, message: str) -> None:
+    preflight, _schema, delta, reviewers, sources = map(deepcopy, _inputs())
+    mutation(preflight)
+    with pytest.raises(SamplingHarmHumanCommissioningError, match=message):
+        validate_sampling_harm_human_commissioning(
+            preflight,
+            delta,
+            reviewers,
+            sources,
+            schema={"type": "object"},
+            contract_root=CONTRACT,
+        )
+
+
 def test_preflight_has_one_recommended_option_and_privacy_boundary() -> None:
     preflight, schema, delta, reviewers, sources = _inputs()
     result = validate_sampling_harm_human_commissioning(
