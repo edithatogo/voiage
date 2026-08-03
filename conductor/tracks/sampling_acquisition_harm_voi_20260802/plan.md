@@ -127,6 +127,17 @@
   semantics are unchanged. Replacement exact-head hosted checks remain
   passed in PR #871's replacement exact-head matrix. `68e8ac30` (AC-10,
   AC-12)
+- [x] **H8-D-E-A:** Under native child #873, materialize the exact accountable
+  candidate-context choice as a blocked Human/Critical Project gate with three
+  mutually exclusive options, one recommended option and an explicit
+  no-authority boundary. Synchronize the issue, Project, roadmap, Mermaid,
+  requirements and cross-references without selecting an option. (AC-01,
+  AC-08–AC-12) `13e9b9b`
+- [ ] **H8-D-E:** Record one authenticated, content-bound accountable choice
+  under #873 with a brief rationale. If the bounded-candidate option is chosen,
+  also define its domain, jurisdiction, population, sampling action, comparator
+  and affected parties. A generic continuation instruction cannot satisfy this
+  Human gate. (AC-08, AC-09, AC-12)
 - [ ] **H8-E:** Have a separate orchestrating agent normalize the reports,
   preserve every finding and disagreement, and synthesize options,
   contingencies, rationale and an evidence-backed recommendation without

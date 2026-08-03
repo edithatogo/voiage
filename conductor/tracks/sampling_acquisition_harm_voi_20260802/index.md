@@ -28,6 +28,7 @@
 - [Remediation and reviewer-intake subissue #864](https://github.com/edithatogo/voiage/issues/864)
 - [Source-observation and readiness subissue #867](https://github.com/edithatogo/voiage/issues/867)
 - [Human commissioning preflight subissue #870](https://github.com/edithatogo/voiage/issues/870)
+- [Accountable candidate-context choice subissue #873](https://github.com/edithatogo/voiage/issues/873)
 - [Owning parent #570](https://github.com/edithatogo/voiage/issues/570)
 - [Study-design dependency #571](https://github.com/edithatogo/voiage/issues/571)
 - [Scientific-review umbrella #841](https://github.com/edithatogo/voiage/issues/841)

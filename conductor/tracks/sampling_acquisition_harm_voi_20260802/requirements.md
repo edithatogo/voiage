@@ -63,6 +63,13 @@
   digest-bound output contracts and privacy-safe evidence handling. Keep every
   authority false until accountable selection, source evidence, eligible human
   assignment and replacement-packet freeze are independently evidenced.
+- **M32-H16:** Represent the accountable candidate-context choice as an exact
+  Human/Critical gate with one authenticated selection, a brief rationale and
+  three mutually exclusive options. Require the full domain, jurisdiction,
+  population, sampling action, comparator and affected-party definition for a
+  bounded candidate. Do not interpret a generic continuation instruction as
+  the decision or let the decision satisfy any source, reviewer, finding,
+  runtime, study, release or publication gate.
 
 ## Should
 
