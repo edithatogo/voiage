@@ -6,7 +6,7 @@
 - [Mermaid design](./design.md)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
-- [Independent implementation review](./independent-implementation-review.md)
+- [Advisory subagent implementation panel](./independent-implementation-review.md)
 - [GitHub issue #594](https://github.com/edithatogo/voiage/issues/594)
 - [Contract #774](https://github.com/edithatogo/voiage/issues/774)
 - [Runtime #775](https://github.com/edithatogo/voiage/issues/775)
@@ -15,5 +15,6 @@
 - [Project 28](https://github.com/users/edithatogo/projects/28)
 
 Status: in progress. The repository-owned scope is an exact finite,
-experimental Python contract. Scientific review, hosted exact-head assurance,
+experimental Python contract. The advisory subagent panel is not maintainer
+approval. Scientific validity, hosted exact-head assurance,
 Rust/R/Julia parity, stable promotion, release and issue closure remain pending.

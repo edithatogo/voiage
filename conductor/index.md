@@ -15,6 +15,7 @@
 - [Mermaid Design](./design.md)
 - [VOP–VOIAGE GitHub Project](https://github.com/users/edithatogo/projects/28)
 - [GitHub Cross-References](./github-cross-references.json)
+- [Single-maintainer review policy](./single-maintainer-review-policy.md)
 - [Tracks Registry](./tracks.md)
 - [Tracks Directory](./tracks/)
 - [Archive Directory](./archive/)
