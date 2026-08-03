@@ -3892,6 +3892,16 @@
             "144c0e0fbc20a5a55225f2b884e73eee11c9db64",
             "9d49572ade4a27bd340c30f1fa1869c090f2bb6d"
           ]
+        },
+        {
+          "number": 880,
+          "url": "https://github.com/edithatogo/voiage/pull/880",
+          "status": "merged",
+          "evidence": [
+            "registry-readiness-archive-delivery",
+            "c6e142f18e86579548e3a5c29118dd1ccd9365b0",
+            "5e0c4cbeb4432b19f50439831d226e1db5577539"
+          ]
         }
       ],
       "pull_request_evidence": "evidenced"

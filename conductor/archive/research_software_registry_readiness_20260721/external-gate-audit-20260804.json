@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
-  "recorded_at": "2026-08-03T15:08:02Z",
+  "recorded_at": "2026-08-03T22:15:51Z",
   "repository": "edithatogo/voiage",
-  "authority": "read-only gh CLI and public web queries",
+  "authority": "read-only GitHub REST and GraphQL queries",
   "gates": {
     "issue_296": {"state": "open", "url": "https://github.com/edithatogo/voiage/issues/296"},
     "issue_297": {"state": "closed", "url": "https://github.com/edithatogo/voiage/issues/297"},
@@ -11,10 +11,43 @@
     "issue_312": {"state": "open", "url": "https://github.com/edithatogo/voiage/issues/312"},
     "issue_471": {"state": "open", "url": "https://github.com/edithatogo/voiage/issues/471"},
     "issue_555": {"state": "open", "url": "https://github.com/edithatogo/voiage/issues/555"},
-    "conda_forge_pr_34308": {"state": "open", "head_sha": "9383c69e8c0b9656b132314124bdc161b2150905", "merge_commit": null, "url": "https://github.com/conda-forge/staged-recipes/pull/34308"},
-    "yggdrasil_pr_14292": {"state": "open", "head_sha": "4daa76cc79c84fe73c266e71502cdd7384426c7e", "merge_commit": null, "url": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292"},
+    "issue_614": {"state": "open", "url": "https://github.com/edithatogo/voiage/issues/614"},
+    "issue_615": {"state": "open", "url": "https://github.com/edithatogo/voiage/issues/615"},
+    "issue_616": {"state": "open", "url": "https://github.com/edithatogo/voiage/issues/616"},
+    "issue_617": {"state": "open", "url": "https://github.com/edithatogo/voiage/issues/617"},
+    "issue_622": {"state": "open", "url": "https://github.com/edithatogo/voiage/issues/622"},
+    "archive_delivery_pr_880": {
+      "state": "merged",
+      "head_sha": "c6e142f18e86579548e3a5c29118dd1ccd9365b0",
+      "merge_commit": "5e0c4cbeb4432b19f50439831d226e1db5577539",
+      "hosted_checks": {"success": 38, "skipped": 3, "neutral": 1, "failed": 0},
+      "url": "https://github.com/edithatogo/voiage/pull/880"
+    },
+    "conda_forge_pr_34308": {
+      "state": "open",
+      "head_sha": "9383c69e8c0b9656b132314124bdc161b2150905",
+      "merge_commit": null,
+      "commit_status": "success",
+      "checks": {"success": 12, "pending": 0, "failed": 0},
+      "url": "https://github.com/conda-forge/staged-recipes/pull/34308"
+    },
+    "yggdrasil_pr_14292": {
+      "state": "open",
+      "head_sha": "4daa76cc79c84fe73c266e71502cdd7384426c7e",
+      "merge_commit": null,
+      "commit_status": "success",
+      "statuses": {"success": 10, "pending": 0, "failed": 0},
+      "checks": {"success": 1, "pending": 0, "failed": 0},
+      "url": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292"
+    },
     "scicrunch": {"state": "not_verified", "note": "Public search did not produce an authoritative voiage RRID record; issue #298 remains open."},
     "arxiv": {"state": "not_verified", "note": "No authoritative active voiage submission receipt was found in the public query; no submission or acceptance is claimed."}
+  },
+  "github_hierarchy": {
+    "project_28_visibility": [296, 297, 298, 299, 312, 471, 555, 614, 615, 616, 617, 622],
+    "issue_296_direct_subissues": [297, 298, 299, 555, 614, 615, 616, 617],
+    "issue_299_direct_subissues": [312, 471],
+    "issue_614_direct_subissues": [622]
   },
   "decisions": {
     "repository_readiness": "complete",
