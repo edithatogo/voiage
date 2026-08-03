@@ -44,3 +44,10 @@
 - [x] Add native ingestion sub-issues #467 and #468 to the proposed-track
   manifest entry and revalidate the central cross-reference contract.
   (`68bedc01`)
+
+## Review fixes: lifecycle narrative synchronization
+
+- [x] Reconcile `roadmap.md` and `todo.md` with the archived track, merged
+  handoffs, closed issue, and completed Project 28 item; add regression
+  coverage that prevents the completed track returning to an in-progress
+  projection. (`fad03163`)

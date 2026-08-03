@@ -152,6 +152,19 @@ def test_cross_reference_reconciliation_archive_records_merged_handoff() -> None
     assert "No pull request proven" not in index
 
 
+def test_cross_reference_reconciliation_narratives_record_completion() -> None:
+    """Roadmap and backlog must agree with the archived track lifecycle."""
+    track_id = "conductor-github-cross-reference-reconciliation_20260724"
+    roadmap = Path("roadmap.md").read_text(encoding="utf-8")
+    todo = Path("todo.md").read_text(encoding="utf-8")
+    in_progress, done = todo.split("## Done", maxsplit=1)
+
+    assert "Conductor-to-GitHub traceability is complete and archived" in roadmap
+    assert "repository validation and PR handoff remain in progress" not in roadmap
+    assert track_id not in in_progress
+    assert track_id in done
+
+
 def _run_validator(root: Path) -> subprocess.CompletedProcess[str]:
     import os
 
