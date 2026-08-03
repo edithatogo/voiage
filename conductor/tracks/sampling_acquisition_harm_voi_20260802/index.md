@@ -33,6 +33,7 @@
 - [Human-confirmation governance PR #859](https://github.com/edithatogo/voiage/pull/859)
 - [Automated challenge preparation PR #863](https://github.com/edithatogo/voiage/pull/863)
 - [H8-D-B remediation and reviewer-intake PR #865](https://github.com/edithatogo/voiage/pull/865)
+- [H8-D-C source readiness PR #868](https://github.com/edithatogo/voiage/pull/868)
 
 Status: in progress. Automated primary-source, estimand and advisory scoping is
 complete, and VOP PR #71 merged the canonical C18/M32 planning projection as
@@ -57,8 +58,10 @@ governed skips, one neutral result and zero failures, pending checks or
 unresolved review threads. This completion does not disposition any finding or
 satisfy H8-D through H8-H.
 
-H8-D-C is in progress under native child #867. Its automated observation and
-readiness contracts preserve the historical H8-C packet, retain all nineteen
-findings as pending and keep the replacement packet unready. Completion still
-requires exact-head hosted checks, merge and governance readback; independent
-source review and H8-D remain external human gates.
+H8-D-C completed through PR #868 exact head `ee9da9ba`, squash-merged as
+`b60d6ee9a19b79503525488c716d6ad231fa0aa0` after 38 successful checks, three
+governed skips, one neutral result and zero failures, pending checks or
+unresolved review threads. Issue #867 and Project 28 read back Closed, Done,
+Resolved, Verified and Clean. The historical H8-C packet remains unchanged,
+all nineteen findings remain pending, the replacement packet remains unready,
+and independent source review and H8-D remain external human gates.

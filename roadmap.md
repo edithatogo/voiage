@@ -89,7 +89,10 @@ and fail-closed source and qualified-reviewer intake—before squash merge
 `03277fef` after 38 successful checks, three governed skips, one neutral result
 and zero failures, pending checks or unresolved threads. Closing native child
 #864 does not close any scientific finding or satisfy H8-D through H8-H.
-Native child #867 now governs the next bounded preparation: a separately dated
+Native child #867 completed the next bounded preparation through PR #868 exact
+head `ee9da9ba`, squash-merged as `b60d6ee9` after 38 successful checks, three
+governed skips, one neutral result and zero failures, pending checks or
+unresolved review threads. It records a separately dated
 six-source automated observation refresh and a machine-validated, disjoint
 partition of all nineteen pending findings. It preserves the immutable H8-C
 packet, retains zero source bytes and grants no rights, applicability,
