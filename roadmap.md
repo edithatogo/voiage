@@ -247,11 +247,11 @@ installation/API/statistical-standards evidence; #622 prepares portable HPC
 recipes; and #617 makes explicit non-duplication decisions for distinct future
 routes. Author and external decisions remain outside these repository tasks.
 
-Conductor-to-GitHub traceability is being reconciled in
-`conductor-github-cross-reference-reconciliation_20260724`. Every completed
-track now has an individual issue, native parent, Project 28 item, and
-evidence-based PR links (or an explicit no-PR-evidence boundary); repository
-validation and PR handoff remain in progress.
+Conductor-to-GitHub traceability is complete and archived in
+`conductor/archive/conductor-github-cross-reference-reconciliation_20260724/`.
+Every completed track has an individual issue, native parent, Project 28 item,
+and evidence-based PR links (or an explicit no-PR-evidence boundary). PRs #465
+and #810 merged after hosted validation, and track issue #462 is closed.
 
 Historical Conductor schema normalization is complete and archived in
 `conductor/archive/conductor-registry-normalization_20260727/`. It repaired the
