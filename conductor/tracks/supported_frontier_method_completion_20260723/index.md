@@ -61,6 +61,8 @@
 - [Forecast-signal implementation PR #770](https://github.com/edithatogo/voiage/pull/770)
 - [Heterogeneity-value reference review](./heterogeneity-value-reference-review.md)
 - [Heterogeneity-value issue #599 and delivery subissues #786/#788/#789](https://github.com/edithatogo/voiage/issues/599)
+- [Six-gate single-maintainer closeout plan](./six-gate-single-maintainer-closeout-plan.md)
+- [Issue-closure reconciliation template](./issue-closure-reconciliation-template.json)
 
 Status: repository-owned programme work is complete. Phase 5 SR1–SR10 now
 plans the orchestrated scientific review and issue-backed remediation programme;
