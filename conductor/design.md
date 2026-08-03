@@ -198,7 +198,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     Scope850["#850 sampling-acquisition-harm scope"] --> Track["sampling_acquisition_harm_voi_20260802"]
-    Subissues["#851–#853 and governed descendants including #867"] --> Track
+    Subissues["#851–#853 and governed descendants including #867 and #870"] --> Track
     Track --> Contract["C18 / M32 planned v1.3.0 Must"]
     Action["Sampling action d + explicit no-sampling d0"] --> Joint["Design-indexed information, state and harm law"]
     Joint --> Ledger{"Separable, commensurate and mutually exclusive ledger?"}
@@ -212,7 +212,8 @@ flowchart LR
     ScopeChoice -->|"narrow candidate"| Freeze850["Verify Git OIDs, canonical SHA-256 packet, tree bytes, sources, claims and findings"]
     Freeze850 --> Challenge850["Automated challenge and 19-finding register"]
     Challenge850 --> SourceRefresh850["#867 non-authorizing source refresh and readiness partition"]
-    SourceRefresh850 --> Ready850{"Candidate context, independent sources and eligible humans ready?"}
+    SourceRefresh850 --> Commission850["#870 fail-closed human commissioning preflight and handoff"]
+    Commission850 --> Ready850{"Candidate context, independent sources and eligible humans ready?"}
     Ready850 -->|"no"| Unsupported
     Ready850 -->|"yes"| Panel850["Independent role subagents plus domain/ethics specialist"]
     Panel850 --> Orchestrator850["Non-deciding synthesis: findings, dissent, options, contingencies, rationale and recommendation"]

@@ -279,6 +279,7 @@ def test_sampling_harm_method_family_has_no_runtime_declaration() -> None:
         for path in source_root.rglob(pattern):
             if path.name in {
                 "sampling_harm_automated_challenge.py",
+                "sampling_harm_human_commissioning.py",
                 "sampling_harm_review_preparation.py",
                 "sampling_harm_source_readiness.py",
             }:
@@ -304,6 +305,7 @@ def test_sampling_harm_method_family_has_no_runtime_declaration() -> None:
         "estimand-boundary.schema.json",
         "governance-snapshot.schema.json",
         "governance-administrative-delta.schema.json",
+        "human-commissioning-preflight.schema.json",
         "prior-findings.schema.json",
         "remediation-readiness-delta.schema.json",
         "remediation-register.schema.json",

@@ -57,6 +57,12 @@
   Keep every finding pending until independent evidence dispositions it, and
   prohibit a replacement packet freeze while any declared prerequisite is
   absent.
+- **M32-H15:** Materialize a deterministic human commissioning preflight that
+  binds the candidate-context choice, all nineteen findings, five source-review
+  prerequisites, seven separated H8-D/H8-G roles, eligibility/conflict fields,
+  digest-bound output contracts and privacy-safe evidence handling. Keep every
+  authority false until accountable selection, source evidence, eligible human
+  assignment and replacement-packet freeze are independently evidenced.
 
 ## Should
 

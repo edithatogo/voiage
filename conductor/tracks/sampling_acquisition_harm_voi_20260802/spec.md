@@ -64,7 +64,7 @@ narrow contract.
 ## Acceptance criteria
 
 - **AC-01:** Issue #850, native subissues #851–#853 and governed descendants
-  including #867, parent #570, dependency #571, umbrella #841, Project 28,
+  including #867 and #870, parent #570, dependency #571, umbrella #841, Project 28,
   C18/M32, roadmap, todo, track metadata and cross-references agree.
 - **AC-02:** The estimand distinguishes sampling harm, ordinary study cost,
   downstream decision harm, risk-sensitive perfect information and VoC.
@@ -97,6 +97,11 @@ narrow contract.
   immutable H8-C manifest, retain no source bytes, grant no rights or
   applicability, and partition all nineteen pending findings without treating
   repository implementation as an independent disposition.
+- **AC-12:** Human commissioning preparation exposes an accountable
+  candidate-context decision, binds every source/finding/role prerequisite and
+  the existing signed-output schemas, prohibits credentials and unnecessary
+  personal data in the repository, and cannot report readiness or authority
+  before the bound preconditions are independently satisfied.
 
 ## Non-functional constraints
 

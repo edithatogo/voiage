@@ -107,6 +107,21 @@
   threads before squash merge `b60d6ee9`; #867 and Project 28 then read back
   Closed, Done, Resolved, Verified and Clean while retaining the Human and
   Critical boundary. (AC-01, AC-06, AC-08–AC-11)
+- [~] **H8-D-D:** Under native child #870, materialize a deterministic human
+  commissioning preflight and role-specific handoff kit. Bind the candidate
+  context decision, all nineteen pending findings, the five source-review
+  prerequisites, reviewer eligibility/conflict screening, receipt/digest
+  requirements and privacy-safe handling. Fail closed until an accountable
+  candidate selection, independent source evidence, eligible human assignments
+  and a replacement packet exist; do not satisfy H8-D or any later gate.
+  Implementation commit `dcfed227`; exact-head hosted checks, merge and
+  governance readback remain pending. (AC-06, AC-08–AC-12)
+- [x] **H8-D-D-CI1:** Remediate PR #871's changed-branch coverage finding with
+  direct schema-bypass tests for the unavailable-authority/precondition and
+  sensitive-data semantic guards. The validator now covers 99 of 99 changed
+  executable lines and 44 of 44 changed branches; production and authority
+  semantics are unchanged. Replacement exact-head hosted checks remain
+  pending. `68e8ac30` (AC-10, AC-12)
 - [ ] **H8-E:** Have a separate orchestrating agent normalize the reports,
   preserve every finding and disagreement, and synthesize options,
   contingencies, rationale and an evidence-backed recommendation without

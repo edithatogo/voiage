@@ -82,7 +82,7 @@ programme. The canonical cross-repository requirements are maintained in
   risk/constraint diagnostics and constraint-removal evidence without
   mislabelling discrete removal effects as local shadow prices.
 - **M32 / planned v1.3.0:** #850, nested #851–#853 and governed descendants
-  including #867 govern a distinct
+  including #867 and #870 govern a distinct
   sampling-acquisition-harm research scope under C18. It declares a sampling
   action and explicit no-sampling comparator, design-indexed potential
   outcomes and observable filtration, incremental ordinary cost, affected
@@ -105,6 +105,11 @@ programme. The canonical cross-repository requirements are maintained in
   drift and keep rights, applicability and independent retrieval fail-closed.
   Repository remediation remains pending until independent re-review, and a
   replacement packet cannot freeze while declared prerequisites are absent.
+  Human commissioning preparation must bind the candidate-context decision,
+  source evidence, all findings, role eligibility, privacy-safe receipts and
+  replacement-packet state. It remains blocked and non-authorizing until those
+  accountable inputs exist; a generic continuation instruction cannot select
+  the candidate or qualify a reviewer.
   Two distinct humans then confirm scientific and domain/ethics adequacy, with
   a chair only for dispute, dissent or reviewer remediation. The maintainer's
   product decision, real-study authority and every downstream gate remain
