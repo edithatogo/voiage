@@ -1,0 +1,7 @@
+Conductor task: F556-5 hosted coverage remediation
+
+Added adversarial tests for every DSA branch and line reported by the exact-head Operational Assurance coverage policy across the runtime contract, core method, CLI and plot surfaces. Refreshed the exact evidence digests.
+
+Verification: focused DSA/export tests 54 passed; exact hosted-equivalent full suite 2975 passed, 15 skipped, aggregate coverage 92.87%; changed lines 512/512 and changed branches 179/179; no missing or unmeasured changed files; targeted Ruff and frontier validation passed.
+
+Boundary: local reproduction of the hosted policy; the new GitHub exact-head run remains the authoritative hosted gate. Scientific approval, merge, stable promotion, polyglot execution, release and issue closure remain separate.

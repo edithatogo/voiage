@@ -1,0 +1,5 @@
+Task: Record offline optional ML contract
+
+Summary: Recorded the offline CPU, optional-provider, and no-private-data-transfer contract evidence while retaining implementation and validation gates.
+
+Validation: metadata/evidence JSON validation, focused ML tests, Ruff, formatting, and diff checks passed.

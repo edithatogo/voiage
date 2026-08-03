@@ -1,0 +1,1 @@
+E7: added pathological contract evidence for non-finite values, insufficient samples, covariance dimension/symmetry failures, and explicit non-convergence diagnostics. Validation: 6 focused tests, ruff, basedpyright, diff check.

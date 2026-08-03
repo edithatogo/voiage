@@ -1,0 +1,1 @@
+P4-T7 partial increment: Frictionless descriptors now reject unsupported/non-boolean field constraints and schema missingValues before resource materialization. Structured citation, usage, and namespaced governance metadata are retained. Focused offline/provider fixture tests, Ruff, and ty passed; the broader P4 authoritative-live and clean-extra gates remain open.

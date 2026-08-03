@@ -1,0 +1,7 @@
+P8 SDK contract and optional-environment increment
+
+Changes: Added a versioned provider-SDK v1 consumer fixture and regression tests; rejected empty provider identities; verified dependency-neutral named ingestion extras with parser-module import isolation; documented support boundary and recorded partial Conductor progress.
+
+Validation: focused pytest (including packaging and third-party example), Ruff, Ruff format, ty, dependency frontier, full Conductor validation, cross-reference validation, Astro build, Vale, and diff check passed.
+
+Boundary: an additional offline clean-wheel install attempt failed because the local volume reported no space while maturin wrote Rust target output. No clean-wheel completion is claimed.

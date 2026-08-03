@@ -1,0 +1,1 @@
+Task: Isolate experimental functionality. Added lazy voiage.experimental namespace with maturity metadata, top-level lazy discovery, policy coverage, and clean-import regression tests. Validation passed: uv run pytest -q tests/test_experimental_namespace.py tests/test_extension_policy.py; uv run ruff check.

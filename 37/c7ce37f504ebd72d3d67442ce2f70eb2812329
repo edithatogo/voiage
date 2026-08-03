@@ -1,0 +1,1 @@
+U10 kernel slice: Rust now evaluates affine/CARA/log/CRRA utility, finite signals and clairvoyance, lexicographic complete ties, EUI/CEI/BPI/SPI/PPI, bounded failures and comparability. Ten focused tests plus fmt and clippy -D warnings pass. U10 remains in progress pending the complete versioned diagnostic envelope.

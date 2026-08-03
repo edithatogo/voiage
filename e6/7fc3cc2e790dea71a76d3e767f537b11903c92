@@ -1,0 +1,1 @@
+Track 27 archive: moved the production speedup evidence contract to conductor/archive after PR #205 merged as 029e8fe. Preserved CPU reference and explicit GPU/TPU/Metal/FPGA/ASIC blocked states; reviewed production speedup and hardware/cloud gates remain external. Focused validation: 27 tests passed, targeted Ruff check and format passed.

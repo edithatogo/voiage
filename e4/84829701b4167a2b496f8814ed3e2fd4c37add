@@ -1,0 +1,1 @@
+Conductor Phase 2 source-pin correction: used the deep HTA, ML, and operations audits to replace 13 rolling revision labels with immutable commits, update BCEA from 2.4.6 to CRAN 2.4.83, and correct EconML's canonical relation. No new feature or direct VOI claim was introduced. Green evidence: 27 landscape tests, Ruff, Vale, semantic inventory validation, diff check.

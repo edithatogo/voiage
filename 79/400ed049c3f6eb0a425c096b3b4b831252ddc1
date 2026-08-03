@@ -1,0 +1,5 @@
+Residual VOI method planning checkpoint.
+
+Added candidate register and contracts for issues #593-#600; synchronized MoSCoW requirements, Mermaid design, roadmap, Conductor method-census, supported-frontier, software-landscape and binding tracks, native #318 subissue hierarchy, Project 28 metadata, views, validator and tests. Corrected EVSIM to Expected Value of Specific Implementation and retained EVEIm/EVSEIm as review-candidate terminology. This is planning evidence only and does not claim runtime or binding support.
+
+Validation: focused governance 10 passed; Ruff passed; Vale passed; local and live GitHub validator passed after live updates; git diff --check passed. Full tox Python 3.12: 2,132 passed, 17 skipped, 4 known stacked-parent contract failures (Astro docs location, binding matrix adapter mapping, ecosystem-drift baseline, Rust workspace member); later redundant Python lanes stopped. A subsequent live retry was blocked by the exhausted GraphQL quota after earlier successful reconciliation.

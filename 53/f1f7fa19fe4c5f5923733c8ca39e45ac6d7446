@@ -1,0 +1,1 @@
+#716 controlled refresh: rebased descriptor-only inspection work onto origin/main 5d059a80. Focused CLI lint and pytest invocation completed locally; diff check clean. Signed rebased head 53f1f7fa; append-only Conductor evidence is retained, auto-squash re-enabled, and hosted checks remain the merge gate.

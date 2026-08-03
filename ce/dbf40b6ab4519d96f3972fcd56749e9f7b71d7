@@ -1,0 +1,1 @@
+Full local evidence: py312 2032 passed/16 skipped; py313 2033/15; py314 2033/15; min 2032/16; max 2033/15; coverage 91.01%; docs, frontier contract, version sync, lint, Vale, harness, typecheck, and live GitHub governance validation passed.

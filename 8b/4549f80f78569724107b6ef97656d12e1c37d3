@@ -1,0 +1,5 @@
+Task: Record generated-artifact clean-install contract
+
+Summary: Marked the existing reproducible-build and isolated SBOM installation controls complete and recorded regression evidence in the quality track.
+
+Validation: JSONL/metadata validation, focused quality tests, Ruff, formatting, and diff check passed.

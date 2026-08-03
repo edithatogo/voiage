@@ -1,0 +1,1 @@
+Archived FPGA runtime follow-through after implementation PR #230 merged as bf88da3. Preserved pre-silicon, CPU fallback, and physical board/bitstream/toolchain gates. Focused tests pass.

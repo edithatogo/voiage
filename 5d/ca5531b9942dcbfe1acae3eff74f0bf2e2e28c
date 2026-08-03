@@ -1,0 +1,1 @@
+PR #716 P6 evidence record (2026-08-01): signed evidence and cross-reference commit for descriptor-only inspection. Auto-squash may merge only after exact-head hosted checks. Scope remains local metadata inspection; no source validation, selection, parser-differential, live-provider, remote-source, clean-install, or hosted-check claim.

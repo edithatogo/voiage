@@ -1,0 +1,1 @@
+Review fix: restored the established public __all__ ordering and documented narrow RUF022 exemptions. Validation passed: Ruff and tests/test_package_exports.py.

@@ -1,0 +1,1 @@
+S19 post-origin/main validation for #571. Full Python, Rust, bindings, docs, governance, harness, lint, typecheck, frontier and Conductor matrices pass after rebuilding the local native extension for the merged version. Hosted checks remain pending.

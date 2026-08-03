@@ -1,0 +1,4 @@
+Track: implementation-strategy-comparison-voi-mature-stable_20260625
+Implemented fixture-backed strategy comparison runtime and CLI with uptake, adherence, coverage, delay, scale-up cost, adoption uncertainty, and population-impact diagnostics.
+Evidence: 37 focused tests passed; tox lint/typecheck/frontier-contract passed; registry validates implementation-strategy family.
+Gates: strategy-specific open-data evidence and cross-language/Rust parity remain deferred; method remains fixture-backed.

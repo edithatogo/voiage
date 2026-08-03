@@ -1,0 +1,1 @@
+Review fix: replaced legacy type-variable references with the PEP 695 function parameters in distributed helpers. Validation passed: ty check, Ruff, formatting, and distributed helper tests.

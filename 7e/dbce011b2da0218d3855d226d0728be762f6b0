@@ -1,0 +1,1 @@
+Conductor Phase 2 deep-inspection preservation: committed the read-only HTA, ML, and operations source audits as durable artifacts, with explicit provenance, rights, APIs, tests, integrations, performance limitations, and missingness. A focused test ensures audit coverage persists. Green evidence: 28 landscape tests, Ruff, semantic validation, Vale, diff check.

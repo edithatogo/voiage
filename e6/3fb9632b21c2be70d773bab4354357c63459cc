@@ -1,0 +1,1 @@
+Archive CI fix: stage deletion of the active Track 15 directory so registry and active-directory reconciliation cannot report duplicate active/archive state.

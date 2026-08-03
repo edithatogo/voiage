@@ -1,0 +1,5 @@
+Task: record Croissant supported-profile evidence
+
+Records merged PR #494 in the standardized dataset-ingestion Conductor cross-reference, metadata, index, and hash-chained evidence ledger. The record deliberately identifies archive/transformation rejection as partial P4-T2 evidence; P4-T2, issue #329, and the track remain open.
+
+Validation: JSON and evidence-chain integrity, scripts/validate_conductor_github_cross_references.py, and pytest tests/test_conductor_github_cross_references.py tests/test_v1_programme_baseline.py --no-cov (9 passed).

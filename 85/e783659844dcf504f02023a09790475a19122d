@@ -1,0 +1,20 @@
+Task: Phase 3 narrow C ABI lifecycle infrastructure slice
+
+Summary:
+- Added a separate safe-Rust lifecycle module for opaque process-local v1 handle tokens.
+- Added paired create/free primitives, null-free no-op semantics, deterministic invalid/repeated-free handling, and a documented thread-safety contract.
+- Added concurrency, layout, signature, null, invalid-token, and repeated-free tests.
+- Exported no numerical operations; Phase 5 remains the operation-level ABI boundary.
+
+Files:
+- rust/crates/voiage-ffi/src/lib.rs
+- rust/crates/voiage-ffi/src/lifecycle.rs
+- rust/crates/voiage-ffi/tests/lifecycle.rs
+
+Validation:
+- cargo test --manifest-path rust/Cargo.toml -p voiage-ffi --test lifecycle --locked: 5 passed
+- cargo clippy --manifest-path rust/Cargo.toml -p voiage-ffi --test lifecycle --locked -- -D warnings: passed
+- rustfmt --edition 2021 --check lifecycle source and test: passed
+- git diff --check: passed
+
+Boundary: ABI discovery/error/header work was concurrent and excluded from this commit. Astro cache preserved.

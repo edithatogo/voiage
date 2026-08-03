@@ -1,0 +1,1 @@
+Rebased onto origin/main c3394a915086f3d93ef6130de319838e393e5354 on 2026-07-31. Validated focused standardized-ingestion provider and conformance tests, Ruff, and git diff --check. Retains explicit opt-in authoritative live-probe gate.

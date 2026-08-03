@@ -1,0 +1,1 @@
+Conductor P7-T2 partial evidence: records the cache namespace containment hardening in ecd3820c and its validation. P7-T2 remains in progress because DNS rebinding, redirect policy, decompression ratio, and mutable-live-data coverage are still required.

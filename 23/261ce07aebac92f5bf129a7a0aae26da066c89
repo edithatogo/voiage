@@ -1,0 +1,7 @@
+Task: Refresh cross-venue submission readiness criteria
+
+Summary: Added the validated 22-target submission contract, GitHub-backed execution lanes, date-stamped official-criteria refresh evidence, and source-bound JOSS SourceRight/Authentext assurance refresh.
+
+Validation: uv run tox completed with all environments green; isolated max_versions and coverage_report rerun passed (coverage 92%).
+
+Boundary: No inquiry, upload, submission, review, or acceptance action was performed. Human authorship, source-verification, and editorial gates remain pending.

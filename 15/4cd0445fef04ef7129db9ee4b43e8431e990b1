@@ -1,0 +1,7 @@
+Task: incorporate post-census programme recommendations
+
+Summary: Expanded the canonical MoSCoW requirements, Mermaid architecture, roadmap, backlog, affected specifications and plans, and append-only evidence. Added Decision Problem interchange, estimator assurance, adjacent-method triage, registry-derived claim conformance, deterministic scalability, adversarial ML/agent evaluation, ADR/deprecation governance, ecosystem drift proposals, and example reproducibility cards.
+
+Why: close cross-cutting scientific, numerical, interoperability, safety, usability, and governance gaps without creating duplicate tracks.
+
+Validation: python scripts/validate_rust_polyglot_programme.py --live-github; uv run --extra ci pytest -q tests/test_rust_polyglot_programme_governance.py tests/test_voi_landscape_registry.py --no-cov; git diff --check.

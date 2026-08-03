@@ -1,0 +1,1 @@
+Plan update: R Rust ABI smoke and optional-dependency package checks pass; Julia Pkg.test passes against the built FFI library. Hosted version-matrix evidence and .NET/PyO3 runner-specific proof remain open.

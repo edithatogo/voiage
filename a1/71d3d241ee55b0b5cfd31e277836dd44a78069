@@ -1,0 +1,1 @@
+Task: repair clean reproducible-build provenance. Git identity now treats the generated source-provenance.txt as a permitted clean-build artifact, with all-untracked-path coverage and a regression test. Validation: cargo test --manifest-path rust/Cargo.toml -p voiage-python --test build_provenance --locked passed 12/12.

@@ -1,0 +1,1 @@
+Track 15 implementation: runtime API, DecisionAnalysis wrapper, CLI, fixture-backed frontier contract, Astro docs, governance metadata, and tests. Local gates passed: lint/typecheck/docs/frontier-contract; full suite 1317 passed, 10 optional skips, coverage 90.01%. Open-data attribution and cross-language parity remain external promotion blockers.

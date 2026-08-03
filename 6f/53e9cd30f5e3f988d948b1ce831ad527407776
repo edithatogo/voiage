@@ -1,0 +1,1 @@
+E8: reviewed reference independence and made authority, variance convention, runtime independence, derivations, and absolute/relative tolerances explicit. Phase suite: 12 tests; ruff, basedpyright, jq, full Conductor, diff check passed.

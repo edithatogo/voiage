@@ -1,0 +1,7 @@
+Task: Prepare issue #600 for independent review
+
+Summary: Marked repository-owned F600-1 through F600-3 complete at their signed commits, retained F600-4 as partial, synchronized roadmap/todo status, and added the CLI command to the exact registry contract.
+
+Validation: Ninety-four focused method, registry, frontier and governance tests passed; Ruff, BasedPyright, Vale, frontier validation, cross-reference validation, and full 148-track Conductor validation passed with zero errors and warnings.
+
+Boundary: This is a review-readiness handoff, not independent approval, hosted assurance, merge, stable promotion, release, or issue closure.

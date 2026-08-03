@@ -1,0 +1,4 @@
+Task: #597 C18/M28 final result-assurance remediation
+Summary: Requires complete fixed-horizon policy-tree depth from stage zero, successful exact assurance flags, and the governed 50,000-call result budget; adds adversarial semantic-validator regressions and refreshes the runtime evidence digest.
+Validation: 114 focused tests at 100% statements and branches (566 statements, 264 branches); 156 combined belief-state/API/CLI/governance tests; Ruff clean and formatted; BasedPyright zero errors; independent instrumentation matched the normative preflight estimate exactly at 82 recursive invocations.
+Boundary: This third fresh reviewer became a remediator. A fourth fresh independent review, hosted exact-head checks, merge, scientific review, parity, promotion, release and closure remain pending.

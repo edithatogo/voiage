@@ -1,0 +1,5 @@
+Task: Guard ML privacy and fallback diagnostics
+
+Summary: Added tests for local-private evidence enforcement and explicit degraded backend diagnostics, reusing the existing governance and kernel contracts.
+
+Validation: focused ML and fallback tests, Ruff, formatting, and diff checks passed.

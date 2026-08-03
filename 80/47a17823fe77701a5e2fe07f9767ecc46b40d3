@@ -1,0 +1,1 @@
+PR #607 refreshed onto origin/main a51d10b4. Focused normalized-input contract tests (60) passed; Ruff and tox typecheck passed; Conductor GitHub cross-reference validation and diff check passed.

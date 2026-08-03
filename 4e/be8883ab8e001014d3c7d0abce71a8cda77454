@@ -1,0 +1,12 @@
+Task: Add or update validation tests for the new policy, architecture, or method boundary.
+
+Summary:
+- Created tests/test_frontier_governance.py with 16 test cases covering maturity taxonomy, backend boundary, dependency policy, and governance docs.
+- Tests validate that the method maturity taxonomy defines an ordered promotion ladder (planned -> stable).
+- Tests enforce backend ownership rules across schema, methods, backends, CLI, and rust_core layers.
+- Tests ensure heavy optional deps (JAX, PyTorch) never leak into the base install.
+- Tests validate the governance RST document covers required keywords.
+
+Files:
+- tests/test_frontier_governance.py (new)
+- conductor/tracks/voi-frontier-architecture-dependency-governance_20260625/plan.md (updated)

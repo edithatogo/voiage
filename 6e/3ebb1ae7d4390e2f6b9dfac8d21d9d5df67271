@@ -1,0 +1,7 @@
+Task: strengthen VOI method and external parity evidence
+
+Summary: Added method-level literature dispositions for 60 methods, explicit adjacent-method triage, DecisionProblemV2, independent parity fixtures, routed gap reporting, freshness automation, generated Astro documentation, and release freshness enforcement.
+
+Why: P0 contract freeze requires auditable scientific classification and competitor-free parity evidence before Rust/API implementation.
+
+Verification: 38 focused tests passed; Ruff check and format passed; Astro check/build passed; repository harness and live GitHub/Conductor reconciliation passed. SourceRight boundary observed without applying external citation edits.

@@ -1,0 +1,1 @@
+Validation: release workflow contract tests, changelog contract, lint, and security harness passed; broker isolates contents-write from OIDC publication jobs.

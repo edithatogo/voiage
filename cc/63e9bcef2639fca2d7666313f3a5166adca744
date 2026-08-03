@@ -1,0 +1,1 @@
+Task: Implement meaningful n_inner_loops semantics for the retained Python two-loop EVSI estimator. Each outer trial data set now receives the requested number of posterior draws, averages decision values, and preserves seeded local RNG behavior. Validation: uv run pytest tests/test_sample_information.py -q.

@@ -1,0 +1,4 @@
+Conductor track: supported_frontier_method_completion_20260723
+Task: F559-4 changed-coverage remediation
+Result: covers legacy control validation and strict provenance branches without broadening v1 semantics
+Validation: 55 focused VoF tests passed; Ruff passed

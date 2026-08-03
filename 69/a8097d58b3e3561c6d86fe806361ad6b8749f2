@@ -1,0 +1,1 @@
+Exact-head non-documentation matrix passed after Phase 10 fixes: lint, harness, configured typecheck, frontier-contract, version-sync, Python 3.12/3.13/3.14, minimum and maximum dependency lanes, and coverage_report; tox completed successfully in 635.20 seconds. Normal Astro remains intentionally withheld until package-age expiry.

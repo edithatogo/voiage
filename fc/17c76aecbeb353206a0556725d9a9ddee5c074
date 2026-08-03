@@ -1,0 +1,1 @@
+Signed integration of origin/main 0a6ba132 into PR #834 preserves #571 closeout and #619 scope; focused 40 tests, Ruff, frontier/xref and full 148-track Conductor validation pass before umbrella-ledger reconciliation.

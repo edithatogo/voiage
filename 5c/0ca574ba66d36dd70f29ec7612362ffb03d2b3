@@ -1,0 +1,1 @@
+Review fix: applied Ruff formatting to the two-loop EVSI implementation. Validation passed: ruff check, ruff format --check, and focused sample-information/baseline tests.

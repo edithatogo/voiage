@@ -1,0 +1,1 @@
+PR #715 refresh (2026-08-01): rebased semantic P5 history onto origin/main 5a1ebe1c; focused conformance and Conductor/cross-reference validation passed using a native-enabled project environment. Auto-squash remains enabled.

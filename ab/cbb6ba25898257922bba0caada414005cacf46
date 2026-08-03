@@ -1,0 +1,1 @@
+Conductor plan update for P4-T5. Records commit 77ba50ac as partial offline CLI inspection evidence and preserves the authoritative live interoperability probe as an explicit external gate. Validation: python scripts/validate_conductor_github_cross_references.py .

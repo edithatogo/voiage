@@ -1,0 +1,1 @@
+Conductor plan update for P5-T4. Records d9312ab2 as partial canonical cross-format binding, quality, and materialization-receipt parity evidence. Validation: python scripts/validate_conductor_github_cross_references.py .

@@ -1,0 +1,5 @@
+P1-T2: validated the public normalized-input manifest model surface.
+
+Added strict/immutable acceptance coverage for field, resource, table, relationship, provenance, diagnostic, binding, and dataset manifest records.
+
+Validation: 26 focused tests, Ruff, ty.

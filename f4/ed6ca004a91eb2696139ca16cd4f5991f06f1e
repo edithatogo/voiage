@@ -1,0 +1,1 @@
+PR #676 final a07a7e52 refresh (2026-08-01): focused Python variance suites (53), Rust estimation_variance unit tests (7), full Conductor, and cross-reference validation passed. COSS/EVSI and estimation surfaces remain reconciled; exact-head hosted checks are authoritative.
