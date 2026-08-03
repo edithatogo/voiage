@@ -300,8 +300,9 @@ def test_sampling_harm_method_family_has_no_runtime_declaration() -> None:
     schemas = {path.name for path in (CONTRACT / "schemas").glob("*.json")}
     assert schemas == {
         "adjacent-method-non-alias-delta.schema.json",
-        "automated-challenge-synthesis.schema.json",
-        "capability.schema.json",
+            "automated-challenge-synthesis.schema.json",
+            "candidate-context-decision.schema.json",
+            "capability.schema.json",
         "estimand-boundary.schema.json",
         "governance-snapshot.schema.json",
         "governance-administrative-delta.schema.json",
