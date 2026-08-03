@@ -1,0 +1,1 @@
+Review task: synchronize cross-reference lifecycle narratives. Updated roadmap.md and todo.md to match the completed archived track, added regression coverage in tests/test_v1_programme_baseline.py, and preserved the none_found evidence boundary. This prevents completed GitHub reconciliation work from being projected as in progress.
