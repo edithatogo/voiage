@@ -1,0 +1,1 @@
+Hosted CI repair: apply repository-wide Ruff formatter to the three changed Python files; exact CI lint/type/security command and 77 focused tests pass.
