@@ -158,6 +158,7 @@
   changed-line coverage policy: absent candidate context, preflight mismatch,
   altered finding count, reviewer escalation and source-authority escalation.
   No success-path behavior or authority changes. (AC-07, AC-10, AC-13)
+  `65ed9c1`
 - [ ] **H8-D-F:** Under native child #876, obtain independently evidenced
   source retrieval, rights and applicability review; screen and assign
   eligible conflict-free H8-D humans; and bind the selected exclusion, all
