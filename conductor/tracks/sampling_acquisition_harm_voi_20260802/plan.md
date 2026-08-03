@@ -131,8 +131,12 @@
   candidate-context choice as a blocked Human/Critical Project gate with three
   mutually exclusive options, one recommended option and an explicit
   no-authority boundary. Synchronize the issue, Project, roadmap, Mermaid,
-  requirements and cross-references without selecting an option. (AC-01,
-  AC-08–AC-12) `13e9b9b`
+  requirements and cross-references without selecting an option. PR #874 exact
+  head `4e678625` completed 33 successful checks, three governed skips and one
+  neutral rollup with zero failures, pending checks or unresolved review
+  threads before squash merge `cd3cf454`. Issue #873 remains Open and Project
+  28 remains In Progress/Blocked/Human/Critical/Clean. (AC-01, AC-08–AC-12)
+  `13e9b9b`
 - [ ] **H8-D-E:** Record one authenticated, content-bound accountable choice
   under #873 with a brief rationale. If the bounded-candidate option is chosen,
   also define its domain, jurisdiction, population, sampling action, comparator

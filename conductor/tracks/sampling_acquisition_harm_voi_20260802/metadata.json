@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-08-02T14:20:00Z",
-  "updated_at": "2026-08-03T03:20:32Z",
+  "updated_at": "2026-08-03T12:43:53Z",
   "planned_version": "1.3.0",
   "moscow": "must",
   "requirement_ids": [
@@ -72,7 +72,8 @@
       "https://github.com/edithatogo/voiage/pull/865",
       "https://github.com/edithatogo/voiage/pull/868",
       "https://github.com/edithatogo/voiage/pull/871",
-      "https://github.com/edithatogo/voiage/pull/872"
+      "https://github.com/edithatogo/voiage/pull/872",
+      "https://github.com/edithatogo/voiage/pull/874"
     ]
   },
   "gates": [
@@ -128,7 +129,7 @@
       "id": "h8de-accountable-candidate-context-choice",
       "kind": "human_decision",
       "status": "blocked",
-      "evidence": "Native child #873 is linked under #853 and Project 28 reads In Progress, Blocked, Human, Critical and Clean for planned v1.3.0. It presents the three mutually exclusive candidate-context options and requires one authenticated content-bound selection with rationale. No option has been selected; source, reviewer, finding, packet, H8-D through H8-H, runtime, study, release and publication authority remain pending or false."
+      "evidence": "PR #874 exact head 4e678625c0c358bceea825019cefb48bd02553a4 completed 33 successful checks, three governed skips and one neutral rollup with zero failures, pending checks or unresolved review threads before squash merge cd3cf454a830dab2b0db9a091123d8f7b1ef8227 at 2026-08-03T12:42:25Z. Native child #873 remains linked under #853 and Project 28 reads In Progress, Blocked, Human, Critical and Clean for planned v1.3.0. It presents the three mutually exclusive candidate-context options and requires one authenticated content-bound selection with rationale. Repository materialization is satisfied; no option has been selected, and source, reviewer, finding, packet, H8-D through H8-H, runtime, study, release and publication authority remain pending or false."
     },
     {
       "id": "orchestrator-synthesis",
