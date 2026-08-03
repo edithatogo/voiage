@@ -57,7 +57,8 @@
       "https://github.com/edithatogo/voiage/issues/853",
       "https://github.com/edithatogo/voiage/issues/864",
       "https://github.com/edithatogo/voiage/issues/867",
-      "https://github.com/edithatogo/voiage/issues/870"
+      "https://github.com/edithatogo/voiage/issues/870",
+      "https://github.com/edithatogo/voiage/issues/873"
     ],
     "project": "https://github.com/users/edithatogo/projects/28",
     "pull_requests": [
@@ -70,7 +71,8 @@
       "https://github.com/edithatogo/voiage/pull/863",
       "https://github.com/edithatogo/voiage/pull/865",
       "https://github.com/edithatogo/voiage/pull/868",
-      "https://github.com/edithatogo/voiage/pull/871"
+      "https://github.com/edithatogo/voiage/pull/871",
+      "https://github.com/edithatogo/voiage/pull/872"
     ]
   },
   "gates": [
@@ -121,6 +123,12 @@
       "kind": "review_preparation",
       "status": "satisfied",
       "evidence": "PR #871 exact head 305bdad591abbdcb1d99250dac111d7dbbbadae6 completed 38 successful checks and four governed skips with zero failures, pending checks or unresolved review threads before squash merge 8c7102450b30991ffe9e7278abbed1c7981edb22 at 2026-08-03T03:48:57Z. Issue #870 and Project 28 then read back Closed, Done, Resolved, Verified and Clean while retaining Gate Human and Risk Critical. H8-D-D preparation is satisfied only: the accountable candidate choice, source authority, reviewer assignment and eligibility, replacement-packet freeze, all findings and H8-D through H8-H remain pending or false."
+    },
+    {
+      "id": "h8de-accountable-candidate-context-choice",
+      "kind": "human_decision",
+      "status": "blocked",
+      "evidence": "Native child #873 is linked under #853 and Project 28 reads In Progress, Blocked, Human, Critical and Clean for planned v1.3.0. It presents the three mutually exclusive candidate-context options and requires one authenticated content-bound selection with rationale. No option has been selected; source, reviewer, finding, packet, H8-D through H8-H, runtime, study, release and publication authority remain pending or false."
     },
     {
       "id": "orchestrator-synthesis",

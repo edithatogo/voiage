@@ -48,6 +48,7 @@ def test_sampling_acquisition_harm_track_owns_native_issue_hierarchy() -> None:
         "https://github.com/edithatogo/voiage/issues/864",
         "https://github.com/edithatogo/voiage/issues/867",
         "https://github.com/edithatogo/voiage/issues/870",
+        "https://github.com/edithatogo/voiage/issues/873",
     ]
     assert metadata["planned_version"] == "1.3.0"
     assert metadata["moscow"] == "must"

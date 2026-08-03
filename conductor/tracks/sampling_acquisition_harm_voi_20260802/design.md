@@ -26,7 +26,9 @@ flowchart LR
     AutomatedPanel --> AutomatedSynthesis["Separate automated synthesis: all findings and dissent retained"]
     AutomatedSynthesis --> Readiness["#867 source observations and 19-finding readiness partition"]
     Readiness --> Commissioning["#870 candidate decision, reviewer screening, receipt contracts and privacy-safe handoff"]
-    Commissioning --> PacketGate{"Independent retrieval, rights, applicability, candidate context and eligible humans complete?"}
+    Commissioning --> CandidateChoice{"#873 exact accountable candidate-context choice recorded?"}
+    CandidateChoice -->|"No"| ChallengeOnly
+    CandidateChoice -->|"Yes, one authenticated option"| PacketGate{"Independent retrieval, rights, applicability and eligible humans complete?"}
     PacketGate -->|"No"| ChallengeOnly["Preparation only; no replacement freeze and H8-D/H8-E remain false"]
     PacketGate -->|"Yes, with accountable evidence"| Freeze
     Freeze --> Panel["Eligible independent reviewers plus domain/ethics specialist"]

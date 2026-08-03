@@ -114,6 +114,15 @@ cannot itself satisfy H8-D or select the candidate. Issue #870 and Project 28
 read back Closed, Done, Resolved, Verified and Clean while retaining the Human
 and Critical boundary.
 
+Native child #873 now isolates the first remaining accountable transition. It
+is an In Progress, Blocked, Human and Critical Project gate requiring exactly
+one authenticated candidate-context option and rationale. The recommended path
+is independent review of a proposed exclusion for any universal automatic-
+scalar or study-authorizing kernel while preserving narrower non-authorizing
+research. No option is selected by repository synchronization or a generic
+continuation instruction, and #873 cannot satisfy source, reviewer, finding,
+packet, H8-D through H8-H, runtime, study, release or publication gates.
+
 Canonical C18/M32 planning is synchronized through VOP PR #71, squash-merged
 as `e0ff1d2ce3361d52ee22bb01e105b92653ed606c` after 16 terminal successful
 checks and one governed scheduled-only skip. That cross-repository merge is
