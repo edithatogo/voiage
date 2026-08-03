@@ -142,6 +142,9 @@
 
 - [x] Synchronize the v1 programme active/archive baseline and the
   changelog-bound distributional evidence digest after archival. (`3923309e`)
+- [x] Record merged archive-delivery PR #880 across every Conductor projection,
+  refresh the live issue, Project 28, conda-forge, and Yggdrasil evidence, and
+  reject cross-reference paths outside the repository track roots. (`c0eb4664`)
 
 ## Current evidence boundary
 
