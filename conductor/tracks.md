@@ -232,16 +232,17 @@ are recorded; remote I/O remains blocked pending explicit policy approval.*
 
 ---
 
-## [~] Track: Research Software Registry Readiness
-*Link: [./tracks/research_software_registry_readiness_20260721/index.md](./tracks/research_software_registry_readiness_20260721/index.md)*
+## [x] Track: Research Software Registry Readiness [completed: 2026-08-04]
+*Link: [./archive/research_software_registry_readiness_20260721/index.md](./archive/research_software_registry_readiness_20260721/index.md)*
 *Execution order: 02 of 02, after the signed releases provide immutable
 release and archival evidence.*
-*Status: in progress — signed v2.0.0 release, PyPI/TestPyPI, crates.io,
-Software Heritage, SBOM, provenance, digest, and clean-install evidence are
-complete; conda-forge PR #34308 is submitted. RRID curation, arXiv
-identification, human JOSS evidence, and external language-registry outcomes
-remain explicit gates. PR #561 Julia readiness and PR #813 governance are
-merged and cross-referenced.*
+*Status: repository readiness complete — signed v2.0.0 release,
+PyPI/TestPyPI, crates.io, Software Heritage, SBOM, provenance, digest,
+clean-install, developer-use, AI-affirmation, registry-handoff, and manuscript
+evidence are complete. RRID curation, arXiv identification, human engagement,
+JOSS submission/review, and external registry outcomes remain explicit gates.
+PR #561 Julia readiness and PR #813 governance are merged and
+cross-referenced.*
 
 ---
 

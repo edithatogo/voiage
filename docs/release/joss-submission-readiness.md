@@ -42,14 +42,14 @@ not replace it.
 | Iterative open development | Distributed commits, issues, pull requests, changelog and tagged releases | Ready |
 | Research application | VOI analysis for research prioritisation and probabilistic decision models | Ready |
 | Credible near-term significance | Fixed-seed health example, independent analytical benchmarks, sensitivity scenarios, machine-readable results, structured reproduction manifest, and clean regeneration in CI | Ready as specific reproducible material; this does not establish human engagement |
-| Research-workflow integration | The same-author `vop_poc_nz` bundle documents an intended interoperability contract, not completed execution of `voiage` in research | Candidly bounded; no independent adoption claimed |
-| Demonstrated research use | The current pre-review criteria require evidence that the software is used for research, at minimum by its developer. The worked demonstration and an optional same-author adapter do not yet establish completed research-workflow use | Externally pending; aspirational or fallback-only integrations do not qualify |
+| Research-workflow integration | The same-author `vop_poc_nz` workflow installed `voiage` 2.0.0 from PyPI outside the checkout and executed a bounded HPV-vaccination model run recorded in `paper/joss-developer-research-use.json` | Demonstrated developer research use; no independent adoption claimed |
+| Demonstrated research use | The released package was executed in the documented developer research workflow with a fixed revision, input digest, environment boundary, and reproduction command | Ready for the developer-use criterion; non-author engagement remains separate |
 | Collaborative-effort screening | The detailed review criteria treat a single-author project without community engagement, external use, or collaborative input as not acceptable. The submission and editorial guides separately describe non-author engagement as a strong positive pre-review signal rather than a hard gate. The [independent validation protocol](joss-independent-validation.md) and issue #471 seek attributable evidence | Author-selected prerequisite and material review risk; agents, bots, and same-author repositories do not qualify |
 | JOSS manuscript structure | All contracted sections are substantive and ordered; hosted release-bound run `30202496481` confirms the article contract, including 1,583 body words inside the repository's 1,568–1,632 target and JOSS's 750–1,750 range | Ready for the release-bound source |
 | Citation and prose assurance | SourceRight reconciles all 18 occurrences, all 15 references have queued sidecars, and six non-DOI software/web warnings remain; selected Authentext blocking patterns report no finding | Machine checks ready; final human source check pending |
 | Design-thinking account | The Rust reference-calculation boundary, protection against cross-language drift, native-build cost, and deliberately narrower R/Julia interfaces are described | Ready |
 | Author metadata | Dylan Mordaunt, ORCID and three affiliations confirmed by the author on 24 July 2026; each affiliation is linked to its verified ROR record | Ready |
-| AI usage disclosure | Tool families, retained identifier limits, scope, and verification approach are stated. JOSS also requires versions and the author's comprehensive affirmation that the human author made the core decisions and reviewed, edited, and validated every retained AI-assisted output | Awaiting explicit author attestation and best-available version inventory; identifiers must not be guessed |
+| AI usage disclosure | Tool families, retained identifier limits, scope, and verification approach are stated. `paper/joss-editorial-assurance.json` records the author's 27 July 2026 confirmation that every retained AI-assisted output was reviewed, modified as needed, and validated; `paper.md` records the best-available tool/model inventory without inventing unavailable identifiers | AI affirmation recorded; historical identifiers not exposed or retained remain explicitly unavailable |
 | Funding and competing interests | No external funding and no competing interests confirmed by the author on 24 July 2026 | Ready |
 | Permanent software archive | Software Heritage snapshot SWHID recorded | Ready; DOI-bearing archive still required at acceptance |
 | Release evidence | Exact v2.0.0 tag, commit, asset digests, verified provenance, mixed-language CycloneDX SBOM and SWHID are bound in `docs/release/v2.0.0-release-evidence.json` | Reviewed release evidence ready |
@@ -119,13 +119,9 @@ The recommended sequence is:
 
 ## Remaining gates
 
-- Document completed research-workflow use of the released package; do not
-  count the paper's synthetic demonstration or a fallback-only adapter as use.
 - Obtain and document qualifying human community engagement, external use, or
   collaborative input in issue #471; do not claim it until attributable
   evidence exists.
-- Obtain the author's complete AI-policy affirmation and record every
-  establishable tool/model version without inventing historical identifiers.
 - Keep the reviewed release-bound PDF evidence synchronized if `paper.md` or
   its release evidence changes.
 - Record the permanent arXiv identifier when arXiv assigns it.

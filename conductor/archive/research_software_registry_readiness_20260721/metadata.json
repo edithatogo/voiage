@@ -2,9 +2,9 @@
   "track_id": "research_software_registry_readiness_20260721",
   "version": "1.0.0",
   "type": "chore",
-  "status": "in_progress",
+  "status": "completed",
   "created_at": "2026-07-21T00:00:00Z",
-  "updated_at": "2026-08-02T11:30:00Z",
+  "updated_at": "2026-08-03T15:08:02Z",
   "description": "Track archival, identifier, language-registry, arXiv, and evidence-gated JOSS readiness from the signed v1.0.0 release through the exact v2 review candidate.",
   "owner_repo": "edithatogo/voiage",
   "github_parent_issue": "https://github.com/edithatogo/voiage/issues/296",
@@ -39,7 +39,7 @@
       "id": "external-registry-decisions",
       "kind": "publication",
       "status": "pending",
-      "evidence": "Software Heritage request 2399846 completed with v2 snapshot SWHID swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d. SciCrunch registration was submitted at 2026-07-27T06:07:06Z after its portal reported no similar resource and the authenticated account holder confirmed accuracy and terms; curation, RRID assignment, and resolver indexing remain external. Prior arXiv submission 7861466 is absent; replacement 7870358 is an incomplete start-stage draft and is not submission evidence. JOSS authorship, affiliations, ORCID, funding, and competing-interest metadata are confirmed; the comprehensive AI attestation and best-available version inventory remain pending. Direct JOSS is selected. Issue #471 tracks demonstrated research use and genuine human community engagement, external use, or collaborative input. Conda-forge PR 34308 passes lint and staged-recipes build 1558265 for current Python 3.12/3.13 variants on Linux, macOS, and Windows, including installed Rust-core/version and known-result smoke checks; external review and merge remain pending. Julia issue #555 and Yggdrasil PR 14292 track the submitted Rust C ABI recipe; BinaryBuilder JLL acceptance must precede the Voiage Registrator trigger and General review. R registry and JOSS still require external submission, curation, evidence, or editorial decisions."
+      "evidence": "Repository preparation is complete. Software Heritage request 2399846 completed with v2 snapshot SWHID swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d. SciCrunch registration was submitted at 2026-07-27T06:07:06Z after its portal reported no similar resource and the authenticated account holder confirmed accuracy and terms; curation, RRID assignment, and resolver indexing remain external. Prior arXiv submission 7861466 is absent; replacement 7870358 is an incomplete start-stage draft and is not submission evidence. JOSS authorship, affiliations, ORCID, funding, competing-interest metadata, developer research use, AI affirmation, and best-available tool/model inventory are recorded. Issue #471 retains genuine human community engagement, external use, or collaborative input as an external gate. Conda-forge PR 34308 remains open with green lint and staged-recipes build 1558265. Julia issue #555 and open, green Yggdrasil PR 14292 track the submitted Rust C ABI recipe; BinaryBuilder JLL acceptance must precede the Voiage Registrator trigger and General review. R registry and JOSS still require external submission, curation, evidence, or editorial decisions."
     }
   ],
   "github_cross_reference": {

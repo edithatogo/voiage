@@ -1,14 +1,14 @@
 # research_software_registry_readiness_20260721
 
-Status: repository-owned release and JOSS-readiness deliverables are complete
-through the merged v2 scientific EVSI contract; human adoption, AI attestation,
-JOSS/arXiv submission, curation, indexing, and registry acceptance remain
-external gates, so the track remains active. Signed public v2.0.0 release
+Status: repository-owned release, registry-handoff, and JOSS-readiness
+deliverables are complete through the merged v2 scientific EVSI contract. The
+author's AI affirmation and developer research use are recorded. Human
+engagement, JOSS/arXiv submission, curation, indexing, and registry acceptance
+remain external gates and do not prevent repository archival. Signed public v2.0.0 release
 evidence, Software Heritage
 archival, crates.io publication, and the release-bound JOSS PDF are recorded.
 The prior arXiv submission is absent and replacement submission `7870358`
-remains incomplete. Demonstrated research use, human engagement,
-author-confirmed AI attestation, arXiv announcement, SciCrunch curation and
+remains incomplete. Human engagement, arXiv announcement, SciCrunch curation and
 RRID assignment, JOSS, and external registry outcomes remain explicitly
 tracked. The SciCrunch record was submitted on 27 July 2026 after a no-match
 duplicate check and account confirmation.

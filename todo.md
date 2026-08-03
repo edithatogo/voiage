@@ -520,7 +520,8 @@ separate gates.
 
 ## In Progress
 
-*   [ ] Complete research-software registry and archival readiness after the
+*   [x] Complete repository-owned research-software registry and archival
+    readiness after the
     immutable v1.0 release exists.
     *   Conductor track: `research_software_registry_readiness_20260721`.
     *   GitHub parent issue: #296, with Software Heritage, RRID, and JOSS
@@ -564,8 +565,9 @@ separate gates.
         Replacement `7870358` is an incomplete start-stage draft expiring
         9 August 2026 and is not completed submission evidence. Resolve that
         author and external gate before the arXiv-first JOSS submission step.
-    *   Preparation is repository-owned; archival, identifiers, submission,
-        review, acceptance, and indexing remain evidence-gated external states.
+    *   Repository preparation is archived as complete. Identifiers,
+        submission, review, acceptance, and indexing remain evidence-gated
+        external states tracked by their open GitHub issues and handoff packet.
 
 *   [x] Mature and harden the v1.0 release through the selected Rust-kernel
     takeover, legacy Python-kernel retirement, thin binding consolidation,

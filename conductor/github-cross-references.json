@@ -3764,8 +3764,9 @@
     },
     {
       "track_id": "research_software_registry_readiness_20260721",
-      "path": "conductor/tracks/research_software_registry_readiness_20260721",
-      "lifecycle": "active",
+      "path": "conductor/archive/research_software_registry_readiness_20260721",
+      "lifecycle": "completed",
+      "issue_closure": "external_gate_tracking",
       "issue": {
         "number": 296,
         "url": "https://github.com/edithatogo/voiage/issues/296",

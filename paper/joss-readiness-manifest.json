@@ -72,7 +72,6 @@
     }
   },
   "human_gates": [
-    "review the recorded AI-use attestation and best-available historical model inventory",
     "verify every cited source against the claim it supports",
     "confirm authorship, funding, and competing interests",
     "perform JOSS submission and communicate personally with editors and reviewers"

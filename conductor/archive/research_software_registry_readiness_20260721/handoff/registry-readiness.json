@@ -3,9 +3,9 @@
   "channel": "research-software-registries",
   "status": "blocked",
   "owner": "voiage-maintainers",
-  "checked_at": "2026-07-27T06:07:06Z",
-  "next_action": "Monitor SciCrunch curator questions and record the assigned RRID without anticipating it. Monitor Yggdrasil PR 14292 and conda-forge PR 34308. Obtain the author's complete AI-policy attestation, demonstrated research use, and genuine human engagement; complete replacement arXiv submission 7870358 before direct JOSS submission. R registry remains a separate path.",
-  "external_gate": "The signed public v2.0.0 release, matching Software Heritage snapshot, PyPI/TestPyPI packages, four crates.io crates, SBOM, provenance, digests, clean-install evidence, release-bound JOSS PDF review, and SciCrunch submission are complete. SciCrunch curation, RRID assignment, and resolver indexing remain external. Conda-forge PR 34308 passes its current platform matrix; external review and merge remain pending. The Rust C ABI recipe is submitted as Yggdrasil PR 14292. BinaryBuilder must accept the recipe and register voiage_ffi_jll before Voiage can declare it as a General dependency; Registrator and General bots or maintainers then control source-package registration and merge. Prior arXiv submission 7861466 is absent; replacement 7870358 is incomplete. Demonstrated research use, human engagement, author AI attestation, arXiv completion and announcement, CRAN/r-universe, direct JOSS submission, and editorial outcomes remain human or externally controlled.",
+  "checked_at": "2026-08-03T15:08:02Z",
+  "next_action": "Monitor SciCrunch curator questions and record an assigned RRID only from authoritative evidence. Monitor open conda-forge PR 34308 and open, green Yggdrasil PR 14292. Obtain genuine human engagement evidence and complete replacement arXiv submission 7870358 before direct JOSS submission. R registry remains a separate path.",
+  "external_gate": "Repository preparation is complete. The signed public v2.0.0 release, matching Software Heritage snapshot, PyPI/TestPyPI packages, four crates.io crates, SBOM, provenance, digests, clean-install evidence, release-bound JOSS PDF review, SciCrunch submission, developer research use, and author AI affirmation are recorded. SciCrunch curation, RRID assignment, and resolver indexing remain external. Conda-forge PR 34308 passes its current platform matrix; external review and merge remain pending. The Rust C ABI recipe is submitted as Yggdrasil PR 14292 with green checks. BinaryBuilder must accept the recipe and register voiage_ffi_jll before Voiage can declare it as a General dependency; Registrator and General bots or maintainers then control source-package registration and merge. Prior arXiv submission 7861466 is absent; replacement 7870358 is incomplete. Human engagement, arXiv completion and announcement, CRAN, direct JOSS submission, and editorial outcomes remain human or externally controlled.",
   "release_evidence": {
     "tag": "v2.0.0",
     "commit": "e849e89152c306e79c96d0a8a9815ee5faca0529",
@@ -91,7 +91,7 @@
     "tagbot_authentication": "Verified repository-scoped write deploy key 158430276 is configured; its private key is stored as the DOCUMENTER_KEY Actions secret so TagBot can trigger downstream release workflows without a broad PAT."
   },
   "joss_submission_evidence": {
-      "status": "revision_in_progress_pending_human_and_external_evidence",
+    "status": "repository_ready_pending_human_and_external_evidence",
     "files": [
       "paper.md",
       "paper.bib",
@@ -124,11 +124,9 @@
       "status": "human_evidence_required",
       "github_issue": "https://github.com/edithatogo/voiage/issues/471",
       "protocol": "docs/release/joss-independent-validation.md",
-      "boundary": "Completed research-workflow use of the released package is not yet documented. The public repository history currently contains the author and automated accounts only. Current JOSS pre-review guidance treats demonstrated research use as a hard gate and non-author engagement as a strong positive signal, while the detailed review criteria still treat absent single-author engagement as not acceptable. Bots, AI agents, fallback-only adapters, and same-author aspirations do not qualify."
+      "boundary": "Completed developer research-workflow use of the released package is recorded in paper/joss-developer-research-use.json. The public repository history currently contains the author and automated accounts only. Non-author engagement remains a strong positive pre-review signal and explicit detailed-review criterion. Bots, AI agents, fallback-only adapters, and same-author work do not establish that external engagement."
     },
     "remaining_submission_gates": [
-      "obtain the author's comprehensive AI-policy attestation and best-available tool-version inventory",
-      "document completed research-workflow use of the released package",
       "obtain attributable or editor-verifiable human community engagement, external use, or collaborative input",
       "record the permanent arXiv identifier after announcement",
       "perform the selected direct authenticated JOSS submission"
@@ -176,7 +174,7 @@
       "runner": "local Git worktree",
       "status": "passed",
       "artifact": "paper.md, paper.bib, CITATION.cff, codemeta.json, validator, and hosted workflow",
-      "details": "JOSS draft paper and metadata are prepared; the author confirmed authorship metadata, funding, and competing interests on 24 July 2026. The comprehensive AI-policy attestation, exact v2 release, demonstrated research use, human engagement, final PDF review, and authenticated submission remain."
+      "details": "JOSS paper and metadata are prepared; the author confirmed authorship metadata, funding, and competing interests on 24 July 2026 and the AI-policy affirmation on 27 July 2026. The exact v2 release, developer research use, and final PDF review are recorded. Human engagement and authenticated submission remain."
     },
     {
       "command": "review RRID software registration guidance",
@@ -225,7 +223,7 @@
       "runner": "GitHub API, authenticated arXiv account, and official JOSS documentation",
       "status": "passed_with_external_gate",
       "artifact": "issue #471 and docs/release/joss-independent-validation.md",
-      "details": "Prior submission 7861466 is absent. Replacement 7870358 is incomplete at the start stage and is not submission evidence. Demonstrated research use is a hard pre-review gate. Non-author engagement is a strong positive pre-review signal and an explicit detailed-review criterion, so issue #471 remains an author-selected prerequisite for the direct JOSS route."
+      "details": "Prior submission 7861466 is absent. Replacement 7870358 is incomplete at the start stage and is not submission evidence. Developer research use is recorded. Non-author engagement remains a strong positive pre-review signal and an explicit detailed-review criterion, so issue #471 remains an author-selected prerequisite for the direct JOSS route."
     },
     {
       "command": "release workflow 30200134119; clean PyPI install; crates workflow 30200722982; Software Heritage request 2399846; supply-chain workflow 30200921515",

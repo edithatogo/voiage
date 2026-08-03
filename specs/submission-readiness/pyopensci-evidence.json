@@ -61,7 +61,7 @@
     {
       "id": "external-inquiry",
       "status": "human_deferred",
-      "evidence": ["specs/submission-readiness/targets.json", "conductor/tracks/research_software_registry_readiness_20260721/plan.md"]
+      "evidence": ["specs/submission-readiness/targets.json", "conductor/archive/research_software_registry_readiness_20260721/plan.md"]
     }
   ]
 }
