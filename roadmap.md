@@ -89,6 +89,13 @@ and fail-closed source and qualified-reviewer intake—before squash merge
 `03277fef` after 38 successful checks, three governed skips, one neutral result
 and zero failures, pending checks or unresolved threads. Closing native child
 #864 does not close any scientific finding or satisfy H8-D through H8-H.
+Native child #867 now governs the next bounded preparation: a separately dated
+six-source automated observation refresh and a machine-validated, disjoint
+partition of all nineteen pending findings. It preserves the immutable H8-C
+packet, retains zero source bytes and grants no rights, applicability,
+independent-review or finding-disposition authority. A replacement packet
+remains unready until candidate context, independent source evidence and
+eligible human review exist.
 
 Canonical C18/M32 planning is synchronized through VOP PR #71, squash-merged
 as `e0ff1d2ce3361d52ee22bb01e105b92653ed606c` after 16 terminal successful

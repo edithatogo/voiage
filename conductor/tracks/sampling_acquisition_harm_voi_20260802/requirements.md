@@ -51,6 +51,12 @@
   invalidation and fail-closed issue/Project/Conductor transitions. The sole
   maintainer's separate product decision cannot satisfy scientific
   independence or real-study authorization.
+- **M32-H14:** Preserve historical source and review-packet bytes; record later
+  automated source observations as non-authorizing deltas with exact
+  representation, digest, rights, retrieval, drift and applicability status.
+  Keep every finding pending until independent evidence dispositions it, and
+  prohibit a replacement packet freeze while any declared prerequisite is
+  absent.
 
 ## Should
 

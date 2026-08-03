@@ -55,7 +55,8 @@
       "https://github.com/edithatogo/voiage/issues/851",
       "https://github.com/edithatogo/voiage/issues/852",
       "https://github.com/edithatogo/voiage/issues/853",
-      "https://github.com/edithatogo/voiage/issues/864"
+      "https://github.com/edithatogo/voiage/issues/864",
+      "https://github.com/edithatogo/voiage/issues/867"
     ],
     "project": "https://github.com/users/edithatogo/projects/28",
     "pull_requests": [
@@ -105,6 +106,12 @@
       "kind": "review_preparation",
       "status": "satisfied",
       "evidence": "VOIAGE PR #865 exact head 973a79dca58cd831d5f1d5a5edce745cd22903b5 completed 38 successful checks, three governed skips and one neutral result with zero failures, pending checks or unresolved review threads before squash merge 03277fef312e848e00cb405bca19cbf331b3603d at 2026-08-02T22:08:37Z. The merged preparation preserves all nineteen findings as pending, enforces the four-issue non-alias boundary and materializes fail-closed source and eligible-human reviewer intake. This satisfies H8-D-B repository preparation only; H8-D through H8-H and every human, scientific, runtime, study, publication, registry, promotion and release authority remain pending or false."
+    },
+    {
+      "id": "h8dc-source-observation-and-remediation-readiness",
+      "kind": "review_preparation",
+      "status": "pending",
+      "evidence": "Native child #867 and its Project 28 record govern a separately dated six-source automated observation refresh and disjoint partition of all nineteen pending findings. Local implementation preserves the immutable H8-C packet, retains zero source bytes, keeps rights/applicability/independent review false and marks the replacement packet not_ready_to_freeze. Exact-head hosted checks, merge and governance readback remain required before H8-D-C completion; this gate cannot satisfy H8-D or disposition a finding."
     },
     {
       "id": "orchestrator-synthesis",

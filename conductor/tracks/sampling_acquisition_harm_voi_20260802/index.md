@@ -8,11 +8,14 @@
 - [H8-C frozen review preparation](./h8c-frozen-review-preparation-20260803.md)
 - [H8-D/H8-E automated challenge panel](./h8d-h8e-automated-challenge-20260803.md)
 - [H8-D-B remediation and reviewer-intake preparation](./h8d-b-remediation-intake-20260803.md)
+- [H8-D-C source-observation and remediation readiness](./h8d-c-source-observation-readiness-20260803.md)
 - [Post-#863 governance delta](../../../specs/frontier/sampling-acquisition-harm/v1/governance-administrative-delta-20260803.json)
 - [Four-issue adjacent-method non-alias delta](../../../specs/frontier/sampling-acquisition-harm/v1/adjacent-method-non-alias-delta.json)
 - [Nineteen-finding remediation register](../../../specs/frontier/sampling-acquisition-harm/v1/remediation-register.json)
 - [Qualified-reviewer intake readiness](../../../specs/frontier/sampling-acquisition-harm/v1/reviewer-intake-readiness.json)
 - [Source-review intake readiness](../../../specs/frontier/sampling-acquisition-harm/v1/source-review-intake-readiness.json)
+- [Current automated source observations](../../../specs/frontier/sampling-acquisition-harm/v1/source-observation-refresh-20260803.json)
+- [Remediation-readiness delta](../../../specs/frontier/sampling-acquisition-harm/v1/remediation-readiness-delta-20260803.json)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
 - [GitHub issue #850](https://github.com/edithatogo/voiage/issues/850)
@@ -20,6 +23,7 @@
 - [Source and estimand subissue #852](https://github.com/edithatogo/voiage/issues/852)
 - [Candidate-bound review subissue #853](https://github.com/edithatogo/voiage/issues/853)
 - [Remediation and reviewer-intake subissue #864](https://github.com/edithatogo/voiage/issues/864)
+- [Source-observation and readiness subissue #867](https://github.com/edithatogo/voiage/issues/867)
 - [Owning parent #570](https://github.com/edithatogo/voiage/issues/570)
 - [Study-design dependency #571](https://github.com/edithatogo/voiage/issues/571)
 - [Scientific-review umbrella #841](https://github.com/edithatogo/voiage/issues/841)
@@ -52,3 +56,9 @@ H8-D-B repository preparation is complete through PR #865 exact head
 governed skips, one neutral result and zero failures, pending checks or
 unresolved review threads. This completion does not disposition any finding or
 satisfy H8-D through H8-H.
+
+H8-D-C is in progress under native child #867. Its automated observation and
+readiness contracts preserve the historical H8-C packet, retain all nineteen
+findings as pending and keep the replacement packet unready. Completion still
+requires exact-head hosted checks, merge and governance readback; independent
+source review and H8-D remain external human gates.

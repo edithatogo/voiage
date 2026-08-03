@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/sampling-acquisition-harm/remediation-readiness-delta-v1.0.0.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "artifact_kind", "issue", "parent_issue", "source_observation", "remediation_register", "governance_readback", "summary", "groups", "replacement_packet", "authority_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "artifact_kind": {"const": "remediation_readiness_not_finding_disposition"},
+    "issue": {"const": "https://github.com/edithatogo/voiage/issues/867"},
+    "parent_issue": {"const": "https://github.com/edithatogo/voiage/issues/853"},
+    "source_observation": {"const": "source-observation-refresh-20260803.json"},
+    "remediation_register": {"const": "remediation-register.json"},
+    "governance_readback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["issue", "project"],
+      "properties": {
+        "issue": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["url", "node_id", "state", "native_parent"],
+          "properties": {
+            "url": {"const": "https://github.com/edithatogo/voiage/issues/867"},
+            "node_id": {"const": "I_kwDOPF8PXM8AAAABLL7a4A"},
+            "state": {"const": "OPEN"},
+            "native_parent": {"const": 853}
+          }
+        },
+        "project": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["url", "item_id", "status", "moscow", "track_id", "record_type", "record_id", "priority", "lifecycle", "gate", "owner_role", "evidence_state", "risk_level", "contract_version", "sync_state", "review_due"],
+          "properties": {
+            "url": {"const": "https://github.com/users/edithatogo/projects/28"},
+            "item_id": {"const": "PVTI_lAHOAOYc4M4Bd0Txzg1BDjs"},
+            "status": {"const": "In Progress"},
+            "moscow": {"const": "Must"},
+            "track_id": {"const": "sampling_acquisition_harm_voi_20260802"},
+            "record_type": {"const": "Current track"},
+            "record_id": {"const": "SAMPLING-HARM-867"},
+            "priority": {"const": "P1"},
+            "lifecycle": {"const": "Mitigating"},
+            "gate": {"const": "Human"},
+            "owner_role": {"const": "Source assurance and scientific review coordinator"},
+            "evidence_state": {"const": "Unverified"},
+            "risk_level": {"const": "Critical"},
+            "contract_version": {"const": "1.3.0"},
+            "sync_state": {"const": "Clean"},
+            "review_due": {"const": "2026-11-30"}
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["total_findings", "repository_implemented_awaiting_independent_rereview", "source_review_prerequisite", "candidate_and_human_review_prerequisite", "pending", "resolved"],
+      "properties": {
+        "total_findings": {"const": 19},
+        "repository_implemented_awaiting_independent_rereview": {"const": 3},
+        "source_review_prerequisite": {"const": 5},
+        "candidate_and_human_review_prerequisite": {"const": 11},
+        "pending": {"const": 19},
+        "resolved": {"const": 0}
+      }
+    },
+    "groups": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository_implemented_awaiting_independent_rereview", "source_review_prerequisite", "candidate_and_human_review_prerequisite"],
+      "properties": {
+        "repository_implemented_awaiting_independent_rereview": {"type": "array", "minItems": 3, "maxItems": 3, "uniqueItems": true, "items": {"type": "string"}},
+        "source_review_prerequisite": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"type": "string"}},
+        "candidate_and_human_review_prerequisite": {"type": "array", "minItems": 11, "maxItems": 11, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "replacement_packet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "historical_packet_preserved", "substantive_new_packet_required", "blockers"],
+      "properties": {
+        "status": {"const": "not_ready_to_freeze"},
+        "historical_packet_preserved": {"const": true},
+        "substantive_new_packet_required": {"const": true},
+        "blockers": {"type": "array", "minItems": 6, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["finding_disposition", "h8_d_satisfied", "h8_e_satisfied", "h8_f_satisfied", "h8_g_satisfied", "h8_h_satisfied", "scientific_acceptance", "runtime", "real_study", "publication", "release"],
+      "properties": {
+        "finding_disposition": {"const": false},
+        "h8_d_satisfied": {"const": false},
+        "h8_e_satisfied": {"const": false},
+        "h8_f_satisfied": {"const": false},
+        "h8_g_satisfied": {"const": false},
+        "h8_h_satisfied": {"const": false},
+        "scientific_acceptance": {"const": false},
+        "runtime": {"const": false},
+        "real_study": {"const": false},
+        "publication": {"const": false},
+        "release": {"const": false}
+      }
+    }
+  }
+}

@@ -58,6 +58,14 @@ separate gates.
         machine-enforced #571/#598 non-aliases, post-#863 administrative delta,
         nineteen pending findings and fail-closed source/reviewer intake cannot
         satisfy or bypass H8-D–H8-H.
+        Native child #867 is the next repository-owned preparation slice. It
+        records current automated observations for the six frozen sources and
+        partitions all nineteen pending findings into repository re-review,
+        source-review and candidate/human prerequisites. The historical packet
+        remains immutable, no source bytes or authority are retained, and a
+        replacement packet remains `not_ready_to_freeze` until exact-head CI,
+        merge and readback complete this slice and accountable external inputs
+        later satisfy their own gates.
         Canonical VOP C18/M32 planning is synchronized by merged PR #71 at
         `e0ff1d2ce3361d52ee22bb01e105b92653ed606c`; this is planning evidence,
         not H8 approval or runtime authority.

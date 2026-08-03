@@ -81,7 +81,8 @@ programme. The canonical cross-repository requirements are maintained in
   infeasibility, current/informed policies, gross/net value, switches,
   risk/constraint diagnostics and constraint-removal evidence without
   mislabelling discrete removal effects as local shadow prices.
-- **M32 / planned v1.3.0:** #850 and nested #851–#853 govern a distinct
+- **M32 / planned v1.3.0:** #850, nested #851–#853 and governed descendants
+  including #867 govern a distinct
   sampling-acquisition-harm research scope under C18. It declares a sampling
   action and explicit no-sampling comparator, design-indexed potential
   outcomes and observable filtration, incremental ordinary cost, affected
@@ -99,6 +100,11 @@ programme. The canonical cross-repository requirements are maintained in
   Automated challenge preparation may retain complete role-shaped reports and
   a synthesis, but cannot satisfy H8-D or H8-E when reviewer eligibility,
   independent source review or unresolved Critical/High findings fail.
+  Automated source refreshes must remain non-authorizing deltas: preserve the
+  frozen manifest, retain no unapproved source bytes, record representation
+  drift and keep rights, applicability and independent retrieval fail-closed.
+  Repository remediation remains pending until independent re-review, and a
+  replacement packet cannot freeze while declared prerequisites are absent.
   Two distinct humans then confirm scientific and domain/ethics adequacy, with
   a chair only for dispute, dissent or reviewer remediation. The maintainer's
   product decision, real-study authority and every downstream gate remain

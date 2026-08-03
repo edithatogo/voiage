@@ -24,7 +24,10 @@ flowchart LR
     Candidate --> Freeze["Verified #850 packet: Git OIDs, SHA-256 manifest, sources, claims and findings"]
     Freeze --> AutomatedPanel["Automated challenge panel: five role-shaped reports"]
     AutomatedPanel --> AutomatedSynthesis["Separate automated synthesis: all findings and dissent retained"]
-    AutomatedSynthesis --> ChallengeOnly["Challenge preparation only; H8-D and H8-E remain false"]
+    AutomatedSynthesis --> Readiness["#867 source observations and 19-finding readiness partition"]
+    Readiness --> PacketGate{"Independent retrieval, rights, applicability, candidate context and eligible humans complete?"}
+    PacketGate -->|"No"| ChallengeOnly["Preparation only; no replacement freeze and H8-D/H8-E remain false"]
+    PacketGate -->|"Yes, with accountable evidence"| Freeze
     Freeze --> Panel["Eligible independent reviewers plus domain/ethics specialist"]
     Panel --> Orchestrator["Separate orchestrator: findings, dissent, options, contingencies, rationale and recommendation"]
     Orchestrator --> Human{"Named scientific and domain/ethics humans confirm exact candidate?"}

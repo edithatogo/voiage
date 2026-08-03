@@ -29,6 +29,7 @@
       "voiage/resources/**",
       "voiage/sampling_harm_automated_challenge.py",
       "voiage/sampling_harm_review_preparation.py",
+      "voiage/sampling_harm_source_readiness.py",
       "voiage/scientific_review_evidence.py"
     ],
     "optional_extension": [
