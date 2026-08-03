@@ -51,10 +51,13 @@ separate gates.
         distinct scientific and domain/ethics humans, a conditional chair,
         separate maintainer decision and fail-closed governance readback. No
         runtime or real-study authorization exists.
-        Native child #864 is in progress for the bounded post-challenge
-        preparation: machine-enforced #571/#598 non-aliases, the post-#863
-        administrative delta, all nineteen pending findings and fail-closed
-        source/reviewer intake. It cannot satisfy or bypass H8-D–H8-H.
+        Native child #864's bounded post-challenge repository preparation is
+        complete through PR #865 exact head `973a79dc`, squash-merged as
+        `03277fef` after 38 successful checks, three governed skips, one neutral
+        result and zero failures, pending checks or unresolved threads. Its
+        machine-enforced #571/#598 non-aliases, post-#863 administrative delta,
+        nineteen pending findings and fail-closed source/reviewer intake cannot
+        satisfy or bypass H8-D–H8-H.
         Canonical VOP C18/M32 planning is synchronized by merged PR #71 at
         `e0ff1d2ce3361d52ee22bb01e105b92653ed606c`; this is planning evidence,
         not H8 approval or runtime authority.
