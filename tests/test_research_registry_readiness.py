@@ -114,3 +114,25 @@ def test_registry_track_separates_repository_completion_from_external_gates() ->
         if gate["id"] == "external-registry-decisions"
     )
     assert external_gate["status"] == "pending"
+
+
+def test_registry_archive_records_its_merged_delivery_pr() -> None:
+    """The archive must cite the PR that delivered and archived the track."""
+    metadata = json.loads((TRACK / "metadata.json").read_text(encoding="utf-8"))
+    manifest = json.loads(
+        Path("conductor/github-cross-references.json").read_text(encoding="utf-8")
+    )
+    entry = next(
+        item
+        for item in manifest["tracks"]
+        if item["track_id"] == "research_software_registry_readiness_20260721"
+    )
+    index = (TRACK / "index.md").read_text(encoding="utf-8")
+
+    delivery_url = "https://github.com/edithatogo/voiage/pull/880"
+    assert delivery_url in metadata["github_cross_reference"]["pull_requests"]
+    delivery = next(item for item in entry["pull_requests"] if item["number"] == 880)
+    assert delivery["status"] == "merged"
+    assert "c6e142f18e86579548e3a5c29118dd1ccd9365b0" in delivery["evidence"]
+    assert "5e0c4cbeb4432b19f50439831d226e1db5577539" in delivery["evidence"]
+    assert "pull/880" in index

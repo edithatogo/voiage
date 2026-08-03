@@ -13,6 +13,7 @@ if TYPE_CHECKING:
 
 MANIFEST_PATH = Path("conductor/github-cross-references.json")
 PROJECT_URL = "https://github.com/users/edithatogo/projects/28"
+TRACK_ROOTS = (Path("conductor/tracks"), Path("conductor/archive"))
 
 
 def _local_tracks(root: Path) -> set[str]:
@@ -21,6 +22,27 @@ def _local_tracks(root: Path) -> set[str]:
         base = root / relative
         tracks.update(path.name for path in base.iterdir() if path.is_dir())
     return tracks
+
+
+def _validated_track_path(root: Path, track_id: str, raw_path: object) -> Path | None:
+    """Return a repository-contained track path, or ``None`` when invalid."""
+    if not isinstance(raw_path, str) or not raw_path:
+        return None
+    relative = Path(raw_path)
+    if (
+        relative.is_absolute()
+        or ".." in relative.parts
+        or len(relative.parts) != 3
+        or relative.name != track_id
+        or relative.parent not in TRACK_ROOTS
+    ):
+        return None
+    candidate = (root / relative).resolve()
+    if not any(
+        candidate.is_relative_to((root / base).resolve()) for base in TRACK_ROOTS
+    ):
+        return None
+    return candidate
 
 
 def validate(root: Path) -> list[str]:
@@ -61,10 +83,15 @@ def validate(root: Path) -> list[str]:
             errors.append(f"{track_id}: missing parent issue or owned subissues")
 
         lifecycle = entry.get("lifecycle")
-        local_path = root / str(entry.get("path", ""))
+        local_path = _validated_track_path(root, track_id, entry.get("path"))
+        if local_path is None:
+            errors.append(
+                f"{track_id}: path must stay within conductor/tracks or "
+                "conductor/archive"
+            )
         metadata: dict[str, Any] | None = None
-        metadata_path = local_path / "metadata.json"
-        if metadata_path.exists():
+        metadata_path = local_path / "metadata.json" if local_path else None
+        if metadata_path is not None and metadata_path.exists():
             try:
                 loaded_metadata: Any = json.loads(metadata_path.read_text())
             except json.JSONDecodeError as exc:
@@ -105,7 +132,7 @@ def validate(root: Path) -> list[str]:
             elif lifecycle == "completed" and pull_request.get("status") != "merged":
                 errors.append(f"{track_id}: completed-track PR must be merged")
 
-        if local_path.is_dir():
+        if local_path is not None and local_path.is_dir():
             if metadata is not None:
                 cross_reference = metadata.get("github_cross_reference", {})
                 if cross_reference.get("issue") != issue.get("url"):

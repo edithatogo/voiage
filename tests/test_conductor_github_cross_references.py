@@ -28,6 +28,41 @@ def test_repository_cross_references_are_complete() -> None:
     assert _validator().validate(ROOT) == []
 
 
+def test_cross_reference_manifest_rejects_paths_outside_track_roots(
+    tmp_path: Path,
+) -> None:
+    """A manifest path cannot escape the two Conductor track containers."""
+    conductor = tmp_path / "conductor"
+    conductor.mkdir()
+    manifest = {
+        "schema_version": "1.0",
+        "project_url": "https://github.com/users/edithatogo/projects/28",
+        "tracks": [
+            {
+                "track_id": "escaped_track",
+                "path": "../outside/escaped_track",
+                "lifecycle": "active",
+                "issue": {"url": "https://github.com/edithatogo/voiage/issues/9999"},
+                "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1",
+                "subissues": [],
+                "pull_requests": [],
+            }
+        ],
+    }
+    (conductor / "github-cross-references.json").write_text(
+        json.dumps(manifest), encoding="utf-8"
+    )
+    (conductor / "tracks").mkdir()
+    (conductor / "archive").mkdir()
+
+    errors = _validator().validate(tmp_path)
+
+    assert (
+        "escaped_track: path must stay within conductor/tracks or conductor/archive"
+        in errors
+    )
+
+
 def test_sampling_acquisition_harm_track_owns_native_issue_hierarchy() -> None:
     """The fail-closed C18/M32 track is distinct from its umbrella listing."""
     manifest = json.loads(

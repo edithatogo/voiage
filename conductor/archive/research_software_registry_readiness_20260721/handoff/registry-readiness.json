@@ -3,7 +3,7 @@
   "channel": "research-software-registries",
   "status": "blocked",
   "owner": "voiage-maintainers",
-  "checked_at": "2026-08-03T15:08:02Z",
+  "checked_at": "2026-08-03T22:15:51Z",
   "next_action": "Monitor SciCrunch curator questions and record an assigned RRID only from authoritative evidence. Monitor open conda-forge PR 34308 and open, green Yggdrasil PR 14292. Obtain genuine human engagement evidence and complete replacement arXiv submission 7870358 before direct JOSS submission. R registry remains a separate path.",
   "external_gate": "Repository preparation is complete. The signed public v2.0.0 release, matching Software Heritage snapshot, PyPI/TestPyPI packages, four crates.io crates, SBOM, provenance, digests, clean-install evidence, release-bound JOSS PDF review, SciCrunch submission, developer research use, and author AI affirmation are recorded. SciCrunch curation, RRID assignment, and resolver indexing remain external. Conda-forge PR 34308 passes its current platform matrix; external review and merge remain pending. The Rust C ABI recipe is submitted as Yggdrasil PR 14292 with green checks. BinaryBuilder must accept the recipe and register voiage_ffi_jll before Voiage can declare it as a General dependency; Registrator and General bots or maintainers then control source-package registration and merge. Prior arXiv submission 7861466 is absent; replacement 7870358 is incomplete. Human engagement, arXiv completion and announcement, CRAN, direct JOSS submission, and editorial outcomes remain human or externally controlled.",
   "release_evidence": {

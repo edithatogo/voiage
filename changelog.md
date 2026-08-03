@@ -7,6 +7,10 @@
 
 ## Unreleased
 
+- Record the merged registry-readiness delivery PR in every Conductor
+  projection, refresh its live external-gate audit, and reject cross-reference
+  manifest paths outside the repository's track and archive roots.
+
 - Archive the repository-complete research-software registry readiness track,
   reconcile the recorded JOSS AI affirmation and developer research use, and
   keep RRID, arXiv, JOSS, community-engagement, and external registry outcomes
