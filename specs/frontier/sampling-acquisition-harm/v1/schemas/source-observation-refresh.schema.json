@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/sampling-acquisition-harm/source-observation-refresh-v1.0.0.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "artifact_kind", "observed_at", "historical_manifest", "summary", "sources", "authority_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "artifact_kind": {"const": "automated_source_observation_not_independent_source_review"},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "historical_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "immutable"],
+      "properties": {
+        "path": {"const": "conductor/tracks/sampling_acquisition_harm_voi_20260802/primary-source-manifest-20260802.json"},
+        "sha256": {"const": "9a04bddf98608ee8ffaf05eeba45bc3df86bcee96ff2d99706ba8cc3a65f3cb5"},
+        "immutable": {"const": true}
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_count", "byte_stable_same_representation", "dynamic_representation_drift", "official_representation_changed_not_byte_comparable", "cli_blocked_no_digest", "retained_source_bytes", "independent_retrieval_receipts"],
+      "properties": {
+        "source_count": {"const": 6},
+        "byte_stable_same_representation": {"const": 3},
+        "dynamic_representation_drift": {"const": 1},
+        "official_representation_changed_not_byte_comparable": {"const": 1},
+        "cli_blocked_no_digest": {"const": 1},
+        "retained_source_bytes": {"const": 0},
+        "independent_retrieval_receipts": {"const": 0}
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {"$ref": "#/$defs/source"}
+    },
+    "authority_boundary": {"$ref": "#/$defs/falseAuthority"}
+  },
+  "$defs": {
+    "digestOrNull": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stable_source_id", "official_locator", "retrieved_at", "retrieval_method", "retrieval_status", "http_status", "representation", "bytes_observed", "prior_observation_sha256", "current_observation_sha256", "drift_assessment", "retention_rights_status", "redistribution_rights_status", "retained_source_bytes", "independent_retrieval_receipt", "jurisdiction_applicability", "source_authority"],
+      "properties": {
+        "stable_source_id": {"enum": ["heath-2024-trial-design-voi", "belmont-report", "45-cfr-46", "ich-e6-r3-final", "camilleri-2022-safe-active-learning", "bottero-2022-safe-exploration"]},
+        "official_locator": {"type": "string", "format": "uri"},
+        "retrieved_at": {"const": "2026-08-03T02:11:21Z"},
+        "retrieval_method": {"enum": ["curl_8_7_1_follow_redirects", "curl_8_7_1_http_403_plus_web_observation"]},
+        "retrieval_status": {"enum": ["retrieved_automated_observation", "retrieved_official_version_api_observation", "cli_http_403_web_observed_no_digest"]},
+        "http_status": {"enum": [200, 403]},
+        "representation": {"enum": ["text/html", "application/pdf", "application/xml"]},
+        "bytes_observed": {"type": ["integer", "null"], "minimum": 1},
+        "prior_observation_sha256": {"$ref": "#/$defs/digestOrNull"},
+        "current_observation_sha256": {"$ref": "#/$defs/digestOrNull"},
+        "drift_assessment": {"type": "string", "minLength": 1},
+        "retention_rights_status": {"type": "string", "minLength": 1},
+        "redistribution_rights_status": {"type": "string", "minLength": 1},
+        "retained_source_bytes": {"const": false},
+        "independent_retrieval_receipt": {"const": false},
+        "jurisdiction_applicability": {"const": "unassessed_candidate_unspecified"},
+        "source_authority": {"const": false}
+      }
+    },
+    "falseAuthority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rights_review_complete", "drift_review_complete", "applicability_review_complete", "independent_source_review_complete", "scientific_authority", "publication_authority", "real_study_authority"],
+      "properties": {
+        "rights_review_complete": {"const": false},
+        "drift_review_complete": {"const": false},
+        "applicability_review_complete": {"const": false},
+        "independent_source_review_complete": {"const": false},
+        "scientific_authority": {"const": false},
+        "publication_authority": {"const": false},
+        "real_study_authority": {"const": false}
+      }
+    }
+  }
+}

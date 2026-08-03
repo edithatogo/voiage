@@ -280,6 +280,7 @@ def test_sampling_harm_method_family_has_no_runtime_declaration() -> None:
             if path.name in {
                 "sampling_harm_automated_challenge.py",
                 "sampling_harm_review_preparation.py",
+                "sampling_harm_source_readiness.py",
             }:
                 continue
             source = path.read_text(encoding="utf-8")
@@ -304,6 +305,7 @@ def test_sampling_harm_method_family_has_no_runtime_declaration() -> None:
         "governance-snapshot.schema.json",
         "governance-administrative-delta.schema.json",
         "prior-findings.schema.json",
+        "remediation-readiness-delta.schema.json",
         "remediation-register.schema.json",
         "review-candidate.schema.json",
         "review-preparation.schema.json",
@@ -312,6 +314,7 @@ def test_sampling_harm_method_family_has_no_runtime_declaration() -> None:
         "scope-selection.schema.json",
         "source-review-intake-readiness.schema.json",
         "source-and-retrieval-register.schema.json",
+        "source-observation-refresh.schema.json",
     }
 
 

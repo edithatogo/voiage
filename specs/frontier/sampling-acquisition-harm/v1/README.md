@@ -35,6 +35,14 @@ or receipts. The historical H8-C snapshot remains untouched; a separately dated
 governance delta records post-PR-#863 administrative facts and requires a new
 exact packet after substantive remediation.
 
+The separately dated #867 source-observation refresh records current automated
+representations without retaining source bytes or claiming independent
+retrieval, rights, drift completion or candidate applicability. Its remediation
+readiness delta partitions all nineteen pending findings into three repository
+changes awaiting re-review, five source-review prerequisites and eleven
+candidate/human-review prerequisites. It keeps Critical `H8D-DS-03` pending
+and explicitly prohibits a replacement packet freeze.
+
 `review-preparation.json` binds the exact candidate commit/tree to the
 canonical digests in `review-artifact-manifest.json` and `review-packet.json`.
 The dedicated validator reads every listed byte with `git show`; it rejects

@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "remediation_readiness_not_finding_disposition",
+  "issue": "https://github.com/edithatogo/voiage/issues/867",
+  "parent_issue": "https://github.com/edithatogo/voiage/issues/853",
+  "source_observation": "source-observation-refresh-20260803.json",
+  "remediation_register": "remediation-register.json",
+  "governance_readback": {
+    "issue": {
+      "url": "https://github.com/edithatogo/voiage/issues/867",
+      "node_id": "I_kwDOPF8PXM8AAAABLL7a4A",
+      "state": "OPEN",
+      "native_parent": 853
+    },
+    "project": {
+      "url": "https://github.com/users/edithatogo/projects/28",
+      "item_id": "PVTI_lAHOAOYc4M4Bd0Txzg1BDjs",
+      "status": "In Progress",
+      "moscow": "Must",
+      "track_id": "sampling_acquisition_harm_voi_20260802",
+      "record_type": "Current track",
+      "record_id": "SAMPLING-HARM-867",
+      "priority": "P1",
+      "lifecycle": "Mitigating",
+      "gate": "Human",
+      "owner_role": "Source assurance and scientific review coordinator",
+      "evidence_state": "Unverified",
+      "risk_level": "Critical",
+      "contract_version": "1.3.0",
+      "sync_state": "Clean",
+      "review_due": "2026-11-30"
+    }
+  },
+  "summary": {
+    "total_findings": 19,
+    "repository_implemented_awaiting_independent_rereview": 3,
+    "source_review_prerequisite": 5,
+    "candidate_and_human_review_prerequisite": 11,
+    "pending": 19,
+    "resolved": 0
+  },
+  "groups": {
+    "repository_implemented_awaiting_independent_rereview": ["H8D-API-GOV-01", "H8D-API-GOV-02", "H8D-GP-01"],
+    "source_review_prerequisite": ["H8D-ED-04", "H8D-EST-002", "H8D-API-GOV-03", "H8D-GP-02", "H8D-DS-05"],
+    "candidate_and_human_review_prerequisite": ["H8D-ED-01", "H8D-ED-02", "H8D-ED-03", "H8D-EST-001", "H8D-EST-003", "H8D-EST-004", "H8D-API-GOV-04", "H8D-DS-01", "H8D-DS-02", "H8D-DS-03", "H8D-DS-04"]
+  },
+  "replacement_packet": {
+    "status": "not_ready_to_freeze",
+    "historical_packet_preserved": true,
+    "substantive_new_packet_required": true,
+    "blockers": [
+      "candidate context remains unspecified",
+      "independent source retrieval and rights review remain absent",
+      "jurisdiction applicability remains unassessed",
+      "qualified independent human reviewers remain uncommissioned",
+      "all nineteen findings remain pending",
+      "Critical H8D-DS-03 remains pending"
+    ]
+  },
+  "authority_boundary": {
+    "finding_disposition": false,
+    "h8_d_satisfied": false,
+    "h8_e_satisfied": false,
+    "h8_f_satisfied": false,
+    "h8_g_satisfied": false,
+    "h8_h_satisfied": false,
+    "scientific_acceptance": false,
+    "runtime": false,
+    "real_study": false,
+    "publication": false,
+    "release": false
+  }
+}
