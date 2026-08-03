@@ -223,13 +223,13 @@ programme completed the Rust runtime takeover, legacy numerical-core retirement,
 thin binding consolidation, Astro documentation migration, hardened release
 gates, and signed public `v1.0.0` release. Remaining registry review/indexing
 and external archival outcomes are tracked separately in
-`conductor/tracks/research_software_registry_readiness_20260721/`. The
+`conductor/archive/research_software_registry_readiness_20260721/`. The
 machine-readable baseline is `conductor/v1-programme-baseline.json`; the
 archived implementation plan is in
 `conductor/archive/mature-hardened-v1-release-programme_20260719/`.
 
 Research-software registry readiness follows that release in
-`conductor/tracks/research_software_registry_readiness_20260721/`. Issues
+`conductor/archive/research_software_registry_readiness_20260721/`. Issues
 #296--#299 track Software Heritage, RRID, and JOSS outcomes without promoting
 local preparation into external archival, identifier, submission, review, or
 acceptance evidence.

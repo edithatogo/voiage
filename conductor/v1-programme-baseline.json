@@ -29,7 +29,6 @@
       "polyglot_abi_binding_parity_20260723",
       "quality_release_automation_20260723",
       "research_contribution_ai_transparency_20260723",
-      "research_software_registry_readiness_20260721",
     "remote_dataset_ingestion_security_20260801",
       "rust_polyglot_voi_completion_20260723",
       "sampling_acquisition_harm_voi_20260802",
@@ -39,7 +38,7 @@
       "value_of_perspective_completion_20260723",
       "voi_method_census_contract_reconciliation_20260723"
     ],
-  "archived_track_count": 131,
+    "archived_track_count": 132,
     "classifications": {
       "v1_required": [
         "repository-owned mature-v1 programme completed; external publication gates transferred to research_software_registry_readiness_20260721"

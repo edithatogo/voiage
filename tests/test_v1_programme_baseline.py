@@ -19,7 +19,6 @@ ACTIVE_TRACK_IDS = [
     "polyglot_abi_binding_parity_20260723",
     "quality_release_automation_20260723",
     "research_contribution_ai_transparency_20260723",
-    "research_software_registry_readiness_20260721",
     "remote_dataset_ingestion_security_20260801",
     "rust_polyglot_voi_completion_20260723",
     "sampling_acquisition_harm_voi_20260802",
@@ -61,7 +60,7 @@ def test_v1_programme_baseline_classifies_tracks_and_execution_lanes() -> None:
     conductor = baseline["conductor"]
 
     assert conductor["active_track_ids"] == ACTIVE_TRACK_IDS
-    assert conductor["archived_track_count"] == 131
+    assert conductor["archived_track_count"] == 132
     assert conductor["classifications"] == {
         "v1_required": [
             "repository-owned mature-v1 programme completed; external publication gates transferred to research_software_registry_readiness_20260721"
@@ -135,7 +134,7 @@ def test_roadmap_and_backlog_name_the_active_v1_programme() -> None:
     for track_id in ACTIVE_TRACK_IDS:
         assert track_id in roadmap
         assert track_id in todo
-    assert "## [~] Track: Research Software Registry Readiness" in registry
+    assert "## [x] Track: Research Software Registry Readiness" in registry
 
 
 def test_cross_reference_reconciliation_archive_records_merged_handoff() -> None:

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "recorded_at": "2026-08-03T04:30:00Z",
+  "recorded_at": "2026-08-03T15:08:02Z",
   "repository": "edithatogo/voiage",
   "authority": "read-only gh CLI and public web queries",
   "gates": {
@@ -8,6 +8,8 @@
     "issue_297": {"state": "closed", "url": "https://github.com/edithatogo/voiage/issues/297"},
     "issue_298": {"state": "open", "url": "https://github.com/edithatogo/voiage/issues/298"},
     "issue_299": {"state": "closed", "url": "https://github.com/edithatogo/voiage/issues/299"},
+    "issue_312": {"state": "open", "url": "https://github.com/edithatogo/voiage/issues/312"},
+    "issue_471": {"state": "open", "url": "https://github.com/edithatogo/voiage/issues/471"},
     "issue_555": {"state": "open", "url": "https://github.com/edithatogo/voiage/issues/555"},
     "conda_forge_pr_34308": {"state": "open", "head_sha": "9383c69e8c0b9656b132314124bdc161b2150905", "merge_commit": null, "url": "https://github.com/conda-forge/staged-recipes/pull/34308"},
     "yggdrasil_pr_14292": {"state": "open", "head_sha": "4daa76cc79c84fe73c266e71502cdd7384426c7e", "merge_commit": null, "url": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292"},
@@ -15,8 +17,9 @@
     "arxiv": {"state": "not_verified", "note": "No authoritative active voiage submission receipt was found in the public query; no submission or acceptance is claimed."}
   },
   "decisions": {
-    "registry_readiness": "partial",
-    "publication_readiness": "partial",
+    "repository_readiness": "complete",
+    "registry_readiness": "external_gates_pending",
+    "publication_readiness": "external_gates_pending",
     "external_acceptance": "pending"
   },
   "fail_closed": true,

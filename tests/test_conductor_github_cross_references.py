@@ -292,7 +292,7 @@ def test_final_governed_delivery_reconciliation_is_exact_and_additive() -> None:
         (
             ROOT
             / "conductor"
-            / "tracks"
+            / "archive"
             / "research_software_registry_readiness_20260721"
             / "metadata.json"
         ).read_text()
@@ -302,8 +302,10 @@ def test_final_governed_delivery_reconciliation_is_exact_and_additive() -> None:
     )
     assert (
         registry_entry["path"]
-        == "conductor/tracks/research_software_registry_readiness_20260721"
+        == "conductor/archive/research_software_registry_readiness_20260721"
     )
+    assert registry_entry["lifecycle"] == "completed"
+    assert registry_entry["issue_closure"] == "external_gate_tracking"
 
     archive_entry = next(
         item

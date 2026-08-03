@@ -61,8 +61,30 @@ def validate(root: Path) -> list[str]:
             errors.append(f"{track_id}: missing parent issue or owned subissues")
 
         lifecycle = entry.get("lifecycle")
+        local_path = root / str(entry.get("path", ""))
+        metadata: dict[str, Any] | None = None
+        metadata_path = local_path / "metadata.json"
+        if metadata_path.exists():
+            try:
+                loaded_metadata: Any = json.loads(metadata_path.read_text())
+            except json.JSONDecodeError as exc:
+                errors.append(f"{track_id}: invalid metadata JSON: {exc}")
+            else:
+                if isinstance(loaded_metadata, dict):
+                    metadata = loaded_metadata
         if lifecycle == "completed" and issue.get("state") != "closed":
-            errors.append(f"{track_id}: completed track issue must be closed")
+            pending_external_gate = bool(
+                metadata
+                and any(
+                    isinstance(gate, dict) and gate.get("status") == "pending"
+                    for gate in metadata.get("gates", [])
+                )
+            )
+            if (
+                entry.get("issue_closure") != "external_gate_tracking"
+                or not pending_external_gate
+            ):
+                errors.append(f"{track_id}: completed track issue must be closed")
         if lifecycle == "proposed":
             source_pr = entry.get("source_pull_request")
             if not isinstance(source_pr, dict) or not source_pr.get("url"):
@@ -83,18 +105,11 @@ def validate(root: Path) -> list[str]:
             elif lifecycle == "completed" and pull_request.get("status") != "merged":
                 errors.append(f"{track_id}: completed-track PR must be merged")
 
-        local_path = root / str(entry.get("path", ""))
         if local_path.is_dir():
-            metadata_path = local_path / "metadata.json"
-            if metadata_path.exists():
-                try:
-                    metadata = json.loads(metadata_path.read_text())
-                except json.JSONDecodeError as exc:
-                    errors.append(f"{track_id}: invalid metadata JSON: {exc}")
-                else:
-                    cross_reference = metadata.get("github_cross_reference", {})
-                    if cross_reference.get("issue") != issue.get("url"):
-                        errors.append(f"{track_id}: metadata issue backlink drift")
+            if metadata is not None:
+                cross_reference = metadata.get("github_cross_reference", {})
+                if cross_reference.get("issue") != issue.get("url"):
+                    errors.append(f"{track_id}: metadata issue backlink drift")
             index_path = local_path / "index.md"
             if index_path.exists() and str(issue["url"]) not in index_path.read_text():
                 errors.append(f"{track_id}: index issue backlink drift")

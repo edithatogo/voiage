@@ -5,10 +5,8 @@ from pathlib import Path
 
 from scripts.validate_external_track_handoff import validate_handoff
 
-HANDOFF = Path(
-    "conductor/tracks/research_software_registry_readiness_20260721/"
-    "handoff/registry-readiness.json"
-)
+TRACK = Path("conductor/archive/research_software_registry_readiness_20260721")
+HANDOFF = TRACK / "handoff/registry-readiness.json"
 
 
 def test_registry_handoff_preserves_release_and_external_gates() -> None:
@@ -52,7 +50,7 @@ def test_registry_track_records_native_paper_issue_hierarchy() -> None:
     assert "- [x] Reproduce and remediate the panel's scientific EVSI finding" in plan
     index = (track / "index.md").read_text()
     assert "merged v2 scientific EVSI contract" in index
-    assert "the track remains active" in index
+    assert "do not prevent repository archival" in index
     assert "JOSS/arXiv submission, curation, indexing, and registry acceptance" in index
     assert handoff["arxiv_preprint_evidence"]["review_pr"].endswith("/pull/311")
     assert handoff["arxiv_preprint_evidence"]["prior_submission_id"] == "7861466"
@@ -64,12 +62,12 @@ def test_registry_track_records_native_paper_issue_hierarchy() -> None:
     assert handoff["joss_submission_evidence"]["selected_route"] == "direct_joss"
     assert (
         handoff["joss_submission_evidence"]["status"]
-        == "revision_in_progress_pending_human_and_external_evidence"
+        == "repository_ready_pending_human_and_external_evidence"
     )
     remaining = handoff["joss_submission_evidence"]["remaining_submission_gates"]
     assert not any("exact v2 release" in gate for gate in remaining)
-    assert any("AI-policy attestation" in gate for gate in remaining)
-    assert any("research-workflow use" in gate for gate in remaining)
+    assert not any("AI-policy attestation" in gate for gate in remaining)
+    assert not any("research-workflow use" in gate for gate in remaining)
     assert any("human community engagement" in gate for gate in remaining)
     assert not any("Open Journals PDF" in gate for gate in remaining)
     assert (
@@ -81,3 +79,38 @@ def test_registry_track_records_native_paper_issue_hierarchy() -> None:
         handoff["software_heritage_archival_request"]["snapshot_swhid"]
         == "swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d"
     )
+
+
+def test_registry_track_separates_repository_completion_from_external_gates() -> None:
+    """Archived readiness work must not claim external registry outcomes."""
+    plan = (TRACK / "plan.md").read_text(encoding="utf-8")
+    metadata = json.loads((TRACK / "metadata.json").read_text(encoding="utf-8"))
+    handoff = json.loads(HANDOFF.read_text(encoding="utf-8"))
+    assurance = json.loads(
+        Path("paper/joss-editorial-assurance.json").read_text(encoding="utf-8")
+    )
+    readiness = Path("docs/release/joss-submission-readiness.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert metadata["status"] == "completed"
+    assert "- [~]" not in plan
+    assert "- [ ]" not in plan
+    assert (
+        assurance["human_review"][
+            "all_retained_ai_outputs_reviewed_modified_and_validated"
+        ]
+        == "confirmed"
+    )
+    remaining = handoff["joss_submission_evidence"]["remaining_submission_gates"]
+    assert not any("AI-policy attestation" in gate for gate in remaining)
+    assert not any("research-workflow use" in gate for gate in remaining)
+    assert any("human community engagement" in gate for gate in remaining)
+    assert "AI affirmation recorded" in readiness
+    assert "Demonstrated developer research use" in readiness
+    external_gate = next(
+        gate
+        for gate in metadata["gates"]
+        if gate["id"] == "external-registry-decisions"
+    )
+    assert external_gate["status"] == "pending"

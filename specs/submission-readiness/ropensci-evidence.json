@@ -11,7 +11,7 @@
     {"id": "input-error-and-seed-contract", "status": "satisfied", "evidence": ["r-package/voiageR/R/voiageR.R", "r-package/voiageR/tests/testthat/test-voiageR.R"]},
     {"id": "self-contained-installation", "status": "repository_blocked", "evidence": ["r-package/voiageR/DESCRIPTION", "r-package/voiageR/README.md"]},
     {"id": "pkgcheck", "status": "repository_blocked", "evidence": ["docs/release/binding-submission-checklist.md"]},
-    {"id": "maintainer-lifecycle-and-scope", "status": "human_deferred", "evidence": ["r-package/voiageR/README.md", "conductor/tracks/research_software_registry_readiness_20260721/plan.md"]},
-    {"id": "concurrent-review-and-inquiry", "status": "human_deferred", "evidence": ["specs/submission-readiness/targets.json", "conductor/tracks/research_software_registry_readiness_20260721/plan.md"]}
+    {"id": "maintainer-lifecycle-and-scope", "status": "human_deferred", "evidence": ["r-package/voiageR/README.md", "conductor/archive/research_software_registry_readiness_20260721/plan.md"]},
+    {"id": "concurrent-review-and-inquiry", "status": "human_deferred", "evidence": ["specs/submission-readiness/targets.json", "conductor/archive/research_software_registry_readiness_20260721/plan.md"]}
   ]
 }

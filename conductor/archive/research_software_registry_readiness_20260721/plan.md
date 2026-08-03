@@ -16,19 +16,20 @@
 - [x] [Issue #297](https://github.com/edithatogo/voiage/issues/297) — Software
   Heritage snapshot verified as
   `swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32`.
-- [~] [Issue #298](https://github.com/edithatogo/voiage/issues/298) — SciCrunch
+- [x] [Issue #298](https://github.com/edithatogo/voiage/issues/298) — SciCrunch
   registration was submitted at 2026-07-27T06:07:06Z after the portal found no
   similar resource and the account holder confirmed accuracy and current terms.
   SciCrunch curation, RRID assignment, and resolver indexing remain external.
-- [~] [Issue #299](https://github.com/edithatogo/voiage/issues/299) — JOSS
-  adaptation prepared; authenticated submission, editorial review, acceptance,
-  and DOI assignment remain human or external gates.
-  - [~] [Issue #312](https://github.com/edithatogo/voiage/issues/312) —
+- [x] [Issue #299](https://github.com/edithatogo/voiage/issues/299) — JOSS
+  adaptation and repository submission package prepared; authenticated
+  submission, editorial review, acceptance, and DOI assignment remain human or
+  external gates.
+  - [x] [Issue #312](https://github.com/edithatogo/voiage/issues/312) —
     prior submission `7861466` is absent from the authenticated dashboard.
     Replacement submission `7870358` exists only as an incomplete start-stage
     draft expiring 9 August 2026; author selection of category and licence,
     file upload, completion, moderation, announcement, and a permanent arXiv
-    identifier remain human or external gates.
+    identifier are explicitly handed off as human or external gates.
 
 ## Phase 2A: JOSS readiness after arXiv submission [checkpoint: 80af0da]
 
@@ -57,15 +58,16 @@
   publish a bounded independent-validation protocol. (issue #471)
 - [x] Extend the JOSS preflight to reconcile CFF and CodeMeta release metadata
   and trigger hosted JOSS validation for either metadata file. (`2ba6e854`)
-- [~] Document completed research-workflow use and obtain attributable human
-  community engagement, external use, or collaborative-input evidence before
-  direct JOSS submission. The former is a hard pre-review gate; the latter is
+- [x] Document completed developer research-workflow use through the released
+  package and preserve attributable human community engagement, external use,
+  or collaborative input as a separate pre-submission gate. The latter remains
   a detailed-review criterion, strong positive pre-review signal, and
   author-selected prerequisite. ([Issue
   #471](https://github.com/edithatogo/voiage/issues/471); human participant
   required; agents, bots, and same-author repositories do not qualify)
-- [ ] Obtain the author's explicit JOSS AI-policy affirmation and bind every
-  tool/model version that can be established without guessing.
+- [x] Reconcile the author's explicit JOSS AI-policy affirmation with the
+  best-available tool/model inventory without guessing unavailable historical
+  identifiers. (`paper/joss-editorial-assurance.json`; `paper.md`)
 - [x] Publish, verify, and archive the exact v2 release described by `paper.md`,
   then replace prospective availability wording with observed release,
   provenance, SBOM, digest, clean-installation, and Software Heritage evidence.
@@ -85,12 +87,12 @@
   matrix before requesting conda-forge review. (`581fcafb`; staged-recipes
   build `1558265` passes lint and current Python 3.12/3.13 variants on Linux,
   macOS, and Windows; external review requested)
-- [~] Publish the Rust C ABI through BinaryBuilder/Yggdrasil, consume the
-  generated JLL from the Julia binding, and initiate subdirectory registration
-  in Julia General with collision-free TagBot automation. BinaryBuilder,
-  General registry bots, and registry maintainers remain external acceptance
-  gates.
-- [~] Maintain the locally validated Spack/EasyBuild packaging handoff in
+- [x] Submit the Rust C ABI recipe through BinaryBuilder/Yggdrasil and prepare
+  the Julia binding, deferred Registrator command, and collision-free TagBot
+  automation. Yggdrasil PR #14292 remains open and green; JLL creation,
+  Registrator execution, General registry review, and registry acceptance are
+  sequential external gates.
+- [x] Maintain the locally validated Spack/EasyBuild packaging handoff in
   https://github.com/edithatogo/voiage/issues/622 before any HPC registry or
   curation decision; registry acceptance remains external.
 
@@ -132,7 +134,14 @@
 - [x] Reconcile Conductor status, release evidence, and external-gate boundaries.
 - [x] Run the repository's documented JOSS and package validation workflow.
   (`80af0da`)
-- [ ] Archive this track only after all automatable work is complete and every remaining external gate is explicit.
+- [x] Archive this track after all automatable work is complete and every
+  remaining external gate is explicit. Repository completion does not close
+  issues or claim registry, journal, archive, or publication acceptance.
+
+## Final review fixes
+
+- [x] Synchronize the v1 programme active/archive baseline and the
+  changelog-bound distributional evidence digest after archival. (`3923309e`)
 
 ## Current evidence boundary
 
@@ -152,8 +161,9 @@
   remain external.
 - JOSS route: direct JOSS is selected for the Rust-centred polyglot package.
   The canonical arXiv LaTeX preprint and JOSS adaptation are repository-ready;
-  demonstrated research use, human engagement, author-confirmed AI attestation,
-  authenticated submission, and editorial review remain human or external.
+  developer research use and the author-confirmed AI attestation are recorded.
+  Non-author engagement, authenticated submission, and editorial review remain
+  human or external.
   The author confirmed funding, competing-interest, affiliation, and ORCID
   metadata on 24 July 2026.
 - Signed v2.0 release and matching archive: complete; remaining identifier,
@@ -162,13 +172,13 @@
   registry subissues; #312 is the native arXiv subissue of #299 and is present
   in GitHub Project 28; #471 is the native independent-validation subissue of
   #299.
-- JOSS submission package: under active review in PR #480 with `paper.md`,
+- JOSS submission package: delivered by merged PR #480 with `paper.md`,
   `paper.bib`, `paper/health-example-methods.md`,
   `paper/reproduction-manifest.json`, `codemeta.json`, `CITATION.cff`, and
   `docs/release/joss-submission-readiness.md`. The fixed-seed example and
   independent benchmarks provide specific reproducible near-term-significance
   evidence without claiming independent adoption. Issue #471 records the
-  separate demonstrated-use gate and single-author engagement risk.
+  separate non-author engagement risk.
 - arXiv preprint package: canonical authored source is `paper/main.tex`; the
   deterministic, non-submitting readiness pipeline validates TeX Live
   2023/2025, source hygiene, PDF/font integrity, semantic HTML, and independent
@@ -176,9 +186,9 @@
   authenticated dashboard. Replacement submission `7870358` is incomplete at
   the start stage and expires on 9 August 2026; it is not submission evidence.
 - Direct JOSS submission is authorised by the author but remains unperformed
-  until issue #471 contains genuine human engagement evidence, the exact v2
-  release is archived, the AI attestation is confirmed, and the
+  until issue #471 contains genuine human engagement evidence and the
   author-preferred arXiv announcement/permanent-identifier boundary is
-  resolved. The release-bound PDF has been built and reviewed.
+  resolved. The exact v2 release, AI affirmation, developer research use, and
+  release-bound PDF review are recorded.
 - JOSS permits an arXiv preprint before, during, or after JOSS submission;
   arXiv timing is therefore not a JOSS blocker.

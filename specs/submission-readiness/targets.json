@@ -23,7 +23,7 @@
       "id": "paper-and-author-boundaries",
       "issue_url": "https://github.com/edithatogo/voiage/issues/299",
       "targets": ["arxiv", "joss", "scicrunch-rrid"],
-      "repository_outcome": "Maintain the locally validated manuscript and metadata package while leaving author attestations, upload, curation, and editorial decisions external."
+      "repository_outcome": "Maintain the locally validated manuscript, metadata package, recorded author affirmations, and developer-use evidence while leaving upload, curation, engagement, and editorial decisions external."
     },
     {
       "id": "python-community-review",
@@ -81,10 +81,11 @@
       "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
       "requirements": [
         {"id": "paper-and-validator", "status": "satisfied", "evidence": ["paper.md", "paper/joss-readiness-manifest.json", "scripts/validate_joss.py"]},
-        {"id": "research-use-human-attestation", "status": "pending", "evidence": ["docs/release/joss-independent-validation.md"]}
+        {"id": "developer-research-use", "status": "satisfied", "evidence": ["paper/joss-developer-research-use.json"]},
+        {"id": "non-author-engagement", "status": "pending", "evidence": ["docs/release/joss-independent-validation.md"]}
       ],
       "acceptance_evidence": ["JOSS submission identifier", "Public review issue", "Acceptance decision and DOI"],
-      "next_decision": "Direct submission remains after demonstrated use, human engagement evidence, AI affirmation, and author-selected arXiv sequence."
+      "next_decision": "Direct submission remains after human engagement evidence and the author-selected arXiv sequence."
     },
     {
       "id": "pyopensci",
@@ -96,7 +97,8 @@
       "requirements": [
         {"id": "package-baseline", "status": "satisfied", "evidence": ["README.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "LICENSE", "pyproject.toml"]},
         {"id": "method-provenance-and-overlap", "status": "satisfied", "evidence": ["README.md", "paper.md", "docs/astro-site/src/content/docs/methods/index.mdx"]},
-        {"id": "maintenance-and-ai-affirmation", "status": "pending", "evidence": ["SUPPORT.md", "GOVERNANCE.md", "AI_USAGE.md", "paper.md", "specs/submission-readiness/pyopensci-evidence.json"]}
+        {"id": "maintenance-commitment", "status": "pending", "evidence": ["SUPPORT.md", "paper.md", "specs/submission-readiness/pyopensci-evidence.json"]},
+        {"id": "ai-affirmation", "status": "satisfied", "evidence": ["paper.md", "paper/joss-editorial-assurance.json"]}
       ],
       "acceptance_evidence": ["pyOpenSci review issue", "pyOpenSci approval label and catalogue entry"],
       "next_decision": "After the JOSS outcome, refresh criteria and decide whether to open a pre-submission inquiry."
@@ -307,7 +309,7 @@
       "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
       "requirements": [
         {"id": "registration-metadata", "status": "satisfied", "evidence": ["CITATION.cff", "codemeta.json"]},
-        {"id": "curation-assignment", "status": "external", "evidence": ["conductor/tracks/research_software_registry_readiness_20260721/handoff/registry-readiness.json"]}
+        {"id": "curation-assignment", "status": "external", "evidence": ["conductor/archive/research_software_registry_readiness_20260721/handoff/registry-readiness.json"]}
       ],
       "acceptance_evidence": ["SciCrunch resource record", "Assigned RRID"],
       "next_decision": "Track registration, curation, and RRID assignment separately."

@@ -7,6 +7,11 @@
 
 ## Unreleased
 
+- Archive the repository-complete research-software registry readiness track,
+  reconcile the recorded JOSS AI affirmation and developer research use, and
+  keep RRID, arXiv, JOSS, community-engagement, and external registry outcomes
+  as explicit fail-closed gates.
+
 - Prepare the sampling-acquisition-harm H8-D-B remediation and independent-
   review intake: retain all 19 findings as pending, cover all four adjacent
   methods with negative non-alias tests, preserve the historical H8-C snapshot,
