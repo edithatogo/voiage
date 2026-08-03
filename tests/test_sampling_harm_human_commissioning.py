@@ -58,8 +58,7 @@ def test_canonical_preflight_is_blocked_without_claiming_authority() -> None:
     assert result["ready"] is False
 
 
-def test_authenticated_option_one_decision_advances_only_candidate_gate(
-) -> None:
+def test_authenticated_option_one_decision_advances_only_candidate_gate() -> None:
     result = load_and_validate_sampling_harm_candidate_decision(ROOT)
     assert result == {
         "commissioning_status": "blocked_prerequisites",
@@ -100,9 +99,7 @@ def test_authenticated_option_one_decision_advances_only_candidate_gate(
         ),
     ],
 )
-def test_candidate_decision_mutations_fail_closed(
-    mutation: Any, message: str
-) -> None:
+def test_candidate_decision_mutations_fail_closed(mutation: Any, message: str) -> None:
     decision, schema, preflight, delta, reviewers, sources = map(
         deepcopy, _decision_inputs()
     )

@@ -22,9 +22,7 @@ CONTRACT_PATH = Path("specs/frontier/sampling-acquisition-harm/v1")
 PREFLIGHT_PATH = CONTRACT_PATH / "human-commissioning-preflight-20260803.json"
 SCHEMA_PATH = CONTRACT_PATH / "schemas/human-commissioning-preflight.schema.json"
 DECISION_PATH = CONTRACT_PATH / "candidate-context-decision-20260803.json"
-DECISION_SCHEMA_PATH = (
-    CONTRACT_PATH / "schemas/candidate-context-decision.schema.json"
-)
+DECISION_SCHEMA_PATH = CONTRACT_PATH / "schemas/candidate-context-decision.schema.json"
 DELTA_PATH = CONTRACT_PATH / "remediation-readiness-delta-20260803.json"
 REVIEWER_INTAKE_PATH = CONTRACT_PATH / "reviewer-intake-readiness.json"
 SOURCE_INTAKE_PATH = CONTRACT_PATH / "source-review-intake-readiness.json"
