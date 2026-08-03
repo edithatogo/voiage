@@ -114,7 +114,8 @@
   requirements and privacy-safe handling. Fail closed until an accountable
   candidate selection, independent source evidence, eligible human assignments
   and a replacement packet exist; do not satisfy H8-D or any later gate.
-  (AC-06, AC-08–AC-12)
+  Implementation commit `dcfed227`; exact-head hosted checks, merge and
+  governance readback remain pending. (AC-06, AC-08–AC-12)
 - [ ] **H8-E:** Have a separate orchestrating agent normalize the reports,
   preserve every finding and disagreement, and synthesize options,
   contingencies, rationale and an evidence-backed recommendation without
