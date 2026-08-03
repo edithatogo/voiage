@@ -148,6 +148,59 @@ def test_candidate_decision_semantic_guards_reject_schema_bypass(
         )
 
 
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        (
+            lambda _decision, preflight, *_: preflight.__setitem__(
+                "candidate_context", None
+            ),
+            "candidate context is absent",
+        ),
+        (
+            lambda _decision, preflight, *_: preflight["candidate_context"].__setitem__(
+                "recommended_option_id", "bounded_non_authorizing_candidate"
+            ),
+            "does not supersede the exact preflight option",
+        ),
+        (
+            lambda _decision, _preflight, delta, *_: delta["summary"].__setitem__(
+                "pending", 18
+            ),
+            "nineteen pending findings are required",
+        ),
+        (
+            lambda _decision, _preflight, _delta, reviewers, _sources: reviewers[
+                "required_scientific_roles"
+            ][0].__setitem__("eligible", True),
+            "unexpectedly advances reviewer eligibility",
+        ),
+        (
+            lambda _decision, _preflight, _delta, _reviewers, sources: (
+                sources.__setitem__("source_authority", True)
+            ),
+            "unexpectedly advances source authority",
+        ),
+    ],
+)
+def test_candidate_decision_prerequisites_fail_closed(
+    mutation: Any, message: str
+) -> None:
+    decision, _schema, preflight, delta, reviewers, sources = map(
+        deepcopy, _decision_inputs()
+    )
+    mutation(decision, preflight, delta, reviewers, sources)
+    with pytest.raises(SamplingHarmHumanCommissioningError, match=message):
+        validate_sampling_harm_candidate_decision(
+            decision,
+            preflight,
+            delta,
+            reviewers,
+            sources,
+            schema={"type": "object"},
+        )
+
+
 def test_loader_rejects_non_object(tmp_path: Path) -> None:
     path = tmp_path / "array.json"
     path.write_text("[]", encoding="utf-8")
