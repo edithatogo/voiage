@@ -69,12 +69,16 @@ separate gates.
         replacement packet remains `not_ready_to_freeze`. Issue #867 and its
         Project item are Closed/Done/Resolved/Verified/Clean, but accountable
         external inputs must still satisfy their own gates.
-        Native child #870 governs a deterministic human commissioning
+        Native child #870 completed a deterministic human commissioning
         preflight and role-specific handoff. Its recommended reviewed-exclusion
         path, alternatives, source/finding bindings, eligibility/conflict
         screening, digest contracts and privacy safeguards remain preparation
         only: the candidate choice, source authority, eligible reviewers,
         replacement packet and H8-D through H8-H are still accountable gates.
+        PR #871 exact head `305bdad5` completed 38 successful checks and four
+        governed skips with zero failures, pending checks or unresolved review
+        threads before squash merge `8c710245`; #870 and Project 28 read back
+        Closed/Done/Resolved/Verified/Clean while retaining Human/Critical.
         Canonical VOP C18/M32 planning is synchronized by merged PR #71 at
         `e0ff1d2ce3361d52ee22bb01e105b92653ed606c`; this is planning evidence,
         not H8 approval or runtime authority.

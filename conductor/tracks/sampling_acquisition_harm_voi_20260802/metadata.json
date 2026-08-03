@@ -69,7 +69,8 @@
       "https://github.com/edithatogo/voiage/pull/862",
       "https://github.com/edithatogo/voiage/pull/863",
       "https://github.com/edithatogo/voiage/pull/865",
-      "https://github.com/edithatogo/voiage/pull/868"
+      "https://github.com/edithatogo/voiage/pull/868",
+      "https://github.com/edithatogo/voiage/pull/871"
     ]
   },
   "gates": [
@@ -118,8 +119,8 @@
     {
       "id": "h8dd-human-commissioning-preflight",
       "kind": "review_preparation",
-      "status": "pending",
-      "evidence": "Native child #870 and Project 28 are materialized for a deterministic human commissioning preflight and privacy-safe handoff. Repository implementation and exact-head hosted assurance remain pending. The accountable candidate choice, source authority, reviewer assignment and eligibility, replacement-packet freeze, all findings and H8-D through H8-H remain pending or false."
+      "status": "satisfied",
+      "evidence": "PR #871 exact head 305bdad591abbdcb1d99250dac111d7dbbbadae6 completed 38 successful checks and four governed skips with zero failures, pending checks or unresolved review threads before squash merge 8c7102450b30991ffe9e7278abbed1c7981edb22 at 2026-08-03T03:48:57Z. Issue #870 and Project 28 then read back Closed, Done, Resolved, Verified and Clean while retaining Gate Human and Risk Critical. H8-D-D preparation is satisfied only: the accountable candidate choice, source authority, reviewer assignment and eligibility, replacement-packet freeze, all findings and H8-D through H8-H remain pending or false."
     },
     {
       "id": "orchestrator-synthesis",
