@@ -64,7 +64,7 @@ narrow contract.
 ## Acceptance criteria
 
 - **AC-01:** Issue #850, native subissues #851–#853 and governed descendants
-  including #867, #870 and #873, parent #570, dependency #571, umbrella #841,
+  including #867, #870, #873 and #876, parent #570, dependency #571, umbrella #841,
   Project 28, C18/M32, roadmap, todo, track metadata and cross-references agree.
 - **AC-02:** The estimand distinguishes sampling harm, ordinary study cost,
   downstream decision harm, risk-sensitive perfect information and VoC.
@@ -102,6 +102,11 @@ narrow contract.
   the existing signed-output schemas, prohibits credentials and unnecessary
   personal data in the repository, and cannot report readiness or authority
   before the bound preconditions are independently satisfied.
+- **AC-13:** Preserve the historical unset commissioning preflight and record
+  an authenticated candidate-context decision as a separate receipt. Advance
+  only `candidate_selected`, remove only the candidate-decision blocker, and
+  route every independent source, reviewer, packet and finding prerequisite to
+  a separate blocked gate.
 
 ## Non-functional constraints
 

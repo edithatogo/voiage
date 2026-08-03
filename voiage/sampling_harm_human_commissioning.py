@@ -21,6 +21,8 @@ if TYPE_CHECKING:
 CONTRACT_PATH = Path("specs/frontier/sampling-acquisition-harm/v1")
 PREFLIGHT_PATH = CONTRACT_PATH / "human-commissioning-preflight-20260803.json"
 SCHEMA_PATH = CONTRACT_PATH / "schemas/human-commissioning-preflight.schema.json"
+DECISION_PATH = CONTRACT_PATH / "candidate-context-decision-20260803.json"
+DECISION_SCHEMA_PATH = CONTRACT_PATH / "schemas/candidate-context-decision.schema.json"
 DELTA_PATH = CONTRACT_PATH / "remediation-readiness-delta-20260803.json"
 REVIEWER_INTAKE_PATH = CONTRACT_PATH / "reviewer-intake-readiness.json"
 SOURCE_INTAKE_PATH = CONTRACT_PATH / "source-review-intake-readiness.json"
@@ -52,6 +54,7 @@ EXPECTED_BINDINGS = {
     "source-review-intake-readiness.json",
     "source-observation-refresh-20260803.json",
 }
+EXPECTED_REMAINING_BLOCKERS = EXPECTED_BLOCKERS - {"candidate-context-decision"}
 
 
 class SamplingHarmHumanCommissioningError(ValueError):
@@ -239,4 +242,113 @@ def load_and_validate_sampling_harm_human_commissioning(
         _load_object(root / SOURCE_INTAKE_PATH),
         schema=_load_object(root / SCHEMA_PATH),
         contract_root=contract,
+    )
+
+
+def validate_sampling_harm_candidate_decision(
+    decision: Mapping[str, Any],
+    preflight: Mapping[str, Any],
+    delta: Mapping[str, Any],
+    reviewer_intake: Mapping[str, Any],
+    source_intake: Mapping[str, Any],
+    *,
+    schema: dict[str, Any],
+) -> dict[str, Any]:
+    """Validate the accountable option-one receipt without advancing H8-D."""
+    try:
+        _validate_schema(decision, schema)
+    except SamplingHarmHumanCommissioningError as error:
+        raise SamplingHarmHumanCommissioningError(
+            f"decision receipt invalid: {error}"
+        ) from error
+
+    context = preflight.get("candidate_context")
+    if not isinstance(context, dict):
+        raise SamplingHarmHumanCommissioningError("candidate context is absent")
+    option_ids = {
+        item.get("option_id")
+        for item in context.get("options", [])
+        if isinstance(item, dict)
+    }
+    selected = decision["selected_option_id"]
+    if (
+        context.get("decision_status") != "decision_required"
+        or context.get("selected_option_id") is not None
+        or selected not in option_ids
+        or selected != context.get("recommended_option_id")
+    ):
+        raise SamplingHarmHumanCommissioningError(
+            "decision receipt does not supersede the exact preflight option"
+        )
+
+    remaining = decision["remaining_blocker_ids"]
+    if (
+        len(remaining) != len(set(remaining))
+        or set(remaining) != EXPECTED_REMAINING_BLOCKERS
+    ):
+        raise SamplingHarmHumanCommissioningError(
+            "remaining blocker inventory mismatch"
+        )
+
+    authority = decision["authority_boundary"]
+    if authority.get("candidate_selected") is not True or any(
+        value is not False
+        for key, value in authority.items()
+        if key != "candidate_selected"
+    ):
+        raise SamplingHarmHumanCommissioningError(
+            "decision receipt claims unavailable authority"
+        )
+
+    summary = delta.get("summary")
+    if not isinstance(summary, dict) or summary.get("pending") != 19:
+        raise SamplingHarmHumanCommissioningError(
+            "nineteen pending findings are required"
+        )
+    scientific_roles = reviewer_intake.get("required_scientific_roles")
+    if not isinstance(scientific_roles, list) or any(
+        item.get("eligible") is not False
+        or item.get("assignment_status") != "unassigned"
+        for item in scientific_roles
+    ):
+        raise SamplingHarmHumanCommissioningError(
+            "candidate decision unexpectedly advances reviewer eligibility"
+        )
+    source_flags = (
+        "rights_review_complete",
+        "applicability_review_complete",
+        "drift_review_complete",
+        "independent_retrieval_receipt",
+        "source_authority",
+    )
+    if any(source_intake.get(field) is not False for field in source_flags):
+        raise SamplingHarmHumanCommissioningError(
+            "candidate decision unexpectedly advances source authority"
+        )
+
+    return {
+        "commissioning_status": "blocked_prerequisites",
+        "candidate_decision": decision["decision_status"],
+        "selected_option": selected,
+        "remaining_blockers": len(remaining),
+        "pending_findings": summary["pending"],
+        "source_review_ready": False,
+        "eligible_reviewers": 0,
+        "ready": False,
+    }
+
+
+def load_and_validate_sampling_harm_candidate_decision(
+    repository_root: Path,
+) -> dict[str, Any]:
+    """Load the selected candidate receipt after validating its preflight."""
+    root = repository_root.resolve()
+    load_and_validate_sampling_harm_human_commissioning(root)
+    return validate_sampling_harm_candidate_decision(
+        _load_object(root / DECISION_PATH),
+        _load_object(root / PREFLIGHT_PATH),
+        _load_object(root / DELTA_PATH),
+        _load_object(root / REVIEWER_INTAKE_PATH),
+        _load_object(root / SOURCE_INTAKE_PATH),
+        schema=_load_object(root / DECISION_SCHEMA_PATH),
     )

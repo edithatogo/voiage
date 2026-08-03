@@ -18,6 +18,15 @@ are not eligible humans. No complete eligible reviewer attestations,
 adjudication or scientific approval exists. Runtime discovery therefore
 remains `unsupported_research_scoping`.
 
+The accountable maintainer subsequently selected the generic-kernel exclusion
+path—option 1 in #873 and option B below—through the owner-authored #873
+receipt. It seeks independent review of the proposed exclusion for any
+universal automatic-scalar or study-authorizing kernel while preserving
+narrower non-authorizing research. The immutable unset preflight remains
+historical evidence; the separate decision receipt advances only the candidate
+choice. Issue #876 now owns the still-blocked source, eligible-reviewer and
+replacement-packet prerequisites.
+
 The evidence contract now distinguishes Git object identifiers from SHA-256
 content digests, verifies frozen-tree bytes, enforces role separation and
 limits administrative deltas. The next repository-owned step is to repair the

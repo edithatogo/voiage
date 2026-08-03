@@ -137,11 +137,34 @@
   threads before squash merge `cd3cf454`. Issue #873 remains Open and Project
   28 remains In Progress/Blocked/Human/Critical/Clean. (AC-01, AC-08–AC-12)
   `13e9b9b`
-- [ ] **H8-D-E:** Record one authenticated, content-bound accountable choice
+- [x] **H8-D-E:** Record one authenticated, content-bound accountable choice
   under #873 with a brief rationale. If the bounded-candidate option is chosen,
   also define its domain, jurisdiction, population, sampling action, comparator
   and affected parties. A generic continuation instruction cannot satisfy this
-  Human gate. (AC-08, AC-09, AC-12)
+  Human gate. Option 1 is selected by owner-authored #873 comment
+  `5166647873`: seek independent review of the proposed generic-kernel
+  `reviewed_exclusion` while preserving narrower non-authorizing research.
+  #873 and Project 28 read back Closed/Done/Resolved/Verified/Clean; only
+  `candidate_selected` advances. (AC-08, AC-09, AC-12, AC-13) `b9cf555`
+- [x] **H8-D-E-R1:** Synchronize the fail-closed schema inventory, retain
+  direct schema-bypass coverage for blocker and authority escalation, and
+  align the new Python lines with the applicable style guide. No production
+  capability or additional authority changes. (AC-07, AC-10, AC-13) `33b8bc2`
+- [x] **H8-D-E-R2:** Apply the repository-wide Ruff formatter required by the
+  hosted lint job to the three changed Python files. This is a mechanical
+  formatting repair with no contract, behavior or authority change. (AC-07,
+  AC-10, AC-13) `e9867d4`
+- [x] **H8-D-E-R3:** Exercise every fail-closed branch reported by the hosted
+  changed-line coverage policy: absent candidate context, preflight mismatch,
+  altered finding count, reviewer escalation and source-authority escalation.
+  No success-path behavior or authority changes. (AC-07, AC-10, AC-13)
+  `65ed9c1`
+- [ ] **H8-D-F:** Under native child #876, obtain independently evidenced
+  source retrieval, rights and applicability review; screen and assign
+  eligible conflict-free H8-D humans; and bind the selected exclusion, all
+  nineteen findings and current evidence to a replacement packet. Repository
+  preparation or automated agents cannot satisfy this Human/Critical gate.
+  (AC-06, AC-08–AC-13)
 - [ ] **H8-E:** Have a separate orchestrating agent normalize the reports,
   preserve every finding and disagreement, and synthesize options,
   contingencies, rationale and an evidence-backed recommendation without

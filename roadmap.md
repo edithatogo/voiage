@@ -114,19 +114,17 @@ cannot itself satisfy H8-D or select the candidate. Issue #870 and Project 28
 read back Closed, Done, Resolved, Verified and Clean while retaining the Human
 and Critical boundary.
 
-Native child #873 now isolates the first remaining accountable transition. It
-is an In Progress, Blocked, Human and Critical Project gate requiring exactly
-one authenticated candidate-context option and rationale. The recommended path
-is independent review of a proposed exclusion for any universal automatic-
-scalar or study-authorizing kernel while preserving narrower non-authorizing
-research. PR #874 exact head `4e678625` completed 33 successful checks, three
-governed skips and one neutral rollup with zero failures, pending checks or
-unresolved review threads before squash merge `cd3cf454`, materializing this
-gate in Conductor without selecting an option. Issue #873 remains Open and its
-Project item remains In Progress/Blocked/Human/Critical/Clean. No option is
-selected by repository synchronization or a generic continuation instruction,
-and #873 cannot satisfy source, reviewer, finding, packet, H8-D through H8-H,
-runtime, study, release or publication gates.
+Native child #873 completed the accountable option-1 transition through the
+owner-authored comment `5166647873`: seek independent review of a proposed
+exclusion for any universal automatic-scalar or study-authorizing kernel while
+preserving narrower non-authorizing research. Issue #873 and Project 28 read
+back Closed/Done/Resolved/Verified/Clean while retaining Human/Critical. The
+separate receipt preserves the historical unset preflight and advances only
+candidate selection. Native child #876 is now the first remaining accountable
+gate and reads Open/In Progress/Blocked/Human/Critical/Clean for independent
+source retrieval, rights/applicability review, eligible human assignments and
+a replacement packet. All nineteen findings, H8-D through H8-H, runtime,
+study, release and publication remain pending or false.
 
 Canonical C18/M32 planning is synchronized through VOP PR #71, squash-merged
 as `e0ff1d2ce3361d52ee22bb01e105b92653ed606c` after 16 terminal successful

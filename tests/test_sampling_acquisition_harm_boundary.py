@@ -301,6 +301,7 @@ def test_sampling_harm_method_family_has_no_runtime_declaration() -> None:
     assert schemas == {
         "adjacent-method-non-alias-delta.schema.json",
         "automated-challenge-synthesis.schema.json",
+        "candidate-context-decision.schema.json",
         "capability.schema.json",
         "estimand-boundary.schema.json",
         "governance-snapshot.schema.json",

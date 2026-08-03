@@ -70,6 +70,11 @@
   bounded candidate. Do not interpret a generic continuation instruction as
   the decision or let the decision satisfy any source, reviewer, finding,
   runtime, study, release or publication gate.
+- **M32-H17:** Preserve the historical unset commissioning preflight after a
+  decision and add a separate authenticated receipt for the selected option,
+  rationale and hosted readback. Advance only the candidate-selection flag;
+  retain independent source, reviewer, replacement-packet and finding blockers
+  under a separate Human/Critical gate.
 
 ## Should
 
