@@ -100,6 +100,15 @@ independent-review or finding-disposition authority. A replacement packet
 remains unready until candidate context, independent source evidence and
 eligible human review exist.
 
+Native child #870 now owns the next repository-only slice: a deterministic,
+fail-closed human commissioning preflight and role-specific handoff. It records
+the recommended generic-kernel reviewed-exclusion path alongside bounded-
+candidate and deferral alternatives, but leaves the accountable choice unset.
+It binds all nineteen findings, five source prerequisites and seven separated
+H8-D/H8-G roles, and prohibits ready, reviewer-eligibility, source-authority or
+scientific claims. A merged implementation may make the handoff usable; it
+cannot itself satisfy H8-D or select the candidate.
+
 Canonical C18/M32 planning is synchronized through VOP PR #71, squash-merged
 as `e0ff1d2ce3361d52ee22bb01e105b92653ed606c` after 16 terminal successful
 checks and one governed scheduled-only skip. That cross-repository merge is

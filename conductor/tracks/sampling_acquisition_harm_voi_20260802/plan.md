@@ -107,6 +107,14 @@
   threads before squash merge `b60d6ee9`; #867 and Project 28 then read back
   Closed, Done, Resolved, Verified and Clean while retaining the Human and
   Critical boundary. (AC-01, AC-06, AC-08–AC-11)
+- [~] **H8-D-D:** Under native child #870, materialize a deterministic human
+  commissioning preflight and role-specific handoff kit. Bind the candidate
+  context decision, all nineteen pending findings, the five source-review
+  prerequisites, reviewer eligibility/conflict screening, receipt/digest
+  requirements and privacy-safe handling. Fail closed until an accountable
+  candidate selection, independent source evidence, eligible human assignments
+  and a replacement packet exist; do not satisfy H8-D or any later gate.
+  (AC-06, AC-08–AC-12)
 - [ ] **H8-E:** Have a separate orchestrating agent normalize the reports,
   preserve every finding and disagreement, and synthesize options,
   contingencies, rationale and an evidence-backed recommendation without

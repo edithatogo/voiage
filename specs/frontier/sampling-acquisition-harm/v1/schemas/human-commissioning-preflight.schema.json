@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/sampling-acquisition-harm/v1/schemas/human-commissioning-preflight.schema.json",
+  "title": "SamplingHarmHumanCommissioningPreflightV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "artifact_kind", "issue", "parent_issue", "commissioning_status", "candidate_context", "input_bindings", "required_human_roles", "source_prerequisite_finding_ids", "preconditions", "blocker_ids", "human_output_contracts", "privacy_and_security", "authority_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "artifact_kind": {"const": "human_commissioning_preflight_only_not_a_review_receipt"},
+    "issue": {"const": "https://github.com/edithatogo/voiage/issues/870"},
+    "parent_issue": {"const": "https://github.com/edithatogo/voiage/issues/853"},
+    "commissioning_status": {"const": "blocked_prerequisites"},
+    "candidate_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision_status", "selected_option_id", "recommended_option_id", "options", "accountable_decision_required"],
+      "properties": {
+        "decision_status": {"const": "decision_required"},
+        "selected_option_id": {"type": "null"},
+        "recommended_option_id": {"const": "reviewed_exclusion_generic_kernel"},
+        "accountable_decision_required": {"const": true},
+        "options": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["option_id", "recommended", "scope", "rationale", "additional_prerequisites"],
+            "properties": {
+              "option_id": {"enum": ["reviewed_exclusion_generic_kernel", "bounded_non_authorizing_candidate", "defer_and_retain_unsupported"]},
+              "recommended": {"type": "boolean"},
+              "scope": {"type": "string", "minLength": 1},
+              "rationale": {"type": "string", "minLength": 1},
+              "additional_prerequisites": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+            }
+          }
+        }
+      }
+    },
+    "input_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "required_human_roles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["role_id", "stage", "assignment_status", "eligible", "instructions_section"],
+        "properties": {
+          "role_id": {"type": "string", "minLength": 1},
+          "stage": {"enum": ["h8_d", "h8_g"]},
+          "assignment_status": {"const": "unassigned"},
+          "eligible": {"const": false},
+          "instructions_section": {"type": "string", "pattern": "^human-review-commissioning-handoff.md#"}
+        }
+      }
+    },
+    "source_prerequisite_finding_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "preconditions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_context_selected", "source_review_ready", "rights_review_complete", "applicability_review_complete", "independent_retrieval_receipts_complete", "eligible_h8_d_roles_assigned", "replacement_packet_frozen", "all_findings_dispositioned"],
+      "properties": {
+        "candidate_context_selected": {"const": false},
+        "source_review_ready": {"const": false},
+        "rights_review_complete": {"const": false},
+        "applicability_review_complete": {"const": false},
+        "independent_retrieval_receipts_complete": {"const": false},
+        "eligible_h8_d_roles_assigned": {"const": false},
+        "replacement_packet_frozen": {"const": false},
+        "all_findings_dispositioned": {"const": false}
+      }
+    },
+    "blocker_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "human_output_contracts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["eligibility_attestation", "role_report", "finding_disposition", "scientific_approval"],
+      "properties": {
+        "eligibility_attestation": {"const": "specs/frontier/governance/scientific-review/v1/schemas/reviewer-attestation.schema.json"},
+        "role_report": {"const": "specs/frontier/governance/scientific-review/v1/schemas/role-report.schema.json"},
+        "finding_disposition": {"const": "specs/frontier/governance/scientific-review/v1/schemas/disposition.schema.json"},
+        "scientific_approval": {"const": "specs/frontier/governance/scientific-review/v1/schemas/scientific-approval.schema.json"}
+      }
+    },
+    "privacy_and_security": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["credentials_in_repository", "personal_contact_details_in_repository", "raw_signatures_in_repository", "stable_reviewer_id_required", "public_evidence_consent_required"],
+      "properties": {
+        "credentials_in_repository": {"const": false},
+        "personal_contact_details_in_repository": {"const": false},
+        "raw_signatures_in_repository": {"const": false},
+        "stable_reviewer_id_required": {"const": true},
+        "public_evidence_consent_required": {"const": true}
+      }
+    },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_selected", "source_authority", "reviewer_eligibility", "reviewer_commissioned", "replacement_packet_frozen", "finding_disposition", "h8_d_satisfied", "h8_e_satisfied", "h8_f_satisfied", "h8_g_satisfied", "h8_h_satisfied", "runtime", "real_study", "release", "publication"],
+      "properties": {
+        "candidate_selected": {"const": false},
+        "source_authority": {"const": false},
+        "reviewer_eligibility": {"const": false},
+        "reviewer_commissioned": {"const": false},
+        "replacement_packet_frozen": {"const": false},
+        "finding_disposition": {"const": false},
+        "h8_d_satisfied": {"const": false},
+        "h8_e_satisfied": {"const": false},
+        "h8_f_satisfied": {"const": false},
+        "h8_g_satisfied": {"const": false},
+        "h8_h_satisfied": {"const": false},
+        "runtime": {"const": false},
+        "real_study": {"const": false},
+        "release": {"const": false},
+        "publication": {"const": false}
+      }
+    }
+  }
+}

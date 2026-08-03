@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-08-02T14:20:00Z",
-  "updated_at": "2026-08-03T00:00:00Z",
+  "updated_at": "2026-08-03T03:20:32Z",
   "planned_version": "1.3.0",
   "moscow": "must",
   "requirement_ids": [
@@ -56,7 +56,8 @@
       "https://github.com/edithatogo/voiage/issues/852",
       "https://github.com/edithatogo/voiage/issues/853",
       "https://github.com/edithatogo/voiage/issues/864",
-      "https://github.com/edithatogo/voiage/issues/867"
+      "https://github.com/edithatogo/voiage/issues/867",
+      "https://github.com/edithatogo/voiage/issues/870"
     ],
     "project": "https://github.com/users/edithatogo/projects/28",
     "pull_requests": [
@@ -113,6 +114,12 @@
       "kind": "review_preparation",
       "status": "satisfied",
       "evidence": "PR #868 exact head ee9da9babf785525032f4ed6446a478c9a47602e completed 38 successful checks, three governed skips and one neutral result with zero failures, pending checks or unresolved review threads before squash merge b60d6ee9a19b79503525488c716d6ad231fa0aa0 at 2026-08-03T02:56:34Z. Issue #867 then closed and Project 28 read back Done, Resolved, Verified and Clean while retaining Gate Human and Risk Critical. H8-D-C preparation is satisfied only: the immutable H8-C packet, zero retained source bytes, all nineteen pending findings, not_ready_to_freeze replacement status and every H8-D through H8-H authority boundary remain unchanged."
+    },
+    {
+      "id": "h8dd-human-commissioning-preflight",
+      "kind": "review_preparation",
+      "status": "pending",
+      "evidence": "Native child #870 and Project 28 are materialized for a deterministic human commissioning preflight and privacy-safe handoff. Repository implementation and exact-head hosted assurance remain pending. The accountable candidate choice, source authority, reviewer assignment and eligibility, replacement-packet freeze, all findings and H8-D through H8-H remain pending or false."
     },
     {
       "id": "orchestrator-synthesis",

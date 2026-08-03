@@ -43,6 +43,15 @@ changes awaiting re-review, five source-review prerequisites and eleven
 candidate/human-review prerequisites. It keeps Critical `H8D-DS-03` pending
 and explicitly prohibits a replacement packet freeze.
 
+Native child #870 adds a deterministic human commissioning preflight and
+role-specific handoff. It recommends review of the proposed generic-kernel
+exclusion while keeping the accountable choice unset, binds the nineteen
+findings, five source prerequisites and seven separated H8-D/H8-G roles, and
+rejects any ready or authority claim while inputs remain absent. The handoff
+also prohibits repository storage of credentials, personal contact details or
+raw signatures. It is preparation only and does not commission or qualify a
+reviewer.
+
 `review-preparation.json` binds the exact candidate commit/tree to the
 canonical digests in `review-artifact-manifest.json` and `review-packet.json`.
 The dedicated validator reads every listed byte with `git show`; it rejects
