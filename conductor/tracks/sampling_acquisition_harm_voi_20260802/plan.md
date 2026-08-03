@@ -95,15 +95,18 @@
   checks, three governed skips, one neutral result and zero failures, pending
   checks or unresolved threads before squash merge `03277fef`. All nineteen
   findings and H8-D through H8-H remain pending.
-- [ ] **H8-D-C:** Under native child #867, preserve the immutable H8-C source
+- [x] **H8-D-C:** Under native child #867, preserve the immutable H8-C source
   manifest while recording separately dated automated observations for all six
   sources and a disjoint remediation-readiness partition for all nineteen
   still-pending findings. Validate representation drift, zero retained bytes,
   absent independent receipts, fail-closed rights/applicability, the Critical
   H8D-DS-03 blocker and a replacement-packet status of `not_ready_to_freeze`.
-  This repository preparation does not satisfy H8-D or disposition a finding;
-  complete it only after exact-head hosted checks, merge and governance
-  readback. (AC-01, AC-06, AC-08–AC-11)
+  This repository preparation does not satisfy H8-D or disposition a finding.
+  PR #868 exact head `ee9da9ba` completed 38 successful checks, three governed
+  skips, one neutral result and zero failures, pending checks or unresolved
+  threads before squash merge `b60d6ee9`; #867 and Project 28 then read back
+  Closed, Done, Resolved, Verified and Clean while retaining the Human and
+  Critical boundary. (AC-01, AC-06, AC-08–AC-11)
 - [ ] **H8-E:** Have a separate orchestrating agent normalize the reports,
   preserve every finding and disagreement, and synthesize options,
   contingencies, rationale and an evidence-backed recommendation without

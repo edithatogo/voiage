@@ -67,7 +67,8 @@
       "https://github.com/edithatogo/voiage/pull/861",
       "https://github.com/edithatogo/voiage/pull/862",
       "https://github.com/edithatogo/voiage/pull/863",
-      "https://github.com/edithatogo/voiage/pull/865"
+      "https://github.com/edithatogo/voiage/pull/865",
+      "https://github.com/edithatogo/voiage/pull/868"
     ]
   },
   "gates": [
@@ -110,8 +111,8 @@
     {
       "id": "h8dc-source-observation-and-remediation-readiness",
       "kind": "review_preparation",
-      "status": "pending",
-      "evidence": "Native child #867 and its Project 28 record govern a separately dated six-source automated observation refresh and disjoint partition of all nineteen pending findings. Local implementation preserves the immutable H8-C packet, retains zero source bytes, keeps rights/applicability/independent review false and marks the replacement packet not_ready_to_freeze. Exact-head hosted checks, merge and governance readback remain required before H8-D-C completion; this gate cannot satisfy H8-D or disposition a finding."
+      "status": "satisfied",
+      "evidence": "PR #868 exact head ee9da9babf785525032f4ed6446a478c9a47602e completed 38 successful checks, three governed skips and one neutral result with zero failures, pending checks or unresolved review threads before squash merge b60d6ee9a19b79503525488c716d6ad231fa0aa0 at 2026-08-03T02:56:34Z. Issue #867 then closed and Project 28 read back Done, Resolved, Verified and Clean while retaining Gate Human and Risk Critical. H8-D-C preparation is satisfied only: the immutable H8-C packet, zero retained source bytes, all nineteen pending findings, not_ready_to_freeze replacement status and every H8-D through H8-H authority boundary remain unchanged."
     },
     {
       "id": "orchestrator-synthesis",
