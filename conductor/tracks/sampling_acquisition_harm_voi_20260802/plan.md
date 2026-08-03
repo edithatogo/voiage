@@ -153,7 +153,7 @@
 - [x] **H8-D-E-R2:** Apply the repository-wide Ruff formatter required by the
   hosted lint job to the three changed Python files. This is a mechanical
   formatting repair with no contract, behavior or authority change. (AC-07,
-  AC-10, AC-13)
+  AC-10, AC-13) `e9867d4`
 - [ ] **H8-D-F:** Under native child #876, obtain independently evidenced
   source retrieval, rights and applicability review; screen and assign
   eligible conflict-free H8-D humans; and bind the selected exclusion, all
