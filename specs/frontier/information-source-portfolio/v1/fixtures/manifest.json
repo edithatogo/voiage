@@ -6,6 +6,7 @@
   "normative": [
     {
       "name": "complementary-redundant-source-portfolio",
+      "reference": "tests/test_information_source_portfolio.py::test_normative_joint_portfolio_matches_independent_reference",
       "input_artifact": "normative/input.json",
       "expected_output_artifact": "normative/expected.json"
     }
@@ -13,7 +14,12 @@
   "pathologies": [
     "cases/incomplete-joint-observation.json",
     "cases/order-cycle.json",
-    "cases/rights-uncleared.json"
+    "cases/rights-uncleared.json",
+    "tests/test_information_source_portfolio.py::test_cross_field_semantic_pathologies_fail_closed"
+  ],
+  "property_tests": [
+    "tests/test_information_source_portfolio.py",
+    "tests/test_information_source_portfolio_governance.py"
   ],
   "files": [
     {"path": "normative/input.json", "sha256": "eb0b154b2dfbe3c8259f78da7c2203be616310637bc3cc78e63b2d63c8203587"},

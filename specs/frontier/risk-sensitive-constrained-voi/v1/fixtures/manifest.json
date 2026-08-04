@@ -12,5 +12,12 @@
       "tolerance_policy": "declared-absolute-and-relative-tolerances"
     }
   ],
-  "pathologies": []
+  "pathologies": [
+    "tests/test_risk_sensitive_voi.py::test_semantic_pathologies_fail_closed",
+    "tests/test_risk_sensitive_voi.py::test_no_feasible_baseline_policy_is_explicit",
+    "tests/test_risk_sensitive_voi.py::test_non_finite_result_values_fail_portable_validation"
+  ],
+  "property_tests": [
+    "tests/test_risk_sensitive_voi.py"
+  ]
 }

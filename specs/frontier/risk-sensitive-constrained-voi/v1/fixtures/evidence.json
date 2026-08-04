@@ -10,7 +10,7 @@
     {"path": "voiage/methods/risk_sensitive_voi.py", "sha256": "528189a35a4ca0850d315a69156d98b309253e31ec0658305c68dd06d1613d80"},
     {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/README.md", "sha256": "c904ba22b878fb8b656320740d177dc649c3319853838dcdb51315eee47e2cf1"},
     {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/capabilities.json", "sha256": "6747f1b93b7c6117781be0e0b06deead3222338e58b673c08c3992e1820fe6fa"},
-    {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/fixtures/manifest.json", "sha256": "ada2f72e71aa272de8b2a08fc9f8467125a3fc30041b149723ccb31d684d13c8"},
+    {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/fixtures/manifest.json", "sha256": "e29ae51d90933be3092e9e5deb4b2a9eb55c7bed5d22d0aff6d2c780a228f241"},
     {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/fixtures/normative/input.json", "sha256": "1427cbeb28930902a099c416eb5cccfb2602e780a190b3a64fcd5d6874fa87ae"},
     {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/fixtures/normative/expected.json", "sha256": "51d869a2d408f8d9a1acd5fe1ceb06524ff7e577eed629decd3d180a93f81a4c"},
     {"path": "specs/frontier/risk-sensitive-constrained-voi/v1/schemas/risk-sensitive-voi-input.schema.json", "sha256": "27df704e284efddb5bf1b9d6dfa482f0460536373292e954b0557422dd1329d1"},
