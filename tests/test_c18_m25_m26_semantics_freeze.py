@@ -4,7 +4,6 @@ import hashlib
 import json
 from pathlib import Path
 
-
 ROOT = Path(__file__).parents[1]
 FREEZE = ROOT / "conductor/tracks/supported_frontier_method_completion_20260723/c18-m25-m26-semantics-freeze.json"
 
