@@ -14,6 +14,10 @@
   ],
   "pathologies": [
     "one-stage information value is zero while two-stage value is positive",
-    "null sensor reduces to the matched no-information comparator"
+    "null sensor reduces to the matched no-information comparator",
+    "tests/test_belief_state_information.py"
+  ],
+  "property_tests": [
+    "tests/test_belief_state_information.py"
   ]
 }

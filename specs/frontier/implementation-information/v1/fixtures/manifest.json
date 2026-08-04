@@ -16,6 +16,10 @@
     "missing state-action uptake cells",
     "non-finite net benefit",
     "zero population",
-    "incomplete signal likelihoods"
+    "incomplete signal likelihoods",
+    "tests/test_implementation_information.py"
+  ],
+  "property_tests": [
+    "tests/test_implementation_information.py"
   ]
 }

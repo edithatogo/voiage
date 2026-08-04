@@ -4,9 +4,16 @@
     {
       "expected_output_artifact": "normative/expected.json",
       "id": "negative-delta-positive-vsi-exact",
+      "reference": "tests/test_outcome_conditional_sample_information.py",
       "input_artifact": "normative/input.json"
     }
   ],
   "status": "fixture-backed",
+  "pathologies": [
+    "tests/test_outcome_conditional_sample_information.py"
+  ],
+  "property_tests": [
+    "tests/test_outcome_conditional_sample_information.py"
+  ],
   "version": "v1"
 }

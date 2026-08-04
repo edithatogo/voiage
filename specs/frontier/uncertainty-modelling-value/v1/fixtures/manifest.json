@@ -4,15 +4,19 @@
   "method": "value_of_uncertainty_modelling",
   "authority": "independent finite policy-table enumeration and pathology mutations",
   "normative": [
-    {"name": "two-stage-nonlinear-point-estimate", "input_artifact": "normative/two-stage-nonlinear-input.json", "expected_output_artifact": "normative/two-stage-nonlinear-expected.json"},
-    {"name": "three-stage-maximization", "input_artifact": "normative/multistage-input.json", "expected_output_artifact": "normative/multistage-expected.json"},
-    {"name": "infeasible-induced-recourse", "input_artifact": "normative/infeasible-recourse-input.json", "expected_output_artifact": "normative/infeasible-recourse-expected.json"}
+    {"name": "two-stage-nonlinear-point-estimate", "input_artifact": "normative/two-stage-nonlinear-input.json", "expected_output_artifact": "normative/two-stage-nonlinear-expected.json", "reference": "tests/test_uncertainty_modelling_value.py::test_nonlinear_point_estimate_reference_decomposition"},
+    {"name": "three-stage-maximization", "input_artifact": "normative/multistage-input.json", "expected_output_artifact": "normative/multistage-expected.json", "reference": "tests/test_uncertainty_modelling_value.py::test_multistage_maximization_and_nonanticipativity_reference"},
+    {"name": "infeasible-induced-recourse", "input_artifact": "normative/infeasible-recourse-input.json", "expected_output_artifact": "normative/infeasible-recourse-expected.json", "reference": "tests/test_uncertainty_modelling_value.py"}
   ],
   "pathologies": [
     "cases/crossing-history-filtration.json",
     "cases/nonpartition-history.json",
     "cases/nonfinite-objective.json",
-    "cases/no-relatively-complete-recourse.json"
+    "cases/no-relatively-complete-recourse.json",
+    "tests/test_uncertainty_modelling_value.py"
+  ],
+  "property_tests": [
+    "tests/test_uncertainty_modelling_value.py"
   ],
   "files": [
     {"path": "cases/crossing-history-filtration.json", "sha256": "e2cd2fe531f40b76fc34ca91d047a2b76fe38eab6b66e5ed7263d09ca5d84c6c"},
