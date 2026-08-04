@@ -5,8 +5,15 @@
   "normative": [
     {
       "id": "multivariate-tail-event-exact",
+      "reference": "tests/test_event_localized_information.py",
       "input_artifact": "normative/input.json",
       "expected_output_artifact": "normative/expected.json"
     }
+  ],
+  "pathologies": [
+    "tests/test_event_localized_information.py"
+  ],
+  "property_tests": [
+    "tests/test_event_localized_information.py"
   ]
 }

@@ -12,5 +12,12 @@
       "tolerance_policy": "declared absolute and relative tolerances"
     }
   ],
-  "pathologies": []
+  "pathologies": [
+    "tests/test_forecast_signal_information.py::test_semantic_pathologies_fail_closed",
+    "tests/test_forecast_signal_information.py::test_miscalibrated_forecast_can_harm_decisions_without_negative_price",
+    "tests/test_forecast_signal_information.py::test_late_or_stale_signal_has_zero_operational_value"
+  ],
+  "property_tests": [
+    "tests/test_forecast_signal_information.py"
+  ]
 }

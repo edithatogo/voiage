@@ -12,5 +12,10 @@
       "tolerance_policy": "declared absolute and relative tolerances"
     }
   ],
-  "pathologies": []
+  "pathologies": [
+    "tests/test_heterogeneity.py"
+  ],
+  "property_tests": [
+    "tests/test_heterogeneity.py"
+  ]
 }
