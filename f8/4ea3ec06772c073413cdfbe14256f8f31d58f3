@@ -1,0 +1,1 @@
+Panel-validated exact semantics freeze for M27 (#596), M28 (#597), M29 (#598), M30 (#599), and M31 (#600). Existing finite Python evaluators, contracts, tests, and pathology evidence are hash-bound at origin/main candidate 291347ba; scientific approval, parity, promotion, release, publication, registry, and issue closure remain separate gates.
