@@ -1,5 +1,6 @@
 """Audit complete repository-owned evidence registration for C18 families."""
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -35,3 +36,24 @@ def test_every_c18_family_registers_reference_property_and_pathology_evidence() 
                 candidate_path = ROOT / "specs/frontier" / family / "v1/fixtures" / candidate
             if "/" in candidate or candidate.startswith("tests/"):
                 assert candidate_path.is_file(), (family, evidence_path)
+
+
+def test_every_c18_normative_fixture_is_replayable_and_hash_pins_are_current() -> None:
+    """Require normative artifacts and any declared evidence pins to replay."""
+    for family in FAMILIES:
+        fixture_root = ROOT / "specs/frontier" / family / "v1/fixtures"
+        manifest = json.loads((fixture_root / "manifest.json").read_text())
+        for normative in manifest["normative"]:
+            for key in ("input_artifact", "expected_output_artifact"):
+                artifact = fixture_root / normative[key]
+                assert artifact.is_file(), (family, key, normative[key])
+
+        evidence = fixture_root / "evidence.json"
+        if not evidence.is_file():
+            continue
+        payload = json.loads(evidence.read_text())
+        for entry in payload.get("artifacts", []):
+            artifact = ROOT / entry["path"]
+            assert artifact.is_file(), (family, entry["path"])
+            digest = hashlib.sha256(artifact.read_bytes()).hexdigest()
+            assert digest == entry["sha256"], (family, entry["path"])
