@@ -35,5 +35,8 @@ def test_c18_families_are_experimental_until_both_gates_pass() -> None:
         capabilities = json.loads(
             (ROOT / "specs/frontier" / family / "v1/capabilities.json").read_text()
         )
-        assert capabilities.get("maturity", capabilities.get("method_maturity")) == "experimental", family
+        assert (
+            capabilities.get("maturity", capabilities.get("method_maturity"))
+            == "experimental"
+        ), family
         assert capabilities.get("stable_claim_allowed", False) is False, family

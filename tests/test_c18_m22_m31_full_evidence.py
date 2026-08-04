@@ -32,7 +32,9 @@ def test_every_c18_family_registers_reference_property_and_pathology_evidence() 
             candidate = evidence_path.split("::", 1)[0]
             candidate_path = ROOT / candidate
             if not candidate_path.is_file() and not candidate.startswith("tests/"):
-                candidate_path = ROOT / "specs/frontier" / family / "v1/fixtures" / candidate
+                candidate_path = (
+                    ROOT / "specs/frontier" / family / "v1/fixtures" / candidate
+                )
             if "/" in candidate or candidate.startswith("tests/"):
                 assert candidate_path.is_file(), (family, evidence_path)
 
