@@ -4,7 +4,6 @@ import hashlib
 import json
 from pathlib import Path
 
-
 ROOT = Path(__file__).parents[1]
 FAMILIES = {
     "risk-sensitive-constrained-voi": "tests/test_risk_sensitive_voi.py",
