@@ -43,6 +43,14 @@ changes awaiting re-review, five source-review prerequisites and eleven
 candidate/human-review prerequisites. It keeps Critical `H8D-DS-03` pending
 and explicitly prohibits a replacement packet freeze.
 
+The owner-approved `agent-assurance-review-20260804.json` adds an explicit
+`agent_only` route for this single-person project. It permits a representative
+agent panel to prepare source receipts, rights observations, provisional
+applicability analysis, dissent and a draft packet. It does not replace the
+human gate: human review is recorded as not performed, unknown rights remain
+unresolved, and scientific, legal, ethics, regulatory, runtime, study,
+publication and release authority remains false.
+
 Native child #870 adds a deterministic human commissioning preflight and
 role-specific handoff. It recommends review of the proposed generic-kernel
 exclusion while keeping the accountable choice unset, binds the nineteen
