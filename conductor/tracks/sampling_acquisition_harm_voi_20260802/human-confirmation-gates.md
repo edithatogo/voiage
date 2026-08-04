@@ -7,6 +7,18 @@ process for sampling-acquisition harm. Automated reviewers and an orchestrating
 agent prepare challenge evidence; they never provide the named human
 confirmation.
 
+## Owner-approved agent-only mode
+
+For this single-person project, the owner may accept `agent_only` assurance as
+the operational route for repository-owned preparation. The representative
+panel may retrieve public source representations, observe rights notices,
+produce provisional applicability analysis, preserve disagreement and draft a
+replacement packet. This is explicitly not independent human review. Human
+review is recorded as `not_performed`; unresolved rights remain unresolved;
+and no agent, panel or orchestrator may grant scientific, legal, ethics,
+regulatory, runtime, real-study, publication or release authority. The original
+H8-D-F human gate and every downstream human gate remain unsatisfied.
+
 ## Current entry state
 
 H8 is not ready to solicit a human verdict. H8-C binds a historical

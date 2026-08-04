@@ -19,6 +19,7 @@
 - [Nineteen-finding remediation register](../../../specs/frontier/sampling-acquisition-harm/v1/remediation-register.json)
 - [Qualified-reviewer intake readiness](../../../specs/frontier/sampling-acquisition-harm/v1/reviewer-intake-readiness.json)
 - [Source-review intake readiness](../../../specs/frontier/sampling-acquisition-harm/v1/source-review-intake-readiness.json)
+- [Owner-approved agent-only assurance review](../../../specs/frontier/sampling-acquisition-harm/v1/agent-assurance-review-20260804.json)
 - [Current automated source observations](../../../specs/frontier/sampling-acquisition-harm/v1/source-observation-refresh-20260803.json)
 - [Remediation-readiness delta](../../../specs/frontier/sampling-acquisition-harm/v1/remediation-readiness-delta-20260803.json)
 - [Metadata](./metadata.json)
