@@ -171,14 +171,17 @@
   preparation or automated agents cannot satisfy this Human/Critical gate.
   (AC-06, AC-08–AC-13)
 
-- [ ] **H8-D-F-A:** Owner-approved `agent_only` assurance route for this
+- [x] **H8-D-F-A:** Owner-approved `agent_only` assurance route for this
   single-person project. A representative source/rights, VOI/estimand,
   domain/ethics-scope, adversarial-governance and synthesis panel may prepare
   content-bound receipts, provisional applicability analysis, preserved
   dissent and a draft packet. Human review is explicitly not performed;
   eligible-human review, scientific acceptance, source authority, finding
   disposition, runtime, study, publication and release authority remain false.
-  This route does not satisfy H8-D-F or any downstream human gate. (AC-06,
+  This route does not satisfy H8-D-F or any downstream human gate. PR #884
+  exact head `c481ecc` passed all required hosted checks and merged as
+  `ed227f2`; the candidate-bound packet, report digests, source receipt and
+  nineteen pending findings now read back from `origin/main`. (AC-06,
   AC-08–AC-13)
 - [ ] **H8-E:** Have a separate orchestrating agent normalize the reports,
   preserve every finding and disagreement, and synthesize options,
