@@ -42,9 +42,9 @@
   },
   "artifact_sha256": {
     "conductor/tracks/supported_frontier_method_completion_20260723/contract-freeze.json": "7c2fadac93cda91560433a549d19f9b9a9acd04e8a6f897bbd6436a8b18985c9",
-    "specs/frontier/risk-sensitive-constrained-voi/v1/fixtures/manifest.json": "5cf44978dfa595ec9706cb034a8b4952c7ac92907683cc891f3e5426e9f71452",
-    "specs/frontier/forecast-signal-information/v1/fixtures/manifest.json": "4a2008323e93384dd71924411fe47f95203264da048a8fd31f976b1bce8f8592",
-    "specs/frontier/information-source-portfolio/v1/fixtures/manifest.json": "1642dc5cb8ebada5b59e27fd1f4bb2b4c7dd990829b7e6b4cfd072d8cf1c4dfa",
+    "specs/frontier/risk-sensitive-constrained-voi/v1/fixtures/manifest.json": "e29ae51d90933be3092e9e5deb4b2a9eb55c7bed5d22d0aff6d2c780a228f241",
+    "specs/frontier/forecast-signal-information/v1/fixtures/manifest.json": "0935bab4517c8fe6b3111656d5d9d901dcb8b62e706899ad37e5e2e4f8c9f9e7",
+    "specs/frontier/information-source-portfolio/v1/fixtures/manifest.json": "aa1d6d6d2b4ff58dad4763d396fafeb1f557161ee4b1b000158a2e34bba4dc0c",
     "voiage/methods/risk_sensitive_voi.py": "528189a35a4ca0850d315a69156d98b309253e31ec0658305c68dd06d1613d80",
     "voiage/methods/forecast_signal_information.py": "49b8fe67bbb137c0905bdf4d7afc670021620f497cf4adcce591866ef9262840",
     "voiage/methods/information_source_portfolio.py": "042c466f3400297505247cfe273a2ac4458db1064941cdb021148b28d55042a5",

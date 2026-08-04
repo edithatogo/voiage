@@ -33,8 +33,8 @@
   },
   "artifact_sha256": {
     "conductor/tracks/supported_frontier_method_completion_20260723/contract-freeze.json": "7c2fadac93cda91560433a549d19f9b9a9acd04e8a6f897bbd6436a8b18985c9",
-    "specs/frontier/implementation-information/v1/fixtures/manifest.json": "09ede63ebd6bc99f16708d58fb1a281465900309bc46d5a4eb80dea6db9a9c2c",
-    "specs/frontier/uncertainty-modelling-value/v1/fixtures/manifest.json": "f9ab1c94b10d3f201b6d20925679f6ae9f60679c8e7cf7db240636d15e2c3c47",
+    "specs/frontier/implementation-information/v1/fixtures/manifest.json": "8d1c7ec3cf4b0aeed33e325fa274228b7019e1dd87a891739bf994fd8494f10b",
+    "specs/frontier/uncertainty-modelling-value/v1/fixtures/manifest.json": "e43df4448590a845edfd0388571368ab78a387185234cd97c49868f881fce5e4",
     "voiage/methods/implementation_information.py": "d8ab5d18e40a61c4da43e70d1cb8325b85e160c9b192ff33dfb7e5351d5a3ce2",
     "voiage/methods/uncertainty_modelling_value.py": "62b007fe02d77090a33deafefe26a9cf98f093e015ed289cbdcfa62e47e614ac",
     "tests/test_implementation_information.py": "fd5939e16cd2538f1c2eb48a1478b99af03ce447d7ed01be55d64ddbd2a33c41",
