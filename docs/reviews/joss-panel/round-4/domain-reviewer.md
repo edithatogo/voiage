@@ -1,7 +1,7 @@
 # Round 4 domain and health-economics review
 
-Date: 24 July 2026  
-Score: 870/1000  
+Date: 24 July 2026
+Score: 870/1000
 Recommendation: major revision
 
 This is an internal AI-assisted readiness simulation, not a formal peer review.

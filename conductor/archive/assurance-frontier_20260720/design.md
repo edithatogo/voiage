@@ -61,4 +61,3 @@ Contract mismatch, unsupported provenance, budget regression, mutation debt,
 non-reproducible artifacts, unsafe log fields and governance ambiguity all fail
 closed. Optional toolchain absence is recorded as a capability gate and cannot
 satisfy a required test.
-

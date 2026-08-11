@@ -1,7 +1,7 @@
 # Round 4 independent numerical verification
 
-Date: 24 July 2026  
-Score: 932/1000  
+Date: 24 July 2026
+Score: 932/1000
 Recommendation: major revision
 
 This is an internal AI-assisted verification report, not a formal JOSS review.

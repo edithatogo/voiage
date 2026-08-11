@@ -1,7 +1,7 @@
 # Round 4 panel synthesis
 
-Date: 24 July 2026  
-Panel status: major revision  
+Date: 24 July 2026
+Panel status: major revision
 Passing rule: every role at least 996/1000 and no material blocker
 
 This is an internal AI-assisted readiness panel. It is not a formal JOSS review

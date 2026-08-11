@@ -1,7 +1,7 @@
 # Round 4 accessibility and plain-language review
 
-Date: 24 July 2026  
-Score: 824/1000  
+Date: 24 July 2026
+Score: 824/1000
 Recommendation: major revision
 
 This is an internal AI-assisted editorial simulation, not a formal JOSS review.

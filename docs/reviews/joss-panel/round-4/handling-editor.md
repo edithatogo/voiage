@@ -1,7 +1,7 @@
 # Round 4 handling-editor review
 
-Date: 24 July 2026  
-Score: 834/1000  
+Date: 24 July 2026
+Score: 834/1000
 Recommendation: major revision
 
 This is an internal AI-assisted readiness simulation, not a JOSS editorial

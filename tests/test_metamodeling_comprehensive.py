@@ -87,13 +87,13 @@ def test_random_forest_metamodel_comprehensive(sample_data) -> None:
     # Test error conditions
     # Test prediction before fitting
     model_unfitted = RandomForestMetamodel(n_estimators=5, random_state=42)
-    with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
         model_unfitted.predict(x)
 
-    with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
         model_unfitted.score(x, y)
 
-    with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
         model_unfitted.rmse(x, y)
 
 
@@ -144,13 +144,13 @@ def test_gam_metamodel_comprehensive(sample_data) -> None:
     # Test prediction before fitting
     try:
         model_unfitted = GAMMetamodel(n_splines=3)
-        with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
             model_unfitted.predict(x)
 
-        with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
             model_unfitted.score(x, y)
 
-        with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
             model_unfitted.rmse(x, y)
     except AttributeError as e:
         # Handle numpy compatibility issues
@@ -199,13 +199,13 @@ def test_bart_metamodel_comprehensive(sample_data) -> None:
     # Test error conditions
     # Test prediction before fitting
     model_unfitted = BARTMetamodel(num_trees=5)
-    with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
         model_unfitted.predict(x_small)
 
-    with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
         model_unfitted.score(x_small, y_small)
 
-    with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
         model_unfitted.rmse(x_small, y_small)
 
 
@@ -243,7 +243,7 @@ def test_flax_metamodel_rmse(sample_data) -> None:
         model = FlaxMetamodel(learning_rate=0.01, n_epochs=10)
 
         # Test rmse before fitting raises error
-        with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
             model.rmse(x, y)
 
         model.fit(x, y)
@@ -281,6 +281,32 @@ def test_tinygp_metamodel_dependency_handling(sample_data) -> None:
         assert rmse >= 0
     except ImportError:
         # This is expected if dependencies are missing
+        pass
+
+
+def test_tinygp_metamodel_rmse(sample_data) -> None:
+    """Test the rmse method of TinyGPMetamodel."""
+    try:
+        from voiage.metamodels import TinyGPMetamodel
+    except ImportError:
+        pytest.skip("TinyGPMetamodel not available")
+
+    x, y = sample_data
+
+    try:
+        model = TinyGPMetamodel()
+
+        # Test rmse before fitting raises error
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            model.rmse(x, y)
+
+        model.fit(x, y)
+
+        # Test rmse after fitting
+        rmse_val = model.rmse(x, y)
+        assert isinstance(rmse_val, float)
+        assert rmse_val >= 0
+    except ImportError:
         pass
 
 

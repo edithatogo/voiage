@@ -1,7 +1,7 @@
 # Round 4 editor-in-chief screening
 
-Date: 24 July 2026  
-Score: 761/1000  
+Date: 24 July 2026
+Score: 761/1000
 Recommendation: do not submit this revision
 
 This is an internal AI-assisted readiness simulation, not a JOSS editorial

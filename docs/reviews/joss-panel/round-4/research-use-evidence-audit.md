@@ -1,6 +1,6 @@
 # Round 4 research-use evidence audit
 
-Date: 24 July 2026  
+Date: 24 July 2026
 Disposition: no qualifying research use found
 
 This sidecar audit supports the simulated panel. It is not a formal JOSS

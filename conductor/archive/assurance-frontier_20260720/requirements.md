@@ -56,4 +56,3 @@
 The implementation plan maps phases 1–6 to these IDs. Evidence belongs in git
 notes, retained CI artifacts, issue #42 and GitHub Project #28; credentials and
 private local artifacts are never committed.
-
