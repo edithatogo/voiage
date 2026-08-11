@@ -470,3 +470,45 @@ def test_sparse_matrix_protocol_toarray() -> None:
     result = valid_instance.toarray()
     assert isinstance(result, np.ndarray)
     np.testing.assert_array_equal(result, np.array([1, 2, 3]))
+
+
+def test_flax_metamodel_score():
+    """Test that FlaxMetamodel.score properly calculates R^2 using predict and _safe_r2_score."""
+    try:
+        from voiage.metamodels import FlaxMetamodel
+
+        # attempt instantiation to catch missing optional deps
+        FlaxMetamodel()
+    except ImportError:
+        pytest.skip("Flax not available")
+
+    from unittest.mock import MagicMock, patch
+
+    import numpy as np
+    import xarray as xr
+
+    from voiage.schema import ParameterSet
+
+    model = FlaxMetamodel()
+    model.state = MagicMock()  # bypass unfitted check
+
+    x = ParameterSet(dataset=xr.Dataset({"a": ("n_samples", [1.0, 2.0])}))
+    y = np.array([1.0, 2.0])
+    y_pred = np.array([1.5, 1.5])
+    expected_r2 = 0.99
+
+    with (
+        patch.object(model, "predict", return_value=y_pred) as mock_predict,
+        patch(
+            "voiage.metamodels._safe_r2_score", return_value=expected_r2
+        ) as mock_safe_r2_score,
+    ):
+        score = model.score(x, y)
+
+        assert score == expected_r2
+        mock_predict.assert_called_once_with(x)
+        mock_safe_r2_score.assert_called_once()
+        # check args manually because of numpy arrays
+        args, _ = mock_safe_r2_score.call_args
+        np.testing.assert_array_equal(args[0], y)
+        np.testing.assert_array_equal(args[1], y_pred)
