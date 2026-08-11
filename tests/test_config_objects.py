@@ -439,6 +439,19 @@ def test_create_financial_config() -> None:
     assert config.stress_test_scenarios == ["market_crash", "interest_rate_shock"]
 
 
+def test_create_metamodel_config() -> None:
+    """Test create_metamodel_config factory function."""
+    # Test default
+    config = create_metamodel_config()
+    assert isinstance(config, MetamodelConfig)
+    assert config.method == "gam"
+
+    # Test custom valid method
+    config = create_metamodel_config(method="gp")
+    assert isinstance(config, MetamodelConfig)
+    assert config.method == "gp"
+
+
 def test_factory_functions() -> None:
     """Test factory functions."""
     # Test create_default_config
