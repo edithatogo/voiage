@@ -4,3 +4,9 @@
 [submodule ".repo-tools/authentext"]
 	path = .repo-tools/authentext
 	url = https://github.com/edithatogo/authentext.git
+
+[submodule ".agents/plugins/conductor"]
+	path = .agents/plugins/conductor
+	url = https://github.com/gemini-cli-extensions/conductor.git
+	branch = main
+
