@@ -22,6 +22,54 @@ from voiage.config_objects import (
 )
 
 
+def test_voi_analysis_config_to_dict() -> None:
+    """Test to_dict method of VOIAnalysisConfig."""
+    # Default config
+    config = VOIAnalysisConfig()
+    expected = {
+        "population": None,
+        "time_horizon": None,
+        "discount_rate": None,
+        "chunk_size": None,
+        "use_jit": False,
+        "backend": "numpy",
+        "enable_caching": False,
+        "streaming_window_size": None,
+        "n_regression_samples": None,
+        "regression_model": None,
+        "n_simulations": 1000,
+    }
+    assert config.to_dict() == expected
+
+    # Custom config
+    config = VOIAnalysisConfig(
+        population=100000,
+        time_horizon=10,
+        discount_rate=0.03,
+        chunk_size=1000,
+        use_jit=True,
+        backend="jax",
+        enable_caching=True,
+        streaming_window_size=5000,
+        n_regression_samples=5000,
+        n_simulations=2000,
+    )
+    expected_custom = {
+        "population": 100000,
+        "time_horizon": 10,
+        "discount_rate": 0.03,
+        "chunk_size": 1000,
+        "use_jit": True,
+        "backend": "jax",
+        "enable_caching": True,
+        "streaming_window_size": 5000,
+        "n_regression_samples": 5000,
+        "regression_model": None,
+        "n_simulations": 2000,
+    }
+    assert config.to_dict() == expected_custom
+
+
 def test_voi_analysis_config() -> None:
     """Test VOIAnalysisConfig."""
     # Test default configuration
@@ -61,36 +109,6 @@ def test_voi_analysis_config() -> None:
     assert config.streaming_window_size == 5000
     assert config.n_regression_samples == 5000
     assert config.n_simulations == 2000
-
-    # Test to_dict method
-    config_dict = config.to_dict()
-    assert isinstance(config_dict, dict)
-    assert config_dict["population"] == 100000
-    assert config_dict["time_horizon"] == 10
-    assert config_dict["discount_rate"] == 0.03
-    assert config_dict["chunk_size"] == 1000
-    assert config_dict["use_jit"] is True
-    assert config_dict["backend"] == "jax"
-    assert config_dict["enable_caching"] is True
-    assert config_dict["streaming_window_size"] == 5000
-    assert config_dict["n_regression_samples"] == 5000
-    assert config_dict["regression_model"] is None
-    assert config_dict["n_simulations"] == 2000
-
-    # Test to_dict method on default config
-    default_config = VOIAnalysisConfig()
-    default_dict = default_config.to_dict()
-    assert default_dict["population"] is None
-    assert default_dict["time_horizon"] is None
-    assert default_dict["discount_rate"] is None
-    assert default_dict["chunk_size"] is None
-    assert default_dict["use_jit"] is False
-    assert default_dict["backend"] == "numpy"
-    assert default_dict["enable_caching"] is False
-    assert default_dict["streaming_window_size"] is None
-    assert default_dict["n_regression_samples"] is None
-    assert default_dict["regression_model"] is None
-    assert default_dict["n_simulations"] == 1000
 
 
 def test_streaming_config() -> None:
