@@ -470,3 +470,18 @@ def test_sparse_matrix_protocol_toarray() -> None:
     result = valid_instance.toarray()
     assert isinstance(result, np.ndarray)
     np.testing.assert_array_equal(result, np.array([1, 2, 3]))
+
+
+def test_tinygp_metamodel_unfitted(sample_data, monkeypatch) -> None:
+    """Test that TinyGPMetamodel raises RuntimeError when score/rmse are called before fitting."""
+    x, y = sample_data
+    from voiage.metamodels import TinyGPMetamodel
+
+    # Mock TINYGP_AVAILABLE so we can instantiate the class even without the library
+    monkeypatch.setattr("voiage.metamodels.TINYGP_AVAILABLE", True)
+
+    model = TinyGPMetamodel()
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+        model.score(x, y)
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+        model.rmse(x, y)
