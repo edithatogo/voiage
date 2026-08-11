@@ -195,6 +195,58 @@ def test_create_optimization_config() -> None:
         create_optimization_config(algorithm="invalid_algorithm")
 
 
+def test_to_dict() -> None:
+    """Test to_dict method of VOIAnalysisConfig."""
+    # Test default configuration
+    default_config = VOIAnalysisConfig()
+    default_dict = default_config.to_dict()
+
+    assert default_dict["population"] is None
+    assert default_dict["time_horizon"] is None
+    assert default_dict["discount_rate"] is None
+    assert default_dict["chunk_size"] is None
+    assert default_dict["use_jit"] is False
+    assert default_dict["backend"] == "numpy"
+    assert default_dict["enable_caching"] is False
+    assert default_dict["streaming_window_size"] is None
+    assert default_dict["n_regression_samples"] is None
+    assert default_dict["regression_model"] is None
+    assert default_dict["n_simulations"] == 1000
+
+    # Test custom configuration with regression_model
+    class MockModel:
+        pass
+
+    mock_model = MockModel()
+    custom_config = VOIAnalysisConfig(
+        population=100000,
+        time_horizon=10,
+        discount_rate=0.03,
+        chunk_size=1000,
+        use_jit=True,
+        backend="jax",
+        enable_caching=True,
+        streaming_window_size=5000,
+        n_regression_samples=5000,
+        regression_model=mock_model,
+        n_simulations=2000,
+    )
+
+    custom_dict = custom_config.to_dict()
+
+    assert custom_dict["population"] == 100000
+    assert custom_dict["time_horizon"] == 10
+    assert custom_dict["discount_rate"] == 0.03
+    assert custom_dict["chunk_size"] == 1000
+    assert custom_dict["use_jit"] is True
+    assert custom_dict["backend"] == "jax"
+    assert custom_dict["enable_caching"] is True
+    assert custom_dict["streaming_window_size"] == 5000
+    assert custom_dict["n_regression_samples"] == 5000
+    assert custom_dict["regression_model"] is mock_model
+    assert custom_dict["n_simulations"] == 2000
+
+
 def test_healthcare_config() -> None:
     """Test HealthcareConfig."""
     # Test default configuration
@@ -484,6 +536,7 @@ def test_create_streaming_config() -> None:
 
 if __name__ == "__main__":
     test_create_default_config()
+    test_to_dict()
     test_voi_analysis_config()
     test_streaming_config()
     test_metamodel_config()
