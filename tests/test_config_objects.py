@@ -430,6 +430,7 @@ def test_create_parallel_config() -> None:
 def test_create_financial_config() -> None:
     """Test create_financial_config factory function."""
     config = create_financial_config()
+    assert config == FinancialConfig()
     assert isinstance(config, FinancialConfig)
     assert config.var_confidence_level == 0.95
     assert config.cvar_confidence_level == 0.95
