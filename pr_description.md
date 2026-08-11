@@ -1,14 +1,3 @@
-# Performance optimization summary
-
-This file records prior optimization work and is retained as a human-readable
-summary. The repository's authoritative implementation and benchmark evidence
-remain in the corresponding source files and tests.
-
-The tracked optimization work covers:
-
-- pre-allocated NumPy state trajectories for Markov cohort simulation;
-- vectorized Pareto strategy comparisons; and
-- vectorized adaptive-trial net-benefit updates.
-
-Benchmark claims should be regenerated before reuse in release or publication
-materials.
+🎯 **What:** Added a missing test for the `rmse` method implicitly via testing the `Metamodel` Protocol structure inside `tests/test_metamodels.py`.
+📊 **Coverage:** Tests that an object lacking `rmse` implementation is correctly rejected by `isinstance(..., Metamodel)`.
+✨ **Result:** Improved test coverage for `Metamodel` checks.
