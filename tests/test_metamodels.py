@@ -260,6 +260,31 @@ def test_calculate_diagnostics(sample_data) -> None:
     assert diagnostics["n_samples"] == len(y)
 
 
+def test_calculate_diagnostics_missing_methods(sample_data) -> None:
+    """Test calculate_diagnostics when metamodel lacks score and rmse methods."""
+    x, y = sample_data
+
+    class MinimalModel:
+        def predict(self, x):
+            return np.ones(len(next(iter(x.parameters.values())))) * np.mean(y)
+
+    model = MinimalModel()
+
+    # Calculate diagnostics
+    diagnostics = calculate_diagnostics(model, x, y)
+
+    # Check that all expected keys are present
+    expected_keys = {"r2", "rmse", "mae", "mean_residual", "std_residual", "n_samples"}
+    assert set(diagnostics.keys()) == expected_keys
+
+    # Check types
+    assert isinstance(diagnostics["r2"], float)
+    assert isinstance(diagnostics["rmse"], float)
+
+    # Check that values are computed correctly
+    assert diagnostics["rmse"] >= 0
+
+
 def test_cross_validate(sample_data) -> None:
     """Test the cross_validate function."""
     # Skip if sklearn is not available
