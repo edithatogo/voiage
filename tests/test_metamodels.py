@@ -317,6 +317,10 @@ def test_flax_metamodel(sample_data) -> None:
     with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
         model.rmse(x, y)
 
+    # Test score on unfitted model
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
+        model.score(x, y)
+
     # Fit the model
     model.fit(x, y)
 
