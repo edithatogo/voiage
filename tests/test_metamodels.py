@@ -298,6 +298,36 @@ def test_cross_validate(sample_data) -> None:
     assert cv_results["cv_mae_mean"] >= 0
 
 
+def test_flax_metamodel_rmse(sample_data) -> None:
+    """Test the rmse method of FlaxMetamodel specifically."""
+    from unittest.mock import MagicMock, patch
+
+    import numpy as np
+    import pytest
+
+    with patch("voiage.metamodels.FLAX_AVAILABLE", True):
+        from voiage.metamodels import FlaxMetamodel
+
+        model = FlaxMetamodel()
+
+        x, y = sample_data
+
+        # Unfitted model should raise
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
+            model.rmse(x, y)
+
+        # Fitted model
+        model.state = MagicMock()
+        model.predict = MagicMock(return_value=np.array([1.0, 2.0, 3.0]))
+
+        y_true = np.array([1.0, 2.0, 4.0])
+        # RMSE between [1, 2, 4] and [1, 2, 3] is sqrt(1/3)
+        expected_rmse = float(np.sqrt(1 / 3))
+
+        result = model.rmse(x, y_true)
+        assert np.isclose(result, expected_rmse)
+
+
 def test_flax_metamodel(sample_data) -> None:
     """Test the FlaxMetamodel."""
     try:
