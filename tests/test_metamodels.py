@@ -136,6 +136,26 @@ def test_random_forest_metamodel(sample_data) -> None:
     assert rmse >= 0
 
 
+
+def test_random_forest_metamodel_unfitted(sample_data) -> None:
+    """Test that RandomForestMetamodel raises RuntimeError when not fitted."""
+    x, y = sample_data
+
+    if not SKLEARN_AVAILABLE:
+        pytest.skip("sklearn not available")
+
+    model = RandomForestMetamodel()
+
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+        model.predict(x)
+
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+        model.score(x, y)
+
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+        model.rmse(x, y)
+
+
 def test_gam_metamodel_unfitted(sample_data) -> None:
     """Test that GAMMetamodel raises RuntimeError when not fitted."""
     x, y = sample_data
