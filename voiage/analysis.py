@@ -20,16 +20,13 @@ from voiage.exceptions import (
     raise_optional_dependency_error,
 )
 from voiage.main_backends import get_backend
-from voiage.schema import ParameterSet, PortfolioSpec, PortfolioStudy, ValueArray
-
-# Check for JAX availability
-JAX_AVAILABLE = False
-try:
-    import jax.numpy  # noqa: F401
-
-    JAX_AVAILABLE = True
-except ImportError:
-    pass
+from voiage.schema import (
+    JAX_AVAILABLE,
+    ParameterSet,
+    PortfolioSpec,
+    PortfolioStudy,
+    ValueArray,
+)
 
 SKLEARN_AVAILABLE = False
 LinearRegression = None
