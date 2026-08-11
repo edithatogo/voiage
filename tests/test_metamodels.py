@@ -336,6 +336,39 @@ def test_flax_metamodel(sample_data) -> None:
     assert rmse >= 0
 
 
+def test_tinygp_metamodel(sample_data) -> None:
+    """Test the TinyGPMetamodel for prediction, score, and rmse."""
+    from unittest.mock import MagicMock, patch
+
+    x, y = sample_data
+
+    # Mock the tinygp module and availability flag
+    with patch.dict("sys.modules", {"tinygp": MagicMock()}):
+        import voiage.metamodels
+        from voiage.metamodels import TinyGPMetamodel
+
+        with patch.object(voiage.metamodels, "TINYGP_AVAILABLE", True):
+            model = TinyGPMetamodel()
+
+            # Before fit (gp is None), score and rmse should raise RuntimeError
+            with pytest.raises(RuntimeError):
+                model.score(x, y)
+
+            with pytest.raises(RuntimeError):
+                model.rmse(x, y)
+
+            # Mock the fitted state and predictions
+            model.gp = MagicMock()
+            model.predict = MagicMock(return_value=np.full_like(y, fill_value=1.0))
+
+            # Test prediction, scoring, and rmse after "fit"
+            score = model.score(x, y)
+            assert isinstance(score, float)
+
+            rmse = model.rmse(x, y)
+            assert isinstance(rmse, float)
+
+
 def test_tinygp_condition_protocol() -> None:
     """Test that the _TinyGPConditionProtocol can be checked at runtime."""
     from voiage.metamodels import _TinyGPConditionProtocol
