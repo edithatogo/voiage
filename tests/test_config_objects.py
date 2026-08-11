@@ -482,6 +482,37 @@ def test_create_streaming_config() -> None:
     assert config.buffer_size is None
 
 
+def test_voi_analysis_config_to_dict() -> None:
+    """Standalone test for to_dict method of VOIAnalysisConfig."""
+    config = VOIAnalysisConfig(
+        population=5000,
+        time_horizon=5,
+        discount_rate=0.05,
+        chunk_size=500,
+        use_jit=True,
+        backend="numpy",
+        enable_caching=True,
+        streaming_window_size=1000,
+        n_regression_samples=100,
+        regression_model="rf",
+        n_simulations=500,
+    )
+    result = config.to_dict()
+    assert result == {
+        "population": 5000,
+        "time_horizon": 5,
+        "discount_rate": 0.05,
+        "chunk_size": 500,
+        "use_jit": True,
+        "backend": "numpy",
+        "enable_caching": True,
+        "streaming_window_size": 1000,
+        "n_regression_samples": 100,
+        "regression_model": "rf",
+        "n_simulations": 500,
+    }
+
+
 if __name__ == "__main__":
     test_create_default_config()
     test_voi_analysis_config()
@@ -497,4 +528,5 @@ if __name__ == "__main__":
     test_factory_functions()
     test_create_optimization_config()
     test_create_streaming_config()
+    test_voi_analysis_config_to_dict()
     print("All configuration objects tests passed!")
