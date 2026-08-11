@@ -260,6 +260,26 @@ def test_calculate_diagnostics(sample_data) -> None:
     assert diagnostics["n_samples"] == len(y)
 
 
+def test_calculate_diagnostics_fallback(sample_data) -> None:
+    """Test the calculate_diagnostics function fallback when rmse and score are not implemented."""
+    x, y = sample_data
+
+    class DummyMetamodelFallback:
+        def predict(self, input_x):
+            # For simplicity, returning zeros
+            return np.zeros_like(y)
+
+    model = DummyMetamodelFallback()
+
+    diagnostics = calculate_diagnostics(model, x, y)
+
+    expected_keys = {"r2", "rmse", "mae", "mean_residual", "std_residual", "n_samples"}
+    assert set(diagnostics.keys()) == expected_keys
+    assert isinstance(diagnostics["r2"], float)
+    assert isinstance(diagnostics["rmse"], float)
+    assert diagnostics["rmse"] >= 0
+
+
 def test_cross_validate(sample_data) -> None:
     """Test the cross_validate function."""
     # Skip if sklearn is not available
