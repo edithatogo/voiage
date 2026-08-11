@@ -470,3 +470,18 @@ def test_sparse_matrix_protocol_toarray() -> None:
     result = valid_instance.toarray()
     assert isinstance(result, np.ndarray)
     np.testing.assert_array_equal(result, np.array([1, 2, 3]))
+
+
+def test_as_numpy_with_sparse_matrix() -> None:
+    """Test that _as_numpy correctly extracts dense arrays from sparse matrices."""
+    from voiage.metamodels import _as_numpy
+
+    class MockSparseMatrix:
+        def toarray(self) -> np.ndarray:
+            return np.array([1.0, 2.0, 3.0])
+
+    sparse_matrix = MockSparseMatrix()
+    dense_array = _as_numpy(sparse_matrix)
+
+    assert isinstance(dense_array, np.ndarray)
+    np.testing.assert_array_equal(dense_array, np.array([1.0, 2.0, 3.0]))
