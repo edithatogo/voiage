@@ -62,35 +62,54 @@ def test_voi_analysis_config() -> None:
     assert config.n_regression_samples == 5000
     assert config.n_simulations == 2000
 
-    # Test to_dict method
-    config_dict = config.to_dict()
-    assert isinstance(config_dict, dict)
-    assert config_dict["population"] == 100000
-    assert config_dict["time_horizon"] == 10
-    assert config_dict["discount_rate"] == 0.03
-    assert config_dict["chunk_size"] == 1000
-    assert config_dict["use_jit"] is True
-    assert config_dict["backend"] == "jax"
-    assert config_dict["enable_caching"] is True
-    assert config_dict["streaming_window_size"] == 5000
-    assert config_dict["n_regression_samples"] == 5000
-    assert config_dict["regression_model"] is None
-    assert config_dict["n_simulations"] == 2000
 
+def test_voi_analysis_config_to_dict() -> None:
+    """Test VOIAnalysisConfig.to_dict()."""
     # Test to_dict method on default config
     default_config = VOIAnalysisConfig()
     default_dict = default_config.to_dict()
-    assert default_dict["population"] is None
-    assert default_dict["time_horizon"] is None
-    assert default_dict["discount_rate"] is None
-    assert default_dict["chunk_size"] is None
-    assert default_dict["use_jit"] is False
-    assert default_dict["backend"] == "numpy"
-    assert default_dict["enable_caching"] is False
-    assert default_dict["streaming_window_size"] is None
-    assert default_dict["n_regression_samples"] is None
-    assert default_dict["regression_model"] is None
-    assert default_dict["n_simulations"] == 1000
+    assert default_dict == {
+        "population": None,
+        "time_horizon": None,
+        "discount_rate": None,
+        "chunk_size": None,
+        "use_jit": False,
+        "backend": "numpy",
+        "enable_caching": False,
+        "streaming_window_size": None,
+        "n_regression_samples": None,
+        "regression_model": None,
+        "n_simulations": 1000,
+    }
+
+    # Test to_dict method on custom config
+    config = VOIAnalysisConfig(
+        population=100000,
+        time_horizon=10,
+        discount_rate=0.03,
+        chunk_size=1000,
+        use_jit=True,
+        backend="jax",
+        enable_caching=True,
+        streaming_window_size=5000,
+        n_regression_samples=5000,
+        regression_model="some_model",
+        n_simulations=2000,
+    )
+    config_dict = config.to_dict()
+    assert config_dict == {
+        "population": 100000,
+        "time_horizon": 10,
+        "discount_rate": 0.03,
+        "chunk_size": 1000,
+        "use_jit": True,
+        "backend": "jax",
+        "enable_caching": True,
+        "streaming_window_size": 5000,
+        "n_regression_samples": 5000,
+        "regression_model": "some_model",
+        "n_simulations": 2000,
+    }
 
 
 def test_streaming_config() -> None:
@@ -497,4 +516,7 @@ if __name__ == "__main__":
     test_factory_functions()
     test_create_optimization_config()
     test_create_streaming_config()
+    test_voi_analysis_config_to_dict()
     print("All configuration objects tests passed!")
+
+# Ensure to append to the test factory functions
