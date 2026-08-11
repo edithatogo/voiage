@@ -470,3 +470,24 @@ def test_sparse_matrix_protocol_toarray() -> None:
     result = valid_instance.toarray()
     assert isinstance(result, np.ndarray)
     np.testing.assert_array_equal(result, np.array([1, 2, 3]))
+
+
+def test_metamodel_rmse(sample_data) -> None:
+    """Test the rmse method directly on a metamodel."""
+    if not SKLEARN_AVAILABLE:
+        pytest.skip("sklearn not available")
+
+    x, y = sample_data
+
+    model = LinearMetamodel()
+    model.fit(x, y)
+
+    rmse = model.rmse(x, y)
+
+    assert isinstance(rmse, float)
+    assert rmse >= 0
+
+    # Calculate RMSE manually to ensure it matches
+    y_pred = model.predict(x)
+    expected_rmse = float(np.sqrt(np.mean((y - y_pred) ** 2)))
+    assert np.isclose(rmse, expected_rmse)
