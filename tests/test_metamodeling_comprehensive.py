@@ -256,6 +256,32 @@ def test_flax_metamodel_rmse(sample_data) -> None:
         pass
 
 
+def test_tinygp_metamodel_rmse(sample_data) -> None:
+    """Test RMSE method for TinyGPMetamodel."""
+    try:
+        from voiage.metamodels import TinyGPMetamodel
+    except ImportError:
+        pytest.skip("TinyGPMetamodel not available")
+
+    x, y = sample_data
+
+    try:
+        model = TinyGPMetamodel()
+
+        # Test rmse before fitting raises error
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
+            model.rmse(x, y)
+
+        model.fit(x, y)
+
+        # Test rmse after fitting
+        rmse_val = model.rmse(x, y)
+        assert isinstance(rmse_val, float)
+        assert rmse_val >= 0
+    except ImportError:
+        pass
+
+
 def test_tinygp_metamodel_dependency_handling(sample_data) -> None:
     """Test that TinyGPMetamodel properly handles missing dependencies."""
     try:
