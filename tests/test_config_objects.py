@@ -426,6 +426,10 @@ def test_create_parallel_config() -> None:
     assert config.memory_limit_mb is None
     assert config.chunk_size is None
 
+    # Verify that it doesn't take arguments
+    with pytest.raises(TypeError):
+        create_parallel_config(n_workers=4)  # type: ignore[call-arg]
+
 
 def test_create_financial_config() -> None:
     """Test create_financial_config factory function."""
