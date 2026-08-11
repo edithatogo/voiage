@@ -26,7 +26,6 @@ except ImportError:
     SKLEARN_AVAILABLE = False
     LinearRegression = None
 
-
 # Create a simple LinearMetamodel wrapper if sklearn is available
 if SKLEARN_AVAILABLE:
 
@@ -441,10 +440,6 @@ def test_safe_rmse() -> None:
         _safe_rmse(y_empty, y_empty)
 
 
-if __name__ == "__main__":
-    pytest.main([__file__])
-
-
 def test_sparse_matrix_protocol_toarray() -> None:
     """Test that the _SparseMatrixProtocol correctly identifies valid implementations."""
     from voiage.metamodels import _SparseMatrixProtocol
@@ -470,3 +465,47 @@ def test_sparse_matrix_protocol_toarray() -> None:
     result = valid_instance.toarray()
     assert isinstance(result, np.ndarray)
     np.testing.assert_array_equal(result, np.array([1, 2, 3]))
+
+
+def test_flax_metamodel_rmse_mocked(sample_data) -> None:
+    """Test the FlaxMetamodel rmse method using a mock to bypass dependencies."""
+    from voiage.metamodels import FlaxMetamodel
+
+    # Bypass __init__ to avoid importing flax/jax if not available
+    model = FlaxMetamodel.__new__(FlaxMetamodel)
+
+    # Test unfitted error
+    model.state = None
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+        model.rmse(sample_data[0], sample_data[1])
+
+    # Test fitted behavior
+    model.state = object()
+    model.predict = lambda x: sample_data[1]  # Mock prediction to return exact targets
+
+    # RMSE should be 0 since prediction matches target exactly
+    assert model.rmse(sample_data[0], sample_data[1]) == 0.0
+
+
+def test_tinygp_metamodel_rmse_mocked(sample_data) -> None:
+    """Test the TinyGPMetamodel rmse method using a mock to bypass dependencies."""
+    from voiage.metamodels import TinyGPMetamodel
+
+    # Bypass __init__ to avoid importing tinygp if not available
+    model = TinyGPMetamodel.__new__(TinyGPMetamodel)
+
+    # Test unfitted error
+    model.gp = None
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+        model.rmse(sample_data[0], sample_data[1])
+
+    # Test fitted behavior
+    model.gp = object()
+    model.predict = lambda x: sample_data[1]  # Mock prediction to return exact targets
+
+    # RMSE should be 0 since prediction matches target exactly
+    assert model.rmse(sample_data[0], sample_data[1]) == 0.0
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])
