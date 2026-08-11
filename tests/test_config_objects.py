@@ -184,8 +184,20 @@ def test_create_optimization_config() -> None:
     config = create_optimization_config()
     assert isinstance(config, OptimizationConfig)
     assert config.algorithm == "grid"
+    assert config.n_iterations == 100
+    assert config.n_initial_points == 10
+    assert config.grid_resolution == 10
+    assert config.random_seed is None
+    assert config.acquisition_function == "ei"
+    assert config.kappa == 2.576
+    assert config.xi == 0.01
 
-    # Test custom valid algorithm
+    # Test custom valid algorithm: random
+    config = create_optimization_config(algorithm="random")
+    assert isinstance(config, OptimizationConfig)
+    assert config.algorithm == "random"
+
+    # Test custom valid algorithm: bayesian
     config = create_optimization_config(algorithm="bayesian")
     assert isinstance(config, OptimizationConfig)
     assert config.algorithm == "bayesian"
