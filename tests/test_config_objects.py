@@ -93,6 +93,56 @@ def test_voi_analysis_config() -> None:
     assert default_dict["n_simulations"] == 1000
 
 
+def test_voi_analysis_config_to_dict() -> None:
+    """Test to_dict method of VOIAnalysisConfig."""
+    # Test default configuration to_dict
+    default_config = VOIAnalysisConfig()
+    default_dict = default_config.to_dict()
+
+    assert isinstance(default_dict, dict)
+    assert default_dict["population"] is None
+    assert default_dict["time_horizon"] is None
+    assert default_dict["discount_rate"] is None
+    assert default_dict["chunk_size"] is None
+    assert default_dict["use_jit"] is False
+    assert default_dict["backend"] == "numpy"
+    assert default_dict["enable_caching"] is False
+    assert default_dict["streaming_window_size"] is None
+    assert default_dict["n_regression_samples"] is None
+    assert default_dict["regression_model"] is None
+    assert default_dict["n_simulations"] == 1000
+
+    # Test custom configuration to_dict
+    custom_config = VOIAnalysisConfig(
+        population=100000,
+        time_horizon=10.5,
+        discount_rate=0.03,
+        chunk_size=500,
+        use_jit=True,
+        backend="jax",
+        enable_caching=True,
+        streaming_window_size=1000,
+        n_regression_samples=200,
+        regression_model="some_model",
+        n_simulations=5000,
+    )
+
+    custom_dict = custom_config.to_dict()
+
+    assert isinstance(custom_dict, dict)
+    assert custom_dict["population"] == 100000
+    assert custom_dict["time_horizon"] == 10.5
+    assert custom_dict["discount_rate"] == 0.03
+    assert custom_dict["chunk_size"] == 500
+    assert custom_dict["use_jit"] is True
+    assert custom_dict["backend"] == "jax"
+    assert custom_dict["enable_caching"] is True
+    assert custom_dict["streaming_window_size"] == 1000
+    assert custom_dict["n_regression_samples"] == 200
+    assert custom_dict["regression_model"] == "some_model"
+    assert custom_dict["n_simulations"] == 5000
+
+
 def test_streaming_config() -> None:
     """Test StreamingConfig."""
     # Test default configuration
