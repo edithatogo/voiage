@@ -93,6 +93,39 @@ def test_voi_analysis_config() -> None:
     assert default_dict["n_simulations"] == 1000
 
 
+
+def test_voi_analysis_config_to_dict() -> None:
+    """Test VOIAnalysisConfig.to_dict()."""
+    config = VOIAnalysisConfig(
+        population=100000,
+        time_horizon=10,
+        discount_rate=0.03,
+        chunk_size=1000,
+        use_jit=True,
+        backend="jax",
+        enable_caching=True,
+        streaming_window_size=5000,
+        n_regression_samples=5000,
+        regression_model="mock_model",
+        n_simulations=2000,
+    )
+
+    expected_dict = {
+        "population": 100000,
+        "time_horizon": 10,
+        "discount_rate": 0.03,
+        "chunk_size": 1000,
+        "use_jit": True,
+        "backend": "jax",
+        "enable_caching": True,
+        "streaming_window_size": 5000,
+        "n_regression_samples": 5000,
+        "regression_model": "mock_model",
+        "n_simulations": 2000,
+    }
+
+    assert config.to_dict() == expected_dict
+
 def test_streaming_config() -> None:
     """Test StreamingConfig."""
     # Test default configuration
@@ -485,6 +518,7 @@ def test_create_streaming_config() -> None:
 if __name__ == "__main__":
     test_create_default_config()
     test_voi_analysis_config()
+    test_voi_analysis_config_to_dict()
     test_streaming_config()
     test_metamodel_config()
     test_optimization_config()
