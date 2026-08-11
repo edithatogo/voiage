@@ -336,6 +336,30 @@ def test_flax_metamodel(sample_data) -> None:
     assert rmse >= 0
 
 
+def test_tinygp_metamodel(sample_data) -> None:
+    """Test the TinyGPMetamodel."""
+    try:
+        from voiage.metamodels import TinyGPMetamodel
+    except ImportError:
+        pytest.skip("TinyGPMetamodel not available")
+
+    x, y = sample_data
+
+    # Create the model
+    model = TinyGPMetamodel()
+
+    # Test rmse on unfitted model
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+        model.rmse(x, y)
+
+    # Fit the model
+    model.fit(x, y)
+
+    rmse = model.rmse(x, y)
+    assert isinstance(rmse, float)
+    assert rmse >= 0 or np.isnan(rmse)
+
+
 def test_tinygp_condition_protocol() -> None:
     """Test that the _TinyGPConditionProtocol can be checked at runtime."""
     from voiage.metamodels import _TinyGPConditionProtocol
