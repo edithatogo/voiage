@@ -470,3 +470,34 @@ def test_sparse_matrix_protocol_toarray() -> None:
     result = valid_instance.toarray()
     assert isinstance(result, np.ndarray)
     np.testing.assert_array_equal(result, np.array([1, 2, 3]))
+
+
+def test_metamodel_protocol_rmse() -> None:
+    """Test that the Metamodel protocol requires the rmse method."""
+    from voiage.metamodels import Metamodel
+
+    class ValidMetamodel:
+        def fit(self, x: ParameterSet, y: np.ndarray) -> None:
+            pass
+
+        def predict(self, x: ParameterSet) -> np.ndarray:
+            return np.array([])
+
+        def score(self, x: ParameterSet, y: np.ndarray) -> float:
+            return 0.0
+
+        def rmse(self, x: ParameterSet, y: np.ndarray) -> float:
+            return 0.0
+
+    class InvalidMetamodelMissingRmse:
+        def fit(self, x: ParameterSet, y: np.ndarray) -> None:
+            pass
+
+        def predict(self, x: ParameterSet) -> np.ndarray:
+            return np.array([])
+
+        def score(self, x: ParameterSet, y: np.ndarray) -> float:
+            return 0.0
+
+    assert isinstance(ValidMetamodel(), Metamodel)
+    assert not isinstance(InvalidMetamodelMissingRmse(), Metamodel)
