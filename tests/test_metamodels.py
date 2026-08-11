@@ -470,3 +470,45 @@ def test_sparse_matrix_protocol_toarray() -> None:
     result = valid_instance.toarray()
     assert isinstance(result, np.ndarray)
     np.testing.assert_array_equal(result, np.array([1, 2, 3]))
+
+
+def test_calculate_diagnostics_without_rmse(sample_data) -> None:
+    """Test calculate_diagnostics handles models without rmse method properly."""
+    x, y = sample_data
+
+    class DummyMetamodelWithoutRMSE:
+        def fit(self, x, y):
+            pass
+
+        def predict(self, x):
+            return np.ones_like(y)
+
+        def score(self, x, y):
+            return 1.0
+
+    model1 = DummyMetamodelWithoutRMSE()
+    diagnostics1 = calculate_diagnostics(model1, x, y)
+
+    assert "rmse" in diagnostics1
+    assert isinstance(diagnostics1["rmse"], float)
+    assert diagnostics1["rmse"] >= 0
+
+    class DummyMetamodelNotImplemented:
+        def fit(self, x, y):
+            pass
+
+        def predict(self, x):
+            return np.ones_like(y)
+
+        def score(self, x, y):
+            return 1.0
+
+        def rmse(self, x, y):
+            raise NotImplementedError("rmse not implemented")
+
+    model2 = DummyMetamodelNotImplemented()
+    diagnostics2 = calculate_diagnostics(model2, x, y)
+
+    assert "rmse" in diagnostics2
+    assert isinstance(diagnostics2["rmse"], float)
+    assert diagnostics2["rmse"] >= 0
