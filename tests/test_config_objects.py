@@ -178,6 +178,23 @@ def test_optimization_config() -> None:
         OptimizationConfig(acquisition_function="invalid_function")
 
 
+def test_create_metamodel_config() -> None:
+    """Test create_metamodel_config factory function."""
+    # Test default
+    config = create_metamodel_config()
+    assert isinstance(config, MetamodelConfig)
+    assert config.method == "gam"
+
+    # Test custom valid method
+    config = create_metamodel_config(method="rf")
+    assert isinstance(config, MetamodelConfig)
+    assert config.method == "rf"
+
+    # Test validation
+    with pytest.raises(ValueError):
+        create_metamodel_config(method="invalid_method")
+
+
 def test_create_optimization_config() -> None:
     """Test create_optimization_config factory function."""
     # Test default
@@ -495,6 +512,7 @@ if __name__ == "__main__":
     test_create_healthcare_config()
     test_create_parallel_config()
     test_factory_functions()
+    test_create_metamodel_config()
     test_create_optimization_config()
     test_create_streaming_config()
     print("All configuration objects tests passed!")
