@@ -402,6 +402,7 @@ def test_create_environmental_config() -> None:
     assert config.water_cost == 0.002
     assert config.biodiversity_impact_factor == 0.01
     assert config.social_cost_of_carbon == 50
+    assert config.ecosystem_service_value == 100
 
 
 def test_create_healthcare_config() -> None:
