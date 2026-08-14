@@ -12,6 +12,13 @@ end
     @test evpi(reshape(Float64[], 0, 2)) == 0.0
 end
 
+@testset "ENBS" begin
+    @test enbs(12.5, 3.0) == 9.5
+    @test enbs(2.0, 3.0) == -1.0
+    @test_throws ArgumentError enbs(NaN, 3.0)
+    @test_throws ArgumentError enbs(12.5, -1.0)
+end
+
 @testset "Shared numerical reference" begin
     fixture_path = normpath(joinpath(@__DIR__, "fixtures", "evpi-cases.json"))
     @test isfile(fixture_path)

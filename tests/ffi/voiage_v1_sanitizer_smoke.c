@@ -36,6 +36,12 @@ int main(void) {
         return 1;
     }
 
+    double enbs = 0.0;
+    if (voiage_v1_enbs(12.5, 3.0, &enbs) != VOIAGE_V1_STATUS_OK ||
+        enbs != 9.5) {
+        return 6;
+    }
+
     for (int iteration = 0; iteration < ITERATIONS; ++iteration) {
         VoiageHandleV1 handle = VOIAGE_V1_NULL_HANDLE;
         if (voiage_v1_handle_create(&handle) != VOIAGE_V1_STATUS_OK ||

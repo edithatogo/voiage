@@ -7,6 +7,10 @@
 
 ## Unreleased
 
+- Expose signed, Rust-authoritative ENBS through the additive C ABI v1.1 and
+  the retained Julia binding, with capability discovery, no-write failure
+  behavior, native smoke coverage, and explicit external registry gates.
+
 - Record the merged registry-readiness delivery PR in every Conductor
   projection, refresh its live external-gate audit, and reject cross-reference
   manifest paths outside the repository's track and archive roots.

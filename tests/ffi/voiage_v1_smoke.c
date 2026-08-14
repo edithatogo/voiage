@@ -19,6 +19,11 @@ static int exercise_contract(void) {
     VoiageHandleV1 handle = VOIAGE_V1_NULL_HANDLE;
     uint64_t required_size = 0;
     voiage_v1_status status = voiage_v1_handle_create(&handle);
+    double enbs = 0.0;
+    if (voiage_v1_enbs(12.5, 3.0, &enbs) != VOIAGE_V1_STATUS_OK ||
+        enbs != 9.5) {
+        return 4;
+    }
     if (status != VOIAGE_V1_STATUS_OK || handle == VOIAGE_V1_NULL_HANDLE) {
         return 1;
     }

@@ -9,9 +9,9 @@ the release allowlists.
 
 ## Version negotiation and capabilities
 
-- ABI major: `1`; ABI minor: `0`
+- ABI major: `1`; ABI minor: `1`
 - Capability-struct version: `1`
-- Capability bits include version negotiation, capability query, and EVPI.
+- Capability bits include version negotiation, capability query, EVPI, and ENBS.
 - `VoiageHandleV1` is an opaque process-local token; zero is null and tokens
   are never exposed addresses.
 
@@ -20,6 +20,7 @@ the release allowlists.
 ```text
 voiage_v1_abi_version
 voiage_v1_capabilities
+voiage_v1_enbs
 voiage_v1_evpi
 voiage_v1_evpi_i32
 voiage_v1_evpi_i32_r
@@ -28,7 +29,9 @@ voiage_v1_handle_create
 voiage_v1_handle_free
 ```
 
-The EVPI functions delegate to the Rust numerical kernel. The `i32` and `i32_r`
+The EVPI and ENBS functions delegate to Rust numerical kernels. ENBS returns
+the signed difference between EVSI and non-negative research cost, including
+valid negative results. The EVPI `i32` and `i32_r`
 forms exist for runtimes whose foreign-function conventions use signed 32-bit
 dimensions; they do not define a separate numerical policy.
 

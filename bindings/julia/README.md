@@ -1,6 +1,6 @@
 # Voiage.jl
 
-Julia binding for the stable EVPI surface of the voiage Rust core.
+Julia binding for the stable EVPI and ENBS surfaces of the voiage Rust core.
 
 ## Setup
 
@@ -45,11 +45,14 @@ using Voiage
 
 net_benefits = [10.0 1.0; 2.0 8.0]
 evpi_value = evpi(net_benefits)
+enbs_value = enbs(2.5, 1.0)
 
 @show evpi_value
+@show enbs_value
 ```
 
-This example returns `3.0` for the simple two-strategy matrix above.
+This example returns `3.0` for the simple two-strategy matrix and `1.5` for
+the signed net research value.
 
 ## Release and scope
 
@@ -57,7 +60,8 @@ The release workflow verifies that `Project.toml` matches the release tag,
 builds the FFI library, and runs `Pkg.test()`. TagBot is configured for the
 `bindings/julia` subpackage and will create collision-free `julia-v*` tags
 after Registrator accepts a version. The binding intentionally exposes only
-the stable EVPI contract currently available through the shared Rust ABI.
+the stable EVPI and ENBS contracts currently available through the shared Rust
+ABI.
 
 The experimental expected-utility information-pricing family and its VoC
 presentation are not exposed by this Julia package because the stable C ABI
