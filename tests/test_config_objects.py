@@ -482,6 +482,40 @@ def test_create_streaming_config() -> None:
     assert config.buffer_size is None
 
 
+
+def test_voi_analysis_config_to_dict() -> None:
+    """Test the to_dict method of VOIAnalysisConfig."""
+    config = VOIAnalysisConfig(
+        population=100000,
+        time_horizon=10,
+        discount_rate=0.03,
+        chunk_size=1000,
+        use_jit=True,
+        backend="jax",
+        enable_caching=True,
+        streaming_window_size=5000,
+        n_regression_samples=5000,
+        regression_model="some_model",
+        n_simulations=2000,
+    )
+
+    result = config.to_dict()
+
+    assert isinstance(result, dict)
+    assert result == {
+        "population": 100000,
+        "time_horizon": 10,
+        "discount_rate": 0.03,
+        "chunk_size": 1000,
+        "use_jit": True,
+        "backend": "jax",
+        "enable_caching": True,
+        "streaming_window_size": 5000,
+        "n_regression_samples": 5000,
+        "regression_model": "some_model",
+        "n_simulations": 2000,
+    }
+
 if __name__ == "__main__":
     test_create_default_config()
     test_voi_analysis_config()
