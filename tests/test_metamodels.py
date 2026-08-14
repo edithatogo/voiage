@@ -313,9 +313,11 @@ def test_flax_metamodel(sample_data) -> None:
     except ImportError:
         pytest.skip("FlaxMetamodel dependencies (flax/jax) not available")
 
-    # Test rmse on unfitted model
+    # Test rmse and score on unfitted model
     with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
         model.rmse(x, y)
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
+        model.score(x, y)
 
     # Fit the model
     model.fit(x, y)
