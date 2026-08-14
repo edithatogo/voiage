@@ -41,6 +41,7 @@ jobs:
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
         version: "0.11.29"
+        enable-cache: false
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
@@ -58,7 +59,7 @@ jobs:
     - name: Get pnpm store directory
       shell: bash
       run: |
-        echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+        echo "STORE_PATH=$(pnpm store path --silent)" >> "$GITHUB_ENV"
 
     - name: Setup pnpm cache
       uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
