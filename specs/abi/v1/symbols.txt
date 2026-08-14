@@ -1,7 +1,8 @@
 # voiage portable C ABI v1 exported-symbol baseline
-# Operation-level numerical symbols are intentionally deferred to Phase 5.
+# Stable scalar numerical symbols are additive within the v1 namespace.
 voiage_v1_abi_version
 voiage_v1_capabilities
+voiage_v1_enbs
 voiage_v1_evpi
 voiage_v1_evpi_i32
 voiage_v1_evpi_i32_r

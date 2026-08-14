@@ -592,6 +592,9 @@ separate gates.
 
 ## Done
 
+*   [x] Expose Rust-authoritative signed ENBS through the additive v1 C ABI and
+    retained Julia binding without claiming JLL or General-registry delivery.
+
 *   [x] Reconcile every Conductor track with GitHub issues, native subissues,
     Project 28, and evidenced completed-track pull requests.
     *   Archived Conductor track:
