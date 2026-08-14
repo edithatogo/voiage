@@ -129,10 +129,11 @@ def validate(repo_root: Path, *, now: datetime | None = None) -> None:
             raise ValidationError("blocked pull request entries must be objects")
         number = pull_request.get("number")
         if not isinstance(number, int) or isinstance(number, bool) or number <= 0:
-            raise ValidationError("blocked pull request numbers must be positive integers")
+            raise ValidationError(
+                "blocked pull request numbers must be positive integers"
+            )
         if not all(
-            isinstance(pull_request.get(field), str)
-            for field in ("scope", "evidence")
+            isinstance(pull_request.get(field), str) for field in ("scope", "evidence")
         ):
             raise ValidationError("blocked pull requests require scope and evidence")
     snapshot_value = github.get("snapshot_at")

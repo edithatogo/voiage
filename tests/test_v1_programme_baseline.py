@@ -198,26 +198,29 @@ def test_v1_programme_validator_allows_separately_governed_post_v1_tracks(
 ) -> None:
     """The frozen v1 snapshot must not prohibit later active programmes."""
     conductor = tmp_path / "conductor"
-    baseline_track = conductor / "tracks" / ACTIVE_TRACK_IDS[0]
     later_track = conductor / "tracks" / "post_v1_programme"
-    baseline_track.mkdir(parents=True)
+    for track_id in ACTIVE_TRACK_IDS:
+        (conductor / "tracks" / track_id).mkdir(parents=True)
     later_track.mkdir()
     baseline = _baseline()
     baseline["conductor"]["archived_track_count"] = 0
     (conductor / "v1-programme-baseline.json").write_text(
         json.dumps(baseline), encoding="utf-8"
     )
+    registry_links = [
+        f"*Link: [./tracks/{track_id}/](./tracks/{track_id}/)*"
+        for track_id in ACTIVE_TRACK_IDS
+    ]
+    registry_links.append(
+        "*Link: [./tracks/post_v1_programme/](./tracks/post_v1_programme/)*"
+    )
     (conductor / "tracks.md").write_text(
-        "\n".join(
-            [
-                f"*Link: [./tracks/{ACTIVE_TRACK_IDS[0]}/](./tracks/{ACTIVE_TRACK_IDS[0]}/)*",
-                "*Link: [./tracks/post_v1_programme/](./tracks/post_v1_programme/)*",
-            ]
-        ),
+        "\n".join(registry_links),
         encoding="utf-8",
     )
-    (tmp_path / "roadmap.md").write_text(ACTIVE_TRACK_IDS[0], encoding="utf-8")
-    (tmp_path / "todo.md").write_text(ACTIVE_TRACK_IDS[0], encoding="utf-8")
+    baseline_track_list = "\n".join(ACTIVE_TRACK_IDS)
+    (tmp_path / "roadmap.md").write_text(baseline_track_list, encoding="utf-8")
+    (tmp_path / "todo.md").write_text(baseline_track_list, encoding="utf-8")
 
     result = _run_validator(tmp_path)
 
