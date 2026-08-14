@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import UTC, datetime
 import json
 from pathlib import Path
 import shutil
@@ -15,13 +16,23 @@ import voiage.sampling_harm_review_preparation as review_preparation
 SamplingHarmReviewPreparationError = (
     review_preparation.SamplingHarmReviewPreparationError
 )
-load_and_validate_sampling_harm_remediation_intake = (
+_load_and_validate_sampling_harm_remediation_intake = (
     review_preparation.load_and_validate_sampling_harm_remediation_intake
 )
 
 ROOT = Path(__file__).parents[1]
 CONTRACT = ROOT / "specs/frontier/sampling-acquisition-harm/v1"
 SCHEMAS = CONTRACT / "schemas"
+HISTORICAL_VALIDATION_TIME = datetime(2026, 8, 3, tzinfo=UTC)
+
+
+def load_and_validate_sampling_harm_remediation_intake(
+    *, repository_root: Path
+) -> dict[str, Any]:
+    return _load_and_validate_sampling_harm_remediation_intake(
+        repository_root=repository_root,
+        now=HISTORICAL_VALIDATION_TIME,
+    )
 
 
 def _json(path: Path) -> dict[str, Any]:
