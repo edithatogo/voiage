@@ -60,6 +60,8 @@ def test_cli_reference_links_to_repository_perspective_contracts() -> None:
     cli_reference = (
         ROOT.parents[3] / "docs/astro-site/src/content/docs/cli-reference.mdx"
     ).read_text()
-    prefix = "../../../../../specs/frontier/perspective/v1/"
+    prefix = (
+        "https://github.com/edithatogo/voiage/blob/main/specs/frontier/perspective/v1/"
+    )
     assert f"{prefix}README.md" in cli_reference
     assert f"{prefix}capabilities.json" in cli_reference
