@@ -32,17 +32,22 @@ if SKLEARN_AVAILABLE:
 
     class LinearMetamodel:
         def __init__(self) -> None:
-            self.model = LinearRegression()
+            self.model = None
 
         def fit(self, x, y) -> None:
+            self.model = LinearRegression()
             x_np = np.array(list(x.parameters.values())).T
             self.model.fit(x_np, y)
 
         def predict(self, x):
+            if self.model is None:
+                raise RuntimeError("The model has not been fitted yet.")
             x_np = np.array(list(x.parameters.values())).T
             return self.model.predict(x_np)
 
         def score(self, x, y):
+            if self.model is None:
+                raise RuntimeError("The model has not been fitted yet.")
             x_np = np.array(list(x.parameters.values())).T
             y_pred = self.model.predict(x_np)
             ss_res = np.sum((y - y_pred) ** 2)
@@ -50,6 +55,8 @@ if SKLEARN_AVAILABLE:
             return 1 - (ss_res / ss_tot)
 
         def rmse(self, x, y):
+            if self.model is None:
+                raise RuntimeError("The model has not been fitted yet.")
             x_np = np.array(list(x.parameters.values())).T
             y_pred = self.model.predict(x_np)
             return np.sqrt(np.mean((y - y_pred) ** 2))
@@ -108,6 +115,24 @@ def test_linear_metamodel(sample_data) -> None:
     assert rmse >= 0
 
 
+def test_linear_metamodel_unfitted(sample_data) -> None:
+    """Test that LinearMetamodel raises RuntimeError when not fitted."""
+    if not SKLEARN_AVAILABLE:
+        pytest.skip("sklearn not available")
+
+    x, y = sample_data
+    model = LinearMetamodel()
+
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+        model.predict(x)
+
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+        model.score(x, y)
+
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+        model.rmse(x, y)
+
+
 def test_random_forest_metamodel(sample_data) -> None:
     """Test the RandomForestMetamodel."""
     # Skip if sklearn is not available
@@ -134,6 +159,25 @@ def test_random_forest_metamodel(sample_data) -> None:
     rmse = model.rmse(x, y)
     assert isinstance(rmse, float)
     assert rmse >= 0
+
+
+def test_random_forest_metamodel_unfitted(sample_data) -> None:
+    """Test that RandomForestMetamodel raises RuntimeError when not fitted."""
+    # Skip if sklearn is not available
+    if not SKLEARN_AVAILABLE:
+        pytest.skip("sklearn not available")
+
+    x, y = sample_data
+    model = RandomForestMetamodel()
+
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+        model.predict(x)
+
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+        model.score(x, y)
+
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+        model.rmse(x, y)
 
 
 def test_gam_metamodel_unfitted(sample_data) -> None:
@@ -226,6 +270,24 @@ def test_bart_metamodel(sample_data) -> None:
         assert rmse >= 0
     except ImportError:
         pytest.skip("pymc or pymc-bart not available")
+
+
+def test_bart_metamodel_unfitted(sample_data) -> None:
+    """Test that BARTMetamodel raises RuntimeError when not fitted."""
+    try:
+        model = BARTMetamodel()
+        x, y = sample_data
+
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            model.predict(x)
+
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            model.score(x, y)
+
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            model.rmse(x, y)
+    except ImportError:
+        pytest.skip("BART dependencies not available")
 
 
 def test_calculate_diagnostics(sample_data) -> None:
