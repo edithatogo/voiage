@@ -427,6 +427,23 @@ def test_create_parallel_config() -> None:
     assert config.chunk_size is None
 
 
+def test_create_parallel_config_with_args() -> None:
+    """Test create_parallel_config with custom arguments."""
+    config = create_parallel_config(
+        n_workers=4,
+        use_processes=False,
+        max_workers=8,
+        memory_limit_mb=8192,
+        chunk_size=1000,
+    )
+    assert isinstance(config, ParallelConfig)
+    assert config.n_workers == 4
+    assert config.use_processes is False
+    assert config.max_workers == 8
+    assert config.memory_limit_mb == 8192
+    assert config.chunk_size == 1000
+
+
 def test_create_financial_config() -> None:
     """Test create_financial_config factory function."""
     config = create_financial_config()
@@ -494,6 +511,7 @@ if __name__ == "__main__":
     test_parallel_config()
     test_create_healthcare_config()
     test_create_parallel_config()
+    test_create_parallel_config_with_args()
     test_factory_functions()
     test_create_optimization_config()
     test_create_streaming_config()
