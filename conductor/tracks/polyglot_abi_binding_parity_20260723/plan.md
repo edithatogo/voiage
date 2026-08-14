@@ -46,3 +46,7 @@
 - [x] Synchronize metadata, the track index, registry and canonical manifest
   with merged planning PR #621 and open delivery PR #821; preserve installed
   parity, Mojo, registry and hosted gates. (2026-08-02; review fix for AC-01)
+- [x] Preserve expired H8 governance observations as immutable historical
+  evidence, validate their semantics at the recorded candidate time, retain
+  live CLI expiry rejection, and refresh the Julia delivery's changelog hash
+  pin. (2026-08-14; hosted CI remediation for AC-03 and AC-07)

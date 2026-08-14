@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
-from datetime import UTC, datetime
+from datetime import datetime
 import hashlib
 import importlib
 import json
@@ -430,8 +430,13 @@ def test_h8c_candidate_cross_artifact_bindings_and_freshness() -> None:
 
     observed = datetime.fromisoformat(snapshot["observed_at"])
     expires = datetime.fromisoformat(snapshot["expires_at"])
+    candidate_committed = datetime.fromisoformat(
+        subprocess.check_output(
+            [git, "show", "-s", "--format=%cI", commit], cwd=ROOT, text=True
+        ).strip()
+    )
     assert observed < expires
-    assert datetime.now(UTC) <= expires
+    assert observed <= candidate_committed <= expires
 
 
 def test_h8c_candidate_schemas_reject_authority_scope_or_history_relaxation() -> None:

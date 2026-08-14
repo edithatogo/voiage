@@ -440,10 +440,15 @@ def load_and_validate_sampling_harm_review_preparation(
 
 
 def load_and_validate_sampling_harm_remediation_intake(
-    *, repository_root: Path
+    *, repository_root: Path, now: datetime | None = None
 ) -> dict[str, Any]:
     """Validate the live H8-D-B artifacts and compose the effective boundary."""
     root = repository_root.resolve()
+    current = now or datetime.now(UTC)
+    if current.tzinfo is None or current.utcoffset() is None:
+        raise SamplingHarmReviewPreparationError(
+            "validation time must be timezone-aware"
+        )
     loaded: dict[str, dict[str, Any]] = {}
     for artifact_name, schema_name in REMEDIATION_ARTIFACTS.items():
         artifact_path = root / CONTRACT_ROOT / artifact_name
@@ -523,11 +528,11 @@ def load_and_validate_sampling_harm_remediation_intake(
     governance = loaded["governance-administrative-delta-20260803.json"]
     observed_at = datetime.fromisoformat(governance["observed_at"])
     expires_at = datetime.fromisoformat(governance["expires_at"])
-    if observed_at > datetime.now(UTC):
+    if observed_at > current:
         raise SamplingHarmReviewPreparationError(
             "governance delta observation time is in the future"
         )
-    if expires_at <= observed_at or datetime.now(UTC) > expires_at:
+    if expires_at <= observed_at or current > expires_at:
         raise SamplingHarmReviewPreparationError(
             "governance delta is expired or has an invalid expiry"
         )
