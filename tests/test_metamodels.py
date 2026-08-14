@@ -107,6 +107,23 @@ def test_linear_metamodel(sample_data) -> None:
     assert isinstance(rmse, float)
     assert rmse >= 0
 
+def test_random_forest_metamodel_unfitted(sample_data) -> None:
+    """Test that RandomForestMetamodel raises RuntimeError when not fitted."""
+    # Skip if sklearn is not available
+    if not SKLEARN_AVAILABLE:
+        pytest.skip("sklearn not available")
+
+    x, y = sample_data
+    model = RandomForestMetamodel()
+
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+        model.predict(x)
+
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+        model.score(x, y)
+
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+        model.rmse(x, y)
 
 def test_random_forest_metamodel(sample_data) -> None:
     """Test the RandomForestMetamodel."""
@@ -195,6 +212,26 @@ def test_gam_metamodel(sample_data) -> None:
             pytest.skip(f"Skipping GAM test due to compatibility issue: {e}")
         else:
             raise
+
+def test_bart_metamodel_unfitted(sample_data) -> None:
+    """Test that BARTMetamodel raises RuntimeError when not fitted."""
+    x, y = sample_data
+
+    # Skip test if pymc or pymc-bart is not available
+    try:
+        model = BARTMetamodel(num_trees=10)
+
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            model.predict(x)
+
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            model.score(x, y)
+
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            model.rmse(x, y)
+    except ImportError:
+        pytest.skip("pymc or pymc-bart not available")
+
 
 
 def test_bart_metamodel(sample_data) -> None:
