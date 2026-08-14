@@ -498,3 +498,56 @@ if __name__ == "__main__":
     test_create_optimization_config()
     test_create_streaming_config()
     print("All configuration objects tests passed!")
+
+
+def test_voi_analysis_config_to_dict() -> None:
+    """Test the to_dict method of VOIAnalysisConfig thoroughly."""
+    # Test with default values
+    config = VOIAnalysisConfig()
+    result = config.to_dict()
+    assert result == {
+        "population": None,
+        "time_horizon": None,
+        "discount_rate": None,
+        "chunk_size": None,
+        "use_jit": False,
+        "backend": "numpy",
+        "enable_caching": False,
+        "streaming_window_size": None,
+        "n_regression_samples": None,
+        "regression_model": None,
+        "n_simulations": 1000,
+    }
+
+    # Test with custom values
+    class DummyModel:
+        pass
+
+    dummy_model = DummyModel()
+    custom_config = VOIAnalysisConfig(
+        population=10000.0,
+        time_horizon=5.0,
+        discount_rate=0.03,
+        chunk_size=100,
+        use_jit=True,
+        backend="jax",
+        enable_caching=True,
+        streaming_window_size=200,
+        n_regression_samples=500,
+        regression_model=dummy_model,
+        n_simulations=5000,
+    )
+    result = custom_config.to_dict()
+    assert result == {
+        "population": 10000.0,
+        "time_horizon": 5.0,
+        "discount_rate": 0.03,
+        "chunk_size": 100,
+        "use_jit": True,
+        "backend": "jax",
+        "enable_caching": True,
+        "streaming_window_size": 200,
+        "n_regression_samples": 500,
+        "regression_model": dummy_model,
+        "n_simulations": 5000,
+    }
