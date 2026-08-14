@@ -461,6 +461,10 @@ def test_factory_functions() -> None:
     config = create_streaming_config()
     assert isinstance(config, StreamingConfig)
 
+    # Test create_healthcare_config
+    config = create_healthcare_config()
+    assert isinstance(config, HealthcareConfig)
+
     # Test create_metamodel_config
     config = create_metamodel_config()
     assert isinstance(config, MetamodelConfig)
