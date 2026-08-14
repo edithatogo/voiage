@@ -372,6 +372,27 @@ def test_tinygp_protocol() -> None:
     assert not isinstance(InvalidGP(), _TinyGPProtocol)
 
 
+def test_tinygp_metamodel_unfitted(sample_data) -> None:
+    """Test that TinyGPMetamodel raises RuntimeError when not fitted."""
+    x, y = sample_data
+
+    try:
+        from voiage.metamodels import TinyGPMetamodel
+
+        model = TinyGPMetamodel()
+
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            model.predict(x)
+
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            model.score(x, y)
+
+        with pytest.raises(RuntimeError, match="The model has not been fitted yet."):
+            model.rmse(x, y)
+    except ImportError:
+        pytest.skip("tinygp not available")
+
+
 def test_safe_r2_score_normal():
     """Test _safe_r2_score with normal inputs."""
     y_true = np.array([3, -0.5, 2, 7])

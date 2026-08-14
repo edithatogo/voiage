@@ -395,8 +395,20 @@ def test_calculate_diagnostics_with_metamodels_without_methods(sample_data) -> N
 
     # Test with TinyGPMetamodel if available
     try:
+        from voiage.metamodels import TinyGPMetamodel
+
         model = TinyGPMetamodel()
         model.fit(x, y)
+
+        # Test score and rmse directly
+        score = model.score(x, y)
+        assert isinstance(score, float)
+        assert score <= 1.0
+
+        rmse = model.rmse(x, y)
+        assert isinstance(rmse, float)
+        assert rmse >= 0.0
+
         # This should work even if TinyGPMetamodel doesn't implement score/rmse
         # because calculate_diagnostics will compute them manually
         diagnostics = calculate_diagnostics(model, x, y)
