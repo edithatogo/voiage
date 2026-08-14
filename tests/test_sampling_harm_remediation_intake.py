@@ -84,6 +84,17 @@ def test_adjacent_method_delta_is_complete_and_non_executable() -> None:
     assert receipt["effective_adjacent_issues"] == [570, 571, 595, 598]
 
 
+def test_remediation_intake_rejects_naive_validation_time() -> None:
+    with pytest.raises(
+        SamplingHarmReviewPreparationError,
+        match="validation time must be timezone-aware",
+    ):
+        _load_and_validate_sampling_harm_remediation_intake(
+            repository_root=ROOT,
+            now=datetime(2026, 8, 3),
+        )
+
+
 def test_effective_disposition_rejects_duplicate_issue_mutation(tmp_path: Path) -> None:
     contract = _copy_contract(tmp_path)
     mutated = _json(contract / "adjacent-method-non-alias-delta.json")
