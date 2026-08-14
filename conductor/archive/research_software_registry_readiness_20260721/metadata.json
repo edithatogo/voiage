@@ -1,0 +1,66 @@
+{
+  "track_id": "research_software_registry_readiness_20260721",
+  "version": "1.0.0",
+  "type": "chore",
+  "status": "completed",
+  "created_at": "2026-07-21T00:00:00Z",
+  "updated_at": "2026-08-03T22:15:51Z",
+  "description": "Track archival, identifier, language-registry, arXiv, and evidence-gated JOSS readiness from the signed v1.0.0 release through the exact v2 review candidate.",
+  "owner_repo": "edithatogo/voiage",
+  "github_parent_issue": "https://github.com/edithatogo/voiage/issues/296",
+  "github_subissues": [
+    "https://github.com/edithatogo/voiage/issues/297",
+    "https://github.com/edithatogo/voiage/issues/298",
+    "https://github.com/edithatogo/voiage/issues/299",
+    "https://github.com/edithatogo/voiage/issues/312",
+    "https://github.com/edithatogo/voiage/issues/471",
+    "https://github.com/edithatogo/voiage/issues/555",
+    "https://github.com/edithatogo/voiage/issues/614",
+    "https://github.com/edithatogo/voiage/issues/615",
+    "https://github.com/edithatogo/voiage/issues/616",
+    "https://github.com/edithatogo/voiage/issues/617",
+    "https://github.com/edithatogo/voiage/issues/622"
+  ],
+  "external_evidence_required": true,
+  "gates": [
+    {
+      "id": "immutable-v1-release",
+      "kind": "release",
+      "status": "satisfied",
+      "evidence": "Signed public v1.0.0 release exists at https://github.com/edithatogo/voiage/releases/tag/v1.0.0; release artifact digests and provenance evidence are published."
+    },
+    {
+      "id": "immutable-v2-release-and-archive",
+      "kind": "release",
+      "status": "satisfied",
+      "evidence": "Signed public v2.0.0 release, PyPI/TestPyPI packages, four crates.io crates, clean-install evidence, mixed-language CycloneDX SBOM, provenance, digests, and Software Heritage snapshot swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d are verified."
+    },
+    {
+      "id": "external-registry-decisions",
+      "kind": "publication",
+      "status": "pending",
+      "evidence": "Repository preparation is complete. Software Heritage request 2399846 completed with v2 snapshot SWHID swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d. SciCrunch registration was submitted at 2026-07-27T06:07:06Z after its portal reported no similar resource and the authenticated account holder confirmed accuracy and terms; curation, RRID assignment, and resolver indexing remain external. Prior arXiv submission 7861466 is absent; replacement 7870358 is an incomplete start-stage draft and is not submission evidence. JOSS authorship, affiliations, ORCID, funding, competing-interest metadata, developer research use, AI affirmation, and best-available tool/model inventory are recorded. Issue #471 retains genuine human community engagement, external use, or collaborative input as an external gate. Conda-forge PR 34308 remains open with green lint and staged-recipes build 1558265. Julia issue #555 and open, green Yggdrasil PR 14292 track the submitted Rust C ABI recipe; BinaryBuilder JLL acceptance must precede the Voiage Registrator trigger and General review. R registry and JOSS still require external submission, curation, evidence, or editorial decisions."
+    }
+  ],
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/296",
+    "parent_issue": null,
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/300",
+      "https://github.com/edithatogo/voiage/pull/308",
+      "https://github.com/edithatogo/voiage/pull/309",
+      "https://github.com/edithatogo/voiage/pull/310",
+      "https://github.com/edithatogo/voiage/pull/311",
+      "https://github.com/edithatogo/voiage/pull/469",
+      "https://github.com/edithatogo/voiage/pull/470",
+      "https://github.com/edithatogo/voiage/pull/472",
+      "https://github.com/edithatogo/voiage/pull/473",
+      "https://github.com/edithatogo/voiage/pull/480",
+      "https://github.com/edithatogo/voiage/pull/561",
+      "https://github.com/edithatogo/voiage/pull/813",
+      "https://github.com/edithatogo/voiage/pull/880"
+    ],
+    "pull_request_evidence": "evidenced"
+  }
+}

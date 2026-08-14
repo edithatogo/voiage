@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0.0",
+  "projection_id": "specialized-voi-v1.2.0",
+  "contract_version": "v1.2.0",
+  "canonical_repository": "edithatogo/vop_poc_nz",
+  "canonical_track": "C16",
+  "registered_repositories": [
+    {
+      "repository": "edithatogo/voiage",
+      "role": "runtime-owner",
+      "managed_projection": true
+    }
+  ],
+  "github_project": {
+    "owner": "edithatogo",
+    "number": 28,
+    "fields": {
+      "MoSCoW": "Must",
+      "Contract Version": "v1.2.0",
+      "Priority": "P1",
+      "Status": "In Progress",
+      "Lifecycle": "Open",
+      "Gate": "Local",
+      "Evidence State": "Unverified",
+      "Sync State": "Clean"
+    }
+  },
+  "issues": [
+    {
+      "repository": "edithatogo/voiage",
+      "number": 318,
+      "parent": 313,
+      "track_id": "supported_frontier_method_completion_20260723",
+      "record_id": "supported-frontier-method-completion",
+      "requirement_ids": [
+        "M16",
+        "M17"
+      ]
+    },
+    {
+      "repository": "edithatogo/voiage",
+      "number": 571,
+      "parent": 318,
+      "track_id": "study_design_efficiency_20260727",
+      "record_id": "experiment-portfolio-and-study-efficiency-voi",
+      "implementation_status": "experimental_repository_evidence",
+      "capability_contract": "conductor/archive/study_design_efficiency_20260727/contract.md",
+      "subissues": [
+        680,
+        681,
+        682
+      ],
+      "implementation_pr": 679,
+      "requirement_ids": [
+        "M15",
+        "M17"
+      ]
+    },
+    {
+      "repository": "edithatogo/voiage",
+      "number": 595,
+      "parent": 318,
+      "track_id": "risk_adjusted_information_pricing_20260731",
+      "record_id": "risk-adjusted-information-pricing",
+      "capability_contract": "conductor/archive/risk_adjusted_information_pricing_20260731/contract.md",
+      "subissues": [
+        694,
+        695,
+        696,
+        697
+      ],
+      "requirement_ids": [
+        "M16",
+        "M17"
+      ]
+    },
+    {
+      "repository": "edithatogo/voiage",
+      "number": 619,
+      "parent": 318,
+      "track_id": "estimation_focused_variance_voi_20260727",
+      "record_id": "estimation-focused-variance-voi",
+      "implementation_status": "experimental_repository_evidence",
+      "capability_contract": "specs/estimation-variance/v1/capabilities.json",
+      "subissues": [
+        671,
+        672,
+        673,
+        674
+      ],
+      "requirement_ids": [
+        "M14",
+        "M17"
+      ]
+    }
+  ],
+  "sync_policy": {
+    "stable_markers_required": true,
+    "bounded_managed_sections_only": true,
+    "preserve_human_content": true,
+    "three_way_conflict_detection": true,
+    "fail_closed_on_missing_credentials": true,
+    "new_repositories_require_explicit_registration": true,
+    "automatic_merge": false,
+    "automatic_issue_closure": false,
+    "automatic_release": false
+  }
+}

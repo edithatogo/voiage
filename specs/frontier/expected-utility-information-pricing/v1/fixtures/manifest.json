@@ -1,0 +1,13 @@
+{
+  "schema_version": "expected-utility-information-fixture-manifest-v1",
+  "method_family": "expected_utility_information_pricing",
+  "method_maturity": "experimental",
+  "request_schema": "../schemas/request.schema.json",
+  "result_schema": "../schemas/result.schema.json",
+  "reference_schema": "../schemas/reference.schema.json",
+  "fixtures": [
+    {"id": "affine-clairvoyant", "path": "normative/affine-clairvoyant.json", "sha256": "e766c64090118be6ed4d083c1e727264de604df30da9539decd3a758f44c6a84", "reference": "enumeration-and-affine-reduction"},
+    {"id": "log-buy-sell-asymmetry", "path": "normative/log-buy-sell-asymmetry.json", "sha256": "0deac61be817975ec10865c37cc5ec89d25d9652f02627c08a3b81c86409309d", "reference": "independent-nonlinear-indifference-roots"},
+    {"id": "zero-value-result", "path": "normative/zero-value-result.json", "sha256": "79203d535bbe1584b88e35fb560122cba0863e44b0a48ac03db6b9c01bb92386", "reference": "complete-result-wire-contract"}
+  ]
+}

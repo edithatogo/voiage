@@ -17,3 +17,7 @@
 1. Implement a shared validation contract for fixture runners.
 2. Document the expected file naming, manifest structure, and example conventions.
 3. Add tests that lock the contract so future implementations remain compatible.
+
+## Legacy normalization record
+
+- [x] Preserve the historical plan and registry disposition under the current Conductor schema.

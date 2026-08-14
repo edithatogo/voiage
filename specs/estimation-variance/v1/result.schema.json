@@ -1,0 +1,281 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/estimation-variance/v1/result.schema.json",
+  "title": "EstimationVarianceResultV1",
+  "description": "Portable structural schema. Consumers MUST also apply the governed semantic validator voiage.contracts.estimation.EstimationVarianceResult, which enforces covariance-functional equality and units derived from the declared target.",
+  "x-semantic-validator": "voiage.contracts.estimation.EstimationVarianceResult",
+  "x-semantic-validation-required": true,
+  "x-vector-boundary": "Reserved vocabulary only; semantic validation rejects every vector result pending candidate-bound independent scientific review.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "method_id",
+    "target",
+    "runtime_binding",
+    "prior_covariance",
+    "expected_posterior_covariance",
+    "prior_functional",
+    "expected_posterior_functional",
+    "raw_reduction",
+    "absolute_reduction",
+    "relative_reduction",
+    "functional_units",
+    "negative_estimate_policy",
+    "zero_variance_policy",
+    "diagnostics",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "method_id": {"enum": ["evppi_var", "evsi_var"]},
+    "target": {"$ref": "#/$defs/target"},
+    "runtime_binding": {"$ref": "#/$defs/runtime_binding"},
+    "prior_covariance": {"$ref": "#/$defs/covariance"},
+    "expected_posterior_covariance": {"$ref": "#/$defs/covariance"},
+    "prior_functional": {"type": "number", "minimum": 0},
+    "expected_posterior_functional": {"type": "number", "minimum": 0},
+    "raw_reduction": {"type": "number"},
+    "absolute_reduction": {"type": "number", "minimum": 0},
+    "relative_reduction": {
+      "anyOf": [{"type": "number", "minimum": 0}, {"type": "null"}]
+    },
+    "functional_units": {"type": "string", "minLength": 1},
+    "negative_estimate_policy": {"const": "retain_raw_clip_reported"},
+    "zero_variance_policy": {"const": "absolute_zero_relative_null"},
+    "diagnostics": {"$ref": "#/$defs/diagnostics"},
+    "truth_known_assurance": {
+      "anyOf": [
+        {"$ref": "#/$defs/truth_known_assurance"},
+        {"type": "null"}
+      ]
+    },
+    "provenance": {"$ref": "#/$defs/provenance"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "target": {
+            "properties": {"shape": {"const": "scalar"}},
+            "required": ["shape"]
+          }
+        },
+        "required": ["target"]
+      },
+      "then": {
+        "properties": {
+          "prior_covariance": {"$ref": "#/$defs/scalar_covariance"},
+          "expected_posterior_covariance": {"$ref": "#/$defs/scalar_covariance"},
+          "functional_units": {"type": "string", "pattern": "^.+\\^2$"}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "runtime_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version", "method_id", "target_id", "target_shape",
+        "component_units", "covariance_functional", "functional_weights",
+        "prior_model_id", "parameter_subset", "conditioning_sigma_field",
+        "design_id", "likelihood_id", "sampling_conditioning_sigma_field",
+        "averaging_convention", "estimator_design", "outer_replicates",
+        "inner_replicates", "coupling_id", "solver_id"
+      ],
+      "properties": {
+        "schema_version": {"const": "1.0.0"},
+        "method_id": {"enum": ["evppi_var", "evsi_var"]},
+        "target_id": {"type": "string", "minLength": 1},
+        "target_shape": {"enum": ["scalar", "vector"]},
+        "component_units": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "covariance_functional": {"enum": ["variance", "trace", "determinant", "weighted_quadratic"]},
+        "functional_weights": {"anyOf": [{"type": "array", "items": {"type": "number"}}, {"type": "null"}]},
+        "prior_model_id": {"type": "string", "minLength": 1},
+        "parameter_subset": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "conditioning_sigma_field": {"anyOf": [{"type": "string", "minLength": 1}, {"type": "null"}]},
+        "design_id": {"anyOf": [{"type": "string", "minLength": 1}, {"type": "null"}]},
+        "likelihood_id": {"anyOf": [{"type": "string", "minLength": 1}, {"type": "null"}]},
+        "sampling_conditioning_sigma_field": {"anyOf": [{"type": "string", "minLength": 1}, {"type": "null"}]},
+        "averaging_convention": {"enum": ["prior_predictive", "posterior_predictive", "empirical_reference"]},
+        "estimator_design": {"enum": ["exact", "outer_monte_carlo", "nested_monte_carlo", "coupled_nested_monte_carlo"]},
+        "outer_replicates": {"anyOf": [{"type": "integer", "minimum": 2}, {"type": "null"}]},
+        "inner_replicates": {"anyOf": [{"type": "integer", "minimum": 2}, {"type": "null"}]},
+        "coupling_id": {"anyOf": [{"type": "string", "minLength": 1}, {"type": "null"}]},
+        "solver_id": {"type": "string", "minLength": 1}
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "target_id",
+        "shape",
+        "component_units",
+        "covariance_functional",
+        "functional_weights"
+      ],
+      "properties": {
+        "schema_version": {"const": "1.0.0"},
+        "target_id": {"type": "string", "minLength": 1},
+        "shape": {"enum": ["scalar", "vector"]},
+        "component_units": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "covariance_functional": {
+          "enum": ["variance", "trace", "determinant", "weighted_quadratic"]
+        },
+        "functional_weights": {
+          "anyOf": [
+            {"type": "array", "items": {"type": "number"}},
+            {"type": "null"}
+          ]
+        }
+      }
+    },
+    "covariance": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "array",
+        "minItems": 1,
+        "items": {"type": "number"}
+      }
+    },
+    "scalar_covariance": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "prefixItems": [
+        {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "prefixItems": [{"type": "number", "minimum": 0}]
+        }
+      ]
+    },
+    "diagnostics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prior_sample_count",
+        "posterior_evaluation_count",
+        "bootstrap_replicates",
+        "monte_carlo_standard_error",
+        "confidence_level",
+        "confidence_interval",
+        "converged",
+        "diagnostic_codes"
+      ],
+      "properties": {
+        "prior_sample_count": {"type": "integer", "minimum": 2},
+        "posterior_evaluation_count": {"type": "integer", "minimum": 1},
+        "bootstrap_replicates": {
+          "type": "integer",
+          "anyOf": [{"const": 0}, {"minimum": 2}]
+        },
+        "monte_carlo_standard_error": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "confidence_level": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1},
+        "confidence_interval": {
+          "anyOf": [
+            {
+              "type": "array",
+              "prefixItems": [{"type": "number"}, {"type": "number"}],
+              "minItems": 2,
+              "maxItems": 2
+            },
+            {"type": "null"}
+          ]
+        },
+        "converged": {"type": "boolean"},
+        "diagnostic_codes": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "truth_known_assurance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version", "replicate_count", "bias", "rmse",
+        "standard_error", "empirical_coverage", "calibration_error",
+        "converged", "replicate_unit", "dependence_structure",
+        "replay_artifact", "replay_digest"
+      ],
+      "properties": {
+        "contract_version": {"const": "1.0.0"},
+        "replicate_count": {"type": "integer", "minimum": 2},
+        "bias": {"type": "number"},
+        "rmse": {"type": "number", "minimum": 0},
+        "standard_error": {"type": "number", "minimum": 0},
+        "empirical_coverage": {
+          "anyOf": [
+            {"type": "number", "minimum": 0, "maximum": 1},
+            {"type": "null"}
+          ]
+        },
+        "calibration_error": {
+          "anyOf": [
+            {"type": "number", "minimum": 0, "maximum": 1},
+            {"type": "null"}
+          ]
+        },
+        "converged": {"type": "boolean"},
+        "replicate_unit": {"const": "complete_outer_dataset"},
+        "dependence_structure": {
+          "enum": [
+            "independent_outer", "paired_outer", "nested_shared_outer",
+            "coupled_common_random_numbers"
+          ]
+        },
+        "replay_artifact": {"type": "string", "minLength": 1},
+        "replay_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "backend",
+        "kernel_version",
+        "estimator_id",
+        "seed",
+        "specification_digest",
+        "input_digest",
+        "runtime_binding_digest",
+        "runtime_request_digest"
+      ],
+      "properties": {
+        "backend": {"type": "string", "minLength": 1},
+        "kernel_version": {"type": "string", "minLength": 1},
+        "estimator_id": {"type": "string", "minLength": 1},
+        "seed": {"type": "integer", "minimum": 0},
+        "specification_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "input_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "runtime_binding_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "runtime_request_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    }
+  }
+}

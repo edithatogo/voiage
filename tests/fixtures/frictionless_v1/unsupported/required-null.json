@@ -1,0 +1,7 @@
+{
+  "resources": [{
+    "name": "samples",
+    "path": "unsupported/required-null.csv",
+    "schema": {"fields": [{"name": "scenario_id", "constraints": {"required": true}}, {"name": "net_benefit"}]}
+  }]
+}

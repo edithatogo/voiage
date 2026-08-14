@@ -1,0 +1,13 @@
+{
+  "schema_version":"1.0.0",
+  "delta_id":"sampling-harm-adjacent-non-alias-h8db-20260803",
+  "historical_disposition_preserved":true,
+  "base_disposition_sha256":"9bbfcffa0dbc86f3690ec1c1304e95f390d42648c33d0224260bb04d68d9fdfc",
+  "issues":[
+    {"issue":570,"method":"risk-sensitive constrained perfect information","relationship":"not_sampling_acquisition_harm","execution_reuse_allowed":false,"reason":"It compares matched current and clairvoyant policy problems; it does not model harm caused by sampling."},
+    {"issue":571,"method":"ENBS, COSS and study-design efficiency","relationship":"not_sampling_acquisition_harm","execution_reuse_allowed":false,"reason":"It optimizes ordinary study value and cost; zero-harm reduction does not make it an acquisition-harm model or study authorization."},
+    {"issue":595,"method":"expected-utility information pricing and VoC presentation","relationship":"not_sampling_acquisition_harm","execution_reuse_allowed":false,"reason":"It values clairvoyant policy information under declared utility; it does not model the acquisition action."},
+    {"issue":598,"method":"signed, social and strategic information value","relationship":"not_sampling_acquisition_harm","execution_reuse_allowed":false,"reason":"It values selective information and stakeholder effects; it does not supply a candidate-specific sampling-harm law or study authorization."}
+  ],
+  "runtime_authority":false
+}

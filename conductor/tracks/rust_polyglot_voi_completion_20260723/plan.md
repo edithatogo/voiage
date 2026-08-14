@@ -1,68 +1,64 @@
-# Track Implementation Plan: Comprehensive Rust-First Polyglot VOIAGE Completion
+# Implementation Plan
 
-## Phase 1: Governance foundation
+## Phase 1 — Governance and contract reconciliation
 
-- [x] Test the intended issue, native-subissue, Project 28, and Conductor
-  topology.
-- [x] Create GitHub parent #313 and native subissues #314--#323.
-- [x] Populate live Project 28 fields using its supported option vocabulary.
-- [x] Add and run repository governance validation.
-- [x] Commit the governance artifacts, attach a git note, record the short
-  commit SHA, and commit the plan update. (`c576ad14`, rebased)
-- [x] Automated Conductor review and validation checkpoint.
-- [x] Review fix: isolate per-track validator errors so one malformed track
-  cannot suppress inspection of later tracks. (`9cf3849d`, rebased)
-- [x] Integration fix: make the frozen v1 baseline require its recorded tracks
-  as a subset, rather than prohibit later separately governed programmes.
-- [x] Full Python and dependency matrix: Python 3.12 and minimum dependencies
-  each passed 2,032 tests with 16 skips; Python 3.13, Python 3.14, and maximum
-  dependencies each passed 2,033 tests with 15 skips; coverage passed at
-  91.01%.
-- [ ] Conductor - User Manual Verification 'Phase 1: Governance foundation'
-  (Protocol in workflow.md).
+- [x] **G1:** Verify the owning issue, native parent/children, Project 28,
+  metadata, registry and cross-reference manifest. (AC-01) — `cd7bfa3`
+- [x] **G2:** Reconcile existing repository artifacts and prior evidence
+  without converting issue status into implementation evidence. (AC-01, AC-02)
+  — `cd7bfa3`
+- [x] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
+  explicit exclusions. (AC-02, AC-05, AC-06) — `cd7bfa3`
+- [x] **G4:** Run automated contract review and full Conductor validation.
+  (AC-01, AC-07) — 4fe2d8d
 
-## Phase 2: Contract and implementation programme
+## Phase 2 — Evidence before positive claims
 
-- [x] Incorporate post-census recommendations across MoSCoW requirements,
-  architecture, roadmap, child specifications/plans, evidence, and public
-  issues without duplicating track ownership. (`154cd044`)
-- [ ] Complete the method and external-library censuses.
-- [ ] Freeze v1.1 stable method, numerical, serialization, and ABI contracts.
-- [ ] Freeze the canonical Decision Problem interchange representation and
-  estimator-assurance envelope before binding API freeze.
-- [ ] Record architecture decisions for estimand, estimator, exclusion,
-  backend, ABI, and deprecation choices.
-- [ ] Complete the stable Rust and Value of Perspective tracks.
-- [ ] Complete frontier, ML/LLM/agent, and binding tracks.
-- [x] Upgrade the authoritative site to Astro 7.1.3 and Starlight 0.41.4,
-  source-pin `edithatogo/astro-polyglot`, and generate the public Python API
-  during fail-closed CI checks and builds. (`afe623a1`)
-- [x] Review fixes: restrict extraction to public, non-empty API records;
-  contain generated paths; emit deterministic, deployment-aware links; repair
-  the plugin artifact gate; and normalize the site's internal links.
-  (`afe623a1`; plugin commits through `054d11e`)
-- [ ] Commit each functional task, attach a git note, record its short commit
-  SHA, and commit the plan update.
-- [ ] Automated Conductor review and validation checkpoint.
-- [ ] Conductor - User Manual Verification 'Phase 2: Contract and implementation programme'
-  (Protocol in workflow.md).
+- [x] **G5:** Add failing conformance, reference, property and pathological
+  tests, or the corresponding reproducible review protocol. (AC-03) — 23900b8
+- [x] **G6:** Add versioned schemas, fixtures, diagnostics and provenance
+  contracts required by the accepted scope. (AC-02, AC-03) — `e7622eb`
+- [x] **G7:** Record rights, privacy, scientific, practitioner and external
+  evidence gates that apply to this workstream. (AC-05, AC-06) — 67857b5
+- [x] **G8:** Run an independent evidence and boundary review. (AC-03, AC-07)
+  — `f8a3337`
 
-## Phase 3: Evidence, releases, and closeout
+## Phase 3 — Delivery or reviewed exclusion
 
-- [ ] Complete datasets, worked examples, contribution records, and automation.
-- [ ] Reconcile generated capability, feature-matrix, documentation, binding,
-  and release claims against the canonical registries.
-- [ ] Run the full tox, Rust, binding, docs, provenance, and governance gates.
-- [ ] Reconcile v1.1, v1.2, and v1.3 release evidence without inferring external
-  acceptance.
-- [ ] Commit closeout evidence, attach a git note, record the short commit SHA,
-  and commit the plan update.
-- [ ] Final Conductor review and validation checkpoint.
-- [ ] Conductor - User Manual Verification 'Phase 3: Evidence, releases, and closeout'
-  (Protocol in workflow.md).
+- [x] **G9:** Implement each accepted repository-owned capability or record a
+  reviewed exclusion with migration guidance. (AC-02, AC-06) — 6ab9c88
+- [~] **G10:** Add Rust/Python/R/Julia/Mojo dispositions and installed
+  shared-fixture evidence where executable surfaces are advertised. (AC-04)
+  - [x] Freeze the ordered parity and promotion gates, evidence packet fields,
+    and fail-closed disposition. — `82ec400`
+  - [x] Execute clean installed Rust/Python/R/Julia shared-fixture runs and
+    capture the parity packet; panel and maintainer promotion decisions remain
+    external. — `installed-parity-packet-20260803`
+- [x] **G11:** Add documentation, examples, generated surfaces and capability
+  discovery that match the evidenced maturity state. (AC-05) — 7a2f296
+- [x] **G12:** Run automated implementation review, focused validation and the
+  repository harness. (AC-03–AC-07) — `381bc917`; dedicated v1 and full Conductor validation pass
 
-## Closure boundary
+## Phase 4 — Programme and hosted closeout
 
-Green planning or one release lane does not complete the programme. All
-repository-owned child tasks must be complete and remaining external gates
-must be explicit.
+- [x] **Closeout plan:** Order remaining local, hosted and external blockers
+  with options, contingencies and fail-closed archive rules. — 833ed457
+
+- [~] **G13:** Reconcile child-issue results, roadmap, todo, registries,
+  release targets and remaining external gates. (AC-01, AC-05, AC-06)
+  - [x] Define distinct registry/release/publication/parent-closure states,
+    evidence lanes and authority boundaries. — `b4a1f20`
+  - [~] Refresh each destination from authoritative receipts and reconcile
+    child and parent issue state. Live issue receipts captured; Project 28
+    membership is not found and requires authorized GitHub reconciliation.
+- [~] **G14:** Run final full local validation and hosted required checks.
+  (AC-07)
+  - [ ] Bind the final validation packet to the exact release candidate and
+    hosted check run. Local candidate receipt captured; exact-head hosted run
+    is not available.
+- [ ] **G15:** Record repository completion separately from merge, release,
+  publication, registry acceptance and issue closure. (AC-02, AC-07)
+  - [x] Define the fail-closed parent-closure rule and final receipt fields.
+    — `b4a1f20`
+  - [x] Record the final receipt matrix with repository and external states.
+    — `g15-final-receipt-matrix-20260803`

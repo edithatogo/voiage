@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "packet_id": "voiage-scientific-review-20260803",
+  "recorded_at": "2026-08-03T04:00:00Z",
+  "candidate": {
+    "repository": "edithatogo/voiage",
+    "implementation_head": "ace96fbf4ac9edc1be7dd5b33d8824d23d8ca962",
+    "hosted_pr": 854,
+    "status": "moving_hosted_candidate",
+    "freeze_status": "not_frozen_until_hosted_head_stabilizes"
+  },
+  "scope": {
+    "parent_issue": 841,
+    "children": [842, 843, 844, 845, 846, 847, 848, 849],
+    "families": [570, 571, 595, 597, 598, 599, 600, 619],
+    "waves": ["A specialized v1.2.0", "B high-risk v1.3.0", "C remaining C17/C18", "cross-cutting parity"]
+  },
+  "evidence_inventory": {
+    "panel_protocol": "conductor/tracks/supported_frontier_method_completion_20260723/scientific-review-panel.md",
+    "programme_evidence_map": "conductor/tracks/supported_frontier_method_completion_20260723/g5-g13-evidence-map.json",
+    "installed_parity_packet": "conductor/tracks/rust_polyglot_voi_completion_20260723/installed-parity-packet-20260803.json",
+    "issue_project_reconciliation": "conductor/tracks/rust_polyglot_voi_completion_20260723/g13-issue-project-reconciliation-20260803.json",
+    "prior_reviews": [
+      "estimation-variance-remediation-review.md",
+      "study-design-efficiency-independent-review-20260802.md",
+      "heterogeneity-value-implementation-review.md",
+      "outcome-conditional-sample-information-implementation-review.md",
+      "signed-social-information-implementation-review.md"
+    ]
+  },
+  "panel_roles": [
+    "orchestrating agent",
+    "Estimand and domain reviewer",
+    "Estimator-assurance reviewer",
+    "Cross-language and API reviewer",
+    "Governance and publication reviewer"
+  ],
+  "required_outputs": [
+    "review-packet.json",
+    "artifact-manifest-preparation.json",
+    "reviewer-attestations-preparation.json",
+    "finding-dispositions-preparation.json",
+    "disagreement-register-preparation.json",
+    "orchestrator-synthesis.md",
+    "adjudication-preparation.json",
+    "scientific-approval-preparation.json",
+    "promotion-receipt.json"
+  ],
+  "current_decision": "not_started",
+  "external_gates": [
+    "independent qualified scientific verdict",
+    "accountable maintainer promotion decision",
+    "hosted exact-head checks and merge",
+    "release/publication/registry approval",
+    "issue and Project closure"
+  ],
+  "fail_closed": true,
+  "boundary": "This locally assembled packet is preparation and challenge evidence only. It is not scientific acceptance, maintainer approval, stable promotion, release, publication, registry acceptance or issue closure."
+}

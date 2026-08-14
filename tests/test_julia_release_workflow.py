@@ -11,10 +11,12 @@ def test_julia_release_workflow_and_checklist_align() -> None:
     ).read_text()
 
     assert "julia-v*" in workflow_text
-    assert "Project.toml version" in workflow_text
+    assert "Verify Project.toml version matches release tag" in workflow_text
+    assert 'expected="${GITHUB_REF_NAME#julia-v}"' in workflow_text
+    assert 'test "$actual" = "$expected"' in workflow_text
     assert "Pkg.test()" in workflow_text
     assert 'gh release create "${GITHUB_REF_NAME}"' not in workflow_text
-    assert "GH_TOKEN: ${{ github.token }}" not in workflow_text
+    assert "permissions:\n      contents: read" in workflow_text
     assert "contents: read" in workflow_text
 
     assert (
@@ -22,6 +24,5 @@ def test_julia_release_workflow_and_checklist_align() -> None:
         in checklist_text
     )
     assert (
-        "Julia General registry submission/approval remains external/manual."
-        in checklist_text
+        "Julia General registry merge and indexing remain external." in checklist_text
     )

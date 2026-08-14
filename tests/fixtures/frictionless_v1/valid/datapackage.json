@@ -1,0 +1,16 @@
+{
+  "name": "operations-fixture",
+  "profile": "tabular-data-package",
+  "licenses": [{"name": "CC-BY-4.0", "path": "https://example.invalid/license"}],
+  "resources": [{
+    "name": "operations_samples",
+    "path": "valid/data.csv",
+    "schema": {
+      "primaryKey": "scenario_id",
+      "fields": [
+        {"name": "scenario_id", "type": "integer", "constraints": {"required": true, "unique": true}},
+        {"name": "net_benefit", "type": "number"}
+      ]
+    }
+  }]
+}

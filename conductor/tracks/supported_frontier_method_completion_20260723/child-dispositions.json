@@ -1,0 +1,379 @@
+{
+  "schema_version": "1.0.0",
+  "track_id": "supported_frontier_method_completion_20260723",
+  "audited_at": "2026-08-01T17:57:13Z",
+  "source_revision": "163825d8b09e064a65cbab8a5807904629bbf05e",
+  "parent_issue": 313,
+  "issue": 318,
+  "issue_state": "open",
+  "project_status": "In Progress",
+  "dependencies": [
+    {
+      "track_id": "voi_method_census_contract_reconciliation_20260723",
+      "status": "classification_checkpoint_satisfied",
+      "blocking_claim": "accepted-family classification complete"
+    },
+    {
+      "track_id": "stable_voi_rust_core_completion_20260723",
+      "status": "new",
+      "blocking_claim": "stable-core dependency complete"
+    }
+  ],
+  "children": [
+    {
+      "issue": 556,
+      "record_id": "deterministic-sensitivity-analysis",
+      "issue_state": "open",
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
+      "delivery_track": "supported_frontier_method_completion_20260723",
+      "implementation_pull_requests": [723],
+      "review_artifacts": ["conductor/tracks/supported_frontier_method_completion_20260723/deterministic-sensitivity-implementation-review.md"],
+      "adjacent_artifacts": []
+    },
+    {
+      "issue": 557,
+      "record_id": "value-of-distributional-information",
+      "issue_state": "open",
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
+      "delivery_track": "supported_frontier_method_completion_20260723",
+      "implementation_pull_requests": [736],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/distribution-family-information-implementation-review.md"
+      ],
+      "adjacent_artifacts": []
+    },
+    {
+      "issue": 558,
+      "record_id": "qualitative-voi",
+      "issue_state": "closed",
+      "project_status": "Done",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
+      "delivery_track": "supported_frontier_method_completion_20260723",
+      "implementation_pull_requests": [
+        743,
+        744
+      ],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/qualitative-information-implementation-review.md"
+      ],
+      "adjacent_artifacts": []
+    },
+    {
+      "issue": 559,
+      "record_id": "value-of-flexibility",
+      "issue_state": "open",
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
+      "delivery_track": "supported_frontier_method_completion_20260723",
+      "implementation_pull_requests": [723],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/value-of-flexibility-implementation-review.md"
+      ],
+      "adjacent_artifacts": ["reconciled dynamic-real-options compatibility view"]
+    },
+    {
+      "issue": 560,
+      "record_id": "mcda-voi",
+      "issue_state": "open",
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
+      "delivery_track": "supported_frontier_method_completion_20260723",
+      "implementation_pull_requests": [751],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/mcda-information-reference-review.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/mcda-information-implementation-review.md"
+      ],
+      "adjacent_artifacts": []
+    },
+    {
+      "issue": 570,
+      "record_id": "risk-sensitive-constrained-voi",
+      "issue_state": "open",
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
+      "delivery_track": "supported_frontier_method_completion_20260723",
+      "implementation_pull_requests": [769],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/risk-sensitive-constrained-voi-implementation-review.md"
+      ],
+      "adjacent_artifacts": [
+        "capacity-budget constraints",
+        "CVaR",
+        "robust and ambiguity helpers",
+        "specs/frontier/risk-sensitive-constrained-voi/v1"
+      ]
+    },
+    {
+      "issue": 571,
+      "record_id": "experiment-portfolio-and-study-efficiency-voi",
+      "issue_state": "open",
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
+      "delivery_track": "study_design_efficiency_20260727",
+      "implementation_pull_requests": [679],
+      "review_artifacts": [
+        "conductor/archive/study_design_efficiency_20260727/phase-4-review.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/study-design-efficiency-independent-review-20260802.md"
+      ],
+      "adjacent_artifacts": [],
+      "delivery_subissues": [680, 681, 682],
+      "unresolved_gates": [
+        "scientific review",
+        "Rust/R/Julia parity",
+        "stable promotion and release",
+        "parent #571 and umbrella #318 closure"
+      ]
+    },
+    {
+      "issue": 572,
+      "record_id": "forecast-signal-information-voi",
+      "issue_state": "open",
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
+      "delivery_track": "supported_frontier_method_completion_20260723",
+      "implementation_pull_requests": [770],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/forecast-signal-implementation-review.md"
+      ],
+      "adjacent_artifacts": [
+        "finite-signal expected-utility analysis",
+        "monitoring helpers",
+        "specs/frontier/forecast-signal-information/v1"
+      ]
+    },
+    {
+      "issue": 582,
+      "record_id": "information-source-portfolio-voi",
+      "issue_state": "open",
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
+      "delivery_track": "information_source_portfolio_voi_20260801",
+      "implementation_pull_requests": [772],
+      "review_artifacts": [
+        "conductor/tracks/information_source_portfolio_voi_20260801/independent-implementation-review.md"
+      ],
+      "adjacent_artifacts": [
+        "independent experiment portfolio allocation",
+        "specs/frontier/information-source-portfolio/v1"
+      ]
+    },
+    {
+      "issue": 593,
+      "record_id": "implementation-information-decomposition",
+      "issue_state": "open",
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
+      "delivery_track": "supported_frontier_method_completion_20260723",
+      "implementation_pull_requests": [787],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/implementation-information-reference-review.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/implementation-information-implementation-review.md"
+      ],
+      "adjacent_artifacts": [
+        "implementation-loss helper",
+        "specs/frontier/implementation-information/v1"
+      ]
+    },
+    {
+      "issue": 594,
+      "record_id": "uncertainty-modelling-value",
+      "issue_state": "open",
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
+      "delivery_track": "uncertainty_modelling_value_20260801",
+      "implementation_pull_requests": [798],
+      "review_artifacts": ["conductor/tracks/uncertainty_modelling_value_20260801/independent-implementation-review.md"],
+      "adjacent_artifacts": []
+    },
+    {
+      "issue": 595,
+      "record_id": "risk-adjusted-information-pricing",
+      "issue_state": "open",
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
+      "delivery_track": "risk_adjusted_information_pricing_20260731",
+      "implementation_pull_requests": [712],
+      "review_artifacts": ["conductor/archive/risk_adjusted_information_pricing_20260731/phase-4-review.md"],
+      "adjacent_artifacts": [],
+      "delivery_subissues": [694, 695, 696, 697],
+      "unresolved_gates": [
+        "scientific review",
+        "Rust/R/Julia parity",
+        "stable promotion and release",
+        "parent #595 and umbrella #318 closure"
+      ]
+    },
+    {
+      "issue": 596,
+      "record_id": "event-localized-information-value",
+      "issue_state": "open",
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
+      "delivery_track": "supported_frontier_method_completion_20260723",
+      "implementation_pull_requests": [804],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/event-localized-information-reference-review.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/event-localized-information-implementation-review.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/event-localized-information-final-review.md"
+      ],
+      "adjacent_artifacts": [
+        "threshold and event-like plots",
+        "specs/frontier/event-localized-information/v1"
+      ]
+    },
+    {
+      "issue": 597,
+      "record_id": "belief-state-sequential-information-value",
+      "issue_state": "open",
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
+      "delivery_track": "supported_frontier_method_completion_20260723",
+      "implementation_pull_requests": [807],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/belief-state-information-remediation-review.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/belief-state-information-third-review-remediation.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/belief-state-information-fourth-review-remediation.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/belief-state-information-fifth-review.md"
+      ],
+      "adjacent_artifacts": [
+        "sequential, adaptive, bandit and monitoring helpers",
+        "specs/frontier/belief-state-information/v1"
+      ],
+      "delivery_subissues": [780, 781, 782],
+      "unresolved_gates": [
+        "independent scientific review",
+        "Rust/R/Julia parity",
+        "stable promotion and release",
+        "parent #597 and umbrella #318 closure"
+      ]
+    },
+    {
+      "issue": 598,
+      "record_id": "signed-social-information-value",
+      "issue_state": "open",
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
+      "delivery_track": "supported_frontier_method_completion_20260723",
+      "implementation_pull_requests": [808],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/signed-social-information-reference-review.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/signed-social-information-implementation-review.md"
+      ],
+      "adjacent_artifacts": ["strategic", "privacy and equity helpers"],
+      "delivery_subissues": [783, 784, 785],
+      "unresolved_gates": [
+        "independent scientific review",
+        "Rust/R/Julia parity",
+        "stable promotion and release",
+        "delivery subissue, parent #598 and umbrella #318 closure"
+      ]
+    },
+    {
+      "issue": 599,
+      "record_id": "heterogeneity-value-decomposition",
+      "issue_state": "open",
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
+      "delivery_track": "supported_frontier_method_completion_20260723",
+      "implementation_pull_requests": [809],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/heterogeneity-value-reference-review.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/heterogeneity-value-implementation-review.md"
+      ],
+      "adjacent_artifacts": ["stable static heterogeneity analysis"],
+      "delivery_subissues": [786, 788, 789],
+      "unresolved_gates": [
+        "independent scientific review",
+        "selection-bias and sparse-subgroup validity review",
+        "Rust/R/Julia parity",
+        "stable promotion and release",
+        "delivery subissue, parent #599 and umbrella #318 closure"
+      ]
+    },
+    {
+      "issue": 600,
+      "record_id": "outcome-conditional-sample-information-value",
+      "issue_state": "open",
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
+      "delivery_track": "supported_frontier_method_completion_20260723",
+      "implementation_pull_requests": [831],
+      "review_artifacts": [
+        "conductor/tracks/supported_frontier_method_completion_20260723/outcome-conditional-sample-information-reference-review.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/outcome-conditional-sample-information-implementation-review.md"
+      ],
+      "adjacent_artifacts": ["aggregate EVSI and estimator uncertainty"],
+      "delivery_subissues": [790, 791, 792],
+      "unresolved_gates": [
+        "continuous-outcome and fitted-estimator validation",
+        "independent scientific review",
+        "risk-sensitive composition",
+        "Rust/R/Julia parity",
+        "stable promotion and release",
+        "delivery subissue, parent #600 and umbrella #318 closure"
+      ]
+    },
+    {
+      "issue": 619,
+      "record_id": "estimation-focused-variance-voi",
+      "issue_state": "open",
+      "project_status": "In Progress",
+      "disposition": "experimental_merged",
+      "maturity": "experimental",
+      "satisfies_ac06": true,
+      "delivery_track": "estimation_focused_variance_voi_20260727",
+      "implementation_pull_requests": [676, 837],
+      "review_artifacts": [
+        "conductor/tracks/estimation_focused_variance_voi_20260727/delivery-closeout-20260801.md",
+        "conductor/tracks/estimation_focused_variance_voi_20260727/independent-review-remediation-20260802.md",
+        "conductor/tracks/supported_frontier_method_completion_20260723/estimation-variance-remediation-review.md"
+      ],
+      "adjacent_artifacts": [
+        "specs/estimation-variance/v1/runtime-data.schema.json"
+      ],
+      "delivery_subissues": [671, 672, 673, 674],
+      "unresolved_gates": [
+        "E17 scientific classification and vector covariance scalarization review",
+        "stable promotion and release",
+        "parent #619 closure",
+        "umbrella #318 closure"
+      ]
+    }
+  ]
+}

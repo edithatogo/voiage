@@ -1,0 +1,14 @@
+{
+  "contract_version": "1.0.0",
+  "replicate_count": 4,
+  "bias": 0.024999999999999994,
+  "rmse": 0.061237243569579436,
+  "standard_error": 0.03227486121839514,
+  "empirical_coverage": 0.75,
+  "calibration_error": 0.19999999999999996,
+  "converged": false,
+  "replicate_unit": "complete_outer_dataset",
+  "dependence_structure": "independent_outer",
+  "replay_artifact": "evppi-var-truth-known.assurance.json",
+  "replay_digest": "c2657c64e3745e8f021f485386111e9cb5ddcaedb47fa993b89c140e45b6bf20"
+}

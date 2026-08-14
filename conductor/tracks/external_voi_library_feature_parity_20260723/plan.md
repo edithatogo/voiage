@@ -1,55 +1,42 @@
-# Track Implementation Plan: External VOI Library Feature Parity
+# Implementation Plan
 
-## Phase 1: Landscape contract
+## Phase 1 — Governance and contract reconciliation
 
-- [x] Add failing registry, freshness, license, and traceability tests.
-  (`2630e39`)
-- [x] Define discovery, inclusion, feature, parity, and exclusion schemas.
-  (`2630e39`)
-- [x] Pin initial package/tool candidates and authoritative sources.
-  (`2630e39`)
-- [x] Commit, attach a git note, record the short commit SHA, and commit the
-  plan update. (`2630e39`)
-- [x] Automated review and validation checkpoint. (`c4c4fab`; registry,
-  governance, Ruff, and live GitHub reconciliation passed)
-- [ ] Conductor - User Manual Verification 'Phase 1: Landscape contract'
-  (Protocol in workflow.md).
+- [x] **G1:** Verify the owning issue, native parent/children, Project 28,
+  metadata, registry and cross-reference manifest. (AC-01)
+- [x] **G2:** Reconcile existing repository artifacts and prior evidence
+  without converting issue status into implementation evidence. (AC-01, AC-02)
+- [x] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
+  explicit exclusions. (AC-02, AC-05, AC-06)
+- [x] **G4:** Run automated contract review and full Conductor validation.
+  (AC-01, AC-07) — `3252706`
 
-## Phase 2: Feature census and parity
+## Phase 2 — Evidence before positive claims
 
-- [~] Inventory source, tests, docs, examples, vignettes, schemas, and
-  releases; the initial feature-level snapshot is committed, while
-  estimator-by-estimator source/test extraction remains open.
-- [ ] Build independent fixtures and feature-to-method mappings.
-- [ ] Implement missing justified features without competitor runtime imports.
-- [ ] Add optional migration adapters and reviewed exclusions.
-- [ ] Preserve archived or unavailable tools with unique features, maintenance
-  state, last verifiable behavior, and closest supported workflow.
-- [ ] Normalize licenses to SPDX where possible and prohibit reference-fixture
-  copying until source rights are recorded.
-- [ ] Commit, attach a git note, record the short commit SHA, and commit the
-  plan update.
-- [ ] Automated review and validation checkpoint.
-- [ ] Conductor - User Manual Verification 'Phase 2: Feature census and parity'
-  (Protocol in workflow.md).
+- [ ] **G5:** Add failing conformance, reference, property and pathological
+  tests, or the corresponding reproducible review protocol. (AC-03)
+- [ ] **G6:** Add versioned schemas, fixtures, diagnostics and provenance
+  contracts required by the accepted scope. (AC-02, AC-03)
+- [x] **G7:** Record rights, privacy, scientific, practitioner and external
+  evidence gates that apply to this workstream. (AC-05, AC-06) — `3252706`
+- [ ] **G8:** Run an independent evidence and boundary review. (AC-03, AC-07)
 
-## Phase 3: Public evidence
+## Phase 3 — Delivery or reviewed exclusion
 
-- [x] Generate the test-linked comparison. (`2630e39`; clean competitor-absent
-  isolation tests remain part of the implementation phase)
-- [ ] Run license, provenance, docs, and complete quality gates.
-- [ ] Schedule quarterly and pre-minor-release refresh checks.
-- [ ] Include registry, toolchain, lockfile, action, and source-pinned
-  documentation-plugin drift in evidence-preserving refresh proposals.
-- [ ] Produce a machine-readable gap report and bounded GitHub triage updates;
-  never generate duplicate issues or overwrite human notes.
-- [ ] Commit, attach a git note, record the short commit SHA, and commit the
-  plan update.
-- [ ] Final review and validation checkpoint.
-- [ ] Conductor - User Manual Verification 'Phase 3: Public evidence'
-  (Protocol in workflow.md).
+- [ ] **G9:** Implement each accepted repository-owned capability or record a
+  reviewed exclusion with migration guidance. (AC-02, AC-06)
+- [ ] **G10:** Add Rust/Python/R/Julia/Mojo dispositions and installed
+  shared-fixture evidence where executable surfaces are advertised. (AC-04)
+- [ ] **G11:** Add documentation, examples, generated surfaces and capability
+  discovery that match the evidenced maturity state. (AC-05)
+- [ ] **G12:** Run automated implementation review, focused validation and the
+  repository harness. (AC-03–AC-07)
 
-## Review fixes
+## Phase 4 — Programme and hosted closeout
 
-- [x] Add a separately versioned method-evidence registry so software feature
-  links cannot be mistaken for complete scientific support. (`c4c4fab`)
+- [ ] **G13:** Reconcile child-issue results, roadmap, todo, registries,
+  release targets and remaining external gates. (AC-01, AC-05, AC-06)
+- [ ] **G14:** Run final full local validation and hosted required checks.
+  (AC-07)
+- [ ] **G15:** Record repository completion separately from merge, release,
+  publication, registry acceptance and issue closure. (AC-02, AC-07)

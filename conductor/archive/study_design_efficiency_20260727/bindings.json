@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "track_id": "study_design_efficiency_20260727",
+  "contract_version": "1.0.0",
+  "method_maturity": "experimental",
+  "execution_authority": "rust",
+  "stable_parity_claim": false,
+  "shared_fixture": "specs/frontier/study-design-efficiency/v1/fixtures/normative/coss-efficiency.json",
+  "bindings": [
+    {
+      "language": "rust",
+      "status": "implemented",
+      "surface": "voiage-numerics::study_design",
+      "evidence": [
+        "rust/crates/voiage-numerics/src/study_design.rs",
+        "rust/crates/voiage-numerics/src/lib.rs"
+      ]
+    },
+    {
+      "language": "python",
+      "status": "implemented",
+      "surface": "voiage.experimental.study_design",
+      "evidence": [
+        "voiage/experimental/study_design.py",
+        "tests/test_study_design_binding_dispositions.py"
+      ]
+    },
+    {
+      "language": "r",
+      "status": "unsupported",
+      "surface": "r-package/voiageR",
+      "failure": {
+        "code": "unsupported_capability",
+        "message": "The retained R binding has no COSS or EVSI/EVPI v1.0.0 symbol; consumers must fail before numerical execution."
+      }
+    },
+    {
+      "language": "julia",
+      "status": "unsupported",
+      "surface": "bindings/julia",
+      "failure": {
+        "code": "unsupported_capability",
+        "message": "The retained Julia binding has no COSS or EVSI/EVPI v1.0.0 symbol; consumers must fail before numerical execution."
+      }
+    },
+    {
+      "language": "mojo",
+      "status": "external_boundary",
+      "surface": "external-package",
+      "failure": {
+        "code": "unsupported_capability",
+        "message": "No installed Mojo COSS or EVSI/EVPI v1.0.0 conformance evidence is available in this repository."
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+---
+title: Uncertainty-modelling value
+description: Experimental exact finite EVIU, VSS and stochastic-program diagnostics.
+---
+
+Use `uncertainty_modelling_value` to compare a declared deterministic
+point-estimate solution with an explicitly enumerated nonanticipative policy
+class.
+
+```python
+import json
+from pathlib import Path
+from voiage import uncertainty_modelling_value
+
+request = json.loads(Path("request.json").read_text())
+result = uncertainty_modelling_value(request).to_contract_dict()
+print(result["decomposition"])
+```
+
+The v1 result exposes the expected-value problem and selected deterministic
+solution, EEV, recourse/stochastic-program value, wait-and-see value, VSS/EVIU,
+EVPI, complete ties, feasibility and exact-enumeration assurance. It supports
+both minimization and maximization. One decision per shared history encodes
+nonanticipativity; every candidate policy supplies one outcome per finite
+state.
+
+Run the same contract from the CLI:
+
+```bash
+voiage --format json calculate-uncertainty-modelling-value request.json
+```
+
+This is an uncertainty-representation diagnostic, not an acquisition model.
+No samples or signals are purchased or observed. DVSS/VMS, approximate
+solvers, external solver claims and non-expected-value risk criteria are
+deferred. Python execution is experimental; Rust, R and Julia are not
+implemented and Mojo remains external.

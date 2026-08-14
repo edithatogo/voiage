@@ -1,0 +1,8 @@
+{
+  "case_id": "negative-weight",
+  "description": "A state-specific preference vector cannot contain a negative trade-off weight.",
+  "operations": [
+    {"op": "replace", "path": "/joint_states/0/weights/quality", "value": -0.1}
+  ],
+  "expected_error": "constraint: minimum"
+}

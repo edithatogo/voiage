@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "method_family": "value_of_perspective",
+  "method_maturity": "fixture-backed",
+  "stable_claim_allowed": false,
+  "execution": {
+    "python": "executable-experimental",
+    "rust": "unsupported",
+    "r": "unsupported",
+    "julia": "unsupported",
+    "mojo": "external-boundary"
+  },
+  "installed_shared_fixture": {
+    "status": "pending",
+    "required_before_promotion": true,
+    "fixture": "fixtures/normative/value-of-perspective.json"
+  },
+  "unsupported_estimands": [
+    "perfect_perspective_information",
+    "partial_perspective_information",
+    "sample_perspective_information"
+  ],
+  "notes": "Only directional current-information EVoP is implemented in the Python experimental surface."
+}

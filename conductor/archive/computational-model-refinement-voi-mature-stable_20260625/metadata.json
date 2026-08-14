@@ -4,5 +4,15 @@
   "status": "completed",
   "created_at": "2026-06-25T00:00:00Z",
   "updated_at": "2026-07-17T01:15:00Z",
-  "description": "Implement and promote computational VOI and value of model refinement from contract scaffolds through mature/stable runtime status."
+  "description": "Implement and promote computational VOI and value of model refinement from contract scaffolds through mature/stable runtime status.",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/359",
+    "parent_issue": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/171",
+      "https://github.com/edithatogo/voiage/pull/172"
+    ],
+    "pull_request_evidence": "evidenced"
+  }
 }

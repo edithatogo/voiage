@@ -1,0 +1,18 @@
+{
+  "resources": [
+    {
+      "name": "unsupported_constraint",
+      "path": "missing.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "constraints": {
+              "minimum": 1
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

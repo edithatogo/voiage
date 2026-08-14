@@ -6,26 +6,47 @@ mod ceaf;
 mod dominance;
 mod enbs;
 mod error;
+mod estimation_variance;
 mod evpi;
 mod evppi;
 mod evsi;
 mod evsi_efficient;
 mod evsi_moment;
+mod evsi_normal_normal;
 mod evsi_regression;
 mod heterogeneity;
 mod structural;
+mod study_design;
+mod utility_information;
 
 pub use dominance::{dominance, DominanceKernelResult, DominanceStatus};
 pub use enbs::enbs;
 pub use error::NumericalInputError;
+pub use estimation_variance::{
+    estimation_truth_assurance, evppi_variance, evppi_variance_with_assurance, evsi_variance,
+    evsi_variance_with_assurance, EstimationTruthAssuranceKernelResult,
+    EstimationVarianceKernelResult,
+};
 pub use evpi::evpi;
 pub use evppi::evppi;
 pub use evsi::{evsi_stochastic, EvsiKernelResult};
 pub use evsi_efficient::{evsi_efficient_linear, EvsiApproximationResult};
 pub use evsi_moment::evsi_moment_based;
+pub use evsi_normal_normal::normal_normal_two_arm_evsi;
 pub use evsi_regression::{evsi_regression, EvsiRegressionResult};
 pub use heterogeneity::{heterogeneity, HeterogeneityKernelResult};
 pub use structural::{structural_evpi, structural_evppi};
+pub use study_design::{
+    coss, coss_selection_uncertainty, evsi_evpi_efficiency, information_efficiency_uncertainty,
+    CossKernelResult, CossSelectionUncertaintyKernelResult, InformationEfficiencyKernelResult,
+    InformationEfficiencyUncertaintyKernelResult,
+};
+pub use utility_information::{
+    expected_utility_information, AffineReduction, Comparability, DomainExclusion,
+    ExpectedUtilityError, ExpectedUtilityInformationInput, ExpectedUtilityInformationResult,
+    InformationStructure, MeasureResult, PolicyEvaluation, PolicyResult, PolicyTransition,
+    RankingEquivalence, RootResult, SolverSettings, UtilityDescriptor,
+};
 
 /// Identifies this crate while numerical kernels are migrated.
 pub const CRATE_NAME: &str = "voiage-numerics";

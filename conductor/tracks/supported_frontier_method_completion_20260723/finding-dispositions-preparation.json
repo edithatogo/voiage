@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0",
+  "status": "pending",
+  "candidate_packet": "scientific-review-packet-20260803.json",
+  "findings": [],
+  "allowed_dispositions": ["fixed", "reviewed_exclusion", "accepted_experimental_risk", "deferred_with_explicit_exclusion", "disputed"]
+}

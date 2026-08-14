@@ -1,0 +1,19 @@
+{
+  "schema_version": "qualitative-information-fixture-manifest-v1",
+  "method_family": "qualitative_information_assessment",
+  "method_maturity": "experimental",
+  "request_schema": "../schemas/qualitative-information-assessment.schema.json",
+  "result_schema": "../schemas/qualitative-information-result.schema.json",
+  "reference_schema": "../schemas/qualitative-information-rendering.schema.json",
+  "fixtures": [
+    {
+      "id": "qualitative-information-reference",
+      "path": "normative/request-result.json",
+      "sha256": "8e8370dbb769eb2662b5dc51a50197c48a27f76b2f8bf5c720c040f6f6c8f2ed",
+      "reference": "synthetic-non-cardinal-assessment-and-result"
+    }
+  ],
+  "data_status": "synthetic_only",
+  "rights_status": "repository-authored synthetic fixture",
+  "scientific_status": "contract reference only; practitioner and scientific approval pending"
+}

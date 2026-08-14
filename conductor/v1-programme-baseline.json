@@ -19,17 +19,53 @@
     "remaining_pull_request_classification": "No remaining pull requests at snapshot time"
   },
   "conductor": {
-    "active_track_ids": [
-      "research_software_registry_readiness_20260721"
+  "active_track_ids": [
+    "controlled_live_dataset_interoperability_20260801",
+    "datasets_worked_examples_20260723",
+      "estimation_focused_variance_voi_20260727",
+      "external_voi_library_feature_parity_20260723",
+      "information_source_portfolio_voi_20260801",
+      "ml_llm_agent_voi_20260723",
+      "polyglot_abi_binding_parity_20260723",
+      "quality_release_automation_20260723",
+      "research_contribution_ai_transparency_20260723",
+    "remote_dataset_ingestion_security_20260801",
+      "rust_polyglot_voi_completion_20260723",
+      "sampling_acquisition_harm_voi_20260802",
+      "stable_voi_rust_core_completion_20260723",
+      "supported_frontier_method_completion_20260723",
+      "uncertainty_modelling_value_20260801",
+      "value_of_perspective_completion_20260723",
+      "voi_method_census_contract_reconciliation_20260723"
     ],
-    "archived_track_count": 126,
+    "archived_track_count": 132,
     "classifications": {
       "v1_required": [
         "repository-owned mature-v1 programme completed; external publication gates transferred to research_software_registry_readiness_20260721"
       ],
       "historical_groundwork": "conductor/archive/",
-      "post_v1_or_optional": [
+    "post_v1_or_optional": [
+      "controlled_live_dataset_interoperability_20260801",
+        "datasets_worked_examples_20260723",
+        "estimation_focused_variance_voi_20260727",
+        "external_voi_library_feature_parity_20260723",
+        "information_source_portfolio_voi_20260801",
+        "ml_llm_agent_voi_20260723",
+        "polyglot_abi_binding_parity_20260723",
+        "quality_release_automation_20260723",
+        "research_contribution_ai_transparency_20260723",
         "research_software_registry_readiness_20260721",
+      "risk_adjusted_information_pricing_20260731",
+      "remote_dataset_ingestion_security_20260801",
+        "rust_polyglot_voi_completion_20260723",
+        "sampling_acquisition_harm_voi_20260802",
+        "stable_voi_rust_core_completion_20260723",
+        "standardized-dataset-ingestion_20260723",
+        "study_design_efficiency_20260727",
+        "supported_frontier_method_completion_20260723",
+        "uncertainty_modelling_value_20260801",
+        "value_of_perspective_completion_20260723",
+        "voi_method_census_contract_reconciliation_20260723",
         "accelerator production-speedup evidence",
         "frontier-method stable promotion beyond the frozen v1 surface",
         "FPGA and ASIC production execution"

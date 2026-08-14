@@ -1,0 +1,19 @@
+{
+  "@context": "https://mlcommons.org/croissant/1.1",
+  "conformsTo": "http://mlcommons.org/croissant/1.1",
+  "name": "governed-decision-samples",
+  "license": "CC-BY-4.0",
+  "citation": "Example et al. (2026)",
+  "usageInfo": "Synthetic offline fixture only.",
+  "odrl": {"permission": "use"},
+  "provenance": {"wasGeneratedBy": "simulation"},
+  "rai": {"risk": "low"},
+  "distribution": [{
+    "contentUrl": "valid/data.csv",
+    "encodingFormat": "text/csv"
+  }],
+  "recordSet": [{
+    "name": "decision_samples",
+    "field": [{"name": "strategy_a"}, {"name": "strategy_b"}]
+  }]
+}

@@ -4,5 +4,16 @@
   "status": "completed",
   "created_at": "2026-06-25T00:00:00Z",
   "updated_at": "2026-07-15T06:00:34Z",
-  "description": "Implement strict PR, scheduled, and release gates covering linting, formatting, typing, docstrings, unit/integration/e2e/property/mutation tests, coverage, profiling, security, docs, and bindings."
+  "description": "Implement strict PR, scheduled, and release gates covering linting, formatting, typing, docstrings, unit/integration/e2e/property/mutation tests, coverage, profiling, security, docs, and bindings.",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/453",
+    "parent_issue": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/39",
+      "https://github.com/edithatogo/voiage/pull/149",
+      "https://github.com/edithatogo/voiage/pull/150"
+    ],
+    "pull_request_evidence": "evidenced"
+  }
 }

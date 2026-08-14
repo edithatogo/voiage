@@ -1,69 +1,28 @@
 {
   "analysis_type": "value_of_dynamic_real_options",
-  "decision_stage_names": [
-    "now",
-    "after_phase_1",
-    "after_phase_2"
-  ],
-  "strategy_names": [
-    "immediate_adopt",
-    "delay_and_review",
-    "wait_for_trial"
-  ],
+  "decision_stage_names": ["now", "after_phase_1", "after_phase_2"],
+  "strategy_names": ["immediate_adopt", "delay_and_review", "wait_for_trial"],
   "expected_net_benefits": [
-    [
-      10.0,
-      12.0,
-      14.0
-    ],
-    [
-      10.0,
-      12.0,
-      14.0
-    ]
+    [10.0, 5.089805825242719, -0.5],
+    [8.0, 5.575242718446602, -0.5],
+    [7.0, 4.604368932038835, -0.5]
   ],
-  "optimal_strategy_names": [
-    "delay_and_review",
-    "wait_for_trial",
-    "wait_for_trial"
-  ],
-  "waiting_value": 2.5,
-  "option_value": 4.0,
+  "optimal_strategy_names": ["immediate_adopt", "delay_and_review", "immediate_adopt"],
+  "waiting_value": 0.14563106796116498,
+  "option_value": 0.14563106796116498,
   "policy_path_regret": [
-    [
-      0.0,
-      1.5,
-      3.0
-    ],
-    [
-      2.0,
-      0.0,
-      1.0
-    ],
-    [
-      3.5,
-      1.0,
-      0.0
-    ]
+    [0.0, 0.4854368932038833, 0.0],
+    [2.0, 0.0, 0.0],
+    [3.0, 0.9708737864077674, 0.0]
   ],
-  "timing_sensitivity": [
-    0.5,
-    0.8,
-    1.2
-  ],
-  "robust_strategy_name": "delay_and_review",
-  "pareto_strategy_names": [
-    "delay_and_review",
-    "wait_for_trial"
-  ],
+  "timing_sensitivity": [0.2, 0.2912621359223301, 0.4712979545668772],
+  "robust_strategy_name": "immediate_adopt",
+  "pareto_strategy_names": ["immediate_adopt", "delay_and_review"],
   "reporting": {
     "reporting_standard": "CHEERS-VOI",
     "analysis_type": "value_of_dynamic_real_options",
     "method_maturity": "fixture-backed",
-    "decision_stage_names": [
-      "now",
-      "after_phase_1",
-      "after_phase_2"
-    ]
+    "decision_stage_names": ["now", "after_phase_1", "after_phase_2"],
+    "adjacent_estimand": "value_of_flexibility"
   }
 }

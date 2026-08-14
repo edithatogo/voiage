@@ -2,18 +2,37 @@
 
 from .ceac import plot_ceac
 from .ceaf import plot_ceaf
+from .deterministic_sensitivity import plot_deterministic_sensitivity_tornado
 from .dominance import plot_cost_effectiveness_plane
+from .estimation_variance import plot_estimation_variance
+from .event_localized_information import (
+    plot_event_accuracy_curve,
+    plot_information_density,
+)
 from .heterogeneity import plot_voh_by_subgroup
+from .mcda_information import plot_mcda_information_value, plot_mcda_rank_acceptability
 from .perspective import plot_perspective_regret
-from .voi_curves import plot_evpi_vs_wtp, plot_evppi_surface, plot_evsi_vs_sample_size
+from .voi_curves import (
+    plot_coss,
+    plot_evpi_vs_wtp,
+    plot_evppi_surface,
+    plot_evsi_vs_sample_size,
+)
 
 __all__ = [
     "plot_ceac",
     "plot_ceaf",
+    "plot_coss",
     "plot_cost_effectiveness_plane",
+    "plot_deterministic_sensitivity_tornado",
+    "plot_estimation_variance",
+    "plot_event_accuracy_curve",
     "plot_evpi_vs_wtp",
     "plot_evppi_surface",
     "plot_evsi_vs_sample_size",
+    "plot_information_density",
+    "plot_mcda_information_value",
+    "plot_mcda_rank_acceptability",
     "plot_perspective_regret",
     "plot_voh_by_subgroup",
 ]

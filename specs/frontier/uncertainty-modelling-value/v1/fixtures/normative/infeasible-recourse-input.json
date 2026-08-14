@@ -1,0 +1,166 @@
+{
+  "analysis_id": "infeasible-induced-recourse",
+  "analysis_type": "uncertainty_modelling_value",
+  "deterministic_candidates": [
+    {
+      "candidate_id": "balanced-at-mean",
+      "first_stage_decision": "balanced-capacity",
+      "induced_policy_id": "balanced-policy",
+      "point_objective_value": 8.2
+    },
+    {
+      "candidate_id": "risky-at-mean",
+      "first_stage_decision": "lean-capacity",
+      "induced_policy_id": "risky-policy",
+      "point_objective_value": 4.0
+    },
+    {
+      "candidate_id": "safe-at-mean",
+      "first_stage_decision": "safe-capacity",
+      "induced_policy_id": "safe-policy",
+      "point_objective_value": 8.0
+    }
+  ],
+  "histories": [
+    {
+      "history_id": "unresolved",
+      "reachable_states": [
+        "high",
+        "low"
+      ],
+      "stage_id": "recourse"
+    }
+  ],
+  "method_maturity": "experimental",
+  "objective": {
+    "direction": "minimize",
+    "discount_basis": "already discounted to stage zero",
+    "horizon_basis": "two stages",
+    "population_basis": "one governed decision cohort",
+    "risk_criterion": "expected_value",
+    "value_unit": "discounted-cost-units"
+  },
+  "point_estimate": {
+    "deterministic_model_revision": "nonlinear-cost-at-mean-v1",
+    "functional": "expectation",
+    "parameter_unit": "demand-units",
+    "value": 5.0
+  },
+  "policies": [
+    {
+      "first_stage_decision": "balanced-capacity",
+      "history_decisions": [
+        {
+          "decision": "balanced-recourse",
+          "history_id": "unresolved"
+        }
+      ],
+      "policy_id": "balanced-policy",
+      "state_outcomes": [
+        {
+          "feasible": true,
+          "objective_value": 11.0,
+          "recourse_status": "feasible",
+          "state_id": "high"
+        },
+        {
+          "feasible": true,
+          "objective_value": 6.0,
+          "recourse_status": "feasible",
+          "state_id": "low"
+        }
+      ]
+    },
+    {
+      "first_stage_decision": "lean-capacity",
+      "history_decisions": [
+        {
+          "decision": "expedite-if-needed",
+          "history_id": "unresolved"
+        }
+      ],
+      "policy_id": "risky-policy",
+      "state_outcomes": [
+        {
+          "feasible": false,
+          "objective_value": null,
+          "recourse_status": "infeasible",
+          "state_id": "high"
+        },
+        {
+          "feasible": true,
+          "objective_value": 2.0,
+          "recourse_status": "feasible",
+          "state_id": "low"
+        }
+      ]
+    },
+    {
+      "first_stage_decision": "safe-capacity",
+      "history_decisions": [
+        {
+          "decision": "standard-recourse",
+          "history_id": "unresolved"
+        }
+      ],
+      "policy_id": "safe-policy",
+      "state_outcomes": [
+        {
+          "feasible": true,
+          "objective_value": 8.0,
+          "recourse_status": "feasible",
+          "state_id": "high"
+        },
+        {
+          "feasible": true,
+          "objective_value": 8.0,
+          "recourse_status": "feasible",
+          "state_id": "low"
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "independent_reference": "hand-calculated EEV 9, RP 8, WS 5",
+    "policy_generator": "independent complete finite enumeration",
+    "scenario_source": "synthetic nonlinear point-estimate counterexample",
+    "software_version": "1.3.0-planned"
+  },
+  "schema_version": "1.0.0",
+  "solver_assurance": {
+    "candidate_space_complete": true,
+    "feasibility_tolerance": 1e-12,
+    "model_revision": "finite-policy-reference-v1",
+    "objective_bound_tolerance": 1e-12,
+    "solver_type": "exact_enumeration"
+  },
+  "stages": [
+    {
+      "information_available": [],
+      "order": 1,
+      "stage_id": "commit"
+    },
+    {
+      "information_available": [
+        "no-revelation"
+      ],
+      "order": 2,
+      "stage_id": "recourse"
+    }
+  ],
+  "states": [
+    {
+      "probability": 0.5,
+      "state_id": "high"
+    },
+    {
+      "probability": 0.5,
+      "state_id": "low"
+    }
+  ],
+  "tie_policy": {
+    "absolute_tolerance": 1e-12,
+    "relative_tolerance": 1e-12,
+    "selection": "complete_ties_then_lexical"
+  }
+}

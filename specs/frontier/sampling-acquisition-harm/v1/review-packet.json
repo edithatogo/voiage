@@ -1,0 +1,37 @@
+{
+  "evidence_kind": "review-packet",
+  "schema_version": "1.1.0",
+  "packet_id": "sampling-harm-h8c-review-preparation-20260803",
+  "candidate_commit": {"algorithm": "sha1", "value": "8d6c67879050f161258ed95d878a72e2bb6b22dd"},
+  "candidate_tree": {"algorithm": "sha1", "value": "18289bd04081f6a6810cb91ef2beec7decafe61f"},
+  "packet_sha256": "e1298da5a609ee9ed7a8cc8509ab117a2d2fd384d20d464c48ec32f4f033f29b",
+  "artifact_manifest_sha256": "4f18ac9b08717416e54133849c1a381b4245543d7e5dd85f51efa1cd789164c5",
+  "scope": {"family": "sampling_acquisition_harm_voi", "capabilities": ["generic_automatic_scalar_or_authorizing_sampling_acquisition_harm_kernel"]},
+  "orchestrator_identity": "codex-agent:/root/h8e-sampling-harm-orchestrator",
+  "author_identities": ["codex-agent:/root"],
+  "remediator_identities": [],
+  "dependency_lock": ["uv.lock@sha256:cbfcc01e6d5c5684c079409225591698ad3886d1f69068fbf2d142946de29361"],
+  "toolchain": ["Python 3.14.5", "Rust 1.97.1", "Git SHA-1 object format"],
+  "platform": "Darwin arm64",
+  "commands": [
+    "uv run --extra ci pytest tests/test_sampling_acquisition_harm_boundary.py -q --no-cov",
+    "uv run --extra dev ruff check tests/test_sampling_acquisition_harm_boundary.py",
+    "uv run --extra ci pytest tests/test_sampling_harm_review_preparation.py tests/test_sampling_acquisition_harm_boundary.py -q --no-cov",
+    "uv run --extra ci python scripts/validate_sampling_harm_review_preparation.py specs/frontier/sampling-acquisition-harm/v1/review-preparation.json --repository-root . --expected-candidate-commit 8d6c67879050f161258ed95d878a72e2bb6b22dd --expected-package-commit <trusted-package-commit>",
+    "python /Users/doughnut/.codex/skills/conductor/scripts/validate_conductor.py --root . --mode full --json",
+    "gh project item-list 28 --owner edithatogo --format json --limit 1000"
+  ],
+  "references": [
+    "https://github.com/edithatogo/voiage/issues/850",
+    "https://github.com/edithatogo/voiage/issues/853",
+    "https://github.com/users/edithatogo/projects/28",
+    "specs/frontier/sampling-acquisition-harm/v1/review-candidate.json"
+  ],
+  "known_limitations": [
+    "Preparation only: no H8-D role reports, H8-E synthesis, H8-F dispositions, H8-G human receipts or maintainer decision exist.",
+    "Exact source review is blocked pending independent retrieval and drift comparison because no source bytes were retained.",
+    "No estimator, runtime, ABI, language binding, real-study authorization, promotion, release or publication is claimed.",
+    "The issue and Project snapshot expires at 2026-08-09T18:25:00Z and must be refreshed after expiry or drift."
+  ],
+  "created_at": "2026-08-02T18:40:00Z"
+}

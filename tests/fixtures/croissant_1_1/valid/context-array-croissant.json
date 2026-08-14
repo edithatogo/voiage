@@ -1,0 +1,23 @@
+{
+  "@context": [
+    "https://schema.org/",
+    "https://mlcommons.org/croissant/1.1"
+  ],
+  "conformsTo": "http://mlcommons.org/croissant/1.1",
+  "name": "context-array-decision-samples",
+  "distribution": [
+    {
+      "contentUrl": "valid/data.csv",
+      "encodingFormat": "text/csv"
+    }
+  ],
+  "recordSet": [
+    {
+      "name": "decision_samples",
+      "field": [
+        {"name": "strategy_a"},
+        {"name": "strategy_b"}
+      ]
+    }
+  ]
+}

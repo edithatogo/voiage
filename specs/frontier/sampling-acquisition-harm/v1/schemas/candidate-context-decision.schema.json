@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/sampling-acquisition-harm/v1/schemas/candidate-context-decision.schema.json",
+  "title": "SamplingHarmCandidateContextDecisionV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "issue",
+    "parent_issue",
+    "decision_status",
+    "selected_option_id",
+    "selected_option_scope",
+    "rationale",
+    "recorded_at",
+    "authenticated_receipt",
+    "project_readback",
+    "next_gate_issue",
+    "remaining_blocker_ids",
+    "authority_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "artifact_kind": {"const": "accountable_candidate_context_decision_receipt"},
+    "issue": {"const": "https://github.com/edithatogo/voiage/issues/873"},
+    "parent_issue": {"const": "https://github.com/edithatogo/voiage/issues/853"},
+    "decision_status": {"const": "selected"},
+    "selected_option_id": {"const": "reviewed_exclusion_generic_kernel"},
+    "selected_option_scope": {
+      "const": "Seek independent review of a proposed exclusion for any universal automatic-scalar or study-authorizing sampling-harm kernel while preserving narrower non-authorizing constrained or vector research."
+    },
+    "rationale": {"type": "string", "minLength": 80},
+    "recorded_at": {"type": "string", "format": "date-time", "pattern": "Z$"},
+    "authenticated_receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "url", "actor_login", "actor_association", "issue_state", "issue_state_reason"],
+      "properties": {
+        "provider": {"const": "github"},
+        "url": {"type": "string", "pattern": "^https://github\\.com/edithatogo/voiage/issues/873#issuecomment-[0-9]+$"},
+        "actor_login": {"const": "edithatogo"},
+        "actor_association": {"const": "OWNER"},
+        "issue_state": {"const": "CLOSED"},
+        "issue_state_reason": {"const": "COMPLETED"}
+      }
+    },
+    "project_readback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "lifecycle", "evidence_state", "sync_state", "gate", "risk"],
+      "properties": {
+        "status": {"const": "Done"},
+        "lifecycle": {"const": "Resolved"},
+        "evidence_state": {"const": "Verified"},
+        "sync_state": {"const": "Clean"},
+        "gate": {"const": "Human"},
+        "risk": {"const": "Critical"}
+      }
+    },
+    "next_gate_issue": {"const": "https://github.com/edithatogo/voiage/issues/876"},
+    "remaining_blocker_ids": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_selected",
+        "source_authority",
+        "reviewer_eligibility",
+        "reviewer_commissioned",
+        "replacement_packet_frozen",
+        "finding_disposition",
+        "h8_d_satisfied",
+        "h8_e_satisfied",
+        "h8_f_satisfied",
+        "h8_g_satisfied",
+        "h8_h_satisfied",
+        "runtime",
+        "real_study",
+        "release",
+        "publication"
+      ],
+      "properties": {
+        "candidate_selected": {"const": true},
+        "source_authority": {"const": false},
+        "reviewer_eligibility": {"const": false},
+        "reviewer_commissioned": {"const": false},
+        "replacement_packet_frozen": {"const": false},
+        "finding_disposition": {"const": false},
+        "h8_d_satisfied": {"const": false},
+        "h8_e_satisfied": {"const": false},
+        "h8_f_satisfied": {"const": false},
+        "h8_g_satisfied": {"const": false},
+        "h8_h_satisfied": {"const": false},
+        "runtime": {"const": false},
+        "real_study": {"const": false},
+        "release": {"const": false},
+        "publication": {"const": false}
+      }
+    }
+  }
+}

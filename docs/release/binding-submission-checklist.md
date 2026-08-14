@@ -31,8 +31,8 @@ maintainer approval is inferred from an in-repo workflow or release tag.
 | --- | --- | --- | --- |
 | Python | Automated PyPI/TestPyPI publish, tag-driven release, conda-forge update PR | conda-forge feedstock merge | No |
 | R | GitHub Release source archives | CRAN and r-universe | No |
-| Julia | TagBot sync plus GitHub Release artifacts | Julia General registry approval | No |
-| Rust | Publishable core crates plus GitHub Release workspace artifacts | crates.io review/indexing and trusted publishing credentials | Yes, repository-ready |
+| Julia | Yggdrasil JLL build, Registrator, and subpackage TagBot sync | BinaryBuilder and Julia General bot/maintainer acceptance | No |
+| Rust | Signed-tag publication of four core crates plus shared GitHub Release evidence | crates.io indexing and configured Trusted Publishers | Yes, repository-ready |
 | Spack | Manual recipe preparation for Spack repository | Spack maintainer review and PR merge | No |
 | EasyBuild | Manual easyconfig preparation for EasyBuild repository | EasyBuild maintainer review and PR merge | No |
 | HPSF | Manual curation submission | External curation review / listing policy | No |
@@ -58,11 +58,23 @@ maintainer approval is inferred from an in-repo workflow or release tag.
 
 ## Julia
 
-- [x] Package test gates exist in CI.
-- [x] GitHub Release source archives are produced from `julia-v*` tags.
-- [x] TagBot synchronization is configured.
+- [x] Package tests and Aqua quality gates exist in CI across Julia 1.10--1.12
+  on Linux, macOS, and Windows.
+- [x] The BinaryBuilder recipe is source-controlled and submitted as
+  [Yggdrasil PR #14292](https://github.com/JuliaPackaging/Yggdrasil/pull/14292).
+- [x] The package subdirectory contains the required licence copy and omits a
+  library-package `Manifest.toml`.
+- [x] TagBot synchronization is configured for the `bindings/julia`
+  subpackage, producing collision-free `julia-v*` tags.
+- [x] A repository-scoped write deploy key is stored as `DOCUMENTER_KEY`, so
+  TagBot releases can trigger downstream workflows without a broad personal
+  access token.
 - [x] The Julia binding remains the thin adapter over the shared contract.
-- [ ] Julia General registry submission/approval remains external/manual.
+- [ ] BinaryBuilder must accept the recipe and register `voiage_ffi_jll`.
+- [ ] After the JLL is registered, wire it into `Voiage`, pass clean-depot
+  artifact installation tests, and trigger
+  `@JuliaRegistrator register subdir=bindings/julia`.
+- [ ] Julia General registry merge and indexing remain external.
 
 Software Heritage archival is complete for the v1.0.0 origin request: request
 2397350 produced snapshot
@@ -72,7 +84,12 @@ Software Heritage archival is complete for the v1.0.0 origin request: request
 
 - [x] `cargo fmt`, `cargo clippy`, `cargo test`, `cargo doc`, and `cargo package` gates exist in CI.
 - [x] The binding-independent Rust core crates are publishable on crates.io; FFI, PyO3, and test-support crates remain private.
-- [x] The tag-driven crates.io workflow publishes core crates in dependency order using `CARGO_REGISTRY_TOKEN`.
+- [x] The tag-driven crates.io workflow resolves an exact signed annotated
+  `rust-v*` tag, binds it to the shared `v*` release manifest, verifies all
+  public crate versions, and publishes the dependency layers with bounded
+  registry-visibility waits.
+- [x] Publication obtains a short-lived crates.io Trusted Publishing credential
+  through GitHub OIDC; no long-lived crates.io token is stored in the workflow.
 - [x] GitHub Release source archives are attached to the release.
 - [x] The Rust crate remains the canonical execution core and contract owner.
 
@@ -81,9 +98,12 @@ Software Heritage archival is complete for the v1.0.0 origin request: request
 If the question is "are all language versions submitted to their corresponding
 registries today?", the repo can only answer this partially:
 
-- The in-repo publishing workflows are in place for Python and the binding-independent Rust core; crates.io publication still requires the maintainer token and registry-side acceptance.
-- Julia, conda-forge, CRAN, and r-universe still require external registry-side
-  action or approval.
+- The in-repo publishing workflows are in place for Python and the
+  binding-independent Rust core; crates.io publication requires the configured
+  environment-bound Trusted Publishers and subsequent registry visibility.
+- Julia's JLL recipe is submitted; BinaryBuilder acceptance must precede the
+  source-package Registrator submission. Conda-forge, CRAN, and r-universe
+  still require external registry-side action or approval.
 - Spack, EasyBuild, HPSF, and E4S are all explicit external/manual paths with
   no live confirmation from this repository.
 
@@ -164,7 +184,8 @@ states:
 - HPSF and E4S remain external/manual curation targets because this repository
   cannot confirm inclusion from a package API alone.
 
-So the current live state is: Python is confirmed on PyPI; Rust is an internal
-workspace artifact; R, Julia, conda-forge, r-universe, Spack, and EasyBuild are
-not confirmed in their external registries; HPSF and E4S remain manual curation
-targets. The retired Go, TypeScript, and .NET channels are not v1.0 targets.
+So the recorded live state is: Python is confirmed on PyPI; the four
+binding-independent Rust core crates are the crates.io publication set while
+the adapter and test crates remain internal; R, Julia, conda-forge, r-universe,
+Spack, and EasyBuild are not confirmed in their external registries; HPSF and
+E4S remain manual curation targets. The retired Go, TypeScript, and .NET channels are not v1.0 targets.

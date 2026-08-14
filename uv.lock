@@ -207,11 +207,11 @@ css = [
 
 [[package]]
 name = "cachetools"
-version = "7.1.5"
+version = "7.1.6"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/87/23/635f22bbd6478b02672432656a5f46775768e24b2715c2e8658b3d210602/cachetools-7.1.5.tar.gz", hash = "sha256:0def7134eba79e59448edaf5d2e3cc8e49978ab2fd56189c1efd19856b134ab5", size = 40500, upload-time = "2026-07-22T23:51:31.846Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/55/af/861ebc2e318a5c3300e3eb63bc4d30f3d70a46d13b360093728ac0705eed/cachetools-7.1.6.tar.gz", hash = "sha256:c7a79e7f30ba9943c1cefd08cc36f006aaae086e017af9166f1d59d6170c47e1", size = 40572, upload-time = "2026-07-23T22:47:53.737Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6c/9b/8bd3cf22c5559a39e905b4884f773768f849091d91e374212d5a9ab66cd7/cachetools-7.1.5-py3-none-any.whl", hash = "sha256:900cda61ff34fafca2b7f78cfd2a91e2d4f9655c19309ef542ce0a04f91e6cd9", size = 16963, upload-time = "2026-07-22T23:51:30.279Z" },
+    { url = "https://files.pythonhosted.org/packages/9f/f2/2086ba18a925a73586c4d4e61d25f4a6058e56fd00d77ce8f1d361ab4c9b/cachetools-7.1.6-py3-none-any.whl", hash = "sha256:2c12e255780330af28b91bb7fb96cce4c766f04e38396b9a24510190a5827096", size = 16954, upload-time = "2026-07-23T22:47:52.397Z" },
 ]
 
 [[package]]
@@ -855,18 +855,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/10/a1/ae4e3e5003468d6391d2c77b6fa1cd73bd5d13511d81c642d7b28ac90ed4/fsspec-2026.6.0.tar.gz", hash = "sha256:f5bac145310fe30e16e1471bd6840b2d990d609e872251d7e674241822abf01a", size = 313646, upload-time = "2026-06-16T01:57:28.105Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/e5/22/4222d7ddf3da30f363edaa98e329c2bce6c65497c9cb2810931c8b2c0fbc/fsspec-2026.6.0-py3-none-any.whl", hash = "sha256:02e0b71817df9b2169dc30a16832045764def1191b43dcff5bb85bdee212d2a1", size = 203949, upload-time = "2026-06-16T01:57:26.358Z" },
-]
-
-[[package]]
-name = "griffe"
-version = "1.15.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "colorama" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/0d/0c/3a471b6e31951dce2360477420d0a8d1e00dea6cf33b70f3e8c3ab6e28e1/griffe-1.15.0.tar.gz", hash = "sha256:7726e3afd6f298fbc3696e67958803e7ac843c1cfe59734b6251a40cdbfb5eea", size = 424112, upload-time = "2025-11-10T15:03:15.52Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/9c/83/3b1d03d36f224edded98e9affd0467630fc09d766c0e56fb1498cbb04a9b/griffe-1.15.0-py3-none-any.whl", hash = "sha256:6f6762661949411031f5fcda9593f586e6ce8340f0ba88921a0f2ef7a81eb9a3", size = 150705, upload-time = "2025-11-10T15:03:13.549Z" },
 ]
 
 [[package]]
@@ -3797,6 +3785,7 @@ name = "voiage"
 source = { editable = "." }
 dependencies = [
     { name = "click" },
+    { name = "jsonschema" },
     { name = "numpy" },
     { name = "pandas" },
     { name = "polars" },
@@ -3817,7 +3806,6 @@ ci = [
     { name = "httpx" },
     { name = "hypothesis" },
     { name = "jax" },
-    { name = "jsonschema" },
     { name = "matplotlib" },
     { name = "maturin" },
     { name = "psutil" },
@@ -3850,9 +3838,6 @@ dev = [
     { name = "types-requests" },
     { name = "types-setuptools" },
     { name = "vulture" },
-]
-docs = [
-    { name = "griffe" },
 ]
 ecosystem = [
     { name = "defusedxml" },
@@ -3889,14 +3874,13 @@ requires-dist = [
     { name = "duckdb", marker = "extra == 'experimental'", specifier = ">=1.5.4,<2" },
     { name = "fastapi", marker = "extra == 'ci'", specifier = ">=0.139.2,<1.0" },
     { name = "fastapi", marker = "extra == 'web'", specifier = ">=0.139.2,<1.0" },
-    { name = "griffe", marker = "extra == 'docs'", specifier = ">=1.14.0,<2.0" },
     { name = "httpx", marker = "extra == 'ci'", specifier = ">=0.28.1,<1.0" },
     { name = "httpx", marker = "extra == 'web'", specifier = ">=0.28.1,<1.0" },
     { name = "hypothesis", marker = "extra == 'ci'", specifier = ">=6.157.0,<7.0" },
     { name = "ipykernel", marker = "extra == 'dev'", specifier = ">=7.3.0,<8" },
     { name = "jax", marker = "extra == 'ci'", specifier = ">=0.7.1,<0.8" },
     { name = "jax", marker = "extra == 'jax'", specifier = ">=0.7.1,<0.8" },
-    { name = "jsonschema", marker = "extra == 'ci'", specifier = ">=4.26.0,<5.0" },
+    { name = "jsonschema", specifier = ">=4.26.0,<5.0" },
     { name = "jupyterlab", marker = "extra == 'dev'", specifier = ">=4.6.2,<5.0" },
     { name = "matplotlib", marker = "extra == 'ci'", specifier = ">=3.4,<4.0" },
     { name = "matplotlib", marker = "extra == 'plotting'", specifier = ">=3.11.1,<4" },
@@ -3921,7 +3905,7 @@ requires-dist = [
     { name = "pytest-xdist", marker = "extra == 'ci'", specifier = ">=3.8.0,<4.0" },
     { name = "pyyaml", marker = "extra == 'ci'", specifier = ">=6.0.3,<7.0" },
     { name = "rfc8785", marker = "extra == 'ci'", specifier = ">=0.1,<0.2" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.15.22,<0.16" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.15.22,<0.16.0" },
     { name = "scalene", marker = "extra == 'dev'", specifier = ">=2.3.0,<3.0" },
     { name = "scikit-learn", specifier = ">=1.7.2,<2.0" },
     { name = "scipy", specifier = ">=1.16.3,<1.17" },
@@ -3939,7 +3923,7 @@ requires-dist = [
     { name = "vulture", marker = "extra == 'dev'", specifier = ">=2.16,<3.0" },
     { name = "xarray", specifier = ">=0.19,<2025.0" },
 ]
-provides-extras = ["ci", "deep-learning", "dev", "docs", "ecosystem", "experimental", "jax", "performance", "plotting", "web"]
+provides-extras = ["ci", "croissant", "deep-learning", "dev", "ecosystem", "experimental", "frictionless", "ingestion", "jax", "performance", "plotting", "web"]
 
 [[package]]
 name = "vulture"

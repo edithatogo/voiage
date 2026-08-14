@@ -1,0 +1,18 @@
+{
+  "name": "operations-json-table-fixture",
+  "profile": "tabular-data-package",
+  "resources": [
+    {
+      "name": "operations_json",
+      "path": "valid/data.json",
+      "format": "json",
+      "schema": {
+        "primaryKey": "scenario_id",
+        "fields": [
+          {"name": "scenario_id", "type": "integer", "constraints": {"required": true, "unique": true}},
+          {"name": "net_benefit", "type": "number"}
+        ]
+      }
+    }
+  ]
+}

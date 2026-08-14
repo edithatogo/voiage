@@ -1,58 +1,74 @@
-# Track Specification: Quality, Security, Release, And Registry Automation
+# Quality, Security, Release and Registry Automation
 
 ## Overview
 
-Extend the existing assurance system to cover the complete polyglot programme
-and prevent unsupported release claims.
+Extend assurance and release automation across the polyglot programme and add auditable local adoption surfaces without weakening numerical, privacy or external-gate boundaries.
+
+Owning issue: [#322](https://github.com/edithatogo/voiage/issues/322). Parent programme issue [#313](https://github.com/edithatogo/voiage/issues/313).
+Project: [VOP–VOIAGE Conductor Roadmap](https://github.com/users/edithatogo/projects/28).
 
 ## Requirements
 
-Add cross-platform/arm64 matrices; Rust properties, mutation, fuzz, Miri,
-sanitizers, semver, ABI, and performance; clean package installs; randomized
-and golden differential fixtures; executed examples; ML determinism,
-calibration, drift, utility, stopping, privacy, and fallback; landscape and
-literature freshness; dataset rights and hashes; docs, citation, CRediT,
-Authentext, and AI disclosure; Codecov, Renovate, CodeQL, dependency review,
-Scorecard, SBOM, provenance, secrets, and license gates.
+1. Maintain cross-reference governance under #462 and Decision Registry/Card lifecycle semantics under #580.
+2. Provide the local-first accessible Decision Studio under #581 and separately packaged enterprise adapters under #583.
+3. Prove decision correctness and industry-scale assurance under #584 using counterfactual, policy, regret, constraint, causal, calibration, optimization and provenance evidence.
+4. Keep confidential uploads optional, estimators out of UI/adapters, artifacts reproducible and release/registry approvals explicit.
 
-Also validate registry-to-code-to-binding-to-documentation claims, ADR and
-deprecation ledgers, numerical and resource budgets, deterministic parallel
-execution, adversarial ML/agent fixtures, and reviewed ecosystem-drift
-proposals.
+## Owned issue records
 
-Renovate is the sole version-update bot. GitHub's dependency graph and
-Dependabot alerts remain enabled as advisory inputs, but `dependabot.yml` is
-absent. Renovate must cover Python/PEP 621, Cargo, npm, Pixi, pre-commit,
-Docker Compose, GitHub Actions, lockfiles, and git submodules; bypass normal
-schedules for vulnerability repairs; expose a dependency dashboard; pin
-Actions and container images; apply release-age and artifact checks; and
-require human review for security, major, numerical, executable-hook,
-environment, container, submodule, and lock-maintenance changes. Dependabot
-security updates remain temporarily enabled only until the Renovate App has
-produced a verified dashboard and test PR, preventing an alert-remediation
-gap.
+[#462](https://github.com/edithatogo/voiage/issues/462), [#580](https://github.com/edithatogo/voiage/issues/580), [#581](https://github.com/edithatogo/voiage/issues/581), [#583](https://github.com/edithatogo/voiage/issues/583), [#584](https://github.com/edithatogo/voiage/issues/584)
 
-Repository security posture must be reconciled live: active maximal-quality
-ruleset, required SBOM and dependency-review checks, CodeQL security-and-quality
-queries, secret scanning and push protection, non-provider patterns and
-validity checks where supported, private vulnerability reporting, action SHA
-pinning, open vulnerability and secret alert inventories, and signed release
-provenance.
-
-Dry-run PyPI, crates.io, CRAN-compatible, Julia General, and Mojo packaging.
-Produce reproducible signed artifacts and checksums only through authorized
-release workflows.
-
-## Failure and external policy
-
-Flaky numerics, hidden network access, unsupported runners, nondeterministic
-artifacts, stale generation, unresolved critical/high vulnerabilities,
-unresolved secrets, inactive dependency automation, or optional-lane overclaim
-block release. Moderate vulnerabilities require remediation or a
-time-bounded, owner-confirmed risk decision before release.
-Credentials, signing, publication, and registry acceptance remain external.
+Child issues are delivery records owned by this track. They do not become
+separate Conductor tracks unless they have an independently approved contract.
 
 ## Acceptance criteria
 
-Required clean matrices pass, artifacts reproduce, evidence is linked, and
-every external gate is explicit for staged v1.1--v1.3 releases.
+- **AC-01:** The owning issue, native parent/children, Project 28 item,
+  Conductor metadata, registry and central cross-reference manifest agree.
+- **AC-02:** Estimands, contracts, aliases, maturity and unsupported states are
+  explicit; planning is never advertised as installed execution.
+- **AC-03:** Tests or review protocols precede implementation or positive
+  parity claims and include independent references and failure cases.
+- **AC-04:** Rust/Python/R/Julia/Mojo dispositions are explicit wherever the
+  workstream affects executable capabilities.
+- **AC-05:** Documentation, schemas, generated surfaces, examples and
+  executable evidence do not exceed the reviewed maturity state.
+- **AC-06:** A rendering UI, connected adapter, single-platform pass or prerelease cannot close the track; correctness, privacy, accessibility, reproducibility and required matrices must agree.
+- **AC-07:** Automated review, full Conductor validation, repository checks and
+  hosted required checks pass before repository completion.
+
+## Non-functional constraints
+
+- Preserve the Rust-authoritative stable core and backward-compatible v1
+  contracts.
+- Use deterministic, versioned, finite-validated artifacts with provenance.
+- Keep optional adapters, research estimators and external systems outside the
+  stable dependency boundary.
+- Preserve explicit human, rights, credential, publication, registry, release
+  and hosted gates.
+
+## External and human gates
+
+- Named scientific or contract review is required before maturity promotion.
+- Hosted checks, merge, release, registry publication and external approval are
+  separate from repository planning and local validation.
+- Rights, privacy, practitioner or authorship confirmation remains human-owned
+  where the workstream requires it.
+
+## Out of scope
+
+- Treating issue creation, Project status, schemas, plots, mock fixtures or
+  documentation prose as runtime completion.
+- Silently changing released stable numerical policy or wire contracts.
+- Claiming cross-language parity without clean installed shared-fixture
+  evidence.
+
+## Authoritative inputs
+
+- User-approved governance repair in the 2026-07-27 Codex task.
+- GitHub issue [#322](https://github.com/edithatogo/voiage/issues/322) and its
+  native issue hierarchy, live revision audited 2026-07-27.
+- `conductor/product.md`, `conductor/product-guidelines.md`,
+  `conductor/tech-stack.md`, `conductor/workflow.md`,
+  `specs/v1/stable-api.json`, `roadmap.md` and `todo.md`.
+- Repository default-branch baseline `cd53ce09`.

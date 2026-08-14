@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import time
 
 import pytest
 
@@ -84,6 +85,43 @@ def test_optional_dependencies_expose_only_real_runtime_features() -> None:
     )
 
 
+def test_ingestion_optional_extras_remain_clean_import_profiles() -> None:
+    """Built-in ingestion must work when enhanced parser packages are absent."""
+    metadata = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    extras = metadata["project"]["optional-dependencies"]
+
+    assert {
+        name: extras[name] for name in ("croissant", "frictionless", "ingestion")
+    } == {
+        "croissant": [],
+        "frictionless": [],
+        "ingestion": [],
+    }
+    probe = r"""
+import importlib.abc
+import sys
+
+class BlockEnhancedParsers(importlib.abc.MetaPathFinder):
+    def find_spec(self, fullname, path=None, target=None):
+        root = fullname.partition(".")[0]
+        if root in {"mlcroissant", "frictionless"}:
+            raise ModuleNotFoundError(f"{root} intentionally absent", name=root)
+        return None
+
+sys.meta_path.insert(0, BlockEnhancedParsers())
+
+import voiage.ingestion
+from voiage.ingestion import ProviderCapabilities, ProviderRegistry
+
+assert "voiage.ingestion.croissant" not in sys.modules
+assert "voiage.ingestion.frictionless" not in sys.modules
+assert ProviderCapabilities("consumer", ("1",), ("text/csv",)).provider_id == "consumer"
+assert ProviderRegistry()._providers == ()
+"""
+    result = _run_isolated_probe(probe)
+    assert result.returncode == 0, result.stderr
+
+
 def test_base_install_imports_and_runs_numpy_without_jax() -> None:
     """Model a clean wheel environment where the JAX extra is absent."""
     probe = r"""
@@ -117,6 +155,28 @@ for name in ("health_economics", "multi_domain"):
 """
     result = _run_isolated_probe(probe)
     assert result.returncode == 0, result.stderr
+
+
+def test_top_level_import_is_bounded_and_does_not_load_heavy_estimators() -> None:
+    """Reviewer smoke imports must avoid eager JAX, SciPy, and scikit-learn."""
+    probe = r"""
+import sys
+import time
+
+started = time.perf_counter()
+import voiage
+elapsed = time.perf_counter() - started
+
+assert elapsed < 5.0, elapsed
+for name in ("jax", "scipy", "sklearn"):
+    assert name not in sys.modules, name
+"""
+    started = time.perf_counter()
+    result = _run_isolated_probe(probe)
+    wall_time = time.perf_counter() - started
+
+    assert result.returncode == 0, result.stderr
+    assert wall_time < 10.0
 
 
 def test_base_import_preserves_lazy_ecosystem_and_plotting_contracts() -> None:

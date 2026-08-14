@@ -23,6 +23,7 @@ from pydantic import (
 )
 
 Identifier = Annotated[str, StringConstraints(min_length=1, strip_whitespace=True)]
+Sha256Digest = Annotated[str, StringConstraints(pattern=r"^[a-f0-9]{64}$")]
 ParameterDType = Literal["float32", "float64", "int64", "bool", "string"]
 PayloadT = TypeVar("PayloadT", bound="ContractModel")
 
@@ -160,6 +161,8 @@ class AnalysisSpec(ContractModel):
     parameters: tuple[ParameterSpec, ...] = ()
     method_options: Mapping[str, JsonValue] = Field(default_factory=dict)
     input_artifact_ids: tuple[Identifier, ...] = ()
+    normalized_input_digest: Sha256Digest | None = None
+    binding_profile_digest: Sha256Digest | None = None
     numerical_policy: NumericalPolicy = Field(default_factory=NumericalPolicy)
     tags: frozenset[Identifier] = frozenset()
     extensions: Mapping[str, JsonValue] = Field(default_factory=dict)
@@ -204,6 +207,7 @@ class RunContext(ContractModel):
     run_id: Identifier
     spec_digest: Identifier
     input_digest: Identifier | None = None
+    binding_profile_digest: Sha256Digest | None = None
     requested_backend: Identifier | None = None
     selected_backend: Identifier
     backend_version: str | None = None

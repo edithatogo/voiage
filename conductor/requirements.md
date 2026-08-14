@@ -8,34 +8,14 @@ programme. The canonical cross-repository requirements are maintained in
 
 ### Must have
 
-- The comprehensive Rust-first programme is represented by GitHub parent issue
-  #313, native subissues #314--#323, Project 28 items, and one matching active
-  Conductor track per issue.
-- Maintained open-source VOI library features are implemented independently or
-  carry an evidence-backed exclusion; proprietary and web-only parity is never
-  claimed beyond reproducible public behavior.
-- The canonical method registry distinguishes estimands, estimators,
-  applications, visualizations, aliases, and maturity.
-- The software census searches CRAN, R-universe, PyPI, crates.io, Julia
-  General, available Mojo channels, GitHub, GitLab, published supplements,
-  web tools, commercial documentation, and adjacent Bayesian-design and
-  active-learning ecosystems on a recorded date.
-- Every observed software feature maps to one or more stable canonical method
-  identifiers and one of `native`, `equivalent`, `adapter`, `planned`,
-  `excluded`, or `not-reproducible`.
-- The generated feature matrix reports versions, maintenance, licenses,
-  evidence links, method class, MoSCoW priority, VOIAGE state, and gaps.
-- Direct decision VOI, Value of Perspective, estimators, visualizations,
-  general modeling, information-theoretic design, and active-learning
-  acquisition remain explicitly distinguishable.
-- Registry snapshots expire within 93 days and before every minor release;
-  stale matrices fail validation.
-- Stable numerics are Rust-authoritative and surfaced consistently through
-  Rust, Python, R, Julia, and Mojo.
-- ML, LLM, and agent analyses distinguish decision VOI from entropy-only
-  information gain and define utility, cost, posterior action, and stopping.
-- Human CRediT and material AI-assistance records are reviewable, privacy-
-  preserving, and release-linked.
+- **M26 / planned v1.3.0:** #594 declares objective direction and common value
+  units, a named point-estimate functional, scenario probabilities, stages,
+  shared histories, nonanticipativity, recourse, policy class, feasibility,
+  risk criterion and exact solver assurance. It returns the deterministic EV
+  problem/solution, EEV, stochastic/recourse value, wait-and-see value,
+  direction-aware VSS/EVIU and EVPI, complete ties and infeasibility diagnostics
+  while keeping information acquisition separate.
+
 - Directional current-information EVoP and perspective methods retain versioned,
   deterministic, public contracts.
 - The pinned VOP compatibility contract, Arrow schema fingerprint, IPC/Parquet
@@ -54,45 +34,133 @@ programme. The canonical cross-repository requirements are maintained in
 - Strict Pydantic v2 contracts give concerns, parameters, numerical policies,
   kernels, backend capabilities, run contexts and results stable typed
   identities with deterministic schemas and compatibility adapters.
-- The documentation site pins the currently reviewed Astro and Starlight
-  releases and a commit-pinned `edithatogo/astro-polyglot` source dependency;
-  CI initializes submodules recursively and fails closed if extraction,
-  generated MDX validation, link validation, or the production build fails.
-- Generated API pages are reproducible, excluded from version control, limited
-  to public members, and written only beneath the configured Starlight content
-  directory.
-- A canonical Decision Problem interchange contract represents alternatives,
-  uncertain states, information actions, utility or loss, perspective,
-  population, time horizon, units, currency year, provenance, and posterior or
-  predictive draws without binding users to a particular inference engine.
-- Every stochastic estimator reports an estimator-specific assurance envelope:
-  uncertainty or Monte Carlo error, convergence and effective-sample
-  diagnostics where applicable, replication count, RNG algorithm and seed,
-  computational budget, stopping reason, and numerical-error budget.
-- The literature census explicitly dispositions Blackwell informativeness,
-  value of signals, clairvoyance, control and flexibility, rational
-  inattention, Bayesian persuasion and strategic information design, causal
-  discovery, model discrimination, and value of measurement or test accuracy.
-- Capability tables, binding availability, public documentation, and release
-  claims are generated or checked against the canonical registries and fail
-  closed on unsupported or maturity-inflated claims.
-- ML, LLM, retrieval, verifier, and agent analyses model correlated failure,
-  prompt injection, data or retrieval poisoning, tool exfiltration, reward
-  hacking, evaluation contamination, adaptive overfitting, and human override
-  where those risks can change the preferred information action.
-- Stable kernels define deterministic parallel reduction, recorded splittable
-  RNG streams, streaming or out-of-core behavior, and bounded memory, latency,
-  and energy evidence for advertised scalability profiles.
-- Renovate is the sole version-update bot and covers every retained package
-  manager, lockfile, GitHub Action, and source-pinned submodule. GitHub
-  Dependabot alerts remain enabled as an advisory feed, while duplicate
-  Dependabot version updates are disabled.
-- Releases have no unresolved critical/high dependency or secret findings.
-  Moderate findings require remediation or a time-bounded, maintainer-confirmed
-  risk record with compensating controls and a review date.
+- **M14 / planned v1.2.0:** estimation-focused `EVPPI_var` and `EVSI_var`
+  declare scalar/vector target shape, component units, variance or covariance
+  functional, conditioning and sampling models, estimator assurance and
+  provenance.
+- **M15 / planned v1.2.0:** COSS returns evaluated designs, feasible range/set,
+  signed ENBS curve, deterministic tie policy, optimum, uncertainty and
+  plotting inputs; EVSI/EVPI has common-unit, zero-EVPI and bounds behavior;
+  the initial portfolio slice allocates governed optima under additive signed
+  ENBS, capacity, dependency, exclusion and guardrail constraints while
+  declaring metrics, interference, multiplicity, sequential/stopping rules,
+  duration/delay, opportunity cost, policy changes, and gross/net outputs;
+  model effects and disjoint incremental costs require provenance assurances,
+  and tolerance ties are anchored to the fixed global maximum.
+- **M16 / planned v1.2.0:** #595 represents utility, wealth/reference state,
+  risk attitude, payoff units, information and cost location, current and
+  informed policies, stakeholder scope, EUI, CEI, BPI, SPI, anchored PPI,
+  policy switches, root diagnostics, direction/normalization and explicit
+  cross-problem comparability. VoC is a presentation of the same
+  clairvoyant-policy result, not a duplicate kernel; monetary EVPI reduction
+  requires verified positive-affine utility.
+- **M17 / planned v1.2.0:** the canonical C16 public projection keeps managed
+  issue/subissue and Project 28 fields synchronized across every explicitly
+  registered consumer repository, preserving human content and failing closed
+  on conflicts or missing credentials.
+- **M18 / planned v1.2.0:** #556 deterministic sensitivity analysis evaluates
+  declared one-way, two-way and scenario surfaces against a frozen baseline,
+  with explicit direction/units, complete evaluated points, alternatives,
+  increments, deterministic range/ranking and tie semantics, and observed or
+  bracketed switch points. It fails closed on malformed coordinates and stays
+  distinct from PSA, EVPPI, global sensitivity and information value.
+- **M19 / planned v1.2.0:** #557 Value of Distribution-Family Information
+  perfectly resolves a declared discrete model-family index after
+  within-family uncertainty has been integrated out. It requires comparable
+  conditional alternative values, evidence-conditioned family probabilities,
+  complete ties, conditioning/provenance, gross and signed net VDI, and exact
+  estimator assurance; it is a discrete-index EVPPI presentation rather than
+  full structural EVPI or model-discrimination EVSI.
+- **M22 / planned v1.3.0:** #570 compares matched current and
+  post-information feasible policy problems under one declared expected-value,
+  expected-utility, lower-tail CVaR/expected-shortfall or minimax-regret
+  functional. It fixes objective direction/units, state probabilities,
+  deterministic or chance-constrained budget, capacity, eligibility, fairness,
+  regulation, carbon, liquidity and service-level semantics, and information
+  cost placement across both problems. Results retain complete ties,
+  infeasibility, current/informed policies, gross/net value, switches,
+  risk/constraint diagnostics and constraint-removal evidence without
+  mislabelling discrete removal effects as local shadow prices.
+- **M32 / planned v1.3.0:** #850, nested #851–#853 and governed descendants
+  including #867 and #870 govern a distinct
+  sampling-acquisition-harm research scope under C18. It declares a sampling
+  action and explicit no-sampling comparator, design-indexed potential
+  outcomes and observable filtration, incremental ordinary cost, affected
+  parties, a joint acquisition-harm law, catastrophe and tail-risk semantics,
+  uncertainty and a mutually exclusive outcome-component ledger. Additive net
+  value is defined only for separable, commensurate, non-overlapping components;
+  otherwise the result remains joint-welfare, constrained or vector-valued.
+  Mathematical feasibility remains separate from consent, ethics and
+  regulatory authorization. The materialized track
+  `sampling_acquisition_harm_voi_20260802` is fail-closed research scoping, not
+  human scientific approval or an executable runtime. H8 first repairs the
+  evidence boundary and freezes a narrow #850-specific packet; independent
+  role subagents feed a separate non-deciding orchestrator that preserves
+  findings, dissent, options, contingencies, rationale and recommendation.
+  Automated challenge preparation may retain complete role-shaped reports and
+  a synthesis, but cannot satisfy H8-D or H8-E when reviewer eligibility,
+  independent source review or unresolved Critical/High findings fail.
+  Automated source refreshes must remain non-authorizing deltas: preserve the
+  frozen manifest, retain no unapproved source bytes, record representation
+  drift and keep rights, applicability and independent retrieval fail-closed.
+  Repository remediation remains pending until independent re-review, and a
+  replacement packet cannot freeze while declared prerequisites are absent.
+  Human commissioning preparation must bind the candidate-context decision,
+  source evidence, all findings, role eligibility, privacy-safe receipts and
+  replacement-packet state. It remains blocked and non-authorizing until those
+  accountable inputs exist; a generic continuation instruction cannot select
+  the candidate or qualify a reviewer.
+  Two distinct humans then confirm scientific and domain/ethics adequacy, with
+  a chair only for dispute, dissent or reviewer remediation. The maintainer's
+  product decision, real-study authority and every downstream gate remain
+  separate; partial governance synchronization is `Conflict`, never closure.
 
 ### Should have
 
+- **M30 / planned v1.3.0:** #599 declares a prespecified subgroup partition,
+  population weights, common objective units/direction, subgroup eligibility,
+  effect-state uncertainty, selection/multiplicity policy, fairness/privacy
+  constraints and a research action. It returns `C0`, `Cf`, `P0`, `Pf`, static
+  and dynamic heterogeneity value, population-common and subgroup-policy EVPI,
+  subgroup policies and exact identity assurance. A declared imperfect signal
+  may additionally return `S0`, `Sf`, population-common and subgroup-policy
+  EVSI and the corresponding identity without conflating EVSI with dynamic
+  value or net value with gross value.
+
+- **M20 / planned v1.3.0:** #558 provides a versioned portable qualitative-VOI
+  assessment and audit workflow for ordinal information priorities,
+  recommendation classes, complete ties, dissent, conflict, missingness,
+  redaction, sources, AI provenance and accountable human verification. It
+  never fabricates probabilities, utilities, currency, weighted scores or a
+  quantitative VOI estimand.
+- **M21 / planned v1.3.0:** #560 provides finite compensatory additive MCDA
+  information value under fixed ex-ante value functions, normalization anchors,
+  criterion units/directions, nonnegative normalized weights and a declared
+  correlated joint uncertainty law. Perfect-resolution actions identify
+  criterion-performance, preference or joint latent variables and return
+  baseline/conditional choices, complete ties, gross and signed net value,
+  interaction/no-double-counting, regret, rank acceptability and precisely
+  defined Pareto diagnostics with exact-enumeration assurance.
+- **M23 / planned v1.3.0:** #572 values a declared probabilistic forecast or
+  signal through downstream decisions rather than predictive accuracy alone.
+  The contract fixes outcome priors, signal likelihoods, reported posterior
+  probabilities, feasible actions, objective units, timing, lead time and
+  acquisition cost. It separates counterfactual timely-oracle value from
+  signed deployed value, calibration loss, regret avoided and maximum price;
+  returns calibration, Brier and signal-coverage diagnostics; consumes rather
+  than trains forecast models; and preserves no-skill, perfect,
+  miscalibrated, late and stale limits with exact-enumeration assurance.
+- **M29 / planned v1.3.0:** #598 evaluates a complete finite joint-world law
+  for named decision makers, recipients, controllers and stakeholders under a
+  declared signal topology, sharing designs and nonanticipative bounded policy
+  catalogs. It retains signed private/role/social values without clipping,
+  records pre-transfer, transfer, cost and post-transfer ledgers, requires a
+  cardinal-comparability declaration and welfare aggregator, returns selective-
+  sharing comparisons, ties, harm, avoidance, switches, winners/losers and
+  rights/consent/purpose receipts, and applies Blackwell nonnegativity only
+  when its aligned centralized refinement assumptions are verified. General
+  persuasion, mechanism-design, rational-inattention and game solving remain
+  adjacent.
 - New interchange profiles reuse the shared compatibility schema and canonical
   logical-field fingerprint algorithm.
 - Free-threaded Python remains a bounded observational lane until the required
@@ -103,27 +171,8 @@ programme. The canonical cross-repository requirements are maintained in
   scheduled/manual evidence rather than slowing every pull request.
 - GitHub governance projections use stable markers, bounded managed sections,
   dry-run plans and conflict detection while preserving human-authored content.
-- Registry refresh automation proposes evidence-preserving diffs and never
-  overwrites a reviewed exclusion, license decision, or human scientific note.
-- Archived or inactive software with unique capabilities remains discoverable
-  with its maintenance state and closest supported VOIAGE workflow.
-- Each `planned` parity row is converted into an implementation, fixture, or
-  reviewed exclusion before the relevant release closes.
-- Native Rust, R, Julia, and Mojo documentation extractors should be enabled
-  only after their toolchains and generated pages pass the same deterministic
-  conformance checks as the initial Python lane.
-- Material estimand, estimator, ABI, backend, exclusion, and deprecation
-  decisions should have versioned architecture decision records.
-- Every worked example should include a reproducibility card, assumptions,
-  estimator uncertainty, sensitivity analysis, failure cases, accessible
-  tables or plots, and deterministic offline instructions.
-- Quarterly and pre-release drift proposals should cover software and
-  literature registries, language toolchains, lockfiles, actions, and the
-  source-pinned documentation plugin without automatically changing scientific
-  dispositions.
-- Renovate should delay ordinary releases for stability, require all protected
-  checks before automerge, and never automerge security, major, numerical,
-  submodule, or lock-maintenance changes.
+- Specialized v1.2.0 methods should have independent references, accessible
+  plots and explicit Rust/Python/R/Julia/Mojo dispositions before promotion.
 
 ### Could have
 
@@ -131,33 +180,37 @@ programme. The canonical cross-repository requirements are maintained in
 - Automated synchronization of archived tracks and project fields.
 - Signed release attestations for promoted interchange bundles.
 - Deterministic governance traceability tables and Mermaid graphs.
-- SPDX normalization, citation-identifier validation, and automated registry
-  metadata refresh for records with authoritative machine-readable endpoints.
-- A documented candidate-submission template for libraries missed by the
-  reproducible search.
-- A machine-readable gap report that opens or updates bounded method-triage
-  issues without creating duplicate issues.
-- A conformance corpus for adversarial and safety-sensitive information
-  actions, including poisoned retrieval, dependent judges, and abstention or
-  escalation under correlated errors.
+- Reviewed vector-target covariance functionals beyond the initial declared
+  trace, determinant and weighted-quadratic choices.
 
 ### Won't have now
 
-- Unverifiable implementation parity with proprietary or web-only tools.
-- A claim that the landscape is universally exhaustive; registries, search
-  indexes, terminology, and private software make that claim impossible to
-  substantiate.
-- API cloning, trademark imitation, or copying license-incompatible source.
-- Treating entropy reduction, BALD, uncertainty sampling, or acquisition
-  scores as economic VOI without an explicit action and utility or loss.
-- AI systems listed as authors or CRediT contributors.
-- Required network or model-provider access for deterministic examples.
 - Automatic external publication or maturity promotion.
-- A claim that `astro-polyglot` is registry-published, or that every language
-  extractor is production-ready, before the corresponding external and
-  conformance evidence exists.
 - Direct imports from the VOP source tree or repository consolidation.
 - Production accelerator claims without parity and hardware evidence.
 - Publication of credentials, private evidence, or local-only agent state.
 - Automated acceptance of risk, irreversible decisions, or human-controlled
   issue closure.
+- Duplicate VoC kernels, silent COSS extrapolation or relabeling
+  `total_voi / total_cost` as EVSI/EVPI.
+
+## Planned-version traceability
+
+| Planned version | MoSCoW | Canonical requirement | VOIAGE track | GitHub |
+|---|---|---|---|---|
+| v1.2.0 | Must | M14 | `estimation_focused_variance_voi_20260727` | #619 under #318 |
+| v1.2.0 | Must | M15 | `study_design_efficiency_20260727` | #571 under #318 |
+| v1.2.0 | Must | M16 | `risk_adjusted_information_pricing_20260731` | #595 and #694–#697 under #318 |
+| v1.2.0 | Must | M17 | canonical C16 plus the four specialized delivery tracks above | #313/#318 and Project 28 |
+| v1.2.0 | Must | M18 | governed deterministic sensitivity analysis | #556 under #318 |
+| v1.2.0 | Must | M19 | governed distribution-family information value | #557 under #318 |
+| v1.3.0 | Should | M20 | governed portable qualitative-VOI assessment workflow | #558 and #738–#742 under #318 |
+| v1.3.0 | Should | M21 | governed additive MCDA information value | #560 and #746–#750 under #318 |
+| v1.3.0 | Must | M26 | `uncertainty_modelling_value_20260801` | #594 and #774–#776 under #318 |
+| v1.3.0 | Must | M22 | governed risk-sensitive constrained information value | #570 and #757/#758/#761 under #318 |
+| v1.3.0 | Should | M23 | C18 governed forecast-signal decision value | #572 and #759/#760/#762 under #318 |
+| v1.3.0 | Should | M29 | governed signed/social information value | #598 and #783–#785 under #318 |
+| v1.3.0 | Should | M30 | C18 governed heterogeneity-value decomposition | #599 and #786/#788/#789 under #318 |
+| v1.3.0 | Should | M27 | C18 governed event-localized information value and policy-relative density | #596 and #777–#779 under #318 |
+| v1.3.0 | Should | M31 | C18 governed outcome-conditional and low-value sample-information value | #600 and #790–#792 under #318 |
+| v1.3.0 | Must | M32 | C18 governed fail-closed sampling-acquisition-harm research scope | #850 and #851–#853 under #318/#841 |

@@ -2,7 +2,8 @@
 
 [build-system]
 requires = ["maturin>=1.9,<2.0"]
-build-backend = "maturin"
+build-backend = "build_backend"
+backend-path = ["."]
 
 [project]
 name = "voiage"
@@ -46,13 +47,19 @@ dependencies = [
     "pyarrow>=25.0.0,<26",
     "polars>=1.42.1,<2",
     "pydantic>=2.13.4,<3",
+    "jsonschema>=4.26.0,<5.0",
     "typing_extensions>=4.16.0",
     "typer>=0.9,<1.0",
 ]
 
 [project.optional-dependencies]
+# The built-in descriptor adapters deliberately use only the base Arrow/JSON
+# stack.  These named extras reserve stable installation surfaces for future
+# enhanced validators without coupling them to the calculation runtime.
+croissant = []
+frictionless = []
+ingestion = []
 ecosystem = ["defusedxml>=0.7.1,<1.0"]
-docs = ["griffe>=1.14.0,<2.0"]
 jax = [
     "jax>=0.7.1,<0.8",
 ]
@@ -63,7 +70,6 @@ ci = [
     "httpx>=0.28.1,<1.0",
     "hypothesis>=6.157.0,<7.0",
     "jax>=0.7.1,<0.8",
-    "jsonschema>=4.26.0,<5.0",
     "matplotlib>=3.4,<4.0",
     "maturin>=1.9,<2.0",
     "psutil>=5.9,<8.0",
@@ -80,7 +86,7 @@ dev = [
     "maturin>=1.9,<2.0",
     "mutmut>=3.6.0,<4.0",
     "scalene>=2.3.0,<3.0",
-    "ruff>=0.15.22,<0.16",
+    "ruff>=0.15.22,<0.16.0",
     "bandit>=1.9.4,<2.0",
     "nox>=2026.7.11,<2027",
     "ty>=0.0.61,<1.0",
@@ -127,6 +133,7 @@ bindings = "pyo3"
 features = ["pyo3/extension-module"]
 locked = true
 include = [
+    { path = "build_backend.py", format = "sdist" },
     { path = "specs/**/*.json", format = "sdist" },
     { path = "rust/crates/voiage-python/source-provenance.txt", format = "sdist" },
 ]
@@ -166,7 +173,7 @@ ignore = [
     # Assert statements needed in tests
     "S101",
     # Complexity limits - too strict for existing codebase
-    "C901", "PLR0913", "PLR0912", "PLR0915",
+    "C901", "PLR0913", "PLR0917", "PLR0912", "PLR0915",
     # Exception message handling - stylistic
     "TRY003", "EM101", "EM102",
     # TODO/FIXME comments are useful
@@ -299,3 +306,4 @@ arxiv-readiness = "python scripts/build_arxiv_submission.py"
 arxiv-validate = "python scripts/validate_arxiv_manifest.py && python scripts/validate_arxiv.py paper"
 arxiv-variants = ".venv-arxiv/bin/python scripts/prepare_arxiv_variants.py"
 arxiv-readability = "NLTK_DATA=.venv-arxiv/nltk_data .venv-arxiv/bin/python scripts/audit_arxiv_readability.py build/arxiv/main.pdf build/arxiv/readability.json"
+joss-validate = "python scripts/validate_joss.py"

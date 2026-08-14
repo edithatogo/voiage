@@ -5,7 +5,8 @@ use std::time::Instant;
 
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
-    ceaf, dominance, enbs, evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_stochastic,
+    ceaf, dominance, enbs, evpi, evppi, evppi_variance_with_assurance, evsi_efficient_linear,
+    evsi_moment_based, evsi_stochastic, evsi_variance_with_assurance,
 };
 
 #[allow(clippy::too_many_lines)]
@@ -52,6 +53,47 @@ fn main() {
             .try_into()
             .expect("EVSI net-benefit matrix");
         black_box(evsi_stochastic(&values, 32, 64, 42).expect("EVSI benchmark"));
+    });
+    benchmark("evppi_variance", || {
+        let samples: SampleVector = (0..4096)
+            .map(|sample| f64::from(sample % 101))
+            .collect::<Vec<_>>()
+            .try_into()
+            .expect("EVPPI variance target samples");
+        let groups = (0..4096)
+            .map(|sample| format!("group-{}", sample % 8))
+            .collect::<Vec<_>>();
+        black_box(
+            evppi_variance_with_assurance(&samples, &groups, 128, 42, 0.05)
+                .expect("EVPPI variance benchmark"),
+        );
+    });
+    benchmark("evsi_variance", || {
+        let prior: SampleVector = (0..4096)
+            .map(|sample| f64::from(sample % 101))
+            .collect::<Vec<_>>()
+            .try_into()
+            .expect("EVSI variance prior samples");
+        let posterior: SampleVector = (0..512)
+            .map(|sample| 600.0 + f64::from(sample % 31))
+            .collect::<Vec<_>>()
+            .try_into()
+            .expect("EVSI posterior variances");
+        let posterior_weights: SampleVector = vec![1.0 / 512.0; posterior.len()]
+            .try_into()
+            .expect("EVSI predictive probabilities");
+        black_box(
+            evsi_variance_with_assurance(
+                &prior,
+                &posterior,
+                &posterior_weights,
+                1.0e-12,
+                128,
+                42,
+                0.05,
+            )
+            .expect("EVSI variance benchmark"),
+        );
     });
     benchmark("evsi_efficient_linear", || {
         let values: SampleMatrix = (0..512)

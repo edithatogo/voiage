@@ -42,6 +42,7 @@ Incremental QALY effect & Normal mean 0.060; standard deviation 0.030 \\
 Incremental programme cost & Normal mean $3\,000$; standard deviation 650; independent of effect \\
 Decision threshold & $50\,000$ value units per QALY \\
 Probabilistic analysis & $10\,000$ draws; seed 20260723 \\
+Simulation uncertainty & $1\,000$ paired bootstrap resamples; seed 20260724 \\
 Study design & Two equal arms; total $n=50$ to $1\,200$ \\
 Outcome likelihood & Normal difference in means; individual standard deviation 1.0 QALY \\
 Affected population & $1\,300$ decisions per year for 10 years; 3\% discount rate \\
@@ -58,10 +59,14 @@ system.}\label{tab:health-assumptions}
 \subsection{Results}
 
 At $50\,000$ per QALY, the new programme is preferred in 49.24\% of the
-probabilistic draws. EVPI is 644 value units per person. EVPPI is 590 for the
-health effect and 250 for programme cost, indicating that health-effect
-uncertainty accounts for more of the avoidable loss in this model. Partial
-values are not additive, so their sum is not interpreted as EVPI\@.
+probabilistic draws (Monte Carlo standard error 0.50 percentage points; 95\%
+percentile bootstrap interval 48.19\% to 50.21\%). EVPI is 644 value units per
+person (95\% percentile bootstrap interval 624 to 658). EVPPI is 590 for the health effect
+(569 to 603) and 250 for programme cost (229 to 265), indicating that
+health-effect uncertainty accounts for more of the avoidable loss in this
+model. The intervals describe simulation uncertainty conditional on the
+declared model and do not represent uncertainty about the model assumptions.
+Partial values are not additive, so their sum is not interpreted as EVPI\@.
 
 Per-person EVSI rises from 63 at a total sample size of 50 to 276 at $1\,200$. With
 immediate results and full uptake, population ENBS changes from negative to
@@ -69,6 +74,16 @@ positive between 100 and 200 participants. With a two-year delay and 60\%
 uptake, it remains negative at 800 and becomes positive by $1\,200$. These
 crossovers follow from the assumptions in Table~\ref{tab:health-assumptions};
 they are not general sample-size recommendations.
+
+A prespecified one-way sensitivity analysis varies the outcome standard
+deviation from 1.0 to 0.75 and 1.25 QALYs, annual population from 1,300 to
+1,000 and 1,600, and fixed study cost from 1.2 million to 0.9 and 1.5 million
+value units. Across these scenarios, the first evaluated sample size with
+positive ENBS ranges from 100 to 400. Separate implementation scenarios move
+that point to 400 participants with a one-year delay and 80\% uptake, and
+beyond 1,200 participants with a three-year delay and 40\% uptake. These
+comparisons show that the study-value conclusion is sensitive to assumptions
+governing both information gain and the number of decisions that can benefit.
 
 \begin{figure}[!ht]
 \centering

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://voiage.dev/specs/frontier/governance/scientific-review/v1/schemas/finding.schema.json", "title": "ScientificReviewFindingV1", "type": "object",
+  "required": ["evidence_kind", "schema_version", "finding_id", "candidate_commit", "candidate_tree", "packet_sha256", "severity", "affected_claim", "artifact_path", "evidence", "reproduction", "required_disposition", "owner", "dependencies", "promotion_impact", "raised_by", "raised_at"],
+  "properties": {
+    "evidence_kind": {"const": "finding"}, "schema_version": {"const": "1.1.0"}, "finding_id": {"$ref": "common.schema.json#/$defs/nonempty"},
+    "candidate_commit": {"$ref": "common.schema.json#/$defs/gitOid"}, "candidate_tree": {"$ref": "common.schema.json#/$defs/gitOid"}, "packet_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "severity": {"enum": ["critical", "high", "medium", "low"]}, "affected_claim": {"$ref": "common.schema.json#/$defs/nonempty"}, "artifact_path": {"$ref": "common.schema.json#/$defs/nonempty"},
+    "evidence": {"$ref": "common.schema.json#/$defs/nonempty"}, "reproduction": {"$ref": "common.schema.json#/$defs/nonempty"}, "required_disposition": {"$ref": "common.schema.json#/$defs/nonempty"}, "owner": {"$ref": "common.schema.json#/$defs/nonempty"},
+    "dependencies": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/nonempty"}}, "promotion_impact": {"enum": ["blocks", "limits_scope", "none"]}, "raised_by": {"$ref": "common.schema.json#/$defs/nonempty"}, "raised_at": {"$ref": "common.schema.json#/$defs/timestamp"}
+  }, "additionalProperties": false
+}

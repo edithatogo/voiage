@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/sampling-acquisition-harm/v1/schemas/source-and-retrieval-register.schema.json",
+  "title": "SamplingAcquisitionHarmSourceRegisterV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "source_manifest", "source_manifest_sha256", "source_count", "retained_source_bytes", "retrieved_observations", "failed_cli_retrievals", "exact_source_review_status", "failed_retrievals", "limitations", "authority_boundary"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "source_manifest": {"const": "conductor/tracks/sampling_acquisition_harm_voi_20260802/primary-source-manifest-20260802.json"},
+    "source_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_count": {"const": 6}, "retained_source_bytes": {"const": 0},
+    "retrieved_observations": {"const": 5}, "failed_cli_retrievals": {"const": 1},
+    "exact_source_review_status": {"const": "blocked_pending_independent_retrieval_and_drift_comparison"},
+    "failed_retrievals": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["source_id", "status", "http_status", "content_sha256"], "properties": {"source_id": {"const": "belmont-report"}, "status": {"const": "remote_unavailable_http_403_to_cli_web_observed"}, "http_status": {"const": 403}, "content_sha256": {"type": "null"}}}},
+    "limitations": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "authority_boundary": {"type": "object", "additionalProperties": false, "required": ["source_rights_granted", "scientific_applicability_confirmed", "ethics_or_regulatory_authority_confirmed"], "properties": {"source_rights_granted": {"const": false}, "scientific_applicability_confirmed": {"const": false}, "ethics_or_regulatory_authority_confirmed": {"const": false}}}
+  }
+}

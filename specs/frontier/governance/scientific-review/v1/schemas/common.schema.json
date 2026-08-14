@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/governance/scientific-review/v1/schemas/common.schema.json",
+  "title": "ScientificReviewCommonV1",
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "gitOid": {
+      "type": "object",
+      "required": ["algorithm", "value"],
+      "properties": {
+        "algorithm": {"enum": ["sha1", "sha256"]},
+        "value": {"type": "string", "pattern": "^[0-9a-f]+$"}
+      },
+      "allOf": [
+        {"if": {"properties": {"algorithm": {"const": "sha1"}}}, "then": {"properties": {"value": {"minLength": 40, "maxLength": 40}}}},
+        {"if": {"properties": {"algorithm": {"const": "sha256"}}}, "then": {"properties": {"value": {"minLength": 64, "maxLength": 64}}}}
+      ],
+      "additionalProperties": false
+    },
+    "nonempty": {"type": "string", "minLength": 1},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "bindingProperties": {
+      "candidate_commit": {"$ref": "#/$defs/gitOid"},
+      "candidate_tree": {"$ref": "#/$defs/gitOid"},
+      "packet_sha256": {"$ref": "#/$defs/sha256"}
+    },
+    "reviewer": {
+      "type": "object",
+      "required": ["identity", "display_name", "actor_type", "role", "qualifications", "prior_contributions", "conflicts", "conflict_status", "independent"],
+      "properties": {
+        "identity": {"$ref": "#/$defs/nonempty"},
+        "display_name": {"$ref": "#/$defs/nonempty"},
+        "actor_type": {"enum": ["human", "agent"]},
+        "role": {"$ref": "#/$defs/nonempty"},
+        "qualifications": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/nonempty"}},
+        "prior_contributions": {"type": "array", "items": {"$ref": "#/$defs/nonempty"}},
+        "conflicts": {"type": "array", "items": {"$ref": "#/$defs/nonempty"}},
+        "conflict_status": {"enum": ["none", "non_disqualifying", "disqualifying"]},
+        "independent": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "humanReceipt": {
+      "type": "object",
+      "required": ["verification_method", "immutable_reference", "payload_sha256", "signer_identity", "verification_status", "verifier_identity", "verified_at"],
+      "properties": {
+        "verification_method": {"enum": ["signed_commit", "authenticated_github", "external_authoritative_receipt"]},
+        "immutable_reference": {"$ref": "#/$defs/nonempty"},
+        "payload_sha256": {"$ref": "#/$defs/sha256"},
+        "signer_identity": {"$ref": "#/$defs/nonempty"},
+        "verification_status": {"const": "verified"},
+        "verifier_identity": {"$ref": "#/$defs/nonempty"},
+        "verified_at": {"$ref": "#/$defs/timestamp"}
+      },
+      "additionalProperties": false
+    },
+    "scope": {
+      "type": "object",
+      "required": ["family", "capabilities"],
+      "properties": {
+        "family": {"$ref": "#/$defs/nonempty"},
+        "capabilities": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/nonempty"}}
+      },
+      "additionalProperties": false
+    },
+    "signature": {
+      "type": "object",
+      "required": ["reviewer_role", "reviewer", "signed_at", "evidence_sha256"],
+      "properties": {
+        "reviewer_role": {"$ref": "#/$defs/nonempty"},
+        "reviewer": {"$ref": "#/$defs/reviewer"},
+        "signed_at": {"$ref": "#/$defs/timestamp"},
+        "evidence_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -42,6 +42,9 @@ from voiage import (
     evsi as top_level_evsi,
 )
 from voiage import exceptions as exceptions_module
+from voiage import (
+    expected_utility_information_value as top_level_expected_utility_information_value,
+)
 from voiage import factory as factory_module
 from voiage import fluent as fluent_module
 from voiage import health_economics as health_economics_module
@@ -56,6 +59,7 @@ from voiage import schema as schema_module
 from voiage import (
     value_of_ambiguity_distribution_shift as top_level_value_of_ambiguity_distribution_shift,
 )
+from voiage import value_of_clairvoyance as top_level_value_of_clairvoyance
 from voiage import (
     value_of_distributional_equity as top_level_value_of_distributional_equity,
 )
@@ -239,6 +243,12 @@ from voiage.methods.sample_information import evsi as evsi_impl
 from voiage.methods.sequential import sequential_voi as sequential_voi_impl
 from voiage.methods.structural import structural_evpi as structural_evpi_impl
 from voiage.methods.structural import structural_evppi as structural_evppi_impl
+from voiage.methods.utility_information import (
+    expected_utility_information_value as expected_utility_information_value_impl,
+)
+from voiage.methods.utility_information import (
+    value_of_clairvoyance as value_of_clairvoyance_impl,
+)
 from voiage.plot import (
     plot_ceac,
     plot_ceaf,
@@ -314,6 +324,11 @@ def test_methods_package_exports_point_to_leaf_implementations() -> None:
     assert evppi is evppi_impl
     assert evsi is evsi_impl
     assert evsi_nma is evsi_nma_impl
+    assert (
+        top_level_expected_utility_information_value
+        is expected_utility_information_value_impl
+    )
+    assert top_level_value_of_clairvoyance is value_of_clairvoyance_impl
     assert portfolio_voi is portfolio_voi_impl
     assert sequential_voi is sequential_voi_impl
     assert structural_evpi is structural_evpi_impl
@@ -356,61 +371,98 @@ def test_methods_package_exports_are_curated() -> None:
         "AIAssistedEvidenceTriageResult",
         "AdaptiveLearningBanditResult",
         "AmbiguityDistributionShiftResult",
+        "BeliefStateInformationResult",
         "CEAFResult",
         "CapacityBudgetConstrainedResult",
         "CausalTransportabilityResult",
         "ComputationalResult",
         "DataQualityResult",
         "DistributionalEquityResult",
+        "DistributionalInformationResult",
         "DominanceResult",
         "DynamicRealOptionsResult",
+        "DeterministicSensitivityResult",
+        "DsaParameterSummary",
+        "DsaPoint",
+        "DsaSwitchInterval",
+        "ValueOfFlexibilityResult",
         "EquityInformationResult",
+        "EventLocalizedInformationResult",
         "EvidenceObsolescenceRefreshResult",
         "ExpertSynthesisResult",
         "ExplainabilityTransparencyResult",
         "FederatedPrivacyPreservingResult",
+        "ForecastSignalInformationResult",
         "HeterogeneityResult",
+        "HeterogeneityValueDecompositionResult",
         "ImplementationAdjustedResult",
+        "ImplementationInformationResult",
         "ImplementationStrategyComparisonResult",
+        "InformationSourcePortfolioResult",
         "InteroperabilityStandardizationResult",
         "ModelValidationResult",
         "MonitoringSurveillanceResult",
+        "OutcomeConditionalSampleInformationResult",
+        "McdaInformationResult",
         "Perspective",
         "PerspectiveSet",
         "PreferenceHeterogeneityResult",
         "PreferenceProfile",
         "PreferenceProfileSet",
+        "QualitativeInformationResult",
+        "QualitativeQuestionResult",
         "RegulatoryMarketAccessResult",
         "ReplicationReproducibilityResult",
+        "RiskSensitiveVoiResult",
+        "SignedSocialInformationResult",
+        "ResolvedDistributionModel",
         "StrategicBehaviorResult",
         "ThresholdProfile",
         "ThresholdProfileSet",
         "ThresholdResult",
+        "UncertaintyModellingValueResult",
         "ValidationProfile",
         "ValidationProfileSet",
         "ValueOfPerspectiveResult",
         "adaptive_evsi",
+        "belief_state_information_value",
         "calculate_ceaf",
         "calculate_dominance",
         "calculate_extended_dominance",
         "calculate_icers",
         "calculate_strong_dominance",
         "cost_effectiveness_frontier",
+        "deterministic_sensitivity",
+        "deterministic_sensitivity_from_specification",
+        "distributional_information_from_specification",
         "enbs",
         "evpi",
         "evppi",
         "evsi",
         "evsi_nma",
+        "event_localized_information_value",
+        "expected_utility_information_value",
+        "forecast_signal_information_value",
         "identify_optimal_subgroups",
+        "implementation_information_value",
+        "information_source_portfolio_value",
+        "mcda_information_value",
+        "outcome_conditional_sample_information_value",
         "perspective_optimal_strategies",
         "perspective_arrow_schema_fingerprint",
         "perspective_result_to_arrow",
         "portfolio_voi",
         "preference_optimal_strategies",
+        "qualitative_information_from_specification",
+        "render_qualitative_information_text",
+        "risk_sensitive_constrained_voi",
+        "signed_social_information_value",
         "sequential_voi",
         "structural_evpi",
         "structural_evppi",
+        "value_of_uncertainty_modelling",
         "value_of_adaptive_learning_bandit",
+        "value_of_clairvoyance",
         "value_of_ai_assisted_evidence_triage",
         "value_of_ambiguity_distribution_shift",
         "value_of_capacity_budget_constrained",
@@ -418,13 +470,16 @@ def test_methods_package_exports_are_curated() -> None:
         "value_of_computational_refinement",
         "value_of_data_quality",
         "value_of_distributional_equity",
+        "value_of_distributional_information",
         "value_of_dynamic_real_options",
+        "value_of_flexibility",
         "value_of_equity_information",
         "value_of_evidence_obsolescence_refresh",
         "value_of_expert_synthesis",
         "value_of_explainability_transparency",
         "value_of_federated_privacy_preserving",
         "value_of_heterogeneity",
+        "heterogeneity_value_decomposition",
         "value_of_implementation",
         "value_of_implementation_strategy_comparison",
         "value_of_interoperability_standardization",
@@ -477,6 +532,7 @@ def test_top_level_package_exports_modules() -> None:
         "evpi",
         "evppi",
         "evsi",
+        "normal_normal_two_arm_evsi",
         "HeomlRunBundle",
         "analysis",
         "backends",

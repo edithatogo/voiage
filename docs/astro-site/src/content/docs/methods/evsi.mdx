@@ -3,28 +3,44 @@ title: EVSI
 description: Expected Value of Sample Information
 ---
 
-Expected Value of Sample Information quantifies the value of collecting new study data before making the decision.
+Expected Value of Sample Information quantifies the expected benefit of a
+specified study before making the decision.
 
-The library currently exposes multiple EVSI estimators, including nested Monte Carlo and approximation-based variants.
+The public `normal_normal_two_arm_evsi()` function evaluates an equal-allocation
+two-arm study when the uncertain incremental effect has a normal prior, outcome
+variance is known, and incremental net benefit is linear in the effect. The
+calculation is Rust-owned and is tested against a prespecified analytical
+reference.
 
-The Rust core currently provides three explicit kernels through the private
-runtime bridge: a seeded-bootstrap summary and deterministic efficient-linear
-and moment-based approximations. The public `efficient` + `linear` path now
-delegates to the native efficient-linear kernel after Python validates the
-callback output; the other operations accept already-computed
-net-benefit and parameter matrices, require explicit trial-size inputs, and
-return versioned numerical result envelopes. If the optional extension is
-absent, or the design is rank-deficient, the public linear path retains the
-validated Python reference behavior.
+The built-in `evsi(..., method="two_loop")` contract uses one `mean_<arm>`
+parameter per trial arm and one finite, positive, fixed `sd_outcome`. It
+estimates a joint multivariate-normal prior from the PSA draws and applies the
+known-variance normal likelihood to the arm sample means. Current value,
+possible study results, and posterior value are all evaluated under that same
+fitted prior. Every correlated parameter is updated together rather than
+through independent marginal updates. The estimator uses genuine Gaussian
+prior and posterior draws. A diagnostic warning accompanies a negative
+estimate, and the raw value is returned so that convergence problems remain
+visible rather than being silently replaced by zero.
 
-The public two-loop estimator remains Python-owned. It accepts an optional
-uint64-range `seed` and uses a local NumPy generator for reproducible runs;
-omitting the seed preserves the historical global-RNG behavior. Its
-`n_inner_loops` argument remains a compatibility parameter and is not yet
-consumed by the historical implementation. Regression, random-forest
-efficient, adaptive, and NMA estimators remain Python-owned while their individual
-estimator, seed, and trial-design contracts are being frozen. Trial-design
-parsing and population scaling also remain at the Python boundary.
+For another study model, supply two callbacks: one simulates trial data and one
+returns the requested number of joint posterior `ParameterSet` draws. A fixed
+seed gives the built-in path or both callbacks a reproducible local random
+stream.
+
+The analytical function is the stable study-specific route. The generic
+two-loop interface remains developing because arbitrary economic models still
+require convergence assessment and method-specific validation. Increase both
+loop counts, compare repeated seeds, and verify that the estimate lies within
+simulation uncertainty of an independent reference.
+
+The package also retains regression, efficient-linear, moment-based,
+seeded-bootstrap, adaptive, and network meta-analysis estimators. Their
+numerical implementations and software tests do not, by themselves, expose a
+complete validated study-model contract. The generic `regression`, `efficient`,
+and `moment_based` compatibility paths therefore emit a `FutureWarning` and are
+not represented as stable scientific estimators. Analysts need to validate any
+estimator against the sampling model for their decision problem.
 
 See also:
 

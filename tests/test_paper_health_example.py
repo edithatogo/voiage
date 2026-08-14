@@ -1,10 +1,26 @@
 """Regression tests for the synthetic health example in the preprint."""
 
+from math import pi, sqrt
+from pathlib import Path
+
+import numpy as np
 import pytest
 
 from scripts.generate_paper_health_example import (
+    COST_MEAN,
+    COST_PRIOR_SD,
+    EFFECT_MEAN,
+    EFFECT_PRIOR_SD,
+    N_PSA,
+    OUTCOME_SD,
+    REFERENCE_WTP,
+    SEED,
+    _bootstrap_intervals,
     calculate_example,
+    calculate_sensitivity,
+    generate,
     normal_normal_evsi,
+    verify_tracked_outputs,
 )
 
 
@@ -44,6 +60,51 @@ def test_normal_normal_evsi_uses_declared_equal_allocation_likelihood() -> None:
     assert normal_normal_evsi(1_200) < example.evppi_effect
     with pytest.raises(ValueError, match="positive even integer"):
         normal_normal_evsi(51)
+    with pytest.raises(ValueError, match="outcome_sd must be positive"):
+        normal_normal_evsi(50, outcome_sd=0)
+
+
+def test_reported_values_agree_with_independent_analytical_references() -> None:
+    """Known Normal-model expectations independently bound the simulation."""
+    example = calculate_example()
+    expected_evpi = sqrt(
+        (REFERENCE_WTP * EFFECT_PRIOR_SD) ** 2 + COST_PRIOR_SD**2
+    ) / sqrt(2 * pi)
+    expected_effect_evppi = REFERENCE_WTP * EFFECT_PRIOR_SD / sqrt(2 * pi)
+    expected_cost_evppi = COST_PRIOR_SD / sqrt(2 * pi)
+
+    assert expected_evpi == pytest.approx(652.1821719528144)
+    assert expected_effect_evppi == pytest.approx(598.4134206021490)
+    assert expected_cost_evppi == pytest.approx(259.3124822609312)
+    assert example.bootstrap_intervals["evpi"][0] < expected_evpi
+    assert example.bootstrap_intervals["evpi"][1] > expected_evpi
+    assert example.bootstrap_intervals["evppi_effect"][0] < expected_effect_evppi
+    assert example.bootstrap_intervals["evppi_effect"][1] > expected_effect_evppi
+    assert example.bootstrap_intervals["evppi_cost"][0] < expected_cost_evppi
+    assert example.bootstrap_intervals["evppi_cost"][1] > expected_cost_evppi
+
+    expected_evsi = []
+    for sample_size in example.sample_sizes:
+        sampling_variance = 4 * OUTCOME_SD**2 / sample_size
+        preposterior_variance = EFFECT_PRIOR_SD**4 / (
+            EFFECT_PRIOR_SD**2 + sampling_variance
+        )
+        expected_evsi.append(REFERENCE_WTP * sqrt(preposterior_variance) / sqrt(2 * pi))
+    assert example.evsi_per_person == pytest.approx(expected_evsi, abs=1e-10)
+    assert all(
+        0 <= value <= expected_effect_evppi <= expected_evpi
+        for value in example.evsi_per_person
+    )
+
+
+def test_fixed_sample_mean_is_distinguished_from_generating_expectation() -> None:
+    """The manuscript's finite-sample mean is reproducible and not theoretical."""
+    rng = np.random.default_rng(SEED)
+    effect = rng.normal(EFFECT_MEAN, EFFECT_PRIOR_SD, N_PSA)
+    cost = rng.normal(COST_MEAN, COST_PRIOR_SD, N_PSA)
+
+    assert REFERENCE_WTP * EFFECT_MEAN - COST_MEAN == 0
+    assert np.mean(REFERENCE_WTP * effect - cost) == pytest.approx(-15.860326997541796)
 
 
 def test_reported_manuscript_results_are_reproducible() -> None:
@@ -55,3 +116,60 @@ def test_reported_manuscript_results_are_reproducible() -> None:
     assert example.evpi == pytest.approx(644.15, abs=0.01)
     assert example.evppi_effect == pytest.approx(589.67, abs=0.01)
     assert example.evppi_cost == pytest.approx(249.59, abs=0.01)
+    assert example.preference_mcse == pytest.approx(0.005, abs=0.0001)
+
+
+def test_bootstrap_and_sensitivity_are_declared_and_decision_relevant() -> None:
+    """Uncertainty and sensitivity outputs remain bounded and interpretable."""
+    example = calculate_example()
+    scenarios = {scenario.name: values for scenario, values in calculate_sensitivity()}
+
+    for metric, point in (
+        ("probability_preferred", example.preference_reference),
+        ("evpi", example.evpi),
+        ("evppi_effect", example.evppi_effect),
+        ("evppi_cost", example.evppi_cost),
+    ):
+        lower, upper = example.bootstrap_intervals[metric]
+        assert lower < point < upper
+    assert scenarios["One-year delay; 80% value realisation"][2] < 0
+    assert scenarios["One-year delay; 80% value realisation"][3] > 0
+    assert all(scenarios["Three-year delay; 40% value realisation"] < 0)
+
+
+def test_bootstrap_requires_enough_replicates() -> None:
+    """Small bootstrap runs are rejected as uninformative."""
+    example = calculate_example()
+    with pytest.raises(ValueError, match="at least 20"):
+        _bootstrap_intervals(
+            example.thresholds[:10],
+            example.thresholds[:10],
+            replicates=19,
+        )
+
+
+def test_clean_regeneration_matches_tracked_tables(tmp_path: Path) -> None:
+    """Tracked portable results are regenerated without modifying the source."""
+    output_directory = tmp_path / "generated"
+    generate(output_directory)
+
+    for filename in (
+        "synthetic_health_example_curve.csv",
+        "synthetic_health_example_results.csv",
+        "synthetic_health_example_sensitivity.csv",
+        "synthetic_health_example_summary.csv",
+    ):
+        assert (output_directory / "data" / filename).read_bytes() == (
+            Path("paper") / "data" / filename
+        ).read_bytes()
+    assert (
+        (output_directory / "figures" / "synthetic_health_example.pdf").stat().st_size
+    )
+    assert (
+        (output_directory / "figures" / "synthetic_health_example.png").stat().st_size
+    )
+
+
+def test_verification_mode_accepts_current_tracked_outputs() -> None:
+    """The command-level verification path checks clean regeneration."""
+    verify_tracked_outputs(Path("paper"))

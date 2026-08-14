@@ -1,0 +1,6 @@
+{
+  "case_id": "incomplete-joint-observation",
+  "base_fixture": "../normative/input.json",
+  "mutation": {"operation": "remove", "path": "/states/0/source_observations/sensor"},
+  "expected_error_contains": "observation"
+}

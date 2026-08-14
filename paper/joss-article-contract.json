@@ -1,0 +1,208 @@
+{
+  "schema_version": "voiage.joss-article-contract.v1",
+  "criteria_as_of": "2026-07-26",
+  "canonical_source": "paper.md",
+  "authoritative_sources": [
+    "https://joss.readthedocs.io/en/latest/submitting.html",
+    "https://joss.readthedocs.io/en/latest/paper.html",
+    "https://joss.readthedocs.io/en/latest/review_criteria.html",
+    "https://joss.readthedocs.io/en/latest/review_checklist.html",
+    "https://joss.readthedocs.io/en/latest/policies.html",
+    "https://joss.readthedocs.io/en/latest/editing.html"
+  ],
+  "metadata": {
+    "required_fields": [
+      "title",
+      "authors",
+      "affiliations",
+      "date",
+      "bibliography",
+      "repository"
+    ],
+    "author_fields": [
+      "given-names",
+      "surname",
+      "affiliation"
+    ],
+    "affiliation_rule": "Every author affiliation index resolves to one uniquely indexed, non-empty affiliation with its verified ROR identifier.",
+    "affiliation_rors": {
+      "1": "0040r6f76",
+      "2": "01kpzv902",
+      "3": "01ej9dk98"
+    },
+    "date_format": "D Month YYYY",
+    "bibliography": "paper.bib",
+    "repository": "https://github.com/edithatogo/voiage"
+  },
+  "word_count": {
+    "unit": "body words after YAML front matter, including headings and figure descriptions",
+    "official_minimum": 750,
+    "official_maximum": 1750,
+    "target": 1600,
+    "tolerance_fraction": 0.02,
+    "accepted_minimum": 1568,
+    "accepted_maximum": 1632
+  },
+  "section_order": [
+    "Summary",
+    "Statement of need",
+    "State of the field",
+    "Software design",
+    "Worked example",
+    "Research impact statement",
+    "AI usage disclosure",
+    "Acknowledgements",
+    "Software and data availability",
+    "References"
+  ],
+  "sections": {
+    "Summary": {
+      "minimum_words": 150,
+      "maximum_words": 190,
+      "requirements": [
+        "Explain the research decision and the software purpose for a diverse non-specialist audience.",
+        "State what users supply and what the software returns.",
+        "Define unavoidable abbreviations at first use.",
+        "Report one concrete result without promotional language."
+      ]
+    },
+    "Statement of need": {
+      "minimum_words": 170,
+      "maximum_words": 210,
+      "requirements": [
+        "State the research problem and the practical consequence of leaving it unsolved.",
+        "Identify the target audience and intended research contexts.",
+        "State the implemented contribution rather than a hypothetical benefit."
+      ]
+    },
+    "State of the field": {
+      "minimum_words": 185,
+      "maximum_words": 240,
+      "requirements": [
+        "Compare the software with commonly used packages and services.",
+        "Describe specific strengths of alternatives and specific boundaries of voiage.",
+        "Provide a defensible build-versus-contribute justification.",
+        "Cite every comparative or methodological claim."
+      ]
+    },
+    "Software design": {
+      "minimum_words": 200,
+      "maximum_words": 250,
+      "requirements": [
+        "Explain the chosen architecture, alternatives or trade-offs, and why they matter for research.",
+        "Describe the Rust, Python, R, and Julia boundaries exactly as implemented.",
+        "Explain scientific maturity and verification without reproducing API documentation."
+      ]
+    },
+    "Worked example": {
+      "minimum_words": 500,
+      "maximum_words": 550,
+      "requirements": [
+        "Declare the decision model, study model, assumptions, and synthetic-data boundary.",
+        "Report interpretable EVPI, EVPPI, EVSI, and ENBS results.",
+        "Distinguish Monte Carlo error, model uncertainty, and sensitivity scenarios.",
+        "Link the figure and machine-readable data to a deterministic reproduction record.",
+        "Give the figure a stable identifier and cross-reference it in the text."
+      ]
+    },
+    "Research impact statement": {
+      "minimum_words": 65,
+      "maximum_words": 100,
+      "requirements": [
+        "Provide concrete realised impact or reproducible evidence of credible near-term significance.",
+        "Do not present same-author work, automated checks, or aspirations as independent adoption.",
+        "State missing external engagement evidence plainly."
+      ]
+    },
+    "AI usage disclosure": {
+      "minimum_words": 100,
+      "maximum_words": 135,
+      "requirements": [
+        "Identify systems and best-available versions and where each was used.",
+        "Describe the scope of assistance.",
+        "Record human primary decision-making, review, modification, validation, and accountability.",
+        "Do not invent unavailable historical model identifiers."
+      ]
+    },
+    "Acknowledgements": {
+      "minimum_words": 8,
+      "maximum_words": 35,
+      "requirements": [
+        "State funding and competing interests."
+      ]
+    },
+    "Software and data availability": {
+      "minimum_words": 75,
+      "maximum_words": 115,
+      "requirements": [
+        "Identify the exact reviewed software version, release, immutable archive, and synthetic data.",
+        "Bind the reproduction manifest to the reviewed revision.",
+        "Do not use prospective release or archive language in a submission candidate."
+      ]
+    },
+    "References": {
+      "minimum_words": 0,
+      "maximum_words": 5,
+      "requirements": [
+        "Resolve every in-text citation to one complete bibliography record and leave no record uncited."
+      ]
+    }
+  },
+  "paper_boundaries": {
+    "prohibited_content": [
+      "API reference documentation",
+      "installation tutorial",
+      "full mathematical derivation already available in supporting material",
+      "promotional novelty or superiority claims",
+      "unattributed external adoption claims",
+      "unresolved placeholders",
+      "prospective release or archive claims in the submission candidate"
+    ],
+    "required_supporting_artifacts": [
+      "paper.bib",
+      "paper/health-example-methods.md",
+      "paper/reproduction-manifest.json",
+      "paper/reproduction.sha256",
+      "paper/joss-claim-evidence.json",
+      "paper/joss-editorial-assurance.json",
+      "paper/joss-references.verification.json",
+      "CITATION.cff",
+      "codemeta.json"
+    ]
+  },
+  "assessment_layers": {
+    "manuscript": [
+      "metadata",
+      "required sections and order",
+      "section substance",
+      "target word band",
+      "claim and citation accuracy",
+      "plain language",
+      "rendered PDF"
+    ],
+    "repository": [
+      "license",
+      "documentation",
+      "installation",
+      "tests",
+      "open development history",
+      "exact release and archive"
+    ],
+    "external": [
+      "demonstrated research use, at minimum by the developer",
+      "community engagement or collaborative input as a detailed-review criterion and strong positive pre-review signal",
+      "JOSS editorial screening, review, and acceptance"
+    ],
+    "project_sequence": [
+      "permanent arXiv identifier and announcement before JOSS submission, as requested by the author"
+    ]
+  },
+  "human_only_certifications": [
+    "authorship completeness",
+    "funding and competing-interest declarations",
+    "human review, modification, and validation of all retained AI-assisted outputs",
+    "citation checking against each source",
+    "external community engagement or research use",
+    "submission and responses to JOSS editors or reviewers"
+  ]
+}

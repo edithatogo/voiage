@@ -5,6 +5,8 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  merge_group:
+    types: [checks_requested]
   schedule:
     # Run profiling weekly on Monday
     - cron: '0 6 * * 1'
@@ -53,7 +55,7 @@ jobs:
       run: uv lock --check
 
     - name: Retain exact lock evidence
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
       with:
         name: frozen-lock-${{ github.sha }}
         path: uv.lock
@@ -134,6 +136,11 @@ jobs:
 
     - name: Validate frontier contracts
       run: uv run python scripts/validate_frontier_contract.py
+
+    - name: Validate submission readiness contracts
+      run: |
+        uv run python scripts/validate_submission_readiness.py
+        uv run pytest tests/test_submission_readiness_contract.py --no-cov -q
 
     - name: Verify generated v2 contracts
       run: uv run python scripts/export_v2_contracts.py --check
@@ -275,6 +282,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
       with:
+        fetch-depth: 0
         persist-credentials: false
 
     - name: Install uv
@@ -315,6 +323,33 @@ jobs:
         name: codecov-umbrella
         fail_ci_if_error: false
 
+  ingestion-conformance:
+    name: Standardized Ingestion Conformance
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+      with:
+        persist-credentials: false
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+      with:
+        version: "0.11.29"
+        enable-cache: true
+        cache-suffix: ${{ github.job }}
+        cache-dependency-glob: "uv.lock"
+
+    - name: Set up Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: "3.14"
+
+    - name: Run tox conformance matrix
+      run: uv run --with tox tox -e ingestion-conformance
+      env:
+        CI: true
+
   coverage-report:
     name: Coverage Report
     runs-on: ubuntu-latest
@@ -322,6 +357,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
       with:
+        fetch-depth: 0
         persist-credentials: false
 
     - name: Install uv
@@ -428,7 +464,7 @@ jobs:
 
     - name: Upload contract bundle performance evidence
       if: always()
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
       with:
         name: contract-bundle-performance
         path: .benchmarks/contract-bundle-performance.json
@@ -534,7 +570,7 @@ jobs:
         tested_head="$(git rev-parse HEAD)"
         echo "tested_head=${tested_head}"
         test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
-        printf '### Exact source head\n\n`%s`\n' "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
+        printf '### Exact source head\n\n    %s\n' "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
 
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
@@ -609,7 +645,7 @@ jobs:
         fi
     - name: Upload mutation evidence
       if: always()
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
       with:
         name: mutation-evidence
         path: |
@@ -663,7 +699,7 @@ jobs:
 
     - name: Upload profiling evidence
       if: always()
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
       with:
         name: scalene-profile
         path: |

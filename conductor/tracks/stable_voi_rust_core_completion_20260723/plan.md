@@ -1,41 +1,48 @@
-# Track Implementation Plan: Stable VOI Rust Core Completion
+# Implementation Plan
 
-## Phase 1: Numerical contract tests
+## Phase 1 — Governance and contract reconciliation
 
-- [ ] Add failing analytical, property, error, RNG, and serialization tests.
-- [ ] Freeze stable estimator, diagnostic, tolerance, tie, and fallback policy.
-- [ ] Freeze bias/variance and Monte Carlo error reporting, convergence,
-  effective-sample diagnostics, RNG identity, replication, budget, stopping,
-  and numerical-error envelopes by estimator family.
-- [ ] Record Python/Rust baseline differences and performance budgets.
-- [ ] Define deterministic parallel reduction, splittable RNG streams,
-  streaming/out-of-core behavior, and memory/latency/energy profiles.
-- [ ] Commit, attach a git note, record the short commit SHA, and commit the
-  plan update.
-- [ ] Automated review and validation checkpoint.
-- [ ] Conductor - User Manual Verification 'Phase 1: Numerical contract tests'
-  (Protocol in workflow.md).
+- [x] **G1:** Verify the owning issue, native parent/children, Project 28,
+  metadata, registry and cross-reference manifest. (AC-01)
+- [x] **G2:** Reconcile existing repository artifacts and prior evidence
+  without converting issue status into implementation evidence. (AC-01, AC-02)
+- [x] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
+  explicit exclusions. (AC-02, AC-05, AC-06)
+- [x] **G4:** Run automated contract review and full Conductor validation (delivery revision `f95c0ded`).
+  Existing Rust migration matrix, stable-kernel tests, bridge boundaries and
+  release evidence are reconciled without claiming complete stable-method
+  coverage or promotion. (2026-08-01; AC-01, AC-07)
 
-## Phase 2: Rust implementation
+## Phase 2 — Evidence before positive claims
 
-- [ ] Implement the missing stable kernels and public Rust facade.
-- [ ] Route Python stable APIs through Rust with explicit compatibility paths.
-- [ ] Add properties, mutation tests, benchmarks, diagnostics, and fixtures.
-- [ ] Validate analytical oracles, independent references, and metamorphic
-  invariants in addition to differential fixtures.
-- [ ] Commit, attach a git note, record the short commit SHA, and commit the
-  plan update.
-- [ ] Automated review and validation checkpoint.
-- [ ] Conductor - User Manual Verification 'Phase 2: Rust implementation'
-  (Protocol in workflow.md).
+- [ ] **G5:** Add failing conformance, reference, property and pathological
+  tests, or the corresponding reproducible review protocol. (AC-03)
+- [ ] **G6:** Add versioned schemas, fixtures, diagnostics and provenance
+  contracts required by the accepted scope. (AC-02, AC-03)
+- [ ] **G7:** Record rights, privacy, scientific, practitioner and external
+  evidence gates that apply to this workstream. (AC-05, AC-06)
+- [ ] **G8:** Run an independent evidence and boundary review. (AC-03, AC-07)
 
-## Phase 3: Stable-core evidence
+## Phase 3 — Delivery or reviewed exclusion
 
-- [ ] Run Rust, Python, fixture, mutation, benchmark, and full tox gates.
-- [ ] Reconcile docs, roadmap, changelog, capabilities, and maturity.
-- [ ] Record v1.1 promotion evidence and unresolved external gates.
-- [ ] Commit, attach a git note, record the short commit SHA, and commit the
-  plan update.
-- [ ] Final review and validation checkpoint.
-- [ ] Conductor - User Manual Verification 'Phase 3: Stable-core evidence'
-  (Protocol in workflow.md).
+- [ ] **G9:** Implement each accepted repository-owned capability or record a
+  reviewed exclusion with migration guidance. (AC-02, AC-06)
+- [ ] **G10:** Add Rust/Python/R/Julia/Mojo dispositions and installed
+  shared-fixture evidence where executable surfaces are advertised. (AC-04)
+- [ ] **G11:** Add documentation, examples, generated surfaces and capability
+  discovery that match the evidenced maturity state. (AC-05)
+- [ ] **G12:** Run automated implementation review, focused validation and the
+  repository harness. (AC-03–AC-07)
+
+## Phase 4 — Programme and hosted closeout
+
+- [ ] **G13:** Reconcile child-issue results, roadmap, todo, registries,
+  release targets and remaining external gates. (AC-01, AC-05, AC-06)
+- [x] **G14:** Run final full local validation and hosted required checks for
+  the governed stable-core delivery. PR #827 exact head
+  `d2881921d5fb17dc3b5fb10ad4c9374b047b6a9f` passed the required
+  matrix before merge `211044c5fd1ce773ea64a161a92293d00c987f81`.
+  Complete method coverage, installed parity, promotion, and registry gates
+  remain separate. (AC-07)
+- [ ] **G15:** Record repository completion separately from merge, release,
+  publication, registry acceptance and issue closure. (AC-02, AC-07)

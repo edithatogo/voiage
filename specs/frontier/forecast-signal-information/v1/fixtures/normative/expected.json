@@ -1,0 +1,113 @@
+{
+  "analysis_id": "newsvendor-binary-signal",
+  "analysis_type": "forecast_signal_information_result",
+  "assurance": {
+    "accuracy_is_value": false,
+    "decision_policy": "reported_probabilities_evaluated_under_joint_law",
+    "estimator": "exact_finite_enumeration",
+    "joint_law": "outcome_prior_times_signal_likelihood",
+    "training_performed": false
+  },
+  "baseline": {
+    "choice_tie": [
+      "order-100"
+    ],
+    "expected_action_values": {
+      "order-100": 240.0,
+      "order-50": 200.0
+    },
+    "value": 240.0
+  },
+  "diagnostics": {
+    "excess_brier": 5.551115123125783e-17,
+    "posterior_reference_brier": 0.3116883116883117,
+    "reported_brier": 0.31168831168831174,
+    "signal_probability_coverage": 1.0,
+    "weighted_calibration_l1": 7.771561172376097e-17
+  },
+  "language_dispositions": {
+    "julia": "unsupported",
+    "mojo": "external",
+    "python": "executable",
+    "r": "unsupported",
+    "rust": "unsupported"
+  },
+  "method_maturity": "experimental",
+  "regret": {
+    "avoided": 40.0,
+    "baseline_expected": 80.0,
+    "deployed_expected": 40.0
+  },
+  "schema_version": "1.0.0",
+  "signal_partitions": [
+    {
+      "calibration_l1": 0.0,
+      "deployed_choice_tie": [
+        "order-50"
+      ],
+      "deployed_conditional_value": 200.0,
+      "oracle_choice_tie": [
+        "order-50"
+      ],
+      "oracle_conditional_value": 200.0,
+      "posterior_outcomes": {
+        "demand-high": 0.2727272727272727,
+        "demand-low": 0.7272727272727273
+      },
+      "probability": 0.44000000000000006,
+      "reported_outcomes": {
+        "demand-high": 0.2727272727272727,
+        "demand-low": 0.7272727272727273
+      },
+      "signal_id": "signal-low",
+      "value_contribution": -17.6
+    },
+    {
+      "calibration_l1": 1.3877787807814457e-16,
+      "deployed_choice_tie": [
+        "order-100"
+      ],
+      "deployed_conditional_value": 342.8571428571428,
+      "oracle_choice_tie": [
+        "order-100"
+      ],
+      "oracle_conditional_value": 342.8571428571428,
+      "posterior_outcomes": {
+        "demand-high": 0.857142857142857,
+        "demand-low": 0.14285714285714288
+      },
+      "probability": 0.56,
+      "reported_outcomes": {
+        "demand-high": 0.8571428571428571,
+        "demand-low": 0.14285714285714285
+      },
+      "signal_id": "signal-high",
+      "value_contribution": 57.59999999999996
+    }
+  ],
+  "timing": {
+    "freshness": 2.0,
+    "horizon": 7.0,
+    "latency": 1.0,
+    "lead_time": 5.0,
+    "operationally_usable": true,
+    "reason": "available_and_fresh_at_decision",
+    "time_unit": "days"
+  },
+  "unsupported_dispositions": [
+    "forecast model training or tuning",
+    "continuous signal integration",
+    "multistage recourse",
+    "endogenous temporal dependence estimation",
+    "stable or polyglot execution"
+  ],
+  "value": {
+    "calibration_loss": 0.0,
+    "cost": 10.0,
+    "counterfactual_timely_oracle": 40.0,
+    "gross_deployed": 40.0,
+    "maximum_price": 40.0,
+    "net_deployed": 30.0
+  },
+  "value_unit": "NZD per inventory decision"
+}

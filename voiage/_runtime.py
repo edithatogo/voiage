@@ -86,6 +86,109 @@ def compute_enbs(evsi_result: float, research_cost: float) -> float:
     return float(result)
 
 
+def compute_coss(
+    *,
+    sample_sizes: list[int],
+    evsi_values: list[float],
+    research_costs: list[float],
+    feasible: list[bool],
+    tie_policy: str,
+    absolute_tolerance: float,
+    relative_tolerance: float,
+) -> dict[str, object]:
+    """Compute the experimental enumerated COSS kernel in Rust."""
+    try:
+        result = _native().compute_coss(
+            sample_sizes,
+            evsi_values,
+            research_costs,
+            feasible,
+            tie_policy,
+            absolute_tolerance,
+            relative_tolerance,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
+def compute_coss_selection_uncertainty(
+    *,
+    sample_sizes: list[int],
+    feasible: list[bool],
+    joint_enbs_replicates: tuple[tuple[float, ...], ...],
+    point_optimal_index: int,
+    point_maximum_enbs: float,
+    tie_policy: str,
+    absolute_tolerance: float,
+    relative_tolerance: float,
+) -> dict[str, object]:
+    """Summarize dependence-preserving COSS selection uncertainty in Rust."""
+    try:
+        result = _native().compute_coss_selection_uncertainty(
+            sample_sizes,
+            feasible,
+            joint_enbs_replicates,
+            point_optimal_index,
+            point_maximum_enbs,
+            tie_policy,
+            absolute_tolerance,
+            relative_tolerance,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
+def compute_evsi_evpi_efficiency(
+    evsi: float,
+    evpi: float,
+    absolute_tolerance: float,
+    relative_tolerance: float,
+) -> dict[str, object]:
+    """Compute the experimental unclamped EVSI/EVPI ratio in Rust."""
+    try:
+        result = _native().compute_evsi_evpi_efficiency(
+            evsi,
+            evpi,
+            absolute_tolerance,
+            relative_tolerance,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
+def compute_information_efficiency_uncertainty(
+    evsi_replicates: list[float],
+    evpi_replicates: list[float],
+    point_ratio: float,
+    absolute_tolerance: float,
+    relative_tolerance: float,
+) -> dict[str, object]:
+    """Summarize paired EVSI/EVPI efficiency replicates in Rust."""
+    try:
+        result = _native().compute_information_efficiency_uncertainty(
+            evsi_replicates,
+            evpi_replicates,
+            point_ratio,
+            absolute_tolerance,
+            relative_tolerance,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
+def compute_expected_utility_information(request_json: str) -> dict[str, object]:
+    """Compute the canonical expected-utility information result in Rust."""
+    try:
+        result = _native().compute_expected_utility_information(request_json)
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
 def compute_heterogeneity(
     net_benefit: list[list[float]], subgroups: list[str]
 ) -> dict[str, object]:
@@ -166,6 +269,27 @@ def compute_evppi(
     return float(result)
 
 
+def compute_evppi_variance(
+    target_samples: list[float],
+    conditioning_groups: list[str],
+    bootstrap_replicates: int,
+    seed: int,
+    convergence_threshold: float,
+) -> dict[str, object]:
+    """Compute scalar estimation-focused EVPPI variance reduction in Rust."""
+    try:
+        result = _native().compute_evppi_variance(
+            target_samples,
+            conditioning_groups,
+            bootstrap_replicates,
+            seed,
+            convergence_threshold,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
 def compute_evsi(
     net_benefit: list[list[float]],
     trial_sample_size: int,
@@ -183,6 +307,77 @@ def compute_evsi(
     except Exception as error:
         _raise_native_error(error)
     return dict(result)
+
+
+def compute_evsi_variance(
+    prior_target_samples: list[float],
+    posterior_variances: list[float],
+    predictive_probabilities: list[float],
+    probability_tolerance: float,
+    bootstrap_replicates: int,
+    seed: int,
+    convergence_threshold: float,
+) -> dict[str, object]:
+    """Aggregate scalar estimation-focused EVSI variance reduction in Rust."""
+    try:
+        result = _native().compute_evsi_variance(
+            prior_target_samples,
+            posterior_variances,
+            predictive_probabilities,
+            probability_tolerance,
+            bootstrap_replicates,
+            seed,
+            convergence_threshold,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
+def compute_estimation_truth_assurance(
+    replicate_estimates: list[float],
+    true_reduction: float,
+    interval_lower: list[float],
+    interval_upper: list[float],
+    confidence_level: float,
+    convergence_threshold: float,
+) -> dict[str, object]:
+    """Summarize truth-known outer-replicate assurance in Rust."""
+    try:
+        result = _native().compute_estimation_truth_assurance(
+            replicate_estimates,
+            true_reduction,
+            interval_lower,
+            interval_upper,
+            confidence_level,
+            convergence_threshold,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
+def compute_normal_normal_two_arm_evsi(
+    prior_mean: float,
+    prior_standard_deviation: float,
+    outcome_standard_deviation: float,
+    total_sample_size: int,
+    net_benefit_slope: float,
+    net_benefit_intercept: float,
+) -> float:
+    """Compute EVSI for a declared equal-allocation normal study in Rust."""
+    try:
+        result = _native().compute_normal_normal_two_arm_evsi(
+            prior_mean,
+            prior_standard_deviation,
+            outcome_standard_deviation,
+            total_sample_size,
+            net_benefit_slope,
+            net_benefit_intercept,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return float(result)
 
 
 def compute_evsi_efficient_linear(

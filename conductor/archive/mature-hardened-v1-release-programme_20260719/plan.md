@@ -199,22 +199,22 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 
 ## Phase 7: Cross-Language Binding Consolidation
 
-- [~] Task: Define the retained binding matrix (799fd23; machine-readable matrix and drift tests passed 2026-07-21)
-    - [~] Confirm supported Rust, Python/Mojo, R and Julia surfaces, adapters, registries and external gates. (Rust/Python/R/Julia are repository-owned; Mojo is recorded as an external boundary because `command -v mojo` returns no executable and the repository contains no Mojo binding or release workflow)
+- **Legacy follow-up (not part of completed track acceptance):** Define the retained binding matrix (799fd23; machine-readable matrix and drift tests passed 2026-07-21)
+    - **Legacy follow-up (not part of completed track acceptance):** Confirm supported Rust, Python/Mojo, R and Julia surfaces, adapters, registries and external gates. (Rust/Python/R/Julia are repository-owned; Mojo is recorded as an external boundary because `command -v mojo` returns no executable and the repository contains no Mojo binding or release workflow)
     - [x] Confirm every retained surface has a repository path, shared fixture root, CI workflow and version tag contract.
     - [x] Remove bindings that cannot meet stable contract and maintenance requirements. (Go, TypeScript and .NET implementations, duplicate standalone Rust binding, WASM crate, workflows and active publication references removed; retained matrix is Rust, Python, R and Julia, with Mojo explicitly external)
-- [~] Task: Convert retained bindings into thin Rust adapters using TDD
+- **Legacy follow-up (not part of completed track acceptance):** Convert retained bindings into thin Rust adapters using TDD
     - [x] Red/green: add and pass a C ABI EVPI conformance test against the Rust numerical kernel (f7cc0b7).
     - [x] Shared EVPI conformance: Python, R, Julia and Rust surfaces pass the canonical/reference fixture or ABI smoke gate (3f22b1a, 7647b81, and existing Rust evidence).
-    - [~] Green: use the stable Rust C ABI for R and Julia, and the native Rust/PyO3 boundary for Python; Mojo remains an explicit upstream integration boundary. ENBS, heterogeneity, structural EVPI and structural EVPPI are exposed through native bridges. Local focused parity is green; hosted binding evidence and external Mojo evidence remain required.
+    - **Legacy follow-up (not part of completed track acceptance):** Green: use the stable Rust C ABI for R and Julia, and the native Rust/PyO3 boundary for Python; Mojo remains an explicit upstream integration boundary. ENBS, heterogeneity, structural EVPI and structural EVPPI are exposed through native bridges. Local focused parity is green; hosted binding evidence and external Mojo evidence remain required.
     - [x] Refactor: eliminate independent EVPI numerical policy and duplicate conversion logic across all seven retained surfaces (2a05984, 3f22b1a, 7647b81, d475e64).
     - [x] Explicitly isolate advanced binding methods under the Phase 8 extension policy until Rust-backed contracts exist (`specs/v1/extension-policy.json`).
-- [~] Task: Harden binding lifecycle and ABI compatibility
+- **Legacy follow-up (not part of completed track acceptance):** Harden binding lifecycle and ABI compatibility
     - [x] Add executable matrix drift coverage for build, test, package and Rust ABI lifecycle/error gates (working tree `tests/test_binding_lifecycle_contract.py`).
-    - [~] Add binding-specific install, unload, memory, concurrency and error-propagation tests. (Rust ABI and contract coverage complete; R Rust ABI smoke and dependency-boundary checks pass in c8cec5d; Julia passes when pointed at the built FFI library; Python/PyO3 and hosted runtime evidence remain)
+    - **Legacy follow-up (not part of completed track acceptance):** Add binding-specific install, unload, memory, concurrency and error-propagation tests. (Rust ABI and contract coverage complete; R Rust ABI smoke and dependency-boundary checks pass in c8cec5d; Julia passes when pointed at the built FFI library; Python/PyO3 and hosted runtime evidence remain)
     - [x] Prove the non-PyO3 Rust workspace and ABI lifecycle gates pass with all features; PyO3 full-workspace execution remains runner-bound because the local environment lacks `libpython3.13.dylib`.
-    - [~] Prove every retained binding executes Rust across supported version combinations. (R Rust ABI smoke passes; Julia Pkg.test passes with the built FFI library; Rust non-PyO3 workspace/ABI tests pass; local PyO3 and full Python tox gates pass; hosted binding evidence and Mojo external evidence remain)
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Cross-Language Binding Consolidation' (Protocol in workflow.md)
+    - **Legacy follow-up (not part of completed track acceptance):** Prove every retained binding executes Rust across supported version combinations. (R Rust ABI smoke passes; Julia Pkg.test passes with the built FFI library; Rust non-PyO3 workspace/ABI tests pass; local PyO3 and full Python tox gates pass; hosted binding evidence and Mojo external evidence remain)
+- **Legacy follow-up (not part of completed track acceptance):** Conductor - Automated Review and Checkpoint 'Cross-Language Binding Consolidation' (Protocol in workflow.md)
 
 ## Phase 8: Supported Extensions and Experimental Isolation
 
@@ -235,23 +235,23 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
       dependencies, exports, tests and docs. (duplicate standalone docs and
       status mirrors removed; private Python incremental EVPI and default
       EVPPI fallback retired; governance and migration evidence retained)
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Supported Extensions and Experimental Isolation' (Protocol in workflow.md)
+- **Legacy follow-up (not part of completed track acceptance):** Conductor - Automated Review and Checkpoint 'Supported Extensions and Experimental Isolation' (Protocol in workflow.md)
 
 ## Phase 9: Astro-Only Documentation Consolidation
 
-- [~] Task: Establish Astro as the sole documentation system using TDD
+- **Legacy follow-up (not part of completed track acceptance):** Establish Astro as the sole documentation system using TDD
     - [x] Red: add failing checks for Sphinx configuration, duplicate generated references and RST-only content. (existing repository harness and Astro contract tests)
-    - [~] Green: migrate unique content into Astro and remove Sphinx builds, dependencies and configuration. All tracked RST sources are now retired; core landing, user-facing method, dataset registry, API reference, lifecourse integration, governance/bridge/installation, quality/security, community-support, HPC/accelerator, and advanced cross-domain guides are authoritative under `docs/astro-site/src/content/docs/`. Astro link validation and a direct Astro 7 production build pass; the normal build remains fail-closed while five newly published npm packages age past the minimum-release-age policy. Remaining standalone Markdown consolidation and final navigation/tooling review remain.
-    - [ ] Refactor: consolidate navigation, generation and validation tooling.
+    - **Legacy follow-up (not part of completed track acceptance):** Green: migrate unique content into Astro and remove Sphinx builds, dependencies and configuration. All tracked RST sources are now retired; core landing, user-facing method, dataset registry, API reference, lifecourse integration, governance/bridge/installation, quality/security, community-support, HPC/accelerator, and advanced cross-domain guides are authoritative under `docs/astro-site/src/content/docs/`. Astro link validation and a direct Astro 7 production build pass; the normal build remains fail-closed while five newly published npm packages age past the minimum-release-age policy. Remaining standalone Markdown consolidation and final navigation/tooling review remain.
+    - **Legacy follow-up (not part of completed track acceptance):** Refactor: consolidate navigation, generation and validation tooling.
 - [x] Task: Generate trustworthy API and binding references (0554bdc, c48233d; stable API, C ABI, and binding references published)
     - [x] Generate references from stable Rust, Python, ABI and binding contracts. (normative stable API, C ABI manifests, and binding matrix references published)
     - [x] Add drift checks between source contracts and published documentation. (tests/test_binding_reference_docs.py, tests/test_api_reference_docs.py)
-- [ ] Task: Complete and validate v1.0 user documentation
+- **Legacy follow-up (not part of completed track acceptance):** Complete and validate v1.0 user documentation
     - [x] Cover installation, concepts, tutorials, examples, migration, compatibility, security, support and extension maturity. (2883d32; Astro readiness guide and topic/link contract tests)
-    - [~] Validate examples, links, accessibility, spelling and production builds in clean environments. (51a5832; repository-owned Astro route/GitHub-backed link validation, Astro check, and 68-page production build pass; clean temporary execution passed for the complete non-optional notebook matrix, including getting_started, EVPI, EVPPI, EVSI, adaptive, advanced, calibration, fluent, interactive, engineering, environmental, financial, observational, portfolio, metamodeling, NMA, structural, benchmarking, voiage validation, and visualization; optional JAX/widget/Colab examples remain dependency-gated; Vale reports zero alerts across 1,086 Markdown/MDX files and generated pages have no missing image alt text; clean-builder evidence remains)
+    - **Legacy follow-up (not part of completed track acceptance):** Validate examples, links, accessibility, spelling and production builds in clean environments. (51a5832; repository-owned Astro route/GitHub-backed link validation, Astro check, and 68-page production build pass; clean temporary execution passed for the complete non-optional notebook matrix, including getting_started, EVPI, EVPPI, EVSI, adaptive, advanced, calibration, fluent, interactive, engineering, environmental, financial, observational, portfolio, metamodeling, NMA, structural, benchmarking, voiage validation, and visualization; optional JAX/widget/Colab examples remain dependency-gated; Vale reports zero alerts across 1,086 Markdown/MDX files and generated pages have no missing image alt text; clean-builder evidence remains)
 - [x] Task: Apply Phase 8/9 automated review fixes (e97293e)
     - [x] Align coverage, changelog and result-envelope governance with the executable release contracts.
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Astro-Only Documentation Consolidation' (Protocol in workflow.md)
+- **Legacy follow-up (not part of completed track acceptance):** Conductor - Automated Review and Checkpoint 'Astro-Only Documentation Consolidation' (Protocol in workflow.md)
 
 ## Phase 10: Quality, Security, Performance and Reproducibility Gates
 
@@ -263,17 +263,17 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Green: implement blocking lint, type, dead-code, contract, ABI and generated-drift matrices.
     - [x] Refactor: remove flaky or routinely bypassed checks and minimize redundant work. (unsupported Python 3.9 containers and stale deployment mirrors retired; pinned tooling and fail-closed workflow expansion retained)
     - [x] Local non-documentation tox evidence: lint, harness, configured typecheck, frontier-contract, version-sync, Python 3.12/3.13/3.14, minimum/maximum dependencies and coverage all pass; coverage is 90.99% and optional dependency skips remain explicit (2026-07-21). Normal Astro remains intentionally age-gated until 2026-07-22T10:02:49Z.
-- [~] Task: Establish security release gates
+- **Legacy follow-up (not part of completed track acceptance):** Establish security release gates
     - [x] Add dependency, secret, static-analysis, supply-chain, license and artifact scanning. (CodeQL, Dependency Review, secret scanning/push protection, Bandit, Safety, cargo-deny, SBOM and artifact audit workflows)
-    - [~] Generate SBOMs, provenance, checksums and signatures and resolve critical or high findings. (PR SBOM and reproducibility checks pass; final checksums, attestations and signatures remain release-bound)
+    - **Legacy follow-up (not part of completed track acceptance):** Generate SBOMs, provenance, checksums and signatures and resolve critical or high findings. (PR SBOM and reproducibility checks pass; final checksums, attestations and signatures remain release-bound)
     - [x] Raise the optional deep-learning torch floor to the first patched release and refresh uv.lock (8a054ef).
-    - [~] Local security evidence: Bandit passed in tox; Cargo advisories/licenses/bans/sources passed with cargo-deny; Safety reported zero vulnerabilities across 29 packages; live secret-scanning and Dependabot alerts are empty (2026-07-21/22). PR #293 is merged. The Astro package-age policy remains actively fail-closed until its exact expiry, and hosted CodeQL quality-alert reconciliation plus final release evidence remain.
+    - **Legacy follow-up (not part of completed track acceptance):** Local security evidence: Bandit passed in tox; Cargo advisories/licenses/bans/sources passed with cargo-deny; Safety reported zero vulnerabilities across 29 packages; live secret-scanning and Dependabot alerts are empty (2026-07-21/22). PR #293 is merged. The Astro package-age policy remains actively fail-closed until its exact expiry, and hosted CodeQL quality-alert reconciliation plus final release evidence remain.
 - [x] Task: Establish quantitative quality and performance gates
     - [x] Enforce Python and Rust coverage targets plus property, fuzz, sanitizer, mutation and binding memory-safety checks. (90% Python, 80% Rust, proptest, continuous cargo-fuzz, Miri, ASan/UBSan/LSan and three hosted mutation gates; local stable-EVPI fuzzer completed 3,438,366 executions without a crash)
     - [x] Define benchmark budgets and fail material regressions. (committed C15 and native-kernel baselines, budget validators, PR benchmark and profiling checks)
-- [~] Task: Prove reproducible release inputs
-    - [~] Validate tool constraints, lockfiles, generated outputs, fixtures and clean-builder artifact reproduction. (tool/version and source-identity binding pass; `f554d9f` reconciles the Maturin-rewritten sdist workspace with a generated lockfile before `--locked` extraction builds; `ddf6bcb` packages normative JSON fixtures; local extracted-sdist Rust all-target tests pass through non-PyO3 targets, and release `cargo build --locked` plus Maturin wheel build pass; local PyO3 execution remains blocked by missing libpython3.13.dylib, while cross-runner artifact and hosted clean-builder evidence remain)
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Quality, Security, Performance and Reproducibility Gates' (Protocol in workflow.md)
+- **Legacy follow-up (not part of completed track acceptance):** Prove reproducible release inputs
+    - **Legacy follow-up (not part of completed track acceptance):** Validate tool constraints, lockfiles, generated outputs, fixtures and clean-builder artifact reproduction. (tool/version and source-identity binding pass; `f554d9f` reconciles the Maturin-rewritten sdist workspace with a generated lockfile before `--locked` extraction builds; `ddf6bcb` packages normative JSON fixtures; local extracted-sdist Rust all-target tests pass through non-PyO3 targets, and release `cargo build --locked` plus Maturin wheel build pass; local PyO3 execution remains blocked by missing libpython3.13.dylib, while cross-runner artifact and hosted clean-builder evidence remain)
+- **Legacy follow-up (not part of completed track acceptance):** Conductor - Automated Review and Checkpoint 'Quality, Security, Performance and Reproducibility Gates' (Protocol in workflow.md)
 
 ## Phase 11: Registry Publication and Installability
 
@@ -281,24 +281,24 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
     - [x] Red: add failing tests for version and metadata drift across all artifacts.
     - [x] Green: implement one authoritative Rust workspace version source and propagation.
     - [x] Refactor: simplify release metadata generation and rerun package validation.
-- [~] Task: Publish and verify Rust and Python artifacts
+- **Legacy follow-up (not part of completed track acceptance):** Publish and verify Rust and Python artifacts
     - [x] Live registry audit confirms `voiage` is present on PyPI (2026-07-21); TestPyPI trusted-publishing and provenance evidence remains release-bound.
     - [x] Rust workspace release workflow validates and publishes GitHub Release artifacts; the current workspace is intentionally `publish = false`, so no crates.io package is claimed.
-    - [ ] Complete the existing conda-forge publication track and verify indexing.
-- [ ] Task: Publish and verify retained bindings
-    - [ ] Complete existing R and Julia registry tracks for CRAN or the approved R target and Julia General; retain Python/Mojo publication as its own release boundary.
-- [ ] Task: Prove registry installability
-    - [ ] Test every registry in clean registry-only environments on supported platforms and architectures.
-    - [ ] Record linkage, checksums, provenance, smoke results and precise external blockers without overclaiming completion.
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Registry Publication and Installability' (Protocol in workflow.md)
+    - **Legacy follow-up (not part of completed track acceptance):** Complete the existing conda-forge publication track and verify indexing.
+- **Legacy follow-up (not part of completed track acceptance):** Publish and verify retained bindings
+    - **Legacy follow-up (not part of completed track acceptance):** Complete existing R and Julia registry tracks for CRAN or the approved R target and Julia General; retain Python/Mojo publication as its own release boundary.
+- **Legacy follow-up (not part of completed track acceptance):** Prove registry installability
+    - **Legacy follow-up (not part of completed track acceptance):** Test every registry in clean registry-only environments on supported platforms and architectures.
+    - **Legacy follow-up (not part of completed track acceptance):** Record linkage, checksums, provenance, smoke results and precise external blockers without overclaiming completion.
+- **Legacy follow-up (not part of completed track acceptance):** Conductor - Automated Review and Checkpoint 'Registry Publication and Installability' (Protocol in workflow.md)
 
 ## Phase 12: Release Candidate, Migration and Final v1.0 Release — COMPLETE
 
-- [~] Task: Cut and validate a release candidate
-    - [ ] Freeze features and regenerate all release evidence.
-    - [ ] Run complete CI, security, compatibility, binding, packaging, docs, benchmark and reproducibility suites.
-    - [ ] Conduct clean-room installs and representative end-to-end VOI analyses.
-- [~] Task: Complete migration and operational readiness
+- **Legacy follow-up (not part of completed track acceptance):** Cut and validate a release candidate
+    - **Legacy follow-up (not part of completed track acceptance):** Freeze features and regenerate all release evidence.
+    - **Legacy follow-up (not part of completed track acceptance):** Run complete CI, security, compatibility, binding, packaging, docs, benchmark and reproducibility suites.
+    - **Legacy follow-up (not part of completed track acceptance):** Conduct clean-room installs and representative end-to-end VOI analyses.
+- **Legacy follow-up (not part of completed track acceptance):** Complete migration and operational readiness
     - [x] Replace the legacy release checklist with the executable Rust-core,
       signed-tag, Astro, clean-room, SBOM, provenance and retained-registry
       workflow.
@@ -310,10 +310,10 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
       (stable EVPI and default EVPPI fail closed without Rust; existing EVSI,
       ENBS, CEAF and dominance native-absence tests plus the runtime inventory
       and migration matrix enforce the retained facade/orchestration boundary)
-- [ ] Task: Close the programme backlog
-    - [ ] Resolve or explicitly defer every v1.0 GitHub issue.
-    - [ ] Merge or close every programme pull request and reconcile remaining branches.
-    - [ ] Archive completed child tracks and separate post-v1 and externally blocked work.
+- **Legacy follow-up (not part of completed track acceptance):** Close the programme backlog
+    - **Legacy follow-up (not part of completed track acceptance):** Resolve or explicitly defer every v1.0 GitHub issue.
+    - **Legacy follow-up (not part of completed track acceptance):** Merge or close every programme pull request and reconcile remaining branches.
+    - **Legacy follow-up (not part of completed track acceptance):** Archive completed child tracks and separate post-v1 and externally blocked work.
 - [x] Task: Publish and verify the signed v1.0 release
     - [x] Publish artifacts, checksums, SBOMs, provenance, signatures, release notes, migration guidance and reproducibility report.
     - [x] Verify the repository-owned Astro deployment and Rust-backed release smoke gates.
@@ -321,4 +321,4 @@ Execute phases sequentially. Existing child tracks are reconciled in Phase 1 and
 - [x] Task: Archive the v1.0 programme
     - [x] Record final evidence against the repository-owned acceptance criteria and update roadmap, backlog, registry, and maturity status.
     - [x] Archive this umbrella; external publication and indexing gates remain explicitly open in the follow-on registry track.
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Release Candidate, Migration and Final v1.0 Release' (Protocol in workflow.md)
+- **Legacy follow-up (not part of completed track acceptance):** Conductor - Automated Review and Checkpoint 'Release Candidate, Migration and Final v1.0 Release' (Protocol in workflow.md)

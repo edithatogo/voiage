@@ -70,7 +70,7 @@ def test_retained_bindings_declare_supported_runtime_versions_and_ci_probes() ->
     workflow_requirements = {
         "python": ("python-version",),
         "r": ("setup-r",),
-        "julia": ('version: "1.11"',),
+        "julia": ("matrix.julia",),
         "rust": ("rust-msrv", 'toolchain: "1.85"'),
     }
     for binding in matrix["bindings"]:

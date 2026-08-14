@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "projection_id": "specialized-voi-v1.3.0",
+  "contract_version": "v1.3.0",
+  "canonical_repository": "edithatogo/vop_poc_nz",
+  "canonical_track": "C17",
+  "predecessor": {
+    "canonical_track": "C16",
+    "projection_id": "specialized-voi-v1.2.0",
+    "path": "conductor/tracks/specialized-voi-v1-2_20260727/projection.json",
+    "status": "completed"
+  },
+  "registered_repositories": [
+    {
+      "repository": "edithatogo/voiage",
+      "role": "runtime-owner",
+      "managed_projection": true
+    }
+  ],
+  "github_project": {
+    "owner": "edithatogo",
+    "number": 28,
+    "fields": {
+      "MoSCoW": "Should",
+      "Contract Version": "v1.3.0",
+      "Priority": "P1",
+      "Status": "In Progress",
+      "Lifecycle": "Open",
+      "Gate": "External",
+      "Evidence State": "Unverified",
+      "Sync State": "Clean"
+    }
+  },
+  "issues": [
+    {
+      "repository": "edithatogo/voiage",
+      "number": 318,
+      "parent": 313,
+      "track_id": "supported_frontier_method_completion_20260723",
+      "record_id": "supported-frontier-method-completion",
+      "requirement_ids": [
+        "M17",
+        "M21"
+      ]
+    },
+    {
+      "repository": "edithatogo/voiage",
+      "number": 560,
+      "parent": 318,
+      "track_id": "supported_frontier_method_completion_20260723",
+      "record_id": "mcda-voi",
+      "implementation_status": "experimental_repository_evidence",
+      "capability_contract": "specs/frontier/mcda-information/v1/capabilities.json",
+      "subissues": [
+        746,
+        747,
+        748,
+        749,
+        750
+      ],
+      "implementation_pr": 751,
+      "maturity": "experimental",
+      "stable_claim_allowed": false,
+      "requirement_ids": [
+        "M17",
+        "M21"
+      ],
+      "remaining_gates": [
+        "independent-scientific-review",
+        "hosted-c17-exact-head",
+        "rust-r-julia-parity",
+        "stable-promotion",
+        "release-and-issue-closure"
+      ]
+    }
+  ],
+  "sync_policy": {
+    "stable_markers_required": true,
+    "bounded_managed_sections_only": true,
+    "preserve_human_content": true,
+    "three_way_conflict_detection": true,
+    "fail_closed_on_missing_credentials": true,
+    "new_repositories_require_explicit_registration": true,
+    "automatic_merge": false,
+    "automatic_issue_closure": false,
+    "automatic_release": false
+  }
+}

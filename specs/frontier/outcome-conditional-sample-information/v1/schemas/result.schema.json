@@ -1,0 +1,843 @@
+{
+  "$id": "https://voiage.dev/specs/frontier/outcome-conditional-sample-information/v1/result.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "aggregate": {
+      "additionalProperties": false,
+      "properties": {
+        "complete_tie_set_changed_probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "evsi": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "expected_delta_ev": {
+          "type": "number"
+        },
+        "information_cost": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "low_value_risks": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "delta": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "probability": {
+                "maximum": 1,
+                "minimum": 0,
+                "type": "number"
+              }
+            },
+            "required": [
+              "delta",
+              "probability"
+            ],
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "lower_tail_means": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "mass": {
+                "maximum": 1,
+                "minimum": 0,
+                "type": "number"
+              },
+              "mean_vsi": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "mass",
+              "mean_vsi"
+            ],
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "mandatory_policy_switch_probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "maximum_vsi": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "minimum_vsi": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "net_evsi": {
+          "type": "number"
+        },
+        "reference_action_excluded_probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "sigma_vsi": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "variance_vsi": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "weighted_quantiles": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "level": {
+                "maximum": 1,
+                "minimum": 0,
+                "type": "number"
+              },
+              "vsi": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "level",
+              "vsi"
+            ],
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "evsi",
+        "expected_delta_ev",
+        "information_cost",
+        "net_evsi",
+        "variance_vsi",
+        "sigma_vsi",
+        "minimum_vsi",
+        "maximum_vsi",
+        "low_value_risks",
+        "weighted_quantiles",
+        "lower_tail_means",
+        "reference_action_excluded_probability",
+        "mandatory_policy_switch_probability",
+        "complete_tie_set_changed_probability"
+      ],
+      "type": "object"
+    },
+    "analysis_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "analysis_type": {
+      "const": "outcome_conditional_sample_information_value_result"
+    },
+    "assurance": {
+      "additionalProperties": false,
+      "properties": {
+        "continuous_outcomes_supported": {
+          "const": false
+        },
+        "ddof": {
+          "const": 0
+        },
+        "estimator": {
+          "const": "exact_finite_enumeration"
+        },
+        "evsi_delta_ev_residual": {
+          "type": "number"
+        },
+        "evsi_vsi_residual": {
+          "type": "number"
+        },
+        "maximum_bayes_reconstruction_error": {
+          "type": "number"
+        },
+        "maximum_likelihood_row_residual": {
+          "type": "number"
+        },
+        "minimum_vsi": {
+          "type": "number"
+        },
+        "predictive_probability_residual": {
+          "type": "number"
+        },
+        "prior_probability_residual": {
+          "type": "number"
+        },
+        "probability_normalization_applied": {
+          "type": "boolean"
+        },
+        "r_vsi_zero_distinct_from_switch_metrics": {
+          "const": true
+        },
+        "result_reconstructed_from_input": {
+          "const": true
+        },
+        "standard_deviation_functional": {
+          "const": "predictive_probability_weighted_population"
+        },
+        "threshold_monotonic": {
+          "type": "boolean"
+        },
+        "tower_identity_scope": {
+          "const": "expectations_only"
+        }
+      },
+      "required": [
+        "estimator",
+        "standard_deviation_functional",
+        "ddof",
+        "tower_identity_scope",
+        "evsi_vsi_residual",
+        "evsi_delta_ev_residual",
+        "predictive_probability_residual",
+        "prior_probability_residual",
+        "maximum_likelihood_row_residual",
+        "probability_normalization_applied",
+        "maximum_bayes_reconstruction_error",
+        "minimum_vsi",
+        "threshold_monotonic",
+        "r_vsi_zero_distinct_from_switch_metrics",
+        "continuous_outcomes_supported",
+        "result_reconstructed_from_input"
+      ],
+      "type": "object"
+    },
+    "baseline": {
+      "additionalProperties": false,
+      "properties": {
+        "action_expected_values": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "minProperties": 2,
+          "type": "object"
+        },
+        "optimal_actions": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "reference_action": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "reference_expected_value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "action_expected_values",
+        "optimal_actions",
+        "reference_action",
+        "reference_expected_value"
+      ],
+      "type": "object"
+    },
+    "chronology": {
+      "const": [
+        "prior",
+        "measure",
+        "observe",
+        "update",
+        "act"
+      ]
+    },
+    "discount_basis": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "horizon": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "input_assurance": {
+      "additionalProperties": false,
+      "properties": {
+        "input_contract": {
+          "additionalProperties": false,
+          "properties": {
+            "actions": {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "minItems": 2,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "analysis_id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "analysis_type": {
+              "const": "outcome_conditional_sample_information_value"
+            },
+            "chronology": {
+              "const": [
+                "prior",
+                "measure",
+                "observe",
+                "update",
+                "act"
+              ]
+            },
+            "cost_placement": {
+              "const": "subtract_after_gross_vsi"
+            },
+            "discount_basis": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "horizon": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "information_cost": {
+              "minimum": 0,
+              "type": "number"
+            },
+            "low_value_thresholds": {
+              "items": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "method_maturity": {
+              "const": "experimental"
+            },
+            "objective": {
+              "additionalProperties": false,
+              "properties": {
+                "direction": {
+                  "enum": [
+                    "maximize",
+                    "minimize"
+                  ]
+                },
+                "measure": {
+                  "enum": [
+                    "utility",
+                    "loss"
+                  ]
+                }
+              },
+              "required": [
+                "measure",
+                "direction"
+              ],
+              "type": "object"
+            },
+            "outcomes": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "likelihood_by_state": {
+                    "additionalProperties": {
+                      "maximum": 1,
+                      "minimum": 0,
+                      "type": "number"
+                    },
+                    "minProperties": 1,
+                    "type": "object"
+                  },
+                  "outcome_id": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "outcome_id",
+                  "likelihood_by_state"
+                ],
+                "type": "object"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "population": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "probability_tolerance": {
+              "exclusiveMinimum": 0,
+              "maximum": 1e-06,
+              "type": "number"
+            },
+            "provenance": {
+              "additionalProperties": false,
+              "properties": {
+                "likelihood_source": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "probability_source": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "value_source": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "probability_source",
+                "likelihood_source",
+                "value_source"
+              ],
+              "type": "object"
+            },
+            "quantile_levels": {
+              "items": {
+                "maximum": 1,
+                "minimum": 0,
+                "type": "number"
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "reference_action": {
+              "description": "Declared action that must attain the exact baseline extremum; tie_tolerance never makes a non-extremal reference admissible.",
+              "minLength": 1,
+              "type": "string"
+            },
+            "schema_version": {
+              "const": "v1"
+            },
+            "scope": {
+              "additionalProperties": false,
+              "properties": {
+                "mode": {
+                  "enum": [
+                    "prospective",
+                    "retrospective"
+                  ]
+                },
+                "observed_outcome_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "mode",
+                "observed_outcome_id"
+              ],
+              "type": "object"
+            },
+            "states": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "action_values": {
+                    "additionalProperties": {
+                      "type": "number"
+                    },
+                    "minProperties": 2,
+                    "type": "object"
+                  },
+                  "probability": {
+                    "exclusiveMinimum": 0,
+                    "maximum": 1,
+                    "type": "number"
+                  },
+                  "state_id": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "state_id",
+                  "probability",
+                  "action_values"
+                ],
+                "type": "object"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "tie_tolerance": {
+              "description": "Absolute value-unit tolerance for complete tie-set and presentation diagnostics only; not reference-action admissibility.",
+              "minimum": 0,
+              "type": "number"
+            },
+            "value_unit": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "schema_version",
+            "analysis_id",
+            "analysis_type",
+            "method_maturity",
+            "value_unit",
+            "population",
+            "horizon",
+            "discount_basis",
+            "objective",
+            "chronology",
+            "scope",
+            "actions",
+            "states",
+            "outcomes",
+            "reference_action",
+            "information_cost",
+            "cost_placement",
+            "low_value_thresholds",
+            "quantile_levels",
+            "tie_tolerance",
+            "probability_tolerance",
+            "provenance"
+          ],
+          "title": "OutcomeConditionalSampleInformationInputV1",
+          "type": "object"
+        },
+        "input_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "input_sha256",
+        "input_contract"
+      ],
+      "type": "object"
+    },
+    "language_dispositions": {
+      "additionalProperties": false,
+      "properties": {
+        "julia": {
+          "const": "unsupported"
+        },
+        "mojo": {
+          "const": "external"
+        },
+        "python": {
+          "const": "experimental_executable"
+        },
+        "r": {
+          "const": "unsupported"
+        },
+        "rust": {
+          "const": "unsupported"
+        }
+      },
+      "required": [
+        "python",
+        "rust",
+        "r",
+        "julia",
+        "mojo"
+      ],
+      "type": "object"
+    },
+    "method_maturity": {
+      "const": "experimental"
+    },
+    "objective": {
+      "additionalProperties": false,
+      "properties": {
+        "direction": {
+          "enum": [
+            "maximize",
+            "minimize"
+          ]
+        },
+        "measure": {
+          "enum": [
+            "utility",
+            "loss"
+          ]
+        }
+      },
+      "required": [
+        "measure",
+        "direction"
+      ],
+      "type": "object"
+    },
+    "outcomes": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "complete_tie_set_changed": {
+            "type": "boolean"
+          },
+          "delta_ev": {
+            "type": "number"
+          },
+          "mandatory_policy_switch": {
+            "type": "boolean"
+          },
+          "net_vsi": {
+            "type": "number"
+          },
+          "optimal_actions": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "outcome_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "posterior_action_values": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "minProperties": 2,
+            "type": "object"
+          },
+          "posterior_optimal_value": {
+            "type": "number"
+          },
+          "posterior_state_probabilities": {
+            "additionalProperties": {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            "minProperties": 1,
+            "type": "object"
+          },
+          "predictive_probability": {
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number"
+          },
+          "reference_action_excluded": {
+            "type": "boolean"
+          },
+          "reference_action_value": {
+            "type": "number"
+          },
+          "vsi": {
+            "minimum": 0,
+            "type": "number"
+          }
+        },
+        "required": [
+          "outcome_id",
+          "predictive_probability",
+          "posterior_state_probabilities",
+          "posterior_action_values",
+          "optimal_actions",
+          "posterior_optimal_value",
+          "reference_action_value",
+          "delta_ev",
+          "vsi",
+          "net_vsi",
+          "reference_action_excluded",
+          "mandatory_policy_switch",
+          "complete_tie_set_changed"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "population": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "likelihood_source": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "probability_source": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "value_source": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "probability_source",
+        "likelihood_source",
+        "value_source"
+      ],
+      "type": "object"
+    },
+    "references": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 2,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "retrospective_outcome": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "complete_tie_set_changed": {
+              "type": "boolean"
+            },
+            "delta_ev": {
+              "type": "number"
+            },
+            "mandatory_policy_switch": {
+              "type": "boolean"
+            },
+            "net_vsi": {
+              "type": "number"
+            },
+            "optimal_actions": {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "outcome_id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "posterior_action_values": {
+              "additionalProperties": {
+                "type": "number"
+              },
+              "minProperties": 2,
+              "type": "object"
+            },
+            "posterior_optimal_value": {
+              "type": "number"
+            },
+            "posterior_state_probabilities": {
+              "additionalProperties": {
+                "maximum": 1,
+                "minimum": 0,
+                "type": "number"
+              },
+              "minProperties": 1,
+              "type": "object"
+            },
+            "predictive_probability": {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            "reference_action_excluded": {
+              "type": "boolean"
+            },
+            "reference_action_value": {
+              "type": "number"
+            },
+            "vsi": {
+              "minimum": 0,
+              "type": "number"
+            }
+          },
+          "required": [
+            "outcome_id",
+            "predictive_probability",
+            "posterior_state_probabilities",
+            "posterior_action_values",
+            "optimal_actions",
+            "posterior_optimal_value",
+            "reference_action_value",
+            "delta_ev",
+            "vsi",
+            "net_vsi",
+            "reference_action_excluded",
+            "mandatory_policy_switch",
+            "complete_tie_set_changed"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "schema_version": {
+      "const": "v1"
+    },
+    "scope": {
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "enum": [
+            "prospective",
+            "retrospective"
+          ]
+        },
+        "observed_outcome_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "mode",
+        "observed_outcome_id"
+      ],
+      "type": "object"
+    },
+    "value_unit": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "analysis_id",
+    "analysis_type",
+    "method_maturity",
+    "value_unit",
+    "population",
+    "horizon",
+    "discount_basis",
+    "objective",
+    "chronology",
+    "scope",
+    "baseline",
+    "outcomes",
+    "aggregate",
+    "retrospective_outcome",
+    "assurance",
+    "input_assurance",
+    "provenance",
+    "references",
+    "language_dispositions"
+  ],
+  "title": "OutcomeConditionalSampleInformationResultV1",
+  "type": "object"
+}

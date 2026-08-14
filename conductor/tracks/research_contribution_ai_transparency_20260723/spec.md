@@ -1,36 +1,74 @@
-# Track Specification: Research Contribution And AI Transparency
+# Contributor and AI Contribution Transparency
 
 ## Overview
 
-Create canonical human-contribution and auditable AI-assistance statements for
-the repository, releases, and manuscript.
+Provide canonical human CRediT records and release-linked machine-readable AI-assistance provenance with accountable human review.
+
+Owning issue: [#323](https://github.com/edithatogo/voiage/issues/323). Parent programme issue [#313](https://github.com/edithatogo/voiage/issues/313).
+Project: [VOP–VOIAGE Conductor Roadmap](https://github.com/users/edithatogo/projects/28).
 
 ## Requirements
 
-1. Add `CONTRIBUTORS.md`, confirmed CRediT roles in canonical LaTeX, and
-   synchronized `CITATION.cff` and `codemeta.json`.
-2. Add `AI_CONTRIBUTION.md`, a versioned schema, append-only ledger, and
-   synchronized manuscript disclosure.
-3. Record tool/provider/model when known, date, purpose, affected components,
-   accepted/revised/rejected disposition, verification, limitations, privacy,
-   issue/track/PR/commit, release, and accountable human.
-4. Add PR/issue disclosure fields and optional `Assisted-by:` trailers.
-5. Run Authentext as claim analysis, never scientific approval.
+1. Create synchronized contributor, CRediT, citation and codemeta records without inferring authorship from commit counts.
+2. Create a versioned AI contribution schema, append-only ledger and manuscript disclosure with provider/tool/model when known, purpose, disposition, verification and limitations.
+3. Exclude chain-of-thought, secrets, confidential data and raw prompts by default; AI is not an author or CRediT contributor.
+4. Validate referential integrity, release scope, review state, model identity, claim hygiene and manuscript synchronization.
 
-## Privacy, authorship, and failure policy
+## Owned issue records
 
-Do not store chain-of-thought, secrets, personal/confidential data, or raw
-prompts by default. AI is not an author or CRediT contributor. Do not infer
-human roles from commit counts. Missing confirmation or human review blocks
-publication/release claims.
+No native child issues; tasks remain within the owning issue.
+
+Child issues are delivery records owned by this track. They do not become
+separate Conductor tracks unless they have an independently approved contract.
 
 ## Acceptance criteria
 
-Human roles are confirmed; material AI assistance is reviewed and release-
-linked; repository, metadata, generated statement, and manuscript agree.
+- **AC-01:** The owning issue, native parent/children, Project 28 item,
+  Conductor metadata, registry and central cross-reference manifest agree.
+- **AC-02:** Estimands, contracts, aliases, maturity and unsupported states are
+  explicit; planning is never advertised as installed execution.
+- **AC-03:** Tests or review protocols precede implementation or positive
+  parity claims and include independent references and failure cases.
+- **AC-04:** Rust/Python/R/Julia/Mojo dispositions are explicit wherever the
+  workstream affects executable capabilities.
+- **AC-05:** Documentation, schemas, generated surfaces, examples and
+  executable evidence do not exceed the reviewed maturity state.
+- **AC-06:** Generated text is insufficient; human role assignments and material AI-assisted contributions require accountable human confirmation.
+- **AC-07:** Automated review, full Conductor validation, repository checks and
+  hosted required checks pass before repository completion.
 
-## External gates
+## Non-functional constraints
 
-Human contributor confirmation, authorship, journal-specific disclosure, and
-manuscript submission.
+- Preserve the Rust-authoritative stable core and backward-compatible v1
+  contracts.
+- Use deterministic, versioned, finite-validated artifacts with provenance.
+- Keep optional adapters, research estimators and external systems outside the
+  stable dependency boundary.
+- Preserve explicit human, rights, credential, publication, registry, release
+  and hosted gates.
 
+## External and human gates
+
+- Named scientific or contract review is required before maturity promotion.
+- Hosted checks, merge, release, registry publication and external approval are
+  separate from repository planning and local validation.
+- Rights, privacy, practitioner or authorship confirmation remains human-owned
+  where the workstream requires it.
+
+## Out of scope
+
+- Treating issue creation, Project status, schemas, plots, mock fixtures or
+  documentation prose as runtime completion.
+- Silently changing released stable numerical policy or wire contracts.
+- Claiming cross-language parity without clean installed shared-fixture
+  evidence.
+
+## Authoritative inputs
+
+- User-approved governance repair in the 2026-07-27 Codex task.
+- GitHub issue [#323](https://github.com/edithatogo/voiage/issues/323) and its
+  native issue hierarchy, live revision audited 2026-07-27.
+- `conductor/product.md`, `conductor/product-guidelines.md`,
+  `conductor/tech-stack.md`, `conductor/workflow.md`,
+  `specs/v1/stable-api.json`, `roadmap.md` and `todo.md`.
+- Repository default-branch baseline `cd53ce09`.

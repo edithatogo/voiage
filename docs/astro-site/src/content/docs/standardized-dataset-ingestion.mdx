@@ -1,0 +1,340 @@
+---
+title: Standardized dataset ingestion
+description: Bring Croissant ML and strict Frictionless CSV, TSV, JSON Table, or Parquet inputs into VOIAGE safely.
+---
+
+VOIAGE separates source parsing from calculation. A provider reads a descriptor
+and its explicitly declared local resource, then returns an immutable,
+Arrow-backed `NormalizedInputBundle`. Calculation code only sees that bundle
+and an explicit VOI binding; it never depends on Croissant or Frictionless
+metadata.
+
+The built-in profiles are deliberately conservative: explicit local tabular
+resources and explicit table schemas. Remote URLs, archive extraction, implicit
+column inference, and path traversal are rejected. This makes an input
+portable, auditable, and suitable for an offline calculation workflow.
+
+The executable compatibility record is
+[`specs/ingestion/support-matrix-v1.json`](https://github.com/edithatogo/voiage/blob/main/specs/ingestion/support-matrix-v1.json).
+It records only built-in local profiles, supported Python versions, empty
+optional-extra reservations, and workflow declarations; it does not claim a
+completed hosted check, external interoperability, or release.
+
+## Support matrix
+
+| Input surface | Supported profile | Explicit boundary |
+| --- | --- | --- |
+| Croissant ML | Croissant 1.1 with string-only JSON-LD context entries, one legacy `recordSet`/CSV distribution pair or explicitly selected local pairs linked by `recordSet.distribution` to distribution `@id`, fields that exactly match the selected CSV columns, and optional `sha256`/integer-byte `contentSize` integrity declarations | Remote/live catalogs, archives, transforms, splits, keys, nested fields, field references, JSON-LD context objects, `FileObject`/`FileSet`, non-CSV media types, non-SHA-256 integrity forms, and textual/structured `contentSize` values are rejected. |
+| Frictionless Data Package | One or more explicitly schematized local CSV resources (`.csv`, comma), TSV resources (`.tsv`, `format: tsv`, explicit tab delimiter), JSON Table resources (`.json`, `format: json`, UTF-8 array of object rows), Parquet resources (`.parquet`, `format: parquet`, no dialect), or Arrow IPC file resources (`.arrow`, `format: arrow`; `.feather`, `format: feather`), with declared primitive types, primary/foreign keys, and boolean `required`/`unique` field constraints | Remote/live resources, archives, inferred or custom dialects, JSON Lines/envelopes/paths/nested rows, Arrow streams, Flight endpoints, dataset directories, unsupported formats, transforms, undeclared or ambiguous resources, non-boolean or unsupported constraints, and schema `missingValues` declarations are rejected. |
+| Direct DataFrame interchange | pandas, Polars, or another `__dataframe__` producer that can convert through Arrow with an explicit binding | The adapter does not infer a VOI role, silently copy a disallowed frame, or create a second calculation path. |
+| Arrow IPC | A `NormalizedInputBundle` previously written by VOIAGE | This is a normalized interchange artifact, not a source-descriptor parser. |
+
+The built-in providers use only the base Arrow/JSON runtime. The named
+`croissant`, `frictionless`, and `ingestion` extras are stable installation
+surfaces for optional future validators; installing any of them does not add a
+new calculation engine or cause a provider to be imported eagerly.
+
+Authoritative live interoperability probes are deliberately opt-in and are not
+claimed by this local-profile matrix. A successful offline descriptor test is
+evidence for the documented profile only, not for every upstream feature or
+registry deployment.
+
+For a multi-pair Croissant descriptor, applications can pass a
+provider-neutral `SourceSelection` request through the registry, or use the
+materializing CLI commands' `--record-set` and `--distribution` options. Both
+selectors are mandatory and the selected record set must explicitly reference
+the selected distribution. This chooses one declared local source pair; it is
+not column projection or row filtering. `inspect` remains descriptor-only and
+does not accept or resolve source selections.
+
+```bash
+voiage ingest validate datapackage.json
+voiage ingest inspect croissant.json
+voiage ingest normalize datapackage.json --output normalized.arrow
+voiage ingest validate croissant.json --record-set samples --distribution '#samples'
+```
+
+The materializing commands (`validate`, `normalize`, and
+`calculate-from-dataset`) accept the same local source-policy controls. They
+never enable network access: use `--max-resource-bytes` to set a stricter
+resource-size cap, `--max-resource-rows` to reject an oversized parsed resource
+before the provider constructs an Arrow table, `--cache-dir` to select
+a verified materialization cache, and `--offline` to require replay rather than
+reading a source path. Providers also enforce a bounded streaming record batch
+before retaining it; this is an implementation guard rather than a source
+format feature. For example:
+
+```bash
+voiage ingest validate datapackage.json \
+  --max-resource-bytes 10485760 \
+  --max-resource-rows 100000 \
+  --cache-dir .voiage-cache
+```
+
+Use `--provider croissant` or `--provider frictionless` to assert the expected
+built-in parser at any CLI boundary. This is an assertion, not a filename or
+content-type override: the descriptor must still match exactly one registered
+provider. `calculate-from-dataset` accepts either the inline `--table` and
+repeated `--field` binding, or an explicit `--binding-profile profile.json`.
+The two binding forms cannot be combined. The built-in providers do not offer a
+`--resource` selector because their declared capabilities do not support
+projection or filtering; each supported descriptor resource is validated as a
+whole rather than silently skipping a table.
+
+CLI usage errors retain exit code 2. VOIAGE-owned failures have stable,
+machine-actionable codes: 3 for safe descriptor, provider, or source-policy
+rejection; 4 for binding-profile or semantic-binding rejection; and 5 when a
+normalized output cannot be written. Error text remains redacted and does not
+authorize remote access.
+
+`croissant.json` is recognized from its Croissant context and
+`datapackage.json` from its Data Package resource list, not from the filename.
+`validate` resolves the descriptor and every declared local resource through
+the source-access policy, then returns a stable JSON confirmation with
+provenance, governance metadata, diagnostics, row counts, schema fingerprint,
+and content digest. `inspect` is deliberately metadata-only: it reads only the
+JSON descriptor and reports the recognized provider, its declared capability
+profile, `binding_resolution: null`, and a descriptor-only `schema` projection
+of declared tables, fields, keys, and known unsupported features. It does not
+resolve a resource,
+compute a receipt or data-quality report, or resolve a VOI binding. This means
+inspection can safely identify a descriptor even when its resource is not
+available. The projection is descriptive rather than a second parser: it does
+not validate source bytes, select Croissant pairs, or infer a binding. Use a
+materializing command for validation or calculation.
+
+Local resources are fail-closed: paths cannot escape the configured descriptor
+root, URI schemes (including `file:` and `data:` forms) are rejected before any
+transport or DNS operation, and archive suffixes are rejected before a file is
+opened. The built-in providers therefore never extract an archive; a future
+archive provider must first add separately reviewed member, decompression-ratio,
+and materialization-receipt controls. A resource larger than the default 512 MiB
+policy limit is rejected before parsing. Applications can set a smaller explicit
+`SourceAccessPolicy.max_resource_bytes` limit for constrained workloads. Cache
+namespace directories are also checked before every cache operation, so a
+symlink cannot redirect a materialization outside the configured cache root.
+For Croissant and Frictionless descriptors, this source-policy preflight occurs
+before a tabular materializer is called: unsupported URI-style, DNS-like,
+archive, redirect-shaped, or transform references create neither a cache entry
+nor a materialization receipt. It is rejection evidence, not remote support.
+
+## Verified local replay
+
+`SourceAccessPolicy` is local-only by default. For a reviewable offline
+workflow, materialize an explicitly declared resource with its expected SHA-256
+digest into a policy-scoped content-addressed cache. Later, an `offline=True`
+policy can replay only that verified digest; it never falls back to a changed or
+missing source file and never performs a network refresh.
+
+The built-in providers use this path directly. A Croissant distribution may
+declare a 64-character `sha256` and a non-negative integer `contentSize` byte
+count; a Frictionless supported resource may declare a 64-character SHA-256 `hash`
+and non-negative `bytes`. With those declarations, ingesting
+once with `cache_dir` creates the verified cache entry, and a later
+`voiage ingest ... --offline --cache-dir .voiage-cache` replays it even when
+the original local CSV is no longer present. Other hash algorithms and
+unverifiable integrity declarations are rejected.
+
+```python
+from pathlib import Path
+
+from voiage.ingestion import SourceAccessPolicy
+
+policy = SourceAccessPolicy(Path("fixtures"), cache_dir=Path(".voiage-cache"))
+resource = policy.materialize("samples.csv", sha256="<64-character-sha256>")
+
+replay = SourceAccessPolicy(
+    Path("fixtures"),
+    cache_dir=Path(".voiage-cache"),
+    offline=True,
+)
+resource = replay.materialize("samples.csv", sha256="<same-sha256>")
+```
+
+Use a stable, explicit `cache_namespace` when multiple trusted source-policy
+contexts share a cache directory. Cache entries are digest-checked on write and
+replay and are kept separate by that namespace.
+
+## Transport and performance assurance
+
+Built-in providers do not contain a network transport. Every URI-style resource
+reference (including HTTP(S), FTP, `file:`, and SSH forms) is rejected before
+DNS lookup, redirect handling, download, cache refresh, or error rendering.
+Archive and transformation declarations are rejected before materialization.
+Consequently, DNS-rebinding, redirect, decompression, and mutable-remote-data
+risks are not supported behaviours; a future remote provider must introduce
+those capabilities behind a separately reviewed policy and receipt contract.
+
+Run the repeatable local benchmark with:
+
+```bash
+uv run python scripts/benchmark_standardized_ingestion.py
+```
+
+It reports separate parse-to-Arrow, normalization, EVPI, peak-memory, input
+byte, and row-count measurements for bounded local Croissant CSV and
+Frictionless CSV, JSON Table, Parquet, and Arrow IPC fixtures. Results are
+release-review evidence rather than hard CI time budgets because hosted runners
+are intentionally not treated as a stable performance reference. The workload
+writer enforces three rows and 64 KiB per resource, while a 64 MiB peak-memory
+ceiling catches materialization regressions without making runner-specific
+timing claims. These records neither benchmark remote transport nor compare
+upstream parser implementations.
+
+For a VOI calculation, supply a `VOIBinding` that states the table, fields,
+strategies, units, and perspective. The library will not guess semantics from
+field names. This keeps machine-learning, engineering, and business datasets
+on one preparation path while preserving the existing direct Python and CSV
+APIs.
+
+## Supported-standard matrix
+
+VOIAGE intentionally supports a narrow, auditable profile rather than claiming
+complete implementation of either upstream standard.
+
+| Input family | Supported profile | Consumer contract | Explicitly not supported in the built-in provider |
+| --- | --- | --- | --- |
+| Croissant ML | Croissant 1.1 descriptor, one legacy local CSV pair or one explicitly selected and linked local record-set/distribution pair, explicit fields, local SHA-256 and integer-byte `contentSize` when declared | Produces one Arrow-backed bundle; callers add explicit bindings before preparation. | Remote downloads, archives, transformations, `FileObject`/`FileSet`, executable metadata, implicit schema inference, unverified integrity forms, and non-byte `contentSize` values |
+| Frictionless Data Package | Data Package v1-style descriptor, one or more local CSV resources (`.csv`, comma), explicitly declared TSV resources (`.tsv`, `format: tsv`, `dialect: {"delimiter": "\\t"}`), JSON Table resources (`.json`, `format: json`, UTF-8 JSON array of object rows), local Parquet resources (`.parquet`, `format: parquet`, no dialect), or Arrow IPC file resources (`.arrow`, `format: arrow`; `.feather`, `format: feather`), with explicit primitive field schemas, primary keys, and intra-package foreign keys; optional SHA-256 `hash` and `bytes` verification | Produces Arrow-backed tables and preserved key references; callers add explicit bindings before preparation. | Remote URLs, archives, transformations, inferred or custom dialects, JSON Lines/envelopes/JSON paths/nested rows, Arrow streams, Flight endpoints, dataset directories, other integrity algorithms, implicit schema inference |
+| DataFrame interchange | A producer accepted by Arrow's `__dataframe__` interchange conversion, with explicit VOI bindings supplied by the caller | `from_dataframe` preserves the Arrow schema and honours `allow_copy`; its bundle enters the same preparation path as providers and records conversion decisions. | Inferred decision semantics, unsupported nested values, and conversions that require copying when `allow_copy=False`. |
+
+All providers default to local-only access. Inputs that fall outside these
+profiles fail with a stable `IngestionError`; they are not partially loaded or
+silently transformed. Compatibility will expand only with new fixtures,
+source-policy evidence, and a documented provider capability change.
+
+The file-backed Frictionless corpus includes valid receipted CSV, TSV, JSON
+Table, runtime-generated local Parquet, and Arrow IPC file packages, offline
+replay, metadata-only inspection of an absent declared resource, and fail-closed
+descriptor, field-identity, and dialect cases. The Arrow profile accepts only
+explicit local IPC file containers (`.arrow` or Feather v2 `.feather`) and
+checks each retained record batch against the source policy before table
+construction. It is evidence for this local profile only; it does not establish
+support for a remote catalogue, archive, Arrow streams/Flight/dataset
+directories, or the complete upstream specification.
+
+The canonical decision conformance matrix additionally generates deterministic
+strict-local JSON Table, Parquet, and Arrow IPC file resources from the same
+three decision samples. Each must produce the direct input's prepared values,
+EVPI, and schema fingerprint, while its receipt retains the source resource's
+own digest, byte size, and media type. This is local-profile regression
+evidence only: it does not compare VOIAGE with an upstream parser or establish
+live or remote standards interoperability.
+
+## Authoritative interoperability probes
+
+`run_authoritative_probe` is a deliberately gated evidence helper, not a
+downloader. It requires an explicit enablement flag, a separately staged local
+source root, and approved SHA-256 digests for both descriptor and resource. It
+performs no network I/O and returns only provider and digest receipt data.
+Consequently, a successful local fixture test does not establish authoritative
+interoperability: the selected external source, rights, approval, and pinned
+digest remain an explicit Conductor gate.
+
+## Worked examples
+
+The same contract supports more than one community-facing example:
+
+- ML: a Croissant `recordSet` of posterior net-benefit samples for model choice.
+- Engineering/operations: a Frictionless package recording alternative design
+  outcomes and costs.
+- Business: a Polars or pandas-compatible DataFrame passed through the
+  dataframe-interchange adapter for competing investment strategies.
+
+The adapter deliberately keeps the exchange boundary visible. Use
+`from_dataframe(frame, dataset_id="business", allow_copy=False)` when the
+caller requires Arrow to reject a conversion that would copy the source data;
+the resulting bundle always follows the same normalized preparation path.
+Its `voiage.dev:dataframe-interchange` extension records copy policy, index
+exclusion, and each Arrow field's dtype, nullability, categorical, and timezone
+decisions. A successful no-copy conversion is recorded as `zero_copy`; when
+copies are permitted, Arrow's public API does not expose the actual outcome, so
+the extension records `not_observable` rather than guessing.
+The consumer tests exercise pandas and Polars nullable categorical and
+timezone-aware columns. They assert the Arrow decisions actually returned by
+the installed producer and preserve a pandas index exclusion, but do not imply
+that every producer, dtype, or future producer version has identical behavior.
+They also cover a non-contiguous pandas slice, typed zero-row input, and a
+no-column producer. Those cases preserve the adapter's Arrow schema and
+diagnostics; an empty input is not implicitly promoted into a valid VOI
+calculation without a separately valid explicit binding and data values.
+The supported SDK contract covers explicit bindings, source-neutral provenance,
+and Arrow schema preservation; it does not promise identical behaviour for
+every DataFrame library or unsupported nested dtype.
+
+Each example must declare its binding rather than relying on a domain-specific
+calculation path, so their resulting net-benefit matrices are directly
+comparable with the existing VOI APIs. The [reference-case method
+matrix](/examples/standardized-ingestion-reference-cases/#method-applicability-matrix)
+records the narrower evidence boundary: CEAF is demonstrated only for the
+paired engineering cost/outcome fixture, while the ML and business fixtures
+demonstrate EVPI only. A separate fixture covers explicitly declared long-form
+net-benefit rows, but the providers do not infer a long layout or
+perspective-split inputs, or use these examples as evidence for EVPPI, EVSI,
+or ENBS.
+
+## Third-party providers
+
+Third-party packages may implement `IngestionProvider`, but they remain outside
+the calculation runtime. A provider must expose a stable `provider_id`, a
+`ProviderCapabilities` value, `can_handle(descriptor)`, and
+`ingest(descriptor_path, policy=...)`. `can_handle` is a conservative,
+side-effect-free recognizer: it receives an already-read JSON object and must
+not resolve resources, access the network, or import optional parser stacks.
+`ingest` must return a `NormalizedInputBundle` and must resolve every declared
+resource through the supplied `SourceAccessPolicy`.
+
+The frozen v1 SDK additionally requires `capabilities.provider_id` to equal the
+provider's non-empty `provider_id`; registration rejects mismatches and empty
+identities. Its versioned compatibility and publication rules live in
+`specs/core-api/ingestion-provider-sdk-v1.md`, with a machine-readable consumer
+fixture at `specs/core-api/fixtures/v2/ingestion-provider-sdk-v1.json`.
+
+Publish an initialized provider instance under the
+`voiage.ingestion.providers` entry-point group. The entry-point name is the
+deployment identifier that applications add to their allow-list; it need not
+equal `provider_id`.
+
+```toml
+[project.entry-points."voiage.ingestion.providers"]
+acme-catalog = "acme_voiage:provider"
+```
+
+Applications must opt in explicitly:
+
+```python
+from voiage.ingestion import discover_entry_point_providers
+
+providers = discover_entry_point_providers(allowlist={"acme-catalog"})
+```
+
+An empty allow-list does not inspect installed entry points. Entries not named
+in the allow-list are never loaded, so installing a package cannot change
+VOIAGE behaviour by itself. Discovery errors use `IngestionError`; providers
+should therefore avoid embedding credentials, URLs with secrets, or source
+contents in their exception messages.
+
+Before publishing, provider authors should test: a valid supported descriptor,
+unsupported version/media-type failures, traversal and network refusal by
+`SourceAccessPolicy`, deterministic provenance and digests, and base-package
+import isolation. Providers must declare unsupported projection, filtering,
+streaming, and random-access features as `False`; no data transformation may
+be inferred or performed implicitly.
+
+The repository also ships a disposable external-package integration contract.
+It builds both a VOIAGE wheel and an independent provider wheel, installs both
+into a fresh virtual environment, proves that importing `voiage.ingestion`
+does not import the provider, then discovers the declared entry point only
+after an explicit allow-list request. It is consumer evidence for SDK v1, not
+an endorsed third-party provider or a claim of remote interoperability.
+
+### Optional parser environments
+
+`voiage[croissant]`, `voiage[frictionless]`, and `voiage[ingestion]` are
+currently dependency-neutral installation profiles. They deliberately do not
+install `mlcroissant` or the third-party `frictionless` package: neither stack
+has been promoted into the built-in local-only source-policy and receipt
+contract. A clean install of any profile therefore retains the same lazy,
+offline-safe import boundary as the base package. A future enhanced provider
+must add a separate named dependency, fixtures, receipt evidence, and a new
+capability profile before this statement can change.

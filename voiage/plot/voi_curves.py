@@ -6,6 +6,8 @@ from __future__ import annotations
 
 import numpy as np
 
+from voiage.contracts.study_design import CossPlotDataV1, CossResultV1
+
 # Attempt to import Matplotlib, but make it optional
 try:
     from matplotlib.axes import Axes
@@ -226,6 +228,135 @@ def plot_evsi_vs_sample_size(
     ax1.set_title(title)  # type: ignore
 
     return ax1  # type: ignore
+
+
+def plot_coss(
+    result: CossResultV1 | CossPlotDataV1,
+    *,
+    ax: Axes | None = None,
+    xlabel: str = "Sample size",
+    ylabel: str = "Expected net benefit of sampling",
+    title: str = "Curve of Optimal Sample Size",
+) -> Axes:
+    """Render the governed COSS plotting contract with accessible encodings.
+
+    The plot uses colour, marker shape, and line style together so feasible,
+    infeasible, and selected designs remain distinguishable without relying on
+    colour alone.  The input is the backend-independent plot payload embedded
+    in :class:`~voiage.contracts.CossResultV1`, or that payload directly.
+    """
+    if not MATPLOTLIB_AVAILABLE:
+        raise_plotting_error(
+            "Matplotlib is required; install it with `pip install 'voiage[plotting]'`."
+        )
+    if not isinstance(result, (CossResultV1, CossPlotDataV1)):
+        raise_input_error("result must be a CossResultV1 or CossPlotDataV1.")
+
+    data = result.plot_data if isinstance(result, CossResultV1) else result
+    sample_sizes = np.asarray(data.sample_sizes, dtype=DEFAULT_DTYPE)
+    enbs_values = np.asarray(data.enbs, dtype=DEFAULT_DTYPE)
+    feasible = np.asarray(data.feasible, dtype=bool)
+    order = np.argsort(sample_sizes, kind="stable")
+
+    if ax is None:
+        _figure, ax = plt.subplots()  # type: ignore
+
+    ax.axhline(0.0, color="#666666", linewidth=1.0, linestyle=":", label="Zero ENBS")  # type: ignore
+    ax.plot(  # type: ignore
+        sample_sizes[order],
+        enbs_values[order],
+        color="#0072B2",
+        linewidth=2.0,
+        linestyle="-",
+        label="ENBS curve",
+    )
+    if feasible.any():
+        ax.scatter(  # type: ignore
+            sample_sizes[feasible],
+            enbs_values[feasible],
+            color="#0072B2",
+            marker="o",
+            label="Feasible design",
+            zorder=3,
+        )
+    if (~feasible).any():
+        ax.scatter(  # type: ignore
+            sample_sizes[~feasible],
+            enbs_values[~feasible],
+            color="#D55E00",
+            marker="x",
+            linewidths=2.0,
+            label="Infeasible design",
+            zorder=4,
+        )
+
+    lower = np.asarray(
+        [np.nan if value is None else value for value in data.enbs_lower],
+        dtype=DEFAULT_DTYPE,
+    )
+    upper = np.asarray(
+        [np.nan if value is None else value for value in data.enbs_upper],
+        dtype=DEFAULT_DTYPE,
+    )
+    interval_available = np.isfinite(lower) & np.isfinite(upper)
+    if interval_available.any():
+        ax.fill_between(  # type: ignore
+            sample_sizes[order],
+            lower[order],
+            upper[order],
+            where=interval_available[order],
+            color="#56B4E9",
+            alpha=0.25,
+            label="ENBS uncertainty interval",
+        )
+
+    if data.tied_optimal_design_ids:
+        tied_indices = [
+            data.design_ids.index(design_id)
+            for design_id in data.tied_optimal_design_ids
+        ]
+        tied_label = ", ".join(data.tied_optimal_design_ids)
+        ax.scatter(  # type: ignore
+            sample_sizes[tied_indices],
+            enbs_values[tied_indices],
+            facecolors="none",
+            edgecolors="#CC79A7",
+            marker="D",
+            s=90,
+            linewidths=2.0,
+            label=f"Tied optima ({tied_label})",
+            zorder=5,
+        )
+
+    if isinstance(result, CossResultV1):
+        uncertainty_method = result.selection_uncertainty.method
+        uncertainty_label = (
+            "Selection uncertainty unavailable"
+            if uncertainty_method == "unavailable"
+            else f"Selection uncertainty available ({uncertainty_method})"
+        )
+        ax.plot([], [], linestyle="None", marker="", label=uncertainty_label)  # type: ignore
+
+    if data.optimal_design_id is not None:
+        optimum_index = data.design_ids.index(data.optimal_design_id)
+        ax.scatter(  # type: ignore
+            [sample_sizes[optimum_index]],
+            [enbs_values[optimum_index]],
+            color="#000000",
+            facecolors="#F0E442",
+            edgecolors="#000000",
+            marker="*",
+            s=150,
+            label=f"Selected optimum ({data.optimal_design_id})",
+            zorder=5,
+        )
+
+    ax.set_xlabel(xlabel)  # type: ignore
+    ax.set_ylabel(ylabel)  # type: ignore
+    ax.set_title(title)  # type: ignore
+    ax.grid(True, linestyle=":", alpha=0.7)  # type: ignore
+    ax.legend(loc="best")  # type: ignore
+    return ax  # type: ignore
 
 
 def plot_evppi_surface(

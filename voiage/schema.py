@@ -11,7 +11,9 @@ their public contract.
 
 from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Optional, Union, cast
+from importlib import import_module
+from importlib.util import find_spec
+from typing import TYPE_CHECKING, Optional, Union, cast
 
 import numpy as np
 import xarray as xr
@@ -23,14 +25,22 @@ from voiage.exceptions import (
     raise_value_error,
 )
 
-# Try to import JAX for array support
-try:
+if TYPE_CHECKING:
     import jax.numpy as jnp
 
-    JAX_AVAILABLE = True
-except ImportError:
+
+class _LazyJaxNumpy:
+    """Load JAX only when a JAX-specific conversion is requested."""
+
+    def __getattr__(self, name: str) -> object:
+        return getattr(import_module("jax.numpy"), name)
+
+
+try:
+    JAX_AVAILABLE = find_spec("jax") is not None
+except (ImportError, ModuleNotFoundError):
     JAX_AVAILABLE = False
-    jnp = None
+jnp = _LazyJaxNumpy() if JAX_AVAILABLE else None
 
 
 @dataclass(frozen=True, eq=False)

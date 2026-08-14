@@ -1,0 +1,6 @@
+{
+  "case_id": "no-relatively-complete-recourse",
+  "base_fixture": "../normative/two-stage-nonlinear-input.json",
+  "mutation_description": "make every policy infeasible in the high state",
+  "expected_error_contains": "no policy feasible"
+}

@@ -82,18 +82,11 @@ fn statuses_are_consistent_with_diagnostic_details() {
 fn method_metadata_enforces_maturity_and_approximation_consistency() {
     assert!(MethodMetadata::new(
         "evsi",
-        MethodMaturity::Approximate,
-        ApproximationStatus::Exact,
-        vec!["surrogate-regression".into()],
-    )
-    .is_err());
-    assert!(MethodMetadata::new(
-        "evsi",
-        MethodMaturity::BackendDependent,
+        MethodMaturity::Experimental,
         ApproximationStatus::Exact,
         vec!["jax-acceleration".into()],
     )
-    .is_err());
+    .is_ok());
     assert!(MethodMetadata::new(
         "evsi",
         MethodMaturity::Stable,
@@ -119,7 +112,7 @@ fn valid_contracts_preserve_stable_values() {
 
     let metadata = MethodMetadata::new(
         "evsi",
-        MethodMaturity::Approximate,
+        MethodMaturity::FixtureBacked,
         ApproximationStatus::Surrogate,
         vec!["surrogate-regression".into()],
     )

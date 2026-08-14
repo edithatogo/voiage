@@ -5,44 +5,145 @@ on:
     tags:
       - "rust-v*"
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Existing signed Rust release tag to publish"
+        required: true
+        type: string
 
 permissions: {}
+
+concurrency:
+  group: crates-io-${{ inputs.release_tag || github.ref_name }}
+  cancel-in-progress: false
 
 jobs:
   publish:
     name: Publish Rust core crates
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    environment: crates-io
     permissions:
       contents: read
+      id-token: write
+    env:
+      RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
     steps:
-      - name: Checkout
+      - name: Check out repository for tag resolution
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
+          fetch-depth: 1
           persist-credentials: false
-      - name: Install Rust
+      - name: Resolve signed immutable Rust release identity
+        shell: bash
+        env:
+          APPROVED_TAGGER_EMAIL: ${{ vars.RELEASE_TAGGER_EMAIL }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          [[ "$RELEASE_TAG" =~ ^rust-v[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]
+          release_version="${RELEASE_TAG#rust-v}"
+          remote_oid="$(
+            git ls-remote --exit-code --refs origin "refs/tags/$RELEASE_TAG" |
+              cut -f1
+          )"
+          test -n "$remote_oid"
+          git fetch --force --no-tags origin \
+            "refs/tags/$RELEASE_TAG:refs/tags/$RELEASE_TAG"
+          test "$(git rev-parse "refs/tags/$RELEASE_TAG")" = "$remote_oid"
+          test "$(git cat-file -t "refs/tags/$RELEASE_TAG")" = tag
+          tag_sha="$(git rev-parse --verify "refs/tags/$RELEASE_TAG^{commit}")"
+          test -n "$APPROVED_TAGGER_EMAIL"
+          gh api "repos/${GITHUB_REPOSITORY}/git/tags/$remote_oid" \
+            > rust-tag-verification.json
+          jq -e '.verification.verified == true' \
+            rust-tag-verification.json >/dev/null
+          test "$(
+            jq -r '.tagger.email' rust-tag-verification.json
+          )" = "$APPROVED_TAGGER_EMAIL"
+          git checkout --detach "$tag_sha"
+          test "$(git rev-parse HEAD)" = "$tag_sha"
+          test -z "$(git status --short)"
+
+          gh release download "v${release_version}" \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern release-manifest.json
+          jq -e --arg source_commit "$tag_sha" \
+            '.schema_version == "1.0.0" and
+             .source_commit == $source_commit' \
+            release-manifest.json >/dev/null
+
+          echo "RELEASE_VERSION=$release_version" >> "$GITHUB_ENV"
+          echo "RELEASE_COMMIT=$tag_sha" >> "$GITHUB_ENV"
+      - name: Install Rust 1.85
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
-          toolchain: stable
+          toolchain: "1.85"
+      - name: Verify all public crate versions match the release tag
+        working-directory: rust
+        shell: bash
+        run: |
+          set -euo pipefail
+          cargo metadata --format-version 1 --no-deps > metadata.json
+          mapfile -t public_crates < <(
+            jq -r '
+              .packages[]
+              | select(.publish == null or .publish != [])
+              | [.name, .version]
+              | @tsv
+            ' metadata.json | LC_ALL=C sort
+          )
+          expected=(
+            $'voiage-diagnostics\t'"$RELEASE_VERSION"
+            $'voiage-domain\t'"$RELEASE_VERSION"
+            $'voiage-numerics\t'"$RELEASE_VERSION"
+            $'voiage-serialization\t'"$RELEASE_VERSION"
+          )
+          test "${#public_crates[@]}" -eq "${#expected[@]}"
+          for index in "${!expected[@]}"; do
+            test "${public_crates[$index]}" = "${expected[$index]}"
+          done
       - name: Validate workspace packaging
         working-directory: rust
-        run: cargo package --workspace --locked --allow-dirty --no-verify
-      - name: Publish domain contracts
+        run: |
+          # Verification happens during `cargo publish` after each internal
+          # dependency is visible in the registry. Before the first publish,
+          # dependent packages cannot yet resolve this new exact version.
+          cargo package --locked --no-verify --package voiage-domain
+          cargo package --locked --no-verify --package voiage-diagnostics
+          cargo package --locked --no-verify --package voiage-numerics
+          cargo package --locked --no-verify --package voiage-serialization
+      - name: Obtain short-lived crates.io credential
+        id: crates-io-auth
+        uses: rust-lang/crates-io-auth-action@bbd81622f20ce9e2dd9622e3218b975523e45bbe
+      - name: Publish dependency-ordered crates with bounded visibility waits
         working-directory: rust
-        run: cargo publish --locked --package voiage-domain
+        shell: bash
         env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-      - name: Publish diagnostics
-        working-directory: rust
-        run: cargo publish --locked --package voiage-diagnostics
-        env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-      - name: Publish numerical kernels
-        working-directory: rust
-        run: cargo publish --locked --package voiage-numerics
-        env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-      - name: Publish serialization
-        working-directory: rust
-        run: cargo publish --locked --package voiage-serialization
-        env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+          CARGO_REGISTRY_TOKEN: ${{ steps.crates-io-auth.outputs.token }}
+        run: |
+          set -euo pipefail
+
+          wait_for_crate() {
+            local crate="$1"
+            for attempt in 1 2 3 4 5 6 7 8 9 10 11 12; do
+              if cargo info "${crate}@${RELEASE_VERSION}" >/dev/null 2>&1; then
+                return 0
+              fi
+              if [[ "$attempt" == "12" ]]; then
+                echo "::error::${crate}@${RELEASE_VERSION} did not become visible"
+                return 1
+              fi
+              sleep 10
+            done
+          }
+
+          cargo publish --locked --package voiage-domain
+          wait_for_crate voiage-domain
+
+          cargo publish --locked --package voiage-diagnostics
+          wait_for_crate voiage-diagnostics
+
+          cargo publish --locked --package voiage-numerics
+          cargo publish --locked --package voiage-serialization
+          wait_for_crate voiage-numerics
+          wait_for_crate voiage-serialization

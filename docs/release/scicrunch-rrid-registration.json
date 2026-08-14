@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0.0",
+  "checked_at": "2026-07-27T06:07:06Z",
+  "official_route": "SciCrunch Registry: suggest a resource",
+  "official_form": "https://scicrunch.org/create/resource",
+  "state": "submitted_pending_curation",
+  "answers": {
+    "resource_name": "voiage",
+    "url": "https://github.com/edithatogo/voiage",
+    "description": "voiage is software for Value of Information analysis in research, implementation, and decision making. It calculates the expected value of reducing uncertainty about decisions, parameters, models, studies, populations, implementation, and timing. A Rust core supplies stable numerical kernels; Python provides the broad analysis interface, with R and Julia bindings to the shared native library.",
+    "resource_type": [
+      "software resource",
+      "data analysis software",
+      "software library",
+      "source code"
+    ],
+    "availability": "Free and openly available",
+    "license": "Apache-2.0",
+    "version": "2.0.0",
+    "release_date": "2026-07-26",
+    "abbreviation": null,
+    "synonyms": [
+      "voiage Value of Information analysis"
+    ],
+    "keywords": [
+      "value of information",
+      "decision analysis",
+      "health economics",
+      "uncertainty quantification",
+      "expected value of perfect information",
+      "expected value of partial perfect information",
+      "expected value of sample information",
+      "expected net benefit of sampling",
+      "research prioritisation",
+      "Rust",
+      "Python",
+      "R",
+      "Julia"
+    ],
+    "alternate_urls": [
+      "https://edithatogo.github.io/voiage/",
+      "https://pypi.org/project/voiage/2.0.0/",
+      "https://crates.io/crates/voiage-core"
+    ],
+    "creator": {
+      "name": "Dylan A. Mordaunt",
+      "orcid": "https://orcid.org/0000-0002-9775-0603"
+    },
+    "affiliations": [
+      "Faculty of Health, Education and Psychology, Victoria University of Wellington",
+      "College of Medicine and Public Health, Flinders University",
+      "Centre for Health Policy, The University of Melbourne"
+    ],
+    "defining_citation": null,
+    "funding": null
+  },
+  "declarations": {
+    "resource_owner": {
+      "answer": true,
+      "basis": "The submitter is the repository owner and named software creator."
+    },
+    "information_accurate": {
+      "answer": true,
+      "required_actor": "authenticated account holder",
+      "reason": "The repository owner confirmed the final rendered form before submission on 27 July 2026."
+    },
+    "account_terms_accepted": {
+      "answer": true,
+      "required_actor": "authenticated account holder",
+      "reason": "The authenticated account holder explicitly approved submission under the portal's current terms."
+    }
+  },
+  "duplicate_check": {
+    "performed": true,
+    "checked_at": "2026-07-27T06:03:50Z",
+    "query": "voiage",
+    "result": "no_similar_resource",
+    "portal_message": "There was no resource similar in our system."
+  },
+  "submission": {
+    "performed": true,
+    "submitted_at": "2026-07-27T06:07:06Z",
+    "submitter_account": "authenticated SciCrunch account holder",
+    "confirmation_id": null,
+    "confirmation_url": "https://scicrunch.org/scicrunch/about/thanks",
+    "confirmation_message": "Thank you for your submission!"
+  },
+  "curation": {
+    "status": "pending",
+    "rrid": null,
+    "assigned_at": null,
+    "curator_correspondence": []
+  },
+  "evidence": {
+    "release": {
+      "tag": "v2.0.0",
+      "commit": "e849e89152c306e79c96d0a8a9815ee5faca0529",
+      "published_at": "2026-07-26T11:41:47Z"
+    },
+    "software_heritage": {
+      "swhid": "swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d",
+      "request_id": 2399846,
+      "visit_status": "full"
+    },
+    "metadata_sources": [
+      "CITATION.cff",
+      "codemeta.json",
+      "paper/metadata.json",
+      "docs/release/v2.0.0-release-evidence.json"
+    ]
+  },
+  "evidence_links": [
+    "https://github.com/edithatogo/voiage",
+    "https://github.com/edithatogo/voiage/releases/tag/v2.0.0",
+    "https://github.com/edithatogo/voiage/blob/v2.0.0/LICENSE",
+    "https://github.com/edithatogo/voiage/blob/v2.0.0/CITATION.cff",
+    "https://edithatogo.github.io/voiage/",
+    "https://pypi.org/project/voiage/2.0.0/",
+    "https://test.pypi.org/project/voiage/2.0.0/",
+    "https://crates.io/crates/voiage-core",
+    "https://crates.io/crates/voiage-analysis",
+    "https://crates.io/crates/voiage-ffi",
+    "https://crates.io/crates/voiage-io",
+    "https://archive.softwareheritage.org/api/1/snapshot/31f89375852737bb9eb62ebc03fadfbc7ff70c2d/"
+  ]
+}

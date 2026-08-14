@@ -1,8 +1,174 @@
 # Changelog
 
-- Upgrade the documentation site to Astro 7.1.3 and Starlight 0.41.4, integrate
-  the commit-pinned `astro-polyglot` plugin for generated Python API pages, and
-  add build-time link validation with reproducible native-tool setup.
+- Added an experimental exact finite static/dynamic heterogeneity-value
+  decomposition for #599, including the four-value identity, an optional EVSI
+  extension, strict schemas, CLI/API execution and honest selection/parity
+  boundaries.
+
+## Unreleased
+
+- Record the merged registry-readiness delivery PR in every Conductor
+  projection, refresh its live external-gate audit, and reject cross-reference
+  manifest paths outside the repository's track and archive roots.
+
+- Archive the repository-complete research-software registry readiness track,
+  reconcile the recorded JOSS AI affirmation and developer research use, and
+  keep RRID, arXiv, JOSS, community-engagement, and external registry outcomes
+  as explicit fail-closed gates.
+
+- Prepare the sampling-acquisition-harm H8-D-B remediation and independent-
+  review intake: retain all 19 findings as pending, cover all four adjacent
+  methods with negative non-alias tests, preserve the historical H8-C snapshot,
+  and add fail-closed source and eligible-human commissioning contracts without
+  claiming scientific, source, runtime, study, publication or release authority.
+
+- Strengthen experimental COSS and EVSI/EVPI efficiency assurance with an
+  explicit no-study commissioning decision, replayable joint selection
+  uncertainty, paired ratio uncertainty, portable request/result schemas and
+  packaged fixtures/capabilities that execute from an installed wheel.
+
+- Bind experimental estimation-focused variance results to their declared
+  target, conditioning or sampling model, estimator design and solver request;
+  expose separate specification, runtime-input, binding and full-request
+  replay digests for exact, outer, nested and coupled estimator designs.
+
+- Align experimental COSS selection-probability normalization with its declared
+  absolute and relative tolerances, and expose complete tied-optimum sets plus
+  selection-uncertainty availability through accessible plot encodings.
+
+- Correct estimation-focused EVSI variance aggregation to use declared prior-
+  predictive probabilities, bind replay assurance to the actual runtime input,
+  and enforce the scalar result contract across Rust, Python, CLI and schemas.
+
+- Add an experimental exact finite outcome-conditional sample-information
+  evaluator with `delta-EV_x`, `VSI_x`, EVSI, predictive-probability-weighted
+  population `sigma-VSI`, `rVSI_delta`, weighted quantiles/tails, strict
+  schemas, deterministic API/CLI execution and independently reconstructable
+  result assurance. Expectation-only tower identities and complete-tie policy
+  diagnostics prevent `rVSI0` from being conflated with policy-switch mass.
+
+- Add experimental exact finite signed and social information value for issue
+  #598/C18-M29. The strict Python/API/CLI contract retains negative private and
+  social values, selective-sharing comparators, transfer/cost ledgers, complete
+  ties, rights receipts, harm/avoidance/switch/winner-loser diagnostics and
+  scoped Blackwell checks. Persuasion, mechanism design, rational inattention,
+  general game solving, stable promotion and polyglot parity remain gated.
+- Added an experimental exact finite belief-state sequential information
+  contract with intervention-aware learning, matched Bellman comparators,
+  gross/net and myopic/nonmyopic values, conditional sensing diagnostics,
+  complete policy trees, strict schemas, CLI execution and deterministic
+  assurance. Independent remediation now makes nested input/result validation
+  fail closed, bounds adaptive, no-information, myopic, conditional-sensing and
+  fully observed regret recursion before evaluation, memoizes repeated beliefs,
+  and restricts dual-control diagnostics to state-informative, action-dependent
+  learning with a usable downstream response. Stable and polyglot claims remain
+  gated.
+
+- Add an experimental exact finite event-localized information evaluator with
+  perfect and imperfect binary-event VOI, policy-relative information density,
+  signed centered diagnostics, strict fixtures, CLI/API and result-only plots.
+  Bind its portable result to auditable partition evidence and independently
+  reconstructed event, channel and density marginals.
+
+- Added an experimental exact finite risk-sensitive and constrained
+  perfect-information contract for issue #570, with expected-value/utility,
+  lower-tail CVaR, minimax-regret, deterministic/chance constraints, CLI,
+  fixtures, and explicit non-Python/stable-promotion gates.
+
+- Add experimental exact finite forecast-signal decision value with declared
+  horizon, freshness, latency, lead time, feasible actions and costs; separate
+  oracle and deployed value, calibration loss, regret avoided and maximum
+  price; and expose strict Python, CLI, schema and fixture surfaces. Forecast
+  training, stable promotion and polyglot parity remain gated.
+
+- Add an experimental exact finite implementation-information decomposition
+  for EVPIM, EVSIM, realizable EVPI, EVP, IA-EVSI and their interaction. The
+  strict v1 contract exposes state/action cell values, realised-action uptake,
+  uptake changes, complete ties, costs, population/time scaling and identity
+  residuals without assuming implementation is independent of information.
+  The legacy `value_of_implementation` multiplier remains available as a
+  separate compatibility surface; scientific review, polyglot parity, stable
+  promotion and release remain gated.
+
+- Add experimental exact finite uncertainty-modelling value with declared
+  point-estimate, two-/multistage nonanticipative policies, EEV, recourse,
+  wait-and-see, direction-aware VSS/EVIU and EVPI, infeasible-recourse status,
+  strict schemas, fixtures, Python API and CLI. DVSS/VMS, scientific review,
+  stable promotion and polyglot parity remain gated.
+
+- Add experimental exact finite information-source portfolio VOI from a
+  declared joint-world law, including governed procurement constraints,
+  complete ties, gross/net value, willingness to pay, conditional marginals,
+  decision-value Shapley attribution, schemas, fixtures, CLI and documentation.
+  Scientific review, stable promotion and polyglot parity remain gated.
+
+- Add experimental exact finite additive MCDA perfect-information value with
+  fixed ex-ante normalization, correlated criterion/preference states,
+  criterion/preference/joint decomposition, complete ties, regret,
+  rank-acceptability and Pareto diagnostics, an installed Python API and CLI,
+  and two accessible plots. Scientific review, stable promotion, release, and
+  Rust/R/Julia parity remain gated.
+
+- Add experimental exact Value of Distribution-Family Information with strict
+  schemas, a discrete-index EVPPI evaluator, complete ties, signed net VDI,
+  provenance, CLI, documentation and explicit unsupported language surfaces.
+
+- Expand standardized-ingestion benchmark evidence to bounded local Croissant
+  CSV and Frictionless CSV, JSON Table, Parquet, and Arrow IPC profiles;
+  record conversion stages and workload dimensions without adding flaky
+  wall-clock budgets or remote-parser performance claims.
+
+- Add DataFrame-interchange consumer edge-case contracts for non-contiguous
+  pandas slices, typed zero-row inputs, and no-column producers while
+  preserving the single Arrow-backed preparation path and diagnostics.
+
+- Add an executable standardized-ingestion support matrix tied to current
+  provider capabilities, supported Python versions, dependency-neutral extras,
+  and local source-policy/workflow evidence boundaries.
+
+- Add experimental deterministic sensitivity and scenario analysis with an
+  exact installed-wheel request contract, complete ties and switch brackets,
+  normalized-record CLI, accessible evaluated-grid tornado plot, and explicit
+  unsupported polyglot dispositions.
+- Harden built-in Croissant and Frictionless source preflight so unsupported
+  URI-style, DNS-like, archive, redirect-shaped, and transform declarations
+  fail before resolver/materializer callbacks, cache creation, or receipt
+  construction.
+- Add a provider-neutral explicit source-selection request to the ingestion
+  registry, with Croissant record-set/distribution CLI options and a
+  single-materialization normalize summary path.
+- Extend the canonical decision conformance matrix with deterministic strict
+  local Frictionless JSON Table, Parquet, and Arrow IPC file resources. Their
+  prepared inputs, EVPI, schema fingerprints, and materialization receipts are
+  checked against direct normalized input; malformed JSON/Parquet resources and
+  Arrow streams remain rejected.
+- Add a declared long net-benefit fixture with Croissant, Frictionless, and
+  direct Arrow normalization and EVPI equivalence evidence; preserve explicit
+  sample, strategy, and value bindings rather than inferring long-table roles.
+- Add a deterministic cross-domain method-applicability matrix and CEAF
+  equivalence evidence for the engineering cost/outcome reference fixture;
+  explicitly bound the ML and business fixtures to the methods and data shapes
+  they actually provide.
+- Extend metadata-only `voiage ingest inspect` with descriptor-declared table,
+  field, and key summaries plus stable unsupported-feature diagnostics. This
+  projection never resolves a declared resource or selects a source pair.
+- Add a strict local Frictionless Parquet profile: descriptors must declare
+  `format: parquet`, use a `.parquet` path, declare primitive fields, and omit
+  dialect settings. Parquet input is streamed through bounded Arrow batches
+  and carries the same verified receipt and source-policy limits as CSV/TSV.
+- Add explicit, receipt-identified local Croissant record-set/distribution
+  selection for descriptors with multiple pairs. The profile rejects missing or
+  mismatched selectors and unsupported `FileObject` or `FileSet` distributions
+  without inferring a source relationship.
+- Add a strict local Frictionless JSON Table profile for explicit `.json`
+  resources containing UTF-8 arrays of object rows, with Arrow receipts and
+  fail-closed rejection of parser declarations and envelope shapes.
+- Add Croissant `contentSize` byte-integrity validation and a file-backed
+  supported/rejected profile map; unsupported integrity forms now fail before
+  resource materialization.
+- Add fail-closed parsed-row limits for built-in Croissant and Frictionless
+  delimited resources, including a `voiage ingest --max-resource-rows` policy
+  option on materializing commands.
 
 All notable changes to this project will be documented in this file.
 
@@ -11,8 +177,266 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added experimental Rust-owned COSS and EVSI/EVPI efficiency contracts with
+  strict Python orchestration, signed-ENBS optimization, uncertainty and
+  bounds diagnostics, accessible CLI/plot/report surfaces, and an exact
+  constrained portfolio result that preserves advanced design declarations
+  and separate gross/net EVSI and ENBS. Portfolio model effects and disjoint
+  incremental costs now require provenance assurances, and optimizer ties are
+  anchored to the fixed global maximum.
+- Added a disposable external provider-wheel contract that installs an
+  entry-point consumer in a fresh environment, preserves base-import isolation,
+  and exercises explicit allow-listed discovery against the public ingestion SDK.
+- Hardened the strict Frictionless profile so unsupported field constraints and
+  declared `missingValues` fail before a resource is read; structured citation,
+  usage, and namespaced governance metadata now survive normalization.
+- Bound the frozen ingestion-provider SDK v1 to a machine-readable consumer
+  fixture, rejected empty provider identities at registry registration, and
+  added clean optional-parser import-isolation coverage while the intentionally
+  dependency-neutral ingestion extras remain unpromoted.
+- Added enforceable standardized-ingestion CLI provider assertions and explicit
+  binding-profile selection, with stable exit codes for safe source, binding,
+  and output failures. Resource projection remains unavailable where built-in
+  provider capabilities cannot enforce it.
+- Added the experimental Rust-authoritative expected-utility information-
+  pricing family with Python facade and CLI for EUI, CEI, BPI, SPI and anchored
+  PPI; VoC is a presentation of the same clairvoyant result, monetary EVPI is
+  restricted to verified affine reductions, and machine-readable capability
+  records preserve unsupported R/Julia and external Mojo boundaries.
+- Added pandas and Polars DataFrame-interchange consumer coverage for nullable
+  categorical and timezone-aware columns, index exclusion, and conservative
+  copy diagnostics based on the Arrow conversion actually returned.
+- Hardened local standardized-ingestion source policy against scheme-only URI
+  forms and archive references before any resource access; archive extraction,
+  DNS, redirects, and remote retrieval remain unsupported and fail closed.
+- Added a combined Croissant context-array and governance fixture that proves
+  descriptor-only inspection and materialization-receipt preservation; the
+  conservative local profile now rejects unexpanded JSON-LD context objects.
+- Expanded the file-backed Frictionless CSV corpus with declared receipt and
+  offline-replay evidence, metadata-only inspection coverage, and fail-closed
+  duplicate-field and unsupported-dialect descriptor fixtures.
+- Accepted the standard JSON-LD context-array form for the supported Croissant
+  1.1 offline profile and added an adversarial fixture that rejects the
+  distinct Croissant 1.10 context.
+- Reject hard-linked standardized-ingestion cache entries so a verified object
+  cannot share a writable inode with an untrusted alternate path.
+- Added experimental scalar estimation-focused `EVPPI_var` and `EVSI_var`
+  methods backed by Rust, with versioned contracts, PyO3/Python façades,
+  deterministic bootstrap assurance, CLI/report/plot surfaces, independent
+  references, and explicit polyglot capability dispositions. Vector
+  scalarization and stable promotion remain scientific-review gated.
+- Added executable CLI walkthrough evidence for the canonical Croissant ML and
+  Frictionless engineering reference descriptors.
+- Linked the README to the standardized Croissant and Frictionless ingestion
+  workflow, supported-profile matrix, offline policy, and cross-domain examples.
+- Added a deterministic validator and explicit regeneration path for the
+  standardized-ingestion fixture digest manifests, covering both canonical
+  Croissant/Frictionless source corpora.
+- Pinned each standardized-ingestion fixture corpus to a format-neutral
+  normalized schema and content identity, and added conformance checks for
+  declaration-order rejection and receipt-digest sensitivity.
+- Expanded the offline Croissant 1.1 fixture corpus with fail-closed coverage
+  for integrity declarations, non-CSV media types, and field sources.
+- Reject malformed Croissant distribution and record-set entries through the
+  stable ingestion error boundary rather than leaking implementation exceptions.
+- Add a file-backed Frictionless malformed-resource fixture to the fail-closed
+  ingestion conformance corpus.
+- Reject non-object Croissant and Frictionless descriptor roots through the
+  stable ingestion error boundary before provider-specific parsing.
+- Make the public Croissant and Frictionless provider exports lazy, keeping
+  ordinary `voiage.ingestion` imports free of source-format adapter imports.
+- Export future GitHub release attestations as discoverable SLSA
+  `.intoto.jsonl` assets and add time-bounded OSV exceptions for two Pydantic
+  advisories that do not affect the required and locked Pydantic 2.13.4.
+- Update the pinned OpenSSF Scorecard action to v2.4.4 so its v5.5 scanner
+  applies the repository's documented OSV exceptions.
+- Expanded DataFrame-interchange SDK consumer contracts for copy-policy
+  forwarding, nullable and timezone-aware schemas, explicit binding validation,
+  and canonical preparation; business standardized-ingestion reference cases
+  now exercise that public SDK with an explicit zero-copy policy.
+- Added validated multi-resource Frictionless CSV ingestion with preserved
+  intra-package foreign-key references.
+- Added Phase 7 standardized-ingestion assurance coverage for rejected remote
+  URI schemes and secret-safe errors, plus comparable Croissant and
+  Frictionless parse-to-Arrow, normalization, EVPI, and peak-memory benchmarks.
+- Froze the v1 ingestion-provider SDK with capability-identity validation and
+  a published compatibility/publication contract; expanded DataFrame consumer
+  validation for categorical nullable columns and index exclusion.
+- Published executable ML, engineering/operations, and business reference-case
+  evidence across Croissant, Frictionless, and direct DataFrame inputs, with
+  normalized-schema, pinned-resource, provenance-digest, and EVPI equivalence.
+- Preserved scalar Croissant field `dataType` declarations as descriptive
+  normalized metadata, while rejecting structured declarations that could
+  introduce unsupported semantics.
+- Wired built-in Croissant and Frictionless providers through verified,
+  content-addressed materialization so declared SHA-256 resources can replay
+  offline; Frictionless now verifies supported `hash` and `bytes` declarations.
+- Added property-based cross-format conformance coverage proving that explicit
+  VOI bindings preserve normalized strategy order and EVPI when DataFrame and
+  direct producers emit decision columns in either order.
+- Added explicit offline, verified-cache, and resource-size policy flags to
+  every standardized-ingestion CLI command while retaining local-only access.
+- Added an idempotent historical Conductor normalizer, a complete 223-finding
+  baseline audit, and regression contracts for current metadata, registry,
+  archive, and external-gate boundaries.
+- Added a validated SciCrunch registration answer-and-evidence packet with
+  explicit account-declaration, submission, curation, and RRID-assignment
+  boundaries.
+- Switched dependency-update policy from Dependabot version updates to the
+  Renovate configuration, covering Python/uv, Cargo, npm, and GitHub Actions.
+- Added a second standardized-ingestion reference case that derives EVPI from
+  explicit cost and outcome bindings across Croissant, Frictionless, and direct
+  Arrow inputs.
+- Documented the conservative Croissant, Frictionless, and DataFrame
+  interoperability profiles and their explicit unsupported boundaries.
+- Added `voiage ingest validate` for safe, machine-readable validation of a
+  supported dataset descriptor and its declared local resources.
+- Expanded `voiage ingest inspect` with stable provider capabilities, safe
+  provenance, preserved governance metadata, and ingestion diagnostics.
+- Added fail-closed configurable local-resource size limits to standardized
+  ingestion source policies.
+- Added policy-scoped, content-addressed local materialization caches with
+  SHA-256 verification and explicit offline replay for standardized-dataset
+  resources.
+- Recorded a fail-closed assessment of Hugging Face and OpenML registry
+  integrations; no registry-specific provider is enabled without pinned,
+  receipt-bound remote-materialization evidence.
+- Extended the generic DataFrame-interchange adapter with explicit no-copy
+  enforcement and pandas category, nullable-value, and timezone conformance
+  coverage.
+
+### Changed
+
+- Added a bounded retry around the TestPyPI Simple API download so propagation
+  lag after the JSON API exposes a reviewed release does not create a false
+  negative in the supported-Python smoke matrix.
+- Prepared the `v2.0.1-rc.4` TestPyPI candidate with explicit ecosystem version
+  projections, a deterministic aggregate root for dependency-only Python SBOM
+  input, and a source-bound UUIDv5 CycloneDX serial number required by GitHub
+  SBOM attestations. RC1 and RC2 failed closed before registry publication.
+  RC3 was published to TestPyPI with exact reviewed bytes and attestations, but
+  its hosted smoke stopped at the verifier's direct staging-host constraint;
+  RC4 verifies the same PEP 740 contract through TestPyPI's Integrity API.
+  Promotion remains fail-closed for provenance retrieval, cryptographic
+  verification, exact reviewed hashes, and supported-Python installation.
+- Frictionless CSV ingestion now rejects duplicate descriptor field names and
+  duplicate CSV headers through the stable ingestion error boundary.
+- Hardened stable and prerelease publishing across Python, Rust, R, and Julia:
+  TestPyPI now verifies the complete reviewed distribution set and every
+  attestation; prereleases cannot reach production PyPI or become the latest
+  GitHub release; Rust publication is bound to a signed tag and shared manifest;
+  and retained bindings validate exact shared source and version identity.
+- Expanded Renovate to cover declared R and Julia compatibility minima, added
+  merge-queue coverage to polyglot assurance, and repaired push-time dependency
+  inventory generation so its CycloneDX input always has a root component.
+- Recorded the authenticated SciCrunch submission, no-match duplicate check,
+  account declarations, confirmation page, and pending external RRID curation.
+- Expanded the compiled conda-forge recipe from a Python 3.12-only build to
+  the supported Python 3.12+ build matrix and added installed-package checks
+  for native Rust-core loading, version agreement, and a known EVPI result.
+  The revised staged-recipes submission passes lint and Linux, macOS, and
+  Windows builds for conda-forge's current Python 3.12 and 3.13 variants.
+- Reconciled registry-readiness records with the green conda-forge
+  cross-platform build, the reviewed release-bound JOSS PDF, and the
+  authenticated incomplete replacement arXiv submission.
+- Bound the JOSS manuscript and registry-readiness records to the public
+  v2.0.0 release, its clean-install evidence, mixed-language CycloneDX SBOM,
+  provenance, package digests, crates.io publications, and Software Heritage
+  snapshot.
+- Updated the conda-forge recipe for v2.0.0 and the confirmed maintainer
+  identity, and moved artifact workflows to immutable Node 24-native action
+  revisions.
+
+### Fixed
+
+- Made `voiage ingest inspect` genuinely metadata-only. It now uses registry
+  inspection without resolving declared resources or VOI bindings; materialized
+  provenance, governance, receipt, and data-quality output remains available
+  from validation, normalization, and calculation.
+- Corrected the compiled conda recipe's runtime Python requirement so it
+  satisfies conda-forge's non-noarch packaging contract.
+
+## [2.0.0] - 2026-07-26
+
+### Added
+
+- Added a machine-readable JOSS article contract with an exact 1,600 ±2% body
+  target, structural YAML validation, ordered substantive section budgets, a
+  comprehensive claim ledger, queued SourceRight reference sidecars, and
+  source-hash-bound editorial assurance.
+- Added pinned SourceRight citation reconciliation, selected Authentext
+  pattern checks, review-only Textstat evidence, adversarial contract tests,
+  and retained assurance artefacts to the hosted Open Journals workflow.
+- Added a six-role round-six JOSS review and a separate three-way
+  source-verification pass, with manuscript scores kept distinct from release,
+  engagement, human-attestation, and editorial gates.
+- Added independent analytical checks for the worked example's EVPI, EVPPI,
+  and EVSI values, plus a permanent eight-role round-four JOSS review record.
+- Added complete worked-example equations and benchmarks, a structured
+  reproduction manifest, clean non-destructive regeneration checks, accessible
+  tabular figure data, and separate round-five JOSS editorial reports with a
+  prioritised synthesis.
+- Packaged the shared EVPI reference fixture with the Julia binding and added a
+  standalone-package test that cannot depend on the monorepo layout.
+
+### Changed
+
+- Reconciled the JOSS readiness contract with the current distinction between
+  demonstrated research use as a pre-review gate and non-author engagement as
+  a detailed-review criterion and strong positive pre-review signal; retained
+  independent validation as an author-selected prerequisite.
+- Refined the JOSS worked example after independent screening, methodological,
+  and plain-language reviews: distinguished generating and simulated means,
+  defined the future-person denominator, bounded the algebraic study model,
+  clarified discounting and timing assumptions, narrowed EVPPI interpretation,
+  and added implementation-independent correctness evidence.
+- Bound the criteria-reconciled JOSS source to its successful hosted Open
+  Journals build, artifact and PDF digests, exact 1,629-word contract result,
+  current Textstat evidence, and complete six-page visual review.
+- Refined the JOSS manuscript for non-specialist readers, clarified the EVPI
+  and study-uptake interpretations, expanded the required AI-assistance scope,
+  and linked all affiliations to verified ROR identifiers with fail-closed
+  metadata tests.
+- Rewrote the JOSS opening and architecture account in plain language,
+  strengthened the separate-package rationale, identified regression-estimated
+  EVPPI and conditional scenario results, corrected cross-language test
+  evidence, and labelled and cross-referenced the worked-example figure.
+- Reclassified arXiv announcement as the author's sequencing preference rather
+  than a JOSS requirement, and made Authentext automation's selected-pattern
+  coverage explicit.
+- Reframed the JOSS worked example's reduced-form scenario as value
+  realisation rather than intervention uptake, clarified its study model,
+  timing, units, Monte Carlo uncertainty, and deterministic seeds, and aligned
+  the generated figure and machine-readable outputs.
+- Rewrote the JOSS adaptation for applied researchers, led with the decision
+  problem and results, narrowed the R and Julia claim to shared scalar EVPI,
+  simplified the Rust design account, and revised the health figure with
+  plain-language panel questions and labelled values.
+- Corrected the JOSS readiness and independent-validation records to distinguish
+  reproducible near-term significance from the current single-author
+  community-engagement gate.
+- Moved current Python runtime classification to additive v2 policy manifests,
+  preserving the byte-for-byte immutable v1 contract while covering the
+  optional ingestion adapters.
+
+### Fixed
+
+- Made the installed R binding smoke test portable to Windows PowerShell by
+  installing through `Rscript` rather than the conflicting `R` alias.
+- Distinguished internal review evidence under `docs/reviews/` from
+  reader-facing documentation governed by the Astro content-tree contract.
+- Corrected stale public documentation links, removed a nonexistent Python
+  EVSI API example, and replaced architecture claims that exceeded the
+  implemented Python, R, and Julia surfaces.
+- Made full unit and coverage lanes fetch release tags before validating the
+  checked-in immutable release-evidence manifest.
+
 ### Removed
 
+- Removed the obsolete local `paper/paper.tex` manuscript and added an
+  assurance check that `paper/main.tex` remains the only top-level manuscript.
 - Removed the internal acknowledgements placeholder, unused abbreviations, and
   uncited bibliography records from the preprint.
 - Removed internal author-review and automated-submission disclaimers from the
@@ -23,21 +447,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Added a Renovate-first dependency and GitHub security programme covering all
-  retained package managers, vulnerability-driven updates, stability and
-  protected-check policy, live posture reconciliation, SBOM/provenance, and
-  fail-closed alert release criteria.
-- Added cross-cutting programme requirements for a canonical Decision Problem
-  interchange model, estimator-assurance envelopes, adjacent decision-theory
-  triage, registry-derived claim conformance, deterministic scalability,
-  adversarial ML/agent evaluation, architecture decisions, ecosystem-drift
-  review, and reproducibility cards.
-- Added a versioned, evidence-linked census of VOI, Value of Perspective,
-  experimental-design, active-learning, web, and commercial software, plus a
-  generated feature and method matrix with explicit parity dispositions.
-- Added the comprehensive Rust-first polyglot VOIAGE programme, eleven
-  cross-linked Conductor tracks, a native GitHub parent/subissue hierarchy,
-  Project 28 metadata, and reusable local/live governance validation.
+- Added a Rust-owned analytical normal--normal EVSI calculation, a public
+  Python adapter, prespecified analytical and nested-simulation recovery tests,
+  and a fixed-seed worked example that now uses the package calculation.
+- Added eight-role JOSS screening, editorial, scientific, reproducibility,
+  accessibility, and sentence-level review records with a fail-closed
+  synthesis and explicit external gates.
+- Added cross-file JOSS preflight checks for CFF and CodeMeta release metadata,
+  including version, repository, licence, URL, ORCID, release, and download
+  identity checks, and run the hosted JOSS build when either metadata file
+  changes.
+- Added current-format JOSS paper content, concrete research-use and
+  software-design evidence, transparent AI disclosure, a Software Heritage
+  citation, a fail-closed manuscript validator, and a pinned Open Journals
+  draft build.
+- Added bootstrap simulation-uncertainty intervals, prespecified one-way
+  sensitivity analysis, and machine-readable result files for the preprint's
+  synthetic health example.
+- Added track-level GitHub issue, native subissue, Project 28, and evidenced
+  pull-request cross-references for every Conductor track, with an automated
+  repository completeness validator.
+- Added a versioned, Arrow-backed normalized dataset contract, explicit VOI
+  bindings, deterministic input digests, and safe Arrow IPC interchange.
+- Added decoupled built-in Croissant ML and Frictionless Data Package CSV
+  providers with fail-closed local source access and `voiage ingest` inspection
+  and normalization commands.
+- Added normalized-input provenance propagation from prepared datasets through
+  analysis specifications, runtime contexts, diagnostics, and result evidence.
+
 - Added an explicit normal--normal sampling and posterior model for the worked
   example's expected value of sample information, together with a compact
   assumptions table, vector figure, numerical results, conclusion, and code
@@ -57,12 +494,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Replaced Dependabot version-update configuration with Renovate, retained
-  GitHub advisory alerts, raised dependency-review blocking to moderate
-  severity, and constrained JupyterLab to the first release that fixes alerts
-  #64--#68.
-- Allowed the frozen v1 programme validator to coexist with separately
-  governed post-v1 tracks while continuing to reject missing v1 records.
+- Replaced independent marginal two-loop EVSI updates with a joint
+  multivariate-normal contract that uses the same fitted prior for current,
+  predictive, and posterior calculations; added guarded covariance algebra,
+  genuine Gaussian simulation draws, explicit custom study-model callbacks,
+  operational loop controls, and diagnostic warnings; and marked generic
+  estimators without complete method-specific validation as non-stable.
+- Rewrote the JOSS paper around applied research decisions and verified health
+  example results; bounded cross-language and impact claims; corrected the
+  related-software comparison, maturity taxonomy, declarations, and
+  availability section.
+- Reconciled method maturity with the governed planned, experimental,
+  fixture-backed, and stable promotion ladder while keeping approximation and
+  backend dependence on separate metadata axes.
+- Repaired the installed R package's native EVPI symbol resolution and added a
+  genuine installed-package test against the Rust shared library.
+- Corrected the R vignette packaging contract so clean package checks do not
+  attempt to activate a developer-specific Python environment.
+- Documented the Julia binding's required native library build and the
+  remaining Julia artifact/JLL gate before standalone General installation.
 - Consolidated the preprint around the decision problem, information measures,
   worked example, applications, limitations, and conclusion; labelled
   equations for robust cross-references; strengthened direct methodological
@@ -102,6 +552,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Kept analytical and generic EVSI sample-size conversion failures inside the
+  package `InputError` boundary, and added direct regression evidence that
+  negative nested Monte Carlo estimates remain untruncated with convergence
+  and custom-model-coherence guidance.
+- Replaced two mismatched JOSS bibliography records with authoritative PubMed
+  metadata and added a preflight failure for placeholder author lists.
 - Aligned the v1 programme status test with the registry's active
   research-readiness marker.
 - Corrected `DecisionAnalysis.enbs()` to accept an EVSI estimate, preserve
@@ -1051,6 +1507,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added unified accelerator evidence packet validation and deterministic indexing for passed GPU and blocked TPU/Metal runs, preserving CPU fallback and external-gate reasons.
 ## Unreleased
 
+- Added an explicit `--source-root` policy control to every standardized
+  ingestion CLI command, allowing descriptor and verified local resource roots
+  to be selected independently without weakening fail-closed size, cache, or
+  offline policy enforcement.
+
+- Submitted the signed v2.0.0 Rust C ABI to BinaryBuilder through Yggdrasil,
+  added the Julia package licence and Aqua checks, removed runtime-only test
+  dependencies and the committed library manifest, expanded Julia CI across
+  Julia 1.10--1.12 on Linux, macOS, and Windows, and made TagBot
+  subpackage-aware with repository-scoped deploy-key authentication for the
+  future General registration.
+- Selected direct JOSS review for the Rust-centred polyglot package, recorded
+  the rechecked pending arXiv status, and added a non-author clean-install and
+  research-use protocol without treating automated agents as community
+  adoption.
 - Fixed source-distribution reproducibility by embedding the committed source
   identity before isolated builds, and repaired invalid exception syntax and
   type-only backend annotations in the assurance branch.

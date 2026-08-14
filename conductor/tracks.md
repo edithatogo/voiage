@@ -1,95 +1,248 @@
 # Project Tracks
 
-## [ ] Track: Comprehensive Rust-First Polyglot VOIAGE Completion
+The Rust-first polyglot programme is registered as the current programme; all
+other tracks retain their evidenced lifecycle and external-gate boundaries.
+
+## [~] Track: Rust-First Polyglot VOIAGE Completion Programme
 *Link: [./tracks/rust_polyglot_voi_completion_20260723/index.md](./tracks/rust_polyglot_voi_completion_20260723/index.md)*
-*Execution order: 01 of 11.*
-*Status: new — parent programme for GitHub issue #313 and native subissues
-#314--#323; closure requires all repository-owned child work.*
+*GitHub: [issue #313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: in progress — the issue-claimed specification and plan are now materialized;
+existing issue/Project progress awaits evidence reconciliation; scientific, installed-parity, rights and hosted gates remain pending.*
 
 ---
 
-## [~] Track: VOI/VOP Method Census And Contract Reconciliation
+## [~] Track: VOI and VOP Method Census and Contract Reconciliation
 *Link: [./tracks/voi_method_census_contract_reconciliation_20260723/index.md](./tracks/voi_method_census_contract_reconciliation_20260723/index.md)*
-*Execution order: 02 of 11.*
-*Status: new — canonical method and literature registry required before API
-freeze.*
+*GitHub: [issue #314](https://github.com/edithatogo/voiage/issues/314), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: in progress — live issue hierarchy, Project state, metadata, merged
+planning PR #621, and delivery PR #816 are reconciled; residual classification
+and promotion remain pending.*
 
 ---
 
-## [~] Track: External VOI Library Feature Parity
+## [~] Track: External VOI Library Landscape and Feature-Parity Review
 *Link: [./tracks/external_voi_library_feature_parity_20260723/index.md](./tracks/external_voi_library_feature_parity_20260723/index.md)*
-*Execution order: 03 of 11.*
-*Status: new — open-source feature equivalence and evidence-backed exclusions.*
+*GitHub: [issue #315](https://github.com/edithatogo/voiage/issues/315), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: in progress — the issue-claimed specification and plan are now materialized;
+existing issue/Project progress awaits evidence reconciliation.*
 
 ---
 
-## [ ] Track: Stable VOI Rust Core Completion
+## [~] Track: Stable Rust VOI Core Completion
 *Link: [./tracks/stable_voi_rust_core_completion_20260723/index.md](./tracks/stable_voi_rust_core_completion_20260723/index.md)*
-*Execution order: 04 of 11.*
-*Status: new — complete v1.1 Rust numerical authority.*
+*GitHub: [issue #316](https://github.com/edithatogo/voiage/issues/316), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: in progress — Rust-authoritative stable-kernel contracts, migration
+matrix, bridge boundaries, and delivery PR #827 are reconciled; complete method
+coverage, installed parity, promotion, and registry gates remain pending.*
 
 ---
 
-## [ ] Track: Value Of Perspective Completion
+## [~] Track: Value of Perspective Method Completion
 *Link: [./tracks/value_of_perspective_completion_20260723/index.md](./tracks/value_of_perspective_completion_20260723/index.md)*
-*Execution order: 05 of 11.*
-*Status: new — depends on the shared VOP C01 and C02 mathematical contracts.*
+*GitHub: [issue #317](https://github.com/edithatogo/voiage/issues/317), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: in progress — the issue-claimed specification and plan are now materialized;
+existing issue/Project progress awaits evidence reconciliation.*
 
 ---
 
-## [ ] Track: Supported Frontier Method Completion
+## [~] Track: Supported Frontier Method Completion
 *Link: [./tracks/supported_frontier_method_completion_20260723/index.md](./tracks/supported_frontier_method_completion_20260723/index.md)*
-*Execution order: 06 of 11.*
-*Status: new — complete, consolidate, demote, or gate every broader VOI family.*
+*GitHub: [issue #318](https://github.com/edithatogo/voiage/issues/318), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: in progress — reconciling every owned child issue against executable
+evidence or a reviewed exclusion before programme closeout.*
 
 ---
 
-## [ ] Track: ML, LLM, And Agent Value Of Information
+## [~] Track: Sampling-Acquisition-Harm Value of Information
+*Link: [./tracks/sampling_acquisition_harm_voi_20260802/index.md](./tracks/sampling_acquisition_harm_voi_20260802/index.md)*
+*GitHub: [issue #850](https://github.com/edithatogo/voiage/issues/850), child
+of [#570](https://github.com/edithatogo/voiage/issues/570), dependent on
+[#571](https://github.com/edithatogo/voiage/issues/571), under scientific-review
+umbrella [#841](https://github.com/edithatogo/voiage/issues/841), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: in progress — primary-source and estimand scoping is in progress; no runtime
+capability exists and scientific/domain review remains pending.*
+
+---
+
+## [~] Track: Information-Source Portfolio VOI
+*Link: [./tracks/information_source_portfolio_voi_20260801/index.md](./tracks/information_source_portfolio_voi_20260801/index.md)*
+*GitHub: [issue #582](https://github.com/edithatogo/voiage/issues/582),
+native sub-issue of [#318](https://github.com/edithatogo/voiage/issues/318),
+under programme [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: in progress — the exact finite experimental Python contract and PR
+#812 repository-review delivery are reconciled; independent scientific review,
+polyglot parity, stable promotion, release, and issue closure remain separate.*
+
+---
+
+## [~] Track: Uncertainty-Modelling Value
+*Link: [./tracks/uncertainty_modelling_value_20260801/index.md](./tracks/uncertainty_modelling_value_20260801/index.md)*
+*GitHub: [issue #594](https://github.com/edithatogo/voiage/issues/594),
+native sub-issue of [#318](https://github.com/edithatogo/voiage/issues/318),
+with delivery subissues [#774](https://github.com/edithatogo/voiage/issues/774),
+[#775](https://github.com/edithatogo/voiage/issues/775), and
+[#776](https://github.com/edithatogo/voiage/issues/776), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: in progress — delivering canonical C18-M26 as an experimental exact
+finite Python contract; scientific review, hosted checks, polyglot parity,
+stable promotion, release and closure remain separate gates.*
+
+---
+
+## [x] Track: Risk-Adjusted Information Pricing and VoC Presentation
+*Link: [./archive/risk_adjusted_information_pricing_20260731/index.md](./archive/risk_adjusted_information_pricing_20260731/index.md)*
+*GitHub: [issue #595](https://github.com/edithatogo/voiage/issues/595),
+native sub-issue of [#318](https://github.com/edithatogo/voiage/issues/318),
+under programme [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: repository implementation complete — PR #712 merged after exact-head
+assurance; Phase 5 scientific remediation/re-review, stable promotion, release
+and issue closure remain separate gates.*
+
+---
+
+## [~] Track: ML, LLM and Agent Value of Information
 *Link: [./tracks/ml_llm_agent_voi_20260723/index.md](./tracks/ml_llm_agent_voi_20260723/index.md)*
-*Execution order: 07 of 11.*
-*Status: new — decision-theoretic and information-design methods remain
-experimental until evidence supports promotion.*
+*GitHub: [issue #319](https://github.com/edithatogo/voiage/issues/319), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: in progress — the issue-claimed specification and plan are now materialized;
+existing issue/Project progress awaits evidence reconciliation; scientific, installed-parity, rights and hosted gates remain pending.*
 
 ---
 
-## [ ] Track: Polyglot ABI And Binding Parity
+## [~] Track: Polyglot ABI and Binding Parity
 *Link: [./tracks/polyglot_abi_binding_parity_20260723/index.md](./tracks/polyglot_abi_binding_parity_20260723/index.md)*
-*Execution order: 08 of 11.*
-*Status: new — installed Rust, Python, R, Julia, and Mojo conformance.*
+*GitHub: [issue #320](https://github.com/edithatogo/voiage/issues/320), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: in progress — the issue-claimed specification and plan are now materialized;
+existing issue/Project progress awaits evidence reconciliation.*
 
 ---
 
-## [ ] Track: Datasets And Executable Worked Examples
+## [~] Track: Datasets and Executable Worked Examples
 *Link: [./tracks/datasets_worked_examples_20260723/index.md](./tracks/datasets_worked_examples_20260723/index.md)*
-*Execution order: 09 of 11.*
-*Status: new — immutable synthetic and rights-cleared public evidence.*
+*GitHub: [issue #321](https://github.com/edithatogo/voiage/issues/321), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: in progress — Phase 1 governance and prior-artifact reconciliation
+pass; rights-governed domain packs, delivery evidence, review, and hosted
+checks remain pending.*
 
 ---
 
-## [ ] Track: Research Contribution And AI Transparency
-*Link: [./tracks/research_contribution_ai_transparency_20260723/index.md](./tracks/research_contribution_ai_transparency_20260723/index.md)*
-*Execution order: 10 of 11.*
-*Status: new — CRediT and reviewed, privacy-preserving AI provenance.*
-
----
-
-## [~] Track: Quality, Security, Release, And Registry Automation
+## [~] Track: Quality, Security, Release and Registry Automation
 *Link: [./tracks/quality_release_automation_20260723/index.md](./tracks/quality_release_automation_20260723/index.md)*
-*Execution order: 11 of 11.*
-*Status: in progress — Renovate migration, alert remediation, staged
-v1.1--v1.3 evidence, and external gates.*
+*GitHub: [issue #322](https://github.com/edithatogo/voiage/issues/322), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: in progress — the issue-claimed specification and plan are now materialized;
+existing issue/Project progress awaits evidence reconciliation.*
 
 ---
 
-## [~] Track: Research Software Registry Readiness
-*Link: [./tracks/research_software_registry_readiness_20260721/index.md](./tracks/research_software_registry_readiness_20260721/index.md)*
-*Execution order: 02 of 02, after the signed v1.0 release provides immutable
+## [~] Track: Contributor and AI Contribution Transparency
+*Link: [./tracks/research_contribution_ai_transparency_20260723/index.md](./tracks/research_contribution_ai_transparency_20260723/index.md)*
+*GitHub: [issue #323](https://github.com/edithatogo/voiage/issues/323), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: in progress — the issue-claimed specification and plan are now materialized;
+existing issue/Project progress awaits evidence reconciliation.*
+
+---
+
+## [~] Track: Estimation-Focused Variance-Reduction VOI
+*Link: [./tracks/estimation_focused_variance_voi_20260727/index.md](./tracks/estimation_focused_variance_voi_20260727/index.md)*
+*GitHub: [issue #619](https://github.com/edithatogo/voiage/issues/619),
+native sub-issue of [#318](https://github.com/edithatogo/voiage/issues/318),
+under programme [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: experimental scalar repository implementation merged in PR
+[#676](https://github.com/edithatogo/voiage/pull/676); scientific review,
+vector covariance, stable promotion, release and issue closure remain separate gates.*
+
+---
+
+## [x] Track: Study-Design Efficiency, COSS and Experiment-Portfolio VOI
+*Link: [./archive/study_design_efficiency_20260727/index.md](./archive/study_design_efficiency_20260727/index.md)*
+*GitHub: [issue #571](https://github.com/edithatogo/voiage/issues/571),
+native sub-issue of [#318](https://github.com/edithatogo/voiage/issues/318),
+under programme [#313](https://github.com/edithatogo/voiage/issues/313), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: repository implementation complete — local and hosted assurance pass;
+Phase 5 scientific remediation/re-review, stable promotion, release and issue
+closure remain separate gates.*
+
+---
+
+## [x] Track: Conductor Registry Normalization [completed: 2026-07-27]
+*Link: [./archive/conductor-registry-normalization_20260727/index.md](./archive/conductor-registry-normalization_20260727/index.md)*
+*GitHub: [issue #590](https://github.com/edithatogo/voiage/issues/590), in
+[Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: complete — the authoritative historical baseline is normalized from
+223 errors to zero errors and zero warnings without changing substantive
+implementation or external-gate outcomes.*
+
+---
+
+## [x] Track: Conductor GitHub Cross-Reference Reconciliation [completed: 2026-08-01]
+*Link: [./archive/conductor-github-cross-reference-reconciliation_20260724/index.md](./archive/conductor-github-cross-reference-reconciliation_20260724/index.md)*
+*GitHub: [issue #462](https://github.com/edithatogo/voiage/issues/462),
+native sub-issue of [#322](https://github.com/edithatogo/voiage/issues/322),
+in [Project 28](https://github.com/users/edithatogo/projects/28).*
+*Status: complete — all completed-track issues and native hierarchy links exist;
+repository manifest, validation, and merged PR handoff are recorded.*
+
+---
+
+## [x] Track: Standardized Dataset Ingestion
+  *Link: [./archive/standardized-dataset-ingestion_20260723/index.md](./archive/standardized-dataset-ingestion_20260723/index.md)*
+  *GitHub: [#325](https://github.com/edithatogo/voiage/issues/325), with native
+  implementation sub-issues
+  [#326–#333, #467–#468](https://github.com/edithatogo/voiage/issues/325).*
+  *Status: completed for the approved strict-local boundary — deterministic
+  offline Croissant/Frictionless ingestion, conformance, security-policy,
+  SDK/DataFrame, CLI, support-matrix, and worked-example evidence is archived.
+  Broad remote/live/archive interoperability and remote-ingestion security are
+  successor scope in #752 and #753; linked GitHub issues remain open by design.*
+
+---
+
+## [~] Track: Controlled Live Standardized-Dataset Interoperability
+*Link: [./tracks/controlled_live_dataset_interoperability_20260801/index.md](./tracks/controlled_live_dataset_interoperability_20260801/index.md)*
+*GitHub: [issue #752](https://github.com/edithatogo/voiage/issues/752), native
+sub-issue of [#325](https://github.com/edithatogo/voiage/issues/325).*
+*Status: in progress but authorization-blocked — fail-closed local probe
+assurance and PR #817 hosted delivery checks pass; approved rights-cleared,
+hash-pinned source artifacts and explicit use authority remain mandatory before
+network I/O.*
+
+---
+
+## [~] Track: Remote Standardized-Dataset Ingestion Security
+*Link: [./tracks/remote_dataset_ingestion_security_20260801/index.md](./tracks/remote_dataset_ingestion_security_20260801/index.md)*
+*GitHub: [issue #753](https://github.com/edithatogo/voiage/issues/753), native
+sub-issue of [#325](https://github.com/edithatogo/voiage/issues/325).*
+*Status: in progress — the PR #824 threat model and hosted delivery assurance
+are recorded; remote I/O remains blocked pending explicit policy approval.*
+
+---
+
+## [x] Track: Research Software Registry Readiness [completed: 2026-08-04]
+*Link: [./archive/research_software_registry_readiness_20260721/index.md](./archive/research_software_registry_readiness_20260721/index.md)*
+*Execution order: 02 of 02, after the signed releases provide immutable
 release and archival evidence.*
-*Status: in progress — release and Software Heritage evidence are complete;
-RRID curation, arXiv author review/submission, JOSS deferral, and external
-language-registry outcomes remain explicit gates. Repository readiness can
-proceed before release, but live
-archival, identifiers, submission, review, and acceptance remain external.*
+*Status: repository readiness complete — signed v2.0.0 release,
+PyPI/TestPyPI, crates.io, Software Heritage, SBOM, provenance, digest,
+clean-install, developer-use, AI-affirmation, registry-handoff, and manuscript
+evidence are complete. RRID curation, arXiv identification, human engagement,
+JOSS submission/review, and external registry outcomes remain explicit gates.
+PR #561 Julia readiness and PR #813 governance are merged and
+cross-referenced.*
 
 ---
 
@@ -810,3 +963,39 @@ and hardware gates without reopening completed repository-owned slices.
 *Status: repository-owned v1.0 delivery is complete; signed public v1.0.0, Rust-core runtime, legacy-core retirement, Astro documentation, release-quality evidence, and hosted gates are complete. Registry review/indexing and external archival outcomes continue in the research-software registry track.*
 
 ---
+
+---
+
+## [x] Track: Legacy Archive Record — Conductor Commit Note Checkpoint Hardening 20260625
+*Link: [./archive/conductor-commit-note-checkpoint-hardening_20260625/index.md](./archive/conductor-commit-note-checkpoint-hardening_20260625/index.md)*
+*Status: archived historical record; registration was normalized without changing its substantive outcome.*
+
+---
+
+## [x] Track: Legacy Archive Record — Cross Language Conformance Fixtures
+*Link: [./archive/cross-language-conformance-fixtures/index.md](./archive/cross-language-conformance-fixtures/index.md)*
+*Status: archived historical record; registration was normalized without changing its substantive outcome.*
+
+---
+
+## [x] Track: Legacy Archive Record — Dataset Registry And Example Corpus 20260625
+*Link: [./archive/dataset-registry-and-example-corpus_20260625/index.md](./archive/dataset-registry-and-example-corpus_20260625/index.md)*
+*Status: archived historical record; registration was normalized without changing its substantive outcome.*
+
+---
+
+## [x] Track: Legacy Archive Record — Python Cleanup Against Spec
+*Link: [./archive/python-cleanup-against-spec/index.md](./archive/python-cleanup-against-spec/index.md)*
+*Status: archived historical record; registration was normalized without changing its substantive outcome.*
+
+---
+
+## [x] Track: Legacy Archive Record — Rust Frontier Numerics Migration Completion 20260625
+*Link: [./archive/rust-frontier-numerics-migration-completion_20260625/index.md](./archive/rust-frontier-numerics-migration-completion_20260625/index.md)*
+*Status: archived historical record; registration was normalized without changing its substantive outcome.*
+
+---
+
+## [x] Track: Legacy Archive Record — Voi Frontier Architecture Dependency Governance 20260625
+*Link: [./archive/voi-frontier-architecture-dependency-governance_20260625/index.md](./archive/voi-frontier-architecture-dependency-governance_20260625/index.md)*
+*Status: archived historical record; registration was normalized without changing its substantive outcome.*

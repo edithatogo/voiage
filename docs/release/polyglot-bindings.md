@@ -25,7 +25,7 @@ external registry targets that require their own approval or indexing steps.
 | --- | --- | --- | --- | --- |
 | Python | repository root | PyPI, TestPyPI, conda-forge feedstock | `v*` | `tox`, Ruff, ty, pytest coverage, docs; serves as the primary façade over the canonical Rust core |
 | R | `r-package/voiageR` | GitHub Releases for source archives now, CRAN when mature, r-universe for early distribution | `r-v*` | `R CMD build`, `R CMD check --as-cran --no-manual`, `tools/build-manual.R`; EVPI uses the Rust C ABI, while advanced methods retain the documented reticulate bridge |
-| Julia | `bindings/julia` | Julia General registry, GitHub Releases for tag sync | `julia-v*` | `Pkg.test`, release tarball, TagBot sync |
+| Julia | `bindings/julia` | BinaryBuilder/Yggdrasil JLL, then Julia General | `julia-v*` | Aqua, `Pkg.test`, platform matrix, subpackage TagBot |
 | Rust | `rust` | crates.io core crates plus GitHub Releases | `rust-v*` | `cargo fmt`, `cargo clippy`, `cargo test --locked`, `cargo package --locked`; canonical execution core and contract owner |
 
 ## Tooling Parity
@@ -44,6 +44,13 @@ checks enforced in CI:
 - Rust: `cargo fmt`, `cargo clippy`, `cargo test`, `cargo package`
 - Julia: `Pkg.test`
 - R: `R CMD build`, `R CMD check --as-cran --no-manual`, `Rscript tools/build-manual.R`
+
+Method-specific capability may be narrower than a retained package surface.
+For estimation-focused variance VOI, the authoritative disposition is
+[`specs/estimation-variance/v1/capabilities.json`](../../specs/estimation-variance/v1/capabilities.json):
+scalar Rust and Python execution is experimental; R and Julia have no
+estimation-variance C-ABI symbol; Mojo remains an external boundary; vector
+covariance scalarization is blocked on scientific review.
 
 The tutorial/documentation tracks are separate from release automation:
 
@@ -70,7 +77,9 @@ Each binding is versioned with the registry expectations of its ecosystem:
   The FFI, PyO3, and test-support crates remain private adapters. Python is the
   primary façade and the other retained
   language packages remain thin adapters over the same contract.
-- Julia uses the General registry for publication and TagBot for release sync.
+- Julia first publishes the Rust shared library through BinaryBuilder. Once
+  `voiage_ffi_jll` is registered, Registrator submits the source package from
+  `bindings/julia` and subpackage-aware TagBot creates `julia-v*` releases.
 - R uses GitHub Release source archives for early distribution; CRAN is the
   primary long-term registry target, while r-universe remains an optional
   external indexing channel when the package policy is ready. The release

@@ -1,0 +1,22 @@
+{
+  "schema_version":"1.0.0",
+  "artifact_kind":"commissioning_readiness_only_not_a_receipt",
+  "status":"awaiting_eligible_human_assignment",
+  "required_scientific_roles":[
+    {"role_id":"estimand_domain","separation_requirement":"Independent of candidate authorship and implementation.","assignment_status":"unassigned","eligible":false},
+    {"role_id":"estimator_assurance","separation_requirement":"Independent of candidate authorship, estimator construction and implementation.","assignment_status":"unassigned","eligible":false},
+    {"role_id":"cross_language_api","separation_requirement":"Independent review of contract and binding consequences.","assignment_status":"unassigned","eligible":false},
+    {"role_id":"governance_publication","separation_requirement":"Independent of scientific disposition and maintainer implementation decision.","assignment_status":"unassigned","eligible":false},
+    {"role_id":"domain_specialist","separation_requirement":"Qualified for the declared domain and separate from the first human confirmer.","assignment_status":"unassigned","eligible":false}
+  ],
+  "human_confirmation_roles":[
+    {"role_id":"named_independent_human_scientific_verdict","separation_requirement":"Identity-bound eligible human independent of candidate authorship and implementation.","assignment_status":"unassigned","eligible":false},
+    {"role_id":"distinct_domain_ethics_human_verdict","separation_requirement":"A different identity with domain or ethics qualifications applicable to the candidate.","assignment_status":"unassigned","eligible":false}
+  ],
+  "eligibility_fields":["legal_name_or_verified_identity","role_claim","relevant_qualifications","contribution_history","conflicts_of_interest","independence_attestation","reviewed_packet_digest","signing_mechanism"],
+  "post_review_receipt_fields":["reviewed_packet_digest","finding_dispositions","conditions","dissent_references","signed_verdict_digest","issued_at","expires_at","supersedes"],
+  "precommission_prerequisites":{"source_review_ready":false,"replacement_packet_frozen":false},
+  "downstream_gates":{"all_findings_dispositioned":false,"signed_verdict_received":false},
+  "receipt_received":false,
+  "authority":{"independent_review":false,"human_confirmation":false,"scientific_disposition":false,"maintainer_decision":false}
+}

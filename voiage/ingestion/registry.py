@@ -1,0 +1,177 @@
+"""Explicit provider registration without package-import side effects."""
+
+from __future__ import annotations
+
+from importlib.metadata import entry_points
+import json
+from pathlib import Path  # noqa: TC003 - public runtime annotation
+from typing import TYPE_CHECKING, cast
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, Collection
+    from importlib.metadata import EntryPoint
+
+from voiage.contracts.normalized_input import (
+    NormalizedInputBundle,  # noqa: TC001 - public runtime API
+)
+from voiage.ingestion.base import (
+    IngestionError,
+    IngestionProvider,
+    ProviderCapabilities,
+    SourceAccessPolicy,
+    SourceSelection,
+)
+
+_ENTRY_POINT_GROUP = "voiage.ingestion.providers"
+
+
+def _validate_provider(provider: object) -> IngestionProvider:
+    """Validate an explicitly loaded provider without importing its package."""
+    capabilities = getattr(provider, "capabilities", None)
+    provider_id = getattr(provider, "provider_id", None)
+    if not (
+        isinstance(provider_id, str)
+        and bool(provider_id)
+        and callable(getattr(provider, "can_handle", None))
+        and callable(getattr(provider, "ingest", None))
+        and isinstance(capabilities, ProviderCapabilities)
+        and capabilities.provider_id == provider_id
+    ):
+        raise IngestionError(
+            "entry-point provider does not satisfy the provider contract"
+        )
+    return cast("IngestionProvider", provider)
+
+
+def discover_entry_point_providers(
+    *,
+    allowlist: Collection[str],
+    resolver: Callable[..., Collection[EntryPoint]] = entry_points,
+) -> tuple[IngestionProvider, ...]:
+    """Load only explicitly allow-listed third-party provider entry points.
+
+    Discovery is opt-in: an empty allow-list does not inspect installed entry
+    points, and providers outside the allow-list are never imported. Entry
+    points must return initialized provider instances rather than factories.
+    """
+    allowed = frozenset(allowlist)
+    if not allowed:
+        return ()
+    candidates = resolver(group=_ENTRY_POINT_GROUP)
+    providers: list[IngestionProvider] = []
+    loaded_names: set[str] = set()
+    for candidate in sorted(candidates, key=lambda item: item.name):
+        if candidate.name not in allowed:
+            continue
+        try:
+            provider = candidate.load()
+        except Exception as error:
+            raise IngestionError("allow-listed provider could not be loaded") from error
+        providers.append(_validate_provider(provider))
+        loaded_names.add(candidate.name)
+    missing = allowed - loaded_names
+    if missing:
+        raise IngestionError("allow-listed provider entry point is unavailable")
+    return tuple(providers)
+
+
+class ProviderRegistry:
+    """A deterministic registry populated only by the application caller."""
+
+    def __init__(self, providers: tuple[IngestionProvider, ...] = ()) -> None:
+        self._providers = tuple(_validate_provider(provider) for provider in providers)
+
+    def ingest(
+        self,
+        descriptor_path: Path,
+        *,
+        policy: SourceAccessPolicy | None = None,
+        selection: SourceSelection | None = None,
+    ) -> NormalizedInputBundle:
+        """Choose exactly one recognizer and convert its descriptor."""
+        try:
+            descriptor = json.loads(descriptor_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as error:
+            raise IngestionError("descriptor is not valid UTF-8 JSON") from error
+        if not isinstance(descriptor, dict):
+            raise IngestionError("descriptor root must be a JSON object")
+        matches = tuple(
+            provider for provider in self._providers if provider.can_handle(descriptor)
+        )
+        if len(matches) != 1:
+            raise IngestionError(
+                "descriptor must match exactly one registered provider"
+            )
+        provider = matches[0]
+        if selection is not None:
+            if selection.provider_id != provider.provider_id:
+                raise IngestionError(
+                    "source selection does not match the descriptor provider"
+                )
+            unsupported = {key for key, _ in selection.values}.difference(
+                provider.capabilities.source_selection_keys
+            )
+            if unsupported:
+                raise IngestionError(
+                    "provider does not support the requested source selection"
+                )
+            return provider.ingest(
+                descriptor_path,
+                policy=policy or SourceAccessPolicy(descriptor_path.parent),
+                selection=selection,
+            )
+        return provider.ingest(
+            descriptor_path, policy=policy or SourceAccessPolicy(descriptor_path.parent)
+        )
+
+    def inspect(self, descriptor_path: Path) -> dict[str, object]:
+        """Return deterministic provider diagnostics without materializing data.
+
+        Inspection is deliberately metadata-only: it reads the descriptor,
+        reports the matching provider and its declared capabilities, and never
+        resolves resources or imports optional providers.
+        """
+        try:
+            descriptor = json.loads(descriptor_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as error:
+            raise IngestionError("descriptor is not valid UTF-8 JSON") from error
+        if not isinstance(descriptor, dict):
+            raise IngestionError("descriptor root must be a JSON object")
+        matches = tuple(
+            provider for provider in self._providers if provider.can_handle(descriptor)
+        )
+        if len(matches) != 1:
+            raise IngestionError(
+                "descriptor must match exactly one registered provider"
+            )
+        provider = matches[0]
+        capabilities = provider.capabilities
+        return {
+            "descriptor": str(descriptor_path),
+            "provider_id": provider.provider_id,
+            "capabilities": {
+                "format_versions": capabilities.format_versions,
+                "media_types": capabilities.media_types,
+                "supported_transforms": capabilities.supported_transforms,
+                "supports_projection": capabilities.supports_projection,
+                "supports_filtering": capabilities.supports_filtering,
+                "supports_streaming": capabilities.supports_streaming,
+                "supports_random_access": capabilities.supports_random_access,
+                "source_selection_keys": capabilities.source_selection_keys,
+            },
+        }
+
+    def capabilities_for(self, provider_id: str) -> ProviderCapabilities:
+        """Return the declared support profile for one registered provider."""
+        for provider in self._providers:
+            if provider.provider_id == provider_id:
+                return provider.capabilities
+        raise IngestionError("normalized bundle names an unregistered provider")
+
+
+def default_registry() -> ProviderRegistry:
+    """Return the built-in parser set without discovering third-party code."""
+    from voiage.ingestion.croissant import CroissantProvider
+    from voiage.ingestion.frictionless import FrictionlessProvider
+
+    return ProviderRegistry((CroissantProvider(), FrictionlessProvider()))

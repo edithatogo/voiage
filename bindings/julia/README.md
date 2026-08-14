@@ -1,14 +1,42 @@
 # Voiage.jl
 
-Julia package scaffold for the voiage core API contract.
+Julia binding for the stable EVPI surface of the voiage Rust core.
 
 ## Setup
 
-From `bindings/julia/`:
+The package currently expects a locally built `voiage-ffi` library. From the
+repository root:
 
 ```bash
-julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.test()'
+cargo build --manifest-path rust/Cargo.toml --release --locked --package voiage-ffi
+VOIAGE_FFI_LIBRARY="$PWD/rust/target/release/libvoiage_ffi.dylib" \
+  julia --project=bindings/julia -e 'using Pkg; Pkg.instantiate(); Pkg.test()'
 ```
+
+Use `libvoiage_ffi.so` on Linux and `voiage_ffi.dll` on Windows.
+
+## Binary artifact and registry status
+
+The repository-owned BinaryBuilder recipe is
+`packaging/yggdrasil/V/voiage_ffi/build_tarballs.jl`. It is submitted upstream
+as [Yggdrasil PR #14292](https://github.com/JuliaPackaging/Yggdrasil/pull/14292).
+That PR builds the signed v2.0.0 Rust source for 64-bit glibc and musl Linux,
+macOS, and Windows. JLL registration by the BinaryBuilder automation is the
+first external gate.
+
+After the generated `voiage_ffi_jll` exists in General, the package will depend
+on that JLL and use its `libvoiage_ffi` product by default. The environment
+variable above remains a development override. A clean-depot installation must
+then pass on every supported platform before the source package is submitted
+with:
+
+```text
+@JuliaRegistrator register subdir=bindings/julia
+```
+
+The resulting General registry merge is the second external gate. The package
+is not described as registered or independently installable until both gates
+have evidence.
 
 ## First workflow
 
@@ -23,12 +51,15 @@ evpi_value = evpi(net_benefits)
 
 This example returns `3.0` for the simple two-strategy matrix above.
 
-## Release and caveats
+## Release and scope
 
-Julia package publication is handled through the General registry. The release
-workflow verifies that `Project.toml` matches the release tag, runs `Pkg.test()`,
-and attaches a source archive to the GitHub release. Registry updates should
-use the Julia Registrator flow, and the scheduled TagBot workflow keeps GitHub
-tags and releases aligned after registry merges. The walkthrough here is a
-thin adapter story: it is deliberately small because the Rust core remains the
-semantic authority.
+The release workflow verifies that `Project.toml` matches the release tag,
+builds the FFI library, and runs `Pkg.test()`. TagBot is configured for the
+`bindings/julia` subpackage and will create collision-free `julia-v*` tags
+after Registrator accepts a version. The binding intentionally exposes only
+the stable EVPI contract currently available through the shared Rust ABI.
+
+The experimental expected-utility information-pricing family and its VoC
+presentation are not exposed by this Julia package because the stable C ABI
+has no corresponding symbol. The family capability record therefore marks
+Julia as `unsupported`; this is an explicit boundary, not a parity claim.

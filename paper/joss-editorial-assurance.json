@@ -1,0 +1,92 @@
+{
+  "schema_version": "voiage.joss-editorial-assurance.v1",
+  "canonical_source": "paper.md",
+  "criteria_date": "2026-07-26",
+  "tools": {
+    "sourceright": {
+      "version": "0.1.2 development snapshot",
+      "commit": "dde39b3bb334f79f12e395a5317b21e036336bdd",
+      "mode": "read_only",
+      "status": "pass_with_warnings",
+      "source_sha256": "cee5a8ebc6dd4f0824d22fee5006d288c9bd922abbfc96e23c48eeec54093db3",
+      "bibliography_sha256": "abed876b3d7b0738113fe3729a710eb38c3c56ba955b09336dd34ea061f4e816",
+      "citation_occurrences": 18,
+      "citation_matches": 18,
+      "citation_issues": 0,
+      "journal_screen_warnings": 6,
+      "queued_reference_reviews": 15,
+      "warning_boundary": "All references have queued verification sidecars. Six software or web records lack DOIs; human checking of source accuracy and appropriateness remains pending."
+    },
+    "authentext": {
+      "version": "3.2.0",
+      "commit": "7f70dad5b6deab1af92faf037ef2638e7f3aea05",
+      "profiles_consulted": [
+        "core-patterns",
+        "academic"
+      ],
+      "automated_coverage": "selected deterministic blocking patterns",
+      "status": "pass",
+      "source_sha256": "cee5a8ebc6dd4f0824d22fee5006d288c9bd922abbfc96e23c48eeec54093db3",
+      "finding_count": 0
+    },
+    "textstat": {
+      "version": "0.7.13",
+      "status": "review_only",
+      "workflow_run": 30253202060,
+      "warnings": [],
+      "flesch_reading_ease": 34.4356,
+      "flesch_kincaid_grade": 11.8736,
+      "text_standard": "13th and 14th grade",
+      "interpretation": "Hosted editorial evidence only; technical terms and references materially affect generic readability scores, and no automatic acceptance threshold applies."
+    },
+    "codex": {
+      "cli_version": "0.144.1",
+      "model_record": "GPT-5 family; exact historical identifiers incomplete"
+    },
+    "jules": {
+      "cli_version": "0.1.42",
+      "commit": "4bd6b25084aa1af52d6d3979cda31f3a3d99fc04",
+      "model_record": "Google-managed models; service did not expose every identifier"
+    }
+  },
+  "required_reports": [
+    "build/joss/article-contract-report.json",
+    "build/joss/sourceright/validate-csl.json",
+    "build/joss/sourceright/citations.md",
+    "build/joss/sourceright/provenance.json",
+    "build/joss/sourceright/reference-report.json",
+    "build/joss/sourceright/citation-sync-preview.json",
+    "build/joss/authentext.json",
+    "build/joss/readability.json",
+    "docs/reviews/joss-panel/round-6/synthesis.md",
+    "docs/reviews/joss-panel/round-7/editorial-delta-review.md",
+    "docs/reviews/joss-panel/round-8/criteria-reconciliation.md",
+    "docs/reviews/joss-panel/round-9/evidence-led-refinement.md",
+    "docs/reviews/joss-panel/round-10/synthesis.md",
+    "docs/reviews/joss-panel/round-11/synthesis.md"
+  ],
+  "human_review": {
+    "authorship_funding_conflicts": "confirmed",
+    "citation_source_check": "pending_explicit_final_confirmation",
+    "all_retained_ai_outputs_reviewed_modified_and_validated": "confirmed",
+    "joss_submission_conversation": "human_only"
+  },
+  "author_attestations": {
+    "all_retained_ai_outputs_reviewed_modified_and_validated": {
+      "confirmed_on": "2026-07-27",
+      "record": "The author explicitly confirmed that every retained AI-assisted output was reviewed, modified as needed, validated, and that the reported checks were rerun.",
+      "scope": "This records the author's attestation; it does not turn automated editorial checks into a proxy for authorship, source verification, or JOSS editorial review."
+    }
+  },
+  "official_pdf_review": {
+    "status": "pass",
+    "workflow_run": 30253202060,
+    "commit": "71e03b1b12e862106e858e42015ea5e12214921b",
+    "artifact_id": 8647865514,
+    "artifact_sha256": "3ceb3ef02fddf0d76081410045adf04abc0371cdd7a6771f8fc4c7482a18f8d1",
+    "pdf_sha256": "03dd582562c18ca3b1eddeee6a0acbea5af529ffc044468cb823be58a09b4986",
+    "pages": 6,
+    "visual_review": "All six pages of the exact hosted Open Journals PDF were inspected at 180 dpi; the corrected Figure 1 reference, headings, citations, links, figure, caption, author metadata, references, and page furniture render without clipping, overlap, or missing content.",
+    "submission_performed": false
+  }
+}

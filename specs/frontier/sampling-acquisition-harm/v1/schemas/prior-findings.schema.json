@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/frontier/sampling-acquisition-harm/v1/schemas/prior-findings.schema.json",
+  "title": "SamplingAcquisitionHarmPriorFindingsV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "candidate_id", "inventory_status", "review_batches", "findings", "evidence_refs", "all_findings_repository_remediated", "candidate_bound_independent_verification", "provenance_limitations"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "candidate_id": {"const": "sampling-harm-generic-kernel-exclusion-review-v1"},
+    "inventory_status": {"const": "repository_review_history_not_candidate_bound_independent_review"},
+    "review_batches": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"type": "object", "additionalProperties": false, "required": ["stage", "historical_revision", "git_object_status", "reachable_merge_commit", "evidence_entry_sha256"], "properties": {"stage": {"type": "string", "minLength": 1}, "historical_revision": {"type": ["string", "null"], "pattern": "^[0-9a-f]{40}$"}, "git_object_status": {"enum": ["unreachable_after_squash_merge", "evidence_bound_to_reachable_merge"]}, "reachable_merge_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}, "evidence_entry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}}},
+    "findings": {"type": "array", "minItems": 27, "maxItems": 27, "items": {"type": "object", "additionalProperties": false, "required": ["id", "stage", "severity", "summary", "disposition", "revision"], "properties": {"id": {"type": "string", "pattern": "^[A-Z0-9-]+$"}, "stage": {"enum": ["phase_1_advisory", "h8a_scope_review", "h8a_hosted_ci", "h8b_contract_review", "h8b_hosted_ci"]}, "severity": {"enum": ["High", "Medium"]}, "summary": {"type": "string", "minLength": 1}, "disposition": {"const": "remediated"}, "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"}}}},
+    "evidence_refs": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"type": "object", "additionalProperties": false, "required": ["stage", "entry_sha256"], "properties": {"stage": {"type": "string", "minLength": 1}, "entry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}}},
+    "all_findings_repository_remediated": {"const": true},
+    "candidate_bound_independent_verification": {"const": false},
+    "provenance_limitations": {"type": "array", "minItems": 3, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+  }
+}

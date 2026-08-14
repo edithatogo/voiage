@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/frontier/value-of-flexibility-result.v1.json",
+  "title": "ValueOfFlexibilityResultV1Experimental",
+  "type": "object",
+  "required": [
+    "analysis_type", "method_maturity", "value_unit", "stage_semantics",
+    "decision_stage_names", "strategy_names", "provenance",
+    "flexible_value", "constrained_value", "value_of_flexibility",
+    "flexible_policy_path", "constrained_policy_path", "commitment_baseline",
+    "waiting_value", "option_value", "information_value_component",
+    "decomposition_status", "exercise_decisions",
+    "ordered_scenario_policy_changes", "policy_path_regret",
+    "diagnostics", "reporting"
+  ],
+  "properties": {
+    "analysis_type": {"const": "value_of_flexibility"},
+    "method_maturity": {"const": "experimental"},
+    "value_unit": {"type": "string", "minLength": 1},
+    "stage_semantics": {"const": "timing_scenarios"},
+    "decision_stage_names": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "strategy_names": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "provenance": {
+      "type": "object",
+      "required": ["fixture_id", "execution_mode"],
+      "properties": {
+        "fixture_id": {"type": "string", "minLength": 1},
+        "execution_mode": {"const": "deterministic"}
+      },
+      "additionalProperties": false
+    },
+    "flexible_value": {"type": "number"},
+    "constrained_value": {"type": "number"},
+    "value_of_flexibility": {"type": "number", "minimum": 0},
+    "flexible_policy_path": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "constrained_policy_path": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "commitment_baseline": {"type": "string", "minLength": 1},
+    "waiting_value": {"type": ["number", "null"]},
+    "option_value": {"type": "number", "minimum": 0},
+    "information_value_component": {"const": 0},
+    "decomposition_status": {"const": "information-value-excluded"},
+    "exercise_decisions": {"type": "null"},
+    "ordered_scenario_policy_changes": {"type": "array", "minItems": 1, "items": {"type": "boolean"}},
+    "policy_path_regret": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "array",
+        "minItems": 1,
+        "items": {"type": "number", "minimum": 0}
+      }
+    },
+    "diagnostics": {
+      "type": "object",
+      "required": [
+        "stage_weights", "evidence_arrival_times", "discount_rate",
+        "irreversibility_penalty", "lock_in_penalty", "assurance",
+        "tie_policy", "flexible_stage_ties", "commitment_ties"
+      ],
+      "properties": {
+        "stage_weights": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "number", "minimum": 0}},
+        "evidence_arrival_times": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "number", "minimum": 0}},
+        "discount_rate": {"const": 0},
+        "irreversibility_penalty": {"const": 0},
+        "lock_in_penalty": {"const": 0},
+        "assurance": {"const": "exact-enumeration"},
+        "tie_policy": {"const": "canonical-lexicographic"},
+        "flexible_stage_ties": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+        },
+        "commitment_ties": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      },
+      "additionalProperties": false
+    },
+    "reporting": {
+      "type": "object",
+      "required": ["analysis_type", "adjacent_to_information_value", "information_value_included", "method_maturity", "tie_policy"],
+      "properties": {
+        "analysis_type": {"const": "value_of_flexibility"},
+        "adjacent_to_information_value": {"const": true},
+        "information_value_included": {"const": false},
+        "method_maturity": {"const": "experimental"},
+        "tie_policy": {"const": "canonical-lexicographic"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

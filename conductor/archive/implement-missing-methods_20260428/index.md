@@ -1,5 +1,9 @@
 # Track: Replace Placeholders and Implement Missing Methods
 
+- [Specification](./spec.md)
+- [Implementation Plan](./plan.md)
+- [Metadata](./metadata.json)
+
 ## Overview
 Several "complete" methods in the codebase are actually placeholders or degrade to fallbacks. Additionally, several SOTA VOI methods expected in modern libraries are entirely missing. This track replaces placeholder code with real implementations and adds the missing SOTA methods.
 
@@ -24,3 +28,10 @@ This track implements the autonomous review-and-progression protocol with safety
 - **Escape hatch:** After 2 failed fix attempts, revert phase and mark task as `DEFERRED → v1.1`
 - **Rollback checkpoint:** Each phase records commit hash for safe rollback
 - **After track completion:** `/conductor:review` (full track) → apply fixes → push → verify CI → archive → auto-progress to Track 4
+
+## GitHub traceability
+
+- Track issue: [#409](https://github.com/edithatogo/voiage/issues/409)
+- Parent issue: https://github.com/edithatogo/vop_poc_nz/issues/31
+- Project: [VOP–VOIAGE Conductor Roadmap](https://github.com/users/edithatogo/projects/28)
+- Pull requests: No pull request proven by recorded commit or track-path history.

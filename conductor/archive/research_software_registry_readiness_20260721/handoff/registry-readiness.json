@@ -1,0 +1,250 @@
+{
+  "track_id": "research_software_registry_readiness_20260721",
+  "channel": "research-software-registries",
+  "status": "blocked",
+  "owner": "voiage-maintainers",
+  "checked_at": "2026-08-03T22:15:51Z",
+  "next_action": "Monitor SciCrunch curator questions and record an assigned RRID only from authoritative evidence. Monitor open conda-forge PR 34308 and open, green Yggdrasil PR 14292. Obtain genuine human engagement evidence and complete replacement arXiv submission 7870358 before direct JOSS submission. R registry remains a separate path.",
+  "external_gate": "Repository preparation is complete. The signed public v2.0.0 release, matching Software Heritage snapshot, PyPI/TestPyPI packages, four crates.io crates, SBOM, provenance, digests, clean-install evidence, release-bound JOSS PDF review, SciCrunch submission, developer research use, and author AI affirmation are recorded. SciCrunch curation, RRID assignment, and resolver indexing remain external. Conda-forge PR 34308 passes its current platform matrix; external review and merge remain pending. The Rust C ABI recipe is submitted as Yggdrasil PR 14292 with green checks. BinaryBuilder must accept the recipe and register voiage_ffi_jll before Voiage can declare it as a General dependency; Registrator and General bots or maintainers then control source-package registration and merge. Prior arXiv submission 7861466 is absent; replacement 7870358 is incomplete. Human engagement, arXiv completion and announcement, CRAN, direct JOSS submission, and editorial outcomes remain human or externally controlled.",
+  "release_evidence": {
+    "tag": "v2.0.0",
+    "commit": "e849e89152c306e79c96d0a8a9815ee5faca0529",
+    "url": "https://github.com/edithatogo/voiage/releases/tag/v2.0.0",
+    "published_at": "2026-07-26T11:41:47Z",
+    "draft": false,
+    "prerelease": false,
+    "assets": [
+      "SHA256SUMS",
+      "voiage-2.0.0.tar.gz",
+      "voiage-2.0.0-cp312-abi3-macosx_11_0_arm64.whl",
+      "voiage-2.0.0-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "voiage-2.0.0-cp312-abi3-win_amd64.whl"
+    ],
+    "checksums_url": "https://github.com/edithatogo/voiage/releases/download/v2.0.0/SHA256SUMS",
+    "pypi_url": "https://pypi.org/project/voiage/2.0.0/",
+    "testpypi_url": "https://test.pypi.org/project/voiage/2.0.0/",
+    "release_workflow_run": 30200134119,
+    "supply_chain_workflow_run": 30200921515,
+    "release_evidence": "docs/release/v2.0.0-release-evidence.json",
+    "sbom": "docs/release/v2.0.0-sbom.cdx.json",
+    "rust_crates_workflow_run": 30200722982,
+    "conda_forge_pull_request": "https://github.com/conda-forge/staged-recipes/pull/34308"
+  },
+  "software_heritage_archival_request": {
+    "request_id": 2399846,
+    "request_url": "https://archive.softwareheritage.org/api/1/origin/save/2399846/",
+    "origin_url": "https://github.com/edithatogo/voiage",
+    "visit_type": "git",
+    "requested_at": "2026-07-26T11:47:48.184103Z",
+    "request_status": "accepted",
+    "task_status": "succeeded",
+    "visit_status": "full",
+    "snapshot_swhid": "swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d",
+    "snapshot_url": "https://archive.softwareheritage.org/api/1/snapshot/31f89375852737bb9eb62ebc03fadfbc7ff70c2d/",
+    "verification_at": "2026-07-26T11:50:00Z",
+    "verification": "Software Heritage reports a full v2 visit and snapshot containing the signed v2.0.0 release."
+  },
+  "scicrunch_rrid_evidence": {
+    "status": "submitted_pending_curation",
+    "github_issue": "https://github.com/edithatogo/voiage/issues/298",
+    "official_form": "https://scicrunch.org/create/resource",
+    "official_guidance": "https://scicrunch.org/scicrunch/about/Curation%20Guidelines",
+    "answer_packet": "docs/release/scicrunch-rrid-registration.json",
+    "human_handoff": "docs/release/scicrunch-rrid-registration.md",
+    "validator": "scripts/validate_scicrunch_rrid.py",
+    "required_answers": [
+      "resource_name",
+      "url",
+      "description"
+    ],
+    "duplicate_check": {
+      "checked_at": "2026-07-27T06:03:50Z",
+      "result": "no_similar_resource",
+      "portal_message": "There was no resource similar in our system."
+    },
+    "submission_performed": true,
+    "submitted_at": "2026-07-27T06:07:06Z",
+    "confirmation_url": "https://scicrunch.org/scicrunch/about/thanks",
+    "confirmation_message": "Thank you for your submission!",
+    "curation_status": "pending",
+    "rrid": null,
+    "remaining_account_gates": [],
+    "remaining_external_gates": [
+      "SciCrunch curator review or questions",
+      "curator approval and RRID assignment",
+      "public resolver indexing"
+    ]
+  },
+  "julia_registry_evidence": {
+    "status": "jll_recipe_submitted",
+    "github_issue": "https://github.com/edithatogo/voiage/issues/555",
+    "repository_pull_request": "https://github.com/edithatogo/voiage/pull/561",
+    "yggdrasil_pull_request": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292",
+    "source_revision": "e849e89152c306e79c96d0a8a9815ee5faca0529",
+    "binary_product": "libvoiage_ffi",
+    "target_package": "voiage_ffi_jll",
+    "repository_recipe": "packaging/yggdrasil/V/voiage_ffi/build_tarballs.jl",
+    "current_evidence": "The recipe parses and reaches BinaryBuilder runner creation locally. Yggdrasil Buildkite passes all seven requested targets: x86_64 and aarch64 glibc Linux, x86_64 and aarch64 musl Linux, x86_64 and aarch64 macOS, and x86_64 Windows.",
+    "next_external_gate": "BinaryBuilder bot and Yggdrasil maintainer acceptance followed by automatic JLL registration.",
+    "general_trigger": "@JuliaRegistrator register subdir=bindings/julia",
+    "general_gate": "The trigger is intentionally deferred until the registered JLL UUID exists and clean-depot artifact tests pass.",
+    "tagbot_authentication": "Verified repository-scoped write deploy key 158430276 is configured; its private key is stored as the DOCUMENTER_KEY Actions secret so TagBot can trigger downstream release workflows without a broad PAT."
+  },
+  "joss_submission_evidence": {
+    "status": "repository_ready_pending_human_and_external_evidence",
+    "files": [
+      "paper.md",
+      "paper.bib",
+      "paper/health-example-methods.md",
+      "paper/reproduction-manifest.json",
+      "codemeta.json",
+      "CITATION.cff"
+    ],
+    "readiness_document": "docs/release/joss-submission-readiness.md",
+    "validator": "scripts/validate_joss.py",
+    "hosted_workflow": ".github/workflows/joss-paper.yml",
+    "release_bound_pdf": {
+      "workflow_run": 30202496481,
+      "revision": "5c472402ed0fa0e70af3bd98c6d1dde59b5d7811",
+      "artifact_id": 8632098142,
+      "artifact_digest": "sha256:85b58a21cba15577d874c690317c571192b9dde943007a0308a3a438bf127a8b",
+      "pdf_sha256": "132af479c9d76091478459652ff12091d04bd3dd426ef5e90265ec1e4bab3e71",
+      "pages": 6,
+      "visual_review": "passed"
+    },
+    "package_validation": {
+      "python": "clean PyPI install reports metadata and runtime version 2.0.0 and loads the Rust core from the published abi3 wheel",
+      "rust": "workspace tests pass excluding the separately wheel-tested private PyO3 crate",
+      "r": "fresh 1.0.0 source package passes R CMD check --as-cran with two environmental/new-submission notes",
+      "julia": "Aqua and Pkg.test pass against a locally built voiage-ffi library; Yggdrasil PR 14292 is submitted and JLL acceptance remains pending"
+    },
+    "selected_route": "direct_joss",
+    "route_rationale": "Direct JOSS preserves the submission's Rust-centred polyglot scope. pyOpenSci remains an optional later Python-package review rather than the selected route.",
+    "independent_validation": {
+      "status": "human_evidence_required",
+      "github_issue": "https://github.com/edithatogo/voiage/issues/471",
+      "protocol": "docs/release/joss-independent-validation.md",
+      "boundary": "Completed developer research-workflow use of the released package is recorded in paper/joss-developer-research-use.json. The public repository history currently contains the author and automated accounts only. Non-author engagement remains a strong positive pre-review signal and explicit detailed-review criterion. Bots, AI agents, fallback-only adapters, and same-author work do not establish that external engagement."
+    },
+    "remaining_submission_gates": [
+      "obtain attributable or editor-verifiable human community engagement, external use, or collaborative input",
+      "record the permanent arXiv identifier after announcement",
+      "perform the selected direct authenticated JOSS submission"
+    ],
+    "preprint_policy": "JOSS permits arXiv submission before, during, or after JOSS submission and does not treat a preprint as prior publication."
+  },
+  "arxiv_preprint_evidence": {
+    "status": "replacement_incomplete",
+    "github_issue": "https://github.com/edithatogo/voiage/issues/312",
+    "review_pr": "https://github.com/edithatogo/voiage/pull/311",
+    "canonical_source": "paper/main.tex",
+    "metadata": "paper/metadata.json",
+    "readiness_manifest": "paper/readiness-manifest.json",
+    "builder": "scripts/build_arxiv_submission.py",
+    "submission_performed": false,
+    "prior_submission_id": "7861466",
+    "submission_id": "7870358",
+    "dashboard_checked_at": "2026-07-26T12:49:21Z",
+    "dashboard_state": "prior submission 7861466 absent; replacement 7870358 incomplete at the start stage, expiring 2026-08-09, with no files, metadata, category, or licence recorded",
+    "remaining_human_gates": [
+      "select the category and licence and complete replacement submission 7870358",
+      "record the permanent arXiv identifier after announcement"
+    ]
+  },
+  "evidence_urls": [
+    "https://archive.softwareheritage.org/api/1/origin/https://github.com/edithatogo/voiage/get/",
+    "https://docs.softwareheritage.org/user/faq/",
+    "https://www.rrids.org/new-page-1",
+    "https://joss.readthedocs.io/en/latest/paper.html",
+    "https://joss.readthedocs.io/en/latest/submitting.html",
+    "https://joss.readthedocs.io/en/latest/review_criteria.html",
+    "https://pubmed.ncbi.nlm.nih.gov/10537899/",
+    "https://pubmed.ncbi.nlm.nih.gov/15090106/"
+  ],
+  "commands": [
+    {
+      "command": "curl -fsS https://archive.softwareheritage.org/api/1/origin/https://github.com/edithatogo/voiage/get/",
+      "runner": "networked repository audit",
+      "status": "passed",
+      "artifact": "snapshot SWHID swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32",
+      "details": "The origin-save request 2397350 completed with visit_status=full and a verified snapshot."
+    },
+    {
+      "command": "find . -type f for paper.md, paper.bib, CITATION.cff, and codemeta.json",
+      "runner": "local Git worktree",
+      "status": "passed",
+      "artifact": "paper.md, paper.bib, CITATION.cff, codemeta.json, validator, and hosted workflow",
+      "details": "JOSS paper and metadata are prepared; the author confirmed authorship metadata, funding, and competing interests on 24 July 2026 and the AI-policy affirmation on 27 July 2026. The exact v2 release, developer research use, and final PDF review are recorded. Human engagement and authenticated submission remain."
+    },
+    {
+      "command": "review RRID software registration guidance",
+      "runner": "official RRID documentation audit",
+      "status": "passed",
+      "artifact": "docs/release/scicrunch-rrid-registration.json and docs/release/scicrunch-rrid-registration.md",
+      "details": "Official guidance confirms software tools use the SciCrunch Registry and requires name, URL, and description. The validated packet adds optional metadata and release/archive evidence while preserving account-declaration, submission, curation, and RRID-assignment boundaries."
+    },
+    {
+      "command": "python scripts/validate_scicrunch_rrid.py && pytest tests/test_scicrunch_rrid_readiness.py --no-cov -q",
+      "runner": "local Git worktree",
+      "status": "passed",
+      "artifact": "validated SciCrunch/RRID registration packet and state-boundary tests",
+      "details": "The validator binds answers to v2.0.0 and its Software Heritage snapshot, rejects missing required answers and invented identifiers, and confirms that registration, curation, and RRID assignment have not yet been claimed."
+    },
+    {
+      "command": "review JOSS paper and submission requirements",
+      "runner": "official JOSS documentation audit",
+      "status": "passed",
+      "artifact": "current required-section checklist captured",
+      "details": "A submission needs confirmed authors and affiliations plus summary, need, field comparison, design, impact, AI disclosure, acknowledgements, and references."
+    },
+    {
+      "command": "python3 scripts/validate_joss.py && pytest tests/test_joss_readiness.py --no-cov -q && python3 scripts/repo_harness.py",
+      "runner": "local Git worktree",
+      "status": "passed",
+      "artifact": "repository-owned JOSS preflight and 27-workflow security harness",
+      "details": "The paper structure, word range, citations, archive reference, AI disclosure, workflow pins, and least-privilege controls pass."
+    },
+    {
+      "command": "clean Python install, cargo workspace tests, R CMD check --as-cran, and Julia Pkg.test",
+      "runner": "isolated local package audit",
+      "status": "passed_with_documented_boundaries",
+      "artifact": "Python 1.0.0, Rust core, R source package, and Julia source binding",
+      "details": "The primary PyPI package is clean-installable. Rust tests pass outside the separately wheel-tested PyO3 crate. R passes with two non-error notes. Julia passes against the built FFI library but still needs artifact/JLL packaging for General."
+    },
+    {
+      "command": "render and visually inspect the Open Journals PDF; reconcile foundational DOI metadata against PubMed",
+      "runner": "hosted artifact and authoritative source audit",
+      "status": "passed_with_corrections",
+      "artifact": "three-page Open Journals review PDF and corrected paper.bib",
+      "details": "The PDF has no clipping, overlap, broken glyphs, or unreadable references. Two mismatched DOI records were replaced with authoritative Claxton 1999 and Ades, Lu, and Claxton 2004 metadata."
+    },
+    {
+      "command": "audit public contributor, issue, and pull-request authors; recheck authenticated arXiv dashboard; reconcile current JOSS pre-review criteria",
+      "runner": "GitHub API, authenticated arXiv account, and official JOSS documentation",
+      "status": "passed_with_external_gate",
+      "artifact": "issue #471 and docs/release/joss-independent-validation.md",
+      "details": "Prior submission 7861466 is absent. Replacement 7870358 is incomplete at the start stage and is not submission evidence. Developer research use is recorded. Non-author engagement remains a strong positive pre-review signal and an explicit detailed-review criterion, so issue #471 remains an author-selected prerequisite for the direct JOSS route."
+    },
+    {
+      "command": "release workflow 30200134119; clean PyPI install; crates workflow 30200722982; Software Heritage request 2399846; supply-chain workflow 30200921515",
+      "runner": "GitHub-hosted release runners, public package registries, clean local virtual environment, and Software Heritage",
+      "status": "passed",
+      "artifact": "docs/release/v2.0.0-release-evidence.json and docs/release/v2.0.0-sbom.cdx.json",
+      "details": "The signed v2.0.0 release is public on GitHub, PyPI, TestPyPI, and crates.io. Its wheels, source, digests, provenance, mixed-language CycloneDX SBOM, clean Rust-core import, and Software Heritage snapshot are bound to commit e849e89152c306e79c96d0a8a9815ee5faca0529."
+    },
+    {
+      "command": "manual conda workflow dispatch followed by authenticated fork submission",
+      "runner": "GitHub Actions and conda-forge staged-recipes",
+      "status": "submitted_external_review",
+      "artifact": "https://github.com/conda-forge/staged-recipes/pull/34308",
+      "details": "The workflow exposed a stale repository token, which was refreshed. The authenticated maintainer submitted the v2.0.0 recipe. The corrected recipe passes lint and staged-recipes build 1558265 for current Python 3.12 and 3.13 variants on Linux, macOS, and Windows. Installed tests load the Rust core, reconcile native/package versions, and reproduce the known EVPI result. External maintainer review was requested; merge, feedstock creation, channel indexing, and future Python 3.14 migration remain externally controlled."
+    },
+    {
+      "command": "BinaryBuilder recipe parse; isolated Julia Aqua and Pkg.test; authenticated Yggdrasil fork and pull request",
+      "runner": "local Julia 1.12.6, Rust release build, GitHub API, and Yggdrasil Buildkite",
+      "status": "submitted_external_review",
+      "artifact": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292",
+      "details": "The signed v2.0.0 Rust C ABI source builds locally and exports voiage_v1_evpi. The Julia source package passes all 11 Aqua checks, two EVPI tests, and 11 shared-reference assertions in an isolated package copy. Yggdrasil Buildkite passes all seven requested 64-bit glibc/musl Linux, macOS, and Windows targets. Repository-scoped deploy key 158430276 and DOCUMENTER_KEY enable TagBot-triggered downstream workflows without a broad PAT. JLL acceptance, generated UUID availability, Registrator submission, General merge, and indexing remain external or sequential gates."
+    }
+  ]
+}

@@ -71,6 +71,39 @@ def deterministic_model_func_evsi(psa_params_or_sample: PSASample) -> ValueArray
     return ValueArray.from_numpy(values, ["standard", "new"])
 
 
+def declared_normal_trial_simulator(
+    true_parameters: dict[str, float],
+    trial_design: TrialDesign,
+    rng: np.random.Generator,
+) -> object:
+    """Simulate the explicitly declared independent normal-arm study."""
+    return si_module._simulate_trial_data(true_parameters, trial_design, rng)
+
+
+def declared_normal_posterior_sampler(
+    prior: PSASample,
+    trial_data: object,
+    trial_design: TrialDesign,
+    n_draws: int,
+    rng: np.random.Generator,
+) -> PSASample:
+    """Sample from the explicitly declared independent normal-arm posterior."""
+    assert isinstance(trial_data, dict)
+    return si_module._bayesian_update(
+        prior,
+        trial_data,
+        trial_design,
+        rng,
+        n_draws=n_draws,
+    )
+
+
+DECLARED_TWO_LOOP = {
+    "trial_simulator": declared_normal_trial_simulator,
+    "posterior_sampler": declared_normal_posterior_sampler,
+}
+
+
 @pytest.fixture
 def dummy_psa_for_evsi() -> PSASample:
     """Create a dummy PSASample for EVSI tests."""
@@ -97,9 +130,7 @@ def dummy_psa_for_evsi() -> PSASample:
             ),
             "sd_outcome": (
                 ("n_samples",),
-                np.random.uniform(low=0.5, high=1.5, size=n_psa_samples).astype(
-                    DEFAULT_DTYPE
-                ),
+                np.full(n_psa_samples, 1.0, dtype=DEFAULT_DTYPE),
             ),
             # Add another dummy parameter not directly used in update, to test metamodel with multiple params
             "unrelated_param": (
@@ -132,23 +163,25 @@ def dummy_trial_design_for_evsi() -> TrialDesign:
 
 
 def test_evsi_two_loop_method(dummy_psa_for_evsi, dummy_trial_design_for_evsi) -> None:
-    """Test the two-loop EVSI method."""
+    """The untruncated two-loop route returns a finite simulation estimate."""
 
     evsi_val = evsi(
-        model_func=dummy_model_func_evsi,
+        model_func=deterministic_model_func_evsi,
         psa_prior=dummy_psa_for_evsi,
         trial_design=dummy_trial_design_for_evsi,
         method="two_loop",
         n_outer_loops=10,
         n_inner_loops=20,
+        seed=20260724,
+        **DECLARED_TWO_LOOP,
     )
-    assert evsi_val >= 0, "EVSI should be non-negative."
+    assert np.isfinite(evsi_val)
 
 
 def test_evsi_two_loop_consumes_requested_inner_loop_count(
     dummy_psa_for_evsi, dummy_trial_design_for_evsi
 ) -> None:
-    """Each inner loop evaluates an independently sampled posterior."""
+    """The requested inner count controls posterior draws in each model call."""
     callback_counts = {"value": 0}
 
     def counting_model(psa_params_or_sample: PSASample) -> ValueArray:
@@ -167,9 +200,10 @@ def test_evsi_two_loop_consumes_requested_inner_loop_count(
         n_outer_loops=3,
         n_inner_loops=4,
         seed=42,
+        **DECLARED_TWO_LOOP,
     )
 
-    assert callback_counts["value"] == 1 + 3 * 4
+    assert callback_counts["value"] == 1 + 3
 
 
 def test_evsi_two_loop_seed_is_reproducible_and_does_not_repeat_initial_callback(
@@ -197,6 +231,7 @@ def test_evsi_two_loop_seed_is_reproducible_and_does_not_repeat_initial_callback
         n_outer_loops=4,
         n_inner_loops=2,
         seed=42,
+        **DECLARED_TWO_LOOP,
     )
     first_callback_count = callback_counts[0]
 
@@ -216,11 +251,12 @@ def test_evsi_two_loop_seed_is_reproducible_and_does_not_repeat_initial_callback
         n_outer_loops=4,
         n_inner_loops=2,
         seed=42,
+        **DECLARED_TWO_LOOP,
     )
 
     assert first == second
-    assert first_callback_count == 1 + 4 * 2
-    assert callback_counts[1] == 1 + 4 * 2
+    assert first_callback_count == 1 + 4
+    assert callback_counts[1] == 1 + 4
 
 
 def test_evsi_two_loop_seed_does_not_mutate_global_rng(
@@ -232,7 +268,13 @@ def test_evsi_two_loop_seed_does_not_mutate_global_rng(
         standard = psa_params_or_sample.parameters["mean_standard_care"]
         treatment = psa_params_or_sample.parameters["mean_new_treatment"]
         return ValueArray.from_numpy(
-            np.column_stack([standard**2, treatment**2]), ["standard", "treatment"]
+            np.column_stack(
+                [
+                    np.zeros(psa_params_or_sample.n_samples),
+                    treatment - standard - 2.0,
+                ]
+            ),
+            ["standard", "treatment"],
         )
 
     np.random.seed(8675309)
@@ -244,6 +286,7 @@ def test_evsi_two_loop_seed_does_not_mutate_global_rng(
         method="two_loop",
         n_outer_loops=4,
         seed=42,
+        **DECLARED_TWO_LOOP,
     )
     after_seeded_run = np.random.random(5)
 
@@ -261,7 +304,13 @@ def test_evsi_two_loop_seed_changes_stochastic_result(
         standard = psa_params_or_sample.parameters["mean_standard_care"]
         treatment = psa_params_or_sample.parameters["mean_new_treatment"]
         return ValueArray.from_numpy(
-            np.column_stack([standard**2, treatment**2]), ["standard", "treatment"]
+            np.column_stack(
+                [
+                    np.zeros(psa_params_or_sample.n_samples),
+                    treatment - standard - 2.0,
+                ]
+            ),
+            ["standard", "treatment"],
         )
 
     first = evsi(
@@ -271,6 +320,7 @@ def test_evsi_two_loop_seed_changes_stochastic_result(
         method="two_loop",
         n_outer_loops=8,
         seed=1,
+        **DECLARED_TWO_LOOP,
     )
     second = evsi(
         deterministic_model,
@@ -279,6 +329,7 @@ def test_evsi_two_loop_seed_changes_stochastic_result(
         method="two_loop",
         n_outer_loops=8,
         seed=2,
+        **DECLARED_TWO_LOOP,
     )
 
     assert first != second
@@ -844,6 +895,7 @@ def test_evsi_population_scaling_real_function(
         population=1000.0,
         time_horizon=5.0,
         discount_rate=0.0,
+        **DECLARED_TWO_LOOP,
     )
     assert result == pytest.approx((200.0 - 120.0) * 1000.0 * 5.0)
 
@@ -854,6 +906,7 @@ def test_evsi_population_scaling_real_function(
             trial_design=dummy_trial_design_for_evsi,
             population=0.0,
             time_horizon=5.0,
+            **DECLARED_TWO_LOOP,
         )
 
     with pytest.raises(InputError, match="Time horizon must be positive"):
@@ -863,6 +916,7 @@ def test_evsi_population_scaling_real_function(
             trial_design=dummy_trial_design_for_evsi,
             population=1000.0,
             time_horizon=0.0,
+            **DECLARED_TWO_LOOP,
         )
 
     with pytest.raises(InputError, match="Discount rate must be between 0 and 1"):
@@ -873,22 +927,20 @@ def test_evsi_population_scaling_real_function(
             population=1000.0,
             time_horizon=5.0,
             discount_rate=1.5,
+            **DECLARED_TWO_LOOP,
         )
 
 
-def test_bayesian_update_preserves_unmatched_mean_parameters(
+def test_bayesian_update_rejects_missing_arm_data(
     dummy_psa_for_evsi, dummy_trial_design_for_evsi
 ) -> None:
-    """Test posterior update preserves mean parameters without matching trial data."""
-    updated = _bayesian_update(
-        dummy_psa_for_evsi,
-        trial_data={"Different Arm": np.array([1.0, 2.0, 3.0])},
-        trial_design=dummy_trial_design_for_evsi,
-    )
-    assert np.array_equal(
-        updated.parameters["mean_new_treatment"],
-        dummy_psa_for_evsi.parameters["mean_new_treatment"],
-    )
+    """Posterior updating must not silently ignore a declared trial arm."""
+    with pytest.raises(InputError, match="trial data for every arm"):
+        _bayesian_update(
+            dummy_psa_for_evsi,
+            trial_data={"Different Arm": np.array([1.0, 2.0, 3.0])},
+            trial_design=dummy_trial_design_for_evsi,
+        )
 
 
 # Mock EVSI for testing population scaling logic within EVSI itself

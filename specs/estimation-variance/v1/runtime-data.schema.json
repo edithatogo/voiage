@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/estimation-variance/v1/runtime-data.schema.json",
+  "title": "EstimationVarianceRuntimeDataV1",
+  "oneOf": [
+    {"$ref": "#/$defs/evppi_var"},
+    {"$ref": "#/$defs/evsi_var"}
+  ],
+  "$defs": {
+    "finite_values": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "number"}
+    },
+    "truth_assurance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "true_reduction", "replicate_reductions", "confidence_intervals",
+        "confidence_level", "replicate_unit", "dependence_structure",
+        "replay_artifact"
+      ],
+      "properties": {
+        "true_reduction": {"type": "number"},
+        "replicate_reductions": {
+          "type": "array", "minItems": 2, "items": {"type": "number"}
+        },
+        "confidence_intervals": {
+          "type": "array",
+          "items": {
+            "type": "array", "minItems": 2, "maxItems": 2,
+            "prefixItems": [{"type": "number"}, {"type": "number"}]
+          }
+        },
+        "confidence_level": {
+          "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1
+        },
+        "replicate_unit": {"const": "complete_outer_dataset"},
+        "dependence_structure": {
+          "enum": [
+            "independent_outer", "paired_outer", "nested_shared_outer",
+            "coupled_common_random_numbers"
+          ]
+        },
+        "replay_artifact": {"type": "string", "minLength": 1}
+      }
+    },
+    "evppi_var": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_samples", "conditioning_groups"],
+      "properties": {
+        "target_samples": {"$ref": "#/$defs/finite_values"},
+        "conditioning_groups": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "truth_assurance": {"$ref": "#/$defs/truth_assurance"}
+      }
+    },
+    "evsi_var": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prior_target_samples",
+        "posterior_variances",
+        "predictive_probabilities"
+      ],
+      "properties": {
+        "prior_target_samples": {"$ref": "#/$defs/finite_values"},
+        "posterior_variances": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "number", "minimum": 0}
+        },
+        "predictive_probabilities": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "number", "minimum": 0, "maximum": 1}
+        },
+        "truth_assurance": {"$ref": "#/$defs/truth_assurance"}
+      }
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0.0",
+  "method_family": "estimation-focused-variance-voi",
+  "contract_version": "1.0.0",
+  "planned_release": "1.2.0",
+  "maturity": "experimental",
+  "scientific_review_gate": "pending",
+  "runtime_data_schema": "specs/estimation-variance/v1/runtime-data.schema.json",
+  "result_schema_validation": "structural schema plus mandatory voiage.contracts.estimation.EstimationVarianceResult semantic validation",
+  "evsi_averaging_contract": "aligned finite nonnegative prior-predictive probabilities summing to one within estimator tolerance",
+  "estimator_design_contract": {
+    "exact": "executable",
+    "outer_monte_carlo": "runtime-bound upstream estimator design",
+    "nested_monte_carlo": "runtime-bound upstream estimator design with executable complete-outer-replicate assurance summary",
+    "coupled_nested_monte_carlo": "runtime-bound upstream estimator design with dependence-preserving complete-outer-replicate assurance summary"
+  },
+  "truth_known_assurance": {
+    "status": "executable_outer_replicate_summary",
+    "replicate_unit": "complete_outer_dataset",
+    "metrics": ["bias", "rmse", "standard_error", "empirical_coverage", "calibration_error", "convergence"],
+    "boundary": "Callers supply replayable truth-known complete outer replicates; the Rust kernel summarizes but does not generate nested simulations."
+  },
+  "target_capabilities": {
+    "scalar_variance": "executable",
+    "vector_covariance": "reserved_contract_vocabulary_only_unsupported"
+  },
+  "vector_covariance_boundary": {
+    "status": "unsupported_pending_candidate_bound_independent_scientific_review",
+    "runtime": "All vector targets fail with unsupported_estimation_target before native dispatch.",
+    "result_semantics": "No portable or executable vector result envelope is conformant.",
+    "reserved_functionals": ["trace", "determinant", "weighted_quadratic"],
+    "promotion_allowed": false
+  },
+  "bindings": [
+    {
+      "language": "rust",
+      "status": "executable",
+      "adapter": "native_rust_workspace",
+      "methods": ["evppi_var", "evsi_var"],
+      "fixture_evidence": [
+        "tests/data/estimation_variance_reference_v1.json",
+        "rust/crates/voiage-numerics/tests/estimation_variance_properties.rs"
+      ],
+      "unsupported_behavior": "Vector inputs have no Rust entry point."
+    },
+    {
+      "language": "python",
+      "status": "executable",
+      "adapter": "pyo3",
+      "methods": ["evppi_var", "evsi_var"],
+      "fixture_evidence": [
+        "specs/estimation-variance/v1/fixtures/manifest.json",
+        "tests/test_estimation_variance_runtime.py"
+      ],
+      "unsupported_behavior": "Non-scalar targets raise unsupported_estimation_target before native dispatch."
+    },
+    {
+      "language": "r",
+      "status": "unsupported",
+      "adapter": "c_abi",
+      "methods": [],
+      "fixture_evidence": [],
+      "unsupported_behavior": "No estimation-variance C-ABI symbol or R wrapper is published; callers must fail closed."
+    },
+    {
+      "language": "julia",
+      "status": "unsupported",
+      "adapter": "c_abi",
+      "methods": [],
+      "fixture_evidence": [],
+      "unsupported_behavior": "No estimation-variance C-ABI symbol or Julia wrapper is published; callers must fail closed."
+    },
+    {
+      "language": "mojo",
+      "status": "external_boundary",
+      "adapter": "upstream_rust_interop",
+      "methods": [],
+      "fixture_evidence": [],
+      "unsupported_behavior": "No local Mojo binding or executable is governed by this repository."
+    }
+  ]
+}

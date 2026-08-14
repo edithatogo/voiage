@@ -12,8 +12,8 @@
     "select the arXiv category, license, and endorsement path",
     "review the final source package and PDF",
     "perform the authenticated arXiv upload",
-    "document independent research use and adoption before JOSS submission"
+    "document completed research-workflow use and independent engagement before JOSS submission"
   ],
   "submission_performed": false,
-  "joss_submission": "blocked_pending_demonstrated_research_use_and_human_declarations"
+  "joss_submission": "blocked_pending_demonstrated_research_use_engagement_and_human_declarations"
 }

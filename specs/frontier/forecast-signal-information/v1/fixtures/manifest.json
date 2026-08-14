@@ -1,0 +1,16 @@
+{
+  "version": "v1",
+  "status": "fixture-backed",
+  "evidence_artifact": "evidence.json",
+  "normative": [
+    {
+      "expected_output_artifact": "normative/expected.json",
+      "input_artifact": "normative/input.json",
+      "method_family": "forecast_signal_information_value",
+      "name": "analytical binary newsvendor signal",
+      "reference": "issue-572 analytical newsvendor derivation",
+      "tolerance_policy": "declared absolute and relative tolerances"
+    }
+  ],
+  "pathologies": []
+}

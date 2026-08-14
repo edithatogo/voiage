@@ -1,0 +1,153 @@
+name: Canonical specialized VOI sync
+
+on:
+  repository_dispatch:
+    types: [canonical-specialized-voi-updated]
+  workflow_dispatch:
+    inputs:
+      canonical_ref:
+        description: Canonical vop_poc_nz ref to validate.
+        required: true
+        default: main
+        type: string
+      propose:
+        description: Open or refresh a draft projection-mirror pull request when it drifts.
+        required: true
+        default: false
+        type: boolean
+      projection:
+        description: Canonical versioned projection path to validate.
+        required: true
+        default: conductor/tracks/specialized-voi-v1-3_20260801/projection.json
+        type: choice
+        options:
+          - conductor/tracks/specialized-voi-v1-3_20260801/projection.json
+          - conductor/tracks/specialized-voi-v1-2_20260727/projection.json
+
+permissions:
+  contents: read
+
+concurrency:
+  group: canonical-specialized-voi-sync
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          repository: edithatogo/vop_poc_nz
+          ref: ${{ github.event.client_payload.canonical_ref || inputs.canonical_ref }}
+          path: .canonical-vop
+          persist-credentials: false
+      - id: projection
+        name: Select only a registered versioned projection
+        env:
+          REQUESTED_PROJECTION: ${{ github.event.client_payload.projection_path || inputs.projection }}
+        run: |
+          case "$REQUESTED_PROJECTION" in
+            conductor/tracks/specialized-voi-v1-3_20260801/projection.json)
+              echo "source_path=.canonical-vop/$REQUESTED_PROJECTION" >> "$GITHUB_OUTPUT"
+              echo "projection_id=specialized-voi-v1.3.0" >> "$GITHUB_OUTPUT"
+              ;;
+            conductor/tracks/specialized-voi-v1-2_20260727/projection.json)
+              echo "source_path=.canonical-vop/$REQUESTED_PROJECTION" >> "$GITHUB_OUTPUT"
+              echo "projection_id=specialized-voi-v1.2.0" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "Unregistered canonical projection path: $REQUESTED_PROJECTION" >&2
+              exit 2
+              ;;
+          esac
+      - env:
+          EXPECTED_PROJECTION_ID: ${{ steps.projection.outputs.projection_id }}
+          PROJECTION_PATH: ${{ steps.projection.outputs.source_path }}
+        run: >-
+          python scripts/validate_canonical_specialized_voi_projection.py
+          --projection "$PROJECTION_PATH"
+          --expected-projection-id "$EXPECTED_PROJECTION_ID"
+
+  propose-mirror-update:
+    needs: validate
+    if: github.event_name == 'repository_dispatch' || inputs.propose == true
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          repository: edithatogo/vop_poc_nz
+          ref: ${{ github.event.client_payload.canonical_ref || inputs.canonical_ref }}
+          path: .canonical-vop
+          persist-credentials: false
+      - id: projection
+        name: Select only a registered versioned projection
+        env:
+          REQUESTED_PROJECTION: ${{ github.event.client_payload.projection_path || inputs.projection }}
+        run: |
+          case "$REQUESTED_PROJECTION" in
+            conductor/tracks/specialized-voi-v1-3_20260801/projection.json)
+              echo "source_path=.canonical-vop/$REQUESTED_PROJECTION" >> "$GITHUB_OUTPUT"
+              echo "target_path=conductor/canonical-projections/specialized-voi-v1.3.0.json" >> "$GITHUB_OUTPUT"
+              echo "branch=automation/canonical-specialized-voi-v1-3" >> "$GITHUB_OUTPUT"
+              echo "version=v1.3.0" >> "$GITHUB_OUTPUT"
+              echo "projection_id=specialized-voi-v1.3.0" >> "$GITHUB_OUTPUT"
+              ;;
+            conductor/tracks/specialized-voi-v1-2_20260727/projection.json)
+              echo "source_path=.canonical-vop/$REQUESTED_PROJECTION" >> "$GITHUB_OUTPUT"
+              echo "target_path=conductor/canonical-projections/specialized-voi-v1.2.0.json" >> "$GITHUB_OUTPUT"
+              echo "branch=automation/canonical-specialized-voi-v1-2" >> "$GITHUB_OUTPUT"
+              echo "version=v1.2.0" >> "$GITHUB_OUTPUT"
+              echo "projection_id=specialized-voi-v1.2.0" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "Unregistered canonical projection path: $REQUESTED_PROJECTION" >&2
+              exit 2
+              ;;
+          esac
+      - name: Propose only a bounded projection-mirror update
+        env:
+          AUTOMATION_BRANCH: ${{ steps.projection.outputs.branch }}
+          SOURCE_PATH: ${{ steps.projection.outputs.source_path }}
+          TARGET_PATH: ${{ steps.projection.outputs.target_path }}
+          VERSION: ${{ steps.projection.outputs.version }}
+          PROJECTION_ID: ${{ steps.projection.outputs.projection_id }}
+        run: |
+          python scripts/validate_canonical_specialized_voi_projection.py \
+            --projection "$SOURCE_PATH" --expected-projection-id "$PROJECTION_ID"
+          if cmp --silent "$SOURCE_PATH" "$TARGET_PATH"; then
+            echo "Canonical projection mirror is current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/edithatogo/voiage.git"
+          if git ls-remote --exit-code --heads origin "$AUTOMATION_BRANCH" >/dev/null; then
+            git fetch origin "$AUTOMATION_BRANCH:refs/remotes/origin/$AUTOMATION_BRANCH"
+          fi
+          git switch -C "$AUTOMATION_BRANCH" "origin/$DEFAULT_BRANCH"
+          if cmp --silent "$SOURCE_PATH" "$TARGET_PATH"; then
+            echo "Canonical projection mirror became current on the default branch."
+            exit 0
+          fi
+          cp "$SOURCE_PATH" "$TARGET_PATH"
+          git add "$TARGET_PATH"
+          git commit -m "chore(governance): refresh $VERSION projection mirror"
+          git push --force-with-lease origin "HEAD:refs/heads/$AUTOMATION_BRANCH"
+          existing=$(gh pr list --head "$AUTOMATION_BRANCH" --base "$DEFAULT_BRANCH" --state open --json url --jq '.[0].url')
+          if [ -z "$existing" ]; then
+            gh pr create --draft --base "$DEFAULT_BRANCH" --head "$AUTOMATION_BRANCH" --title "chore(governance): refresh $VERSION projection mirror" --body "Automated bounded mirror proposal from the canonical $VERSION projection. No issues, releases, or merges are changed automatically."
+          fi

@@ -4,7 +4,7 @@ description: Python DecisionAnalysis facade reference
 ---
 
 The Python facade exposes `DecisionAnalysis` while the stable numerical
-policy executes in the Rust core.
+boundary uses selected Rust kernels.
 
 ## `DecisionAnalysis`
 
@@ -14,8 +14,9 @@ samples. The primary methods are:
 - `evpi()` — expected value of perfect information.
 - `evppi(parameter_names=None)` — expected value of partial perfect
   information for selected parameters.
-- `evsi(parameter_names, sample_size, n_inner_loops=100)` — expected value of
-  sample information for a proposed study.
 
-Inputs are validated against the stable API contract and errors use the
-repository's stable exception vocabulary.
+EVSI is available through the functions in
+`voiage.methods.sample_information`; it is not a `DecisionAnalysis` method.
+
+The opt-in `voiage.contracts.run_evpi()` route returns a typed result envelope
+with decision identifiers, numerical policy, diagnostics, and provenance.

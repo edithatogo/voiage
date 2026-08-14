@@ -73,17 +73,21 @@ def test_python_release_workflow_builds_and_publishes_aggregated_artifacts() -> 
         'python -m voiage.versioning --release-tag "$RELEASE_TAG"' in release_workflow
     )
     assert (
-        "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02"
+        "actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a"
         in release_workflow
     )
     assert (
-        "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093"
+        "actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c"
         in release_workflow
     )
     assert (
         "actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373"
         in release_workflow
     )
+    assert "id: provenance" in release_workflow
+    assert "${{ steps.provenance.outputs.bundle-path }}" in release_workflow
+    assert "dist/voiage-${PYTHON_VERSION}.intoto.jsonl" in release_workflow
+    assert "dist/*.intoto.jsonl" in release_workflow
     assert (
         "pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b"
         in release_workflow
@@ -108,14 +112,40 @@ def test_conda_release_recipe_is_single_native_maturin_contract() -> None:
 
     assert not Path("conda/meta.yaml").exists()
     assert "noarch: python" not in recipe
+    assert "  build:\n    - {{ compiler('c') }}" in recipe
+    assert "{{ compiler('c') }}" in recipe
     assert "{{ compiler('rust') }}" in recipe
+    assert "{{ stdlib('c') }}" in recipe
     assert "maturin >=1.9,<2.0" in recipe
-    assert "python >= {{ python_min }}" in recipe
-    assert "sha256: UPDATE_ON_RELEASE" in recipe
+    assert "script:" not in recipe
+    assert 'GIT_DIR="${SRC_DIR}/.conda-no-git"' in Path(
+        "conda-recipe/build.sh"
+    ).read_text(encoding="utf-8")
+    assert "GIT_DIR=%SRC_DIR%\\.conda-no-git" in Path("conda-recipe/bld.bat").read_text(
+        encoding="utf-8"
+    )
+    assert "{% set python_min" not in recipe
+    assert "  skip: true  # [py<312]" in recipe
+    assert "  host:\n    - python\n" in recipe
+    assert "  run:\n    - python\n" in recipe
+    assert "python >= {{ python_min }}" not in recipe
+    assert "    - voiage._core" in recipe
+    assert "core.runtime_info()['core_version'] == voiage.__version__" in recipe
+    assert "voiage.evpi(np.array(" in recipe
+    assert "  requires:\n    - python\n    - pip" in recipe
+    assert (
+        "sha256: 82514d3df571bf908bc64a85be2c8212ea66f5d7d53a3058054c7ddf219a35de"
+        in recipe
+    )
 
     workflow = Path(".github/workflows/conda-update.yml").read_text(encoding="utf-8")
     assert 'meta = Path("recipes/voiage/meta.yaml")' in workflow
     assert 'r"sha256: [0-9a-fA-F_]+"' in workflow
+    assert (
+        "cp conda-recipe/meta.yaml conda-recipe/build.sh conda-recipe/bld.bat"
+        in workflow
+    )
+    assert "recipes/voiage/bld.bat" in workflow
 
 
 def test_python_release_publish_job_is_exact_tag_and_least_privilege() -> None:
@@ -151,6 +181,33 @@ def test_python_release_publish_job_is_exact_tag_and_least_privilege() -> None:
     assert "needs: [resolve-tag, test-pypi]" in release_workflow
     assert "needs: [resolve-tag, test-pypi-smoke]" in release_workflow
     assert "needs: [resolve-tag, pypi]" in release_workflow
+    assert "is_prerelease: ${{ steps.tag.outputs.is_prerelease }}" in release_workflow
+    assert (
+        "python_version: ${{ steps.version.outputs.python_version }}"
+        in release_workflow
+    )
+    assert (
+        "python -m voiage.versioning \\\n"
+        '              --release-tag "$RELEASE_TAG" \\\n'
+        "              --print-python-version" in release_workflow
+    )
+    assert (
+        release_workflow.count(
+            "PYTHON_VERSION: ${{ needs.resolve-tag.outputs.python_version }}"
+        )
+        == 2
+    )
+    assert "${RELEASE_TAG#v}.intoto.jsonl" not in release_workflow
+    assert '"dist/voiage-${PYTHON_VERSION}.intoto.jsonl"' in release_workflow
+    assert 'release_version="${RELEASE_TAG#v}"' not in release_workflow
+    assert (
+        '"https://test.pypi.org/pypi/voiage/${PYTHON_VERSION}/json"' in release_workflow
+    )
+    assert '"voiage==$PYTHON_VERSION"' in release_workflow
+    assert (
+        release_workflow.count("if: needs.resolve-tag.outputs.is_prerelease != 'true'")
+        == 2
+    )
 
 
 def test_python_release_keeps_staging_separate_from_publication() -> None:
@@ -192,7 +249,7 @@ def test_python_release_keeps_staging_separate_from_publication() -> None:
         "reviewed-payload:\n    name: Validate Reviewed Private Draft"
         in release_workflow
     )
-    assert release_workflow.count("name: reviewed-release-payload") == 3
+    assert release_workflow.count("name: reviewed-release-payload") == 4
     assert (
         'gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json isDraft'
         in release_workflow
@@ -200,6 +257,19 @@ def test_python_release_keeps_staging_separate_from_publication() -> None:
     assert 'gh release edit "$RELEASE_TAG" --draft=false' in release_workflow
     assert "git cat-file -t" in release_workflow
     assert ".verification.verified == true" in release_workflow
+
+
+def test_testpypi_requires_the_complete_reviewed_distribution_set() -> None:
+    release_workflow = Path(".github/workflows/release.yml").read_text(encoding="utf-8")
+
+    assert "reviewed-testpypi-manifest" in release_workflow
+    assert "remote-testpypi-manifest" in release_workflow
+    assert (
+        "jq -r '.urls[] | \"\\(.digests.sha256)  \\(.filename)\"'" in release_workflow
+    )
+    assert 'cmp --silent "$expected_manifest" "$remote_manifest"' in release_workflow
+    assert 'test "${#distribution_urls[@]}" -eq 4' in release_workflow
+    assert 'for distribution_url in "${distribution_urls[@]}"; do' in release_workflow
 
 
 def test_release_wheels_are_installed_and_exercised_before_upload() -> None:
@@ -211,6 +281,15 @@ def test_release_wheels_are_installed_and_exercised_before_upload() -> None:
     assert "tests/packaging/test_wheel_black_box.py" in release_workflow
     assert "--import-mode=importlib" in release_workflow
     assert "WHEEL_VENV" in release_workflow
+
+
+def test_private_draft_review_has_scoped_push_access() -> None:
+    workflow = yaml.safe_load(
+        Path(".github/workflows/release.yml").read_text(encoding="utf-8")
+    )
+
+    assert workflow["jobs"]["resolve-tag"]["permissions"]["contents"] == "read"
+    assert workflow["jobs"]["reviewed-payload"]["permissions"]["contents"] == "write"
 
 
 def test_release_builds_embed_immutable_source_and_platform_provenance() -> None:
@@ -356,10 +435,16 @@ def test_testpypi_smoke_is_bounded_and_blocks_pypi() -> None:
         "resolve-tag",
         "test-pypi-smoke",
     ]
-    assert "for attempt in 1 2 3 4 5 6" in rendered
+    assert rendered.count("for attempt in 1 2 3 4 5 6") >= 3
     assert "sleep 20" in rendered
     assert "https://test.pypi.org/simple/" in rendered
+    assert "TestPyPI Simple API did not expose the reviewed release" in rendered
     assert "--no-deps" in rendered
+    assert "test.pypi.org/integrity/voiage/${PYTHON_VERSION}" in rendered
+    assert "pypi-attestations==0.0.30" in rendered
+    assert "--provenance-file" in rendered
+    assert "reviewed-dist/$filename" in rendered
+    assert "verify pypi --staging" not in rendered
     assert "test_wheel_black_box.py --import-mode=importlib" in rendered
 
 

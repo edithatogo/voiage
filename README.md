@@ -11,7 +11,7 @@
 
 `voiage` provides Value of Information (VOI) methods for comparing decisions
 under uncertainty and assessing whether additional evidence may be worth
-collecting. The v1.0 release combines:
+collecting. The v2.0 release combines:
 
 - a Python API and command-line interface (CLI);
 - binding-independent Rust domain, diagnostics, numerical, and serialization
@@ -42,7 +42,7 @@ expected benefit of resolving some uncertainty justifies further research.
 - structural, network meta-analysis, subgroup, sequential, adaptive, and
   portfolio-oriented VOI workflows;
 - fixture-backed experimental work on perspective, equity, implementation,
-  and adjacent VOI questions.
+  expected-utility information pricing, and adjacent VOI questions.
 
 Stable and experimental surfaces are distinguished in the
 [method documentation](https://edithatogo.github.io/voiage/methods/) and
@@ -61,7 +61,7 @@ python -m pip install voiage
 
 Python 3.12, 3.13, and 3.14 are supported. Wheels use the CPython 3.12 stable
 ABI and are published for the platforms listed in the
-[v1.0.0 release](https://github.com/edithatogo/voiage/releases/tag/v1.0.0).
+[v2.0.0 release](https://github.com/edithatogo/voiage/releases/tag/v2.0.0).
 
 Optional features are installed explicitly:
 
@@ -124,25 +124,41 @@ voiage --help
 See the [CLI reference](https://edithatogo.github.io/voiage/cli-reference/)
 for input schemas, output formats, logging controls, and additional commands.
 
+### Standardized dataset ingestion
+
+`voiage` can also safely normalize conservative local profiles of Croissant ML
+1.1 and Frictionless Data Package CSV descriptors before calculation. Source
+format parsers remain separate from the calculation runtime: each produces an
+Arrow-backed `NormalizedInputBundle`, and callers supply an explicit VOI
+binding. Use `voiage ingest validate`, `voiage ingest inspect`, and `voiage
+ingest normalize` for a descriptor workflow; remote URLs, archives, implicit
+column inference, and unsafe paths are rejected. See the
+[standardized-ingestion guide](https://edithatogo.github.io/voiage/standardized-dataset-ingestion/)
+for the supported-profile matrix, offline replay policy, and ML, engineering,
+and business examples.
+
 ## Capability status
 
 | Capability | Status | Scope |
 | --- | --- | --- |
-| EVPI, EVPPI, EVSI, ENBS | Stable | Python API and CLI, with selected Rust-backed aggregation |
+| EVPI, EVPPI, ENBS | Stable | Python API and CLI with Rust-owned numerical policy |
+| EVSI | Method-specific | The analytical two-arm normal path is stable; the developing two-loop path uses one coherent fitted Gaussian prior or explicit custom sampling and joint-posterior callbacks; compatibility estimators without a complete validated study-model contract are non-stable |
 | Acceptability, frontier, dominance, heterogeneity | Stable | Analysis and plotting helpers |
 | Structural and network meta-analysis VOI | Stable | Python method surface |
 | Adaptive, calibration, observational, sequential VOI | Stable | Python study-design workflows |
 | Portfolio VOI | Stable | Budget-constrained portfolio analysis |
+| COSS and EVSI/EVPI study efficiency | Experimental | Rust-owned finite-design kernels with Python contracts, CLI/reporting, accessible plotting, and an exact constrained portfolio slice; no stable or full-polyglot claim |
 | Diagnostics and data interchange | Stable | Versioned contracts; Arrow/Parquet is the canonical tabular interchange |
-| R and Julia EVPI | Released binding source | Direct versioned Rust C ABI |
+| R and Julia EVPI | Released binding source | Direct versioned Rust interface; both require the separately supplied `voiage-ffi` library |
 | Broader R and Julia method parity | Partial | Advanced R paths retain the documented Python bridge; Julia is EVPI-focused |
 | Perspective and frontier extensions | Experimental | Fixture-backed contracts; not represented as stable |
+| Expected-utility information pricing and VoC | Experimental | Rust/Python EUI, CEI, BPI, SPI, and anchored PPI; VoC is presentation-only and the EVPI alias requires positive-affine utility; R/Julia are unsupported and Mojo is an external boundary |
 | Mojo binding | Not released | No publishable Mojo package is claimed |
 | FPGA and ASIC execution | Evidence only | Simulation and pre-silicon evidence do not establish production hardware support |
 
 ## Architecture
 
-The repository is moving towards a binding-independent Rust core, but v1.0 is
+The repository is moving towards a binding-independent Rust core, but v2.0 is
 still a hybrid implementation:
 
 ```text
@@ -174,7 +190,7 @@ records the supported boundary and migration policy.
 
 | Surface | Source | Current use | Distribution status |
 | --- | --- | --- | --- |
-| Python | [`voiage/`](voiage/) | Primary API, CLI, orchestration, plots, reports | [PyPI v1.0.0](https://pypi.org/project/voiage/1.0.0/) and TestPyPI |
+| Python | [`voiage/`](voiage/) | Primary API, CLI, orchestration, plots, reports | [PyPI v2.0.0](https://pypi.org/project/voiage/2.0.0/) and TestPyPI |
 | Rust | [`rust/`](rust/) | Domain contracts, diagnostics, selected kernels, serialization | Crates are package-ready; consult the [release checklist](docs/release/binding-submission-checklist.md) for verified registry state |
 | R | [`r-package/voiageR/`](r-package/voiageR/) | Direct C-ABI EVPI; documented bridge for wider Python methods | [r-universe](https://edithatogo.r-universe.dev/voiageR); CRAN review remains external |
 | Julia | [`bindings/julia/`](bindings/julia/) | Direct C-ABI EVPI | Prepared for Julia General; registry entry is not yet verified |
@@ -189,6 +205,7 @@ crates.io, and other external channels.
 - [Documentation home](https://edithatogo.github.io/voiage/)
 - [Getting started](https://edithatogo.github.io/voiage/getting-started/)
 - [Examples and tutorials](https://edithatogo.github.io/voiage/examples/)
+- [Expected-utility information example](https://edithatogo.github.io/voiage/examples/expected-utility-information/)
 - [Method reference](https://edithatogo.github.io/voiage/methods/)
 - [Data structures](https://edithatogo.github.io/voiage/data-structures/)
 - [Plotting](https://edithatogo.github.io/voiage/user-guide/plotting/)
@@ -221,25 +238,29 @@ The repository applies different forms of evidence to different failure modes:
 | Platform assurance | Linux, macOS, Windows, UTF-8/LF, Python 3.12–3.14, minimum and maximum dependencies |
 | Documentation and papers | Astro/Starlight builds, link/semantic checks, arXiv source and PDF audits, deterministic readability evidence |
 
-Dependabot manages Python, Cargo, npm, and GitHub Actions updates. Renovate is
-not also enabled because running two update bots over the same manifests would
-create duplicate pull requests. Full commands and control boundaries are in
+Renovate manages Python/uv, Cargo, npm, and GitHub Actions updates. Dependabot
+version-update configuration is intentionally absent so the repository has one
+dependency-update bot and does not create duplicate pull requests. Full commands
+and control boundaries are in
 the [quality and security guide](https://edithatogo.github.io/voiage/developer-guide/quality-and-security/)
 and [SECURITY.md](SECURITY.md).
 
 ## Releases, citation, and archival
 
 - Latest software release:
-  [v1.0.0](https://github.com/edithatogo/voiage/releases/tag/v1.0.0)
+  [v2.0.0](https://github.com/edithatogo/voiage/releases/tag/v2.0.0)
 - Python package: [PyPI](https://pypi.org/project/voiage/)
 - Citation metadata: [`CITATION.cff`](CITATION.cff)
 - Software metadata: [`codemeta.json`](codemeta.json)
 - Software Heritage snapshot:
-  [`swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32`](https://archive.softwareheritage.org/swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32)
+  [`swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d`](https://archive.softwareheritage.org/swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d)
 
 The canonical preprint source is [`paper/main.tex`](paper/main.tex). Repository
-automation builds, lints, audits, and packages the manuscript, but does not
-upload it. Neither arXiv nor JOSS submission is claimed.
+automation builds, lints, audits, and packages the manuscript. Authenticated
+arXiv submission `7861466` is verified as submitted, but a permanent arXiv
+identifier and announcement have not yet been assigned. The separate
+[`paper.md`](paper.md) adaptation passes repository-owned JOSS preflight; no
+JOSS submission, review, or acceptance is claimed.
 
 ## Project status and roadmap
 
@@ -251,7 +272,9 @@ boundaries include:
 - broader native R and Julia API parity;
 - experimental frontier-method validation and promotion;
 - external registry review or indexing where not yet evidenced;
-- SciCrunch/RRID curation and later arXiv/JOSS author-led submissions;
+- SciCrunch registration was submitted on 27 July 2026 after a no-match
+  duplicate check and account confirmation; curation and RRID assignment remain
+  external, alongside later arXiv/JOSS author-led submissions;
 - physical FPGA or fabricated-silicon evidence.
 
 See [`roadmap.md`](roadmap.md), [`todo.md`](todo.md), and the

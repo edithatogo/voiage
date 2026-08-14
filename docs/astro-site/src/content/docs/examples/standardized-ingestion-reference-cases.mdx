@@ -1,0 +1,139 @@
+---
+title: Standardized Ingestion Reference Cases
+description: Deterministic ML, engineering, and business examples with bounded EVPI and CEAF evidence.
+---
+
+These deterministic, in-repository synthetic examples demonstrate format
+interoperability, not domain-specific modelling: no field names, strategies,
+units, or transformations are inferred. They contain no third-party source
+data and make no claim about external data rights, live provider availability,
+or a real-world decision recommendation.
+
+| Community | Croissant | Frictionless | Direct normalized input | Explicit method |
+| --- | --- | --- | --- | --- |
+| Machine learning | `canonical-decision.croissant.json` | `canonical-decision.datapackage.json` | Explicit Arrow table and binding | EVPI on model-selection net benefits. |
+| Engineering and operations | `cost-outcome-decision.croissant.json` | `cost-outcome-decision.datapackage.json` | Explicit Arrow table and bindings | EVPI at a declared WTP; CEAF over paired cost/outcome PSA rows at declared thresholds. |
+| Business | `canonical-decision.croissant.json` | `canonical-decision.datapackage.json` | Explicit Arrow table and binding | EVPI on investment-strategy net benefits. |
+
+The fixture records two strategies, `strategy_a` and `strategy_b`, and binds
+them explicitly as `A` and `B`:
+
+```python
+VOIBinding(
+    role="net_benefit",
+    table_id="samples",
+    field_ids=("strategy_a", "strategy_b"),
+    strategy_names=("A", "B"),
+)
+```
+
+Run the complete reproducible walkthrough from a source checkout:
+
+```bash
+uv run python examples/standardized_ingestion/reference_cases.py
+```
+
+The output is a machine-readable case catalogue. Every community has
+`croissant`, `frictionless`, and `direct` results; the optional `dataframe`
+result is an additional SDK-consumer check. The runner fails if a required
+surface reaches a different EVPI, a provider receipt differs from the pinned
+CSV digest, or the Arrow schema changes. The `dataframe` result exercises
+`from_dataframe(..., allow_copy=False)` with the explicit zero-copy requirement;
+it does not replace the direct normalized input.
+
+To inspect the descriptor-backed forms before calculating, run:
+
+```bash
+voiage ingest validate tests/fixtures/standardized_ingestion/canonical-decision.croissant.json
+voiage ingest inspect tests/fixtures/standardized_ingestion/canonical-decision.datapackage.json
+voiage ingest validate tests/fixtures/standardized_ingestion/cost-outcome-decision.croissant.json
+voiage ingest inspect tests/fixtures/standardized_ingestion/cost-outcome-decision.datapackage.json
+```
+
+`inspect` is deliberately metadata-only; it does not materialize a resource.
+`validate` materializes the declared local CSV and reports its receipt, pinned
+digest, retained governance metadata, and data-quality evidence. Binding
+resolution remains explicit in Python rather than inferred from the descriptor.
+
+## Cost/outcome derivation case
+
+A second synthetic case exercises a different decision path: it records costs
+and outcomes rather than precomputed net benefit. Explicit, aligned strategy
+bindings derive net benefit at 20,000 currency units per outcome unit. The same
+case is materialized through Croissant, Frictionless, and a direct Arrow table,
+and has an EVPI of `20 / 3` in every surface.
+
+```python
+from examples.standardized_ingestion.reference_cases import (
+    run_cost_outcome_reference_cases,
+)
+
+assert run_cost_outcome_reference_cases()["ml"] == 20.0 / 3.0
+```
+
+The pinned sources, digests, binding details, and willingness-to-pay value are
+recorded in `cost-outcome-decision.manifest.json` beside the fixture files.
+The scripts deliberately report a fixture as deterministic synthetic data,
+rather than presenting a substitute for a rights clearance or live provider
+receipt.
+
+## Long-layout equivalence
+
+`long-decision` records the same deterministic two-strategy samples as the
+canonical wide fixture, but declares a sample identifier, strategy label, and
+one net-benefit value per row. Its long binding explicitly names all three
+fields and fixes the strategy order; no column or label is inferred. The
+Croissant, Frictionless, and direct Arrow representations must each normalize
+to the same `ValueArray` as the wide fixture before EVPI is calculated.
+
+```python
+from examples.standardized_ingestion.reference_cases import run_long_reference_cases
+
+long_case = run_long_reference_cases()
+normalized = long_case["normalized_net_benefit"]
+assert normalized["croissant"] == normalized["frictionless"] == normalized["direct"]
+```
+
+This evidence covers declared long net-benefit rows only. It does not turn an
+arbitrary long table into a cost/outcome or perspective-specific dataset.
+
+### CEAF equivalence
+
+The engineering fixture also supplies paired cost and outcome PSA rows for the
+same two strategies. It can therefore be converted to net benefit at the fixed
+WTP thresholds 10,000, 20,000, and 30,000 and passed to the existing CEAF
+method. This is intentionally narrower than an EVSI, EVPPI, or ENBS claim:
+those methods need conditional-model or study-design inputs that these fixtures
+do not supply.
+
+```python
+from examples.standardized_ingestion.reference_cases import (
+    run_cost_outcome_ceaf_reference_cases,
+)
+
+ceaf = run_cost_outcome_ceaf_reference_cases()
+assert ceaf["croissant"] == ceaf["frictionless"] == ceaf["direct"]
+assert ceaf["croissant"]["optimal_strategy_names"] == ("B", "B", "B")
+```
+
+The returned records also include the normalized net-benefit samples at WTP
+20,000. Equality across Croissant, Frictionless, direct Arrow, and the optional
+DataFrame surface is checked before the example returns.
+
+## Method applicability matrix
+
+| Community | EVPI | CEAF | EVPPI / EVSI / ENBS | Shape coverage |
+| --- | --- | --- | --- | --- |
+| Machine learning | Evaluated on explicit wide and declared long net-benefit samples. | Not applicable: no cost/outcome WTP surface. | Not applicable: no conditional or study-design inputs. | Wide and declared long net-benefit rows; no perspective-split fixture. |
+| Engineering and operations | Evaluated at WTP 20,000. | Evaluated on paired cost/outcome PSA rows at WTP 10,000, 20,000, and 30,000. | Not applicable: no conditional or study-design inputs. | Cost/outcome wide rows and declared long net-benefit rows; no perspective-split fixture. |
+| Business | Evaluated on explicit wide and declared long net-benefit samples. | Not applicable: no cost/outcome WTP surface. | Not applicable: no conditional or study-design inputs. | Wide and declared long net-benefit rows; no perspective-split fixture. |
+
+This matrix is a fixture-support boundary, not a statement that the omitted
+methods or shapes are unsupported by `voiage` generally. It prevents these
+small deterministic examples from being presented as evidence for inputs they
+do not contain.
+
+The input descriptors and their SHA-256 digests live in
+[`tests/fixtures/standardized_ingestion/`](https://github.com/edithatogo/voiage/tree/main/tests/fixtures/standardized_ingestion).
+Use `canonical-decision.manifest.json` to verify exact source artifacts before
+reproducing a result.

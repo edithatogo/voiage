@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0.0",
+  "observed_at": "2026-08-02T13:12:00Z",
+  "repository": "edithatogo/voiage",
+  "project_number": 28,
+  "candidate_commit": "3b9024c503c171e7e321ddfaacc3665589e4d5e8",
+  "hierarchy": [
+    {
+      "issue": 841,
+      "parent": 318,
+      "track_id": "supported_frontier_method_completion_20260723",
+      "version": "1.2.0",
+      "gate": "Human",
+      "risk": "High",
+      "review_due": "2026-12-15"
+    },
+    {
+      "issue": 842,
+      "parent": 841,
+      "track_id": "supported_frontier_method_completion_20260723",
+      "version": "1.2.0",
+      "gate": "Local",
+      "risk": "High",
+      "review_due": "2026-09-30"
+    },
+    {
+      "issue": 843,
+      "parent": 619,
+      "track_id": "estimation_focused_variance_voi_20260727",
+      "version": "1.2.0",
+      "gate": "Human",
+      "risk": "High",
+      "review_due": "2026-10-31"
+    },
+    {
+      "issue": 844,
+      "parent": 571,
+      "track_id": "study_design_efficiency_20260727",
+      "version": "1.2.0",
+      "gate": "Human",
+      "risk": "High",
+      "review_due": "2026-10-31"
+    },
+    {
+      "issue": 845,
+      "parent": 595,
+      "track_id": "risk_adjusted_information_pricing_20260731",
+      "version": "1.2.0",
+      "gate": "Human",
+      "risk": "High",
+      "review_due": "2026-10-31"
+    },
+    {
+      "issue": 846,
+      "parent": 841,
+      "track_id": "supported_frontier_method_completion_20260723",
+      "version": "1.3.0",
+      "gate": "Human",
+      "risk": "Critical",
+      "review_due": "2026-11-30"
+    },
+    {
+      "issue": 847,
+      "parent": 841,
+      "track_id": "supported_frontier_method_completion_20260723",
+      "version": "1.3.0",
+      "gate": "Human",
+      "risk": "Medium",
+      "review_due": "2026-11-30"
+    },
+    {
+      "issue": 848,
+      "parent": 841,
+      "track_id": "supported_frontier_method_completion_20260723",
+      "version": "1.2.0",
+      "gate": "Local",
+      "risk": "High",
+      "review_due": "2026-10-31"
+    },
+    {
+      "issue": 849,
+      "parent": 841,
+      "track_id": "supported_frontier_method_completion_20260723",
+      "version": "1.2.0",
+      "gate": "Human",
+      "risk": "High",
+      "review_due": "2026-12-01"
+    },
+    {
+      "issue": 850,
+      "parent": 570,
+      "dependency": 571,
+      "track_id": "supported_frontier_method_completion_20260723",
+      "version": "1.3.0",
+      "gate": "Human",
+      "risk": "Critical",
+      "review_due": "2026-11-30"
+    }
+  ],
+  "normalized_existing_issue": {
+    "issue": 570,
+    "release_target": "v1.3.0 (C18/M22)",
+    "project_contract_version": "1.3.0",
+    "project_gate": "Human",
+    "project_risk": "High",
+    "project_sync_state": "Clean",
+    "review_due": "2026-11-30"
+  },
+  "common_project_fields": {
+    "status": "In Progress",
+    "moscow": "Must",
+    "lifecycle": "Mitigating",
+    "evidence_state": "Unverified",
+    "sync_state": "Clean"
+  },
+  "unresolved_external_gates": [
+    "named independent human scientific reviewers",
+    "maintainer stable-promotion decision",
+    "release and publication authorization",
+    "registry acceptance"
+  ]
+}

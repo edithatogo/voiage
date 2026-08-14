@@ -1,0 +1,15 @@
+{
+  "capability_id": "signed-social-information-v1",
+  "schema_version": "1.0.0",
+  "method": "exact finite signed and social information value",
+  "method_maturity": "experimental",
+  "python_modules": ["voiage/methods/signed_social_information.py"],
+  "python": "experimental_exact_finite_execution",
+  "rust": "not_implemented",
+  "r": "not_implemented",
+  "julia": "not_implemented",
+  "mojo": "external_upstream_boundary",
+  "planned_version": "v1.3.0",
+  "moscow": "Should",
+  "canonical_requirement": "C18/M29"
+}

@@ -9,23 +9,13 @@ from importlib.metadata import PackageNotFoundError
 from importlib.metadata import version as _package_version
 from typing import TYPE_CHECKING
 
-from . import (
-    analysis,
-    config,
-    core,
-    exceptions,
-    factory,
-    fluent,
-    hta_integration,
-    schema,
-)
-from .analysis import DecisionAnalysis
+from . import config, exceptions, schema
 from .methods.basic import evpi, evppi
 from .methods.ceaf import CEAFResult
 from .methods.ceaf import calculate_ceaf as ceaf
 from .methods.dominance import DominanceResult
 from .methods.dominance import calculate_dominance as dominance
-from .methods.sample_information import enbs, evsi
+from .methods.sample_information import enbs, evsi, normal_normal_two_arm_evsi
 from .schema import (
     DecisionOption,
     ParameterSet,
@@ -37,6 +27,7 @@ from .schema import (
 
 if TYPE_CHECKING:
     from . import ecosystem_integration
+    from .analysis import DecisionAnalysis
     from .ecosystem_integration import HeomlRunBundle, load_heoml_run_bundle
 
 try:
@@ -46,13 +37,169 @@ except PackageNotFoundError:  # pragma: no cover - local source tree fallback
 
 
 _JAX_MODULES = frozenset({"health_economics", "multi_domain"})
-_LAZY_MODULES = frozenset({"backends", "cli", "experimental", "methods", "plot"})
+_LAZY_MODULES = frozenset(
+    {
+        "analysis",
+        "backends",
+        "cli",
+        "core",
+        "experimental",
+        "factory",
+        "fluent",
+        "hta_integration",
+        "methods",
+        "plot",
+    }
+)
+_LAZY_EXPORTS = {
+    "DecisionAnalysis": (".analysis", "DecisionAnalysis"),
+}
 _ECOSYSTEM_EXPORTS = {
     "ecosystem_integration": None,
     "HeomlRunBundle": "HeomlRunBundle",
     "load_heoml_run_bundle": "load_heoml_run_bundle",
 }
 _EXTENSION_EXPORTS = {
+    "SignedSocialInformationResult": (
+        ".methods.signed_social_information",
+        "SignedSocialInformationResult",
+    ),
+    "signed_social_information_value": (
+        ".methods.signed_social_information",
+        "signed_social_information_value",
+    ),
+    "BeliefStateInformationResult": (
+        ".methods.belief_state_information",
+        "BeliefStateInformationResult",
+    ),
+    "belief_state_information_value": (
+        ".methods.belief_state_information",
+        "belief_state_information_value",
+    ),
+    "HeterogeneityValueDecompositionResult": (
+        ".methods.heterogeneity_value",
+        "HeterogeneityValueDecompositionResult",
+    ),
+    "heterogeneity_value_decomposition": (
+        ".methods.heterogeneity_value",
+        "heterogeneity_value_decomposition",
+    ),
+    "EventLocalizedInformationResult": (
+        ".methods.event_localized_information",
+        "EventLocalizedInformationResult",
+    ),
+    "event_localized_information_value": (
+        ".methods.event_localized_information",
+        "event_localized_information_value",
+    ),
+    "OutcomeConditionalSampleInformationResult": (
+        ".methods.outcome_conditional_sample_information",
+        "OutcomeConditionalSampleInformationResult",
+    ),
+    "outcome_conditional_sample_information_value": (
+        ".methods.outcome_conditional_sample_information",
+        "outcome_conditional_sample_information_value",
+    ),
+    "UncertaintyModellingValueResult": (
+        ".methods.uncertainty_modelling_value",
+        "UncertaintyModellingValueResult",
+    ),
+    "uncertainty_modelling_value": (
+        ".methods.uncertainty_modelling_value",
+        "value_of_uncertainty_modelling",
+    ),
+    "value_of_uncertainty_modelling": (
+        ".methods.uncertainty_modelling_value",
+        "value_of_uncertainty_modelling",
+    ),
+    "ImplementationInformationResult": (
+        ".methods.implementation_information",
+        "ImplementationInformationResult",
+    ),
+    "implementation_information_value": (
+        ".methods.implementation_information",
+        "implementation_information_value",
+    ),
+    "ForecastSignalInformationResult": (
+        ".methods.forecast_signal_information",
+        "ForecastSignalInformationResult",
+    ),
+    "forecast_signal_information_value": (
+        ".methods.forecast_signal_information",
+        "forecast_signal_information_value",
+    ),
+    "RiskSensitiveVoiResult": (
+        ".methods.risk_sensitive_voi",
+        "RiskSensitiveVoiResult",
+    ),
+    "risk_sensitive_constrained_voi": (
+        ".methods.risk_sensitive_voi",
+        "risk_sensitive_constrained_voi",
+    ),
+    "InformationSourcePortfolioResult": (
+        ".methods.information_source_portfolio",
+        "InformationSourcePortfolioResult",
+    ),
+    "information_source_portfolio_value": (
+        ".methods.information_source_portfolio",
+        "information_source_portfolio_value",
+    ),
+    "McdaInformationResult": (
+        ".methods.mcda_information",
+        "McdaInformationResult",
+    ),
+    "mcda_information_value": (
+        ".methods.mcda_information",
+        "mcda_information_value",
+    ),
+    "QualitativeInformationResult": (
+        ".methods.qualitative_information",
+        "QualitativeInformationResult",
+    ),
+    "QualitativeQuestionResult": (
+        ".methods.qualitative_information",
+        "QualitativeQuestionResult",
+    ),
+    "qualitative_information_from_specification": (
+        ".methods.qualitative_information",
+        "qualitative_information_from_specification",
+    ),
+    "render_qualitative_information_text": (
+        ".methods.qualitative_information",
+        "render_qualitative_information_text",
+    ),
+    "DistributionalInformationResult": (
+        ".methods.distributional_information",
+        "DistributionalInformationResult",
+    ),
+    "distributional_information_from_specification": (
+        ".methods.distributional_information",
+        "distributional_information_from_specification",
+    ),
+    "value_of_distributional_information": (
+        ".methods.distributional_information",
+        "value_of_distributional_information",
+    ),
+    "DeterministicSensitivityResult": (
+        ".methods.deterministic_sensitivity",
+        "DeterministicSensitivityResult",
+    ),
+    "deterministic_sensitivity": (
+        ".methods.deterministic_sensitivity",
+        "deterministic_sensitivity",
+    ),
+    "deterministic_sensitivity_from_specification": (
+        ".methods.deterministic_sensitivity",
+        "deterministic_sensitivity_from_specification",
+    ),
+    "expected_utility_information_value": (
+        ".methods.utility_information",
+        "expected_utility_information_value",
+    ),
+    "value_of_clairvoyance": (
+        ".methods.utility_information",
+        "value_of_clairvoyance",
+    ),
     "AdaptiveLearningBanditResult": (
         ".methods.adaptive_learning_bandit",
         "AdaptiveLearningBanditResult",
@@ -112,9 +259,17 @@ _EXTENSION_EXPORTS = {
         ".methods.dynamic_real_options",
         "DynamicRealOptionsResult",
     ),
+    "ValueOfFlexibilityResult": (
+        ".methods.dynamic_real_options",
+        "ValueOfFlexibilityResult",
+    ),
     "value_of_dynamic_real_options": (
         ".methods.dynamic_real_options",
         "value_of_dynamic_real_options",
+    ),
+    "value_of_flexibility": (
+        ".methods.dynamic_real_options",
+        "value_of_flexibility",
     ),
     "EquityInformationResult": (
         ".methods.equity_information",
@@ -267,6 +422,12 @@ def __getattr__(name: str) -> object:
         module = import_module(f".{name}", __name__)
         globals()[name] = module
         return module
+    if name in _LAZY_EXPORTS:
+        module_name, export_name = _LAZY_EXPORTS[name]
+        module = import_module(module_name, __name__)
+        value = getattr(module, export_name)
+        globals()[name] = value
+        return value
     if name in _EXTENSION_EXPORTS:
         module_name, export_name = _EXTENSION_EXPORTS[name]
         module = import_module(module_name, __name__)
@@ -323,6 +484,7 @@ __all__ = [  # noqa: RUF022 - stable symbols precede provisional namespaces
     "evpi",
     "evppi",
     "evsi",
+    "normal_normal_two_arm_evsi",
     "HeomlRunBundle",
     "analysis",
     "backends",

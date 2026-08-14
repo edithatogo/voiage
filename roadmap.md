@@ -75,13 +75,209 @@ additional tracks would fragment ownership and duplicate acceptance gates.
 The project has a solid foundation with core VOI methods implemented, modern CI/CD, and automated publishing pipelines.
 
 *   **Phase 1 (Foundation & API Refactoring):** ✅ **Complete** - Core OO API, data structures, CI/CD, and documentation are all in place.
-*   **Phase 2 (Health Economics Core):** ✅ **Complete** - EVPI, EVPPI, EVSI (two-loop), NMA VOI, structural VOI, and plotting are implemented.
+*   **Phase 2 (Health Economics Core):** ✅/🔄 **Stable analytical core complete; generic simulation developing** - EVPI, EVPPI, an analytical two-arm normal EVSI model, a coherent joint normal two-loop model with custom callback support, NMA VOI, structural VOI, and plotting are implemented. Generic two-loop and compatibility EVSI estimators remain non-stable pending method-specific convergence and parity evidence.
 *   **Phase 3 (Advanced Methods & Cross-Domain):** ✅ **Complete** - Structural VOI, NMA VOI, JAX JIT compilation, and cross-domain support implemented.
 *   **Spec, Fixture, Polyglot, And Ecosystem Tracks:** ✅/🔄 **Repository Complete, External Gates Explicit** - the core API spec, conformance fixtures, binding release matrix, ecosystem contracts, and community/support tracks are complete in-repo. Registry approval, external indexing, and cross-language parity expansion remain external or follow-on evidence gates.
-*   **Rust Core Migration:** 🔄 **Production Workspace Established, Stable Kernels Rust-Backed** - the production Rust workspace enforces core dependency direction, leaf FFI/PyO3 adapters, a Rust 1.85 MSRV, and cross-platform CI. Stable EVPI, EVPPI, EVSI aggregation, ENBS, CEAF, dominance, heterogeneity, and structural aggregation kernels are Rust-backed; Python retains validation/orchestration and explicitly tracked compatibility paths. Retained Python/Mojo, R, and Julia surfaces still require final hosted and external parity evidence.
+*   **Rust Core Migration:** 🔄 **Production Workspace Established, Stable Kernels Rust-Backed** - the production Rust workspace enforces core dependency direction, leaf FFI/PyO3 adapters, a Rust 1.85 MSRV, and cross-platform CI. Stable EVPI, EVPPI, analytical normal--normal EVSI, ENBS, CEAF, dominance, heterogeneity, and structural aggregation kernels are Rust-backed; Python retains declared two-loop orchestration and explicitly non-stable compatibility paths. R and Julia expose the shared EVPI kernel through a separately supplied native library and still require hosted and registry evidence.
 *   **HPC Native Enablement:** ✅/🔄 **Setup Complete, Speedup Evidence-Gated** - the `hpc-capability-implementation-program_20260511` track family is complete and archived for CPU cluster parallelism, scheduler adapters, Apple Metal, discrete GPU, TPU, FPGA, and ASIC lane setup. Remaining work is evidence-gated production speedup, Apple Silicon device capture, and real FPGA/ASIC hardware validation.
 
 Across the completed lanes, external registry, hardware, and speedup evidence gates remain explicit rather than treated as repository-owned completion criteria.
+
+Issue #318 repository-owned programme reconciliation is complete at source
+revision `163825d8`: all 18 accepted families map to merged experimental
+delivery and the programme's G5–G14 tests, contracts, independent engineering
+reviews, dispositions, documentation, governance state and exact-head hosted
+assurance; G15 is recorded by the separate repository-completion receipt. PR
+#836 exact head `8f1d70cb` completed 42
+terminal checks (38 successes, three governed skips and one neutral
+conclusion), had zero review threads, and merged as `163825d8`. Project 28 is
+normalized for the governed closed issues while open parents remain
+In Progress/Mitigating. External
+scientific/design/classification review, #599
+sparse-subgroup validity, #600 continuous/fitted-estimator and risk-composition
+evidence, #619 vector covariance scalarization, Rust/R/Julia parity, stable
+promotion, release/publication and family-parent/#318 closure remain open.
+
+The next #318 stage is the fail-closed scientific review programme governed by
+umbrella issue #841 and Phase 5 SR1–SR10. Evidence-contract work is tracked by
+#842; review waves by #843–#847; installed/parity assurance by #848; synthesis
+and adjudication by #849; and sampling-acquisition harm scoping by #850. A
+separate orchestrating agent freezes each content-addressed
+candidate and synthesizes independent estimand/domain, estimator-assurance,
+cross-language/API and governance/publication subagent reports. Wave A covers
+#619, #571 and #595; Wave B covers #570 and #597–#600; Wave C covers the
+remaining C17/C18 families; a cross-cutting wave covers installed artifacts,
+portable fixtures, capability discovery, reproducibility and parity. Findings
+are remediated in nested issue-backed slices and rebound to fresh review
+packets. Subagent evidence does not replace a named independent human
+scientific verdict, and scientific acceptance remains separate from maintainer
+promotion, hosted assurance, release, publication, registry and issue-closure
+decisions.
+
+Sampling-acquisition harm is now materialized as the planned v1.3.0 Must
+C18/M32 family in
+`conductor/tracks/sampling_acquisition_harm_voi_20260802/`. Issue #850 owns
+native children #851–#853 for the fail-closed capability contract, primary-
+source/estimand packet and candidate-bound accountable review. The automated
+Phase 1 advisory panel closed all Critical/High repository findings for the
+scoped estimand, including explicit `d0` increments, observable filtration,
+upper-tail positive-loss CVaR, mutually exclusive outcome accounting and tri-
+state mathematical feasibility. This is governed research scoping only: no
+sampling-harm runtime exists. The amended H8 plan first repairs canonical
+hashing, Git-object, role-separation, finding-closure and transition evidence,
+then chooses a narrow domain/jurisdiction candidate or reviewed exclusion and
+freezes a #850-specific packet. H8-A now selects the generic automatic-scalar
+or study-authorizing kernel as the review target for a proposed exclusion
+because no narrow candidate is evidenced; this does not complete the
+exclusion. Independent role
+subagents report to a separate non-deciding orchestrator, which preserves findings, dissent, options,
+contingencies, rationale and recommendation. Completing either scientific
+disposition, including `reviewed_exclusion`, requires two distinct humans for
+scientific and domain/ethics confirmation, with a chair
+only for dispute, dissent or reviewer remediation, followed by a separate
+maintainer product decision. Real-study authorization, parity, promotion,
+release, publication, registry acceptance and closure remain pending.
+
+The first H8-D/H8-E automated challenge pass is now retained as preparation:
+five role-shaped reports and a separate synthesis bind the frozen candidate and
+preserve nineteen pending findings (one Critical, fifteen High and three
+Medium). This panel is non-human and non-authorizing; estimator-assurance
+independence is disqualifying and independent source review remains blocked.
+Consequently H8-D through H8-H remain open, and a new candidate packet is
+required after substantive remediation.
+
+PR #863 exact head `13456c7a` completed 38 successful checks, three governed
+skips, one neutral summary and zero unresolved review threads before squash
+merge `0c3f4314`. PR #865 exact head `973a79dc` then completed the bounded
+H8-D-B repository preparation—four-issue adjacent-method non-alias enforcement,
+the post-#863 administrative delta, the nineteen-finding remediation register
+and fail-closed source and qualified-reviewer intake—before squash merge
+`03277fef` after 38 successful checks, three governed skips, one neutral result
+and zero failures, pending checks or unresolved threads. Closing native child
+#864 does not close any scientific finding or satisfy H8-D through H8-H.
+Native child #867 completed the next bounded preparation through PR #868 exact
+head `ee9da9ba`, squash-merged as `b60d6ee9` after 38 successful checks, three
+governed skips, one neutral result and zero failures, pending checks or
+unresolved review threads. It records a separately dated
+six-source automated observation refresh and a machine-validated, disjoint
+partition of all nineteen pending findings. It preserves the immutable H8-C
+packet, retains zero source bytes and grants no rights, applicability,
+independent-review or finding-disposition authority. A replacement packet
+remains unready until candidate context, independent source evidence and
+eligible human review exist.
+
+Native child #870 completed the next repository-only slice through PR #871
+exact head `305bdad5`, squash-merged as `8c710245` after 38 successful checks,
+four governed skips and zero failures, pending checks or unresolved review
+threads: a deterministic,
+fail-closed human commissioning preflight and role-specific handoff. It records
+the recommended generic-kernel reviewed-exclusion path alongside bounded-
+candidate and deferral alternatives, but leaves the accountable choice unset.
+It binds all nineteen findings, five source prerequisites and seven separated
+H8-D/H8-G roles, and prohibits ready, reviewer-eligibility, source-authority or
+scientific claims. A merged implementation may make the handoff usable; it
+cannot itself satisfy H8-D or select the candidate. Issue #870 and Project 28
+read back Closed, Done, Resolved, Verified and Clean while retaining the Human
+and Critical boundary.
+
+Native child #873 completed the accountable option-1 transition through the
+owner-authored comment `5166647873`: seek independent review of a proposed
+exclusion for any universal automatic-scalar or study-authorizing kernel while
+preserving narrower non-authorizing research. Issue #873 and Project 28 read
+back Closed/Done/Resolved/Verified/Clean while retaining Human/Critical. The
+separate receipt preserves the historical unset preflight and advances only
+candidate selection. Native child #876 is now the first remaining accountable
+gate and reads Open/In Progress/Blocked/Human/Critical/Clean for independent
+source retrieval, rights/applicability review, eligible human assignments and
+a replacement packet. All nineteen findings, H8-D through H8-H, runtime,
+study, release and publication remain pending or false.
+PR #877 exact head `8de3a40a` completed 38 successful checks and four governed
+skips or neutral outcomes with no failures, pending checks or review threads
+before squash merge `b3138ae7`; this is H8-D-E repository evidence only.
+
+Canonical C18/M32 planning is synchronized through VOP PR #71, squash-merged
+as `e0ff1d2ce3361d52ee22bb01e105b92653ed606c` after 16 terminal successful
+checks and one governed scheduled-only skip. That cross-repository merge is
+planning evidence only; it does not satisfy H8 or authorize a runtime.
+
+VOIAGE PR #855 delivered this repository scope at exact head
+`14b9f6d836c831eb62cad41f589133d83ddd9493`, with 60 successful checks, four
+governed skips, one neutral result and zero unresolved review threads before
+squash merge `62d22743b1547266bd554b215f957934bf577234`. Repository hosted assurance is
+therefore satisfied; H8 and every runtime, real-study, parity, promotion,
+release, publication, registry and closure gate remain pending.
+
+The v1.3 residual frontier programme is governed canonically by VOP C18. Issue
+#599 completed its governed experimental repository delivery. Its exact finite
+Python contract preserves the existing stable descriptive helper while adding
+the four policy values `C0`/`Cf`/`P0`/`Pf`, population and subgroup EVPI, an
+optional separately reported EVSI extension, strict subgroup selection,
+eligibility, fairness and privacy declarations, and exact decomposition
+assurance. PR #809 exact head `b0fc8db7` completed all 42 terminal-allowed
+checks with 38 successes, three governed skips and one neutral CodeQL
+aggregation; it had zero review threads before squash merge `1a37526a`.
+Delivery subissues #786, #788 and #789 may close. Scientific validity,
+selection-bias and sparse-subgroup review, Rust/R/Julia parity, stable
+promotion, release, parent #599 closure and umbrella #318 closure remain open.
+
+#597 completed its governed experimental repository delivery. PR #807 exact
+head `35cfe522` completed all 42 terminal-allowed hosted checks with 38
+successes, three governed skips and one neutral CodeQL aggregation. All three
+review threads were resolved before squash merge `39de9c6a`. The exact finite
+belief MDP retains control-transition-observe-update chronology, matched
+closed-loop/no-information comparators and intervention-dependent learning
+diagnostics. Scientific review, Rust/R/Julia parity, stable promotion, release,
+parent #597 closure and umbrella #318 closure remain separate gates.
+
+#596 now has a test-first experimental Python delivery for C18/M27. It evaluates
+perfect event information, a symmetric imperfect binary channel and the
+policy-relative expected-utility density
+`f(x) [max_a g_a(x) - g_a*(x)]` on exact finite probability-mass supports,
+with complete ties, signed centered diagnostics, integral assurance and
+result-only plots. Monetary BPI remains delegated to #595. Independent review,
+hosted exact-head checks, scientific approval, Rust/R/Julia parity, stable
+promotion and release remain separate gates.
+
+#593 now has an experimental Python-only joint information/implementation
+contract and exact finite evaluator. PR #787 exact head `de31458b` passed all
+42 hosted checks (38 successes, one neutral aggregation and three governed
+skips), both review threads were evidence-resolved, and the implementation was
+squash-merged as `20e0c606`. The repository-delivery subissues may therefore
+close, while named scientific review, Rust/R/Julia parity, stable promotion,
+release, parent #593 closure and umbrella #318 closure remain open. The existing
+implementation multiplier is retained as a
+compatibility helper and is not described as EVPIM/EVSIM/IA-EVSI.
+
+C18/M29 issue #598 has completed its governed experimental Python repository
+delivery. The exact finite contract covers signed, social and strategic
+information value. It freezes the
+joint-world law, roles, topology, selective-sharing designs, nonanticipative
+bounded catalogs, welfare comparability, transfers, costs and rights receipts;
+retains negative values; and returns harm, avoidance, switches,
+winners/losers, externalities and strictly scoped Blackwell checks. Independent
+implementation re-review passed without an unresolved Critical, High or Medium
+finding. PR #808 exact head `4d121b29` completed all 42 terminal-allowed checks,
+all 10 review threads were resolved, and the experimental delivery
+squash-merged as `d649c344`. Delivery subissues #783–#785 may close. Scientific
+review, Rust/R/Julia parity, stable promotion, release, parent #598 closure and
+umbrella #318 closure remain open.
+
+Outcome-conditional sample-information value (#600, C18/M31) completed its
+governed exact finite experimental Python repository delivery under native
+subissues #790–#792.
+The contract reports predictive-probability-weighted `delta-EV_x` and `VSI_x`,
+EVSI, Equation 10's weighted population `sigma-VSI`, `rVSI_delta` and
+quantiles/tails with complete policies and result reconstruction. It treats the
+tower equalities as expectation-linear only, distinguishes `rVSI0` from
+policy-switch mass under ties, and explicitly rejects the source paper's
+unweighted MATLAB/Table 3 standard-deviation calculation as a normative
+implementation. PR #831 exact implementation head `eb5a201d` completed all 42
+terminal-allowed checks with 38 successes, three governed skips and one neutral
+CodeQL aggregation. All five CodeQL review threads were resolved before squash
+merge `ac1d31bf`. Delivery subissues #790, #791 and #792 may close. Continuous
+outcomes, fitted estimators, independent scientific review, risk-sensitive
+composition, Rust/R/Julia parity, stable promotion, release, parent #600
+closure and umbrella #318 closure remain open.
 
 **June 25 follow-through closeout:** ✅ **ARCHIVED** - The June 25 follow-through queue is complete and archived for its repository-owned implementation and
 evidence slices. Registry approval, external indexing, production accelerator
@@ -93,16 +289,41 @@ programme completed the Rust runtime takeover, legacy numerical-core retirement,
 thin binding consolidation, Astro documentation migration, hardened release
 gates, and signed public `v1.0.0` release. Remaining registry review/indexing
 and external archival outcomes are tracked separately in
-`conductor/tracks/research_software_registry_readiness_20260721/`. The
+`conductor/archive/research_software_registry_readiness_20260721/`. The
 machine-readable baseline is `conductor/v1-programme-baseline.json`; the
 archived implementation plan is in
 `conductor/archive/mature-hardened-v1-release-programme_20260719/`.
 
 Research-software registry readiness follows that release in
-`conductor/tracks/research_software_registry_readiness_20260721/`. Issues
+`conductor/archive/research_software_registry_readiness_20260721/`. Issues
 #296--#299 track Software Heritage, RRID, and JOSS outcomes without promoting
 local preparation into external archival, identifier, submission, review, or
 acceptance evidence.
+
+The same track now owns a versioned cross-venue submission contract covering
+all retained package registries and archives plus potential pyOpenSci,
+rOpenSci, R Journal, Journal of Statistical Software, NumFOCUS, HPSF, and
+related routes. Issues #614--#617 own the contract and future decision lanes.
+The repository validates evidence paths, unresolved gates, and authority
+boundaries in tox and hosted CI. Passing that gate means the repository is
+prepared to evaluate a route; it does not authorize an inquiry or submission.
+The next execution sequence is issue-backed: #614 maintains all contract
+evidence; #616 closes Python community-review evidence; #615 closes the R
+installation/API/statistical-standards evidence; #622 prepares portable HPC
+recipes; and #617 makes explicit non-duplication decisions for distinct future
+routes. Author and external decisions remain outside these repository tasks.
+
+Conductor-to-GitHub traceability is complete and archived in
+`conductor/archive/conductor-github-cross-reference-reconciliation_20260724/`.
+Every completed track has an individual issue, native parent, Project 28 item,
+and evidence-based PR links (or an explicit no-PR-evidence boundary). PRs #465
+and #810 merged after hosted validation, and track issue #462 is closed.
+
+Historical Conductor schema normalization is complete and archived in
+`conductor/archive/conductor-registry-normalization_20260727/`. It repaired the
+exact 223-error legacy validator baseline mechanically while preserving
+superseded and external follow-ups as non-acceptance history rather than
+completed work.
 
 The preprint is now authored in canonical semantic LaTeX using the hardened
 `arxiv-paper-template` architecture. Repository automation provides
@@ -111,7 +332,37 @@ assurance, semantic HTML, and provenance-tool boundaries. Author confirmation,
 arXiv category/license/endorsement, authenticated upload, moderation, and
 announcement remain explicit human or external gates. GitHub issue #312 is the
 native arXiv-readiness subissue of JOSS-readiness issue #299, with both linked
-to Conductor track `research_software_registry_readiness_20260721`.
+to Conductor track `research_software_registry_readiness_20260721`. The
+synthetic health example now reports simulation uncertainty, prespecified
+study-value sensitivity scenarios, and machine-readable numerical results.
+
+The authenticated arXiv account was rechecked on 26 July 2026. Submission
+`7861466` is no longer present in the active-submission table. Replacement
+submission `7870358` exists only as an incomplete start-stage draft expiring
+9 August 2026; it has no files, metadata, category, or licence recorded and is
+not evidence of completed resubmission. The JOSS adaptation follows the current 2026
+screening and paper requirements, including design trade-offs, specific
+reproducible material supporting credible near-term significance, transparent
+AI-use disclosure, Software Heritage citation, a fail-closed local validator,
+an exact 1,600 ±2% article contract, SourceRight citation reconciliation,
+selected Authentext pattern evidence, and a pinned Open Journals draft build.
+Direct JOSS review is selected for the
+Rust-centred polyglot package. Issue #471 tracks demonstrated research use and
+attributable human community engagement, external use, or collaborative input.
+The former is a hard pre-review gate; the latter remains a detailed-review
+criterion, strong positive pre-review signal, and author-selected prerequisite.
+The signed v2.0.0 release, PyPI/TestPyPI packages, four crates.io crates,
+mixed-language SBOM, provenance, clean-install evidence, and Software Heritage
+snapshot are complete. Conda-forge PR #34308 is under external review.
+Its linter and Linux, macOS, and Windows builds are green.
+Author-confirmed AI attestation, final human source verification,
+authenticated submission, editorial review, acceptance, and DOI assignment
+remain explicit human or external gates. The round-nine JOSS source has passed its local article,
+SourceRight, Authentext, Open Journals, and page-by-page visual checks. The
+decision-maker wording retained for the release-bound source passed a fresh
+exact-revision Open Journals build and six-page visual review in PR #529. The
+permanent arXiv identifier is the author's requested sequencing gate, not a
+JOSS eligibility requirement.
 
 Three completed-in-repository assurance tracks remain archived with their
 explicit human gates visible: Domain Abstraction Excellence
@@ -119,6 +370,231 @@ explicit human gates visible: Domain Abstraction Excellence
 (`assurance-frontier_20260720`), and Operational Assurance Excellence
 (`operational-assurance-excellence_20260720`). Their archived directories make
 review evidence and approval boundaries visible; they are not reopened work.
+
+Standardized dataset ingestion is the next cross-domain input programme. Track
+`standardized-dataset-ingestion_20260723` defines a versioned, Arrow-backed
+`NormalizedInputBundle`, an existing-runtime preparation boundary, and lazy
+optional Croissant ML and Frictionless Data providers. GitHub issue #325 is the
+parent, native sub-issues #326–#333 own the implementation slices, and all
+items are represented in Project 28. Source-format parsing remains decoupled
+from calculation kernels, and scientific VOI semantics require explicit
+bindings rather than column-name inference. The binding profile evolves
+independently from package releases, and remote or live inputs require verified
+materialization receipts, explicit selection, data-quality evidence, and
+preserved citation/licence/usage metadata.
+
+The approved repository-owned endpoint is now its strict-local, offline-first
+profile. Controlled live interoperability is separately tracked in
+`controlled_live_dataset_interoperability_20260801` (issue #752), pending
+approved rights-cleared, hash-pinned source packets. General remote transport
+security is separately tracked in `remote_dataset_ingestion_security_20260801`
+(issue #753), pending a threat model and explicit security-policy approval.
+
+Follow-on sub-issues #467 and #468 extend the same programme only after the
+canonical contract and conformance matrix stabilize: #467 publishes a provider
+SDK and generic DataFrame-interchange adapter, while #468 supplies reproducible
+ML, engineering/operations, and business reference cases. Neither follow-on
+creates a second preparation path or domain-specific numerical kernel.
+
+Three additive frontier delivery plans target the governed v1.2.0 contract and cover the
+specialized gaps identified on 27 July 2026 without changing the released
+stable core. Canonical MoSCoW requirements M14–M17 and cross-repository track
+C16 own the shared projection:
+
+Canonical C18 extends the planned v1.3.0 frontier. Requirement M26 and GitHub
+issue #594 are delivered in `uncertainty_modelling_value_20260801` as an
+experimental exact finite Python contract for EV-problem/solution, EEV,
+recourse, wait-and-see, VSS/EVIU and EVPI. Two- and three-stage fixtures encode
+shared-history nonanticipativity, minimization/maximization, nonlinear
+point-estimate behavior and infeasible induced recourse. DVSS/VMS, scientific
+approval, polyglot parity, stable promotion and release remain pending. PR #798
+exact head `aa5d9fd8` completed all 42 hosted checks with 38 successes and four
+governed skips, including every installed-wheel contract, aggregate coverage,
+CodeQL and security assurance, with all four review threads resolved before
+squash merge `c5adca8f`. Repository-delivery subissues #774–#776 may close;
+parent #594 and umbrella #318 remain open.
+
+*   `estimation_focused_variance_voi_20260727` and GitHub issue #619 define
+    estimation-focused `EVPPI_var` and `EVSI_var` with declared scalar/vector
+    target shape, component units, variance or covariance functional,
+    conditioning and sampling models, and estimator assurance. They remain
+    explicitly separate from decision-focused EVPPI/EVSI, sensitivity indices,
+    and estimator uncertainty. The repository now contains an experimental
+    scalar Rust implementation with a PyO3/Python façade, versioned schemas,
+    independent references, deterministic bootstrap assurance, CLI/report/plot
+    surfaces and explicit polyglot dispositions. PR #676 exact head
+    `5e2c097f` completed 65 terminal hosted contexts (60 successes, four
+    governed skips and one neutral CodeQL aggregation), with both review
+    threads resolved, before squash merge `9495fc3f`. Canonical sync PR #64
+    completed 16 terminal contexts and merged as `cedc6fbb` with zero review
+    threads. Delivery subissues #671--#674 are closed. E17 scientific
+    classification and vector covariance scalarization review, vector
+    execution, stable promotion, release, parent #619 closure and umbrella
+    #318 closure remain open. A post-merge independent review subsequently
+    found that the EVSI outer expectation required explicit prior-predictive
+    weighting, replay provenance did not bind runtime values and scalar result
+    consistency was under-validated. PR #837 exact head
+    `076a29075e839e3cad49d0487dff0c4e2639845f` remediated
+    those boundaries and completed 65 terminal checks (60 successes, four
+    governed skips and one neutral conclusion) with zero review threads before
+    squash merge `366186b358abd775bea5fd2440d7e0ececb3ebaa`. The umbrella was
+    then resynchronized; scientific,
+    vector, parity, promotion, release and closure gates remain open.
+*   `study_design_efficiency_20260727` and refined GitHub issue #571 define a
+    governed Curve of Optimal Sample Size result containing evaluated designs,
+    feasible range/set, the signed ENBS curve, deterministic tie policy,
+    optimum, uncertainty around the optimum and plotting inputs, plus the
+    dimensionless EVSI/EVPI study-efficiency diagnostic with zero-EVPI and
+    bounds behavior. They must reconcile the existing plotting and legacy
+    clinical-optimizer helpers rather than treating adjacent or misnamed
+    behavior as implementation evidence. Merged implementation PR #679 now
+    supplies the Rust-owned kernels, strict Python contracts, exact constrained
+    portfolio slice, CLI/reporting/accessible plot, and shared fixture. Native
+    sub-issues #680–#682 separate runtime, user/portfolio, and
+    binding/governance evidence. PR #679 final exact head `ce5d7127` completed
+    65 terminal conclusions (60 successes, four governed skips and one neutral
+    conclusion), and both review threads were resolved before squash merge
+    `5d059a80`. Delivery subissues #680–#682 are closed. These capabilities
+    remain experimental; scientific review, Rust/R/Julia parity, stable
+    promotion, release, parent #571 closure and umbrella #318 closure remain
+    open. Canonical C16 synchronization PRs in VOP are merged: estimation-
+    family PR #64 exact head `6c3fd723` merged as `cedc6fbb`, followed by
+    study-design PR #65 exact head `d2b74b4f` merged as `ac61bb9f`.
+
+*   `risk_adjusted_information_pricing_20260731` and GitHub issue #595 define
+    one experimental expected-utility information-pricing family in Rust and
+    Python spanning EUI, CEI, BPI,
+    SPI and anchored PPI with declared utility, wealth/reference, units,
+    information/cost location, current and informed policies, stakeholder
+    scope, root diagnostics and comparability. VoC is a presentation of its
+    clairvoyant-policy result, not a duplicate kernel; monetary EVPI reduction
+    is valid only for verified positive-affine utility. Native delivery
+    subissues #694–#697 own contracts, runtime, assurance, and user/polyglot
+    surfaces respectively. R and Julia remain explicitly unsupported for this
+    family, while Mojo remains an external boundary. PR #712 final exact head
+    `1048c4bc` completed 65 terminal conclusions (60 successes, four governed
+    skips and one neutral conclusion), and both review threads were resolved
+    before squash merge `b8395abf`. Delivery subissues #694–#697 are closed.
+
+All three issues are native sub-issues of frontier parent #318 under programme
+#313 and are represented in Project 28. Risk-sensitive/constrained VOI (#570)
+and outcome-conditional/risk-of-low sample information (#600) remain separate
+risk-family plans. The dedicated #595 delivery track is a scoped execution
+record for the existing approved method family; it does not create a duplicate
+VoC method. Repository evidence remains experimental; scientific review,
+Rust/R/Julia parity, stable promotion, release, parent #595 closure and
+umbrella #318 closure remain open.
+
+Risk-sensitive and constrained VOI (#570) now has experimental exact finite
+Python delivery under C18/M22. PR #769 exact head `f513416f` passed its hosted
+matrix and 100% changed coverage before squash merge `c25f3234`. Scientific
+review, Rust/R/Julia parity, stable promotion, release and parent closure remain
+separate gates.
+
+Value of Flexibility (#559) now has a merged experimental Python timing-
+scenario contract from PR #723 exact head `3dddf63a`, squash-merged as
+`44e0067a`. It compares a flexible feasible policy set with the
+best matched ex-ante commitment, returns both values and policy paths, and
+keeps its information-value component explicitly excluded. The implementation
+fixes the legacy strategy/stage axis mismatch and reconciles the previously
+non-executable dynamic-real-options fixture. Transition-constrained lifecycle
+paths, Rust/R/Julia execution, scientific review, stable promotion, release
+and issue closure remain separate gates.
+
+Deterministic Sensitivity and Scenario Analysis (#556) now has a merged
+experimental Python callback and normalized-record engine from PR #723 exact
+head `3dddf63a`, squash-merged as `44e0067a`. Its exact v1
+contract preserves complete coordinate vectors, parameter and output units,
+frozen-baseline one-way grids, explicitly feasible two-way cells, named
+structural scenarios, complete tie sets, and observed exact/plateau/adjacent-
+bracket switches. The CLI validates the same contract from an installed wheel,
+and the accessible tornado plot uses evaluated grid extrema rather than
+inventing interpolation. Rust/R/Julia execution, independent scientific
+review, stable promotion, release and issue closure remain separate
+gates.
+
+Value of Distribution-Family Information (#557) now has merged experimental
+Python delivery from PR #736 and governed closeout #737 under canonical requirement M19 and nested delivery issues
+#731–#735. Its strict v1 contract resolves only a declared discrete model-family index
+after within-family uncertainty has been integrated out, returning the current
+mixture-optimal policy, family-resolved policies, complete ties, gross VDI and
+signed net VDI. This is an issue-facing presentation of discrete-index EVPPI,
+not distributional-equity VOI, full structural EVPI, model selection or
+model-discrimination EVSI. The implementation is exercised by synthetic exact
+fixtures, an installed schema/CLI contract, independent review, complete
+changed-line/branch coverage and clean hosted exact-head checks. Scientific
+terminology/partition review, real probability provenance, polyglot
+parity, stable promotion and release remain separate gates.
+
+Qualitative Value of Information (#558) now has merged experimental Python
+delivery under canonical requirement M20 and native subissues #738–#742. PRs
+#743 and #744 provide a portable executable assessment, audit and accessible-rendering
+workflow for ordinal information priorities, complete ties, dissent,
+conflicts, missingness, redaction, sources, AI provenance and accountable human
+verification. It must not fabricate probabilities, utilities, currency,
+weighted pseudo-scores or a quantitative VOI estimand. Practitioner/scientific
+approval, stable promotion, polyglot execution, release and parent closure
+remain separate gates.
+
+Finite additive MCDA information value (#560) now has merged experimental
+Python delivery from PR #751 exact head `60297ba3`, squash-merged as
+`e8aaba82`, under planned v1.3.0 canonical requirement M21 and native
+subissues #746–#750. Its frozen v1 scope uses fixed ex-ante value functions and
+normalization anchors, explicit criterion units/directions, normalized
+nonnegative weights and a correlated finite joint uncertainty law. It will
+value perfect resolution of criterion-performance, preference or joint latent
+variables and returns baseline/conditional choices, complete ties, gross/net
+value, interaction, regret, rank acceptability and raw-criterion Pareto
+diagnostics. AHP elicitation, outranking/veto/non-compensatory rules,
+post-information renormalization and imperfect-sample EVSI are excluded.
+Independent scientific review, Rust/R/Julia parity, stable promotion, release
+and parent closure remain separate gates; hosted exact-head and installed-wheel
+assurance passed before merge.
+
+Forecast and signal information value (#572) now has an experimental finite
+Python contract. It consumes a declared forecast artifact, outcome-signal law,
+reported probabilities, feasible actions, frozen payoffs, horizon, freshness,
+latency, lead time and acquisition cost. It separates timely-oracle value from
+signed deployed value, calibration loss, regret avoided and maximum price;
+predictive accuracy alone is not value. PR #770 exact head `c110706c` passed
+all hosted checks with 100% changed-line and changed-branch coverage before
+squash merge `4657f94e`. Independent scientific review, continuous and
+multistage methods, Rust/R/Julia parity, stable promotion, release and parent
+closure remain separate gates.
+
+The complete Rust-first polyglot programme issue hierarchy is now materialized
+in Conductor rather than existing only in GitHub and Project 28:
+
+| Issue | Conductor track | Governed scope |
+|---|---|---|
+| #313 | `rust_polyglot_voi_completion_20260723` | Root v1.1–v1.3 programme and workstream dependencies |
+| #314 | `voi_method_census_contract_reconciliation_20260723` | Method census, classifications and portable Decision Problem |
+| #315 | `external_voi_library_feature_parity_20260723` | Reproducible software landscape, parity and improvement review |
+| #316 | `stable_voi_rust_core_completion_20260723` | Complete stable Rust numerical authority and compatibility |
+| #317 | `value_of_perspective_completion_20260723` | Complete perspective-information family |
+| #318 | `supported_frontier_method_completion_20260723` | Frontier implementation or reviewed exclusion, including risk/utility |
+| #319 | `ml_llm_agent_voi_20260723` | Decision-focused ML, LLM, policy and agent VOI |
+| #320 | `polyglot_abi_binding_parity_20260723` | Rust/C ABI/Python/R/Julia/Mojo capability parity |
+| #321 | `datasets_worked_examples_20260723` | Rights-governed datasets, examples and domain templates |
+| #322 | `quality_release_automation_20260723` | Decision assurance, adoption surfaces, release and registry automation |
+| #323 | `research_contribution_ai_transparency_20260723` | CRediT and accountable AI-assistance provenance |
+
+The workstream tracks own their native child issues: #314 owns #566; #315 owns
+#565 and #567–#569 plus #573; #318 owns #556–#560, #570–#572, #582,
+#593–#600 and #619; #319 owns #576 and #578; #320 owns #579; #321 owns
+#574–#575 and #577; and #322 owns #462, #580–#581 and #583–#584. Child
+issue or Project status is not implementation evidence: every new Conductor
+plan starts pending until its contracts, tests/review protocol, runtime or
+reviewed exclusion, bindings, documentation and hosted evidence are
+reconciled. Completed native child #416 remains historical v1.0 programme
+evidence and is not reopened by this queue.
+
+Issue #582 is delivered experimentally through
+`information_source_portfolio_voi_20260801`, with dependent source sequences,
+feasibility constraints, conditional marginals and exact decision-value
+Shapley allocation governed under C18/M24 for planned v1.3.0. PR #772 exact
+head `f1d6f77d` passed its hosted matrix and 100% changed coverage before
+squash merge `55771017`; scientific review and later maturity gates remain.
 
 ---
 
@@ -147,8 +623,16 @@ review evidence and approval boundaries visible; they are not reopened work.
 
 1.  **Robust EVSI Implementation:**
     *   **Status: `✅ Done`**
-    *   Two-loop Monte Carlo method implemented in `sample_information.py`.
-    *   Regression-based EVSI with metamodel support (GAM, RandomForest, BART via metamodels module).
+    *   The built-in two-loop model fits one joint normal prior and uses it for
+        current value, predictive study results, and posterior value. It
+        updates all correlated parameters together, consumes its inner-loop
+        draw count, and uses genuine Gaussian draws; custom models use explicit
+        trial-simulation and joint-posterior callbacks.
+    *   A Rust-owned analytical normal--normal model is tested against a
+        prespecified reference.
+    *   Regression, efficient, and moment-based compatibility estimators are
+        explicitly non-stable until they expose a complete validated study
+        model.
 2.  **Network Meta-Analysis (NMA) VOI:**
     *   **Status: `✅ Done`**
     *   `calculate_nma_evpi()` and `calculate_nma_evppi()` in `voiage/methods/network_meta_analysis.py`.
@@ -203,7 +687,7 @@ review evidence and approval boundaries visible; they are not reopened work.
 1.  **Automated Publishing Pipeline:**
     *   **Status: `✅ Done`**
     *   TestPyPI → PyPI publishing on `v*` tags, plus conda-forge feedstock recipe updates with the external feedstock merge remaining outside this repository.
-    *   Retained release workflows validate Rust workspace, Python, R, and Julia artifacts and attach GitHub release artifacts. The Rust workspace is intentionally internal (`publish = false`); no crates.io package, npm package, NuGet package, Go binding, TypeScript binding, .NET binding, or WASM surface is claimed. Registry-side indexing or approval remains external for conda-forge, CRAN/r-universe, and Julia General.
+    *   Retained release workflows validate Rust workspace, Python, R, and Julia artifacts and attach GitHub release artifacts. Four binding-independent Rust core crates publish through crates.io Trusted Publishing; the FFI, PyO3, and test-support crates remain `publish = false`. No npm package, NuGet package, Go binding, TypeScript binding, .NET binding, or WASM surface is claimed. Registry-side indexing or approval remains external for conda-forge, CRAN/r-universe, and Julia General.
     *   Repository versioning is now tag-derived for Python through
         `setuptools-scm`; external binding manifests stay synchronized to the
         latest released tag, and the version-sync validator is enforced in CI
@@ -211,6 +695,9 @@ review evidence and approval boundaries visible; they are not reopened work.
 2.  **Dependency Management:**
     *   **Status: `✅ Done`**
     *   uv for package management, Renovate for automated updates.
+    *   Renovate is the sole update-PR producer across supported managers;
+        GitHub vulnerability alerts remain an input and Dependabot update PRs
+        are not part of the automation architecture.
 3.  **Security & Quality:**
     *   **Status: `✅ Done / hosted controls applied`**
     *   CodeQL security scanning, Ruff linting/security rules, ty type checking,
@@ -221,8 +708,16 @@ review evidence and approval boundaries visible; they are not reopened work.
         environment approvals, and plan-dependent secret-scanning features
         remain explicit administrator-owned gates. The repository lockfiles
         now carry patched Python and Starlight documentation dependencies for
-        the current advisory set; future advisories remain Dependabot-owned
+        the current advisory set; future update follow-up remains Renovate-owned
         follow-up work.
+    *   Polyglot CI modernization adds merge-queue event compatibility,
+        PEP 740 PyPI/TestPyPI attestations, exact-byte TestPyPI promotion,
+        release-bound CycloneDX attestations, a digest-bearing release
+        manifest, mixed-language dependency submission, shared numerical
+        corpus validation across Python/Rust/C/R/Julia, Astro type checking,
+        and a non-required Linux ARM64 observation lane. Hosted merge-queue,
+        immutable-release, environment, registry, and Trusted Publisher
+        settings remain external gates.
 4.  **Community Engagement:**
     *   **Status: `✅ Done`**
     *   Repository structured for contributions, Conductor workflow for AI-assisted development, and repository-level support, security, and community-health documents now provide a clear help path for users and contributors.
@@ -264,8 +759,14 @@ review evidence and approval boundaries visible; they are not reopened work.
     *   Publishing targets must be planned with the implementation:
         - Python: PyPI, TestPyPI, and conda-forge feedstock recipe updates, with the feedstock PR/merge remaining external.
         - R: GitHub Releases for early source distribution, CRAN when mature, and optional r-universe indexing; the package docs story includes a deterministic vignette and PDF manual built from the same source tree, while external registry approval remains outside the repository.
-        - Julia: Julia General registry with TagBot sync and external registry registration.
-        - Rust: GitHub Releases for the internal `publish = false` workspace; a future crates.io facade would require a separate contract.
+        - Julia: BinaryBuilder/Yggdrasil supplies the Rust C ABI through a JLL;
+          Registrator publishes the `bindings/julia` subpackage to General and
+          subpackage-aware TagBot creates collision-free releases. BinaryBuilder
+          and General acceptance remain external.
+        - Rust: four binding-independent core crates publish to crates.io from
+          signed `rust-v*` tags through short-lived Trusted Publishing
+          credentials; FFI, PyO3, and test-support crates remain private and
+          release through the shared GitHub artifact set.
     *   CI/CD must be language-specific and release-aware for every binding:
         - Build, lint/format, type/static checks, unit tests, docs checks, and shared conformance fixtures.
         - Package dry-run validation on pull requests.

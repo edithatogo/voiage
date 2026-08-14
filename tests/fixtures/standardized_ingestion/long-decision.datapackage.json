@@ -1,0 +1,16 @@
+{
+  "name": "long-decision-fixture",
+  "resources": [
+    {
+      "name": "samples",
+      "path": "long-decision.csv",
+      "schema": {
+        "fields": [
+          {"name": "sample_id", "type": "integer"},
+          {"name": "strategy", "type": "string"},
+          {"name": "net_benefit", "type": "number"}
+        ]
+      }
+    }
+  ]
+}

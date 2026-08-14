@@ -1,6 +1,17 @@
 {
   "status": "completed",
-  "created_at": "2026-05-11",
+  "created_at": "2026-05-11T00:00:00Z",
   "completed_at": "2026-05-11",
-  "title": "Distributed Scheduler Backend Implementation"
+  "title": "Distributed Scheduler Backend Implementation",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/374",
+    "parent_issue": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": [],
+    "pull_request_evidence": "none_found"
+  },
+  "track_id": "distributed-scheduler-backend-implementation_20260511",
+  "type": "chore",
+  "updated_at": "2026-05-11T00:00:00Z",
+  "description": "Distributed Scheduler Backend Implementation [completed: 2026-05-11]"
 }

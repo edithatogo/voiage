@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "accountable_candidate_context_decision_receipt",
+  "issue": "https://github.com/edithatogo/voiage/issues/873",
+  "parent_issue": "https://github.com/edithatogo/voiage/issues/853",
+  "decision_status": "selected",
+  "selected_option_id": "reviewed_exclusion_generic_kernel",
+  "selected_option_scope": "Seek independent review of a proposed exclusion for any universal automatic-scalar or study-authorizing sampling-harm kernel while preserving narrower non-authorizing constrained or vector research.",
+  "rationale": "This addresses the unsafe universal executable or study-authorizing claim without implying that incomparable harms can be scalarized or that a value-of-information result authorizes sampling, while leaving narrower candidate-bound research available for future evidence.",
+  "recorded_at": "2026-08-03T13:03:46Z",
+  "authenticated_receipt": {
+    "provider": "github",
+    "url": "https://github.com/edithatogo/voiage/issues/873#issuecomment-5166647873",
+    "actor_login": "edithatogo",
+    "actor_association": "OWNER",
+    "issue_state": "CLOSED",
+    "issue_state_reason": "COMPLETED"
+  },
+  "project_readback": {
+    "status": "Done",
+    "lifecycle": "Resolved",
+    "evidence_state": "Verified",
+    "sync_state": "Clean",
+    "gate": "Human",
+    "risk": "Critical"
+  },
+  "next_gate_issue": "https://github.com/edithatogo/voiage/issues/876",
+  "remaining_blocker_ids": [
+    "independent-source-retrieval",
+    "source-rights-review",
+    "jurisdiction-applicability",
+    "eligible-h8-d-reviewers",
+    "replacement-packet-freeze",
+    "nineteen-finding-disposition"
+  ],
+  "authority_boundary": {
+    "candidate_selected": true,
+    "source_authority": false,
+    "reviewer_eligibility": false,
+    "reviewer_commissioned": false,
+    "replacement_packet_frozen": false,
+    "finding_disposition": false,
+    "h8_d_satisfied": false,
+    "h8_e_satisfied": false,
+    "h8_f_satisfied": false,
+    "h8_g_satisfied": false,
+    "h8_h_satisfied": false,
+    "runtime": false,
+    "real_study": false,
+    "release": false,
+    "publication": false
+  }
+}

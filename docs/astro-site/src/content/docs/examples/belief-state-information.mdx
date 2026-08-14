@@ -1,0 +1,62 @@
+---
+title: Belief-state sequential information value
+description: Exact experimental information value for a finite belief MDP
+---
+
+VOIAGE's experimental belief-state contract values information inside a
+sequential control problem. Its fixed chronology is control, transition,
+observation, then Bayesian belief update. The comparator is a matched Bellman
+problem that receives no observations; it is not a one-step EVPI label or a
+generic acquisition score.
+
+```python
+import json
+from pathlib import Path
+
+from voiage import belief_state_information_value
+
+request = json.loads(
+    Path(
+        "specs/frontier/belief-state-information/v1/fixtures/normative/input.json"
+    ).read_text()
+)
+result = belief_state_information_value(request).to_contract_dict()
+
+assert result["values"]["myopic_information_value"] == 0.0
+assert result["values"]["nonmyopic_information_value"] == 6.5
+assert result["policy_tree"]["selected_control"] == "probe"
+```
+
+The normative example makes the diagnostic informative only after the `probe`
+control. A one-stage calculation cannot benefit from that observation. With a
+second decision stage, the closed-loop policy accepts the probe and sensing
+costs, updates its belief, and selects a state-directed control.
+
+The JSON result includes the complete chosen belief/policy tree, all
+tolerance-tied controls and sensors, conditional sensor values, gross and net
+value, value by horizon, the posterior-martingale residual, exact bounds, and
+language dispositions. The exact evaluator reports a conservative recursive
+evaluator-call estimate covering adaptive, no-information, myopic,
+conditional-sensing and fully observed regret calculations. It rejects
+requests above its 50,000-call budget before recursion. Repeated belief states
+are memoized. The result also embeds the strict input contract and its
+canonical SHA-256 commitment. Standalone result validation reruns the bounded
+exact evaluator, so the reported expansion count, horizon values, selected
+policy and ties, and diagnostic flags remain auditable without trusting the
+result envelope itself.
+
+`dual_control_diagnostic` requires both an action-dependent,
+state-informative observation law and a usable downstream control response.
+Action-dependent observation frequency without state information, and
+transition dependence alone, do not trigger it. The diagnostic is deliberately
+not presented as a uniquely defined additive value component.
+
+Run the same contract from the CLI:
+
+```sh
+voiage --format json calculate-belief-state-information request.json
+```
+
+This surface is experimental and Python-only. Scientific review, continuous
+or approximate solvers, Rust/R/Julia parity, stable promotion, and release are
+separate gates.

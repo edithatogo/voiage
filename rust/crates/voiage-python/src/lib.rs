@@ -9,6 +9,7 @@ use pyo3::create_exception;
 use pyo3::exceptions::PyException;
 use pyo3::prelude::*;
 use pyo3::types::{PyDict, PyModule};
+use serde::Deserialize;
 use serde_json::{Map, Value};
 use sha2::{Digest, Sha256};
 #[cfg(test)]
@@ -18,9 +19,13 @@ use std::sync::Mutex;
 use voiage_diagnostics::ErrorCategory;
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
-    ceaf, dominance, enbs, evpi, evppi, evsi_efficient_linear, evsi_moment_based, evsi_regression,
-    evsi_stochastic, heterogeneity, structural_evpi, structural_evppi,
-    DominanceStatus as KernelDominanceStatus,
+    ceaf, coss, coss_selection_uncertainty, dominance, enbs, estimation_truth_assurance, evpi,
+    evppi, evppi_variance, evppi_variance_with_assurance, evsi_efficient_linear,
+    evsi_evpi_efficiency, evsi_moment_based, evsi_regression, evsi_stochastic, evsi_variance,
+    evsi_variance_with_assurance, expected_utility_information, heterogeneity,
+    information_efficiency_uncertainty, normal_normal_two_arm_evsi, structural_evpi,
+    structural_evppi, DominanceStatus as KernelDominanceStatus, EstimationVarianceKernelResult,
+    ExpectedUtilityInformationInput, InformationStructure, SolverSettings, UtilityDescriptor,
 };
 use voiage_serialization::{
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
@@ -486,6 +491,169 @@ fn compute_enbs(evsi_result: f64, research_cost: f64) -> PyResult<f64> {
         .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))
 }
 
+/// Compute an enumerated COSS curve and deterministic feasible optimum.
+#[pyfunction]
+#[allow(clippy::needless_pass_by_value, clippy::too_many_arguments)]
+#[pyo3(signature = (
+    sample_sizes,
+    evsi_values,
+    research_costs,
+    feasible,
+    tie_policy,
+    absolute_tolerance,
+    relative_tolerance
+))]
+fn compute_coss<'py>(
+    py: Python<'py>,
+    sample_sizes: Vec<u64>,
+    evsi_values: Vec<f64>,
+    research_costs: Vec<f64>,
+    feasible: Vec<bool>,
+    tie_policy: &str,
+    absolute_tolerance: f64,
+    relative_tolerance: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let result = coss(
+        &sample_sizes,
+        &evsi_values,
+        &research_costs,
+        &feasible,
+        tie_policy,
+        absolute_tolerance,
+        relative_tolerance,
+    )
+    .map_err(|error| match error.category() {
+        ErrorCategory::DimensionMismatch => {
+            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+        }
+        _ => InputError::new_err(("invalid_input", error.to_string())),
+    })?;
+    let output = PyDict::new(py);
+    output.set_item("contract_version", result.contract_version)?;
+    output.set_item("estimator", result.estimator)?;
+    output.set_item("enbs", result.enbs)?;
+    output.set_item("feasible_indices", result.feasible_indices)?;
+    output.set_item("tied_indices", result.tied_indices)?;
+    output.set_item("optimal_index", result.optimal_index)?;
+    output.set_item("maximum_enbs", result.maximum_enbs)?;
+    output.set_item("boundary_state", result.boundary_state)?;
+    Ok(output)
+}
+
+/// Summarize COSS selection uncertainty from joint ENBS replicates.
+#[pyfunction]
+#[allow(clippy::needless_pass_by_value, clippy::too_many_arguments)]
+#[pyo3(signature = (
+    sample_sizes,
+    feasible,
+    joint_enbs_replicates,
+    point_optimal_index,
+    point_maximum_enbs,
+    tie_policy,
+    absolute_tolerance,
+    relative_tolerance
+))]
+fn compute_coss_selection_uncertainty<'py>(
+    py: Python<'py>,
+    sample_sizes: Vec<u64>,
+    feasible: Vec<bool>,
+    joint_enbs_replicates: Vec<Vec<f64>>,
+    point_optimal_index: usize,
+    point_maximum_enbs: f64,
+    tie_policy: &str,
+    absolute_tolerance: f64,
+    relative_tolerance: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let result = coss_selection_uncertainty(
+        &sample_sizes,
+        &feasible,
+        &joint_enbs_replicates,
+        point_optimal_index,
+        point_maximum_enbs,
+        tie_policy,
+        absolute_tolerance,
+        relative_tolerance,
+    )
+    .map_err(|error| match error.category() {
+        ErrorCategory::DimensionMismatch => {
+            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+        }
+        _ => InputError::new_err(("invalid_input", error.to_string())),
+    })?;
+    let output = PyDict::new(py);
+    output.set_item("contract_version", result.contract_version)?;
+    output.set_item("estimator", result.estimator)?;
+    output.set_item("replicate_count", result.replicate_count)?;
+    output.set_item("selection_counts", result.selection_counts)?;
+    output.set_item("selection_probabilities", result.selection_probabilities)?;
+    output.set_item("near_tie_probability", result.near_tie_probability)?;
+    output.set_item(
+        "expected_selection_regret",
+        result.expected_selection_regret,
+    )?;
+    output.set_item("winner_optimism", result.winner_optimism)?;
+    output.set_item(
+        "mean_selected_design_enbs",
+        result.mean_selected_design_enbs,
+    )?;
+    Ok(output)
+}
+
+/// Compute the unclamped EVSI/EVPI information-efficiency diagnostic.
+#[pyfunction]
+#[allow(clippy::similar_names)]
+#[pyo3(signature = (evsi, evpi, atol, rtol))]
+fn compute_evsi_evpi_efficiency(
+    py: Python<'_>,
+    evsi: f64,
+    evpi: f64,
+    atol: f64,
+    rtol: f64,
+) -> PyResult<Bound<'_, PyDict>> {
+    let result = evsi_evpi_efficiency(evsi, evpi, atol, rtol)
+        .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let output = PyDict::new(py);
+    output.set_item("contract_version", result.contract_version)?;
+    output.set_item("ratio", result.ratio)?;
+    output.set_item("status", result.status)?;
+    output.set_item("bound_tolerance", result.bound_tolerance)?;
+    Ok(output)
+}
+
+/// Summarize paired EVSI/EVPI efficiency replicates.
+#[pyfunction]
+// PyO3 owns these vectors after extracting Python sequences, while the public
+// keyword names intentionally retain the EVSI/EVPI contract vocabulary.
+#[allow(clippy::needless_pass_by_value, clippy::similar_names)]
+#[pyo3(signature = (evsi_replicates, evpi_replicates, point_ratio, atol, rtol))]
+fn compute_information_efficiency_uncertainty(
+    py: Python<'_>,
+    evsi_replicates: Vec<f64>,
+    evpi_replicates: Vec<f64>,
+    point_ratio: f64,
+    atol: f64,
+    rtol: f64,
+) -> PyResult<Bound<'_, PyDict>> {
+    let result = information_efficiency_uncertainty(
+        &evsi_replicates,
+        &evpi_replicates,
+        point_ratio,
+        atol,
+        rtol,
+    )
+    .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let output = PyDict::new(py);
+    output.set_item("contract_version", result.contract_version)?;
+    output.set_item("replicate_count", result.replicate_count)?;
+    output.set_item("mean_ratio", result.mean_ratio)?;
+    output.set_item("standard_error", result.standard_error)?;
+    output.set_item("confidence_lower", result.confidence_lower)?;
+    output.set_item("confidence_upper", result.confidence_upper)?;
+    output.set_item("estimated_bias", result.estimated_bias)?;
+    output.set_item("point_ratio_in_interval", result.point_ratio_in_interval)?;
+    Ok(output)
+}
+
 /// Compute the stable value-of-heterogeneity kernel for Python callers.
 #[pyfunction]
 fn compute_heterogeneity<'py>(
@@ -679,6 +847,194 @@ fn compute_evppi(
     })
 }
 
+fn estimation_variance_result_to_dict<'py>(
+    py: Python<'py>,
+    result: &EstimationVarianceKernelResult,
+) -> PyResult<Bound<'py, PyDict>> {
+    let output = PyDict::new(py);
+    output.set_item("kernel_version", "1.0.0")?;
+    output.set_item("prior_variance", result.prior_variance)?;
+    output.set_item(
+        "expected_posterior_variance",
+        result.expected_posterior_variance,
+    )?;
+    output.set_item("raw_reduction", result.raw_reduction)?;
+    output.set_item("absolute_reduction", result.absolute_reduction)?;
+    output.set_item("relative_reduction", result.relative_reduction)?;
+    output.set_item("prior_sample_count", result.prior_sample_count)?;
+    output.set_item(
+        "posterior_evaluation_count",
+        result.posterior_evaluation_count,
+    )?;
+    output.set_item("bootstrap_replicates", result.bootstrap_replicates)?;
+    output.set_item(
+        "monte_carlo_standard_error",
+        result.monte_carlo_standard_error,
+    )?;
+    output.set_item("confidence_interval", result.confidence_interval)?;
+    output.set_item("converged", result.converged)?;
+    Ok(output)
+}
+
+/// Compute scalar estimation-focused EVPPI variance reduction.
+#[pyfunction]
+#[pyo3(signature = (
+    target_samples,
+    conditioning_groups,
+    bootstrap_replicates = 0,
+    seed = 0,
+    convergence_threshold = 0.01
+))]
+fn compute_evppi_variance<'py>(
+    py: Python<'py>,
+    target_samples: &Bound<'_, PyAny>,
+    conditioning_groups: &Bound<'_, PyAny>,
+    bootstrap_replicates: usize,
+    seed: u64,
+    convergence_threshold: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let target_samples =
+        SampleVector::try_from(vector_from_python(target_samples, "target_samples")?)
+            .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let conditioning_groups = conditioning_groups
+        .extract::<Vec<String>>()
+        .map_err(|error| {
+            InputError::new_err((
+                "invalid_input",
+                format!("invalid conditioning_groups: {error}"),
+            ))
+        })?;
+    let result = if bootstrap_replicates == 0 {
+        evppi_variance(&target_samples, &conditioning_groups)
+    } else {
+        evppi_variance_with_assurance(
+            &target_samples,
+            &conditioning_groups,
+            bootstrap_replicates,
+            seed,
+            convergence_threshold,
+        )
+    }
+    .map_err(|error| match error.category() {
+        ErrorCategory::DimensionMismatch => {
+            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+        }
+        _ => InputError::new_err(("invalid_input", error.to_string())),
+    })?;
+    estimation_variance_result_to_dict(py, &result)
+}
+
+/// Aggregate scalar estimation-focused EVSI variance reduction.
+#[allow(clippy::too_many_arguments)]
+#[pyfunction]
+#[pyo3(signature = (
+    prior_target_samples,
+    posterior_variances,
+    predictive_probabilities,
+    probability_tolerance = 1e-12,
+    bootstrap_replicates = 0,
+    seed = 0,
+    convergence_threshold = 0.01
+))]
+fn compute_evsi_variance<'py>(
+    py: Python<'py>,
+    prior_target_samples: &Bound<'_, PyAny>,
+    posterior_variances: &Bound<'_, PyAny>,
+    predictive_probabilities: &Bound<'_, PyAny>,
+    probability_tolerance: f64,
+    bootstrap_replicates: usize,
+    seed: u64,
+    convergence_threshold: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let prior_target_samples = SampleVector::try_from(vector_from_python(
+        prior_target_samples,
+        "prior_target_samples",
+    )?)
+    .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let posterior_variances = SampleVector::try_from(vector_from_python(
+        posterior_variances,
+        "posterior_variances",
+    )?)
+    .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let predictive_probabilities = SampleVector::try_from(vector_from_python(
+        predictive_probabilities,
+        "predictive_probabilities",
+    )?)
+    .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let result = if bootstrap_replicates == 0 {
+        evsi_variance(
+            &prior_target_samples,
+            &posterior_variances,
+            &predictive_probabilities,
+            probability_tolerance,
+        )
+    } else {
+        evsi_variance_with_assurance(
+            &prior_target_samples,
+            &posterior_variances,
+            &predictive_probabilities,
+            probability_tolerance,
+            bootstrap_replicates,
+            seed,
+            convergence_threshold,
+        )
+    }
+    .map_err(|error| match error.category() {
+        ErrorCategory::DimensionMismatch => {
+            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+        }
+        _ => InputError::new_err(("invalid_input", error.to_string())),
+    })?;
+    estimation_variance_result_to_dict(py, &result)
+}
+
+/// Summarize truth-known estimation assurance over complete outer replicates.
+// PyO3 owns these vectors after extracting Python sequences.
+#[allow(clippy::needless_pass_by_value, clippy::too_many_arguments)]
+#[pyfunction]
+#[pyo3(signature = (
+    replicate_estimates,
+    true_reduction,
+    interval_lower,
+    interval_upper,
+    confidence_level,
+    convergence_threshold
+))]
+fn compute_estimation_truth_assurance(
+    py: Python<'_>,
+    replicate_estimates: Vec<f64>,
+    true_reduction: f64,
+    interval_lower: Vec<f64>,
+    interval_upper: Vec<f64>,
+    confidence_level: f64,
+    convergence_threshold: f64,
+) -> PyResult<Bound<'_, PyDict>> {
+    let result = estimation_truth_assurance(
+        &replicate_estimates,
+        true_reduction,
+        &interval_lower,
+        &interval_upper,
+        confidence_level,
+        convergence_threshold,
+    )
+    .map_err(|error| match error.category() {
+        ErrorCategory::DimensionMismatch => {
+            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+        }
+        _ => InputError::new_err(("invalid_input", error.to_string())),
+    })?;
+    let output = PyDict::new(py);
+    output.set_item("contract_version", result.contract_version)?;
+    output.set_item("replicate_count", result.replicate_count)?;
+    output.set_item("bias", result.bias)?;
+    output.set_item("rmse", result.rmse)?;
+    output.set_item("standard_error", result.standard_error)?;
+    output.set_item("empirical_coverage", result.empirical_coverage)?;
+    output.set_item("calibration_error", result.calibration_error)?;
+    output.set_item("converged", result.converged)?;
+    Ok(output)
+}
+
 /// Compute the explicit seeded-bootstrap EVSI kernel for Python callers.
 #[pyfunction]
 #[pyo3(signature = (net_benefit, trial_sample_size, resample_count, seed))]
@@ -711,6 +1067,35 @@ fn compute_evsi<'py>(
     output.set_item("draw_count", result.draw_count)?;
     output.set_item("resample_count", result.resample_count)?;
     Ok(output)
+}
+
+/// Compute EVSI for a declared equal-allocation, two-arm normal study.
+#[pyfunction]
+#[pyo3(signature = (
+    prior_mean,
+    prior_standard_deviation,
+    outcome_standard_deviation,
+    total_sample_size,
+    net_benefit_slope,
+    net_benefit_intercept
+))]
+fn compute_normal_normal_two_arm_evsi(
+    prior_mean: f64,
+    prior_standard_deviation: f64,
+    outcome_standard_deviation: f64,
+    total_sample_size: usize,
+    net_benefit_slope: f64,
+    net_benefit_intercept: f64,
+) -> PyResult<f64> {
+    normal_normal_two_arm_evsi(
+        prior_mean,
+        prior_standard_deviation,
+        outcome_standard_deviation,
+        total_sample_size,
+        net_benefit_slope,
+        net_benefit_intercept,
+    )
+    .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))
 }
 
 /// Compute the explicit deterministic efficient-linear EVSI kernel.
@@ -975,6 +1360,250 @@ fn serialize_dominance_result<'py>(
     }
 }
 
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct UtilityInformationRequest {
+    schema_version: String,
+    decision_problem_id: String,
+    stakeholder_scope_id: String,
+    action_ids: Vec<String>,
+    state_ids: Vec<String>,
+    payoffs: Vec<Vec<f64>>,
+    state_probabilities: Vec<f64>,
+    initial_wealth: f64,
+    payoff_unit: String,
+    currency: Option<String>,
+    price_date: Option<String>,
+    information_cost_location: String,
+    terminal_outcome_floor: Option<f64>,
+    utility: UtilityRequest,
+    information: InformationRequest,
+    solver: SolverRequest,
+    #[serde(default = "canonical_presentation")]
+    presentation_label: String,
+}
+
+fn canonical_presentation() -> String {
+    "canonical".into()
+}
+
+#[derive(Deserialize)]
+#[serde(tag = "family", rename_all = "snake_case", deny_unknown_fields)]
+enum UtilityRequest {
+    Affine {
+        slope: f64,
+        intercept: f64,
+    },
+    Exponential {
+        risk_tolerance: f64,
+        reference_wealth: f64,
+    },
+    Log {
+        reference_wealth: f64,
+    },
+    Power {
+        risk_aversion: f64,
+        reference_wealth: f64,
+    },
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct InformationRequest {
+    kind: String,
+    signal_ids: Vec<String>,
+    signal_state_probabilities: Vec<Vec<f64>>,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct SolverRequest {
+    initial_upper: f64,
+    expansion_factor: f64,
+    maximum_price: f64,
+    absolute_price_tolerance: f64,
+    relative_price_tolerance: f64,
+    utility_tolerance: f64,
+    maximum_iterations: usize,
+    maximum_evaluations: usize,
+}
+
+fn policy_payload(policy: &voiage_numerics::PolicyResult) -> Value {
+    serde_json::json!({
+        "signal_id": policy.signal_id,
+        "tie_set": policy.tie_set,
+        "representative_action_id": if policy.representative_action_id.is_empty() { None } else { Some(&policy.representative_action_id) },
+        "domain_exclusions": policy.domain_exclusions.iter().map(|exclusion| serde_json::json!({"signal_id": exclusion.signal_id, "action_id": exclusion.action_id, "state_ids": exclusion.state_ids, "reason": exclusion.reason})).collect::<Vec<_>>(),
+    })
+}
+
+fn root_payload(root: &voiage_numerics::RootResult) -> Value {
+    let evaluated_policies = root
+        .evaluated_policies
+        .iter()
+        .map(|policy| {
+            serde_json::json!({
+                "transfer": policy.transfer,
+                "objective_value": policy.objective_value,
+                "policies": policy.policies.iter().map(policy_payload).collect::<Vec<_>>(),
+            })
+        })
+        .collect::<Vec<_>>();
+    let transitions = root
+        .transitions
+        .iter()
+        .map(|transition| serde_json::json!({
+            "transfer": transition.transfer,
+            "prior_policies": transition.prior_policies.iter().map(policy_payload).collect::<Vec<_>>(),
+            "next_policies": transition.next_policies.iter().map(policy_payload).collect::<Vec<_>>(),
+        }))
+        .collect::<Vec<_>>();
+    let solver = &root.solver;
+    serde_json::json!({
+        "status": root.status,
+        "estimate": root.estimate,
+        "lower": root.lower,
+        "upper": root.upper,
+        "final_bracket_width": root.final_bracket_width,
+        "residual": root.residual,
+        "iterations": root.iterations,
+        "evaluations": root.evaluations,
+        "lower_policies": root.lower_policies.iter().map(policy_payload).collect::<Vec<_>>(),
+        "upper_policies": root.upper_policies.iter().map(policy_payload).collect::<Vec<_>>(),
+        "evaluated_policies": evaluated_policies,
+        "policy_switched": root.policy_switched,
+        "transitions": transitions,
+        "termination_reason": root.termination_reason,
+        "solver": {
+            "initial_upper": solver.initial_upper,
+            "expansion_factor": solver.expansion_factor,
+            "maximum_price": solver.maximum_price,
+            "absolute_price_tolerance": solver.absolute_price_tolerance,
+            "relative_price_tolerance": solver.relative_price_tolerance,
+            "utility_tolerance": solver.utility_tolerance,
+            "maximum_iterations": solver.maximum_iterations,
+            "maximum_evaluations": solver.maximum_evaluations,
+        },
+    })
+}
+
+/// Compute the experimental Rust-owned expected-utility information result.
+#[pyfunction]
+#[allow(clippy::too_many_lines)] // Preserve the explicit versioned wire mapping at the boundary.
+fn compute_expected_utility_information<'py>(
+    py: Python<'py>,
+    request_json: &str,
+) -> PyResult<Bound<'py, PyDict>> {
+    let request_value: Value = serde_json::from_str(request_json)
+        .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let canonical_request = canonical_payload_bytes(&request_value).map_err(serialization_error)?;
+    let input_digest = sha256_hex(&canonical_request);
+    let utility_value = request_value["utility"].clone();
+    let request: UtilityInformationRequest = serde_json::from_value(request_value)
+        .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    if !matches!(request.presentation_label.as_str(), "canonical" | "voc") {
+        return Err(InputError::new_err((
+            "invalid_input",
+            "presentation_label must be canonical or voc",
+        )));
+    }
+    let utility = match request.utility {
+        UtilityRequest::Affine { slope, intercept } => {
+            UtilityDescriptor::Affine { slope, intercept }
+        }
+        UtilityRequest::Exponential {
+            risk_tolerance,
+            reference_wealth,
+        } => UtilityDescriptor::Exponential {
+            risk_tolerance,
+            reference_wealth,
+        },
+        UtilityRequest::Log { reference_wealth } => UtilityDescriptor::Log { reference_wealth },
+        UtilityRequest::Power {
+            risk_aversion,
+            reference_wealth,
+        } => UtilityDescriptor::Power {
+            risk_aversion,
+            reference_wealth,
+        },
+    };
+    let input = ExpectedUtilityInformationInput {
+        schema_version: request.schema_version,
+        decision_problem_id: request.decision_problem_id,
+        stakeholder_scope_id: request.stakeholder_scope_id.clone(),
+        action_ids: request.action_ids,
+        state_ids: request.state_ids,
+        payoffs: request.payoffs,
+        state_probabilities: request.state_probabilities,
+        initial_wealth: request.initial_wealth,
+        payoff_unit: request.payoff_unit.clone(),
+        currency: request.currency,
+        price_date: request.price_date,
+        information_cost_location: request.information_cost_location,
+        information: InformationStructure {
+            kind: request.information.kind,
+            signal_ids: request.information.signal_ids,
+            signal_state_probabilities: request.information.signal_state_probabilities,
+        },
+        terminal_outcome_floor: request.terminal_outcome_floor,
+        solver: SolverSettings {
+            initial_upper: request.solver.initial_upper,
+            expansion_factor: request.solver.expansion_factor,
+            maximum_price: request.solver.maximum_price,
+            absolute_price_tolerance: request.solver.absolute_price_tolerance,
+            relative_price_tolerance: request.solver.relative_price_tolerance,
+            utility_tolerance: request.solver.utility_tolerance,
+            maximum_iterations: request.solver.maximum_iterations,
+            maximum_evaluations: request.solver.maximum_evaluations,
+        },
+    };
+    let result = expected_utility_information(&input, &utility)
+        .map_err(|error| InputError::new_err((error.code(), error.to_string())))?;
+    let measure = |name: &str,
+                   status: &str,
+                   value: Option<f64>,
+                   unit: &str,
+                   direction: &str,
+                   normalization: &str,
+                   diagnostics: Option<&str>| serde_json::json!({"measure":name,"status":status,"value":value,"unit":unit,"direction":direction,"normalization":normalization,"diagnostics_ref":diagnostics});
+    let informed_policies = result
+        .informed_policies
+        .iter()
+        .map(policy_payload)
+        .collect::<Vec<_>>();
+    let metadata = build_metadata();
+    let payload = serde_json::json!({
+        "schema_version": result.schema_version,
+        "method": result.method,
+        "method_maturity": result.method_maturity,
+        "input_digest": {"algorithm": DIGEST_ALGORITHM, "value": input_digest},
+        "provenance": {"source_revision": metadata.source_revision, "source_dirty": metadata.source_dirty, "source_tree_git_oid": metadata.source_tree_git_oid, "source_state_sha256": metadata.source_state_sha256, "build_id": metadata.build_id},
+        "decision_descriptor": {"decision_problem_id": input.decision_problem_id, "stakeholder_scope_id": input.stakeholder_scope_id, "action_ids": input.action_ids, "state_ids": input.state_ids, "initial_wealth": input.initial_wealth, "payoff_unit": input.payoff_unit, "currency": input.currency, "price_date": input.price_date, "information_cost_location": input.information_cost_location},
+        "backend": {"engine": "rust", "bridge": "pyo3", "crate": "voiage-python", "version": env!("CARGO_PKG_VERSION")},
+        "reporting_metadata": {"deterministic": true, "canonical_ordering": "rfc8785", "presentation_label": request.presentation_label},
+        "information_kind": result.information_kind,
+        "payoff_unit": input.payoff_unit,
+        "utility": utility_value,
+        "current_expected_utility": result.current_expected_utility,
+        "informed_expected_utility": result.informed_expected_utility,
+        "current_certainty_equivalent": result.current_certainty_equivalent,
+        "informed_certainty_equivalent": result.informed_certainty_equivalent,
+        "current_policy": policy_payload(&result.current_policy),
+        "informed_policies": informed_policies,
+        "eui": measure("eui",&result.eui.status,result.eui.value,"utility","uninformed_to_informed","declared_utility",None),
+        "cei": measure("cei",&result.cei.status,result.cei.value,&input.payoff_unit,"uninformed_to_informed","certainty_equivalent",None),
+        "bpi": measure("bpi",&result.bpi.status,result.bpi.value,&input.payoff_unit,"pay_to_acquire_information","ex_ante_sure_transfer",Some("bpi_root")),
+        "spi": measure("spi",&result.spi.status,result.spi.value,&input.payoff_unit,"receive_to_surrender_information","ex_ante_sure_transfer",Some("spi_root")),
+        "ppi": measure("ppi",&result.ppi.status,result.ppi.value,"dimensionless","uninformed_to_informed","terminal_floor",result.ppi.diagnostic_code.as_deref()),
+        "bpi_root": root_payload(&result.bpi_root),
+        "spi_root": root_payload(&result.spi_root),
+        "affine_reduction": {"status":result.affine_reduction.status,"monetary_measure":result.affine_reduction.monetary_measure,"value":result.affine_reduction.value},
+        "comparability": {"stakeholder_scope_id":result.comparability.stakeholder_scope_id,"numeric_within_problem":result.comparability.numeric_within_problem,"numeric_cross_problem":result.comparability.numeric_cross_problem,"required_shared_fields":result.comparability.required_shared_fields,"ranking_equivalence":result.comparability.ranking_equivalence.iter().map(|rule| serde_json::json!({"scope":rule.scope,"left_measure":rule.left_measure,"right_measure":rule.right_measure,"status":rule.status,"condition":rule.condition})).collect::<Vec<_>>()},
+        "presentation": {"presentation_label":request.presentation_label,"selected_measure":"eui","canonical_result_ref":"self"},
+    });
+    result_to_dict(py, &payload).map(|(result, _canonical_payload)| result)
+}
+
 /// Register the private `voiage._core` extension module.
 #[pymodule]
 fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
@@ -990,16 +1619,40 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(runtime_info, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evpi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_enbs, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_coss, module)?)?;
+    module.add_function(wrap_pyfunction!(
+        compute_coss_selection_uncertainty,
+        module
+    )?)?;
+    module.add_function(wrap_pyfunction!(compute_evsi_evpi_efficiency, module)?)?;
+    module.add_function(wrap_pyfunction!(
+        compute_information_efficiency_uncertainty,
+        module
+    )?)?;
     module.add_function(wrap_pyfunction!(compute_heterogeneity, module)?)?;
     module.add_function(wrap_pyfunction!(compute_structural_evpi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_structural_evppi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_dominance, module)?)?;
     module.add_function(wrap_pyfunction!(compute_ceaf, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evppi, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_evppi_variance, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_evsi_variance, module)?)?;
+    module.add_function(wrap_pyfunction!(
+        compute_estimation_truth_assurance,
+        module
+    )?)?;
+    module.add_function(wrap_pyfunction!(
+        compute_normal_normal_two_arm_evsi,
+        module
+    )?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_efficient_linear, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_moment_based, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_regression, module)?)?;
+    module.add_function(wrap_pyfunction!(
+        compute_expected_utility_information,
+        module
+    )?)?;
     module.add_function(wrap_pyfunction!(serialize_ceaf_result, module)?)?;
     module.add_function(wrap_pyfunction!(serialize_dominance_result, module)?)?;
     Ok(())
@@ -1350,6 +2003,99 @@ mod tests {
     }
 
     #[test]
+    fn compute_coss_returns_the_versioned_native_result() {
+        Python::initialize();
+        Python::attach(|py| {
+            let module = PyModule::new(py, "_core_test").unwrap();
+            module
+                .add_function(wrap_pyfunction!(compute_coss, &module).unwrap())
+                .unwrap();
+            let result = module
+                .getattr("compute_coss")
+                .unwrap()
+                .call1((
+                    vec![100_u64, 200, 300],
+                    vec![5.0_f64, 9.0, 10.0],
+                    vec![8.0_f64, 3.0, 12.0],
+                    vec![true, false, true],
+                    "smallest_sample_size",
+                    0.0_f64,
+                    0.0_f64,
+                ))
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            assert_eq!(
+                result
+                    .get_item("contract_version")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<String>()
+                    .unwrap(),
+                "1.0.0"
+            );
+            assert_eq!(
+                result
+                    .get_item("enbs")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<Vec<f64>>()
+                    .unwrap(),
+                vec![-3.0, 6.0, -2.0]
+            );
+            assert_eq!(
+                result
+                    .get_item("optimal_index")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<usize>()
+                    .unwrap(),
+                2
+            );
+        });
+    }
+
+    #[test]
+    fn compute_information_efficiency_returns_nullable_unclamped_ratio() {
+        Python::initialize();
+        Python::attach(|py| {
+            let module = PyModule::new(py, "_core_test").unwrap();
+            module
+                .add_function(wrap_pyfunction!(compute_evsi_evpi_efficiency, &module).unwrap())
+                .unwrap();
+            let function = module.getattr("compute_evsi_evpi_efficiency").unwrap();
+            let above = function
+                .call1((10.05_f64, 10.0_f64, 0.1_f64, 0.0_f64))
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            assert_eq!(
+                above
+                    .get_item("status")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<String>()
+                    .unwrap(),
+                "above_one_within_tolerance"
+            );
+            let ratio = above
+                .get_item("ratio")
+                .unwrap()
+                .unwrap()
+                .extract::<f64>()
+                .unwrap();
+            assert!((ratio - 1.005).abs() <= 1.0e-12);
+
+            let zero = function
+                .call1((0.0_f64, 0.0_f64, 1.0e-9_f64, 0.0_f64))
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            assert!(zero.get_item("ratio").unwrap().unwrap().is_none());
+        });
+    }
+
+    #[test]
     fn compute_dominance_executes_the_rust_kernel_for_python_sequences() {
         Python::initialize();
         Python::attach(|py| {
@@ -1435,6 +2181,35 @@ mod tests {
                 .extract::<f64>()
                 .unwrap();
             assert!((evsi - 0.75).abs() <= 1.0e-12);
+        });
+    }
+
+    #[test]
+    fn compute_normal_normal_evsi_executes_the_rust_kernel() {
+        Python::initialize();
+        Python::attach(|py| {
+            let module = PyModule::new(py, "_core_test").unwrap();
+            module
+                .add_function(
+                    wrap_pyfunction!(compute_normal_normal_two_arm_evsi, &module).unwrap(),
+                )
+                .unwrap();
+            let function = module
+                .getattr("compute_normal_normal_two_arm_evsi")
+                .unwrap();
+            let result = function
+                .call1((
+                    0.06_f64,
+                    0.03_f64,
+                    1.0_f64,
+                    200_usize,
+                    50_000.0_f64,
+                    -3_000.0_f64,
+                ))
+                .unwrap()
+                .extract::<f64>()
+                .unwrap();
+            assert!((result - 124.179_365_520_623_8).abs() <= 1.0e-5);
         });
     }
 

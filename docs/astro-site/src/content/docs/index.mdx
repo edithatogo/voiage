@@ -17,7 +17,9 @@ hero:
 
 import { CardGrid, Card } from "@astrojs/starlight/components";
 
-voiage is a comprehensive, cross-domain **Value of Information (VOI) analysis** library built with a Rust execution core and Python/Mojo surfaces, with thin R and Julia bindings.
+voiage is a **Value of Information (VOI) analysis** library with a broad
+Python workflow, selected Rust calculations, and narrower R and Julia source
+bindings.
 
 VOI methods help quantify the economic value of acquiring additional information to reduce uncertainty in decision-making, particularly in fields like health economics, risk analysis, and decision sciences.
 
@@ -38,24 +40,33 @@ VOI methods help quantify the economic value of acquiring additional information
   </Card>
 </CardGrid>
 
-## Advanced Methods
+## Additional Methods
 
 - **Structural VOI** — value of reducing uncertainty about model structure
 - **Network Meta-Analysis VOI** — multi-treatment comparison through evidence networks
 - **Adaptive Trial EVSI** — value of adaptive study designs
+- **COSS and EVSI/EVPI efficiency** — experimental finite-design optimization
+  using signed ENBS and an explicitly commensurate information-efficiency ratio
 - **Portfolio VOI** — optimal allocation across a research portfolio
 - **Sequential VOI** — value of sequential decision-making
 - **Value of Heterogeneity** — estimating returns to individualized care
 - **Calibration VOI** — value of model calibration studies
 - **Observational VOI** — value of observational data collection
 
-## Why voiage?
+## Design
 
-- **Comprehensive coverage** — from basic EVPI to frontier methods like distributional/equity VOI and dynamic real-options
-- **Rust-first by design** — Python/Mojo reference surfaces with thin R and Julia bindings over the Rust core
-- **High performance** — Rust execution core with JAX acceleration and optional GPU/TPU backends
-- **Contract-first** — documented schemas, deterministic fixtures, and conformance tests across languages
-- **Modern Python** — leverages NumPy, SciPy, pandas, xarray, and NumPyro
+- **Explicit contracts** — documented schemas, units, assumptions, provenance,
+  and deterministic fixtures.
+- **Shared reference calculations** — Python, R, and Julia test the same
+  Rust EVPI kernel against common numerical cases.
+- **Evidence-labelled methods** — stable, approximate, and experimental
+  methods are distinguished in the API and documentation.
+- **Python analysis workflow** — NumPy, SciPy, pandas, xarray, and optional
+  backends support model preparation, analysis, and reporting.
+
+Python currently provides the complete workflow and the provenance-bearing
+result envelope. R and Julia expose scalar EVPI and require a compatible
+`voiage-ffi` native library. Mojo remains an external, unreleased boundary.
 
 ## Target Audience
 

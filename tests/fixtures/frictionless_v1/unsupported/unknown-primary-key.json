@@ -1,0 +1,7 @@
+{
+  "resources": [{
+    "name": "samples",
+    "path": "valid/data.csv",
+    "schema": {"primaryKey": "missing", "fields": [{"name": "scenario_id"}, {"name": "net_benefit"}]}
+  }]
+}

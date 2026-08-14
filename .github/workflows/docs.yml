@@ -73,6 +73,10 @@ jobs:
       working-directory: docs/astro-site
       run: pnpm install --frozen-lockfile
 
+    - name: Type-check Astro and TypeScript
+      working-directory: docs/astro-site
+      run: pnpm run check
+
     - name: Validate repository-owned documentation links
       run: python scripts/validate_astro_docs.py .
 

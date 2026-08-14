@@ -1,1 +1,62 @@
-{"track_id":"quality_release_automation_20260723","version":"1.0.0","type":"feature","status":"in_progress","created_at":"2026-07-23T13:18:53Z","updated_at":"2026-07-23T22:49:29Z","description":"Complete polyglot quality, security, reproducibility, provenance, packaging, and staged-release automation.","evidence_schema":"1.0","owner_repo":"edithatogo/voiage","github_issue":"https://github.com/edithatogo/voiage/issues/322","github_parent_issue":"https://github.com/edithatogo/voiage/issues/313","github_project":"https://github.com/users/edithatogo/projects/28","release_targets":["v1.1","v1.2","v1.3"],"dependencies":["external_voi_library_feature_parity_20260723","stable_voi_rust_core_completion_20260723","value_of_perspective_completion_20260723","supported_frontier_method_completion_20260723","ml_llm_agent_voi_20260723","polyglot_abi_binding_parity_20260723","datasets_worked_examples_20260723","research_contribution_ai_transparency_20260723"],"gates":[{"id":"renovate-app-activation","kind":"external","status":"pending","evidence":"Install and authorize the Renovate GitHub App, then observe its dashboard and one checked update PR before disabling Dependabot security updates."},{"id":"enhanced-secret-scanning-entitlement","kind":"external","status":"pending","evidence":"GitHub retained non-provider pattern and validity-check settings as disabled after two API enable attempts; retain as an entitlement-dependent gate."},{"id":"release-credentials","kind":"credential","status":"pending","evidence":"Signing and publishing require authorized credentials and exact release approval."},{"id":"external-registries","kind":"external","status":"pending","evidence":"Registry acceptance is external to repository readiness."}]}
+{
+  "track_id": "quality_release_automation_20260723",
+  "version": "1.0.0",
+  "type": "feature",
+  "status": "in_progress",
+  "created_at": "2026-07-27T08:15:00Z",
+  "updated_at": "2026-08-02T12:52:00Z",
+  "description": "Extend assurance and release automation across the polyglot programme and add auditable local adoption surfaces without weakening numerical, privacy or external-gate boundaries.",
+  "evidence_schema": "1.0",
+  "approval": {
+    "status": "approved",
+    "approved_on": "2026-07-27",
+    "recorded_at": "2026-07-27T08:15:00Z",
+    "evidence": "User explicitly requested repair of missing issue-claimed Conductor tracks and roadmap frontier governance."
+  },
+  "github_parent_issue": "https://github.com/edithatogo/voiage/issues/313",
+  "github_subissues": [
+    "https://github.com/edithatogo/voiage/issues/462",
+    "https://github.com/edithatogo/voiage/issues/580",
+    "https://github.com/edithatogo/voiage/issues/581",
+    "https://github.com/edithatogo/voiage/issues/583",
+    "https://github.com/edithatogo/voiage/issues/584"
+  ],
+  "github_project": "https://github.com/users/edithatogo/projects/28",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/322",
+    "parent_issue": "https://github.com/edithatogo/voiage/issues/313",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "subissues": [
+      "https://github.com/edithatogo/voiage/issues/462",
+      "https://github.com/edithatogo/voiage/issues/580",
+      "https://github.com/edithatogo/voiage/issues/581",
+      "https://github.com/edithatogo/voiage/issues/583",
+      "https://github.com/edithatogo/voiage/issues/584"
+    ],
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/621",
+      "https://github.com/edithatogo/voiage/pull/822"
+    ],
+    "pull_request_evidence": "track_delivery"
+  },
+  "gates": [
+    {
+      "id": "specification-and-plan-approval",
+      "kind": "human_approval",
+      "status": "satisfied",
+      "evidence": "User governance-repair request dated 2026-07-27."
+    },
+    {
+      "id": "scientific-and-contract-review",
+      "kind": "scientific_review",
+      "status": "pending",
+      "evidence": "Required before capability or maturity promotion."
+    },
+    {
+      "id": "hosted-required-checks",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "PR #822 merged; current main assurance suite is green on the merged lineage."
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "attestation": {
+    "invocation": "https://github.com/edithatogo/voiage/actions/runs/30182943849/attempts/1",
+    "predicate_type": "https://slsa.dev/provenance/v1",
+    "source_commit": "e849e89152c306e79c96d0a8a9815ee5faca0529",
+    "source_uri": "git+https://github.com/edithatogo/voiage@refs/tags/v2.0.0",
+    "status": "verified",
+    "subjects": [
+      {
+        "name": "voiage-2.0.0-cp312-abi3-macosx_11_0_arm64.whl",
+        "sha256": "5956e5cf253b14123d8d75cead0ea41b946cd73c54a3f15e657413e339477a1e"
+      },
+      {
+        "name": "voiage-2.0.0-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+        "sha256": "b8fddd5c16c77fcf0bce0a6507686c696b3a77c94482e07156a3bfd04c2b053e"
+      },
+      {
+        "name": "voiage-2.0.0-cp312-abi3-win_amd64.whl",
+        "sha256": "831fdbe308bece3505f4a61d8667663c9d687827a1369e5a060bea7fcebc7968"
+      },
+      {
+        "name": "voiage-2.0.0.tar.gz",
+        "sha256": "82514d3df571bf908bc64a85be2c8212ea66f5d7d53a3058054c7ddf219a35de"
+      }
+    ]
+  },
+  "release": {
+    "commit": "e849e89152c306e79c96d0a8a9815ee5faca0529",
+    "repository": "edithatogo/voiage",
+    "tag": "v2.0.0",
+    "url": "https://github.com/edithatogo/voiage/releases/tag/v2.0.0",
+    "version": "2.0.0"
+  },
+  "release_assets": [
+    {
+      "name": "SHA256SUMS",
+      "path": "release-assets/SHA256SUMS",
+      "sha256": "9f01e71c1e247ce09a6bf38d1da19b3ecd5ce30dec9581e6da05a0c8937a1718",
+      "size": 439,
+      "url": "https://github.com/edithatogo/voiage/releases/download/v2.0.0/SHA256SUMS"
+    },
+    {
+      "name": "voiage-2.0.0-cp312-abi3-macosx_11_0_arm64.whl",
+      "path": "release-assets/voiage-2.0.0-cp312-abi3-macosx_11_0_arm64.whl",
+      "sha256": "5956e5cf253b14123d8d75cead0ea41b946cd73c54a3f15e657413e339477a1e",
+      "size": 818115,
+      "url": "https://github.com/edithatogo/voiage/releases/download/v2.0.0/voiage-2.0.0-cp312-abi3-macosx_11_0_arm64.whl"
+    },
+    {
+      "name": "voiage-2.0.0-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "path": "release-assets/voiage-2.0.0-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "sha256": "b8fddd5c16c77fcf0bce0a6507686c696b3a77c94482e07156a3bfd04c2b053e",
+      "size": 877982,
+      "url": "https://github.com/edithatogo/voiage/releases/download/v2.0.0/voiage-2.0.0-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+    },
+    {
+      "name": "voiage-2.0.0-cp312-abi3-win_amd64.whl",
+      "path": "release-assets/voiage-2.0.0-cp312-abi3-win_amd64.whl",
+      "sha256": "831fdbe308bece3505f4a61d8667663c9d687827a1369e5a060bea7fcebc7968",
+      "size": 722767,
+      "url": "https://github.com/edithatogo/voiage/releases/download/v2.0.0/voiage-2.0.0-cp312-abi3-win_amd64.whl"
+    },
+    {
+      "name": "voiage-2.0.0.tar.gz",
+      "path": "release-assets/voiage-2.0.0.tar.gz",
+      "sha256": "82514d3df571bf908bc64a85be2c8212ea66f5d7d53a3058054c7ddf219a35de",
+      "size": 465524,
+      "url": "https://github.com/edithatogo/voiage/releases/download/v2.0.0/voiage-2.0.0.tar.gz"
+    }
+  ],
+  "sbom": {
+    "attached_to_github_release": false,
+    "attachment_status": "not_attached",
+    "format": "CycloneDX",
+    "path": "docs/release/v2.0.0-sbom.cdx.json",
+    "sha256": "34700cbdec2d27c5f82f2aae453566ff570b070b161fdca7d1d1714f2303b805",
+    "source_commit": "e849e89152c306e79c96d0a8a9815ee5faca0529",
+    "source_tag": "v2.0.0",
+    "spec_version": "1.6"
+  },
+  "schema_version": "1.0.0",
+  "software_heritage": {
+    "origin": "https://github.com/edithatogo/voiage",
+    "snapshot_swhid": "swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d"
+  }
+}

@@ -48,6 +48,7 @@
       "n_perspectives": 2,
       "n_samples": 2,
       "n_strategies": 2,
+      "perspective_weight_semantics": "normative_stakeholder_importance",
       "regret_definition": "row i, column j is regret in perspective i when using the strategy optimal under perspective j",
       "switching_ci95": [
         [
@@ -59,11 +60,13 @@
           20.0
         ]
       ],
+      "switching_ci95_status": "exploratory_plugin_interval",
       "switching_standard_errors": [
         0.0,
         0.0
       ],
       "tie_policy": "first",
+      "tie_policy_semantics": "deterministic_or_error",
       "ties_detected": [
         false,
         false
@@ -175,6 +178,7 @@
   },
   "run_context": {
     "backend_version": "fixture",
+    "binding_profile_digest": null,
     "capabilities": [
       "dense-array",
       "deterministic"
@@ -188,7 +192,7 @@
     "requested_backend": "numpy",
     "run_id": "contract-fixture-run",
     "selected_backend": "numpy",
-    "spec_digest": "f63fde08f40c800afdaccb27b80dfa2789a51aa413b3b6f916d3db40e6762e0b",
+    "spec_digest": "cca08e35c23f83c0777ff509b1e1a7c738b50870c7c38d198ea4907bfec9c238",
     "started_at": null
   },
   "schema_version": "2.0.0"

@@ -21,7 +21,7 @@ SOURCE_FILES = {
     Path("main.tex"),
     Path("references.bib"),
 }
-SOURCE_DIRECTORIES = {"sections", "figures"}
+SOURCE_DIRECTORIES = {"sections", "figures", "data"}
 SOURCE_SUFFIXES = {
     ".tex",
     ".cls",
@@ -33,6 +33,7 @@ SOURCE_SUFFIXES = {
     ".pdf",
     ".eps",
     ".ps",
+    ".csv",
 }
 
 

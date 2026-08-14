@@ -1,5 +1,9 @@
 # Track: Documentation, Validation and Developer Experience
 
+- [Specification](./spec.md)
+- [Implementation Plan](./plan.md)
+- [Metadata](./metadata.json)
+
 ## Overview
 With all methods implemented, CLI complete, and infrastructure solid, this track ensures voiage has excellent developer experience: complete documentation, tutorial notebooks, validation against published results, polished docstrings, and professional project presentation.
 
@@ -24,3 +28,10 @@ This track implements the autonomous review-and-progression protocol with safety
 - **Escape hatch:** After 2 failed fix attempts, revert phase and mark task as `DEFERRED → v1.1`
 - **Rollback checkpoint:** Each phase records commit hash for safe rollback
 - **After track completion:** `/conductor:review` (full track) → apply fixes → push → verify CI green → archive → generate deferred items report → announce full project completion
+
+## GitHub traceability
+
+- Track issue: [#376](https://github.com/edithatogo/voiage/issues/376)
+- Parent issue: https://github.com/edithatogo/vop_poc_nz/issues/30
+- Project: [VOP–VOIAGE Conductor Roadmap](https://github.com/users/edithatogo/projects/28)
+- Pull requests: No pull request proven by recorded commit or track-path history.

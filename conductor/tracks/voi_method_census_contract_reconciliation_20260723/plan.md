@@ -1,65 +1,52 @@
-# Track Implementation Plan: VOI/VOP Method Census And Contract Reconciliation
+# Implementation Plan
 
-## Phase 1: Registry contract
+## Phase 1 — Governance and contract reconciliation
 
-- [x] Add failing schema, identifier, citation, and traceability tests.
-  (`2630e39`)
-- [x] Define the versioned registry and review/disposition vocabulary.
-  (`2630e39`)
-- [x] Record search protocol, evidence hierarchy, and source-rights boundary.
-  (`2630e39`)
-- [x] Commit, attach a git note, record the short commit SHA, and commit the
-  plan update. (`2630e39`)
-- [x] Automated review and validation checkpoint. (`c4c4fab`; added executable
-  method-to-source coverage after self-review found that feature URLs alone did
-  not satisfy method-level citation traceability)
-- [ ] Conductor - User Manual Verification 'Phase 1: Registry contract'
-  (Protocol in workflow.md).
+- [x] **G1:** Verify the owning issue, native parent/children, Project 28,
+  metadata, registry and cross-reference manifest. (AC-01) `2fe24c81`
+- [x] **G2:** Reconcile existing repository artifacts and prior evidence
+  without converting issue status into implementation evidence. (AC-01, AC-02)
+  `c9571d89`
+- [x] **G2a:** Freeze a hash-bound candidate/frozen classification checkpoint
+  for cross-track issues #593–#600 and #619 without completing #566 or
+  promoting the canonical registry. (AC-02, AC-05, AC-06) `28f7eb5e`
+- [x] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
+  explicit exclusions. The hash-bound classification checkpoint freezes the
+  candidate/frozen dispositions for #593–#600 and #619; open #566 remains a
+  prerequisite for completing the census contract. (AC-02, AC-05, AC-06)
+  `28f7eb5e`
+- [x] **G4:** Run automated contract review and full Conductor validation.
+  Current cross-reference, v1 programme, evidence-ledger and full Conductor
+  validation pass. (AC-01, AC-07) `2026-08-01`
 
-## Phase 2: Census and reconciliation
+## Phase 2 — Evidence before positive claims
 
-- [x] Inventory repository methods and initial literature candidates.
-  (`2630e39`; the search remains refreshable rather than universally exhaustive)
-- [~] Verify primary citations and classify estimand versus estimator.
-- [~] Reconcile code, schemas, maturity, docs, roadmap, and fixtures.
-- [x] Generate capability and method matrices. (`2630e39`)
-- [ ] Triage buying-price versus expected-utility VOI, constructed-scale VOI,
-  robust EIG, validation-study EVSI, and other genuinely distinct estimands
-  found by the search; do not promote aliases as new methods.
-- [ ] Triage Blackwell informativeness, value of signals, clairvoyance, control
-  and flexibility, rational inattention, Bayesian persuasion, strategic
-  information design, causal discovery, model discrimination, and value of
-  measurement or test accuracy as VOI, related analysis, application, or
-  reviewed exclusion.
-- [ ] Define the canonical Decision Problem interchange contract and map every
-  included estimand and estimator to its required fields.
-- [ ] Reconcile VOP against preference, equity, heterogeneity, scenario, and
-  robust-decision methods so perspective is not collapsed into those concepts.
-- [ ] Commit, attach a git note, record the short commit SHA, and commit the
-  plan update.
-- [ ] Automated review and validation checkpoint.
-- [ ] Conductor - User Manual Verification 'Phase 2: Census and reconciliation'
-  (Protocol in workflow.md).
+- [ ] **G5:** Add failing conformance, reference, property and pathological
+  tests, or the corresponding reproducible review protocol. (AC-03)
+- [ ] **G6:** Add versioned schemas, fixtures, diagnostics and provenance
+  contracts required by the accepted scope. (AC-02, AC-03)
+- [ ] **G7:** Record rights, privacy, scientific, practitioner and external
+  evidence gates that apply to this workstream. (AC-05, AC-06)
+- [ ] **G8:** Run an independent evidence and boundary review. (AC-03, AC-07)
 
-## Phase 3: Review and freeze
+## Phase 3 — Delivery or reviewed exclusion
 
-- [ ] Run registry, citation, SourceRight, docs, and full repository gates.
-- [~] Add citation-identifier validation and an evidence-preserving quarterly
-  refresh job with a 93-day freshness limit. (source identifiers and complete
-  method coverage landed in `c4c4fab`; scheduled refresh remains open)
-- [ ] Add a missed-library/missed-method contribution template and duplicate-
-  resistant triage automation.
-- [ ] Obtain human scientific review of stable definitions and dispositions.
-- [ ] Freeze the v1.1 registry revision and record remaining research gates.
-- [ ] Commit, attach a git note, record the short commit SHA, and commit the
-  plan update.
-- [ ] Final review and validation checkpoint.
-- [ ] Conductor - User Manual Verification 'Phase 3: Review and freeze'
-  (Protocol in workflow.md).
+- [ ] **G9:** Implement each accepted repository-owned capability or record a
+  reviewed exclusion with migration guidance. (AC-02, AC-06)
+- [ ] **G10:** Add Rust/Python/R/Julia/Mojo dispositions and installed
+  shared-fixture evidence where executable surfaces are advertised. (AC-04)
+- [ ] **G11:** Add documentation, examples, generated surfaces and capability
+  discovery that match the evidenced maturity state. (AC-05)
+- [ ] **G12:** Run automated implementation review, focused validation and the
+  repository harness. (AC-03–AC-07)
 
-## Review fixes
+## Phase 4 — Programme and hosted closeout
 
-- [x] Require every canonical method to resolve to one or more registered
-  sources and an explicit review state. (`c4c4fab`)
-- [x] Keep repository-defined VOP and LLM/agent applications visibly separate
-  from primary-verified established methods. (`c4c4fab`)
+- [ ] **G13:** Reconcile child-issue results, roadmap, todo, registries,
+  release targets and remaining external gates. (AC-01, AC-05, AC-06)
+- [x] **G14:** Run final full local validation and hosted required checks. PR
+  #816 exact head `1a159e02af95fc3a6bce46f2bf8909561be0b9bd` passed the
+  required matrix before merge `68cb15dfcb8706ab653f8a1631b433a7f63ba322`.
+  Residual classification and promotion remain separate. (AC-07)
+- [ ] **G15:** Record repository completion separately from merge, release,
+  publication, registry acceptance and issue closure. (AC-02, AC-07)

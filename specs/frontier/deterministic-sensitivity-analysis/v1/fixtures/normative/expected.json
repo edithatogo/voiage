@@ -1,0 +1,55 @@
+{
+  "schema_version": "deterministic-sensitivity-result-v1",
+  "analysis_type": "deterministic_sensitivity_analysis",
+  "method_maturity": "experimental",
+  "analysis_id": "linear-two-parameter",
+  "direction": "maximize",
+  "output_unit": "net-benefit-point",
+  "baseline_point": {
+    "record_id": "baseline",
+    "coordinates": [{"parameter_name": "x", "value": 0.0}, {"parameter_name": "y", "value": 0.0}],
+    "alternative_outputs": [{"alternative_name": "a", "value": 10.0}, {"alternative_name": "b", "value": 8.0}],
+    "direction_normalized_increments": [{"alternative_name": "a", "value": 0.0}, {"alternative_name": "b", "value": 0.0}],
+    "optimal_alternatives": ["a"], "selected_alternative": "a", "optimal_metric": 10.0
+  },
+  "one_way": [
+    {
+      "parameter_name": "x", "parameter_unit": "point",
+      "points": [
+        {"record_id": "x--2", "coordinates": [{"parameter_name": "x", "value": -2.0}, {"parameter_name": "y", "value": 0.0}], "alternative_outputs": [{"alternative_name": "a", "value": 8.0}, {"alternative_name": "b", "value": 4.0}], "direction_normalized_increments": [{"alternative_name": "a", "value": -2.0}, {"alternative_name": "b", "value": -4.0}], "optimal_alternatives": ["a"], "selected_alternative": "a", "optimal_metric": 8.0},
+        {"record_id": "x-0", "coordinates": [{"parameter_name": "x", "value": 0.0}, {"parameter_name": "y", "value": 0.0}], "alternative_outputs": [{"alternative_name": "a", "value": 10.0}, {"alternative_name": "b", "value": 8.0}], "direction_normalized_increments": [{"alternative_name": "a", "value": 0.0}, {"alternative_name": "b", "value": 0.0}], "optimal_alternatives": ["a"], "selected_alternative": "a", "optimal_metric": 10.0},
+        {"record_id": "x-2", "coordinates": [{"parameter_name": "x", "value": 2.0}, {"parameter_name": "y", "value": 0.0}], "alternative_outputs": [{"alternative_name": "a", "value": 12.0}, {"alternative_name": "b", "value": 12.0}], "direction_normalized_increments": [{"alternative_name": "a", "value": 2.0}, {"alternative_name": "b", "value": 4.0}], "optimal_alternatives": ["a", "b"], "selected_alternative": "a", "optimal_metric": 12.0}
+      ]
+    },
+    {
+      "parameter_name": "y", "parameter_unit": "point",
+      "points": [
+        {"record_id": "y--1", "coordinates": [{"parameter_name": "x", "value": 0.0}, {"parameter_name": "y", "value": -1.0}], "alternative_outputs": [{"alternative_name": "a", "value": 11.0}, {"alternative_name": "b", "value": 7.0}], "direction_normalized_increments": [{"alternative_name": "a", "value": 1.0}, {"alternative_name": "b", "value": -1.0}], "optimal_alternatives": ["a"], "selected_alternative": "a", "optimal_metric": 11.0},
+        {"record_id": "y-0", "coordinates": [{"parameter_name": "x", "value": 0.0}, {"parameter_name": "y", "value": 0.0}], "alternative_outputs": [{"alternative_name": "a", "value": 10.0}, {"alternative_name": "b", "value": 8.0}], "direction_normalized_increments": [{"alternative_name": "a", "value": 0.0}, {"alternative_name": "b", "value": 0.0}], "optimal_alternatives": ["a"], "selected_alternative": "a", "optimal_metric": 10.0},
+        {"record_id": "y-1", "coordinates": [{"parameter_name": "x", "value": 0.0}, {"parameter_name": "y", "value": 1.0}], "alternative_outputs": [{"alternative_name": "a", "value": 9.0}, {"alternative_name": "b", "value": 9.0}], "direction_normalized_increments": [{"alternative_name": "a", "value": -1.0}, {"alternative_name": "b", "value": 1.0}], "optimal_alternatives": ["a", "b"], "selected_alternative": "a", "optimal_metric": 9.0}
+      ]
+    }
+  ],
+  "two_way": [{
+    "surface_id": "x|y", "parameter_names": ["x", "y"], "feasibility_semantics": "explicit-mask",
+    "points": [
+      {"record_id": "xy--2--1", "coordinates": [{"parameter_name": "x", "value": -2.0}, {"parameter_name": "y", "value": -1.0}], "alternative_outputs": [{"alternative_name": "a", "value": 9.0}, {"alternative_name": "b", "value": 3.0}], "direction_normalized_increments": [{"alternative_name": "a", "value": -1.0}, {"alternative_name": "b", "value": -5.0}], "optimal_alternatives": ["a"], "selected_alternative": "a", "optimal_metric": 9.0},
+      {"record_id": "xy-0-0", "coordinates": [{"parameter_name": "x", "value": 0.0}, {"parameter_name": "y", "value": 0.0}], "alternative_outputs": [{"alternative_name": "a", "value": 10.0}, {"alternative_name": "b", "value": 8.0}], "direction_normalized_increments": [{"alternative_name": "a", "value": 0.0}, {"alternative_name": "b", "value": 0.0}], "optimal_alternatives": ["a"], "selected_alternative": "a", "optimal_metric": 10.0}
+    ]
+  }],
+  "scenarios": [{
+    "scenario_id": "adverse", "structural_assumption": "named deterministic override",
+    "point": {"record_id": "scenario-adverse", "coordinates": [{"parameter_name": "x", "value": -2.0}, {"parameter_name": "y", "value": 1.0}], "alternative_outputs": [{"alternative_name": "a", "value": 7.0}, {"alternative_name": "b", "value": 5.0}], "direction_normalized_increments": [{"alternative_name": "a", "value": -3.0}, {"alternative_name": "b", "value": -3.0}], "optimal_alternatives": ["a"], "selected_alternative": "a", "optimal_metric": 7.0}
+  }],
+  "parameter_summaries": [
+    {"parameter_name": "x", "parameter_unit": "point", "ranking_metric": "evaluated-grid-range", "minimum_metric": 8.0, "maximum_metric": 12.0, "evaluated_range": 4.0, "minimum_coordinates": [-2.0], "maximum_coordinates": [2.0], "endpoint_range": 4.0, "interior_extremum_observed": false, "rank": 1},
+    {"parameter_name": "y", "parameter_unit": "point", "ranking_metric": "evaluated-grid-range", "minimum_metric": 9.0, "maximum_metric": 11.0, "evaluated_range": 2.0, "minimum_coordinates": [1.0], "maximum_coordinates": [-1.0], "endpoint_range": 2.0, "interior_extremum_observed": false, "rank": 2}
+  ],
+  "switch_intervals": [
+    {"parameter_name": "x", "parameter_unit": "point", "status": "exact", "lower_coordinate": 2.0, "upper_coordinate": 2.0, "lower_optimal_alternatives": ["a", "b"], "upper_optimal_alternatives": ["a", "b"], "interpolation": "not-performed"},
+    {"parameter_name": "y", "parameter_unit": "point", "status": "exact", "lower_coordinate": 1.0, "upper_coordinate": 1.0, "lower_optimal_alternatives": ["a", "b"], "upper_optimal_alternatives": ["a", "b"], "interpolation": "not-performed"}
+  ],
+  "tie_tolerance": {"absolute": 1e-12, "relative": 1e-12, "representative_policy": "canonical-lexicographic"},
+  "diagnostics": {"assurance": "exact-enumeration", "evaluated_record_count": 10, "complete_coordinate_vectors": true, "complete_tie_sets": true, "unsupported_operations": ["interpolation", "extrapolation", "probabilistic-sensitivity", "evppi", "global-sensitivity"]},
+  "reporting": {"probabilistic_analysis": false, "information_value": false, "global_sensitivity": false, "tornado_semantics": "deterministic-evaluated-grid-range", "switch_semantics": "observed-exact-plateau-or-adjacent-bracket"}
+}

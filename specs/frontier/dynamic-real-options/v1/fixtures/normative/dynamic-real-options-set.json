@@ -54,13 +54,9 @@
   "irreversibility_penalty": 0.5,
   "lock_in_penalty": 0.25,
   "evidence_arrival_times": {
+    "now": 0.0,
     "after_phase_1": 1.0,
     "after_phase_2": 2.0
-  },
-  "exercise_rules": {
-    "now": "exercise_immediately",
-    "after_phase_1": "exercise_if_expected_value_exceeds_threshold",
-    "after_phase_2": "exercise_if_trial_confirms_benefit"
   },
   "provenance": {
     "seed": 303,

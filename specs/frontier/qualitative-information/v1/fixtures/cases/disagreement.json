@@ -1,0 +1,25 @@
+{
+  "base": "../normative/input.json",
+  "operations": [
+    {
+      "op": "replace",
+      "path": "/questions/0/judgements/1/priority_class",
+      "value": "routine"
+    },
+    {
+      "op": "replace",
+      "path": "/questions/0/judgements/1/recommendation_class",
+      "value": "do_not_pursue"
+    },
+    {
+      "op": "replace",
+      "path": "/audit_history/2/action",
+      "value": "review"
+    }
+  ],
+  "expected": {
+    "workflow_status": "incomplete",
+    "question_id": "q-01-trial",
+    "consensus_status": "dissent"
+  }
+}

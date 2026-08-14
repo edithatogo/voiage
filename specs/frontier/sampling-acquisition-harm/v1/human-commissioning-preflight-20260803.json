@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "human_commissioning_preflight_only_not_a_review_receipt",
+  "issue": "https://github.com/edithatogo/voiage/issues/870",
+  "parent_issue": "https://github.com/edithatogo/voiage/issues/853",
+  "commissioning_status": "blocked_prerequisites",
+  "candidate_context": {
+    "decision_status": "decision_required",
+    "selected_option_id": null,
+    "recommended_option_id": "reviewed_exclusion_generic_kernel",
+    "accountable_decision_required": true,
+    "options": [
+      {
+        "option_id": "reviewed_exclusion_generic_kernel",
+        "recommended": true,
+        "scope": "Seek independent review of the proposed exclusion of a universal automatic scalar or study-authorizing kernel while retaining narrower candidate-bound research.",
+        "rationale": "This matches H8-A, preserves the current unsupported runtime boundary and avoids implying that incomparable harms can be collapsed or that a VOI result authorizes sampling.",
+        "additional_prerequisites": ["accountable maintainer candidate-selection receipt", "independent review of the exact replacement packet"]
+      },
+      {
+        "option_id": "bounded_non_authorizing_candidate",
+        "recommended": false,
+        "scope": "Define a narrow scalar, constrained or vector research candidate for one declared domain, jurisdiction, population, sampling action, comparator and affected-party set.",
+        "rationale": "This may support future methodological research but requires materially more domain, source, estimator and ethics evidence.",
+        "additional_prerequisites": ["declared domain and jurisdiction", "candidate-specific source and rights review", "truth-known estimator assurance", "domain and ethics expertise"]
+      },
+      {
+        "option_id": "defer_and_retain_unsupported",
+        "recommended": false,
+        "scope": "Make no current scientific disposition and retain unsupported research scoping.",
+        "rationale": "This is safest when qualified reviewers or authoritative source evidence cannot yet be obtained, but it does not advance H8-D.",
+        "additional_prerequisites": ["explicit accountable deferral record"]
+      }
+    ]
+  },
+  "input_bindings": [
+    {"path": "remediation-readiness-delta-20260803.json", "sha256": "4806d4c91828e1c1cfbb6d59e5c0639135369460d8490d96ac877ea3d05125c6"},
+    {"path": "reviewer-intake-readiness.json", "sha256": "1aa9de48b04eca255c657c384653a5eb968cbb33e72e2e01f4d4a8573eb42dc6"},
+    {"path": "source-review-intake-readiness.json", "sha256": "5700de01a1a687d06a78d9e999a9be2b6f24672680f75d1e25c00cd231e16f63"},
+    {"path": "source-observation-refresh-20260803.json", "sha256": "f1db5e7f4caf6b1690408fac0d6e1cc5943dff361fc0df25bc4204b55a54351c"}
+  ],
+  "required_human_roles": [
+    {"role_id": "estimand_domain", "stage": "h8_d", "assignment_status": "unassigned", "eligible": false, "instructions_section": "human-review-commissioning-handoff.md#estimand-and-domain"},
+    {"role_id": "estimator_assurance", "stage": "h8_d", "assignment_status": "unassigned", "eligible": false, "instructions_section": "human-review-commissioning-handoff.md#estimator-assurance"},
+    {"role_id": "cross_language_api", "stage": "h8_d", "assignment_status": "unassigned", "eligible": false, "instructions_section": "human-review-commissioning-handoff.md#cross-language-and-api"},
+    {"role_id": "governance_publication", "stage": "h8_d", "assignment_status": "unassigned", "eligible": false, "instructions_section": "human-review-commissioning-handoff.md#governance-and-publication"},
+    {"role_id": "domain_specialist", "stage": "h8_d", "assignment_status": "unassigned", "eligible": false, "instructions_section": "human-review-commissioning-handoff.md#domain-and-ethics-specialist"},
+    {"role_id": "named_independent_human_scientific_verdict", "stage": "h8_g", "assignment_status": "unassigned", "eligible": false, "instructions_section": "human-review-commissioning-handoff.md#h8-g-confirmations"},
+    {"role_id": "distinct_domain_ethics_human_verdict", "stage": "h8_g", "assignment_status": "unassigned", "eligible": false, "instructions_section": "human-review-commissioning-handoff.md#h8-g-confirmations"}
+  ],
+  "source_prerequisite_finding_ids": ["H8D-ED-04", "H8D-EST-002", "H8D-API-GOV-03", "H8D-GP-02", "H8D-DS-05"],
+  "preconditions": {
+    "candidate_context_selected": false,
+    "source_review_ready": false,
+    "rights_review_complete": false,
+    "applicability_review_complete": false,
+    "independent_retrieval_receipts_complete": false,
+    "eligible_h8_d_roles_assigned": false,
+    "replacement_packet_frozen": false,
+    "all_findings_dispositioned": false
+  },
+  "blocker_ids": ["candidate-context-decision", "independent-source-retrieval", "source-rights-review", "jurisdiction-applicability", "eligible-h8-d-reviewers", "replacement-packet-freeze", "nineteen-finding-disposition"],
+  "human_output_contracts": {
+    "eligibility_attestation": "specs/frontier/governance/scientific-review/v1/schemas/reviewer-attestation.schema.json",
+    "role_report": "specs/frontier/governance/scientific-review/v1/schemas/role-report.schema.json",
+    "finding_disposition": "specs/frontier/governance/scientific-review/v1/schemas/disposition.schema.json",
+    "scientific_approval": "specs/frontier/governance/scientific-review/v1/schemas/scientific-approval.schema.json"
+  },
+  "privacy_and_security": {
+    "credentials_in_repository": false,
+    "personal_contact_details_in_repository": false,
+    "raw_signatures_in_repository": false,
+    "stable_reviewer_id_required": true,
+    "public_evidence_consent_required": true
+  },
+  "authority_boundary": {
+    "candidate_selected": false,
+    "source_authority": false,
+    "reviewer_eligibility": false,
+    "reviewer_commissioned": false,
+    "replacement_packet_frozen": false,
+    "finding_disposition": false,
+    "h8_d_satisfied": false,
+    "h8_e_satisfied": false,
+    "h8_f_satisfied": false,
+    "h8_g_satisfied": false,
+    "h8_h_satisfied": false,
+    "runtime": false,
+    "real_study": false,
+    "release": false,
+    "publication": false
+  }
+}

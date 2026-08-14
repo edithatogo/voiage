@@ -1,0 +1,6 @@
+{
+  "resources": [
+    {"name": "first", "path": "valid/data.csv", "schema": {"fields": [{"name": "scenario_id"}, {"name": "net_benefit"}]}},
+    {"name": "second", "path": "valid/data.csv", "schema": {"fields": [{"name": "scenario_id"}, {"name": "net_benefit"}]}}
+  ]
+}

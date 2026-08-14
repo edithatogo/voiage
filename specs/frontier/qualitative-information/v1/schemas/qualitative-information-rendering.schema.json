@@ -1,0 +1,59 @@
+{
+  "$id": "https://voiage.dev/schemas/frontier/qualitative-information-rendering.v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "accessibility": {
+      "additionalProperties": false,
+      "properties": {
+        "headings_present": {
+          "const": true
+        },
+        "no_colour_only_semantics": {
+          "const": true
+        },
+        "redactions_preserved": {
+          "const": true
+        },
+        "wcag_reference": {
+          "const": "WCAG-2.2"
+        }
+      },
+      "required": [
+        "wcag_reference",
+        "headings_present",
+        "no_colour_only_semantics",
+        "redactions_preserved"
+      ],
+      "type": "object"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "content": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "content_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "media_type": {
+      "const": "text/plain"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    }
+  },
+  "required": [
+    "schema_version",
+    "assessment_id",
+    "media_type",
+    "accessibility",
+    "content_sha256",
+    "content"
+  ],
+  "title": "QualitativeInformationRenderingV1Experimental",
+  "type": "object"
+}

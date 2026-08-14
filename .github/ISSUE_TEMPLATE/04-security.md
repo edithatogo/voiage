@@ -15,4 +15,4 @@ To report a security vulnerability responsibly:
 1. **Email**: Send details to [security@voiage.org](mailto:security@voiage.org)
 2. **GitHub Security Advisory**: Use GitHub's private security advisory feature
 
-For more information, see our [Security Policy](https://github.com/doughnut/voiage/blob/main/SECURITY.md).
+For more information, see our [Security Policy](https://github.com/edithatogo/voiage/blob/main/SECURITY.md).

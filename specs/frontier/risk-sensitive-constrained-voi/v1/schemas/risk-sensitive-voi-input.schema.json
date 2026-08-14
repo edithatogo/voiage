@@ -1,0 +1,344 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/frontier/risk-sensitive-voi-input.v1.json",
+  "title": "RiskSensitiveConstrainedVoiInputV1Experimental",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "analysis_id",
+    "analysis_type",
+    "method_maturity",
+    "planned_version",
+    "objective",
+    "states",
+    "policies",
+    "constraints",
+    "information_action",
+    "tolerances",
+    "assurance",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "analysis_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+    },
+    "analysis_type": {
+      "const": "risk_sensitive_constrained_perfect_information"
+    },
+    "method_maturity": {
+      "const": "experimental"
+    },
+    "planned_version": {
+      "const": "v1.3.0"
+    },
+    "objective": {
+      "type": "object",
+      "required": [
+        "kind",
+        "direction",
+        "unit",
+        "operational_definition"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "expected_value",
+            "expected_utility",
+            "lower_tail_cvar",
+            "minimax_regret"
+          ]
+        },
+        "direction": {
+          "const": "maximize"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operational_definition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "confidence_level": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 1
+        },
+        "regret_reference_by_state": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "number"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "states": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "state_id",
+          "probability"
+        ],
+        "properties": {
+          "state_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          },
+          "probability": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "policies": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": [
+          "policy_id",
+          "label",
+          "objective_by_state",
+          "constraint_usage",
+          "source_reference"
+        ],
+        "properties": {
+          "policy_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_reference": {
+            "type": "string",
+            "minLength": 1
+          },
+          "objective_by_state": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "constraint_usage": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "minProperties": 1,
+              "additionalProperties": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "constraints": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "constraint_id",
+          "kind",
+          "label",
+          "unit",
+          "sense",
+          "limit",
+          "enforcement",
+          "source_reference"
+        ],
+        "properties": {
+          "constraint_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          },
+          "kind": {
+            "enum": [
+              "budget",
+              "capacity",
+              "eligibility",
+              "fairness",
+              "regulation",
+              "carbon",
+              "liquidity",
+              "service_level"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sense": {
+            "enum": [
+              "less_than_or_equal",
+              "greater_than_or_equal"
+            ]
+          },
+          "limit": {
+            "type": "number"
+          },
+          "enforcement": {
+            "enum": [
+              "deterministic",
+              "chance"
+            ]
+          },
+          "minimum_satisfaction_probability": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 1
+          },
+          "source_reference": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "information_action": {
+      "type": "object",
+      "required": [
+        "action_id",
+        "resolution",
+        "cost"
+      ],
+      "properties": {
+        "action_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "resolution": {
+          "const": "perfect_state"
+        },
+        "cost": {
+          "type": "object",
+          "required": [
+            "amount",
+            "unit",
+            "placement",
+            "scope"
+          ],
+          "properties": {
+            "amount": {
+              "type": "number",
+              "minimum": 0
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "placement": {
+              "const": "deduct_after_objective_comparison"
+            },
+            "scope": {
+              "const": "action_specific_disjoint"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "tolerances": {
+      "type": "object",
+      "required": [
+        "absolute_tie",
+        "relative_tie",
+        "probability_sum"
+      ],
+      "properties": {
+        "absolute_tie": {
+          "type": "number",
+          "minimum": 0
+        },
+        "relative_tie": {
+          "type": "number",
+          "minimum": 0
+        },
+        "probability_sum": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1e-06
+        }
+      },
+      "additionalProperties": false
+    },
+    "assurance": {
+      "type": "object",
+      "required": [
+        "estimator",
+        "max_policy_mappings",
+        "independent_reference",
+        "fixture_provenance"
+      ],
+      "properties": {
+        "estimator": {
+          "const": "exact_finite_enumeration"
+        },
+        "max_policy_mappings": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "independent_reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fixture_provenance": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "model_source",
+        "probability_source",
+        "constraint_source"
+      ],
+      "properties": {
+        "model_source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "probability_source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "constraint_source": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

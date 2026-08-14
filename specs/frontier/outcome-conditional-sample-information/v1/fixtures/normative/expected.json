@@ -1,0 +1,269 @@
+{
+  "aggregate": {
+    "complete_tie_set_changed_probability": 0.5,
+    "evsi": 1.0,
+    "expected_delta_ev": 1.0,
+    "information_cost": 0.25,
+    "low_value_risks": [
+      {
+        "delta": 0.0,
+        "probability": 0.5
+      },
+      {
+        "delta": 1.0,
+        "probability": 0.5
+      },
+      {
+        "delta": 2.0,
+        "probability": 1.0
+      }
+    ],
+    "lower_tail_means": [
+      {
+        "mass": 0.0,
+        "mean_vsi": 0.0
+      },
+      {
+        "mass": 0.5,
+        "mean_vsi": 0.0
+      },
+      {
+        "mass": 0.95,
+        "mean_vsi": 0.9473684210526315
+      },
+      {
+        "mass": 1.0,
+        "mean_vsi": 1.0
+      }
+    ],
+    "mandatory_policy_switch_probability": 0.5,
+    "maximum_vsi": 2.0,
+    "minimum_vsi": 0.0,
+    "net_evsi": 0.75,
+    "reference_action_excluded_probability": 0.5,
+    "sigma_vsi": 1.0,
+    "variance_vsi": 1.0,
+    "weighted_quantiles": [
+      {
+        "level": 0.0,
+        "vsi": 0.0
+      },
+      {
+        "level": 0.5,
+        "vsi": 0.0
+      },
+      {
+        "level": 0.95,
+        "vsi": 2.0
+      },
+      {
+        "level": 1.0,
+        "vsi": 2.0
+      }
+    ]
+  },
+  "analysis_id": "outcome-conditional-normative-v1",
+  "analysis_type": "outcome_conditional_sample_information_value_result",
+  "assurance": {
+    "continuous_outcomes_supported": false,
+    "ddof": 0,
+    "estimator": "exact_finite_enumeration",
+    "evsi_delta_ev_residual": 0.0,
+    "evsi_vsi_residual": 0.0,
+    "maximum_bayes_reconstruction_error": 0.0,
+    "maximum_likelihood_row_residual": 0.0,
+    "minimum_vsi": 0.0,
+    "predictive_probability_residual": 0.0,
+    "prior_probability_residual": 0.0,
+    "probability_normalization_applied": false,
+    "r_vsi_zero_distinct_from_switch_metrics": true,
+    "result_reconstructed_from_input": true,
+    "standard_deviation_functional": "predictive_probability_weighted_population",
+    "threshold_monotonic": true,
+    "tower_identity_scope": "expectations_only"
+  },
+  "baseline": {
+    "action_expected_values": {
+      "adaptive": 5.0,
+      "status_quo": 4.0
+    },
+    "optimal_actions": [
+      "adaptive"
+    ],
+    "reference_action": "adaptive",
+    "reference_expected_value": 5.0
+  },
+  "chronology": [
+    "prior",
+    "measure",
+    "observe",
+    "update",
+    "act"
+  ],
+  "discount_basis": "already discounted to the decision time",
+  "horizon": "one decision after one measurement",
+  "input_assurance": {
+    "input_contract": {
+      "actions": [
+        "adaptive",
+        "status_quo"
+      ],
+      "analysis_id": "outcome-conditional-normative-v1",
+      "analysis_type": "outcome_conditional_sample_information_value",
+      "chronology": [
+        "prior",
+        "measure",
+        "observe",
+        "update",
+        "act"
+      ],
+      "cost_placement": "subtract_after_gross_vsi",
+      "discount_basis": "already discounted to the decision time",
+      "horizon": "one decision after one measurement",
+      "information_cost": 0.25,
+      "low_value_thresholds": [
+        0.0,
+        1.0,
+        2.0
+      ],
+      "method_maturity": "experimental",
+      "objective": {
+        "direction": "maximize",
+        "measure": "utility"
+      },
+      "outcomes": [
+        {
+          "likelihood_by_state": {
+            "favourable": 0.2,
+            "unfavourable": 0.8
+          },
+          "outcome_id": "adverse_signal"
+        },
+        {
+          "likelihood_by_state": {
+            "favourable": 0.8,
+            "unfavourable": 0.2
+          },
+          "outcome_id": "favourable_signal"
+        }
+      ],
+      "population": "one governed decision population",
+      "probability_tolerance": 1e-12,
+      "provenance": {
+        "likelihood_source": "deterministic analytical fixture",
+        "probability_source": "deterministic analytical fixture",
+        "value_source": "deterministic analytical fixture"
+      },
+      "quantile_levels": [
+        0.0,
+        0.5,
+        0.95,
+        1.0
+      ],
+      "reference_action": "adaptive",
+      "schema_version": "v1",
+      "scope": {
+        "mode": "prospective",
+        "observed_outcome_id": null
+      },
+      "states": [
+        {
+          "action_values": {
+            "adaptive": 0.0,
+            "status_quo": 4.0
+          },
+          "probability": 0.5,
+          "state_id": "unfavourable"
+        },
+        {
+          "action_values": {
+            "adaptive": 10.0,
+            "status_quo": 4.0
+          },
+          "probability": 0.5,
+          "state_id": "favourable"
+        }
+      ],
+      "tie_tolerance": 1e-12,
+      "value_unit": "discounted utility points"
+    },
+    "input_sha256": "8e6a42985011865e12d6c7d13d658dd768fde6d5be23c310cda4c18138a1eb20"
+  },
+  "language_dispositions": {
+    "julia": "unsupported",
+    "mojo": "external",
+    "python": "experimental_executable",
+    "r": "unsupported",
+    "rust": "unsupported"
+  },
+  "method_maturity": "experimental",
+  "objective": {
+    "direction": "maximize",
+    "measure": "utility"
+  },
+  "outcomes": [
+    {
+      "complete_tie_set_changed": true,
+      "delta_ev": -1.0,
+      "mandatory_policy_switch": true,
+      "net_vsi": 1.75,
+      "optimal_actions": [
+        "status_quo"
+      ],
+      "outcome_id": "adverse_signal",
+      "posterior_action_values": {
+        "adaptive": 2.0,
+        "status_quo": 4.0
+      },
+      "posterior_optimal_value": 4.0,
+      "posterior_state_probabilities": {
+        "favourable": 0.2,
+        "unfavourable": 0.8
+      },
+      "predictive_probability": 0.5,
+      "reference_action_excluded": true,
+      "reference_action_value": 2.0,
+      "vsi": 2.0
+    },
+    {
+      "complete_tie_set_changed": false,
+      "delta_ev": 3.0,
+      "mandatory_policy_switch": false,
+      "net_vsi": -0.25,
+      "optimal_actions": [
+        "adaptive"
+      ],
+      "outcome_id": "favourable_signal",
+      "posterior_action_values": {
+        "adaptive": 8.0,
+        "status_quo": 4.0
+      },
+      "posterior_optimal_value": 8.0,
+      "posterior_state_probabilities": {
+        "favourable": 0.8,
+        "unfavourable": 0.2
+      },
+      "predictive_probability": 0.5,
+      "reference_action_excluded": false,
+      "reference_action_value": 8.0,
+      "vsi": 0.0
+    }
+  ],
+  "population": "one governed decision population",
+  "provenance": {
+    "likelihood_source": "deterministic analytical fixture",
+    "probability_source": "deterministic analytical fixture",
+    "value_source": "deterministic analytical fixture"
+  },
+  "references": [
+    "https://arxiv.org/abs/2309.09452",
+    "https://doi.org/10.1016/j.ecolind.2024.111828"
+  ],
+  "retrospective_outcome": null,
+  "schema_version": "v1",
+  "scope": {
+    "mode": "prospective",
+    "observed_outcome_id": null
+  },
+  "value_unit": "discounted utility points"
+}

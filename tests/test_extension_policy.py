@@ -9,6 +9,7 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).parents[1]
+POST_V1_METHOD_MODULES = {"voiage/methods/estimation.py"}
 
 
 def test_import_voiage_does_not_eagerly_load_optional_extensions() -> None:
@@ -32,7 +33,7 @@ def test_import_voiage_does_not_eagerly_load_optional_extensions() -> None:
     assert result.returncode == 0
 
 
-def test_extension_policy_covers_every_methods_module() -> None:
+def test_v1_and_post_v1_policies_cover_every_methods_module() -> None:
     policy = json.loads(
         (ROOT / "specs/v1/extension-policy.json").read_text(encoding="utf-8")
     )
@@ -41,10 +42,22 @@ def test_extension_policy_covers_every_methods_module() -> None:
         for path in (ROOT / "voiage/methods").glob("*.py")
         if path.name != "__init__.py"
     }
+    frontier_modules: set[str] = set()
+    for capability_path in (ROOT / "specs/frontier").glob("*/v1/capabilities.json"):
+        capability = json.loads(capability_path.read_text(encoding="utf-8"))
+        frontier_modules.update(capability.get("python_modules", []))
     declared = set(policy["modules"]) | set(policy["stable_kernel_facades"])
-    assert declared == actual
+    assert declared | frontier_modules | POST_V1_METHOD_MODULES == actual
+    assert declared.isdisjoint(frontier_modules | POST_V1_METHOD_MODULES)
     assert set(policy["stable_kernel_facades"]).isdisjoint(set(policy["modules"]))
     assert set(policy["modules"].values()) == {"optional_extension", "experimental"}
+
+    estimation_capability = json.loads(
+        (ROOT / "specs/estimation-variance/v1/capabilities.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert estimation_capability["maturity"] == "experimental"
 
 
 def test_stable_kernel_facades_are_explicitly_rust_owned() -> None:
@@ -65,7 +78,7 @@ def test_stable_kernel_facades_are_explicitly_rust_owned() -> None:
 
 def test_extension_surface_policy_covers_every_runtime_python_file() -> None:
     policy = json.loads(
-        (ROOT / "specs/v1/extension-surface-policy.json").read_text(encoding="utf-8")
+        (ROOT / "specs/v2/extension-surface-policy.json").read_text(encoding="utf-8")
     )
     files = {
         path.relative_to(ROOT).as_posix()
@@ -80,3 +93,26 @@ def test_extension_surface_policy_covers_every_runtime_python_file() -> None:
             if any(fnmatch.fnmatch(file, pattern) for pattern in category_patterns)
         ]
         assert len(matches) == 1, f"{file} has {len(matches)} extension dispositions"
+
+
+def test_scientific_review_support_is_assurance_not_runtime_authority() -> None:
+    surface_policy = json.loads(
+        (ROOT / "specs/v2/extension-surface-policy.json").read_text(encoding="utf-8")
+    )
+    inventory = json.loads(
+        (ROOT / "specs/v2/python-runtime-inventory.json").read_text(encoding="utf-8")
+    )
+
+    assurance_patterns = set(surface_policy["patterns"]["assurance"])
+    assert {
+        "voiage/resources/**",
+        "voiage/scientific_review_evidence.py",
+    } <= assurance_patterns
+    assurance_roots = set(inventory["categories"]["assurance"]["roots"])
+    assert {
+        "voiage/resources/",
+        "voiage/scientific_review_evidence.py",
+    } <= assurance_roots
+    assert (
+        "never a numerical execution authority" in surface_policy["rules"]["assurance"]
+    )

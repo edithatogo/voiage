@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-08-02T15:05:00Z",
+  "track_id": "rust_polyglot_voi_completion_20260723",
+  "fixture_manifest": "specs/core-api/fixtures",
+  "results": {
+    "python": {
+      "status": "passed",
+      "command": "uv run pytest tests/test_perspective_conformance_v1.py tests/test_perspective_promotion_evidence.py -q"
+    },
+    "rust": {
+      "status": "partial_pass",
+      "command": "cargo test --manifest-path rust/Cargo.toml --workspace --all-targets",
+      "notes": "Rust core, ABI, numerics, properties and benchmarks passed; the PyO3 _core test target failed to load libpython3.13.dylib in this environment."
+    },
+    "r": {
+      "status": "blocked",
+      "command": "Rscript -e 'testthat::test_dir(\"r-package/voiageR/tests/testthat\", reporter=\"summary\")'",
+      "notes": "The source-tree run cannot claim installed parity: voiageR is not installed and package-loading tests fail."
+    },
+    "julia": {
+      "status": "blocked",
+      "command": "julia --project=bindings/julia -e 'using Pkg; Pkg.test()'",
+      "notes": "Package-quality tests pass, but EVPI parity errors because libvoiage_ffi.dylib is not available to the Julia loader."
+    }
+  },
+  "promotion_decision": "blocked",
+  "next_actions": [
+    "Build/install the matching Rust FFI and Python shared-library target.",
+    "Install voiageR in a clean R 4.3 environment and rerun its tests.",
+    "Expose the built libvoiage_ffi.dylib to Julia and rerun package tests.",
+    "Repeat all languages against the same immutable fixture manifest before panel promotion review."
+  ]
+}

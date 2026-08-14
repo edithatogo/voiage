@@ -4,5 +4,15 @@
   "status": "completed",
   "created_at": "2026-06-25T00:00:00Z",
   "updated_at": "2026-07-17T00:00:00Z",
-  "description": "Extend distributional/equity VOI to quantify the value of collecting or resolving equity-relevant information."
+  "description": "Extend distributional/equity VOI to quantify the value of collecting or resolving equity-relevant information.",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/385",
+    "parent_issue": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/179",
+      "https://github.com/edithatogo/voiage/pull/180"
+    ],
+    "pull_request_evidence": "evidenced"
+  }
 }

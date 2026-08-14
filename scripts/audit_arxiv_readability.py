@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from importlib.metadata import version
 import json
+import os
 from pathlib import Path
 import re
 import shutil
@@ -43,7 +44,12 @@ def build_report(text: str, source_name: str) -> dict[str, Any]:
     import nltk
     import textstat
 
-    corpus_dir = Path(__file__).resolve().parents[1] / ".venv-arxiv" / "nltk_data"
+    corpus_dir = Path(
+        os.environ.get(
+            "NLTK_DATA",
+            Path(__file__).resolve().parents[1] / ".venv-arxiv" / "nltk_data",
+        )
+    )
     nltk.data.path.insert(0, str(corpus_dir))
     try:
         nltk.data.find("corpora/cmudict")

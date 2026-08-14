@@ -1,30 +1,84 @@
 ---
 title: API Reference
-description: Auto-generated API reference documentation for voiage
+description: Versioned stable API contracts and generated reference documentation for voiage
 sidebar:
   order: 1
 ---
 
-The v1.0 stable API is defined by the normative
-[`specs/v1/stable-api.json`](https://github.com/edithatogo/voiage/blob/main/specs/v1/stable-api.json)
-contract. Rust owns numerical policy; Python is the reference facade and the
-retained bindings use the same Rust implementation.
+The published v1.0 API remains frozen in
+[`specs/v1/stable-api.json`](https://github.com/edithatogo/voiage/blob/main/specs/v1/stable-api.json).
+It is historical release evidence and is not updated when later behaviour
+changes.
 
-## Stable numerical operations
+The normative v2 release contract is
+[`specs/v2/stable-api.json`](https://github.com/edithatogo/voiage/blob/main/specs/v2/stable-api.json).
+It defines the corrected EVSI boundary and must pass runtime and binding
+conformance before a v2 release is claimed. Rust owns numerical policy for
+shared kernels; Python remains the reference facade. R and Julia currently
+share only the EVPI implementation.
+
+## v2 stable numerical operations
 
 | Operation | Inputs | Result | Rust-owned errors |
 | --- | --- | --- | --- |
 | `evpi` | `net_benefit[sample, strategy]` | finite float ≥ 0 | `InputError`, `DimensionMismatchError` |
 | `evppi` | net benefits and parameter samples | finite float ≥ 0 | `InputError`, `DimensionMismatchError`, `BackendNotAvailableError` |
-| `evsi` | net benefits, priors, trial design | finite float ≥ 0 | `InputError`, `DimensionMismatchError`, `BackendNotAvailableError`, `NumericalError` |
+| `evsi` | model, joint prior sample, and trial design | finite Monte Carlo estimate | `InputError`, `DimensionMismatchError`, `BackendNotAvailableError`, `NumericalError` |
+| `normal_normal_two_arm_evsi` | normal prior, known outcome variance, equal allocation, and linear net benefit | finite float ≥ 0 | `InputError`, `BackendNotAvailableError`, `NumericalError` |
 | `enbs` | cost and value-of-information inputs | finite float | `InputError` |
 | `ceaf` | net benefits and optional thresholds | `CEAFResult` | `InputError`, `DimensionMismatchError` |
 | `dominance` | strategy costs and effects | `DominanceResult` | `InputError`, `DimensionMismatchError` |
 
-Stable numerical defaults are absolute tolerance `1e-10`, relative tolerance
-`1e-8`, unsigned 64-bit seeds, rejection of infinity, and rejection of missing
-values unless a method explicitly documents support. Cross-platform results are
-required to remain within the declared tolerance.
+Stable numerical defaults remain absolute tolerance `1e-10`, relative tolerance
+`1e-8`, rejection of infinity, and rejection of missing values unless a method
+explicitly documents support. Cross-platform results are required to remain
+within the declared tolerance.
+
+## v2 EVSI boundary
+
+`normal_normal_two_arm_evsi` is a Rust-owned analytical calculation. It uses a
+normal prior for the incremental effect, two independent normal study arms with
+a common known outcome standard deviation, equal allocation, and incremental
+net benefit that is linear in the effect. Every argument is keyword-only, the
+total sample size is a positive even integer, and the calculation uses no
+random numbers.
+
+`evsi(method="two_loop")` uses `rust+python-orchestration`. The built-in path
+fits one joint multivariate-normal prior from the PSA rows. The current
+decision, directly sampled prior-predictive study data, and posterior
+calculation all use that fitted prior. The likelihood observes one uniquely
+mapped arm-mean parameter per arm with a finite, fixed, strictly positive
+`sd_outcome`. The posterior updates all correlated stochastic parameters
+together.
+
+Custom two-loop models supply both `trial_simulator` and `posterior_sampler` as
+keyword-only arguments. The callbacks receive the same local
+`numpy.random.Generator`; the posterior callback returns exactly
+`n_inner_loops` joint draws for each outer data set.
+
+The `seed` argument is keyword-only and accepts an unsigned 64-bit integer or
+`None`. Seeded and unseeded calculations use a local generator. They never read
+or mutate NumPy's process-global random state. A two-loop estimate is returned
+without silently replacing a negative Monte Carlo estimate with zero. Repeat
+seeds, increase loop counts, assess convergence, and check the coherence of
+custom study-model callbacks before interpreting a negative result.
+
+The regression, efficient, efficient-regression, and moment-based compatibility
+estimators remain provisional because they do not yet expose the same complete
+study-model contract.
+
+## v1 compatibility boundary
+
+The v1 `evsi` contract remains exactly as released: it declared Rust
+implementation, returned a non-negative float, had no study-model callbacks,
+allowed `seed` positionally, independently updated arm means, and used NumPy's
+global random stream when no seed was supplied.
+
+Changing that signature, prior interpretation, posterior update, random stream,
+model-evaluation count, and seeded result is a breaking change under
+[`specs/v1/compatibility-policy.json`](https://github.com/edithatogo/voiage/blob/main/specs/v1/compatibility-policy.json).
+The corrected behaviour is therefore versioned as v2 rather than being written
+back into the v1 contract. See the [migration guide](/user-guide/migration-guide/#migrating-from-1x-to-20).
 
 ## Stable supporting surfaces
 
@@ -39,7 +93,8 @@ The stable error vocabulary is `InputError`, `DimensionMismatchError`,
 The stable Python symbols are `DecisionAnalysis`, `DecisionOption`,
 `CEAFResult`, `DominanceResult`, `ParameterSet`, `PortfolioSpec`,
 `PortfolioStudy`, `TrialDesign`, `ValueArray`, `ceaf`, `dominance`, `enbs`,
-`evpi`, `evppi`, and `evsi`.
+`evpi`, `evppi`, `evsi`, and, from v2,
+`normal_normal_two_arm_evsi`.
 
 The generated language-specific API navigation remains below this normative
 contract.

@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0.0",
+  "method_family": "heterogeneity_value_decomposition",
+  "issue": 599,
+  "delivery_subissues": [
+    786,
+    788,
+    789
+  ],
+  "execution_status": "experimental_python",
+  "stable_claim_allowed": false,
+  "artifacts": [
+    {
+      "path": "voiage/contracts/heterogeneity_value.py",
+      "sha256": "6768d5b65a8851d9895540f6011be7d97d7d668ddc85a2f0f243dd08aeca1ca6"
+    },
+    {
+      "path": "voiage/methods/heterogeneity_value.py",
+      "sha256": "80a202a496443eabe501839df9aff2500c00ddabe5bf5c653f30afa837d07a0f"
+    },
+    {
+      "path": "scripts/export_heterogeneity_value_contracts.py",
+      "sha256": "bd2ba4efe0805615b1527a096330b411b73157898ea04d65e64988fa9e4e12f9"
+    },
+    {
+      "path": "specs/frontier/heterogeneity-value/v1/README.md",
+      "sha256": "563cacfa2cd95956ebef0462d2e2b7975cc083bd7313c47696021ccf243209be"
+    },
+    {
+      "path": "specs/frontier/heterogeneity-value/v1/capabilities.json",
+      "sha256": "5531b48eacc1daf179068134cb60f2f6b95028a011489166b9d4f4b7f33ca453"
+    },
+    {
+      "path": "specs/frontier/heterogeneity-value/v1/fixtures/manifest.json",
+      "sha256": "072e8edcb51667388e52187dec0af9f710d7b2d46d29ce371833c1ec30dd8f6f"
+    },
+    {
+      "path": "specs/frontier/heterogeneity-value/v1/fixtures/normative/input.json",
+      "sha256": "aba06bf888ba46c5f0dbf3317c866058f830e3d39a041df40be5d11f9c3f3f8c"
+    },
+    {
+      "path": "specs/frontier/heterogeneity-value/v1/fixtures/normative/expected.json",
+      "sha256": "ce392bea317d3a442613ec6a5b98f100c1a87bdd69ff483450464354df39fd66"
+    },
+    {
+      "path": "specs/frontier/heterogeneity-value/v1/schemas/input.schema.json",
+      "sha256": "997d7bd8f292cc3982de24733d819583eeea6dcf14cce85aaeb020e41e6cf0f5"
+    },
+    {
+      "path": "specs/frontier/heterogeneity-value/v1/schemas/result.schema.json",
+      "sha256": "b2dfdac8c13fb6b37ec77bda150a195cb91e62032ad63a4b98a0d4a2c8ae22fb"
+    },
+    {
+      "path": "docs/astro-site/src/content/docs/methods/heterogeneity.mdx",
+      "sha256": "800e34693240e71545d76dfb3deb5652148433ba048c596d81c28be3501b76d6"
+    },
+    {
+      "path": "docs/astro-site/src/content/docs/cli-reference.mdx",
+      "sha256": "5fcf6526809dd981aaf0194a7d33fab6a081eb019add523950f673b2a0fbb447"
+    },
+    {
+      "path": "tests/test_heterogeneity_value.py",
+      "sha256": "420d10504696f4f32c3c3a62a3b17e61658771bfbd7ba0eac78137ee0f86e8eb"
+    }
+  ],
+  "assurance": {
+    "focused_tests": 47,
+    "randomized_oracle_cases": 100,
+    "relevant_statement_coverage_percent": 100,
+    "relevant_branch_coverage_percent": 100,
+    "frontier_registry": "passed",
+    "github_cross_references": "passed",
+    "full_conductor": "passed"
+  },
+  "unresolved_gates": [
+    "named selection-bias and sparse-subgroup scientific review",
+    "hosted exact-head and installed-wheel checks",
+    "Rust, R and Julia parity",
+    "stable promotion and release",
+    "parent #599 and umbrella #318 closure"
+  ]
+}

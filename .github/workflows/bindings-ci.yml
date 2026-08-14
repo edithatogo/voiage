@@ -1,6 +1,8 @@
 name: Retained Bindings CI
 
 on:
+  merge_group:
+    types: [checks_requested]
   pull_request:
     branches: [main]
     paths:
@@ -70,7 +72,21 @@ jobs:
 
   julia:
     name: Julia binding
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        julia:
+          - "1.10"
+          - "1.11"
+          - "1.12"
+        os:
+          - runner: ubuntu-latest
+            library: rust/target/release/libvoiage_ffi.so
+          - runner: macos-latest
+            library: rust/target/release/libvoiage_ffi.dylib
+          - runner: windows-latest
+            library: rust/target/release/voiage_ffi.dll
+    runs-on: ${{ matrix.os.runner }}
     defaults:
       run:
         working-directory: bindings/julia
@@ -81,6 +97,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Assert and record exact source head
+        shell: bash
         env:
           EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
@@ -95,10 +112,34 @@ jobs:
         run: cargo build --release --locked --package voiage-ffi
       - uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32
         with:
-          version: "1.11"
-      - run: julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.test()'
+          version: ${{ matrix.julia }}
+      - name: Record Julia package-quality contract
+        run: grep -F "Aqua.test_all" test/runtests.jl
+      - name: Verify packaged EVPI fixture matches the canonical reference
+        run: >-
+          python -c
+          "import json, pathlib;
+          packaged = json.loads(pathlib.Path('test/fixtures/evpi-cases.json').read_text());
+          canonical = json.loads(pathlib.Path('../../specs/numerical-reference/v1/evpi-cases.json').read_text());
+          assert packaged == canonical"
+      - name: Test a standalone Julia package copy
+        shell: bash
+        run: |
+          runner_temp="${RUNNER_TEMP//\\//}"
+          standalone_dir="${runner_temp}/voiage-julia-standalone"
+          mkdir -p "${standalone_dir}"
+          git -C ../.. archive HEAD:bindings/julia | tar -x -C "${standalone_dir}"
+          cd "${standalone_dir}"
+          STANDALONE_DIR="${standalone_dir}" julia --project=. -e '
+            using Pkg
+            project = Pkg.project()
+            @assert project.name == "Voiage"
+            @assert string(project.uuid) == "8c7ad020-41fd-4d68-9c3f-5d4e11c48f1f"
+            Pkg.instantiate()
+            Pkg.test()
+          '
         env:
-          VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/rust/target/release/libvoiage_ffi.so
+          VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/${{ matrix.os.library }}
 
   r:
     name: R binding
@@ -125,6 +166,11 @@ jobs:
       - name: Build the Rust C ABI used by R
         working-directory: rust
         run: cargo build --release --locked --package voiage-ffi
+      - name: Set up Python for reticulate reference checks
+        id: r-python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.14"
       - uses: r-lib/actions/setup-r@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
       - uses: r-lib/actions/setup-r-dependencies@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
         with:
@@ -133,6 +179,89 @@ jobs:
       - uses: r-lib/actions/setup-tinytex@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
       - run: R CMD build .
       - run: Rscript tools/build-manual.R
+      - name: Run CRAN-style source-package checks
+        run: |
+          for attempt in 1 2 3; do
+            R CMD check --as-cran --no-manual voiageR_*.tar.gz && exit 0
+            if [ "${attempt}" -eq 3 ]; then
+              exit 1
+            fi
+            sleep $((attempt * 15))
+          done
+        env:
+          RETICULATE_PYTHON: ${{ steps.r-python.outputs.python-path }}
       - run: Rscript -e 'rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")'
         env:
           VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/rust/target/release/libvoiage_ffi.so
+          RETICULATE_PYTHON: ${{ steps.r-python.outputs.python-path }}
+
+  r-native:
+    name: R installed native smoke (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            library: libvoiage_ffi.so
+          - os: macos-latest
+            library: libvoiage_ffi.dylib
+          - os: windows-latest
+            library: voiage_ffi.dll
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: stable
+      - name: Build the Rust C ABI used by R
+        working-directory: rust
+        run: cargo build --release --locked --package voiage-ffi
+      - uses: r-lib/actions/setup-r@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
+      - name: Install the R source package
+        run: >-
+          Rscript -e
+          "install.packages('r-package/voiageR', repos = NULL, type = 'source')"
+      - name: Call the installed Rust EVPI path
+        env:
+          VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/rust/target/release/${{ matrix.library }}
+        run: >-
+          Rscript -e
+          "library(voiageR);
+          value <- evpi(matrix(c(0, 1, 2, 0), nrow = 2, byrow = TRUE));
+          stopifnot(isTRUE(all.equal(value, 0.5, tolerance = 1e-12)))"
+
+  differential-conformance:
+    name: Cross-language differential conformance
+    needs: [rust, julia, r-native]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.11.29"
+      - name: Document retained runtime boundaries
+        run: |
+          printf '%s\n' \
+            'Python public API' \
+            'Rust crate API' \
+            'C ABI' \
+            'R installed package' \
+            'Julia installed package'
+          test -f specs/numerical-reference/v1/evpi-cases.json
+      - name: Validate shared numerical reference corpus
+        run: >-
+          python -c
+          "import json, pathlib;
+          canonical=json.loads(pathlib.Path('specs/numerical-reference/v1/evpi-cases.json').read_text());
+          julia=json.loads(pathlib.Path('bindings/julia/test/fixtures/evpi-cases.json').read_text());
+          assert canonical == julia"
+      - name: Exercise Python reference corpus
+        run: uv run --extra ci pytest tests/test_numerical_reference_cases.py --no-cov -q

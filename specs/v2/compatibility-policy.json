@@ -1,0 +1,96 @@
+{
+  "policy_version": "2.0.0",
+  "status": "normative",
+  "applies_from": "2.0.0",
+  "supersedes": "../v1/compatibility-policy.json",
+  "semantic_versioning": {
+    "major": "breaking-stable-surface-change",
+    "minor": "backward-compatible-addition",
+    "patch": "backward-compatible-fix"
+  },
+  "surfaces": {
+    "rust": {
+      "compatibility_unit": "public-items-traits-features-msrv-errors-serialization-behavior",
+      "breaking_change": "major",
+      "api_diff_gate": "cargo-semver-checks"
+    },
+    "python": {
+      "compatibility_unit": "public-import-path-signature-default-return-warning-error-rng-numerical-behavior",
+      "breaking_change": "major",
+      "additive_parameters": "keyword-only"
+    },
+    "c_abi": {
+      "compatibility_unit": "exported-symbol-signature-layout-calling-convention-ownership-error-code",
+      "breaking_change": "major",
+      "symbol_versioning": "required",
+      "opaque_handles_preferred": true
+    },
+    "bindings": {
+      "compatibility_unit": "language-facade-over-shared-rust-core",
+      "breaking_change": "major",
+      "covered": [
+        "python",
+        "r",
+        "julia",
+        "rust"
+      ]
+    },
+    "cli": {
+      "compatibility_unit": "command-option-default-exit-code-stream-machine-output",
+      "breaking_change": "major",
+      "exit_codes": {
+        "success": 0,
+        "runtime_failure": 1,
+        "invalid_input": 2
+      }
+    },
+    "schemas": {
+      "compatibility_unit": "existing-valid-payloads-remain-valid-with-unchanged-semantics",
+      "breaking_change": "major",
+      "stable_ids_and_paths": true
+    },
+    "serialized_outputs": {
+      "compatibility_unit": "field-name-type-meaning-requiredness-ordering-encoding",
+      "breaking_change": "major",
+      "json_numbers": "finite-only",
+      "encoding": "utf-8"
+    }
+  },
+  "deprecation": {
+    "minimum_minor_releases": 2,
+    "minimum_months": 6,
+    "clock_rule": "whichever-is-longer",
+    "python_warning_class": "FutureWarning",
+    "diagnostic_code_required": true,
+    "replacement_required_before_removal": true,
+    "migration_documentation_required": true,
+    "removal_release": "next-major-only"
+  },
+  "excluded_stabilities": [
+    "provisional",
+    "experimental"
+  ],
+  "excluded_surfaces_still_require": [
+    "security",
+    "validation",
+    "provenance",
+    "licensing",
+    "data-safety",
+    "maturity-metadata"
+  ],
+  "promotion_requirements": [
+    "normative-contract",
+    "compatibility-fixtures",
+    "migration-assessment"
+  ],
+  "compatibility_evidence": {
+    "fixture_required": true,
+    "all_supported_bindings": true,
+    "breaking_change_requires_migration_guide": true
+  },
+  "v1_to_v2": {
+    "classification": "major-breaking-change",
+    "reason": "EVSI signature, prior semantics, posterior semantics, random-number generation, model-evaluation counts, and numerical results change",
+    "migration_guide": "../../docs/astro-site/src/content/docs/user-guide/migration-guide.mdx"
+  }
+}

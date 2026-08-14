@@ -1,0 +1,487 @@
+{
+  "$id": "https://voiage.dev/schemas/frontier/mcda-information-input.v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "aggregate_direction": {
+      "const": "maximize"
+    },
+    "aggregate_unit": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "aggregation_family": {
+      "const": "compensatory_additive_value"
+    },
+    "alternatives": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "alternative_id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "definition_source": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "label": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "alternative_id",
+          "label",
+          "definition_source"
+        ],
+        "type": "object"
+      },
+      "minItems": 2,
+      "type": "array"
+    },
+    "analysis_id": {
+      "minLength": 1,
+      "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+      "type": "string"
+    },
+    "analysis_type": {
+      "const": "mcda_perfect_information"
+    },
+    "criteria": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "criterion_id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "direction": {
+            "enum": [
+              "higher_is_better",
+              "lower_is_better"
+            ]
+          },
+          "label": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "operational_definition": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "raw_unit": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "source_reference": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "value_function": {
+            "additionalProperties": false,
+            "properties": {
+              "anchors": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "raw": {
+                      "type": "number"
+                    },
+                    "value": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "raw",
+                    "value"
+                  ],
+                  "type": "object"
+                },
+                "maxItems": 2,
+                "minItems": 2,
+                "type": "array"
+              },
+              "elicitation_source": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "extrapolation_policy": {
+                "enum": [
+                  "reject",
+                  "linear"
+                ]
+              },
+              "family": {
+                "const": "linear_fixed_anchors"
+              },
+              "normalization_scope": {
+                "const": "fixed_ex_ante"
+              },
+              "valid_domain": {
+                "items": {
+                  "type": "number"
+                },
+                "maxItems": 2,
+                "minItems": 2,
+                "type": "array"
+              }
+            },
+            "required": [
+              "family",
+              "normalization_scope",
+              "anchors",
+              "valid_domain",
+              "extrapolation_policy",
+              "elicitation_source"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "criterion_id",
+          "label",
+          "raw_unit",
+          "direction",
+          "operational_definition",
+          "value_function",
+          "source_reference"
+        ],
+        "type": "object"
+      },
+      "minItems": 2,
+      "type": "array"
+    },
+    "default_weights": {
+      "additionalProperties": {
+        "maximum": 1,
+        "minimum": 0,
+        "type": "number"
+      },
+      "minProperties": 2,
+      "type": "object"
+    },
+    "information_actions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "action_id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "action_type": {
+            "enum": [
+              "criterion",
+              "preference",
+              "joint"
+            ]
+          },
+          "cost": {
+            "additionalProperties": false,
+            "properties": {
+              "aggregate_amount": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "conversion_reference": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "cost_scope": {
+                "const": "action_specific_disjoint"
+              },
+              "discount_basis": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "horizon_basis": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "original_amount": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "original_unit": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "population_basis": {
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "original_amount",
+              "original_unit",
+              "aggregate_amount",
+              "conversion_reference",
+              "population_basis",
+              "horizon_basis",
+              "discount_basis",
+              "cost_scope"
+            ],
+            "type": "object"
+          },
+          "outcome_partition_keys": {
+            "items": {
+              "minLength": 1,
+              "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "preference_partition_keys": {
+            "items": {
+              "minLength": 1,
+              "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "action_id",
+          "action_type",
+          "outcome_partition_keys",
+          "preference_partition_keys",
+          "cost"
+        ],
+        "type": "object"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "type": "array"
+    },
+    "joint_states": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "partition_values": {
+            "additionalProperties": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minProperties": 1,
+            "type": "object"
+          },
+          "performances": {
+            "additionalProperties": {
+              "additionalProperties": {
+                "type": "number"
+              },
+              "minProperties": 2,
+              "type": "object"
+            },
+            "minProperties": 2,
+            "type": "object"
+          },
+          "probability": {
+            "exclusiveMinimum": 0,
+            "maximum": 1,
+            "type": "number"
+          },
+          "state_id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "weights": {
+            "additionalProperties": {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            "minProperties": 2,
+            "type": "object"
+          }
+        },
+        "required": [
+          "state_id",
+          "probability",
+          "partition_values",
+          "performances"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "latent_partitions": {
+      "additionalProperties": false,
+      "properties": {
+        "dependence_assumption": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "outcome_keys": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "preference_keys": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "outcome_keys",
+        "preference_keys",
+        "dependence_assumption"
+      ],
+      "type": "object"
+    },
+    "method_maturity": {
+      "const": "experimental"
+    },
+    "provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "cost_source": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "data_sources": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "decision_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "evaluator": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "joint_probability_source": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "model_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "normalization_anchor_source": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "partition_source": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "software_version": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "tie_policy_source": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "transformation_sources": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "weight_elicitation_source": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "decision_revision",
+        "model_revision",
+        "data_sources",
+        "transformation_sources",
+        "weight_elicitation_source",
+        "joint_probability_source",
+        "normalization_anchor_source",
+        "partition_source",
+        "cost_source",
+        "tie_policy_source",
+        "evaluator",
+        "software_version"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "tolerances": {
+      "additionalProperties": false,
+      "properties": {
+        "absolute_tie": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "pareto_absolute": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "probability_sum": {
+          "exclusiveMinimum": 0,
+          "maximum": 1e-06,
+          "type": "number"
+        },
+        "relative_tie": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "weight_sum": {
+          "exclusiveMinimum": 0,
+          "maximum": 1e-06,
+          "type": "number"
+        }
+      },
+      "required": [
+        "absolute_tie",
+        "relative_tie",
+        "probability_sum",
+        "weight_sum",
+        "pareto_absolute"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "analysis_id",
+    "analysis_type",
+    "method_maturity",
+    "aggregation_family",
+    "aggregate_direction",
+    "aggregate_unit",
+    "alternatives",
+    "criteria",
+    "default_weights",
+    "latent_partitions",
+    "joint_states",
+    "information_actions",
+    "tolerances",
+    "provenance"
+  ],
+  "title": "McdaInformationInputV1Experimental",
+  "type": "object"
+}

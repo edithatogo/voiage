@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "agent_only_assurance_review_not_human_review",
+  "assurance_mode": "agent_only",
+  "observed_at": "2026-08-04T01:33:25Z",
+  "owner_decision": {"status": "accepted_limitation", "decision": "Use a representative agent panel for repository-owned source retrieval, rights observation and provisional applicability analysis in this single-person project.", "rationale": "No eligible independent human panel is available within the project scope; the limitation is accepted only for non-authorizing preparation.", "residual_risk": "Agent outputs do not provide credentialed scientific or domain/ethics expertise, legal advice, publisher permission, regulatory approval or independent human review."},
+  "panel_roles": ["source_retrieval_rights_observer", "voi_estimand_scientist", "domain_ethics_scope_analyst", "adversarial_governance_auditor", "synthesis_orchestrator"],
+  "protocol": {"first_passes_independent": true, "structured_claim_evidence_fields_required": true, "dissent_preserved": true, "orchestrator_may_grant_authority": false, "source_bytes_retained": false, "reviewer_identity_type": "software_agents", "human_review_status": "not_performed"},
+  "candidate_binding": {"candidate_commit": "8d6c67879050f161258ed95d878a72e2bb6b22dd", "candidate_tree": "18289bd04081f6a6810cb91ef2beec7decafe61f", "packet_sha256": "e1298da5a609ee9ed7a8cc8509ab117a2d2fd384d20d464c48ec32f4f033f29b"},
+  "panel_reports": [
+    {"role": "estimand_domain", "path": "reviews/h8d-estimand-domain-agent-20260803.json", "sha256": "b1d071c6e07b6e14f649b364884f46d102e2e2440941cda1c55529fcfc4fe64d", "actor_type": "agent", "authorizing": false},
+    {"role": "estimator_assurance", "path": "reviews/h8d-estimator-assurance-automated-20260803.json", "sha256": "1c47ddf52a277388eb213417e92f80c55fd3dea53b43378eba34e1dd3175f58c", "actor_type": "agent", "authorizing": false},
+    {"role": "cross_language_api", "path": "reviews/h8d-cross-language-api-governance-agent-20260803.json", "sha256": "60ca65137265561ab0d9e2ee18b8a4ff187f6212d5b6e265066b4cff33d27e4d", "actor_type": "agent", "authorizing": false},
+    {"role": "governance_publication", "path": "reviews/h8d-governance-publication-agent-20260803.json", "sha256": "0ff33d8d44a0f0bf4e28d143bb18320b366fc39e60bce0b34610b02ec51a41fb", "actor_type": "agent", "authorizing": false},
+    {"role": "domain_specialist", "path": "reviews/h8d-domain-specialist-agent-20260803.json", "sha256": "eeb88310f1a568afca6868c8f0a8ae2285519bc834aed83baafad7990b6522b4", "actor_type": "agent", "authorizing": false}
+  ],
+  "synthesis": {"path": "reviews/h8d-automated-challenge-synthesis-20260803.json", "sha256": "954c790da2e59fe6bd3e34af5bf94e20ced9a75b5d21023d93ce4393bcfcd017", "actor_type": "agent", "preserves_dissent": true, "authorizing": false},
+  "source_receipts": {"path": "source-observation-refresh-20260803.json", "sha256": "f1db5e7f4caf6b1690408fac0d6e1cc5943dff361fc0df25bc4204b55a54351c", "receipt_mode": "agent_observed_only", "retained_source_bytes": false},
+  "findings": {"register_path": "remediation-register.json", "register_sha256": "fb75ad9c7e7262ecc68567b2f1f09d6e1ca1667eec4b4054bc5b8dac397eebe5", "count": 19, "all_disposition_status": "pending"},
+  "source_assessment": {"receipt_artifact": "agent_observed_only", "rights_status": "unresolved", "applicability_status": "provisional_narrow_scope_only", "source_authority": false},
+  "provisional_conclusion": "The reviewed sources do not establish a universal commensurable scalar for sampling-acquisition harm or authorize a real study. This is an agent-observed provisional disposition, not a scientific, ethics, legal or regulatory determination.",
+  "prohibited_claims": ["eligible_conflict_free_human_review", "credentialed_scientific_or_domain_ethics_expertise", "publisher_permission_or_legal_clearance", "regulatory_or_ethics_approval", "universal_kernel_validity_or_exclusion_authority", "real_study_authorization", "release_or_publication_readiness"],
+  "authority": {"agentic_review_complete": true, "eligible_human_review_complete": false, "human_confirmation": false, "scientific_acceptance": false, "source_authority": false, "runtime": false, "real_study": false, "publication": false, "release": false, "finding_disposition": false, "h8_d": false, "h8_e": false, "h8_f": false, "h8_g": false, "h8_h": false},
+  "expiry": {"review_by": "2026-11-30", "supersede_on": ["source_drift", "candidate_change", "substantive_finding_remediation", "new_jurisdiction"]}
+}

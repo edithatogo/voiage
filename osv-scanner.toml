@@ -1,0 +1,14 @@
+# Scorecard's OSV integration reports both aliases against Pydantic even
+# though every supported and locked environment uses Pydantic 2.13.4. That
+# version is outside both affected ranges. Keep the exceptions narrow,
+# documented, and time-bounded so unrelated or future advisories still fail.
+
+[[IgnoredVulns]]
+id = "GHSA-5jqp-qgf6-3pvh"
+ignoreUntil = 2026-10-31
+reason = "False positive: voiage requires and locks Pydantic 2.13.4; this advisory affects Pydantic before 1.8.2."
+
+[[IgnoredVulns]]
+id = "GHSA-mr82-8j83-vxmv"
+ignoreUntil = 2026-10-31
+reason = "False positive: voiage requires and locks Pydantic 2.13.4; this advisory affects Pydantic 2.0.0 through 2.4.2."

@@ -55,6 +55,14 @@ def test_tie_policy_is_explicit() -> None:
     split = value_of_perspective(values, perspective_names=["p"], tie_policy="split")
     assert split.value == 0.0
     assert split.diagnostics["ties_detected"] == [True]
+    assert (
+        split.diagnostics["tie_policy_semantics"]
+        == "reporting_mixture_not_executable_randomized_policy"
+    )
+    assert split.diagnostics["perspective_weight_semantics"] == (
+        "normative_stakeholder_importance"
+    )
+    assert split.diagnostics["switching_ci95_status"] == "exploratory_plugin_interval"
 
 
 def test_first_tie_policy_uses_selected_strategy_for_uncertainty() -> None:

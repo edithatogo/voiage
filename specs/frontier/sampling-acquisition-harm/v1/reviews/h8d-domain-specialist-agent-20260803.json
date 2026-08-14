@@ -1,0 +1,88 @@
+{
+  "evidence_kind": "role-report",
+  "schema_version": "1.1.0",
+  "report_id": "H8D-DOMAIN-SPECIALIST-AGENT-20260803",
+  "candidate_commit": {
+    "algorithm": "sha1",
+    "value": "8d6c67879050f161258ed95d878a72e2bb6b22dd"
+  },
+  "candidate_tree": {
+    "algorithm": "sha1",
+    "value": "18289bd04081f6a6810cb91ef2beec7decafe61f"
+  },
+  "packet_sha256": "e1298da5a609ee9ed7a8cc8509ab117a2d2fd384d20d464c48ec32f4f033f29b",
+  "reviewer_role": "domain_specialist",
+  "reviewer": {
+    "identity": "codex-subagent:h8d_domain_specialist",
+    "display_name": "H8-D Domain Specialist Automated Reviewer",
+    "actor_type": "agent",
+    "role": "domain_specialist",
+    "qualifications": [
+      "Automated analysis of research-ethics, affected-party, consent, equity, safety and regulatory applicability boundaries; no human professional, clinical, research-ethics, regulatory, legal or jurisdiction-specific qualification is claimed."
+    ],
+    "prior_contributions": [],
+    "conflicts": [
+      "Automated subagent operating in the repository owner's Codex task; not a named qualified human, institutional review body, regulator or accountable domain specialist and unable to provide consent, source rights, ethics approval or real-study authority."
+    ],
+    "conflict_status": "non_disqualifying",
+    "independent": true
+  },
+  "scope": {
+    "family": "sampling_acquisition_harm_voi",
+    "capabilities": [
+      "generic_automatic_scalar_or_authorizing_sampling_acquisition_harm_kernel"
+    ]
+  },
+  "verdict": "major_revision",
+  "rubric": [
+    {
+      "dimension": "exact frozen bindings and contribution independence",
+      "verdict": "pass",
+      "rationale": "This report independently reviews candidate 8d6c67879050f161258ed95d878a72e2bb6b22dd, tree 18289bd04081f6a6810cb91ef2beec7decafe61f and packet e1298da5a609ee9ed7a8cc8509ab117a2d2fd384d20d464c48ec32f4f033f29b, whose manifest digest is 4f18ac9b08717416e54133849c1a381b4245543d7e5dd85f51efa1cd789164c5. The reviewer has no candidate authorship, implementation or remediation contribution, but remains an automated agent within the same repository-owner task and is not independent human evidence."
+    },
+    {
+      "dimension": "domain, jurisdiction, population and activity applicability",
+      "verdict": "major_revision",
+      "rationale": "Finding H8D-DS-01, severity High, disposition pending: the frozen candidate intentionally supplies no narrow domain, jurisdiction, population, sampling activity, comparator, affected-party set or applicable authority profile. The generic exclusion is an appropriate fail-closed repository boundary, but no domain-specific acceptability, proportionality, external validity or real-study applicability can be inferred until those fields are declared and reviewed by named qualified humans with relevant jurisdictional competence."
+    },
+    {
+      "dimension": "affected parties, consent and equity",
+      "verdict": "major_revision",
+      "rationale": "Finding H8D-DS-02, severity High, disposition pending: affected parties and harm components are deferred to a future candidate, so the packet cannot test direct participants, excluded groups, carers, communities, investigators, service systems or future patients for distributional burden, selection effects, coercion, accessibility, withdrawal consequences or inequitable risk transfer. A future candidate must identify affected parties, recruitment and consent pathways, vulnerable or under-represented populations, accessibility and compensation, data and specimen governance, withdrawal and downstream burden, and must prohibit aggregate information value from masking concentrated harm."
+    },
+    {
+      "dimension": "catastrophic, absorbing and irreversible harms",
+      "verdict": "major_revision",
+      "rationale": "Finding H8D-DS-03, severity Critical, disposition pending: the rule that a catastrophic constraint violation overrides positive scalar value is directionally necessary but not operational without candidate-specific definitions of catastrophe, absorbing states, irreversibility, onset and recovery horizons, affected-party thresholds, monitoring sensitivity, stopping rules, rescue and escalation paths, residual-risk tolerances and authority to halt activity. No numerical EVSI, ENBS or scalar harm offset may authorize exposure where those safeguards are missing or where an irreversible or absorbing transition remains materially plausible."
+    },
+    {
+      "dimension": "safety, ethics and regulatory requirements",
+      "verdict": "major_revision",
+      "rationale": "Finding H8D-DS-04, severity High, disposition pending: the packet cannot establish ethics review category, informed-consent requirements, privacy and data-protection duties, trial registration, safety reporting, monitoring-board obligations, clinical governance, product or device rules, local site authorization, indemnity, compensation, community engagement or regulator notification because the activity and jurisdiction are undeclared. Those requirements must be mapped to current applicable authorities and confirmed through accountable institutional and human processes; software output, repository validation or positive net benefit cannot replace them."
+    },
+    {
+      "dimension": "source authority, rights and current applicability",
+      "verdict": "major_revision",
+      "rationale": "Finding H8D-DS-05, severity High, disposition pending: the source register retains zero source bytes; five locator observations are not independently reproducible content, the Belmont retrieval returned HTTP 403 without a content digest, and locators do not establish redistribution rights, currentness or candidate-jurisdiction applicability. The cited US human-subject and international clinical-trial materials are conditional authorities, while the safe-learning papers are methodological analogies. Independent retrieval, drift comparison, rights assessment and a candidate-specific authority map are required before a named domain reviewer can rely on the source basis."
+    },
+    {
+      "dimension": "scope preservation and dissent",
+      "verdict": "minor_revision",
+      "rationale": "There is no dissent from excluding a universal automatic scalar for undeclared or incommensurate acquisition harms and from keeping study authorization outside software semantics. There is explicit dissent from reading this exclusion as a universal impossibility theorem or as barring candidate-specific non-authorizing scalar research with a declared commensurate ledger, constrained research or vector research. Those preserved classes require new candidate-bound ethics, equity, safety, regulatory and scientific review rather than inheritance from this report."
+    },
+    {
+      "dimension": "non-human and non-authorizing verdict",
+      "verdict": "major_revision",
+      "rationale": "This automated report is advisory challenge evidence only. It is not a named qualified human domain opinion, independent human confirmation, participant or community consent, ethics or regulatory approval, source-rights determination, maintainer disposition, runtime approval, promotion, publication, release or authorization for any study or sampling activity. The major-revision verdict authorizes none of those actions, and findings H8D-DS-01 through H8D-DS-05 remain pending."
+    }
+  ],
+  "finding_ids": [
+    "H8D-DS-01",
+    "H8D-DS-02",
+    "H8D-DS-03",
+    "H8D-DS-04",
+    "H8D-DS-05"
+  ],
+  "signed_at": "2026-08-02T20:05:00Z",
+  "report_sha256": "eeb88310f1a568afca6868c8f0a8ae2285519bc834aed83baafad7990b6522b4"
+}

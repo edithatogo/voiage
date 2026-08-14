@@ -1,0 +1,125 @@
+{
+  "schema_version": "sourceright.verification.v1",
+  "references": {
+    "adamczewski2022valueofinformation": {
+      "extraction": {
+        "source": "paper.bib",
+        "original_text": "adamczewski2022valueofinformation",
+        "span": "citation-key:adamczewski2022valueofinformation"
+      },
+      "review_status": "queued"
+    },
+    "ades2004evsi": {
+      "extraction": {
+        "source": "paper.bib",
+        "original_text": "ades2004evsi",
+        "span": "citation-key:ades2004evsi"
+      },
+      "review_status": "queued"
+    },
+    "andronis2016implementation": {
+      "extraction": {
+        "source": "paper.bib",
+        "original_text": "andronis2016implementation",
+        "span": "citation-key:andronis2016implementation"
+      },
+      "review_status": "queued"
+    },
+    "claxton1999irrelevance": {
+      "extraction": {
+        "source": "paper.bib",
+        "original_text": "claxton1999irrelevance",
+        "span": "citation-key:claxton1999irrelevance"
+      },
+      "review_status": "queued"
+    },
+    "dampack2024": {
+      "extraction": {
+        "source": "paper.bib",
+        "original_text": "dampack2024",
+        "span": "citation-key:dampack2024"
+      },
+      "review_status": "queued"
+    },
+    "green2022bcea": {
+      "extraction": {
+        "source": "paper.bib",
+        "original_text": "green2022bcea",
+        "span": "citation-key:green2022bcea"
+      },
+      "review_status": "queued"
+    },
+    "mordaunt2025trdcea": {
+      "extraction": {
+        "source": "paper.bib",
+        "original_text": "mordaunt2025trdcea",
+        "span": "citation-key:mordaunt2025trdcea"
+      },
+      "review_status": "queued"
+    },
+    "rothery2020voi": {
+      "extraction": {
+        "source": "paper.bib",
+        "original_text": "rothery2020voi",
+        "span": "citation-key:rothery2020voi"
+      },
+      "review_status": "queued"
+    },
+    "savi2025": {
+      "extraction": {
+        "source": "paper.bib",
+        "original_text": "savi2025",
+        "span": "citation-key:savi2025"
+      },
+      "review_status": "queued"
+    },
+    "strong2014evppi": {
+      "extraction": {
+        "source": "paper.bib",
+        "original_text": "strong2014evppi",
+        "span": "citation-key:strong2014evppi"
+      },
+      "review_status": "queued"
+    },
+    "tuffaha2021webtools": {
+      "extraction": {
+        "source": "paper.bib",
+        "original_text": "tuffaha2021webtools",
+        "span": "citation-key:tuffaha2021webtools"
+      },
+      "review_status": "queued"
+    },
+    "voi_cran2024": {
+      "extraction": {
+        "source": "paper.bib",
+        "original_text": "voi_cran2024",
+        "span": "citation-key:voi_cran2024"
+      },
+      "review_status": "queued"
+    },
+    "voiage2026": {
+      "extraction": {
+        "source": "paper.bib",
+        "original_text": "voiage2026",
+        "span": "citation-key:voiage2026"
+      },
+      "review_status": "queued"
+    },
+    "voiage_software_heritage": {
+      "extraction": {
+        "source": "paper.bib",
+        "original_text": "voiage_software_heritage",
+        "span": "citation-key:voiage_software_heritage"
+      },
+      "review_status": "queued"
+    },
+    "vop_poc_nz2026": {
+      "extraction": {
+        "source": "paper.bib",
+        "original_text": "vop_poc_nz2026",
+        "span": "citation-key:vop_poc_nz2026"
+      },
+      "review_status": "queued"
+    }
+  }
+}

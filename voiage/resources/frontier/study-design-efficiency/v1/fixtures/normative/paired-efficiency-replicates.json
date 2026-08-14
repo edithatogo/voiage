@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "fixture_id": "paired-efficiency-replicates-v1",
+  "input": {
+    "evsi": 6.5,
+    "evpi": 10.0,
+    "paired_evsi_replicates": [5.0, 6.0, 7.0, 8.0],
+    "paired_evpi_replicates": [10.0, 10.0, 10.0, 10.0],
+    "replay_artifact": "paired-efficiency-replicates.json"
+  },
+  "expected": {
+    "ratio": 0.65,
+    "replicate_count": 4,
+    "mean_ratio": 0.65,
+    "standard_error": 0.06454972243679027,
+    "confidence_interval": [0.5, 0.7],
+    "estimated_bias": 0.0,
+    "point_ratio_in_interval": true,
+    "calibration_status": "paired_replicate_empirical"
+  }
+}

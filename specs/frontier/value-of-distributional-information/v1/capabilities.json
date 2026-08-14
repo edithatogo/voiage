@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "method_family": "distribution_family_information_value",
+  "maturity": "experimental",
+  "python_modules": ["voiage/methods/distributional_information.py"],
+  "surfaces": {
+    "python": {"status": "executable", "evidence": "tests/test_distributional_information.py, tests/test_distributional_information_contract.py and tests/test_distributional_information_surfaces.py"},
+    "rust": {"status": "unsupported", "reason": "No reviewed Rust ABI or shared-fixture kernel exists."},
+    "r": {"status": "unsupported", "reason": "No shared-fixture binding evidence exists."},
+    "julia": {"status": "unsupported", "reason": "No shared-fixture binding evidence exists."},
+    "mojo": {"status": "external", "reason": "Mojo is outside the repository build and release boundary."}
+  },
+  "unsupported": [
+    "perfect information about both model family and within-family parameters",
+    "imperfect model-discrimination EVSI",
+    "goodness-of-fit, Bayes-factor or model-selection scoring",
+    "distributional-equity or subgroup VOI",
+    "stable API or cross-language parity"
+  ]
+}

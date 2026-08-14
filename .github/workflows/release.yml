@@ -1,6 +1,25 @@
 name: Release
 
 on:
+  workflow_call:
+    inputs:
+      release_tag:
+        description: "Existing signed release tag to stage or publish"
+        required: true
+        type: string
+      publish:
+        description: "Publish the verified private draft"
+        required: false
+        type: boolean
+        default: false
+      expected_wheel_sha256:
+        description: "Reviewed comma-separated wheel SHA-256 values"
+        required: false
+        type: string
+      expected_sdist_sha256:
+        description: "Reviewed sdist SHA-256"
+        required: false
+        type: string
   push:
     tags:
       - "v*"
@@ -44,6 +63,8 @@ jobs:
       RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
     outputs:
       tag_sha: ${{ steps.tag.outputs.tag_sha }}
+      is_prerelease: ${{ steps.tag.outputs.is_prerelease }}
+      python_version: ${{ steps.version.outputs.python_version }}
     steps:
       - name: Check out repository for tag resolution
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
@@ -71,6 +92,11 @@ jobs:
           jq -e '.verification.verified == true' tag-verification.json >/dev/null
           test "$(jq -r '.tagger.email' tag-verification.json)" = "$APPROVED_TAGGER_EMAIL"
           echo "tag_sha=$tag_sha" >> "$GITHUB_OUTPUT"
+          if [[ "${RELEASE_TAG#v}" == *-* ]]; then
+            echo "is_prerelease=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "is_prerelease=false" >> "$GITHUB_OUTPUT"
+          fi
       - name: Install uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
@@ -87,7 +113,17 @@ jobs:
       - name: Install locked validation tooling
         run: uv sync --locked --extra ci
       - name: Fail closed on release version
-        run: uv run --no-sync python -m voiage.versioning --release-tag "$RELEASE_TAG"
+        id: version
+        shell: bash
+        run: |
+          uv run --no-sync python -m voiage.versioning --release-tag "$RELEASE_TAG"
+          python_version="$(
+            uv run --no-sync python -m voiage.versioning \
+              --release-tag "$RELEASE_TAG" \
+              --print-python-version
+          )"
+          test -n "$python_version"
+          echo "python_version=$python_version" >> "$GITHUB_OUTPUT"
 
   wheels:
     name: Native wheel (${{ matrix.platform }})
@@ -184,7 +220,7 @@ jobs:
       - name: Record architecture manifest
         run: python -c "from pathlib import Path; wheel=next(Path('dist').glob('*.whl')); Path('dist/wheel-manifest-${{ matrix.platform }}.txt').write_text(wheel.name + '\n', encoding='utf-8')"
       - name: Upload native wheel
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: voiage-wheel-${{ matrix.platform }}
           path: |
@@ -270,16 +306,66 @@ jobs:
           cd "$RUNNER_TEMP/sdist-black-box"
           uv run --python "$WHEEL_VENV" --no-project pytest test_wheel_black_box.py --import-mode=importlib
       - name: Upload source distribution
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: voiage-sdist
           path: dist/*.tar.gz
           if-no-files-found: error
           retention-days: 7
 
+  polyglot-sbom:
+    name: Compose release-bound polyglot SBOM
+    needs: [resolve-tag, wheels, sdist]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - name: Check out immutable release commit
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          ref: ${{ needs.resolve-tag.outputs.tag_sha }}
+          persist-credentials: false
+      - name: Install pinned uv
+        uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.11.29"
+          enable-cache: false
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.14"
+      - name: Generate resolved Python inventory
+        run: |
+          uv export --frozen --no-dev --no-emit-project --format requirements-txt \
+            --output-file release-requirements.txt
+          uvx --from cyclonedx-bom==7.3.0 cyclonedx-py requirements \
+            release-requirements.txt --output-reproducible --of JSON \
+            -o python.sbom.cdx.json
+      - name: Compose mixed-language CycloneDX inventory
+        env:
+          RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
+          TAG_SHA: ${{ needs.resolve-tag.outputs.tag_sha }}
+        run: >-
+          python scripts/compose_polyglot_sbom.py compose
+          --python-sbom python.sbom.cdx.json
+          --cargo-workspace rust
+          --r-description r-package/voiageR/DESCRIPTION
+          --julia-project bindings/julia/Project.toml
+          --source-version "${RELEASE_TAG#v}"
+          --source-commit "$TAG_SHA"
+          --source-tag "$RELEASE_TAG"
+          --output polyglot.sbom.cdx.json
+      - name: Upload release-bound SBOM
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: voiage-polyglot-sbom
+          path: polyglot.sbom.cdx.json
+          if-no-files-found: error
+          retention-days: 7
+
   attest:
     name: Validate and attest release artifacts
-    needs: [resolve-tag, wheels, sdist]
+    needs: [resolve-tag, wheels, sdist, polyglot-sbom]
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
@@ -289,6 +375,7 @@ jobs:
     env:
       RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
       TAG_SHA: ${{ needs.resolve-tag.outputs.tag_sha }}
+      PYTHON_VERSION: ${{ needs.resolve-tag.outputs.python_version }}
       EXPECTED_NATIVE_ARCHITECTURES: linux-x86_64,macos-arm64,windows-x86_64
     steps:
       - name: Check out immutable release commit
@@ -304,28 +391,62 @@ jobs:
           git fetch --force --no-tags origin "refs/tags/$RELEASE_TAG:refs/tags/$RELEASE_TAG"
           test "$(git rev-parse --verify "refs/tags/$RELEASE_TAG^{commit}")" = "$TAG_SHA"
       - name: Download all release artifacts
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           pattern: voiage-*
           path: dist
           merge-multiple: true
       - name: Validate complete extensible artifact set
         run: |
-          release_version="${RELEASE_TAG#v}"
-          export RELEASE_VERSION="$release_version"
-          python -c "import os; from pathlib import Path; version=os.environ['RELEASE_VERSION']; abi=os.environ['VOIAGE_PYTHON_ABI']; expected=set(os.environ['EXPECTED_NATIVE_ARCHITECTURES'].split(',')); wheels=list(Path('dist').glob('*.whl')); manifests=list(Path('dist').glob('wheel-manifest-*.txt')); actual={m.stem.removeprefix('wheel-manifest-') for m in manifests}; assert actual==expected, f'expected native architectures {expected}, found {actual}'; assert len(wheels)==len(manifests)>0, f'expected one wheel per architecture manifest: {wheels=} {manifests=}'; declared={m.read_text(encoding='utf-8').strip() for m in manifests}; assert declared=={w.name for w in wheels}; assert all(f'voiage-{version}-{abi}-' in w.name for w in wheels)"
-          python -c "import os; from pathlib import Path; version=os.environ['RELEASE_VERSION']; sdists=list(Path('dist').glob('*.tar.gz')); assert len(sdists)==1, f'expected exactly one source distribution, found {sdists}'; assert sdists[0].name==f'voiage-{version}.tar.gz'"
+          python -c "import os; from pathlib import Path; version=os.environ['PYTHON_VERSION']; abi=os.environ['VOIAGE_PYTHON_ABI']; expected=set(os.environ['EXPECTED_NATIVE_ARCHITECTURES'].split(',')); wheels=list(Path('dist').glob('*.whl')); manifests=list(Path('dist').glob('wheel-manifest-*.txt')); actual={m.stem.removeprefix('wheel-manifest-') for m in manifests}; assert actual==expected, f'expected native architectures {expected}, found {actual}'; assert len(wheels)==len(manifests)>0, f'expected one wheel per architecture manifest: {wheels=} {manifests=}'; declared={m.read_text(encoding='utf-8').strip() for m in manifests}; assert declared=={w.name for w in wheels}; assert all(f'voiage-{version}-{abi}-' in w.name for w in wheels)"
+          python -c "import os; from pathlib import Path; version=os.environ['PYTHON_VERSION']; sdists=list(Path('dist').glob('*.tar.gz')); assert len(sdists)==1, f'expected exactly one source distribution, found {sdists}'; assert sdists[0].name==f'voiage-{version}.tar.gz'"
       - name: Attest release artifacts
+        id: provenance
         uses: actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373
         with:
           subject-path: "dist/*"
+      - name: Export detectable SLSA provenance
+        shell: bash
+        run: |
+          test -s "$PROVENANCE_BUNDLE"
+          cp "$PROVENANCE_BUNDLE" "dist/voiage-${PYTHON_VERSION}.intoto.jsonl"
+          test -s "dist/voiage-${PYTHON_VERSION}.intoto.jsonl"
+        env:
+          PROVENANCE_BUNDLE: ${{ steps.provenance.outputs.bundle-path }}
+      - name: Bind polyglot SBOM to release subjects
+        uses: actions/attest-sbom@4651f806c01d8637787e274ac3bdf724ef169f34
+        with:
+          subject-path: |
+            dist/*.whl
+            dist/*.tar.gz
+          sbom-path: dist/polyglot.sbom.cdx.json
+      - name: Create digest-bound release manifest
+        shell: bash
+        run: |
+          cd dist
+          sha256sum -- *.whl *.tar.gz polyglot.sbom.cdx.json | LC_ALL=C sort > SHA256SUMS
+          python -c "import json, pathlib; rows=[line.split(maxsplit=1) for line in pathlib.Path('SHA256SUMS').read_text().splitlines()]; pathlib.Path('release-manifest.json').write_text(json.dumps({'schema_version':'1.0.0','source_commit':'${TAG_SHA}','artifacts':[{'sha256': digest, 'name': name.lstrip('*')} for digest, name in rows]}, sort_keys=True, indent=2)+'\n')"
+      - name: Verify build-provenance subjects
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          for artifact in dist/*.whl dist/*.tar.gz; do
+            gh attestation verify "$artifact" --repo "$GITHUB_REPOSITORY"
+            gh attestation verify "$artifact" --repo "$GITHUB_REPOSITORY" \
+              --predicate-type https://cyclonedx.org/bom
+          done
       - name: Upload attested release set
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: voiage-attested-release
           path: |
             dist/*.whl
             dist/*.tar.gz
+            dist/*.intoto.jsonl
+            dist/polyglot.sbom.cdx.json
+            dist/release-manifest.json
+            dist/SHA256SUMS
           if-no-files-found: error
           retention-days: 7
 
@@ -355,7 +476,7 @@ jobs:
           test "$(git rev-parse --verify "refs/tags/$RELEASE_TAG^{commit}")" = "$TAG_SHA"
           test "$(git cat-file -t "refs/tags/$RELEASE_TAG")" = tag
       - name: Download attested release set
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: voiage-attested-release
           path: dist
@@ -377,7 +498,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
       - name: Retain immutable publication payload
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: release-payload-${{ env.RELEASE_TAG }}
           path: dist/
@@ -391,7 +512,9 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
-      contents: read
+      # Draft releases are visible only to tokens with push-level repository
+      # access. Keep this elevation scoped to the digest-review job.
+      contents: write
     env:
       RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
     steps:
@@ -420,7 +543,7 @@ jobs:
           test "$(sha256sum "${sdists[0]}" | cut -d ' ' -f1)" = "$EXPECTED_SDIST_SHA256"
           test "$(gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json isDraft --jq '.isDraft')" = true
       - name: Upload reviewed release payload
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: reviewed-release-payload
           path: dist/
@@ -448,7 +571,7 @@ jobs:
           ref: ${{ needs.resolve-tag.outputs.tag_sha }}
           persist-credentials: false
       - name: Download reviewed release payload
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: reviewed-release-payload
           path: dist
@@ -466,18 +589,23 @@ jobs:
           verbose: true
           print-hash: true
           skip-existing: true
-          attestations: false
+          attestations: true
 
   test-pypi-smoke:
     name: Install and smoke TestPyPI release
     needs: [resolve-tag, test-pypi]
     runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.12", "3.13", "3.14"]
     timeout-minutes: 10
     permissions:
       contents: read
     env:
       RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
       TAG_SHA: ${{ needs.resolve-tag.outputs.tag_sha }}
+      PYTHON_VERSION: ${{ needs.resolve-tag.outputs.python_version }}
     steps:
       - name: Check out immutable release commit
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
@@ -494,16 +622,94 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python }}
+      - name: Download reviewed release payload
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: reviewed-release-payload
+          path: reviewed-dist
+      - name: Compare TestPyPI bytes with reviewed payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected_manifest="$RUNNER_TEMP/reviewed-testpypi-manifest"
+          remote_manifest="$RUNNER_TEMP/remote-testpypi-manifest"
+          release_json="$RUNNER_TEMP/testpypi-release.json"
+          for distribution in reviewed-dist/*; do
+            test -f "$distribution"
+            printf '%s  %s\n' \
+              "$(sha256sum "$distribution" | cut -d ' ' -f1)" \
+              "$(basename "$distribution")"
+          done | LC_ALL=C sort > "$expected_manifest"
+          for attempt in 1 2 3 4 5 6; do
+            if curl --fail --silent --show-error \
+              "https://test.pypi.org/pypi/voiage/${PYTHON_VERSION}/json" \
+              > "$release_json"; then
+              jq -r '.urls[] | "\(.digests.sha256)  \(.filename)"' \
+                "$release_json" | LC_ALL=C sort > "$remote_manifest"
+              if cmp --silent "$expected_manifest" "$remote_manifest"; then
+                break
+              fi
+            fi
+            if [[ "$attempt" == "6" ]]; then
+              echo "TestPyPI distribution set does not match the reviewed payload" >&2
+              diff --unified "$expected_manifest" "$remote_manifest" || true
+              exit 1
+            fi
+            sleep 20
+          done
+          mkdir testpypi-dist
+          for attempt in 1 2 3 4 5 6; do
+            if python -m pip download --no-deps --only-binary=:all: \
+              --index-url https://test.pypi.org/simple/ \
+              --dest testpypi-dist "voiage==$PYTHON_VERSION"; then
+              break
+            fi
+            if [[ "$attempt" == "6" ]]; then
+              echo "TestPyPI Simple API did not expose the reviewed release" >&2
+              exit 1
+            fi
+            sleep 20
+          done
+          reviewed="$(find reviewed-dist -maxdepth 1 -name '*manylinux*x86_64.whl' -print -quit)"
+          downloaded="$(find testpypi-dist -maxdepth 1 -name '*.whl' -print -quit)"
+          test -n "$reviewed"
+          test -n "$downloaded"
+          test "$(sha256sum "$reviewed" | cut -d ' ' -f1)" = \
+            "$(sha256sum "$downloaded" | cut -d ' ' -f1)"
+      - name: Verify TestPyPI distribution attestations
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t distribution_urls < <(
+            curl --fail --silent --show-error \
+              "https://test.pypi.org/pypi/voiage/${PYTHON_VERSION}/json" |
+              jq --exit-status --raw-output '.urls[].url'
+          )
+          test "${#distribution_urls[@]}" -eq 4
+          for distribution_url in "${distribution_urls[@]}"; do
+            filename="$(basename "$distribution_url")"
+            test "$filename" != "."
+            test "$filename" != ".."
+            test -f "reviewed-dist/$filename"
+            provenance="$RUNNER_TEMP/$filename.provenance"
+            curl --fail --silent --show-error \
+              "https://test.pypi.org/integrity/voiage/${PYTHON_VERSION}/${filename}/provenance" \
+              --output "$provenance"
+            uvx --from 'pypi-attestations==0.0.30' \
+              pypi-attestations verify pypi \
+              --provenance-file "$provenance" \
+              --repository "https://github.com/${GITHUB_REPOSITORY}" \
+              "reviewed-dist/$filename"
+          done
       - name: Install TestPyPI artifact with bounded retry
         shell: bash
         run: |
-          release_version="${RELEASE_TAG#v}"
           uv export --locked --extra ci --no-dev --no-emit-project --output-file locked-requirements.txt
-          uv venv --python 3.12 .testpypi-venv
+          uv venv --python "${{ matrix.python }}" .testpypi-venv
           uv pip install --python .testpypi-venv -r locked-requirements.txt
           for attempt in 1 2 3 4 5 6; do
-            if uv pip install --python .testpypi-venv --no-deps --refresh-package voiage --index-url https://test.pypi.org/simple/ "voiage==$release_version"; then
+            if uv pip install --python .testpypi-venv --no-deps --refresh-package voiage --index-url https://test.pypi.org/simple/ "voiage==$PYTHON_VERSION"; then
               break
             fi
             if [[ "$attempt" == "6" ]]; then
@@ -524,6 +730,7 @@ jobs:
   pypi:
     name: Publish to PyPI
     needs: [resolve-tag, test-pypi-smoke]
+    if: needs.resolve-tag.outputs.is_prerelease != 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     environment: pypi
@@ -541,7 +748,7 @@ jobs:
           ref: ${{ needs.resolve-tag.outputs.tag_sha }}
           persist-credentials: false
       - name: Download reviewed release payload
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: reviewed-release-payload
           path: dist
@@ -557,11 +764,12 @@ jobs:
           packages-dir: dist/
           verbose: true
           print-hash: true
-          attestations: false
+          attestations: true
 
   github-release:
     name: Publish verified GitHub Release
     needs: [resolve-tag, pypi]
+    if: needs.resolve-tag.outputs.is_prerelease != 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
@@ -583,11 +791,13 @@ jobs:
           git fetch --force --no-tags origin "refs/tags/$RELEASE_TAG:refs/tags/$RELEASE_TAG"
           test "$(git rev-parse --verify "refs/tags/$RELEASE_TAG^{commit}")" = "$TAG_SHA"
       - name: Download attested release set
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: voiage-attested-release
           path: dist
       - name: Publish verified GitHub Release
+        # The repository/organization should enable immutable releases so this
+        # draft-first publication locks its tag and final asset set.
         run: gh release edit "$RELEASE_TAG" --draft=false --latest
         env:
           GH_TOKEN: ${{ github.token }}

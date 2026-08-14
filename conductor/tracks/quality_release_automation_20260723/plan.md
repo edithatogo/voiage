@@ -1,82 +1,49 @@
-# Track Implementation Plan: Quality, Security, Release, And Registry Automation
+# Implementation Plan
 
-## Phase 1: Assurance contracts
+## Phase 1 — Governance and contract reconciliation
 
-- [~] Add failing workflow, matrix, provenance, drift, dependency-automation,
-  GitHub-posture, and release-claim tests.
-- [ ] Define required versus scheduled/manual/external lanes and budgets.
-- [ ] Define reproducibility, artifact identity, and registry dry-run policy.
-- [ ] Define numerical error, memory, latency, energy, estimator-assurance, and
-  deterministic-parallelism budgets by release tier.
-- [ ] Commit, attach a git note, record the short commit SHA, and commit the
-  plan update.
-- [ ] Automated review and validation checkpoint.
-- [ ] Conductor - User Manual Verification 'Phase 1: Assurance contracts'
-  (Protocol in workflow.md).
+- [x] **G1:** Verify the owning issue, native parent/children, Project 28,
+  metadata, registry and cross-reference manifest. (AC-01)
+- [x] **G2:** Reconcile existing repository artifacts and prior evidence
+  without converting issue status into implementation evidence. (AC-01, AC-02)
+- [x] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
+  explicit exclusions. (AC-02, AC-05, AC-06)
+- [x] **G4:** Run automated contract review and full Conductor validation.
+  (AC-01, AC-07) — `9ef5271`
 
-## Phase 2: Automation implementation
+## Phase 2 — Evidence before positive claims
 
-- [ ] Implement cross-platform, Rust, binding, example, ML, provenance, and
-  freshness workflows.
-- [x] Make Renovate the sole version-update bot; validate its configuration,
-  dependency dashboard, supported managers, vulnerability bypass, Action
-  pinning, stability checks, grouping, concurrency, human-review boundaries,
-  lock maintenance, and source-pinned submodule updates.
-- [ ] Verify the Renovate GitHub App is installed and authorized, observe its
-  dashboard and a test PR with required checks, then disable Dependabot
-  security updates while retaining GitHub dependency-graph and Dependabot
-  alerts. Until that evidence exists, keep security updates enabled to avoid a
-  remediation gap.
-- [ ] Add Codecov, CodeQL, dependency review at moderate severity, Scorecard,
-  secret scanning, push protection, private vulnerability reporting,
-  non-provider and validity checks where supported, SBOM, provenance,
-  attestation, license, malware/OSV, and release dry-run gates.
-- [~] Upgrade or constrain JupyterLab to a patched release and close open
-  Dependabot alerts #64--#68; all currently resolve at JupyterLab 4.6.2, and
-  the two high-severity XSS alerts block release.
-- [x] Require the reproducible-build/SBOM job in the active main ruleset and
-  reconcile required contexts against actual hosted check names without
-  weakening signed commits, linear history, thread resolution, or strict
-  up-to-date checks.
-- [ ] Add scheduled and pre-release live posture reconciliation for open
-  dependency, code-scanning, secret-scanning, and workflow-audit findings,
-  security settings, ruleset drift, Renovate activity, and artifact retention.
-- [ ] Add deterministic generated-artifact and clean-install gates.
-- [ ] Add registry-to-code-to-binding-to-doc claim conformance, ADR and
-  deprecation-ledger validation, adversarial ML/agent fixtures, and controlled
-  ecosystem-drift proposals.
-- [ ] Commit, attach a git note, record the short commit SHA, and commit the
-  plan update.
-- [ ] Automated review and validation checkpoint.
-- [ ] Conductor - User Manual Verification 'Phase 2: Automation implementation'
-  (Protocol in workflow.md).
+- [x] **G5:** Add failing conformance, reference, property and pathological
+  tests, or the corresponding reproducible review protocol. (AC-03) — `d06eccc`
+- [ ] **G6:** Add versioned schemas, fixtures, diagnostics and provenance
+  contracts required by the accepted scope. (AC-02, AC-03)
+- [x] **G7:** Record rights, privacy, scientific, practitioner and external
+  evidence gates that apply to this workstream. (AC-05, AC-06) — `9ef5271`
+- [ ] **G8:** Run an independent evidence and boundary review. (AC-03, AC-07)
 
-### Phase 2 implementation evidence
+## Phase 3 — Delivery or reviewed exclusion
 
-- [x] Commit `b03d9a85` removes Dependabot version-update configuration,
-  validates the Renovate policy and all detected managers, upgrades JupyterLab
-  to 4.6.2, strengthens dependency review to moderate severity, and records
-  the required SBOM ruleset context.
-- [x] Review fix in `b03d9a85`: constrain Ruff below the unreviewed 0.16
-  breaking frontier after the upgrade rehearsal exposed new lint semantics.
-- [x] Review fix in `b03d9a85`: normalize the Astro `/voiage` deployment base
-  in documentation-link validation and add regression coverage.
-- [~] Dependabot alerts #64--#68 close only after `b03d9a85` reaches the
-  default branch and GitHub rescans the patched JupyterLab lock.
-- [ ] Renovate App activation, its dependency dashboard, and one checked test
-  PR remain external GitHub evidence before Dependabot security updates can be
-  disabled.
+- [ ] **G9:** Implement each accepted repository-owned capability or record a
+  reviewed exclusion with migration guidance. (AC-02, AC-06)
+- [ ] **G10:** Add Rust/Python/R/Julia/Mojo dispositions and installed
+  shared-fixture evidence where executable surfaces are advertised. (AC-04)
+- [ ] **G11:** Add documentation, examples, generated surfaces and capability
+  discovery that match the evidenced maturity state. (AC-05)
+- [ ] **G12:** Run automated implementation review, focused validation and the
+  repository harness. (AC-03–AC-07)
 
-## Phase 3: Staged release evidence
+## Phase 4 — Programme and hosted closeout
 
-- [ ] Run local and hosted required gates for v1.1, v1.2, and v1.3 candidates.
-- [ ] Require zero unresolved critical/high dependency or secret findings;
-  require each moderate finding to be fixed or carry a time-bounded,
-  maintainer-confirmed risk record with compensating controls and review date.
-- [ ] Reproduce artifacts and reconcile external registry/publication states.
-- [ ] Complete release documentation without performing unauthorized publish.
-- [ ] Commit, attach a git note, record the short commit SHA, and commit the
-  plan update.
-- [ ] Final review and validation checkpoint.
-- [ ] Conductor - User Manual Verification 'Phase 3: Staged release evidence'
-  (Protocol in workflow.md).
+- [ ] **G13:** Reconcile child-issue results, roadmap, todo, registries,
+  release targets and remaining external gates. (AC-01, AC-05, AC-06)
+- [x] **G14:** Run final full local validation and hosted required checks. PR
+  #822 exact head `7e12a5fbc6f7091166d7f5d64c6f2b5b45764f72` passed the
+  required matrix before merge `0df988125b89f8d0bad08def0bd5b2ea03cd54f5`.
+  External publication remains separate. (AC-07)
+- [ ] **G15:** Record repository completion separately from merge, release,
+  publication, registry acceptance and issue closure. (AC-02, AC-07)
+
+## Review Fixes
+
+- [x] **RF-G5:** Add explicit independent repository references, refresh track
+  metadata timestamp and normalize the recorded task SHA. (Conductor review) — `74cbb55`

@@ -13,7 +13,7 @@ import pytest
             (
                 "## Setup",
                 "## First workflow",
-                "## Release and caveats",
+                "## Release and scope",
                 "using Voiage",
                 "evpi(",
             ),

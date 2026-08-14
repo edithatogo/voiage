@@ -38,12 +38,21 @@ round-trip, numerical-equivalence, provenance, and CPU-reference evidence
 before promotion. Python free-threading remains an observation lane rather
 than a release or performance claim.
 
+Standardized-ingestion benchmarks use generated, bounded local fixtures and
+record stages, input dimensions, and memory rather than enforcing elapsed-time
+budgets. They cover only the strict Croissant CSV and Frictionless local
+CSV/JSON/Parquet/Arrow profiles; they are not evidence about network transport,
+remote catalogues, or upstream parser performance.
+
 ## GitHub gates
 
 The hosted repository runs CodeQL, OpenSSF Scorecard, Dependency Review, and
 Zizmor. Workflows also enforce SHA-pinned actions, least-privilege
 permissions, disabled credential persistence on security-sensitive checkouts,
-and release artifact provenance attestations.
+and release artifact provenance attestations. The release workflow also
+publishes the signed SLSA bundle as a `.intoto.jsonl` release asset so
+independent tools can discover provenance without privileged access to
+GitHub's attestation store.
 
 The protected `main` ruleset requires pull requests, resolved review threads,
 successful required checks, signed commits, and linear history. The required
@@ -51,6 +60,27 @@ approval count is zero for the single-maintainer operating model; CODEOWNERS
 still routes review responsibility without creating an impossible independent
 approval gate. Hosted settings must be verified through the GitHub API because
 they are not represented by files in the checkout.
+
+OpenSSF's aggregate Scorecard is interpreted check by check. Independent human
+review and multi-organisation contributor diversity are useful signals, but a
+single-maintainer project cannot manufacture either signal. The repository
+therefore retains zero required approvals while requiring the complete
+automated matrix, signed commits, current branches, resolved threads, and
+immutable releases. Those deliberate exceptions should not be bypassed with
+bot approvals, alternate accounts, synthetic contributors, or placeholder
+releases.
+
+GitHub immutable releases should be enabled in hosted repository settings so
+published release assets and their tag cannot be modified.
+
+TestPyPI promotion requires exact SHA-256 equality with the privately reviewed
+release payload, GitHub build-provenance verification, cryptographic
+attestation verification, and clean-install smoke tests on every supported
+Python version. Because the attestation client's direct-URL mode accepts only
+the production distribution host, the workflow retrieves each provenance
+object from TestPyPI's Integrity API and verifies it against the corresponding
+reviewed local distribution. Integrity API, identity, digest, signature, and
+certificate errors all fail closed.
 
 ## Owner and organization gates
 

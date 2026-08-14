@@ -1,0 +1,80 @@
+{
+  "evidence_kind": "role-report",
+  "schema_version": "1.1.0",
+  "report_id": "H8D-GOVERNANCE-PUBLICATION-AGENT-20260803",
+  "candidate_commit": {
+    "algorithm": "sha1",
+    "value": "8d6c67879050f161258ed95d878a72e2bb6b22dd"
+  },
+  "candidate_tree": {
+    "algorithm": "sha1",
+    "value": "18289bd04081f6a6810cb91ef2beec7decafe61f"
+  },
+  "packet_sha256": "e1298da5a609ee9ed7a8cc8509ab117a2d2fd384d20d464c48ec32f4f033f29b",
+  "reviewer_role": "governance_publication",
+  "reviewer": {
+    "identity": "codex-subagent:h8d_governance_publication",
+    "display_name": "H8-D Governance and Publication Automated Reviewer",
+    "actor_type": "agent",
+    "role": "governance_publication",
+    "qualifications": [
+      "Automated governance review of immutable evidence bindings, repository and hosted-state synchronization, publication boundaries, maturity language and fail-closed authorization contracts; no human scientific, ethics, regulatory, legal, publication-editor or jurisdiction-specific qualification is claimed."
+    ],
+    "prior_contributions": [],
+    "conflicts": [
+      "Automated subagent operating within the repository owner's Codex task and dependent on repository bytes and authenticated GitHub observations; not a named qualified human, accountable publisher, regulator or independent institutional authority, and unable to supply human confirmation or publication authorization."
+    ],
+    "conflict_status": "non_disqualifying",
+    "independent": true
+  },
+  "scope": {
+    "family": "sampling_acquisition_harm_voi",
+    "capabilities": [
+      "generic_automatic_scalar_or_authorizing_sampling_acquisition_harm_kernel"
+    ]
+  },
+  "verdict": "major_revision",
+  "rubric": [
+    {
+      "dimension": "exact frozen bindings and contribution independence",
+      "verdict": "pass",
+      "rationale": "The H8-C validator passed against candidate 8d6c67879050f161258ed95d878a72e2bb6b22dd, tree 18289bd04081f6a6810cb91ef2beec7decafe61f and trusted package d00e0e20752f44c52581dbb7ee45ce27c9b7d6dd. This report binds packet e1298da5a609ee9ed7a8cc8509ab117a2d2fd384d20d464c48ec32f4f033f29b and manifest 4f18ac9b08717416e54133849c1a381b4245543d7e5dd85f51efa1cd789164c5. The reviewer has no candidate authorship, implementation, remediation or prior-report contribution. This automated independence is contribution independence only and is not a human independence receipt."
+    },
+    {
+      "dimension": "immutable artifact and snapshot bindings",
+      "verdict": "pass",
+      "rationale": "The candidate commit and tree are present, the candidate is an ancestor of the trusted package, and the exact 50-entry package inventory, frozen candidate bytes, schemas, manifest digest and packet digest validate. The governance snapshot is an immutable observation at 2026-08-02T18:25:00Z and is not expired at review time; it expires at 2026-08-09T18:25:00Z. It must remain historical rather than be edited to resemble current GitHub state."
+    },
+    {
+      "dimension": "current issue, Project, roadmap and track synchronization",
+      "verdict": "major_revision",
+      "rationale": "Finding H8D-GP-01, severity High, disposition pending: the frozen snapshot has materially drifted before expiry. PR 862 is now merged at efc62025ba2076de0e77f70724e9e5ca272e231a after 38 successful checks, three governed skips, one neutral result and no failed or pending checks. Issues 850 and 853 were updated at 2026-08-02T19:46:52Z and 2026-08-02T19:46:51Z with body digests a43f78072dadfbb170e3df58fd3022797f5e4f8602f2f595ff9517bcbcfa7e1e and c5b9fb8da4ec3b6e931aaef8fcf072f84ecb9c3e5da132b50b1b4f6276db4f2f, while the frozen snapshot retains earlier digests. Live Project 28 fields still report In Progress, Human, Unverified, Mitigating, Critical, Must, v1.3.0 and Clean, and the current track plan marks H8-C complete. However, roadmap.md still narrates H8-A and PR 855 without recording H8-C or PR 862, and track metadata omits PR 862 from its pull-request list. Treating the overall projection as current and Clean would therefore be unsupported. Preserve the frozen snapshot, record a separately bound administrative delta or fresh snapshot, synchronize roadmap and metadata, and read back every surface before H8-E synthesis relies on current governance state or H8-H claims synchronization."
+    },
+    {
+      "dimension": "source authority, publication readiness and reproducibility",
+      "verdict": "major_revision",
+      "rationale": "Finding H8D-GP-02, severity High, disposition pending: the source register retains zero source bytes, five records are observations rather than independently reproducible retained content, and Belmont retrieval is blocked by HTTP 403 without a content digest. Locators do not establish redistribution rights, candidate-jurisdiction applicability or ethics and regulatory authority. Independent retrieval, current-source drift comparison, rights review and applicability assessment are required before any scientific or publication-ready source claim. The packet may document a proposed reviewed exclusion, but it cannot support publication approval, a literature-completeness claim or a real-study authority claim."
+    },
+    {
+      "dimension": "maturity, authorization and non-alias language",
+      "verdict": "pass",
+      "rationale": "The frozen candidate and current hosted issue text consistently keep the capability unsupported and non-authorizing: no estimator, runtime, ABI, binding, stable promotion, release, publication, registry acceptance, issue closure or real-study authorization is claimed. The scope preserves candidate-specific non-authorizing scalar, constrained and vector research, and the explicit adjacent-method list correctly prevents relabelling issues 570, 571, 595 or 598 as this sampling-harm method. In particular, ordinary EVSI or ENBS is only a conditional zero-harm reduction, and issue 595 expected-utility or VoC presentation is not an alias for acquisition-harm value."
+    },
+    {
+      "dimension": "reviewer eligibility and accountable downstream gates",
+      "verdict": "major_revision",
+      "rationale": "This report is an automated challenge artifact only. It is not a named qualified human governance, domain, ethics or publication opinion and cannot satisfy H8-G, maintainer disposition, source-rights review, ethics or regulatory authorization, publication approval or real-study authorization. The required domain_specialist report, separate orchestrator synthesis, finding dispositions, affected-role re-review after substantive remediation, two distinct named human confirmations and separate maintainer maturity decision remain downstream gates."
+    },
+    {
+      "dimension": "dissent and non-authorizing verdict",
+      "verdict": "major_revision",
+      "rationale": "There is no dissent from retaining the narrow fail-closed exclusion candidate as the current research direction. There is explicit dissent from interpreting the live Project Sync State Clean field as proof that the post-PR-862 issue, roadmap and track projections are synchronized; from treating a not-yet-expired historical snapshot as current after observed drift; from treating source locators and observation hashes as publication-ready evidence; and from treating this automated report as human scientific, ethics, governance or publication approval. The verdict is non-authorizing and findings H8D-GP-01 and H8D-GP-02 remain pending."
+    }
+  ],
+  "finding_ids": [
+    "H8D-GP-01",
+    "H8D-GP-02"
+  ],
+  "signed_at": "2026-08-02T19:55:06Z",
+  "report_sha256": "0ff33d8d44a0f0bf4e28d143bb18320b366fc39e60bce0b34610b02ec51a41fb"
+}

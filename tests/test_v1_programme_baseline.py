@@ -10,7 +10,23 @@ import sys
 BASELINE_PATH = Path("conductor/v1-programme-baseline.json")
 TRACK_ID = "mature-hardened-v1-release-programme_20260719"
 ACTIVE_TRACK_IDS = [
-    "research_software_registry_readiness_20260721",
+    "controlled_live_dataset_interoperability_20260801",
+    "datasets_worked_examples_20260723",
+    "estimation_focused_variance_voi_20260727",
+    "external_voi_library_feature_parity_20260723",
+    "information_source_portfolio_voi_20260801",
+    "ml_llm_agent_voi_20260723",
+    "polyglot_abi_binding_parity_20260723",
+    "quality_release_automation_20260723",
+    "research_contribution_ai_transparency_20260723",
+    "remote_dataset_ingestion_security_20260801",
+    "rust_polyglot_voi_completion_20260723",
+    "sampling_acquisition_harm_voi_20260802",
+    "stable_voi_rust_core_completion_20260723",
+    "supported_frontier_method_completion_20260723",
+    "uncertainty_modelling_value_20260801",
+    "value_of_perspective_completion_20260723",
+    "voi_method_census_contract_reconciliation_20260723",
 ]
 VALIDATOR = Path("scripts/validate_v1_programme.py")
 
@@ -44,14 +60,34 @@ def test_v1_programme_baseline_classifies_tracks_and_execution_lanes() -> None:
     conductor = baseline["conductor"]
 
     assert conductor["active_track_ids"] == ACTIVE_TRACK_IDS
-    assert conductor["archived_track_count"] == 126
+    assert conductor["archived_track_count"] == 132
     assert conductor["classifications"] == {
         "v1_required": [
             "repository-owned mature-v1 programme completed; external publication gates transferred to research_software_registry_readiness_20260721"
         ],
         "historical_groundwork": "conductor/archive/",
         "post_v1_or_optional": [
+            "controlled_live_dataset_interoperability_20260801",
+            "datasets_worked_examples_20260723",
+            "estimation_focused_variance_voi_20260727",
+            "external_voi_library_feature_parity_20260723",
+            "information_source_portfolio_voi_20260801",
+            "ml_llm_agent_voi_20260723",
+            "polyglot_abi_binding_parity_20260723",
+            "quality_release_automation_20260723",
+            "research_contribution_ai_transparency_20260723",
             "research_software_registry_readiness_20260721",
+            "risk_adjusted_information_pricing_20260731",
+            "remote_dataset_ingestion_security_20260801",
+            "rust_polyglot_voi_completion_20260723",
+            "sampling_acquisition_harm_voi_20260802",
+            "stable_voi_rust_core_completion_20260723",
+            "standardized-dataset-ingestion_20260723",
+            "study_design_efficiency_20260727",
+            "supported_frontier_method_completion_20260723",
+            "uncertainty_modelling_value_20260801",
+            "value_of_perspective_completion_20260723",
+            "voi_method_census_contract_reconciliation_20260723",
             "accelerator production-speedup evidence",
             "frontier-method stable promotion beyond the frozen v1 surface",
             "FPGA and ASIC production execution",
@@ -98,7 +134,34 @@ def test_roadmap_and_backlog_name_the_active_v1_programme() -> None:
     for track_id in ACTIVE_TRACK_IDS:
         assert track_id in roadmap
         assert track_id in todo
-    assert "## [~] Track: Research Software Registry Readiness" in registry
+    assert "## [x] Track: Research Software Registry Readiness" in registry
+
+
+def test_cross_reference_reconciliation_archive_records_merged_handoff() -> None:
+    """The archived track must not retain its pre-merge status projection."""
+    archive = Path(
+        "conductor/archive/conductor-github-cross-reference-reconciliation_20260724"
+    )
+    index = (archive / "index.md").read_text(encoding="utf-8")
+    metadata = json.loads((archive / "metadata.json").read_text(encoding="utf-8"))
+
+    assert metadata["status"] == "completed"
+    assert "Status: completed and archived" in index
+    assert "pull/465" in index
+    assert "No pull request proven" not in index
+
+
+def test_cross_reference_reconciliation_narratives_record_completion() -> None:
+    """Roadmap and backlog must agree with the archived track lifecycle."""
+    track_id = "conductor-github-cross-reference-reconciliation_20260724"
+    roadmap = Path("roadmap.md").read_text(encoding="utf-8")
+    todo = Path("todo.md").read_text(encoding="utf-8")
+    in_progress, done = todo.split("## Done", maxsplit=1)
+
+    assert "Conductor-to-GitHub traceability is complete and archived" in roadmap
+    assert "repository validation and PR handoff remain in progress" not in roadmap
+    assert track_id not in in_progress
+    assert track_id in done
 
 
 def _run_validator(root: Path) -> subprocess.CompletedProcess[str]:

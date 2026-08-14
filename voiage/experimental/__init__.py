@@ -13,6 +13,10 @@ _EXPORTS = {
     "value_of_capacity_budget_constrained": ".methods.capacity_budget_constrained",
     "value_of_federated_privacy_preserving": ".methods.federated_privacy_preserving",
     "value_of_strategic_behavior": ".methods.strategic_behavior",
+    "calculate_coss": ".experimental.study_design",
+    "evsi_evpi_efficiency": ".experimental.study_design",
+    "allocate_coss_portfolio": ".experimental.study_portfolio",
+    "information_source_portfolio_value": ".methods.information_source_portfolio",
 }
 
 __all__ = list(_EXPORTS)

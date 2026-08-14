@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "method_family": "risk_sensitive_constrained_perfect_information",
+  "contract_version": "1.0.0",
+  "planned_version": "v1.3.0",
+  "maturity": "experimental",
+  "estimator": "exact_finite_enumeration",
+  "python_modules": ["voiage/methods/risk_sensitive_voi.py"],
+  "surfaces": {
+    "python": {
+      "status": "executable",
+      "module": "voiage.methods.risk_sensitive_voi",
+      "reason": "Python exactly enumerates the bounded finite v1 policy problems."
+    },
+    "rust": {"status": "unsupported", "reason": "No reviewed Rust kernel or shared-fixture evidence."},
+    "r": {"status": "unsupported", "reason": "No R binding or shared-fixture evidence."},
+    "julia": {"status": "unsupported", "reason": "No Julia binding or shared-fixture evidence."},
+    "mojo": {"status": "external", "reason": "No repository-owned Mojo runtime."}
+  },
+  "supported_objectives": ["expected_value", "expected_utility", "lower_tail_cvar", "minimax_regret"],
+  "supported_constraint_kinds": ["budget", "capacity", "eligibility", "fairness", "regulation", "carbon", "liquidity", "service_level"],
+  "unsupported": [
+    "imperfect or sample information EVSI",
+    "continuous or mixed-integer optimization",
+    "endogenous constraints or risk-functional changes after information",
+    "intertemporal resource carry-over and nonseparable policy constraints",
+    "local dual shadow prices for discrete feasible sets",
+    "stable API or cross-language parity"
+  ],
+  "remaining_gates": [
+    "independent scientific review",
+    "optimizer verification beyond exact bounded fixtures",
+    "Rust, R and Julia shared-fixture parity",
+    "stable promotion, release and parent issue closure"
+  ]
+}

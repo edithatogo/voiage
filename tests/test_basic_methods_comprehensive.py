@@ -522,7 +522,7 @@ def test_import_functionality() -> None:
 def test_basic_module_handles_missing_sklearn_import(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    """The optional sklearn import should fail soft when unavailable."""
+    """Importing the basic facade must not eagerly import scikit-learn."""
     import builtins
     import importlib
 
@@ -544,8 +544,10 @@ def test_basic_module_handles_missing_sklearn_import(
     monkeypatch.setattr(builtins, "__import__", fake_import)
     reloaded = importlib.reload(basic_module)
 
-    assert reloaded.SKLEARN_AVAILABLE is False
-    assert reloaded.LinearRegression is None
+    assert callable(reloaded.evpi)
+    assert callable(reloaded.evppi)
+    assert not hasattr(reloaded, "SKLEARN_AVAILABLE")
+    assert not hasattr(reloaded, "LinearRegression")
 
     monkeypatch.setattr(builtins, "__import__", original_import)
     importlib.reload(basic_module)

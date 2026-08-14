@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "audited_at": "2026-08-01T00:00:00Z",
+  "track_id": "voi_method_census_contract_reconciliation_20260723",
+  "issue": {
+    "number": 314,
+    "state": "open",
+    "parent": 313,
+    "project_status": "In Progress",
+    "project_item_id": "PVTI_lAHOAOYc4M4Bd0Txzgz2Fig"
+  },
+  "native_children": [
+    {
+      "number": 566,
+      "state": "open",
+      "parent": 314,
+      "project_status": "Todo",
+      "project_item_id": "PVTI_lAHOAOYc4M4Bd0Txzg0K8i0"
+    }
+  ],
+  "cross_track_classification_issues": [593, 594, 595, 596, 597, 598, 599, 600, 619],
+  "planning_pull_request": {
+    "number": 621,
+    "state": "merged",
+    "evidence_scope": "track planning only"
+  },
+  "positive_claim_boundary": "Hierarchy, Project state and merged planning evidence do not establish a classified method, executable capability, scientific review, registry promotion or track completion."
+}

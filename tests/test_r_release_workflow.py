@@ -28,8 +28,11 @@ def test_r_release_workflow_and_checklist_align() -> None:
         "r-lib/actions/setup-tinytex@d3c5be51b12e724e68f33216ca3c148b66d5f0b6"
         in ci_workflow_text
     )
-    assert "contents: read" in workflow_text
-    assert "contents: write" not in workflow_text
+    assert "Publish immutable R source and manual release" in workflow_text
+    assert 'gh release create "$GITHUB_REF_NAME"' in workflow_text
+    assert '"voiageR_${package_version}.tar.gz"' in workflow_text
+    assert "--latest=false" in workflow_text
+    assert "contents: write" in workflow_text
     assert "rust-v*" not in workflow_text
 
     assert (

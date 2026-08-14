@@ -1,36 +1,74 @@
-# Track Specification: External VOI Library Feature Parity
+# External VOI Library Landscape and Feature-Parity Review
 
 ## Overview
 
-Create a reproducible landscape of VOI software and implement justified
-open-source features in VOIAGE without a runtime dependency on competitors.
+Produce a reproducible, comprehensive-as-bounded landscape of open-source, commercial, hosted, embedded and archived VOI software and reviewed improvement proposals.
+
+Owning issue: [#315](https://github.com/edithatogo/voiage/issues/315). Parent programme issue [#313](https://github.com/edithatogo/voiage/issues/313).
+Project: [VOP–VOIAGE Conductor Roadmap](https://github.com/users/edithatogo/projects/28).
 
 ## Requirements
 
-1. Search CRAN, R-universe, PyPI, crates.io, Julia General, Mojo channels,
-   GitHub/GitLab, literature supplements, public web tools, and commercial
-   documentation at least quarterly and before minor releases.
-2. Seed and verify R `voi`, BCEA, SAVI, Analytica VOI behavior, Pyro OED, and
-   BoTorch acquisition functions.
-3. Record versions, maintenance, license, citations, complete features,
-   algorithms, I/O, plots, diagnostics, platforms, dependencies, claims, and
-   legally reproducible fixtures.
-4. Map each feature to `native`, `equivalent`, `adapter`, `planned`,
-   `excluded`, or `not-reproducible`, with linked evidence.
-5. Implement justified capabilities locally; keep inference engines optional.
+1. Freeze the census schema and protocol under #569, then inventory open-source software under #565 and observable commercial/hosted claims under #568.
+2. Map nested capabilities, workflow, assurance, integration, UX and adoption lessons under #573.
+3. Produce a checksum-bound gap and improvement packet under #567 without automatically mutating the roadmap.
+4. Cover residual #593-#600 and estimation-focused #619 while preserving candidate status until the method-census track approves classification.
 
-## Exclusion and compatibility policy
+## Owned issue records
 
-Exclusions require the exact feature, evidence, reason, closest workflow, user
-impact, and review date. Do not copy incompatible source or trademarked APIs.
-Migration adapters are additive and optional.
+[#565](https://github.com/edithatogo/voiage/issues/565), [#567](https://github.com/edithatogo/voiage/issues/567), [#568](https://github.com/edithatogo/voiage/issues/568), [#569](https://github.com/edithatogo/voiage/issues/569), [#573](https://github.com/edithatogo/voiage/issues/573)
+
+Child issues are delivery records owned by this track. They do not become
+separate Conductor tracks unless they have an independently approved contract.
 
 ## Acceptance criteria
 
-Every included feature has executable native/equivalent evidence or a reviewed
-disposition. Stable VOIAGE workflows pass with competitor packages absent.
+- **AC-01:** The owning issue, native parent/children, Project 28 item,
+  Conductor metadata, registry and central cross-reference manifest agree.
+- **AC-02:** Estimands, contracts, aliases, maturity and unsupported states are
+  explicit; planning is never advertised as installed execution.
+- **AC-03:** Tests or review protocols precede implementation or positive
+  parity claims and include independent references and failure cases.
+- **AC-04:** Rust/Python/R/Julia/Mojo dispositions are explicit wherever the
+  workstream affects executable capabilities.
+- **AC-05:** Documentation, schemas, generated surfaces, examples and
+  executable evidence do not exceed the reviewed maturity state.
+- **AC-06:** All five child issues produce deterministic, evidence-linked outputs; positive parity claims require independent fixtures and named maintainer review.
+- **AC-07:** Automated review, full Conductor validation, repository checks and
+  hosted required checks pass before repository completion.
+
+## Non-functional constraints
+
+- Preserve the Rust-authoritative stable core and backward-compatible v1
+  contracts.
+- Use deterministic, versioned, finite-validated artifacts with provenance.
+- Keep optional adapters, research estimators and external systems outside the
+  stable dependency boundary.
+- Preserve explicit human, rights, credential, publication, registry, release
+  and hosted gates.
+
+## External and human gates
+
+- Named scientific or contract review is required before maturity promotion.
+- Hosted checks, merge, release, registry publication and external approval are
+  separate from repository planning and local validation.
+- Rights, privacy, practitioner or authorship confirmation remains human-owned
+  where the workstream requires it.
 
 ## Out of scope
 
-Unverifiable parity with proprietary or web-only implementation details.
+- Treating issue creation, Project status, schemas, plots, mock fixtures or
+  documentation prose as runtime completion.
+- Silently changing released stable numerical policy or wire contracts.
+- Claiming cross-language parity without clean installed shared-fixture
+  evidence.
 
+## Authoritative inputs
+
+- User-approved governance repair in the 2026-07-27 Codex task.
+- GitHub issue [#315](https://github.com/edithatogo/voiage/issues/315) and its
+  native issue hierarchy, live revision audited 2026-07-27.
+- `conductor/product.md`, `conductor/product-guidelines.md`,
+  `conductor/tech-stack.md`, `conductor/workflow.md`,
+  `specs/v1/stable-api.json`, `roadmap.md` and `todo.md`.
+- Repository default-branch baseline `cd53ce09`.

@@ -190,13 +190,14 @@ def test_python_adapter_is_a_private_leaf_crate() -> None:
         assert "voiage-python" not in manifest.get("dependencies", {})
 
 
-def test_maturin_maps_the_private_mixed_project_module() -> None:
+def test_provenance_backend_wraps_the_private_mixed_project_module() -> None:
     config = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
     maturin = config["tool"]["maturin"]
 
     assert config["build-system"] == {
         "requires": ["maturin>=1.9,<2.0"],
-        "build-backend": "maturin",
+        "build-backend": "build_backend",
+        "backend-path": ["."],
     }
     assert maturin == {
         "manifest-path": "rust/crates/voiage-python/Cargo.toml",
@@ -206,6 +207,10 @@ def test_maturin_maps_the_private_mixed_project_module() -> None:
         "features": ["pyo3/extension-module"],
         "locked": True,
         "include": [
+            {
+                "path": "build_backend.py",
+                "format": "sdist",
+            },
             {
                 "path": "specs/**/*.json",
                 "format": "sdist",

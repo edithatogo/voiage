@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "track_id": "rust_polyglot_voi_completion_20260723",
+  "parent_issue": "https://github.com/edithatogo/voiage/issues/313",
+  "decision": "blocked",
+  "states": ["ready", "submitted", "published", "indexed", "approved", "blocked", "rejected", "not_checked"],
+  "required_lanes": ["python", "conda_forge", "r_cran", "julia_binarybuilder", "julia_general", "rust_crates", "software_heritage", "rrid", "joss", "arxiv"],
+  "repository_evidence": [
+    "specs/submission-readiness/targets.json",
+    "docs/release/binding-submission-checklist.md",
+    "docs/release/registry_audit_snapshot.json",
+    "specs/v1/compatibility-policy.json",
+    "release manifests, SBOM, provenance, checksums and signatures"
+  ],
+  "external_authorities": ["registry maintainers", "archive curators", "journal editors", "release signers", "accountable authors"],
+  "parent_closure_rule": "Do not close #313 until every workstream has repository acceptance evidence and explicit remaining external gates.",
+  "fail_closed": true,
+  "next_action": "Reconcile current destination states and collect authoritative receipts; no submission or closure is authorized by this record."
+}

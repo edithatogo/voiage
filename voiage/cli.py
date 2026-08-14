@@ -20,15 +20,32 @@ from pathlib import Path
 import re
 from typing import Any, Literal, cast
 
+from jsonschema import Draft202012Validator
+from jsonschema.exceptions import ValidationError as JsonSchemaValidationError
 import numpy as np
 import typer
 
+from voiage.contracts.distributional_information import (
+    VALUE_OF_DISTRIBUTIONAL_INFORMATION_INPUT_SCHEMA_V1,
+)
+from voiage.contracts.estimation import EstimationVarianceSpec
+from voiage.contracts.study_design import (
+    CossResultV1,
+    FeasibleDesignRangeV1,
+    SelectionUncertaintyV1,
+    StudyDesignContextV1,
+    StudyDesignPointInputV1,
+    TiePolicy,
+)
+from voiage.contracts.value_flexibility import VALUE_OF_FLEXIBILITY_INPUT_SCHEMA_V1
 from voiage.core.io import (
     import_callable,
     read_parameter_set_csv,
     read_value_array_csv,
 )
+from voiage.experimental.study_design import calculate_coss as calculate_coss_result
 from voiage.factory import create_distributed_large_scale_analysis
+from voiage.ingestion.cli import app as ingestion_app
 from voiage.logging import LoggingSettings, configure_logging
 from voiage.methods.adaptive import (
     adaptive_evsi,
@@ -45,6 +62,9 @@ from voiage.methods.ambiguity_distribution_shift import (
     value_of_ambiguity_distribution_shift as calculate_ambiguity_shift_result,
 )
 from voiage.methods.basic import evpi, evppi
+from voiage.methods.belief_state_information import (
+    belief_state_information_value as calculate_belief_state_information_result,
+)
 from voiage.methods.calibration import voi_calibration
 from voiage.methods.capacity_budget_constrained import (
     value_of_capacity_budget_constrained as calculate_capacity_budget_result,
@@ -59,16 +79,29 @@ from voiage.methods.computational import (
 from voiage.methods.data_quality import (
     value_of_data_quality as calculate_data_quality_result,
 )
+from voiage.methods.deterministic_sensitivity import (
+    deterministic_sensitivity_from_specification as calculate_deterministic_sensitivity_result,
+)
 from voiage.methods.distributional import (
     DistributionalEquityResult,
     value_of_distributional_equity,
+)
+from voiage.methods.distributional_information import (
+    distributional_information_from_specification as calculate_distributional_information_result,
 )
 from voiage.methods.dominance import calculate_dominance as calculate_dominance_result
 from voiage.methods.dynamic_real_options import (
     value_of_dynamic_real_options as calculate_dynamic_real_options_result,
 )
+from voiage.methods.dynamic_real_options import (
+    value_of_flexibility as calculate_flexibility_result,
+)
 from voiage.methods.equity_information import (
     value_of_equity_information as calculate_equity_information_result,
+)
+from voiage.methods.estimation import evppi_var, evsi_var
+from voiage.methods.event_localized_information import (
+    event_localized_information_value as calculate_event_localized_information_result,
 )
 from voiage.methods.evidence_obsolescence_refresh import (
     value_of_evidence_obsolescence_refresh as calculate_obsolescence_result,
@@ -82,19 +115,34 @@ from voiage.methods.explainability_transparency import (
 from voiage.methods.federated_privacy_preserving import (
     value_of_federated_privacy_preserving as calculate_federated_privacy_result,
 )
+from voiage.methods.forecast_signal_information import (
+    forecast_signal_information_value as calculate_forecast_signal_information_result,
+)
 from voiage.methods.heterogeneity import (
     HeterogeneityResult,
     value_of_heterogeneity,
+)
+from voiage.methods.heterogeneity_value import (
+    heterogeneity_value_decomposition as calculate_heterogeneity_value_result,
 )
 from voiage.methods.implementation import (
     ImplementationAdjustedResult,
     value_of_implementation,
 )
+from voiage.methods.implementation_information import (
+    implementation_information_value as calculate_implementation_information_result,
+)
 from voiage.methods.implementation_strategy import (
     value_of_implementation_strategy_comparison as calculate_implementation_strategy_result,
 )
+from voiage.methods.information_source_portfolio import (
+    information_source_portfolio_value as calculate_information_source_portfolio_result,
+)
 from voiage.methods.interoperability_standardization import (
     value_of_interoperability_standardization as calculate_interoperability_result,
+)
+from voiage.methods.mcda_information import (
+    mcda_information_value as calculate_mcda_information_result,
 )
 from voiage.methods.monitoring_surveillance import (
     value_of_monitoring_surveillance as calculate_monitoring_surveillance_result,
@@ -104,6 +152,9 @@ from voiage.methods.network_meta_analysis import (
     calculate_nma_evppi,
 )
 from voiage.methods.observational import voi_observational
+from voiage.methods.outcome_conditional_sample_information import (
+    outcome_conditional_sample_information_value as calculate_outcome_conditional_result,
+)
 from voiage.methods.perspective import (
     ValueOfPerspectiveResult,
 )
@@ -116,14 +167,26 @@ from voiage.methods.preference import (
     PreferenceProfile,
     PreferenceProfileSet,
 )
+from voiage.methods.qualitative_information import (
+    qualitative_information_from_specification as calculate_qualitative_information_result,
+)
+from voiage.methods.qualitative_information import (
+    render_qualitative_information_text,
+)
 from voiage.methods.regulatory_market_access import (
     value_of_regulatory_market_access as calculate_market_access_result,
 )
 from voiage.methods.replication_reproducibility import (
     value_of_replication_reproducibility as calculate_replication_result,
 )
+from voiage.methods.risk_sensitive_voi import (
+    risk_sensitive_constrained_voi as calculate_risk_sensitive_voi_result,
+)
 from voiage.methods.sample_information import enbs, evsi
 from voiage.methods.sequential import sequential_voi
+from voiage.methods.signed_social_information import (
+    signed_social_information_value as calculate_signed_social_information_result,
+)
 from voiage.methods.strategic_behavior import (
     value_of_strategic_behavior as calculate_strategic_result,
 )
@@ -135,6 +198,14 @@ from voiage.methods.threshold import (
 )
 from voiage.methods.threshold import (
     value_of_threshold as calculate_threshold_result,
+)
+from voiage.methods.uncertainty_modelling_value import (
+    value_of_uncertainty_modelling as calculate_uncertainty_modelling_value_result,
+)
+from voiage.methods.utility_information import (
+    _bind_presentation,
+    expected_utility_information_value,
+    value_of_clairvoyance,
 )
 from voiage.methods.validation import (
     ModelValidationResult,
@@ -150,12 +221,18 @@ from voiage.plot.ceaf import plot_ceaf as render_ceaf
 from voiage.plot.dominance import plot_cost_effectiveness_plane as render_dominance
 from voiage.plot.perspective import plot_perspective_regret as render_perspective_regret
 from voiage.plot.voi_curves import (
+    plot_coss as render_coss,
+)
+from voiage.plot.voi_curves import (
     plot_evpi_vs_wtp as render_evpi_vs_wtp,
 )
 from voiage.plot.voi_curves import (
     plot_evsi_vs_sample_size as render_evsi_vs_sample_size,
 )
-from voiage.reporting import build_cheers_reporting
+from voiage.reporting import (
+    build_cheers_reporting,
+    build_estimation_variance_reporting,
+)
 from voiage.schema import (
     DynamicSpec,
     ParameterSet,
@@ -168,6 +245,7 @@ from voiage.schema import (
 app = typer.Typer(
     help="voiage: A Command-Line Interface for Value of Information Analysis."
 )
+app.add_typer(ingestion_app, name="ingest")
 
 OutputFormat = Literal["text", "json", "csv"]
 
@@ -621,6 +699,104 @@ def _read_json_file(path: Path) -> object:
     _log_cli_debug("read-json", path=str(path))
     with open(path, encoding="utf-8") as f:
         return json.load(f)
+
+
+def _read_coss_specification(
+    path: Path,
+) -> tuple[
+    StudyDesignContextV1,
+    tuple[StudyDesignPointInputV1, ...],
+    FeasibleDesignRangeV1 | None,
+    TiePolicy,
+    float,
+    float,
+    SelectionUncertaintyV1 | None,
+]:
+    """Read and validate an experimental COSS specification."""
+    payload = _read_json_file(path)
+    if not isinstance(payload, dict):
+        raise TypeError("COSS specification must contain a JSON object.")
+    context = StudyDesignContextV1.model_validate_json(
+        json.dumps(payload.get("context"))
+    )
+    raw_designs = payload.get("designs")
+    if not isinstance(raw_designs, list) or not raw_designs:
+        raise TypeError("COSS specification 'designs' must be a non-empty list.")
+    designs = tuple(
+        StudyDesignPointInputV1.model_validate_json(json.dumps(item))
+        for item in raw_designs
+    )
+    raw_range = payload.get("declared_feasible_range")
+    feasible_range = (
+        None
+        if raw_range is None
+        else FeasibleDesignRangeV1.model_validate_json(json.dumps(raw_range))
+    )
+    tie_policy = cast("TiePolicy", payload.get("tie_policy", "smallest_sample_size"))
+    absolute_tolerance = float(payload.get("absolute_tolerance", 1e-12))
+    relative_tolerance = float(payload.get("relative_tolerance", 1e-12))
+    raw_uncertainty = payload.get("selection_uncertainty")
+    selection_uncertainty = (
+        None
+        if raw_uncertainty is None
+        else SelectionUncertaintyV1.model_validate_json(json.dumps(raw_uncertainty))
+    )
+    return (
+        context,
+        designs,
+        feasible_range,
+        tie_policy,
+        absolute_tolerance,
+        relative_tolerance,
+        selection_uncertainty,
+    )
+
+
+def _read_coss_result(path: Path) -> CossResultV1:
+    """Read a COSS contract directly or from a CLI result envelope."""
+    payload = _read_json_file(path)
+    if not isinstance(payload, dict):
+        raise TypeError("COSS result must contain a JSON object.")
+    candidate = payload.get("result", payload)
+    return CossResultV1.model_validate_json(json.dumps(candidate))
+
+
+def _coss_result_payload(result: CossResultV1) -> dict[str, object]:
+    """Return a provenance-bearing CLI envelope for a governed COSS result."""
+    context = result.context
+    return {
+        "command": "calculate-coss",
+        "metric": "COSS",
+        "method_maturity": "experimental",
+        "result": result.model_dump(mode="json"),
+        "reporting": build_cheers_reporting(
+            analysis_type="calculate-coss",
+            method_family="study_design_efficiency",
+            method_maturity="experimental",
+            decision_problem_id=context.decision_problem_id,
+            population=context.population_scale,
+            estimator=result.estimator,
+            seed=context.random_seed,
+            provenance=dict(result.estimator_provenance),
+            reproducibility={
+                "schema_version": result.schema_version,
+                "value_unit": context.value_unit,
+                "time_horizon": context.time_horizon,
+                "discounting_id": context.discounting_id,
+                "study_model_id": context.study_model_id,
+                "cost_model_id": context.cost_model_id,
+                "tie_policy": result.tie_policy,
+                "absolute_tolerance": result.absolute_tolerance,
+                "relative_tolerance": result.relative_tolerance,
+            },
+            diagnostics={
+                "codes": list(result.diagnostics),
+                "boundary_state": result.boundary_state,
+                "tied_optimal_design_ids": list(result.tied_optimal_design_ids),
+                "selection_uncertainty_method": result.selection_uncertainty.method,
+            },
+        ),
+    }
 
 
 def _save_figure(ax: object, output_file: Path) -> None:
@@ -1272,6 +1448,68 @@ def generate_config(
     except Exception as e:
         typer.echo(f"An error occurred: {e}", err=True)
         raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-estimation-variance")
+def calculate_estimation_variance(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Versioned estimation-variance specification JSON",
+    ),
+    data_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help=(
+            "Runtime sample JSON; EVSI requires posterior_variances with aligned "
+            "predictive_probabilities"
+        ),
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the versioned result and reporting payload",
+    ),
+) -> None:
+    """Calculate experimental scalar ``EVPPI_var`` or ``EVSI_var``."""
+    try:
+        specification = EstimationVarianceSpec.model_validate_json(
+            specification_file.read_text(encoding="utf-8")
+        )
+        data = json.loads(data_file.read_text(encoding="utf-8"))
+        if not isinstance(data, dict):
+            raise TypeError("runtime sample JSON must be an object")
+        if specification.method_id == "evppi_var":
+            result = evppi_var(
+                data["target_samples"],
+                data["conditioning_groups"],
+                specification=specification,
+            )
+        else:
+            result = evsi_var(
+                data["prior_target_samples"],
+                data["posterior_variances"],
+                data["predictive_probabilities"],
+                specification=specification,
+            )
+        payload = {
+            "result": result.model_dump(mode="json"),
+            "reporting": build_estimation_variance_reporting(result),
+        }
+        output_text = json.dumps(payload, indent=2, sort_keys=True)
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+    except (KeyError, TypeError, ValueError, json.JSONDecodeError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
 
 
 @app.command()
@@ -1931,6 +2169,76 @@ def calculate_enbs(
     except Exception as e:
         typer.echo(f"An error occurred: {e}", err=True)
         raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-coss")
+def calculate_coss_command(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a governed experimental COSS JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the COSS result"
+    ),
+) -> None:
+    """Evaluate an experimental Curve of Optimal Sample Size (COSS).
+
+    The JSON specification records the common value/cost context, every
+    evaluated design, feasibility, tie policy, and optional uncertainty.
+    Signed ENBS values are preserved, including when all designs are negative.
+    """
+    try:
+        _log_cli_debug(
+            "calculate-coss",
+            specification_file=str(specification_file),
+            output_file=str(output_file) if output_file else None,
+        )
+        (
+            context,
+            designs,
+            feasible_range,
+            tie_policy,
+            absolute_tolerance,
+            relative_tolerance,
+            selection_uncertainty,
+        ) = _read_coss_specification(specification_file)
+        result = calculate_coss_result(
+            context=context,
+            designs=designs,
+            declared_feasible_range=feasible_range,
+            tie_policy=tie_policy,
+            absolute_tolerance=absolute_tolerance,
+            relative_tolerance=relative_tolerance,
+            selection_uncertainty=selection_uncertainty,
+        )
+        if result.optimal_design_id is None:
+            text_result = "COSS optimum: unavailable (no feasible design)"
+        else:
+            text_result = (
+                f"COSS optimum: {result.optimal_design_id} "
+                f"(sample size {result.optimal_sample_size})\n"
+                f"Maximum ENBS: {result.maximum_enbs:.6f}\n"
+                f"Boundary: {result.boundary_state}"
+            )
+        output_text = _format_output(text_result, _coss_result_payload(result))
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except FileNotFoundError as error:
+        typer.echo(f"Error: File not found - {error}", err=True)
+        raise typer.Exit(code=1) from error
+    except (json.JSONDecodeError, TypeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    except Exception as error:
+        typer.echo(f"An error occurred: {error}", err=True)
+        raise typer.Exit(code=1) from error
 
 
 @app.command(name="calculate-observational")
@@ -3095,6 +3403,788 @@ def calculate_dynamic_real_options(
         raise typer.Exit(code=1) from e
 
 
+@app.command(name="calculate-deterministic-sensitivity")
+def calculate_deterministic_sensitivity(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a deterministic-sensitivity-input-v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the deterministic sensitivity result",
+    ),
+) -> None:
+    """Calculate experimental deterministic one/two-way and scenario analysis."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError("DSA specification must be a JSON object.")
+        result = calculate_deterministic_sensitivity_result(payload)
+        result_payload = result.to_contract_dict()
+        output_text = _format_output(
+            "Deterministic sensitivity evaluated "
+            f"{result.evaluated_record_count} records ({result.output_unit})",
+            result_payload,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-value-of-flexibility")
+def calculate_value_of_flexibility(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a value-of-flexibility v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the Value of Flexibility result"
+    ),
+) -> None:
+    """Calculate experimental timing-scenario Value of Flexibility."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError("Value of Flexibility specification must be a JSON object.")
+        Draft202012Validator(VALUE_OF_FLEXIBILITY_INPUT_SCHEMA_V1).validate(payload)
+        result = calculate_flexibility_result(
+            np.asarray(payload["net_benefit"], dtype=float),
+            cast("list[str]", payload["decision_stage_names"]),
+            cast("list[str]", payload["strategy_names"]),
+            cast("dict[str, float]", payload["stage_weights"]),
+            cast("dict[str, str]", payload["provenance"]),
+            float(payload.get("discount_rate", 0.0)),
+            float(payload.get("irreversibility_penalty", 0.0)),
+            float(payload.get("lock_in_penalty", 0.0)),
+            cast("dict[str, float] | None", payload.get("evidence_arrival_times")),
+            flexible_policy_sets=cast(
+                "dict[str, list[str]] | None", payload.get("flexible_policy_sets")
+            ),
+            constrained_strategy_names=cast(
+                "list[str] | None", payload.get("constrained_strategy_names")
+            ),
+            value_unit=str(payload["value_unit"]),
+            stage_semantics=str(payload["stage_semantics"]),
+            information_value_included=bool(payload["information_value_included"]),
+        )
+        result_payload = {
+            "analysis_type": result.analysis_type,
+            "method_maturity": result.method_maturity,
+            "value_unit": result.value_unit,
+            "stage_semantics": result.stage_semantics,
+            "decision_stage_names": result.decision_stage_names,
+            "strategy_names": result.strategy_names,
+            "provenance": result.provenance,
+            "flexible_value": result.flexible_value,
+            "constrained_value": result.constrained_value,
+            "value_of_flexibility": result.value_of_flexibility,
+            "flexible_policy_path": result.flexible_policy_path,
+            "constrained_policy_path": result.constrained_policy_path,
+            "commitment_baseline": result.commitment_baseline,
+            "waiting_value": result.waiting_value,
+            "option_value": result.option_value,
+            "information_value_component": result.information_value_component,
+            "decomposition_status": result.decomposition_status,
+            "exercise_decisions": result.exercise_decisions,
+            "ordered_scenario_policy_changes": result.ordered_scenario_policy_changes,
+            "policy_path_regret": result.policy_path_regret.tolist(),
+            "diagnostics": result.diagnostics,
+            "reporting": result.reporting,
+        }
+        output_text = _format_output(
+            f"Value of Flexibility: {result.value_of_flexibility:.6f} "
+            f"{result.value_unit}",
+            result_payload,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        JsonSchemaValidationError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-value-of-distributional-information")
+def calculate_value_of_distributional_information(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a distribution-family-information v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the distribution-family information result",
+    ),
+) -> None:
+    """Calculate experimental perfect model-family-index information value."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError(
+                "Distribution-family information specification must be a JSON object."
+            )
+        Draft202012Validator(
+            VALUE_OF_DISTRIBUTIONAL_INFORMATION_INPUT_SCHEMA_V1
+        ).validate(payload)
+        result = calculate_distributional_information_result(payload)
+        output_text = _format_output(
+            f"Distribution-family information value: {result.gross_vdi:.6f} "
+            f"{result.value_unit}; signed net VDI: {result.net_vdi:.6f} "
+            f"{result.value_unit}",
+            result.to_contract_dict(),
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        JsonSchemaValidationError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-mcda-information")
+def calculate_mcda_information(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a finite additive MCDA information v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the MCDA information result",
+    ),
+) -> None:
+    """Evaluate experimental exact finite additive-MCDA information value."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError("MCDA information specification must be a JSON object.")
+        result = calculate_mcda_information_result(cast("dict[str, object]", payload))
+        contract = result.to_contract_dict()
+        decomposition = cast("dict[str, object]", contract["decomposition"])
+        output_text = _format_output(
+            "MCDA information value: "
+            f"joint {float(decomposition['joint_gross_voi']):.6f}; "
+            f"criterion {float(decomposition['criterion_gross_voi']):.6f}; "
+            f"preference {float(decomposition['preference_gross_voi']):.6f}; "
+            f"interaction {float(decomposition['interaction']):.6f} "
+            f"{contract['aggregate_unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-event-localized-information")
+def calculate_event_localized_information(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to an event-localized information v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the event-localized information result",
+    ),
+) -> None:
+    """Evaluate experimental exact finite event-localized information value."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError(
+                "Event-localized information specification must be a JSON object."
+            )
+        result = calculate_event_localized_information_result(
+            cast("dict[str, object]", payload)
+        )
+        contract = result.to_contract_dict()
+        event = cast("dict[str, object]", contract["event"])
+        density = cast("dict[str, object]", contract["density"])
+        output_text = _format_output(
+            "Event-localized information value: "
+            f"event {float(event['perfect_gross_voi']):.6f}; "
+            f"density {float(density['information_value']):.6f} "
+            f"{contract['value_unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-outcome-conditional-sample-information")
+def calculate_outcome_conditional_sample_information(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to an outcome-conditional sample-information v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the outcome-conditional sample-information result",
+    ),
+) -> None:
+    """Evaluate exact finite experimental outcome-conditional sample value."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError(
+                "Outcome-conditional sample-information specification must be "
+                "a JSON object."
+            )
+        result = calculate_outcome_conditional_result(
+            cast("dict[str, object]", payload)
+        )
+        contract = result.to_contract_dict()
+        aggregate = cast("dict[str, object]", contract["aggregate"])
+        output_text = _format_output(
+            "Outcome-conditional sample-information value: "
+            f"EVSI {float(aggregate['evsi']):.6f}; "
+            f"sigma-VSI {float(aggregate['sigma_vsi']):.6f}; "
+            f"net {float(aggregate['net_evsi']):.6f} "
+            f"{contract['value_unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-implementation-information")
+def calculate_implementation_information(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to an implementation-information v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the implementation-information result",
+    ),
+) -> None:
+    """Evaluate the experimental finite information/implementation matrix."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError(
+                "Implementation-information specification must be an object."
+            )
+        result = calculate_implementation_information_result(
+            cast("dict[str, object]", payload)
+        )
+        contract = result.to_contract_dict()
+        gross = cast("dict[str, object]", contract["gross_components"])
+        output_text = _format_output(
+            "Implementation-information value: "
+            f"EVP {float(gross['evp']):.6f}; "
+            f"realizable EVPI {float(gross['realizable_evpi']):.6f}; "
+            f"EVPIM {float(gross['evpim']):.6f} {contract['value_unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-belief-state-information")
+def calculate_belief_state_information(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a belief-state information v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the belief-state information result",
+    ),
+) -> None:
+    """Evaluate experimental finite belief-state sequential information."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError("Belief-state information specification must be an object.")
+        contract = calculate_belief_state_information_result(
+            cast("dict[str, object]", payload)
+        ).to_contract_dict()
+        values = cast("dict[str, object]", contract["values"])
+        output_text = _format_output(
+            "Belief-state information value: "
+            f"net {float(values['net_information_value']):.6f}; "
+            f"gross {float(values['gross_information_value']):.6f} "
+            f"{contract['value_unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-forecast-signal-information")
+def calculate_forecast_signal_information(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a finite forecast-signal information v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the forecast-signal information result",
+    ),
+) -> None:
+    """Evaluate experimental finite forecast-signal decision value."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError(
+                "forecast-signal information specification must be a JSON object."
+            )
+        result = calculate_forecast_signal_information_result(
+            cast("dict[str, object]", payload)
+        )
+        contract = result.to_contract_dict()
+        value = cast("dict[str, object]", contract["value"])
+        output_text = _format_output(
+            "Forecast-signal information value: "
+            f"gross {float(value['gross_deployed']):.6f}; "
+            f"net {float(value['net_deployed']):.6f}; "
+            f"maximum price {float(value['maximum_price']):.6f} "
+            f"{contract['value_unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-risk-sensitive-voi")
+def calculate_risk_sensitive_voi(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a risk-sensitive constrained VOI v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the risk-sensitive VOI result"
+    ),
+) -> None:
+    """Evaluate experimental exact finite risk-sensitive constrained VOI."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError("Risk-sensitive VOI specification must be a JSON object.")
+        contract = calculate_risk_sensitive_voi_result(
+            cast("dict[str, object]", payload)
+        ).to_contract_dict()
+        value = cast("dict[str, object]", contract["value"])
+        output_text = _format_output(
+            "Risk-sensitive constrained VOI: "
+            f"gross {float(value['gross']):.6f}; net {float(value['net']):.6f} "
+            f"{value['unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-information-source-portfolio")
+def calculate_information_source_portfolio(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to an information-source portfolio v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the information-source portfolio result",
+    ),
+) -> None:
+    """Optimize an experimental exact finite information-source sequence."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError(
+                "Information-source portfolio specification must be a JSON object."
+            )
+        result = calculate_information_source_portfolio_result(
+            cast("dict[str, object]", payload)
+        )
+        contract = result.to_contract_dict()
+        optimum = cast("dict[str, object]", contract["optimum"])
+        sequence = cast("list[str]", optimum["source_sequence"])
+        context = cast("dict[str, object]", contract["value_context"])
+        output_text = _format_output(
+            "Information-source portfolio: "
+            f"{', '.join(sequence) if sequence else 'no procurement'}; "
+            f"gross {float(cast('float', optimum['gross_value'])):.6f}; "
+            f"net {float(cast('float', optimum['net_value'])):.6f} "
+            f"{context['value_unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-heterogeneity-value")
+def calculate_heterogeneity_value(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a heterogeneity-value decomposition v1 specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the heterogeneity-value result",
+    ),
+) -> None:
+    """Evaluate experimental exact finite static/dynamic heterogeneity value."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError("Heterogeneity-value specification must be a JSON object.")
+        result = calculate_heterogeneity_value_result(
+            cast("dict[str, object]", payload)
+        )
+        contract = result.to_contract_dict()
+        decomposition = cast("dict[str, object]", contract["four_value_decomposition"])
+        objective = cast("dict[str, object]", contract["objective"])
+        output_text = _format_output(
+            "Heterogeneity value: "
+            f"Static {float(decomposition['static_value']):.6f}; "
+            f"dynamic {float(decomposition['dynamic_value']):.6f} "
+            f"{objective['value_unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-uncertainty-modelling-value")
+def calculate_uncertainty_modelling_value(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to an uncertainty-modelling value v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the EVIU/VSS result",
+    ),
+) -> None:
+    """Evaluate experimental exact finite EVIU, VSS and EVPI diagnostics."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError(
+                "Uncertainty-modelling value specification must be a JSON object."
+            )
+        result = calculate_uncertainty_modelling_value_result(
+            cast("dict[str, object]", payload)
+        )
+        contract = result.to_contract_dict()
+        decomposition = cast("dict[str, object]", contract["decomposition"])
+        objective = cast("dict[str, object]", contract["objective"])
+        output_text = _format_output(
+            "Uncertainty-modelling value: "
+            f"EVIU/VSS {decomposition['vss']}; "
+            f"EVPI {float(cast('float', decomposition['evpi'])):.6f} "
+            f"{objective['value_unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="calculate-signed-social-information")
+def calculate_signed_social_information(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a signed-social information v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the signed-social information result",
+    ),
+) -> None:
+    """Evaluate experimental exact finite signed/social information value."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError(
+                "Signed-social information specification must be a JSON object."
+            )
+        contract = calculate_signed_social_information_result(
+            cast("dict[str, object]", payload)
+        ).to_contract_dict()
+        optimum = cast("dict[str, object]", contract["optimum"])
+        output_text = _format_output(
+            "Signed-social information value: "
+            f"design {optimum['selected_design_id']}; "
+            f"social {float(optimum['social_value']):.6f} "
+            f"{contract['value_unit']}",
+            contract,
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (
+        json.JSONDecodeError,
+        ArithmeticError,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
+@app.command(name="assess-qualitative-information")
+def assess_qualitative_information(
+    specification_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a qualitative-information assessment v1 JSON specification",
+    ),
+    output_file: Path | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="File to save the qualitative assessment result",
+    ),
+) -> None:
+    """Evaluate an experimental non-cardinal qualitative information workflow."""
+    try:
+        payload = _read_json_file(specification_file)
+        if not isinstance(payload, dict):
+            raise TypeError(
+                "Qualitative information specification must be a JSON object."
+            )
+        payload = cast("dict[str, object]", payload)
+        result = calculate_qualitative_information_result(payload)
+        output_text = _format_output(
+            render_qualitative_information_text(result).rstrip(),
+            result.to_contract_dict(),
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+
+
 @app.command(name="calculate-causal-transportability")
 def calculate_causal_transportability(
     specification_file: Path = typer.Argument(
@@ -3716,6 +4806,104 @@ def calculate_validation(
     except (json.JSONDecodeError, TypeError, ValueError) as e:
         typer.echo(f"Error: {e}", err=True)
         raise typer.Exit(code=1) from e
+    except Exception as e:
+        typer.echo(f"An error occurred: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+
+@app.command(name="calculate-expected-utility-information")
+def calculate_expected_utility_information(
+    request_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to the versioned expected-utility information request JSON",
+    ),
+    presentation_label: Literal["canonical", "voc"] = typer.Option(
+        "canonical",
+        "--presentation",
+        help="Render the canonical result directly or as a VoC presentation",
+    ),
+    selected_measure: Literal["eui", "cei", "bpi", "spi", "ppi", "evpi"] = typer.Option(
+        "eui",
+        "--measure",
+        help="Measure selected for presentation; evpi requires affine clairvoyance",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the result"
+    ),
+) -> None:
+    """Compute one canonical expected-utility information result.
+
+    ``voc`` is a presentation of the same clairvoyant result, not a second
+    numerical command or kernel.
+    """
+    try:
+        _log_cli_debug(
+            "calculate-expected-utility-information",
+            request_file=str(request_file),
+            presentation_label=presentation_label,
+            selected_measure=selected_measure,
+        )
+        request = _read_json_file(request_file)
+        if not isinstance(request, dict):
+            raise TypeError("Expected-utility request file must contain a JSON object.")
+        typed_request = dict(cast("dict[str, object]", request))
+        typed_request["presentation_label"] = presentation_label
+        if presentation_label == "voc":
+            result = value_of_clairvoyance(
+                typed_request,
+                selected_measure=selected_measure,
+            )
+        else:
+            if selected_measure == "evpi":
+                raise ValueError("The evpi display alias requires --presentation voc.")
+            result = expected_utility_information_value(typed_request)
+            result = _bind_presentation(result, selected_measure=selected_measure)
+
+        measure_result = cast(
+            "dict[str, object]",
+            result[
+                "affine_reduction" if selected_measure == "evpi" else selected_measure
+            ],
+        )
+        measure_status = cast("str", measure_result["status"])
+        selected_value = measure_result["value"]
+        if measure_status == "failed":
+            diagnostics_ref = measure_result.get("diagnostics_ref")
+            root = cast("dict[str, object]", result.get(diagnostics_ref, {}))
+            termination = root.get("termination_reason", "unspecified failure")
+            raise ValueError(
+                f"{selected_measure} failed: {termination} "
+                f"(diagnostics: {diagnostics_ref or 'none'})"
+            )
+        text = (
+            f"Expected-utility information ({selected_measure}): "
+            f"{selected_value if selected_value is not None else 'unavailable'}"
+        )
+        output_text = _format_output(
+            text,
+            {
+                "command": "calculate-expected-utility-information",
+                "selected_measure": selected_measure,
+                "selected_status": measure_status,
+                "selected_value": selected_value,
+                "result": result,
+            },
+        )
+        typer.echo(output_text)
+        if output_file:
+            _write_output_file(output_file, output_text)
+            if _should_echo_status_messages():
+                typer.echo(f"Result saved to {output_file}")
+    except FileNotFoundError:
+        typer.echo(f"Error: Request file not found at '{request_file}'", err=True)
+        raise typer.Exit(code=1) from None
+    except (json.JSONDecodeError, TypeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
     except Exception as e:
         typer.echo(f"An error occurred: {e}", err=True)
         raise typer.Exit(code=1) from e
@@ -4785,6 +5973,55 @@ def calculate_implementation(
     except Exception as e:
         typer.echo(f"An error occurred: {e}", err=True)
         raise typer.Exit(code=1) from e
+
+
+@app.command(name="plot-coss")
+def plot_coss_command(
+    result_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to a CossResultV1 JSON contract or calculate-coss JSON output",
+    ),
+    output_file: Path | None = typer.Option(
+        None, "--output", "-o", help="File to save the COSS plot"
+    ),
+) -> None:
+    """Plot an experimental COSS result using accessible visual encodings."""
+    try:
+        _log_cli_debug(
+            "plot-coss",
+            result_file=str(result_file),
+            output_file=str(output_file) if output_file else None,
+        )
+        result = _read_coss_result(result_file)
+        ax = render_coss(result)
+        if output_file:
+            _save_figure(ax, output_file)
+        output_text = _format_output(
+            "Plot generated" if output_file is None else f"Plot saved to {output_file}",
+            {
+                "command": "plot-coss",
+                "input_file": str(result_file),
+                "output_file": str(output_file) if output_file else None,
+                "saved": output_file is not None,
+                "schema_version": result.schema_version,
+                "optimal_design_id": result.optimal_design_id,
+                "method_maturity": "experimental",
+            },
+        )
+        typer.echo(output_text)
+    except FileNotFoundError as error:
+        typer.echo(f"Error: File not found - {error}", err=True)
+        raise typer.Exit(code=1) from error
+    except (json.JSONDecodeError, TypeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    except Exception as error:
+        typer.echo(f"An error occurred: {error}", err=True)
+        raise typer.Exit(code=1) from error
 
 
 @app.command()

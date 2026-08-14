@@ -1,36 +1,45 @@
-# Track Implementation Plan: Research Contribution And AI Transparency
+# Implementation Plan
 
-## Phase 1: Provenance tests and schemas
+## Phase 1 — Governance and contract reconciliation
 
-- [ ] Add failing CRediT, AI-ledger, privacy, referential-integrity, release-
-  scope, model-identity, and missing-review tests.
-- [ ] Define human contribution and AI-assistance schemas and policy.
-- [ ] Define deterministic generation and human-override boundaries.
-- [ ] Commit, attach a git note, record the short commit SHA, and commit the
-  plan update.
-- [ ] Automated review and validation checkpoint.
-- [ ] Conductor - User Manual Verification 'Phase 1: Provenance tests and schemas'
-  (Protocol in workflow.md).
+- [x] **G1:** Verify the owning issue, native parent/children, Project 28,
+  metadata, registry and cross-reference manifest. (AC-01) — `a4632a8`
+- [x] **G2:** Reconcile existing repository artifacts and prior evidence
+  without converting issue status into implementation evidence. (AC-01, AC-02)
+  — `9c75755`
+- [x] **G3:** Freeze workstream estimands, contracts, maturity boundaries and
+  explicit exclusions. (AC-02, AC-05, AC-06) — `9c75755`
+- [ ] **G4:** Run automated contract review and full Conductor validation.
+  (AC-01, AC-07)
 
-## Phase 2: Statements and workflow
+## Phase 2 — Evidence before positive claims
 
-- [ ] Add contributor, AI, metadata, manuscript, PR, and issue surfaces.
-- [ ] Seed evidence-backed records without inventing roles or model identity.
-- [ ] Add generation, synchronization, Authentext, and privacy validation.
-- [ ] Commit, attach a git note, record the short commit SHA, and commit the
-  plan update.
-- [ ] Automated review and validation checkpoint.
-- [ ] Conductor - User Manual Verification 'Phase 2: Statements and workflow'
-  (Protocol in workflow.md).
+- [x] **G5:** Add failing conformance, reference, property and pathological
+  tests, or the corresponding reproducible review protocol. (AC-03) — `0d4bcc6`
+- [ ] **G6:** Add versioned schemas, fixtures, diagnostics and provenance
+  contracts required by the accepted scope. (AC-02, AC-03)
+- [ ] **G7:** Record rights, privacy, scientific, practitioner and external
+  evidence gates that apply to this workstream. (AC-05, AC-06)
+- [ ] **G8:** Run an independent evidence and boundary review. (AC-03, AC-07)
 
-## Phase 3: Confirmation and release evidence
+## Phase 3 — Delivery or reviewed exclusion
 
-- [ ] Obtain human confirmation of CRediT roles and final AI disclosure.
-- [ ] Run manuscript, metadata, Authentext, privacy, docs, and full gates.
-- [ ] Link reviewed statements to applicable staged releases.
-- [ ] Commit, attach a git note, record the short commit SHA, and commit the
-  plan update.
-- [ ] Final review and validation checkpoint.
-- [ ] Conductor - User Manual Verification 'Phase 3: Confirmation and release evidence'
-  (Protocol in workflow.md).
+- [ ] **G9:** Implement each accepted repository-owned capability or record a
+  reviewed exclusion with migration guidance. (AC-02, AC-06)
+- [ ] **G10:** Add Rust/Python/R/Julia/Mojo dispositions and installed
+  shared-fixture evidence where executable surfaces are advertised. (AC-04)
+- [ ] **G11:** Add documentation, examples, generated surfaces and capability
+  discovery that match the evidenced maturity state. (AC-05)
+- [ ] **G12:** Run automated implementation review, focused validation and the
+  repository harness. (AC-03–AC-07)
 
+## Phase 4 — Programme and hosted closeout
+
+- [ ] **G13:** Reconcile child-issue results, roadmap, todo, registries,
+  release targets and remaining external gates. (AC-01, AC-05, AC-06)
+- [x] **G14:** Run final full local validation and hosted required checks. PR
+  #825 exact head `f00e63d05562d4fc5165aa261c5ab0a296265dd2` passed the
+  required matrix before merge `4d890aafeb760a0df84a03efa5db95ba5ec85005`.
+  Human attestation and release provenance remain separate. (AC-07)
+- [ ] **G15:** Record repository completion separately from merge, release,
+  publication, registry acceptance and issue closure. (AC-02, AC-07)

@@ -1,0 +1,8 @@
+{
+  "case_id": "unknown-partition",
+  "description": "An information action may resolve only a named latent partition key.",
+  "operations": [
+    {"op": "replace", "path": "/information_actions/0/outcome_partition_keys/0", "value": "undeclared_outcome"}
+  ],
+  "expected_error": "unknown partition key"
+}

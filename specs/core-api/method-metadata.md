@@ -32,22 +32,19 @@ Optional fields may include:
 
 The `method_maturity` field is one of:
 
-- `stable`
-- `approximate`
+- `planned`
 - `experimental`
-- `backend-dependent`
+- `fixture-backed`
+- `stable`
 
-Use `stable` when the method is part of the published stable contract and
-does not depend on non-contractual approximation behavior.
+These values are the governed promotion ladder defined in
+`voiage.governance`. Use `planned` before a runtime exists, `experimental` for
+an implemented but not fixture-backed method, `fixture-backed` when normative
+fixtures and schemas exist, and `stable` only after the documented promotion
+criteria are met.
 
-Use `approximate` when the published method family is scientifically useful
-but is intentionally an approximation.
-
-Use `experimental` when the method exists but is not yet ready for the stable
-contract surface.
-
-Use `backend-dependent` when the method's behavior is tied to a published
-backend choice or execution path that must be surfaced explicitly.
+Approximation and backend dependence are not maturity levels. Record them in
+`approximation_status`, `backend`, diagnostics, and capability labels.
 
 ## Capability Labels
 

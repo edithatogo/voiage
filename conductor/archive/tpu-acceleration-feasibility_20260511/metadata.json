@@ -5,5 +5,14 @@
   "created_at": "2026-05-10T15:11:27Z",
   "updated_at": "2026-06-23T17:20:00Z",
   "completed_at": "2026-05-11T18:30:00Z",
-  "description": "Evaluate TPU acceleration feasibility after GPU evidence exists, with Colab v5e parity evidence now captured for the compact validation workload."
+  "description": "Evaluate TPU acceleration feasibility after GPU evidence exists, with Colab v5e parity evidence now captured for the compact validation workload.",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/455",
+    "parent_issue": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/121"
+    ],
+    "pull_request_evidence": "evidenced"
+  }
 }

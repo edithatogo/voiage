@@ -1,0 +1,47 @@
+{
+  "base": "../normative/input.json",
+  "operations": [
+    {
+      "op": "replace",
+      "path": "/questions/0/missing_fields",
+      "value": ["equity_ethics"]
+    },
+    {
+      "op": "add",
+      "path": "/questions/0/judgements/-",
+      "value": {
+        "reviewer_id": "ai-helper",
+        "actor_type": "ai",
+        "potential_impact": "unknown",
+        "feasibility": "uncertain",
+        "timeliness": "uncertain",
+        "equity_ethics": "uncertain",
+        "cost_burden": "unknown",
+        "priority_class": "urgent",
+        "recommendation_class": "pursue_now",
+        "confidence": "low",
+        "rationale": "Unverified synthetic machine suggestion.",
+        "source_ids": ["source-redacted"],
+        "verification_state": "unverified",
+        "ai_provenance": {
+          "provider": "synthetic-provider",
+          "model_version": "synthetic-model-1",
+          "input_reference": "fixture:redacted-input"
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/audit_history/2/action",
+      "value": "review"
+    }
+  ],
+  "expected": {
+    "workflow_status": "unverified",
+    "human_approval_status": "pending",
+    "question_id": "q-01-trial",
+    "consensus_status": "unverified",
+    "unverified_ai_contributors": ["ai-helper"]
+  },
+  "boundary": "An unverified AI judgement cannot replace the missing human field or approve the assessment."
+}

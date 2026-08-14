@@ -1,68 +1,74 @@
-# Track Specification: Comprehensive Rust-First Polyglot VOIAGE Completion
+# Rust-First Polyglot VOIAGE Completion Programme
 
 ## Overview
 
-Coordinate the evidence-backed transition of VOIAGE to a standalone,
-Rust-authoritative VOI and Value of Perspective library surfaced through Rust,
-Python, R, Julia, and Mojo.
+Govern the complete Rust-authoritative, polyglot VOI programme without collapsing planning, runtime evidence, binding parity, publication or adoption into one completion claim.
 
-## Authoritative inputs
-
-- Approved programme plan in GitHub issue
-  [#313](https://github.com/edithatogo/voiage/issues/313).
-- `AGENTS.md`, `roadmap.md`, `todo.md`, `CONTRIBUTING.md`, and the Conductor
-  requirements, design, workflow, and product guidelines.
-- `specs/v1/`, `specs/frontier/`, `specs/abi/`, and the existing normative
-  fixtures.
-- VOP C01 [#14](https://github.com/edithatogo/vop_poc_nz/issues/14) and C02
-  [#15](https://github.com/edithatogo/vop_poc_nz/issues/15).
+Owning issue: [#313](https://github.com/edithatogo/voiage/issues/313). This is the root programme track.
+Project: [VOP–VOIAGE Conductor Roadmap](https://github.com/users/edithatogo/projects/28).
 
 ## Requirements
 
-1. Maintain one native GitHub subissue and one active Conductor child track for
-   each programme workstream.
-2. Complete the external-library and literature censuses before freezing the
-   v1.1 method and ABI contracts.
-3. Make Rust the stable numerical authority and provide equivalent maturity-
-   tiered Rust, Python, R, Julia, and Mojo surfaces.
-4. Complete Value of Perspective, broader VOI, and ML/LLM/agent decision
-   contexts without conflating decision VOI with entropy-only information gain.
-5. Ship deterministic synthetic and rights-cleared public examples.
-6. Preserve human accountability through CRediT and auditable AI-assistance
-   records.
-7. Release in stages: v1.1 stable core, v1.2 supported extensions, and v1.3
-   experimental parity.
+1. Coordinate the method census, landscape review, stable Rust core, Value of Perspective, frontier, ML/agent, binding, example, assurance and transparency workstreams.
+2. Maintain the release sequence: v1.1 stable core, v1.2 supported extensions and v1.3 experimental parity.
+3. Require every capability to have an estimand or contract, owning workstream, native issue, maturity state and language disposition.
+4. Keep Project 28, GitHub issue hierarchy, Conductor, executable evidence and documentation synchronized.
 
-## Compatibility and failure policy
+## Owned issue records
 
-Contracts evolve additively within major version 1. Breaking changes require a
-new version and migration adapter. Unsupported capabilities fail closed or
-return an explicit disclosed fallback. Numerical divergence, unverifiable
-parity, missing source rights, and maturity overclaiming block promotion.
+[#314](https://github.com/edithatogo/voiage/issues/314), [#315](https://github.com/edithatogo/voiage/issues/315), [#316](https://github.com/edithatogo/voiage/issues/316), [#317](https://github.com/edithatogo/voiage/issues/317), [#318](https://github.com/edithatogo/voiage/issues/318), [#319](https://github.com/edithatogo/voiage/issues/319), [#320](https://github.com/edithatogo/voiage/issues/320), [#321](https://github.com/edithatogo/voiage/issues/321), [#322](https://github.com/edithatogo/voiage/issues/322), [#323](https://github.com/edithatogo/voiage/issues/323), and completed historical programme evidence [#416](https://github.com/edithatogo/voiage/issues/416).
 
-## Security, privacy, and external gates
-
-No external package, dataset, model, registry, hardware, or publication claim
-is trusted without provenance. Credentials, raw private prompts, personal data,
-and chain-of-thought are not recorded. Registry publication, manuscript
-submission, authorship confirmation, hardware evidence, and data rights remain
-explicit external or human gates.
+Child issues are delivery records owned by this track. They do not become
+separate Conductor tracks unless they have an independently approved contract.
 
 ## Acceptance criteria
 
-1. Every child track meets its own acceptance criteria and has reconciled
-   evidence, issue, Project 28, metadata, and plan state.
-2. Every included external feature and literature method is implemented or has
-   an evidence-backed disposition.
-3. Stable VOI calculations execute without another VOI package.
-4. All advertised language surfaces pass shared fixtures.
-5. ML/LLM examples define decisions, uncertainty, information, utility, cost,
-   post-information action, net value, and stopping.
-6. Documentation, contributor statements, and AI disclosures match executable
-   evidence.
+- **AC-01:** The owning issue, native parent/children, Project 28 item,
+  Conductor metadata, registry and central cross-reference manifest agree.
+- **AC-02:** Estimands, contracts, aliases, maturity and unsupported states are
+  explicit; planning is never advertised as installed execution.
+- **AC-03:** Tests or review protocols precede implementation or positive
+  parity claims and include independent references and failure cases.
+- **AC-04:** Rust/Python/R/Julia/Mojo dispositions are explicit wherever the
+  workstream affects executable capabilities.
+- **AC-05:** Documentation, schemas, generated surfaces, examples and
+  executable evidence do not exceed the reviewed maturity state.
+- **AC-06:** All ten workstream tracks have reconciled plans and evidence; programme closure requires their repository-owned acceptance and explicit remaining external gates.
+- **AC-07:** Automated review, full Conductor validation, repository checks and
+  hosted required checks pass before repository completion.
+
+## Non-functional constraints
+
+- Preserve the Rust-authoritative stable core and backward-compatible v1
+  contracts.
+- Use deterministic, versioned, finite-validated artifacts with provenance.
+- Keep optional adapters, research estimators and external systems outside the
+  stable dependency boundary.
+- Preserve explicit human, rights, credential, publication, registry, release
+  and hosted gates.
+
+## External and human gates
+
+- Named scientific or contract review is required before maturity promotion.
+- Hosted checks, merge, release, registry publication and external approval are
+  separate from repository planning and local validation.
+- Rights, privacy, practitioner or authorship confirmation remains human-owned
+  where the workstream requires it.
 
 ## Out of scope
 
-Automatic publication, external registry acceptance, paid services, hardware
-purchases, authorship decisions, and unverifiable proprietary-tool parity.
+- Treating issue creation, Project status, schemas, plots, mock fixtures or
+  documentation prose as runtime completion.
+- Silently changing released stable numerical policy or wire contracts.
+- Claiming cross-language parity without clean installed shared-fixture
+  evidence.
 
+## Authoritative inputs
+
+- User-approved governance repair in the 2026-07-27 Codex task.
+- GitHub issue [#313](https://github.com/edithatogo/voiage/issues/313) and its
+  native issue hierarchy, live revision audited 2026-07-27.
+- `conductor/product.md`, `conductor/product-guidelines.md`,
+  `conductor/tech-stack.md`, `conductor/workflow.md`,
+  `specs/v1/stable-api.json`, `roadmap.md` and `todo.md`.
+- Repository default-branch baseline `cd53ce09`.

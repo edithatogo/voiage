@@ -1,0 +1,136 @@
+# JOSS independent validation protocol
+
+## Purpose
+
+The Journal of Open Source Software (JOSS) requires demonstrated research use,
+at minimum by the developer, as a pre-review gate. Its detailed
+collaborative-effort criterion separately classifies a single-author project
+with no community engagement, external use, or collaborative input as not
+acceptable, although the pre-review and editorial guides call non-author
+engagement a strong positive signal rather than a hard gate. Non-author issues,
+pull requests, discussions, installation reports, and research use can provide
+that human evidence. Automated agents, dependency bots, fallback-only adapters,
+and aspirations in another repository maintained by the same author cannot.
+
+This protocol separates a completed developer research-use record from a
+non-author validation exercise. It does not ask for an endorsement. Problems,
+confusion, and unsuccessful installation attempts are useful evidence and
+should be reported accurately.
+
+Tracking issue: [#471](https://github.com/edithatogo/voiage/issues/471).
+
+## Developer research-use record
+
+Record a completed analysis that uses the exact public release in a research
+workflow. The record should identify the research question, competing options,
+uncertain quantities, units, release version, commands, and retained results.
+It may be public or available confidentially to the JOSS editorial team. The
+paper's synthetic demonstration and a project that merely plans or falls back
+from a `voiage` integration do not establish this use.
+
+## Clean installation
+
+Use Python 3.12, 3.13, or 3.14 in a new environment:
+
+```console
+python -m venv voiage-joss-review
+source voiage-joss-review/bin/activate
+python -m pip install --upgrade pip
+python -m pip install voiage==2.0.0
+python -c "import voiage; print(voiage.__version__)"
+```
+
+On Windows, activate the environment with
+`voiage-joss-review\Scripts\activate` instead.
+
+The final command should report `2.0.0`.
+
+## Core calculation
+
+Run this example without cloning the repository:
+
+```python
+import numpy as np
+
+from voiage.analysis import DecisionAnalysis
+from voiage.schema import ValueArray
+
+net_benefit = ValueArray.from_numpy(
+    np.array(
+        [
+            [10.0, 12.0],
+            [11.0, 9.0],
+            [13.0, 14.0],
+        ]
+    ),
+    strategy_names=["Standard care", "New treatment"],
+)
+
+analysis = DecisionAnalysis(net_benefit)
+print(f"EVPI: {analysis.evpi():.3f}")
+```
+
+The expected result is:
+
+```text
+EVPI: 0.667
+```
+
+## Study-value exercise
+
+The participant should check out the reviewed release and run the paper's
+declared health example:
+
+```console
+git clone https://github.com/edithatogo/voiage.git
+cd voiage
+git checkout --detach v2.0.0
+uv run --locked --extra plotting python scripts/generate_paper_health_example.py
+shasum -a 256 --check paper/reproduction.sha256
+```
+
+The participant should compare
+`paper/data/synthetic_health_example_summary.csv` and
+`paper/data/synthetic_health_example_results.csv` with the worked example in
+`paper.md`. In particular, they should report whether they can identify:
+
+- the uncertain health effect and programme cost;
+- which quantity the proposed study informs;
+- the outcome variance, allocation, and candidate sample sizes;
+- the population, time horizon, discount rate, value realisation, delay, and
+  study costs;
+- the meaning of EVPI, EVPPI, EVSI, and ENBS; and
+- why the two ENBS scenarios cross zero at different sample sizes.
+
+Run this exercise only after the public `v2.0.0` tag resolves to the revision
+identified in the JOSS paper and its release evidence.
+
+## Evidence to report
+
+Please comment on issue #471 or open a linked issue with:
+
+- participant role or research context, without personal information that they
+  do not want made public;
+- operating system, processor architecture, Python version, and installation
+  command;
+- whether installation and the core calculation succeeded;
+- whether the study-value exercise ran, which outputs were inspected, and
+  whether each listed assumption and result was understandable;
+- any unclear terminology, assumptions, warnings, or documentation;
+- any defect, unexpected result, or missing prerequisite;
+- whether author intervention was needed.
+
+If the participant cannot report publicly, the author may instead retain an
+editor-verifiable record and tell the JOSS editor that confidential evidence is
+available. The manuscript should mention external use only when the evidence
+supports that exact statement.
+
+## Completion boundary
+
+The demonstrated-use gate is complete when attributable or editor-verifiable
+evidence records completed research-workflow use of the released package. The
+author-selected engagement prerequisite is complete when separate evidence
+records genuine non-author community engagement, external use, or collaborative
+input. The exercise above is one route, not the only possible route. A locally
+repeated demonstration, an AI-agent run, or an automated continuous-integration
+result does not satisfy either evidence class.

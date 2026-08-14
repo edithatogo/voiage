@@ -1,0 +1,5253 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-08-02T14:55:00Z",
+  "repository": "edithatogo/voiage",
+  "project_url": "https://github.com/users/edithatogo/projects/28",
+  "association_policy": "PRs are included only when associated with commits recorded by a track, Git history for its path, or an explicit track reference. Empty completed-track lists are none_found, not inferred.",
+  "tracks": [
+    {
+      "track_id": "rust_polyglot_voi_completion_20260723",
+      "metadata_track_id": "rust_polyglot_voi_completion_20260723",
+      "path": "conductor/tracks/rust_polyglot_voi_completion_20260723",
+      "lifecycle": "active",
+      "issue": {
+        "number": 313,
+        "url": "https://github.com/edithatogo/voiage/issues/313",
+        "state": "open"
+      },
+      "parent_issue_url": null,
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/314",
+        "https://github.com/edithatogo/voiage/issues/315",
+        "https://github.com/edithatogo/voiage/issues/316",
+        "https://github.com/edithatogo/voiage/issues/317",
+        "https://github.com/edithatogo/voiage/issues/318",
+        "https://github.com/edithatogo/voiage/issues/319",
+        "https://github.com/edithatogo/voiage/issues/320",
+        "https://github.com/edithatogo/voiage/issues/321",
+        "https://github.com/edithatogo/voiage/issues/322",
+        "https://github.com/edithatogo/voiage/issues/323",
+        "https://github.com/edithatogo/voiage/issues/416"
+      ],
+      "pull_requests": [
+        {
+          "number": 621,
+          "url": "https://github.com/edithatogo/voiage/pull/621",
+          "status": "merged",
+          "evidence": [
+            "track-delivery",
+            "edd14dd202f74941cfb2e57f8bdd7faf764092a2",
+            "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3"
+          ]
+        },
+        {
+          "number": 679,
+          "url": "https://github.com/edithatogo/voiage/pull/679",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks"
+          ]
+        },
+        {
+          "number": 712,
+          "url": "https://github.com/edithatogo/voiage/pull/712",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks"
+          ]
+        },
+        {
+          "number": 676,
+          "url": "https://github.com/edithatogo/voiage/pull/676",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks"
+          ]
+        },
+        {
+          "number": 837,
+          "url": "https://github.com/edithatogo/voiage/pull/837",
+          "status": "merged",
+          "evidence": [
+            "predictive-weighting-and-replay-remediation",
+            "independent-review",
+            "hosted-required-checks",
+            "076a29075e839e3cad49d0487dff0c4e2639845f",
+            "366186b358abd775bea5fd2440d7e0ececb3ebaa"
+          ]
+        },
+        {
+          "number": 723,
+          "url": "https://github.com/edithatogo/voiage/pull/723",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks",
+            "3dddf63a68d0f4369e148711be4441838467ea4d",
+            "44e0067aac41cdab72ec5d573802ca509d2c6e3a"
+          ]
+        },
+        {
+          "number": 787,
+          "url": "https://github.com/edithatogo/voiage/pull/787",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "independent-review",
+            "hosted-required-checks",
+            "de31458b556136359cb9195f8ced82cff9182ece",
+            "20e0c606fb02f282134e9cc876fa475178edfe40"
+          ]
+        },
+        {
+          "number": 769,
+          "url": "https://github.com/edithatogo/voiage/pull/769",
+          "status": "merged",
+          "evidence": [
+            "risk-sensitive-experimental-delivery",
+            "hosted-required-checks",
+            "f513416fa8d19db6c2f7f8857c84839fa97b984b",
+            "c25f3234ad9d3d44f5e31cc42ee4ae823562fe37"
+          ]
+        },
+        {
+          "number": 798,
+          "url": "https://github.com/edithatogo/voiage/pull/798",
+          "status": "merged",
+          "evidence": [
+            "experimental-uncertainty-modelling-delivery",
+            "independent-review",
+            "hosted-required-checks",
+            "aa5d9fd86a42fecd5e8746e77c74ba23e33bb092",
+            "c5adca8fd49b74a04312111168283fbdffc2dcbd"
+          ]
+        },
+        {
+          "number": 51,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/51",
+          "status": "merged",
+          "evidence": [
+            "canonical-cross-repository-governance"
+          ]
+        },
+        {
+          "number": 64,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/64",
+          "status": "merged",
+          "evidence": [
+            "canonical-sync-proposal"
+          ]
+        },
+        {
+          "number": 65,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/65",
+          "status": "merged",
+          "evidence": [
+            "canonical-sync-proposal"
+          ]
+        },
+        {
+          "number": 66,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/66",
+          "status": "merged",
+          "evidence": [
+            "canonical-sync-proposal"
+          ]
+        },
+        {
+          "number": 826,
+          "url": "https://github.com/edithatogo/voiage/pull/826",
+          "status": "merged",
+          "evidence": [
+            "programme-governance-delivery",
+            "e23155e4fa2c39167d7d92a36d34029b6d9c1ee6",
+            "0e19b46815af61031e4879a60158864b72748be4"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_delivery"
+    },
+    {
+      "track_id": "voi_method_census_contract_reconciliation_20260723",
+      "metadata_track_id": "voi_method_census_contract_reconciliation_20260723",
+      "path": "conductor/tracks/voi_method_census_contract_reconciliation_20260723",
+      "lifecycle": "active",
+      "issue": {
+        "number": 314,
+        "url": "https://github.com/edithatogo/voiage/issues/314",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/313",
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/566"
+      ],
+      "pull_requests": [
+        {
+          "number": 621,
+          "url": "https://github.com/edithatogo/voiage/pull/621",
+          "status": "merged",
+          "evidence": [
+            "track-delivery",
+            "edd14dd202f74941cfb2e57f8bdd7faf764092a2",
+            "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3"
+          ]
+        },
+        {
+          "number": 816,
+          "url": "https://github.com/edithatogo/voiage/pull/816",
+          "status": "merged",
+          "evidence": [
+            "contract-freeze-delivery",
+            "1a159e02af95fc3a6bce46f2bf8909561be0b9bd",
+            "68cb15dfcb8706ab653f8a1631b433a7f63ba322"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_delivery"
+    },
+    {
+      "track_id": "external_voi_library_feature_parity_20260723",
+      "metadata_track_id": "external_voi_library_feature_parity_20260723",
+      "path": "conductor/tracks/external_voi_library_feature_parity_20260723",
+      "lifecycle": "active",
+      "issue": {
+        "number": 315,
+        "url": "https://github.com/edithatogo/voiage/issues/315",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/313",
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/565",
+        "https://github.com/edithatogo/voiage/issues/567",
+        "https://github.com/edithatogo/voiage/issues/568",
+        "https://github.com/edithatogo/voiage/issues/569",
+        "https://github.com/edithatogo/voiage/issues/573"
+      ],
+      "pull_requests": [
+        {
+          "number": 621,
+          "url": "https://github.com/edithatogo/voiage/pull/621",
+          "status": "merged",
+          "evidence": [
+            "track-delivery",
+            "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3"
+          ]
+        },
+        {
+          "number": 819,
+          "url": "https://github.com/edithatogo/voiage/pull/819",
+          "status": "open",
+          "evidence": [
+            "track-delivery"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_delivery"
+    },
+    {
+      "track_id": "stable_voi_rust_core_completion_20260723",
+      "metadata_track_id": "stable_voi_rust_core_completion_20260723",
+      "path": "conductor/tracks/stable_voi_rust_core_completion_20260723",
+      "lifecycle": "active",
+      "issue": {
+        "number": 316,
+        "url": "https://github.com/edithatogo/voiage/issues/316",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/313",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 621,
+          "url": "https://github.com/edithatogo/voiage/pull/621",
+          "status": "merged",
+          "evidence": [
+            "track-delivery",
+            "edd14dd202f74941cfb2e57f8bdd7faf764092a2",
+            "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3"
+          ]
+        },
+        {
+          "number": 827,
+          "url": "https://github.com/edithatogo/voiage/pull/827",
+          "status": "merged",
+          "evidence": [
+            "stable-rust-core-governance-delivery",
+            "d2881921d5fb17dc3b5fb10ad4c9374b047b6a9f",
+            "211044c5fd1ce773ea64a161a92293d00c987f81"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_delivery"
+    },
+    {
+      "track_id": "value_of_perspective_completion_20260723",
+      "metadata_track_id": "value_of_perspective_completion_20260723",
+      "path": "conductor/tracks/value_of_perspective_completion_20260723",
+      "lifecycle": "active",
+      "issue": {
+        "number": 317,
+        "url": "https://github.com/edithatogo/voiage/issues/317",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/313",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 621,
+          "url": "https://github.com/edithatogo/voiage/pull/621",
+          "status": "merged",
+          "evidence": [
+            "track-delivery",
+            "edd14dd202f74941cfb2e57f8bdd7faf764092a2",
+            "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3"
+          ]
+        },
+        {
+          "number": 828,
+          "url": "https://github.com/edithatogo/voiage/pull/828",
+          "status": "merged",
+          "evidence": [
+            "perspective-governance-delivery",
+            "e63f31e4929081201c2ca5df3372ab73c9714eba",
+            "168156a3e0910e99babecbf4ec06bbfb86b85f56"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_delivery"
+    },
+    {
+      "track_id": "supported_frontier_method_completion_20260723",
+      "metadata_track_id": "supported_frontier_method_completion_20260723",
+      "path": "conductor/tracks/supported_frontier_method_completion_20260723",
+      "lifecycle": "active",
+      "issue": {
+        "number": 318,
+        "url": "https://github.com/edithatogo/voiage/issues/318",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/313",
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/556",
+        "https://github.com/edithatogo/voiage/issues/557",
+        "https://github.com/edithatogo/voiage/issues/558",
+        "https://github.com/edithatogo/voiage/issues/559",
+        "https://github.com/edithatogo/voiage/issues/560",
+        "https://github.com/edithatogo/voiage/issues/570",
+        "https://github.com/edithatogo/voiage/issues/571",
+        "https://github.com/edithatogo/voiage/issues/572",
+        "https://github.com/edithatogo/voiage/issues/759",
+        "https://github.com/edithatogo/voiage/issues/760",
+        "https://github.com/edithatogo/voiage/issues/762",
+        "https://github.com/edithatogo/voiage/issues/582",
+        "https://github.com/edithatogo/voiage/issues/593",
+        "https://github.com/edithatogo/voiage/issues/766",
+        "https://github.com/edithatogo/voiage/issues/767",
+        "https://github.com/edithatogo/voiage/issues/768",
+        "https://github.com/edithatogo/voiage/issues/594",
+        "https://github.com/edithatogo/voiage/issues/595",
+        "https://github.com/edithatogo/voiage/issues/596",
+        "https://github.com/edithatogo/voiage/issues/597",
+        "https://github.com/edithatogo/voiage/issues/780",
+        "https://github.com/edithatogo/voiage/issues/781",
+        "https://github.com/edithatogo/voiage/issues/782",
+        "https://github.com/edithatogo/voiage/issues/598",
+        "https://github.com/edithatogo/voiage/issues/783",
+        "https://github.com/edithatogo/voiage/issues/784",
+        "https://github.com/edithatogo/voiage/issues/785",
+        "https://github.com/edithatogo/voiage/issues/599",
+        "https://github.com/edithatogo/voiage/issues/786",
+        "https://github.com/edithatogo/voiage/issues/788",
+        "https://github.com/edithatogo/voiage/issues/789",
+        "https://github.com/edithatogo/voiage/issues/600",
+        "https://github.com/edithatogo/voiage/issues/790",
+        "https://github.com/edithatogo/voiage/issues/791",
+        "https://github.com/edithatogo/voiage/issues/792",
+        "https://github.com/edithatogo/voiage/issues/619",
+        "https://github.com/edithatogo/voiage/issues/757",
+        "https://github.com/edithatogo/voiage/issues/758",
+        "https://github.com/edithatogo/voiage/issues/761",
+        "https://github.com/edithatogo/voiage/issues/841",
+        "https://github.com/edithatogo/voiage/issues/842",
+        "https://github.com/edithatogo/voiage/issues/843",
+        "https://github.com/edithatogo/voiage/issues/844",
+        "https://github.com/edithatogo/voiage/issues/845",
+        "https://github.com/edithatogo/voiage/issues/846",
+        "https://github.com/edithatogo/voiage/issues/847",
+        "https://github.com/edithatogo/voiage/issues/848",
+        "https://github.com/edithatogo/voiage/issues/849",
+        "https://github.com/edithatogo/voiage/issues/850"
+      ],
+      "pull_requests": [
+        {
+          "number": 840,
+          "url": "https://github.com/edithatogo/voiage/pull/840",
+          "status": "merged",
+          "evidence": [
+            "scientific-review-planning",
+            "hosted-required-checks",
+            "55e523b209948a2b66b9a2211469f31495931a1a",
+            "3b9024c503c171e7e321ddfaacc3665589e4d5e8"
+          ]
+        },
+        {
+          "number": 836,
+          "url": "https://github.com/edithatogo/voiage/pull/836",
+          "status": "merged",
+          "evidence": [
+            "programme-reconciliation",
+            "independent-engineering-review",
+            "hosted-required-checks",
+            "repository-completion",
+            "8f1d70cb6bc67d5f1b07d95cd254171d8d3a913d",
+            "163825d8b09e064a65cbab8a5807904629bbf05e"
+          ]
+        },
+        {
+          "number": 621,
+          "url": "https://github.com/edithatogo/voiage/pull/621",
+          "status": "merged",
+          "evidence": [
+            "track-delivery"
+          ]
+        },
+        {
+          "number": 679,
+          "url": "https://github.com/edithatogo/voiage/pull/679",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks"
+          ]
+        },
+        {
+          "number": 712,
+          "url": "https://github.com/edithatogo/voiage/pull/712",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks"
+          ]
+        },
+        {
+          "number": 676,
+          "url": "https://github.com/edithatogo/voiage/pull/676",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks"
+          ]
+        },
+        {
+          "number": 837,
+          "url": "https://github.com/edithatogo/voiage/pull/837",
+          "status": "merged",
+          "evidence": [
+            "predictive-weighting-and-replay-remediation",
+            "independent-review",
+            "hosted-required-checks",
+            "076a29075e839e3cad49d0487dff0c4e2639845f",
+            "366186b358abd775bea5fd2440d7e0ececb3ebaa"
+          ]
+        },
+        {
+          "number": 723,
+          "url": "https://github.com/edithatogo/voiage/pull/723",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks",
+            "3dddf63a68d0f4369e148711be4441838467ea4d",
+            "44e0067aac41cdab72ec5d573802ca509d2c6e3a"
+          ]
+        },
+        {
+          "number": 736,
+          "url": "https://github.com/edithatogo/voiage/pull/736",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks",
+            "e891f12089dd42a0bebb3604ff9bc09e089521f0",
+            "2aa5d2eb64e05f61b58a17f673a08930bc76354c"
+          ]
+        },
+        {
+          "number": 743,
+          "url": "https://github.com/edithatogo/voiage/pull/743",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks",
+            "db8c1016f98c2110713cb9c50839c163ad401f5d",
+            "605bcbea7bfec503fe768aea569ffa26182aa3fc"
+          ]
+        },
+        {
+          "number": 744,
+          "url": "https://github.com/edithatogo/voiage/pull/744",
+          "status": "merged",
+          "evidence": [
+            "hosted-coverage-remediation",
+            "hosted-required-checks",
+            "33fc264cf07f05d3a4020eb0f93082165fd29c60",
+            "7bbf77cf0dbca93b7cd6b1849ed3b81c2a75bbd3"
+          ]
+        },
+        {
+          "number": 787,
+          "url": "https://github.com/edithatogo/voiage/pull/787",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "independent-review",
+            "hosted-required-checks",
+            "de31458b556136359cb9195f8ced82cff9182ece",
+            "20e0c606fb02f282134e9cc876fa475178edfe40"
+          ]
+        },
+        {
+          "number": 769,
+          "url": "https://github.com/edithatogo/voiage/pull/769",
+          "status": "merged",
+          "evidence": [
+            "risk-sensitive-experimental-delivery"
+          ]
+        },
+        {
+          "number": 772,
+          "url": "https://github.com/edithatogo/voiage/pull/772",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks",
+            "f1d6f77d3e6ef1024d5bf3ebecc6e6e3a39ea91c",
+            "557710175baae8a2ee44a7be3e8f5d4f546e563e"
+          ]
+        },
+        {
+          "number": 798,
+          "url": "https://github.com/edithatogo/voiage/pull/798",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks",
+            "aa5d9fd86a42fecd5e8746e77c74ba23e33bb092",
+            "c5adca8fd49b74a04312111168283fbdffc2dcbd"
+          ]
+        },
+        {
+          "number": 51,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/51",
+          "status": "merged",
+          "evidence": [
+            "canonical-cross-repository-governance"
+          ]
+        },
+        {
+          "number": 64,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/64",
+          "status": "merged",
+          "evidence": [
+            "canonical-sync-proposal"
+          ]
+        },
+        {
+          "number": 65,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/65",
+          "status": "merged",
+          "evidence": [
+            "canonical-sync-proposal"
+          ]
+        },
+        {
+          "number": 66,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/66",
+          "status": "merged",
+          "evidence": [
+            "canonical-sync-proposal"
+          ]
+        },
+        {
+          "number": 67,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/67",
+          "status": "merged",
+          "evidence": [
+            "canonical-c17-projection"
+          ]
+        },
+        {
+          "number": 69,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/69",
+          "status": "merged",
+          "evidence": [
+            "canonical-c18-m22-governance"
+          ]
+        },
+        {
+          "number": 70,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/70",
+          "status": "merged",
+          "evidence": [
+            "canonical-c18-moscow-correction"
+          ]
+        },
+        {
+          "number": 751,
+          "url": "https://github.com/edithatogo/voiage/pull/751",
+          "status": "merged",
+          "evidence": [
+            "experimental-mcda-implementation",
+            "hosted-required-checks"
+          ]
+        },
+        {
+          "number": 770,
+          "url": "https://github.com/edithatogo/voiage/pull/770",
+          "status": "merged",
+          "evidence": [
+            "experimental-forecast-signal-implementation",
+            "hosted-required-checks",
+            "c110706c561ca17d3ec8835af3567948b969b3cb",
+            "4657f94e69e4d99d960d6d820c5bfb3e5e8937b3"
+          ]
+        },
+        {
+          "number": 804,
+          "url": "https://github.com/edithatogo/voiage/pull/804",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks",
+            "e6835358a2485b8faeb107d1c6e602b8f24a5ea7",
+            "e3a62ebacb8f0c80ae78e35fd50970f54c6760d0"
+          ]
+        },
+        {
+          "number": 807,
+          "url": "https://github.com/edithatogo/voiage/pull/807",
+          "status": "merged",
+          "evidence": [
+            "belief-state-experimental-delivery",
+            "hosted-required-checks",
+            "35cfe522",
+            "39de9c6a"
+          ]
+        },
+        {
+          "number": 808,
+          "url": "https://github.com/edithatogo/voiage/pull/808",
+          "status": "merged",
+          "evidence": [
+            "signed-social-experimental-delivery",
+            "independent-review",
+            "hosted-required-checks",
+            "d649c344"
+          ]
+        },
+        {
+          "number": 809,
+          "url": "https://github.com/edithatogo/voiage/pull/809",
+          "status": "merged",
+          "evidence": [
+            "heterogeneity-experimental-delivery",
+            "independent-review",
+            "hosted-required-checks",
+            "b0fc8db75796ffac9e66720ab45fdcf341c0b516",
+            "1a37526af0ee87acc57dd14a629eb52aef2e182c"
+          ]
+        },
+        {
+          "number": 831,
+          "url": "https://github.com/edithatogo/voiage/pull/831",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "independent-review",
+            "hosted-required-checks",
+            "eb5a201d82350631dc3ba0b636dfdf43563ea64f",
+            "ac1d31bf900c3ee6e817047202cae4229918d48f"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_delivery"
+    },
+    {
+      "track_id": "ml_llm_agent_voi_20260723",
+      "metadata_track_id": "ml_llm_agent_voi_20260723",
+      "path": "conductor/tracks/ml_llm_agent_voi_20260723",
+      "lifecycle": "active",
+      "issue": {
+        "number": 319,
+        "url": "https://github.com/edithatogo/voiage/issues/319",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/313",
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/576",
+        "https://github.com/edithatogo/voiage/issues/578"
+      ],
+      "pull_requests": [
+        {
+          "number": 621,
+          "url": "https://github.com/edithatogo/voiage/pull/621",
+          "status": "merged",
+          "evidence": [
+            "track-delivery",
+            "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3"
+          ]
+        },
+        {
+          "number": 820,
+          "url": "https://github.com/edithatogo/voiage/pull/820",
+          "status": "open",
+          "evidence": [
+            "ml-llm-agent-governance-delivery"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_delivery"
+    },
+    {
+      "track_id": "polyglot_abi_binding_parity_20260723",
+      "metadata_track_id": "polyglot_abi_binding_parity_20260723",
+      "path": "conductor/tracks/polyglot_abi_binding_parity_20260723",
+      "lifecycle": "active",
+      "issue": {
+        "number": 320,
+        "url": "https://github.com/edithatogo/voiage/issues/320",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/313",
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/579"
+      ],
+      "pull_requests": [
+        {
+          "number": 621,
+          "url": "https://github.com/edithatogo/voiage/pull/621",
+          "status": "merged",
+          "evidence": [
+            "track-delivery",
+            "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3"
+          ]
+        },
+        {
+          "number": 821,
+          "url": "https://github.com/edithatogo/voiage/pull/821",
+          "status": "open",
+          "evidence": [
+            "polyglot-parity-governance-delivery"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_delivery"
+    },
+    {
+      "track_id": "datasets_worked_examples_20260723",
+      "metadata_track_id": "datasets_worked_examples_20260723",
+      "path": "conductor/tracks/datasets_worked_examples_20260723",
+      "lifecycle": "active",
+      "issue": {
+        "number": 321,
+        "url": "https://github.com/edithatogo/voiage/issues/321",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/313",
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/574",
+        "https://github.com/edithatogo/voiage/issues/575",
+        "https://github.com/edithatogo/voiage/issues/577"
+      ],
+      "pull_requests": [
+        {
+          "number": 621,
+          "url": "https://github.com/edithatogo/voiage/pull/621",
+          "status": "merged",
+          "evidence": [
+            "track-delivery",
+            "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3"
+          ]
+        },
+        {
+          "number": 818,
+          "url": "https://github.com/edithatogo/voiage/pull/818",
+          "status": "open",
+          "evidence": [
+            "track-delivery"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_delivery"
+    },
+    {
+      "track_id": "quality_release_automation_20260723",
+      "metadata_track_id": "quality_release_automation_20260723",
+      "path": "conductor/tracks/quality_release_automation_20260723",
+      "lifecycle": "active",
+      "issue": {
+        "number": 322,
+        "url": "https://github.com/edithatogo/voiage/issues/322",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/313",
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/462",
+        "https://github.com/edithatogo/voiage/issues/580",
+        "https://github.com/edithatogo/voiage/issues/581",
+        "https://github.com/edithatogo/voiage/issues/583",
+        "https://github.com/edithatogo/voiage/issues/584"
+      ],
+      "pull_requests": [
+        {
+          "number": 621,
+          "url": "https://github.com/edithatogo/voiage/pull/621",
+          "status": "merged",
+          "evidence": [
+            "track-delivery",
+            "edd14dd202f74941cfb2e57f8bdd7faf764092a2",
+            "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3"
+          ]
+        },
+        {
+          "number": 822,
+          "url": "https://github.com/edithatogo/voiage/pull/822",
+          "status": "merged",
+          "evidence": [
+            "quality-automation-delivery",
+            "7e12a5fbc6f7091166d7f5d64c6f2b5b45764f72",
+            "0df988125b89f8d0bad08def0bd5b2ea03cd54f5"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_delivery"
+    },
+    {
+      "track_id": "research_contribution_ai_transparency_20260723",
+      "metadata_track_id": "research_contribution_ai_transparency_20260723",
+      "path": "conductor/tracks/research_contribution_ai_transparency_20260723",
+      "lifecycle": "active",
+      "issue": {
+        "number": 323,
+        "url": "https://github.com/edithatogo/voiage/issues/323",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/313",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 621,
+          "url": "https://github.com/edithatogo/voiage/pull/621",
+          "status": "merged",
+          "evidence": [
+            "track-delivery",
+            "edd14dd202f74941cfb2e57f8bdd7faf764092a2",
+            "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3"
+          ]
+        },
+        {
+          "number": 825,
+          "url": "https://github.com/edithatogo/voiage/pull/825",
+          "status": "merged",
+          "evidence": [
+            "transparency-governance-delivery",
+            "f00e63d05562d4fc5165aa261c5ab0a296265dd2",
+            "4d890aafeb760a0df84a03efa5db95ba5ec85005"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_delivery"
+    },
+    {
+      "track_id": "estimation_focused_variance_voi_20260727",
+      "metadata_track_id": "estimation_focused_variance_voi_20260727",
+      "path": "conductor/tracks/estimation_focused_variance_voi_20260727",
+      "lifecycle": "active",
+      "issue": {
+        "number": 619,
+        "url": "https://github.com/edithatogo/voiage/issues/619",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/318",
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/671",
+        "https://github.com/edithatogo/voiage/issues/672",
+        "https://github.com/edithatogo/voiage/issues/673",
+        "https://github.com/edithatogo/voiage/issues/674",
+        "https://github.com/edithatogo/voiage/issues/843"
+      ],
+      "pull_requests": [
+        {
+          "number": 621,
+          "url": "https://github.com/edithatogo/voiage/pull/621",
+          "status": "merged",
+          "evidence": [
+            "track-delivery",
+            "b86a7d1a"
+          ]
+        },
+        {
+          "number": 676,
+          "url": "https://github.com/edithatogo/voiage/pull/676",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks"
+          ]
+        },
+        {
+          "number": 837,
+          "url": "https://github.com/edithatogo/voiage/pull/837",
+          "status": "merged",
+          "evidence": [
+            "predictive-weighting-and-replay-remediation",
+            "independent-review",
+            "hosted-required-checks",
+            "076a29075e839e3cad49d0487dff0c4e2639845f",
+            "366186b358abd775bea5fd2440d7e0ececb3ebaa"
+          ]
+        },
+        {
+          "number": 51,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/51",
+          "status": "merged",
+          "evidence": [
+            "canonical-cross-repository-governance"
+          ]
+        },
+        {
+          "number": 64,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/64",
+          "status": "merged",
+          "evidence": [
+            "canonical-cross-repository-implementation-sync"
+          ]
+        }
+      ],
+      "pull_request_evidence": "merged_track_delivery_and_canonical_sync"
+    },
+    {
+      "track_id": "study_design_efficiency_20260727",
+      "metadata_track_id": "study_design_efficiency_20260727",
+      "path": "conductor/archive/study_design_efficiency_20260727",
+      "lifecycle": "active",
+      "issue": {
+        "number": 571,
+        "url": "https://github.com/edithatogo/voiage/issues/571",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/318",
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/680",
+        "https://github.com/edithatogo/voiage/issues/681",
+        "https://github.com/edithatogo/voiage/issues/682",
+        "https://github.com/edithatogo/voiage/issues/844"
+      ],
+      "pull_requests": [
+        {
+          "number": 621,
+          "url": "https://github.com/edithatogo/voiage/pull/621",
+          "status": "merged",
+          "evidence": [
+            "track-delivery",
+            "edd14dd202f74941cfb2e57f8bdd7faf764092a2",
+            "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3"
+          ]
+        },
+        {
+          "number": 51,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/51",
+          "status": "merged",
+          "evidence": [
+            "canonical-cross-repository-governance"
+          ]
+        },
+        {
+          "number": 679,
+          "url": "https://github.com/edithatogo/voiage/pull/679",
+          "status": "merged",
+          "evidence": [
+            "experimental-runtime-implementation",
+            "hosted-required-checks",
+            "ce5d712779897bdd7d398e367de6a7e0bc743692",
+            "5d059a80447afc85cee63eb85971fc1c9e80f40c"
+          ]
+        },
+        {
+          "number": 65,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/65",
+          "status": "merged",
+          "evidence": [
+            "canonical-c16-study-efficiency-sync",
+            "d2b74b4f53d56f05a665736936a3edc7365be728",
+            "ac61bb9f46136dad480379785641bdf381ade7c2"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_delivery"
+    },
+    {
+      "track_id": "risk_adjusted_information_pricing_20260731",
+      "metadata_track_id": "risk_adjusted_information_pricing_20260731",
+      "path": "conductor/archive/risk_adjusted_information_pricing_20260731",
+      "lifecycle": "active",
+      "issue": {
+        "number": 595,
+        "url": "https://github.com/edithatogo/voiage/issues/595",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/318",
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/694",
+        "https://github.com/edithatogo/voiage/issues/695",
+        "https://github.com/edithatogo/voiage/issues/696",
+        "https://github.com/edithatogo/voiage/issues/697",
+        "https://github.com/edithatogo/voiage/issues/845"
+      ],
+      "pull_requests": [
+        {
+          "number": 712,
+          "url": "https://github.com/edithatogo/voiage/pull/712",
+          "status": "merged",
+          "evidence": [
+            "track-delivery",
+            "hosted-required-checks",
+            "1048c4bc4354acdb0c468da17cb0b5d581961690",
+            "b8395abfc603509a2f1a2c87c9c33e6260fb5840"
+          ]
+        },
+        {
+          "number": 66,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/66",
+          "status": "merged",
+          "evidence": [
+            "canonical-planning-sync",
+            "0a0d50c078120f4d3c964a031d1ae72be0360938",
+            "9c250572750b5ae760ef8bc1e52b8060a9758d56"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_delivery_and_canonical_planning_sync"
+    },
+    {
+      "track_id": "abstraction-excellence_20260719",
+      "metadata_track_id": "abstraction-excellence_20260719",
+      "path": "conductor/archive/abstraction-excellence_20260719",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 336,
+        "url": "https://github.com/edithatogo/voiage/issues/336",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/41",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 268,
+          "url": "https://github.com/edithatogo/voiage/pull/268",
+          "status": "merged",
+          "evidence": [
+            "08fc460afadca14954bf0760ab096d6f13f2cf45",
+            "835dccf84eebad7e74132c96dead96bae5dd28ce",
+            "9f67c2f7998f0e5b7b14dbd7d5899951215c635c",
+            "d8d0d1c4ceb480c58f32e30f65b5c6c1990f75ea",
+            "f51d0e10bd15eb2f6eb12e60147acbb7ad15202c",
+            "f8ee5a5a720ab5d37a5f39e6320568917e51df44"
+          ]
+        },
+        {
+          "number": 288,
+          "url": "https://github.com/edithatogo/voiage/pull/288",
+          "status": "merged",
+          "evidence": [
+            "47b377ba85265a8d774794699137a56f3b0f3e26",
+            "7be44b6ca5c9fb05f9f84ea745055dc24a072592"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "accelerator-evidence-automation_20260625",
+      "metadata_track_id": "accelerator-evidence-automation_20260625",
+      "path": "conductor/archive/accelerator-evidence-automation_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 335,
+        "url": "https://github.com/edithatogo/voiage/issues/335",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 203,
+          "url": "https://github.com/edithatogo/voiage/pull/203",
+          "status": "merged",
+          "evidence": [
+            "35ec45db409fb64dda998bd16c420cd4259ad2d8",
+            "e7dbad4a436861ec24f72542ae9832a546e1484d"
+          ]
+        },
+        {
+          "number": 204,
+          "url": "https://github.com/edithatogo/voiage/pull/204",
+          "status": "merged",
+          "evidence": [
+            "02c8d10aa975b067373fef486d6f7dc1670f82e2",
+            "26c1bcd7b722a307ad9d0cdeeec08d863d1bdb72"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "activate-public-api_20260428",
+      "metadata_track_id": "activate-public-api_20260428",
+      "path": "conductor/archive/activate-public-api_20260428",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 337,
+        "url": "https://github.com/edithatogo/voiage/issues/337",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "adaptive-learning-bandit-voi-mature-stable_20260625",
+      "metadata_track_id": "adaptive-learning-bandit-voi-mature-stable_20260625",
+      "path": "conductor/archive/adaptive-learning-bandit-voi-mature-stable_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 338,
+        "url": "https://github.com/edithatogo/voiage/issues/338",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 183,
+          "url": "https://github.com/edithatogo/voiage/pull/183",
+          "status": "merged",
+          "evidence": [
+            "a88189d5745b0a9ae38593a009ebcd90a6296bed",
+            "f94c173f2913f20f212a5eeba281f01affce68e4",
+            "fcf85e8cb34b034e441d6750e410a60f35e455ac"
+          ]
+        },
+        {
+          "number": 184,
+          "url": "https://github.com/edithatogo/voiage/pull/184",
+          "status": "merged",
+          "evidence": [
+            "7af9b65991b079b97f5979065baabf3968de8da2",
+            "db9d832c7e75e4981b04227a44d2eba25a6f8959"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "adjacent-frontier-extensions_20260504",
+      "metadata_track_id": "adjacent-frontier-extensions_20260430",
+      "path": "conductor/archive/adjacent-frontier-extensions_20260504",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 340,
+        "url": "https://github.com/edithatogo/voiage/issues/340",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "adjacent-frontier-runtime-completion_20260625",
+      "metadata_track_id": "adjacent-frontier-runtime-completion_20260625",
+      "path": "conductor/archive/adjacent-frontier-runtime-completion_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 341,
+        "url": "https://github.com/edithatogo/voiage/issues/341",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 154,
+          "url": "https://github.com/edithatogo/voiage/pull/154",
+          "status": "merged",
+          "evidence": [
+            "c201bd2eec91c6577d7de784f5aec3fc8c88d709",
+            "fba047835cb42896849270413e1c8df9ad7bcf55"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "advanced_voi_methods_20260411",
+      "metadata_track_id": "advanced_voi_methods_20260411",
+      "path": "conductor/archive/advanced_voi_methods_20260411",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 339,
+        "url": "https://github.com/edithatogo/voiage/issues/339",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "ai-assisted-evidence-triage-voi-mature-stable_20260625",
+      "metadata_track_id": "ai-assisted-evidence-triage-voi-mature-stable_20260625",
+      "path": "conductor/archive/ai-assisted-evidence-triage-voi-mature-stable_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 342,
+        "url": "https://github.com/edithatogo/voiage/issues/342",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 189,
+          "url": "https://github.com/edithatogo/voiage/pull/189",
+          "status": "merged",
+          "evidence": [
+            "412870736c866e5d17733335389149065e1cb879"
+          ]
+        },
+        {
+          "number": 190,
+          "url": "https://github.com/edithatogo/voiage/pull/190",
+          "status": "merged",
+          "evidence": [
+            "c6d6fd0eaf3d6faf26e75a6332e9655adee0e085",
+            "d376bcd6e67aa1cfc59415f4695186c92f3ea7d1",
+            "ee51e4b69746d1c76aa90d755b46e98cd6be1b16"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "ambiguity-distribution-shift-voi-mature-stable_20260625",
+      "metadata_track_id": "ambiguity-distribution-shift-voi-mature-stable_20260625",
+      "path": "conductor/archive/ambiguity-distribution-shift-voi-mature-stable_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 343,
+        "url": "https://github.com/edithatogo/voiage/issues/343",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 181,
+          "url": "https://github.com/edithatogo/voiage/pull/181",
+          "status": "merged",
+          "evidence": [
+            "12f4e8448e6d64f51d12a1ccf3a10628622719b0",
+            "96716621fae3ada780891cd394236a169eebd5b1",
+            "c9a4a76dcece01c342dc6c4ec6844d6498f936d6"
+          ]
+        },
+        {
+          "number": 182,
+          "url": "https://github.com/edithatogo/voiage/pull/182",
+          "status": "merged",
+          "evidence": [
+            "cbd3c2a85fcf9a159415242af93db57027ab701a",
+            "f2ed07db9ed277b2f70dddd0bd614bdde76ed0a0"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "apple-metal-backend-prototype_20260510",
+      "metadata_track_id": "apple-metal-backend-prototype_20260510",
+      "path": "conductor/archive/apple-metal-backend-prototype_20260510",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 344,
+        "url": "https://github.com/edithatogo/voiage/issues/344",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "apple-metal-implementation_20260511",
+      "metadata_track_id": "apple-metal-implementation_20260511",
+      "path": "conductor/archive/apple-metal-implementation_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 345,
+        "url": "https://github.com/edithatogo/voiage/issues/345",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "apple-metal-integrated-gpu-optimization_20260511",
+      "metadata_track_id": "apple-metal-integrated-gpu-optimization_20260511",
+      "path": "conductor/archive/apple-metal-integrated-gpu-optimization_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 346,
+        "url": "https://github.com/edithatogo/voiage/issues/346",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "apple-metal-production-speedup-evidence_20260625",
+      "metadata_track_id": "apple-metal-production-speedup-evidence_20260625",
+      "path": "conductor/archive/apple-metal-production-speedup-evidence_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 347,
+        "url": "https://github.com/edithatogo/voiage/issues/347",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 209,
+          "url": "https://github.com/edithatogo/voiage/pull/209",
+          "status": "merged",
+          "evidence": [
+            "617b03a454246b1ffaf10f15162fe6116ed8bd27"
+          ]
+        },
+        {
+          "number": 210,
+          "url": "https://github.com/edithatogo/voiage/pull/210",
+          "status": "merged",
+          "evidence": [
+            "8732024c3c6a767cb4a3807241f11f662e322cd2",
+            "be465a137bc0bd13ff59a371fd432ce568b64123"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "asic-acceleration-feasibility_20260511",
+      "metadata_track_id": "asic-acceleration-feasibility_20260511",
+      "path": "conductor/archive/asic-acceleration-feasibility_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 348,
+        "url": "https://github.com/edithatogo/voiage/issues/348",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "asic-implementation_20260511",
+      "metadata_track_id": "asic-implementation_20260511",
+      "path": "conductor/archive/asic-implementation_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 349,
+        "url": "https://github.com/edithatogo/voiage/issues/349",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "asic-mpw-shuttle-and-silicon-evidence_20260625",
+      "metadata_track_id": "asic-mpw-shuttle-and-silicon-evidence_20260625",
+      "path": "conductor/archive/asic-mpw-shuttle-and-silicon-evidence_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 350,
+        "url": "https://github.com/edithatogo/voiage/issues/350",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 232,
+          "url": "https://github.com/edithatogo/voiage/pull/232",
+          "status": "merged",
+          "evidence": [
+            "74bc1876dd687f9c55fb4cb8d1b80041e79f976e"
+          ]
+        },
+        {
+          "number": 234,
+          "url": "https://github.com/edithatogo/voiage/pull/234",
+          "status": "merged",
+          "evidence": [
+            "7e36ce3eba15c3fb06ca47acdab1a51ab536c5c5",
+            "d1731bab649654ab9177303d38e3c5716f04bf59"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "assurance-frontier_20260720",
+      "metadata_track_id": "assurance-frontier_20260720",
+      "path": "conductor/archive/assurance-frontier_20260720",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 351,
+        "url": "https://github.com/edithatogo/voiage/issues/351",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/42",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 268,
+          "url": "https://github.com/edithatogo/voiage/pull/268",
+          "status": "merged",
+          "evidence": [
+            "10f356fbbe668e1fb384fd2cbcd01e2108576812"
+          ]
+        },
+        {
+          "number": 288,
+          "url": "https://github.com/edithatogo/voiage/pull/288",
+          "status": "merged",
+          "evidence": [
+            "47b377ba85265a8d774794699137a56f3b0f3e26",
+            "7be44b6ca5c9fb05f9f84ea745055dc24a072592"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "bayesian-experimental-design-and-amortized-voi_20260625",
+      "metadata_track_id": "bayesian-experimental-design-and-amortized-voi_20260625",
+      "path": "conductor/archive/bayesian-experimental-design-and-amortized-voi_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 352,
+        "url": "https://github.com/edithatogo/voiage/issues/352",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 155,
+          "url": "https://github.com/edithatogo/voiage/pull/155",
+          "status": "merged",
+          "evidence": [
+            "bf4052a241eaced401f2f974343ac7a9b079d275",
+            "eda140ac8edbc2dd984902b6a9fdc2e590142f93"
+          ]
+        },
+        {
+          "number": 156,
+          "url": "https://github.com/edithatogo/voiage/pull/156",
+          "status": "merged",
+          "evidence": [
+            "7178c1404abe857032a0d29666b31e2002b624b2",
+            "fdd26905721412a181147f537620d86234f9e02d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "binding-registry-live-verification_20260511",
+      "metadata_track_id": "binding-registry-live-verification_20260511",
+      "path": "conductor/archive/binding-registry-live-verification_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 353,
+        "url": "https://github.com/edithatogo/voiage/issues/353",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "canonical-schemas-core-contracts",
+      "metadata_track_id": "canonical-schemas-core-contracts",
+      "path": "conductor/archive/canonical-schemas-core-contracts",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 354,
+        "url": "https://github.com/edithatogo/voiage/issues/354",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "capacity-budget-constrained-voi-mature-stable_20260625",
+      "metadata_track_id": "capacity-budget-constrained-voi-mature-stable_20260625",
+      "path": "conductor/archive/capacity-budget-constrained-voi-mature-stable_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 355,
+        "url": "https://github.com/edithatogo/voiage/issues/355",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 185,
+          "url": "https://github.com/edithatogo/voiage/pull/185",
+          "status": "merged",
+          "evidence": [
+            "259f374f96ab0f5deb2f67c8507081a7ba33b788",
+            "38f45907fc459cfe1a3a657f31a5767cd808b18e"
+          ]
+        },
+        {
+          "number": 186,
+          "url": "https://github.com/edithatogo/voiage/pull/186",
+          "status": "merged",
+          "evidence": [
+            "065ddc54c6d352bc85fa22b4d426a1f12e1291c5",
+            "c89a5d7a0fa509c9aa1cc3a2c895b5670c5daaf0"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "causal-identification-transportability-voi-mature-stable_20260625",
+      "metadata_track_id": "causal-identification-transportability-voi-mature-stable_20260625",
+      "path": "conductor/archive/causal-identification-transportability-voi-mature-stable_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 356,
+        "url": "https://github.com/edithatogo/voiage/issues/356",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 167,
+          "url": "https://github.com/edithatogo/voiage/pull/167",
+          "status": "merged",
+          "evidence": [
+            "6d1caeb9a12dd096749e6bc9507e92caecdfa78d"
+          ]
+        },
+        {
+          "number": 168,
+          "url": "https://github.com/edithatogo/voiage/pull/168",
+          "status": "merged",
+          "evidence": [
+            "60b0b759dfa7ec48098dd05327fbc32bc457bd07",
+            "edafc7395429c1cc1d4045ed7980e0268d35613d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "cli-integration-testing_20260504",
+      "metadata_track_id": "cli-integration-testing_20260504",
+      "path": "conductor/archive/cli-integration-testing_20260504",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 357,
+        "url": "https://github.com/edithatogo/voiage/issues/357",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "community-engagement-support_20260507",
+      "metadata_track_id": "community-engagement-support_20260507",
+      "path": "conductor/archive/community-engagement-support_20260507",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 358,
+        "url": "https://github.com/edithatogo/voiage/issues/358",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "computational-model-refinement-voi-mature-stable_20260625",
+      "metadata_track_id": "computational-model-refinement-voi-mature-stable_20260625",
+      "path": "conductor/archive/computational-model-refinement-voi-mature-stable_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 359,
+        "url": "https://github.com/edithatogo/voiage/issues/359",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 171,
+          "url": "https://github.com/edithatogo/voiage/pull/171",
+          "status": "merged",
+          "evidence": [
+            "2fea5de3b6f17205896bee34a12f42537659a00a"
+          ]
+        },
+        {
+          "number": 172,
+          "url": "https://github.com/edithatogo/voiage/pull/172",
+          "status": "merged",
+          "evidence": [
+            "5c52f26a2527be297bf4e19f50b1f09dec6921bc",
+            "7727ec51d71f6210b2fe266e678ab48bbab60f90"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "conda-forge-feedstock-publication_20260625",
+      "metadata_track_id": "conda-forge-feedstock-publication_20260625",
+      "path": "conductor/archive/conda-forge-feedstock-publication_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 360,
+        "url": "https://github.com/edithatogo/voiage/issues/360",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 217,
+          "url": "https://github.com/edithatogo/voiage/pull/217",
+          "status": "merged",
+          "evidence": [
+            "f7871c5d161ccc6ee5225513058d6b92ae9ebb87"
+          ]
+        },
+        {
+          "number": 218,
+          "url": "https://github.com/edithatogo/voiage/pull/218",
+          "status": "merged",
+          "evidence": [
+            "1e8ef85fb10d4503af7d77e23c5c82d0c7d6463f",
+            "c14b1dbe3f0d9fc5e9e122c5b52af591a4653d48"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "conductor-commit-note-checkpoint-hardening_20260625",
+      "metadata_track_id": "conductor-commit-note-checkpoint-hardening_20260625",
+      "path": "conductor/archive/conductor-commit-note-checkpoint-hardening_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 361,
+        "url": "https://github.com/edithatogo/voiage/issues/361",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 39,
+          "url": "https://github.com/edithatogo/voiage/pull/39",
+          "status": "merged",
+          "evidence": [
+            "2559b0b06c5d9b1cb9876c1bbbd044ad89155cf5",
+            "b2ce6549c442bcac99da45a96f5fe0fd2726b5be",
+            "fc2844580044b303d92e93e461df713c2e82d79f"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "conductor-github-cross-reference-reconciliation_20260724",
+      "path": "conductor/archive/conductor-github-cross-reference-reconciliation_20260724",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 462,
+        "url": "https://github.com/edithatogo/voiage/issues/462",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/322",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 465,
+          "url": "https://github.com/edithatogo/voiage/pull/465",
+          "status": "merged",
+          "evidence": [
+            "track-delivery",
+            "de16689eb8a7ae3d136b8582218fb563993fe9a0",
+            "3d4306d72485a8da6bc4691d230dacc5d7c18c2e"
+          ]
+        },
+        {
+          "number": 810,
+          "url": "https://github.com/edithatogo/voiage/pull/810",
+          "status": "merged",
+          "evidence": [
+            "governance-closeout",
+            "8eccc1581729b10a29db957f827ff3cb752f010e",
+            "50cf258fe317d5d2e331b060083dbad70a4dd691"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_delivery"
+    },
+    {
+      "track_id": "conductor-registry-normalization_20260727",
+      "metadata_track_id": "conductor-registry-normalization_20260727",
+      "path": "conductor/archive/conductor-registry-normalization_20260727",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 590,
+        "url": "https://github.com/edithatogo/voiage/issues/590",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/322",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 591,
+          "url": "https://github.com/edithatogo/voiage/pull/591",
+          "status": "merged",
+          "evidence": [
+            "acd23a397bd9848a180992d6c8e9df4ca5b3cdf4"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "core-api-spec-and-polyglot-contracts_20260510",
+      "metadata_track_id": "core-api-spec-and-polyglot-contracts_20260510",
+      "path": "conductor/archive/core-api-spec-and-polyglot-contracts_20260510",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 362,
+        "url": "https://github.com/edithatogo/voiage/issues/362",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "core-api-spec-foundation",
+      "metadata_track_id": "core-api-spec-foundation",
+      "path": "conductor/archive/core-api-spec-foundation",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 363,
+        "url": "https://github.com/edithatogo/voiage/issues/363",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "cpu-cluster-parallelism-implementation_20260511",
+      "metadata_track_id": "cpu-cluster-parallelism-implementation_20260511",
+      "path": "conductor/archive/cpu-cluster-parallelism-implementation_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 364,
+        "url": "https://github.com/edithatogo/voiage/issues/364",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "cpu-cluster-production-benchmark-evidence_20260625",
+      "metadata_track_id": "cpu-cluster-production-benchmark-evidence_20260625",
+      "path": "conductor/archive/cpu-cluster-production-benchmark-evidence_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 365,
+        "url": "https://github.com/edithatogo/voiage/issues/365",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 207,
+          "url": "https://github.com/edithatogo/voiage/pull/207",
+          "status": "merged",
+          "evidence": [
+            "288fa67039942ad485606eee6e269f82011ba604"
+          ]
+        },
+        {
+          "number": 208,
+          "url": "https://github.com/edithatogo/voiage/pull/208",
+          "status": "merged",
+          "evidence": [
+            "156b0c87327de04520a7205d07a38ed5b42bc710",
+            "4ac2ff7c2a6018408662460571364d9a6162f7b3"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "cross-language-conformance-fixtures",
+      "metadata_track_id": "cross-language-conformance-fixtures",
+      "path": "conductor/archive/cross-language-conformance-fixtures",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 366,
+        "url": "https://github.com/edithatogo/voiage/issues/366",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "cross-language-conformance-fixtures_20260416",
+      "metadata_track_id": "cross-language-conformance-fixtures",
+      "path": "conductor/archive/cross-language-conformance-fixtures_20260416",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 367,
+        "url": "https://github.com/edithatogo/voiage/issues/367",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "custom-circuit-production-acceleration-review_20260625",
+      "metadata_track_id": "custom-circuit-production-acceleration-review_20260625",
+      "path": "conductor/archive/custom-circuit-production-acceleration-review_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 368,
+        "url": "https://github.com/edithatogo/voiage/issues/368",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 235,
+          "url": "https://github.com/edithatogo/voiage/pull/235",
+          "status": "merged",
+          "evidence": [
+            "ebeb29f9a3ee168c36b1cc3268fbdf626ffacbf0"
+          ]
+        },
+        {
+          "number": 236,
+          "url": "https://github.com/edithatogo/voiage/pull/236",
+          "status": "merged",
+          "evidence": [
+            "3546a4496d3b0524b47a37dd73b874e44aff4885",
+            "8bdb35144e9810e6e4b60680f23ef6db77332775"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "data-quality-measurement-privacy-linkage-voi-mature-stable_20260625",
+      "metadata_track_id": "data-quality-measurement-privacy-linkage-voi-mature-stable_20260625",
+      "path": "conductor/archive/data-quality-measurement-privacy-linkage-voi-mature-stable_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 370,
+        "url": "https://github.com/edithatogo/voiage/issues/370",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 169,
+          "url": "https://github.com/edithatogo/voiage/pull/169",
+          "status": "merged",
+          "evidence": [
+            "e9e5baf3e39b71302c5a1893bd9d66140ae2c49b"
+          ]
+        },
+        {
+          "number": 170,
+          "url": "https://github.com/edithatogo/voiage/pull/170",
+          "status": "merged",
+          "evidence": [
+            "39ae036ffd6d865b7476450c20d1c99cb1d07d7a",
+            "f28c6e5a0ccf3da962c9eecc99110d9acc18dce4"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "dataset-registry-and-example-corpus_20260625",
+      "metadata_track_id": "dataset-registry-and-example-corpus_20260625",
+      "path": "conductor/archive/dataset-registry-and-example-corpus_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 369,
+        "url": "https://github.com/edithatogo/voiage/issues/369",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 39,
+          "url": "https://github.com/edithatogo/voiage/pull/39",
+          "status": "merged",
+          "evidence": [
+            "a1f1c24d706e2805f7c956746d03fc1a7c91649c",
+            "b2ce6549c442bcac99da45a96f5fe0fd2726b5be",
+            "c3e4b1b3664b885f9e24bb869927b4346924af83",
+            "f4b619e5570c552a03eef513f0b0706e5548fdb8"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "discrete-gpu-acceleration_20260511",
+      "metadata_track_id": "discrete-gpu-acceleration_20260511",
+      "path": "conductor/archive/discrete-gpu-acceleration_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 371,
+        "url": "https://github.com/edithatogo/voiage/issues/371",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "discrete-gpu-implementation_20260511",
+      "metadata_track_id": "discrete-gpu-implementation_20260511",
+      "path": "conductor/archive/discrete-gpu-implementation_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 372,
+        "url": "https://github.com/edithatogo/voiage/issues/372",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "discrete-gpu-production-speedup-evidence_20260625",
+      "metadata_track_id": "discrete-gpu-production-speedup-evidence_20260625",
+      "path": "conductor/archive/discrete-gpu-production-speedup-evidence_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 373,
+        "url": "https://github.com/edithatogo/voiage/issues/373",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 211,
+          "url": "https://github.com/edithatogo/voiage/pull/211",
+          "status": "merged",
+          "evidence": [
+            "067df5555ed72770322009bf651df82b8ae6c52b"
+          ]
+        },
+        {
+          "number": 212,
+          "url": "https://github.com/edithatogo/voiage/pull/212",
+          "status": "merged",
+          "evidence": [
+            "0819f4bf4184261ae1a84fea7dd14d09a68eea41",
+            "19e2ce93bc70ffc917834afae6acc40edd926568"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "distributed-scheduler-backend-implementation_20260511",
+      "metadata_track_id": "distributed-scheduler-backend-implementation_20260511",
+      "path": "conductor/archive/distributed-scheduler-backend-implementation_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 374,
+        "url": "https://github.com/edithatogo/voiage/issues/374",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "distributional-implementation-voi-stable-promotion_20260625",
+      "metadata_track_id": "distributional-implementation-voi-stable-promotion_20260625",
+      "path": "conductor/archive/distributional-implementation-voi-stable-promotion_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 375,
+        "url": "https://github.com/edithatogo/voiage/issues/375",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 160,
+          "url": "https://github.com/edithatogo/voiage/pull/160",
+          "status": "merged",
+          "evidence": [
+            "7711b3d047a627efafb96cf6cc8586ee8f6846d4"
+          ]
+        },
+        {
+          "number": 161,
+          "url": "https://github.com/edithatogo/voiage/pull/161",
+          "status": "merged",
+          "evidence": [
+            "138d301c8f1242d964a7d50a8fbf97f014b964c1",
+            "21ecff704f4ac13a7cfd297369e4fc865aed6e67",
+            "4fdc5b441bd8fb28be6c54095d8c4361deb09eb6"
+          ]
+        },
+        {
+          "number": 162,
+          "url": "https://github.com/edithatogo/voiage/pull/162",
+          "status": "merged",
+          "evidence": [
+            "09380bc777d110da2e614a731536ae057310a1c4"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "docs-developer-experience_20260504",
+      "metadata_track_id": "docs-developer-experience_20260504",
+      "path": "conductor/archive/docs-developer-experience_20260504",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 376,
+        "url": "https://github.com/edithatogo/voiage/issues/376",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "dotnet-release-submission_20260511",
+      "metadata_track_id": "dotnet-release-submission_20260511",
+      "path": "conductor/archive/dotnet-release-submission_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 377,
+        "url": "https://github.com/edithatogo/voiage/issues/377",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "dynamic-real-options-voi-mature-stable_20260625",
+      "metadata_track_id": "dynamic-real-options-voi-mature-stable_20260625",
+      "path": "conductor/archive/dynamic-real-options-voi-mature-stable_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 378,
+        "url": "https://github.com/edithatogo/voiage/issues/378",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 165,
+          "url": "https://github.com/edithatogo/voiage/pull/165",
+          "status": "merged",
+          "evidence": [
+            "067d8a50e681785079717716874b8b4d51673e2c",
+            "55680832fe3ed94756d1df3ebe02e5ea68fd52b4"
+          ]
+        },
+        {
+          "number": 166,
+          "url": "https://github.com/edithatogo/voiage/pull/166",
+          "status": "merged",
+          "evidence": [
+            "3f2f478b35394ea8b13c04194b5a86d12e3fc4b5",
+            "4c681f9a999892066ac386fafcf43c720b572b9b"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "dynamic-real-options-voi_20260504",
+      "metadata_track_id": "dynamic-real-options-voi_20260430",
+      "path": "conductor/archive/dynamic-real-options-voi_20260504",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 379,
+        "url": "https://github.com/edithatogo/voiage/issues/379",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "e4s-curation-readiness_20260511",
+      "metadata_track_id": "e4s-curation-readiness_20260511",
+      "path": "conductor/archive/e4s-curation-readiness_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 380,
+        "url": "https://github.com/edithatogo/voiage/issues/380",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "e4s-inclusion-followthrough_20260625",
+      "metadata_track_id": "e4s-inclusion-followthrough_20260625",
+      "path": "conductor/archive/e4s-inclusion-followthrough_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 381,
+        "url": "https://github.com/edithatogo/voiage/issues/381",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 146,
+          "url": "https://github.com/edithatogo/voiage/pull/146",
+          "status": "merged",
+          "evidence": [
+            "75abf2cfa64919fdbc7c6afe06ba53cb532562a5"
+          ]
+        },
+        {
+          "number": 227,
+          "url": "https://github.com/edithatogo/voiage/pull/227",
+          "status": "merged",
+          "evidence": [
+            "46791be365ce7790d9bdbe2f6a092d685e7d48f2"
+          ]
+        },
+        {
+          "number": 228,
+          "url": "https://github.com/edithatogo/voiage/pull/228",
+          "status": "merged",
+          "evidence": [
+            "abc0b4614ab02e09110171c2850d5a07faa42d97",
+            "c5efa105926769b83c0cf45cd944b42603be4626"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "easybuild-easyconfig-merge-followthrough_20260625",
+      "metadata_track_id": "easybuild-easyconfig-merge-followthrough_20260625",
+      "path": "conductor/archive/easybuild-easyconfig-merge-followthrough_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 382,
+        "url": "https://github.com/edithatogo/voiage/issues/382",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 225,
+          "url": "https://github.com/edithatogo/voiage/pull/225",
+          "status": "merged",
+          "evidence": [
+            "23f05f5b0f46557ceb9adc1a23a5810e6e366d4e"
+          ]
+        },
+        {
+          "number": 226,
+          "url": "https://github.com/edithatogo/voiage/pull/226",
+          "status": "merged",
+          "evidence": [
+            "5e5a2670046c78d7a74b97f3cc86e4e7695b5ac3",
+            "866a9fc015679f9bceef8b0a459150439bf0480d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "easybuild-registry-readiness_20260511",
+      "metadata_track_id": "easybuild-registry-readiness_20260511",
+      "path": "conductor/archive/easybuild-registry-readiness_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 383,
+        "url": "https://github.com/edithatogo/voiage/issues/383",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "ecosystem-module-incubation_20260429",
+      "metadata_track_id": "ecosystem-module-incubation_20260429",
+      "path": "conductor/archive/ecosystem-module-incubation_20260429",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 384,
+        "url": "https://github.com/edithatogo/voiage/issues/384",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "equity-information-voi-mature-stable_20260625",
+      "metadata_track_id": "equity-information-voi-mature-stable_20260625",
+      "path": "conductor/archive/equity-information-voi-mature-stable_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 385,
+        "url": "https://github.com/edithatogo/voiage/issues/385",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 179,
+          "url": "https://github.com/edithatogo/voiage/pull/179",
+          "status": "merged",
+          "evidence": [
+            "10278607e057afe144d43bbce178ac63c703598f",
+            "74a38589ad6a18be1dd5369a7fab83c91ee1e44b"
+          ]
+        },
+        {
+          "number": 180,
+          "url": "https://github.com/edithatogo/voiage/pull/180",
+          "status": "merged",
+          "evidence": [
+            "9463d8204d07153733f81f9db9ca0a207f9abdfa",
+            "ea85df2f1314a9799cdf6dd05d5159f1b08aa198"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "evidence-obsolescence-refresh-voi-mature-stable_20260625",
+      "metadata_track_id": "evidence-obsolescence-refresh-voi-mature-stable_20260625",
+      "path": "conductor/archive/evidence-obsolescence-refresh-voi-mature-stable_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 386,
+        "url": "https://github.com/edithatogo/voiage/issues/386",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/30",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 199,
+          "url": "https://github.com/edithatogo/voiage/pull/199",
+          "status": "merged",
+          "evidence": [
+            "7b2a916250707cdfc66b2a6e8e0ad6edddd4be50",
+            "ee915c7cfd380fe22e73d66ffc57ed07dd60e6a0"
+          ]
+        },
+        {
+          "number": 200,
+          "url": "https://github.com/edithatogo/voiage/pull/200",
+          "status": "merged",
+          "evidence": [
+            "56462fc4123111fc14d32b18ccff00ef63485c44",
+            "f241a2b78f2ddb44fc776c70c4fb4505df9c05aa"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "expert-elicitation-evidence-synthesis-voi-mature-stable_20260625",
+      "metadata_track_id": "expert-elicitation-evidence-synthesis-voi-mature-stable_20260625",
+      "path": "conductor/archive/expert-elicitation-evidence-synthesis-voi-mature-stable_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 387,
+        "url": "https://github.com/edithatogo/voiage/issues/387",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 173,
+          "url": "https://github.com/edithatogo/voiage/pull/173",
+          "status": "merged",
+          "evidence": [
+            "66f20ca9c79aa6cde8649ba6090d8d5d545d9522"
+          ]
+        },
+        {
+          "number": 174,
+          "url": "https://github.com/edithatogo/voiage/pull/174",
+          "status": "merged",
+          "evidence": [
+            "098a0af965f38613502dc63ebed47af089681c26",
+            "ca470afd1c6917e8da22894f4a49bc04fb4e0238"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "explainability-transparency-voi-mature-stable_20260625",
+      "metadata_track_id": "explainability-transparency-voi-mature-stable_20260625",
+      "path": "conductor/archive/explainability-transparency-voi-mature-stable_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 388,
+        "url": "https://github.com/edithatogo/voiage/issues/388",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 191,
+          "url": "https://github.com/edithatogo/voiage/pull/191",
+          "status": "merged",
+          "evidence": [
+            "0897a5b004391fca684ac2ecfe5ad1755a1f0201",
+            "eb8df276bbff12c5aec696446d6529955ee320be"
+          ]
+        },
+        {
+          "number": 192,
+          "url": "https://github.com/edithatogo/voiage/pull/192",
+          "status": "merged",
+          "evidence": [
+            "7f6733cedac8274c726f6be3a3bb7605b57fa690",
+            "fcccd938953df5eca855b242e722c9892bb9544e"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "external-registry-publication-program_20260625",
+      "metadata_track_id": "external-registry-publication-program_20260625",
+      "path": "conductor/archive/external-registry-publication-program_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 389,
+        "url": "https://github.com/edithatogo/voiage/issues/389",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 214,
+          "url": "https://github.com/edithatogo/voiage/pull/214",
+          "status": "merged",
+          "evidence": [
+            "7b380eda078414bb124c43d4edbd265b849c06ff"
+          ]
+        },
+        {
+          "number": 216,
+          "url": "https://github.com/edithatogo/voiage/pull/216",
+          "status": "merged",
+          "evidence": [
+            "13330af94615fe2a7df8d5c9a32cc48a546ddfbb",
+            "6da295d6159a921ecaf5cfce6f37dfd872e08fc8"
+          ]
+        },
+        {
+          "number": 294,
+          "url": "https://github.com/edithatogo/voiage/pull/294",
+          "status": "merged",
+          "evidence": [
+            "0da311a69301d90cc9dc072c5d120997aea95b8a",
+            "430c5501af7d796e691bc350585d0506a771bfd8"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "federated-privacy-preserving-voi-mature-stable_20260625",
+      "metadata_track_id": "federated-privacy-preserving-voi-mature-stable_20260625",
+      "path": "conductor/archive/federated-privacy-preserving-voi-mature-stable_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 390,
+        "url": "https://github.com/edithatogo/voiage/issues/390",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 187,
+          "url": "https://github.com/edithatogo/voiage/pull/187",
+          "status": "merged",
+          "evidence": [
+            "17700c24c23efdd55b2f289aa29ca0fd1ffe1515",
+            "f76501ae12057de701381f4b36fa968093a8b635"
+          ]
+        },
+        {
+          "number": 188,
+          "url": "https://github.com/edithatogo/voiage/pull/188",
+          "status": "merged",
+          "evidence": [
+            "2919a00a13fd663327576ffd6eb991bb8165e9c8",
+            "4150b19e262b4fc68e994d1684537e52eda273dc",
+            "e0d73dace2de384e3137adf8c1b564f0453c5d26"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "first-external-bindings_20260504",
+      "metadata_track_id": "first-external-bindings_20260430",
+      "path": "conductor/archive/first-external-bindings_20260504",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 391,
+        "url": "https://github.com/edithatogo/voiage/issues/391",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "fix-infrastructure_20260428",
+      "metadata_track_id": "fix-infrastructure_20260428",
+      "path": "conductor/archive/fix-infrastructure_20260428",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 392,
+        "url": "https://github.com/edithatogo/voiage/issues/392",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "fpga-implementation_20260511",
+      "metadata_track_id": "fpga-implementation_20260511",
+      "path": "conductor/archive/fpga-implementation_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 393,
+        "url": "https://github.com/edithatogo/voiage/issues/393",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "fpga-physical-board-runtime-evidence_20260625",
+      "metadata_track_id": "fpga-physical-board-runtime-evidence_20260625",
+      "path": "conductor/archive/fpga-physical-board-runtime-evidence_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 394,
+        "url": "https://github.com/edithatogo/voiage/issues/394",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 230,
+          "url": "https://github.com/edithatogo/voiage/pull/230",
+          "status": "merged",
+          "evidence": [
+            "bf88da3023f91b131a37abff564a8ff7388c63db"
+          ]
+        },
+        {
+          "number": 231,
+          "url": "https://github.com/edithatogo/voiage/pull/231",
+          "status": "merged",
+          "evidence": [
+            "75df536d26994eb5992f432869191482a4d99d78",
+            "e1faf2145412a58c393e5dfcf3dbc4c14e101cfe"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "frontier-method-followthrough_20260510",
+      "metadata_track_id": "frontier-method-followthrough_20260510",
+      "path": "conductor/archive/frontier-method-followthrough_20260510",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 395,
+        "url": "https://github.com/edithatogo/voiage/issues/395",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "frontier-stable-promotion-program_20260625",
+      "metadata_track_id": "frontier-stable-promotion-program_20260625",
+      "path": "conductor/archive/frontier-stable-promotion-program_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 396,
+        "url": "https://github.com/edithatogo/voiage/issues/396",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 154,
+          "url": "https://github.com/edithatogo/voiage/pull/154",
+          "status": "merged",
+          "evidence": [
+            "53c57d8796ce65df2d39a11e50aaa344f4a7acb6",
+            "c201bd2eec91c6577d7de784f5aec3fc8c88d709",
+            "fba047835cb42896849270413e1c8df9ad7bcf55"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "go-release-submission_20260511",
+      "metadata_track_id": "go-release-submission_20260511",
+      "path": "conductor/archive/go-release-submission_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 397,
+        "url": "https://github.com/edithatogo/voiage/issues/397",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "heor_module_naming_brainstorm_20260429",
+      "metadata_track_id": "heor_module_naming_brainstorm_20260429",
+      "path": "conductor/archive/heor_module_naming_brainstorm_20260429",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 398,
+        "url": "https://github.com/edithatogo/voiage/issues/398",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "hpc-acceleration-abstraction-contract_20260511",
+      "metadata_track_id": "hpc-acceleration-abstraction-contract_20260511",
+      "path": "conductor/archive/hpc-acceleration-abstraction-contract_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 399,
+        "url": "https://github.com/edithatogo/voiage/issues/399",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "hpc-capability-implementation-program_20260511",
+      "metadata_track_id": "hpc-capability-implementation-program_20260511",
+      "path": "conductor/archive/hpc-capability-implementation-program_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 400,
+        "url": "https://github.com/edithatogo/voiage/issues/400",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "hpc-distribution-acceleration-strategy_20260507",
+      "metadata_track_id": "hpc-distribution-acceleration-strategy_20260507",
+      "path": "conductor/archive/hpc-distribution-acceleration-strategy_20260507",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 401,
+        "url": "https://github.com/edithatogo/voiage/issues/401",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "hpc-distribution-contract_20260511",
+      "metadata_track_id": "hpc-distribution-contract_20260511",
+      "path": "conductor/archive/hpc-distribution-contract_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 402,
+        "url": "https://github.com/edithatogo/voiage/issues/402",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "hpc-native-acceleration-roadmap_20260511",
+      "metadata_track_id": "hpc-native-acceleration-roadmap_20260511",
+      "path": "conductor/archive/hpc-native-acceleration-roadmap_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 403,
+        "url": "https://github.com/edithatogo/voiage/issues/403",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "hpc-production-speedup-evidence-program_20260625",
+      "metadata_track_id": "hpc-production-speedup-evidence-program_20260625",
+      "path": "conductor/archive/hpc-production-speedup-evidence-program_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 405,
+        "url": "https://github.com/edithatogo/voiage/issues/405",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 205,
+          "url": "https://github.com/edithatogo/voiage/pull/205",
+          "status": "merged",
+          "evidence": [
+            "029e8fea6d3cb376cb3fe642abe9890efd8d3430"
+          ]
+        },
+        {
+          "number": 206,
+          "url": "https://github.com/edithatogo/voiage/pull/206",
+          "status": "merged",
+          "evidence": [
+            "6e81cc05d0179f5683f4f78237406871fa121b22",
+            "e67fc3cc2e790dea71a76d3e767f537b11903c92"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "hpc-registry-readiness_20260511",
+      "metadata_track_id": "hpc-registry-readiness_20260511",
+      "path": "conductor/archive/hpc-registry-readiness_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 406,
+        "url": "https://github.com/edithatogo/voiage/issues/406",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "hpsf-curation-readiness_20260511",
+      "metadata_track_id": "hpsf-curation-readiness_20260511",
+      "path": "conductor/archive/hpsf-curation-readiness_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 407,
+        "url": "https://github.com/edithatogo/voiage/issues/407",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "hpsf-curation-submission-followthrough_20260625",
+      "metadata_track_id": "hpsf-curation-submission-followthrough_20260625",
+      "path": "conductor/archive/hpsf-curation-submission-followthrough_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 408,
+        "url": "https://github.com/edithatogo/voiage/issues/408",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 146,
+          "url": "https://github.com/edithatogo/voiage/pull/146",
+          "status": "merged",
+          "evidence": [
+            "75abf2cfa64919fdbc7c6afe06ba53cb532562a5"
+          ]
+        },
+        {
+          "number": 227,
+          "url": "https://github.com/edithatogo/voiage/pull/227",
+          "status": "merged",
+          "evidence": [
+            "46791be365ce7790d9bdbe2f6a092d685e7d48f2"
+          ]
+        },
+        {
+          "number": 229,
+          "url": "https://github.com/edithatogo/voiage/pull/229",
+          "status": "merged",
+          "evidence": [
+            "d52a7ad55730d6551c9ed2023d1b09cc2d310c8f"
+          ]
+        },
+        {
+          "number": 233,
+          "url": "https://github.com/edithatogo/voiage/pull/233",
+          "status": "merged",
+          "evidence": [
+            "01b041e4ef02450629789133572b3ef22d8831ef",
+            "68cd8ae9718e7bb65f3b0e4e5165fb059b2a6d77"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "implement-missing-methods_20260428",
+      "metadata_track_id": "implement-missing-methods_20260428",
+      "path": "conductor/archive/implement-missing-methods_20260428",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 409,
+        "url": "https://github.com/edithatogo/voiage/issues/409",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "implementation-strategy-comparison-voi-mature-stable_20260625",
+      "metadata_track_id": "implementation-strategy-comparison-voi-mature-stable_20260625",
+      "path": "conductor/archive/implementation-strategy-comparison-voi-mature-stable_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 410,
+        "url": "https://github.com/edithatogo/voiage/issues/410",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 177,
+          "url": "https://github.com/edithatogo/voiage/pull/177",
+          "status": "merged",
+          "evidence": [
+            "9e1300f8a6b7f27f8ca21c2800a2188a911de4ab"
+          ]
+        },
+        {
+          "number": 178,
+          "url": "https://github.com/edithatogo/voiage/pull/178",
+          "status": "merged",
+          "evidence": [
+            "b055266936845f24b914d9cd96e80df1a0934e16",
+            "e25d90df6084dd79088db47bad83c54eb2c21040"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "interoperability-standardization-voi-mature-stable_20260625",
+      "metadata_track_id": "interoperability-standardization-voi-mature-stable_20260625",
+      "path": "conductor/archive/interoperability-standardization-voi-mature-stable_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 411,
+        "url": "https://github.com/edithatogo/voiage/issues/411",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 193,
+          "url": "https://github.com/edithatogo/voiage/pull/193",
+          "status": "merged",
+          "evidence": [
+            "4a4242f03a3cc85ffd96f9766ba77bb9cdc06513",
+            "df5547b43b7c0c2256d4f781a28905badd4c37af"
+          ]
+        },
+        {
+          "number": 194,
+          "url": "https://github.com/edithatogo/voiage/pull/194",
+          "status": "merged",
+          "evidence": [
+            "5f0df5c2039ec09aaa02f67d5fc49e2b586c1ba1",
+            "78b55c08a09ca4aceb0e57e5eca4d04aa29a8635"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "julia-general-registry-publication_20260625",
+      "metadata_track_id": "julia-general-registry-publication_20260625",
+      "path": "conductor/archive/julia-general-registry-publication_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 412,
+        "url": "https://github.com/edithatogo/voiage/issues/412",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/31",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 221,
+          "url": "https://github.com/edithatogo/voiage/pull/221",
+          "status": "merged",
+          "evidence": [
+            "8d4e30fa9b3100234cc814ceacee5b53b38ae1c9"
+          ]
+        },
+        {
+          "number": 222,
+          "url": "https://github.com/edithatogo/voiage/pull/222",
+          "status": "merged",
+          "evidence": [
+            "d373fe2a95fa8ed2f64d9ce4c60f980b73e0f076",
+            "ffeb4e3de34e678ff5f57887cbbb37eb340802c0"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "julia-release-submission_20260511",
+      "metadata_track_id": "julia-release-submission_20260511",
+      "path": "conductor/archive/julia-release-submission_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 413,
+        "url": "https://github.com/edithatogo/voiage/issues/413",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "lifecourse-integration-contract_20260504",
+      "metadata_track_id": "lifecourse-integration-contract_20260429",
+      "path": "conductor/archive/lifecourse-integration-contract_20260504",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 414,
+        "url": "https://github.com/edithatogo/voiage/issues/414",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "mature-hardened-v1-release-programme_20260719",
+      "metadata_track_id": "mature-hardened-v1-release-programme_20260719",
+      "path": "conductor/archive/mature-hardened-v1-release-programme_20260719",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 416,
+        "url": "https://github.com/edithatogo/voiage/issues/416",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/313",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 241,
+          "url": "https://github.com/edithatogo/voiage/pull/241",
+          "status": "merged",
+          "evidence": [
+            "0d834d474c225e32c753bef20f7ff0ab4a36d84c",
+            "58d5ddd1bd94bd0b51a9133d3136ec6101ee7b87"
+          ]
+        },
+        {
+          "number": 275,
+          "url": "https://github.com/edithatogo/voiage/pull/275",
+          "status": "merged",
+          "evidence": [
+            "c7c8937065f2fc08e1d02866f884c701eab0afe9"
+          ]
+        },
+        {
+          "number": 276,
+          "url": "https://github.com/edithatogo/voiage/pull/276",
+          "status": "merged",
+          "evidence": [
+            "5a443494a3a0cd3e919674b4b479f6cf28878d0c"
+          ]
+        },
+        {
+          "number": 277,
+          "url": "https://github.com/edithatogo/voiage/pull/277",
+          "status": "merged",
+          "evidence": [
+            "b4c23b325b2e42da35a42b3d6e0ec3641645688d"
+          ]
+        },
+        {
+          "number": 278,
+          "url": "https://github.com/edithatogo/voiage/pull/278",
+          "status": "merged",
+          "evidence": [
+            "fa7ad2bfb4158650c88be5771040a0c065635821"
+          ]
+        },
+        {
+          "number": 279,
+          "url": "https://github.com/edithatogo/voiage/pull/279",
+          "status": "merged",
+          "evidence": [
+            "c724c84c24732d42f19d8dda899c5341e919c184"
+          ]
+        },
+        {
+          "number": 280,
+          "url": "https://github.com/edithatogo/voiage/pull/280",
+          "status": "merged",
+          "evidence": [
+            "cc1172b554a622893dc9c9dc2096bdb31222675e"
+          ]
+        },
+        {
+          "number": 281,
+          "url": "https://github.com/edithatogo/voiage/pull/281",
+          "status": "merged",
+          "evidence": [
+            "211b41fb4a0d5adfd60164642d56f47c22d2766c"
+          ]
+        },
+        {
+          "number": 282,
+          "url": "https://github.com/edithatogo/voiage/pull/282",
+          "status": "merged",
+          "evidence": [
+            "0055bf0b582800be84adaea87247821563262f1d"
+          ]
+        },
+        {
+          "number": 283,
+          "url": "https://github.com/edithatogo/voiage/pull/283",
+          "status": "merged",
+          "evidence": [
+            "6e08c678f2d205b4ee15ef93eb68b9d1037b8865"
+          ]
+        },
+        {
+          "number": 285,
+          "url": "https://github.com/edithatogo/voiage/pull/285",
+          "status": "merged",
+          "evidence": [
+            "3882f42d780d812edf218cc5e876af8ebddaf7dd"
+          ]
+        },
+        {
+          "number": 294,
+          "url": "https://github.com/edithatogo/voiage/pull/294",
+          "status": "merged",
+          "evidence": [
+            "0554bdce7b20248202cece0cc8e19efd400e5b0c",
+            "1d0f31ecb0279d641ea3d765951c917c59fae596",
+            "1e1eca4dbcb07e50f8dab6687d7624da97e48312",
+            "2883d32403eab3717c6b0f0a4d1e46f6d40ed341",
+            "2919ea319e1422804ed517acb1e9b613b4a07637",
+            "2a0598475f9abb981b82d0137d816e8cd2543dfa",
+            "2a47eabae73567b3ce93a34be4e9be49a6d4b2f2",
+            "3d1fd4ff56d605fe2422cbd242f0f2fad1a07699",
+            "3f22b1a782d52abc3dd22b9e69d0ad17636fd6ad",
+            "51a583223f996f53ccd4ad0d71e84e742deb4e37",
+            "5c0ca574ba66d36dd70f29ec7612362ffb03d2b3",
+            "5c9006a61d0c1700fc7e2f64106da1e42d16b97f",
+            "7647b8131c03b16b0f6fcd7eff0389274954595d",
+            "772a4f8d43dc487aeb78370d1648ab460b72be8c",
+            "799fd2378b7a644a97f68bd76b286b91d88963c6",
+            "7b219d444962f0b13b566c8bd4ea4a41c2a93b0c",
+            "83bc77242579ea0cc24fc078f395342af6bf5caf",
+            "8795d218d26f60274136138c566fb8469f7365f7",
+            "8fac8b6782438d57c6d77235b897fd164231b6a8",
+            "97a1ce7de321ef33fa6e97aad266ec7a7dcc685d",
+            "ae74b210edb1937b4b6cea28e1f251fe0488d7ac",
+            "bd8f70df2c505cbfb6e66878c31daea174ff9138",
+            "c07a7294288e72dc5799fc97c0ea4626299f72dd",
+            "c48233d3a97bb2c93b9375519425f4656d92b2a8",
+            "c8cec5d9d3d1b9a100813b3120a665bf56366ae5",
+            "cc63e9bcef2639fca2d7666313f3a5166adca744",
+            "d475e645b6d6252610351b238f610b2bbcfc60a2",
+            "ddf6bcbcc2c66871d2edb8271bccc286e1567feb",
+            "e770dfe0efd04930f2c2087a2d7c17bf7b24c3be",
+            "e9144ef0bcdaf4b7ffddcf21eca530accb7cc444",
+            "f554d9fedf9502f1185f5e7cfc90c979fd5b86a3",
+            "f7cc0b71b85b2f3d41e2413db62c407aa91e9da6",
+            "fabd89d20a198f13fb7aeeb262ffb797cfa3021c"
+          ]
+        },
+        {
+          "number": 308,
+          "url": "https://github.com/edithatogo/voiage/pull/308",
+          "status": "merged",
+          "evidence": [
+            "c34f66406145d57440072bf0a33a6834242e13b2"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "model-validation-voi_20260506",
+      "metadata_track_id": "model-validation-voi_20260506",
+      "path": "conductor/archive/model-validation-voi_20260506",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 415,
+        "url": "https://github.com/edithatogo/voiage/issues/415",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "monitoring-surveillance-voi-mature-stable_20260625",
+      "metadata_track_id": "monitoring-surveillance-voi-mature-stable_20260625",
+      "path": "conductor/archive/monitoring-surveillance-voi-mature-stable_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 417,
+        "url": "https://github.com/edithatogo/voiage/issues/417",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 175,
+          "url": "https://github.com/edithatogo/voiage/pull/175",
+          "status": "merged",
+          "evidence": [
+            "07760be7dda321f9c9a204202d234df5d37f2414"
+          ]
+        },
+        {
+          "number": 176,
+          "url": "https://github.com/edithatogo/voiage/pull/176",
+          "status": "merged",
+          "evidence": [
+            "525548c699019175b006898f1ec9ba5c2ee1fb51",
+            "5ff341d6b5f749d083c2ed24e9a17c0db92e8649"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "numerics-diagnostics-extension-model",
+      "metadata_track_id": "numerics-diagnostics-extension-model",
+      "path": "conductor/archive/numerics-diagnostics-extension-model",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 418,
+        "url": "https://github.com/edithatogo/voiage/issues/418",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "operational-assurance-excellence_20260720",
+      "metadata_track_id": "operational-assurance-excellence_20260720",
+      "path": "conductor/archive/operational-assurance-excellence_20260720",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 419,
+        "url": "https://github.com/edithatogo/voiage/issues/419",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/43",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 268,
+          "url": "https://github.com/edithatogo/voiage/pull/268",
+          "status": "merged",
+          "evidence": [
+            "51825775a2491fd3dae572a5dadd152a4576f444"
+          ]
+        },
+        {
+          "number": 288,
+          "url": "https://github.com/edithatogo/voiage/pull/288",
+          "status": "merged",
+          "evidence": [
+            "47b377ba85265a8d774794699137a56f3b0f3e26",
+            "7be44b6ca5c9fb05f9f84ea745055dc24a072592"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "perspective-uncertainty-voi-mature-stable_20260625",
+      "metadata_track_id": "perspective-uncertainty-voi-mature-stable_20260625",
+      "path": "conductor/archive/perspective-uncertainty-voi-mature-stable_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 420,
+        "url": "https://github.com/edithatogo/voiage/issues/420",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 163,
+          "url": "https://github.com/edithatogo/voiage/pull/163",
+          "status": "merged",
+          "evidence": [
+            "41a3da87beef8afb0f3b254d155201c6d9a54291",
+            "4fc614d8579dd9ef05b6dc296b75bbaad9dc27fc"
+          ]
+        },
+        {
+          "number": 164,
+          "url": "https://github.com/edithatogo/voiage/pull/164",
+          "status": "merged",
+          "evidence": [
+            "8399d74520f1344ed44117288f140913233cfde9"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "perspective-voi-stable-promotion_20260625",
+      "metadata_track_id": "perspective-voi-stable-promotion_20260625",
+      "path": "conductor/archive/perspective-voi-stable-promotion_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 421,
+        "url": "https://github.com/edithatogo/voiage/issues/421",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 154,
+          "url": "https://github.com/edithatogo/voiage/pull/154",
+          "status": "merged",
+          "evidence": [
+            "c201bd2eec91c6577d7de784f5aec3fc8c88d709",
+            "fba047835cb42896849270413e1c8df9ad7bcf55"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "polyglot-repo-docs-architecture_20260507",
+      "metadata_track_id": "polyglot-repo-docs-architecture_20260507",
+      "path": "conductor/archive/polyglot-repo-docs-architecture_20260507",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 422,
+        "url": "https://github.com/edithatogo/voiage/issues/422",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "polyglot-tutorial-surface_20260504",
+      "metadata_track_id": "polyglot-tutorial-surface_20260504",
+      "path": "conductor/archive/polyglot-tutorial-surface_20260504",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 423,
+        "url": "https://github.com/edithatogo/voiage/issues/423",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "preference-voi-stable-promotion_20260625",
+      "metadata_track_id": "preference-voi-stable-promotion_20260625",
+      "path": "conductor/archive/preference-voi-stable-promotion_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 424,
+        "url": "https://github.com/edithatogo/voiage/issues/424",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 157,
+          "url": "https://github.com/edithatogo/voiage/pull/157",
+          "status": "merged",
+          "evidence": [
+            "0356808996d6b982ec5c364402eda979a9aa82c3",
+            "cfa0110dcd834a29aea6151fc9a3412a9f9a5521"
+          ]
+        },
+        {
+          "number": 158,
+          "url": "https://github.com/edithatogo/voiage/pull/158",
+          "status": "merged",
+          "evidence": [
+            "e971b450c7909a8831901c9db5174918af4f162b"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "python-cleanup-against-spec",
+      "metadata_track_id": "python-cleanup-against-spec",
+      "path": "conductor/archive/python-cleanup-against-spec",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 425,
+        "url": "https://github.com/edithatogo/voiage/issues/425",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "python-cleanup-against-spec_20260425",
+      "metadata_track_id": "python-cleanup-against-spec",
+      "path": "conductor/archive/python-cleanup-against-spec_20260425",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 426,
+        "url": "https://github.com/edithatogo/voiage/issues/426",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "python-release-submission_20260511",
+      "metadata_track_id": "python-release-submission_20260511",
+      "path": "conductor/archive/python-release-submission_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 427,
+        "url": "https://github.com/edithatogo/voiage/issues/427",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "r-cran-runiverse-publication_20260625",
+      "metadata_track_id": "r-cran-runiverse-publication_20260625",
+      "path": "conductor/archive/r-cran-runiverse-publication_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 428,
+        "url": "https://github.com/edithatogo/voiage/issues/428",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 219,
+          "url": "https://github.com/edithatogo/voiage/pull/219",
+          "status": "merged",
+          "evidence": [
+            "caf3c382895fc73b9510d531c7f72805574f403d"
+          ]
+        },
+        {
+          "number": 220,
+          "url": "https://github.com/edithatogo/voiage/pull/220",
+          "status": "merged",
+          "evidence": [
+            "b8db027624181df958aee8f69966a5ad5f910df9",
+            "cd17ad1fdd0a4c607a8b45b3599266136a92f19d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "r-package-doc-manual_20260504",
+      "metadata_track_id": "r-package-doc-manual_20260504",
+      "path": "conductor/archive/r-package-doc-manual_20260504",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 429,
+        "url": "https://github.com/edithatogo/voiage/issues/429",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "r-release-submission_20260511",
+      "metadata_track_id": "r-release-submission_20260511",
+      "path": "conductor/archive/r-release-submission_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 431,
+        "url": "https://github.com/edithatogo/voiage/issues/431",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "regulatory-market-access-voi-mature-stable_20260625",
+      "metadata_track_id": "regulatory-market-access-voi-mature-stable_20260625",
+      "path": "conductor/archive/regulatory-market-access-voi-mature-stable_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 430,
+        "url": "https://github.com/edithatogo/voiage/issues/430",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 195,
+          "url": "https://github.com/edithatogo/voiage/pull/195",
+          "status": "merged",
+          "evidence": [
+            "33d969e2e2e6bae1e059b25555e38af824869352",
+            "f07bfe3432ee792c20408f55fea30ed9fba3ed28"
+          ]
+        },
+        {
+          "number": 196,
+          "url": "https://github.com/edithatogo/voiage/pull/196",
+          "status": "merged",
+          "evidence": [
+            "05468816c12938b3a25eeae2dd9c210721cf93da",
+            "7b394c2a93eb8c85116f49896a749aa88c082fd4"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "release-and-hpc-registry-program_20260511",
+      "metadata_track_id": "release-and-hpc-registry-program_20260511",
+      "path": "conductor/archive/release-and-hpc-registry-program_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 432,
+        "url": "https://github.com/edithatogo/voiage/issues/432",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "remove-cli-sequential-step-stub_20260510",
+      "metadata_track_id": "remove-cli-sequential-step-stub_20260510",
+      "path": "conductor/archive/remove-cli-sequential-step-stub_20260510",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 434,
+        "url": "https://github.com/edithatogo/voiage/issues/434",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "replication-reproducibility-voi-mature-stable_20260625",
+      "metadata_track_id": "replication-reproducibility-voi-mature-stable_20260625",
+      "path": "conductor/archive/replication-reproducibility-voi-mature-stable_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 433,
+        "url": "https://github.com/edithatogo/voiage/issues/433",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 197,
+          "url": "https://github.com/edithatogo/voiage/pull/197",
+          "status": "merged",
+          "evidence": [
+            "805608216beb0160bdfec1572658a86cd9ddc542",
+            "8e2b6561802eee7929cb3c2df9507e0c65963dbd"
+          ]
+        },
+        {
+          "number": 198,
+          "url": "https://github.com/edithatogo/voiage/pull/198",
+          "status": "merged",
+          "evidence": [
+            "4a71f46802a733ca0f8b296a2407434266a0b945",
+            "52e5c751a31b219a8aeb15c4ac2797492b0c8407"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "research_software_registry_readiness_20260721",
+      "path": "conductor/archive/research_software_registry_readiness_20260721",
+      "lifecycle": "completed",
+      "issue_closure": "external_gate_tracking",
+      "issue": {
+        "number": 296,
+        "url": "https://github.com/edithatogo/voiage/issues/296",
+        "state": "open"
+      },
+      "parent_issue_url": null,
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/297",
+        "https://github.com/edithatogo/voiage/issues/298",
+        "https://github.com/edithatogo/voiage/issues/299",
+        "https://github.com/edithatogo/voiage/issues/312",
+        "https://github.com/edithatogo/voiage/issues/471",
+        "https://github.com/edithatogo/voiage/issues/555",
+        "https://github.com/edithatogo/voiage/issues/614",
+        "https://github.com/edithatogo/voiage/issues/615",
+        "https://github.com/edithatogo/voiage/issues/616",
+        "https://github.com/edithatogo/voiage/issues/617",
+        "https://github.com/edithatogo/voiage/issues/622"
+      ],
+      "pull_requests": [
+        {
+          "number": 300,
+          "url": "https://github.com/edithatogo/voiage/pull/300",
+          "status": "merged",
+          "evidence": [
+            "2e446279ee040f4e8110a72cca78c539f6d221ac",
+            "4b3bcd0afb8b49c8c9d6f24d03d23927cf66d1f3",
+            "85392eb58212656186dcad5fc93e277fe44f5daf"
+          ]
+        },
+        {
+          "number": 308,
+          "url": "https://github.com/edithatogo/voiage/pull/308",
+          "status": "merged",
+          "evidence": [
+            "c34f66406145d57440072bf0a33a6834242e13b2"
+          ]
+        },
+        {
+          "number": 309,
+          "url": "https://github.com/edithatogo/voiage/pull/309",
+          "status": "merged",
+          "evidence": [
+            "e8bcc8dd1b79b394ce4e953bac303858ca482c4e"
+          ]
+        },
+        {
+          "number": 310,
+          "url": "https://github.com/edithatogo/voiage/pull/310",
+          "status": "merged",
+          "evidence": [
+            "9e6c4fcca0c284f9993fc73c73897690ad549391"
+          ]
+        },
+        {
+          "number": 311,
+          "url": "https://github.com/edithatogo/voiage/pull/311",
+          "status": "merged",
+          "evidence": [
+            "80c574346e2d6f5d2907623e1672a5275e58b7f1",
+            "explicit-track-reference",
+            "f86957f6acb08284619523f75a326795650af38f"
+          ]
+        },
+        {
+          "number": 469,
+          "url": "https://github.com/edithatogo/voiage/pull/469",
+          "status": "merged",
+          "evidence": [
+            "421370d04faa608769c01965d577f0351a590c97"
+          ]
+        },
+        {
+          "number": 470,
+          "url": "https://github.com/edithatogo/voiage/pull/470",
+          "status": "merged",
+          "evidence": [
+            "45acd6f3d980325531e0c014ccebdadf894a99a3"
+          ]
+        },
+        {
+          "number": 472,
+          "url": "https://github.com/edithatogo/voiage/pull/472",
+          "status": "merged",
+          "evidence": [
+            "370441a97458533c320ad4297ad4cb3f5d7083e5"
+          ]
+        },
+        {
+          "number": 473,
+          "url": "https://github.com/edithatogo/voiage/pull/473",
+          "status": "merged",
+          "evidence": [
+            "1dfcd3d42af591ca15fcc03ad958123cc153dbbf"
+          ]
+        },
+        {
+          "number": 480,
+          "url": "https://github.com/edithatogo/voiage/pull/480",
+          "status": "merged",
+          "evidence": [
+            "scientific-contract-delivery",
+            "a7bc14a0154f3ff2e7ca1c10122defba44047717",
+            "8a49bcf3c16d8eaa1270c8691eaf282cbc6b4547"
+          ]
+        },
+        {
+          "number": 561,
+          "url": "https://github.com/edithatogo/voiage/pull/561",
+          "status": "merged",
+          "evidence": [
+            "julia-publication-readiness",
+            "2ba35efabbb3046de23e0fe12465fc1864cb21a8",
+            "ba1826201439079ae2e0194713600607629c878a"
+          ]
+        },
+        {
+          "number": 813,
+          "url": "https://github.com/edithatogo/voiage/pull/813",
+          "status": "merged",
+          "evidence": [
+            "registry-governance-delivery",
+            "144c0e0fbc20a5a55225f2b884e73eee11c9db64",
+            "9d49572ade4a27bd340c30f1fa1869c090f2bb6d"
+          ]
+        },
+        {
+          "number": 880,
+          "url": "https://github.com/edithatogo/voiage/pull/880",
+          "status": "merged",
+          "evidence": [
+            "registry-readiness-archive-delivery",
+            "c6e142f18e86579548e3a5c29118dd1ccd9365b0",
+            "5e0c4cbeb4432b19f50439831d226e1db5577539"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "roadmap-completion-program_20260510",
+      "metadata_track_id": "roadmap-completion-program_20260510",
+      "path": "conductor/archive/roadmap-completion-program_20260510",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 435,
+        "url": "https://github.com/edithatogo/voiage/issues/435",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "rust-core-abi-migration-strategy_20260507",
+      "metadata_track_id": "rust-core-abi-migration-strategy_20260507",
+      "path": "conductor/archive/rust-core-abi-migration-strategy_20260507",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 436,
+        "url": "https://github.com/edithatogo/voiage/issues/436",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "rust-core-bindings-and-release_20260504",
+      "metadata_track_id": "rust-core-bindings-and-release_20260504",
+      "path": "conductor/archive/rust-core-bindings-and-release_20260504",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 437,
+        "url": "https://github.com/edithatogo/voiage/issues/437",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "rust-core-domain-model_20260504",
+      "metadata_track_id": "rust-core-domain-model_20260504",
+      "path": "conductor/archive/rust-core-domain-model_20260504",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 438,
+        "url": "https://github.com/edithatogo/voiage/issues/438",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "rust-core-migration-foundation_20260504",
+      "metadata_track_id": "rust-core-migration-foundation_20260504",
+      "path": "conductor/archive/rust-core-migration-foundation_20260504",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 439,
+        "url": "https://github.com/edithatogo/voiage/issues/439",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/32",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "rust-core-numerics-engine_20260504",
+      "metadata_track_id": "rust-core-numerics-engine_20260504",
+      "path": "conductor/archive/rust-core-numerics-engine_20260504",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 440,
+        "url": "https://github.com/edithatogo/voiage/issues/440",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "rust-core-performance-and-profiling_20260504",
+      "metadata_track_id": "rust-core-performance-and-profiling_20260504",
+      "path": "conductor/archive/rust-core-performance-and-profiling_20260504",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 441,
+        "url": "https://github.com/edithatogo/voiage/issues/441",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "rust-evsi-stochastic-kernel_20260506",
+      "metadata_track_id": "rust-evsi-stochastic-kernel_20260506",
+      "path": "conductor/archive/rust-evsi-stochastic-kernel_20260506",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 442,
+        "url": "https://github.com/edithatogo/voiage/issues/442",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "rust-frontier-numerics-migration-completion_20260625",
+      "metadata_track_id": "rust-frontier-numerics-migration-completion_20260625",
+      "path": "conductor/archive/rust-frontier-numerics-migration-completion_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 443,
+        "url": "https://github.com/edithatogo/voiage/issues/443",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 39,
+          "url": "https://github.com/edithatogo/voiage/pull/39",
+          "status": "merged",
+          "evidence": [
+            "18e63867d4f23db0b8436aa5358d5880ccd93626",
+            "aa58d2aaa097e5c567f0e6815906c47cbc6c39c7",
+            "b2ce6549c442bcac99da45a96f5fe0fd2726b5be",
+            "f53fe77ff5525d627f987b08d1d34a3058ab3312"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "rust-release-submission_20260511",
+      "metadata_track_id": "rust-release-submission_20260511",
+      "path": "conductor/archive/rust-release-submission_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 444,
+        "url": "https://github.com/edithatogo/voiage/issues/444",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "sota-packaging-review-readiness_20260507",
+      "metadata_track_id": "sota-packaging-review-readiness_20260507",
+      "path": "conductor/archive/sota-packaging-review-readiness_20260507",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 445,
+        "url": "https://github.com/edithatogo/voiage/issues/445",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "sota-voi-frontier_20260429",
+      "metadata_track_id": "sota-voi-frontier_20260429",
+      "path": "conductor/archive/sota-voi-frontier_20260429",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 446,
+        "url": "https://github.com/edithatogo/voiage/issues/446",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "spack-package-merge-followthrough_20260625",
+      "metadata_track_id": "spack-package-merge-followthrough_20260625",
+      "path": "conductor/archive/spack-package-merge-followthrough_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 447,
+        "url": "https://github.com/edithatogo/voiage/issues/447",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 146,
+          "url": "https://github.com/edithatogo/voiage/pull/146",
+          "status": "merged",
+          "evidence": [
+            "75abf2cfa64919fdbc7c6afe06ba53cb532562a5"
+          ]
+        },
+        {
+          "number": 223,
+          "url": "https://github.com/edithatogo/voiage/pull/223",
+          "status": "merged",
+          "evidence": [
+            "6ea72f22f8ed00ebf3dc6c74f80b5b993c613917"
+          ]
+        },
+        {
+          "number": 224,
+          "url": "https://github.com/edithatogo/voiage/pull/224",
+          "status": "merged",
+          "evidence": [
+            "85bfdde54ff74ca041a892eaf204e48c2e161b80",
+            "bed7e1015f8b9ea3db79c55e216b90d1eee7c7e2"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "spack-registry-readiness_20260511",
+      "metadata_track_id": "spack-registry-readiness_20260511",
+      "path": "conductor/archive/spack-registry-readiness_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 448,
+        "url": "https://github.com/edithatogo/voiage/issues/448",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "standardized-dataset-ingestion_20260723",
+      "path": "conductor/archive/standardized-dataset-ingestion_20260723",
+      "lifecycle": "archived",
+      "issue": {
+        "number": 325,
+        "url": "https://github.com/edithatogo/voiage/issues/325",
+        "state": "closed"
+      },
+      "parent_issue_url": null,
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/326",
+        "https://github.com/edithatogo/voiage/issues/327",
+        "https://github.com/edithatogo/voiage/issues/328",
+        "https://github.com/edithatogo/voiage/issues/329",
+        "https://github.com/edithatogo/voiage/issues/330",
+        "https://github.com/edithatogo/voiage/issues/331",
+        "https://github.com/edithatogo/voiage/issues/332",
+        "https://github.com/edithatogo/voiage/issues/333",
+        "https://github.com/edithatogo/voiage/issues/467",
+        "https://github.com/edithatogo/voiage/issues/468"
+      ],
+      "pull_requests": [
+        {
+          "number": 334,
+          "url": "https://github.com/edithatogo/voiage/pull/334",
+          "status": "merged",
+          "evidence": [
+            "track-source-branch"
+          ]
+        },
+        {
+          "number": 477,
+          "url": "https://github.com/edithatogo/voiage/pull/477",
+          "status": "merged",
+          "evidence": [
+            "5239de166e63c710959393041d7d5a8b5b1a2e5c"
+          ]
+        },
+        {
+          "number": 479,
+          "url": "https://github.com/edithatogo/voiage/pull/479",
+          "status": "merged",
+          "evidence": [
+            "944feec6f92b632d931d7368e45f2d6cfe23670b"
+          ]
+        },
+        {
+          "number": 481,
+          "url": "https://github.com/edithatogo/voiage/pull/481",
+          "status": "merged",
+          "evidence": [
+            "ccd61b6a704c02f4cfaf737daebddb4792813ee0"
+          ]
+        },
+        {
+          "number": 482,
+          "url": "https://github.com/edithatogo/voiage/pull/482",
+          "status": "merged",
+          "evidence": [
+            "933f8ce748f36e68d0e3800eb9452da3abb49dee"
+          ]
+        },
+        {
+          "number": 484,
+          "url": "https://github.com/edithatogo/voiage/pull/484",
+          "status": "merged",
+          "evidence": [
+            "081060894d05cbacd6cdf2bea6b95a3509748fd5"
+          ]
+        },
+        {
+          "number": 486,
+          "url": "https://github.com/edithatogo/voiage/pull/486",
+          "status": "merged",
+          "evidence": [
+            "cc08b2cc8d94c41c7410a017bf09e5d62cffd9e2"
+          ]
+        },
+        {
+          "number": 487,
+          "url": "https://github.com/edithatogo/voiage/pull/487",
+          "status": "merged",
+          "evidence": [
+            "c3aaf1d70768f311a767580c4ce2171df9f7b000"
+          ]
+        },
+        {
+          "number": 488,
+          "url": "https://github.com/edithatogo/voiage/pull/488",
+          "status": "merged",
+          "evidence": [
+            "825ebf1ca07d5aefa37b660e9ed38d90fac6f2d7"
+          ]
+        },
+        {
+          "number": 490,
+          "url": "https://github.com/edithatogo/voiage/pull/490",
+          "status": "merged",
+          "evidence": [
+            "300ca6714598484546ef550eb987b4916f766784"
+          ]
+        },
+        {
+          "number": 492,
+          "url": "https://github.com/edithatogo/voiage/pull/492",
+          "status": "merged",
+          "evidence": [
+            "f479bd058ee8a3e4f4893d90325857ab4559e505"
+          ]
+        },
+        {
+          "number": 494,
+          "url": "https://github.com/edithatogo/voiage/pull/494",
+          "status": "merged",
+          "evidence": [
+            "772626789c56b087cd84a450d0c54c6484e81ca0"
+          ]
+        },
+        {
+          "number": 519,
+          "url": "https://github.com/edithatogo/voiage/pull/519",
+          "status": "merged",
+          "evidence": [
+            "ed606920b134c1d9e5c83ea0efd1b2dd7cfebeb5"
+          ]
+        },
+        {
+          "number": 523,
+          "url": "https://github.com/edithatogo/voiage/pull/523",
+          "status": "merged",
+          "evidence": [
+            "97aa1a53f5edb605526ae1448d164b2e2f214562"
+          ]
+        },
+        {
+          "number": 525,
+          "url": "https://github.com/edithatogo/voiage/pull/525",
+          "status": "merged",
+          "evidence": [
+            "e8d52c58d30683af93baa8e00920cc1a1cf564fd"
+          ]
+        },
+        {
+          "number": 526,
+          "url": "https://github.com/edithatogo/voiage/pull/526",
+          "status": "merged",
+          "evidence": [
+            "0d782b58cf11b57724606b2bbc9c8bd5d790b3a0"
+          ]
+        },
+        {
+          "number": 527,
+          "url": "https://github.com/edithatogo/voiage/pull/527",
+          "status": "merged",
+          "evidence": [
+            "54abda720cc07b143fa9e4a054959739e54484d6"
+          ]
+        },
+        {
+          "number": 627,
+          "url": "https://github.com/edithatogo/voiage/pull/627",
+          "status": "merged",
+          "evidence": [
+            "4d55db89902b84a491e4662cf247948a15448aaa"
+          ]
+        },
+        {
+          "number": 629,
+          "url": "https://github.com/edithatogo/voiage/pull/629",
+          "status": "closed",
+          "evidence": [
+            "24e1297769588867bb1bf03df23e64c6e62c9c19"
+          ]
+        },
+        {
+          "number": 631,
+          "url": "https://github.com/edithatogo/voiage/pull/631",
+          "status": "closed",
+          "evidence": [
+            "c4106739f7c67ca02a0751958dac8158280987c8"
+          ]
+        },
+        {
+          "number": 634,
+          "url": "https://github.com/edithatogo/voiage/pull/634",
+          "status": "merged",
+          "evidence": [
+            "1f6cbc524435c80ae6623cf156ef736fce87b932"
+          ]
+        },
+        {
+          "number": 638,
+          "url": "https://github.com/edithatogo/voiage/pull/638",
+          "status": "merged",
+          "evidence": [
+            "333ee68fe69b251bce6cd4cd590556e7eff4d39a"
+          ]
+        },
+        {
+          "number": 639,
+          "url": "https://github.com/edithatogo/voiage/pull/639",
+          "status": "merged",
+          "evidence": [
+            "928a7281069f9c2590d71e0a80e07b366dc1617e"
+          ]
+        },
+        {
+          "number": 640,
+          "url": "https://github.com/edithatogo/voiage/pull/640",
+          "status": "merged",
+          "evidence": [
+            "46f4f887f9041ee32cc19610b577d42211bf9d96"
+          ]
+        },
+        {
+          "number": 641,
+          "url": "https://github.com/edithatogo/voiage/pull/641",
+          "status": "merged",
+          "evidence": [
+            "d0bd9667a9b65d3bd7fe633cfcf9ddc4b32a8d6f"
+          ]
+        },
+        {
+          "number": 642,
+          "url": "https://github.com/edithatogo/voiage/pull/642",
+          "status": "merged",
+          "evidence": [
+            "28b2609c37f0b2451093a80bc0bbd0ee118595e7"
+          ]
+        },
+        {
+          "number": 643,
+          "url": "https://github.com/edithatogo/voiage/pull/643",
+          "status": "merged",
+          "evidence": [
+            "46ef787374b9a6d376764878849cab61636a38a2"
+          ]
+        },
+        {
+          "number": 644,
+          "url": "https://github.com/edithatogo/voiage/pull/644",
+          "status": "merged",
+          "evidence": [
+            "64ef08e35f7d51d5519377095b8690992a0fa73a"
+          ]
+        },
+        {
+          "number": 645,
+          "url": "https://github.com/edithatogo/voiage/pull/645",
+          "status": "merged",
+          "evidence": [
+            "e6321b4f83f4d8b19f539c1ad0911cf16864d110"
+          ]
+        },
+        {
+          "number": 646,
+          "url": "https://github.com/edithatogo/voiage/pull/646",
+          "status": "merged",
+          "evidence": [
+            "e63be6206924a08b480517732e7ee70f721895b0"
+          ]
+        },
+        {
+          "number": 647,
+          "url": "https://github.com/edithatogo/voiage/pull/647",
+          "status": "merged",
+          "evidence": [
+            "cf90f32c8f4652aa9650cd98fd0dcdd133917ae1"
+          ]
+        },
+        {
+          "number": 648,
+          "url": "https://github.com/edithatogo/voiage/pull/648",
+          "status": "merged",
+          "evidence": [
+            "623fa73ba1efc2edc8f36a2c3c1a237a9d279453"
+          ]
+        },
+        {
+          "number": 649,
+          "url": "https://github.com/edithatogo/voiage/pull/649",
+          "status": "merged",
+          "evidence": [
+            "0a297f7d0c543e6b836c04db2444c5575ee1aa73"
+          ]
+        },
+        {
+          "number": 658,
+          "url": "https://github.com/edithatogo/voiage/pull/658",
+          "status": "merged",
+          "evidence": [
+            "c59966923bc236ee886fa82036c81f5f91b838b8"
+          ]
+        },
+        {
+          "number": 659,
+          "url": "https://github.com/edithatogo/voiage/pull/659",
+          "status": "merged",
+          "evidence": [
+            "1fad7f224bbefd6f2eae56dee627c078aab029ce"
+          ]
+        },
+        {
+          "number": 660,
+          "url": "https://github.com/edithatogo/voiage/pull/660",
+          "status": "merged",
+          "evidence": [
+            "dba2886a932bc6c2987cdb90bf1f5d9fafb79430"
+          ]
+        },
+        {
+          "number": 661,
+          "url": "https://github.com/edithatogo/voiage/pull/661",
+          "status": "merged",
+          "evidence": [
+            "6e609c69766f957fb83e4cb6ff731aba7980f842"
+          ]
+        },
+        {
+          "number": 662,
+          "url": "https://github.com/edithatogo/voiage/pull/662",
+          "status": "merged",
+          "evidence": [
+            "25722c32473874be48d0fac477fb11c0876c43af"
+          ]
+        },
+        {
+          "number": 663,
+          "url": "https://github.com/edithatogo/voiage/pull/663",
+          "status": "merged",
+          "evidence": [
+            "0c1bde9b659cce8a17fd57dec40cd8d7e1712314"
+          ]
+        },
+        {
+          "number": 665,
+          "url": "https://github.com/edithatogo/voiage/pull/665",
+          "status": "merged",
+          "evidence": [
+            "f36111d7c94087fc084b0b631a1df6d87f07a663"
+          ]
+        },
+        {
+          "number": 666,
+          "url": "https://github.com/edithatogo/voiage/pull/666",
+          "status": "merged",
+          "evidence": [
+            "c84086d578adfc8d2cc1ecb0d71fc0b5946d4daa"
+          ]
+        },
+        {
+          "number": 667,
+          "url": "https://github.com/edithatogo/voiage/pull/667",
+          "status": "merged",
+          "evidence": [
+            "a51d10b4be764a733b360b76963afed43e586936"
+          ]
+        },
+        {
+          "number": 668,
+          "url": "https://github.com/edithatogo/voiage/pull/668",
+          "status": "merged",
+          "evidence": [
+            "5a5ddcf8de966b9d9f3ea014d3a696004cabdb58"
+          ]
+        },
+        {
+          "number": 669,
+          "url": "https://github.com/edithatogo/voiage/pull/669",
+          "status": "merged",
+          "evidence": [
+            "f8d6362d1d5a5bc965679726e8158dcdce0fcb6e"
+          ]
+        },
+        {
+          "number": 670,
+          "url": "https://github.com/edithatogo/voiage/pull/670",
+          "status": "merged",
+          "evidence": [
+            "96c1101464583a3fb093541cfed684f0888d92d5"
+          ]
+        },
+        {
+          "number": 683,
+          "url": "https://github.com/edithatogo/voiage/pull/683",
+          "status": "merged",
+          "evidence": [
+            "12ed932b0d27adde075e0f0032330d87c1b5f727"
+          ]
+        },
+        {
+          "number": 684,
+          "url": "https://github.com/edithatogo/voiage/pull/684",
+          "status": "merged",
+          "evidence": [
+            "27e222c3dee9db3afb2544bb4b59ca4ffa7065c0"
+          ]
+        },
+        {
+          "number": 685,
+          "url": "https://github.com/edithatogo/voiage/pull/685",
+          "status": "merged",
+          "evidence": [
+            "eaf528428a5476528ac99d86dc0507dca3afa3a1"
+          ]
+        },
+        {
+          "number": 686,
+          "url": "https://github.com/edithatogo/voiage/pull/686",
+          "status": "merged",
+          "evidence": [
+            "5c3f9d72048b1a10a39d9c1b580d2d7b07e1deeb"
+          ]
+        },
+        {
+          "number": 687,
+          "url": "https://github.com/edithatogo/voiage/pull/687",
+          "status": "merged",
+          "evidence": [
+            "d3a4882494f8caa3fe3dee2f4f859b80514f64c8"
+          ]
+        },
+        {
+          "number": 689,
+          "url": "https://github.com/edithatogo/voiage/pull/689",
+          "status": "merged",
+          "evidence": [
+            "2317c1ca7f1e652eb822ac92b80a8a3e2ca609fe"
+          ]
+        },
+        {
+          "number": 690,
+          "url": "https://github.com/edithatogo/voiage/pull/690",
+          "status": "merged",
+          "evidence": [
+            "aa500d733d0de86e2c6051461249a64f4a5dc585"
+          ]
+        },
+        {
+          "number": 715,
+          "url": "https://github.com/edithatogo/voiage/pull/715",
+          "status": "merged",
+          "evidence": [
+            "69b330083c702ad3dd62c9c9f1c623237d23d4c6",
+            "70bdf78dd241a5f7b06febc8004e890fb5753b2f"
+          ]
+        },
+        {
+          "number": 716,
+          "url": "https://github.com/edithatogo/voiage/pull/716",
+          "status": "merged",
+          "evidence": [
+            "002ca00bb03eda67253789e1b258e09b050630eb",
+            "8e08b1ce0f26e8540c2b0eea9eda71813222cc6b"
+          ]
+        },
+        {
+          "number": 719,
+          "url": "https://github.com/edithatogo/voiage/pull/719",
+          "status": "merged",
+          "evidence": [
+            "fc393d67dca9f47893290eafe6dc08b056b7e08c",
+            "7127a5470b20d971d13c60f8158d1d56bcff8f0f"
+          ]
+        },
+        {
+          "number": 721,
+          "url": "https://github.com/edithatogo/voiage/pull/721",
+          "status": "merged",
+          "evidence": [
+            "53eabb8583dff1645a91cdb3591f37930d6724b8"
+          ]
+        },
+        {
+          "number": 751,
+          "url": "https://github.com/edithatogo/voiage/pull/751",
+          "status": "merged",
+          "evidence": [
+            "e8aaba82848819e8aff2779356d95a01b3d376c7"
+          ]
+        },
+        {
+          "number": 754,
+          "url": "https://github.com/edithatogo/voiage/pull/754",
+          "status": "merged",
+          "evidence": [
+            "4919e8b94e1fd6ba7a04bf36808265975b2ed792"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced",
+      "source_pull_request": {
+        "number": 334,
+        "url": "https://github.com/edithatogo/voiage/pull/334",
+        "state": "merged"
+      }
+    },
+    {
+      "track_id": "starlight-docs-platform_20260506",
+      "metadata_track_id": "starlight-docs-platform_20260506",
+      "path": "conductor/archive/starlight-docs-platform_20260506",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 449,
+        "url": "https://github.com/edithatogo/voiage/issues/449",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "starlight_migration_20260513",
+      "metadata_track_id": "starlight_migration_20260513",
+      "path": "conductor/archive/starlight_migration_20260513",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 450,
+        "url": "https://github.com/edithatogo/voiage/issues/450",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "strategic-behavior-game-theoretic-voi-mature-stable_20260625",
+      "metadata_track_id": "strategic-behavior-game-theoretic-voi-mature-stable_20260625",
+      "path": "conductor/archive/strategic-behavior-game-theoretic-voi-mature-stable_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 451,
+        "url": "https://github.com/edithatogo/voiage/issues/451",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 201,
+          "url": "https://github.com/edithatogo/voiage/pull/201",
+          "status": "merged",
+          "evidence": [
+            "3829bb7a43408c26f403d08f6acd0c70c2f1916c",
+            "4524680f79dd7fdf67968299cdc39b2fa6a90a61"
+          ]
+        },
+        {
+          "number": 202,
+          "url": "https://github.com/edithatogo/voiage/pull/202",
+          "status": "merged",
+          "evidence": [
+            "0562dcf2703de9e1d289fe64432c0ccda7a85f94",
+            "a0997a4a80b13010fd7416271467d37eaa79f713"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "strategy-orchestration_20260507",
+      "metadata_track_id": "strategy-orchestration_20260507",
+      "path": "conductor/archive/strategy-orchestration_20260507",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 452,
+        "url": "https://github.com/edithatogo/voiage/issues/452",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 92,
+          "url": "https://github.com/edithatogo/voiage/pull/92",
+          "status": "merged",
+          "evidence": [
+            "0db776d4f7769b8b9df4f6af7b104a8a1a41cdeb",
+            "32516ecb974811da934a4aada7932b68605d2fc6"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "strict-ci-cd-quality-gates_20260625",
+      "metadata_track_id": "strict-ci-cd-quality-gates_20260625",
+      "path": "conductor/archive/strict-ci-cd-quality-gates_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 453,
+        "url": "https://github.com/edithatogo/voiage/issues/453",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 39,
+          "url": "https://github.com/edithatogo/voiage/pull/39",
+          "status": "merged",
+          "evidence": [
+            "2b2842a59a71aee79d379ed3d55c24a88911455a",
+            "35ec63ed06efe9d69575d110eff8fb5203bb2aeb",
+            "4a5cd5900b7915a55bf52f2bdde3a1428ad5dbcb",
+            "99f81e66ac2a41d1a793e34f89d8479975005d4d",
+            "a1f1c24d706e2805f7c956746d03fc1a7c91649c"
+          ]
+        },
+        {
+          "number": 149,
+          "url": "https://github.com/edithatogo/voiage/pull/149",
+          "status": "merged",
+          "evidence": [
+            "addac7db078117bde7af16260b9cc1b78112466c"
+          ]
+        },
+        {
+          "number": 150,
+          "url": "https://github.com/edithatogo/voiage/pull/150",
+          "status": "merged",
+          "evidence": [
+            "5bc25da64d2b4e07bc5cef1aa0545be06cb24599",
+            "bf1db4f5561836f6d930df970a23124f02dada97"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "threshold-robust-voi_20260506",
+      "metadata_track_id": "threshold-robust-voi_20260506",
+      "path": "conductor/archive/threshold-robust-voi_20260506",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 454,
+        "url": "https://github.com/edithatogo/voiage/issues/454",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "tpu-acceleration-feasibility_20260511",
+      "metadata_track_id": "tpu-acceleration-feasibility_20260511",
+      "path": "conductor/archive/tpu-acceleration-feasibility_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 455,
+        "url": "https://github.com/edithatogo/voiage/issues/455",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 121,
+          "url": "https://github.com/edithatogo/voiage/pull/121",
+          "status": "merged",
+          "evidence": [
+            "5949e3fe0b9dc3f2c418640997bf9768cd58cd74",
+            "faaad395cd3d35551cdd56315c7e2adfba8b1b5d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "tpu-implementation_20260511",
+      "metadata_track_id": "tpu-implementation_20260511",
+      "path": "conductor/archive/tpu-implementation_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 456,
+        "url": "https://github.com/edithatogo/voiage/issues/456",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "tpu-production-scale-colab-evidence_20260625",
+      "metadata_track_id": "tpu-production-scale-colab-evidence_20260625",
+      "path": "conductor/archive/tpu-production-scale-colab-evidence_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 458,
+        "url": "https://github.com/edithatogo/voiage/issues/458",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 213,
+          "url": "https://github.com/edithatogo/voiage/pull/213",
+          "status": "merged",
+          "evidence": [
+            "624818ba94d8c0b32497f00d02933f719bdcacb9"
+          ]
+        },
+        {
+          "number": 215,
+          "url": "https://github.com/edithatogo/voiage/pull/215",
+          "status": "merged",
+          "evidence": [
+            "127257e044452da38ef125d0d91f06730bbc342a",
+            "fd61acaed6573f99f9c673f66d1ca78c49bd3acd"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "typescript-release-submission_20260511",
+      "metadata_track_id": "typescript-release-submission_20260511",
+      "path": "conductor/archive/typescript-release-submission_20260511",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 457,
+        "url": "https://github.com/edithatogo/voiage/issues/457",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "unified-versioning-policy_20260507",
+      "metadata_track_id": "unified-versioning-policy_20260507",
+      "path": "conductor/archive/unified-versioning-policy_20260507",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 459,
+        "url": "https://github.com/edithatogo/voiage/issues/459",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "validation-threshold-voi-stable-promotion_20260625",
+      "metadata_track_id": "validation-threshold-voi-stable-promotion_20260625",
+      "path": "conductor/archive/validation-threshold-voi-stable-promotion_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 460,
+        "url": "https://github.com/edithatogo/voiage/issues/460",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 159,
+          "url": "https://github.com/edithatogo/voiage/pull/159",
+          "status": "merged",
+          "evidence": [
+            "b60557f98e21af6613de37305e8b6e79a591bc09",
+            "f6f2f79d87610ddf545d9ef67bc50aad445d9004"
+          ]
+        },
+        {
+          "number": 160,
+          "url": "https://github.com/edithatogo/voiage/pull/160",
+          "status": "merged",
+          "evidence": [
+            "44f3762e1bc966a9b52f01c169166d61f8311d09",
+            "7711b3d047a627efafb96cf6cc8586ee8f6846d4"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "voi-frontier-architecture-dependency-governance_20260625",
+      "metadata_track_id": "voi-frontier-architecture-dependency-governance_20260625",
+      "path": "conductor/archive/voi-frontier-architecture-dependency-governance_20260625",
+      "lifecycle": "completed",
+      "issue": {
+        "number": 461,
+        "url": "https://github.com/edithatogo/voiage/issues/461",
+        "state": "closed"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/vop_poc_nz/issues/33",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 39,
+          "url": "https://github.com/edithatogo/voiage/pull/39",
+          "status": "merged",
+          "evidence": [
+            "27c667ce6c02b549a9b1a6cc2e470b66176251fe",
+            "4ebe8883ab8e001014d3c7d0abce71a8cda77454",
+            "821b7c498ade1db4ac3dfbbb89a780f8efe7888d",
+            "8feda55fb1e41320e8e691f60e36290eded95317",
+            "998ec700491d6b14c28efd92e2cc33c18fa2c706",
+            "ac6e66be5d151893b23a26b21ab8441d5e4f20db",
+            "b2ce6549c442bcac99da45a96f5fe0fd2726b5be",
+            "dc292c7d472644d04d5f5d0431d19f4735196928",
+            "ed778310771a3f99e7cd7e6877fac71654913d1f"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "controlled_live_dataset_interoperability_20260801",
+      "metadata_track_id": "controlled_live_dataset_interoperability_20260801",
+      "path": "conductor/tracks/controlled_live_dataset_interoperability_20260801",
+      "lifecycle": "active",
+      "issue": {
+        "number": 752,
+        "url": "https://github.com/edithatogo/voiage/issues/752",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/325",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 817,
+          "url": "https://github.com/edithatogo/voiage/pull/817",
+          "status": "merged",
+          "evidence": [
+            "controlled-probe-assurance",
+            "d40f5b617df847fe517759f5892a1562f25bc4d9",
+            "33537325ad7262dc15bcddb4283a6aa51cfdb323"
+          ]
+        }
+      ],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "remote_dataset_ingestion_security_20260801",
+      "metadata_track_id": "remote_dataset_ingestion_security_20260801",
+      "path": "conductor/tracks/remote_dataset_ingestion_security_20260801",
+      "lifecycle": "active",
+      "issue": {
+        "number": 753,
+        "url": "https://github.com/edithatogo/voiage/issues/753",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/325",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 824,
+          "url": "https://github.com/edithatogo/voiage/pull/824",
+          "status": "merged",
+          "evidence": [
+            "threat-model-delivery",
+            "3635b5d3ca9b680fdfffcddec092db94854cc8e0",
+            "9934da329ca3c06bd54094ba95c18fe282c42bb6"
+          ]
+        }
+      ],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "sampling_acquisition_harm_voi_20260802",
+      "metadata_track_id": "sampling_acquisition_harm_voi_20260802",
+      "path": "conductor/tracks/sampling_acquisition_harm_voi_20260802",
+      "lifecycle": "active",
+      "issue": {
+        "number": 850,
+        "url": "https://github.com/edithatogo/voiage/issues/850",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/570",
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/851",
+        "https://github.com/edithatogo/voiage/issues/852",
+        "https://github.com/edithatogo/voiage/issues/853",
+        "https://github.com/edithatogo/voiage/issues/864",
+      "https://github.com/edithatogo/voiage/issues/867",
+        "https://github.com/edithatogo/voiage/issues/870",
+        "https://github.com/edithatogo/voiage/issues/873",
+        "https://github.com/edithatogo/voiage/issues/876"
+      ],
+      "pull_requests": [
+        {
+          "number": 71,
+          "url": "https://github.com/edithatogo/vop_poc_nz/pull/71",
+          "status": "merged",
+          "evidence": [
+            "canonical-c18-m32-planning-sync",
+            "3d7637a732be7254d92c8fd38183afcd900ea6d3",
+            "e0ff1d2ce3361d52ee22bb01e105b92653ed606c",
+            "16-terminal-successes-and-one-governed-scheduled-only-skip"
+          ]
+        },
+        {
+          "number": 855,
+          "url": "https://github.com/edithatogo/voiage/pull/855",
+          "status": "merged",
+          "evidence": [
+            "repository-delivery",
+            "14b9f6d836c831eb62cad41f589133d83ddd9493",
+            "62d22743b1547266bd554b215f957934bf577234",
+            "60-successes-four-governed-skips-one-neutral-zero-unresolved-threads"
+          ]
+        },
+        {
+          "number": 863,
+          "url": "https://github.com/edithatogo/voiage/pull/863",
+          "status": "merged",
+          "evidence": [
+            "automated-challenge-and-governance-sync",
+            "13456c7af74a7136b8aa71a74a01c47e64019480",
+            "0c3f4314368693a07d0f9f6996e123a1d20ef208",
+            "38-successes-three-governed-skips-one-neutral-zero-unresolved-threads"
+          ]
+        },
+    {
+      "number": 865,
+          "url": "https://github.com/edithatogo/voiage/pull/865",
+          "status": "merged",
+          "evidence": [
+            "h8db-remediation-and-review-intake",
+            "973a79dca58cd831d5f1d5a5edce745cd22903b5",
+            "03277fef312e848e00cb405bca19cbf331b3603d",
+        "38-successes-three-governed-skips-one-neutral-zero-failures-pending-or-unresolved-threads"
+      ]
+    },
+    {
+      "number": 868,
+      "url": "https://github.com/edithatogo/voiage/pull/868",
+      "status": "merged",
+      "evidence": [
+        "h8dc-source-observation-and-remediation-readiness",
+        "ee9da9babf785525032f4ed6446a478c9a47602e",
+        "b60d6ee9a19b79503525488c716d6ad231fa0aa0",
+        "38-successes-three-governed-skips-one-neutral-zero-failures-pending-or-unresolved-threads"
+      ]
+    },
+    {
+      "number": 871,
+      "url": "https://github.com/edithatogo/voiage/pull/871",
+      "status": "merged",
+      "evidence": [
+        "h8dd-human-commissioning-preflight",
+        "305bdad591abbdcb1d99250dac111d7dbbbadae6",
+        "8c7102450b30991ffe9e7278abbed1c7981edb22",
+        "38-successes-four-governed-skips-zero-failures-pending-or-unresolved-threads"
+      ]
+    },
+      {
+        "number": 872,
+        "url": "https://github.com/edithatogo/voiage/pull/872",
+        "status": "merged",
+        "evidence": [
+          "h8dd-governance-closeout",
+          "c9d79b321f08cc0d6e51f5c8f64e9670bec58d75",
+          "692b0e4fb0ae27b0624aed98253d3b6a349e69a4",
+          "33-successes-four-governed-skips-zero-failures-pending-or-unresolved-threads"
+        ]
+      },
+        {
+          "number": 874,
+        "url": "https://github.com/edithatogo/voiage/pull/874",
+        "status": "merged",
+        "evidence": [
+          "h8de-accountable-choice-gate-materialization",
+          "4e678625c0c358bceea825019cefb48bd02553a4",
+          "cd3cf454a830dab2b0db9a091123d8f7b1ef8227",
+            "33-successes-three-governed-skips-one-neutral-zero-failures-pending-or-unresolved-threads"
+          ]
+        },
+        {
+          "number": 877,
+          "url": "https://github.com/edithatogo/voiage/pull/877",
+          "status": "merged",
+          "evidence": [
+            "h8de-option-one-decision-receipt",
+            "8de3a40ad9606904b19c28f2dad202a4cab31214",
+            "b3138ae787531068397690300806ae9d110dd568",
+            "38-successes-four-governed-skips-or-neutral-zero-failures-pending-or-unresolved-threads"
+          ]
+        }
+    ],
+    "pull_request_evidence": "merged_repository_delivery_canonical_planning_h8db_h8dc_h8dd_and_h8de_gate_preparation"
+    },
+    {
+      "track_id": "information_source_portfolio_voi_20260801",
+      "metadata_track_id": "information_source_portfolio_voi_20260801",
+      "path": "conductor/tracks/information_source_portfolio_voi_20260801",
+      "lifecycle": "active",
+      "issue": {
+        "number": 582,
+        "url": "https://github.com/edithatogo/voiage/issues/582",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/318",
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/763",
+        "https://github.com/edithatogo/voiage/issues/764",
+        "https://github.com/edithatogo/voiage/issues/765"
+      ],
+      "pull_requests": [
+        {
+          "number": 772,
+          "url": "https://github.com/edithatogo/voiage/pull/772",
+          "status": "merged",
+          "evidence": [
+            "experimental-implementation-delivery",
+            "hosted-required-checks",
+            "f1d6f77d3e6ef1024d5bf3ebecc6e6e3a39ea91c",
+            "557710175baae8a2ee44a7be3e8f5d4f546e563e"
+          ]
+        },
+        {
+          "number": 812,
+          "url": "https://github.com/edithatogo/voiage/pull/812",
+          "status": "merged",
+          "evidence": [
+            "independent-review-delivery",
+            "3a2227d12721ffa418d6bf0d7e925ebe70182c59",
+            "286f1700b3c06824b6ab56cc6afb84348958190d"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "uncertainty_modelling_value_20260801",
+      "metadata_track_id": "uncertainty_modelling_value_20260801",
+      "path": "conductor/tracks/uncertainty_modelling_value_20260801",
+      "lifecycle": "active",
+      "issue": {
+        "number": 594,
+        "url": "https://github.com/edithatogo/voiage/issues/594",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/318",
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/774",
+        "https://github.com/edithatogo/voiage/issues/775",
+        "https://github.com/edithatogo/voiage/issues/776"
+      ],
+      "pull_requests": [
+        {
+          "number": 798,
+          "url": "https://github.com/edithatogo/voiage/pull/798",
+          "status": "merged",
+          "evidence": [
+            "experimental-uncertainty-modelling-delivery",
+            "independent-review",
+            "hosted-required-checks",
+            "aa5d9fd86a42fecd5e8746e77c74ba23e33bb092",
+            "c5adca8fd49b74a04312111168283fbdffc2dcbd"
+          ]
+        }
+      ],
+      "pull_request_evidence": "evidenced"
+    }
+  ]
+}

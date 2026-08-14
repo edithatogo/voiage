@@ -1,125 +1,110 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended",
+    "config:best-practices",
+    ":dependencyDashboard",
     ":semanticCommits",
     ":semanticCommitTypeAll(chore)",
-    ":dependencyDashboard",
-    ":enableVulnerabilityAlerts",
-    ":pinDigestsDisabled",
+    ":automergeMinor",
+    ":automergePatch",
+    ":disableRateLimiting",
+    "group:allNonMajor",
     "group:monorepos",
     "group:recommended"
   ],
   "enabledManagers": [
     "cargo",
-    "docker-compose",
+    "custom.regex",
     "github-actions",
-    "git-submodules",
     "npm",
     "pep621",
-    "pixi",
-    "pre-commit"
+    "pip_requirements",
+    "pip_setup"
   ],
-  "dependencyDashboard": true,
-  "dependencyDashboardTitle": "Renovate dependency and security dashboard",
-  "dependencyDashboardLabels": ["dependencies"],
-  "dependencyDashboardOSVVulnerabilitySummary": "all",
-  "dependencyDashboardReportAbandonment": true,
-  "osvVulnerabilityAlerts": true,
-  "abandonmentThreshold": "2 years",
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update CRAN minimum versions in the R DESCRIPTION",
+      "managerFilePatterns": ["/^r-package/voiageR/DESCRIPTION$/"],
+      "matchStrings": [
+        "(?<depName>reticulate) \\(>= (?<currentValue>[^)]+)\\)",
+        "(?<depName>knitr) \\(>= (?<currentValue>[^)]+)\\)",
+        "(?<depName>rmarkdown) \\(>= (?<currentValue>[^)]+)\\)",
+        "(?<depName>testthat) \\(>= (?<currentValue>[^)]+)\\)"
+      ],
+      "datasourceTemplate": "github-tags",
+      "packageNameTemplate": "{{#if (equals depName 'reticulate')}}rstudio/reticulate{{else}}{{#if (equals depName 'knitr')}}yihui/knitr{{else}}{{#if (equals depName 'rmarkdown')}}rstudio/rmarkdown{{else}}r-lib/testthat{{/if}}{{/if}}{{/if}}",
+      "extractVersionTemplate": "^v?(?<version>.*)$",
+      "versioningTemplate": "semver-coerced"
+    },
+    {
+      "customType": "regex",
+      "description": "Update non-stdlib Julia compatibility bounds",
+      "managerFilePatterns": ["/^bindings/julia/Project.toml$/"],
+      "matchStrings": [
+        "(?:^|\\n)(?<depName>Aqua) = \"(?<currentValue>[^\"]+)\"",
+        "(?:^|\\n)(?<depName>JSON) = \"(?<currentValue>[^\"]+)\""
+      ],
+      "datasourceTemplate": "github-tags",
+      "packageNameTemplate": "{{#if (equals depName 'Aqua')}}JuliaTesting/Aqua.jl{{else}}JuliaIO/JSON.jl{{/if}}",
+      "extractVersionTemplate": "^v(?<version>.*)$",
+      "versioningTemplate": "semver-coerced"
+    }
+  ],
   "schedule": ["every weekend"],
-  "prCreation": "not-pending",
-  "internalChecksFilter": "strict",
-  "minimumReleaseAge": "7 days",
-  "minimumReleaseAgeBehaviour": "timestamp-required",
-  "rebaseWhen": "behind-base-branch",
-  "platformAutomerge": true,
-  "automergeType": "pr",
-  "statusCheckWhen": {
-    "artifactError": "always",
-    "configValidation": "always",
-    "minimumReleaseAge": "always"
-  },
+  "minimumReleaseAge": "14 days",
+  "osvVulnerabilityAlerts": true,
+  "dependencyDashboardOSVVulnerabilitySummary": "unresolved",
   "packageRules": [
     {
-      "description": "Automerge ordinary non-major updates only after stability and required checks",
-      "matchManagers": ["cargo", "npm", "pep621"],
+      "matchManagers": ["pep621", "pip_requirements", "pip_setup"],
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true,
-      "groupName": "non-major dependencies",
-      "groupSlug": "non-major-dependencies"
+      "automergeType": "branch",
+      "groupName": "python dependencies",
+      "groupSlug": "python-all"
     },
     {
-      "description": "Keep GitHub Actions immutable and reviewed",
       "matchManagers": ["github-actions"],
-      "pinDigests": true,
-      "automerge": false,
-      "groupName": "github actions",
-      "addLabels": ["github-actions", "security"]
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "automergeType": "branch",
+      "groupName": "github actions"
     },
     {
-      "description": "Pin container image digests and require supply-chain review",
-      "matchManagers": ["docker-compose"],
-      "pinDigests": true,
+      "matchManagers": ["custom.regex"],
+      "rangeStrategy": "bump",
       "automerge": false,
-      "addLabels": ["supply-chain"]
+      "labels": ["dependencies", "polyglot"]
     },
     {
-      "description": "Environment and executable hook updates require review",
-      "matchManagers": ["pixi", "pre-commit"],
-      "automerge": false,
-      "addLabels": ["quality-tooling", "supply-chain"]
-    },
-    {
-      "description": "Python runtime upgrades require an explicit compatibility track",
       "matchPackageNames": ["python"],
       "enabled": false
     },
     {
-      "description": "Numerical, inference and interchange dependencies always require review",
-      "matchPackageNames": [
-        "/^(jax|jaxlib|numpy|numpyro|pyarrow|polars|scipy|scikit-learn|xarray)$/"
-      ],
-      "automerge": false,
-      "addLabels": ["numerical-assurance"]
-    },
-    {
-      "matchPackageNames": ["/^(pytest|hypothesis|coverage|pytest-.+)$/"],
-      "groupName": "testing dependencies",
-      "groupSlug": "testing",
-      "automerge": false,
-      "addLabels": ["quality-tooling"]
-    },
-    {
-      "matchPackageNames": ["/^(ruff|ty|basedpyright)$/"],
-      "groupName": "linting and type checking",
-      "groupSlug": "linting",
-      "automerge": false,
-      "addLabels": ["quality-tooling"]
-    },
-    {
-      "description": "Major and breaking updates require human review",
+      "matchPackagePatterns": ["^jax", "^numpyro"],
       "matchUpdateTypes": ["major"],
       "automerge": false,
-      "dependencyDashboardApproval": true,
-      "addLabels": ["breaking-change"]
+      "labels": ["dependencies", "jax-ecosystem"]
     },
     {
-      "description": "Submodule changes carry executable source and require review",
-      "matchManagers": ["git-submodules"],
-      "automerge": false,
-      "addLabels": ["supply-chain"]
+      "matchPackagePatterns": ["pytest", "hypothesis", "coverage"],
+      "groupName": "testing dependencies",
+      "groupSlug": "testing"
     },
     {
-      "description": "Lock maintenance is reviewed and exercised by the complete matrix",
-      "matchUpdateTypes": ["lockFileMaintenance"],
-      "automerge": false,
-      "addLabels": ["lockfile"]
+      "matchPackagePatterns": ["ruff", "ty"],
+      "groupName": "linting and type checking",
+      "groupSlug": "linting"
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "automerge": true
     }
   ],
   "labels": ["dependencies"],
-  "prConcurrentLimit": 6,
-  "prHourlyLimit": 2,
+  "prConcurrentLimit": 10,
+  "prHourlyLimit": 5,
   "rangeStrategy": "pin",
   "separateMajorMinor": true,
   "separateMultipleMajor": true,
@@ -130,10 +115,6 @@
   },
   "vulnerabilityAlerts": {
     "enabled": true,
-    "vulnerabilityFixStrategy": "lowest",
-    "automerge": false,
-    "labels": ["dependencies", "security"],
-    "addLabels": ["priority:security"],
-    "schedule": ["at any time"]
+    "labels": ["security"]
   }
 }

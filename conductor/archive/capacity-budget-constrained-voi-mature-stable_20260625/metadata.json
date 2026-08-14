@@ -4,5 +4,15 @@
   "status": "completed",
   "created_at": "2026-06-25T00:00:00Z",
   "updated_at": "2026-07-17T04:45:00Z",
-  "description": "Add capacity and budget-constrained VOI as a mature/stable method family for decisions where resource constraints change information value."
+  "description": "Add capacity and budget-constrained VOI as a mature/stable method family for decisions where resource constraints change information value.",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/355",
+    "parent_issue": "https://github.com/edithatogo/vop_poc_nz/issues/29",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/185",
+      "https://github.com/edithatogo/voiage/pull/186"
+    ],
+    "pull_request_evidence": "evidenced"
+  }
 }

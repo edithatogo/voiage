@@ -1,0 +1,116 @@
+---
+title: Estimation Variance VOI
+description: Experimental variance-reduction EVPPI and EVSI for declared estimation targets
+---
+
+`evppi_var` and `evsi_var` value information by the reduction in uncertainty
+about a declared model output. They do not value a changed decision and are not
+aliases for decision-focused EVPPI/EVSI or Sobol sensitivity indices.
+
+For a scalar target `g(theta)`:
+
+```text
+EVPPI_var(S) = Var(g(theta)) - E[Var(g(theta) | theta_S)]
+```
+
+```text
+EVSI_var(d) = Var(g(theta)) - E_Y[Var(g(theta) | Y, d)]
+```
+
+The experimental runtime supports scalar population variance. The specification
+still records vector component units and an explicit covariance functional, but
+vector execution fails closed until scientific review approves the
+scalarization policy.
+
+```python
+from voiage.contracts.estimation import (
+    ConditioningSpec,
+    EstimationTargetSpec,
+    EstimationVarianceSpec,
+    EstimatorAssuranceSpec,
+    SamplingModelSpec,
+)
+from voiage.methods.estimation import evppi_var, evsi_var
+
+specification = EstimationVarianceSpec(
+    method_id="evppi_var",
+    target=EstimationTargetSpec(
+        target_id="net_cases",
+        shape="scalar",
+        component_units=("count",),
+        covariance_functional="variance",
+    ),
+    prior_model_id="enumerable_prior",
+    conditioning=ConditioningSpec(
+        parameter_subset=("risk_state",),
+        sigma_field="sigma_risk_state",
+        averaging_convention="empirical_reference",
+    ),
+    estimator=EstimatorAssuranceSpec(
+        estimator_id="discrete_conditioning",
+        seed=17,
+        bootstrap_replicates=128,
+        convergence_threshold=1.0,
+    ),
+)
+
+result = evppi_var(
+    [0.0, 2.0, 1.0, 3.0],
+    ["a", "a", "b", "b"],
+    specification=specification,
+)
+
+evsi_specification = EstimationVarianceSpec(
+    method_id="evsi_var",
+    target=specification.target,
+    prior_model_id="study_prior",
+    sampling_model=SamplingModelSpec(
+        design_id="binary-study",
+        likelihood_id="binary-likelihood",
+        conditioning_sigma_field="sigma_observation",
+        averaging_convention="prior_predictive",
+    ),
+    estimator=EstimatorAssuranceSpec(
+        estimator_id="enumerated-posterior-variance",
+        seed=17,
+    ),
+)
+
+evsi_result = evsi_var(
+    [-2.0, 0.0, 2.0],
+    [0.0, 3.0],
+    [0.9, 0.1],
+    specification=evsi_specification,
+)
+```
+
+The result includes current and expected posterior variance, raw and clipped
+reduction, relative reduction, bootstrap uncertainty, convergence diagnostics,
+units and replay provenance. `specification_digest` binds the scientific
+specification, while `input_digest` binds the actual target samples, grouping
+labels, posterior variances and predictive probabilities used in the run. A
+zero prior variance yields absolute reduction
+zero and relative reduction `None`. Negative finite-sample estimates remain
+visible in `raw_reduction` while the reported absolute reduction is clipped at
+zero.
+
+The result JSON Schema is a portable structural check, not a complete
+scientific validator. Consumers must also validate results with
+`voiage.contracts.estimation.EstimationVarianceResult`; that governed semantic
+layer checks scalar covariance-functional equality and derives the required
+squared units from the declared target. Schema-only acceptance must not be
+reported as a valid estimation-variance result.
+
+Use `voiage calculate-estimation-variance SPECIFICATION.json DATA.json` for the
+CLI. The specification follows
+`specs/estimation-variance/v1/input.schema.json`; the separate runtime data file
+contains `target_samples` and `conditioning_groups` for `evppi_var`, or
+`prior_target_samples`, `posterior_variances` and aligned
+`predictive_probabilities` for `evsi_var`. Predictive probabilities must be
+finite, nonnegative and sum to one within the estimator's declared numerical
+tolerance; the runtime does not silently normalize arbitrary positive weights.
+The runtime-data structure is published as
+`specs/estimation-variance/v1/runtime-data.schema.json`.
+
+This surface is experimental for planned v1.2.0. Scientific review, protected
+hosted checks, merge and release remain separate gates.

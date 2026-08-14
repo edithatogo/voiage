@@ -1,0 +1,8 @@
+{
+  "case_id": "probability-sum",
+  "description": "The submitted finite joint law must retain total probability one.",
+  "operations": [
+    {"op": "replace", "path": "/joint_states/0/probability", "value": 0.25}
+  ],
+  "expected_error": "joint-state probabilities must sum to 1"
+}

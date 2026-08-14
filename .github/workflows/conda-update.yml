@@ -80,7 +80,7 @@ jobs:
     - name: Update conda-recipe/meta.yaml
       run: |
         mkdir -p recipes/voiage
-        cp conda-recipe/meta.yaml recipes/voiage/meta.yaml
+        cp conda-recipe/meta.yaml conda-recipe/build.sh conda-recipe/bld.bat recipes/voiage/
         python - <<'PY'
         from pathlib import Path
         import re
@@ -115,7 +115,8 @@ jobs:
         feedstock="$RUNNER_TEMP/staged-recipes"
         git clone "https://github.com/edithatogo/staged-recipes.git" "$feedstock"
         mkdir -p "$feedstock/recipes/voiage"
-        cp recipes/voiage/meta.yaml "$feedstock/recipes/voiage/meta.yaml"
+        cp recipes/voiage/meta.yaml recipes/voiage/build.sh recipes/voiage/bld.bat \
+          "$feedstock/recipes/voiage/"
         cd "$feedstock"
         branch="voiage-${RELEASE_VERSION}"
         git checkout -B "$branch"

@@ -1,19 +1,25 @@
 name: Julia Registry Sync
 
 on:
-  schedule:
-    - cron: "0 7 * * 1"
+  issue_comment:
+    types:
+      - created
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   tagbot:
     name: TagBot
+    if: github.actor == 'JuliaTagBot'
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
-      - uses: JuliaRegistries/TagBot@e4c81aa138ef4179bddea165bb4a9680c223aca4
+      - uses: JuliaRegistries/TagBot@6b7c22e7bc2b8f4d1c56b7199a63421cf2667ed1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ssh: ${{ secrets.DOCUMENTER_KEY }}
+          subdir: bindings/julia
+          tag_prefix: julia

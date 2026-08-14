@@ -1,0 +1,7 @@
+sample_id,strategy,net_benefit
+1,A,10.0
+1,B,20.0
+2,A,30.0
+2,B,10.0
+3,A,20.0
+3,B,25.0

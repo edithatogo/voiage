@@ -1,0 +1,135 @@
+{
+  "track_id": "standardized-dataset-ingestion_20260723",
+  "version": "1.3.0",
+  "type": "feature",
+  "status": "completed",
+  "created_at": "2026-07-23T13:53:21Z",
+  "updated_at": "2026-08-01T08:10:00Z",
+  "description": "Add a format-neutral normalized input contract and strict-local Croissant ML and Frictionless Data providers without coupling source parsers to VOI calculation kernels.",
+  "evidence_schema": "1.0",
+  "owner_repo": "edithatogo/voiage",
+  "base_revision": "f86957f6acb08284619523f75a326795650af38f",
+  "approval": {
+    "status": "approved",
+    "approved_on": "2026-07-23",
+    "recorded_at": "2026-07-23T13:53:21Z",
+    "evidence": "User requested incorporation of the previously presented architecture and issue plan into the existing Conductor system, GitHub issues/sub-issues, and project."
+  },
+  "github_parent_issue": "https://github.com/edithatogo/voiage/issues/325",
+  "github_subissues": [
+    "https://github.com/edithatogo/voiage/issues/326",
+    "https://github.com/edithatogo/voiage/issues/327",
+    "https://github.com/edithatogo/voiage/issues/328",
+    "https://github.com/edithatogo/voiage/issues/329",
+    "https://github.com/edithatogo/voiage/issues/330",
+    "https://github.com/edithatogo/voiage/issues/331",
+    "https://github.com/edithatogo/voiage/issues/332",
+    "https://github.com/edithatogo/voiage/issues/333",
+    "https://github.com/edithatogo/voiage/issues/467",
+    "https://github.com/edithatogo/voiage/issues/468"
+  ],
+  "github_project": "https://github.com/users/edithatogo/projects/28",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/325",
+    "pull_request": "https://github.com/edithatogo/voiage/pull/634"
+  },
+  "gates": [
+    {
+      "id": "specification-and-plan-approval",
+      "kind": "human",
+      "status": "satisfied",
+      "evidence": "User approval recorded on 2026-07-23; issue #325 and native sub-issues #326-#333 created."
+    },
+    {
+      "id": "pre-implementation-architecture-review",
+      "kind": "repository",
+      "status": "satisfied",
+      "evidence": "Commit 67e079e and GitHub issues #325-#333 incorporate versioned binding profiles, materialization receipts, governance metadata, controlled provider discovery, and data-quality reporting; focused tests, harness, setup validation, and Vale passed."
+    },
+    {
+      "id": "follow-on-recommendation-incorporation",
+      "kind": "repository",
+      "status": "satisfied",
+      "evidence": "Commit 211e7aa adds Conductor requirements and phases; issues #467 and #468 are native children of #325 and Project 28 items; cross-reference commit 68bedc01 updates PR #465's central manifest."
+    },
+    {
+      "id": "functional-implementation",
+      "kind": "repository",
+      "status": "satisfied",
+      "evidence": "The approved strict-local boundary is complete at merge commit 4770e82e019704135ac0a0d06e1c68197fa68185 (PR #773). Deterministic offline Croissant and Frictionless providers, normalized preparation, conformance, security-policy, SDK/DataFrame, CLI, support-matrix, and worked-example evidence pass the retained local assurance matrix. Broad remote/live/archive interoperability and third-party parser parity are explicitly excluded and tracked by successor issues #752 and #753.",
+      "legacy_status": "completed"
+    },
+    {
+      "id": "cross-reference-integration-order",
+      "kind": "repository",
+      "status": "satisfied",
+      "evidence": "PR #465 merged before PR #334; PR #334 was rebased on current main and merged as 5ee86837e6d9758974db0193f9db072c91600def."
+    },
+    {
+      "id": "pre-existing-dependency-security",
+      "kind": "repository",
+      "status": "satisfied",
+      "evidence": "Separate Dependabot PR #324 merged; this gate records its integration ordering only and does not claim it as ingestion functionality."
+    },
+    {
+      "id": "hosted-quality-and-security",
+      "kind": "hosted_checks",
+      "status": "satisfied",
+      "evidence": "PR #334 source head 083cc93a passed required hosted CI run 30065658392 and strict operational-assurance run 30065658517 on 2026-07-24; changed lines and branches met their 95%/100% thresholds."
+    },
+    {
+      "id": "normalized-runtime-provenance",
+      "kind": "repository",
+      "status": "satisfied",
+      "evidence": "PR #477 merged as d07eed2b on 2026-07-24 after every required hosted check passed. It propagates normalized-input and binding-profile identities through AnalysisSpec, RunContext, diagnostics, and provenance; it does not complete the remaining programme acceptance criteria."
+    },
+    {
+      "id": "phase-10-live-reconciliation",
+      "kind": "repository",
+      "status": "satisfied",
+      "evidence": "Live reconciliation on 2026-07-27 confirmed that #325-#333, #467, and #468 remain open; PR #627 merged as 4d55db89902b84a491e4662cf247948a15448aaa; the Phase 8 SDK change landed separately as main commit 24e12977 and duplicate PR #629 is closed; the Phase 9 feature landed separately as main commit c4106739 and superseded PR #631 is closed; PR #634 merged as 1f6cbc52 with the Phase 10 evidence migration and reconciliation; and PR #638 merged as 333ee68f with partial P4-T2 Croissant fixture evidence."
+    },
+    {
+      "id": "project-28-field-reconciliation",
+      "kind": "external",
+      "status": "satisfied",
+      "evidence": "GitHub Projects v2 was rechecked after GraphQL access recovered on 2026-07-27. Parent #325 and child issues #326-#333, #467, and #468 are all present in Project 28 and set to In Progress; #329 was corrected from Done to In Progress because its issue and acceptance criteria remain open."
+    },
+    {
+      "id": "evidence-ledger-integrity",
+      "kind": "repository",
+      "status": "satisfied",
+      "evidence": "The invalid historical ledger is preserved unchanged as evidence.pre-integrity-repair-20260731.jsonl (SHA-256 e007a9316bc9084c565d33a69b5684675c3ece6dc6bfafd03e0131cbe0341738). A new evidence.jsonl chain starts with an integrity-repair receipt and never rewrites historical claims."
+    },
+    {
+      "id": "post-merge-reconciliation-20260731",
+      "kind": "repository",
+      "status": "satisfied",
+      "evidence": "The additive reconciliation record maps 30 merged ingestion PRs in #639-#690 to exact merge commits and changed artifacts, with explicit range exclusions. Project 28 confirms #325-#333, #467, and #468 are present and In Progress; that status is not used to close an issue or this active track."
+    },
+    {
+      "id": "strict-local-scope-refinement",
+      "kind": "human_approval",
+      "status": "satisfied",
+      "evidence": "On 2026-08-01 the user approved the recommended strict-local completion boundary and successor tracks #752 (controlled live interoperability) and #753 (remote-ingestion security policy)."
+    },
+    {
+      "id": "controlled-live-interoperability",
+      "kind": "external",
+      "status": "pending",
+      "evidence": "Issue #752 requires approved rights-cleared, hash-pinned authoritative descriptors/resources and explicit usage authority; it is outside this track's archive criteria."
+    },
+    {
+      "id": "remote-ingestion-security-policy",
+      "kind": "external",
+      "status": "pending",
+      "evidence": "Issue #753 requires a separately approved threat model and policy for DNS, redirects, SSRF, archives, caching, quotas, and mutable resources; it is outside this track's archive criteria."
+    },
+    {
+      "id": "strict-local-archive-boundary",
+      "kind": "repository",
+      "status": "satisfied",
+      "evidence": "Final review at 4770e82e019704135ac0a0d06e1c68197fa68185 passed full Conductor, GitHub cross-reference, v1 programme, quality, conformance, core-contract, provider/product, and strict-local assurance validation. The track is archived with successor scope preserved in #752 and #753."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "profile": "VOIAGE built-in Croissant 1.1 local CSV profile",
+  "supported": [
+    {"feature": "FileObject.contentUrl with text/csv", "fixture": "valid/croissant.json"},
+    {"feature": "FileObject.sha256 local digest", "fixture": "valid/croissant.json"},
+    {"feature": "FileObject.contentSize non-negative byte count", "fixture": "valid/content-size-croissant.json"},
+    {"feature": "RecordSet explicit scalar fields", "fixture": "valid/croissant.json"}
+  ],
+  "rejected": [
+    {"feature": "JSON-LD context object expansion", "fixture": "unsupported/context-object.json", "message": "string JSON-LD context entries"},
+    {"feature": "FileObject contentChecksum/checksum integrity forms", "fixture": "unsupported/integrity-declaration.json", "message": "integrity declarations"},
+    {"feature": "FileObject textual contentSize", "fixture": "unsupported/content-size-text.json", "message": "contentSize"},
+    {"feature": "FileObject contentSize mismatch", "fixture": "unsupported/content-size-mismatch.json", "message": "byte size does not match"},
+    {"feature": "RecordSet split/key/reference/nested semantics", "fixture": "unsupported/split.json", "message": "splits"},
+    {"feature": "transforms and archive resources", "fixture": "unsupported/transform.json", "message": "transformations"}
+  ]
+}

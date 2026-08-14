@@ -1,0 +1,180 @@
+{
+  "schema_version": "1.0.0",
+  "analysis_id": "mcda-synergy-example",
+  "analysis_type": "mcda_perfect_information",
+  "method_maturity": "experimental",
+  "aggregation_family": "compensatory_additive_value",
+  "aggregate_direction": "maximize",
+  "aggregate_unit": "normalized decision value per eligible person",
+  "alternatives": [
+    {
+      "alternative_id": "service-a",
+      "label": "Intensive service",
+      "definition_source": "synthetic fixture decision revision 1"
+    },
+    {
+      "alternative_id": "service-b",
+      "label": "Accessible service",
+      "definition_source": "synthetic fixture decision revision 1"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "quality",
+      "label": "Quality outcome",
+      "raw_unit": "quality points",
+      "direction": "higher_is_better",
+      "operational_definition": "Predicted quality points at the declared horizon.",
+      "value_function": {
+        "family": "linear_fixed_anchors",
+        "normalization_scope": "fixed_ex_ante",
+        "anchors": [
+          {"raw": 0.0, "value": 0.0},
+          {"raw": 100.0, "value": 1.0}
+        ],
+        "valid_domain": [0.0, 100.0],
+        "extrapolation_policy": "reject",
+        "elicitation_source": "synthetic fixed-anchor elicitation"
+      },
+      "source_reference": "synthetic outcome model"
+    },
+    {
+      "criterion_id": "burden",
+      "label": "Participant burden",
+      "raw_unit": "burden points",
+      "direction": "lower_is_better",
+      "operational_definition": "Expected participant burden at the declared horizon.",
+      "value_function": {
+        "family": "linear_fixed_anchors",
+        "normalization_scope": "fixed_ex_ante",
+        "anchors": [
+          {"raw": 0.0, "value": 1.0},
+          {"raw": 100.0, "value": 0.0}
+        ],
+        "valid_domain": [0.0, 100.0],
+        "extrapolation_policy": "reject",
+        "elicitation_source": "synthetic fixed-anchor elicitation"
+      },
+      "source_reference": "synthetic burden model"
+    }
+  ],
+  "default_weights": {"quality": 0.55, "burden": 0.45},
+  "latent_partitions": {
+    "outcome_keys": ["outcome_regime"],
+    "preference_keys": ["preference_regime"],
+    "dependence_assumption": "One submitted finite joint law; no marginal independence assumption."
+  },
+  "joint_states": [
+    {
+      "state_id": "state-1",
+      "probability": 0.35,
+      "partition_values": {"outcome_regime": "favourable", "preference_regime": "quality-heavy"},
+      "performances": {
+        "service-a": {"quality": 80.0, "burden": 70.0},
+        "service-b": {"quality": 60.0, "burden": 30.0}
+      },
+      "weights": {"quality": 0.8, "burden": 0.2}
+    },
+    {
+      "state_id": "state-2",
+      "probability": 0.15,
+      "partition_values": {"outcome_regime": "favourable", "preference_regime": "burden-heavy"},
+      "performances": {
+        "service-a": {"quality": 80.0, "burden": 70.0},
+        "service-b": {"quality": 60.0, "burden": 30.0}
+      },
+      "weights": {"quality": 0.3, "burden": 0.7}
+    },
+    {
+      "state_id": "state-3",
+      "probability": 0.15,
+      "partition_values": {"outcome_regime": "unfavourable", "preference_regime": "quality-heavy"},
+      "performances": {
+        "service-a": {"quality": 40.0, "burden": 70.0},
+        "service-b": {"quality": 55.0, "burden": 30.0}
+      },
+      "weights": {"quality": 0.8, "burden": 0.2}
+    },
+    {
+      "state_id": "state-4",
+      "probability": 0.35,
+      "partition_values": {"outcome_regime": "unfavourable", "preference_regime": "burden-heavy"},
+      "performances": {
+        "service-a": {"quality": 40.0, "burden": 70.0},
+        "service-b": {"quality": 55.0, "burden": 30.0}
+      },
+      "weights": {"quality": 0.3, "burden": 0.7}
+    }
+  ],
+  "information_actions": [
+    {
+      "action_id": "learn-outcome",
+      "action_type": "criterion",
+      "outcome_partition_keys": ["outcome_regime"],
+      "preference_partition_keys": [],
+      "cost": {
+        "original_amount": 5000.0,
+        "original_unit": "AUD per eligible person equivalent",
+        "aggregate_amount": 0.005,
+        "conversion_reference": "synthetic willingness-to-pay conversion revision 1",
+        "population_basis": "one eligible person",
+        "horizon_basis": "one year",
+        "discount_basis": "undiscounted one-year horizon",
+        "cost_scope": "action_specific_disjoint"
+      }
+    },
+    {
+      "action_id": "learn-preference",
+      "action_type": "preference",
+      "outcome_partition_keys": [],
+      "preference_partition_keys": ["preference_regime"],
+      "cost": {
+        "original_amount": 4000.0,
+        "original_unit": "AUD per eligible person equivalent",
+        "aggregate_amount": 0.004,
+        "conversion_reference": "synthetic willingness-to-pay conversion revision 1",
+        "population_basis": "one eligible person",
+        "horizon_basis": "one year",
+        "discount_basis": "undiscounted one-year horizon",
+        "cost_scope": "action_specific_disjoint"
+      }
+    },
+    {
+      "action_id": "learn-joint",
+      "action_type": "joint",
+      "outcome_partition_keys": ["outcome_regime"],
+      "preference_partition_keys": ["preference_regime"],
+      "cost": {
+        "original_amount": 10000.0,
+        "original_unit": "AUD per eligible person equivalent",
+        "aggregate_amount": 0.01,
+        "conversion_reference": "synthetic willingness-to-pay conversion revision 1",
+        "population_basis": "one eligible person",
+        "horizon_basis": "one year",
+        "discount_basis": "undiscounted one-year horizon",
+        "cost_scope": "action_specific_disjoint"
+      }
+    }
+  ],
+  "tolerances": {
+    "absolute_tie": 1e-12,
+    "relative_tie": 1e-12,
+    "probability_sum": 1e-12,
+    "weight_sum": 1e-12,
+    "pareto_absolute": 1e-12
+  },
+  "provenance": {
+    "decision_revision": "synthetic-decision-r1",
+    "model_revision": "synthetic-model-r1",
+    "data_sources": ["synthetic analytical fixture"],
+    "transformation_sources": ["declared fixed linear value functions"],
+    "weight_elicitation_source": "synthetic simplex-weight elicitation",
+    "joint_probability_source": "synthetic correlated four-state law",
+    "normalization_anchor_source": "synthetic ex-ante anchor record",
+    "partition_source": "synthetic outcome/preference latent classification",
+    "cost_source": "synthetic disjoint information-action costs",
+    "tie_policy_source": "absolute and relative tolerance contract v1",
+    "evaluator": "voiage.methods.mcda_information exact finite enumeration",
+    "software_version": "voiage-contract-1.0.0"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-08-03T00:45:00Z",
+  "repository": "edithatogo/voiage",
+  "project": "https://github.com/users/edithatogo/projects/28",
+  "authority": "gh CLI authenticated as edithatogo",
+  "issues": {
+    "313": {"state": "OPEN", "updated_at": "2026-07-27T08:13:39Z"},
+    "314": {"state": "OPEN", "updated_at": "2026-07-27T08:12:57Z"},
+    "315": {"state": "OPEN", "updated_at": "2026-07-27T08:12:59Z"},
+    "316": {"state": "OPEN", "updated_at": "2026-07-26T12:33:25Z"},
+    "317": {"state": "OPEN", "updated_at": "2026-07-23T13:15:50Z"},
+    "318": {"state": "OPEN", "updated_at": "2026-08-02T12:53:24Z"},
+    "319": {"state": "OPEN", "updated_at": "2026-07-27T13:04:10Z"},
+    "320": {"state": "OPEN", "updated_at": "2026-07-27T08:13:00Z"},
+    "321": {"state": "OPEN", "updated_at": "2026-07-27T03:59:38Z"},
+    "322": {"state": "OPEN", "updated_at": "2026-07-27T12:08:26Z"},
+    "323": {"state": "OPEN", "updated_at": "2026-07-23T13:16:36Z"},
+    "416": {"state": "CLOSED", "closed_at": "2026-07-23T14:11:51Z", "updated_at": "2026-07-23T14:11:51Z"}
+  },
+  "project_items": {
+    "state": "NOT_FOUND",
+    "detail": "Project item-list returned no voiage items for issues 313–323 or 416; the project contains other repositories/items."
+  },
+  "decision": "blocked",
+  "next_actions": [
+    "Restore or add the programme issues to Project 28 through the authorized GitHub UI/API.",
+    "Keep parent #313 and all open child issues open until repository and external gates are complete.",
+    "Do not infer Project status from local Conductor registry state."
+  ]
+}

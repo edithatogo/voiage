@@ -1,0 +1,574 @@
+{
+  "$id": "https://voiage.dev/schemas/frontier/qualitative-information-assessment.v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "assessment_version": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "audit_history": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "enum": [
+              "create",
+              "update",
+              "review",
+              "approve",
+              "redact",
+              "ai_assist"
+            ]
+          },
+          "actor": {
+            "additionalProperties": false,
+            "properties": {
+              "actor_id": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "actor_type": {
+                "enum": [
+                  "human",
+                  "ai",
+                  "system"
+                ]
+              }
+            },
+            "required": [
+              "actor_id",
+              "actor_type"
+            ],
+            "type": "object"
+          },
+          "ai_provenance": {
+            "additionalProperties": false,
+            "properties": {
+              "input_reference": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "model_version": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "provider": {
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "provider",
+              "model_version",
+              "input_reference"
+            ],
+            "type": "object"
+          },
+          "assessment_content_digest": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "assessment_version": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "content_digest": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "event_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "override_event_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "previous_content_digest": {
+            "oneOf": [
+              {
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "previous_event_id": {
+            "oneOf": [
+              {
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "redacted": {
+            "type": "boolean"
+          },
+          "sequence": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "timestamp": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "event_id",
+          "sequence",
+          "previous_event_id",
+          "timestamp",
+          "assessment_version",
+          "actor",
+          "action",
+          "content_digest",
+          "assessment_content_digest",
+          "previous_content_digest",
+          "redacted"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "decision": {
+      "additionalProperties": false,
+      "properties": {
+        "accountable_reviewer_ids": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "alternatives": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 2,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "context": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "decision_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "title": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "decision_id",
+        "title",
+        "context",
+        "alternatives",
+        "accountable_reviewer_ids"
+      ],
+      "type": "object"
+    },
+    "method_maturity": {
+      "const": "experimental"
+    },
+    "numerical_estimand": {
+      "const": false
+    },
+    "policy": {
+      "additionalProperties": false,
+      "properties": {
+        "ai_policy": {
+          "const": "human_verification_required"
+        },
+        "conflict_policy": {
+          "const": "preserve_dissent_no_resolution"
+        },
+        "missingness_policy": {
+          "const": "mark_incomplete"
+        },
+        "priority_order": {
+          "const": [
+            "urgent",
+            "high",
+            "routine",
+            "defer"
+          ]
+        },
+        "recommendation_order": {
+          "const": [
+            "pursue_now",
+            "pursue_if_feasible",
+            "monitor",
+            "do_not_pursue"
+          ]
+        },
+        "tie_policy": {
+          "const": "complete_sets_declared_order"
+        }
+      },
+      "required": [
+        "priority_order",
+        "recommendation_order",
+        "conflict_policy",
+        "missingness_policy",
+        "ai_policy",
+        "tie_policy"
+      ],
+      "type": "object"
+    },
+    "provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "contract_reference": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "fixture_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "redaction_policy_reference": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_snapshot": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "fixture_id",
+        "contract_reference",
+        "source_snapshot",
+        "redaction_policy_reference"
+      ],
+      "type": "object"
+    },
+    "questions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "information_action": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "information_question": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "judgements": {
+            "items": {
+              "additionalProperties": false,
+              "allOf": [
+                {
+                  "else": {
+                    "not": {
+                      "required": [
+                        "human_override"
+                      ]
+                    }
+                  },
+                  "if": {
+                    "properties": {
+                      "verification_state": {
+                        "const": "human_verified"
+                      }
+                    }
+                  },
+                  "then": {
+                    "required": [
+                      "human_override"
+                    ]
+                  }
+                }
+              ],
+              "properties": {
+                "actor_type": {
+                  "enum": [
+                    "human",
+                    "ai"
+                  ]
+                },
+                "ai_provenance": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "input_reference": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "model_version": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "provider": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "provider",
+                    "model_version",
+                    "input_reference"
+                  ],
+                  "type": "object"
+                },
+                "confidence": {
+                  "enum": [
+                    "high",
+                    "moderate",
+                    "low",
+                    "unknown"
+                  ]
+                },
+                "cost_burden": {
+                  "enum": [
+                    "low",
+                    "moderate",
+                    "high",
+                    "unknown"
+                  ]
+                },
+                "equity_ethics": {
+                  "enum": [
+                    "acceptable",
+                    "uncertain",
+                    "concern"
+                  ]
+                },
+                "feasibility": {
+                  "enum": [
+                    "feasible",
+                    "uncertain",
+                    "not_feasible"
+                  ]
+                },
+                "human_override": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "audit_event_id": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "reviewer_id": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "reviewer_id",
+                    "audit_event_id"
+                  ],
+                  "type": "object"
+                },
+                "potential_impact": {
+                  "enum": [
+                    "major",
+                    "moderate",
+                    "limited",
+                    "unknown"
+                  ]
+                },
+                "priority_class": {
+                  "enum": [
+                    "urgent",
+                    "high",
+                    "routine",
+                    "defer"
+                  ]
+                },
+                "rationale": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "recommendation_class": {
+                  "enum": [
+                    "pursue_now",
+                    "pursue_if_feasible",
+                    "monitor",
+                    "do_not_pursue"
+                  ]
+                },
+                "reviewer_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "source_ids": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "type": "array",
+                  "uniqueItems": true
+                },
+                "timeliness": {
+                  "enum": [
+                    "timely",
+                    "uncertain",
+                    "too_late"
+                  ]
+                },
+                "verification_state": {
+                  "enum": [
+                    "verified",
+                    "unverified",
+                    "human_verified"
+                  ]
+                }
+              },
+              "required": [
+                "reviewer_id",
+                "actor_type",
+                "potential_impact",
+                "feasibility",
+                "timeliness",
+                "equity_ethics",
+                "cost_burden",
+                "priority_class",
+                "recommendation_class",
+                "confidence",
+                "rationale",
+                "source_ids",
+                "verification_state"
+              ],
+              "type": "object"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "missing_fields": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "question_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "redaction_status": {
+            "enum": [
+              "none",
+              "partial",
+              "full"
+            ]
+          },
+          "uncertainty_or_evidence_gap": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "question_id",
+          "information_question",
+          "uncertainty_or_evidence_gap",
+          "information_action",
+          "missing_fields",
+          "redaction_status",
+          "judgements"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "reviewers": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "reviewer_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "role": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "reviewer_id",
+          "name",
+          "role"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "sources": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "access_status": {
+            "enum": [
+              "accessible",
+              "redacted",
+              "unavailable"
+            ]
+          },
+          "citation": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "provenance": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "source_id": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "source_id",
+          "citation",
+          "access_status",
+          "provenance"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "assessment_id",
+    "assessment_version",
+    "method_maturity",
+    "numerical_estimand",
+    "decision",
+    "reviewers",
+    "sources",
+    "questions",
+    "audit_history",
+    "policy",
+    "provenance"
+  ],
+  "title": "QualitativeInformationAssessmentV1Experimental",
+  "type": "object"
+}

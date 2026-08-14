@@ -17,6 +17,9 @@ VOI architecture and dependency policy.
 - **Stable-promotion matrix**: `promotion-matrix.json` defines the evidence
   required for each promotion state and `promotion-checklist.json` applies it
   to every family in the frontier fixture registry.
+- **Scientific-review evidence**: `scientific-review/v1` defines candidate-
+  bound review packets, identity/conflict attestations, reports, findings,
+  dissent, adjudication, approval, promotion and delta-classification records.
 
 The family checklist records the owner, current evidence state, next gate,
 blocker state, and committed artifact paths. It is repository-owned evidence;

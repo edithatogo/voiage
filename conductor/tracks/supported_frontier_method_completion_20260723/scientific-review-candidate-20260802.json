@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "frontier-scientific-review-20260802",
+  "frozen_at": "2026-08-02T13:12:00Z",
+  "repository": "https://github.com/edithatogo/voiage",
+  "commit": "3b9024c503c171e7e321ddfaacc3665589e4d5e8",
+  "tree": "e4f13cb9eea99a62a1330b39b3ac6f13faa76559",
+  "planning_pull_request": 840,
+  "owning_issue": 841,
+  "project": "https://github.com/users/edithatogo/projects/28",
+  "planned_versions": [
+    "1.2.0",
+    "1.3.0"
+  ],
+  "review_entry_state": "ready_with_explicit_external_gates",
+  "artifact_manifest": "scientific-review-candidate-artifacts-20260802.json",
+  "governance_readback": "scientific-review-governance-readback-20260802.json",
+  "review_protocol": "scientific-review-panel.md",
+  "implementation_issues": [
+    842,
+    843,
+    844,
+    845,
+    846,
+    847,
+    848,
+    849,
+    850
+  ],
+  "known_limitations": [
+    "No family has a candidate-bound named independent human scientific approval receipt.",
+    "R and Julia parity remains unsupported for the specialized frontier families.",
+    "Vector covariance execution and unit-safe scalarization remain pending under issue 843.",
+    "Sampling-acquisition harm is a scoped research question under issue 850, not an installed capability.",
+    "Stable promotion, release, publication, registry acceptance and parent closure remain separate gates."
+  ],
+  "invalidation_policy": {
+    "default": "any candidate change invalidates affected approval",
+    "bounded_delta_review": "requires deterministic allowlist classification plus independent governance and affected-scientific-reviewer signatures"
+  }
+}

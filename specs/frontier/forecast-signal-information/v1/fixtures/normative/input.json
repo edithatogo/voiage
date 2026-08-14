@@ -1,0 +1,77 @@
+{
+  "actions": [
+    {
+      "action_id": "order-50",
+      "constraint_basis": "inventory order quantity cannot exceed 100 units",
+      "label": "Order 50 units",
+      "outcome_values": {"demand-high": 200.0, "demand-low": 200.0}
+    },
+    {
+      "action_id": "order-100",
+      "constraint_basis": "inventory order quantity cannot exceed 100 units",
+      "label": "Order 100 units",
+      "outcome_values": {"demand-high": 400.0, "demand-low": 0.0}
+    }
+  ],
+  "analysis_id": "newsvendor-binary-signal",
+  "analysis_type": "forecast_signal_information",
+  "feasible_action_ids": ["order-50", "order-100"],
+  "method_maturity": "experimental",
+  "objective": {
+    "direction": "maximize",
+    "discount_basis": "single-period undiscounted",
+    "population_basis": "one inventory decision",
+    "value_unit": "NZD per inventory decision"
+  },
+  "outcomes": [
+    {"label": "Demand of 50 units", "outcome_id": "demand-low", "probability": 0.4},
+    {"label": "Demand of 100 units", "outcome_id": "demand-high", "probability": 0.6}
+  ],
+  "provenance": {
+    "created_at": "2026-08-01T00:00:00Z",
+    "forecast_artifact": "analytical binary-signal fixture for issue 572",
+    "payoff_source": "newsvendor: price 10, unit cost 6, salvage 2",
+    "training_performed": false
+  },
+  "schema_version": "1.0.0",
+  "signal_cost": {
+    "amount": 10.0,
+    "cost_scope": "acquisition_before_signal",
+    "source": "declared study cost fixture",
+    "unit": "NZD per inventory decision"
+  },
+  "signals": [
+    {
+      "label": "Low-demand signal",
+      "likelihood_by_outcome": {"demand-high": 0.2, "demand-low": 0.8},
+      "reported_outcome_probabilities": {
+        "demand-high": 0.2727272727272727,
+        "demand-low": 0.7272727272727273
+      },
+      "signal_id": "signal-low"
+    },
+    {
+      "label": "High-demand signal",
+      "likelihood_by_outcome": {"demand-high": 0.8, "demand-low": 0.2},
+      "reported_outcome_probabilities": {
+        "demand-high": 0.8571428571428571,
+        "demand-low": 0.14285714285714285
+      },
+      "signal_id": "signal-high"
+    }
+  ],
+  "timing": {
+    "decision_time": 2.0,
+    "dependence_assumption": "declared finite P(signal|outcome) is fixed ex ante",
+    "forecast_origin": 0.0,
+    "information_available": 1.0,
+    "maximum_freshness": 3.0,
+    "outcome_time": 7.0,
+    "time_unit": "days"
+  },
+  "tolerances": {
+    "absolute_tie": 1e-12,
+    "probability_sum": 1e-12,
+    "relative_tie": 1e-12
+  }
+}

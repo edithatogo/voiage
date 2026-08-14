@@ -19,18 +19,18 @@
 
 ## Phase 3: Cross-Language And Quality Gates [checkpoint: fcf85e8]
 
-- [ ] Add cross-language conformance fixtures once binding adapters are available.
+- **Legacy follow-up (not part of completed track acceptance):** Add cross-language conformance fixtures once binding adapters are available.
 - [x] Run unit, integration, CLI, property-based, docs, coverage, Rust, and frontier-contract tests: 1,335 passed, 10 optional skips, coverage 90.03%.
 - [x] Update changelog, Astro migration guide, migration note, frontier registry, governance checklist, and maturity metadata.
-- [ ] Commit parity/quality changes with a git note, a short commit SHA, and commit the plan update after external parity evidence exists.
+- **Legacy follow-up (not part of completed track acceptance):** Commit parity/quality changes with a git note, a short commit SHA, and commit the plan update after external parity evidence exists.
 - [x] Conductor - User Manual Verification: Phase 3 (Protocol in workflow.md): hosted checks passed and archive handoff verified.
 
 ## Phase 4: Mature Stable Promotion Review [checkpoint: blocked]
 
-- [ ] Complete the stable-promotion checklist.
-- [ ] Obtain licensed online-allocation data and reproducible source/transform attribution.
-- [ ] Complete cross-language/Rust parity and binding-native gates.
-- [ ] Keep the method fixture-backed until those gates pass; do not claim stable promotion.
+- **Legacy follow-up (not part of completed track acceptance):** Complete the stable-promotion checklist.
+- **Legacy follow-up (not part of completed track acceptance):** Obtain licensed online-allocation data and reproducible source/transform attribution.
+- **Legacy follow-up (not part of completed track acceptance):** Complete cross-language/Rust parity and binding-native gates.
+- **Legacy follow-up (not part of completed track acceptance):** Keep the method fixture-backed until those gates pass; do not claim stable promotion.
 - [x] Conductor - User Manual Verification: Phase 4 (Protocol in workflow.md): archive as fixture-backed with precise external blockers.
 
 ## Verification Commands

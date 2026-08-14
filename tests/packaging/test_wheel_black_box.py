@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 from importlib.metadata import requires, version
+from importlib.resources import files
 import os
 from pathlib import Path
 import re
@@ -61,6 +62,372 @@ def test_imports_resolve_inside_the_wheel_environment() -> None:
     assert Path(native.__file__).resolve().is_relative_to(root)
 
 
+def test_installed_wheel_executes_packaged_study_design_fixture() -> None:
+    """Packaged COSS schemas, capabilities and fixtures execute off-checkout."""
+    import json
+
+    from voiage.contracts.study_design import (
+        InformationValueInputV1,
+        StudyDesignContextV1,
+        StudyDesignPointInputV1,
+    )
+    from voiage.experimental.study_design import calculate_coss, evsi_evpi_efficiency
+
+    contract = files("voiage").joinpath("resources/frontier/study-design-efficiency/v1")
+    capability = json.loads(contract.joinpath("capabilities.json").read_text())
+    fixture = json.loads(
+        contract.joinpath("fixtures/normative/coss-efficiency.json").read_text()
+    )
+    joint = json.loads(
+        contract.joinpath("fixtures/normative/joint-enbs-replicates.json").read_text()
+    )
+    paired = json.loads(
+        contract.joinpath(
+            "fixtures/normative/paired-efficiency-replicates.json"
+        ).read_text()
+    )
+    context = StudyDesignContextV1.model_validate(fixture["input"]["context"])
+    designs = tuple(
+        StudyDesignPointInputV1.model_validate(item)
+        for item in fixture["input"]["designs"]
+    )
+    coss = calculate_coss(
+        context=context,
+        designs=designs,
+        enumeration_scope=fixture["input"]["enumeration_scope"],
+        no_study_enbs=fixture["input"]["no_study_enbs"],
+        joint_enbs_replicates=joint["joint_enbs_replicates"],
+        replay_artifact="fixtures/normative/joint-enbs-replicates.json",
+    )
+    efficiency = evsi_evpi_efficiency(
+        evsi=InformationValueInputV1(value=paired["input"]["evsi"], context=context),
+        evpi=InformationValueInputV1(value=paired["input"]["evpi"], context=context),
+        paired_evsi_replicates=paired["input"]["paired_evsi_replicates"],
+        paired_evpi_replicates=paired["input"]["paired_evpi_replicates"],
+        replay_artifact="fixtures/normative/paired-efficiency-replicates.json",
+    )
+
+    assert capability["installed_wheel_verified"] is True
+    assert capability["contract_version"] == "1.0.0"
+    assert coss.optimal_design_id == fixture["expected"]["optimal_design_id"]
+    assert efficiency.uncertainty is not None
+    assert efficiency.uncertainty.mean_ratio == paired["expected"]["mean_ratio"]
+
+
+def test_installed_wheel_executes_external_distribution_family_request() -> None:
+    """The experimental adapter and installed schema work without repository specs."""
+    from jsonschema import Draft202012Validator
+
+    from voiage.contracts.distributional_information import (
+        VALUE_OF_DISTRIBUTIONAL_INFORMATION_INPUT_SCHEMA_V1,
+    )
+    from voiage.methods.distributional_information import (
+        distributional_information_from_specification,
+    )
+
+    payload = {
+        "schema_version": "1.0.0",
+        "analysis_id": "wheel-external-vdi",
+        "analysis_type": "distribution_family_information_value",
+        "method_maturity": "experimental",
+        "information_target": "model_family_index",
+        "conditioning_order": "integrate_within_family_then_resolve_family_index",
+        "direction": "maximize",
+        "value_unit": "point",
+        "model_ids": ["m1", "m2"],
+        "model_labels": {"m1": "Model 1", "m2": "Model 2"},
+        "model_definitions": [
+            {
+                "model_id": model_id,
+                "family_or_assumption": label,
+                "parameterization": "finite exact table",
+                "within_family_integration": "analytical expectation",
+                "definition_source": "wheel black-box test",
+                "parameter_source": "exact synthetic values",
+                "data_reference": f"wheel:{model_id}",
+                "value_transformation": "identity",
+            }
+            for model_id, label in (("m1", "family one"), ("m2", "family two"))
+        ],
+        "model_probabilities": [0.5, 0.5],
+        "alternative_names": ["A", "B"],
+        "conditional_values": [[10.0, 6.0], [4.0, 12.0]],
+        "conditional_value_assurance": {
+            "input_status": "exact_enumerated_conditional_expectations",
+            "source_values_exact": True,
+            "source_uncertainty": "none_by_construction",
+            "enumeration_method": "finite exact table",
+            "evidence_reference": "wheel:black-box",
+        },
+        "information_cost": 0.5,
+        "tolerances": {
+            "absolute": 1e-12,
+            "relative": 1e-12,
+            "probability_sum": 1e-12,
+        },
+        "comparability": {
+            "population_id": "wheel-population",
+            "horizon_id": "wheel-horizon",
+            "discounting_id": "wheel-discounting",
+            "value_semantics_id": "wheel-conditional-value",
+            "cost_location_id": "wheel-cost-location",
+            "verified": True,
+            "verification_reference": "wheel:comparability",
+        },
+        "provenance": {
+            "fixture_id": "wheel-external-vdi",
+            "probability_source": "synthetic equal weights",
+            "value_source": "exact finite table",
+            "family_definition_source": "wheel black-box test",
+        },
+    }
+    Draft202012Validator(VALUE_OF_DISTRIBUTIONAL_INFORMATION_INPUT_SCHEMA_V1).validate(
+        payload
+    )
+    result = distributional_information_from_specification(payload)
+    assert result.gross_vdi == 2.0
+    assert result.net_vdi == 1.5
+
+
+def test_installed_wheel_executes_noncardinal_qualitative_assessment() -> None:
+    """The experimental qualitative contract runs without repository fixtures."""
+    from voiage.contracts.qualitative_information import (
+        qualitative_assessment_content_digest,
+        qualitative_audit_event_digest,
+    )
+    from voiage.methods.qualitative_information import (
+        qualitative_information_from_specification,
+        render_qualitative_information_text,
+    )
+
+    payload = {
+        "schema_version": "1.0.0",
+        "assessment_id": "wheel-qualitative",
+        "assessment_version": 1,
+        "method_maturity": "experimental",
+        "numerical_estimand": False,
+        "decision": {
+            "decision_id": "d1",
+            "title": "Synthetic decision",
+            "context": "Wheel-only contract check",
+            "alternatives": ["A", "B"],
+            "accountable_reviewer_ids": ["human-1"],
+        },
+        "reviewers": [{"reviewer_id": "human-1", "name": "Role", "role": "owner"}],
+        "sources": [
+            {
+                "source_id": "s1",
+                "citation": "Synthetic",
+                "access_status": "accessible",
+                "provenance": "wheel",
+            }
+        ],
+        "questions": [
+            {
+                "question_id": "q1",
+                "information_question": "Would evidence change the choice?",
+                "uncertainty_or_evidence_gap": "Synthetic gap",
+                "information_action": "Review synthetic evidence",
+                "missing_fields": [],
+                "redaction_status": "none",
+                "judgements": [
+                    {
+                        "reviewer_id": "human-1",
+                        "actor_type": "human",
+                        "potential_impact": "moderate",
+                        "feasibility": "feasible",
+                        "timeliness": "timely",
+                        "equity_ethics": "acceptable",
+                        "cost_burden": "low",
+                        "priority_class": "high",
+                        "recommendation_class": "pursue_if_feasible",
+                        "confidence": "moderate",
+                        "rationale": "Synthetic rationale",
+                        "source_ids": ["s1"],
+                        "verification_state": "verified",
+                    }
+                ],
+            }
+        ],
+        "audit_history": [],
+        "policy": {
+            "priority_order": ["urgent", "high", "routine", "defer"],
+            "recommendation_order": [
+                "pursue_now",
+                "pursue_if_feasible",
+                "monitor",
+                "do_not_pursue",
+            ],
+            "conflict_policy": "preserve_dissent_no_resolution",
+            "missingness_policy": "mark_incomplete",
+            "ai_policy": "human_verification_required",
+            "tie_policy": "complete_sets_declared_order",
+        },
+        "provenance": {
+            "fixture_id": "wheel",
+            "contract_reference": "v1",
+            "source_snapshot": "synthetic",
+            "redaction_policy_reference": "none",
+        },
+    }
+    event = {
+        "event_id": "approve",
+        "sequence": 1,
+        "previous_event_id": None,
+        "previous_content_digest": None,
+        "timestamp": "2026-08-01T00:00:00Z",
+        "assessment_version": 1,
+        "actor": {"actor_id": "human-1", "actor_type": "human"},
+        "action": "approve",
+        "assessment_content_digest": qualitative_assessment_content_digest(payload),
+        "content_digest": "0" * 64,
+        "redacted": False,
+    }
+    event["content_digest"] = qualitative_audit_event_digest(event)
+    payload["audit_history"] = [event]
+    result = qualitative_information_from_specification(payload)
+    assert result.workflow_status == "complete"
+    assert result.numerical_estimand is False
+    assert "score" not in str(result.to_contract_dict()).lower()
+    assert render_qualitative_information_text(
+        result
+    ) == render_qualitative_information_text(result)
+
+
+def test_installed_wheel_executes_finite_additive_mcda_information() -> None:
+    """The exact MCDA evaluator runs without repository fixtures."""
+    from jsonschema import Draft202012Validator
+
+    from voiage.contracts.mcda_information import MCDA_INFORMATION_INPUT_SCHEMA_V1
+    from voiage.methods.mcda_information import mcda_information_value
+
+    criteria = [
+        {
+            "criterion_id": criterion_id,
+            "label": criterion_id.title(),
+            "raw_unit": "point",
+            "direction": "higher_is_better",
+            "operational_definition": f"Synthetic {criterion_id} score.",
+            "value_function": {
+                "family": "linear_fixed_anchors",
+                "normalization_scope": "fixed_ex_ante",
+                "anchors": [
+                    {"raw": 0.0, "value": 0.0},
+                    {"raw": 1.0, "value": 1.0},
+                ],
+                "valid_domain": [0.0, 1.0],
+                "extrapolation_policy": "reject",
+                "elicitation_source": "wheel synthetic anchors",
+            },
+            "source_reference": "wheel synthetic model",
+        }
+        for criterion_id in ("benefit", "burden")
+    ]
+    joint_states = []
+    for state_id, outcome, preference, probability, a_benefit, weight in (
+        ("s1", "high", "benefit-heavy", 0.35, 1.0, 0.8),
+        ("s2", "high", "burden-heavy", 0.15, 1.0, 0.2),
+        ("s3", "low", "benefit-heavy", 0.15, 0.0, 0.8),
+        ("s4", "low", "burden-heavy", 0.35, 0.0, 0.2),
+    ):
+        joint_states.append(
+            {
+                "state_id": state_id,
+                "probability": probability,
+                "partition_values": {
+                    "outcome": outcome,
+                    "preference": preference,
+                },
+                "performances": {
+                    "A": {"benefit": a_benefit, "burden": 0.0},
+                    "B": {"benefit": 0.5, "burden": 1.0},
+                },
+                "weights": {"benefit": weight, "burden": 1.0 - weight},
+            }
+        )
+
+    def action(
+        action_id: str,
+        action_type: str,
+        outcome_keys: list[str],
+        preference_keys: list[str],
+    ) -> dict[str, object]:
+        return {
+            "action_id": action_id,
+            "action_type": action_type,
+            "outcome_partition_keys": outcome_keys,
+            "preference_partition_keys": preference_keys,
+            "cost": {
+                "original_amount": 0.0,
+                "original_unit": "normalized value",
+                "aggregate_amount": 0.0,
+                "conversion_reference": "identity",
+                "population_basis": "one synthetic person",
+                "horizon_basis": "one synthetic period",
+                "discount_basis": "none",
+                "cost_scope": "action_specific_disjoint",
+            },
+        }
+
+    payload = {
+        "schema_version": "1.0.0",
+        "analysis_id": "wheel-mcda",
+        "analysis_type": "mcda_perfect_information",
+        "method_maturity": "experimental",
+        "aggregation_family": "compensatory_additive_value",
+        "aggregate_direction": "maximize",
+        "aggregate_unit": "normalized value",
+        "alternatives": [
+            {"alternative_id": name, "label": name, "definition_source": "wheel"}
+            for name in ("A", "B")
+        ],
+        "criteria": criteria,
+        "default_weights": {"benefit": 0.5, "burden": 0.5},
+        "latent_partitions": {
+            "outcome_keys": ["outcome"],
+            "preference_keys": ["preference"],
+            "dependence_assumption": "submitted correlated finite joint law",
+        },
+        "joint_states": joint_states,
+        "information_actions": [
+            action("learn-outcome", "criterion", ["outcome"], []),
+            action("learn-preference", "preference", [], ["preference"]),
+            action("learn-joint", "joint", ["outcome"], ["preference"]),
+        ],
+        "tolerances": {
+            "absolute_tie": 1e-12,
+            "relative_tie": 1e-12,
+            "probability_sum": 1e-12,
+            "weight_sum": 1e-12,
+            "pareto_absolute": 1e-12,
+        },
+        "provenance": dict.fromkeys(
+            (
+                "decision_revision",
+                "model_revision",
+                "weight_elicitation_source",
+                "joint_probability_source",
+                "normalization_anchor_source",
+                "partition_source",
+                "cost_source",
+                "tie_policy_source",
+                "evaluator",
+                "software_version",
+            ),
+            "wheel synthetic evidence",
+        ),
+    }
+    payload["provenance"]["data_sources"] = ["wheel synthetic evidence"]
+    payload["provenance"]["transformation_sources"] = ["fixed linear anchors"]
+    Draft202012Validator(MCDA_INFORMATION_INPUT_SCHEMA_V1).validate(payload)
+    result = mcda_information_value(payload).to_contract_dict()
+    assert result["language_dispositions"]["python"] == "executable"
+    assert result["decomposition"]["joint_gross_voi"] >= 0.0
+    assert result["rank_acceptability"]["tie_convention"] == (
+        "fractional_complete_tie_groups"
+    )
+
+
 def test_installed_wheel_metadata_keeps_jax_optional() -> None:
     """Verify the built artifact, rather than only source TOML metadata."""
     if os.environ.get("WHEEL_VENV") is None:
@@ -82,7 +449,7 @@ def test_installed_native_provenance_matches_built_artifact() -> None:
     if os.environ.get("WHEEL_VENV") is None:
         return
     info = native.runtime_info()
-    assert info["core_version"] == version("voiage")
+    assert str(info["core_version"]).replace("-rc.", "rc") == version("voiage")
     assert info["source_revision"] == os.environ["EXPECTED_SOURCE_REVISION"]
     assert info["source_tree_git_oid"] == os.environ["EXPECTED_SOURCE_TREE_GIT_OID"]
     assert info["source_dirty"] is False
