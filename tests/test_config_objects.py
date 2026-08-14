@@ -93,6 +93,36 @@ def test_voi_analysis_config() -> None:
     assert default_dict["n_simulations"] == 1000
 
 
+def test_to_dict() -> None:
+    """Test to_dict method."""
+    config = VOIAnalysisConfig(
+        population=100000,
+        time_horizon=10,
+        discount_rate=0.03,
+        chunk_size=1000,
+        use_jit=True,
+        backend="jax",
+        enable_caching=True,
+        streaming_window_size=5000,
+        n_regression_samples=5000,
+        n_simulations=2000,
+    )
+
+    config_dict = config.to_dict()
+    assert isinstance(config_dict, dict)
+    assert config_dict["population"] == 100000
+    assert config_dict["time_horizon"] == 10
+    assert config_dict["discount_rate"] == 0.03
+    assert config_dict["chunk_size"] == 1000
+    assert config_dict["use_jit"] is True
+    assert config_dict["backend"] == "jax"
+    assert config_dict["enable_caching"] is True
+    assert config_dict["streaming_window_size"] == 5000
+    assert config_dict["n_regression_samples"] == 5000
+    assert config_dict["regression_model"] is None
+    assert config_dict["n_simulations"] == 2000
+
+
 def test_streaming_config() -> None:
     """Test StreamingConfig."""
     # Test default configuration
