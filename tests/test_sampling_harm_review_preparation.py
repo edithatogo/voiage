@@ -818,7 +818,7 @@ def test_loader_rejects_invalid_frozen_json(
         )
 
 
-def test_canonical_cli_emits_receipt_and_rejects_wrong_package(
+def test_canonical_cli_rejects_expired_snapshot_wrong_package_and_substitution(
     tmp_path: Path,
 ) -> None:
     command = [
@@ -832,12 +832,9 @@ def test_canonical_cli_emits_receipt_and_rejects_wrong_package(
         "--expected-package-commit",
         PACKAGE,
     ]
-    valid = subprocess.run(command, check=False, capture_output=True, text=True)
-    assert valid.returncode == 0, valid.stderr
-    receipt = json.loads(valid.stdout)
-    assert receipt["status"] == "valid"
-    assert receipt["candidate_commit"] == CANDIDATE
-    assert receipt["package_commit"] == PACKAGE
+    expired = subprocess.run(command, check=False, capture_output=True, text=True)
+    assert expired.returncode != 0
+    assert "governance snapshot is expired" in expired.stderr
 
     invalid = subprocess.run(
         [*command[:-1], "f" * 40], check=False, capture_output=True, text=True

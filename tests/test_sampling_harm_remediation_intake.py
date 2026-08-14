@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import UTC, datetime
 import json
 from pathlib import Path
 import shutil
@@ -15,13 +16,23 @@ import voiage.sampling_harm_review_preparation as review_preparation
 SamplingHarmReviewPreparationError = (
     review_preparation.SamplingHarmReviewPreparationError
 )
-load_and_validate_sampling_harm_remediation_intake = (
+_load_and_validate_sampling_harm_remediation_intake = (
     review_preparation.load_and_validate_sampling_harm_remediation_intake
 )
 
 ROOT = Path(__file__).parents[1]
 CONTRACT = ROOT / "specs/frontier/sampling-acquisition-harm/v1"
 SCHEMAS = CONTRACT / "schemas"
+HISTORICAL_VALIDATION_TIME = datetime(2026, 8, 3, tzinfo=UTC)
+
+
+def load_and_validate_sampling_harm_remediation_intake(
+    *, repository_root: Path
+) -> dict[str, Any]:
+    return _load_and_validate_sampling_harm_remediation_intake(
+        repository_root=repository_root,
+        now=HISTORICAL_VALIDATION_TIME,
+    )
 
 
 def _json(path: Path) -> dict[str, Any]:
@@ -71,6 +82,17 @@ def test_adjacent_method_delta_is_complete_and_non_executable() -> None:
     assert all(record["execution_reuse_allowed"] is False for record in issues.values())
     receipt = load_and_validate_sampling_harm_remediation_intake(repository_root=ROOT)
     assert receipt["effective_adjacent_issues"] == [570, 571, 595, 598]
+
+
+def test_remediation_intake_rejects_naive_validation_time() -> None:
+    with pytest.raises(
+        SamplingHarmReviewPreparationError,
+        match="validation time must be timezone-aware",
+    ):
+        _load_and_validate_sampling_harm_remediation_intake(
+            repository_root=ROOT,
+            now=datetime(2026, 8, 3),
+        )
 
 
 def test_effective_disposition_rejects_duplicate_issue_mutation(tmp_path: Path) -> None:

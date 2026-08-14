@@ -7,7 +7,8 @@ use std::mem::{align_of, offset_of, size_of};
 use voiage_ffi::{
     voiage_v1_abi_version, voiage_v1_capabilities, voiage_v1_evpi, voiage_v1_evpi_i32,
     VoiageAbiCapabilitiesV1, VoiageAbiVersionV1, VoiageStatusV1, VOIAGE_ABI_CAPABILITY_QUERY,
-    VOIAGE_ABI_VERSION_NEGOTIATION, VOIAGE_V1_ABI_MAJOR, VOIAGE_V1_ABI_MINOR,
+    VOIAGE_ABI_ENBS, VOIAGE_ABI_EVPI, VOIAGE_ABI_VERSION_NEGOTIATION, VOIAGE_V1_ABI_MAJOR,
+    VOIAGE_V1_ABI_MINOR,
 };
 
 const LAYOUT_BASELINE: &str = include_str!("../../../../specs/abi/v1/layouts.txt");
@@ -24,7 +25,7 @@ fn version_query_returns_a_fixed_width_self_describing_structure() {
 }
 
 #[test]
-fn capability_query_advertises_infrastructure_only() {
+fn capability_query_advertises_stable_scalar_operations() {
     let capabilities = voiage_v1_capabilities();
 
     assert_eq!(size_of::<VoiageAbiCapabilitiesV1>(), 16);
@@ -32,9 +33,12 @@ fn capability_query_advertises_infrastructure_only() {
     assert_eq!(capabilities.struct_version, 1);
     assert_eq!(
         capabilities.capability_bits,
-        VOIAGE_ABI_VERSION_NEGOTIATION | VOIAGE_ABI_CAPABILITY_QUERY | voiage_ffi::VOIAGE_ABI_EVPI
+        VOIAGE_ABI_VERSION_NEGOTIATION
+            | VOIAGE_ABI_CAPABILITY_QUERY
+            | VOIAGE_ABI_EVPI
+            | VOIAGE_ABI_ENBS
     );
-    assert_eq!(capabilities.capability_bits & !0b111, 0);
+    assert_eq!(capabilities.capability_bits & !0b1111, 0);
 }
 
 #[test]

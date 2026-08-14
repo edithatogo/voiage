@@ -23,6 +23,14 @@
 
 ## Phase 3 — Delivery or reviewed exclusion
 
+- [x] **G9-Julia-ENBS:** Expose the stable signed ENBS kernel through an
+  additive C ABI capability and the retained Julia binding without claiming
+  JLL or General-registry delivery. — `8bd7b926`
+  > EVIDENCE BLOCKER (2026-08-14): The append-only helper rejected the
+  > pre-existing ledger at line 3 (`invalid event_id; entry hash mismatch`).
+  > The historical ledger remains unchanged; the functional commit and local
+  > Git note retain the scoped verification evidence pending a separately
+  > governed ledger-integrity repair.
 - [ ] **G9:** Implement each accepted repository-owned capability or record a
   reviewed exclusion with migration guidance. (AC-02, AC-06)
 - [ ] **G10:** Add Rust/Python/R/Julia/Mojo dispositions and installed
@@ -46,3 +54,7 @@
 - [x] Synchronize metadata, the track index, registry and canonical manifest
   with merged planning PR #621 and open delivery PR #821; preserve installed
   parity, Mojo, registry and hosted gates. (2026-08-02; review fix for AC-01)
+- [x] Preserve expired H8 governance observations as immutable historical
+  evidence, validate their semantics at the recorded candidate time, retain
+  live CLI expiry rejection, and refresh the Julia delivery's changelog hash
+  pin. (2026-08-14; hosted CI remediation for AC-03 and AC-07)
