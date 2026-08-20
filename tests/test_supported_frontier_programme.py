@@ -112,8 +112,9 @@ def test_scientific_review_plan_requires_orchestrated_independent_panel() -> Non
         if gate["id"] == "scientific-and-contract-review"
     )
     assert scientific_gate["status"] == "pending"
-    assert "accepts M22-M31 scientifically at experimental maturity only" in (
-        scientific_gate["evidence"]
+    assert (
+        "accepts M22-M31 scientifically at experimental maturity only"
+        in scientific_gate["evidence"]
     )
     assert "remains pending for other families" in scientific_gate["evidence"]
 
