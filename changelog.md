@@ -7,6 +7,11 @@
 
 ## Unreleased
 
+- Record the owner-approved experimental-only scientific disposition for C18
+  M22–M31, preserve stable-promotion and external-acceptance boundaries, and
+  harden hosted Julia/R binding assurance with isolated and installed-package
+  test lanes.
+
 - Expose signed, Rust-authoritative ENBS through the additive C ABI v1.1 and
   the retained Julia binding, with capability discovery, no-write failure
   behavior, native smoke coverage, and explicit external registry gates.

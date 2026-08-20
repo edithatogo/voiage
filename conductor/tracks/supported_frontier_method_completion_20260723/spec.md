@@ -30,8 +30,9 @@ Project: [VOP–VOIAGE Conductor Roadmap](https://github.com/users/edithatogo/pr
 6. Govern scientific review through the role-specific subagent panel and
    separate orchestrating agent in `scientific-review-panel.md`, with immutable
    candidate packets, independence/conflict attestations, a family-specific
-   rubric, explicit dissent, remediation re-review and accountable human
-   scientific approval before any stable or publication claim.
+   rubric, explicit dissent, remediation re-review and an accountable owner
+   scientific decision before any stable or publication claim. Agent reports
+   are advisory and the owner decision is not independent review.
 
 ## Owned issue records
 
@@ -65,7 +66,7 @@ separate Conductor tracks unless they have an independently approved contract.
   process: an orchestrator freezes and hashes the candidate, four independent
   role reports use the acceptance matrix, all findings and disagreements are
   dispositioned, affected remediations are re-reviewed, and the synthesis does
-  not substitute for accountable human approval or downstream parity,
+  not substitute for the accountable owner decision or downstream parity,
   promotion, release and publication gates.
 
 ## Non-functional constraints
@@ -78,13 +79,15 @@ separate Conductor tracks unless they have an independently approved contract.
 - Preserve explicit human, rights, credential, publication, registry, release
   and hosted gates.
 
-## External and human gates
+## Accountable and external gates
 
-- Named scientific or contract review is required before maturity promotion.
+- Role-separated scientific or contract review advice plus a candidate-bound
+  owner decision is required before maturity promotion.
 - Hosted checks, merge, release, registry publication and external approval are
   separate from repository planning and local validation.
-- Rights, privacy, practitioner or authorship confirmation remains human-owned
-  where the workstream requires it.
+- Rights, privacy, practitioner or authorship confirmation remains owner-owned
+  where the repository controls it and destination-owned where an external
+  authority controls it.
 
 ## Out of scope
 

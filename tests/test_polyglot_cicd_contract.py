@@ -133,6 +133,17 @@ def test_shared_numerical_corpus_crosses_every_runtime_boundary() -> None:
         assert marker in workflow
 
 
+def test_binding_matrix_isolates_julia_and_separates_r_test_contexts() -> None:
+    """Hosted parity must not inherit local Julia or R development state."""
+    workflow = _text("bindings-ci.yml")
+
+    assert "JULIA_DEPOT_PATH" in workflow
+    assert "Run R package-development checks" in workflow
+    assert "Run installed R native and numerical-reference checks" in workflow
+    assert "test-native-ffi.R" in workflow
+    assert "test-zz-numerical-reference.R" in workflow
+
+
 def test_arm64_is_observed_before_release_promotion() -> None:
     """Preview ARM64 coverage stays non-required until evidence supports it."""
     workflow = _text("polyglot-assurance.yml")

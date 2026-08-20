@@ -7,11 +7,11 @@ This document lists the actionable tasks for `voiage` development. Agents should
 For experimental frontier items, references to scientific review mean the
 role-specific subagent review panel and separate orchestrating agent defined in
 `conductor/tracks/supported_frontier_method_completion_20260723/scientific-review-panel.md`.
-The orchestrator freezes the candidate, gathers independent reports, preserves
+The orchestrator freezes the candidate, gathers role-separated reports, preserves
 dissent and synthesizes recommendations. The panel supplies structured
-challenge evidence; named independent human scientific approval, maintainer
-approval and external release, registry and publication decisions remain
-separate gates.
+challenge evidence. The repository owner records the accountable scientific,
+maintainer, and release decisions without claiming independent review;
+destination registry and publication decisions remain separate external gates.
 
 *   [ ] Execute #318 Phase 5 orchestrated scientific review.
     *   Umbrella #841 governs the programme. Nested implementation issues are

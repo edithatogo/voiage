@@ -17,7 +17,7 @@ fn standard_normal_cdf(value: f64) -> f64 {
             + 0.254_829_592)
             * t;
     let erf = sign * (1.0 - polynomial * (-x * x).exp());
-    0.5 * (1.0 + erf)
+    f64::midpoint(1.0, erf)
 }
 
 fn expected_positive_normal(mean: f64, standard_deviation: f64) -> f64 {

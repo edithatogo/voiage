@@ -87,7 +87,8 @@ def test_scientific_review_plan_requires_orchestrated_independent_panel() -> Non
     assert "Critical or High finding may be dispositioned only" in protocol
     assert "Every delta invalidates approval by default" in protocol
     assert "governance reviewer and an affected scientific reviewer" in protocol
-    assert "each family and frozen candidate requires" in protocol
+    assert "repository owner records the accountable" in protocol
+    assert "not independent review" in protocol
     for receipt_field in (
         "identity",
         "qualifications",
@@ -111,7 +112,11 @@ def test_scientific_review_plan_requires_orchestrated_independent_panel() -> Non
         if gate["id"] == "scientific-and-contract-review"
     )
     assert scientific_gate["status"] == "pending"
-    assert "No review packet or approval receipt" in scientific_gate["evidence"]
+    assert (
+        "accepts M22-M31 scientifically at experimental maturity only"
+        in scientific_gate["evidence"]
+    )
+    assert "remains pending for other families" in scientific_gate["evidence"]
 
     owning_requirements = {
         "estimation_focused_variance_voi_20260727": (
@@ -183,7 +188,7 @@ def test_sampling_harm_scoping_is_canonical_and_fail_closed() -> None:
     for boundary in (
         "sampling_acquisition_harm_voi_20260802",
         "fail-closed",
-        "human",
+        "owner",
         "runtime",
     ):
         assert boundary in scope_gate["evidence"]
