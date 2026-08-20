@@ -4,7 +4,7 @@
   "type": "chore",
   "status": "completed",
   "created_at": "2026-07-21T00:00:00Z",
-  "updated_at": "2026-08-03T22:15:51Z",
+  "updated_at": "2026-08-20T12:38:12Z",
   "description": "Track archival, identifier, language-registry, arXiv, and evidence-gated JOSS readiness from the signed v1.0.0 release through the exact v2 review candidate.",
   "owner_repo": "edithatogo/voiage",
   "github_parent_issue": "https://github.com/edithatogo/voiage/issues/296",
@@ -59,7 +59,8 @@
       "https://github.com/edithatogo/voiage/pull/480",
       "https://github.com/edithatogo/voiage/pull/561",
       "https://github.com/edithatogo/voiage/pull/813",
-      "https://github.com/edithatogo/voiage/pull/880"
+      "https://github.com/edithatogo/voiage/pull/880",
+      "https://github.com/edithatogo/voiage/pull/887"
     ],
     "pull_request_evidence": "evidenced"
   }

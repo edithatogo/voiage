@@ -94,7 +94,9 @@
   sequential external gates.
 - [x] Maintain the locally validated Spack/EasyBuild packaging handoff in
   https://github.com/edithatogo/voiage/issues/622 before any HPC registry or
-  curation decision; registry acceptance remains external.
+  curation decision; repository-owned implementation merged in PR #887 at
+  `1405f1cf9e98885f24f8e6b923493136ce62c43b`; registry acceptance remains
+  external.
 
 ## Phase 2B: Independent simulated JOSS editorial review
 
