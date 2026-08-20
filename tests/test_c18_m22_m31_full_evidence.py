@@ -25,22 +25,10 @@ FAMILIES = {
     "outcome-conditional-sample-information": "tests/test_outcome_conditional_sample_information.py",
 }
 
-# These entries are useful semantic descriptions, but are not independently
-# addressable fixtures or test nodes yet. Keeping the allow-list explicit makes
-# the remaining assurance gap machine-checkable instead of implicit.
-DECLARED_ONLY = {
-    "implementation-information": {
-        "probabilities that do not sum to one",
-        "missing state-action uptake cells",
-        "non-finite net benefit",
-        "zero population",
-        "incomplete signal likelihoods",
-    },
-    "belief-state-information": {
-        "one-stage information value is zero while two-stage value is positive",
-        "null sensor reduces to the matched no-information comparator",
-    },
-}
+# Every current C18 pathology is now represented by a fixture or executable
+# test node. A future prose-only addition must be listed here before it can be
+# accepted, which keeps the residual assurance gap machine-checkable.
+DECLARED_ONLY: dict[str, set[str]] = {}
 
 
 def _test_node_exists(path: Path, node: str | None) -> bool:

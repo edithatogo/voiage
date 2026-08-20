@@ -1,0 +1,8 @@
+{
+  "id": "implementation-probabilities-not-one",
+  "base_input": "../normative/input.json",
+  "operation": "set",
+  "path": ["states", 0, "probability"],
+  "value": 0.7,
+  "expected_error": "sum to one"
+}

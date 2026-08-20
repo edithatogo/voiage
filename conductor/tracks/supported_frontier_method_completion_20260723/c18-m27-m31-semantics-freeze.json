@@ -64,7 +64,7 @@
     "voiage/contracts/event_localized_information.py": "43eee1724a6fcb367419b937b2ea5ed25bb9c3bd4d6374ce122c421eb7f7af09",
     "tests/test_event_localized_information.py": "2ce5f26ff01e1ff69f00a9756d219eb95d026b7cdd97c8e4d3f7941d60aab92b",
     "voiage/methods/belief_state_information.py": "cd0e290af9b25bf49bd1b3805f0e937f6f2903d412bbf885eaa04e123362f006",
-    "tests/test_belief_state_information.py": "f60c89c183652b75e81d22f5d58d21649ae35db14678454f55a8e0ea7148ebbc",
+    "tests/test_belief_state_information.py": "14eea24470c68f1bce66aa86bbadd913fa8d4b5fc8cb1704ca83dd79ad6aa8c7",
     "voiage/methods/signed_social_information.py": "9665e7a6ec1d1491aa5c75a86613f477406fab0328f14c850c50505770b09e95",
     "voiage/contracts/signed_social_information.py": "9c57111ac038d9c1f63da69457645afcb375732ebad48ec754a38a9828d562bd",
     "tests/test_signed_social_information.py": "0490e2566e1c1b8594d8b3d6e4c5d846c559960cd6fceeaa457e4bb301f5fb62",

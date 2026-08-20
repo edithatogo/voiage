@@ -1,0 +1,8 @@
+{
+  "id": "belief-null-sensor-comparator",
+  "base_input": "../normative/input.json",
+  "operation": "set",
+  "path": ["sensors", 1, "null_sensor"],
+  "value": true,
+  "expected_error": "exactly one null"
+}

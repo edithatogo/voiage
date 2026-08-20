@@ -1,0 +1,7 @@
+{
+  "id": "implementation-incomplete-signal-likelihoods",
+  "base_input": "../normative/input.json",
+  "operation": "delete",
+  "path": ["sampling_model", "signals", 0, "likelihood_by_state", "high"],
+  "expected_error": "every state"
+}

@@ -1,0 +1,8 @@
+{
+  "id": "implementation-zero-population",
+  "base_input": "../normative/input.json",
+  "operation": "set",
+  "path": ["population"],
+  "value": 0,
+  "expected_error": "population"
+}
