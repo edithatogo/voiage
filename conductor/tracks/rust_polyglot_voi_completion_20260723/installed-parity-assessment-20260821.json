@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-08-21T00:00:00Z",
+  "track_id": "rust_polyglot_voi_completion_20260723",
+  "commit": "d9e01333bc47b3be07c075a54656ddfb5bd94e15",
+  "fixture_manifest": "specs/core-api/fixtures/v1/compatibility-manifest.json",
+  "fixture_manifest_sha256": "68496332e0ab7c34338bfb856ef7135fd6b33095ce8143613e17af4a1d6d4d81",
+  "runs": {
+    "rust": {
+      "status": "passed",
+      "runtime": "cargo 1.90.0; macOS arm64",
+      "command": "cargo test --manifest-path rust/Cargo.toml --workspace --all-targets",
+      "notes": "Workspace contract, ABI, numerics, property, differential, fixture and Python-bridge tests passed. Release FFI build also passed."
+    },
+    "python": {
+      "status": "passed",
+      "runtime": "Python 3.14.7; installed project environment",
+      "command": "pytest tests/test_perspective_conformance_v1.py tests/test_perspective_promotion_evidence.py tests/test_c18_m22_m31_full_evidence.py -q",
+      "notes": "Repository-owned Python contract and C18 evidence suites are green; this is not a claim for unimplemented polyglot methods."
+    },
+    "r": {
+      "status": "partial_pass",
+      "runtime": "R 4.x; clean temporary library; voiageR source installed; release libvoiage_ffi.dylib",
+      "command": "R_LIBS_USER=<temporary> VOIAGE_FFI_LIBRARY=rust/target/release/libvoiage_ffi.dylib Rscript -e 'library(testthat); library(voiageR); test_dir(\"r-package/voiageR/tests/testthat\", reporter=\"summary\")'",
+      "notes": "Native FFI and numerical-reference tests passed. Four package-development mock tests fail because they invoke testthat/pkgload helpers after installation; this is harness context, not an ABI or numerical mismatch."
+    },
+    "julia": {
+      "status": "blocked",
+      "runtime": "Julia 1.12.7; macOS arm64",
+      "command": "VOIAGE_FFI_LIBRARY=rust/target/release/libvoiage_ffi.dylib julia --project=bindings/julia -e 'using Pkg; Pkg.test()'",
+      "notes": "Run could not complete locally because Julia package precompilation remained locked by a stale worker. No parity claim is made; rerun in a clean hosted Julia environment."
+    },
+    "mojo": {
+      "status": "unsupported",
+      "notes": "No repository-owned Mojo runtime contract or approved toolchain."
+    }
+  },
+  "promotion": {
+    "status": "blocked",
+    "decision": "retain_experimental",
+    "reason": "The shared Rust/Python/R/Julia packet is not complete: Julia is blocked and R has installation-context failures. The panel recommendation supports experimental acceptance only; no stable or cross-language promotion claim is made.",
+    "next_actions": [
+      "Run Julia in a clean hosted environment with the release FFI library and immutable fixture manifest.",
+      "Separate installed-package R tests from pkgload-only development mocks or record an explicit harness waiver.",
+      "Rerun the four-role panel on the completed exact-head packet before any stable promotion."
+    ]
+  }
+}
