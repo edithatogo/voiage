@@ -5,7 +5,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 POLICY = ROOT / "conductor" / "panel-gate-policy.json"
 ASSESSMENT = ROOT / "conductor" / "panel-gate-assessment-20260820.md"
