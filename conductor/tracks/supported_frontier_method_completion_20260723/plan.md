@@ -622,3 +622,7 @@ issue-backed remediation slices and rebound to a fresh review candidate.
   release, publication, registry acceptance and parent/#318 closure
   independently. (M17-R1–M17-R4, M17-R7–M17-R9; AC-01, AC-07, AC-09,
   AC-10)
+  - [~] Record the repository owner's Option A decision for C18 M22–M31:
+    scientifically acceptable at experimental maturity, no stable promotion,
+    stable-core release accepted with experimental-frontier boundaries, and
+    external registry/publication acceptance kept separate.
