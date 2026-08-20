@@ -14,6 +14,8 @@ PKGCHECK_CACHE_DIR="$work_dir/pkgcheck-cache" \
     ))
     dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE, showWarnings = FALSE)
     install.packages("pkgcheck", lib = Sys.getenv("R_LIBS_USER"))
-    checks <- pkgcheck::pkgcheck(commandArgs(trailingOnly = TRUE)[1], use_cache = FALSE)
+    args <- commandArgs(trailingOnly = TRUE)
+    if (length(args) < 1L) stop("Usage: script requires path to R package directory")
+    checks <- pkgcheck::pkgcheck(args[[1]], use_cache = FALSE)
     print(summary(checks))
   ' "$repo_root/r-package/voiageR"

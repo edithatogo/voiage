@@ -21,5 +21,5 @@ if command -v modulecmd >/dev/null 2>&1; then
   eb --check-style "$repo_root/packaging/easybuild/voiage-2.0.0-foss-2023a.eb"
 else
   echo "EasyBuild syntax requires a modules tool; install Environment Modules or Lmod." >&2
-  exit 2
+  exit 1
 fi
