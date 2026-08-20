@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-08-21T09:48:47+10:00",
+  "track_id": "rust_polyglot_voi_completion_20260723",
+  "pull_request": 992,
+  "tested_head": "21b6a073328d2ccde5b032b13c0928e926293c9e",
+  "merge_commit": "69241d94efed35ad6511bd53d31725e0200df418",
+  "fixture_manifest": "specs/core-api/fixtures/v1/compatibility-manifest.json",
+  "fixture_manifest_sha256": "68496332e0ab7c34338bfb856ef7135fd6b33095ce8143613e17af4a1d6d4d81",
+  "workflow": {
+    "name": "Retained Bindings CI",
+    "run_id": 32429467957,
+    "url": "https://github.com/edithatogo/voiage/actions/runs/32429467957",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "lanes": {
+    "rust": {
+      "status": "passed",
+      "jobs": [
+        "Rust workspace (MSRV 1.85)",
+        "Rust workspace"
+      ]
+    },
+    "python": {
+      "status": "passed",
+      "workflow_run_id": 32429467998,
+      "workflow_url": "https://github.com/edithatogo/voiage/actions/runs/32429467998",
+      "jobs": [
+        "Unit Tests (Python 3.12)",
+        "Unit Tests (Python 3.13)",
+        "Unit Tests (Python 3.14)",
+        "Frontier Contract Validation",
+        "Coverage Report"
+      ]
+    },
+    "r": {
+      "status": "passed",
+      "jobs": [
+        "R package-development checks",
+        "R installed native smoke (ubuntu-latest)",
+        "R installed native smoke (windows-latest)",
+        "R installed native smoke (macos-latest)"
+      ]
+    },
+    "julia": {
+      "status": "passed",
+      "versions": ["1.10", "1.11", "1.12"],
+      "platforms": ["ubuntu-latest", "windows-latest", "macos-latest"],
+      "job_count": 9,
+      "depot_policy": "workspace-isolated"
+    },
+    "cross_language": {
+      "status": "passed",
+      "job": "Cross-language differential conformance",
+      "job_url": "https://github.com/edithatogo/voiage/actions/runs/32429467957/job/96619568467"
+    },
+    "mojo": {
+      "status": "unsupported",
+      "reason": "No repository-owned runtime contract or approved toolchain."
+    }
+  },
+  "overall_check_summary": {
+    "total": 65,
+    "success": 60,
+    "skipped": 4,
+    "neutral": 1,
+    "failure": 0,
+    "pending": 0
+  },
+  "disposition": {
+    "installed_parity_gate": "passed_for_advertised_rust_python_r_julia_surfaces",
+    "m22_m31_maturity": "experimental",
+    "stable_promotion": false,
+    "scientific_claim": "repository-owned executable parity evidence only",
+    "external_acceptance": "not_claimed"
+  }
+}
