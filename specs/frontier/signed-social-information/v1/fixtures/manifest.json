@@ -23,10 +23,16 @@
     {
       "expected_output_artifact": "normative/expected.json",
       "input_artifact": "normative/input.json",
-      "name": "Li-Pozzi harmful-private positive-social construction"
+      "name": "Li-Pozzi harmful-private positive-social construction",
+      "reference": "tests/test_signed_social_information.py"
     }
   ],
-  "pathologies": [],
+  "pathologies": [
+    "tests/test_signed_social_information.py"
+  ],
+  "property_tests": [
+    "tests/test_signed_social_information.py"
+  ],
   "status": "fixture-backed",
   "version": "v1"
 }

@@ -10,7 +10,7 @@
     },
     {
       "path": "specs/frontier/signed-social-information/v1/fixtures/manifest.json",
-      "sha256": "979be16afb18a4b89b20b3aae69872b94a2eed7660a26d422e5fbe72a0c25e67"
+      "sha256": "15c1052daffc99a396bbc8694fd2c36f839b8e15542fec007892947d7bd84d79"
     },
     {
       "path": "specs/frontier/signed-social-information/v1/fixtures/normative/input.json",

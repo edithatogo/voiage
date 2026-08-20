@@ -32,7 +32,7 @@
     },
     {
       "path": "specs/frontier/heterogeneity-value/v1/fixtures/manifest.json",
-      "sha256": "072e8edcb51667388e52187dec0af9f710d7b2d46d29ce371833c1ec30dd8f6f"
+      "sha256": "2e42a403d162d7886c5d56b56f2ffaf449269a8290d13132a98064f339a69eca"
     },
     {
       "path": "specs/frontier/heterogeneity-value/v1/fixtures/normative/input.json",
