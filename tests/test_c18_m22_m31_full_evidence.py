@@ -1,5 +1,12 @@
-"""Audit complete repository-owned evidence registration for C18 families."""
+"""Audit complete repository-owned evidence registration for C18 families.
 
+The manifest audit is intentionally strict about linkage. A prose-only entry is
+classified as ``declared`` rather than silently counted as an executable test;
+those declarations keep the family experimental until a fixture or test node
+is added.
+"""
+
+import ast
 import hashlib
 import json
 from pathlib import Path
@@ -17,6 +24,41 @@ FAMILIES = {
     "heterogeneity-value": "tests/test_heterogeneity.py",
     "outcome-conditional-sample-information": "tests/test_outcome_conditional_sample_information.py",
 }
+
+# These entries are useful semantic descriptions, but are not independently
+# addressable fixtures or test nodes yet. Keeping the allow-list explicit makes
+# the remaining assurance gap machine-checkable instead of implicit.
+DECLARED_ONLY = {
+    "implementation-information": {
+        "probabilities that do not sum to one",
+        "missing state-action uptake cells",
+        "non-finite net benefit",
+        "zero population",
+        "incomplete signal likelihoods",
+    },
+    "belief-state-information": {
+        "one-stage information value is zero while two-stage value is positive",
+        "null sensor reduces to the matched no-information comparator",
+    },
+}
+
+
+def _test_node_exists(path: Path, node: str | None) -> bool:
+    if node is None:
+        return True
+    tree = ast.parse(path.read_text(encoding="utf-8"))
+    return any(
+        isinstance(item, (ast.FunctionDef, ast.AsyncFunctionDef)) and item.name == node
+        for item in ast.walk(tree)
+    )
+
+
+def _fixture_hashes(manifest: dict[str, object]) -> dict[str, str]:
+    return {
+        entry["path"]: entry["sha256"]
+        for entry in manifest.get("files", [])
+        if isinstance(entry, dict) and "path" in entry and "sha256" in entry
+    }
 
 
 def test_every_c18_family_registers_reference_property_and_pathology_evidence() -> None:
@@ -37,6 +79,33 @@ def test_every_c18_family_registers_reference_property_and_pathology_evidence() 
                 )
             if "/" in candidate or candidate.startswith("tests/"):
                 assert candidate_path.is_file(), (family, evidence_path)
+
+
+def test_manifest_evidence_refs_are_classified_and_hash_bound() -> None:
+    """Require executable refs to resolve and preserve declared-only gaps."""
+    for family in FAMILIES:
+        fixture_root = ROOT / "specs/frontier" / family / "v1/fixtures"
+        manifest = json.loads((fixture_root / "manifest.json").read_text())
+        pinned = _fixture_hashes(manifest)
+        declared = set()
+        for evidence_kind in ("pathologies", "property_tests"):
+            for ref in manifest[evidence_kind]:
+                candidate, _, node = ref.partition("::")
+                if candidate.startswith("tests/"):
+                    path = ROOT / candidate
+                    assert path.is_file(), (family, ref)
+                    assert _test_node_exists(path, node or None), (family, ref)
+                    continue
+                if "/" not in candidate:
+                    declared.add(candidate)
+                    continue
+                path = fixture_root / candidate
+                assert path.is_file(), (family, ref)
+                assert candidate in pinned, (family, ref, "missing fixture hash pin")
+                assert (
+                    hashlib.sha256(path.read_bytes()).hexdigest() == pinned[candidate]
+                )
+        assert declared == DECLARED_ONLY.get(family, set()), (family, declared)
 
 
 def test_every_c18_normative_fixture_is_replayable_and_hash_pins_are_current() -> None:
