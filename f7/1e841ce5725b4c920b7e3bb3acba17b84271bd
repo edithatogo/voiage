@@ -1,0 +1,7 @@
+Task: Record exact-head hosted Rust, Python, R, and Julia parity evidence.
+
+Summary: Bound successful hosted parity and CI runs to PR 992 exact head and merge commit, including the isolated Julia matrix, installed R matrix, Python 3.12-3.14, Rust MSRV/current, and differential conformance.
+
+Boundary: M22-M31 remain experimental, Mojo remains unsupported, and no external registry, publication, or independent-review claim is made.
+
+Verification: 40 focused governance and polyglot contract tests passed; full Conductor validation reported zero errors and warnings; JSON parsing and git diff check passed.
