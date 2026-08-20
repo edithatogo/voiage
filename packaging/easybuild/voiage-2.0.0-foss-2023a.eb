@@ -1,0 +1,29 @@
+easyblock = 'PythonPackage'
+
+name = 'voiage'
+version = '2.0.0'
+
+homepage = 'https://github.com/edithatogo/voiage'
+description = 'Value of Information analysis with a Rust-native Python extension.'
+
+toolchain = {'name': 'foss', 'version': '2023a'}
+
+source_urls = ['https://github.com/edithatogo/voiage/archive/']
+sources = ['5e92151fc87afefbb411c992fb9f82fc4b8c049f.tar.gz']
+checksums = ['a9f5e61f6a488a794a493fd2eaef6c7927ef19f891c1a10732484ed9acc34a03']
+
+builddependencies = [
+    ('Rust', '1.88.0'),
+]
+
+dependencies = [
+    ('Python', '3.12.3'),
+    ('SciPy-bundle', '2024.05'),
+    ('scikit-learn', '1.5.0'),
+    ('pyarrow', '16.1.0'),
+    ('polars', '1.2.1'),
+    ('Pydantic', '2.7.4'),
+]
+
+use_pip = True
+sanity_check_commands = ['voiage --help']
