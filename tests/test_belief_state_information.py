@@ -52,7 +52,11 @@ def _apply_pathology(case_path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
     target: Any = payload
     for component in case["path"][:-1]:
         target = target[component]
-    target[case["path"][-1]] = case["value"]
+    if case["operation"] == "set_horizon_one":
+        target[case["path"][-1]] = case["value"]
+        payload["constraints"]["allowed_control_action_ids_by_stage"].pop("1")
+    else:
+        target[case["path"][-1]] = case["value"]
     return payload, case
 
 

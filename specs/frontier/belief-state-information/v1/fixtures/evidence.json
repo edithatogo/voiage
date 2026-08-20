@@ -14,7 +14,7 @@
     },
     {
       "path": "specs/frontier/belief-state-information/v1/fixtures/manifest.json",
-      "sha256": "8ea13888fc4646cfa03b2857ad121780915514616e240ed498da52a678a914df"
+      "sha256": "03a21bdabc36c1eae9f8d0645382ff6d560172699441b49bc2bfa389eeb7525a"
     },
     {
       "path": "specs/frontier/belief-state-information/v1/fixtures/normative/input.json",
