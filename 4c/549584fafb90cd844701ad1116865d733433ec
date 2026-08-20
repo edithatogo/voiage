@@ -1,0 +1,7 @@
+Task: H8-B scientific-review evidence contract hardening
+
+Summary: Introduced v1.1 typed Git OIDs and reproducible content digests; frozen-tree artifact verification; exact finding, disagreement, disposition and delta inventories; affected-role Medium re-review; reviewer, chair, approver and maintainer separation; identity-bound human receipts; expiry and supersession; narrow field-level administrative deltas; and preparation-only naming for non-authoritative templates.
+
+Validation: 34 focused tests passed; Ruff passed; ty passed; 3,895 non-integration tests passed with 13 governed skips; synthetic fixture validator passed; full Conductor and GitHub cross-reference validators passed. Local pytest-cov remained blocked before collection by the Python 3.14/NumPy re-import harness and therefore requires hosted changed-coverage confirmation.
+
+Boundary: This contract and synthetic fixture are not scientific approval, domain/ethics approval, real-study authorization, promotion, release, or issue closure.

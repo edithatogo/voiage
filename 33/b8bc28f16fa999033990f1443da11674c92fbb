@@ -1,0 +1,1 @@
+Candidate-decision review fixes: synchronize the negative runtime schema inventory, retain direct semantic bypass tests for remaining blockers and authority escalation, and align new Python lines with the applicable style guide. Thirty-three decision tests plus the sampling-harm boundary suite and Ruff pass.
