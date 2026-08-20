@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "decision_id": "owner-option-a-20260821",
+  "recorded_at": "2026-08-21T00:00:00Z",
+  "accountability_model": "single-maintainer-scientist",
+  "candidate_commit": "5dcfd9765aed5caca19346b6698c126f63e2eca9",
+  "candidate_tree": "62c938982231051ff6f2277a2a4187ada5d68fa8",
+  "scope": {
+    "scientific_families": ["M22", "M23", "M24", "M25", "M26", "M27", "M28", "M29", "M30", "M31"],
+    "release": "stable core and explicitly experimental frontier APIs",
+    "repositories": ["edithatogo/voiage"]
+  },
+  "accountable_roles": {
+    "scientific_approver": "repository owner acting as accountable scientist",
+    "maintainer_approver": "repository owner acting as maintainer",
+    "release_approver": "repository owner acting as release authority"
+  },
+  "scientific_decision": "scientifically_acceptable_experimental",
+  "maturity_decision": "retain_experimental",
+  "release_authorization": "stable_core_with_experimental_frontier_apis",
+  "issue_closure": "staged_only",
+  "external_registry_and_publication": "pending_external",
+  "panel_dissent_preserved": true,
+  "conditions": [
+    "All M22-M31 methods retain experimental maturity until their scientific and promotion gates pass.",
+    "The finite-contract, estimator, domain, parity, and evidence limitations in the panel reports remain normative.",
+    "Release authorization does not constitute a tag, package upload, publication, registry acceptance, or issue-closure receipt.",
+    "Only completed delivery children may close; parent scientific, parity, promotion, registry, and publication issues remain open until their own evidence is recorded."
+  ],
+  "panel_evidence": [
+    "conductor/tracks/supported_frontier_method_completion_20260723/c18-m22-m31-panel-rerun-20260804.md",
+    "conductor/tracks/supported_frontier_method_completion_20260723/c18-panel-rerun-20260821.md",
+    "conductor/tracks/rust_polyglot_voi_completion_20260723/installed-parity-assessment-20260821.json"
+  ],
+  "source_statement_sha256": "3cc1cf5178a75d29cd73ed41c7cca364b1b27ec9ee0c796ac8431c23ff1547bd",
+  "supersedes": null
+}

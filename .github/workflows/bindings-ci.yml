@@ -87,6 +87,9 @@ jobs:
           - runner: windows-latest
             library: rust/target/release/voiage_ffi.dll
     runs-on: ${{ matrix.os.runner }}
+    env:
+      JULIA_DEPOT_PATH: ${{ runner.temp }}/julia-depot
+      JULIA_NUM_PRECOMPILE_TASKS: "1"
     defaults:
       run:
         working-directory: bindings/julia
@@ -142,7 +145,7 @@ jobs:
           VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/${{ matrix.os.library }}
 
   r:
-    name: R binding
+    name: R package-development checks
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -190,7 +193,8 @@ jobs:
           done
         env:
           RETICULATE_PYTHON: ${{ steps.r-python.outputs.python-path }}
-      - run: Rscript -e 'rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")'
+      - name: Run R package-development checks
+        run: Rscript -e 'rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")'
         env:
           VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/rust/target/release/libvoiage_ffi.so
           RETICULATE_PYTHON: ${{ steps.r-python.outputs.python-path }}
@@ -221,18 +225,20 @@ jobs:
         working-directory: rust
         run: cargo build --release --locked --package voiage-ffi
       - uses: r-lib/actions/setup-r@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
+      - uses: r-lib/actions/setup-r-dependencies@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
+        with:
+          extra-packages: any::testthat any::reticulate
+          working-directory: r-package/voiageR
       - name: Install the R source package
         run: >-
           Rscript -e
           "install.packages('r-package/voiageR', repos = NULL, type = 'source')"
-      - name: Call the installed Rust EVPI path
+      - name: Run installed R native and numerical-reference checks
         env:
           VOIAGE_FFI_LIBRARY: ${{ github.workspace }}/rust/target/release/${{ matrix.library }}
-        run: >-
-          Rscript -e
-          "library(voiageR);
-          value <- evpi(matrix(c(0, 1, 2, 0), nrow = 2, byrow = TRUE));
-          stopifnot(isTRUE(all.equal(value, 0.5, tolerance = 1e-12)))"
+          VOIAGE_NUMERICAL_REFERENCE: ${{ github.workspace }}/specs/numerical-reference/v1/evpi-cases.json
+        run: |
+          Rscript -e "library(testthat); library(voiageR); test_file('r-package/voiageR/tests/testthat/test-native-ffi.R'); test_file('r-package/voiageR/tests/testthat/test-zz-numerical-reference.R')"
 
   differential-conformance:
     name: Cross-language differential conformance

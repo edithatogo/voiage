@@ -36,7 +36,7 @@
       "assessment_delegate": "role-separated-panel-of-agents",
       "accountable_decision": "maintainer scientific decision or explicitly required external authority",
       "panel_can_authorize": false,
-      "current_status": "pending",
+      "current_status": "satisfied-experimental-only",
       "preconditions": ["exact candidate packet", "per-family contracts and executable evidence", "dissent register"],
       "contingency": "retain experimental maturity and schedule targeted remediation and re-review"
     },
@@ -46,7 +46,7 @@
       "assessment_delegate": "role-separated-panel-of-agents",
       "accountable_decision": "maintainer promotion receipt",
       "panel_can_authorize": false,
-      "current_status": "blocked",
+      "current_status": "retain-experimental",
       "preconditions": ["scientific decision", "complete reference/pathology evidence", "cross-language parity where claimed", "release evidence"],
       "contingency": "promote no families; preserve candidate or experimental labels"
     },
@@ -56,7 +56,7 @@
       "assessment_delegate": "role-separated-panel-of-agents",
       "accountable_decision": "maintainer acceptance of exact shared-fixture receipts",
       "panel_can_authorize": false,
-      "current_status": "blocked-until-python-semantics-stabilize",
+      "current_status": "pending-exact-hosted-receipts",
       "preconditions": ["frozen Python semantics", "installed binding artifacts", "exact shared fixtures"],
       "contingency": "record each unavailable binding as unsupported/unverified; do not infer parity"
     },
@@ -76,7 +76,7 @@
       "assessment_delegate": "role-separated-panel-of-agents",
       "accountable_decision": "maintainer release decision and protected credentials",
       "panel_can_authorize": false,
-      "current_status": "blocked",
+      "current_status": "authorized-pending-exact-artifacts",
       "preconditions": ["promotion receipt", "security and provenance evidence", "exact release artifacts"],
       "contingency": "prepare a local release packet only; do not tag or publish"
     },
@@ -96,7 +96,7 @@
       "assessment_delegate": "role-separated-panel-of-agents",
       "accountable_decision": "maintainer closure decision",
       "panel_can_authorize": false,
-      "current_status": "pending-reconciliation",
+      "current_status": "staged-closure-authorized",
       "preconditions": ["merged implementation", "all acceptance evidence", "PR and Conductor cross-reference"],
       "contingency": "leave issues open with an evidence-linked status comment"
     }

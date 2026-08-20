@@ -20,8 +20,8 @@ flowchart TD
     Remediate --> Rebind["Freeze new candidate and re-review affected roles"]
     Rebind --> Packet
     Blocked -->|no| Synthesis["Orchestrator synthesis and family verdict matrix"]
-    Synthesis --> Human["Named independent human scientific verdict"]
-    Human --> Maintainer["Separate maintainer maturity decision"]
+    Synthesis --> OwnerScience["Accountable owner scientific decision"]
+    OwnerScience --> Maintainer["Separate owner maintainer maturity decision"]
     Maintainer --> Gates["Parity, promotion, hosted, release, publication and closure gates remain separate"]
 ```
 

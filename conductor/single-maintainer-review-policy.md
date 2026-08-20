@@ -10,7 +10,10 @@ approval or replace the maintainer's accountable decision.
 The policy covers every repository-owned review gate: scientific validity,
 maturity promotion, cross-language parity, hosted exact-head assurance,
 release, publication/registry preparation, and GitHub issue/project closure.
-The maintainer remains responsible for the accountable decision at each gate.
+The repository owner may act as accountable scientist, maintainer, and release
+approver after considering the panel evidence. The owner decision must name the
+candidate, scope, maturity, conditions, dissent, and downstream boundaries; it
+must not be represented as independent review.
 External venues, other repositories, and destination-specific human-only
 approvals retain their own requirements and are not rewritten by this policy.
 

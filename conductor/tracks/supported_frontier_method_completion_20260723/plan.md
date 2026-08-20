@@ -581,7 +581,8 @@ issue-backed remediation slices and rebound to a fresh review candidate.
   `sampling_acquisition_harm_voi_20260802` as the C18/M32 planned v1.3.0 Must
   track for the #570 child dependent on #571, with #851–#853 as governed nested
   follow-through. Primary-source, estimand and automated advisory review define
-  a fail-closed research scope only. Candidate-bound independent human review,
+  a fail-closed research scope only. Candidate-bound role-separated agent
+  review and an accountable owner decision,
   runtime implementation, ethics/regulatory authorization, promotion, release
   and closure remain pending; this is not an existing #570 kernel and is not
   #595's VoC presentation.
@@ -612,10 +613,11 @@ issue-backed remediation slices and rebound to a fresh review candidate.
   pending gates, new defects, research questions, human decisions and release
   gates; never promote by majority vote. (M17-R3, M17-R4; AC-02, AC-10)
 - [ ] **SR10 — Accountable decision and synchronized closeout:** Obtain the
-  named independent human scientific/domain verdict and a separate maintainer
-  maturity decision. For #850, require two distinct scientific and
-  domain/ethics humans and use a chair only for dissent, dispute or reviewer
-  remediation. Verify authenticated receipt digests, expiry, supersession,
+  repository owner's accountable scientific verdict and separate maintainer
+  maturity decision after the role-separated agent panel. For #850, require
+  distinct scientific and domain/ethics agent reports and use an agent chair
+  for dissent, dispute, or reviewer remediation. Verify receipt digests,
+  scope, expiry, supersession,
   complete finding closure, candidate delta and exact head; synchronize
   issues, Project 28, roadmap, todo, canonical projections and metadata. Record
   readback or set Sync State to `Conflict`. Record parity, stable promotion,

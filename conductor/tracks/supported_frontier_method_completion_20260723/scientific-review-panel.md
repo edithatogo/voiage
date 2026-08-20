@@ -34,14 +34,12 @@ conflicts and an independence attestation. An author or remediator may explain
 the work but cannot independently approve that slice. If a reviewer remediates
 a finding, a fresh eligible reviewer re-reviews it.
 
-Automated or subagent reports are structured challenge evidence. Before a
-stable or publication claim, each family and frozen candidate requires a named
-qualified human scientific reviewer independent of the implementation to sign
-its scientific verdict, plus a domain-qualified reviewer for high-risk claims.
-Disqualifying financial, organizational, authorship, remediation, supervisory
-or personal conflicts require recusal and replacement. A single-person
-repository does not require routine peer approval for ordinary merging, but
-that does not make an independence claim self-satisfying.
+Automated or subagent reports are structured challenge evidence. In this
+single-person repository, scientific and domain advice is delegated to
+role-separated agents and the repository owner records the accountable
+scientific decision. The owner decision is not independent review and must not
+be described as such. External venues retain any reviewer requirements they
+control.
 
 ## Review packet and entry criteria
 
@@ -151,8 +149,10 @@ Every adjudication or approval receipt requires the adjudicator/approver's
 identity, role, qualifications, conflict and independence status; exact
 candidate commit/tree and packet hash; family and capability scope; decision,
 conditions and dissent references; issue and evidence references; decision
-date, expiry and supersession link. Adjudication is performed by an eligible
-independent chair who did not author or remediate the affected slice.
+date, expiry and supersession link. Adjudication is synthesized by an agent
+orchestrator separated from reviewing and remediating roles. The repository
+owner makes the accountable scientific and maturity decisions after reviewing
+the synthesis and dissent.
 
 The panel may recommend only:
 
@@ -177,11 +177,11 @@ schema and cannot enter a normative review bundle.
 
 Role reports must match the reviewer's attestation for identity, scope,
 qualifications, conflicts, contribution and remediation history. The
-orchestrator, author/remediator, independent reviewer, chair and approving
-human are separated according to the family risk. Issue #850 additionally
-requires two distinct humans: an independent scientific approver and a
-domain/ethics-qualified reviewer. A separate chair is required only for
-disputed findings, scientific dissent or reviewer remediation.
+orchestrator, author/remediator, reviewing agents, chair and accountable owner
+are separated according to the family risk. Issue #850 additionally requires
+distinct scientific and domain/ethics agent roles. The repository owner remains
+the single accountable decision-maker. A separate agent chair is required for
+disputed findings, scientific dissent, or reviewer remediation.
 
 Accepted human receipt channels are a verified signed commit, an authenticated
 GitHub review or comment with immutable URL/event identifier and body digest,

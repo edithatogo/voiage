@@ -1,8 +1,9 @@
 # Panel gate assessment — 20 August 2026
 
 This packet applies `conductor/panel-gate-policy.json` to the merged C18
-M22–M31 candidate. It is an advisory Conductor assessment, not a scientific,
-promotion, release, publication, registry, or issue-closure approval.
+M22–M31 candidate. The panel portion is advisory. The repository owner's
+separate accountable decision is recorded in
+`conductor/owner-option-a-decision-20260821.json`.
 
 ## Candidate binding
 
@@ -40,21 +41,37 @@ cross-language parity, stable promotion, or any external acceptance.
 | B — staged promotion | Promote only families with complete evidence and retain the rest as experimental. | Defer: creates maturity fragmentation before parity and accountable promotion receipts exist. |
 | C — full no-go | Defer all further promotion until the entire corpus and parity evidence are complete. | Safe fallback if any role reports a blocking semantic disagreement. |
 
+## Owner disposition — 21 August 2026
+
+The repository owner, acting as the accountable scientist, maintainer, and
+release approver, selected Option A. M22–M31 are scientifically acceptable at
+experimental maturity only. Stable promotion is declined for this candidate.
+Release preparation is authorized for the stable core with clearly labelled
+experimental frontier APIs, subject to exact artifact, security, provenance,
+packaging, and hosted parity evidence.
+
+This owner decision preserves every panel limitation and dissent. It is not an
+independent review, package upload, tag, publication, registry acceptance, or
+issue-closure receipt.
+
 ## Gate disposition
 
-- Scientific validity: **pending accountable decision**; panel assessment is
-  conditional and experimental-only.
-- Stable promotion: **blocked** until scientific decision, complete evidence,
-  parity where claimed, and a maintainer promotion receipt.
-- Cross-language parity: **not started as a promotion claim**; run only after
-  Python semantics are frozen and record unsupported bindings explicitly.
+- Scientific validity: **satisfied for experimental-only use of M22–M31** by
+  the candidate-bound owner decision; broader empirical validity remains
+  unclaimed.
+- Stable promotion: **declined/retain experimental** for this candidate.
+- Cross-language parity: **pending exact hosted receipts**; Python semantics
+  are frozen for this run and unavailable bindings must remain explicitly
+  unsupported or unverified.
 - Hosted exact-head assurance: **satisfied for the merged C18 baseline**;
   receipts must be invalidated if `main` changes.
-- Release: **blocked** pending promotion and security/provenance evidence.
+- Release: **authorized, not executed**, for the stable core with experimental
+  frontier APIs, pending exact artifacts and security/provenance evidence.
 - Publication and registries: **blocked/external**; no submission or
   acceptance is inferred.
-- GitHub issue/project closure: **pending reconciliation**; no parent or child
-  issue is closed by this packet.
+- GitHub issue/project closure: **staged**; completed delivery children may
+  close after live readback, while parent and externally gated issues remain
+  open.
 
 ## Contingencies and fallback
 
@@ -67,7 +84,7 @@ cross-language parity, stable promotion, or any external acceptance.
 - Missing credentials or destination receipts stops release/publication work at
   a local, dated packet; no external action is taken.
 
-The next repository-owned gate is targeted remediation of the assurance
-panel's fixture/hash and manifest-to-test dissent, followed by a candidate-bound
-panel rerun. The accountable scientific and maintainer decisions remain
-separate gates.
+The next repository-owned gate is exact-head installed Rust/Python/R/Julia
+assurance, followed by staged issue and Conductor reconciliation. Further
+fixture/hash remediation remains promotion evidence, not a prerequisite for
+the approved experimental-only disposition.

@@ -109,10 +109,11 @@ cross-language/API and governance/publication subagent reports. Wave A covers
 remaining C17/C18 families; a cross-cutting wave covers installed artifacts,
 portable fixtures, capability discovery, reproducibility and parity. Findings
 are remediated in nested issue-backed slices and rebound to fresh review
-packets. Subagent evidence does not replace a named independent human
-scientific verdict, and scientific acceptance remains separate from maintainer
-promotion, hosted assurance, release, publication, registry and issue-closure
-decisions.
+packets. Subagent evidence informs, but does not itself make, the accountable
+scientific decision. In this single-maintainer repository the owner records
+that decision without claiming independent review. Scientific acceptance
+remains separate from maturity promotion, hosted assurance, release execution,
+publication, registry acceptance and issue closure.
 
 Sampling-acquisition harm is now materialized as the planned v1.3.0 Must
 C18/M32 family in
