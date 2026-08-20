@@ -88,7 +88,7 @@ jobs:
             library: rust/target/release/voiage_ffi.dll
     runs-on: ${{ matrix.os.runner }}
     env:
-      JULIA_DEPOT_PATH: ${{ runner.temp }}/julia-depot
+      JULIA_DEPOT_PATH: ${{ github.workspace }}/.julia-depot
       JULIA_NUM_PRECOMPILE_TASKS: "1"
     defaults:
       run:
