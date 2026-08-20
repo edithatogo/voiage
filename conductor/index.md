@@ -16,6 +16,8 @@
 - [VOP–VOIAGE GitHub Project](https://github.com/users/edithatogo/projects/28)
 - [GitHub Cross-References](./github-cross-references.json)
 - [Single-maintainer review policy](./single-maintainer-review-policy.md)
+- [Panel gate policy](./panel-gate-policy.json)
+- [Panel gate assessment (2026-08-20)](./panel-gate-assessment-20260820.md)
 - [Tracks Registry](./tracks.md)
 - [Tracks Directory](./tracks/)
 - [Archive Directory](./archive/)

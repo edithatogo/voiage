@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "voiage-panel-gate-policy",
+  "accountability_model": "single-maintainer",
+  "purpose": "Replace repository-owned independent-review preparation with a separated panel of advisory agents while preserving accountable maintainer and external decisions.",
+  "assessment": {
+    "mode": "role-separated-panel-of-agents",
+    "orchestrator": "conductor-panel-orchestrator",
+    "roles": [
+      "estimand-and-domain-semantics",
+      "numerical-reference-property-and-pathology-assurance",
+      "api-cross-language-and-packaging-readiness",
+      "governance-provenance-publication-and-promotion"
+    ],
+    "required_report_fields": [
+      "status",
+      "evidence_refs",
+      "findings",
+      "limitations",
+      "options",
+      "tradeoffs",
+      "contingencies",
+      "fallback",
+      "recommendation",
+      "dissent",
+      "re_review_trigger"
+    ],
+    "conflict_policy": "preserve_dissent_and_keep_the_gate_pending",
+    "candidate_binding": "reports must name the exact commit and tree they assessed",
+    "authorization_boundary": "panel output is advisory evidence and never an approval, release, publication, registry submission, or issue-closure receipt"
+  },
+  "gates": [
+    {
+      "id": "scientific-validity",
+      "scope": "repository-owned scientific and estimand assessment",
+      "assessment_delegate": "role-separated-panel-of-agents",
+      "accountable_decision": "maintainer scientific decision or explicitly required external authority",
+      "panel_can_authorize": false,
+      "current_status": "pending",
+      "preconditions": ["exact candidate packet", "per-family contracts and executable evidence", "dissent register"],
+      "contingency": "retain experimental maturity and schedule targeted remediation and re-review"
+    },
+    {
+      "id": "stable-promotion",
+      "scope": "maturity promotion and stable-claim boundary",
+      "assessment_delegate": "role-separated-panel-of-agents",
+      "accountable_decision": "maintainer promotion receipt",
+      "panel_can_authorize": false,
+      "current_status": "blocked",
+      "preconditions": ["scientific decision", "complete reference/pathology evidence", "cross-language parity where claimed", "release evidence"],
+      "contingency": "promote no families; preserve candidate or experimental labels"
+    },
+    {
+      "id": "cross-language-parity",
+      "scope": "Rust, R, Julia, and other binding parity",
+      "assessment_delegate": "role-separated-panel-of-agents",
+      "accountable_decision": "maintainer acceptance of exact shared-fixture receipts",
+      "panel_can_authorize": false,
+      "current_status": "blocked-until-python-semantics-stabilize",
+      "preconditions": ["frozen Python semantics", "installed binding artifacts", "exact shared fixtures"],
+      "contingency": "record each unavailable binding as unsupported/unverified; do not infer parity"
+    },
+    {
+      "id": "hosted-exact-head",
+      "scope": "required hosted checks and exact-head assurance",
+      "assessment_delegate": "role-separated-panel-of-agents",
+      "accountable_decision": "maintainer merge decision",
+      "panel_can_authorize": false,
+      "current_status": "satisfied-for-merged-c18-baseline",
+      "preconditions": ["checks bound to exact head", "resolved findings", "local evidence snapshot"],
+      "contingency": "rebase, refresh checks, and invalidate stale receipts"
+    },
+    {
+      "id": "release",
+      "scope": "release, signing, and artifact publication",
+      "assessment_delegate": "role-separated-panel-of-agents",
+      "accountable_decision": "maintainer release decision and protected credentials",
+      "panel_can_authorize": false,
+      "current_status": "blocked",
+      "preconditions": ["promotion receipt", "security and provenance evidence", "exact release artifacts"],
+      "contingency": "prepare a local release packet only; do not tag or publish"
+    },
+    {
+      "id": "publication-and-registry",
+      "scope": "arXiv/JOSS, CRAN, PyPI, crates.io, conda-forge, SciCrunch, and other registries",
+      "assessment_delegate": "role-separated-panel-of-agents",
+      "accountable_decision": "maintainer submission plus destination authority/curation",
+      "panel_can_authorize": false,
+      "current_status": "blocked-external",
+      "preconditions": ["release packet", "rights and metadata evidence", "destination-specific receipt"],
+      "contingency": "archive a dated shadow packet and record no submission or acceptance"
+    },
+    {
+      "id": "github-issue-and-project-closure",
+      "scope": "parent issues, sub-issues, project fields, and closure comments",
+      "assessment_delegate": "role-separated-panel-of-agents",
+      "accountable_decision": "maintainer closure decision",
+      "panel_can_authorize": false,
+      "current_status": "pending-reconciliation",
+      "preconditions": ["merged implementation", "all acceptance evidence", "PR and Conductor cross-reference"],
+      "contingency": "leave issues open with an evidence-linked status comment"
+    }
+  ]
+}
