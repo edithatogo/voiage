@@ -1,0 +1,7 @@
+{
+  "id": "implementation-missing-uptake-cell",
+  "base_input": "../normative/input.json",
+  "operation": "delete",
+  "path": ["current_implementation", "low", "new"],
+  "expected_error": "current_implementation"
+}

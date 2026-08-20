@@ -46,6 +46,16 @@ def _result(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     return belief_state_information_value(payload or _input()).to_contract_dict()
 
 
+def _apply_pathology(case_path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
+    case = json.loads(case_path.read_text())
+    payload = json.loads((case_path.parent / case["base_input"]).read_text())
+    target: Any = payload
+    for component in case["path"][:-1]:
+        target = target[component]
+    target[case["path"][-1]] = case["value"]
+    return payload, case
+
+
 def _result_schema_validator(
     input_schema: dict[str, object], result_schema: dict[str, object]
 ) -> Draft202012Validator:
@@ -66,6 +76,22 @@ def test_portable_schemas_and_normative_fixture() -> None:
     result = _result()
     _result_schema_validator(input_schema, result_schema).validate(result)
     assert result == json.loads(EXPECTED.read_text(encoding="utf-8"))
+
+
+@pytest.mark.parametrize(
+    "case_path",
+    sorted((CONTRACT / "fixtures/cases").glob("*.json")),
+    ids=lambda path: path.stem,
+)
+def test_pathological_fixtures_are_executable(case_path: Path) -> None:
+    payload, case = _apply_pathology(case_path)
+    if "expected_error" in case:
+        with pytest.raises(InputError, match=case["expected_error"]):
+            belief_state_information_value(payload)
+        return
+    result = _result(payload)
+    for key, expected in case["expected_values"].items():
+        assert result["values"][key] == pytest.approx(expected)
 
 
 def test_contract_evidence_hashes_are_exact() -> None:

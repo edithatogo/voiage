@@ -6,6 +6,7 @@
 
 from copy import deepcopy
 import json
+import math
 from pathlib import Path
 from typing import Any
 
@@ -34,6 +35,24 @@ def _result(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     return implementation_information_value(payload or _input()).to_contract_dict()
 
 
+def _apply_pathology(case_path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
+    case = json.loads(case_path.read_text())
+    payload = json.loads((case_path.parent / case["base_input"]).read_text())
+    target: Any = payload
+    for component in case["path"][:-1]:
+        target = target[component]
+    leaf = case["path"][-1]
+    if case["operation"] == "set":
+        target[leaf] = case["value"]
+    elif case["operation"] == "set_nonfinite":
+        target[leaf] = math.inf
+    elif case["operation"] == "delete":
+        del target[leaf]
+    else:  # pragma: no cover - the fixture contract guards this branch
+        raise AssertionError(f"unknown pathology operation: {case['operation']}")
+    return payload, case
+
+
 def test_portable_schemas_and_normative_fixture() -> None:
     input_schema = json.loads(
         (CONTRACT / "schemas/implementation-information-input.schema.json").read_text()
@@ -45,6 +64,17 @@ def test_portable_schemas_and_normative_fixture() -> None:
     result = _result()
     Draft202012Validator(result_schema).validate(result)
     assert result == json.loads(EXPECTED.read_text())
+
+
+@pytest.mark.parametrize(
+    "case_path",
+    sorted((CONTRACT / "fixtures/cases").glob("*.json")),
+    ids=lambda path: path.stem,
+)
+def test_pathological_fixtures_fail_closed(case_path: Path) -> None:
+    payload, case = _apply_pathology(case_path)
+    with pytest.raises(InputError, match=case["expected_error"]):
+        implementation_information_value(payload)
 
 
 def test_four_cell_decomposition_and_interaction_identity() -> None:

@@ -13,11 +13,15 @@
     }
   ],
   "pathologies": [
-    "one-stage information value is zero while two-stage value is positive",
-    "null sensor reduces to the matched no-information comparator",
+    "cases/one-stage-zero-two-stage-positive.json",
+    "cases/null-sensor-comparator.json",
     "tests/test_belief_state_information.py"
   ],
   "property_tests": [
     "tests/test_belief_state_information.py"
+  ],
+  "files": [
+    {"path": "cases/one-stage-zero-two-stage-positive.json", "sha256": "affa032332422f8c2d5ad643511e033526c1be210031cd6739055c0924d8c0cf"},
+    {"path": "cases/null-sensor-comparator.json", "sha256": "466af7857add72786163a690fd70a07cd869e8eb2a9d109821385dd03ab2552c"}
   ]
 }

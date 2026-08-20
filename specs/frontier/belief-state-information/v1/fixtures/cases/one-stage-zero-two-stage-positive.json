@@ -1,0 +1,8 @@
+{
+  "id": "belief-one-stage-zero-two-stage-positive",
+  "base_input": "../normative/input.json",
+  "operation": "set",
+  "path": ["horizon"],
+  "value": 1,
+  "expected_values": {"myopic_information_value": 0.0}
+}

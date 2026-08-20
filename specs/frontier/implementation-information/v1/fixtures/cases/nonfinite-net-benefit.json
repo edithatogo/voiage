@@ -1,0 +1,8 @@
+{
+  "id": "implementation-nonfinite-net-benefit",
+  "base_input": "../normative/input.json",
+  "operation": "set_nonfinite",
+  "path": ["states", 0, "net_benefit", "new"],
+  "value": "inf",
+  "expected_error": "finite"
+}

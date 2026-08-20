@@ -12,14 +12,21 @@
     }
   ],
   "pathologies": [
-    "probabilities that do not sum to one",
-    "missing state-action uptake cells",
-    "non-finite net benefit",
-    "zero population",
-    "incomplete signal likelihoods",
+    "cases/probabilities-not-one.json",
+    "cases/missing-uptake-cell.json",
+    "cases/nonfinite-net-benefit.json",
+    "cases/zero-population.json",
+    "cases/incomplete-signal-likelihoods.json",
     "tests/test_implementation_information.py"
   ],
   "property_tests": [
     "tests/test_implementation_information.py"
+  ],
+  "files": [
+    {"path": "cases/probabilities-not-one.json", "sha256": "da85e826ec87ef37133da76006011eaa3f23f8bcc13e92dd36a71e92207f8365"},
+    {"path": "cases/missing-uptake-cell.json", "sha256": "60a36efa4de2a16fe9a7189314adb1c264a264aba705decdc14ccd69d3aee26b"},
+    {"path": "cases/nonfinite-net-benefit.json", "sha256": "33d2887f1bcc5dfdd8b68c810b868c7b6f5f46b4b23f7686e42c408e746913d5"},
+    {"path": "cases/zero-population.json", "sha256": "8ce3be594fa9884ae00f26d19822950ca8ba85f176e0b19d4d72811bd1defb37"},
+    {"path": "cases/incomplete-signal-likelihoods.json", "sha256": "7554a0a4b9f278ca14deb061e1daec3e959fbe50a6cacc06307f68220f7c2f8c"}
   ]
 }
