@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "contract_id": "voiage-ffi-yggdrasil-platform-coverage",
-  "observed_at": "2026-08-21T15:47:45Z",
+  "observed_at": "2026-08-21T16:06:38Z",
   "catalogue": {
     "repository": "JuliaPackaging/Yggdrasil",
     "revision": "5059405e0e9ecced8fb1619baff0cfc6c5478742",
@@ -40,15 +40,15 @@
   },
   "candidate": {
     "pull_request": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292",
-    "head": "70e6087dce9cd1e59f644e761c1eecf7d7f2fa58",
+    "head": "2528e2efb90e4197924d45c98873ca5cdb1a9d42",
     "base_revision": "5059405e0e9ecced8fb1619baff0cfc6c5478742",
     "recipe_path": "V/voiage_ffi/build_tarballs.jl",
-    "recipe_sha256": "af07ea8b373216a9b7f54ea651efd00f21aca78be3531769ec5b08cf9486c41b",
+    "recipe_sha256": "4148f991e7e7bdbe8952c04108905322950d280c72b53e91d3a8d1290d5801a1",
     "source_revision": "964a0fc334ece9509387cd07d43776adf38be240",
     "recipe_policy_status": "maximum_coverage_candidate",
     "hosted_run": {
       "state": "in_progress",
-      "url": "https://buildkite.com/julialang/yggdrasil/builds/31971",
+      "url": "https://buildkite.com/julialang/yggdrasil/builds/31972",
       "platform_status_source": "buildkite"
     }
   },
