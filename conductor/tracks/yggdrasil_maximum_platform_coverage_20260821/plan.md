@@ -20,11 +20,16 @@ implementation, and each phase ends with automated review and validation.
   - [x] Model build, product, ABI-smoke, and runtime validation independently.
   - [x] Pin the observed Yggdrasil catalogue, release source, recipe, and
     candidate identities.
-- [ ] **YMC1-T3 (AC1, AC6): Complete Phase 1 review and validation.**
-  - [ ] Run focused positive, negative, property, and pathological tests.
-  - [ ] Run Ruff and type checking for new Python validation code.
-  - [ ] Run automated Conductor review; apply Critical/High fixes and rerun.
-  - [ ] Run full Conductor and cross-reference validation and record the phase
+- [x] **YMC1-R1 (AC1, AC3): Apply Phase 1 automated review fixes.** (`5792e1fd`)
+  - [x] Correct the release and BinaryBuilderBase source revisions to the exact
+    authoritative commits resolved by the candidate and Yggdrasil manifest.
+  - [x] Reject broad additional predicates and non-authoritative placeholder
+    evidence before an evidence-filtered stage can validate.
+- [x] **YMC1-T3 (AC1, AC6): Complete Phase 1 review and validation.** (`546a2a2b`)
+  - [x] Run focused positive, negative, property, and pathological tests.
+  - [x] Run Ruff and type checking for new Python validation code.
+  - [x] Run automated Conductor review; apply Critical/High fixes and rerun.
+  - [x] Run full Conductor and cross-reference validation and record the phase
     checkpoint.
 
 ## Phase 2 — Expand the recipe by negative filtering
