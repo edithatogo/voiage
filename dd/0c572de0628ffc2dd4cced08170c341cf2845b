@@ -1,0 +1,1 @@
+Phase 3 checkpoint. Buildkite 31971 preserved the 16-target expansion (15 pass, one evidenced i686 Windows unwind-link failure). Exact narrow remediation yielded Yggdrasil head 2528e2efb90e4197924d45c98873ca5cdb1a9d42 and Buildkite 31972 passed 15/15 included platforms. Review fixed exact-run locator integrity. Full checkpoint gate passed; runtime/external gates remain separate.
