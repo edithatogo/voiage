@@ -97,11 +97,11 @@ implementation, and each phase ends with automated review and validation.
     artifacts or record why a target is not executable in the available lane.
   - [x] Keep Julia clean-depot JLL execution pending until a registered JLL is
     authoritative and available.
-- [ ] **YMC4-T3 (AC5, AC6): Complete Phase 4 review and validation.**
-  - [ ] Run product/ABI tests and verify that evidence labels cannot overclaim
+- [x] **YMC4-T3 (AC5, AC6): Complete Phase 4 review and validation.** (`c65127a7`)
+  - [x] Run product/ABI tests and verify that evidence labels cannot overclaim
     runtime coverage.
-  - [ ] Run automated Conductor review; apply Critical/High fixes and rerun.
-  - [ ] Run full Conductor and cross-reference validation and record the phase
+  - [x] Run automated Conductor review; apply Critical/High fixes and rerun.
+  - [x] Run full Conductor and cross-reference validation and record the phase
     checkpoint.
 
 ## Phase 5 — Reconcile, validate, and hand off external gates
