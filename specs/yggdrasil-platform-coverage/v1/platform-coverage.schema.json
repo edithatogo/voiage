@@ -1,0 +1,329 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edithatogo.github.io/voiage/specs/yggdrasil-platform-coverage/v1/platform-coverage.schema.json",
+  "title": "VOIAGE Yggdrasil platform coverage contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "contract_id",
+    "observed_at",
+    "catalogue",
+    "repository_recipe",
+    "candidate",
+    "policy",
+    "platforms",
+    "aggregates",
+    "boundaries"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "contract_id": {"const": "voiage-ffi-yggdrasil-platform-coverage"},
+    "observed_at": {"$ref": "#/$defs/utcTimestamp"},
+    "catalogue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "revision",
+        "binarybuilderbase_revision",
+        "manifest_binarybuilderbase_tree",
+        "function",
+        "source_url",
+        "observed_at",
+        "platforms"
+      ],
+      "properties": {
+        "repository": {"const": "JuliaPackaging/Yggdrasil"},
+        "revision": {"$ref": "#/$defs/gitSha"},
+        "binarybuilderbase_revision": {"$ref": "#/$defs/gitSha"},
+        "manifest_binarybuilderbase_tree": {"$ref": "#/$defs/gitSha"},
+        "function": {"const": "supported_platforms()"},
+        "source_url": {"$ref": "#/$defs/httpsUrl"},
+        "observed_at": {"$ref": "#/$defs/utcTimestamp"},
+        "platforms": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/platformId"}
+        }
+      }
+    },
+    "repository_recipe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "source_revision", "policy_status", "syntax_validation"],
+      "properties": {
+        "path": {"const": "packaging/yggdrasil/V/voiage_ffi/build_tarballs.jl"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "source_revision": {"$ref": "#/$defs/gitSha"},
+        "policy_status": {"const": "maximum_coverage_candidate"},
+        "syntax_validation": {"const": "passed"}
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pull_request",
+        "head",
+        "base_revision",
+        "recipe_path",
+        "recipe_sha256",
+        "source_revision",
+        "recipe_policy_status",
+        "hosted_run"
+      ],
+      "properties": {
+        "pull_request": {"$ref": "#/$defs/httpsUrl"},
+        "head": {"$ref": "#/$defs/gitSha"},
+        "base_revision": {"$ref": "#/$defs/gitSha"},
+        "recipe_path": {"const": "V/voiage_ffi/build_tarballs.jl"},
+        "recipe_sha256": {"$ref": "#/$defs/sha256"},
+        "source_revision": {"$ref": "#/$defs/gitSha"},
+        "recipe_policy_status": {
+          "enum": ["requires_update", "maximum_coverage_candidate"]
+        },
+        "hosted_run": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["state", "url", "platform_status_source"],
+          "properties": {
+            "state": {"enum": ["not_started", "in_progress", "terminal"]},
+            "url": {
+              "oneOf": [
+                {"type": "null"},
+                {"$ref": "#/$defs/httpsUrl"}
+              ]
+            },
+            "platform_status_source": {
+              "enum": ["none", "github_checks", "buildkite"]
+            }
+          }
+        }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "stage", "negative_filters"],
+      "properties": {
+        "mode": {"const": "inclusive_negative_filter"},
+        "stage": {"enum": ["initial_expansion", "evidence_filtered"]},
+        "negative_filters": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"$ref": "#/$defs/negativeFilter"}
+        }
+      }
+    },
+    "platforms": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/platformRecord"}
+    },
+    "aggregates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "catalogue",
+        "classified",
+        "included",
+        "excluded",
+        "lifecycle_counts"
+      ],
+      "properties": {
+        "catalogue": {"type": "integer", "minimum": 1},
+        "classified": {"type": "integer", "minimum": 0},
+        "included": {"type": "integer", "minimum": 0},
+        "excluded": {"type": "integer", "minimum": 0},
+        "lifecycle_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "pending",
+            "building",
+            "passed",
+            "failed_actionable",
+            "failed_transient",
+            "excluded_upstream",
+            "excluded_evidenced"
+          ],
+          "properties": {
+            "pending": {"type": "integer", "minimum": 0},
+            "building": {"type": "integer", "minimum": 0},
+            "passed": {"type": "integer", "minimum": 0},
+            "failed_actionable": {"type": "integer", "minimum": 0},
+            "failed_transient": {"type": "integer", "minimum": 0},
+            "excluded_upstream": {"type": "integer", "minimum": 0},
+            "excluded_evidenced": {"type": "integer", "minimum": 0}
+          }
+        }
+      }
+    },
+    "boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository_contract",
+        "yggdrasil_merge",
+        "jll_generation",
+        "julia_general"
+      ],
+      "properties": {
+        "repository_contract": {"enum": ["in_progress", "complete"]},
+        "yggdrasil_merge": {"const": "pending_external"},
+        "jll_generation": {"const": "pending_external"},
+        "julia_general": {"const": "pending_external"}
+      }
+    }
+  },
+  "$defs": {
+    "gitSha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "httpsUrl": {"type": "string", "format": "uri", "pattern": "^https://"},
+    "utcTimestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "platformId": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+-[a-z0-9_]+-[a-z0-9_]+(?:[a-z0-9_]*)$"
+    },
+    "evidenceState": {
+      "enum": ["not_run", "pending", "passed", "failed", "not_applicable"]
+    },
+    "negativeFilter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "predicate",
+        "specificity",
+        "evidence_kind",
+        "reason_category",
+        "reason",
+        "primary_evidence",
+        "observed_at",
+        "reconsideration_trigger",
+        "matched_platform_ids"
+      ],
+      "properties": {
+        "predicate": {"type": "string", "minLength": 8},
+        "specificity": {"enum": ["exact_platform", "exact_arch_os", "exact_arch"]},
+        "evidence_kind": {"enum": ["upstream_source", "hosted_failure"]},
+        "reason_category": {
+          "enum": [
+            "upstream_toolchain_unavailable",
+            "shared_library_unavailable",
+            "project_architecture_limitation"
+          ]
+        },
+        "reason": {"type": "string", "minLength": 20},
+        "primary_evidence": {"$ref": "#/$defs/httpsUrl"},
+        "observed_at": {"$ref": "#/$defs/utcTimestamp"},
+        "reconsideration_trigger": {"type": "string", "minLength": 20},
+        "matched_platform_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/platformId"}
+        }
+      }
+    },
+    "evidenceLayers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["build", "product", "abi_smoke", "runtime", "locators"],
+      "properties": {
+        "build": {"$ref": "#/$defs/evidenceState"},
+        "product": {"$ref": "#/$defs/evidenceState"},
+        "abi_smoke": {"$ref": "#/$defs/evidenceState"},
+        "runtime": {"$ref": "#/$defs/evidenceState"},
+        "locators": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/httpsUrl"}
+        }
+      }
+    },
+    "exclusion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "predicate",
+        "specificity",
+        "evidence_kind",
+        "reason_category",
+        "reason",
+        "primary_evidence",
+        "observed_at",
+        "reconsideration_trigger"
+      ],
+      "properties": {
+        "predicate": {"type": "string", "minLength": 8},
+        "specificity": {"enum": ["exact_platform", "exact_arch_os", "exact_arch"]},
+        "evidence_kind": {"enum": ["upstream_source", "hosted_failure"]},
+        "reason_category": {
+          "enum": [
+            "upstream_toolchain_unavailable",
+            "shared_library_unavailable",
+            "project_architecture_limitation"
+          ]
+        },
+        "reason": {"type": "string", "minLength": 20},
+        "primary_evidence": {"$ref": "#/$defs/httpsUrl"},
+        "observed_at": {"$ref": "#/$defs/utcTimestamp"},
+        "reconsideration_trigger": {"type": "string", "minLength": 20}
+      }
+    },
+    "platformRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "triplet", "disposition", "lifecycle", "evidence"],
+      "properties": {
+        "id": {"$ref": "#/$defs/platformId"},
+        "triplet": {"$ref": "#/$defs/platformId"},
+        "disposition": {"enum": ["included", "excluded"]},
+        "lifecycle": {
+          "enum": [
+            "pending",
+            "building",
+            "passed",
+            "failed_actionable",
+            "failed_transient",
+            "excluded_upstream",
+            "excluded_evidenced"
+          ]
+        },
+        "evidence": {"$ref": "#/$defs/evidenceLayers"},
+        "exclusion": {"$ref": "#/$defs/exclusion"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"disposition": {"const": "excluded"}}},
+          "then": {
+            "required": ["exclusion"],
+            "properties": {
+              "lifecycle": {"enum": ["excluded_upstream", "excluded_evidenced"]}
+            }
+          },
+          "else": {
+            "not": {"required": ["exclusion"]},
+            "properties": {
+              "lifecycle": {
+                "enum": [
+                  "pending",
+                  "building",
+                  "passed",
+                  "failed_actionable",
+                  "failed_transient"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

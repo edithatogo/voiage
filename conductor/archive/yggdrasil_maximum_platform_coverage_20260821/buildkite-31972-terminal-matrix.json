@@ -1,0 +1,51 @@
+{
+  "receipt_id": "yggdrasil-buildkite-31972-terminal-maximum-coverage",
+  "observed_at": "2026-08-21T16:13:18Z",
+  "pull_request": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292",
+  "candidate_head": "2528e2efb90e4197924d45c98873ca5cdb1a9d42",
+  "base_revision": "5059405e0e9ecced8fb1619baff0cfc6c5478742",
+  "recipe_sha256": "4148f991e7e7bdbe8952c04108905322950d280c72b53e91d3a8d1290d5801a1",
+  "source_revision": "964a0fc334ece9509387cd07d43776adf38be240",
+  "build": {
+    "number": 31972,
+    "url": "https://buildkite.com/julialang/yggdrasil/builds/31972",
+    "started_at": "2026-08-21T16:06:37Z",
+    "finished_at": "2026-08-21T16:13:18Z",
+    "state": "passed",
+    "included": 15,
+    "passed": 15,
+    "failed": 0,
+    "skipped": 0
+  },
+  "platforms": [
+    {"id": "i686-linux-gnu", "state": "passed", "job": "https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b79c-401b-893e-b12a70d5deae"},
+    {"id": "x86_64-linux-gnu", "state": "passed", "job": "https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a0-4674-9da0-f755b1edbb75"},
+    {"id": "aarch64-linux-gnu", "state": "passed", "job": "https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a1-4211-8862-58b7f17488ca"},
+    {"id": "armv6l-linux-gnueabihf", "state": "passed", "job": "https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a1-47b2-9fc7-c4e0988e8d30"},
+    {"id": "armv7l-linux-gnueabihf", "state": "passed", "job": "https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a1-4d55-8ded-b49250816aea"},
+    {"id": "powerpc64le-linux-gnu", "state": "passed", "job": "https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a2-45e8-b619-66effd26bfee"},
+    {"id": "riscv64-linux-gnu", "state": "excluded_upstream", "reason": "Rust toolchain unavailable"},
+    {"id": "i686-linux-musl", "state": "passed", "job": "https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a2-4dda-8615-862880883e0d"},
+    {"id": "x86_64-linux-musl", "state": "passed", "job": "https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a2-4159-8e55-62f7033261f7"},
+    {"id": "aarch64-linux-musl", "state": "passed", "job": "https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a2-46e1-a6d1-e0dbce8e22a8"},
+    {"id": "armv6l-linux-musleabihf", "state": "passed", "job": "https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a3-4a4b-b33c-bcc2e8d2ed32"},
+    {"id": "armv7l-linux-musleabihf", "state": "passed", "job": "https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a3-464a-a879-b1b3d34cdb47"},
+    {"id": "x86_64-apple-darwin", "state": "passed", "job": "https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a4-4b35-a760-5d19b9deb99b"},
+    {"id": "aarch64-apple-darwin", "state": "passed", "job": "https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a4-4a14-b821-adbc41460413"},
+    {"id": "x86_64-unknown-freebsd", "state": "passed", "job": "https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a4-4a83-a79a-83b7a436360d"},
+    {"id": "aarch64-unknown-freebsd", "state": "excluded_upstream", "reason": "Rust toolchain unavailable"},
+    {"id": "i686-w64-mingw32", "state": "excluded_evidenced", "reason": "Rust toolchain unwind link failure in Buildkite 31971"},
+    {"id": "x86_64-w64-mingw32", "state": "passed", "job": "https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a4-4ae8-b622-acae97889ad9"}
+  ],
+  "claims": {
+    "build_passed": 15,
+    "declared_product_audit_passed": 15,
+    "native_runtime_passed": 0,
+    "cross_target_runtime_not_inferred": true
+  },
+  "boundaries": {
+    "pull_request_merge": "pending_external",
+    "jll_generation": "pending_external",
+    "julia_general": "pending_external"
+  }
+}

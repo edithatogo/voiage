@@ -12,13 +12,15 @@ def test_binarybuilder_recipe_pins_release_and_supported_products() -> None:
     recipe = (ROOT / "packaging/yggdrasil/V/voiage_ffi/build_tarballs.jl").read_text()
 
     assert 'name = "voiage_ffi"' in recipe
-    assert 'version = v"2.0.0"' in recipe
-    assert "e849e89152c306e79c96d0a8a9815ee5faca0529" in recipe
+    assert 'version = v"2.1.0"' in recipe
+    assert "964a0fc334ece9509387cd07d43776adf38be240" in recipe
     assert 'LibraryProduct("libvoiage_ffi", :libvoiage_ffi)' in recipe
     assert "compilers = [:c, :rust]" in recipe
-    assert 'Platform("x86_64", "linux"; libc = "glibc")' in recipe
-    assert 'Platform("aarch64", "macos")' in recipe
-    assert 'Platform("x86_64", "windows")' in recipe
+    assert "platforms = supported_platforms()" in recipe
+    assert (
+        'filter!(p -> !(Sys.isfreebsd(p) && arch(p) == "aarch64"), platforms)' in recipe
+    )
+    assert 'filter!(p -> arch(p) != "riscv64", platforms)' in recipe
     assert 'RUSTFLAGS="-C target-feature=-crt-static"' in recipe
     assert "install_license ../LICENSE" in recipe
 

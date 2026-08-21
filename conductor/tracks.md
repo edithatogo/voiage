@@ -3,6 +3,19 @@
 The Rust-first polyglot programme is registered as the current programme; all
 other tracks retain their evidenced lifecycle and external-gate boundaries.
 
+## [x] Track: Yggdrasil Maximum Platform Coverage [completed: 2026-08-22]
+*Link: [./archive/yggdrasil_maximum_platform_coverage_20260821/index.md](./archive/yggdrasil_maximum_platform_coverage_20260821/index.md)*
+*GitHub: owner issue [#555](https://github.com/edithatogo/voiage/issues/555),
+related cross-venue contract [#614](https://github.com/edithatogo/voiage/issues/614),
+and external [Yggdrasil PR #14292](https://github.com/JuliaPackaging/Yggdrasil/pull/14292).*
+*Status: repository work complete — [Voiage PR #999](https://github.com/edithatogo/voiage/pull/999)
+binds a 15-of-15 terminal Buildkite matrix, three narrow exclusions, product
+integrity for all 15 included targets, and runnable macOS ABI evidence;
+upstream merge, JLL generation, clean-depot JLL execution, Julia General
+registration, and indexing remain external gates.*
+
+---
+
 ## [~] Track: Rust-First Polyglot VOIAGE Completion Programme
 *Link: [./tracks/rust_polyglot_voi_completion_20260723/index.md](./tracks/rust_polyglot_voi_completion_20260723/index.md)*
 *GitHub: [issue #313](https://github.com/edithatogo/voiage/issues/313), in

@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "receipt_id": "registry-readiness-yggdrasil-maximum-coverage-successor-20260821",
+  "observed_at": "2026-08-21T18:56:06Z",
+  "predecessor": "conductor/archive/research_software_registry_readiness_20260721/release-2.1.0-registry-candidate-receipt-20260821.json",
+  "reason": "Append-only refresh of the Yggdrasil candidate evidence; the archived predecessor remains unchanged.",
+  "voiage_implementation": {
+    "pull_request": "https://github.com/edithatogo/voiage/pull/999",
+    "state": "open",
+    "candidate_head": "f8fce0d30f4b932eac165571ec18fe58452fafc2",
+    "hosted_checks": "running"
+  },
+  "yggdrasil_candidate": {
+    "pull_request": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292",
+    "state": "open",
+    "merge_state": "clean",
+    "candidate_head": "2528e2efb90e4197924d45c98873ca5cdb1a9d42",
+    "candidate_base": "5059405e0e9ecced8fb1619baff0cfc6c5478742",
+    "recipe_sha256": "4148f991e7e7bdbe8952c04108905322950d280c72b53e91d3a8d1290d5801a1",
+    "hosted_run": "https://buildkite.com/julialang/yggdrasil/builds/31972",
+    "included_platforms": 15,
+    "included_passed": 15,
+    "excluded_platforms": 3,
+    "product_archives_hash_verified": 15,
+    "runtime_verified_platforms": [
+      "aarch64-apple-darwin",
+      "x86_64-apple-darwin"
+    ],
+    "cross_platform_runtime_not_run": 13
+  },
+  "reconciliation": {
+    "issue_555_comment": "https://github.com/edithatogo/voiage/issues/555#issuecomment-5374016322",
+    "issue_614_comment": "https://github.com/edithatogo/voiage/issues/614#issuecomment-5374016541",
+    "conductor_track": "conductor/tracks/yggdrasil_maximum_platform_coverage_20260821",
+    "platform_contract": "specs/yggdrasil-platform-coverage/v1/voiage-ffi-platform-coverage.json",
+    "terminal_matrix": "conductor/tracks/yggdrasil_maximum_platform_coverage_20260821/buildkite-31972-terminal-matrix.json",
+    "product_evidence": "conductor/tracks/yggdrasil_maximum_platform_coverage_20260821/phase-4-product-abi-evidence-20260821.json"
+  },
+  "boundaries": {
+    "repository_candidate_preparation": "complete",
+    "yggdrasil_merge": "pending_external",
+    "jll_generation_and_registration": "pending_external",
+    "clean_depot_jll_execution": "pending_external",
+    "julia_general_registration_and_merge": "pending_external",
+    "registry_indexing": "pending_external"
+  }
+}

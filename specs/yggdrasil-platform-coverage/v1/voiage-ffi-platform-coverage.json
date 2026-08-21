@@ -1,0 +1,282 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "voiage-ffi-yggdrasil-platform-coverage",
+  "observed_at": "2026-08-21T16:13:18Z",
+  "catalogue": {
+    "repository": "JuliaPackaging/Yggdrasil",
+    "revision": "5059405e0e9ecced8fb1619baff0cfc6c5478742",
+    "binarybuilderbase_revision": "76c4aab80ad5019af59af0f42e5669109cd5194b",
+    "manifest_binarybuilderbase_tree": "38ac28858e80c575fc2ff3c7ac73982459c4482d",
+    "function": "supported_platforms()",
+    "source_url": "https://github.com/JuliaPackaging/BinaryBuilderBase.jl/blob/76c4aab80ad5019af59af0f42e5669109cd5194b/src/Rootfs.jl#L778-L832",
+    "observed_at": "2026-08-21T15:13:05Z",
+    "platforms": [
+      "i686-linux-gnu",
+      "x86_64-linux-gnu",
+      "aarch64-linux-gnu",
+      "armv6l-linux-gnueabihf",
+      "armv7l-linux-gnueabihf",
+      "powerpc64le-linux-gnu",
+      "riscv64-linux-gnu",
+      "i686-linux-musl",
+      "x86_64-linux-musl",
+      "aarch64-linux-musl",
+      "armv6l-linux-musleabihf",
+      "armv7l-linux-musleabihf",
+      "x86_64-apple-darwin",
+      "aarch64-apple-darwin",
+      "x86_64-unknown-freebsd",
+      "aarch64-unknown-freebsd",
+      "i686-w64-mingw32",
+      "x86_64-w64-mingw32"
+    ]
+  },
+  "repository_recipe": {
+    "path": "packaging/yggdrasil/V/voiage_ffi/build_tarballs.jl",
+    "sha256": "4148f991e7e7bdbe8952c04108905322950d280c72b53e91d3a8d1290d5801a1",
+    "source_revision": "964a0fc334ece9509387cd07d43776adf38be240",
+    "policy_status": "maximum_coverage_candidate",
+    "syntax_validation": "passed"
+  },
+  "candidate": {
+    "pull_request": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292",
+    "head": "2528e2efb90e4197924d45c98873ca5cdb1a9d42",
+    "base_revision": "5059405e0e9ecced8fb1619baff0cfc6c5478742",
+    "recipe_path": "V/voiage_ffi/build_tarballs.jl",
+    "recipe_sha256": "4148f991e7e7bdbe8952c04108905322950d280c72b53e91d3a8d1290d5801a1",
+    "source_revision": "964a0fc334ece9509387cd07d43776adf38be240",
+    "recipe_policy_status": "maximum_coverage_candidate",
+    "hosted_run": {
+      "state": "terminal",
+      "url": "https://buildkite.com/julialang/yggdrasil/builds/31972",
+      "platform_status_source": "buildkite"
+    }
+  },
+  "policy": {
+    "mode": "inclusive_negative_filter",
+    "stage": "evidence_filtered",
+    "negative_filters": [
+      {
+        "predicate": "Sys.isfreebsd(p) && arch(p) == \"aarch64\"",
+        "specificity": "exact_arch_os",
+        "evidence_kind": "upstream_source",
+        "reason_category": "upstream_toolchain_unavailable",
+        "reason": "BinaryBuilder does not provide the Rust toolchain for aarch64-unknown-freebsd.",
+        "primary_evidence": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3658212619",
+        "observed_at": "2026-08-21T15:13:05Z",
+        "reconsideration_trigger": "Retest when BinaryBuilder publishes a Rust toolchain for aarch64-unknown-freebsd.",
+        "matched_platform_ids": ["aarch64-unknown-freebsd"]
+      },
+      {
+        "predicate": "arch(p) == \"riscv64\"",
+        "specificity": "exact_arch",
+        "evidence_kind": "upstream_source",
+        "reason_category": "upstream_toolchain_unavailable",
+        "reason": "BinaryBuilder does not provide the Rust toolchain for its riscv64 targets.",
+        "primary_evidence": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3658212619",
+        "observed_at": "2026-08-21T15:13:05Z",
+        "reconsideration_trigger": "Retest when BinaryBuilder publishes a Rust toolchain for a supported riscv64 target.",
+        "matched_platform_ids": ["riscv64-linux-gnu"]
+      },
+      {
+        "predicate": "Sys.iswindows(p) && arch(p) == \"i686\"",
+        "specificity": "exact_arch_os",
+        "evidence_kind": "hosted_failure",
+        "reason_category": "upstream_toolchain_unavailable",
+        "reason": "The Yggdrasil Rust toolchain fails the i686 Windows final link with unresolved unwinding symbols.",
+        "primary_evidence": "https://buildkite.com/julialang/yggdrasil/builds/31971#01a02500-ccd6-4111-9554-5f5e13fd4e2a",
+        "observed_at": "2026-08-21T15:52:43Z",
+        "reconsideration_trigger": "Retest when Yggdrasil's Rust toolchain for i686-w64-mingw32 can link _Unwind_Resume and _Unwind_RaiseException.",
+        "matched_platform_ids": ["i686-w64-mingw32"]
+      }
+    ]
+  },
+  "platforms": [
+    {
+      "id": "i686-linux-gnu",
+      "triplet": "i686-linux-gnu",
+      "disposition": "included",
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b79c-401b-893e-b12a70d5deae"]}
+    },
+    {
+      "id": "x86_64-linux-gnu",
+      "triplet": "x86_64-linux-gnu",
+      "disposition": "included",
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a0-4674-9da0-f755b1edbb75"]}
+    },
+    {
+      "id": "aarch64-linux-gnu",
+      "triplet": "aarch64-linux-gnu",
+      "disposition": "included",
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a1-4211-8862-58b7f17488ca"]}
+    },
+    {
+      "id": "armv6l-linux-gnueabihf",
+      "triplet": "armv6l-linux-gnueabihf",
+      "disposition": "included",
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a1-47b2-9fc7-c4e0988e8d30"]}
+    },
+    {
+      "id": "armv7l-linux-gnueabihf",
+      "triplet": "armv7l-linux-gnueabihf",
+      "disposition": "included",
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a1-4d55-8ded-b49250816aea"]}
+    },
+    {
+      "id": "powerpc64le-linux-gnu",
+      "triplet": "powerpc64le-linux-gnu",
+      "disposition": "included",
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a2-45e8-b619-66effd26bfee"]}
+    },
+    {
+      "id": "riscv64-linux-gnu",
+      "triplet": "riscv64-linux-gnu",
+      "disposition": "excluded",
+      "lifecycle": "excluded_upstream",
+      "evidence": {"build": "not_run", "product": "not_run", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3658212619"]},
+      "exclusion": {
+        "predicate": "arch(p) == \"riscv64\"",
+        "specificity": "exact_arch",
+        "evidence_kind": "upstream_source",
+        "reason_category": "upstream_toolchain_unavailable",
+        "reason": "BinaryBuilder does not provide the Rust toolchain for its riscv64 targets.",
+        "primary_evidence": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3658212619",
+        "observed_at": "2026-08-21T15:13:05Z",
+        "reconsideration_trigger": "Retest when BinaryBuilder publishes a Rust toolchain for a supported riscv64 target."
+      }
+    },
+    {
+      "id": "i686-linux-musl",
+      "triplet": "i686-linux-musl",
+      "disposition": "included",
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a2-4dda-8615-862880883e0d"]}
+    },
+    {
+      "id": "x86_64-linux-musl",
+      "triplet": "x86_64-linux-musl",
+      "disposition": "included",
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a2-4159-8e55-62f7033261f7"]}
+    },
+    {
+      "id": "aarch64-linux-musl",
+      "triplet": "aarch64-linux-musl",
+      "disposition": "included",
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a2-46e1-a6d1-e0dbce8e22a8"]}
+    },
+    {
+      "id": "armv6l-linux-musleabihf",
+      "triplet": "armv6l-linux-musleabihf",
+      "disposition": "included",
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a3-4a4b-b33c-bcc2e8d2ed32"]}
+    },
+    {
+      "id": "armv7l-linux-musleabihf",
+      "triplet": "armv7l-linux-musleabihf",
+      "disposition": "included",
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a3-464a-a879-b1b3d34cdb47"]}
+    },
+    {
+      "id": "x86_64-apple-darwin",
+      "triplet": "x86_64-apple-darwin",
+      "disposition": "included",
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "passed", "runtime": "passed", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a4-4b35-a760-5d19b9deb99b", "https://buildkite.com/organizations/julialang/pipelines/yggdrasil/builds/31972/jobs/01a02513-b7a4-4b35-a760-5d19b9deb99b/artifacts/01a02515-d35c-4f77-841f-7958c179855f"]}
+    },
+    {
+      "id": "aarch64-apple-darwin",
+      "triplet": "aarch64-apple-darwin",
+      "disposition": "included",
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "passed", "runtime": "passed", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a4-4a14-b821-adbc41460413", "https://buildkite.com/organizations/julialang/pipelines/yggdrasil/builds/31972/jobs/01a02513-b7a4-4a14-b821-adbc41460413/artifacts/01a02517-ca31-461c-9b34-8fd33cd4f661"]}
+    },
+    {
+      "id": "x86_64-unknown-freebsd",
+      "triplet": "x86_64-unknown-freebsd",
+      "disposition": "included",
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a4-4a83-a79a-83b7a436360d"]}
+    },
+    {
+      "id": "aarch64-unknown-freebsd",
+      "triplet": "aarch64-unknown-freebsd",
+      "disposition": "excluded",
+      "lifecycle": "excluded_upstream",
+      "evidence": {"build": "not_run", "product": "not_run", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3658212619"]},
+      "exclusion": {
+        "predicate": "Sys.isfreebsd(p) && arch(p) == \"aarch64\"",
+        "specificity": "exact_arch_os",
+        "evidence_kind": "upstream_source",
+        "reason_category": "upstream_toolchain_unavailable",
+        "reason": "BinaryBuilder does not provide the Rust toolchain for aarch64-unknown-freebsd.",
+        "primary_evidence": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3658212619",
+        "observed_at": "2026-08-21T15:13:05Z",
+        "reconsideration_trigger": "Retest when BinaryBuilder publishes a Rust toolchain for aarch64-unknown-freebsd."
+      }
+    },
+    {
+      "id": "i686-w64-mingw32",
+      "triplet": "i686-w64-mingw32",
+      "disposition": "excluded",
+      "lifecycle": "excluded_evidenced",
+      "evidence": {
+        "build": "failed",
+        "product": "not_run",
+        "abi_smoke": "not_run",
+        "runtime": "not_run",
+        "locators": [
+          "https://buildkite.com/julialang/yggdrasil/builds/31971#01a02500-ccd6-4111-9554-5f5e13fd4e2a",
+          "https://github.com/JuliaPackaging/Yggdrasil/blob/5059405e0e9ecced8fb1619baff0cfc6c5478742/O/OpenVAF/build_tarballs.jl#L37"
+        ]
+      },
+      "exclusion": {
+        "predicate": "Sys.iswindows(p) && arch(p) == \"i686\"",
+        "specificity": "exact_arch_os",
+        "evidence_kind": "hosted_failure",
+        "reason_category": "upstream_toolchain_unavailable",
+        "reason": "The Yggdrasil Rust toolchain fails the i686 Windows final link with unresolved unwinding symbols.",
+        "primary_evidence": "https://buildkite.com/julialang/yggdrasil/builds/31971#01a02500-ccd6-4111-9554-5f5e13fd4e2a",
+        "observed_at": "2026-08-21T15:52:43Z",
+        "reconsideration_trigger": "Retest when Yggdrasil's Rust toolchain for i686-w64-mingw32 can link _Unwind_Resume and _Unwind_RaiseException."
+      }
+    },
+    {
+      "id": "x86_64-w64-mingw32",
+      "triplet": "x86_64-w64-mingw32",
+      "disposition": "included",
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a4-4ae8-b622-acae97889ad9"]}
+    }
+  ],
+  "aggregates": {
+    "catalogue": 18,
+    "classified": 18,
+    "included": 15,
+    "excluded": 3,
+    "lifecycle_counts": {
+      "pending": 0,
+      "building": 0,
+      "passed": 15,
+      "failed_actionable": 0,
+      "failed_transient": 0,
+      "excluded_upstream": 2,
+      "excluded_evidenced": 1
+    }
+  },
+  "boundaries": {
+    "repository_contract": "complete",
+    "yggdrasil_merge": "pending_external",
+    "jll_generation": "pending_external",
+    "julia_general": "pending_external"
+  }
+}

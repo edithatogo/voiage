@@ -1,0 +1,28 @@
+{
+  "receipt_id": "yggdrasil-pr14292-evidence-filtered-candidate-20260821",
+  "observed_at": "2026-08-21T16:06:38Z",
+  "pull_request": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292",
+  "head": "2528e2efb90e4197924d45c98873ca5cdb1a9d42",
+  "tree": "141bb5c51ea0e33d318ca8544041bd8434235faa",
+  "parent": "70e6087dce9cd1e59f644e761c1eecf7d7f2fa58",
+  "base": "5059405e0e9ecced8fb1619baff0cfc6c5478742",
+  "recipe_sha256": "4148f991e7e7bdbe8952c04108905322950d280c72b53e91d3a8d1290d5801a1",
+  "source_revision": "964a0fc334ece9509387cd07d43776adf38be240",
+  "hosted_run": "https://buildkite.com/julialang/yggdrasil/builds/31972",
+  "hosted_state": "terminal_passed",
+  "included_platforms": 15,
+  "excluded_platforms": 3,
+  "new_filter": {
+    "predicate": "Sys.iswindows(p) && arch(p) == \"i686\"",
+    "matched_platforms": ["i686-w64-mingw32"],
+    "failure_run": "https://buildkite.com/julialang/yggdrasil/builds/31971#01a02500-ccd6-4111-9554-5f5e13fd4e2a",
+    "failure_symbols": ["_Unwind_Resume", "_Unwind_RaiseException"],
+    "upstream_corroboration": "https://github.com/JuliaPackaging/Yggdrasil/blob/5059405e0e9ecced8fb1619baff0cfc6c5478742/O/OpenVAF/build_tarballs.jl#L37",
+    "retest_trigger": "Yggdrasil's i686-w64-mingw32 Rust toolchain can link the required unwinding symbols."
+  },
+  "boundaries": {
+    "hosted_matrix_terminal": true,
+    "upstream_merged": false,
+    "jll_generated": false
+  }
+}

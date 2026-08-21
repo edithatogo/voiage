@@ -1,0 +1,38 @@
+{
+  "receipt_id": "yggdrasil-pr14292-maximum-coverage-refresh-20260821",
+  "observed_at": "2026-08-21T15:47:45Z",
+  "repository": "JuliaPackaging/Yggdrasil",
+  "pull_request": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292",
+  "before": {
+    "head": "db38b5200cc4ed741c5cfc682a8465395f687b41",
+    "base": "a53bda622ac1f1e51db08727af1cbeabffc55071",
+    "hosted_run": "https://buildkite.com/julialang/yggdrasil/builds/31960",
+    "attempted_platform_count": 7
+  },
+  "after": {
+    "head": "70e6087dce9cd1e59f644e761c1eecf7d7f2fa58",
+    "tree": "b67125a71426f20ea991aeb69682d19deac1ca8f",
+    "base": "5059405e0e9ecced8fb1619baff0cfc6c5478742",
+    "recipe_sha256": "af07ea8b373216a9b7f54ea651efd00f21aca78be3531769ec5b08cf9486c41b",
+    "source_revision": "964a0fc334ece9509387cd07d43776adf38be240",
+    "hosted_run": "https://buildkite.com/julialang/yggdrasil/builds/31971",
+    "hosted_state": "in_progress",
+    "attempted_platform_count": 16
+  },
+  "mutation": {
+    "method": "rebase then exact force-with-lease",
+    "lease_expected_head": "db38b5200cc4ed741c5cfc682a8465395f687b41",
+    "push_result": "succeeded",
+    "unrelated_upstream_work_overwritten": false
+  },
+  "review_thread": {
+    "request": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3658212619",
+    "response": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3831637213"
+  },
+  "boundaries": {
+    "exact_head_verified": true,
+    "hosted_matrix_terminal": false,
+    "upstream_merged": false,
+    "jll_generated": false
+  }
+}

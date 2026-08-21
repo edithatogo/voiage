@@ -2,12 +2,12 @@ using BinaryBuilder
 using Pkg
 
 name = "voiage_ffi"
-version = v"2.0.0"
+version = v"2.1.0"
 
 sources = [
     GitSource(
         "https://github.com/edithatogo/voiage.git",
-        "e849e89152c306e79c96d0a8a9815ee5faca0529",
+        "964a0fc334ece9509387cd07d43776adf38be240",
     ),
 ]
 
@@ -38,15 +38,10 @@ install -Dvm 755 \
 install_license ../LICENSE
 """
 
-platforms = [
-    Platform("x86_64", "linux"; libc = "glibc"),
-    Platform("aarch64", "linux"; libc = "glibc"),
-    Platform("x86_64", "linux"; libc = "musl"),
-    Platform("aarch64", "linux"; libc = "musl"),
-    Platform("x86_64", "macos"),
-    Platform("aarch64", "macos"),
-    Platform("x86_64", "windows"),
-]
+platforms = supported_platforms()
+filter!(p -> !(Sys.isfreebsd(p) && arch(p) == "aarch64"), platforms) # Rust toolchain is not available on aarch64-unknown-freebsd
+filter!(p -> arch(p) != "riscv64", platforms) # Rust toolchain is not available on riscv64
+filter!(p -> !(Sys.iswindows(p) && arch(p) == "i686"), platforms) # Rust toolchain cannot link i686-w64-mingw32 unwinding symbols
 
 products = [
     LibraryProduct("libvoiage_ffi", :libvoiage_ffi),
