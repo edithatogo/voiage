@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "contract_id": "voiage-ffi-yggdrasil-platform-coverage",
-  "observed_at": "2026-08-21T16:06:38Z",
+  "observed_at": "2026-08-21T16:13:18Z",
   "catalogue": {
     "repository": "JuliaPackaging/Yggdrasil",
     "revision": "5059405e0e9ecced8fb1619baff0cfc6c5478742",
@@ -47,7 +47,7 @@
     "source_revision": "964a0fc334ece9509387cd07d43776adf38be240",
     "recipe_policy_status": "maximum_coverage_candidate",
     "hosted_run": {
-      "state": "in_progress",
+      "state": "terminal",
       "url": "https://buildkite.com/julialang/yggdrasil/builds/31972",
       "platform_status_source": "buildkite"
     }
@@ -96,43 +96,43 @@
       "id": "i686-linux-gnu",
       "triplet": "i686-linux-gnu",
       "disposition": "included",
-      "lifecycle": "pending",
-      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b79c-401b-893e-b12a70d5deae"]}
     },
     {
       "id": "x86_64-linux-gnu",
       "triplet": "x86_64-linux-gnu",
       "disposition": "included",
-      "lifecycle": "pending",
-      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a0-4674-9da0-f755b1edbb75"]}
     },
     {
       "id": "aarch64-linux-gnu",
       "triplet": "aarch64-linux-gnu",
       "disposition": "included",
-      "lifecycle": "pending",
-      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a1-4211-8862-58b7f17488ca"]}
     },
     {
       "id": "armv6l-linux-gnueabihf",
       "triplet": "armv6l-linux-gnueabihf",
       "disposition": "included",
-      "lifecycle": "pending",
-      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a1-47b2-9fc7-c4e0988e8d30"]}
     },
     {
       "id": "armv7l-linux-gnueabihf",
       "triplet": "armv7l-linux-gnueabihf",
       "disposition": "included",
-      "lifecycle": "pending",
-      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a1-4d55-8ded-b49250816aea"]}
     },
     {
       "id": "powerpc64le-linux-gnu",
       "triplet": "powerpc64le-linux-gnu",
       "disposition": "included",
-      "lifecycle": "pending",
-      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a2-45e8-b619-66effd26bfee"]}
     },
     {
       "id": "riscv64-linux-gnu",
@@ -155,57 +155,57 @@
       "id": "i686-linux-musl",
       "triplet": "i686-linux-musl",
       "disposition": "included",
-      "lifecycle": "pending",
-      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a2-4dda-8615-862880883e0d"]}
     },
     {
       "id": "x86_64-linux-musl",
       "triplet": "x86_64-linux-musl",
       "disposition": "included",
-      "lifecycle": "pending",
-      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a2-4159-8e55-62f7033261f7"]}
     },
     {
       "id": "aarch64-linux-musl",
       "triplet": "aarch64-linux-musl",
       "disposition": "included",
-      "lifecycle": "pending",
-      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a2-46e1-a6d1-e0dbce8e22a8"]}
     },
     {
       "id": "armv6l-linux-musleabihf",
       "triplet": "armv6l-linux-musleabihf",
       "disposition": "included",
-      "lifecycle": "pending",
-      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a3-4a4b-b33c-bcc2e8d2ed32"]}
     },
     {
       "id": "armv7l-linux-musleabihf",
       "triplet": "armv7l-linux-musleabihf",
       "disposition": "included",
-      "lifecycle": "pending",
-      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a3-464a-a879-b1b3d34cdb47"]}
     },
     {
       "id": "x86_64-apple-darwin",
       "triplet": "x86_64-apple-darwin",
       "disposition": "included",
-      "lifecycle": "pending",
-      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a4-4b35-a760-5d19b9deb99b"]}
     },
     {
       "id": "aarch64-apple-darwin",
       "triplet": "aarch64-apple-darwin",
       "disposition": "included",
-      "lifecycle": "pending",
-      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a4-4a14-b821-adbc41460413"]}
     },
     {
       "id": "x86_64-unknown-freebsd",
       "triplet": "x86_64-unknown-freebsd",
       "disposition": "included",
-      "lifecycle": "pending",
-      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a4-4a83-a79a-83b7a436360d"]}
     },
     {
       "id": "aarch64-unknown-freebsd",
@@ -254,8 +254,8 @@
       "id": "x86_64-w64-mingw32",
       "triplet": "x86_64-w64-mingw32",
       "disposition": "included",
-      "lifecycle": "pending",
-      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+      "lifecycle": "passed",
+      "evidence": {"build": "passed", "product": "passed", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://buildkite.com/julialang/yggdrasil/builds/31972#01a02513-b7a4-4ae8-b622-acae97889ad9"]}
     }
   ],
   "aggregates": {
@@ -264,9 +264,9 @@
     "included": 15,
     "excluded": 3,
     "lifecycle_counts": {
-      "pending": 15,
+      "pending": 0,
       "building": 0,
-      "passed": 0,
+      "passed": 15,
       "failed_actionable": 0,
       "failed_transient": 0,
       "excluded_upstream": 2,

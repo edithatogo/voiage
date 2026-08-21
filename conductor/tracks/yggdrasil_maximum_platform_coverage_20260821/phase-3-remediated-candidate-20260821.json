@@ -9,7 +9,7 @@
   "recipe_sha256": "4148f991e7e7bdbe8952c04108905322950d280c72b53e91d3a8d1290d5801a1",
   "source_revision": "964a0fc334ece9509387cd07d43776adf38be240",
   "hosted_run": "https://buildkite.com/julialang/yggdrasil/builds/31972",
-  "hosted_state": "in_progress",
+  "hosted_state": "terminal_passed",
   "included_platforms": 15,
   "excluded_platforms": 3,
   "new_filter": {
@@ -21,7 +21,7 @@
     "retest_trigger": "Yggdrasil's i686-w64-mingw32 Rust toolchain can link the required unwinding symbols."
   },
   "boundaries": {
-    "hosted_matrix_terminal": false,
+    "hosted_matrix_terminal": true,
     "upstream_merged": false,
     "jll_generated": false
   }
