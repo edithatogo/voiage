@@ -23,7 +23,9 @@ def _payload() -> dict[str, Any]:
     return json.loads(MANIFEST.read_text(encoding="utf-8"))
 
 
-def _run_validator(tmp_path: Path, payload: dict[str, Any]) -> subprocess.CompletedProcess[str]:
+def _run_validator(
+    tmp_path: Path, payload: dict[str, Any]
+) -> subprocess.CompletedProcess[str]:
     candidate = tmp_path / "platform-coverage.json"
     candidate.write_text(json.dumps(payload), encoding="utf-8")
     return subprocess.run(
@@ -73,7 +75,9 @@ def _duplicate_platform(payload: dict[str, Any]) -> None:
 
 
 def _remove_reconsideration_trigger(payload: dict[str, Any]) -> None:
-    excluded = next(row for row in payload["platforms"] if row["disposition"] == "excluded")
+    excluded = next(
+        row for row in payload["platforms"] if row["disposition"] == "excluded"
+    )
     del excluded["exclusion"]["reconsideration_trigger"]
 
 
@@ -82,7 +86,9 @@ def _forge_totals(payload: dict[str, Any]) -> None:
 
 
 def _forge_runtime_claim(payload: dict[str, Any]) -> None:
-    included = next(row for row in payload["platforms"] if row["disposition"] == "included")
+    included = next(
+        row for row in payload["platforms"] if row["disposition"] == "included"
+    )
     included["evidence"]["runtime"] = "passed"
 
 
