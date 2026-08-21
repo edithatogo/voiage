@@ -1,0 +1,1 @@
+Task YMC2-T1: Add recipe-policy tests requiring supported_platforms(), exactly the two approved negative filters with adjacent reasons, v2.1.0 source identity, locked Cargo build, musl shared-link flags, and the declared LibraryProduct. Red phase: 11 tests ran with two expected failures because the repository mirror still used v2.0.0 and a seven-platform allowlist.
