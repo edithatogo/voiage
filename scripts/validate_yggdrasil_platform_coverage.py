@@ -240,6 +240,18 @@ def _validate_hosted_state(payload: dict[str, Any], errors: list[str]) -> None:
         if record["disposition"] == "included"
     ):
         errors.append("terminal hosted run contains non-terminal included platforms")
+    if hosted["state"] == "terminal":
+        job_prefix = f"{hosted['url']}#"
+        errors.extend(
+            f"{record['id']}: terminal pass lacks an exact hosted-run job locator"
+            for record in payload["platforms"]
+            if record["disposition"] == "included"
+            and record["lifecycle"] == "passed"
+            and not any(
+                locator.startswith(job_prefix)
+                for locator in record["evidence"]["locators"]
+            )
+        )
 
 
 def _validate_repository_recipe(payload: dict[str, Any], errors: list[str]) -> None:

@@ -97,10 +97,7 @@ def test_recipe_uses_inclusive_universe_and_narrow_evidenced_filters() -> None:
         'filter!(p -> !(Sys.isfreebsd(p) && arch(p) == "aarch64"), platforms)' in recipe
     )
     assert 'filter!(p -> arch(p) != "riscv64", platforms)' in recipe
-    assert (
-        'filter!(p -> !(Sys.iswindows(p) && arch(p) == "i686"), platforms)'
-        in recipe
-    )
+    assert 'filter!(p -> !(Sys.iswindows(p) && arch(p) == "i686"), platforms)' in recipe
     assert "Rust toolchain is not available on aarch64-unknown-freebsd" in recipe
     assert "Rust toolchain is not available on riscv64" in recipe
     assert "Rust toolchain cannot link i686-w64-mingw32" in recipe
@@ -110,9 +107,7 @@ def test_expanded_run_preserves_every_attempt_and_root_failure() -> None:
     """The superseded expanded run remains exact-head, per-target evidence."""
     receipt = json.loads(EXPANDED_RUN.read_text(encoding="utf-8"))
 
-    assert receipt["candidate_head"] == (
-        "70e6087dce9cd1e59f644e761c1eecf7d7f2fa58"
-    )
+    assert receipt["candidate_head"] == ("70e6087dce9cd1e59f644e761c1eecf7d7f2fa58")
     assert receipt["build"]["attempted"] == 16
     assert receipt["build"]["passed"] == 15
     assert receipt["build"]["failed"] == 1
