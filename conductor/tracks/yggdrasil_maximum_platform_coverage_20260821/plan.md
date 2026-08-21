@@ -73,10 +73,10 @@ implementation, and each phase ends with automated review and validation.
   - [x] Attempt Windows `i686`, Linux `i686`, ARM, PowerPC, FreeBSD `x86_64`,
     musl, and other catalogue members unless their own evidence fails the
     contract; do not copy exclusions from unrelated recipes.
-- [~] **YMC3-T3 (AC3, AC4): Iterate to a terminal maximum-coverage candidate.**
-  - [ ] Add only contract-valid negative filters and corresponding tests.
-  - [ ] Rerun the full matrix after each recipe revision.
-  - [ ] Reconcile final included/excluded counts and preserve superseded runs.
+- [x] **YMC3-T3 (AC3, AC4): Iterate to a terminal maximum-coverage candidate.** (`d7513968`)
+  - [x] Add only contract-valid negative filters and corresponding tests.
+  - [x] Rerun the full matrix after each recipe revision.
+  - [x] Reconcile final included/excluded counts and preserve superseded runs.
 - [ ] **YMC3-T4 (AC3, AC4, AC6): Complete Phase 3 review and validation.**
   - [ ] Run the schema, manifest, recipe-policy, evidence-integrity, and
     pathological suites.
