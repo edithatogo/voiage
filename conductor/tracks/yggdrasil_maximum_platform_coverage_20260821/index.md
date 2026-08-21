@@ -13,6 +13,7 @@ External recipe: [JuliaPackaging/Yggdrasil PR #14292](https://github.com/JuliaPa
 - [Implementation Plan](./plan.md)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
+- [Phase 1 automated review](./phase-1-review-20260821.md)
 
 ## Scope boundary
 
