@@ -1,0 +1,1 @@
+Phase 4 checkpoint. All 15 published Buildkite 31972 artifacts were downloaded and verified by hash, product path and license. Arm64 macOS ran natively and x86_64 under Rosetta; ABI 1.1, symbols, capabilities, EVPI 3.0 and ENBS 9.5 passed. Thirteen cross targets remain build/product-only. Full review gate passed.
