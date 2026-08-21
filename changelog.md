@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Upgrade the documentation toolchain's transitive `fast-uri`, `js-yaml`,
+  `nanoid`, and `postcss` dependencies to patched releases.
+
 - Record exact-head hosted Rust/Python/R/Julia installed-parity evidence while
   retaining M22–M31 at experimental maturity and Mojo as unsupported.
 
