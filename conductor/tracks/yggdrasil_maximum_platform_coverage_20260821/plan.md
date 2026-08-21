@@ -14,11 +14,11 @@ implementation, and each phase ends with automated review and validation.
     runtime claims based only on builds.
   - [x] Run the focused suite and record the expected red result before adding
     implementation artifacts.
-- [ ] **YMC1-T2 (AC1, AC3): Implement the versioned contract.**
-  - [ ] Add the JSON Schema, initial manifest, and fail-closed validator under
+- [x] **YMC1-T2 (AC1, AC3): Implement the versioned contract.** (`bb517571`)
+  - [x] Add the JSON Schema, initial manifest, and fail-closed validator under
     the existing binding/release contract boundary.
-  - [ ] Model build, product, ABI-smoke, and runtime validation independently.
-  - [ ] Pin the observed Yggdrasil catalogue, release source, recipe, and
+  - [x] Model build, product, ABI-smoke, and runtime validation independently.
+  - [x] Pin the observed Yggdrasil catalogue, release source, recipe, and
     candidate identities.
 - [ ] **YMC1-T3 (AC1, AC6): Complete Phase 1 review and validation.**
   - [ ] Run focused positive, negative, property, and pathological tests.
