@@ -150,6 +150,13 @@
 
 ## Current evidence boundary
 
+- Post-archive v2.1.0 registry refresh: the immutable GitHub/PyPI release is
+  bound to exact green conda-forge candidate `331e3d9b` (staged-recipes build
+  `1571876`, Linux/macOS/Windows) and exact green Yggdrasil candidate
+  `db38b520` (Buildkite `31960`, seven platforms) in
+  `release-2.1.0-registry-candidate-receipt-20260821.json`. Both pull requests
+  remain open; maintainer merge, generated feedstock/JLL artifacts, downstream
+  registry indexing, and publication acceptance remain external gates.
 - Repository readiness audit: complete at 2026-07-22T00:41:31Z.
 - Signed public release evidence: complete; `v2.0.0` was published at
   https://github.com/edithatogo/voiage/releases/tag/v2.0.0 on 2026-07-26T11:41:47Z.

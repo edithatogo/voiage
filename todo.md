@@ -4,13 +4,14 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
-*   [~] Release 2.1.0 with the stable core and experimental frontier boundary.
+*   [x] Release 2.1.0 with the stable core and experimental frontier boundary.
     *   [x] Correct the regressing post-2.0.1 manifest identity and synchronize
         Rust, Python, R, and Julia release metadata.
     *   [x] Bind exact-head hosted checks, signed tag, staged artifacts,
         reviewed digests, and publication receipts in order.
-    *   [ ] Reconcile external registries separately after immutable release
-        URLs and checksums exist.
+    *   [x] Reconcile the exact green conda-forge and Yggdrasil candidates
+        after immutable release URLs and checksums exist. Their maintainer
+        merges, generated registries, and indexing remain external gates.
 
 For experimental frontier items, references to scientific review mean the
 role-specific subagent review panel and separate orchestrating agent defined in
