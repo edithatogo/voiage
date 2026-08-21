@@ -261,16 +261,6 @@
       "subissues": [],
       "pull_requests": [
         {
-          "number": 999,
-          "url": "https://github.com/edithatogo/voiage/pull/999",
-          "status": "open",
-          "evidence": [
-            "voiage-implementation-candidate",
-            "f8fce0d30f4b932eac165571ec18fe58452fafc2",
-            "hosted-checks-running"
-          ]
-        },
-        {
           "number": 621,
           "url": "https://github.com/edithatogo/voiage/pull/621",
           "status": "merged",
@@ -5282,6 +5272,16 @@
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/296",
       "subissues": [],
       "pull_requests": [
+        {
+          "number": 999,
+          "url": "https://github.com/edithatogo/voiage/pull/999",
+          "status": "open",
+          "evidence": [
+            "voiage-implementation-candidate",
+            "f8fce0d30f4b932eac165571ec18fe58452fafc2",
+            "hosted-checks-running"
+          ]
+        },
         {
           "number": 14292,
           "url": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292",
