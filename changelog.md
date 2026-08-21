@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Record the verified v2.1.0 GitHub and PyPI publication receipts while keeping
+  external registry and manuscript acceptance as separate gates.
+
 - Prepare the non-regressing 2.1.0 release line for the stable core while
   retaining M22–M31 and other frontier APIs at experimental maturity.
 

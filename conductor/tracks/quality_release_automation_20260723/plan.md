@@ -39,11 +39,15 @@
   - [x] Reject the regressing `2.0.1-rc.4` identity after verifying published
     `2.0.1`, and select the backward-compatible `2.1.0` release line under the
     owner Option A decision. — `release-lineage-decision-20260821`
-  - [~] Synchronize the Rust, Python, R and Julia manifests; obtain exact-head
+  - [x] Synchronize the Rust, Python, R and Julia manifests; obtain exact-head
     hosted checks; create the signed tag; stage and digest-review the private
-    draft; then publish only the reviewed stable-core payload.
-  - [ ] Record PyPI and GitHub publication receipts separately from external
-    registry, archive, and publication-service acceptance.
+    draft; then publish only the reviewed stable-core payload. — PR #996,
+    `release-2.1.0-publication-receipt-20260821`
+  - [x] Record PyPI and GitHub publication receipts separately from external
+    registry, archive, and publication-service acceptance. —
+    `release-2.1.0-publication-receipt-20260821`
+  - [ ] Reconcile each external registry, archive, and publication-service
+    decision only after its destination supplies an authoritative receipt.
 - [x] **G14:** Run final full local validation and hosted required checks. PR
   #822 exact head `7e12a5fbc6f7091166d7f5d64c6f2b5b45764f72` passed the
   required matrix before merge `0df988125b89f8d0bad08def0bd5b2ea03cd54f5`.
