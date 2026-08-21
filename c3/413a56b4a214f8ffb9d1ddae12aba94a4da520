@@ -1,0 +1,1 @@
+YMC3-T1: preserved exact-head Buildkite 31971. The sixteen-target expansion produced 15 successful build/product jobs and one failed i686-w64-mingw32 Rust link; the two approved initial exclusions were not scheduled. Runtime and ABI execution were not inferred.
