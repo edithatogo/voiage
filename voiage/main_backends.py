@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 import hashlib
-import importlib.util
 import json
 import platform
 import sys
@@ -174,7 +173,13 @@ try:
     jax.config.update("jax_enable_x64", True)
 
     # Try to import optional dependencies
-    SKLEARN_AVAILABLE = importlib.util.find_spec("sklearn") is not None
+    SKLEARN_AVAILABLE = False
+    try:
+        import sklearn  # noqa: F401
+
+        SKLEARN_AVAILABLE = True
+    except ImportError:
+        pass
 
     class _JaxBackendImpl(Backend):
         """JAX-based computational backend."""
