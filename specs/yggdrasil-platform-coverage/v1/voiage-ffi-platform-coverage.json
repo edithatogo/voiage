@@ -1,0 +1,236 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "voiage-ffi-yggdrasil-platform-coverage",
+  "observed_at": "2026-08-21T15:13:05Z",
+  "catalogue": {
+    "repository": "JuliaPackaging/Yggdrasil",
+    "revision": "5059405e0e9ecced8fb1619baff0cfc6c5478742",
+    "manifest_binarybuilderbase_tree": "38ac28858e80c575fc2ff3c7ac73982459c4482d",
+    "function": "supported_platforms()",
+    "source_url": "https://github.com/JuliaPackaging/BinaryBuilderBase.jl/blob/f1da5e3e50d6b7ce2badb3eee1bb862d49d99970/src/Rootfs.jl#L778-L832",
+    "observed_at": "2026-08-21T15:13:05Z",
+    "platforms": [
+      "i686-linux-gnu",
+      "x86_64-linux-gnu",
+      "aarch64-linux-gnu",
+      "armv6l-linux-gnueabihf",
+      "armv7l-linux-gnueabihf",
+      "powerpc64le-linux-gnu",
+      "riscv64-linux-gnu",
+      "i686-linux-musl",
+      "x86_64-linux-musl",
+      "aarch64-linux-musl",
+      "armv6l-linux-musleabihf",
+      "armv7l-linux-musleabihf",
+      "x86_64-apple-darwin",
+      "aarch64-apple-darwin",
+      "x86_64-unknown-freebsd",
+      "aarch64-unknown-freebsd",
+      "i686-w64-mingw32",
+      "x86_64-w64-mingw32"
+    ]
+  },
+  "candidate": {
+    "pull_request": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292",
+    "head": "db38b5200cc4ed741c5cfc682a8465395f687b41",
+    "base_revision": "a53bda622ac1f1e51db08727af1cbeabffc55071",
+    "recipe_path": "V/voiage_ffi/build_tarballs.jl",
+    "recipe_sha256": "a30ded0d57202e3f8157d6ed73fdf184451a873388adfba2950cca3bf3899e36",
+    "source_revision": "964a0fc334ece9509387cd07d43776adf38be240",
+    "recipe_policy_status": "requires_update",
+    "hosted_run": {
+      "state": "not_started",
+      "url": null,
+      "platform_status_source": "none"
+    }
+  },
+  "policy": {
+    "mode": "inclusive_negative_filter",
+    "stage": "initial_expansion",
+    "negative_filters": [
+      {
+        "predicate": "Sys.isfreebsd(p) && arch(p) == \"aarch64\"",
+        "reason_category": "upstream_toolchain_unavailable",
+        "reason": "BinaryBuilder does not provide the Rust toolchain for aarch64-unknown-freebsd.",
+        "primary_evidence": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3658212619",
+        "observed_at": "2026-08-21T15:13:05Z",
+        "reconsideration_trigger": "Retest when BinaryBuilder publishes a Rust toolchain for aarch64-unknown-freebsd.",
+        "matched_platform_ids": ["aarch64-unknown-freebsd"]
+      },
+      {
+        "predicate": "arch(p) == \"riscv64\"",
+        "reason_category": "upstream_toolchain_unavailable",
+        "reason": "BinaryBuilder does not provide the Rust toolchain for its riscv64 targets.",
+        "primary_evidence": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3658212619",
+        "observed_at": "2026-08-21T15:13:05Z",
+        "reconsideration_trigger": "Retest when BinaryBuilder publishes a Rust toolchain for a supported riscv64 target.",
+        "matched_platform_ids": ["riscv64-linux-gnu"]
+      }
+    ]
+  },
+  "platforms": [
+    {
+      "id": "i686-linux-gnu",
+      "triplet": "i686-linux-gnu",
+      "disposition": "included",
+      "lifecycle": "pending",
+      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+    },
+    {
+      "id": "x86_64-linux-gnu",
+      "triplet": "x86_64-linux-gnu",
+      "disposition": "included",
+      "lifecycle": "pending",
+      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+    },
+    {
+      "id": "aarch64-linux-gnu",
+      "triplet": "aarch64-linux-gnu",
+      "disposition": "included",
+      "lifecycle": "pending",
+      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+    },
+    {
+      "id": "armv6l-linux-gnueabihf",
+      "triplet": "armv6l-linux-gnueabihf",
+      "disposition": "included",
+      "lifecycle": "pending",
+      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+    },
+    {
+      "id": "armv7l-linux-gnueabihf",
+      "triplet": "armv7l-linux-gnueabihf",
+      "disposition": "included",
+      "lifecycle": "pending",
+      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+    },
+    {
+      "id": "powerpc64le-linux-gnu",
+      "triplet": "powerpc64le-linux-gnu",
+      "disposition": "included",
+      "lifecycle": "pending",
+      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+    },
+    {
+      "id": "riscv64-linux-gnu",
+      "triplet": "riscv64-linux-gnu",
+      "disposition": "excluded",
+      "lifecycle": "excluded_upstream",
+      "evidence": {"build": "not_run", "product": "not_run", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3658212619"]},
+      "exclusion": {
+        "predicate": "arch(p) == \"riscv64\"",
+        "reason_category": "upstream_toolchain_unavailable",
+        "reason": "BinaryBuilder does not provide the Rust toolchain for its riscv64 targets.",
+        "primary_evidence": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3658212619",
+        "observed_at": "2026-08-21T15:13:05Z",
+        "reconsideration_trigger": "Retest when BinaryBuilder publishes a Rust toolchain for a supported riscv64 target."
+      }
+    },
+    {
+      "id": "i686-linux-musl",
+      "triplet": "i686-linux-musl",
+      "disposition": "included",
+      "lifecycle": "pending",
+      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+    },
+    {
+      "id": "x86_64-linux-musl",
+      "triplet": "x86_64-linux-musl",
+      "disposition": "included",
+      "lifecycle": "pending",
+      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+    },
+    {
+      "id": "aarch64-linux-musl",
+      "triplet": "aarch64-linux-musl",
+      "disposition": "included",
+      "lifecycle": "pending",
+      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+    },
+    {
+      "id": "armv6l-linux-musleabihf",
+      "triplet": "armv6l-linux-musleabihf",
+      "disposition": "included",
+      "lifecycle": "pending",
+      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+    },
+    {
+      "id": "armv7l-linux-musleabihf",
+      "triplet": "armv7l-linux-musleabihf",
+      "disposition": "included",
+      "lifecycle": "pending",
+      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+    },
+    {
+      "id": "x86_64-apple-darwin",
+      "triplet": "x86_64-apple-darwin",
+      "disposition": "included",
+      "lifecycle": "pending",
+      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+    },
+    {
+      "id": "aarch64-apple-darwin",
+      "triplet": "aarch64-apple-darwin",
+      "disposition": "included",
+      "lifecycle": "pending",
+      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+    },
+    {
+      "id": "x86_64-unknown-freebsd",
+      "triplet": "x86_64-unknown-freebsd",
+      "disposition": "included",
+      "lifecycle": "pending",
+      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+    },
+    {
+      "id": "aarch64-unknown-freebsd",
+      "triplet": "aarch64-unknown-freebsd",
+      "disposition": "excluded",
+      "lifecycle": "excluded_upstream",
+      "evidence": {"build": "not_run", "product": "not_run", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3658212619"]},
+      "exclusion": {
+        "predicate": "Sys.isfreebsd(p) && arch(p) == \"aarch64\"",
+        "reason_category": "upstream_toolchain_unavailable",
+        "reason": "BinaryBuilder does not provide the Rust toolchain for aarch64-unknown-freebsd.",
+        "primary_evidence": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3658212619",
+        "observed_at": "2026-08-21T15:13:05Z",
+        "reconsideration_trigger": "Retest when BinaryBuilder publishes a Rust toolchain for aarch64-unknown-freebsd."
+      }
+    },
+    {
+      "id": "i686-w64-mingw32",
+      "triplet": "i686-w64-mingw32",
+      "disposition": "included",
+      "lifecycle": "pending",
+      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+    },
+    {
+      "id": "x86_64-w64-mingw32",
+      "triplet": "x86_64-w64-mingw32",
+      "disposition": "included",
+      "lifecycle": "pending",
+      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+    }
+  ],
+  "aggregates": {
+    "catalogue": 18,
+    "classified": 18,
+    "included": 16,
+    "excluded": 2,
+    "lifecycle_counts": {
+      "pending": 16,
+      "building": 0,
+      "passed": 0,
+      "failed_actionable": 0,
+      "failed_transient": 0,
+      "excluded_upstream": 2,
+      "excluded_evidenced": 0
+    }
+  },
+  "boundaries": {
+    "repository_contract": "in_progress",
+    "yggdrasil_merge": "pending_external",
+    "jll_generation": "pending_external",
+    "julia_general": "pending_external"
+  }
+}
