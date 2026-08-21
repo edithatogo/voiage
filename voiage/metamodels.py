@@ -111,7 +111,7 @@ class _PredictorProtocol(Protocol):
 
 
 @runtime_checkable
-class _SparseMatrixProtocol(Protocol):  # noqa: PYI046
+class _SparseMatrixProtocol(Protocol):
     """Protocol for sparse matrices that expose a dense conversion."""
 
     def toarray(self) -> object:
@@ -137,9 +137,15 @@ class _TinyGPProtocol(Protocol):
         ...
 
 
-def _as_numpy(values: np.ndarray | xr.DataArray) -> np.ndarray:
+def _as_numpy(
+    values: np.ndarray | xr.DataArray | _SparseMatrixProtocol,
+) -> np.ndarray:
     """Return a NumPy view of supported metamodel arrays."""
-    return values.values if hasattr(values, "values") else np.asarray(values)
+    if isinstance(values, _SparseMatrixProtocol):
+        return np.asarray(values.toarray())
+    if hasattr(values, "values"):
+        return np.asarray(values.values)
+    return np.asarray(values)
 
 
 def _safe_r2_score(y_true: np.ndarray, y_pred: np.ndarray) -> float:

@@ -93,6 +93,38 @@ def test_voi_analysis_config() -> None:
     assert default_dict["n_simulations"] == 1000
 
 
+def test_voi_analysis_config_to_dict_contract() -> None:
+    """Preserve the exact serialized shape and model object identity."""
+    regression_model = object()
+    config = VOIAnalysisConfig(
+        population=100000,
+        time_horizon=10,
+        discount_rate=0.03,
+        chunk_size=1000,
+        use_jit=True,
+        backend="jax",
+        enable_caching=True,
+        streaming_window_size=5000,
+        n_regression_samples=5000,
+        regression_model=regression_model,
+        n_simulations=2000,
+    )
+
+    assert config.to_dict() == {
+        "population": 100000,
+        "time_horizon": 10,
+        "discount_rate": 0.03,
+        "chunk_size": 1000,
+        "use_jit": True,
+        "backend": "jax",
+        "enable_caching": True,
+        "streaming_window_size": 5000,
+        "n_regression_samples": 5000,
+        "regression_model": regression_model,
+        "n_simulations": 2000,
+    }
+
+
 def test_streaming_config() -> None:
     """Test StreamingConfig."""
     # Test default configuration
@@ -184,6 +216,17 @@ def test_create_optimization_config() -> None:
     config = create_optimization_config()
     assert isinstance(config, OptimizationConfig)
     assert config.algorithm == "grid"
+    assert config.n_iterations == 100
+    assert config.n_initial_points == 10
+    assert config.grid_resolution == 10
+    assert config.random_seed is None
+    assert config.acquisition_function == "ei"
+    assert config.kappa == 2.576
+    assert config.xi == 0.01
+
+    config = create_optimization_config(algorithm="random")
+    assert isinstance(config, OptimizationConfig)
+    assert config.algorithm == "random"
 
     # Test custom valid algorithm
     config = create_optimization_config(algorithm="bayesian")
@@ -402,6 +445,7 @@ def test_create_environmental_config() -> None:
     assert config.water_cost == 0.002
     assert config.biodiversity_impact_factor == 0.01
     assert config.social_cost_of_carbon == 50
+    assert config.ecosystem_service_value == 100
 
 
 def test_create_healthcare_config() -> None:
@@ -425,6 +469,21 @@ def test_create_parallel_config() -> None:
     assert config.max_workers is None
     assert config.memory_limit_mb is None
     assert config.chunk_size is None
+
+    custom = create_parallel_config(
+        n_workers=4,
+        use_processes=False,
+        max_workers=8,
+        memory_limit_mb=8192,
+        chunk_size=1000,
+    )
+    assert custom == ParallelConfig(
+        n_workers=4,
+        use_processes=False,
+        max_workers=8,
+        memory_limit_mb=8192,
+        chunk_size=1000,
+    )
 
 
 def test_create_financial_config() -> None:

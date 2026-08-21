@@ -260,6 +260,29 @@ def test_calculate_diagnostics(sample_data) -> None:
     assert diagnostics["n_samples"] == len(y)
 
 
+def test_calculate_diagnostics_falls_back_from_unimplemented_rmse(sample_data) -> None:
+    """Compute RMSE from predictions when an adapter declines the method."""
+    x, y = sample_data
+
+    class ModelWithUnimplementedRmse:
+        def fit(self, x: ParameterSet, y: np.ndarray) -> None:
+            return None
+
+        def predict(self, x: ParameterSet) -> np.ndarray:
+            return np.ones_like(y)
+
+        def score(self, x: ParameterSet, y: np.ndarray) -> float:
+            return 1.0
+
+        def rmse(self, x: ParameterSet, y: np.ndarray) -> float:
+            raise NotImplementedError
+
+    diagnostics = calculate_diagnostics(ModelWithUnimplementedRmse(), x, y)
+    assert diagnostics["rmse"] == pytest.approx(
+        np.sqrt(np.mean((y - np.ones_like(y)) ** 2))
+    )
+
+
 def test_cross_validate(sample_data) -> None:
     """Test the cross_validate function."""
     # Skip if sklearn is not available
@@ -470,3 +493,58 @@ def test_sparse_matrix_protocol_toarray() -> None:
     result = valid_instance.toarray()
     assert isinstance(result, np.ndarray)
     np.testing.assert_array_equal(result, np.array([1, 2, 3]))
+
+
+def test_as_numpy_converts_sparse_matrix_protocol() -> None:
+    """Convert protocol-compatible sparse output to a dense numerical array."""
+    from voiage.metamodels import _as_numpy
+
+    class SparsePrediction:
+        def toarray(self) -> np.ndarray:
+            return np.array([1.0, 2.0, 3.0])
+
+    np.testing.assert_array_equal(
+        _as_numpy(SparsePrediction()), np.array([1.0, 2.0, 3.0])
+    )
+
+
+def test_as_numpy_converts_xarray_values() -> None:
+    """Preserve dense conversion for labelled xarray predictions."""
+    import xarray as xr
+
+    from voiage.metamodels import _as_numpy
+
+    np.testing.assert_array_equal(
+        _as_numpy(xr.DataArray([1.0, 2.0, 3.0])), np.array([1.0, 2.0, 3.0])
+    )
+
+
+def test_metamodel_protocol_requires_rmse() -> None:
+    """Runtime protocol checks must reject adapters without RMSE."""
+    from voiage.metamodels import Metamodel
+
+    class CompleteMetamodel:
+        def fit(self, x: ParameterSet, y: np.ndarray) -> None:
+            return None
+
+        def predict(self, x: ParameterSet) -> np.ndarray:
+            return np.array([])
+
+        def score(self, x: ParameterSet, y: np.ndarray) -> float:
+            return 0.0
+
+        def rmse(self, x: ParameterSet, y: np.ndarray) -> float:
+            return 0.0
+
+    class MissingRmse:
+        def fit(self, x: ParameterSet, y: np.ndarray) -> None:
+            return None
+
+        def predict(self, x: ParameterSet) -> np.ndarray:
+            return np.array([])
+
+        def score(self, x: ParameterSet, y: np.ndarray) -> float:
+            return 0.0
+
+    assert isinstance(CompleteMetamodel(), Metamodel)
+    assert not isinstance(MissingRmse(), Metamodel)

@@ -592,6 +592,10 @@ destination registry and publication decisions remain separate external gates.
 
 ## Done
 
+*   [x] Consolidate the distinct configuration and metamodel coverage retained
+    from stale PRs #892, #925, #929, #940, #942, #954, #980, and #981 into one
+    current-main implementation and preserve additive API behavior.
+
 *   [x] Expose Rust-authoritative signed ENBS through the additive v1 C ABI and
     retained Julia binding without claiming JLL or General-registry delivery.
 

@@ -5,6 +5,10 @@
 - Upgrade the documentation toolchain's transitive `fast-uri`, `js-yaml`,
   `nanoid`, and `postcss` dependencies to patched releases.
 
+- Consolidate the remaining configuration and metamodel test candidates,
+  including exact config serialization, configurable parallel factories,
+  sparse prediction conversion, and diagnostic/protocol fallbacks.
+
 - Record exact-head hosted Rust/Python/R/Julia installed-parity evidence while
   retaining M22–M31 at experimental maturity and Mojo as unsupported.
 
