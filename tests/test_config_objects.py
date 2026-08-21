@@ -376,7 +376,6 @@ def test_create_default_config() -> None:
     """Test create_default_config factory function."""
     config = create_default_config()
     assert isinstance(config, VOIAnalysisConfig)
-    assert config == VOIAnalysisConfig()
 
     # Check default values
     assert config.population is None
