@@ -214,6 +214,14 @@ def _replace_with_placeholder_evidence(payload: dict[str, Any]) -> None:
     platform["exclusion"]["primary_evidence"] = placeholder
 
 
+def _mislabel_evidence_filtered_policy(payload: dict[str, Any]) -> None:
+    payload["policy"]["stage"] = "initial_expansion"
+
+
+def _diverge_candidate_recipe_digest(payload: dict[str, Any]) -> None:
+    payload["candidate"]["recipe_sha256"] = "0" * 64
+
+
 @pytest.mark.parametrize(
     "mutate",
     [
@@ -224,6 +232,8 @@ def _replace_with_placeholder_evidence(payload: dict[str, Any]) -> None:
         _forge_runtime_claim,
         _add_uncontracted_filter,
         _replace_with_placeholder_evidence,
+        _mislabel_evidence_filtered_policy,
+        _diverge_candidate_recipe_digest,
     ],
     ids=[
         "unclassified-catalogue-platform",
@@ -233,6 +243,8 @@ def _replace_with_placeholder_evidence(payload: dict[str, Any]) -> None:
         "runtime-overclaim",
         "broad-uncontracted-filter",
         "placeholder-exclusion-evidence",
+        "mislabel-evidence-filtered-policy",
+        "candidate-recipe-digest-divergence",
     ],
 )
 def test_validator_rejects_pathological_contract_mutations(
