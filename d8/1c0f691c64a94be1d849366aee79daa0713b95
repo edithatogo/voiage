@@ -1,0 +1,1 @@
+YMC3-T2: classified Buildkite 31971 i686-w64-mingw32 as an upstream Rust-toolchain gap after exact log inspection showed unresolved _Unwind_Resume/_Unwind_RaiseException. The same exact failure is documented in Yggdrasil OpenVAF. Added only the narrow Windows+i686 filter with a toolchain-recovery retest trigger; all other expanded targets remain included.
