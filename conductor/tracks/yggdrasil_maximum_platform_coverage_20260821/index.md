@@ -1,7 +1,7 @@
 # Yggdrasil Maximum Platform Coverage
 
-Status: new — specification and implementation plan approved by the repository
-owner on 2026-08-21.
+Status: in progress — specification and implementation plan approved by the
+repository owner on 2026-08-21; Phase 1 contract work is starting.
 No external recipe change, expanded hosted run, upstream merge, JLL generation,
 or Julia registry outcome is claimed by track initialization.
 

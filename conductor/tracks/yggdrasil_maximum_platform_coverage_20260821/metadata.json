@@ -1,9 +1,9 @@
 {
   "track_id": "yggdrasil_maximum_platform_coverage_20260821",
   "type": "chore",
-  "status": "new",
+  "status": "in_progress",
   "created_at": "2026-08-21T12:15:58Z",
-  "updated_at": "2026-08-21T12:22:00Z",
+  "updated_at": "2026-08-21T12:58:44Z",
   "specification_approved_at": "2026-08-21T12:22:00Z",
   "approved_by_role": "repository_owner",
   "description": "Maximize voiage_ffi Yggdrasil coverage through an inclusive supported-platform universe, evidence-backed negative filtering, and exact-head build and product receipts.",
