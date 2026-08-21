@@ -508,6 +508,17 @@ def test_as_numpy_converts_sparse_matrix_protocol() -> None:
     )
 
 
+def test_as_numpy_converts_xarray_values() -> None:
+    """Preserve dense conversion for labelled xarray predictions."""
+    import xarray as xr
+
+    from voiage.metamodels import _as_numpy
+
+    np.testing.assert_array_equal(
+        _as_numpy(xr.DataArray([1.0, 2.0, 3.0])), np.array([1.0, 2.0, 3.0])
+    )
+
+
 def test_metamodel_protocol_requires_rmse() -> None:
     """Runtime protocol checks must reject adapters without RMSE."""
     from voiage.metamodels import Metamodel
