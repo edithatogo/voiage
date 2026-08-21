@@ -64,16 +64,16 @@ implementation, and each phase ends with automated review and validation.
   - [x] Record every catalogue member, including passed, failed, skipped, or
     not-scheduled states, without collapsing build and runtime evidence.
   - [x] Preserve the initial expanded-run receipt even if remediation is needed.
-- [~] **YMC3-T2 (AC3, AC4): Triage every non-pass result.**
-  - [ ] Classify recipe/source/linker/product/ABI failures as actionable and fix
+- [x] **YMC3-T2 (AC3, AC4): Triage every non-pass result.** (`d81c0f69`)
+  - [x] Classify recipe/source/linker/product/ABI failures as actionable and fix
     them while retaining the platform.
-  - [ ] Classify infrastructure failures as transient and rerun them.
-  - [ ] For a genuine upstream toolchain or architecture gap, collect primary
+  - [x] Classify infrastructure failures as transient and rerun them.
+  - [x] For a genuine upstream toolchain or architecture gap, collect primary
     evidence, define the narrowest predicate, and state the retest trigger.
-  - [ ] Attempt Windows `i686`, Linux `i686`, ARM, PowerPC, FreeBSD `x86_64`,
+  - [x] Attempt Windows `i686`, Linux `i686`, ARM, PowerPC, FreeBSD `x86_64`,
     musl, and other catalogue members unless their own evidence fails the
     contract; do not copy exclusions from unrelated recipes.
-- [ ] **YMC3-T3 (AC3, AC4): Iterate to a terminal maximum-coverage candidate.**
+- [~] **YMC3-T3 (AC3, AC4): Iterate to a terminal maximum-coverage candidate.**
   - [ ] Add only contract-valid negative filters and corresponding tests.
   - [ ] Rerun the full matrix after each recipe revision.
   - [ ] Reconcile final included/excluded counts and preserve superseded runs.
