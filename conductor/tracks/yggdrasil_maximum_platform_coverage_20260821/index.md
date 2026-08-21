@@ -1,6 +1,6 @@
 # Yggdrasil Maximum Platform Coverage
 
-Status: in progress — Phases 1–4 are checkpointed. The exact Yggdrasil
+Status: repository gate complete; exact-head hosted refresh pending. The exact Yggdrasil
 candidate passed all 15 included platforms in Buildkite 31972; three narrowly
 evidenced exclusions remain. All 15 product archives have integrity evidence,
 and two runnable macOS artifacts have ABI and numerical smoke evidence.
@@ -20,6 +20,8 @@ Voiage implementation: [PR #999](https://github.com/edithatogo/voiage/pull/999)
 - [Phase 3 automated review](./phase-3-review-20260821.md)
 - [Phase 4 product and ABI evidence](./phase-4-product-abi-evidence-20260821.json)
 - [Phase 4 automated review](./phase-4-review-20260821.md)
+- [Phase 5 final automated review](./phase-5-review-20260822.md)
+- [Rebase and validation receipt](./phase-5-rebase-validation-20260822.json)
 - [Registry-readiness successor](./registry-readiness-yggdrasil-successor-20260821.json)
 
 ## Scope boundary

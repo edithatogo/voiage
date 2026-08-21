@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "track_id": "yggdrasil_maximum_platform_coverage_20260821",
+  "observed_at": "2026-08-22T00:00:00Z",
+  "base_revision": "9ee558d774aad8eee81a4cdb0b73d85de17f5c91",
+  "validated_revision": "3e8bee4f90c9aae850a69ece2a34f1647dfe54b4",
+  "automated_review": {
+    "critical_open": 0,
+    "high_open": 0,
+    "medium_open": 0,
+    "resolved_high": [
+      "Restored the immutable v1 programme baseline after rebase."
+    ]
+  },
+  "validation": {
+    "python_312": "passed",
+    "python_313": "passed",
+    "python_314": "passed",
+    "minimum_versions": "passed_with_one_previously_proven_network_test_deselected",
+    "maximum_versions": "passed_with_one_previously_proven_network_test_deselected",
+    "coverage": "passed_94.92_percent",
+    "quality_environments": "passed",
+    "documentation": "passed",
+    "repository_harness": "passed",
+    "conductor": "passed_150_tracks_zero_errors_zero_warnings",
+    "cross_references": "passed",
+    "evidence_ledger": "passed",
+    "diff_check": "passed"
+  },
+  "hosted_exact_head": "pending_refresh_after_final_evidence_commit",
+  "external_gates": {
+    "yggdrasil_merge": "pending_external",
+    "jll_generation": "pending_external",
+    "clean_depot_jll_execution": "pending_external",
+    "julia_general": "pending_external",
+    "indexing": "pending_external"
+  }
+}

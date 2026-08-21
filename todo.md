@@ -12,6 +12,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   [x] Reconcile the exact green conda-forge and Yggdrasil candidates
         after immutable release URLs and checksums exist. Their maintainer
         merges, generated registries, and indexing remain external gates.
+    *   [x] Complete the repository-owned Yggdrasil maximum-platform-coverage
+        contract: 15 included targets pass Buildkite and product-integrity
+        validation, three exclusions are evidence-bound, and native macOS ABI
+        and numerical smoke evidence is recorded. Yggdrasil PR #14292 merge,
+        JLL generation, clean-depot JLL execution, Julia General registration,
+        and indexing remain external gates.
 
 For experimental frontier items, references to scientific review mean the
 role-specific subagent review panel and separate orchestrating agent defined in

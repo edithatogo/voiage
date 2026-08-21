@@ -113,11 +113,11 @@ implementation, and each phase ends with automated review and validation.
     receipt through an append-only successor artifact.
   - [x] Cross-reference the final PR head, Buildkite run, Conductor track, and
     any VOIAGE implementation PR.
-- [ ] **YMC5-T2 (AC6): Run the repository-owned final gate.**
-  - [ ] Run focused tests, Ruff, type checks, relevant tox environments,
+- [x] **YMC5-T2 (AC6): Run the repository-owned final gate.** (`3e8bee4f`)
+  - [x] Run focused tests, Ruff, type checks, relevant tox environments,
     repository harness, full Conductor validation, cross-reference validation,
     and `git diff --check`.
-  - [ ] Run automated final Conductor review; apply Critical/High fixes and
+  - [x] Run automated final Conductor review; apply Critical/High fixes and
     repeat the full gate.
 - [ ] **YMC5-T3 (AC7): Record external handoff without premature closure.**
   - [ ] Re-query PR #14292 immediately before recording its state.

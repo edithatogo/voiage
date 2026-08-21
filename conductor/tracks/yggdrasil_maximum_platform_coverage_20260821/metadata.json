@@ -3,7 +3,7 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-08-21T12:15:58Z",
-  "updated_at": "2026-08-21T18:56:06Z",
+  "updated_at": "2026-08-22T00:00:00Z",
   "specification_approved_at": "2026-08-21T12:22:00Z",
   "approved_by_role": "repository_owner",
   "description": "Maximize voiage_ffi Yggdrasil coverage through an inclusive supported-platform universe, evidence-backed negative filtering, and exact-head build and product receipts.",
@@ -43,6 +43,6 @@
       "https://github.com/edithatogo/voiage/pull/999",
       "https://github.com/JuliaPackaging/Yggdrasil/pull/14292"
     ],
-    "pull_request_evidence": "implementation_pending_hosted_checks; external_candidate_pending_merge"
+    "pull_request_evidence": "rebased_repository_candidate_pending_exact_head_hosted_checks; external_candidate_green_pending_merge"
   }
 }

@@ -274,7 +274,7 @@
     }
   },
   "boundaries": {
-    "repository_contract": "in_progress",
+    "repository_contract": "complete",
     "yggdrasil_merge": "pending_external",
     "jll_generation": "pending_external",
     "julia_general": "pending_external"
