@@ -17,6 +17,7 @@ CONTRACT_ROOT = ROOT / "specs" / "yggdrasil-platform-coverage" / "v1"
 SCHEMA = CONTRACT_ROOT / "platform-coverage.schema.json"
 MANIFEST = CONTRACT_ROOT / "voiage-ffi-platform-coverage.json"
 VALIDATOR = ROOT / "scripts" / "validate_yggdrasil_platform_coverage.py"
+RECIPE = ROOT / "packaging" / "yggdrasil" / "V" / "voiage_ffi" / "build_tarballs.jl"
 
 
 def _payload() -> dict[str, Any]:
@@ -68,6 +69,35 @@ def test_contract_pins_inclusive_policy_and_two_initial_filters() -> None:
         'Sys.isfreebsd(p) && arch(p) == "aarch64"',
         'arch(p) == "riscv64"',
     ]
+
+
+def test_recipe_uses_inclusive_universe_and_exact_initial_filters() -> None:
+    """The repository recipe must attempt every non-excluded standard target."""
+    recipe = RECIPE.read_text(encoding="utf-8")
+
+    assert "platforms = supported_platforms()" in recipe
+    assert "platforms = [" not in recipe
+    assert recipe.count("filter!(") == 2
+    assert (
+        'filter!(p -> !(Sys.isfreebsd(p) && arch(p) == "aarch64"), platforms)' in recipe
+    )
+    assert 'filter!(p -> arch(p) != "riscv64", platforms)' in recipe
+    assert "Rust toolchain is not available on aarch64-unknown-freebsd" in recipe
+    assert "Rust toolchain is not available on riscv64" in recipe
+
+
+def test_recipe_preserves_release_product_and_shared_musl_build() -> None:
+    """Coverage expansion must not weaken the submitted product recipe."""
+    recipe = RECIPE.read_text(encoding="utf-8")
+
+    assert 'version = v"2.1.0"' in recipe
+    assert "964a0fc334ece9509387cd07d43776adf38be240" in recipe
+    assert 'RUSTFLAGS="-C target-feature=-crt-static"' in recipe
+    assert (
+        "cargo build \\\n+    --release \\\n+    --locked \\\n+    --package voiage-ffi"
+        in recipe
+    )
+    assert 'LibraryProduct("libvoiage_ffi", :libvoiage_ffi)' in recipe
 
 
 def _remove_classification(payload: dict[str, Any]) -> None:
