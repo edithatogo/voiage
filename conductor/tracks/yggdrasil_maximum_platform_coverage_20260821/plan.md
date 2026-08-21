@@ -5,14 +5,14 @@ implementation, and each phase ends with automated review and validation.
 
 ## Phase 1 — Freeze the platform-coverage contract
 
-- [ ] **YMC1-T1 (AC1, AC3): Write failing contract tests.**
-  - [ ] Assert that the schema requires catalogue and candidate revisions,
+- [x] **YMC1-T1 (AC1, AC3): Write failing contract tests.** (`ac929f1c`)
+  - [x] Assert that the schema requires catalogue and candidate revisions,
     exact platform identities, lifecycle states, evidence boundaries, and
     aggregate reconciliation.
-  - [ ] Add adversarial cases for missing platforms, duplicates, unexplained or
+  - [x] Add adversarial cases for missing platforms, duplicates, unexplained or
     over-broad exclusions, missing reconsideration triggers, stale totals, and
     runtime claims based only on builds.
-  - [ ] Run the focused suite and record the expected red result before adding
+  - [x] Run the focused suite and record the expected red result before adding
     implementation artifacts.
 - [ ] **YMC1-T2 (AC1, AC3): Implement the versioned contract.**
   - [ ] Add the JSON Schema, initial manifest, and fail-closed validator under
