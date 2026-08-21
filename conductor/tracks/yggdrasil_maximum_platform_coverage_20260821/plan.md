@@ -59,12 +59,12 @@ implementation, and each phase ends with automated review and validation.
 
 ## Phase 3 — Undertake maximum-coverage hosted filtering
 
-- [ ] **YMC3-T1 (AC3, AC4, AC6): Capture the expanded hosted matrix.**
-  - [ ] Wait for the exact-head Buildkite matrix to reach terminal states.
-  - [ ] Record every catalogue member, including passed, failed, skipped, or
+- [x] **YMC3-T1 (AC3, AC4, AC6): Capture the expanded hosted matrix.** (`c3413a56`)
+  - [x] Wait for the exact-head Buildkite matrix to reach terminal states.
+  - [x] Record every catalogue member, including passed, failed, skipped, or
     not-scheduled states, without collapsing build and runtime evidence.
-  - [ ] Preserve the initial expanded-run receipt even if remediation is needed.
-- [ ] **YMC3-T2 (AC3, AC4): Triage every non-pass result.**
+  - [x] Preserve the initial expanded-run receipt even if remediation is needed.
+- [~] **YMC3-T2 (AC3, AC4): Triage every non-pass result.**
   - [ ] Classify recipe/source/linker/product/ABI failures as actionable and fix
     them while retaining the platform.
   - [ ] Classify infrastructure failures as transient and rerun them.
