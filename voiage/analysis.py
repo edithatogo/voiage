@@ -34,8 +34,9 @@ except ImportError:
 SKLEARN_AVAILABLE = False
 LinearRegression = None
 try:
-    from sklearn.linear_model import LinearRegression
+    from sklearn.linear_model import LinearRegression as SklearnLinearRegression
 
+    LinearRegression = SklearnLinearRegression
     SKLEARN_AVAILABLE = True
 except ImportError:
     # sklearn is an optional dependency, only required for EVPPI.
@@ -619,7 +620,7 @@ class DecisionAnalysis:
             y_fit = nb_values_fit[:, i]
 
             if regression_model is None:
-                model: RegressionModelProtocol = LinearRegression()
+                model: RegressionModelProtocol = SklearnLinearRegression()
             elif isinstance(regression_model, type):
                 model = regression_model()
             else:
