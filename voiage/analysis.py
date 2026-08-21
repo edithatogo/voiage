@@ -4,7 +4,6 @@
 
 from collections import deque
 from collections.abc import Callable, Generator, Mapping, Sequence
-import importlib.util
 from typing import Any, Protocol
 
 import numpy as np
@@ -26,8 +25,9 @@ from voiage.schema import ParameterSet, PortfolioSpec, PortfolioStudy, ValueArra
 # Check for JAX availability
 JAX_AVAILABLE = False
 try:
-    if importlib.util.find_spec("jax.numpy") is not None:
-        JAX_AVAILABLE = True
+    import jax.numpy  # noqa: F401
+
+    JAX_AVAILABLE = True
 except ImportError:
     pass
 
