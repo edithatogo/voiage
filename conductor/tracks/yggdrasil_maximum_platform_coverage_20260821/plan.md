@@ -106,12 +106,12 @@ implementation, and each phase ends with automated review and validation.
 
 ## Phase 5 — Reconcile, validate, and hand off external gates
 
-- [ ] **YMC5-T1 (AC6, AC7): Reconcile repository records.**
-  - [ ] Update issue #555 and issue #614 only with exact repository and hosted
+- [x] **YMC5-T1 (AC6, AC7): Reconcile repository records.** (`32d98e36`)
+  - [x] Update issue #555 and issue #614 only with exact repository and hosted
     evidence; do not infer external merge or registry state.
-  - [ ] Refresh the archived registry-readiness handoff and release-candidate
+  - [x] Refresh the archived registry-readiness handoff and release-candidate
     receipt through an append-only successor artifact.
-  - [ ] Cross-reference the final PR head, Buildkite run, Conductor track, and
+  - [x] Cross-reference the final PR head, Buildkite run, Conductor track, and
     any VOIAGE implementation PR.
 - [ ] **YMC5-T2 (AC6): Run the repository-owned final gate.**
   - [ ] Run focused tests, Ruff, type checks, relevant tox environments,
