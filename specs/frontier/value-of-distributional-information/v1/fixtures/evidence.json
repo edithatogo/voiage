@@ -24,10 +24,10 @@
     {"path": "docs/astro-site/src/content/docs/examples/value-of-distributional-information.mdx", "sha256": "c99c508b5b500fb2ebbe55705d3ed3e04d4516b079e962d4506243593fb1c130"},
     {"path": "docs/astro-site/src/content/docs/examples/index.mdx", "sha256": "9c68fb38928ca889ebd9ed33ecd43821f5800d7a4fdb6c36ebbfd2cf12ad6d58"},
     {"path": "docs/astro-site/src/content/docs/cli-reference.mdx", "sha256": "054f0d78d9484b74dda394c3da1e38dc72d9a222b654dc4a29a6a7c54e047b41"},
-    {"path": "changelog.md", "sha256": "4f4b643065eb942db329daf320d86f0235e3ecb6aa75369d2eb9e1c16789232a"}
+    {"path": "changelog.md", "sha256": "680447f63bcfb46e8d1980e68eb22e79bca7d00fde1841d05b18890d14eb7381"}
   ],
   "remaining_gates": [
-    "independent implementation and scientific review",
+    "role-separated subagent scientific panel and accountable owner decision",
     "hosted exact-head assurance and cross-language parity",
     "stable promotion, release and issue closure"
   ]

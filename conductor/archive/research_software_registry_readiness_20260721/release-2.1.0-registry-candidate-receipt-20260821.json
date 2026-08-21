@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-08-21T04:55:00Z",
+  "release": {
+    "version": "2.1.0",
+    "tag": "v2.1.0",
+    "commit": "964a0fc334ece9509387cd07d43776adf38be240",
+    "github_release": "https://github.com/edithatogo/voiage/releases/tag/v2.1.0",
+    "pypi_release": "https://pypi.org/project/voiage/2.1.0/"
+  },
+  "candidates": {
+    "conda_forge": {
+      "pull_request": "https://github.com/conda-forge/staged-recipes/pull/34308",
+      "state": "open",
+      "candidate_head": "331e3d9b509c7938ed298b79d2c37153f984f4b1",
+      "candidate_version": "2.1.0",
+      "hosted_evidence": {
+        "aggregate": "success",
+        "linter": "success",
+        "linux_64": "success",
+        "osx_64": "success",
+        "win_64": "success",
+        "azure_build": "1571876"
+      },
+      "acceptance": "pending_external_maintainer_merge_and_indexing"
+    },
+    "yggdrasil": {
+      "pull_request": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292",
+      "state": "open",
+      "candidate_head": "db38b5200cc4ed741c5cfc682a8465395f687b41",
+      "candidate_version": "2.1.0",
+      "hosted_evidence": {
+        "aggregate": "success",
+        "buildkite_build": "31960",
+        "platforms": {
+          "aarch64-apple-darwin": "success",
+          "aarch64-linux-gnu": "success",
+          "aarch64-linux-musl": "success",
+          "x86_64-apple-darwin": "success",
+          "x86_64-linux-gnu": "success",
+          "x86_64-linux-musl": "success",
+          "x86_64-w64-mingw32": "success"
+        }
+      },
+      "acceptance": "pending_external_maintainer_merge_jll_and_indexing"
+    }
+  },
+  "boundaries": {
+    "repository_candidate_preparation": "complete",
+    "registry_acceptance": "pending_external",
+    "publication_acceptance": "separate_external_gate",
+    "frontier_maturity": "experimental"
+  }
+}

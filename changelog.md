@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Bind the exact green v2.1.0 conda-forge and Yggdrasil candidate heads to an
+  immutable Conductor receipt while preserving external merge, generated
+  registry, indexing, and publication gates.
+
 - Record the verified v2.1.0 GitHub and PyPI publication receipts while keeping
   external registry and manuscript acceptance as separate gates.
 

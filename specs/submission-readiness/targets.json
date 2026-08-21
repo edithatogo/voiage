@@ -196,7 +196,7 @@
       "criteria_url": "https://github.com/conda-forge/staged-recipes",
       "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
       "requirements": [
-        {"id": "recipe-and-builds", "status": "satisfied", "evidence": ["conda-recipe/meta.yaml", "docs/release/binding-submission-checklist.md"]},
+        {"id": "recipe-and-builds", "status": "satisfied", "evidence": ["conda-recipe/meta.yaml", "docs/release/binding-submission-checklist.md", "conductor/archive/research_software_registry_readiness_20260721/release-2.1.0-registry-candidate-receipt-20260821.json"]},
         {"id": "maintainer-merge-indexing", "status": "external", "evidence": ["docs/release/registry_audit_snapshot.json"]}
       ],
       "acceptance_evidence": ["Merged conda-forge feedstock PR", "Installable indexed package"],
@@ -266,7 +266,7 @@
       "criteria_url": "https://docs.binarybuilder.org/stable/",
       "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
       "requirements": [
-        {"id": "recipe-submitted", "status": "satisfied", "evidence": ["docs/release/binding-submission-checklist.md"]},
+        {"id": "recipe-submitted", "status": "satisfied", "evidence": ["docs/release/binding-submission-checklist.md", "conductor/archive/research_software_registry_readiness_20260721/release-2.1.0-registry-candidate-receipt-20260821.json"]},
         {"id": "binarybuilder-acceptance", "status": "external", "evidence": ["docs/release/registry_audit_snapshot.json"]}
       ],
       "acceptance_evidence": ["Merged Yggdrasil recipe", "Registered JLL package and artifacts"],
