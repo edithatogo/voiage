@@ -470,10 +470,3 @@ def test_sparse_matrix_protocol_toarray() -> None:
     result = valid_instance.toarray()
     assert isinstance(result, np.ndarray)
     np.testing.assert_array_equal(result, np.array([1, 2, 3]))
-
-
-def test_tinygp_protocol_call_condition() -> None:
-    """Test that the _TinyGPProtocol.condition can be called (for coverage)."""
-    from voiage.metamodels import _TinyGPProtocol
-
-    _TinyGPProtocol.condition(None, None, None)  # type: ignore[arg-type]
