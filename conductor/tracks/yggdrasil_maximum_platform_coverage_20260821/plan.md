@@ -51,7 +51,7 @@ implementation, and each phase ends with automated review and validation.
     unrelated upstream work.
   - [x] Apply the repository-validated recipe change, commit, push, and respond
     to the existing review thread with the exact candidate head.
-- [x] **YMC2-T4 (AC2, AC6): Complete Phase 2 review and validation.**
+- [x] **YMC2-T4 (AC2, AC6): Complete Phase 2 review and validation.** (`66b51eb6`)
   - [x] Run recipe-policy tests, contract validation, and diff hygiene.
   - [x] Run automated Conductor review; apply Critical/High fixes and rerun.
   - [x] Run full Conductor and cross-reference validation and record the phase
