@@ -40,11 +40,11 @@ implementation, and each phase ends with automated review and validation.
     including adjacent reasons, before the first expanded run.
   - [x] Reject the former seven-platform positive allowlist and uncontracted
     negative predicates.
-- [ ] **YMC2-T2 (AC2, AC5): Update the repository recipe mirror.**
-  - [ ] Apply the inclusive universe and two initial filters.
-  - [ ] Preserve locked Cargo build, musl shared-link flags, product naming,
+- [x] **YMC2-T2 (AC2, AC5): Update the repository recipe mirror.** (`4e838afe`)
+  - [x] Apply the inclusive universe and two initial filters.
+  - [x] Preserve locked Cargo build, musl shared-link flags, product naming,
     installation paths, and release-source pinning.
-  - [ ] Parse/lint the recipe locally and update the initial manifest snapshot.
+  - [x] Parse/lint the recipe locally and update the initial manifest snapshot.
 - [ ] **YMC2-T3 (AC2, AC6, AC7): Refresh the external PR candidate.**
   - [ ] Re-query PR #14292 and its base immediately before mutation.
   - [ ] Rebase or refresh the owner-controlled branch without overwriting
