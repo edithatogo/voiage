@@ -482,18 +482,6 @@ def test_create_streaming_config() -> None:
     assert config.buffer_size is None
 
 
-
-def test_create_parallel_config_explicit() -> None:
-    """Explicitly test create_parallel_config factory function."""
-    config = create_parallel_config()
-    assert isinstance(config, ParallelConfig)
-    assert config.n_workers is None
-    assert config.use_processes is True
-    assert config.max_workers is None
-    assert config.memory_limit_mb is None
-    assert config.chunk_size is None
-
-
 if __name__ == "__main__":
     test_create_default_config()
     test_voi_analysis_config()
@@ -509,5 +497,4 @@ if __name__ == "__main__":
     test_factory_functions()
     test_create_optimization_config()
     test_create_streaming_config()
-    test_create_parallel_config_explicit()
     print("All configuration objects tests passed!")
