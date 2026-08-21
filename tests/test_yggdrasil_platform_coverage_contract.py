@@ -26,6 +26,7 @@ EXPANDED_RUN = (
     / "yggdrasil_maximum_platform_coverage_20260821"
     / "buildkite-31971-expanded-matrix.json"
 )
+TERMINAL_RUN = EXPANDED_RUN.with_name("buildkite-31972-terminal-matrix.json")
 
 
 def _payload() -> dict[str, Any]:
@@ -119,6 +120,25 @@ def test_expanded_run_preserves_every_attempt_and_root_failure() -> None:
     failed = [row for row in receipt["platforms"] if row["state"] == "failed"]
     assert [row["id"] for row in failed] == ["i686-w64-mingw32"]
     assert "_Unwind_Resume" in failed[0]["diagnostic"]
+
+
+def test_terminal_run_reconciles_with_manifest_platform_evidence() -> None:
+    """Every terminal target is represented once and bound to its exact job."""
+    payload = _payload()
+    receipt = json.loads(TERMINAL_RUN.read_text(encoding="utf-8"))
+    receipt_by_id = {row["id"]: row for row in receipt["platforms"]}
+
+    assert set(receipt_by_id) == set(payload["catalogue"]["platforms"])
+    assert receipt["candidate_head"] == payload["candidate"]["head"]
+    assert receipt["recipe_sha256"] == payload["candidate"]["recipe_sha256"]
+    assert receipt["build"]["passed"] == payload["aggregates"]["included"] == 15
+    for record in payload["platforms"]:
+        terminal = receipt_by_id[record["id"]]
+        if record["disposition"] == "included":
+            assert terminal["state"] == "passed"
+            assert terminal["job"] in record["evidence"]["locators"]
+        else:
+            assert terminal["state"] == record["lifecycle"]
 
 
 def test_recipe_preserves_release_product_and_shared_musl_build() -> None:
@@ -222,6 +242,15 @@ def _diverge_candidate_recipe_digest(payload: dict[str, Any]) -> None:
     payload["candidate"]["recipe_sha256"] = "0" * 64
 
 
+def _use_stale_terminal_job_locator(payload: dict[str, Any]) -> None:
+    included = next(
+        row for row in payload["platforms"] if row["disposition"] == "included"
+    )
+    included["evidence"]["locators"] = [
+        "https://buildkite.com/julialang/yggdrasil/builds/31971#superseded"
+    ]
+
+
 @pytest.mark.parametrize(
     "mutate",
     [
@@ -234,6 +263,7 @@ def _diverge_candidate_recipe_digest(payload: dict[str, Any]) -> None:
         _replace_with_placeholder_evidence,
         _mislabel_evidence_filtered_policy,
         _diverge_candidate_recipe_digest,
+        _use_stale_terminal_job_locator,
     ],
     ids=[
         "unclassified-catalogue-platform",
@@ -245,6 +275,7 @@ def _diverge_candidate_recipe_digest(payload: dict[str, Any]) -> None:
         "placeholder-exclusion-evidence",
         "mislabel-evidence-filtered-policy",
         "candidate-recipe-digest-divergence",
+        "stale-terminal-job-locator",
     ],
 )
 def test_validator_rejects_pathological_contract_mutations(
