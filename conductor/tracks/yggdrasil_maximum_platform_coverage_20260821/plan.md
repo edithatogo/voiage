@@ -1,0 +1,122 @@
+# Yggdrasil Maximum Platform Coverage Implementation Plan
+
+Every task cites the acceptance criteria it advances. Tests precede
+implementation, and each phase ends with automated review and validation.
+
+## Phase 1 — Freeze the platform-coverage contract
+
+- [ ] **YMC1-T1 (AC1, AC3): Write failing contract tests.**
+  - [ ] Assert that the schema requires catalogue and candidate revisions,
+    exact platform identities, lifecycle states, evidence boundaries, and
+    aggregate reconciliation.
+  - [ ] Add adversarial cases for missing platforms, duplicates, unexplained or
+    over-broad exclusions, missing reconsideration triggers, stale totals, and
+    runtime claims based only on builds.
+  - [ ] Run the focused suite and record the expected red result before adding
+    implementation artifacts.
+- [ ] **YMC1-T2 (AC1, AC3): Implement the versioned contract.**
+  - [ ] Add the JSON Schema, initial manifest, and fail-closed validator under
+    the existing binding/release contract boundary.
+  - [ ] Model build, product, ABI-smoke, and runtime validation independently.
+  - [ ] Pin the observed Yggdrasil catalogue, release source, recipe, and
+    candidate identities.
+- [ ] **YMC1-T3 (AC1, AC6): Complete Phase 1 review and validation.**
+  - [ ] Run focused positive, negative, property, and pathological tests.
+  - [ ] Run Ruff and type checking for new Python validation code.
+  - [ ] Run automated Conductor review; apply Critical/High fixes and rerun.
+  - [ ] Run full Conductor and cross-reference validation and record the phase
+    checkpoint.
+
+## Phase 2 — Expand the recipe by negative filtering
+
+- [ ] **YMC2-T1 (AC2): Write recipe-policy tests first.**
+  - [ ] Require `platforms = supported_platforms()`.
+  - [ ] Require exactly the initial FreeBSD `aarch64` and `riscv64` filters,
+    including adjacent reasons, before the first expanded run.
+  - [ ] Reject the former seven-platform positive allowlist and uncontracted
+    negative predicates.
+- [ ] **YMC2-T2 (AC2, AC5): Update the repository recipe mirror.**
+  - [ ] Apply the inclusive universe and two initial filters.
+  - [ ] Preserve locked Cargo build, musl shared-link flags, product naming,
+    installation paths, and release-source pinning.
+  - [ ] Parse/lint the recipe locally and update the initial manifest snapshot.
+- [ ] **YMC2-T3 (AC2, AC6, AC7): Refresh the external PR candidate.**
+  - [ ] Re-query PR #14292 and its base immediately before mutation.
+  - [ ] Rebase or refresh the owner-controlled branch without overwriting
+    unrelated upstream work.
+  - [ ] Apply the repository-validated recipe change, commit, push, and respond
+    to the existing review thread with the exact candidate head.
+- [ ] **YMC2-T4 (AC2, AC6): Complete Phase 2 review and validation.**
+  - [ ] Run recipe-policy tests, contract validation, and diff hygiene.
+  - [ ] Run automated Conductor review; apply Critical/High fixes and rerun.
+  - [ ] Run full Conductor and cross-reference validation and record the phase
+    checkpoint.
+
+## Phase 3 — Undertake maximum-coverage hosted filtering
+
+- [ ] **YMC3-T1 (AC3, AC4, AC6): Capture the expanded hosted matrix.**
+  - [ ] Wait for the exact-head Buildkite matrix to reach terminal states.
+  - [ ] Record every catalogue member, including passed, failed, skipped, or
+    not-scheduled states, without collapsing build and runtime evidence.
+  - [ ] Preserve the initial expanded-run receipt even if remediation is needed.
+- [ ] **YMC3-T2 (AC3, AC4): Triage every non-pass result.**
+  - [ ] Classify recipe/source/linker/product/ABI failures as actionable and fix
+    them while retaining the platform.
+  - [ ] Classify infrastructure failures as transient and rerun them.
+  - [ ] For a genuine upstream toolchain or architecture gap, collect primary
+    evidence, define the narrowest predicate, and state the retest trigger.
+  - [ ] Attempt Windows `i686`, Linux `i686`, ARM, PowerPC, FreeBSD `x86_64`,
+    musl, and other catalogue members unless their own evidence fails the
+    contract; do not copy exclusions from unrelated recipes.
+- [ ] **YMC3-T3 (AC3, AC4): Iterate to a terminal maximum-coverage candidate.**
+  - [ ] Add only contract-valid negative filters and corresponding tests.
+  - [ ] Rerun the full matrix after each recipe revision.
+  - [ ] Reconcile final included/excluded counts and preserve superseded runs.
+- [ ] **YMC3-T4 (AC3, AC4, AC6): Complete Phase 3 review and validation.**
+  - [ ] Run the schema, manifest, recipe-policy, evidence-integrity, and
+    pathological suites.
+  - [ ] Run automated Conductor review; apply Critical/High fixes and rerun.
+  - [ ] Run full Conductor and cross-reference validation and record the exact
+    final Yggdrasil candidate head and hosted run.
+
+## Phase 4 — Product, ABI, and downstream evidence
+
+- [ ] **YMC4-T1 (AC5): Verify per-platform product evidence.**
+  - [ ] Confirm each green target produced the declared shared-library product
+    with the correct platform filename and installation path.
+  - [ ] Mark cross targets as build/product validated only unless executable
+    evidence exists.
+- [ ] **YMC4-T2 (AC5): Run executable smoke evidence where available.**
+  - [ ] Verify exported C ABI and native version agreement.
+  - [ ] Execute the deterministic EVPI shared fixture on runnable generated
+    artifacts or record why a target is not executable in the available lane.
+  - [ ] Keep Julia clean-depot JLL execution pending until a registered JLL is
+    authoritative and available.
+- [ ] **YMC4-T3 (AC5, AC6): Complete Phase 4 review and validation.**
+  - [ ] Run product/ABI tests and verify that evidence labels cannot overclaim
+    runtime coverage.
+  - [ ] Run automated Conductor review; apply Critical/High fixes and rerun.
+  - [ ] Run full Conductor and cross-reference validation and record the phase
+    checkpoint.
+
+## Phase 5 — Reconcile, validate, and hand off external gates
+
+- [ ] **YMC5-T1 (AC6, AC7): Reconcile repository records.**
+  - [ ] Update issue #555 and issue #614 only with exact repository and hosted
+    evidence; do not infer external merge or registry state.
+  - [ ] Refresh the archived registry-readiness handoff and release-candidate
+    receipt through an append-only successor artifact.
+  - [ ] Cross-reference the final PR head, Buildkite run, Conductor track, and
+    any VOIAGE implementation PR.
+- [ ] **YMC5-T2 (AC6): Run the repository-owned final gate.**
+  - [ ] Run focused tests, Ruff, type checks, relevant tox environments,
+    repository harness, full Conductor validation, cross-reference validation,
+    and `git diff --check`.
+  - [ ] Run automated final Conductor review; apply Critical/High fixes and
+    repeat the full gate.
+- [ ] **YMC5-T3 (AC7): Record external handoff without premature closure.**
+  - [ ] Re-query PR #14292 immediately before recording its state.
+  - [ ] Keep Yggdrasil merge, JLL generation, clean-depot JLL smoke, Julia
+    General merge, and indexing pending unless authoritative receipts exist.
+  - [ ] Archive the track only when AC1–AC7 have repository evidence and every
+    remaining external gate is explicit.

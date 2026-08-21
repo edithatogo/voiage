@@ -3,6 +3,18 @@
 The Rust-first polyglot programme is registered as the current programme; all
 other tracks retain their evidenced lifecycle and external-gate boundaries.
 
+## [ ] Track: Yggdrasil Maximum Platform Coverage
+*Link: [./tracks/yggdrasil_maximum_platform_coverage_20260821/index.md](./tracks/yggdrasil_maximum_platform_coverage_20260821/index.md)*
+*GitHub: owner issue [#555](https://github.com/edithatogo/voiage/issues/555),
+related cross-venue contract [#614](https://github.com/edithatogo/voiage/issues/614),
+and external [Yggdrasil PR #14292](https://github.com/JuliaPackaging/Yggdrasil/pull/14292).*
+*Status: approved and ready to start — the contract replaces the fixed platform allowlist
+with `supported_platforms()` plus narrow, evidence-backed negative filters;
+upstream merge, JLL generation, Julia General registration, and indexing remain
+external gates.*
+
+---
+
 ## [~] Track: Rust-First Polyglot VOIAGE Completion Programme
 *Link: [./tracks/rust_polyglot_voi_completion_20260723/index.md](./tracks/rust_polyglot_voi_completion_20260723/index.md)*
 *GitHub: [issue #313](https://github.com/edithatogo/voiage/issues/313), in
