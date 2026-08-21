@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-02T14:55:00Z",
+  "generated_at": "2026-08-21T15:13:05Z",
   "repository": "edithatogo/voiage",
   "project_url": "https://github.com/users/edithatogo/projects/28",
   "association_policy": "PRs are included only when associated with commits recorded by a track, Git history for its path, or an explicit track reference. Empty completed-track lists are none_found, not inferred.",
@@ -5258,6 +5258,32 @@
         }
       ],
       "pull_request_evidence": "evidenced"
+    },
+    {
+      "track_id": "yggdrasil_maximum_platform_coverage_20260821",
+      "metadata_track_id": "yggdrasil_maximum_platform_coverage_20260821",
+      "path": "conductor/tracks/yggdrasil_maximum_platform_coverage_20260821",
+      "lifecycle": "active",
+      "issue": {
+        "number": 555,
+        "url": "https://github.com/edithatogo/voiage/issues/555",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/296",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 14292,
+          "url": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292",
+          "status": "open",
+          "evidence": [
+            "external-maximum-platform-coverage-candidate",
+            "db38b5200cc4ed741c5cfc682a8465395f687b41",
+            "buildkite-31960-seven-platform-baseline"
+          ]
+        }
+      ],
+      "pull_request_evidence": "external_candidate"
     }
   ]
 }
