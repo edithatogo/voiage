@@ -1,0 +1,1 @@
+YMC3-T3: terminal maximum-coverage candidate at Yggdrasil head 2528e2efb90e4197924d45c98873ca5cdb1a9d42. Buildkite 31972 passed all 15 included targets. Final contract: 18 catalogue platforms, 15 included, 3 narrowly excluded. Build/product audit passed; runtime and ABI execution remain separate.
