@@ -256,6 +256,8 @@ def _validate_repository_recipe(payload: dict[str, Any], errors: list[str]) -> N
         )
     if recipe["source_revision"] != payload["candidate"]["source_revision"]:
         errors.append("repository and external candidate source revisions differ")
+    if recipe["sha256"] != payload["candidate"]["recipe_sha256"]:
+        errors.append("repository and external candidate recipe digests differ")
 
 
 def validate_contract(
