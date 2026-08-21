@@ -1,19 +1,26 @@
 # Yggdrasil Maximum Platform Coverage
 
-Status: in progress — specification and implementation plan approved by the
-repository owner on 2026-08-21; Phase 1 contract work is starting.
-No external recipe change, expanded hosted run, upstream merge, JLL generation,
-or Julia registry outcome is claimed by track initialization.
+Status: in progress — Phases 1–4 are checkpointed. The exact Yggdrasil
+candidate passed all 15 included platforms in Buildkite 31972; three narrowly
+evidenced exclusions remain. All 15 product archives have integrity evidence,
+and two runnable macOS artifacts have ABI and numerical smoke evidence.
 
 GitHub owner issue: [#555](https://github.com/edithatogo/voiage/issues/555)
 
 External recipe: [JuliaPackaging/Yggdrasil PR #14292](https://github.com/JuliaPackaging/Yggdrasil/pull/14292)
+
+Voiage implementation: [PR #999](https://github.com/edithatogo/voiage/pull/999)
 
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
 - [Phase 1 automated review](./phase-1-review-20260821.md)
+- [Phase 2 automated review](./phase-2-review-20260821.md)
+- [Phase 3 automated review](./phase-3-review-20260821.md)
+- [Phase 4 product and ABI evidence](./phase-4-product-abi-evidence-20260821.json)
+- [Phase 4 automated review](./phase-4-review-20260821.md)
+- [Registry-readiness successor](./registry-readiness-yggdrasil-successor-20260821.json)
 
 ## Scope boundary
 

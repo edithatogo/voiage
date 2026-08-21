@@ -8,10 +8,11 @@ other tracks retain their evidenced lifecycle and external-gate boundaries.
 *GitHub: owner issue [#555](https://github.com/edithatogo/voiage/issues/555),
 related cross-venue contract [#614](https://github.com/edithatogo/voiage/issues/614),
 and external [Yggdrasil PR #14292](https://github.com/JuliaPackaging/Yggdrasil/pull/14292).*
-*Status: in progress — the contract replaces the fixed platform allowlist
-with `supported_platforms()` plus narrow, evidence-backed negative filters;
-upstream merge, JLL generation, Julia General registration, and indexing remain
-external gates.*
+*Status: in progress — [Voiage PR #999](https://github.com/edithatogo/voiage/pull/999)
+binds a 15-of-15 terminal Buildkite matrix, three narrow exclusions, product
+integrity for all 15 included targets, and runnable macOS ABI evidence;
+upstream merge, JLL generation, clean-depot JLL execution, Julia General
+registration, and indexing remain external gates.*
 
 ---
 
