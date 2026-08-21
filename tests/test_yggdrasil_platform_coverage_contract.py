@@ -19,6 +19,13 @@ SCHEMA = CONTRACT_ROOT / "platform-coverage.schema.json"
 MANIFEST = CONTRACT_ROOT / "voiage-ffi-platform-coverage.json"
 VALIDATOR = ROOT / "scripts" / "validate_yggdrasil_platform_coverage.py"
 RECIPE = ROOT / "packaging" / "yggdrasil" / "V" / "voiage_ffi" / "build_tarballs.jl"
+EXPANDED_RUN = (
+    ROOT
+    / "conductor"
+    / "tracks"
+    / "yggdrasil_maximum_platform_coverage_20260821"
+    / "buildkite-31971-expanded-matrix.json"
+)
 
 
 def _payload() -> dict[str, Any]:
@@ -54,8 +61,8 @@ def test_committed_contract_is_schema_valid_and_semantically_reconciled(
     assert "platform coverage contract valid" in result.stdout
 
 
-def test_contract_pins_inclusive_policy_and_two_initial_filters() -> None:
-    """The first expanded run must not pre-emptively filter extra targets."""
+def test_contract_pins_evidence_filtered_maximum_coverage_policy() -> None:
+    """Only the two initial gaps and the evidenced Windows target are excluded."""
     payload = _payload()
 
     assert payload["catalogue"]["function"] == "supported_platforms()"
@@ -70,25 +77,48 @@ def test_contract_pins_inclusive_policy_and_two_initial_filters() -> None:
         == hashlib.sha256(RECIPE.read_bytes()).hexdigest()
     )
     assert payload["policy"]["mode"] == "inclusive_negative_filter"
+    assert payload["policy"]["stage"] == "evidence_filtered"
     assert [item["predicate"] for item in payload["policy"]["negative_filters"]] == [
         'Sys.isfreebsd(p) && arch(p) == "aarch64"',
         'arch(p) == "riscv64"',
+        'Sys.iswindows(p) && arch(p) == "i686"',
     ]
 
 
-def test_recipe_uses_inclusive_universe_and_exact_initial_filters() -> None:
+def test_recipe_uses_inclusive_universe_and_narrow_evidenced_filters() -> None:
     """The repository recipe must attempt every non-excluded standard target."""
     recipe = RECIPE.read_text(encoding="utf-8")
 
     assert "platforms = supported_platforms()" in recipe
     assert "platforms = [" not in recipe
-    assert recipe.count("filter!(") == 2
+    assert recipe.count("filter!(") == 3
     assert (
         'filter!(p -> !(Sys.isfreebsd(p) && arch(p) == "aarch64"), platforms)' in recipe
     )
     assert 'filter!(p -> arch(p) != "riscv64", platforms)' in recipe
+    assert (
+        'filter!(p -> !(Sys.iswindows(p) && arch(p) == "i686"), platforms)'
+        in recipe
+    )
     assert "Rust toolchain is not available on aarch64-unknown-freebsd" in recipe
     assert "Rust toolchain is not available on riscv64" in recipe
+    assert "Rust toolchain cannot link i686-w64-mingw32" in recipe
+
+
+def test_expanded_run_preserves_every_attempt_and_root_failure() -> None:
+    """The superseded expanded run remains exact-head, per-target evidence."""
+    receipt = json.loads(EXPANDED_RUN.read_text(encoding="utf-8"))
+
+    assert receipt["candidate_head"] == (
+        "70e6087dce9cd1e59f644e761c1eecf7d7f2fa58"
+    )
+    assert receipt["build"]["attempted"] == 16
+    assert receipt["build"]["passed"] == 15
+    assert receipt["build"]["failed"] == 1
+    assert len(receipt["platforms"]) == 18
+    failed = [row for row in receipt["platforms"] if row["state"] == "failed"]
+    assert [row["id"] for row in failed] == ["i686-w64-mingw32"]
+    assert "_Unwind_Resume" in failed[0]["diagnostic"]
 
 
 def test_recipe_preserves_release_product_and_shared_musl_build() -> None:
