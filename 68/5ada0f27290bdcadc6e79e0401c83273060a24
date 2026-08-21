@@ -1,0 +1,1 @@
+YMC3-T4: Phase 3 automated review applied one Medium evidence-integrity fix: terminal passes must link the exact current Buildkite run. Rerun passed 23 tests, Ruff/format, ty, Julia parse, contract 18/15/3, Conductor 150 with zero errors/warnings, crossrefs, Vale zero errors/warnings, ledger and diff hygiene.
