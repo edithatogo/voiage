@@ -3,7 +3,7 @@
 Every task cites the acceptance criteria it advances. Tests precede
 implementation, and each phase ends with automated review and validation.
 
-## Phase 1 — Freeze the platform-coverage contract
+## Phase 1 — Freeze the platform-coverage contract [checkpoint: a84eef8a]
 
 - [x] **YMC1-T1 (AC1, AC3): Write failing contract tests.** (`ac929f1c`)
   - [x] Assert that the schema requires catalogue and candidate revisions,
