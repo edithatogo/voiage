@@ -316,9 +316,21 @@ def create_financial_config() -> FinancialConfig:
     return FinancialConfig()
 
 
-def create_parallel_config() -> ParallelConfig:
-    """Create a parallel processing configuration."""
-    return ParallelConfig()
+def create_parallel_config(
+    n_workers: int | None = None,
+    use_processes: bool = True,
+    max_workers: int | None = None,
+    memory_limit_mb: float | None = None,
+    chunk_size: int | None = None,
+) -> ParallelConfig:
+    """Create a validated parallel processing configuration."""
+    return ParallelConfig(
+        n_workers=n_workers,
+        use_processes=use_processes,
+        max_workers=max_workers,
+        memory_limit_mb=memory_limit_mb,
+        chunk_size=chunk_size,
+    )
 
 
 def create_streaming_config() -> StreamingConfig:
