@@ -84,7 +84,7 @@ implementation, and each phase ends with automated review and validation.
   - [x] Run full Conductor and cross-reference validation and record the exact
     final Yggdrasil candidate head and hosted run.
 
-## Phase 4 — Product, ABI, and downstream evidence
+## Phase 4 — Product, ABI, and downstream evidence [checkpoint: da878c15]
 
 - [x] **YMC4-T1 (AC5): Verify per-platform product evidence.** (`8aef2e8d`)
   - [x] Confirm each green target produced the declared shared-library product
