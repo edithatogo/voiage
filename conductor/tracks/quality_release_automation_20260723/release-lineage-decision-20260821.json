@@ -20,12 +20,14 @@
     "promotes_frontier": false
   },
   "execution_state": {
-    "manifest_sync": "prepared",
-    "hosted_exact_head": "pending",
-    "signed_tag": "pending",
-    "private_draft": "pending",
-    "reviewed_digests": "pending",
-    "publication": "pending",
+    "updated_at": "2026-08-21T14:10:00+10:00",
+    "receipt": "release-2.1.0-publication-receipt-20260821.json",
+    "manifest_sync": "completed",
+    "hosted_exact_head": "passed",
+    "signed_tag": "verified",
+    "private_draft": "staged_and_reviewed",
+    "reviewed_digests": "verified",
+    "publication": "completed",
     "external_registries": "separate_pending_gates"
   }
 }

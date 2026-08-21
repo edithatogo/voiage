@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-08-21T14:10:00+10:00",
+  "track_id": "quality_release_automation_20260723",
+  "release": {
+    "version": "2.1.0",
+    "tag": "v2.1.0",
+    "commit": "964a0fc334ece9509387cd07d43776adf38be240",
+    "tree": "a519104fbe1854909a13b12ea71fefa9f1484036",
+    "tag_object": "df1d46619144ea24bb51615aac7287f275a35998",
+    "tag_signature_verified": true,
+    "stable_scope": "stable core",
+    "experimental_scope": "frontier APIs including M22-M31",
+    "frontier_promoted": false
+  },
+  "pull_request": {
+    "number": 996,
+    "url": "https://github.com/edithatogo/voiage/pull/996",
+    "head": "1bfb0906fdb1894028b130abf4715119a65d2e7a",
+    "merged_at": "2026-08-21T03:50:34Z",
+    "hosted_checks": {
+      "success": 60,
+      "skipped": 4,
+      "neutral": 1,
+      "failed": 0,
+      "pending": 0
+    }
+  },
+  "workflows": {
+    "private_draft": {
+      "run_id": 32444844908,
+      "url": "https://github.com/edithatogo/voiage/actions/runs/32444844908",
+      "event": "push",
+      "conclusion": "success"
+    },
+    "publication": {
+      "run_id": 32445295284,
+      "url": "https://github.com/edithatogo/voiage/actions/runs/32445295284",
+      "event": "workflow_dispatch",
+      "head": "964a0fc334ece9509387cd07d43776adf38be240",
+      "conclusion": "success",
+      "completed_at": "2026-08-21T04:06:19Z"
+    }
+  },
+  "reviewed_digests": {
+    "voiage-2.1.0-cp312-abi3-macosx_11_0_arm64.whl": "2c1582cfda4e187d0260faf39533439cb63d38e57a3520d6f5b1392edeba1a2f",
+    "voiage-2.1.0-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "81a649675bc43179efbfccac57bd53226b5f81dc2d82dd7ffc5c8a051c257724",
+    "voiage-2.1.0-cp312-abi3-win_amd64.whl": "e085f6176d2639dd1648a8b9023108d9ee488734a6aac9e78c94571487b8deae",
+    "voiage-2.1.0.tar.gz": "f0844694c628a92d29a532170f5a5672acfe210efe1d797359a4dc18c11ab901"
+  },
+  "github": {
+    "url": "https://github.com/edithatogo/voiage/releases/tag/v2.1.0",
+    "published_at": "2026-08-21T04:06:15Z",
+    "draft": false,
+    "prerelease": false,
+    "immutable": true
+  },
+  "pypi": {
+    "url": "https://pypi.org/project/voiage/2.1.0/",
+    "latest_version": "2.1.0",
+    "artifacts": [
+      {
+        "filename": "voiage-2.1.0-cp312-abi3-macosx_11_0_arm64.whl",
+        "sha256": "2c1582cfda4e187d0260faf39533439cb63d38e57a3520d6f5b1392edeba1a2f"
+      },
+      {
+        "filename": "voiage-2.1.0-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+        "sha256": "81a649675bc43179efbfccac57bd53226b5f81dc2d82dd7ffc5c8a051c257724"
+      },
+      {
+        "filename": "voiage-2.1.0-cp312-abi3-win_amd64.whl",
+        "sha256": "e085f6176d2639dd1648a8b9023108d9ee488734a6aac9e78c94571487b8deae"
+      },
+      {
+        "filename": "voiage-2.1.0.tar.gz",
+        "sha256": "f0844694c628a92d29a532170f5a5672acfe210efe1d797359a4dc18c11ab901"
+      }
+    ]
+  },
+  "external_gates": {
+    "registry_acceptance": "pending",
+    "publication_acceptance": "pending",
+    "manuscript_scope_changed": false
+  }
+}
