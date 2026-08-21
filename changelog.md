@@ -1,11 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- Record exact-head hosted Rust/Python/R/Julia installed-parity evidence while
+  retaining M22–M31 at experimental maturity and Mojo as unsupported.
+
 - Added an experimental exact finite static/dynamic heterogeneity-value
   decomposition for #599, including the four-value identity, an optional EVSI
   extension, strict schemas, CLI/API execution and honest selection/parity
   boundaries.
-
-## Unreleased
 
 - Record the owner-approved experimental-only scientific disposition for C18
   M22–M31, preserve stable-promotion and external-acceptance boundaries, and
