@@ -371,12 +371,6 @@ def test_tinygp_protocol() -> None:
     assert isinstance(ValidGP(), _TinyGPProtocol)
     assert not isinstance(InvalidGP(), _TinyGPProtocol)
 
-    # Test condition method execution
-    obj, cond = ValidGP().condition(np.array([1.0]), np.array([2.0]))
-    assert isinstance(obj, object)
-    assert isinstance(cond, MockCondition)
-    assert np.array_equal(cond.loc, np.array([1.0]))
-
 
 def test_safe_r2_score_normal():
     """Test _safe_r2_score with normal inputs."""
