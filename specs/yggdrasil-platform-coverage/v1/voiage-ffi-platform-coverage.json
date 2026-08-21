@@ -33,7 +33,7 @@
   },
   "repository_recipe": {
     "path": "packaging/yggdrasil/V/voiage_ffi/build_tarballs.jl",
-    "sha256": "af07ea8b373216a9b7f54ea651efd00f21aca78be3531769ec5b08cf9486c41b",
+    "sha256": "4148f991e7e7bdbe8952c04108905322950d280c72b53e91d3a8d1290d5801a1",
     "source_revision": "964a0fc334ece9509387cd07d43776adf38be240",
     "policy_status": "maximum_coverage_candidate",
     "syntax_validation": "passed"
@@ -54,7 +54,7 @@
   },
   "policy": {
     "mode": "inclusive_negative_filter",
-    "stage": "initial_expansion",
+    "stage": "evidence_filtered",
     "negative_filters": [
       {
         "predicate": "Sys.isfreebsd(p) && arch(p) == \"aarch64\"",
@@ -77,6 +77,17 @@
         "observed_at": "2026-08-21T15:13:05Z",
         "reconsideration_trigger": "Retest when BinaryBuilder publishes a Rust toolchain for a supported riscv64 target.",
         "matched_platform_ids": ["riscv64-linux-gnu"]
+      },
+      {
+        "predicate": "Sys.iswindows(p) && arch(p) == \"i686\"",
+        "specificity": "exact_arch_os",
+        "evidence_kind": "hosted_failure",
+        "reason_category": "upstream_toolchain_unavailable",
+        "reason": "The Yggdrasil Rust toolchain fails the i686 Windows final link with unresolved unwinding symbols.",
+        "primary_evidence": "https://buildkite.com/julialang/yggdrasil/builds/31971#01a02500-ccd6-4111-9554-5f5e13fd4e2a",
+        "observed_at": "2026-08-21T15:52:43Z",
+        "reconsideration_trigger": "Retest when Yggdrasil's Rust toolchain for i686-w64-mingw32 can link _Unwind_Resume and _Unwind_RaiseException.",
+        "matched_platform_ids": ["i686-w64-mingw32"]
       }
     ]
   },
@@ -216,9 +227,28 @@
     {
       "id": "i686-w64-mingw32",
       "triplet": "i686-w64-mingw32",
-      "disposition": "included",
-      "lifecycle": "pending",
-      "evidence": {"build": "pending", "product": "pending", "abi_smoke": "not_run", "runtime": "not_run", "locators": []}
+      "disposition": "excluded",
+      "lifecycle": "excluded_evidenced",
+      "evidence": {
+        "build": "failed",
+        "product": "not_run",
+        "abi_smoke": "not_run",
+        "runtime": "not_run",
+        "locators": [
+          "https://buildkite.com/julialang/yggdrasil/builds/31971#01a02500-ccd6-4111-9554-5f5e13fd4e2a",
+          "https://github.com/JuliaPackaging/Yggdrasil/blob/5059405e0e9ecced8fb1619baff0cfc6c5478742/O/OpenVAF/build_tarballs.jl#L37"
+        ]
+      },
+      "exclusion": {
+        "predicate": "Sys.iswindows(p) && arch(p) == \"i686\"",
+        "specificity": "exact_arch_os",
+        "evidence_kind": "hosted_failure",
+        "reason_category": "upstream_toolchain_unavailable",
+        "reason": "The Yggdrasil Rust toolchain fails the i686 Windows final link with unresolved unwinding symbols.",
+        "primary_evidence": "https://buildkite.com/julialang/yggdrasil/builds/31971#01a02500-ccd6-4111-9554-5f5e13fd4e2a",
+        "observed_at": "2026-08-21T15:52:43Z",
+        "reconsideration_trigger": "Retest when Yggdrasil's Rust toolchain for i686-w64-mingw32 can link _Unwind_Resume and _Unwind_RaiseException."
+      }
     },
     {
       "id": "x86_64-w64-mingw32",
@@ -231,16 +261,16 @@
   "aggregates": {
     "catalogue": 18,
     "classified": 18,
-    "included": 16,
-    "excluded": 2,
+    "included": 15,
+    "excluded": 3,
     "lifecycle_counts": {
-      "pending": 16,
+      "pending": 15,
       "building": 0,
       "passed": 0,
       "failed_actionable": 0,
       "failed_transient": 0,
       "excluded_upstream": 2,
-      "excluded_evidenced": 0
+      "excluded_evidenced": 1
     }
   },
   "boundaries": {
