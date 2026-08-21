@@ -1,0 +1,68 @@
+{
+  "receipt_id": "yggdrasil-31972-product-and-native-abi-evidence",
+  "observed_at": "2026-08-21T16:29:00Z",
+  "candidate_head": "2528e2efb90e4197924d45c98873ca5cdb1a9d42",
+  "buildkite_run": "https://buildkite.com/julialang/yggdrasil/builds/31972",
+  "product_contract": {
+    "name": "libvoiage_ffi",
+    "install_directory": "lib",
+    "release": "2.1.0",
+    "source_revision": "964a0fc334ece9509387cd07d43776adf38be240"
+  },
+  "artifacts": [
+    {"platform": "i686-linux-gnu", "product_path": "lib/libvoiage_ffi.so", "sha256": "14096d19607714dcf7459b4e38667ed9eca3ba01b58c0758ccaac4668acb2cfd", "url": "https://buildkite.com/organizations/julialang/pipelines/yggdrasil/builds/31972/jobs/01a02513-b79c-401b-893e-b12a70d5deae/artifacts/01a02516-239b-4faf-8612-9e4e1f5ec6ad"},
+    {"platform": "x86_64-linux-gnu", "product_path": "lib/libvoiage_ffi.so", "sha256": "7305c7fdf47bbdaa293a2497182dd5fd3db461a6309761b956053976b0911e74", "url": "https://buildkite.com/organizations/julialang/pipelines/yggdrasil/builds/31972/jobs/01a02513-b7a0-4674-9da0-f755b1edbb75/artifacts/01a02515-d933-4a9a-8954-89bcf9004046"},
+    {"platform": "aarch64-linux-gnu", "product_path": "lib/libvoiage_ffi.so", "sha256": "69a0a5c79ff6deae67effd6b0ef187c428a0d22ca30de4113c6bcc4e3ca50fe1", "url": "https://buildkite.com/organizations/julialang/pipelines/yggdrasil/builds/31972/jobs/01a02513-b7a1-4211-8862-58b7f17488ca/artifacts/01a02516-035b-4263-9e65-9e713c72290d"},
+    {"platform": "armv6l-linux-gnueabihf", "product_path": "lib/libvoiage_ffi.so", "sha256": "e52d8ac2deda531f7ef7ce98de31318c0601077cb7bd5b5a1518e83cb5f4ee27", "url": "https://buildkite.com/organizations/julialang/pipelines/yggdrasil/builds/31972/jobs/01a02513-b7a1-47b2-9fc7-c4e0988e8d30/artifacts/01a02515-f4e0-415d-8f24-f1b41e19b94f"},
+    {"platform": "armv7l-linux-gnueabihf", "product_path": "lib/libvoiage_ffi.so", "sha256": "693e9dac9824b48433d98c80cf95cc106867c9e204aa0e14e46af3980ba7f49c", "url": "https://buildkite.com/organizations/julialang/pipelines/yggdrasil/builds/31972/jobs/01a02513-b7a1-4d55-8ded-b49250816aea/artifacts/01a02515-da97-4613-b247-de6992c41f92"},
+    {"platform": "powerpc64le-linux-gnu", "product_path": "lib/libvoiage_ffi.so", "sha256": "39458a6f2de42b976f96efb23dcc43d63229a5b18593355b2ac51c6991f65e91", "url": "https://buildkite.com/organizations/julialang/pipelines/yggdrasil/builds/31972/jobs/01a02513-b7a2-45e8-b619-66effd26bfee/artifacts/01a02515-ca11-4784-999f-21521ffe53d5"},
+    {"platform": "i686-linux-musl", "product_path": "lib/libvoiage_ffi.so", "sha256": "34780b7e61b05f99078a5a78fb834d5a00fd56812ce20f9d3a1b80c4c3478297", "url": "https://buildkite.com/organizations/julialang/pipelines/yggdrasil/builds/31972/jobs/01a02513-b7a2-4dda-8615-862880883e0d/artifacts/01a02516-e97e-46b0-985d-fa63855c4b42"},
+    {"platform": "x86_64-linux-musl", "product_path": "lib/libvoiage_ffi.so", "sha256": "4ccfbe448b0598218bc1d7ed1832b9165adcef98fab0c0cc25650f6bc257e67e", "url": "https://buildkite.com/organizations/julialang/pipelines/yggdrasil/builds/31972/jobs/01a02513-b7a2-4159-8e55-62f7033261f7/artifacts/01a02515-bea7-475c-81f2-50a47d415984"},
+    {"platform": "aarch64-linux-musl", "product_path": "lib/libvoiage_ffi.so", "sha256": "00f92112c647ccdd38d9ae66d2471dfa3915d65a658a835a452766054c286f39", "url": "https://buildkite.com/organizations/julialang/pipelines/yggdrasil/builds/31972/jobs/01a02513-b7a2-46e1-a6d1-e0dbce8e22a8/artifacts/01a02515-c0ad-4ccb-8a35-0ed613690fc5"},
+    {"platform": "armv6l-linux-musleabihf", "product_path": "lib/libvoiage_ffi.so", "sha256": "c5810cb6f881ebc89d6d12700a53d05009c531195c3ecf001890b3af67be2e72", "url": "https://buildkite.com/organizations/julialang/pipelines/yggdrasil/builds/31972/jobs/01a02513-b7a3-4a4b-b33c-bcc2e8d2ed32/artifacts/01a02516-3fb6-4d1e-9dbb-56886900bc2c"},
+    {"platform": "armv7l-linux-musleabihf", "product_path": "lib/libvoiage_ffi.so", "sha256": "441aecdee5f867337864a85cfa713861e670637c6142f7641e3c9bb8780d0061", "url": "https://buildkite.com/organizations/julialang/pipelines/yggdrasil/builds/31972/jobs/01a02513-b7a3-464a-a879-b1b3d34cdb47/artifacts/01a02515-e6c0-48ad-b109-10091c581e05"},
+    {"platform": "x86_64-apple-darwin", "product_path": "lib/libvoiage_ffi.dylib", "sha256": "0091984bac8fc0dceeae52b061c247c96c08b555f7a8d97833cd1712a6a14927", "url": "https://buildkite.com/organizations/julialang/pipelines/yggdrasil/builds/31972/jobs/01a02513-b7a4-4b35-a760-5d19b9deb99b/artifacts/01a02515-d35c-4f77-841f-7958c179855f"},
+    {"platform": "aarch64-apple-darwin", "product_path": "lib/libvoiage_ffi.dylib", "sha256": "677dd21a3de452e7261fce8b453c31643c62fe5a35bee9c66aaa20f80d0d2d97", "url": "https://buildkite.com/organizations/julialang/pipelines/yggdrasil/builds/31972/jobs/01a02513-b7a4-4a14-b821-adbc41460413/artifacts/01a02517-ca31-461c-9b34-8fd33cd4f661"},
+    {"platform": "x86_64-unknown-freebsd", "product_path": "lib/libvoiage_ffi.so", "sha256": "ad3f35d35e21afcd02cf7f8ae7d03bac052ba6fbe5545e27dcd6cd1a3154238a", "url": "https://buildkite.com/organizations/julialang/pipelines/yggdrasil/builds/31972/jobs/01a02513-b7a4-4a83-a79a-83b7a436360d/artifacts/01a02518-5acb-4938-bab8-847a4ec54914"},
+    {"platform": "x86_64-w64-mingw32", "product_path": "bin/libvoiage_ffi.dll", "sha256": "3e61cb934daf879c6be90e7cfab8be59eac78a34829be208bab4df82284ee82f", "url": "https://buildkite.com/organizations/julialang/pipelines/yggdrasil/builds/31972/jobs/01a02513-b7a4-4ae8-b622-acae97889ad9/artifacts/01a02518-4f65-4e03-a966-aea5e5b0c9e1"}
+  ],
+  "product_archive_validation": {
+    "downloaded": 15,
+    "sha256_matched": 15,
+    "product_path_matched": 15,
+    "license_path_matched": 15,
+    "failures": 0
+  },
+  "native_smokes": [
+    {
+      "platform": "aarch64-apple-darwin",
+      "host": "arm64-apple-darwin",
+      "execution_mode": "native",
+      "archive_sha256": "677dd21a3de452e7261fce8b453c31643c62fe5a35bee9c66aaa20f80d0d2d97",
+      "library_sha256": "5bde57b6d7c6a09811a5a1736a001d71584a49d464dfe8a906ca9ff2ba2a1329",
+      "library_size": 411152,
+      "format": "Mach-O 64-bit dynamically linked shared library arm64",
+      "abi": {"major": 1, "minor": 1, "capability_bits": 15},
+      "required_symbols": ["voiage_v1_abi_version", "voiage_v1_capabilities", "voiage_v1_evpi", "voiage_v1_enbs", "voiage_v1_handle_create", "voiage_v1_handle_free", "voiage_v1_error_message"],
+      "reference": {"evpi": 3.0, "enbs": 9.5},
+      "status": "passed"
+    },
+    {
+      "platform": "x86_64-apple-darwin",
+      "host": "arm64-apple-darwin",
+      "execution_mode": "Rosetta x86_64 process",
+      "archive_sha256": "0091984bac8fc0dceeae52b061c247c96c08b555f7a8d97833cd1712a6a14927",
+      "library_sha256": "3008f047c80da3793ac3408cd368b43ce8cd2f5d71acc9ec415f7ef5f6c14e4b",
+      "format": "Mach-O 64-bit dynamically linked shared library x86_64",
+      "abi": {"major": 1, "minor": 1, "capability_bits": 15},
+      "reference": {"evpi": 3.0, "enbs": 9.5},
+      "status": "passed"
+    }
+  ],
+  "claim_boundary": {
+    "all_artifacts": "published archive and BinaryBuilder product audit",
+    "macOS_artifacts": "ABI and numerical runtime passed for arm64 natively and x86_64 under Rosetta",
+    "other_artifacts": "thirteen cross-target artifacts were not executed on this host",
+    "registered_jll": "pending_external"
+  }
+}

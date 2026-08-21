@@ -27,6 +27,7 @@ EXPANDED_RUN = (
     / "buildkite-31971-expanded-matrix.json"
 )
 TERMINAL_RUN = EXPANDED_RUN.with_name("buildkite-31972-terminal-matrix.json")
+PRODUCT_EVIDENCE = EXPANDED_RUN.with_name("phase-4-product-abi-evidence-20260821.json")
 
 
 def _payload() -> dict[str, Any]:
@@ -134,6 +135,35 @@ def test_terminal_run_reconciles_with_manifest_platform_evidence() -> None:
             assert terminal["job"] in record["evidence"]["locators"]
         else:
             assert terminal["state"] == record["lifecycle"]
+
+
+def test_product_and_runtime_claims_reconcile_without_cross_target_overclaim() -> None:
+    """Every included archive is hashed, while runtime claims remain host-bound."""
+    payload = _payload()
+    evidence = json.loads(PRODUCT_EVIDENCE.read_text(encoding="utf-8"))
+    included = {
+        row["id"] for row in payload["platforms"] if row["disposition"] == "included"
+    }
+
+    assert {row["platform"] for row in evidence["artifacts"]} == included
+    assert evidence["product_archive_validation"] == {
+        "downloaded": 15,
+        "sha256_matched": 15,
+        "product_path_matched": 15,
+        "license_path_matched": 15,
+        "failures": 0,
+    }
+    assert all(len(row["sha256"]) == 64 for row in evidence["artifacts"])
+    runtime_platforms = {
+        row["platform"]
+        for row in evidence["native_smokes"]
+        if row["status"] == "passed"
+    }
+    assert runtime_platforms == {"aarch64-apple-darwin", "x86_64-apple-darwin"}
+    for record in payload["platforms"]:
+        expected = "passed" if record["id"] in runtime_platforms else "not_run"
+        if record["disposition"] == "included":
+            assert record["evidence"]["runtime"] == expected
 
 
 def test_recipe_preserves_release_product_and_shared_musl_build() -> None:
