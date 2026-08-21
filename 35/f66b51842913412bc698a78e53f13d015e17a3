@@ -1,0 +1,7 @@
+Task: Consolidate the distinct behavior retained from eight stale configuration and metamodel PRs.
+
+Summary: Added exact configuration serialization and defaults coverage, custom parallel-factory arguments, sparse prediction conversion, diagnostic fallback, and runtime protocol enforcement.
+
+Why: Preserve useful unique behavior while closing stale duplicate branches and avoiding unrelated generated changes.
+
+Verification: Focused tests passed with one optional Flax skip; tox lint and typecheck passed; the two new production behaviors were observed failing before implementation.
