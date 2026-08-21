@@ -45,11 +45,11 @@ implementation, and each phase ends with automated review and validation.
   - [x] Preserve locked Cargo build, musl shared-link flags, product naming,
     installation paths, and release-source pinning.
   - [x] Parse/lint the recipe locally and update the initial manifest snapshot.
-- [ ] **YMC2-T3 (AC2, AC6, AC7): Refresh the external PR candidate.**
-  - [ ] Re-query PR #14292 and its base immediately before mutation.
-  - [ ] Rebase or refresh the owner-controlled branch without overwriting
+- [x] **YMC2-T3 (AC2, AC6, AC7): Refresh the external PR candidate.**
+  - [x] Re-query PR #14292 and its base immediately before mutation.
+  - [x] Rebase or refresh the owner-controlled branch without overwriting
     unrelated upstream work.
-  - [ ] Apply the repository-validated recipe change, commit, push, and respond
+  - [x] Apply the repository-validated recipe change, commit, push, and respond
     to the existing review thread with the exact candidate head.
 - [ ] **YMC2-T4 (AC2, AC6): Complete Phase 2 review and validation.**
   - [ ] Run recipe-policy tests, contract validation, and diff hygiene.
