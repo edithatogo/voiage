@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -241,6 +242,22 @@ def _validate_hosted_state(payload: dict[str, Any], errors: list[str]) -> None:
         errors.append("terminal hosted run contains non-terminal included platforms")
 
 
+def _validate_repository_recipe(payload: dict[str, Any], errors: list[str]) -> None:
+    recipe = payload["repository_recipe"]
+    path = ROOT / recipe["path"]
+    try:
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    except OSError as exc:
+        errors.append(f"repository recipe cannot be read: {exc}")
+        return
+    if digest != recipe["sha256"]:
+        errors.append(
+            f"repository recipe digest is {digest}, expected {recipe['sha256']}"
+        )
+    if recipe["source_revision"] != payload["candidate"]["source_revision"]:
+        errors.append("repository and external candidate source revisions differ")
+
+
 def validate_contract(
     payload: dict[str, Any], schema_path: Path = DEFAULT_SCHEMA
 ) -> None:
@@ -252,6 +269,7 @@ def validate_contract(
     _validate_evidence_layers(payload, errors)
     _validate_aggregates(payload, errors)
     _validate_hosted_state(payload, errors)
+    _validate_repository_recipe(payload, errors)
     if errors:
         raise ContractError("; ".join(errors))
 

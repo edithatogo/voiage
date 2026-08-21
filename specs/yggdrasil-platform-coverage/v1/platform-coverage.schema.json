@@ -9,6 +9,7 @@
     "contract_id",
     "observed_at",
     "catalogue",
+    "repository_recipe",
     "candidate",
     "policy",
     "platforms",
@@ -46,6 +47,18 @@
           "uniqueItems": true,
           "items": {"$ref": "#/$defs/platformId"}
         }
+      }
+    },
+    "repository_recipe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "source_revision", "policy_status", "syntax_validation"],
+      "properties": {
+        "path": {"const": "packaging/yggdrasil/V/voiage_ffi/build_tarballs.jl"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "source_revision": {"$ref": "#/$defs/gitSha"},
+        "policy_status": {"const": "maximum_coverage_candidate"},
+        "syntax_validation": {"const": "passed"}
       }
     },
     "candidate": {

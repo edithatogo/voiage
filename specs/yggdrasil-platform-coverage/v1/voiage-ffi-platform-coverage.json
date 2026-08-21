@@ -31,6 +31,13 @@
       "x86_64-w64-mingw32"
     ]
   },
+  "repository_recipe": {
+    "path": "packaging/yggdrasil/V/voiage_ffi/build_tarballs.jl",
+    "sha256": "af07ea8b373216a9b7f54ea651efd00f21aca78be3531769ec5b08cf9486c41b",
+    "source_revision": "964a0fc334ece9509387cd07d43776adf38be240",
+    "policy_status": "maximum_coverage_candidate",
+    "syntax_validation": "passed"
+  },
   "candidate": {
     "pull_request": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292",
     "head": "db38b5200cc4ed741c5cfc682a8465395f687b41",

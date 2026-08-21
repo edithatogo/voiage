@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -64,6 +65,10 @@ def test_contract_pins_inclusive_policy_and_two_initial_filters() -> None:
     assert payload["candidate"]["source_revision"] == (
         "964a0fc334ece9509387cd07d43776adf38be240"
     )
+    assert (
+        payload["repository_recipe"]["sha256"]
+        == hashlib.sha256(RECIPE.read_bytes()).hexdigest()
+    )
     assert payload["policy"]["mode"] == "inclusive_negative_filter"
     assert [item["predicate"] for item in payload["policy"]["negative_filters"]] == [
         'Sys.isfreebsd(p) && arch(p) == "aarch64"',
@@ -93,10 +98,10 @@ def test_recipe_preserves_release_product_and_shared_musl_build() -> None:
     assert 'version = v"2.1.0"' in recipe
     assert "964a0fc334ece9509387cd07d43776adf38be240" in recipe
     assert 'RUSTFLAGS="-C target-feature=-crt-static"' in recipe
-    assert (
-        "cargo build \\\n+    --release \\\n+    --locked \\\n+    --package voiage-ffi"
-        in recipe
-    )
+    assert "cargo build \\" in recipe
+    assert "--release \\" in recipe
+    assert "--locked \\" in recipe
+    assert "--package voiage-ffi \\" in recipe
     assert 'LibraryProduct("libvoiage_ffi", :libvoiage_ffi)' in recipe
 
 
