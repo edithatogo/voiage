@@ -2,11 +2,6 @@
 
 ## Unreleased
 
-- Complete the repository-owned Yggdrasil maximum-platform-coverage contract:
-  derive the inclusive BinaryBuilder universe, retain only three evidenced
-  exclusions, verify all 15 included products, and preserve upstream merge,
-  JLL generation, Julia General registration, and indexing as external gates.
-
 - Bind the exact green v2.1.0 conda-forge and Yggdrasil candidate heads to an
   immutable Conductor receipt while preserving external merge, generated
   registry, indexing, and publication gates.
