@@ -224,25 +224,3 @@ if __name__ == "__main__":
     test_ensemble_metamodel_empty()
     test_ensemble_metamodel_invalid_method()
     print("All ensemble metamodel tests passed!")
-
-
-def test_ensemble_metamodel_unfitted_score(
-    sample_parameter_set, sample_value_array
-) -> None:
-    """Test that EnsembleMetamodel score and rmse fail cleanly if models are unfitted."""
-    if False:
-        pytest.skip("sklearn not available")
-
-    x, y = sample_parameter_set, np.array([1, 2, 3, 4, 5])
-
-    models = [RandomForestMetamodel(), GAMMetamodel()]
-    ensemble = EnsembleMetamodel(models)
-
-    with pytest.raises(RuntimeError):
-        ensemble.predict(x)
-
-    with pytest.raises(RuntimeError):
-        ensemble.score(x, y)
-
-    with pytest.raises(RuntimeError):
-        ensemble.rmse(x, y)

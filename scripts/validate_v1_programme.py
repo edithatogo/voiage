@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import argparse
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 import json
 import os
 from pathlib import Path
@@ -127,36 +127,35 @@ def validate(repo_root: Path, *, now: datetime | None = None) -> None:
             raise ValidationError("blocked pull request entries must be objects")
         number = pull_request.get("number")
         if not isinstance(number, int) or isinstance(number, bool) or number <= 0:
-            raise ValidationError(
-                "blocked pull request numbers must be positive integers"
-            )
+            raise ValidationError("blocked pull request numbers must be positive integers")
         if not all(
-            isinstance(pull_request.get(field), str) for field in ("scope", "evidence")
+            isinstance(pull_request.get(field), str)
+            for field in ("scope", "evidence")
         ):
             raise ValidationError("blocked pull requests require scope and evidence")
     snapshot_value = github.get("snapshot_at")
     if not isinstance(snapshot_value, str):
         raise ValidationError("github.snapshot_at must be an ISO-8601 string")
     try:
-        snapshot = datetime.fromisoformat(snapshot_value)
+        snapshot = datetime.fromisoformat(snapshot_value.replace("Z", "+00:00"))
     except ValueError as error:
         raise ValidationError("github.snapshot_at is not valid ISO-8601") from error
     if now is not None:
-        clock = now if now.tzinfo is not None else now.replace(tzinfo=UTC)
+        clock = now if now.tzinfo is not None else now.replace(tzinfo=timezone.utc)
     else:
         env_now = os.environ.get("PROGRAMME_VALIDATOR_NOW")
         if env_now:
             try:
-                clock = datetime.fromisoformat(env_now)
+                clock = datetime.fromisoformat(env_now.replace("Z", "+00:00"))
             except ValueError:
-                clock = datetime.now(UTC)
+                clock = datetime.now(timezone.utc)
         else:
-            clock = datetime.now(UTC)
+            clock = datetime.now(timezone.utc)
     if clock.tzinfo is None:
-        clock = clock.replace(tzinfo=UTC)
+        clock = clock.replace(tzinfo=timezone.utc)
     if snapshot.tzinfo is None:
         raise ValidationError("github.snapshot_at must be timezone-aware")
-    age_days = (clock - snapshot.astimezone(UTC)).total_seconds() / 86400
+    age_days = (clock - snapshot.astimezone(timezone.utc)).total_seconds() / 86400
     if age_days < 0 or age_days > MAX_SNAPSHOT_AGE_DAYS:
         raise ValidationError("GitHub programme snapshot is stale or in the future")
 

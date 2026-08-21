@@ -63,9 +63,7 @@ def _schema_validator(
         raise ValidationError(f"invalid JSON Schema: {error.message}") from error
 
 
-def _validate_json(
-    validator: Draft202012Validator, payload: object, label: str
-) -> None:
+def _validate_json(validator: Draft202012Validator, payload: object, label: str) -> None:
     try:
         validator.validate(payload)
     except JsonSchemaError as error:
@@ -208,9 +206,7 @@ def _validate_bundled_family_manifest(manifest_path: Path) -> None:
             raise ValidationError(f"{manifest_path}: missing schema {schema_path}")
         loaded_schema = _load_json(resolved_schema)
         if not isinstance(loaded_schema, dict):
-            raise ValidationError(
-                f"{manifest_path}: schema {schema_path} must be an object"
-            )
+            raise ValidationError(f"{manifest_path}: schema {schema_path} must be an object")
         schemas[schema_key] = cast("dict[str, object]", loaded_schema)
 
     request_schema = schemas["request_schema"]
@@ -232,9 +228,7 @@ def _validate_bundled_family_manifest(manifest_path: Path) -> None:
     fixture_paths: set[Path] = set()
     for index, entry in enumerate(fixtures):
         if not isinstance(entry, dict):
-            raise ValidationError(
-                f"{manifest_path}: fixtures[{index}] must be an object"
-            )
+            raise ValidationError(f"{manifest_path}: fixtures[{index}] must be an object")
         fixture_id = _require_non_empty_string(
             entry.get("id"), f"{manifest_path}.fixtures[{index}].id"
         )
@@ -258,9 +252,7 @@ def _validate_bundled_family_manifest(manifest_path: Path) -> None:
         fixture_ids.add(fixture_id)
         fixture_paths.add(artifact_path)
         if not artifact_path.is_file():
-            raise ValidationError(
-                f"{manifest_path}: missing bundled artifact {artifact}"
-            )
+            raise ValidationError(f"{manifest_path}: missing bundled artifact {artifact}")
         actual_hash = hashlib.sha256(artifact_path.read_bytes()).hexdigest()
         if actual_hash != expected_hash:
             raise ValidationError(
@@ -276,15 +268,11 @@ def _validate_bundled_family_manifest(manifest_path: Path) -> None:
                 "exactly request and expected or result"
             )
         _validate_json(
-            request_validator,
-            payload["request"],
-            f"{manifest_path}: {artifact}.request",
+            request_validator, payload["request"], f"{manifest_path}: {artifact}.request"
         )
         if "result" in payload:
             _validate_json(
-                result_validator,
-                payload["result"],
-                f"{manifest_path}: {artifact}.result",
+                result_validator, payload["result"], f"{manifest_path}: {artifact}.result"
             )
         else:
             _validate_json(

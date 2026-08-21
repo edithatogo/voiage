@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Simple validation script to ensure the voiage library is working correctly."""
+"""
+Simple validation script to ensure the voiage library is working correctly.
+"""
 
 import sys
 
