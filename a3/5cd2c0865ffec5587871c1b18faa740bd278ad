@@ -1,0 +1,7 @@
+Task: Correct the regressing post-2.0.1 version line and prepare the owner-approved stable-core release.
+
+Summary: Selected 2.1.0 for backward-compatible public additions, synchronized Rust/Python/R/Julia identities, generated the Cargo lock update, and recorded the stable-core versus experimental-frontier boundary.
+
+Boundary: M22-M31 remain experimental; tag, artifact staging, publication, and external registry acceptance require separate receipts.
+
+Verification: version synchronization, 88 focused release/integrity tests, full Conductor validation, and locked Cargo workspace check passed.
