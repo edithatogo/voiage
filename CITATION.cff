@@ -1,9 +1,9 @@
 cff-version: 1.2.0
-message: "If you use voiage, please cite the v2.0.0 software release and the JOSS paper when published."
+message: "If you use voiage, please cite the v2.1.0 software release and the JOSS paper when published."
 title: "voiage: Value of Information Analysis"
 type: software
-version: 2.0.0
-date-released: 2026-07-26
+version: 2.1.0
+date-released: 2026-08-21
 authors:
   - family-names: Mordaunt
     given-names: Dylan
@@ -14,7 +14,7 @@ url: https://edithatogo.github.io/voiage
 identifiers:
   - type: swh
     value: swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d
-    description: Software Heritage snapshot containing the signed v2.0.0 release
+    description: Prior Software Heritage snapshot containing the signed v2.0.0 release
 license: Apache-2.0
 abstract: >-
   voiage provides Value of Information analysis through a hybrid Rust and

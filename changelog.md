@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Prepare the non-regressing 2.1.0 release line for the stable core while
+  retaining M22–M31 and other frontier APIs at experimental maturity.
+
 - Upgrade the documentation toolchain's transitive `fast-uri`, `js-yaml`,
   `nanoid`, and `postcss` dependencies to patched releases.
 

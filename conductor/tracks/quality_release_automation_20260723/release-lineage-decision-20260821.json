@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-08-21T10:45:00+10:00",
+  "track_id": "quality_release_automation_20260723",
+  "authority": {
+    "scientist": "repository owner",
+    "maintainer": "repository owner",
+    "release_approver": "repository owner"
+  },
+  "observed_state": {
+    "pypi_latest": "2.0.1",
+    "github_release": "v2.0.1",
+    "repository_manifest_before": "2.0.1-rc.4"
+  },
+  "decision": {
+    "target": "2.1.0",
+    "rationale": "A published 2.0.1 cannot be followed by a 2.0.1 release candidate. Backward-compatible public capability additions require a non-regressing minor release.",
+    "stable_scope": "stable core",
+    "experimental_scope": "frontier APIs including M22-M31",
+    "promotes_frontier": false
+  },
+  "execution_state": {
+    "manifest_sync": "prepared",
+    "hosted_exact_head": "pending",
+    "signed_tag": "pending",
+    "private_draft": "pending",
+    "reviewed_digests": "pending",
+    "publication": "pending",
+    "external_registries": "separate_pending_gates"
+  }
+}
