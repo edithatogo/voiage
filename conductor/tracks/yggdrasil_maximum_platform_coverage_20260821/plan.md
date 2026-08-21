@@ -77,11 +77,11 @@ implementation, and each phase ends with automated review and validation.
   - [x] Add only contract-valid negative filters and corresponding tests.
   - [x] Rerun the full matrix after each recipe revision.
   - [x] Reconcile final included/excluded counts and preserve superseded runs.
-- [ ] **YMC3-T4 (AC3, AC4, AC6): Complete Phase 3 review and validation.**
-  - [ ] Run the schema, manifest, recipe-policy, evidence-integrity, and
+- [x] **YMC3-T4 (AC3, AC4, AC6): Complete Phase 3 review and validation.** (`685ada0f`)
+  - [x] Run the schema, manifest, recipe-policy, evidence-integrity, and
     pathological suites.
-  - [ ] Run automated Conductor review; apply Critical/High fixes and rerun.
-  - [ ] Run full Conductor and cross-reference validation and record the exact
+  - [x] Run automated Conductor review; apply Critical/High fixes and rerun.
+  - [x] Run full Conductor and cross-reference validation and record the exact
     final Yggdrasil candidate head and hosted run.
 
 ## Phase 4 — Product, ABI, and downstream evidence
