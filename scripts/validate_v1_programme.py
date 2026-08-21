@@ -10,7 +10,7 @@ import os
 from pathlib import Path
 import re
 import sys
-from typing import Any
+from typing import Any, cast
 
 EXPECTED_EXECUTION_ORDER = [
     "architecture-and-contracts",
@@ -50,7 +50,7 @@ def _required_text(path: Path) -> str:
 def _string_list(value: object, field: str) -> list[str]:
     if not isinstance(value, list) or not all(isinstance(item, str) for item in value):
         raise ValidationError(f"{field} must be a list of strings")
-    return value
+    return cast("list[str]", value)
 
 
 def validate(repo_root: Path, *, now: datetime | None = None) -> None:
@@ -97,8 +97,13 @@ def validate(repo_root: Path, *, now: datetime | None = None) -> None:
         if archive_root.is_dir()
         else 0
     )
-    if archive_count != conductor_state.get("archived_track_count"):
-        raise ValidationError("archived track count does not match the baseline")
+    baseline_archive_count = conductor_state.get("archived_track_count")
+    if not isinstance(baseline_archive_count, int) or isinstance(
+        baseline_archive_count, bool
+    ):
+        raise ValidationError("archived track count must be an integer")
+    if archive_count < baseline_archive_count:
+        raise ValidationError("archived track count is below the frozen baseline")
 
     for track_id in expected_active:
         if track_id not in roadmap or track_id not in todo:

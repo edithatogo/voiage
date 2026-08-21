@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "track_id": "yggdrasil_maximum_platform_coverage_20260821",
+  "observed_at": "2026-08-22T00:15:00Z",
+  "repository_contract": "complete",
+  "archive_validation": "The frozen v1 archive count is enforced as a minimum, allowing later governed archives while rejecting loss of baseline history.",
+  "voiage_pull_request": {
+    "number": 999,
+    "state": "open",
+    "hosted_state": "refresh_pending_after_archive_commit"
+  },
+  "yggdrasil_pull_request": {
+    "number": 14292,
+    "url": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292",
+    "state": "open",
+    "head": "2528e2efb90e4197924d45c98873ca5cdb1a9d42",
+    "buildkite_build": 31972,
+    "included_passed": 15,
+    "included_failed": 0,
+    "excluded": 3
+  },
+  "pending_external_gates": [
+    "Yggdrasil maintainer approval and merge",
+    "voiage_ffi_jll generation and availability",
+    "clean-depot JLL execution",
+    "Julia General registration and merge",
+    "registry indexing"
+  ],
+  "closure_boundary": "Archival closes only repository-owned acceptance criteria AC1 through AC7; it does not close or satisfy any pending external gate."
+}

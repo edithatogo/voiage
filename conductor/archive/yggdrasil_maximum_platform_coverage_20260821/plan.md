@@ -119,9 +119,9 @@ implementation, and each phase ends with automated review and validation.
     and `git diff --check`.
   - [x] Run automated final Conductor review; apply Critical/High fixes and
     repeat the full gate.
-- [ ] **YMC5-T3 (AC7): Record external handoff without premature closure.**
-  - [ ] Re-query PR #14292 immediately before recording its state.
-  - [ ] Keep Yggdrasil merge, JLL generation, clean-depot JLL smoke, Julia
+- [x] **YMC5-T3 (AC7): Record external handoff without premature closure.**
+  - [x] Re-query PR #14292 immediately before recording its state.
+  - [x] Keep Yggdrasil merge, JLL generation, clean-depot JLL smoke, Julia
     General merge, and indexing pending unless authoritative receipts exist.
-  - [ ] Archive the track only when AC1–AC7 have repository evidence and every
+  - [x] Archive the track only when AC1–AC7 have repository evidence and every
     remaining external gate is explicit.

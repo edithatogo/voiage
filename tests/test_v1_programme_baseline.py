@@ -227,6 +227,57 @@ def test_v1_programme_validator_allows_separately_governed_post_v1_tracks(
     assert result.returncode == 0, result.stderr
 
 
+def test_v1_programme_validator_allows_later_archived_tracks(tmp_path: Path) -> None:
+    """A frozen historical count is a lower bound, not a future archive cap."""
+    conductor = tmp_path / "conductor"
+    for track_id in ACTIVE_TRACK_IDS:
+        (conductor / "tracks" / track_id).mkdir(parents=True)
+    (conductor / "archive" / "historical").mkdir(parents=True)
+    (conductor / "archive" / "post_v1_completion").mkdir()
+    baseline = _baseline()
+    baseline["conductor"]["archived_track_count"] = 1
+    (conductor / "v1-programme-baseline.json").write_text(
+        json.dumps(baseline), encoding="utf-8"
+    )
+    registry_links = [
+        f"*Link: [./tracks/{track_id}/](./tracks/{track_id}/)*"
+        for track_id in ACTIVE_TRACK_IDS
+    ]
+    (conductor / "tracks.md").write_text("\n".join(registry_links), encoding="utf-8")
+    baseline_track_list = "\n".join(ACTIVE_TRACK_IDS)
+    (tmp_path / "roadmap.md").write_text(baseline_track_list, encoding="utf-8")
+    (tmp_path / "todo.md").write_text(baseline_track_list, encoding="utf-8")
+
+    result = _run_validator(tmp_path)
+
+    assert result.returncode == 0, result.stderr
+
+
+def test_v1_programme_validator_rejects_archive_loss(tmp_path: Path) -> None:
+    """The repository may grow beyond the snapshot but must retain its history."""
+    conductor = tmp_path / "conductor"
+    for track_id in ACTIVE_TRACK_IDS:
+        (conductor / "tracks" / track_id).mkdir(parents=True)
+    baseline = _baseline()
+    baseline["conductor"]["archived_track_count"] = 1
+    (conductor / "v1-programme-baseline.json").write_text(
+        json.dumps(baseline), encoding="utf-8"
+    )
+    registry_links = [
+        f"*Link: [./tracks/{track_id}/](./tracks/{track_id}/)*"
+        for track_id in ACTIVE_TRACK_IDS
+    ]
+    (conductor / "tracks.md").write_text("\n".join(registry_links), encoding="utf-8")
+    baseline_track_list = "\n".join(ACTIVE_TRACK_IDS)
+    (tmp_path / "roadmap.md").write_text(baseline_track_list, encoding="utf-8")
+    (tmp_path / "todo.md").write_text(baseline_track_list, encoding="utf-8")
+
+    result = _run_validator(tmp_path)
+
+    assert result.returncode == 1
+    assert "archived track count is below the frozen baseline" in result.stderr
+
+
 def test_v1_programme_validator_rejects_registry_drift(tmp_path: Path) -> None:
     """A registered active track must resolve to an active directory."""
     conductor = tmp_path / "conductor"

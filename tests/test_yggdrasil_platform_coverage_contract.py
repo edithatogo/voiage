@@ -22,7 +22,7 @@ RECIPE = ROOT / "packaging" / "yggdrasil" / "V" / "voiage_ffi" / "build_tarballs
 EXPANDED_RUN = (
     ROOT
     / "conductor"
-    / "tracks"
+    / "archive"
     / "yggdrasil_maximum_platform_coverage_20260821"
     / "buildkite-31971-expanded-matrix.json"
 )

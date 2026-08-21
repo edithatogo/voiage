@@ -1,6 +1,6 @@
 # Yggdrasil Maximum Platform Coverage
 
-Status: repository gate complete; exact-head hosted refresh pending. The exact Yggdrasil
+Status: repository work complete and archived; exact-head hosted refresh pending. The exact Yggdrasil
 candidate passed all 15 included platforms in Buildkite 31972; three narrowly
 evidenced exclusions remain. All 15 product archives have integrity evidence,
 and two runnable macOS artifacts have ABI and numerical smoke evidence.

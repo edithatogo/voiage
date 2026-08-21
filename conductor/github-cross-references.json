@@ -5262,8 +5262,8 @@
     {
       "track_id": "yggdrasil_maximum_platform_coverage_20260821",
       "metadata_track_id": "yggdrasil_maximum_platform_coverage_20260821",
-      "path": "conductor/tracks/yggdrasil_maximum_platform_coverage_20260821",
-      "lifecycle": "active",
+      "path": "conductor/archive/yggdrasil_maximum_platform_coverage_20260821",
+      "lifecycle": "archived",
       "issue": {
         "number": 555,
         "url": "https://github.com/edithatogo/voiage/issues/555",
