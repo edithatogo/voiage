@@ -57,7 +57,7 @@ implementation, and each phase ends with automated review and validation.
   - [x] Run full Conductor and cross-reference validation and record the phase
     checkpoint.
 
-## Phase 3 — Undertake maximum-coverage hosted filtering
+## Phase 3 — Undertake maximum-coverage hosted filtering [checkpoint: dd0c572d]
 
 - [x] **YMC3-T1 (AC3, AC4, AC6): Capture the expanded hosted matrix.** (`c3413a56`)
   - [x] Wait for the exact-head Buildkite matrix to reach terminal states.
