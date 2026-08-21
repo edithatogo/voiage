@@ -45,7 +45,7 @@ implementation, and each phase ends with automated review and validation.
   - [x] Preserve locked Cargo build, musl shared-link flags, product naming,
     installation paths, and release-source pinning.
   - [x] Parse/lint the recipe locally and update the initial manifest snapshot.
-- [x] **YMC2-T3 (AC2, AC6, AC7): Refresh the external PR candidate.**
+- [x] **YMC2-T3 (AC2, AC6, AC7): Refresh the external PR candidate.** (`a32188d9`)
   - [x] Re-query PR #14292 and its base immediately before mutation.
   - [x] Rebase or refresh the owner-controlled branch without overwriting
     unrelated upstream work.
