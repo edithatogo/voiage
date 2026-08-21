@@ -57,6 +57,12 @@ def test_contract_pins_inclusive_policy_and_two_initial_filters() -> None:
     payload = _payload()
 
     assert payload["catalogue"]["function"] == "supported_platforms()"
+    assert payload["catalogue"]["binarybuilderbase_revision"] == (
+        "76c4aab80ad5019af59af0f42e5669109cd5194b"
+    )
+    assert payload["candidate"]["source_revision"] == (
+        "964a0fc334ece9509387cd07d43776adf38be240"
+    )
     assert payload["policy"]["mode"] == "inclusive_negative_filter"
     assert [item["predicate"] for item in payload["policy"]["negative_filters"]] == [
         'Sys.isfreebsd(p) && arch(p) == "aarch64"',
@@ -93,17 +99,54 @@ def _forge_runtime_claim(payload: dict[str, Any]) -> None:
 
 
 def _add_uncontracted_filter(payload: dict[str, Any]) -> None:
-    payload["policy"]["negative_filters"].append(
-        {
-            "predicate": "Sys.iswindows(p)",
-            "reason_category": "project_architecture_limitation",
-            "reason": "Broad platform exclusion without a failed target receipt.",
-            "primary_evidence": "https://example.invalid/no-evidence",
-            "observed_at": "2026-08-21T00:00:00Z",
-            "reconsideration_trigger": "Unspecified future review.",
-            "matched_platform_ids": [],
-        }
+    platform = next(
+        row for row in payload["platforms"] if row["id"] == "i686-w64-mingw32"
     )
+    filter_contract = {
+        "predicate": "Sys.iswindows(p)",
+        "specificity": "exact_arch_os",
+        "evidence_kind": "hosted_failure",
+        "reason_category": "project_architecture_limitation",
+        "reason": "One Windows target failed in the expanded hosted build matrix.",
+        "primary_evidence": "https://buildkite.com/julialang/yggdrasil/builds/1",
+        "observed_at": "2026-08-21T00:00:00Z",
+        "reconsideration_trigger": "Retest after the project architecture limitation is removed.",
+        "matched_platform_ids": [platform["id"]],
+    }
+    payload["policy"]["stage"] = "evidence_filtered"
+    payload["policy"]["negative_filters"].append(filter_contract)
+    payload["candidate"]["hosted_run"] = {
+        "state": "in_progress",
+        "url": "https://buildkite.com/julialang/yggdrasil/builds/1",
+        "platform_status_source": "buildkite",
+    }
+    platform["disposition"] = "excluded"
+    platform["lifecycle"] = "excluded_evidenced"
+    platform["evidence"] = {
+        "build": "not_run",
+        "product": "not_run",
+        "abi_smoke": "not_run",
+        "runtime": "not_run",
+        "locators": [filter_contract["primary_evidence"]],
+    }
+    platform["exclusion"] = {
+        key: value
+        for key, value in filter_contract.items()
+        if key != "matched_platform_ids"
+    }
+    payload["aggregates"]["included"] -= 1
+    payload["aggregates"]["excluded"] += 1
+    payload["aggregates"]["lifecycle_counts"]["pending"] -= 1
+    payload["aggregates"]["lifecycle_counts"]["excluded_evidenced"] += 1
+
+
+def _replace_with_placeholder_evidence(payload: dict[str, Any]) -> None:
+    policy_filter = payload["policy"]["negative_filters"][0]
+    platform_id = policy_filter["matched_platform_ids"][0]
+    platform = next(row for row in payload["platforms"] if row["id"] == platform_id)
+    placeholder = "https://example.invalid/not-authoritative"
+    policy_filter["primary_evidence"] = placeholder
+    platform["exclusion"]["primary_evidence"] = placeholder
 
 
 @pytest.mark.parametrize(
@@ -115,6 +158,7 @@ def _add_uncontracted_filter(payload: dict[str, Any]) -> None:
         _forge_totals,
         _forge_runtime_claim,
         _add_uncontracted_filter,
+        _replace_with_placeholder_evidence,
     ],
     ids=[
         "unclassified-catalogue-platform",
@@ -123,6 +167,7 @@ def _add_uncontracted_filter(payload: dict[str, Any]) -> None:
         "stale-aggregate-counts",
         "runtime-overclaim",
         "broad-uncontracted-filter",
+        "placeholder-exclusion-evidence",
     ],
 )
 def test_validator_rejects_pathological_contract_mutations(
@@ -137,3 +182,37 @@ def test_validator_rejects_pathological_contract_mutations(
 
     assert result.returncode != 0
     assert result.stderr.strip()
+
+
+def test_every_catalogue_platform_is_required_by_reconciliation(tmp_path: Path) -> None:
+    """Removing any single classification fails regardless of adjusted aggregates."""
+    original = _payload()
+    for platform_id in original["catalogue"]["platforms"]:
+        payload = deepcopy(original)
+        removed = next(row for row in payload["platforms"] if row["id"] == platform_id)
+        payload["platforms"].remove(removed)
+        payload["aggregates"]["classified"] -= 1
+        payload["aggregates"][removed["disposition"]] -= 1
+        payload["aggregates"]["lifecycle_counts"][removed["lifecycle"]] -= 1
+
+        result = _run_validator(tmp_path, payload)
+
+        assert result.returncode != 0, platform_id
+        assert "classification mismatch" in result.stderr
+
+
+def test_cli_rejects_malformed_json(tmp_path: Path) -> None:
+    """Malformed evidence never falls through to a partial semantic check."""
+    candidate = tmp_path / "malformed.json"
+    candidate.write_text('{"schema_version":', encoding="utf-8")
+
+    result = subprocess.run(
+        [sys.executable, str(VALIDATOR), "--manifest", str(candidate)],
+        cwd=ROOT,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode != 0
+    assert "cannot load JSON" in result.stderr

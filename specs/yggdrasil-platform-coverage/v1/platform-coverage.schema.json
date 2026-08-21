@@ -25,6 +25,7 @@
       "required": [
         "repository",
         "revision",
+        "binarybuilderbase_revision",
         "manifest_binarybuilderbase_tree",
         "function",
         "source_url",
@@ -34,6 +35,7 @@
       "properties": {
         "repository": {"const": "JuliaPackaging/Yggdrasil"},
         "revision": {"$ref": "#/$defs/gitSha"},
+        "binarybuilderbase_revision": {"$ref": "#/$defs/gitSha"},
         "manifest_binarybuilderbase_tree": {"$ref": "#/$defs/gitSha"},
         "function": {"const": "supported_platforms()"},
         "source_url": {"$ref": "#/$defs/httpsUrl"},
@@ -184,6 +186,8 @@
       "additionalProperties": false,
       "required": [
         "predicate",
+        "specificity",
+        "evidence_kind",
         "reason_category",
         "reason",
         "primary_evidence",
@@ -193,6 +197,8 @@
       ],
       "properties": {
         "predicate": {"type": "string", "minLength": 8},
+        "specificity": {"enum": ["exact_platform", "exact_arch_os", "exact_arch"]},
+        "evidence_kind": {"enum": ["upstream_source", "hosted_failure"]},
         "reason_category": {
           "enum": [
             "upstream_toolchain_unavailable",
@@ -233,6 +239,8 @@
       "additionalProperties": false,
       "required": [
         "predicate",
+        "specificity",
+        "evidence_kind",
         "reason_category",
         "reason",
         "primary_evidence",
@@ -241,6 +249,8 @@
       ],
       "properties": {
         "predicate": {"type": "string", "minLength": 8},
+        "specificity": {"enum": ["exact_platform", "exact_arch_os", "exact_arch"]},
+        "evidence_kind": {"enum": ["upstream_source", "hosted_failure"]},
         "reason_category": {
           "enum": [
             "upstream_toolchain_unavailable",

@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 import sys
 from typing import Any
+from urllib.parse import urlparse
 
 from jsonschema import Draft202012Validator, FormatChecker
 from jsonschema.exceptions import SchemaError
@@ -117,10 +118,48 @@ def _validate_filters(payload: dict[str, Any], errors: list[str]) -> None:
             errors.append(
                 f"negative filter includes a non-excluded platform: {item['predicate']}"
             )
+        predicate = item["predicate"]
+        specificity = item["specificity"]
+        if "||" in predicate or predicate.strip() == "true":
+            errors.append(f"negative filter predicate is over-broad: {predicate}")
+        if specificity == "exact_platform" and (
+            "triplet(p)" not in predicate or len(matches) != 1
+        ):
+            errors.append(
+                f"exact-platform filter is not platform-specific: {predicate}"
+            )
+        if specificity == "exact_arch_os" and (
+            "arch(p)" not in predicate or "Sys.is" not in predicate
+        ):
+            errors.append(f"architecture/OS filter lacks both constraints: {predicate}")
+        if specificity == "exact_arch" and (
+            "arch(p)" not in predicate
+            or item["reason_category"] != "upstream_toolchain_unavailable"
+        ):
+            errors.append(
+                f"architecture-wide filter requires an upstream toolchain gap: {predicate}"
+            )
+        evidence_host = urlparse(item["primary_evidence"]).hostname or ""
+        if evidence_host.endswith(".invalid"):
+            errors.append(f"negative filter uses placeholder evidence: {predicate}")
+        if (
+            item["evidence_kind"] == "hosted_failure"
+            and payload["candidate"]["hosted_run"]["state"] == "not_started"
+        ):
+            errors.append(f"hosted-failure filter predates a hosted run: {predicate}")
+        if (
+            item["evidence_kind"] == "upstream_source"
+            and item["reason_category"] != "upstream_toolchain_unavailable"
+        ):
+            errors.append(
+                f"upstream-source filter must describe a toolchain gap: {predicate}"
+            )
         for platform_id in matches & set(excluded):
             exclusion = excluded[platform_id]["exclusion"]
             fields = (
                 "predicate",
+                "specificity",
+                "evidence_kind",
                 "reason_category",
                 "reason",
                 "primary_evidence",

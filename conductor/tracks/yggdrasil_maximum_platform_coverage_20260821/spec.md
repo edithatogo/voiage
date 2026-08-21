@@ -18,12 +18,12 @@ and registry indexing remain external outcomes.
 | Input | Authority and pinned revision |
 | --- | --- |
 | VOIAGE repository state | `edithatogo/voiage` commit `658a89e4525300f19b6a0e4ce0d65d0c6ce64bee` |
-| Released native source | `edithatogo/voiage` commit `964a0fc796a85d57dfe667f4f4f81a8b54c54b35`, as pinned by the submitted recipe |
+| Released native source | `edithatogo/voiage` commit `964a0fc334ece9509387cd07d43776adf38be240`, as pinned by the submitted recipe |
 | Repository recipe mirror | `packaging/yggdrasil/V/voiage_ffi/build_tarballs.jl` |
 | External recipe candidate | [JuliaPackaging/Yggdrasil PR #14292](https://github.com/JuliaPackaging/Yggdrasil/pull/14292), head `db38b5200cc4ed741c5cfc682a8465395f687b41` observed 2026-08-21 |
 | Yggdrasil review requirement | [Review comment `discussion_r3658212619`](https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3658212619), bound to candidate head `db38b5200cc4ed741c5cfc682a8465395f687b41` |
 | Yggdrasil platform catalogue checkpoint | `JuliaPackaging/Yggdrasil` `master` commit `5059405e0e9ecced8fb1619baff0cfc6c5478742`, observed 2026-08-21 |
-| BinaryBuilder platform catalogue source | `BinaryBuilderBase` tree `38ac28858e80c575fc2ff3c7ac73982459c4482d` resolved by the Yggdrasil checkpoint manifest; [`supported_platforms()` source](https://github.com/JuliaPackaging/BinaryBuilderBase.jl/blob/f1da5e3e50d6b7ce2badb3eee1bb862d49d99970/src/Rootfs.jl#L778-L832) |
+| BinaryBuilder platform catalogue source | `BinaryBuilderBase` commit `76c4aab80ad5019af59af0f42e5669109cd5194b` and tree `38ac28858e80c575fc2ff3c7ac73982459c4482d`, as resolved by the Yggdrasil checkpoint manifest; [`supported_platforms()` source](https://github.com/JuliaPackaging/BinaryBuilderBase.jl/blob/76c4aab80ad5019af59af0f42e5669109cd5194b/src/Rootfs.jl#L778-L832) |
 | Existing release-candidate receipt | `conductor/archive/research_software_registry_readiness_20260721/release-2.1.0-registry-candidate-receipt-20260821.json` |
 | Julia delivery contract | `docs/release/binding-submission-checklist.md` and GitHub issue [#555](https://github.com/edithatogo/voiage/issues/555) |
 

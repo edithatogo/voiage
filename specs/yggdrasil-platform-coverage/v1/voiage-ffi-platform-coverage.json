@@ -5,9 +5,10 @@
   "catalogue": {
     "repository": "JuliaPackaging/Yggdrasil",
     "revision": "5059405e0e9ecced8fb1619baff0cfc6c5478742",
+    "binarybuilderbase_revision": "76c4aab80ad5019af59af0f42e5669109cd5194b",
     "manifest_binarybuilderbase_tree": "38ac28858e80c575fc2ff3c7ac73982459c4482d",
     "function": "supported_platforms()",
-    "source_url": "https://github.com/JuliaPackaging/BinaryBuilderBase.jl/blob/f1da5e3e50d6b7ce2badb3eee1bb862d49d99970/src/Rootfs.jl#L778-L832",
+    "source_url": "https://github.com/JuliaPackaging/BinaryBuilderBase.jl/blob/76c4aab80ad5019af59af0f42e5669109cd5194b/src/Rootfs.jl#L778-L832",
     "observed_at": "2026-08-21T15:13:05Z",
     "platforms": [
       "i686-linux-gnu",
@@ -50,6 +51,8 @@
     "negative_filters": [
       {
         "predicate": "Sys.isfreebsd(p) && arch(p) == \"aarch64\"",
+        "specificity": "exact_arch_os",
+        "evidence_kind": "upstream_source",
         "reason_category": "upstream_toolchain_unavailable",
         "reason": "BinaryBuilder does not provide the Rust toolchain for aarch64-unknown-freebsd.",
         "primary_evidence": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3658212619",
@@ -59,6 +62,8 @@
       },
       {
         "predicate": "arch(p) == \"riscv64\"",
+        "specificity": "exact_arch",
+        "evidence_kind": "upstream_source",
         "reason_category": "upstream_toolchain_unavailable",
         "reason": "BinaryBuilder does not provide the Rust toolchain for its riscv64 targets.",
         "primary_evidence": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3658212619",
@@ -119,6 +124,8 @@
       "evidence": {"build": "not_run", "product": "not_run", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3658212619"]},
       "exclusion": {
         "predicate": "arch(p) == \"riscv64\"",
+        "specificity": "exact_arch",
+        "evidence_kind": "upstream_source",
         "reason_category": "upstream_toolchain_unavailable",
         "reason": "BinaryBuilder does not provide the Rust toolchain for its riscv64 targets.",
         "primary_evidence": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3658212619",
@@ -190,6 +197,8 @@
       "evidence": {"build": "not_run", "product": "not_run", "abi_smoke": "not_run", "runtime": "not_run", "locators": ["https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3658212619"]},
       "exclusion": {
         "predicate": "Sys.isfreebsd(p) && arch(p) == \"aarch64\"",
+        "specificity": "exact_arch_os",
+        "evidence_kind": "upstream_source",
         "reason_category": "upstream_toolchain_unavailable",
         "reason": "BinaryBuilder does not provide the Rust toolchain for aarch64-unknown-freebsd.",
         "primary_evidence": "https://github.com/JuliaPackaging/Yggdrasil/pull/14292#discussion_r3658212619",
