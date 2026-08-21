@@ -86,16 +86,16 @@ implementation, and each phase ends with automated review and validation.
 
 ## Phase 4 — Product, ABI, and downstream evidence
 
-- [ ] **YMC4-T1 (AC5): Verify per-platform product evidence.**
-  - [ ] Confirm each green target produced the declared shared-library product
+- [x] **YMC4-T1 (AC5): Verify per-platform product evidence.** (`8aef2e8d`)
+  - [x] Confirm each green target produced the declared shared-library product
     with the correct platform filename and installation path.
-  - [ ] Mark cross targets as build/product validated only unless executable
+  - [x] Mark cross targets as build/product validated only unless executable
     evidence exists.
-- [ ] **YMC4-T2 (AC5): Run executable smoke evidence where available.**
-  - [ ] Verify exported C ABI and native version agreement.
-  - [ ] Execute the deterministic EVPI shared fixture on runnable generated
+- [x] **YMC4-T2 (AC5): Run executable smoke evidence where available.** (`8aef2e8d`)
+  - [x] Verify exported C ABI and native version agreement.
+  - [x] Execute the deterministic EVPI shared fixture on runnable generated
     artifacts or record why a target is not executable in the available lane.
-  - [ ] Keep Julia clean-depot JLL execution pending until a registered JLL is
+  - [x] Keep Julia clean-depot JLL execution pending until a registered JLL is
     authoritative and available.
 - [ ] **YMC4-T3 (AC5, AC6): Complete Phase 4 review and validation.**
   - [ ] Run product/ABI tests and verify that evidence labels cannot overclaim
