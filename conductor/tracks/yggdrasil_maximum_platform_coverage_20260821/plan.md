@@ -32,7 +32,7 @@ implementation, and each phase ends with automated review and validation.
   - [x] Run full Conductor and cross-reference validation and record the phase
     checkpoint.
 
-## Phase 2 — Expand the recipe by negative filtering
+## Phase 2 — Expand the recipe by negative filtering [checkpoint: 6f083205]
 
 - [x] **YMC2-T1 (AC2): Write recipe-policy tests first.** (`569e9f61`)
   - [x] Require `platforms = supported_platforms()`.
