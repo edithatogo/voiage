@@ -1,0 +1,5 @@
+Task: Bind the owner-approved v2.1.0 publication to immutable repository evidence.
+
+Summary: Recorded PR #996 exact-head checks, signed tag identity, private draft and publication workflow runs, reviewed artifact hashes, immutable GitHub release, and live PyPI files. External registry and manuscript gates remain pending and M22-M31 remain experimental.
+
+Verification: focused receipt contract test, version synchronization, full Conductor validation with zero errors/warnings, GitHub cross-reference validation, and diff check passed.
