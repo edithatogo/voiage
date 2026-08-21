@@ -34,11 +34,11 @@ implementation, and each phase ends with automated review and validation.
 
 ## Phase 2 — Expand the recipe by negative filtering
 
-- [ ] **YMC2-T1 (AC2): Write recipe-policy tests first.**
-  - [ ] Require `platforms = supported_platforms()`.
-  - [ ] Require exactly the initial FreeBSD `aarch64` and `riscv64` filters,
+- [x] **YMC2-T1 (AC2): Write recipe-policy tests first.** (`569e9f61`)
+  - [x] Require `platforms = supported_platforms()`.
+  - [x] Require exactly the initial FreeBSD `aarch64` and `riscv64` filters,
     including adjacent reasons, before the first expanded run.
-  - [ ] Reject the former seven-platform positive allowlist and uncontracted
+  - [x] Reject the former seven-platform positive allowlist and uncontracted
     negative predicates.
 - [ ] **YMC2-T2 (AC2, AC5): Update the repository recipe mirror.**
   - [ ] Apply the inclusive universe and two initial filters.
