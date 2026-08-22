@@ -51,7 +51,8 @@
       "voiage/clinical_trials.py",
       "voiage/domain_templates.py",
       "voiage/decision_card.py",
-      "voiage/enterprise_adapters.py"
+      "voiage/enterprise_adapters.py",
+      "voiage/ml_policy_voi.py"
     ],
     "experimental": [
       "voiage/experimental/**",

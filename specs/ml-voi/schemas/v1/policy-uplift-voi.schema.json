@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/ml-voi/schemas/v1/policy-uplift-voi.schema.json",
+  "title": "PolicyUpliftVOIV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "evaluation_id",
+    "evaluated_at",
+    "status_quo_value",
+    "optimal_policy_value",
+    "uplift_evpi",
+    "budget_utilized",
+    "units_targeted"
+  ],
+  "properties": {
+    "evaluation_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "evaluated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status_quo_value": {
+      "type": "number"
+    },
+    "optimal_policy_value": {
+      "type": "number"
+    },
+    "uplift_evpi": {
+      "type": "number"
+    },
+    "budget_utilized": {
+      "type": "number"
+    },
+    "units_targeted": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "subgroup_evppi": {
+      "type": "object",
+      "additionalProperties": { "type": "number" }
+    }
+  }
+}
