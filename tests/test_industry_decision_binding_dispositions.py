@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import pytest
@@ -53,7 +54,7 @@ def test_contract_binding_parity_to_dict() -> None:
     assert data["dispositions"]["python"]["status"] == "implemented"
 
 
-def test_error_handling() -> None:
+def test_error_handling(tmp_path: Path) -> None:
     with pytest.raises(ValueError, match="not found in manifest"):
         get_binding_disposition("non_existent_contract", "python")
 
@@ -66,3 +67,33 @@ def test_error_handling() -> None:
 
     with pytest.raises(InputError, match="not found"):
         validate_binding_dispositions_manifest(manifest_path=non_existent_path)
+
+    # Test empty contracts manifest
+    empty_manifest = tmp_path / "empty_manifest.json"
+    empty_manifest.write_text(json.dumps({"contracts": {}}))
+    with pytest.raises(InputError, match="contains no contracts"):
+        validate_binding_dispositions_manifest(manifest_path=empty_manifest)
+
+    # Test unknown language
+    bad_lang_manifest = tmp_path / "bad_lang.json"
+    bad_lang_manifest.write_text(
+        json.dumps(
+            {"contracts": {"c1": {"dispositions": {"ruby": {"status": "implemented"}}}}}
+        )
+    )
+    with pytest.raises(InputError, match="Unknown language"):
+        validate_binding_dispositions_manifest(manifest_path=bad_lang_manifest)
+
+    # Test invalid status
+    bad_status_manifest = tmp_path / "bad_status.json"
+    bad_status_manifest.write_text(
+        json.dumps(
+            {
+                "contracts": {
+                    "c1": {"dispositions": {"python": {"status": "invalid_status_xyz"}}}
+                }
+            }
+        )
+    )
+    with pytest.raises(InputError, match="Invalid status"):
+        validate_binding_dispositions_manifest(manifest_path=bad_status_manifest)
