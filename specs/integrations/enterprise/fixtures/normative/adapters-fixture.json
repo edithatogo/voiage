@@ -1,0 +1,114 @@
+{
+  "adapters": [
+    {
+      "adapter_type": "mlflow_model",
+      "adapter_version": "1.0.0",
+      "source_system": "mlflow://production-tracking-server/models/churn_risk_v2",
+      "extracted_at": "2026-08-22T10:00:00Z",
+      "metadata": {
+        "run_id": "8f3b92d8a04c4b6ea17e29a9",
+        "experiment_id": "104",
+        "artifact_uri": "s3://models/churn/v2/model.pkl"
+      },
+      "payload": {
+        "model_flavor": "xgboost",
+        "parameters": {
+          "max_depth": 6,
+          "learning_rate": 0.05
+        },
+        "metrics": {
+          "auc_roc": 0.892,
+          "brier_score": 0.084
+        },
+        "target_variable": "churn_probability"
+      }
+    },
+    {
+      "adapter_type": "openlineage_facet",
+      "adapter_version": "1.0.0",
+      "source_system": "openlineage://airflow/dags/voi_pricing_pipeline",
+      "extracted_at": "2026-08-22T10:00:00Z",
+      "metadata": {
+        "job_name": "pricing_voi_calculation",
+        "namespace": "analytics_prod"
+      },
+      "payload": {
+        "inputs": [
+          { "namespace": "snowflake://prod", "name": "dw.pricing.historical_elasticity" },
+          { "namespace": "s3://data-lake", "name": "competitor_feeds/latest.parquet" }
+        ],
+        "outputs": [
+          { "namespace": "s3://decision-cards", "name": "cards/pricing_q3_2026.json" }
+        ]
+      }
+    },
+    {
+      "adapter_type": "dbt_semantic_metric",
+      "adapter_version": "1.0.0",
+      "source_system": "dbt://models/marts/marketing/metrics.yml",
+      "extracted_at": "2026-08-22T10:00:00Z",
+      "metadata": {
+        "metric_name": "customer_acquisition_cost",
+        "grain": "month"
+      },
+      "payload": {
+        "type": "derived",
+        "expression": "total_spend / new_customers",
+        "filter": "channel = 'paid_search'",
+        "dimensions": ["channel", "geo_region"]
+      }
+    },
+    {
+      "adapter_type": "experiment_export",
+      "adapter_version": "1.0.0",
+      "source_system": "growthbook://api/v1/experiments/exp_checkout_flow",
+      "extracted_at": "2026-08-22T10:00:00Z",
+      "metadata": {
+        "experiment_id": "exp_checkout_flow_v3",
+        "status": "running"
+      },
+      "payload": {
+        "variations": ["control", "simplified_step", "one_click"],
+        "sample_sizes": { "control": 15000, "simplified_step": 15000, "one_click": 15000 },
+        "conversion_rates": { "control": 0.042, "simplified_step": 0.048, "one_click": 0.051 },
+        "lift_mean": 0.009,
+        "lift_ci_95": [0.004, 0.014]
+      }
+    },
+    {
+      "adapter_type": "causal_cate_artifact",
+      "adapter_version": "1.0.0",
+      "source_system": "econml://causal_forest_retention",
+      "extracted_at": "2026-08-22T10:00:00Z",
+      "metadata": {
+        "estimator_type": "CausalForestDML",
+        "n_trees": 500
+      },
+      "payload": {
+        "treatment": "retention_discount",
+        "outcome": "churn_reduction",
+        "heterogeneity_features": ["account_age_months", "monthly_spend", "support_tickets"],
+        "average_treatment_effect": 0.124,
+        "ate_standard_error": 0.018
+      }
+    },
+    {
+      "adapter_type": "probabilistic_forecast",
+      "adapter_version": "1.0.0",
+      "source_system": "forecast://demand_sensing/q3",
+      "extracted_at": "2026-08-22T10:00:00Z",
+      "metadata": {
+        "sku_id": "SKU-9921",
+        "forecast_horizon_weeks": 12
+      },
+      "payload": {
+        "quantiles": {
+          "p10": [120, 125, 130],
+          "p50": [160, 165, 170],
+          "p90": [210, 220, 230]
+        },
+        "mean": [162.5, 168.0, 173.5]
+      }
+    }
+  ]
+}

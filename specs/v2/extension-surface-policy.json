@@ -50,7 +50,8 @@
       "voiage/plot/**",
       "voiage/clinical_trials.py",
       "voiage/domain_templates.py",
-      "voiage/decision_card.py"
+      "voiage/decision_card.py",
+      "voiage/enterprise_adapters.py"
     ],
     "experimental": [
       "voiage/experimental/**",
