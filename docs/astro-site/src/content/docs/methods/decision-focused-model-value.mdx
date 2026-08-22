@@ -9,11 +9,12 @@ Standard ML benchmarks evaluate models on predictive accuracy or AUC-ROC. In ope
 
 ## Mathematical Formulation
 
-For candidate model $m$ with predicted probabilities $\hat{p}_{m, i}$ on unit $i$:
+For candidate model `m` with predicted probabilities `p_{m, i}` on unit `i`:
 
-$$\text{Decision Value}(m) = \sum_{i=1}^{N} \mathbb{I}(\hat{p}_{m, i} \ge \tau) \cdot (y_i \cdot V_{\text{payoff}} - C_{\text{intervention}})$$
-
-$$\text{Policy Regret}(m) = V_{\text{Oracle}} - \text{Decision Value}(m)$$
+```text
+Decision Value(m) = Sum_i I(p_{m, i} >= tau) * (y_i * Payoff - Cost)
+Policy Regret(m) = Oracle Value - Decision Value(m)
+```
 
 ## Usage Example
 
