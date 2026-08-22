@@ -248,3 +248,64 @@ def test_decision_problem_example_file_round_trips_through_schema_class() -> Non
     data = problem.to_dict()
     assert data["decision_problem_id"] == example_data["decision_problem_id"]
     assert data["analysis_type"] == example_data["analysis_type"]
+
+
+def test_decision_problem_and_intervention_branch_edge_cases() -> None:
+    # 1. Intervention with no optional fields
+    bare_intervention = Intervention(intervention_id="bare", name="Bare Intervention")
+    bare_dict = bare_intervention.to_dict()
+    assert "description" not in bare_dict
+    assert "category" not in bare_dict
+    assert bare_dict["is_reference"] is False
+
+    from_bare = Intervention.from_dict(bare_dict)
+    assert from_bare == bare_intervention
+    assert from_bare.description is None
+    assert from_bare.category is None
+
+    # 2. DecisionProblem with no reference intervention and no outcome_names
+    int1 = Intervention(intervention_id="i1", name="Intervention 1", is_reference=False)
+    int2 = Intervention(intervention_id="i2", name="Intervention 2", is_reference=False)
+    problem_no_ref = DecisionProblem(
+        decision_problem_id="prob_no_ref",
+        title="No Reference Problem",
+        willingness_to_pay=100.0,
+        interventions=[int1, int2],
+        outcome_names=None,
+    )
+    assert problem_no_ref.reference_intervention is None
+    no_ref_dict = problem_no_ref.to_dict()
+    assert "outcome_names" not in no_ref_dict
+
+    round_trip_no_ref = DecisionProblem.from_dict(no_ref_dict)
+    assert round_trip_no_ref == problem_no_ref
+    assert round_trip_no_ref.outcome_names is None
+
+    # 3. DecisionProblem.from_dict error cases
+    with pytest.raises(InputError, match="must be a dictionary"):
+        DecisionProblem.from_dict(123)
+
+    valid_dict = problem_no_ref.to_dict()
+    for key in [
+        "decision_problem_id",
+        "title",
+        "analysis_type",
+        "currency",
+        "willingness_to_pay",
+        "interventions",
+    ]:
+        invalid = dict(valid_dict)
+        invalid.pop(key)
+        with pytest.raises(InputError, match=f"must include '{key}'"):
+            DecisionProblem.from_dict(invalid)
+
+    # Invalid interventions type in from_dict
+    invalid_int_seq = dict(valid_dict)
+    invalid_int_seq["interventions"] = "not_a_list"
+    with pytest.raises(InputError, match="sequence of dictionaries"):
+        DecisionProblem.from_dict(invalid_int_seq)
+
+    invalid_int_num = dict(valid_dict)
+    invalid_int_num["interventions"] = 123
+    with pytest.raises(InputError, match="sequence of dictionaries"):
+        DecisionProblem.from_dict(invalid_int_num)
