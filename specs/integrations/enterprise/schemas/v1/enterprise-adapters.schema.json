@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/specs/integrations/enterprise/schemas/v1/enterprise-adapters.schema.json",
+  "title": "EnterpriseAdaptersV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "adapter_type",
+    "adapter_version",
+    "source_system",
+    "extracted_at",
+    "metadata",
+    "payload"
+  ],
+  "properties": {
+    "adapter_type": {
+      "type": "string",
+      "enum": [
+        "mlflow_model",
+        "openlineage_facet",
+        "dbt_semantic_metric",
+        "experiment_export",
+        "causal_cate_artifact",
+        "probabilistic_forecast"
+      ],
+      "description": "Category of enterprise stack integration adapter."
+    },
+    "adapter_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Semantic version of the adapter format."
+    },
+    "source_system": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Originating enterprise system name or URI."
+    },
+    "extracted_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 extraction timestamp."
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "General system metadata (run_id, experiment_id, environment)."
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Adapter-specific structured decision or parameter data."
+    }
+  }
+}
