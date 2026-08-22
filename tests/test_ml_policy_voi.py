@@ -59,6 +59,32 @@ def test_decision_focused_model_evaluation_divergence_from_pure_metrics() -> Non
     assert validate_decision_focused_model_value(result.to_dict()) is True
 
 
+def test_decision_focused_model_evaluation_no_production_or_already_optimal() -> None:
+    actual_outcomes = np.array([1, 0, 1])
+    preds = {"m1": np.array([0.9, 0.1, 0.8])}
+
+    # Case 1: No current production model
+    res1 = evaluate_decision_focused_model_value(
+        candidate_predictions=preds,
+        actual_outcomes=actual_outcomes,
+        intervention_cost=10.0,
+        intervention_payoff=100.0,
+        current_production_model_id=None,
+    )
+    assert res1.selected_model == "m1"
+    assert res1.refresh_recommendation["should_refresh"] is False
+
+    # Case 2: Current production model is already the best model
+    res2 = evaluate_decision_focused_model_value(
+        candidate_predictions=preds,
+        actual_outcomes=actual_outcomes,
+        intervention_cost=10.0,
+        intervention_payoff=100.0,
+        current_production_model_id="m1",
+    )
+    assert res2.refresh_recommendation["should_refresh"] is False
+
+
 def test_compute_policy_uplift_voi() -> None:
     # 50 simulations, 10 units
     np.random.seed(42)
@@ -97,6 +123,7 @@ def test_policy_uplift_with_budget_and_subgroup_evppi() -> None:
             [True, True, True, True, False, False, False, False]
         ),
         "smb_tier": np.array([False, False, False, False, True, True, True, True]),
+        "invalid_size_subgroup": np.array([True, False]),  # Should be skipped safely
     }
 
     result = compute_policy_uplift_voi(
@@ -111,7 +138,21 @@ def test_policy_uplift_with_budget_and_subgroup_evppi() -> None:
     assert result.budget_utilized <= budget_constraint
     assert "enterprise_tier" in result.subgroup_evppi
     assert "smb_tier" in result.subgroup_evppi
+    assert "invalid_size_subgroup" not in result.subgroup_evppi
     assert validate_policy_uplift_voi(result.to_dict()) is True
+
+
+def test_policy_uplift_with_tight_budget_and_negative_effects() -> None:
+    # Test case where budget is small and effects are all negative
+    cate_samples = np.full((10, 5), -0.1)
+    result = compute_policy_uplift_voi(
+        cate_samples=cate_samples,
+        intervention_cost=50.0,
+        payoff_multiplier=100.0,
+        budget_constraint=50.0,
+    )
+    assert result.units_targeted == 0
+    assert result.optimal_policy_value == 0.0
 
 
 def test_error_handling() -> None:
@@ -123,9 +164,32 @@ def test_error_handling() -> None:
             intervention_payoff=50.0,
         )
 
+    with pytest.raises(InputError, match="cannot be empty"):
+        evaluate_decision_focused_model_value(
+            candidate_predictions={"m1": np.array([0.5])},
+            actual_outcomes=np.array([]),
+            intervention_cost=10.0,
+            intervention_payoff=50.0,
+        )
+
+    with pytest.raises(InputError, match="does not match actual_outcomes length"):
+        evaluate_decision_focused_model_value(
+            candidate_predictions={"m1": np.array([0.5, 0.8])},
+            actual_outcomes=np.array([1]),
+            intervention_cost=10.0,
+            intervention_payoff=50.0,
+        )
+
     with pytest.raises(InputError, match="2D array"):
         compute_policy_uplift_voi(
             cate_samples=np.array([0.1, 0.2]),
+            intervention_cost=10.0,
+            payoff_multiplier=100.0,
+        )
+
+    with pytest.raises(InputError, match="zero dimensions"):
+        compute_policy_uplift_voi(
+            cate_samples=np.empty((0, 0)),
             intervention_cost=10.0,
             payoff_multiplier=100.0,
         )

@@ -189,11 +189,12 @@ def evaluate_decision_focused_model_value(
     evaluations.sort(key=lambda m: m.expected_decision_value, reverse=True)
     best_model = evaluations[0]
 
-    baseline_val = 0.0
-    if current_production_model_id and current_production_model_id in values_by_model:
-        baseline_val = values_by_model[current_production_model_id]
-    elif evaluations:
-        baseline_val = evaluations[-1].expected_decision_value
+    baseline_val = (
+        values_by_model[current_production_model_id]
+        if current_production_model_id
+        and current_production_model_id in values_by_model
+        else evaluations[-1].expected_decision_value
+    )
 
     upgrade_value = max(0.0, best_model.expected_decision_value - baseline_val)
     should_refresh = (
