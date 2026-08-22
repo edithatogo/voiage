@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- Added automated Gitleaks secret scanning (`.gitleaks.toml` allowlist, `.github/workflows/gitleaks.yml` workflow, and `.pre-commit-config.yaml` hook) for continuous credential leakage prevention.
+
+- Expanded continuous fuzz testing across Rust libFuzzer kernels (`stable_enbs`, `sample_matrix`, `stable_evpi`) and Python Hypothesis fuzz testing in `tests/test_fuzzing_python.py`.
+
+- Added structured GitHub Issue Forms (`bug_report.yml`, `feature_request.yml`, `method_proposal.yml`), issue config routing (`config.yml`), and root pull request template (`.github/pull_request_template.md`).
+
+- Added `CONTRIBUTORS.md` CRediT taxonomy statement and `AI_CONTRIBUTIONS.md` transparency disclosure ledger (#323).
+
 - Added comprehensive Decision Correctness and Industry-Scale Assurance Suite (#584), formally verifying counterfactual consistency, non-negative regret bounds, EVPPI upper boundedness, budget constraints, calibration shift detection, and chunked streaming invariants.
 
 - Added local-first offline Decision Studio and Business Reporting (#581) in `voiage.decision_studio` with scenario analysis, Expected Opportunity Loss (EOL), Multi-Criteria Decision Analysis (MCDA), self-contained offline HTML dashboards, and executive Markdown reporting.
