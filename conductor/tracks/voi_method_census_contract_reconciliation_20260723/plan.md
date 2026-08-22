@@ -31,6 +31,7 @@
 
 ## Phase 3 — Delivery or reviewed exclusion
 
+- [x] **G9-DecisionProblem:** Implement portable DecisionProblem and Intervention data structures (#566) in `voiage/schema.py` matching the versioned DecisionProblemV1 schema contracts and full serialization tests.
 - [ ] **G9:** Implement each accepted repository-owned capability or record a
   reviewed exclusion with migration guidance. (AC-02, AC-06)
 - [ ] **G10:** Add Rust/Python/R/Julia/Mojo dispositions and installed

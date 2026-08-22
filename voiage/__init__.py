@@ -18,6 +18,8 @@ from .methods.dominance import calculate_dominance as dominance
 from .methods.sample_information import enbs, evsi, normal_normal_two_arm_evsi
 from .schema import (
     DecisionOption,
+    DecisionProblem,
+    Intervention,
     ParameterSet,
     PortfolioSpec,
     PortfolioStudy,
@@ -472,7 +474,9 @@ __all__ = [  # noqa: RUF022 - stable symbols precede provisional namespaces
     "CEAFResult",
     "DecisionAnalysis",
     "DecisionOption",
+    "DecisionProblem",
     "DominanceResult",
+    "Intervention",
     "ParameterSet",
     "PortfolioSpec",
     "PortfolioStudy",

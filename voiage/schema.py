@@ -823,3 +823,247 @@ class DynamicSpec:
             )
         if not all(isinstance(t, (int, float)) for t in self.time_steps):
             raise_input_error("All elements in 'time_steps' must be numbers.")
+
+
+@dataclass(frozen=True)
+class Intervention:
+    """Represents a candidate intervention or strategy in a decision problem.
+
+    Attributes
+    ----------
+    intervention_id : str
+        Stable identifier for the intervention or strategy.
+    name : str
+        Human-readable intervention name.
+    description : str, optional
+        Optional description of the intervention.
+    is_reference : bool, default=False
+        True when this intervention is the comparator or reference arm.
+    category : str, optional
+        Optional grouping label for the intervention.
+
+    Examples
+    --------
+    >>> from voiage.schema import Intervention
+    >>> arm = Intervention(intervention_id="int_01", name="Treatment A", is_reference=True)
+    >>> arm.name
+    'Treatment A'
+    """
+
+    intervention_id: str
+    name: str
+    description: str | None = None
+    is_reference: bool = False
+    category: str | None = None
+
+    def __post_init__(self) -> None:
+        """Validate intervention properties."""
+        if not isinstance(self.intervention_id, str) or not self.intervention_id:
+            raise_input_error(
+                "Intervention 'intervention_id' must be a non-empty string."
+            )
+        if not isinstance(self.name, str) or not self.name:
+            raise_input_error("Intervention 'name' must be a non-empty string.")
+        if self.description is not None and not isinstance(self.description, str):
+            raise_input_error(
+                "Intervention 'description' must be a string if specified."
+            )
+        if not isinstance(self.is_reference, bool):
+            raise_input_error("Intervention 'is_reference' must be a boolean.")
+        if self.category is not None and not isinstance(self.category, str):
+            raise_input_error("Intervention 'category' must be a string if specified.")
+
+    def to_dict(self) -> dict[str, object]:
+        """Serialize intervention to dictionary conforming to InterventionV1 schema."""
+        result: dict[str, object] = {
+            "intervention_id": self.intervention_id,
+            "name": self.name,
+            "is_reference": self.is_reference,
+        }
+        if self.description is not None:
+            result["description"] = self.description
+        if self.category is not None:
+            result["category"] = self.category
+        return result
+
+    @classmethod
+    def from_dict(cls, data: object) -> "Intervention":
+        """Deserialize intervention from dictionary."""
+        if not isinstance(data, dict):
+            raise_input_error("Intervention data must be a dictionary.")
+        if "intervention_id" not in data or "name" not in data:
+            raise_input_error(
+                "Intervention data must include 'intervention_id' and 'name'."
+            )
+        return cls(
+            intervention_id=str(data["intervention_id"]),
+            name=str(data["name"]),
+            description=cast("str | None", data.get("description")),
+            is_reference=bool(data.get("is_reference", False)),
+            category=cast("str | None", data.get("category")),
+        )
+
+
+@dataclass(frozen=True)
+class DecisionProblem:
+    """Represents a canonical Decision Problem (DecisionProblemV1).
+
+    Attributes
+    ----------
+    decision_problem_id : str
+        Stable identifier for the decision problem.
+    title : str
+        Short human-readable title for the problem.
+    willingness_to_pay : float
+        Decision threshold used to calculate net benefit. Must be strictly positive.
+    interventions : list[Intervention]
+        Candidate interventions compared by the problem.
+    currency : str, default="USD"
+        Currency code or symbol used for cost outputs (min length 3).
+    analysis_type : str, default="net-benefit-first"
+        Analysis framework (must be "net-benefit-first").
+    outcome_names : list[str], optional
+        Ordered list of outcome labels used by the problem.
+
+    Examples
+    --------
+    >>> from voiage.schema import DecisionProblem, Intervention
+    >>> prob = DecisionProblem(
+    ...     decision_problem_id="prob_01",
+    ...     title="Screening Decision",
+    ...     willingness_to_pay=50000.0,
+    ...     interventions=[
+    ...         Intervention(intervention_id="i1", name="No Screening", is_reference=True),
+    ...         Intervention(intervention_id="i2", name="Annual Screening"),
+    ...     ],
+    ... )
+    >>> prob.title
+    'Screening Decision'
+    """
+
+    decision_problem_id: str
+    title: str
+    willingness_to_pay: float
+    interventions: list[Intervention]
+    currency: str = "USD"
+    analysis_type: str = "net-benefit-first"
+    outcome_names: list[str] | None = None
+
+    def __post_init__(self) -> None:
+        """Validate decision problem properties."""
+        if (
+            not isinstance(self.decision_problem_id, str)
+            or not self.decision_problem_id
+        ):
+            raise_input_error(
+                "DecisionProblem 'decision_problem_id' must be a non-empty string."
+            )
+        if not isinstance(self.title, str) or not self.title:
+            raise_input_error("DecisionProblem 'title' must be a non-empty string.")
+        if (
+            not isinstance(self.willingness_to_pay, (int, float))
+            or self.willingness_to_pay <= 0
+        ):
+            raise_input_error(
+                "DecisionProblem 'willingness_to_pay' must be a positive number."
+            )
+        if not isinstance(self.currency, str) or len(self.currency) < 3:
+            raise_input_error(
+                "DecisionProblem 'currency' must be a string with at least 3 characters."
+            )
+        if self.analysis_type != "net-benefit-first":
+            raise_input_error(
+                "DecisionProblem 'analysis_type' must be 'net-benefit-first'."
+            )
+        if not isinstance(self.interventions, list) or not self.interventions:
+            raise_input_error(
+                "DecisionProblem 'interventions' must be a non-empty list of Intervention objects."
+            )
+        if not all(isinstance(item, Intervention) for item in self.interventions):
+            raise_input_error(
+                "All elements in 'interventions' must be Intervention objects."
+            )
+        ids = [item.intervention_id for item in self.interventions]
+        if len(ids) != len(set(ids)):
+            raise_input_error(
+                "Intervention IDs within a DecisionProblem must be unique."
+            )
+        if self.outcome_names is not None:
+            if not isinstance(self.outcome_names, list) or not self.outcome_names:
+                raise_input_error(
+                    "DecisionProblem 'outcome_names' must be a non-empty list of strings if specified."
+                )
+            if not all(
+                isinstance(name, str) and bool(name) for name in self.outcome_names
+            ):
+                raise_input_error("All outcome names must be non-empty strings.")
+
+    @property
+    def reference_intervention(self) -> Intervention | None:
+        """Return the designated reference intervention if defined."""
+        for intervention in self.interventions:
+            if intervention.is_reference:
+                return intervention
+        return None
+
+    @property
+    def intervention_names(self) -> list[str]:
+        """Return the list of intervention names in order."""
+        return [item.name for item in self.interventions]
+
+    @property
+    def intervention_ids(self) -> list[str]:
+        """Return the list of intervention IDs in order."""
+        return [item.intervention_id for item in self.interventions]
+
+    def to_dict(self) -> dict[str, object]:
+        """Serialize decision problem to dictionary conforming to DecisionProblemV1 schema."""
+        result: dict[str, object] = {
+            "decision_problem_id": self.decision_problem_id,
+            "title": self.title,
+            "analysis_type": self.analysis_type,
+            "currency": self.currency,
+            "willingness_to_pay": float(self.willingness_to_pay),
+            "interventions": [item.to_dict() for item in self.interventions],
+        }
+        if self.outcome_names is not None:
+            result["outcome_names"] = list(self.outcome_names)
+        return result
+
+    @classmethod
+    def from_dict(cls, data: object) -> "DecisionProblem":
+        """Deserialize decision problem from dictionary."""
+        if not isinstance(data, dict):
+            raise_input_error("DecisionProblem data must be a dictionary.")
+        required_keys = [
+            "decision_problem_id",
+            "title",
+            "analysis_type",
+            "currency",
+            "willingness_to_pay",
+            "interventions",
+        ]
+        for key in required_keys:
+            if key not in data:
+                raise_input_error(f"DecisionProblem data must include '{key}'.")
+
+        raw_interventions = data["interventions"]
+        if not isinstance(raw_interventions, Sequence) or isinstance(
+            raw_interventions, (str, bytes)
+        ):
+            raise_input_error(
+                "DecisionProblem 'interventions' must be a sequence of dictionaries."
+            )
+        interventions = [Intervention.from_dict(item) for item in raw_interventions]
+        raw_outcomes = data.get("outcome_names")
+        outcome_names = list(raw_outcomes) if raw_outcomes is not None else None
+
+        return cls(
+            decision_problem_id=str(data["decision_problem_id"]),
+            title=str(data["title"]),
+            analysis_type=str(data["analysis_type"]),
+            currency=str(data["currency"]),
+            willingness_to_pay=float(data["willingness_to_pay"]),
+            interventions=interventions,
+            outcome_names=outcome_names,
+        )
