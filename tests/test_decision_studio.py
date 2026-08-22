@@ -91,6 +91,7 @@ def test_render_markdown_without_mcda() -> None:
         evpi=5.0,
         status_quo_choice="A",
     )
+    assert "mcda_evaluation" not in session.to_dict()
     md_report = session.render_markdown_report()
     assert "MCDA" not in md_report
 
