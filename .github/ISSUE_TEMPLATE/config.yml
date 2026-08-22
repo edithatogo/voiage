@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security Vulnerability Advisory
+    url: https://github.com/edithatogo/voiage/security/advisories/new
+    about: Privately report a potential security vulnerability to the maintainer.
+  - name: Questions & Community Discussions
+    url: https://github.com/edithatogo/voiage/discussions
+    about: Ask usage questions, discuss decision problems, or share ideas.
+  - name: Official Documentation & User Guides
+    url: https://edithatogo.github.io/voiage
+    about: Explore tutorials, API references, and method documentation.

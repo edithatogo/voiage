@@ -1,0 +1,66 @@
+name: "🐛 Bug Report"
+description: "File a reproducible bug, unexpected calculation, or API failure"
+title: "[BUG]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting an issue in `voiage`. Please check existing issues first.
+  - type: textarea
+    id: description
+    attributes:
+      label: "Bug Description"
+      description: "A clear and concise description of what the bug is."
+      placeholder: "Describe the unexpected behavior..."
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: "Minimal Reproduction Steps"
+      description: "Provide minimal executable Python or CLI code that reproduces the bug."
+      render: python
+      placeholder: |
+        import numpy as np
+        from voiage.methods.basic import evpi
+
+        nb = np.array([[10.0, 12.0], [11.0, 9.0]])
+        result = evpi(nb)
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: "Expected Behavior"
+      description: "What did you expect to happen?"
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: "Actual Behavior"
+      description: "What actually happened? Include full tracebacks or output."
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: "Environment Details"
+      description: "Operating system, Python version, voiage version, and installation method."
+      value: |
+        - OS: [e.g. macOS 15, Ubuntu 24.04, Windows 11]
+        - Python version: [e.g. 3.12.3]
+        - voiage version: [e.g. 2.1.0]
+        - Installation: [e.g. pip, uv, conda, source build]
+    validations:
+      required: true
+  - type: checkboxes
+    id: checkboxes
+    attributes:
+      label: "Checklist"
+      options:
+        - label: "I have searched existing open and closed issues."
+          required: true
+        - label: "I have provided a minimal self-contained reproduction script."
+          required: true
