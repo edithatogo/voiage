@@ -1,0 +1,41 @@
+---
+title: Policy and Uplift VOI
+description: Valuing heterogeneous treatment effects (CATE), budget-constrained targeting, and subgroup EVPPI
+sidebar:
+  order: 35
+---
+
+`compute_policy_uplift_voi` values personalized decision policies driven by heterogeneous treatment effect models (e.g. Causal Forests, Meta-learners, EconML) under finite intervention budgets.
+
+## Features
+
+- Computes optimal targeted allocation under hard budget limits.
+- Evaluates clairvoyant Uplift EVPI across posterior CATE trajectories.
+- Decomposes uncertainty into subgroup-specific EVPPI for targeted data gathering.
+
+```python
+import numpy as np
+from voiage.ml_policy_voi import compute_policy_uplift_voi
+
+# 100 simulations across 500 customers
+np.random.seed(42)
+cate_draws = np.random.normal(loc=0.08, scale=0.04, size=(100, 500))
+
+subgroups = {
+    "enterprise_tier": np.array([True] * 100 + [False] * 400),
+    "smb_tier": np.array([False] * 100 + [True] * 400),
+}
+
+uplift_res = compute_policy_uplift_voi(
+    cate_samples=cate_draws,
+    intervention_cost=50.0,
+    payoff_multiplier=1200.0,
+    budget_constraint=5000.0,
+    subgroups=subgroups,
+)
+
+print(f"Targeted Units: {uplift_res.units_targeted} / 500")
+print(f"Optimal Policy Net Value: ${uplift_res.optimal_policy_value:,.2f}")
+print(f"Uplift EVPI: ${uplift_res.uplift_evpi:,.2f}")
+print(f"Enterprise Subgroup EVPPI: ${uplift_res.subgroup_evppi['enterprise_tier']:,.2f}")
+```

@@ -1,0 +1,15 @@
+---
+title: Binding Dispositions API
+description: API reference for voiage.binding_dispositions
+---
+
+## Classes
+
+- `LanguageBindingDisposition` — Status (`implemented`, `contract_only`, `adapter`, `unsupported`, `upstream_blocked`), exported symbol, data interchange format, and rationales.
+- `ContractBindingParity` — Container mapping language targets to dispositions.
+
+## Functions
+
+- `load_industry_decision_binding_dispositions(manifest_path=None) -> dict[str, ContractBindingParity]`
+- `get_binding_disposition(contract_id: str, language: str, manifest_path=None) -> LanguageBindingDisposition`
+- `validate_binding_dispositions_manifest(manifest_path=None) -> bool`

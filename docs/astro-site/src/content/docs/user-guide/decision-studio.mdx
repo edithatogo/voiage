@@ -1,0 +1,72 @@
+---
+title: Local Decision Studio & Reporting
+description: Offline-first interactive scenario exploration, Expected Opportunity Loss (EOL), MCDA, and HTML dashboards
+sidebar:
+  order: 6
+---
+
+`voiage.decision_studio` offers a local, offline-capable studio session manager for evaluating parameter sensitivities, regret/opportunity loss matrices, multi-criteria trade-offs, and self-contained HTML/Markdown executive dashboards.
+
+## Example Workflow
+
+```python
+from voiage.decision_studio import (
+    create_decision_studio_session,
+    validate_decision_studio_session,
+)
+
+base_payoffs = {
+    "Status Quo": 120000.0,
+    "Automated Discount": 145000.0,
+    "Concierge Outreach": 185000.0,
+}
+
+scenarios = {
+    "High Churn Surge": {
+        "Status Quo": 0.8,
+        "Automated Discount": 1.1,
+        "Concierge Outreach": 1.3,
+    },
+    "Budget Contraction": {
+        "Status Quo": 1.0,
+        "Automated Discount": 0.9,
+        "Concierge Outreach": 0.7,
+    },
+}
+
+mcda_matrix = {
+    "Status Quo": {"financial_roi": 50.0, "customer_satisfaction": 40.0},
+    "Automated Discount": {
+        "financial_roi": 70.0,
+        "customer_satisfaction": 65.0,
+    },
+    "Concierge Outreach": {
+        "financial_roi": 85.0,
+        "customer_satisfaction": 95.0,
+    },
+}
+mcda_weights = {"financial_roi": 0.6, "customer_satisfaction": 0.4}
+
+session = create_decision_studio_session(
+    session_id="studio_cs_2026_q3",
+    title="Customer Success Campaign Studio",
+    decision_problem_id="prob_cs_retention_2026",
+    decision_card_id="dec_card_cs_2026_01",
+    base_payoffs=base_payoffs,
+    scenarios_adjustments=scenarios,
+    evpi=24000.0,
+    status_quo_choice="Status Quo",
+    mcda_criteria_matrix=mcda_matrix,
+    mcda_weights=mcda_weights,
+)
+
+assert validate_decision_studio_session(session.to_dict()) is True
+
+# Generate deliverables
+md_report = session.render_markdown_report()
+html_dashboard = session.render_html_dashboard()
+```
+
+## Generated Outputs
+1. **Interactive HTML Dashboard:** Standalone, dependency-free CSS-styled single file.
+2. **Executive Markdown Report:** Formatted table with EOL (Expected Opportunity Loss) and scenario rankings.

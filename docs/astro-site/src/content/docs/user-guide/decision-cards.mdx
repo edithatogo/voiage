@@ -1,0 +1,80 @@
+---
+title: Decision Cards & Verifiable Bundles
+description: Auditable decision registry, governance sign-off, residual risk, and SHA-256 signed bundles
+sidebar:
+  order: 5
+---
+
+`voiage.decision_card` transforms raw numerical VOI calculations into tamper-evident, auditable business decision artifacts complete with stakeholder sign-offs, lineage tracking, and executive Markdown/HTML rendering.
+
+## Creating a Decision Card
+
+```python
+from voiage.decision_card import (
+    create_decision_card,
+    DecisionProblemSnapshot,
+    SelectedPolicy,
+    InformationValuation,
+    ResidualUncertainty,
+    HumanApproval,
+    DecisionBundle,
+    validate_decision_card,
+)
+
+# 1. Define decision components
+prob = DecisionProblemSnapshot(
+    problem_id="prob_cs_retention_2026",
+    title="Q3 Enterprise Churn Prevention",
+    alternatives=["Status Quo", "Automated Discount", "Concierge Outreach"],
+    criterion="Expected Net Benefit ($)",
+)
+
+policy = SelectedPolicy(
+    name="Concierge Outreach",
+    rationale="Highest expected net benefit with positive NPV after intervention cost.",
+    expected_net_benefit=185000.0,
+    baseline_comparison="+$65,000 over Status Quo",
+)
+
+voi = InformationValuation(
+    evpi=24000.0,
+    evsi={"pilot_500_trial": 16500.0},
+    enbs={"pilot_500_trial": 11500.0},
+    recommended_information_action="Execute pilot_500_trial before full rollout",
+)
+
+approval = HumanApproval(
+    approver="Jane Doe <vp-cx@company.org>",
+    approved_at="2026-08-22T10:30:00Z",
+    rationale="Pilot budget approved based on positive ENBS.",
+)
+
+# 2. Instantiate and validate
+card = create_decision_card(
+    decision_id="dec_card_cs_2026_01",
+    title="Customer Retention Policy & Trial Commissioning",
+    decision_problem=prob,
+    selected_policy=policy,
+    information_valuation=voi,
+    owner="Growth Operations Team",
+    reviewers=["cx-analytics@company.org"],
+    human_approval=approval,
+    status="approved",
+)
+
+assert validate_decision_card(card.to_dict()) is True
+
+# 3. Create a tamper-evident bundle with SHA-256 integrity verification
+bundle = DecisionBundle(card=card, input_payload={"n_customers": 5000, "clv_mean": 2400})
+assert bundle.verify_integrity() is True
+
+# 4. Export artifacts
+md_report = card.to_markdown()
+html_card = card.to_html()
+```
+
+## Governance & Lineage Guarantees
+
+- **Deterministic Cryptographic Hashing:** `card.compute_hash()` provides SHA-256 fingerprinting over all decision context, policy rationales, and VOI metrics.
+- **Tamper Evidence:** `DecisionBundle.verify_integrity()` validates both inputs and card payloads.
+- **Formal Lifecycle:** Cards track state (`draft`, `proposed`, `approved`, `superseded`, `expired`).

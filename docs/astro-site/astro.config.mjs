@@ -70,6 +70,10 @@ export default defineConfig({
           items: [{ autogenerate: { directory: "methods" } }],
         },
         {
+          label: "Integrations & Adapters",
+          items: [{ autogenerate: { directory: "integrations" } }],
+        },
+        {
           label: "Cross-Domain Usage",
           link: "/cross-domain-usage/",
         },
