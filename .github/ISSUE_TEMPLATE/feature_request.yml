@@ -1,0 +1,31 @@
+name: "✨ Feature Request"
+description: "Suggest a new capability, template, integration, or tool"
+title: "[FEAT]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting an enhancement or new capability for `voiage`!
+  - type: textarea
+    id: problem
+    attributes:
+      label: "Problem or Analysis Workflow Need"
+      description: "Is your feature request related to a specific decision problem or analytical bottleneck?"
+      placeholder: "I need to calculate VOI when..."
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: "Proposed Solution & Interface Design"
+      description: "Describe the desired feature and proposed Python, Rust, or CLI API."
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: "Alternatives Considered"
+      description: "Describe any alternative workarounds, packages, or approaches you have evaluated."
+    validations:
+      required: false

@@ -1,0 +1,31 @@
+name: "📐 VOI Method / Estimand Proposal"
+description: "Propose a new Value of Information or Perspective mathematical method"
+title: "[METHOD]: "
+labels: ["enhancement", "math"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Propose a new mathematical estimand, decision-theoretic framework, or calculation kernel.
+  - type: textarea
+    id: estimand
+    attributes:
+      label: "Mathematical Estimand & Definition"
+      description: "Provide the formal mathematical definition, state space, and decision rule."
+      placeholder: "Define EVPI / EVPPI / EVSI / VOP estimand..."
+    validations:
+      required: true
+  - type: textarea
+    id: literature
+    attributes:
+      label: "Literature References & Prior Art"
+      description: "Include relevant DOIs, arXiv preprints, or textbook citations."
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: "Verification Plan"
+      description: "How can the calculation be verified (analytical conjugate, discrete brute force, invariant checks)?"
+    validations:
+      required: true
