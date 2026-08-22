@@ -11,10 +11,25 @@ cargo-fuzz = true
 libfuzzer-sys = "=0.4.13"
 voiage-domain = { path = "../crates/voiage-domain" }
 voiage-numerics = { path = "../crates/voiage-numerics" }
+voiage-ffi = { path = "../crates/voiage-ffi" }
 
 [[bin]]
 name = "stable_evpi"
 path = "fuzz_targets/stable_evpi.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "stable_enbs"
+path = "fuzz_targets/stable_enbs.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "sample_matrix"
+path = "fuzz_targets/sample_matrix.rs"
 test = false
 doc = false
 bench = false
