@@ -46,7 +46,7 @@ jobs:
         working-directory: rust
         run: >-
           cargo +nightly-2026-07-01 fuzz run stable_evpi
-          --fuzz-dir fuzz -- -max_total_time=30 -timeout=10
+          --fuzz-dir fuzz -- -max_total_time=60 -timeout=10
       - name: Fuzz stable ENBS calculation
         working-directory: rust
         run: >-
