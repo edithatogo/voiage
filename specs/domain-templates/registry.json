@@ -1,0 +1,341 @@
+{
+  "$schema": "./schemas/v1/domain-template.schema.json",
+  "templates": [
+    {
+      "template_id": "churn_retention",
+      "version": "1.0.0",
+      "domain": "customer_success",
+      "title": "Customer Churn Retention Campaign Selection",
+      "description": "Evaluates proactive retention interventions versus status quo, valuing randomized pilot trials and customer lifetime value uncertainty.",
+      "decisions": [
+        "Status Quo (No Intervention)",
+        "Targeted Automated Discount",
+        "Dedicated Concierge Outreach"
+      ],
+      "information_actions": [
+        "Pilot Randomized Retention Trial",
+        "Feature Attribution Survey",
+        "Usage Telemetry Enrichment"
+      ],
+      "required_fields": [
+        "base_churn",
+        "discount_reduction",
+        "concierge_reduction",
+        "clv",
+        "cost_discount",
+        "cost_concierge"
+      ],
+      "optional_dependencies": [],
+      "capabilities": ["evpi", "evppi", "evsi", "enbs"],
+      "maturity": "stable",
+      "examples": [
+        "examples/customer_churn_retention_example.py"
+      ],
+      "rights": "Open source synthetic reference template.",
+      "privacy": "Synthetic non-PII data.",
+      "provenance": "Adapted from subscription economics and uplift modeling literature (Issue #574, #577).",
+      "license": "Apache-2.0 OR MIT",
+      "maintainers": [
+        "voiage maintainers <maintainers@voiage.dev>"
+      ],
+      "compatibility": ">=2.0.0",
+      "review_date": "2026-08-22"
+    },
+    {
+      "template_id": "dynamic_pricing",
+      "version": "1.0.0",
+      "domain": "pricing_revenue",
+      "title": "Dynamic Markdown and Price Elasticity Optimization",
+      "description": "Values market elasticity experiments and competitor price scrapers before committing to clearance markdowns or price adjustments.",
+      "decisions": [
+        "Maintain Regular Price",
+        "Moderate Markdown (15%)",
+        "Aggressive Markdown (30%)"
+      ],
+      "information_actions": [
+        "Regional Price Test",
+        "Competitor Scraping Feed",
+        "Conjoint Consumer Study"
+      ],
+      "required_fields": [
+        "price_elasticity",
+        "base_demand",
+        "inventory_holding_cost",
+        "competitor_markdown_prob"
+      ],
+      "optional_dependencies": [],
+      "capabilities": ["evpi", "evppi", "evsi", "enbs"],
+      "maturity": "experimental",
+      "examples": [
+        "examples/business_strategy_example.py"
+      ],
+      "rights": "Open source template.",
+      "privacy": "Synthetic enterprise data.",
+      "provenance": "Revenue management and pricing VOI literature.",
+      "license": "Apache-2.0 OR MIT",
+      "maintainers": [
+        "voiage maintainers <maintainers@voiage.dev>"
+      ],
+      "compatibility": ">=2.0.0",
+      "review_date": "2026-08-22"
+    },
+    {
+      "template_id": "marketing_measurement",
+      "version": "1.0.0",
+      "domain": "marketing_growth",
+      "title": "Marketing Mix and Incrementality Testing Optimization",
+      "description": "Evaluates channel budget allocation under uncertain returns on ad spend (ROAS) and values geo-lift holdout experiments.",
+      "decisions": [
+        "Status Quo Channel Allocation",
+        "Shift 30% Budget to Performance Search",
+        "Shift 30% Budget to Top-of-Funnel Social"
+      ],
+      "information_actions": [
+        "Geo-Lift Matched Market Experiment",
+        "MTA Multi-Touch Attribution Linkage",
+        "Brand Lift Survey"
+      ],
+      "required_fields": [
+        "search_roas",
+        "social_roas",
+        "ad_decay_rate",
+        "baseline_organic_sales"
+      ],
+      "optional_dependencies": [],
+      "capabilities": ["evpi", "evppi", "evsi", "enbs"],
+      "maturity": "experimental",
+      "examples": [],
+      "rights": "Open source template.",
+      "privacy": "Aggregated geo metrics without user identifiers.",
+      "provenance": "Empirical marketing measurement and causal uplift VOI framework.",
+      "license": "Apache-2.0 OR MIT",
+      "maintainers": [
+        "voiage maintainers <maintainers@voiage.dev>"
+      ],
+      "compatibility": ">=2.0.0",
+      "review_date": "2026-08-22"
+    },
+    {
+      "template_id": "inventory_replenishment",
+      "version": "1.0.0",
+      "domain": "supply_chain",
+      "title": "Safety Stock & Supply Chain Lead Time Information Valuation",
+      "description": "Optimizes order replenishment thresholds under stochastic demand and values supplier visibility telemetry feeds.",
+      "decisions": [
+        "Lean Stocking Policy (JIT)",
+        "Standard Safety Stock (1.5x Lead Time)",
+        "Buffer Stocking (3.0x Lead Time)"
+      ],
+      "information_actions": [
+        "Upstream Supplier EDI Feed",
+        "Downstream POS Demand Sensing",
+        "Warehouse IoT Inventory Audit"
+      ],
+      "required_fields": [
+        "daily_demand_mean",
+        "daily_demand_variance",
+        "supplier_lead_time_days",
+        "stockout_penalty_cost",
+        "holding_cost_per_unit"
+      ],
+      "optional_dependencies": [],
+      "capabilities": ["evpi", "evppi", "risk_sensitive"],
+      "maturity": "experimental",
+      "examples": [],
+      "rights": "Open source template.",
+      "privacy": "Synthetic supply chain data.",
+      "provenance": "Newsvendor and multi-echelon inventory VOI theory.",
+      "license": "Apache-2.0 OR MIT",
+      "maintainers": [
+        "voiage maintainers <maintainers@voiage.dev>"
+      ],
+      "compatibility": ">=2.0.0",
+      "review_date": "2026-08-22"
+    },
+    {
+      "template_id": "predictive_maintenance",
+      "version": "1.0.0",
+      "domain": "operations_maintenance",
+      "title": "Asset Health Monitoring & Sensor Information Valuation",
+      "description": "Values vibration/thermal sensor deployments and nondestructive inspection testing before planned machine overhaul.",
+      "decisions": [
+        "Run to Failure (Corrective Only)",
+        "Scheduled Calendar Overhaul",
+        "Condition-Based Dynamic Servicing"
+      ],
+      "information_actions": [
+        "High-Frequency Vibration Sensor Stream",
+        "Monthly Oil Spectrometry Analysis",
+        "Ultrasonic Acoustic Inspection"
+      ],
+      "required_fields": [
+        "weibull_shape_k",
+        "weibull_scale_lambda",
+        "unplanned_downtime_cost",
+        "overhaul_cost",
+        "inspection_cost"
+      ],
+      "optional_dependencies": [],
+      "capabilities": ["evpi", "evppi", "evsi", "enbs"],
+      "maturity": "experimental",
+      "examples": [],
+      "rights": "Open source template.",
+      "privacy": "Synthetic machine sensor metrics.",
+      "provenance": "Reliability engineering and sensor placement VOI principles.",
+      "license": "Apache-2.0 OR MIT",
+      "maintainers": [
+        "voiage maintainers <maintainers@voiage.dev>"
+      ],
+      "compatibility": ">=2.0.0",
+      "review_date": "2026-08-22"
+    },
+    {
+      "template_id": "fraud_credit",
+      "version": "1.0.0",
+      "domain": "risk_credit",
+      "title": "Credit Risk & Anti-Fraud Decision Threshold Policy",
+      "description": "Evaluates loan approval and transaction underwriting thresholds, valuing alternative credit bureau data feeds.",
+      "decisions": [
+        "Auto-Approve Transaction",
+        "Manual Review / Step-Up Authentication",
+        "Auto-Decline Transaction"
+      ],
+      "information_actions": [
+        "Alternative Credit Bureau Data Pull",
+        "Device Fingerprint & IP Reputation Feed",
+        "Biometric Challenge Verification"
+      ],
+      "required_fields": [
+        "default_probability",
+        "fraud_loss_given_default",
+        "merchant_fee_revenue",
+        "manual_review_cost",
+        "bureau_pull_cost"
+      ],
+      "optional_dependencies": [],
+      "capabilities": ["evpi", "evppi", "evsi", "enbs", "risk_sensitive"],
+      "maturity": "experimental",
+      "examples": [],
+      "rights": "Open source template.",
+      "privacy": "Synthetic anonymized scoring attributes.",
+      "provenance": "Credit scoring risk management and underwriting VOI models.",
+      "license": "Apache-2.0 OR MIT",
+      "maintainers": [
+        "voiage maintainers <maintainers@voiage.dev>"
+      ],
+      "compatibility": ">=2.0.0",
+      "review_date": "2026-08-22"
+    },
+    {
+      "template_id": "finance_data_vendor",
+      "version": "1.0.0",
+      "domain": "finance_procurement",
+      "title": "Financial Alternative Data Vendor Procurement Valuation",
+      "description": "Quantifies the Expected Value of Information for purchasing commercial market feeds, expert calls, or satellite imagery feeds.",
+      "decisions": [
+        "Execute Trade Based on Public Data",
+        "Procure Premium Alternative Data Feed",
+        "Hedge Position Without Procurement"
+      ],
+      "information_actions": [
+        "Trial Feed Evaluation (1 Month)",
+        "Expert Network Interview Series",
+        "Commercial Satellite Geospatial Feed"
+      ],
+      "required_fields": [
+        "signal_correlation_rho",
+        "market_variance_sigma",
+        "position_size",
+        "subscription_cost_annual"
+      ],
+      "optional_dependencies": [],
+      "capabilities": ["evpi", "evppi", "evsi", "enbs"],
+      "maturity": "experimental",
+      "examples": [],
+      "rights": "Open source template.",
+      "privacy": "Synthetic market indicators.",
+      "provenance": "Asset management alternative data procurement and signal value literature.",
+      "license": "Apache-2.0 OR MIT",
+      "maintainers": [
+        "voiage maintainers <maintainers@voiage.dev>"
+      ],
+      "compatibility": ">=2.0.0",
+      "review_date": "2026-08-22"
+    },
+    {
+      "template_id": "market_entry",
+      "version": "1.0.0",
+      "domain": "business_strategy",
+      "title": "New Market Entry Investment & Market Research VOI",
+      "description": "Evaluates whether to enter a new geographic or product market immediately versus commissioning target customer discovery research.",
+      "decisions": [
+        "Do Not Enter Market",
+        "Enter Market Immediately",
+        "Enter Via Joint Venture Partner"
+      ],
+      "information_actions": [
+        "Target Customer Discovery Research",
+        "Competitor Landscape In-Depth Audit",
+        "Regulatory Feasibility Study"
+      ],
+      "required_fields": [
+        "market_size",
+        "growth_rate",
+        "competition_intensity",
+        "entry_costs",
+        "unit_margin"
+      ],
+      "optional_dependencies": [],
+      "capabilities": ["evpi", "evppi", "evsi", "enbs"],
+      "maturity": "stable",
+      "examples": [
+        "examples/business_strategy_example.py"
+      ],
+      "rights": "Open source template.",
+      "privacy": "Synthetic business projections.",
+      "provenance": "Corporate strategy and real-options market entry VOI framework.",
+      "license": "Apache-2.0 OR MIT",
+      "maintainers": [
+        "voiage maintainers <maintainers@voiage.dev>"
+      ],
+      "compatibility": ">=2.0.0",
+      "review_date": "2026-08-22"
+    },
+    {
+      "template_id": "hr_attrition",
+      "version": "1.0.0",
+      "domain": "people_analytics",
+      "title": "Talent Retention & Employee Engagement Survey VOI",
+      "description": "Values conducting pulse engagement surveys and retention compensation adjustments for key engineering talent.",
+      "decisions": [
+        "Maintain Current Compensation & Policies",
+        "Targeted Retention Equity Grant",
+        "Comprehensive Remote Work & Flexibility Policy"
+      ],
+      "information_actions": [
+        "Anonymous Team Engagement Pulse Survey",
+        "Third-Party Market Compensation Benchmark",
+        "Manager Stay-Interview Feedback Loop"
+      ],
+      "required_fields": [
+        "baseline_attrition_rate",
+        "replacement_cost_per_head",
+        "equity_grant_cost",
+        "flexibility_retention_effect"
+      ],
+      "optional_dependencies": [],
+      "capabilities": ["evpi", "evppi", "evsi", "enbs"],
+      "maturity": "experimental",
+      "examples": [],
+      "rights": "Open source template.",
+      "privacy": "Synthetic aggregated HR data without employee PII.",
+      "provenance": "Organizational behavior and human capital economic decision theory.",
+      "license": "Apache-2.0 OR MIT",
+      "maintainers": [
+        "voiage maintainers <maintainers@voiage.dev>"
+      ],
+      "compatibility": ">=2.0.0",
+      "review_date": "2026-08-22"
+    }
+  ]
+}
