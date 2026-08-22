@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+- Added comprehensive Decision Correctness and Industry-Scale Assurance Suite (#584), formally verifying counterfactual consistency, non-negative regret bounds, EVPPI upper boundedness, budget constraints, calibration shift detection, and chunked streaming invariants.
+
+- Added local-first offline Decision Studio and Business Reporting (#581) in `voiage.decision_studio` with scenario analysis, Expected Opportunity Loss (EOL), Multi-Criteria Decision Analysis (MCDA), self-contained offline HTML dashboards, and executive Markdown reporting.
+
+- Surface industry decision contracts across language bindings (#579) via `specs/abi/industry-decision-binding-dispositions.json` and `voiage.binding_dispositions`.
+
+- Added Decision-Focused Model Value (#576) and Policy/Uplift VOI (#578) in `voiage.ml_policy_voi` comparing models by downstream decision loss and valuing heterogeneous CATE interventions under constraints.
+
+- Added Enterprise Model, Lineage, Metric, and Experiment Adapters (#583) in `voiage.enterprise_adapters` supporting MLflow, OpenLineage, dbt Semantic Layer, GrowthBook/Statsig, EconML CATE, and probabilistic forecasts.
+
+- Added Decision Cards, Decision Registry, and signed result bundles with SHA-256 cryptographic verification (#580) in `voiage.decision_card`.
+
+- Added curated Domain Templates and Adapter Registry (#577) with 9 enterprise decision templates across marketing, pricing, sales, finance, credit, operations, and inventory.
+
+- Added Customer Churn & Retention worked example and dataset registry pack snapshots (#574, #575).
+
+- Reconciled industry Decision Problem and Intervention contracts (#566) in `voiage.schema`.
+
 - Bind the exact green v2.1.0 conda-forge and Yggdrasil candidate heads to an
   immutable Conductor receipt while preserving external merge, generated
   registry, indexing, and publication gates.

@@ -4,6 +4,15 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+*   [x] Complete Industry Decision Problem and Intervention contracts (#566).
+*   [x] Package Customer Churn & Retention worked example and dataset pack snapshots (#574, #575).
+*   [x] Add curated Domain Templates and Adapter Registry (#577).
+*   [x] Implement Decision Cards, Decision Registry, and signed result bundles (#580).
+*   [x] Add Enterprise Model, Lineage, Metric, and Experiment Adapters (#583).
+*   [x] Implement Decision-Focused Model Value (#576) and Policy/Uplift VOI (#578).
+*   [x] Surface Industry Decision Contract Binding Dispositions across Rust, Python, R, Julia, and Mojo (#579).
+*   [x] Implement Local Decision Studio and Business Reporting (#581).
+*   [x] Implement Decision Correctness and Industry-Scale Assurance Suite (#584).
 *   [x] Release 2.1.0 with the stable core and experimental frontier boundary.
     *   [x] Correct the regressing post-2.0.1 manifest identity and synchronize
         Rust, Python, R, and Julia release metadata.
