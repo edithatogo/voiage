@@ -60,6 +60,7 @@ def test_abi_lifecycle_and_error_contracts_are_in_the_rust_gate() -> None:
     assert "voiage_v1_handle_create" in header
     assert "voiage_v1_error_message" in header
     assert "voiage_v1_evpi" in header
+    assert "voiage_v1_enbs" in header
 
 
 def test_retained_bindings_declare_supported_runtime_versions_and_ci_probes() -> None:

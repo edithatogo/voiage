@@ -2,6 +2,7 @@ test_that("the R package documentation surface includes the package help topic",
   rd_db <- source_rd_db()
   expected_rd_files <- c(
     "voiageR.Rd",
+    "enbs.Rd",
     "evpi.Rd",
     "evppi.Rd",
     "evsi.Rd",

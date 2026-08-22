@@ -201,6 +201,42 @@ NULL
   as.numeric(result$out_value)
 }
 
+.enbs_native <- function(evsi_result, research_cost) {
+  library_path <- Sys.getenv("VOIAGE_FFI_LIBRARY", unset = "libvoiage_ffi")
+  loaded <- tryCatch(
+    dyn.load(library_path),
+    error = function(error) {
+      stop("The voiage Rust C ABI library is unavailable: ", error$message, call. = FALSE)
+    }
+  )
+  on.exit(dyn.unload(loaded[["path"]]), add = TRUE)
+
+  symbol <- tryCatch(
+    getNativeSymbolInfo(
+      "voiage_v1_enbs_r",
+      PACKAGE = loaded
+    )[["address"]],
+    error = function(error) {
+      stop(
+        "The voiage Rust C ABI library does not export the ENBS symbol: ",
+        error$message,
+        call. = FALSE
+      )
+    }
+  )
+  result <- .C(
+    symbol,
+    evsi_result = as.double(evsi_result),
+    research_cost = as.double(research_cost),
+    out_value = double(1),
+    out_status = integer(1)
+  )
+  if (!identical(as.integer(result$out_status), 0L)) {
+    stop("voiage Rust ENBS ABI failed", call. = FALSE)
+  }
+  as.numeric(result$out_value)
+}
+
 .scale_evpi <- function(value, population, time_horizon, discount_rate) {
   if (is.null(population) && is.null(time_horizon) && is.null(discount_rate)) {
     return(value)
@@ -288,6 +324,49 @@ evpi <- function(net_benefits, population = NULL, time_horizon = NULL, discount_
     ))
   }
   .scale_evpi(.evpi_native(net_benefits), population, time_horizon, discount_rate)
+}
+
+#' Calculate Expected Net Benefit of Sampling (ENBS)
+#'
+#' This function calculates the Expected Net Benefit of Sampling as
+#' `EVSI - research_cost`, optionally scaling EVSI to a population before
+#' subtracting the research cost.
+#'
+#' @param evsi_result A finite numeric value representing the expected value of sample information.
+#' @param research_cost A non-negative numeric value representing the total cost of the proposed research study.
+#' @param population Optional population size for scaling the EVSI result.
+#' @param time_horizon Optional time horizon for scaling the EVSI result.
+#' @param discount_rate Optional discount rate for scaling the EVSI result.
+#'
+#' @return The calculated ENBS value.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' # Calculate ENBS for a study with EVSI = 12.5 and cost = 3.0
+#' enbs_value <- enbs(12.5, 3.0)
+#' print(enbs_value)
+#' }
+enbs <- function(evsi_result, research_cost, population = NULL, time_horizon = NULL, discount_rate = NULL) {
+  if (!is.numeric(evsi_result) || length(evsi_result) != 1L || is.na(evsi_result) || !is.finite(evsi_result)) {
+    stop("`evsi_result` must be one finite number.", call. = FALSE)
+  }
+  if (!is.numeric(research_cost) || length(research_cost) != 1L || is.na(research_cost) || !is.finite(research_cost) || research_cost < 0) {
+    stop("`research_cost` must be one non-negative finite number.", call. = FALSE)
+  }
+  scaled_evsi <- .scale_evpi(evsi_result, population, time_horizon, discount_rate)
+
+  cache <- get(".voiage_cache", envir = asNamespace("voiageR"))
+  if (!is.null(cache$module) && !is.null(cache$module$enbs)) {
+    return(cache$module$enbs(
+      evsi_result = evsi_result,
+      research_cost = research_cost,
+      population = population,
+      time_horizon = time_horizon,
+      discount_rate = discount_rate
+    ))
+  }
+  .enbs_native(scaled_evsi, research_cost)
 }
 
 #' Calculate Expected Value of Partial Perfect Information (EVPPI)

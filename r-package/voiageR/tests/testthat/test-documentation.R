@@ -13,6 +13,7 @@ test_that("the Rd surface matches the exported package API", {
   expect_setequal(
     rd_topics,
     c(
+      "enbs",
       "evpi",
       "evppi",
       "evsi",

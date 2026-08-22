@@ -9,3 +9,8 @@ def test_r_evpi_uses_pointer_safe_dimension_adapter() -> None:
     source = (ROOT / "r-package/voiageR/R/voiageR.R").read_text(encoding="utf-8")
     assert '"voiage_v1_evpi_i32_r"' in source
     assert '"voiage_v1_evpi_i32",' not in source
+
+
+def test_r_enbs_uses_pointer_safe_adapter() -> None:
+    source = (ROOT / "r-package/voiageR/R/voiageR.R").read_text(encoding="utf-8")
+    assert '"voiage_v1_enbs_r"' in source

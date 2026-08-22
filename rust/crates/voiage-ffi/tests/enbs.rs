@@ -2,7 +2,7 @@
 
 #![allow(unsafe_code)]
 
-use voiage_ffi::{voiage_v1_enbs, VoiageStatusV1, VOIAGE_ABI_ENBS};
+use voiage_ffi::{voiage_v1_enbs, voiage_v1_enbs_r, VoiageStatusV1, VOIAGE_ABI_ENBS};
 
 #[test]
 fn enbs_returns_raw_net_value_without_clipping() {
@@ -14,6 +14,54 @@ fn enbs_returns_raw_net_value_without_clipping() {
     let status = unsafe { voiage_v1_enbs(2.0, 3.0, &raw mut result) };
     assert_eq!(status, VoiageStatusV1::Ok);
     assert!((result + 1.0).abs() < f64::EPSILON);
+}
+
+#[test]
+fn enbs_r_adapter_executes_successfully() {
+    let evsi = 12.5_f64;
+    let cost = 3.0_f64;
+    let mut out_value = 0.0_f64;
+    let mut out_status = -1_i32;
+
+    unsafe {
+        voiage_v1_enbs_r(
+            &raw const evsi,
+            &raw const cost,
+            &raw mut out_value,
+            &raw mut out_status,
+        );
+    }
+    assert_eq!(out_status, 0);
+    assert!((out_value - 9.5).abs() < f64::EPSILON);
+}
+
+#[test]
+fn enbs_r_adapter_handles_invalid_inputs_safely() {
+    let evsi = f64::NAN;
+    let cost = 3.0_f64;
+    let mut out_value = 42.0_f64;
+    let mut out_status = -1_i32;
+
+    unsafe {
+        voiage_v1_enbs_r(
+            &raw const evsi,
+            &raw const cost,
+            &raw mut out_value,
+            &raw mut out_status,
+        );
+    }
+    assert_eq!(out_status, VoiageStatusV1::InvalidArgument.as_i32());
+    assert_eq!(out_value.to_bits(), 42.0_f64.to_bits());
+
+    // Null pointers should not crash
+    unsafe {
+        voiage_v1_enbs_r(
+            std::ptr::null(),
+            &raw const cost,
+            &raw mut out_value,
+            &raw mut out_status,
+        );
+    }
 }
 
 #[test]

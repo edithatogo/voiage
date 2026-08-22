@@ -6,6 +6,7 @@ test_that("voiageR package loads and exports the expected surface", {
   expect_setequal(
     exported,
     c(
+      "enbs",
       "evpi",
       "evppi",
       "evsi",
@@ -517,5 +518,33 @@ test_that("evsi validates integer simulation controls before Python dispatch", {
       evsi(model, prior, design, seed = -1),
       "`seed` must be one non-negative integer"
     )
+  )
+})
+
+test_that("enbs validates inputs and computes signed net benefit", {
+  expect_error(enbs("not_numeric", 3.0), "`evsi_result` must be one finite number")
+  expect_error(enbs(NaN, 3.0), "`evsi_result` must be one finite number")
+  expect_error(enbs(12.5, -1.0), "`research_cost` must be one non-negative finite number")
+  expect_error(enbs(12.5, "bad"), "`research_cost` must be one non-negative finite number")
+
+  fake_voiage <- list(
+    enbs = function(evsi_result, research_cost, population = NULL, time_horizon = NULL, discount_rate = NULL) {
+      if (!is.null(population) && !is.null(time_horizon)) {
+        rate <- if (is.null(discount_rate)) 0 else discount_rate
+        annuity <- if (rate == 0) time_horizon else (1 - (1 + rate)^(-time_horizon)) / rate
+        scaled_evsi <- evsi_result * population * annuity
+        return(scaled_evsi - research_cost)
+      }
+      evsi_result - research_cost
+    }
+  )
+
+  with_voiage_stub(
+    fake_voiage,
+    {
+      expect_equal(enbs(12.5, 3.0), 9.5)
+      expect_equal(enbs(2.0, 3.0), -1.0)
+      expect_equal(enbs(2.0, 3.0, population = 100, time_horizon = 10, discount_rate = 0), 1997.0)
+    }
   )
 })

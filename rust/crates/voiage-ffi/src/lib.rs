@@ -185,6 +185,38 @@ pub unsafe extern "C" fn voiage_v1_enbs(
     }
 }
 
+/// Calls [`voiage_v1_enbs`] and writes its status for `.C` runtimes that
+/// cannot observe a C return value.
+///
+/// # Safety
+///
+/// `evsi_result`, `research_cost`, `out_value`, and `out_status` must be non-null,
+/// aligned, and valid for reads/writes of their respective types.
+#[allow(unsafe_code)]
+#[no_mangle]
+pub unsafe extern "C" fn voiage_v1_enbs_r(
+    evsi_result: *const f64,
+    research_cost: *const f64,
+    out_value: *mut f64,
+    out_status: *mut i32,
+) {
+    if evsi_result.is_null()
+        || research_cost.is_null()
+        || out_status.is_null()
+        || (evsi_result as usize) % std::mem::align_of::<f64>() != 0
+        || (research_cost as usize) % std::mem::align_of::<f64>() != 0
+        || (out_status as usize) % std::mem::align_of::<i32>() != 0
+    {
+        return;
+    }
+    // SAFETY: nullness and alignment were validated above.
+    let (evsi_result, research_cost) = unsafe { (evsi_result.read(), research_cost.read()) };
+    // SAFETY: the delegated operation validates out_value.
+    let status = unsafe { voiage_v1_enbs(evsi_result, research_cost, out_value) };
+    // SAFETY: nullness and alignment were validated above.
+    unsafe { out_status.write(status.as_i32()) };
+}
+
 /// Computes EVPI with signed 32-bit dimensions for runtimes such as base R
 /// whose `.C` interface does not expose a portable unsigned 64-bit scalar.
 ///
