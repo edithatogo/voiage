@@ -1,0 +1,25 @@
+# Gitleaks configuration for voiage
+title = "voiage gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Repository allowlist for SHA-256 fixture digests, academic citation keys, and test symbols"
+paths = [
+  '''paper/joss-references\.verification\.json''',
+  '''tests/fixtures/.*''',
+  '''specs/.*''',
+  '''benchmarks/.*''',
+]
+stopwords = [
+  "andronis2016implementation",
+  "claxton1999irrelevance",
+  "mordaunt2025trdcea",
+  "strong2014evppi",
+  "_contains_secret",
+  "replication/reproducibility",
+]
+regexes = [
+  '''[0-9a-f]{64}''',
+]
