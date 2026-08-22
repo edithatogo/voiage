@@ -52,7 +52,8 @@
       "voiage/domain_templates.py",
       "voiage/decision_card.py",
       "voiage/enterprise_adapters.py",
-      "voiage/ml_policy_voi.py"
+      "voiage/ml_policy_voi.py",
+      "voiage/binding_dispositions.py"
     ],
     "experimental": [
       "voiage/experimental/**",
