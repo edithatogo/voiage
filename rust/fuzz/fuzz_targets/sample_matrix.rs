@@ -31,9 +31,10 @@ fuzz_target!(|data: &[u8]| {
     // Attempting construction: must succeed if and only if rectangular, non-empty, and all finite
     let matrix_result: Result<SampleMatrix, _> = rows.clone().try_into();
     if let Ok(matrix) = matrix_result {
-        assert!(matrix.samples() > 0);
-        assert!(matrix.strategies() > 0);
-        assert_eq!(matrix.samples(), rows.len());
-        assert_eq!(matrix.strategies(), rows[0].len());
+        let shape = matrix.shape();
+        assert!(shape[0] > 0);
+        assert!(shape[1] > 0);
+        assert_eq!(shape[0], rows.len());
+        assert_eq!(shape[1], rows[0].len());
     }
 });
