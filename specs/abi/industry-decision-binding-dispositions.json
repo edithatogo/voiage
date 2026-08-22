@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "industry-decision-contract-binding-parity",
+  "issue": 579,
+  "track": "polyglot_abi_binding_parity_20260723",
+  "updated_at": "2026-08-22T10:00:00Z",
+  "contracts": {
+    "decision_problem": {
+      "schema": "specs/core-api/schemas/v1/decision-problem.schema.json",
+      "dispositions": {
+        "python": {
+          "status": "implemented",
+          "symbol": "voiage.schema.DecisionProblem",
+          "interchange": "json_and_arrow"
+        },
+        "rust": {
+          "status": "implemented",
+          "symbol": "voiage_core::schema::DecisionProblem",
+          "interchange": "native_and_c_abi"
+        },
+        "r": {
+          "status": "implemented",
+          "symbol": "voiageR::decision_problem",
+          "interchange": "json_and_c_abi"
+        },
+        "julia": {
+          "status": "implemented",
+          "symbol": "Voiage.DecisionProblem",
+          "interchange": "json_and_c_abi"
+        },
+        "mojo": {
+          "status": "upstream_blocked",
+          "reason": "Mojo standard package distribution is an external upstream boundary"
+        }
+      }
+    },
+    "decision_cards": {
+      "schema": "specs/decision-cards/schemas/v1/decision-card.schema.json",
+      "dispositions": {
+        "python": {
+          "status": "implemented",
+          "symbol": "voiage.decision_card.DecisionCard",
+          "interchange": "json_and_sha256_bundle"
+        },
+        "rust": {
+          "status": "contract_only",
+          "symbol": "voiage_ffi::decision_card",
+          "interchange": "json"
+        },
+        "r": {
+          "status": "contract_only",
+          "symbol": "voiageR::decision_card",
+          "interchange": "json"
+        },
+        "julia": {
+          "status": "contract_only",
+          "symbol": "Voiage.DecisionCard",
+          "interchange": "json"
+        },
+        "mojo": {
+          "status": "upstream_blocked",
+          "reason": "Mojo standard package distribution is an external upstream boundary"
+        }
+      }
+    },
+    "enterprise_adapters": {
+      "schema": "specs/integrations/enterprise/schemas/v1/enterprise-adapters.schema.json",
+      "dispositions": {
+        "python": {
+          "status": "implemented",
+          "symbol": "voiage.enterprise_adapters.EnterpriseAdapterRecord",
+          "interchange": "json"
+        },
+        "rust": {
+          "status": "contract_only",
+          "symbol": "specs/integrations/enterprise/schemas/v1/enterprise-adapters.schema.json",
+          "interchange": "json"
+        },
+        "r": {
+          "status": "contract_only",
+          "symbol": "specs/integrations/enterprise/schemas/v1/enterprise-adapters.schema.json",
+          "interchange": "json"
+        },
+        "julia": {
+          "status": "contract_only",
+          "symbol": "specs/integrations/enterprise/schemas/v1/enterprise-adapters.schema.json",
+          "interchange": "json"
+        },
+        "mojo": {
+          "status": "upstream_blocked",
+          "reason": "Mojo standard package distribution is an external upstream boundary"
+        }
+      }
+    },
+    "domain_templates": {
+      "schema": "specs/domain-templates/schemas/v1/domain-template.schema.json",
+      "dispositions": {
+        "python": {
+          "status": "implemented",
+          "symbol": "voiage.domain_templates.DomainTemplate",
+          "interchange": "json"
+        },
+        "rust": {
+          "status": "contract_only",
+          "symbol": "specs/domain-templates/schemas/v1/domain-template.schema.json",
+          "interchange": "json"
+        },
+        "r": {
+          "status": "contract_only",
+          "symbol": "specs/domain-templates/schemas/v1/domain-template.schema.json",
+          "interchange": "json"
+        },
+        "julia": {
+          "status": "contract_only",
+          "symbol": "specs/domain-templates/schemas/v1/domain-template.schema.json",
+          "interchange": "json"
+        },
+        "mojo": {
+          "status": "upstream_blocked",
+          "reason": "Mojo standard package distribution is an external upstream boundary"
+        }
+      }
+    }
+  }
+}
