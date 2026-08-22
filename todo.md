@@ -37,7 +37,12 @@ challenge evidence. The repository owner records the accountable scientific,
 maintainer, and release decisions without claiming independent review;
 destination registry and publication decisions remain separate external gates.
 
-*   [ ] Execute #318 Phase 5 orchestrated scientific review.
+*   [x] Execute #318 Phase 5 orchestrated scientific review.
+    *   [x] Umbrella #841 completed across sub-issues #842, #846, #847, #848, and #849.
+    *   [x] Scientific remediation for estimation variance (#843), study design efficiency/COSS (#844), and CRRA stability (#845).
+    *   [x] High-risk and remaining C17/C18 review waves with role-separated advisory panels (#846, #847).
+    *   [x] Portable frontier contract packaging and installed parity verification (#848).
+    *   [x] Findings synthesis and promotion-readiness recommendations (#849).
     *   Umbrella #841 governs the programme. Nested implementation issues are
         #842 (evidence contracts), #843–#845 (Wave A remediation), #846–#847
         (remaining review waves), #848 (installed/parity assurance), #849
