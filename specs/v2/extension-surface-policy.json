@@ -53,7 +53,8 @@
       "voiage/decision_card.py",
       "voiage/enterprise_adapters.py",
       "voiage/ml_policy_voi.py",
-      "voiage/binding_dispositions.py"
+      "voiage/binding_dispositions.py",
+      "voiage/decision_studio.py"
     ],
     "experimental": [
       "voiage/experimental/**",

@@ -1,0 +1,63 @@
+{
+  "session_id": "studio_session_pricing_q3",
+  "created_at": "2026-08-22T10:00:00Z",
+  "decision_problem_id": "dp_enterprise_pricing_2026",
+  "decision_card_id": "card_pricing_strategy_v1",
+  "title": "Q3 Enterprise Tier Pricing Decision Studio Session",
+  "scenarios": [
+    {
+      "scenario_name": "Base Case",
+      "optimal_choice": "Usage-Based Model",
+      "expected_payoff": 425000.0,
+      "parameter_adjustments": {
+        "churn_risk_factor": 1.0,
+        "market_expansion_rate": 1.0
+      }
+    },
+    {
+      "scenario_name": "High Macro Downturn",
+      "optimal_choice": "Hybrid Fixed + Tiered",
+      "expected_payoff": 310000.0,
+      "parameter_adjustments": {
+        "churn_risk_factor": 1.35,
+        "market_expansion_rate": 0.70
+      }
+    },
+    {
+      "scenario_name": "Aggressive Tech Expansion",
+      "optimal_choice": "Usage-Based Model",
+      "expected_payoff": 580000.0,
+      "parameter_adjustments": {
+        "churn_risk_factor": 0.85,
+        "market_expansion_rate": 1.45
+      }
+    }
+  ],
+  "expected_losses": {
+    "Status Quo Flat Tier": 120000.0,
+    "Hybrid Fixed + Tiered": 35000.0,
+    "Usage-Based Model": 0.0
+  },
+  "voi_summary": {
+    "evpi": 45000.0,
+    "evppi": {
+      "enterprise_price_elasticity": 28000.0,
+      "competitor_discount_reaction": 17000.0
+    },
+    "status_quo_choice": "Status Quo Flat Tier",
+    "optimal_uninformed_choice": "Usage-Based Model"
+  },
+  "mcda_evaluation": {
+    "criteria": ["financial_return", "customer_retention", "implementation_risk"],
+    "weights": {
+      "financial_return": 0.5,
+      "customer_retention": 0.3,
+      "implementation_risk": 0.2
+    },
+    "scores": {
+      "Status Quo Flat Tier": 45.0,
+      "Hybrid Fixed + Tiered": 78.5,
+      "Usage-Based Model": 88.0
+    }
+  }
+}
