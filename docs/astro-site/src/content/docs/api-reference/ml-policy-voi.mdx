@@ -1,0 +1,17 @@
+---
+title: ML & Policy VOI API
+description: API reference for voiage.ml_policy_voi
+---
+
+## Classes
+
+- `CandidateModelEvaluation` — Per-model metrics: `model_id`, `predictive_metric_score`, `expected_decision_value`, `policy_regret`.
+- `DecisionFocusedModelValueResult` — Evaluation results, model upgrade value, and refresh recommendations.
+- `UpliftVOIResult` — Heterogeneous policy net values, budget utilization, uplift EVPI, and subgroup EVPPI.
+
+## Functions
+
+- `evaluate_decision_focused_model_value(...) -> DecisionFocusedModelValueResult`
+- `compute_policy_uplift_voi(...) -> UpliftVOIResult`
+- `validate_decision_focused_model_value(record_dict: dict) -> bool`
+- `validate_policy_uplift_voi(record_dict: dict) -> bool`

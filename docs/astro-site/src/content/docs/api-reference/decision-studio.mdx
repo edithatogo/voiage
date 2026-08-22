@@ -1,0 +1,17 @@
+---
+title: Decision Studio API
+description: API reference for voiage.decision_studio
+---
+
+## Classes
+
+- `ScenarioResult` — `scenario_name`, `optimal_choice`, `expected_payoff`, `parameter_adjustments`.
+- `DecisionStudioSession` — Full interactive session state with `render_markdown_report()`, `render_html_dashboard()`, and `to_dict()`.
+
+## Functions
+
+- `compute_expected_loss(payoffs: dict[str, float]) -> dict[str, float]` — Opportunity loss (regret) relative to the best choice.
+- `compute_mcda_scores(criteria_matrix: dict, weights: dict) -> dict[str, float]` — Weighted multi-criteria scores.
+- `create_decision_studio_session(...) -> DecisionStudioSession`
+- `validate_decision_studio_session(session_dict: dict, schema_path=None) -> bool`
+- `load_decision_studio_fixture(fixture_path=None) -> DecisionStudioSession`

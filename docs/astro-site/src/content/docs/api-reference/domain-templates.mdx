@@ -1,0 +1,37 @@
+---
+title: Domain Templates API
+description: API reference for voiage.domain_templates
+---
+
+The `voiage.domain_templates` module handles domain template discovery, JSON schema validation, and lifecycle serialization.
+
+## Types
+
+### `DomainTemplate`
+Immutable dataclass representing an industry decision problem template.
+
+- `template_id: str` — Identifier (snake_case)
+- `version: str` — Semantic version string
+- `domain: str` — Vertical category (e.g., `customer_success`, `pricing_revenue`)
+- `title: str` — Human-readable description
+- `decisions: list[str]` — Candidate interventions
+- `information_actions: list[str]` — Candidate studies / data collection trials
+- `required_fields: list[str]` — Parameter or dataset requirements
+- `capabilities: list[str]` — Supported VOI algorithms (`evpi`, `evppi`, `evsi`, `enbs`)
+- `maturity: str` — `candidate`, `experimental`, or `stable`
+- `to_dict() -> dict[str, Any]` — Serialize to dictionary
+- `from_dict(data: dict[str, Any]) -> DomainTemplate` — Parse from dictionary
+
+## Functions
+
+### `load_domain_template_registry(registry_path: Path | None = None) -> list[DomainTemplate]`
+Loads all domain templates from the normative `specs/domain-templates/registry.json` manifest.
+
+### `list_domain_templates(domain=None, capability=None, maturity=None, registry_path=None) -> list[DomainTemplate]`
+Filters and discovers templates by domain, VOI capability, or maturity status.
+
+### `get_domain_template(template_id: str, registry_path: Path | None = None) -> DomainTemplate`
+Retrieves a single template by ID; raises `ValueError` if not found.
+
+### `validate_domain_template_registry(registry_path=None, schema_path=None) -> bool`
+Validates all entries against `specs/domain-templates/schemas/v1/domain-template.schema.json`.

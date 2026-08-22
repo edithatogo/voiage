@@ -1,0 +1,23 @@
+---
+title: Decision Cards API
+description: API reference for voiage.decision_card
+---
+
+The `voiage.decision_card` module provides typed data structures for decision provenance, governance sign-off, and cryptographic result bundling.
+
+## Classes
+
+- `DecisionProblemSnapshot` — Snapshot of decision alternatives and criteria.
+- `SelectedPolicy` — Chosen policy, expected net benefit, and rationale.
+- `InformationValuation` — EVPI, EVPPI, EVSI, ENBS, and recommended trial action.
+- `ResidualUncertainty` — Post-decision risk quantiles and key variance drivers.
+- `HumanApproval` — Approver name, timestamp, and formal review rationale.
+- `Governance` — Card ownership, reviewer list, expiry dates, and approvals.
+- `Lineage` — Model versions, input hashes, dataset tags, and bundle hashes.
+- `DecisionCard` — Top-level auditable container with `to_markdown()`, `to_html()`, `to_json()`, and `compute_hash()`.
+- `DecisionBundle` — Container binding a `DecisionCard` with raw input payloads and SHA-256 verification via `verify_integrity()`.
+
+## Functions
+
+- `create_decision_card(...) -> DecisionCard` — Convenience constructor with ISO 8601 timestamps and default lineage.
+- `validate_decision_card(card_dict: dict, schema_path: Path | None = None) -> bool` — Validates dictionary against `specs/decision-cards/schemas/v1/decision-card.schema.json`.

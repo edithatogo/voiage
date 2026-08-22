@@ -1,0 +1,50 @@
+---
+title: Curated Domain Templates
+description: Cross-industry decision problem templates with schema validation and metadata registry
+sidebar:
+  order: 4
+---
+
+`voiage.domain_templates` provides standardized, pre-parameterized decision templates across 8 industry verticals: customer success, pricing and revenue, marketing, predictive maintenance, supply chain, fintech credit underwriting, corporate strategy R&D, and people analytics.
+
+## Overview
+
+Each template specifies the intervention alternatives, information-gathering experiments (EVPI, EVPPI, EVSI, ENBS), required parameter columns, and provenance evidence without lock-in.
+
+```python
+from voiage.domain_templates import (
+    list_domain_templates,
+    get_domain_template,
+    validate_domain_template_registry,
+)
+
+# Validate the registry against its JSON schema
+assert validate_domain_template_registry() is True
+
+# List available templates for Customer Success
+cs_templates = list_domain_templates(domain="customer_success")
+for t in cs_templates:
+    print(f"{t.template_id}: {t.title} ({t.maturity})")
+
+# Load a specific dynamic pricing template
+pricing_tpl = get_domain_template("dynamic_pricing")
+print("Candidate Decisions:", pricing_tpl.decisions)
+print("Candidate Studies:", pricing_tpl.information_actions)
+```
+
+## Available Curated Templates
+
+| Template ID | Domain | Decisions | Key VOI Actions | Maturity |
+| :--- | :--- | :--- | :--- | :--- |
+| `churn_retention` | Customer Success | Status Quo, Discount, Concierge | Pilot Trial, Survey, Telemetry | `stable` |
+| `dynamic_pricing` | Pricing & Revenue | Regular Price, 15% Markdown, 30% Markdown | Regional Price Test, Competitor Scraping | `stable` |
+| `marketing_attribution` | Marketing & Growth | Baseline Spend, Reallocate Paid, Shift Organic | Geo-Lift Incrementality Experiment | `stable` |
+| `predictive_maintenance` | Manufacturing & IoT | Run to Failure, Preventive, Sensor Retrofit | Vibration Telemetry, Pilot Inspection | `stable` |
+| `inventory_reorder` | Supply Chain | Periodic Review, Continuous, Multi-Echelon | Supplier SLA Trial, Demand Feed | `stable` |
+| `credit_underwriting` | Fintech & Risk | Standard Rules, Alternative ML, Tiered Limit | Bureau Credit Signal, Employer Verification | `stable` |
+| `portfolio_r_and_d` | Corporate Strategy | Kill Project, Maintain Core, Accelerate | Phased Feasibility Study, Market Survey | `stable` |
+| `talent_attrition` | People Analytics | Passive Monitoring, Comp Adjustment, Retention | Pulse Survey, Stay Interviews | `stable` |
+
+## See Also
+- [API Reference: Domain Templates](/voiage/api-reference/domain-templates)
+- [Cross-Domain Usage](/voiage/cross-domain-usage)

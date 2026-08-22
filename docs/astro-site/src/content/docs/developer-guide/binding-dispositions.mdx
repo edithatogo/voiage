@@ -1,0 +1,34 @@
+---
+title: Polyglot ABI & Binding Dispositions
+description: Cross-language parity matrix and contract dispositions across Rust, Python, R, Julia, and Mojo
+sidebar:
+  order: 15
+---
+
+`voiage.binding_dispositions` documents the normative implementation disposition of industry decision contracts across supported polyglot runtimes.
+
+## Binding Parity Matrix
+
+The normative manifest is stored at `specs/abi/industry-decision-binding-dispositions.json`.
+
+| Canonical Contract | Python | Rust | R | Julia | Mojo |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `decision_problem` | `implemented` (PyO3) | `implemented` (Native/C ABI) | `implemented` (C ABI) | `implemented` (C ABI) | `upstream_blocked` |
+| `decision_cards` | `implemented` (JSON/SHA256) | `contract_only` | `contract_only` | `contract_only` | `upstream_blocked` |
+| `enterprise_adapters` | `implemented` (JSON) | `contract_only` | `contract_only` | `contract_only` | `upstream_blocked` |
+| `domain_templates` | `implemented` (JSON) | `contract_only` | `contract_only` | `contract_only` | `upstream_blocked` |
+
+## Inspection API
+
+```python
+from voiage.binding_dispositions import (
+    load_industry_decision_binding_dispositions,
+    get_binding_disposition,
+    validate_binding_dispositions_manifest,
+)
+
+assert validate_binding_dispositions_manifest() is True
+
+disp = get_binding_disposition("decision_cards", "python")
+print(f"Python Decision Cards: status={disp.status}, symbol={disp.symbol}")
+```

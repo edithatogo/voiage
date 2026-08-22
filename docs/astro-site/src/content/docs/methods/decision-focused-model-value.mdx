@@ -1,0 +1,43 @@
+---
+title: Decision-Focused Model Value
+description: Evaluating ML/LLM models by downstream economic decision loss, policy regret, and refresh triggers
+sidebar:
+  order: 34
+---
+
+Standard ML benchmarks evaluate models on predictive accuracy or AUC-ROC. In operational decision-making, predictive accuracy often diverges from business value. `evaluate_decision_focused_model_value` measures models by net realized payoff, policy regret against an oracle EVPI ceiling, and automated retraining triggers.
+
+## Mathematical Formulation
+
+For candidate model `m` with predicted probabilities `p_{m, i}` on unit `i`:
+
+```text
+Decision Value(m) = Sum_i I(p_{m, i} >= tau) * (y_i * Payoff - Cost)
+Policy Regret(m) = Oracle Value - Decision Value(m)
+```
+
+## Usage Example
+
+```python
+import numpy as np
+from voiage.ml_policy_voi import evaluate_decision_focused_model_value
+
+y_true = np.array([1, 0, 1, 1, 0, 0, 1, 0, 1, 0])
+preds = {
+    "xgb_v1": np.array([0.9, 0.1, 0.8, 0.7, 0.2, 0.1, 0.85, 0.3, 0.95, 0.1]),
+    "lr_baseline": np.array([0.6, 0.4, 0.55, 0.65, 0.45, 0.3, 0.6, 0.5, 0.7, 0.4]),
+}
+
+res = evaluate_decision_focused_model_value(
+    candidate_predictions=preds,
+    actual_outcomes=y_true,
+    intervention_cost=100.0,
+    intervention_payoff=500.0,
+    current_production_model_id="lr_baseline",
+    regret_refresh_threshold=500.0,
+)
+
+print(f"Optimal Model: {res.selected_model}")
+print(f"Incremental Value: ${res.downstream_metrics['value_of_model_upgrade']:,.2f}")
+print(f"Refresh Recommended: {res.refresh_recommendation['should_refresh']}")
+```

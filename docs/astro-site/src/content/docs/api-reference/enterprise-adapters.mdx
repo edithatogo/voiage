@@ -1,0 +1,20 @@
+---
+title: Enterprise Adapters API
+description: API reference for voiage.enterprise_adapters
+---
+
+## Classes
+
+### `EnterpriseAdapterRecord`
+Canonical envelope storing `adapter_type`, `adapter_version`, `source_system`, `extracted_at`, `metadata`, and `payload`.
+
+## Functions
+
+- `adapt_mlflow_model_metadata(...) -> EnterpriseAdapterRecord`
+- `adapt_openlineage_job_facet(...) -> EnterpriseAdapterRecord`
+- `adapt_dbt_semantic_metric(...) -> EnterpriseAdapterRecord`
+- `adapt_experiment_export(...) -> EnterpriseAdapterRecord`
+- `adapt_causal_cate_artifact(...) -> EnterpriseAdapterRecord`
+- `adapt_probabilistic_forecast(...) -> EnterpriseAdapterRecord`
+- `validate_enterprise_adapter_record(record_dict: dict) -> bool`
+- `load_enterprise_adapters_from_fixture(fixture_path: Path | None = None) -> list[EnterpriseAdapterRecord]`
