@@ -51,7 +51,7 @@ fn enbs_r_adapter_handles_invalid_inputs_safely() {
         );
     }
     assert_eq!(out_status, VoiageStatusV1::InvalidArgument.as_i32());
-    assert_eq!(out_value, 42.0);
+    assert_eq!(out_value.to_bits(), 42.0_f64.to_bits());
 
     // Null pointers should not crash
     unsafe {
