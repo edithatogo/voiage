@@ -48,7 +48,8 @@
       "voiage/multi_domain.py",
       "voiage/parallel/**",
       "voiage/plot/**",
-      "voiage/clinical_trials.py"
+      "voiage/clinical_trials.py",
+      "voiage/domain_templates.py"
     ],
     "experimental": [
       "voiage/experimental/**",
