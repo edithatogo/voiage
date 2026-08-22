@@ -10,14 +10,15 @@ Information (VOI) analysis.
 
 Value of Information analysis estimates the value of collecting additional
 data to reduce uncertainty in decision-making. `voiageR` calls the shared Rust
-implementation directly for EVPI. Advanced EVPPI and EVSI methods currently use
+implementation directly for EVPI and ENBS. Advanced EVPPI and EVSI methods currently use
 the Python package through `reticulate`.
 
 ## Installation
 
 ### Prerequisites
 
-The `evpi()` function calls the Rust `voiage_v1_evpi_i32_r` C ABI directly.
+The `evpi()` and `enbs()` functions call the Rust `voiage_v1_evpi_i32_r` and
+`voiage_v1_enbs_r` C ABI directly.
 Set `VOIAGE_FFI_LIBRARY` to the built `voiage-ffi` library when it is not on
 the system library path.
 
@@ -32,7 +33,7 @@ pip install voiage
 install.packages("reticulate")
 ```
 
-The direct `evpi()` path does not require Python or `reticulate`.
+The direct `evpi()` and `enbs()` paths do not require Python or `reticulate`.
 
 ### Installing voiageR
 
@@ -115,6 +116,7 @@ wrapper for this family. Its machine-readable status remains `unsupported` in
 
 ## Functions
 
+- `enbs()`: Calculate Expected Net Benefit of Sampling
 - `evpi()`: Calculate Expected Value of Perfect Information
 - `evppi()`: Calculate Expected Value of Partial Perfect Information
 - `evsi()`: Calculate Expected Value of Sample Information

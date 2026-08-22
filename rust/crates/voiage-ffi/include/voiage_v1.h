@@ -71,6 +71,11 @@ VOIAGE_V1_API voiage_v1_status voiage_v1_enbs(
     double evsi_result,
     double research_cost,
     double *out_value);
+VOIAGE_V1_API void voiage_v1_enbs_r(
+    const double *evsi_result,
+    const double *research_cost,
+    double *out_value,
+    int32_t *out_status);
 /* R-compatible dimension-width adapter for the same Rust EVPI kernel. */
 VOIAGE_V1_API voiage_v1_status voiage_v1_evpi_i32(
     const double *values,
