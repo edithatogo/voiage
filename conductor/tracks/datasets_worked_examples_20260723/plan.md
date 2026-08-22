@@ -26,6 +26,7 @@
 
 ## Phase 3 — Delivery or reviewed exclusion
 
+- [x] **G9-ChurnRetention:** Deliver decision-grade customer churn retention worked example (#574) and cross-industry dataset snapshots in registry (#575).
 - [ ] **G9:** Implement each accepted repository-owned capability or record a
   reviewed exclusion with migration guidance. (AC-02, AC-06)
 - [ ] **G10:** Add Rust/Python/R/Julia/Mojo dispositions and installed

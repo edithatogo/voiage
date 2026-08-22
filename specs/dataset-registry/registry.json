@@ -46,5 +46,13 @@
     "snapshot_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
     "schema": "specs/core-api/schemas/v1/parameter-set.schema.json",
     "method_tags": ["evpi", "evppi", "calibration_voi"]
+  },
+  "customer_churn": {
+    "source_url": "https://voiage.dev/datasets/customer-churn",
+    "license": "CC BY-4.0",
+    "citation": "voiage worked example benchmark dataset for subscription customer churn and retention campaigns (#574, #575).",
+    "snapshot_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "schema": "specs/core-api/schemas/v1/decision-problem.schema.json",
+    "method_tags": ["evpi", "evppi", "evsi", "enbs"]
   }
 }
