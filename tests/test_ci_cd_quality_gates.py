@@ -12,9 +12,11 @@ according to the strict CI/CD quality gates policy, including:
 - Binding language-native gates
 """
 
+from datetime import date
 import json
 from pathlib import Path
 import re
+import tomllib
 
 import yaml
 
@@ -445,6 +447,23 @@ class TestQualityGatePolicyCompliance:
         assert "actions/upload-artifact@" in workflow_text
         assert "rust-coverage.xml" in rendered
         assert "continue-on-error" not in rendered
+
+    def test_osv_scanner_exceptions_are_time_bounded_and_future(self):
+        """Require all osv-scanner exceptions to have valid future ignoreUntil dates."""
+        osv_path = PROJECT_ROOT / "osv-scanner.toml"
+        assert osv_path.exists(), "osv-scanner.toml not found"
+        data = tomllib.loads(osv_path.read_text(encoding="utf-8"))
+        ignored = data.get("IgnoredVulns", [])
+        assert len(ignored) > 0, "Expected IgnoredVulns entries in osv-scanner.toml"
+        today = date.today()
+        for item in ignored:
+            assert item.get("id")
+            assert item.get("reason")
+            ignore_date = item.get("ignoreUntil")
+            assert isinstance(ignore_date, date)
+            assert ignore_date > today, (
+                f"osv-scanner ignoreUntil {ignore_date} has expired"
+            )
 
     def test_dependency_conflicts_prevented(self):
         """Test that base install avoids dependency conflicts."""
