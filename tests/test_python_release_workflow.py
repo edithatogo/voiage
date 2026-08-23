@@ -134,7 +134,7 @@ def test_conda_release_recipe_is_single_native_maturin_contract() -> None:
     assert "voiage.evpi(np.array(" in recipe
     assert "  requires:\n    - python\n    - pip" in recipe
     assert (
-        "sha256: 82514d3df571bf908bc64a85be2c8212ea66f5d7d53a3058054c7ddf219a35de"
+        "sha256: f0844694c628a92d29a532170f5a5672acfe210efe1d797359a4dc18c11ab901"
         in recipe
     )
 

@@ -12,9 +12,11 @@ according to the strict CI/CD quality gates policy, including:
 - Binding language-native gates
 """
 
+from datetime import date
 import json
 from pathlib import Path
 import re
+import tomllib
 
 import yaml
 
@@ -448,9 +450,6 @@ class TestQualityGatePolicyCompliance:
 
     def test_osv_scanner_exceptions_are_time_bounded_and_future(self):
         """Require all osv-scanner exceptions to have valid future ignoreUntil dates."""
-        import tomllib
-        from datetime import date
-
         osv_path = PROJECT_ROOT / "osv-scanner.toml"
         assert osv_path.exists(), "osv-scanner.toml not found"
         data = tomllib.loads(osv_path.read_text(encoding="utf-8"))
@@ -458,10 +457,9 @@ class TestQualityGatePolicyCompliance:
         assert len(ignored) > 0, "Expected IgnoredVulns entries in osv-scanner.toml"
         today = date.today()
         for item in ignored:
-            assert "id" in item and item["id"]
-            assert "reason" in item and item["reason"]
-            assert "ignoreUntil" in item
-            ignore_date = item["ignoreUntil"]
+            assert item.get("id")
+            assert item.get("reason")
+            ignore_date = item.get("ignoreUntil")
             assert isinstance(ignore_date, date)
             assert ignore_date > today, f"osv-scanner ignoreUntil {ignore_date} has expired"
 
