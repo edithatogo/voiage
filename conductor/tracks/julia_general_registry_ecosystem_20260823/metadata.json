@@ -1,0 +1,47 @@
+{
+  "track_id": "julia_general_registry_ecosystem_20260823",
+  "version": "1.0.0",
+  "type": "feature",
+  "status": "in_progress",
+  "created_at": "2026-08-23T14:50:00Z",
+  "updated_at": "2026-08-23T14:50:00Z",
+  "description": "Publish Voiage.jl to the Julia General Registry and JuliaHealth ecosystem directory.",
+  "evidence_schema": "1.0",
+  "approval": {
+    "status": "approved",
+    "approved_on": "2026-08-23",
+    "recorded_at": "2026-08-23T14:50:00Z",
+    "evidence": "User directive to implement polyglot ecosystem and community review strategy."
+  },
+  "github_parent_issue": "https://github.com/edithatogo/voiage/issues/1023",
+  "github_subissues": [
+    "https://github.com/edithatogo/voiage/issues/555"
+  ],
+  "github_project": "https://github.com/users/edithatogo/projects/28",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/1023",
+    "subissues": [
+      "https://github.com/edithatogo/voiage/issues/555"
+    ]
+  },
+  "gates": [
+    {
+      "id": "specification-and-plan-approval",
+      "kind": "human_approval",
+      "status": "satisfied",
+      "evidence": "User approval on 2026-08-23."
+    },
+    {
+      "id": "yggdrasil-buildkite-matrix",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "Buildkite 31972 passed 15/15 target platforms for voiage_ffi_jll."
+    },
+    {
+      "id": "julia-general-registration-gate",
+      "kind": "human_submission",
+      "status": "pending",
+      "evidence": "Registrator trigger reserved for maintainer action after Yggdrasil merge."
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "track_id": "pyopensci_joss_review_readiness_20260823",
+  "version": "1.0.0",
+  "type": "feature",
+  "status": "in_progress",
+  "created_at": "2026-08-23T14:50:00Z",
+  "updated_at": "2026-08-23T14:50:00Z",
+  "description": "Prepare pyOpenSci community peer review submission and JOSS fast-track coordination package.",
+  "evidence_schema": "1.0",
+  "approval": {
+    "status": "approved",
+    "approved_on": "2026-08-23",
+    "recorded_at": "2026-08-23T14:50:00Z",
+    "evidence": "User directive to implement polyglot ecosystem and community review strategy."
+  },
+  "github_parent_issue": "https://github.com/edithatogo/voiage/issues/1022",
+  "github_subissues": [
+    "https://github.com/edithatogo/voiage/issues/616",
+    "https://github.com/edithatogo/voiage/issues/471"
+  ],
+  "github_project": "https://github.com/users/edithatogo/projects/28",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/1022",
+    "subissues": [
+      "https://github.com/edithatogo/voiage/issues/616",
+      "https://github.com/edithatogo/voiage/issues/471"
+    ]
+  },
+  "gates": [
+    {
+      "id": "specification-and-plan-approval",
+      "kind": "human_approval",
+      "status": "satisfied",
+      "evidence": "User approval on 2026-08-23."
+    },
+    {
+      "id": "pyopensci-criteria-verification",
+      "kind": "contract_validation",
+      "status": "satisfied",
+      "evidence": "specs/submission-readiness/pyopensci-evidence.json (8/8 repository criteria passing)."
+    },
+    {
+      "id": "external-submission-gate",
+      "kind": "human_submission",
+      "status": "pending",
+      "evidence": "External inquiry reserved for author review at the end of implementation."
+    }
+  ]
+}
