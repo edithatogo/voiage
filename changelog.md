@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added Metamorphic Testing (MT) and Deterministic Simulation Testing (DST) suites (#657) in `tests/test_metamorphic_voi.py` and `tests/test_deterministic_simulation.py` verifying 8 metamorphic relations, bit-exact RNG reproducibility, chunk partition invariance, and fault injection recovery.
+
 - Added automated Gitleaks secret scanning (`.gitleaks.toml` allowlist, `.github/workflows/gitleaks.yml` workflow, and `.pre-commit-config.yaml` hook) for continuous credential leakage prevention.
 
 - Expanded continuous fuzz testing across Rust libFuzzer kernels (`stable_enbs`, `sample_matrix`, `stable_evpi`) and Python Hypothesis fuzz testing in `tests/test_fuzzing_python.py`.

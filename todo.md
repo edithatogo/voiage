@@ -4,6 +4,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+*   [x] Complete Quality Frontier evidence-based hardening with Metamorphic Testing (MT) and Deterministic Simulation Testing (DST) suites (#657).
+*   [x] Configure automated Gitleaks secret scanning and expanded continuous Rust and Python fuzz testing.
+*   [x] Add structured GitHub Issue Forms, issue routing config, and root pull request template.
+*   [x] Author CRediT taxonomy author statement and AI contribution transparency ledger (#323).
 *   [x] Complete Industry Decision Problem and Intervention contracts (#566).
 *   [x] Package Customer Churn & Retention worked example and dataset pack snapshots (#574, #575).
 *   [x] Add curated Domain Templates and Adapter Registry (#577).
