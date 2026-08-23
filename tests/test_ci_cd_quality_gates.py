@@ -461,7 +461,9 @@ class TestQualityGatePolicyCompliance:
             assert item.get("reason")
             ignore_date = item.get("ignoreUntil")
             assert isinstance(ignore_date, date)
-            assert ignore_date > today, f"osv-scanner ignoreUntil {ignore_date} has expired"
+            assert ignore_date > today, (
+                f"osv-scanner ignoreUntil {ignore_date} has expired"
+            )
 
     def test_dependency_conflicts_prevented(self):
         """Test that base install avoids dependency conflicts."""
