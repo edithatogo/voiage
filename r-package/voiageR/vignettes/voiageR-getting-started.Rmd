@@ -113,14 +113,12 @@ custom-model parity.
 
 # Current wrapper surface
 
-The current R package exports the core analysis wrappers only:
+The current R package exports the core analysis wrappers:
 
-- `evpi()` for perfect-information value
-- `evppi()` for parameter-specific information value
-- `evsi()` for the built-in two-loop model and compatibility estimators
-
-Composite metrics such as ENBS are currently part of the Python surface and
-can be composed from the results above when needed.
+- `evpi()` for expected value of perfect information
+- `evppi()` for expected value of partial perfect information
+- `evsi()` for expected value of sample information (built-in two-loop model and estimators)
+- `enbs()` for expected net benefit of sampling
 
 # Build outputs
 

@@ -31,9 +31,13 @@ REQUIRED_WORKFLOWS = (
     "ci.yml",
     "codeql.yml",
     "dependency-review.yml",
+    "gitleaks.yml",
     "operational-assurance.yml",
     "rust-fuzz.yml",
+    "rust-security.yml",
+    "sbom.yml",
     "scorecard.yml",
+    "zizmor.yml",
 )
 REQUIRED_CONTEXT_MARKERS = (
     "## Context Loading Order",
