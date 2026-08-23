@@ -10,7 +10,7 @@ checks via reticulate.
 }
 \details{
 The package exports \code{init_voiage}, \code{evpi}, \code{evppi},
-\code{evsi}, \code{is_voiage_available}, and \code{set_voiage_env}.
+\code{evsi}, \code{enbs}, \code{is_voiage_available}, and \code{set_voiage_env}.
 
 Documentation policy:
 \itemize{
