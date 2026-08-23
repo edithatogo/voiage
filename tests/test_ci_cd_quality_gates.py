@@ -446,6 +446,25 @@ class TestQualityGatePolicyCompliance:
         assert "rust-coverage.xml" in rendered
         assert "continue-on-error" not in rendered
 
+    def test_osv_scanner_exceptions_are_time_bounded_and_future(self):
+        """Require all osv-scanner exceptions to have valid future ignoreUntil dates."""
+        import tomllib
+        from datetime import date
+
+        osv_path = PROJECT_ROOT / "osv-scanner.toml"
+        assert osv_path.exists(), "osv-scanner.toml not found"
+        data = tomllib.loads(osv_path.read_text(encoding="utf-8"))
+        ignored = data.get("IgnoredVulns", [])
+        assert len(ignored) > 0, "Expected IgnoredVulns entries in osv-scanner.toml"
+        today = date.today()
+        for item in ignored:
+            assert "id" in item and item["id"]
+            assert "reason" in item and item["reason"]
+            assert "ignoreUntil" in item
+            ignore_date = item["ignoreUntil"]
+            assert isinstance(ignore_date, date)
+            assert ignore_date > today, f"osv-scanner ignoreUntil {ignore_date} has expired"
+
     def test_dependency_conflicts_prevented(self):
         """Test that base install avoids dependency conflicts."""
         with open(PYPROJECT_TOML) as f:

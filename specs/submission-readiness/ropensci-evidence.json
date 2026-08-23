@@ -7,7 +7,7 @@
     {"id": "documented-bounded-api", "status": "satisfied", "evidence": ["r-package/voiageR/README.md", "r-package/voiageR/vignettes/voiageR-getting-started.Rmd", "r-package/voiageR/tests/testthat/test-voiageR.R"]},
     {"id": "prior-art-and-overlap", "status": "satisfied", "evidence": ["r-package/voiageR/README.md", "paper.md"]},
     {"id": "tests-and-ci", "status": "satisfied", "evidence": ["r-package/voiageR/tests/testthat/test-voiageR.R", ".github/workflows/bindings-ci.yml"]},
-    {"id": "reference-comparisons", "status": "satisfied", "evidence": ["r-package/voiageR/tests/testthat/test-zz-numerical-reference.R", "specs/numerical-reference/v1/evpi-cases.json"]},
+    {"id": "reference-comparisons", "status": "satisfied", "evidence": ["r-package/voiageR/tests/testthat/test-zz-numerical-reference.R", "specs/numerical-reference/v1/evpi-cases.json", "specs/submission-readiness/ropensci-standards-mapping.md"]},
     {"id": "input-error-and-seed-contract", "status": "satisfied", "evidence": ["r-package/voiageR/R/voiageR.R", "r-package/voiageR/tests/testthat/test-voiageR.R"]},
     {"id": "self-contained-installation", "status": "repository_blocked", "evidence": ["r-package/voiageR/DESCRIPTION", "r-package/voiageR/README.md"]},
     {"id": "pkgcheck", "status": "repository_blocked", "evidence": ["docs/release/binding-submission-checklist.md"]},
