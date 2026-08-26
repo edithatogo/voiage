@@ -1,10 +1,15 @@
 # Track: pyOpenSci & JOSS Fast-Track Community Review Readiness
 
-**Track ID:** `pyopensci_joss_review_readiness_20260823`  
-**GitHub Issue:** [#1022](https://github.com/edithatogo/voiage/issues/1022)  
-**Status:** In Progress  
-**Specification:** [`spec.md`](./spec.md)  
-**Execution Plan:** [`plan.md`](./plan.md)  
+- [Specification](./spec.md)
+- [Implementation Plan](./plan.md)
+- [Metadata](./metadata.json)
+- [Evidence](./evidence.jsonl)
+- [GitHub issue #1022](https://github.com/edithatogo/voiage/issues/1022)
+- [Project 28](https://github.com/users/edithatogo/projects/28)
+- [Registration PR #1027](https://github.com/edithatogo/voiage/pull/1027)
+
+Status: in progress. Repository implementation remains pending, and any
+external pyOpenSci or JOSS inquiry remains maintainer-controlled.
 
 ---
 

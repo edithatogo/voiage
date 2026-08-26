@@ -1,10 +1,15 @@
 # Track: Sustainability, Security Badging & Persistent Identifier Governance
 
-**Track ID:** `sustainability_badging_governance_20260823`  
-**GitHub Issue:** [#1026](https://github.com/edithatogo/voiage/issues/1026)  
-**Status:** In Progress  
-**Specification:** [`spec.md`](./spec.md)  
-**Execution Plan:** [`plan.md`](./plan.md)  
+- [Specification](./spec.md)
+- [Implementation Plan](./plan.md)
+- [Metadata](./metadata.json)
+- [Evidence](./evidence.jsonl)
+- [GitHub issue #1026](https://github.com/edithatogo/voiage/issues/1026)
+- [Project 28](https://github.com/users/edithatogo/projects/28)
+- [Registration PR #1027](https://github.com/edithatogo/voiage/pull/1027)
+
+Status: in progress. Repository implementation remains pending, and external
+sponsorship or badge activation remains maintainer-controlled.
 
 ---
 

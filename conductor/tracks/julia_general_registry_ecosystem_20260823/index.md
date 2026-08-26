@@ -1,10 +1,15 @@
 # Track: Julia General Registry & JuliaHealth Ecosystem Integration
 
-**Track ID:** `julia_general_registry_ecosystem_20260823`  
-**GitHub Issue:** [#1023](https://github.com/edithatogo/voiage/issues/1023)  
-**Status:** In Progress  
-**Specification:** [`spec.md`](./spec.md)  
-**Execution Plan:** [`plan.md`](./plan.md)  
+- [Specification](./spec.md)
+- [Implementation Plan](./plan.md)
+- [Metadata](./metadata.json)
+- [Evidence](./evidence.jsonl)
+- [GitHub issue #1023](https://github.com/edithatogo/voiage/issues/1023)
+- [Project 28](https://github.com/users/edithatogo/projects/28)
+- [Registration PR #1027](https://github.com/edithatogo/voiage/pull/1027)
+
+Status: in progress. Repository implementation remains pending, and Julia
+General Registry or JuliaHealth submission remains maintainer-controlled.
 
 ---
 
