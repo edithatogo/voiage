@@ -1,0 +1,1 @@
+Conductor repair validation: full validator valid=true with 155 tracks and zero errors/warnings; cross-reference validator passed; focused governance tests passed on Python 3.14 (12 passed); full Python 3.12 and 3.13 suites passed before the accelerated remaining validation. Full tox docs leg was blocked by missing .repo-tools/astro-polyglot/package.json.
