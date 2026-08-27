@@ -59,12 +59,13 @@ local evidence. The maintenance commitment is repository evidence; the
 decision and authenticated action to open an inquiry or review remain a
 separate human gate.
 
-The official criteria are refreshed on 2026-07-27. The current package provides
-published installation instructions, an importable wheel test, online quick
-starts and API reference, contribution and conduct documents, issue templates,
-CI-backed tests, release evidence, support and governance documentation, and an
-AI-use disclosure. Scope, overlap, and method provenance are documented in the
-README, methods documentation, and paper.
+The repository-wide venue inventory was refreshed on 2026-07-27, and the
+pyOpenSci/JOSS guidance received a focused refresh on 2026-08-27. The current
+package provides published installation instructions, an importable wheel
+test, online quick starts and API reference, contribution and conduct
+documents, issue templates, CI-backed tests, release evidence, support and
+governance documentation, and an AI-use disclosure. Scope, overlap, and method
+provenance are documented in the README, methods documentation, and paper.
 
 Refresh the official guide and the evidence matrix immediately before any
 author-led inquiry. This commitment does not grant permission to contact
