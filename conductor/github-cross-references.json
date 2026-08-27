@@ -1,10 +1,149 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-21T15:13:05Z",
+  "generated_at": "2026-08-26T08:13:03Z",
   "repository": "edithatogo/voiage",
   "project_url": "https://github.com/users/edithatogo/projects/28",
   "association_policy": "PRs are included only when associated with commits recorded by a track, Git history for its path, or an explicit track reference. Empty completed-track lists are none_found, not inferred.",
   "tracks": [
+    {
+      "track_id": "pyopensci_joss_review_readiness_20260823",
+      "metadata_track_id": "pyopensci_joss_review_readiness_20260823",
+      "path": "conductor/tracks/pyopensci_joss_review_readiness_20260823",
+      "lifecycle": "active",
+      "issue": {
+        "number": 1022,
+        "url": "https://github.com/edithatogo/voiage/issues/1022",
+        "state": "open"
+      },
+      "parent_issue_url": null,
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/616",
+        "https://github.com/edithatogo/voiage/issues/471"
+      ],
+      "pull_requests": [
+        {
+          "number": 1027,
+          "url": "https://github.com/edithatogo/voiage/pull/1027",
+          "status": "open",
+          "evidence": [
+            "track-registration-candidate",
+            "315fb04f167d9ce4a172bacbb0b4b2e65d17a403"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_registration_candidate"
+    },
+    {
+      "track_id": "julia_general_registry_ecosystem_20260823",
+      "metadata_track_id": "julia_general_registry_ecosystem_20260823",
+      "path": "conductor/tracks/julia_general_registry_ecosystem_20260823",
+      "lifecycle": "active",
+      "issue": {
+        "number": 1023,
+        "url": "https://github.com/edithatogo/voiage/issues/1023",
+        "state": "open"
+      },
+      "parent_issue_url": null,
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/555"
+      ],
+      "pull_requests": [
+        {
+          "number": 1027,
+          "url": "https://github.com/edithatogo/voiage/pull/1027",
+          "status": "open",
+          "evidence": [
+            "track-registration-candidate",
+            "315fb04f167d9ce4a172bacbb0b4b2e65d17a403"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_registration_candidate"
+    },
+    {
+      "track_id": "ropensci_cran_readiness_20260823",
+      "metadata_track_id": "ropensci_cran_readiness_20260823",
+      "path": "conductor/tracks/ropensci_cran_readiness_20260823",
+      "lifecycle": "active",
+      "issue": {
+        "number": 1024,
+        "url": "https://github.com/edithatogo/voiage/issues/1024",
+        "state": "open"
+      },
+      "parent_issue_url": null,
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/615",
+        "https://github.com/edithatogo/voiage/issues/298"
+      ],
+      "pull_requests": [
+        {
+          "number": 1027,
+          "url": "https://github.com/edithatogo/voiage/pull/1027",
+          "status": "open",
+          "evidence": [
+            "track-registration-candidate",
+            "315fb04f167d9ce4a172bacbb0b4b2e65d17a403"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_registration_candidate"
+    },
+    {
+      "track_id": "hpc_spack_easybuild_distribution_20260823",
+      "metadata_track_id": "hpc_spack_easybuild_distribution_20260823",
+      "path": "conductor/tracks/hpc_spack_easybuild_distribution_20260823",
+      "lifecycle": "active",
+      "issue": {
+        "number": 1025,
+        "url": "https://github.com/edithatogo/voiage/issues/1025",
+        "state": "open"
+      },
+      "parent_issue_url": null,
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/622"
+      ],
+      "pull_requests": [
+        {
+          "number": 1027,
+          "url": "https://github.com/edithatogo/voiage/pull/1027",
+          "status": "open",
+          "evidence": [
+            "track-registration-candidate",
+            "315fb04f167d9ce4a172bacbb0b4b2e65d17a403"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_registration_candidate"
+    },
+    {
+      "track_id": "sustainability_badging_governance_20260823",
+      "metadata_track_id": "sustainability_badging_governance_20260823",
+      "path": "conductor/tracks/sustainability_badging_governance_20260823",
+      "lifecycle": "active",
+      "issue": {
+        "number": 1026,
+        "url": "https://github.com/edithatogo/voiage/issues/1026",
+        "state": "open"
+      },
+      "parent_issue_url": null,
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/620",
+        "https://github.com/edithatogo/voiage/issues/298",
+        "https://github.com/edithatogo/voiage/issues/617"
+      ],
+      "pull_requests": [
+        {
+          "number": 1027,
+          "url": "https://github.com/edithatogo/voiage/pull/1027",
+          "status": "open",
+          "evidence": [
+            "track-registration-candidate",
+            "315fb04f167d9ce4a172bacbb0b4b2e65d17a403"
+          ]
+        }
+      ],
+      "pull_request_evidence": "track_registration_candidate"
+    },
     {
       "track_id": "rust_polyglot_voi_completion_20260723",
       "metadata_track_id": "rust_polyglot_voi_completion_20260723",

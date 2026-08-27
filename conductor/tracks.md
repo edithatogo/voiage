@@ -3,6 +3,41 @@
 The Rust-first polyglot programme is registered as the current programme; all
 other tracks retain their evidenced lifecycle and external-gate boundaries.
 
+## [~] Track: pyOpenSci & JOSS Fast-Track Community Review Readiness
+*Link: [./tracks/pyopensci_joss_review_readiness_20260823/index.md](./tracks/pyopensci_joss_review_readiness_20260823/index.md)*
+*GitHub: [issue #1022](https://github.com/edithatogo/voiage/issues/1022), sub-issues [#616](https://github.com/edithatogo/voiage/issues/616) and [#471](https://github.com/edithatogo/voiage/issues/471).*
+*Status: in progress — pyOpenSci criteria verified; maintainer commitment and pre-submission inquiry packet in progress.*
+
+---
+
+## [~] Track: Julia General Registry & JuliaHealth Ecosystem Integration
+*Link: [./tracks/julia_general_registry_ecosystem_20260823/index.md](./tracks/julia_general_registry_ecosystem_20260823/index.md)*
+*GitHub: [issue #1023](https://github.com/edithatogo/voiage/issues/1023), related [#555](https://github.com/edithatogo/voiage/issues/555).*
+*Status: in progress — Yggdrasil PR #14292 Buildkite 15/15 green; JLL dependency wiring and JuliaHealth domain integration in progress.*
+
+---
+
+## [~] Track: R CRAN Standalone Distribution & rOpenSci Statistical Software Review
+*Link: [./tracks/ropensci_cran_readiness_20260823/index.md](./tracks/ropensci_cran_readiness_20260823/index.md)*
+*GitHub: [issue #1024](https://github.com/edithatogo/voiage/issues/1024), related [#615](https://github.com/edithatogo/voiage/issues/615) and [#298](https://github.com/edithatogo/voiage/issues/298).*
+*Status: in progress — standalone C ABI bridge architecture and @srrstats annotations in progress.*
+
+---
+
+## [~] Track: HPC Spack & EasyBuild Distribution
+*Link: [./tracks/hpc_spack_easybuild_distribution_20260823/index.md](./tracks/hpc_spack_easybuild_distribution_20260823/index.md)*
+*GitHub: [issue #1025](https://github.com/edithatogo/voiage/issues/1025), related [#622](https://github.com/edithatogo/voiage/issues/622).*
+*Status: in progress — Spack py-voiage recipe and EasyBuild easyconfig authoring in progress.*
+
+---
+
+## [~] Track: Sustainability, Security Badging & Persistent Identifier Governance
+*Link: [./tracks/sustainability_badging_governance_20260823/index.md](./tracks/sustainability_badging_governance_20260823/index.md)*
+*GitHub: [issue #1026](https://github.com/edithatogo/voiage/issues/1026), related [#620](https://github.com/edithatogo/voiage/issues/620) and [#298](https://github.com/edithatogo/voiage/issues/298).*
+*Status: in progress — Open Source Collective documentation, OpenSSF Best Practices Passing Badge questionnaire, and SciCrunch RRID tracking.*
+
+---
+
 ## [x] Track: Yggdrasil Maximum Platform Coverage [completed: 2026-08-22]
 *Link: [./archive/yggdrasil_maximum_platform_coverage_20260821/index.md](./archive/yggdrasil_maximum_platform_coverage_20260821/index.md)*
 *GitHub: owner issue [#555](https://github.com/edithatogo/voiage/issues/555),
