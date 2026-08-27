@@ -2,8 +2,8 @@
 
 ## Phases
 
-- [ ] **Phase 1: pyOpenSci Readiness & Maintainer Commitment**
-  - [ ] Author `docs/release/pyopensci-readiness.md` with explicit maintenance commitment.
+- [~] **Phase 1: pyOpenSci Readiness & Maintainer Commitment**
+  - [x] Author `docs/release/pyopensci-readiness.md` with explicit maintenance commitment. (`dc23f90`)
   - [ ] Verify `specs/submission-readiness/pyopensci-evidence.json` via `scripts/validate_submission_readiness.py`.
 - [ ] **Phase 2: JOSS Fast-Track Alignment**
   - [ ] Validate `paper.md` against `scripts/validate_joss.py`.
