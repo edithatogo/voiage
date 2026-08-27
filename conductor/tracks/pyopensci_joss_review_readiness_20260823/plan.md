@@ -11,4 +11,4 @@
   - [x] **Review Fixes:** Enforce the selected partner route and unperformed external states in the JOSS manifest contract. (`dd4588d`)
 - [~] **Phase 3: Automated Verification & Staging**
   - [x] Run full test suite and quality harness. (`19273d6`)
-  - [ ] Commit, open PR, verify green CI, and merge.
+  - [~] Commit, open PR, verify green CI, and merge.
