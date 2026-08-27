@@ -72,6 +72,9 @@ def test_joss_independent_validation_protocol_is_bounded() -> None:
     readiness = (ROOT / "docs/release/joss-submission-readiness.md").read_text(
         encoding="utf-8"
     )
+    manifest = json.loads(
+        (ROOT / "paper/joss-readiness-manifest.json").read_text(encoding="utf-8")
+    )
 
     assert "voiage==2.0.0" in protocol
     assert "EVPI: 0.667" in protocol
@@ -85,6 +88,17 @@ def test_joss_independent_validation_protocol_is_bounded() -> None:
     assert "automated accounts" in readiness
     assert "confirmed by the author on 24 July 2026" in readiness
     assert "No external funding and no competing interests" in readiness
+    assert manifest["submission_route"] == {
+        "selected": "pyopensci_first_then_joss_partner_fast_track",
+        "selected_at": "2026-08-27",
+        "pyopensci_inquiry_or_review": "not_started",
+        "pyopensci_acceptance": "pending",
+        "joss_partner_referral": "not_started",
+        "authority": (
+            "maintainer_for_authenticated_actions_and_external_venues_for_acceptance"
+        ),
+    }
+    assert manifest["submission_performed"] is False
 
 
 def test_paper_reproduction_manifest_matches_tracked_outputs() -> None:
