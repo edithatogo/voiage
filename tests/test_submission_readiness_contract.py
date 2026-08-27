@@ -69,13 +69,13 @@ def test_submission_contract_requires_current_criteria_refresh_evidence() -> Non
     assert (ROOT / refresh["evidence"]).is_file()
 
 
-def test_pyopensci_matrix_closes_repository_criteria_only() -> None:
+def test_pyopensci_matrix_records_commitment_but_defers_external_inquiry() -> None:
     summary = validate_pyopensci_evidence(
         ROOT / "specs" / "submission-readiness" / "pyopensci-evidence.json", ROOT
     )
 
     assert summary["criterion_count"] >= 10
-    assert summary["deferred"] == ["external-inquiry", "maintainer-commitment"]
+    assert summary["deferred"] == ["external-inquiry"]
 
 
 def test_ropensci_matrix_keeps_repository_blockers_explicit() -> None:
