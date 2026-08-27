@@ -1,0 +1,1 @@
+Phase 2 review fix: strengthened the JOSS readiness regression test to require the selected pyOpenSci-first partner route, unstarted inquiry/referral states, pending pyOpenSci acceptance, external authority, and submission_performed=false. Validation: 30 combined tests passed; JOSS and submission-readiness validators passed; Ruff and Vale passed.
