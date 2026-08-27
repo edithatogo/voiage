@@ -2,7 +2,7 @@
 
 ## Phases
 
-- [~] **Phase 1: pyOpenSci Readiness & Maintainer Commitment**
+- [x] **Phase 1: pyOpenSci Readiness & Maintainer Commitment** [checkpoint: `18461d5`]
   - [x] Author `docs/release/pyopensci-readiness.md` with explicit maintenance commitment. (`dc23f90`)
   - [x] Verify `specs/submission-readiness/pyopensci-evidence.json` via `scripts/validate_submission_readiness.py`. (`6483974`)
 - [ ] **Phase 2: JOSS Fast-Track Alignment**
