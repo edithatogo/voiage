@@ -28,9 +28,10 @@
       "https://github.com/edithatogo/voiage/issues/471"
     ],
     "pull_requests": [
-      "https://github.com/edithatogo/voiage/pull/1027"
+      "https://github.com/edithatogo/voiage/pull/1027",
+      "https://github.com/edithatogo/voiage/pull/1029"
     ],
-    "pull_request_evidence": "track_registration_candidate"
+    "pull_request_evidence": "track_registration_and_implementation_candidates"
   },
   "gates": [
     {
