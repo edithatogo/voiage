@@ -30,6 +30,14 @@ contract surface. Issues that are missing a reproducible example or that ask
 for broad roadmap planning will usually be redirected to the feature template
 or the existing documentation.
 
+For a complete, reproducible report affecting a supported release, the
+maintainer aims to acknowledge and triage the issue within 14 calendar days.
+Critical defects receive priority investigation. Fix timing depends on
+severity, reproducibility, maintainer capacity, compatibility risk, and the
+release process; no resolution deadline or continuous-availability guarantee
+is offered. The maintenance scope and succession policy are documented in
+`docs/release/pyopensci-readiness.md`.
+
 ## Security issues
 
 Do not report security vulnerabilities in public issues. Use `SECURITY.md` for
