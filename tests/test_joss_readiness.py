@@ -77,7 +77,11 @@ def test_joss_independent_validation_protocol_is_bounded() -> None:
     assert "EVPI: 0.667" in protocol
     assert "issue #471" in protocol
     assert "AI-agent run" in protocol
-    assert "The selected route is **direct JOSS submission**" in readiness
+    assert (
+        "The selected route is **pyOpenSci review first, followed by a JOSS partner"
+        in readiness
+    )
+    assert "separate maintainer instruction" in readiness
     assert "automated accounts" in readiness
     assert "confirmed by the author on 24 July 2026" in readiness
     assert "No external funding and no competing interests" in readiness
