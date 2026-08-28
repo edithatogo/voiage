@@ -1,0 +1,1 @@
+Hosted Python 3.13 remediation. The required changelog closeout changed the SHA-256 pinned by the distributional-information evidence fixture. Refreshed only that changelog artifact pin. Ninety-nine focused distributional, readiness, governance, and ledger checks pass locally; no runtime or scientific contract changed.
