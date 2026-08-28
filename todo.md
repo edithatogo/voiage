@@ -625,6 +625,17 @@ destination registry and publication decisions remain separate external gates.
 
 ## Done
 
+*   [x] Complete and archive the pyOpenSci-first/JOSS-fast-track repository-
+    readiness track.
+    *   PR #1029 merged with an exact reviewed-head tree match, 38 successful
+        checks, four governed skips, and 13 successful post-merge main
+        workflows.
+    *   The archived schema-1.0 evidence ledger validates as a canonical
+        UUID-keyed hash chain.
+    *   Issue #471 remains open for factual non-author adoption evidence; no
+        pyOpenSci inquiry or review and no JOSS referral, submission, editorial,
+        publication, DOI, or badge action has been performed.
+
 *   [x] Consolidate the distinct configuration and metamodel coverage retained
     from stale PRs #892, #925, #929, #940, #942, #954, #980, and #981 into one
     current-main implementation and preserve additive API behavior.
