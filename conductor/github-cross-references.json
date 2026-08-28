@@ -8,8 +8,8 @@
     {
       "track_id": "pyopensci_joss_review_readiness_20260823",
       "metadata_track_id": "pyopensci_joss_review_readiness_20260823",
-      "path": "conductor/tracks/pyopensci_joss_review_readiness_20260823",
-      "lifecycle": "active",
+      "path": "conductor/archive/pyopensci_joss_review_readiness_20260823",
+      "lifecycle": "archived",
       "issue": {
         "number": 1022,
         "url": "https://github.com/edithatogo/voiage/issues/1022",

@@ -4,7 +4,7 @@ The Rust-first polyglot programme is registered as the current programme; all
 other tracks retain their evidenced lifecycle and external-gate boundaries.
 
 ## [x] Track: pyOpenSci & JOSS Fast-Track Community Review Readiness [completed: 2026-08-28]
-*Link: [./tracks/pyopensci_joss_review_readiness_20260823/index.md](./tracks/pyopensci_joss_review_readiness_20260823/index.md)*
+*Link: [./archive/pyopensci_joss_review_readiness_20260823/index.md](./archive/pyopensci_joss_review_readiness_20260823/index.md)*
 *GitHub: [issue #1022](https://github.com/edithatogo/voiage/issues/1022), sub-issues [#616](https://github.com/edithatogo/voiage/issues/616) and [#471](https://github.com/edithatogo/voiage/issues/471).*
 *Status: repository readiness complete; issue #471 and all external pyOpenSci/JOSS venue gates remain pending or unperformed.*
 
