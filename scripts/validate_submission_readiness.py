@@ -209,7 +209,10 @@ def validate_pyopensci_evidence(path: Path, root: Path) -> dict[str, Any]:
             "repository-controlled pyOpenSci criteria remain unresolved: "
             + ", ".join(sorted(unresolved_repository))
         )
-    if human_deferred != {"maintainer-commitment", "external-inquiry"}:
+    statuses = {criterion["id"]: criterion["status"] for criterion in criteria}
+    if statuses.get("maintainer-commitment") != "satisfied":
+        raise ValueError("pyOpenSci maintainer commitment must be recorded")
+    if human_deferred != {"external-inquiry"}:
         raise ValueError("pyOpenSci human gates must remain explicit and bounded")
     return {"criterion_count": len(criteria), "deferred": sorted(human_deferred)}
 

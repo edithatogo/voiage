@@ -20,7 +20,8 @@ only repository work:
   destinations;
 - #299 maintains the preprint/JOSS/RRID package while preserving author and
   editorial decisions as external;
-- #616 prepares the Python package for a possible pyOpenSci decision;
+- #616 prepares the Python package for the selected pyOpenSci-first route while
+  preserving inquiry and submission as separate maintainer actions;
 - #615 matures the R package for possible rOpenSci and R Journal routes;
 - #617 records whether a distinct JSS, NumFOCUS, or Zenodo outcome is justified;
 - #622 prepares portable Spack/EasyBuild recipes before any HPC upstream or

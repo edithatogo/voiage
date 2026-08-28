@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "criteria_url": "https://www.pyopensci.org/software-peer-review/how-to/author-guide.html",
-  "reviewed_at": "2026-07-27",
+  "reviewed_at": "2026-08-27",
   "repository_controlled_criteria": [
     "install-and-import",
     "scope-and-overlap",
@@ -55,8 +55,8 @@
     },
     {
       "id": "maintainer-commitment",
-      "status": "human_deferred",
-      "evidence": ["GOVERNANCE.md", "SUPPORT.md"]
+      "status": "satisfied",
+      "evidence": ["GOVERNANCE.md", "SUPPORT.md", "docs/release/pyopensci-readiness.md", "specs/submission-readiness/pyopensci-joss-refresh-2026-08-27.md"]
     },
     {
       "id": "external-inquiry",

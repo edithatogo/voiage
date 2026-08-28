@@ -85,7 +85,7 @@
         {"id": "non-author-engagement", "status": "pending", "evidence": ["docs/release/joss-independent-validation.md"]}
       ],
       "acceptance_evidence": ["JOSS submission identifier", "Public review issue", "Acceptance decision and DOI"],
-      "next_decision": "Direct submission remains after human engagement evidence and the author-selected arXiv sequence."
+      "next_decision": "After pyOpenSci acceptance, human engagement evidence, and the author-selected arXiv sequence, request JOSS partner fast-track handling through a separate maintainer action."
     },
     {
       "id": "pyopensci",
@@ -97,11 +97,11 @@
       "requirements": [
         {"id": "package-baseline", "status": "satisfied", "evidence": ["README.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "LICENSE", "pyproject.toml"]},
         {"id": "method-provenance-and-overlap", "status": "satisfied", "evidence": ["README.md", "paper.md", "docs/astro-site/src/content/docs/methods/index.mdx"]},
-        {"id": "maintenance-commitment", "status": "pending", "evidence": ["SUPPORT.md", "paper.md", "specs/submission-readiness/pyopensci-evidence.json"]},
+        {"id": "maintenance-commitment", "status": "satisfied", "evidence": ["GOVERNANCE.md", "SUPPORT.md", "docs/release/pyopensci-readiness.md", "specs/submission-readiness/pyopensci-evidence.json"]},
         {"id": "ai-affirmation", "status": "satisfied", "evidence": ["paper.md", "paper/joss-editorial-assurance.json"]}
       ],
       "acceptance_evidence": ["pyOpenSci review issue", "pyOpenSci approval label and catalogue entry"],
-      "next_decision": "After the JOSS outcome, refresh criteria and decide whether to open a pre-submission inquiry."
+      "next_decision": "Refresh criteria immediately before the maintainer-authorized pyOpenSci inquiry; after acceptance, request JOSS partner fast-track handling only through a separate maintainer action."
     },
     {
       "id": "ropensci",

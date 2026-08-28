@@ -25,7 +25,7 @@ Record a completed analysis that uses the exact public release in a research
 workflow. The record should identify the research question, competing options,
 uncertain quantities, units, release version, commands, and retained results.
 It may be public or available confidentially to the JOSS editorial team. The
-paper's synthetic demonstration and a project that merely plans or falls back
+paper's synthetic demonstration and a project that only plans or falls back
 from a `voiage` integration do not establish this use.
 
 ## Clean installation
@@ -124,6 +124,42 @@ If the participant cannot report publicly, the author may instead retain an
 editor-verifiable record and tell the JOSS editor that confidential evidence is
 available. The manuscript should mention external use only when the evidence
 supports that exact statement.
+
+## pyOpenSci-to-JOSS partner handoff
+
+Independent validation evidence supports review readiness but does not replace
+either venue's process. The selected sequence is fail-closed:
+
+1. Refresh the current
+   [pyOpenSci author guide](https://www.pyopensci.org/software-peer-review/how-to/author-guide.html),
+   package-scope guidance, submission template, and JOSS requirements.
+2. Freeze the candidate revision and rerun the submission-readiness, wheel and
+   sdist identity, documentation, test, security, and JOSS paper checks.
+3. After an explicit maintainer instruction, open the pyOpenSci inquiry or
+   review and select the JOSS partnership option where the current template
+   provides it.
+4. Respond to pyOpenSci editors and reviewers personally. Record the public
+   review issue, exact reviewed revision, findings, changes, and final external
+   decision without inferring acceptance from local checks.
+5. If pyOpenSci accepts the package, create the requested reviewed-version
+   release and archive evidence. Add a pyOpenSci badge only after the external
+   acceptance record authorizes it.
+6. Confirm again that the package meets JOSS scope. After a separate explicit
+   maintainer instruction, start the JOSS partner referral and identify the
+   accepted pyOpenSci review issue.
+7. Treat the JOSS paper check, editorial screening, acceptance, DOI, and badge
+   as JOSS-controlled outcomes. Add or claim them only from authoritative
+   receipts.
+
+The current partnership guidance says JOSS may accept the pyOpenSci software
+review and focus its review on `paper.md`; it does not guarantee JOSS scope or
+acceptance. No step above authorizes an agent or repository validator to open
+an issue, submit a form, communicate with editors, or add an acceptance badge.
+
+Authoritative route guidance:
+
+- <https://www.pyopensci.org/software-peer-review/partners/joss.html>
+- <https://www.pyopensci.org/software-peer-review/how-to/editors-guide.html>
 
 ## Completion boundary
 

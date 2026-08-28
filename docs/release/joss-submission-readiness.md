@@ -88,15 +88,16 @@ primary Python package without installing those secondary surfaces.
 
 ## Selected submission route
 
-The selected route is **direct JOSS submission** after the remaining evidence
-gates are satisfied. This preserves the package's Rust-centred, polyglot scope
-rather than presenting the Python binding as the entire submission.
+The selected route is **pyOpenSci review first, followed by a JOSS partner
+fast-track request** if pyOpenSci accepts the package and JOSS confirms that it
+is in scope. pyOpenSci reviews the maintained Python package, packaging,
+documentation, and usability; the JOSS paper continues to describe the
+Rust-centred polyglot project without claiming that every secondary binding is
+an independently distributed package.
 
-pyOpenSci remains a useful later review of the Python package's packaging,
-usability, and maintenance practices. Its partner route is not selected for
-this submission because it reviews the Python surface rather than the complete
-Rust-centred polyglot package. The project will not enter simultaneous active
-reviews at pyOpenSci and JOSS. rOpenSci would be relevant only if `voiageR`
+The project will not enter simultaneous active reviews at pyOpenSci and JOSS.
+pyOpenSci acceptance does not guarantee JOSS scope, editorial review, or
+acceptance. rOpenSci remains separate and would be relevant only if `voiageR`
 became the primary independently installable research package.
 
 The recommended sequence is:
@@ -112,9 +113,14 @@ The recommended sequence is:
    do not qualify;
 4. wait for and record the permanent arXiv identifier, following the author's
    preferred arXiv-first sequence;
-5. submit the repository and `paper.md` directly to JOSS;
-6. respond to review comments personally and without generative AI drafting;
-7. after acceptance-ready review, tag the reviewed version and create a
+5. after a separate maintainer instruction, open the pyOpenSci inquiry or
+   review and complete its external review process;
+6. record pyOpenSci acceptance, the accepted revision, and review issue;
+7. after another maintainer instruction, request JOSS partner fast-track
+   handling and identify the accepted pyOpenSci review;
+8. respond to editor and paper-review comments personally and without
+   generative AI drafting;
+9. after acceptance-ready review, tag the reviewed version and create a
    DOI-bearing Zenodo or Figshare archive requested by JOSS.
 
 ## Remaining gates
@@ -125,6 +131,9 @@ The recommended sequence is:
 - Keep the reviewed release-bound PDF evidence synchronized if `paper.md` or
   its release evidence changes.
 - Record the permanent arXiv identifier when arXiv assigns it.
-- Perform the selected direct authenticated JOSS submission.
+- Perform the selected authenticated pyOpenSci inquiry or submission only
+  after a separate maintainer instruction.
+- After pyOpenSci acceptance, perform the JOSS partner referral only after a
+  separate maintainer instruction.
 - Treat editorial screening, review, acceptance and DOI assignment as external
   outcomes.

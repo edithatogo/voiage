@@ -63,6 +63,14 @@
     "joss_submission": "not_started",
     "joss_editorial_screening_review_and_acceptance": "not_started"
   },
+  "submission_route": {
+    "selected": "pyopensci_first_then_joss_partner_fast_track",
+    "selected_at": "2026-08-27",
+    "pyopensci_inquiry_or_review": "not_started",
+    "pyopensci_acceptance": "pending",
+    "joss_partner_referral": "not_started",
+    "authority": "maintainer_for_authenticated_actions_and_external_venues_for_acceptance"
+  },
   "author_project_sequence": {
     "permanent_arxiv_identifier_and_announcement_before_joss_submission": "pending",
     "community_engagement_before_joss_submission": "pending",
@@ -74,6 +82,7 @@
   "human_gates": [
     "verify every cited source against the claim it supports",
     "confirm authorship, funding, and competing interests",
+    "perform pyOpenSci inquiry and review communication personally",
     "perform JOSS submission and communicate personally with editors and reviewers"
   ],
   "submission_performed": false

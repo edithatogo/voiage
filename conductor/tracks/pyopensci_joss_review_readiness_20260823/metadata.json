@@ -4,7 +4,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-08-23T14:50:00Z",
-  "updated_at": "2026-08-26T08:13:03Z",
+  "updated_at": "2026-08-27T09:03:19Z",
   "description": "Prepare pyOpenSci community peer review submission and JOSS fast-track coordination package.",
   "evidence_schema": "1.0",
   "approval": {
@@ -28,9 +28,10 @@
       "https://github.com/edithatogo/voiage/issues/471"
     ],
     "pull_requests": [
-      "https://github.com/edithatogo/voiage/pull/1027"
+      "https://github.com/edithatogo/voiage/pull/1027",
+      "https://github.com/edithatogo/voiage/pull/1029"
     ],
-    "pull_request_evidence": "track_registration_candidate"
+    "pull_request_evidence": "track_registration_and_implementation_candidates"
   },
   "gates": [
     {
@@ -43,7 +44,25 @@
       "id": "pyopensci-criteria-verification",
       "kind": "contract_validation",
       "status": "satisfied",
-      "evidence": "specs/submission-readiness/pyopensci-evidence.json (8/8 repository criteria passing)."
+      "evidence": "specs/submission-readiness/pyopensci-evidence.json (8/8 repository criteria passing; maintainer commitment satisfied; external inquiry human-deferred)."
+    },
+    {
+      "id": "maintainer-commitment",
+      "kind": "human_approval",
+      "status": "satisfied",
+      "evidence": "Maintainer authorization on 2026-08-27; GOVERNANCE.md, SUPPORT.md, and docs/release/pyopensci-readiness.md record the two-year post-acceptance commitment and best-effort service targets."
+    },
+    {
+      "id": "joss-partner-route",
+      "kind": "maintainer_route_selection",
+      "status": "satisfied",
+      "evidence": "Maintainer selected pyOpenSci-first then JOSS partner fast-track on 2026-08-27; docs/release/joss-submission-readiness.md, docs/release/joss-independent-validation.md, and paper/joss-readiness-manifest.json preserve later authenticated actions as separate gates."
+    },
+    {
+      "id": "full-local-validation",
+      "kind": "automated_validation",
+      "status": "satisfied",
+      "evidence": "Commit 19273d61: repository harness passed 30 workflows with zero findings and all 15 tox environments passed in 1971.45 seconds using three parallel workers."
     },
     {
       "id": "external-submission-gate",
