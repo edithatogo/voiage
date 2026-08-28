@@ -2,9 +2,10 @@
   "track_id": "pyopensci_joss_review_readiness_20260823",
   "version": "1.0.0",
   "type": "feature",
-  "status": "in_progress",
+  "status": "completed",
   "created_at": "2026-08-23T14:50:00Z",
-  "updated_at": "2026-08-28T23:18:39Z",
+  "updated_at": "2026-08-28T23:25:30Z",
+  "completed_at": "2026-08-28T23:25:30Z",
   "description": "Prepare pyOpenSci community peer review submission and JOSS fast-track coordination package.",
   "evidence_schema": "1.0",
   "approval": {
