@@ -2,9 +2,10 @@
   "track_id": "pyopensci_joss_review_readiness_20260823",
   "version": "1.0.0",
   "type": "feature",
-  "status": "in_progress",
+  "status": "completed",
   "created_at": "2026-08-23T14:50:00Z",
-  "updated_at": "2026-08-27T09:03:19Z",
+  "updated_at": "2026-08-28T23:25:30Z",
+  "completed_at": "2026-08-28T23:25:30Z",
   "description": "Prepare pyOpenSci community peer review submission and JOSS fast-track coordination package.",
   "evidence_schema": "1.0",
   "approval": {
@@ -31,7 +32,7 @@
       "https://github.com/edithatogo/voiage/pull/1027",
       "https://github.com/edithatogo/voiage/pull/1029"
     ],
-    "pull_request_evidence": "track_registration_and_implementation_candidates"
+    "pull_request_evidence": "PR #1027 registered the track; PR #1029 delivered the reviewed repository-readiness package and merged with an exact reviewed-head tree match."
   },
   "gates": [
     {
@@ -65,10 +66,16 @@
       "evidence": "Commit 19273d61: repository harness passed 30 workflows with zero findings and all 15 tox environments passed in 1971.45 seconds using three parallel workers."
     },
     {
+      "id": "repository-readiness-delivery",
+      "kind": "automated_validation",
+      "status": "satisfied",
+      "evidence": "PR #1029 reviewed head 7047477c6825d92d9618916ed89071767a03f3b1 was squash-merged as f1a9cc53b4dec767a9fd4ae33994884cfbdc3113 with an exact tree match; 38 PR checks passed with four governed skips and all 13 post-merge main workflows passed."
+    },
+    {
       "id": "external-submission-gate",
       "kind": "human_submission",
       "status": "pending",
-      "evidence": "External inquiry reserved for author review at the end of implementation."
+      "evidence": "Issue #471 remains open pending factual non-author adoption evidence. No pyOpenSci inquiry, review, or acceptance and no JOSS referral, submission, editorial decision, publication, DOI, or badge action has been performed."
     }
   ]
 }

@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Archived the completed pyOpenSci-first/JOSS-fast-track repository-readiness
+  track after PR #1029 merged with green hosted assurance, and repaired its
+  schema-1.0 evidence chain while preserving issue #471 and every external
+  inquiry, referral, submission, review, acceptance, publication, DOI, and
+  badge outcome as pending or unperformed.
+
 - Added Metamorphic Testing (MT) and Deterministic Simulation Testing (DST) suites (#657) in `tests/test_metamorphic_voi.py` and `tests/test_deterministic_simulation.py` verifying 8 metamorphic relations, bit-exact RNG reproducibility, chunk partition invariance, and fault injection recovery.
 
 - Added automated Gitleaks secret scanning (`.gitleaks.toml` allowlist, `.github/workflows/gitleaks.yml` workflow, and `.pre-commit-config.yaml` hook) for continuous credential leakage prevention.

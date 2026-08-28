@@ -8,12 +8,12 @@
     {
       "track_id": "pyopensci_joss_review_readiness_20260823",
       "metadata_track_id": "pyopensci_joss_review_readiness_20260823",
-      "path": "conductor/tracks/pyopensci_joss_review_readiness_20260823",
-      "lifecycle": "active",
+      "path": "conductor/archive/pyopensci_joss_review_readiness_20260823",
+      "lifecycle": "archived",
       "issue": {
         "number": 1022,
         "url": "https://github.com/edithatogo/voiage/issues/1022",
-        "state": "open"
+        "state": "closed"
       },
       "parent_issue_url": null,
       "subissues": [
@@ -24,14 +24,25 @@
         {
           "number": 1027,
           "url": "https://github.com/edithatogo/voiage/pull/1027",
-          "status": "open",
+          "status": "merged",
           "evidence": [
-            "track-registration-candidate",
-            "315fb04f167d9ce4a172bacbb0b4b2e65d17a403"
+            "reviewed-head:ce7fdae5bb6f6a4b553df864a0b96ba5c21983b2",
+            "merge-commit:94d639e86eee9f62fad78b06284e46956fea8bea"
+          ]
+        },
+        {
+          "number": 1029,
+          "url": "https://github.com/edithatogo/voiage/pull/1029",
+          "status": "merged",
+          "evidence": [
+            "reviewed-head:7047477c6825d92d9618916ed89071767a03f3b1",
+            "merge-commit:f1a9cc53b4dec767a9fd4ae33994884cfbdc3113",
+            "exact-tree-match",
+            "post-merge-main-workflows:13/13-success"
           ]
         }
       ],
-      "pull_request_evidence": "track_registration_candidate"
+      "pull_request_evidence": "track registration and repository-readiness delivery merged; external venue actions remain pending"
     },
     {
       "track_id": "julia_general_registry_ecosystem_20260823",
