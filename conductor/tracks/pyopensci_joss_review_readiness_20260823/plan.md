@@ -9,6 +9,6 @@
   - [x] Validate `paper.md` against `scripts/validate_joss.py`. (`651ba91`)
   - [x] Document fast-track submission procedure in `docs/release/joss-independent-validation.md`. (`4a303a0`)
   - [x] **Review Fixes:** Enforce the selected partner route and unperformed external states in the JOSS manifest contract. (`dd4588d`)
-- [~] **Phase 3: Automated Verification & Staging**
+- [x] **Phase 3: Automated Verification & Staging** [checkpoint: `c790745`]
   - [x] Run full test suite and quality harness. (`19273d6`)
   - [x] Commit, open PR, verify green CI, and merge. (`1c1eeca`)
