@@ -24,7 +24,7 @@
     {"path": "docs/astro-site/src/content/docs/examples/value-of-distributional-information.mdx", "sha256": "c99c508b5b500fb2ebbe55705d3ed3e04d4516b079e962d4506243593fb1c130"},
     {"path": "docs/astro-site/src/content/docs/examples/index.mdx", "sha256": "9c68fb38928ca889ebd9ed33ecd43821f5800d7a4fdb6c36ebbfd2cf12ad6d58"},
     {"path": "docs/astro-site/src/content/docs/cli-reference.mdx", "sha256": "054f0d78d9484b74dda394c3da1e38dc72d9a222b654dc4a29a6a7c54e047b41"},
-    {"path": "changelog.md", "sha256": "fd358498ca149c25d99168f9e6e0fed8f803765ce4b7f7354703223fe6bd083d"}
+    {"path": "changelog.md", "sha256": "c90bb2a2bdb89693610bf708db5746c6ed06e29684cff84d88f395ea2060f6ae"}
   ],
   "remaining_gates": [
     "role-separated subagent scientific panel and accountable owner decision",
