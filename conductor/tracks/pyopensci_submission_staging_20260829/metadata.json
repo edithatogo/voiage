@@ -13,8 +13,8 @@
     "recorded_at": "2026-08-29T00:08:08Z",
     "evidence": "User instructed the agent to proceed with the recommended current-template refresh, unposted draft, frozen-candidate preflight, and no external contact or submission."
   },
-  "current_phase": null,
-  "current_task": null,
+  "current_phase": "Phase 1: Template and Candidate Freeze",
+  "current_task": "Pin and hash the current official pyOpenSci submission template.",
   "github_parent_issue": "https://github.com/edithatogo/voiage/issues/299",
   "github_issue": "https://github.com/edithatogo/voiage/issues/471",
   "github_subissues": [],
