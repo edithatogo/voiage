@@ -75,8 +75,8 @@
   (`c68eaa5e`)
 - [x] **P3-T5 / AC-04:** Synchronize capability registries, public docs,
   changelog, roadmap, todo, and migration guidance. (`b36d0fdf`)
-- [~] **P3-T6 / AC-04, AC-05:** Run automated phase review and validation
-  checkpoint.
+- [x] **P3-T6 / AC-04, AC-05:** Run automated phase review and validation
+  checkpoint. (`6bac024f`)
   - [x] **Review Fixes:** Narrow the ecosystem dispatcher's generic values to
     its concrete connector contracts so Ruff and ty verify the public
     integration path without changing runtime compatibility. (`c35527a2`)
