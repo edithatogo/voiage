@@ -1,0 +1,1 @@
+Implemented the fail-closed pyOpenSci staging validator. It validates safe paths and SHA-256 bindings, pinned template provenance, v2.1.0 publication-receipt identity and artifact digests, required draft sections, pending human attestations, false external actions, and blocked JOSS state. Six tests, Ruff, Ruff format, ty, the standalone validator, and diff hygiene passed.
