@@ -22,23 +22,28 @@
 - [x] **P1-T1 / AC-02, AC-09:** Pin the current pyOpenSci, rOpenSci, JOSS,
   packaging, ecosystem, security, and research-software criteria to a dated
   source manifest. (`53be187c`)
-- [~] **P1-T2 / AC-02:** Refresh the external feature landscape and core/frontier
+- [x] **P1-T2 / AC-02:** Refresh the external feature landscape and core/frontier
   method census from primary literature and authoritative software sources.
-- [ ] **P1-T3 / AC-02:** Audit integration, data, worked-example, domain,
-  interoperability, and executable research-workflow coverage.
-- [ ] **P1-T4 / AC-02, AC-05:** Audit repository structure, Rust/Python ownership,
+  (`069c2cf4`)
+- [x] **P1-T3 / AC-02:** Audit integration, data, worked-example, domain,
+  interoperability, and executable research-workflow coverage. (`79df03a8`)
+- [x] **P1-T4 / AC-02, AC-05:** Audit repository structure, Rust/Python ownership,
   public API, C ABI, R/Julia bindings, schemas, serialization, CLI, and installed
-  artifacts.
-- [ ] **P1-T5 / AC-02, AC-07:** Run `uv lock --upgrade`, the strict dependency
+  artifacts. (`548ae7b3`)
+- [x] **P1-T5 / AC-02, AC-07:** Run `uv lock --upgrade`, the strict dependency
   frontier, licence/security audits, and a bounded stable/preview dependency
-  alternatives analysis.
-- [ ] **P1-T6 / AC-02, AC-08:** Capture reproducible baseline timings for local
+  alternatives analysis. (`31135559`)
+- [x] **P1-T6 / AC-02, AC-08:** Capture reproducible baseline timings for local
   tox, pytest collection/execution, repository harness, Rust, R, Julia, docs,
-  and representative hosted workflows.
-- [ ] **P1-T7 / AC-02, AC-08:** Profile representative Python test lanes with
+  and representative hosted workflows. (`bce30f0a`)
+- [x] **P1-T7 / AC-02, AC-08:** Profile representative Python test lanes with
   Scalene, separating CPU, memory, import/collection, I/O, subprocess, and
-  serialization costs; record tool limitations.
-- [ ] **P1-T8 / AC-02:** Run automated phase review and validation checkpoint.
+  serialization costs; record tool limitations. (`bce30f0a`)
+- [x] **P1-T8 / AC-02:** Run automated phase review and validation checkpoint.
+  (`e212ced7`)
+  - [x] **Review Fixes:** Correct the executed pytest version and distinguish
+    local all-tests timings from hosted focused-unit and Operational Assurance
+    selections.
 
 ## Phase 2 — Disposition and architecture freeze
 
