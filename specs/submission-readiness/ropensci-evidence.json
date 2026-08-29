@@ -11,7 +11,7 @@
     {"id": "input-error-and-seed-contract", "status": "satisfied", "evidence": ["r-package/voiageR/R/voiageR.R", "r-package/voiageR/tests/testthat/test-voiageR.R"]},
     {"id": "statistical-standards", "status": "satisfied", "evidence": ["r-package/voiageR/R/srr-runtime-standards.R", "r-package/voiageR/R/srr-input-standards.R", "r-package/voiageR/R/srr-stats-standards.R", "specs/submission-readiness/ropensci-standards-mapping.md"]},
     {"id": "self-contained-installation", "status": "satisfied", "evidence": ["r-package/voiageR/DESCRIPTION", "r-package/voiageR/README.md", "r-package/voiageR/src/rust/Cargo.toml", "r-package/voiageR/src/init.c", "r-package/voiageR/tests/testthat/test-native-ffi.R"]},
-    {"id": "pkgcheck", "status": "repository_blocked", "evidence": ["docs/release/binding-submission-checklist.md"]},
+    {"id": "pkgcheck", "status": "hosted_pending", "evidence": ["docs/release/binding-submission-checklist.md", "scripts/run_ropensci_pkgcheck.sh", "specs/submission-readiness/installed-binding-validation-20260829.json"]},
     {"id": "maintainer-lifecycle-and-scope", "status": "human_deferred", "evidence": ["r-package/voiageR/README.md", "conductor/archive/research_software_registry_readiness_20260721/plan.md"]},
     {"id": "concurrent-review-and-inquiry", "status": "human_deferred", "evidence": ["specs/submission-readiness/targets.json", "conductor/archive/research_software_registry_readiness_20260721/plan.md"]}
   ]

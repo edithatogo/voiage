@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "criteria_url": "https://www.pyopensci.org/software-peer-review/how-to/author-guide.html",
-  "reviewed_at": "2026-08-27",
+  "reviewed_at": "2026-08-29",
   "repository_controlled_criteria": [
     "install-and-import",
     "scope-and-overlap",

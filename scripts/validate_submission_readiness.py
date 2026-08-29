@@ -18,7 +18,12 @@ TARGET_KINDS = {
     "sustainability",
 }
 PYOPENSCI_STATUSES = {"satisfied", "human_deferred"}
-ROPENSCI_STATUSES = {"satisfied", "repository_blocked", "human_deferred"}
+ROPENSCI_STATUSES = {
+    "satisfied",
+    "repository_blocked",
+    "hosted_pending",
+    "human_deferred",
+}
 
 
 def _non_empty(value: Any, label: str) -> str:
@@ -243,10 +248,13 @@ def validate_ropensci_evidence(path: Path, root: Path) -> dict[str, Any]:
                 raise ValueError(f"unsafe rOpenSci evidence path: {relative}")
             if not (root / relative_path).exists():
                 raise ValueError(f"rOpenSci evidence path does not exist: {relative}")
-    if {key for key, value in statuses.items() if value == "repository_blocked"} != {
-        "pkgcheck",
-    }:
-        raise ValueError("rOpenSci repository blockers must remain explicit")
+    blocked = {
+        key
+        for key, value in statuses.items()
+        if value in {"repository_blocked", "hosted_pending"}
+    }
+    if blocked not in (set(), {"pkgcheck"}):
+        raise ValueError("rOpenSci repository or hosted blockers must remain explicit")
     return {"criterion_count": len(criteria), "statuses": statuses}
 
 

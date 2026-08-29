@@ -85,7 +85,7 @@ def test_ropensci_matrix_records_resolved_self_contained_installation() -> None:
 
     assert summary["criterion_count"] >= 10
     assert summary["statuses"]["self-contained-installation"] == "satisfied"
-    assert summary["statuses"]["pkgcheck"] == "repository_blocked"
+    assert summary["statuses"]["pkgcheck"] == "hosted_pending"
 
 
 def test_submission_contract_rejects_ready_target_with_unmet_gate(
