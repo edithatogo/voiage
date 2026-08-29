@@ -6,8 +6,8 @@
   - [x] Pin and hash the current official pyOpenSci submission template. (`a78a84e8`)
   - [x] Compare `v2.0.0` and `v2.1.0` evidence and record the candidate decision or gate. (`1cb6303e`)
 - [~] **Phase 2: Unposted Submission Packet**
-  - [~] Add failing contract tests for template provenance, candidate identity, and external-state boundaries.
-  - [ ] Prepare the local submission draft and machine-readable staging manifest.
+  - [x] Add failing contract tests for template provenance, candidate identity, and external-state boundaries. (`99cc902f`; formatting `7aac651b`)
+  - [~] Prepare the local submission draft and machine-readable staging manifest.
   - [ ] Implement the submission-staging validator and pass the focused tests.
 - [ ] **Phase 3: Assurance and Delivery**
   - [ ] Run submission, package, documentation, security, and distribution-identity preflight checks.
