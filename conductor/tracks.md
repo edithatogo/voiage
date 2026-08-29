@@ -1,7 +1,17 @@
 # Project Tracks
 
-The Rust-first polyglot programme is registered as the current programme; all
-other tracks retain their evidenced lifecycle and external-gate boundaries.
+The pre-submission comprehensive hardening programme is the current canonical
+programme. Historical and superseded tracks retain their evidenced lifecycle
+and external-gate boundaries.
+
+## [ ] Track: Pre-Submission Comprehensive Hardening
+*Link: [./tracks/pre_submission_comprehensive_hardening_20260829/index.md](./tracks/pre_submission_comprehensive_hardening_20260829/index.md)*
+*Status: approved and new — consolidate all active work, refresh whole-product
+feature and dependency gaps, profile and accelerate CI/testing, repair accepted
+repository gaps, and establish exact pyOpenSci, rOpenSci, and JOSS readiness
+without performing a submission.*
+
+---
 
 ## [x] Track: pyOpenSci Submission Staging [completed: 2026-08-29]
 *Link: [./archive/pyopensci_submission_staging_20260829/index.md](./archive/pyopensci_submission_staging_20260829/index.md)*

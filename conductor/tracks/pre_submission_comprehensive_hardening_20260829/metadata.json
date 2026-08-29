@@ -1,0 +1,44 @@
+{
+  "track_id": "pre_submission_comprehensive_hardening_20260829",
+  "version": "1.0.0",
+  "type": "refactor",
+  "status": "new",
+  "created_at": "2026-08-29T05:36:14Z",
+  "updated_at": "2026-08-29T05:36:14Z",
+  "description": "Consolidate and complete all repository-owned pre-submission hardening, current gap analysis, dependency and CI acceleration, polyglot API/ABI repair, and pyOpenSci, rOpenSci, and JOSS readiness.",
+  "evidence_schema": "1.0",
+  "approval": {
+    "status": "approved",
+    "approved_on": "2026-08-29",
+    "recorded_at": "2026-08-29T05:36:14Z",
+    "evidence": "User explicitly directed creation of the consolidated track, migration and closeout of existing tracks, completion before submission, dependency and preview-feature analysis, CI/CD acceleration, parallelization, and Scalene profiling."
+  },
+  "migrates_active_track_count": 21,
+  "gates": [
+    {
+      "id": "specification-and-plan-approval",
+      "kind": "human_approval",
+      "status": "satisfied",
+      "evidence": "User approval on 2026-08-29."
+    },
+    {
+      "id": "repository-hardening",
+      "kind": "repository_validation",
+      "status": "pending",
+      "evidence": "plan.md"
+    },
+    {
+      "id": "external-submissions",
+      "kind": "human_submission",
+      "status": "pending",
+      "evidence": "All authenticated submissions are outside this track and remain unperformed."
+    },
+    {
+      "id": "external-and-human-evidence",
+      "kind": "external_validation",
+      "status": "pending",
+      "evidence": "Community engagement, scientific review, rights approval, editorial decisions, and venue acceptance require authoritative external evidence."
+    }
+  ]
+}
+
