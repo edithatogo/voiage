@@ -19,7 +19,7 @@ from dataclasses import dataclass
 from html import escape
 import json
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 import warnings
 
 from defusedxml import ElementTree  # type: ignore[import-untyped]
@@ -972,8 +972,9 @@ class EcosystemIntegration:
         elif integration_type.lower() == "data_formats" and isinstance(
             connector, DataFormatConnector
         ):
+            data_type = cast("str", kwargs.get("data_type", "auto"))
             return connector.import_health_data(
-                file_path, kwargs.get("data_type", "auto")
+                file_path, data_type
             )
 
         return {}
@@ -990,35 +991,39 @@ class EcosystemIntegration:
         if connector is None:
             raise_value_error(f"Unknown integration type: {integration_type}")
 
+        health_analysis = cast("HealthEconomicsAnalysis", analysis_object)
+
         if integration_type.lower() == "treeage" and isinstance(
             connector, TreeAgeConnector
         ):
             if hasattr(analysis_object, "treatments"):
-                connector.export_to_treeage(analysis_object, output_path)
+                connector.export_to_treeage(health_analysis, output_path)
         elif integration_type.lower() == "r_packages" and isinstance(
             connector, RPackageConnector
         ):
             if kwargs.get("format") == "bcea":
+                num_simulations = cast("int", kwargs.get("num_simulations", 10000))
                 connector.export_for_bcea(
-                    analysis_object,
+                    health_analysis,
                     output_path,
-                    kwargs.get("num_simulations", 10000),
+                    num_simulations,
                 )
         elif integration_type.lower() == "data_formats" and isinstance(
             connector, DataFormatConnector
         ):
+            format_type = cast("str", kwargs.get("format_type", "csv"))
             connector.export_health_data(
-                analysis_object,
+                health_analysis,
                 output_path,
-                kwargs.get("format_type", "csv"),
+                format_type,
             )
         elif integration_type.lower() == "workflows" and isinstance(
             connector, WorkflowConnector
         ):
             if kwargs.get("format") == "jupyter":
-                connector.create_jupyter_analysis(analysis_object, output_path)
+                connector.create_jupyter_analysis(health_analysis, output_path)
             elif kwargs.get("format") == "r":
-                connector.create_r_workflow(analysis_object, output_path)
+                connector.create_r_workflow(health_analysis, output_path)
 
     def list_supported_formats(self) -> dict[str, list[str]]:
         """List all supported file formats across connectors."""
