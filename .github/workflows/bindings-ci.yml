@@ -109,6 +109,7 @@ jobs:
     env:
       JULIA_DEPOT_PATH: ${{ github.workspace }}/.julia-depot
       JULIA_NUM_PRECOMPILE_TASKS: "1"
+      VOIAGE_RUN_JULIA_AQUA: ${{ matrix.julia == '1.12' && matrix.os.runner == 'ubuntu-latest' && '1' || '0' }}
     defaults:
       run:
         working-directory: bindings/julia

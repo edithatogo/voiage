@@ -42,7 +42,7 @@ def test_python_parallelism_is_bounded_deterministic_and_fail_closed() -> None:
 
     assert execution["worker_policy"]["candidates"] == [4, 6, 8]
     assert "Unbounded -n auto" in execution["worker_policy"]["prohibited"]
-    assert "sorted pytest node IDs" in shards["algorithm"]
+    assert "SHA-256" in shards["algorithm"]
     assert "Python hash()" in shards["forbidden_inputs"]
     assert "fails the fan-in gate" in shards["drift_rule"]
     assert execution["serial_groups"]["initial_membership"]
@@ -53,7 +53,7 @@ def test_coverage_and_change_selection_cannot_omit_release_validation() -> None:
     coverage = design["python_execution"]["coverage"]
     selection = design["change_selection"]
 
-    assert "reject missing shard inputs" in coverage["merge"]
+    assert "reject missing inputs" in coverage["merge"]
     assert "fresh non-sharded full coverage gate" in coverage["release"]
     assert selection["role"] == "additive early feedback only"
     assert "selects all stable lanes" in selection["fail_closed"]

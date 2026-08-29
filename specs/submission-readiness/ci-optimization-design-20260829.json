@@ -36,16 +36,16 @@
     }
   },
   "python_execution": {
-    "authoritative_pr_mode": "pytest-xdist worksteal after order-independence repair",
+    "authoritative_pr_mode": "focused supported-version compatibility lanes plus one full bounded-xdist coverage lane",
     "worker_policy": {
       "candidates": [4, 6, 8],
       "selection_rule": "Benchmark cold and warm wall time and peak RSS on hosted runners; choose the fastest count within the memory budget and cap automatic selection at the measured winner.",
       "prohibited": "Unbounded -n auto is not authoritative because runner CPU count does not express memory capacity."
     },
     "deterministic_sharding": {
-      "algorithm": "Collect sorted pytest node IDs, assign stable historical-duration weights from a versioned receipt, and greedily place each node into the currently lightest shard with node ID as the tie-breaker.",
-      "inputs": ["source head", "sorted node IDs", "duration-receipt SHA-256", "declared shard count", "fixed seed"],
-      "receipt": ["algorithm version", "inputs", "shard membership", "estimated weights", "actual durations", "outcomes", "coverage artifact SHA-256"],
+      "algorithm": "Assign each collected pytest node ID to the unsigned first 64 bits of its SHA-256 digest modulo the declared shard count; retain xdist work-stealing only within each fixed cross-runner partition.",
+      "inputs": ["source head", "pytest node ID", "declared shard count", "algorithm version"],
+      "receipt": ["algorithm version", "inputs", "shard membership", "node counts", "actual durations", "outcomes", "coverage artifact SHA-256"],
       "forbidden_inputs": ["Python hash()", "filesystem enumeration order", "wall-clock time", "random seed not recorded"],
       "drift_rule": "A collected node absent from every shard, duplicated across shards, or changed after collection fails the fan-in gate."
     },
@@ -60,8 +60,8 @@
       "promotion_rule": "Remove a test from the serial group only after repeated-order and xdist equivalence evidence."
     },
     "coverage": {
-      "authoritative_lane": "one supported-Python shard set on pull requests and main",
-      "merge": "Use coverage.py parallel data files and coverage combine; reject missing shard inputs before enforcing aggregate, critical-module, and changed-line thresholds.",
+      "authoritative_lane": "one supported-Python full bounded-xdist coverage run on pull requests and main; deterministic cross-runner shards remain preview-only until hosted timing evidence supports promotion",
+      "merge": "The stable single-run lane needs no cross-runner merge; any preview shard fan-in must reject missing inputs before it can be considered for promotion.",
       "compatibility_lanes": "Run focused no-coverage suites on the remaining supported Python versions.",
       "operational_assurance": "Consume the authoritative coverage receipt when the exact source head and selection digest match; otherwise collect its own authoritative full coverage.",
       "release": "Run a fresh non-sharded full coverage gate; never rely solely on change selection."

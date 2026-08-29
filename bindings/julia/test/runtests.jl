@@ -1,10 +1,12 @@
-using Aqua
 using JSON
 using Test
 using Voiage
 
-@testset "Package quality" begin
-    Aqua.test_all(Voiage)
+if get(ENV, "VOIAGE_RUN_JULIA_AQUA", "1") == "1"
+    using Aqua
+    @testset "Package quality" begin
+        Aqua.test_all(Voiage)
+    end
 end
 
 @testset "EVPI" begin
