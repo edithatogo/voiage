@@ -154,6 +154,11 @@ def test_tox_package_environments_build_checkout_only_once() -> None:
         "testenv:coverage_report",
     ):
         assert ".[ci]" not in config[environment].get("deps", "")
+    joss_dependencies = config["testenv:joss"]["deps"].lower()
+    assert ".[ci]" not in joss_dependencies
+    assert "pytest" in joss_dependencies
+    assert "pyyaml" in joss_dependencies
+    assert "--noconftest" in config["testenv:joss"]["commands"]
 
 
 def test_release_retains_fresh_non_sharded_full_validation() -> None:
