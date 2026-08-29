@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import re
 
 ROOT = Path(__file__).parents[1]
 POLICY_PATH = (
@@ -95,7 +96,10 @@ def test_preview_workflow_is_isolated_non_blocking_and_observational() -> None:
 
     assert "pull_request:" not in workflow
     assert "push:" not in workflow
-    assert workflow.count("continue-on-error: true") == 3
+    jobs_section = workflow.split("\njobs:\n", maxsplit=1)[1]
+    job_blocks = re.split(r"(?m)^  (?=[a-z][a-z0-9-]+:\s*$)", jobs_section)[1:]
+    assert job_blocks
+    assert all("continue-on-error: true" in block for block in job_blocks)
     for candidate in (
         "scipy-1.18",
         "pandas-3",
