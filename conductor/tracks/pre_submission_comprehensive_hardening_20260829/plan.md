@@ -86,7 +86,7 @@
 
 ## Phase 4 — Standalone R and polyglot package hardening
 
-- [ ] **P4-T1 / AC-06:** Add failing clean-install tests for a self-contained
+- [~] **P4-T1 / AC-06:** Add failing clean-install tests for a self-contained
   `voiageR` source package and reconcile `NeedsCompilation` and system
   requirements with the chosen Rust bridge.
 - [ ] **P4-T2 / AC-06:** Implement the standalone Rust/R build architecture and
