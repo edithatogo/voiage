@@ -86,11 +86,12 @@
 
 ## Phase 4 — Standalone R and polyglot package hardening
 
-- [~] **P4-T1 / AC-06:** Add failing clean-install tests for a self-contained
+- [x] **P4-T1 / AC-06:** Add failing clean-install tests for a self-contained
   `voiageR` source package and reconcile `NeedsCompilation` and system
-  requirements with the chosen Rust bridge.
-- [ ] **P4-T2 / AC-06:** Implement the standalone Rust/R build architecture and
+  requirements with the chosen Rust bridge. (`6d026034`, `8f96173b`)
+- [x] **P4-T2 / AC-06:** Implement the standalone Rust/R build architecture and
   installed runtime tests without an undeclared external shared library.
+  (`8f96173b`)
 - [ ] **P4-T3 / AC-06:** Map every applicable rOpenSci statistical standard with
   item-level `@srrstats` or justified `@srrstatsNA` evidence.
 - [ ] **P4-T4 / AC-06:** Repair the repository `pkgcheck` runner and pass
