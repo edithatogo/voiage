@@ -1,0 +1,1 @@
+Phase 2 review correction: removed Markdown hard-break trailing spaces and rebound the draft SHA-256 in the staging manifest. Current-file tests, validators, Vale, Ruff, typing, Conductor checks, and diff hygiene passed before commit; the committed range is revalidated next.
