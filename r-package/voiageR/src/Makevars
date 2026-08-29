@@ -1,0 +1,14 @@
+RUST_MANIFEST = rust/Cargo.toml
+RUST_TARGET = rust/target
+RUST_LIB = $(RUST_TARGET)/release/libvoiage_r_native.a
+
+PKG_LIBS = $(RUST_LIB)
+
+$(SHLIB): $(RUST_LIB)
+
+$(RUST_LIB): $(RUST_MANIFEST) rust/Cargo.lock rust/src/lib.rs
+	CARGO_TARGET_DIR=$(RUST_TARGET) cargo build --manifest-path $(RUST_MANIFEST) --release --locked --offline
+
+clean:
+	$(RM) $(OBJECTS) $(SHLIB)
+	cargo clean --manifest-path $(RUST_MANIFEST)

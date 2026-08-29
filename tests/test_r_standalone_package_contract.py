@@ -1,7 +1,4 @@
-from __future__ import annotations
-
 from pathlib import Path
-
 
 ROOT = Path(__file__).resolve().parents[1]
 R_PACKAGE = ROOT / "r-package" / "voiageR"
@@ -27,12 +24,25 @@ def test_r_runtime_never_loads_an_ambient_ffi_library() -> None:
     runtime = (R_PACKAGE / "R" / "voiageR.R").read_text(encoding="utf-8")
     assert "VOIAGE_FFI_LIBRARY" not in runtime
     assert "dyn.load" not in runtime
-    assert 'PACKAGE = "voiageR"' in runtime
+    assert ".C(\n    voiageR_evpi" in runtime
+    assert ".C(\n    voiageR_enbs" in runtime
 
 
-def test_r_native_tests_exercise_the_installed_package_without_environment_help() -> None:
+def test_r_native_tests_exercise_the_installed_package_without_environment_help() -> (
+    None
+):
     native_tests = (R_PACKAGE / "tests" / "testthat" / "test-native-ffi.R").read_text(
         encoding="utf-8"
     )
     assert "VOIAGE_FFI_LIBRARY" not in native_tests
     assert "skip_if" not in native_tests
+
+
+def test_r_ci_installs_the_source_package_without_a_repository_ffi_library() -> None:
+    workflow = (ROOT / ".github" / "workflows" / "bindings-ci.yml").read_text(
+        encoding="utf-8"
+    )
+    r_jobs = workflow[workflow.index("  r:\n") :]
+    assert "Build the Rust C ABI used by R" not in r_jobs
+    assert "VOIAGE_FFI_LIBRARY" not in r_jobs
+    assert "x86_64-pc-windows-gnu" in r_jobs

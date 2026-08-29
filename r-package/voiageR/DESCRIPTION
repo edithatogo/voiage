@@ -16,10 +16,10 @@ URL: https://github.com/edithatogo/voiage
 BugReports: https://github.com/edithatogo/voiage/issues
 License: Apache License (>= 2.0)
 Encoding: UTF-8
-NeedsCompilation: no
+NeedsCompilation: yes
 RoxygenNote: 7.3.2
 Config/testthat/edition: 3
-SystemRequirements: voiage-ffi shared library (version 2.1.0 or compatible);
+SystemRequirements: Cargo and Rust (>= 1.85) for source installation;
     Python (>= 3.12, optional, for EVPPI and EVSI through reticulate)
 Suggests:
     reticulate (>= 1.20),

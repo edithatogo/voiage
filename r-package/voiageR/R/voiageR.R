@@ -164,31 +164,9 @@ NULL
 }
 
 .evpi_native <- function(net_benefits) {
-  library_path <- Sys.getenv("VOIAGE_FFI_LIBRARY", unset = "libvoiage_ffi")
-  loaded <- tryCatch(
-    dyn.load(library_path),
-    error = function(error) {
-      stop("The voiage Rust C ABI library is unavailable: ", error$message, call. = FALSE)
-    }
-  )
-  on.exit(dyn.unload(loaded[["path"]]), add = TRUE)
-
-  symbol <- tryCatch(
-    getNativeSymbolInfo(
-      "voiage_v1_evpi_i32_r",
-      PACKAGE = loaded
-    )[["address"]],
-    error = function(error) {
-      stop(
-        "The voiage Rust C ABI library does not export the EVPI symbol: ",
-        error$message,
-        call. = FALSE
-      )
-    }
-  )
   values <- as.double(t(net_benefits))
   result <- .C(
-    symbol,
+    voiageR_evpi,
     values = values,
     rows = as.integer(nrow(net_benefits)),
     columns = as.integer(ncol(net_benefits)),
@@ -202,30 +180,8 @@ NULL
 }
 
 .enbs_native <- function(evsi_result, research_cost) {
-  library_path <- Sys.getenv("VOIAGE_FFI_LIBRARY", unset = "libvoiage_ffi")
-  loaded <- tryCatch(
-    dyn.load(library_path),
-    error = function(error) {
-      stop("The voiage Rust C ABI library is unavailable: ", error$message, call. = FALSE)
-    }
-  )
-  on.exit(dyn.unload(loaded[["path"]]), add = TRUE)
-
-  symbol <- tryCatch(
-    getNativeSymbolInfo(
-      "voiage_v1_enbs_r",
-      PACKAGE = loaded
-    )[["address"]],
-    error = function(error) {
-      stop(
-        "The voiage Rust C ABI library does not export the ENBS symbol: ",
-        error$message,
-        call. = FALSE
-      )
-    }
-  )
   result <- .C(
-    symbol,
+    voiageR_enbs,
     evsi_result = as.double(evsi_result),
     research_cost = as.double(research_cost),
     out_value = double(1),

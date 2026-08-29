@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Made `voiageR` a self-contained compiled source package: its EVPI and ENBS
+  paths now link a dependency-free, offline Rust 1.85 kernel into registered R
+  native routines, require no ambient VOIAGE shared library, and run from a
+  clean 2.1.0 source archive. Removed the tracked obsolete 0.1.0 tarball.
+
 - Consolidated all 21 previously active Conductor tracks into the canonical
   pre-submission comprehensive-hardening programme (#1033), preserving
   unfinished work as migrated rather than completed and repairing live code,
