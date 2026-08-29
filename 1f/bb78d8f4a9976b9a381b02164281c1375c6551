@@ -1,0 +1,1 @@
+Validation: ruff check/format; focused CI optimization contract; tox -e docs (1030 pages, links valid, 352s observed wall time). The direct Astro production build reuses the tool built by the preceding check.
