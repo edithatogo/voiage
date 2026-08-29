@@ -62,7 +62,7 @@
 - [x] **P2-T5 / AC-03:** Run automated phase review and validation checkpoint.
   (`00c85f9d`)
 
-## Phase 3 — Core, analytical, data, and integration repairs
+## Phase 3 — Core, analytical, data, and integration repairs [checkpoint: 4546fc56]
 
 - [x] **P3-T1 / AC-04, AC-05:** Add failing contract, reference, property, and
   compatibility tests for accepted core/API/ABI findings. (`cb1b5425`)
