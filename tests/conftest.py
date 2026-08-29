@@ -15,16 +15,33 @@ import numpy as np
 import pytest
 import xarray as xr
 
+from scripts.pytest_sharding import parse_shard_environment, shard_for_nodeid
 from voiage.schema import ParameterSet, ValueArray
 
 
-def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
+def pytest_collection_modifyitems(
+    config: pytest.Config, items: list[pytest.Item]
+) -> None:
     """Apply coarse-grained markers based on the test module name.
 
     Most modules in this repository are unit tests. A small number of files are
     explicitly integration or benchmark suites, and we classify those centrally
     here to avoid duplicating marker boilerplate across many edited test files.
     """
+    try:
+        shard = parse_shard_environment(os.environ)
+    except ValueError as error:
+        raise pytest.UsageError(str(error)) from error
+    if shard is not None:
+        shard_index, shard_count = shard
+        selected: list[pytest.Item] = []
+        deselected: list[pytest.Item] = []
+        for item in items:
+            target = shard_for_nodeid(item.nodeid, shard_count)
+            (selected if target == shard_index else deselected).append(item)
+        config.hook.pytest_deselected(items=deselected)
+        items[:] = selected
+
     for item in items:
         file_name = item.path.name
         marker_names = {mark.name for mark in item.iter_markers()}
