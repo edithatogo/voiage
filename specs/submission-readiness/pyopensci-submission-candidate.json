@@ -1,7 +1,7 @@
 {
   "schema_version": "voiage.pyopensci-submission-candidate.v1",
   "observed_at": "2026-08-29T00:15:00Z",
-  "state": "recommended_for_local_staging_maintainer_confirmation_pending",
+  "state": "selected_for_local_staging_maintainer_confirmed",
   "recommended_candidate": {
     "version": "2.1.0",
     "tag": "v2.1.0",
@@ -42,7 +42,7 @@
         "pending": 0
       },
       "current_release": true,
-      "disposition": "recommended for the local pyOpenSci submission draft"
+      "disposition": "selected for the local pyOpenSci submission draft"
     }
   },
   "selection_rationale": [
@@ -67,6 +67,8 @@
     "submit_to_pyopensci": "maintainer_after_separate_instruction",
     "accept": "pyOpenSci"
   },
-  "maintainer_version_confirmation": "pending",
+  "maintainer_version_confirmation": "confirmed",
+  "maintainer_version_confirmed_at": "2026-08-29",
+  "maintainer_version_confirmation_evidence": "Maintainer explicitly confirmed v2.1.0 on 2026-08-29 in the delivery task before authorizing PR #1031 for squash merge.",
   "submission_performed": false
 }

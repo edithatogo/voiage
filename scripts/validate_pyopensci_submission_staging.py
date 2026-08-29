@@ -30,6 +30,15 @@ REQUIRED_HUMAN_ATTESTATIONS = {
     "author_guide_read",
     "pre_review_survey",
 }
+EXPECTED_HUMAN_ATTESTATIONS = {
+    "code_of_conduct": "pending",
+    "maintenance_commitment_form_checkbox": "pending",
+    "submitted_version": "confirmed",
+    "joss_partnership_option": "pending",
+    "reviewer_direct_issue_permission": "pending",
+    "author_guide_read": "pending",
+    "pre_review_survey": "pending",
+}
 REQUIRED_EXTERNAL_ACTIONS = {
     "pre_review_survey_completed",
     "pyopensci_issue_created",
@@ -46,8 +55,8 @@ PENDING_DRAFT_CHECKBOX_MARKERS = (
     "I have read the pyOpenSci author guide",
     "Last but not least please fill out our pre-review survey",
 )
-PENDING_SUBMITTED_VERSION_LINE = (
-    "Version submitted: 2.1.0 (recommended; maintainer confirmation pending)"
+CONFIRMED_SUBMITTED_VERSION_LINE = (
+    "Version submitted: 2.1.0 (confirmed by maintainer; submission not performed)"
 )
 PLACEHOLDER = re.compile(r"\b(?:TBD|TODO|FILL(?:\s+THIS)?\s+IN)\b", re.IGNORECASE)
 
@@ -126,8 +135,8 @@ def validate_staging_packet(
         findings.append("staging state must remain prepared_local_unposted")
     if staging.get("candidate_version") != "2.1.0":
         findings.append("candidate_version must remain the evidence-bound 2.1.0")
-    if staging.get("candidate_confirmation") != "pending_maintainer":
-        findings.append("candidate confirmation must remain pending_maintainer")
+    if staging.get("candidate_confirmation") != "confirmed_maintainer":
+        findings.append("candidate confirmation must record the maintainer selection")
     if staging.get("ordinary_fields") != "complete_for_local_review":
         findings.append("ordinary draft fields must be complete for local review")
 
@@ -137,8 +146,10 @@ def validate_staging_packet(
     else:
         if set(attestations) != REQUIRED_HUMAN_ATTESTATIONS:
             findings.append("human attestation key set is incomplete or unexpected")
-        if set(attestations.values()) != {"pending"}:
-            findings.append("human attestations must remain pending in a local packet")
+        if attestations != EXPECTED_HUMAN_ATTESTATIONS:
+            findings.append(
+                "only the submitted version may be confirmed in the local packet"
+            )
 
     external_actions = staging.get("external_actions")
     if not isinstance(external_actions, dict) or not external_actions:
@@ -202,11 +213,11 @@ def validate_staging_packet(
         ):
             findings.append("unsupported pyOpenSci candidate schema")
         if candidate.get("state") != (
-            "recommended_for_local_staging_maintainer_confirmation_pending"
+            "selected_for_local_staging_maintainer_confirmed"
         ):
-            findings.append("candidate state must preserve maintainer confirmation")
-        if candidate.get("maintainer_version_confirmation") != "pending":
-            findings.append("candidate maintainer confirmation must remain pending")
+            findings.append("candidate state must record maintainer confirmation")
+        if candidate.get("maintainer_version_confirmation") != "confirmed":
+            findings.append("candidate maintainer confirmation must be recorded")
         if candidate.get("submission_performed") is not False:
             findings.append("candidate cannot claim submission")
         recommended = candidate.get("recommended_candidate")
@@ -269,9 +280,9 @@ def validate_staging_packet(
         version_lines = [
             line for line in lines if line.startswith("Version submitted:")
         ]
-        if version_lines != [PENDING_SUBMITTED_VERSION_LINE]:
+        if version_lines != [CONFIRMED_SUBMITTED_VERSION_LINE]:
             findings.append(
-                "draft submitted version must remain pending maintainer confirmation"
+                "draft submitted version must match the confirmed maintainer selection"
             )
 
     return findings

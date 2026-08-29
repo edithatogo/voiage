@@ -1,10 +1,11 @@
 {
   "schema_version": "voiage.pyopensci-submission-staging.v1",
   "prepared_at": "2026-08-29T00:22:00Z",
+  "updated_at": "2026-08-29T02:21:00Z",
   "state": "prepared_local_unposted",
   "draft": {
     "path": "docs/release/pyopensci-submission-draft.md",
-    "sha256": "60014320ab08b94d0c7b04e316c999fe7ccaf836e1672df977e44ab58d09087f"
+    "sha256": "2eb092a175809e1fccfa77841f09a319f21d710682855f933a9c0984b8d04aeb"
   },
   "template": {
     "path": "specs/submission-readiness/pyopensci-submission-template.json",
@@ -14,10 +15,10 @@
   },
   "candidate": {
     "path": "specs/submission-readiness/pyopensci-submission-candidate.json",
-    "sha256": "a35398641a65ef0681c5a2417b3c37a20bc05109f87d08ec630e9fdfceae83cc"
+    "sha256": "7c0e79e61567cb2a77f3dc6a92d279fcfbe77cca95d1717f57229118829d1335"
   },
   "candidate_version": "2.1.0",
-  "candidate_confirmation": "pending_maintainer",
+  "candidate_confirmation": "confirmed_maintainer",
   "scope_categories": [
     "Data processing/munging",
     "Data validation and testing",
@@ -27,7 +28,7 @@
   "human_attestations": {
     "code_of_conduct": "pending",
     "maintenance_commitment_form_checkbox": "pending",
-    "submitted_version": "pending",
+    "submitted_version": "confirmed",
     "joss_partnership_option": "pending",
     "reviewer_direct_issue_permission": "pending",
     "author_guide_read": "pending",
@@ -48,7 +49,6 @@
     "joss_acceptance": "pending_external"
   },
   "remaining_gates": [
-    "maintainer confirms v2.1.0 as the submitted package version",
     "maintainer personally completes all attestations and the pre-review survey",
     "maintainer separately authorizes authenticated pyOpenSci issue creation",
     "pyOpenSci performs scope screening, review, and acceptance",

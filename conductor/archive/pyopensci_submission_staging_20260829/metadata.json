@@ -4,7 +4,7 @@
   "type": "chore",
   "status": "completed",
   "created_at": "2026-08-29T00:08:08Z",
-  "updated_at": "2026-08-29T02:07:57Z",
+  "updated_at": "2026-08-29T02:21:00Z",
   "completed_at": "2026-08-29T02:07:57Z",
   "description": "Prepare and validate an unposted pyOpenSci submission packet while preserving all authenticated external gates.",
   "evidence_schema": "1.0",
@@ -39,8 +39,8 @@
     {
       "id": "candidate-version-selection",
       "kind": "maintainer_decision",
-      "status": "pending",
-      "evidence": "specs/submission-readiness/pyopensci-submission-candidate.json recommends v2.1.0 for local staging from signed release, immutable GitHub, PyPI, digest, and current-metadata evidence. Maintainer confirmation remains pending, and the later JOSS handoff is separately blocked because its paper and developer-use records are bound to v2.0.0."
+      "status": "satisfied",
+      "evidence": "Maintainer explicitly confirmed v2.1.0 on 2026-08-29. specs/submission-readiness/pyopensci-submission-candidate.json binds that selection to the signed release, immutable GitHub release, PyPI artifacts, digests, and current metadata. The later JOSS handoff remains separately blocked because its paper and developer-use records are bound to v2.0.0."
     },
     {
       "id": "external-pyopensci-submission",

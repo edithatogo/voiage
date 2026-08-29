@@ -83,10 +83,8 @@ def test_candidate_matches_publication_receipt() -> None:
     receipt = _load(PUBLICATION_RECEIPT)
     recommended = candidate["recommended_candidate"]
 
-    assert candidate["state"] == (
-        "recommended_for_local_staging_maintainer_confirmation_pending"
-    )
-    assert candidate["maintainer_version_confirmation"] == "pending"
+    assert candidate["state"] == "selected_for_local_staging_maintainer_confirmed"
+    assert candidate["maintainer_version_confirmation"] == "confirmed"
     assert candidate["submission_performed"] is False
     assert recommended["version"] == receipt["release"]["version"] == "2.1.0"
     assert recommended["commit"] == receipt["release"]["commit"]
@@ -96,14 +94,19 @@ def test_candidate_matches_publication_receipt() -> None:
     )
 
 
-def test_staging_manifest_keeps_human_and_external_states_pending() -> None:
-    """A prepared draft cannot imply attestations, posting, or acceptance."""
+def test_staging_manifest_records_version_without_external_action() -> None:
+    """Version selection cannot imply other attestations, posting, or acceptance."""
     staging = _load(STAGING)
 
     assert staging["state"] == "prepared_local_unposted"
     assert staging["candidate_version"] == "2.1.0"
-    assert staging["candidate_confirmation"] == "pending_maintainer"
-    assert all(state == "pending" for state in staging["human_attestations"].values())
+    assert staging["candidate_confirmation"] == "confirmed_maintainer"
+    assert staging["human_attestations"]["submitted_version"] == "confirmed"
+    assert all(
+        state == "pending"
+        for key, state in staging["human_attestations"].items()
+        if key != "submitted_version"
+    )
     assert all(performed is False for performed in staging["external_actions"].values())
     assert staging["external_outcomes"] == {
         "pyopensci_review": "not_started",
@@ -123,7 +126,7 @@ def test_draft_is_unposted_and_contains_current_template_sections() -> None:
     for section in template["required_sections"]:
         assert f"## {section}" in draft
     assert (
-        "Version submitted: 2.1.0 (recommended; maintainer confirmation pending)"
+        "Version submitted: 2.1.0 (confirmed by maintainer; submission not performed)"
         in draft
     )
     assert "- [ ] I agree to abide by" in draft
@@ -229,10 +232,10 @@ def test_validator_rejects_checked_human_attestation_duplicate(
     assert "draft human-attestation markers must remain uniquely unchecked" in findings
 
 
-def test_validator_rejects_confirmed_submitted_version(tmp_path: Path) -> None:
-    """The recommended version remains a maintainer decision in local staging."""
+def test_validator_rejects_unqualified_submitted_version(tmp_path: Path) -> None:
+    """The draft must preserve the confirmation and non-submission boundary."""
     draft = DRAFT.read_text(encoding="utf-8").replace(
-        "Version submitted: 2.1.0 (recommended; maintainer confirmation pending)",
+        "Version submitted: 2.1.0 (confirmed by maintainer; submission not performed)",
         "Version submitted: 2.1.0",
         1,
     )
@@ -241,6 +244,6 @@ def test_validator_rejects_confirmed_submitted_version(tmp_path: Path) -> None:
     findings = validate_staging_packet(staged_root)
 
     assert (
-        "draft submitted version must remain pending maintainer confirmation"
+        "draft submitted version must match the confirmed maintainer selection"
         in findings
     )

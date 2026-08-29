@@ -10,9 +10,9 @@
 
 Status: repository staging completed on 2026-08-29. Pull request `#1031`
 remains open and unmerged, and the local pyOpenSci packet remains unposted.
-Candidate confirmation, personal attestations, issue creation, survey
-completion, external contact, submission, review, acceptance, and JOSS
-referral remain separate human gates.
+The maintainer selected `v2.1.0` on 2026-08-29. Personal attestations, issue
+creation, survey completion, external contact, submission, review, acceptance,
+and JOSS referral remain separate human gates.
 
 ---
 
