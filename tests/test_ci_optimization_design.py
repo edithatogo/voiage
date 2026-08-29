@@ -127,6 +127,8 @@ def test_promoted_python_lanes_use_bounded_workstealing_and_single_ci_coverage()
     assert "--numprocesses=6" in ci
     assert "--dist=worksteal" in ci
     assert "Run bounded parallel unit compatibility tests" in ci
+    assert "tests/test_numerical_reference_cases.py" in ci
+    assert "tests/test_python_rust_bridge.py" in ci
     assert ci.count("Upload authoritative coverage to Codecov") == 1
     assert "-n 6 --dist=worksteal" in operational
     assert "-n 6 --dist=worksteal" in tox

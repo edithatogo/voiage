@@ -307,8 +307,15 @@ jobs:
 
     - name: Run bounded parallel unit compatibility tests
       run: |
-        uv run pytest tests/ \
-          -m "not integration and not e2e and not benchmark" \
+        uv run pytest \
+          tests/test_numerical_reference_cases.py \
+          tests/test_core_metrics_regression.py \
+          tests/test_contract_bundle.py \
+          tests/test_v2_stable_api_contract.py \
+          tests/test_version_sync.py \
+          tests/test_dataframe_interchange_sdk.py \
+          tests/test_python_rust_bridge.py \
+          tests/test_cli_expected_utility_information.py \
           --no-cov \
           --numprocesses=6 \
           --dist=worksteal \
