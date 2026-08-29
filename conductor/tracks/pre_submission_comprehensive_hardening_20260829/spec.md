@@ -135,4 +135,3 @@ completion claim.
 - JOSS submission and review criteria, observed 2026-08-29:
   <https://joss.readthedocs.io/en/latest/submitting.html> and
   <https://joss.readthedocs.io/en/latest/review_criteria.html>
-

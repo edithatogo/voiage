@@ -131,4 +131,3 @@
   submission was performed.
 - [ ] **P7-T5 / AC-10:** Mark the repository programme complete and archive it
   only after every repository acceptance criterion passes.
-

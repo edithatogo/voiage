@@ -4,9 +4,9 @@ The pre-submission comprehensive hardening programme is the current canonical
 programme. Historical and superseded tracks retain their evidenced lifecycle
 and external-gate boundaries.
 
-## [ ] Track: Pre-Submission Comprehensive Hardening
+## [~] Track: Pre-Submission Comprehensive Hardening
 *Link: [./tracks/pre_submission_comprehensive_hardening_20260829/index.md](./tracks/pre_submission_comprehensive_hardening_20260829/index.md)*
-*Status: approved and new — consolidate all active work, refresh whole-product
+*Status: in progress — consolidating all active work, refreshing whole-product
 feature and dependency gaps, profile and accelerate CI/testing, repair accepted
 repository gaps, and establish exact pyOpenSci, rOpenSci, and JOSS readiness
 without performing a submission.*
