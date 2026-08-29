@@ -4,6 +4,7 @@
 - [Implementation Plan](./plan.md)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
+- [Migration manifest](./migration-manifest.md)
 
 Status: in progress. This is the approved canonical programme for repository-owned
 work before pyOpenSci, rOpenSci, or JOSS submission. External submissions and
