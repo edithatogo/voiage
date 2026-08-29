@@ -53,3 +53,20 @@ The following passed after both corrections were committed:
 No external contact, survey, issue creation, submission, review, acceptance,
 badge, DOI, archive, JOSS referral, pull-request merge, or release was
 performed.
+
+## Subsequent evidence correction
+
+The Phase 3 transition discovered that the evidence-ledger command recorded in
+this review used `validate` as a pseudo-subcommand, although the installed
+validator accepts the repository root as its first positional argument. That
+invocation therefore checked a nonexistent path outside this repository and
+did not validate this track's ledger. The correct invocation exposed hashes
+that had been calculated before their final JSON fields were applied.
+
+Because the ledger had never been canonically valid and this branch had not
+been pushed, the Phase 3 assurance pass normalized its hash chain while
+preserving every substantive event field. The repair records the SHA-256 of
+the invalid pre-repair ledger and this correction explicitly; later validation
+uses the correct repository-root invocation. The earlier claim of successful
+canonical ledger validation is withdrawn and superseded by that repair
+evidence.

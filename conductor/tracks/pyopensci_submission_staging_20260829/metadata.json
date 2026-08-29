@@ -4,7 +4,7 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-08-29T00:08:08Z",
-  "updated_at": "2026-08-29T00:31:35Z",
+  "updated_at": "2026-08-29T00:41:23Z",
   "description": "Prepare and validate an unposted pyOpenSci submission packet while preserving all authenticated external gates.",
   "evidence_schema": "1.0",
   "approval": {
@@ -13,8 +13,8 @@
     "recorded_at": "2026-08-29T00:08:08Z",
     "evidence": "User instructed the agent to proceed with the recommended current-template refresh, unposted draft, frozen-candidate preflight, and no external contact or submission."
   },
-  "current_phase": "Phase 2: Unposted Submission Packet",
-  "current_task": "Phase 2 checkpoint review.",
+  "current_phase": "Phase 3: Assurance and Delivery",
+  "current_task": "Run submission, package, documentation, security, and distribution-identity preflight checks.",
   "github_parent_issue": "https://github.com/edithatogo/voiage/issues/299",
   "github_issue": "https://github.com/edithatogo/voiage/issues/471",
   "github_subissues": [],
