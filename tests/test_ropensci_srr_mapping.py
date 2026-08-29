@@ -132,12 +132,28 @@ BAYESIAN = {
     "BS7.4",
     "BS7.4a",
 }
+PROBABILITY_DISTRIBUTIONS = {
+    "PD1.0",
+    "PD2.0",
+    "PD3.0",
+    "PD3.1",
+    "PD3.2",
+    "PD3.3",
+    "PD3.4",
+    "PD3.5",
+    "PD3.5a",
+    "PD4.0",
+    "PD4.1",
+    "PD4.2",
+    "PD4.3",
+    "PD4.4",
+}
 
 
 def _tagged_standards(tag: str, text: str) -> set[str]:
     tagged: set[str] = set()
     for line in text.splitlines():
-        if f"@{tag}" not in line:
+        if re.search(rf"@{tag}(?![A-Za-z])", line) is None:
             continue
         match = re.search(r"\{([^}]+)\}", line)
         assert match, f"missing standard list on {line!r}"
@@ -157,7 +173,9 @@ def test_srr_mapping_is_complete_disjoint_and_has_no_todos() -> None:
 
     assert "@srrstatsTODO" not in text
     assert not addressed.intersection(not_applicable)
-    assert addressed.union(not_applicable) == GENERAL.union(BAYESIAN)
+    assert addressed.union(not_applicable) == GENERAL.union(PROBABILITY_DISTRIBUTIONS)
+    assert not addressed.intersection(BAYESIAN)
+    assert not not_applicable.intersection(BAYESIAN)
     assert "Roxygen: list(markdown = TRUE" in (R_PACKAGE / "DESCRIPTION").read_text(
         encoding="utf-8"
     )
@@ -167,5 +185,6 @@ def test_every_na_standard_has_an_item_level_justification() -> None:
     mapping = (R_PACKAGE / "R" / "srr-stats-standards.R").read_text(encoding="utf-8")
     for line in mapping.splitlines():
         if "@srrstatsNA" in line:
-            assert "{" in line and "}" in line
+            assert "{" in line
+            assert "}" in line
             assert len(line.split("}", 1)[1].strip()) >= 20

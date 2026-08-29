@@ -7,6 +7,12 @@
   native routines, require no ambient VOIAGE shared library, and run from a
   clean 2.1.0 source archive. Removed the tracked obsolete 0.1.0 tarball.
 
+- Mapped all pinned rOpenSci general and Probability Distributions standards
+  with item-level `srr` evidence or justified non-applicability, documented why
+  the optional Python EVSI bridge does not make the R package a Bayesian-model
+  implementation, and passed the pinned `srr_stats_pre_submit()` completeness
+  and compliance thresholds with no TODO standards.
+
 - Consolidated all 21 previously active Conductor tracks into the canonical
   pre-submission comprehensive-hardening programme (#1033), preserving
   unfinished work as migrated rather than completed and repairing live code,

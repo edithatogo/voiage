@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "criteria_url": "https://devguide.ropensci.org/softwarereview_author.html",
-  "reviewed_at": "2026-07-27",
+  "reviewed_at": "2026-08-29",
   "criteria": [
     {"id": "package-metadata", "status": "satisfied", "evidence": ["r-package/voiageR/DESCRIPTION", "r-package/voiageR/NAMESPACE"]},
     {"id": "documented-bounded-api", "status": "satisfied", "evidence": ["r-package/voiageR/README.md", "r-package/voiageR/vignettes/voiageR-getting-started.Rmd", "r-package/voiageR/tests/testthat/test-voiageR.R"]},
@@ -9,7 +9,8 @@
     {"id": "tests-and-ci", "status": "satisfied", "evidence": ["r-package/voiageR/tests/testthat/test-voiageR.R", ".github/workflows/bindings-ci.yml"]},
     {"id": "reference-comparisons", "status": "satisfied", "evidence": ["r-package/voiageR/tests/testthat/test-zz-numerical-reference.R", "specs/numerical-reference/v1/evpi-cases.json", "specs/submission-readiness/ropensci-standards-mapping.md"]},
     {"id": "input-error-and-seed-contract", "status": "satisfied", "evidence": ["r-package/voiageR/R/voiageR.R", "r-package/voiageR/tests/testthat/test-voiageR.R"]},
-    {"id": "self-contained-installation", "status": "repository_blocked", "evidence": ["r-package/voiageR/DESCRIPTION", "r-package/voiageR/README.md"]},
+    {"id": "statistical-standards", "status": "satisfied", "evidence": ["r-package/voiageR/R/srr-runtime-standards.R", "r-package/voiageR/R/srr-input-standards.R", "r-package/voiageR/R/srr-stats-standards.R", "specs/submission-readiness/ropensci-standards-mapping.md"]},
+    {"id": "self-contained-installation", "status": "satisfied", "evidence": ["r-package/voiageR/DESCRIPTION", "r-package/voiageR/README.md", "r-package/voiageR/src/rust/Cargo.toml", "r-package/voiageR/src/init.c", "r-package/voiageR/tests/testthat/test-native-ffi.R"]},
     {"id": "pkgcheck", "status": "repository_blocked", "evidence": ["docs/release/binding-submission-checklist.md"]},
     {"id": "maintainer-lifecycle-and-scope", "status": "human_deferred", "evidence": ["r-package/voiageR/README.md", "conductor/archive/research_software_registry_readiness_20260721/plan.md"]},
     {"id": "concurrent-review-and-inquiry", "status": "human_deferred", "evidence": ["specs/submission-readiness/targets.json", "conductor/archive/research_software_registry_readiness_20260721/plan.md"]}

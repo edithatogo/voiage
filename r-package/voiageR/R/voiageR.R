@@ -1,22 +1,27 @@
-#' voiageR: An R Interface to the voiage Python Library
+#' voiageR: R interface to the Rust-backed voiage library
 #'
-#' This package provides an R interface to the voiage Python library for
-#' Value of Information analysis, with helper functions for Python
-#' environment management and availability checks.
+#' Provides package-owned native EVPI and ENBS routines plus optional Python
+#' compatibility paths for EVPPI and EVSI.
 #'
-#' @docType package
+#' @keywords internal
 #' @name voiageR
-NULL
+#' @useDynLib voiageR, .registration = TRUE
+"_PACKAGE"
 
 # Global cache
 .voiage_cache <- new.env(parent = emptyenv())
 .voiage_cache$module <- NULL
 
+#' Replace the cached Python compatibility module.
+#' @param value A module-like object or `NULL`.
+#' @noRd
 .set_voiage_module <- function(value) {
   .voiage_cache$module <- value
   invisible(NULL)
 }
 
+#' Return the cached Python compatibility module, initializing when needed.
+#' @noRd
 .get_voiage_module <- function() {
   if (is.null(.voiage_cache$module)) {
     init_voiage()
@@ -26,11 +31,26 @@ NULL
 
 # Keep reticulate calls behind package-local seams so environment behavior can
 # be tested without activating a real Python installation.
+#' Test whether a Python module is available through reticulate.
+#' @param module A Python module name.
+#' @noRd
 .py_module_available <- function(module) reticulate::py_module_available(module)
+#' Import a Python module through reticulate.
+#' @param module A Python module name.
+#' @noRd
 .py_import <- function(module) reticulate::import(module)
+#' Select a Python virtual environment through reticulate.
+#' @param env A virtual-environment name or path.
+#' @noRd
 .use_virtualenv <- function(env) reticulate::use_virtualenv(env)
+#' Select a Conda environment through reticulate.
+#' @param env A Conda environment name or path.
+#' @noRd
 .use_condaenv <- function(env) reticulate::use_condaenv(env)
 
+#' Validate and normalize the bounded two-loop trial design.
+#' @param trial_design A list containing named trial arms.
+#' @noRd
 .normalise_trial_design <- function(trial_design) {
   if (
     !is.list(trial_design) ||
@@ -79,10 +99,17 @@ NULL
   trial_design
 }
 
+#' Convert a trial-arm label to its expected mean-parameter name.
+#' @param arm_name One trial-arm name.
+#' @noRd
 .arm_parameter_name <- function(arm_name) {
   paste0("mean_", tolower(gsub(" ", "_", arm_name, fixed = TRUE)))
 }
 
+#' Validate and convert a positive integer control.
+#' @param value The candidate control value.
+#' @param name The parameter name used in diagnostics.
+#' @noRd
 .positive_integer_control <- function(value, name) {
   if (
     !is.numeric(value) ||
@@ -98,6 +125,9 @@ NULL
   as.integer(value)
 }
 
+#' Validate and normalize an optional deterministic seed.
+#' @param seed `NULL` or one non-negative integer-valued number.
+#' @noRd
 .normalise_seed <- function(seed) {
   if (is.null(seed)) {
     return(NULL)
@@ -116,6 +146,10 @@ NULL
   as.integer(seed)
 }
 
+#' Validate prior samples required by the bounded two-loop study model.
+#' @param prior_samples Named prior parameter draws.
+#' @param trial_design A normalized trial design.
+#' @noRd
 .validate_builtin_two_loop_contract <- function(prior_samples, trial_design) {
   if (!is.list(prior_samples) || is.null(names(prior_samples)) || any(names(prior_samples) == "")) {
     stop("`prior_samples` must be a named list, data frame, or matrix.", call. = FALSE)
@@ -163,6 +197,9 @@ NULL
   invisible(NULL)
 }
 
+#' Dispatch EVPI to the package-owned registered native routine.
+#' @param net_benefits A finite numeric sample-by-strategy matrix.
+#' @noRd
 .evpi_native <- function(net_benefits) {
   values <- as.double(t(net_benefits))
   result <- .C(
@@ -179,6 +216,10 @@ NULL
   as.numeric(result$out_value)
 }
 
+#' Dispatch ENBS to the package-owned registered native routine.
+#' @param evsi_result One finite EVSI value.
+#' @param research_cost One non-negative finite research cost.
+#' @noRd
 .enbs_native <- function(evsi_result, research_cost) {
   result <- .C(
     voiageR_enbs,
@@ -193,6 +234,12 @@ NULL
   as.numeric(result$out_value)
 }
 
+#' Apply population and discounted time-horizon scaling to a VOI value.
+#' @param value One finite VOI value.
+#' @param population Optional positive population size.
+#' @param time_horizon Optional positive integer horizon.
+#' @param discount_rate Optional discount rate greater than `-1`.
+#' @noRd
 .scale_evpi <- function(value, population, time_horizon, discount_rate) {
   if (is.null(population) && is.null(time_horizon) && is.null(discount_rate)) {
     return(value)
@@ -459,9 +506,9 @@ evppi <- function(
 #' It must also contain a finite, strictly positive `sd_outcome` whose value is
 #' fixed across all prior draws.
 #'
-#' Custom `trial_simulator` and `posterior_sampler` callbacks are available
-#' only from the Python API. The R facade does not convert or execute those
-#' callbacks and therefore does not claim parity for custom two-loop models.
+#' Python-only custom `trial_simulator` and `posterior_sampler` callbacks are
+#' not converted or executed by the R facade, which therefore does not claim
+#' parity for custom two-loop models.
 evsi <- function(
     model_func,
     prior_samples,

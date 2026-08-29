@@ -7,6 +7,9 @@ const INVALID_ARGUMENT: i32 = 1;
 
 /// Compute EVPI for a finite row-major sample matrix.
 ///
+/// @srrstats {G3.0} Floating-point results are compared only through explicit
+/// tolerances in the shared numerical-reference tests.
+///
 /// # Safety
 ///
 /// `values` must identify `rows * columns` readable doubles and `out` must

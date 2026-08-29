@@ -17,7 +17,8 @@ BugReports: https://github.com/edithatogo/voiage/issues
 License: Apache License (>= 2.0)
 Encoding: UTF-8
 NeedsCompilation: yes
-RoxygenNote: 7.3.2
+Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace",
+    "srr::srr_stats_roclet"))
 Config/testthat/edition: 3
 SystemRequirements: Cargo and Rust (>= 1.85) for source installation;
     Python (>= 3.12, optional, for EVPPI and EVSI through reticulate)
@@ -27,3 +28,4 @@ Suggests:
     rmarkdown (>= 2.26),
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
+Config/roxygen2/version: 8.1.0

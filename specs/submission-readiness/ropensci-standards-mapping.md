@@ -1,39 +1,56 @@
-# rOpenSci Statistical Software Standards Mapping for `voiageR`
+# rOpenSci statistical-software standards mapping for `voiageR`
 
-**Package:** `voiageR` (version `2.1.0`)  
-**Scope:** Value of Information (VOI) analysis, Expected Value of Perfect Information (EVPI), Expected Value of Partial Perfect Information (EVPPI), Expected Value of Sample Information (EVSI), and Expected Net Benefit of Sampling (ENBS).  
-**Standards Reference:** [rOpenSci Statistical Software Peer Review Guidelines](https://stats-devguide.ropensci.org/)
+**Package:** `voiageR` 2.1.0
+**Pinned standards:** rOpenSci Statistical Software Peer Review standards
+revision `974cd8f0d73961235c74bfa34b78086d39fd8817` and `srr` revision
+`d186fe6f93657805ed86177f03333c478e136709`.
 
----
+## Category disposition
 
-## 1. General Standards (G1.0 – G5.0)
+`voiageR` is mapped to the general and Probability Distributions standards.
+EVPI and ENBS process an empirical joint distribution represented by finite
+draws and compute documented expectation transforms, so the distribution
+category applies to that bounded surface. Eight of its fourteen unique items
+are implemented; the six inapplicable items concern parametric distribution
+objects, named parametric families, or optimisation routines that are not part
+of this non-parametric empirical algorithm.
 
-| Category | Standard ID | Requirement Summary | `voiageR` Implementation & Evidence |
-| :--- | :--- | :--- | :--- |
-| **Design** | `G1.0` | Clear, coherent, and bounded API design | `r-package/voiageR/R/voiageR.R` exports intuitive functions: `evpi()`, `evppi()`, `evsi()`, `enbs()`. |
-| **Inputs** | `G2.0` | Type validation and explicit dimension checking | Matrix dimensions validated (`n_samples >= 1`, `n_strategies >= 2`), missing/non-finite inputs rejected fail-fast. |
-| **Inputs** | `G2.1` | Explicit handling of `NA`, `NaN`, and `Inf` | `stopifnot(all(is.finite(nb)))` raises descriptive errors before native dispatch. |
-| **Algorithms** | `G3.0` | Numerical stability and verified algorithms | C ABI dispatch to Rust numerical kernels with double-precision IEEE-754 floating point arithmetic. |
-| **Outputs** | `G4.0` | Predictable, standard return types | Functions return standard numeric vectors or scalar floats with non-negative bounds. |
-| **Testing** | `G5.0` | Multi-environment automated testing | `tests/testthat/test-voiageR.R`, `test-native-ffi.R`, and `test-zz-numerical-reference.R` run across Linux, macOS, and Windows. |
-| **Testing** | `G5.1` | Numerical tolerance comparisons | Tested against exact reference fixtures (`specs/numerical-reference/v1/evpi-cases.json`) with `< 1e-12` relative error. |
+The Bayesian and Monte Carlo category was reviewed and rejected as a package
+classification: the R package does not specify priors, fit Bayesian models,
+implement a sampler, run chains, estimate posterior distributions, diagnose
+convergence, or return posterior objects. It accepts already-produced
+uncertainty draws for EVPI and delegates the optional bounded EVSI method to the
+separately installed Python package. Calling an optional dependency does not
+make the R source package an implementation of that dependency's Bayesian or
+Monte Carlo algorithms.
 
----
+These category boundaries avoid both false compliance claims and blanket
+`@srrstatsNA` use to force an inapplicable category through the `srr` threshold.
+They must be revisited if `voiageR` later owns parametric distribution objects,
+sampling, posterior estimation, or convergence behavior.
 
-## 2. Bayesian & Monte Carlo Sensitivity Analysis Standards (BS1.0 – BS7.0)
+## Item-level evidence
 
-| Category | Standard ID | Requirement Summary | `voiageR` Implementation & Evidence |
-| :--- | :--- | :--- | :--- |
-| **Model Structure** | `BS1.0` | Explicit definition of decision space and state draws | Net benefit matrix inputs ($S \times D$, $S$ samples, $D$ decisions/strategies) represent Monte Carlo draws from joint prior/posterior. |
-| **Sampling & Seeds** | `BS2.0` | Deterministic reproducibility under explicit RNG seeds | Verified in `tests/testthat/test-voiageR.R` and `test_deterministic_simulation.py`. |
-| **Convergence** | `BS3.0` | Sample size scaling and sensitivity evaluation | `test-voiageR.R` validates that EVSI monotonically increases with study sample size ($N$). |
-| **Uncertainty** | `BS4.0` | Propagation of parameter uncertainty into value metrics | EVPPI isolates parameter subsets ($\theta_k$) from joint PSA parameter sets. |
-| **Missingness** | `BS5.0` | Reject incomplete or un-aligned parameter sets | Enforces length equality between net benefit samples and parameter draws. |
-| **Reference** | `BS6.0` | Comparison against published analytical benchmarks | Validated against conjugate Normal-Normal analytic EVSI and discrete canonical EVPI tables. |
+- Applicable documentation and input standards are tagged at their R
+  implementation evidence in `R/srr-runtime-standards.R` and
+  `R/srr-input-standards.R`.
+- Numerical floating-point evidence is tagged at the packaged Rust EVPI kernel.
+- Testing standards are tagged in `tests/testthat/test-voiageR.R` and exercised
+  across the installed native, validation, deterministic-seed, perturbation,
+  and shared numerical-reference suites.
+- Every non-applicable general standard has its own justified `@srrstatsNA`
+  entry in the required `NA_standards` block in
+  `R/srr-stats-standards.R`.
+- There are no `@srrstatsTODO` tags.
 
----
+The pinned `srr::srr_stats_pre_submit()` run is the executable completeness
+gate. A successful run establishes mapping completeness only; `pkgcheck`,
+coverage, vignettes, examples, source installation, and supported-platform
+checks remain separate evidence.
 
-## 3. Packaging & Lifecycle Boundaries
+## Packaging boundary
 
-- **Self-Contained Installation Gate:** Currently requires `VOIAGE_FFI_LIBRARY` or `reticulate` fallback; tracked as `repository_blocked` in `specs/submission-readiness/ropensci-evidence.json` until an embedded Rust compilation bridge (`rextendr`) is integrated.
-- **Review Exclusivity:** Submission to rOpenSci is scheduled after the primary JOSS publication milestone to avoid dual-venue review overlap.
+The package is now self-contained for EVPI and ENBS: its 2.1.0 source archive
+builds a dependency-free Rust static library offline and links registered R
+native routines. Python and `reticulate` remain optional for EVPPI and EVSI.
+No ambient VOIAGE shared library is required.
