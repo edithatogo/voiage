@@ -121,9 +121,10 @@
     {
       "id": "DEP-003",
       "severity": "medium",
-      "state": "open",
+      "state": "resolved",
       "summary": "Python licence enforcement is hosted-only and is not reproduced locally against the exact runtime lock; the ad hoc installed-environment report also includes development packages.",
-      "required_disposition": "Generate a lock-derived runtime SBOM/licence report locally and apply the same reviewed allow/deny policy as hosted dependency review."
+      "required_disposition": "Generate a lock-derived runtime SBOM/licence report locally and apply the same reviewed allow/deny policy as hosted dependency review.",
+      "resolution": "scripts/run_python_license_audit.sh exports the frozen runtime-only lock, installs it in an isolated environment, records resolved licence metadata, and applies the same GPL/AGPL deny list as hosted dependency review with missing licences failing closed; the 34-package runtime report passes."
     },
     {
       "id": "DEP-004",
