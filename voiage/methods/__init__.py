@@ -9,10 +9,36 @@ from importlib import import_module
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from .adaptive import adaptive_evsi
+    from .adaptive_learning_bandit import (
+        AdaptiveLearningBanditResult,
+        value_of_adaptive_learning_bandit,
+    )
+    from .ai_assisted_evidence_triage import (
+        AIAssistedEvidenceTriageResult,
+        value_of_ai_assisted_evidence_triage,
+    )
+    from .ambiguity_distribution_shift import (
+        AmbiguityDistributionShiftResult,
+        value_of_ambiguity_distribution_shift,
+    )
+    from .basic import evpi, evppi
     from .belief_state_information import (
         BeliefStateInformationResult,
         belief_state_information_value,
     )
+    from .calibration import voi_calibration
+    from .capacity_budget_constrained import (
+        CapacityBudgetConstrainedResult,
+        value_of_capacity_budget_constrained,
+    )
+    from .causal_transportability import (
+        CausalTransportabilityResult,
+        value_of_causal_transportability,
+    )
+    from .ceaf import CEAFResult, calculate_ceaf
+    from .computational import ComputationalResult, value_of_computational_refinement
+    from .data_quality import DataQualityResult, value_of_data_quality
     from .deterministic_sensitivity import (
         DeterministicSensitivityResult,
         DsaParameterSummary,
@@ -21,37 +47,109 @@ if TYPE_CHECKING:
         deterministic_sensitivity,
         deterministic_sensitivity_from_specification,
     )
+    from .distributional import (
+        DistributionalEquityResult,
+        value_of_distributional_equity,
+    )
     from .distributional_information import (
         DistributionalInformationResult,
         ResolvedDistributionModel,
         distributional_information_from_specification,
         value_of_distributional_information,
     )
-    from .dynamic_real_options import ValueOfFlexibilityResult, value_of_flexibility
+    from .dominance import (
+        DominanceResult,
+        calculate_dominance,
+        calculate_extended_dominance,
+        calculate_icers,
+        calculate_strong_dominance,
+        cost_effectiveness_frontier,
+    )
+    from .dynamic_real_options import (
+        DynamicRealOptionsResult,
+        ValueOfFlexibilityResult,
+        value_of_dynamic_real_options,
+        value_of_flexibility,
+    )
+    from .equity_information import EquityInformationResult, value_of_equity_information
     from .event_localized_information import (
         EventLocalizedInformationResult,
         event_localized_information_value,
+    )
+    from .evidence_obsolescence_refresh import (
+        EvidenceObsolescenceRefreshResult,
+        value_of_evidence_obsolescence_refresh,
+    )
+    from .expert_synthesis import ExpertSynthesisResult, value_of_expert_synthesis
+    from .explainability_transparency import (
+        ExplainabilityTransparencyResult,
+        value_of_explainability_transparency,
+    )
+    from .federated_privacy_preserving import (
+        FederatedPrivacyPreservingResult,
+        value_of_federated_privacy_preserving,
     )
     from .forecast_signal_information import (
         ForecastSignalInformationResult,
         forecast_signal_information_value,
     )
+    from .heterogeneity import (
+        HeterogeneityResult,
+        identify_optimal_subgroups,
+        value_of_heterogeneity,
+    )
     from .heterogeneity_value import (
         HeterogeneityValueDecompositionResult,
         heterogeneity_value_decomposition,
     )
+    from .implementation import ImplementationAdjustedResult, value_of_implementation
     from .implementation_information import (
         ImplementationInformationResult,
         implementation_information_value,
+    )
+    from .implementation_strategy import (
+        ImplementationStrategyComparisonResult,
+        value_of_implementation_strategy_comparison,
     )
     from .information_source_portfolio import (
         InformationSourcePortfolioResult,
         information_source_portfolio_value,
     )
+    from .interoperability_standardization import (
+        InteroperabilityStandardizationResult,
+        value_of_interoperability_standardization,
+    )
     from .mcda_information import McdaInformationResult, mcda_information_value
+    from .monitoring_surveillance import (
+        MonitoringSurveillanceResult,
+        value_of_monitoring_surveillance,
+    )
+    from .network_nma import evsi_nma
+    from .observational import voi_observational
     from .outcome_conditional_sample_information import (
         OutcomeConditionalSampleInformationResult,
         outcome_conditional_sample_information_value,
+    )
+    from .perspective import (
+        Perspective,
+        PerspectiveSet,
+        ValueOfPerspectiveResult,
+        perspective_arrow_schema_fingerprint,
+        perspective_optimal_strategies,
+        perspective_result_to_arrow,
+        value_of_perspective,
+        write_perspective_result_ipc,
+        write_perspective_result_parquet,
+    )
+    from .portfolio import portfolio_voi
+    from .preference import (
+        PreferenceHeterogeneityResult,
+        PreferenceProfile,
+        PreferenceProfileSet,
+        preference_optimal_strategies,
+        value_of_preference,
+        value_of_preference_heterogeneity,
+        value_of_preference_information,
     )
     from .qualitative_information import (
         QualitativeInformationResult,
@@ -59,13 +157,32 @@ if TYPE_CHECKING:
         qualitative_information_from_specification,
         render_qualitative_information_text,
     )
+    from .regulatory_market_access import (
+        RegulatoryMarketAccessResult,
+        value_of_regulatory_market_access,
+    )
+    from .replication_reproducibility import (
+        ReplicationReproducibilityResult,
+        value_of_replication_reproducibility,
+    )
     from .risk_sensitive_voi import (
         RiskSensitiveVoiResult,
         risk_sensitive_constrained_voi,
     )
+    from .sample_information import enbs, evsi
+    from .sequential import sequential_voi
     from .signed_social_information import (
         SignedSocialInformationResult,
         signed_social_information_value,
+    )
+    from .strategic_behavior import StrategicBehaviorResult, value_of_strategic_behavior
+    from .structural import structural_evpi, structural_evppi
+    from .threshold import (
+        ThresholdProfile,
+        ThresholdProfileSet,
+        ThresholdResult,
+        value_of_threshold,
+        value_of_threshold_information,
     )
     from .uncertainty_modelling_value import (
         UncertaintyModellingValueResult,
@@ -74,6 +191,13 @@ if TYPE_CHECKING:
     from .utility_information import (
         expected_utility_information_value,
         value_of_clairvoyance,
+    )
+    from .validation import (
+        ModelValidationResult,
+        ValidationProfile,
+        ValidationProfileSet,
+        value_of_model_validation,
+        value_of_validation,
     )
 
 _MODULES = (

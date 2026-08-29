@@ -449,6 +449,8 @@ class DataFormatConnector(EcosystemConnector):
                 with open(path_obj) as f:
                     data = json.load(f)
                 return self._convert_json_to_dataframe(data)
+            else:  # pragma: no cover - guarded by the supported-suffix check
+                raise_value_error(f"Unhandled supported format: {suffix}")
 
             return self._process_dataframe(df, data_type)
 

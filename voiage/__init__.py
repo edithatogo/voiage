@@ -432,6 +432,8 @@ def __getattr__(name: str) -> object:
         module_name, export_name = _EXTENSION_EXPORTS[name]
         module = import_module(module_name, __name__)
         value = getattr(module, export_name)
+        methods_namespace = import_module(".methods", __name__)
+        setattr(methods_namespace, export_name, value)
         globals()[name] = value
         return value
     if name in _ECOSYSTEM_EXPORTS:
