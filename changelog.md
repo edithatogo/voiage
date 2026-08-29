@@ -28,6 +28,12 @@
   self-referential parity claim and six additional installability,
   compatibility, capability-matrix, and artifact-hygiene gaps.
 
+- Refreshed the 214-package uv lock, audited the stable and preview dependency
+  frontier, and recorded eight dependency-policy findings. Runtime vulnerability
+  and Cargo policy scans are clean at blocking severity; preview upgrades remain
+  isolated pending compatibility, numerical, Arrow, CPU-fallback, and timing
+  evidence.
+
 - Prepared a current, locally validated, unposted pyOpenSci review packet for
   `v2.1.0`, pinned to the inspected upstream template and public release
   evidence. The candidate still requires maintainer confirmation, every human

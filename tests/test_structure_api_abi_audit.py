@@ -7,13 +7,9 @@ from pathlib import Path
 
 import voiage
 
-
 ROOT = Path(__file__).parents[1]
 AUDIT_PATH = (
-    ROOT
-    / "specs"
-    / "submission-readiness"
-    / "structure-api-abi-audit-20260829.json"
+    ROOT / "specs" / "submission-readiness" / "structure-api-abi-audit-20260829.json"
 )
 
 
