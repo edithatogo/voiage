@@ -28,9 +28,9 @@
     "Only completed delivery children may close; parent scientific, parity, promotion, registry, and publication issues remain open until their own evidence is recorded."
   ],
   "panel_evidence": [
-    "conductor/tracks/supported_frontier_method_completion_20260723/c18-m22-m31-panel-rerun-20260804.md",
-    "conductor/tracks/supported_frontier_method_completion_20260723/c18-panel-rerun-20260821.md",
-    "conductor/tracks/rust_polyglot_voi_completion_20260723/installed-parity-assessment-20260821.json"
+    "conductor/archive/supported_frontier_method_completion_20260723/c18-m22-m31-panel-rerun-20260804.md",
+    "conductor/archive/supported_frontier_method_completion_20260723/c18-panel-rerun-20260821.md",
+    "conductor/archive/rust_polyglot_voi_completion_20260723/installed-parity-assessment-20260821.json"
   ],
   "source_statement_sha256": "3cc1cf5178a75d29cd73ed41c7cca364b1b27ec9ee0c796ac8431c23ff1547bd",
   "supersedes": null

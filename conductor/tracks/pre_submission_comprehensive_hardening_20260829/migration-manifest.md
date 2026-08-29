@@ -63,3 +63,12 @@ kinds that predate the current validator. They remain byte-preserved apart from
 their directory move and receive their supersession receipt through this
 hash-bound manifest, metadata, index, and the new canonical ledger rather than
 having their history rewritten.
+
+## Historical path resolution
+
+Frozen review packets and legacy evidence objects retain the repository paths
+that were true at their recorded revisions. Live scripts, schemas,
+documentation, and tests point directly to `conductor/archive/` after this
+migration. Where a test validates an embedded historical path, it first checks
+the recorded path and then resolves the same track identifier under
+`conductor/archive/`; the embedded evidence value itself is not rewritten.

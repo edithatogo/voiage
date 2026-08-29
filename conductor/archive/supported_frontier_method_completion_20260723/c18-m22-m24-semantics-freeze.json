@@ -42,15 +42,15 @@
   },
   "artifact_sha256": {
     "conductor/tracks/supported_frontier_method_completion_20260723/contract-freeze.json": "7c2fadac93cda91560433a549d19f9b9a9acd04e8a6f897bbd6436a8b18985c9",
-    "specs/frontier/risk-sensitive-constrained-voi/v1/fixtures/manifest.json": "e29ae51d90933be3092e9e5deb4b2a9eb55c7bed5d22d0aff6d2c780a228f241",
+    "specs/frontier/risk-sensitive-constrained-voi/v1/fixtures/manifest.json": "9df5e80e7608bef023b8f5f5e283e794df7bf89f6c3aa2254ac08c1bf3e6ba0e",
     "specs/frontier/forecast-signal-information/v1/fixtures/manifest.json": "0935bab4517c8fe6b3111656d5d9d901dcb8b62e706899ad37e5e2e4f8c9f9e7",
     "specs/frontier/information-source-portfolio/v1/fixtures/manifest.json": "aa1d6d6d2b4ff58dad4763d396fafeb1f557161ee4b1b000158a2e34bba4dc0c",
     "voiage/methods/risk_sensitive_voi.py": "528189a35a4ca0850d315a69156d98b309253e31ec0658305c68dd06d1613d80",
     "voiage/methods/forecast_signal_information.py": "49b8fe67bbb137c0905bdf4d7afc670021620f497cf4adcce591866ef9262840",
     "voiage/methods/information_source_portfolio.py": "042c466f3400297505247cfe273a2ac4458db1064941cdb021148b28d55042a5",
-    "tests/test_risk_sensitive_voi.py": "1eaa81f7b0bba0789d74fec538311f10879dd2728d5316f140ae5ad89492567e",
+    "tests/test_risk_sensitive_voi.py": "fcc71520aa7e6f300fddf61eb4f948286e0b641daf2f0bf32d8d17674eea3b23",
     "tests/test_forecast_signal_information.py": "7ee124cc4a3cbd6b95a0b1cf448b9e87c6c59aeb217326062c7674b64876d354",
     "tests/test_information_source_portfolio.py": "dd5cfe5e9be89e093b5174d3847e6d02e2f8dc84b523340b4077fc10f717294e",
-    "tests/test_information_source_portfolio_governance.py": "bb80b16289806ba3a059e412b3a0dd17d439d7ad1c3f91283d79493ca3059d0f"
+    "tests/test_information_source_portfolio_governance.py": "63f140a6ec7c2467e439a37f223494cf40a257dfef1f70b72a33dc1656ab8740"
   }
 }

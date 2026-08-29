@@ -8,7 +8,7 @@
       "method_family": "value_of_flexibility",
       "input_artifact": "normative/input.json",
       "expected_output_artifact": "normative/expected.json",
-      "reference": "conductor/tracks/supported_frontier_method_completion_20260723/value-of-flexibility-reference-review.md",
+      "reference": "conductor/archive/supported_frontier_method_completion_20260723/value-of-flexibility-reference-review.md",
       "tolerance_policy": "absolute-1e-12"
     }
   ]

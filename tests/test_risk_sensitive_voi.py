@@ -380,7 +380,7 @@ def test_evidence_hashes_pin_the_experimental_delivery_artifacts() -> None:
 
 
 def test_c18_m22_and_native_children_are_governed_without_closing_parent() -> None:
-    track = ROOT / "conductor/tracks/supported_frontier_method_completion_20260723"
+    track = ROOT / "conductor/archive/supported_frontier_method_completion_20260723"
     metadata = _json(track / "metadata.json")
     assert {"M22", "M23", "M25", "M26"} <= set(
         metadata["canonical_track_extensions"]["C18"]
@@ -394,7 +394,7 @@ def test_c18_m22_and_native_children_are_governed_without_closing_parent() -> No
     plan = (track / "plan.md").read_text(encoding="utf-8")
     assert "F570-1 / #757" in plan
     assert "F570-2 / #758" in plan
-    assert "[~] **F570-3 / #761" in plan
+    assert "**Migrated:** **F570-3 / #761" in plan
     requirements = (ROOT / "conductor/requirements.md").read_text(encoding="utf-8")
     design = (ROOT / "conductor/design.md").read_text(encoding="utf-8")
     assert "M22 / planned v1.3.0" in requirements

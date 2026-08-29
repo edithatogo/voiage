@@ -13,6 +13,9 @@
   (`c716dbe6`)
 - [~] **P0-T4 / AC-01:** Run automated phase review and the focused governance
   validation checkpoint.
+  - [~] **Review Fixes:** Repair live code, test, schema, documentation, and
+    governance references that still resolve superseded tracks through their
+    former active paths, then rerun the affected contract suite.
 
 ## Phase 1 — Current requirements and whole-product gap analysis
 

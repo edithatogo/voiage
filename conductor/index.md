@@ -19,7 +19,7 @@
 - [Panel gate policy](./panel-gate-policy.json)
 - [Owner Option A decision (2026-08-21)](./owner-option-a-decision-20260821.md)
 - [Panel gate assessment (2026-08-20)](./panel-gate-assessment-20260820.md)
-- [C18 panel rerun (2026-08-21)](./tracks/supported_frontier_method_completion_20260723/c18-panel-rerun-20260821.md)
+- [C18 panel rerun (2026-08-21)](./archive/supported_frontier_method_completion_20260723/c18-panel-rerun-20260821.md)
 - [Tracks Registry](./tracks.md)
 - [Tracks Directory](./tracks/)
 - [Archive Directory](./archive/)

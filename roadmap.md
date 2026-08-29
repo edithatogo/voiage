@@ -6,8 +6,11 @@ To establish `voiage` as the premier, cross-domain, high-performance library for
 
 ## Comprehensive Rust-First Polyglot Programme
 
-GitHub issue #313 and Conductor track
-`rust_polyglot_voi_completion_20260723` govern the next programme:
+GitHub issue #1033 and Conductor track
+`pre_submission_comprehensive_hardening_20260829` govern the current programme.
+The former #313 workstream and the other previously active tracks are retained
+under `conductor/archive/` with their unfinished tasks migrated through the
+canonical track's hash-bound manifest:
 
 1. **v1.1:** canonical method/external-library registries, complete stable Rust
    core, contribution transparency, and stable binding contracts.
@@ -67,8 +70,9 @@ optional follow-up:
     open alerts. Critical/high findings block release; moderate findings need a
     bounded reviewed disposition.
 
-These refinements remain within the existing ten child workstreams. Creating
-additional tracks would fragment ownership and duplicate acceptance gates.
+These refinements now remain within the single canonical pre-submission track;
+new work is added there rather than reactivating or duplicating its archived
+source tracks.
 
 ## Current Status (As of July 2026)
 
@@ -117,7 +121,7 @@ publication, registry acceptance and issue closure.
 
 Sampling-acquisition harm is now materialized as the planned v1.3.0 Must
 C18/M32 family in
-`conductor/tracks/sampling_acquisition_harm_voi_20260802/`. Issue #850 owns
+`conductor/archive/sampling_acquisition_harm_voi_20260802/`. Issue #850 owns
 native children #851–#853 for the fail-closed capability contract, primary-
 source/estimand packet and candidate-bound accountable review. The automated
 Phase 1 advisory panel closed all Critical/High repository findings for the

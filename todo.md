@@ -4,6 +4,13 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+*   [ ] Complete the canonical pre-submission comprehensive-hardening programme
+    in `conductor/tracks/pre_submission_comprehensive_hardening_20260829/`
+    (#1033): refresh venue and ecosystem requirements, run the whole-product
+    feature/dependency/API/ABI gap analysis, profile and optimize tests and
+    CI/CD, repair accepted findings, harden standalone R and polyglot packages,
+    and complete exact-head assurance before any external submission.
+
 *   [x] Prepare and validate an unposted pyOpenSci submission packet against a
     pinned current template, with an evidence-backed release candidate and all
     human or external actions left explicit.
@@ -38,7 +45,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 For experimental frontier items, references to scientific review mean the
 role-specific subagent review panel and separate orchestrating agent defined in
-`conductor/tracks/supported_frontier_method_completion_20260723/scientific-review-panel.md`.
+`conductor/archive/supported_frontier_method_completion_20260723/scientific-review-panel.md`.
 The orchestrator freezes the candidate, gathers role-separated reports, preserves
 dissent and synthesizes recommendations. The panel supplies structured
 challenge evidence. The repository owner records the accountable scientific,

@@ -8,7 +8,7 @@
       "method_family": "risk_sensitive_constrained_perfect_information",
       "input_artifact": "normative/input.json",
       "expected_output_artifact": "normative/expected.json",
-      "reference": "conductor/tracks/supported_frontier_method_completion_20260723/contract-freeze.json",
+      "reference": "conductor/archive/supported_frontier_method_completion_20260723/contract-freeze.json",
       "tolerance_policy": "declared-absolute-and-relative-tolerances"
     }
   ],

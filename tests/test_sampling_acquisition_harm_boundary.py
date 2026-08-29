@@ -214,6 +214,10 @@ def test_h8a_source_and_evidence_bindings_resolve_exactly() -> None:
         assert not path.is_absolute()
         assert ".." not in path.parts
         artifact = ROOT / path
+        if not artifact.exists():
+            artifact = ROOT / path.as_posix().replace(
+                "conductor/tracks/", "conductor/archive/", 1
+            )
         assert artifact.is_file()
         assert (
             hashlib.sha256(artifact.read_bytes()).hexdigest() == evidence_ref["sha256"]
@@ -529,7 +533,7 @@ def test_readme_never_claims_570_or_595_executes_sampling_harm() -> None:
 
 
 def test_human_confirmation_plan_is_fail_closed_and_role_separated() -> None:
-    track = ROOT / "conductor/tracks/sampling_acquisition_harm_voi_20260802"
+    track = ROOT / "conductor/archive/sampling_acquisition_harm_voi_20260802"
     plan = (track / "plan.md").read_text(encoding="utf-8")
     gates = (track / "human-confirmation-gates.md").read_text(encoding="utf-8")
     requirements = (track / "requirements.md").read_text(encoding="utf-8")

@@ -15,7 +15,7 @@
   },
   "candidate": {
     "path": "specs/submission-readiness/pyopensci-submission-candidate.json",
-    "sha256": "7c0e79e61567cb2a77f3dc6a92d279fcfbe77cca95d1717f57229118829d1335"
+    "sha256": "78f8bc62d990cea548486b57c96c0463b20ab1d5df300cf12fa796df35155a65"
   },
   "candidate_version": "2.1.0",
   "candidate_confirmation": "confirmed_maintainer",

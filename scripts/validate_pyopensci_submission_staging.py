@@ -12,7 +12,7 @@ from typing import Any
 
 STAGING_PATH = Path("specs/submission-readiness/pyopensci-submission-staging.json")
 PUBLICATION_RECEIPT_PATH = Path(
-    "conductor/tracks/quality_release_automation_20260723/"
+    "conductor/archive/quality_release_automation_20260723/"
     "release-2.1.0-publication-receipt-20260821.json"
 )
 EXPECTED_EXTERNAL_OUTCOMES = {

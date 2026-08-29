@@ -8,7 +8,7 @@
       "method_family": "finite_additive_mcda_perfect_information",
       "input_artifact": "normative/input.json",
       "expected_output_artifact": "normative/expected.json",
-      "reference": "conductor/tracks/supported_frontier_method_completion_20260723/mcda-information-reference-review.md",
+      "reference": "conductor/archive/supported_frontier_method_completion_20260723/mcda-information-reference-review.md",
       "tolerance_policy": "declared-absolute-and-relative-tolerances"
     }
   ],

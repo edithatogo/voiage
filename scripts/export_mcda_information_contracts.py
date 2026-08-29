@@ -34,8 +34,8 @@ EVIDENCE_ARTIFACTS = (
     "specs/frontier/mcda-information/v1/schemas/mcda-information-input.schema.json",
     "specs/frontier/mcda-information/v1/schemas/mcda-information-result.schema.json",
     "docs/astro-site/src/content/docs/examples/mcda-information-value.mdx",
-    "conductor/tracks/supported_frontier_method_completion_20260723/mcda-information-reference-review.md",
-    "conductor/tracks/supported_frontier_method_completion_20260723/mcda-information-implementation-review.md",
+    "conductor/archive/supported_frontier_method_completion_20260723/mcda-information-reference-review.md",
+    "conductor/archive/supported_frontier_method_completion_20260723/mcda-information-implementation-review.md",
 )
 
 

@@ -33,7 +33,7 @@
   },
   "artifact_sha256": {
     "conductor/tracks/supported_frontier_method_completion_20260723/contract-freeze.json": "7c2fadac93cda91560433a549d19f9b9a9acd04e8a6f897bbd6436a8b18985c9",
-    "specs/frontier/implementation-information/v1/fixtures/manifest.json": "910f26ed7d1b6e9fe0edc5464fcd0aa6fd4a8a370c2bfc2f173a20b720efd932",
+    "specs/frontier/implementation-information/v1/fixtures/manifest.json": "8bd0aba9fd8a9297d46647dbab937707fff940a4603d41d52ae97f3a779e9fff",
     "specs/frontier/uncertainty-modelling-value/v1/fixtures/manifest.json": "e43df4448590a845edfd0388571368ab78a387185234cd97c49868f881fce5e4",
     "voiage/methods/implementation_information.py": "d8ab5d18e40a61c4da43e70d1cb8325b85e160c9b192ff33dfb7e5351d5a3ce2",
     "voiage/methods/uncertainty_modelling_value.py": "62b007fe02d77090a33deafefe26a9cf98f093e015ed289cbdcfa62e47e614ac",

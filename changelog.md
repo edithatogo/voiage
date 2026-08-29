@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Consolidated all 21 previously active Conductor tracks into the canonical
+  pre-submission comprehensive-hardening programme (#1033), preserving
+  unfinished work as migrated rather than completed and repairing live code,
+  schema, test, documentation, and submission-staging references after archival.
+
 - Prepared a current, locally validated, unposted pyOpenSci review packet for
   `v2.1.0`, pinned to the inspected upstream template and public release
   evidence. The candidate still requires maintainer confirmation, every human

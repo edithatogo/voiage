@@ -7,7 +7,7 @@ from pathlib import Path
 
 CHECKPOINT = (
     Path(__file__).parents[1]
-    / "conductor/tracks/voi_method_census_contract_reconciliation_20260723"
+    / "conductor/archive/voi_method_census_contract_reconciliation_20260723"
     / "classification-checkpoint.json"
 )
 TRACK = CHECKPOINT.parent
@@ -87,8 +87,8 @@ def test_phase_one_freeze_preserves_delivery_and_promotion_boundaries() -> None:
 
     assert "- [x] **G3:** Freeze workstream estimands" in plan
     assert "- [x] **G4:** Run automated contract review" in plan
-    assert "- [ ] **G5:**" in plan
-    assert "- [ ] **G15:**" in plan
+    assert "- **Migrated:** **G5:**" in plan
+    assert "- **Migrated:** **G15:**" in plan
     assert "open #566 remains a" in plan
     assert gates["scientific-and-contract-review"]["status"] == "pending"
     assert gates["hosted-required-checks"]["status"] == "satisfied"

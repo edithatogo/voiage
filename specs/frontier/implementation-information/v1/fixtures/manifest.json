@@ -7,7 +7,7 @@
       "method_family": "implementation_information_decomposition",
       "input_artifact": "normative/input.json",
       "expected_output_artifact": "normative/expected.json",
-      "reference": "conductor/tracks/supported_frontier_method_completion_20260723/implementation-information-reference-review.md",
+      "reference": "conductor/archive/supported_frontier_method_completion_20260723/implementation-information-reference-review.md",
       "tolerance_policy": "exact-finite-enumeration-with-declared-tie-tolerance"
     }
   ],

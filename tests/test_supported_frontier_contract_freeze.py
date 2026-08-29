@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).parents[1]
-TRACK = ROOT / "conductor/tracks/supported_frontier_method_completion_20260723"
+TRACK = ROOT / "conductor/archive/supported_frontier_method_completion_20260723"
 
 
 def _load(name: str) -> dict[str, object]:

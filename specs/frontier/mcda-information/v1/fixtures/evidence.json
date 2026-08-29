@@ -2,7 +2,7 @@
   "artifacts": [
     {
       "path": "scripts/export_mcda_information_contracts.py",
-      "sha256": "133b8dc98e644105b142e3831a7782c14f3a41c7cb74be7547ce3ff862eec4fa"
+      "sha256": "13bec6e62b52752ef8b5a6a0b87188769a3e9eada13e7f52445a748f04b906e0"
     },
     {
       "path": "voiage/contracts/mcda_information.py",
@@ -38,7 +38,7 @@
     },
     {
       "path": "specs/frontier/mcda-information/v1/fixtures/manifest.json",
-      "sha256": "1adf97400e8765bd52a0a21c0cba4f34760162a1455c69f9c4ae82482d895f6f"
+      "sha256": "e4cc7374d2c3d24186d8bdf2d662e1547ab4c46d362f5be987333648969d147d"
     },
     {
       "path": "specs/frontier/mcda-information/v1/fixtures/normative/input.json",
@@ -77,11 +77,11 @@
       "sha256": "606afc56175cadcecaf4ed78885e951b4ec3378fce66f3a3b0edcd3792220d75"
     },
     {
-      "path": "conductor/tracks/supported_frontier_method_completion_20260723/mcda-information-reference-review.md",
+      "path": "conductor/archive/supported_frontier_method_completion_20260723/mcda-information-reference-review.md",
       "sha256": "4813872747a14627527ef3841f2f757ffb8661c43724e194dfbe5311b213589b"
     },
     {
-      "path": "conductor/tracks/supported_frontier_method_completion_20260723/mcda-information-implementation-review.md",
+      "path": "conductor/archive/supported_frontier_method_completion_20260723/mcda-information-implementation-review.md",
       "sha256": "95d87a129d57c4be7b7d233f186be46a8353779bfa42fef26ec8b9dbcf89c0e0"
     }
   ],
