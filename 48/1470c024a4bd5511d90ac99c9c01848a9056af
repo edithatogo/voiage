@@ -1,0 +1,1 @@
+Task: Hosted review fix for dependency preview policy. Summary: Replaced a brittle fixed count with a semantic assertion that every preview workflow job declares continue-on-error. Files: tests/test_dependency_promotion_policy.py. Why: Adding deterministic shard observations increased the valid job count and exposed the stale assumption only in the full hosted suite.
