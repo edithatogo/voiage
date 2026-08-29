@@ -9,20 +9,20 @@ GitHub issue, survey response, submission, review, or acceptance record.
 Unchecked human attestations must be completed personally, and authenticated
 posting requires a separate maintainer instruction.
 
-Submitting Author: @edithatogo  
-All current maintainers: @edithatogo  
-Package Name: voiage  
+Submitting Author: @edithatogo
+All current maintainers: @edithatogo
+Package Name: voiage
 One-Line Description of Package: Value-of-information analysis for decisions
-about uncertainty and further research.  
-Repository Link: https://github.com/edithatogo/voiage  
-Version submitted: 2.1.0 (recommended; maintainer confirmation pending)  
-EiC: Assigned by pyOpenSci after posting  
-Editor: Assigned by pyOpenSci after posting  
-Reviewer 1: Assigned by pyOpenSci after posting  
-Reviewer 2: Assigned by pyOpenSci after posting  
-Archive: A DOI-bearing reviewed-version archive has not been created  
-JOSS DOI: Not assigned; JOSS referral has not started  
-Version accepted: Not applicable before external acceptance  
+about uncertainty and further research.
+Repository Link: https://github.com/edithatogo/voiage
+Version submitted: 2.1.0 (recommended; maintainer confirmation pending)
+EiC: Assigned by pyOpenSci after posting
+Editor: Assigned by pyOpenSci after posting
+Reviewer 1: Assigned by pyOpenSci after posting
+Reviewer 2: Assigned by pyOpenSci after posting
+Archive: A DOI-bearing reviewed-version archive has not been created
+JOSS DOI: Not assigned; JOSS referral has not started
+Version accepted: Not applicable before external acceptance
 Date accepted: Not applicable before external acceptance
 
 ## Code of Conduct & Commitment to Maintain Package
@@ -48,8 +48,8 @@ through a Rust core, with narrower source bindings for R and Julia.
 ## Associated Publication (Optional)
 
 Publication Title: No peer-reviewed package publication exists. A JOSS-format
-manuscript is prepared locally but has not been submitted or accepted.  
-Publication DOI: Not assigned  
+manuscript is prepared locally but has not been submitted or accepted.
+Publication DOI: Not assigned
 Journal/Venue: No associated peer-reviewed publication
 
 ## Scope

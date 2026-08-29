@@ -4,7 +4,7 @@
   "state": "prepared_local_unposted",
   "draft": {
     "path": "docs/release/pyopensci-submission-draft.md",
-    "sha256": "2bd05c9cdab332472b65b64584b70f11e3cb5ac13f69ed8a111d07705568d429"
+    "sha256": "60014320ab08b94d0c7b04e316c999fe7ccaf836e1672df977e44ab58d09087f"
   },
   "template": {
     "path": "specs/submission-readiness/pyopensci-submission-template.json",
