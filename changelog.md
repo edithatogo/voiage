@@ -28,6 +28,23 @@
   self-referential parity claim and six additional installability,
   compatibility, capability-matrix, and artifact-hygiene gaps.
 
+- Repaired the core and binding contract by replacing false cross-language
+  `DecisionProblem` claims with resolvable dispositions, adding an immutable
+  v2.1.0 ABI baseline and compatibility checker, publishing the current
+  method-level capability matrix, and removing eager method imports from the
+  top-level package path.
+
+- Hardened integration and data evidence with content-verified fixture-only
+  dataset records, explicit decision-tree XML and R-inspired JSON profiles,
+  optional `.xlsx` support through `voiage[excel]`, validation levels for domain
+  templates, an offline example-smoke manifest, and a four-domain executable
+  source-to-report workflow corpus.
+
+- Narrowed enterprise adapter, TreeAge, BCEA, and hesim language to the
+  repository-defined interchange profiles actually tested, documented RDS and
+  legacy `.xls` as unsupported, and retained four analytical candidates as
+  research previews or reviewed exclusions rather than stable capabilities.
+
 - Refreshed the 214-package uv lock, audited the stable and preview dependency
   frontier, and recorded eight dependency-policy findings. Runtime vulnerability
   and Cargo policy scans are clean at blocking severity; preview upgrades remain

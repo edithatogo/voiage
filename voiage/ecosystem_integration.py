@@ -66,10 +66,13 @@ class TreeAgeConnector(EcosystemConnector):
 
     def import_treeage_model(self, file_path: str) -> dict[str, Any]:
         """
-        Import TreeAge Pro model file.
+        Import a repository-authored decision-tree XML profile.
+
+        The legacy method name is retained for compatibility. It does not
+        imply that TreeAge product exports are accepted or round-trip verified.
 
         Args:
-            file_path: Path to TreeAge model file
+            file_path: Path to a ``.voiage.xml`` profile file
 
         Returns
         -------
@@ -129,7 +132,10 @@ class TreeAgeConnector(EcosystemConnector):
         self, health_analysis: HealthEconomicsAnalysis, output_path: str
     ) -> None:
         """
-        Export voiage model to TreeAge Pro format.
+        Export a voiage analysis to the repository-authored XML profile.
+
+        The legacy method name is retained for compatibility. The result is
+        not asserted to be a TreeAge product format.
 
         Args:
             health_analysis: Health economics analysis to export
@@ -173,7 +179,7 @@ class TreeAgeConnector(EcosystemConnector):
     def convert_to_voi_analysis(
         self, model_structure: dict[str, Any]
     ) -> dict[str, Any]:
-        """Convert TreeAge model to voiage analysis format."""
+        """Convert the repository XML profile to a voiage analysis mapping."""
         voi_format: dict[str, Any] = {
             "decision_options": [],
             "uncertainty_parameters": [],
@@ -221,10 +227,10 @@ class RPackageConnector(EcosystemConnector):
 
     def import_bcea_results(self, file_path: str) -> dict[str, Any]:
         """
-        Import Bayesian Cost-Effectiveness Analysis results.
+        Import a voiage BCEA-inspired JSON profile.
 
         Args:
-            file_path: Path to BCEA results file
+            file_path: Path to profile JSON; native R objects are unsupported
 
         Returns
         -------
@@ -284,7 +290,10 @@ class RPackageConnector(EcosystemConnector):
         num_simulations: int = 10000,
     ) -> None:
         """
-        Export analysis results for BCEA package.
+        Export a voiage BCEA-inspired JSON profile.
+
+        The output is not asserted to be a native BCEA object or a verified
+        producer/consumer round trip.
 
         Args:
             health_analysis: Health economics analysis to export
@@ -359,10 +368,10 @@ class RPackageConnector(EcosystemConnector):
 
     def import_hesim_results(self, file_path: str) -> dict[str, Any]:
         """
-        Import HE-Sim simulation results.
+        Import a voiage hesim-inspired JSON profile.
 
         Args:
-            file_path: Path to HE-Sim results file
+            file_path: Path to profile JSON; native R objects are unsupported
 
         Returns
         -------
@@ -1086,7 +1095,7 @@ def quick_r_export(health_analysis: HealthEconomicsAnalysis, output_path: str) -
 
 
 def convert_treeage_to_voi(file_path: str) -> dict[str, Any]:
-    """Convert TreeAge model to voiage format."""
+    """Convert a repository-authored decision-tree XML profile to voiage."""
     integration = EcosystemIntegration()
     treeage_connector = integration.get_connector("treeage")
     if not isinstance(treeage_connector, TreeAgeConnector):

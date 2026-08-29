@@ -10,6 +10,15 @@ This document lists the actionable tasks for `voiage` development. Agents should
     feature/dependency/API/ABI gap analysis, profile and optimize tests and
     CI/CD, repair accepted findings, harden standalone R and polyglot packages,
     and complete exact-head assurance before any external submission.
+    *   [x] Consolidate 21 prior active tracks and complete the dated
+        requirements, feature, integration, data, dependency, API/ABI,
+        structure, CI timing, and Scalene baseline.
+    *   [x] Freeze dispositions and architecture, then repair core API/ABI,
+        capability claims, dataset fixtures, interchange profiles, worked
+        examples, and the four-domain executable workflow corpus.
+    *   [ ] Complete standalone R and Julia package hardening, dependency and
+        measured CI/test optimization, venue/manuscript alignment, and final
+        local plus exact-head hosted assurance.
 
 *   [x] Prepare and validate an unposted pyOpenSci submission packet against a
     pinned current template, with an evidence-backed release candidate and all

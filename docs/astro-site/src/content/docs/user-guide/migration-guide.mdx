@@ -219,6 +219,23 @@ material regression, preserve the failing evidence, open an issue with the
 smallest non-confidential reproducer, and pin the last known-good published
 version while a new patch release proceeds through the full release workflow.
 
+## Ecosystem and binding claim corrections
+
+Code using the legacy `TreeAgeConnector`, `import_treeage_model`,
+`export_to_treeage`, or `convert_treeage_to_voi` names may continue to run, but
+those APIs now explicitly describe a repository-authored `.voiage.xml` profile.
+Do not pass an arbitrary TreeAge export or describe the result as TreeAge
+compatible without separate round-trip evidence.
+
+The R connector accepts BCEA- and hesim-inspired JSON profiles only. RDS and
+native R package objects are unsupported. Excel input and output is limited to
+`.xlsx` and requires the `excel` extra; `.xls` remains unsupported.
+
+Binding consumers must also stop inferring method parity from the retained
+package list. `DecisionProblem` is public in Python, internal to the Rust domain
+crate, and unavailable through the C ABI, R, and Julia. Use the current
+method-level capability registry before selecting a binding.
+
 ## Equity-information VOI
 
 The new `value_of_equity_information` method is fixture-backed and measures

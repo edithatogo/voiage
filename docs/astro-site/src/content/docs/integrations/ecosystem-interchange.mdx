@@ -1,0 +1,30 @@
+---
+title: Ecosystem Interchange Profiles
+description: Honest boundaries for decision-tree XML, R-inspired JSON, and tabular files
+sidebar:
+  order: 2
+---
+
+`voiage.ecosystem_integration` provides repository-defined interchange
+profiles. Legacy class and method names are retained for compatibility, but
+they do not establish compatibility with external products.
+
+## Supported profiles
+
+| Surface | Supported contract | Boundary |
+| --- | --- | --- |
+| Decision-tree XML | `.voiage.xml` | Repository-authored profile; TreeAge import/export and round trips are not verified |
+| R-inspired records | JSON | BCEA- and hesim-inspired shapes; native R objects and RDS are unsupported |
+| Tabular data | CSV, JSON, Parquet, `.xlsx` | Excel OpenXML requires `voiage[excel]`; legacy `.xls` is unsupported |
+
+Install Excel support explicitly:
+
+```bash
+pip install "voiage[excel]"
+```
+
+The machine-readable boundary is
+[`specs/integrations/ecosystem-interchange-profiles-v1.json`](https://github.com/edithatogo/voiage/blob/main/specs/integrations/ecosystem-interchange-profiles-v1.json).
+An external product name may be promoted to a compatibility claim only after a
+rights-cleared fixture from a pinned producer version passes an executed
+producer-to-voiage round trip.

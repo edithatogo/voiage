@@ -74,14 +74,19 @@ These refinements now remain within the single canonical pre-submission track;
 new work is added there rather than reactivating or duplicating its archived
 source tracks.
 
-## Current Status (As of July 2026)
+## Current Status (As of August 2026)
 
-The project has a solid foundation with core VOI methods implemented, modern CI/CD, and automated publishing pipelines.
+The project has a solid foundation with core VOI methods implemented, modern
+CI/CD, and automated publishing pipelines. The canonical pre-submission
+hardening programme has completed its requirements/gap baseline and
+architecture disposition. Core API/ABI and integration/data repairs are in
+progress; standalone R/polyglot packaging, measured CI optimization, venue
+alignment, and whole-programme assurance remain before any submission.
 
 *   **Phase 1 (Foundation & API Refactoring):** ✅ **Complete** - Core OO API, data structures, CI/CD, and documentation are all in place.
 *   **Phase 2 (Health Economics Core):** ✅/🔄 **Stable analytical core complete; generic simulation developing** - EVPI, EVPPI, an analytical two-arm normal EVSI model, a coherent joint normal two-loop model with custom callback support, NMA VOI, structural VOI, and plotting are implemented. Generic two-loop and compatibility EVSI estimators remain non-stable pending method-specific convergence and parity evidence.
 *   **Phase 3 (Advanced Methods & Cross-Domain):** ✅ **Complete** - Structural VOI, NMA VOI, JAX JIT compilation, and cross-domain support implemented.
-*   **Spec, Fixture, Polyglot, And Ecosystem Tracks:** ✅/🔄 **Repository Complete, External Gates Explicit** - the core API spec, conformance fixtures, binding release matrix, ecosystem contracts, and community/support tracks are complete in-repo. Registry approval, external indexing, and cross-language parity expansion remain external or follow-on evidence gates.
+*   **Spec, Fixture, Polyglot, And Ecosystem Tracks:** 🔄 **Truthfulness Repairs In Progress, External Gates Explicit** - the immutable release packaging matrix is now separated from the current method-level capability matrix; dataset, ecosystem, example, and workflow evidence has been narrowed to executed repository contracts. Standalone R/Julia installed-package assurance and registry approval remain open gates.
 *   **Rust Core Migration:** 🔄 **Production Workspace Established, Stable Kernels Rust-Backed** - the production Rust workspace enforces core dependency direction, leaf FFI/PyO3 adapters, a Rust 1.85 MSRV, and cross-platform CI. Stable EVPI, EVPPI, analytical normal--normal EVSI, ENBS, CEAF, dominance, heterogeneity, and structural aggregation kernels are Rust-backed; Python retains declared two-loop orchestration and explicitly non-stable compatibility paths. R exposes the shared EVPI kernel while Julia exposes shared EVPI and signed ENBS through a separately supplied native library; both still require hosted and registry evidence.
 *   **HPC Native Enablement:** ✅/🔄 **Setup Complete, Speedup Evidence-Gated** - the `hpc-capability-implementation-program_20260511` track family is complete and archived for CPU cluster parallelism, scheduler adapters, Apple Metal, discrete GPU, TPU, FPGA, and ASIC lane setup. Remaining work is evidence-gated production speedup, Apple Silicon device capture, and real FPGA/ASIC hardware validation.
 

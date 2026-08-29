@@ -19,6 +19,7 @@ Immutable dataclass representing an industry decision problem template.
 - `required_fields: list[str]` — Parameter or dataset requirements
 - `capabilities: list[str]` — Supported VOI algorithms (`evpi`, `evppi`, `evsi`, `enbs`)
 - `maturity: str` — `candidate`, `experimental`, or `stable`
+- `validation_level: str` — `registry_driven_worked_example` or `template_only`
 - `to_dict() -> dict[str, Any]` — Serialize to dictionary
 - `from_dict(data: dict[str, Any]) -> DomainTemplate` — Parse from dictionary
 
@@ -35,3 +36,9 @@ Retrieves a single template by ID; raises `ValueError` if not found.
 
 ### `validate_domain_template_registry(registry_path=None, schema_path=None) -> bool`
 Validates all entries against `specs/domain-templates/schemas/v1/domain-template.schema.json`.
+
+## Validation boundary
+
+`stable` currently means that the template is exercised through its registry
+by a deterministic worked example. Experimental entries are `template_only`:
+schema validation proves their structure, not analytical or domain validity.

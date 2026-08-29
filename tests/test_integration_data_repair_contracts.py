@@ -63,6 +63,25 @@ def test_ecosystem_interchange_profiles_match_actual_formats_and_extras() -> Non
     )
 
 
+def test_public_integration_docs_preserve_profile_boundaries() -> None:
+    ecosystem = (
+        ROOT
+        / "docs/astro-site/src/content/docs/integrations/ecosystem-interchange.mdx"
+    ).read_text(encoding="utf-8")
+    enterprise = (
+        ROOT / "docs/astro-site/src/content/docs/integrations/enterprise-adapters.mdx"
+    ).read_text(encoding="utf-8")
+    migration = (
+        ROOT / "docs/astro-site/src/content/docs/user-guide/migration-guide.mdx"
+    ).read_text(encoding="utf-8")
+
+    assert "TreeAge import/export and round trips are not verified" in ecosystem
+    assert "RDS are unsupported" in ecosystem
+    assert "`voiage[excel]`" in ecosystem
+    assert "do not claim\nproduct compatibility" in enterprise
+    assert "method-level capability registry" in migration
+
+
 def test_domain_templates_distinguish_validated_workflows_from_templates() -> None:
     registry = _json("specs/domain-templates/registry.json")
     stable = [item for item in registry["templates"] if item["maturity"] == "stable"]

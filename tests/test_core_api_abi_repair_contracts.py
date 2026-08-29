@@ -160,3 +160,38 @@ def test_binding_capability_contract_requires_behavior_not_workflow_text() -> No
         "workflow command substring checks",
         "repository-relative import or library lookup",
     ]
+
+
+def test_current_binding_capability_registry_matches_architecture_freeze() -> None:
+    architecture = json.loads(
+        (
+            ROOT
+            / "specs/submission-readiness/target-architecture-freeze-20260829.json"
+        ).read_text(encoding="utf-8")
+    )
+    registry = json.loads(
+        (ROOT / "specs/bindings/current-capability-matrix.json").read_text(
+            encoding="utf-8"
+        )
+    )
+
+    assert registry["status"] == "current"
+    assert registry["source_of_truth"].endswith("#capability_matrix")
+    assert registry["capabilities"] == architecture["capability_matrix"]
+    assert registry["released_packaging_matrix"] == "specs/v1/binding-matrix.json"
+
+
+def test_public_binding_docs_distinguish_internal_and_unavailable_surfaces() -> None:
+    reference = (
+        ROOT / "docs/astro-site/src/content/docs/reference/bindings.mdx"
+    ).read_text(encoding="utf-8")
+    api = (
+        ROOT
+        / "docs/astro-site/src/content/docs/api-reference/binding-dispositions.mdx"
+    ).read_text(encoding="utf-8")
+
+    assert "Current method-level capability matrix" in reference
+    assert "| `DecisionProblem` | stable | internal type | unavailable" in reference
+    assert "Julia 1.12" in reference
+    assert "`internal` means" in api
+    assert "not exposed by the C ABI, R, or Julia" in api
