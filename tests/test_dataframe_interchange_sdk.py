@@ -79,7 +79,8 @@ def test_dataframe_sdk_records_copy_and_schema_conversion_diagnostics() -> None:
     ]
 
     assert extension == {
-        "adapter_version": "1",
+        "adapter_version": "2",
+        "conversion_protocol": "arrow_py_capsule",
         "copy_outcome": "zero_copy",
         "copy_policy": "disallow_copy",
         "field_decisions": [
@@ -112,6 +113,7 @@ def test_dataframe_sdk_does_not_claim_an_unobservable_copy_outcome() -> None:
 
     assert extension["copy_policy"] == "allow_copy"
     assert extension["copy_outcome"] == "not_observable"
+    assert extension["conversion_protocol"] == "arrow_py_capsule"
     assert bundle.manifest.diagnostics[0].code == "dataframe_interchange.copy.unknown"
 
 
@@ -200,6 +202,7 @@ def test_dataframe_sdk_reports_pandas_nullable_category_and_timezone_decisions()
     assert extension["copy_policy"] == "allow_copy"
     assert extension["copy_outcome"] == "not_observable"
     assert extension["index_policy"] == "excluded_by_dataframe_interchange_protocol"
+    assert extension["conversion_protocol"] == "dataframe_interchange_fallback"
     assert decisions["tier"]["categorical"] is True
     assert decisions["tier"]["nullable"] is True
     assert decisions["cost"]["nullable"] is True

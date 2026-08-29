@@ -151,9 +151,10 @@
     {
       "id": "DEP-007",
       "severity": "high",
-      "state": "open",
+      "state": "resolved",
       "summary": "The refreshed PyArrow 25 lane emits a deprecation warning for the DataFrame interchange conversion used by the SDK; current Arrow guidance prefers the Arrow PyCapsule interface where producers support it.",
-      "required_disposition": "Add PyCapsule-first conversion with an explicitly tested DataFrame-protocol fallback, preserving allow-copy, nullable, categorical, timezone, schema, and provenance semantics."
+      "required_disposition": "Add PyCapsule-first conversion with an explicitly tested DataFrame-protocol fallback, preserving allow-copy, nullable, categorical, timezone, schema, and provenance semantics.",
+      "resolution": "The version-2 adapter now selects Arrow PyCapsule conversion first, records the selected protocol, and falls back to the DataFrame interchange path when capsule columns would expose producer-specific index data. Eleven SDK tests preserve copy policy, nullable, categorical, timezone, schema, binding, digest, and provenance behavior without the PyArrow deprecation warning."
     },
     {
       "id": "DEP-008",
