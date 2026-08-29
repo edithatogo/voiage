@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import configparser
 import json
 from pathlib import Path
 
@@ -136,6 +137,23 @@ def test_promoted_python_lanes_use_bounded_workstealing_and_single_ci_coverage()
     assert (
         "cancel-in-progress: ${{ github.event_name == 'pull_request' }}" in operational
     )
+
+
+def test_tox_package_environments_build_checkout_only_once() -> None:
+    config = configparser.ConfigParser(interpolation=None)
+    config.read(ROOT / "tox.ini", encoding="utf-8")
+
+    default = config["testenv"]
+    assert default["package"].strip() == "wheel"
+    assert default["extras"].split() == ["ci"]
+    assert ".[ci]" not in default.get("deps", "")
+    for environment in (
+        "testenv:ingestion-conformance",
+        "testenv:min_versions",
+        "testenv:max_versions",
+        "testenv:coverage_report",
+    ):
+        assert ".[ci]" not in config[environment].get("deps", "")
 
 
 def test_release_retains_fresh_non_sharded_full_validation() -> None:
