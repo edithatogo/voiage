@@ -8,11 +8,14 @@ import re
 
 from scripts.validate_pyopensci_submission_staging import validate_staging_packet
 
-
 ROOT = Path(__file__).parents[1]
 STAGING = ROOT / "specs" / "submission-readiness" / "pyopensci-submission-staging.json"
-TEMPLATE = ROOT / "specs" / "submission-readiness" / "pyopensci-submission-template.json"
-CANDIDATE = ROOT / "specs" / "submission-readiness" / "pyopensci-submission-candidate.json"
+TEMPLATE = (
+    ROOT / "specs" / "submission-readiness" / "pyopensci-submission-template.json"
+)
+CANDIDATE = (
+    ROOT / "specs" / "submission-readiness" / "pyopensci-submission-candidate.json"
+)
 DRAFT = ROOT / "docs" / "release" / "pyopensci-submission-draft.md"
 PUBLICATION_RECEIPT = (
     ROOT
@@ -91,12 +94,17 @@ def test_draft_is_unposted_and_contains_current_template_sections() -> None:
     assert "Submission performed: **No**" in draft
     for section in template["required_sections"]:
         assert f"## {section}" in draft
-    assert "Version submitted: 2.1.0 (recommended; maintainer confirmation pending)" in draft
+    assert (
+        "Version submitted: 2.1.0 (recommended; maintainer confirmation pending)"
+        in draft
+    )
     assert "- [ ] I agree to abide by" in draft
     assert "- [ ] I have read and will commit" in draft
     assert "- [ ] Do you wish to automatically submit" in draft
     assert "- [ ] Last but not least please fill out our pre-review survey" in draft
-    assert not re.search(r"\b(?:TBD|TODO|FILL(?:\s+THIS)?\s+IN)\b", draft, re.IGNORECASE)
+    assert not re.search(
+        r"\b(?:TBD|TODO|FILL(?:\s+THIS)?\s+IN)\b", draft, re.IGNORECASE
+    )
 
 
 def test_validator_rejects_false_submission_state(tmp_path: Path) -> None:
