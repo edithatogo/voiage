@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-29T02:07:57Z",
+  "generated_at": "2026-08-29T03:49:11Z",
   "repository": "edithatogo/voiage",
   "project_url": "https://github.com/users/edithatogo/projects/28",
   "association_policy": "PRs are included only when associated with commits recorded by a track, Git history for its path, or an explicit track reference. Empty completed-track lists are none_found, not inferred.",
@@ -21,16 +21,18 @@
         {
           "number": 1031,
           "url": "https://github.com/edithatogo/voiage/pull/1031",
-          "status": "open",
+          "status": "merged",
           "evidence": [
-            "reviewed-head:71b1b57201f288b3f1203f7fe9f622339c4e33bc",
+            "reviewed-head:b935956752128dd1c87b5b5f12cab93969cfddf1",
             "hosted-checks:33-success-3-skipped-1-neutral",
             "review-threads:0-unresolved",
-            "open-unmerged"
+            "merge-commit:9e458726dd8e27db86c203ed101cc27fb3585d3f",
+            "exact-tree-match",
+            "post-merge-main-workflows:11/11-success"
           ]
         }
       ],
-      "pull_request_evidence": "repository staging completed at a green exact implementation head; delivery PR remains open and unmerged; external venue actions remain pending"
+      "pull_request_evidence": "repository staging delivery merged with exact reviewed-head tree equality and all observed post-merge main workflows successful; external venue actions remain pending"
     },
     {
       "track_id": "pyopensci_joss_review_readiness_20260823",

@@ -1,0 +1,130 @@
+{
+  "schema_version": "voiage.pyopensci-post-merge-receipt.v1",
+  "observed_at": "2026-08-29T03:49:11Z",
+  "repository": "edithatogo/voiage",
+  "pull_request": {
+    "number": 1031,
+    "url": "https://github.com/edithatogo/voiage/pull/1031",
+    "state": "merged",
+    "base": "main",
+    "reviewed_head": "b935956752128dd1c87b5b5f12cab93969cfddf1",
+    "reviewed_head_tree": "6516ef88fc4f8ad0bffdafde8c0bf9d9c3a4adfd",
+    "merge_commit": "9e458726dd8e27db86c203ed101cc27fb3585d3f",
+    "merge_commit_tree": "6516ef88fc4f8ad0bffdafde8c0bf9d9c3a4adfd",
+    "merged_at": "2026-08-29T03:38:16Z",
+    "merged_by": "edithatogo",
+    "merge_method": "squash",
+    "exact_tree_match": true,
+    "reviewed_head_checks": {
+      "success": 33,
+      "skipped": 3,
+      "neutral": 1,
+      "failed": 0,
+      "pending": 0
+    },
+    "unresolved_review_threads": 0
+  },
+  "main_workflows": {
+    "commit": "9e458726dd8e27db86c203ed101cc27fb3585d3f",
+    "runner_class": "GitHub Actions workflow-defined hosted runners",
+    "total": 11,
+    "success": 11,
+    "failed": 0,
+    "pending": 0,
+    "runs": [
+      {
+        "name": "Benchmark Tracking",
+        "run_id": 33231902374,
+        "url": "https://github.com/edithatogo/voiage/actions/runs/33231902374",
+        "conclusion": "success"
+      },
+      {
+        "name": "C15 Cross-platform Assurance",
+        "run_id": 33231902372,
+        "url": "https://github.com/edithatogo/voiage/actions/runs/33231902372",
+        "conclusion": "success"
+      },
+      {
+        "name": "CI",
+        "run_id": 33231902391,
+        "url": "https://github.com/edithatogo/voiage/actions/runs/33231902391",
+        "conclusion": "success"
+      },
+      {
+        "name": "CodeQL Security Analysis",
+        "run_id": 33231902368,
+        "url": "https://github.com/edithatogo/voiage/actions/runs/33231902368",
+        "conclusion": "success"
+      },
+      {
+        "name": "Dependency Assurance",
+        "run_id": 33231902386,
+        "url": "https://github.com/edithatogo/voiage/actions/runs/33231902386",
+        "conclusion": "success"
+      },
+      {
+        "name": "Deploy Documentation",
+        "run_id": 33231902395,
+        "url": "https://github.com/edithatogo/voiage/actions/runs/33231902395",
+        "conclusion": "success"
+      },
+      {
+        "name": "GitHub Actions Audit",
+        "run_id": 33231902394,
+        "url": "https://github.com/edithatogo/voiage/actions/runs/33231902394",
+        "conclusion": "success"
+      },
+      {
+        "name": "Gitleaks Secret Scanning",
+        "run_id": 33231902381,
+        "url": "https://github.com/edithatogo/voiage/actions/runs/33231902381",
+        "conclusion": "success"
+      },
+      {
+        "name": "OpenSSF Scorecard",
+        "run_id": 33231902379,
+        "url": "https://github.com/edithatogo/voiage/actions/runs/33231902379",
+        "conclusion": "success"
+      },
+      {
+        "name": "Operational Assurance",
+        "run_id": 33231902436,
+        "url": "https://github.com/edithatogo/voiage/actions/runs/33231902436",
+        "conclusion": "success"
+      },
+      {
+        "name": "Polyglot Assurance Frontier",
+        "run_id": 33231902370,
+        "url": "https://github.com/edithatogo/voiage/actions/runs/33231902370",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "observation_commands": [
+    [
+      "gh",
+      "pr",
+      "view",
+      "1031",
+      "--json",
+      "number,state,mergedAt,mergedBy,mergeCommit,headRefOid,baseRefName,url,title"
+    ],
+    [
+      "gh",
+      "run",
+      "list",
+      "--branch",
+      "main",
+      "--commit",
+      "9e458726dd8e27db86c203ed101cc27fb3585d3f"
+    ],
+    [
+      "git",
+      "rev-parse",
+      "<revision>^{tree}"
+    ]
+  ],
+  "result": "repository_delivery_merged_and_main_workflows_green",
+  "next_action": "maintainer personally completes remaining pyOpenSci attestations and separately authorizes any authenticated submission action",
+  "external_submission_performed": false
+}
