@@ -18,4 +18,4 @@
   - [x] Run full project assurance and automated review. (`d52c4e9e`)
   - [~] Commit, open a pull request, and obtain green hosted checks without merging or submitting externally.
   - [x] **Review Fixes:** Refresh the changelog digest pinned by the distributional-information evidence fixture after narrative synchronization. (`6249e9df`)
-  - [~] **Review Fixes:** Enforce every pending human draft marker and reject checked duplicates identified by PR review.
+  - [x] **Review Fixes:** Enforce every pending human draft marker and reject checked duplicates identified by PR review. (`968c7f1a`)
