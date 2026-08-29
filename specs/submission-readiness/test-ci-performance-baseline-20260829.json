@@ -7,7 +7,7 @@
     "operating_system": "macOS 26.6.2 arm64",
     "logical_cpus": 10,
     "python": "3.12.13",
-    "pytest": "9.0.3",
+    "pytest": "9.1.1",
     "pytest_xdist": "3.8.0",
     "tox": "4.58.0",
     "scalene": "2.3.0",
@@ -39,7 +39,8 @@
       "failed": 8,
       "skipped": 16,
       "outcome": "failed",
-      "failure_scope": "One import-budget regression; two dependency-lock/tool-version evidence mismatches; three archived-track or publication-receipt path mismatches; one stale arXiv source archive; and one stale distributional-contract digest."
+      "failure_scope": "One import-budget regression; three dependency-lock/tool-version evidence mismatches; two archived-track or publication-receipt path mismatches; one stale arXiv source archive; and one stale distributional-contract digest.",
+      "note": "This all-tests command includes benchmark, integration, and end-to-end markers; it is directly comparable to the Operational Assurance test selection but not to the focused hosted unit-test jobs."
     },
     {
       "id": "pytest-xdist-worksteal-8",
@@ -54,7 +55,8 @@
       "outcome": "failed",
       "wall_reduction_percent_from_serial": 83.41,
       "parallel_only_failure": "tests/test_risk_sensitive_voi.py::test_cli_text_output_reports_saved_result",
-      "interpretation": "Bounded work-stealing is materially faster, but eight resident workers increase memory pressure and expose one order-dependent lazy-module state failure."
+      "interpretation": "Bounded work-stealing is materially faster, but eight resident workers increase memory pressure and expose one order-dependent lazy-module state failure.",
+      "note": "This command uses the same all-tests selection as the serial local observation."
     },
     {
       "id": "repository-harness",
@@ -147,7 +149,7 @@
     }
   ],
   "hosted_reference": {
-    "interpretation": "Representative prior-main observations, not exact-head validation for this branch.",
+    "interpretation": "Representative prior-main observations, not exact-head validation for this branch. Hosted unit jobs exclude benchmark, integration, and end-to-end markers and therefore are not direct peers of the local all-tests observations; Operational Assurance uses the all-tests selection with coverage.",
     "ci": {
       "run_id": 33233164586,
       "source_head": "7992dcee7e3c72ca1cfd3b6a5feef98968bef6a7",
