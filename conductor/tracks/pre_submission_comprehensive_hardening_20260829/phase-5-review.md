@@ -15,9 +15,10 @@ absence of a `jaxlib` cp315 artifact.
 
 The first Rust accelerator observation revealed that setting
 `SCCACHE_GHA_ENABLED` alone does not initialize the GitHub cache backend. The
-workflow now uses the pinned official sccache action. Independently, pinned
-nextest ran all 221 Rust tests locally in 2.502 seconds after a 21.94-second
-build, with all tests passing.
+workflow now uses the pinned official sccache action. Exact-head hosted run
+33262673063 then passed the sccache job and completed nextest in 20 seconds.
+Independently, pinned nextest ran all 221 Rust tests locally in 2.502 seconds
+after a 21.94-second build, with all tests passing.
 
 ## Measured results
 
@@ -28,6 +29,9 @@ build, with all tests passing.
   reduction with all environments passing.
 - Exact-head PR #1034: 66 successes, five intentional skips, zero failures,
   95.11% coverage.
+- Exact-head closeout tox at `0f193d65`: all 15 environments passed in 697.71
+  seconds; 4,503 tests passed, 16 were intentionally skipped, and coverage was
+  95.16%.
 - Documentation: duplicate polyglot build removed while retaining all 1,030
   generated pages and link validation.
 

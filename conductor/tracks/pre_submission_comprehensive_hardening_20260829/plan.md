@@ -149,14 +149,14 @@
 
 ## Phase 7 — Whole-programme assurance and submission freeze
 
-- [ ] **P7-T1 / AC-10:** Run the repository harness, complete tox matrix,
+- [x] **P7-T1 / AC-10:** Run the repository harness, complete tox matrix,
   language-native checks, documentation builds, security/dependency audits,
   mutation/coverage gates, and full Conductor validation.
-- [ ] **P7-T2 / AC-04, AC-10:** Run independent whole-programme review, repair
+- [x] **P7-T2 / AC-04, AC-10:** Run independent whole-programme review, repair
   all Critical/High/Medium findings, and rerun the complete gate.
-- [ ] **P7-T3 / AC-08, AC-10:** Record final local and hosted performance and
+- [x] **P7-T3 / AC-08, AC-10:** Record final local and hosted performance and
   exact-head required-check evidence without weakening any required gate.
-- [ ] **P7-T4 / AC-10:** Freeze the submission candidate, confirm a clean tree,
+- [x] **P7-T4 / AC-10:** Freeze the submission candidate, confirm a clean tree,
   record every remaining external/human gate, and explicitly attest that no
   submission was performed.
 - [ ] **P7-T5 / AC-10:** Mark the repository programme complete and archive it

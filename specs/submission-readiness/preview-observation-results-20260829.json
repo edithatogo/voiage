@@ -2,9 +2,9 @@
   "schema_version": "1.0.0",
   "observed_on": "2026-08-29",
   "workflow": ".github/workflows/dependency-preview.yml",
-  "workflow_run": 33261056383,
-  "workflow_url": "https://github.com/edithatogo/voiage/actions/runs/33261056383",
-  "revision": "ff5a9616e34c21231496f17546a4ae4785997858",
+  "workflow_run": 33262673063,
+  "workflow_url": "https://github.com/edithatogo/voiage/actions/runs/33262673063",
+  "revision": "0f193d655fb2c29b1ecc5e64a07756fb246bd4c6",
   "workflow_conclusion": "success",
   "policy": {
     "mode": "non_blocking_observation",
@@ -70,11 +70,12 @@
     },
     {
       "id": "cargo-nextest-and-sccache",
-      "job_conclusion": "failure",
-      "compatibility_tests": "nextest did not start because the GitHub Actions cache backend was not initialized",
+      "job_conclusion": "success",
+      "compatibility_tests": "pinned sccache backend initialized and nextest completed the Rust workspace",
       "local_follow_up": "cargo-nextest 0.9.114 ran 221 tests with 221 passed in 2.502 seconds after a 21.94 second build",
       "repair": "configure the pinned mozilla-actions sccache action before invoking nextest",
-      "disposition": "rerun_repaired_observation"
+      "hosted_nextest_seconds": 20,
+      "disposition": "validated_observational_accelerator"
     }
   ],
   "stable_decision": "No preview candidate is promoted. Stable dependencies remain the latest releases satisfying the reviewed bounds.",
