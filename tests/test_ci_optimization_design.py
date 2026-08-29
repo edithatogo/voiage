@@ -9,6 +9,15 @@ ROOT = Path(__file__).parents[1]
 DESIGN_PATH = (
     ROOT / "specs" / "submission-readiness" / "ci-optimization-design-20260829.json"
 )
+BASELINE_PATH = (
+    ROOT
+    / "specs"
+    / "submission-readiness"
+    / "test-ci-performance-baseline-20260829.json"
+)
+PROFILE_PATH = (
+    ROOT / "specs" / "submission-readiness" / "scalene-test-profile-20260829.json"
+)
 
 
 def _design() -> dict[str, object]:
@@ -75,20 +84,31 @@ def test_caches_and_reusable_artifacts_preserve_identity_and_evidence() -> None:
 def test_design_covers_all_measured_performance_and_profile_findings() -> None:
     design = _design()
     closure = design["finding_closure"]
-
-    assert closure.keys() == {
-        "PERF-001",
-        "PERF-002",
-        "PERF-003",
-        "PERF-004",
-        "PERF-005",
-        "PERF-006",
-        "PERF-007",
-        "PROF-001",
-        "PROF-002",
-        "PROF-003",
-        "PROF-004",
+    baseline = json.loads(BASELINE_PATH.read_text(encoding="utf-8"))
+    profile = json.loads(PROFILE_PATH.read_text(encoding="utf-8"))
+    source_ids = {
+        *(finding["id"] for finding in baseline["findings"]),
+        *(experiment["id"] for experiment in profile["required_experiments"]),
     }
+
+    assert (
+        closure.keys()
+        == source_ids
+        == {
+            "PERF-001",
+            "PERF-002",
+            "PERF-003",
+            "PERF-004",
+            "PERF-005",
+            "PERF-006",
+            "PERF-007",
+            "PROF-001",
+            "PROF-002",
+            "PROF-003",
+            "PROF-004",
+            "PROF-005",
+        }
+    )
     assert len(design["required_fan_in"]) >= 7
     assert len(design["implementation_order"]) == 10
     assert "same outcomes" in design["profiling_and_measurement"]["acceptance"]

@@ -178,9 +178,10 @@
     "PERF-005": "Reuse generated documentation inputs and lock-keyed dependency stores while retaining all docs gates.",
     "PERF-006": "Use safe native-language caches and split early smoke from required full package assurance.",
     "PERF-007": "Build and check one exact R source artifact without archive globs.",
-    "PROF-001": "Qualify Scalene only on bounded representative workloads and retain complementary timing tools.",
-    "PROF-002": "Prioritize lazy schema imports from the measured general profile.",
-    "PROF-003": "Replace whole-tree harness scans with tracked-file traversal.",
-    "PROF-004": "Profile and optimize bootstrap generation without changing fixed-seed numerical semantics."
+    "PROF-001": "Prioritize lazy schema imports and retain the five-second public-import gate.",
+    "PROF-002": "Replace whole-tree harness scans with tracked-file traversal and require identical marker detection.",
+    "PROF-003": "Profile and optimize bootstrap generation without changing fixed-seed numerical semantics.",
+    "PROF-004": "Consolidate safe subprocess probes and reuse exact-head build artifacts without losing clean-process isolation.",
+    "PROF-005": "Repair parallel order dependence and benchmark bounded 4, 6, and 8 worker lanes against the serial outcome."
   }
 }
