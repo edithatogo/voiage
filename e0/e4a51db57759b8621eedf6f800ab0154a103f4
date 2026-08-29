@@ -1,0 +1,1 @@
+Phase 2 review fix: require exact human-attestation and external-action key sets so deleting a pending or false gate cannot weaken the local packet. Added two negative tests. Eight tests, Ruff, formatting, ty, standalone validation, and diff hygiene passed.
