@@ -45,7 +45,7 @@
     local all-tests timings from hosted focused-unit and Operational Assurance
     selections.
 
-## Phase 2 — Disposition and architecture freeze
+## Phase 2 — Disposition and architecture freeze [checkpoint: f323749b]
 
 - [x] **P2-T1 / AC-03:** Produce the canonical finding ledger and disposition
   every gap as must-fix, accepted limitation, preview, reviewed exclusion,
@@ -64,7 +64,7 @@
 
 ## Phase 3 — Core, analytical, data, and integration repairs
 
-- [ ] **P3-T1 / AC-04, AC-05:** Add failing contract, reference, property, and
+- [~] **P3-T1 / AC-04, AC-05:** Add failing contract, reference, property, and
   compatibility tests for accepted core/API/ABI findings.
 - [ ] **P3-T2 / AC-04, AC-05:** Implement the accepted Rust, Python, schema,
   serialization, CLI, and installed-artifact repairs.
