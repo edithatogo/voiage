@@ -18,7 +18,7 @@
         "properties": {
           "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
           "title": {"type": "string", "minLength": 1},
-          "kind": {"enum": ["primary-paper", "guideline", "package-documentation", "repository-contract"]},
+            "kind": {"enum": ["primary-paper", "preprint", "guideline", "package-documentation", "repository-contract"]},
           "url": {"type": "string", "format": "uri"},
           "verification": {"enum": ["primary-verified", "repository-verified"]}
         }

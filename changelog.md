@@ -12,6 +12,12 @@
   hardening programme, including current human-review, AI-disclosure,
   statistical-standards, research-impact, packaging, and provenance boundaries.
 
+- Refreshed the pre-submission software and analytical-method landscape,
+  correcting current package metadata, adding two direct research
+  implementations and two hosted comparison surfaces, and recording recent
+  risk-model and missing-data EVSI work as candidates rather than supported
+  capability claims.
+
 - Prepared a current, locally validated, unposted pyOpenSci review packet for
   `v2.1.0`, pinned to the inspected upstream template and public release
   evidence. The candidate still requires maintainer confirmation, every human
