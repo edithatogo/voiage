@@ -64,16 +64,17 @@
 
 ## Phase 3 — Core, analytical, data, and integration repairs
 
-- [~] **P3-T1 / AC-04, AC-05:** Add failing contract, reference, property, and
-  compatibility tests for accepted core/API/ABI findings.
-- [ ] **P3-T2 / AC-04, AC-05:** Implement the accepted Rust, Python, schema,
-  serialization, CLI, and installed-artifact repairs.
-- [ ] **P3-T3 / AC-04:** Add failing tests for accepted analytical, diagnostic,
-  data, integration, and worked-example findings.
-- [ ] **P3-T4 / AC-04:** Implement accepted analytical, diagnostic, data,
+- [x] **P3-T1 / AC-04, AC-05:** Add failing contract, reference, property, and
+  compatibility tests for accepted core/API/ABI findings. (`cb1b5425`)
+- [x] **P3-T2 / AC-04, AC-05:** Implement the accepted Rust, Python, schema,
+  serialization, CLI, and installed-artifact repairs. (`e8da0047`)
+- [x] **P3-T3 / AC-04:** Add failing tests for accepted analytical, diagnostic,
+  data, integration, and worked-example findings. (`7d6fb67d`)
+- [x] **P3-T4 / AC-04:** Implement accepted analytical, diagnostic, data,
   integration, and worked-example repairs or record reviewed exclusions.
-- [ ] **P3-T5 / AC-04:** Synchronize capability registries, public docs,
-  changelog, roadmap, todo, and migration guidance.
+  (`c68eaa5e`)
+- [x] **P3-T5 / AC-04:** Synchronize capability registries, public docs,
+  changelog, roadmap, todo, and migration guidance. (`b36d0fdf`)
 - [ ] **P3-T6 / AC-04, AC-05:** Run automated phase review and validation
   checkpoint.
 
