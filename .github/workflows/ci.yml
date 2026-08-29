@@ -825,4 +825,4 @@ jobs:
 
     - name: Build documentation
       working-directory: docs/astro-site
-      run: pnpm run build
+      run: pnpm exec astro build

@@ -201,6 +201,20 @@ def test_release_retains_fresh_non_sharded_full_validation() -> None:
     assert "needs: [resolve-tag, full-release-validation" in workflow
 
 
+def test_docs_check_and_build_reuse_the_polyglot_tool_build() -> None:
+    ci = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+    docs_job = ci.split("  docs:", maxsplit=1)[1]
+    tox = (ROOT / "tox.ini").read_text(encoding="utf-8")
+    tox_docs = tox.split("[testenv:docs]", maxsplit=1)[1].split(
+        "[testenv:ingestion-conformance]", maxsplit=1
+    )[0]
+
+    assert "pnpm run check" in docs_job
+    assert "pnpm exec astro build" in docs_job
+    assert "pnpm run check" in tox_docs
+    assert "pnpm exec astro build" in tox_docs
+
+
 def test_binding_caches_are_lock_and_toolchain_keyed() -> None:
     workflow = (ROOT / ".github/workflows/bindings-ci.yml").read_text(encoding="utf-8")
 
