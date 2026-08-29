@@ -29,3 +29,12 @@ def test_pkgcheck_runner_creates_the_versioned_tool_cache_before_r_starts() -> N
     assert "d186fe6f93657805ed86177f03333c478e136709" in script
     assert "2679f1e899a9e3777eaa9a9ac5566a2aeafc11d9" in script
     assert "e0679a1bf759d637dc779108818265c681bdbec77542433534ece0e3a1fec977" in script
+
+
+def test_pkgcheck_runner_reuses_authenticated_gh_without_exposing_the_token() -> None:
+    script = RUNNER.read_text(encoding="utf-8")
+
+    assert "command -v gh >/dev/null 2>&1" in script
+    assert "GITHUB_TOKEN=$(gh auth token 2>/dev/null || true)" in script
+    assert "export GITHUB_TOKEN" in script
+    assert "echo $GITHUB_TOKEN" not in script

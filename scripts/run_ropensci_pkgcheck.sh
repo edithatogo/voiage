@@ -13,6 +13,14 @@ pkgstats_r43_sha256="e0679a1bf759d637dc779108818265c681bdbec77542433534ece0e3a1f
 r_version=$(Rscript -e 'cat(paste(R.version$major, R.version$minor, sep = "."))')
 tool_library="${PKGCHECK_TOOL_LIBRARY:-$repo_root/.cache/ropensci-tools/r-$r_version-$pkgcheck_revision}"
 
+# pkgcheck queries public GitHub Actions results only when a token is present.
+# Reuse an authenticated gh session when callers have not already supplied a
+# token, without printing or persisting the credential.
+if [[ -z "${GITHUB_TOKEN:-}" && -z "${GH_TOKEN:-}" ]] && command -v gh >/dev/null 2>&1; then
+  GITHUB_TOKEN=$(gh auth token 2>/dev/null || true)
+  export GITHUB_TOKEN
+fi
+
 (
   cd "$repo_root"
   git diff --quiet -- r-package/voiageR

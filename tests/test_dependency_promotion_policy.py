@@ -110,6 +110,10 @@ def test_preview_workflow_is_isolated_non_blocking_and_observational() -> None:
     ):
         assert candidate in workflow
     assert "uv pip install --python .venv --upgrade --resolution highest" in workflow
+    assert "metadata_check_exit_code=" in workflow
+    assert "dependency-preview-metadata-check.txt" in workflow
+    assert "fetch-depth: 0" in workflow
+    assert "env -u RUSTC_WRAPPER cargo install" in workflow
     assert "Python 3.15 prerelease" in workflow
     assert "cargo-nextest and sccache observation" in workflow
     assert "without publishing artifacts" in workflow
