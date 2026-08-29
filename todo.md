@@ -4,7 +4,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
-*   [ ] Prepare and validate an unposted pyOpenSci submission packet against a
+*   [x] Prepare and validate an unposted pyOpenSci submission packet against a
     pinned current template, with an evidence-backed release candidate and all
     human or external actions left explicit.
 

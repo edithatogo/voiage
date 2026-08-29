@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Prepared a current, locally validated, unposted pyOpenSci review packet for
+  `v2.1.0`, pinned to the inspected upstream template and public release
+  evidence. The candidate still requires maintainer confirmation, every human
+  attestation remains unchecked, and no survey, contact, submission, review,
+  acceptance, DOI, badge, JOSS referral, merge, or release is claimed.
+
 - Archived the completed pyOpenSci-first/JOSS-fast-track repository-readiness
   track after PR #1029 merged with green hosted assurance, and repaired its
   schema-1.0 evidence chain while preserving issue #471 and every external
