@@ -17,3 +17,4 @@
   - [x] **Review Fixes:** Remove the specification's extra blank line at EOF. (`60d61eb7`)
   - [x] Run full project assurance and automated review. (`d52c4e9e`)
   - [~] Commit, open a pull request, and obtain green hosted checks without merging or submitting externally.
+  - [~] **Review Fixes:** Refresh the changelog digest pinned by the distributional-information evidence fixture after narrative synchronization.
