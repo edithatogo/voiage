@@ -20,6 +20,9 @@ source_rd_db <- function() {
     pattern = "\\.Rd$",
     full.names = TRUE
   )
+  if (length(paths) == 0) {
+    return(tools::Rd_db("voiageR"))
+  }
   stats::setNames(lapply(paths, tools::parse_Rd), basename(paths))
 }
 

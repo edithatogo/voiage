@@ -7,10 +7,6 @@ test_that("voiageR help and package index are available", {
 })
 
 test_that("the Rd surface matches the exported package API", {
-  skip_if(
-    is.null(source_package_root()),
-    "source Rd filenames are unavailable in installed-package tests"
-  )
   rd_db <- source_rd_db()
   rd_topics <- sort(sub("\\.Rd$", "", names(rd_db)))
 
