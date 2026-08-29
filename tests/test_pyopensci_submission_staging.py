@@ -2,9 +2,13 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 import re
+import shutil
+
+import pytest
 
 from scripts.validate_pyopensci_submission_staging import validate_staging_packet
 
@@ -28,6 +32,30 @@ PUBLICATION_RECEIPT = (
 
 def _load(path: Path) -> dict[str, object]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _staged_packet(tmp_path: Path, draft: str) -> Path:
+    staged_root = tmp_path / "repo"
+    relative_files = (
+        TEMPLATE.relative_to(ROOT),
+        CANDIDATE.relative_to(ROOT),
+        PUBLICATION_RECEIPT.relative_to(ROOT),
+    )
+    for relative in relative_files:
+        destination = staged_root / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(ROOT / relative, destination)
+
+    staged_draft = staged_root / DRAFT.relative_to(ROOT)
+    staged_draft.parent.mkdir(parents=True, exist_ok=True)
+    staged_draft.write_text(draft, encoding="utf-8")
+
+    staging = _load(STAGING)
+    staging["draft"]["sha256"] = hashlib.sha256(staged_draft.read_bytes()).hexdigest()
+    staged_manifest = staged_root / STAGING.relative_to(ROOT)
+    staged_manifest.parent.mkdir(parents=True, exist_ok=True)
+    staged_manifest.write_text(json.dumps(staging), encoding="utf-8")
+    return staged_root
 
 
 def test_staging_packet_validates() -> None:
@@ -162,3 +190,57 @@ def test_validator_rejects_missing_external_action(tmp_path: Path) -> None:
     findings = validate_staging_packet(staged_root, require_all_files=False)
 
     assert "external action key set is incomplete or unexpected" in findings
+
+
+@pytest.mark.parametrize(
+    "marker",
+    [
+        "I agree to abide by",
+        "I have read and will commit",
+        "Do you wish to automatically submit",
+        "Maintainer confirmation pending. If confirmed",
+        "I have read the pyOpenSci author guide",
+        "Last but not least please fill out our pre-review survey",
+    ],
+)
+def test_validator_rejects_checked_human_attestation(
+    tmp_path: Path, marker: str
+) -> None:
+    """No pending human checkbox can be checked by editing and rebinding."""
+    draft = DRAFT.read_text(encoding="utf-8")
+    draft = draft.replace(f"- [ ] {marker}", f"- [x] {marker}", 1)
+    staged_root = _staged_packet(tmp_path, draft)
+
+    findings = validate_staging_packet(staged_root)
+
+    assert "draft human-attestation markers must remain uniquely unchecked" in findings
+
+
+def test_validator_rejects_checked_human_attestation_duplicate(
+    tmp_path: Path,
+) -> None:
+    """A checked duplicate cannot hide behind the required unchecked marker."""
+    draft = DRAFT.read_text(encoding="utf-8")
+    draft += "\n- [x] I have read the pyOpenSci author guide.\n"
+    staged_root = _staged_packet(tmp_path, draft)
+
+    findings = validate_staging_packet(staged_root)
+
+    assert "draft human-attestation markers must remain uniquely unchecked" in findings
+
+
+def test_validator_rejects_confirmed_submitted_version(tmp_path: Path) -> None:
+    """The recommended version remains a maintainer decision in local staging."""
+    draft = DRAFT.read_text(encoding="utf-8").replace(
+        "Version submitted: 2.1.0 (recommended; maintainer confirmation pending)",
+        "Version submitted: 2.1.0",
+        1,
+    )
+    staged_root = _staged_packet(tmp_path, draft)
+
+    findings = validate_staging_packet(staged_root)
+
+    assert (
+        "draft submitted version must remain pending maintainer confirmation"
+        in findings
+    )

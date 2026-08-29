@@ -38,6 +38,17 @@ REQUIRED_EXTERNAL_ACTIONS = {
     "badge_added",
     "doi_archive_created",
 }
+PENDING_DRAFT_CHECKBOX_MARKERS = (
+    "I agree to abide by",
+    "I have read and will commit",
+    "Do you wish to automatically submit",
+    "Maintainer confirmation pending. If confirmed",
+    "I have read the pyOpenSci author guide",
+    "Last but not least please fill out our pre-review survey",
+)
+PENDING_SUBMITTED_VERSION_LINE = (
+    "Version submitted: 2.1.0 (recommended; maintainer confirmation pending)"
+)
 PLACEHOLDER = re.compile(r"\b(?:TBD|TODO|FILL(?:\s+THIS)?\s+IN)\b", re.IGNORECASE)
 
 
@@ -241,14 +252,27 @@ def validate_staging_packet(
                 for section in required_sections
                 if not isinstance(section, str) or f"## {section}" not in draft
             )
-        required_unchecked = (
-            "- [ ] I agree to abide by",
-            "- [ ] I have read and will commit",
-            "- [ ] Do you wish to automatically submit",
-            "- [ ] Last but not least please fill out our pre-review survey",
-        )
-        if any(item not in draft for item in required_unchecked):
-            findings.append("draft must retain every human-only checkbox unchecked")
+        lines = draft.splitlines()
+        checkbox_markers_valid = True
+        for marker in PENDING_DRAFT_CHECKBOX_MARKERS:
+            unchecked = f"- [ ] {marker}"
+            checked = re.compile(rf"^- \[\s*[xX]\s*\] {re.escape(marker)}")
+            if sum(line.startswith(unchecked) for line in lines) != 1 or any(
+                checked.match(line) for line in lines
+            ):
+                checkbox_markers_valid = False
+        if not checkbox_markers_valid:
+            findings.append(
+                "draft human-attestation markers must remain uniquely unchecked"
+            )
+
+        version_lines = [
+            line for line in lines if line.startswith("Version submitted:")
+        ]
+        if version_lines != [PENDING_SUBMITTED_VERSION_LINE]:
+            findings.append(
+                "draft submitted version must remain pending maintainer confirmation"
+            )
 
     return findings
 
