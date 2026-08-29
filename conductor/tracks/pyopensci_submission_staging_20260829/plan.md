@@ -14,6 +14,6 @@
 - [~] **Phase 3: Assurance and Delivery**
   - [x] Run submission, package, documentation, security, and distribution-identity preflight checks. (`3bcc1932`)
   - [x] **Review Fixes:** Correct the evidence-validator invocation and normalize the unpublished invalid hash chain with an explicit audit record. (`c0387fdc`)
-  - [~] **Review Fixes:** Remove the specification's extra blank line at EOF.
-  - [~] Run full project assurance and automated review.
-  - [ ] Commit, open a pull request, and obtain green hosted checks without merging or submitting externally.
+  - [x] **Review Fixes:** Remove the specification's extra blank line at EOF. (`60d61eb7`)
+  - [x] Run full project assurance and automated review. (`d52c4e9e`)
+  - [~] Commit, open a pull request, and obtain green hosted checks without merging or submitting externally.
