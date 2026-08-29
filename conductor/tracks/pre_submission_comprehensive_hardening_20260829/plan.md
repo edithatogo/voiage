@@ -95,7 +95,7 @@
 - [x] **P4-T3 / AC-06:** Map every applicable rOpenSci statistical standard with
   item-level `@srrstats` or justified `@srrstatsNA` evidence. (`4445db05`,
   `f141776e`)
-- [ ] **P4-T4 / AC-06:** Repair the repository `pkgcheck` runner and pass
+- [~] **P4-T4 / AC-06:** Repair the repository `pkgcheck` runner and pass
   `pkgcheck`, coverage, examples, vignettes, and `R CMD check --as-cran` on the
   supported platform matrix.
 - [ ] **P4-T5 / AC-05, AC-06:** Validate and document Julia, C ABI, and Python
