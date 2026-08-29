@@ -125,12 +125,6 @@ def _bootstrap_intervals(
         index = rng.integers(0, sample_count, sample_count)
         sampled_effect = effect[index]
         sampled_cost = cost[index]
-        sampled_parameters = ParameterSet.from_numpy_or_dict(
-            {
-                "incremental_qaly": sampled_effect,
-                "incremental_cost": sampled_cost,
-            }
-        )
         sampled_nb = np.column_stack(
             [
                 np.zeros(sample_count),
@@ -141,13 +135,13 @@ def _bootstrap_intervals(
         estimates["evpi"][replicate] = evpi(sampled_nb)
         estimates["evppi_effect"][replicate] = evppi(
             sampled_nb,
-            sampled_parameters,
-            ["incremental_qaly"],
+            sampled_effect[:, np.newaxis],
+            ["param_0"],
         )
         estimates["evppi_cost"][replicate] = evppi(
             sampled_nb,
-            sampled_parameters,
-            ["incremental_cost"],
+            sampled_cost[:, np.newaxis],
+            ["param_0"],
         )
     return {
         name: tuple(float(value) for value in np.quantile(values, [0.025, 0.975]))

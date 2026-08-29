@@ -354,16 +354,17 @@ class TestQualityGatePolicyCompliance:
             for job in workflow["jobs"].values()
         )
 
-    def test_versioned_c_abi_is_exercised_across_workspace_matrix(self):
-        """Require the retained bindings workflow to build the versioned C ABI."""
+    def test_versioned_c_abi_is_built_for_the_julia_development_matrix(self):
+        """Julia uses the repository ABI until its external JLL gate closes."""
         workflow_text = (GITHUB_WORKFLOWS_DIR / "bindings-ci.yml").read_text(
             encoding="utf-8"
         )
 
-        assert (
-            workflow_text.count("cargo build --release --locked --package voiage-ffi")
-            >= 2
-        )
+        assert workflow_text.count(
+            "cargo build --release --locked --package voiage-ffi"
+        ) == 1
+        assert "Build the Rust C ABI used by Julia" in workflow_text
+        assert "Build the Rust C ABI used by R" not in workflow_text
 
     def test_rust_supply_chain_is_updated_and_fail_closed(self):
         """Require Renovate Cargo updates and all cargo-deny policy families."""

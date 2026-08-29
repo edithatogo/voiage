@@ -112,3 +112,21 @@ def test_design_covers_all_measured_performance_and_profile_findings() -> None:
     assert len(design["required_fan_in"]) >= 7
     assert len(design["implementation_order"]) == 10
     assert "same outcomes" in design["profiling_and_measurement"]["acceptance"]
+
+
+def test_promoted_python_lanes_use_bounded_workstealing_and_single_ci_coverage() -> None:
+    ci = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+    operational = (ROOT / ".github/workflows/operational-assurance.yml").read_text(
+        encoding="utf-8"
+    )
+    tox = (ROOT / "tox.ini").read_text(encoding="utf-8")
+
+    assert "--numprocesses=auto" not in ci
+    assert "--numprocesses=6" in ci
+    assert "--dist=worksteal" in ci
+    assert "Run bounded parallel unit compatibility tests" in ci
+    assert ci.count("Upload authoritative coverage to Codecov") == 1
+    assert "-n 6 --dist=worksteal" in operational
+    assert "-n 6 --dist=worksteal" in tox
+    assert "cancel-in-progress: ${{ github.event_name == 'pull_request' }}" in ci
+    assert "cancel-in-progress: ${{ github.event_name == 'pull_request' }}" in operational

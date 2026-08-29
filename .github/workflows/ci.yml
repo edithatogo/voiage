@@ -20,6 +20,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   lock-refresh-evidence:
     name: Frozen Lock Refresh Evidence
@@ -301,27 +305,16 @@ jobs:
     - name: Install dependencies
       run: uv sync --frozen --extra ci
 
-    - name: Run unit tests with coverage
+    - name: Run bounded parallel unit compatibility tests
       run: |
         uv run pytest tests/ \
           -m "not integration and not e2e and not benchmark" \
-          --cov=voiage \
-          --cov-fail-under=0 \
-          --cov-report=xml \
-          --cov-report=term-missing \
-          --numprocesses=auto \
+          --no-cov \
+          --numprocesses=6 \
+          --dist=worksteal \
           -v
       env:
         CI: true
-
-    - name: Upload coverage to Codecov
-      if: matrix.python == '3.14'
-      uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f
-      with:
-        files: ./coverage.xml
-        flags: unittests
-        name: codecov-umbrella
-        fail_ci_if_error: false
 
   ingestion-conformance:
     name: Standardized Ingestion Conformance
@@ -442,6 +435,14 @@ jobs:
 
     - name: Verify coverage threshold
       run: uv run --with tox tox -e coverage_report
+
+    - name: Upload authoritative coverage to Codecov
+      uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f
+      with:
+        files: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
 
   free-threaded-observation:
     name: Python 3.14t Observation
