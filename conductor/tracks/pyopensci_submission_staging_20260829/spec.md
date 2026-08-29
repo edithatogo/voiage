@@ -61,4 +61,3 @@ as submitted, under review, or accepted.
 - `https://github.com/pyOpenSci/software-submission/blob/a1f31b8aab21128faee96ee548d256d5cffc3ba9/.github/ISSUE_TEMPLATE/submit-software-for-review.md`
 - `https://www.pyopensci.org/software-peer-review/how-to/author-guide.html`
 - `https://www.pyopensci.org/software-peer-review/about/package-scope.html`
-
