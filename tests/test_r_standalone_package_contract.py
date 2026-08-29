@@ -14,6 +14,12 @@ def test_r_source_package_owns_its_native_build() -> None:
     manifest = rust_manifest.read_text(encoding="utf-8")
     assert 'crate-type = ["staticlib"]' in manifest
     assert "[dependencies]" not in manifest
+    rust_source = (R_PACKAGE / "src" / "rust" / "src" / "lib.rs").read_text(
+        encoding="utf-8"
+    )
+    assert "#![no_std]" in rust_source
+    assert "use std::" not in rust_source
+    assert "vec![" not in rust_source
 
     assert (R_PACKAGE / "src" / "Makevars").is_file()
     assert (R_PACKAGE / "src" / "Makevars.win").is_file()

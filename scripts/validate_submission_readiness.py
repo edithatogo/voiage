@@ -245,7 +245,6 @@ def validate_ropensci_evidence(path: Path, root: Path) -> dict[str, Any]:
                 raise ValueError(f"rOpenSci evidence path does not exist: {relative}")
     if {key for key, value in statuses.items() if value == "repository_blocked"} != {
         "pkgcheck",
-        "self-contained-installation",
     }:
         raise ValueError("rOpenSci repository blockers must remain explicit")
     return {"criterion_count": len(criteria), "statuses": statuses}

@@ -1,9 +1,18 @@
 //! Dependency-free Rust kernels linked into the `voiageR` source package.
 
-use std::slice;
+#![no_std]
+
+use core::{panic::PanicInfo, slice};
 
 const OK: i32 = 0;
 const INVALID_ARGUMENT: i32 = 1;
+
+#[panic_handler]
+fn panic(_info: &PanicInfo<'_>) -> ! {
+    loop {
+        core::hint::spin_loop();
+    }
+}
 
 /// Compute EVPI for a finite row-major sample matrix.
 ///
@@ -36,20 +45,24 @@ pub unsafe extern "C" fn voiage_rust_evpi(
     let rows = rows as usize;
     let columns = columns as usize;
     let mut expected_perfect = 0.0;
-    let mut column_sums = vec![0.0; columns];
     for row in samples.chunks_exact(columns) {
         let mut row_best = f64::NEG_INFINITY;
-        for (column, value) in row.iter().copied().enumerate() {
+        for value in row.iter().copied() {
             row_best = row_best.max(value);
-            column_sums[column] += value;
         }
         expected_perfect += row_best;
     }
     expected_perfect /= rows as f64;
-    let current_best = column_sums
-        .into_iter()
-        .map(|sum| sum / rows as f64)
-        .fold(f64::NEG_INFINITY, f64::max);
+    let mut current_best = f64::NEG_INFINITY;
+    for column in 0..columns {
+        let column_sum: f64 = samples
+            .iter()
+            .skip(column)
+            .step_by(columns)
+            .copied()
+            .sum();
+        current_best = current_best.max(column_sum / rows as f64);
+    }
     // SAFETY: the caller contract supplies one writable output double.
     unsafe { out.write(expected_perfect - current_best) };
     OK
