@@ -76,8 +76,8 @@
     {
       "track_id": "julia_general_registry_ecosystem_20260823",
       "metadata_track_id": "julia_general_registry_ecosystem_20260823",
-      "path": "conductor/tracks/julia_general_registry_ecosystem_20260823",
-      "lifecycle": "active",
+      "path": "conductor/archive/julia_general_registry_ecosystem_20260823",
+      "lifecycle": "archived",
       "issue": {
         "number": 1023,
         "url": "https://github.com/edithatogo/voiage/issues/1023",
@@ -103,8 +103,8 @@
     {
       "track_id": "ropensci_cran_readiness_20260823",
       "metadata_track_id": "ropensci_cran_readiness_20260823",
-      "path": "conductor/tracks/ropensci_cran_readiness_20260823",
-      "lifecycle": "active",
+      "path": "conductor/archive/ropensci_cran_readiness_20260823",
+      "lifecycle": "archived",
       "issue": {
         "number": 1024,
         "url": "https://github.com/edithatogo/voiage/issues/1024",
@@ -131,8 +131,8 @@
     {
       "track_id": "hpc_spack_easybuild_distribution_20260823",
       "metadata_track_id": "hpc_spack_easybuild_distribution_20260823",
-      "path": "conductor/tracks/hpc_spack_easybuild_distribution_20260823",
-      "lifecycle": "active",
+      "path": "conductor/archive/hpc_spack_easybuild_distribution_20260823",
+      "lifecycle": "archived",
       "issue": {
         "number": 1025,
         "url": "https://github.com/edithatogo/voiage/issues/1025",
@@ -158,8 +158,8 @@
     {
       "track_id": "sustainability_badging_governance_20260823",
       "metadata_track_id": "sustainability_badging_governance_20260823",
-      "path": "conductor/tracks/sustainability_badging_governance_20260823",
-      "lifecycle": "active",
+      "path": "conductor/archive/sustainability_badging_governance_20260823",
+      "lifecycle": "archived",
       "issue": {
         "number": 1026,
         "url": "https://github.com/edithatogo/voiage/issues/1026",
@@ -187,8 +187,8 @@
     {
       "track_id": "rust_polyglot_voi_completion_20260723",
       "metadata_track_id": "rust_polyglot_voi_completion_20260723",
-      "path": "conductor/tracks/rust_polyglot_voi_completion_20260723",
-      "lifecycle": "active",
+      "path": "conductor/archive/rust_polyglot_voi_completion_20260723",
+      "lifecycle": "archived",
       "issue": {
         "number": 313,
         "url": "https://github.com/edithatogo/voiage/issues/313",
@@ -352,8 +352,8 @@
     {
       "track_id": "voi_method_census_contract_reconciliation_20260723",
       "metadata_track_id": "voi_method_census_contract_reconciliation_20260723",
-      "path": "conductor/tracks/voi_method_census_contract_reconciliation_20260723",
-      "lifecycle": "active",
+      "path": "conductor/archive/voi_method_census_contract_reconciliation_20260723",
+      "lifecycle": "archived",
       "issue": {
         "number": 314,
         "url": "https://github.com/edithatogo/voiage/issues/314",
@@ -390,8 +390,8 @@
     {
       "track_id": "external_voi_library_feature_parity_20260723",
       "metadata_track_id": "external_voi_library_feature_parity_20260723",
-      "path": "conductor/tracks/external_voi_library_feature_parity_20260723",
-      "lifecycle": "active",
+      "path": "conductor/archive/external_voi_library_feature_parity_20260723",
+      "lifecycle": "archived",
       "issue": {
         "number": 315,
         "url": "https://github.com/edithatogo/voiage/issues/315",
@@ -429,8 +429,8 @@
     {
       "track_id": "stable_voi_rust_core_completion_20260723",
       "metadata_track_id": "stable_voi_rust_core_completion_20260723",
-      "path": "conductor/tracks/stable_voi_rust_core_completion_20260723",
-      "lifecycle": "active",
+      "path": "conductor/archive/stable_voi_rust_core_completion_20260723",
+      "lifecycle": "archived",
       "issue": {
         "number": 316,
         "url": "https://github.com/edithatogo/voiage/issues/316",
@@ -465,8 +465,8 @@
     {
       "track_id": "value_of_perspective_completion_20260723",
       "metadata_track_id": "value_of_perspective_completion_20260723",
-      "path": "conductor/tracks/value_of_perspective_completion_20260723",
-      "lifecycle": "active",
+      "path": "conductor/archive/value_of_perspective_completion_20260723",
+      "lifecycle": "archived",
       "issue": {
         "number": 317,
         "url": "https://github.com/edithatogo/voiage/issues/317",
@@ -501,8 +501,8 @@
     {
       "track_id": "supported_frontier_method_completion_20260723",
       "metadata_track_id": "supported_frontier_method_completion_20260723",
-      "path": "conductor/tracks/supported_frontier_method_completion_20260723",
-      "lifecycle": "active",
+      "path": "conductor/archive/supported_frontier_method_completion_20260723",
+      "lifecycle": "archived",
       "issue": {
         "number": 318,
         "url": "https://github.com/edithatogo/voiage/issues/318",
@@ -857,8 +857,8 @@
     {
       "track_id": "ml_llm_agent_voi_20260723",
       "metadata_track_id": "ml_llm_agent_voi_20260723",
-      "path": "conductor/tracks/ml_llm_agent_voi_20260723",
-      "lifecycle": "active",
+      "path": "conductor/archive/ml_llm_agent_voi_20260723",
+      "lifecycle": "archived",
       "issue": {
         "number": 319,
         "url": "https://github.com/edithatogo/voiage/issues/319",
@@ -893,8 +893,8 @@
     {
       "track_id": "polyglot_abi_binding_parity_20260723",
       "metadata_track_id": "polyglot_abi_binding_parity_20260723",
-      "path": "conductor/tracks/polyglot_abi_binding_parity_20260723",
-      "lifecycle": "active",
+      "path": "conductor/archive/polyglot_abi_binding_parity_20260723",
+      "lifecycle": "archived",
       "issue": {
         "number": 320,
         "url": "https://github.com/edithatogo/voiage/issues/320",
@@ -928,8 +928,8 @@
     {
       "track_id": "datasets_worked_examples_20260723",
       "metadata_track_id": "datasets_worked_examples_20260723",
-      "path": "conductor/tracks/datasets_worked_examples_20260723",
-      "lifecycle": "active",
+      "path": "conductor/archive/datasets_worked_examples_20260723",
+      "lifecycle": "archived",
       "issue": {
         "number": 321,
         "url": "https://github.com/edithatogo/voiage/issues/321",
@@ -965,8 +965,8 @@
     {
       "track_id": "quality_release_automation_20260723",
       "metadata_track_id": "quality_release_automation_20260723",
-      "path": "conductor/tracks/quality_release_automation_20260723",
-      "lifecycle": "active",
+      "path": "conductor/archive/quality_release_automation_20260723",
+      "lifecycle": "archived",
       "issue": {
         "number": 322,
         "url": "https://github.com/edithatogo/voiage/issues/322",
@@ -1007,8 +1007,8 @@
     {
       "track_id": "research_contribution_ai_transparency_20260723",
       "metadata_track_id": "research_contribution_ai_transparency_20260723",
-      "path": "conductor/tracks/research_contribution_ai_transparency_20260723",
-      "lifecycle": "active",
+      "path": "conductor/archive/research_contribution_ai_transparency_20260723",
+      "lifecycle": "archived",
       "issue": {
         "number": 323,
         "url": "https://github.com/edithatogo/voiage/issues/323",
@@ -1043,8 +1043,8 @@
     {
       "track_id": "estimation_focused_variance_voi_20260727",
       "metadata_track_id": "estimation_focused_variance_voi_20260727",
-      "path": "conductor/tracks/estimation_focused_variance_voi_20260727",
-      "lifecycle": "active",
+      "path": "conductor/archive/estimation_focused_variance_voi_20260727",
+      "lifecycle": "archived",
       "issue": {
         "number": 619,
         "url": "https://github.com/edithatogo/voiage/issues/619",
@@ -5192,8 +5192,8 @@
     {
       "track_id": "controlled_live_dataset_interoperability_20260801",
       "metadata_track_id": "controlled_live_dataset_interoperability_20260801",
-      "path": "conductor/tracks/controlled_live_dataset_interoperability_20260801",
-      "lifecycle": "active",
+      "path": "conductor/archive/controlled_live_dataset_interoperability_20260801",
+      "lifecycle": "archived",
       "issue": {
         "number": 752,
         "url": "https://github.com/edithatogo/voiage/issues/752",
@@ -5218,8 +5218,8 @@
     {
       "track_id": "remote_dataset_ingestion_security_20260801",
       "metadata_track_id": "remote_dataset_ingestion_security_20260801",
-      "path": "conductor/tracks/remote_dataset_ingestion_security_20260801",
-      "lifecycle": "active",
+      "path": "conductor/archive/remote_dataset_ingestion_security_20260801",
+      "lifecycle": "archived",
       "issue": {
         "number": 753,
         "url": "https://github.com/edithatogo/voiage/issues/753",
@@ -5244,8 +5244,8 @@
     {
       "track_id": "sampling_acquisition_harm_voi_20260802",
       "metadata_track_id": "sampling_acquisition_harm_voi_20260802",
-      "path": "conductor/tracks/sampling_acquisition_harm_voi_20260802",
-      "lifecycle": "active",
+      "path": "conductor/archive/sampling_acquisition_harm_voi_20260802",
+      "lifecycle": "archived",
       "issue": {
         "number": 850,
         "url": "https://github.com/edithatogo/voiage/issues/850",
@@ -5257,7 +5257,7 @@
         "https://github.com/edithatogo/voiage/issues/852",
         "https://github.com/edithatogo/voiage/issues/853",
         "https://github.com/edithatogo/voiage/issues/864",
-      "https://github.com/edithatogo/voiage/issues/867",
+        "https://github.com/edithatogo/voiage/issues/867",
         "https://github.com/edithatogo/voiage/issues/870",
         "https://github.com/edithatogo/voiage/issues/873",
         "https://github.com/edithatogo/voiage/issues/876"
@@ -5296,58 +5296,58 @@
             "38-successes-three-governed-skips-one-neutral-zero-unresolved-threads"
           ]
         },
-    {
-      "number": 865,
+        {
+          "number": 865,
           "url": "https://github.com/edithatogo/voiage/pull/865",
           "status": "merged",
           "evidence": [
             "h8db-remediation-and-review-intake",
             "973a79dca58cd831d5f1d5a5edce745cd22903b5",
             "03277fef312e848e00cb405bca19cbf331b3603d",
-        "38-successes-three-governed-skips-one-neutral-zero-failures-pending-or-unresolved-threads"
-      ]
-    },
-    {
-      "number": 868,
-      "url": "https://github.com/edithatogo/voiage/pull/868",
-      "status": "merged",
-      "evidence": [
-        "h8dc-source-observation-and-remediation-readiness",
-        "ee9da9babf785525032f4ed6446a478c9a47602e",
-        "b60d6ee9a19b79503525488c716d6ad231fa0aa0",
-        "38-successes-three-governed-skips-one-neutral-zero-failures-pending-or-unresolved-threads"
-      ]
-    },
-    {
-      "number": 871,
-      "url": "https://github.com/edithatogo/voiage/pull/871",
-      "status": "merged",
-      "evidence": [
-        "h8dd-human-commissioning-preflight",
-        "305bdad591abbdcb1d99250dac111d7dbbbadae6",
-        "8c7102450b30991ffe9e7278abbed1c7981edb22",
-        "38-successes-four-governed-skips-zero-failures-pending-or-unresolved-threads"
-      ]
-    },
-      {
-        "number": 872,
-        "url": "https://github.com/edithatogo/voiage/pull/872",
-        "status": "merged",
-        "evidence": [
-          "h8dd-governance-closeout",
-          "c9d79b321f08cc0d6e51f5c8f64e9670bec58d75",
-          "692b0e4fb0ae27b0624aed98253d3b6a349e69a4",
-          "33-successes-four-governed-skips-zero-failures-pending-or-unresolved-threads"
-        ]
-      },
+            "38-successes-three-governed-skips-one-neutral-zero-failures-pending-or-unresolved-threads"
+          ]
+        },
+        {
+          "number": 868,
+          "url": "https://github.com/edithatogo/voiage/pull/868",
+          "status": "merged",
+          "evidence": [
+            "h8dc-source-observation-and-remediation-readiness",
+            "ee9da9babf785525032f4ed6446a478c9a47602e",
+            "b60d6ee9a19b79503525488c716d6ad231fa0aa0",
+            "38-successes-three-governed-skips-one-neutral-zero-failures-pending-or-unresolved-threads"
+          ]
+        },
+        {
+          "number": 871,
+          "url": "https://github.com/edithatogo/voiage/pull/871",
+          "status": "merged",
+          "evidence": [
+            "h8dd-human-commissioning-preflight",
+            "305bdad591abbdcb1d99250dac111d7dbbbadae6",
+            "8c7102450b30991ffe9e7278abbed1c7981edb22",
+            "38-successes-four-governed-skips-zero-failures-pending-or-unresolved-threads"
+          ]
+        },
+        {
+          "number": 872,
+          "url": "https://github.com/edithatogo/voiage/pull/872",
+          "status": "merged",
+          "evidence": [
+            "h8dd-governance-closeout",
+            "c9d79b321f08cc0d6e51f5c8f64e9670bec58d75",
+            "692b0e4fb0ae27b0624aed98253d3b6a349e69a4",
+            "33-successes-four-governed-skips-zero-failures-pending-or-unresolved-threads"
+          ]
+        },
         {
           "number": 874,
-        "url": "https://github.com/edithatogo/voiage/pull/874",
-        "status": "merged",
-        "evidence": [
-          "h8de-accountable-choice-gate-materialization",
-          "4e678625c0c358bceea825019cefb48bd02553a4",
-          "cd3cf454a830dab2b0db9a091123d8f7b1ef8227",
+          "url": "https://github.com/edithatogo/voiage/pull/874",
+          "status": "merged",
+          "evidence": [
+            "h8de-accountable-choice-gate-materialization",
+            "4e678625c0c358bceea825019cefb48bd02553a4",
+            "cd3cf454a830dab2b0db9a091123d8f7b1ef8227",
             "33-successes-three-governed-skips-one-neutral-zero-failures-pending-or-unresolved-threads"
           ]
         },
@@ -5362,14 +5362,14 @@
             "38-successes-four-governed-skips-or-neutral-zero-failures-pending-or-unresolved-threads"
           ]
         }
-    ],
-    "pull_request_evidence": "merged_repository_delivery_canonical_planning_h8db_h8dc_h8dd_and_h8de_gate_preparation"
+      ],
+      "pull_request_evidence": "merged_repository_delivery_canonical_planning_h8db_h8dc_h8dd_and_h8de_gate_preparation"
     },
     {
       "track_id": "information_source_portfolio_voi_20260801",
       "metadata_track_id": "information_source_portfolio_voi_20260801",
-      "path": "conductor/tracks/information_source_portfolio_voi_20260801",
-      "lifecycle": "active",
+      "path": "conductor/archive/information_source_portfolio_voi_20260801",
+      "lifecycle": "archived",
       "issue": {
         "number": 582,
         "url": "https://github.com/edithatogo/voiage/issues/582",
@@ -5409,8 +5409,8 @@
     {
       "track_id": "uncertainty_modelling_value_20260801",
       "metadata_track_id": "uncertainty_modelling_value_20260801",
-      "path": "conductor/tracks/uncertainty_modelling_value_20260801",
-      "lifecycle": "active",
+      "path": "conductor/archive/uncertainty_modelling_value_20260801",
+      "lifecycle": "archived",
       "issue": {
         "number": 594,
         "url": "https://github.com/edithatogo/voiage/issues/594",
@@ -5476,6 +5476,24 @@
         }
       ],
       "pull_request_evidence": "implementation_candidate_and_external_candidate"
+    },
+    {
+      "track_id": "pre_submission_comprehensive_hardening_20260829",
+      "metadata_track_id": "pre_submission_comprehensive_hardening_20260829",
+      "path": "conductor/tracks/pre_submission_comprehensive_hardening_20260829",
+      "lifecycle": "active",
+      "issue": {
+        "number": 1033,
+        "url": "https://github.com/edithatogo/voiage/issues/1033",
+        "state": "open"
+      },
+      "parent_issue_url": null,
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/313",
+        "https://github.com/edithatogo/voiage/issues/1024"
+      ],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
     }
   ]
 }

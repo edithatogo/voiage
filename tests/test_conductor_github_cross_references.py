@@ -70,9 +70,7 @@ def test_sampling_acquisition_harm_track_owns_native_issue_hierarchy() -> None:
     )
     track_id = "sampling_acquisition_harm_voi_20260802"
     entry = next(item for item in manifest["tracks"] if item["track_id"] == track_id)
-    metadata = json.loads(
-        (ROOT / "conductor" / "tracks" / track_id / "metadata.json").read_text()
-    )
+    metadata = json.loads((ROOT / entry["path"] / "metadata.json").read_text())
 
     assert entry["issue"]["number"] == 850
     assert entry["parent_issue_url"].endswith("/570")
@@ -133,7 +131,7 @@ def test_external_landscape_track_preserves_phase_one_pr_boundaries() -> None:
     )
     track_id = "external_voi_library_feature_parity_20260723"
     entry = next(item for item in manifest["tracks"] if item["track_id"] == track_id)
-    track = ROOT / "conductor" / "tracks" / track_id
+    track = ROOT / entry["path"]
     metadata = json.loads((track / "metadata.json").read_text())
     index = (track / "index.md").read_text()
     plan = (track / "plan.md").read_text()
@@ -146,8 +144,8 @@ def test_external_landscape_track_preserves_phase_one_pr_boundaries() -> None:
     assert "Merged planning PR #621" in index
     assert "Delivery PR #819" in index
     assert "- [x] **G4:**" in plan
-    assert "- [ ] **G5:**" in plan
-    assert "- [ ] **G15:**" in plan
+    assert "- **Migrated:** **G5:**" in plan
+    assert "- **Migrated:** **G15:**" in plan
     assert gates["scientific-and-contract-review"]["status"] == "pending"
     assert gates["hosted-required-checks"]["status"] == "pending"
 
@@ -159,7 +157,7 @@ def test_ml_llm_agent_track_syncs_pr_states_lifecycle_and_pending_gates() -> Non
     )
     track_id = "ml_llm_agent_voi_20260723"
     entry = next(item for item in manifest["tracks"] if item["track_id"] == track_id)
-    track_root = ROOT / "conductor" / "tracks" / track_id
+    track_root = ROOT / entry["path"]
     metadata = json.loads((track_root / "metadata.json").read_text())
 
     manifest_urls = {item["url"] for item in entry["pull_requests"]}
@@ -169,8 +167,9 @@ def test_ml_llm_agent_track_syncs_pr_states_lifecycle_and_pending_gates() -> Non
     assert planning["status"] == "merged"
     assert "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3" in planning["evidence"]
     assert delivery["status"] == "open"
-    assert entry["lifecycle"] == "active"
-    assert metadata["status"] == "in_progress"
+    assert entry["lifecycle"] == "archived"
+    assert metadata["status"] == "completed"
+    assert metadata["legacy_outcome"] == "superseded"
 
     gates = {gate["id"]: gate["status"] for gate in metadata["gates"]}
     for gate_id in (
@@ -185,14 +184,14 @@ def test_ml_llm_agent_track_syncs_pr_states_lifecycle_and_pending_gates() -> Non
     registry = (ROOT / "conductor" / "tracks.md").read_text()
     umbrella_section = registry.split("\n---", 1)[0]
     ml_section = registry.split(
-        "## [~] Track: ML, LLM and Agent Value of Information", 1
+        "## [x] Track: ML, LLM and Agent Value of Information", 1
     )[1].split("\n---", 1)[0]
     assert "Merged planning PR #621" in index
-    assert "Status: in progress" in index
+    assert "Status: superseded on 2026-08-29" in index
     assert "bounded governance" not in umbrella_section
-    assert "registered as the current programme" in umbrella_section
-    assert "Status: in progress" in ml_section
-    assert "scientific, installed-parity, rights and hosted gates" in ml_section
+    assert "current canonical" in umbrella_section
+    assert "Status: superseded on 2026-08-29" in ml_section
+    assert "pending work migrated" in ml_section
 
 
 def test_polyglot_parity_track_projects_current_delivery_state() -> None:
@@ -202,9 +201,7 @@ def test_polyglot_parity_track_projects_current_delivery_state() -> None:
         (ROOT / "conductor" / "github-cross-references.json").read_text()
     )
     entry = next(item for item in manifest["tracks"] if item["track_id"] == track_id)
-    metadata = json.loads(
-        (ROOT / "conductor" / "tracks" / track_id / "metadata.json").read_text()
-    )
+    metadata = json.loads((ROOT / entry["path"] / "metadata.json").read_text())
     pull_requests = {item["number"]: item for item in entry["pull_requests"]}
 
     assert {item["url"] for item in entry["pull_requests"]} == set(
@@ -214,18 +211,19 @@ def test_polyglot_parity_track_projects_current_delivery_state() -> None:
     assert "b86a7d1aa08896eec2f83ab786c13c25a7fff3a3" in pull_requests[621]["evidence"]
     assert pull_requests[821]["status"] == "open"
     assert "polyglot-parity-governance-delivery" in pull_requests[821]["evidence"]
-    assert entry["lifecycle"] == "active"
-    assert metadata["status"] == "in_progress"
+    assert entry["lifecycle"] == "archived"
+    assert metadata["status"] == "completed"
+    assert metadata["legacy_outcome"] == "superseded"
 
     registry = (ROOT / "conductor" / "tracks.md").read_text()
     umbrella_section = registry.split("\n---", 1)[0]
-    section = registry.split("## [~] Track: Polyglot ABI and Binding Parity", 1)[1]
+    section = registry.split("## [x] Track: Polyglot ABI and Binding Parity", 1)[1]
     section = section.split("\n---\n", 1)[0]
     assert "governance and capability reconciliation" not in umbrella_section
-    assert "*Status: in progress" in section
+    assert "*Status: superseded on 2026-08-29" in section
     assert "*Status: new" not in section
 
-    index = (ROOT / "conductor" / "tracks" / track_id / "index.md").read_text()
+    index = (ROOT / entry["path"] / "index.md").read_text()
     assert "Merged planning PR #621" in index
     assert "Delivery PR #821" in index
 
@@ -312,7 +310,7 @@ def test_final_governed_delivery_reconciliation_is_exact_and_additive() -> None:
 
     registry = (ROOT / "conductor" / "tracks.md").read_text()
     root_section = registry.split("\n---\n", 1)[0]
-    assert "registered as the current programme" in root_section
+    assert "current canonical" in root_section
     assert "workstream tracks" not in root_section
 
     registry_entry = next(

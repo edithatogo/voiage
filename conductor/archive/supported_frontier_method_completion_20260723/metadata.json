@@ -1,0 +1,349 @@
+{
+  "track_id": "supported_frontier_method_completion_20260723",
+  "version": "1.0.0",
+  "type": "feature",
+  "status": "completed",
+  "created_at": "2026-07-27T08:15:00Z",
+  "updated_at": "2026-08-29T05:52:00Z",
+  "planned_version": "1.2.0",
+  "planned_version_extensions": {
+    "1.3.0": [
+      "M21",
+      "M22",
+      "M23",
+      "M25",
+      "M26",
+      "M27",
+      "M28",
+      "M29",
+      "M30",
+      "M31",
+      "M32"
+    ]
+  },
+  "moscow": "must",
+  "canonical_track": "C16",
+  "canonical_track_extensions": {
+    "C17": [
+      "M21"
+    ],
+    "C18": [
+      "M22",
+      "M23",
+      "M25",
+      "M26",
+      "M27",
+      "M28",
+      "M29",
+      "M30",
+      "M31",
+      "M32"
+    ]
+  },
+  "canonical_projection": "https://github.com/edithatogo/vop_poc_nz/blob/main/conductor/tracks/specialized-voi-v1-2_20260727/projection.json",
+  "canonical_pull_request": "https://github.com/edithatogo/vop_poc_nz/pull/51",
+  "canonical_continuations": [
+    {
+      "track": "C17",
+      "requirement_ids": [
+        "M21"
+      ],
+      "path": "https://github.com/edithatogo/vop_poc_nz/tree/main/conductor/tracks/specialized-voi-v1-3_20260801",
+      "pull_request": "https://github.com/edithatogo/vop_poc_nz/pull/67"
+    },
+    {
+      "track": "C18",
+      "requirement_ids": [
+        "M22",
+        "M23",
+        "M25",
+        "M26",
+        "M27",
+        "M28",
+        "M29",
+        "M30",
+        "M31"
+      ],
+      "path": "https://github.com/edithatogo/vop_poc_nz/tree/main/conductor/tracks/specialized-voi-v1-3-residual_20260801",
+      "pull_request": "https://github.com/edithatogo/vop_poc_nz/pull/69"
+    }
+  ],
+  "requirement_ids": [
+    "M16",
+    "M17",
+    "M18",
+    "M19",
+    "M20",
+    "M21",
+    "M22",
+    "M23",
+    "M25",
+    "M26",
+    "M27",
+    "M28",
+    "M29",
+    "M30",
+    "M31",
+    "M32"
+  ],
+  "dependencies": [
+    "voi_method_census_contract_reconciliation_20260723",
+    "stable_voi_rust_core_completion_20260723"
+  ],
+  "description": "Complete, consolidate, demote or explicitly exclude every accepted frontier method family with honest maturity and language dispositions. G5-G14 repository evidence, including engineering review and exact-head hosted assurance, is mapped at source revision 163825d8; G15 is the separate repository-completion receipt. Phase 5 SR1-SR10 uses a candidate-bound, orchestrated panel of role-separated advisory agents followed by an accountable owner decision. The owner accepted M22-M31 scientifically at experimental maturity only on 2026-08-21. Remaining families, polyglot parity, stable promotion, release execution, external publication and registry acceptance, and parent issue closure retain separate gates.",
+  "evidence_schema": "1.0",
+  "approval": {
+    "status": "approved",
+    "approved_on": "2026-07-27",
+    "recorded_at": "2026-07-27T08:15:00Z",
+    "evidence": "User explicitly requested repair of missing issue-claimed Conductor tracks and roadmap frontier governance."
+  },
+  "github_parent_issue": "https://github.com/edithatogo/voiage/issues/313",
+  "github_subissues": [
+    "https://github.com/edithatogo/voiage/issues/556",
+    "https://github.com/edithatogo/voiage/issues/557",
+    "https://github.com/edithatogo/voiage/issues/558",
+    "https://github.com/edithatogo/voiage/issues/559",
+    "https://github.com/edithatogo/voiage/issues/560",
+    "https://github.com/edithatogo/voiage/issues/570",
+    "https://github.com/edithatogo/voiage/issues/571",
+    "https://github.com/edithatogo/voiage/issues/572",
+    "https://github.com/edithatogo/voiage/issues/759",
+    "https://github.com/edithatogo/voiage/issues/760",
+    "https://github.com/edithatogo/voiage/issues/762",
+    "https://github.com/edithatogo/voiage/issues/582",
+    "https://github.com/edithatogo/voiage/issues/593",
+    "https://github.com/edithatogo/voiage/issues/766",
+    "https://github.com/edithatogo/voiage/issues/767",
+    "https://github.com/edithatogo/voiage/issues/768",
+    "https://github.com/edithatogo/voiage/issues/594",
+    "https://github.com/edithatogo/voiage/issues/595",
+    "https://github.com/edithatogo/voiage/issues/596",
+    "https://github.com/edithatogo/voiage/issues/597",
+    "https://github.com/edithatogo/voiage/issues/780",
+    "https://github.com/edithatogo/voiage/issues/781",
+    "https://github.com/edithatogo/voiage/issues/782",
+    "https://github.com/edithatogo/voiage/issues/598",
+    "https://github.com/edithatogo/voiage/issues/783",
+    "https://github.com/edithatogo/voiage/issues/784",
+    "https://github.com/edithatogo/voiage/issues/785",
+    "https://github.com/edithatogo/voiage/issues/599",
+    "https://github.com/edithatogo/voiage/issues/786",
+    "https://github.com/edithatogo/voiage/issues/788",
+    "https://github.com/edithatogo/voiage/issues/789",
+    "https://github.com/edithatogo/voiage/issues/600",
+    "https://github.com/edithatogo/voiage/issues/790",
+    "https://github.com/edithatogo/voiage/issues/791",
+    "https://github.com/edithatogo/voiage/issues/792",
+    "https://github.com/edithatogo/voiage/issues/619",
+    "https://github.com/edithatogo/voiage/issues/757",
+    "https://github.com/edithatogo/voiage/issues/758",
+    "https://github.com/edithatogo/voiage/issues/761",
+    "https://github.com/edithatogo/voiage/issues/841",
+    "https://github.com/edithatogo/voiage/issues/842",
+    "https://github.com/edithatogo/voiage/issues/843",
+    "https://github.com/edithatogo/voiage/issues/844",
+    "https://github.com/edithatogo/voiage/issues/845",
+    "https://github.com/edithatogo/voiage/issues/846",
+    "https://github.com/edithatogo/voiage/issues/847",
+    "https://github.com/edithatogo/voiage/issues/848",
+    "https://github.com/edithatogo/voiage/issues/849",
+    "https://github.com/edithatogo/voiage/issues/850",
+    "https://github.com/edithatogo/voiage/issues/851",
+    "https://github.com/edithatogo/voiage/issues/852",
+    "https://github.com/edithatogo/voiage/issues/853"
+  ],
+  "github_project": "https://github.com/users/edithatogo/projects/28",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/318",
+    "parent_issue": "https://github.com/edithatogo/voiage/issues/313",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "subissues": [
+      "https://github.com/edithatogo/voiage/issues/556",
+      "https://github.com/edithatogo/voiage/issues/557",
+      "https://github.com/edithatogo/voiage/issues/558",
+      "https://github.com/edithatogo/voiage/issues/559",
+      "https://github.com/edithatogo/voiage/issues/560",
+      "https://github.com/edithatogo/voiage/issues/570",
+      "https://github.com/edithatogo/voiage/issues/571",
+      "https://github.com/edithatogo/voiage/issues/572",
+      "https://github.com/edithatogo/voiage/issues/759",
+      "https://github.com/edithatogo/voiage/issues/760",
+      "https://github.com/edithatogo/voiage/issues/762",
+      "https://github.com/edithatogo/voiage/issues/582",
+      "https://github.com/edithatogo/voiage/issues/593",
+      "https://github.com/edithatogo/voiage/issues/766",
+      "https://github.com/edithatogo/voiage/issues/767",
+      "https://github.com/edithatogo/voiage/issues/768",
+      "https://github.com/edithatogo/voiage/issues/594",
+      "https://github.com/edithatogo/voiage/issues/595",
+      "https://github.com/edithatogo/voiage/issues/596",
+      "https://github.com/edithatogo/voiage/issues/597",
+      "https://github.com/edithatogo/voiage/issues/780",
+      "https://github.com/edithatogo/voiage/issues/781",
+      "https://github.com/edithatogo/voiage/issues/782",
+      "https://github.com/edithatogo/voiage/issues/598",
+      "https://github.com/edithatogo/voiage/issues/783",
+      "https://github.com/edithatogo/voiage/issues/784",
+      "https://github.com/edithatogo/voiage/issues/785",
+      "https://github.com/edithatogo/voiage/issues/599",
+      "https://github.com/edithatogo/voiage/issues/600",
+      "https://github.com/edithatogo/voiage/issues/619",
+      "https://github.com/edithatogo/voiage/issues/757",
+      "https://github.com/edithatogo/voiage/issues/758",
+      "https://github.com/edithatogo/voiage/issues/761",
+      "https://github.com/edithatogo/voiage/issues/841",
+      "https://github.com/edithatogo/voiage/issues/842",
+      "https://github.com/edithatogo/voiage/issues/843",
+      "https://github.com/edithatogo/voiage/issues/844",
+      "https://github.com/edithatogo/voiage/issues/845",
+      "https://github.com/edithatogo/voiage/issues/846",
+      "https://github.com/edithatogo/voiage/issues/847",
+      "https://github.com/edithatogo/voiage/issues/848",
+      "https://github.com/edithatogo/voiage/issues/849",
+      "https://github.com/edithatogo/voiage/issues/850",
+      "https://github.com/edithatogo/voiage/issues/851",
+      "https://github.com/edithatogo/voiage/issues/852",
+      "https://github.com/edithatogo/voiage/issues/853"
+    ],
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/621",
+      "https://github.com/edithatogo/voiage/pull/679",
+      "https://github.com/edithatogo/voiage/pull/712",
+      "https://github.com/edithatogo/voiage/pull/676",
+      "https://github.com/edithatogo/voiage/pull/723",
+      "https://github.com/edithatogo/voiage/pull/736",
+      "https://github.com/edithatogo/voiage/pull/743",
+      "https://github.com/edithatogo/voiage/pull/744",
+      "https://github.com/edithatogo/voiage/pull/787",
+      "https://github.com/edithatogo/voiage/pull/769",
+      "https://github.com/edithatogo/voiage/pull/772",
+      "https://github.com/edithatogo/vop_poc_nz/pull/51",
+      "https://github.com/edithatogo/vop_poc_nz/pull/64",
+      "https://github.com/edithatogo/vop_poc_nz/pull/65",
+      "https://github.com/edithatogo/vop_poc_nz/pull/66",
+      "https://github.com/edithatogo/vop_poc_nz/pull/67",
+      "https://github.com/edithatogo/vop_poc_nz/pull/69",
+      "https://github.com/edithatogo/vop_poc_nz/pull/70",
+      "https://github.com/edithatogo/voiage/pull/751",
+      "https://github.com/edithatogo/voiage/pull/770",
+      "https://github.com/edithatogo/voiage/pull/798",
+      "https://github.com/edithatogo/voiage/pull/804",
+      "https://github.com/edithatogo/voiage/pull/807",
+      "https://github.com/edithatogo/voiage/pull/808",
+      "https://github.com/edithatogo/voiage/pull/809",
+      "https://github.com/edithatogo/voiage/pull/831",
+      "https://github.com/edithatogo/voiage/pull/837",
+      "https://github.com/edithatogo/voiage/pull/836",
+      "https://github.com/edithatogo/voiage/pull/840"
+    ],
+    "pull_request_evidence": "track_delivery"
+  },
+  "gates": [
+    {
+      "id": "specification-and-plan-approval",
+      "kind": "human_approval",
+      "status": "satisfied",
+      "evidence": "User governance-repair request dated 2026-07-27."
+    },
+    {
+      "id": "scientific-and-contract-review",
+      "kind": "scientific_review",
+      "status": "pending",
+      "evidence": "Phase 5 SR1-SR10 and scientific-review-panel.md define the candidate-bound orchestrator, four role-specific advisory agent reports, finding/disagreement adjudication, remediation re-review and accountable owner decision. owner-option-a-decision-20260821.json accepts M22-M31 scientifically at experimental maturity only and preserves dissent. This umbrella gate remains pending for other families, M32, any stable promotion, and publication claim."
+    },
+    {
+      "id": "sampling-harm-scoping",
+      "kind": "repository_evidence",
+      "status": "satisfied",
+      "evidence": "SR4 materialized the fail-closed sampling_acquisition_harm_voi_20260802 research track for #850 with governed nested #851-#853. This records repository scoping only: candidate-bound role-separated agent review and an accountable owner scientific decision remain pending, and no runtime, real-study authorization, promotion, release or closure is approved."
+    },
+    {
+      "id": "hosted-required-checks",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "PR #836 exact head 8f1d70cb6bc67d5f1b07d95cd254171d8d3a913d completed 42 terminal checks with 38 successes, three governed skips and one neutral conclusion, zero disallowed conclusions and zero review threads, before CLEAN/MERGEABLE squash merge 163825d8b09e064a65cbab8a5807904629bbf05e at 2026-08-01T17:57:13Z."
+    },
+    {
+      "id": "c18-m22-canonical-governance",
+      "kind": "cross_repository_governance",
+      "status": "satisfied",
+      "evidence": "VOP PRs #69 and #70 materialized canonical C18/M22; VOIAGE issues #757/#758/#761 are native children of #570."
+    },
+    {
+      "id": "risk-sensitive-local-runtime",
+      "kind": "repository_evidence",
+      "status": "satisfied",
+      "evidence": "Experimental contract/runtime commit 2da92322; independent review and remediation culminated in PR #769 exact head f513416fa8d19db6c2f7f8857c84839fa97b984b."
+    },
+    {
+      "id": "risk-sensitive-hosted-assurance",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "PR #769 exact head f513416fa8d19db6c2f7f8857c84839fa97b984b passed 38 successful checks, with three governed skips and neutral CodeQL aggregation, before squash merge c25f3234ad9d3d44f5e31cc42ee4ae823562fe37; changed coverage was 215/215 lines and 68/68 branches."
+    },
+    {
+      "id": "forecast-signal-hosted-assurance",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "PR #770 exact head c110706c561ca17d3ec8835af3567948b969b3cb passed 38 successful checks, with three governed skips and neutral CodeQL aggregation, before squash merge 4657f94e69e4d99d960d6d820c5bfb3e5e8937b3; changed coverage was 223/223 lines and 57/57 branches."
+    },
+    {
+      "id": "implementation-information-hosted-assurance",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "PR #787 exact head de31458b556136359cb9195f8ced82cff9182ece passed 38 successful checks, with three governed skips and neutral CodeQL aggregation, before squash merge 20e0c606fb02f282134e9cc876fa475178edfe40; both review threads were evidence-resolved and changed coverage satisfied the 95 percent line and 100 percent branch policies."
+    },
+    {
+      "id": "uncertainty-modelling-hosted-assurance",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "PR #798 exact head aa5d9fd86a42fecd5e8746e77c74ba23e33bb092 completed 42 hosted checks with 38 successes and four governed skips before squash merge c5adca8fd49b74a04312111168283fbdffc2dcbd; all six installed-wheel contracts, aggregate coverage, CodeQL and security checks passed, and all four review threads were resolved."
+    },
+    {
+      "id": "study-design-efficiency-hosted-assurance",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "PR #679 final exact head ce5d712779897bdd7d398e367de6a7e0bc743692 completed 65 terminal conclusions: 60 successes, four governed skips and one neutral conclusion, with no pending or failed checks. Both review threads were resolved before squash merge 5d059a80447afc85cee63eb85971fc1c9e80f40c at 2026-07-31T15:38:47Z. Only delivery subissues #680-#682 may close; scientific review, Rust/R/Julia parity, stable promotion, release, parent #571 closure and umbrella #318 closure remain pending."
+    },
+    {
+      "id": "expected-utility-pricing-hosted-assurance",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "PR #712 final exact head 1048c4bc4354acdb0c468da17cb0b5d581961690 completed 65 terminal conclusions: 60 successes, four governed skips and one neutral conclusion, with no pending or failed checks. Both review threads were resolved before squash merge b8395abfc603509a2f1a2c87c9c33e6260fb5840 at 2026-07-31T16:33:52Z. Only delivery subissues #694-#697 may close; VoC remains a presentation/delegating alias, and scientific review, Rust/R/Julia parity, stable promotion, release, parent #595 closure and umbrella #318 closure remain pending."
+    },
+    {
+      "id": "estimation-variance-remediation-hosted-assurance",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "PR #837 exact head 076a29075e839e3cad49d0487dff0c4e2639845f completed 65 terminal checks with 60 successes, four governed skips and one neutral conclusion, with zero review threads, before squash merge 366186b358abd775bea5fd2440d7e0ececb3ebaa at 2026-08-01T16:58:05Z. Scientific review, vector covariance execution, parity, promotion, release and closure remain separate."
+    },
+    {
+      "id": "independent-engineering-review",
+      "kind": "repository_evidence",
+      "status": "satisfied",
+      "evidence": "g5-g13-evidence-map.json maps all 18 families to independent reference or implementation review. #571 exact signed merge b007896912528d478db4de4b8430533422a35f72, #595's phase reviews and #619 exact remediation review have no remaining Critical, High or Medium findings. This does not satisfy scientific, design or classification review."
+    },
+    {
+      "id": "stage-one-repository-reconciliation",
+      "kind": "repository_evidence",
+      "status": "satisfied",
+      "evidence": "g5-g13-evidence-map.json maps all 18 accepted families to repository artifacts and records G8/G13 independent engineering and issue/governance reconciliation at source revision 366186b358abd775bea5fd2440d7e0ececb3ebaa."
+    },
+    {
+      "id": "programme-exact-head-assurance",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "PR #836 exact head 8f1d70cb6bc67d5f1b07d95cd254171d8d3a913d completed 42 terminal checks with 38 successes, three governed skips and one neutral conclusion, zero disallowed conclusions and zero review threads, before CLEAN/MERGEABLE squash merge 163825d8b09e064a65cbab8a5807904629bbf05e at 2026-08-01T17:57:13Z."
+    },
+    {
+      "id": "repository-completion-receipt",
+      "kind": "repository_evidence",
+      "status": "satisfied",
+      "evidence": "repository-completion-receipt-20260802.md records G15 at source revision 163825d8b09e064a65cbab8a5807904629bbf05e while leaving scientific review, parity, stable promotion, release/publication, registry acceptance and issue closure open. Project 28 normalization was directly read back and issue #619 evidence was synchronized without closing the parent."
+    }
+  ],
+  "legacy_outcome": "superseded",
+  "superseded_by": "pre_submission_comprehensive_hardening_20260829",
+  "supersession_evidence": "conductor/tracks/pre_submission_comprehensive_hardening_20260829/migration-manifest.md"
+}

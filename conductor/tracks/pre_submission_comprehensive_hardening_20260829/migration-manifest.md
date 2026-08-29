@@ -51,3 +51,15 @@ its source track is superseded.
   and external handoffs map to Phase 6, with external actions excluded.
 - Exact-head assurance and source-track closeout map to Phases 0 and 7.
 
+## Evidence-ledger preservation
+
+All 21 source ledgers are preserved in their archived directories. Eight
+ledgers already conformed to the current canonical chain validator and received
+an append-only supersession receipt: controlled-live interoperability, worked
+examples, estimation-focused variance, information-source portfolio,
+sampling-acquisition harm, stable Rust core, uncertainty modelling, and method
+census. The remaining legacy ledgers contain historical identifiers or event
+kinds that predate the current validator. They remain byte-preserved apart from
+their directory move and receive their supersession receipt through this
+hash-bound manifest, metadata, index, and the new canonical ledger rather than
+having their history rewritten.
