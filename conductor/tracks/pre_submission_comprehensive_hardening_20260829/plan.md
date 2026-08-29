@@ -47,17 +47,20 @@
 
 ## Phase 2 — Disposition and architecture freeze
 
-- [~] **P2-T1 / AC-03:** Produce the canonical finding ledger and disposition
+- [x] **P2-T1 / AC-03:** Produce the canonical finding ledger and disposition
   every gap as must-fix, accepted limitation, preview, reviewed exclusion,
-  external gate, or human gate.
-- [ ] **P2-T2 / AC-03, AC-05:** Freeze the target stable architecture, package
+  external gate, or human gate. (`90596ec7`)
+- [x] **P2-T2 / AC-03, AC-05:** Freeze the target stable architecture, package
   boundaries, API/ABI compatibility policy, and binding capability matrix.
-- [ ] **P2-T3 / AC-03, AC-07:** Freeze dependency promotion and rollback rules,
+  (`9ce8ee8f`)
+- [x] **P2-T3 / AC-03, AC-07:** Freeze dependency promotion and rollback rules,
   including named preview extras and CPU-fallback requirements.
-- [ ] **P2-T4 / AC-03, AC-08:** Freeze the CI optimization design: deterministic
+  (`e71c7e0a`)
+- [x] **P2-T4 / AC-03, AC-08:** Freeze the CI optimization design: deterministic
   shards, caches, reusable build artifacts, concurrency/cancellation, focused
-  change lanes, and full release validation.
-- [ ] **P2-T5 / AC-03:** Run automated phase review and validation checkpoint.
+  change lanes, and full release validation. (`74604ed5`)
+- [x] **P2-T5 / AC-03:** Run automated phase review and validation checkpoint.
+  (`00c85f9d`)
 
 ## Phase 3 — Core, analytical, data, and integration repairs
 
