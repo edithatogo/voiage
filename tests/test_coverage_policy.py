@@ -100,7 +100,7 @@ def test_workflow_uses_full_suite_provenance_floor_and_hidden_evidence() -> None
     workflow = (ROOT / ".github/workflows/operational-assurance.yml").read_text(
         encoding="utf-8"
     )
-    assert "pytest tests/ --cov=voiage" in workflow
+    assert "pytest tests/ -n 6 --dist=worksteal --cov=voiage" in workflow
     assert '-m "not integration' not in workflow
     assert "f05231ce21a81ffb4029493927e5572d114fad67" in workflow
     assert (
