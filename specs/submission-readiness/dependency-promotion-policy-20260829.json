@@ -58,7 +58,7 @@
       "source_lane": "major-or-upper-bound-frontier",
       "isolation": "separate generated preview lock and non-blocking workflow; never mutate uv.lock",
       "blocking_stage": "candidate",
-      "candidates": ["SciPy 1.18", "pandas 3.0", "xarray 2026.7", "Griffe 2.2", "JAX 0.11", "Ruff 0.16"],
+      "candidates": ["SciPy 1.18.1", "pandas 3.0.5", "xarray 2026.7.0", "Griffe 2.2", "JAX 0.11.1", "Ruff 0.16.5"],
       "required_gates": ["API and deprecation report", "numerical equivalence", "Arrow and DataFrame round trips", "CPU fallback", "docs extraction/build", "tool output compatibility", "full candidate matrix before bound change"]
     },
     {

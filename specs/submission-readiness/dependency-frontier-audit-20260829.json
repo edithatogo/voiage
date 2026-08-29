@@ -59,12 +59,12 @@
       "id": "major-or-upper-bound-frontier",
       "mode": "non-blocking-preview",
       "candidates": [
-        "SciPy 1.18",
-        "pandas 3.0",
-        "xarray 2026.7",
+        "SciPy 1.18.1",
+        "pandas 3.0.5",
+        "xarray 2026.7.0",
         "Griffe 2.2",
-        "JAX 0.11",
-        "Ruff 0.16"
+        "JAX 0.11.1",
+        "Ruff 0.16.5"
       ],
       "promotion_gate": "Named preview extra or tool lane first; API compatibility, numerical equivalence, Arrow round trips, CPU fallback, documentation build, and rollback evidence before changing stable bounds."
     },
@@ -142,9 +142,10 @@
     {
       "id": "DEP-006",
       "severity": "medium",
-      "state": "open",
+      "state": "resolved",
       "summary": "Preview runtimes and major dependency families have no unified non-blocking compatibility workflow or machine-readable promotion/rollback receipt.",
-      "required_disposition": "Add named preview matrices and a promotion receipt that requires stable CPU fallback, numerical equivalence, Arrow round trips, security, provenance, and measured benefit."
+      "required_disposition": "Add named preview matrices and a promotion receipt that requires stable CPU fallback, numerical equivalence, Arrow round trips, security, provenance, and measured benefit.",
+      "resolution": "The scheduled and manually dispatchable dependency-preview workflow isolates every upper-bound family, Python 3.15, cargo-nextest, and sccache as continue-on-error observations, while the frozen promotion policy defines the machine-readable candidate, promotion, and rollback receipt."
     },
     {
       "id": "DEP-007",

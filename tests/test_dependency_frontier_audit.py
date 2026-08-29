@@ -52,5 +52,6 @@ def test_preview_lanes_are_non_blocking_and_fail_closed_for_promotion() -> None:
     }
     states = {finding["id"]: finding["state"] for finding in findings}
     assert states["DEP-001"] == "resolved"
-    assert {states[f"DEP-{number:03d}"] for number in range(2, 9)} == {"open"}
+    assert states["DEP-006"] == "resolved"
+    assert {states[f"DEP-{number:03d}"] for number in (2, 3, 4, 5, 7, 8)} == {"open"}
     assert all(finding["required_disposition"] for finding in findings)

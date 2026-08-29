@@ -86,3 +86,26 @@ def test_dependency_findings_have_explicit_policy_closure() -> None:
 
     assert closure.keys() == {"DEP-001", "DEP-002", "DEP-003", "DEP-005", "DEP-006"}
     assert all(closure.values())
+
+
+def test_preview_workflow_is_isolated_non_blocking_and_observational() -> None:
+    workflow = (ROOT / ".github/workflows/dependency-preview.yml").read_text(
+        encoding="utf-8"
+    )
+
+    assert "pull_request:" not in workflow
+    assert "push:" not in workflow
+    assert workflow.count("continue-on-error: true") == 3
+    for candidate in (
+        "scipy-1.18",
+        "pandas-3",
+        "xarray-2026",
+        "griffe-2",
+        "jax-0.11",
+        "ruff-0.16",
+    ):
+        assert candidate in workflow
+    assert "uv pip install --python .venv --upgrade --resolution highest" in workflow
+    assert "Python 3.15 prerelease" in workflow
+    assert "cargo-nextest and sccache observation" in workflow
+    assert "without publishing artifacts" in workflow

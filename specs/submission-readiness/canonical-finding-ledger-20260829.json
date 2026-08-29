@@ -30,7 +30,7 @@
     },
     {
       "path": "specs/submission-readiness/dependency-frontier-audit-20260829.json",
-      "sha256": "3b48a90846f55462f4f71d81f8fac7fb92aff72772320f55e834937a28d566ee"
+      "sha256": "b35db612059d19fedf089eaba743150f1e0cfee287a70fc70cace8ca5655a693"
     },
     {
       "path": "specs/submission-readiness/test-ci-performance-baseline-20260829.json",
