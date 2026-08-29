@@ -973,9 +973,7 @@ class EcosystemIntegration:
             connector, DataFormatConnector
         ):
             data_type = cast("str", kwargs.get("data_type", "auto"))
-            return connector.import_health_data(
-                file_path, data_type
-            )
+            return connector.import_health_data(file_path, data_type)
 
         return {}
 

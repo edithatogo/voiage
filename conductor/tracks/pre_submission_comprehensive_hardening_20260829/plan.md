@@ -80,6 +80,9 @@
   - [x] **Review Fixes:** Narrow the ecosystem dispatcher's generic values to
     its concrete connector contracts so Ruff and ty verify the public
     integration path without changing runtime compatibility. (`c35527a2`)
+  - [x] **Hosted Review Fixes:** Apply the canonical Ruff formatter to the
+    three Phase 3 Python files identified by the draft PR exact-head lint lane
+    and register PR #1034 as an in-progress implementation candidate.
 
 ## Phase 4 — Standalone R and polyglot package hardening
 

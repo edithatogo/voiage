@@ -65,8 +65,7 @@ def test_ecosystem_interchange_profiles_match_actual_formats_and_extras() -> Non
 
 def test_public_integration_docs_preserve_profile_boundaries() -> None:
     ecosystem = (
-        ROOT
-        / "docs/astro-site/src/content/docs/integrations/ecosystem-interchange.mdx"
+        ROOT / "docs/astro-site/src/content/docs/integrations/ecosystem-interchange.mdx"
     ).read_text(encoding="utf-8")
     enterprise = (
         ROOT / "docs/astro-site/src/content/docs/integrations/enterprise-adapters.mdx"

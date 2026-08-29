@@ -24,6 +24,12 @@ No Critical, High, or remaining Medium finding was found after remediation.
 The review found no secret, credential, PII, path-traversal, unsafe parser,
 archive-integrity, ABI-removal, or submission-authorization defect.
 
+The initial draft-PR hosted lint lane subsequently identified three files that
+passed Ruff linting but were not in canonical Ruff format. The files were
+formatted without semantic changes, and the draft PR was registered in the
+track metadata and repository cross-reference registry before refreshing the
+hosted exact-head checks.
+
 ## Validation
 
 - Phase contract suite: passed.

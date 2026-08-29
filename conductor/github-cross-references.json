@@ -5492,8 +5492,18 @@
         "https://github.com/edithatogo/voiage/issues/313",
         "https://github.com/edithatogo/voiage/issues/1024"
       ],
-      "pull_requests": [],
-      "pull_request_evidence": "none_found"
+      "pull_requests": [
+        {
+          "number": 1034,
+          "url": "https://github.com/edithatogo/voiage/pull/1034",
+          "status": "draft",
+          "evidence": [
+            "implementation-candidate",
+            "hosted-exact-head-validation-in-progress"
+          ]
+        }
+      ],
+      "pull_request_evidence": "draft implementation candidate; hosted exact-head validation remains in progress"
     }
   ]
 }

@@ -165,8 +165,7 @@ def test_binding_capability_contract_requires_behavior_not_workflow_text() -> No
 def test_current_binding_capability_registry_matches_architecture_freeze() -> None:
     architecture = json.loads(
         (
-            ROOT
-            / "specs/submission-readiness/target-architecture-freeze-20260829.json"
+            ROOT / "specs/submission-readiness/target-architecture-freeze-20260829.json"
         ).read_text(encoding="utf-8")
     )
     registry = json.loads(
@@ -186,8 +185,7 @@ def test_public_binding_docs_distinguish_internal_and_unavailable_surfaces() -> 
         ROOT / "docs/astro-site/src/content/docs/reference/bindings.mdx"
     ).read_text(encoding="utf-8")
     api = (
-        ROOT
-        / "docs/astro-site/src/content/docs/api-reference/binding-dispositions.mdx"
+        ROOT / "docs/astro-site/src/content/docs/api-reference/binding-dispositions.mdx"
     ).read_text(encoding="utf-8")
 
     assert "Current method-level capability matrix" in reference
