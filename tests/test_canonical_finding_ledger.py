@@ -74,7 +74,7 @@ def test_migrated_track_coverage_matches_the_frozen_manifest() -> None:
     ledger = _ledger()
     migrated = ledger["migrated_track_coverage"]
     manifest = (
-        ROOT / "conductor" / "tracks" / ledger["track_id"] / "migration-manifest.md"
+        ROOT / "conductor" / "archive" / ledger["track_id"] / "migration-manifest.md"
     ).read_text(encoding="utf-8")
     manifest_rows = re.findall(
         r"\| `([^`]+)` \| (\d+) \| `([^`]+)` \| `[0-9a-f]{64}` \|",

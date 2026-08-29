@@ -1,17 +1,18 @@
 # Project Tracks
 
-The pre-submission comprehensive hardening programme is the current canonical
-programme. Historical and superseded tracks retain their evidenced lifecycle
-and external-gate boundaries.
+The pre-submission comprehensive hardening programme completed on 2026-08-30.
+Historical and superseded tracks retain their evidenced lifecycle and
+external-gate boundaries. A future release and all venue submissions remain
+separately authorized work, not active Conductor implementation tasks.
 
-## [~] Track: Pre-Submission Comprehensive Hardening
-*Link: [./tracks/pre_submission_comprehensive_hardening_20260829/index.md](./tracks/pre_submission_comprehensive_hardening_20260829/index.md)*
+## [x] Track: Pre-Submission Comprehensive Hardening [completed: 2026-08-30]
+*Link: [./archive/pre_submission_comprehensive_hardening_20260829/index.md](./archive/pre_submission_comprehensive_hardening_20260829/index.md)*
 *GitHub: [issue #1033](https://github.com/edithatogo/voiage/issues/1033),
 consolidating the repository-owned scope of the superseded active queue.*
-*Status: in progress — consolidating all active work, refreshing whole-product
-feature and dependency gaps, profile and accelerate CI/testing, repair accepted
-repository gaps, and establish exact pyOpenSci, rOpenSci, and JOSS readiness
-without performing a submission.*
+*Status: repository programme complete — all accepted feature, integration,
+data, dependency, API/ABI, structure, CI/test-performance, polyglot, and venue
+readiness findings are resolved and validated. The hardened source is not yet
+released; pyOpenSci, rOpenSci, and JOSS submissions remain unperformed.*
 
 ---
 

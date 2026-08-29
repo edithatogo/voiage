@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-29T03:49:11Z",
+  "generated_at": "2026-08-29T16:53:10Z",
   "repository": "edithatogo/voiage",
   "project_url": "https://github.com/users/edithatogo/projects/28",
   "association_policy": "PRs are included only when associated with commits recorded by a track, Git history for its path, or an explicit track reference. Empty completed-track lists are none_found, not inferred.",
@@ -5480,12 +5480,12 @@
     {
       "track_id": "pre_submission_comprehensive_hardening_20260829",
       "metadata_track_id": "pre_submission_comprehensive_hardening_20260829",
-      "path": "conductor/tracks/pre_submission_comprehensive_hardening_20260829",
-      "lifecycle": "active",
+      "path": "conductor/archive/pre_submission_comprehensive_hardening_20260829",
+      "lifecycle": "completed",
       "issue": {
         "number": 1033,
         "url": "https://github.com/edithatogo/voiage/issues/1033",
-        "state": "open"
+        "state": "closed"
       },
       "parent_issue_url": null,
       "subissues": [
@@ -5505,13 +5505,17 @@
         {
           "number": 1035,
           "url": "https://github.com/edithatogo/voiage/pull/1035",
-          "status": "draft",
+          "status": "merged",
           "evidence": [
-            "post-merge-observation-and-closeout-repair-candidate"
+            "reviewed-head:037a2bc9ab89eb8f0f19cce81b78a008629f5395",
+            "hosted-checks:40-success-3-skipped-1-neutral-0-failed",
+            "review-threads:0-unresolved",
+            "merge-commit:6e1dfc4ecd0699af365a1d5feaa7ed24a9431b21",
+            "exact-tree-match"
           ]
         }
       ],
-      "pull_request_evidence": "PR #1034 merged after exact-head assurance; PR #1035 remains the closeout candidate"
+      "pull_request_evidence": "PR #1034 and PR #1035 merged after exact-head assurance with exact tree equality; this archive records repository programme completion"
     }
   ]
 }

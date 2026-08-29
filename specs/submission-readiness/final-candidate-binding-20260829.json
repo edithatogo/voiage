@@ -3,8 +3,8 @@
   "bound_on": "2026-08-29",
   "candidate_state": "repository_hardened_not_released",
   "hardened_source": {
-    "revision": "27215aeace2686f6e1e20b618f240170df5bbbbc",
-    "tree": "b2e33da01677ee6818b1cd7c2199cec03b3558f6",
+    "revision": "037a2bc9ab89eb8f0f19cce81b78a008629f5395",
+    "tree": "8d4c47ad2160633ec6ce5b94fa3c6c22d950e086",
     "validation_pull_request": 1035,
     "required_checks": {"success": 40, "skipped": 3, "neutral": 1, "failed": 0, "pending": 0},
     "local_full_tox_revision": "0f193d655fb2c29b1ecc5e64a07756fb246bd4c6",
@@ -12,6 +12,12 @@
     "full_tox_seconds": 697.71,
     "pkgcheck": "passed",
     "r_cmd_check": "passed"
+  },
+  "hardening_merge": {
+    "squash_merge_revision": "6e1dfc4ecd0699af365a1d5feaa7ed24a9431b21",
+    "squash_merge_tree": "8d4c47ad2160633ec6ce5b94fa3c6c22d950e086",
+    "exact_tree_match": true,
+    "merged_at": "2026-08-29T16:49:24Z"
   },
   "implementation_validation": {
     "pull_request": 1034,
