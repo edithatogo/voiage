@@ -1,10 +1,37 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-26T08:13:03Z",
+  "generated_at": "2026-08-29T02:07:57Z",
   "repository": "edithatogo/voiage",
   "project_url": "https://github.com/users/edithatogo/projects/28",
   "association_policy": "PRs are included only when associated with commits recorded by a track, Git history for its path, or an explicit track reference. Empty completed-track lists are none_found, not inferred.",
   "tracks": [
+    {
+      "track_id": "pyopensci_submission_staging_20260829",
+      "metadata_track_id": "pyopensci_submission_staging_20260829",
+      "path": "conductor/archive/pyopensci_submission_staging_20260829",
+      "lifecycle": "archived",
+      "issue": {
+        "number": 471,
+        "url": "https://github.com/edithatogo/voiage/issues/471",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/299",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 1031,
+          "url": "https://github.com/edithatogo/voiage/pull/1031",
+          "status": "open",
+          "evidence": [
+            "reviewed-head:71b1b57201f288b3f1203f7fe9f622339c4e33bc",
+            "hosted-checks:33-success-3-skipped-1-neutral",
+            "review-threads:0-unresolved",
+            "open-unmerged"
+          ]
+        }
+      ],
+      "pull_request_evidence": "repository staging completed at a green exact implementation head; delivery PR remains open and unmerged; external venue actions remain pending"
+    },
     {
       "track_id": "pyopensci_joss_review_readiness_20260823",
       "metadata_track_id": "pyopensci_joss_review_readiness_20260823",

@@ -1,0 +1,58 @@
+{
+  "track_id": "pyopensci_submission_staging_20260829",
+  "version": "1.0.0",
+  "type": "chore",
+  "status": "completed",
+  "created_at": "2026-08-29T00:08:08Z",
+  "updated_at": "2026-08-29T02:21:00Z",
+  "completed_at": "2026-08-29T02:07:57Z",
+  "description": "Prepare and validate an unposted pyOpenSci submission packet while preserving all authenticated external gates.",
+  "evidence_schema": "1.0",
+  "approval": {
+    "status": "approved",
+    "approved_on": "2026-08-29",
+    "recorded_at": "2026-08-29T00:08:08Z",
+    "evidence": "User instructed the agent to proceed with the recommended current-template refresh, unposted draft, frozen-candidate preflight, and no external contact or submission."
+  },
+  "current_phase": null,
+  "current_task": null,
+  "github_parent_issue": "https://github.com/edithatogo/voiage/issues/299",
+  "github_issue": "https://github.com/edithatogo/voiage/issues/471",
+  "github_subissues": [],
+  "github_project": "https://github.com/users/edithatogo/projects/28",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/471",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "subissues": [],
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/1031"
+    ],
+    "pull_request_evidence": "PR #1031 exact implementation head 71b1b57201f288b3f1203f7fe9f622339c4e33bc completed 33 successful checks, three governed skips, and one neutral roll-up with no failures or pending checks; the sole review thread is resolved. The PR remains open and unmerged."
+  },
+  "gates": [
+    {
+      "id": "specification-and-plan-approval",
+      "kind": "human_approval",
+      "status": "satisfied",
+      "evidence": "User approval on 2026-08-29 to execute the bounded repository-owned recommendation."
+    },
+    {
+      "id": "candidate-version-selection",
+      "kind": "maintainer_decision",
+      "status": "satisfied",
+      "evidence": "Maintainer explicitly confirmed v2.1.0 on 2026-08-29. specs/submission-readiness/pyopensci-submission-candidate.json binds that selection to the signed release, immutable GitHub release, PyPI artifacts, digests, and current metadata. The later JOSS handoff remains separately blocked because its paper and developer-use records are bound to v2.0.0."
+    },
+    {
+      "id": "external-pyopensci-submission",
+      "kind": "human_submission",
+      "status": "pending",
+      "evidence": "Authenticated pyOpenSci issue creation and survey completion require a separate maintainer instruction and personal attestations."
+    },
+    {
+      "id": "non-author-engagement",
+      "kind": "external_human_evidence",
+      "status": "pending",
+      "evidence": "Issue #471 remains open without qualifying non-author evidence."
+    }
+  ]
+}

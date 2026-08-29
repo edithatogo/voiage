@@ -1,0 +1,33 @@
+{
+  "schema_version": "voiage.pyopensci-submission-template.v1",
+  "observed_at": "2026-08-29T00:12:00Z",
+  "state": "reference_only_unposted",
+  "upstream": {
+    "repository": "pyOpenSci/software-submission",
+    "path": ".github/ISSUE_TEMPLATE/submit-software-for-review.md",
+    "commit": "a1f31b8aab21128faee96ee548d256d5cffc3ba9",
+    "blob_sha": "08f522322b3a57fc2ff3c7ec051e276b9efbe4b6",
+    "size_bytes": 7634,
+    "content_sha256": "43b69c9633967e16bcb68435ba0306911f266de554eaf63345c852407d63aea4",
+    "html_url": "https://github.com/pyOpenSci/software-submission/blob/a1f31b8aab21128faee96ee548d256d5cffc3ba9/.github/ISSUE_TEMPLATE/submit-software-for-review.md",
+    "raw_url": "https://raw.githubusercontent.com/pyOpenSci/software-submission/a1f31b8aab21128faee96ee548d256d5cffc3ba9/.github/ISSUE_TEMPLATE/submit-software-for-review.md"
+  },
+  "required_sections": [
+    "Code of Conduct & Commitment to Maintain Package",
+    "Description",
+    "Associated Publication (Optional)",
+    "Scope",
+    "Technical checks",
+    "Publication Options",
+    "Are you OK with Reviewers Submitting Issues and/or pull requests to your Repo Directly?",
+    "Please fill out our survey"
+  ],
+  "human_only_actions": [
+    "affirm the pyOpenSci Code of Conduct",
+    "affirm the maintenance commitment",
+    "select the submitted version",
+    "complete the pre-review survey",
+    "open the authenticated review issue"
+  ],
+  "submission_performed": false
+}

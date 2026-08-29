@@ -1,0 +1,60 @@
+{
+  "schema_version": "voiage.pyopensci-submission-staging.v1",
+  "prepared_at": "2026-08-29T00:22:00Z",
+  "updated_at": "2026-08-29T02:21:00Z",
+  "state": "prepared_local_unposted",
+  "draft": {
+    "path": "docs/release/pyopensci-submission-draft.md",
+    "sha256": "2eb092a175809e1fccfa77841f09a319f21d710682855f933a9c0984b8d04aeb"
+  },
+  "template": {
+    "path": "specs/submission-readiness/pyopensci-submission-template.json",
+    "sha256": "b70d66b21fe01a5d651168efaf14b3ba3a313975e1bf6b7928c5c272f49879b0",
+    "upstream_commit": "a1f31b8aab21128faee96ee548d256d5cffc3ba9",
+    "upstream_content_sha256": "43b69c9633967e16bcb68435ba0306911f266de554eaf63345c852407d63aea4"
+  },
+  "candidate": {
+    "path": "specs/submission-readiness/pyopensci-submission-candidate.json",
+    "sha256": "7c0e79e61567cb2a77f3dc6a92d279fcfbe77cca95d1717f57229118829d1335"
+  },
+  "candidate_version": "2.1.0",
+  "candidate_confirmation": "confirmed_maintainer",
+  "scope_categories": [
+    "Data processing/munging",
+    "Data validation and testing",
+    "Workflow automation"
+  ],
+  "ordinary_fields": "complete_for_local_review",
+  "human_attestations": {
+    "code_of_conduct": "pending",
+    "maintenance_commitment_form_checkbox": "pending",
+    "submitted_version": "confirmed",
+    "joss_partnership_option": "pending",
+    "reviewer_direct_issue_permission": "pending",
+    "author_guide_read": "pending",
+    "pre_review_survey": "pending"
+  },
+  "external_actions": {
+    "pre_review_survey_completed": false,
+    "pyopensci_issue_created": false,
+    "pyopensci_contact_made": false,
+    "joss_submission_created": false,
+    "badge_added": false,
+    "doi_archive_created": false
+  },
+  "external_outcomes": {
+    "pyopensci_review": "not_started",
+    "pyopensci_acceptance": "pending_external",
+    "joss_referral": "not_started",
+    "joss_acceptance": "pending_external"
+  },
+  "remaining_gates": [
+    "maintainer personally completes all attestations and the pre-review survey",
+    "maintainer separately authorizes authenticated pyOpenSci issue creation",
+    "pyOpenSci performs scope screening, review, and acceptance",
+    "issue #471 obtains genuine non-author evidence",
+    "the v2.0.0-bound JOSS paper and developer-use record are reconciled with the reviewed version",
+    "the selected arXiv and DOI-bearing archive gates are satisfied before JOSS",
+    "maintainer separately authorizes the JOSS partner referral"
+  ]
+}
