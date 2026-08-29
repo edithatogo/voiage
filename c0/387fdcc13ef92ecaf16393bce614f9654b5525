@@ -1,0 +1,1 @@
+Evidence integrity repair: corrected the unsupported pseudo-subcommand, normalized the unpublished invalid hash chain without changing substantive event fields, recorded the SHA-256 of the pre-repair ledger, and added an explicit correction to the Phase 2 review. Canonical ledger, all 156 Conductor tracks, Vale, and diff hygiene passed.
