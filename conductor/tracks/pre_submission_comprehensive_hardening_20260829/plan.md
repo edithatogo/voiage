@@ -19,10 +19,10 @@
 
 ## Phase 1 — Current requirements and whole-product gap analysis
 
-- [~] **P1-T1 / AC-02, AC-09:** Pin the current pyOpenSci, rOpenSci, JOSS,
+- [x] **P1-T1 / AC-02, AC-09:** Pin the current pyOpenSci, rOpenSci, JOSS,
   packaging, ecosystem, security, and research-software criteria to a dated
-  source manifest.
-- [ ] **P1-T2 / AC-02:** Refresh the external feature landscape and core/frontier
+  source manifest. (`53be187c`)
+- [~] **P1-T2 / AC-02:** Refresh the external feature landscape and core/frontier
   method census from primary literature and authoritative software sources.
 - [ ] **P1-T3 / AC-02:** Audit integration, data, worked-example, domain,
   interoperability, and executable research-workflow coverage.
