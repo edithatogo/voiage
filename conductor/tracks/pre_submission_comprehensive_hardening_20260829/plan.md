@@ -129,12 +129,16 @@
 
 ## Phase 6 — Venue, manuscript, governance, and release alignment
 
-- [ ] **P6-T1 / AC-09:** Refresh and satisfy all repository-controlled
+- [x] **P6-T1 / AC-09:** Refresh and satisfy all repository-controlled
   pyOpenSci requirements and stage only unchecked human attestations.
-- [ ] **P6-T2 / AC-06, AC-09:** Refresh and satisfy all repository-controlled
+  (`f82b9a87`)
+- [x] **P6-T2 / AC-06, AC-09:** Refresh and satisfy all repository-controlled
   rOpenSci requirements and stage the pre-submission inquiry without posting.
-- [ ] **P6-T3 / AC-09:** Refresh the JOSS article contract, AI disclosure,
+  (`f82b9a87`, `1b0806ad`)
+- [x] **P6-T3 / AC-09:** Refresh the JOSS article contract, AI disclosure,
   citation/source audit, research-use boundary, and current review criteria.
+  (`f82b9a87`; SourceRight retains six identifier warnings and human source
+  verification as explicit non-repository authority.)
 - [ ] **P6-T4 / AC-09:** Bind the Python, Rust, R, Julia, docs, JOSS manuscript,
   arXiv source, SBOM, provenance, and release evidence to the exact final
   candidate version and revision.
