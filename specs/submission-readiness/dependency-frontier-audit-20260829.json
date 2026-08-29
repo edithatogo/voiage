@@ -136,9 +136,10 @@
     {
       "id": "DEP-005",
       "severity": "medium",
-      "state": "open",
+      "state": "accepted_upstream_limitation",
       "summary": "Cargo resolves both syn 2 and syn 3 through PyO3 and Serde; cargo-deny allows this duplicate but records it as a dependency-footprint warning.",
-      "required_disposition": "Track upstream convergence and retain the duplicate only while both dependency chains are necessary and advisories/licences remain clean."
+      "required_disposition": "Track upstream convergence and retain the duplicate only while both dependency chains are necessary and advisories/licences remain clean.",
+      "resolution": "The locked reverse dependency tree confirms syn 2.0.119 is required only by PyO3 0.29 macros and syn 3.0.2 only by serde_derive 1.0.229. No direct override can converge them safely; cargo-deny passes advisories, bans, licences, and sources, so the reviewed duplicate remains explicitly allowed until either upstream chain converges."
     },
     {
       "id": "DEP-006",
