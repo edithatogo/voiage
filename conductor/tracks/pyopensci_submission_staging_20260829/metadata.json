@@ -4,7 +4,7 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-08-29T00:08:08Z",
-  "updated_at": "2026-08-29T01:35:35Z",
+  "updated_at": "2026-08-29T01:37:25Z",
   "description": "Prepare and validate an unposted pyOpenSci submission packet while preserving all authenticated external gates.",
   "evidence_schema": "1.0",
   "approval": {
@@ -23,8 +23,10 @@
     "issue": "https://github.com/edithatogo/voiage/issues/471",
     "project": "https://github.com/users/edithatogo/projects/28",
     "subissues": [],
-    "pull_requests": [],
-    "pull_request_evidence": "none_yet"
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/1031"
+    ],
+    "pull_request_evidence": "Delivery PR #1031 is open; hosted checks remain pending."
   },
   "gates": [
     {

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-29T00:08:08Z",
+  "generated_at": "2026-08-29T01:37:25Z",
   "repository": "edithatogo/voiage",
   "project_url": "https://github.com/users/edithatogo/projects/28",
   "association_policy": "PRs are included only when associated with commits recorded by a track, Git history for its path, or an explicit track reference. Empty completed-track lists are none_found, not inferred.",
@@ -17,8 +17,18 @@
       },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/299",
       "subissues": [],
-      "pull_requests": [],
-      "pull_request_evidence": "none_yet"
+      "pull_requests": [
+        {
+          "number": 1031,
+          "url": "https://github.com/edithatogo/voiage/pull/1031",
+          "status": "open",
+          "evidence": [
+            "delivery-pr-opened-at-head",
+            "076ece4e0df6e1e88554fe6e5e21037f6a605b52"
+          ]
+        }
+      ],
+      "pull_request_evidence": "delivery_pr_open_hosted_checks_pending"
     },
     {
       "track_id": "pyopensci_joss_review_readiness_20260823",
