@@ -2,9 +2,9 @@
   "track_id": "pyopensci_submission_staging_20260829",
   "version": "1.0.0",
   "type": "chore",
-  "status": "new",
+  "status": "in_progress",
   "created_at": "2026-08-29T00:08:08Z",
-  "updated_at": "2026-08-29T00:08:08Z",
+  "updated_at": "2026-08-29T00:10:59Z",
   "description": "Prepare and validate an unposted pyOpenSci submission packet while preserving all authenticated external gates.",
   "evidence_schema": "1.0",
   "approval": {
@@ -53,4 +53,3 @@
     }
   ]
 }
-
