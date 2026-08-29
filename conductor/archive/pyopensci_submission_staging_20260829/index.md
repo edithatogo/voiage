@@ -8,10 +8,11 @@
 - [Parent publication-readiness issue #299](https://github.com/edithatogo/voiage/issues/299)
 - [Project 28](https://github.com/users/edithatogo/projects/28)
 
-Status: in progress. This track prepares a local,
-unposted pyOpenSci submission packet. It does not authorize issue creation,
-survey completion, external contact, submission, review, acceptance, or JOSS
-referral.
+Status: repository staging completed on 2026-08-29. Pull request `#1031`
+remains open and unmerged, and the local pyOpenSci packet remains unposted.
+Candidate confirmation, personal attestations, issue creation, survey
+completion, external contact, submission, review, acceptance, and JOSS
+referral remain separate human gates.
 
 ---
 

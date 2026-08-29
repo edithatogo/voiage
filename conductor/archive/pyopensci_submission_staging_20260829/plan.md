@@ -11,11 +11,11 @@
   - [x] Implement the submission-staging validator and pass the focused tests. (`be03cf7f`)
   - [x] **Review Fixes:** Reject incomplete human-attestation and external-action key sets. (`e0e4a51d`)
   - [x] **Review Fixes:** Remove Markdown trailing spaces and rebind the draft digest. (`37373672`)
-- [~] **Phase 3: Assurance and Delivery**
+- [x] **Phase 3: Assurance and Delivery** [checkpoint: `485136ba`]
   - [x] Run submission, package, documentation, security, and distribution-identity preflight checks. (`3bcc1932`)
   - [x] **Review Fixes:** Correct the evidence-validator invocation and normalize the unpublished invalid hash chain with an explicit audit record. (`c0387fdc`)
   - [x] **Review Fixes:** Remove the specification's extra blank line at EOF. (`60d61eb7`)
   - [x] Run full project assurance and automated review. (`d52c4e9e`)
-  - [~] Commit, open a pull request, and obtain green hosted checks without merging or submitting externally.
+  - [x] Commit, open a pull request, and obtain green hosted checks without merging or submitting externally. (`71b1b572`)
   - [x] **Review Fixes:** Refresh the changelog digest pinned by the distributional-information evidence fixture after narrative synchronization. (`6249e9df`)
   - [x] **Review Fixes:** Enforce every pending human draft marker and reject checked duplicates identified by PR review. (`968c7f1a`)
