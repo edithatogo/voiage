@@ -40,9 +40,9 @@ whether that contribution and repository layout fit rOpenSci review scope.
   pass without an ambient `voiage` shared library.
 - Direct `covr` execution reports 89.47% line coverage.
 - The pinned repository-aware `pkgcheck` passes package metadata, examples,
-  vignettes, statistical standards, and `R CMD check`. Its remaining CI lookup
-  can only observe the renamed `R CMD Check and Retained Bindings CI` workflow
-  after that workflow has run on the default branch.
+  vignettes, statistical standards, 89.5% coverage, `R CMD check`, and the
+  public default-branch `R CMD Check and Retained Bindings CI` workflow at
+  merged revision `b7c58db2e58eb11e24119d6c919a10f349358c5d`.
 
 ## Questions for an editor
 
@@ -58,8 +58,7 @@ whether that contribution and repository layout fit rOpenSci review scope.
 ## Unperformed actions and remaining authority
 
 This draft has not been posted, submitted, or sent to rOpenSci. Before any
-maintainer-authorized inquiry, refresh the author guide, confirm the default-
-branch CI and fully green `pkgcheck` result, review package lifecycle and
-support commitments, and confirm that contemporaneous pyOpenSci or JOSS review
+maintainer-authorized inquiry, refresh the author guide, review package
+lifecycle and support commitments, and confirm that contemporaneous pyOpenSci or JOSS review
 does not conflict with rOpenSci policy. Editorial scope advice, review,
 acceptance, and onboarding remain external decisions.

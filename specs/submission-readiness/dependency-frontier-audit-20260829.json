@@ -113,9 +113,10 @@
     {
       "id": "DEP-002",
       "severity": "high",
-      "state": "open",
+      "state": "resolved_preview_observed",
       "summary": "Core upper bounds exclude SciPy 1.18, pandas 3.0, and xarray 2026 without a current compatibility report, while the JAX, Griffe, and Ruff lanes also stop before their latest release families.",
-      "required_disposition": "Exercise each blocked family in an isolated preview resolution and record breaking changes, numerical/serialization effects, performance, and rollback before promotion or renewed exclusion."
+      "required_disposition": "Exercise each blocked family in an isolated preview resolution and record breaking changes, numerical/serialization effects, performance, and rollback before promotion or renewed exclusion.",
+      "resolution": "Hosted run 33261056383 executed every named family after recording metadata-bound incompatibilities. SciPy 1.18, pandas 3, xarray 2026, JAX 0.11, and Griffe 2 passed their candidate-specific compatibility checks; Ruff 0.16 reported 20 newly enabled findings. No candidate was promoted, and the exact dispositions are retained in specs/submission-readiness/preview-observation-results-20260829.json."
     },
     {
       "id": "DEP-003",

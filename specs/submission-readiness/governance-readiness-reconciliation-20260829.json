@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "reviewed_on": "2026-08-29",
+  "repository_controls": [
+    {"id": "governance", "status": "satisfied", "evidence": ["GOVERNANCE.md"]},
+    {"id": "maintenance-policy", "status": "satisfied", "evidence": ["GOVERNANCE.md", "SUPPORT.md", "docs/release/pyopensci-readiness.md"]},
+    {"id": "contribution-and-conduct", "status": "satisfied", "evidence": ["CONTRIBUTING.md", "CODE_OF_CONDUCT.md"]},
+    {"id": "security-reporting", "status": "satisfied", "evidence": ["SECURITY.md"]},
+    {"id": "ai-transparency", "status": "satisfied", "evidence": ["CONTRIBUTING.md", "paper.md", "paper/joss-editorial-assurance.json"]},
+    {"id": "support-scope", "status": "satisfied", "evidence": ["SUPPORT.md", "docs/astro-site/src/content/docs/developer-guide/community-support.mdx"]},
+    {"id": "registry-and-archive-contracts", "status": "satisfied", "evidence": ["specs/submission-readiness/targets.json", "docs/release/registry_audit_snapshot.json", ".github/workflows/release.yml"]}
+  ],
+  "external_or_human_gates": [
+    {"id": "multi_person_governance", "status": "pending_external_adoption"},
+    {"id": "community_engagement", "status": "pending_human_and_external_evidence"},
+    {"id": "scientific_peer_review", "status": "not_started"},
+    {"id": "source_and_citation_confirmation", "status": "pending_human_verification"},
+    {"id": "badge_registry_and_archive_actions", "status": "not_performed"},
+    {"id": "venue_submission_and_editorial_decisions", "status": "not_performed"}
+  ],
+  "maintenance_model": "best_effort_solo_maintainer_with_auditable_pull_requests_and_automated_required_checks",
+  "repository_readiness": "satisfied",
+  "external_readiness": "pending",
+  "external_action_performed": false
+}

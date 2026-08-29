@@ -4,7 +4,7 @@
   "type": "refactor",
   "status": "in_progress",
   "created_at": "2026-08-29T05:36:14Z",
-  "updated_at": "2026-08-29T10:48:00Z",
+  "updated_at": "2026-08-29T16:10:00Z",
   "description": "Consolidate and complete all repository-owned pre-submission hardening, current gap analysis, dependency and CI acceleration, polyglot API/ABI repair, and pyOpenSci, rOpenSci, and JOSS readiness.",
   "evidence_schema": "1.0",
   "approval": {
@@ -24,9 +24,10 @@
       "https://github.com/edithatogo/voiage/issues/1024"
     ],
     "pull_requests": [
-      "https://github.com/edithatogo/voiage/pull/1034"
+      "https://github.com/edithatogo/voiage/pull/1034",
+      "https://github.com/edithatogo/voiage/pull/1035"
     ],
-    "pull_request_evidence": "draft implementation candidate; hosted exact-head validation remains in progress"
+    "pull_request_evidence": "PR #1034 merged after exact-head assurance; PR #1035 is the post-merge observation and closeout repair candidate"
   },
   "gates": [
     {

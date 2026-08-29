@@ -95,20 +95,20 @@
 - [x] **P4-T3 / AC-06:** Map every applicable rOpenSci statistical standard with
   item-level `@srrstats` or justified `@srrstatsNA` evidence. (`4445db05`,
   `f141776e`)
-- [~] **P4-T4 / AC-06:** Repair the repository `pkgcheck` runner and pass
+- [x] **P4-T4 / AC-06:** Repair the repository `pkgcheck` runner and pass
   `pkgcheck`, coverage, examples, vignettes, and `R CMD check --as-cran` on the
   supported platform matrix.
 - [x] **P4-T5 / AC-05, AC-06:** Validate and document Julia, C ABI, and Python
   installed-package compatibility against shared numerical fixtures.
   (`01e89717`, `250aac07`)
-- [ ] **P4-T6 / AC-05, AC-06:** Run automated phase review and validation
+- [x] **P4-T6 / AC-05, AC-06:** Run automated phase review and validation
   checkpoint.
 
 ## Phase 5 — Dependency, CI/CD, and test-performance improvements
 
-- [~] **P5-T1 / AC-07:** Implement accepted stable dependency updates and keep
+- [x] **P5-T1 / AC-07:** Implement accepted stable dependency updates and keep
   experimental/preview dependencies in named non-blocking lanes.
-- [~] **P5-T2 / AC-07:** Prove numerical equivalence, Arrow round trips,
+- [x] **P5-T2 / AC-07:** Prove numerical equivalence, Arrow round trips,
   CPU fallback, compatibility, provenance, and security for each promoted
   dependency or preview feature.
 - [x] **P5-T3 / AC-08:** Apply measured Python test optimizations, including
@@ -121,10 +121,10 @@
   caches, reusable artifacts, concurrency cancellation, and focused PR lanes
   while preserving the full release gate. (`bf72cd63`, `d47e0473`, `741cb25a`,
   `97b26ee5`)
-- [~] **P5-T6 / AC-08:** Re-run the profiling and timing matrix, quantify the
+- [x] **P5-T6 / AC-08:** Re-run the profiling and timing matrix, quantify the
   improvement, and demonstrate unchanged correctness, coverage, and required
-  gate semantics. (`188e3eed`; green exact-head hosted timing remains pending.)
-- [ ] **P5-T7 / AC-07, AC-08:** Run automated phase review and validation
+  gate semantics. (`188e3eed`, `7c63bf49`.)
+- [x] **P5-T7 / AC-07, AC-08:** Run automated phase review and validation
   checkpoint.
 
 ## Phase 6 — Venue, manuscript, governance, and release alignment
@@ -139,13 +139,13 @@
   citation/source audit, research-use boundary, and current review criteria.
   (`f82b9a87`; SourceRight retains six identifier warnings and human source
   verification as explicit non-repository authority.)
-- [ ] **P6-T4 / AC-09:** Bind the Python, Rust, R, Julia, docs, JOSS manuscript,
+- [x] **P6-T4 / AC-09:** Bind the Python, Rust, R, Julia, docs, JOSS manuscript,
   arXiv source, SBOM, provenance, and release evidence to the exact final
   candidate version and revision.
-- [ ] **P6-T5 / AC-04, AC-09:** Reconcile governance, sustainability, support,
+- [x] **P6-T5 / AC-04, AC-09:** Reconcile governance, sustainability, support,
   contribution, AI-transparency, badge, registry, and archival readiness
   without performing external actions.
-- [ ] **P6-T6 / AC-09:** Run automated phase review and validation checkpoint.
+- [x] **P6-T6 / AC-09:** Run automated phase review and validation checkpoint.
 
 ## Phase 7 — Whole-programme assurance and submission freeze
 

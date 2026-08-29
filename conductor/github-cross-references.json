@@ -5496,14 +5496,22 @@
         {
           "number": 1034,
           "url": "https://github.com/edithatogo/voiage/pull/1034",
+          "status": "merged",
+          "evidence": [
+            "implementation-merged-b7c58db2",
+            "hosted-exact-head-66-success-5-skipped-0-failed"
+          ]
+        },
+        {
+          "number": 1035,
+          "url": "https://github.com/edithatogo/voiage/pull/1035",
           "status": "draft",
           "evidence": [
-            "implementation-candidate",
-            "hosted-exact-head-validation-in-progress"
+            "post-merge-observation-and-closeout-repair-candidate"
           ]
         }
       ],
-      "pull_request_evidence": "draft implementation candidate; hosted exact-head validation remains in progress"
+      "pull_request_evidence": "PR #1034 merged after exact-head assurance; PR #1035 remains the closeout candidate"
     }
   ]
 }

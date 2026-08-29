@@ -117,7 +117,7 @@
         {"id": "statistical-standards-map", "status": "satisfied", "evidence": ["specs/submission-readiness/ropensci-evidence.json", "specs/submission-readiness/ropensci-standards-mapping.md", "r-package/voiageR/tests/testthat/test-zz-numerical-reference.R"]}
       ],
       "acceptance_evidence": ["rOpenSci pre-submission or review issue", "rOpenSci acceptance and onboarding record"],
-      "next_decision": "After the renamed R CMD Check workflow is observed on the default branch and pinned pkgcheck is fully green, a maintainer may separately decide whether to open the unposted pre-submission inquiry."
+      "next_decision": "The default-branch R CMD Check workflow and pinned pkgcheck are green. After a separately authorized future release binds the hardened source, a maintainer may separately decide whether to open the unposted pre-submission inquiry."
     },
     {
       "id": "r-journal",

@@ -78,10 +78,12 @@ source tracks.
 
 The project has a solid foundation with core VOI methods implemented, modern
 CI/CD, and automated publishing pipelines. The canonical pre-submission
-hardening programme has completed its requirements/gap baseline and
-architecture disposition. Core API/ABI and integration/data repairs are in
-progress; standalone R/polyglot packaging, measured CI optimization, venue
-alignment, and whole-programme assurance remain before any submission.
+hardening programme has completed its requirements and whole-product gap
+analysis, accepted repository repairs, standalone R/polyglot assurance,
+measured CI optimization, and repository-controlled venue alignment. Final
+closeout is binding the post-merge observation evidence and archive state. The
+published v2.1.0 release predates this hardening, so a separately authorized
+future release remains necessary before any submission candidate is frozen.
 
 *   **Phase 1 (Foundation & API Refactoring):** ✅ **Complete** - Core OO API, data structures, CI/CD, and documentation are all in place.
 *   **Phase 2 (Health Economics Core):** ✅/🔄 **Stable analytical core complete; generic simulation developing** - EVPI, EVPPI, an analytical two-arm normal EVSI model, a coherent joint normal two-loop model with custom callback support, NMA VOI, structural VOI, and plotting are implemented. Generic two-loop and compatibility EVSI estimators remain non-stable pending method-specific convergence and parity evidence.
