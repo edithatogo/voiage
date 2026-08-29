@@ -4,7 +4,12 @@ source_package_root <- function() {
     winslash = "/",
     mustWork = FALSE
   )
-  if (file.exists(file.path(candidate, "DESCRIPTION"))) {
+  source_markers <- c(
+    file.path(candidate, "DESCRIPTION"),
+    file.path(candidate, "README.md"),
+    file.path(candidate, "man")
+  )
+  if (all(file.exists(source_markers))) {
     return(candidate)
   }
   NULL
