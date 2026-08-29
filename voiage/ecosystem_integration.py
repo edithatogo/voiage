@@ -1106,6 +1106,5 @@ def convert_treeage_to_voi(file_path: str) -> dict[str, Any]:
     if not isinstance(treeage_connector, TreeAgeConnector):
         raise_type_error("TreeAge connector is unavailable.")
 
-    assert isinstance(treeage_connector, TreeAgeConnector)
     model_structure = treeage_connector.import_treeage_model(file_path)
     return treeage_connector.convert_to_voi_analysis(model_structure)

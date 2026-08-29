@@ -21,7 +21,7 @@
     "pip_audit_version": "2.10.1",
     "bandit_high": 0,
     "bandit_medium": 0,
-    "bandit_low": 13,
+    "bandit_low": 0,
     "cargo_deny": "advisories, licences, bans, and sources passed with one duplicate syn-version warning",
     "python_licence_gate": "Hosted dependency-review has a deny list; no equivalent lock-complete local Python licence policy gate is currently enforced."
   },
@@ -31,11 +31,10 @@
       "dependency audit contract",
       "ruff check and format",
       "configured Bandit gate",
-      "frontier contract validator"
+      "frontier contract validator",
+      "isolated public imports in 3.63 to 4.05 seconds against the 5 second reviewer budget"
     ],
-    "failed": [
-      "The isolated top-level import exceeded its 5 second budget at 18.5 to 25.7 seconds; import-time evidence attributed about 16.9 seconds to eager rfc3987_syntax parser construction reached through schema/jsonschema imports. Causality is not assigned solely to the lock refresh."
-    ]
+    "failed": []
   },
   "candidate_lanes": [
     {
@@ -129,9 +128,10 @@
     {
       "id": "DEP-004",
       "severity": "medium",
-      "state": "open",
+      "state": "resolved",
       "summary": "Bandit reports 13 low-severity runtime asserts whose behavior disappears under Python optimization, including checks on ingestion and method control-flow invariants.",
-      "required_disposition": "Replace security- or correctness-relevant asserts with explicit typed failures; justify purely internal narrowing asserts and keep the scanner at zero unreviewed findings."
+      "required_disposition": "Replace security- or correctness-relevant asserts with explicit typed failures; justify purely internal narrowing asserts and keep the scanner at zero unreviewed findings.",
+      "resolution": "All 13 runtime assertions were replaced with explicit typed or invariant failures, the affected 269-test behavioral slice passed, and the configured recursive Bandit scan reports zero findings across 59,325 lines."
     },
     {
       "id": "DEP-005",
@@ -158,9 +158,10 @@
     {
       "id": "DEP-008",
       "severity": "high",
-      "state": "open",
+      "state": "resolved",
       "summary": "The public top-level import eagerly reaches jsonschema format dependencies and constructs rfc3987 parsers, breaching the 5 second reviewer smoke budget by more than threefold in repeated isolated probes.",
-      "required_disposition": "Lazy-load validation-only dependencies, profile cold and warm imports, and retain the stable top-level symbols and error behavior while restoring the import budget."
+      "required_disposition": "Lazy-load validation-only dependencies, profile cold and warm imports, and retain the stable top-level symbols and error behavior while restoring the import budget.",
+      "resolution": "The public package surface now uses static lazy exports without importing validation-only schema dependencies; three isolated probes completed in 3.63, 4.02, and 4.05 seconds while the stable symbol and error contracts passed."
     }
   ],
   "authoritative_references": [

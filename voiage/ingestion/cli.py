@@ -206,7 +206,8 @@ def _inspection_summary(
         raise IngestionError("descriptor does not match explicitly selected provider")
     capabilities = cast("dict[str, object]", inspection["capabilities"])
     raw = json.loads(descriptor.read_text(encoding="utf-8"))
-    assert isinstance(raw, dict)  # Registry inspection has already checked this.
+    if not isinstance(raw, dict):
+        raise IngestionError("descriptor root must be an object")
     return {
         "binding_resolution": None,
         "capabilities": {

@@ -207,7 +207,10 @@ class SelectionUncertaintyV1(ContractModel):
                 raise ValueError(
                     "joint replicate uncertainty requires calibration status"
                 )
-            assert self.selection_count_by_design is not None
+            if self.selection_count_by_design is None:
+                raise ValueError(
+                    "joint replicate uncertainty requires selection counts"
+                )
             if any(value < 0 for value in self.selection_count_by_design.values()):
                 raise ValueError("selection counts must be non-negative")
             if sum(self.selection_count_by_design.values()) != self.replicate_count:
@@ -581,7 +584,8 @@ class InformationEfficiencyRequestV1(ContractModel):
         if (paired[0] is None) != (paired[1] is None):
             raise ValueError("EVSI and EVPI uncertainty replicates must be paired")
         if paired[0] is not None:
-            assert paired[1] is not None
+            if paired[1] is None:
+                raise ValueError("EVSI and EVPI uncertainty replicates must be paired")
             if len(paired[0]) != len(paired[1]) or len(paired[0]) < 2:
                 raise ValueError(
                     "at least two paired efficiency replicates are required"

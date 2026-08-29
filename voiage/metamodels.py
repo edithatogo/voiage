@@ -582,7 +582,8 @@ class TinyGPMetamodel:  # pragma: no cover
         """Predict the target values for the given input parameters."""
         if self.gp is None:
             raise_runtime_error("The model has not been fitted yet.")
-        assert self.y_train is not None
+        if self.y_train is None:
+            raise_runtime_error("The fitted model is missing its training targets.")
 
         x_np = np.array(list(x.parameters.values())).T
         _, cond = self.gp.condition(self.y_train, x_np)
