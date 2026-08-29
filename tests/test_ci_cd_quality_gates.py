@@ -360,9 +360,10 @@ class TestQualityGatePolicyCompliance:
             encoding="utf-8"
         )
 
-        assert workflow_text.count(
-            "cargo build --release --locked --package voiage-ffi"
-        ) == 1
+        assert (
+            workflow_text.count("cargo build --release --locked --package voiage-ffi")
+            == 1
+        )
         assert "Build the Rust C ABI used by Julia" in workflow_text
         assert "Build the Rust C ABI used by R" not in workflow_text
 

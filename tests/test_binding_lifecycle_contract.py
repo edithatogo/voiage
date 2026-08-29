@@ -88,7 +88,9 @@ def test_retained_bindings_declare_supported_runtime_versions_and_ci_probes() ->
 
 def test_julia_development_jobs_receive_the_built_ffi_library() -> None:
     for workflow in (_workflow_text(), _release_workflow_text()):
-        assert workflow.count("cargo build --release --locked --package voiage-ffi") >= 1
+        assert (
+            workflow.count("cargo build --release --locked --package voiage-ffi") >= 1
+        )
         assert workflow.count("VOIAGE_FFI_LIBRARY:") >= 1
         assert "rust/target/release/libvoiage_ffi.so" in workflow
     assert "Build the Rust C ABI used by R" not in _workflow_text()
