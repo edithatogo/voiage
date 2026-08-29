@@ -157,3 +157,4 @@ def test_binding_caches_are_lock_and_toolchain_keyed() -> None:
     assert "hashFiles('r-package/voiageR/src/rust/Cargo.lock')" in workflow
     assert "${{ matrix.julia }}" in workflow
     assert "${{ matrix.rust_target }}" in workflow
+    assert workflow.startswith("name: R CMD Check")

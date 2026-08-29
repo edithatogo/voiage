@@ -1,4 +1,4 @@
-name: Retained Bindings CI
+name: R CMD Check and Retained Bindings CI
 
 on:
   merge_group:
