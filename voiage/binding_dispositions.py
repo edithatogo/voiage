@@ -8,6 +8,7 @@ R, Julia, and Mojo.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import importlib
 import json
 from pathlib import Path
 from typing import Any
@@ -29,7 +30,8 @@ class LanguageBindingDisposition:
     language : str
         Target language ("python", "rust", "r", "julia", "mojo").
     status : str
-        Implementation state ("implemented", "contract_only", "adapter", "unsupported", "upstream_blocked").
+        Implementation state ("implemented", "internal", "contract_only",
+        "adapter", "unsupported", "upstream_blocked").
     symbol : str
         Exported symbol, type, or schema reference.
     interchange : str
@@ -128,8 +130,15 @@ def get_binding_disposition(
 
 def validate_binding_dispositions_manifest(
     manifest_path: Path | None = None,
+    *,
+    resolve_symbols: bool = False,
 ) -> bool:
-    """Validate that the manifest has required keys and valid status values."""
+    """Validate manifest structure and, optionally, its resolvable claims.
+
+    Symbol resolution is deliberately limited to shipped Python symbols and
+    repository contract files. Internal Rust types are classified separately
+    from public binding surfaces and are exercised by Rust's native tests.
+    """
     path = manifest_path or _DEFAULT_MANIFEST_PATH
     if not path.is_file():
         raise_input_error(f"Binding dispositions manifest not found at {path}")
@@ -137,6 +146,7 @@ def validate_binding_dispositions_manifest(
     raw = json.loads(path.read_text(encoding="utf-8"))
     valid_statuses = {
         "implemented",
+        "internal",
         "contract_only",
         "adapter",
         "unsupported",
@@ -149,6 +159,7 @@ def validate_binding_dispositions_manifest(
         raise_input_error("Manifest contains no contracts.")
 
     for cid, cdata in contracts.items():
+        schema = str(cdata.get("schema", ""))
         disps = cdata.get("dispositions", {})
         for lang, ldata in disps.items():
             if lang not in valid_languages:
@@ -157,5 +168,33 @@ def validate_binding_dispositions_manifest(
                 raise_input_error(
                     f"Invalid status '{ldata.get('status')}' for {lang} in {cid}"
                 )
+            status = str(ldata.get("status"))
+            symbol = str(ldata.get("symbol", ""))
+            reason = str(ldata.get("reason", ""))
+            if status in {"unsupported", "upstream_blocked"} and not reason:
+                raise_input_error(f"Missing reason for {status} {lang} in {cid}")
+            if not resolve_symbols:
+                continue
+            if status == "implemented" and lang == "python":
+                module_name, separator, attribute = symbol.rpartition(".")
+                if not separator or not module_name or not attribute:
+                    raise_input_error(
+                        f"Invalid Python symbol '{symbol}' for {lang} in {cid}"
+                    )
+                try:
+                    module = importlib.import_module(module_name)
+                    getattr(module, attribute)
+                except (AttributeError, ImportError):
+                    raise_input_error(
+                        f"Unresolvable Python symbol '{symbol}' for {cid}"
+                    )
+            elif status == "contract_only":
+                contract_path = _ROOT / symbol
+                if not symbol or not contract_path.is_file():
+                    raise_input_error(
+                        f"Unresolvable contract '{symbol}' for {lang} in {cid}"
+                    )
+        if not schema or not (_ROOT / schema).is_file():
+            raise_input_error(f"Missing schema for contract '{cid}': {schema}")
 
     return True

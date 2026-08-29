@@ -315,7 +315,7 @@ def test_roadmap_statuses_match_completed_cleanup_state() -> None:
     roadmap = _read("roadmap.md")
 
     for expected in (
-        "Current Status (As of July 2026)",
+        "Current Status (As of August 2026)",
         "Phase 4: Ecosystem, Community & Future Ports ✅/🔄 **REPOSITORY COMPLETE, EXTERNAL GATES EXPLICIT**",
         "Phase 5: Spec, Fixtures & Polyglot Bindings ✅ **COMPLETE**",
         "Phase 6: Ecosystem Integrations ✅ **COMPLETE**",

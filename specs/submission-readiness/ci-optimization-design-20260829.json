@@ -1,0 +1,187 @@
+{
+  "schema_version": "1.0.0",
+  "frozen_on": "2026-08-29",
+  "track_id": "pre_submission_comprehensive_hardening_20260829",
+  "status": "normative_target",
+  "evidence_basis": {
+    "baseline": "specs/submission-readiness/test-ci-performance-baseline-20260829.json",
+    "profile": "specs/submission-readiness/scalene-test-profile-20260829.json",
+    "dependency_policy": "specs/submission-readiness/dependency-promotion-policy-20260829.json",
+    "observed_parallel_reduction_percent": 83.41,
+    "known_parallel_blocker": "tests/test_risk_sensitive_voi.py::test_cli_text_output_reports_saved_result",
+    "rule": "No optimization may be enabled as authoritative until serial and optimized selections produce the same outcomes and retained coverage evidence."
+  },
+  "workflow_classes": {
+    "pull_request": {
+      "target_feedback_minutes": 10,
+      "required": true,
+      "selection": "deterministic focused checks plus the authoritative Python shard set and affected language/package gates",
+      "cancellation": "Cancel only a superseded run for the same pull-request head lineage.",
+      "failure_visibility": "Every failed shard and serial group remains a separately named required check with uploaded reports."
+    },
+    "main": {
+      "required": true,
+      "selection": "full stable matrix with authoritative coverage, package, binding, documentation, security, and evidence gates",
+      "cancellation": "Do not cancel a started main validation run."
+    },
+    "release": {
+      "required": true,
+      "selection": "non-sharded full suite plus clean wheel, sdist, native binding, documentation, SBOM, provenance, and exact-artifact checks",
+      "cancellation": "Never cancel a tag, release, publication, or manually dispatched release-candidate validation run."
+    },
+    "preview": {
+      "required": false,
+      "selection": "isolated dependency, runtime, free-threaded, nextest, sccache, and serialization candidates",
+      "cancellation": "May cancel superseded observation runs; never emit release artifacts or satisfy stable required checks."
+    }
+  },
+  "python_execution": {
+    "authoritative_pr_mode": "focused supported-version compatibility lanes plus one full bounded-xdist coverage lane",
+    "worker_policy": {
+      "candidates": [4, 6, 8],
+      "selection_rule": "Benchmark cold and warm wall time and peak RSS on hosted runners; choose the fastest count within the memory budget and cap automatic selection at the measured winner.",
+      "prohibited": "Unbounded -n auto is not authoritative because runner CPU count does not express memory capacity."
+    },
+    "deterministic_sharding": {
+      "algorithm": "Assign each collected pytest node ID to the unsigned first 64 bits of its SHA-256 digest modulo the declared shard count; retain xdist work-stealing only within each fixed cross-runner partition.",
+      "inputs": ["source head", "pytest node ID", "declared shard count", "algorithm version"],
+      "receipt": ["algorithm version", "inputs", "shard membership", "node counts", "actual durations", "outcomes", "coverage artifact SHA-256"],
+      "forbidden_inputs": ["Python hash()", "filesystem enumeration order", "wall-clock time", "random seed not recorded"],
+      "drift_rule": "A collected node absent from every shard, duplicated across shards, or changed after collection fails the fan-in gate."
+    },
+    "serial_groups": {
+      "initial_membership": [
+        "tests that mutate process-global lazy-module state until repaired",
+        "pytest-benchmark workloads",
+        "tests that start nested full repository harnesses",
+        "release/publication bundle creation",
+        "tests requiring an exclusive local service or fixed output path"
+      ],
+      "promotion_rule": "Remove a test from the serial group only after repeated-order and xdist equivalence evidence."
+    },
+    "coverage": {
+      "authoritative_lane": "one supported-Python full bounded-xdist coverage run on pull requests and main; deterministic cross-runner shards remain preview-only until hosted timing evidence supports promotion",
+      "merge": "The stable single-run lane needs no cross-runner merge; any preview shard fan-in must reject missing inputs before it can be considered for promotion.",
+      "compatibility_lanes": "Run focused no-coverage suites on the remaining supported Python versions.",
+      "operational_assurance": "Consume the authoritative coverage receipt when the exact source head and selection digest match; otherwise collect its own authoritative full coverage.",
+      "release": "Run a fresh non-sharded full coverage gate; never rely solely on change selection."
+    }
+  },
+  "change_selection": {
+    "role": "additive early feedback only",
+    "mapping": {
+      "python": ["voiage/**", "tests/**", "pyproject.toml", "uv.lock", "tox.ini"],
+      "rust": ["rust/**", "Cargo.lock", "bindings/**", "r-package/**"],
+      "r": ["r-package/**", "rust/**", "bindings/fixtures/**"],
+      "julia": ["bindings/julia/**", "rust/**", "bindings/fixtures/**"],
+      "docs_and_papers": ["docs/**", "paper/**", "joss-paper/**", "specs/**", "voiage/**"],
+      "governance_and_workflows": [".github/**", "conductor/**", "scripts/**", "AGENTS.md", "CONTRIBUTING.md"]
+    },
+    "fail_closed": "An unclassified changed path selects all stable lanes. Main, release, scheduled assurance, and explicit full-validation dispatches ignore change-based omission."
+  },
+  "artifact_dag": [
+    {
+      "id": "source-and-lock-identity",
+      "produces": ["source manifest", "lock digests", "toolchain identity"],
+      "consumers": ["all jobs"]
+    },
+    {
+      "id": "python-wheel",
+      "produces": ["wheel", "wheel SHA-256", "build log"],
+      "consumers": ["Python black-box", "CLI", "integration", "documentation extraction"],
+      "reuse_rule": "Consumers verify the source-head, interpreter ABI, platform tag, and digest before install."
+    },
+    {
+      "id": "native-ffi",
+      "produces": ["versioned native library", "symbol manifest", "library SHA-256"],
+      "consumers": ["C ABI", "R installed-package", "Julia installed-package"],
+      "reuse_rule": "Only same-platform and same-toolchain consumers may reuse it; installed-package tests invoke exported symbols."
+    },
+    {
+      "id": "documentation-inputs",
+      "produces": ["generated API and capability data", "input manifest"],
+      "consumers": ["Astro check", "Astro build", "link validation"],
+      "reuse_rule": "Generate once per exact source head and verify the manifest before each consumer."
+    },
+    {
+      "id": "coverage-fan-in",
+      "produces": ["combined coverage", "coverage policy receipt"],
+      "consumers": ["required-check fan-in", "operational assurance when exact-head compatible"],
+      "reuse_rule": "Reject absent, duplicate, stale-head, or selection-mismatched shard inputs."
+    }
+  ],
+  "cache_policy": {
+    "allowed": {
+      "uv": ["runner OS", "architecture", "Python version", "uv.lock SHA-256", "uv version"],
+      "rust_target": ["runner OS", "architecture", "rust-toolchain", "Cargo.lock SHA-256", "feature set", "profile"],
+      "sccache_preview": ["runner OS", "architecture", "rustc commit", "Cargo.lock SHA-256", "feature set", "sccache version"],
+      "julia_depot": ["runner OS", "architecture", "Julia version", "Project.toml SHA-256", "Manifest.toml SHA-256"],
+      "r_library": ["runner OS", "architecture", "R version", "package dependency-lock SHA-256"],
+      "pnpm_store": ["runner OS", "architecture", "Node version", "pnpm version", "pnpm-lock.yaml SHA-256"]
+    },
+    "restore_rule": "Restore exact keys first; partial restore is permitted only for immutable download caches and must still execute install/build verification.",
+    "never_cache": ["test outcomes", "coverage policy decisions", "release attestations", "Conductor evidence entries", "secrets", "unverified built release artifacts"],
+    "poisoning_controls": ["pin actions by commit", "do not save caches from untrusted forks", "separate preview and stable namespaces", "verify artifact digests", "never treat a cache hit as validation"]
+  },
+  "native_and_docs_execution": {
+    "rust": {
+      "stable": "cargo test workspace and required coverage remain authoritative",
+      "preview": ["cargo-nextest deterministic partitions", "cargo-nextest archive reuse", "sccache"],
+      "promotion": "Require identical test inventory/outcomes, archive provenance, coverage preservation, cold/warm timings, and stable cargo fallback."
+    },
+    "r": {
+      "stable": "Build one exact versioned source package and pass its path explicitly to pkgcheck and R CMD check jobs.",
+      "cache": "Cache dependency libraries only; never glob or cache source archives or check results."
+    },
+    "julia": {
+      "stable": "Fast numerical smoke may precede full package tests; full Aqua and clean installed-artifact validation remain required before release.",
+      "cache": "Cache a lock-keyed depot and precompile environment; do not cache test outcomes."
+    },
+    "docs": {
+      "stable": "Reuse one generated input artifact and one lock-keyed pnpm store while retaining Astro check, build, and link validation.",
+      "avoidance": "Do not recreate a tox environment merely to repeat an already verified exact-head dependency install."
+    }
+  },
+  "profiling_and_measurement": {
+    "python": "Use Scalene for bounded representative workloads with CPU-only mode where memory instrumentation is unstable; complement with pytest durations, importtime, wall time, and peak RSS.",
+    "native": "Use cargo timings/nextest reports, R check timings, Julia test timing and precompile reports, and Astro/pnpm step timings.",
+    "benchmark_matrix": ["cold cache", "warm cache", "serial reference", "4 workers", "6 workers", "8 workers"],
+    "acceptance": ["same outcomes", "same collected inventory", "coverage thresholds preserved", "no hidden failed shard", "peak memory within runner budget", "measured wall-time improvement", "exact commands and source head recorded"],
+    "regression_policy": "A statistically or operationally material regression blocks promotion or restores the previous stable execution path."
+  },
+  "required_fan_in": [
+    "all expected deterministic shards present and green",
+    "all declared serial groups present and green",
+    "authoritative coverage inputs complete and policy passed",
+    "affected installed-package and language-native gates green",
+    "security, licence, lock, and evidence checks green",
+    "artifact and source-head identities agree",
+    "no preview job is counted as a stable required check"
+  ],
+  "implementation_order": [
+    "repair serial/parallel outcome divergence and eager imports",
+    "optimize tracked-file harness traversal and safe subprocess duplication",
+    "benchmark bounded xdist worker counts and freeze a duration receipt",
+    "implement deterministic Python shard generation and fail-closed fan-in",
+    "consolidate authoritative coverage and focused compatibility lanes",
+    "extract exact-head wheel, native, documentation, and coverage artifacts",
+    "apply lock- and toolchain-keyed caches with poisoning controls",
+    "qualify nextest, sccache, Julia depot, and preview-runtime lanes",
+    "re-run cold/warm local and hosted timing matrix",
+    "retain a non-sharded release validation path"
+  ],
+  "finding_closure": {
+    "PERF-001": "Repair order dependence, benchmark bounded workers, and retain the non-sharded release gate.",
+    "PERF-002": "Consolidate authoritative coverage and use focused compatibility lanes with exact-head receipts.",
+    "PERF-003": "Limit harness traversal to tracked files with a reviewed fallback.",
+    "PERF-004": "Restore lazy imports, consolidate safe subprocess probes, and reuse exact-head build artifacts.",
+    "PERF-005": "Reuse generated documentation inputs and lock-keyed dependency stores while retaining all docs gates.",
+    "PERF-006": "Use safe native-language caches and split early smoke from required full package assurance.",
+    "PERF-007": "Build and check one exact R source artifact without archive globs.",
+    "PROF-001": "Prioritize lazy schema imports and retain the five-second public-import gate.",
+    "PROF-002": "Replace whole-tree harness scans with tracked-file traversal and require identical marker detection.",
+    "PROF-003": "Profile and optimize bootstrap generation without changing fixed-seed numerical semantics.",
+    "PROF-004": "Consolidate safe subprocess probes and reuse exact-head build artifacts without losing clean-process isolation.",
+    "PROF-005": "Repair parallel order dependence and benchmark bounded 4, 6, and 8 worker lanes against the serial outcome."
+  }
+}

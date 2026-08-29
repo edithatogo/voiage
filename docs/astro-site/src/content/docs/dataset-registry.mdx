@@ -3,8 +3,10 @@ title: Dataset Registry
 description: Dataset sources, licensing, citations, and refresh policy
 ---
 
-This page describes the `voiage` dataset registry, including synthetic
-datasets and open-data source mappings.
+This page describes the fixture-only `voiage` dataset registry, including
+synthetic examples and non-executable open-data source mappings. The small
+JSON files are repository-authored illustrative metadata fixtures; they are
+not source-data snapshots and do not prove compatibility with a live source.
 
 ## Licensing
 
@@ -24,14 +26,15 @@ When using data from this registry in published work, cite both the original
 data source listed in `specs/dataset-registry/registry.json` and the `voiage`
 library.
 
-## Transforms
+## Transform status
 
-Live refresh and transformation scripts are located in
-`specs/dataset-registry/transforms/`. They download the latest data from each
-source and produce the snapshot files used by tests and examples.
+The repository does not provide live refresh scripts. The transform directory
+records the fail-closed promotion requirements for a future source-specific
+implementation; network access is denied by default.
 
 ## Refresh policy
 
-Snapshots in `specs/dataset-registry/snapshots/` are updated as needed.
-Re-running the transform scripts produces fresh snapshots that can be reviewed
-and committed when data sources change.
+Illustrative fixtures in `specs/dataset-registry/snapshots/` are hash-bound in
+the registry. A future refresh workflow must preserve raw-source receipts,
+rights, deterministic transformation, and drift evidence before its output can
+replace the fixture-only status.

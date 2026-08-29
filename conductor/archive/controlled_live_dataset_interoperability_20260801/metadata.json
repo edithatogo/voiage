@@ -1,0 +1,46 @@
+{
+  "track_id": "controlled_live_dataset_interoperability_20260801",
+  "version": "1.0.0",
+  "type": "feature",
+  "status": "completed",
+  "created_at": "2026-08-01T04:30:00Z",
+  "updated_at": "2026-08-29T05:52:00Z",
+  "description": "Add narrowly controlled, opt-in live interoperability probes for approved Croissant and Frictionless datasets.",
+  "evidence_schema": "1.0",
+  "owner_repo": "edithatogo/voiage",
+  "approval": {
+    "status": "approved",
+    "approved_on": "2026-08-01",
+    "recorded_at": "2026-08-01T04:30:00Z",
+    "evidence": "User approved the staged strict-local closure recommendation and creation of successor tracks."
+  },
+  "github_parent_issue": "https://github.com/edithatogo/voiage/issues/325",
+  "github_issue": "https://github.com/edithatogo/voiage/issues/752",
+  "github_project": "https://github.com/users/edithatogo/projects/28",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/752",
+    "parent_issue": "https://github.com/edithatogo/voiage/issues/325",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/817"
+    ],
+    "pull_request_evidence": "track_delivery"
+  },
+  "gates": [
+    {
+      "id": "source-rights-and-use-authority",
+      "kind": "external",
+      "status": "pending",
+      "evidence": "Approved rights-cleared descriptor/resource packets and explicit authority are required before network I/O."
+    },
+    {
+      "id": "hosted-required-checks",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "PR #817 exact head d40f5b617df847fe517759f5892a1562f25bc4d9 completed 32 successful checks, three governed skips and one neutral check before squash merge 33537325ad7262dc15bcddb4283a6aa51cfdb323."
+    }
+  ],
+  "legacy_outcome": "superseded",
+  "superseded_by": "pre_submission_comprehensive_hardening_20260829",
+  "supersession_evidence": "conductor/tracks/pre_submission_comprehensive_hardening_20260829/migration-manifest.md"
+}

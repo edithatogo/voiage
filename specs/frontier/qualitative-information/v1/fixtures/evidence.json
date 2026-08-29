@@ -13,7 +13,7 @@
   "artifacts": [
     {
       "path": "scripts/export_qualitative_information_contracts.py",
-      "sha256": "b0a2448dc60ee997ab084f6a88d3785a1d8a916b2b543bcf0dcabc1d52238d64"
+      "sha256": "545e1242a974a31e2d2ebcea59327118c9604d36fe55c8f62ef3eee3371f411a"
     },
     {
       "path": "specs/frontier/qualitative-information/v1/README.md",
@@ -96,11 +96,11 @@
       "sha256": "78616d1967a0e3d5c260a5f341491a8bf8abae61f66a416a1c89048bff1e992d"
     },
     {
-      "path": "conductor/tracks/supported_frontier_method_completion_20260723/qualitative-voi-reference-review.md",
+      "path": "conductor/archive/supported_frontier_method_completion_20260723/qualitative-voi-reference-review.md",
       "sha256": "074f88ded09c9d750ffbc24ce71891759c405650eddbf38b1f923fddbedc9052"
     },
     {
-      "path": "conductor/tracks/supported_frontier_method_completion_20260723/qualitative-information-implementation-review.md",
+      "path": "conductor/archive/supported_frontier_method_completion_20260723/qualitative-information-implementation-review.md",
       "sha256": "974ad776643b212bd31306e3a31fca0ee4f3cd58ba812dd97d7c0d3a4b233438"
     }
   ]

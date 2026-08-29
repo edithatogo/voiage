@@ -1,0 +1,22 @@
+{
+  "schema_version": "2.0.0",
+  "status": "current",
+  "purpose": "Current method-level binding capability truth; this does not mutate the immutable v1 release packaging matrix.",
+  "source_of_truth": "specs/submission-readiness/target-architecture-freeze-20260829.json#capability_matrix",
+  "surfaces": ["python", "rust", "c_abi", "r", "julia"],
+  "capabilities": [
+    {"capability": "DecisionProblem", "python": "stable", "rust": "internal_domain_type", "c_abi": "unavailable", "r": "unavailable", "julia": "unavailable"},
+    {"capability": "ValueArray and ParameterSet", "python": "stable", "rust": "internal_domain_types", "c_abi": "raw_array_contract_only", "r": "native_language_inputs", "julia": "native_language_inputs"},
+    {"capability": "EVPI", "python": "stable_rust_backed", "rust": "stable", "c_abi": "stable_v1", "r": "stable_native", "julia": "stable_native"},
+    {"capability": "ENBS", "python": "stable_rust_backed", "rust": "stable", "c_abi": "stable_v1", "r": "stable_native", "julia": "stable_native"},
+    {"capability": "EVPPI", "python": "stable_rust_backed", "rust": "stable_kernel", "c_abi": "unavailable", "r": "compatibility_python_bridge", "julia": "unavailable"},
+    {"capability": "EVSI", "python": "stable_method_specific", "rust": "shared_kernels_plus_python_orchestration", "c_abi": "unavailable", "r": "compatibility_python_bridge", "julia": "unavailable"},
+    {"capability": "normal_normal_two_arm_evsi", "python": "stable_rust_backed", "rust": "stable", "c_abi": "unavailable", "r": "unavailable", "julia": "unavailable"},
+    {"capability": "CEAF", "python": "stable_rust_backed", "rust": "stable", "c_abi": "unavailable", "r": "unavailable", "julia": "unavailable"},
+    {"capability": "dominance", "python": "stable_rust_backed", "rust": "stable", "c_abi": "unavailable", "r": "unavailable", "julia": "unavailable"},
+    {"capability": "CLI, ingestion, plotting, and reporting", "python": "stable", "rust": "not_a_public_surface", "c_abi": "not_applicable", "r": "not_exposed", "julia": "not_exposed"},
+    {"capability": "experimental method namespace", "python": "experimental", "rust": "method_specific_internal_or_absent", "c_abi": "prohibited_without_promotion", "r": "not_exposed", "julia": "not_exposed"}
+  ],
+  "released_packaging_matrix": "specs/v1/binding-matrix.json",
+  "target_runtime_note": "The immutable v1 matrix records Julia 1.10 and 1.11; clean-package target assurance additionally covers Julia 1.12."
+}

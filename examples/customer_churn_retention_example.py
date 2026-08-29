@@ -31,6 +31,7 @@ from typing import Any
 
 import numpy as np
 
+from voiage.domain_templates import get_domain_template
 from voiage.methods.basic import evpi, evppi
 from voiage.methods.sample_information import enbs
 from voiage.schema import DecisionProblem, Intervention, ParameterSet, ValueArray
@@ -103,6 +104,7 @@ def generate_churn_dataset(
 
 def build_decision_problem() -> DecisionProblem:
     """Instantiate the canonical DecisionProblem schema representation."""
+    template = get_domain_template("churn_retention")
     interventions = [
         Intervention(
             intervention_id="status_quo",
@@ -127,7 +129,7 @@ def build_decision_problem() -> DecisionProblem:
 
     return DecisionProblem(
         decision_problem_id="churn_retention_campaign_2026",
-        title="Subscription Customer Retention Strategy Selection",
+        title=template.title,
         willingness_to_pay=1.0,
         interventions=interventions,
         currency="USD",

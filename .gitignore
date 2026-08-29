@@ -68,6 +68,7 @@ nosetests.xml
 coverage.xml
 coverage.json
 *_coverage.json
+/.assurance/
 *.cover
 *.py,cover
 .hypothesis/

@@ -1,0 +1,512 @@
+{
+  "schema_version": "1.0.0",
+  "dispositioned_on": "2026-08-29",
+  "track_id": "pre_submission_comprehensive_hardening_20260829",
+  "scope": "Canonical Phase 2 disposition of every Phase 1 finding, bounded analytical candidate, and migrated active-track work cluster. Disposition does not mean resolution.",
+  "allowed_dispositions": [
+    "must_fix",
+    "accepted_limitation",
+    "experimental_or_preview",
+    "reviewed_exclusion",
+    "external_gate",
+    "human_gate"
+  ],
+  "submission_policy": {
+    "must_fix": "Blocks repository readiness and every venue submission until resolved and validated.",
+    "accepted_limitation": "Does not block repository readiness only when the limitation is current, user-visible, bounded, and covered by regression evidence.",
+    "experimental_or_preview": "Does not block the stable package when isolated, non-blocking, honestly labelled, and governed by explicit promotion and rollback criteria.",
+    "reviewed_exclusion": "Does not block repository readiness when the exclusion has a dated rationale, user-facing boundary, and refresh trigger.",
+    "external_gate": "Blocks only the relevant external outcome; repository readiness must not claim the external action or result.",
+    "human_gate": "Blocks the relevant accountable judgment or attestation and cannot be manufactured from repository evidence."
+  },
+  "source_register": [
+    {
+      "path": "specs/submission-readiness/integration-data-workflow-audit-20260829.json",
+      "sha256": "403d142786085087c661c8daea6e885341736b8175ec3a61814b1e865a8cc716"
+    },
+    {
+      "path": "specs/submission-readiness/structure-api-abi-audit-20260829.json",
+      "sha256": "518b03f26565c732f9f2351ef96789917d4ecb5846e8ed45c798ec6096f52445"
+    },
+    {
+      "path": "specs/submission-readiness/dependency-frontier-audit-20260829.json",
+      "sha256": "c543d53227826235b1d8bb18a772ad88bfe3b164e4bec9bae70916486ce2f213"
+    },
+    {
+      "path": "specs/submission-readiness/test-ci-performance-baseline-20260829.json",
+      "sha256": "4784bcfef921fe7bc7c52610a197761bbd7740bf471617cec930d1ad0e65157c"
+    },
+    {
+      "path": "specs/submission-readiness/scalene-test-profile-20260829.json",
+      "sha256": "c6c996505840772c511f20b468ff786b784f3fd1926a14305ba19b02b3c3829f"
+    },
+    {
+      "path": "specs/software-landscape/refresh-20260829.md",
+      "sha256": "0b452ef095074c0b3fd1bd46f0618fe413e99d2c5a069738d73592d97016b000"
+    },
+    {
+      "path": "conductor/tracks/pre_submission_comprehensive_hardening_20260829/migration-manifest.md",
+      "sha256": "57ebae631e28c1d9e6de450736dd5ca016878d3c7b69f1df35a19ce35c98fcd9"
+    }
+  ],
+  "findings": [
+    {
+      "id": "DEP-001",
+      "source": "specs/submission-readiness/dependency-frontier-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P5-T1", "P5-T2"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "DEP-002",
+      "source": "specs/submission-readiness/dependency-frontier-audit-20260829.json",
+      "disposition": "experimental_or_preview",
+      "owner_boundary": "repository",
+      "validation_path": ["P5-T1", "P5-T2"],
+      "submission_impact": "does_not_block_if_preview_isolated"
+    },
+    {
+      "id": "DEP-003",
+      "source": "specs/submission-readiness/dependency-frontier-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P5-T1", "P7-T1"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "DEP-004",
+      "source": "specs/submission-readiness/dependency-frontier-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P3-T1", "P3-T2", "P7-T1"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "DEP-005",
+      "source": "specs/submission-readiness/dependency-frontier-audit-20260829.json",
+      "disposition": "accepted_limitation",
+      "owner_boundary": "upstream",
+      "validation_path": ["P5-T1", "P7-T1"],
+      "submission_impact": "does_not_block_if_current_and_documented"
+    },
+    {
+      "id": "DEP-006",
+      "source": "specs/submission-readiness/dependency-frontier-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P2-T3", "P5-T1", "P5-T2"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "DEP-007",
+      "source": "specs/submission-readiness/dependency-frontier-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P3-T1", "P3-T2", "P5-T2"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "DEP-008",
+      "source": "specs/submission-readiness/dependency-frontier-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P5-T3", "P5-T6"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "INTDATA-001",
+      "source": "specs/submission-readiness/integration-data-workflow-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P3-T3", "P3-T4"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "INTDATA-002",
+      "source": "specs/submission-readiness/integration-data-workflow-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P3-T3", "P3-T4"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "INTDATA-003",
+      "source": "specs/submission-readiness/integration-data-workflow-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P3-T3", "P3-T4"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "INTDATA-004",
+      "source": "specs/submission-readiness/integration-data-workflow-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P3-T3", "P3-T4", "P3-T5"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "INTDATA-005",
+      "source": "specs/submission-readiness/integration-data-workflow-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P3-T3", "P3-T4", "P5-T5"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "INTDATA-006",
+      "source": "specs/submission-readiness/integration-data-workflow-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P3-T3", "P3-T4"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "INTDATA-007",
+      "source": "specs/submission-readiness/integration-data-workflow-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P3-T3", "P3-T4", "P3-T5"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "INTDATA-008",
+      "source": "specs/submission-readiness/integration-data-workflow-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P3-T3", "P3-T4", "P5-T1"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "STRUCT-001",
+      "source": "specs/submission-readiness/structure-api-abi-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P3-T1", "P3-T2", "P4-T5"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "STRUCT-002",
+      "source": "specs/submission-readiness/structure-api-abi-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P4-T1", "P4-T2", "P4-T4"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "STRUCT-003",
+      "source": "specs/submission-readiness/structure-api-abi-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P4-T5"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "STRUCT-004",
+      "source": "specs/submission-readiness/structure-api-abi-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P3-T1", "P3-T2", "P4-T5"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "STRUCT-005",
+      "source": "specs/submission-readiness/structure-api-abi-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P2-T2", "P3-T5", "P4-T5"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "STRUCT-006",
+      "source": "specs/submission-readiness/structure-api-abi-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P4-T1", "P4-T4"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "STRUCT-007",
+      "source": "specs/submission-readiness/structure-api-abi-audit-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P3-T1", "P4-T5"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "PERF-001",
+      "source": "specs/submission-readiness/test-ci-performance-baseline-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P5-T3", "P5-T6"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "PERF-002",
+      "source": "specs/submission-readiness/test-ci-performance-baseline-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P2-T4", "P5-T5", "P5-T6"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "PERF-003",
+      "source": "specs/submission-readiness/test-ci-performance-baseline-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P5-T3", "P5-T6"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "PERF-004",
+      "source": "specs/submission-readiness/test-ci-performance-baseline-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P5-T3", "P5-T6"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "PERF-005",
+      "source": "specs/submission-readiness/test-ci-performance-baseline-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P5-T4", "P5-T5", "P5-T6"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "PERF-006",
+      "source": "specs/submission-readiness/test-ci-performance-baseline-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P5-T4", "P5-T5", "P5-T6"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "PERF-007",
+      "source": "specs/submission-readiness/test-ci-performance-baseline-20260829.json",
+      "disposition": "must_fix",
+      "owner_boundary": "repository",
+      "validation_path": ["P4-T1", "P4-T4", "P5-T4"],
+      "submission_impact": "blocks_repository_readiness"
+    },
+    {
+      "id": "ANALYTIC-001",
+      "source": "specs/software-landscape/refresh-20260829.md",
+      "title": "EVSI for risk-model development",
+      "disposition": "experimental_or_preview",
+      "owner_boundary": "repository",
+      "validation_path": ["P3-T3", "P3-T4"],
+      "submission_impact": "does_not_block_if_preview_isolated"
+    },
+    {
+      "id": "ANALYTIC-002",
+      "source": "specs/software-landscape/refresh-20260829.md",
+      "title": "EVSI for risk-model validation",
+      "disposition": "experimental_or_preview",
+      "owner_boundary": "repository",
+      "validation_path": ["P3-T3", "P3-T4"],
+      "submission_impact": "does_not_block_if_preview_isolated"
+    },
+    {
+      "id": "ANALYTIC-003",
+      "source": "specs/software-landscape/refresh-20260829.md",
+      "title": "EVSI with incomplete study data",
+      "disposition": "experimental_or_preview",
+      "owner_boundary": "repository",
+      "validation_path": ["P3-T3", "P3-T4"],
+      "submission_impact": "does_not_block_if_preview_isolated"
+    },
+    {
+      "id": "ANALYTIC-004",
+      "source": "specs/software-landscape/refresh-20260829.md",
+      "title": "Multilevel Monte Carlo EVPPI",
+      "disposition": "reviewed_exclusion",
+      "owner_boundary": "repository",
+      "validation_path": ["P3-T5", "P6-T3"],
+      "submission_impact": "does_not_block_if_exclusion_documented",
+      "rationale": "No complete primary method paper and reference fixture were verified in the bounded search; refresh when authoritative evidence is available."
+    }
+  ],
+  "migrated_track_coverage": [
+    {
+      "source_track": "controlled_live_dataset_interoperability_20260801",
+      "source_refs": "5,18,19,21",
+      "primary_disposition": "human_gate",
+      "secondary_dispositions": ["must_fix"],
+      "destination_tasks": ["P3-T3", "P3-T4", "P6-T5"],
+      "boundary": "Offline fixtures, receipts, normalization, and documentation are repository work; live remote access requires explicit security and rights authority."
+    },
+    {
+      "source_track": "datasets_worked_examples_20260723",
+      "source_refs": "19,21,23,25,30,32,34,36,41,43,45",
+      "primary_disposition": "must_fix",
+      "secondary_dispositions": ["human_gate", "external_gate"],
+      "destination_tasks": ["P3-T3", "P3-T4", "P3-T5", "P7-T1", "P7-T4"],
+      "boundary": "Implement and validate repository examples and data contracts; preserve rights, independent judgment, hosted checks, merge, and release as separate evidence."
+    },
+    {
+      "source_track": "estimation_focused_variance_voi_20260727",
+      "source_refs": "84,93,114,132,135",
+      "primary_disposition": "human_gate",
+      "secondary_dispositions": ["must_fix"],
+      "destination_tasks": ["P3-T1", "P3-T2", "P7-T2"],
+      "boundary": "Candidate-bound numerical and covariance remediation is repository work; scientific classification and accountable review remain human gates."
+    },
+    {
+      "source_track": "external_voi_library_feature_parity_20260723",
+      "source_refs": "16,18,22,26,28,30,32,37,39,41",
+      "primary_disposition": "must_fix",
+      "secondary_dispositions": ["external_gate"],
+      "destination_tasks": ["P3-T1", "P3-T2", "P3-T5", "P7-T1", "P7-T4"],
+      "boundary": "Implement accepted parity gaps or documented exclusions; do not infer external release or adoption."
+    },
+    {
+      "source_track": "hpc_spack_easybuild_distribution_20260823",
+      "source_refs": "5,6,7,8,9,10,11,12,13",
+      "primary_disposition": "must_fix",
+      "secondary_dispositions": ["external_gate"],
+      "destination_tasks": ["P3-T5", "P6-T5", "P7-T1"],
+      "boundary": "Recipes, documentation, and local validation are repository work; upstream Spack/EasyBuild submission, review, and indexing are external gates."
+    },
+    {
+      "source_track": "information_source_portfolio_voi_20260801",
+      "source_refs": "28",
+      "primary_disposition": "must_fix",
+      "secondary_dispositions": [],
+      "destination_tasks": ["P3-T1", "P7-T1"],
+      "boundary": "Complete focused and full repository validation."
+    },
+    {
+      "source_track": "julia_general_registry_ecosystem_20260823",
+      "source_refs": "5,6,7,8,9,10,11,12,13",
+      "primary_disposition": "must_fix",
+      "secondary_dispositions": ["external_gate"],
+      "destination_tasks": ["P4-T5", "P6-T5", "P7-T1"],
+      "boundary": "Package integrity, artifacts, Aqua, fixtures, and handoff documentation are repository work; Julia General and JuliaHealth actions are external gates."
+    },
+    {
+      "source_track": "ml_llm_agent_voi_20260723",
+      "source_refs": "16,18,22,26,28,30,32,37,39,41",
+      "primary_disposition": "must_fix",
+      "secondary_dispositions": ["experimental_or_preview", "external_gate"],
+      "destination_tasks": ["P3-T1", "P3-T2", "P3-T5", "P7-T1"],
+      "boundary": "Validate and honestly label retained experimental methods; do not promote them merely for feature-count parity."
+    },
+    {
+      "source_track": "polyglot_abi_binding_parity_20260723",
+      "source_refs": "16,18,22,34,36,38,40,45,47,49",
+      "primary_disposition": "must_fix",
+      "secondary_dispositions": ["external_gate"],
+      "destination_tasks": ["P2-T2", "P3-T1", "P3-T2", "P4-T5", "P7-T1"],
+      "boundary": "Repair and test shipped API/ABI surfaces; registry publication and external compatibility evidence remain separate."
+    },
+    {
+      "source_track": "quality_release_automation_20260723",
+      "source_refs": "18,22,26,28,30,32,37,49,55",
+      "primary_disposition": "must_fix",
+      "secondary_dispositions": ["external_gate"],
+      "destination_tasks": ["P5-T5", "P6-T4", "P6-T5", "P7-T1", "P7-T4"],
+      "boundary": "Repair release and evidence automation locally; registry, archive, DOI, and publication outcomes require external receipts."
+    },
+    {
+      "source_track": "remote_dataset_ingestion_security_20260801",
+      "source_refs": "7,11,13,15,19,21,23",
+      "primary_disposition": "human_gate",
+      "secondary_dispositions": ["reviewed_exclusion"],
+      "destination_tasks": ["P3-T4", "P6-T5", "P7-T4"],
+      "boundary": "Keep live transport disabled unless accountable security approval is obtained; the offline path remains supported and tested."
+    },
+    {
+      "source_track": "research_contribution_ai_transparency_20260723",
+      "source_refs": "12,19,21,23,27,29,31,33,38,44",
+      "primary_disposition": "must_fix",
+      "secondary_dispositions": ["human_gate", "external_gate"],
+      "destination_tasks": ["P3-T5", "P6-T3", "P6-T5", "P7-T4"],
+      "boundary": "Repository disclosure and provenance are must-fix; contribution, independent review, and publication outcomes cannot be synthesized."
+    },
+    {
+      "source_track": "ropensci_cran_readiness_20260823",
+      "source_refs": "5,6,7,8,9,10,11,12,13",
+      "primary_disposition": "must_fix",
+      "secondary_dispositions": ["human_gate", "external_gate"],
+      "destination_tasks": ["P4-T1", "P4-T2", "P4-T3", "P4-T4", "P6-T2"],
+      "boundary": "Standalone R packaging, srr mapping, vignettes, pkgcheck, and CRAN-style checks are must-fix; inquiry, submission, review, and registry publication remain gated."
+    },
+    {
+      "source_track": "rust_polyglot_voi_completion_20260723",
+      "source_refs": "51,55,58,60,63",
+      "primary_disposition": "must_fix",
+      "secondary_dispositions": ["external_gate"],
+      "destination_tasks": ["P3-T5", "P4-T5", "P6-T4", "P7-T1", "P7-T4"],
+      "boundary": "Reconcile exact candidate artifacts and checks locally; release and registry states require authoritative external evidence."
+    },
+    {
+      "source_track": "sampling_acquisition_harm_voi_20260802",
+      "source_refs": "77,167,186,196,201,206,210,213",
+      "primary_disposition": "human_gate",
+      "secondary_dispositions": ["must_fix", "experimental_or_preview"],
+      "destination_tasks": ["P3-T1", "P3-T2", "P7-T2", "P7-T4"],
+      "boundary": "Repository remediation follows accepted findings; independent estimand, domain, ethics, and accountable promotion judgments remain human gates."
+    },
+    {
+      "source_track": "stable_voi_rust_core_completion_20260723",
+      "source_refs": "18,20,22,24,28,30,32,34,39,47",
+      "primary_disposition": "must_fix",
+      "secondary_dispositions": ["human_gate", "external_gate"],
+      "destination_tasks": ["P3-T1", "P3-T2", "P3-T5", "P7-T1", "P7-T2"],
+      "boundary": "Stable numerical authority and installed parity are must-fix; independent scientific judgment and release remain separately evidenced."
+    },
+    {
+      "source_track": "supported_frontier_method_completion_20260723",
+      "source_refs": "144,169,276,301,568,590,595,599,605,610,615",
+      "primary_disposition": "human_gate",
+      "secondary_dispositions": ["must_fix", "experimental_or_preview"],
+      "destination_tasks": ["P3-T1", "P3-T2", "P3-T3", "P3-T4", "P7-T2", "P7-T4"],
+      "boundary": "Complete repository tests and accepted remediation; scientific panels, disagreement adjudication, and accountable maturity decisions remain human gates."
+    },
+    {
+      "source_track": "sustainability_badging_governance_20260823",
+      "source_refs": "5,6,7,8,9,10,11,12,13",
+      "primary_disposition": "must_fix",
+      "secondary_dispositions": ["human_gate", "external_gate"],
+      "destination_tasks": ["P6-T5", "P7-T1", "P7-T4"],
+      "boundary": "Evidence mapping and metadata synchronization are repository work; badge award, fiscal host, sponsorship, and steering participation require external or human evidence."
+    },
+    {
+      "source_track": "uncertainty_modelling_value_20260801",
+      "source_refs": "23",
+      "primary_disposition": "must_fix",
+      "secondary_dispositions": [],
+      "destination_tasks": ["P3-T1", "P7-T1"],
+      "boundary": "Complete changed-module coverage and focused/full validation."
+    },
+    {
+      "source_track": "value_of_perspective_completion_20260723",
+      "source_refs": "12,42,68",
+      "primary_disposition": "must_fix",
+      "secondary_dispositions": ["external_gate"],
+      "destination_tasks": ["P3-T1", "P3-T2", "P4-T5", "P7-T4"],
+      "boundary": "Complete contract review and binding dispositions; release remains externally evidenced."
+    },
+    {
+      "source_track": "voi_method_census_contract_reconciliation_20260723",
+      "source_refs": "24,26,28,30,35,37,39,41,46,52",
+      "primary_disposition": "must_fix",
+      "secondary_dispositions": ["human_gate", "external_gate"],
+      "destination_tasks": ["P3-T1", "P3-T2", "P3-T5", "P7-T1", "P7-T4"],
+      "boundary": "Implement accepted census gaps or documented exclusions and validate exact artifacts; scientific judgments and release remain separate."
+    }
+  ],
+  "counts": {
+    "source_audit_findings": 30,
+    "analytical_candidates": 4,
+    "canonical_findings": 34,
+    "migrated_source_tracks": 21,
+    "migrated_checkbox_references": 161,
+    "must_fix_findings": 28,
+    "accepted_limitation_findings": 1,
+    "experimental_or_preview_findings": 4,
+    "reviewed_exclusion_findings": 1
+  }
+}

@@ -2,6 +2,66 @@
 
 ## Unreleased
 
+- Made `voiageR` a self-contained compiled source package: its EVPI and ENBS
+  paths now link a dependency-free, offline Rust 1.85 kernel into registered R
+  native routines, require no ambient VOIAGE shared library, and run from a
+  clean 2.1.0 source archive. Removed the tracked obsolete 0.1.0 tarball.
+
+- Mapped all pinned rOpenSci general and Probability Distributions standards
+  with item-level `srr` evidence or justified non-applicability, documented why
+  the optional Python EVSI bridge does not make the R package a Bayesian-model
+  implementation, and passed the pinned `srr_stats_pre_submit()` completeness
+  and compliance thresholds with no TODO standards.
+
+- Consolidated all 21 previously active Conductor tracks into the canonical
+  pre-submission comprehensive-hardening programme (#1033), preserving
+  unfinished work as migrated rather than completed and repairing live code,
+  schema, test, documentation, and submission-staging references after archival.
+
+- Pinned the current pyOpenSci, rOpenSci, JOSS, PyPA, SLSA, OpenSSF, and
+  FAIR4RS criteria to dated primary-source revisions for the no-submission
+  hardening programme, including current human-review, AI-disclosure,
+  statistical-standards, research-impact, packaging, and provenance boundaries.
+
+- Refreshed the pre-submission software and analytical-method landscape,
+  correcting current package metadata, adding two direct research
+  implementations and two hosted comparison surfaces, and recording recent
+  risk-model and missing-data EVSI work as candidates rather than supported
+  capability claims.
+
+- Audited integration, data, domain-template, example, and executable-workflow
+  coverage, preserving eight evidence-backed gaps for disposition before
+  submission rather than treating schema presence or synthetic fixtures as
+  proof of external interoperability.
+
+- Audited repository structure, execution ownership, stable Python API, C ABI,
+  installed artifacts, and R/Julia binding truth, identifying a critical
+  self-referential parity claim and six additional installability,
+  compatibility, capability-matrix, and artifact-hygiene gaps.
+
+- Repaired the core and binding contract by replacing false cross-language
+  `DecisionProblem` claims with resolvable dispositions, adding an immutable
+  v2.1.0 ABI baseline and compatibility checker, publishing the current
+  method-level capability matrix, and removing eager method imports from the
+  top-level package path.
+
+- Hardened integration and data evidence with content-verified fixture-only
+  dataset records, explicit decision-tree XML and R-inspired JSON profiles,
+  optional `.xlsx` support through `voiage[excel]`, validation levels for domain
+  templates, an offline example-smoke manifest, and a four-domain executable
+  source-to-report workflow corpus.
+
+- Narrowed enterprise adapter, TreeAge, BCEA, and hesim language to the
+  repository-defined interchange profiles actually tested, documented RDS and
+  legacy `.xls` as unsupported, and retained four analytical candidates as
+  research previews or reviewed exclusions rather than stable capabilities.
+
+- Refreshed the 214-package uv lock, audited the stable and preview dependency
+  frontier, and recorded eight dependency-policy findings. Runtime vulnerability
+  and Cargo policy scans are clean at blocking severity; preview upgrades remain
+  isolated pending compatibility, numerical, Arrow, CPU-fallback, and timing
+  evidence.
+
 - Prepared a current, locally validated, unposted pyOpenSci review packet for
   `v2.1.0`, pinned to the inspected upstream template and public release
   evidence. The candidate still requires maintainer confirmation, every human

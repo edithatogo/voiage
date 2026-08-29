@@ -219,14 +219,16 @@ def _runtime_binding(
         "solver_id": estimator.solver_id,
     }
     if specification.method_id == "evppi_var":
-        assert specification.conditioning is not None
+        if specification.conditioning is None:  # pragma: no cover - model invariant
+            raise InputError("evppi_var requires a conditioning contract")
         common.update(
             parameter_subset=specification.conditioning.parameter_subset,
             conditioning_sigma_field=specification.conditioning.sigma_field,
             averaging_convention=specification.conditioning.averaging_convention,
         )
     else:
-        assert specification.sampling_model is not None
+        if specification.sampling_model is None:  # pragma: no cover - model invariant
+            raise InputError("evsi_var requires a sampling-model contract")
         common.update(
             design_id=specification.sampling_model.design_id,
             likelihood_id=specification.sampling_model.likelihood_id,

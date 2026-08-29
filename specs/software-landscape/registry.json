@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
-  "searched_on": "2026-07-24",
-  "review_due": "2026-10-23",
+  "searched_on": "2026-08-29",
+  "review_due": "2026-11-29",
   "scope": "Reproducible initial census of direct decision-VOI/VOP software and adjacent decision-analysis, experimental-design, active-learning, web, and commercial capabilities. Absence from search results is not proof that no software exists.",
   "searches": [
     {"channel":"CRAN","query":"value of information; EVPI; EVPPI; EVSI; expected net benefit of sampling","source_url":"https://cran.r-project.org/web/packages/available_packages_by_name.html","result":"candidates-found","notes":"Verified package pages, manuals, vignettes, source links and task-view leads."},
@@ -10,12 +10,14 @@
     {"channel":"crates.io","query":"value of information; EVPI; EVPPI; EVSI","source_url":"https://crates.io/search?q=value%20of%20information","result":"no-direct-package-found","notes":"No independently verified direct VOI crate was identified in this snapshot."},
     {"channel":"Julia General","query":"value of information; Bayesian optimal experimental design","source_url":"https://github.com/JuliaRegistries/General","result":"candidates-found","notes":"Kirstine is related Bayesian design software; no direct decision-VOI package was verified."},
     {"channel":"Mojo package channels","query":"value of information; EVPI; Bayesian experimental design","source_url":"https://github.com/modular/modular/tree/main/mojo","result":"no-direct-package-found","notes":"No direct external Mojo VOI package was verified."},
-    {"channel":"GitHub","query":"\"value of information\" language:R OR language:Python OR language:Julia OR language:Rust","source_url":"https://github.com/search?q=%22value+of+information%22&type=repositories","result":"candidates-found"},
+    {"channel":"GitHub","query":"\"value of information\" language:R OR language:Python OR language:Julia OR language:Rust","source_url":"https://github.com/search?q=%22value+of+information%22&type=repositories","result":"candidates-found","notes":"Direct Python value-of-information and R EVSI research implementations were verified from their source repositories."},
     {"channel":"GitLab","query":"value of information EVPI EVPPI EVSI","source_url":"https://gitlab.com/search?search=value%20of%20information","result":"no-direct-package-found","notes":"No additional direct package was independently verified."},
     {"channel":"web tools","query":"web-based value-of-information tools SAVI BCEAweb RANE VICTOR","source_url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/","result":"candidates-found"},
     {"channel":"commercial documentation","query":"TreeAge Analytica value of information EVPI EVPPI","source_url":"https://www.treeage.com/","result":"candidates-found","notes":"Only publicly documented behavior is eligible for mapping; internal algorithms remain unverified."},
     {"channel":"Bayesian design and active learning","query":"expected information gain BALD BatchBALD knowledge gradient Pyro BoTorch","source_url":"https://docs.pyro.ai/en/stable/contrib.oed.html","result":"candidates-found"},
-    {"channel":"health-economic guidance","query":"ISPOR value of information analytical methods software","source_url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC7373630/","result":"candidates-found"}
+    {"channel":"health-economic guidance","query":"ISPOR value of information analytical methods software","source_url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC7373630/","result":"candidates-found"},
+    {"channel":"primary literature","query":"2025 2026 EVSI risk prediction model development validation missing data multilevel Monte Carlo","source_url":"https://pubmed.ncbi.nlm.nih.gov/?term=expected+value+of+sample+information+risk+prediction","result":"candidates-found","notes":"Candidate extensions are recorded in refresh-20260829.md and are not capability claims."},
+    {"channel":"hosted calculators","query":"EVPI CEAC online calculator health economics","source_url":"https://metricgate.com/docs/expected-value-of-perfect-information/","result":"candidates-found","notes":"Only publicly documented behavior is mapped; hosted calculations were not accepted as reproducible evidence."}
   ],
   "tools": [
     {
@@ -82,6 +84,22 @@
       "features":[{"id":"victor-trial","label":"Cardiovascular and comparative-research trial VOI","kind":"workflow","method_ids":["evsi","enbs","optimal-study-design"],"parity_state":"not-reproducible","voiage_evidence":"Literature triage only; current service behavior was not verified.","evidence":["https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/"]}]
     },
     {
+      "id":"python-value-of-information","name":"value-of-information","ecosystem":"python","scope":"external","tool_kind":"voi-library","maintenance":"limited","license":"Unknown; no repository licence was verified","version":"0.0.0+8d4ce961","release_date":"2022-06-17","repository":"https://github.com/tadamcz/value-of-information","registry":"https://valueofinfo.com/","authoritative_sources":["https://github.com/tadamcz/value-of-information","https://valueofinfo.com/"],"runtime_dependency":false,"limitations":"The source pins an obsolete Python range and a Git dependency; no current package release or licence was verified.",
+      "features":[{"id":"python-voi-evsi","label":"Hosted and Python expected value of sample information workflow","kind":"workflow","method_ids":["evsi","net-benefit"],"parity_state":"planned","voiage_evidence":"The candidate is retained for algorithm and interface comparison; it is not suitable as a dependency.","evidence":["https://github.com/tadamcz/value-of-information"]}]
+    },
+    {
+      "id":"r-evsi","name":"EVSI research package","ecosystem":"r","scope":"external","tool_kind":"voi-library","maintenance":"limited","license":"GPL-2-or-later","version":"0.0.0.9000+11accaca","release_date":"2022-06-24","repository":"https://github.com/annaheath/EVSI","registry":"https://github.com/annaheath/EVSI","authoritative_sources":["https://github.com/annaheath/EVSI"],"runtime_dependency":false,"limitations":"Research source package without a current registry release; use as comparative evidence, not a runtime dependency.",
+      "features":[{"id":"r-evsi-design","label":"EVSI estimation and study-design research workflows","kind":"estimator","method_ids":["evsi","enbs","optimal-study-design","evsi-moment-matching"],"parity_state":"planned","voiage_evidence":"Existing estimands overlap, but implementation-level conformance has not been demonstrated.","evidence":["https://github.com/annaheath/EVSI"]}]
+    },
+    {
+      "id":"metricgate-evpi","name":"MetricGate EVPI calculator","ecosystem":"web","scope":"external","tool_kind":"web-application","maintenance":"maintained","license":"Unknown hosted-service terms","version":"2026-03 documentation snapshot","release_date":"2026-03","repository":"","registry":"https://metricgate.com/docs/expected-value-of-perfect-information/","authoritative_sources":["https://metricgate.com/docs/expected-value-of-perfect-information/"],"runtime_dependency":false,"limitations":"Public documentation describes the surface, but source, versioned algorithms, and reproducible fixtures are unavailable.",
+      "features":[{"id":"metricgate-evpi-surface","label":"Browser EVPI, population EVPI and value curves","kind":"workflow","method_ids":["evpi","population-evpi","voi-curve"],"parity_state":"not-reproducible","voiage_evidence":"Only the documented hosted surface is mapped.","evidence":["https://metricgate.com/docs/expected-value-of-perfect-information/"]}]
+    },
+    {
+      "id":"pharma-org-heor","name":"Pharma Org HEOR calculators","ecosystem":"web","scope":"external","tool_kind":"web-application","maintenance":"maintained","license":"Unknown hosted-service terms","version":"2026-08 documentation snapshot","release_date":"2026-08","repository":"","registry":"https://pharma.org/","authoritative_sources":["https://pharma.org/"],"runtime_dependency":false,"limitations":"The hosted surface is observable, but source, release metadata, and numerical fixtures are not available.",
+      "features":[{"id":"pharma-org-decision-surface","label":"Browser health-economic EVPI, CEAC and cost-effectiveness outputs","kind":"workflow","method_ids":["evpi","ceac","ceaf","cea-plane"],"parity_state":"not-reproducible","voiage_evidence":"Only publicly documented calculator behavior is mapped.","evidence":["https://pharma.org/"]}]
+    },
+    {
       "id":"pyro-oed","name":"Pyro optimal experimental design","ecosystem":"python","scope":"external","tool_kind":"experimental-design-library","maintenance":"maintained","license":"Apache-2.0","version":"1.9.1","release_date":"2024-06-02","repository":"https://github.com/pyro-ppl/pyro","registry":"https://pypi.org/project/pyro-ppl/","authoritative_sources":["https://docs.pyro.ai/en/stable/contrib.oed.html"],"runtime_dependency":false,
       "features":[{"id":"pyro-eig","label":"Nested Monte Carlo, variational, Laplace and posterior expected-information-gain estimators","kind":"estimator","method_ids":["expected-information-gain","bayesian-oed"],"parity_state":"planned","voiage_evidence":"Backend-neutral EIG contract and CPU reference remain planned; Pyro will be optional.","evidence":["https://docs.pyro.ai/en/stable/contrib.oed.html"],"notes":"EIG is not labeled economic VOI without an explicit decision and utility."}]
     },
@@ -106,7 +124,7 @@
       "features":[{"id":"vop-directional","label":"Directional perspective discordance, equity and perspective-sensitive CEA","kind":"estimand","method_ids":["directional-evop","pairwise-evop","perspective-optima","perspective-switching","equity-voi"],"parity_state":"planned","voiage_evidence":"Current perspective module covers a subset; C01/C02 conformance remains the controlling contract.","evidence":["https://pypi.org/project/vop-poc-nz/"]}]
     },
     {
-      "id":"decision-security","name":"decision-security","ecosystem":"python","scope":"external","tool_kind":"decision-analysis-library","maintenance":"maintained","license":"MIT","version":"0.1.0a7","release_date":"2025-10-09","repository":"https://github.com/lvoicu/decision-security","registry":"https://pypi.org/project/decision-security/","authoritative_sources":["https://pypi.org/project/decision-security/"],"runtime_dependency":false,
+      "id":"decision-security","name":"decision-security","ecosystem":"python","scope":"external","tool_kind":"decision-analysis-library","maintenance":"maintained","license":"MIT","version":"0.1.0","release_date":"2026-08-11","repository":"https://github.com/security-decision-science/decision-security","registry":"https://pypi.org/project/decision-security/","authoritative_sources":["https://pypi.org/project/decision-security/","https://github.com/security-decision-science/decision-security"],"runtime_dependency":false,
       "features":[{"id":"security-evpi","label":"Cybersecurity Monte Carlo EVPI and ROI selection","kind":"application","method_ids":["evpi","net-benefit"],"parity_state":"equivalent","voiage_evidence":"Domain-neutral EVPI and utility inputs support the same class of decision; a security worked example is still desirable.","evidence":["https://pypi.org/project/decision-security/"]}]
     },
     {

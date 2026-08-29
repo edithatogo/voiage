@@ -1,0 +1,53 @@
+{
+  "track_id": "research_contribution_ai_transparency_20260723",
+  "version": "1.0.0",
+  "type": "feature",
+  "status": "completed",
+  "created_at": "2026-07-27T08:15:00Z",
+  "updated_at": "2026-08-29T05:52:00Z",
+  "description": "Provide canonical human CRediT records and release-linked machine-readable AI-assistance provenance with accountable human review.",
+  "evidence_schema": "1.0",
+  "approval": {
+    "status": "approved",
+    "approved_on": "2026-07-27",
+    "recorded_at": "2026-07-27T08:15:00Z",
+    "evidence": "User explicitly requested repair of missing issue-claimed Conductor tracks and roadmap frontier governance."
+  },
+  "github_parent_issue": "https://github.com/edithatogo/voiage/issues/313",
+  "github_subissues": [],
+  "github_project": "https://github.com/users/edithatogo/projects/28",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/323",
+    "parent_issue": "https://github.com/edithatogo/voiage/issues/313",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "subissues": [],
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/621",
+      "https://github.com/edithatogo/voiage/pull/825"
+    ],
+    "pull_request_evidence": "track_delivery"
+  },
+  "gates": [
+    {
+      "id": "specification-and-plan-approval",
+      "kind": "human_approval",
+      "status": "satisfied",
+      "evidence": "User governance-repair request dated 2026-07-27."
+    },
+    {
+      "id": "scientific-and-contract-review",
+      "kind": "scientific_review",
+      "status": "pending",
+      "evidence": "Required before capability or maturity promotion."
+    },
+    {
+      "id": "hosted-required-checks",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "PR #825 exact head f00e63d05562d4fc5165aa261c5ab0a296265dd2 completed 32 successful checks, three governed skips and one neutral check before squash merge 4d890aafeb760a0df84a03efa5db95ba5ec85005."
+    }
+  ],
+  "legacy_outcome": "superseded",
+  "superseded_by": "pre_submission_comprehensive_hardening_20260829",
+  "supersession_evidence": "conductor/tracks/pre_submission_comprehensive_hardening_20260829/migration-manifest.md"
+}

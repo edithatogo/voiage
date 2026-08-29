@@ -1,9 +1,9 @@
 """
 Ecosystem Integration Module for voiage.
 
-This module provides integration capabilities with popular software and workflows:
-- TreeAge Pro compatibility
-- R package integration (hesim, BCEA, etc.)
+This module provides narrow, SDK-free interchange profiles and workflows:
+- repository-authored decision-tree XML (not verified TreeAge compatibility)
+- JSON shapes inspired by hesim and BCEA (not verified package compatibility)
 - Health economic modeling software interoperability
 - Research workflow integration (Jupyter, RStudio, etc.)
 - Data format compatibility (CSV, Excel, SAS, Stata)
@@ -19,7 +19,7 @@ from dataclasses import dataclass
 from html import escape
 import json
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 import warnings
 
 from defusedxml import ElementTree  # type: ignore[import-untyped]
@@ -54,22 +54,25 @@ class HeomlRunBundle:
 
 
 class TreeAgeConnector(EcosystemConnector):
-    """TreeAge Pro integration connector."""
+    """Repository-authored decision-tree XML profile connector."""
 
     def __init__(self) -> None:
         super().__init__(
-            name="TreeAge Pro",
-            version="2023+",
-            supported_formats=[".treeage", ".csv", ".xlsx"],
+            name="voiage decision-tree XML profile",
+            version="1",
+            supported_formats=[".voiage.xml"],
             integration_type="bidirectional",
         )
 
     def import_treeage_model(self, file_path: str) -> dict[str, Any]:
         """
-        Import TreeAge Pro model file.
+        Import a repository-authored decision-tree XML profile.
+
+        The legacy method name is retained for compatibility. It does not
+        imply that TreeAge product exports are accepted or round-trip verified.
 
         Args:
-            file_path: Path to TreeAge model file
+            file_path: Path to a ``.voiage.xml`` profile file
 
         Returns
         -------
@@ -129,7 +132,10 @@ class TreeAgeConnector(EcosystemConnector):
         self, health_analysis: HealthEconomicsAnalysis, output_path: str
     ) -> None:
         """
-        Export voiage model to TreeAge Pro format.
+        Export a voiage analysis to the repository-authored XML profile.
+
+        The legacy method name is retained for compatibility. The result is
+        not asserted to be a TreeAge product format.
 
         Args:
             health_analysis: Health economics analysis to export
@@ -173,7 +179,7 @@ class TreeAgeConnector(EcosystemConnector):
     def convert_to_voi_analysis(
         self, model_structure: dict[str, Any]
     ) -> dict[str, Any]:
-        """Convert TreeAge model to voiage analysis format."""
+        """Convert the repository XML profile to a voiage analysis mapping."""
         voi_format: dict[str, Any] = {
             "decision_options": [],
             "uncertainty_parameters": [],
@@ -209,22 +215,22 @@ class TreeAgeConnector(EcosystemConnector):
 
 
 class RPackageConnector(EcosystemConnector):
-    """R package integration connector for health economics."""
+    """SDK-free JSON profile connector for health-economic records."""
 
     def __init__(self) -> None:
         super().__init__(
-            name="R Health Economics Packages",
-            version="1.0",
-            supported_formats=[".rds", ".csv", ".json"],
+            name="voiage BCEA and hesim JSON profiles",
+            version="1",
+            supported_formats=[".json"],
             integration_type="bidirectional",
         )
 
     def import_bcea_results(self, file_path: str) -> dict[str, Any]:
         """
-        Import Bayesian Cost-Effectiveness Analysis results.
+        Import a voiage BCEA-inspired JSON profile.
 
         Args:
-            file_path: Path to BCEA results file
+            file_path: Path to profile JSON; native R objects are unsupported
 
         Returns
         -------
@@ -284,7 +290,10 @@ class RPackageConnector(EcosystemConnector):
         num_simulations: int = 10000,
     ) -> None:
         """
-        Export analysis results for BCEA package.
+        Export a voiage BCEA-inspired JSON profile.
+
+        The output is not asserted to be a native BCEA object or a verified
+        producer/consumer round trip.
 
         Args:
             health_analysis: Health economics analysis to export
@@ -359,10 +368,10 @@ class RPackageConnector(EcosystemConnector):
 
     def import_hesim_results(self, file_path: str) -> dict[str, Any]:
         """
-        Import HE-Sim simulation results.
+        Import a voiage hesim-inspired JSON profile.
 
         Args:
-            file_path: Path to HE-Sim results file
+            file_path: Path to profile JSON; native R objects are unsupported
 
         Returns
         -------
@@ -406,7 +415,7 @@ class DataFormatConnector(EcosystemConnector):
         super().__init__(
             name="Data Format Connector",
             version="1.0",
-            supported_formats=[".csv", ".xlsx", ".xls", ".json", ".parquet"],
+            supported_formats=[".csv", ".xlsx", ".json", ".parquet"],
             integration_type="bidirectional",
         )
 
@@ -426,13 +435,13 @@ class DataFormatConnector(EcosystemConnector):
         """
         path_obj = Path(file_path)
         suffix = path_obj.suffix.lower()
-        if suffix not in {".csv", ".xlsx", ".xls", ".parquet", ".json"}:
+        if suffix not in {".csv", ".xlsx", ".parquet", ".json"}:
             raise_value_error(f"Unsupported file format: {path_obj.suffix}")
 
         try:
             if suffix == ".csv":
                 df = pd.read_csv(path_obj)
-            elif suffix in {".xlsx", ".xls"}:
+            elif suffix == ".xlsx":
                 df = pd.read_excel(path_obj)
             elif suffix == ".parquet":
                 df = pd.read_parquet(path_obj)
@@ -440,6 +449,8 @@ class DataFormatConnector(EcosystemConnector):
                 with open(path_obj) as f:
                     data = json.load(f)
                 return self._convert_json_to_dataframe(data)
+            else:  # pragma: no cover - guarded by the supported-suffix check
+                raise_value_error(f"Unhandled supported format: {suffix}")
 
             return self._process_dataframe(df, data_type)
 
@@ -963,9 +974,8 @@ class EcosystemIntegration:
         elif integration_type.lower() == "data_formats" and isinstance(
             connector, DataFormatConnector
         ):
-            return connector.import_health_data(
-                file_path, kwargs.get("data_type", "auto")
-            )
+            data_type = cast("str", kwargs.get("data_type", "auto"))
+            return connector.import_health_data(file_path, data_type)
 
         return {}
 
@@ -981,35 +991,39 @@ class EcosystemIntegration:
         if connector is None:
             raise_value_error(f"Unknown integration type: {integration_type}")
 
+        health_analysis = cast("HealthEconomicsAnalysis", analysis_object)
+
         if integration_type.lower() == "treeage" and isinstance(
             connector, TreeAgeConnector
         ):
             if hasattr(analysis_object, "treatments"):
-                connector.export_to_treeage(analysis_object, output_path)
+                connector.export_to_treeage(health_analysis, output_path)
         elif integration_type.lower() == "r_packages" and isinstance(
             connector, RPackageConnector
         ):
             if kwargs.get("format") == "bcea":
+                num_simulations = cast("int", kwargs.get("num_simulations", 10000))
                 connector.export_for_bcea(
-                    analysis_object,
+                    health_analysis,
                     output_path,
-                    kwargs.get("num_simulations", 10000),
+                    num_simulations,
                 )
         elif integration_type.lower() == "data_formats" and isinstance(
             connector, DataFormatConnector
         ):
+            format_type = cast("str", kwargs.get("format_type", "csv"))
             connector.export_health_data(
-                analysis_object,
+                health_analysis,
                 output_path,
-                kwargs.get("format_type", "csv"),
+                format_type,
             )
         elif integration_type.lower() == "workflows" and isinstance(
             connector, WorkflowConnector
         ):
             if kwargs.get("format") == "jupyter":
-                connector.create_jupyter_analysis(analysis_object, output_path)
+                connector.create_jupyter_analysis(health_analysis, output_path)
             elif kwargs.get("format") == "r":
-                connector.create_r_workflow(analysis_object, output_path)
+                connector.create_r_workflow(health_analysis, output_path)
 
     def list_supported_formats(self) -> dict[str, list[str]]:
         """List all supported file formats across connectors."""
@@ -1028,13 +1042,13 @@ class EcosystemIntegration:
                     "import": True,
                     "export": True,
                     "bidirectional": True,
-                    "description": "TreeAge Pro decision tree and Markov model compatibility",
+                    "description": "Repository-authored decision-tree XML profile; TreeAge product compatibility is not claimed",
                 },
                 "r_packages": {
                     "import": True,
                     "export": True,
                     "bidirectional": True,
-                    "description": "BCEA, HE-Sim, and other R health economics packages",
+                    "description": "SDK-free BCEA and hesim-inspired JSON profiles; R package compatibility is not claimed",
                 },
                 "data_formats": {
                     "import": True,
@@ -1086,12 +1100,11 @@ def quick_r_export(health_analysis: HealthEconomicsAnalysis, output_path: str) -
 
 
 def convert_treeage_to_voi(file_path: str) -> dict[str, Any]:
-    """Convert TreeAge model to voiage format."""
+    """Convert a repository-authored decision-tree XML profile to voiage."""
     integration = EcosystemIntegration()
     treeage_connector = integration.get_connector("treeage")
     if not isinstance(treeage_connector, TreeAgeConnector):
         raise_type_error("TreeAge connector is unavailable.")
 
-    assert isinstance(treeage_connector, TreeAgeConnector)
     model_structure = treeage_connector.import_treeage_model(file_path)
     return treeage_connector.convert_to_voi_analysis(model_structure)

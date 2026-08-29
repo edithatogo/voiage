@@ -1,0 +1,152 @@
+name: Dependency and CI Preview Observations
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "41 4 1 * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dependency-preview-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  major-dependency-observation:
+    name: Preview ${{ matrix.id }}
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - id: scipy-1.18
+            requirement: scipy>=1.18,<1.19
+            command: pytest tests/test_numerical_reference_cases.py tests/test_core_metrics_regression.py --no-cov -q
+          - id: pandas-3
+            requirement: pandas>=3,<4
+            command: pytest tests/test_dataframe_interchange_sdk.py tests/test_numerical_reference_cases.py --no-cov -q
+          - id: xarray-2026
+            requirement: xarray>=2026.7,<2027
+            command: pytest tests/test_dataframe_interchange_sdk.py tests/test_numerical_reference_cases.py --no-cov -q
+          - id: griffe-2
+            requirement: griffe>=2.2,<3
+            command: pytest tests/test_api_reference_docs.py tests/test_astro_docs_contract.py --no-cov -q
+          - id: jax-0.11
+            requirement: jax[cpu]>=0.11,<0.12
+            command: pytest tests/test_backends.py tests/test_numerical_reference_cases.py --no-cov -q
+          - id: ruff-0.16
+            requirement: ruff>=0.16,<0.17
+            command: ruff check voiage tests scripts
+    steps:
+      - name: Check out exact source
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - name: Install pinned uv
+        uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.11.29"
+          enable-cache: false
+      - name: Set up stable Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.14"
+      - name: Install frozen stable reference environment
+        run: uv sync --frozen --extra ci --extra experimental
+      - name: Overlay one isolated preview candidate
+        run: uv pip install --python .venv --upgrade --resolution highest "${{ matrix.requirement }}"
+      - name: Verify resolved environment
+        run: |
+          uv pip check --python .venv
+          uv pip freeze --python .venv > dependency-preview-freeze.txt
+      - name: Run candidate-specific compatibility and fallback checks
+        run: uv run --frozen --no-sync ${{ matrix.command }}
+      - name: Upload observational resolution
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: dependency-preview-${{ matrix.id }}
+          path: dependency-preview-freeze.txt
+          if-no-files-found: warn
+          retention-days: 14
+
+  python-prerelease-observation:
+    name: Python 3.15 prerelease
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.11.29"
+          enable-cache: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.15-dev"
+          allow-prereleases: true
+      - name: Observe prerelease compatibility without publishing artifacts
+        run: |
+          uv sync --extra ci
+          uv run --no-sync pytest tests/test_numerical_reference_cases.py tests/test_contract_bundle.py --no-cov -q
+
+  deterministic-python-shards:
+    name: Deterministic Python shard ${{ matrix.shard }} of 2
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1]
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.11.29"
+          enable-cache: true
+          cache-suffix: preview-shard-${{ matrix.shard }}
+          cache-dependency-glob: "uv.lock"
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.14"
+      - name: Install frozen test environment
+        run: uv sync --frozen --extra ci
+      - name: Run one stable deterministic partition
+        run: >-
+          uv run pytest tests/
+          -m "not integration and not e2e and not benchmark"
+          --no-cov --numprocesses=4 --dist=worksteal -q
+        env:
+          CI: true
+          VOIAGE_TEST_SHARD_INDEX: ${{ matrix.shard }}
+          VOIAGE_TEST_SHARD_COUNT: 2
+
+  rust-acceleration-observation:
+    name: cargo-nextest and sccache observation
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    env:
+      RUSTC_WRAPPER: sccache
+      SCCACHE_GHA_ENABLED: "true"
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: stable
+      - name: Install pinned preview accelerators
+        run: |
+          cargo install --locked cargo-nextest --version 0.9.114
+          cargo install --locked sccache --version 0.12.0
+      - name: Run the non-authoritative nextest inventory
+        working-directory: rust
+        run: cargo nextest run --workspace --all-features --locked --no-fail-fast
+      - name: Record cache statistics
+        if: always()
+        run: sccache --show-stats

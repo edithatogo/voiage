@@ -7,6 +7,7 @@ from dataclasses import asdict, dataclass
 import json
 from pathlib import Path
 import re
+import subprocess
 import sys
 
 ACTION_PATTERN = re.compile(r"^\s*(?:-\s*)?uses:\s*([^\s#]+)", re.MULTILINE)
@@ -228,8 +229,22 @@ def check_conflict_markers(root: Path) -> list[Finding]:
         "coverage_html_report",
         "target",
     }
+    tracked = subprocess.run(
+        ["git", "-C", str(root), "ls-files", "-z"],
+        capture_output=True,
+        check=False,
+    )
+    if tracked.returncode == 0:
+        candidates = [
+            root / relative.decode("utf-8", errors="surrogateescape")
+            for relative in tracked.stdout.split(b"\0")
+            if relative
+        ]
+    else:
+        candidates = list(root.rglob("*"))
+
     findings: list[Finding] = []
-    for path in root.rglob("*"):
+    for path in candidates:
         if not path.is_file() or ignored_directories.intersection(path.parts):
             continue
         try:

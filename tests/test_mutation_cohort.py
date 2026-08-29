@@ -84,7 +84,7 @@ def test_runtime_version_is_checked_separately_from_pure_cohort_identity() -> No
     validate_runtime_version(identity, "3.6.0")
     message = ""
     try:
-        validate_runtime_version(identity, "3.5.0")
+        validate_runtime_version(identity, "3.7.0")
     except ValueError as exc:
         message = str(exc)
     else:

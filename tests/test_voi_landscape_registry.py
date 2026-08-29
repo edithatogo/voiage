@@ -57,6 +57,10 @@ def test_required_ecosystems_and_seed_tools_are_present() -> None:
         "analytica",
         "pyro-oed",
         "botorch",
+        "python-value-of-information",
+        "r-evsi",
+        "metricgate-evpi",
+        "pharma-org-heor",
     } <= ids
     assert len(ids) == len(tools)
 
@@ -165,6 +169,7 @@ def test_search_snapshot_is_bounded_and_refreshable() -> None:
     review_due = date.fromisoformat(registry["review_due"])
 
     assert searched_on < review_due
+    assert searched_on == date(2026, 8, 29)
     assert (review_due - searched_on).days <= 93
     assert len(registry["searches"]) >= 9
     for search in registry["searches"]:
@@ -172,6 +177,32 @@ def test_search_snapshot_is_bounded_and_refreshable() -> None:
         assert search["query"]
         assert search["source_url"].startswith("https://")
         assert search["result"] in {"candidates-found", "no-direct-package-found"}
+
+
+def test_refresh_corrects_stale_package_identity_and_keeps_candidates_bounded() -> None:
+    """The refresh must pin corrected metadata without promoting candidate gaps."""
+    registry = _read_json(REGISTRY)
+    evidence = _read_json(METHOD_EVIDENCE)
+    assert isinstance(registry, dict)
+    assert isinstance(evidence, dict)
+
+    by_id = {tool["id"]: tool for tool in registry["tools"]}
+    assert by_id["decision-security"]["version"] == "0.1.0"
+    assert by_id["decision-security"]["repository"] == (
+        "https://github.com/security-decision-science/decision-security"
+    )
+    assert by_id["python-value-of-information"]["maintenance"] == "limited"
+    assert by_id["r-evsi"]["runtime_dependency"] is False
+    assert by_id["metricgate-evpi"]["features"][0]["parity_state"] == (
+        "not-reproducible"
+    )
+
+    candidate = next(
+        family
+        for family in evidence["coverage"]
+        if family["family"] == "candidate-realistic-study-data-and-risk-model-evsi"
+    )
+    assert candidate["review_state"] == "triage-required"
 
 
 def test_generated_feature_matrix_is_current() -> None:

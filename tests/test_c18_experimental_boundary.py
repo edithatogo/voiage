@@ -22,7 +22,7 @@ def test_c18_families_are_experimental_until_both_gates_pass() -> None:
     contract_freeze = json.loads(
         (
             ROOT
-            / "conductor/tracks/supported_frontier_method_completion_20260723/contract-freeze.json"
+            / "conductor/archive/supported_frontier_method_completion_20260723/contract-freeze.json"
         ).read_text()
     )
     contracts = {item["issue"]: item for item in contract_freeze["contracts"]}

@@ -41,6 +41,6 @@
     "fixture_id": "dsa-linear-v1",
     "baseline_source": "synthetic analytical fixture",
     "execution_mode": "deterministic",
-    "reference": "conductor/tracks/supported_frontier_method_completion_20260723/deterministic-sensitivity-reference-review.md"
+    "reference": "conductor/archive/supported_frontier_method_completion_20260723/deterministic-sensitivity-reference-review.md"
   }
 }

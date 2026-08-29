@@ -9,6 +9,8 @@ It records observable capabilities rather than marketing parity.
   visualizations, applications, and related analyses.
 - `method-evidence.json` and `method-evidence.schema.json` make the source and
   review state for every method family executable.
+- `refresh-20260829.md` records the dated pre-submission refresh, including
+  candidate gaps that have not been promoted into the supported taxonomy.
 - `schema.json` is the public software-registry contract.
 - The generated documentation matrix is produced by
   `scripts/generate_voi_feature_matrix.py`.

@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-TRACK = Path("conductor/tracks/information_source_portfolio_voi_20260801")
+TRACK = Path("conductor/archive/information_source_portfolio_voi_20260801")
 
 
 def test_repository_panel_does_not_satisfy_scientific_promotion_gate() -> None:

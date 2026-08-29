@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "decided_on": "2026-08-29",
+  "stable_surface_unchanged": true,
+  "candidates": [
+    {
+      "id": "ANALYTIC-001",
+      "candidate": "EVSI for risk-model development",
+      "decision": "retain_research_preview",
+      "stable_api_added": false,
+      "rationale": "The primary study motivates a clinical-utility bootstrap workflow, but voiage lacks a reviewed estimand, portable input contract, estimator comparison, and independent numerical fixtures.",
+      "revisit_gate": "Freeze the estimand and assumptions, reproduce the paper examples, add fixed-seed bootstrap and clinical-utility fixtures, and complete independent scientific review."
+    },
+    {
+      "id": "ANALYTIC-002",
+      "candidate": "EVSI for risk-model validation",
+      "decision": "retain_research_preview",
+      "stable_api_added": false,
+      "rationale": "Three estimator families require a comparative bias, coverage, convergence, and external-validation design before selecting a supported implementation.",
+      "revisit_gate": "Reproduce all three estimators from primary evidence, define an external-validation design schema, and pass numerical and reviewer gates."
+    },
+    {
+      "id": "ANALYTIC-003",
+      "candidate": "EVSI with incomplete study data",
+      "decision": "retain_research_preview",
+      "stable_api_added": false,
+      "rationale": "MCAR, MAR, and MNAR semantics and multiple-imputation pooling are not interchangeable; the current preprint is insufficient for a stable default.",
+      "revisit_gate": "Freeze missingness and imputation contracts, reproduce the reference workloads, test sensitivity and pooling, and obtain independent review."
+    },
+    {
+      "id": "ANALYTIC-004",
+      "candidate": "Multilevel Monte Carlo EVPPI",
+      "decision": "reviewed_exclusion",
+      "stable_api_added": false,
+      "rationale": "The review did not identify sufficient current primary algorithmic evidence to define a maintained estimator and validation corpus.",
+      "revisit_gate": "Locate and review primary method evidence with implementable pseudocode, assumptions, complexity bounds, and reproducible reference results."
+    }
+  ]
+}

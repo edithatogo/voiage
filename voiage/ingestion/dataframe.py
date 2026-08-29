@@ -18,7 +18,7 @@ from voiage.contracts.normalized_input import (
 )
 
 _DIAGNOSTIC_EXTENSION = "voiage.dev:dataframe-interchange"
-_ADAPTER_VERSION = "1"
+_ADAPTER_VERSION = "2"
 
 
 def from_dataframe(
@@ -35,14 +35,19 @@ def from_dataframe(
     reject conversions that cannot preserve a zero-copy boundary.
     """
     try:
-        table = arrow_from_dataframe(dataframe, allow_copy=allow_copy)
+        table, conversion_protocol = _to_arrow_table(dataframe, allow_copy=allow_copy)
+        _reject_nested_columns(table)
     except (TypeError, ValueError, RuntimeError, pa.ArrowException) as error:
         raise ValueError(
             "input does not satisfy the dataframe interchange protocol "
             "with the requested copy policy"
         ) from error
     descriptor_digest = _table_digest(table, dataset_id=dataset_id, table_id=table_id)
-    conversion_details = _conversion_details(table, allow_copy=allow_copy)
+    conversion_details = _conversion_details(
+        table,
+        allow_copy=allow_copy,
+        conversion_protocol=conversion_protocol,
+    )
     return NormalizedInputBundle(
         manifest=DatasetManifest(
             dataset_id=dataset_id,
@@ -84,6 +89,40 @@ def from_dataframe(
     )
 
 
+def _to_arrow_table(dataframe: object, *, allow_copy: bool) -> tuple[pa.Table, str]:
+    """Prefer Arrow's PyCapsule interface without changing column semantics."""
+    arrow_stream = getattr(dataframe, "__arrow_c_stream__", None)
+    if callable(arrow_stream) and (allow_copy or isinstance(dataframe, pa.Table)):
+        try:
+            capsule_table = pa.table(dataframe)
+        except (TypeError, ValueError, RuntimeError, pa.ArrowException):
+            pass
+        else:
+            declared_names = _declared_column_names(dataframe)
+            if declared_names is None or capsule_table.column_names == declared_names:
+                return capsule_table, "arrow_py_capsule"
+    return (
+        arrow_from_dataframe(dataframe, allow_copy=allow_copy),
+        "dataframe_interchange_fallback",
+    )
+
+
+def _reject_nested_columns(table: pa.Table) -> None:
+    """Retain the version-1 adapter's explicitly flat column contract."""
+    if any(pa.types.is_nested(field.type) for field in table.schema):
+        raise ValueError("nested columns are not supported")
+
+
+def _declared_column_names(dataframe: object) -> list[str] | None:
+    """Read producer-native column names without invoking a deprecated protocol."""
+    names = getattr(dataframe, "column_names", None)
+    if names is None:
+        names = getattr(dataframe, "columns", None)
+    if names is None:
+        return None
+    return [str(name) for name in names]
+
+
 def _table_digest(table: pa.Table, *, dataset_id: str, table_id: str) -> str:
     """Hash canonical Arrow IPC content for direct-input provenance."""
     sink = pa.BufferOutputStream()
@@ -99,7 +138,9 @@ def _table_digest(table: pa.Table, *, dataset_id: str, table_id: str) -> str:
     return hasher.hexdigest()
 
 
-def _conversion_details(table: pa.Table, *, allow_copy: bool) -> dict[str, object]:
+def _conversion_details(
+    table: pa.Table, *, allow_copy: bool, conversion_protocol: str
+) -> dict[str, object]:
     """Return stable, non-semantic diagnostics for an interchange conversion.
 
     Arrow's public DataFrame-interchange interface can guarantee that a
@@ -110,6 +151,7 @@ def _conversion_details(table: pa.Table, *, allow_copy: bool) -> dict[str, objec
     """
     return {
         "adapter_version": _ADAPTER_VERSION,
+        "conversion_protocol": conversion_protocol,
         "copy_policy": "disallow_copy" if not allow_copy else "allow_copy",
         "copy_outcome": "zero_copy" if not allow_copy else "not_observable",
         "index_policy": "excluded_by_dataframe_interchange_protocol",

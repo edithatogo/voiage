@@ -400,7 +400,7 @@ def test_contract_evidence_is_sha256_pinned_and_keeps_external_gates_open() -> N
 
 def test_c18_m23_and_native_delivery_subissues_are_governed() -> None:
     track_id = "supported_frontier_method_completion_20260723"
-    track = ROOT / "conductor/tracks" / track_id
+    track = ROOT / "conductor/archive" / track_id
     requirements = (ROOT / "conductor/requirements.md").read_text(encoding="utf-8")
     plan = (track / "plan.md").read_text(encoding="utf-8")
     metadata = _json(track / "metadata.json")

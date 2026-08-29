@@ -12,7 +12,7 @@ import subprocess
 ROOT = Path(__file__).parents[1]
 INVENTORY = (
     ROOT
-    / "conductor/tracks/supported_frontier_method_completion_20260723"
+    / "conductor/archive/supported_frontier_method_completion_20260723"
     / "child-dispositions.json"
 )
 EXPECTED_CHILDREN = {
@@ -39,6 +39,14 @@ EXPECTED_CHILDREN = {
 
 def _inventory() -> dict[str, object]:
     return json.loads(INVENTORY.read_text(encoding="utf-8"))
+
+
+def _resolve_historical_artifact(relative: str) -> Path:
+    """Resolve evidence paths across the active-to-archive track migration."""
+    path = ROOT / relative
+    if path.exists():
+        return path
+    return ROOT / relative.replace("conductor/tracks/", "conductor/archive/", 1)
 
 
 def test_scientific_review_plan_requires_orchestrated_independent_panel() -> None:
@@ -77,7 +85,11 @@ def test_scientific_review_plan_requires_orchestrated_independent_panel() -> Non
         assert automatic_blocker in protocol
 
     for task in range(1, 11):
-        assert re.search(rf"^- \[[ x~]\] \*\*SR{task}(?:\s|\s*/)", plan, re.MULTILINE)
+        assert re.search(
+            rf"^- (?:\[[ x~]\] |\*\*Migrated:\*\* )\*\*SR{task}(?:\s|\s*/)",
+            plan,
+            re.MULTILINE,
+        )
     for issue in (570, 571, 595, 619):
         assert f"#{issue}" in plan
     for requirement in range(1, 7):
@@ -153,7 +165,8 @@ def test_scientific_review_plan_requires_orchestrated_independent_panel() -> Non
             assert f"**{req_prefix}{req_id}:**" in owning_req_text
         for task_id in task_ids:
             assert re.search(
-                rf"^- \[[ x~]\] \*\*{task_prefix}{task_id}:\*\*",
+                rf"^- (?:\[[ x~]\] |\*\*Migrated:\*\* )"
+                rf"\*\*{task_prefix}{task_id}:\*\*",
                 owning_plan_text,
                 re.MULTILINE,
             )
@@ -307,7 +320,7 @@ def test_programme_evidence_map_closes_only_repository_owned_g5_to_g15() -> None
         for gate in ("G5", "G6", "G7", "G8", "G9", "G10", "G11", "G12"):
             assert family["evidence"][gate]
         for artifact in family["artifacts"]:
-            assert (ROOT / artifact).is_file(), artifact
+            assert _resolve_historical_artifact(artifact).is_file(), artifact
     by_mapped_issue = {item["issue"]: item for item in evidence_map["families"]}
     for issue in (571, 595, 619):
         assert "independent" in by_mapped_issue[issue]["evidence"]["G8"]
@@ -342,7 +355,9 @@ def test_programme_evidence_map_closes_only_repository_owned_g5_to_g15() -> None
         741,
         742,
     ]
-    readback_path = ROOT / evidence_map["project_normalization_eligibility"]["readback"]
+    readback_path = _resolve_historical_artifact(
+        evidence_map["project_normalization_eligibility"]["readback"]
+    )
     readback = json.loads(readback_path.read_text(encoding="utf-8"))
     assert {item["issue"] for item in readback["closed_items"]} == {
         558,
@@ -410,7 +425,7 @@ def test_programme_evidence_map_closes_only_repository_owned_g5_to_g15() -> None
     assert completion["review_threads"] == 0
     assert completion["repository_complete"] is True
     assert completion["issue_318_closed"] is False
-    receipt = ROOT / completion["receipt"]
+    receipt = _resolve_historical_artifact(completion["receipt"])
     assert receipt.is_file()
     receipt_text = receipt.read_text(encoding="utf-8")
     for boundary in (
@@ -578,7 +593,7 @@ def test_positive_delivery_claims_are_bound_to_pull_requests_and_tracks() -> Non
 
 
 def test_issue_571_delivery_closeout_preserves_later_gates() -> None:
-    umbrella = ROOT / "conductor/tracks/supported_frontier_method_completion_20260723"
+    umbrella = ROOT / "conductor/archive/supported_frontier_method_completion_20260723"
     dedicated = ROOT / "conductor/archive/study_design_efficiency_20260727"
     child = next(item for item in _inventory()["children"] if item["issue"] == 571)
     umbrella_metadata = json.loads(
@@ -642,7 +657,7 @@ def test_issue_571_delivery_closeout_preserves_later_gates() -> None:
 
 
 def test_issue_595_delivery_closeout_preserves_alias_and_later_gates() -> None:
-    umbrella = ROOT / "conductor/tracks/supported_frontier_method_completion_20260723"
+    umbrella = ROOT / "conductor/archive/supported_frontier_method_completion_20260723"
     dedicated = ROOT / "conductor/archive/risk_adjusted_information_pricing_20260731"
     child = next(item for item in _inventory()["children"] if item["issue"] == 595)
     umbrella_metadata = json.loads(
@@ -708,7 +723,7 @@ def test_issue_595_delivery_closeout_preserves_alias_and_later_gates() -> None:
 
 
 def test_issue_593_delivery_closeout_preserves_later_gates() -> None:
-    track = ROOT / "conductor/tracks/supported_frontier_method_completion_20260723"
+    track = ROOT / "conductor/archive/supported_frontier_method_completion_20260723"
     metadata = json.loads((track / "metadata.json").read_text(encoding="utf-8"))
     cross_references = json.loads(
         (ROOT / "conductor/github-cross-references.json").read_text(encoding="utf-8")
@@ -752,8 +767,8 @@ def test_issue_593_delivery_closeout_preserves_later_gates() -> None:
 
 
 def test_issue_594_delivery_closeout_preserves_later_gates() -> None:
-    umbrella = ROOT / "conductor/tracks/supported_frontier_method_completion_20260723"
-    dedicated = ROOT / "conductor/tracks/uncertainty_modelling_value_20260801"
+    umbrella = ROOT / "conductor/archive/supported_frontier_method_completion_20260723"
+    dedicated = ROOT / "conductor/archive/uncertainty_modelling_value_20260801"
     inventory = _inventory()
     child = next(item for item in inventory["children"] if item["issue"] == 594)
     umbrella_metadata = json.loads(
@@ -814,7 +829,7 @@ def test_issue_594_delivery_closeout_preserves_later_gates() -> None:
 
 
 def test_issue_600_contract_and_native_delivery_children_are_governed() -> None:
-    track = ROOT / "conductor/tracks/supported_frontier_method_completion_20260723"
+    track = ROOT / "conductor/archive/supported_frontier_method_completion_20260723"
     inventory = _inventory()
     child = next(item for item in inventory["children"] if item["issue"] == 600)
     metadata = json.loads((track / "metadata.json").read_text(encoding="utf-8"))
@@ -864,7 +879,7 @@ def test_issue_600_contract_and_native_delivery_children_are_governed() -> None:
 
 
 def test_issue_619_repository_delivery_and_open_scientific_gate_are_governed() -> None:
-    dedicated = ROOT / "conductor/tracks/estimation_focused_variance_voi_20260727"
+    dedicated = ROOT / "conductor/archive/estimation_focused_variance_voi_20260727"
     child = next(item for item in _inventory()["children"] if item["issue"] == 619)
     metadata = json.loads((dedicated / "metadata.json").read_text(encoding="utf-8"))
     cross_references = json.loads(
@@ -901,7 +916,8 @@ def test_issue_619_repository_delivery_and_open_scientific_gate_are_governed() -
         for gate in metadata["gates"]
         if gate["id"] == "implementation-and-canonical-sync-merge"
     )
-    assert metadata["status"] == "in_progress"
+    assert metadata["status"] == "completed"
+    assert metadata["legacy_outcome"] == "superseded"
     assert scientific_gate["status"] == "pending"
     assert delivery_gate["status"] == "satisfied"
     assert cross_reference["issue"]["state"] == "open"

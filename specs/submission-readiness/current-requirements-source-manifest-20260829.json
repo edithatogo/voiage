@@ -1,0 +1,203 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-08-29T06:25:00Z",
+  "purpose": "Dated primary-source baseline for repository repair before any external submission.",
+  "external_action_performed": false,
+  "refresh_policy": "Refresh every source immediately before freezing a submission candidate and again before each venue action.",
+  "selected_sequence": [
+    "complete_all_repository_repairs",
+    "pyopensci",
+    "joss_partner_fast_track",
+    "ropensci"
+  ],
+  "concurrency_policy": "No package or associated manuscript may be under concurrent review where a selected venue prohibits or discourages it.",
+  "sources": [
+    {
+      "id": "PYOS-POLICY",
+      "authority": "pyOpenSci",
+      "normativity": "normative",
+      "url": "https://www.pyopensci.org/software-peer-review/our-process/policies.html",
+      "repository": "pyOpenSci/software-peer-review",
+      "revision": "080f957161b8374dbd989fde79a990f5ccb8ce34",
+      "revision_observed_at": "2026-08-11T23:02:11Z"
+    },
+    {
+      "id": "PYOS-AUTHOR",
+      "authority": "pyOpenSci",
+      "normativity": "normative",
+      "url": "https://www.pyopensci.org/software-peer-review/how-to/author-guide.html",
+      "repository": "pyOpenSci/software-peer-review",
+      "revision": "080f957161b8374dbd989fde79a990f5ccb8ce34",
+      "revision_observed_at": "2026-08-11T23:02:11Z"
+    },
+    {
+      "id": "PYOS-REVIEWER",
+      "authority": "pyOpenSci",
+      "normativity": "normative",
+      "url": "https://www.pyopensci.org/software-peer-review/how-to/reviewer-guide.html",
+      "repository": "pyOpenSci/software-peer-review",
+      "revision": "080f957161b8374dbd989fde79a990f5ccb8ce34",
+      "revision_observed_at": "2026-08-11T23:02:11Z"
+    },
+    {
+      "id": "PYOS-SCOPE",
+      "authority": "pyOpenSci",
+      "normativity": "normative",
+      "url": "https://www.pyopensci.org/software-peer-review/about/package-scope.html",
+      "repository": "pyOpenSci/software-peer-review",
+      "revision": "080f957161b8374dbd989fde79a990f5ccb8ce34",
+      "revision_observed_at": "2026-08-11T23:02:11Z"
+    },
+    {
+      "id": "PYOS-JOSS",
+      "authority": "pyOpenSci and JOSS partnership",
+      "normativity": "normative",
+      "url": "https://www.pyopensci.org/software-peer-review/partners/joss.html",
+      "repository": "pyOpenSci/software-peer-review",
+      "revision": "080f957161b8374dbd989fde79a990f5ccb8ce34",
+      "revision_observed_at": "2026-08-11T23:02:11Z"
+    },
+    {
+      "id": "ROSCI-POLICY",
+      "authority": "rOpenSci",
+      "normativity": "normative",
+      "url": "https://devguide.ropensci.org/softwarereview_policies.html",
+      "repository": "ropensci/dev_guide",
+      "revision": "85f548a7da918e3710587e875fc1dfed73409d8b",
+      "revision_observed_at": "2026-08-25T07:50:54Z"
+    },
+    {
+      "id": "ROSCI-AUTHOR",
+      "authority": "rOpenSci",
+      "normativity": "normative",
+      "url": "https://devguide.ropensci.org/softwarereview_author.html",
+      "repository": "ropensci/dev_guide",
+      "revision": "85f548a7da918e3710587e875fc1dfed73409d8b",
+      "revision_observed_at": "2026-08-25T07:50:54Z"
+    },
+    {
+      "id": "ROSCI-PACKAGING",
+      "authority": "rOpenSci",
+      "normativity": "normative",
+      "url": "https://devguide.ropensci.org/pkg_building.html",
+      "repository": "ropensci/dev_guide",
+      "revision": "85f548a7da918e3710587e875fc1dfed73409d8b",
+      "revision_observed_at": "2026-08-25T07:50:54Z"
+    },
+    {
+      "id": "ROSCI-PKGCHECK",
+      "authority": "rOpenSci review tooling",
+      "normativity": "normative",
+      "url": "https://docs.ropensci.org/pkgcheck/articles/list-checks.html",
+      "repository": "ropensci-review-tools/pkgcheck",
+      "revision": "af25295aed5fbb0229c20a8f68e91ed9e53e8d19",
+      "revision_observed_at": "2026-08-25T12:36:42Z"
+    },
+    {
+      "id": "ROSCI-SRR",
+      "authority": "rOpenSci statistical software review",
+      "normativity": "normative",
+      "url": "https://docs.ropensci.org/srr/articles/srr-stats.html",
+      "repository": "ropensci-review-tools/srr",
+      "revision": "d186fe6f93657805ed86177f03333c478e136709",
+      "revision_observed_at": "2026-07-22T08:14:46Z"
+    },
+    {
+      "id": "ROSCI-STANDARDS",
+      "authority": "rOpenSci statistical software review",
+      "normativity": "normative",
+      "url": "https://stats-devguide.ropensci.org/",
+      "repository": "ropensci/statistical-software-review-book",
+      "revision": "974cd8f0d73961235c74bfa34b78086d39fd8817",
+      "revision_observed_at": "2026-08-19T14:01:00Z"
+    },
+    {
+      "id": "JOSS-SUBMIT",
+      "authority": "Journal of Open Source Software",
+      "normativity": "normative",
+      "url": "https://joss.readthedocs.io/en/latest/submitting.html",
+      "repository": "openjournals/joss",
+      "revision": "49669629847201a313e94b58e7dd7a16dc7af509",
+      "revision_observed_at": "2026-08-26T16:43:04Z"
+    },
+    {
+      "id": "JOSS-CHECKLIST",
+      "authority": "Journal of Open Source Software",
+      "normativity": "normative",
+      "url": "https://joss.readthedocs.io/en/latest/review_checklist.html",
+      "repository": "openjournals/joss",
+      "revision": "49669629847201a313e94b58e7dd7a16dc7af509",
+      "revision_observed_at": "2026-08-26T16:43:04Z"
+    },
+    {
+      "id": "JOSS-CRITERIA",
+      "authority": "Journal of Open Source Software",
+      "normativity": "normative",
+      "url": "https://joss.readthedocs.io/en/latest/review_criteria.html",
+      "repository": "openjournals/joss",
+      "revision": "49669629847201a313e94b58e7dd7a16dc7af509",
+      "revision_observed_at": "2026-08-26T16:43:04Z"
+    },
+    {
+      "id": "JOSS-PAPER",
+      "authority": "Journal of Open Source Software",
+      "normativity": "normative",
+      "url": "https://joss.readthedocs.io/en/latest/paper.html",
+      "repository": "openjournals/joss",
+      "revision": "49669629847201a313e94b58e7dd7a16dc7af509",
+      "revision_observed_at": "2026-08-26T16:43:04Z"
+    },
+    {
+      "id": "PYPA-FLOW",
+      "authority": "Python Packaging Authority",
+      "normativity": "ecosystem baseline",
+      "url": "https://packaging.python.org/en/latest/flow/",
+      "repository": "pypa/packaging.python.org",
+      "revision": "ab4994857826246587d993862fd4097e36568080",
+      "revision_observed_at": "2026-08-19T11:28:57Z"
+    },
+    {
+      "id": "PYPA-TOOLS",
+      "authority": "Python Packaging Authority",
+      "normativity": "recommended",
+      "url": "https://packaging.python.org/en/latest/guides/tool-recommendations/",
+      "repository": "pypa/packaging.python.org",
+      "revision": "ab4994857826246587d993862fd4097e36568080",
+      "revision_observed_at": "2026-08-19T11:28:57Z"
+    },
+    {
+      "id": "PYPA-PUBLISH",
+      "authority": "Python Packaging Authority",
+      "normativity": "recommended",
+      "url": "https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/",
+      "repository": "pypa/packaging.python.org",
+      "revision": "ab4994857826246587d993862fd4097e36568080",
+      "revision_observed_at": "2026-08-19T11:28:57Z"
+    },
+    {
+      "id": "SLSA-1.2",
+      "authority": "Supply-chain Levels for Software Artifacts",
+      "normativity": "approved security specification",
+      "url": "https://slsa.dev/spec/v1.2/",
+      "repository": "slsa-framework/slsa",
+      "revision": "54b88b009fd45acb331c7e6578a526e0f36e0430",
+      "revision_observed_at": "2026-08-29T00:48:00Z"
+    },
+    {
+      "id": "OSSF-SCORECARD",
+      "authority": "OpenSSF Scorecard",
+      "normativity": "advisory security assessment",
+      "url": "https://github.com/ossf/scorecard/blob/main/docs/checks.md",
+      "repository": "ossf/scorecard",
+      "revision": "d1fab88f54636ff366076edfc5c239f97b3c8e66",
+      "revision_observed_at": "2026-08-15T06:01:27Z"
+    },
+    {
+      "id": "FAIR4RS-1.0",
+      "authority": "Research Data Alliance FAIR for Research Software Working Group",
+      "normativity": "research-software principles",
+      "url": "https://www.rd-alliance.org/system/files/FAIR4RS%20principles%20v1.0.pdf",
+      "document_version": "1.0"
+    }
+  ]
+}

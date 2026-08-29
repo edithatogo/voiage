@@ -17,6 +17,32 @@ test_that("voiageR package loads and exports the expected surface", {
   )
 })
 
+#' rOpenSci statistical testing standards exercised by this suite
+#'
+#' @srrstats {G5.0} Tests use analytically checkable and canonical reference cases.
+#' @srrstats {G5.1} The EVPI reference corpus is shipped under inst/extdata.
+#' @srrstats {G5.2} Public error and warning classes are explicitly exercised.
+#' @srrstats {G5.2a} Public diagnostic messages identify their distinct input contracts.
+#' @srrstats {G5.2b} Tests match each public diagnostic class to expected text.
+#' @srrstats {G5.3} Tests require finite native and delegated results.
+#' @srrstats {G5.4} Fixed fixtures have independently calculated expected VOI values.
+#' @srrstats {G5.4a} Trivial EVPI and ENBS cases isolate implementation correctness.
+#' @srrstats {G5.4b} Shared fixtures compare R output with the canonical Python/Rust values.
+#' @srrstats {G5.5} Stochastic facade tests always pass an explicit fixed seed.
+#' @srrstats {G5.8} Edge cases exercise invalid dimensions, values, and controls.
+#' @srrstats {G5.8a} Zero-length and empty structured inputs are rejected.
+#' @srrstats {G5.8b} Character and unsupported structured inputs are rejected.
+#' @srrstats {G5.8c} Missing and degenerate values are tested explicitly.
+#' @srrstats {G5.8d} Inputs outside each bounded method contract are rejected.
+#' @srrstats {G5.9} Numerical and stochastic sensitivity behavior is tested.
+#' @srrstats {G5.9a} Machine-epsilon perturbations preserve EVPI within tolerance.
+#' @srrstats {G5.9b} Seeded simulations are reproducible and seed changes are bounded.
+#' @srrstats {PD4.0} Native empirical-distribution outputs are compared numerically.
+#' @srrstats {PD4.1} Tests include explicit expected-value derivations and fixed values.
+#' @srrstats {PD4.4} Shared fixtures compare independent R, Python, and Rust paths.
+#' @noRd
+NULL
+
 test_that("the R EVSI facade exposes supported controls without custom callbacks", {
   evsi_arguments <- names(formals(evsi))
 

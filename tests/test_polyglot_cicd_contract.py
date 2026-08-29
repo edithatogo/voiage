@@ -88,6 +88,7 @@ def test_each_retained_language_has_native_assurance() -> None:
         "rcmdcheck::rcmdcheck",
         "RETICULATE_PYTHON",
         "Aqua.test_all",
+        "VOIAGE_RUN_JULIA_AQUA",
         "julia --project=.",
         "pnpm run check",
         "pnpm run build",

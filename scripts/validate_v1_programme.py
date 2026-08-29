@@ -77,21 +77,28 @@ def validate(repo_root: Path, *, now: datetime | None = None) -> None:
         _string_list(conductor_state.get("active_track_ids"), "active_track_ids")
     )
     tracks_root = conductor / "tracks"
+    archive_root = conductor / "archive"
     actual_active = (
         {path.name for path in tracks_root.iterdir() if path.is_dir()}
         if tracks_root.is_dir()
         else set()
     )
-    missing_active = expected_active - actual_active
+    actual_archived = (
+        {path.name for path in archive_root.iterdir() if path.is_dir()}
+        if archive_root.is_dir()
+        else set()
+    )
+    missing_active = expected_active - (actual_active | actual_archived)
     if missing_active:
         raise ValidationError("active track directories do not contain the baseline")
 
-    registered_active = set(re.findall(r"\./tracks/([^/]+)/", registry))
+    registered_active = set(
+        re.findall(r"\./(?:tracks|archive)/([^/]+)/", registry)
+    )
     missing_registered = expected_active - registered_active
     if missing_registered:
         raise ValidationError("active registry links do not contain the baseline")
 
-    archive_root = conductor / "archive"
     archive_count = (
         sum(path.is_dir() for path in archive_root.iterdir())
         if archive_root.is_dir()

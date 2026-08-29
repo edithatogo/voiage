@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "reviewed_at": "2026-07-27",
+  "reviewed_at": "2026-08-29",
   "policy": {
     "states_are_distinct": ["prepared", "submitted", "under_review", "accepted", "published", "indexed"],
     "no_external_action_from_contract": true,
@@ -8,8 +8,9 @@
     "concurrency_rule": "Do not place the same package or an associated manuscript under simultaneous review where either venue prohibits or discourages it."
   },
   "criteria_refresh": {
-    "reviewed_at": "2026-07-27",
-    "evidence": "specs/submission-readiness/criteria-refresh-2026-07-27.md",
+    "reviewed_at": "2026-08-29",
+    "evidence": "specs/submission-readiness/current-requirements-baseline-20260829.md",
+    "source_manifest": "specs/submission-readiness/current-requirements-source-manifest-20260829.json",
     "target_ids": ["arxiv", "joss", "pyopensci", "ropensci", "r-journal", "journal-of-statistical-software", "numfocus", "pypi", "testpypi", "conda-forge", "cran", "r-universe", "crates-io", "julia-general", "yggdrasil", "software-heritage", "zenodo", "scicrunch-rrid", "spack", "easybuild", "hpsf", "e4s"]
   },
   "execution_lanes": [
@@ -106,17 +107,17 @@
     {
       "id": "ropensci",
       "kind": "community_review",
-      "readiness": "blocked",
+      "readiness": "conditional",
       "scope": "Independently reviewable R statistical-software package.",
       "criteria_url": "https://devguide.ropensci.org/softwarereview_author.html",
       "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
       "requirements": [
         {"id": "r-package-baseline", "status": "satisfied", "evidence": ["r-package/voiageR/DESCRIPTION", "r-package/voiageR/README.md", "r-package/voiageR/vignettes/voiageR-intro.Rmd"]},
-        {"id": "self-contained-installation", "status": "pending", "evidence": ["docs/release/binding-submission-checklist.md", "specs/submission-readiness/ropensci-evidence.json"]},
-        {"id": "statistical-standards-map", "status": "pending", "evidence": ["specs/submission-readiness/ropensci-evidence.json", "r-package/voiageR/tests/testthat/test-zz-numerical-reference.R"]}
+        {"id": "self-contained-installation", "status": "satisfied", "evidence": ["docs/release/binding-submission-checklist.md", "specs/submission-readiness/ropensci-evidence.json", "specs/submission-readiness/installed-binding-validation-20260829.json"]},
+        {"id": "statistical-standards-map", "status": "satisfied", "evidence": ["specs/submission-readiness/ropensci-evidence.json", "specs/submission-readiness/ropensci-standards-mapping.md", "r-package/voiageR/tests/testthat/test-zz-numerical-reference.R"]}
       ],
       "acceptance_evidence": ["rOpenSci pre-submission or review issue", "rOpenSci acceptance and onboarding record"],
-      "next_decision": "Reconsider only after self-contained installation, bounded R scope, distribution, and srr standards evidence."
+      "next_decision": "After the renamed R CMD Check workflow is observed on the default branch and pinned pkgcheck is fully green, a maintainer may separately decide whether to open the unposted pre-submission inquiry."
     },
     {
       "id": "r-journal",

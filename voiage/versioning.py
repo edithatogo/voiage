@@ -220,7 +220,8 @@ def _r_version_mismatch(
         )
 
     canonical_match = _CANONICAL_VERSION_RE.fullmatch(identity.canonical)
-    assert canonical_match is not None  # validated by release_identity
+    if canonical_match is None:  # pragma: no cover - release_identity validated it
+        raise ValueError("release identity returned a non-canonical version")
     rc_number = int(canonical_match.group("rc") or "0")
     r_parts = tuple(int(part) for part in r_version.split("."))
     target_parts = tuple(

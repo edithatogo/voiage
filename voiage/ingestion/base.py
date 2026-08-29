@@ -172,7 +172,8 @@ class SourceAccessPolicy:
             cached = self._cache_path(expected)
             if not self._is_safe_cached_file(cached):
                 raise IngestionError("no verified offline materialization is available")
-            assert cached is not None
+            if cached is None:  # pragma: no cover - safe-cache check rejects None
+                raise IngestionError("offline cache directory is unavailable")
             if self._digest(cached) != expected:
                 raise IngestionError("cached materialization checksum does not match")
             if byte_size is not None and cached.stat().st_size != byte_size:
@@ -189,7 +190,8 @@ class SourceAccessPolicy:
             return source
 
         cached = self._cache_path(actual)
-        assert cached is not None
+        if cached is None:  # pragma: no cover - cache_dir checked above
+            raise IngestionError("cache directory is unavailable")
         cached.parent.mkdir(parents=True, exist_ok=True)
         if cached.exists():
             if not self._is_safe_cached_file(cached) or self._digest(cached) != actual:

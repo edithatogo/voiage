@@ -20,6 +20,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   lock-refresh-evidence:
     name: Frozen Lock Refresh Evidence
@@ -301,27 +305,23 @@ jobs:
     - name: Install dependencies
       run: uv sync --frozen --extra ci
 
-    - name: Run unit tests with coverage
+    - name: Run bounded parallel unit compatibility tests
       run: |
-        uv run pytest tests/ \
-          -m "not integration and not e2e and not benchmark" \
-          --cov=voiage \
-          --cov-fail-under=0 \
-          --cov-report=xml \
-          --cov-report=term-missing \
-          --numprocesses=auto \
+        uv run pytest \
+          tests/test_numerical_reference_cases.py \
+          tests/test_core_metrics_regression.py \
+          tests/test_contract_bundle.py \
+          tests/test_v2_stable_api_contract.py \
+          tests/test_version_sync.py \
+          tests/test_dataframe_interchange_sdk.py \
+          tests/test_python_rust_bridge.py \
+          tests/test_cli_expected_utility_information.py \
+          --no-cov \
+          --numprocesses=6 \
+          --dist=worksteal \
           -v
       env:
         CI: true
-
-    - name: Upload coverage to Codecov
-      if: matrix.python == '3.14'
-      uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f
-      with:
-        files: ./coverage.xml
-        flags: unittests
-        name: codecov-umbrella
-        fail_ci_if_error: false
 
   ingestion-conformance:
     name: Standardized Ingestion Conformance
@@ -349,6 +349,70 @@ jobs:
       run: uv run --with tox tox -e ingestion-conformance
       env:
         CI: true
+
+  excel-interchange:
+    name: Excel Interchange Extra
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+      with:
+        persist-credentials: false
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+      with:
+        version: "0.11.29"
+        enable-cache: true
+        cache-suffix: ${{ github.job }}
+        cache-dependency-glob: "uv.lock"
+
+    - name: Set up Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: "3.14"
+
+    - name: Install explicit Excel extra
+      run: uv sync --frozen --extra ci --extra excel
+
+    - name: Exercise Excel import and export
+      run: >-
+        uv run pytest
+        tests/test_ecosystem_integration.py::test_data_format_connector_imports_xlsx
+        tests/test_ecosystem_integration.py::test_data_format_connector_exports_xlsx_workbook
+        --no-cov -q
+
+  example-smoke:
+    name: Example and Notebook Smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+      with:
+        persist-credentials: false
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+      with:
+        version: "0.11.29"
+        enable-cache: true
+        cache-suffix: ${{ github.job }}
+        cache-dependency-glob: "uv.lock"
+
+    - name: Set up Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: "3.14"
+
+    - name: Install bounded example dependencies
+      run: uv sync --frozen --extra ci --extra dev
+
+    - name: Execute selected scripts and notebook
+      run: uv run --no-sync python scripts/run_example_smoke.py
+
+    - name: Execute four-domain synthetic workflow corpus
+      run: uv run --no-sync python scripts/validate_research_workflow_corpus.py
 
   coverage-report:
     name: Coverage Report
@@ -378,6 +442,14 @@ jobs:
 
     - name: Verify coverage threshold
       run: uv run --with tox tox -e coverage_report
+
+    - name: Upload authoritative coverage to Codecov
+      uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f
+      with:
+        files: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
 
   free-threaded-observation:
     name: Python 3.14t Observation
@@ -753,4 +825,4 @@ jobs:
 
     - name: Build documentation
       working-directory: docs/astro-site
-      run: pnpm run build
+      run: pnpm exec astro build

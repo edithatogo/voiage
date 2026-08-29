@@ -30,9 +30,9 @@ def test_load_all_contract_dispositions() -> None:
     # Check DecisionProblem parity
     dp = contracts["decision_problem"]
     assert dp.dispositions["python"].status == "implemented"
-    assert dp.dispositions["rust"].status == "implemented"
-    assert dp.dispositions["r"].status == "implemented"
-    assert dp.dispositions["julia"].status == "implemented"
+    assert dp.dispositions["rust"].status == "internal"
+    assert dp.dispositions["r"].status == "unsupported"
+    assert dp.dispositions["julia"].status == "unsupported"
     assert dp.dispositions["mojo"].status == "upstream_blocked"
 
 
@@ -44,6 +44,10 @@ def test_get_binding_disposition() -> None:
     mojo_dp = get_binding_disposition("decision_problem", "mojo")
     assert mojo_dp.status == "upstream_blocked"
     assert "external upstream boundary" in mojo_dp.reason
+
+
+def test_manifest_resolves_implemented_and_contract_only_claims() -> None:
+    assert validate_binding_dispositions_manifest(resolve_symbols=True) is True
 
 
 def test_contract_binding_parity_to_dict() -> None:
@@ -97,3 +101,58 @@ def test_error_handling(tmp_path: Path) -> None:
     )
     with pytest.raises(InputError, match="Invalid status"):
         validate_binding_dispositions_manifest(manifest_path=bad_status_manifest)
+
+
+@pytest.mark.parametrize(
+    ("language", "disposition", "schema", "message"),
+    [
+        ("r", {"status": "unsupported"}, None, "Missing reason"),
+        (
+            "python",
+            {"status": "implemented", "symbol": "invalid"},
+            None,
+            "Invalid Python symbol",
+        ),
+        (
+            "python",
+            {"status": "implemented", "symbol": "voiage.schema.MissingThing"},
+            None,
+            "Unresolvable Python symbol",
+        ),
+        (
+            "r",
+            {"status": "contract_only", "symbol": "specs/missing.schema.json"},
+            None,
+            "Unresolvable contract",
+        ),
+        ("r", {"status": "adapter"}, "specs/missing.schema.json", "Missing schema"),
+    ],
+)
+def test_symbol_resolution_rejects_each_invalid_disposition(
+    tmp_path: Path,
+    language: str,
+    disposition: dict[str, str],
+    schema: str | None,
+    message: str,
+) -> None:
+    manifest = tmp_path / "invalid-disposition.json"
+    manifest.write_text(
+        json.dumps(
+            {
+                "contracts": {
+                    "example": {
+                        "schema": schema
+                        or "specs/core-api/schemas/v1/decision-problem.schema.json",
+                        "dispositions": {language: disposition},
+                    }
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(InputError, match=message):
+        validate_binding_dispositions_manifest(
+            manifest_path=manifest,
+            resolve_symbols=True,
+        )

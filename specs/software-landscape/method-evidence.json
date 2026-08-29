@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "reviewed_on": "2026-07-24",
+  "reviewed_on": "2026-08-29",
   "sources": [
     {"id": "ispor-voi-task-force", "title": "Value of Information Analytical Methods: Report 2 of the ISPOR Value of Information Analysis Emerging Good Practices Task Force", "kind": "guideline", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7373630/", "verification": "primary-verified"},
     {"id": "r-voi-vignette", "title": "Value of Information Analysis with voi", "kind": "package-documentation", "url": "https://stat.ethz.ch/CRAN/web/packages/voi/vignettes/voi.html", "verification": "primary-verified"},
@@ -8,7 +8,12 @@
     {"id": "voi-web-tools-review", "title": "Web-based tools for value-of-information analysis", "kind": "primary-paper", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613968/", "verification": "primary-verified"},
     {"id": "pyro-oed", "title": "Pyro Bayesian optimal experimental design documentation", "kind": "package-documentation", "url": "https://docs.pyro.ai/en/stable/contrib.oed.html", "verification": "primary-verified"},
     {"id": "botorch-acquisition", "title": "BoTorch acquisition function documentation", "kind": "package-documentation", "url": "https://botorch.readthedocs.io/en/stable/acquisition.html", "verification": "primary-verified"},
-    {"id": "voiage-method-contracts", "title": "VOIAGE canonical and frontier method contracts", "kind": "repository-contract", "url": "https://github.com/edithatogo/voiage/tree/main/specs", "verification": "repository-verified"}
+    {"id": "voiage-method-contracts", "title": "VOIAGE canonical and frontier method contracts", "kind": "repository-contract", "url": "https://github.com/edithatogo/voiage/tree/main/specs", "verification": "repository-verified"},
+    {"id": "evsi-risk-model-development", "title": "Expected value of sample information for risk prediction model development", "kind": "primary-paper", "url": "https://pubmed.ncbi.nlm.nih.gov/41974569/", "verification": "primary-verified"},
+    {"id": "evsi-risk-model-validation", "title": "Expected value of sample information for risk prediction model validation", "kind": "primary-paper", "url": "https://pubmed.ncbi.nlm.nih.gov/39963746/", "verification": "primary-verified"},
+    {"id": "evsi-missing-data", "title": "Expected value of sample information with missing data", "kind": "preprint", "url": "https://arxiv.org/abs/2607.25775", "verification": "primary-verified"},
+    {"id": "python-value-of-information-source", "title": "value-of-information Python source repository", "kind": "package-documentation", "url": "https://github.com/tadamcz/value-of-information", "verification": "primary-verified"},
+    {"id": "r-evsi-source", "title": "EVSI R research package source repository", "kind": "package-documentation", "url": "https://github.com/annaheath/EVSI", "verification": "primary-verified"}
   ],
   "coverage": [
     {
@@ -17,6 +22,13 @@
       "source_ids": ["ispor-voi-task-force", "r-voi-vignette", "bcea-reference", "voi-web-tools-review"],
       "review_state": "primary-verified",
       "note": "Established estimands, estimators, and decision outputs were reconciled against task-force guidance and maintained package documentation."
+    },
+    {
+      "family": "candidate-realistic-study-data-and-risk-model-evsi",
+      "method_ids": ["evsi", "enbs", "optimal-study-design", "evsi-moment-matching"],
+      "source_ids": ["evsi-risk-model-development", "evsi-risk-model-validation", "evsi-missing-data", "python-value-of-information-source", "r-evsi-source"],
+      "review_state": "triage-required",
+      "note": "Recent work exposes candidate extensions for model development, external validation, missing-data mechanisms, and study-data workflows. These remain Phase 2 candidates rather than supported capability claims."
     },
     {
       "family": "value-of-perspective",

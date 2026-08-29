@@ -1,7 +1,19 @@
 # Project Tracks
 
-The Rust-first polyglot programme is registered as the current programme; all
-other tracks retain their evidenced lifecycle and external-gate boundaries.
+The pre-submission comprehensive hardening programme is the current canonical
+programme. Historical and superseded tracks retain their evidenced lifecycle
+and external-gate boundaries.
+
+## [~] Track: Pre-Submission Comprehensive Hardening
+*Link: [./tracks/pre_submission_comprehensive_hardening_20260829/index.md](./tracks/pre_submission_comprehensive_hardening_20260829/index.md)*
+*GitHub: [issue #1033](https://github.com/edithatogo/voiage/issues/1033),
+consolidating the repository-owned scope of the superseded active queue.*
+*Status: in progress — consolidating all active work, refreshing whole-product
+feature and dependency gaps, profile and accelerate CI/testing, repair accepted
+repository gaps, and establish exact pyOpenSci, rOpenSci, and JOSS readiness
+without performing a submission.*
+
+---
 
 ## [x] Track: pyOpenSci Submission Staging [completed: 2026-08-29]
 *Link: [./archive/pyopensci_submission_staging_20260829/index.md](./archive/pyopensci_submission_staging_20260829/index.md)*
@@ -17,31 +29,31 @@ other tracks retain their evidenced lifecycle and external-gate boundaries.
 
 ---
 
-## [~] Track: Julia General Registry & JuliaHealth Ecosystem Integration
-*Link: [./tracks/julia_general_registry_ecosystem_20260823/index.md](./tracks/julia_general_registry_ecosystem_20260823/index.md)*
+## [x] Track: Julia General Registry & JuliaHealth Ecosystem Integration
+*Link: [./archive/julia_general_registry_ecosystem_20260823/index.md](./archive/julia_general_registry_ecosystem_20260823/index.md)*
 *GitHub: [issue #1023](https://github.com/edithatogo/voiage/issues/1023), related [#555](https://github.com/edithatogo/voiage/issues/555).*
-*Status: in progress — Yggdrasil PR #14292 Buildkite 15/15 green; JLL dependency wiring and JuliaHealth domain integration in progress.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 
-## [~] Track: R CRAN Standalone Distribution & rOpenSci Statistical Software Review
-*Link: [./tracks/ropensci_cran_readiness_20260823/index.md](./tracks/ropensci_cran_readiness_20260823/index.md)*
+## [x] Track: R CRAN Standalone Distribution & rOpenSci Statistical Software Review
+*Link: [./archive/ropensci_cran_readiness_20260823/index.md](./archive/ropensci_cran_readiness_20260823/index.md)*
 *GitHub: [issue #1024](https://github.com/edithatogo/voiage/issues/1024), related [#615](https://github.com/edithatogo/voiage/issues/615) and [#298](https://github.com/edithatogo/voiage/issues/298).*
-*Status: in progress — standalone C ABI bridge architecture and @srrstats annotations in progress.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 
-## [~] Track: HPC Spack & EasyBuild Distribution
-*Link: [./tracks/hpc_spack_easybuild_distribution_20260823/index.md](./tracks/hpc_spack_easybuild_distribution_20260823/index.md)*
+## [x] Track: HPC Spack & EasyBuild Distribution
+*Link: [./archive/hpc_spack_easybuild_distribution_20260823/index.md](./archive/hpc_spack_easybuild_distribution_20260823/index.md)*
 *GitHub: [issue #1025](https://github.com/edithatogo/voiage/issues/1025), related [#622](https://github.com/edithatogo/voiage/issues/622).*
-*Status: in progress — Spack py-voiage recipe and EasyBuild easyconfig authoring in progress.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 
-## [~] Track: Sustainability, Security Badging & Persistent Identifier Governance
-*Link: [./tracks/sustainability_badging_governance_20260823/index.md](./tracks/sustainability_badging_governance_20260823/index.md)*
+## [x] Track: Sustainability, Security Badging & Persistent Identifier Governance
+*Link: [./archive/sustainability_badging_governance_20260823/index.md](./archive/sustainability_badging_governance_20260823/index.md)*
 *GitHub: [issue #1026](https://github.com/edithatogo/voiage/issues/1026), related [#620](https://github.com/edithatogo/voiage/issues/620) and [#298](https://github.com/edithatogo/voiage/issues/298).*
-*Status: in progress — Open Source Collective documentation, OpenSSF Best Practices Passing Badge questionnaire, and SciCrunch RRID tracking.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 
@@ -58,97 +70,84 @@ registration, and indexing remain external gates.*
 
 ---
 
-## [~] Track: Rust-First Polyglot VOIAGE Completion Programme
-*Link: [./tracks/rust_polyglot_voi_completion_20260723/index.md](./tracks/rust_polyglot_voi_completion_20260723/index.md)*
+## [x] Track: Rust-First Polyglot VOIAGE Completion Programme
+*Link: [./archive/rust_polyglot_voi_completion_20260723/index.md](./archive/rust_polyglot_voi_completion_20260723/index.md)*
 *GitHub: [issue #313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: in progress — the issue-claimed specification and plan are now materialized;
-existing issue/Project progress awaits evidence reconciliation; scientific, installed-parity, rights and hosted gates remain pending.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 
-## [~] Track: VOI and VOP Method Census and Contract Reconciliation
-*Link: [./tracks/voi_method_census_contract_reconciliation_20260723/index.md](./tracks/voi_method_census_contract_reconciliation_20260723/index.md)*
+## [x] Track: VOI and VOP Method Census and Contract Reconciliation
+*Link: [./archive/voi_method_census_contract_reconciliation_20260723/index.md](./archive/voi_method_census_contract_reconciliation_20260723/index.md)*
 *GitHub: [issue #314](https://github.com/edithatogo/voiage/issues/314), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: in progress — live issue hierarchy, Project state, metadata, merged
-planning PR #621, and delivery PR #816 are reconciled; residual classification
-and promotion remain pending.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 
-## [~] Track: External VOI Library Landscape and Feature-Parity Review
-*Link: [./tracks/external_voi_library_feature_parity_20260723/index.md](./tracks/external_voi_library_feature_parity_20260723/index.md)*
+## [x] Track: External VOI Library Landscape and Feature-Parity Review
+*Link: [./archive/external_voi_library_feature_parity_20260723/index.md](./archive/external_voi_library_feature_parity_20260723/index.md)*
 *GitHub: [issue #315](https://github.com/edithatogo/voiage/issues/315), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: in progress — the issue-claimed specification and plan are now materialized;
-existing issue/Project progress awaits evidence reconciliation.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 
-## [~] Track: Stable Rust VOI Core Completion
-*Link: [./tracks/stable_voi_rust_core_completion_20260723/index.md](./tracks/stable_voi_rust_core_completion_20260723/index.md)*
+## [x] Track: Stable Rust VOI Core Completion
+*Link: [./archive/stable_voi_rust_core_completion_20260723/index.md](./archive/stable_voi_rust_core_completion_20260723/index.md)*
 *GitHub: [issue #316](https://github.com/edithatogo/voiage/issues/316), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: in progress — Rust-authoritative stable-kernel contracts, migration
-matrix, bridge boundaries, and delivery PR #827 are reconciled; complete method
-coverage, installed parity, promotion, and registry gates remain pending.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 
-## [~] Track: Value of Perspective Method Completion
-*Link: [./tracks/value_of_perspective_completion_20260723/index.md](./tracks/value_of_perspective_completion_20260723/index.md)*
+## [x] Track: Value of Perspective Method Completion
+*Link: [./archive/value_of_perspective_completion_20260723/index.md](./archive/value_of_perspective_completion_20260723/index.md)*
 *GitHub: [issue #317](https://github.com/edithatogo/voiage/issues/317), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: in progress — the issue-claimed specification and plan are now materialized;
-existing issue/Project progress awaits evidence reconciliation.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 
-## [~] Track: Supported Frontier Method Completion
-*Link: [./tracks/supported_frontier_method_completion_20260723/index.md](./tracks/supported_frontier_method_completion_20260723/index.md)*
+## [x] Track: Supported Frontier Method Completion
+*Link: [./archive/supported_frontier_method_completion_20260723/index.md](./archive/supported_frontier_method_completion_20260723/index.md)*
 *GitHub: [issue #318](https://github.com/edithatogo/voiage/issues/318), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: in progress — reconciling every owned child issue against executable
-evidence or a reviewed exclusion before programme closeout.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 
-## [~] Track: Sampling-Acquisition-Harm Value of Information
-*Link: [./tracks/sampling_acquisition_harm_voi_20260802/index.md](./tracks/sampling_acquisition_harm_voi_20260802/index.md)*
+## [x] Track: Sampling-Acquisition-Harm Value of Information
+*Link: [./archive/sampling_acquisition_harm_voi_20260802/index.md](./archive/sampling_acquisition_harm_voi_20260802/index.md)*
 *GitHub: [issue #850](https://github.com/edithatogo/voiage/issues/850), child
 of [#570](https://github.com/edithatogo/voiage/issues/570), dependent on
 [#571](https://github.com/edithatogo/voiage/issues/571), under scientific-review
 umbrella [#841](https://github.com/edithatogo/voiage/issues/841), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: in progress — primary-source and estimand scoping is in progress; no runtime
-capability exists and scientific/domain review remains pending.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 
-## [~] Track: Information-Source Portfolio VOI
-*Link: [./tracks/information_source_portfolio_voi_20260801/index.md](./tracks/information_source_portfolio_voi_20260801/index.md)*
+## [x] Track: Information-Source Portfolio VOI
+*Link: [./archive/information_source_portfolio_voi_20260801/index.md](./archive/information_source_portfolio_voi_20260801/index.md)*
 *GitHub: [issue #582](https://github.com/edithatogo/voiage/issues/582),
 native sub-issue of [#318](https://github.com/edithatogo/voiage/issues/318),
 under programme [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: in progress — the exact finite experimental Python contract and PR
-#812 repository-review delivery are reconciled; independent scientific review,
-polyglot parity, stable promotion, release, and issue closure remain separate.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 
-## [~] Track: Uncertainty-Modelling Value
-*Link: [./tracks/uncertainty_modelling_value_20260801/index.md](./tracks/uncertainty_modelling_value_20260801/index.md)*
+## [x] Track: Uncertainty-Modelling Value
+*Link: [./archive/uncertainty_modelling_value_20260801/index.md](./archive/uncertainty_modelling_value_20260801/index.md)*
 *GitHub: [issue #594](https://github.com/edithatogo/voiage/issues/594),
 native sub-issue of [#318](https://github.com/edithatogo/voiage/issues/318),
 with delivery subissues [#774](https://github.com/edithatogo/voiage/issues/774),
 [#775](https://github.com/edithatogo/voiage/issues/775), and
 [#776](https://github.com/edithatogo/voiage/issues/776), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: in progress — delivering canonical C18-M26 as an experimental exact
-finite Python contract; scientific review, hosted checks, polyglot parity,
-stable promotion, release and closure remain separate gates.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 
@@ -164,61 +163,53 @@ and issue closure remain separate gates.*
 
 ---
 
-## [~] Track: ML, LLM and Agent Value of Information
-*Link: [./tracks/ml_llm_agent_voi_20260723/index.md](./tracks/ml_llm_agent_voi_20260723/index.md)*
+## [x] Track: ML, LLM and Agent Value of Information
+*Link: [./archive/ml_llm_agent_voi_20260723/index.md](./archive/ml_llm_agent_voi_20260723/index.md)*
 *GitHub: [issue #319](https://github.com/edithatogo/voiage/issues/319), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: in progress — the issue-claimed specification and plan are now materialized;
-existing issue/Project progress awaits evidence reconciliation; scientific, installed-parity, rights and hosted gates remain pending.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 
-## [~] Track: Polyglot ABI and Binding Parity
-*Link: [./tracks/polyglot_abi_binding_parity_20260723/index.md](./tracks/polyglot_abi_binding_parity_20260723/index.md)*
+## [x] Track: Polyglot ABI and Binding Parity
+*Link: [./archive/polyglot_abi_binding_parity_20260723/index.md](./archive/polyglot_abi_binding_parity_20260723/index.md)*
 *GitHub: [issue #320](https://github.com/edithatogo/voiage/issues/320), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: in progress — the issue-claimed specification and plan are now materialized;
-existing issue/Project progress awaits evidence reconciliation.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 
-## [~] Track: Datasets and Executable Worked Examples
-*Link: [./tracks/datasets_worked_examples_20260723/index.md](./tracks/datasets_worked_examples_20260723/index.md)*
+## [x] Track: Datasets and Executable Worked Examples
+*Link: [./archive/datasets_worked_examples_20260723/index.md](./archive/datasets_worked_examples_20260723/index.md)*
 *GitHub: [issue #321](https://github.com/edithatogo/voiage/issues/321), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: in progress — Phase 1 governance and prior-artifact reconciliation
-pass; rights-governed domain packs, delivery evidence, review, and hosted
-checks remain pending.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 
-## [~] Track: Quality, Security, Release and Registry Automation
-*Link: [./tracks/quality_release_automation_20260723/index.md](./tracks/quality_release_automation_20260723/index.md)*
+## [x] Track: Quality, Security, Release and Registry Automation
+*Link: [./archive/quality_release_automation_20260723/index.md](./archive/quality_release_automation_20260723/index.md)*
 *GitHub: [issue #322](https://github.com/edithatogo/voiage/issues/322), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: in progress — the issue-claimed specification and plan are now materialized;
-existing issue/Project progress awaits evidence reconciliation.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 
-## [~] Track: Contributor and AI Contribution Transparency
-*Link: [./tracks/research_contribution_ai_transparency_20260723/index.md](./tracks/research_contribution_ai_transparency_20260723/index.md)*
+## [x] Track: Contributor and AI Contribution Transparency
+*Link: [./archive/research_contribution_ai_transparency_20260723/index.md](./archive/research_contribution_ai_transparency_20260723/index.md)*
 *GitHub: [issue #323](https://github.com/edithatogo/voiage/issues/323), native sub-issue of [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: in progress — the issue-claimed specification and plan are now materialized;
-existing issue/Project progress awaits evidence reconciliation.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 
-## [~] Track: Estimation-Focused Variance-Reduction VOI
-*Link: [./tracks/estimation_focused_variance_voi_20260727/index.md](./tracks/estimation_focused_variance_voi_20260727/index.md)*
+## [x] Track: Estimation-Focused Variance-Reduction VOI
+*Link: [./archive/estimation_focused_variance_voi_20260727/index.md](./archive/estimation_focused_variance_voi_20260727/index.md)*
 *GitHub: [issue #619](https://github.com/edithatogo/voiage/issues/619),
 native sub-issue of [#318](https://github.com/edithatogo/voiage/issues/318),
 under programme [#313](https://github.com/edithatogo/voiage/issues/313), in
 [Project 28](https://github.com/users/edithatogo/projects/28).*
-*Status: experimental scalar repository implementation merged in PR
-[#676](https://github.com/edithatogo/voiage/pull/676); scientific review,
-vector covariance, stable promotion, release and issue closure remain separate gates.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 
@@ -267,23 +258,19 @@ repository manifest, validation, and merged PR handoff are recorded.*
 
 ---
 
-## [~] Track: Controlled Live Standardized-Dataset Interoperability
-*Link: [./tracks/controlled_live_dataset_interoperability_20260801/index.md](./tracks/controlled_live_dataset_interoperability_20260801/index.md)*
+## [x] Track: Controlled Live Standardized-Dataset Interoperability
+*Link: [./archive/controlled_live_dataset_interoperability_20260801/index.md](./archive/controlled_live_dataset_interoperability_20260801/index.md)*
 *GitHub: [issue #752](https://github.com/edithatogo/voiage/issues/752), native
 sub-issue of [#325](https://github.com/edithatogo/voiage/issues/325).*
-*Status: in progress but authorization-blocked — fail-closed local probe
-assurance and PR #817 hosted delivery checks pass; approved rights-cleared,
-hash-pinned source artifacts and explicit use authority remain mandatory before
-network I/O.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 
-## [~] Track: Remote Standardized-Dataset Ingestion Security
-*Link: [./tracks/remote_dataset_ingestion_security_20260801/index.md](./tracks/remote_dataset_ingestion_security_20260801/index.md)*
+## [x] Track: Remote Standardized-Dataset Ingestion Security
+*Link: [./archive/remote_dataset_ingestion_security_20260801/index.md](./archive/remote_dataset_ingestion_security_20260801/index.md)*
 *GitHub: [issue #753](https://github.com/edithatogo/voiage/issues/753), native
 sub-issue of [#325](https://github.com/edithatogo/voiage/issues/325).*
-*Status: in progress — the PR #824 threat model and hosted delivery assurance
-are recorded; remote I/O remains blocked pending explicit policy approval.*
+*Status: superseded on 2026-08-29 — pending work migrated to `pre_submission_comprehensive_hardening_20260829`; completed evidence and external-gate boundaries remain preserved.*
 
 ---
 

@@ -1,0 +1,77 @@
+{
+  "track_id": "estimation_focused_variance_voi_20260727",
+  "version": "1.0.0",
+  "type": "feature",
+  "status": "completed",
+  "created_at": "2026-07-27T07:59:23Z",
+  "updated_at": "2026-08-29T05:52:00Z",
+  "planned_version": "1.2.0",
+  "moscow": "must",
+  "canonical_track": "C16",
+  "canonical_projection": "https://github.com/edithatogo/vop_poc_nz/blob/main/conductor/tracks/specialized-voi-v1-2_20260727/projection.json",
+  "canonical_pull_request": "https://github.com/edithatogo/vop_poc_nz/pull/51",
+  "canonical_sync_pull_request": "https://github.com/edithatogo/vop_poc_nz/pull/64",
+  "requirement_ids": [
+    "M14",
+    "M17"
+  ],
+  "description": "Plan and govern estimation-focused EVPPI and EVSI variance-reduction metrics without conflating them with decision-focused VOI.",
+  "evidence_schema": "1.0",
+  "approval": {
+    "status": "approved",
+    "approved_on": "2026-07-27",
+    "recorded_at": "2026-07-27T07:59:23Z",
+    "evidence": "User explicitly requested that features absent from both implementation and plans be incorporated into GitHub issues and cross-referenced Conductor tracks."
+  },
+  "github_parent_issue": "https://github.com/edithatogo/voiage/issues/318",
+  "github_programme_parent": "https://github.com/edithatogo/voiage/issues/313",
+  "github_project": "https://github.com/users/edithatogo/projects/28",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/619",
+    "subissues": [
+      "https://github.com/edithatogo/voiage/issues/671",
+      "https://github.com/edithatogo/voiage/issues/672",
+      "https://github.com/edithatogo/voiage/issues/673",
+      "https://github.com/edithatogo/voiage/issues/674",
+      "https://github.com/edithatogo/voiage/issues/843"
+    ],
+    "parent_issue": "https://github.com/edithatogo/voiage/issues/318",
+    "programme": "https://github.com/edithatogo/voiage/issues/313",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/621",
+      "https://github.com/edithatogo/voiage/pull/676",
+      "https://github.com/edithatogo/vop_poc_nz/pull/64"
+    ],
+    "pull_request_evidence": "merged_track_delivery_and_canonical_sync"
+  },
+  "gates": [
+    {
+      "id": "specification-and-plan-approval",
+      "kind": "human_approval",
+      "status": "satisfied",
+      "evidence": "User request dated 2026-07-27."
+    },
+    {
+      "id": "scientific-classification-review",
+      "kind": "scientific_review",
+      "status": "pending",
+      "evidence": "Umbrella Phase 5 and E19-E23 plan candidate-bound panel review of specification/runtime binding, estimator operating characteristics, executable fixtures and vector covariance. No scientific approval packet yet satisfies this gate."
+    },
+    {
+      "id": "hosted-required-checks",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "PR #676 exact head 5e2c097fbdda8965d1907d7e930e910238fa24da completed 65 hosted contexts: 60 SUCCESS, 4 SKIPPED and 1 NEUTRAL, with 0 pending or bad conclusions. Both review threads were resolved before squash merge 9495fc3f372b9564701a180c6cf611a3ddc010dd at 2026-07-31T16:57:49Z."
+    },
+    {
+      "id": "implementation-and-canonical-sync-merge",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "VOIAGE PR #676 merged as 9495fc3f372b9564701a180c6cf611a3ddc010dd. Canonical VOP sync PR #64 exact head 6c3fd72358f3feef6c542e0a374d7ea74889f915 completed 16 contexts (15 SUCCESS, 1 SKIPPED, 0 pending or bad), had zero review threads and merged as cedc6fbb17a5d999cb12bb300a01f87d976ec02e at 2026-08-01T03:38:52Z. This satisfies E18 repository delivery only; E17 remains pending."
+    }
+  ],
+  "legacy_outcome": "superseded",
+  "superseded_by": "pre_submission_comprehensive_hardening_20260829",
+  "supersession_evidence": "conductor/tracks/pre_submission_comprehensive_hardening_20260829/migration-manifest.md"
+}

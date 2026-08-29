@@ -1,0 +1,178 @@
+{
+  "schema_version": "1.0.0",
+  "audited_on": "2026-08-29",
+  "lock_refresh": {
+    "command": "uv lock --upgrade",
+    "resolved_packages": 216,
+    "status": "completed",
+    "scope": "Latest versions satisfying the existing stable and optional dependency bounds"
+  },
+  "strict_frontier": {
+    "command": "uv run python scripts/dependency_frontier.py . --strict",
+    "declared_requirements": 60,
+    "locked_at_latest_compatible": 60,
+    "upper_bound_preview_candidates": 8,
+    "policy_violations": 0,
+    "exit_status": 0,
+    "interpretation": "The version-2 report separates minimum-supported, locked, latest-compatible, latest-overall, upper-bound preview, prerelease, and support-window facts. Strict mode passes because every direct requirement is locked at its latest compatible final release and there are no policy violations; excluded release families remain isolated preview candidates rather than false stale-floor failures."
+  },
+  "security_and_licence": {
+    "python_runtime_vulnerabilities": 0,
+    "pip_audit_version": "2.10.1",
+    "bandit_high": 0,
+    "bandit_medium": 0,
+    "bandit_low": 0,
+    "cargo_deny": "advisories, licences, bans, and sources passed with one duplicate syn-version warning",
+    "python_licence_gate": "Hosted dependency-review has a deny list; no equivalent lock-complete local Python licence policy gate is currently enforced."
+  },
+  "focused_validation": {
+    "passed": [
+      "37 core numerical, contract-interchange, and DataFrame SDK tests",
+      "dependency audit contract",
+      "ruff check and format",
+      "configured Bandit gate",
+      "frontier contract validator",
+      "isolated public imports in 3.63 to 4.05 seconds against the 5 second reviewer budget"
+    ],
+    "failed": []
+  },
+  "candidate_lanes": [
+    {
+      "id": "stable-within-current-bounds",
+      "mode": "blocking-candidate",
+      "candidates": [
+        "click 8.5.0",
+        "numpy 2.5.2",
+        "scikit-learn 1.9.0",
+        "pyarrow 25.0.1",
+        "polars 1.44.1",
+        "pydantic 2.13.5",
+        "fastapi 0.141.1",
+        "maturin 1.15.0",
+        "tox 4.61.1",
+        "ty 0.0.75"
+      ],
+      "promotion_gate": "Full supported-version tests, wheel build/install, numerical equivalence, serialization/Arrow round trips, and no coverage or type-check regression."
+    },
+    {
+      "id": "major-or-upper-bound-frontier",
+      "mode": "non-blocking-preview",
+      "candidates": [
+        "SciPy 1.18.1",
+        "pandas 3.0.5",
+        "xarray 2026.7.0",
+        "Griffe 2.2",
+        "JAX 0.11.1",
+        "Ruff 0.16.5"
+      ],
+      "promotion_gate": "Named preview extra or tool lane first; API compatibility, numerical equivalence, Arrow round trips, CPU fallback, documentation build, and rollback evidence before changing stable bounds."
+    },
+    {
+      "id": "runtime-preview",
+      "mode": "non-blocking-preview",
+      "candidates": [
+        "Python 3.15 pre-release",
+        "Python 3.14 free-threaded observation",
+        "Rust nightly diagnostics without release artifacts"
+      ],
+      "promotion_gate": "Observation-only matrix entry with allow-failure, no stable support claim, and no release artifact until upstream and dependency support is complete."
+    },
+    {
+      "id": "test-and-ci-acceleration",
+      "mode": "measured-preview",
+      "candidates": [
+        "pytest-xdist worksteal and bounded worker hook",
+        "cargo-nextest deterministic partitions",
+        "cargo-nextest build archives",
+        "sccache for Rust compilation",
+        "Scalene 2.3 targeted CPU and memory profiles",
+        "openpyxl as an explicit Excel test extra"
+      ],
+      "promotion_gate": "Reproducible before/after timing, deterministic outcomes, full failure visibility, retained coverage, and a non-sharded release gate."
+    },
+    {
+      "id": "serialization-and-analytics-preview",
+      "mode": "existing-experimental-extra",
+      "candidates": [
+        "DuckDB 1.5.5",
+        "orjson 3.12",
+        "msgspec 0.21.1"
+      ],
+      "promotion_gate": "Keep behind the experimental extra; require exact schema semantics, finite-number policy, canonical serialization checks, Arrow round trips, CPU fallback, and benchmarks before promotion."
+    }
+  ],
+  "findings": [
+    {
+      "id": "DEP-001",
+      "severity": "high",
+      "state": "resolved",
+      "summary": "The strict dependency-frontier command conflates compatibility floors with resolved versions and cannot distinguish an intentionally broad supported range from a stale lock.",
+      "required_disposition": "Report minimum-supported, locked, latest-compatible, latest-overall, upper-bound blocker, prerelease, and support-window status separately; make strict mode fail only on policy violations.",
+      "resolution": "scripts/dependency_frontier.py now emits the separated version-2 report and the live strict audit passes with 60 of 60 direct requirements locked at their latest compatible final release."
+    },
+    {
+      "id": "DEP-002",
+      "severity": "high",
+      "state": "open",
+      "summary": "Core upper bounds exclude SciPy 1.18, pandas 3.0, and xarray 2026 without a current compatibility report, while the JAX, Griffe, and Ruff lanes also stop before their latest release families.",
+      "required_disposition": "Exercise each blocked family in an isolated preview resolution and record breaking changes, numerical/serialization effects, performance, and rollback before promotion or renewed exclusion."
+    },
+    {
+      "id": "DEP-003",
+      "severity": "medium",
+      "state": "resolved",
+      "summary": "Python licence enforcement is hosted-only and is not reproduced locally against the exact runtime lock; the ad hoc installed-environment report also includes development packages.",
+      "required_disposition": "Generate a lock-derived runtime SBOM/licence report locally and apply the same reviewed allow/deny policy as hosted dependency review.",
+      "resolution": "scripts/run_python_license_audit.sh exports the frozen runtime-only lock, installs it in an isolated environment, records resolved licence metadata, and applies the same GPL/AGPL deny list as hosted dependency review with missing licences failing closed; the 34-package runtime report passes."
+    },
+    {
+      "id": "DEP-004",
+      "severity": "medium",
+      "state": "resolved",
+      "summary": "Bandit reports 13 low-severity runtime asserts whose behavior disappears under Python optimization, including checks on ingestion and method control-flow invariants.",
+      "required_disposition": "Replace security- or correctness-relevant asserts with explicit typed failures; justify purely internal narrowing asserts and keep the scanner at zero unreviewed findings.",
+      "resolution": "All 13 runtime assertions were replaced with explicit typed or invariant failures, the affected 269-test behavioral slice passed, and the configured recursive Bandit scan reports zero findings across 59,325 lines."
+    },
+    {
+      "id": "DEP-005",
+      "severity": "medium",
+      "state": "accepted_upstream_limitation",
+      "summary": "Cargo resolves both syn 2 and syn 3 through PyO3 and Serde; cargo-deny allows this duplicate but records it as a dependency-footprint warning.",
+      "required_disposition": "Track upstream convergence and retain the duplicate only while both dependency chains are necessary and advisories/licences remain clean.",
+      "resolution": "The locked reverse dependency tree confirms syn 2.0.119 is required only by PyO3 0.29 macros and syn 3.0.2 only by serde_derive 1.0.229. No direct override can converge them safely; cargo-deny passes advisories, bans, licences, and sources, so the reviewed duplicate remains explicitly allowed until either upstream chain converges."
+    },
+    {
+      "id": "DEP-006",
+      "severity": "medium",
+      "state": "resolved",
+      "summary": "Preview runtimes and major dependency families have no unified non-blocking compatibility workflow or machine-readable promotion/rollback receipt.",
+      "required_disposition": "Add named preview matrices and a promotion receipt that requires stable CPU fallback, numerical equivalence, Arrow round trips, security, provenance, and measured benefit.",
+      "resolution": "The scheduled and manually dispatchable dependency-preview workflow isolates every upper-bound family, Python 3.15, cargo-nextest, and sccache as continue-on-error observations, while the frozen promotion policy defines the machine-readable candidate, promotion, and rollback receipt."
+    },
+    {
+      "id": "DEP-007",
+      "severity": "high",
+      "state": "resolved",
+      "summary": "The refreshed PyArrow 25 lane emits a deprecation warning for the DataFrame interchange conversion used by the SDK; current Arrow guidance prefers the Arrow PyCapsule interface where producers support it.",
+      "required_disposition": "Add PyCapsule-first conversion with an explicitly tested DataFrame-protocol fallback, preserving allow-copy, nullable, categorical, timezone, schema, and provenance semantics.",
+      "resolution": "The version-2 adapter now selects Arrow PyCapsule conversion first, records the selected protocol, and falls back to the DataFrame interchange path when capsule columns would expose producer-specific index data. Eleven SDK tests preserve copy policy, nullable, categorical, timezone, schema, binding, digest, and provenance behavior without the PyArrow deprecation warning."
+    },
+    {
+      "id": "DEP-008",
+      "severity": "high",
+      "state": "resolved",
+      "summary": "The public top-level import eagerly reaches jsonschema format dependencies and constructs rfc3987 parsers, breaching the 5 second reviewer smoke budget by more than threefold in repeated isolated probes.",
+      "required_disposition": "Lazy-load validation-only dependencies, profile cold and warm imports, and retain the stable top-level symbols and error behavior while restoring the import budget.",
+      "resolution": "The public package surface now uses static lazy exports without importing validation-only schema dependencies; three isolated probes completed in 3.63, 4.02, and 4.05 seconds while the stable symbol and error contracts passed."
+    }
+  ],
+  "authoritative_references": [
+    "https://docs.astral.sh/uv/reference/internals/resolver/",
+    "https://arrow.apache.org/docs/python/interchange_protocol.html",
+    "https://arrow.apache.org/docs/format/CDataInterface/PyCapsuleInterface.html",
+    "https://pytest-xdist.readthedocs.io/en/stable/distribution.html",
+    "https://nexte.st/docs/ci-features/partitioning/",
+    "https://nexte.st/docs/ci-features/archiving/",
+    "https://github.com/plasma-umass/scalene"
+  ]
+}

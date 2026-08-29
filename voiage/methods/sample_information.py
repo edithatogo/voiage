@@ -1213,7 +1213,10 @@ def evsi(
             max_expected_nb_current_info = float(
                 np.max(_finite_strategy_means(nb_prior_values))
             )
-            assert posterior_sampler is not None
+            if (
+                posterior_sampler is None
+            ):  # pragma: no cover - callback-pair check above
+                raise_input_error("two-loop EVSI requires a posterior sampler")
             expected_max_nb_post_study = _evsi_two_loop(
                 model_func,
                 psa_prior,

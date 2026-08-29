@@ -60,6 +60,7 @@ croissant = []
 frictionless = []
 ingestion = []
 ecosystem = ["defusedxml>=0.7.1,<1.0"]
+excel = ["openpyxl>=3.1.5,<4.0"]
 docs = ["griffe>=1.14.0,<2.0"]
 jax = [
     "jax>=0.7.1,<0.8",
@@ -85,7 +86,7 @@ ci = [
 ]
 dev = [
     "maturin>=1.9,<2.0",
-    "mutmut>=3.6.0,<4.0",
+    "mutmut==3.6.0",
     "scalene>=2.3.0,<3.0",
     "ruff>=0.15.22,<0.16.0",
     "bandit>=1.9.4,<2.0",

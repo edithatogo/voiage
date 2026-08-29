@@ -1,0 +1,47 @@
+{
+  "track_id": "remote_dataset_ingestion_security_20260801",
+  "version": "1.0.0",
+  "type": "feature",
+  "status": "completed",
+  "created_at": "2026-08-01T04:30:00Z",
+  "updated_at": "2026-08-29T05:52:00Z",
+  "description": "Define and implement an approved security policy for any future remote standardized-dataset ingestion.",
+  "evidence_schema": "1.0",
+  "owner_repo": "edithatogo/voiage",
+  "approval": {
+    "status": "approved",
+    "kind": "track_scope_only",
+    "approved_on": "2026-08-01",
+    "recorded_at": "2026-08-01T04:30:00Z",
+    "evidence": "User approved the staged strict-local closure recommendation and creation of successor tracks. This is track-scope approval only, not accountable security or infrastructure approval for remote I/O."
+  },
+  "github_parent_issue": "https://github.com/edithatogo/voiage/issues/325",
+  "github_issue": "https://github.com/edithatogo/voiage/issues/753",
+  "github_project": "https://github.com/users/edithatogo/projects/28",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/753",
+    "parent_issue": "https://github.com/edithatogo/voiage/issues/325",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/824"
+    ],
+    "pull_request_evidence": "track_delivery"
+  },
+  "gates": [
+    {
+      "id": "remote-security-policy-approval",
+      "kind": "external",
+      "status": "pending",
+      "evidence": "Threat model and approval packet recorded in r1-threat-model.md and r2-security-policy-approval-packet.md; accountable security-policy approval remains pending before remote I/O."
+    },
+    {
+      "id": "hosted-required-checks",
+      "kind": "hosted_validation",
+      "status": "satisfied",
+      "evidence": "PR #824 exact head 3635b5d3ca9b680fdfffcddec092db94854cc8e0 completed 32 successful checks, three governed skips and one neutral check before squash merge 9934da329ca3c06bd54094ba95c18fe282c42bb6."
+    }
+  ],
+  "legacy_outcome": "superseded",
+  "superseded_by": "pre_submission_comprehensive_hardening_20260829",
+  "supersession_evidence": "conductor/tracks/pre_submission_comprehensive_hardening_20260829/migration-manifest.md"
+}

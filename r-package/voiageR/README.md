@@ -4,7 +4,8 @@
 
 `voiageR` provides an R interface to the Rust-backed
 [`voiage`](https://github.com/edithatogo/voiage) library for Value of
-Information (VOI) analysis.
+Information (VOI) analysis. The source package includes and compiles the
+dependency-free Rust kernels used by its EVPI and ENBS paths.
 
 ## Overview
 
@@ -17,10 +18,10 @@ the Python package through `reticulate`.
 
 ### Prerequisites
 
-The `evpi()` and `enbs()` functions call the Rust `voiage_v1_evpi_i32_r` and
-`voiage_v1_enbs_r` C ABI directly.
-Set `VOIAGE_FFI_LIBRARY` to the built `voiage-ffi` library when it is not on
-the system library path.
+Installing from source requires Rust 1.85 or newer and Cargo. The build is
+offline and has no third-party Rust dependencies. The installed package owns
+and loads its registered native routines; no separately installed VOIAGE
+shared library or environment variable is required.
 
 For advanced `evppi()` and `evsi()` methods, install the Python `voiage`
 package and the R `reticulate` package:

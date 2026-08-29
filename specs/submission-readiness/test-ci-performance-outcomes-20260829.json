@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0.0",
+  "measured_on": "2026-08-29",
+  "baseline": "specs/submission-readiness/test-ci-performance-baseline-20260829.json",
+  "profile": "specs/submission-readiness/scalene-test-profile-20260829.json",
+  "local_source_revision": "d0acaf8763d14143de419d78cff25b294125b571",
+  "current_validation_revision": "071bb25b9443d86c4c16b882fd95565e0062aa64",
+  "python_full_suite": {
+    "baseline_serial_seconds": 3369.19,
+    "candidates": [
+      {"workers": 4, "wall_seconds": 323.39, "outcome": "passed"},
+      {"workers": 6, "wall_seconds": 334.57, "outcome": "passed"},
+      {"workers": 8, "wall_seconds": 248.49, "outcome": "passed"}
+    ],
+    "local_winner": 8,
+    "local_winner_reduction_percent": 92.62,
+    "stable_ci_workers": 6,
+    "stable_ci_reason": "A conservative memory-bounded count pending green exact-head hosted evidence; the faster eight-worker result is retained as local evidence rather than assumed portable.",
+    "correctness": "The corrected all-tests selection passed at 4, 6, and 8 workers after the order-sensitive lazy-export contract was repaired."
+  },
+  "profiled_repairs": [
+    {
+      "id": "repository-harness",
+      "baseline_wall_seconds": 162.49,
+      "optimized_wall_seconds": 2.59,
+      "reduction_percent": 98.41,
+      "scalene_baseline_seconds": 368.97,
+      "scalene_optimized_seconds": 19.55,
+      "scalene_reduction_percent": 94.7,
+      "outcome": "passed",
+      "repair": "Scan Git-tracked files instead of recursively traversing generated and vendored trees."
+    },
+    {
+      "id": "paper-health-example",
+      "baseline_test_seconds": 402.29,
+      "optimized_standalone_seconds": 114.07,
+      "reduction_percent": 71.64,
+      "outcome": "passed",
+      "repair": "Reuse array-level bootstrap inputs and avoid repeated ParameterSet and xarray construction; exact tracked verification passed."
+    },
+    {
+      "id": "public-import",
+      "budget_seconds": 5.0,
+      "observed_seconds": [3.63, 4.02, 4.05],
+      "outcome": "passed",
+      "repair": "Static lazy exports keep validation-only schema dependencies off the public import path."
+    },
+    {
+      "id": "julia-fast-matrix",
+      "baseline_warm_seconds": 194.84,
+      "optimized_test_body_seconds": 3.1,
+      "outcome": "passed",
+      "repair": "Run EVPI, ENBS, and shared numerical references on every Julia/platform cell while retaining the full Aqua quality suite on the required Julia 1.12 Linux cell."
+    }
+  ],
+  "ci_changes": [
+    "one authoritative CI coverage upload",
+    "focused no-coverage Python 3.12 through 3.14 compatibility lanes",
+    "bounded xdist work-stealing",
+    "deterministic SHA-256 preview partitions",
+    "exact Rust target, Julia depot, and R tool caches",
+    "pull-request-only superseded-run cancellation",
+    "scheduled and manual dependency/runtime accelerator previews",
+    "fresh non-sharded full release validation"
+  ],
+  "finding_dispositions": {
+    "PERF-001": "resolved",
+    "PERF-002": "resolved_pending_green_hosted_measurement",
+    "PERF-003": "resolved",
+    "PERF-004": "resolved",
+    "PERF-005": "resolved",
+    "PERF-006": "resolved_pending_green_hosted_measurement",
+    "PERF-007": "resolved"
+  },
+  "external_or_hosted_gates": [
+    "Exact-head PR 1034 required checks must pass before the stable workflow timings are authoritative.",
+    "The preview workflow exists only on this branch and can be manually dispatched after it reaches the default branch; preview results cannot satisfy stable gates."
+  ],
+  "submission_boundary": "No venue submission, registry publication, release, or external attestation was performed."
+}

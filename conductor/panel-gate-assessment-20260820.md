@@ -10,7 +10,7 @@ separate accountable decision is recorded in
 - Candidate: `main` at `a70def2569083cf958d78d086771e5c96069e127`
 - Scope: C18 M22–M31 semantics, reference fixtures, executable evidence, and
   the recorded panel rerun in
-  `conductor/tracks/supported_frontier_method_completion_20260723/`.
+  `conductor/archive/supported_frontier_method_completion_20260723/`.
 - PR #883 is merged with hosted checks green. This changes the candidate from
   preparation to a merged experimental baseline; it does not change maturity.
 

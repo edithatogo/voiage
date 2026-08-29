@@ -48,6 +48,9 @@ jobs:
           tests/test_numerical_reference_cases.py
           --no-cov -q
 
+      - name: Apply lock-derived runtime licence policy
+        run: scripts/run_python_license_audit.sh
+
   latest-compatible-frontier:
     name: Latest Compatible and Experimental Observation
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'

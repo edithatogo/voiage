@@ -78,13 +78,25 @@ def test_pyopensci_matrix_records_commitment_but_defers_external_inquiry() -> No
     assert summary["deferred"] == ["external-inquiry"]
 
 
-def test_ropensci_matrix_keeps_repository_blockers_explicit() -> None:
+def test_ropensci_matrix_records_resolved_self_contained_installation() -> None:
     summary = validate_ropensci_evidence(
         ROOT / "specs" / "submission-readiness" / "ropensci-evidence.json", ROOT
     )
 
     assert summary["criterion_count"] >= 10
-    assert summary["statuses"]["self-contained-installation"] == "repository_blocked"
+    assert summary["statuses"]["self-contained-installation"] == "satisfied"
+    assert summary["statuses"]["pkgcheck"] == "hosted_pending"
+
+
+def test_ropensci_inquiry_is_staged_without_claiming_submission() -> None:
+    draft = (
+        ROOT / "docs" / "release" / "ropensci-presubmission-inquiry-draft.md"
+    ).read_text(encoding="utf-8")
+
+    assert "prepared locally; not posted or submitted" in draft
+    assert "89.47% line coverage" in draft
+    assert "Questions for an editor" in draft
+    assert "has not been posted, submitted, or sent" in draft
 
 
 def test_submission_contract_rejects_ready_target_with_unmet_gate(

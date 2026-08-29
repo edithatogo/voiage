@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "recorded_at": "2026-08-04T00:00:00Z",
+  "candidate_commit": "291347ba",
+  "scope": "M25 (#593) and M26 (#594)",
+  "status": "experimental-semantics-frozen",
+  "panel_basis": "scientific-review-panel.md",
+  "panel_role": "Subagent panel validation is challenge evidence only; it does not replace accountable scientific, maintainer, parity, release, registry, publication, or issue-closure decisions.",
+  "families": [
+    {
+      "issue": 593,
+      "canonical_id": "implementation-information-decomposition",
+      "estimand": "Current, information, implementation, and joint value matrix with explicit interaction; independence is never assumed by default.",
+      "conditioning_and_units": "Population, horizon, objective/value units, uptake, chronology, and cost placement are matched across current, information, implementation, and joint states.",
+      "panel_validation": "pass-with-experimental-limitations",
+      "evidence": ["contract-freeze.json:issue-593", "specs/frontier/implementation-information/v1/fixtures/manifest.json", "tests/test_implementation_information.py"],
+      "limitations": ["finite exact evaluator over declared state/action tables", "implementation and signal contracts are experimental", "no stable-promotion or cross-language parity claim"]
+    },
+    {
+      "issue": 594,
+      "canonical_id": "uncertainty-modelling-value",
+      "estimand": "Direction-aware EEV, recourse/stochastic-program, wait-and-see, VSS, and EVPI contrasts; EVIU requires the declared point-estimate comparator.",
+      "conditioning_and_units": "EEV, RP, WS, VSS, EVPI, and EVIU share the declared objective unit, population, horizon, and discount basis; scenario conditioning, recourse, nonanticipativity, feasibility, and solver evidence are matched.",
+      "panel_validation": "pass-with-experimental-limitations",
+      "evidence": ["contract-freeze.json:issue-594", "specs/frontier/uncertainty-modelling-value/v1/fixtures/manifest.json", "tests/test_uncertainty_modelling_value.py"],
+      "limitations": ["exact finite policy-table enumeration only", "no external solver or sampling claim", "no stable-promotion or cross-language parity claim"]
+    }
+  ],
+  "panel_findings": {
+    "blocking_implementation_findings": [],
+    "open_external_gates": ["accountable scientific decision", "installed Rust/Python/R/Julia parity", "stable promotion", "hosted exact-head assurance", "release/publication/registry", "issue and project closure"],
+    "dissent": "None recorded for this bounded repository-owned semantics validation; absence of dissent is not scientific approval."
+  },
+  "artifact_sha256": {
+    "conductor/tracks/supported_frontier_method_completion_20260723/contract-freeze.json": "7c2fadac93cda91560433a549d19f9b9a9acd04e8a6f897bbd6436a8b18985c9",
+    "specs/frontier/implementation-information/v1/fixtures/manifest.json": "8bd0aba9fd8a9297d46647dbab937707fff940a4603d41d52ae97f3a779e9fff",
+    "specs/frontier/uncertainty-modelling-value/v1/fixtures/manifest.json": "e43df4448590a845edfd0388571368ab78a387185234cd97c49868f881fce5e4",
+    "voiage/methods/implementation_information.py": "d8ab5d18e40a61c4da43e70d1cb8325b85e160c9b192ff33dfb7e5351d5a3ce2",
+    "voiage/methods/uncertainty_modelling_value.py": "62b007fe02d77090a33deafefe26a9cf98f093e015ed289cbdcfa62e47e614ac",
+    "tests/test_implementation_information.py": "1ef50eed4b72bac6e3a6841be1e5bf7bca751f17a3fc1f9e1f1a0d46b98c13de",
+    "tests/test_uncertainty_modelling_value.py": "60319822dcc69d277de1ba559fd55da3bfb80b76f38687fc9b980cfd9d461245"
+  }
+}

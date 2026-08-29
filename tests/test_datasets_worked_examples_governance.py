@@ -5,19 +5,24 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-TRACK = Path("conductor/tracks/datasets_worked_examples_20260723")
+TRACK = Path("conductor/archive/datasets_worked_examples_20260723")
 
 
-def test_phase_one_status_is_consistent_without_claiming_delivery() -> None:
-    """Registry, metadata, and index agree on bounded in-progress status."""
+def test_superseded_status_is_consistent_without_claiming_delivery() -> None:
+    """Registry, metadata, and index agree on the superseded lifecycle."""
     metadata = json.loads((TRACK / "metadata.json").read_text(encoding="utf-8"))
     index = (TRACK / "index.md").read_text(encoding="utf-8")
     normalized_index = " ".join(index.split())
     registry = Path("conductor/tracks.md").read_text(encoding="utf-8")
 
-    assert metadata["status"] == "in_progress"
+    assert metadata["status"] == "completed"
+    assert metadata["legacy_outcome"] == "superseded"
+    assert metadata["superseded_by"] == (
+        "pre_submission_comprehensive_hardening_20260829"
+    )
     assert "Status: in progress" in index
-    assert "## [~] Track: Datasets and Executable Worked Examples" in registry
+    assert "## [x] Track: Datasets and Executable Worked Examples" in registry
+    assert "Status: superseded on 2026-08-29" in index
     assert "delivery evidence" in normalized_index
     assert "remain pending" in normalized_index
 
@@ -30,8 +35,8 @@ def test_governance_reconciliation_preserves_delivery_and_review_gates() -> None
 
     for task in range(1, 5):
         assert f"- [x] **G{task}:**" in plan
-    assert "- [ ] **G5:**" in plan
-    assert "- [ ] **G15:**" in plan
+    assert "- **Migrated:** **G5:**" in plan
+    assert "- **Migrated:** **G15:**" in plan
     assert gates["scientific-and-contract-review"]["status"] == "pending"
     assert gates["hosted-required-checks"]["status"] == "pending"
 

@@ -1,0 +1,230 @@
+{
+  "schema_version": "1.0.0",
+  "frozen_on": "2026-08-29",
+  "track_id": "pre_submission_comprehensive_hardening_20260829",
+  "status": "normative_target",
+  "supersession_rule": "Changes require an explicit Conductor design revision, compatibility analysis, and updated contract tests before implementation.",
+  "principles": [
+    "Rust owns stable shared numerical policy and portable result semantics.",
+    "Python is the reference facade and owns orchestration, schemas, ingestion, CLI, plotting, reporting, and optional research integrations.",
+    "The C ABI is intentionally narrow and capability-discovered; binding breadth is declared per method rather than inferred from Python.",
+    "R and Julia packages must be tested as installed packages and must never depend on an undeclared ambient shared-library path.",
+    "JSON Schema is normative for document interchange; Arrow PyCapsule is preferred for in-process columnar interchange with a tested DataFrame-protocol fallback.",
+    "Experimental capabilities remain namespaced and cannot enlarge the stable API or ABI without promotion evidence."
+  ],
+  "package_boundaries": [
+    {
+      "component": "rust/crates/voiage-domain",
+      "owns": ["language-neutral decision and study domain types", "finite-value and shape invariants"],
+      "must_not_own": ["Python orchestration", "registry clients", "plotting"]
+    },
+    {
+      "component": "rust/crates/voiage-numerics",
+      "owns": ["stable numerical kernels", "deterministic scalar and array policies"],
+      "must_not_own": ["language-specific exceptions", "filesystem or network access"]
+    },
+    {
+      "component": "rust/crates/voiage-serialization",
+      "owns": ["versioned portable result envelopes", "canonical serialization semantics"],
+      "must_not_own": ["binding-specific object models"]
+    },
+    {
+      "component": "rust/crates/voiage-diagnostics",
+      "owns": ["stable diagnostic identifiers", "cross-language error classification"],
+      "must_not_own": ["UI rendering", "binding exception classes"]
+    },
+    {
+      "component": "rust/crates/voiage-ffi",
+      "owns": ["portable versioned C ABI", "panic containment", "caller-owned error transport"],
+      "must_not_own": ["new numerical policy", "unversioned symbols", "language runtime state"]
+    },
+    {
+      "component": "rust/crates/voiage-python",
+      "owns": ["PyO3 conversion", "Rust-to-Python error mapping", "wheel-native bridge"],
+      "must_not_own": ["duplicate numerical algorithms", "public orchestration policy"]
+    },
+    {
+      "component": "voiage",
+      "owns": ["reference Python API", "orchestration", "schemas", "ingestion", "CLI", "plotting", "reporting", "optional integrations"],
+      "must_not_own": ["duplicate implementations of promoted stable Rust kernels", "eager loading of optional or validation-only dependencies"]
+    },
+    {
+      "component": "r-package/voiageR",
+      "owns": ["R-native facade", "package-managed EVPI and ENBS bridge", "optional explicit reticulate compatibility path"],
+      "must_not_own": ["ambient external-library discovery as the installed default", "undocumented numerical divergence"]
+    },
+    {
+      "component": "bindings/julia",
+      "owns": ["Julia-native facade", "artifact-managed EVPI and ENBS bridge"],
+      "must_not_own": ["ambient loader-name dependency as the installed default", "undeclared Python fallback"]
+    }
+  ],
+  "stable_api_policy": {
+    "normative_contract": "specs/v2/stable-api.json",
+    "reference_binding": "python",
+    "compatibility_window": "At least two minor releases and six months, whichever is longer; removal only in a new major contract.",
+    "additive_change": "May add optional fields, diagnostics, or experimental namespace entries when older consumers can ignore them safely.",
+    "breaking_change": "Requires a new major contract, migration guide, old/new fixtures, and installed-consumer tests.",
+    "error_policy": "Stable diagnostic class and code are cross-language contract; message prose may add context without changing classification.",
+    "experimental_policy": "No top-level stable export, no stable capability bit, and no support claim until promotion gates pass.",
+    "decision_problem_target": {
+      "python": "implemented as voiage.schema.DecisionProblem",
+      "rust": "implemented internally as voiage_domain::DecisionProblem",
+      "c_abi": "not exposed",
+      "r": "not exposed",
+      "julia": "not exposed",
+      "required_repair": "Correct the false industry binding manifest rather than inventing unreviewed cross-language symbols."
+    }
+  },
+  "c_abi_policy": {
+    "normative_header": "rust/crates/voiage-ffi/include/voiage_v1.h",
+    "symbol_baseline": "specs/abi/v1/symbols.txt",
+    "layout_baseline": "specs/abi/v1/layouts.txt",
+    "current_namespace": "voiage_v1_",
+    "current_major": 1,
+    "current_minor": 1,
+    "stable_native_methods": ["evpi", "enbs"],
+    "additive_change": "Increment the ABI minor, add a capability bit, retain every prior symbol and layout, and add C, Rust, R, and Julia conformance fixtures.",
+    "breaking_change": "Introduce a new voiage_v2_ namespace; retain v1 for the declared compatibility window.",
+    "baseline_gate": "Compare exported symbols, fixed-width layouts, header declarations, and a built installed consumer against the v2.1.0 release baseline and the candidate.",
+    "decision_problem": "No C ABI in this programme unless a separately reviewed ownership, lifecycle, serialization, and memory-safety design is approved.",
+    "prohibited": [
+      "Rust repr(Rust) layout in the public ABI",
+      "caller-visible panic or unwinding",
+      "borrowed pointers without declared lifetime and length",
+      "ambient global error buffers",
+      "unversioned exported symbols"
+    ]
+  },
+  "binding_packaging": {
+    "python": {
+      "target": "Maturin wheels embedding the PyO3 extension for every supported Python/platform tag.",
+      "installed_gate": "Build wheel and sdist, install into clean environments, run public import/API/serialization tests without repository path access."
+    },
+    "r": {
+      "target": "A source package with NeedsCompilation: yes that builds and links the pinned minimal Rust FFI into the package DLL from packaged source and an offline Cargo vendor set.",
+      "system_requirements": "Rust and Cargo at or above the repository MSRV for source builds; no undeclared preinstalled voiage shared library.",
+      "optional_python": "reticulate remains Suggests-only for EVPPI and EVSI compatibility methods and is never required for package load, EVPI, or ENBS.",
+      "installed_gate": "Clean source-package install, load, EVPI/ENBS native fixtures, optional reticulate fixtures, examples, vignettes, pkgcheck, coverage, and R CMD check on the supported matrix."
+    },
+    "julia": {
+      "target": "A declared Voiage_jll/Artifacts dependency supplies the platform library; VOIAGE_FFI_LIBRARY is a development override only.",
+      "repository_prerequisite": "Maintain an exact-version BinaryBuilder/Yggdrasil recipe and checksums before Julia registry submission.",
+      "external_gate": "Voiage_jll recipe merge and artifact publication cannot be claimed from local readiness.",
+      "installed_gate": "Test a clean package copy with no repository-relative library lookup across Julia 1.10, 1.11, and 1.12 on Linux, macOS, and Windows."
+    }
+  },
+  "serialization_policy": {
+    "document_contract": "Versioned JSON Schema plus canonical JSON and provenance digests.",
+    "columnar_primary": "Arrow PyCapsule interface when a producer supports it.",
+    "columnar_fallback": "DataFrame interchange protocol with explicit allow-copy, null, categorical, timezone, and ownership tests.",
+    "file_formats": ["JSON", "CSV", "Arrow IPC", "Parquet"],
+    "legacy_formats": "TreeAge, RDS, and Excel support may be claimed only with authoritative fixtures and explicit optional dependencies; otherwise documentation must mark them unsupported or compatibility-only."
+  },
+  "capability_matrix": [
+    {
+      "capability": "DecisionProblem",
+      "python": "stable",
+      "rust": "internal_domain_type",
+      "c_abi": "unavailable",
+      "r": "unavailable",
+      "julia": "unavailable"
+    },
+    {
+      "capability": "ValueArray and ParameterSet",
+      "python": "stable",
+      "rust": "internal_domain_types",
+      "c_abi": "raw_array_contract_only",
+      "r": "native_language_inputs",
+      "julia": "native_language_inputs"
+    },
+    {
+      "capability": "EVPI",
+      "python": "stable_rust_backed",
+      "rust": "stable",
+      "c_abi": "stable_v1",
+      "r": "stable_native",
+      "julia": "stable_native"
+    },
+    {
+      "capability": "ENBS",
+      "python": "stable_rust_backed",
+      "rust": "stable",
+      "c_abi": "stable_v1",
+      "r": "stable_native",
+      "julia": "stable_native"
+    },
+    {
+      "capability": "EVPPI",
+      "python": "stable_rust_backed",
+      "rust": "stable_kernel",
+      "c_abi": "unavailable",
+      "r": "compatibility_python_bridge",
+      "julia": "unavailable"
+    },
+    {
+      "capability": "EVSI",
+      "python": "stable_method_specific",
+      "rust": "shared_kernels_plus_python_orchestration",
+      "c_abi": "unavailable",
+      "r": "compatibility_python_bridge",
+      "julia": "unavailable"
+    },
+    {
+      "capability": "normal_normal_two_arm_evsi",
+      "python": "stable_rust_backed",
+      "rust": "stable",
+      "c_abi": "unavailable",
+      "r": "unavailable",
+      "julia": "unavailable"
+    },
+    {
+      "capability": "CEAF",
+      "python": "stable_rust_backed",
+      "rust": "stable",
+      "c_abi": "unavailable",
+      "r": "unavailable",
+      "julia": "unavailable"
+    },
+    {
+      "capability": "dominance",
+      "python": "stable_rust_backed",
+      "rust": "stable",
+      "c_abi": "unavailable",
+      "r": "unavailable",
+      "julia": "unavailable"
+    },
+    {
+      "capability": "CLI, ingestion, plotting, and reporting",
+      "python": "stable",
+      "rust": "not_a_public_surface",
+      "c_abi": "not_applicable",
+      "r": "not_exposed",
+      "julia": "not_exposed"
+    },
+    {
+      "capability": "experimental method namespace",
+      "python": "experimental",
+      "rust": "method_specific_internal_or_absent",
+      "c_abi": "prohibited_without_promotion",
+      "r": "not_exposed",
+      "julia": "not_exposed"
+    }
+  ],
+  "installed_artifact_gates": [
+    "No test may pass solely by matching manifest or workflow strings when it claims a shipped symbol.",
+    "Every declared implemented symbol must be resolved and invoked from a clean installed artifact.",
+    "Shared numerical fixtures must run through Python wheel, Rust API, C ABI, installed R package, and installed Julia package for every capability each surface declares.",
+    "Unsupported capabilities must fail with a documented capability result rather than an ambient loader or missing-symbol accident.",
+    "Release evidence must bind package version, source commit, lockfiles, ABI baseline, checksums, SBOM, and provenance to one candidate."
+  ],
+  "finding_closure": {
+    "STRUCT-001": "Correct manifest claims to this capability matrix and add symbol-resolution tests.",
+    "STRUCT-002": "Implement the package-managed R native build target.",
+    "STRUCT-003": "Implement the declared Julia artifact target or retain an explicit external-gated readiness state.",
+    "STRUCT-004": "Add released-baseline ABI comparison.",
+    "STRUCT-005": "Publish this method-level matrix and user-facing binding support table.",
+    "STRUCT-006": "Remove tracked stale source archives and produce release artifacts only in clean build/output locations.",
+    "STRUCT-007": "Replace self-referential string checks with clean installed-package symbol and behavior tests."
+  }
+}

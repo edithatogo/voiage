@@ -119,7 +119,7 @@ def test_roadmap_and_backlog_name_the_active_v1_programme() -> None:
     todo = Path("todo.md").read_text(encoding="utf-8")
     registry = Path("conductor/tracks.md").read_text(encoding="utf-8")
 
-    assert "Current Status (As of July 2026)" in roadmap
+    assert "Current Status (As of August 2026)" in roadmap
     assert "Mature Hardened v1.0 Programme: ✅ **ARCHIVED**" in roadmap
     assert "conductor/v1-programme-baseline.json" in roadmap
     assert "The June 25 follow-through queue is complete and archived" in roadmap

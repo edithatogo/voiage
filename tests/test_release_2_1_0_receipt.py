@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RECEIPT = (
     ROOT
     / "conductor"
-    / "tracks"
+    / "archive"
     / "quality_release_automation_20260723"
     / "release-2.1.0-publication-receipt-20260821.json"
 )

@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "release": "v2.1.0",
+  "source_commit": "964a0fc334ece9509387cd07d43776adf38be240",
+  "abi_major": 1,
+  "abi_minor": 1,
+  "captured_from_tag": true,
+  "artifacts_sha256": {
+    "symbols.txt": "46ad18011ca5e809e78de45da83b4a3d92876a7a6a224c6d67246599580acc15",
+    "layouts.txt": "cb9d37bc70ae112ed243c4f84d57f0bf572d6dcbd28697dc1853307ca70b02d9",
+    "voiage_v1.h": "7f6096821099ded19fc6b907c93be7fc4f877a266059e13a53801e58a383e13e"
+  }
+}

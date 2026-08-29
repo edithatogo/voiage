@@ -18,7 +18,7 @@
     },
     {
       "path": "specs/frontier/value-of-flexibility/v1/fixtures/manifest.json",
-      "sha256": "44175c5e16dbf3a35838fe7eb3f6f25edbb5fe6bab0f39ae7ee7844111d47e50"
+      "sha256": "1f3a977cc8dac270659dc7a59ab30bf25f23eefa9ef37c7955ac8e8dd48f6ff7"
     },
     {
       "path": "specs/frontier/value-of-flexibility/v1/fixtures/normative/input.json",
@@ -29,11 +29,11 @@
       "sha256": "69705041e95120b57f1971635a2ab4b86d0d6a1da6b452f2460682aee592cc24"
     },
     {
-      "path": "conductor/tracks/supported_frontier_method_completion_20260723/value-of-flexibility-reference-review.md",
+      "path": "conductor/archive/supported_frontier_method_completion_20260723/value-of-flexibility-reference-review.md",
       "sha256": "7b384325ae93d5b797539f77b4bfc889907ea47da5499eb6613c95031461a63b"
     },
     {
-      "path": "conductor/tracks/supported_frontier_method_completion_20260723/value-of-flexibility-implementation-review.md",
+      "path": "conductor/archive/supported_frontier_method_completion_20260723/value-of-flexibility-implementation-review.md",
       "sha256": "7f78c7a57cf1c8b914733510379f0bacccf4f3d29bdd6407cd5cc1449f167f89"
     },
     {
@@ -54,7 +54,7 @@
     },
     {
       "path": "tests/test_value_of_flexibility_contract.py",
-      "sha256": "92891f609e516f705019bfcae8adcc4ffce3486a7cc489d2768773706f739b51"
+      "sha256": "948f7ba9576250a85ea38a4e61c8568d96f42d05f68a1206a497ea8a2ed424ce"
     },
     {
       "path": "docs/astro-site/src/content/docs/examples/value-of-flexibility.mdx",

@@ -15,6 +15,31 @@ from voiage.ingestion import cli as ingestion_cli
 from voiage.ingestion.registry import default_registry as real_default_registry
 
 
+def test_descriptor_metadata_rejects_a_non_object_root(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    descriptor = tmp_path / "array.json"
+    descriptor.write_text("[]", encoding="utf-8")
+
+    class _InspectedRegistry:
+        def inspect(self, _descriptor: Path) -> dict[str, object]:
+            return {
+                "capabilities": {},
+                "descriptor": str(descriptor),
+                "provider_id": "test-provider",
+            }
+
+    monkeypatch.setattr(
+        ingestion_cli,
+        "default_registry",
+        _InspectedRegistry,
+    )
+
+    with pytest.raises(ingestion_cli.IngestionError, match="root must be an object"):
+        ingestion_cli._inspection_summary(descriptor)
+
+
 def test_ingest_cli_publishes_stable_domain_exit_codes(tmp_path) -> None:
     """CLI syntax, source, binding, and output failures remain distinguishable."""
     (tmp_path / "samples.csv").write_text("a,b\n1,2\n", encoding="utf-8")

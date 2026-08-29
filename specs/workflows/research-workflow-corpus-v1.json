@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "rights": "repository-authored synthetic fixtures",
+  "network_required": false,
+  "workflows": [
+    {"id": "health-treatment", "domain": "health", "input": "specs/workflows/fixtures/health-input.json", "expected_result": "specs/workflows/fixtures/health-expected.json", "stages": ["source", "ingestion", "analysis", "serialization", "report"], "verification": "scripts/validate_research_workflow_corpus.py"},
+    {"id": "environment-policy", "domain": "environmental", "input": "specs/workflows/fixtures/environmental-input.json", "expected_result": "specs/workflows/fixtures/environmental-expected.json", "stages": ["source", "ingestion", "analysis", "serialization", "report"], "verification": "scripts/validate_research_workflow_corpus.py"},
+    {"id": "financial-signal", "domain": "financial", "input": "specs/workflows/fixtures/financial-input.json", "expected_result": "specs/workflows/fixtures/financial-expected.json", "stages": ["source", "ingestion", "analysis", "serialization", "report"], "verification": "scripts/validate_research_workflow_corpus.py"},
+    {"id": "enterprise-intervention", "domain": "enterprise", "input": "specs/workflows/fixtures/enterprise-input.json", "expected_result": "specs/workflows/fixtures/enterprise-expected.json", "stages": ["source", "ingestion", "analysis", "serialization", "report"], "verification": "scripts/validate_research_workflow_corpus.py"}
+  ]
+}
