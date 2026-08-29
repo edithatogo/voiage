@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "scope": "sdk_free_interchange_constructors",
+  "product_compatibility_claimed": false,
+  "producer_roundtrip_verified": false,
+  "profiles": {
+    "mlflow": {"status": "voiage_profile", "producer_version": null},
+    "openlineage": {"status": "voiage_profile", "producer_version": null},
+    "dbt": {"status": "voiage_profile", "producer_version": null},
+    "experimentation": {"status": "voiage_profile", "producer_version": null},
+    "cate": {"status": "voiage_profile", "producer_version": null},
+    "forecast": {"status": "voiage_profile", "producer_version": null}
+  },
+  "promotion_gate": "Add a rights-cleared redacted export from a pinned producer version and an executed producer-to-voiage round trip before naming product compatibility."
+}

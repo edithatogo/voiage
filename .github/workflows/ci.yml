@@ -350,6 +350,70 @@ jobs:
       env:
         CI: true
 
+  excel-interchange:
+    name: Excel Interchange Extra
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+      with:
+        persist-credentials: false
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+      with:
+        version: "0.11.29"
+        enable-cache: true
+        cache-suffix: ${{ github.job }}
+        cache-dependency-glob: "uv.lock"
+
+    - name: Set up Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: "3.14"
+
+    - name: Install explicit Excel extra
+      run: uv sync --frozen --extra ci --extra excel
+
+    - name: Exercise Excel import and export
+      run: >-
+        uv run pytest
+        tests/test_ecosystem_integration.py::test_data_format_connector_imports_xlsx
+        tests/test_ecosystem_integration.py::test_data_format_connector_exports_xlsx_workbook
+        --no-cov -q
+
+  example-smoke:
+    name: Example and Notebook Smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+      with:
+        persist-credentials: false
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+      with:
+        version: "0.11.29"
+        enable-cache: true
+        cache-suffix: ${{ github.job }}
+        cache-dependency-glob: "uv.lock"
+
+    - name: Set up Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: "3.14"
+
+    - name: Install bounded example dependencies
+      run: uv sync --frozen --extra ci --extra dev
+
+    - name: Execute selected scripts and notebook
+      run: uv run --no-sync python scripts/run_example_smoke.py
+
+    - name: Execute four-domain synthetic workflow corpus
+      run: uv run --no-sync python scripts/validate_research_workflow_corpus.py
+
   coverage-report:
     name: Coverage Report
     runs-on: ubuntu-latest

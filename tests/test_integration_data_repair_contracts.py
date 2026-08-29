@@ -7,6 +7,9 @@ import json
 from pathlib import Path
 import tomllib
 
+from scripts.run_example_smoke import validate_manifest
+from scripts.validate_research_workflow_corpus import validate as validate_corpus
+
 ROOT = Path(__file__).parents[1]
 
 
@@ -106,6 +109,7 @@ def test_example_smoke_manifest_covers_every_script_and_notebook() -> None:
     )
     assert manifest["network_default"] == "deny"
     assert manifest["hardware_default"] == "cpu"
+    assert validate_manifest(manifest) == []
 
 
 def test_enterprise_adapters_are_sdk_free_profiles_not_product_claims() -> None:
@@ -149,6 +153,7 @@ def test_research_workflow_corpus_covers_four_representative_domains() -> None:
             "report",
         ]
         assert workflow["verification"]
+    assert validate_corpus() == []
 
 
 def test_analytical_candidates_have_explicit_nonstable_decisions() -> None:

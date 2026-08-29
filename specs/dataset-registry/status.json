@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0.0",
+  "mode": "fixture_only",
+  "live_refresh_implemented": false,
+  "source_bytes_included": false,
+  "network_default": "deny",
+  "scope": "Small repository-authored metadata fixtures for schema, provenance, and example tests; not snapshots of the named public datasets.",
+  "promotion_gate": "A live source requires a separately reviewed transform, source receipt, rights record, raw-byte digest, deterministic normalized output, bounded network workflow, and drift policy."
+}

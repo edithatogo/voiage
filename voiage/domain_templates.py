@@ -54,6 +54,8 @@ class DomainTemplate:
         VOI capabilities supported (e.g., evpi, evppi, evsi, enbs).
     maturity : str
         Maturity disposition ("candidate", "experimental", "stable").
+    validation_level : str
+        Executable registry-driven workflow or template-only disposition.
     rights : str
         Data rights and IP permissions statement.
     privacy : str
@@ -84,6 +86,7 @@ class DomainTemplate:
     required_fields: list[str]
     capabilities: list[str]
     maturity: str
+    validation_level: str
     rights: str
     privacy: str
     provenance: str
@@ -110,6 +113,7 @@ class DomainTemplate:
             required_fields=list(data["required_fields"]),
             capabilities=list(data["capabilities"]),
             maturity=str(data["maturity"]),
+            validation_level=str(data["validation_level"]),
             rights=str(data.get("rights", "")),
             privacy=str(data.get("privacy", "")),
             provenance=str(data.get("provenance", "")),
@@ -135,6 +139,7 @@ class DomainTemplate:
             "optional_dependencies": list(self.optional_dependencies),
             "capabilities": list(self.capabilities),
             "maturity": self.maturity,
+            "validation_level": self.validation_level,
             "examples": list(self.examples),
             "rights": self.rights,
             "privacy": self.privacy,

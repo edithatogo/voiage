@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "treeage_xml": {
+    "status": "experimental",
+    "compatibility": "voiage_xml_profile_only",
+    "treeage_product_roundtrip_verified": false,
+    "formats": [".voiage.xml"],
+    "note": "Repository-authored decision-tree XML; not a TreeAge export format claim."
+  },
+  "r_json": {
+    "status": "experimental",
+    "compatibility": "voiage_bcea_hesim_json_profile_only",
+    "r_product_roundtrip_verified": false,
+    "formats": [".json"]
+  },
+  "rds": {
+    "status": "unsupported",
+    "implementation": "none",
+    "reason": "No RDS parser, R serialization runtime, or authoritative fixture is shipped."
+  },
+  "excel": {
+    "status": "optional",
+    "extra": "excel",
+    "formats": [".xlsx"],
+    "legacy_xls": "unsupported",
+    "note": "OpenXML workbooks require the named openpyxl extra."
+  }
+}

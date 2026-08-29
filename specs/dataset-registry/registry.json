@@ -3,7 +3,8 @@
     "source_url": "https://www.cdc.gov/nchs/nhanes/index.htm",
     "license": "Public Domain (CDC/ATSDR)",
     "citation": "CDC National Center for Health Statistics. National Health and Nutrition Examination Survey (NHANES) data. https://www.cdc.gov/nchs/nhanes/index.htm",
-    "snapshot_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "snapshot_hash": "sha256:98a236ce91588814d81b8bfd9e14228532b232c0eda4e57eb630e49eff1693b0",
+    "snapshot": {"path": "specs/dataset-registry/snapshots/nhanes_snapshot.json", "sha256": "98a236ce91588814d81b8bfd9e14228532b232c0eda4e57eb630e49eff1693b0", "classification": "illustrative_metadata_fixture"},
     "schema": "specs/core-api/schemas/v1/decision-problem.schema.json",
     "method_tags": ["evpi", "evppi", "evsi", "enbs", "ceac", "heterogeneity"]
   },
@@ -11,7 +12,8 @@
     "source_url": "https://meps.ahrq.gov/mepsweb/",
     "license": "Public Domain (AHRQ)",
     "citation": "Agency for Healthcare Research and Quality. Medical Expenditure Panel Survey (MEPS) data. https://meps.ahrq.gov/mepsweb/",
-    "snapshot_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "snapshot_hash": "sha256:01c956d71fa90a12617ab30a9842248537eef1b03ccd3ea4a0a10e47ae34cb75",
+    "snapshot": {"path": "specs/dataset-registry/snapshots/meps_snapshot.json", "sha256": "01c956d71fa90a12617ab30a9842248537eef1b03ccd3ea4a0a10e47ae34cb75", "classification": "illustrative_metadata_fixture"},
     "schema": "specs/core-api/schemas/v1/decision-problem.schema.json",
     "method_tags": ["evpi", "evppi", "evsi", "enbs", "ceac"]
   },
@@ -19,7 +21,8 @@
     "source_url": "https://clinicaltrials.gov/",
     "license": "Public Domain (U.S. National Library of Medicine)",
     "citation": "U.S. National Library of Medicine. ClinicalTrials.gov registry. https://clinicaltrials.gov/",
-    "snapshot_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "snapshot_hash": "sha256:427e273b4a7889b4bf1fe0cd5a045a4fb0af9436d465cf5a8ebca77b00a1cd2f",
+    "snapshot": {"path": "specs/dataset-registry/snapshots/clinicaltrials_snapshot.json", "sha256": "427e273b4a7889b4bf1fe0cd5a045a4fb0af9436d465cf5a8ebca77b00a1cd2f", "classification": "illustrative_metadata_fixture"},
     "schema": "specs/core-api/schemas/v1/trial-design.schema.json",
     "method_tags": ["adaptive_trial_voi", "evsi", "nma"]
   },
@@ -27,7 +30,8 @@
     "source_url": "https://data.worldbank.org/",
     "license": "CC BY-4.0 (World Bank)",
     "citation": "The World Bank. World Bank Open Data. https://data.worldbank.org/",
-    "snapshot_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "snapshot_hash": "sha256:a8e242645cd115e00803f4fb49f7a985674d0f657fff8c4c8b430b7ef9ffe8c0",
+    "snapshot": {"path": "specs/dataset-registry/snapshots/world_bank_snapshot.json", "sha256": "a8e242645cd115e00803f4fb49f7a985674d0f657fff8c4c8b430b7ef9ffe8c0", "classification": "illustrative_metadata_fixture"},
     "schema": "specs/core-api/schemas/v1/parameter-set.schema.json",
     "method_tags": ["portfolio_voi", "sequential_voi"]
   },
@@ -35,7 +39,8 @@
     "source_url": "https://www.noaa.gov/data",
     "license": "Public Domain (U.S. Government)",
     "citation": "National Oceanic and Atmospheric Administration. NOAA Open Data. https://www.noaa.gov/data",
-    "snapshot_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "snapshot_hash": "sha256:7af8236801083e1874e85ebc064cf156a39e3fa526520db88709b7be8e52d7be",
+    "snapshot": {"path": "specs/dataset-registry/snapshots/noaa_snapshot.json", "sha256": "7af8236801083e1874e85ebc064cf156a39e3fa526520db88709b7be8e52d7be", "classification": "illustrative_metadata_fixture"},
     "schema": "specs/core-api/schemas/v1/parameter-set.schema.json",
     "method_tags": ["evpi", "sequential_voi"]
   },
@@ -43,7 +48,8 @@
     "source_url": "https://www.epa.gov/data",
     "license": "Public Domain (U.S. Government)",
     "citation": "U.S. Environmental Protection Agency. EPA Data. https://www.epa.gov/data",
-    "snapshot_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "snapshot_hash": "sha256:2020bc2e2fccfac2c0f67044d0d1324d59042e27316f9cadf28da2e269e6b2de",
+    "snapshot": {"path": "specs/dataset-registry/snapshots/epa_snapshot.json", "sha256": "2020bc2e2fccfac2c0f67044d0d1324d59042e27316f9cadf28da2e269e6b2de", "classification": "illustrative_metadata_fixture"},
     "schema": "specs/core-api/schemas/v1/parameter-set.schema.json",
     "method_tags": ["evpi", "evppi", "calibration_voi"]
   },
@@ -51,7 +57,8 @@
     "source_url": "https://voiage.dev/datasets/customer-churn",
     "license": "CC BY-4.0",
     "citation": "voiage worked example benchmark dataset for subscription customer churn and retention campaigns (#574, #575).",
-    "snapshot_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "snapshot_hash": "sha256:66a6058081d32e79a1675da2be2f378cf8e06cc8a910b99b0aec514c25225bef",
+    "snapshot": {"path": "specs/dataset-registry/snapshots/customer_churn_snapshot.json", "sha256": "66a6058081d32e79a1675da2be2f378cf8e06cc8a910b99b0aec514c25225bef", "classification": "illustrative_metadata_fixture"},
     "schema": "specs/core-api/schemas/v1/decision-problem.schema.json",
     "method_tags": ["evpi", "evppi", "evsi", "enbs"]
   }

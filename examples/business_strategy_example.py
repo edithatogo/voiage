@@ -1,5 +1,4 @@
-"""
-Business Strategy Example for voiage
+"""Business Strategy Example for voiage.
 
 This example demonstrates how to use voiage for Value of Information analysis
 in a business strategy context, specifically for evaluating market entry decisions.
@@ -22,24 +21,22 @@ Domain Expert Feedback Incorporated:
 """
 
 import numpy as np
-import sys
-import os
-
-# Add the voiage package to the path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from voiage.analysis import DecisionAnalysis
+from voiage.domain_templates import get_domain_template
 from voiage.schema import ValueArray
 
 
-def generate_business_data(n_samples=1000):
+def generate_business_data(n_samples: int = 1000) -> dict[str, np.ndarray]:
     """
     Generate synthetic business data for market entry decision.
 
-    Parameters:
+    Parameters
+    ----------
     n_samples (int): Number of Monte Carlo samples
 
-    Returns:
+    Returns
+    -------
     tuple: (net_benefits, parameters)
 
     Domain Expert Notes:
@@ -69,26 +66,28 @@ def generate_business_data(n_samples=1000):
     entry_costs = np.random.normal(loc=10.0, scale=2.0, size=n_samples)
     entry_costs = np.clip(entry_costs, 5.0, 20.0)  # Clip to reasonable range
 
-    # Create parameter dictionary
-    parameters = {
+    return {
         "market_size": market_size,
         "growth_rate": growth_rate,
         "competition": competition,
-        "entry_costs": entry_costs
+        "entry_costs": entry_costs,
     }
 
-    return parameters
 
-
-def calculate_net_benefits(parameters, strategies=["Don't Enter", "Enter Market"]):
+def calculate_net_benefits(
+    parameters: dict[str, np.ndarray],
+    strategies: tuple[str, str] = ("Don't Enter", "Enter Market"),
+) -> np.ndarray:
     """
     Calculate net benefits for different market entry strategies.
 
-    Parameters:
+    Parameters
+    ----------
     parameters (dict): Dictionary of parameter samples
     strategies (list): List of strategy names
 
-    Returns:
+    Returns
+    -------
     np.ndarray: Net benefits array of shape (n_samples, n_strategies)
 
     Domain Expert Notes:
@@ -126,9 +125,13 @@ def calculate_net_benefits(parameters, strategies=["Don't Enter", "Enter Market"
 
     # Calculate cumulative revenue over time horizon with growth
     # This accounts for compounding growth effects
-    cumulative_growth_factor = np.sum([(1 + growth_rate) ** t for t in range(1, time_horizon + 1)])
+    cumulative_growth_factor = np.sum(
+        [(1 + growth_rate) ** t for t in range(1, time_horizon + 1)]
+    )
 
-    total_revenue = market_size * market_share * revenue_per_customer * cumulative_growth_factor
+    total_revenue = (
+        market_size * market_share * revenue_per_customer * cumulative_growth_factor
+    )
 
     # Net benefit = Revenue - Entry costs
     net_benefits[:, 1] = total_revenue - entry_costs
@@ -136,13 +139,12 @@ def calculate_net_benefits(parameters, strategies=["Don't Enter", "Enter Market"
     return net_benefits
 
 
-def business_voi_analysis():
-    """
-    Perform Value of Information analysis for business market entry decision.
-    """
+def business_voi_analysis() -> DecisionAnalysis:
+    """Perform Value of Information analysis for a market-entry decision."""
+    template = get_domain_template("market_entry")
     print("voiage Business Strategy Example")
     print("=" * 40)
-    print("Market Entry Decision Analysis")
+    print(template.title)
     print()
 
     # Generate data
@@ -175,10 +177,18 @@ def business_voi_analysis():
     # Show parameter statistics
     print()
     print("Parameter Uncertainty Summary:")
-    print(f"  Market Size: {np.mean(parameters['market_size']):.1f}M ± {np.std(parameters['market_size']):.1f}M customers")
-    print(f"  Growth Rate: {np.mean(parameters['growth_rate'])*100:.1f}% ± {np.std(parameters['growth_rate'])*100:.1f}% per year")
-    print(f"  Competition: {np.mean(parameters['competition']):.2f} ± {np.std(parameters['competition']):.2f} (0-1 scale)")
-    print(f"  Entry Costs: ${np.mean(parameters['entry_costs']):.1f}M ± ${np.std(parameters['entry_costs']):.1f}M")
+    print(
+        f"  Market Size: {np.mean(parameters['market_size']):.1f}M ± {np.std(parameters['market_size']):.1f}M customers"
+    )
+    print(
+        f"  Growth Rate: {np.mean(parameters['growth_rate']) * 100:.1f}% ± {np.std(parameters['growth_rate']) * 100:.1f}% per year"
+    )
+    print(
+        f"  Competition: {np.mean(parameters['competition']):.2f} ± {np.std(parameters['competition']):.2f} (0-1 scale)"
+    )
+    print(
+        f"  Entry Costs: ${np.mean(parameters['entry_costs']):.1f}M ± ${np.std(parameters['entry_costs']):.1f}M"
+    )
     print()
 
     # Optimal decision analysis
@@ -205,7 +215,9 @@ def business_voi_analysis():
     print("Additional Considerations:")
     print("  - Market saturation effects should be considered in mature markets")
     print("  - Competitor response dynamics can affect market share evolution")
-    print("  - Time horizon sensitivity: Consider 3-7 year ranges for different market types")
+    print(
+        "  - Time horizon sensitivity: Consider 3-7 year ranges for different market types"
+    )
     print()
 
     return analysis

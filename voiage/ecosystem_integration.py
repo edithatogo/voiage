@@ -1,9 +1,9 @@
 """
 Ecosystem Integration Module for voiage.
 
-This module provides integration capabilities with popular software and workflows:
-- TreeAge Pro compatibility
-- R package integration (hesim, BCEA, etc.)
+This module provides narrow, SDK-free interchange profiles and workflows:
+- repository-authored decision-tree XML (not verified TreeAge compatibility)
+- JSON shapes inspired by hesim and BCEA (not verified package compatibility)
 - Health economic modeling software interoperability
 - Research workflow integration (Jupyter, RStudio, etc.)
 - Data format compatibility (CSV, Excel, SAS, Stata)
@@ -54,13 +54,13 @@ class HeomlRunBundle:
 
 
 class TreeAgeConnector(EcosystemConnector):
-    """TreeAge Pro integration connector."""
+    """Repository-authored decision-tree XML profile connector."""
 
     def __init__(self) -> None:
         super().__init__(
-            name="TreeAge Pro",
-            version="2023+",
-            supported_formats=[".treeage", ".csv", ".xlsx"],
+            name="voiage decision-tree XML profile",
+            version="1",
+            supported_formats=[".voiage.xml"],
             integration_type="bidirectional",
         )
 
@@ -209,13 +209,13 @@ class TreeAgeConnector(EcosystemConnector):
 
 
 class RPackageConnector(EcosystemConnector):
-    """R package integration connector for health economics."""
+    """SDK-free JSON profile connector for health-economic records."""
 
     def __init__(self) -> None:
         super().__init__(
-            name="R Health Economics Packages",
-            version="1.0",
-            supported_formats=[".rds", ".csv", ".json"],
+            name="voiage BCEA and hesim JSON profiles",
+            version="1",
+            supported_formats=[".json"],
             integration_type="bidirectional",
         )
 
@@ -406,7 +406,7 @@ class DataFormatConnector(EcosystemConnector):
         super().__init__(
             name="Data Format Connector",
             version="1.0",
-            supported_formats=[".csv", ".xlsx", ".xls", ".json", ".parquet"],
+            supported_formats=[".csv", ".xlsx", ".json", ".parquet"],
             integration_type="bidirectional",
         )
 
@@ -426,13 +426,13 @@ class DataFormatConnector(EcosystemConnector):
         """
         path_obj = Path(file_path)
         suffix = path_obj.suffix.lower()
-        if suffix not in {".csv", ".xlsx", ".xls", ".parquet", ".json"}:
+        if suffix not in {".csv", ".xlsx", ".parquet", ".json"}:
             raise_value_error(f"Unsupported file format: {path_obj.suffix}")
 
         try:
             if suffix == ".csv":
                 df = pd.read_csv(path_obj)
-            elif suffix in {".xlsx", ".xls"}:
+            elif suffix == ".xlsx":
                 df = pd.read_excel(path_obj)
             elif suffix == ".parquet":
                 df = pd.read_parquet(path_obj)
@@ -1028,13 +1028,13 @@ class EcosystemIntegration:
                     "import": True,
                     "export": True,
                     "bidirectional": True,
-                    "description": "TreeAge Pro decision tree and Markov model compatibility",
+                    "description": "Repository-authored decision-tree XML profile; TreeAge product compatibility is not claimed",
                 },
                 "r_packages": {
                     "import": True,
                     "export": True,
                     "bidirectional": True,
-                    "description": "BCEA, HE-Sim, and other R health economics packages",
+                    "description": "SDK-free BCEA and hesim-inspired JSON profiles; R package compatibility is not claimed",
                 },
                 "data_formats": {
                     "import": True,
