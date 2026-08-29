@@ -8,24 +8,18 @@ imported during ``import voiage``.
 from importlib import import_module
 from typing import TYPE_CHECKING
 
-from .deterministic_sensitivity import (
-    DeterministicSensitivityResult,
-    DsaParameterSummary,
-    DsaPoint,
-    DsaSwitchInterval,
-    deterministic_sensitivity,
-    deterministic_sensitivity_from_specification,
-)
-from .dynamic_real_options import ValueOfFlexibilityResult, value_of_flexibility
-from .utility_information import (
-    expected_utility_information_value,
-    value_of_clairvoyance,
-)
-
 if TYPE_CHECKING:
     from .belief_state_information import (
         BeliefStateInformationResult,
         belief_state_information_value,
+    )
+    from .deterministic_sensitivity import (
+        DeterministicSensitivityResult,
+        DsaParameterSummary,
+        DsaPoint,
+        DsaSwitchInterval,
+        deterministic_sensitivity,
+        deterministic_sensitivity_from_specification,
     )
     from .distributional_information import (
         DistributionalInformationResult,
@@ -33,6 +27,7 @@ if TYPE_CHECKING:
         distributional_information_from_specification,
         value_of_distributional_information,
     )
+    from .dynamic_real_options import ValueOfFlexibilityResult, value_of_flexibility
     from .event_localized_information import (
         EventLocalizedInformationResult,
         event_localized_information_value,
@@ -75,6 +70,10 @@ if TYPE_CHECKING:
     from .uncertainty_modelling_value import (
         UncertaintyModellingValueResult,
         value_of_uncertainty_modelling,
+    )
+    from .utility_information import (
+        expected_utility_information_value,
+        value_of_clairvoyance,
     )
 
 _MODULES = (

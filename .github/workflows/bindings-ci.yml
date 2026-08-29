@@ -13,6 +13,8 @@ on:
       - ".github/workflows/bindings-ci.yml"
       - "specs/core-api/fixtures/**"
       - "specs/numerical-reference/**"
+      - "specs/abi/**"
+      - "scripts/check_abi_compatibility.py"
   push:
     branches: [main]
     paths:
@@ -23,6 +25,8 @@ on:
       - ".github/workflows/bindings-ci.yml"
       - "specs/core-api/fixtures/**"
       - "specs/numerical-reference/**"
+      - "specs/abi/**"
+      - "scripts/check_abi_compatibility.py"
 
 permissions:
   contents: read
@@ -44,6 +48,13 @@ jobs:
           tested_head="$(git rev-parse HEAD)"
           test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
           printf "### Exact source head\n\n\`%s\`\n" "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
+      - name: Compare C ABI with the v2.1.0 release baseline
+        run: >-
+          python3 scripts/check_abi_compatibility.py
+          --baseline specs/abi/releases/v2.1.0
+          --candidate-header rust/crates/voiage-ffi/include/voiage_v1.h
+          --candidate-symbols specs/abi/v1/symbols.txt
+          --candidate-layouts specs/abi/v1/layouts.txt
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
           toolchain: stable

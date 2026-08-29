@@ -21,6 +21,7 @@ the release allowlists.
 voiage_v1_abi_version
 voiage_v1_capabilities
 voiage_v1_enbs
+voiage_v1_enbs_r
 voiage_v1_evpi
 voiage_v1_evpi_i32
 voiage_v1_evpi_i32_r
@@ -31,9 +32,10 @@ voiage_v1_handle_free
 
 The EVPI and ENBS functions delegate to Rust numerical kernels. ENBS returns
 the signed difference between EVSI and non-negative research cost, including
-valid negative results. The EVPI `i32` and `i32_r`
-forms exist for runtimes whose foreign-function conventions use signed 32-bit
-dimensions; they do not define a separate numerical policy.
+valid negative results. The `enbs_r` and EVPI `i32_r` forms provide
+R-compatible pointer arguments and status output, while `evpi_i32` accepts
+signed 32-bit dimensions. These adapters do not define a separate numerical
+policy.
 
 ## Status and error transport
 

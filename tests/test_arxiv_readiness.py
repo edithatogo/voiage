@@ -112,6 +112,7 @@ def test_arxiv_source_archive_contains_only_submission_sources() -> None:
         assert {
             name for name in names if name.startswith("data/") and name.endswith(".csv")
         } == {
+            "data/synthetic_health_example_curve.csv",
             "data/synthetic_health_example_results.csv",
             "data/synthetic_health_example_sensitivity.csv",
             "data/synthetic_health_example_summary.csv",

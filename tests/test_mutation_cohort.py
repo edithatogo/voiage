@@ -72,7 +72,7 @@ def test_reviewed_mutation_cohort_binds_tool_lock_source_and_universe() -> None:
     identity = cohort_identity(ROOT, ROOT / "pyproject.toml")
     report = _evaluate(identity)
     assert report["passed"] is True
-    assert identity["tool_version"] == "3.6.0"
+    assert identity["tool_version"] == "3.7.0"
     assert len(identity["lock_sha256"]) == 64
     assert report["universe"]["added_ids"] == []
     assert report["debt"]["absolute"] == 14
@@ -81,7 +81,7 @@ def test_reviewed_mutation_cohort_binds_tool_lock_source_and_universe() -> None:
 
 def test_runtime_version_is_checked_separately_from_pure_cohort_identity() -> None:
     identity = cohort_identity(ROOT, ROOT / "pyproject.toml")
-    validate_runtime_version(identity, "3.6.0")
+    validate_runtime_version(identity, "3.7.0")
     message = ""
     try:
         validate_runtime_version(identity, "3.5.0")

@@ -23,8 +23,10 @@
     {"path": "tests/test_distributional_information_surfaces.py", "sha256": "26c2ecaa206a78ee89b4bee14c7dbf83f5de587c0b38c5e4bd0ddfe6c3e402a9"},
     {"path": "docs/astro-site/src/content/docs/examples/value-of-distributional-information.mdx", "sha256": "c99c508b5b500fb2ebbe55705d3ed3e04d4516b079e962d4506243593fb1c130"},
     {"path": "docs/astro-site/src/content/docs/examples/index.mdx", "sha256": "9c68fb38928ca889ebd9ed33ecd43821f5800d7a4fdb6c36ebbfd2cf12ad6d58"},
-    {"path": "docs/astro-site/src/content/docs/cli-reference.mdx", "sha256": "054f0d78d9484b74dda394c3da1e38dc72d9a222b654dc4a29a6a7c54e047b41"},
-    {"path": "changelog.md", "sha256": "7b8dd5e8d4e15bdb21941b6a6308f058a3beb24e1728397fbe99937be8249035"}
+    {"path": "docs/astro-site/src/content/docs/cli-reference.mdx", "sha256": "054f0d78d9484b74dda394c3da1e38dc72d9a222b654dc4a29a6a7c54e047b41"}
+  ],
+  "mutable_surfaces": [
+    "changelog.md is tested for the method entry separately and is not hash-pinned because later releases append to it."
   ],
   "remaining_gates": [
     "role-separated subagent scientific panel and accountable owner decision",

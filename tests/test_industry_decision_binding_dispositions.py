@@ -30,9 +30,9 @@ def test_load_all_contract_dispositions() -> None:
     # Check DecisionProblem parity
     dp = contracts["decision_problem"]
     assert dp.dispositions["python"].status == "implemented"
-    assert dp.dispositions["rust"].status == "implemented"
-    assert dp.dispositions["r"].status == "implemented"
-    assert dp.dispositions["julia"].status == "implemented"
+    assert dp.dispositions["rust"].status == "internal"
+    assert dp.dispositions["r"].status == "unsupported"
+    assert dp.dispositions["julia"].status == "unsupported"
     assert dp.dispositions["mojo"].status == "upstream_blocked"
 
 
@@ -44,6 +44,10 @@ def test_get_binding_disposition() -> None:
     mojo_dp = get_binding_disposition("decision_problem", "mojo")
     assert mojo_dp.status == "upstream_blocked"
     assert "external upstream boundary" in mojo_dp.reason
+
+
+def test_manifest_resolves_implemented_and_contract_only_claims() -> None:
+    assert validate_binding_dispositions_manifest(resolve_symbols=True) is True
 
 
 def test_contract_binding_parity_to_dict() -> None:

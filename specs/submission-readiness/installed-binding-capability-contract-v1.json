@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "source_of_truth": "specs/submission-readiness/target-architecture-freeze-20260829.json",
+  "required_surfaces": ["python", "rust", "c_abi", "r", "julia"],
+  "required_checks": [
+    "enumerate exported symbols from installed artifact",
+    "invoke every declared stable capability",
+    "compare shared numerical fixtures",
+    "reject unsupported capability through a declared error",
+    "verify source version and artifact digest"
+  ],
+  "prohibited_evidence": [
+    "manifest substring checks",
+    "workflow command substring checks",
+    "repository-relative import or library lookup"
+  ],
+  "phase_boundary": {
+    "python_rust_c_abi": "P3-T2",
+    "r_julia_installed_packages": "P4-T2 and P4-T5",
+    "rule": "A surface is not complete until the applicable clean installed-artifact checks execute; this contract alone is not implementation evidence."
+  }
+}

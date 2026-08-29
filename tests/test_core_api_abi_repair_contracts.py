@@ -4,8 +4,11 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import shutil
 import subprocess
 import sys
+
+from scripts.check_abi_compatibility import compare
 
 ROOT = Path(__file__).parents[1]
 DISPOSITIONS = ROOT / "specs" / "abi" / "industry-decision-binding-dispositions.json"
@@ -89,6 +92,45 @@ def test_v210_abi_release_baseline_is_immutable_and_machine_checked() -> None:
         check=False,
     )
     assert result.returncode == 0, result.stderr
+
+
+def test_abi_checker_rejects_removed_symbols_signature_and_layout_changes(
+    tmp_path: Path,
+) -> None:
+    header = tmp_path / "voiage_v1.h"
+    symbols = tmp_path / "symbols.txt"
+    layouts = tmp_path / "layouts.txt"
+    shutil.copyfile(ROOT / "rust/crates/voiage-ffi/include/voiage_v1.h", header)
+    shutil.copyfile(ROOT / "specs/abi/v1/symbols.txt", symbols)
+    shutil.copyfile(ROOT / "specs/abi/v1/layouts.txt", layouts)
+
+    symbols.write_text(
+        symbols.read_text(encoding="utf-8").replace("voiage_v1_evpi\n", ""),
+        encoding="utf-8",
+    )
+    removed = compare(ABI_RELEASE, header, symbols, layouts)
+    assert removed["compatible"] is False
+    assert "removed released symbols: voiage_v1_evpi" in removed["errors"]
+
+    shutil.copyfile(ROOT / "specs/abi/v1/symbols.txt", symbols)
+    header.write_text(
+        header.read_text(encoding="utf-8").replace("uint64_t rows", "int64_t rows"),
+        encoding="utf-8",
+    )
+    changed_signature = compare(ABI_RELEASE, header, symbols, layouts)
+    assert changed_signature["compatible"] is False
+    assert "changed released declaration: voiage_v1_evpi" in changed_signature["errors"]
+
+    shutil.copyfile(ROOT / "rust/crates/voiage-ffi/include/voiage_v1.h", header)
+    layouts.write_text(
+        layouts.read_text(encoding="utf-8").replace(
+            "VoiageHandleV1 8 8", "VoiageHandleV1 16 8"
+        ),
+        encoding="utf-8",
+    )
+    changed_layout = compare(ABI_RELEASE, header, symbols, layouts)
+    assert changed_layout["compatible"] is False
+    assert "changed released layout: VoiageHandleV1" in changed_layout["errors"]
 
 
 def test_binding_capability_contract_requires_behavior_not_workflow_text() -> None:

@@ -14,19 +14,22 @@
           "interchange": "json_and_arrow"
         },
         "rust": {
-          "status": "implemented",
-          "symbol": "voiage_core::schema::DecisionProblem",
-          "interchange": "native_and_c_abi"
+          "status": "internal",
+          "symbol": "voiage_domain::DecisionProblem",
+          "interchange": "native_only",
+          "reason": "Internal domain type; not a public C ABI or language-binding surface."
         },
         "r": {
-          "status": "implemented",
-          "symbol": "voiageR::decision_problem",
-          "interchange": "json_and_c_abi"
+          "status": "unsupported",
+          "symbol": "",
+          "interchange": "",
+          "reason": "DecisionProblem is not exported by the installed R package."
         },
         "julia": {
-          "status": "implemented",
-          "symbol": "Voiage.DecisionProblem",
-          "interchange": "json_and_c_abi"
+          "status": "unsupported",
+          "symbol": "",
+          "interchange": "",
+          "reason": "DecisionProblem is not exported by the installed Julia package."
         },
         "mojo": {
           "status": "upstream_blocked",
@@ -44,17 +47,17 @@
         },
         "rust": {
           "status": "contract_only",
-          "symbol": "voiage_ffi::decision_card",
+          "symbol": "specs/decision-cards/schemas/v1/decision-card.schema.json",
           "interchange": "json"
         },
         "r": {
           "status": "contract_only",
-          "symbol": "voiageR::decision_card",
+          "symbol": "specs/decision-cards/schemas/v1/decision-card.schema.json",
           "interchange": "json"
         },
         "julia": {
           "status": "contract_only",
-          "symbol": "Voiage.DecisionCard",
+          "symbol": "specs/decision-cards/schemas/v1/decision-card.schema.json",
           "interchange": "json"
         },
         "mojo": {
