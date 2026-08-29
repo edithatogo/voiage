@@ -3,8 +3,8 @@
 ## Phases
 
 - [~] **Phase 1: Template and Candidate Freeze**
-  - [~] Pin and hash the current official pyOpenSci submission template.
-  - [ ] Compare `v2.0.0` and `v2.1.0` evidence and record the candidate decision or gate.
+  - [x] Pin and hash the current official pyOpenSci submission template. (`a78a84e8`)
+  - [~] Compare `v2.0.0` and `v2.1.0` evidence and record the candidate decision or gate.
 - [ ] **Phase 2: Unposted Submission Packet**
   - [ ] Add failing contract tests for template provenance, candidate identity, and external-state boundaries.
   - [ ] Prepare the local submission draft and machine-readable staging manifest.
