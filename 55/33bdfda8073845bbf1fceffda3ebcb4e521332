@@ -1,0 +1,1 @@
+Review Fixes for P0-T4: repaired live archive pointers and lifecycle assertions across scripts, schemas, documentation, frontier evidence, and submission staging; preserved historical embedded paths with explicit archive resolution. Conductor, cross-reference, pyOpenSci staging, 150 focused tests, lint, frontier-contract, and repository harness passed.
