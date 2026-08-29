@@ -1,0 +1,72 @@
+{
+  "schema_version": "voiage.pyopensci-submission-candidate.v1",
+  "observed_at": "2026-08-29T00:15:00Z",
+  "state": "recommended_for_local_staging_maintainer_confirmation_pending",
+  "recommended_candidate": {
+    "version": "2.1.0",
+    "tag": "v2.1.0",
+    "commit": "964a0fc334ece9509387cd07d43776adf38be240",
+    "tree": "a519104fbe1854909a13b12ea71fefa9f1484036",
+    "tag_object": "df1d46619144ea24bb51615aac7287f275a35998",
+    "tag_signature_verified": true,
+    "github_release": "https://github.com/edithatogo/voiage/releases/tag/v2.1.0",
+    "pypi_release": "https://pypi.org/project/voiage/2.1.0/",
+    "published_at": "2026-08-21T04:06:15Z",
+    "latest_on_pypi_when_observed": true,
+    "immutable_github_release": true,
+    "publication_receipt": "conductor/tracks/quality_release_automation_20260723/release-2.1.0-publication-receipt-20260821.json"
+  },
+  "artifact_sha256": {
+    "voiage-2.1.0-cp312-abi3-macosx_11_0_arm64.whl": "2c1582cfda4e187d0260faf39533439cb63d38e57a3520d6f5b1392edeba1a2f",
+    "voiage-2.1.0-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "81a649675bc43179efbfccac57bd53226b5f81dc2d82dd7ffc5c8a051c257724",
+    "voiage-2.1.0-cp312-abi3-win_amd64.whl": "e085f6176d2639dd1648a8b9023108d9ee488734a6aac9e78c94571487b8deae",
+    "voiage-2.1.0.tar.gz": "f0844694c628a92d29a532170f5a5672acfe210efe1d797359a4dc18c11ab901"
+  },
+  "comparison": {
+    "v2.0.0": {
+      "public_and_not_yanked": true,
+      "release_evidence": "docs/release/v2.0.0-release-evidence.json",
+      "joss_paper_bound": true,
+      "developer_research_use_bound": true,
+      "current_release": false,
+      "disposition": "retain as historical JOSS evidence; do not submit as the current pyOpenSci package"
+    },
+    "v2.1.0": {
+      "public_and_not_yanked": true,
+      "signed_release_receipt": true,
+      "hosted_release_checks": {
+        "success": 60,
+        "skipped": 4,
+        "neutral": 1,
+        "failed": 0,
+        "pending": 0
+      },
+      "current_release": true,
+      "disposition": "recommended for the local pyOpenSci submission draft"
+    }
+  },
+  "selection_rationale": [
+    "pyOpenSci reviews the maintained current Python package rather than a superseded release",
+    "v2.1.0 is the latest public non-yanked PyPI release",
+    "the signed tag, immutable GitHub release, publication workflow, and PyPI artifact digests are evidence-bound",
+    "current CITATION.cff and codemeta.json identify v2.1.0"
+  ],
+  "joss_handoff": {
+    "state": "blocked_pending_refresh_and_external_evidence",
+    "paper_release": "2.0.0",
+    "developer_research_use_release": "2.0.0",
+    "non_author_engagement": "pending_issue_471",
+    "doi_bearing_archive": "pending",
+    "permanent_arxiv_identifier": "pending",
+    "joss_submission": "not_started"
+  },
+  "authority": {
+    "prepare_local_draft": "repository",
+    "confirm_submission_version": "maintainer",
+    "complete_survey": "maintainer",
+    "submit_to_pyopensci": "maintainer_after_separate_instruction",
+    "accept": "pyOpenSci"
+  },
+  "maintainer_version_confirmation": "pending",
+  "submission_performed": false
+}

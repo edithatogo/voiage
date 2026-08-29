@@ -37,7 +37,7 @@
       "id": "candidate-version-selection",
       "kind": "maintainer_decision",
       "status": "pending",
-      "evidence": "v2.1.0 is the latest public release while existing JOSS and non-author validation materials remain bound to v2.0.0; staging must compare evidence before selection."
+      "evidence": "specs/submission-readiness/pyopensci-submission-candidate.json recommends v2.1.0 for local staging from signed release, immutable GitHub, PyPI, digest, and current-metadata evidence. Maintainer confirmation remains pending, and the later JOSS handoff is separately blocked because its paper and developer-use records are bound to v2.0.0."
     },
     {
       "id": "external-pyopensci-submission",
