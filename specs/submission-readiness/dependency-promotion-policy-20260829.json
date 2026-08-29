@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.0.0",
+  "frozen_on": "2026-08-29",
+  "track_id": "pre_submission_comprehensive_hardening_20260829",
+  "status": "normative_target",
+  "stable_resolution": {
+    "source": "pyproject.toml",
+    "lock": "uv.lock",
+    "rule": "Stable lower bounds express the supported compatibility floor; the lock records the exact development and release-candidate resolution. They must be reported and validated separately.",
+    "refresh_command": "uv lock --upgrade",
+    "strict_frontier_target": "Report minimum-supported, locked, latest-compatible, latest-overall, upper-bound blocker, prerelease, and support-window status separately; fail only on a declared policy violation.",
+    "release_rule": "Release artifacts use the committed frozen lock and never resolve an unreviewed preview dependency."
+  },
+  "lifecycle": [
+    {
+      "stage": "observe",
+      "blocking": false,
+      "requirements": ["isolated resolution", "machine-readable incompatibility report", "no support claim"]
+    },
+    {
+      "stage": "qualify",
+      "blocking": false,
+      "requirements": ["focused compatibility tests", "security and licence scan", "numerical and serialization evidence where applicable", "measured benefit or required compatibility"]
+    },
+    {
+      "stage": "candidate",
+      "blocking": true,
+      "requirements": ["full supported-version matrix", "clean wheel and sdist installs", "language-native gates where affected", "rollback receipt"]
+    },
+    {
+      "stage": "promote",
+      "blocking": true,
+      "requirements": ["stable-bound update", "frozen lock", "changelog and compatibility notes", "exact-head hosted validation"]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "stable-within-current-bounds",
+      "source_lane": "stable-within-current-bounds",
+      "isolation": "main uv.lock candidate resolution",
+      "blocking_stage": "candidate",
+      "candidates": [
+        "click 8.5.0",
+        "numpy 2.5.2",
+        "scikit-learn 1.9.0",
+        "pyarrow 25.0.1",
+        "polars 1.44.1",
+        "pydantic 2.13.5",
+        "fastapi 0.141.1",
+        "maturin 1.15.0",
+        "tox 4.61.1",
+        "ty 0.0.75"
+      ],
+      "required_gates": ["supported Python matrix", "minimum and maximum dependency environments", "wheel and sdist black-box tests", "numerical equivalence", "serialization and Arrow round trips", "coverage, lint, and type checks"]
+    },
+    {
+      "id": "major-or-upper-bound-frontier",
+      "source_lane": "major-or-upper-bound-frontier",
+      "isolation": "separate generated preview lock and non-blocking workflow; never mutate uv.lock",
+      "blocking_stage": "candidate",
+      "candidates": ["SciPy 1.18", "pandas 3.0", "xarray 2026.7", "Griffe 2.2", "JAX 0.11", "Ruff 0.16"],
+      "required_gates": ["API and deprecation report", "numerical equivalence", "Arrow and DataFrame round trips", "CPU fallback", "docs extraction/build", "tool output compatibility", "full candidate matrix before bound change"]
+    },
+    {
+      "id": "runtime-preview",
+      "source_lane": "runtime-preview",
+      "isolation": "allow-failure observation jobs with no release artifacts",
+      "blocking_stage": "candidate",
+      "candidates": ["Python 3.15 pre-release", "Python 3.14 free-threaded observation", "Rust nightly diagnostics without release artifacts"],
+      "required_gates": ["upstream runtime release or explicit beta policy", "dependency wheel availability", "thread-safety where applicable", "stable-runtime CPU fallback", "full candidate matrix before support claim"]
+    },
+    {
+      "id": "test-and-ci-acceleration",
+      "source_lane": "test-and-ci-acceleration",
+      "isolation": "measured feature branch and non-authoritative preview workflow",
+      "blocking_stage": "candidate",
+      "candidates": ["pytest-xdist worksteal and bounded worker hook", "cargo-nextest deterministic partitions", "cargo-nextest build archives", "sccache for Rust compilation", "Scalene 2.3 targeted CPU and memory profiles", "openpyxl as an explicit Excel test extra"],
+      "required_gates": ["same serial and parallel outcomes", "deterministic seeds and shard membership", "full failure visibility", "coverage preservation", "cold and warm timings", "peak-memory bound", "non-sharded release gate"]
+    },
+    {
+      "id": "serialization-and-analytics-preview",
+      "source_lane": "serialization-and-analytics-preview",
+      "isolation": "existing experimental extra and explicit experimental namespace",
+      "blocking_stage": "candidate",
+      "candidates": ["DuckDB 1.5.5", "orjson 3.12", "msgspec 0.21.1"],
+      "required_gates": ["canonical JSON semantics", "finite-number rejection", "schema equivalence", "Arrow round trips", "copy and ownership policy", "CPU fallback", "installed-extra tests", "measured benefit"]
+    }
+  ],
+  "universal_promotion_gates": {
+    "correctness": ["existing contract and property tests", "new dependency-specific regression tests", "no accepted numerical drift outside declared tolerance"],
+    "numerics": ["fixed-seed fixtures", "cross-platform tolerance", "NaN and infinity policy", "CPU reference equivalence"],
+    "interchange": ["JSON schema", "Arrow PyCapsule where supported", "DataFrame fallback", "nullable, categorical, timezone, copy, and ownership behavior"],
+    "packaging": ["wheel", "sdist", "base install", "affected extras", "clean consumer environment"],
+    "security_and_licence": ["pip-audit or ecosystem-native advisory scan", "lock-derived SBOM", "reviewed licence policy", "provenance for binaries and build tools"],
+    "performance": ["reproducible before/after workload", "wall, CPU, and peak-memory evidence", "no material regression unless explicitly justified"],
+    "documentation": ["changelog", "compatibility or migration note", "support matrix", "preview label removed only at promotion"],
+    "hosted": ["exact candidate head", "supported platform/runtime matrix", "required checks green"]
+  },
+  "cpu_fallback_policy": {
+    "required": true,
+    "rule": "Accelerator, free-threaded, distributed, compiled-serialization, and preview analytical paths must retain a supported stable CPU path with equivalent declared semantics.",
+    "failure_behavior": "Unavailable preview acceleration returns a documented capability or backend error and must not silently change estimator semantics.",
+    "promotion_evidence": ["CPU-only clean install", "accelerator absent", "numerical comparison", "error-path test"]
+  },
+  "promotion_receipt": {
+    "required_fields": ["candidate_id", "candidate_version", "lane", "source_head", "stable_lock_sha256", "preview_lock_sha256", "tested_runtimes", "tested_platforms", "commands", "artifact_sha256", "numerical_result", "interchange_result", "cpu_fallback_result", "security_result", "licence_result", "performance_result", "rollback_target", "decision", "decision_rationale", "decided_at"],
+    "allowed_decisions": ["observe", "retain_preview", "promote", "reject", "rollback"],
+    "authority": "Repository evidence may recommend a decision; stable promotion requires the full candidate gate and maintainer-owned merge boundary."
+  },
+  "rollback_policy": {
+    "triggers": ["numerical mismatch outside tolerance", "schema or serialization incompatibility", "missing CPU fallback", "supported-platform wheel or build failure", "security advisory or prohibited licence", "coverage or type-safety regression", "non-deterministic shard outcome", "material unapproved performance or memory regression", "upstream yanked or compromised artifact"],
+    "actions": ["restore the last known-good stable bound and lock", "disable the preview lane or feature flag", "re-run exact rollback validation", "record the trigger and affected artifacts", "publish no release from the failed candidate"],
+    "data_compatibility": "A rollback may not strand user data; retain readers or provide a versioned migration for any candidate-written format before promotion.",
+    "preview_failure": "A failing observation lane records evidence and remains non-blocking unless it reveals a vulnerability or regression in the stable resolution."
+  },
+  "prohibited_shortcuts": [
+    "Changing stable upper bounds based only on successful resolution or import.",
+    "Treating latest-overall as the required minimum supported version.",
+    "Using preview dependencies in release artifacts before promotion.",
+    "Claiming accelerator support without an exercised CPU fallback.",
+    "Accepting benchmark improvement with changed numerical or serialization semantics.",
+    "Allowing a non-blocking preview job to hide a stable-lane failure."
+  ],
+  "finding_closure": {
+    "DEP-001": "Implement the separated frontier report and policy-based strict result.",
+    "DEP-002": "Run every blocked family in the major-or-upper-bound preview lane before promotion or renewed exclusion.",
+    "DEP-003": "Apply the lock-derived local licence gate in universal security evidence.",
+    "DEP-005": "Monitor the accepted syn duplicate in advisory and SBOM evidence until upstream convergence.",
+    "DEP-006": "Implement the lane and promotion-receipt model frozen here."
+  }
+}
