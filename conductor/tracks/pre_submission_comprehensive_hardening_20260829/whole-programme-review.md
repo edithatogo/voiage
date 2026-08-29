@@ -24,6 +24,10 @@ release binds the final source, SBOM, provenance, and registry artifacts.
 - Exact-head hosted preview run 33262673063: workflow passed; both deterministic
   shards and the repaired sccache/nextest lane passed. Python 3.15 and Ruff 0.16
   remain intentional non-promotion findings.
+- PR #1035 exact head `27215aea`: 40 checks passed, three were governed skips,
+  one CodeQL wrapper result was neutral, and no check failed or remained
+  pending. Its product implementation descends from PR #1034 head `7c63bf49`,
+  whose tree is exactly equal to squash-merge commit `b7c58db2`.
 - Exact-main retained-binding workflow 33260609561 and pinned `pkgcheck`:
   passed.
 - Full Conductor validation, GitHub cross-reference validation, submission

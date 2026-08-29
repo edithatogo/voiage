@@ -3,14 +3,24 @@
   "bound_on": "2026-08-29",
   "candidate_state": "repository_hardened_not_released",
   "hardened_source": {
-    "revision": "b7c58db2e58eb11e24119d6c919a10f349358c5d",
-    "tree": "d1d9fda9739624d47069e4330723b10eda779f76",
-    "validation_pull_request": 1034,
-    "required_checks": {"success": 66, "skipped": 5, "failed": 0, "pending": 0},
+    "revision": "27215aeace2686f6e1e20b618f240170df5bbbbc",
+    "tree": "b2e33da01677ee6818b1cd7c2199cec03b3558f6",
+    "validation_pull_request": 1035,
+    "required_checks": {"success": 40, "skipped": 3, "neutral": 1, "failed": 0, "pending": 0},
+    "local_full_tox_revision": "0f193d655fb2c29b1ecc5e64a07756fb246bd4c6",
     "full_tox_environments": 15,
-    "full_tox_seconds": 643,
+    "full_tox_seconds": 697.71,
     "pkgcheck": "passed",
     "r_cmd_check": "passed"
+  },
+  "implementation_validation": {
+    "pull_request": 1034,
+    "validated_revision": "7c63bf49651826cc491500dc0ce354c025dac22a",
+    "validated_tree": "d1d9fda9739624d47069e4330723b10eda779f76",
+    "required_checks": {"success": 66, "skipped": 5, "failed": 0, "pending": 0},
+    "squash_merge_revision": "b7c58db2e58eb11e24119d6c919a10f349358c5d",
+    "squash_merge_tree": "d1d9fda9739624d47069e4330723b10eda779f76",
+    "exact_tree_match": true
   },
   "version_surfaces": {
     "python": "dynamic_from_release_metadata",

@@ -99,6 +99,17 @@
     "cargo_nextest_sccache": "passed",
     "expected_nonpromotion_failures": ["python-3.15", "ruff-0.16"]
   },
+  "hosted_closeout_exact_head": {
+    "pull_request": 1035,
+    "revision": "27215aeace2686f6e1e20b618f240170df5bbbbc",
+    "success": 40,
+    "skipped": 3,
+    "neutral": 1,
+    "failed": 0,
+    "pending": 0,
+    "unresolved_review_threads_before_reviewer_remediation": 1,
+    "outcome": "passed_pending_manifest_provenance_fix"
+  },
   "ci_changes": [
     "one authoritative CI coverage upload",
     "focused no-coverage Python 3.12 through 3.14 compatibility lanes",
