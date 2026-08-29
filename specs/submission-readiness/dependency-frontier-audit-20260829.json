@@ -3,13 +3,13 @@
   "audited_on": "2026-08-29",
   "lock_refresh": {
     "command": "uv lock --upgrade",
-    "resolved_packages": 214,
+    "resolved_packages": 216,
     "status": "completed",
     "scope": "Latest versions satisfying the existing stable and optional dependency bounds"
   },
   "strict_frontier": {
     "command": "uv run python scripts/dependency_frontier.py . --strict",
-    "declared_requirements": 59,
+    "declared_requirements": 60,
     "reported_current": 23,
     "reported_not_current": 36,
     "exit_status": 2,

@@ -5,10 +5,10 @@
     "python_runtime_modules": 176,
     "rust_workspace_crates": 8,
     "stable_python_symbols": 16,
-    "c_abi_symbols": 9,
+    "c_abi_symbols": 10,
     "native_r_exports": 2,
     "native_julia_exports": 2,
-    "tracked_stale_r_source_archives": 1
+    "tracked_stale_r_source_archives": 0
   },
   "validated_contracts": [
     "The v2 Python runtime inventory classifies every runtime module without overlap or omission.",
@@ -16,7 +16,7 @@
     "Core API schemas and normative v1 fixtures validate.",
     "The Rust FFI crate passes its lifecycle, status, EVPI, ENBS, and error-transport tests.",
     "The Python wheel black-box tests and current binding workflow declaration tests pass.",
-    "The C ABI is deliberately narrow at nine symbols and currently exposes EVPI and ENBS numerical capabilities."
+    "The C ABI is deliberately narrow at ten symbols and currently exposes EVPI and ENBS numerical capabilities."
   ],
   "findings": [
     {

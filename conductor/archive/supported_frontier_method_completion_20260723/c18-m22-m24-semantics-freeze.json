@@ -1,6 +1,7 @@
 {
   "schema_version": "1.0.0",
   "recorded_at": "2026-08-04T00:00:00Z",
+  "administrative_amendment": "2026-08-29: refreshed the forecast-signal test digest after its governed Conductor path moved from tracks to archive; implementation and semantic assertions are unchanged.",
   "candidate_commit": "cca185ee",
   "scope": "M22 (#570), M23 (#572), and M24 (#582)",
   "status": "experimental-semantics-frozen",
@@ -49,7 +50,7 @@
     "voiage/methods/forecast_signal_information.py": "49b8fe67bbb137c0905bdf4d7afc670021620f497cf4adcce591866ef9262840",
     "voiage/methods/information_source_portfolio.py": "042c466f3400297505247cfe273a2ac4458db1064941cdb021148b28d55042a5",
     "tests/test_risk_sensitive_voi.py": "fcc71520aa7e6f300fddf61eb4f948286e0b641daf2f0bf32d8d17674eea3b23",
-    "tests/test_forecast_signal_information.py": "7ee124cc4a3cbd6b95a0b1cf448b9e87c6c59aeb217326062c7674b64876d354",
+    "tests/test_forecast_signal_information.py": "332159baeb3d41e4279df05f39fbbc835b6c14b6f3178cbf41332abff0429b97",
     "tests/test_information_source_portfolio.py": "dd5cfe5e9be89e093b5174d3847e6d02e2f8dc84b523340b4077fc10f717294e",
     "tests/test_information_source_portfolio_governance.py": "63f140a6ec7c2467e439a37f223494cf40a257dfef1f70b72a33dc1656ab8740"
   }
