@@ -1,0 +1,137 @@
+{
+  "schema_version": "1.0.0",
+  "audited_on": "2026-08-29",
+  "scope": [
+    "integration adapters",
+    "dataset registry and ingestion",
+    "domain templates",
+    "worked examples and notebooks",
+    "executable research workflows"
+  ],
+  "inventory": {
+    "registered_datasets": 7,
+    "committed_dataset_snapshots": 7,
+    "dataset_transform_python_scripts": 0,
+    "synthetic_analysis_families": 12,
+    "domain_templates": 9,
+    "domain_templates_with_examples": 3,
+    "unique_domain_example_scripts": 2,
+    "python_example_scripts": 14,
+    "notebook_examples": 23,
+    "built_in_ingestion_providers": 2,
+    "enterprise_adapter_shapes": 6
+  },
+  "verified_strengths": [
+    "Croissant 1.1 and Frictionless v1 local ingestion profiles have extensive file-backed positive, negative, integrity, and normalized-input tests.",
+    "The lifecourse integration has normative fixtures for EVPI, EVPPI, EVSI, and ENBS plus a versioned result-envelope schema.",
+    "The customer-churn example executes deterministically through public VOI methods.",
+    "Enterprise adapter records have a versioned schema and six normative synthetic payload shapes.",
+    "All 12 named synthetic analysis families have committed fixture files."
+  ],
+  "findings": [
+    {
+      "id": "INTDATA-001",
+      "severity": "high",
+      "state": "open",
+      "category": "data-integrity",
+      "summary": "Every registered dataset uses an all-zero placeholder snapshot hash even though seven snapshot files exist.",
+      "evidence": [
+        "specs/dataset-registry/registry.json",
+        "specs/dataset-registry/snapshots/"
+      ],
+      "required_disposition": "Bind each registry record to an actual reviewed snapshot digest or explicitly classify the file as synthetic/illustrative and remove the false integrity field."
+    },
+    {
+      "id": "INTDATA-002",
+      "severity": "high",
+      "state": "open",
+      "category": "data-reproducibility",
+      "summary": "The dataset documentation advertises refresh_all.py and source-specific transforms, but the transform directory contains only a README.",
+      "evidence": [
+        "specs/dataset-registry/transforms/README.md",
+        "docs/astro-site/src/content/docs/dataset-registry.mdx",
+        "tests/test_dataset_registry.py"
+      ],
+      "required_disposition": "Implement deterministic, provenance-recording transforms with bounded live-network lanes, or change registry and documentation claims to an explicit fixture-only status."
+    },
+    {
+      "id": "INTDATA-003",
+      "severity": "high",
+      "state": "open",
+      "category": "external-interoperability",
+      "summary": "The legacy ecosystem connector advertises bidirectional TreeAge and R-package formats that are not demonstrated against authoritative exports; .rds is listed but the implementation reads JSON, and the TreeAge tests use repository-invented XML.",
+      "evidence": [
+        "voiage/ecosystem_integration.py",
+        "tests/test_ecosystem_integration.py"
+      ],
+      "required_disposition": "Narrow and rename the surfaces to documented interchange profiles unless authoritative fixtures and real-tool round trips can be legally and reproducibly validated."
+    },
+    {
+      "id": "INTDATA-004",
+      "severity": "medium",
+      "state": "open",
+      "category": "domain-coverage",
+      "summary": "Six of nine domain templates have no worked example; the three example mappings resolve to only two scripts, and the market-entry script does not exercise the template registry.",
+      "evidence": [
+        "specs/domain-templates/registry.json",
+        "examples/business_strategy_example.py",
+        "tests/test_domain_templates.py"
+      ],
+      "required_disposition": "Add deterministic registry-driven workflows for accepted domains, prioritizing both stable templates, and label the remainder as templates rather than validated domain integrations."
+    },
+    {
+      "id": "INTDATA-005",
+      "severity": "medium",
+      "state": "open",
+      "category": "example-execution",
+      "summary": "The repository contains 14 Python examples and 23 notebooks, but no complete example/notebook execution lane; most checks inspect filenames or cell text rather than executing the workflow.",
+      "evidence": [
+        "examples/",
+        "tests/test_method_validation_notebooks.py",
+        ".github/workflows/"
+      ],
+      "required_disposition": "Define a deterministic smoke manifest, execute supported scripts and notebooks in a focused cached lane, and quarantine hardware, interactive, or obsolete examples with explicit reasons."
+    },
+    {
+      "id": "INTDATA-006",
+      "severity": "medium",
+      "state": "open",
+      "category": "enterprise-integration",
+      "summary": "Six enterprise adapter shapes are schema-tested only with hand-authored payloads; compatibility with versioned MLflow, OpenLineage, dbt, experimentation, CATE, and forecast exports is not demonstrated.",
+      "evidence": [
+        "voiage/enterprise_adapters.py",
+        "specs/integrations/enterprise/fixtures/normative/adapters-fixture.json",
+        "tests/test_enterprise_adapters.py"
+      ],
+      "required_disposition": "Describe these as SDK-free interchange constructors and add redacted, version-pinned producer fixtures before claiming product compatibility."
+    },
+    {
+      "id": "INTDATA-007",
+      "severity": "medium",
+      "state": "open",
+      "category": "end-to-end-research-workflow",
+      "summary": "There is no manifest proving realistic source-to-ingestion-to-analysis-to-serialized-result-to-report execution across the claimed health, environmental, financial, and enterprise domains.",
+      "evidence": [
+        "specs/dataset-registry/registry.json",
+        "examples/",
+        "voiage/reporting.py",
+        "voiage/decision_card.py"
+      ],
+      "required_disposition": "Create a small rights-cleared workflow corpus with provenance, expected numerical results, serialized contracts, and report assertions for each accepted representative domain."
+    },
+    {
+      "id": "INTDATA-008",
+      "severity": "high",
+      "state": "open",
+      "category": "optional-format-dependency",
+      "summary": "The data-format connector advertises Excel import/export, but openpyxl is absent from package extras and the two focused Excel tests skip in the standard development environment.",
+      "evidence": [
+        "voiage/ecosystem_integration.py",
+        "tests/test_ecosystem_integration.py",
+        "pyproject.toml"
+      ],
+      "required_disposition": "Add an explicit Excel extra and required CI lane, or remove Excel from advertised built-in formats and fail with a targeted optional-dependency diagnostic."
+    }
+  ],
+  "boundary": "This audit is repository evidence only. It does not assert compatibility with proprietary products, validate remote source rights, or promote an experimental domain or adapter."
+}

@@ -18,6 +18,11 @@
   risk-model and missing-data EVSI work as candidates rather than supported
   capability claims.
 
+- Audited integration, data, domain-template, example, and executable-workflow
+  coverage, preserving eight evidence-backed gaps for disposition before
+  submission rather than treating schema presence or synthetic fixtures as
+  proof of external interoperability.
+
 - Prepared a current, locally validated, unposted pyOpenSci review packet for
   `v2.1.0`, pinned to the inspected upstream template and public release
   evidence. The candidate still requires maintainer confirmation, every human
