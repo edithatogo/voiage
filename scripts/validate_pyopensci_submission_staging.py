@@ -21,6 +21,23 @@ EXPECTED_EXTERNAL_OUTCOMES = {
     "joss_referral": "not_started",
     "joss_acceptance": "pending_external",
 }
+REQUIRED_HUMAN_ATTESTATIONS = {
+    "code_of_conduct",
+    "maintenance_commitment_form_checkbox",
+    "submitted_version",
+    "joss_partnership_option",
+    "reviewer_direct_issue_permission",
+    "author_guide_read",
+    "pre_review_survey",
+}
+REQUIRED_EXTERNAL_ACTIONS = {
+    "pre_review_survey_completed",
+    "pyopensci_issue_created",
+    "pyopensci_contact_made",
+    "joss_submission_created",
+    "badge_added",
+    "doi_archive_created",
+}
 PLACEHOLDER = re.compile(r"\b(?:TBD|TODO|FILL(?:\s+THIS)?\s+IN)\b", re.IGNORECASE)
 
 
@@ -106,14 +123,20 @@ def validate_staging_packet(
     attestations = staging.get("human_attestations")
     if not isinstance(attestations, dict) or not attestations:
         findings.append("human attestations must be a non-empty object")
-    elif set(attestations.values()) != {"pending"}:
-        findings.append("human attestations must remain pending in a local packet")
+    else:
+        if set(attestations) != REQUIRED_HUMAN_ATTESTATIONS:
+            findings.append("human attestation key set is incomplete or unexpected")
+        if set(attestations.values()) != {"pending"}:
+            findings.append("human attestations must remain pending in a local packet")
 
     external_actions = staging.get("external_actions")
     if not isinstance(external_actions, dict) or not external_actions:
         findings.append("external actions must be a non-empty object")
-    elif any(value is not False for value in external_actions.values()):
-        findings.append("external actions must remain false in an unposted packet")
+    else:
+        if set(external_actions) != REQUIRED_EXTERNAL_ACTIONS:
+            findings.append("external action key set is incomplete or unexpected")
+        if any(value is not False for value in external_actions.values()):
+            findings.append("external actions must remain false in an unposted packet")
 
     if staging.get("external_outcomes") != EXPECTED_EXTERNAL_OUTCOMES:
         findings.append("external outcomes must remain not started or pending external")

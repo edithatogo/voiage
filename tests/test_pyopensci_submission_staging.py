@@ -124,3 +124,41 @@ def test_validator_rejects_false_submission_state(tmp_path: Path) -> None:
     findings = validate_staging_packet(staged_root, require_all_files=False)
 
     assert "external actions must remain false in an unposted packet" in findings
+
+
+def test_validator_rejects_missing_human_attestation(tmp_path: Path) -> None:
+    """Deleting an unchecked human gate cannot make the packet valid."""
+    staging = _load(STAGING)
+    del staging["human_attestations"]["pre_review_survey"]
+    staged_root = tmp_path / "repo"
+    staged_manifest = (
+        staged_root
+        / "specs"
+        / "submission-readiness"
+        / "pyopensci-submission-staging.json"
+    )
+    staged_manifest.parent.mkdir(parents=True)
+    staged_manifest.write_text(json.dumps(staging), encoding="utf-8")
+
+    findings = validate_staging_packet(staged_root, require_all_files=False)
+
+    assert "human attestation key set is incomplete or unexpected" in findings
+
+
+def test_validator_rejects_missing_external_action(tmp_path: Path) -> None:
+    """Deleting a false external-action receipt cannot weaken the boundary."""
+    staging = _load(STAGING)
+    del staging["external_actions"]["pyopensci_contact_made"]
+    staged_root = tmp_path / "repo"
+    staged_manifest = (
+        staged_root
+        / "specs"
+        / "submission-readiness"
+        / "pyopensci-submission-staging.json"
+    )
+    staged_manifest.parent.mkdir(parents=True)
+    staged_manifest.write_text(json.dumps(staging), encoding="utf-8")
+
+    findings = validate_staging_packet(staged_root, require_all_files=False)
+
+    assert "external action key set is incomplete or unexpected" in findings
