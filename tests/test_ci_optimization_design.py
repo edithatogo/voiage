@@ -145,8 +145,12 @@ def test_tox_package_environments_build_checkout_only_once() -> None:
 
     default = config["testenv"]
     assert default["package"].strip() == "wheel"
-    assert default["extras"].split() == ["ci"]
+    assert default.get("extras", "").split() == ["jax"]
     assert ".[ci]" not in default.get("deps", "")
+    assert {"defusedxml", "pytest", "hypothesis", "rfc8785"} <= {
+        dependency.split("<", maxsplit=1)[0].split(">", maxsplit=1)[0].lower()
+        for dependency in default["deps"].splitlines()
+    }
     for environment in (
         "testenv:ingestion-conformance",
         "testenv:min_versions",
@@ -159,6 +163,7 @@ def test_tox_package_environments_build_checkout_only_once() -> None:
     assert "pytest" in joss_dependencies
     assert "pyyaml" in joss_dependencies
     assert "--noconftest" in config["testenv:joss"]["commands"]
+    assert config["testenv:coverage_report"]["extras"].split() == ["ci"]
 
 
 def test_tox_compatibility_lanes_do_not_repeat_the_full_coverage_suite() -> None:
