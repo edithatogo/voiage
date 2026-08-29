@@ -3,6 +3,13 @@
 The Rust-first polyglot programme is registered as the current programme; all
 other tracks retain their evidenced lifecycle and external-gate boundaries.
 
+## [ ] Track: pyOpenSci Submission Staging
+*Link: [./tracks/pyopensci_submission_staging_20260829/index.md](./tracks/pyopensci_submission_staging_20260829/index.md)*
+*GitHub: [issue #471](https://github.com/edithatogo/voiage/issues/471), parent [#299](https://github.com/edithatogo/voiage/issues/299).*
+*Status: approved and pending initialization — prepare a current unposted submission packet while retaining candidate selection, survey, authenticated posting, review, and acceptance as explicit gates.*
+
+---
+
 ## [x] Track: pyOpenSci & JOSS Fast-Track Community Review Readiness [completed: 2026-08-28]
 *Link: [./archive/pyopensci_joss_review_readiness_20260823/index.md](./archive/pyopensci_joss_review_readiness_20260823/index.md)*
 *GitHub: [issue #1022](https://github.com/edithatogo/voiage/issues/1022), sub-issues [#616](https://github.com/edithatogo/voiage/issues/616) and [#471](https://github.com/edithatogo/voiage/issues/471).*

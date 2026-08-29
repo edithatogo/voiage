@@ -4,6 +4,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+*   [ ] Prepare and validate an unposted pyOpenSci submission packet against a
+    pinned current template, with an evidence-backed release candidate and all
+    human or external actions left explicit.
+
 *   [x] Complete Quality Frontier evidence-based hardening with Metamorphic Testing (MT) and Deterministic Simulation Testing (DST) suites (#657).
 *   [x] Configure automated Gitleaks secret scanning and expanded continuous Rust and Python fuzz testing.
 *   [x] Add structured GitHub Issue Forms, issue routing config, and root pull request template.
