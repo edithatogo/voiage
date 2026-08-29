@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0.0",
+  "observed_on": "2026-08-29",
+  "workflow": ".github/workflows/dependency-preview.yml",
+  "workflow_run": 33262673063,
+  "workflow_url": "https://github.com/edithatogo/voiage/actions/runs/33262673063",
+  "revision": "0f193d655fb2c29b1ecc5e64a07756fb246bd4c6",
+  "workflow_conclusion": "success",
+  "policy": {
+    "mode": "non_blocking_observation",
+    "stable_bounds_changed": false,
+    "candidate_promoted": false,
+    "release_artifacts_published": false
+  },
+  "observations": [
+    {
+      "id": "scipy-1.18",
+      "job_conclusion": "success",
+      "metadata_check": "expected_upper_bound_incompatibility",
+      "compatibility_tests": "passed",
+      "disposition": "retain_preview"
+    },
+    {
+      "id": "pandas-3",
+      "job_conclusion": "success",
+      "metadata_check": "expected_upper_bound_incompatibility",
+      "compatibility_tests": "passed",
+      "disposition": "retain_preview"
+    },
+    {
+      "id": "xarray-2026",
+      "job_conclusion": "success",
+      "metadata_check": "expected_pandas_and_xarray_upper_bound_incompatibilities",
+      "compatibility_tests": "passed",
+      "disposition": "retain_preview"
+    },
+    {
+      "id": "jax-0.11",
+      "job_conclusion": "success",
+      "metadata_check": "expected_scipy_upper_bound_incompatibility",
+      "compatibility_tests": "passed",
+      "disposition": "retain_preview"
+    },
+    {
+      "id": "griffe-2",
+      "job_conclusion": "success",
+      "metadata_check": "passed",
+      "compatibility_tests": "passed",
+      "disposition": "retain_preview_until_full_docs_and_tooling_promotion_gate"
+    },
+    {
+      "id": "ruff-0.16",
+      "job_conclusion": "failure",
+      "metadata_check": "passed",
+      "compatibility_tests": "20_new_lint_findings",
+      "disposition": "reject_promotion_pending_reviewed_rule_remediation"
+    },
+    {
+      "id": "python-3.15",
+      "job_conclusion": "failure",
+      "compatibility_tests": "not_started",
+      "blocker": "jaxlib 0.7.2 has no cp315 source distribution or wheel",
+      "disposition": "blocked_by_upstream_wheel_support"
+    },
+    {
+      "id": "deterministic-python-shards",
+      "job_conclusion": "success",
+      "compatibility_tests": "both partitions passed with four work-stealing workers",
+      "disposition": "validated_observational_accelerator"
+    },
+    {
+      "id": "cargo-nextest-and-sccache",
+      "job_conclusion": "success",
+      "compatibility_tests": "pinned sccache backend initialized and nextest completed the Rust workspace",
+      "local_follow_up": "cargo-nextest 0.9.114 ran 221 tests with 221 passed in 2.502 seconds after a 21.94 second build",
+      "repair": "configure the pinned mozilla-actions sccache action before invoking nextest",
+      "hosted_nextest_seconds": 20,
+      "disposition": "validated_observational_accelerator"
+    }
+  ],
+  "stable_decision": "No preview candidate is promoted. Stable dependencies remain the latest releases satisfying the reviewed bounds.",
+  "submission_boundary": "Observational CI evidence is not release or venue-submission evidence."
+}

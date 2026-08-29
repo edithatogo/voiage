@@ -59,7 +59,11 @@ jobs:
         run: uv pip install --python .venv --upgrade --resolution highest "${{ matrix.requirement }}"
       - name: Verify resolved environment
         run: |
-          uv pip check --python .venv
+          set +e
+          uv pip check --python .venv 2>&1 | tee dependency-preview-metadata-check.txt
+          metadata_status=${PIPESTATUS[0]}
+          set -e
+          echo "metadata_check_exit_code=${metadata_status}" >> dependency-preview-metadata-check.txt
           uv pip freeze --python .venv > dependency-preview-freeze.txt
       - name: Run candidate-specific compatibility and fallback checks
         run: uv run --frozen --no-sync ${{ matrix.command }}
@@ -68,7 +72,9 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: dependency-preview-${{ matrix.id }}
-          path: dependency-preview-freeze.txt
+          path: |
+            dependency-preview-freeze.txt
+            dependency-preview-metadata-check.txt
           if-no-files-found: warn
           retention-days: 14
 
@@ -80,6 +86,7 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           persist-credentials: false
+          fetch-depth: 0
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
           version: "0.11.29"
@@ -105,6 +112,7 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           persist-credentials: false
+          fetch-depth: 0
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
           version: "0.11.29"
@@ -140,10 +148,12 @@ jobs:
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
           toolchain: stable
+      - name: Configure the pinned GitHub Actions sccache backend
+        uses: mozilla-actions/sccache-action@d651010b8da762cde178750d8eda7b5febfe147a
+        with:
+          version: "v0.12.0"
       - name: Install pinned preview accelerators
-        run: |
-          cargo install --locked cargo-nextest --version 0.9.114
-          cargo install --locked sccache --version 0.12.0
+        run: env -u RUSTC_WRAPPER cargo install --locked cargo-nextest --version 0.9.114
       - name: Run the non-authoritative nextest inventory
         working-directory: rust
         run: cargo nextest run --workspace --all-features --locked --no-fail-fast

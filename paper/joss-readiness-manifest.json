@@ -54,7 +54,8 @@
   "repository_gates": {
     "public_development_history": "ready",
     "license_documentation_tests_and_contribution_paths": "ready",
-    "exact_reviewed_v2_release": "ready",
+    "published_v2_1_0_release": "historical_ready",
+    "post_v2_1_0_hardened_source_release_alignment": "blocked_pending_separately_authorized_future_release",
     "exact_reviewed_immutable_archive": "ready"
   },
   "external_gates": {

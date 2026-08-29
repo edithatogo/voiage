@@ -4,7 +4,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
-*   [ ] Complete the canonical pre-submission comprehensive-hardening programme
+*   [~] Complete the canonical pre-submission comprehensive-hardening programme
     in `conductor/tracks/pre_submission_comprehensive_hardening_20260829/`
     (#1033): refresh venue and ecosystem requirements, run the whole-product
     feature/dependency/API/ABI gap analysis, profile and optimize tests and
@@ -16,7 +16,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   [x] Freeze dispositions and architecture, then repair core API/ABI,
         capability claims, dataset fixtures, interchange profiles, worked
         examples, and the four-domain executable workflow corpus.
-    *   [ ] Complete standalone R and Julia package hardening, dependency and
+    *   [x] Complete standalone R and Julia package hardening, dependency and
         measured CI/test optimization, venue/manuscript alignment, and final
         local plus exact-head hosted assurance.
 

@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- Completed the repository-owned pre-submission hardening programme through
+  the standalone R package, current pyOpenSci/rOpenSci/JOSS evidence, exact
+  source/release reconciliation, governance and maintenance policy, Scalene-
+  guided test repairs, deterministic parallel testing, cache and duplicate-
+  build improvements, and isolated dependency/runtime preview observations.
+  The published v2.1.0 release remains historical; no later release or venue
+  submission was performed.
+
 - Made `voiageR` a self-contained compiled source package: its EVPI and ENBS
   paths now link a dependency-free, offline Rust 1.85 kernel into registered R
   native routines, require no ambient VOIAGE shared library, and run from a

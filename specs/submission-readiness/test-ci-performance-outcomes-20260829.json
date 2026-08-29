@@ -4,7 +4,7 @@
   "baseline": "specs/submission-readiness/test-ci-performance-baseline-20260829.json",
   "profile": "specs/submission-readiness/scalene-test-profile-20260829.json",
   "local_source_revision": "d0acaf8763d14143de419d78cff25b294125b571",
-  "current_validation_revision": "071bb25b9443d86c4c16b882fd95565e0062aa64",
+  "current_validation_revision": "7c63bf49651826cc491500dc0ce354c025dac22a",
   "python_full_suite": {
     "baseline_serial_seconds": 3369.19,
     "candidates": [
@@ -53,6 +53,63 @@
       "repair": "Run EVPI, ENBS, and shared numerical references on every Julia/platform cell while retaining the full Aqua quality suite on the required Julia 1.12 Linux cell."
     }
   ],
+  "tox_matrix": {
+    "pre_optimization_wall_seconds": 1097,
+    "final_exact_head_wall_seconds": 643,
+    "reduction_percent": 41.39,
+    "environment_count": 15,
+    "outcome": "passed",
+    "qualification": "The final run used warm local caches and shared the machine with unrelated workloads; environment-level results and gate preservation are authoritative, while absolute wall time is observational."
+  },
+  "closeout_tox_matrix": {
+    "revision": "0f193d655fb2c29b1ecc5e64a07756fb246bd4c6",
+    "wall_seconds": 697.71,
+    "environment_count": 15,
+    "passed": 15,
+    "coverage_percent": 95.16,
+    "tests_passed": 4503,
+    "tests_skipped": 16,
+    "outcome": "passed"
+  },
+  "documentation_lane": {
+    "duplicate_polyglot_build_removed": true,
+    "avoided_duplicate_build_seconds_observed": 11.26,
+    "final_wall_seconds": 350,
+    "pages": 1030,
+    "outcome": "passed",
+    "qualification": "End-to-end documentation time is variable; only removal of the measured duplicate build is attributed to the change."
+  },
+  "hosted_exact_head": {
+    "pull_request": 1034,
+    "revision": "7c63bf49651826cc491500dc0ce354c025dac22a",
+    "workflow_run": 33260071297,
+    "success": 66,
+    "skipped": 5,
+    "failed": 0,
+    "pending": 0,
+    "coverage_percent": 95.11,
+    "operational_changed_line_and_branch_coverage": "passed",
+    "outcome": "passed"
+  },
+  "hosted_preview_exact_head": {
+    "workflow_run": 33262673063,
+    "revision": "0f193d655fb2c29b1ecc5e64a07756fb246bd4c6",
+    "workflow_conclusion": "success",
+    "deterministic_shards": "2_of_2_passed",
+    "cargo_nextest_sccache": "passed",
+    "expected_nonpromotion_failures": ["python-3.15", "ruff-0.16"]
+  },
+  "hosted_closeout_exact_head": {
+    "pull_request": 1035,
+    "revision": "27215aeace2686f6e1e20b618f240170df5bbbbc",
+    "success": 40,
+    "skipped": 3,
+    "neutral": 1,
+    "failed": 0,
+    "pending": 0,
+    "unresolved_review_threads_before_reviewer_remediation": 1,
+    "outcome": "passed_pending_manifest_provenance_fix"
+  },
   "ci_changes": [
     "one authoritative CI coverage upload",
     "focused no-coverage Python 3.12 through 3.14 compatibility lanes",
@@ -65,16 +122,16 @@
   ],
   "finding_dispositions": {
     "PERF-001": "resolved",
-    "PERF-002": "resolved_pending_green_hosted_measurement",
+    "PERF-002": "resolved",
     "PERF-003": "resolved",
     "PERF-004": "resolved",
     "PERF-005": "resolved",
-    "PERF-006": "resolved_pending_green_hosted_measurement",
+    "PERF-006": "resolved",
     "PERF-007": "resolved"
   },
   "external_or_hosted_gates": [
-    "Exact-head PR 1034 required checks must pass before the stable workflow timings are authoritative.",
-    "The preview workflow exists only on this branch and can be manually dispatched after it reaches the default branch; preview results cannot satisfy stable gates."
+    "Preview results remain observational and cannot satisfy stable or release gates.",
+    "The hardened post-v2.1.0 source requires a separately authorized future release before it can replace the immutable published v2.1.0 artifact in a submission candidate."
   ],
   "submission_boundary": "No venue submission, registry publication, release, or external attestation was performed."
 }

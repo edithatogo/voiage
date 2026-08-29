@@ -58,5 +58,5 @@ def test_preview_lanes_are_non_blocking_and_fail_closed_for_promotion() -> None:
     assert states["DEP-006"] == "resolved"
     assert states["DEP-007"] == "resolved"
     assert states["DEP-008"] == "resolved"
-    assert states["DEP-002"] == "open"
+    assert states["DEP-002"] == "resolved_preview_observed"
     assert all(finding["required_disposition"] for finding in findings)
