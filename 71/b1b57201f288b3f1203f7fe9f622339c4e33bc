@@ -1,0 +1,1 @@
+Plan and evidence update: recorded PR review fix 968c7f1a after sixteen staging tests also passed in the Python 3.14 tox environment. The delivery task remains active pending refreshed exact-head hosted checks.
