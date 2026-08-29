@@ -2,6 +2,7 @@
 
 import json
 from pathlib import Path
+import shutil
 import subprocess
 
 from scripts.repo_harness import (
@@ -14,6 +15,7 @@ from scripts.repo_harness import (
 )
 
 ROOT = Path(__file__).parents[1]
+GIT = shutil.which("git")
 
 
 def test_current_repository_has_no_harness_findings() -> None:
@@ -74,10 +76,11 @@ def test_private_assurance_dependencies_do_not_pollute_source_scan(
 
 def test_conflict_scan_uses_git_tracked_files_when_available(tmp_path: Path) -> None:
     """Generated or untracked trees cannot dominate the tracked-source scan."""
-    subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
+    assert GIT is not None
+    subprocess.run([GIT, "init", "-q", str(tmp_path)], check=True)
     tracked = tmp_path / "tracked.py"
     tracked.write_text("<<<<<<< tracked\n", encoding="utf-8")
-    subprocess.run(["git", "-C", str(tmp_path), "add", "tracked.py"], check=True)
+    subprocess.run([GIT, "-C", str(tmp_path), "add", "tracked.py"], check=True)
     (tmp_path / "untracked.py").write_text(">>>>>>> generated\n", encoding="utf-8")
 
     findings = check_conflict_markers(tmp_path)

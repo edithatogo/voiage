@@ -36,6 +36,7 @@ def from_dataframe(
     """
     try:
         table, conversion_protocol = _to_arrow_table(dataframe, allow_copy=allow_copy)
+        _reject_nested_columns(table)
     except (TypeError, ValueError, RuntimeError, pa.ArrowException) as error:
         raise ValueError(
             "input does not satisfy the dataframe interchange protocol "
@@ -91,7 +92,7 @@ def from_dataframe(
 def _to_arrow_table(dataframe: object, *, allow_copy: bool) -> tuple[pa.Table, str]:
     """Prefer Arrow's PyCapsule interface without changing column semantics."""
     arrow_stream = getattr(dataframe, "__arrow_c_stream__", None)
-    if callable(arrow_stream):
+    if callable(arrow_stream) and (allow_copy or isinstance(dataframe, pa.Table)):
         try:
             capsule_table = pa.table(dataframe)
         except (TypeError, ValueError, RuntimeError, pa.ArrowException):
@@ -104,6 +105,12 @@ def _to_arrow_table(dataframe: object, *, allow_copy: bool) -> tuple[pa.Table, s
         arrow_from_dataframe(dataframe, allow_copy=allow_copy),
         "dataframe_interchange_fallback",
     )
+
+
+def _reject_nested_columns(table: pa.Table) -> None:
+    """Retain the version-1 adapter's explicitly flat column contract."""
+    if any(pa.types.is_nested(field.type) for field in table.schema):
+        raise ValueError("nested columns are not supported")
 
 
 def _declared_column_names(dataframe: object) -> list[str] | None:

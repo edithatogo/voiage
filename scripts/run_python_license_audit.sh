@@ -3,6 +3,7 @@ set -euo pipefail
 
 repo_root=$(git rev-parse --show-toplevel)
 output_path=${1:-$repo_root/.conductor/local/python-runtime-licenses.json}
+mkdir -p "$(dirname "$output_path")"
 audit_dir=$(mktemp -d)
 trap 'rm -rf "$audit_dir"' EXIT
 

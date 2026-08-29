@@ -28,7 +28,7 @@ def test_structure_inventory_matches_current_sources() -> None:
         list((ROOT / "voiage").glob("**/*.py"))
     )
     assert inventory["rust_workspace_crates"] == len(
-        [path for path in (ROOT / "rust/crates").iterdir() if path.is_dir()]
+        list((ROOT / "rust/crates").glob("*/Cargo.toml"))
     )
     stable_symbols = stable_api["symbols"]["stable"]
     assert inventory["stable_python_symbols"] == len(stable_symbols)

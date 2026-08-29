@@ -26,11 +26,11 @@
     },
     {
       "path": "specs/submission-readiness/structure-api-abi-audit-20260829.json",
-      "sha256": "4795155da9c3869d4222eec394f930959fc202f44642d34ed9333febf75294dc"
+      "sha256": "518b03f26565c732f9f2351ef96789917d4ecb5846e8ed45c798ec6096f52445"
     },
     {
       "path": "specs/submission-readiness/dependency-frontier-audit-20260829.json",
-      "sha256": "38cfba825c780a1b345a59d64740b001d4f70b57f546b6e4a5dc56a02d8560c3"
+      "sha256": "c543d53227826235b1d8bb18a772ad88bfe3b164e4bec9bae70916486ce2f213"
     },
     {
       "path": "specs/submission-readiness/test-ci-performance-baseline-20260829.json",

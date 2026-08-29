@@ -19,7 +19,7 @@
       "status": "passed_local",
       "artifact": "rust/target/release/libvoiage_ffi.dylib",
       "sha256": "3113e17f54db14452b9c5a32efbd7ac3a88fc712156b2ad690d540cef565fe49",
-      "declared_symbol_count": 12,
+      "declared_symbol_count": 10,
       "symbol_manifest_sha256": "0f723117f51b967d3221e9e4c85f690eb198fa4b1c0dcfd18544a60e5e4082fa",
       "evidence": "The v2.1.0 compatibility checker retained every released ABI symbol and layout and classified voiage_v1_enbs_r as additive."
     },

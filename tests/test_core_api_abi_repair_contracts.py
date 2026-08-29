@@ -185,7 +185,7 @@ def test_installed_binding_receipt_is_artifact_and_fixture_bound() -> None:
     assert set(surfaces) == {"python", "c_abi", "r", "julia"}
     assert all(surface["status"] == "passed_local" for surface in surfaces.values())
     assert all(len(surface["sha256"]) == 64 for surface in surfaces.values())
-    assert surfaces["c_abi"]["declared_symbol_count"] == 12
+    assert surfaces["c_abi"]["declared_symbol_count"] == 10
     assert surfaces["r"]["coverage_percent"] >= 75
     assert {gate["state"] for gate in receipt["external_gates"]} == {
         "external_gate",

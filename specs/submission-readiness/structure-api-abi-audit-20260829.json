@@ -3,7 +3,7 @@
   "audited_on": "2026-08-29",
   "inventory": {
     "python_runtime_modules": 176,
-    "rust_workspace_crates": 8,
+    "rust_workspace_crates": 7,
     "stable_python_symbols": 16,
     "c_abi_symbols": 10,
     "native_r_exports": 2,
