@@ -1,0 +1,1 @@
+Full assurance and automated review: tox -p 3 passed every configured environment in 2,501.71 seconds; line coverage was 95.81% and branch coverage 92.92%. One Low diff-hygiene finding was fixed in 60d61eb7; no findings remain. External actions were not performed.
