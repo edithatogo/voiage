@@ -1,0 +1,1 @@
+Validation: focused dependency-promotion and rOpenSci runner contracts (10 passed), Ruff, formatting, bash syntax, and diff checks. Repairs token discovery, full-history deterministic shards, pre-install sccache recursion, and metadata-incompatible preview continuation.
