@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0.0",
+  "profiled_on": "2026-08-29",
+  "scalene_version": "2.3.0",
+  "method": "Targeted local profiles using Scalene's legacy tracer and CPU-only mode after the default memory profiler proved disproportionately expensive.",
+  "profiles": [
+    {
+      "id": "general-evpi-evppi",
+      "command": "uv run scalene run --use-legacy-tracer --cpu-only --profile-only voiage -o <temporary-json> profile_scalene.py",
+      "wall_seconds": 73.88,
+      "profile_elapsed_seconds": 48.593,
+      "outcome": "passed",
+      "attribution": [
+        {
+          "path": "voiage/deterministic_sensitivity_contract.py",
+          "percent": 41.224,
+          "interpretation": "Import-time jsonschema loading, with most samples recorded as system time."
+        },
+        {
+          "path": "voiage/schema.py",
+          "percent": 27.874,
+          "interpretation": "Import-time schema construction and validation dependencies."
+        },
+        {
+          "path": "voiage/main_backends.py",
+          "percent": 23.677,
+          "interpretation": "Import-time backend contract loading."
+        }
+      ]
+    },
+    {
+      "id": "repository-harness",
+      "command": "uv run scalene run --use-legacy-tracer --cpu-only --profile-only repo_harness -o <temporary-json> scripts/repo_harness.py",
+      "wall_seconds": 368.97,
+      "profile_elapsed_seconds": 352.542,
+      "outcome": "passed",
+      "attribution": [
+        {
+          "path": "scripts/repo_harness.py",
+          "function": "check_conflict_markers",
+          "python_percent": 11.205,
+          "native_percent": 2.945,
+          "system_percent": 85.846,
+          "interpretation": "Filesystem traversal and file reads dominate; profiler overhead increases the absolute wall time."
+        }
+      ]
+    },
+    {
+      "id": "paper-health-example",
+      "command": "uv run scalene run --use-legacy-tracer --cpu-only --profile-only generate_paper_health_example,voiage/methods -o <temporary-json> scripts/generate_paper_health_example.py --verify-tracked",
+      "wall_seconds": 256.83,
+      "profile_elapsed_seconds": 243.71,
+      "outcome": "passed",
+      "attribution": [
+        {
+          "path": "scripts/generate_paper_health_example.py",
+          "function": "_bootstrap_intervals",
+          "python_percent": 13.563,
+          "native_percent": 3.342,
+          "system_percent": 65.363,
+          "interpretation": "The 1,000-replicate Python loop repeatedly allocates bootstrap samples and calls EVPI/EVPPI; it is the dominant measured hotspot."
+        },
+        {
+          "path": "scripts/generate_paper_health_example.py",
+          "function": "render",
+          "python_percent": 0.879,
+          "native_percent": 0.858,
+          "system_percent": 0.646,
+          "interpretation": "Plot rendering is not the primary cost."
+        }
+      ]
+    }
+  ],
+  "complementary_evidence": [
+    {
+      "kind": "pytest durations",
+      "result": "The full serial run identified paper bootstrap, repository traversal, wheel/subprocess setup, and Yggdrasil subprocess reconciliation as the four largest tests."
+    },
+    {
+      "kind": "Python importtime",
+      "result": "An isolated voiage.schema import took about 25.5 seconds, including about 16.9 seconds constructing rfc3987_syntax parsers reached through eager jsonschema imports."
+    },
+    {
+      "kind": "wall versus CPU time",
+      "result": "Serial pytest used 290.7 user seconds over 3369.2 wall seconds, demonstrating that CPU profiling alone cannot explain subprocess, import, and filesystem latency."
+    }
+  ],
+  "tool_limitations": [
+    "The default Scalene memory profile was stopped after 340 seconds when it reached roughly 4 GB resident memory and repeatedly attempted unavailable TensorFlow profiling hooks; it materially distorted the small workload.",
+    "A pytest-target profile did not collect application samples because the executable lived under .venv/bin; profiling the underlying repository script directly produced usable evidence.",
+    "Scalene does not aggregate the work of the many fresh child interpreters used by subprocess-contract tests into a useful parent profile; pytest durations, importtime, and process observations are required alongside it.",
+    "Percentages describe sampled time within each profile and must not be compared as absolute timings across different commands."
+  ],
+  "required_experiments": [
+    {
+      "id": "PROF-001",
+      "target": "public import path",
+      "change": "Lazy-load jsonschema-backed validators and schema-only contracts.",
+      "gate": "Top-level import below five seconds with stable symbols and unchanged validation errors."
+    },
+    {
+      "id": "PROF-002",
+      "target": "repository harness",
+      "change": "Scan Git-tracked text paths rather than recursive checkout contents.",
+      "gate": "Identical injected-marker detection and a warm wall-time reduction of at least 80%."
+    },
+    {
+      "id": "PROF-003",
+      "target": "paper bootstrap",
+      "change": "Batch or vectorize resampling and reuse immutable ParameterSet/net-benefit structures where numerically equivalent.",
+      "gate": "Byte-identical tracked tables, fixed-seed intervals within the declared tolerance, and a measured speedup."
+    },
+    {
+      "id": "PROF-004",
+      "target": "subprocess-heavy contracts",
+      "change": "Consolidate independent probes per clean interpreter and reuse built wheels/artifacts.",
+      "gate": "Preserve clean-process isolation, failure attribution, and installed-artifact semantics."
+    },
+    {
+      "id": "PROF-005",
+      "target": "parallel pytest",
+      "change": "Repair order-dependent lazy-module state and benchmark bounded 4, 6, and 8 worker work-stealing lanes with serial groups.",
+      "gate": "Same pass/fail set as serial, deterministic seeds, retained coverage, and lower peak memory than the eight-worker baseline."
+    }
+  ]
+}

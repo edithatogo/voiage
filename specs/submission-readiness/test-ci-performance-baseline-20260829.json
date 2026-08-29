@@ -1,0 +1,253 @@
+{
+  "schema_version": "1.0.0",
+  "audited_on": "2026-08-29",
+  "scope": "Pre-repair timing baseline for local tests, package checks, documentation, and representative hosted workflows. Timings are observations, not performance guarantees.",
+  "local_environment": {
+    "source_head": "31135559b73ce0b1f6d6eda52d1e04e0d078ea22",
+    "operating_system": "macOS 26.6.2 arm64",
+    "logical_cpus": 10,
+    "python": "3.12.13",
+    "pytest": "9.0.3",
+    "pytest_xdist": "3.8.0",
+    "tox": "4.58.0",
+    "scalene": "2.3.0",
+    "rustc": "1.98.0",
+    "cargo": "1.98.0",
+    "r": "4.3.0",
+    "julia": "1.12.7",
+    "pnpm": "11.23.0",
+    "notes": [
+      "The checkout is on a portable APFS volume and local wall times include filesystem and subprocess-start costs.",
+      "The system uv executable was 0.11.8 while workflows pin 0.11.29; dependency resolution was already complete and the test commands used the refreshed lock."
+    ]
+  },
+  "local_observations": [
+    {
+      "id": "collection-serial",
+      "command": "uv run pytest --collect-only -q --no-cov",
+      "wall_seconds": 40.99,
+      "outcome": "completed"
+    },
+    {
+      "id": "pytest-serial",
+      "command": "uv run pytest tests/ --no-cov --durations=25",
+      "wall_seconds": 3369.19,
+      "pytest_seconds": 3342.46,
+      "user_seconds": 290.74,
+      "system_seconds": 76.15,
+      "passed": 4405,
+      "failed": 8,
+      "skipped": 16,
+      "outcome": "failed",
+      "failure_scope": "One import-budget regression; two dependency-lock/tool-version evidence mismatches; three archived-track or publication-receipt path mismatches; one stale arXiv source archive; and one stale distributional-contract digest."
+    },
+    {
+      "id": "pytest-xdist-worksteal-8",
+      "command": "uv run pytest tests/ --no-cov -n 8 --dist worksteal --durations=25",
+      "wall_seconds": 558.99,
+      "pytest_seconds": 539.5,
+      "user_seconds": 307.24,
+      "system_seconds": 80.15,
+      "passed": 4404,
+      "failed": 9,
+      "skipped": 16,
+      "outcome": "failed",
+      "wall_reduction_percent_from_serial": 83.41,
+      "parallel_only_failure": "tests/test_risk_sensitive_voi.py::test_cli_text_output_reports_saved_result",
+      "interpretation": "Bounded work-stealing is materially faster, but eight resident workers increase memory pressure and expose one order-dependent lazy-module state failure."
+    },
+    {
+      "id": "repository-harness",
+      "command": "uv run python scripts/repo_harness.py",
+      "wall_seconds": 162.49,
+      "user_seconds": 13.16,
+      "system_seconds": 14.86,
+      "outcome": "passed"
+    },
+    {
+      "id": "rust-cold-after-lock-refresh",
+      "command": "cargo test --manifest-path rust/Cargo.toml --workspace --all-features --locked",
+      "wall_seconds": 115.05,
+      "user_seconds": 66.54,
+      "system_seconds": 14.02,
+      "outcome": "passed"
+    },
+    {
+      "id": "rust-warm",
+      "command": "cargo test --manifest-path rust/Cargo.toml --workspace --all-features --locked",
+      "wall_seconds": 18.7,
+      "user_seconds": 2.12,
+      "system_seconds": 1.91,
+      "outcome": "passed"
+    },
+    {
+      "id": "r-source-check-current",
+      "command": "R CMD check --no-manual voiageR_2.1.0.tar.gz",
+      "wall_seconds": 87.84,
+      "user_seconds": 8.73,
+      "system_seconds": 2.57,
+      "outcome": "passed",
+      "note": "The source package was built and checked in a clean temporary directory."
+    },
+    {
+      "id": "julia-cold",
+      "command": "julia --project=bindings/julia -e 'using Pkg; Pkg.test()'",
+      "wall_seconds": 580.13,
+      "user_seconds": 159.31,
+      "system_seconds": 8.17,
+      "outcome": "passed",
+      "note": "First run included 396 seconds of dependency precompilation."
+    },
+    {
+      "id": "julia-warm",
+      "command": "julia --project=bindings/julia -e 'using Pkg; Pkg.test()'",
+      "wall_seconds": 194.84,
+      "user_seconds": 15.15,
+      "system_seconds": 1.22,
+      "outcome": "passed",
+      "note": "Aqua package-quality checks consumed 132.9 seconds."
+    },
+    {
+      "id": "tox-docs-cold",
+      "command": "uv run tox -e docs",
+      "wall_seconds": 601.44,
+      "tox_seconds": 599.87,
+      "setup_seconds": 154.21,
+      "command_seconds": [
+        1.4,
+        13.15,
+        136.56,
+        294.54
+      ],
+      "built_pages": 1029,
+      "outcome": "passed",
+      "note": "The tox environment was recreated after an interpreter change; both Astro check and build regenerated Python/polyglot documentation."
+    }
+  ],
+  "serial_slowest_tests_seconds": [
+    {
+      "nodeid": "tests/test_paper_health_example.py::test_health_example_is_bounded_and_decision_relevant",
+      "seconds": 402.29
+    },
+    {
+      "nodeid": "tests/test_repo_harness.py::test_current_repository_has_no_harness_findings",
+      "seconds": 163.35
+    },
+    {
+      "nodeid": "tests/test_ingestion_provider_wheel_consumer.py::test_external_provider_wheel_discovers_only_after_explicit_opt_in",
+      "seconds": 160.27
+    },
+    {
+      "nodeid": "tests/test_yggdrasil_platform_coverage_contract.py::test_every_catalogue_platform_is_required_by_reconciliation",
+      "seconds": 140.57
+    },
+    {
+      "nodeid": "tests/test_cli_comprehensive.py::test_evppi_cli",
+      "seconds": 108.51
+    }
+  ],
+  "hosted_reference": {
+    "interpretation": "Representative prior-main observations, not exact-head validation for this branch.",
+    "ci": {
+      "run_id": 33233164586,
+      "source_head": "7992dcee7e3c72ca1cfd3b6a5feef98968bef6a7",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33233164586",
+      "workflow_wall_seconds": 425,
+      "jobs": [
+        {
+          "name": "Unit Tests (Python 3.12)",
+          "job_seconds": 396,
+          "test_seconds": 354
+        },
+        {
+          "name": "Unit Tests (Python 3.13)",
+          "job_seconds": 313,
+          "test_seconds": 275
+        },
+        {
+          "name": "Unit Tests (Python 3.14)",
+          "job_seconds": 181,
+          "test_seconds": 151
+        },
+        {
+          "name": "Coverage Report",
+          "job_seconds": 325,
+          "test_seconds": 295
+        },
+        {
+          "name": "Build Documentation",
+          "job_seconds": 90,
+          "check_seconds": 19,
+          "build_seconds": 41
+        }
+      ]
+    },
+    "operational_assurance": {
+      "run_id": 33233164578,
+      "source_head": "7992dcee7e3c72ca1cfd3b6a5feef98968bef6a7",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33233164578",
+      "workflow_wall_seconds": 405,
+      "coverage_seconds": 359
+    },
+    "bindings": {
+      "run_id": 32610577788,
+      "source_head": "c93e8dfc743db7d736cd74c867766ded12c920e3",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/32610577788",
+      "workflow_wall_seconds": 484,
+      "rust_workspace_seconds": 54,
+      "r_package_checks_seconds": 185,
+      "slowest_julia_job_seconds": 435
+    }
+  },
+  "findings": [
+    {
+      "id": "PERF-001",
+      "severity": "high",
+      "state": "open",
+      "summary": "The serial local suite takes more than 55 minutes while bounded work-stealing reduces wall time by 83%, but the current suite is not fully order-independent under xdist.",
+      "required_disposition": "Repair the parallel-only lazy-module failure, identify serial-only groups, benchmark bounded worker counts, and retain a non-sharded full release gate."
+    },
+    {
+      "id": "PERF-002",
+      "severity": "high",
+      "state": "open",
+      "summary": "Hosted CI repeats full-suite coverage across three Python versions, a separate coverage job, and Operational Assurance.",
+      "required_disposition": "Use one authoritative coverage lane, focused compatibility lanes, deterministic shards, and reusable evidence while preserving full release validation."
+    },
+    {
+      "id": "PERF-003",
+      "severity": "high",
+      "state": "open",
+      "summary": "The repository harness spends minutes scanning the entire checkout, including generated and vendored trees, instead of the tracked-file set.",
+      "required_disposition": "Run conflict-marker checks over Git-tracked text files or a reviewed exclusion set and prove identical finding behavior."
+    },
+    {
+      "id": "PERF-004",
+      "severity": "high",
+      "state": "open",
+      "summary": "Fresh Python subprocesses repeatedly pay the top-level import regression, dominating wheel-consumer, CLI, Arrow, and platform-reconciliation tests.",
+      "required_disposition": "Restore lazy imports, consolidate safe subprocess probes, and cache build artifacts without sharing mutable test state."
+    },
+    {
+      "id": "PERF-005",
+      "severity": "medium",
+      "state": "open",
+      "summary": "The docs lane recreates a large tox environment and repeats polyglot extraction/build work across Astro check and build.",
+      "required_disposition": "Key caches by interpreter and lock, build the extractor once, reuse generated API artifacts, and retain link/type/build checks."
+    },
+    {
+      "id": "PERF-006",
+      "severity": "medium",
+      "state": "open",
+      "summary": "Julia first-run precompilation is expensive and warm Aqua checks dominate binding test time; Rust has a large cold-to-warm build delta.",
+      "required_disposition": "Cache Julia depots and Rust targets safely, split fast numerical smoke from package-quality assurance, and keep full Aqua and workspace checks in required pre-release lanes."
+    },
+    {
+      "id": "PERF-007",
+      "severity": "high",
+      "state": "open",
+      "summary": "The R check glob can include stale tracked source archives and checked version 0.1.0 instead of only the newly built 2.1.0 package.",
+      "required_disposition": "Remove stale archives from source control and bind checks to the exact versioned artifact emitted by the current build."
+    }
+  ]
+}
