@@ -146,3 +146,14 @@ def test_release_retains_fresh_non_sharded_full_validation() -> None:
     assert "uv run --frozen --no-sync pytest tests/" in release_gate
     assert "-n 6" not in release_gate
     assert "needs: [resolve-tag, full-release-validation" in workflow
+
+
+def test_binding_caches_are_lock_and_toolchain_keyed() -> None:
+    workflow = (ROOT / ".github/workflows/bindings-ci.yml").read_text(encoding="utf-8")
+
+    assert workflow.count("actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9") >= 3
+    assert "hashFiles('rust/Cargo.lock')" in workflow
+    assert "hashFiles('bindings/julia/Project.toml')" in workflow
+    assert "hashFiles('r-package/voiageR/src/rust/Cargo.lock')" in workflow
+    assert "${{ matrix.julia }}" in workflow
+    assert "${{ matrix.rust_target }}" in workflow

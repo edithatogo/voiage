@@ -59,6 +59,14 @@ jobs:
         with:
           toolchain: stable
           components: clippy,rustfmt
+      - name: Restore exact Rust dependency and target cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            rust/target
+          key: rust-stable-all-features-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('rust/Cargo.lock') }}
       - working-directory: rust
         run: cargo fmt --all --check
       - working-directory: rust
@@ -127,6 +135,11 @@ jobs:
       - uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32
         with:
           version: ${{ matrix.julia }}
+      - name: Restore exact Julia depot cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: ${{ github.workspace }}/.julia-depot
+          key: julia-depot-${{ runner.os }}-${{ runner.arch }}-${{ matrix.julia }}-${{ hashFiles('bindings/julia/Project.toml') }}
       - name: Record Julia package-quality contract
         run: grep -F "Aqua.test_all" test/runtests.jl
       - name: Verify packaged EVPI fixture matches the canonical reference
@@ -229,6 +242,14 @@ jobs:
         with:
           toolchain: stable
           targets: ${{ matrix.rust_target }}
+      - name: Restore exact R native Rust cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            r-package/voiageR/src/rust/target
+          key: r-native-rust-${{ runner.os }}-${{ runner.arch }}-${{ matrix.rust_target }}-${{ hashFiles('r-package/voiageR/src/rust/Cargo.lock') }}
       - uses: r-lib/actions/setup-r@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
       - uses: r-lib/actions/setup-r-dependencies@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
         with:
