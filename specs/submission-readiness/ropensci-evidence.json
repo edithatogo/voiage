@@ -13,6 +13,6 @@
     {"id": "self-contained-installation", "status": "satisfied", "evidence": ["r-package/voiageR/DESCRIPTION", "r-package/voiageR/README.md", "r-package/voiageR/src/rust/Cargo.toml", "r-package/voiageR/src/init.c", "r-package/voiageR/tests/testthat/test-native-ffi.R"]},
     {"id": "pkgcheck", "status": "hosted_pending", "evidence": ["docs/release/binding-submission-checklist.md", "scripts/run_ropensci_pkgcheck.sh", "specs/submission-readiness/installed-binding-validation-20260829.json"]},
     {"id": "maintainer-lifecycle-and-scope", "status": "human_deferred", "evidence": ["r-package/voiageR/README.md", "conductor/archive/research_software_registry_readiness_20260721/plan.md"]},
-    {"id": "concurrent-review-and-inquiry", "status": "human_deferred", "evidence": ["specs/submission-readiness/targets.json", "conductor/archive/research_software_registry_readiness_20260721/plan.md"]}
+    {"id": "concurrent-review-and-inquiry", "status": "human_deferred", "evidence": ["specs/submission-readiness/targets.json", "docs/release/ropensci-presubmission-inquiry-draft.md", "conductor/archive/research_software_registry_readiness_20260721/plan.md"]}
   ]
 }
