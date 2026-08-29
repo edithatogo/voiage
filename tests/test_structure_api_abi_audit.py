@@ -47,7 +47,7 @@ def test_structure_inventory_matches_current_sources() -> None:
     )
 
 
-def test_structure_findings_remain_explicit_until_disposition() -> None:
+def test_structure_findings_record_resolutions_and_external_gate() -> None:
     audit = _read(AUDIT_PATH)
     assert isinstance(audit, dict)
     findings = audit["findings"]
@@ -55,6 +55,10 @@ def test_structure_findings_remain_explicit_until_disposition() -> None:
 
     assert set(by_id) == {f"STRUCT-{number:03d}" for number in range(1, 8)}
     assert by_id["STRUCT-001"]["severity"] == "critical"
-    assert {finding["state"] for finding in findings} == {"open"}
+    assert by_id["STRUCT-003"]["state"] == "external_gate"
+    assert {
+        by_id[f"STRUCT-{number:03d}"]["state"] for number in (1, 2, 4, 5, 6, 7)
+    } == {"resolved"}
     assert all(finding["evidence"] for finding in findings)
     assert all(finding["required_disposition"] for finding in findings)
+    assert all(finding["resolution"] for finding in findings)

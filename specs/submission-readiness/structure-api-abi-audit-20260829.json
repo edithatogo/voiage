@@ -16,13 +16,16 @@
     "Core API schemas and normative v1 fixtures validate.",
     "The Rust FFI crate passes its lifecycle, status, EVPI, ENBS, and error-transport tests.",
     "The Python wheel black-box tests and current binding workflow declaration tests pass.",
-    "The C ABI is deliberately narrow at ten symbols and currently exposes EVPI and ENBS numerical capabilities."
+    "The C ABI is deliberately narrow at ten symbols and currently exposes EVPI and ENBS numerical capabilities.",
+    "The v2.1.0 released ABI baseline comparison retains every released symbol, declaration, layout, calling convention, and ownership contract; voiage_v1_enbs_r is additive.",
+    "The self-contained R source package compiles its package-owned Rust bridge and invokes registered native EVPI and ENBS routines without an ambient shared library.",
+    "Julia 1.12 package-quality, EVPI, ENBS, and shared numerical-reference tests pass against the explicit development ABI override; package-managed JLL availability remains an external gate."
   ],
   "findings": [
     {
       "id": "STRUCT-001",
       "severity": "critical",
-      "state": "open",
+      "state": "resolved",
       "category": "binding-truth",
       "summary": "The industry binding manifest claims implemented DecisionProblem symbols in Rust, R, and Julia that do not match the shipped surfaces; R and Julia export no such symbol, the Rust type is voiage_domain::DecisionProblem rather than voiage_core::schema::DecisionProblem, and no DecisionProblem C ABI exists.",
       "evidence": [
@@ -32,12 +35,13 @@
         "r-package/voiageR/NAMESPACE",
         "bindings/julia/src/Voiage.jl"
       ],
-      "required_disposition": "Correct the manifest to contract-only or implement and test the named surfaces; make validation resolve real symbols and interchange paths instead of asserting manifest text."
+      "required_disposition": "Correct the manifest to contract-only or implement and test the named surfaces; make validation resolve real symbols and interchange paths instead of asserting manifest text.",
+      "resolution": "The disposition manifest now identifies the real Python and internal Rust symbols, marks C ABI, R, and Julia DecisionProblem surfaces unsupported, and resolves implemented symbols in a fresh interpreter."
     },
     {
       "id": "STRUCT-002",
       "severity": "high",
-      "state": "open",
+      "state": "resolved",
       "category": "r-package-installability",
       "summary": "voiageR declares NeedsCompilation: no while requiring an externally supplied voiage-ffi shared library, so its native EVPI and ENBS path is not a self-contained installed R package.",
       "evidence": [
@@ -45,12 +49,13 @@
         "r-package/voiageR/R/voiageR.R",
         "r-package/voiageR/tests/testthat/test-native-ffi.R"
       ],
-      "required_disposition": "Build and install the Rust bridge as part of the R source package, reconcile NeedsCompilation and SystemRequirements, and prove clean-library installation and execution."
+      "required_disposition": "Build and install the Rust bridge as part of the R source package, reconcile NeedsCompilation and SystemRequirements, and prove clean-library installation and execution.",
+      "resolution": "voiageR declares compilation, builds an allocation-free Rust static library inside the source package, registers package-owned C adapters, and passes clean-library native fixture tests."
     },
     {
       "id": "STRUCT-003",
       "severity": "high",
-      "state": "open",
+      "state": "external_gate",
       "category": "julia-package-installability",
       "summary": "The Julia package opens libvoiage_ffi by ambient loader name or VOIAGE_FFI_LIBRARY and has no artifact declaration, build step, or package-managed binary dependency.",
       "evidence": [
@@ -58,12 +63,13 @@
         "bindings/julia/src/Voiage.jl",
         ".github/workflows/bindings-ci.yml"
       ],
-      "required_disposition": "Package the native library through a Julia artifact/JLL route or explicitly classify the source package as requiring a separately installed ABI library and test the clean-depot contract."
+      "required_disposition": "Package the native library through a Julia artifact/JLL route or explicitly classify the source package as requiring a separately installed ABI library and test the clean-depot contract.",
+      "resolution": "The source package and clean-copy development matrix pass on Julia 1.10 through 1.12 and all supported operating systems using the explicit VOIAGE_FFI_LIBRARY development override. JuliaPackaging/Yggdrasil PR #14292 remains open, so package-managed JLL installation is accurately retained as an external gate."
     },
     {
       "id": "STRUCT-004",
       "severity": "high",
-      "state": "open",
+      "state": "resolved",
       "category": "abi-compatibility",
       "summary": "Current symbol and layout snapshots are documentation-tested, but CI does not compare the C ABI against the last released binary/header with an ABI compatibility tool.",
       "evidence": [
@@ -72,12 +78,13 @@
         "tests/test_c_abi_reference_docs.py",
         ".github/workflows/bindings-ci.yml"
       ],
-      "required_disposition": "Add a release-baseline ABI diff for exported symbols, signatures, layouts, calling convention, and ownership/error behavior; retain the existing runtime tests."
+      "required_disposition": "Add a release-baseline ABI diff for exported symbols, signatures, layouts, calling convention, and ownership/error behavior; retain the existing runtime tests.",
+      "resolution": "scripts/check_abi_compatibility.py compares the current header, symbols, and layouts with the immutable v2.1.0 release baseline locally, in bindings CI, and before release; the current diff is compatible."
     },
     {
       "id": "STRUCT-005",
       "severity": "medium",
-      "state": "open",
+      "state": "resolved",
       "category": "binding-capability-parity",
       "summary": "Python exposes 16 stable symbols while the native R and Julia bindings each expose only EVPI and ENBS; the supported-binding matrix does not provide a method-level capability table for this intentional asymmetry.",
       "evidence": [
@@ -86,24 +93,26 @@
         "r-package/voiageR/NAMESPACE",
         "bindings/julia/src/Voiage.jl"
       ],
-      "required_disposition": "Publish and test a method-level binding matrix that distinguishes native, Python-adapter, contract-only, experimental, unsupported, and external-gated capabilities."
+      "required_disposition": "Publish and test a method-level binding matrix that distinguishes native, Python-adapter, contract-only, experimental, unsupported, and external-gated capabilities.",
+      "resolution": "The versioned current-capability matrix and public binding documentation enumerate every stable and experimental method across Python, Rust, C ABI, R, and Julia with explicit asymmetries."
     },
     {
       "id": "STRUCT-006",
       "severity": "medium",
-      "state": "open",
+      "state": "resolved",
       "category": "artifact-hygiene",
       "summary": "The repository tracks a stale voiageR_0.1.0.tar.gz beside 2.1.0 source metadata, creating an ambiguous installed-artifact candidate.",
       "evidence": [
         "r-package/voiageR/voiageR_0.1.0.tar.gz",
         "r-package/voiageR/DESCRIPTION"
       ],
-      "required_disposition": "Remove the stale generated archive from source control after confirming it is not required evidence, and generate source packages only in isolated build output."
+      "required_disposition": "Remove the stale generated archive from source control after confirming it is not required evidence, and generate source packages only in isolated build output.",
+      "resolution": "The stale 0.1.0 archive is no longer tracked, and R build/check runners create and address one exact versioned 2.1.0 archive in an isolated temporary directory."
     },
     {
       "id": "STRUCT-007",
       "severity": "medium",
-      "state": "open",
+      "state": "resolved",
       "category": "contract-validation-depth",
       "summary": "Several binding tests validate that manifests contain expected strings and workflow commands but do not resolve declared symbols from built, installed R and Julia packages.",
       "evidence": [
@@ -111,7 +120,8 @@
         "tests/test_binding_lifecycle_contract.py",
         "tests/test_industry_decision_binding_dispositions.py"
       ],
-      "required_disposition": "Add clean-install black-box consumers that enumerate exported symbols, call supported methods, reject unsupported capabilities, and compare serialized numerical fixtures."
+      "required_disposition": "Add clean-install black-box consumers that enumerate exported symbols, call supported methods, reject unsupported capabilities, and compare serialized numerical fixtures.",
+      "resolution": "Installed Python, R, C ABI, and Julia checks resolve actual exports, invoke EVPI and ENBS, compare the shared fixture corpus, and keep unsupported capability states explicit."
     }
   ],
   "boundary": "Passing current contract and workflow-declaration tests demonstrates internal consistency, not installed cross-language parity or backward ABI compatibility."
