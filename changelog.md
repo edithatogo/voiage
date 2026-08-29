@@ -23,6 +23,11 @@
   submission rather than treating schema presence or synthetic fixtures as
   proof of external interoperability.
 
+- Audited repository structure, execution ownership, stable Python API, C ABI,
+  installed artifacts, and R/Julia binding truth, identifying a critical
+  self-referential parity claim and six additional installability,
+  compatibility, capability-matrix, and artifact-hygiene gaps.
+
 - Prepared a current, locally validated, unposted pyOpenSci review packet for
   `v2.1.0`, pinned to the inspected upstream template and public release
   evidence. The candidate still requires maintainer confirmation, every human
