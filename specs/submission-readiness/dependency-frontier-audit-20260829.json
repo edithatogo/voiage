@@ -10,10 +10,11 @@
   "strict_frontier": {
     "command": "uv run python scripts/dependency_frontier.py . --strict",
     "declared_requirements": 60,
-    "reported_current": 23,
-    "reported_not_current": 36,
-    "exit_status": 2,
-    "interpretation": "The strict result is not a lock freshness result. The script compares declared inclusive lower bounds with latest PyPI releases and therefore reports compatibility floors as stale even when uv.lock resolves a current allowed release."
+    "locked_at_latest_compatible": 60,
+    "upper_bound_preview_candidates": 8,
+    "policy_violations": 0,
+    "exit_status": 0,
+    "interpretation": "The version-2 report separates minimum-supported, locked, latest-compatible, latest-overall, upper-bound preview, prerelease, and support-window facts. Strict mode passes because every direct requirement is locked at its latest compatible final release and there are no policy violations; excluded release families remain isolated preview candidates rather than false stale-floor failures."
   },
   "security_and_licence": {
     "python_runtime_vulnerabilities": 0,
@@ -105,9 +106,10 @@
     {
       "id": "DEP-001",
       "severity": "high",
-      "state": "open",
+      "state": "resolved",
       "summary": "The strict dependency-frontier command conflates compatibility floors with resolved versions and cannot distinguish an intentionally broad supported range from a stale lock.",
-      "required_disposition": "Report minimum-supported, locked, latest-compatible, latest-overall, upper-bound blocker, prerelease, and support-window status separately; make strict mode fail only on policy violations."
+      "required_disposition": "Report minimum-supported, locked, latest-compatible, latest-overall, upper-bound blocker, prerelease, and support-window status separately; make strict mode fail only on policy violations.",
+      "resolution": "scripts/dependency_frontier.py now emits the separated version-2 report and the live strict audit passes with 60 of 60 direct requirements locked at their latest compatible final release."
     },
     {
       "id": "DEP-002",

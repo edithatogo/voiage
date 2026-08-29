@@ -29,7 +29,9 @@ def test_dependency_audit_binds_the_refreshed_lock_and_declared_frontier() -> No
     )
     declared += len(config["build-system"]["requires"])
     assert audit["strict_frontier"]["declared_requirements"] == declared
-    assert audit["strict_frontier"]["exit_status"] == 2
+    assert audit["strict_frontier"]["exit_status"] == 0
+    assert audit["strict_frontier"]["policy_violations"] == 0
+    assert audit["strict_frontier"]["locked_at_latest_compatible"] == declared
 
 
 def test_preview_lanes_are_non_blocking_and_fail_closed_for_promotion() -> None:
@@ -48,5 +50,7 @@ def test_preview_lanes_are_non_blocking_and_fail_closed_for_promotion() -> None:
     assert {finding["id"] for finding in findings} == {
         f"DEP-{number:03d}" for number in range(1, 9)
     }
-    assert {finding["state"] for finding in findings} == {"open"}
+    states = {finding["id"]: finding["state"] for finding in findings}
+    assert states["DEP-001"] == "resolved"
+    assert {states[f"DEP-{number:03d}"] for number in range(2, 9)} == {"open"}
     assert all(finding["required_disposition"] for finding in findings)
