@@ -1,0 +1,1 @@
+Task P1-T4: audited structure, Rust/Python ownership, stable API, C ABI, installed artifacts, and R/Julia bindings; found a critical false binding-parity claim plus six installability and compatibility gaps; focused Python and Rust gates passed.
