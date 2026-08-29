@@ -92,7 +92,7 @@
 - [x] **P4-T2 / AC-06:** Implement the standalone Rust/R build architecture and
   installed runtime tests without an undeclared external shared library.
   (`8f96173b`)
-- [ ] **P4-T3 / AC-06:** Map every applicable rOpenSci statistical standard with
+- [~] **P4-T3 / AC-06:** Map every applicable rOpenSci statistical standard with
   item-level `@srrstats` or justified `@srrstatsNA` evidence.
 - [ ] **P4-T4 / AC-06:** Repair the repository `pkgcheck` runner and pass
   `pkgcheck`, coverage, examples, vignettes, and `R CMD check --as-cran` on the
