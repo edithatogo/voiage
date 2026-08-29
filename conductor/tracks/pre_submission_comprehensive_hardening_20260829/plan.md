@@ -8,9 +8,10 @@
 - [x] **P0-T2 / AC-01:** Build a task-level migration manifest for all 21 active
   tracks, preserving completed evidence and classifying every remaining task.
   (`6c252e2b`)
-- [~] **P0-T3 / AC-01:** Mark the source tracks superseded, append migration
+- [x] **P0-T3 / AC-01:** Mark the source tracks superseded, append migration
   receipts, archive them, update the registry, and prove Conductor integrity.
-- [ ] **P0-T4 / AC-01:** Run automated phase review and the focused governance
+  (`c716dbe6`)
+- [~] **P0-T4 / AC-01:** Run automated phase review and the focused governance
   validation checkpoint.
 
 ## Phase 1 — Current requirements and whole-product gap analysis
