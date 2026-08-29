@@ -129,7 +129,7 @@ class EnhancedJaxBackend(JaxBackend):
         def compute_evpi_subset(idx: int) -> float:
             # Generate random indices for this subset
             if HAS_JAX:
-                if jax is None:
+                if jax is None:  # pragma: no cover - guarded by HAS_JAX import state
                     raise RuntimeError("JAX availability state is inconsistent")
                 key = jax.random.fold_in(jax.random.PRNGKey(42), idx)
                 indices = jax.random.choice(

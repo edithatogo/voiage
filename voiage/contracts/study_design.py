@@ -207,7 +207,9 @@ class SelectionUncertaintyV1(ContractModel):
                 raise ValueError(
                     "joint replicate uncertainty requires calibration status"
                 )
-            if self.selection_count_by_design is None:
+            if (
+                self.selection_count_by_design is None
+            ):  # pragma: no cover - joint_fields
                 raise ValueError(
                     "joint replicate uncertainty requires selection counts"
                 )
@@ -584,7 +586,7 @@ class InformationEfficiencyRequestV1(ContractModel):
         if (paired[0] is None) != (paired[1] is None):
             raise ValueError("EVSI and EVPI uncertainty replicates must be paired")
         if paired[0] is not None:
-            if paired[1] is None:
+            if paired[1] is None:  # pragma: no cover - paired-presence check above
                 raise ValueError("EVSI and EVPI uncertainty replicates must be paired")
             if len(paired[0]) != len(paired[1]) or len(paired[0]) < 2:
                 raise ValueError(

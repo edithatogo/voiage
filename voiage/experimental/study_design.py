@@ -618,7 +618,7 @@ def evsi_evpi_efficiency(
         diagnostics = (*diagnostics, "ratio_not_clamped")
     uncertainty = None
     if paired_evsi_replicates is not None:
-        if paired_evpi_replicates is None:
+        if paired_evpi_replicates is None:  # pragma: no cover - paired check above
             raise InputError("EVSI and EVPI efficiency replicates must be paired")
         if ratio is None:
             raise InputError("paired efficiency uncertainty requires non-zero EVPI")

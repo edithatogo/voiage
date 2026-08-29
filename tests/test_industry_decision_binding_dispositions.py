@@ -101,3 +101,58 @@ def test_error_handling(tmp_path: Path) -> None:
     )
     with pytest.raises(InputError, match="Invalid status"):
         validate_binding_dispositions_manifest(manifest_path=bad_status_manifest)
+
+
+@pytest.mark.parametrize(
+    ("language", "disposition", "schema", "message"),
+    [
+        ("r", {"status": "unsupported"}, None, "Missing reason"),
+        (
+            "python",
+            {"status": "implemented", "symbol": "invalid"},
+            None,
+            "Invalid Python symbol",
+        ),
+        (
+            "python",
+            {"status": "implemented", "symbol": "voiage.schema.MissingThing"},
+            None,
+            "Unresolvable Python symbol",
+        ),
+        (
+            "r",
+            {"status": "contract_only", "symbol": "specs/missing.schema.json"},
+            None,
+            "Unresolvable contract",
+        ),
+        ("r", {"status": "adapter"}, "specs/missing.schema.json", "Missing schema"),
+    ],
+)
+def test_symbol_resolution_rejects_each_invalid_disposition(
+    tmp_path: Path,
+    language: str,
+    disposition: dict[str, str],
+    schema: str | None,
+    message: str,
+) -> None:
+    manifest = tmp_path / "invalid-disposition.json"
+    manifest.write_text(
+        json.dumps(
+            {
+                "contracts": {
+                    "example": {
+                        "schema": schema
+                        or "specs/core-api/schemas/v1/decision-problem.schema.json",
+                        "dispositions": {language: disposition},
+                    }
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(InputError, match=message):
+        validate_binding_dispositions_manifest(
+            manifest_path=manifest,
+            resolve_symbols=True,
+        )

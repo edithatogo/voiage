@@ -9,6 +9,7 @@ import pytest
 
 from voiage.contracts import VOIBinding, prepare_analysis_inputs
 from voiage.ingestion import INGESTION_PROVIDER_SDK_VERSION, from_dataframe
+from voiage.ingestion import dataframe as dataframe_module
 
 
 class _RecordingFrame:
@@ -21,6 +22,16 @@ class _RecordingFrame:
     def __dataframe__(self, *, allow_copy: bool = True) -> object:
         self.copy_policies.append(allow_copy)
         return self.table.__dataframe__(allow_copy=allow_copy)
+
+
+class _CapsuleOnlyFrame:
+    """Expose Arrow capsules without a producer-native column-name attribute."""
+
+    def __init__(self, table: pa.Table) -> None:
+        self.table = table
+
+    def __arrow_c_stream__(self, requested_schema: object | None = None) -> object:
+        return self.table.__arrow_c_stream__(requested_schema)
 
 
 def _binding() -> VOIBinding:
@@ -115,6 +126,42 @@ def test_dataframe_sdk_does_not_claim_an_unobservable_copy_outcome() -> None:
     assert extension["copy_outcome"] == "not_observable"
     assert extension["conversion_protocol"] == "arrow_py_capsule"
     assert bundle.manifest.diagnostics[0].code == "dataframe_interchange.copy.unknown"
+
+
+def test_arrow_capsule_without_declared_names_uses_capsule_protocol() -> None:
+    table, protocol = dataframe_module._to_arrow_table(
+        _CapsuleOnlyFrame(pa.table({"value": [1]})),
+        allow_copy=True,
+    )
+
+    assert table.column_names == ["value"]
+    assert protocol == "arrow_py_capsule"
+
+
+def test_invalid_arrow_capsule_falls_back_to_dataframe_protocol(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    expected = pa.table({"value": [1]})
+    producer = _CapsuleOnlyFrame(expected)
+
+    def _reject_capsule(*_args: object, **_kwargs: object) -> pa.Table:
+        raise TypeError("bad capsule")
+
+    monkeypatch.setattr(
+        dataframe_module.pa,
+        "table",
+        _reject_capsule,
+    )
+    monkeypatch.setattr(
+        dataframe_module,
+        "arrow_from_dataframe",
+        lambda *_args, **_kwargs: expected,
+    )
+
+    table, protocol = dataframe_module._to_arrow_table(producer, allow_copy=True)
+
+    assert table is expected
+    assert protocol == "dataframe_interchange_fallback"
 
 
 def test_dataframe_sdk_bundle_uses_the_standard_preparation_contract() -> None:

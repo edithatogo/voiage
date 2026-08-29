@@ -219,7 +219,7 @@ def _runtime_binding(
         "solver_id": estimator.solver_id,
     }
     if specification.method_id == "evppi_var":
-        if specification.conditioning is None:
+        if specification.conditioning is None:  # pragma: no cover - model invariant
             raise InputError("evppi_var requires a conditioning contract")
         common.update(
             parameter_subset=specification.conditioning.parameter_subset,
@@ -227,7 +227,7 @@ def _runtime_binding(
             averaging_convention=specification.conditioning.averaging_convention,
         )
     else:
-        if specification.sampling_model is None:
+        if specification.sampling_model is None:  # pragma: no cover - model invariant
             raise InputError("evsi_var requires a sampling-model contract")
         common.update(
             design_id=specification.sampling_model.design_id,

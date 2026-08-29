@@ -252,6 +252,24 @@ def test_data_format_connector_imports_xlsx(tmp_path: Path) -> None:
     assert results["data"][0]["cost"] == 10.0
 
 
+def test_data_format_connector_routes_xlsx_reader_without_optional_engine(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    connector = DataFormatConnector()
+    xlsx_path = tmp_path / "costs.xlsx"
+    xlsx_path.touch()
+    monkeypatch.setattr(
+        pd,
+        "read_excel",
+        lambda _path: pd.DataFrame({"state": ["stable"], "cost": [10.0]}),
+    )
+
+    results = connector.import_health_data(str(xlsx_path), data_type="costs")
+
+    assert results["data"][0]["cost"] == 10.0
+
+
 def test_data_format_connector_rejects_unknown_file_suffix(tmp_path: Path) -> None:
     """Unsupported health data formats should raise a value error."""
     connector = DataFormatConnector()
@@ -399,6 +417,8 @@ def test_ecosystem_integration_routes_imports_exports_and_reports(
     notebook_path = tmp_path / "routed.ipynb"
     r_path = tmp_path / "routed.R"
     export_path = tmp_path / "health_export.json"
+    treeage_path = tmp_path / "routed.xml"
+    r_package_path = tmp_path / "routed-bcea.json"
 
     pd.DataFrame({"treatment": ["Drug A"], "cost": [10.0]}).to_csv(
         csv_path, index=False
@@ -421,6 +441,14 @@ def test_ecosystem_integration_routes_imports_exports_and_reports(
     integration.export_to_external(
         "data_formats", analysis, str(export_path), format_type="json"
     )
+    integration.export_to_external("treeage", analysis, str(treeage_path))
+    integration.export_to_external(
+        "r_packages",
+        analysis,
+        str(r_package_path),
+        format="bcea",
+        num_simulations=3,
+    )
     integration.export_to_external(
         "workflows", analysis, str(notebook_path), format="jupyter"
     )
@@ -433,6 +461,13 @@ def test_ecosystem_integration_routes_imports_exports_and_reports(
     assert bcea_data["analysis_type"] == "bcea"
     assert unknown_r_format == {}
     assert export_path.exists()
+    assert treeage_path.exists()
+    assert (
+        json.loads(r_package_path.read_text(encoding="utf-8"))["parameters"][
+            "num_simulations"
+        ]
+        == 3
+    )
     assert notebook_path.exists()
     assert r_path.exists()
     assert "treeage" in formats
