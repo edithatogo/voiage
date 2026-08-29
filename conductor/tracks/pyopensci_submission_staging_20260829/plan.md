@@ -12,7 +12,7 @@
   - [x] **Review Fixes:** Reject incomplete human-attestation and external-action key sets. (`e0e4a51d`)
   - [x] **Review Fixes:** Remove Markdown trailing spaces and rebind the draft digest. (`37373672`)
 - [~] **Phase 3: Assurance and Delivery**
-  - [~] Run submission, package, documentation, security, and distribution-identity preflight checks.
+  - [x] Run submission, package, documentation, security, and distribution-identity preflight checks. (`3bcc1932`)
   - [x] **Review Fixes:** Correct the evidence-validator invocation and normalize the unpublished invalid hash chain with an explicit audit record. (`c0387fdc`)
-  - [ ] Run full project assurance and automated review.
+  - [~] Run full project assurance and automated review.
   - [ ] Commit, open a pull request, and obtain green hosted checks without merging or submitting externally.
