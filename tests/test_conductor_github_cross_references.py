@@ -28,6 +28,14 @@ def test_repository_cross_references_are_complete() -> None:
     assert _validator().validate(ROOT) == []
 
 
+def test_local_track_discovery_allows_an_empty_active_queue(tmp_path: Path) -> None:
+    """A repository with only archived tracks needs no placeholder directory."""
+    archived = tmp_path / "conductor" / "archive" / "completed_track"
+    archived.mkdir(parents=True)
+
+    assert _validator()._local_tracks(tmp_path) == {"completed_track"}
+
+
 def test_cross_reference_manifest_rejects_paths_outside_track_roots(
     tmp_path: Path,
 ) -> None:
