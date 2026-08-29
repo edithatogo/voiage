@@ -11,11 +11,11 @@
 - [x] **P0-T3 / AC-01:** Mark the source tracks superseded, append migration
   receipts, archive them, update the registry, and prove Conductor integrity.
   (`c716dbe6`)
-- [~] **P0-T4 / AC-01:** Run automated phase review and the focused governance
-  validation checkpoint.
-  - [~] **Review Fixes:** Repair live code, test, schema, documentation, and
+- [x] **P0-T4 / AC-01:** Run automated phase review and the focused governance
+  validation checkpoint. (`5533bdfd`)
+  - [x] **Review Fixes:** Repair live code, test, schema, documentation, and
     governance references that still resolve superseded tracks through their
-    former active paths, then rerun the affected contract suite.
+    former active paths, then rerun the affected contract suite. (`5533bdfd`)
 
 ## Phase 1 — Current requirements and whole-product gap analysis
 
