@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "reviewed_at": "2026-07-27",
+  "reviewed_at": "2026-08-29",
   "policy": {
     "states_are_distinct": ["prepared", "submitted", "under_review", "accepted", "published", "indexed"],
     "no_external_action_from_contract": true,
@@ -8,8 +8,9 @@
     "concurrency_rule": "Do not place the same package or an associated manuscript under simultaneous review where either venue prohibits or discourages it."
   },
   "criteria_refresh": {
-    "reviewed_at": "2026-07-27",
-    "evidence": "specs/submission-readiness/criteria-refresh-2026-07-27.md",
+    "reviewed_at": "2026-08-29",
+    "evidence": "specs/submission-readiness/current-requirements-baseline-20260829.md",
+    "source_manifest": "specs/submission-readiness/current-requirements-source-manifest-20260829.json",
     "target_ids": ["arxiv", "joss", "pyopensci", "ropensci", "r-journal", "journal-of-statistical-software", "numfocus", "pypi", "testpypi", "conda-forge", "cran", "r-universe", "crates-io", "julia-general", "yggdrasil", "software-heritage", "zenodo", "scicrunch-rrid", "spack", "easybuild", "hpsf", "e4s"]
   },
   "execution_lanes": [

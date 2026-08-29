@@ -7,6 +7,11 @@
   unfinished work as migrated rather than completed and repairing live code,
   schema, test, documentation, and submission-staging references after archival.
 
+- Pinned the current pyOpenSci, rOpenSci, JOSS, PyPA, SLSA, OpenSSF, and
+  FAIR4RS criteria to dated primary-source revisions for the no-submission
+  hardening programme, including current human-review, AI-disclosure,
+  statistical-standards, research-impact, packaging, and provenance boundaries.
+
 - Prepared a current, locally validated, unposted pyOpenSci review packet for
   `v2.1.0`, pinned to the inspected upstream template and public release
   evidence. The candidate still requires maintainer confirmation, every human

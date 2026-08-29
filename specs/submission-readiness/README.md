@@ -4,6 +4,12 @@
 registries, archives, identifiers, journals, community software review, and
 sustainability affiliations.
 
+The dated current baseline is
+`current-requirements-source-manifest-20260829.json` together with
+`current-requirements-baseline-20260829.md`. It pins the primary-source
+revisions used by the canonical comprehensive-hardening track and must be
+refreshed before candidate freeze or any external venue action.
+
 The contract records repository evidence and outstanding gates without
 authorizing external action. Preparation, submission, review, acceptance,
 publication, and indexing are distinct states. Criteria URLs must be refreshed
