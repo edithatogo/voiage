@@ -114,7 +114,9 @@ def test_design_covers_all_measured_performance_and_profile_findings() -> None:
     assert "same outcomes" in design["profiling_and_measurement"]["acceptance"]
 
 
-def test_promoted_python_lanes_use_bounded_workstealing_and_single_ci_coverage() -> None:
+def test_promoted_python_lanes_use_bounded_workstealing_and_single_ci_coverage() -> (
+    None
+):
     ci = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
     operational = (ROOT / ".github/workflows/operational-assurance.yml").read_text(
         encoding="utf-8"
@@ -129,4 +131,18 @@ def test_promoted_python_lanes_use_bounded_workstealing_and_single_ci_coverage()
     assert "-n 6 --dist=worksteal" in operational
     assert "-n 6 --dist=worksteal" in tox
     assert "cancel-in-progress: ${{ github.event_name == 'pull_request' }}" in ci
-    assert "cancel-in-progress: ${{ github.event_name == 'pull_request' }}" in operational
+    assert (
+        "cancel-in-progress: ${{ github.event_name == 'pull_request' }}" in operational
+    )
+
+
+def test_release_retains_fresh_non_sharded_full_validation() -> None:
+    workflow = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
+    release_gate = workflow.split("  full-release-validation:", 1)[1].split(
+        "  wheels:", 1
+    )[0]
+
+    assert "Non-sharded full release validation" in release_gate
+    assert "uv run --frozen --no-sync pytest tests/" in release_gate
+    assert "-n 6" not in release_gate
+    assert "needs: [resolve-tag, full-release-validation" in workflow
