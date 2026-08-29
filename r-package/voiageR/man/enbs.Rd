@@ -32,9 +32,7 @@ This function calculates the Expected Net Benefit of Sampling as
 subtracting the research cost.
 }
 \examples{
-\dontrun{
 # Calculate ENBS for a study with EVSI = 12.5 and cost = 3.0
 enbs_value <- enbs(12.5, 3.0)
 print(enbs_value)
-}
 }

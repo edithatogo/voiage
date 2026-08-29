@@ -25,6 +25,7 @@ def test_pkgcheck_runner_creates_the_versioned_tool_cache_before_r_starts() -> N
     install_index = script.index('install.packages("pkgcheck"')
     assert mkdir_index < install_index
     assert "PKGCHECK_TOOL_LIBRARY" in script
-    assert "af25295" in script
+    assert "af25295aed5fbb0229c20a8f68e91ed9e53e8d19" in script
     assert "d186fe6f93657805ed86177f03333c478e136709" in script
-    assert "f25191d8a15dacb42daeab5ebc89afc92efcfdbf" in script
+    assert "2679f1e899a9e3777eaa9a9ac5566a2aeafc11d9" in script
+    assert "e0679a1bf759d637dc779108818265c681bdbec77542433534ece0e3a1fec977" in script

@@ -27,12 +27,10 @@ The calculated EVPI value.
 This function calculates the Expected Value of Perfect Information using the voiage library.
 }
 \examples{
-\dontrun{
 # Create sample net benefit data
 net_benefits <- matrix(rnorm(2000), nrow = 1000, ncol = 2)
 
 # Calculate EVPI
 evpi_value <- evpi(net_benefits)
 print(evpi_value)
-}
 }

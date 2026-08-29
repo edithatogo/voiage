@@ -299,14 +299,12 @@ init_voiage <- function() {
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' # Create sample net benefit data
 #' net_benefits <- matrix(rnorm(2000), nrow = 1000, ncol = 2)
 #'
 #' # Calculate EVPI
 #' evpi_value <- evpi(net_benefits)
 #' print(evpi_value)
-#' }
 evpi <- function(net_benefits, population = NULL, time_horizon = NULL, discount_rate = NULL) {
   if (is.data.frame(net_benefits)) {
     net_benefits <- as.matrix(net_benefits)
@@ -345,11 +343,9 @@ evpi <- function(net_benefits, population = NULL, time_horizon = NULL, discount_
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' # Calculate ENBS for a study with EVSI = 12.5 and cost = 3.0
 #' enbs_value <- enbs(12.5, 3.0)
 #' print(enbs_value)
-#' }
 enbs <- function(evsi_result, research_cost, population = NULL, time_horizon = NULL, discount_rate = NULL) {
   if (!is.numeric(evsi_result) || length(evsi_result) != 1L || is.na(evsi_result) || !is.finite(evsi_result)) {
     stop("`evsi_result` must be one finite number.", call. = FALSE)
