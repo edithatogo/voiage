@@ -24,14 +24,26 @@ release binds the final source, SBOM, provenance, and registry artifacts.
 - Exact-head hosted preview run 33262673063: workflow passed; both deterministic
   shards and the repaired sccache/nextest lane passed. Python 3.15 and Ruff 0.16
   remain intentional non-promotion findings.
-- PR #1035 exact head `27215aea`: 40 checks passed, three were governed skips,
+- PR #1035 exact head `037a2bc9`: 40 checks passed, three were governed skips,
   one CodeQL wrapper result was neutral, and no check failed or remained
-  pending. Its product implementation descends from PR #1034 head `7c63bf49`,
+  pending. It squash-merged as `6e1dfc4e` with an exact tree match. Its product
+  implementation descends from PR #1034 head `7c63bf49`,
   whose tree is exactly equal to squash-merge commit `b7c58db2`.
 - Exact-main retained-binding workflow 33260609561 and pinned `pkgcheck`:
   passed.
 - Full Conductor validation, GitHub cross-reference validation, submission
   readiness validation, and append-only evidence-ledger integrity: passed.
+
+The repository-owned programme is therefore complete and archived. This
+administrative closure changes no runtime, release, or submission state.
+
+## Archive validation
+
+After moving the track to `conductor/archive/` and reconciling its completed
+lifecycle, the full 15-environment tox matrix passed in 686.03 seconds. The
+coverage lane passed 4,503 tests, retained 16 governed skips, and reported
+95.16% coverage. The governing issue #1033 was closed only for repository-owned
+work; the future release and all external venue gates remain unperformed.
 
 ## External and human gates
 

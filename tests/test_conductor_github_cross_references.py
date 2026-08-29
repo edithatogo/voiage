@@ -28,6 +28,14 @@ def test_repository_cross_references_are_complete() -> None:
     assert _validator().validate(ROOT) == []
 
 
+def test_local_track_discovery_allows_an_empty_active_queue(tmp_path: Path) -> None:
+    """A repository with only archived tracks needs no placeholder directory."""
+    archived = tmp_path / "conductor" / "archive" / "completed_track"
+    archived.mkdir(parents=True)
+
+    assert _validator()._local_tracks(tmp_path) == {"completed_track"}
+
+
 def test_cross_reference_manifest_rejects_paths_outside_track_roots(
     tmp_path: Path,
 ) -> None:
@@ -189,7 +197,8 @@ def test_ml_llm_agent_track_syncs_pr_states_lifecycle_and_pending_gates() -> Non
     assert "Merged planning PR #621" in index
     assert "Status: superseded on 2026-08-29" in index
     assert "bounded governance" not in umbrella_section
-    assert "current canonical" in umbrella_section
+    assert "programme completed on 2026-08-30" in umbrella_section
+    assert "not active Conductor implementation tasks" in umbrella_section
     assert "Status: superseded on 2026-08-29" in ml_section
     assert "pending work migrated" in ml_section
 
@@ -310,7 +319,8 @@ def test_final_governed_delivery_reconciliation_is_exact_and_additive() -> None:
 
     registry = (ROOT / "conductor" / "tracks.md").read_text()
     root_section = registry.split("\n---\n", 1)[0]
-    assert "current canonical" in root_section
+    assert "programme completed on 2026-08-30" in root_section
+    assert "not active Conductor implementation tasks" in root_section
     assert "workstream tracks" not in root_section
 
     registry_entry = next(

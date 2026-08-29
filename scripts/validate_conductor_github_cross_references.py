@@ -20,6 +20,8 @@ def _local_tracks(root: Path) -> set[str]:
     tracks: set[str] = set()
     for relative in ("conductor/tracks", "conductor/archive"):
         base = root / relative
+        if not base.exists():
+            continue
         tracks.update(path.name for path in base.iterdir() if path.is_dir())
     return tracks
 

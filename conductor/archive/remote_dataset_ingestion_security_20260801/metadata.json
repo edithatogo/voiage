@@ -43,5 +43,5 @@
   ],
   "legacy_outcome": "superseded",
   "superseded_by": "pre_submission_comprehensive_hardening_20260829",
-  "supersession_evidence": "conductor/tracks/pre_submission_comprehensive_hardening_20260829/migration-manifest.md"
+  "supersession_evidence": "conductor/archive/pre_submission_comprehensive_hardening_20260829/migration-manifest.md"
 }

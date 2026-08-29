@@ -1,5 +1,10 @@
 # Changelog
 
+- Archived the completed comprehensive pre-submission hardening programme after
+  exact-head hosted assurance and tree-equal merges. Repository readiness is
+  satisfied; the future hardened release and pyOpenSci, rOpenSci, and JOSS
+  submissions remain explicitly unperformed.
+
 ## Unreleased
 
 - Completed the repository-owned pre-submission hardening programme through

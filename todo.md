@@ -4,8 +4,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
-*   [~] Complete the canonical pre-submission comprehensive-hardening programme
-    in `conductor/tracks/pre_submission_comprehensive_hardening_20260829/`
+*   [x] Complete the canonical pre-submission comprehensive-hardening programme
+    in `conductor/archive/pre_submission_comprehensive_hardening_20260829/`
     (#1033): refresh venue and ecosystem requirements, run the whole-product
     feature/dependency/API/ABI gap analysis, profile and optimize tests and
     CI/CD, repair accepted findings, harden standalone R and polyglot packages,
@@ -19,6 +19,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   [x] Complete standalone R and Julia package hardening, dependency and
         measured CI/test optimization, venue/manuscript alignment, and final
         local plus exact-head hosted assurance.
+    *   [x] Archive the completed programme after tree-equal merges, full local
+        validation, exact-head hosted checks, and zero unresolved review threads.
 
 *   [x] Prepare and validate an unposted pyOpenSci submission packet against a
     pinned current template, with an evidence-backed release candidate and all

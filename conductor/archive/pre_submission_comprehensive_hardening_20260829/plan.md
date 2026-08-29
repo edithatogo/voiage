@@ -159,5 +159,5 @@
 - [x] **P7-T4 / AC-10:** Freeze the submission candidate, confirm a clean tree,
   record every remaining external/human gate, and explicitly attest that no
   submission was performed.
-- [ ] **P7-T5 / AC-10:** Mark the repository programme complete and archive it
+- [x] **P7-T5 / AC-10:** Mark the repository programme complete and archive it
   only after every repository acceptance criterion passes.
