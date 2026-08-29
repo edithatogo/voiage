@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "validated_on": "2026-08-29",
+  "evidence_revision": "90280e3a8a0e54a30ccf0eda6c3532364f45a5da",
+  "release_version": "2.1.0",
+  "shared_reference": {
+    "path": "specs/numerical-reference/v1/evpi-cases.json",
+    "sha256": "6cd3bb36beb6a349d204f1e8846e9a5dfe68c09ad40e8af43011a9fcf2968485",
+    "case_count": 8
+  },
+  "surfaces": {
+    "python": {
+      "status": "passed_local",
+      "artifact": "voiage-2.1.0-cp312-abi3-macosx_11_0_arm64.whl",
+      "sha256": "1a0c27008837ce3f6871531f2ae7bf1be37fbc768e14954c62763ffd1e15fc15",
+      "evidence": "A fresh external virtual environment installed only the wheel and resolved runtime dependencies, then verified distribution/runtime version 2.1.0 and native EVPI and ENBS values 3.0 and 9.5 outside the checkout."
+    },
+    "c_abi": {
+      "status": "passed_local",
+      "artifact": "rust/target/release/libvoiage_ffi.dylib",
+      "sha256": "3113e17f54db14452b9c5a32efbd7ac3a88fc712156b2ad690d540cef565fe49",
+      "declared_symbol_count": 12,
+      "symbol_manifest_sha256": "0f723117f51b967d3221e9e4c85f690eb198fa4b1c0dcfd18544a60e5e4082fa",
+      "evidence": "The v2.1.0 compatibility checker retained every released ABI symbol and layout and classified voiage_v1_enbs_r as additive."
+    },
+    "r": {
+      "status": "passed_local",
+      "artifact": "voiageR_2.1.0.tar.gz",
+      "sha256": "919c1e3d0872a7e7ba3694fdf4c00c887e3323af6f654af917ca9a4381ca972c",
+      "coverage_percent": 89.47368,
+      "evidence": "The clean source package compiled its bundled Rust library, installed without an ambient voiage library, passed native EVPI/ENBS and eight shared-reference cases, examples, vignettes, srr standards, and R CMD check without errors or warnings."
+    },
+    "julia": {
+      "status": "passed_local",
+      "artifact": "bindings/julia/Project.toml",
+      "sha256": "a518732c645ed5f35221932a1133d6a03f3865bcec8cf64e552156e0520f9faf",
+      "evidence": "Julia package tests passed Aqua 11/11, EVPI 2/2, ENBS 4/4, and all eight shared-reference cases against the locally built C ABI library."
+    }
+  },
+  "external_gates": [
+    {
+      "id": "julia-general-registry-jll",
+      "state": "external_gate",
+      "reason": "Yggdrasil PR 14292 remains the authority for a registry-installable Voiage_jll; local library-path testing does not establish that external publication."
+    },
+    {
+      "id": "exact-head-hosted-platform-matrix",
+      "state": "pending",
+      "reason": "PR 1034 checks were queued for Linux, macOS, Windows, Julia 1.10 through 1.12, R installed smokes, and CPython 3.12 through 3.14 when this receipt was written."
+    }
+  ],
+  "submission_boundary": "This receipt is local implementation evidence only and does not submit, publish, register, or release any artifact."
+}

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 import shutil
@@ -13,6 +14,12 @@ from scripts.check_abi_compatibility import compare
 ROOT = Path(__file__).parents[1]
 DISPOSITIONS = ROOT / "specs" / "abi" / "industry-decision-binding-dispositions.json"
 ABI_RELEASE = ROOT / "specs" / "abi" / "releases" / "v2.1.0"
+INSTALLED_RECEIPT = (
+    ROOT
+    / "specs"
+    / "submission-readiness"
+    / "installed-binding-validation-20260829.json"
+)
 
 
 def test_decision_problem_manifest_matches_shipped_language_surfaces() -> None:
@@ -160,6 +167,31 @@ def test_binding_capability_contract_requires_behavior_not_workflow_text() -> No
         "workflow command substring checks",
         "repository-relative import or library lookup",
     ]
+
+
+def test_installed_binding_receipt_is_artifact_and_fixture_bound() -> None:
+    receipt = json.loads(INSTALLED_RECEIPT.read_text(encoding="utf-8"))
+
+    assert receipt["release_version"] == "2.1.0"
+    assert receipt["evidence_revision"]
+    reference = receipt["shared_reference"]
+    reference_path = ROOT / reference["path"]
+    assert (
+        hashlib.sha256(reference_path.read_bytes()).hexdigest() == reference["sha256"]
+    )
+    assert reference["case_count"] == 8
+
+    surfaces = receipt["surfaces"]
+    assert set(surfaces) == {"python", "c_abi", "r", "julia"}
+    assert all(surface["status"] == "passed_local" for surface in surfaces.values())
+    assert all(len(surface["sha256"]) == 64 for surface in surfaces.values())
+    assert surfaces["c_abi"]["declared_symbol_count"] == 12
+    assert surfaces["r"]["coverage_percent"] >= 75
+    assert {gate["state"] for gate in receipt["external_gates"]} == {
+        "external_gate",
+        "pending",
+    }
+    assert "does not submit" in receipt["submission_boundary"]
 
 
 def test_current_binding_capability_registry_matches_architecture_freeze() -> None:
