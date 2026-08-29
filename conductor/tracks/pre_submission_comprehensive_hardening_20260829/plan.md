@@ -2,9 +2,10 @@
 
 ## Phase 0 — Consolidation and immutable baseline
 
-- [ ] **P0-T1 / AC-01:** Create the approved canonical track and validate its
+- [x] **P0-T1 / AC-01:** Create the approved canonical track and validate its
   specification, plan, metadata, index, evidence ledger, and registry entry.
-- [ ] **P0-T2 / AC-01:** Build a task-level migration manifest for all 21 active
+  (`891b4f4b`)
+- [~] **P0-T2 / AC-01:** Build a task-level migration manifest for all 21 active
   tracks, preserving completed evidence and classifying every remaining task.
 - [ ] **P0-T3 / AC-01:** Mark the source tracks superseded, append migration
   receipts, archive them, update the registry, and prove Conductor integrity.
