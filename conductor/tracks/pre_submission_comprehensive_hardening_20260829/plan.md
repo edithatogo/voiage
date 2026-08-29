@@ -98,29 +98,32 @@
 - [~] **P4-T4 / AC-06:** Repair the repository `pkgcheck` runner and pass
   `pkgcheck`, coverage, examples, vignettes, and `R CMD check --as-cran` on the
   supported platform matrix.
-- [ ] **P4-T5 / AC-05, AC-06:** Validate and document Julia, C ABI, and Python
+- [x] **P4-T5 / AC-05, AC-06:** Validate and document Julia, C ABI, and Python
   installed-package compatibility against shared numerical fixtures.
+  (`01e89717`, `250aac07`)
 - [ ] **P4-T6 / AC-05, AC-06:** Run automated phase review and validation
   checkpoint.
 
 ## Phase 5 — Dependency, CI/CD, and test-performance improvements
 
-- [ ] **P5-T1 / AC-07:** Implement accepted stable dependency updates and keep
+- [~] **P5-T1 / AC-07:** Implement accepted stable dependency updates and keep
   experimental/preview dependencies in named non-blocking lanes.
-- [ ] **P5-T2 / AC-07:** Prove numerical equivalence, Arrow round trips,
+- [~] **P5-T2 / AC-07:** Prove numerical equivalence, Arrow round trips,
   CPU fallback, compatibility, provenance, and security for each promoted
   dependency or preview feature.
-- [ ] **P5-T3 / AC-08:** Apply measured Python test optimizations, including
+- [x] **P5-T3 / AC-08:** Apply measured Python test optimizations, including
   fixture scope, import/collection, serialization, subprocess, and parallel
-  execution improvements.
-- [ ] **P5-T4 / AC-08:** Apply measured Rust, R, Julia, docs, and packaging test
+  execution improvements. (`9a5cabc9`, `d90b156b`, `5efefe94`)
+- [x] **P5-T4 / AC-08:** Apply measured Rust, R, Julia, docs, and packaging test
   optimizations using their native profiling and caching evidence.
-- [ ] **P5-T5 / AC-08:** Implement deterministic CI sharding, dependency/build
+  (`36982bec`, `188e3eed`)
+- [x] **P5-T5 / AC-08:** Implement deterministic CI sharding, dependency/build
   caches, reusable artifacts, concurrency cancellation, and focused PR lanes
-  while preserving the full release gate.
-- [ ] **P5-T6 / AC-08:** Re-run the profiling and timing matrix, quantify the
+  while preserving the full release gate. (`bf72cd63`, `d47e0473`, `741cb25a`,
+  `97b26ee5`)
+- [~] **P5-T6 / AC-08:** Re-run the profiling and timing matrix, quantify the
   improvement, and demonstrate unchanged correctness, coverage, and required
-  gate semantics.
+  gate semantics. (`188e3eed`; green exact-head hosted timing remains pending.)
 - [ ] **P5-T7 / AC-07, AC-08:** Run automated phase review and validation
   checkpoint.
 
