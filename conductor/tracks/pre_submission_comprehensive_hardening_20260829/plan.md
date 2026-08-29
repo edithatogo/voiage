@@ -17,7 +17,7 @@
     governance references that still resolve superseded tracks through their
     former active paths, then rerun the affected contract suite. (`5533bdfd`)
 
-## Phase 1 — Current requirements and whole-product gap analysis
+## Phase 1 — Current requirements and whole-product gap analysis [checkpoint: 2ae6e537]
 
 - [x] **P1-T1 / AC-02, AC-09:** Pin the current pyOpenSci, rOpenSci, JOSS,
   packaging, ecosystem, security, and research-software criteria to a dated
@@ -47,7 +47,7 @@
 
 ## Phase 2 — Disposition and architecture freeze
 
-- [ ] **P2-T1 / AC-03:** Produce the canonical finding ledger and disposition
+- [~] **P2-T1 / AC-03:** Produce the canonical finding ledger and disposition
   every gap as must-fix, accepted limitation, preview, reviewed exclusion,
   external gate, or human gate.
 - [ ] **P2-T2 / AC-03, AC-05:** Freeze the target stable architecture, package
