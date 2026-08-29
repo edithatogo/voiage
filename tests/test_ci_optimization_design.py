@@ -161,6 +161,29 @@ def test_tox_package_environments_build_checkout_only_once() -> None:
     assert "--noconftest" in config["testenv:joss"]["commands"]
 
 
+def test_tox_compatibility_lanes_do_not_repeat_the_full_coverage_suite() -> None:
+    config = configparser.ConfigParser(interpolation=None)
+    config.read(ROOT / "tox.ini", encoding="utf-8")
+    required_contracts = (
+        "tests/test_numerical_reference_cases.py",
+        "tests/test_core_metrics_regression.py",
+        "tests/test_contract_bundle.py",
+        "tests/test_v2_stable_api_contract.py",
+        "tests/test_version_sync.py",
+        "tests/test_dataframe_interchange_sdk.py",
+        "tests/test_python_rust_bridge.py",
+        "tests/test_cli_expected_utility_information.py",
+    )
+
+    for environment in ("testenv", "testenv:min_versions", "testenv:max_versions"):
+        command = config[environment]["commands"]
+        assert all(contract in command for contract in required_contracts)
+    assert (
+        "pytest tests/ -n 6 --dist=worksteal"
+        in config["testenv:coverage_report"]["commands"]
+    )
+
+
 def test_release_retains_fresh_non_sharded_full_validation() -> None:
     workflow = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
     release_gate = workflow.split("  full-release-validation:", 1)[1].split(
