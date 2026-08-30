@@ -1,0 +1,4 @@
+R5: repaired JOSS metadata-drift fixture; complete uv run tox -p 3 passed all 15 environments. Local stale ignored native extension was refreshed with maturin develop --release --locked; packaged library already had correct version. Later review made the fixture release-independent.
+
+Files:
+tests/test_joss_readiness.py
