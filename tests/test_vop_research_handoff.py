@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 import sys
 import types
+import zipfile
 
 import numpy as np
 import pytest
@@ -83,6 +84,14 @@ def test_retained_replay_preserves_history_and_binds_both_environments() -> None
     assert "vop_poc_nz" not in evaluated["environment"]["distributions"]
     assert exported["environment"]["distributions"]["pandas"] == "3.0.3"
     assert evaluated["environment"]["distributions"]["pandas"] == "2.3.3"
+    matrix, _ = handoff.load_handoff(
+        ROOT / replay["export_receipt"], replay["export_receipt_sha256"]
+    )
+    assert matrix.shape == (500, 2)
+    assert (
+        evaluated["public_wheel_verification"]["wheel_sha256"]
+        in handoff.PUBLIC_WHEEL_SHA256
+    )
 
 
 @pytest.mark.parametrize("target", ["receipt", "csv"])
@@ -178,6 +187,11 @@ def test_evaluate_installed_boundary_and_reference(
 
     receipt, digest = _packet(tmp_path)
     monkeypatch.setattr(
+        handoff,
+        "verify_installed_wheel",
+        lambda wheel: {"module_path": str(Path(sys.prefix) / "lib/voiage/__init__.py")},
+    )
+    monkeypatch.setattr(
         voiage, "__version__", "2.0.0" if invalid == "version" else "2.2.0"
     )
     monkeypatch.setattr(
@@ -192,10 +206,10 @@ def test_evaluate_installed_boundary_and_reference(
     output = tmp_path / "evaluation.json"
     if invalid:
         with pytest.raises(ValueError):
-            handoff.evaluate(receipt, digest, output)
+            handoff.evaluate(receipt, digest, output, wheel=tmp_path / "public.whl")
         assert not output.exists()
     else:
-        handoff.evaluate(receipt, digest, output)
+        handoff.evaluate(receipt, digest, output, wheel=tmp_path / "public.whl")
         result = json.loads(output.read_text())
         assert result["evpi_nzd_per_cohort"] == 5.0
         assert result["numpy_reference_evpi_nzd_per_cohort"] == 5.0
@@ -275,6 +289,8 @@ def test_cli_dispatches_only_one_environment(
             str(tmp_path / "export.json"),
             "--export-sha256",
             "0" * 64,
+            "--wheel",
+            str(tmp_path / "public.whl"),
         ]
     )
     monkeypatch.setattr(
@@ -282,3 +298,60 @@ def test_cli_dispatches_only_one_environment(
     )
     handoff.main()
     assert calls == [mode]
+
+
+@pytest.mark.parametrize(
+    "mutation", [None, "wheel", "modified", "missing", "extra", "version", "prefix"]
+)
+def test_public_wheel_verification_rejects_unreviewed_installed_code(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, mutation: str | None
+) -> None:
+    root = tmp_path / "env/site-packages"
+    package = root / "voiage"
+    package.mkdir(parents=True)
+    module = package / "__init__.py"
+    module.write_bytes(b"public fixture code")
+    wheel = tmp_path / "public.whl"
+    with zipfile.ZipFile(wheel, "w") as archive:
+        archive.writestr("voiage/__init__.py", module.read_bytes())
+        archive.writestr("voiage-2.2.0.dist-info/RECORD", b"installer-managed")
+    monkeypatch.setattr(
+        handoff, "PUBLIC_WHEEL_SHA256", {handoff.sha256(wheel.read_bytes())}
+    )
+    monkeypatch.setattr(
+        sys, "prefix", str(tmp_path / "other" if mutation == "prefix" else tmp_path)
+    )
+    distribution = types.SimpleNamespace(
+        version="2.0.0" if mutation == "version" else "2.2.0",
+        locate_file=lambda name: root / name,
+    )
+    monkeypatch.setattr(
+        handoff.importlib.metadata, "distribution", lambda name: distribution
+    )
+    if mutation == "wheel":
+        wheel.write_bytes(wheel.read_bytes() + b"altered")
+    elif mutation == "modified":
+        module.write_bytes(b"unreviewed local build")
+    elif mutation == "missing":
+        module.unlink()
+    elif mutation == "extra":
+        (package / "extra.py").write_bytes(b"unreviewed")
+    if mutation:
+        with pytest.raises(ValueError):
+            handoff.verify_installed_wheel(wheel)
+    else:
+        result = handoff.verify_installed_wheel(wheel)
+        assert result["installed_files_verified"] == 1
+        assert result["wheel_sha256"] == handoff.sha256(wheel.read_bytes())
+
+
+def test_wheel_identity_failure_cannot_issue_an_evaluation_receipt(
+    tmp_path: Path,
+) -> None:
+    receipt, digest = _packet(tmp_path)
+    wheel = tmp_path / "unreviewed.whl"
+    wheel.write_bytes(b"not a public wheel")
+    output = tmp_path / "evaluation.json"
+    with pytest.raises(ValueError, match="reviewed public"):
+        handoff.evaluate(receipt, digest, output, wheel=wheel)
+    assert not output.exists()

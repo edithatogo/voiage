@@ -37,11 +37,22 @@
     "citation_and_source_audit": "pass_with_human_confirmation_pending",
     "authentext_review": "pass",
     "independent_panel_review": "complete_internal_review",
-    "official_pdf_build_and_visual_review": "pending_current_hosted_build_and_visual_review"
+    "official_pdf_build_and_visual_review": "pass"
   },
   "hosted_manuscript_evidence": {
-    "status": "pending_current_hosted_build_and_visual_review",
-    "source_sha256": "fc8a9eb77906b8657385d397acff717fa7b9eac738d9d28abcb3505331ee787a"
+    "workflow_run": 33308903503,
+    "commit": "a280ea336f628e4e2dd6054318607cfade128c05",
+    "artifact": "voiage-joss-paper",
+    "artifact_id": 9731382675,
+    "artifact_sha256": "c9d9ea54830bfd4f8544e229c878103019fd2a96614dff7717274b2e526a53c3",
+    "pdf_sha256": "ab8cd3eee61d18129e14aff7efb87d0c526170d728f2968edecc8173e3e7e7e1",
+    "source_sha256": "fc8a9eb77906b8657385d397acff717fa7b9eac738d9d28abcb3505331ee787a",
+    "bibliography_sha256": "03906c30c062037e6af183d6891a21cd361ffe369f4691b37f8bf6880aa5ebe7",
+    "pages": 6,
+    "official_open_journals_build": "pass",
+    "visual_review": "pass_all_6_pages",
+    "body_word_count": 1625,
+    "textstat_status": "review_only_complete"
   },
   "repository_gates": {
     "public_development_history": "ready",

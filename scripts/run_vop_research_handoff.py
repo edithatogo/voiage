@@ -15,12 +15,13 @@ import hashlib
 import importlib.metadata
 import io
 import json
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import platform
 import shutil
 import subprocess
 import sys
 from typing import TYPE_CHECKING, Any
+import zipfile
 
 import numpy as np
 
@@ -35,6 +36,12 @@ EXPORT_SCHEMA = "voiage.vop-research-export.v1"
 CSV_NAME = "hpv_vaccination_net_benefit.csv"
 HEADERS = ["standard_care", "hpv_vaccination"]
 WTP = 50_000.0
+# Immutable public v2.2.0 wheels, independently verified at publication.
+PUBLIC_WHEEL_SHA256 = {
+    "c7c26afe72de58c02a49f0b734fa0f69adf4c8c073a59b71ea888feaa77e1056",
+    "8eb3ba00ec24efcc2f8213141a0343456f28a4cfa8ae25ca9d5d19ad4effe119",
+    "97f23021683ce7c4010e6d7aa6ff7f02b758db09f18da6582bd2ac0e4719a9d2",
+}
 
 
 def sha256(data: bytes) -> str:
@@ -182,15 +189,72 @@ def load_handoff(
     return matrix, record
 
 
-def evaluate(receipt: Path, expected_sha256: str, output: Path) -> None:
+def verify_installed_wheel(wheel: Path) -> dict[str, Any]:
+    """Bind installed payload bytes to an independently reviewed public wheel."""
+    payload = wheel.read_bytes()
+    digest = sha256(payload)
+    if digest not in PUBLIC_WHEEL_SHA256:
+        raise ValueError("wheel SHA-256 is not a reviewed public v2.2.0 artifact")
+    distribution = importlib.metadata.distribution("voiage")
+    root = Path(str(distribution.locate_file(""))).resolve()
+    if distribution.version != "2.2.0" or not root.is_relative_to(
+        Path(sys.prefix).resolve()
+    ):
+        raise ValueError("wheel verification requires an installed voiage 2.2.0")
+    expected: dict[str, str] = {}
+    runtime_roots: set[str] = set()
+    with zipfile.ZipFile(io.BytesIO(payload)) as archive:
+        for member in archive.infolist():
+            name = member.filename
+            relative = PurePosixPath(name)
+            if relative.is_absolute() or ".." in relative.parts or name in expected:
+                raise ValueError("invalid wheel member path")
+            if member.is_dir() or name.endswith(".dist-info/RECORD"):
+                continue
+            installed = (root / name).resolve()
+            expected[name] = sha256(archive.read(member))
+            if (
+                not installed.is_relative_to(root)
+                or not installed.is_file()
+                or sha256(installed.read_bytes()) != expected[name]
+            ):
+                raise ValueError(f"installed payload differs from public wheel: {name}")
+            if not relative.parts[0].endswith(".dist-info"):
+                runtime_roots.add(relative.parts[0])
+    if "voiage/__init__.py" not in expected:
+        raise ValueError("wheel lacks the voiage package")
+    for name in runtime_roots:
+        path = root / name
+        for installed in path.rglob("*") if path.is_dir() else [path]:
+            if (
+                installed.is_file()
+                and "__pycache__" not in installed.parts
+                and installed.relative_to(root).as_posix() not in expected
+            ):
+                raise ValueError("unreviewed extra file in installed wheel payload")
+    return {
+        "wheel_filename": wheel.name,
+        "wheel_sha256": digest,
+        "installed_files_verified": len(expected),
+        "installed_payload_manifest_sha256": sha256(
+            json.dumps(expected, sort_keys=True).encode()
+        ),
+        "module_path": str(root / "voiage/__init__.py"),
+    }
+
+
+def evaluate(receipt: Path, expected_sha256: str, output: Path, *, wheel: Path) -> None:
     """Evaluate only voiage and compare EVPI with its mathematical definition."""
     matrix, record = load_handoff(receipt, expected_sha256)
+    installation = verify_installed_wheel(wheel)
     import voiage
     from voiage.methods.basic import evpi
 
     module_path = Path(voiage.__file__).resolve()
-    if voiage.__version__ != "2.2.0" or not module_path.is_relative_to(
-        Path(sys.prefix).resolve()
+    if (
+        voiage.__version__ != "2.2.0"
+        or not module_path.is_relative_to(Path(sys.prefix).resolve())
+        or module_path != Path(installation["module_path"])
     ):
         raise ValueError(
             "evaluation requires the installed public voiage 2.2.0 environment"
@@ -209,6 +273,7 @@ def evaluate(receipt: Path, expected_sha256: str, output: Path) -> None:
             "net_benefit_csv_sha256": record["net_benefit_csv_sha256"],
             "voiage_version": voiage.__version__,
             "voiage_module": str(module_path),
+            "public_wheel_verification": installation,
             "evpi_nzd_per_cohort": value,
             "numpy_reference_evpi_nzd_per_cohort": reference,
             "environment": environment(),
@@ -230,11 +295,12 @@ def main() -> None:
     consumer.add_argument("--export-receipt", type=Path, required=True)
     consumer.add_argument("--export-sha256", required=True)
     consumer.add_argument("--output", type=Path, required=True)
+    consumer.add_argument("--wheel", type=Path, required=True)
     args = parser.parse_args()
     if args.command == "export":
         export(args.vop_root, args.output, draws=args.draws, seed=args.seed)
     else:
-        evaluate(args.export_receipt, args.export_sha256, args.output)
+        evaluate(args.export_receipt, args.export_sha256, args.output, wheel=args.wheel)
 
 
 if __name__ == "__main__":

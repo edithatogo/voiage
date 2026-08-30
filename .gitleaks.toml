@@ -23,3 +23,14 @@ stopwords = [
 regexes = [
   '''[0-9a-f]{64}''',
 ]
+
+# Public gitlink provenance, not a credential. Both the exact report path and
+# the complete provenance line must match; other values and files stay scanned.
+[[rules]]
+id = "generic-api-key"
+[[rules.allowlists]]
+description = "Pinned public Authentext revision in the dated venue audit"
+condition = "AND"
+regexTarget = "line"
+paths = ['''(^|/)conductor/tracks/v2_2_release_and_venue_submissions_20260830/venue-authentext-audit-20260830\.json$''']
+regexes = ['''^\s*"authentext_commit":\s*"7f70dad5b6deab1af92faf037ef2638e7f3aea05",?\s*$''']

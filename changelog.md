@@ -14,6 +14,11 @@
   conversion process exits successfully.
 - Correct JOSS preflight status handling while rejecting missing required
   gates and enforcing partner eligibility and current human declarations.
+- Limit a secret-scanner exception to the exact public Authentext provenance
+  line and audit file; retain scanning of other values and paths. Correct a
+  preprint sentence-spacing warning without weakening LaTeX linting.
+- Bind research replay to reviewed public wheel hashes and installed payload
+  bytes. Retain its exact CSV in the repository for fresh-clone verification.
 - Replayed the historical VOP research workflow against published voiage 2.2.0
   in separate supported environments, with hash-checked data exchange and
   numerical-reference tests. Preserve the distinction from new human use or

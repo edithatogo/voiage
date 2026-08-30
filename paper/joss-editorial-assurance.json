@@ -32,13 +32,14 @@
     "textstat": {
       "version": "0.7.13",
       "status": "review_only",
-      "workflow_run": 30253202060,
+      "workflow_run": 33308903503,
       "warnings": [],
-      "flesch_reading_ease": 34.4356,
-      "flesch_kincaid_grade": 11.8736,
+      "flesch_reading_ease": 35.0838,
+      "flesch_kincaid_grade": 11.6259,
       "text_standard": "13th and 14th grade",
       "interpretation": "Hosted editorial evidence only; technical terms and references materially affect generic readability scores, and no automatic acceptance threshold applies.",
-      "applies_to_current_source": false
+      "applies_to_current_source": true,
+      "pdf_sha256": "ab8cd3eee61d18129e14aff7efb87d0c526170d728f2968edecc8173e3e7e7e1"
     },
     "codex": {
       "cli_version": "0.144.1",
@@ -50,6 +51,17 @@
       "commit": "4bd6b25084aa1af52d6d3979cda31f3a3d99fc04",
       "model_record": "Google-managed models; service did not expose every identifier",
       "record_scope": "Historical tool record; no Jules run is claimed for the August packet repair."
+    },
+    "historical_textstat": {
+      "version": "0.7.13",
+      "status": "review_only",
+      "workflow_run": 30253202060,
+      "warnings": [],
+      "flesch_reading_ease": 34.4356,
+      "flesch_kincaid_grade": 11.8736,
+      "text_standard": "13th and 14th grade",
+      "interpretation": "Hosted editorial evidence only; technical terms and references materially affect generic readability scores, and no automatic acceptance threshold applies.",
+      "applies_to_current_source": false
     }
   },
   "required_reports": [
@@ -82,8 +94,20 @@
     }
   },
   "official_pdf_review": {
-    "status": "pending_current_hosted_build_and_visual_review",
+    "workflow_run": 33308903503,
+    "commit": "a280ea336f628e4e2dd6054318607cfade128c05",
+    "artifact": "voiage-joss-paper",
+    "artifact_id": 9731382675,
+    "artifact_sha256": "c9d9ea54830bfd4f8544e229c878103019fd2a96614dff7717274b2e526a53c3",
+    "pdf_sha256": "ab8cd3eee61d18129e14aff7efb87d0c526170d728f2968edecc8173e3e7e7e1",
     "source_sha256": "fc8a9eb77906b8657385d397acff717fa7b9eac738d9d28abcb3505331ee787a",
+    "bibliography_sha256": "03906c30c062037e6af183d6891a21cd361ffe369f4691b37f8bf6880aa5ebe7",
+    "pages": 6,
+    "official_open_journals_build": "pass",
+    "visual_review": "All six pages rendered at 1500-pixel height and inspected: headings, author metadata, citations, complete figure and caption, historical/current release wording and references are legible with no missing content. Open Journals draft watermark and placeholder editorial metadata are not submission or acceptance evidence.",
+    "body_word_count": 1625,
+    "textstat_status": "review_only_complete",
+    "status": "pass",
     "submission_performed": false
   },
   "historical_official_pdf_review": {
