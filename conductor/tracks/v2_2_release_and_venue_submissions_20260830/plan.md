@@ -109,6 +109,17 @@
   preprint, distinguish Python decision records from scalar R/Julia surfaces,
   and rebuild/review both manuscripts without extending historical human
   attestations to new edits. Correct the dated AI-transparency projections.
+  Local source/PDF/variant audits and all 15 tox environments passed at
+  `7e762eb7`; current hosted PDF and HTML review remain the merge gate.
+- [~] **R13b1 / AC-04 — HTML review fix:** Reject missing or empty manuscript
+  images even when LaTeXML returns zero. The local converter lacks its Perl
+  image-processing module; retain that failure and require a complete hosted
+  semantic-HTML artifact, including its figure, before merge.
+- [x] **R13c / AC-04 — Submission preflight review fix:** Recognize successful
+  manuscript status values, reject missing required gates, and enforce the
+  selected JOSS partner route and current human declarations. Automated tests
+  use hypothetical evidence only, never repository attestations. All nine
+  focused regressions and full tox passed. (`7e762eb7`)
 - [ ] **R14 / AC-04:** Collect or record the maintainer-only Code of Conduct,
   maintenance, guide, survey, reviewer-contact, and partnership declarations;
   resolve contact-capacity eligibility against existing pyOpenSci issues #271

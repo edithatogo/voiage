@@ -1,0 +1,29 @@
+{
+  "counts": {
+    "characters": 26370,
+    "difficult_words": 866,
+    "polysyllable_words": 1175,
+    "sentences": 293,
+    "syllables": 8569,
+    "words": 4267
+  },
+  "interpretation": "Editorial evidence; no automatic acceptance threshold.",
+  "language": "en_US",
+  "metrics": {
+    "automated_readability_index": 14.6622,
+    "coleman_liau_index": 16.3925,
+    "dale_chall_readability_score": 14.0319,
+    "flesch_kincaid_grade": 13.7864,
+    "flesch_reading_ease": 22.1595,
+    "gunning_fog": 16.5307,
+    "linsear_write_formula": 19.5,
+    "reading_time_seconds": 387.3753,
+    "smog_index": 14.5692,
+    "text_standard": "13th and 14th grade"
+  },
+  "schema_version": "voiage.arxiv-readability.v1",
+  "source": "main.pdf",
+  "status": "review_only",
+  "textstat_version": "0.7.13",
+  "warnings": []
+}
