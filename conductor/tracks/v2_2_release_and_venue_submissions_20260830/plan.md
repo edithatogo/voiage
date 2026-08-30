@@ -1,16 +1,17 @@
 # Implementation Plan: v2.2 Release and Venue Submissions
 
-## Phase 0 — Track and release contract
+## Phase 0 — Track and release contract [checkpoint: 710aca9]
 
 - [x] **R0 / AC-01:** Initialize the authorized track, repair the active-track
   handshake, validate Conductor, and record the approval and baseline. (`de89950`)
 - [x] **R1 / AC-01, AC-02:** Reconcile live release, tag, registry, venue, issue,
   and workflow state against the hardened candidate. (`be33223`)
-- [~] **R2 / AC-01:** Run automated phase review and validation checkpoint.
+- [x] **R2 / AC-01:** Run automated phase review and validation checkpoint.
+  (`710aca9`)
 
 ## Phase 1 — v2.2.0 release candidate
 
-- [ ] **R3 / AC-02:** Add failing synchronization/readiness assertions for the
+- [~] **R3 / AC-02:** Add failing synchronization/readiness assertions for the
   v2.2.0 candidate and stale v2.1.0/v1.0.0 submission bindings.
 - [ ] **R4 / AC-02:** Synchronize Rust, Python, R, Julia, lockfiles, release notes,
   manuscript metadata, and venue packets to v2.2.0.
