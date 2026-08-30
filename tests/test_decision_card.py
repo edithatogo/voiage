@@ -7,7 +7,6 @@ from pathlib import Path
 
 import pytest
 
-import voiage.decision_card as decision_card_module
 from voiage.decision_card import (
     DecisionBundle,
     DecisionCard,
@@ -133,7 +132,7 @@ def test_lineage_default_tracks_installed_producer_version(
         assert name == "voiage"
         return "9.8.7"
 
-    monkeypatch.setattr(decision_card_module, "package_version", installed_version)
+    monkeypatch.setattr("voiage.decision_card.package_version", installed_version)
     assert Lineage(model_version="model-1", input_hash="input").code_version == "v9.8.7"
 
 
@@ -145,7 +144,7 @@ def test_lineage_without_distribution_metadata_is_unknown(
     def missing_version(name: str) -> str:
         raise PackageNotFoundError(name)
 
-    monkeypatch.setattr(decision_card_module, "package_version", missing_version)
+    monkeypatch.setattr("voiage.decision_card.package_version", missing_version)
     assert (
         Lineage(model_version="model-1", input_hash="input").code_version == "unknown"
     )
