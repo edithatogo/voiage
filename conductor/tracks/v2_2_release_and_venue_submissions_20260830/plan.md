@@ -9,7 +9,7 @@
 - [x] **R2 / AC-01:** Run automated phase review and validation checkpoint.
   (`710aca9`)
 
-## Phase 1 — v2.2.0 release candidate
+## Phase 1 — v2.2.0 release candidate [checkpoint: ca7c5d7]
 
 - [x] **R3 / AC-02:** Add failing synchronization/readiness assertions for the
   v2.2.0 candidate and stale v2.1.0/v1.0.0 submission bindings. (`a9a8534`)
@@ -41,7 +41,8 @@
   enforce subprocess timeouts, and verify default isolation and full tests.
   All 15 tox environments passed: 4,522 tests, 16 skips, 95.16% coverage.
   (`bfc1d79`)
-- [~] **R7 / AC-02:** Run automated phase review and validation checkpoint.
+- [x] **R7 / AC-02:** Run automated phase review and validation checkpoint.
+  (`ca7c5d7`)
 
 ## Phase 2 — Signed staged and public release
 
