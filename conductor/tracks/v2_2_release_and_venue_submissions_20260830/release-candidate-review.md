@@ -30,6 +30,18 @@ branch-only validation checkpoint `ca7c5d7`. This keeps the next phase's
 The original checkpoint and ledger entry remain provenance for the local
 validation event; they do not assert main-history ancestry.
 
+A fresh main-only clone with sufficient main history resolved `cf35bc9` as an
+ancestor and executed the phase comparison. An initial depth-one checkout
+could not resolve the earlier commit after main advanced; deepening main
+history fixed that without fetching the evidence branch.
+
+Before tagging, PR #1039 merged pnpm 10.34.4 security pins into main at
+`ae95ceccbf3c5c9ce7341070f43f7e6863937c14`. Its three changed files are the CI
+and documentation workflows and the documentation package-manager pin. PR
+#1046 includes that update; the final checked squash merge of #1046, not the
+earlier #1038 merge alone, is the intended release-tag target. The runtime
+source and previously measured ABI/numerical behavior remain unchanged.
+
 ## Hosted review follow-up
 
 PR #1038 head `addcbc826d21366adcc36d001f3133e72274c6d3` completed 66

@@ -45,11 +45,15 @@
   Use the reachable source squash merge (`cf35bc9`) as the next phase's diff
   boundary. The separate validation receipt (`ca7c5d7`) records the reviewed
   evidence-only checkpoint; it is not a main-history ancestor after squash.
+- [~] **R7a / AC-02 — Security-update integration:** Include the already merged
+  pnpm security update (#1039) in PR #1046, validate the combined tree, and
+  retain its final squash merge as the release-tag target. Runtime code is
+  unchanged from the checked #1038 source candidate.
 
 ## Phase 2 — Signed staged and public release
 
 - [ ] **R8 / AC-03:** Create and push the signed annotated v2.2.0 tag on the exact
-  merged release candidate.
+  merged release candidate, including R7a's security update and evidence fixes.
 - [ ] **R9 / AC-03:** Wait for the private draft, download and verify the attested
   payload, and record the reviewed wheel and sdist SHA-256 values.
 - [ ] **R10 / AC-03:** Invoke the hash-bound publish workflow and verify GitHub,
