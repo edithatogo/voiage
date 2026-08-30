@@ -35,12 +35,8 @@ def test_public_software_metadata_selects_v2_2_0() -> None:
 
 def test_submission_packets_target_v2_2_0_without_claiming_publication() -> None:
     """Venue staging follows the candidate while external actions remain false."""
-    staging = _json(
-        "specs/submission-readiness/pyopensci-submission-staging.json"
-    )
-    candidate = _json(
-        "specs/submission-readiness/pyopensci-submission-candidate.json"
-    )
+    staging = _json("specs/submission-readiness/pyopensci-submission-staging.json")
+    candidate = _json("specs/submission-readiness/pyopensci-submission-candidate.json")
     draft = (ROOT / "docs/release/pyopensci-submission-draft.md").read_text(
         encoding="utf-8"
     )

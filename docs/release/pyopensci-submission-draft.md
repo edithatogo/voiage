@@ -15,7 +15,7 @@ Package Name: voiage
 One-Line Description of Package: Value-of-information analysis for decisions
 about uncertainty and further research.
 Repository Link: https://github.com/edithatogo/voiage
-Version submitted: 2.1.0 (confirmed by maintainer; submission not performed)
+Version submitted: 2.2.0 (confirmed by maintainer; submission not performed)
 EiC: Assigned by pyOpenSci after posting
 Editor: Assigned by pyOpenSci after posting
 Reviewer 1: Assigned by pyOpenSci after posting
@@ -133,10 +133,11 @@ No domain-community affiliation is claimed in this draft.
   remains an external acceptance-stage gate.
 
 The JOSS paper and demonstrated developer-use record currently describe
-`v2.0.0`, whereas this draft selects the current `v2.1.0` release for
-pyOpenSci. The later JOSS handoff remains blocked until that release boundary,
-issue #471 human-engagement evidence, the selected arXiv sequence, and the
-DOI-bearing archive are resolved. No JOSS submission is claimed.
+`v2.0.0`, whereas this draft selects the prepublication `v2.2.0` candidate for
+pyOpenSci. The later JOSS handoff remains blocked until v2.2.0 is published and
+evidence-bound, the paper and use record are refreshed, issue #471 obtains
+human-engagement evidence, and the DOI-bearing archive is resolved. No JOSS
+submission is claimed.
 
 ## Are you OK with Reviewers Submitting Issues and/or pull requests to your Repo Directly?
 

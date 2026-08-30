@@ -1,8 +1,8 @@
 Package: voiageR
 Type: Package
 Title: Value of Information Analysis in R
-Version: 2.1.0
-Config/voiage/Release-Version: 2.1.0
+Version: 2.2.0
+Config/voiage/Release-Version: 2.2.0
 Authors@R: person("Dylan", "Mordaunt",
     email = "voiage@users.noreply.github.com",
     role = c("aut", "cre"),

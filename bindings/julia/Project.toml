@@ -1,7 +1,7 @@
 name = "Voiage"
 uuid = "8c7ad020-41fd-4d68-9c3f-5d4e11c48f1f"
 authors = ["Dylan Mordaunt <voiage@users.noreply.github.com>"]
-version = "2.1.0"
+version = "2.2.0"
 
 [deps]
 Libdl = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
