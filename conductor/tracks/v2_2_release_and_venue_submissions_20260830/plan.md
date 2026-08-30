@@ -66,9 +66,12 @@
   TestPyPI, PyPI, provenance, SBOM, and clean-install receipts.
   Immutable public release, exact registry digests, four PyPI attestations and
   fresh macOS installation verified after successful run 33303294302. (`fe79e1a`)
-- [~] **R11 / AC-03:** Reconcile any Rust, R, Julia, documentation, archive, and
+- [x] **R11 / AC-03:** Reconcile any Rust, R, Julia, documentation, archive, and
   registry workflows triggered by the tag without overstating external outcomes.
-- [ ] **R12 / AC-03:** Run automated phase review and validation checkpoint.
+  Exact-source documentation and tag-bound supply-chain jobs passed; no extra
+  binding tags or registry submissions were triggered. The new Software
+  Heritage snapshot remains pending. (`70198b2`)
+- [~] **R12 / AC-03:** Run automated phase review and validation checkpoint.
 
 ## Phase 3 — pyOpenSci-first submission
 
