@@ -15,7 +15,71 @@ ROOT = Path(__file__).resolve().parents[1]
 CONSUMER_PACKAGE = ROOT / "tests/fixtures/provider_sdk_wheel_consumer"
 
 
-def _run(command: list[str], *, cwd: Path, env: dict[str, str]) -> None:
+def test_consumer_cache_is_isolated_by_default(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.delenv("VOIAGE_TEST_UV_CACHE_DIR", raising=False)
+    monkeypatch.setenv("UV_CACHE_DIR", "/unavailable-host-cache")
+    environment = _consumer_environment(tmp_path)
+    assert environment["UV_CACHE_DIR"] == str(tmp_path / "uv-cache")
+    assert environment["UV_LINK_MODE"] == "copy"
+
+
+def test_consumer_cache_reuse_requires_explicit_writable_directory(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    cache = tmp_path / "shared-downloads"
+    cache.mkdir()
+    monkeypatch.setenv("VOIAGE_TEST_UV_CACHE_DIR", str(cache))
+    environment = _consumer_environment(tmp_path)
+    assert environment["UV_CACHE_DIR"] == str(cache)
+    assert environment["UV_LINK_MODE"] == "copy"
+
+
+@pytest.mark.parametrize("invalid_kind", ["missing", "file", "unwritable"])
+def test_consumer_cache_rejects_invalid_explicit_directory(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, invalid_kind: str
+) -> None:
+    cache = tmp_path / "invalid-cache"
+    if invalid_kind == "file":
+        cache.touch()
+    elif invalid_kind == "unwritable":
+        cache.mkdir()
+        monkeypatch.setattr(os, "access", lambda *_args: False)
+    monkeypatch.setenv("VOIAGE_TEST_UV_CACHE_DIR", str(cache))
+    with pytest.raises(ValueError, match="writable directory"):
+        _consumer_environment(tmp_path)
+
+
+def test_consumer_subprocess_is_bounded(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    def fake_run(
+        command: list[str], **kwargs: object
+    ) -> subprocess.CompletedProcess[str]:
+        assert kwargs["timeout"] == 600
+        assert kwargs["capture_output"] is True
+        return subprocess.CompletedProcess(command, 0, "boundary passed", "")
+
+    monkeypatch.setattr(subprocess, "run", fake_run)
+    assert _run(["probe"], cwd=tmp_path, env={}) == "boundary passed"
+
+
+def _consumer_environment(tmp_path: Path) -> dict[str, str]:
+    """Keep isolation by default; reuse only an explicitly selected cache."""
+    environment = os.environ.copy()
+    selected_cache = environment.pop("VOIAGE_TEST_UV_CACHE_DIR", None)
+    cache_dir = tmp_path / "uv-cache"
+    if selected_cache:
+        cache_dir = Path(selected_cache).expanduser().resolve()
+        if not cache_dir.is_dir() or not os.access(cache_dir, os.W_OK):
+            raise ValueError("VOIAGE_TEST_UV_CACHE_DIR must be a writable directory")
+    environment["UV_CACHE_DIR"] = str(cache_dir)
+    environment["UV_LINK_MODE"] = "copy"
+    return environment
+
+
+def _run(command: list[str], *, cwd: Path, env: dict[str, str]) -> str:
     """Run one build/install boundary with its diagnostic retained by pytest."""
     result = subprocess.run(
         command,
@@ -24,10 +88,12 @@ def _run(command: list[str], *, cwd: Path, env: dict[str, str]) -> None:
         check=False,
         capture_output=True,
         text=True,
+        timeout=600,
     )
     assert result.returncode == 0, (
         f"command failed: {' '.join(command)}\nstdout:\n{result.stdout}\nstderr:\n{result.stderr}"
     )
+    return result.stdout
 
 
 @pytest.mark.integration
@@ -37,14 +103,9 @@ def test_external_provider_wheel_discovers_only_after_explicit_opt_in(
     """A separately installed package uses only frozen public SDK surfaces."""
     uv = shutil.which("uv")
     assert uv is not None, "the wheel-consumer contract requires uv"
-    # Keep the build cache inside pytest's owned temporary directory.  A
-    # developer may legitimately point UV_CACHE_DIR at a machine-local cache,
-    # but a test must never inherit a host-specific path that is not writable
-    # on a clean hosted runner.
-    cache_dir = tmp_path / "uv-cache"
-    environment = os.environ.copy()
-    environment["UV_CACHE_DIR"] = str(cache_dir)
-    environment["UV_LINK_MODE"] = "copy"
+    # A host-specific UV_CACHE_DIR must not silently alter clean-runner behavior.
+    # Explicit cache reuse changes downloads only, never the fresh environment.
+    environment = _consumer_environment(tmp_path)
 
     voiage_dist = tmp_path / "voiage-dist"
     consumer_dist = tmp_path / "consumer-dist"
@@ -99,17 +160,13 @@ def test_external_provider_wheel_discovers_only_after_explicit_opt_in(
             "print(json.dumps({'provider_id': bundle.manifest.provenance.provider_id, 'rows': bundle.table('data').to_pylist()}))",
         )
     )
-    result = subprocess.run(
+    output = _run(
         [str(interpreter), "-I", "-c", probe],
         cwd=tmp_path,
         env=environment,
-        check=False,
-        capture_output=True,
-        text=True,
     )
 
-    assert result.returncode == 0, result.stderr
-    assert json.loads(result.stdout) == {
+    assert json.loads(output) == {
         "provider_id": "example-wheel-provider",
         "rows": [{"value": 1}],
     }

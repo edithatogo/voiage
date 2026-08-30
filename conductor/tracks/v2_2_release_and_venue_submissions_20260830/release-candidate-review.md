@@ -49,6 +49,49 @@ processing, on the initial PR head. Both TeX Live versions and source/PDF
 assurance also passed. This supplies the hosted evidence missing locally;
 fresh-head checks remain required after the review fixes.
 
+All hosted checks on `680f86b73b2726caa5df273631f613f4fd3442d6` completed:
+68 passed, five skipped, and none failed. Both previously failing coverage
+jobs passed. CodeQL nevertheless reported a mixed
+module-import style in the added lineage tests (alert #1280). R6c removes the
+duplicate module import and uses direct monkeypatch target paths. The runtime
+implementation and every assertion remain unchanged. This warning is being
+repaired, not dismissed; the final local result is recorded below and fresh
+hosted validation remains pending.
+
+The R6c full retry retained a maximum-version Hypothesis timing failure:
+`test_any_unique_nullable_suffix_is_compatible` measured 292.99 ms against
+its unchanged 200 ms deadline, then 0.07 ms on replay. Its coverage run later
+waited on a cold dependency install observed still running at 11 minutes
+43 seconds, with further download progress afterward. That exact owned
+install subprocess and the superseded tox wrapper were stopped; unrelated
+work was untouched. The attempt exited 1 after 3,113.47 seconds, with 13
+environments passed, one failed, and coverage interrupted rather than passed.
+Its log SHA-256 is
+`3aa63bab9acff5270480f84da9774eef62017eda76352c6736b58a56dfedd1c0`.
+
+R6d adds an explicit writable download-cache option while retaining default
+cache isolation, fresh consumer environments, dependency resolution, real
+wheel installation, copied files, and an outside-checkout SDK probe. Every
+build/install/probe now has a 600-second timeout. Five new red cases preceded
+the repair; six helper cases and the real consumer test then passed. The
+complete consumer call took 160.08 seconds with cache reuse. This is a local
+observation against an interrupted cold-install attempt, not a controlled
+hosted speedup claim. No cache files were manually changed. The original
+Hypothesis and import-performance deadlines remain unchanged. The complete
+matrix retry with the explicit cache option passed all 15 environments in
+1,775.65 seconds; the previously failing maximum-version environment passed
+unchanged. The coverage suite passed 4,522 tests with 16 skips and 95.16 percent
+combined coverage. The complete log SHA-256 is
+`a719c5d43503fc6423814f1aca654704cb236fc8e48c89fb9978c0e13147a1b6`;
+the focused cache-test log SHA-256 is
+`2f69bbda2262901ce707857883cf6ca3bc2f2e77ab94c984747dc0afa8274215`.
+Fresh exact-head hosted validation remains required before merge.
+
+Phase review also found and corrected the candidate rationale's stale claim
+that citation metadata already selected v2.2.0. Its staging digest and the
+root backlog now agree that citation metadata retains public v2.1.0 until
+publication is verified.
+
 ## Findings and repairs
 
 - Corrected upstream pyOpenSci template provenance to the observed commit

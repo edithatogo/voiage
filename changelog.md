@@ -9,6 +9,8 @@
 
 ## [2.2.0] - 2026-08-30
 
+- Bound installed-provider test subprocesses and allow explicit dependency-cache
+  reuse while preserving fresh consumer environments and real wheel installs.
 - Derive new decision-card producer versions from installed package metadata;
   preserve unknown historical producer versions instead of assigning a release.
 - Completed the repository-owned pre-submission hardening programme through
