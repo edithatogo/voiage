@@ -15,9 +15,9 @@
   v2.2.0 candidate and stale v2.1.0/v1.0.0 submission bindings. (`a9a8534`)
 - [x] **R4 / AC-02:** Synchronize Rust, Python, R, Julia, lockfiles, release notes,
   manuscript metadata, and venue packets to v2.2.0. (`9004ba4`)
-- [~] **R5 / AC-02:** Run ABI, packaging, manuscript, submission, binding, and full
-  tox validation; repair all in-scope findings.
-- [ ] **R6 / AC-02:** Open the protected release-candidate PR, resolve review
+- [x] **R5 / AC-02:** Run ABI, packaging, manuscript, submission, binding, and full
+  tox validation; repair all in-scope findings. (`5cdb1dd`)
+- [~] **R6 / AC-02:** Open the protected release-candidate PR, resolve review
   findings, wait for exact-head checks, and squash-merge with exact tree equality.
 - [ ] **R7 / AC-02:** Run automated phase review and validation checkpoint.
 
