@@ -2,9 +2,9 @@
 
 ## Phase 0 — Track and release contract
 
-- [ ] **R0 / AC-01:** Initialize the authorized track, repair the active-track
-  handshake, validate Conductor, and record the approval and baseline.
-- [ ] **R1 / AC-01, AC-02:** Reconcile live release, tag, registry, venue, issue,
+- [x] **R0 / AC-01:** Initialize the authorized track, repair the active-track
+  handshake, validate Conductor, and record the approval and baseline. (`de89950`)
+- [~] **R1 / AC-01, AC-02:** Reconcile live release, tag, registry, venue, issue,
   and workflow state against the hardened candidate.
 - [ ] **R2 / AC-01:** Run automated phase review and validation checkpoint.
 
