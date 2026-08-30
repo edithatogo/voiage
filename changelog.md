@@ -7,6 +7,10 @@
 
 ## Unreleased
 
+- Recorded the verified v2.2.0 source-candidate merge and its validation
+  checkpoint, using the retained squash merge for future phase comparisons.
+  Signed release publication and venue submissions remain pending.
+
 ## [2.2.0] - 2026-08-30
 
 - Bound installed-provider test subprocesses and allow explicit dependency-cache

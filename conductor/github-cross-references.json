@@ -5550,7 +5550,8 @@
           "url": "https://github.com/edithatogo/voiage/pull/1046",
           "status": "open",
           "evidence": [
-            "phase-1-checkpoint:ca7c5d770175436081245978682f5863f09dda6c",
+            "phase-1-source-boundary:cf35bc998b936ede8eb3eea57d5bb2eec40124c0",
+            "phase-1-validation-receipt:ca7c5d770175436081245978682f5863f09dda6c",
             "local-focused-tests:43-passed",
             "release-publication:pending"
           ]

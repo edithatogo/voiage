@@ -24,6 +24,12 @@ venue gates below are not presented as completed outcomes. The final checkpoint
 revalidates the evidence-only delta; it does not substitute for the full local
 matrix or exact-head hosted checks already completed for the source candidate.
 
+The Phase 1 comparison boundary is the retained source merge `cf35bc9`, not the
+branch-only validation checkpoint `ca7c5d7`. This keeps the next phase's
+`git diff` executable in a fresh clone after the evidence PR is squash-merged.
+The original checkpoint and ledger entry remain provenance for the local
+validation event; they do not assert main-history ancestry.
+
 ## Hosted review follow-up
 
 PR #1038 head `addcbc826d21366adcc36d001f3133e72274c6d3` completed 66
