@@ -1,0 +1,9 @@
+R6 self-review: corrected upstream template provenance to the live baseline, restored latest-public README boundary, replaced release-specific mutation with structured JSON mutation, and added negative candidate publication/receipt tests. No public release or venue action performed.
+
+Files:
+README.md
+scripts/validate_pyopensci_submission_staging.py
+specs/submission-readiness/pyopensci-submission-staging.json
+specs/submission-readiness/pyopensci-submission-template.json
+tests/test_joss_readiness.py
+tests/test_pyopensci_submission_staging.py
