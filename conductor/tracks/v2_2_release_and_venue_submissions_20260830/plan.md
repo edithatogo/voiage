@@ -23,6 +23,11 @@
 - [x] **R6a / AC-02 — Review fixes:** Bind the verified upstream template
   revision, preserve the public-release boundary, and reject fabricated or
   deleted prepublication evidence fields. (`00edb35`)
+- [x] **R6b / AC-02 — Hosted review fixes:** Derive new decision-card producer
+  versions from installed metadata, avoid inventing missing historical lineage,
+  retain last-published citation metadata until publication is evidenced, and
+  read frozen hardening evidence from reachable squash-merge history in CI.
+  All 15 tox environments passed with 4,516 tests and 95.16% coverage. (`d351914`)
 - [ ] **R7 / AC-02:** Run automated phase review and validation checkpoint.
 
 ## Phase 2 — Signed staged and public release
@@ -40,7 +45,9 @@
 ## Phase 3 — pyOpenSci-first submission
 
 - [ ] **R13 / AC-04:** Refresh the current official template and bind the final
-  submission body to the public v2.2.0 release.
+  submission body, CITATION.cff, and CodeMeta to the public v2.2.0 release;
+  complete known JOSS paper/use-record and rOpenSci packet repairs before the
+  first venue submission, preserving any missing human evidence as a gate.
 - [ ] **R14 / AC-04:** Collect or record the maintainer-only Code of Conduct,
   maintenance, guide, survey, reviewer-contact, and partnership declarations;
   resolve contact-capacity eligibility against existing pyOpenSci issues #271
