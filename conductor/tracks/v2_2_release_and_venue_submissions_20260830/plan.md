@@ -33,10 +33,12 @@
   behavior assertions, correct the candidate's stale citation-description
   sentence, and pass full local validation. Fresh hosted CodeQL remains part
   of the R6 merge gate. (`90b3cc2`)
-- [~] **R6d / AC-02 — Bound installed-consumer validation:** Retain the
+- [x] **R6d / AC-02 — Bound installed-consumer validation:** Retain the
   observed cold-download delay, add a named opt-in writable dependency cache
   without reusing the consumer environment or skipping wheel installation,
   enforce subprocess timeouts, and verify default isolation and full tests.
+  All 15 tox environments passed: 4,522 tests, 16 skips, 95.16% coverage.
+  (`bfc1d79`)
 - [ ] **R7 / AC-02:** Run automated phase review and validation checkpoint.
 
 ## Phase 2 — Signed staged and public release
