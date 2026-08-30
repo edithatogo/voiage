@@ -1,9 +1,9 @@
 {
   "track_id": "v2_2_release_and_venue_submissions_20260830",
   "type": "chore",
-  "status": "new",
+  "status": "in_progress",
   "created_at": "2026-08-30T02:37:17Z",
-  "updated_at": "2026-08-30T02:37:17Z",
+  "updated_at": "2026-08-30T02:46:00Z",
   "description": "Publish the repository-hardened v2.2.0 release, then pursue pyOpenSci first, JOSS partner fast-track, and rOpenSci with fail-closed external evidence.",
   "evidence_schema": "1.0",
   "authorization": {

@@ -6,6 +6,6 @@
 - [Evidence](./evidence.jsonl)
 - [GitHub issue #1037](https://github.com/edithatogo/voiage/issues/1037)
 
-Status: authorized and planned. The release and submission actions are explicit
+Status: in progress. The release and submission actions are explicit
 external gates whose observed results will be recorded without inferring venue
 acceptance.

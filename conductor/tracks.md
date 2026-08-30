@@ -5,7 +5,7 @@ Historical and superseded tracks retain their evidenced lifecycle and
 external-gate boundaries. The maintainer authorized the v2.2.0 release and
 pyOpenSci-first venue sequence on 2026-08-30.
 
-## [ ] Track: v2.2 Release and Venue Submissions
+## [~] Track: v2.2 Release and Venue Submissions
 *Link: [./tracks/v2_2_release_and_venue_submissions_20260830/index.md](./tracks/v2_2_release_and_venue_submissions_20260830/index.md)*
 *GitHub: [issue #1037](https://github.com/edithatogo/voiage/issues/1037).*
 *Status: authorized and planned — release publication and submission creation
