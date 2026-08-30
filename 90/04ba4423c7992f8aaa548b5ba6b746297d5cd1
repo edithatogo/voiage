@@ -1,0 +1,26 @@
+R4: synchronized v2.2.0 manifests, metadata and unposted venue packets; focused 24-test gate passed. Later self-review corrected template provenance and public README language in 00edb35b.
+
+Files:
+CITATION.cff
+README.md
+bindings/julia/Project.toml
+changelog.md
+codemeta.json
+docs/release/pyopensci-submission-draft.md
+docs/release/ropensci-presubmission-inquiry-draft.md
+paper/main.tex
+paper/metadata.json
+r-package/voiageR/DESCRIPTION
+r-package/voiageR/src/rust/Cargo.lock
+r-package/voiageR/src/rust/Cargo.toml
+rust/Cargo.lock
+rust/Cargo.toml
+rust/fuzz/Cargo.lock
+scripts/run_ropensci_pkgcheck.sh
+scripts/validate_pyopensci_submission_staging.py
+specs/submission-readiness/pyopensci-submission-candidate.json
+specs/submission-readiness/pyopensci-submission-staging.json
+specs/submission-readiness/pyopensci-submission-template.json
+tests/test_pyopensci_submission_staging.py
+tests/test_release_2_2_0_candidate.py
+tests/test_ropensci_pkgcheck_runner.py
