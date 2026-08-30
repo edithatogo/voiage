@@ -28,6 +28,15 @@
   retain last-published citation metadata until publication is evidenced, and
   read frozen hardening evidence from reachable squash-merge history in CI.
   All 15 tox environments passed with 4,516 tests and 95.16% coverage. (`d351914`)
+- [x] **R6c / AC-02 — CodeQL test cleanup:** Use direct monkeypatch target
+  paths instead of importing the decision-card module twice; retain the same
+  behavior assertions, correct the candidate's stale citation-description
+  sentence, and pass full local validation. Fresh hosted CodeQL remains part
+  of the R6 merge gate. (`90b3cc2`)
+- [~] **R6d / AC-02 — Bound installed-consumer validation:** Retain the
+  observed cold-download delay, add a named opt-in writable dependency cache
+  without reusing the consumer environment or skipping wheel installation,
+  enforce subprocess timeouts, and verify default isolation and full tests.
 - [ ] **R7 / AC-02:** Run automated phase review and validation checkpoint.
 
 ## Phase 2 — Signed staged and public release
