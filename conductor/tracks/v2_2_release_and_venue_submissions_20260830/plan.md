@@ -45,16 +45,20 @@
   Use the reachable source squash merge (`cf35bc9`) as the next phase's diff
   boundary. The separate validation receipt (`ca7c5d7`) records the reviewed
   evidence-only checkpoint; it is not a main-history ancestor after squash.
-- [~] **R7a / AC-02 — Security-update integration:** Include the already merged
+- [x] **R7a / AC-02 — Security-update integration:** Include the already merged
   pnpm security update (#1039) in PR #1046, validate the combined tree, and
   retain its final squash merge as the release-tag target. Runtime code is
   unchanged from the checked #1038 source candidate.
+  PR #1046 merged with exact tree equality after 35 passing checks and four
+  governed skips; documentation passed locally with pnpm 10.34.4. (`7af563c8`)
 
 ## Phase 2 — Signed staged and public release
 
-- [ ] **R8 / AC-03:** Create and push the signed annotated v2.2.0 tag on the exact
+- [x] **R8 / AC-03:** Create and push the signed annotated v2.2.0 tag on the exact
   merged release candidate, including R7a's security update and evidence fixes.
-- [ ] **R9 / AC-03:** Wait for the private draft, download and verify the attested
+  Verified tag object `6f42d26d5a20d4c1e47221f01daff219edc88a59` targets
+  `7af563c8cb373057d30662650b3f332f39e05b83`.
+- [~] **R9 / AC-03:** Wait for the private draft, download and verify the attested
   payload, and record the reviewed wheel and sdist SHA-256 values.
 - [ ] **R10 / AC-03:** Invoke the hash-bound publish workflow and verify GitHub,
   TestPyPI, PyPI, provenance, SBOM, and clean-install receipts.
@@ -68,6 +72,11 @@
   submission body, CITATION.cff, and CodeMeta to the public v2.2.0 release;
   complete known JOSS paper/use-record and rOpenSci packet repairs before the
   first venue submission, preserving any missing human evidence as a gate.
+- [ ] **R13a / AC-04 — Research-use environment boundary:** Refresh the
+  same-author VOP research-use evidence using separate supported environments
+  and a hash-bound data hand-off. VOP requires pandas 3 and SciPy 1.18, outside
+  voiage's stable bounds; do not force a combined installation or describe
+  the bounded exchange as full in-process integration or independent adoption.
 - [ ] **R14 / AC-04:** Collect or record the maintainer-only Code of Conduct,
   maintenance, guide, survey, reviewer-contact, and partnership declarations;
   resolve contact-capacity eligibility against existing pyOpenSci issues #271

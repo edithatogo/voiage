@@ -7,6 +7,8 @@
 
 ## Unreleased
 
+- Verified and pushed the signed v2.2.0 tag for private artifact staging;
+  public publication remains gated on reviewed hashes and attestations.
 - Recorded the verified v2.2.0 source-candidate merge and its validation
   checkpoint, using the retained squash merge for future phase comparisons.
   Signed release publication and venue submissions remain pending.
