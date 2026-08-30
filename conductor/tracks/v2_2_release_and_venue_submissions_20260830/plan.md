@@ -75,11 +75,19 @@
   Local review and evidence-only validation passed (`47b4d4e`); protected
   evidence-PR checks remain pending. Retain `7af563c8` as the main-history
   source boundary independently of this branch-only validation receipt.
+- [x] **R12a / AC-03 — Publication projection review repair:** Update current
+  citation, roadmap and candidate projections in this publication PR, bind
+  the successful immutable receipt, retain prepublication rejection tests,
+  and reject mismatched or missing public evidence. PR #1047 review identified
+  the contradiction in deferring these projections to the next phase.
+  Final full tox passed all 15 environments: 4,530 tests, 16 skips and 95.16
+  percent coverage. Non-JSON receipt bypass is covered by a regression.
+  (`0d1c2812`)
 
 ## Phase 3 — pyOpenSci-first submission
 
-- [ ] **R13 / AC-04:** Refresh the current official template and bind the final
-  submission body, CITATION.cff, and CodeMeta to the public v2.2.0 release;
+- [ ] **R13 / AC-04:** Refresh the current official template and finalize the
+  submission body against R12a's public v2.2.0 citation and candidate bindings;
   complete known JOSS paper/use-record and rOpenSci packet repairs before the
   first venue submission, preserving any missing human evidence as a gate.
 - [ ] **R13a / AC-04 — Research-use environment boundary:** Refresh the
