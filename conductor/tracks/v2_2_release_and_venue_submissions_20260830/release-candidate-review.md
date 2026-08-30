@@ -1,8 +1,53 @@
 # Release Candidate Review
 
-Functional candidate: `00edb35bdfd05c3c011a546a6a49460567481d05`.
+Initial functional candidate: `00edb35bdfd05c3c011a546a6a49460567481d05`.
 Scope: Phase 1 after checkpoint `710aca9`; review is not a phase-completion
 receipt. R6 remains in progress until exact-head hosted checks and merge.
+
+## Hosted review follow-up
+
+PR #1038 head `addcbc826d21366adcc36d001f3133e72274c6d3` completed 66
+successful checks and five governed skips, with two failures and two unresolved
+review threads. It was not merged. R6b owns the following repairs:
+
+- P1: New decision cards derive producer identity from installed package
+  metadata; absent distribution metadata is `unknown`. Deserialization
+  preserves explicit historical versions and uses `unknown` for omitted
+  historical provenance, never the reader's current version.
+- P2: CITATION.cff and CodeMeta retain verified v2.1.0 release metadata rather
+  than announcing an unpublished v2.2.0 release. R13 updates them only after
+  public-artifact verification. The source and venue candidate remain v2.2.0.
+- Both failed CI jobs reached the same historical-evidence test. The original
+  pre-squash commit was not reachable in hosted Git history, so its reader
+  substituted current files and compared v2.2.0 manifests with v2.1.0 hashes.
+  The repaired test reads the recorded squash merge, verifies its actual tree,
+  retains every historical digest, and fails if Git evidence is unavailable.
+- Focused type checking exposed a nested governance-dictionary inference
+  error. An explicit typed dictionary preserves the serialized data and hash.
+
+The review regression red phase reproduced five lineage/citation failures and
+two historical-reader failures. All 37 focused regression tests passed. The
+fresh complete `uv run tox -p 1 --parallel-live` run then passed all 15
+environments: 4,516 tests passed, 16 skipped, 95.16 percent combined coverage,
+and 1,564.10 seconds elapsed. Its retained log SHA-256 is
+`7f567625f56a142b4d14ade6b10de5a6b43fbc6284c7e3143f7af1ceb32d7f19`.
+No timing limit or coverage threshold was weakened. Fresh hosted checks for
+these repairs remain pending; earlier hosted results do not cover changed code.
+
+The required dependency-frontier probe passed. Its incidental Hypothesis,
+linkify-it-py and websocket-client updates were not retained in this frozen
+release candidate; the unchanged lockfile also passed the strict audit. No
+generated Conductor context pack was present, so the canonical index-linked
+project context and this active track were used.
+
+Stale ignored `voiage.egg-info` from July reported `0.2.2.dev102` and shadowed
+the development distribution. It was moved recoverably to a temporary backup,
+and `maturin develop --release --locked` installed verified 2.2.0 metadata.
+
+Hosted LaTeXML reported `Status:conversion:0`, including successful graphics
+processing, on the initial PR head. Both TeX Live versions and source/PDF
+assurance also passed. This supplies the hosted evidence missing locally;
+fresh-head checks remain required after the review fixes.
 
 ## Findings and repairs
 
@@ -30,7 +75,8 @@ environments with `-p 1`, retaining six pytest workers and all existing timing
 and coverage limits. The complete retry passed all 15 environments: 4,511
 tests passed, 16 skipped, 95.16 percent combined coverage, and 1,191.55 seconds
 total elapsed time. No implementation, timing limit, or coverage threshold was
-changed between those runs. Subsequent edits only record this evidence.
+changed between those runs. This pass predates the R6b code fixes above, which
+require their own complete validation.
 
 - Rust workspace and fuzz checks, standalone R release-profile compilation,
   version synchronization, and the pyOpenSci staging validator passed.

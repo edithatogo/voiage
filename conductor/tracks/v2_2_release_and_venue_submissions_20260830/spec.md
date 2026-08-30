@@ -33,7 +33,9 @@ not allow the agent to invent personal attestations or venue outcomes.
    package and binding version without changing the v2.1 C ABI contract.
 2. Update release notes, submission packets, manuscript metadata, and candidate
    bindings so they describe the exact v2.2.0 source rather than historical
-   v2.1.0 or v1.0.0 artifacts.
+   v2.1.0 or v1.0.0 artifacts. Discovery citation records continue describing
+   the last verified public release until publication receipts justify updating
+   their version, release date, and download URLs.
 3. Validate the version candidate locally and through a protected pull request.
    Merge only after all required checks and review threads are terminal.
 4. Create a signed annotated `v2.2.0` tag on the exact merged candidate.
@@ -57,6 +59,9 @@ not allow the agent to invent personal attestations or venue outcomes.
     close another package's issue, or invent a replacement maintainer. Avoid
     concurrent review at different venues unless the editors explicitly allow
     it, and obtain human review of venue communications.
+12. Complete all currently known repository-owned release and venue-packet
+    repairs before the first venue submission. Preparing JOSS and rOpenSci
+    materials does not start their reviews or bypass later eligibility gates.
 
 ## Acceptance criteria
 

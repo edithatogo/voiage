@@ -10,6 +10,8 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime
 import hashlib
+from importlib.metadata import PackageNotFoundError
+from importlib.metadata import version as package_version
 import json
 from pathlib import Path
 from typing import Any
@@ -22,6 +24,14 @@ _ROOT = Path(__file__).resolve().parents[1]
 _DEFAULT_SCHEMA_PATH = (
     _ROOT / "specs" / "decision-cards" / "schemas" / "v1" / "decision-card.schema.json"
 )
+
+
+def _producer_code_version() -> str:
+    """Identify a new card's installed producer without a release literal."""
+    try:
+        return f"v{package_version('voiage')}"
+    except PackageNotFoundError:
+        return "unknown"
 
 
 @dataclass(frozen=True)
@@ -91,7 +101,7 @@ class Lineage:
     model_version: str
     input_hash: str
     dataset_version: str = "v1.0.0"
-    code_version: str = "v2.1.0"
+    code_version: str = field(default_factory=_producer_code_version)
     bundle_hash: str = ""
 
 
@@ -115,6 +125,14 @@ class DecisionCard:
 
     def to_dict(self) -> dict[str, Any]:
         """Convert DecisionCard to JSON-serializable dictionary."""
+        governance_data: dict[str, Any] = {
+            "owner": self.governance.owner,
+            "reviewers": list(self.governance.reviewers),
+            "expiry_date": self.governance.expiry_date,
+            "refresh_cadence": self.governance.refresh_cadence,
+        }
+        if self.governance.human_approval is not None:
+            governance_data["human_approval"] = asdict(self.governance.human_approval)
         data: dict[str, Any] = {
             "decision_id": self.decision_id,
             "version": self.version,
@@ -125,18 +143,9 @@ class DecisionCard:
             "selected_policy": asdict(self.selected_policy),
             "information_valuation": asdict(self.information_valuation),
             "residual_uncertainty": asdict(self.residual_uncertainty),
-            "governance": {
-                "owner": self.governance.owner,
-                "reviewers": list(self.governance.reviewers),
-                "expiry_date": self.governance.expiry_date,
-                "refresh_cadence": self.governance.refresh_cadence,
-            },
+            "governance": governance_data,
             "lineage": asdict(self.lineage),
         }
-        if self.governance.human_approval is not None:
-            data["governance"]["human_approval"] = asdict(
-                self.governance.human_approval
-            )
         return data
 
     @classmethod
@@ -205,7 +214,8 @@ class DecisionCard:
             model_version=str(lin["model_version"]),
             input_hash=str(lin["input_hash"]),
             dataset_version=str(lin.get("dataset_version", "v1.0.0")),
-            code_version=str(lin.get("code_version", "v2.1.0")),
+            # The reader's installed version cannot establish historical provenance.
+            code_version=str(lin.get("code_version", "unknown")),
             bundle_hash=str(lin.get("bundle_hash", "")),
         )
 

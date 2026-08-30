@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
+from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 
 import pytest
 
+import voiage.decision_card as decision_card_module
 from voiage.decision_card import (
     DecisionBundle,
     DecisionCard,
@@ -118,6 +120,47 @@ def test_create_decision_card_helper() -> None:
     assert card.governance.owner == "Alice"
     assert card.governance.human_approval is None
     assert card.to_dict()["status"] == "draft"
+    assert card.lineage.code_version == f"v{version('voiage')}"
+    assert DecisionBundle(card=card, input_payload={}).verify_integrity()
+
+
+def test_lineage_default_tracks_installed_producer_version(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """A future package release must not require another lineage literal edit."""
+
+    def installed_version(name: str) -> str:
+        assert name == "voiage"
+        return "9.8.7"
+
+    monkeypatch.setattr(decision_card_module, "package_version", installed_version)
+    assert Lineage(model_version="model-1", input_hash="input").code_version == "v9.8.7"
+
+
+def test_lineage_without_distribution_metadata_is_unknown(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """An unpackaged source checkout must not invent a producer version."""
+
+    def missing_version(name: str) -> str:
+        raise PackageNotFoundError(name)
+
+    monkeypatch.setattr(decision_card_module, "package_version", missing_version)
+    assert (
+        Lineage(model_version="model-1", input_hash="input").code_version == "unknown"
+    )
+
+
+def test_deserializing_missing_lineage_does_not_invent_current_producer() -> None:
+    """Missing historical provenance must not become the reader's version."""
+    data = _sample_card().to_dict()
+    del data["lineage"]["code_version"]
+
+    card = DecisionCard.from_dict(data)
+
+    assert card.lineage.code_version == "unknown"
+    assert validate_decision_card(card.to_dict())
+    assert DecisionCard.from_json(card.to_json()).lineage.code_version == "unknown"
 
 
 def test_decision_card_markdown_and_html_rendering() -> None:

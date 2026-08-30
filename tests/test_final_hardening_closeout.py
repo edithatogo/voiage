@@ -7,7 +7,10 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 from typing import Any
+
+import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 READINESS = ROOT / "specs" / "submission-readiness"
@@ -22,17 +25,7 @@ def _load(name: str) -> dict[str, Any]:
 
 
 def _git_bytes(revision: str, path: str) -> bytes:
-    revision_available = (
-        subprocess.run(
-            [GIT, "cat-file", "-e", f"{revision}^{{commit}}"],
-            cwd=ROOT,
-            check=False,
-            capture_output=True,
-        ).returncode
-        == 0
-    )
-    if not revision_available:
-        return (ROOT / path).read_bytes()
+    """Read frozen bytes, failing closed if the historical object is missing."""
     return subprocess.run(
         [GIT, "show", f"{revision}:{path}"],
         cwd=ROOT,
@@ -52,12 +45,25 @@ def test_hardened_source_is_hash_bound_without_false_release_claim() -> None:
     assert isinstance(hardening_merge, dict)
     assert hardening_merge["exact_tree_match"] is True
     assert hardening_merge["squash_merge_tree"] == hardened["tree"]
+    merged_revision = hardening_merge["squash_merge_revision"]
+    assert isinstance(merged_revision, str)
+    merged_tree = subprocess.run(
+        [GIT, "rev-parse", f"{merged_revision}^{{tree}}"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    assert merged_tree == hardened["tree"]
 
     for item in binding["bound_files"]:
         assert isinstance(item, dict)
         path = item["path"]
         assert isinstance(path, str)
-        assert hashlib.sha256(_git_bytes(revision, path)).hexdigest() == item["sha256"]
+        assert (
+            hashlib.sha256(_git_bytes(merged_revision, path)).hexdigest()
+            == item["sha256"]
+        )
 
     published = binding["published_release"]
     assert isinstance(published, dict)
@@ -90,6 +96,31 @@ def test_preview_results_promote_nothing_and_record_every_lane() -> None:
         "deterministic-python-shards",
         "cargo-nextest-and-sccache",
     }
+
+
+def test_missing_history_never_substitutes_current_worktree() -> None:
+    """Unavailable frozen source is an evidence failure, not a current-file read."""
+    with pytest.raises(subprocess.CalledProcessError):
+        _git_bytes("0" * 40, "rust/Cargo.toml")
+
+
+def test_hardened_binding_reads_reachable_squash_history(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """GitHub full-history checkouts need not retain a deleted pre-squash head."""
+    binding = _load("final-candidate-binding-20260829.json")
+    expected = binding["hardening_merge"]["squash_merge_revision"]
+    original_reader = _git_bytes
+    observed: list[str] = []
+
+    def historical_reader(revision: str, path: str) -> bytes:
+        observed.append(revision)
+        return original_reader(revision, path)
+
+    monkeypatch.setattr(sys.modules[__name__], "_git_bytes", historical_reader)
+    test_hardened_source_is_hash_bound_without_false_release_claim()
+    assert observed
+    assert set(observed) == {expected}
 
 
 def test_governance_reconciliation_separates_repository_and_external_state() -> None:

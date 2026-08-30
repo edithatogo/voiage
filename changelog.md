@@ -9,6 +9,8 @@
 
 ## [2.2.0] - 2026-08-30
 
+- Derive new decision-card producer versions from installed package metadata;
+  preserve unknown historical producer versions instead of assigning a release.
 - Completed the repository-owned pre-submission hardening programme through
   the standalone R package, current pyOpenSci/rOpenSci/JOSS evidence, exact
   source/release reconciliation, governance and maintenance policy, Scalene-
