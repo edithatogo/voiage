@@ -9,7 +9,7 @@
 - [x] **R2 / AC-01:** Run automated phase review and validation checkpoint.
   (`710aca9`)
 
-## Phase 1 — v2.2.0 release candidate
+## Phase 1 — v2.2.0 release candidate [checkpoint: cf35bc9]
 
 - [x] **R3 / AC-02:** Add failing synchronization/readiness assertions for the
   v2.2.0 candidate and stale v2.1.0/v1.0.0 submission bindings. (`a9a8534`)
@@ -17,9 +17,11 @@
   manuscript metadata, and venue packets to v2.2.0. (`9004ba4`)
 - [x] **R5 / AC-02:** Run ABI, packaging, manuscript, submission, binding, and full
   tox validation; repair all in-scope findings. (`5cdb1dd`)
-- [~] **R6 / AC-02:** Open the protected release-candidate PR, resolve review
+- [x] **R6 / AC-02:** Open the protected release-candidate PR, resolve review
   findings, wait for exact-head checks, and squash-merge with exact tree equality.
-  PR #1038 is open; full local validation passed and hosted checks are pending.
+  PR #1038 merged after 68 passing checks, five governed skips, and zero
+  unresolved threads; the verified merge exactly matches the checked tree.
+  (`cf35bc9`)
 - [x] **R6a / AC-02 — Review fixes:** Bind the verified upstream template
   revision, preserve the public-release boundary, and reject fabricated or
   deleted prepublication evidence fields. (`00edb35`)
@@ -39,12 +41,19 @@
   enforce subprocess timeouts, and verify default isolation and full tests.
   All 15 tox environments passed: 4,522 tests, 16 skips, 95.16% coverage.
   (`bfc1d79`)
-- [ ] **R7 / AC-02:** Run automated phase review and validation checkpoint.
+- [x] **R7 / AC-02:** Run automated phase review and validation checkpoint.
+  Use the reachable source squash merge (`cf35bc9`) as the next phase's diff
+  boundary. The separate validation receipt (`ca7c5d7`) records the reviewed
+  evidence-only checkpoint; it is not a main-history ancestor after squash.
+- [~] **R7a / AC-02 — Security-update integration:** Include the already merged
+  pnpm security update (#1039) in PR #1046, validate the combined tree, and
+  retain its final squash merge as the release-tag target. Runtime code is
+  unchanged from the checked #1038 source candidate.
 
 ## Phase 2 — Signed staged and public release
 
 - [ ] **R8 / AC-03:** Create and push the signed annotated v2.2.0 tag on the exact
-  merged release candidate.
+  merged release candidate, including R7a's security update and evidence fixes.
 - [ ] **R9 / AC-03:** Wait for the private draft, download and verify the attested
   payload, and record the reviewed wheel and sdist SHA-256 values.
 - [ ] **R10 / AC-03:** Invoke the hash-bound publish workflow and verify GitHub,
