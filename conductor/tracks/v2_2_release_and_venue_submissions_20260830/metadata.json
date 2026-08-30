@@ -15,9 +15,29 @@
     "issue": "https://github.com/edithatogo/voiage/issues/1037"
   },
   "gates": [
-    {"id": "release-publication", "kind": "external", "status": "satisfied", "evidence": "maintainer instruction on 2026-08-30"},
-    {"id": "pyopensci-submission", "kind": "external", "status": "pending", "evidence": "authorized; maintainer-only declarations remain pending"},
-    {"id": "joss-fast-track", "kind": "external", "status": "blocked", "evidence": "selected route; blocked pending pyOpenSci eligibility"},
-    {"id": "ropensci-submission", "kind": "external", "status": "pending", "evidence": "authorized; maintainer-only declarations remain pending"}
+    {
+      "id": "release-publication",
+      "kind": "external",
+      "status": "satisfied",
+      "evidence": "maintainer instruction on 2026-08-30"
+    },
+    {
+      "id": "pyopensci-submission",
+      "kind": "external",
+      "status": "pending",
+      "evidence": "authorized; maintainer-only declarations remain pending"
+    },
+    {
+      "id": "joss-fast-track",
+      "kind": "external",
+      "status": "blocked",
+      "evidence": "selected route; blocked pending pyOpenSci eligibility"
+    },
+    {
+      "id": "ropensci-submission",
+      "kind": "external",
+      "status": "pending",
+      "evidence": "authorized; maintainer-only declarations remain pending"
+    }
   ]
 }
