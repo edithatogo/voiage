@@ -72,6 +72,9 @@
   binding tags or registry submissions were triggered. The new Software
   Heritage snapshot remains pending. (`70198b2`)
 - [~] **R12 / AC-03:** Run automated phase review and validation checkpoint.
+  Local review and evidence-only validation passed (`47b4d4e`); protected
+  evidence-PR checks remain pending. Retain `7af563c8` as the main-history
+  source boundary independently of this branch-only validation receipt.
 
 ## Phase 3 — pyOpenSci-first submission
 
