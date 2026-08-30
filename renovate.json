@@ -82,20 +82,30 @@
       "enabled": false
     },
     {
-      "matchPackagePatterns": ["^jax", "^numpyro"],
       "matchUpdateTypes": ["major"],
       "automerge": false,
-      "labels": ["dependencies", "jax-ecosystem"]
+      "labels": ["dependencies", "jax-ecosystem"],
+      "matchPackageNames": [
+        "/^jax/",
+        "/^numpyro/"
+      ]
     },
     {
-      "matchPackagePatterns": ["pytest", "hypothesis", "coverage"],
       "groupName": "testing dependencies",
-      "groupSlug": "testing"
+      "groupSlug": "testing",
+      "matchPackageNames": [
+        "/pytest/",
+        "/hypothesis/",
+        "/coverage/"
+      ]
     },
     {
-      "matchPackagePatterns": ["ruff", "ty"],
       "groupName": "linting and type checking",
-      "groupSlug": "linting"
+      "groupSlug": "linting",
+      "matchPackageNames": [
+        "/ruff/",
+        "/ty/"
+      ]
     },
     {
       "matchDepTypes": ["devDependencies"],
