@@ -1,0 +1,255 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-08-30T08:53:00.660Z",
+  "state": "signed_tag_pushed_private_stage_running",
+  "release": {
+    "version": "2.2.0",
+    "tag": "v2.2.0",
+    "commit": "7af563c8cb373057d30662650b3f332f39e05b83",
+    "tree": "2d78e8a1f4825ce3944bfad7e83f8b6b00e63139",
+    "tag_object": "6f42d26d5a20d4c1e47221f01daff219edc88a59",
+    "tagged_at": "2026-08-30T08:51:31Z",
+    "tag_signature_verified": true,
+    "public_release": false
+  },
+  "pull_request": {
+    "number": 1046,
+    "url": "https://github.com/edithatogo/voiage/pull/1046",
+    "head": "a2c2f964dcd93762104cda4be359c41caa690daa",
+    "merged_at": "2026-08-30T08:50:30Z",
+    "merge_signature_verified": true,
+    "exact_tree_match": true,
+    "hosted_checks": {
+      "passed": 35,
+      "skipped": 4,
+      "failed": 0,
+      "pending": 0,
+      "checks": [
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171043/job/99232231898",
+          "name": "Python 3.14t Observation"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171043/job/99232232037",
+          "name": "Excel Interchange Extra"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171043/job/99232232007",
+          "name": "E2E Tests (CLI)"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171043/job/99232231959",
+          "name": "Repository Harness"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171043/job/99232231922",
+          "name": "Coverage Report"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171043/job/99232231957",
+          "name": "Unit Tests (Python 3.13)"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171043/job/99232231940",
+          "name": "Build Documentation"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171034/job/99232625722",
+          "name": "compare-distributions"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171043/job/99232231915",
+          "name": "Mutation Testing"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171043/job/99232231945",
+          "name": "Benchmark Regression Checks"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171043/job/99232231961",
+          "name": "Standardized Ingestion Conformance"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171043/job/99232231876",
+          "name": "Frontier Contract Validation"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171043/job/99232231934",
+          "name": "Lint & Type Check"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171043/job/99232231889",
+          "name": "Example and Notebook Smoke"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171043/job/99232231865",
+          "name": "Version Synchronization Validation"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171043/job/99232231910",
+          "name": "Unit Tests (Python 3.14)"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171043/job/99232231860",
+          "name": "Integration Tests"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171034/job/99232228903",
+          "name": "telemetry-and-oracles"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171043/job/99232231795",
+          "name": "Vale Prose Lint"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171043/job/99232231872",
+          "name": "Unit Tests (Python 3.12)"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171048/job/99232230475",
+          "name": "Rust Profiling Baselines"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171048/job/99232230484",
+          "name": "Production Rust Numerics Benchmarks"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171034/job/99232228897",
+          "name": "Bootstrap performance (ubuntu-24.04)"
+        },
+        {
+          "bucket": "skipping",
+          "link": "https://github.com/edithatogo/voiage/runs/99232514683",
+          "name": "CodeQL"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171056/job/99232228821",
+          "name": "Stable Frozen Lock"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171034/job/99232228882",
+          "name": "Wheel and sdist identity (ubuntu-24.04)"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171042/job/99232260010",
+          "name": "compatibility-and-coverage"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171048/job/99232230301",
+          "name": "Performance Benchmarks"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171083/job/99232228872",
+          "name": "Reproducible build and SBOM"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/runs/99232410097",
+          "name": "zizmor"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171028/job/99232228815",
+          "name": "Gitleaks Audit"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171052/job/99232228718",
+          "name": "Dependency Review"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171035/job/99232228745",
+          "name": "Audit GitHub Actions"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171034/job/99232228866",
+          "name": "Wheel and sdist identity (windows-2025)"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171012/job/99232228666",
+          "name": "CodeQL Analysis (python)"
+        },
+        {
+          "bucket": "pass",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171034/job/99232228751",
+          "name": "Bootstrap performance (windows-2025)"
+        },
+        {
+          "bucket": "skipping",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171043/job/99232232498",
+          "name": "Performance Profiling"
+        },
+        {
+          "bucket": "skipping",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171043/job/99232232268",
+          "name": "Frozen Lock Refresh Evidence"
+        },
+        {
+          "bucket": "skipping",
+          "link": "https://github.com/edithatogo/voiage/actions/runs/33302171056/job/99232229502",
+          "name": "Latest Compatible and Experimental Observation"
+        }
+      ]
+    },
+    "unresolved_review_threads": 0
+  },
+  "source_history": {
+    "source_candidate_merge": "cf35bc998b936ede8eb3eea57d5bb2eec40124c0",
+    "security_update_merge": "ae95ceccbf3c5c9ce7341070f43f7e6863937c14",
+    "runtime_code_unchanged_since_source_candidate": true
+  },
+  "validation": {
+    "source_candidate": "release-candidate-merge-receipt-20260830.json",
+    "evidence_only_focused_tests": 43,
+    "pnpm_version": "10.34.4",
+    "docs_pages": 1030,
+    "docs_check_errors": 0,
+    "docs_check_warnings": 0,
+    "docs_build_log_sha256": "aa54591974ad75a43ab351217c4fbe566c89d646eb410f0606e9830db222970a",
+    "isolated_dependency_frontier_strict_passed": true,
+    "isolated_frontier_report_sha256": "c9fd1a905e7c4df6d4496510bd4ca46e0b09966d297362072c17aee1d15fbe80",
+    "release_python_lock_changed": false,
+    "critical_high_security_alerts_before_merge": 0,
+    "dependabot_alerts_before_merge": 0
+  },
+  "staging_workflow": {
+    "run_id": 33302619371,
+    "url": "https://github.com/edithatogo/voiage/actions/runs/33302619371",
+    "event": "push",
+    "head": "7af563c8cb373057d30662650b3f332f39e05b83",
+    "conclusion": null
+  },
+  "publication_performed": false,
+  "venue_submission_performed": false
+}

@@ -45,29 +45,60 @@
   Use the reachable source squash merge (`cf35bc9`) as the next phase's diff
   boundary. The separate validation receipt (`ca7c5d7`) records the reviewed
   evidence-only checkpoint; it is not a main-history ancestor after squash.
-- [~] **R7a / AC-02 — Security-update integration:** Include the already merged
+- [x] **R7a / AC-02 — Security-update integration:** Include the already merged
   pnpm security update (#1039) in PR #1046, validate the combined tree, and
   retain its final squash merge as the release-tag target. Runtime code is
   unchanged from the checked #1038 source candidate.
+  PR #1046 merged with exact tree equality after 35 passing checks and four
+  governed skips; documentation passed locally with pnpm 10.34.4. (`7af563c8`)
 
 ## Phase 2 — Signed staged and public release
 
-- [ ] **R8 / AC-03:** Create and push the signed annotated v2.2.0 tag on the exact
+- [x] **R8 / AC-03:** Create and push the signed annotated v2.2.0 tag on the exact
   merged release candidate, including R7a's security update and evidence fixes.
-- [ ] **R9 / AC-03:** Wait for the private draft, download and verify the attested
+  Verified tag object `6f42d26d5a20d4c1e47221f01daff219edc88a59` targets
+  `7af563c8cb373057d30662650b3f332f39e05b83`.
+- [x] **R9 / AC-03:** Wait for the private draft, download and verify the attested
   payload, and record the reviewed wheel and sdist SHA-256 values.
-- [ ] **R10 / AC-03:** Invoke the hash-bound publish workflow and verify GitHub,
+  All eight exact-source provenance/SBOM verifications passed; the four
+  distributions match the private release, manifest and checksum file.
+- [x] **R10 / AC-03:** Invoke the hash-bound publish workflow and verify GitHub,
   TestPyPI, PyPI, provenance, SBOM, and clean-install receipts.
-- [ ] **R11 / AC-03:** Reconcile any Rust, R, Julia, documentation, archive, and
+  Immutable public release, exact registry digests, four PyPI attestations and
+  fresh macOS installation verified after successful run 33303294302. (`fe79e1a`)
+- [x] **R11 / AC-03:** Reconcile any Rust, R, Julia, documentation, archive, and
   registry workflows triggered by the tag without overstating external outcomes.
-- [ ] **R12 / AC-03:** Run automated phase review and validation checkpoint.
+  Exact-source documentation and tag-bound supply-chain jobs passed; no extra
+  binding tags or registry submissions were triggered. The new Software
+  Heritage snapshot remains pending. (`70198b2`)
+- [~] **R12 / AC-03:** Run automated phase review and validation checkpoint.
+  Local review and evidence-only validation passed (`47b4d4e`); protected
+  evidence-PR checks remain pending. Retain `7af563c8` as the main-history
+  source boundary independently of this branch-only validation receipt.
+- [x] **R12a / AC-03 — Publication projection review repair:** Update current
+  citation, roadmap and candidate projections in this publication PR, bind
+  the successful immutable receipt, retain prepublication rejection tests,
+  and reject mismatched or missing public evidence. PR #1047 review identified
+  the contradiction in deferring these projections to the next phase.
+  Final full tox passed all 15 environments: 4,530 tests, 16 skips and 95.16
+  percent coverage. Non-JSON receipt bypass is covered by a regression.
+  (`0d1c2812`)
 
 ## Phase 3 — pyOpenSci-first submission
 
-- [ ] **R13 / AC-04:** Refresh the current official template and bind the final
-  submission body, CITATION.cff, and CodeMeta to the public v2.2.0 release;
+- [ ] **R13 / AC-04:** Refresh the current official template and finalize the
+  submission body against R12a's public v2.2.0 citation and candidate bindings;
   complete known JOSS paper/use-record and rOpenSci packet repairs before the
   first venue submission, preserving any missing human evidence as a gate.
+- [ ] **R13a / AC-04 — Research-use environment boundary:** Refresh the
+  same-author VOP research-use evidence using separate supported environments
+  and a hash-bound data hand-off. VOP requires pandas 3 and SciPy 1.18, outside
+  voiage's stable bounds; do not force a combined installation or describe
+  the bounded exchange as full in-process integration or independent adoption.
+- [ ] **R13b / AC-04 — Version-specific manuscript claims:** Align the JOSS
+  language-surface description and claim map with native EVPI/ENBS in both R
+  and Julia, and distinguish the historical v2.0.0 Software Heritage snapshot
+  from the verified v2.2.0 release without inventing a new archive or DOI.
 - [ ] **R14 / AC-04:** Collect or record the maintainer-only Code of Conduct,
   maintenance, guide, survey, reviewer-contact, and partnership declarations;
   resolve contact-capacity eligibility against existing pyOpenSci issues #271

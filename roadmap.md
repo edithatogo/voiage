@@ -10,8 +10,10 @@ GitHub issue #1033 and archived Conductor track
 `pre_submission_comprehensive_hardening_20260829` record the programme completed
 on 2026-08-30. The repository-owned hardening scope is closed. Issue #1037 and
 `conductor/tracks/v2_2_release_and_venue_submissions_20260830/` now govern the
-authorized v2.2.0 release and later venue sequence; publication and submission
-remain pending until their separate evidence gates are satisfied.
+authorized v2.2.0 release and later venue sequence. The signed, immutable
+v2.2.0 release is published on GitHub, PyPI and TestPyPI with independently
+verified hashes and provenance. Venue submissions remain pending their
+separate packet, human and editorial gates.
 The former #313 workstream and the other previously active tracks are retained
 under `conductor/archive/` with their unfinished tasks migrated through the
 canonical track's hash-bound manifest:
@@ -74,9 +76,9 @@ optional follow-up:
     open alerts. Critical/high findings block release; moderate findings need a
     bounded reviewed disposition.
 
-These refinements now remain within the single canonical pre-submission track;
-new work is added there rather than reactivating or duplicating its archived
-source tracks.
+These refinements are retained in the archived hardening programme. Remaining
+release and venue work belongs to the active #1037 track rather than
+reactivating its archived source tracks.
 
 ## Current Status (As of August 2026)
 
@@ -84,10 +86,11 @@ The project has a solid foundation with core VOI methods implemented, modern
 CI/CD, and automated publishing pipelines. The canonical pre-submission
 hardening programme has completed its requirements and whole-product gap
 analysis, accepted repository repairs, standalone R/polyglot assurance,
-measured CI optimization, and repository-controlled venue alignment. Final
-closeout is binding the post-merge observation evidence and archive state. The
-published v2.1.0 release predates this hardening, so a separately authorized
-future release remains necessary before any submission candidate is frozen.
+measured CI optimization, and repository-controlled venue alignment. The
+programme is archived. Public v2.2.0 contains the hardened source and has
+verified signed-tag, artifact, provenance and clean-install receipts. The
+active release-and-venue track retains remaining manuscript, research-use and
+submission-packet repairs before any venue submission.
 
 *   **Phase 1 (Foundation & API Refactoring):** ✅ **Complete** - Core OO API, data structures, CI/CD, and documentation are all in place.
 *   **Phase 2 (Health Economics Core):** ✅/🔄 **Stable analytical core complete; generic simulation developing** - EVPI, EVPPI, an analytical two-arm normal EVSI model, a coherent joint normal two-loop model with custom callback support, NMA VOI, structural VOI, and plotting are implemented. Generic two-loop and compatibility EVSI estimators remain non-stable pending method-specific convergence and parity evidence.

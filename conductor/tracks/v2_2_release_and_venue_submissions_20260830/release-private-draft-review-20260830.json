@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "reviewed_at": "2026-08-30T09:07:32.227Z",
+  "state": "reviewed_private_draft_ready_for_hash_bound_publication",
+  "release": {
+    "version": "2.2.0",
+    "tag": "v2.2.0",
+    "commit": "7af563c8cb373057d30662650b3f332f39e05b83",
+    "tree": "2d78e8a1f4825ce3944bfad7e83f8b6b00e63139",
+    "tag_object": "6f42d26d5a20d4c1e47221f01daff219edc88a59",
+    "tag_signature_verified": true
+  },
+  "github_draft": {
+    "release_id": 379229724,
+    "draft": true,
+    "prerelease": false,
+    "published_at": null
+  },
+  "private_stage": {
+    "run_id": 33302619371,
+    "url": "https://github.com/edithatogo/voiage/actions/runs/33302619371",
+    "conclusion": "success",
+    "full_test_gate": {
+      "passed": 4523,
+      "skipped": 15,
+      "coverage_percent": 95.12,
+      "elapsed_seconds": 328.02
+    },
+    "installed_wheel_black_box_tests_per_platform": 9,
+    "sdist_derived_wheel_black_box_tests": 9,
+    "log_sha256": "6c540bfcda85bb65a1abeddd1f0b9ecacb82120a8db91abc9092fa5cbe77ddab"
+  },
+  "reviewed_digests": {
+    "voiage-2.2.0-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "8eb3ba00ec24efcc2f8213141a0343456f28a4cfa8ae25ca9d5d19ad4effe119",
+    "voiage-2.2.0-cp312-abi3-win_amd64.whl": "97f23021683ce7c4010e6d7aa6ff7f02b758db09f18da6582bd2ac0e4719a9d2",
+    "voiage-2.2.0-cp312-abi3-macosx_11_0_arm64.whl": "c7c26afe72de58c02a49f0b734fa0f69adf4c8c073a59b71ea888feaa77e1056",
+    "voiage-2.2.0.tar.gz": "e4edfd41011891a94cbc2b144ff1d20340fcc32481e7a2b24157494b7490a16b"
+  },
+  "extra_asset_sha256": {
+    "polyglot.sbom.cdx.json": "720dee7fb9d56ca3dab3937cd7e03a1bea8d8c32c79762c9a71d46ff9c252cf8",
+    "release-manifest.json": "95179706328c02951d0e40bb229a7e372089e75826c627ed61b75c4c759d4d29",
+    "voiage-2.2.0.intoto.jsonl": "113d1155160cb9fca0f57da99f5edf123010e226ae378f71811049a9d7243415",
+    "SHA256SUMS": "4bdd56e262cb84f8b8a9f33f8845d4d7ea4992e67b8b6df98edc49817318d8b9"
+  },
+  "attestation_verification": {
+    "passed": 8,
+    "repo": "edithatogo/voiage",
+    "source_digest": "7af563c8cb373057d30662650b3f332f39e05b83",
+    "source_ref": "refs/tags/v2.2.0",
+    "signer_workflow": "edithatogo/voiage/.github/workflows/release.yml",
+    "signer_digest": "7af563c8cb373057d30662650b3f332f39e05b83",
+    "deny_self_hosted_runners": true,
+    "predicates": [
+      "https://slsa.dev/provenance/v1",
+      "https://cyclonedx.org/bom"
+    ],
+    "report_sha256": {
+      "voiage-2.2.0-cp312-abi3-macosx_11_0_arm64.whl.sbom.json": "a41296525b84d449a843b8a419711b9f87eadf926bb36434250ed1119b3ee095",
+      "voiage-2.2.0-cp312-abi3-win_amd64.whl.sbom.json": "a41296525b84d449a843b8a419711b9f87eadf926bb36434250ed1119b3ee095",
+      "voiage-2.2.0-cp312-abi3-win_amd64.whl.provenance.json": "46285f1d454f237445aca5004a7af4a6a42fdf02056ba1af954f14696abf7d30",
+      "voiage-2.2.0-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.provenance.json": "46285f1d454f237445aca5004a7af4a6a42fdf02056ba1af954f14696abf7d30",
+      "voiage-2.2.0.tar.gz.sbom.json": "a41296525b84d449a843b8a419711b9f87eadf926bb36434250ed1119b3ee095",
+      "voiage-2.2.0-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.sbom.json": "a41296525b84d449a843b8a419711b9f87eadf926bb36434250ed1119b3ee095",
+      "voiage-2.2.0-cp312-abi3-macosx_11_0_arm64.whl.provenance.json": "46285f1d454f237445aca5004a7af4a6a42fdf02056ba1af954f14696abf7d30",
+      "voiage-2.2.0.tar.gz.provenance.json": "46285f1d454f237445aca5004a7af4a6a42fdf02056ba1af954f14696abf7d30"
+    }
+  },
+  "validation": {
+    "manifest_source_matches_tag": true,
+    "all_github_asset_digests_match_downloads": true,
+    "checksum_file_matches_four_distributions": true,
+    "wheel_and_sdist_version": "2.2.0",
+    "sbom_version": "2.2.0",
+    "sbom_source_matches_tag": true
+  },
+  "publication_performed": false,
+  "venue_submission_performed": false
+}

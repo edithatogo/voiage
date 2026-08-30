@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-08-30T08:58:24.709Z",
+  "scope": "merged branches from this track only",
+  "removed_local_branches": [
+    {
+      "name": "codex/v2-2-release-submissions",
+      "head": "dbb089fe5bfbc57dd897d2cca7d0b1bec4268d5e",
+      "pull_request": 1038,
+      "merge": "cf35bc998b936ede8eb3eea57d5bb2eec40124c0",
+      "exact_tree_match": true
+    },
+    {
+      "name": "codex/v2-2-publication-evidence",
+      "head": "a2c2f964dcd93762104cda4be359c41caa690daa",
+      "pull_request": 1046,
+      "merge": "7af563c8cb373057d30662650b3f332f39e05b83",
+      "exact_tree_match": true
+    }
+  ],
+  "remote_branches": "already absent on readback; no remote deletion was performed by this cleanup",
+  "worktrees_removed": 0,
+  "current_branch_preserved": "codex/v2-2-release-publication",
+  "backups": {
+    "local_only_directory": ".conductor/local/recovery/v2-2-20260830",
+    "git_bundle_verify": "passed; complete histories",
+    "files": {
+      "merged-branches.bundle": "77bd0e4ab3b00f0669cbcbd20c142683a8f0c2b2cd7637b2c113df4bcb045121",
+      "pre-rebase-evidence.bundle": "2961b34f64ecd5489650d8e1e2b37ae78c977bdf80303bb9f0e4b7fd015a3305"
+    },
+    "includes_pre_rebase_checkpoint_history": true,
+    "includes_git_notes": true
+  },
+  "unrelated_branches_or_worktrees_changed": false
+}

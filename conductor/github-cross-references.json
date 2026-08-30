@@ -5548,16 +5548,19 @@
         {
           "number": 1046,
           "url": "https://github.com/edithatogo/voiage/pull/1046",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "phase-1-source-boundary:cf35bc998b936ede8eb3eea57d5bb2eec40124c0",
             "phase-1-validation-receipt:ca7c5d770175436081245978682f5863f09dda6c",
             "local-focused-tests:43-passed",
-            "release-publication:pending"
+            "hosted-checks:35-passed-4-skipped",
+            "merge:7af563c8cb373057d30662650b3f332f39e05b83",
+            "exact-tree:2d78e8a1f4825ce3944bfad7e83f8b6b00e63139",
+            "release-publication:verified-v2.2.0-run-33303294302"
           ]
         }
       ],
-      "pull_request_evidence": "PR #1038 merged with exact tree equality after all local and hosted source gates passed; release publication and venue gates remain separate"
+      "pull_request_evidence": "PR #1038 and PR #1046 merged with exact tree equality after local and hosted gates; signed v2.2.0 targets PR #1046 and is published immutably on GitHub with verified PyPI/TestPyPI digests; venue outcomes remain separate"
     }
   ]
 }

@@ -114,6 +114,111 @@ def _validate_bound_file(
     return path, None
 
 
+def _validate_published_candidate(
+    root: Path,
+    candidate: dict[str, Any],
+    recommended: dict[str, Any],
+    findings: list[str],
+) -> None:
+    """Bind a published projection to the separately reviewed local receipt."""
+    _, receipt = _validate_bound_file(
+        root,
+        recommended.get("publication_receipt"),
+        "publication receipt",
+        findings,
+        require_all_files=True,
+    )
+    if receipt is None:
+        findings.append("publication receipt must contain JSON evidence")
+        return
+    release = receipt.get("release")
+    github = receipt.get("github")
+    workflows = receipt.get("workflows")
+    if not all(isinstance(item, dict) for item in (release, github, workflows)):
+        findings.append(
+            "publication receipt lacks release, GitHub or workflow evidence"
+        )
+        return
+    assert isinstance(release, dict)
+    assert isinstance(github, dict)
+    assert isinstance(workflows, dict)
+    publication = workflows.get("publication")
+    version = EXPECTED_CANDIDATE_VERSION
+    if (
+        release.get("version") != version
+        or release.get("tag") != f"v{version}"
+        or recommended.get("tag") != release.get("tag")
+        or any(
+            not isinstance(release.get(key), str)
+            or re.fullmatch(r"[0-9a-f]{40}", release[key]) is None
+            or recommended.get(key) != release[key]
+            for key in ("commit", "tree", "tag_object")
+        )
+        or release.get("tag_signature_verified") is not True
+        or recommended.get("tag_signature_verified") is not True
+        or github.get("draft") is not False
+        or github.get("prerelease") is not False
+        or github.get("immutable") is not True
+        or recommended.get("immutable_github_release") is not True
+        or not isinstance(github.get("published_at"), str)
+        or not github["published_at"]
+        or recommended.get("published_at") != github["published_at"]
+        or github.get("url")
+        != f"https://github.com/edithatogo/voiage/releases/tag/v{version}"
+        or recommended.get("github_release") != github.get("url")
+        or recommended.get("pypi_release")
+        != f"https://pypi.org/project/voiage/{version}/"
+        or recommended.get("latest_on_pypi_when_observed") is not True
+        or not isinstance(publication, dict)
+        or publication.get("conclusion") != "success"
+        or publication.get("head") != release.get("commit")
+    ):
+        findings.append(
+            "published candidate identity does not match successful immutable release evidence"
+        )
+    expected_names = {
+        f"voiage-{version}-cp312-abi3-macosx_11_0_arm64.whl",
+        f"voiage-{version}-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+        f"voiage-{version}-cp312-abi3-win_amd64.whl",
+        f"voiage-{version}.tar.gz",
+    }
+    digests = receipt.get("reviewed_digests")
+    if (
+        not isinstance(digests, dict)
+        or set(digests) != expected_names
+        or any(
+            not isinstance(value, str) or re.fullmatch(r"[0-9a-f]{64}", value) is None
+            for value in digests.values()
+        )
+        or candidate.get("artifact_sha256") != digests
+    ):
+        findings.append(
+            "published candidate must match all four reviewed artifact digests"
+        )
+        return
+    for name, host in (("pypi", "pypi.org"), ("testpypi", "test.pypi.org")):
+        registry = receipt.get(name)
+        artifacts = registry.get("artifacts") if isinstance(registry, dict) else None
+        if (
+            not isinstance(registry, dict)
+            or registry.get("url") != f"https://{host}/project/voiage/{version}/"
+            or (name == "pypi" and registry.get("latest_version") != version)
+            or not isinstance(artifacts, list)
+            or len(artifacts) != 4
+            or any(
+                not isinstance(item, dict)
+                or not isinstance(item.get("filename"), str)
+                or item.get("yanked") is not False
+                for item in artifacts
+            )
+            or {item.get("filename"): item.get("sha256") for item in artifacts}
+            != digests
+        ):
+            findings.append(
+                f"published candidate lacks exact non-yanked {name} artifact evidence"
+            )
+
+
 def validate_staging_packet(
     root: Path | str,
     *,
@@ -209,11 +314,12 @@ def validate_staging_packet(
             "voiage.pyopensci-submission-candidate.v1"
         ):
             findings.append("unsupported pyOpenSci candidate schema")
-        if candidate.get("state") != (
+        published = candidate.get("state") == "published_release_maintainer_confirmed"
+        if not published and candidate.get("state") != (
             "release_candidate_prepublication_maintainer_confirmed"
         ):
             findings.append(
-                "candidate state must record a confirmed prepublication candidate"
+                "candidate state must record a confirmed candidate or published release"
             )
         if candidate.get("maintainer_version_confirmation") != "confirmed":
             findings.append("candidate maintainer confirmation must be recorded")
@@ -224,6 +330,10 @@ def validate_staging_packet(
             staging.get("candidate_version")
         ):
             findings.append("recommended candidate does not match staging version")
+        elif published:
+            _validate_published_candidate(
+                resolved_root, candidate, recommended, findings
+            )
         elif (
             recommended.get("tag") != f"v{EXPECTED_CANDIDATE_VERSION}"
             or any(
@@ -243,7 +353,7 @@ def validate_staging_packet(
             findings.append(
                 "prepublication candidate must not claim release identity or publication"
             )
-        if candidate.get("artifact_sha256") != {}:
+        if not published and candidate.get("artifact_sha256") != {}:
             findings.append(
                 "prepublication candidate must not claim published artifact digests"
             )
