@@ -25,7 +25,7 @@
     {
       "id": "summary-language-boundary",
       "section": "Summary",
-      "statement": "Python, R, and Julia share the EVPI calculation.",
+      "statement": "Python, R, and Julia provide native EVPI and ENBS.",
       "status": "verified",
       "evidence": [
         {
@@ -39,6 +39,10 @@
         {
           "type": "repository",
           "locator": "bindings/julia/src/Voiage.jl"
+        },
+        {
+          "type": "repository",
+          "locator": "r-package/voiageR/src/rust/src/lib.rs"
         }
       ]
     },
@@ -69,7 +73,7 @@
     {
       "id": "build-versus-contribute",
       "section": "State of the field",
-      "statement": "The separate core lets analysts keep their preferred modelling tools while sharing one calculation and one description of the decision; specialist tools retain their broader methods and reporting.",
+      "statement": "Python retains the decision record; R and Julia expose scalar calculations checked against shared fixtures. Specialist tools retain their broader methods and reporting.",
       "status": "bounded",
       "evidence": [
         {
@@ -83,6 +87,10 @@
         {
           "type": "repository",
           "locator": "bindings/julia/src/Voiage.jl"
+        },
+        {
+          "type": "repository",
+          "locator": "voiage/contracts/analysis.py"
         }
       ]
     },
@@ -104,7 +112,7 @@
     {
       "id": "architecture-tradeoffs",
       "section": "Software design",
-      "statement": "R and Julia users do not need Python. The trade-off is installation: each operating system needs a compatible compiled library.",
+      "statement": "R and Julia users do not need Python for these methods. The trade-off is installation: each operating system needs compatible compiled code.",
       "status": "bounded",
       "evidence": [
         {
@@ -155,7 +163,7 @@
     {
       "id": "rust-evpi-boundary",
       "section": "Software design",
-      "statement": "One Rust implementation calculates EVPI for Python, R, and Julia, reducing the risk that separately maintained versions produce different answers.",
+      "statement": "Python and Julia use the main Rust core; R bundles a separate, dependency-free Rust kernel for EVPI and ENBS.",
       "status": "verified",
       "evidence": [
         {
@@ -173,6 +181,10 @@
         {
           "type": "repository",
           "locator": "bindings/julia/test/runtests.jl"
+        },
+        {
+          "type": "repository",
+          "locator": "r-package/voiageR/src/rust/src/lib.rs"
         }
       ]
     },
@@ -311,7 +323,7 @@
     {
       "id": "impact-boundary",
       "section": "Research impact statement",
-      "statement": "This is completed developer research use, not independent adoption or a policy estimate.",
+      "statement": "This is not a combined installation, additional human use, independent adoption, or a policy estimate.",
       "status": "bounded",
       "citation_keys": [
         "vop_poc_nz2026"
@@ -324,6 +336,10 @@
         {
           "type": "external-gate",
           "locator": "https://github.com/edithatogo/voiage/issues/471"
+        },
+        {
+          "type": "repository",
+          "locator": "paper/joss-developer-research-use.json"
         }
       ]
     },
@@ -346,7 +362,7 @@
     {
       "id": "ai-tool-versions",
       "section": "AI usage disclosure",
-      "statement": "The current preparation environment records Codex CLI 0.144.1 and Jules CLI 0.1.42.",
+      "statement": "Historical preparation records list Codex CLI 0.144.1 and Jules CLI 0.1.42.",
       "status": "verified",
       "evidence": [
         {
@@ -358,7 +374,7 @@
     {
       "id": "archive-scope",
       "section": "Software and data availability",
-      "statement": "The Software Heritage snapshot includes the signed release.",
+      "statement": "The cited Software Heritage snapshot preserves v2.0.0, not v2.2.0.",
       "status": "verified",
       "citation_keys": [
         "voiage_software_heritage"
@@ -373,12 +389,16 @@
     {
       "id": "reviewed-release-pending",
       "section": "Software and data availability",
-      "statement": "Repository manifests record release checksums and provenance, the software bill of materials, fixed random seeds, input and output hashes, and the command used to verify the worked example.",
+      "statement": "Repository manifests bind the current release's checksums, provenance and software bill of materials.",
       "status": "verified",
       "evidence": [
         {
           "type": "readiness-manifest",
           "locator": "paper/joss-readiness-manifest.json"
+        },
+        {
+          "type": "release-evidence",
+          "locator": "conductor/tracks/v2_2_release_and_venue_submissions_20260830/release-2.2.0-publication-receipt-20260830.json"
         }
       ]
     },
@@ -530,7 +550,7 @@
     {
       "id": "clean-regeneration",
       "section": "Research impact statement",
-      "statement": "The fixed-seed example, equations, sensitivity data, and regeneration command give another researcher material to check the calculations and assess the exchange format for a real analysis.",
+      "statement": "The supplied equations, sensitivity data, and regeneration commands allow others to check these bounded calculations.",
       "status": "verified",
       "evidence": [
         {
@@ -546,7 +566,7 @@
     {
       "id": "ai-human-attestation",
       "section": "AI usage disclosure",
-      "statement": "The human author remained the primary decision-maker, selected the research problem and architecture, reviewed, modified, and validated all retained AI-assisted outputs, and reran the reported tests and numerical checks.",
+      "statement": "The human author was the primary decision-maker and confirmed on 27 July 2026 that all retained AI-assisted outputs had been reviewed and validated. That historical attestation does not cover these later revisions; final human review remains pending.",
       "status": "bounded",
       "evidence": [
         {
@@ -558,7 +578,7 @@
     {
       "id": "reproduction-manifest-contents",
       "section": "Software and data availability",
-      "statement": "The manifests also identify execution environment details.",
+      "statement": "Historical worked-example manifests record fixed seeds, input and output hashes, execution environments, and the original regeneration command.",
       "status": "verified",
       "evidence": [
         {

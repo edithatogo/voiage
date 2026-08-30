@@ -25,15 +25,21 @@ Julia, or C ABI feature in the parent repository.
 
 The package overlaps in domain with `BCEA`, `hesim`, `voi`, `dampack`, and
 SAVI, but its proposed contribution is a compact cross-language facade with a
-single Rust execution authority, shared numerical fixtures, explicit stable
+bundled Rust EVPI/ENBS kernel, shared numerical fixtures, explicit stable
 capability boundaries, and installed-package parity checks. The inquiry asks
 whether that contribution and repository layout fit rOpenSci review scope.
 
 ## Current repository evidence
 
-- The v2.2.0 source candidate must complete `R CMD check --as-cran` with zero
-  errors and warnings for the exact `voiageR_2.2.0.tar.gz` archive before this
-  draft may be posted; the prior v2.1.0 archive passed that gate.
+- The exact `voiageR_2.2.0.tar.gz` archive passed
+  `R CMD check --as-cran --no-manual` with zero package errors, zero package
+  warnings and one NOTE (unable to verify current time). Its SHA-256 is
+  `af485e1cfba6dc9c1f149ce074640c8ef63bb3f42c649f71fccbe0e5d114c8e4`.
+  The checked R subtree is identical at the public v2.2.0 source commit.
+  The initial attempt failed on a CRAN network timeout; remote CRAN incoming
+  checks remained unavailable on the successful retry and are not claimed
+  passed. Exact evidence is in
+  `specs/submission-readiness/r-v2-2-archive-check-20260830.json`.
 - The pinned `srr` pre-submit check accepts all applicable standards; the
   repository maps 68 general and 14 probability-distribution standards with
   item-level compliance or justified non-applicability tags.
@@ -59,7 +65,7 @@ whether that contribution and repository layout fit rOpenSci review scope.
 ## Unperformed actions and remaining authority
 
 This draft has not been posted, submitted, or sent to rOpenSci. Before any
-maintainer-authorized inquiry, refresh the author guide, review package
+already-authorized inquiry, personally review the current author guide, package
 lifecycle and support commitments, and confirm that contemporaneous pyOpenSci or JOSS review
 does not conflict with rOpenSci policy. Editorial scope advice, review,
 acceptance, and onboarding remain external decisions.

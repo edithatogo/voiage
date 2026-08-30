@@ -511,14 +511,42 @@ def _validate_submission_gates(root: Path, body: str) -> list[str]:
     findings.extend(readiness_findings)
     if readiness is None:
         return findings
-    for layer in ("manuscript_gates", "repository_gates"):
+    required_gates = {
+        "manuscript_gates": {
+            "article_contract": {"pass", "ready"},
+            "citation_and_source_audit": {"pass", "ready"},
+            "authentext_review": {"pass", "ready"},
+            "independent_panel_review": {"complete_internal_review", "ready"},
+            "official_pdf_build_and_visual_review": {"pass", "ready"},
+        },
+        "repository_gates": {
+            "public_development_history": {"ready"},
+            "license_documentation_tests_and_contribution_paths": {"ready"},
+            "exact_reviewed_immutable_archive": {"ready"},
+            "published_v2_2_0_release": {"ready"},
+        },
+    }
+    for layer, required in required_gates.items():
         gates = readiness.get(layer)
         if not isinstance(gates, dict):
             findings.append(f"JOSS readiness {layer} must be an object")
             continue
-        for gate, status in gates.items():
-            if status != "ready":
+        for gate in sorted(required.keys() | gates.keys()):
+            status = gates.get(gate)
+            if not isinstance(status, str) or status not in required.get(
+                gate, {"ready"}
+            ):
                 findings.append(f"JOSS submission gate is not ready: {gate}={status}")
+    route = readiness.get("submission_route")
+    if not isinstance(route, dict):
+        findings.append("JOSS readiness submission_route must be an object")
+    elif (
+        route.get("selected") != "pyopensci_first_then_joss_partner_fast_track"
+        or route.get("pyopensci_acceptance") != "accepted"
+    ):
+        findings.append(
+            "JOSS selected partner route requires observed pyOpenSci acceptance"
+        )
     external = readiness.get("external_gates")
     if not isinstance(external, dict):
         findings.append("JOSS readiness external_gates must be an object")
@@ -533,15 +561,15 @@ def _validate_submission_gates(root: Path, body: str) -> list[str]:
     if not isinstance(sequence, dict):
         findings.append("JOSS readiness author_project_sequence must be an object")
     else:
-        for gate in (
-            "permanent_arxiv_identifier_and_announcement_before_joss_submission",
-            "community_engagement_before_joss_submission",
-        ):
-            if sequence.get(gate) != "ready":
-                findings.append(
-                    f"author-requested pre-JOSS sequence is not ready: "
-                    f"{gate}={sequence.get(gate)}"
-                )
+        findings.extend(
+            f"author-requested pre-JOSS sequence is not ready: "
+            f"{gate}={sequence.get(gate)}"
+            for gate in (
+                "permanent_arxiv_identifier_and_announcement_before_joss_submission",
+                "community_engagement_before_joss_submission",
+            )
+            if sequence.get(gate) != "ready"
+        )
     assurance, assurance_findings = _load_json_object(
         root / "paper/joss-editorial-assurance.json",
         "JOSS editorial assurance manifest",
@@ -556,6 +584,7 @@ def _validate_submission_gates(root: Path, body: str) -> list[str]:
                 f"JOSS human submission gate is not confirmed: "
                 f"{gate}={human_review.get(gate)}"
                 for gate in (
+                    "authorship_funding_conflicts",
                     "citation_source_check",
                     "all_retained_ai_outputs_reviewed_modified_and_validated",
                 )

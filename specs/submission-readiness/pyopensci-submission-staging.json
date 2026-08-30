@@ -1,21 +1,21 @@
 {
   "schema_version": "voiage.pyopensci-submission-staging.v1",
   "prepared_at": "2026-08-29T00:22:00Z",
-  "updated_at": "2026-08-30T09:47:55Z",
+  "updated_at": "2026-08-30T10:58:20Z",
   "state": "prepared_local_unposted",
   "draft": {
     "path": "docs/release/pyopensci-submission-draft.md",
-    "sha256": "de7d32a48b7b38ce95ef49192ebec95c748914f04f895c07aa6e3ce0d3f904b5"
+    "sha256": "482afe4cb19cddf5293205308502ba6992d366d0d8f01471bcb98c146f6389af"
   },
   "template": {
     "path": "specs/submission-readiness/pyopensci-submission-template.json",
-    "sha256": "1ba1096908f79c9821ce44b58ab6800060a8a63393bd47a9a38fe4079dd63067",
+    "sha256": "2752e418aacc5cf11a1953c9df5944ad6e829e8e5c0656292fe7e98d39490025",
     "upstream_commit": "df24b7c63a589ff5d82a30e42f1d11b8aa1b5927",
     "upstream_content_sha256": "43b69c9633967e16bcb68435ba0306911f266de554eaf63345c852407d63aea4"
   },
   "candidate": {
     "path": "specs/submission-readiness/pyopensci-submission-candidate.json",
-    "sha256": "ec0cde346c5fdc0f29b6bfc19e68fd40dfb4f813d7fdaaf3491f92226b365f95"
+    "sha256": "fb55f3a9749f1a72eaec5c154c1a7173d8ab4e23e810b9c4d65d484a20a3404a"
   },
   "candidate_version": "2.2.0",
   "candidate_confirmation": "confirmed_maintainer",
@@ -29,10 +29,14 @@
     "code_of_conduct": "pending",
     "maintenance_commitment_form_checkbox": "pending",
     "submitted_version": "confirmed",
-    "joss_partnership_option": "pending",
+    "joss_partnership_option": "confirmed",
     "reviewer_direct_issue_permission": "pending",
     "author_guide_read": "pending",
-    "pre_review_survey": "pending"
+    "pre_review_survey": "pending",
+    "human_led_development_history": "pending",
+    "current_ai_outputs_reviewed_understood": "pending",
+    "human_written_review_communication": "pending",
+    "ai_scope_disclosure_verified": "pending"
   },
   "external_actions": {
     "pre_review_survey_completed": false,
@@ -49,12 +53,13 @@
     "joss_acceptance": "pending_external"
   },
   "remaining_gates": [
-    "maintainer personally completes all attestations and the pre-review survey",
-    "maintainer authorizes authenticated pyOpenSci issue creation after completing the personal attestations",
-    "pyOpenSci performs scope screening, review, and acceptance",
-    "issue #471 obtains genuine non-author evidence",
-    "the v2.0.0-bound JOSS paper and developer-use record are reconciled with the reviewed version",
-    "a DOI-bearing reviewed-version archive is created before JOSS",
-    "maintainer separately authorizes the JOSS partner referral"
+    "finish all repository-owned packet repairs and current PDF assurance before posting",
+    "maintainer personally completes current review and form attestations plus the pre-review survey",
+    "resolve contact-capacity eligibility for existing pyOpenSci submissions #271 and #272",
+    "maintainer supplies or reviews human-written submission communication",
+    "pyOpenSci performs scope screening, review and acceptance",
+    "issue #471 obtains genuine non-author evidence and the author-selected arXiv sequence completes",
+    "a DOI-bearing reviewed-version archive is created before the JOSS acceptance stage",
+    "JOSS partner eligibility and final current author declarations are evidenced; route authorization is already recorded"
   ]
 }

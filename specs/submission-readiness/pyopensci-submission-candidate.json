@@ -63,12 +63,14 @@
   ],
   "joss_handoff": {
     "state": "blocked_pending_refresh_and_external_evidence",
-    "paper_release": "2.0.0",
+    "paper_release": "2.2.0",
     "developer_research_use_release": "2.0.0",
     "non_author_engagement": "pending_issue_471",
     "doi_bearing_archive": "pending",
     "permanent_arxiv_identifier": "pending",
-    "joss_submission": "not_started"
+    "joss_submission": "not_started",
+    "automated_replay_release": "2.2.0",
+    "research_use_boundary": "Historical human-use record preserved; the v2.2.0 automated replay is not additional human use or independent adoption."
   },
   "authority": {
     "prepare_local_draft": "repository",

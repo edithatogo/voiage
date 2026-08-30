@@ -1,6 +1,6 @@
 {
   "schema_version": "voiage.joss-readiness.v1",
-  "criteria_as_of": "2026-07-26",
+  "criteria_as_of": "2026-08-30",
   "canonical_source": "paper.md",
   "article_contract": "paper/joss-article-contract.json",
   "source_assurance": {
@@ -37,26 +37,17 @@
     "citation_and_source_audit": "pass_with_human_confirmation_pending",
     "authentext_review": "pass",
     "independent_panel_review": "complete_internal_review",
-    "official_pdf_build_and_visual_review": "pass"
+    "official_pdf_build_and_visual_review": "pending_current_hosted_build_and_visual_review"
   },
   "hosted_manuscript_evidence": {
-    "workflow_run": 30253202060,
-    "commit": "71e03b1b12e862106e858e42015ea5e12214921b",
-    "artifact": "voiage-joss-paper",
-    "artifact_id": 8647865514,
-    "artifact_sha256": "3ceb3ef02fddf0d76081410045adf04abc0371cdd7a6771f8fc4c7482a18f8d1",
-    "pdf_sha256": "03dd582562c18ca3b1eddeee6a0acbea5af529ffc044468cb823be58a09b4986",
-    "official_open_journals_build": "pass",
-    "visual_review": "pass_all_6_pages",
-    "body_word_count": 1632,
-    "textstat_status": "review_only_complete"
+    "status": "pending_current_hosted_build_and_visual_review",
+    "source_sha256": "fc8a9eb77906b8657385d397acff717fa7b9eac738d9d28abcb3505331ee787a"
   },
   "repository_gates": {
     "public_development_history": "ready",
     "license_documentation_tests_and_contribution_paths": "ready",
-    "published_v2_1_0_release": "historical_ready",
-    "post_v2_1_0_hardened_source_release_alignment": "blocked_pending_separately_authorized_future_release",
-    "exact_reviewed_immutable_archive": "ready"
+    "exact_reviewed_immutable_archive": "pending_reviewed_version_doi_archive",
+    "published_v2_2_0_release": "ready"
   },
   "external_gates": {
     "demonstrated_research_use": "ready",
@@ -84,7 +75,28 @@
     "verify every cited source against the claim it supports",
     "confirm authorship, funding, and competing interests",
     "perform pyOpenSci inquiry and review communication personally",
-    "perform JOSS submission and communicate personally with editors and reviewers"
+    "perform JOSS submission and communicate personally with editors and reviewers",
+    "review all current AI-assisted outputs and confirm the current disclosure; the July attestation is historical"
   ],
-  "submission_performed": false
+  "submission_performed": false,
+  "historical_hosted_manuscript_evidence": {
+    "workflow_run": 30253202060,
+    "commit": "71e03b1b12e862106e858e42015ea5e12214921b",
+    "artifact": "voiage-joss-paper",
+    "artifact_id": 8647865514,
+    "artifact_sha256": "3ceb3ef02fddf0d76081410045adf04abc0371cdd7a6771f8fc4c7482a18f8d1",
+    "pdf_sha256": "03dd582562c18ca3b1eddeee6a0acbea5af529ffc044468cb823be58a09b4986",
+    "official_open_journals_build": "pass",
+    "visual_review": "pass_all_6_pages",
+    "body_word_count": 1632,
+    "textstat_status": "review_only_complete",
+    "applies_to_current_source": false
+  },
+  "current_release": {
+    "version": "2.2.0",
+    "commit": "7af563c8cb373057d30662650b3f332f39e05b83",
+    "receipt": "conductor/tracks/v2_2_release_and_venue_submissions_20260830/release-2.2.0-publication-receipt-20260830.json",
+    "historical_software_heritage_version": "2.0.0",
+    "v2_2_software_heritage_snapshot": "unconfirmed"
+  }
 }

@@ -6,6 +6,14 @@
 
 ## Unreleased
 
+- Aligned both manuscript sources and unposted venue packets with published
+  v2.2.0, the separate R Rust kernel and scalar R/Julia interfaces. Historical
+  archives and human attestations remain explicitly historical. Added current
+  pyOpenSci disclosure gates and preserved the already selected JOSS route.
+- Reject semantic-HTML previews that omit manuscript figures, even if the
+  conversion process exits successfully.
+- Correct JOSS preflight status handling while rejecting missing required
+  gates and enforcing partner eligibility and current human declarations.
 - Replayed the historical VOP research workflow against published voiage 2.2.0
   in separate supported environments, with hash-checked data exchange and
   numerical-reference tests. Preserve the distinction from new human use or

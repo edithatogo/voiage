@@ -123,10 +123,11 @@ def test_staging_manifest_records_version_without_external_action() -> None:
     assert staging["candidate_version"] == "2.2.0"
     assert staging["candidate_confirmation"] == "confirmed_maintainer"
     assert staging["human_attestations"]["submitted_version"] == "confirmed"
+    assert staging["human_attestations"]["joss_partnership_option"] == "confirmed"
     assert all(
         state == "pending"
         for key, state in staging["human_attestations"].items()
-        if key != "submitted_version"
+        if key not in {"submitted_version", "joss_partnership_option"}
     )
     assert all(performed is False for performed in staging["external_actions"].values())
     assert staging["external_outcomes"] == {
@@ -254,7 +255,7 @@ def test_draft_is_unposted_and_contains_current_template_sections() -> None:
     )
     assert "- [ ] I agree to abide by" in draft
     assert "- [ ] I have read and will commit" in draft
-    assert "- [ ] Do you wish to automatically submit" in draft
+    assert "- [x] Do you wish to automatically submit" in draft
     assert "- [ ] Last but not least please fill out our pre-review survey" in draft
     assert not re.search(
         r"\b(?:TBD|TODO|FILL(?:\s+THIS)?\s+IN)\b", draft, re.IGNORECASE
@@ -323,7 +324,10 @@ def test_validator_rejects_missing_external_action(tmp_path: Path) -> None:
     [
         "I agree to abide by",
         "I have read and will commit",
-        "Do you wish to automatically submit",
+        "I confirm sustained human-led development",
+        "I have personally reviewed and understood",
+        "I will write the review communication personally",
+        "I have verified the AI scope and scale disclosure",
         "Maintainer confirmation pending. If confirmed",
         "I have read the pyOpenSci author guide",
         "Last but not least please fill out our pre-review survey",
@@ -353,6 +357,20 @@ def test_validator_rejects_checked_human_attestation_duplicate(
     findings = validate_staging_packet(staged_root)
 
     assert "draft human-attestation markers must remain uniquely unchecked" in findings
+
+
+@pytest.mark.parametrize("mutation", ["unchecked", "duplicate"])
+def test_validator_preserves_confirmed_joss_route(
+    tmp_path: Path, mutation: str
+) -> None:
+    draft = DRAFT.read_text(encoding="utf-8")
+    marker = "Do you wish to automatically submit"
+    if mutation == "unchecked":
+        draft = draft.replace(f"- [x] {marker}", f"- [ ] {marker}", 1)
+    else:
+        draft += f"\n- [x] {marker} to JOSS?\n"
+    findings = validate_staging_packet(_staged_packet(tmp_path, draft))
+    assert "draft JOSS option must match the confirmed maintainer selection" in findings
 
 
 def test_validator_rejects_unqualified_submitted_version(tmp_path: Path) -> None:

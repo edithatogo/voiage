@@ -36,14 +36,14 @@ Use Python 3.12, 3.13, or 3.14 in a new environment:
 python -m venv voiage-joss-review
 source voiage-joss-review/bin/activate
 python -m pip install --upgrade pip
-python -m pip install voiage==2.0.0
+python -m pip install voiage==2.2.0
 python -c "import voiage; print(voiage.__version__)"
 ```
 
 On Windows, activate the environment with
 `voiage-joss-review\Scripts\activate` instead.
 
-The final command should report `2.0.0`.
+The final command should report `2.2.0`.
 
 ## Core calculation
 
@@ -84,8 +84,8 @@ declared health example:
 ```console
 git clone https://github.com/edithatogo/voiage.git
 cd voiage
-git checkout --detach v2.0.0
-uv run --locked --extra plotting python scripts/generate_paper_health_example.py
+git checkout --detach v2.2.0
+uv run --locked --extra plotting python scripts/generate_paper_health_example.py --verify-tracked
 shasum -a 256 --check paper/reproduction.sha256
 ```
 
@@ -102,8 +102,14 @@ The participant should compare
 - the meaning of EVPI, EVPPI, EVSI, and ENBS; and
 - why the two ENBS scenarios cross zero at different sample sizes.
 
-Run this exercise only after the public `v2.0.0` tag resolves to the revision
-identified in the JOSS paper and its release evidence.
+The public `v2.2.0` tag resolves to
+`7af563c8cb373057d30662650b3f332f39e05b83`. The retained worked-example manifest
+identifies the original v2.0.0 reproduction; its portable outputs are also
+rechecked under v2.2.0. The historical VOP use record has a separate automated
+two-environment replay in `paper/research-use/v2.2.0/`, not new human use.
+The verification command regenerates in a temporary directory and compares the
+portable CSV outputs. The checksum command checks the retained artifacts;
+cross-platform byte-identical rendering of newly generated figures is not claimed.
 
 ## Evidence to report
 
@@ -135,18 +141,18 @@ either venue's process. The selected sequence is fail-closed:
    package-scope guidance, submission template, and JOSS requirements.
 2. Freeze the candidate revision and rerun the submission-readiness, wheel and
    sdist identity, documentation, test, security, and JOSS paper checks.
-3. After an explicit maintainer instruction, open the pyOpenSci inquiry or
-   review and select the JOSS partnership option where the current template
-   provides it.
+3. The maintainer has selected and authorized the pyOpenSci-first route and
+   JOSS partnership. Complete all repairs, personal declarations, survey,
+   contact-capacity clarification and human communication review before posting.
 4. Respond to pyOpenSci editors and reviewers personally. Record the public
    review issue, exact reviewed revision, findings, changes, and final external
    decision without inferring acceptance from local checks.
 5. If pyOpenSci accepts the package, create the requested reviewed-version
    release and archive evidence. Add a pyOpenSci badge only after the external
    acceptance record authorizes it.
-6. Confirm again that the package meets JOSS scope. After a separate explicit
-   maintainer instruction, start the JOSS partner referral and identify the
-   accepted pyOpenSci review issue.
+6. Confirm again that the package meets JOSS scope. Use the already selected
+   partner route only after its eligibility and author prerequisites are met,
+   identifying the accepted pyOpenSci review issue.
 7. Treat the JOSS paper check, editorial screening, acceptance, DOI, and badge
    as JOSS-controlled outcomes. Add or claim them only from authoritative
    receipts.

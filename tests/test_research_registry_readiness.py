@@ -96,18 +96,17 @@ def test_registry_track_separates_repository_completion_from_external_gates() ->
     assert metadata["status"] == "completed"
     assert "- [~]" not in plan
     assert "- [ ]" not in plan
+    human_gate = "all_retained_ai_outputs_reviewed_modified_and_validated"
+    assert assurance["author_attestations"][human_gate]["confirmed_on"] == "2026-07-27"
     assert (
-        assurance["human_review"][
-            "all_retained_ai_outputs_reviewed_modified_and_validated"
-        ]
-        == "confirmed"
+        assurance["human_review"][human_gate] == "pending_explicit_final_confirmation"
     )
     remaining = handoff["joss_submission_evidence"]["remaining_submission_gates"]
     assert not any("AI-policy attestation" in gate for gate in remaining)
     assert not any("research-workflow use" in gate for gate in remaining)
     assert any("human community engagement" in gate for gate in remaining)
-    assert "AI affirmation recorded" in readiness
-    assert "Demonstrated developer research use" in readiness
+    assert "July human-review attestation is preserved" in readiness
+    assert "historical same-author VOP record" in readiness
     external_gate = next(
         gate
         for gate in metadata["gates"]

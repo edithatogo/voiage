@@ -26,15 +26,23 @@ REQUIRED_HUMAN_ATTESTATIONS = {
     "reviewer_direct_issue_permission",
     "author_guide_read",
     "pre_review_survey",
+    "human_led_development_history",
+    "current_ai_outputs_reviewed_understood",
+    "human_written_review_communication",
+    "ai_scope_disclosure_verified",
 }
 EXPECTED_HUMAN_ATTESTATIONS = {
     "code_of_conduct": "pending",
     "maintenance_commitment_form_checkbox": "pending",
     "submitted_version": "confirmed",
-    "joss_partnership_option": "pending",
+    "joss_partnership_option": "confirmed",
     "reviewer_direct_issue_permission": "pending",
     "author_guide_read": "pending",
     "pre_review_survey": "pending",
+    "human_led_development_history": "pending",
+    "current_ai_outputs_reviewed_understood": "pending",
+    "human_written_review_communication": "pending",
+    "ai_scope_disclosure_verified": "pending",
 }
 REQUIRED_EXTERNAL_ACTIONS = {
     "pre_review_survey_completed",
@@ -47,7 +55,10 @@ REQUIRED_EXTERNAL_ACTIONS = {
 PENDING_DRAFT_CHECKBOX_MARKERS = (
     "I agree to abide by",
     "I have read and will commit",
-    "Do you wish to automatically submit",
+    "I confirm sustained human-led development",
+    "I have personally reviewed and understood",
+    "I will write the review communication personally",
+    "I have verified the AI scope and scale disclosure",
     "Maintainer confirmation pending. If confirmed",
     "I have read the pyOpenSci author guide",
     "Last but not least please fill out our pre-review survey",
@@ -55,6 +66,7 @@ PENDING_DRAFT_CHECKBOX_MARKERS = (
 CONFIRMED_SUBMITTED_VERSION_LINE = (
     "Version submitted: 2.2.0 (confirmed by maintainer; submission not performed)"
 )
+CONFIRMED_JOSS_OPTION_MARKER = "Do you wish to automatically submit"
 PLACEHOLDER = re.compile(r"\b(?:TBD|TODO|FILL(?:\s+THIS)?\s+IN)\b", re.IGNORECASE)
 
 
@@ -393,6 +405,14 @@ def validate_staging_packet(
         if not checkbox_markers_valid:
             findings.append(
                 "draft human-attestation markers must remain uniquely unchecked"
+            )
+
+        joss_lines = [line for line in lines if CONFIRMED_JOSS_OPTION_MARKER in line]
+        if len(joss_lines) != 1 or not joss_lines[0].startswith(
+            f"- [x] {CONFIRMED_JOSS_OPTION_MARKER}"
+        ):
+            findings.append(
+                "draft JOSS option must match the confirmed maintainer selection"
             )
 
         version_lines = [

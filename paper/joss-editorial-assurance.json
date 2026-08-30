@@ -1,15 +1,15 @@
 {
   "schema_version": "voiage.joss-editorial-assurance.v1",
   "canonical_source": "paper.md",
-  "criteria_date": "2026-07-26",
+  "criteria_date": "2026-08-30",
   "tools": {
     "sourceright": {
       "version": "0.1.2 development snapshot",
       "commit": "dde39b3bb334f79f12e395a5317b21e036336bdd",
       "mode": "read_only",
       "status": "pass_with_warnings",
-      "source_sha256": "cee5a8ebc6dd4f0824d22fee5006d288c9bd922abbfc96e23c48eeec54093db3",
-      "bibliography_sha256": "abed876b3d7b0738113fe3729a710eb38c3c56ba955b09336dd34ea061f4e816",
+      "source_sha256": "fc8a9eb77906b8657385d397acff717fa7b9eac738d9d28abcb3505331ee787a",
+      "bibliography_sha256": "03906c30c062037e6af183d6891a21cd361ffe369f4691b37f8bf6880aa5ebe7",
       "citation_occurrences": 18,
       "citation_matches": 18,
       "citation_issues": 0,
@@ -26,7 +26,7 @@
       ],
       "automated_coverage": "selected deterministic blocking patterns",
       "status": "pass",
-      "source_sha256": "cee5a8ebc6dd4f0824d22fee5006d288c9bd922abbfc96e23c48eeec54093db3",
+      "source_sha256": "fc8a9eb77906b8657385d397acff717fa7b9eac738d9d28abcb3505331ee787a",
       "finding_count": 0
     },
     "textstat": {
@@ -37,16 +37,19 @@
       "flesch_reading_ease": 34.4356,
       "flesch_kincaid_grade": 11.8736,
       "text_standard": "13th and 14th grade",
-      "interpretation": "Hosted editorial evidence only; technical terms and references materially affect generic readability scores, and no automatic acceptance threshold applies."
+      "interpretation": "Hosted editorial evidence only; technical terms and references materially affect generic readability scores, and no automatic acceptance threshold applies.",
+      "applies_to_current_source": false
     },
     "codex": {
       "cli_version": "0.144.1",
-      "model_record": "GPT-5 family; exact historical identifiers incomplete"
+      "model_record": "GPT-5 family; exact historical identifiers incomplete",
+      "record_scope": "Historical July CLI record; August repairs used Codex desktop. Exact model identifiers are not inferred."
     },
     "jules": {
       "cli_version": "0.1.42",
       "commit": "4bd6b25084aa1af52d6d3979cda31f3a3d99fc04",
-      "model_record": "Google-managed models; service did not expose every identifier"
+      "model_record": "Google-managed models; service did not expose every identifier",
+      "record_scope": "Historical tool record; no Jules run is claimed for the August packet repair."
     }
   },
   "required_reports": [
@@ -68,7 +71,7 @@
   "human_review": {
     "authorship_funding_conflicts": "confirmed",
     "citation_source_check": "pending_explicit_final_confirmation",
-    "all_retained_ai_outputs_reviewed_modified_and_validated": "confirmed",
+    "all_retained_ai_outputs_reviewed_modified_and_validated": "pending_explicit_final_confirmation",
     "joss_submission_conversation": "human_only"
   },
   "author_attestations": {
@@ -79,6 +82,11 @@
     }
   },
   "official_pdf_review": {
+    "status": "pending_current_hosted_build_and_visual_review",
+    "source_sha256": "fc8a9eb77906b8657385d397acff717fa7b9eac738d9d28abcb3505331ee787a",
+    "submission_performed": false
+  },
+  "historical_official_pdf_review": {
     "status": "pass",
     "workflow_run": 30253202060,
     "commit": "71e03b1b12e862106e858e42015ea5e12214921b",
