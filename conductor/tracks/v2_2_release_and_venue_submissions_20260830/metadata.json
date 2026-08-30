@@ -1,0 +1,23 @@
+{
+  "track_id": "v2_2_release_and_venue_submissions_20260830",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-08-30T02:37:17Z",
+  "updated_at": "2026-08-30T02:37:17Z",
+  "description": "Publish the repository-hardened v2.2.0 release, then pursue pyOpenSci first, JOSS partner fast-track, and rOpenSci with fail-closed external evidence.",
+  "evidence_schema": "1.0",
+  "authorization": {
+    "recorded_on": "2026-08-30",
+    "instruction": "Proceed with your recommendations",
+    "scope": "recommended v2.2.0 release followed by pyOpenSci-first, JOSS fast-track, and eventual rOpenSci submission"
+  },
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/1037"
+  },
+  "gates": [
+    {"id": "release-publication", "kind": "external", "status": "satisfied", "evidence": "maintainer instruction on 2026-08-30"},
+    {"id": "pyopensci-submission", "kind": "external", "status": "pending", "evidence": "authorized; maintainer-only declarations remain pending"},
+    {"id": "joss-fast-track", "kind": "external", "status": "blocked", "evidence": "selected route; blocked pending pyOpenSci eligibility"},
+    {"id": "ropensci-submission", "kind": "external", "status": "pending", "evidence": "authorized; maintainer-only declarations remain pending"}
+  ]
+}
