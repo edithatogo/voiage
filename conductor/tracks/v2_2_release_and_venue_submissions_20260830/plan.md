@@ -62,9 +62,11 @@
   payload, and record the reviewed wheel and sdist SHA-256 values.
   All eight exact-source provenance/SBOM verifications passed; the four
   distributions match the private release, manifest and checksum file.
-- [~] **R10 / AC-03:** Invoke the hash-bound publish workflow and verify GitHub,
+- [x] **R10 / AC-03:** Invoke the hash-bound publish workflow and verify GitHub,
   TestPyPI, PyPI, provenance, SBOM, and clean-install receipts.
-- [ ] **R11 / AC-03:** Reconcile any Rust, R, Julia, documentation, archive, and
+  Immutable public release, exact registry digests, four PyPI attestations and
+  fresh macOS installation verified after successful run 33303294302. (`fe79e1a`)
+- [~] **R11 / AC-03:** Reconcile any Rust, R, Julia, documentation, archive, and
   registry workflows triggered by the tag without overstating external outcomes.
 - [ ] **R12 / AC-03:** Run automated phase review and validation checkpoint.
 
