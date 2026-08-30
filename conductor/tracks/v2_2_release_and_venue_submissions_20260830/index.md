@@ -5,6 +5,7 @@
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
 - [Live release and venue baseline](./release-submission-live-baseline-20260830.json)
+- [Phase 0 review](./phase-0-review.md)
 - [GitHub issue #1037](https://github.com/edithatogo/voiage/issues/1037)
 
 Status: in progress. The release and submission actions are explicit
