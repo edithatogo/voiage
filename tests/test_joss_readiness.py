@@ -76,7 +76,7 @@ def test_joss_independent_validation_protocol_is_bounded() -> None:
         (ROOT / "paper/joss-readiness-manifest.json").read_text(encoding="utf-8")
     )
 
-    assert "voiage==2.0.0" in protocol
+    assert "voiage==2.2.0" in protocol
     assert "EVPI: 0.667" in protocol
     assert "issue #471" in protocol
     assert "AI-agent run" in protocol

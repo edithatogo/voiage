@@ -1,10 +1,32 @@
 {
   "schema_version": "voiage.arxiv-readiness.v2",
   "canonical_source": "paper/main.tex",
-  "arxiv_texlive_matrix": [2023, 2025],
-  "required_tools": ["pdflatex", "latexmk"],
-  "optional_tools": ["arxiv-latex-cleaner", "arxiv-collector", "latexpand", "qpdf", "pdfinfo", "pdftotext", "textstat", "exiftool", "gitleaks", "lychee", "vale", "latexml"],
-  "source_provenance": {"sourceright": "submodule", "authentext": "submodule"},
+  "arxiv_texlive_matrix": [
+    2023,
+    2025
+  ],
+  "required_tools": [
+    "pdflatex",
+    "latexmk"
+  ],
+  "optional_tools": [
+    "arxiv-latex-cleaner",
+    "arxiv-collector",
+    "latexpand",
+    "qpdf",
+    "pdfinfo",
+    "pdftotext",
+    "textstat",
+    "exiftool",
+    "gitleaks",
+    "lychee",
+    "vale",
+    "latexml"
+  ],
+  "source_provenance": {
+    "sourceright": "submodule",
+    "authentext": "submodule"
+  },
   "human_gates": [
     "confirm authorship, affiliations, ORCID, funding, conflicts, and research-impact evidence",
     "compare canonical, cleaner, and collector outputs and review every source diff",
@@ -12,8 +34,8 @@
     "select the arXiv category, license, and endorsement path",
     "review the final source package and PDF",
     "perform the authenticated arXiv upload",
-    "document completed research-workflow use and independent engagement before JOSS submission"
+    "confirm current research-use statements and obtain genuine non-author engagement before JOSS submission; automated replay does not add human use"
   ],
   "submission_performed": false,
-  "joss_submission": "blocked_pending_demonstrated_research_use_engagement_and_human_declarations"
+  "joss_submission": "blocked_pending_partner_eligibility_engagement_arxiv_and_current_human_declarations"
 }

@@ -1,0 +1,14 @@
+{
+  "authentext_commit": "7f70dad5b6deab1af92faf037ef2638e7f3aea05",
+  "findings": [],
+  "interpretation": "This script checks a selected deterministic subset of the consulted Authentext profiles; full human editorial review remains required.",
+  "pattern_coverage": "selected deterministic blocking patterns",
+  "profiles_consulted": [
+    "core-patterns",
+    "academic"
+  ],
+  "schema_version": "voiage.joss-authentext-audit.v1",
+  "source": "paper.md",
+  "source_sha256": "fc8a9eb77906b8657385d397acff717fa7b9eac738d9d28abcb3505331ee787a",
+  "status": "pass"
+}

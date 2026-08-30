@@ -12,6 +12,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   [x] Complete signed tagging of the final checked source (#1046).
     *   [x] Complete private draft review, hash-bound publication, and
         public-artifact verification.
+    *   [x] Replay the historical VOP calculation with the public v2.2.0 wheel
+        through a hash-bound handoff between separate supported environments;
+        retain the historical human-use record without adding an attestation.
+    *   [x] Complete current venue-packet and manuscript repairs, verify the
+        installed replay against public wheel bytes, retain the exact CSV,
+        and review hosted PDF/HTML artifacts (PR #1051; merge gated by CI).
     *   [ ] Proceed pyOpenSci first, then the eligible JOSS partner route and
         rOpenSci; personal declarations and external outcomes remain explicit.
 

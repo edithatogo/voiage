@@ -52,7 +52,7 @@
   PR #1046 merged with exact tree equality after 35 passing checks and four
   governed skips; documentation passed locally with pnpm 10.34.4. (`7af563c8`)
 
-## Phase 2 — Signed staged and public release
+## Phase 2 — Signed staged and public release [checkpoint: 4c47b241]
 
 - [x] **R8 / AC-03:** Create and push the signed annotated v2.2.0 tag on the exact
   merged release candidate, including R7a's security update and evidence fixes.
@@ -71,10 +71,11 @@
   Exact-source documentation and tag-bound supply-chain jobs passed; no extra
   binding tags or registry submissions were triggered. The new Software
   Heritage snapshot remains pending. (`70198b2`)
-- [~] **R12 / AC-03:** Run automated phase review and validation checkpoint.
-  Local review and evidence-only validation passed (`47b4d4e`); protected
-  evidence-PR checks remain pending. Retain `7af563c8` as the main-history
-  source boundary independently of this branch-only validation receipt.
+- [x] **R12 / AC-03:** Run automated phase review and validation checkpoint.
+  PR #1047 merged after 36 passing checks, three configured skips, one neutral
+  CodeQL result and zero unresolved review threads. Verified signed merge
+  `4c47b241` exactly matches checked tree `287d239a`; use this reachable merge
+  as the next phase boundary. The tagged release source remains `7af563c8`.
 - [x] **R12a / AC-03 — Publication projection review repair:** Update current
   citation, roadmap and candidate projections in this publication PR, bind
   the successful immutable receipt, retain prepublication rejection tests,
@@ -86,19 +87,60 @@
 
 ## Phase 3 — pyOpenSci-first submission
 
-- [ ] **R13 / AC-04:** Refresh the current official template and finalize the
+- [x] **R13 / AC-04:** Refresh the current official template and finalize the
   submission body against R12a's public v2.2.0 citation and candidate bindings;
   complete known JOSS paper/use-record and rOpenSci packet repairs before the
   first venue submission, preserving any missing human evidence as a gate.
-- [ ] **R13a / AC-04 — Research-use environment boundary:** Refresh the
+  Repository packet repairs are complete in PR #1051; R14 retains all personal
+  declarations and external eligibility. Exact-head CI remains the PR merge gate.
+- [x] **R13a / AC-04 — Research-use environment boundary:** Refresh the
   same-author VOP research-use evidence using separate supported environments
   and a hash-bound data hand-off. VOP requires pandas 3 and SciPy 1.18, outside
   voiage's stable bounds; do not force a combined installation or describe
   the bounded exchange as full in-process integration or independent adoption.
-- [ ] **R13b / AC-04 — Version-specific manuscript claims:** Align the JOSS
+  The published-wheel replay reproduced all 500 rows and EVPI; 30 focused
+  tests, 97 percent script coverage and all 15 tox environments passed.
+  Historical human-use evidence is preserved, not recertified. (`8785c6de`)
+- [x] **R13b / AC-04 — Version-specific manuscript claims:** Align the JOSS
   language-surface description and claim map with native EVPI/ENBS in both R
   and Julia, and distinguish the historical v2.0.0 Software Heritage snapshot
   from the verified v2.2.0 release without inventing a new archive or DOI.
+  Describe R's separate bundled Rust kernel rather than claiming one physical
+  Rust implementation is used by all language surfaces.
+  Also repair stale v1.0.0 and EVPI-only claims in the canonical LaTeX
+  preprint, distinguish Python decision records from scalar R/Julia surfaces,
+  and rebuild/review both manuscripts without extending historical human
+  attestations to new edits. Correct the dated AI-transparency projections.
+  Local source/PDF/variant audits and all 15 tox environments passed at
+  `7e762eb7`. All six hosted JOSS pages and the complete HTML figure were
+  inspected; the later LaTeX spacing fix is covered by R13d. (`a5b3668e`)
+- [x] **R13b1 / AC-04 — HTML review fix:** Reject missing or empty manuscript
+  images even when LaTeXML returns zero. The local converter lacks its Perl
+  image-processing module; retain that failure and require a complete hosted
+  semantic-HTML artifact, including its figure, before merge.
+  The complete initial-head artifact passed and its figure was inspected;
+  fresh exact-head hosted validation remains required. (`7e762eb7`)
+- [x] **R13c / AC-04 — Submission preflight review fix:** Recognize successful
+  manuscript status values, reject missing required gates, and enforce the
+  selected JOSS partner route and current human declarations. Automated tests
+  use hypothetical evidence only, never repository attestations. All nine
+  focused regressions and full tox passed. (`7e762eb7`)
+- [x] **R13d / AC-04 — Hosted provenance false positive:** Keep secret scanning
+  enabled while narrowly allowing the pinned public Authentext gitlink only
+  in its exact audit provenance line and file. Verify mutated values and other
+  paths are not covered by the exception.
+  Also correct the hosted LaTeX intersentence-spacing warning after ENBS;
+  preserve both initial failures and rerun the unchanged gates.
+  Five scope-mutation tests, full local history scanning, exact LaTeX lint and
+  all 15 tox environments passed. (`a5b3668e`)
+- [x] **R13e / AC-04 — Hosted research-evidence review:** Bind evaluation to a
+  reviewed public wheel digest and compare installed payload bytes before use;
+  reject same-version local builds or modifications. Commit the exact CSV so
+  a fresh clone can evaluate the retained export receipt. Preserve the initial
+  receipt and record a new strengthened evaluation, not a human attestation.
+  Verified 192 installed payload files, retained the exact CSV, and passed
+  38 focused handoff tests plus full tox: 4,600 passed, 16 skipped and
+  95.16 percent coverage. (`a5b3668e`)
 - [ ] **R14 / AC-04:** Collect or record the maintainer-only Code of Conduct,
   maintenance, guide, survey, reviewer-contact, and partnership declarations;
   resolve contact-capacity eligibility against existing pyOpenSci issues #271

@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "version": "2.2.0",
+  "source_commit": "cf35bc998b936ede8eb3eea57d5bb2eec40124c0",
+  "source_subtree": "7da9079ab50cbe6cac9ce29bde147d57a03e033e",
+  "archive": "voiageR_2.2.0.tar.gz",
+  "archive_sha256": "af485e1cfba6dc9c1f149ce074640c8ef63bb3f42c649f71fccbe0e5d114c8e4",
+  "validation": {
+    "command": [
+      "R",
+      "CMD",
+      "check",
+      "--as-cran",
+      "--no-manual",
+      "voiageR_2.2.0.tar.gz"
+    ],
+    "exit_code": 0,
+    "package_errors": 0,
+    "package_warnings": 0,
+    "notes": 1,
+    "note": "unable to verify current time",
+    "remote_cran_incoming": "unavailable_due_to_network_timeouts_not_claimed_passed",
+    "r_version": "4.3.0",
+    "platform": "aarch64-apple-darwin20",
+    "check_log": "/tmp/voiage-v2-2-r-recheck.KY8nB3/voiageR.Rcheck/00check.log",
+    "check_log_sha256": "2de5271bb94b9c0ecf5f65797e274a592ad034ed4e229ed800e80700b2bf7919"
+  },
+  "earlier_attempt": {
+    "exit_code": 1,
+    "reason": "CRAN PACKAGES.in request timed out",
+    "log": "/tmp/voiage-v2-2-r-archive.WjPIXK/voiageR.Rcheck/00check.log"
+  },
+  "publication": false,
+  "venue_submission": false,
+  "published_source_commit": "7af563c8cb373057d30662650b3f332f39e05b83",
+  "published_source_subtree": "7da9079ab50cbe6cac9ce29bde147d57a03e033e",
+  "binding": "The checked archive was built before the public tag; the complete R package subtree is unchanged at the published source commit.",
+  "observed_on": "2026-08-30"
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": "voiage.pyopensci-submission-template.v1",
-  "observed_at": "2026-08-30T03:02:43Z",
+  "observed_at": "2026-08-30T10:38:10Z",
   "state": "reference_only_unposted",
   "upstream": {
     "repository": "pyOpenSci/software-submission",
@@ -29,5 +29,16 @@
     "complete the pre-review survey",
     "open the authenticated review issue"
   ],
-  "submission_performed": false
+  "submission_performed": false,
+  "supplemental_policy": {
+    "url": "https://www.pyopensci.org/software-peer-review/our-process/policies.html",
+    "observed_on": "2026-08-30",
+    "template_unchanged": true,
+    "requirements": [
+      "human-led development and current human code review",
+      "AI tools, generated components, approximate scale and method disclosure",
+      "human-written review communication",
+      "one submission under review per contact and no concurrent venue review"
+    ]
+  }
 }

@@ -1,0 +1,28 @@
+{
+  "interpretation": "SourceRight provides structural citation and provenance triage; journal-screen warnings remain explicit until human source verification is recorded. The audit does not certify claim truth or source appropriateness.",
+  "journal_screen": {
+    "error_count": 0,
+    "human_source_verification_required": true,
+    "status": "screened_with_warnings",
+    "warning_count": 6
+  },
+  "mode": "read_only",
+  "outputs": [
+    "citation-sync-preview.json",
+    "citations.md",
+    "journal-screen.json",
+    "manuscript.sourceright.tex",
+    "provenance.json",
+    "reference-report.json",
+    "references.csl.json",
+    "validate-csl.json"
+  ],
+  "schema_version": "voiage.joss-sourceright-audit.v1",
+  "source_sha256": {
+    "paper.bib": "03906c30c062037e6af183d6891a21cd361ffe369f4691b37f8bf6880aa5ebe7",
+    "paper.md": "fc8a9eb77906b8657385d397acff717fa7b9eac738d9d28abcb3505331ee787a"
+  },
+  "sourceright_commit": "dde39b3bb334f79f12e395a5317b21e036336bdd",
+  "status": "pass_with_warnings",
+  "structural_status": "pass"
+}

@@ -10,10 +10,11 @@ acceptance, or publication claim.
 The selected sequence is:
 
 1. prepare and refresh the pyOpenSci evidence package;
-2. after a separate maintainer instruction, open the pyOpenSci review;
+2. complete all repairs, personal declarations and contact-capacity checks
+   before the already-authorized, human-led pyOpenSci submission;
 3. complete pyOpenSci review and record its external acceptance evidence; and
-4. only then, after another maintainer instruction, request JOSS fast-track
-   handling and identify the accepted pyOpenSci review.
+4. only then, once JOSS eligibility and author prerequisites are evidenced,
+   use the already-selected partner route and identify the accepted review.
 
 The partnership does not guarantee JOSS scope or acceptance. The current
 [pyOpenSci author guide](https://www.pyopensci.org/software-peer-review/how-to/author-guide.html)
@@ -56,11 +57,11 @@ The machine-readable matrix is
 `specs/submission-readiness/pyopensci-evidence.json`. The submission-readiness
 validator requires every repository-controlled criterion to have existing
 local evidence. The maintenance commitment is repository evidence; the
-decision and authenticated action to open an inquiry or review remain a
-separate human gate.
+personal form attestations and review communication remain human gates despite
+the maintainer's authorization of the route and autonomous repository work.
 
-The repository-wide venue inventory was refreshed on 2026-07-27, and the
-pyOpenSci/JOSS guidance received a focused refresh on 2026-08-27. The current
+The repository-wide venue inventory was refreshed on 2026-08-29, and the
+pyOpenSci/JOSS guidance and official template were rechecked on 2026-08-30. The current
 package provides published installation instructions, an importable wheel
 test, online quick starts and API reference, contribution and conduct
 documents, issue templates, CI-backed tests, release evidence, support and
@@ -68,5 +69,7 @@ governance documentation, and an AI-use disclosure. Scope, overlap, and method
 provenance are documented in the README, methods documentation, and paper.
 
 Refresh the official guide and the evidence matrix immediately before any
-author-led inquiry. This commitment does not grant permission to contact
-pyOpenSci or JOSS.
+author-led inquiry. Historical AI-review confirmations do not certify the
+current packet. The unposted draft includes explicit current human-review,
+development-history, AI-scope and communication checks; existing submissions
+#271 and #272 still require contact-capacity clarification.

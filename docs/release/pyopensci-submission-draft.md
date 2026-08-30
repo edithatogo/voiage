@@ -6,8 +6,10 @@ This file is a repository-owned staging artifact based on the official
 pyOpenSci template pinned in
 `specs/submission-readiness/pyopensci-submission-template.json`. It is not a
 GitHub issue, survey response, submission, review, or acceptance record.
-Unchecked human attestations must be completed personally, and authenticated
-posting requires a separate maintainer instruction.
+The maintainer has authorized the selected submission route. Unchecked human
+attestations, contact-capacity eligibility and personally reviewed communication
+remain gates before authenticated posting. This AI-assisted staging draft is
+not a substitute for the maintainer's own review communication.
 
 Submitting Author: @edithatogo
 All current maintainers: @edithatogo
@@ -42,8 +44,9 @@ and analysts comparing decisions under uncertainty and assessing whether
 additional evidence may be worth collecting. It provides Python APIs and a
 command-line interface for EVPI, EVPPI, method-specific EVSI, ENBS, decision
 context records, diagnostics, plotting, reporting, and explicitly marked
-experimental frontier methods. Selected stable numerical policy is shared
-through a Rust core, with narrower source bindings for R and Julia.
+experimental frontier methods. Selected stable numerical policy is Rust-backed.
+Python and Julia use the main core; the narrower R package bundles a separate
+offline Rust kernel for EVPI and ENBS, checked against shared numerical fixtures.
 
 ## Associated Publication (Optional)
 
@@ -77,7 +80,7 @@ health-economic method and reporting surfaces, while SAVI provides web-based
 EVPI and regression EVPPI. Python packages cover narrower signal-value or
 domain-specific workflows. `voiage` differs by combining a Python VOI workflow,
 versioned decision records, strict stable-versus-experimental maturity
-boundaries, and selected shared Rust-backed calculations used by narrower R
+boundaries, and selected Rust-backed calculations used by narrower R
 and Julia bindings. It does not claim to replace those tools or to have complete
 cross-language method parity.
 
@@ -116,10 +119,10 @@ No domain-community affiliation is claimed in this draft.
 
 ## Publication Options
 
-- [ ] Do you wish to automatically submit to the [Journal of Open Source
-  Software][JournalOfOpenSourceSoftware]? Maintainer selection pending. The
-  chosen project route is pyOpenSci first and a separately authorized JOSS
-  partner handoff after pyOpenSci acceptance and JOSS scope confirmation.
+- [x] Do you wish to automatically submit to the [Journal of Open Source
+  Software][JournalOfOpenSourceSoftware]? The maintainer explicitly selected
+  pyOpenSci first, then the eligible JOSS partner route. This selection does
+  not claim pyOpenSci acceptance, JOSS eligibility or a completed submission.
 
 ### JOSS checks
 
@@ -132,13 +135,43 @@ No domain-community affiliation is claimed in this draft.
 - [ ] A DOI-bearing long-term archive for the reviewed version exists. This
   remains an external acceptance-stage gate.
 
-The JOSS paper and demonstrated developer-use record currently describe
-`v2.0.0`, whereas this draft selects the verified public `v2.2.0` release for
-pyOpenSci. Its signed tag, exact distribution hashes, provenance and immutable
-publication receipt are bound in the candidate manifest. The later JOSS
-handoff remains blocked until the paper and use record are refreshed, issue #471 obtains
-human-engagement evidence, and the DOI-bearing archive is resolved. No JOSS
-submission is claimed.
+This draft and the corrected JOSS paper describe public `v2.2.0`. Its signed
+tag, distribution hashes, provenance and immutable publication receipt are
+bound in the candidate manifest. The historical developer-use record remains
+v2.0.0; an automated two-environment replay verified v2.2.0 without adding human
+use or independent adoption. JOSS remains blocked on partner eligibility,
+current human review, the author-selected engagement and arXiv prerequisites,
+and reviewed-version archive evidence. No JOSS submission is claimed.
+
+## Current policy: development history, AI and communication
+
+This supplemental section follows the current policy page, which has disclosure
+requirements beyond the unchanged pinned issue template.
+
+- [ ] I confirm sustained human-led development and the design decisions behind
+  the public history. The repository has public history since July 2025;
+  automated commit counts do not establish human design or review.
+- [ ] I have personally reviewed and understood all current submitted code and
+  documentation, including AI-assisted changes. Final human confirmation pending.
+- [ ] I will write the review communication personally, using at most limited
+  translation or grammar assistance as allowed by pyOpenSci. JOSS permits AI
+  assistance in author/editor/reviewer conversations only for translation.
+- [x] Generative AI tools were used in development and maintenance.
+- [ ] I have verified the AI scope and scale disclosure for this exact packet.
+
+Recorded assistance includes Codex and Jules, with earlier Antigravity/Gemini
+and Copilot entries in `AI_CONTRIBUTIONS.md`. Agentic assistance covers
+substantial code and test generation, refactoring, CI, release evidence,
+documentation and manuscript editing. The new research-handoff script and its
+tests were agent-authored. A repository-wide percentage and complete historical
+model inventory were not retained and are not inferred. The maintainer must
+confirm any additional primarily generated components and the final disclosure.
+Project policy: `AI_USAGE.md`. Earlier sign-off records do not certify later work.
+
+The maintainer also needs to resolve contact-capacity eligibility: submissions
+pyOpenSci/software-submission#271 and #272 were still open on 30 August 2026.
+The on-hold label is not treated as an automatic policy exception. This work
+has not contacted editors, withdrawn either package, or appointed another contact.
 
 ## Are you OK with Reviewers Submitting Issues and/or pull requests to your Repo Directly?
 
