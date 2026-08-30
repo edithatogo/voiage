@@ -227,10 +227,15 @@ def validate_staging_packet(
         elif (
             recommended.get("tag") != f"v{EXPECTED_CANDIDATE_VERSION}"
             or any(
-                recommended.get(key) is not None
-                for key in ("commit", "tree", "tag_object", "published_at")
+                key not in recommended or recommended[key] is not None
+                for key in (
+                    "commit",
+                    "tree",
+                    "tag_object",
+                    "published_at",
+                    "publication_receipt",
+                )
             )
-            or recommended.get("publication_receipt") is not None
             or recommended.get("tag_signature_verified") is not False
             or recommended.get("latest_on_pypi_when_observed") is not False
             or recommended.get("immutable_github_release") is not False

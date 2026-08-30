@@ -9,8 +9,8 @@
   },
   "template": {
     "path": "specs/submission-readiness/pyopensci-submission-template.json",
-    "sha256": "a70ffdae3300a3308be1c384872b820b7048a96a8d925e43d096e6390af23cf2",
-    "upstream_commit": "df24b7c0f3b11ee957632057ace85d320f5e8a91",
+    "sha256": "1ba1096908f79c9821ce44b58ab6800060a8a63393bd47a9a38fe4079dd63067",
+    "upstream_commit": "df24b7c63a589ff5d82a30e42f1d11b8aa1b5927",
     "upstream_content_sha256": "43b69c9633967e16bcb68435ba0306911f266de554eaf63345c852407d63aea4"
   },
   "candidate": {
