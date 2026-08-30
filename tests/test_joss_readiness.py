@@ -416,7 +416,7 @@ def test_joss_validator_rejects_discovery_metadata_version_drift(
     codemeta = tmp_path / "codemeta.json"
     codemeta.write_text(
         codemeta.read_text(encoding="utf-8").replace(
-            '"version": "2.1.0"', '"version": "0.9.0"'
+            '"version": "2.2.0"', '"version": "0.9.0"'
         ),
         encoding="utf-8",
     )
