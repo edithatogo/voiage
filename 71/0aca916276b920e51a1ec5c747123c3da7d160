@@ -1,0 +1,1 @@
+Phase 0 checkpoint. Validation: full Conductor 158 tracks with zero errors/warnings; GitHub cross-references valid; append-only ledger valid against HEAD; Vale clean; focused pytest 16 passed; diff hygiene passed. Review fixes at 93648fcf; no release or submission performed.
