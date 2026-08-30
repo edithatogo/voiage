@@ -4,6 +4,15 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+*   [~] Deliver the hardened v2.2.0 release through
+    `conductor/tracks/v2_2_release_and_venue_submissions_20260830/` (#1037).
+    *   [x] Synchronize package, binding, citation, manuscript, and unposted
+        venue-candidate metadata; validate the local release candidate.
+    *   [ ] Complete protected PR checks and merge, signed tagging, private
+        draft review, hash-bound publication, and public-artifact verification.
+    *   [ ] Proceed pyOpenSci first, then the eligible JOSS partner route and
+        rOpenSci; personal declarations and external outcomes remain explicit.
+
 *   [x] Complete the canonical pre-submission comprehensive-hardening programme
     in `conductor/archive/pre_submission_comprehensive_hardening_20260829/`
     (#1033): refresh venue and ecosystem requirements, run the whole-product

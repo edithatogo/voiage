@@ -8,8 +8,10 @@ To establish `voiage` as the premier, cross-domain, high-performance library for
 
 GitHub issue #1033 and archived Conductor track
 `pre_submission_comprehensive_hardening_20260829` record the programme completed
-on 2026-08-30. The repository-owned hardening scope is closed; a future release
-containing the hardened source and all venue submissions remain separate gates.
+on 2026-08-30. The repository-owned hardening scope is closed. Issue #1037 and
+`conductor/tracks/v2_2_release_and_venue_submissions_20260830/` now govern the
+authorized v2.2.0 release and later venue sequence; publication and submission
+remain pending until their separate evidence gates are satisfied.
 The former #313 workstream and the other previously active tracks are retained
 under `conductor/archive/` with their unfinished tasks migrated through the
 canonical track's hash-bound manifest:

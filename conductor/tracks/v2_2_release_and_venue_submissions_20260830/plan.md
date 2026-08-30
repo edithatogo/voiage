@@ -19,6 +19,9 @@
   tox validation; repair all in-scope findings. (`5cdb1dd`)
 - [~] **R6 / AC-02:** Open the protected release-candidate PR, resolve review
   findings, wait for exact-head checks, and squash-merge with exact tree equality.
+- [x] **R6a / AC-02 — Review fixes:** Bind the verified upstream template
+  revision, preserve the public-release boundary, and reject fabricated or
+  deleted prepublication evidence fields. (`00edb35`)
 - [ ] **R7 / AC-02:** Run automated phase review and validation checkpoint.
 
 ## Phase 2 — Signed staged and public release
@@ -38,7 +41,9 @@
 - [ ] **R13 / AC-04:** Refresh the current official template and bind the final
   submission body to the public v2.2.0 release.
 - [ ] **R14 / AC-04:** Collect or record the maintainer-only Code of Conduct,
-  maintenance, guide, survey, reviewer-contact, and partnership declarations.
+  maintenance, guide, survey, reviewer-contact, and partnership declarations;
+  resolve contact-capacity eligibility against existing pyOpenSci issues #271
+  and #272 and obtain human review of the submission communication.
 - [ ] **R15 / AC-04:** Create the authenticated pyOpenSci submission and retain its
   issue URL, timestamp, exact body hash, and observed initial venue state.
 - [ ] **R16 / AC-04:** Run automated phase review and validation checkpoint.
@@ -47,8 +52,9 @@
 
 - [ ] **R17 / AC-05:** When pyOpenSci eligibility is evidenced, refresh the JOSS
   paper and declarations against v2.2.0 and initiate the partner fast-track.
-- [ ] **R18 / AC-06:** After honoring pyOpenSci-first ordering, refresh `voiageR`
-  inquiry/submission material and initiate rOpenSci review with exact package evidence.
+- [ ] **R18 / AC-06:** After honoring pyOpenSci-first ordering and avoiding
+  concurrent venue review, refresh `voiageR` inquiry/submission material and
+  initiate rOpenSci review with exact package evidence.
 - [ ] **R19 / AC-05, AC-06:** Record venue URLs and observed states; do not mark
   review, acceptance, DOI, or indexing complete without authoritative receipts.
 - [ ] **R20 / AC-05, AC-06:** Run automated phase review and validation checkpoint.
