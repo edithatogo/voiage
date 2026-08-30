@@ -91,17 +91,24 @@
   submission body against R12a's public v2.2.0 citation and candidate bindings;
   complete known JOSS paper/use-record and rOpenSci packet repairs before the
   first venue submission, preserving any missing human evidence as a gate.
-- [~] **R13a / AC-04 — Research-use environment boundary:** Refresh the
+- [x] **R13a / AC-04 — Research-use environment boundary:** Refresh the
   same-author VOP research-use evidence using separate supported environments
   and a hash-bound data hand-off. VOP requires pandas 3 and SciPy 1.18, outside
   voiage's stable bounds; do not force a combined installation or describe
   the bounded exchange as full in-process integration or independent adoption.
-- [ ] **R13b / AC-04 — Version-specific manuscript claims:** Align the JOSS
+  The published-wheel replay reproduced all 500 rows and EVPI; 30 focused
+  tests, 97 percent script coverage and all 15 tox environments passed.
+  Historical human-use evidence is preserved, not recertified. (`8785c6de`)
+- [~] **R13b / AC-04 — Version-specific manuscript claims:** Align the JOSS
   language-surface description and claim map with native EVPI/ENBS in both R
   and Julia, and distinguish the historical v2.0.0 Software Heritage snapshot
   from the verified v2.2.0 release without inventing a new archive or DOI.
   Describe R's separate bundled Rust kernel rather than claiming one physical
   Rust implementation is used by all language surfaces.
+  Also repair stale v1.0.0 and EVPI-only claims in the canonical LaTeX
+  preprint, distinguish Python decision records from scalar R/Julia surfaces,
+  and rebuild/review both manuscripts without extending historical human
+  attestations to new edits. Correct the dated AI-transparency projections.
 - [ ] **R14 / AC-04:** Collect or record the maintainer-only Code of Conduct,
   maintenance, guide, survey, reviewer-contact, and partnership declarations;
   resolve contact-capacity eligibility against existing pyOpenSci issues #271
