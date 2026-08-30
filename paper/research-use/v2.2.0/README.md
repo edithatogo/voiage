@@ -57,7 +57,9 @@ The July one-environment script remains historical and is not the supported
 v2.2.0 reproduction route.
 
 The exact CSV is committed alongside the receipts as
-`paper/research-use/v2.2.0/hpv_vaccination_net_benefit.csv`. A fresh clone can
+`paper/research-use/v2.2.0/hpv_vaccination_net_benefit.csv`. Its path-specific
+Git attribute preserves the historical CRLF bytes instead of normalizing them.
+A fresh clone can
 evaluate the retained export directly: use `paper/research-use/v2.2.0/export.json`
 and its reviewed SHA-256
 `9e32e25f4cf6a236b78d78834a81194259a21ea636003f49760ce9e11f642847`,

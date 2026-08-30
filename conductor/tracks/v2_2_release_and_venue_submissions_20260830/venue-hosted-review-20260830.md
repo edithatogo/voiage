@@ -73,3 +73,12 @@ The strengthened receipt SHA-256 is
 the script SHA-256 is
 `688359aeaebb5f529e8597ebadf0800275d0e5d0d9e3cde47e07c4faa975743d`.
 Current-head hosted checks and resolved review threads remain the merge gate.
+
+The post-commit blob audit caught Git's default CSV line-ending normalization:
+the original working file was CRLF, while the first committed blob was LF and
+did not match the retained digest. Added a path-specific byte-preserving
+attribute with CR-at-EOL-aware whitespace checking. The staged blob now matches
+the historical SHA-256 exactly; all 38 handoff tests passed again. This is a
+storage/checkout correction, not a change to the numerical data or the runtime
+tree validated by the 4,600-test tox run. A Git-archive replay and fresh hosted
+checks are required before merge.
