@@ -7,13 +7,19 @@
 
 ## Unreleased
 
+## [2.2.0] - 2026-08-30
+
+- Bound installed-provider test subprocesses and allow explicit dependency-cache
+  reuse while preserving fresh consumer environments and real wheel installs.
+- Derive new decision-card producer versions from installed package metadata;
+  preserve unknown historical producer versions instead of assigning a release.
 - Completed the repository-owned pre-submission hardening programme through
   the standalone R package, current pyOpenSci/rOpenSci/JOSS evidence, exact
   source/release reconciliation, governance and maintenance policy, Scalene-
   guided test repairs, deterministic parallel testing, cache and duplicate-
   build improvements, and isolated dependency/runtime preview observations.
   The published v2.1.0 release remains historical; no later release or venue
-  submission was performed.
+  submission was performed before the v2.2.0 release candidate was prepared.
 
 - Made `voiageR` a self-contained compiled source package: its EVPI and ENBS
   paths now link a dependency-free, offline Rust 1.85 kernel into registered R

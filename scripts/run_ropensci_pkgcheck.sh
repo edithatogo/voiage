@@ -27,7 +27,7 @@ fi
   git diff --cached --quiet -- r-package/voiageR
 )
 
-source_archive="$work_dir/voiageR_2.1.0.tar.gz"
+source_archive="$work_dir/voiageR_2.2.0.tar.gz"
 pkgcheck_repo="$work_dir/voiageR-repository"
 (
   cd "$work_dir"

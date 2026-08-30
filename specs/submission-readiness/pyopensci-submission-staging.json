@@ -1,23 +1,23 @@
 {
   "schema_version": "voiage.pyopensci-submission-staging.v1",
   "prepared_at": "2026-08-29T00:22:00Z",
-  "updated_at": "2026-08-29T02:21:00Z",
+  "updated_at": "2026-08-30T03:02:43Z",
   "state": "prepared_local_unposted",
   "draft": {
     "path": "docs/release/pyopensci-submission-draft.md",
-    "sha256": "2eb092a175809e1fccfa77841f09a319f21d710682855f933a9c0984b8d04aeb"
+    "sha256": "5858e17afc703df71d6a28f044a23c0975cb8ce924bd5c1c22b6fe648f791247"
   },
   "template": {
     "path": "specs/submission-readiness/pyopensci-submission-template.json",
-    "sha256": "b70d66b21fe01a5d651168efaf14b3ba3a313975e1bf6b7928c5c272f49879b0",
-    "upstream_commit": "a1f31b8aab21128faee96ee548d256d5cffc3ba9",
+    "sha256": "1ba1096908f79c9821ce44b58ab6800060a8a63393bd47a9a38fe4079dd63067",
+    "upstream_commit": "df24b7c63a589ff5d82a30e42f1d11b8aa1b5927",
     "upstream_content_sha256": "43b69c9633967e16bcb68435ba0306911f266de554eaf63345c852407d63aea4"
   },
   "candidate": {
     "path": "specs/submission-readiness/pyopensci-submission-candidate.json",
-    "sha256": "78f8bc62d990cea548486b57c96c0463b20ab1d5df300cf12fa796df35155a65"
+    "sha256": "e56b7efae93364959fee2e85ae592606b888176a85a504236c98dde73ca81674"
   },
-  "candidate_version": "2.1.0",
+  "candidate_version": "2.2.0",
   "candidate_confirmation": "confirmed_maintainer",
   "scope_categories": [
     "Data processing/munging",
@@ -50,11 +50,12 @@
   },
   "remaining_gates": [
     "maintainer personally completes all attestations and the pre-review survey",
-    "maintainer separately authorizes authenticated pyOpenSci issue creation",
+    "v2.2.0 is published and its signed tag and reviewed artifact digests are evidence-bound",
+    "maintainer authorizes authenticated pyOpenSci issue creation after completing the personal attestations",
     "pyOpenSci performs scope screening, review, and acceptance",
     "issue #471 obtains genuine non-author evidence",
     "the v2.0.0-bound JOSS paper and developer-use record are reconciled with the reviewed version",
-    "the selected arXiv and DOI-bearing archive gates are satisfied before JOSS",
+    "a DOI-bearing reviewed-version archive is created before JOSS",
     "maintainer separately authorizes the JOSS partner referral"
   ]
 }

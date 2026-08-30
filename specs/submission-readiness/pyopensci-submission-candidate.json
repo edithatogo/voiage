@@ -1,27 +1,22 @@
 {
   "schema_version": "voiage.pyopensci-submission-candidate.v1",
-  "observed_at": "2026-08-29T00:15:00Z",
-  "state": "selected_for_local_staging_maintainer_confirmed",
+  "observed_at": "2026-08-30T03:02:43Z",
+  "state": "release_candidate_prepublication_maintainer_confirmed",
   "recommended_candidate": {
-    "version": "2.1.0",
-    "tag": "v2.1.0",
-    "commit": "964a0fc334ece9509387cd07d43776adf38be240",
-    "tree": "a519104fbe1854909a13b12ea71fefa9f1484036",
-    "tag_object": "df1d46619144ea24bb51615aac7287f275a35998",
-    "tag_signature_verified": true,
-    "github_release": "https://github.com/edithatogo/voiage/releases/tag/v2.1.0",
-    "pypi_release": "https://pypi.org/project/voiage/2.1.0/",
-    "published_at": "2026-08-21T04:06:15Z",
-    "latest_on_pypi_when_observed": true,
-    "immutable_github_release": true,
-    "publication_receipt": "conductor/archive/quality_release_automation_20260723/release-2.1.0-publication-receipt-20260821.json"
+    "version": "2.2.0",
+    "tag": "v2.2.0",
+    "commit": null,
+    "tree": null,
+    "tag_object": null,
+    "tag_signature_verified": false,
+    "github_release": "https://github.com/edithatogo/voiage/releases/tag/v2.2.0",
+    "pypi_release": "https://pypi.org/project/voiage/2.2.0/",
+    "published_at": null,
+    "latest_on_pypi_when_observed": false,
+    "immutable_github_release": false,
+    "publication_receipt": null
   },
-  "artifact_sha256": {
-    "voiage-2.1.0-cp312-abi3-macosx_11_0_arm64.whl": "2c1582cfda4e187d0260faf39533439cb63d38e57a3520d6f5b1392edeba1a2f",
-    "voiage-2.1.0-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "81a649675bc43179efbfccac57bd53226b5f81dc2d82dd7ffc5c8a051c257724",
-    "voiage-2.1.0-cp312-abi3-win_amd64.whl": "e085f6176d2639dd1648a8b9023108d9ee488734a6aac9e78c94571487b8deae",
-    "voiage-2.1.0.tar.gz": "f0844694c628a92d29a532170f5a5672acfe210efe1d797359a4dc18c11ab901"
-  },
+  "artifact_sha256": {},
   "comparison": {
     "v2.0.0": {
       "public_and_not_yanked": true,
@@ -42,14 +37,22 @@
         "pending": 0
       },
       "current_release": true,
-      "disposition": "selected for the local pyOpenSci submission draft"
+      "disposition": "retain as the latest public release until v2.2.0 publication is evidence-bound"
+    },
+    "v2.2.0": {
+      "public_and_not_yanked": false,
+      "signed_release_receipt": false,
+      "current_release": false,
+      "release_candidate": true,
+      "disposition": "selected prepublication candidate; do not claim release or submit until publication evidence is bound"
     }
   },
   "selection_rationale": [
     "pyOpenSci reviews the maintained current Python package rather than a superseded release",
-    "v2.1.0 is the latest public non-yanked PyPI release",
-    "the signed tag, immutable GitHub release, publication workflow, and PyPI artifact digests are evidence-bound",
-    "current CITATION.cff and codemeta.json identify v2.1.0"
+    "v2.1.0 remains the latest public non-yanked PyPI release at candidate preparation time",
+    "v2.2.0 contains the completed repository-hardening programme selected for release before review",
+    "the v2.2.0 tag, release, and artifact digests remain intentionally unbound until publication succeeds",
+    "CITATION.cff and codemeta.json retain the verified public v2.1.0 release until v2.2.0 publication is evidenced"
   ],
   "joss_handoff": {
     "state": "blocked_pending_refresh_and_external_evidence",
@@ -64,11 +67,11 @@
     "prepare_local_draft": "repository",
     "confirm_submission_version": "maintainer",
     "complete_survey": "maintainer",
-    "submit_to_pyopensci": "maintainer_after_separate_instruction",
+    "submit_to_pyopensci": "maintainer_after_personal_attestations_and_publication_evidence",
     "accept": "pyOpenSci"
   },
   "maintainer_version_confirmation": "confirmed",
-  "maintainer_version_confirmed_at": "2026-08-29",
-  "maintainer_version_confirmation_evidence": "Maintainer explicitly confirmed v2.1.0 on 2026-08-29 in the delivery task before authorizing PR #1031 for squash merge.",
+  "maintainer_version_confirmed_at": "2026-08-30",
+  "maintainer_version_confirmation_evidence": "Maintainer instructed the agent to proceed with the recommended v2.2.0-first release and venue sequence on 2026-08-30.",
   "submission_performed": false
 }

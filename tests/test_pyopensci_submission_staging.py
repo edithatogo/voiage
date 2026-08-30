@@ -21,13 +21,6 @@ CANDIDATE = (
     ROOT / "specs" / "submission-readiness" / "pyopensci-submission-candidate.json"
 )
 DRAFT = ROOT / "docs" / "release" / "pyopensci-submission-draft.md"
-PUBLICATION_RECEIPT = (
-    ROOT
-    / "conductor"
-    / "archive"
-    / "quality_release_automation_20260723"
-    / "release-2.1.0-publication-receipt-20260821.json"
-)
 
 
 def _load(path: Path) -> dict[str, object]:
@@ -39,7 +32,6 @@ def _staged_packet(tmp_path: Path, draft: str) -> Path:
     relative_files = (
         TEMPLATE.relative_to(ROOT),
         CANDIDATE.relative_to(ROOT),
-        PUBLICATION_RECEIPT.relative_to(ROOT),
     )
     for relative in relative_files:
         destination = staged_root / relative
@@ -71,24 +63,45 @@ def test_template_provenance_is_exact() -> None:
     assert template["state"] == "reference_only_unposted"
     assert template["submission_performed"] is False
     assert upstream["repository"] == "pyOpenSci/software-submission"
-    assert upstream["commit"] == "a1f31b8aab21128faee96ee548d256d5cffc3ba9"
+    assert upstream["commit"] == "df24b7c63a589ff5d82a30e42f1d11b8aa1b5927"
+    baseline_path = next(
+        path
+        for state in ("tracks", "archive")
+        if (
+            path := ROOT
+            / "conductor"
+            / state
+            / "v2_2_release_and_venue_submissions_20260830"
+            / "release-submission-live-baseline-20260830.json"
+        ).is_file()
+    )
+    baseline = _load(baseline_path)["live_official_inputs"][
+        "pyopensci_submission_template"
+    ]
+    assert upstream["commit"] == baseline["latest_path_commit"]
+    assert upstream["blob_sha"] == baseline["blob_sha"]
     assert upstream["content_sha256"] == (
         "43b69c9633967e16bcb68435ba0306911f266de554eaf63345c852407d63aea4"
     )
 
 
-def test_candidate_matches_publication_receipt() -> None:
-    """The recommended package is the current evidence-bound public release."""
+def test_candidate_is_fail_closed_before_publication() -> None:
+    """The selected package cannot imply that the v2.2.0 release exists."""
     candidate = _load(CANDIDATE)
-    receipt = _load(PUBLICATION_RECEIPT)
     recommended = candidate["recommended_candidate"]
 
-    assert candidate["state"] == "selected_for_local_staging_maintainer_confirmed"
+    assert candidate["state"] == (
+        "release_candidate_prepublication_maintainer_confirmed"
+    )
     assert candidate["maintainer_version_confirmation"] == "confirmed"
     assert candidate["submission_performed"] is False
-    assert recommended["version"] == receipt["release"]["version"] == "2.1.0"
-    assert recommended["commit"] == receipt["release"]["commit"]
-    assert candidate["artifact_sha256"] == receipt["reviewed_digests"]
+    assert recommended["version"] == "2.2.0"
+    assert recommended["commit"] is None
+    assert recommended["published_at"] is None
+    assert recommended["publication_receipt"] is None
+    assert recommended["tag_signature_verified"] is False
+    assert recommended["immutable_github_release"] is False
+    assert candidate["artifact_sha256"] == {}
     assert candidate["joss_handoff"]["state"] == (
         "blocked_pending_refresh_and_external_evidence"
     )
@@ -99,7 +112,7 @@ def test_staging_manifest_records_version_without_external_action() -> None:
     staging = _load(STAGING)
 
     assert staging["state"] == "prepared_local_unposted"
-    assert staging["candidate_version"] == "2.1.0"
+    assert staging["candidate_version"] == "2.2.0"
     assert staging["candidate_confirmation"] == "confirmed_maintainer"
     assert staging["human_attestations"]["submitted_version"] == "confirmed"
     assert all(
@@ -116,6 +129,35 @@ def test_staging_manifest_records_version_without_external_action() -> None:
     }
 
 
+@pytest.mark.parametrize("mutation", ["published", "digests", "missing_receipt"])
+def test_validator_rejects_rebound_prepublication_claims(
+    tmp_path: Path, mutation: str
+) -> None:
+    """Rebinding hashes cannot legitimize publication claims or deleted gates."""
+    staged_root = _staged_packet(tmp_path, DRAFT.read_text(encoding="utf-8"))
+    candidate = _load(CANDIDATE)
+    if mutation == "published":
+        candidate["recommended_candidate"]["published_at"] = "2026-08-30T00:00:00Z"
+    elif mutation == "digests":
+        candidate["artifact_sha256"] = {"unverified.whl": "0" * 64}
+    else:
+        del candidate["recommended_candidate"]["publication_receipt"]
+    candidate_path = staged_root / CANDIDATE.relative_to(ROOT)
+    candidate_path.write_text(json.dumps(candidate), encoding="utf-8")
+    staging_path = staged_root / STAGING.relative_to(ROOT)
+    staging = _load(staging_path)
+    staging["candidate"]["sha256"] = hashlib.sha256(
+        candidate_path.read_bytes()
+    ).hexdigest()
+    staging_path.write_text(json.dumps(staging), encoding="utf-8")
+
+    findings = validate_staging_packet(staged_root)
+
+    assert any(
+        finding.startswith("prepublication candidate must not") for finding in findings
+    )
+
+
 def test_draft_is_unposted_and_contains_current_template_sections() -> None:
     """The local Markdown draft is complete but visibly non-submissive."""
     draft = DRAFT.read_text(encoding="utf-8")
@@ -126,7 +168,7 @@ def test_draft_is_unposted_and_contains_current_template_sections() -> None:
     for section in template["required_sections"]:
         assert f"## {section}" in draft
     assert (
-        "Version submitted: 2.1.0 (confirmed by maintainer; submission not performed)"
+        "Version submitted: 2.2.0 (confirmed by maintainer; submission not performed)"
         in draft
     )
     assert "- [ ] I agree to abide by" in draft
@@ -235,8 +277,8 @@ def test_validator_rejects_checked_human_attestation_duplicate(
 def test_validator_rejects_unqualified_submitted_version(tmp_path: Path) -> None:
     """The draft must preserve the confirmation and non-submission boundary."""
     draft = DRAFT.read_text(encoding="utf-8").replace(
-        "Version submitted: 2.1.0 (confirmed by maintainer; submission not performed)",
-        "Version submitted: 2.1.0",
+        "Version submitted: 2.2.0 (confirmed by maintainer; submission not performed)",
+        "Version submitted: 2.2.0",
         1,
     )
     staged_root = _staged_packet(tmp_path, draft)

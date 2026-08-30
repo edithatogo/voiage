@@ -2,8 +2,17 @@
 
 The pre-submission comprehensive hardening programme completed on 2026-08-30.
 Historical and superseded tracks retain their evidenced lifecycle and
-external-gate boundaries. A future release and all venue submissions remain
-separately authorized work, not active Conductor implementation tasks.
+external-gate boundaries. The maintainer authorized the v2.2.0 release and
+pyOpenSci-first venue sequence on 2026-08-30; before that authorization these
+were not active Conductor implementation tasks.
+
+## [~] Track: v2.2 Release and Venue Submissions
+*Link: [./tracks/v2_2_release_and_venue_submissions_20260830/index.md](./tracks/v2_2_release_and_venue_submissions_20260830/index.md)*
+*GitHub: [issue #1037](https://github.com/edithatogo/voiage/issues/1037).*
+*Status: authorized and planned — release publication and submission creation
+are in scope; maintainer-only declarations and venue outcomes remain fail-closed.*
+
+---
 
 ## [x] Track: Pre-Submission Comprehensive Hardening [completed: 2026-08-30]
 *Link: [./archive/pre_submission_comprehensive_hardening_20260829/index.md](./archive/pre_submission_comprehensive_hardening_20260829/index.md)*

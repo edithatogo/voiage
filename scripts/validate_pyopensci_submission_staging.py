@@ -11,10 +11,7 @@ import sys
 from typing import Any
 
 STAGING_PATH = Path("specs/submission-readiness/pyopensci-submission-staging.json")
-PUBLICATION_RECEIPT_PATH = Path(
-    "conductor/archive/quality_release_automation_20260723/"
-    "release-2.1.0-publication-receipt-20260821.json"
-)
+EXPECTED_CANDIDATE_VERSION = "2.2.0"
 EXPECTED_EXTERNAL_OUTCOMES = {
     "pyopensci_review": "not_started",
     "pyopensci_acceptance": "pending_external",
@@ -56,7 +53,7 @@ PENDING_DRAFT_CHECKBOX_MARKERS = (
     "Last but not least please fill out our pre-review survey",
 )
 CONFIRMED_SUBMITTED_VERSION_LINE = (
-    "Version submitted: 2.1.0 (confirmed by maintainer; submission not performed)"
+    "Version submitted: 2.2.0 (confirmed by maintainer; submission not performed)"
 )
 PLACEHOLDER = re.compile(r"\b(?:TBD|TODO|FILL(?:\s+THIS)?\s+IN)\b", re.IGNORECASE)
 
@@ -133,8 +130,8 @@ def validate_staging_packet(
         findings.append("unsupported pyOpenSci staging schema")
     if staging.get("state") != "prepared_local_unposted":
         findings.append("staging state must remain prepared_local_unposted")
-    if staging.get("candidate_version") != "2.1.0":
-        findings.append("candidate_version must remain the evidence-bound 2.1.0")
+    if staging.get("candidate_version") != EXPECTED_CANDIDATE_VERSION:
+        findings.append("candidate_version must match the selected v2.2.0 candidate")
     if staging.get("candidate_confirmation") != "confirmed_maintainer":
         findings.append("candidate confirmation must record the maintainer selection")
     if staging.get("ordinary_fields") != "complete_for_local_review":
@@ -213,9 +210,11 @@ def validate_staging_packet(
         ):
             findings.append("unsupported pyOpenSci candidate schema")
         if candidate.get("state") != (
-            "selected_for_local_staging_maintainer_confirmed"
+            "release_candidate_prepublication_maintainer_confirmed"
         ):
-            findings.append("candidate state must record maintainer confirmation")
+            findings.append(
+                "candidate state must record a confirmed prepublication candidate"
+            )
         if candidate.get("maintainer_version_confirmation") != "confirmed":
             findings.append("candidate maintainer confirmation must be recorded")
         if candidate.get("submission_performed") is not False:
@@ -225,25 +224,34 @@ def validate_staging_packet(
             staging.get("candidate_version")
         ):
             findings.append("recommended candidate does not match staging version")
+        elif (
+            recommended.get("tag") != f"v{EXPECTED_CANDIDATE_VERSION}"
+            or any(
+                key not in recommended or recommended[key] is not None
+                for key in (
+                    "commit",
+                    "tree",
+                    "tag_object",
+                    "published_at",
+                    "publication_receipt",
+                )
+            )
+            or recommended.get("tag_signature_verified") is not False
+            or recommended.get("latest_on_pypi_when_observed") is not False
+            or recommended.get("immutable_github_release") is not False
+        ):
+            findings.append(
+                "prepublication candidate must not claim release identity or publication"
+            )
+        if candidate.get("artifact_sha256") != {}:
+            findings.append(
+                "prepublication candidate must not claim published artifact digests"
+            )
         joss_handoff = candidate.get("joss_handoff")
         if not isinstance(joss_handoff, dict) or joss_handoff.get("state") != (
             "blocked_pending_refresh_and_external_evidence"
         ):
             findings.append("JOSS handoff must remain blocked")
-
-        receipt = _load_json(resolved_root / PUBLICATION_RECEIPT_PATH, findings)
-        if receipt is not None and isinstance(recommended, dict):
-            release = receipt.get("release")
-            if not isinstance(release, dict):
-                findings.append("v2.1.0 publication receipt lacks release evidence")
-            elif (
-                recommended.get("version") != release.get("version")
-                or recommended.get("commit") != release.get("commit")
-                or recommended.get("tree") != release.get("tree")
-            ):
-                findings.append("candidate identity does not match publication receipt")
-            if candidate.get("artifact_sha256") != receipt.get("reviewed_digests"):
-                findings.append("candidate digests do not match publication receipt")
 
     if draft_path is not None:
         draft = draft_path.read_text(encoding="utf-8")

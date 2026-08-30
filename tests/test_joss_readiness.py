@@ -414,10 +414,10 @@ def test_joss_validator_rejects_discovery_metadata_version_drift(
     )
     _write_submission_metadata(tmp_path)
     codemeta = tmp_path / "codemeta.json"
+    metadata = json.loads(codemeta.read_text(encoding="utf-8"))
+    metadata["version"] = "0.9.0"
     codemeta.write_text(
-        codemeta.read_text(encoding="utf-8").replace(
-            '"version": "2.1.0"', '"version": "0.9.0"'
-        ),
+        json.dumps(metadata),
         encoding="utf-8",
     )
 

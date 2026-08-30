@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "observed_at": "2026-08-30T02:50:00Z",
+  "repository": "edithatogo/voiage",
+  "source": {
+    "main_revision": "35240bf77142d5d362ac76ae034660b137086dc4",
+    "main_tree": "009013f43eb387cfb66e029b1438ae7ed0ed30ca",
+    "open_pull_requests": [],
+    "working_release_branch": "codex/v2-2-release-submissions"
+  },
+  "release_state": {
+    "latest_public_release": {
+      "tag": "v2.1.0",
+      "tagged_commit": "964a0fc334ece9509387cd07d43776adf38be240",
+      "published_at": "2026-08-21T04:06:15Z",
+      "url": "https://github.com/edithatogo/voiage/releases/tag/v2.1.0"
+    },
+    "v2_2_0_remote_tag_exists": false,
+    "recommended_next_version": "2.2.0",
+    "reason": "Backward-compatible public capability and packaging changes were merged after v2.1.0; the v2.1 C ABI baseline remains authoritative."
+  },
+  "workflow_contracts": [
+    ".github/workflows/release.yml",
+    ".github/workflows/rust-crates-release.yml",
+    ".github/workflows/bindings-release.yml"
+  ],
+  "governing_issues": [
+    {"number": 471, "state": "open", "url": "https://github.com/edithatogo/voiage/issues/471"},
+    {"number": 615, "state": "open", "url": "https://github.com/edithatogo/voiage/issues/615"},
+    {"number": 1037, "state": "open", "url": "https://github.com/edithatogo/voiage/issues/1037"}
+  ],
+  "live_official_inputs": {
+    "pyopensci_submission_template": {
+      "repository": "pyOpenSci/software-submission",
+      "path": ".github/ISSUE_TEMPLATE/submit-software-for-review.md",
+      "blob_sha": "08f522322b3a57fc2ff3c7ec051e276b9efbe4b6",
+      "latest_path_commit": "df24b7c63a589ff5d82a30e42f1d11b8aa1b5927",
+      "latest_path_commit_date": "2026-06-03T06:26:09Z",
+      "content_matches_pinned_candidate": true
+    },
+    "pyopensci_joss_partner_guidance": {
+      "repository": "pyOpenSci/software-peer-review",
+      "path": "partners/joss.md",
+      "latest_path_commit": "0968aba4566d9db51fbb714d7c2fb61d5fa99395",
+      "latest_path_commit_date": "2025-08-21T23:07:46Z"
+    },
+    "joss_submission_guidance": {
+      "repository": "openjournals/joss",
+      "path": "docs/submitting.md",
+      "latest_path_commit": "3bdbe7d08681e8940ffcb3db7adf66b79a5dc0eb",
+      "latest_path_commit_date": "2026-07-13T15:55:29Z"
+    },
+    "ropensci_templates": [
+      {
+        "path": ".github/ISSUE_TEMPLATE/A-submit-software-for-review.md",
+        "blob_sha": "122fecee77054a2e13784ba726098ba11398d2c1",
+        "latest_path_commit": "ae27193dbe03b8230e29c83f127fdd5f0fb8274b"
+      },
+      {
+        "path": ".github/ISSUE_TEMPLATE/B-submit-a-presubmission-inquiry.md",
+        "blob_sha": "16630f2c38656c2e9a70039b41e1258eb34e5051",
+        "latest_path_commit": "f0f003b0581c0941e4e6178ca45c37050de4f227"
+      },
+      {
+        "path": ".github/ISSUE_TEMPLATE/F-submit-statistical-software-for-review.md",
+        "blob_sha": "268360c92ccabb24e7c04245cc44498f1f5f04eb",
+        "latest_path_commit": "84e26ba15f28c9f0d11bcee112c0d08ced4bf183"
+      }
+    ]
+  },
+  "external_state": {
+    "release_performed": false,
+    "pyopensci_submission_performed": false,
+    "joss_submission_performed": false,
+    "ropensci_submission_performed": false,
+    "venue_acceptance_observed": false
+  }
+}

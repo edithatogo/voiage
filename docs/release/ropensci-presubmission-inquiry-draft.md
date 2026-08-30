@@ -4,7 +4,7 @@ Status: **prepared locally; not posted or submitted**
 
 ## Proposed package
 
-- Package: `voiageR` 2.1.0
+- Package: `voiageR` 2.2.0
 - Repository: `https://github.com/edithatogo/voiage`
 - Package subdirectory: `r-package/voiageR`
 - Licence: Apache License 2.0 or later
@@ -31,8 +31,9 @@ whether that contribution and repository layout fit rOpenSci review scope.
 
 ## Current repository evidence
 
-- `R CMD check --as-cran` completes with zero errors and warnings for the exact
-  `voiageR_2.1.0.tar.gz` source archive.
+- The v2.2.0 source candidate must complete `R CMD check --as-cran` with zero
+  errors and warnings for the exact `voiageR_2.2.0.tar.gz` archive before this
+  draft may be posted; the prior v2.1.0 archive passed that gate.
 - The pinned `srr` pre-submit check accepts all applicable standards; the
   repository maps 68 general and 14 probability-distribution standards with
   item-level compliance or justified non-applicability tags.

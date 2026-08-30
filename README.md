@@ -63,6 +63,9 @@ Python 3.12, 3.13, and 3.14 are supported. Wheels use the CPython 3.12 stable
 ABI and are published for the platforms listed in the
 [v2.1.0 release](https://github.com/edithatogo/voiage/releases/tag/v2.1.0).
 
+The current source tree prepares v2.2.0; its publication and review submissions
+remain pending the release gates.
+
 Optional features are installed explicitly:
 
 ```bash
@@ -190,7 +193,7 @@ records the supported boundary and migration policy.
 
 | Surface | Source | Current use | Distribution status |
 | --- | --- | --- | --- |
-| Python | [`voiage/`](voiage/) | Primary API, CLI, orchestration, plots, reports | [PyPI v2.1.0](https://pypi.org/project/voiage/2.1.0/) and TestPyPI |
+| Python | [`voiage/`](voiage/) | Primary API, CLI, orchestration, plots, reports | [PyPI v2.1.0](https://pypi.org/project/voiage/2.1.0/) and TestPyPI; v2.2.0 source candidate |
 | Rust | [`rust/`](rust/) | Domain contracts, diagnostics, selected kernels, serialization | Crates are package-ready; consult the [release checklist](docs/release/binding-submission-checklist.md) for verified registry state |
 | R | [`r-package/voiageR/`](r-package/voiageR/) | Direct C-ABI EVPI; documented bridge for wider Python methods | [r-universe](https://edithatogo.r-universe.dev/voiageR); CRAN review remains external |
 | Julia | [`bindings/julia/`](bindings/julia/) | Direct C-ABI EVPI | Prepared for Julia General; registry entry is not yet verified |

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-29T16:53:10Z",
+  "generated_at": "2026-08-30T02:37:17Z",
   "repository": "edithatogo/voiage",
   "project_url": "https://github.com/users/edithatogo/projects/28",
   "association_policy": "PRs are included only when associated with commits recorded by a track, Git history for its path, or an explicit track reference. Empty completed-track lists are none_found, not inferred.",
@@ -5516,6 +5516,36 @@
         }
       ],
       "pull_request_evidence": "PR #1034 and PR #1035 merged after exact-head assurance with exact tree equality; this archive records repository programme completion"
+    },
+    {
+      "track_id": "v2_2_release_and_venue_submissions_20260830",
+      "metadata_track_id": "v2_2_release_and_venue_submissions_20260830",
+      "path": "conductor/tracks/v2_2_release_and_venue_submissions_20260830",
+      "lifecycle": "active",
+      "issue": {
+        "number": 1037,
+        "url": "https://github.com/edithatogo/voiage/issues/1037",
+        "state": "open"
+      },
+      "parent_issue_url": null,
+      "subissues": [
+        "https://github.com/edithatogo/voiage/issues/471",
+        "https://github.com/edithatogo/voiage/issues/615"
+      ],
+      "pull_requests": [
+        {
+          "number": 1038,
+          "url": "https://github.com/edithatogo/voiage/pull/1038",
+          "status": "open",
+          "evidence": [
+            "local-tox:15-environments-passed",
+            "local-tests:4522-passed-16-skipped",
+            "hosted-checks:pending",
+            "merge:pending"
+          ]
+        }
+      ],
+      "pull_request_evidence": "PR #1038 contains the locally validated v2.2.0 source candidate; exact-head hosted checks and protected merge remain pending"
     }
   ]
 }
