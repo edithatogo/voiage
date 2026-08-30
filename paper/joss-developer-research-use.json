@@ -1,6 +1,19 @@
 {
   "schema_version": "voiage.joss-developer-research-use.v1",
   "completed_on": "2026-07-27",
+  "historical_record": true,
+  "computational_refresh": {
+    "completed_on": "2026-08-30",
+    "version": "2.2.0",
+    "record": "paper/research-use/v2.2.0/README.md",
+    "export_receipt": "paper/research-use/v2.2.0/export.json",
+    "export_receipt_sha256": "9e32e25f4cf6a236b78d78834a81194259a21ea636003f49760ce9e11f642847",
+    "evaluation_receipt": "paper/research-use/v2.2.0/evaluation.json",
+    "evaluation_receipt_sha256": "fc640603f289da84fa22b99048e1d606e304c6275cb7c9b829ce088cc6588267",
+    "script": "scripts/run_vop_research_handoff.py",
+    "script_sha256": "91682d922dca755103e804c546c44fc43816c70f802f250fe92c72da5e7bc4b1",
+    "scope": "Agent-assisted replay in separate supported environments; not additional human research use, independent adoption, or in-process integration. The historical July record is not replaced or recertified."
+  },
   "workflow": "vop_hpv_vaccination_same_author_research_use_v1",
   "source_repository": "https://github.com/edithatogo/vop_poc_nz",
   "source_revision": "2c46db2fe5f907d894bb07f1127c008f10ee462e",

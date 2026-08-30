@@ -6,6 +6,10 @@
 
 ## Unreleased
 
+- Replayed the historical VOP research workflow against published voiage 2.2.0
+  in separate supported environments, with hash-checked data exchange and
+  numerical-reference tests. Preserve the distinction from new human use or
+  independent adoption.
 - Reconciled citation metadata, roadmap and unposted submission projections
   with the verified public v2.2.0 release; reject mismatched publication
   identities, missing receipts and inconsistent registry artifact evidence.

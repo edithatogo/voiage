@@ -91,7 +91,7 @@
   submission body against R12a's public v2.2.0 citation and candidate bindings;
   complete known JOSS paper/use-record and rOpenSci packet repairs before the
   first venue submission, preserving any missing human evidence as a gate.
-- [ ] **R13a / AC-04 — Research-use environment boundary:** Refresh the
+- [~] **R13a / AC-04 — Research-use environment boundary:** Refresh the
   same-author VOP research-use evidence using separate supported environments
   and a hash-bound data hand-off. VOP requires pandas 3 and SciPy 1.18, outside
   voiage's stable bounds; do not force a combined installation or describe
