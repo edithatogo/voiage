@@ -1,0 +1,255 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-08-30T09:19:28.961782+00:00",
+  "track_id": "v2_2_release_and_venue_submissions_20260830",
+  "release": {
+    "version": "2.2.0",
+    "tag": "v2.2.0",
+    "commit": "7af563c8cb373057d30662650b3f332f39e05b83",
+    "tree": "2d78e8a1f4825ce3944bfad7e83f8b6b00e63139",
+    "tag_object": "6f42d26d5a20d4c1e47221f01daff219edc88a59",
+    "tag_signature_verified": true
+  },
+  "workflows": {
+    "private_draft": {
+      "run_id": 33302619371,
+      "conclusion": "success"
+    },
+    "publication": {
+      "run_id": 33303294302,
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33303294302",
+      "event": "workflow_dispatch",
+      "head": "7af563c8cb373057d30662650b3f332f39e05b83",
+      "conclusion": "success",
+      "completed_at": "2026-08-30T09:18:48Z",
+      "jobs": [
+        {
+          "name": "Resolve immutable release tag",
+          "conclusion": "success",
+          "completed_at": "2026-08-30T09:08:56Z",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/33303294302/job/99235262401"
+        },
+        {
+          "name": "Non-sharded full release validation",
+          "conclusion": "success",
+          "completed_at": "2026-08-30T09:14:38Z",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/33303294302/job/99235342522"
+        },
+        {
+          "name": "Native wheel (macos-arm64)",
+          "conclusion": "success",
+          "completed_at": "2026-08-30T09:09:46Z",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/33303294302/job/99235342530"
+        },
+        {
+          "name": "Native wheel (windows-x86_64)",
+          "conclusion": "success",
+          "completed_at": "2026-08-30T09:10:45Z",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/33303294302/job/99235342533"
+        },
+        {
+          "name": "Source distribution contract",
+          "conclusion": "success",
+          "completed_at": "2026-08-30T09:10:59Z",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/33303294302/job/99235342538"
+        },
+        {
+          "name": "Native wheel (linux-x86_64)",
+          "conclusion": "success",
+          "completed_at": "2026-08-30T09:10:48Z",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/33303294302/job/99235342539"
+        },
+        {
+          "name": "Compose release-bound polyglot SBOM",
+          "conclusion": "success",
+          "completed_at": "2026-08-30T09:11:17Z",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/33303294302/job/99235568664"
+        },
+        {
+          "name": "Validate and attest release artifacts",
+          "conclusion": "success",
+          "completed_at": "2026-08-30T09:16:13Z",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/33303294302/job/99235988551"
+        },
+        {
+          "name": "Build and Stage Private Draft",
+          "conclusion": "success",
+          "completed_at": "2026-08-30T09:16:28Z",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/33303294302/job/99236176081"
+        },
+        {
+          "name": "Validate Reviewed Private Draft",
+          "conclusion": "success",
+          "completed_at": "2026-08-30T09:16:40Z",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/33303294302/job/99236205657"
+        },
+        {
+          "name": "Publish Reviewed Draft to TestPyPI",
+          "conclusion": "success",
+          "completed_at": "2026-08-30T09:17:08Z",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/33303294302/job/99236228956"
+        },
+        {
+          "name": "Install and smoke TestPyPI release (3.14)",
+          "conclusion": "success",
+          "completed_at": "2026-08-30T09:17:43Z",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/33303294302/job/99236282355"
+        },
+        {
+          "name": "Install and smoke TestPyPI release (3.12)",
+          "conclusion": "success",
+          "completed_at": "2026-08-30T09:17:44Z",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/33303294302/job/99236282402"
+        },
+        {
+          "name": "Install and smoke TestPyPI release (3.13)",
+          "conclusion": "success",
+          "completed_at": "2026-08-30T09:17:54Z",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/33303294302/job/99236282420"
+        },
+        {
+          "name": "Publish to PyPI",
+          "conclusion": "success",
+          "completed_at": "2026-08-30T09:18:33Z",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/33303294302/job/99236367933"
+        },
+        {
+          "name": "Publish verified GitHub Release",
+          "conclusion": "success",
+          "completed_at": "2026-08-30T09:18:47Z",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/33303294302/job/99236443982"
+        }
+      ],
+      "log_sha256": "8a40c80fa26bcd0fddaebc554f099187ba356a7f25413af0a442f097b8d2bb84"
+    }
+  },
+  "reviewed_digests": {
+    "voiage-2.2.0-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "8eb3ba00ec24efcc2f8213141a0343456f28a4cfa8ae25ca9d5d19ad4effe119",
+    "voiage-2.2.0-cp312-abi3-win_amd64.whl": "97f23021683ce7c4010e6d7aa6ff7f02b758db09f18da6582bd2ac0e4719a9d2",
+    "voiage-2.2.0-cp312-abi3-macosx_11_0_arm64.whl": "c7c26afe72de58c02a49f0b734fa0f69adf4c8c073a59b71ea888feaa77e1056",
+    "voiage-2.2.0.tar.gz": "e4edfd41011891a94cbc2b144ff1d20340fcc32481e7a2b24157494b7490a16b"
+  },
+  "extra_asset_sha256": {
+    "polyglot.sbom.cdx.json": "720dee7fb9d56ca3dab3937cd7e03a1bea8d8c32c79762c9a71d46ff9c252cf8",
+    "release-manifest.json": "95179706328c02951d0e40bb229a7e372089e75826c627ed61b75c4c759d4d29",
+    "voiage-2.2.0.intoto.jsonl": "113d1155160cb9fca0f57da99f5edf123010e226ae378f71811049a9d7243415",
+    "SHA256SUMS": "4bdd56e262cb84f8b8a9f33f8845d4d7ea4992e67b8b6df98edc49817318d8b9"
+  },
+  "github": {
+    "release_id": 379229724,
+    "url": "https://github.com/edithatogo/voiage/releases/tag/v2.2.0",
+    "published_at": "2026-08-30T09:18:44Z",
+    "draft": false,
+    "prerelease": false,
+    "immutable": true
+  },
+  "pypi": {
+    "url": "https://pypi.org/project/voiage/2.2.0/",
+    "artifacts": [
+      {
+        "filename": "voiage-2.2.0-cp312-abi3-macosx_11_0_arm64.whl",
+        "sha256": "c7c26afe72de58c02a49f0b734fa0f69adf4c8c073a59b71ea888feaa77e1056",
+        "yanked": false,
+        "uploaded_at": "2026-08-30T09:18:24.236046Z"
+      },
+      {
+        "filename": "voiage-2.2.0-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+        "sha256": "8eb3ba00ec24efcc2f8213141a0343456f28a4cfa8ae25ca9d5d19ad4effe119",
+        "yanked": false,
+        "uploaded_at": "2026-08-30T09:18:26.333850Z"
+      },
+      {
+        "filename": "voiage-2.2.0-cp312-abi3-win_amd64.whl",
+        "sha256": "97f23021683ce7c4010e6d7aa6ff7f02b758db09f18da6582bd2ac0e4719a9d2",
+        "yanked": false,
+        "uploaded_at": "2026-08-30T09:18:27.974483Z"
+      },
+      {
+        "filename": "voiage-2.2.0.tar.gz",
+        "sha256": "e4edfd41011891a94cbc2b144ff1d20340fcc32481e7a2b24157494b7490a16b",
+        "yanked": false,
+        "uploaded_at": "2026-08-30T09:18:29.695282Z"
+      }
+    ],
+    "latest_version": "2.2.0"
+  },
+  "testpypi": {
+    "url": "https://test.pypi.org/project/voiage/2.2.0/",
+    "artifacts": [
+      {
+        "filename": "voiage-2.2.0-cp312-abi3-macosx_11_0_arm64.whl",
+        "sha256": "c7c26afe72de58c02a49f0b734fa0f69adf4c8c073a59b71ea888feaa77e1056",
+        "yanked": false,
+        "uploaded_at": "2026-08-30T09:17:00.955855Z"
+      },
+      {
+        "filename": "voiage-2.2.0-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+        "sha256": "8eb3ba00ec24efcc2f8213141a0343456f28a4cfa8ae25ca9d5d19ad4effe119",
+        "yanked": false,
+        "uploaded_at": "2026-08-30T09:17:02.570951Z"
+      },
+      {
+        "filename": "voiage-2.2.0-cp312-abi3-win_amd64.whl",
+        "sha256": "97f23021683ce7c4010e6d7aa6ff7f02b758db09f18da6582bd2ac0e4719a9d2",
+        "yanked": false,
+        "uploaded_at": "2026-08-30T09:17:04.303113Z"
+      },
+      {
+        "filename": "voiage-2.2.0.tar.gz",
+        "sha256": "e4edfd41011891a94cbc2b144ff1d20340fcc32481e7a2b24157494b7490a16b",
+        "yanked": false,
+        "uploaded_at": "2026-08-30T09:17:06.097168Z"
+      }
+    ]
+  },
+  "private_verification_receipt": "release-private-draft-review-20260830.json",
+  "external_gates": {
+    "venue_submission_performed": false,
+    "registry_acceptance": "pending",
+    "new_software_heritage_snapshot": "pending"
+  },
+  "validation": {
+    "full_release_tests": {
+      "passed": 4523,
+      "skipped": 15,
+      "coverage_percent": 95.12,
+      "elapsed_seconds": 294.2
+    },
+    "testpypi_clean_install": {
+      "python_versions": [
+        "3.12",
+        "3.13",
+        "3.14"
+      ],
+      "passed_per_version": 9,
+      "provenance_verified_per_version": 4
+    },
+    "pypi_clean_install": {
+      "python": "3.12.13",
+      "platform": "macos-arm64",
+      "installed_from": "https://pypi.org/simple/",
+      "command": [
+        "uv",
+        "pip",
+        "install",
+        "--index-url",
+        "https://pypi.org/simple/",
+        "voiage==2.2.0"
+      ],
+      "environment": "fresh temporary virtual environment outside checkout",
+      "dependency_check": "all 35 installed packages compatible",
+      "isolated_python": true,
+      "version": "2.2.0",
+      "native_module": "voiage/_core.abi3.so",
+      "evpi_example": 5
+    },
+    "pypi_provenance": {
+      "verified": 4,
+      "tool": "pypi-attestations==0.0.30",
+      "repository": "https://github.com/edithatogo/voiage",
+      "mode": "sequential_online_verification",
+      "log_sha256": "8f59c62ec906d77edab4351aeb73ca3e9b00d1c799f93f68363fe31f2c9376e9",
+      "initial_attempt": "Two of four concurrent verifications failed with a shared Sigstore TUF cache FileExistsError; the unchanged payload passed all four checks sequentially."
+    }
+  }
+}

@@ -1,17 +1,17 @@
 # Changelog
 
 - Archived the completed comprehensive pre-submission hardening programme after
-  exact-head hosted assurance and tree-equal merges. Repository readiness is
-  satisfied; the future hardened release and pyOpenSci, rOpenSci, and JOSS
-  submissions remain explicitly unperformed.
+  exact-head hosted assurance and tree-equal merges. The hardened v2.2.0 release
+  is published; pyOpenSci, rOpenSci, and JOSS submissions remain unperformed.
 
 ## Unreleased
 
-- Verified and pushed the signed v2.2.0 tag for private artifact staging;
-  public publication remains gated on reviewed hashes and attestations.
+- Published the reviewed v2.2.0 payload to TestPyPI, PyPI, and an immutable
+  GitHub release after exact-hash checks, provenance verification, and clean
+  Python 3.12, 3.13, and 3.14 installations. Venue submissions remain pending.
 - Recorded the verified v2.2.0 source-candidate merge and its validation
   checkpoint, using the retained squash merge for future phase comparisons.
-  Signed release publication and venue submissions remain pending.
+  The signed release is public; venue submissions remain pending.
 - Include the already merged pnpm 10.34.4 security update in the final release
   candidate and revalidate its documentation tooling before tagging.
 

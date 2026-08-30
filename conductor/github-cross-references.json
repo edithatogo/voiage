@@ -5556,11 +5556,11 @@
             "hosted-checks:35-passed-4-skipped",
             "merge:7af563c8cb373057d30662650b3f332f39e05b83",
             "exact-tree:2d78e8a1f4825ce3944bfad7e83f8b6b00e63139",
-            "release-publication:pending"
+            "release-publication:verified-v2.2.0-run-33303294302"
           ]
         }
       ],
-      "pull_request_evidence": "PR #1038 and PR #1046 merged with exact tree equality after local and hosted gates; the signed v2.2.0 tag targets PR #1046 and private staging is running, with publication and venue outcomes separate"
+      "pull_request_evidence": "PR #1038 and PR #1046 merged with exact tree equality after local and hosted gates; signed v2.2.0 targets PR #1046 and is published immutably on GitHub with verified PyPI/TestPyPI digests; venue outcomes remain separate"
     }
   ]
 }

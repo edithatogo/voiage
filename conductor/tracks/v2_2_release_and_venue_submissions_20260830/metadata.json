@@ -3,7 +3,7 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-08-30T02:37:17Z",
-  "updated_at": "2026-08-30T08:53:00Z",
+  "updated_at": "2026-08-30T09:22:00Z",
   "description": "Publish the repository-hardened v2.2.0 release, then pursue pyOpenSci first, JOSS partner fast-track, and rOpenSci with fail-closed external evidence.",
   "evidence_schema": "1.0",
   "authorization": {
@@ -25,8 +25,8 @@
     {
       "id": "release-publication",
       "kind": "external",
-      "status": "pending",
-      "evidence": "verified signed v2.2.0 tag targets the tree-equal PR 1046 merge; private staging is running, artifact review and public publication remain pending"
+      "status": "satisfied",
+      "evidence": "release-2.2.0-publication-receipt-20260830.json: workflow 33303294302 passed; immutable GitHub release and exact PyPI/TestPyPI digests independently verified"
     },
     {
       "id": "pyopensci-submission",
