@@ -5558,9 +5558,21 @@
             "exact-tree:2d78e8a1f4825ce3944bfad7e83f8b6b00e63139",
             "release-publication:verified-v2.2.0-run-33303294302"
           ]
+        },
+        {
+          "number": 1047,
+          "url": "https://github.com/edithatogo/voiage/pull/1047",
+          "status": "merged",
+          "evidence": [
+            "local-tox:15-environments-passed",
+            "local-tests:4530-passed-16-skipped",
+            "hosted-checks:36-passed-3-skipped-1-neutral",
+            "merge:4c47b24183920ef97076848cd3fe3c5baed2a385",
+            "exact-tree:287d239a085bcbf1a5b8a08a6f2d5267a3975069"
+          ]
         }
       ],
-      "pull_request_evidence": "PR #1038 and PR #1046 merged with exact tree equality after local and hosted gates; signed v2.2.0 targets PR #1046 and is published immutably on GitHub with verified PyPI/TestPyPI digests; venue outcomes remain separate"
+      "pull_request_evidence": "PR #1038, #1046 and #1047 merged with exact tree equality after local and hosted gates. Signed v2.2.0 targets #1046 and is publicly verified; #1047 reconciles public metadata and receipt validation. Venue outcomes remain separate."
     }
   ]
 }

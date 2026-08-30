@@ -1,0 +1,254 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-08-30T10:23:35.788Z",
+  "pull_request": {
+    "number": 1047,
+    "url": "https://github.com/edithatogo/voiage/pull/1047",
+    "checked_head": "d4f31d0787f4d3000ffc13a624071355e548d834",
+    "state": "MERGED",
+    "merged_at": "2026-08-30T10:21:51Z",
+    "merge_commit": "4c47b24183920ef97076848cd3fe3c5baed2a385",
+    "checked_tree": "287d239a085bcbf1a5b8a08a6f2d5267a3975069",
+    "merge_tree": "287d239a085bcbf1a5b8a08a6f2d5267a3975069",
+    "exact_tree_match": true,
+    "merge_signature_verified": true,
+    "checks": {
+      "success": 36,
+      "skipped": 3,
+      "neutral": 1,
+      "failed": 0,
+      "pending": 0
+    },
+    "unresolved_review_threads": 0
+  },
+  "hosted_checks": [
+    {
+      "name": "Frozen Lock Refresh Evidence",
+      "conclusion": "SKIPPED",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370473/job/99240862560"
+    },
+    {
+      "name": "Production Rust Numerics Benchmarks",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370503/job/99240862089"
+    },
+    {
+      "name": "Wheel and sdist identity (ubuntu-24.04)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370496/job/99240862120"
+    },
+    {
+      "name": "CodeQL Analysis (python)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370477/job/99240861821"
+    },
+    {
+      "name": "Stable Frozen Lock",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370480/job/99240861664"
+    },
+    {
+      "name": "Dependency Review",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370490/job/99240861682"
+    },
+    {
+      "name": "Audit GitHub Actions",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370509/job/99240861769"
+    },
+    {
+      "name": "Gitleaks Audit",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370467/job/99240861805"
+    },
+    {
+      "name": "Validate and build JOSS paper",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370487/job/99240861692"
+    },
+    {
+      "name": "compatibility-and-coverage",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370476/job/99240861818"
+    },
+    {
+      "name": "Reproducible build and SBOM",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370466/job/99240861617"
+    },
+    {
+      "name": "Wheel and sdist identity (windows-2025)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370496/job/99240862102"
+    },
+    {
+      "name": "Latest Compatible and Experimental Observation",
+      "conclusion": "SKIPPED",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370480/job/99240862240"
+    },
+    {
+      "name": "Performance Benchmarks",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370503/job/99240861945"
+    },
+    {
+      "name": "Bootstrap performance (ubuntu-24.04)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370496/job/99240862090"
+    },
+    {
+      "name": "Vale Prose Lint",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370473/job/99240861985"
+    },
+    {
+      "name": "Bootstrap performance (windows-2025)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370496/job/99240862107"
+    },
+    {
+      "name": "Rust Profiling Baselines",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370503/job/99240862041"
+    },
+    {
+      "name": "telemetry-and-oracles",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370496/job/99240862009"
+    },
+    {
+      "name": "Frontier Contract Validation",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370473/job/99240861900"
+    },
+    {
+      "name": "compare-distributions",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370496/job/99242018432"
+    },
+    {
+      "name": "Version Synchronization Validation",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370473/job/99240861971"
+    },
+    {
+      "name": "Repository Harness",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370473/job/99240862014"
+    },
+    {
+      "name": "Lint & Type Check",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370473/job/99240862051"
+    },
+    {
+      "name": "Unit Tests (Python 3.12)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370473/job/99240862019"
+    },
+    {
+      "name": "Unit Tests (Python 3.13)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370473/job/99240862027"
+    },
+    {
+      "name": "Unit Tests (Python 3.14)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370473/job/99240862086"
+    },
+    {
+      "name": "Standardized Ingestion Conformance",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370473/job/99240862098"
+    },
+    {
+      "name": "Excel Interchange Extra",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370473/job/99240862111"
+    },
+    {
+      "name": "Example and Notebook Smoke",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370473/job/99240861965"
+    },
+    {
+      "name": "Coverage Report",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370473/job/99240862112"
+    },
+    {
+      "name": "Python 3.14t Observation",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370473/job/99240862032"
+    },
+    {
+      "name": "Benchmark Regression Checks",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370473/job/99240862055"
+    },
+    {
+      "name": "Integration Tests",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370473/job/99240862127"
+    },
+    {
+      "name": "E2E Tests (CLI)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370473/job/99240862056"
+    },
+    {
+      "name": "Mutation Testing",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370473/job/99240862075"
+    },
+    {
+      "name": "Performance Profiling",
+      "conclusion": "SKIPPED",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370473/job/99240862513"
+    },
+    {
+      "name": "Build Documentation",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33305370473/job/99240862031"
+    },
+    {
+      "name": "CodeQL",
+      "conclusion": "NEUTRAL",
+      "url": "https://github.com/edithatogo/voiage/runs/99241990133"
+    },
+    {
+      "name": "zizmor",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/runs/99242332040"
+    }
+  ],
+  "security": {
+    "critical_high_codeql_alerts": 0,
+    "open_codeql_findings": 98,
+    "dependabot_alerts": 0,
+    "interpretation": "CodeQL contains lower-severity or non-security findings; this is not a zero-alert claim."
+  },
+  "local_validation": {
+    "tox_environments": 15,
+    "passed": 4530,
+    "skipped": 16,
+    "coverage_percent": 95.16,
+    "elapsed_seconds": 555.84,
+    "log_sha256": "b89e00de332177c403203d02b3eca0eb323e03f8a9e57f0367531438fd8bf505",
+    "focused_tests": 50,
+    "focused_log_sha256": "737998017cb243d68a283bfc4dbf17af407004255869e6e9e3c22df37347c4d4"
+  },
+  "cleanup": {
+    "removed_local_branch": "codex/v2-2-release-publication",
+    "head": "d4f31d0787f4d3000ffc13a624071355e548d834",
+    "remote_branch_already_absent": true,
+    "backup": ".conductor/local/recovery/v2-2-20260830/publication-branch.bundle",
+    "backup_sha256": "7896c4dd0ef1623ec4ce70b60b445e880f75fda22e4b464d7238758787e93389",
+    "bundle_verified_complete_history": true,
+    "git_notes_included": true,
+    "other_worktrees_removed": 0
+  },
+  "release_source_unchanged": "7af563c8cb373057d30662650b3f332f39e05b83",
+  "venue_submission_performed": false
+}
