@@ -6,6 +6,9 @@
 
 ## Unreleased
 
+- Reconciled citation metadata, roadmap and unposted submission projections
+  with the verified public v2.2.0 release; reject mismatched publication
+  identities, missing receipts and inconsistent registry artifact evidence.
 - Published the reviewed v2.2.0 payload to TestPyPI, PyPI, and an immutable
   GitHub release after exact-hash checks, provenance verification, and clean
   Python 3.12, 3.13, and 3.14 installations. Venue submissions remain pending.

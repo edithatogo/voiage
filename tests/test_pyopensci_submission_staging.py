@@ -21,6 +21,11 @@ CANDIDATE = (
     ROOT / "specs" / "submission-readiness" / "pyopensci-submission-candidate.json"
 )
 DRAFT = ROOT / "docs" / "release" / "pyopensci-submission-draft.md"
+RECEIPT = (
+    ROOT
+    / "conductor/tracks/v2_2_release_and_venue_submissions_20260830"
+    / "release-2.2.0-publication-receipt-20260830.json"
+)
 
 
 def _load(path: Path) -> dict[str, object]:
@@ -32,6 +37,7 @@ def _staged_packet(tmp_path: Path, draft: str) -> Path:
     relative_files = (
         TEMPLATE.relative_to(ROOT),
         CANDIDATE.relative_to(ROOT),
+        RECEIPT.relative_to(ROOT),
     )
     for relative in relative_files:
         destination = staged_root / relative
@@ -85,23 +91,25 @@ def test_template_provenance_is_exact() -> None:
     )
 
 
-def test_candidate_is_fail_closed_before_publication() -> None:
-    """The selected package cannot imply that the v2.2.0 release exists."""
+def test_candidate_is_bound_to_verified_publication() -> None:
+    """The selected package carries exact public evidence, not venue approval."""
     candidate = _load(CANDIDATE)
     recommended = candidate["recommended_candidate"]
 
-    assert candidate["state"] == (
-        "release_candidate_prepublication_maintainer_confirmed"
-    )
+    assert candidate["state"] == ("published_release_maintainer_confirmed")
     assert candidate["maintainer_version_confirmation"] == "confirmed"
     assert candidate["submission_performed"] is False
     assert recommended["version"] == "2.2.0"
-    assert recommended["commit"] is None
-    assert recommended["published_at"] is None
-    assert recommended["publication_receipt"] is None
-    assert recommended["tag_signature_verified"] is False
-    assert recommended["immutable_github_release"] is False
-    assert candidate["artifact_sha256"] == {}
+    receipt = _load(RECEIPT)
+    assert recommended["commit"] == receipt["release"]["commit"]
+    assert recommended["published_at"] == receipt["github"]["published_at"]
+    assert (
+        recommended["publication_receipt"]["sha256"]
+        == hashlib.sha256(RECEIPT.read_bytes()).hexdigest()
+    )
+    assert recommended["tag_signature_verified"] is True
+    assert recommended["immutable_github_release"] is True
+    assert candidate["artifact_sha256"] == receipt["reviewed_digests"]
     assert candidate["joss_handoff"]["state"] == (
         "blocked_pending_refresh_and_external_evidence"
     )
@@ -136,6 +144,17 @@ def test_validator_rejects_rebound_prepublication_claims(
     """Rebinding hashes cannot legitimize publication claims or deleted gates."""
     staged_root = _staged_packet(tmp_path, DRAFT.read_text(encoding="utf-8"))
     candidate = _load(CANDIDATE)
+    candidate["state"] = "release_candidate_prepublication_maintainer_confirmed"
+    recommended = candidate["recommended_candidate"]
+    for key in ("commit", "tree", "tag_object", "published_at", "publication_receipt"):
+        recommended[key] = None
+    for key in (
+        "tag_signature_verified",
+        "immutable_github_release",
+        "latest_on_pypi_when_observed",
+    ):
+        recommended[key] = False
+    candidate["artifact_sha256"] = {}
     if mutation == "published":
         candidate["recommended_candidate"]["published_at"] = "2026-08-30T00:00:00Z"
     elif mutation == "digests":
@@ -156,6 +175,68 @@ def test_validator_rejects_rebound_prepublication_claims(
     assert any(
         finding.startswith("prepublication candidate must not") for finding in findings
     )
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        "commit",
+        "digests",
+        "missing_receipt",
+        "non_json",
+        "escape",
+        "draft",
+        "failed_run",
+        "yanked",
+    ],
+)
+def test_validator_rejects_inconsistent_published_evidence(
+    tmp_path: Path, mutation: str
+) -> None:
+    """Rebound candidate hashes cannot bypass independent receipt checks."""
+    staged_root = _staged_packet(tmp_path, DRAFT.read_text(encoding="utf-8"))
+    candidate = _load(CANDIDATE)
+    recommended = candidate["recommended_candidate"]
+    receipt_path = staged_root / RECEIPT.relative_to(ROOT)
+    receipt = _load(receipt_path)
+    if mutation == "commit":
+        recommended["commit"] = "0" * 40
+    elif mutation == "digests":
+        candidate["artifact_sha256"] = {"fake.whl": "0" * 64}
+    elif mutation == "missing_receipt":
+        receipt_path.unlink()
+    elif mutation == "non_json":
+        renamed = receipt_path.with_suffix(".txt")
+        receipt_path.rename(renamed)
+        recommended["publication_receipt"]["path"] = str(
+            renamed.relative_to(staged_root)
+        )
+    elif mutation == "escape":
+        recommended["publication_receipt"] = {
+            "path": "../escape.json",
+            "sha256": "0" * 64,
+        }
+    else:
+        if mutation == "draft":
+            receipt["github"]["draft"] = True
+        elif mutation == "failed_run":
+            receipt["workflows"]["publication"]["conclusion"] = "failure"
+        else:
+            receipt["pypi"]["artifacts"][0]["yanked"] = True
+        receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
+        recommended["publication_receipt"]["sha256"] = hashlib.sha256(
+            receipt_path.read_bytes()
+        ).hexdigest()
+    candidate_path = staged_root / CANDIDATE.relative_to(ROOT)
+    candidate_path.write_text(json.dumps(candidate), encoding="utf-8")
+    staging_path = staged_root / STAGING.relative_to(ROOT)
+    staging = _load(staging_path)
+    staging["candidate"]["sha256"] = hashlib.sha256(
+        candidate_path.read_bytes()
+    ).hexdigest()
+    staging_path.write_text(json.dumps(staging), encoding="utf-8")
+
+    assert validate_staging_packet(staged_root)
 
 
 def test_draft_is_unposted_and_contains_current_template_sections() -> None:

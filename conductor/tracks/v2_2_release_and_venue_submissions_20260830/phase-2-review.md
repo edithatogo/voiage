@@ -1,7 +1,9 @@
 # Phase 2 Review: Signed Staged and Public Release
 
 The immutable release source is `7af563c8cb373057d30662650b3f332f39e05b83`.
-This branch changes only release receipts, Conductor records and status prose.
+The initial checkpoint changed release receipts, Conductor records and prose.
+PR #1047 review then required current release projections and their validator
+to be reconciled in the same change; R12a records that bounded repair.
 The earlier phase range also includes PR #1039's already validated pnpm update.
 No Python, Rust, R or Julia runtime source changes after the signed release.
 
@@ -19,11 +21,19 @@ No Python, Rust, R or Julia runtime source changes after the signed release.
   The missing new Software Heritage snapshot remains explicit; no historical
   snapshot is presented as evidence for v2.2.0. No binding tags, conda submission
   or venue submission was created.
-- The next phase must refresh citation and submission packets now that public
-  evidence exists. Their current prepublication state is not submission-ready.
-  R13, R13a and R13b retain those repairs before any external venue action.
+- Review identified a contradiction in deferring current citation and candidate
+  projections. R12a updates them now, with receipt-bound publication validation
+  and negative tests; the draft remains unposted. R13, R13a and R13b retain the
+  manuscript, research-use and remaining packet repairs before venue action.
 
-No unresolved Critical or High finding was identified in this release phase.
+The first publication-projection repair passed all 15 tox environments
+(4,529 tests, 16 skips, 95.16 percent coverage, 717.50 seconds). Self-review
+then found that a receipt with a non-JSON extension could bypass content
+validation. A failing regression reproduced that case; the validator now
+requires JSON evidence. The final repair passed all 15 tox environments:
+4,530 tests, 16 skips, 95.16 percent coverage and 555.84 seconds. Its log SHA-256
+is `b89e00de332177c403203d02b3eca0eb323e03f8a9e57f0367531438fd8bf505`.
+Fresh hosted verification remains pending for the revised PR head.
 The track remains in progress because venue acceptance criteria are unfinished.
 
 ## Verification
@@ -34,13 +44,15 @@ The track remains in progress because venue acceptance criteria are unfinished.
   environment passed nine installed-wheel tests and four provenance checks.
 - A fresh macOS Python 3.12 PyPI installation outside the checkout passed
   dependency validation and an isolated native EVPI smoke test.
-- Evidence-only regression command: `uv run pytest
+- Initial evidence-only regression command (28 passed): `uv run pytest
   tests/test_release_2_2_0_candidate.py tests/test_pyopensci_submission_staging.py
   tests/test_final_hardening_closeout.py --no-cov -q`.
 - Full Conductor, append-only ledger, GitHub cross-reference and whitespace
   validation passed. The tagged source's executable gates were not replaced by
   these narrower bookkeeping checks.
-- Python style guide: not applicable to this evidence-only phase delta.
+- Python style guide applies to R12a's validator and tests: Ruff passed and
+  final candidate, staging and JOSS checks passed 50 focused tests. Full tox
+  passed; fresh hosted checks remain required before merge.
 
 The retained main-history source boundary is `7af563c8`; validation checkpoint
 commits are separate provenance, not assumed ancestors after a squash merge.

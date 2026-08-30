@@ -133,9 +133,10 @@ No domain-community affiliation is claimed in this draft.
   remains an external acceptance-stage gate.
 
 The JOSS paper and demonstrated developer-use record currently describe
-`v2.0.0`, whereas this draft selects the prepublication `v2.2.0` candidate for
-pyOpenSci. The later JOSS handoff remains blocked until v2.2.0 is published and
-evidence-bound, the paper and use record are refreshed, issue #471 obtains
+`v2.0.0`, whereas this draft selects the verified public `v2.2.0` release for
+pyOpenSci. Its signed tag, exact distribution hashes, provenance and immutable
+publication receipt are bound in the candidate manifest. The later JOSS
+handoff remains blocked until the paper and use record are refreshed, issue #471 obtains
 human-engagement evidence, and the DOI-bearing archive is resolved. No JOSS
 submission is claimed.
 

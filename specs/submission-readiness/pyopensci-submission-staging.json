@@ -1,11 +1,11 @@
 {
   "schema_version": "voiage.pyopensci-submission-staging.v1",
   "prepared_at": "2026-08-29T00:22:00Z",
-  "updated_at": "2026-08-30T03:02:43Z",
+  "updated_at": "2026-08-30T09:47:55Z",
   "state": "prepared_local_unposted",
   "draft": {
     "path": "docs/release/pyopensci-submission-draft.md",
-    "sha256": "5858e17afc703df71d6a28f044a23c0975cb8ce924bd5c1c22b6fe648f791247"
+    "sha256": "de7d32a48b7b38ce95ef49192ebec95c748914f04f895c07aa6e3ce0d3f904b5"
   },
   "template": {
     "path": "specs/submission-readiness/pyopensci-submission-template.json",
@@ -15,7 +15,7 @@
   },
   "candidate": {
     "path": "specs/submission-readiness/pyopensci-submission-candidate.json",
-    "sha256": "e56b7efae93364959fee2e85ae592606b888176a85a504236c98dde73ca81674"
+    "sha256": "ec0cde346c5fdc0f29b6bfc19e68fd40dfb4f813d7fdaaf3491f92226b365f95"
   },
   "candidate_version": "2.2.0",
   "candidate_confirmation": "confirmed_maintainer",
@@ -50,7 +50,6 @@
   },
   "remaining_gates": [
     "maintainer personally completes all attestations and the pre-review survey",
-    "v2.2.0 is published and its signed tag and reviewed artifact digests are evidence-bound",
     "maintainer authorizes authenticated pyOpenSci issue creation after completing the personal attestations",
     "pyOpenSci performs scope screening, review, and acceptance",
     "issue #471 obtains genuine non-author evidence",
