@@ -77,6 +77,10 @@
   and a hash-bound data hand-off. VOP requires pandas 3 and SciPy 1.18, outside
   voiage's stable bounds; do not force a combined installation or describe
   the bounded exchange as full in-process integration or independent adoption.
+- [ ] **R13b / AC-04 — Version-specific manuscript claims:** Align the JOSS
+  language-surface description and claim map with native EVPI/ENBS in both R
+  and Julia, and distinguish the historical v2.0.0 Software Heritage snapshot
+  from the verified v2.2.0 release without inventing a new archive or DOI.
 - [ ] **R14 / AC-04:** Collect or record the maintainer-only Code of Conduct,
   maintenance, guide, survey, reviewer-contact, and partnership declarations;
   resolve contact-capacity eligibility against existing pyOpenSci issues #271
