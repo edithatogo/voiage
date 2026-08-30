@@ -5544,6 +5544,16 @@
             "merge:cf35bc998b936ede8eb3eea57d5bb2eec40124c0",
             "exact-tree:c525533c75735f1efabd5f8d40e4d01d1817710a"
           ]
+        },
+        {
+          "number": 1046,
+          "url": "https://github.com/edithatogo/voiage/pull/1046",
+          "status": "open",
+          "evidence": [
+            "phase-1-checkpoint:ca7c5d770175436081245978682f5863f09dda6c",
+            "local-focused-tests:43-passed",
+            "release-publication:pending"
+          ]
         }
       ],
       "pull_request_evidence": "PR #1038 merged with exact tree equality after all local and hosted source gates passed; release publication and venue gates remain separate"
