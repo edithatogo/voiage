@@ -58,9 +58,11 @@
   merged release candidate, including R7a's security update and evidence fixes.
   Verified tag object `6f42d26d5a20d4c1e47221f01daff219edc88a59` targets
   `7af563c8cb373057d30662650b3f332f39e05b83`.
-- [~] **R9 / AC-03:** Wait for the private draft, download and verify the attested
+- [x] **R9 / AC-03:** Wait for the private draft, download and verify the attested
   payload, and record the reviewed wheel and sdist SHA-256 values.
-- [ ] **R10 / AC-03:** Invoke the hash-bound publish workflow and verify GitHub,
+  All eight exact-source provenance/SBOM verifications passed; the four
+  distributions match the private release, manifest and checksum file.
+- [~] **R10 / AC-03:** Invoke the hash-bound publish workflow and verify GitHub,
   TestPyPI, PyPI, provenance, SBOM, and clean-install receipts.
 - [ ] **R11 / AC-03:** Reconcile any Rust, R, Julia, documentation, archive, and
   registry workflows triggered by the tag without overstating external outcomes.
