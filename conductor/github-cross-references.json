@@ -5532,8 +5532,20 @@
         "https://github.com/edithatogo/voiage/issues/471",
         "https://github.com/edithatogo/voiage/issues/615"
       ],
-      "pull_requests": [],
-      "pull_request_evidence": "release and venue execution track initialized; no release-candidate pull request exists yet"
+      "pull_requests": [
+        {
+          "number": 1038,
+          "url": "https://github.com/edithatogo/voiage/pull/1038",
+          "status": "open",
+          "evidence": [
+            "local-tox:15-environments-passed",
+            "local-tests:4511-passed-16-skipped",
+            "hosted-checks:pending",
+            "merge:pending"
+          ]
+        }
+      ],
+      "pull_request_evidence": "PR #1038 contains the locally validated v2.2.0 source candidate; exact-head hosted checks and protected merge remain pending"
     }
   ]
 }

@@ -12,7 +12,8 @@
     "scope": "recommended v2.2.0 release followed by pyOpenSci-first, JOSS fast-track, and eventual rOpenSci submission"
   },
   "github_cross_reference": {
-    "issue": "https://github.com/edithatogo/voiage/issues/1037"
+    "issue": "https://github.com/edithatogo/voiage/issues/1037",
+    "pull_request": "https://github.com/edithatogo/voiage/pull/1038"
   },
   "gates": [
     {

@@ -19,6 +19,7 @@
   tox validation; repair all in-scope findings. (`5cdb1dd`)
 - [~] **R6 / AC-02:** Open the protected release-candidate PR, resolve review
   findings, wait for exact-head checks, and squash-merge with exact tree equality.
+  PR #1038 is open; full local validation passed and hosted checks are pending.
 - [x] **R6a / AC-02 — Review fixes:** Bind the verified upstream template
   revision, preserve the public-release boundary, and reject fabricated or
   deleted prepublication evidence fields. (`00edb35`)
