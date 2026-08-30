@@ -1,0 +1,402 @@
+{
+  "exact_tree_match": true,
+  "head_revision": "dbb089fe5bfbc57dd897d2cca7d0b1bec4268d5e",
+  "head_tree": "c525533c75735f1efabd5f8d40e4d01d1817710a",
+  "hosted_checks": {
+    "checks": [
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833060/job/99228966974",
+        "name": "Cross-language differential conformance"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833154/job/99228543645",
+        "name": "Unit Tests (Python 3.12)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833154/job/99228543623",
+        "name": "Unit Tests (Python 3.13)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833154/job/99228543632",
+        "name": "Excel Interchange Extra"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833154/job/99228543579",
+        "name": "Repository Harness"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833154/job/99228543606",
+        "name": "Python 3.14t Observation"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833136/job/99228867933",
+        "name": "compare-distributions"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833154/job/99228543618",
+        "name": "Benchmark Regression Checks"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833154/job/99228543576",
+        "name": "Mutation Testing"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833154/job/99228543523",
+        "name": "Coverage Report"
+      },
+      {
+        "bucket": "skipping",
+        "link": "https://github.com/edithatogo/voiage/runs/99228791017",
+        "name": "CodeQL"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833154/job/99228543538",
+        "name": "Vale Prose Lint"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833060/job/99228543359",
+        "name": "R installed native smoke (ubuntu-latest)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833154/job/99228543554",
+        "name": "Integration Tests"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833154/job/99228543506",
+        "name": "Lint & Type Check"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833060/job/99228543283",
+        "name": "Julia binding (1.12, ubuntu-latest, rust/target/release/libvoiage_ffi.so)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833154/job/99228543520",
+        "name": "Frontier Contract Validation"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833060/job/99228543216",
+        "name": "Julia binding (1.11, ubuntu-latest, rust/target/release/libvoiage_ffi.so)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833154/job/99228543552",
+        "name": "Build Documentation"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833154/job/99228543533",
+        "name": "E2E Tests (CLI)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833060/job/99228543204",
+        "name": "R package-development checks"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833080/job/99228543213",
+        "name": "TeX Live 2023"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833080/job/99228543170",
+        "name": "TeX Live 2025"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833060/job/99228543152",
+        "name": "Julia binding (1.10, ubuntu-latest, rust/target/release/libvoiage_ffi.so)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833154/job/99228543530",
+        "name": "Unit Tests (Python 3.14)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833141/job/99228543649",
+        "name": "Wheel contract (CPython 3.12)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833141/job/99228543611",
+        "name": "Wheel contract (ubuntu-24.04)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833082/job/99228543468",
+        "name": "Production Rust Numerics Benchmarks"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833154/job/99228543526",
+        "name": "Example and Notebook Smoke"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833141/job/99228543631",
+        "name": "Wheel contract (CPython 3.13)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833141/job/99228543596",
+        "name": "Wheel contract (CPython 3.14)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833080/job/99228543161",
+        "name": "Source package and PDF assurance"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833136/job/99228543419",
+        "name": "Bootstrap performance (ubuntu-24.04)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833080/job/99228543030",
+        "name": "Semantic HTML assurance"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833119/job/99228543243",
+        "name": "Gitleaks Audit"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833154/job/99228543484",
+        "name": "Standardized Ingestion Conformance"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833148/job/99228543578",
+        "name": "Rust Miri unsafe-boundary tests"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833154/job/99228543418",
+        "name": "Version Synchronization Validation"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/runs/99228580947",
+        "name": "zizmor"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833060/job/99228543400",
+        "name": "Julia binding (1.11, macos-latest, rust/target/release/libvoiage_ffi.dylib)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833141/job/99228543677",
+        "name": "Wheel contract (windows-2025)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833117/job/99228543301",
+        "name": "compatibility-and-coverage"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833072/job/99228542975",
+        "name": "Stable Frozen Lock"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833082/job/99228543394",
+        "name": "Rust Profiling Baselines"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833134/job/99228543440",
+        "name": "Stable Rust kernel fuzzing"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833141/job/99228543491",
+        "name": "Wheel contract (macos-14)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833136/job/99228543302",
+        "name": "Bootstrap performance (windows-2025)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833060/job/99228543272",
+        "name": "Julia binding (1.11, windows-latest, rust/target/release/voiage_ffi.dll)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833083/job/99228543017",
+        "name": "ARM64 observation"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833112/job/99228543180",
+        "name": "C consumer ASan UBSan LSan with ASan-instrumented Rust"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833060/job/99228543268",
+        "name": "Julia binding (1.10, macos-latest, rust/target/release/libvoiage_ffi.dylib)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833094/job/99228543081",
+        "name": "Rust workspace line coverage (minimum 80%)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833136/job/99228543327",
+        "name": "Wheel and sdist identity (windows-2025)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833060/job/99228543171",
+        "name": "R installed native smoke (macos-latest)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833060/job/99228543129",
+        "name": "R installed native smoke (windows-latest)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833060/job/99228543297",
+        "name": "Julia binding (1.12, macos-latest, rust/target/release/libvoiage_ffi.dylib)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833060/job/99228543296",
+        "name": "Julia binding (1.10, windows-latest, rust/target/release/voiage_ffi.dll)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833136/job/99228543223",
+        "name": "telemetry-and-oracles"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833060/job/99228543006",
+        "name": "Rust workspace (MSRV 1.85)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833082/job/99228543345",
+        "name": "Performance Benchmarks"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833136/job/99228543344",
+        "name": "Wheel and sdist identity (ubuntu-24.04)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833063/job/99228542967",
+        "name": "CodeQL Analysis (python)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833060/job/99228543249",
+        "name": "Julia binding (1.12, windows-latest, rust/target/release/voiage_ffi.dll)"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833101/job/99228543051",
+        "name": "Reproducible build and SBOM"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833111/job/99228542913",
+        "name": "Dependency Review"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833109/job/99228543372",
+        "name": "Cargo advisories licenses bans sources"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833060/job/99228543116",
+        "name": "Rust workspace"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833073/job/99228542957",
+        "name": "Validate and build JOSS paper"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833074/job/99228543034",
+        "name": "Audit GitHub Actions"
+      },
+      {
+        "bucket": "skipping",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833154/job/99228544127",
+        "name": "Performance Profiling"
+      },
+      {
+        "bucket": "skipping",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833154/job/99228544120",
+        "name": "Frozen Lock Refresh Evidence"
+      },
+      {
+        "bucket": "skipping",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833072/job/99228543663",
+        "name": "Latest Compatible and Experimental Observation"
+      },
+      {
+        "bucket": "skipping",
+        "link": "https://github.com/edithatogo/voiage/actions/runs/33300833083/job/99228543750",
+        "name": "Dependency submission"
+      }
+    ],
+    "failed": 0,
+    "passed": 68,
+    "pending": 0,
+    "skipped": 5
+  },
+  "local_validation": {
+    "consumer_cache_mode": "explicit_warm",
+    "coverage_percent": 95.16,
+    "elapsed_seconds": 1775.65,
+    "log_sha256": "a719c5d43503fc6423814f1aca654704cb236fc8e48c89fb9978c0e13147a1b6",
+    "tests_passed": 4522,
+    "tests_skipped": 16,
+    "tox_environments_passed": 15
+  },
+  "merge_signature_verified": true,
+  "merged_at": "2026-08-30T08:16:24Z",
+  "observed_at": "2026-08-30T08:20:07Z",
+  "phase_boundary": "source candidate only; this phase did not create a release tag, publish artifacts, submit to a venue, or supply personal attestations",
+  "pre_merge_review": {
+    "advisory_dispositions": "retained in release-candidate-review.md; not all advisory findings are claimed fixed",
+    "codeql_alert_1280": "fixed_by_fresh_PR_analysis",
+    "critical_or_high_security_alerts": 0,
+    "open_dependabot_alerts": 0,
+    "unresolved_threads": 0
+  },
+  "pull_request": "https://github.com/edithatogo/voiage/pull/1038",
+  "schema_version": "1.0",
+  "squash_merge_revision": "cf35bc998b936ede8eb3eea57d5bb2eec40124c0",
+  "squash_merge_tree": "c525533c75735f1efabd5f8d40e4d01d1817710a"
+}

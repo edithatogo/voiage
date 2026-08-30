@@ -1,8 +1,28 @@
 # Release Candidate Review
 
 Initial functional candidate: `00edb35bdfd05c3c011a546a6a49460567481d05`.
-Scope: Phase 1 after checkpoint `710aca9`; review is not a phase-completion
-receipt. R6 remains in progress until exact-head hosted checks and merge.
+Scope: Phase 1 after checkpoint `710aca9`. The final readback below supersedes
+preparation-time pending-check notes, which are retained as historical context.
+
+## Final source-phase readback
+
+PR #1038 merged on 2026-08-30 at `cf35bc998b936ede8eb3eea57d5bb2eec40124c0`.
+Its verified merge tree, `c525533c75735f1efabd5f8d40e4d01d1817710a`, exactly
+matches checked head `dbb089fe5bfbc57dd897d2cca7d0b1bec4268d5e`. All 68 hosted
+checks passed, five were skipped under their configured conditions, and all
+three review threads were resolved. Fresh CodeQL marked alert #1280 fixed.
+The complete [merge receipt](release-candidate-merge-receipt-20260830.json)
+retains individual job links and the distinct local-validation evidence.
+
+The review covered all phase changes since checkpoint `710aca9`, including
+Conductor records. Decision-card behavior, installed-consumer isolation,
+submission guards and version synchronization have direct regression coverage.
+The R runner, canonical LaTeX, package/binding metadata and source-history
+contracts have their dedicated tests and hosted build evidence. No new
+Critical or High finding remains; retained advisory dispositions and external
+venue gates below are not presented as completed outcomes. The final checkpoint
+revalidates the evidence-only delta; it does not substitute for the full local
+matrix or exact-head hosted checks already completed for the source candidate.
 
 ## Hosted review follow-up
 

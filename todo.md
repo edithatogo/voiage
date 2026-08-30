@@ -8,7 +8,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
     `conductor/tracks/v2_2_release_and_venue_submissions_20260830/` (#1037).
     *   [x] Synchronize package, binding, manuscript, and unposted candidate
         metadata; retain published citation metadata and validate locally.
-    *   [ ] Complete protected PR checks and merge, signed tagging, private
+    *   [x] Complete protected PR checks and exact-tree squash merge (#1038).
+    *   [ ] Complete signed tagging, private
         draft review, hash-bound publication, and public-artifact verification.
     *   [ ] Proceed pyOpenSci first, then the eligible JOSS partner route and
         rOpenSci; personal declarations and external outcomes remain explicit.

@@ -17,9 +17,11 @@
   manuscript metadata, and venue packets to v2.2.0. (`9004ba4`)
 - [x] **R5 / AC-02:** Run ABI, packaging, manuscript, submission, binding, and full
   tox validation; repair all in-scope findings. (`5cdb1dd`)
-- [~] **R6 / AC-02:** Open the protected release-candidate PR, resolve review
+- [x] **R6 / AC-02:** Open the protected release-candidate PR, resolve review
   findings, wait for exact-head checks, and squash-merge with exact tree equality.
-  PR #1038 is open; full local validation passed and hosted checks are pending.
+  PR #1038 merged after 68 passing checks, five governed skips, and zero
+  unresolved threads; the verified merge exactly matches the checked tree.
+  (`cf35bc9`)
 - [x] **R6a / AC-02 — Review fixes:** Bind the verified upstream template
   revision, preserve the public-release boundary, and reject fabricated or
   deleted prepublication evidence fields. (`00edb35`)
@@ -39,7 +41,7 @@
   enforce subprocess timeouts, and verify default isolation and full tests.
   All 15 tox environments passed: 4,522 tests, 16 skips, 95.16% coverage.
   (`bfc1d79`)
-- [ ] **R7 / AC-02:** Run automated phase review and validation checkpoint.
+- [~] **R7 / AC-02:** Run automated phase review and validation checkpoint.
 
 ## Phase 2 — Signed staged and public release
 

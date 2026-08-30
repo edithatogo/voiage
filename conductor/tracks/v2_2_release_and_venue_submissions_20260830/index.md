@@ -7,6 +7,7 @@
 - [Live release and venue baseline](./release-submission-live-baseline-20260830.json)
 - [Phase 0 review](./phase-0-review.md)
 - [Release candidate review](./release-candidate-review.md)
+- [Release candidate merge receipt](./release-candidate-merge-receipt-20260830.json)
 - [GitHub issue #1037](https://github.com/edithatogo/voiage/issues/1037)
 - [Release candidate PR #1038](https://github.com/edithatogo/voiage/pull/1038)
 
