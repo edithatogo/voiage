@@ -1,0 +1,12 @@
+{
+  "archive_sha256": "6c6df908d2c3fd24e6d76869e92542abd0f33aec9dfc18df8875f89660286d43",
+  "original_patch_sha256": "b29c22f47587460149e05296ff09b29bf790a83e2b3b13fb2f42f5f236ad8ea7",
+  "derived_patch_sha256": "ef3838753d6bee11fd0f9dea357e65ec419e7aebdb8c87136f92c5826ebf92a1",
+  "application_stdout": {
+    "original": "patching file 'Lib/ctypes/__init__.py'\npatching file 'Lib/ctypes/util.py'\n",
+    "refreshed": "patching file 'Lib/ctypes/__init__.py'\npatching file 'Lib/ctypes/util.py'\n"
+  },
+  "added_removed_lines_identical": true,
+  "patched_files_identical": true,
+  "native_build_executed": false
+}

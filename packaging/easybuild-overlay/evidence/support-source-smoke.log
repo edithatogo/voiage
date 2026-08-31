@@ -1,0 +1,138 @@
+Using CPython 3.12.13
+Creating virtual environment at: .conductor/local/easybuild-backports/support-smoke-env
+Activate with: source .conductor/local/easybuild-backports/support-smoke-env/bin/activate
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 11 packages in 665ms
+Downloading pip (2.0MiB)
+ Downloaded pip
+Prepared 6 packages in 2.22s
+Installed 11 packages in 111ms
+ + flit-core==3.12.0
+ + hatchling==1.24.2
+ + packaging==26.3
+ + pathspec==1.1.1
+ + pip==24.0
+ + pluggy==1.6.0
+ + setuptools==70.0.0
+ + setuptools-scm==7.1.0
+ + trove-classifiers==2026.6.1.19
+ + typing-extensions==4.16.0
+ + wheel==0.43.0
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 1 package in 450ms
+   Building packaging @ file://<workspace>/.conductor/local/easybuild-backports/sources/packaging-24.0.tar.gz
+      Built packaging @ file://<workspace>/.conductor/local/easybuild-backports/sources/packaging-24.0.tar.gz
+Prepared 1 package in 235ms
+Uninstalled 1 package in 11ms
+Installed 1 package in 4ms
+ - packaging==26.3
+ + packaging==24.0 (from file://<workspace>/.conductor/local/easybuild-backports/sources/packaging-24.0.tar.gz)
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 1 package in 64ms
+   Building typing-extensions @ file://<workspace>/.conductor/local/easybuild-backports/sources/typing_extensions-4.16.0.tar.gz
+      Built typing-extensions @ file://<workspace>/.conductor/local/easybuild-backports/sources/typing_extensions-4.16.0.tar.gz
+Prepared 1 package in 212ms
+Uninstalled 1 package in 0.98ms
+Installed 1 package in 2ms
+ - typing-extensions==4.16.0
+ + typing-extensions==4.16.0 (from file://<workspace>/.conductor/local/easybuild-backports/sources/typing_extensions-4.16.0.tar.gz)
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 1 package in 699ms
+   Building six @ file://<workspace>/.conductor/local/easybuild-backports/sources/six-1.17.0.tar.gz
+      Built six @ file://<workspace>/.conductor/local/easybuild-backports/sources/six-1.17.0.tar.gz
+Prepared 1 package in 491ms
+Installed 1 package in 1ms
+ + six==1.17.0 (from file://<workspace>/.conductor/local/easybuild-backports/sources/six-1.17.0.tar.gz)
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 1 package in 734ms
+   Building python-dateutil @ file://<workspace>/.conductor/local/easybuild-backports/sources/python-dateutil-2.9.0.post0.tar.gz
+      Built python-dateutil @ file://<workspace>/.conductor/local/easybuild-backports/sources/python-dateutil-2.9.0.post0.tar.gz
+Prepared 1 package in 464ms
+Installed 1 package in 2ms
+ + python-dateutil==2.9.0.post0 (from file://<workspace>/.conductor/local/easybuild-backports/sources/python-dateutil-2.9.0.post0.tar.gz)
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 1 package in 879ms
+   Building pytz @ file://<workspace>/.conductor/local/easybuild-backports/sources/pytz-2025.2.tar.gz
+      Built pytz @ file://<workspace>/.conductor/local/easybuild-backports/sources/pytz-2025.2.tar.gz
+Prepared 1 package in 1.62s
+Installed 1 package in 10ms
+ + pytz==2025.2 (from file://<workspace>/.conductor/local/easybuild-backports/sources/pytz-2025.2.tar.gz)
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 1 package in 2.21s
+   Building tzdata @ file://<workspace>/.conductor/local/easybuild-backports/sources/tzdata-2025.2.tar.gz
+      Built tzdata @ file://<workspace>/.conductor/local/easybuild-backports/sources/tzdata-2025.2.tar.gz
+Prepared 1 package in 2.24s
+Installed 1 package in 14ms
+ + tzdata==2025.2 (from file://<workspace>/.conductor/local/easybuild-backports/sources/tzdata-2025.2.tar.gz)
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 1 package in 4.39s
+   Building poetry-core @ file://<workspace>/.conductor/local/easybuild-backports/sources/poetry_core-2.1.3.tar.gz
+      Built poetry-core @ file://<workspace>/.conductor/local/easybuild-backports/sources/poetry_core-2.1.3.tar.gz
+Prepared 1 package in 849ms
+Installed 1 package in 4ms
+ + poetry-core==2.1.3 (from file://<workspace>/.conductor/local/easybuild-backports/sources/poetry_core-2.1.3.tar.gz)
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 1 package in 750ms
+   Building pdm-backend @ file://<workspace>/.conductor/local/easybuild-backports/sources/pdm_backend-2.4.5.tar.gz
+      Built pdm-backend @ file://<workspace>/.conductor/local/easybuild-backports/sources/pdm_backend-2.4.5.tar.gz
+Prepared 1 package in 243ms
+Installed 1 package in 7ms
+ + pdm-backend==2.4.5 (from file://<workspace>/.conductor/local/easybuild-backports/sources/pdm_backend-2.4.5.tar.gz)
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 1 package in 12.63s
+   Building pygments @ file://<workspace>/.conductor/local/easybuild-backports/sources/pygments-2.19.2.tar.gz
+      Built pygments @ file://<workspace>/.conductor/local/easybuild-backports/sources/pygments-2.19.2.tar.gz
+Prepared 1 package in 1.75s
+Installed 1 package in 9ms
+ + pygments==2.19.2 (from file://<workspace>/.conductor/local/easybuild-backports/sources/pygments-2.19.2.tar.gz)
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 1 package in 213ms
+   Building mdurl @ file://<workspace>/.conductor/local/easybuild-backports/sources/mdurl-0.1.2.tar.gz
+      Built mdurl @ file://<workspace>/.conductor/local/easybuild-backports/sources/mdurl-0.1.2.tar.gz
+Prepared 1 package in 169ms
+Installed 1 package in 1ms
+ + mdurl==0.1.2 (from file://<workspace>/.conductor/local/easybuild-backports/sources/mdurl-0.1.2.tar.gz)
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 1 package in 839ms
+   Building markdown-it-py @ file://<workspace>/.conductor/local/easybuild-backports/sources/markdown-it-py-3.0.0.tar.gz
+      Built markdown-it-py @ file://<workspace>/.conductor/local/easybuild-backports/sources/markdown-it-py-3.0.0.tar.gz
+Prepared 1 package in 425ms
+Installed 1 package in 3ms
+ + markdown-it-py==3.0.0 (from file://<workspace>/.conductor/local/easybuild-backports/sources/markdown-it-py-3.0.0.tar.gz)
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 1 package in 1.42s
+   Building rich @ file://<workspace>/.conductor/local/easybuild-backports/sources/rich-14.0.0.tar.gz
+      Built rich @ file://<workspace>/.conductor/local/easybuild-backports/sources/rich-14.0.0.tar.gz
+Prepared 1 package in 536ms
+Installed 1 package in 7ms
+ + rich==14.0.0 (from file://<workspace>/.conductor/local/easybuild-backports/sources/rich-14.0.0.tar.gz)
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 1 package in 750ms
+   Building shellingham @ file://<workspace>/.conductor/local/easybuild-backports/sources/shellingham-1.5.4.tar.gz
+      Built shellingham @ file://<workspace>/.conductor/local/easybuild-backports/sources/shellingham-1.5.4.tar.gz
+Prepared 1 package in 849ms
+Installed 1 package in 2ms
+ + shellingham==1.5.4 (from file://<workspace>/.conductor/local/easybuild-backports/sources/shellingham-1.5.4.tar.gz)
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 1 package in 41ms
+   Building annotated-doc @ file://<workspace>/.conductor/local/easybuild-backports/sources/annotated_doc-0.0.4.tar.gz
+      Built annotated-doc @ file://<workspace>/.conductor/local/easybuild-backports/sources/annotated_doc-0.0.4.tar.gz
+Prepared 1 package in 422ms
+Installed 1 package in 26ms
+ + annotated-doc==0.0.4 (from file://<workspace>/.conductor/local/easybuild-backports/sources/annotated_doc-0.0.4.tar.gz)
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 1 package in 1.21s
+   Building click @ file://<workspace>/.conductor/local/easybuild-backports/sources/click-8.5.0.tar.gz
+      Built click @ file://<workspace>/.conductor/local/easybuild-backports/sources/click-8.5.0.tar.gz
+Prepared 1 package in 319ms
+Installed 1 package in 17ms
+ + click==8.5.0 (from file://<workspace>/.conductor/local/easybuild-backports/sources/click-8.5.0.tar.gz)
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 1 package in 3.60s
+   Building typer @ file://<workspace>/.conductor/local/easybuild-backports/sources/typer-0.27.2.tar.gz
+      Built typer @ file://<workspace>/.conductor/local/easybuild-backports/sources/typer-0.27.2.tar.gz
+Prepared 1 package in 209ms
+Installed 1 package in 3ms
+ + typer==0.27.2 (from file://<workspace>/.conductor/local/easybuild-backports/sources/typer-0.27.2.tar.gz)
+No broken requirements found.
+source-built Typer/Click help PASS

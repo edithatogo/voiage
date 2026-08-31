@@ -1,0 +1,121 @@
+{
+  "recorded_at": "2026-08-31T16:33:25.270477+00:00",
+  "scope": "Native macOS Python3.12 source-built selected pure support distributions; not EasyBuild installation, Linux, scientific build or full Voiage",
+  "source_builds": [
+    {
+      "name": "packaging",
+      "version": "24.0",
+      "sha256": "eb82c5e3e56209074766e6885bb04b8c38a0c015d0a30036ebe7ece34c9989e9"
+    },
+    {
+      "name": "typing-extensions",
+      "version": "4.16.0",
+      "sha256": "dc983d19a509c94dba722ee6abd33940f7c05a89e243c47e907eb4db6f1a43e5"
+    },
+    {
+      "name": "six",
+      "version": "1.17.0",
+      "sha256": "ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81"
+    },
+    {
+      "name": "python-dateutil",
+      "version": "2.9.0.post0",
+      "sha256": "37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3"
+    },
+    {
+      "name": "pytz",
+      "version": "2025.2",
+      "sha256": "360b9e3dbb49a209c21ad61809c7fb453643e048b38924c765813546746e81c3"
+    },
+    {
+      "name": "tzdata",
+      "version": "2025.2",
+      "sha256": "b60a638fcc0daffadf82fe0f57e53d06bdec2f36c4df66280ae79bce6bd6f2b9"
+    },
+    {
+      "name": "poetry-core",
+      "version": "2.1.3",
+      "sha256": "0522a015477ed622c89aad56a477a57813cace0c8e7ff2a2906b7ef4a2e296a4"
+    },
+    {
+      "name": "pdm-backend",
+      "version": "2.4.5",
+      "sha256": "56c019c440308adad5d057c08cbb777e65f43b991a3b0920749781258972fe5b"
+    },
+    {
+      "name": "pygments",
+      "version": "2.19.2",
+      "sha256": "636cb2477cec7f8952536970bc533bc43743542f70392ae026374600add5b887"
+    },
+    {
+      "name": "mdurl",
+      "version": "0.1.2",
+      "sha256": "bb413d29f5eea38f31dd4754dd7377d4465116fb207585f97bf925588687c1ba"
+    },
+    {
+      "name": "markdown-it-py",
+      "version": "3.0.0",
+      "sha256": "e3f60a94fa066dc52ec76661e37c851cb232d92f9886b15cb560aaada2df8feb"
+    },
+    {
+      "name": "rich",
+      "version": "14.0.0",
+      "sha256": "82f1bc23a6a21ebca4ae0c45af9bdbc492ed20231dcb63f297d6d1021a9d5725"
+    },
+    {
+      "name": "shellingham",
+      "version": "1.5.4",
+      "sha256": "8dbca0739d487e5bd35ab3ca4b36e11c4078f3a234bfce294b0a0291363404de"
+    },
+    {
+      "name": "annotated-doc",
+      "version": "0.0.4",
+      "sha256": "fbcda96e87e9c92ad167c2e53839e57503ecfda18804ea28102353485033faa4"
+    },
+    {
+      "name": "click",
+      "version": "8.5.0",
+      "sha256": "ba0d2089de75ea0310e2dde03160e6ca10009947fb95a182f9b54021bb272e34"
+    },
+    {
+      "name": "typer",
+      "version": "0.27.2",
+      "sha256": "269b7eb9d3c202ca84b4bc9618cb04ebb43d3d4d1e567e4c768607232c05f945"
+    }
+  ],
+  "installed_versions": {
+    "shellingham": "1.5.4",
+    "poetry-core": "2.1.3",
+    "packaging": "24.0",
+    "click": "8.5.0",
+    "pytz": "2025.2",
+    "pip": "24.0",
+    "markdown-it-py": "3.0.0",
+    "pdm-backend": "2.4.5",
+    "tzdata": "2025.2",
+    "trove-classifiers": "2026.6.1.19",
+    "mdurl": "0.1.2",
+    "python-dateutil": "2.9.0.post0",
+    "hatchling": "1.24.2",
+    "setuptools": "70.0.0",
+    "wheel": "0.43.0",
+    "pluggy": "1.6.0",
+    "Pygments": "2.19.2",
+    "pathspec": "1.1.1",
+    "rich": "14.0.0",
+    "typing_extensions": "4.16.0",
+    "flit_core": "3.12.0",
+    "typer": "0.27.2",
+    "setuptools-scm": "7.1.0",
+    "six": "1.17.0",
+    "annotated-doc": "0.0.4"
+  },
+  "pip_check": "PASS",
+  "typer_click_help": "PASS",
+  "native_scientific_builds": false,
+  "interpreter": {
+    "python_version": "3.12.13",
+    "system": "Darwin",
+    "machine": "arm64"
+  }
+}

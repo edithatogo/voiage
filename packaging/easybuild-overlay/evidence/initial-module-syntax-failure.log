@@ -1,0 +1,4 @@
+
+
+ERROR: Failed to parse configuration options: Generating Lua module files requires Lmod as modules tool; use --module-syntax to specify a different module syntax to use (Lua, Tcl)
+

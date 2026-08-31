@@ -1,0 +1,127 @@
+{
+  "recorded_at": "2026-08-31T16:55:06.171715+00:00",
+  "scope": "Actual SciPy1.16.3 sdist developer-test CLI initialization with source-built support; no configure/build/scientific tests executed",
+  "scipy_source_sha256": "01e87659402762f43bd2fee13370553a17ada367d42e7487800bf2916535aecb",
+  "dev_py_sha256": "70b4919b57a864f9e78631a9f776931849fbfbccb41316677a6a8ba8d14534d0",
+  "results": [
+    {
+      "args": [
+        "--help"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "46a3f07357ce57005d003a58c39a3f39b85e85c8323921478890ead74968f8c7"
+    },
+    {
+      "args": [
+        "--no-build",
+        "test",
+        "--help"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "d583f2b88fce534ecc6f4e6fe6dd3e3a2ce7867f63e58fd5815b66197a4826e4"
+    }
+  ],
+  "added_source_builds": [
+    {
+      "name": "cloudpickle",
+      "version": "3.1.2",
+      "url": "https://files.pythonhosted.org/packages/27/fb/576f067976d320f5f0114a8d9fa1215425441bb35627b1993e5afd8111e5/cloudpickle-3.1.2.tar.gz",
+      "filename": "cloudpickle-3.1.2.tar.gz",
+      "sha256": "7fda9eb655c9c230dab534f1983763de5835249750e85fbcef43aaa30a9a2414",
+      "bytes": 22330,
+      "download_hash_verified": true,
+      "requires_dist": null,
+      "build_system": {
+        "requires": [
+          "flit_core"
+        ],
+        "build-backend": "flit_core.buildapi"
+      }
+    },
+    {
+      "name": "doit",
+      "version": "0.37.0",
+      "url": "https://files.pythonhosted.org/packages/35/f6/3a817d438799bda4d4e5fd136175cf7c328c074fadc1422dec3b374907e7/doit-0.37.0.tar.gz",
+      "filename": "doit-0.37.0.tar.gz",
+      "sha256": "d3c72e0e46a8fa1ddabea8f830762402dee090caf33c30c2295ac7010db8f09c",
+      "bytes": 1450967,
+      "download_hash_verified": true,
+      "requires_dist": [
+        "tomli; python_version < \"3.11\" and extra == \"toml\"",
+        "cloudpickle; platform_python_implementation != \"PyPy\" and extra == \"cloudpickle\""
+      ],
+      "build_system": {
+        "requires": [
+          "setuptools>=68.0"
+        ],
+        "build-backend": "setuptools.build_meta"
+      }
+    },
+    {
+      "name": "pydevtool",
+      "version": "0.3.0",
+      "url": "https://files.pythonhosted.org/packages/b3/5f/e49dd88e200bd97e9dcd6d3d5c3e38d60efd9f39b2e0de69cb07e664dacd/pydevtool-0.3.0.tar.gz",
+      "filename": "pydevtool-0.3.0.tar.gz",
+      "sha256": "25e3ba4f3d33ccac33ee2b9775995848d49e9b318b7a146477fb5d52f786fc8a",
+      "bytes": 10601,
+      "download_hash_verified": true,
+      "requires_dist": [
+        "doit (>=0.36.0)"
+      ],
+      "build_system": {
+        "requires": [
+          "setuptools"
+        ],
+        "build-backend": "setuptools.build_meta"
+      }
+    },
+    {
+      "name": "rich-click",
+      "version": "1.9.8",
+      "url": "https://files.pythonhosted.org/packages/f7/ea/21e4867ea0ef881ffd4c0550fc21a061435e50d6324bcd034396633cbc18/rich_click-1.9.8.tar.gz",
+      "filename": "rich_click-1.9.8.tar.gz",
+      "sha256": "4008f921da88b5d91646c134ec881c1500e5a6b3f093e90e8f29400e09608371",
+      "bytes": 75363,
+      "download_hash_verified": true,
+      "requires_dist": [
+        "click>=8",
+        "colorama; platform_system == \"Windows\"",
+        "rich>=12",
+        "typing-extensions>=4; python_version < \"3.11\"",
+        "inline-snapshot>=0.24; extra == \"dev\"",
+        "jsonschema>=4; extra == \"dev\"",
+        "mypy>=1.14.1; extra == \"dev\"",
+        "nodeenv>=1.9.1; extra == \"dev\"",
+        "packaging>=25; extra == \"dev\"",
+        "pre-commit>=3.5; extra == \"dev\"",
+        "pytest>=8.3.5; extra == \"dev\"",
+        "pytest-cov>=5; extra == \"dev\"",
+        "rich-codex>=1.2.11; extra == \"dev\"",
+        "ruff>=0.12.4; extra == \"dev\"",
+        "typer<0.26,>=0.15; extra == \"dev\"",
+        "types-setuptools>=75.8.0.20250110; extra == \"dev\"",
+        "markdown-include>=0.8.1; extra == \"docs\"",
+        "mike>=2.1.3; extra == \"docs\"",
+        "mkdocs[docs]>=1.6.1; extra == \"docs\"",
+        "mkdocs-github-admonitions-plugin>=0.1.1; extra == \"docs\"",
+        "mkdocs-glightbox>=0.4; extra == \"docs\"",
+        "mkdocs-include-markdown-plugin>=7.1.7; python_version >= \"3.9\" and extra == \"docs\"",
+        "mkdocs-material[imaging]~=9.5.18; extra == \"docs\"",
+        "mkdocs-material-extensions>=1.3.1; extra == \"docs\"",
+        "mkdocs-redirects>=1.2.2; extra == \"docs\"",
+        "mkdocs-rss-plugin>=1.15; extra == \"docs\"",
+        "mkdocstrings[python]>=0.26.1; extra == \"docs\"",
+        "rich-codex>=1.2.11; extra == \"docs\"",
+        "typer<0.26,>=0.15; extra == \"docs\""
+      ],
+      "build_system": {
+        "build-backend": "setuptools.build_meta",
+        "requires": [
+          "setuptools>=45"
+        ]
+      }
+    }
+  ],
+  "pip_check": "PASS",
+  "native_builds_executed": false
+}

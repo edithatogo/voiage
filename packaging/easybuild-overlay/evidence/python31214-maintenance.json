@@ -1,0 +1,56 @@
+{
+  "recorded_at": "2026-08-31T17:50:24.890399+00:00",
+  "candidate_python": "3.12.14",
+  "historical_commit": "0b43545c2b7065dd9d9f7ef8976197f4430b1350",
+  "robot_exit_code": 0,
+  "robot_node_count": 61,
+  "raw_robot_sha256": "b32ed5ab502b27a2799ff249bec4dc9c218b125d49cdb7c90c0cb2e632f234d1",
+  "robot_command": "eb packaging/easybuild-overlay/2024a/SciPy-bundle-2026.09-gfbf-2024a-voiage-2.2.0.eb --robot --dry-run --robot-paths=<workspace>/packaging/easybuild-overlay/2024a:<pinned-catalogue>/easybuild/easyconfigs --prefix=<private-prefix> --modules-tool=EnvironmentModules --module-syntax=Tcl",
+  "python_modules": [
+    "Python/3.12.14-GCCcore-13.3.0"
+  ],
+  "bundled_expat": {
+    "archive_sha256": "6c6df908d2c3fd24e6d76869e92542abd0f33aec9dfc18df8875f89660286d43",
+    "member": "Python-3.12.14/Modules/expat/expat.h",
+    "member_sha256": "d3f19ed52dc975741ecc5a0fc553f910a241d60c76fa4621356d0cdb0490ca28",
+    "version_lines": [
+      "#  define XML_MAJOR_VERSION 2",
+      "#  define XML_MINOR_VERSION 8",
+      "#  define XML_MICRO_VERSION 3"
+    ]
+  },
+  "openssl_fallback": {
+    "name": "OpenSSL",
+    "version": "3.5.8",
+    "filename": "openssl-3.5.8.tar.gz",
+    "url": "https://github.com/openssl/openssl/releases/download/openssl-3.5.8/openssl-3.5.8.tar.gz",
+    "sha256": "a8f84a39918ec6415ce765d9b429d313ba97b8143169c172e734b9514464f5b2",
+    "bytes": 53213818,
+    "download_hash_verified": true,
+    "published_at": "2026-08-25T12:02:03Z",
+    "release_notes_url": "https://openssl-library.org/news/openssl-3.5-notes/"
+  },
+  "system_openssl_vendor_security_status": "not verified; requires installed vendor package and backport evidence on actual build host",
+  "native_easybuild_installation": false,
+  "complete_voiage_graph": false,
+  "historical_default_fuzz_check": "The original ctypes patch needed fuzz on Python 3.12.14; original strict failure is retained separately.",
+  "strict_refresh_command": "patch --fuzz=0 -p1 -i Python-3.12.14-custom-ctypes.patch",
+  "strict_refresh_exit_code": 0,
+  "strict_refresh_patch_sha256": "ef3838753d6bee11fd0f9dea357e65ec419e7aebdb8c87136f92c5826ebf92a1",
+  "selected_source_archive_count": 63,
+  "pybind11_install_paths": [
+    "CMakeMake.install_step",
+    "PythonPackage.install_step"
+  ],
+  "pybind11_build_requirements": [
+    "setuptools>=42",
+    "cmake>=3.18",
+    "ninja"
+  ],
+  "easyblocks_source_sha256": {
+    "p/pybind11.py": "58f315bf91ffbda804f1c7530cfd1ee9c85e64ba378f01710ab70a178f3a3627",
+    "generic/pythonpackage.py": "bac543e79fb75dd53fe02d126dca264e3e6bfaf624f9dc3c5e94c46b215e687c",
+    "p/python.py": "73b04c281372d1428ce73a0be62e24cca68bce05e020caf3cc5c121da5ee2655"
+  },
+  "ctypes_refresh_inputs_match_verified_archive": true
+}
