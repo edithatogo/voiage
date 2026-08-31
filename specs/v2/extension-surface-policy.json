@@ -27,6 +27,7 @@
       "voiage/c15_*.py",
       "voiage/mutation_policy.py",
       "voiage/resources/**",
+      "voiage/sampling_harm_agent_assurance.py",
       "voiage/sampling_harm_automated_challenge.py",
       "voiage/sampling_harm_human_commissioning.py",
       "voiage/sampling_harm_review_preparation.py",
