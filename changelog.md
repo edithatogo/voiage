@@ -8,6 +8,9 @@
 
 ## Unreleased
 
+- Pin the historical agent-assurance record's narrative with an independent
+  canonical digest; retain the existing schema protection against report rewrites.
+
 - Resolve the local HPC dependency graph with checksum-bound dated Rust and
   separate stable compiler backends; native cluster builds remain pending.
 

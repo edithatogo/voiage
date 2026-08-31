@@ -60,6 +60,61 @@ def test_existing_record_uses_mixed_digests_without_promoting_the_packet() -> No
     )
 
 
+@pytest.mark.parametrize("mutation", ["report_graph", "record_narrative"])
+def test_rewritten_history_fails_even_with_a_consistent_digest_graph(
+    repository: Path, mutation: str
+) -> None:
+    path = repository / ASSURANCE_PATH
+    record = read(path)
+    if mutation == "record_narrative":
+        record["provisional_conclusion"] = "A rewritten historical conclusion."
+    else:
+        reference = record["panel_reports"][0]
+        report_path = repository / CONTRACT_ROOT / reference["path"]
+        report = read(report_path)
+        report["rubric"][0]["rationale"] = "A rewritten historical rationale."
+        digest = canonical_json_sha256(
+            report, excluded_json_pointers={"/report_sha256"}
+        )
+        report["report_sha256"] = digest
+        write(report_path, report)
+        reference["sha256"] = digest
+        synthesis_path = repository / CONTRACT_ROOT / record["synthesis"]["path"]
+        synthesis = read(synthesis_path)
+        synthesis["role_reports"][0]["report_sha256"] = digest
+        for finding in synthesis["findings"]:
+            if finding["source_role"] == reference["role"]:
+                finding["source_report_sha256"] = digest
+        synthesis["synthesis_sha256"] = canonical_json_sha256(
+            synthesis, excluded_json_pointers={"/synthesis_sha256"}
+        )
+        write(synthesis_path, synthesis)
+        record["synthesis"]["sha256"] = hashlib.sha256(
+            synthesis_path.read_bytes()
+        ).hexdigest()
+        register_path = repository / CONTRACT_ROOT / record["findings"]["register_path"]
+        register = read(register_path)
+        register["bindings"]["synthesis_sha256"] = synthesis["synthesis_sha256"]
+        write(register_path, register)
+        record["findings"]["register_sha256"] = hashlib.sha256(
+            register_path.read_bytes()
+        ).hexdigest()
+    write(path, record)
+    expected = (
+        "remediation-register schema"
+        if mutation == "report_graph"
+        else "frozen assurance digest"
+    )
+    with pytest.raises(SamplingHarmAgentAssuranceError, match=expected):
+        validate(repository)
+
+
+def test_assurance_anchor_ignores_json_serialization(repository: Path) -> None:
+    path = repository / ASSURANCE_PATH
+    path.write_text(json.dumps(read(path), sort_keys=True, indent=4))
+    assert validate(repository)["historical_packet_only"] is True
+
+
 @pytest.mark.parametrize(
     "mutation",
     [

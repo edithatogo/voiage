@@ -16,6 +16,16 @@ the self-digest field excluded. The assurance record's synthesis, source and
 register references use file-byte SHA-256. These conventions are deliberately
 different; neither is replaced with a newly computed historical receipt.
 
+The existing register schema already pins the synthesis digest and rejects a
+fully rebound report graph. The additional independent canonical digest pins
+the complete historical assurance record,
+including its narrative and linked hashes. It was verified against the unchanged
+record at commit `25fc585c0bf9fea69d9bcc4220a2d667975ef3eb`. It also rejects
+schema-valid changes to the assurance record's own narrative, which the earlier
+validator accepted. No schema is changed to demonstrate this narrower gap.
+Schema and semantic checks run first to retain specific failure diagnostics;
+JSON formatting alone does not change the canonical record identity.
+
 The validator rejects altered references, redirected paths, inconsistent report
 roles, candidate or finding bindings, and unavailable authority. It enforces
 the recorded November 30 review deadline and rejects known supersession passed

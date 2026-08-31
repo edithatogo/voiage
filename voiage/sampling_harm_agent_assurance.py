@@ -30,6 +30,11 @@ from voiage.sampling_harm_source_readiness import (
 from voiage.scientific_review_evidence import canonical_json_sha256
 
 ASSURANCE_PATH = CONTRACT_ROOT / "agent-assurance-review-20260804.json"
+# Canonical digest of the unchanged historical record observed at main commit
+# 25fc585c0bf9fea69d9bcc4220a2d667975ef3eb, independent of its mutable references.
+_FROZEN_ASSURANCE_SHA256 = (
+    "f6520f9fdeb16ce822a58e7e0ba9ca3e6097e868cc0451ce96ca97b5fc5c0cb7"
+)
 REPORT_FILENAMES = (
     "h8d-estimand-domain-agent-20260803.json",
     "h8d-estimator-assurance-automated-20260803.json",
@@ -234,6 +239,8 @@ def load_and_validate_sampling_harm_agent_assurance(
         raise SamplingHarmAgentAssuranceError(
             f"invalid source readiness: {error}"
         ) from error
+    if canonical_json_sha256(record) != _FROZEN_ASSURANCE_SHA256:
+        raise SamplingHarmAgentAssuranceError("frozen assurance digest mismatch")
     return {
         "status": "valid_historical_agent_only_assurance",
         "evaluated_at": current.isoformat(),
