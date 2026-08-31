@@ -18,7 +18,7 @@
     "packages/py-typer/package.py": "e13b10d527710d0ca77b12cc910f6db703f63a35cf18ea79e2be1eb51fc44d11",
     "packages/py-typing-extensions/package.py": "bc339c7bbb0f4eb478484269204bbccf4d755d03565ddb397552ed7006a1ed30",
     "packages/py-voiage/package.py": "8f7e7f3b05d857943f9191dada49d91cdafa244aaa3d6d559088e0100489abf7",
-    "packages/rust/package.py": "9168b5c867d937cf558512f179b4deaa4d78a285dae8f19874cdb626cb77dd82",
+    "packages/rust/package.py": "c6379f7a29de431875d7adc2a94661e56fa69b96f3dfb791cbea085d05558fdc",
     "packages/rust-bootstrap/package.py": "9fa3514b619fcb45b0a4fc4107493e16397c336a13018ac9a08b79999a4ed02b"
   },
   "native_builds_executed": false,

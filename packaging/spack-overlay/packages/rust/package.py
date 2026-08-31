@@ -186,7 +186,7 @@ class Rust(Package):
         return f"https://static.rust-lang.org/dist/rustc-{version}-src.tar.{ext}"
 
     @classmethod
-    def determine_version(csl, exe):
+    def determine_version(cls, exe):
         output = Executable(exe)("--version", output=str, error=str)
         match = re.match(r"(rustc|cargo) (\S+)", output)
         return match.group(2) if match else None
@@ -247,6 +247,7 @@ class Rust(Package):
                 if openssl_dir:
                     certs = get_test_path(openssl_dir.group(1))
             except ProcessError:
+                # A failed external query falls back to the package certificate path.
                 pass
 
         if certs is None:
