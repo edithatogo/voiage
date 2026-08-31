@@ -28,6 +28,10 @@
   dependency recipes, required Arrow features, isolated solver evidence and
   explicit native build limits.
 
+- Prepare a source-pinned v2.2.0 Julia binary recipe alongside the retained
+  v2.1.0 build evidence. New BinaryBuilder execution and registry acceptance
+  remain pending; no generated JLL identifier is assumed.
+
 - Bound confirmed maintainer declarations and journal-first sequencing to the
   recorded decision. Retained separate survey and human-authorship action gates
   and verified withdrawal receipts for the earlier pyOpenSci requests.

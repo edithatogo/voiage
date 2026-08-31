@@ -1,5 +1,7 @@
 """Contracts for Julia artifact packaging and General registration."""
 
+import hashlib
+import json
 from pathlib import Path
 import tomllib
 
@@ -75,3 +77,31 @@ def test_registration_documentation_preserves_the_two_external_gates() -> None:
     assert "@JuliaRegistrator register subdir=bindings/julia" in readme
     assert "JLL registration" in readme
     assert "General registry merge" in readme
+
+
+def test_current_release_candidate_preserves_historical_build_evidence() -> None:
+    receipt = json.loads(
+        (
+            ROOT / "specs/submission-readiness/yggdrasil-v2-2-candidate-20260831.json"
+        ).read_text()
+    )
+    project = tomllib.loads((ROOT / "bindings/julia/Project.toml").read_text())
+    workspace = tomllib.loads((ROOT / "rust/Cargo.toml").read_text())
+    assert receipt["version"] == project["version"] == "2.2.0"
+    assert receipt["version"] == workspace["workspace"]["package"]["version"]
+    assert receipt["source_commit"] == "7af563c8cb373057d30662650b3f332f39e05b83"
+    historical = receipt["historical_recipe"]
+    candidate = (ROOT / receipt["recipe"]["path"]).read_bytes()
+    original = (ROOT / historical["path"]).read_bytes()
+    assert hashlib.sha256(candidate).hexdigest() == receipt["recipe"]["sha256"]
+    assert hashlib.sha256(original).hexdigest() == historical["sha256"]
+    assert candidate.decode() == original.decode().replace(
+        'version = v"2.1.0"', 'version = v"2.2.0"'
+    ).replace(historical["source_commit"], receipt["source_commit"])
+    assert receipt["state"] == "prepared_not_built_or_submitted"
+    assert all(
+        value is None or value == []
+        for value in receipt["new_candidate_evidence"].values()
+    )
+    assert historical["upstream_head"] == "2528e2efb90e4197924d45c98873ca5cdb1a9d42"
+    assert historical["included_platforms_passed"] == 15

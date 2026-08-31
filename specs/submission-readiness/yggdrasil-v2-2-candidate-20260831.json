@@ -1,0 +1,84 @@
+{
+  "schema_version": "voiage.yggdrasil-local-candidate.v1",
+  "prepared_on": "2026-08-31",
+  "state": "prepared_not_built_or_submitted",
+  "version": "2.2.0",
+  "source_commit": "7af563c8cb373057d30662650b3f332f39e05b83",
+  "release_url": "https://github.com/edithatogo/voiage/releases/tag/v2.2.0",
+  "recipe": {
+    "path": "packaging/yggdrasil/candidates/v2.2.0/build_tarballs.jl",
+    "sha256": "048493d4673ae415862c8b974a300cea033845ba8cba3900e14c238ed4547b7d"
+  },
+  "historical_recipe": {
+    "path": "packaging/yggdrasil/V/voiage_ffi/build_tarballs.jl",
+    "sha256": "4148f991e7e7bdbe8952c04108905322950d280c72b53e91d3a8d1290d5801a1",
+    "version": "2.1.0",
+    "source_commit": "964a0fc334ece9509387cd07d43776adf38be240",
+    "upstream_head": "2528e2efb90e4197924d45c98873ca5cdb1a9d42",
+    "build_url": "https://buildkite.com/julialang/yggdrasil/builds/31972",
+    "included_platforms_passed": 15
+  },
+  "allowed_recipe_changes": [
+    "version",
+    "GitSource revision"
+  ],
+  "validation": {
+    "julia_syntax": {
+      "status": "passed",
+      "command": [
+        "/opt/homebrew/bin/julia",
+        "--startup-file=no",
+        "-e",
+        "Meta.parseall(read(ARGS[1], String)); println(\"Julia recipe syntax parsed\")",
+        "packaging/yggdrasil/candidates/v2.2.0/build_tarballs.jl"
+      ],
+      "scope": "parse only; no BinaryBuilder execution"
+    },
+    "full_tox": {
+      "noncoverage_environments_passed": 14,
+      "noncoverage_exit_code": 0,
+      "noncoverage_seconds": 1424.15,
+      "noncoverage_log_sha256": "5e92ccc9d2b80c0d6681125297b7bc2f4c166c2a69171d5b467071419f38d1df",
+      "coverage": {
+        "passed": 4626,
+        "skipped": 15,
+        "failed": 0,
+        "percent": 95.11,
+        "pytest_seconds": 267.47,
+        "tox_seconds": 348.14,
+        "terminal_exit_code": 0,
+        "log_sha256": "50109eb8deb3ae83cfd52b90e0b9a5f44d337c8ccc00ef245001c1cfb11f6e2b"
+      },
+      "all_15_required_environments_passed": true
+    },
+    "dependency_frontier": {
+      "upgrade_exit_code": 0,
+      "strict_policy_passed": true,
+      "unrelated_dependency_changes_retained": false
+    },
+    "signed_release_tag": "git tag -v v2.2.0: good GPG signature; peeled target equals source_commit",
+    "focused_tests": {
+      "initial": "25 passed, 1 failed due to test assuming literal root version instead of dynamic metadata; corrected to actual Julia and Rust manifests",
+      "final_passed": 26,
+      "pytest_seconds": 8.04
+    },
+    "historical_contract_unchanged": true,
+    "final_vale": {
+      "passed": true,
+      "seconds": 11.07
+    }
+  },
+  "new_candidate_evidence": {
+    "upstream_head": null,
+    "platform_builds": [],
+    "product_archives": [],
+    "runtime_smokes": [],
+    "registered_jll_uuid": null,
+    "general_registration": null
+  },
+  "next_actions": [
+    "Review local candidate and complete protected repository delivery.",
+    "With separate upstream authorization, replace upstream recipe and obtain fresh platform builds, product integrity and supported runtime evidence.",
+    "After accepted JLL generation, consume actual UUID/version with bounded compat and test clean-depot installation before General registration."
+  ]
+}
