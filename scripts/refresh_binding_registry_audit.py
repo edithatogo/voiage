@@ -174,8 +174,8 @@ CHANNELS: tuple[Channel, ...] = (
         registry="Spack",
         registry_url="https://packages.spack.io/package.html?name=py-voiage",
         check_url=(
-            "https://raw.githubusercontent.com/spack/spack/develop/"
-            "var/spack/repos/builtin/packages/py-voiage/package.py"
+            "https://raw.githubusercontent.com/spack/spack-packages/develop/"
+            "repos/spack_repo/builtin/packages/py_voiage/package.py"
         ),
         notes=(
             "Spack publication requires an upstream package PR, maintainer "

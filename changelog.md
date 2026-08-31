@@ -1,5 +1,7 @@
 # Changelog
 
+- Prepare checksum-pinned voiage 2.2.0 Spack and both requested EasyBuild toolchain candidates, cluster module instructions, and an isolated Rust source-build smoke check; upstream submission and actual HPC builds remain pending.
+
 - Archived the completed comprehensive pre-submission hardening programme after
   exact-head hosted assurance and tree-equal merges. The hardened v2.2.0 release
   is published; pyOpenSci, rOpenSci, and JOSS submissions remain unperformed.

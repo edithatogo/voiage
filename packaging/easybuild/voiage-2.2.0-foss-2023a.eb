@@ -1,0 +1,50 @@
+# Candidate backport: matching dependency easyconfigs are required; see handoff.
+easyblock = 'PythonPackage'
+
+name = 'voiage'
+version = '2.2.0'
+
+homepage = 'https://github.com/edithatogo/voiage'
+description = 'Value of Information analysis with a Rust-native Python extension.'
+
+toolchain = {'name': 'foss', 'version': '2023a'}
+
+source_urls = ['https://files.pythonhosted.org/packages/source/v/voiage/']
+sources = [SOURCE_TAR_GZ]
+checksums = ['e4edfd41011891a94cbc2b144ff1d20340fcc32481e7a2b24157494b7490a16b']
+
+builddependencies = [
+    ('Rust', '1.85.0'),
+    ('maturin', '1.9.6'),
+]
+
+# Do not silently use the incompatible default older scientific bundles.
+# These exact dependencies need site backports on each selected toolchain.
+dependencies = [
+    ('Python', '3.12.3'),
+    ('Click', '8.5.0'),
+    ('NumPy', '2.2.6'),
+    ('SciPy', '1.16.3'),
+    ('pandas', '2.3.3'),
+    ('xarray', '2024.11.0'),
+    ('scikit-learn', '1.7.2'),
+    ('PyArrow', '25.0.0'),
+    ('Polars', '1.42.1'),
+    ('pydantic', '2.13.4'),
+    ('jsonschema', '4.26.0'),
+    ('typing_extensions', '4.16.0'),
+    ('typer', '0.27.2'),
+]
+
+use_pip = True
+pip_no_index = True
+pip_ignore_installed = False
+download_dep_fail = True
+sanity_pip_check = True
+sanity_check_paths = {'files': ['bin/voiage'], 'dirs': []}
+sanity_check_commands = [
+    'voiage --help',
+    "python -c \"import voiage; import voiage._core as c; assert c.runtime_info()['engine'] == 'rust'\"",
+]
+modextrapaths = {'PYTHONPATH': ['lib/python3.12/site-packages']}
+moduleclass = 'math'

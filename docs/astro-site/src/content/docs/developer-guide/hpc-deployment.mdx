@@ -1,0 +1,60 @@
+---
+title: HPC deployment
+description: Spack and EasyBuild source recipe candidates and cluster verification
+---
+
+The repository prepares CPU source recipes for voiage 2.2.0. They are not yet
+published upstream or verified installations on an HPC cluster. Recipe parsing,
+dependency resolution, a local source-wheel build, and a cluster build are
+separate evidence states.
+
+## Build preparation
+
+Spack users can stage `packaging/spack/package.py` as `py-voiage` in a local
+repository. EasyBuild users can stage the `voiage-2.2.0-foss-2023a.eb` or
+`voiage-2.2.0-foss-2024a.eb` candidate. Both EasyBuild configurations require
+matching modern dependency backports; the default older scientific stack is
+not sufficient. Do not mix compiled modules between compiler toolchains.
+
+From a checkout, run:
+
+```sh
+bash scripts/validate_hpc_recipes.sh --syntax
+bash scripts/validate_hpc_recipes.sh --spec
+python scripts/hpc_package_smoke.py --output /absolute/path/source-smoke.json
+```
+
+The source smoke builds the checksum-pinned release and tests the installed
+Rust extension, CLI, a numerical CPU example, and Arrow interchange outside
+the checkout. It does not emulate a cluster build. The explicit `--build` mode
+of the recipe validator runs Spack and EasyBuild builds on a prepared host;
+source builds can download dependencies and take substantial time.
+
+## Cluster modules
+
+After an administrator installs and validates the selected EasyBuild recipe,
+initialize the site's Lmod or Environment Modules environment, then use:
+
+```sh
+module avail voiage
+module load voiage/2.2.0-foss-2024a
+voiage --help
+python -c "import voiage; import voiage._core as c; print(c.runtime_info())"
+module unload voiage/2.2.0-foss-2024a
+```
+
+Use `voiage/2.2.0-foss-2023a` for the other toolchain. A site may configure a
+default so that `module load voiage` selects its supported version. Do not
+assume that default exists. Retain `module list`, interpreter location, native
+runtime information, and the installed numerical smoke output in the build
+record. The sanity checks must load the installed package rather than an
+unrelated package on the login node or a checkout on `PYTHONPATH`.
+
+For Spack, use `spack load py-voiage@2.2.0` after a successful installation.
+Module naming for Spack-generated modules depends on the site's configuration.
+CPU installation does not establish GPU support, MPI scaling, scheduler
+integration, or speedup. Optional accelerator lanes need their own evidence.
+
+The [HPC distribution handoff](https://github.com/edithatogo/voiage/blob/main/docs/release/hpc-distribution-handoff.md)
+contains the upstream PR packets and remaining build gates. No upstream
+submission is made by the validation scripts.

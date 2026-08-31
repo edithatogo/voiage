@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 from scripts.refresh_binding_registry_audit import (
+    CHANNELS,
     Channel,
     _evaluator_external_manual,
     _snapshot_entry,
@@ -92,3 +93,12 @@ def test_external_manual_classifier_keeps_curation_targets_conservative() -> Non
     assert _evaluator_external_manual(None, None, "network unavailable") == (
         "external_manual"
     )
+
+
+def test_spack_check_uses_split_catalogue_and_preserves_absence() -> None:
+    channel = next(channel for channel in CHANNELS if channel.key == "spack")
+    assert channel.check_url == (
+        "https://raw.githubusercontent.com/spack/spack-packages/develop/"
+        "repos/spack_repo/builtin/packages/py_voiage/package.py"
+    )
+    assert channel.evaluator(404, b"404: Not Found", None) == "not_found"
