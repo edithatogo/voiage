@@ -25,6 +25,9 @@
 - Update the EasyBuild 2024a foundation to Python 3.12.14 throughout its build
   dependencies and refresh the OpenSSL source fallback; native builds remain pending.
 
+- Prepare a separate foss 2023a scientific foundation with current Python
+  bindings and source-built backend evidence; native stacks remain pending.
+
 - Prepare a source-verified EasyBuild 2024a dependency foundation with explicit
   provider mappings; complete native stacks and 2023a remain pending.
 

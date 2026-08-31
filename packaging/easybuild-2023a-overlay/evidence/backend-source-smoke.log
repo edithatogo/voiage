@@ -1,0 +1,115 @@
+Using CPython 3.12.13
+Creating virtual environment at: .conductor/local/easybuild-2023a/backend-smoke-env
+Activate with: source .conductor/local/easybuild-2023a/backend-smoke-env/bin/activate
+Using Python 3.12.13 environment at: .conductor/local/easybuild-2023a/backend-smoke-env
+Resolved 8 packages in 406ms
+Prepared 2 packages in 91ms
+Installed 8 packages in 54ms
+ + flit-core==3.12.0
+ + packaging==24.0
+ + pip==24.0
+ + setuptools==70.0.0
+ + setuptools-scm==7.1.0
+ + tomli==2.0.1
+ + typing-extensions==4.16.0
+ + wheel==0.43.0
+Processing ./.conductor/local/easybuild-2023a/sources/pathspec-0.12.1.tar.gz
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: pathspec
+  Building wheel for pathspec (pyproject.toml): started
+  Building wheel for pathspec (pyproject.toml): finished with status 'done'
+  Created wheel for pathspec: filename=pathspec-0.12.1-py3-none-any.whl size=31229 sha256=7c37985947d1b596bcf3cf3c7fc8811c8ae03569d17e8328a5482ebca9801847
+  Stored in directory: <private-cache>
+Successfully built pathspec
+Installing collected packages: pathspec
+Successfully installed pathspec-0.12.1
+Processing ./.conductor/local/easybuild-2023a/sources/pluggy-1.5.0.tar.gz
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: pluggy
+  Building wheel for pluggy (pyproject.toml): started
+  Building wheel for pluggy (pyproject.toml): finished with status 'done'
+  Created wheel for pluggy: filename=pluggy-1.5.0-py3-none-any.whl size=20434 sha256=9fdfab1f665f296f921bee37cebbeb76e83346aea47254cc7c83c1f740d0f6a3
+  Stored in directory: <private-cache>
+Successfully built pluggy
+Installing collected packages: pluggy
+Successfully installed pluggy-1.5.0
+Processing ./.conductor/local/easybuild-2023a/sources/editables-0.5.tar.gz
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: editables
+  Building wheel for editables (pyproject.toml): started
+  Building wheel for editables (pyproject.toml): finished with status 'done'
+  Created wheel for editables: filename=editables-0.5-py3-none-any.whl size=5145 sha256=dd85bb94313b0bdf9270179e8b8f9db42df497c064eb2ff2c5df86b769b38e39
+  Stored in directory: <private-cache>
+Successfully built editables
+Installing collected packages: editables
+Successfully installed editables-0.5
+Processing ./.conductor/local/easybuild-2023a/sources/calver-2022.6.26.tar.gz
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: calver
+  Building wheel for calver (pyproject.toml): started
+  Building wheel for calver (pyproject.toml): finished with status 'done'
+  Created wheel for calver: filename=calver-2022.6.26-py3-none-any.whl size=7049 sha256=ca9c6a4022761caef9f902585815771ce0eb19cea43d11e358872a5ef5d4053b
+  Stored in directory: <private-cache>
+Successfully built calver
+Installing collected packages: calver
+Successfully installed calver-2022.6.26
+Processing ./.conductor/local/easybuild-2023a/sources/trove_classifiers-2024.5.22.tar.gz
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: trove-classifiers
+  Building wheel for trove-classifiers (pyproject.toml): started
+  Building wheel for trove-classifiers (pyproject.toml): finished with status 'done'
+  Created wheel for trove-classifiers: filename=trove_classifiers-2024.5.22-py3-none-any.whl size=13447 sha256=f09f1eccb6b5d660cb4d54c35bb92f3887ddf5d35e9919ded24a48092ca252ff
+  Stored in directory: <private-cache>
+Successfully built trove-classifiers
+Installing collected packages: trove-classifiers
+Successfully installed trove-classifiers-2024.5.22
+Processing ./.conductor/local/easybuild-2023a/sources/hatchling-1.24.2.tar.gz
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: hatchling
+  Building wheel for hatchling (pyproject.toml): started
+  Building wheel for hatchling (pyproject.toml): finished with status 'done'
+  Created wheel for hatchling: filename=hatchling-1.24.2-py3-none-any.whl size=83103 sha256=5576ad05227cf96bb4bfd3a5dce31aa53eff05e95da57b40769bd5a3096b31b1
+  Stored in directory: <private-cache>
+Successfully built hatchling
+Installing collected packages: hatchling
+Successfully installed hatchling-1.24.2
+Processing ./.conductor/local/easybuild-2023a/sources/hatch_vcs-0.4.0.tar.gz
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: hatch-vcs
+  Building wheel for hatch-vcs (pyproject.toml): started
+  Building wheel for hatch-vcs (pyproject.toml): finished with status 'done'
+  Created wheel for hatch-vcs: filename=hatch_vcs-0.4.0-py3-none-any.whl size=8412 sha256=3e1e77bbe488f0322351c25baba720aab81aefed02a8698db80698731e743886
+  Stored in directory: <private-cache>
+Successfully built hatch-vcs
+Installing collected packages: hatch-vcs
+Successfully installed hatch-vcs-0.4.0
+Processing ./.conductor/local/easybuild-2023a/sources/hatch_fancy_pypi_readme-24.1.0.tar.gz
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: hatch-fancy-pypi-readme
+  Building wheel for hatch-fancy-pypi-readme (pyproject.toml): started
+  Building wheel for hatch-fancy-pypi-readme (pyproject.toml): finished with status 'done'
+  Created wheel for hatch-fancy-pypi-readme: filename=hatch_fancy_pypi_readme-24.1.0-py3-none-any.whl size=10623 sha256=5040d1d3108c370594c0aeae0a5ad9bda044d58d657c03e18538ee92686bc1d6
+  Stored in directory: <private-cache>
+Successfully built hatch-fancy-pypi-readme
+Installing collected packages: hatch-fancy-pypi-readme
+Successfully installed hatch-fancy-pypi-readme-24.1.0
+Processing ./.conductor/local/easybuild-2023a/sources/hatch_requirements_txt-0.4.1.tar.gz
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: hatch-requirements-txt
+  Building wheel for hatch-requirements-txt (pyproject.toml): started
+  Building wheel for hatch-requirements-txt (pyproject.toml): finished with status 'done'
+  Created wheel for hatch-requirements-txt: filename=hatch_requirements_txt-0.4.1-py3-none-any.whl size=7770 sha256=ced603d5edf529438356d9757b89cf9359ea0350eb4868b26d6c9ea05b30e7bf
+  Stored in directory: <private-cache>
+Successfully built hatch-requirements-txt
+Installing collected packages: hatch-requirements-txt
+Successfully installed hatch-requirements-txt-0.4.1
+No broken requirements found.
