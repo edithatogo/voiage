@@ -1,0 +1,41 @@
+{
+  "schema": "voiage.spack-overlay-solver.v1",
+  "recorded_at": "2026-08-31T13:44:52.989100+00:00",
+  "catalogue_commit": "d4f7c711a6a42f1c4d551c8fd10fce9a11340a81",
+  "host": "macOS arm64",
+  "manifest_sha256": "e7ee169095ec9190635e16b0c729150a3fc7ad82f1dea54c1c7556066bdc91a8",
+  "results": [
+    {
+      "spec": "py-typer@0.27.2",
+      "exit_code": 0,
+      "status": "concretized",
+      "log_sha256": "a2f7596dc3b9ca55c519d5409cac8b254c62751ae46c227aa5cf24799c5b5410",
+      "log_path": "solver-logs/typer.log"
+    },
+    {
+      "spec": "py-pydantic@2.13.4",
+      "exit_code": 0,
+      "status": "concretized",
+      "log_sha256": "f9d63aa7795fc337311c155796f3a2528fd3effe8de6c05188bce98badfb955b",
+      "log_path": "solver-logs/pydantic.log"
+    },
+    {
+      "spec": "py-pyarrow@25.0.0",
+      "exit_code": 0,
+      "status": "concretized",
+      "log_sha256": "d414537587b0c20c0eb0ca91c2d616d6354f6c69a6bc81f63de11390e9824632",
+      "log_path": "solver-logs/pyarrow.log"
+    },
+    {
+      "spec": "py-voiage@2.2.0",
+      "exit_code": 1,
+      "status": "failed",
+      "log_sha256": "65c2fc7f320f9871dcd3bcf2ff4b37a76b60fd18d8357deebdb2a4ba524f9755",
+      "reason": "The catalogue has no rust@nightly-2026-04-01; its exact dated constraint also conflicts with numeric stable-Rust requirements in the unified build graph.",
+      "log_path": "solver-logs/voiage.log"
+    }
+  ],
+  "builds_executed": false,
+  "module_load_executed": false,
+  "spack_version": "1.2.2"
+}

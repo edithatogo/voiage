@@ -1,0 +1,9 @@
+{
+  "name": "arrow",
+  "version": "25.0.0",
+  "url": "https://archive.apache.org/dist/arrow/arrow-25.0.0/apache-arrow-25.0.0.tar.gz",
+  "sha256": "12afc2dc8137bdd4a68876cec939f664c9d55cfc7b75f55b45163ebb4e344d81",
+  "sha512": "9c7a91eef5177b0339f0479397afcc455f25af4d0cb07cd5ce0dcbdd5bba390ef2310cd114b6769c13f93e7199d58a895b2d680cca997afb6ebdb8e7dabf5b4e",
+  "sha512_verified_against": "https://archive.apache.org/dist/arrow/arrow-25.0.0/apache-arrow-25.0.0.tar.gz.sha512",
+  "signature_verified": false
+}

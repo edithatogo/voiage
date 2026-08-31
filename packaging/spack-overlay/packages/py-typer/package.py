@@ -1,0 +1,43 @@
+# Copyright Spack Project Developers. See COPYRIGHT file for details.
+#
+# SPDX-License-Identifier: (Apache-2.0 OR MIT)
+
+from spack_repo.builtin.build_systems.python import PythonPackage
+
+from spack.package import *
+
+
+class PyTyper(PythonPackage):
+    """Typer, build great CLIs. Easy to code. Based on Python type hints."""
+
+    homepage = "https://github.com/tiangolo/typer"
+    pypi = "typer/typer-0.9.0.tar.gz"
+
+    license("MIT", checked_by="lgarrison")
+
+    version("0.27.2", sha256="269b7eb9d3c202ca84b4bc9618cb04ebb43d3d4d1e567e4c768607232c05f945")
+    version("0.20.1", sha256="68585eb1b01203689c4199bc440d6be616f0851e9f0eb41e4a778845c5a0fd5b")
+    version("0.15.1", sha256="a0588c0a7fa68a1978a069818657778f86abe6ff5ea6abf472f940a08bfe4f0a")
+    version("0.12.5", sha256="f592f089bedcc8ec1b974125d64851029c3b1af145f04aca64d69410f0c9b722")
+    version("0.9.0", sha256="50922fd79aea2f4751a8e0408ff10d2662bd0c8bbfa84755a699f3bada2978b2")
+    version("0.7.0", sha256="ff797846578a9f2a201b53442aedeb543319466870fbe1c701eab66dd7681165")
+    version("0.5.0", sha256="4c285a5585c94d32c305444af934f0078b6a8ba91464f3f85807c91cd499d195")
+
+    depends_on("python@3.10:", when="@0.27.2:", type=("build", "run"))
+    depends_on("py-rich@13.8:", when="@0.27.2:", type=("build", "run"))
+    depends_on("py-annotated-doc@0.0.2:", when="@0.27.2:", type=("build", "run"))
+
+    with when("@0.12.5:"):
+        depends_on("python@3.7:", type=("build", "run"))
+        depends_on("py-pdm-backend", type="build")
+        depends_on("py-click@8:8.1.8", when="@:0.23.2", type=("build", "run"))
+        depends_on("py-click@8.2.1:", when="@0.23.2:0.26", type=("build", "run"))
+        depends_on("py-shellingham@1.3:", type=("build", "run"))
+        depends_on("py-rich@10.11:", type=("build", "run"))
+
+    with when("@:0.9.0"):
+        depends_on("python@3.6:", type=("build", "run"))
+        depends_on("py-flit-core@2.0:2", type="build")
+        depends_on("py-click@7.1.1:8", type=("build", "run"))
+
+    depends_on("py-typing-extensions@3.7.4.3:", type=("build", "run"), when="@0.9.0:")
