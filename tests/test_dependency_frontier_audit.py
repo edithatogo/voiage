@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 import tomllib
+
+import pytest
 
 ROOT = Path(__file__).parents[1]
 AUDIT_PATH = (
@@ -16,13 +19,27 @@ def _audit() -> dict[str, object]:
     return json.loads(AUDIT_PATH.read_text(encoding="utf-8"))
 
 
+SNAPSHOT = Path("specs/submission-readiness/dependency-frontier-environment-20260829")
+
+
+def _historical_inputs(root: Path) -> dict[str, bytes]:
+    manifest = json.loads((root / SNAPSHOT / "manifest.json").read_text())
+    result = {}
+    for name, artifact in manifest["files"].items():
+        content = (root / artifact["path"]).read_bytes()
+        assert hashlib.sha256(content).hexdigest() == artifact["sha256"]
+        result[name] = content
+    return result
+
+
 def test_dependency_audit_binds_the_refreshed_lock_and_declared_frontier() -> None:
     audit = _audit()
+    inputs = _historical_inputs(ROOT)
     assert audit["lock_refresh"]["resolved_packages"] == sum(
-        line == "[[package]]" for line in (ROOT / "uv.lock").read_text().splitlines()
+        line == "[[package]]" for line in inputs["uv.lock"].decode().splitlines()
     )
 
-    config = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    config = tomllib.loads(inputs["pyproject.toml"].decode())
     declared = len(config["project"]["dependencies"])
     declared += sum(
         len(items) for items in config["project"]["optional-dependencies"].values()
@@ -60,3 +77,25 @@ def test_preview_lanes_are_non_blocking_and_fail_closed_for_promotion() -> None:
     assert states["DEP-008"] == "resolved"
     assert states["DEP-002"] == "resolved_preview_observed"
     assert all(finding["required_disposition"] for finding in findings)
+
+
+@pytest.mark.parametrize("changed", ["uv.lock", "pyproject.toml"])
+def test_historical_frontier_rejects_changed_bytes(
+    tmp_path: Path, changed: str
+) -> None:
+    manifest_path = SNAPSHOT / "manifest.json"
+    manifest = json.loads((ROOT / manifest_path).read_text())
+    (tmp_path / SNAPSHOT).mkdir(parents=True)
+    (tmp_path / manifest_path).write_bytes((ROOT / manifest_path).read_bytes())
+    for artifact in manifest["files"].values():
+        path = Path(artifact["path"])
+        (tmp_path / path).parent.mkdir(parents=True, exist_ok=True)
+        (tmp_path / path).write_bytes((ROOT / path).read_bytes())
+    # A legitimate current optional extra cannot invalidate historical inputs.
+    (tmp_path / "pyproject.toml").write_bytes((ROOT / "pyproject.toml").read_bytes())
+    (tmp_path / "uv.lock").write_bytes((ROOT / "uv.lock").read_bytes())
+    assert _historical_inputs(tmp_path) == _historical_inputs(ROOT)
+    target = tmp_path / manifest["files"][changed]["path"]
+    target.write_bytes(target.read_bytes() + b"\n# changed historical bytes\n")
+    with pytest.raises(AssertionError):
+        _historical_inputs(tmp_path)

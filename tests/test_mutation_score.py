@@ -223,3 +223,21 @@ def test_cli_enforces_hosted_broad_baseline(tmp_path: Path) -> None:
     )
     assert failed.returncode == 2
     assert json.loads(failed.stdout)["non_decreasing"] is False
+
+
+def test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score() -> None:
+    """A zero eligible denominator cannot establish the baseline ratchet."""
+    empty = mutation_score_from_mapping(
+        _stats(
+            killed=0,
+            survived=0,
+            no_tests=0,
+            suspicious=0,
+            timeout=0,
+            segfault=0,
+            total=3,
+        )
+    )
+    nonempty = mutation_score_from_mapping(_stats())
+    assert empty.report(90.0, baseline=nonempty)["non_decreasing"] is False
+    assert nonempty.report(90.0, baseline=empty)["non_decreasing"] is False
