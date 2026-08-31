@@ -25,8 +25,8 @@
 | **HPC Distribution** | **Spack** | Python / Rust Core | HPC package manager recipe (`py-voiage`) | **High** | Low | Non-exclusive source recipe | **Phase 2 (Near-Term)** |
 | **HPC Distribution** | **EasyBuild** | European HPC | Easyconfig recipe (`foss-2023a/24a`) | **High** | Moderate | Non-exclusive build recipe | **Phase 2 (Near-Term)** |
 | **HPC Stack** | **E4S** | Exascale GPU/HPC | DOE curated binary stack | **Moderate** | Moderate | Depends on upstream merged Spack package | **Phase 3 (Post-Spack)** |
-| **Sustainability** | **Open Source Collective** | Core Project | 501(c)(6) fiscal hosting & sponsors | **Immediate** | Very Low | Non-exclusive fiscal host; supports GitHub Sponsors | **Immediate** |
-| **Sustainability** | **NumFOCUS Affiliated** | Core Project | Scientific community affiliation | **High** | Low | Requires demonstrated multi-user adoption & paper DOI | **Phase 3 (Post-JOSS)** |
+| **Sustainability** | **Open Source Collective** | Core Project | Fiscal-hosting preparation | **Deferred** | Eligibility unresolved | Organizational ownership required; current repository is personally owned | Reassess after governance decision |
+| **Sustainability** | **NumFOCUS Affiliated** | Core Project | Scientific community affiliation | **Deferred** | Community evidence pending | Applications paused; active contributors and distributed leadership expected | Reassess when applications reopen |
 | **Sustainability** | **NumFOCUS FSP** | Core Project | Full 501(c)(3) fiscal sponsorship | **Premature** | Very High | Ineligible under solo-maintainer model; requires multi-org board | **Long-Term (v3.0+)** |
 | **Methodology Journal**| **JSS (Journal of Stat Software)** | Polyglot (`paper/main.tex`)| Full-length 25–35 page monograph | **High** | Very High | Must present substantial methodological/algorithmic depth beyond JOSS | **Phase 4 (Long-Term)** |
 
@@ -122,11 +122,15 @@
 ## 4. Sustainability Affiliations, Identifiers & Governance
 
 ### A. Sustainability Affiliations
-1. **Open Source Collective (OSC) — Immediate:**
-   - Low-friction 501(c)(6) fiscal hosting. Enables community donations, GitHub Sponsors matching, and institutional project support without complex board bureaucracy.
-2. **NumFOCUS Affiliated Project — Medium-Term (Post-JOSS):**
-   - Provides scientific computing prestige, Google Summer of Code (GSoC) eligibility, and small development grants ($5,000–$10,000).
-   - Requires published paper DOI and evidence of external research adoption.
+1. **Open Source Collective (OSC) — Deferred:**
+   - Current official guidance requires an organizational repository and shared
+     ownership. The present personal repository does not meet that condition.
+     No collective, sponsor connection or receiving account is activated.
+2. **NumFOCUS Affiliated Project — Deferred:**
+   - New applications are currently paused. Retain the local application packet
+     and reassess actual community participation and distributed leadership
+     when applications reopen. The official overview does not establish the
+     earlier asserted paper-DOI prerequisite.
 3. **NumFOCUS Fiscally Sponsored Project (FSP) — Long-Term (v3.0+):**
    - Full 501(c)(3) fiscal home for multi-million-dollar federal research grants (NSF, Wellcome, CZI).
    - Ineligible under the current solo-maintainer model; requires transitioning `GOVERNANCE.md` to a multi-institution steering committee.
@@ -134,7 +138,12 @@
 ### B. Persistent Identifiers & Archival
 1. **SciCrunch RRID:** Form submitted; awaiting curator assignment of `RRID:SCR_######` to enable automated literature tracking in PubMed Central / Europe PMC.
 2. **Software Heritage (SWHID):** Fully active (`swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d` in `CITATION.cff`).
-3. **Zenodo (DOI):** Ready for release DOI minting and automated JOSS synchronization.
+3. **Zenodo (DOI):** No assigned DOI is evidenced. Reassess a distinct archival
+   need before authorizing deposition or claiming synchronization.
+
+The [31 August sustainability handoff](sustainability-handoff-20260831.md)
+records current official sources, the unsubmitted NumFOCUS packet, OSC
+configuration choices and badge/identifier evidence boundaries.
 
 ---
 
@@ -144,7 +153,7 @@
 | :--- | :--- | :--- | :--- |
 | **Milestone 1** | pyOpenSci & JOSS | Author opens pyOpenSci inquiry; execute JOSS fast-track upon approval | Author & pyOpenSci Editors |
 | **Milestone 2** | Julia General | Monitor Yggdrasil PR #14292; trigger `@JuliaRegistrator` for `Voiage.jl` | Maintainer & JuliaRegistrator |
-| **Milestone 3** | Open Source Collective | Create collective for `voiage`; connect GitHub Sponsors | Maintainer |
+| **Milestone 3** | Open Source Collective | Review eligibility and shared-ownership decision before any account or sponsor activation | Maintainer and fiscal host |
 | **Milestone 4** | HPC (Spack & EasyBuild) | Submit `py-voiage` recipe to Spack; submit easyconfig to EasyBuild | Maintainer / Contributor |
 | **Milestone 5** | R (CRAN & rOpenSci) | Refactor `voiageR` with `rextendr` native compilation; submit to CRAN, then rOpenSci | Maintainer & rOpenSci Reviewers |
 | **Milestone 6** | The R Journal & JSS | Prepare R Journal paper; expand `paper/main.tex` for JSS monograph | Author & Journal Editors |

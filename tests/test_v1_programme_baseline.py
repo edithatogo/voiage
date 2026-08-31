@@ -133,13 +133,24 @@ def test_roadmap_and_backlog_distinguish_archived_v1_from_current_queue() -> Non
         path.parent.name: json.loads(path.read_text(encoding="utf-8"))
         for path in Path("conductor/tracks").glob("*/metadata.json")
     }
-    assert set(current_metadata) == {current_track_id}
+    from scripts.normalize_conductor_registry import collect_track_records
+
+    registered_current = {
+        record.track_dir.name: record
+        for record in collect_track_records(Path.cwd())
+        if record.track_dir.parent == Path.cwd() / "conductor/tracks"
+    }
+    assert set(current_metadata) == set(registered_current)
+    assert current_track_id in current_metadata
     assert current_metadata[current_track_id]["status"] == "in_progress"
-    current_link = f"./tracks/{current_track_id}/index.md"
-    assert f"]({current_link})" in registry
-    assert f"conductor/tracks/{current_track_id}/" in roadmap
     current_todo = todo.split("## To Do\n", maxsplit=1)[1].split("\n## ", maxsplit=1)[0]
-    assert f"conductor/tracks/{current_track_id}/" in current_todo
+    for track_id, metadata in current_metadata.items():
+        assert metadata["status"] in {"new", "in_progress"}
+        assert metadata["status"] == registered_current[track_id].expected_status
+        current_link = f"./tracks/{track_id}/index.md"
+        assert f"]({current_link})" in registry
+        assert f"conductor/tracks/{track_id}/" in roadmap
+        assert f"conductor/tracks/{track_id}/" in current_todo
     assert "Mature and harden the v1.0 release" not in current_todo
     assert "*   [x] Mature and harden the v1.0 release" in todo
     assert "research_software_registry_readiness_20260721" in todo

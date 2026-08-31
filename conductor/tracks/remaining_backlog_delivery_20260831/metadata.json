@@ -1,0 +1,27 @@
+{
+  "track_id": "remaining_backlog_delivery_20260831",
+  "type": "chore",
+  "status": "in_progress",
+  "created_at": "2026-08-31T12:11:38Z",
+  "updated_at": "2026-08-31T13:05:53Z",
+  "description": "Complete the authorized remaining backlog, protected PR delivery, issue reconciliation and verified cleanup.",
+  "evidence_schema": "1.0",
+  "authorization": {
+    "recorded_on": "2026-08-31",
+    "instruction": "Continue with the remaining work, using as many subagents as possible to parallelise the work, addressing any blockers, then ensure all PRs are merged, all github issues address, then all branches and worktrees pruned,",
+    "scope": "existing open backlog, protected merges and preservation-first cleanup; external outcome requirements remain unchanged"
+  },
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/1053"
+  },
+  "current_phase": "Phase 1 — Audit and recovery",
+  "next_pending_task": "B1",
+  "gates": [
+    {
+      "id": "external-evidence",
+      "kind": "external",
+      "status": "pending",
+      "evidence": "Individual issue acceptance criteria remain authoritative; no human or venue outcome inferred."
+    }
+  ]
+}

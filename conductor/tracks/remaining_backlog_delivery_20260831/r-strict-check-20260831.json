@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "observed_on": "2026-08-31",
+  "source_archive_sha256": "af485e1cfba6dc9c1f149ce074640c8ef63bb3f42c649f71fccbe0e5d114c8e4",
+  "archive_scope": "same immutable v2.2.0 R archive as r-v2-2-archive-check-20260830.json",
+  "command": [
+    "R",
+    "CMD",
+    "check",
+    "--as-cran",
+    "--no-manual",
+    "voiageR_2.2.0.tar.gz"
+  ],
+  "exit_code": 0,
+  "errors": 0,
+  "warnings": 0,
+  "notes": 2,
+  "note_details": [
+    "CRAN incoming feasibility: New submission",
+    "Future file timestamps: unable to verify current time"
+  ],
+  "r_version": "4.3.0",
+  "platform": "aarch64-apple-darwin20",
+  "cran_incoming_executed": true,
+  "check_suppressions": [],
+  "manual_checked": false,
+  "log_sha256": "522113b20dcd7e7656244f89dc15a91153b4cddb8cf5a48db946b4af7bb0c3b3",
+  "strict_zero_note_gate_satisfied": false,
+  "submission": false,
+  "acceptance": false
+}
