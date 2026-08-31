@@ -1,0 +1,337 @@
+{
+  "schema": "voiage.dependency-advisory-triage.v1",
+  "recorded_at": "2026-08-31T12:38:53.549422+00:00",
+  "scope": "nine torch advisories listed in Renovate dashboard1045; not a complete ecosystem security audit",
+  "root_lock_sha256": "e5bfefe59aa2920d5b28e9beaa5a6e05cc8b08e4a91e74ed8589d7fc3354f7c5",
+  "locked_torch_version": "2.13.0",
+  "declared_optional_requirement": "torch>=2.13,<3",
+  "records": [
+    {
+      "osv_id": "PYSEC-2025-189",
+      "osv_url": "https://osv.dev/vulnerability/PYSEC-2025-189",
+      "osv_modified": "2026-06-10T17:02:43.716395826Z",
+      "osv_ranges": [
+        [
+          {
+            "type": "ECOSYSTEM",
+            "events": [
+              {
+                "introduced": "0"
+              },
+              {
+                "last_affected": "2.6.0-cu124"
+              }
+            ]
+          }
+        ]
+      ],
+      "github_advisory": {
+        "url": "https://github.com/advisories/GHSA-c678-jfcj-6jmf",
+        "updated_at": "2026-06-09T21:06:55Z",
+        "vulnerabilities": [
+          {
+            "package": {
+              "ecosystem": "pip",
+              "name": "torch"
+            },
+            "vulnerable_version_range": "<= 2.6.0",
+            "first_patched_version": null,
+            "vulnerable_functions": []
+          }
+        ]
+      },
+      "disposition": "declared >=2.13 lower bound excludes normalized GitHub advisory range"
+    },
+    {
+      "osv_id": "PYSEC-2025-190",
+      "osv_url": "https://osv.dev/vulnerability/PYSEC-2025-190",
+      "osv_modified": "2026-06-10T17:02:43.730582457Z",
+      "osv_ranges": [
+        [
+          {
+            "type": "ECOSYSTEM",
+            "events": [
+              {
+                "introduced": "0"
+              },
+              {
+                "last_affected": "2.6.0-cu124"
+              }
+            ]
+          }
+        ]
+      ],
+      "github_advisory": {
+        "url": "https://github.com/advisories/GHSA-x3gm-94wq-g975",
+        "updated_at": "2026-06-09T21:57:48Z",
+        "vulnerabilities": [
+          {
+            "package": {
+              "ecosystem": "pip",
+              "name": "torch"
+            },
+            "vulnerable_version_range": "<= 2.6.0",
+            "first_patched_version": null,
+            "vulnerable_functions": []
+          }
+        ]
+      },
+      "disposition": "declared >=2.13 lower bound excludes normalized GitHub advisory range"
+    },
+    {
+      "osv_id": "PYSEC-2025-192",
+      "osv_url": "https://osv.dev/vulnerability/PYSEC-2025-192",
+      "osv_modified": "2026-06-10T17:02:43.772252479Z",
+      "osv_ranges": [
+        [
+          {
+            "type": "ECOSYSTEM",
+            "events": [
+              {
+                "introduced": "0"
+              },
+              {
+                "last_affected": "2.6.0-NA"
+              }
+            ]
+          }
+        ]
+      ],
+      "github_advisory": {
+        "url": "https://github.com/advisories/GHSA-f4hp-rmr7-r7v8",
+        "updated_at": "2026-06-09T21:56:31Z",
+        "vulnerabilities": [
+          {
+            "package": {
+              "ecosystem": "pip",
+              "name": "torch"
+            },
+            "vulnerable_version_range": "<= 2.6.0",
+            "first_patched_version": null,
+            "vulnerable_functions": []
+          }
+        ]
+      },
+      "disposition": "declared >=2.13 lower bound excludes normalized GitHub advisory range"
+    },
+    {
+      "osv_id": "PYSEC-2025-193",
+      "osv_url": "https://osv.dev/vulnerability/PYSEC-2025-193",
+      "osv_modified": "2026-07-13T16:45:06.526218185Z",
+      "osv_ranges": [
+        [
+          {
+            "type": "ECOSYSTEM",
+            "events": [
+              {
+                "introduced": "0"
+              },
+              {
+                "last_affected": "2.6.0-NA"
+              }
+            ]
+          }
+        ]
+      ],
+      "github_advisory": {
+        "url": "https://github.com/advisories/GHSA-vgrw-7cvw-pwgx",
+        "updated_at": "2026-06-10T17:25:21Z",
+        "vulnerabilities": [
+          {
+            "package": {
+              "ecosystem": "pip",
+              "name": "torch"
+            },
+            "vulnerable_version_range": "< 2.9.1",
+            "first_patched_version": "2.9.1",
+            "vulnerable_functions": []
+          }
+        ]
+      },
+      "disposition": "declared >=2.13 lower bound excludes normalized GitHub advisory range"
+    },
+    {
+      "osv_id": "PYSEC-2025-194",
+      "osv_url": "https://osv.dev/vulnerability/PYSEC-2025-194",
+      "osv_modified": "2026-07-13T16:45:06.482689474Z",
+      "osv_ranges": [
+        [
+          {
+            "type": "ECOSYSTEM",
+            "events": [
+              {
+                "introduced": "0"
+              },
+              {
+                "last_affected": "2.6.0-NA"
+              }
+            ]
+          }
+        ]
+      ],
+      "github_advisory": {
+        "url": "https://github.com/advisories/GHSA-rrmf-rvhw-rf47",
+        "updated_at": "2026-07-17T17:05:49Z",
+        "vulnerabilities": [
+          {
+            "package": {
+              "ecosystem": "pip",
+              "name": "torch"
+            },
+            "vulnerable_version_range": "<= 2.12.1",
+            "first_patched_version": "2.13.0",
+            "vulnerable_functions": []
+          }
+        ]
+      },
+      "disposition": "declared >=2.13 lower bound excludes normalized GitHub advisory range"
+    },
+    {
+      "osv_id": "PYSEC-2025-195",
+      "osv_url": "https://osv.dev/vulnerability/PYSEC-2025-195",
+      "osv_modified": "2026-07-13T16:45:06.480698012Z",
+      "osv_ranges": [
+        [
+          {
+            "type": "ECOSYSTEM",
+            "events": [
+              {
+                "introduced": "0"
+              },
+              {
+                "last_affected": "2.6.0-NA"
+              }
+            ]
+          }
+        ]
+      ],
+      "github_advisory": {
+        "url": "https://github.com/advisories/GHSA-qfhq-4f3w-5fph",
+        "updated_at": "2026-06-10T18:02:49Z",
+        "vulnerabilities": [
+          {
+            "package": {
+              "ecosystem": "pip",
+              "name": "torch"
+            },
+            "vulnerable_version_range": "< 2.10.0",
+            "first_patched_version": "2.10.0",
+            "vulnerable_functions": []
+          }
+        ]
+      },
+      "disposition": "declared >=2.13 lower bound excludes normalized GitHub advisory range"
+    },
+    {
+      "osv_id": "PYSEC-2025-196",
+      "osv_url": "https://osv.dev/vulnerability/PYSEC-2025-196",
+      "osv_modified": "2026-05-21T15:00:29.127256430Z",
+      "osv_ranges": [
+        [
+          {
+            "type": "ECOSYSTEM",
+            "events": [
+              {
+                "introduced": "0"
+              },
+              {
+                "last_affected": "2.6.0-NA"
+              }
+            ]
+          }
+        ]
+      ],
+      "github_advisory": null,
+      "disposition": "unresolved applicability to 2.13.0; no authoritative fixed-version evidence found, no suppression applied",
+      "upstream_followup": {
+        "observed_at": "2026-08-31T13:47:24.468045+00:00",
+        "url": "https://github.com/pytorch/pytorch/issues/149800",
+        "state": "closed",
+        "closed_at": "2026-08-07T19:10:37Z",
+        "response_sha256": "e0a35e54e6df70959030d0cfb9dfa66572fd7f32ac7bacc47388ce82bf7427e1",
+        "closure_reason": "TorchScript deprecation; maintainer comment does not establish a vulnerability fix.",
+        "closure_comment_url": "https://github.com/pytorch/pytorch/issues/149800#issuecomment-5221051245"
+      }
+    },
+    {
+      "osv_id": "PYSEC-2025-197",
+      "osv_url": "https://osv.dev/vulnerability/PYSEC-2025-197",
+      "osv_modified": "2026-05-21T15:00:33.788053233Z",
+      "osv_ranges": [
+        [
+          {
+            "type": "ECOSYSTEM",
+            "events": [
+              {
+                "introduced": "0"
+              },
+              {
+                "last_affected": "2.6.0-NA"
+              }
+            ]
+          }
+        ]
+      ],
+      "github_advisory": null,
+      "disposition": "unresolved applicability to 2.13.0; no authoritative fixed-version evidence found, no suppression applied",
+      "upstream_followup": {
+        "observed_at": "2026-08-31T13:47:25.229003+00:00",
+        "url": "https://github.com/pytorch/pytorch/issues/149821",
+        "state": "open",
+        "closed_at": null,
+        "response_sha256": "f86ff3581dccee5a91b582f978ccaf2acb00fe37210e32ac6ead45145b6526a4"
+      }
+    },
+    {
+      "osv_id": "PYSEC-2025-210",
+      "osv_url": "https://osv.dev/vulnerability/PYSEC-2025-210",
+      "osv_modified": "2026-05-21T15:00:31.925271484Z",
+      "osv_ranges": [
+        [
+          {
+            "type": "ECOSYSTEM",
+            "events": [
+              {
+                "introduced": "0"
+              },
+              {
+                "last_affected": "2.5.0-NA"
+              },
+              {
+                "last_affected": "2.7.1-NA"
+              }
+            ]
+          }
+        ]
+      ],
+      "github_advisory": null,
+      "disposition": "unresolved applicability to 2.13.0; no authoritative fixed-version evidence found, no suppression applied",
+      "upstream_followup": {
+        "observed_at": "2026-08-31T13:47:25.960673+00:00",
+        "url": "https://github.com/pytorch/pytorch/issues/156563",
+        "state": "open",
+        "closed_at": null,
+        "response_sha256": "321280a95fbd15827b9baccc23f2b708c42036280fd9262d71408ab2eb373e9f"
+      }
+    }
+  ],
+  "ignored_advisories": [],
+  "external_alerts_dismissed": false,
+  "release_authorized": false,
+  "repository_callsite_search": {
+    "paths": [
+      "voiage",
+      "tests",
+      "scripts",
+      "benchmarks"
+    ],
+    "patterns": [
+      "jit_module_from_flatbuffer",
+      "caching_allocator_delete",
+      "torch.profiler",
+      "torch.jit"
+    ],
+    "matches": 0,
+    "limitation": "Literal callsite absence is bounded evidence, not proof that optional dependency vulnerabilities are unreachable or fixed."
+  }
+}

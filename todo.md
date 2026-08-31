@@ -4,6 +4,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+*   [~] Complete the authorized remaining backlog through
+    `conductor/tracks/remaining_backlog_delivery_20260831/` (#1053): dependency
+    delivery and Codecov controls (#656), measured opt-in testing (#1028), HPC
+    recipes (#1025), remaining issue evidence, protected PR merges and verified
+    cleanup. Keep unsatisfied human and external outcomes open.
+
 *   [~] Deliver the hardened v2.2.0 release through
     `conductor/tracks/v2_2_release_and_venue_submissions_20260830/` (#1037).
     *   [x] Synchronize package, binding, manuscript, and unposted candidate
@@ -30,7 +36,7 @@ The records below preserve task descriptions, checkboxes and status at their
 source revisions; they are not the current executable queue. The 21 migrated
 tracks are reconciled by the completed hardening programme's
 [migration manifest](conductor/archive/pre_submission_comprehensive_hardening_20260829/migration-manifest.md).
-Current execution belongs to the v2.2 track above. Historical external and
+Current execution belongs to the two active tracks above. Historical external and
 scientific gates retain their evidence requirements; migration and release
 publication do not automatically satisfy them.
 

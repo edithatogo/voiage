@@ -8,6 +8,12 @@
 
 ## Unreleased
 
+- Record the authorized backlog delivery and independently verified branch
+  recovery; preserve unfinished scientific, registry and venue requirements.
+- Correct sustainability eligibility and application-status claims, prepare
+  an unsubmitted governance packet, and retain historical Software Heritage
+  provenance without inventing RRID or Zenodo identifiers.
+
 - Bound the paper replay command to an isolated exact-commit project and archived
   lock, while retaining the original receipt and its unverified release label.
 

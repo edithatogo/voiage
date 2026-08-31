@@ -94,6 +94,13 @@ submission-packet repairs through PR #1051. The maintainer confirmed personal de
 requests on 31 August 2026. R14 now requires survey completion and human-written
 submission text. Journal submission precedes the deferred arXiv lane.
 
+The remaining delivery queue is governed by issue #1053 and
+`conductor/tracks/remaining_backlog_delivery_20260831/`. It covers dependency
+controls, measured test acceleration, current HPC and Julia packaging
+candidates, issue evidence, protected PR delivery and recovery-backed cleanup.
+This work does not reopen the archived hardening programme or establish
+outstanding scientific, registry, funding or venue outcomes.
+
 *   **Phase 1 (Foundation & API Refactoring):** ✅ **Complete** - Core OO API, data structures, CI/CD, and documentation are all in place.
 *   **Phase 2 (Health Economics Core):** ✅/🔄 **Stable analytical core complete; generic simulation developing** - EVPI, EVPPI, an analytical two-arm normal EVSI model, a coherent joint normal two-loop model with custom callback support, NMA VOI, structural VOI, and plotting are implemented. Generic two-loop and compatibility EVSI estimators remain non-stable pending method-specific convergence and parity evidence.
 *   **Phase 3 (Advanced Methods & Cross-Domain):** ✅ **Complete** - Structural VOI, NMA VOI, JAX JIT compilation, and cross-domain support implemented.

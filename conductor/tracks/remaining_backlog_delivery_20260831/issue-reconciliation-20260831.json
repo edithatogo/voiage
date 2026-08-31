@@ -1,0 +1,105 @@
+{
+  "recorded_at": "2026-08-31T13:04:01.345145+00:00",
+  "updates": [
+    {
+      "issue": 1037,
+      "url": "https://github.com/edithatogo/voiage/issues/1037",
+      "state": "closed",
+      "updated_at": "2026-08-31T12:18:47Z",
+      "old_body_sha256": "4d1d062f825fcfac1346dfb2eea884c63d07ef49a66a80dc77270e7b4c259453",
+      "new_body_sha256": "93c7879615664b49efd75058dd99b84f75e402eded9996b2267699b470c9ad0c"
+    },
+    {
+      "issue": 312,
+      "url": "https://github.com/edithatogo/voiage/issues/312",
+      "state": "open",
+      "updated_at": "2026-08-31T12:18:50Z",
+      "old_body_sha256": "21502639fff05c1ca7d37c0a67d51175d4d79b22e527006050459f34731d5c55",
+      "new_body_sha256": "9bc2c9bc3bd0cff3a63b42f433d07072fc319a5f33ca36378f201942cc7dd240"
+    },
+    {
+      "issue": 296,
+      "url": "https://github.com/edithatogo/voiage/issues/296",
+      "state": "open",
+      "updated_at": "2026-08-31T12:18:54Z",
+      "old_body_sha256": "438a737487d2415d2085fab00d4f9c55ed159ac991f5783eb52c159996b00c6a",
+      "new_body_sha256": "aee546a9835ba81de7c02258eec996e2b7fa917d66670022086138a1b863fa46"
+    },
+    {
+      "issue": 615,
+      "url": "https://github.com/edithatogo/voiage/issues/615",
+      "state": "open",
+      "updated_at": "2026-08-31T13:03:54Z",
+      "old_body_sha256": "265d61cf91687b6df73a709a22a520754ebd9ca79162f7841f48d1c1b079e847",
+      "new_body_sha256": "2221f8b29638d6f8519fde968a0e0f73d414badcfc9ba44ef52c4606696347a6"
+    },
+    {
+      "issue": 1024,
+      "url": "https://github.com/edithatogo/voiage/issues/1024",
+      "state": "open",
+      "updated_at": "2026-08-31T13:03:56Z",
+      "old_body_sha256": "e2fc5c77473c3cddfb66800db98b31cac27af8c9e2b25f2dceabd749638dc6b1",
+      "new_body_sha256": "cdc0f6a74dc5cf9e43c2e8b88b7035cf6d3c499a026f4a8e9772e2a4c3db8cf4"
+    },
+    {
+      "issue": 1026,
+      "url": "https://github.com/edithatogo/voiage/issues/1026",
+      "state": "open",
+      "updated_at": "2026-08-31T13:03:58Z",
+      "old_body_sha256": "2aa9155aa3f9493fba72cf5d7293d79ed3cd2a12c7604c89d70d13b99a4eb54d",
+      "new_body_sha256": "0d8eec4507f00e8ddbd421a39eee314297d8f0522a5e79e262ff4291f42443d8"
+    },
+    {
+      "issue": 614,
+      "url": "https://github.com/edithatogo/voiage/issues/614",
+      "state": "open",
+      "updated_at": "2026-08-31T13:04:00Z",
+      "old_body_sha256": "a85204dc81b3dac33c481ae8b4128acf899fd406cf28bc8364a9e8d192f6fb30",
+      "new_body_sha256": "03ce00b7e4876d220a472291435dcf60cfac3f429d884e7b81dc7a9f8944f5f0"
+    },
+    {
+      "issue": 615,
+      "url": "https://github.com/edithatogo/voiage/issues/615",
+      "state": "open",
+      "updated_at": "2026-08-31T13:04:51Z",
+      "old_body_sha256": "2221f8b29638d6f8519fde968a0e0f73d414badcfc9ba44ef52c4606696347a6",
+      "new_body_sha256": "92fd5e65d075a7af50a21aeb29c2cce8913e91e3520abc34ece653893187b064",
+      "reason": "Point implementation evidence to successor hardening track; predecessor is a supersession record."
+    },
+    {
+      "issue": 1024,
+      "url": "https://github.com/edithatogo/voiage/issues/1024",
+      "state": "open",
+      "updated_at": "2026-08-31T13:04:53Z",
+      "old_body_sha256": "cdc0f6a74dc5cf9e43c2e8b88b7035cf6d3c499a026f4a8e9772e2a4c3db8cf4",
+      "new_body_sha256": "1305e622dfba3473e7df163e99dccfbc7ef261b00a3d17b18227b5f903104090",
+      "reason": "Point implementation evidence to successor hardening track; predecessor is a supersession record."
+    },
+    {
+      "issue": 1024,
+      "url": "https://github.com/edithatogo/voiage/issues/1024",
+      "state": "open",
+      "updated_at": "2026-08-31T13:15:03Z",
+      "old_body_sha256": "1305e622dfba3473e7df163e99dccfbc7ef261b00a3d17b18227b5f903104090",
+      "new_body_sha256": "ce9296b3115160790322d85c11ec05014d028e53314ab2be234fd186161ca102",
+      "reason": "Fresh exact-archive R check, without suppressions, retains two-note limitation."
+    },
+    {
+      "issue": 1025,
+      "recorded_at": "2026-08-31T13:58:37.268753+00:00",
+      "before_sha256": "6acef6f86d8f9319bae71445dcd09f26f38481b36e5e27ede3c05742b340b670",
+      "after_sha256": "cd1626a9995c6ba044f4da69d1149cba674122144b5f55934e58d99cb78d757f",
+      "state": "OPEN",
+      "scope": "Recorded merged candidate delivery without checking unmet build/upstream criteria; corrected current Spack catalogue target."
+    }
+  ],
+  "issue_closures": [],
+  "automatic_closure_correction": {
+    "issue": 1037,
+    "observed_closed_at": "2026-08-31T11:50:28Z",
+    "cause": "GitHub parsed a negated closing phrase in merged PR1052",
+    "pr_body_corrected": true,
+    "reopened_at": "2026-08-31T12:20:57Z",
+    "verified_state": "open"
+  }
+}

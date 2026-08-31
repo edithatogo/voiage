@@ -1,0 +1,60 @@
+{
+  "schema": "voiage.local-validation-continuation.v1",
+  "recorded_at": "2026-08-31T14:15:33.286203+00:00",
+  "base_commit": "27488e817238d6fe63016f2f5a5b15f91b1acda7",
+  "required_tox_environments_passed": [
+    "lint",
+    "vale",
+    "joss",
+    "harness",
+    "typecheck",
+    "docs",
+    "ingestion-conformance",
+    "frontier-contract",
+    "version-sync",
+    "py312",
+    "py313",
+    "py314",
+    "min_versions",
+    "max_versions",
+    "coverage_report"
+  ],
+  "coverage": {
+    "passed": 4624,
+    "skipped": 16,
+    "tox_seconds": 374.92,
+    "python": "CPython3.12.13"
+  },
+  "history": "Initial matrix interrupted with documentation failure; remaining lanes resumed successfully. First complete coverage exposed metadata normalization and single-active-track assumptions; both repaired, focused15 tests passed, and final full coverage passed. Earlier failures are retained.",
+  "logs": [
+    {
+      "path": "/tmp/voiage-goal-reconciliation-tox-20260831.log",
+      "sha256": "dc7a35aaff7871e720e11bacadc4b2aafdc8e408abebd618baca2ab68642e842"
+    },
+    {
+      "path": "/tmp/voiage-goal-reconciliation-resume-20260831.log",
+      "sha256": "f5e7665f1986631ad854b77dfbef3e1de031efea7eafe6f0b33e02e54bf9b04f"
+    },
+    {
+      "path": "/tmp/voiage-root-coverage-final-20260831.log",
+      "sha256": "042135fa5c49a785a882609af2eed7c7e2338746febb595d73e4f9c277c7e617"
+    },
+    {
+      "path": "/tmp/voiage-root-conductor-repair-20260831.log",
+      "sha256": "cc55f24f91d57c5c3656e94a0c524f5e158bc1a390bf724c131d241c0575c788"
+    },
+    {
+      "path": "/tmp/voiage-root-conductor-final-lint.log",
+      "sha256": "424c9bb893817c857d12b967a52ee73db430873f832dccc58c4e5fe7978721cb"
+    },
+    {
+      "path": "/tmp/voiage-root-coverage-repaired-final-20260831.log",
+      "sha256": "f7f8befe408c74ffa34d3fd6fde3a16b2ad9474711fd53ec2f64d0f6b85015d4"
+    }
+  ],
+  "limits": [
+    "Local validation across retained and repaired runs, not a single uninterrupted matrix.",
+    "Fresh-base integration and hosted PR delivery remain pending.",
+    "No scientific, venue, registry or full-goal completion inferred."
+  ]
+}

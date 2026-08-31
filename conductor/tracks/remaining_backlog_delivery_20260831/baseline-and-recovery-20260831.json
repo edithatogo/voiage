@@ -1,0 +1,94 @@
+{
+  "recorded_at": "2026-08-31T12:11:38Z",
+  "baseline_main": "27488e817238d6fe63016f2f5a5b15f91b1acda7",
+  "merged_pr": {
+    "number": 1052,
+    "reviewed_head": "3a000fd871baefde8ebf4fae4a7cec163be21576",
+    "merge_commit": "27488e817238d6fe63016f2f5a5b15f91b1acda7",
+    "tree_equal": true,
+    "terminal_checks": 44,
+    "signed_commits": 4,
+    "unresolved_review_threads": 0
+  },
+  "open_issues_at_initial_audit": [
+    1045,
+    1037,
+    1028,
+    1026,
+    1025,
+    1024,
+    1023,
+    876,
+    853,
+    850,
+    656,
+    620,
+    615,
+    614,
+    555,
+    471,
+    312,
+    298,
+    296
+  ],
+  "coordinator_issue": 1053,
+  "recovery": {
+    "archive_path": "/Volumes/PortableSSD/GitHub/voiage-recovery/20260831-goal-cleanup",
+    "bundle_sha256": "76b2cc764808719ff32b9697d40aa6c3c51122028e860312bcc246d3aade730d",
+    "manifest_sha256": "3dfefcbd727a42fa9d90e14857b491f22e10f49fb20b03b00e912dff2dc177e7",
+    "independent_restored_refs": 378,
+    "stash_reflog_commits": 5,
+    "verification": "bundle verification, independently restored ref/object comparison and full fsck passed"
+  },
+  "remote_prune": {
+    "retired_branches_deleted": 111,
+    "atomic": true,
+    "expected_sha_leases": true,
+    "preflight_sha256": "da905ea9c8acd8989df259f1f0b76bae0a3885df45b94d4291fcec41c3407da9",
+    "result_sha256": "b1573fa133003b55d91f2bf69da8c31270cba276c5453fcbebe4ababd22c966a"
+  },
+  "limitations": [
+    "Active dependency PRs and three live Renovate orphan branches were preserved.",
+    "Seven recovered merged local branch refs were later pruned; seven active worktrees remain preserved.",
+    "Survey completion and human-written submission text remain pending; declarations already confirmed.",
+    "No scientific or external venue acceptance is evidenced by this receipt."
+  ],
+  "additional_merge": {
+    "number": 1044,
+    "reviewed_head": "08a0af698e8dbde9c4c746300f7190ec69308f5d",
+    "merge_commit": "42644538fb46976d3c51346a2459e5d8dbe82737",
+    "terminal_checks": 39,
+    "signed_commits": 2,
+    "unresolved_review_threads": 0
+  },
+  "new_dependency_prs": [
+    1054,
+    1055,
+    1056
+  ],
+  "observed_additional_merges": [
+    {
+      "number": 1055,
+      "head": "9c8f3b414adfcab869302ae7894444dd55cae776",
+      "merge_commit": "1fda6744cb2312d28c85d821c4d2f3ff054bf0cc",
+      "merged_at": "2026-08-31T12:57:10Z",
+      "actor": "renovate[bot]",
+      "mechanism": "existing protected auto-merge after transient Vale failure rerun succeeded",
+      "signed_commits": 1,
+      "unresolved_review_threads": 0,
+      "note": "Observed merge; no root merge command was issued."
+    },
+    {
+      "number": 1058,
+      "head": "a0350b84eca34803621aa2e7b3ae3e107daa25ea",
+      "merge_commit": "c1c3e31b377cb1eb3399558a5f58cd555b6edd7c",
+      "merged_at": "2026-08-31T13:55:29Z",
+      "mechanism": "authorized protected squash merge after root review, all terminal checks and resolved threads",
+      "terminal_checks": 39,
+      "signed_commits": 2,
+      "unresolved_review_threads": 0,
+      "tree_equal": true,
+      "scope": "HPC recipe candidates and source-wheel evidence; full HPC graph/build and upstream acceptance remain pending."
+    }
+  ]
+}
