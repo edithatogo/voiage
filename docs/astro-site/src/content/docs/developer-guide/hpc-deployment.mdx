@@ -10,8 +10,14 @@ separate evidence states.
 
 ## Build preparation
 
-Spack users can stage `packaging/spack/package.py` as `py-voiage` in a local
-repository. EasyBuild users can stage the `voiage-2.2.0-foss-2023a.eb` or
+Spack users can audit the local `packaging/spack-overlay/` repository, which
+supplies missing catalogue versions and their build dependencies. It resolves
+three individual dependency graphs; the complete voiage graph remains blocked
+by the dated Rust nightly required by Polars and stable-Rust constraints.
+PyArrow's candidate requests CSV, dataset, filesystem and Parquet support, but
+no native build or installed Arrow round trip has yet been verified.
+
+EasyBuild users can stage the `voiage-2.2.0-foss-2023a.eb` or
 `voiage-2.2.0-foss-2024a.eb` candidate. Both EasyBuild configurations require
 matching modern dependency backports; the default older scientific stack is
 not sufficient. Do not mix compiled modules between compiler toolchains.
@@ -20,9 +26,27 @@ From a checkout, run:
 
 ```sh
 bash scripts/validate_hpc_recipes.sh --syntax
-bash scripts/validate_hpc_recipes.sh --spec
 python scripts/hpc_package_smoke.py --output /absolute/path/source-smoke.json
 ```
+
+To reproduce the overlay solver audit, select a new evidence directory:
+
+```sh
+mkdir -p .conductor/local
+mkdir .conductor/local/hpc-overlay-run
+export SPACK_USER_CONFIG_PATH="$PWD/.conductor/local/hpc-overlay-run/config"
+export SPACK_USER_CACHE_PATH="$PWD/.conductor/local/hpc-overlay-run/cache"
+spack repo add --scope user "$PWD/packaging/spack-overlay"
+spack config --scope user add repos:builtin:commit:d4f7c711a6a42f1c4d551c8fd10fce9a11340a81
+spack config --scope user add "bootstrap:root:$PWD/.conductor/local/hpc-overlay-run/bootstrap"
+spack spec py-voiage@2.2.0
+```
+
+Retain the nonzero result and full solver output while the compiler constraint
+remains unresolved. The overlay guide and receipt also retain the successful
+individual Typer, Pydantic and PyArrow graphs. The standalone
+`bash scripts/validate_hpc_recipes.sh --spec` command uses the original recipe
+without this overlay, so its missing-version errors describe that older path.
 
 The source smoke builds the checksum-pinned release and tests the installed
 Rust extension, CLI, a numerical CPU example, and Arrow interchange outside

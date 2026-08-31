@@ -1,0 +1,26 @@
+{
+  "schema": "voiage.spack-overlay.v1",
+  "catalogue_repository": "https://github.com/spack/spack-packages",
+  "catalogue_commit": "d4f7c711a6a42f1c4d551c8fd10fce9a11340a81",
+  "voiage_recipe_commit": "dec5a1b5996ea1c5eef55bd791cb1ce89c38968a",
+  "recipe_sha256": {
+    "packages/arrow/package.py": "9c6480ba1a5180509189953ed74cea388a08dea0c5ad86c9afbe5e14c8025909",
+    "packages/py-annotated-doc/package.py": "5238e58c461846aca7b8f0d7879a41efa546eab7458d5c5396437756e58f10dc",
+    "packages/py-click/package.py": "bdbe6166b9516b13c9f1e112a9560ab4ac79b86fb9cf3992ccba369d078fc3fa",
+    "packages/py-libcst/package.py": "9a57b5e2beb4b01e8b8971671eaf28c94e2ed2c0775b328dbd8b1aae5782a388",
+    "packages/py-polars/package.py": "324eaeed9d22ce727fc0d24eab4eaa5ce14c4d6e4243d120da9863846bcc00a5",
+    "packages/py-polars-runtime-32/package.py": "af27d3022242cf02c2afcdebc8f125c967121b53b14b513a9e0a77165bd0b2d3",
+    "packages/py-pyarrow/package.py": "b84c9f6c6eb62431e456208546686bc5aae0156fbef3661da1a3e3b5bc4c1810",
+    "packages/py-pydantic/package.py": "6b55621d3bfcb54677eef5110abf1420d27166ef370363dddf1c35592f32fb93",
+    "packages/py-pydantic-core/package.py": "019cb02021df138b8d19f29ca6080b9ce9aa829ef2c0cd19872fc7559ed77a36",
+    "packages/py-typer/package.py": "e13b10d527710d0ca77b12cc910f6db703f63a35cf18ea79e2be1eb51fc44d11",
+    "packages/py-typing-extensions/package.py": "bc339c7bbb0f4eb478484269204bbccf4d755d03565ddb397552ed7006a1ed30",
+    "packages/py-voiage/package.py": "8f7e7f3b05d857943f9191dada49d91cdafa244aaa3d6d559088e0100489abf7"
+  },
+  "native_builds_executed": false,
+  "module_load_executed": false,
+  "upstream_submitted": false,
+  "patch_sha256": {
+    "packages/py-pyarrow/for_aarch64.patch": "aed6630a6298b6309d2241a99943b49993453fb089c1d864b4a459559d69bd3c"
+  }
+}

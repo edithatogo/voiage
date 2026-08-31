@@ -93,7 +93,7 @@ Spack and both EasyBuild build logs, their installed smoke results and a real
 module-load transcript. Then a maintainer may choose the reviewed upstream
 packets. Upstream merge and package index visibility remain later outcomes.
 
-### Observed catalogue blocker on 31 August 2026
+### Historical catalogue-only audit on 31 August 2026
 
 Spack 1.2.2 loaded the recipe, fetched its built-in catalogue and attempted
 concretization, which failed. Its available typing-extensions 4.15.0,
@@ -101,8 +101,8 @@ Pydantic 2.12.5, PyArrow 19.0.1, Polars 1.29.0 and Click 8.1.8 did not satisfy
 the release's minimum versions. The catalogue also lacks the tested Typer
 0.27.2 and Click 8.5.0 combination selected by these recipes, and its older
 Typer dependency constraints cap Click at 8.1.8. This is a concrete dependency
-catalogue blocker: prepare and validate those upstream dependency updates
-before claiming an installable Spack graph. No release constraint was lowered.
+catalogue blocker in the standalone recipe path. The local overlay follow-up
+below addresses those versions without lowering release constraints.
 
 EasyBuild 4.9.4 parsed both candidate files successfully. That parser result
 does not establish robot resolution, a foss build, or module loading. This
@@ -115,11 +115,33 @@ refuses to overwrite an evidence directory and retains the catalogue there.
 The repeated audit pins `d4f7c711a6a42f1c4d551c8fd10fce9a11340a81` from the
 `releases/v2026.06` catalogue.
 
-A local overlay is a feasible follow-up, but it needs more than five new
+The audit identified a local overlay as the next step, requiring more than five
 version declarations. Pydantic 2.13.4 requires pydantic-core 2.46.4, and Polars
 1.42.1 requires the separate polars-runtime-32 package at the same version.
 Arrow needs matching C++ and Python builds, and modern Typer needs its current
 transitive dependencies. Each source digest, build backend, Rust/compiler
-requirement and version constraint must be checked before concretization and
-native build tests. The upstream packets remain unsubmitted while this
-repository-owned dependency work is outstanding.
+requirement and version constraint needed checking before concretization and
+native build tests. The following overlay provides the source and solver
+evidence; upstream packets remain unsubmitted pending the remaining work.
+
+### Local overlay follow-up
+
+The repository now supplies `packaging/spack-overlay/` against that pinned
+catalogue. It adds the missing Python versions, the split Polars runtime,
+matched Arrow 25 C++ source, and audited build dependencies. PyArrow requests
+the CSV, dataset, filesystem and Parquet features used by voiage's ingestion
+and interchange modules. The retained catalogue-only failure above remains
+historical evidence; it is not the current overlay result.
+
+The overlay's `solver-receipt.json` and complete `solver-logs/` record three
+successful individual graphs: Typer, Pydantic and PyArrow. The complete voiage
+graph still fails on the required `nightly-2026-04-01` Rust toolchain and its
+conflict with numeric stable-Rust constraints. The Python 3.13 LibCST path also
+needs a separate pyyaml-ft recipe. None of these graph results proves a build.
+
+Use the isolated configuration, cache and bootstrap commands in the
+[overlay guide](../../packaging/spack-overlay/README.md) to reproduce that
+audit. The standalone `validate_hpc_recipes.sh --spec` command does not load
+the overlay and therefore retains its earlier catalogue limitations. Actual
+Linux builds, Arrow round trips from the installed Spack package, and module
+loading remain required before submission or completion of issue #1025.
