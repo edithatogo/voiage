@@ -131,7 +131,7 @@
         {"id": "mature-r-package", "status": "pending", "evidence": ["docs/release/binding-submission-checklist.md"]}
       ],
       "acceptance_evidence": ["R Journal manuscript identifier", "Editorial acceptance and publication record"],
-      "next_decision": "Assess only when the R surface supports a non-duplicative article."
+      "next_decision": "Repository assessment dated 2026-08-31 recommends deferral: the current bounded R facade does not yet establish a distinct article. See docs/release/additional-venue-assessment-20260831.md; reassess only after an R-specific contribution and distribution evidence exist."
     },
     {
       "id": "journal-of-statistical-software",
@@ -145,7 +145,7 @@
         {"id": "methodological-evaluation", "status": "pending", "evidence": ["paper/health-example-methods.md"]}
       ],
       "acceptance_evidence": ["JSS manuscript identifier", "Editorial acceptance and DOI"],
-      "next_decision": "Consider only if a substantial, non-overlapping statistical contribution remains after JOSS."
+      "next_decision": "Defer a separate manuscript pending a substantial non-overlapping statistical contribution and replication evidence; see docs/release/additional-venue-assessment-20260831.md."
     },
     {
       "id": "numfocus",
@@ -159,7 +159,7 @@
         {"id": "adoption-and-sustainability", "status": "pending", "evidence": ["docs/astro-site/src/content/docs/developer-guide/community-support.mdx"]}
       ],
       "acceptance_evidence": ["NumFOCUS application record", "Formal affiliation decision"],
-      "next_decision": "Reassess after demonstrated adoption and multi-person governance."
+      "next_decision": "Current official applications are paused as reviewed on 2026-08-31. Retain docs/release/sustainability-handoff-20260831.md and reassess after reopening, demonstrated adoption and distributed human governance."
     },
     {
       "id": "pypi",

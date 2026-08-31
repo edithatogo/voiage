@@ -42,3 +42,14 @@ is offered. The maintenance scope and succession policy are documented in
 
 Do not report security vulnerabilities in public issues. Use `SECURITY.md` for
 private reporting instructions.
+
+## Financial support and sustainability
+
+No activated fiscal host or verified project donation link is recorded here.
+Open Source Collective requires organizational ownership under its current
+eligibility guidance; voiage remains in the maintainer's personal repository.
+NumFOCUS applications are currently paused. These routes are preparation work,
+not active affiliations. See the dated
+[sustainability handoff](docs/release/sustainability-handoff-20260831.md) for the
+configuration packet, evidence and remaining decisions. Payment links will be
+added only after the receiving account and project relationship are verified.

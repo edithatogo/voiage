@@ -8,6 +8,11 @@
   "issueTracker": "https://github.com/edithatogo/voiage/issues",
   "url": "https://edithatogo.github.io/voiage",
   "identifier": "https://github.com/edithatogo/voiage/releases/tag/v2.2.0",
+  "isBasedOn": {
+    "@type": "SoftwareSourceCode",
+    "identifier": "swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d",
+    "description": "Prior Software Heritage snapshot containing the signed v2.0.0 release; not a v2.2.0 archival receipt."
+  },
   "license": "https://spdx.org/licenses/Apache-2.0.html",
   "programmingLanguage": ["Python", "Rust", "R", "Julia"],
   "runtimePlatform": ["Python >=3.12"],

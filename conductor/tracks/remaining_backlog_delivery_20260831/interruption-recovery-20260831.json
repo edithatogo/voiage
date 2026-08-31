@@ -1,0 +1,51 @@
+{
+  "recorded_at": "2026-08-31T12:52:52.412768+00:00",
+  "old_root_tox_handle": 70629,
+  "handle_state": "missing",
+  "full_matrix_completed": false,
+  "root_log": "/tmp/voiage-goal-reconciliation-tox-20260831.log",
+  "observed_error": "PermissionError: [Errno 13] Permission denied: /Volumes/PortableSSD during tox teardown",
+  "workspace_recovered": true,
+  "backup_manifest": "/Users/doughnut/.codex/recovery/voiage-20260831-interruption/manifest.json",
+  "backup_manifest_sha256": "0e68d998335951e6ecd6efc25a7620726cfd2685635d83739a4276b700eaebab",
+  "worktrees_preserved": 5,
+  "local_prune_started": false,
+  "local_prune_evidence": "exec process creation rejected; execution receipt absent; all seven candidate local branch refs remain",
+  "additional_progress_backup": {
+    "path": "/Users/doughnut/.codex/recovery/voiage-20260831-interruption/progress-20260831-2.tar.gz",
+    "sha256": "2b17b7186bc8d870bf4248ba90cd4efbd7564a6f4872b537265b90cff7c09781",
+    "worktrees": 5,
+    "untracked_files": 36,
+    "scope": "Captured tracked patches and untracked file bytes during ongoing work, with each worktree HEAD recorded; not an atomic cross-worktree snapshot."
+  },
+  "later_local_prune": {
+    "recorded_at": "2026-08-31T13:53:09.889636+00:00",
+    "receipt_path": "/Volumes/PortableSSD/GitHub/voiage-recovery/20260831-goal-cleanup/local-prune-result-20260831.json",
+    "receipt_sha256": "d17415482ead0f089bb7b8e3d535455fe91d225bd8842e101e48a88ecdb2feb1",
+    "deleted_local_branches": [
+      "chore/tracks-polyglot-ecosystem-strategy",
+      "codex/pre-submission-hardening-archive",
+      "codex/pre-submission-hardening-closeout",
+      "codex/pyopensci-joss-closeout",
+      "codex/pyopensci-joss-readiness",
+      "codex/pyopensci-submission-staging",
+      "codex/conductor-venue-reconciliation"
+    ],
+    "all_absent_after": true,
+    "active_worktrees_removed": 0,
+    "scope": "Only seven recovered, merged, unoccupied local branch refs; no worktree, stash, notes, recovery or remote deletion."
+  },
+  "actions_validation_continuation": {
+    "session_id": 54548,
+    "log": "/tmp/voiage-actions1056-coverage-final.log",
+    "interpreter": "CPython3.12.13",
+    "state": "passed",
+    "note": "All15 localtox lanes passed acrossretainednoncoverage andcurrentcoverage run; post-rebase requirementdelta only mergedtqdm patch.",
+    "rebase_receipt": "/tmp/voiage-actions1056-rebase-receipt.json",
+    "preserved_stash": "ecd50d8ebfe5a5b52419e81607cad9302a1573ff",
+    "passed_tests": 4624,
+    "skipped_tests": 16,
+    "tox_seconds": 880.05,
+    "log_sha256": "d9486f4ab402be36f4e8bc6509c6bfeab6d7f5b847852a2bbaf11549a402fbec"
+  }
+}

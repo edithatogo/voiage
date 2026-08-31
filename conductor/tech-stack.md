@@ -35,6 +35,16 @@
 - **pytest-cov**: >=7.1,<8 - Coverage reporting
 - **hypothesis**: >=6.157,<7 - Property-based testing
 
+### Opt-in local acceleration preparation (31 August 2026)
+
+Issue #1028 evaluates a named `test-acceleration` extra with pytest-testmon 2.2,
+pytest-gremlins 1.9, coverage 7.16 and VCR.py 8.3. Selection stays serial and
+invalidates its database on dependency, interpreter, test inventory and relevant
+resource changes. Measurements must document plugin incompatibilities and
+compare cold, warm and full runs. This does not replace full tox, CI coverage,
+network-isolated tests or the existing mutation authority. Tool versions remain
+subject to the evaluated extra and committed lock, not a promotion claim.
+
 ## Code Quality
 - **Ruff**: >=0.15.22,<1 - Fast Python linter, formatter, and security-rule checker
 - **ty**: >=0.0.61,<1.0 - Static type checking

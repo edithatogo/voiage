@@ -6,6 +6,15 @@ external-gate boundaries. The maintainer authorized the v2.2.0 release and
 pyOpenSci-first venue sequence on 2026-08-30; before that authorization these
 were not active Conductor implementation tasks.
 
+## [~] Track: Remaining Backlog Delivery
+*Link: [./tracks/remaining_backlog_delivery_20260831/index.md](./tracks/remaining_backlog_delivery_20260831/index.md)*
+*GitHub: [issue #1053](https://github.com/edithatogo/voiage/issues/1053).*
+*Status: in progress — authorized remaining technical repairs, protected PR
+delivery, issue reconciliation and recovery-backed cleanup. Historical tracks
+and unsatisfied scientific, venue and registry gates retain their evidence.*
+
+---
+
 ## [~] Track: v2.2 Release and Venue Submissions
 *Link: [./tracks/v2_2_release_and_venue_submissions_20260830/index.md](./tracks/v2_2_release_and_venue_submissions_20260830/index.md)*
 *GitHub: [issue #1037](https://github.com/edithatogo/voiage/issues/1037).*

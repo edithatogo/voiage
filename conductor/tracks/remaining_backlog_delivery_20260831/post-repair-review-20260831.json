@@ -1,0 +1,30 @@
+{
+  "recorded_at": "2026-08-31T14:14:28.354417+00:00",
+  "scope": "Readonly review of root changes after original documentation review; not a final whole-goal or hosted approval",
+  "blocking_semantic_findings": [],
+  "integrity_followup": "Latest ledger interruption-recovery artifact hash predates the subsequent Actions coverage PASS receipt update; append a fresh event after terminal updates. Historical events must not be rewritten.",
+  "observations": [
+    "Dynamic active-track test preserves required release track and validates all filesystem tracks against independent registry records/status plus roadmap/todo links.",
+    "No venue/scientific/registry success inferred from preparation.",
+    "External backup manifest/archive, local prune receipt and Actions coverage log hashes verified.",
+    "Old Codecov observation explicitly remains head-bound and unmerged."
+  ],
+  "files": {
+    "tests/test_v1_programme_baseline.py": "f314029d4ae630adf1a54c6407cd9af8bc763f24d5cd87177a5b7820e736c489",
+    "roadmap.md": "03a4e4ebefe5b7b73e1c13246748493972832df567a193ef035b01cd203861b6",
+    "todo.md": "e6d8a4e9cc989a5ffb96ea010bf686351ec0f502558aa4a5844fb24d2c8eb9b9",
+    "conductor/tracks.md": "35009d69896d22a2772a92be1759a67857347c4bd4671764f3d338733203a7ca",
+    "conductor/github-cross-references.json": "46187d48d2c03b162efbfa4e73a755c22a1b9410bf20cf60bf1185c3cad74f57",
+    "conductor/tracks/remaining_backlog_delivery_20260831/metadata.json": "085824d77a31ec1641d44724f776d6653ba0ff9c81eb216d4885e28052248fd1",
+    "conductor/tracks/remaining_backlog_delivery_20260831/plan.md": "a209eb7f8cee497b7ac0d092d7d261f210a092faafd1726230f435ecf89428ae",
+    "conductor/tracks/remaining_backlog_delivery_20260831/spec.md": "5d3300da46589978aa772191ad9ac30fe4bff09851a39f5cf5bc74284c029771",
+    "conductor/tracks/remaining_backlog_delivery_20260831/baseline-and-recovery-20260831.json": "58d5da377fec653b4d42e3077d419323011a2f191efe0d49e999e13b8e60df35",
+    "conductor/tracks/remaining_backlog_delivery_20260831/interruption-recovery-20260831.json": "2879de3f6bdba8af0f5cff00a99edd56fb9489fddab2221e339223fb5a165227",
+    "conductor/tracks/remaining_backlog_delivery_20260831/issue-reconciliation-20260831.json": "1f06dd1803be22708722a4492b14589004db9c1d355270747bd5ccc0d674c7ac",
+    "conductor/tracks/remaining_backlog_delivery_20260831/codecov-observation-20260831.json": "89c96ba05a4974a7304ece946ea489ff749717a32648c082e0bbd2b40c6551f7",
+    "conductor/tracks/remaining_backlog_delivery_20260831/r-strict-check-20260831.json": "304b33c5549529412415b451eeb96c70157dacb99bd26dc5256cf6a804116e5e",
+    "conductor/tracks/remaining_backlog_delivery_20260831/remaining-issue-register-20260831.md": "0caad26b827effd6a60bebc8d2d9b06ab659ceb1930446b154402c4f733cc81c",
+    "conductor/tracks/remaining_backlog_delivery_20260831/evidence.jsonl": "3ff966d80cb9bcaeaf77672b8b112bda305f912c5e6bbc392d79cb33b60ef3f2"
+  },
+  "pr_body_sha256": "f9b74b9367e833b5000dab55fa525ec05af58955fbd77f4d940198f8f2933aef"
+}

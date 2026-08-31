@@ -1,0 +1,24 @@
+{
+  "observed_on": "2026-08-31",
+  "pr": 1057,
+  "head": "f4b2d9e50e729f91ac4dbe817732783de8983571",
+  "evidence_scope": "Successful hosted upload and Codecov result for this reviewed-but-unmerged head only; subsequent repair heads require new checks.",
+  "checks": [
+    {
+      "name": "Coverage Report",
+      "conclusion": "SUCCESS",
+      "status": "COMPLETED",
+      "completedAt": "2026-08-31T13:13:57Z",
+      "detailsUrl": "https://github.com/edithatogo/voiage/actions/runs/33395351849/job/99498444355"
+    },
+    {
+      "name": "codecov/patch",
+      "conclusion": "SUCCESS",
+      "status": "COMPLETED",
+      "completedAt": "2026-08-31T13:14:25Z",
+      "detailsUrl": "https://app.codecov.io/gh/edithatogo/voiage/pull/1057"
+    }
+  ],
+  "merged": false,
+  "issue_656_complete": false
+}

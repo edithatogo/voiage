@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-30T02:37:17Z",
+  "generated_at": "2026-08-31T12:45:15Z",
   "repository": "edithatogo/voiage",
   "project_url": "https://github.com/users/edithatogo/projects/28",
   "association_policy": "PRs are included only when associated with commits recorded by a track, Git history for its path, or an explicit track reference. Empty completed-track lists are none_found, not inferred.",
@@ -5589,17 +5589,37 @@
         {
           "number": 1052,
           "url": "https://github.com/edithatogo/voiage/pull/1052",
-          "status": "open",
+          "status": "merged",
           "evidence": [
-            "local-tox:15-environments-passed",
-            "local-tests:4601-passed-15-skipped",
+            "reviewed-head:3a000fd871baefde8ebf4fae4a7cec163be21576",
+            "merge:27488e817238d6fe63016f2f5a5b15f91b1acda7",
+            "hosted-checks:44-terminal",
+            "signed-commits:4-verified",
+            "review-threads:0-unresolved",
+            "exact-tree-match",
+            "local-tox:15-environments-passed-across-retained-runs",
+            "local-tests:4625-passed-15-skipped",
             "local-coverage:95.11-percent",
-            "conductor/tracks/v2_2_release_and_venue_submissions_20260830/status-reconciliation-validation-20260831.json",
-            "hosted-checks-and-merge:pending"
+            "conductor/tracks/v2_2_release_and_venue_submissions_20260830/maintainer-decision-review-20260831.json"
           ]
         }
       ],
-      "pull_request_evidence": "PR #1038, #1046, #1047 and #1051 merged with exact tree equality after local and hosted gates. Signed v2.2.0 targets #1046 and is publicly verified; #1047 reconciles publication and #1051 completes repository venue-packet repairs. R14 human declarations and venue outcomes remain separate. PR #1052 contains the locally validated status reconciliation; its hosted checks and merge remain separate gates."
+      "pull_request_evidence": "PRs #1038, #1046, #1047, #1051 and #1052 merged through protected checks. Signed immutable v2.2.0 is publicly verified. Personal declarations and withdrawals are confirmed; survey, human-written text, actual submissions and venue outcomes remain separate."
+    },
+    {
+      "track_id": "remaining_backlog_delivery_20260831",
+      "metadata_track_id": "remaining_backlog_delivery_20260831",
+      "path": "conductor/tracks/remaining_backlog_delivery_20260831",
+      "lifecycle": "active",
+      "issue": {
+        "number": 1053,
+        "url": "https://github.com/edithatogo/voiage/issues/1053",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/296",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
     }
   ]
 }
