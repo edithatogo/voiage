@@ -26,7 +26,8 @@ SHA-512 sidecar. Its release signature has not been verified.
   retains that requirement; it does not substitute stable or unpinned Rust.
 - PyArrow 25 uses a custom scikit-build-core backend and requires Cython
   3.1 or later, LibCST 1.8.6 or later, and CMake 3.25 or later. Its Arrow
-  C++ dependency is version matched. Arrow 25 requires C++20. The copied
+  C++ dependency is version matched and requests CSV, dataset, filesystem and
+  Parquet support for voiage ingestion and interchange. Arrow 25 requires C++20. The copied
   C++ recipe still needs native build review against the new release.
 - LibCST adds a native Rust extension and conditional YAML dependencies.
   Its Python 3.13 path requires the separate pyyaml-ft package; unsupported

@@ -25,7 +25,8 @@
   version bounds. Renovate inherits the owner policy with explicit library and
   interpreter safeguards; authoritative Codecov uploads use OIDC and fail closed.
 - Add a local Spack overlay with verified source hashes for missing HPC
-  dependency recipes, isolated solver evidence and explicit native build limits.
+  dependency recipes, required Arrow features, isolated solver evidence and
+  explicit native build limits.
 
 - Bound confirmed maintainer declarations and journal-first sequencing to the
   recorded decision. Retained separate survey and human-authorship action gates

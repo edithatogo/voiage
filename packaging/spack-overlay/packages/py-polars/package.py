@@ -4,7 +4,7 @@
 
 from spack_repo.builtin.build_systems.python import PythonPackage
 
-from spack.package import *
+from spack.package import depends_on, license, maintainers, variant, version, when
 
 
 class PyPolars(PythonPackage):

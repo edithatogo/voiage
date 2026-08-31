@@ -5,7 +5,7 @@
 
 from spack_repo.builtin.build_systems.python import PythonPackage
 
-from spack.package import *
+from spack.package import conflicts, default_args, depends_on, license, version
 
 
 class PyPydanticCore(PythonPackage):

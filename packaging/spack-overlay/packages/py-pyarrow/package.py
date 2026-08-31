@@ -4,7 +4,16 @@
 
 from spack_repo.builtin.build_systems.python import PythonPackage
 
-from spack.package import *
+from spack.package import (
+    EnvironmentModifications,
+    default_args,
+    depends_on,
+    license,
+    maintainers,
+    patch,
+    version,
+    when,
+)
 
 
 class PyPyarrow(PythonPackage):
@@ -73,8 +82,9 @@ class PyPyarrow(PythonPackage):
         depends_on("py-setuptools@38.6:", when="@7:")
         depends_on("py-setuptools")
 
+    depends_on("arrow@25.0.0+python+csv+dataset+filesystem+parquet", when="@25.0.0")
+
     arrow_versions = (
-        "@25.0.0",
         "@0.9.0",
         "@0.11.0",
         "@0.12.1",

@@ -43,6 +43,12 @@ def test_solver_receipt_binds_inspectable_logs_and_package_manifest() -> None:
             assert result["status"] == "concretized"
             assert result["spec"] in text
             assert "Error: failed to concretize" not in text
+            if result["spec"] == "py-pyarrow@25.0.0":
+                arrow = next(
+                    line for line in text.splitlines() if "^arrow@25.0.0" in line
+                )
+                for feature in ["python", "csv", "dataset", "filesystem", "parquet"]:
+                    assert f"+{feature}" in arrow
         else:
             assert result["status"] == "failed"
             assert "Error: failed to concretize" in text
@@ -77,6 +83,22 @@ def test_native_dependency_requirements_are_not_downgraded() -> None:
     arrow = (ROOT / "packages/py-pyarrow/package.py").read_text()
     assert 'depends_on("py-libcst@1.8.6:"' in arrow
     assert 'depends_on("py-scikit-build-core"' in arrow
+    assert '"arrow@25.0.0+python+csv+dataset+filesystem+parquet"' in arrow
+
+
+def test_spack_directives_are_explicit_including_license() -> None:
+    for recipe in (ROOT / "packages").glob("*/package.py"):
+        tree = ast.parse(recipe.read_text())
+        names = {
+            alias.name
+            for node in ast.walk(tree)
+            if isinstance(node, ast.ImportFrom) and node.module == "spack.package"
+            for alias in node.names
+        }
+        assert "*" not in names
+        # Python also defines a builtin named license; it is not Spack's directive.
+        assert "license" in names
+        assert "depends_on" in names
 
 
 def test_upstream_notices_remain_with_derived_recipes() -> None:

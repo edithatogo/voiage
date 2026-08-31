@@ -1,38 +1,38 @@
 {
   "schema": "voiage.spack-overlay-solver.v1",
-  "recorded_at": "2026-08-31T13:44:52.989100+00:00",
+  "recorded_at": "2026-08-31T15:05:35.116206+00:00",
   "catalogue_commit": "d4f7c711a6a42f1c4d551c8fd10fce9a11340a81",
   "host": "macOS arm64",
-  "manifest_sha256": "e7ee169095ec9190635e16b0c729150a3fc7ad82f1dea54c1c7556066bdc91a8",
+  "manifest_sha256": "a11f5b085e98324ffd380937ffa3bae62a2915ce3135f43fefab492379f584fb",
   "results": [
     {
       "spec": "py-typer@0.27.2",
       "exit_code": 0,
       "status": "concretized",
-      "log_sha256": "a2f7596dc3b9ca55c519d5409cac8b254c62751ae46c227aa5cf24799c5b5410",
-      "log_path": "solver-logs/typer.log"
+      "log_path": "solver-logs/typer.log",
+      "log_sha256": "a2f7596dc3b9ca55c519d5409cac8b254c62751ae46c227aa5cf24799c5b5410"
     },
     {
       "spec": "py-pydantic@2.13.4",
       "exit_code": 0,
       "status": "concretized",
-      "log_sha256": "f9d63aa7795fc337311c155796f3a2528fd3effe8de6c05188bce98badfb955b",
-      "log_path": "solver-logs/pydantic.log"
+      "log_path": "solver-logs/pydantic.log",
+      "log_sha256": "f9d63aa7795fc337311c155796f3a2528fd3effe8de6c05188bce98badfb955b"
     },
     {
       "spec": "py-pyarrow@25.0.0",
       "exit_code": 0,
       "status": "concretized",
-      "log_sha256": "d414537587b0c20c0eb0ca91c2d616d6354f6c69a6bc81f63de11390e9824632",
-      "log_path": "solver-logs/pyarrow.log"
+      "log_path": "solver-logs/pyarrow.log",
+      "log_sha256": "da7568761b006b204ae001f51abf79b2e42abe6b120b366f5e4b0d7c674b3812"
     },
     {
       "spec": "py-voiage@2.2.0",
       "exit_code": 1,
       "status": "failed",
-      "log_sha256": "65c2fc7f320f9871dcd3bcf2ff4b37a76b60fd18d8357deebdb2a4ba524f9755",
-      "reason": "The catalogue has no rust@nightly-2026-04-01; its exact dated constraint also conflicts with numeric stable-Rust requirements in the unified build graph.",
-      "log_path": "solver-logs/voiage.log"
+      "log_path": "solver-logs/voiage.log",
+      "log_sha256": "8896ae9098869b530c6670fa693f0412396e5242bbb598095e66bc37b8e69dd9",
+      "reason": "The catalogue has no rust@nightly-2026-04-01; its exact dated constraint also conflicts with numeric stable-Rust requirements in the unified build graph."
     }
   ],
   "builds_executed": false,
