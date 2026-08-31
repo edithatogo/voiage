@@ -8,6 +8,9 @@
 
 ## Unreleased
 
+- Resolve the local HPC dependency graph with checksum-bound dated Rust and
+  separate stable compiler backends; native cluster builds remain pending.
+
 - Verified the complete R distribution check, including PDF and HTML manuals;
   retained its two NOTEs and the separate submission gate.
 

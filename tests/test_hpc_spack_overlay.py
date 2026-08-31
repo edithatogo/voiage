@@ -62,9 +62,18 @@ def test_overlay_versions_match_verified_source_digests() -> None:
         source = entry.get("sources", [entry])[0]
         assert source.get("download_hash_verified", source.get("hash_verified"))
         recipe = ROOT / "packages" / f"py-{entry['name']}" / "package.py"
-        assert (
-            f'"{entry["version"]}", sha256="{source["sha256"]}"' in recipe.read_text()
-        )
+        versions = {
+            node.args[0].value: keyword.value.value
+            for node in ast.walk(ast.parse(recipe.read_text()))
+            if isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Name)
+            and node.func.id == "version"
+            and node.args
+            and isinstance(node.args[0], ast.Constant)
+            for keyword in node.keywords
+            if keyword.arg == "sha256" and isinstance(keyword.value, ast.Constant)
+        }
+        assert versions[entry["version"]] == source["sha256"]
     arrow = json.loads((ROOT / "arrow-source-audit.json").read_text())
     assert arrow["sha256"] in (ROOT / "packages/arrow/package.py").read_text()
     assert arrow["sha512_verified_against"].endswith(".sha512")
@@ -73,7 +82,7 @@ def test_overlay_versions_match_verified_source_digests() -> None:
 
 def test_native_dependency_requirements_are_not_downgraded() -> None:
     core = (ROOT / "packages/py-pydantic-core/package.py").read_text()
-    assert 'depends_on("rust@1.88:"' in core
+    assert 'depends_on("rust@1.88:1"' in core
     assert 'depends_on("py-maturin@1.10:1"' in core
     runtime = (ROOT / "packages/py-polars-runtime-32/package.py").read_text()
     assert 'depends_on("rust@nightly-2026-04-01"' in runtime

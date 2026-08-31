@@ -1,0 +1,59 @@
+{
+  "recorded_at": "2026-08-31T15:27:56.326849+00:00",
+  "compiler": {
+    "version": "nightly-2026-04-01",
+    "reported_version": "1.96.0-nightly (48cc71ee8 2026-03-31)",
+    "source_commit": "48cc71ee88cd0f11217eced958b9930970da998b",
+    "url": "https://static.rust-lang.org/dist/2026-04-01/rustc-nightly-src.tar.xz",
+    "sha256": "9de9d7a01a3bd2ec3581fec866453061036914f6df153d0b25d5fdc54a28f035",
+    "bytes": 240051588,
+    "archive_downloaded": true,
+    "archive_digest_verified": true,
+    "channel_manifest_url": "https://static.rust-lang.org/dist/2026-04-01/channel-rust-nightly.toml",
+    "channel_manifest_sha256": "3b6d7428c43813922ef77da6ec2ca0f75e2e0de227e2febdd714336ab88d7908",
+    "manifest_matches_official_sha256_sidecar": true,
+    "source_checksum_url": "https://static.rust-lang.org/dist/2026-04-01/rustc-nightly-src.tar.xz.sha256",
+    "source_matches_official_sha256_sidecar": true
+  },
+  "stage0": {
+    "archive_member": "rustc-nightly-src/src/stage0",
+    "sha256": "9aa08fe0e0935ef42449eb244f438c5697dbb076091f5168c004b115fdaf781d",
+    "matches_source_commit_file": true,
+    "channel": "beta",
+    "date": "2026-03-05",
+    "commit": "ad726b5063362ec9897ef3d67452fc5606ee70fa",
+    "channel_manifest_sha256": "18261f24c2dc26c5bfc6647e837c2e820a478f52d55aea7ff98eb24f43c750dd",
+    "channel_manifest_url": "https://static.rust-lang.org/dist/2026-03-05/channel-rust-beta.toml",
+    "manifest_matches_official_sha256_sidecar": true,
+    "targets": {
+      "x86_64-unknown-linux-gnu": {
+        "url": "https://static.rust-lang.org/dist/2026-03-05/rust-beta-x86_64-unknown-linux-gnu.tar.xz",
+        "published_sha256": "6ac3648729b590296c433607fe7d7f6cf7aff3ed459b4dd64188164beb528961",
+        "archive_downloaded": false,
+        "installed": false
+      },
+      "aarch64-unknown-linux-gnu": {
+        "url": "https://static.rust-lang.org/dist/2026-03-05/rust-beta-aarch64-unknown-linux-gnu.tar.xz",
+        "published_sha256": "3f995e93b1fbde48b3fe07c71ea8d77ee1e90367d8158f9f49390d4bc3dbd3fc",
+        "archive_downloaded": false,
+        "installed": false
+      },
+      "aarch64-apple-darwin": {
+        "url": "https://static.rust-lang.org/dist/2026-03-05/rust-beta-aarch64-apple-darwin.tar.xz",
+        "published_sha256": "c665bde9d7e1c6ad3edac04b794e5ce2b8480b28b49ca3d8f4e3a494e1c0d056",
+        "archive_downloaded": false,
+        "installed": false
+      },
+      "x86_64-apple-darwin": {
+        "url": "https://static.rust-lang.org/dist/2026-03-05/rust-beta-x86_64-apple-darwin.tar.xz",
+        "published_sha256": "6f9025bdce1af6874e0b442a7903074621a037d23dc77e79f9b75fba653115a9",
+        "archive_downloaded": false,
+        "installed": false
+      }
+    }
+  },
+  "signatures_verified": false,
+  "compiler_installed": false,
+  "native_builds_executed": false,
+  "upstream_submitted": false
+}

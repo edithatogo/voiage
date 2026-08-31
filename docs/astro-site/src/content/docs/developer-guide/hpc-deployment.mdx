@@ -12,8 +12,9 @@ separate evidence states.
 
 Spack users can audit the local `packaging/spack-overlay/` repository, which
 supplies missing catalogue versions and their build dependencies. It resolves
-three individual dependency graphs; the complete voiage graph remains blocked
-by the dated Rust nightly required by Polars and stable-Rust constraints.
+three individual dependency graphs and the complete voiage graph on the
+recorded macOS arm64 host. The latter keeps stable Rust and Polars' dated
+nightly in separate compiler/backend instances.
 PyArrow's candidate requests CSV, dataset, filesystem and Parquet support, but
 no native build or installed Arrow round trip has yet been verified.
 
@@ -39,12 +40,14 @@ export SPACK_USER_CACHE_PATH="$PWD/.conductor/local/hpc-overlay-run/cache"
 spack repo add --scope user "$PWD/packaging/spack-overlay"
 spack config --scope user add repos:builtin:commit:d4f7c711a6a42f1c4d551c8fd10fce9a11340a81
 spack config --scope user add "bootstrap:root:$PWD/.conductor/local/hpc-overlay-run/bootstrap"
+cp packaging/spack-overlay/concretizer.yaml "$SPACK_USER_CONFIG_PATH/concretizer.yaml"
 spack spec py-voiage@2.2.0
 ```
 
-Retain the nonzero result and full solver output while the compiler constraint
-remains unresolved. The overlay guide and receipt also retain the successful
-individual Typer, Pydantic and PyArrow graphs. The standalone
+Retain the exit status and full solver output. The bounded minimal-duplication
+configuration keeps only Rust and its three build tools separate, preserving
+all runtime dependency types. The overlay guide and receipt retain the
+complete graph and the individual Typer, Pydantic and PyArrow graphs. The standalone
 `bash scripts/validate_hpc_recipes.sh --spec` command uses the original recipe
 without this overlay, so its missing-version errors describe that older path.
 

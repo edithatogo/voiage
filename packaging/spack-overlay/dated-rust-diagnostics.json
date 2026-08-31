@@ -1,0 +1,30 @@
+{
+  "scope": "Historical intermediate solver attempts, before the final recipe/configuration manifest. These logs document why duplication and stable selection were required; they are not final-candidate validation.",
+  "attempts": [
+    {
+      "path": "solver-logs/dated-rust-single-nightly.log",
+      "sha256": "0a193f2b7e1593ff3d23f58c2ccc0593a526d3a22d7bb5c1ebe11bc55bcdf025",
+      "exit_code": 0,
+      "explanation": "Only rust:2 was allowed and open numeric ranges permitted the single dated nightly; rejected as stable/nightly separation evidence."
+    },
+    {
+      "path": "solver-logs/dated-rust-stable-requirements-failed.log",
+      "sha256": "ea2888f5eb6f9e7de66e30e1f137a5bed696a2ce620738ebce53f3e540dd19d2",
+      "exit_code": 1,
+      "explanation": "Package requirements attempted stable 1.x for Maturin and Pydantic Core; shared backend run edges still forced one compiler."
+    },
+    {
+      "path": "solver-logs/dated-rust-stable-edge-failed.log",
+      "sha256": "bc806d3bf72d839d1a5e3b4fc126e61518d049811ac2ea1b78f675c3dff47b9c",
+      "exit_code": 1,
+      "explanation": "Pydantic Core stable 1.x direct build edge retained with rust:2; backend instances remained shared."
+    },
+    {
+      "path": "solver-logs/dated-rust-three-tools-failed.log",
+      "sha256": "39015570af86c92098e723e156aa31e7acc185ba55967f5c76d9a7e9e2e3780d",
+      "exit_code": 1,
+      "explanation": "Two nodes allowed for Rust, bootstrap and Maturin, but setuptools-rust still shared its runtime Rust edge."
+    }
+  ],
+  "final_strategy": "Only Rust, rust-bootstrap, Maturin and setuptools-rust permit two instances under minimal duplication; all other dependency types and minimum versions remain intact."
+}

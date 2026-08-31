@@ -134,9 +134,10 @@ and interchange modules. The retained catalogue-only failure above remains
 historical evidence; it is not the current overlay result.
 
 The overlay's `solver-receipt.json` and complete `solver-logs/` record three
-successful individual graphs: Typer, Pydantic and PyArrow. The complete voiage
-graph still fails on the required `nightly-2026-04-01` Rust toolchain and its
-conflict with numeric stable-Rust constraints. The Python 3.13 LibCST path also
+successful individual graphs: Typer, Pydantic and PyArrow. The dated compiler follow-up now resolves the complete voiage graph on
+macOS arm64 with distinct stable Rust 1.96.0 and exact `nightly-2026-04-01`
+nodes. Its beta stage0 and source archive are checksum-bound; only Rust,
+rust-bootstrap, Maturin and setuptools-rust permit two build-tool instances. The Python 3.13 LibCST path also
 needs a separate pyyaml-ft recipe. None of these graph results proves a build.
 
 Use the isolated configuration, cache and bootstrap commands in the

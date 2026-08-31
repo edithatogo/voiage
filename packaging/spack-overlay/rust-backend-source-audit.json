@@ -1,0 +1,20 @@
+[
+  {
+    "name": "maturin",
+    "version": "1.13.1",
+    "url": "https://files.pythonhosted.org/packages/39/16/b284a7bc4af3dd87717c784278c1b8cb18606ad1f6f7a671c47bfd9c3df0/maturin-1.13.1.tar.gz",
+    "sha256": "9a87ff3b8e4d1c6eac33ebfe8e261e8236516d98d45c0323550621819b5a1a2f",
+    "bytes": 340369,
+    "download_hash_verified": true,
+    "purpose": "Verify source identity for unchanged upstream build-tool recipe; no install."
+  },
+  {
+    "name": "setuptools-rust",
+    "version": "1.12.0",
+    "url": "https://files.pythonhosted.org/packages/bc/c4/8d3d282cee60d3ea0369fa15ce27387810040360adb4133e31990a7a2aba/setuptools_rust-1.12.0.tar.gz",
+    "sha256": "d94a93f0c97751c17014565f07bdc324bee45d396cd1bba83d8e7af92b945f0c",
+    "bytes": 310984,
+    "download_hash_verified": true,
+    "purpose": "Verify source identity for unchanged upstream build-tool recipe; no install."
+  }
+]
