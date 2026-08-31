@@ -8,6 +8,9 @@
 
 ## Unreleased
 
+- Raise the HPC source baseline to Python 3.12.14, Expat 2.8.3 and OpenSSL
+  3.6.4 while preserving catalogue builders and historical solver evidence.
+
 - Bind the 2023a Python interpreter archive in the HPC source manifest and
   detect recipe checksums omitted from the verified source and patch inventory.
 
@@ -27,9 +30,6 @@
 
 - Update the EasyBuild 2024a foundation to Python 3.12.14 throughout its build
   dependencies and refresh the OpenSSL source fallback; native builds remain pending.
-
-- Prepare a separate foss 2023a scientific foundation with current Python
-  bindings and source-built backend evidence; native stacks remain pending.
 
 - Prepare a source-verified EasyBuild 2024a dependency foundation with explicit
   provider mappings; complete native stacks and 2023a remain pending.

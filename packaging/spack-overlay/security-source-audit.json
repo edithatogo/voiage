@@ -1,0 +1,43 @@
+{
+  "schema": "voiage.spack-security-sources.v1",
+  "catalogue_commit": "d4f7c711a6a42f1c4d551c8fd10fce9a11340a81",
+  "sources": [
+    {
+      "package": "python",
+      "version": "3.12.14",
+      "url": "https://www.python.org/ftp/python/3.12.14/Python-3.12.14.tgz",
+      "sha256": "6c6df908d2c3fd24e6d76869e92542abd0f33aec9dfc18df8875f89660286d43",
+      "bytes": 27283714,
+      "archive_downloaded": true,
+      "published_digest_verified": true,
+      "signature_verified": false,
+      "catalogue_recipe_sha256": "3dc7ce8b75cfcf149ba9cbd6ba5876cacb55553a7e93aaa32cfa4fc23feab553",
+      "published_digest_source": "https://www.python.org/downloads/release/python-31214/"
+    },
+    {
+      "package": "expat",
+      "version": "2.8.3",
+      "url": "https://github.com/libexpat/libexpat/releases/download/R_2_8_3/expat-2.8.3.tar.bz2",
+      "sha256": "b4cc2483927d5e90bf8c40b44a6b95b368b42a8a96e25883fce188b48a92b670",
+      "bytes": 663048,
+      "archive_downloaded": true,
+      "published_digest_verified": true,
+      "signature_verified": false,
+      "catalogue_recipe_sha256": "39ac2c69535f6c0116bfe92781fa0717f536a1bc357dff5138cd1551e083f19e",
+      "published_digest_source": "https://api.github.com/repos/libexpat/libexpat/releases/tags/R_2_8_3"
+    },
+    {
+      "package": "openssl",
+      "version": "3.6.4",
+      "url": "https://github.com/openssl/openssl/releases/download/openssl-3.6.4/openssl-3.6.4.tar.gz",
+      "sha256": "9bffaa1ad1e07b354c21bd3324ec02fa15579f45a7d0494b3e74bc449b7333ef",
+      "bytes": 55003802,
+      "archive_downloaded": true,
+      "published_digest_verified": true,
+      "signature_verified": false,
+      "catalogue_recipe_sha256": "057e8cb673cfc8cbfd9da8ccdb1e1938d1d1967101e29c1162462abcbbdbe972",
+      "published_digest_source": "https://github.com/openssl/openssl/releases/download/openssl-3.6.4/openssl-3.6.4.tar.gz.sha256"
+    }
+  ],
+  "native_builds_executed": false
+}

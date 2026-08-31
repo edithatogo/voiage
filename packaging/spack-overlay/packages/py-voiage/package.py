@@ -11,7 +11,7 @@ class PyVoiage(PythonPackage):
     license("Apache-2.0")
     version("2.2.0", sha256="e4edfd41011891a94cbc2b144ff1d20340fcc32481e7a2b24157494b7490a16b")
 
-    depends_on("python@3.12:3.14", type=("build", "run"))
+    depends_on("python@3.12.14:3.14", type=("build", "run"))
     depends_on("rust@1.85:", type="build")
     depends_on("py-maturin@1.9:1", type="build")
     depends_on("py-click@8.5:8", type="run")

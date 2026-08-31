@@ -1,0 +1,125 @@
+{
+  "schema": "voiage.spack-builder-dispatch.v1",
+  "spack_version": "1.2.2",
+  "catalogue_commit": "d4f7c711a6a42f1c4d551c8fd10fce9a11340a81",
+  "method_identity": {
+    "expat": {
+      "class": "<class 'spack.pkg.voiage_hpc_overlay.expat.Expat'>",
+      "parent": "<class 'spack_repo.builtin.packages.expat.package.Expat'>",
+      "inherited_methods": [
+        "url_for_version"
+      ],
+      "AutotoolsBuilder": "spack_repo.builtin.packages.expat.package.AutotoolsBuilder",
+      "CMakeBuilder": "spack_repo.builtin.packages.expat.package.CMakeBuilder"
+    },
+    "openssl": {
+      "class": "<class 'spack.pkg.voiage_hpc_overlay.openssl.Openssl'>",
+      "parent": "<class 'spack_repo.builtin.packages.openssl.package.Openssl'>",
+      "inherited_methods": [
+        "install",
+        "patch",
+        "link_system_certs",
+        "copy_mozilla_certs",
+        "setup_build_environment"
+      ]
+    },
+    "python": {
+      "class": "<class 'spack.pkg.voiage_hpc_overlay.python.Python'>",
+      "parent": "<class 'spack_repo.builtin.packages.python.package.Python'>",
+      "inherited_methods": [
+        "configure",
+        "build",
+        "install",
+        "patch",
+        "setup_run_environment"
+      ]
+    }
+  },
+  "concrete_phase_callbacks": {
+    "python": {
+      "builder": "<class 'spack.builder._create.<locals>.Adapter'>",
+      "phases": {
+        "configure": {
+          "before": [],
+          "after": []
+        },
+        "build": {
+          "before": [],
+          "after": []
+        },
+        "install": {
+          "before": [],
+          "after": [
+            "filter_compilers",
+            "symlink",
+            "install_python_gdb",
+            "import_tests",
+            "apply_macos_rpath_fixups",
+            "execute_install_time_tests",
+            "sanity_check_prefix"
+          ]
+        }
+      }
+    },
+    "expat": {
+      "builder": "<class 'spack_repo.builtin.packages.expat.package.AutotoolsBuilder'>",
+      "phases": {
+        "autoreconf": {
+          "before": [
+            "_delete_configure_to_force_update"
+          ],
+          "after": [
+            "_do_patch_config_files",
+            "_set_configure_or_die"
+          ]
+        },
+        "configure": {
+          "before": [
+            "_patch_usr_bin_file",
+            "_set_autotools_environment_variables",
+            "_do_patch_libtool_configure"
+          ],
+          "after": [
+            "_do_patch_libtool"
+          ]
+        },
+        "build": {
+          "before": [],
+          "after": [
+            "execute_build_time_tests"
+          ]
+        },
+        "install": {
+          "before": [],
+          "after": [
+            "execute_install_time_tests",
+            "_remove_libtool_archives",
+            "apply_macos_rpath_fixups",
+            "sanity_check_prefix"
+          ]
+        }
+      }
+    },
+    "openssl": {
+      "builder": "<class 'spack.builder._create.<locals>.Adapter'>",
+      "phases": {
+        "install": {
+          "before": [],
+          "after": [
+            "link_system_certs",
+            "copy_mozilla_certs",
+            "apply_macos_rpath_fixups",
+            "execute_install_time_tests",
+            "sanity_check_prefix"
+          ]
+        }
+      }
+    }
+  },
+  "recipe_sha256": {
+    "python": "69638efd8fcaf28c111012a6423c63b14517e9a6e6e0b5591694917abe231e6c",
+    "openssl": "2b4c407d4b504e4b506f30cb10f338625d38c70b5c1d76a77b3b7b9f5b1f79fb",
+    "expat": "361d23b4544538f8208e34d0e2bc17517d3504851a77ebfe317f7ba41cab4475"
+  },
+  "native_build_executed": false
+}
