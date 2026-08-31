@@ -24,8 +24,8 @@ SystemRequirements: Cargo and Rust (>= 1.85) for source installation;
     Python (>= 3.12, optional, for EVPPI and EVSI through reticulate)
 Suggests:
     reticulate (>= 1.20),
-    knitr (>= 1.45),
+    knitr (>= 1.45.6),
     rmarkdown (>= 2.26),
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.4)
 VignetteBuilder: knitr
 Config/roxygen2/version: 8.1.0
