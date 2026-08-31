@@ -13,18 +13,18 @@ name = "_core"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-pyo3 = { version = "0.29", features = ["abi3-py312"] }
-serde = "1"
-serde_json = "1"
-serde_json_canonicalizer = "0.3.2"
-sha2 = "0.11"
+pyo3 = { version = "=0.29.0", features = ["abi3-py312"] }
+serde = "=1.0.229"
+serde_json = "=1.0.151"
+serde_json_canonicalizer = "=0.3.2"
+sha2 = "=0.11.0"
 voiage-diagnostics.workspace = true
 voiage-domain.workspace = true
 voiage-numerics.workspace = true
 voiage-serialization.workspace = true
 
 [build-dependencies]
-sha2 = "0.11"
+sha2 = "=0.11.0"
 
 [lints]
 workspace = true

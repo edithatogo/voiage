@@ -50,7 +50,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14"
+        python-version: "3.14.7"
 
     - name: Resolve merged dependency graph
       run: uv lock
@@ -86,7 +86,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14"
+        python-version: "3.14.7"
 
     - name: Install dependencies
       run: uv sync --frozen --extra dev
@@ -125,7 +125,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14"
+        python-version: "3.14.7"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --extra dev
@@ -184,7 +184,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14"
+        python-version: "3.14.7"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --extra dev
@@ -215,7 +215,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14"
+        python-version: "3.14.7"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci
@@ -243,7 +243,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.14'
+        python-version: '3.14.7'
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --extra dev
@@ -343,7 +343,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14"
+        python-version: "3.14.7"
 
     - name: Run tox conformance matrix
       run: uv run --with tox tox -e ingestion-conformance
@@ -370,7 +370,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14"
+        python-version: "3.14.7"
 
     - name: Install explicit Excel extra
       run: uv sync --frozen --extra ci --extra excel
@@ -403,7 +403,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14"
+        python-version: "3.14.7"
 
     - name: Install bounded example dependencies
       run: uv sync --frozen --extra ci --extra dev
@@ -435,7 +435,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14"
+        python-version: "3.14.7"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci
@@ -508,7 +508,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14"
+        python-version: "3.14.7"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci
@@ -574,7 +574,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.14'
+        python-version: '3.14.7'
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci
@@ -608,7 +608,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.14'
+        python-version: '3.14.7'
 
     - name: Install voiage
       run: uv sync --frozen --extra ci --extra dev
@@ -654,7 +654,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.14'
+        python-version: '3.14.7'
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --extra dev
@@ -749,7 +749,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.14'
+        python-version: '3.14.7'
 
     - name: Install dependencies
       run: uv sync --frozen --extra dev
@@ -794,7 +794,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
       with:
-        node-version: '22'
+        node-version: '22.23.2'
 
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
@@ -805,7 +805,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.12'
+        python-version: '3.12.14'
 
     - name: Install polyglot documentation extractor
       run: uv sync --locked --extra docs --no-install-project

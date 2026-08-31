@@ -16,7 +16,7 @@ importers:
   .:
     dependencies:
       '@astrojs/check':
-        specifier: ^0.9.9
+        specifier: 0.9.9
         version: 0.9.9(prettier@3.9.5)(typescript@5.9.3)
       '@astrojs/starlight':
         specifier: 0.41.4

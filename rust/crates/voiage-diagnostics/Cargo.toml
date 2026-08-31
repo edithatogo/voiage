@@ -11,11 +11,11 @@ keywords = ["value-of-information", "diagnostics", "decision-analysis"]
 categories = ["science"]
 
 [dependencies]
-serde = { version = "1.0", features = ["derive"] }
+serde = { version = "=1.0.229", features = ["derive"] }
 voiage-domain.workspace = true
 
 [dev-dependencies]
-serde_json = "1.0"
+serde_json = "=1.0.151"
 
 [lints]
 workspace = true

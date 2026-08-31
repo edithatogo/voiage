@@ -27,7 +27,7 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.14"
+          python-version: "3.14.7"
       - name: Resolve merged dependency graph
         run: uv lock
       - name: Verify frozen resolution

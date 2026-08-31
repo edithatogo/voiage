@@ -1,7 +1,7 @@
 # pyproject.toml for voiage
 
 [build-system]
-requires = ["maturin>=1.9,<2.0"]
+requires = ["maturin==1.15.0"]
 build-backend = "build_backend"
 backend-path = ["."]
 
@@ -38,16 +38,16 @@ classifiers = [
 ]
 
 dependencies = [
-    "click>=8.3.3,<9",
-    "numpy>=2.2.6,<3.0",
-    "scipy>=1.16.3,<1.17",
-    "pandas>=1.3,<3.0",
-    "xarray>=0.19,<2025.0",
-    "scikit-learn>=1.7.2,<2.0",
-    "pyarrow>=25.0.0,<26",
-    "polars>=1.42.1,<2",
-    "pydantic>=2.13.4,<3",
-    "jsonschema>=4.26.0,<5.0",
+    "click==8.5.0",
+    "numpy==2.5.2",
+    "scipy==1.16.3",
+    "pandas==2.3.3",
+    "xarray==2024.11.0",
+    "scikit-learn==1.9.0",
+    "pyarrow==25.0.1",
+    "polars==1.44.1",
+    "pydantic==2.13.5",
+    "jsonschema==4.26.0",
     "typing_extensions>=4.16.0",
     "typer>=0.9,<1.0",
 ]
@@ -59,61 +59,61 @@ dependencies = [
 croissant = []
 frictionless = []
 ingestion = []
-ecosystem = ["defusedxml>=0.7.1,<1.0"]
-excel = ["openpyxl>=3.1.5,<4.0"]
-docs = ["griffe>=1.14.0,<2.0"]
+ecosystem = ["defusedxml==0.7.1"]
+excel = ["openpyxl==3.1.5"]
+docs = ["griffe==1.15.0"]
 jax = [
-    "jax>=0.7.1,<0.8",
+    "jax==0.7.2",
 ]
 ci = [
-    "defusedxml>=0.7.1,<1.0",
-    "docutils>=0.23,<1",
-    "fastapi>=0.139.2,<1.0",
-    "httpx>=0.28.1,<1.0",
+    "defusedxml==0.7.1",
+    "docutils==0.23",
+    "fastapi==0.141.1",
+    "httpx==0.28.1",
     "hypothesis>=6.157.0,<7.0",
-    "jax>=0.7.1,<0.8",
-    "matplotlib>=3.4,<4.0",
-    "maturin>=1.9,<2.0",
-    "psutil>=5.9,<8.0",
+    "jax==0.7.2",
+    "matplotlib==3.11.1",
+    "maturin==1.15.0",
+    "psutil==7.2.2",
     "pytest>=9.1.1,<10.0",
     "pytest-benchmark>=5.2.3,<6.0",
     "pytest-cov>=7.1.0,<8.0",
     "pytest-integration>=0.2.3,<0.3",
     "pytest-xdist>=3.8.0,<4.0",
-    "PyYAML>=6.0.3,<7.0",
-    "rfc8785>=0.1,<0.2",
-    "tomli>=2.4.1,<3.0",
+    "PyYAML==6.0.3",
+    "rfc8785==0.1.4",
+    "tomli==2.4.1",
 ]
 dev = [
-    "maturin>=1.9,<2.0",
+    "maturin==1.15.0",
     "mutmut==3.6.0",
-    "scalene>=2.3.0,<3.0",
+    "scalene==2.3.0",
     "ruff>=0.15.22,<0.16.0",
-    "bandit>=1.9.4,<2.0",
-    "nox>=2026.7.11,<2027",
+    "bandit==1.9.4",
+    "nox==2026.8.17",
     "ty>=0.0.61,<1.0",
-    "basedpyright>=1.39.9,<2.0",
+    "basedpyright==1.39.10",
     "types-setuptools>=83.0.0.20260716",
     "types-requests>=2.33.0.20260712",
-    "jupyterlab>=4.6.2,<5.0",
-    "ipykernel>=7.3.0,<8",
-    "pre-commit>=4.6.0,<5.0",
-    "vulture>=2.16,<3.0",
-    "tox>=4.57.0,<5.0",
-    "tomli>=2.4.1,<3.0",
+    "jupyterlab==4.6.3",
+    "ipykernel==7.3.0",
+    "pre-commit==4.6.2",
+    "vulture==2.16",
+    "tox==4.61.1",
+    "tomli==2.4.1",
 ]
 experimental = [
-    "duckdb>=1.5.4,<2",
-    "orjson>=3.11.9,<4",
-    "msgspec>=0.21.1,<1",
+    "duckdb==1.5.5",
+    "orjson==3.12.0",
+    "msgspec==0.21.1",
 ]
 plotting = [
-    "matplotlib>=3.11.1,<4",
-    "seaborn>=0.13.2,<1",
+    "matplotlib==3.11.1",
+    "seaborn==0.13.2",
 ]
-performance = ["psutil>=5.9,<8.0"]
-deep_learning = ["torch>=2.13.0,<3.0"]
-web = ["fastapi>=0.139.2,<1.0", "httpx>=0.28.1,<1.0", "uvicorn>=0.51.0,<1.0"]
+performance = ["psutil==7.2.2"]
+deep_learning = ["torch==2.13.0"]
+web = ["fastapi==0.141.1", "httpx==0.28.1", "uvicorn==0.52.4"]
 
 [project.urls]
 Homepage = "https://github.com/edithatogo/voiage"

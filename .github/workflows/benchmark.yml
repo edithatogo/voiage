@@ -26,7 +26,7 @@ jobs:
     - name: Install Rust toolchain
       uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
       with:
-        toolchain: stable
+        toolchain: 1.98.0
 
     - name: Run production numerics benchmark
       run: cargo bench --manifest-path rust/Cargo.toml --locked -p voiage-numerics --bench foundational | tee rust-numerics-benchmark.txt
@@ -108,7 +108,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.14'
+        python-version: '3.14.7'
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci
@@ -152,7 +152,7 @@ jobs:
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
-          toolchain: stable
+          toolchain: 1.98.0
 
       - name: Run the scalar CPU baseline and capture profiling data
         run: |

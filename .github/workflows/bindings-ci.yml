@@ -57,7 +57,7 @@ jobs:
           --candidate-layouts specs/abi/v1/layouts.txt
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
-          toolchain: stable
+          toolchain: 1.98.0
           components: clippy,rustfmt
       - name: Restore exact Rust dependency and target cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
@@ -85,7 +85,7 @@ jobs:
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
-          toolchain: "1.85"
+          toolchain: "1.85.1"
       - working-directory: rust
         run: cargo check --workspace --all-targets --all-features --locked
 
@@ -129,7 +129,7 @@ jobs:
           printf "### Exact source head\n\n\`%s\`\n" "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
-          toolchain: stable
+          toolchain: 1.98.0
       - name: Build the Rust C ABI used by Julia
         working-directory: rust
         run: cargo build --release --locked --package voiage-ffi
@@ -190,12 +190,12 @@ jobs:
           printf "### Exact source head\n\n\`%s\`\n" "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
-          toolchain: stable
+          toolchain: 1.98.0
       - name: Set up Python for reticulate reference checks
         id: r-python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.14"
+          python-version: "3.14.7"
       - uses: r-lib/actions/setup-r@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
       - uses: r-lib/actions/setup-r-dependencies@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
         with:
@@ -241,7 +241,7 @@ jobs:
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
-          toolchain: stable
+          toolchain: 1.98.0
           targets: ${{ matrix.rust_target }}
       - name: Restore exact R native Rust cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
