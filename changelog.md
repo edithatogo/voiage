@@ -8,6 +8,9 @@
 
 ## Unreleased
 
+- Bound the paper replay command to an isolated exact-commit project and archived
+  lock, while retaining the original receipt and its unverified release label.
+
 - Preserved the recorded paper environment independently of future dependency
   locks. Dependency contracts allow compatible reviewed updates while retaining
   version bounds. Renovate inherits the owner policy with explicit library and

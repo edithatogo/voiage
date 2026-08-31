@@ -132,10 +132,13 @@ and reports the 2.5th and 97.5th percentiles. The bootstrap seed is 20260724.
 Run:
 
 ```console
-uv run --frozen python scripts/generate_paper_health_example.py --verify-tracked
+python scripts/verify_paper_reproduction.py --manifest paper/reproduction-manifest.json
 ```
 
 The script, inputs, fixed random seeds, environment lock digest, output hashes,
 and verification command are recorded in
 `paper/reproduction-manifest.json`. Machine-readable results are in
-`paper/data/`.
+`paper/data/`. The verifier uses an isolated checkout of the exact source commit
+and the archived project and lock declared by the manifest. This is a new replay
+selection; the original receipt is preserved separately and its `v2.0.0` source
+label remains unverified.

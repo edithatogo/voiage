@@ -16,6 +16,8 @@ on:
       - "scripts/audit_joss_readability.py"
       - "scripts/audit_joss_sources.py"
       - "scripts/generate_paper_health_example.py"
+      - "scripts/verify_paper_reproduction.py"
+      - "tests/test_paper_reproduction_replay.py"
       - "scripts/validate_joss.py"
       - "tests/test_paper_health_example.py"
       - "tests/test_joss_readiness.py"
@@ -36,6 +38,8 @@ on:
       - "scripts/audit_joss_readability.py"
       - "scripts/audit_joss_sources.py"
       - "scripts/generate_paper_health_example.py"
+      - "scripts/verify_paper_reproduction.py"
+      - "tests/test_paper_reproduction_replay.py"
       - "scripts/validate_joss.py"
       - "tests/test_paper_health_example.py"
       - "tests/test_joss_readiness.py"
@@ -56,6 +60,7 @@ jobs:
         with:
           persist-credentials: false
           submodules: recursive
+          fetch-depth: 0
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
           version: "0.11.29"
@@ -85,6 +90,11 @@ jobs:
       - name: Reproduce portable manuscript outputs
         run: |
           uv run --frozen python scripts/generate_paper_health_example.py --verify-tracked
+      - name: Replay the declared archived paper environment
+        run: |
+          mkdir -p build/joss
+          uv run --frozen --extra ci python scripts/verify_paper_reproduction.py \
+            --manifest paper/reproduction-manifest.json > build/joss/reproduction-replay.json
       - name: Build with the Open Journals toolchain
         uses: openjournals/openjournals-draft-action@85a18372e48f551d8af9ddb7a747de685fbbb01c
         with:

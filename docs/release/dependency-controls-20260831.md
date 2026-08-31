@@ -30,3 +30,14 @@ cannot establish those external outcomes.
 Sources: [owner preset](https://github.com/edithatogo/renovate-config/blob/main/default.json),
 [Renovate configuration](https://docs.renovatebot.com/configuration-options/),
 [Codecov OIDC](https://github.com/codecov/codecov-action#using-oidc).
+
+The review follow-up preserves the original paper manifest as an unchanged
+archival receipt. The current manifest resolves both archived project and lock
+paths and selects an exact Git source for an isolated frozen replay. The
+verifier checks those declared paths against the selected source and binds a
+successful result to the manifest and output hashes. This new replay does not
+establish the original receipt's unverified `v2.0.0` source label.
+
+Renovate excludes only the recorded paper and frontier environment directories
+from dependency updates. Current project manifests and locks remain eligible
+for their existing reviewed update policies.

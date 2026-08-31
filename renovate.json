@@ -167,6 +167,14 @@
       "enabled": false
     },
     {
+      "description": "Preserve immutable recorded reproduction and frontier environments",
+      "matchFileNames": [
+        "paper/reproduction-environment/**",
+        "specs/submission-readiness/dependency-frontier-environment-20260829/**"
+      ],
+      "enabled": false
+    },
+    {
       "description": "Review executable source and lock changes through pull requests",
       "matchManagers": [
         "git-submodules",
