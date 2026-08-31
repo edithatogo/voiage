@@ -8,28 +8,19 @@
     "packages/py-annotated-doc/package.py": "5238e58c461846aca7b8f0d7879a41efa546eab7458d5c5396437756e58f10dc",
     "packages/py-click/package.py": "bdbe6166b9516b13c9f1e112a9560ab4ac79b86fb9cf3992ccba369d078fc3fa",
     "packages/py-libcst/package.py": "9a57b5e2beb4b01e8b8971671eaf28c94e2ed2c0775b328dbd8b1aae5782a388",
-    "packages/py-maturin/package.py": "dee957e7a313ef427abc99963625fa4b439a4f7b349521d62a9237aa74d93181",
     "packages/py-polars/package.py": "324eaeed9d22ce727fc0d24eab4eaa5ce14c4d6e4243d120da9863846bcc00a5",
-    "packages/py-polars-runtime-32/package.py": "c58dbd37dade1cf656550c4db093e8211497faa1290d3fd6237ae8520cf1a514",
+    "packages/py-polars-runtime-32/package.py": "af27d3022242cf02c2afcdebc8f125c967121b53b14b513a9e0a77165bd0b2d3",
     "packages/py-pyarrow/package.py": "b84c9f6c6eb62431e456208546686bc5aae0156fbef3661da1a3e3b5bc4c1810",
     "packages/py-pydantic/package.py": "6b55621d3bfcb54677eef5110abf1420d27166ef370363dddf1c35592f32fb93",
-    "packages/py-pydantic-core/package.py": "e3869c8240cb78a952cf9d6e091433add71d829bb2e73efbd7844cb7b6fa03dc",
-    "packages/py-setuptools-rust/package.py": "4b83a05205564d868b448151975b748442dd1fee7eb00ea379a24c8afc028a00",
+    "packages/py-pydantic-core/package.py": "019cb02021df138b8d19f29ca6080b9ce9aa829ef2c0cd19872fc7559ed77a36",
     "packages/py-typer/package.py": "e13b10d527710d0ca77b12cc910f6db703f63a35cf18ea79e2be1eb51fc44d11",
     "packages/py-typing-extensions/package.py": "bc339c7bbb0f4eb478484269204bbccf4d755d03565ddb397552ed7006a1ed30",
-    "packages/py-voiage/package.py": "8f7e7f3b05d857943f9191dada49d91cdafa244aaa3d6d559088e0100489abf7",
-    "packages/rust/package.py": "c6379f7a29de431875d7adc2a94661e56fa69b96f3dfb791cbea085d05558fdc",
-    "packages/rust-bootstrap/package.py": "9fa3514b619fcb45b0a4fc4107493e16397c336a13018ac9a08b79999a4ed02b"
+    "packages/py-voiage/package.py": "8f7e7f3b05d857943f9191dada49d91cdafa244aaa3d6d559088e0100489abf7"
   },
   "native_builds_executed": false,
   "module_load_executed": false,
   "upstream_submitted": false,
   "patch_sha256": {
     "packages/py-pyarrow/for_aarch64.patch": "aed6630a6298b6309d2241a99943b49993453fb089c1d864b4a459559d69bd3c"
-  },
-  "support_sha256": {
-    "concretizer.yaml": "83488e72ea09aa7ad1c2db9cb115f7bbf5e6ce3ceade87d3b6d776355e5a69a4",
-    "rust-source-audit.json": "0e17803e2bd39637bfa4d122e4ddcf3a699742ae1dc2ab4281224e12007c1471",
-    "rust-backend-source-audit.json": "0fbaea54166ab7389192f126225705c30865e2736bba76e0991c0e6de9472c23"
   }
 }

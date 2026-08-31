@@ -1,9 +1,9 @@
 {
   "schema": "voiage.spack-overlay-solver.v1",
-  "recorded_at": "2026-08-31T16:18:52.105595+00:00",
+  "recorded_at": "2026-08-31T15:05:35.116206+00:00",
   "catalogue_commit": "d4f7c711a6a42f1c4d551c8fd10fce9a11340a81",
   "host": "macOS arm64",
-  "manifest_sha256": "0c1be98e5df3e661782bc901fd5dd404af8db0901ee98b9a70ed379c5f72b78a",
+  "manifest_sha256": "a11f5b085e98324ffd380937ffa3bae62a2915ce3135f43fefab492379f584fb",
   "results": [
     {
       "spec": "py-typer@0.27.2",
@@ -28,26 +28,14 @@
     },
     {
       "spec": "py-voiage@2.2.0",
-      "exit_code": 0,
-      "status": "concretized",
+      "exit_code": 1,
+      "status": "failed",
       "log_path": "solver-logs/voiage.log",
-      "log_sha256": "b9a4fc227e6b61818adbeaab4fa424d11534162494920e32329eb07b8148e16f"
+      "log_sha256": "8896ae9098869b530c6670fa693f0412396e5242bbb598095e66bc37b8e69dd9",
+      "reason": "The catalogue has no rust@nightly-2026-04-01; its exact dated constraint also conflicts with numeric stable-Rust requirements in the unified build graph."
     }
   ],
   "builds_executed": false,
   "module_load_executed": false,
-  "spack_version": "1.2.2",
-  "prior_failure_evidence": "history/pre-dated-rust-69873911/solver-receipt.json",
-  "concrete_dag": {
-    "path": "solver-logs/voiage.json",
-    "sha256": "66db4f2a406dc0d610e5d754ee59b9ee44b9b36a4612f1e6eb874f8b631d73c4",
-    "nodes": 139,
-    "duplicated_build_tools": {
-      "py-maturin": 2,
-      "py-setuptools-rust": 2,
-      "rust": 2,
-      "rust-bootstrap": 2
-    },
-    "runtime_compiler_edges": "Polars dated and Pydantic Core stable Rust are build-only; backend run edges preserved."
-  }
+  "spack_version": "1.2.2"
 }

@@ -10,6 +10,11 @@ The overlay preserves the copied Spack copyright notices, licence files,
 patches and historical recipe versions. `manifest.json` binds every recipe and the retained architecture patch.
 `source-audit.json` and `transitive-source-audit.json` record the downloaded,
 hash-verified Python source archives and their build requirements.
+`rust-source-audit.json` verifies the downloaded dated compiler source against
+its official checksum and binds its embedded stage0 to the dated beta manifest.
+Bootstrap binary digests are official metadata; those binaries were not
+downloaded or installed. `rust-backend-source-audit.json` verifies the two
+unchanged Python build-tool sources.
 `arrow-source-audit.json` binds the Apache Arrow C++ archive to the official
 SHA-512 sidecar. Its release signature has not been verified.
 
@@ -45,6 +50,7 @@ export SPACK_USER_CACHE_PATH="$PWD/.conductor/local/hpc-overlay-run/cache"
 spack repo add --scope user "$PWD/packaging/spack-overlay"
 spack config --scope user add repos:builtin:commit:d4f7c711a6a42f1c4d551c8fd10fce9a11340a81
 spack config --scope user add "bootstrap:root:$PWD/.conductor/local/hpc-overlay-run/bootstrap"
+cp packaging/spack-overlay/concretizer.yaml "$SPACK_USER_CONFIG_PATH/concretizer.yaml"
 spack spec py-typer@0.27.2
 spack spec py-pydantic@2.13.4
 spack spec py-voiage@2.2.0
@@ -68,10 +74,28 @@ core, and PyArrow 25 with Arrow 25 separately. Each command returned zero;
 manifest. The complete solver outputs in `solver-logs/` contain no local
 filesystem paths and allow independent inspection of the dependency graphs.
 
-The complete voiage spec returned one. The remaining reported constraints
-are the unavailable `rust@nightly-2026-04-01` and its incompatibility with
-numeric stable-Rust requirements in the unified build graph. A separate,
-checksum-bound dated toolchain strategy and native runtime validation are
-required. Selecting an unpinned nightly or dropping the source constraint
-would not resolve that evidence gap. Successful individual graphs do not
-prove the full graph or any package build.
+The dated-toolchain follow-up resolves the complete voiage graph on the recorded
+macOS arm64 host. `solver-logs/voiage.json` retains the full concrete DAG.
+It contains stable Rust 1.96.0 for Pydantic Core and a distinct exact
+`nightly-2026-04-01` for Polars. Polars explicitly binds `RUSTC` and `CARGO`
+to its direct dependency's prefix. The dated compiler uses beta stage0 from
+5 March 2026 and retains the nightly release channel during source builds.
+
+`concretizer.yaml` keeps unification enabled and minimal duplication. Only
+Rust, rust-bootstrap, Maturin and setuptools-rust gain a maximum of two nodes.
+Maturin's build/run Rust edge and setuptools-rust's run Rust edge require
+separate backend instances; preserving those edges prevents a backend from
+silently selecting the other compiler. Pydantic Core keeps its Rust 1.88
+minimum and explicitly selects the stable 1.x range, because Spack otherwise
+allows a named nightly to satisfy an open numeric lower bound. No dependency
+minimum or upstream dependency type is removed.
+
+The earlier missing-catalogue failure remains under
+`history/pre-dated-rust-69873911/`. Failed intermediate separation attempts
+are retained with their diagnostic receipt. The initial single-nightly solve
+was not accepted as evidence of separate stable and nightly toolchains.
+
+A concrete graph is not a native build. Rust source compilation, bootstrap
+binary verification and execution, all native Python dependencies, installed
+Arrow/numerical smoke tests, Linux foss stacks and module loading remain
+unverified. No upstream submission or completion of issue #1025 is claimed.

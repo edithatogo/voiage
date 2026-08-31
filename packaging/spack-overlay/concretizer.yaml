@@ -1,0 +1,9 @@
+concretizer:
+  unify: true
+  duplicates:
+    strategy: minimal
+    max_dupes:
+      rust: 2
+      rust-bootstrap: 2
+      py-maturin: 2
+      py-setuptools-rust: 2
