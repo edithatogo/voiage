@@ -2,8 +2,12 @@
 
 import json
 from pathlib import Path
+import re
 from shutil import which
 import subprocess
+
+from packaging.version import Version
+import yaml
 
 ROOT = Path(__file__).parents[1]
 
@@ -29,8 +33,21 @@ def test_astro_site_uses_current_polyglot_stack() -> None:
     modules = (ROOT / ".gitmodules").read_text(encoding="utf-8")
 
     dependencies = manifest["dependencies"]
-    assert dependencies["astro"] == "7.1.3"
-    assert dependencies["@astrojs/starlight"] == "0.41.4"
+    for package, floor, ceiling in (
+        ("astro", "7.1.3", "8"),
+        ("@astrojs/starlight", "0.41.4", "0.42"),
+    ):
+        pin = dependencies[package]
+        assert re.fullmatch(r"\d+\.\d+\.\d+", pin), (package, pin)
+        assert Version(floor) <= Version(pin) < Version(ceiling)
+    lock = yaml.safe_load(
+        (ROOT / "docs/astro-site/pnpm-lock.yaml").read_text(encoding="utf-8")
+    )
+    for package in ("astro", "@astrojs/starlight"):
+        assert (
+            lock["importers"]["."]["dependencies"][package]["specifier"]
+            == dependencies[package]
+        )
     assert dependencies["astro-polyglot"].startswith("link:")
     assert 'from "astro-polyglot"' in config
     assert "polyglot({" in config

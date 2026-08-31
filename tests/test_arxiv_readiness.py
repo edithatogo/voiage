@@ -1,6 +1,9 @@
 import importlib.util
 from pathlib import Path
+import re
 import tarfile
+
+from packaging.version import Version
 
 
 def test_arxiv_readiness_pipeline_is_latex_first_and_non_submitting() -> None:
@@ -42,7 +45,17 @@ def test_arxiv_template_tools_are_pinned_and_registered() -> None:
     assert "arxiv-collector==" in requirements
     assert "arxiv-latex-cleaner==" in requirements
     assert "textstat==0.7.13" in requirements
-    assert "nltk==3.10.0" in requirements
+    nltk_versions = []
+    for filename in ("requirements-arxiv.txt", "requirements-joss.txt"):
+        lines = (root / filename).read_text().splitlines()
+        nltk_lines = [line for line in lines if line.lower().startswith("nltk")]
+        assert len(nltk_lines) == 1
+        pin = re.fullmatch(r"nltk==(3\.10\.\d+)", nltk_lines[0])
+        assert pin is not None
+        version = Version(pin[1])
+        assert Version("3.10.0") <= version < Version("3.11")
+        nltk_versions.append(version)
+    assert nltk_versions[0] == nltk_versions[1]
     assert "pyphen==0.17.2" in requirements
     assert "edithatogo/sourceright.git" in modules
     assert "edithatogo/authentext.git" in modules

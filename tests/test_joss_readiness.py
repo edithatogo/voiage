@@ -142,7 +142,9 @@ def test_structured_reproduction_manifest_binds_inputs_and_outputs() -> None:
     }
     assert (
         manifest["lockfile"]["sha256"]
-        == hashlib.sha256((ROOT / "uv.lock").read_bytes()).hexdigest()
+        == hashlib.sha256(
+            (ROOT / "paper/reproduction-environment/uv.lock").read_bytes()
+        ).hexdigest()
     )
     assert manifest["verification_command"].endswith("--verify-tracked")
     assert manifest["inputs"]["probabilistic_sensitivity_analysis_draws"] == 10_000
