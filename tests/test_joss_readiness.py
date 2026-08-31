@@ -133,8 +133,8 @@ def test_structured_reproduction_manifest_binds_inputs_and_outputs() -> None:
         )
     }
 
-    assert manifest["schema_version"] == "voiage.paper.reproduction.v1"
-    assert manifest["source_reference"] == "v2.0.0"
+    assert manifest["schema_version"] == "voiage.paper.reproduction.v2"
+    assert manifest["source_reference"] == "27488e817238d6fe63016f2f5a5b15f91b1acda7"
     assert manifest["synthetic_data"] is True
     assert manifest["seeds"] == {
         "probabilistic_sensitivity_analysis": 20260723,
@@ -142,9 +142,14 @@ def test_structured_reproduction_manifest_binds_inputs_and_outputs() -> None:
     }
     assert (
         manifest["lockfile"]["sha256"]
-        == hashlib.sha256((ROOT / "uv.lock").read_bytes()).hexdigest()
+        == hashlib.sha256(
+            (ROOT / manifest["lockfile"]["path"]).read_bytes()
+        ).hexdigest()
     )
-    assert manifest["verification_command"].endswith("--verify-tracked")
+    assert manifest["verification_command"] == (
+        "python scripts/verify_paper_reproduction.py "
+        "--manifest paper/reproduction-manifest.json"
+    )
     assert manifest["inputs"]["probabilistic_sensitivity_analysis_draws"] == 10_000
     assert manifest["inputs"]["evaluated_total_sample_sizes"] == [
         50,
@@ -178,6 +183,10 @@ def test_joss_workflow_uses_pinned_open_journals_builder() -> None:
     assert "python scripts/validate_joss.py" in workflow
     assert "generate_paper_health_example.py --verify-tracked" in workflow
     assert "submodules: recursive" in workflow
+    assert "fetch-depth: 0" in workflow
+    assert "python scripts/verify_paper_reproduction.py" in workflow
+    assert "--manifest paper/reproduction-manifest.json" in workflow
+    assert "build/joss/reproduction-replay.json" in workflow
     assert "scripts/audit_joss_sources.py" in workflow
     assert "scripts/audit_joss_authentext.py" in workflow
     assert "scripts/audit_joss_readability.py" in workflow

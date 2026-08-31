@@ -1,12 +1,12 @@
 {
-  "schema_version": "voiage.paper.reproduction.v2",
-  "source_reference": "27488e817238d6fe63016f2f5a5b15f91b1acda7",
-  "source_resolution": "Exact source commit selected for a new replay because its project and lock bytes match the archived environment. This does not establish the source of the historical execution or authenticate the original v2.0.0 label.",
+  "schema_version": "voiage.paper.reproduction.v1",
+  "source_reference": "v2.0.0",
+  "source_resolution": "The release tag must resolve to the commit containing this manifest.",
   "synthetic_data": true,
   "generator": "scripts/generate_paper_health_example.py",
-  "verification_command": "python scripts/verify_paper_reproduction.py --manifest paper/reproduction-manifest.json",
+  "verification_command": "uv run --frozen python scripts/generate_paper_health_example.py --verify-tracked",
   "lockfile": {
-    "path": "paper/reproduction-environment/uv.lock",
+    "path": "uv.lock",
     "sha256": "e5bfefe59aa2920d5b28e9beaa5a6e05cc8b08e4a91e74ed8589d7fc3354f7c5"
   },
   "supported_python_versions": [
@@ -90,17 +90,5 @@
       "verification": "tracked_reference_and_clean_render"
     }
   ],
-  "rendering_note": "Tabular outputs are byte-reproduced. Figures and the JOSS PDF are rebuildable; font and build timestamps can change binary hashes across environments.",
-  "project_file": {
-    "path": "paper/reproduction-environment/pyproject.toml",
-    "sha256": "2ae0033c68442724d0f116590896853811693d09742b56b5e614db81a316972a"
-  },
-  "historical_receipt": {
-    "path": "paper/reproduction-environment/original-reproduction-manifest.json",
-    "sha256": "aa68d3195016842b6f8e60051ce9a28f7639c5b10dc1b8e2ce06d139090d90ce",
-    "status": "preserved_unmodified; original source label is not verified"
-  },
-  "replay_extras": [
-    "plotting"
-  ]
+  "rendering_note": "Tabular outputs are byte-reproduced. Figures and the JOSS PDF are rebuildable; font and build timestamps can change binary hashes across environments."
 }

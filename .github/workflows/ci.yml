@@ -417,6 +417,9 @@ jobs:
   coverage-report:
     name: Coverage Report
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
     - name: Checkout code
       uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
@@ -449,7 +452,9 @@ jobs:
         files: ./coverage.xml
         flags: unittests
         name: codecov-umbrella
-        fail_ci_if_error: false
+        use_oidc: true
+        disable_search: true
+        fail_ci_if_error: true
 
   free-threaded-observation:
     name: Python 3.14t Observation

@@ -1,12 +1,11 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
+    "github>edithatogo/renovate-config",
     "config:best-practices",
     ":dependencyDashboard",
     ":semanticCommits",
     ":semanticCommitTypeAll(chore)",
-    ":automergeMinor",
-    ":automergePatch",
     ":disableRateLimiting",
     "group:allNonMajor",
     "group:monorepos",
@@ -19,13 +18,16 @@
     "npm",
     "pep621",
     "pip_requirements",
-    "pip_setup"
+    "pip_setup",
+    "git-submodules"
   ],
   "customManagers": [
     {
       "customType": "regex",
       "description": "Update CRAN minimum versions in the R DESCRIPTION",
-      "managerFilePatterns": ["/^r-package/voiageR/DESCRIPTION$/"],
+      "managerFilePatterns": [
+        "/^r-package/voiageR/DESCRIPTION$/"
+      ],
       "matchStrings": [
         "(?<depName>reticulate) \\(>= (?<currentValue>[^)]+)\\)",
         "(?<depName>knitr) \\(>= (?<currentValue>[^)]+)\\)",
@@ -40,7 +42,9 @@
     {
       "customType": "regex",
       "description": "Update non-stdlib Julia compatibility bounds",
-      "managerFilePatterns": ["/^bindings/julia/Project.toml$/"],
+      "managerFilePatterns": [
+        "/^bindings/julia/Project.toml$/"
+      ],
       "matchStrings": [
         "(?:^|\\n)(?<depName>Aqua) = \"(?<currentValue>[^\"]+)\"",
         "(?:^|\\n)(?<depName>JSON) = \"(?<currentValue>[^\"]+)\""
@@ -51,80 +55,160 @@
       "versioningTemplate": "semver-coerced"
     }
   ],
-  "schedule": ["every weekend"],
+  "schedule": [
+    "every weekend"
+  ],
   "minimumReleaseAge": "14 days",
   "osvVulnerabilityAlerts": true,
   "dependencyDashboardOSVVulnerabilitySummary": "unresolved",
   "packageRules": [
     {
-      "matchManagers": ["pep621", "pip_requirements", "pip_setup"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "automerge": true,
-      "automergeType": "branch",
+      "matchManagers": [
+        "pep621",
+        "pip_requirements",
+        "pip_setup"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "groupName": "python dependencies",
       "groupSlug": "python-all"
     },
     {
-      "matchManagers": ["github-actions"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "automerge": true,
-      "automergeType": "branch",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "groupName": "github actions"
     },
     {
-      "matchManagers": ["custom.regex"],
+      "matchManagers": [
+        "custom.regex"
+      ],
       "rangeStrategy": "bump",
       "automerge": false,
-      "labels": ["dependencies", "polyglot"]
+      "labels": [
+        "dependencies",
+        "polyglot"
+      ]
     },
     {
-      "matchPackageNames": ["python"],
+      "matchPackageNames": [
+        "python"
+      ],
       "enabled": false
     },
     {
-      "matchUpdateTypes": ["major"],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "automerge": false,
-      "labels": ["dependencies", "jax-ecosystem"],
+      "labels": [
+        "dependencies",
+        "jax-ecosystem"
+      ],
       "matchPackageNames": [
-        "/^jax/",
-        "/^numpyro/"
+        "/^jax(?:lib)?$/",
+        "numpyro"
       ]
     },
     {
       "groupName": "testing dependencies",
       "groupSlug": "testing",
       "matchPackageNames": [
-        "/pytest/",
-        "/hypothesis/",
-        "/coverage/"
+        "/^pytest(?:-|$)/",
+        "hypothesis",
+        "coverage"
       ]
     },
     {
       "groupName": "linting and type checking",
       "groupSlug": "linting",
       "matchPackageNames": [
-        "/ruff/",
-        "/ty/"
+        "ruff",
+        "ty"
       ]
     },
     {
-      "matchDepTypes": ["devDependencies"],
-      "automerge": true
+      "description": "Preserve published library compatibility ranges; exact environments belong in lockfiles",
+      "matchManagers": [
+        "pep621",
+        "pip_requirements",
+        "pip_setup",
+        "cargo"
+      ],
+      "rangeStrategy": "auto",
+      "automerge": false
+    },
+    {
+      "description": "Do not replace supported interpreter, toolchain and engine ranges with exact pins",
+      "matchDatasources": [
+        "python-version",
+        "node-version",
+        "rust-version"
+      ],
+      "matchUpdateTypes": [
+        "pin"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Keep the supported Node engine range; review engine floor changes explicitly",
+      "matchManagers": [
+        "npm"
+      ],
+      "matchDepTypes": [
+        "engines"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Preserve immutable recorded reproduction and frontier environments",
+      "matchFileNames": [
+        "paper/reproduction-environment/**",
+        "specs/submission-readiness/dependency-frontier-environment-20260829/**"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Review executable source and lock changes through pull requests",
+      "matchManagers": [
+        "git-submodules",
+        "github-actions",
+        "npm",
+        "cargo",
+        "pep621",
+        "pip_requirements",
+        "pip_setup",
+        "custom.regex"
+      ],
+      "automerge": false,
+      "automergeType": "pr"
     }
   ],
-  "labels": ["dependencies"],
+  "labels": [
+    "dependencies"
+  ],
   "prConcurrentLimit": 10,
   "prHourlyLimit": 5,
-  "rangeStrategy": "pin",
+  "rangeStrategy": "auto",
   "separateMajorMinor": true,
   "separateMultipleMajor": true,
   "timezone": "Etc/UTC",
   "lockFileMaintenance": {
     "enabled": true,
-    "schedule": ["every weekend"]
+    "schedule": [
+      "every weekend"
+    ]
   },
   "vulnerabilityAlerts": {
     "enabled": true,
-    "labels": ["security"]
+    "labels": [
+      "security"
+    ]
   }
 }
