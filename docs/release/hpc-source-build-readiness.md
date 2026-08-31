@@ -1,15 +1,25 @@
 # HPC source-native build readiness
 
-The retained HPC packaging strategy builds the version 2.0.0 Python package
-from immutable source commit `5e92151fc87afefbb411c992fb9f82fc4b8c049f`.
-The Spack and EasyBuild recipes build the Rust-native Python extension with
-Rust and maturin rather than using an unverified binary cache.
+The current Spack and EasyBuild candidates target the version 2.2.0 Python
+package from its checksum-pinned PyPI source distribution. They declare Rust
+and Maturin to build the native Python extension. See the
+[distribution handoff](hpc-distribution-handoff.md) for the source identity,
+candidate dependency stacks and recorded validation limits.
 
-Both recipes retain a CPU-compatible path and validate the installed command
-with `voiage --help`. They are local recipe evidence only: an upstream Spack or
+Both recipe families describe a CPU path and include an installed-command
+check with `voiage --help`. They are local candidates only: an upstream Spack or
 EasyBuild pull request, review, merge, and any HPSF/E4S curation remain
 external decisions.
 
-Run `scripts/validate_hpc_recipes.sh` to solve the Spack recipe in an isolated
-configuration. It runs the EasyBuild style check only when a modules tool is
-available, so a workstation configuration cannot be mistaken for recipe proof.
+Run `bash scripts/validate_hpc_recipes.sh --spec` to attempt Spack
+concretization in an isolated configuration, followed by EasyBuild style
+checks and robot dry runs. This mode fails if any preceding step fails,
+including missing dependency recipes or a modules tool; it does not silently
+skip those checks. A failed Spack solve prevents the later EasyBuild checks
+from running.
+
+The default command, or explicit `--syntax`, only parses recipe syntax.
+Neither syntax nor a successful spec proves a package build. The explicit
+`--build` mode additionally requests real builds on a prepared host. The
+recorded source-wheel smoke passed on macOS, while the Spack dependency graph
+remains blocked and no Linux HPC build or module-load result is claimed.
