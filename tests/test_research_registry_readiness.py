@@ -105,7 +105,9 @@ def test_registry_track_separates_repository_completion_from_external_gates() ->
     assert not any("AI-policy attestation" in gate for gate in remaining)
     assert not any("research-workflow use" in gate for gate in remaining)
     assert any("human community engagement" in gate for gate in remaining)
-    assert "July human-review attestation is preserved" in readiness
+    assert "maintainer confirmed review and understanding on 31 August" in readiness
+    assert "subsequent changes require review against the submitted packet" in readiness
+    assert "Repository checks do not establish venue acceptance" in readiness
     assert "historical same-author VOP record" in readiness
     external_gate = next(
         gate

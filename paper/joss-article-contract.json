@@ -194,7 +194,7 @@
       "JOSS editorial screening, review, and acceptance"
     ],
     "project_sequence": [
-      "permanent arXiv identifier and announcement before JOSS submission, as requested by the author"
+      "pyOpenSci first, then eligible JOSS partner handling; arXiv deferred until journal submission and later authorized action per maintainer decision on 2026-08-31"
     ]
   },
   "human_only_certifications": [

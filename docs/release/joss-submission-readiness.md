@@ -15,8 +15,9 @@ not current-version approval.
 
 The arXiv account was last observed on 26 July 2026: draft `7870358` was
 incomplete and had an expiry of 9 August. That observation is not a live
-account check or a permanent arXiv identifier. The author-selected arXiv-first
-sequence remains unresolved; no upload or category/licence choice is authorized.
+account check or a permanent arXiv identifier. On 31 August the maintainer replaced the earlier arXiv-first sequence with
+journal-first following reported case-specific advice. ArXiv is deferred until
+journal submission and a later authorized action; no category or licence is chosen.
 
 ## Current evidence
 
@@ -28,7 +29,7 @@ sequence remains unresolved; no upload or category/licence choice is authorized.
 | Permanent archive | The cited Software Heritage snapshot preserves v2.0.0, not v2.2.0. A new snapshot and DOI-bearing reviewed-version archive remain unconfirmed |
 | Scientific and numerical evidence | Retained synthetic worked-example outputs match clean regeneration; reference tests do not establish empirical validation in every target domain |
 | Non-author engagement | Issue #471 still has only author comments when checked on 30 August; automated accounts and AI-agent runs do not satisfy this evidence class |
-| AI disclosure | Current assistance is disclosed; the July human-review attestation is preserved but does not cover later revisions |
+| AI disclosure | Current assistance is disclosed and the maintainer confirmed review and understanding on 31 August; subsequent changes require review against the submitted packet |
 | Funding and competing interests | No external funding and no competing interests were confirmed by the author on 24 July 2026; no new declaration is inferred |
 | Paper and citation review | SourceRight and Authentext are structural/editorial checks; final claim/source checking and human approval remain required |
 | Submission and editorial outcome | Not started; partner eligibility, screening, acceptance and DOI assignment remain external |
@@ -58,14 +59,15 @@ The selected route is **pyOpenSci review first, followed by a JOSS partner
 fast-track request** if pyOpenSci accepts the package and JOSS confirms scope.
 The maintainer has authorized that route and autonomous repository delivery;
 a separate maintainer instruction is not needed merely to reselect it.
-Authorization does not supply personal attestations or permit AI-drafted
-JOSS conversations with editors and reviewers.
+The maintainer separately confirmed personal declarations on 31 August. This
+does not permit AI-drafted JOSS conversations with editors and reviewers.
 
 Finish all repository repairs and current human review before any submission.
-Resolve the pyOpenSci contact-capacity question for existing issues #271 and
-#272, personally complete the form declarations and survey, and review the
-initial communication. Preserve the author's engagement and arXiv-before-JOSS
-prerequisites. After pyOpenSci acceptance, retain the review issue and accepted
+Earlier pyOpenSci requests #271 and #272 are now withdrawn, with no other
+open author request observed. Survey completion and actual human-written
+submission text remain pending; editorial screening is external. Preserve
+the genuine engagement prerequisite. The decision and withdrawal receipts
+are in the active v2.2 Conductor track; arXiv is no longer a pre-JOSS gate. After pyOpenSci acceptance, retain the review issue and accepted
 revision before requesting eligible JOSS partner handling.
 
 The standalone R package remains an eventual rOpenSci target. Reviews must not

@@ -10,8 +10,8 @@ were not active Conductor implementation tasks.
 *Link: [./tracks/v2_2_release_and_venue_submissions_20260830/index.md](./tracks/v2_2_release_and_venue_submissions_20260830/index.md)*
 *GitHub: [issue #1037](https://github.com/edithatogo/voiage/issues/1037).*
 *Status: in progress — v2.2.0 is published and venue-packet PR #1051 is merged
-with terminal hosted checks. Phase 3 awaits maintainer declarations and
-pyOpenSci contact-capacity eligibility; venue submissions remain unperformed.*
+with terminal hosted checks. Phase 3 records confirmed declarations and prior-request withdrawals;
+survey completion and human-written submission text remain pending; venue submissions remain unperformed.*
 
 ---
 

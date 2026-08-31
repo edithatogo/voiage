@@ -20,7 +20,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
         and review hosted PDF/HTML artifacts (PR #1051 merged as `0330fa55`;
         13 post-merge workflows passed and Julia Registry Sync was skipped).
     *   [ ] Proceed pyOpenSci first, then the eligible JOSS partner route and
-        rOpenSci; personal declarations and external outcomes remain explicit.
+        rOpenSci. Personal declarations are confirmed and previous requests
+        withdrawn; survey completion and human-written submission text remain
+        pending. Journal submission now precedes deferred arXiv action.
 
 ## Historical backlog and retained gate snapshots
 

@@ -6,8 +6,8 @@ This file is a repository-owned staging artifact based on the official
 pyOpenSci template pinned in
 `specs/submission-readiness/pyopensci-submission-template.json`. It is not a
 GitHub issue, survey response, submission, review, or acceptance record.
-The maintainer has authorized the selected submission route. Unchecked human
-attestations, contact-capacity eligibility and personally reviewed communication
+The maintainer has authorized the selected submission route. Personal declarations were confirmed on 31 August 2026 and prior requests
+were withdrawn. Survey completion and human-written submission text
 remain gates before authenticated posting. This AI-assisted staging draft is
 not a substitute for the maintainer's own review communication.
 
@@ -29,11 +29,11 @@ Date accepted: Not applicable before external acceptance
 
 ## Code of Conduct & Commitment to Maintain Package
 
-- [ ] I agree to abide by [pyOpenSci's Code of Conduct][PyOpenSciCodeOfConduct]
+- [x] I agree to abide by [pyOpenSci's Code of Conduct][PyOpenSciCodeOfConduct]
   during the review process and in future interactions in spaces supported by
-  pyOpenSci should it be accepted. Human attestation pending.
-- [ ] I have read and will commit to package maintenance after the review as
-  described by the [pyOpenSci policies][Commitment]. Human attestation pending;
+  pyOpenSci should it be accepted. Confirmed by the maintainer on 31 August 2026.
+- [x] I have read and will commit to package maintenance after the review as
+  described by the [pyOpenSci policies][Commitment]. Confirmed by the maintainer on 31 August 2026;
   the repository records the approved best-effort maintenance policy and
   two-year post-acceptance commitment in `GOVERNANCE.md` and `SUPPORT.md`.
 
@@ -140,7 +140,7 @@ tag, distribution hashes, provenance and immutable publication receipt are
 bound in the candidate manifest. The historical developer-use record remains
 v2.0.0; an automated two-environment replay verified v2.2.0 without adding human
 use or independent adoption. JOSS remains blocked on partner eligibility,
-current human review, the author-selected engagement and arXiv prerequisites,
+current human review, the author-selected engagement prerequisite,
 and reviewed-version archive evidence. No JOSS submission is claimed.
 
 ## Current policy: development history, AI and communication
@@ -148,44 +148,47 @@ and reviewed-version archive evidence. No JOSS submission is claimed.
 This supplemental section follows the current policy page, which has disclosure
 requirements beyond the unchanged pinned issue template.
 
-- [ ] I confirm sustained human-led development and the design decisions behind
+- [x] I confirm sustained human-led development and the design decisions behind
   the public history. The repository has public history since July 2025;
   automated commit counts do not establish human design or review.
-- [ ] I have personally reviewed and understood all current submitted code and
-  documentation, including AI-assisted changes. Final human confirmation pending.
-- [ ] I will write the review communication personally, using at most limited
+- [x] I have personally reviewed and understood all current submitted code and
+  documentation, including AI-assisted changes. Confirmed by the maintainer on 31 August 2026.
+- [x] I will write the review communication personally, using at most limited
   translation or grammar assistance as allowed by pyOpenSci. JOSS permits AI
   assistance in author/editor/reviewer conversations only for translation.
 - [x] Generative AI tools were used in development and maintenance.
-- [ ] I have verified the AI scope and scale disclosure for this exact packet.
+- [x] I have verified the AI scope and scale disclosure for this exact packet.
 
 Recorded assistance includes Codex and Jules, with earlier Antigravity/Gemini
 and Copilot entries in `AI_CONTRIBUTIONS.md`. Agentic assistance covers
 substantial code and test generation, refactoring, CI, release evidence,
 documentation and manuscript editing. The new research-handoff script and its
 tests were agent-authored. A repository-wide percentage and complete historical
-model inventory were not retained and are not inferred. The maintainer must
-confirm any additional primarily generated components and the final disclosure.
+model inventory were not retained and are not inferred. The maintainer confirmed this disclosure on 31 August 2026. Later changes
+require review against the packet actually submitted.
 Project policy: `AI_USAGE.md`. Earlier sign-off records do not certify later work.
 
-The maintainer also needs to resolve contact-capacity eligibility: submissions
-pyOpenSci/software-submission#271 and #272 were still open on 30 August 2026.
-The on-hold label is not treated as an automatic policy exception. This work
-has not contacted editors, withdrawn either package, or appointed another contact.
+The maintainer prioritized voiage and authorized withdrawal of requests #271
+and #272. Both were closed as not planned on 31 August 2026; no other open
+submission by this account was observed. This does not claim editorial approval.
+The decision and withdrawal receipts are retained in the active Conductor track.
+The maintainer now directs journal submission before arXiv, following their
+reported case-specific advice. No journal or arXiv submission is claimed.
+Personal confirmation of the communication commitment does not make this
+AI-assisted draft human-authored; the actual human-written body remains pending.
 
 ## Are you OK with Reviewers Submitting Issues and/or pull requests to your Repo Directly?
 
-- [ ] Maintainer confirmation pending. If confirmed, reviewers may open
+- [x] Reviewers may open
   requested changes as repository issues or pull requests and link them from
   the pyOpenSci review.
 
 ## Author-guide confirmations
 
-- [ ] I have read the pyOpenSci author guide. Human attestation pending.
-- [ ] I expect to maintain this package for at least two years and can help
-  find a replacement maintainer if needed. Human attestation pending; the
-  repository policy is already documented but does not check this form box on
-  the maintainer's behalf.
+- [x] I have read the pyOpenSci author guide. Confirmed by the maintainer on 31 August 2026.
+- [x] I expect to maintain this package for at least two years and can help
+  find a replacement maintainer if needed. Confirmed by the maintainer on 31 August 2026; the
+  repository policy and the maintainer decision receipt record this commitment.
 
 ## Please fill out our survey
 

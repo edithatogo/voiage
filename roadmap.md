@@ -90,9 +90,9 @@ measured CI optimization, and repository-controlled venue alignment. The
 programme is archived. Public v2.2.0 contains the hardened source and has
 verified signed-tag, artifact, provenance and clean-install receipts. The
 active release-and-venue track has completed manuscript, research-use and
-submission-packet repairs through PR #1051. Its next action is R14: obtain
-current maintainer declarations and resolve pyOpenSci contact-capacity
-eligibility before any venue submission.
+submission-packet repairs through PR #1051. The maintainer confirmed personal declarations and withdrew prior pyOpenSci
+requests on 31 August 2026. R14 now requires survey completion and human-written
+submission text. Journal submission precedes the deferred arXiv lane.
 
 *   **Phase 1 (Foundation & API Refactoring):** ✅ **Complete** - Core OO API, data structures, CI/CD, and documentation are all in place.
 *   **Phase 2 (Health Economics Core):** ✅/🔄 **Stable analytical core complete; generic simulation developing** - EVPI, EVPPI, an analytical two-arm normal EVSI model, a coherent joint normal two-loop model with custom callback support, NMA VOI, structural VOI, and plotting are implemented. Generic two-loop and compatibility EVSI estimators remain non-stable pending method-specific convergence and parity evidence.
@@ -382,8 +382,9 @@ remain explicit human or external gates. The round-nine JOSS source has passed i
 SourceRight, Authentext, Open Journals, and page-by-page visual checks. The
 decision-maker wording retained for the release-bound source passed a fresh
 exact-revision Open Journals build and six-page visual review in PR #529. The
-permanent arXiv identifier is the author's requested sequencing gate, not a
-JOSS eligibility requirement.
+earlier arXiv prerequisite was removed by the maintainer on 31 August 2026
+following case-specific advice to submit to a journal first. The pyOpenSci-first
+JOSS partner route and genuine engagement prerequisite remain.
 
 Three completed-in-repository assurance tracks remain archived with their
 explicit human gates visible: Domain Abstraction Excellence

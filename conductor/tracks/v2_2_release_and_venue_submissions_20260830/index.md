@@ -21,6 +21,10 @@
 - [Archived gate continuity review](./archive-gate-continuity-review-20260831.md)
 - [Remaining venue human-action checklist](./venue-human-action-checklist-20260831.md)
 - [Reconciliation validation and review](./status-reconciliation-validation-20260831.json)
+- [Maintainer venue decision](./maintainer-venue-decision-20260831.json)
+- [Previous-request withdrawal receipt](./pyopensci-withdrawal-receipt-20260831.json)
+- [Current venue next actions](./venue-next-actions-20260831.md)
+- [Maintainer decision validation](./maintainer-decision-review-20260831.json)
 - [GitHub issue #1037](https://github.com/edithatogo/voiage/issues/1037)
 - [Release candidate PR #1038](https://github.com/edithatogo/voiage/pull/1038)
 - [Publication evidence PR #1046](https://github.com/edithatogo/voiage/pull/1046)
@@ -30,6 +34,7 @@
 
 Status: in progress, Phase 3. The public v2.2.0 release and PR #1051 venue-packet
 merge are evidenced. Earlier review artifacts retain their pre-merge observations;
-the post-merge receipt records the later result. R14 awaits current maintainer
-declarations and pyOpenSci contact-capacity eligibility. No venue submission or
+the post-merge receipt records the later result. R14 awaits survey completion and human-written submission text. Personal
+declarations are confirmed and prior requests withdrawn; journal-first
+sequencing supersedes the earlier arXiv prerequisite. No venue submission or
 acceptance is inferred from completed repository work.

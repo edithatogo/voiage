@@ -153,10 +153,14 @@
   receipt. Final full tox passed all 15 environments: 4,601 tests passed,
   15 skipped and 95.11 percent coverage. PR #1052 retains its own hosted-check
   and merge boundary; R14 remains pending. (`a6d748cc`)
-- [ ] **R14 / AC-04:** Collect or record the maintainer-only Code of Conduct,
-  maintenance, guide, survey, reviewer-contact, and partnership declarations;
-  resolve contact-capacity eligibility against existing pyOpenSci issues #271
-  and #272 and obtain human review of the submission communication.
+- [~] **R14a / AC-04, AC-05 — Maintainer venue decision:** Record personal
+  confirmations and verified priority withdrawals, retain survey and human-text
+  action gates, and replace arXiv-before-JOSS with authorized journal-first
+  sequencing. Validate the evidence-bound transitions before delivery.
+- [ ] **R14 / AC-04:** Obtain completed pre-review survey confirmation and the
+  maintainer's human-written submission text. Personal declarations are confirmed;
+  prior pyOpenSci requests #271 and #272 are withdrawn. Editorial screening
+  remains external.
 - [ ] **R15 / AC-04:** Create the authenticated pyOpenSci submission and retain its
   issue URL, timestamp, exact body hash, and observed initial venue state.
 - [ ] **R16 / AC-04:** Run automated phase review and validation checkpoint.

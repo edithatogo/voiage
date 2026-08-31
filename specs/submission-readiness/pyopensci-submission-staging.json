@@ -1,11 +1,11 @@
 {
   "schema_version": "voiage.pyopensci-submission-staging.v1",
   "prepared_at": "2026-08-29T00:22:00Z",
-  "updated_at": "2026-08-31T05:26:05Z",
+  "updated_at": "2026-08-31T09:58:39.757960Z",
   "state": "prepared_local_unposted",
   "draft": {
     "path": "docs/release/pyopensci-submission-draft.md",
-    "sha256": "482afe4cb19cddf5293205308502ba6992d366d0d8f01471bcb98c146f6389af"
+    "sha256": "1f0d56e25ff52ee7551b816afbe519c9b20f734d2865ee42eacb0ab953b69c04"
   },
   "template": {
     "path": "specs/submission-readiness/pyopensci-submission-template.json",
@@ -26,17 +26,17 @@
   ],
   "ordinary_fields": "complete_for_local_review",
   "human_attestations": {
-    "code_of_conduct": "pending",
-    "maintenance_commitment_form_checkbox": "pending",
+    "code_of_conduct": "confirmed",
+    "maintenance_commitment_form_checkbox": "confirmed",
     "submitted_version": "confirmed",
     "joss_partnership_option": "confirmed",
-    "reviewer_direct_issue_permission": "pending",
-    "author_guide_read": "pending",
+    "reviewer_direct_issue_permission": "confirmed",
+    "author_guide_read": "confirmed",
     "pre_review_survey": "pending",
-    "human_led_development_history": "pending",
-    "current_ai_outputs_reviewed_understood": "pending",
-    "human_written_review_communication": "pending",
-    "ai_scope_disclosure_verified": "pending"
+    "human_led_development_history": "confirmed",
+    "current_ai_outputs_reviewed_understood": "confirmed",
+    "human_written_review_communication": "confirmed",
+    "ai_scope_disclosure_verified": "confirmed"
   },
   "external_actions": {
     "pre_review_survey_completed": false,
@@ -53,17 +53,23 @@
     "joss_acceptance": "pending_external"
   },
   "remaining_gates": [
-    "maintainer personally completes current review and form attestations plus the pre-review survey",
-    "resolve contact-capacity eligibility for existing pyOpenSci submissions #271 and #272",
-    "maintainer supplies or reviews human-written submission communication",
-    "pyOpenSci performs scope screening, review and acceptance",
-    "before JOSS submission, issue #471 obtains genuine non-author evidence and the author-selected arXiv sequence completes; these remain project prerequisites, not additional pyOpenSci submission requirements",
+    "maintainer completes the pre-review survey and supplies human-written submission text",
+    "pyOpenSci performs scope and capacity screening, review and acceptance; previous requests #271 and #272 are withdrawn",
+    "before JOSS submission, issue #471 obtains genuine non-author evidence; arXiv is deferred by maintainer instruction",
     "a DOI-bearing reviewed-version archive is created before the JOSS acceptance stage",
     "JOSS partner eligibility and final current author declarations are evidenced; route authorization is already recorded"
   ],
   "repository_readiness": {
     "status": "repairs_merged",
     "evidence": "conductor/tracks/v2_2_release_and_venue_submissions_20260830/venue-packet-merge-receipt-20260831.json",
-    "boundary": "Repository readiness does not satisfy current personal declarations, contact-capacity eligibility, or external submission and venue outcomes."
+    "boundary": "Repository readiness and confirmed declarations do not establish survey completion, human authorship of the existing draft, submission or venue outcomes."
+  },
+  "maintainer_confirmation": {
+    "path": "conductor/tracks/v2_2_release_and_venue_submissions_20260830/maintainer-venue-decision-20260831.json",
+    "sha256": "514f06a661b0a3a1de76b4bdda50efd6d21e633e40d1f64333d91d3c7bf8fb81"
+  },
+  "action_gates": {
+    "pre_review_survey": "pending",
+    "human_written_submission_text": "pending"
   }
 }

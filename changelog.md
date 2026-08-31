@@ -6,6 +6,10 @@
 
 ## Unreleased
 
+- Bound confirmed maintainer declarations and journal-first sequencing to the
+  recorded decision. Retained separate survey and human-authorship action gates
+  and verified withdrawal receipts for the earlier pyOpenSci requests.
+
 - Reconciled Conductor status with the published v2.2.0 release and merged
   venue-packet repairs. Retained historical evidence and made the remaining
   maintainer declarations, contact-capacity and external venue gates explicit.
