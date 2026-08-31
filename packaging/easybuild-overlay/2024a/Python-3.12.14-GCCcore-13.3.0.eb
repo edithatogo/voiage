@@ -1,6 +1,6 @@
-# Site backport; see NOTICE and source-manifest.json before reuse.
+# Site backport; see NOTICE and source-manifest-python31214.json before reuse.
 name = "Python"
-version = "3.12.3"
+version = "3.12.14"
 
 homepage = "https://python.org/"
 description = """Python is a programming language that lets you work more quickly and integrate your systems
@@ -15,17 +15,17 @@ patches = ["Python-3.12.3_avoid-tkinter-build.patch"]
 
 # Like patches, but these will only be applied if EasyBuild is configured to filter $LD_LIBRARY_PATH
 # In that scenario, ctypes needs to be patched since it heavily relies on $LD_LIBRARY_PATH to find libraries
-patch_ctypes_ld_library_path = "Python-3.11.5-custom-ctypes.patch"
+patch_ctypes_ld_library_path = "Python-3.12.14-custom-ctypes.patch"
 
 checksums = [
     {
-        "Python-3.12.3.tgz": "a6b9459f45a6ebbbc1af44f5762623fa355a0c87208ed417628b379d762dddb0"
+        "Python-3.12.14.tgz": "6c6df908d2c3fd24e6d76869e92542abd0f33aec9dfc18df8875f89660286d43"
     },
     {
         "Python-3.12.3_avoid-tkinter-build.patch": "34fa44ca67fc08d41c58db2e289317f12f32777a352a982dca2e63459fc089e3"
     },
     {
-        "Python-3.11.5-custom-ctypes.patch": "b29c22f47587460149e05296ff09b29bf790a83e2b3b13fb2f42f5f236ad8ea7"
+        "Python-3.12.14-custom-ctypes.patch": "ef3838753d6bee11fd0f9dea357e65ec419e7aebdb8c87136f92c5826ebf92a1"
     },
 ]
 

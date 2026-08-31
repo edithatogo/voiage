@@ -1,3 +1,3 @@
-The Python, Meson and meson-python easyconfigs are adapted from easybuilders/easybuild-easyconfigs commit 58e8b5a48767cbed1bf5669675d9638580d7259f.
-The SciPy-bundle layout follows its PythonBundle pattern. The upstream GPLv2 license is preserved verbatim in LICENSE.easybuild. Python patch bytes are preserved verbatim. New files in this overlay are provided under the same license.
+The Python, Meson, meson-python, Cython, Ninja, hatchling, pybind11, BLIS, OpenBLAS, ICU, FlexiBLAS and OpenSSL easyconfigs are adapted from easybuilders/easybuild-easyconfigs commit 58e8b5a48767cbed1bf5669675d9638580d7259f.
+The SciPy-bundle layout follows its PythonBundle pattern. The upstream GPLv2 license is preserved verbatim in LICENSE.easybuild. Original Python patch bytes are preserved verbatim; the separately named Python 3.12.14 ctypes patch refreshes context only. New files in this overlay are provided under the same license.
 The dispatch evidence contains method excerpts from EasyBuild framework and easyblocks 5.4.0; their GPLv2 licenses are preserved in LICENSE.easybuild-framework and LICENSE.easybuild-easyblocks.

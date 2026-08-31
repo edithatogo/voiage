@@ -1,0 +1,30 @@
+[
+  {
+    "version": "3.12.13",
+    "patch": "Python-3.11.5-custom-ctypes.patch",
+    "returncode": 1,
+    "stdout": "patching file 'Lib/ctypes/__init__.py'\npatching file 'Lib/ctypes/util.py'\n1 out of 8 hunks failed while patching 'Lib/ctypes/util.py'\n",
+    "stderr": ""
+  },
+  {
+    "version": "3.12.13",
+    "patch": "Python-3.12.3_avoid-tkinter-build.patch",
+    "returncode": 0,
+    "stdout": "patching file configure\n",
+    "stderr": ""
+  },
+  {
+    "version": "3.12.14",
+    "patch": "Python-3.11.5-custom-ctypes.patch",
+    "returncode": 1,
+    "stdout": "patching file 'Lib/ctypes/__init__.py'\npatching file 'Lib/ctypes/util.py'\n1 out of 8 hunks failed while patching 'Lib/ctypes/util.py'\n",
+    "stderr": ""
+  },
+  {
+    "version": "3.12.14",
+    "patch": "Python-3.12.3_avoid-tkinter-build.patch",
+    "returncode": 0,
+    "stdout": "patching file configure\n",
+    "stderr": ""
+  }
+]

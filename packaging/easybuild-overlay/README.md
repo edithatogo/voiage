@@ -4,24 +4,51 @@ This local overlay prepares Python and scientific dependencies for Voiage
 2.2.0 on the requested foss 2024a hierarchy. It does not yet provide the
 complete Voiage dependency graph or the separate foss 2023a backport.
 
-The six easyconfigs use GCCcore 13.3.0 or gfbf 2024a, which are components of
-the same foss generation. A real EasyBuild 5.4.0 dependency dry-run passed on
+The fifteen easyconfigs use GCCcore/GCC 13.3.0, gfbf 2024a, or the system
+OpenSSL wrapper. The compiler toolchains belong to the same foss generation. A real EasyBuild 5.4.0 dependency dry-run passed on
 macOS arm64 using an isolated Environment Modules 5.6.1 installation. The
 retained module list is dependency-resolution evidence, not a native build.
 
 ## Source and provider boundaries
 
-`source-manifest.json` records 44 downloaded and SHA-256-verified source
-archives. `providers.json` maps actual extension names to their supplying
-modules. The recipe, patch, license and evidence bytes are bound by
+`source-manifest-python31214.json` records 63 downloaded and SHA-256-verified
+source archives. `providers.json` maps actual extension names to their supplying
+modules, including matching build-only and runtime copies. The original
+44-source manifest and execution receipts remain unchanged.
+`history/manifest-0b43545c.json` describes that immutable commit, not the current
+candidate; its original paths must be interpreted at that commit. The recipe, patch, license and evidence bytes are bound by
 `manifest.json`. Copied upstream patches and license text remain unchanged;
 see `NOTICE` for attribution and the pinned catalogue revision.
 
-The Python 3.12.3 override updates flit-core and typing-extensions to support
+The Python 3.12.14 override updates flit-core and typing-extensions to support
 the selected sources. Its setuptools-scm 7.1 satisfies python-dateutil's
 explicit build requirement below version 8. This is a private site override
 of an existing module identity: use a fresh installation prefix and put this
 robot directory first. Do not overwrite a site's existing Python module.
+
+Python 3.12.14 is the [12 August security release](https://www.python.org/downloads/release/python-31214/).
+Its source contains Expat 2.8.3; neither the recipe nor the pinned Python
+easyblock enables system Expat. The derived ctypes patch refreshes two context
+lines only. Strict `patch --fuzz=0` application passed, and its resulting files
+match the original patch applied with default fuzz. Raw historical patch bytes
+remain available alongside the derived patch.
+
+Cython, hatchling, pybind11 and Ninja now depend on Python 3.12.14.
+BLIS, OpenBLAS, ICU and FlexiBLAS have matching build/test interpreter overrides;
+their other recipe bytes, numerical versions and test settings are unchanged.
+The real current robot log contains exactly one Python module: 3.12.14.
+Hatchling uses nine verified source distributions, including calver before
+trove-classifiers. The pybind11 easyblock installs through both CMake and pip;
+its source backend needs setuptools, CMake and Ninja. Explicit binary tool
+providers meet those bounds under EasyBuild's build-isolation policy. Its
+pytest dependency comes from the controlled Hypothesis provider.
+
+The system OpenSSL wrapper retains its vendor-library path and uses verified
+OpenSSL 3.5.8 for its source fallback, following the
+[25 August security release](https://openssl-library.org/news/openssl-3.5-notes/).
+A native run must record the actual vendor package and security backports if
+system libraries are selected; a version string alone does not establish that
+status. No native selection or vendor-patch verification is claimed here.
 
 The scientific bundle supplies NumPy 2.2.6, SciPy 1.16.3 and pandas 2.3.3.
 Specialized EasyBuild NumPy and SciPy blocks retain their BLAS configuration.
@@ -63,10 +90,10 @@ The earlier module-syntax and absent-module-tool failures are retained beside
 the successful dry-run. No mock module implementation was used. A successful
 dry-run does not prove all sources, patches or native packages in the larger
 catalogue closure have been downloaded or built; the source manifest binds
-only this overlay's 44 selected archives. The referenced hatchling build-tool
-bundle still uses an upstream pure-Python trove-classifiers wheel; a claim
-that the entire catalogue closure is source-only would require a separate
-override or documented exception.
+only the selected archives listed in the current manifest. The broader
+compiler and numerical-library catalogue closure still needs actual download,
+patch and native-build verification. The earlier Python 3.12.3 robot receipt
+is historical; use `evidence/scientific-robot-python31214.log` for this candidate.
 
 ## Remaining work
 

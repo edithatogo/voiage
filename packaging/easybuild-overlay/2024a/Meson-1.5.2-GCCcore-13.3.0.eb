@@ -16,7 +16,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ("Python", "3.12.3"),  # includes required 'wheel' package
+    ("Python", "3.12.14"),  # includes required 'wheel' package
     ("Ninja", "1.12.1"),
 ]
 

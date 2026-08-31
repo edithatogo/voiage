@@ -13,7 +13,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ("Python", "3.12.3"),
+    ("Python", "3.12.14"),
     ("Meson", "1.5.2"),
 ]
 

@@ -2,7 +2,9 @@
 
 The [2024a foundation overlay](../../packaging/easybuild-overlay/README.md)
 provides source-bound Python, scientific and CLI support candidates for
-Voiage 2.2.0. Its real dependency dry-run and separate source-built support
+Voiage 2.2.0. The current candidate uses Python 3.12.14 throughout its resolved
+build/test closure and OpenSSL 3.5.8 for the source fallback. Original
+Python 3.12.3 receipts remain historical. Its real dependency dry-run and separate source-built support
 consumer checks pass. Neither result establishes an installed EasyBuild stack.
 
 The provider map avoids treating NumPy, SciPy and pandas as nonexistent
