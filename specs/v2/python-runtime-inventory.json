@@ -12,7 +12,7 @@
     },
     "assurance": {
       "status": "retain_as_verification_support",
-      "roots": ["voiage/assurance_policy.py", "voiage/c15_oracles.py", "voiage/c15_otel.py", "voiage/c15_performance.py", "voiage/c15_reproducibility.py", "voiage/mutation_policy.py", "voiage/resources/", "voiage/sampling_harm_automated_challenge.py", "voiage/sampling_harm_human_commissioning.py", "voiage/sampling_harm_review_preparation.py", "voiage/sampling_harm_source_readiness.py", "voiage/scientific_review_evidence.py"]
+      "roots": ["voiage/assurance_policy.py", "voiage/c15_oracles.py", "voiage/c15_otel.py", "voiage/c15_performance.py", "voiage/c15_reproducibility.py", "voiage/mutation_policy.py", "voiage/resources/", "voiage/sampling_harm_agent_assurance.py", "voiage/sampling_harm_automated_challenge.py", "voiage/sampling_harm_human_commissioning.py", "voiage/sampling_harm_review_preparation.py", "voiage/sampling_harm_source_readiness.py", "voiage/scientific_review_evidence.py"]
     },
     "transitional_numerical_core": {
       "status": "retired_as_authority_retain_rust_facades",

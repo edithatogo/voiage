@@ -8,8 +8,15 @@
 
 ## Unreleased
 
+- Pin the historical agent-assurance record's narrative with an independent
+  canonical digest; retain the existing schema protection against report rewrites.
+
 - Resolve the local HPC dependency graph with checksum-bound dated Rust and
   separate stable compiler backends; native cluster builds remain pending.
+
+- Validate agent-only sampling-harm assurance bindings and reject altered
+  reports or authority claims while preserving historical evidence and pending
+  independent review.
 
 - Verified the complete R distribution check, including PDF and HTML manuals;
   retained its two NOTEs and the separate submission gate.
