@@ -1,0 +1,185 @@
+{
+  "schema": "voiage.easybuild-providers.v1",
+  "toolchain_generation": "2024a",
+  "python_version": "3.12.3",
+  "providers": {
+    "flit-core": {
+      "version": "3.12.0",
+      "recipe": "2024a/Python-3.12.3-GCCcore-13.3.0.eb"
+    },
+    "wheel": {
+      "version": "0.43.0",
+      "recipe": "2024a/Python-3.12.3-GCCcore-13.3.0.eb"
+    },
+    "tomli": {
+      "version": "2.0.1",
+      "recipe": "2024a/Python-3.12.3-GCCcore-13.3.0.eb"
+    },
+    "packaging": {
+      "version": "24.0",
+      "recipe": "2024a/Python-3.12.3-GCCcore-13.3.0.eb"
+    },
+    "typing-extensions": {
+      "version": "4.16.0",
+      "recipe": "2024a/Python-3.12.3-GCCcore-13.3.0.eb"
+    },
+    "setuptools": {
+      "version": "70.0.0",
+      "recipe": "2024a/Python-3.12.3-GCCcore-13.3.0.eb"
+    },
+    "setuptools-scm": {
+      "version": "7.1.0",
+      "recipe": "2024a/Python-3.12.3-GCCcore-13.3.0.eb"
+    },
+    "pip": {
+      "version": "24.0",
+      "recipe": "2024a/Python-3.12.3-GCCcore-13.3.0.eb"
+    },
+    "numpy": {
+      "version": "2.2.6",
+      "recipe": "2024a/SciPy-bundle-2026.09-gfbf-2024a-voiage-2.2.0.eb"
+    },
+    "ply": {
+      "version": "3.11",
+      "recipe": "2024a/SciPy-bundle-2026.09-gfbf-2024a-voiage-2.2.0.eb"
+    },
+    "gast": {
+      "version": "0.6.0",
+      "recipe": "2024a/SciPy-bundle-2026.09-gfbf-2024a-voiage-2.2.0.eb"
+    },
+    "beniget": {
+      "version": "0.4.2.post1",
+      "recipe": "2024a/SciPy-bundle-2026.09-gfbf-2024a-voiage-2.2.0.eb"
+    },
+    "pythran": {
+      "version": "0.18.1",
+      "recipe": "2024a/SciPy-bundle-2026.09-gfbf-2024a-voiage-2.2.0.eb"
+    },
+    "versioneer": {
+      "version": "0.29",
+      "recipe": "2024a/SciPy-bundle-2026.09-gfbf-2024a-voiage-2.2.0.eb"
+    },
+    "scipy": {
+      "version": "1.16.3",
+      "recipe": "2024a/SciPy-bundle-2026.09-gfbf-2024a-voiage-2.2.0.eb"
+    },
+    "pandas": {
+      "version": "2.3.3",
+      "recipe": "2024a/SciPy-bundle-2026.09-gfbf-2024a-voiage-2.2.0.eb"
+    },
+    "six": {
+      "version": "1.17.0",
+      "recipe": "2024a/Voiage-Python-support-2.2.0-GCCcore-13.3.0.eb"
+    },
+    "python-dateutil": {
+      "version": "2.9.0.post0",
+      "recipe": "2024a/Voiage-Python-support-2.2.0-GCCcore-13.3.0.eb"
+    },
+    "pytz": {
+      "version": "2025.2",
+      "recipe": "2024a/Voiage-Python-support-2.2.0-GCCcore-13.3.0.eb"
+    },
+    "tzdata": {
+      "version": "2025.2",
+      "recipe": "2024a/Voiage-Python-support-2.2.0-GCCcore-13.3.0.eb"
+    },
+    "poetry-core": {
+      "version": "2.1.3",
+      "recipe": "2024a/Voiage-Python-support-2.2.0-GCCcore-13.3.0.eb"
+    },
+    "pdm-backend": {
+      "version": "2.4.5",
+      "recipe": "2024a/Voiage-Python-support-2.2.0-GCCcore-13.3.0.eb"
+    },
+    "pygments": {
+      "version": "2.19.2",
+      "recipe": "2024a/Voiage-Python-support-2.2.0-GCCcore-13.3.0.eb"
+    },
+    "mdurl": {
+      "version": "0.1.2",
+      "recipe": "2024a/Voiage-Python-support-2.2.0-GCCcore-13.3.0.eb"
+    },
+    "markdown-it-py": {
+      "version": "3.0.0",
+      "recipe": "2024a/Voiage-Python-support-2.2.0-GCCcore-13.3.0.eb"
+    },
+    "rich": {
+      "version": "14.0.0",
+      "recipe": "2024a/Voiage-Python-support-2.2.0-GCCcore-13.3.0.eb"
+    },
+    "shellingham": {
+      "version": "1.5.4",
+      "recipe": "2024a/Voiage-Python-support-2.2.0-GCCcore-13.3.0.eb"
+    },
+    "annotated-doc": {
+      "version": "0.0.4",
+      "recipe": "2024a/Voiage-Python-support-2.2.0-GCCcore-13.3.0.eb"
+    },
+    "click": {
+      "version": "8.5.0",
+      "recipe": "2024a/Voiage-Python-support-2.2.0-GCCcore-13.3.0.eb"
+    },
+    "typer": {
+      "version": "0.27.2",
+      "recipe": "2024a/Voiage-Python-support-2.2.0-GCCcore-13.3.0.eb"
+    },
+    "attrs": {
+      "version": "23.2.0",
+      "recipe": "2024a/hypothesis-6.103.1-GCCcore-13.3.0.eb"
+    },
+    "sortedcontainers": {
+      "version": "2.4.0",
+      "recipe": "2024a/hypothesis-6.103.1-GCCcore-13.3.0.eb"
+    },
+    "iniconfig": {
+      "version": "2.0.0",
+      "recipe": "2024a/hypothesis-6.103.1-GCCcore-13.3.0.eb"
+    },
+    "pluggy": {
+      "version": "1.5.0",
+      "recipe": "2024a/hypothesis-6.103.1-GCCcore-13.3.0.eb"
+    },
+    "pytest": {
+      "version": "8.2.2",
+      "recipe": "2024a/hypothesis-6.103.1-GCCcore-13.3.0.eb"
+    },
+    "cloudpickle": {
+      "version": "3.1.2",
+      "recipe": "2024a/hypothesis-6.103.1-GCCcore-13.3.0.eb"
+    },
+    "doit": {
+      "version": "0.37.0",
+      "recipe": "2024a/hypothesis-6.103.1-GCCcore-13.3.0.eb"
+    },
+    "pydevtool": {
+      "version": "0.3.0",
+      "recipe": "2024a/hypothesis-6.103.1-GCCcore-13.3.0.eb"
+    },
+    "rich-click": {
+      "version": "1.9.8",
+      "recipe": "2024a/hypothesis-6.103.1-GCCcore-13.3.0.eb"
+    },
+    "hypothesis": {
+      "version": "6.103.1",
+      "recipe": "2024a/hypothesis-6.103.1-GCCcore-13.3.0.eb"
+    },
+    "pyproject-metadata": {
+      "version": "0.8.0",
+      "recipe": "2024a/meson-python-0.16.0-GCCcore-13.3.0.eb"
+    },
+    "meson-python": {
+      "version": "0.16.0",
+      "recipe": "2024a/meson-python-0.16.0-GCCcore-13.3.0.eb"
+    }
+  },
+  "deferred_voiage_dependencies": [
+    "xarray",
+    "scikit-learn",
+    "pyarrow",
+    "polars",
+    "pydantic",
+    "jsonschema"
+  ],
+  "foss_2023a_prepared": false,
+  "whole_voiage_graph_resolved": false
+}

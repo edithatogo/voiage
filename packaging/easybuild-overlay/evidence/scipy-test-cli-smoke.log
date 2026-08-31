@@ -1,0 +1,130 @@
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 1 package in 214ms
+   Building cloudpickle @ file://<workspace>/.conductor/local/easybuild-backports/sources/cloudpickle-3.1.2.tar.gz
+      Built cloudpickle @ file://<workspace>/.conductor/local/easybuild-backports/sources/cloudpickle-3.1.2.tar.gz
+Prepared 1 package in 499ms
+Installed 1 package in 5ms
+ + cloudpickle==3.1.2 (from file://<workspace>/.conductor/local/easybuild-backports/sources/cloudpickle-3.1.2.tar.gz)
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 1 package in 201ms
+   Building doit @ file://<workspace>/.conductor/local/easybuild-backports/sources/doit-0.37.0.tar.gz
+      Built doit @ file://<workspace>/.conductor/local/easybuild-backports/sources/doit-0.37.0.tar.gz
+Prepared 1 package in 864ms
+Installed 1 package in 5ms
+ + doit==0.37.0 (from file://<workspace>/.conductor/local/easybuild-backports/sources/doit-0.37.0.tar.gz)
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 1 package in 333ms
+   Building pydevtool @ file://<workspace>/.conductor/local/easybuild-backports/sources/pydevtool-0.3.0.tar.gz
+      Built pydevtool @ file://<workspace>/.conductor/local/easybuild-backports/sources/pydevtool-0.3.0.tar.gz
+Prepared 1 package in 477ms
+Installed 1 package in 3ms
+ + pydevtool==0.3.0 (from file://<workspace>/.conductor/local/easybuild-backports/sources/pydevtool-0.3.0.tar.gz)
+Using Python 3.12.13 environment at: .conductor/local/easybuild-backports/support-smoke-env
+Resolved 1 package in 500ms
+   Building rich-click @ file://<workspace>/.conductor/local/easybuild-backports/sources/rich_click-1.9.8.tar.gz
+      Built rich-click @ file://<workspace>/.conductor/local/easybuild-backports/sources/rich_click-1.9.8.tar.gz
+Prepared 1 package in 1.14s
+Installed 1 package in 5ms
+ + rich-click==1.9.8 (from file://<workspace>/.conductor/local/easybuild-backports/sources/rich_click-1.9.8.tar.gz)
+No broken requirements found.
+                                                                                
+ Usage: dev.py [OPTIONS] COMMAND [ARGS]...                                      
+                                                                                
+ Developer Tool for SciPy                                                       
+ Commands that require a built/installed instance are marked with 🔧.           
+                                                                                
+ python dev.py --build-dir my-build test -s stats                               
+                                                                                
+╭─ Options ────────────────────────────────────────────────────────────────────╮
+│ --help                             Show this message and exit.               │
+│ --build-dir           BUILD_DIR    🔧 Relative path to the build directory.  │
+│                                    [default: build]                          │
+│ --no-build        -n               🔧 Do not build the project (note event   │
+│                                    python only modification require build).  │
+│ --install-prefix      INSTALL_DIR                                            │
+│                                    🔧 Relative path to the install           │
+│                                    directory. Default is -install.           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ build & testing ────────────────────────────────────────────────────────────╮
+│ build  🔧 Build & install package on path.                                   │
+│ test   🔧 Run tests.                                                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ static checkers ────────────────────────────────────────────────────────────╮
+│ lint  💨 Run linter on modified (or all) files and check for disallowed      │
+│       Unicode characters and possibly-invalid test names.                    │
+│ mypy  🔧 Run mypy on the codebase.                                           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ environments ───────────────────────────────────────────────────────────────╮
+│ shell            🔧 Start Unix shell with PYTHONPATH set.                    │
+│ python           🔧 Start a Python shell with PYTHONPATH set.                │
+│ ipython          🔧 Start IPython shell with PYTHONPATH set.                 │
+│ show_PYTHONPATH  ℹ Show value of the PYTHONPATH environment variable used in │
+│                  this script.                                                │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ documentation ──────────────────────────────────────────────────────────────╮
+│ doc             🔧 Build documentation.                                      │
+│ refguide-check  🔧 Run refguide check.                                       │
+│ smoke-docs                                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ release ────────────────────────────────────────────────────────────────────╮
+│ notes    📒 Release notes and log generation.                                │
+│ authors  📒 Generate list of authors who contributed within revision         │
+│          interval.                                                           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ benchmarking ───────────────────────────────────────────────────────────────╮
+│ bench  🔧 Run benchmarks.                                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Commands ───────────────────────────────────────────────────────────────────╮
+│ smoke-tutorials  🔧 Run smoke-tests on tutorial files.                       │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+
+                                                                                
+ Usage: dev.py test [OPTIONS] PYTEST-ARGS                                       
+                                                                                
+ 🔧 Run tests.                                                                  
+                                                                                
+                                                                                
+                                                                                
+  Examples:                                                                     
+                                                                                
+  $ python dev.py test -s {SAMPLE_SUBMODULE}                                    
+  $ python dev.py test -t scipy.optimize.tests.test_minimize_constrained        
+  $ python dev.py test -s cluster -m full --durations 20                        
+  $ python dev.py test -s stats -- --tb=line  # `--` passes next args to pytes  
+  $ python dev.py test -b numpy -b torch -s cluster                             
+                                                                                
+                                                                                
+╭─ Options ────────────────────────────────────────────────────────────────────╮
+│ --help                                  Show this message and exit.          │
+│ --verbose            -v                 more verbosity                       │
+│ --parallel           -j  N_JOBS         Number of parallel jobs for testing  │
+│ --coverage           -c                 report coverage of project code.     │
+│                                         HTML output goes under               │
+│                                         build/coverage                       │
+│ --durations          -d  NUM_TESTS      Show timing for the given number of  │
+│                                         slowest tests                        │
+│ --submodule          -s  MODULE_NAME    Submodule whose tests to run         │
+│                                         (cluster, constants, ...)            │
+│ --tests              -t  TESTS          Specify tests to run                 │
+│ --mode               -m  MODE           'fast', 'full', or something that    │
+│                                         could be passed to pytest -m as a    │
+│                                         marker expression                    │
+│                                         [default: fast]                      │
+│ --array-api-backend  -b  ARRAY_BACKEND  Array API backend ('all', 'numpy',   │
+│                                         'torch', 'cupy', 'array_api_strict', │
+│                                         'jax.numpy', 'dask.array').          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Options: test selection ────────────────────────────────────────────────────╮
+│ --submodule  -s  MODULE_NAME  Submodule whose tests to run (cluster,         │
+│                               constants, ...)                                │
+│ --tests      -t  TESTS        Specify tests to run                           │
+│ --mode       -m  MODE         'fast', 'full', or something that could be     │
+│                               passed to pytest -m as a marker expression     │
+│                               [default: fast]                                │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Arguments ──────────────────────────────────────────────────────────────────╮
+│ PYTEST_ARGS  PYTEST-ARGS                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+

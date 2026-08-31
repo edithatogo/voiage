@@ -22,6 +22,9 @@
   BinaryBuilder results from the unbuilt v2.2.0 candidate. Record delivered
   backlog repairs and preserved cleanup evidence without closing unmet work.
 
+- Prepare a source-verified EasyBuild 2024a dependency foundation with explicit
+  provider mappings; complete native stacks and 2023a remain pending.
+
 - Verified the complete R distribution check, including PDF and HTML manuals;
   retained its two NOTEs and the separate submission gate.
 

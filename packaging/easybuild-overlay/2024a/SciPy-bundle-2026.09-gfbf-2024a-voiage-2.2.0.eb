@@ -1,0 +1,118 @@
+easyblock = "PythonBundle"
+name = "SciPy-bundle"
+version = "2026.09"
+versionsuffix = "-voiage-2.2.0"
+homepage = "https://python.org/"
+description = "Source-pinned scientific providers within Voiage 2.2.0 bounds."
+toolchain = {"name": "gfbf", "version": "2024a"}
+toolchainopts = {"pic": True, "lowopt": True}
+builddependencies = [
+    ("hypothesis", "6.103.1"),
+    ("UnZip", "6.0"),
+    ("Meson", "1.5.2"),
+    ("meson-python", "0.16.0"),
+    ("Ninja", "1.12.1"),
+    ("pkgconf", "2.2.0"),
+    ("Cython", "3.0.10"),
+    ("pybind11", "2.13.6"),
+]
+dependencies = [("Python", "3.12.3"), ("Voiage-Python-support", "2.2.0")]
+use_pip = True
+pip_no_index = True
+pip_ignore_installed = True
+download_dep_fail = True
+sanity_pip_check = True
+exts_list = [
+    (
+        "numpy",
+        "2.2.6",
+        {
+            "ignore_test_result": False,
+            "sources": ["numpy-2.2.6.tar.gz"],
+            "source_urls": [PYPI_SOURCE],
+            "checksums": [
+                "e29554e2bef54a90aa5cc07da6ce955accb83f21ab5de01a62c8478897b264fd"
+            ],
+        },
+    ),
+    (
+        "ply",
+        "3.11",
+        {
+            "sources": ["ply-3.11.tar.gz"],
+            "source_urls": [PYPI_SOURCE],
+            "checksums": [
+                "00c7c1aaa88358b9c765b6d3000c6eec0ba42abca5351b095321aef446081da3"
+            ],
+        },
+    ),
+    (
+        "gast",
+        "0.6.0",
+        {
+            "sources": ["gast-0.6.0.tar.gz"],
+            "source_urls": [PYPI_SOURCE],
+            "checksums": [
+                "88fc5300d32c7ac6ca7b515310862f71e6fdf2c029bbec7c66c0f5dd47b6b1fb"
+            ],
+        },
+    ),
+    (
+        "beniget",
+        "0.4.2.post1",
+        {
+            "sources": ["beniget-0.4.2.post1.tar.gz"],
+            "source_urls": [PYPI_SOURCE],
+            "checksums": [
+                "a0258537e65e7e14ec33a86802f865a667f949bb6c73646d55e42f7c45a052ae"
+            ],
+        },
+    ),
+    (
+        "pythran",
+        "0.18.1",
+        {
+            "sources": ["pythran-0.18.1.tar.gz"],
+            "source_urls": [PYPI_SOURCE],
+            "checksums": [
+                "8803ed948bf841a11bbbb10472a8ff6ea24ebd70e67c3f77b77be3db900eccfe"
+            ],
+        },
+    ),
+    (
+        "versioneer",
+        "0.29",
+        {
+            "sources": ["versioneer-0.29.tar.gz"],
+            "source_urls": [PYPI_SOURCE],
+            "checksums": [
+                "5ab283b9857211d61b53318b7c792cf68e798e765ee17c27ade9f6c924235731"
+            ],
+        },
+    ),
+    (
+        "scipy",
+        "1.16.3",
+        {
+            "ignore_test_result": False,
+            "enable_slow_tests": True,
+            "sources": ["scipy-1.16.3.tar.gz"],
+            "source_urls": [PYPI_SOURCE],
+            "checksums": [
+                "01e87659402762f43bd2fee13370553a17ada367d42e7487800bf2916535aecb"
+            ],
+        },
+    ),
+    (
+        "pandas",
+        "2.3.3",
+        {
+            "sources": ["pandas-2.3.3.tar.gz"],
+            "source_urls": [PYPI_SOURCE],
+            "checksums": [
+                "e05e1af93b977f7eafa636d043f9f94c7ee3ac81af99c13508215942e64c993b"
+            ],
+        },
+    ),
+]
+moduleclass = "numlib"
