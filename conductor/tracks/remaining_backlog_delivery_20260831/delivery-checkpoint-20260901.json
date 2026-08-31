@@ -1,0 +1,819 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-08-31T16:29:42.472096Z",
+  "base_commit": "15e514a53bec23b2a220ccfee7cf6c4d363a363e",
+  "scope": "Additive delivery checkpoint; observations retain their original dates and do not complete the full backlog.",
+  "merged_pull_requests": [
+    {
+      "source_file": "voiage-1041-merge-result.json",
+      "source_sha256": "abfc9f4f46af04740675ef47fd1b92b1454767d0aef5a148dde6748d349af443",
+      "receipt": {
+        "headRefOid": "226845b5e843389a7c03eefa3b82503a1680fbc8",
+        "mergeCommit": {
+          "oid": "5e062484bfdae9c9df5fb4bbddd493784619e98b"
+        },
+        "mergedAt": "2026-08-31T15:24:33Z",
+        "mergedBy": {
+          "id": "MDQ6VXNlcjE1MDgwNjcy",
+          "is_bot": false,
+          "login": "edithatogo",
+          "name": "Dylan A Mordaunt"
+        },
+        "state": "MERGED",
+        "reviewed_tree": "afa45ac1f5a499eaac988d362196968c7012975a",
+        "merged_tree": "afa45ac1f5a499eaac988d362196968c7012975a",
+        "tree_equal": true
+      },
+      "pull_request": "https://github.com/edithatogo/voiage/pull/1041"
+    },
+    {
+      "source_file": "voiage-1049-merge-result.json",
+      "source_sha256": "72d53f9475afb34bf539240500061830ebc7d081b527d8821b5e8d2a20090ff0",
+      "receipt": {
+        "headRefOid": "de7d2a0fe2ecc618d057d827d484264847ea6728",
+        "mergeCommit": {
+          "oid": "fd54b64709130d259327829ec583d995eac166f1"
+        },
+        "mergedAt": "2026-08-31T15:38:24Z",
+        "mergedBy": {
+          "id": "MDQ6VXNlcjE1MDgwNjcy",
+          "is_bot": false,
+          "login": "edithatogo",
+          "name": "Dylan A Mordaunt"
+        },
+        "state": "MERGED",
+        "reviewed_tree": "0f02e430e36365b56fc255215cdf44757518b53b",
+        "merged_tree": "0f02e430e36365b56fc255215cdf44757518b53b",
+        "tree_equal": true
+      },
+      "pull_request": "https://github.com/edithatogo/voiage/pull/1049"
+    },
+    {
+      "source_file": "voiage-1050-observed-merged.json",
+      "source_sha256": "57a90ee423e811fec2b249943d99dd292d9c3cce61f50e75ae61bcd9ea3e7f7f",
+      "receipt": {
+        "headRefOid": "755ee55e5b2a38ed48093ad0af8597d62b237e0a",
+        "mergeCommit": {
+          "oid": "ffd569dcd007ca12abca8b4b9f5269b9169355a7"
+        },
+        "mergedAt": "2026-08-31T15:50:13Z",
+        "mergedBy": {
+          "is_bot": true,
+          "login": "app/renovate"
+        },
+        "state": "MERGED",
+        "reviewed_tree": "f5d00cb7fc2d0592f8a7751a1d45bd777fb4416d",
+        "merged_tree": "f5d00cb7fc2d0592f8a7751a1d45bd777fb4416d",
+        "tree_equal": true,
+        "root_merge_command_executed": false
+      },
+      "pull_request": "https://github.com/edithatogo/voiage/pull/1050"
+    },
+    {
+      "source_file": "voiage-1060-merge-result.json",
+      "source_sha256": "8c54067b2213e3d073ca3e5b7a4b1c2318b9e03c40647b4ecc42226fdc4fe24b",
+      "receipt": {
+        "headRefOid": "07e183d5e2739adbfd6abc2fb189563af978d1e9",
+        "mergeCommit": {
+          "oid": "66f51d2140eeba084e659086da91ed35adba4afb"
+        },
+        "mergedAt": "2026-08-31T16:07:34Z",
+        "mergedBy": {
+          "id": "MDQ6VXNlcjE1MDgwNjcy",
+          "is_bot": false,
+          "login": "edithatogo",
+          "name": "Dylan A Mordaunt"
+        },
+        "state": "MERGED",
+        "reviewed_tree": "236b13efb89eeb0e97ff815e32bd639a2239b459",
+        "merged_tree": "236b13efb89eeb0e97ff815e32bd639a2239b459",
+        "recorded_at": "2026-08-31T16:07:58.123178+00:00"
+      },
+      "pull_request": "https://github.com/edithatogo/voiage/pull/1060"
+    },
+    {
+      "source_file": "voiage-1061-merge-result.json",
+      "source_sha256": "d105ad45b5c35b6552818c9b1be30ac9efebe8ea7f34f442eed0982c59b0bc30",
+      "receipt": {
+        "headRefOid": "e280b593021227498d0a117ac7c8b299e203849d",
+        "mergeCommit": {
+          "oid": "15e514a53bec23b2a220ccfee7cf6c4d363a363e"
+        },
+        "mergedAt": "2026-08-31T16:17:43Z",
+        "mergedBy": {
+          "id": "MDQ6VXNlcjE1MDgwNjcy",
+          "is_bot": false,
+          "login": "edithatogo",
+          "name": "Dylan A Mordaunt"
+        },
+        "state": "MERGED",
+        "reviewed_tree": "6f5ed399d729f8b89eb4b97de98948f4a0abac2b",
+        "merged_tree": "6f5ed399d729f8b89eb4b97de98948f4a0abac2b",
+        "recorded_at": "2026-08-31T16:18:00.185035+00:00"
+      },
+      "pull_request": "https://github.com/edithatogo/voiage/pull/1061"
+    }
+  ],
+  "controls": [
+    {
+      "source_file": "voiage-issue656-final-drift-receipt.json",
+      "source_sha256": "f89849bcd6ba24647dd74a1e1836dbd32ddc3699e675536643fc649690c7a3f8",
+      "receipt": {
+        "recorded_at": "2026-08-31T15:18:22.637134+00:00",
+        "source_head": "1c66be00142a0434dc694073c55a2e2988de4b40",
+        "source_sha256": {
+          "AGENTS.md": "57fc81736c28c1087cd22c9586fe62356b29ba50617c9bd5d550eecfe7dde8dd",
+          "CONTRIBUTING.md": "ae7206450150d2d004f50bada6b16362c298ae1c7b52f3cf91442568998adcdc",
+          "SECURITY.md": "dbe94c4fa1e4309fbfe1a720d34ad6e7dd2e4e995b2005ac394bbb436a066b8b",
+          "tox.ini": "db7ca2395b64fbe25bb7e9cf4ba7c20ff4359b5835020df56667f380d0473db4",
+          "renovate.json": "de28ea66a6f2d0256a8952180460c7d07cf8a2d7a9c3e3494fd4b426a6903e1f",
+          ".github/workflows/ci.yml": "42546315810bcbacb05c7053269ae0e0f1af9b26b2f864379b9878cb006247f5",
+          "scripts/repo_harness.py": "f66c79ca5de4525db8baaf896d06c20e1f7eedc8531ceae62229d3ada3175f35",
+          "docs/astro-site/src/content/docs/developer-guide/quality-and-security.mdx": "c6a298fe8cfd1ac28cb1d6529a09621115f522589750b40f7379685d40c9c90b"
+        },
+        "harness": {
+          "finding_count": 0,
+          "findings": [],
+          "root": "/Volumes/PortableSSD/GitHub/voiage",
+          "status": "pass",
+          "workflow_count": 31
+        },
+        "ruleset_id": 18831614,
+        "ruleset_response_sha256": "ef642f6384c17392dd1326d925653fb2d8841fa41ee97482462a24d6fb809095",
+        "required_automated_checks": 19,
+        "required_approvals": 0,
+        "code_owner_approval_required": false,
+        "hosted_settings_mutated": false,
+        "renovate_delivery_pr": 1057,
+        "observed_coverage_commit": "0b90b8f1b8d46d20b2ec9a3016bc8310cd868eea",
+        "codecov_patch": "SUCCESS",
+        "recovery_bundle_sha256": "fa55cbb811ef0ce98d6cc12de000bf7f0e12a8cd8f58c359081afe8ac33e3f00",
+        "recovery_bundle_independently_restored": true,
+        "drift_findings": [],
+        "scope": "Repository quality/context and hosted dependency/coverage controls only; no badge, scientific or venue approval."
+      }
+    },
+    {
+      "source_file": "voiage-issue656-closed-receipt.json",
+      "source_sha256": "581dfeaa9b540c3c482a41d9436546ecd763d8a1bc816f8e839a9a2aa7dd49dc",
+      "receipt": {
+        "closedAt": "2026-08-31T15:18:27Z",
+        "state": "CLOSED",
+        "url": "https://github.com/edithatogo/voiage/issues/656"
+      }
+    }
+  ],
+  "issue_updates": [
+    {
+      "source_file": "posted-corrections-receipt.json",
+      "source_sha256": "2b669c6a094c894e879b5ed865975f30bf9d192e28eeea09bbe1db5ad77d6512",
+      "receipt": [
+        {
+          "issue": 876,
+          "at": "2026-08-31T15:31:17.949622+00:00",
+          "before_sha256": "69d2031a12ff7bb913ed6838c18fb847270f446142108348a4b456536777eb8a",
+          "after_sha256": "4a5b229eaacd45480f8145634c2c070d0a36a6045e93eb1a619ce3723efe148d",
+          "state": "OPEN",
+          "historical_body_preserved": true
+        },
+        {
+          "issue": 853,
+          "at": "2026-08-31T15:31:22.366325+00:00",
+          "before_sha256": "00446e87baf934f4f19ca54cf80a7851e2d256b5b162d005c87006b0f0fde9d0",
+          "after_sha256": "ecb0da13447cbf3c0ad78f4d2b281e44023168bb56b49051315b53fbe9bc6a13",
+          "state": "OPEN",
+          "historical_body_preserved": true
+        },
+        {
+          "issue": 850,
+          "at": "2026-08-31T15:31:25.850212+00:00",
+          "before_sha256": "60d0391ac0a11ed98ba496208be77ea5ee6a8e726daeb43ce1fdd7263d1ca326",
+          "after_sha256": "e4faf98dcf8f6e9f1ad8b8e9fb3cde384274069a01638678528b43707c22f17b",
+          "state": "OPEN",
+          "historical_body_preserved": true
+        }
+      ]
+    },
+    {
+      "source_file": "voiage-julia-issue-delivery-20260901.json",
+      "source_sha256": "52d37b5def9692afa52d1129a32ad0f14c69afef06f1722815fee2287026e59c",
+      "receipt": {
+        "recorded_at": "2026-08-31T16:19:28.126378+00:00",
+        "updates": [
+          {
+            "issue": 1023,
+            "updated_at": "2026-08-31T16:19:21Z",
+            "body_sha256": "86c657a3975af959d275833ed774741e8f52514573ba8b9a1c3748016240a415",
+            "state": "OPEN"
+          },
+          {
+            "issue": 555,
+            "updated_at": "2026-08-31T16:19:26Z",
+            "body_sha256": "c8e2349ff9d9b264104271cae6f730ea9a14143052326ca411e5ff1259d03600",
+            "state": "OPEN"
+          }
+        ]
+      }
+    },
+    {
+      "source_file": "voiage-issue1025-current-progress-receipt.json",
+      "source_sha256": "28ff0c8db49909b7b6b753748d980b62012e7113477b2b056a87c7dfcfbff18f",
+      "receipt": {
+        "updated_at": "2026-08-31T16:20:12Z",
+        "body_sha256": "2dad0c10f02c109bf799a239fa0e05f9d637a164f7ee0f287074a8f5f9d3d362",
+        "state": "OPEN"
+      }
+    },
+    {
+      "source_file": "voiage-issue620-scorecard-refresh-receipt.json",
+      "source_sha256": "e7553815874ec2250b13fea143f7415b0c71ff9c7f0a4ad7d44475c9dfaff6a2",
+      "receipt": {
+        "observed_at": "2026-08-31T16:25:31.244931+00:00",
+        "public_snapshot_sha256": "3eeda24a02b39df6683ec989f25e7d1026b574c3992a1158cd1b7990109dc7f8",
+        "issue_updated_at": "2026-08-31T16:25:30Z",
+        "body_sha256": "4d728b3e3f0dddf39b08718a613b2f09fcc8002d25ae250a593da8a6103a3568",
+        "state": "OPEN"
+      }
+    },
+    {
+      "source_file": "voiage-issue853-assurance-merge-update.json",
+      "source_sha256": "ea0376d5a8097f22c88e1f0b8990d12869f2493cc5b979bec59c1480bad60a1b",
+      "receipt": {
+        "recorded_at": "2026-08-31T17:14:41.222086+00:00",
+        "state": "OPEN",
+        "updatedAt": "2026-08-31T17:14:39Z",
+        "body_sha256": "0c198be91043bbcdc3705a14ca126d60412ef3f2d9d4b8c74e5469b223dc53a8"
+      }
+    }
+  ],
+  "retired_cleanup": [
+    {
+      "source_file": "bundle-verification.json",
+      "source_sha256": "10db0cd74c8bc4007177aaab4165744a6d374ba0507cc3a946a697c84ffe6e13",
+      "receipt": {
+        "recorded_at": "2026-08-31T15:11:28.688133+00:00",
+        "bundle_sha256": "fa55cbb811ef0ce98d6cc12de000bf7f0e12a8cd8f58c359081afe8ac33e3f00",
+        "bundle_bytes": 12264347,
+        "restored_refs": 151,
+        "pseudo_heads_object_verified": 7,
+        "full_fsck_passed": true,
+        "all_stash_heads_restored": true,
+        "mutable_checkout_files_included": false,
+        "initial_check_correction": "Worktree pseudo-HEADs are bundle heads but not refs advertised by mirror clone; their objects were independently verified."
+      }
+    },
+    {
+      "source_file": "retired-branch-prune-final.json",
+      "source_sha256": "d29543d5b7e01ef507508d12c3b8a803926824408f1165450e6a2af91c1b3eb6",
+      "receipt": {
+        "at": "2026-08-31T15:28:16.227634+00:00",
+        "deleted_local_branches": [
+          {
+            "pr": 1057,
+            "worktree": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-dependency-controls-20260831",
+            "branch": "codex/goal-dependency-controls-20260831",
+            "head": "5b7a9e8a11c3e5b8db7e620667418330ceabad07",
+            "hosted": {
+              "headRefOid": "5b7a9e8a11c3e5b8db7e620667418330ceabad07",
+              "mergeCommit": {
+                "oid": "515529e3e7ce4d74f0c5d6d5fd5ebbeb91ee861f"
+              },
+              "mergedAt": "2026-08-31T14:24:12Z",
+              "state": "MERGED"
+            }
+          },
+          {
+            "pr": 1058,
+            "worktree": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-hpc-packaging-20260831",
+            "branch": "codex/goal-hpc-packaging-20260831",
+            "head": "a0350b84eca34803621aa2e7b3ae3e107daa25ea",
+            "hosted": {
+              "headRefOid": "a0350b84eca34803621aa2e7b3ae3e107daa25ea",
+              "mergeCommit": {
+                "oid": "c1c3e31b377cb1eb3399558a5f58cd555b6edd7c"
+              },
+              "mergedAt": "2026-08-31T13:55:29Z",
+              "state": "MERGED"
+            }
+          },
+          {
+            "pr": 1056,
+            "worktree": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-actions-1056-20260831",
+            "branch": "codex/repair-actions-1056-20260831",
+            "head": "3ff897c8b51153b4a490eefd0260a1adda1ba3b4",
+            "hosted": {
+              "headRefOid": "698f0cdc8af029c5be660c6ae18a587ba4c9976c",
+              "mergeCommit": null,
+              "mergedAt": null,
+              "state": "CLOSED"
+            }
+          }
+        ],
+        "unmerged_actions_preserved_ref": "refs/codex/recovery/20260901-retired-actions-proposal",
+        "unmerged_actions_head": "3ff897c8b51153b4a490eefd0260a1adda1ba3b4",
+        "atomic_expected_sha_transaction": true,
+        "no_merge_claim_for_actions": true
+      }
+    },
+    {
+      "source_file": "submodule-aware-removal-result.json",
+      "source_sha256": "00e8383fdc6843621389b2abc0491c96b9d9fa2a899dde9ef8797397367904c0",
+      "receipt": [
+        {
+          "path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-dependency-controls-20260831",
+          "head": "5b7a9e8a11c3e5b8db7e620667418330ceabad07",
+          "returncode": 0,
+          "stderr": "",
+          "absent": true,
+          "at": "2026-08-31T15:23:48.888665+00:00",
+          "method": "documented single-force removal of clean initialized-submodule worktree after verified nested Git-store recovery"
+        },
+        {
+          "path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-hpc-packaging-20260831",
+          "head": "a0350b84eca34803621aa2e7b3ae3e107daa25ea",
+          "returncode": 0,
+          "stderr": "",
+          "absent": true,
+          "at": "2026-08-31T15:25:20.458209+00:00",
+          "method": "documented single-force removal of clean initialized-submodule worktree after verified nested Git-store recovery"
+        },
+        {
+          "path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-actions-1056-20260831",
+          "head": "3ff897c8b51153b4a490eefd0260a1adda1ba3b4",
+          "returncode": 0,
+          "stderr": "",
+          "absent": true,
+          "at": "2026-08-31T15:26:48.793220+00:00",
+          "method": "documented single-force removal of clean initialized-submodule worktree after verified nested Git-store recovery"
+        }
+      ]
+    }
+  ],
+  "julia_registration_staging": {
+    "issue": 1023,
+    "item": 4,
+    "assessment": "repository_staging_contract_prepared",
+    "registration_performed": false,
+    "conditions_remaining": [
+      "Build and publish the matching generated JLL with authoritative UUID.",
+      "Wire the JLL and pass clean-depot supported-platform installation and Aqua/numerical checks without the development override.",
+      "Retain maintainer review before the external Registrator command."
+    ],
+    "contract_paths": [
+      "bindings/julia/Project.toml",
+      "bindings/julia/README.md",
+      ".github/workflows/julia-tagbot.yml",
+      "tests/test_julia_binarybuilder_readiness.py",
+      "tests/test_julia_release_workflow.py"
+    ],
+    "pinned_tagbot_documentation": {
+      "url": "https://github.com/JuliaRegistries/TagBot/blob/6b7c22e7bc2b8f4d1c56b7199a63421cf2667ed1/README.md#subpackage-configuration",
+      "content_sha256": "b9ef85f5226be0ea324bb86e09484ea68bbe98f304acd27a8f8041bf94e04032",
+      "supports": "Subdirectory registration and tag_prefix julia generating julia-vVERSION; no actual registration or secret configuration claimed."
+    }
+  },
+  "goal_complete": false,
+  "external_acceptance_inferred": false,
+  "public_scorecard_observation": {
+    "source_url": "https://api.scorecard.dev/projects/github.com/edithatogo/voiage",
+    "source_sha256": "3eeda24a02b39df6683ec989f25e7d1026b574c3992a1158cd1b7990109dc7f8",
+    "date": "2026-08-24T05:02:19Z",
+    "repo": {
+      "name": "github.com/edithatogo/voiage",
+      "commit": "ab91035774a93fe8a7205f742bae7650af8088d8"
+    },
+    "score": 8,
+    "current_main_scan_claimed": false
+  },
+  "later_delivery_observations": {
+    "recorded_at": "2026-08-31T16:36:41.130080+00:00",
+    "separate_from_base_snapshot": true,
+    "receipts": [
+      {
+        "source_file": "voiage-1059-merge-result.json",
+        "source_sha256": "28938d5e6359d1e796de1c645f809e172ebd939e29874b9c0aa2e069080b9b7e",
+        "receipt": {
+          "headRefOid": "d5daa1d2a4b2f7b9e073eb92f6f98f87bdbf606f",
+          "mergeCommit": {
+            "oid": "790727317e6f154f54fdb1d037d7143752dc7d0b"
+          },
+          "mergedAt": "2026-08-31T16:32:04Z",
+          "mergedBy": {
+            "id": "MDQ6VXNlcjE1MDgwNjcy",
+            "is_bot": false,
+            "login": "edithatogo",
+            "name": "Dylan A Mordaunt"
+          },
+          "state": "MERGED",
+          "reviewed_tree": "2209d0af48f06e37252473e1a33be8c8f541ca4a",
+          "merged_tree": "2209d0af48f06e37252473e1a33be8c8f541ca4a",
+          "recorded_at": "2026-08-31T16:32:23.990895+00:00"
+        }
+      },
+      {
+        "source_file": "voiage-issue1028-closed-receipt.json",
+        "source_sha256": "9dd3ac2688b66e9db1b8722c2fe02736a3a0317b9ba627c1cf039b61c999de3d",
+        "receipt": {
+          "closed_at": "2026-08-31T16:34:39Z",
+          "state": "CLOSED",
+          "merge": "790727317e6f154f54fdb1d037d7143752dc7d0b",
+          "body_sha256": "88463f76b4c6e5bdde78474c39c251ea48fb8fe1683947bd7f48dd1d85df6fe9"
+        }
+      },
+      {
+        "source_file": "voiage-1064-merge-result.json",
+        "source_sha256": "7ef74f7d16acf568bf136241947c2c8baf166b11013c25bcc867b812aee9ec19",
+        "receipt": {
+          "headRefOid": "60a6504f34e867756e9f18496a4b8732525cf1f2",
+          "mergeCommit": {
+            "oid": "25fc585c0bf9fea69d9bcc4220a2d667975ef3eb"
+          },
+          "mergedAt": "2026-08-31T16:42:44Z",
+          "mergedBy": {
+            "id": "MDQ6VXNlcjE1MDgwNjcy",
+            "is_bot": false,
+            "login": "edithatogo",
+            "name": "Dylan A Mordaunt"
+          },
+          "state": "MERGED",
+          "reviewed_tree": "0583433e5b13746eb187f20aa32885ba0c010597",
+          "merged_tree": "0583433e5b13746eb187f20aa32885ba0c010597",
+          "recorded_at": "2026-08-31T16:43:04.049332+00:00"
+        }
+      },
+      {
+        "source_file": "voiage-1063-merge-result.json",
+        "source_sha256": "6c3632727b210bfcaba9a0bf648e27a378b704724127dade530466544fab24f3",
+        "receipt": {
+          "headRefOid": "09c48cfdbc1ca9d6883f0627186ade6e8c739d19",
+          "mergeCommit": {
+            "oid": "b3f53c2b1ad797a947e066dd9ea48540e4e19455"
+          },
+          "mergedAt": "2026-08-31T17:13:03Z",
+          "state": "MERGED",
+          "reviewed_tree": "4681156c9d9bd49d29bc21af5438dd5420a856cb",
+          "merged_tree": "4681156c9d9bd49d29bc21af5438dd5420a856cb",
+          "trees_equal": true
+        }
+      }
+    ],
+    "hosted_main_workflows": {
+      "source_sha256": "49dbd0734447477d90f19441b4a8623aaf09bce1bbbfea0ea04ac7f97c647cd3",
+      "filter_head": "25fc585c0bf9fea69d9bcc4220a2d667975ef3eb",
+      "observations": [
+        {
+          "conclusion": "success",
+          "databaseId": 33415615248,
+          "headSha": "25fc585c0bf9fea69d9bcc4220a2d667975ef3eb",
+          "name": "GitHub Actions Audit",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "databaseId": 33415615233,
+          "headSha": "25fc585c0bf9fea69d9bcc4220a2d667975ef3eb",
+          "name": "Polyglot Assurance Frontier",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "databaseId": 33415615230,
+          "headSha": "25fc585c0bf9fea69d9bcc4220a2d667975ef3eb",
+          "name": "OpenSSF Scorecard",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "databaseId": 33415615223,
+          "headSha": "25fc585c0bf9fea69d9bcc4220a2d667975ef3eb",
+          "name": "Dependency Assurance",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "databaseId": 33415615226,
+          "headSha": "25fc585c0bf9fea69d9bcc4220a2d667975ef3eb",
+          "name": "Benchmark Tracking",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "databaseId": 33415615249,
+          "headSha": "25fc585c0bf9fea69d9bcc4220a2d667975ef3eb",
+          "name": "Deploy Documentation",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "databaseId": 33415615281,
+          "headSha": "25fc585c0bf9fea69d9bcc4220a2d667975ef3eb",
+          "name": "CodeQL Security Analysis",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "databaseId": 33415615192,
+          "headSha": "25fc585c0bf9fea69d9bcc4220a2d667975ef3eb",
+          "name": "C15 Cross-platform Assurance",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "databaseId": 33415615212,
+          "headSha": "25fc585c0bf9fea69d9bcc4220a2d667975ef3eb",
+          "name": "Gitleaks Secret Scanning",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "databaseId": 33415615211,
+          "headSha": "25fc585c0bf9fea69d9bcc4220a2d667975ef3eb",
+          "name": "CI",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "databaseId": 33415615291,
+          "headSha": "25fc585c0bf9fea69d9bcc4220a2d667975ef3eb",
+          "name": "Operational Assurance",
+          "status": "completed"
+        }
+      ]
+    },
+    "hosted_scorecard": {
+      "run_url": "https://github.com/edithatogo/voiage/actions/runs/33415615230",
+      "raw_sha256": "02c94235d4475b792523cbce2928fc4bad37e028100ae999c5d22d9f5ef290e5",
+      "date": "2026-08-31T16:43:01Z",
+      "repo": {
+        "name": "github.com/edithatogo/voiage",
+        "commit": "25fc585c0bf9fea69d9bcc4220a2d667975ef3eb"
+      },
+      "score": 8.2,
+      "signed_releases": {
+        "details": [
+          "Warn: release artifact v2.0.0 not signed: https://api.github.com/repos/edithatogo/voiage/releases/359900810",
+          "Warn: release artifact v1.0.0 not signed: https://api.github.com/repos/edithatogo/voiage/releases/357774271",
+          "Info: provenance for release artifact: voiage-2.2.0.intoto.jsonl: https://github.com/edithatogo/voiage/releases/tag/v2.2.0",
+          "Info: provenance for release artifact: voiage-2.1.0.intoto.jsonl: https://github.com/edithatogo/voiage/releases/tag/v2.1.0",
+          "Info: provenance for release artifact: voiage-2.0.1.intoto.jsonl: https://github.com/edithatogo/voiage/releases/tag/v2.0.1",
+          "Warn: release artifact v2.0.0 does not have provenance: https://api.github.com/repos/edithatogo/voiage/releases/359900810",
+          "Warn: release artifact v1.0.0 does not have provenance: https://api.github.com/repos/edithatogo/voiage/releases/357774271"
+        ],
+        "score": 6,
+        "reason": "3 out of the last 5 releases have a total of 3 signed artifacts.",
+        "name": "Signed-Releases",
+        "documentation": {
+          "url": "https://github.com/ossf/scorecard/blob/c395761df6afe1a69e476bc60a013a94bcbc153f/docs/checks.md#signed-releases",
+          "short": "Determines if the project cryptographically signs release artifacts."
+        }
+      },
+      "public_api_snapshot_overwritten": false
+    },
+    "second_cleanup_wave": {
+      "receipts": [
+        {
+          "source_file": "reviewed-removal-result.json",
+          "source_sha256": "1214cf6c804092566affae2524eadeba3412b1bcd3e4ec3662581847cf325d4c",
+          "receipt": {
+            "started_at": "2026-08-31T17:10:44.590922+00:00",
+            "actions": [
+              {
+                "pr": 1060,
+                "head": "07e183d5e2739adbfd6abc2fb189563af978d1e9",
+                "worktree": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-hpc-catalog-overlay-20260831",
+                "hosted": {
+                  "headRefOid": "07e183d5e2739adbfd6abc2fb189563af978d1e9",
+                  "mergeCommit": {
+                    "oid": "66f51d2140eeba084e659086da91ed35adba4afb"
+                  },
+                  "mergedAt": "2026-08-31T16:07:34Z",
+                  "state": "MERGED"
+                },
+                "status": "removed"
+              },
+              {
+                "pr": 1061,
+                "head": "e280b593021227498d0a117ac7c8b299e203849d",
+                "worktree": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-julia-yggdrasil-20260831",
+                "hosted": {
+                  "headRefOid": "e280b593021227498d0a117ac7c8b299e203849d",
+                  "mergeCommit": {
+                    "oid": "15e514a53bec23b2a220ccfee7cf6c4d363a363e"
+                  },
+                  "mergedAt": "2026-08-31T16:17:43Z",
+                  "state": "MERGED"
+                },
+                "status": "removed"
+              },
+              {
+                "pr": 1059,
+                "head": "d5daa1d2a4b2f7b9e073eb92f6f98f87bdbf606f",
+                "worktree": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831",
+                "hosted": {
+                  "headRefOid": "d5daa1d2a4b2f7b9e073eb92f6f98f87bdbf606f",
+                  "mergeCommit": {
+                    "oid": "790727317e6f154f54fdb1d037d7143752dc7d0b"
+                  },
+                  "mergedAt": "2026-08-31T16:32:04Z",
+                  "state": "MERGED"
+                },
+                "status": "removed"
+              }
+            ],
+            "status": "complete",
+            "retired_local_branches": [
+              "refs/heads/codex/goal-hpc-catalog-overlay-20260831",
+              "refs/heads/codex/goal-julia-yggdrasil-20260831",
+              "refs/heads/codex/goal-test-acceleration-20260831"
+            ],
+            "finished_at": "2026-08-31T17:14:44.993117+00:00"
+          }
+        },
+        {
+          "source_file": "removal-process-and-archive-review.json",
+          "source_sha256": "72a6aae350acee3d1a1a018cf184fca95fd30ee4491463e637741e1fce047de7",
+          "receipt": {
+            "recorded_at": "2026-08-31T17:10:00.281978+00:00",
+            "process_checks": [
+              {
+                "worktree": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-hpc-catalog-overlay-20260831",
+                "pids": [],
+                "returncode": 1,
+                "stderr": ""
+              },
+              {
+                "worktree": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-julia-yggdrasil-20260831",
+                "pids": [],
+                "returncode": 1,
+                "stderr": ""
+              },
+              {
+                "worktree": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831",
+                "pids": [],
+                "returncode": 1,
+                "stderr": ""
+              }
+            ],
+            "archive_digests_reverified": true,
+            "removed": false
+          }
+        },
+        {
+          "source_file": "recovery-branch-names-retired.json",
+          "source_sha256": "aedb449cf90d82faa19bd4e0ce581224e8d0af6f29f6a793e18e727d2affb9d5",
+          "receipt": {
+            "recorded_at": "2026-08-31T17:01:28.360508+00:00",
+            "actions": [
+              {
+                "branch": "refs/heads/codex/recovery-1060-pre-integration-20260901",
+                "head": "698739117b280416958cb5c1e1f8b2d624b3c182",
+                "preserved_ref": "refs/codex/recovery/20260901-retired-branch-names/recovery-1060-pre-integration-20260901"
+              },
+              {
+                "branch": "refs/heads/codex/recovery-assurance-before-1060-integration-20260901",
+                "head": "f133e31b61d8df0542a4e4c4987338b8929582f8",
+                "preserved_ref": "refs/codex/recovery/20260901-retired-branch-names/recovery-assurance-before-1060-integration-20260901"
+              },
+              {
+                "branch": "refs/heads/codex/recovery-assurance-before-main-rebase-20260901",
+                "head": "da83693c9af1d14079670563a10ba4e5de758b98",
+                "preserved_ref": "refs/codex/recovery/20260901-retired-branch-names/recovery-assurance-before-main-rebase-20260901"
+              }
+            ],
+            "independent_bundle_restore_verified": true,
+            "objects_deleted": false
+          }
+        },
+        {
+          "source_file": "bundle-verification.json",
+          "source_sha256": "6d59be602bf2eb2fcedfeea9ebe5c6c1e2e41a6ad2ef44210daa19ae12de3a0a",
+          "receipt": {
+            "recorded_at": "2026-08-31T16:42:06.778447+00:00",
+            "bundle_sha256": "c2fd7585447ef05e0aaba6d311cd45f59f0e14508e1e4d861e3f023030f3b349",
+            "bundle_bytes": 12520112,
+            "independent_mirror_restore": true,
+            "full_fsck_passed": true,
+            "target_heads_present": true,
+            "scope": "snapshot refs and three retired target commits; active uncommitted work is not claimed backed up"
+          }
+        },
+        {
+          "source_file": "voiage-wave2-remote-head-observation.json",
+          "source_sha256": "aa2ad831ee8031568f90cd804eeee804c88bc209fcd65deecdf15af5eeef1d97",
+          "receipt": {
+            "observed_at": "2026-08-31T17:11:46.186534+00:00",
+            "rows": [
+              {
+                "pr": 1060,
+                "branch": "refs/heads/codex/goal-hpc-catalog-overlay-20260831",
+                "expected_old_head": "07e183d5e2739adbfd6abc2fb189563af978d1e9",
+                "observed": null,
+                "absent_or_expected": true
+              },
+              {
+                "pr": 1061,
+                "branch": "refs/heads/codex/goal-julia-yggdrasil-20260831",
+                "expected_old_head": "e280b593021227498d0a117ac7c8b299e203849d",
+                "observed": null,
+                "absent_or_expected": true
+              },
+              {
+                "pr": 1059,
+                "branch": "refs/heads/codex/goal-test-acceleration-20260831",
+                "expected_old_head": "d5daa1d2a4b2f7b9e073eb92f6f98f87bdbf606f",
+                "observed": null,
+                "absent_or_expected": true
+              }
+            ],
+            "raw": "",
+            "mutation": false
+          }
+        }
+      ],
+      "local_absence_and_preserved_refs_rechecked": true,
+      "all_cleanup_complete": false
+    }
+  },
+  "local_validation": {
+    "full_matrix_initial": {
+      "command": "tox -p 2",
+      "log_sha256": "df0f7d14a13c9eb84b5540284c7bbb6b66658bcf4f9a63df32552cb051b7d513",
+      "exit_code": 1,
+      "duration_seconds": 1392.93,
+      "passed_environments": 14,
+      "failed_environment": "coverage_report",
+      "tests_passed": 4666,
+      "tests_skipped": 16,
+      "tests_failed": 1,
+      "coverage_percent": 95.16,
+      "failure": "test_conductor_registry_normalization.py::test_normalized_repository_is_idempotent_and_complete",
+      "repair": "Existing normalizer changed only owned metadata timestamp precision and Unicode serialization; no checks weakened."
+    },
+    "full_coverage_rerun": {
+      "command": "tox -e coverage_report",
+      "log_sha256": "9f354232c957bb0792778292a29cd6292dbf0339905ac1ff10a05f3829658076",
+      "exit_code": 0,
+      "tox_duration_seconds": 390.8,
+      "pytest_duration_seconds": 359.32,
+      "tests_passed": 4667,
+      "tests_skipped": 16,
+      "coverage_percent": 95.16
+    },
+    "required_matrix_result": "All15required environments passed across retained initial14 and repaired fullcoverage; original failure preserved.",
+    "focused_tests": {
+      "normalization_and_julia": 10,
+      "status": "passed"
+    },
+    "independent_git_verification": {
+      "source_sha256": "e2b96f7e5d2b6205dbc921bd6882c5dad5c735166ab2683c4a7ec08d67db4ac1",
+      "receipt": {
+        "observed_at": "2026-08-31T16:33:55.600958+00:00",
+        "merge_trees": [
+          {
+            "pr": "https://github.com/edithatogo/voiage/pull/1041",
+            "reviewed_tree": "afa45ac1f5a499eaac988d362196968c7012975a",
+            "merged_tree": "afa45ac1f5a499eaac988d362196968c7012975a"
+          },
+          {
+            "pr": "https://github.com/edithatogo/voiage/pull/1049",
+            "reviewed_tree": "0f02e430e36365b56fc255215cdf44757518b53b",
+            "merged_tree": "0f02e430e36365b56fc255215cdf44757518b53b"
+          },
+          {
+            "pr": "https://github.com/edithatogo/voiage/pull/1050",
+            "reviewed_tree": "f5d00cb7fc2d0592f8a7751a1d45bd777fb4416d",
+            "merged_tree": "f5d00cb7fc2d0592f8a7751a1d45bd777fb4416d"
+          },
+          {
+            "pr": "https://github.com/edithatogo/voiage/pull/1060",
+            "reviewed_tree": "236b13efb89eeb0e97ff815e32bd639a2239b459",
+            "merged_tree": "236b13efb89eeb0e97ff815e32bd639a2239b459"
+          },
+          {
+            "pr": "https://github.com/edithatogo/voiage/pull/1061",
+            "reviewed_tree": "6f5ed399d729f8b89eb4b97de98948f4a0abac2b",
+            "merged_tree": "6f5ed399d729f8b89eb4b97de98948f4a0abac2b"
+          }
+        ],
+        "retired_paths": [
+          {
+            "path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-dependency-controls-20260831",
+            "absent": true
+          },
+          {
+            "path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-hpc-packaging-20260831",
+            "absent": true
+          },
+          {
+            "path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-actions-1056-20260831",
+            "absent": true
+          }
+        ],
+        "unique_actions_recovery_ref": {
+          "ref": "refs/codex/recovery/20260901-retired-actions-proposal",
+          "head": "3ff897c8b51153b4a490eefd0260a1adda1ba3b4"
+        }
+      }
+    }
+  }
+}

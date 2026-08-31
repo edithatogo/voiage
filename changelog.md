@@ -18,6 +18,10 @@
   reports or authority claims while preserving historical evidence and pending
   independent review.
 
+- Clarify Julia registration staging and distinguish the historical v2.1.0
+  BinaryBuilder results from the unbuilt v2.2.0 candidate. Record delivered
+  backlog repairs and preserved cleanup evidence without closing unmet work.
+
 - Verified the complete R distribution check, including PDF and HTML manuals;
   retained its two NOTEs and the separate submission gate.
 
