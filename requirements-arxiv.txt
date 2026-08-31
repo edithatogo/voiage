@@ -14,4 +14,4 @@ pyphen==0.17.2
 click==8.4.2
 defusedxml==0.7.1
 joblib==1.5.3
-tqdm==4.69.0
+tqdm==4.69.1
