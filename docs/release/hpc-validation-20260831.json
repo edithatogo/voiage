@@ -1,0 +1,81 @@
+{
+  "schema": "voiage.hpc-validation-summary.v1",
+  "recorded_at": "2026-08-31T13:11:43.642991+00:00",
+  "base_commit": "27488e817238d6fe63016f2f5a5b15f91b1acda7",
+  "evidence_scope": "Local macOS source-wheel validation; not a Linux foss or cluster build.",
+  "recipe_sha256": {
+    "packaging/spack/package.py": "8f7e7f3b05d857943f9191dada49d91cdafa244aaa3d6d559088e0100489abf7",
+    "packaging/easybuild/voiage-2.2.0-foss-2023a.eb": "4213856f5ae4f4a312c0fe78b2b393c538c3e0faaa57b1da81813b3413559b0d",
+    "packaging/easybuild/voiage-2.2.0-foss-2024a.eb": "40b52200bf118709eac71f9228921e2a2d429f869566e477073a92631fbda2fd"
+  },
+  "source_wheel": {
+    "recorded_at": "2026-08-31T12:34:25.849856+00:00",
+    "status": "passed",
+    "host": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "source_url": "https://files.pythonhosted.org/packages/ac/85/697bbefd2f9e78b28fba8a8b981217e8dafe7f0b28ec6ee233960cca9896/voiage-2.2.0.tar.gz",
+    "source_sha256": "e4edfd41011891a94cbc2b144ff1d20340fcc32481e7a2b24157494b7490a16b",
+    "wheel_sha256": "ad55e7cb89b3f15e72981c0afcafebc8e5a617b4c5b75ccc8ae2a8054d4f032a",
+    "installed_runtime_versions": {
+      "click": "8.5.0",
+      "numpy": "2.2.6",
+      "scipy": "1.16.3",
+      "pandas": "2.3.3",
+      "xarray": "2024.11.0",
+      "scikit-learn": "1.7.2",
+      "pyarrow": "25.0.0",
+      "polars": "1.42.1",
+      "pydantic": "2.13.4",
+      "jsonschema": "4.26.0",
+      "typing-extensions": "4.16.0",
+      "typer": "0.27.2"
+    },
+    "probe": {
+      "version": "2.2.0",
+      "engine": "rust",
+      "source_revision": "7af563c8cb373057d30662650b3f332f39e05b83",
+      "source_tree_git_oid": "2d78e8a1f4825ce3944bfad7e83f8b6b00e63139",
+      "evpi": 1.0,
+      "arrow_round_trip": true
+    },
+    "steps_exit_codes": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "recipe_syntax": "passed",
+  "easybuild_parser": {
+    "version": "4.9.4",
+    "foss-2023a": "passed",
+    "foss-2024a": "passed"
+  },
+  "spack_concretization": {
+    "version": "1.2.2",
+    "status": "failed",
+    "reason": "required_dependency_versions_unavailable",
+    "unavailable": [
+      "py-typing-extensions@4.16:",
+      "py-pydantic@2.13.4:2",
+      "py-pyarrow@25",
+      "py-polars@1.42.1:1",
+      "py-click@8.5:8",
+      "py-typer@0.27.2:0"
+    ],
+    "log_sha256": "abb021ba88e73f3cc50ccf566c5e7438c475ce122870bc121bf1d5196b8da729",
+    "catalog_commit": "d4f7c711a6a42f1c4d551c8fd10fce9a11340a81",
+    "exit_code": 1
+  },
+  "easybuild_style": {
+    "status": "blocked_missing_lmod",
+    "robot_search_path": "empty",
+    "log_sha256": "8ec3cc5d5eb4bfc4229829b6d22ea67a6e5542d9c84ce14799d52f6bb2e6c3cc"
+  },
+  "actual_hpc_builds": "not_executed",
+  "module_load": "not_executed",
+  "upstream_submissions": "not_performed",
+  "issue_1025_complete": false
+}
