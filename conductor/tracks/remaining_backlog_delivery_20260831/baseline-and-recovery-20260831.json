@@ -89,6 +89,17 @@
       "unresolved_review_threads": 0,
       "tree_equal": true,
       "scope": "HPC recipe candidates and source-wheel evidence; full HPC graph/build and upstream acceptance remain pending."
+    },
+    {
+      "number": 1057,
+      "head": "5b7a9e8a11c3e5b8db7e620667418330ceabad07",
+      "merge_commit": "515529e3e7ce4d74f0c5d6d5fd5ebbeb91ee861f",
+      "merged_at": "2026-08-31T14:24:12Z",
+      "mechanism": "protected squash merge after exacthead45terminalchecks, valid signatures and resolved review; one transient Go checksum-network failure rerun without sourcechanges",
+      "terminal_checks": 45,
+      "signed_commits": 2,
+      "unresolved_review_threads": 0,
+      "tree_equal": true
     }
   ]
 }

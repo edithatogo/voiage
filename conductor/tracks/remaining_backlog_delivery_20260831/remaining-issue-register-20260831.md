@@ -12,7 +12,7 @@ authoritative. The dependency dashboard is ongoing operational tracking.
 | #1028 | Measured optional acceleration and complete validation | Validate serial testmon, bounded gremlins, coverage-core and HTTP experiments; keep full CI |
 | #1026 | Fiscal-host eligibility, badge certification, assigned identifiers and affiliation | Prepare locally; OSC ownership eligibility and paused NumFOCUS applications prevent immediate activation |
 | #1025 | Supported Spack/EasyBuild dependency graphs and actual build evidence | Repair recipes and source smoke; preserve unresolved catalogue backports and HPC execution |
-| #1024 | Strict zero-note CRAN check and review packet | Retain standalone R implementation and applicable standards; retain the fresh zero-error, zero-warning check with new-submission and time-check NOTEs; manual check remains outstanding |
+| #1024 | Strict zero-note CRAN check and review packet | Retain standalone R implementation and applicable standards; retain the fresh zero-error, zero-warning check with new-submission and time-check NOTEs; PDF and HTML manuals now pass; the zero-note criterion remains unmet |
 | #1023 | Julia package/JLL integration and registry outcome | Follow actual Yggdrasil delivery before claiming clean-depot registry installation |
 | #876 | Attributable scientific and domain/ethics review | Obtain qualified distinct human roles; agent preparation does not authorize disposition |
 | #853 | Candidate-bound accountable sampling-harm review | Retain pending findings, independence and source requirements |

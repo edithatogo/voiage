@@ -50,3 +50,13 @@ Repository evidence reviewed: `r-package/voiageR/README.md`, `paper.md`,
 `specs/submission-readiness/r-v2-2-archive-check-20260830.json` and the standards
 mapping. The deferred recommendations do not mark pending distinct-contribution
 requirements satisfied. No changes were made to canonical `paper/main.tex`.
+
+## Full R check follow-up, 1 September 2026
+
+The same checksum-bound archive passed a full `R CMD check --as-cran` with
+PDF and HTML manual checks enabled. It returned zero errors, zero warnings
+and the same two NOTEs: new submission and unavailable current-time
+verification. No check was suppressed and no source was edited. The manual
+verification gap is resolved; the strict zero-NOTE criterion remains unmet.
+See `conductor/tracks/remaining_backlog_delivery_20260831/r-manual-check-20260901.json`
+for the command, archive, log and manual hashes. No CRAN submission occurred.

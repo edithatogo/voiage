@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "observed_on": "2026-09-01",
+  "archive_source": "/tmp/voiage-v2-2-r-archive.WjPIXK/voiageR_2.2.0.tar.gz",
+  "command": [
+    "R",
+    "CMD",
+    "check",
+    "--as-cran",
+    "voiageR_2.2.0.tar.gz"
+  ],
+  "working_directory": "/tmp/voiage-v2-2-r-manual.y5QLEO",
+  "exit_code": 0,
+  "r_version": "4.3.0",
+  "platform": "aarch64-apple-darwin20",
+  "tex": "pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026/Homebrew)",
+  "manual_pdf_check": "OK",
+  "manual_html_check": "OK",
+  "package_errors": 0,
+  "package_warnings": 0,
+  "notes": [
+    "CRAN incoming feasibility: New submission",
+    "future file timestamps: unable to verify current time"
+  ],
+  "strict_zero_note_criterion_met": false,
+  "check_suppressions": [],
+  "source_edits": false,
+  "cran_submission": false,
+  "artifacts": {
+    "voiageR_2.2.0.tar.gz": {
+      "path": "/tmp/voiage-v2-2-r-manual.y5QLEO/voiageR_2.2.0.tar.gz",
+      "sha256": "af485e1cfba6dc9c1f149ce074640c8ef63bb3f42c649f71fccbe0e5d114c8e4",
+      "bytes": 31589
+    },
+    "command.log": {
+      "path": "/tmp/voiage-v2-2-r-manual.y5QLEO/command.log",
+      "sha256": "0df0bfbc5ad2fb723223418de7caa674a11d2b2c21faa3b347bba79a64f808fa",
+      "bytes": 3988
+    },
+    "voiageR.Rcheck/00check.log": {
+      "path": "/tmp/voiage-v2-2-r-manual.y5QLEO/voiageR.Rcheck/00check.log",
+      "sha256": "f038796a741abac6db8ed3780168f7f139eaa39073b6a9b30bc0326c8ed70069",
+      "bytes": 3891
+    },
+    "voiageR.Rcheck/Rdlatex.log": {
+      "path": "/tmp/voiage-v2-2-r-manual.y5QLEO/voiageR.Rcheck/Rdlatex.log",
+      "sha256": "c5d54add70a5ce8b7cc1ce69884ba113cdfd44d59c24e8f8a7e3a43185135673",
+      "bytes": 24841
+    },
+    "voiageR.Rcheck/voiageR-manual.pdf": {
+      "path": "/tmp/voiage-v2-2-r-manual.y5QLEO/voiageR.Rcheck/voiageR-manual.pdf",
+      "sha256": "9cc5ddd2bbc6d907a0102c100a88b62e5eb5589853285db65ac29906d69fbb3f",
+      "bytes": 109212
+    },
+    "voiageR.Rcheck/voiageR-manual.log": {
+      "path": "/tmp/voiage-v2-2-r-manual.y5QLEO/voiageR.Rcheck/voiageR-manual.log",
+      "sha256": "a9d961ca4f451a8c66d2f1858ce2fc4a8f82d2710f012bce85bb1e32a1f3327b",
+      "bytes": 21780
+    }
+  }
+}

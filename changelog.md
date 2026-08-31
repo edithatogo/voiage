@@ -8,6 +8,9 @@
 
 ## Unreleased
 
+- Verified the complete R distribution check, including PDF and HTML manuals;
+  retained its two NOTEs and the separate submission gate.
+
 - Record the authorized backlog delivery and independently verified branch
   recovery; preserve unfinished scientific, registry and venue requirements.
 - Correct sustainability eligibility and application-status claims, prepare

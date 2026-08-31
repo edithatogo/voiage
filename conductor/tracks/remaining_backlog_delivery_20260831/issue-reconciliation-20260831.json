@@ -91,6 +91,14 @@
       "after_sha256": "cd1626a9995c6ba044f4da69d1149cba674122144b5f55934e58d99cb78d757f",
       "state": "OPEN",
       "scope": "Recorded merged candidate delivery without checking unmet build/upstream criteria; corrected current Spack catalogue target."
+    },
+    {
+      "issue": 1024,
+      "recorded_at": "2026-08-31T14:33:23.806292+00:00",
+      "before_sha256": "ce9296b3115160790322d85c11ec05014d028e53314ab2be234fd186161ca102",
+      "after_sha256": "201ca43cab61e6b36c81e186a1e2337f071a18b86ab7aede59b35c0d939fce0c",
+      "state": "OPEN",
+      "scope": "Full R manual checks passed; strict zero-NOTE criterion and submission remain unmet."
     }
   ],
   "issue_closures": [],
