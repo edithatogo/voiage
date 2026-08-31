@@ -9,8 +9,9 @@ were not active Conductor implementation tasks.
 ## [~] Track: v2.2 Release and Venue Submissions
 *Link: [./tracks/v2_2_release_and_venue_submissions_20260830/index.md](./tracks/v2_2_release_and_venue_submissions_20260830/index.md)*
 *GitHub: [issue #1037](https://github.com/edithatogo/voiage/issues/1037).*
-*Status: authorized and planned — release publication and submission creation
-are in scope; maintainer-only declarations and venue outcomes remain fail-closed.*
+*Status: in progress — v2.2.0 is published and venue-packet PR #1051 is merged
+with terminal hosted checks. Phase 3 awaits maintainer declarations and
+pyOpenSci contact-capacity eligibility; venue submissions remain unperformed.*
 
 ---
 
@@ -20,8 +21,9 @@ are in scope; maintainer-only declarations and venue outcomes remain fail-closed
 consolidating the repository-owned scope of the superseded active queue.*
 *Status: repository programme complete — all accepted feature, integration,
 data, dependency, API/ABI, structure, CI/test-performance, polyglot, and venue
-readiness findings are resolved and validated. The hardened source is not yet
-released; pyOpenSci, rOpenSci, and JOSS submissions remain unperformed.*
+readiness findings are resolved and validated. The successor release track
+published the hardened source as v2.2.0 on 2026-08-30; pyOpenSci, rOpenSci,
+and JOSS submissions remain unperformed.*
 
 ---
 
@@ -1003,11 +1005,12 @@ execution until the precise external gate in their status line clears.
 
 ---
 
-## New v1.0 programme queue
+## Historical v1.0 programme queue
 
-This is the sole executable Conductor programme after the completed 2026-06-25
-queue. Its phases reconcile archived groundwork and preserve external registry
-and hardware gates without reopening completed repository-owned slices.
+This programme followed the completed 2026-06-25 queue and is now archived.
+Its phases reconciled archived groundwork while preserving external registry
+and hardware gates. Current execution belongs to the v2.2 release-and-venue
+track at the top of this registry; completed repository slices stay closed.
 
 ## [x] Track: Mature Hardened v1.0 Architecture And Release Programme [completed: 2026-07-22]
 *Link: [./archive/mature-hardened-v1-release-programme_20260719/index.md](./archive/mature-hardened-v1-release-programme_20260719/index.md)*

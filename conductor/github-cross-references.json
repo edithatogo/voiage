@@ -5574,15 +5574,20 @@
         {
           "number": 1051,
           "url": "https://github.com/edithatogo/voiage/pull/1051",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "local-tox:15-environments-passed",
             "local-tests:4600-passed-16-skipped",
-            "hosted-current-head-checks-and-artifact-review:pending"
+            "hosted-checks:40-success-3-skipped-1-neutral-0-failed",
+            "review-threads:2-resolved-0-unresolved",
+            "merge:0330fa55f303de9593ada85e998532765b8008d0",
+            "exact-tree:d029b5d9565e18f68d2abed71b6bd1a161f241e9",
+            "post-merge-workflows:13-success-1-skipped",
+            "conductor/tracks/v2_2_release_and_venue_submissions_20260830/venue-packet-merge-receipt-20260831.json"
           ]
         }
       ],
-      "pull_request_evidence": "PR #1038, #1046 and #1047 merged with exact tree equality after local and hosted gates. Signed v2.2.0 targets #1046 and is publicly verified; #1047 reconciles public metadata and receipt validation. Venue outcomes remain separate."
+      "pull_request_evidence": "PR #1038, #1046, #1047 and #1051 merged with exact tree equality after local and hosted gates. Signed v2.2.0 targets #1046 and is publicly verified; #1047 reconciles publication and #1051 completes repository venue-packet repairs. R14 human declarations and venue outcomes remain separate."
     }
   ]
 }

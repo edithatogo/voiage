@@ -1,7 +1,7 @@
 {
   "schema_version": "voiage.pyopensci-submission-staging.v1",
   "prepared_at": "2026-08-29T00:22:00Z",
-  "updated_at": "2026-08-30T10:58:20Z",
+  "updated_at": "2026-08-31T05:26:05Z",
   "state": "prepared_local_unposted",
   "draft": {
     "path": "docs/release/pyopensci-submission-draft.md",
@@ -53,13 +53,17 @@
     "joss_acceptance": "pending_external"
   },
   "remaining_gates": [
-    "finish all repository-owned packet repairs and current PDF assurance before posting",
     "maintainer personally completes current review and form attestations plus the pre-review survey",
     "resolve contact-capacity eligibility for existing pyOpenSci submissions #271 and #272",
     "maintainer supplies or reviews human-written submission communication",
     "pyOpenSci performs scope screening, review and acceptance",
-    "issue #471 obtains genuine non-author evidence and the author-selected arXiv sequence completes",
+    "before JOSS submission, issue #471 obtains genuine non-author evidence and the author-selected arXiv sequence completes; these remain project prerequisites, not additional pyOpenSci submission requirements",
     "a DOI-bearing reviewed-version archive is created before the JOSS acceptance stage",
     "JOSS partner eligibility and final current author declarations are evidenced; route authorization is already recorded"
-  ]
+  ],
+  "repository_readiness": {
+    "status": "repairs_merged",
+    "evidence": "conductor/tracks/v2_2_release_and_venue_submissions_20260830/venue-packet-merge-receipt-20260831.json",
+    "boundary": "Repository readiness does not satisfy current personal declarations, contact-capacity eligibility, or external submission and venue outcomes."
+  }
 }

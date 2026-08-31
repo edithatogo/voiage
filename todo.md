@@ -17,9 +17,22 @@ This document lists the actionable tasks for `voiage` development. Agents should
         retain the historical human-use record without adding an attestation.
     *   [x] Complete current venue-packet and manuscript repairs, verify the
         installed replay against public wheel bytes, retain the exact CSV,
-        and review hosted PDF/HTML artifacts (PR #1051; merge gated by CI).
+        and review hosted PDF/HTML artifacts (PR #1051 merged as `0330fa55`;
+        13 post-merge workflows passed and Julia Registry Sync was skipped).
+    *   [~] Reconcile post-merge evidence and remaining venue prerequisites
+        under R13f, preserving archived history and personal declarations.
     *   [ ] Proceed pyOpenSci first, then the eligible JOSS partner route and
         rOpenSci; personal declarations and external outcomes remain explicit.
+
+## Historical backlog and retained gate snapshots
+
+The records below preserve task descriptions, checkboxes and status at their
+source revisions; they are not the current executable queue. The 21 migrated
+tracks are reconciled by the completed hardening programme's
+[migration manifest](conductor/archive/pre_submission_comprehensive_hardening_20260829/migration-manifest.md).
+Current execution belongs to the v2.2 track above. Historical external and
+scientific gates retain their evidence requirements; migration and release
+publication do not automatically satisfy them.
 
 *   [x] Complete the canonical pre-submission comprehensive-hardening programme
     in `conductor/archive/pre_submission_comprehensive_hardening_20260829/`
@@ -590,7 +603,10 @@ destination registry and publication decisions remain separate external gates.
     released v1.0 architecture, bindings, quality evidence, registries, paper
     status, and remaining external boundaries.
 
-## In Progress
+## Historical release and registry records
+
+The current venue route is pyOpenSci first, then eligible JOSS partner review,
+as recorded in the active task above; earlier route decisions below are historical.
 
 *   [x] Complete repository-owned research-software registry and archival
     readiness after the

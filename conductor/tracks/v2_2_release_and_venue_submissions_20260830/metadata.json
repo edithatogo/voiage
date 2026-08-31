@@ -3,7 +3,7 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-08-30T02:37:17Z",
-  "updated_at": "2026-08-30T11:46:17Z",
+  "updated_at": "2026-08-31T05:26:05Z",
   "description": "Publish the repository-hardened v2.2.0 release, then pursue pyOpenSci first, JOSS partner fast-track, and rOpenSci with fail-closed external evidence.",
   "evidence_schema": "1.0",
   "authorization": {
@@ -32,13 +32,13 @@
       "id": "pyopensci-submission",
       "kind": "external",
       "status": "pending",
-      "evidence": "authorized; maintainer-only declarations remain pending"
+      "evidence": "authorized; nine current personal declaration categories and contact-capacity eligibility remain pending; see venue-human-action-checklist-20260831.md"
     },
     {
       "id": "pyopensci-contact-capacity",
       "kind": "external",
       "status": "pending",
-      "evidence": "2026-08-30: author has open on-hold issue pyOpenSci/software-submission#272 and open presubmission #271; resolve applicability of the one-review-per-contact policy before posting voiage"
+      "evidence": "2026-08-31 live review: pyOpenSci/software-submission#271 remains open/presubmission and #272 remains open/on-hold under the overlap policy; no editorial exception observed. See venue-human-action-checklist-20260831.md."
     },
     {
       "id": "joss-fast-track",
@@ -52,5 +52,12 @@
       "status": "pending",
       "evidence": "authorized; maintainer-only declarations remain pending"
     }
-  ]
+  ],
+  "current_phase": "Phase 3 — pyOpenSci-first submission",
+  "next_pending_task": "R14",
+  "repository_readiness": {
+    "status": "venue_packet_repairs_merged",
+    "evidence": "venue-packet-merge-receipt-20260831.json",
+    "remaining_human_actions": "venue-human-action-checklist-20260831.md"
+  }
 }

@@ -1,0 +1,469 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-08-31T04:39:58.303154Z",
+  "pull_request": {
+    "number": 1051,
+    "url": "https://github.com/edithatogo/voiage/pull/1051",
+    "checked_head": "e7a9e3617cf2f8e542e4b7d4815877ce6d13e216",
+    "state": "MERGED",
+    "merged_at": "2026-08-30T12:00:25Z",
+    "merge_commit": "0330fa55f303de9593ada85e998532765b8008d0",
+    "checked_tree": "d029b5d9565e18f68d2abed71b6bd1a161f241e9",
+    "merge_tree": "d029b5d9565e18f68d2abed71b6bd1a161f241e9",
+    "exact_tree_match": true,
+    "merge_signature_verified": true,
+    "merge_signature_reason": "valid",
+    "checks": {
+      "success": 40,
+      "skipped": 3,
+      "neutral": 1,
+      "failed": 0,
+      "pending": 0,
+      "total": 44
+    },
+    "review_threads": {
+      "total": 2,
+      "resolved": 2,
+      "unresolved": 0,
+      "has_next_page": false
+    }
+  },
+  "hosted_checks": [
+    {
+      "name": "Frozen Lock Refresh Evidence",
+      "workflow": "CI",
+      "status": "COMPLETED",
+      "conclusion": "SKIPPED",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988340/job/99253205990"
+    },
+    {
+      "name": "Production Rust Numerics Benchmarks",
+      "workflow": "Benchmark Tracking",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988369/job/99253175517"
+    },
+    {
+      "name": "Wheel and sdist identity (ubuntu-24.04)",
+      "workflow": "C15 Cross-platform Assurance",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988326/job/99253175310"
+    },
+    {
+      "name": "CodeQL Analysis (python)",
+      "workflow": "CodeQL Security Analysis",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988354/job/99253175209"
+    },
+    {
+      "name": "Stable Frozen Lock",
+      "workflow": "Dependency Assurance",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988361/job/99253175306"
+    },
+    {
+      "name": "Dependency Review",
+      "workflow": "Dependency Review",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988321/job/99253175105"
+    },
+    {
+      "name": "Audit GitHub Actions",
+      "workflow": "GitHub Actions Audit",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988325/job/99253175177"
+    },
+    {
+      "name": "Gitleaks Audit",
+      "workflow": "Gitleaks Secret Scanning",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988351/job/99253175434"
+    },
+    {
+      "name": "Validate and build JOSS paper",
+      "workflow": "JOSS Paper",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988333/job/99253175075"
+    },
+    {
+      "name": "compatibility-and-coverage",
+      "workflow": "Operational Assurance",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988360/job/99253175455"
+    },
+    {
+      "name": "Reproducible build and SBOM",
+      "workflow": "Supply-chain assurance",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988337/job/99253175266"
+    },
+    {
+      "name": "TeX Live 2023",
+      "workflow": "arXiv Readiness",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988320/job/99253175355"
+    },
+    {
+      "name": "Wheel and sdist identity (windows-2025)",
+      "workflow": "C15 Cross-platform Assurance",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988326/job/99253175338"
+    },
+    {
+      "name": "TeX Live 2025",
+      "workflow": "arXiv Readiness",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988320/job/99253175331"
+    },
+    {
+      "name": "Latest Compatible and Experimental Observation",
+      "workflow": "Dependency Assurance",
+      "status": "COMPLETED",
+      "conclusion": "SKIPPED",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988361/job/99253176022"
+    },
+    {
+      "name": "Performance Benchmarks",
+      "workflow": "Benchmark Tracking",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988369/job/99253175762"
+    },
+    {
+      "name": "Bootstrap performance (ubuntu-24.04)",
+      "workflow": "C15 Cross-platform Assurance",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988326/job/99253175351"
+    },
+    {
+      "name": "Vale Prose Lint",
+      "workflow": "CI",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988340/job/99253194890"
+    },
+    {
+      "name": "Source package and PDF assurance",
+      "workflow": "arXiv Readiness",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988320/job/99253175307"
+    },
+    {
+      "name": "Bootstrap performance (windows-2025)",
+      "workflow": "C15 Cross-platform Assurance",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988326/job/99253175296"
+    },
+    {
+      "name": "Rust Profiling Baselines",
+      "workflow": "Benchmark Tracking",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988369/job/99253175663"
+    },
+    {
+      "name": "telemetry-and-oracles",
+      "workflow": "C15 Cross-platform Assurance",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988326/job/99253175211"
+    },
+    {
+      "name": "Frontier Contract Validation",
+      "workflow": "CI",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988340/job/99253194904"
+    },
+    {
+      "name": "Semantic HTML assurance",
+      "workflow": "arXiv Readiness",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988320/job/99253175156"
+    },
+    {
+      "name": "compare-distributions",
+      "workflow": "C15 Cross-platform Assurance",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988326/job/99253508975"
+    },
+    {
+      "name": "Version Synchronization Validation",
+      "workflow": "CI",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988340/job/99253194966"
+    },
+    {
+      "name": "Repository Harness",
+      "workflow": "CI",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988340/job/99253194907"
+    },
+    {
+      "name": "Lint & Type Check",
+      "workflow": "CI",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988340/job/99253194967"
+    },
+    {
+      "name": "Unit Tests (Python 3.12)",
+      "workflow": "CI",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988340/job/99253194989"
+    },
+    {
+      "name": "Unit Tests (Python 3.13)",
+      "workflow": "CI",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988340/job/99253194964"
+    },
+    {
+      "name": "Unit Tests (Python 3.14)",
+      "workflow": "CI",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988340/job/99253195020"
+    },
+    {
+      "name": "Standardized Ingestion Conformance",
+      "workflow": "CI",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988340/job/99253194992"
+    },
+    {
+      "name": "Excel Interchange Extra",
+      "workflow": "CI",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988340/job/99253195066"
+    },
+    {
+      "name": "Example and Notebook Smoke",
+      "workflow": "CI",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988340/job/99253194729"
+    },
+    {
+      "name": "Coverage Report",
+      "workflow": "CI",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988340/job/99253195027"
+    },
+    {
+      "name": "Python 3.14t Observation",
+      "workflow": "CI",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988340/job/99253194898"
+    },
+    {
+      "name": "Benchmark Regression Checks",
+      "workflow": "CI",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988340/job/99253194956"
+    },
+    {
+      "name": "Integration Tests",
+      "workflow": "CI",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988340/job/99253194930"
+    },
+    {
+      "name": "E2E Tests (CLI)",
+      "workflow": "CI",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988340/job/99253194968"
+    },
+    {
+      "name": "Mutation Testing",
+      "workflow": "CI",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988340/job/99253195016"
+    },
+    {
+      "name": "Performance Profiling",
+      "workflow": "CI",
+      "status": "COMPLETED",
+      "conclusion": "SKIPPED",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988340/job/99253195577"
+    },
+    {
+      "name": "Build Documentation",
+      "workflow": "CI",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33309988340/job/99253195109"
+    },
+    {
+      "name": "CodeQL",
+      "workflow": "",
+      "status": "COMPLETED",
+      "conclusion": "NEUTRAL",
+      "url": "https://github.com/edithatogo/voiage/runs/99253391285"
+    },
+    {
+      "name": "zizmor",
+      "workflow": "",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/runs/99253236199"
+    }
+  ],
+  "post_merge_workflows": [
+    {
+      "conclusion": "skipped",
+      "databaseId": 33310584121,
+      "headSha": "0330fa55f303de9593ada85e998532765b8008d0",
+      "name": "Julia Registry Sync",
+      "status": "completed",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33310584121"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 33310335260,
+      "headSha": "0330fa55f303de9593ada85e998532765b8008d0",
+      "name": "Gitleaks Secret Scanning",
+      "status": "completed",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33310335260"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 33310335289,
+      "headSha": "0330fa55f303de9593ada85e998532765b8008d0",
+      "name": "GitHub Actions Audit",
+      "status": "completed",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33310335289"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 33310335226,
+      "headSha": "0330fa55f303de9593ada85e998532765b8008d0",
+      "name": "Polyglot Assurance Frontier",
+      "status": "completed",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33310335226"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 33310335259,
+      "headSha": "0330fa55f303de9593ada85e998532765b8008d0",
+      "name": "Dependency Assurance",
+      "status": "completed",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33310335259"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 33310335293,
+      "headSha": "0330fa55f303de9593ada85e998532765b8008d0",
+      "name": "OpenSSF Scorecard",
+      "status": "completed",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33310335293"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 33310335231,
+      "headSha": "0330fa55f303de9593ada85e998532765b8008d0",
+      "name": "Benchmark Tracking",
+      "status": "completed",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33310335231"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 33310335239,
+      "headSha": "0330fa55f303de9593ada85e998532765b8008d0",
+      "name": "arXiv Readiness",
+      "status": "completed",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33310335239"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 33310335224,
+      "headSha": "0330fa55f303de9593ada85e998532765b8008d0",
+      "name": "JOSS Paper",
+      "status": "completed",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33310335224"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 33310335219,
+      "headSha": "0330fa55f303de9593ada85e998532765b8008d0",
+      "name": "CodeQL Security Analysis",
+      "status": "completed",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33310335219"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 33310335222,
+      "headSha": "0330fa55f303de9593ada85e998532765b8008d0",
+      "name": "Deploy Documentation",
+      "status": "completed",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33310335222"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 33310335240,
+      "headSha": "0330fa55f303de9593ada85e998532765b8008d0",
+      "name": "C15 Cross-platform Assurance",
+      "status": "completed",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33310335240"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 33310335264,
+      "headSha": "0330fa55f303de9593ada85e998532765b8008d0",
+      "name": "Operational Assurance",
+      "status": "completed",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33310335264"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 33310335243,
+      "headSha": "0330fa55f303de9593ada85e998532765b8008d0",
+      "name": "CI",
+      "status": "completed",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33310335243"
+    }
+  ],
+  "post_merge_workflow_summary": {
+    "skipped": 1,
+    "success": 13
+  },
+  "release_source_unchanged": "7af563c8cb373057d30662650b3f332f39e05b83",
+  "boundaries": {
+    "scope": "Observed delivery of PR #1051 and workflows bound to its exact merge commit only.",
+    "new_changes_validated": false,
+    "interpretation": "These checks do not validate later edits or establish human declarations, venue eligibility, submission, review, acceptance, registry publication or a new Software Heritage snapshot.",
+    "venue_submission_performed": false,
+    "human_attestation_performed": false,
+    "julia_registry_acceptance_claimed": false,
+    "historical_validation_evidence_preserved": true
+  }
+}
