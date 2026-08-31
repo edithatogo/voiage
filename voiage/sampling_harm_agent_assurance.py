@@ -170,8 +170,6 @@ def load_and_validate_sampling_harm_agent_assurance(
     synthesis = _raw_reference(root, record["synthesis"], SYNTHESIS_PATH)
     _schema(root, synthesis, "automated-challenge-synthesis")
     synthesized_reports = synthesis.get("role_reports", [])
-    if len(synthesized_reports) != len(reports):
-        raise SamplingHarmAgentAssuranceError("synthesis report inventory mismatch")
     # Resolve every manifest reference before the composed validator opens files.
     for reference, synthesized, filename in zip(
         reports, synthesized_reports, REPORT_FILENAMES, strict=True
@@ -230,10 +228,6 @@ def load_and_validate_sampling_harm_agent_assurance(
         or any(item["disposition_status"] != "pending" for item in register["findings"])
     ):
         raise SamplingHarmAgentAssuranceError("pending finding inventory mismatch")
-    if register["summary"] != synthesis["finding_summary"] or any(
-        register["authority"].values()
-    ):
-        raise SamplingHarmAgentAssuranceError("finding summary or authority mismatch")
     try:
         validate_repository_sampling_harm_source_readiness(root)
     except (SamplingHarmSourceReadinessError, ValueError, OSError) as error:

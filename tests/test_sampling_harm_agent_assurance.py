@@ -214,7 +214,10 @@ def test_rebinding_register_hash_does_not_hide_invalid_findings(
         register_path.read_bytes()
     ).hexdigest()
     write(path, record)
-    with pytest.raises(SamplingHarmAgentAssuranceError):
+    expected = (
+        "remediation-register schema" if mutation in {"summary", "authority"} else None
+    )
+    with pytest.raises(SamplingHarmAgentAssuranceError, match=expected):
         validate(repository)
 
 
@@ -311,7 +314,10 @@ def test_rebound_synthesis_cannot_hide_semantic_changes(
         synthesis_path.read_bytes()
     ).hexdigest()
     write(path, record)
-    with pytest.raises(SamplingHarmAgentAssuranceError):
+    expected = (
+        "automated-challenge-synthesis schema" if mutation == "report_count" else None
+    )
+    with pytest.raises(SamplingHarmAgentAssuranceError, match=expected):
         validate(repository)
 
 
