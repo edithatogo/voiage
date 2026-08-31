@@ -10,8 +10,10 @@ GitHub issue #1033 and archived Conductor track
 `pre_submission_comprehensive_hardening_20260829` record the programme completed
 on 2026-08-30. The repository-owned hardening scope is closed. Issue #1037 and
 `conductor/tracks/v2_2_release_and_venue_submissions_20260830/` now govern the
-authorized v2.2.0 release and later venue sequence; publication and submission
-remain pending until their separate evidence gates are satisfied.
+authorized v2.2.0 release and later venue sequence. The signed, immutable
+v2.2.0 release is published on GitHub, PyPI and TestPyPI with independently
+verified hashes and provenance. Venue submissions remain pending their
+separate packet, human and editorial gates.
 The former #313 workstream and the other previously active tracks are retained
 under `conductor/archive/` with their unfinished tasks migrated through the
 canonical track's hash-bound manifest:
@@ -74,9 +76,9 @@ optional follow-up:
     open alerts. Critical/high findings block release; moderate findings need a
     bounded reviewed disposition.
 
-These refinements now remain within the single canonical pre-submission track;
-new work is added there rather than reactivating or duplicating its archived
-source tracks.
+These refinements are retained in the archived hardening programme. Remaining
+release and venue work belongs to the active #1037 track rather than
+reactivating its archived source tracks.
 
 ## Current Status (As of August 2026)
 
@@ -84,16 +86,19 @@ The project has a solid foundation with core VOI methods implemented, modern
 CI/CD, and automated publishing pipelines. The canonical pre-submission
 hardening programme has completed its requirements and whole-product gap
 analysis, accepted repository repairs, standalone R/polyglot assurance,
-measured CI optimization, and repository-controlled venue alignment. Final
-closeout is binding the post-merge observation evidence and archive state. The
-published v2.1.0 release predates this hardening, so a separately authorized
-future release remains necessary before any submission candidate is frozen.
+measured CI optimization, and repository-controlled venue alignment. The
+programme is archived. Public v2.2.0 contains the hardened source and has
+verified signed-tag, artifact, provenance and clean-install receipts. The
+active release-and-venue track has completed manuscript, research-use and
+submission-packet repairs through PR #1051. The maintainer confirmed personal declarations and withdrew prior pyOpenSci
+requests on 31 August 2026. R14 now requires survey completion and human-written
+submission text. Journal submission precedes the deferred arXiv lane.
 
 *   **Phase 1 (Foundation & API Refactoring):** ✅ **Complete** - Core OO API, data structures, CI/CD, and documentation are all in place.
 *   **Phase 2 (Health Economics Core):** ✅/🔄 **Stable analytical core complete; generic simulation developing** - EVPI, EVPPI, an analytical two-arm normal EVSI model, a coherent joint normal two-loop model with custom callback support, NMA VOI, structural VOI, and plotting are implemented. Generic two-loop and compatibility EVSI estimators remain non-stable pending method-specific convergence and parity evidence.
 *   **Phase 3 (Advanced Methods & Cross-Domain):** ✅ **Complete** - Structural VOI, NMA VOI, JAX JIT compilation, and cross-domain support implemented.
-*   **Spec, Fixture, Polyglot, And Ecosystem Tracks:** 🔄 **Truthfulness Repairs In Progress, External Gates Explicit** - the immutable release packaging matrix is now separated from the current method-level capability matrix; dataset, ecosystem, example, and workflow evidence has been narrowed to executed repository contracts. Standalone R/Julia installed-package assurance and registry approval remain open gates.
-*   **Rust Core Migration:** 🔄 **Production Workspace Established, Stable Kernels Rust-Backed** - the production Rust workspace enforces core dependency direction, leaf FFI/PyO3 adapters, a Rust 1.85 MSRV, and cross-platform CI. Stable EVPI, EVPPI, analytical normal--normal EVSI, ENBS, CEAF, dominance, heterogeneity, and structural aggregation kernels are Rust-backed; Python retains declared two-loop orchestration and explicitly non-stable compatibility paths. R exposes the shared EVPI kernel while Julia exposes shared EVPI and signed ENBS through a separately supplied native library; both still require hosted and registry evidence.
+*   **Spec, Fixture, Polyglot, And Ecosystem Tracks:** ✅/🔄 **Repository Repairs Complete, External Gates Explicit** - the immutable release packaging matrix is separated from the current method-level capability matrix; dataset, ecosystem, example, and workflow evidence is limited to executed repository contracts. Standalone R/Julia installed-package assurance is recorded by the completed hardening programme; upstream registry approval and indexing remain external gates.
+*   **Rust Core Migration:** 🔄 **Production Workspace Established, Stable Kernels Rust-Backed** - the production Rust workspace enforces core dependency direction, leaf FFI/PyO3 adapters, a Rust 1.85 MSRV, and cross-platform CI. Stable EVPI, EVPPI, analytical normal--normal EVSI, ENBS, CEAF, dominance, heterogeneity, and structural aggregation kernels are Rust-backed; Python retains declared two-loop orchestration and explicitly non-stable compatibility paths. R exposes native EVPI and ENBS through its separate bundled offline Rust kernel; Julia exposes EVPI and signed ENBS through the separately supplied main native library. Shared fixtures check agreement; neither scalar binding exposes Python's full decision-record interface. Registry outcomes remain separately evidenced.
 *   **HPC Native Enablement:** ✅/🔄 **Setup Complete, Speedup Evidence-Gated** - the `hpc-capability-implementation-program_20260511` track family is complete and archived for CPU cluster parallelism, scheduler adapters, Apple Metal, discrete GPU, TPU, FPGA, and ASIC lane setup. Remaining work is evidence-gated production speedup, Apple Silicon device capture, and real FPGA/ASIC hardware validation.
 
 Across the completed lanes, external registry, hardware, and speedup evidence gates remain explicit rather than treated as repository-owned completion criteria.
@@ -377,8 +382,9 @@ remain explicit human or external gates. The round-nine JOSS source has passed i
 SourceRight, Authentext, Open Journals, and page-by-page visual checks. The
 decision-maker wording retained for the release-bound source passed a fresh
 exact-revision Open Journals build and six-page visual review in PR #529. The
-permanent arXiv identifier is the author's requested sequencing gate, not a
-JOSS eligibility requirement.
+earlier arXiv prerequisite was removed by the maintainer on 31 August 2026
+following case-specific advice to submit to a journal first. The pyOpenSci-first
+JOSS partner route and genuine engagement prerequisite remain.
 
 Three completed-in-repository assurance tracks remain archived with their
 explicit human gates visible: Domain Abstraction Excellence

@@ -1,8 +1,46 @@
 # Release Candidate Review
 
 Initial functional candidate: `00edb35bdfd05c3c011a546a6a49460567481d05`.
-Scope: Phase 1 after checkpoint `710aca9`; review is not a phase-completion
-receipt. R6 remains in progress until exact-head hosted checks and merge.
+Scope: Phase 1 after checkpoint `710aca9`. The final readback below supersedes
+preparation-time pending-check notes, which are retained as historical context.
+
+## Final source-phase readback
+
+PR #1038 merged on 2026-08-30 at `cf35bc998b936ede8eb3eea57d5bb2eec40124c0`.
+Its verified merge tree, `c525533c75735f1efabd5f8d40e4d01d1817710a`, exactly
+matches checked head `dbb089fe5bfbc57dd897d2cca7d0b1bec4268d5e`. All 68 hosted
+checks passed, five were skipped under their configured conditions, and all
+three review threads were resolved. Fresh CodeQL marked alert #1280 fixed.
+The complete [merge receipt](release-candidate-merge-receipt-20260830.json)
+retains individual job links and the distinct local-validation evidence.
+
+The review covered all phase changes since checkpoint `710aca9`, including
+Conductor records. Decision-card behavior, installed-consumer isolation,
+submission guards and version synchronization have direct regression coverage.
+The R runner, canonical LaTeX, package/binding metadata and source-history
+contracts have their dedicated tests and hosted build evidence. No new
+Critical or High finding remains; retained advisory dispositions and external
+venue gates below are not presented as completed outcomes. The final checkpoint
+revalidates the evidence-only delta; it does not substitute for the full local
+matrix or exact-head hosted checks already completed for the source candidate.
+
+The Phase 1 comparison boundary is the retained source merge `cf35bc9`, not the
+branch-only validation checkpoint `ca7c5d7`. This keeps the next phase's
+`git diff` executable in a fresh clone after the evidence PR is squash-merged.
+The original checkpoint and ledger entry remain provenance for the local
+validation event; they do not assert main-history ancestry.
+
+A fresh main-only clone with sufficient main history resolved `cf35bc9` as an
+ancestor and executed the phase comparison. An initial depth-one checkout
+could not resolve the earlier commit after main advanced; deepening main
+history fixed that without fetching the evidence branch.
+
+Before tagging, PR #1039 merged pnpm 10.34.4 security pins into main at
+`ae95ceccbf3c5c9ce7341070f43f7e6863937c14`. Its three changed files are the CI
+and documentation workflows and the documentation package-manager pin. PR
+#1046 includes that update; the final checked squash merge of #1046, not the
+earlier #1038 merge alone, is the intended release-tag target. The runtime
+source and previously measured ABI/numerical behavior remain unchanged.
 
 ## Hosted review follow-up
 

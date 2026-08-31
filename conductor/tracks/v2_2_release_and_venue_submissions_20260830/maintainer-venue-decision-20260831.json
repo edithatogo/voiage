@@ -1,0 +1,35 @@
+{
+  "schema_version": "voiage.maintainer-venue-decision.v1",
+  "recorded_at": "2026-08-31T09:52:52Z",
+  "source": "current_user_message",
+  "authority": "maintainer",
+  "user_statement": "- I approve/confirm the personal declarations.\n- Voiage is my priority, so perhaps we can close the other requests, then submit this one to pyopensci?\n- Arxiv said I had to submit to JOSS or another journal first. Proceed with your recommendations here.",
+  "candidate_version": "2.2.0",
+  "base_commit": "460a5800fc94578a35b21571c91c2b14fbe89d33",
+  "reviewed_draft_sha256": "482afe4cb19cddf5293205308502ba6992d366d0d8f01471bcb98c146f6389af",
+  "confirmed_attestations": [
+    "ai_scope_disclosure_verified",
+    "author_guide_read",
+    "code_of_conduct",
+    "current_ai_outputs_reviewed_understood",
+    "human_led_development_history",
+    "human_written_review_communication",
+    "maintenance_commitment_form_checkbox",
+    "reviewer_direct_issue_permission"
+  ],
+  "journal_first_authorized": true,
+  "journal_first_basis": "Maintainer reports case-specific arXiv advice to submit to JOSS or another journal first; not a claim about universal arXiv policy.",
+  "submission_route": "pyopensci_first_then_joss_partner_fast_track",
+  "withdrawal_scope": [
+    "https://github.com/pyOpenSci/software-submission/issues/271",
+    "https://github.com/pyOpenSci/software-submission/issues/272"
+  ],
+  "boundaries": {
+    "pre_review_survey_completed": false,
+    "existing_ai_draft_human_authored": false,
+    "submission_performed": false,
+    "editorial_capacity_approved": false,
+    "arxiv_submission_performed": false
+  },
+  "interpretation": "Personal confirmations are recorded without re-requesting assent. Agreement to human-written communication is a commitment, not authorship of the existing AI-assisted draft. Survey completion remains an external action needing a completion fact. Priority change authorizes withdrawal of the two identified earlier requests, not a claim of editorial approval."
+}

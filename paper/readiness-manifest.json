@@ -1,10 +1,32 @@
 {
   "schema_version": "voiage.arxiv-readiness.v2",
   "canonical_source": "paper/main.tex",
-  "arxiv_texlive_matrix": [2023, 2025],
-  "required_tools": ["pdflatex", "latexmk"],
-  "optional_tools": ["arxiv-latex-cleaner", "arxiv-collector", "latexpand", "qpdf", "pdfinfo", "pdftotext", "textstat", "exiftool", "gitleaks", "lychee", "vale", "latexml"],
-  "source_provenance": {"sourceright": "submodule", "authentext": "submodule"},
+  "arxiv_texlive_matrix": [
+    2023,
+    2025
+  ],
+  "required_tools": [
+    "pdflatex",
+    "latexmk"
+  ],
+  "optional_tools": [
+    "arxiv-latex-cleaner",
+    "arxiv-collector",
+    "latexpand",
+    "qpdf",
+    "pdfinfo",
+    "pdftotext",
+    "textstat",
+    "exiftool",
+    "gitleaks",
+    "lychee",
+    "vale",
+    "latexml"
+  ],
+  "source_provenance": {
+    "sourceright": "submodule",
+    "authentext": "submodule"
+  },
   "human_gates": [
     "confirm authorship, affiliations, ORCID, funding, conflicts, and research-impact evidence",
     "compare canonical, cleaner, and collector outputs and review every source diff",
@@ -12,8 +34,17 @@
     "select the arXiv category, license, and endorsement path",
     "review the final source package and PDF",
     "perform the authenticated arXiv upload",
-    "document completed research-workflow use and independent engagement before JOSS submission"
+    "confirm current research-use statements and obtain genuine non-author engagement before JOSS submission; automated replay does not add human use"
   ],
   "submission_performed": false,
-  "joss_submission": "blocked_pending_demonstrated_research_use_engagement_and_human_declarations"
+  "joss_submission": "blocked_pending_partner_eligibility_engagement_and_remaining_submission_gates",
+  "submission_sequence": {
+    "arxiv": "deferred_until_journal_submission_and_explicit_later_action",
+    "basis": "Maintainer-reported case-specific arXiv instruction; not a universal arXiv policy.",
+    "journal_submission_observed": false,
+    "maintainer_decision": {
+      "path": "conductor/tracks/v2_2_release_and_venue_submissions_20260830/maintainer-venue-decision-20260831.json",
+      "sha256": "514f06a661b0a3a1de76b4bdda50efd6d21e633e40d1f64333d91d3c7bf8fb81"
+    }
+  }
 }

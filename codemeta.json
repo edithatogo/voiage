@@ -2,12 +2,12 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "name": "voiage",
-  "description": "Value of Information analysis with selected stable Rust kernels, a broader Python interface, and direct EVPI bindings for R and Julia.",
-  "version": "2.1.0",
+  "description": "Value of Information analysis with selected stable Rust kernels, a broader Python interface, and native EVPI and ENBS in R and Julia.",
+  "version": "2.2.0",
   "codeRepository": "https://github.com/edithatogo/voiage",
   "issueTracker": "https://github.com/edithatogo/voiage/issues",
   "url": "https://edithatogo.github.io/voiage",
-  "identifier": "swh:1:snp:767efde24c97d9f6d730764c1b3bc1a91ba20c32",
+  "identifier": "https://github.com/edithatogo/voiage/releases/tag/v2.2.0",
   "license": "https://spdx.org/licenses/Apache-2.0.html",
   "programmingLanguage": ["Python", "Rust", "R", "Julia"],
   "runtimePlatform": ["Python >=3.12"],
@@ -18,8 +18,8 @@
     "@id": "https://orcid.org/0000-0002-9775-0603",
     "email": "voiage@users.noreply.github.com"
   }],
-  "downloadUrl": "https://pypi.org/project/voiage/2.1.0/",
-  "releaseNotes": "https://github.com/edithatogo/voiage/releases/tag/v2.1.0",
+  "downloadUrl": "https://pypi.org/project/voiage/2.2.0/",
+  "releaseNotes": "https://github.com/edithatogo/voiage/releases/tag/v2.2.0",
   "softwareRequirements": ["Python >=3.12", "Rust toolchain for source builds"],
   "keywords": ["value of information", "decision analysis", "health economics", "uncertainty quantification"]
 }

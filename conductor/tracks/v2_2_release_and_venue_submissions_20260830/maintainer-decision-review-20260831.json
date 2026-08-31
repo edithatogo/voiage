@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-08-31T10:09:20.054319Z",
+  "task_id": "R14a",
+  "review": {
+    "independent_agents": 2,
+    "focused_tests_passed": 84,
+    "staging_validator": "passed",
+    "submission_readiness_validator": "passed",
+    "joss_repository_validator": "passed",
+    "changed_markdown_vale": {
+      "files": 9,
+      "errors": 0,
+      "warnings": 0,
+      "suggestions": 0
+    },
+    "remaining_findings": [],
+    "consistency_repair_focused_tests_passed": 7
+  },
+  "boundaries": {
+    "voiage_submission_performed": false,
+    "human_survey_completion_observed": false,
+    "human_written_submission_body_received": false
+  },
+  "full_tox": {
+    "attempts": [
+      {
+        "status": "failed",
+        "exit_code": 1,
+        "log": "/tmp/voiage-venue-decision-tox-20260831.log",
+        "sha256": "82f2582f7b7d0c362726d10e37f8668ec2a739719ddcc99e3d70857af2ae067f",
+        "passed": 4623,
+        "failed": 2,
+        "skipped": 15,
+        "coverage_percent": 95.11,
+        "elapsed_seconds": 3299.32,
+        "failures": [
+          "metadata normalization: timestamp precision and escaped Unicode",
+          "historical attestation prose assertion in current readiness guide"
+        ]
+      },
+      {
+        "status": "failed",
+        "exit_code": 1,
+        "log": "/tmp/voiage-venue-decision-tox-rerun-20260831.log",
+        "sha256": "99b2f5003b494df0fb76d3dc19c412082e6b322a6ecde705012dc3975f36e484",
+        "passed": 4624,
+        "failed": 1,
+        "skipped": 15,
+        "coverage_percent": 95.11,
+        "elapsed_seconds": 1685.39,
+        "failures": [
+          "existing five-second import wall-time test measured 10.000269 seconds during host load above 400; both record-consistency fixes passed"
+        ]
+      },
+      {
+        "status": "passed",
+        "command": [
+          "tox",
+          "-e",
+          "coverage_report"
+        ],
+        "exit_code": 0,
+        "log": "/tmp/voiage-venue-decision-coverage-retry-20260831.log",
+        "sha256": "eb56a2ac011feb668b7494bb2b7f1e620a4e7f0f4e424b931d5e1f1528593ff7",
+        "passed": 4625,
+        "failed": 0,
+        "skipped": 15,
+        "coverage_percent": 95.11,
+        "elapsed_seconds": 706.85
+      }
+    ],
+    "status": "all_15_environments_passed_across_retained_runs",
+    "boundary": "Fourteen non-coverage environments passed in the second full matrix run. The complete coverage environment passed on retry with unchanged implementation, tests and timing threshold. Earlier failures are retained.",
+    "isolated_import_guard": "passed_unchanged"
+  }
+}

@@ -6,3 +6,6 @@
 *.toml text eol=lf
 *.yml text eol=lf
 *.yaml text eol=lf
+
+# Preserve the exact historical handoff bytes bound by the retained receipts.
+paper/research-use/v2.2.0/hpv_vaccination_net_benefit.csv -text !eol whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

@@ -1,22 +1,30 @@
 {
   "schema_version": "voiage.pyopensci-submission-candidate.v1",
-  "observed_at": "2026-08-30T03:02:43Z",
-  "state": "release_candidate_prepublication_maintainer_confirmed",
+  "observed_at": "2026-08-30T09:33:47.478Z",
+  "state": "published_release_maintainer_confirmed",
   "recommended_candidate": {
     "version": "2.2.0",
     "tag": "v2.2.0",
-    "commit": null,
-    "tree": null,
-    "tag_object": null,
-    "tag_signature_verified": false,
+    "commit": "7af563c8cb373057d30662650b3f332f39e05b83",
+    "tree": "2d78e8a1f4825ce3944bfad7e83f8b6b00e63139",
+    "tag_object": "6f42d26d5a20d4c1e47221f01daff219edc88a59",
+    "tag_signature_verified": true,
     "github_release": "https://github.com/edithatogo/voiage/releases/tag/v2.2.0",
     "pypi_release": "https://pypi.org/project/voiage/2.2.0/",
-    "published_at": null,
-    "latest_on_pypi_when_observed": false,
-    "immutable_github_release": false,
-    "publication_receipt": null
+    "published_at": "2026-08-30T09:18:44Z",
+    "latest_on_pypi_when_observed": true,
+    "immutable_github_release": true,
+    "publication_receipt": {
+      "path": "conductor/tracks/v2_2_release_and_venue_submissions_20260830/release-2.2.0-publication-receipt-20260830.json",
+      "sha256": "018113208be7888fcd94e3c048f2bd35068eddf1a01dfa6ee467a4047965d358"
+    }
   },
-  "artifact_sha256": {},
+  "artifact_sha256": {
+    "voiage-2.2.0-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "8eb3ba00ec24efcc2f8213141a0343456f28a4cfa8ae25ca9d5d19ad4effe119",
+    "voiage-2.2.0-cp312-abi3-win_amd64.whl": "97f23021683ce7c4010e6d7aa6ff7f02b758db09f18da6582bd2ac0e4719a9d2",
+    "voiage-2.2.0-cp312-abi3-macosx_11_0_arm64.whl": "c7c26afe72de58c02a49f0b734fa0f69adf4c8c073a59b71ea888feaa77e1056",
+    "voiage-2.2.0.tar.gz": "e4edfd41011891a94cbc2b144ff1d20340fcc32481e7a2b24157494b7490a16b"
+  },
   "comparison": {
     "v2.0.0": {
       "public_and_not_yanked": true,
@@ -36,32 +44,33 @@
         "failed": 0,
         "pending": 0
       },
-      "current_release": true,
-      "disposition": "retain as the latest public release until v2.2.0 publication is evidence-bound"
+      "current_release": false,
+      "disposition": "retain as historical release preceding hardening"
     },
     "v2.2.0": {
-      "public_and_not_yanked": false,
-      "signed_release_receipt": false,
-      "current_release": false,
-      "release_candidate": true,
-      "disposition": "selected prepublication candidate; do not claim release or submit until publication evidence is bound"
+      "public_and_not_yanked": true,
+      "signed_release_receipt": true,
+      "current_release": true,
+      "release_candidate": false,
+      "disposition": "verified immutable public release; venue submission remains gated on packet repairs and human/editorial evidence"
     }
   },
   "selection_rationale": [
     "pyOpenSci reviews the maintained current Python package rather than a superseded release",
-    "v2.1.0 remains the latest public non-yanked PyPI release at candidate preparation time",
-    "v2.2.0 contains the completed repository-hardening programme selected for release before review",
-    "the v2.2.0 tag, release, and artifact digests remain intentionally unbound until publication succeeds",
-    "CITATION.cff and codemeta.json retain the verified public v2.1.0 release until v2.2.0 publication is evidenced"
+    "v2.2.0 contains the completed repository-hardening programme",
+    "The signed tag, immutable release, TestPyPI/PyPI artifacts and provenance were independently verified after workflow 33303294302 succeeded",
+    "CITATION.cff and codemeta.json now identify the verified public v2.2.0 release"
   ],
   "joss_handoff": {
     "state": "blocked_pending_refresh_and_external_evidence",
-    "paper_release": "2.0.0",
+    "paper_release": "2.2.0",
     "developer_research_use_release": "2.0.0",
     "non_author_engagement": "pending_issue_471",
     "doi_bearing_archive": "pending",
     "permanent_arxiv_identifier": "pending",
-    "joss_submission": "not_started"
+    "joss_submission": "not_started",
+    "automated_replay_release": "2.2.0",
+    "research_use_boundary": "Historical human-use record preserved; the v2.2.0 automated replay is not additional human use or independent adoption."
   },
   "authority": {
     "prepare_local_draft": "repository",

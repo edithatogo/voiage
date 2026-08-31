@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-08-30T09:22:41.403Z",
+  "release_tag": "v2.2.0",
+  "source_commit": "7af563c8cb373057d30662650b3f332f39e05b83",
+  "observations": {
+    "documentation": {
+      "run_id": 33302578624,
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33302578624",
+      "event": "push",
+      "conclusion": "success",
+      "source_matches_release": true
+    },
+    "supply_chain": {
+      "run_id": 33302619267,
+      "url": "https://github.com/edithatogo/voiage/actions/runs/33302619267",
+      "event": "push",
+      "conclusion": "success",
+      "artifact_id": 9729441674,
+      "artifact_name": "supply-chain-assurance-v2.2.0",
+      "release_evidence_status": "partial_missing_software_heritage_snapshot",
+      "software_heritage_snapshot": null
+    },
+    "release_event_workflows": {
+      "observed_new_runs": 0,
+      "observation": "No new release-event workflow runs were present after publication; no automatic registry submission or additional documentation deployment is claimed."
+    },
+    "rust": {
+      "state": "not_triggered",
+      "required_tag_prefix": "rust-v",
+      "tag_created": false,
+      "registry_acceptance": "not_claimed"
+    },
+    "r": {
+      "state": "not_triggered",
+      "required_tag_prefix": "r-v",
+      "tag_created": false,
+      "registry_acceptance": "not_claimed"
+    },
+    "julia": {
+      "state": "not_triggered",
+      "required_tag_prefix": "julia-v",
+      "tag_created": false,
+      "registry_acceptance": "not_claimed"
+    },
+    "conda": {
+      "state": "not_triggered",
+      "manual_dispatch": false,
+      "external_submission_performed": false
+    }
+  },
+  "interpretation": "Documentation deployed for the exact source and the tag-bound supply-chain job passed. The complete archive manifest remains pending a verified new Software Heritage snapshot; historical v2.0 identifiers are not evidence for v2.2. No new binding tags, registry submissions, or venue submissions were created."
+}

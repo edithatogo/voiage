@@ -9,7 +9,7 @@
 - [x] **R2 / AC-01:** Run automated phase review and validation checkpoint.
   (`710aca9`)
 
-## Phase 1 — v2.2.0 release candidate
+## Phase 1 — v2.2.0 release candidate [checkpoint: cf35bc9]
 
 - [x] **R3 / AC-02:** Add failing synchronization/readiness assertions for the
   v2.2.0 candidate and stale v2.1.0/v1.0.0 submission bindings. (`a9a8534`)
@@ -17,9 +17,11 @@
   manuscript metadata, and venue packets to v2.2.0. (`9004ba4`)
 - [x] **R5 / AC-02:** Run ABI, packaging, manuscript, submission, binding, and full
   tox validation; repair all in-scope findings. (`5cdb1dd`)
-- [~] **R6 / AC-02:** Open the protected release-candidate PR, resolve review
+- [x] **R6 / AC-02:** Open the protected release-candidate PR, resolve review
   findings, wait for exact-head checks, and squash-merge with exact tree equality.
-  PR #1038 is open; full local validation passed and hosted checks are pending.
+  PR #1038 merged after 68 passing checks, five governed skips, and zero
+  unresolved threads; the verified merge exactly matches the checked tree.
+  (`cf35bc9`)
 - [x] **R6a / AC-02 — Review fixes:** Bind the verified upstream template
   revision, preserve the public-release boundary, and reject fabricated or
   deleted prepublication evidence fields. (`00edb35`)
@@ -39,30 +41,129 @@
   enforce subprocess timeouts, and verify default isolation and full tests.
   All 15 tox environments passed: 4,522 tests, 16 skips, 95.16% coverage.
   (`bfc1d79`)
-- [ ] **R7 / AC-02:** Run automated phase review and validation checkpoint.
+- [x] **R7 / AC-02:** Run automated phase review and validation checkpoint.
+  Use the reachable source squash merge (`cf35bc9`) as the next phase's diff
+  boundary. The separate validation receipt (`ca7c5d7`) records the reviewed
+  evidence-only checkpoint; it is not a main-history ancestor after squash.
+- [x] **R7a / AC-02 — Security-update integration:** Include the already merged
+  pnpm security update (#1039) in PR #1046, validate the combined tree, and
+  retain its final squash merge as the release-tag target. Runtime code is
+  unchanged from the checked #1038 source candidate.
+  PR #1046 merged with exact tree equality after 35 passing checks and four
+  governed skips; documentation passed locally with pnpm 10.34.4. (`7af563c8`)
 
-## Phase 2 — Signed staged and public release
+## Phase 2 — Signed staged and public release [checkpoint: 4c47b241]
 
-- [ ] **R8 / AC-03:** Create and push the signed annotated v2.2.0 tag on the exact
-  merged release candidate.
-- [ ] **R9 / AC-03:** Wait for the private draft, download and verify the attested
+- [x] **R8 / AC-03:** Create and push the signed annotated v2.2.0 tag on the exact
+  merged release candidate, including R7a's security update and evidence fixes.
+  Verified tag object `6f42d26d5a20d4c1e47221f01daff219edc88a59` targets
+  `7af563c8cb373057d30662650b3f332f39e05b83`.
+- [x] **R9 / AC-03:** Wait for the private draft, download and verify the attested
   payload, and record the reviewed wheel and sdist SHA-256 values.
-- [ ] **R10 / AC-03:** Invoke the hash-bound publish workflow and verify GitHub,
+  All eight exact-source provenance/SBOM verifications passed; the four
+  distributions match the private release, manifest and checksum file.
+- [x] **R10 / AC-03:** Invoke the hash-bound publish workflow and verify GitHub,
   TestPyPI, PyPI, provenance, SBOM, and clean-install receipts.
-- [ ] **R11 / AC-03:** Reconcile any Rust, R, Julia, documentation, archive, and
+  Immutable public release, exact registry digests, four PyPI attestations and
+  fresh macOS installation verified after successful run 33303294302. (`fe79e1a`)
+- [x] **R11 / AC-03:** Reconcile any Rust, R, Julia, documentation, archive, and
   registry workflows triggered by the tag without overstating external outcomes.
-- [ ] **R12 / AC-03:** Run automated phase review and validation checkpoint.
+  Exact-source documentation and tag-bound supply-chain jobs passed; no extra
+  binding tags or registry submissions were triggered. The new Software
+  Heritage snapshot remains pending. (`70198b2`)
+- [x] **R12 / AC-03:** Run automated phase review and validation checkpoint.
+  PR #1047 merged after 36 passing checks, three configured skips, one neutral
+  CodeQL result and zero unresolved review threads. Verified signed merge
+  `4c47b241` exactly matches checked tree `287d239a`; use this reachable merge
+  as the next phase boundary. The tagged release source remains `7af563c8`.
+- [x] **R12a / AC-03 — Publication projection review repair:** Update current
+  citation, roadmap and candidate projections in this publication PR, bind
+  the successful immutable receipt, retain prepublication rejection tests,
+  and reject mismatched or missing public evidence. PR #1047 review identified
+  the contradiction in deferring these projections to the next phase.
+  Final full tox passed all 15 environments: 4,530 tests, 16 skips and 95.16
+  percent coverage. Non-JSON receipt bypass is covered by a regression.
+  (`0d1c2812`)
 
 ## Phase 3 — pyOpenSci-first submission
 
-- [ ] **R13 / AC-04:** Refresh the current official template and bind the final
-  submission body, CITATION.cff, and CodeMeta to the public v2.2.0 release;
+- [x] **R13 / AC-04:** Refresh the current official template and finalize the
+  submission body against R12a's public v2.2.0 citation and candidate bindings;
   complete known JOSS paper/use-record and rOpenSci packet repairs before the
   first venue submission, preserving any missing human evidence as a gate.
-- [ ] **R14 / AC-04:** Collect or record the maintainer-only Code of Conduct,
-  maintenance, guide, survey, reviewer-contact, and partnership declarations;
-  resolve contact-capacity eligibility against existing pyOpenSci issues #271
-  and #272 and obtain human review of the submission communication.
+  Repository packet repairs merged through PR #1051 as `0330fa55`, with exact
+  tree equality and terminal hosted checks recorded in the 2026-08-31 merge
+  receipt. R14 retains all personal declarations and external eligibility.
+- [x] **R13a / AC-04 — Research-use environment boundary:** Refresh the
+  same-author VOP research-use evidence using separate supported environments
+  and a hash-bound data hand-off. VOP requires pandas 3 and SciPy 1.18, outside
+  voiage's stable bounds; do not force a combined installation or describe
+  the bounded exchange as full in-process integration or independent adoption.
+  The published-wheel replay reproduced all 500 rows and EVPI; 30 focused
+  tests, 97 percent script coverage and all 15 tox environments passed.
+  Historical human-use evidence is preserved, not recertified. (`8785c6de`)
+- [x] **R13b / AC-04 — Version-specific manuscript claims:** Align the JOSS
+  language-surface description and claim map with native EVPI/ENBS in both R
+  and Julia, and distinguish the historical v2.0.0 Software Heritage snapshot
+  from the verified v2.2.0 release without inventing a new archive or DOI.
+  Describe R's separate bundled Rust kernel rather than claiming one physical
+  Rust implementation is used by all language surfaces.
+  Also repair stale v1.0.0 and EVPI-only claims in the canonical LaTeX
+  preprint, distinguish Python decision records from scalar R/Julia surfaces,
+  and rebuild/review both manuscripts without extending historical human
+  attestations to new edits. Correct the dated AI-transparency projections.
+  Local source/PDF/variant audits and all 15 tox environments passed at
+  `7e762eb7`. All six hosted JOSS pages and the complete HTML figure were
+  inspected; the later LaTeX spacing fix is covered by R13d. (`a5b3668e`)
+- [x] **R13b1 / AC-04 — HTML review fix:** Reject missing or empty manuscript
+  images even when LaTeXML returns zero. The local converter lacks its Perl
+  image-processing module; retain that failure and require a complete hosted
+  semantic-HTML artifact, including its figure, before merge.
+  The complete initial-head artifact passed and its figure was inspected;
+  final exact-head hosted validation subsequently passed before PR #1051
+  merged; see the 2026-08-31 merge receipt. (`7e762eb7`)
+- [x] **R13c / AC-04 — Submission preflight review fix:** Recognize successful
+  manuscript status values, reject missing required gates, and enforce the
+  selected JOSS partner route and current human declarations. Automated tests
+  use hypothetical evidence only, never repository attestations. All nine
+  focused regressions and full tox passed. (`7e762eb7`)
+- [x] **R13d / AC-04 — Hosted provenance false positive:** Keep secret scanning
+  enabled while narrowly allowing the pinned public Authentext gitlink only
+  in its exact audit provenance line and file. Verify mutated values and other
+  paths are not covered by the exception.
+  Also correct the hosted LaTeX intersentence-spacing warning after ENBS;
+  preserve both initial failures and rerun the unchanged gates.
+  Five scope-mutation tests, full local history scanning, exact LaTeX lint and
+  all 15 tox environments passed. (`a5b3668e`)
+- [x] **R13e / AC-04 — Hosted research-evidence review:** Bind evaluation to a
+  reviewed public wheel digest and compare installed payload bytes before use;
+  reject same-version local builds or modifications. Commit the exact CSV so
+  a fresh clone can evaluate the retained export receipt. Preserve the initial
+  receipt and record a new strengthened evaluation, not a human attestation.
+  Verified 192 installed payload files, retained the exact CSV, and passed
+  38 focused handoff tests plus full tox: 4,600 passed, 16 skipped and
+  95.16 percent coverage. (`a5b3668e`)
+- [x] **R13f / AC-01, AC-04 — Post-merge reconciliation and review fixes:** Record the
+  observed #1051 merge and terminal hosted checks, synchronize current release
+  and venue-readiness projections, audit archived gate continuity, and prepare
+  the exact remaining human-action checklist without supplying attestations.
+  The first full tox run exposed a legacy test that required the historical
+  backlog to retain an active heading. Repaired that lifecycle assertion while
+  preserving the archived v1 baseline; both runs are retained in the validation
+  receipt. Final full tox passed all 15 environments: 4,601 tests passed,
+  15 skipped and 95.11 percent coverage. PR #1052 retains its own hosted-check
+  and merge boundary; R14 remains pending. (`a6d748cc`)
+- [x] **R14a / AC-04, AC-05 — Maintainer venue decision:** Record personal
+  confirmations and verified priority withdrawals, retain survey and human-text
+  action gates, and replace arXiv-before-JOSS with authorized journal-first
+  sequencing. Both consistency repairs passed; all 15 tox environments passed
+  across retained runs, with 4,625 tests passed, 15 skipped and 95.11 percent
+  coverage. The existing import timing guard passed unchanged on retry.
+  R14 remains pending. (`7545ae5b`)
+- [ ] **R14 / AC-04:** Obtain completed pre-review survey confirmation and the
+  maintainer's human-written submission text. Personal declarations are confirmed;
+  prior pyOpenSci requests #271 and #272 are withdrawn. Editorial screening
+  remains external.
 - [ ] **R15 / AC-04:** Create the authenticated pyOpenSci submission and retain its
   issue URL, timestamp, exact body hash, and observed initial venue state.
 - [ ] **R16 / AC-04:** Run automated phase review and validation checkpoint.

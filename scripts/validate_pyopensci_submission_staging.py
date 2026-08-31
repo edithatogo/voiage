@@ -26,15 +26,23 @@ REQUIRED_HUMAN_ATTESTATIONS = {
     "reviewer_direct_issue_permission",
     "author_guide_read",
     "pre_review_survey",
+    "human_led_development_history",
+    "current_ai_outputs_reviewed_understood",
+    "human_written_review_communication",
+    "ai_scope_disclosure_verified",
 }
 EXPECTED_HUMAN_ATTESTATIONS = {
     "code_of_conduct": "pending",
     "maintenance_commitment_form_checkbox": "pending",
     "submitted_version": "confirmed",
-    "joss_partnership_option": "pending",
+    "joss_partnership_option": "confirmed",
     "reviewer_direct_issue_permission": "pending",
     "author_guide_read": "pending",
     "pre_review_survey": "pending",
+    "human_led_development_history": "pending",
+    "current_ai_outputs_reviewed_understood": "pending",
+    "human_written_review_communication": "pending",
+    "ai_scope_disclosure_verified": "pending",
 }
 REQUIRED_EXTERNAL_ACTIONS = {
     "pre_review_survey_completed",
@@ -44,17 +52,22 @@ REQUIRED_EXTERNAL_ACTIONS = {
     "badge_added",
     "doi_archive_created",
 }
-PENDING_DRAFT_CHECKBOX_MARKERS = (
-    "I agree to abide by",
-    "I have read and will commit",
-    "Do you wish to automatically submit",
-    "Maintainer confirmation pending. If confirmed",
-    "I have read the pyOpenSci author guide",
-    "Last but not least please fill out our pre-review survey",
-)
+DRAFT_ATTESTATION_MARKERS = {
+    "I agree to abide by": "code_of_conduct",
+    "I have read and will commit": "maintenance_commitment_form_checkbox",
+    "I expect to maintain this package": "maintenance_commitment_form_checkbox",
+    "I confirm sustained human-led development": "human_led_development_history",
+    "I have personally reviewed and understood": "current_ai_outputs_reviewed_understood",
+    "I will write the review communication personally": "human_written_review_communication",
+    "I have verified the AI scope and scale disclosure": "ai_scope_disclosure_verified",
+    "Reviewers may open": "reviewer_direct_issue_permission",
+    "I have read the pyOpenSci author guide": "author_guide_read",
+    "Last but not least please fill out our pre-review survey": "pre_review_survey",
+}
 CONFIRMED_SUBMITTED_VERSION_LINE = (
     "Version submitted: 2.2.0 (confirmed by maintainer; submission not performed)"
 )
+CONFIRMED_JOSS_OPTION_MARKER = "Do you wish to automatically submit"
 PLACEHOLDER = re.compile(r"\b(?:TBD|TODO|FILL(?:\s+THIS)?\s+IN)\b", re.IGNORECASE)
 
 
@@ -114,6 +127,111 @@ def _validate_bound_file(
     return path, None
 
 
+def _validate_published_candidate(
+    root: Path,
+    candidate: dict[str, Any],
+    recommended: dict[str, Any],
+    findings: list[str],
+) -> None:
+    """Bind a published projection to the separately reviewed local receipt."""
+    _, receipt = _validate_bound_file(
+        root,
+        recommended.get("publication_receipt"),
+        "publication receipt",
+        findings,
+        require_all_files=True,
+    )
+    if receipt is None:
+        findings.append("publication receipt must contain JSON evidence")
+        return
+    release = receipt.get("release")
+    github = receipt.get("github")
+    workflows = receipt.get("workflows")
+    if not all(isinstance(item, dict) for item in (release, github, workflows)):
+        findings.append(
+            "publication receipt lacks release, GitHub or workflow evidence"
+        )
+        return
+    assert isinstance(release, dict)
+    assert isinstance(github, dict)
+    assert isinstance(workflows, dict)
+    publication = workflows.get("publication")
+    version = EXPECTED_CANDIDATE_VERSION
+    if (
+        release.get("version") != version
+        or release.get("tag") != f"v{version}"
+        or recommended.get("tag") != release.get("tag")
+        or any(
+            not isinstance(release.get(key), str)
+            or re.fullmatch(r"[0-9a-f]{40}", release[key]) is None
+            or recommended.get(key) != release[key]
+            for key in ("commit", "tree", "tag_object")
+        )
+        or release.get("tag_signature_verified") is not True
+        or recommended.get("tag_signature_verified") is not True
+        or github.get("draft") is not False
+        or github.get("prerelease") is not False
+        or github.get("immutable") is not True
+        or recommended.get("immutable_github_release") is not True
+        or not isinstance(github.get("published_at"), str)
+        or not github["published_at"]
+        or recommended.get("published_at") != github["published_at"]
+        or github.get("url")
+        != f"https://github.com/edithatogo/voiage/releases/tag/v{version}"
+        or recommended.get("github_release") != github.get("url")
+        or recommended.get("pypi_release")
+        != f"https://pypi.org/project/voiage/{version}/"
+        or recommended.get("latest_on_pypi_when_observed") is not True
+        or not isinstance(publication, dict)
+        or publication.get("conclusion") != "success"
+        or publication.get("head") != release.get("commit")
+    ):
+        findings.append(
+            "published candidate identity does not match successful immutable release evidence"
+        )
+    expected_names = {
+        f"voiage-{version}-cp312-abi3-macosx_11_0_arm64.whl",
+        f"voiage-{version}-cp312-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+        f"voiage-{version}-cp312-abi3-win_amd64.whl",
+        f"voiage-{version}.tar.gz",
+    }
+    digests = receipt.get("reviewed_digests")
+    if (
+        not isinstance(digests, dict)
+        or set(digests) != expected_names
+        or any(
+            not isinstance(value, str) or re.fullmatch(r"[0-9a-f]{64}", value) is None
+            for value in digests.values()
+        )
+        or candidate.get("artifact_sha256") != digests
+    ):
+        findings.append(
+            "published candidate must match all four reviewed artifact digests"
+        )
+        return
+    for name, host in (("pypi", "pypi.org"), ("testpypi", "test.pypi.org")):
+        registry = receipt.get(name)
+        artifacts = registry.get("artifacts") if isinstance(registry, dict) else None
+        if (
+            not isinstance(registry, dict)
+            or registry.get("url") != f"https://{host}/project/voiage/{version}/"
+            or (name == "pypi" and registry.get("latest_version") != version)
+            or not isinstance(artifacts, list)
+            or len(artifacts) != 4
+            or any(
+                not isinstance(item, dict)
+                or not isinstance(item.get("filename"), str)
+                or item.get("yanked") is not False
+                for item in artifacts
+            )
+            or {item.get("filename"): item.get("sha256") for item in artifacts}
+            != digests
+        ):
+            findings.append(
+                f"published candidate lacks exact non-yanked {name} artifact evidence"
+            )
+
+
 def validate_staging_packet(
     root: Path | str,
     *,
@@ -143,10 +261,52 @@ def validate_staging_packet(
     else:
         if set(attestations) != REQUIRED_HUMAN_ATTESTATIONS:
             findings.append("human attestation key set is incomplete or unexpected")
-        if attestations != EXPECTED_HUMAN_ATTESTATIONS:
-            findings.append(
-                "only the submitted version may be confirmed in the local packet"
+        expected = dict(EXPECTED_HUMAN_ATTESTATIONS)
+        if "maintainer_confirmation" in staging:
+            _, receipt = _validate_bound_file(
+                resolved_root,
+                staging["maintainer_confirmation"],
+                "maintainer confirmation",
+                findings,
+                require_all_files=True,
             )
+            confirmed = sorted(
+                key
+                for key, value in expected.items()
+                if value == "pending" and key != "pre_review_survey"
+            )
+            if (
+                receipt is None
+                or receipt.get("schema_version")
+                != "voiage.maintainer-venue-decision.v1"
+                or receipt.get("candidate_version") != EXPECTED_CANDIDATE_VERSION
+                or receipt.get("confirmed_attestations") != confirmed
+                or receipt.get("source") != "current_user_message"
+                or not isinstance(receipt.get("user_statement"), str)
+                or not receipt.get("user_statement", "").strip()
+                or receipt.get("boundaries")
+                != {
+                    "pre_review_survey_completed": False,
+                    "existing_ai_draft_human_authored": False,
+                    "submission_performed": False,
+                    "editorial_capacity_approved": False,
+                    "arxiv_submission_performed": False,
+                }
+            ):
+                findings.append(
+                    "maintainer confirmation must contain scoped user evidence"
+                )
+            else:
+                expected.update(dict.fromkeys(confirmed, "confirmed"))
+            if staging.get("action_gates") != {
+                "pre_review_survey": "pending",
+                "human_written_submission_text": "pending",
+            }:
+                findings.append(
+                    "personal confirmations must preserve remaining action gates"
+                )
+        if attestations != expected:
+            findings.append("human attestations must match bound maintainer evidence")
 
     external_actions = staging.get("external_actions")
     if not isinstance(external_actions, dict) or not external_actions:
@@ -209,11 +369,12 @@ def validate_staging_packet(
             "voiage.pyopensci-submission-candidate.v1"
         ):
             findings.append("unsupported pyOpenSci candidate schema")
-        if candidate.get("state") != (
+        published = candidate.get("state") == "published_release_maintainer_confirmed"
+        if not published and candidate.get("state") != (
             "release_candidate_prepublication_maintainer_confirmed"
         ):
             findings.append(
-                "candidate state must record a confirmed prepublication candidate"
+                "candidate state must record a confirmed candidate or published release"
             )
         if candidate.get("maintainer_version_confirmation") != "confirmed":
             findings.append("candidate maintainer confirmation must be recorded")
@@ -224,6 +385,10 @@ def validate_staging_packet(
             staging.get("candidate_version")
         ):
             findings.append("recommended candidate does not match staging version")
+        elif published:
+            _validate_published_candidate(
+                resolved_root, candidate, recommended, findings
+            )
         elif (
             recommended.get("tag") != f"v{EXPECTED_CANDIDATE_VERSION}"
             or any(
@@ -243,7 +408,7 @@ def validate_staging_packet(
             findings.append(
                 "prepublication candidate must not claim release identity or publication"
             )
-        if candidate.get("artifact_sha256") != {}:
+        if not published and candidate.get("artifact_sha256") != {}:
             findings.append(
                 "prepublication candidate must not claim published artifact digests"
             )
@@ -273,16 +438,35 @@ def validate_staging_packet(
             )
         lines = draft.splitlines()
         checkbox_markers_valid = True
-        for marker in PENDING_DRAFT_CHECKBOX_MARKERS:
-            unchecked = f"- [ ] {marker}"
-            checked = re.compile(rf"^- \[\s*[xX]\s*\] {re.escape(marker)}")
-            if sum(line.startswith(unchecked) for line in lines) != 1 or any(
-                checked.match(line) for line in lines
+        for canonical_marker, key in DRAFT_ATTESTATION_MARKERS.items():
+            marker = canonical_marker
+            if (
+                marker == "Reviewers may open"
+                and "maintainer_confirmation" not in staging
+            ):
+                marker = "Maintainer confirmation pending. If confirmed"
+            state = attestations.get(key) if isinstance(attestations, dict) else None
+            expected_mark = "x" if state == "confirmed" else " "
+            matches = [
+                line
+                for line in lines
+                if re.match(rf"^- \[.*?\] {re.escape(marker)}", line)
+            ]
+            if len(matches) != 1 or not matches[0].startswith(
+                f"- [{expected_mark}] {marker}"
             ):
                 checkbox_markers_valid = False
         if not checkbox_markers_valid:
             findings.append(
-                "draft human-attestation markers must remain uniquely unchecked"
+                "draft human-attestation markers must match scoped confirmations"
+            )
+
+        joss_lines = [line for line in lines if CONFIRMED_JOSS_OPTION_MARKER in line]
+        if len(joss_lines) != 1 or not joss_lines[0].startswith(
+            f"- [x] {CONFIRMED_JOSS_OPTION_MARKER}"
+        ):
+            findings.append(
+                "draft JOSS option must match the confirmed maintainer selection"
             )
 
         version_lines = [

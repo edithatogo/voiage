@@ -27,7 +27,7 @@ affiliations:
   - name: "Centre for Health Policy, The University of Melbourne"
     index: 3
     ror: "01ej9dk98"
-date: 26 July 2026
+date: 30 August 2026
 bibliography: paper.bib
 repository: https://github.com/edithatogo/voiage
 ---
@@ -47,7 +47,7 @@ of sampling (ENBS) compares population EVSI with research cost
 `voiage` calculates EVPI and EVPPI from simulated net-benefit samples, estimates
 EVSI from a declared study model, and combines study value and cost for ENBS. A
 versioned record preserves option names, units, uncertain inputs, and data
-sources with each result. Python, R, and Julia share the EVPI calculation. In
+sources with each result. Python, R, and Julia provide native EVPI and ENBS. In
 the fixed-seed health example, EVPI was estimated at 644 value units—a generic
 scale—for each person affected by later decisions during the horizon. It supports
 comparisons of
@@ -92,29 +92,27 @@ describes differences in their methods and required inputs
 value will be realised when new evidence does not fully change practice
 [@andronis2016implementation].
 
-Python alternatives address different parts of the problem.
+Python alternatives differ.
 `value-of-information` estimates the value of a noisy signal about one
 uncertain option in a simplified binary decision
 [@adamczewski2022valueofinformation]. The author's
 `trd-cea-toolkit` places VOI within a disease-specific health-economic workflow
 [@mordaunt2025trdcea]. `voiage` does not replace these tools or claim broader
-method coverage. Its distinct contribution is one EVPI calculation and a
-versioned decision record usable from Python, R, and Julia. Building that link
-around one environment-specific package would either make that environment a
-dependency or require another compatibility layer. The separate core lets
-analysts keep their preferred modelling tools while sharing one calculation and
-one description of the decision; specialist tools retain their broader methods
-and reporting.
+method coverage. Its contribution combines matching EVPI and ENBS calculations
+across Python, R, and Julia with Python decision records. Standalone native
+interfaces avoid making Python mandatory for R and Julia. Python retains the decision
+record; R and Julia expose scalar calculations checked against shared fixtures.
+Specialist tools retain their broader methods and reporting.
 
 # Software design
 
-One Rust implementation calculates EVPI for Python, R, and Julia, reducing the
-risk that separately maintained versions produce different answers. Analysts
-can still prepare data, fit models, and plot results in their preferred
-language, and R and Julia users do not need Python. The trade-off is
-installation: each operating system needs a compatible compiled library.
-Python supports the broadest workflow; R also offers optional Python-backed
-EVPPI and EVSI, while Julia supports EVPI only.
+Python and Julia use the main Rust core; R bundles a separate, dependency-free
+Rust kernel for EVPI and ENBS. Shared numerical fixtures check agreement across
+these implementations. R and Julia users do not need Python for these methods.
+The trade-off is installation: each operating system needs compatible compiled
+code. R builds its kernel offline from the source archive; Julia requires a
+separately supplied native library. Python supports the broadest workflow; R
+also offers optional Python-backed EVPPI and EVSI.
 
 Method tests compare specified inputs and outputs with separately implemented
 reference equations, and check repeatability and invalid inputs. A method is
@@ -192,29 +190,28 @@ analytical. All inputs and results are synthetic.](paper/figures/synthetic_healt
 
 # Research impact statement
 
-A related health-economic project by the same author publishes versioned input
-and expected-result formats designed to work with `voiage`
-[@vop_poc_nz2026]. A released-package run calculated EVPI for its
-HPV-vaccination model. This is completed
-developer research use, not independent adoption or a policy estimate. The
-fixed-seed example, equations, sensitivity data, and regeneration command give
-another researcher material to check the calculations and assess the exchange
-format for a real analysis. Development has been public since July 2025;
-engagement by non-authors has not yet been documented.
+Historical developer research use calculated EVPI for the same author's
+HPV-vaccination model [@vop_poc_nz2026]. An automated v2.2.0 replay reproduced
+its 500 draws and EVPI through a hash-checked CSV handoff between separate
+supported environments. This is not a combined installation, additional human
+use, independent adoption, or a policy estimate. The supplied equations,
+sensitivity data, and regeneration commands allow others to check these
+bounded calculations. Development has been public since July 2025; engagement
+by non-authors has not yet been documented.
 
 # AI usage disclosure
 
-Generative artificial intelligence (AI) tools assisted with this work. OpenAI
-Codex and Google Jules assisted with code and test generation, refactoring,
-documentation, workflows, and manuscript drafting and editing. The current
-preparation environment records Codex CLI 0.144.1 and Jules CLI 0.1.42. Codex
-used GPT-5-family models; Jules used Google-managed models whose identifiers
-were not exposed by the service. Exact model identifiers were not retained for
-every historical session. The human author remained the primary decision-maker,
-selected the research problem and architecture, reviewed, modified,
-and validated all retained AI-assisted outputs, and reran the reported tests
-and numerical checks. The author accepts responsibility for the software,
-manuscript, claims, citations, licensing, and submission. No AI system is an
+OpenAI Codex and Google Jules assisted with code and test generation,
+refactoring, documentation, workflows, and manuscript drafting and editing.
+Historical preparation records list Codex CLI 0.144.1 and Jules CLI 0.1.42.
+Codex used GPT-5-family models; Jules used Google-managed models. Exact model
+identifiers were not retained for every session. Codex assisted with the
+August release-evidence and manuscript repairs. The human author was the
+primary decision-maker and confirmed on 27 July 2026 that all retained
+AI-assisted outputs had been reviewed and validated. That historical
+attestation does not cover these
+later revisions; final human review remains pending. The author retains responsibility
+for accuracy, claims, citations, licensing, and submission. No AI system is an
 author.
 
 # Acknowledgements
@@ -224,13 +221,15 @@ interests.
 
 # Software and data availability
 
-The source code, signed release 2.0.0, and synthetic worked-example materials
-are public [@voiage2026]. The Software Heritage snapshot includes the signed
-release [@voiage_software_heritage]. Repository manifests record release
-checksums and provenance, the software bill of materials, fixed random seeds,
-input and output hashes, and the command used to verify the worked example. The
-project provides the fixed-seed generation script, machine-readable inputs and
-outputs, and regeneration instructions; all worked-example data are synthetic.
-The manifests also identify execution environment details.
+The source code, signed release 2.2.0, and synthetic worked-example materials
+are public [@voiage2026]. The cited Software Heritage snapshot preserves
+v2.0.0, not v2.2.0 [@voiage_software_heritage]. Repository manifests bind the
+current release's checksums, provenance and software bill of materials.
+Historical worked-example manifests record fixed seeds, input and output
+hashes, execution environments, and the original regeneration command. Current
+CI rechecks the portable outputs against those retained files. All
+worked-example data are synthetic; the repository supplies generation scripts
+and equations. A v2.2.0 Software Heritage snapshot and DOI-bearing archive
+remain unconfirmed.
 
 # References

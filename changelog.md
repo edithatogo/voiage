@@ -1,11 +1,48 @@
 # Changelog
 
 - Archived the completed comprehensive pre-submission hardening programme after
-  exact-head hosted assurance and tree-equal merges. Repository readiness is
-  satisfied; the future hardened release and pyOpenSci, rOpenSci, and JOSS
-  submissions remain explicitly unperformed.
+  exact-head hosted assurance and tree-equal merges. The hardened v2.2.0 release
+  is published; pyOpenSci, rOpenSci, and JOSS submissions remain unperformed.
 
 ## Unreleased
+
+- Bound confirmed maintainer declarations and journal-first sequencing to the
+  recorded decision. Retained separate survey and human-authorship action gates
+  and verified withdrawal receipts for the earlier pyOpenSci requests.
+
+- Reconciled Conductor status with the published v2.2.0 release and merged
+  venue-packet repairs. Retained historical evidence and made the remaining
+  maintainer declarations, contact-capacity and external venue gates explicit.
+- Updated the lifecycle regression contract to distinguish the active v2.2
+  queue from historical v1 release and registry records.
+- Aligned both manuscript sources and unposted venue packets with published
+  v2.2.0, the separate R Rust kernel and scalar R/Julia interfaces. Historical
+  archives and human attestations remain explicitly historical. Added current
+  pyOpenSci disclosure gates and preserved the already selected JOSS route.
+- Reject semantic-HTML previews that omit manuscript figures, even if the
+  conversion process exits successfully.
+- Correct JOSS preflight status handling while rejecting missing required
+  gates and enforcing partner eligibility and current human declarations.
+- Limit a secret-scanner exception to the exact public Authentext provenance
+  line and audit file; retain scanning of other values and paths. Correct a
+  preprint sentence-spacing warning without weakening LaTeX linting.
+- Bind research replay to reviewed public wheel hashes and installed payload
+  bytes. Retain its exact CSV in the repository for fresh-clone verification.
+- Replayed the historical VOP research workflow against published voiage 2.2.0
+  in separate supported environments, with hash-checked data exchange and
+  numerical-reference tests. Preserve the distinction from new human use or
+  independent adoption.
+- Reconciled citation metadata, roadmap and unposted submission projections
+  with the verified public v2.2.0 release; reject mismatched publication
+  identities, missing receipts and inconsistent registry artifact evidence.
+- Published the reviewed v2.2.0 payload to TestPyPI, PyPI, and an immutable
+  GitHub release after exact-hash checks, provenance verification, and clean
+  Python 3.12, 3.13, and 3.14 installations. Venue submissions remain pending.
+- Recorded the verified v2.2.0 source-candidate merge and its validation
+  checkpoint, using the retained squash merge for future phase comparisons.
+  The signed release is public; venue submissions remain pending.
+- Include the already merged pnpm 10.34.4 security update in the final release
+  candidate and revalidate its documentation tooling before tagging.
 
 ## [2.2.0] - 2026-08-30
 

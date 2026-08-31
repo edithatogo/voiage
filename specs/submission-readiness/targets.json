@@ -86,7 +86,7 @@
         {"id": "non-author-engagement", "status": "pending", "evidence": ["docs/release/joss-independent-validation.md"]}
       ],
       "acceptance_evidence": ["JOSS submission identifier", "Public review issue", "Acceptance decision and DOI"],
-      "next_decision": "After pyOpenSci acceptance, human engagement evidence, and the author-selected arXiv sequence, request JOSS partner fast-track handling through a separate maintainer action."
+      "next_decision": "The partner route is already authorized. After pyOpenSci acceptance, current human review and genuine engagement, proceed only through an eligible human-led JOSS handoff. The maintainer deferred arXiv until journal submission and later authorized action."
     },
     {
       "id": "pyopensci",
@@ -99,10 +99,10 @@
         {"id": "package-baseline", "status": "satisfied", "evidence": ["README.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "LICENSE", "pyproject.toml"]},
         {"id": "method-provenance-and-overlap", "status": "satisfied", "evidence": ["README.md", "paper.md", "docs/astro-site/src/content/docs/methods/index.mdx"]},
         {"id": "maintenance-commitment", "status": "satisfied", "evidence": ["GOVERNANCE.md", "SUPPORT.md", "docs/release/pyopensci-readiness.md", "specs/submission-readiness/pyopensci-evidence.json"]},
-        {"id": "ai-affirmation", "status": "satisfied", "evidence": ["paper.md", "paper/joss-editorial-assurance.json"]}
+        {"id": "ai-affirmation", "status": "pending", "evidence": ["paper.md", "paper/joss-editorial-assurance.json", "AI_CONTRIBUTIONS.md", "specs/submission-readiness/pyopensci-submission-staging.json"]}
       ],
       "acceptance_evidence": ["pyOpenSci review issue", "pyOpenSci approval label and catalogue entry"],
-      "next_decision": "Refresh criteria immediately before the maintainer-authorized pyOpenSci inquiry; after acceptance, request JOSS partner fast-track handling only through a separate maintainer action."
+      "next_decision": "Complete all packet repairs and current human declarations, resolve contact-capacity eligibility for existing issues #271 and #272, and use human-written review communication. The pyOpenSci-first and subsequent eligible JOSS route is already authorized."
     },
     {
       "id": "ropensci",
@@ -117,7 +117,7 @@
         {"id": "statistical-standards-map", "status": "satisfied", "evidence": ["specs/submission-readiness/ropensci-evidence.json", "specs/submission-readiness/ropensci-standards-mapping.md", "r-package/voiageR/tests/testthat/test-zz-numerical-reference.R"]}
       ],
       "acceptance_evidence": ["rOpenSci pre-submission or review issue", "rOpenSci acceptance and onboarding record"],
-      "next_decision": "The default-branch R CMD Check workflow and pinned pkgcheck are green. After a separately authorized future release binds the hardened source, a maintainer may separately decide whether to open the unposted pre-submission inquiry."
+      "next_decision": "The public v2.2.0 source binds the unchanged R subtree and checked source archive. Retain the explicit remote CRAN-incoming limitation. Complete personal lifecycle and scope declarations, honor pyOpenSci-first ordering, and avoid concurrent venue review before any human-led inquiry."
     },
     {
       "id": "r-journal",

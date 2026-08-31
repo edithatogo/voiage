@@ -5536,16 +5536,70 @@
         {
           "number": 1038,
           "url": "https://github.com/edithatogo/voiage/pull/1038",
-          "status": "open",
+          "status": "merged",
           "evidence": [
             "local-tox:15-environments-passed",
             "local-tests:4522-passed-16-skipped",
-            "hosted-checks:pending",
-            "merge:pending"
+            "hosted-checks:68-passed-5-skipped",
+            "merge:cf35bc998b936ede8eb3eea57d5bb2eec40124c0",
+            "exact-tree:c525533c75735f1efabd5f8d40e4d01d1817710a"
+          ]
+        },
+        {
+          "number": 1046,
+          "url": "https://github.com/edithatogo/voiage/pull/1046",
+          "status": "merged",
+          "evidence": [
+            "phase-1-source-boundary:cf35bc998b936ede8eb3eea57d5bb2eec40124c0",
+            "phase-1-validation-receipt:ca7c5d770175436081245978682f5863f09dda6c",
+            "local-focused-tests:43-passed",
+            "hosted-checks:35-passed-4-skipped",
+            "merge:7af563c8cb373057d30662650b3f332f39e05b83",
+            "exact-tree:2d78e8a1f4825ce3944bfad7e83f8b6b00e63139",
+            "release-publication:verified-v2.2.0-run-33303294302"
+          ]
+        },
+        {
+          "number": 1047,
+          "url": "https://github.com/edithatogo/voiage/pull/1047",
+          "status": "merged",
+          "evidence": [
+            "local-tox:15-environments-passed",
+            "local-tests:4530-passed-16-skipped",
+            "hosted-checks:36-passed-3-skipped-1-neutral",
+            "merge:4c47b24183920ef97076848cd3fe3c5baed2a385",
+            "exact-tree:287d239a085bcbf1a5b8a08a6f2d5267a3975069"
+          ]
+        },
+        {
+          "number": 1051,
+          "url": "https://github.com/edithatogo/voiage/pull/1051",
+          "status": "merged",
+          "evidence": [
+            "local-tox:15-environments-passed",
+            "local-tests:4600-passed-16-skipped",
+            "hosted-checks:40-success-3-skipped-1-neutral-0-failed",
+            "review-threads:2-resolved-0-unresolved",
+            "merge:0330fa55f303de9593ada85e998532765b8008d0",
+            "exact-tree:d029b5d9565e18f68d2abed71b6bd1a161f241e9",
+            "post-merge-workflows:13-success-1-skipped",
+            "conductor/tracks/v2_2_release_and_venue_submissions_20260830/venue-packet-merge-receipt-20260831.json"
+          ]
+        },
+        {
+          "number": 1052,
+          "url": "https://github.com/edithatogo/voiage/pull/1052",
+          "status": "open",
+          "evidence": [
+            "local-tox:15-environments-passed",
+            "local-tests:4601-passed-15-skipped",
+            "local-coverage:95.11-percent",
+            "conductor/tracks/v2_2_release_and_venue_submissions_20260830/status-reconciliation-validation-20260831.json",
+            "hosted-checks-and-merge:pending"
           ]
         }
       ],
-      "pull_request_evidence": "PR #1038 contains the locally validated v2.2.0 source candidate; exact-head hosted checks and protected merge remain pending"
+      "pull_request_evidence": "PR #1038, #1046, #1047 and #1051 merged with exact tree equality after local and hosted gates. Signed v2.2.0 targets #1046 and is publicly verified; #1047 reconciles publication and #1051 completes repository venue-packet repairs. R14 human declarations and venue outcomes remain separate. PR #1052 contains the locally validated status reconciliation; its hosted checks and merge remain separate gates."
     }
   ]
 }

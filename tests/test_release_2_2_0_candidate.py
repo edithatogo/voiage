@@ -23,20 +23,21 @@ def test_v2_2_0_is_the_synchronized_release_identity() -> None:
     assert validate_release_tag("v2.2.0", ROOT) == "2.2.0"
 
 
-def test_citation_metadata_preserves_the_last_published_release() -> None:
-    """Citation tooling must not advertise the unpublished candidate."""
+def test_citation_metadata_matches_the_verified_public_release() -> None:
+    """Citation tooling must project the independently verified publication."""
     citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
     codemeta = _json("codemeta.json")
 
-    assert "version: 2.1.0" in citation
-    assert "date-released: 2026-08-21" in citation
-    assert "v2.2.0 software release" not in citation
-    assert codemeta["version"] == "2.1.0"
-    assert codemeta["downloadUrl"] == "https://pypi.org/project/voiage/2.1.0/"
-    assert codemeta["releaseNotes"].endswith("/releases/tag/v2.1.0")
+    assert "version: 2.2.0" in citation
+    assert "date-released: 2026-08-30" in citation
+    assert "v2.2.0 software release" in citation
+    assert codemeta["version"] == "2.2.0"
+    assert codemeta["downloadUrl"] == "https://pypi.org/project/voiage/2.2.0/"
+    assert codemeta["releaseNotes"].endswith("/releases/tag/v2.2.0")
+    assert codemeta["identifier"] == codemeta["releaseNotes"]
 
 
-def test_submission_packets_target_v2_2_0_without_claiming_publication() -> None:
+def test_submission_packets_target_v2_2_0_without_claiming_submission() -> None:
     """Venue staging follows the candidate while external actions remain false."""
     staging = _json("specs/submission-readiness/pyopensci-submission-staging.json")
     candidate = _json("specs/submission-readiness/pyopensci-submission-candidate.json")

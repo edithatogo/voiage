@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-08-31T09:53:37Z",
+  "authority": "maintainer-venue-decision-20260831.json",
+  "actor": "edithatogo",
+  "purpose": "Prioritize voiage by withdrawing the two earlier requests; preserve discussions, post no generated comment, and do not claim editorial approval.",
+  "issues": [
+    {
+      "number": 271,
+      "url": "https://github.com/pyOpenSci/software-submission/issues/271",
+      "before_state": "open",
+      "before_body_sha256": "36bf30159fad5d9d0c9fb7379f15c39bf355bfad98ef23a24f70a7f2f0b9b288",
+      "before_comments": 4,
+      "action_status": "verified",
+      "action_exit_code": 0,
+      "after_state": "closed",
+      "after_state_reason": "not_planned",
+      "closed_at": "2026-08-31T09:53:40Z",
+      "closed_by": "edithatogo",
+      "after_body_sha256": "36bf30159fad5d9d0c9fb7379f15c39bf355bfad98ef23a24f70a7f2f0b9b288",
+      "after_comments": 4
+    },
+    {
+      "number": 272,
+      "url": "https://github.com/pyOpenSci/software-submission/issues/272",
+      "before_state": "open",
+      "before_body_sha256": "f6392394b0021f5eafd39d1be21ecc1158ca8019fcb421cae4a0ec4d102d3957",
+      "before_comments": 2,
+      "action_status": "verified",
+      "action_exit_code": 0,
+      "after_state": "closed",
+      "after_state_reason": "not_planned",
+      "closed_at": "2026-08-31T09:53:43Z",
+      "closed_by": "edithatogo",
+      "after_body_sha256": "f6392394b0021f5eafd39d1be21ecc1158ca8019fcb421cae4a0ec4d102d3957",
+      "after_comments": 2
+    }
+  ],
+  "editorial_approval_inferred": false
+}

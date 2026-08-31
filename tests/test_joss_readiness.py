@@ -76,7 +76,7 @@ def test_joss_independent_validation_protocol_is_bounded() -> None:
         (ROOT / "paper/joss-readiness-manifest.json").read_text(encoding="utf-8")
     )
 
-    assert "voiage==2.0.0" in protocol
+    assert "voiage==2.2.0" in protocol
     assert "EVPI: 0.667" in protocol
     assert "issue #471" in protocol
     assert "AI-agent run" in protocol
@@ -250,6 +250,20 @@ def test_joss_readiness_distinguishes_use_gate_from_engagement_signal() -> None:
             "detailed_review_criterion_and_strong_positive_pre_review_signal"
         ),
     }
+    sequence = readiness["author_project_sequence"]
+    assert (
+        sequence["permanent_arxiv_identifier_and_announcement_before_joss_submission"]
+        == "not_required_by_maintainer"
+    )
+    binding = sequence["maintainer_decision"]
+    receipt_path = ROOT / binding["path"]
+    assert binding["sha256"] == hashlib.sha256(receipt_path.read_bytes()).hexdigest()
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    assert receipt["journal_first_authorized"] is True
+    arxiv = json.loads((ROOT / "paper/readiness-manifest.json").read_text())
+    assert arxiv["submission_sequence"]["maintainer_decision"] == binding
+    assert arxiv["submission_sequence"]["journal_submission_observed"] is False
+    assert arxiv["submission_performed"] is False
 
 
 def test_joss_validator_rejects_internal_word_budget_drift(tmp_path: Path) -> None:

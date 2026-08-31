@@ -37,7 +37,10 @@
 
 ### Runtime Authority and Binding Boundaries
 - Rust is the sole stable numerical execution authority.
-- Python/PyO3, R and Julia are thin bindings over the Rust core; Mojo remains
+- Python/PyO3 and Julia bind the main Rust core. The standalone R package
+  bundles a separate offline Rust EVPI/ENBS kernel checked against shared
+  fixtures; its scalar interface does not expose the full Python decision
+  record. Mojo remains
   an explicitly tracked upstream interop boundary until its toolchain and
   distribution contract are available.
 - Python may retain schemas, I/O, orchestration, CLI, plotting and reporting,

@@ -1,9 +1,9 @@
 cff-version: 1.2.0
-message: "If you use voiage, please cite the v2.1.0 software release and the JOSS paper when published."
+message: "If you use voiage, please cite the v2.2.0 software release and the JOSS paper when published."
 title: "voiage: Value of Information Analysis"
 type: software
-version: 2.1.0
-date-released: 2026-08-21
+version: 2.2.0
+date-released: 2026-08-30
 authors:
   - family-names: Mordaunt
     given-names: Dylan
@@ -20,7 +20,7 @@ abstract: >-
   voiage provides Value of Information analysis through a hybrid Rust and
   Python implementation. Rust owns selected stable kernels and shared result
   contracts; Python owns the broader interface and method paths. R and Julia
-  source packages currently expose direct EVPI bindings through the shared ABI.
+  source packages expose native EVPI and ENBS; R bundles its offline Rust kernel.
 keywords:
   - value of information
   - decision analysis
