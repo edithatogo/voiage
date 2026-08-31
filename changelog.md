@@ -6,6 +6,15 @@
 
 ## Unreleased
 
+- Bound confirmed maintainer declarations and journal-first sequencing to the
+  recorded decision. Retained separate survey and human-authorship action gates
+  and verified withdrawal receipts for the earlier pyOpenSci requests.
+
+- Reconciled Conductor status with the published v2.2.0 release and merged
+  venue-packet repairs. Retained historical evidence and made the remaining
+  maintainer declarations, contact-capacity and external venue gates explicit.
+- Updated the lifecycle regression contract to distinguish the active v2.2
+  queue from historical v1 release and registry records.
 - Aligned both manuscript sources and unposted venue packets with published
   v2.2.0, the separate R Rust kernel and scalar R/Julia interfaces. Historical
   archives and human attestations remain explicitly historical. Added current

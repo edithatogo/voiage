@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-08-31T05:26:05Z",
+  "task": "R13f",
+  "base_commit": "0330fa55f303de9593ada85e998532765b8008d0",
+  "scope": "Current Conductor/release/venue status projections and their lifecycle regression test; no runtime, dependency, release payload, manuscript-source, or archived evidence changes.",
+  "initial_full_validation": {
+    "argv": [
+      "tox",
+      "-p",
+      "3"
+    ],
+    "exit_code": 1,
+    "passed_tests": 4600,
+    "failed_tests": 1,
+    "skipped_tests": 15,
+    "coverage_percent": 95.11,
+    "failure": "tests/test_v1_programme_baseline.py::test_roadmap_and_backlog_name_the_active_v1_programme required the obsolete In Progress heading",
+    "log_sha256": "9cb09bb8a6b2d2ad0dfd0c8929f356e30b89178dc7b754f1f4c425c6ba439322"
+  },
+  "repair": "Replace the obsolete active-v1 heading assertion with canonical active v2.2 metadata and current queue checks, retaining all historical v1 baseline assertions.",
+  "final_full_validation": {
+    "argv": [
+      "tox",
+      "-p",
+      "3"
+    ],
+    "exit_code": 0,
+    "environments_passed": 15,
+    "passed_tests": 4601,
+    "skipped_tests": 15,
+    "coverage_percent": 95.11,
+    "elapsed_seconds": 488.64,
+    "log_sha256": "02d560dc0ebfaa055884ac8ed5d90dd718490c8e1891319738ed87ac2aa3c07d",
+    "coverage_log_sha256": "5aefb881fe0601c99f150ffaa7238442343b81b194b6fd1539e44ae7eda2b1aa",
+    "cache_policy": "Explicit named dependency-download cache; fresh installed-consumer environments and wheel installation retained."
+  },
+  "additional_validation": [
+    {
+      "check": "Full Conductor validation and append-only evidence validation",
+      "status": "passed"
+    },
+    {
+      "check": "Conductor GitHub cross-reference validation",
+      "status": "passed"
+    },
+    {
+      "check": "pyOpenSci staging and submission-readiness contracts",
+      "status": "passed"
+    },
+    {
+      "check": "Repository harness",
+      "status": "passed",
+      "workflow_count": 31,
+      "finding_count": 0
+    },
+    {
+      "check": "Focused v1 lifecycle suite",
+      "status": "passed",
+      "passed_tests": 12
+    },
+    {
+      "check": "Independent archive, venue and merge-evidence reviews plus lifecycle-test re-review",
+      "status": "passed",
+      "actionable_findings_remaining": 0
+    }
+  ],
+  "boundaries": [
+    "This receipt establishes local validation only; new PR hosted checks and merge require separate evidence.",
+    "The published v2.2.0 source and artifacts remain unchanged.",
+    "R14 and later human/venue tasks remain pending; no personal attestation or external communication/submission is supplied.",
+    "Archived superseded and external gates retain their original evidence; the full track is not complete."
+  ]
+}

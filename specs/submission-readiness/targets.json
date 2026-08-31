@@ -86,7 +86,7 @@
         {"id": "non-author-engagement", "status": "pending", "evidence": ["docs/release/joss-independent-validation.md"]}
       ],
       "acceptance_evidence": ["JOSS submission identifier", "Public review issue", "Acceptance decision and DOI"],
-      "next_decision": "The partner route is already authorized. After pyOpenSci acceptance, current human review, genuine engagement and the author-selected arXiv sequence, proceed only through an eligible human-led JOSS handoff."
+      "next_decision": "The partner route is already authorized. After pyOpenSci acceptance, current human review and genuine engagement, proceed only through an eligible human-led JOSS handoff. The maintainer deferred arXiv until journal submission and later authorized action."
     },
     {
       "id": "pyopensci",

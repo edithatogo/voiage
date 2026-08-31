@@ -75,12 +75,18 @@
     "authority": "maintainer_for_authenticated_actions_and_external_venues_for_acceptance"
   },
   "author_project_sequence": {
-    "permanent_arxiv_identifier_and_announcement_before_joss_submission": "pending",
+    "permanent_arxiv_identifier_and_announcement_before_joss_submission": "not_required_by_maintainer",
     "community_engagement_before_joss_submission": "pending",
     "joss_requirement": {
       "permanent_arxiv_identifier": false,
       "community_engagement": "detailed_review_criterion_and_strong_positive_pre_review_signal"
-    }
+    },
+    "maintainer_decision": {
+      "path": "conductor/tracks/v2_2_release_and_venue_submissions_20260830/maintainer-venue-decision-20260831.json",
+      "sha256": "514f06a661b0a3a1de76b4bdda50efd6d21e633e40d1f64333d91d3c7bf8fb81"
+    },
+    "arxiv_sequence": "deferred_until_journal_submission_and_explicit_later_action",
+    "basis": "Maintainer-reported case-specific arXiv instruction on 2026-08-31; not a universal arXiv policy or evidence of journal submission."
   },
   "human_gates": [
     "verify every cited source against the claim it supports",

@@ -91,8 +91,9 @@
   submission body against R12a's public v2.2.0 citation and candidate bindings;
   complete known JOSS paper/use-record and rOpenSci packet repairs before the
   first venue submission, preserving any missing human evidence as a gate.
-  Repository packet repairs are complete in PR #1051; R14 retains all personal
-  declarations and external eligibility. Exact-head CI remains the PR merge gate.
+  Repository packet repairs merged through PR #1051 as `0330fa55`, with exact
+  tree equality and terminal hosted checks recorded in the 2026-08-31 merge
+  receipt. R14 retains all personal declarations and external eligibility.
 - [x] **R13a / AC-04 — Research-use environment boundary:** Refresh the
   same-author VOP research-use evidence using separate supported environments
   and a hash-bound data hand-off. VOP requires pandas 3 and SciPy 1.18, outside
@@ -119,7 +120,8 @@
   image-processing module; retain that failure and require a complete hosted
   semantic-HTML artifact, including its figure, before merge.
   The complete initial-head artifact passed and its figure was inspected;
-  fresh exact-head hosted validation remains required. (`7e762eb7`)
+  final exact-head hosted validation subsequently passed before PR #1051
+  merged; see the 2026-08-31 merge receipt. (`7e762eb7`)
 - [x] **R13c / AC-04 — Submission preflight review fix:** Recognize successful
   manuscript status values, reject missing required gates, and enforce the
   selected JOSS partner route and current human declarations. Automated tests
@@ -141,10 +143,27 @@
   Verified 192 installed payload files, retained the exact CSV, and passed
   38 focused handoff tests plus full tox: 4,600 passed, 16 skipped and
   95.16 percent coverage. (`a5b3668e`)
-- [ ] **R14 / AC-04:** Collect or record the maintainer-only Code of Conduct,
-  maintenance, guide, survey, reviewer-contact, and partnership declarations;
-  resolve contact-capacity eligibility against existing pyOpenSci issues #271
-  and #272 and obtain human review of the submission communication.
+- [x] **R13f / AC-01, AC-04 — Post-merge reconciliation and review fixes:** Record the
+  observed #1051 merge and terminal hosted checks, synchronize current release
+  and venue-readiness projections, audit archived gate continuity, and prepare
+  the exact remaining human-action checklist without supplying attestations.
+  The first full tox run exposed a legacy test that required the historical
+  backlog to retain an active heading. Repaired that lifecycle assertion while
+  preserving the archived v1 baseline; both runs are retained in the validation
+  receipt. Final full tox passed all 15 environments: 4,601 tests passed,
+  15 skipped and 95.11 percent coverage. PR #1052 retains its own hosted-check
+  and merge boundary; R14 remains pending. (`a6d748cc`)
+- [x] **R14a / AC-04, AC-05 — Maintainer venue decision:** Record personal
+  confirmations and verified priority withdrawals, retain survey and human-text
+  action gates, and replace arXiv-before-JOSS with authorized journal-first
+  sequencing. Both consistency repairs passed; all 15 tox environments passed
+  across retained runs, with 4,625 tests passed, 15 skipped and 95.11 percent
+  coverage. The existing import timing guard passed unchanged on retry.
+  R14 remains pending. (`7545ae5b`)
+- [ ] **R14 / AC-04:** Obtain completed pre-review survey confirmation and the
+  maintainer's human-written submission text. Personal declarations are confirmed;
+  prior pyOpenSci requests #271 and #272 are withdrawn. Editorial screening
+  remains external.
 - [ ] **R15 / AC-04:** Create the authenticated pyOpenSci submission and retain its
   issue URL, timestamp, exact body hash, and observed initial venue state.
 - [ ] **R16 / AC-04:** Run automated phase review and validation checkpoint.

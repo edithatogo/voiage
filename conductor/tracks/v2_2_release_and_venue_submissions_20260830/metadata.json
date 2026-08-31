@@ -3,7 +3,7 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-08-30T02:37:17Z",
-  "updated_at": "2026-08-30T11:46:17Z",
+  "updated_at": "2026-08-31T09:58:39Z",
   "description": "Publish the repository-hardened v2.2.0 release, then pursue pyOpenSci first, JOSS partner fast-track, and rOpenSci with fail-closed external evidence.",
   "evidence_schema": "1.0",
   "authorization": {
@@ -13,7 +13,7 @@
   },
   "github_cross_reference": {
     "issue": "https://github.com/edithatogo/voiage/issues/1037",
-    "pull_request": "https://github.com/edithatogo/voiage/pull/1051"
+    "pull_request": "https://github.com/edithatogo/voiage/pull/1052"
   },
   "gates": [
     {
@@ -32,13 +32,13 @@
       "id": "pyopensci-submission",
       "kind": "external",
       "status": "pending",
-      "evidence": "authorized; maintainer-only declarations remain pending"
+      "evidence": "Authorized; personal declarations confirmed. Survey completion and human-written submission text remain pending; see venue-next-actions-20260831.md."
     },
     {
       "id": "pyopensci-contact-capacity",
       "kind": "external",
-      "status": "pending",
-      "evidence": "2026-08-30: author has open on-hold issue pyOpenSci/software-submission#272 and open presubmission #271; resolve applicability of the one-review-per-contact policy before posting voiage"
+      "status": "satisfied",
+      "evidence": "pyopensci-withdrawal-receipt-20260831.json: #271 and #272 closed; no other open author requests observed. Overlap resolved; editorial screening is not approved by this receipt."
     },
     {
       "id": "joss-fast-track",
@@ -52,5 +52,12 @@
       "status": "pending",
       "evidence": "authorized; maintainer-only declarations remain pending"
     }
-  ]
+  ],
+  "current_phase": "Phase 3 — pyOpenSci-first submission",
+  "next_pending_task": "R14",
+  "repository_readiness": {
+    "status": "venue_packet_repairs_merged",
+    "evidence": "venue-packet-merge-receipt-20260831.json",
+    "remaining_human_actions": "venue-next-actions-20260831.md"
+  }
 }

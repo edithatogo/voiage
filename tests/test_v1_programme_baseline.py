@@ -113,8 +113,8 @@ def test_v1_programme_baseline_classifies_tracks_and_execution_lanes() -> None:
     ]
 
 
-def test_roadmap_and_backlog_name_the_active_v1_programme() -> None:
-    """Human-facing status must agree with the machine-readable baseline."""
+def test_roadmap_and_backlog_distinguish_archived_v1_from_current_queue() -> None:
+    """Preserve the v1 baseline without presenting it as current execution."""
     roadmap = Path("roadmap.md").read_text(encoding="utf-8")
     todo = Path("todo.md").read_text(encoding="utf-8")
     registry = Path("conductor/tracks.md").read_text(encoding="utf-8")
@@ -128,8 +128,20 @@ def test_roadmap_and_backlog_name_the_active_v1_programme() -> None:
         "Follow-Through Expansion (created June 25, 2026): 🔄 **ACTIVE**" not in roadmap
     )
 
-    assert "## In Progress" in todo
-    assert "Mature and harden the v1.0 release" in todo
+    current_track_id = "v2_2_release_and_venue_submissions_20260830"
+    current_metadata = {
+        path.parent.name: json.loads(path.read_text(encoding="utf-8"))
+        for path in Path("conductor/tracks").glob("*/metadata.json")
+    }
+    assert set(current_metadata) == {current_track_id}
+    assert current_metadata[current_track_id]["status"] == "in_progress"
+    current_link = f"./tracks/{current_track_id}/index.md"
+    assert f"]({current_link})" in registry
+    assert f"conductor/tracks/{current_track_id}/" in roadmap
+    current_todo = todo.split("## To Do\n", maxsplit=1)[1].split("\n## ", maxsplit=1)[0]
+    assert f"conductor/tracks/{current_track_id}/" in current_todo
+    assert "Mature and harden the v1.0 release" not in current_todo
+    assert "*   [x] Mature and harden the v1.0 release" in todo
     assert "research_software_registry_readiness_20260721" in todo
     for track_id in ACTIVE_TRACK_IDS:
         assert track_id in roadmap

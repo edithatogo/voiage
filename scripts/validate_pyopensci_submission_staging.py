@@ -52,17 +52,18 @@ REQUIRED_EXTERNAL_ACTIONS = {
     "badge_added",
     "doi_archive_created",
 }
-PENDING_DRAFT_CHECKBOX_MARKERS = (
-    "I agree to abide by",
-    "I have read and will commit",
-    "I confirm sustained human-led development",
-    "I have personally reviewed and understood",
-    "I will write the review communication personally",
-    "I have verified the AI scope and scale disclosure",
-    "Maintainer confirmation pending. If confirmed",
-    "I have read the pyOpenSci author guide",
-    "Last but not least please fill out our pre-review survey",
-)
+DRAFT_ATTESTATION_MARKERS = {
+    "I agree to abide by": "code_of_conduct",
+    "I have read and will commit": "maintenance_commitment_form_checkbox",
+    "I expect to maintain this package": "maintenance_commitment_form_checkbox",
+    "I confirm sustained human-led development": "human_led_development_history",
+    "I have personally reviewed and understood": "current_ai_outputs_reviewed_understood",
+    "I will write the review communication personally": "human_written_review_communication",
+    "I have verified the AI scope and scale disclosure": "ai_scope_disclosure_verified",
+    "Reviewers may open": "reviewer_direct_issue_permission",
+    "I have read the pyOpenSci author guide": "author_guide_read",
+    "Last but not least please fill out our pre-review survey": "pre_review_survey",
+}
 CONFIRMED_SUBMITTED_VERSION_LINE = (
     "Version submitted: 2.2.0 (confirmed by maintainer; submission not performed)"
 )
@@ -260,10 +261,52 @@ def validate_staging_packet(
     else:
         if set(attestations) != REQUIRED_HUMAN_ATTESTATIONS:
             findings.append("human attestation key set is incomplete or unexpected")
-        if attestations != EXPECTED_HUMAN_ATTESTATIONS:
-            findings.append(
-                "only the submitted version may be confirmed in the local packet"
+        expected = dict(EXPECTED_HUMAN_ATTESTATIONS)
+        if "maintainer_confirmation" in staging:
+            _, receipt = _validate_bound_file(
+                resolved_root,
+                staging["maintainer_confirmation"],
+                "maintainer confirmation",
+                findings,
+                require_all_files=True,
             )
+            confirmed = sorted(
+                key
+                for key, value in expected.items()
+                if value == "pending" and key != "pre_review_survey"
+            )
+            if (
+                receipt is None
+                or receipt.get("schema_version")
+                != "voiage.maintainer-venue-decision.v1"
+                or receipt.get("candidate_version") != EXPECTED_CANDIDATE_VERSION
+                or receipt.get("confirmed_attestations") != confirmed
+                or receipt.get("source") != "current_user_message"
+                or not isinstance(receipt.get("user_statement"), str)
+                or not receipt.get("user_statement", "").strip()
+                or receipt.get("boundaries")
+                != {
+                    "pre_review_survey_completed": False,
+                    "existing_ai_draft_human_authored": False,
+                    "submission_performed": False,
+                    "editorial_capacity_approved": False,
+                    "arxiv_submission_performed": False,
+                }
+            ):
+                findings.append(
+                    "maintainer confirmation must contain scoped user evidence"
+                )
+            else:
+                expected.update(dict.fromkeys(confirmed, "confirmed"))
+            if staging.get("action_gates") != {
+                "pre_review_survey": "pending",
+                "human_written_submission_text": "pending",
+            }:
+                findings.append(
+                    "personal confirmations must preserve remaining action gates"
+                )
+        if attestations != expected:
+            findings.append("human attestations must match bound maintainer evidence")
 
     external_actions = staging.get("external_actions")
     if not isinstance(external_actions, dict) or not external_actions:
@@ -395,16 +438,27 @@ def validate_staging_packet(
             )
         lines = draft.splitlines()
         checkbox_markers_valid = True
-        for marker in PENDING_DRAFT_CHECKBOX_MARKERS:
-            unchecked = f"- [ ] {marker}"
-            checked = re.compile(rf"^- \[\s*[xX]\s*\] {re.escape(marker)}")
-            if sum(line.startswith(unchecked) for line in lines) != 1 or any(
-                checked.match(line) for line in lines
+        for canonical_marker, key in DRAFT_ATTESTATION_MARKERS.items():
+            marker = canonical_marker
+            if (
+                marker == "Reviewers may open"
+                and "maintainer_confirmation" not in staging
+            ):
+                marker = "Maintainer confirmation pending. If confirmed"
+            state = attestations.get(key) if isinstance(attestations, dict) else None
+            expected_mark = "x" if state == "confirmed" else " "
+            matches = [
+                line
+                for line in lines
+                if re.match(rf"^- \[.*?\] {re.escape(marker)}", line)
+            ]
+            if len(matches) != 1 or not matches[0].startswith(
+                f"- [{expected_mark}] {marker}"
             ):
                 checkbox_markers_valid = False
         if not checkbox_markers_valid:
             findings.append(
-                "draft human-attestation markers must remain uniquely unchecked"
+                "draft human-attestation markers must match scoped confirmations"
             )
 
         joss_lines = [line for line in lines if CONFIRMED_JOSS_OPTION_MARKER in line]

@@ -10,7 +10,11 @@ import shutil
 
 import pytest
 
-from scripts.validate_pyopensci_submission_staging import validate_staging_packet
+from scripts.validate_pyopensci_submission_staging import (
+    DRAFT_ATTESTATION_MARKERS,
+    EXPECTED_HUMAN_ATTESTATIONS,
+    validate_staging_packet,
+)
 
 ROOT = Path(__file__).parents[1]
 STAGING = ROOT / "specs" / "submission-readiness" / "pyopensci-submission-staging.json"
@@ -34,11 +38,14 @@ def _load(path: Path) -> dict[str, object]:
 
 def _staged_packet(tmp_path: Path, draft: str) -> Path:
     staged_root = tmp_path / "repo"
-    relative_files = (
+    relative_files = [
         TEMPLATE.relative_to(ROOT),
         CANDIDATE.relative_to(ROOT),
         RECEIPT.relative_to(ROOT),
-    )
+    ]
+    confirmation = _load(STAGING).get("maintainer_confirmation")
+    if confirmation:
+        relative_files.append(Path(confirmation["path"]))
     for relative in relative_files:
         destination = staged_root / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
@@ -124,11 +131,12 @@ def test_staging_manifest_records_version_without_external_action() -> None:
     assert staging["candidate_confirmation"] == "confirmed_maintainer"
     assert staging["human_attestations"]["submitted_version"] == "confirmed"
     assert staging["human_attestations"]["joss_partnership_option"] == "confirmed"
-    assert all(
-        state == "pending"
-        for key, state in staging["human_attestations"].items()
-        if key not in {"submitted_version", "joss_partnership_option"}
-    )
+    assert staging["human_attestations"]["pre_review_survey"] == "pending"
+    if "maintainer_confirmation" in staging:
+        assert staging["action_gates"] == {
+            "pre_review_survey": "pending",
+            "human_written_submission_text": "pending",
+        }
     assert all(performed is False for performed in staging["external_actions"].values())
     assert staging["external_outcomes"] == {
         "pyopensci_review": "not_started",
@@ -253,8 +261,9 @@ def test_draft_is_unposted_and_contains_current_template_sections() -> None:
         "Version submitted: 2.2.0 (confirmed by maintainer; submission not performed)"
         in draft
     )
-    assert "- [ ] I agree to abide by" in draft
-    assert "- [ ] I have read and will commit" in draft
+    mark = "x" if "maintainer_confirmation" in _load(STAGING) else " "
+    assert f"- [{mark}] I agree to abide by" in draft
+    assert f"- [{mark}] I have read and will commit" in draft
     assert "- [x] Do you wish to automatically submit" in draft
     assert "- [ ] Last but not least please fill out our pre-review survey" in draft
     assert not re.search(
@@ -328,7 +337,7 @@ def test_validator_rejects_missing_external_action(tmp_path: Path) -> None:
         "I have personally reviewed and understood",
         "I will write the review communication personally",
         "I have verified the AI scope and scale disclosure",
-        "Maintainer confirmation pending. If confirmed",
+        "Reviewers may open",
         "I have read the pyOpenSci author guide",
         "Last but not least please fill out our pre-review survey",
     ],
@@ -338,12 +347,20 @@ def test_validator_rejects_checked_human_attestation(
 ) -> None:
     """No pending human checkbox can be checked by editing and rebinding."""
     draft = DRAFT.read_text(encoding="utf-8")
-    draft = draft.replace(f"- [ ] {marker}", f"- [x] {marker}", 1)
+    if (
+        "maintainer_confirmation" not in _load(STAGING)
+        and marker == "Reviewers may open"
+    ):
+        marker = "Maintainer confirmation pending. If confirmed"
+    if f"- [ ] {marker}" in draft:
+        draft = draft.replace(f"- [ ] {marker}", f"- [x] {marker}", 1)
+    else:
+        draft = draft.replace(f"- [x] {marker}", f"- [ ] {marker}", 1)
     staged_root = _staged_packet(tmp_path, draft)
 
     findings = validate_staging_packet(staged_root)
 
-    assert "draft human-attestation markers must remain uniquely unchecked" in findings
+    assert "draft human-attestation markers must match scoped confirmations" in findings
 
 
 def test_validator_rejects_checked_human_attestation_duplicate(
@@ -356,7 +373,7 @@ def test_validator_rejects_checked_human_attestation_duplicate(
 
     findings = validate_staging_packet(staged_root)
 
-    assert "draft human-attestation markers must remain uniquely unchecked" in findings
+    assert "draft human-attestation markers must match scoped confirmations" in findings
 
 
 @pytest.mark.parametrize("mutation", ["unchecked", "duplicate"])
@@ -388,3 +405,102 @@ def test_validator_rejects_unqualified_submitted_version(tmp_path: Path) -> None
         "draft submitted version must match the confirmed maintainer selection"
         in findings
     )
+
+
+def test_legacy_pending_packet_still_validates(tmp_path: Path) -> None:
+    """Historical pending packets remain valid without fabricated confirmations."""
+    draft = DRAFT.read_text(encoding="utf-8")
+    for marker in DRAFT_ATTESTATION_MARKERS:
+        draft = draft.replace(f"- [x] {marker}", f"- [ ] {marker}")
+    draft = draft.replace(
+        "Reviewers may open", "Maintainer confirmation pending. If confirmed"
+    )
+    root = _staged_packet(tmp_path, draft)
+    manifest = root / STAGING.relative_to(ROOT)
+    staging = _load(manifest)
+    staging.pop("maintainer_confirmation", None)
+    staging.pop("action_gates", None)
+    staging["human_attestations"] = EXPECTED_HUMAN_ATTESTATIONS
+    manifest.write_text(json.dumps(staging), encoding="utf-8")
+    assert validate_staging_packet(root) == []
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    ["missing", "digest", "version", "scope", "survey", "authorship", "action_gate"],
+)
+def test_confirmation_requires_scoped_immutable_evidence(
+    tmp_path: Path, mutation: str
+) -> None:
+    """A commitment cannot invent completed actions or expand a user's scope."""
+    root = _staged_packet(tmp_path, DRAFT.read_text(encoding="utf-8"))
+    manifest = root / STAGING.relative_to(ROOT)
+    staging = _load(manifest)
+    if "maintainer_confirmation" not in staging:
+        confirmed = sorted(
+            key
+            for key, state in EXPECTED_HUMAN_ATTESTATIONS.items()
+            if state == "pending" and key != "pre_review_survey"
+        )
+        receipt_path = root / "test-maintainer-decision.json"
+        receipt_path.write_text(
+            json.dumps(
+                {
+                    "schema_version": "voiage.maintainer-venue-decision.v1",
+                    "candidate_version": "2.2.0",
+                    "confirmed_attestations": confirmed,
+                    "source": "current_user_message",
+                    "user_statement": "Hypothetical test confirmation only",
+                    "boundaries": {
+                        "pre_review_survey_completed": False,
+                        "existing_ai_draft_human_authored": False,
+                        "submission_performed": False,
+                        "editorial_capacity_approved": False,
+                        "arxiv_submission_performed": False,
+                    },
+                }
+            ),
+            encoding="utf-8",
+        )
+        staging["maintainer_confirmation"] = {
+            "path": receipt_path.name,
+            "sha256": hashlib.sha256(receipt_path.read_bytes()).hexdigest(),
+        }
+        staging["human_attestations"].update(dict.fromkeys(confirmed, "confirmed"))
+        staging["action_gates"] = {
+            "pre_review_survey": "pending",
+            "human_written_submission_text": "pending",
+        }
+        draft_path = root / DRAFT.relative_to(ROOT)
+        draft = draft_path.read_text(encoding="utf-8").replace(
+            "Maintainer confirmation pending. If confirmed", "Reviewers may open"
+        )
+        for marker, key in DRAFT_ATTESTATION_MARKERS.items():
+            if key in confirmed:
+                draft = draft.replace(f"- [ ] {marker}", f"- [x] {marker}")
+        draft_path.write_text(draft, encoding="utf-8")
+        staging["draft"]["sha256"] = hashlib.sha256(draft_path.read_bytes()).hexdigest()
+        manifest.write_text(json.dumps(staging), encoding="utf-8")
+    assert validate_staging_packet(root) == []
+    binding = staging["maintainer_confirmation"]
+    receipt_path = root / binding["path"]
+    receipt = _load(receipt_path)
+    if mutation == "missing":
+        receipt_path.unlink()
+    elif mutation == "digest":
+        binding["sha256"] = "0" * 64
+    elif mutation == "action_gate":
+        staging["action_gates"]["human_written_submission_text"] = "complete"
+    else:
+        if mutation == "version":
+            receipt["candidate_version"] = "2.1.0"
+        elif mutation == "scope":
+            receipt["confirmed_attestations"].append("pre_review_survey")
+        elif mutation == "survey":
+            receipt["boundaries"]["pre_review_survey_completed"] = True
+        elif mutation == "authorship":
+            receipt["boundaries"]["existing_ai_draft_human_authored"] = True
+        receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
+        binding["sha256"] = hashlib.sha256(receipt_path.read_bytes()).hexdigest()
+    manifest.write_text(json.dumps(staging), encoding="utf-8")
+    assert validate_staging_packet(root)

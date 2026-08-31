@@ -89,13 +89,15 @@ analysis, accepted repository repairs, standalone R/polyglot assurance,
 measured CI optimization, and repository-controlled venue alignment. The
 programme is archived. Public v2.2.0 contains the hardened source and has
 verified signed-tag, artifact, provenance and clean-install receipts. The
-active release-and-venue track retains remaining manuscript, research-use and
-submission-packet repairs before any venue submission.
+active release-and-venue track has completed manuscript, research-use and
+submission-packet repairs through PR #1051. The maintainer confirmed personal declarations and withdrew prior pyOpenSci
+requests on 31 August 2026. R14 now requires survey completion and human-written
+submission text. Journal submission precedes the deferred arXiv lane.
 
 *   **Phase 1 (Foundation & API Refactoring):** ✅ **Complete** - Core OO API, data structures, CI/CD, and documentation are all in place.
 *   **Phase 2 (Health Economics Core):** ✅/🔄 **Stable analytical core complete; generic simulation developing** - EVPI, EVPPI, an analytical two-arm normal EVSI model, a coherent joint normal two-loop model with custom callback support, NMA VOI, structural VOI, and plotting are implemented. Generic two-loop and compatibility EVSI estimators remain non-stable pending method-specific convergence and parity evidence.
 *   **Phase 3 (Advanced Methods & Cross-Domain):** ✅ **Complete** - Structural VOI, NMA VOI, JAX JIT compilation, and cross-domain support implemented.
-*   **Spec, Fixture, Polyglot, And Ecosystem Tracks:** 🔄 **Truthfulness Repairs In Progress, External Gates Explicit** - the immutable release packaging matrix is now separated from the current method-level capability matrix; dataset, ecosystem, example, and workflow evidence has been narrowed to executed repository contracts. Standalone R/Julia installed-package assurance and registry approval remain open gates.
+*   **Spec, Fixture, Polyglot, And Ecosystem Tracks:** ✅/🔄 **Repository Repairs Complete, External Gates Explicit** - the immutable release packaging matrix is separated from the current method-level capability matrix; dataset, ecosystem, example, and workflow evidence is limited to executed repository contracts. Standalone R/Julia installed-package assurance is recorded by the completed hardening programme; upstream registry approval and indexing remain external gates.
 *   **Rust Core Migration:** 🔄 **Production Workspace Established, Stable Kernels Rust-Backed** - the production Rust workspace enforces core dependency direction, leaf FFI/PyO3 adapters, a Rust 1.85 MSRV, and cross-platform CI. Stable EVPI, EVPPI, analytical normal--normal EVSI, ENBS, CEAF, dominance, heterogeneity, and structural aggregation kernels are Rust-backed; Python retains declared two-loop orchestration and explicitly non-stable compatibility paths. R exposes native EVPI and ENBS through its separate bundled offline Rust kernel; Julia exposes EVPI and signed ENBS through the separately supplied main native library. Shared fixtures check agreement; neither scalar binding exposes Python's full decision-record interface. Registry outcomes remain separately evidenced.
 *   **HPC Native Enablement:** ✅/🔄 **Setup Complete, Speedup Evidence-Gated** - the `hpc-capability-implementation-program_20260511` track family is complete and archived for CPU cluster parallelism, scheduler adapters, Apple Metal, discrete GPU, TPU, FPGA, and ASIC lane setup. Remaining work is evidence-gated production speedup, Apple Silicon device capture, and real FPGA/ASIC hardware validation.
 
@@ -380,8 +382,9 @@ remain explicit human or external gates. The round-nine JOSS source has passed i
 SourceRight, Authentext, Open Journals, and page-by-page visual checks. The
 decision-maker wording retained for the release-bound source passed a fresh
 exact-revision Open Journals build and six-page visual review in PR #529. The
-permanent arXiv identifier is the author's requested sequencing gate, not a
-JOSS eligibility requirement.
+earlier arXiv prerequisite was removed by the maintainer on 31 August 2026
+following case-specific advice to submit to a journal first. The pyOpenSci-first
+JOSS partner route and genuine engagement prerequisite remain.
 
 Three completed-in-repository assurance tracks remain archived with their
 explicit human gates visible: Domain Abstraction Excellence

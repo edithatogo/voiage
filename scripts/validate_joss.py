@@ -501,6 +501,34 @@ def _validate_article_contract(
     return findings
 
 
+def _journal_first_authorized(root: Path, readiness: dict[str, Any]) -> bool:
+    """Require the bound maintainer decision before retiring the arXiv gate."""
+    sequence = readiness.get("author_project_sequence", {})
+    binding = sequence.get("maintainer_decision")
+    receipt_path = (
+        "conductor/tracks/v2_2_release_and_venue_submissions_20260830/"
+        "maintainer-venue-decision-20260831.json"
+    )
+    if not isinstance(binding, dict) or binding.get("path") != receipt_path:
+        return False
+    path = root / receipt_path
+    try:
+        content = path.read_bytes()
+        receipt = json.loads(content)
+    except (OSError, ValueError):
+        return False
+    return (
+        binding.get("sha256") == sha256(content).hexdigest()
+        and isinstance(receipt, dict)
+        and receipt.get("schema_version") == "voiage.maintainer-venue-decision.v1"
+        and receipt.get("source") == "current_user_message"
+        and receipt.get("candidate_version") == "2.2.0"
+        and receipt.get("journal_first_authorized") is True
+        and isinstance(receipt.get("user_statement"), str)
+        and bool(receipt["user_statement"].strip())
+    )
+
+
 def _validate_submission_gates(root: Path, body: str) -> list[str]:
     """Return gates that must be observed before authenticated JOSS submission."""
     findings: list[str] = []
@@ -561,15 +589,22 @@ def _validate_submission_gates(root: Path, body: str) -> list[str]:
     if not isinstance(sequence, dict):
         findings.append("JOSS readiness author_project_sequence must be an object")
     else:
-        findings.extend(
-            f"author-requested pre-JOSS sequence is not ready: "
-            f"{gate}={sequence.get(gate)}"
-            for gate in (
-                "permanent_arxiv_identifier_and_announcement_before_joss_submission",
-                "community_engagement_before_joss_submission",
-            )
-            if sequence.get(gate) != "ready"
+        arxiv_gate = (
+            "permanent_arxiv_identifier_and_announcement_before_joss_submission"
         )
+        for gate in (arxiv_gate, "community_engagement_before_joss_submission"):
+            status = sequence.get(gate)
+            if status == "ready":
+                continue
+            if (
+                gate == arxiv_gate
+                and status == "not_required_by_maintainer"
+                and _journal_first_authorized(root, readiness)
+            ):
+                continue
+            findings.append(
+                f"author-requested pre-JOSS sequence is not ready: {gate}={status}"
+            )
     assurance, assurance_findings = _load_json_object(
         root / "paper/joss-editorial-assurance.json",
         "JOSS editorial assurance manifest",
