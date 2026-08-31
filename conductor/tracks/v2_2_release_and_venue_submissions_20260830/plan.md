@@ -153,10 +153,13 @@
   receipt. Final full tox passed all 15 environments: 4,601 tests passed,
   15 skipped and 95.11 percent coverage. PR #1052 retains its own hosted-check
   and merge boundary; R14 remains pending. (`a6d748cc`)
-- [~] **R14a / AC-04, AC-05 — Maintainer venue decision:** Record personal
+- [x] **R14a / AC-04, AC-05 — Maintainer venue decision:** Record personal
   confirmations and verified priority withdrawals, retain survey and human-text
   action gates, and replace arXiv-before-JOSS with authorized journal-first
-  sequencing. Validate the evidence-bound transitions before delivery.
+  sequencing. Both consistency repairs passed; all 15 tox environments passed
+  across retained runs, with 4,625 tests passed, 15 skipped and 95.11 percent
+  coverage. The existing import timing guard passed unchanged on retry.
+  R14 remains pending. (`7545ae5b`)
 - [ ] **R14 / AC-04:** Obtain completed pre-review survey confirmation and the
   maintainer's human-written submission text. Personal declarations are confirmed;
   prior pyOpenSci requests #271 and #272 are withdrawn. Editorial screening
