@@ -3,8 +3,8 @@ allowBuilds:
   esbuild: true
   sharp: true
 overrides:
-  esbuild: 0.28.1
-  fast-uri: 3.1.5
-  js-yaml: 4.3.1
+  esbuild: 0.28.2
+  fast-uri: 3.1.6
+  js-yaml: 4.3.2
   nanoid: 3.3.18
-  postcss: 8.5.23
+  postcss: 8.5.26
