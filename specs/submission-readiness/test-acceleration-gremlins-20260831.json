@@ -1,0 +1,530 @@
+{
+  "summary": {
+    "total": 29,
+    "zapped": 29,
+    "survived": 0,
+    "timeout": 0,
+    "error": 0,
+    "pardoned": 0,
+    "percentage": 100.0
+  },
+  "files": {
+    "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py": {
+      "total": 29,
+      "zapped": 29,
+      "survived": 0,
+      "percentage": 100.0
+    }
+  },
+  "results": [
+    {
+      "gremlin_id": "mutation_policy_b425_g001",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 41,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": "> to >=",
+      "killing_test": "unknown",
+      "execution_time_ms": 6752.558249980211,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g002",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 41,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": "> to <",
+      "killing_test": "unknown",
+      "execution_time_ms": 9932.277790969238,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g003",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 42,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": "> to >=",
+      "killing_test": "unknown",
+      "execution_time_ms": 15694.322291994467,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g004",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 42,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": "> to <",
+      "killing_test": "unknown",
+      "execution_time_ms": 7692.547290935181,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g005",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 43,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": ">= to >",
+      "killing_test": "unknown",
+      "execution_time_ms": 8568.181707989424,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g006",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 43,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": ">= to <",
+      "killing_test": "unknown",
+      "execution_time_ms": 8535.32050002832,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g007",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 41,
+      "status": "zapped",
+      "operator": "boolean",
+      "description": "and to or",
+      "killing_test": "unknown",
+      "execution_time_ms": 6787.902166019194,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g008",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 40,
+      "status": "zapped",
+      "operator": "boolean",
+      "description": "or to and",
+      "killing_test": "unknown",
+      "execution_time_ms": 6429.98937505763,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_score_counts_every_non_skipped_unresolved_mutant",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes0]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes1]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes2]",
+        "tests/test_mutation_score.py::test_unreported_mutmut_statuses_cannot_inflate_score",
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g009",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 50,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": "<= to <",
+      "killing_test": "unknown",
+      "execution_time_ms": 5975.289874942973,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g010",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 50,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": "<= to >",
+      "killing_test": "unknown",
+      "execution_time_ms": 8551.55591701623,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g011",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 50,
+      "status": "zapped",
+      "operator": "boolean",
+      "description": "and to or",
+      "killing_test": "unknown",
+      "execution_time_ms": 9401.074790977873,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g012",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 49,
+      "status": "zapped",
+      "operator": "boolean",
+      "description": "or to and",
+      "killing_test": "unknown",
+      "execution_time_ms": 5436.106708017178,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_score_counts_every_non_skipped_unresolved_mutant",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes0]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes1]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes2]",
+        "tests/test_mutation_score.py::test_unreported_mutmut_statuses_cannot_inflate_score",
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g013",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 54,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": "== to !=",
+      "killing_test": "unknown",
+      "execution_time_ms": 6842.146291979589,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_score_counts_every_non_skipped_unresolved_mutant",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes0]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes1]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes2]",
+        "tests/test_mutation_score.py::test_unreported_mutmut_statuses_cannot_inflate_score",
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g014",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 55,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": "> to >=",
+      "killing_test": "unknown",
+      "execution_time_ms": 6124.727832968347,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_score_counts_every_non_skipped_unresolved_mutant",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes0]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes1]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes2]",
+        "tests/test_mutation_score.py::test_unreported_mutmut_statuses_cannot_inflate_score",
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g015",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 55,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": "> to <",
+      "killing_test": "unknown",
+      "execution_time_ms": 5353.540041018277,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_score_counts_every_non_skipped_unresolved_mutant",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes0]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes1]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes2]",
+        "tests/test_mutation_score.py::test_unreported_mutmut_statuses_cannot_inflate_score",
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g016",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 56,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": ">= to >",
+      "killing_test": "unknown",
+      "execution_time_ms": 4839.5526660606265,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_score_counts_every_non_skipped_unresolved_mutant",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes0]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes1]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes2]",
+        "tests/test_mutation_score.py::test_unreported_mutmut_statuses_cannot_inflate_score",
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g017",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 56,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": ">= to <",
+      "killing_test": "unknown",
+      "execution_time_ms": 6795.385500066914,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_score_counts_every_non_skipped_unresolved_mutant",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes0]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes1]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes2]",
+        "tests/test_mutation_score.py::test_unreported_mutmut_statuses_cannot_inflate_score",
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g018",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 12,
+      "status": "zapped",
+      "operator": "boolean",
+      "description": "True to False",
+      "killing_test": "unknown",
+      "execution_time_ms": 10315.235375077464,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_score_counts_every_non_skipped_unresolved_mutant",
+        "tests/test_mutation_score.py::test_unreported_mutmut_statuses_cannot_inflate_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes0]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes1]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes2]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[True]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[-1]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[1.5]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[1]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[None]",
+        "tests/test_mutation_score.py::test_inconsistent_total_and_invalid_threshold_fail_closed",
+        "tests/test_mutation_score.py::test_threshold_accepts_positive_fraction_and_closed_upper_boundary",
+        "tests/test_mutation_score.py::test_cli_reports_counts_and_returns_pass_or_fail",
+        "tests/test_mutation_score.py::test_cli_enforces_hosted_broad_baseline",
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g019",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 99,
+      "status": "zapped",
+      "operator": "boolean",
+      "description": "not x to x",
+      "killing_test": "unknown",
+      "execution_time_ms": 11190.391459036618,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[-1]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[1.5]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[1]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[None]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[True]",
+        "tests/test_mutation_score.py::test_inconsistent_total_and_invalid_threshold_fail_closed",
+        "tests/test_mutation_score.py::test_score_counts_every_non_skipped_unresolved_mutant",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes0]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes1]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes2]",
+        "tests/test_mutation_score.py::test_unreported_mutmut_statuses_cannot_inflate_score",
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g020",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 99,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": "< to <=",
+      "killing_test": "unknown",
+      "execution_time_ms": 6630.256125004962,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[-1]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[1.5]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[1]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[None]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[True]",
+        "tests/test_mutation_score.py::test_inconsistent_total_and_invalid_threshold_fail_closed",
+        "tests/test_mutation_score.py::test_score_counts_every_non_skipped_unresolved_mutant",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes0]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes1]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes2]",
+        "tests/test_mutation_score.py::test_unreported_mutmut_statuses_cannot_inflate_score",
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g021",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 99,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": "< to >",
+      "killing_test": "unknown",
+      "execution_time_ms": 7726.841542054899,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[-1]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[1.5]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[1]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[None]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[True]",
+        "tests/test_mutation_score.py::test_inconsistent_total_and_invalid_threshold_fail_closed",
+        "tests/test_mutation_score.py::test_score_counts_every_non_skipped_unresolved_mutant",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes0]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes1]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes2]",
+        "tests/test_mutation_score.py::test_unreported_mutmut_statuses_cannot_inflate_score",
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g022",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 99,
+      "status": "zapped",
+      "operator": "boolean",
+      "description": "or to and",
+      "killing_test": "unknown",
+      "execution_time_ms": 5717.134166974574,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[-1]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[1.5]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[1]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[None]",
+        "tests/test_mutation_score.py::test_invalid_counts_fail_closed[True]",
+        "tests/test_mutation_score.py::test_inconsistent_total_and_invalid_threshold_fail_closed",
+        "tests/test_mutation_score.py::test_score_counts_every_non_skipped_unresolved_mutant",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes0]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes1]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes2]",
+        "tests/test_mutation_score.py::test_unreported_mutmut_statuses_cannot_inflate_score",
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g023",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 115,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": "< to <=",
+      "killing_test": "unknown",
+      "execution_time_ms": 7267.513707978651,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_inconsistent_total_and_invalid_threshold_fail_closed",
+        "tests/test_mutation_score.py::test_score_counts_every_non_skipped_unresolved_mutant",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes0]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes1]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes2]",
+        "tests/test_mutation_score.py::test_unreported_mutmut_statuses_cannot_inflate_score",
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g024",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 115,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": "< to >",
+      "killing_test": "unknown",
+      "execution_time_ms": 4934.610375086777,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_inconsistent_total_and_invalid_threshold_fail_closed",
+        "tests/test_mutation_score.py::test_score_counts_every_non_skipped_unresolved_mutant",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes0]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes1]",
+        "tests/test_mutation_score.py::test_score_fails_below_threshold_interrupted_or_empty[changes2]",
+        "tests/test_mutation_score.py::test_unreported_mutmut_statuses_cannot_inflate_score",
+        "tests/test_mutation_score.py::test_empty_candidate_or_baseline_cannot_establish_non_decreasing_score",
+        "tests/test_mutation_score.py::test_broad_baseline_ratchets_score_and_unresolved_debt"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g025",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 122,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": "< to <=",
+      "killing_test": "unknown",
+      "execution_time_ms": 5786.030333023518,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_threshold_accepts_positive_fraction_and_closed_upper_boundary",
+        "tests/test_mutation_score.py::test_inconsistent_total_and_invalid_threshold_fail_closed"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g026",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 122,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": "< to >",
+      "killing_test": "unknown",
+      "execution_time_ms": 5016.512333997525,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_threshold_accepts_positive_fraction_and_closed_upper_boundary",
+        "tests/test_mutation_score.py::test_inconsistent_total_and_invalid_threshold_fail_closed"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g027",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 122,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": "< to <",
+      "killing_test": "unknown",
+      "execution_time_ms": 6323.438875027932,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_threshold_accepts_positive_fraction_and_closed_upper_boundary",
+        "tests/test_mutation_score.py::test_inconsistent_total_and_invalid_threshold_fail_closed"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g028",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 122,
+      "status": "zapped",
+      "operator": "comparison",
+      "description": "< to <",
+      "killing_test": "unknown",
+      "execution_time_ms": 6152.280999929644,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_threshold_accepts_positive_fraction_and_closed_upper_boundary",
+        "tests/test_mutation_score.py::test_inconsistent_total_and_invalid_threshold_fail_closed"
+      ]
+    },
+    {
+      "gremlin_id": "mutation_policy_b425_g029",
+      "file_path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/voiage/mutation_policy.py",
+      "line_number": 122,
+      "status": "zapped",
+      "operator": "boolean",
+      "description": "not x to x",
+      "killing_test": "unknown",
+      "execution_time_ms": 9057.428458007053,
+      "selected_tests": [
+        "tests/test_mutation_score.py::test_threshold_accepts_positive_fraction_and_closed_upper_boundary",
+        "tests/test_mutation_score.py::test_inconsistent_total_and_invalid_threshold_fail_closed"
+      ]
+    }
+  ]
+}

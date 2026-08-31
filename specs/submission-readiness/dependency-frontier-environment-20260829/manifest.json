@@ -1,0 +1,14 @@
+{
+  "source_commit": "6e1dfc4ecd0699af365a1d5feaa7ed24a9431b21",
+  "source_description": "Commit that introduced the dated dependency-frontier audit; both source files are byte-identical at pre-acceleration base 27488e817238d6fe63016f2f5a5b15f91b1acda7.",
+  "files": {
+    "pyproject.toml": {
+      "path": "specs/submission-readiness/dependency-frontier-environment-20260829/pyproject.toml",
+      "sha256": "2ae0033c68442724d0f116590896853811693d09742b56b5e614db81a316972a"
+    },
+    "uv.lock": {
+      "path": "paper/reproduction-environment/uv.lock",
+      "sha256": "e5bfefe59aa2920d5b28e9beaa5a6e05cc8b08e4a91e74ed8589d7fc3354f7c5"
+    }
+  }
+}

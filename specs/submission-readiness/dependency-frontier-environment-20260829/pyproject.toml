@@ -53,13 +53,6 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-# Local feedback experiments only; not a replacement for CI or coverage.
-test-acceleration = [
-    "pytest-testmon>=2.2.0,<3",
-    "pytest-gremlins>=1.9.0,<2",
-    "coverage>=7.16.0,<8",
-    "vcrpy>=8.3.0,<9",
-]
 # The built-in descriptor adapters deliberately use only the base Arrow/JSON
 # stack.  These named extras reserve stable installation surfaces for future
 # enhanced validators without coupling them to the calculation runtime.
@@ -95,7 +88,7 @@ dev = [
     "maturin>=1.9,<2.0",
     "mutmut==3.6.0",
     "scalene>=2.3.0,<3.0",
-    "ruff>=0.16.3,<0.17.0",
+    "ruff>=0.15.22,<0.16.0",
     "bandit>=1.9.4,<2.0",
     "nox>=2026.7.11,<2027",
     "ty>=0.0.61,<1.0",

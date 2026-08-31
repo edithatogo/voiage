@@ -1,0 +1,565 @@
+{
+  "schema_version": "voiage.test-acceleration-evaluation.v1",
+  "issue": 1028,
+  "observed_on": "2026-08-31",
+  "base_commit": "27488e817238d6fe63016f2f5a5b15f91b1acda7",
+  "scope": "Opt-in local feedback; no stable CI, coverage, release or mutation gate replaced.",
+  "dependency_frontier": {
+    "upgrade_command_exit_code": 0,
+    "strict_audit_exit_code": 0,
+    "unrelated_upgrade_changes_retained": false,
+    "new_extra": "test-acceleration",
+    "runtime_requirements_changed": false
+  },
+  "tool_versions": {
+    "pytest-testmon": "2.2.0",
+    "pytest-gremlins": "1.9.0",
+    "coverage": "7.16.0",
+    "vcrpy": "8.3.0"
+  },
+  "selection_measurements": [
+    {
+      "profile": "ordinary",
+      "command": [
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-o",
+        "addopts=",
+        "-p",
+        "no:pytest_cov",
+        "tests/test_mutation_score.py",
+        "--junitxml",
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.conductor/local/test-acceleration/ordinary.xml",
+        "-p",
+        "no:gremlins",
+        "-p",
+        "no:pytest-testmon"
+      ],
+      "wall_seconds": 43.5372,
+      "total_wall_seconds": 48.8016,
+      "collected": 16,
+      "exit_code": 0,
+      "cached_empty": false,
+      "cache_invalidated": false,
+      "counts": {
+        "tests": 16,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "python": "3.14.6 (main, Aug  4 2026, 19:23:56) [Clang 22.1.3 ]",
+      "fingerprint": "1fd3c26c40ef3964348c2e820df17223b3713eb4e2719c3e1804ffa02415d3ba",
+      "local_feedback_only": true,
+      "coverage_core": null,
+      "measurement": "ordinary"
+    },
+    {
+      "profile": "testmon",
+      "command": [
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-o",
+        "addopts=",
+        "-p",
+        "no:pytest_cov",
+        "tests/test_mutation_score.py",
+        "--junitxml",
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.conductor/local/test-acceleration/testmon.xml",
+        "-p",
+        "no:gremlins",
+        "--testmon"
+      ],
+      "wall_seconds": 36.8062,
+      "total_wall_seconds": 39.0621,
+      "collected": 16,
+      "exit_code": 0,
+      "cached_empty": false,
+      "cache_invalidated": true,
+      "counts": {
+        "tests": 16,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "python": "3.14.6 (main, Aug  4 2026, 19:23:56) [Clang 22.1.3 ]",
+      "fingerprint": "1fd3c26c40ef3964348c2e820df17223b3713eb4e2719c3e1804ffa02415d3ba",
+      "local_feedback_only": true,
+      "coverage_core": "ctrace",
+      "measurement": "testmon_cold"
+    },
+    {
+      "profile": "testmon",
+      "command": [
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-o",
+        "addopts=",
+        "-p",
+        "no:pytest_cov",
+        "tests/test_mutation_score.py",
+        "--junitxml",
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.conductor/local/test-acceleration/testmon.xml",
+        "-p",
+        "no:gremlins",
+        "--testmon"
+      ],
+      "wall_seconds": 20.2215,
+      "total_wall_seconds": 23.3727,
+      "collected": 16,
+      "exit_code": 0,
+      "cached_empty": true,
+      "cache_invalidated": false,
+      "counts": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "python": "3.14.6 (main, Aug  4 2026, 19:23:56) [Clang 22.1.3 ]",
+      "fingerprint": "1fd3c26c40ef3964348c2e820df17223b3713eb4e2719c3e1804ffa02415d3ba",
+      "local_feedback_only": true,
+      "coverage_core": "ctrace",
+      "measurement": "testmon_warm"
+    }
+  ],
+  "coverage_core_measurements": [
+    {
+      "profile": "ctrace",
+      "command": [
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.venv/bin/python",
+        "-m",
+        "coverage",
+        "run",
+        "--rcfile",
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.conductor/local/test-acceleration/coverage.ini",
+        "--debug=core",
+        "--branch",
+        "--include=*/voiage/mutation_policy.py",
+        "--data-file",
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.conductor/local/test-acceleration/.coverage-ctrace",
+        "-m",
+        "pytest",
+        "-o",
+        "addopts=",
+        "-p",
+        "no:pytest_cov",
+        "tests/test_mutation_score.py",
+        "--junitxml",
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.conductor/local/test-acceleration/ctrace.xml",
+        "-p",
+        "no:gremlins",
+        "-p",
+        "no:pytest-testmon"
+      ],
+      "wall_seconds": 48.1851,
+      "total_wall_seconds": 53.27,
+      "collected": 15,
+      "exit_code": 0,
+      "cached_empty": false,
+      "cache_invalidated": false,
+      "counts": {
+        "tests": 15,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "python": "3.14.6 (main, Aug  4 2026, 19:23:56) [Clang 22.1.3 ]",
+      "fingerprint": "a2e0f847949a34107f59585ea52553f9073afb3e017a57f4ece20f23891f8ad3",
+      "local_feedback_only": true
+    },
+    {
+      "profile": "sysmon",
+      "command": [
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.venv/bin/python",
+        "-m",
+        "coverage",
+        "run",
+        "--rcfile",
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.conductor/local/test-acceleration/coverage.ini",
+        "--debug=core",
+        "--branch",
+        "--include=*/voiage/mutation_policy.py",
+        "--data-file",
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.conductor/local/test-acceleration/.coverage-sysmon",
+        "-m",
+        "pytest",
+        "-o",
+        "addopts=",
+        "-p",
+        "no:pytest_cov",
+        "tests/test_mutation_score.py",
+        "--junitxml",
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.conductor/local/test-acceleration/sysmon.xml",
+        "-p",
+        "no:gremlins",
+        "-p",
+        "no:pytest-testmon"
+      ],
+      "wall_seconds": 52.0701,
+      "total_wall_seconds": 59.0187,
+      "collected": 15,
+      "exit_code": 0,
+      "cached_empty": false,
+      "cache_invalidated": false,
+      "counts": {
+        "tests": 15,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "python": "3.14.6 (main, Aug  4 2026, 19:23:56) [Clang 22.1.3 ]",
+      "fingerprint": "a2e0f847949a34107f59585ea52553f9073afb3e017a57f4ece20f23891f8ad3",
+      "local_feedback_only": true
+    }
+  ],
+  "http_replay": {
+    "url": "https://pypi.org/pypi/pytest-testmon/2.2.0/json",
+    "measurements": [
+      {
+        "profile": "public_record",
+        "wall_seconds": 0.633637,
+        "checks": 3,
+        "response_sha256": "bf92b5708ff15ddc3c23377fca2eb910af5cb55bb496fff253b74661884d946a"
+      },
+      {
+        "profile": "network_disabled_replay",
+        "wall_seconds": 0.00803,
+        "checks": 3,
+        "response_sha256": "bf92b5708ff15ddc3c23377fca2eb910af5cb55bb496fff253b74661884d946a"
+      },
+      {
+        "profile": "in_process_mock",
+        "wall_seconds": 0.001053,
+        "checks": 2
+      }
+    ],
+    "cassette_retained": false,
+    "credentials_or_restricted_payloads": false,
+    "decision": "Retain in-process transports for deterministic unit tests; temporary VCR is useful only for explicitly scoped public integration investigations."
+  },
+  "coverage_equivalence": {
+    "totals": {
+      "ctrace": {
+        "covered_lines": 48,
+        "num_statements": 48,
+        "percent_covered": 100.0,
+        "percent_covered_display": "100",
+        "missing_lines": 0,
+        "excluded_lines": 2,
+        "percent_statements_covered": 100.0,
+        "percent_statements_covered_display": "100",
+        "num_branches": 10,
+        "num_partial_branches": 0,
+        "covered_branches": 10,
+        "missing_branches": 0,
+        "percent_branches_covered": 100.0,
+        "percent_branches_covered_display": "100"
+      },
+      "sysmon": {
+        "covered_lines": 48,
+        "num_statements": 48,
+        "percent_covered": 100.0,
+        "percent_covered_display": "100",
+        "missing_lines": 0,
+        "excluded_lines": 2,
+        "percent_statements_covered": 100.0,
+        "percent_statements_covered_display": "100",
+        "num_branches": 10,
+        "num_partial_branches": 0,
+        "covered_branches": 10,
+        "missing_branches": 0,
+        "percent_branches_covered": 100.0,
+        "percent_branches_covered_display": "100"
+      }
+    },
+    "totals_equal": true,
+    "raw_arcs_equal": false
+  },
+  "limitations": [
+    "Measurements are bounded to the mutation-score policy tests and shared-host load; no whole-suite or portable speedup claimed.",
+    "Testmon cannot establish safety for subprocess state, dynamic imports or external behavior.",
+    "Python 3.12 and 3.13 sysmon branch coverage is unsupported; dynamic contexts require ctrace.",
+    "Raw ctrace/sysmon arc encodings differ; statement and reportable branch totals agree."
+  ],
+  "decisions": {
+    "testmon": "optional_serial_local_feedback_with_invalidation",
+    "gremlins": "bounded_trial_only_existing_mutmut_gate_retained",
+    "vcrpy": "temporary_explicit_public_integration_only",
+    "unit_http": "keep_in_process_transports",
+    "sysmon": "not_promoted_no_speed_advantage_observed",
+    "freezegun": "not_added_existing_scientific_review_at_time_and_now_injection_works_without_global_clock_effects",
+    "pytest_picked": "not_added_testmon_already_supplies_dependency_aware_selection"
+  },
+  "mutation_trial": {
+    "status": "completed",
+    "initial_default_core": {
+      "total": 29,
+      "killed": 23,
+      "survived": 6,
+      "qualified": false,
+      "reason": "sysmon dynamic-context warning; no selection-confidence claim"
+    },
+    "corrected_ctrace_before_new_regression": {
+      "total": 29,
+      "killed": 27,
+      "survived": 2,
+      "timeouts": 0,
+      "errors": 0
+    },
+    "remediation": "Added boundary assertions that a zero-eligible candidate or baseline cannot establish a non-decreasing score.",
+    "final_summary": {
+      "total": 29,
+      "zapped": 29,
+      "survived": 0,
+      "timeout": 0,
+      "error": 0,
+      "pardoned": 0,
+      "percentage": 100.0
+    },
+    "final_report_sha256": "8affb23f0d7e3a9568ae4c2aa97d146590bc1331e8fac2c2a3ba6a4b383c2720",
+    "final_execution": {
+      "profile": "gremlins",
+      "command": [
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-o",
+        "addopts=",
+        "-p",
+        "no:pytest_cov",
+        "tests/test_mutation_score.py",
+        "--junitxml",
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.conductor/local/test-acceleration/gremlins.xml",
+        "--gremlins",
+        "--gremlin-targets=voiage/mutation_policy.py",
+        "--gremlin-operators=comparison,boolean",
+        "--gremlin-workers=1",
+        "-p",
+        "no:pytest-testmon",
+        "--gremlin-report=json"
+      ],
+      "wall_seconds": 295.5321,
+      "total_wall_seconds": 302.1773,
+      "collected": 16,
+      "exit_code": 0,
+      "cached_empty": false,
+      "cache_invalidated": false,
+      "counts": {
+        "tests": 16,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "python": "3.14.6 (main, Aug  4 2026, 19:23:56) [Clang 22.1.3 ]",
+      "fingerprint": "2502f6f7d09273041ee4d4f58a4b8cc34a1284569813a2f5cf049aee230a27b0",
+      "local_feedback_only": true
+    },
+    "final_report": "specs/submission-readiness/test-acceleration-gremlins-20260831.json"
+  },
+  "validation": {
+    "focused_runner_tests": 22,
+    "full_tox": "all_15_required_environments_passed_across_initial_run_and_documented_repair_reruns",
+    "first_joss_lane": "failed_historical_root_lock_binding; integrated dependency-lane immutable snapshot fix passes focused tests",
+    "focused_script_coverage": {
+      "combined_percent": 98,
+      "statements": 178,
+      "missing_statements": 2,
+      "branches": 58,
+      "partial_branches": 3,
+      "runner_percent": 97,
+      "http_experiment_percent": 100,
+      "scope": "22 safety tests plus actual bounded public HTTP experiment; isolated coverage files, not whole-suite coverage"
+    },
+    "historical_binding_joss_rerun": "passed",
+    "vale_and_lint_rerun": "passed",
+    "first_full_tox": {
+      "seconds": 2585.46,
+      "passed_environments": 11,
+      "failed_environments": [
+        "joss_historical_lock_binding",
+        "py314_property_deadline"
+      ],
+      "interrupted_skipped_environments": [
+        "max_versions",
+        "coverage_report"
+      ],
+      "terminal_outcome": "failed_not_full_pass"
+    },
+    "py314_unchanged_property_rerun": "passed",
+    "py314_full_environment_rerun": "passed",
+    "latest_dependency_frontier": "strict_policy_passed",
+    "max_versions_rerun": "passed",
+    "first_recovered_coverage": {
+      "passed": 4647,
+      "skipped": 15,
+      "failed": 1,
+      "failure": "Historical frontier audit compared its recorded 216 packages to the current optional-extra 220-package lock; preserve receipt and bind historical claims to original source snapshots.",
+      "coverage_percent": 95.11,
+      "pytest_seconds": 405.62,
+      "tox_seconds": 503.53,
+      "terminal_outcome": "failed_not_full_pass",
+      "log_sha256": "6282230e1bfabed34506dc6ad1014177c20517d466044d54f43dcd4a1b5d1368"
+    },
+    "historical_frontier_repair": {
+      "source_commit": "6e1dfc4ecd0699af365a1d5feaa7ed24a9431b21",
+      "historical_audit_rewritten": false,
+      "focused_tests_passed": 26,
+      "current_uv_lock_check": "passed; 220 packages",
+      "manifest": "specs/submission-readiness/dependency-frontier-environment-20260829/manifest.json",
+      "lint_and_vale": "passed"
+    },
+    "borrowed_dependency_integration": {
+      "pull_request": 1057,
+      "focused_runner_frontier_joss_replay_tests": 62,
+      "result": "passed",
+      "pytest_seconds": 7.01,
+      "scope": "Borrowed historical reproduction repair is integrated locally for validation and excluded from the acceleration commit.",
+      "final_full_coverage": "passed with final reviewed reproduction verifier and hosted replay workflow integration"
+    },
+    "final_coverage": {
+      "passed": 4672,
+      "skipped": 15,
+      "failed": 0,
+      "coverage_percent": 95.11,
+      "pytest_seconds": 360.81,
+      "tox_seconds": 384.33,
+      "terminal_exit_code": 0,
+      "log_sha256": "a92025dff405b4612f3d01a8bb6e72e4dc12ef6a63e17f7212794852a9acca22"
+    },
+    "final_integrated_joss": {
+      "passed": 19,
+      "pytest_seconds": 6.55,
+      "tox_seconds": 8.04
+    }
+  },
+  "selection_measurement_test_source": {
+    "path": "tests/test_mutation_score.py",
+    "sha256": "658331ec0c8dd681393292fb4c5ae1a3ef36eead9354358931bb169bf2e43d2d"
+  },
+  "current_test_source_sha256": "658331ec0c8dd681393292fb4c5ae1a3ef36eead9354358931bb169bf2e43d2d",
+  "initial_selection_measurements": [
+    {
+      "profile": "ordinary",
+      "command": [
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-o",
+        "addopts=",
+        "-p",
+        "no:pytest_cov",
+        "tests/test_mutation_score.py",
+        "--junitxml",
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.conductor/local/test-acceleration/ordinary.xml",
+        "-p",
+        "no:gremlins",
+        "-p",
+        "no:pytest-testmon"
+      ],
+      "wall_seconds": 36.4546,
+      "total_wall_seconds": 39.3569,
+      "collected": 15,
+      "exit_code": 0,
+      "cached_empty": false,
+      "cache_invalidated": false,
+      "counts": {
+        "tests": 15,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "python": "3.14.6 (main, Aug  4 2026, 19:23:56) [Clang 22.1.3 ]",
+      "fingerprint": "a2e0f847949a34107f59585ea52553f9073afb3e017a57f4ece20f23891f8ad3",
+      "local_feedback_only": true,
+      "measurement": "ordinary"
+    },
+    {
+      "profile": "testmon",
+      "command": [
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-o",
+        "addopts=",
+        "-p",
+        "no:pytest_cov",
+        "tests/test_mutation_score.py",
+        "--junitxml",
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.conductor/local/test-acceleration/testmon.xml",
+        "-p",
+        "no:gremlins",
+        "--testmon"
+      ],
+      "wall_seconds": 34.4435,
+      "total_wall_seconds": 37.0941,
+      "collected": 15,
+      "exit_code": 0,
+      "cached_empty": false,
+      "cache_invalidated": true,
+      "counts": {
+        "tests": 15,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "python": "3.14.6 (main, Aug  4 2026, 19:23:56) [Clang 22.1.3 ]",
+      "fingerprint": "a2e0f847949a34107f59585ea52553f9073afb3e017a57f4ece20f23891f8ad3",
+      "local_feedback_only": true,
+      "measurement": "testmon_cold"
+    },
+    {
+      "profile": "testmon",
+      "command": [
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-o",
+        "addopts=",
+        "-p",
+        "no:pytest_cov",
+        "tests/test_mutation_score.py",
+        "--junitxml",
+        "/Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-test-acceleration-20260831/.conductor/local/test-acceleration/testmon.xml",
+        "-p",
+        "no:gremlins",
+        "--testmon"
+      ],
+      "wall_seconds": 17.7525,
+      "total_wall_seconds": 20.6103,
+      "collected": 15,
+      "exit_code": 0,
+      "cached_empty": false,
+      "cache_invalidated": false,
+      "counts": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "python": "3.14.6 (main, Aug  4 2026, 19:23:56) [Clang 22.1.3 ]",
+      "fingerprint": "a2e0f847949a34107f59585ea52553f9073afb3e017a57f4ece20f23891f8ad3",
+      "local_feedback_only": true,
+      "measurement": "testmon_warm"
+    }
+  ],
+  "initial_selection_measurement_test_source": {
+    "revision": "before_new_zero_denominator_test",
+    "path": "tests/test_mutation_score.py",
+    "sha256": "c3def37470d88f0fcd2948b01fad7d5db59a0f223a70efe4055f7a24b0e9bbc1"
+  },
+  "source_hashes": {
+    "scripts/test_acceleration.py": "7e6e6d1455adb0957dedb80a7202955b95b8eceb73893c10811c5f5249483667",
+    "scripts/evaluate_http_replay.py": "5b845495674750f9d83919a1099cf78e018f31e3540ab75c9b5133dcaecc9676",
+    "tests/test_test_acceleration.py": "df0defc3968669bb8f3ec675e02bbf864fa365f388f7ca3b275e6be683563034",
+    "tests/test_mutation_score.py": "658331ec0c8dd681393292fb4c5ae1a3ef36eead9354358931bb169bf2e43d2d",
+    "pyproject.toml": "170331f8e54d6096607901540bc92468b907fca4c88434c017b5be64c0023105",
+    "tox.ini": "418f2121c4466d937226462f141ddf0365ed21f64756718e15a7e1d5e7ad0aba",
+    "uv.lock": "c95cb2374eb1519cd310e4ce09dd1e580ba4ee7812769bbdc0a7ac715a6665dd",
+    "tests/test_dependency_frontier_audit.py": "d2731048ca17c506546958d5fc1809c159c064d9b8649c3832c76a3dd36984bf",
+    "specs/submission-readiness/dependency-frontier-environment-20260829/pyproject.toml": "2ae0033c68442724d0f116590896853811693d09742b56b5e614db81a316972a",
+    "specs/submission-readiness/dependency-frontier-environment-20260829/manifest.json": "299b85729f4e2519bd27c2bbcbe68e65a12a3924a0b0b6eaa15134dd7cfff3c1"
+  }
+}

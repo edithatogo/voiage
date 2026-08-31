@@ -190,3 +190,6 @@ paper/paper.tex
 *.fls
 *.run.xml
 *.synctex.gz
+
+# Optional local mutation-feedback report (not a CI gate).
+/coverage/gremlins/

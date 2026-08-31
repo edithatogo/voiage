@@ -32,6 +32,10 @@
   v2.1.0 build evidence. New BinaryBuilder execution and registry acceptance
   remain pending; no generated JLL identifier is assumed.
 
+- Add optional measured test-feedback profiles with dependency-aware selection
+  and bounded mutation and coverage experiments. Preserve the full clean CI
+  suite and its existing coverage and release gates.
+
 - Bound confirmed maintainer declarations and journal-first sequencing to the
   recorded decision. Retained separate survey and human-authorship action gates
   and verified withdrawal receipts for the earlier pyOpenSci requests.
