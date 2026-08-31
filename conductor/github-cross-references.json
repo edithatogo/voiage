@@ -5585,9 +5585,21 @@
             "post-merge-workflows:13-success-1-skipped",
             "conductor/tracks/v2_2_release_and_venue_submissions_20260830/venue-packet-merge-receipt-20260831.json"
           ]
+        },
+        {
+          "number": 1052,
+          "url": "https://github.com/edithatogo/voiage/pull/1052",
+          "status": "open",
+          "evidence": [
+            "local-tox:15-environments-passed",
+            "local-tests:4601-passed-15-skipped",
+            "local-coverage:95.11-percent",
+            "conductor/tracks/v2_2_release_and_venue_submissions_20260830/status-reconciliation-validation-20260831.json",
+            "hosted-checks-and-merge:pending"
+          ]
         }
       ],
-      "pull_request_evidence": "PR #1038, #1046, #1047 and #1051 merged with exact tree equality after local and hosted gates. Signed v2.2.0 targets #1046 and is publicly verified; #1047 reconciles publication and #1051 completes repository venue-packet repairs. R14 human declarations and venue outcomes remain separate."
+      "pull_request_evidence": "PR #1038, #1046, #1047 and #1051 merged with exact tree equality after local and hosted gates. Signed v2.2.0 targets #1046 and is publicly verified; #1047 reconciles publication and #1051 completes repository venue-packet repairs. R14 human declarations and venue outcomes remain separate. PR #1052 contains the locally validated status reconciliation; its hosted checks and merge remain separate gates."
     }
   ]
 }

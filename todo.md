@@ -19,8 +19,6 @@ This document lists the actionable tasks for `voiage` development. Agents should
         installed replay against public wheel bytes, retain the exact CSV,
         and review hosted PDF/HTML artifacts (PR #1051 merged as `0330fa55`;
         13 post-merge workflows passed and Julia Registry Sync was skipped).
-    *   [~] Reconcile post-merge evidence and remaining venue prerequisites
-        under R13f, preserving archived history and personal declarations.
     *   [ ] Proceed pyOpenSci first, then the eligible JOSS partner route and
         rOpenSci; personal declarations and external outcomes remain explicit.
 
@@ -679,6 +677,12 @@ as recorded in the active task above; earlier route decisions below are historic
         signed publication, and explicit closeout of external indexing gates.
 
 ## Done
+
+*   [x] Reconcile post-merge release/venue evidence and the historical backlog
+    under R13f (PR #1052; `a6d748cc`). Full local tox passed all 15 environments
+    with 4,601 tests passed and 95.11 percent coverage. Current declarations
+    and contact-capacity eligibility remain R14 gates; hosted checks and merge
+    of the reconciliation PR are separate from this local completion.
 
 *   [x] Complete and archive the pyOpenSci-first/JOSS-fast-track repository-
     readiness track.

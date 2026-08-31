@@ -26,6 +26,7 @@
 - [Publication evidence PR #1046](https://github.com/edithatogo/voiage/pull/1046)
 - [Public release reconciliation PR #1047](https://github.com/edithatogo/voiage/pull/1047)
 - [Venue packet repairs PR #1051](https://github.com/edithatogo/voiage/pull/1051)
+- [Status reconciliation PR #1052](https://github.com/edithatogo/voiage/pull/1052)
 
 Status: in progress, Phase 3. The public v2.2.0 release and PR #1051 venue-packet
 merge are evidenced. Earlier review artifacts retain their pre-merge observations;

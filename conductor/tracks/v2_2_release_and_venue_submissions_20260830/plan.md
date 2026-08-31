@@ -143,13 +143,16 @@
   Verified 192 installed payload files, retained the exact CSV, and passed
   38 focused handoff tests plus full tox: 4,600 passed, 16 skipped and
   95.16 percent coverage. (`a5b3668e`)
-- [~] **R13f / AC-01, AC-04 — Post-merge reconciliation and review fixes:** Record the
+- [x] **R13f / AC-01, AC-04 — Post-merge reconciliation and review fixes:** Record the
   observed #1051 merge and terminal hosted checks, synchronize current release
   and venue-readiness projections, audit archived gate continuity, and prepare
   the exact remaining human-action checklist without supplying attestations.
   The first full tox run exposed a legacy test that required the historical
-  backlog to retain an active heading. Repair that lifecycle assertion while
-  preserving the archived v1 baseline; retain the failed run and rerun all gates.
+  backlog to retain an active heading. Repaired that lifecycle assertion while
+  preserving the archived v1 baseline; both runs are retained in the validation
+  receipt. Final full tox passed all 15 environments: 4,601 tests passed,
+  15 skipped and 95.11 percent coverage. PR #1052 retains its own hosted-check
+  and merge boundary; R14 remains pending. (`a6d748cc`)
 - [ ] **R14 / AC-04:** Collect or record the maintainer-only Code of Conduct,
   maintenance, guide, survey, reviewer-contact, and partnership declarations;
   resolve contact-capacity eligibility against existing pyOpenSci issues #271
