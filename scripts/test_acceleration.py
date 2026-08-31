@@ -86,7 +86,7 @@ def main() -> int:
     try:
         targets = validate_targets(root, args.targets)
     except ValueError as error:
-        parser.error(str(error))
+        return parser.error(str(error))
     cache = root / ".conductor/local/test-acceleration"
     cache.mkdir(parents=True, exist_ok=True)
     # A separate process lock prevents serial invocations from corrupting the
