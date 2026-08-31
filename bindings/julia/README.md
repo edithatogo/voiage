@@ -20,9 +20,11 @@ Use `libvoiage_ffi.so` on Linux and `voiage_ffi.dll` on Windows.
 The repository-owned BinaryBuilder recipe is
 `packaging/yggdrasil/V/voiage_ffi/build_tarballs.jl`. It is submitted upstream
 as [Yggdrasil PR #14292](https://github.com/JuliaPackaging/Yggdrasil/pull/14292).
-That PR builds the signed v2.0.0 Rust source for 64-bit glibc and musl Linux,
-macOS, and Windows. JLL registration by the BinaryBuilder automation is the
-first external gate.
+That historical PR targets the signed v2.1.0 Rust source. Its recorded platform
+matrix is retained with the historical build evidence. The merged v2.2.0
+candidate is `packaging/yggdrasil/candidates/v2.2.0/build_tarballs.jl`. It has
+not been built or submitted upstream; the v2.1.0 results do not validate it.
+JLL registration by the BinaryBuilder automation is the first external gate.
 
 After the generated `voiage_ffi_jll` exists in General, the package will depend
 on that JLL and use its `libvoiage_ffi` product by default. The environment
@@ -33,6 +35,10 @@ with:
 ```text
 @JuliaRegistrator register subdir=bindings/julia
 ```
+
+The metadata, subdirectory command, and TagBot configuration form the local
+Registrator staging contract. Staging does not authorize or execute that
+command: retain maintainer review after the JLL and clean-depot prerequisites.
 
 The resulting General registry merge is the second external gate. The package
 is not described as registered or independently installable until both gates

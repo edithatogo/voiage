@@ -22,3 +22,6 @@ Status: in progress. Technical repairs are proceeding in isolated worktrees.
 The verified recovery archive permits retirement of obsolete branch refs.
 No scientific, venue, registry or human-action outcome is inferred from local
 validation or protected PR delivery.
+
+- [Delivery checkpoint (2026-09-01)](./delivery-checkpoint-20260901.md)
+- [Delivery and cleanup observations (2026-09-01)](./delivery-checkpoint-20260901.json)
