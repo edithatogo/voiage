@@ -1,26 +1,27 @@
 {
   "schema": "voiage.spack-overlay-solver.v1",
-  "recorded_at": "2026-08-31T18:55:22.894965+00:00",
+  "recorded_at": "2026-09-01T12:16:53.606226+00:00",
   "catalogue_commit": "d4f7c711a6a42f1c4d551c8fd10fce9a11340a81",
-  "host": "macOS arm64",
-  "manifest_sha256": "34c3c0bd2168741e70fdb497979afe5fc3cbe44bc85a69fa3a8104690fb43e1c",
+  "host": "Ubuntu 24.04 Linux arm64",
+  "manifest_sha256": "1bf10eccbaeaba9f9649f80bd2c9ba7c9c1dbf1343dcfbbb427d983d10d5fee3",
   "results": [
     {
       "spec": "py-voiage@2.2.0",
       "exit_code": 0,
       "status": "concretized",
       "log_path": "solver-logs/voiage.log",
-      "log_sha256": "fbe930c5c402afec7cd91f3bafc76563063a5dcbcc247d2c9f821e26e40bbaf2"
+      "log_sha256": "2bd269a80937fce70852b28e930ad55313d29b27144208f33ef38e23c2c0113f"
     }
   ],
   "builds_executed": false,
   "module_load_executed": false,
   "spack_version": "1.2.2",
+  "spack_commit": "3e19345b6e12f5ff1b874f4059622fc6a1fd804a",
   "prior_failure_evidence": "history/pre-arrow-patch-38b573b5/solver-receipt.json",
   "concrete_dag": {
     "path": "solver-logs/voiage.json",
-    "sha256": "567dcdb63d11e40b73ebb41717383b8b99fca604abd79dc809e273893d2c9651",
-    "nodes": 139,
+    "sha256": "b6228dfedc9e4ecfdf2c6fee96a46a291d5fe5dd1330448f256116de3fb18773",
+    "nodes": 154,
     "duplicated_build_tools": {
       "py-maturin": 2,
       "py-setuptools-rust": 2,
@@ -39,5 +40,5 @@
       "xsimd": "14.2.0"
     }
   },
-  "root_constraints": "py-voiage@2.2.0 ^python@3.12.14 ^py-pyarrow@25.0.1"
+  "root_constraints": "py-voiage@2.2.0 ^python@3.12.14%gcc@13.3.0 ^py-pyarrow@25.0.1"
 }

@@ -195,7 +195,7 @@
       {
         "requirement": "numpy>=1.25",
         "package": "py-numpy",
-        "version": "2.4.6",
+        "version": "2.3.5",
         "deptypes": [
           "build",
           "run"
@@ -252,5 +252,7 @@
     ]
   },
   "libcst_cargo_source_closure": "libcst-cargo-source-closure.json",
-  "qualified_dag_sha256": "567dcdb63d11e40b73ebb41717383b8b99fca604abd79dc809e273893d2c9651"
+  "qualified_dag_sha256": "b6228dfedc9e4ecfdf2c6fee96a46a291d5fe5dd1330448f256116de3fb18773",
+  "qualified_dag_recorded_at": "2026-09-01T12:17:15.826481+00:00",
+  "qualified_dag_host": "Ubuntu 24.04 Linux arm64"
 }

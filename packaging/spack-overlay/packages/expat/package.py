@@ -4,14 +4,13 @@
 
 """Preserve the pinned catalogue build with a security-maintained source."""
 
-from spack.package import depends_on, license, version  # noqa: A004 - Spack directive
+from spack.package import depends_on, version
 from spack_repo.builtin.packages.expat.package import Expat as BuiltinExpat
 
 
 class Expat(BuiltinExpat):
     """Security-maintained source with the pinned catalogue's build semantics."""
 
-    license("MIT")
     version(
         "2.8.3",
         sha256="b4cc2483927d5e90bf8c40b44a6b95b368b42a8a96e25883fce188b48a92b670",

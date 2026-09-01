@@ -8,6 +8,8 @@
 
 ## Unreleased
 
+- Inherit builtin Spack licence metadata in the Python, Expat and OpenSSL security overlays so SBOM generation does not reject successful source installations.
+
 - Prepare an isolated Arrow/PyArrow 25.0.1 EasyBuild 2024a provider with
   source-verified native and Python build dependencies and numerical smoke
   checks; native HPC installation remains pending.

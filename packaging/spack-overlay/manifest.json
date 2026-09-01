@@ -5,8 +5,8 @@
   "voiage_recipe_commit": "dec5a1b5996ea1c5eef55bd791cb1ce89c38968a",
   "recipe_sha256": {
     "packages/arrow/package.py": "5e5ba7caeb9cbd491ec4999a2531032b6fa8834698e18f4535fcb239f82ad10f",
-    "packages/expat/package.py": "361d23b4544538f8208e34d0e2bc17517d3504851a77ebfe317f7ba41cab4475",
-    "packages/openssl/package.py": "2b4c407d4b504e4b506f30cb10f338625d38c70b5c1d76a77b3b7b9f5b1f79fb",
+    "packages/expat/package.py": "1727f9f9a1d59940e8c4489bda00863dc654781dd69707153543a12e272195cb",
+    "packages/openssl/package.py": "0ff7bf35b466b138db4d2659c4e04fff29f99dfc1ca4c8ffb58375d3a5a1166a",
     "packages/py-annotated-doc/package.py": "5238e58c461846aca7b8f0d7879a41efa546eab7458d5c5396437756e58f10dc",
     "packages/py-click/package.py": "bdbe6166b9516b13c9f1e112a9560ab4ac79b86fb9cf3992ccba369d078fc3fa",
     "packages/py-libcst/package.py": "35feaf4b660af1cc4d7e91a886ae32147545f94609c5b165bce630082aee30bc",
@@ -20,7 +20,7 @@
     "packages/py-typer/package.py": "e13b10d527710d0ca77b12cc910f6db703f63a35cf18ea79e2be1eb51fc44d11",
     "packages/py-typing-extensions/package.py": "bc339c7bbb0f4eb478484269204bbccf4d755d03565ddb397552ed7006a1ed30",
     "packages/py-voiage/package.py": "ed0d76fad55f718854dd83520435d2e8c3d57fbdd084fb29e0ef4cf68d42eb90",
-    "packages/python/package.py": "69638efd8fcaf28c111012a6423c63b14517e9a6e6e0b5591694917abe231e6c",
+    "packages/python/package.py": "43f95f1421296dd2cb4c3c5f9010adceaf6b706fa77ab86cb8bf29f723cefe1a",
     "packages/rust/package.py": "c6379f7a29de431875d7adc2a94661e56fa69b96f3dfb791cbea085d05558fdc",
     "packages/rust-bootstrap/package.py": "9fa3514b619fcb45b0a4fc4107493e16397c336a13018ac9a08b79999a4ed02b",
     "packages/xsimd/package.py": "4941b94e05bcd36bd71a66b4fdd2bf44e3b9ff772d3fb3ab9e4b146573f41520"
@@ -36,8 +36,8 @@
     "rust-source-audit.json": "0e17803e2bd39637bfa4d122e4ddcf3a699742ae1dc2ab4281224e12007c1471",
     "rust-backend-source-audit.json": "0fbaea54166ab7389192f126225705c30865e2736bba76e0991c0e6de9472c23",
     "security-source-audit.json": "305b54b91f698df3180d45729c980593c2d29baf7b7999c4fcae93cdaca3c5e6",
-    "builder-dispatch-audit.json": "95f517e343537fce2d15fa35a092dfe7f94e9deb52f1cf2c5b3acb27f48095df",
-    "arrow-patch-source-audit.json": "5f1ad11e4b0d16172c9e05bdbda55d9018cb2c40e9317fc5843b1cf004b41f5b",
+    "builder-dispatch-audit.json": "7a2c381846030f5f59cfa737a741193c1d00199e83a8968dc4fd3dc1c7727674",
+    "arrow-patch-source-audit.json": "0d6d0cec187baf0802b6317010057ee8a1f30dc0a385849d6c01a9bdee35fb4f",
     "libcst-cargo-source-closure.json": "46c4843d3b04e48633b1d74e9b59d88480d12da71d64f15eb63a28fa5857da46"
   }
 }

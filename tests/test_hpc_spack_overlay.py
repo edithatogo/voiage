@@ -105,9 +105,13 @@ def test_spack_directives_are_explicit_including_license() -> None:
             for alias in node.names
         }
         assert "*" not in names
-        # Python also defines a builtin named license; it is not Spack's directive.
-        assert "license" in names
         assert "depends_on" in names
+        if recipe.parent.name in {"python", "expat", "openssl"}:
+            # These thin security overlays inherit unconditional license metadata.
+            assert "license" not in names
+        else:
+            # Python also defines a builtin named license; this is Spack's directive.
+            assert "license" in names
 
 
 def test_upstream_notices_remain_with_derived_recipes() -> None:
