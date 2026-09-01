@@ -1,0 +1,4 @@
+The easyconfigs and evidence in this directory are repository-local candidate
+material. EasyBuild recipe conventions are covered by LICENSE.easybuild.
+Polars source licensing is retained in LICENSE.polars. No upstream submission
+or native EasyBuild build is claimed.

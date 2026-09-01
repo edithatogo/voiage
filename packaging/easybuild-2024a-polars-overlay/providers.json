@@ -1,0 +1,20 @@
+{
+  "schema": "voiage.easybuild-2024a-polars-providers.v1",
+  "generation": "2024a",
+  "python": "3.12.14",
+  "runtime_providers": {
+    "polars": "1.42.1",
+    "polars-runtime-32": "1.42.1"
+  },
+  "build_only_providers": {
+    "Rust-nightly": "2026-04-01",
+    "maturin": "1.13.1"
+  },
+  "compiler_roles": {
+    "polars-runtime-32": "Rust-nightly/2026-04-01-GCCcore-13.3.0",
+    "maturin": "Rust/1.96.0-GCCcore-13.3.0"
+  },
+  "native_builds_executed": false,
+  "full_voiage_graph": false,
+  "upstream_submitted": false
+}

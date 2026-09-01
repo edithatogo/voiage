@@ -1,0 +1,22 @@
+easyblock = 'PythonPackage'
+name = 'polars'
+version = '1.42.1'
+homepage = 'https://pola.rs/'
+description = 'Python interface for the separately source-built Polars runtime.'
+toolchain = {'name': 'GCCcore', 'version': '13.3.0'}
+source_urls = ['https://files.pythonhosted.org/packages/27/99/fe77f10a13a778705ef05b499fc708c9a0b0a3680d9eb6bc6e1b6a6b9914/']
+sources = ['polars-1.42.1.tar.gz']
+checksums = ['2fe94f3059334650bd850ae19a9c165dcd5d9cb12cd95ea04de2201662e70e8a']
+dependencies = [
+    ('Python', '3.12.14'),
+    ('polars-runtime-32', '1.42.1'),
+]
+use_pip = True
+pip_no_index = True
+download_dep_fail = True
+sanity_pip_check = True
+sanity_check_paths = {'files': [], 'dirs': ['lib/python3.12/site-packages/polars']}
+sanity_check_commands = [
+    "python -c \"import polars as pl; assert pl.__version__ == '1.42.1'; assert pl.DataFrame({'x': [1, 2]}).select(pl.col('x').sum()).item() == 3\"",
+]
+moduleclass = 'data'
