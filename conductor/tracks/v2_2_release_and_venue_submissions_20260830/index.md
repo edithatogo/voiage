@@ -20,6 +20,7 @@
 - [Post-merge venue-packet receipt](./venue-packet-merge-receipt-20260831.json)
 - [Archived gate continuity review](./archive-gate-continuity-review-20260831.md)
 - [Remaining venue human-action checklist](./venue-human-action-checklist-20260831.md)
+- [Current checklist supersession](./venue-human-action-checklist-supersession-20260902.md)
 - [Reconciliation validation and review](./status-reconciliation-validation-20260831.json)
 - [Maintainer venue decision](./maintainer-venue-decision-20260831.json)
 - [Previous-request withdrawal receipt](./pyopensci-withdrawal-receipt-20260831.json)

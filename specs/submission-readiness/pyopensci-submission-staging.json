@@ -1,7 +1,7 @@
 {
   "schema_version": "voiage.pyopensci-submission-staging.v1",
   "prepared_at": "2026-08-29T00:22:00Z",
-  "updated_at": "2026-08-31T09:58:39.757960Z",
+  "updated_at": "2026-09-01T15:49:33Z",
   "state": "prepared_local_unposted",
   "draft": {
     "path": "docs/release/pyopensci-submission-draft.md",
@@ -15,7 +15,7 @@
   },
   "candidate": {
     "path": "specs/submission-readiness/pyopensci-submission-candidate.json",
-    "sha256": "fb55f3a9749f1a72eaec5c154c1a7173d8ab4e23e810b9c4d65d484a20a3404a"
+    "sha256": "781e404add7c49da10f2647f36d169c47cbaf557e6c411759f49b93c3346d462"
   },
   "candidate_version": "2.2.0",
   "candidate_confirmation": "confirmed_maintainer",
@@ -67,6 +67,10 @@
   "maintainer_confirmation": {
     "path": "conductor/tracks/v2_2_release_and_venue_submissions_20260830/maintainer-venue-decision-20260831.json",
     "sha256": "514f06a661b0a3a1de76b4bdda50efd6d21e633e40d1f64333d91d3c7bf8fb81"
+  },
+  "withdrawal_receipt": {
+    "path": "conductor/tracks/v2_2_release_and_venue_submissions_20260830/pyopensci-withdrawal-receipt-20260831.json",
+    "sha256": "a0ee21b74f330b155e67148d3be5d74e38e6a5861761cc66987f60044f0e0e41"
   },
   "action_gates": {
     "pre_review_survey": "pending",

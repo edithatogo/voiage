@@ -12,6 +12,10 @@ from typing import Any
 
 STAGING_PATH = Path("specs/submission-readiness/pyopensci-submission-staging.json")
 EXPECTED_CANDIDATE_VERSION = "2.2.0"
+EXPECTED_WITHDRAWAL_BINDING = {
+    "path": "conductor/tracks/v2_2_release_and_venue_submissions_20260830/pyopensci-withdrawal-receipt-20260831.json",
+    "sha256": "a0ee21b74f330b155e67148d3be5d74e38e6a5861761cc66987f60044f0e0e41",
+}
 EXPECTED_EXTERNAL_OUTCOMES = {
     "pyopensci_review": "not_started",
     "pyopensci_acceptance": "pending_external",
@@ -341,6 +345,39 @@ def validate_staging_packet(
         findings,
         require_all_files=require_all_files,
     )
+    withdrawal_binding = staging.get("withdrawal_receipt")
+    if withdrawal_binding != EXPECTED_WITHDRAWAL_BINDING:
+        findings.append(
+            "withdrawal receipt binding must match the reviewed path and SHA-256"
+        )
+    _, withdrawal = _validate_bound_file(
+        resolved_root,
+        withdrawal_binding,
+        "withdrawal receipt",
+        findings,
+        require_all_files=require_all_files,
+    )
+
+    issues = withdrawal.get("issues") if isinstance(withdrawal, dict) else None
+    if (
+        withdrawal is None
+        or withdrawal.get("schema_version") != "1.0"
+        or withdrawal.get("editorial_approval_inferred") is not False
+        or not isinstance(issues, list)
+        or len(issues) != 2
+        or {item.get("number") for item in issues if isinstance(item, dict)}
+        != {271, 272}
+        or any(
+            not isinstance(item, dict)
+            or item.get("action_status") != "verified"
+            or item.get("after_state") != "closed"
+            or item.get("after_state_reason") != "not_planned"
+            for item in issues
+        )
+    ):
+        findings.append(
+            "withdrawal receipt must verify requests 271 and 272 closed as not planned without editorial approval"
+        )
 
     if template is not None:
         if template.get("schema_version") != (
@@ -417,6 +454,12 @@ def validate_staging_packet(
             "blocked_pending_refresh_and_external_evidence"
         ):
             findings.append("JOSS handoff must remain blocked")
+        elif joss_handoff.get("permanent_arxiv_identifier") != (
+            "deferred_until_after_journal_submission_not_pre_joss_gate"
+        ):
+            findings.append(
+                "JOSS handoff must preserve the journal-first arXiv deferral"
+            )
 
     if draft_path is not None:
         draft = draft_path.read_text(encoding="utf-8")

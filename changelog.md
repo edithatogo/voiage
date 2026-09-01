@@ -8,6 +8,11 @@
 
 ## Unreleased
 
+- Reconcile current pyOpenSci, JOSS and arXiv guidance with the verified
+  withdrawal of earlier requests and journal-first sequencing while keeping
+  the survey, human-written communication and authenticated submissions
+  external.
+
 - Enforce NLTK 3.10.3 as the manuscript-tool security floor and record the
   bounded, currently unpatched model-persistence advisory without claiming the
   isolated readability environment is globally vulnerability-free.

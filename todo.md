@@ -690,9 +690,12 @@ as recorded in the active task above; earlier route decisions below are historic
 
 *   [x] Reconcile post-merge release/venue evidence and the historical backlog
     under R13f (PR #1052; `a6d748cc`). Full local tox passed all 15 environments
-    with 4,601 tests passed and 95.11 percent coverage. Current declarations
-    and contact-capacity eligibility remain R14 gates; hosted checks and merge
-    of the reconciliation PR are separate from this local completion.
+    with 4,601 tests passed and 95.11 percent coverage. At that checkpoint,
+    declarations and contact-capacity eligibility remained R14 gates; hosted
+    checks and merge of the reconciliation PR were separate from local completion.
+    *   [x] Reconcile current venue projections with the verified withdrawal of
+        requests #271 and #272 and defer arXiv until journal submission, without
+        changing the unposted packet state or external human-action gates.
 
 *   [x] Complete and archive the pyOpenSci-first/JOSS-fast-track repository-
     readiness track.
