@@ -1,0 +1,44 @@
+{
+  "observed_at": "2026-08-31T18:55:29.588214+00:00",
+  "source_backend_import": true,
+  "libcst_source_build": {
+    "platform": "macOS arm64",
+    "python": "3.12.13",
+    "rust": "1.98.0 Homebrew",
+    "cargo_jobs": 2,
+    "offline": true,
+    "not_selected_linux_toolchain": true
+  },
+  "cargo_metadata": {
+    "offline": true,
+    "locked": true,
+    "packages": 97,
+    "registry_archives": 95,
+    "sha256": "d7ae2c0077dee77cd590305270a426dfab9153179bd2d47f0fae8c71cfdbbe74"
+  },
+  "module_boundary": {
+    "tool": "Environment Modules 5.6.1",
+    "actual_load_unload": true,
+    "versions": [
+      "7.1.0",
+      "9.2.2",
+      "7.1.0"
+    ],
+    "fixture_not_easybuild_install": true
+  },
+  "sanity_command_harness": {
+    "public_wheel_version": "25.0.1",
+    "checks_passed": true,
+    "not_easybuild_install": true
+  },
+  "easyblocks": {
+    "generic/cargopythonpackage.py": "5a8771354139a39150562e36cd254482d5c1562ff7a122990b3b97e076f67c5a",
+    "generic/cargo.py": "562ecdd6813fe2a4ba56b6d5ffe0ee7fa44c2b822f96d3fcf0361034613ba5dd",
+    "generic/pythonpackage.py": "bac543e79fb75dd53fe02d126dca264e3e6bfaf624f9dc3c5e94c46b215e687c",
+    "generic/cmakemake.py": "02b624e6cecb7357d6b3ea61f51681a64d3f07e628d82e3b39d31c2ac890756d",
+    "r/rust.py": "0bda908b1690a93cae3257c25d68d94df41c2a317a4916c1f4b4940ecf914d4b"
+  },
+  "native_arrow_build_executed": false,
+  "linux_vm_execution": false,
+  "upstream_submission": false
+}

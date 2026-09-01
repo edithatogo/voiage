@@ -1,0 +1,55 @@
+# Copyright (c) Meta Platforms, Inc. and affiliates.
+#
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
+
+[package]
+name = "libcst"
+version = "1.8.6"
+authors = ["LibCST Developers"]
+edition = "2018"
+rust-version = "1.70"
+description = "A Python parser and Concrete Syntax Tree library."
+license = "MIT AND (MIT AND PSF-2.0)"
+repository = "https://github.com/Instagram/LibCST"
+documentation = "https://libcst.rtfd.org"
+keywords = ["python", "cst", "ast"]
+categories = ["parser-implementations"]
+
+[lib]
+name = "libcst_native"
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "parse"
+path = "src/bin.rs"
+
+[features]
+# This is a bit of a hack, since `cargo test` doesn't work with `extension-module`.
+# To run tests, use `cargo test --no-default-features`.
+#
+# Once https://github.com/PyO3/pyo3/pull/1123 lands, it may be better to use
+# `-Zextra-link-arg` for this instead.
+default = ["py"]
+py = ["pyo3", "pyo3/extension-module"]
+trace = ["peg/trace"]
+
+[dependencies]
+paste = "1.0.15"
+pyo3 = { version = "0.26", optional = true }
+thiserror = "2.0.12"
+peg = "0.8.5"
+annotate-snippets = "0.11.5"
+regex = "1.11.2"
+memchr = "2.7.4"
+libcst_derive = { path = "../libcst_derive", version = "1.8.6" }
+
+[dev-dependencies]
+criterion = { version = "0.6.0", features = ["html_reports"] }
+difference = "2.0.0"
+rayon = "1.11.0"
+itertools = "0.14.0"
+
+[[bench]]
+name = "parser_benchmark"
+harness = false

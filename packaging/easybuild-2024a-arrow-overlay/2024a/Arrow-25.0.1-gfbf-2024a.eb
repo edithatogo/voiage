@@ -1,0 +1,102 @@
+easyblock = 'CMakeMake'
+name = 'Arrow'
+version = '25.0.1'
+homepage = 'https://arrow.apache.org'
+description = 'Apache Arrow and PyArrow for Voiage local scientific interchange.'
+toolchain = {'name': 'gfbf', 'version': '2024a'}
+toolchainopts = {'pic': True}
+source_urls = ['https://archive.apache.org/dist/arrow/arrow-25.0.1']
+sources = ['apache-arrow-25.0.1.tar.gz']
+checksums = ['43d5de0a581f43cf63a2c06b4dcf13b9ff6fcd800f023324596e5781093bc500']
+builddependencies = [('CMake', '3.29.3'),
+ ('Ninja', '1.12.1'),
+ ('pkgconf', '2.2.0'),
+ ('Cython', '3.1.8'),
+ ('Voiage-Arrow-build-support', '25.0.1'),
+ ('libcst', '1.8.6'),
+ ('xsimd', '14.2.0')]
+dependencies = [('Python', '3.12.14'),
+ ('SciPy-bundle', '2026.09', '-voiage-2.2.0'),
+ ('Boost', '1.85.0'),
+ ('lz4', '1.9.4'),
+ ('zlib', '1.3.1'),
+ ('bzip2', '1.0.8'),
+ ('zstd', '1.5.6'),
+ ('snappy', '1.2.1'),
+ ('RapidJSON', '1.1.0-20240815'),
+ ('RE2', '2024-07-02'),
+ ('utf8proc', '2.9.0'),
+ ('Thrift', '0.22.0'),
+ ('OpenSSL', '3', '', {'name': 'system', 'version': ''})]
+start_dir = 'cpp'
+preconfigopts = 'unset CONDA_PREFIX; '
+configopts = ('-DARROW_DEPENDENCY_SOURCE=SYSTEM -DCMAKE_CXX_STANDARD=20 -DARROW_BUILD_SHARED=ON -DARROW_BUILD_STATIC=ON '
+ '-DARROW_ACERO=ON -DARROW_COMPUTE=ON -DARROW_DATASET=ON -DARROW_PARQUET=ON -DARROW_CSV=ON -DARROW_JSON=ON '
+ '-DARROW_FILESYSTEM=ON -DARROW_IPC=ON -DARROW_WITH_ZLIB=ON -DARROW_WITH_BZ2=ON -DARROW_WITH_LZ4=ON '
+ '-DARROW_WITH_SNAPPY=ON -DARROW_WITH_ZSTD=ON -DARROW_WITH_RE2=ON -DARROW_WITH_UTF8PROC=ON '
+ '-DARROW_MIMALLOC=OFF -DARROW_JEMALLOC=OFF -DARROW_ORC=OFF -DARROW_S3=OFF -DARROW_GCS=OFF -DARROW_AZURE=OFF '
+ '-DARROW_HDFS=OFF -DARROW_FLIGHT=OFF -DARROW_GANDIVA=OFF -DARROW_SUBSTRAIT=OFF -DARROW_BUILD_TESTS=OFF '
+ '-DFETCHCONTENT_FULLY_DISCONNECTED=ON')
+exts_defaultclass = 'PythonPackage'
+exts_list = [('pyarrow',
+  '25.0.1',
+  {'nosource': True,
+   'start_dir': '../python',
+   'use_pip': True,
+   'pip_no_index': True,
+   'download_dep_fail': True,
+   'sanity_pip_check': True,
+   'preinstallopts': 'export CMAKE_PREFIX_PATH="%(installdir)s:$CMAKE_PREFIX_PATH" && export '
+                     'PKG_CONFIG_PATH="%(installdir)s/lib/pkgconfig:$PKG_CONFIG_PATH" && export '
+                     'Arrow_DIR="%(installdir)s/lib/cmake/Arrow" && export '
+                     'ArrowDataset_DIR="%(installdir)s/lib/cmake/ArrowDataset" && export '
+                     'ArrowAcero_DIR="%(installdir)s/lib/cmake/ArrowAcero" && export '
+                     'Parquet_DIR="%(installdir)s/lib/cmake/Parquet" && PYARROW_WITH_DATASET=1 '
+                     'PYARROW_WITH_ACERO=1 PYARROW_WITH_PARQUET=1 PYARROW_BUNDLE_ARROW_CPP=OFF '
+                     'CMAKE_ARGS="-DFETCHCONTENT_FULLY_DISCONNECTED=ON"',
+   'pip_no_build_isolation': True,
+   'pip_ignore_installed': True})]
+sanity_check_paths = {'files': ['lib/libarrow.a', 'include/arrow/api.h'],
+ 'dirs': ['lib/cmake/Arrow',
+          'lib/cmake/ArrowDataset',
+          'lib/cmake/ArrowAcero',
+          'lib/cmake/Parquet',
+          'lib/python%(pyshortver)s/site-packages/pyarrow']}
+sanity_check_commands = ["python -s -c 'import tempfile\n"
+ 'from pathlib import Path\n'
+ 'import numpy as np\n'
+ 'import pyarrow as pa\n'
+ 'import pyarrow.acero as acero\n'
+ 'import pyarrow.csv as csv\n'
+ 'import pyarrow.dataset as ds\n'
+ 'import pyarrow.fs as fs\n'
+ 'import pyarrow.ipc as ipc\n'
+ 'import pyarrow.parquet as pq\n'
+ 'assert pa.__version__ == "25.0.1"\n'
+ 'values = np.arange(257, dtype=np.float64) / 8 - 16\n'
+ 'original = pa.table({"value": pa.array(values), "label": ["alpha"] * len(values)})\n'
+ 'for codec in ("zstd", "snappy", "gzip", "lz4"):\n'
+ '    assert pa.Codec.is_available(codec), codec\n'
+ '    sink = pa.BufferOutputStream()\n'
+ '    pq.write_table(original, sink, compression=codec)\n'
+ '    restored = pq.read_table(pa.BufferReader(sink.getvalue()))\n'
+ '    assert original.equals(restored)\n'
+ '    np.testing.assert_array_equal(restored["value"].to_numpy(), values)\n'
+ 'sink = pa.BufferOutputStream()\n'
+ 'with ipc.new_stream(sink, original.schema) as writer:\n'
+ '    writer.write_table(original)\n'
+ 'assert ipc.open_stream(sink.getvalue()).read_all().equals(original)\n'
+ 'sink = pa.BufferOutputStream()\n'
+ 'csv.write_csv(original, sink)\n'
+ 'assert csv.read_csv(sink.getvalue()).equals(original)\n'
+ 'assert acero.Declaration("table_source", '
+ 'acero.TableSourceNodeOptions(original)).to_table().equals(original)\n'
+ 'with tempfile.TemporaryDirectory() as tmp:\n'
+ '    path = str(Path(tmp) / "table.parquet")\n'
+ '    pq.write_table(original, path)\n'
+ '    dataset = ds.dataset(path, format="parquet", filesystem=fs.LocalFileSystem())\n'
+ '    actual = dataset.to_table(filter=ds.field("value") >= 0)["value"].to_numpy()\n'
+ '    np.testing.assert_array_equal(actual, values[values >= 0])\n'
+ 'print("Arrow 25.0.1 numerical, Parquet, CSV, IPC, Dataset, Acero and local filesystem checks passed")\n'
+ "'"]
+moduleclass = 'data'

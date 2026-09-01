@@ -8,6 +8,10 @@
 
 ## Unreleased
 
+- Prepare an isolated Arrow/PyArrow 25.0.1 EasyBuild 2024a provider with
+  source-verified native and Python build dependencies and numerical smoke
+  checks; native HPC installation remains pending.
+
 - Select Arrow/PyArrow 25.0.1 and verified stable xsimd for HPC source builds,
   with explicit backend dependencies and preserved historical solver evidence.
 

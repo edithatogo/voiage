@@ -1,0 +1,4 @@
+Using CPython 3.12.13 interpreter at: .conductor/local/easybuild-arrow/backend-smoke-env/bin/python
+Resolved 1 package in 40ms
+Installed 1 package in 20ms
+ + setuptools-scm==9.2.2 (from file:///Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-easybuild-2024a-arrow-20260901/.conductor/local/easybuild-arrow/sources/setuptools_scm-9.2.2.tar.gz)

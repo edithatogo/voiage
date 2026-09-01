@@ -1,0 +1,178 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
+# Toolchain library versions
+#
+# This file is used by `download_dependencies.sh` and cmake to figure out which
+# version of a dependency to fetch. In order to add a new dependency, add a
+# version variable, e.g. MY_DEP_VERSION and append an entry in the
+# `DEPENDENCIES` array (see the comment on top of the declaration for the
+# format).
+
+ARROW_ABSL_BUILD_VERSION=20250127.0
+ARROW_ABSL_BUILD_SHA256_CHECKSUM=16242f394245627e508ec6bb296b433c90f8d914f73b9c026fddb905e27276e8
+ARROW_AWS_C_AUTH_BUILD_VERSION=v0.10.1
+ARROW_AWS_C_AUTH_BUILD_SHA256_CHECKSUM=85d737f0f735256f1931e85e4cadbe228d88698f7b59a9b390b49ef5d0778a43
+ARROW_AWS_C_CAL_BUILD_VERSION=v0.9.13
+ARROW_AWS_C_CAL_BUILD_SHA256_CHECKSUM=80b7c6087b0af461b4483e4c9483aea2e0dac5d9fb2289b057159ea6032409e1
+ARROW_AWS_C_COMMON_BUILD_VERSION=v0.12.6
+ARROW_AWS_C_COMMON_BUILD_SHA256_CHECKSUM=138822ecdcaff1d702f37d4751f245847d088592724921cc6bf61c232b198d6b
+ARROW_AWS_C_COMPRESSION_BUILD_VERSION=v0.3.2
+ARROW_AWS_C_COMPRESSION_BUILD_SHA256_CHECKSUM=f93f5a5d8b3fee3a6d97b14ba279efacd4d4016ef9cc7dc4be7d43519ecfbe93
+ARROW_AWS_C_EVENT_STREAM_BUILD_VERSION=v0.7.0
+ARROW_AWS_C_EVENT_STREAM_BUILD_SHA256_CHECKSUM=88835b4c78462547917f622fd9dda45c991b7e356d9c07e2f0537d4d97fbd4fb
+ARROW_AWS_C_HTTP_BUILD_VERSION=v0.10.13
+ARROW_AWS_C_HTTP_BUILD_SHA256_CHECKSUM=d8352e7a1fb1996694a4dc31219ce03452882abf8d0858c104727f975e11b9c7
+ARROW_AWS_C_IO_BUILD_VERSION=v0.26.3
+ARROW_AWS_C_IO_BUILD_SHA256_CHECKSUM=521fd0848fca661130bbb7278a414d7a38bdcb9bc8ffa89f6660d84e5838a303
+ARROW_AWS_C_MQTT_BUILD_VERSION=v0.15.2
+ARROW_AWS_C_MQTT_BUILD_SHA256_CHECKSUM=66f3f5edff4ad1f765a86d3342b6017d0f29f950c1c24f8c1edacdc895202edc
+ARROW_AWS_C_S3_BUILD_VERSION=v0.12.0
+ARROW_AWS_C_S3_BUILD_SHA256_CHECKSUM=1a8a8ceda0585d52028a1f3daa5861f924e7d8d2f6a17bec05813dc0b74d6eed
+ARROW_AWS_C_SDKUTILS_BUILD_VERSION=v0.2.4
+ARROW_AWS_C_SDKUTILS_BUILD_SHA256_CHECKSUM=493cbed4fa57e0d4622fcff044e11305eb4fc12445f32c8861025597939175fc
+ARROW_AWS_CHECKSUMS_BUILD_VERSION=v0.2.10
+ARROW_AWS_CHECKSUMS_BUILD_SHA256_CHECKSUM=cb6509f75e42ee25c372a6d379e8582ce5179e5335183842e808f7d8abb0c314
+ARROW_AWS_CRT_CPP_BUILD_VERSION=v0.38.0
+ARROW_AWS_CRT_CPP_BUILD_SHA256_CHECKSUM=f57b82f0a9e6890e4d47aa1c48b9324b5beb5b58000715c4c6ef9f147be13891
+ARROW_AWS_LC_BUILD_VERSION=v1.71.0
+ARROW_AWS_LC_BUILD_SHA256_CHECKSUM=31b1eed775294825f084c0d4e09df53e1cf036fb98a202a8c2c342543828a985
+ARROW_AWSSDK_BUILD_VERSION=1.11.778
+ARROW_AWSSDK_BUILD_SHA256_CHECKSUM=06371849792f1a8633c3e0592a17b4700f39c748ad374f4e9a6592739ecc4d9c
+# Despite the confusing version name this is still the whole Azure SDK for C++ including core, keyvault, storage-common, etc.
+ARROW_AZURE_SDK_BUILD_VERSION=azure-identity_1.9.0
+ARROW_AZURE_SDK_BUILD_SHA256_CHECKSUM=97065bfc971ac8df450853ce805f820f52b59457bd7556510186a1569502e4a1
+ARROW_BOOST_BUILD_VERSION=1.88.0
+ARROW_BOOST_BUILD_SHA256_CHECKSUM=dcea50f40ba1ecfc448fdf886c0165cf3e525fef2c9e3e080b9804e8117b9694
+ARROW_BROTLI_BUILD_VERSION=v1.0.9
+ARROW_BROTLI_BUILD_SHA256_CHECKSUM=f9e8d81d0405ba66d181529af42a3354f838c939095ff99930da6aa9cdf6fe46
+ARROW_BZIP2_BUILD_VERSION=1.0.8
+ARROW_BZIP2_BUILD_SHA256_CHECKSUM=ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269
+ARROW_CARES_BUILD_VERSION=1.34.6
+ARROW_CARES_BUILD_SHA256_CHECKSUM=912dd7cc3b3e8a79c52fd7fb9c0f4ecf0aaa73e45efda880266a2d6e26b84ef5
+ARROW_GBENCHMARK_BUILD_VERSION=v1.8.3
+ARROW_GBENCHMARK_BUILD_SHA256_CHECKSUM=6bc180a57d23d4d9515519f92b0c83d61b05b5bab188961f36ac7b06b0d9e9ce
+ARROW_GFLAGS_BUILD_VERSION=v2.2.2
+ARROW_GFLAGS_BUILD_SHA256_CHECKSUM=34af2f15cf7367513b352bdcd2493ab14ce43692d2dcd9dfc499492966c64dcf
+ARROW_GLOG_BUILD_VERSION=v0.5.0
+ARROW_GLOG_BUILD_SHA256_CHECKSUM=eede71f28371bf39aa69b45de23b329d37214016e2055269b3b5e7cfd40b59f5
+ARROW_GOOGLE_CLOUD_CPP_BUILD_VERSION=v3.2.0
+ARROW_GOOGLE_CLOUD_CPP_BUILD_SHA256_CHECKSUM=79ed6303d5b0c46f627bf8b38b5bd6b007c85e76c88722eb570a495bc2b579a0
+ARROW_GRPC_BUILD_VERSION=v1.76.0
+ARROW_GRPC_BUILD_SHA256_CHECKSUM=0af37b800953130b47c075b56683ee60bdc3eda3c37fc6004193f5b569758204
+ARROW_GTEST_BUILD_VERSION=1.17.0
+ARROW_GTEST_BUILD_SHA256_CHECKSUM=65fab701d9829d38cb77c14acdc431d2108bfdbf8979e40eb8ae567edf10b27c
+ARROW_JEMALLOC_BUILD_VERSION=5.3.0
+ARROW_JEMALLOC_BUILD_SHA256_CHECKSUM=2db82d1e7119df3e71b7640219b6dfe84789bc0537983c3b7ac4f7189aecfeaa
+ARROW_LZ4_BUILD_VERSION=v1.10.0
+ARROW_LZ4_BUILD_SHA256_CHECKSUM=537512904744b35e232912055ccf8ec66d768639ff3abe5788d90d792ec5f48b
+ARROW_MIMALLOC_BUILD_VERSION=v3.4.1
+ARROW_MIMALLOC_BUILD_SHA256_CHECKSUM=37107a52c16baa80c5f74861dddda7b27bb9949e41a6637691867a94c88ca446
+ARROW_NLOHMANN_JSON_BUILD_VERSION=v3.12.0
+ARROW_NLOHMANN_JSON_BUILD_SHA256_CHECKSUM=4b92eb0c06d10683f7447ce9406cb97cd4b453be18d7279320f7b2f025c10187
+ARROW_OPENTELEMETRY_BUILD_VERSION=v1.21.0
+ARROW_OPENTELEMETRY_BUILD_SHA256_CHECKSUM=98e5546f577a11b52a57faed1f4cc60d8c1daa44760eba393f43eab5a8ec46a2
+ARROW_OPENTELEMETRY_PROTO_BUILD_VERSION=v1.7.0
+ARROW_OPENTELEMETRY_PROTO_BUILD_SHA256_CHECKSUM=11330d850f5e24d34c4246bc8cb21fcd311e7565d219195713455a576bb11bed
+ARROW_ORC_BUILD_VERSION=2.2.1
+ARROW_ORC_BUILD_SHA256_CHECKSUM=52fc762332442e8b05d7182f8c035f9e04d945b9a52be22ab69f28b3f37d4500
+ARROW_PROTOBUF_BUILD_VERSION=v31.1
+ARROW_PROTOBUF_BUILD_SHA256_CHECKSUM=12bfd76d27b9ac3d65c00966901609e020481b9474ef75c7ff4601ac06fa0b82
+# Because of https://github.com/Tencent/rapidjson/pull/1323, we require
+# a pre-release version of RapidJSON to build with GCC 8 without
+# warnings.
+ARROW_RAPIDJSON_BUILD_VERSION=232389d4f1012dddec4ef84861face2d2ba85709
+ARROW_RAPIDJSON_BUILD_SHA256_CHECKSUM=b9290a9a6d444c8e049bd589ab804e0ccf2b05dc5984a19ed5ae75d090064806
+# RE2 2023-03-01 is pinned to avoid Abseil dependency. Versions after 2023-06-01
+# require Abseil, which would add significant build time and complexity, particularly
+# for CRAN builds. This version includes musl libc support (GH-48010).
+ARROW_RE2_BUILD_VERSION=2023-03-01
+ARROW_RE2_BUILD_SHA256_CHECKSUM=7a9a4824958586980926a300b4717202485c4b4115ac031822e29aa4ef207e48
+ARROW_SNAPPY_BUILD_VERSION=1.2.2
+ARROW_SNAPPY_BUILD_SHA256_CHECKSUM=90f74bc1fbf78a6c56b3c4a082a05103b3a56bb17bca1a27e052ea11723292dc
+ARROW_SUBSTRAIT_BUILD_VERSION=v0.44.0
+ARROW_SUBSTRAIT_BUILD_SHA256_CHECKSUM=f989a862f694e7dbb695925ddb7c4ce06aa6c51aca945105c075139aed7e55a2
+ARROW_S2N_TLS_BUILD_VERSION=v1.7.0
+ARROW_S2N_TLS_BUILD_SHA256_CHECKSUM=a6e8228e238239bb3c17b1eda3ed702bcbb2eaebc792eac4d754cc5619b0ea06
+ARROW_THRIFT_BUILD_VERSION=0.22.0
+ARROW_THRIFT_BUILD_SHA256_CHECKSUM=794a0e455787960d9f27ab92c38e34da27e8deeda7a5db0e59dc64a00df8a1e5
+ARROW_UTF8PROC_BUILD_VERSION=v2.10.0
+ARROW_UTF8PROC_BUILD_SHA256_CHECKSUM=6f4f1b639daa6dca9f80bc5db1233e9cbaa31a67790887106160b33ef743f136
+# WIL (Windows Implementation Libraries) is required by Azure SDK on Windows for WinHTTP transport
+ARROW_WIL_BUILD_VERSION=v1.0.250325.1
+ARROW_WIL_BUILD_SHA256_CHECKSUM=c9e667d5f86ded43d17b5669d243e95ca7b437e3a167c170805ffd4aa8a9a786
+ARROW_XSIMD_BUILD_VERSION=14.2.0
+ARROW_XSIMD_BUILD_SHA256_CHECKSUM=21e841ab684b05331e81e7f782431753a029ef7b7d9d6d3ddab837e7782a40ee
+ARROW_ZLIB_BUILD_VERSION=1.3.1
+ARROW_ZLIB_BUILD_SHA256_CHECKSUM=9a93b2b7dfdac77ceba5a558a580e74667dd6fede4585b91eefb60f03b72df23
+ARROW_ZSTD_BUILD_VERSION=1.5.7
+ARROW_ZSTD_BUILD_SHA256_CHECKSUM=eb33e51f49a15e023950cd7825ca74a4a2b43db8354825ac24fc1b7ee09e6fa3
+
+
+# The first field is the name of the environment variable expected by cmake.
+# This _must_ match what is defined. The second field is the name of the
+# generated archive file. The third field is the url of the project for the
+# given version.
+DEPENDENCIES=(
+  "ARROW_ABSL_URL absl-${ARROW_ABSL_BUILD_VERSION}.tar.gz https://github.com/abseil/abseil-cpp/archive/${ARROW_ABSL_BUILD_VERSION}.tar.gz"
+  "ARROW_AWS_C_AUTH_URL aws-c-auth-${ARROW_AWS_C_AUTH_BUILD_VERSION}.tar.gz https://github.com/awslabs/aws-c-auth/archive/${ARROW_AWS_C_AUTH_BUILD_VERSION}.tar.gz"
+  "ARROW_AWS_C_CAL_URL aws-c-cal-${ARROW_AWS_C_CAL_BUILD_VERSION}.tar.gz https://github.com/awslabs/aws-c-cal/archive/${ARROW_AWS_C_CAL_BUILD_VERSION}.tar.gz"
+  "ARROW_AWS_C_COMMON_URL aws-c-common-${ARROW_AWS_C_COMMON_BUILD_VERSION}.tar.gz https://github.com/awslabs/aws-c-common/archive/${ARROW_AWS_C_COMMON_BUILD_VERSION}.tar.gz"
+  "ARROW_AWS_C_COMPRESSION_URL aws-c-compression-${ARROW_AWS_C_COMPRESSION_BUILD_VERSION}.tar.gz https://github.com/awslabs/aws-c-compression/archive/${ARROW_AWS_C_COMPRESSION_BUILD_VERSION}.tar.gz"
+  "ARROW_AWS_C_EVENT_STREAM_URL aws-c-event-stream-${ARROW_AWS_C_EVENT_STREAM_BUILD_VERSION}.tar.gz https://github.com/awslabs/aws-c-event-stream/archive/${ARROW_AWS_C_EVENT_STREAM_BUILD_VERSION}.tar.gz"
+  "ARROW_AWS_C_HTTP_URL aws-c-http-${ARROW_AWS_C_HTTP_BUILD_VERSION}.tar.gz https://github.com/awslabs/aws-c-http/archive/${ARROW_AWS_C_HTTP_BUILD_VERSION}.tar.gz"
+  "ARROW_AWS_C_IO_URL aws-c-io-${ARROW_AWS_C_IO_BUILD_VERSION}.tar.gz https://github.com/awslabs/aws-c-io/archive/${ARROW_AWS_C_IO_BUILD_VERSION}.tar.gz"
+  "ARROW_AWS_C_MQTT_URL aws-c-mqtt-${ARROW_AWS_C_MQTT_BUILD_VERSION}.tar.gz https://github.com/awslabs/aws-c-mqtt/archive/${ARROW_AWS_C_MQTT_BUILD_VERSION}.tar.gz"
+  "ARROW_AWS_C_S3_URL aws-c-s3-${ARROW_AWS_C_S3_BUILD_VERSION}.tar.gz https://github.com/awslabs/aws-c-s3/archive/${ARROW_AWS_C_S3_BUILD_VERSION}.tar.gz"
+  "ARROW_AWS_C_SDKUTILS_URL aws-c-sdkutils-${ARROW_AWS_C_SDKUTILS_BUILD_VERSION}.tar.gz https://github.com/awslabs/aws-c-sdkutils/archive/${ARROW_AWS_C_SDKUTILS_BUILD_VERSION}.tar.gz"
+  "ARROW_AWS_CHECKSUMS_URL aws-checksums-${ARROW_AWS_CHECKSUMS_BUILD_VERSION}.tar.gz https://github.com/awslabs/aws-checksums/archive/${ARROW_AWS_CHECKSUMS_BUILD_VERSION}.tar.gz"
+  "ARROW_AWS_CRT_CPP_URL aws-crt-cpp-${ARROW_AWS_CRT_CPP_BUILD_VERSION}.tar.gz https://github.com/awslabs/aws-crt-cpp/archive/${ARROW_AWS_CRT_CPP_BUILD_VERSION}.tar.gz"
+  "ARROW_AWS_LC_URL aws-lc-${ARROW_AWS_LC_BUILD_VERSION}.tar.gz https://github.com/awslabs/aws-lc/archive/${ARROW_AWS_LC_BUILD_VERSION}.tar.gz"
+  "ARROW_AWSSDK_URL aws-sdk-cpp-${ARROW_AWSSDK_BUILD_VERSION}.tar.gz https://github.com/aws/aws-sdk-cpp/archive/${ARROW_AWSSDK_BUILD_VERSION}.tar.gz"
+  "ARROW_AZURE_SDK_URL azure-sdk-for-cpp-${ARROW_AZURE_SDK_BUILD_VERSION}.tar.gz https://github.com/Azure/azure-sdk-for-cpp/archive/${ARROW_AZURE_SDK_BUILD_VERSION}.tar.gz"
+  "ARROW_BOOST_URL boost-${ARROW_BOOST_BUILD_VERSION}-cmake.tar.gz https://github.com/boostorg/boost/releases/download/boost-${ARROW_BOOST_BUILD_VERSION}/boost-${ARROW_BOOST_BUILD_VERSION}-cmake.tar.gz"
+  "ARROW_BROTLI_URL brotli-${ARROW_BROTLI_BUILD_VERSION}.tar.gz https://github.com/google/brotli/archive/${ARROW_BROTLI_BUILD_VERSION}.tar.gz"
+  "ARROW_BZIP2_URL bzip2-${ARROW_BZIP2_BUILD_VERSION}.tar.gz https://sourceware.org/pub/bzip2/bzip2-${ARROW_BZIP2_BUILD_VERSION}.tar.gz"
+  "ARROW_CARES_URL cares-${ARROW_CARES_BUILD_VERSION}.tar.gz https://github.com/c-ares/c-ares/releases/download/v${ARROW_CARES_BUILD_VERSION}/c-ares-${ARROW_CARES_BUILD_VERSION}.tar.gz"
+  "ARROW_GBENCHMARK_URL gbenchmark-${ARROW_GBENCHMARK_BUILD_VERSION}.tar.gz https://github.com/google/benchmark/archive/${ARROW_GBENCHMARK_BUILD_VERSION}.tar.gz"
+  "ARROW_GFLAGS_URL gflags-${ARROW_GFLAGS_BUILD_VERSION}.tar.gz https://github.com/gflags/gflags/archive/${ARROW_GFLAGS_BUILD_VERSION}.tar.gz"
+  "ARROW_GLOG_URL glog-${ARROW_GLOG_BUILD_VERSION}.tar.gz https://github.com/google/glog/archive/${ARROW_GLOG_BUILD_VERSION}.tar.gz"
+  "ARROW_GOOGLE_CLOUD_CPP_URL google-cloud-cpp-${ARROW_GOOGLE_CLOUD_CPP_BUILD_VERSION}.tar.gz https://github.com/googleapis/google-cloud-cpp/archive/${ARROW_GOOGLE_CLOUD_CPP_BUILD_VERSION}.tar.gz"
+  "ARROW_GRPC_URL grpc-${ARROW_GRPC_BUILD_VERSION}.tar.gz https://github.com/grpc/grpc/archive/${ARROW_GRPC_BUILD_VERSION}.tar.gz"
+  "ARROW_GTEST_URL gtest-${ARROW_GTEST_BUILD_VERSION}.tar.gz https://github.com/google/googletest/releases/download/v${ARROW_GTEST_BUILD_VERSION}/googletest-${ARROW_GTEST_BUILD_VERSION}.tar.gz"
+  "ARROW_JEMALLOC_URL jemalloc-${ARROW_JEMALLOC_BUILD_VERSION}.tar.bz2 https://github.com/jemalloc/jemalloc/releases/download/${ARROW_JEMALLOC_BUILD_VERSION}/jemalloc-${ARROW_JEMALLOC_BUILD_VERSION}.tar.bz2"
+  "ARROW_LZ4_URL lz4-${ARROW_LZ4_BUILD_VERSION}.tar.gz https://github.com/lz4/lz4/archive/${ARROW_LZ4_BUILD_VERSION}.tar.gz"
+  "ARROW_MIMALLOC_URL mimalloc-${ARROW_MIMALLOC_BUILD_VERSION}.tar.gz https://github.com/microsoft/mimalloc/archive/${ARROW_MIMALLOC_BUILD_VERSION}.tar.gz"
+  "ARROW_NLOHMANN_JSON_URL nlohmann-json-${ARROW_NLOHMANN_JSON_BUILD_VERSION}.tar.gz https://github.com/nlohmann/json/archive/refs/tags/${ARROW_NLOHMANN_JSON_BUILD_VERSION}.tar.gz"
+  "ARROW_OPENTELEMETRY_URL opentelemetry-cpp-${ARROW_OPENTELEMETRY_BUILD_VERSION}.tar.gz https://github.com/open-telemetry/opentelemetry-cpp/archive/refs/tags/${ARROW_OPENTELEMETRY_BUILD_VERSION}.tar.gz"
+  "ARROW_OPENTELEMETRY_PROTO_URL opentelemetry-proto-${ARROW_OPENTELEMETRY_PROTO_BUILD_VERSION}.tar.gz https://github.com/open-telemetry/opentelemetry-proto/archive/refs/tags/${ARROW_OPENTELEMETRY_PROTO_BUILD_VERSION}.tar.gz"
+  "ARROW_ORC_URL orc-${ARROW_ORC_BUILD_VERSION}.tar.gz https://www.apache.org/dyn/closer.lua/orc/orc-${ARROW_ORC_BUILD_VERSION}/orc-${ARROW_ORC_BUILD_VERSION}.tar.gz?action=download"
+  "ARROW_PROTOBUF_URL protobuf-${ARROW_PROTOBUF_BUILD_VERSION}.tar.gz https://github.com/google/protobuf/releases/download/${ARROW_PROTOBUF_BUILD_VERSION}/protobuf-${ARROW_PROTOBUF_BUILD_VERSION:1}.tar.gz"
+  "ARROW_RAPIDJSON_URL rapidjson-${ARROW_RAPIDJSON_BUILD_VERSION}.tar.gz https://github.com/miloyip/rapidjson/archive/${ARROW_RAPIDJSON_BUILD_VERSION}.tar.gz"
+  "ARROW_RE2_URL re2-${ARROW_RE2_BUILD_VERSION}.tar.gz https://github.com/google/re2/archive/${ARROW_RE2_BUILD_VERSION}.tar.gz"
+  "ARROW_S2N_TLS_URL s2n-${ARROW_S2N_TLS_BUILD_VERSION}.tar.gz https://github.com/aws/s2n-tls/archive/${ARROW_S2N_TLS_BUILD_VERSION}.tar.gz"
+  "ARROW_SNAPPY_URL snappy-${ARROW_SNAPPY_BUILD_VERSION}.tar.gz https://github.com/google/snappy/archive/${ARROW_SNAPPY_BUILD_VERSION}.tar.gz"
+  "ARROW_SUBSTRAIT_URL substrait-${ARROW_SUBSTRAIT_BUILD_VERSION}.tar.gz https://github.com/substrait-io/substrait/archive/${ARROW_SUBSTRAIT_BUILD_VERSION}.tar.gz"
+  "ARROW_THRIFT_URL thrift-${ARROW_THRIFT_BUILD_VERSION}.tar.gz https://www.apache.org/dyn/closer.lua/thrift/${ARROW_THRIFT_BUILD_VERSION}/thrift-${ARROW_THRIFT_BUILD_VERSION}.tar.gz?action=download"
+  "ARROW_UTF8PROC_URL utf8proc-${ARROW_UTF8PROC_BUILD_VERSION}.tar.gz https://github.com/JuliaStrings/utf8proc/archive/${ARROW_UTF8PROC_BUILD_VERSION}.tar.gz"
+  "ARROW_WIL_URL wil-${ARROW_WIL_BUILD_VERSION}.tar.gz https://github.com/microsoft/wil/archive/refs/tags/${ARROW_WIL_BUILD_VERSION}.tar.gz"
+  "ARROW_XSIMD_URL xsimd-${ARROW_XSIMD_BUILD_VERSION}.tar.gz https://github.com/xtensor-stack/xsimd/archive/${ARROW_XSIMD_BUILD_VERSION}.tar.gz"
+  "ARROW_ZLIB_URL zlib-${ARROW_ZLIB_BUILD_VERSION}.tar.gz https://zlib.net/fossils/zlib-${ARROW_ZLIB_BUILD_VERSION}.tar.gz"
+  "ARROW_ZSTD_URL zstd-${ARROW_ZSTD_BUILD_VERSION}.tar.gz https://github.com/facebook/zstd/releases/download/v${ARROW_ZSTD_BUILD_VERSION}/zstd-${ARROW_ZSTD_BUILD_VERSION}.tar.gz"
+)
+
+# vim: set filetype=sh:

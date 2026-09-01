@@ -1,0 +1,21 @@
+name = 'Rust'
+version = '1.96.0'
+homepage = 'https://github.com/edithatogo/voiage'
+description = 'Source-bound foss 2024a provider for the Voiage HPC candidate.'
+toolchain = {'name': 'GCCcore', 'version': '13.3.0'}
+
+source_urls = ['https://static.rust-lang.org/dist/']
+sources = ['rustc-1.96.0-src.tar.xz']
+patches = ['Rust-1.96_sysroot-fix-interpreter.patch']
+checksums = ['b99ce16cdf0ecfc761b585ac84d131b46733465a02f8ecd0ff2de9713c62ee09',
+ 'beb558ea39683772ff3b06e189e178604a3fa835f6a0f66be0e14d9cdb5512f1']
+builddependencies = [('binutils', '2.42'),
+ ('CMake', '3.29.3'),
+ ('Python', '3.12.14'),
+ ('Ninja', '1.12.1'),
+ ('pkgconf', '2.2.0'),
+ ('patchelf', '0.18.0')]
+dependencies = [('OpenSSL', '3', '', SYSTEM)]
+channel = 'stable'
+configopts = '--set=rust.download-rustc=false --set=build.vendor=true'
+moduleclass = 'lang'

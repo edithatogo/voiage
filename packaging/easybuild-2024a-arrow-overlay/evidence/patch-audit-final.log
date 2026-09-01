@@ -1,0 +1,7 @@
+Rust 0 patching file 'src/bootstrap/bootstrap.py'
+
+snappy 0 patching file CMakeLists.txt
+
+bzip2 0 patching file bzip2.pc.in
+patching file Makefile
+

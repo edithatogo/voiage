@@ -1,0 +1,20 @@
+{
+  "python": "3.12.13",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "backend_file": "ARROW_CANDIDATE_CHECKOUT/.conductor/local/easybuild-arrow/source/apache-arrow-25.0.1/python/_build_backend/__init__.py",
+  "source_backend_import": true,
+  "libcst_parser": true,
+  "native_arrow_build_executed": false,
+  "installed": {
+    "setuptools": "70.0.0",
+    "wheel": "0.43.0",
+    "scikit-build-core": "0.12.2",
+    "Cython": "3.1.8",
+    "setuptools-scm": "9.2.2",
+    "setuptools-rust": "1.9.0",
+    "libcst": "1.8.6",
+    "PyYAML": "6.0.3",
+    "trove-classifiers": "2026.6.1.19",
+    "pathspec": "0.12.1"
+  }
+}
