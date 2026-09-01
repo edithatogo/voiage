@@ -1,0 +1,53 @@
+{
+  "schema": "voiage.spack-overlay-solver.v1",
+  "recorded_at": "2026-08-31T16:18:52.105595+00:00",
+  "catalogue_commit": "d4f7c711a6a42f1c4d551c8fd10fce9a11340a81",
+  "host": "macOS arm64",
+  "manifest_sha256": "0c1be98e5df3e661782bc901fd5dd404af8db0901ee98b9a70ed379c5f72b78a",
+  "results": [
+    {
+      "spec": "py-typer@0.27.2",
+      "exit_code": 0,
+      "status": "concretized",
+      "log_path": "solver-logs/typer.log",
+      "log_sha256": "a2f7596dc3b9ca55c519d5409cac8b254c62751ae46c227aa5cf24799c5b5410"
+    },
+    {
+      "spec": "py-pydantic@2.13.4",
+      "exit_code": 0,
+      "status": "concretized",
+      "log_path": "solver-logs/pydantic.log",
+      "log_sha256": "f9d63aa7795fc337311c155796f3a2528fd3effe8de6c05188bce98badfb955b"
+    },
+    {
+      "spec": "py-pyarrow@25.0.0",
+      "exit_code": 0,
+      "status": "concretized",
+      "log_path": "solver-logs/pyarrow.log",
+      "log_sha256": "da7568761b006b204ae001f51abf79b2e42abe6b120b366f5e4b0d7c674b3812"
+    },
+    {
+      "spec": "py-voiage@2.2.0",
+      "exit_code": 0,
+      "status": "concretized",
+      "log_path": "solver-logs/voiage.log",
+      "log_sha256": "b9a4fc227e6b61818adbeaab4fa424d11534162494920e32329eb07b8148e16f"
+    }
+  ],
+  "builds_executed": false,
+  "module_load_executed": false,
+  "spack_version": "1.2.2",
+  "prior_failure_evidence": "history/pre-dated-rust-69873911/solver-receipt.json",
+  "concrete_dag": {
+    "path": "solver-logs/voiage.json",
+    "sha256": "66db4f2a406dc0d610e5d754ee59b9ee44b9b36a4612f1e6eb874f8b631d73c4",
+    "nodes": 139,
+    "duplicated_build_tools": {
+      "py-maturin": 2,
+      "py-setuptools-rust": 2,
+      "rust": 2,
+      "rust-bootstrap": 2
+    },
+    "runtime_compiler_edges": "Polars dated and Pydantic Core stable Rust are build-only; backend run edges preserved."
+  }
+}

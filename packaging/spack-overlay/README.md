@@ -53,7 +53,7 @@ spack config --scope user add "bootstrap:root:$PWD/.conductor/local/hpc-overlay-
 cp packaging/spack-overlay/concretizer.yaml "$SPACK_USER_CONFIG_PATH/concretizer.yaml"
 spack spec py-typer@0.27.2
 spack spec py-pydantic@2.13.4
-spack spec py-voiage@2.2.0
+spack spec "py-voiage@2.2.0 ^python@3.12.14"
 ```
 
 Spack may bootstrap its solver in that isolated bootstrap directory; reading
@@ -70,8 +70,8 @@ test on a verified Linux host before advancing issue #1025.
 
 Spack 1.2.2 concretized Typer 0.27.2, Pydantic 2.13.4 with its new native
 core, and PyArrow 25 with Arrow 25 separately. Each command returned zero;
-`solver-receipt.json` records their log paths, hashes and the exact recipe
-manifest. The complete solver outputs in `solver-logs/` contain no local
+`history/pre-security-floor-b3f53c2b/solver-receipt.json` preserves those
+log paths, hashes and the exact earlier recipe manifest. The complete solver outputs in `solver-logs/` contain no local
 filesystem paths and allow independent inspection of the dependency graphs.
 
 The dated-toolchain follow-up resolves the complete voiage graph on the recorded
@@ -99,3 +99,28 @@ A concrete graph is not a native build. Rust source compilation, bootstrap
 binary verification and execution, all native Python dependencies, installed
 Arrow/numerical smoke tests, Linux foss stacks and module loading remain
 unverified. No upstream submission or completion of issue #1025 is claimed.
+
+## Security source floor
+
+The current complete solve selects Python 3.12.14, Expat 2.8.3 and OpenSSL
+3.6.4. Their downloaded official archives and published checksums are bound
+by `security-source-audit.json`. The Python range still includes 3.13 and
+3.14; the current reproduction command explicitly chooses 3.12.14.
+The parser and TLS minimums apply only when their existing Python variants
+are enabled. The original catalogue classes supply all build methods,
+variants, compiler requirements and installation hooks. An actual Spack
+1.2.2 dispatch probe confirms both Expat builders and the Python/OpenSSL
+installation callbacks; `builder-dispatch-audit.json` records that inspection.
+
+These releases address fixes absent from the earlier raw source versions:
+[Python 3.12.14](https://www.python.org/downloads/release/python-31214/),
+[Expat 2.8.3](https://github.com/libexpat/libexpat/blob/R_2_8_3/expat/Changes),
+and [OpenSSL 3.6.4](https://openssl-library.org/news/openssl-3.6-notes/).
+This is a bounded source update, not a security assessment of every package.
+A distribution's patched system library requires separate vendor evidence;
+its displayed upstream version alone does not establish vulnerability.
+
+`solver-receipt.json` binds the new complete macOS arm64 solve to the current
+manifest. The previous manifest, receipt and logs remain unchanged under
+`history/pre-security-floor-b3f53c2b/`. Neither record establishes completion
+of the separate Linux native build or installed module checks.
