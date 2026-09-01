@@ -1,4 +1,6 @@
+import ast
 import importlib.util
+import json
 from pathlib import Path
 import re
 import tarfile
@@ -41,6 +43,14 @@ def test_arxiv_template_tools_are_pinned_and_registered() -> None:
     root = Path.cwd()
     requirements = (root / "requirements-arxiv.txt").read_text()
     modules = (root / ".gitmodules").read_text()
+    disposition = json.loads(
+        (
+            root
+            / "conductor/tracks/remaining_backlog_delivery_20260831"
+            / "nltk-residual-advisory-20260902.json"
+        ).read_text()
+    )
+    selected_version = Version(disposition["selected_version"])
 
     assert "arxiv-collector==" in requirements
     assert "arxiv-latex-cleaner==" in requirements
@@ -53,12 +63,77 @@ def test_arxiv_template_tools_are_pinned_and_registered() -> None:
         pin = re.fullmatch(r"nltk==(3\.10\.\d+)", nltk_lines[0])
         assert pin is not None
         version = Version(pin[1])
-        assert Version("3.10.0") <= version < Version("3.11")
+        assert version == selected_version
         nltk_versions.append(version)
     assert nltk_versions[0] == nltk_versions[1]
     assert "pyphen==0.17.2" in requirements
     assert "edithatogo/sourceright.git" in modules
     assert "edithatogo/authentext.git" in modules
+
+
+def test_readability_nltk_residual_advisory_is_bounded() -> None:
+    root = Path.cwd()
+    disposition = json.loads(
+        (
+            root
+            / "conductor/tracks/remaining_backlog_delivery_20260831"
+            / "nltk-residual-advisory-20260902.json"
+        ).read_text()
+    )
+
+    assert disposition["advisory"] == "GHSA-8mgp-746c-j5xp"
+    assert disposition["affected_versions"] == "<=3.10.3"
+    assert disposition["patched_release"] is None
+    assert disposition["selected_version"] == "3.10.3"
+    assert disposition["scope"] == [
+        "scripts/audit_arxiv_readability.py",
+        "scripts/audit_joss_readability.py",
+    ]
+
+    expected_affected_calls = {
+        "TransitionParser.train",
+        "TransitionParser.parse",
+        "AveragedPerceptron.save",
+        "AveragedPerceptron.load",
+        "PerceptronTagger.save_to_json",
+        "save_maxent_params",
+    }
+    expected_affected_identifiers = {
+        "TransitionParser",
+        "AveragedPerceptron",
+        "PerceptronTagger",
+        "save_maxent_params",
+    }
+    assert set(disposition["affected_model_persistence_calls"]) == (
+        expected_affected_calls
+    )
+    assert set(disposition["affected_api_identifiers"]) == (
+        expected_affected_identifiers
+    )
+
+    observed_calls: set[str] = set()
+    for filename in disposition["scope"]:
+        source = (root / filename).read_text()
+        for identifier in expected_affected_identifiers:
+            assert identifier not in source
+        tree = ast.parse(source)
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.Call):
+                continue
+            parts: list[str] = []
+            target = node.func
+            while isinstance(target, ast.Attribute):
+                parts.append(target.attr)
+                target = target.value
+            if isinstance(target, ast.Name):
+                parts.append(target.id)
+            if parts:
+                observed_calls.add(".".join(reversed(parts)))
+    assert expected_affected_calls.isdisjoint(observed_calls)
+    assert disposition["upgrade_rule"] == (
+        "Update both exact pins together to the first stable patched release, "
+        "then refresh this disposition and its callsite audit."
+    )
 
 
 def test_manuscript_uses_citation_order_and_cross_referenced_end_matter() -> None:

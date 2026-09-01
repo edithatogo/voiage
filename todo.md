@@ -9,6 +9,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
     delivery and Codecov controls (#656), measured opt-in testing (#1028), HPC
     recipes (#1025), remaining issue evidence, protected PR merges and verified
     cleanup. Keep unsatisfied human and external outcomes open.
+    *   [x] Enforce the NLTK 3.10.3 manuscript-tool security floor and retain a
+        bounded disposition for the unpatched model-persistence advisory.
 
 *   [~] Deliver the hardened v2.2.0 release through
     `conductor/tracks/v2_2_release_and_venue_submissions_20260830/` (#1037).
