@@ -4,13 +4,12 @@
 
 from spack_repo.builtin.packages.xsimd.package import Xsimd as BuiltinXsimd
 
-from spack.package import depends_on, license, version
+from spack.package import depends_on, version
 
 
 class Xsimd(BuiltinXsimd):
     """Checksum-bound xsimd required by the selected Arrow 25 source."""
 
-    license("BSD-3-Clause")
     depends_on("c", type="build")
 
     version(

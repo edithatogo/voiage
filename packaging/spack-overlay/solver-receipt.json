@@ -1,26 +1,28 @@
 {
   "schema": "voiage.spack-overlay-solver.v1",
-  "recorded_at": "2026-09-01T12:16:53.606226+00:00",
+  "recorded_at": "2026-09-01T15:14:53+00:00",
   "catalogue_commit": "d4f7c711a6a42f1c4d551c8fd10fce9a11340a81",
   "host": "Ubuntu 24.04 Linux arm64",
-  "manifest_sha256": "1bf10eccbaeaba9f9649f80bd2c9ba7c9c1dbf1343dcfbbb427d983d10d5fee3",
+  "manifest_sha256": "973287b343ad26dc29f83eb55df45259b84032e1cdb8ad74816cae65865edc3a",
   "results": [
     {
       "spec": "py-voiage@2.2.0",
       "exit_code": 0,
       "status": "concretized",
       "log_path": "solver-logs/voiage.log",
-      "log_sha256": "2bd269a80937fce70852b28e930ad55313d29b27144208f33ef38e23c2c0113f"
+      "log_sha256": "2bd269a80937fce70852b28e930ad55313d29b27144208f33ef38e23c2c0113f",
+      "concretize_log_path": "solver-logs/voiage-concretize.log",
+      "concretize_log_sha256": "476962d603bb4ae0342aef7886edba15060eab72d4e80716447ac2c73356b994"
     }
   ],
   "builds_executed": false,
   "module_load_executed": false,
   "spack_version": "1.2.2",
   "spack_commit": "3e19345b6e12f5ff1b874f4059622fc6a1fd804a",
-  "prior_failure_evidence": "history/pre-arrow-patch-38b573b5/solver-receipt.json",
+  "prior_failure_evidence": "history/pre-xsimd-license-fix-12c57216/solver-receipt.json",
   "concrete_dag": {
     "path": "solver-logs/voiage.json",
-    "sha256": "b6228dfedc9e4ecfdf2c6fee96a46a291d5fe5dd1330448f256116de3fb18773",
+    "sha256": "01c5b4b4492a14c00eb62a39e9e50a1af6638ce2d0d8b017f896edc9edfbcdbb",
     "nodes": 154,
     "duplicated_build_tools": {
       "py-maturin": 2,
@@ -40,5 +42,21 @@
       "xsimd": "14.2.0"
     }
   },
-  "root_constraints": "py-voiage@2.2.0 ^python@3.12.14%gcc@13.3.0 ^py-pyarrow@25.0.1"
+  "root_constraints": "py-voiage@2.2.0 ^python@3.12.14%gcc@13.3.0 ^py-pyarrow@25.0.1",
+  "concretization": {
+    "mode": "fresh_isolated",
+    "previous_lock_reused": false,
+    "previous_dag_reused": false,
+    "native_store_reused": false,
+    "source_install_executed": false,
+    "environment_input": "py-voiage@2.2.0 ^python@3.12.14%gcc@13.3.0 ^py-pyarrow@25.0.1",
+    "overlay_manifest_sha256": "973287b343ad26dc29f83eb55df45259b84032e1cdb8ad74816cae65865edc3a",
+    "xsimd_recipe_sha256": "f5540446b893d4b4e1b8c10e74175b3cb6f70490db0f66f7fc0a7748ffdf25bf",
+    "concretizer_sha256": "83488e72ea09aa7ad1c2db9cb115f7bbf5e6ce3ceade87d3b6d776355e5a69a4",
+    "solver_bootstrap": "Spack installed only its isolated clingo solver bootstrap from buildcache; no candidate package was built or installed."
+  },
+  "concrete_lock": {
+    "path": "solver-logs/voiage.lock",
+    "sha256": "7eeb5d3c6390865034d64e2b0dc7c34f0e6874f94c9f9c9a112c1d6ef03793d3"
+  }
 }

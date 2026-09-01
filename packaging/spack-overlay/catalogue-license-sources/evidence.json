@@ -1,0 +1,27 @@
+{
+  "schema": "voiage.spack-catalogue-license-sources.v1",
+  "catalogue_commit": "d4f7c711a6a42f1c4d551c8fd10fce9a11340a81",
+  "catalogue_repository": "https://github.com/spack/spack-packages",
+  "sources": {
+    "expat": {
+      "path": "expat.py",
+      "upstream_path": "repos/spack_repo/builtin/packages/expat/package.py",
+      "sha256": "39ac2c69535f6c0116bfe92781fa0717f536a1bc357dff5138cd1551e083f19e"
+    },
+    "openssl": {
+      "path": "openssl.py",
+      "upstream_path": "repos/spack_repo/builtin/packages/openssl/package.py",
+      "sha256": "057e8cb673cfc8cbfd9da8ccdb1e1938d1d1967101e29c1162462abcbbdbe972"
+    },
+    "python": {
+      "path": "python.py",
+      "upstream_path": "repos/spack_repo/builtin/packages/python/package.py",
+      "sha256": "3dc7ce8b75cfcf149ba9cbd6ba5876cacb55553a7e93aaa32cfa4fc23feab553"
+    },
+    "xsimd": {
+      "path": "xsimd.py",
+      "upstream_path": "repos/spack_repo/builtin/packages/xsimd/package.py",
+      "sha256": "cf8ec85ec155f988df2a62c42f2d3119c703a67e0fa121abf654116ce2c98a3f"
+    }
+  }
+}

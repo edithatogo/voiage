@@ -23,7 +23,7 @@
     "packages/python/package.py": "43f95f1421296dd2cb4c3c5f9010adceaf6b706fa77ab86cb8bf29f723cefe1a",
     "packages/rust/package.py": "c6379f7a29de431875d7adc2a94661e56fa69b96f3dfb791cbea085d05558fdc",
     "packages/rust-bootstrap/package.py": "9fa3514b619fcb45b0a4fc4107493e16397c336a13018ac9a08b79999a4ed02b",
-    "packages/xsimd/package.py": "f5540446b893d4b4e1b8c10e74175b3cb6f70490db0f66f7fc0a7748ffdf25bf"
+    "packages/xsimd/package.py": "4941b94e05bcd36bd71a66b4fdd2bf44e3b9ff772d3fb3ab9e4b146573f41520"
   },
   "native_builds_executed": false,
   "module_load_executed": false,
@@ -32,17 +32,12 @@
     "packages/py-pyarrow/for_aarch64.patch": "aed6630a6298b6309d2241a99943b49993453fb089c1d864b4a459559d69bd3c"
   },
   "support_sha256": {
-    "arrow-patch-source-audit.json": "86ac2a8c5dd0aab831bc145a3fc0f0775870e1f463f59c13b954ed1fbb2c0efe",
-    "builder-dispatch-audit.json": "7a2c381846030f5f59cfa737a741193c1d00199e83a8968dc4fd3dc1c7727674",
-    "catalogue-license-sources/evidence.json": "1bad1b523e91ef2524b45fd7efda9dca2bb09811d791ba3e40406434f63fd809",
-    "catalogue-license-sources/expat.py": "39ac2c69535f6c0116bfe92781fa0717f536a1bc357dff5138cd1551e083f19e",
-    "catalogue-license-sources/openssl.py": "057e8cb673cfc8cbfd9da8ccdb1e1938d1d1967101e29c1162462abcbbdbe972",
-    "catalogue-license-sources/python.py": "3dc7ce8b75cfcf149ba9cbd6ba5876cacb55553a7e93aaa32cfa4fc23feab553",
-    "catalogue-license-sources/xsimd.py": "cf8ec85ec155f988df2a62c42f2d3119c703a67e0fa121abf654116ce2c98a3f",
     "concretizer.yaml": "83488e72ea09aa7ad1c2db9cb115f7bbf5e6ce3ceade87d3b6d776355e5a69a4",
-    "libcst-cargo-source-closure.json": "46c4843d3b04e48633b1d74e9b59d88480d12da71d64f15eb63a28fa5857da46",
-    "rust-backend-source-audit.json": "0fbaea54166ab7389192f126225705c30865e2736bba76e0991c0e6de9472c23",
     "rust-source-audit.json": "0e17803e2bd39637bfa4d122e4ddcf3a699742ae1dc2ab4281224e12007c1471",
-    "security-source-audit.json": "305b54b91f698df3180d45729c980593c2d29baf7b7999c4fcae93cdaca3c5e6"
+    "rust-backend-source-audit.json": "0fbaea54166ab7389192f126225705c30865e2736bba76e0991c0e6de9472c23",
+    "security-source-audit.json": "305b54b91f698df3180d45729c980593c2d29baf7b7999c4fcae93cdaca3c5e6",
+    "builder-dispatch-audit.json": "7a2c381846030f5f59cfa737a741193c1d00199e83a8968dc4fd3dc1c7727674",
+    "arrow-patch-source-audit.json": "0d6d0cec187baf0802b6317010057ee8a1f30dc0a385849d6c01a9bdee35fb4f",
+    "libcst-cargo-source-closure.json": "46c4843d3b04e48633b1d74e9b59d88480d12da71d64f15eb63a28fa5857da46"
   }
 }

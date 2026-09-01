@@ -9,3 +9,7 @@
 
 # Preserve the exact historical handoff bytes bound by the retained receipts.
 paper/research-use/v2.2.0/hpv_vaccination_net_benefit.csv -text !eol whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+# Retain raw Spack command logs, including their terminal blank line.
+packaging/spack-overlay/solver-logs/voiage-concretize.log -text !eol -whitespace
+packaging/spack-overlay/history/pre-xsimd-license-fix-12c57216/solver-logs/voiage.log -text !eol -whitespace

@@ -74,8 +74,9 @@ core, and PyArrow 25 with Arrow 25 separately. Each command returned zero;
 log paths, hashes and the exact earlier recipe manifest. The complete solver outputs in `solver-logs/` contain no local
 filesystem paths and allow independent inspection of the dependency graphs.
 
-The dated-toolchain follow-up resolves the complete voiage graph on the recorded
-macOS arm64 host. `solver-logs/voiage.json` retains the full concrete DAG.
+The active solver evidence resolves the complete voiage graph on an isolated
+Ubuntu 24.04 ARM64 guest. `solver-logs/voiage.json` and
+`solver-logs/voiage.lock` retain the fresh full concrete DAG and lock.
 It contains stable Rust 1.96.0 for Pydantic Core and a distinct exact
 `nightly-2026-04-01` for Polars. Polars explicitly binds `RUSTC` and `CARGO`
 to its direct dependency's prefix. The dated compiler uses beta stage0 from
@@ -120,10 +121,15 @@ This is a bounded source update, not a security assessment of every package.
 A distribution's patched system library requires separate vendor evidence;
 its displayed upstream version alone does not establish vulnerability.
 
-`solver-receipt.json` binds the new complete macOS arm64 solve to the current
-manifest. The previous manifest, receipt and logs remain unchanged under
-`history/pre-security-floor-b3f53c2b/`. Neither record establishes completion
-of the separate Linux native build or installed module checks.
+`solver-receipt.json` binds the fresh complete Ubuntu ARM64 solve to the current
+manifest. The previous security-floor manifest, receipt and logs remain under
+`history/pre-security-floor-b3f53c2b/`. The pre-xsimd-licence-fix Linux solve
+remains separately unchanged under `history/pre-xsimd-license-fix-12c57216/`.
+The Arrow audit's `qualified_dag_recorded_at` field records the current DAG
+qualification event; the fresh solve outputs and hashes are bound separately in
+the active solver receipt and logs.
+None of these solver records establishes a native build or installed module
+check.
 
 
 ## Arrow patch source selection
