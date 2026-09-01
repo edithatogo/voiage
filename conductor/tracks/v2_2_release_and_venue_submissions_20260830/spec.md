@@ -54,11 +54,12 @@ not allow the agent to invent personal attestations or venue outcomes.
    r-universe, review, acceptance, or indexing outcomes prematurely.
 10. Keep repository readiness, release publication, submission creation, review,
     acceptance, DOI assignment, and indexing as distinct states.
-11. Resolve the pyOpenSci one-review-per-contact requirement against existing
-    submissions before posting. Do not infer that an on-hold issue is exempt,
-    close another package's issue, or invent a replacement maintainer. Avoid
-    concurrent review at different venues unless the editors explicitly allow
-    it, and obtain human review of venue communications.
+11. Preserve the resolution of the pyOpenSci one-review-per-contact requirement
+    against existing submissions. The later maintainer decision and withdrawal
+    receipt verify that requests #271 and #272 were closed as not planned;
+    preserve that evidence without treating closure as editorial approval.
+    Avoid concurrent review at different venues unless the editors explicitly
+    allow it, and obtain human review of venue communications.
 12. Complete all currently known repository-owned release and venue-packet
     repairs before the first venue submission. Preparing JOSS and rOpenSci
     materials does not start their reviews or bypass later eligibility gates.
@@ -91,8 +92,9 @@ not allow the agent to invent personal attestations or venue outcomes.
 ## External gates
 
 - Maintainer-only venue attestations and survey answers.
-- pyOpenSci contact-capacity clarification for open issues #271 and #272;
-  no concurrent venue review or inferred editorial exception.
+- Private pre-review survey, human-written submission body, and authenticated
+  pyOpenSci submission. Requests #271 and #272 are verified withdrawn and
+  closed; no editorial scope or capacity approval is inferred from closure.
 - GitHub environment protections and trusted-publishing authorization.
 - pyOpenSci scope screening, review, acceptance, and partner referral.
 - JOSS editorial screening, review, acceptance, and DOI publication.

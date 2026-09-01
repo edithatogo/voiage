@@ -71,7 +71,7 @@
         {"id": "author-category-licence-upload", "status": "pending", "evidence": ["paper/readiness-manifest.json"]}
       ],
       "acceptance_evidence": ["Authenticated arXiv submission state", "Permanent announced arXiv identifier"],
-      "next_decision": "Author completes category, licence, source upload, metadata, and submission after final review."
+      "next_decision": "ArXiv is deferred until an actual journal submission exists and the author later reviews the category, licence, source package, metadata and authenticated submission."
     },
     {
       "id": "joss",
@@ -102,7 +102,7 @@
         {"id": "ai-affirmation", "status": "pending", "evidence": ["paper.md", "paper/joss-editorial-assurance.json", "AI_CONTRIBUTIONS.md", "specs/submission-readiness/pyopensci-submission-staging.json"]}
       ],
       "acceptance_evidence": ["pyOpenSci review issue", "pyOpenSci approval label and catalogue entry"],
-      "next_decision": "Complete all packet repairs and current human declarations, resolve contact-capacity eligibility for existing issues #271 and #272, and use human-written review communication. The pyOpenSci-first and subsequent eligible JOSS route is already authorized."
+      "next_decision": "Personal declarations are confirmed and previous requests #271 and #272 are withdrawn. Complete the private pre-review survey, supply a human-written submission body, and perform the authenticated pyOpenSci submission. The maintainer's separate commitment to write later review communication personally is confirmed. The subsequent eligible JOSS route is already authorized; arXiv remains deferred until an actual journal submission and later author action."
     },
     {
       "id": "ropensci",

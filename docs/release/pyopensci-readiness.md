@@ -10,7 +10,7 @@ acceptance, or publication claim.
 The selected sequence is:
 
 1. prepare and refresh the pyOpenSci evidence package;
-2. complete all repairs, personal declarations and contact-capacity checks
+2. complete the private pre-review survey and human-written submission text
    before the already-authorized, human-led pyOpenSci submission;
 3. complete pyOpenSci review and record its external acceptance evidence; and
 4. only then, once JOSS eligibility and author prerequisites are evidenced,
@@ -71,5 +71,10 @@ provenance are documented in the README, methods documentation, and paper.
 Refresh the official guide and the evidence matrix immediately before any
 author-led inquiry. Historical AI-review confirmations do not certify the
 current packet. The unposted draft includes explicit current human-review,
-development-history, AI-scope and communication checks; existing submissions
-#271 and #272 still require contact-capacity clarification.
+development-history, AI-scope and communication checks. Previous requests #271
+and #272 were withdrawn and verified closed on 31 August 2026. The remaining
+immediate human gates are the private pre-review survey, a human-written
+submission body, and authenticated pyOpenSci submission. The maintainer's
+commitment to write later review communication personally is separately
+confirmed. Withdrawal of those requests resolves the observed contact overlap;
+it does not establish editorial scope or capacity approval.

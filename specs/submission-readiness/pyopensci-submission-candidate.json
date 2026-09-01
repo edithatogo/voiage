@@ -67,7 +67,7 @@
     "developer_research_use_release": "2.0.0",
     "non_author_engagement": "pending_issue_471",
     "doi_bearing_archive": "pending",
-    "permanent_arxiv_identifier": "pending",
+    "permanent_arxiv_identifier": "deferred_until_after_journal_submission_not_pre_joss_gate",
     "joss_submission": "not_started",
     "automated_replay_release": "2.2.0",
     "research_use_boundary": "Historical human-use record preserved; the v2.2.0 automated replay is not additional human use or independent adoption."

@@ -46,6 +46,9 @@ def _staged_packet(tmp_path: Path, draft: str) -> Path:
     confirmation = _load(STAGING).get("maintainer_confirmation")
     if confirmation:
         relative_files.append(Path(confirmation["path"]))
+    withdrawal = _load(STAGING).get("withdrawal_receipt")
+    if withdrawal:
+        relative_files.append(Path(withdrawal["path"]))
     for relative in relative_files:
         destination = staged_root / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
@@ -120,6 +123,131 @@ def test_candidate_is_bound_to_verified_publication() -> None:
     assert candidate["joss_handoff"]["state"] == (
         "blocked_pending_refresh_and_external_evidence"
     )
+    assert candidate["joss_handoff"]["permanent_arxiv_identifier"] == (
+        "deferred_until_after_journal_submission_not_pre_joss_gate"
+    )
+
+
+def test_current_venue_projections_follow_withdrawal_and_journal_first_order() -> None:
+    """Current guidance supersedes, without rewriting, the dated gate snapshot."""
+    targets = _load(ROOT / "specs" / "submission-readiness" / "targets.json")
+    by_id = {target["id"]: target for target in targets["targets"]}
+    pyopensci_decision = by_id["pyopensci"]["next_decision"]
+    arxiv_decision = by_id["arxiv"]["next_decision"]
+
+    assert "requests #271 and #272 are withdrawn" in pyopensci_decision
+    assert "private pre-review survey" in pyopensci_decision
+    assert "human-written submission body" in pyopensci_decision
+    assert "write later review communication personally is confirmed" in (
+        pyopensci_decision
+    )
+    assert "authenticated pyOpenSci submission" in pyopensci_decision
+    assert "resolve contact-capacity eligibility" not in pyopensci_decision
+    assert "deferred until an actual journal submission" in arxiv_decision
+
+    readiness = (ROOT / "docs" / "release" / "pyopensci-readiness.md").read_text(
+        encoding="utf-8"
+    )
+    assert "withdrawn and verified closed on 31 August 2026" in readiness
+    assert "still require contact-capacity clarification" not in readiness
+
+    historical_checklist = (
+        ROOT
+        / "conductor/tracks/v2_2_release_and_venue_submissions_20260830"
+        / "venue-human-action-checklist-20260831.md"
+    )
+    assert hashlib.sha256(historical_checklist.read_bytes()).hexdigest() == (
+        "47db7c5550defa0ee226481105677833618046078647289f24c3d9bb7489f425"
+    )
+    assert "Open; labels `presubmission`" in historical_checklist.read_text(
+        encoding="utf-8"
+    )
+
+    supersession = (
+        ROOT
+        / "conductor/tracks/v2_2_release_and_venue_submissions_20260830"
+        / "venue-human-action-checklist-supersession-20260902.md"
+    ).read_text(encoding="utf-8")
+    assert "immutable" in supersession
+    assert "factual snapshot" in supersession.replace("\n", " ")
+    assert "not current action guidance" in supersession.replace("\n", " ")
+    assert "must not trigger repeated declarations" in supersession
+
+    active_spec = (
+        ROOT / "conductor/tracks/v2_2_release_and_venue_submissions_20260830/spec.md"
+    ).read_text(encoding="utf-8")
+    assert "requests #271 and #272 were closed as not planned" in active_spec
+    assert "contact-capacity clarification for open issues #271 and #272" not in (
+        active_spec
+    )
+
+
+def test_validator_rejects_rebound_arxiv_before_joss_gate(tmp_path: Path) -> None:
+    """Rebinding the candidate hash cannot restore the superseded arXiv gate."""
+    staged_root = _staged_packet(tmp_path, DRAFT.read_text(encoding="utf-8"))
+    candidate_path = staged_root / CANDIDATE.relative_to(ROOT)
+    candidate = _load(candidate_path)
+    candidate["joss_handoff"]["permanent_arxiv_identifier"] = "pending"
+    candidate_path.write_text(json.dumps(candidate), encoding="utf-8")
+    staging_path = staged_root / STAGING.relative_to(ROOT)
+    staging = _load(staging_path)
+    staging["candidate"]["sha256"] = hashlib.sha256(
+        candidate_path.read_bytes()
+    ).hexdigest()
+    staging_path.write_text(json.dumps(staging), encoding="utf-8")
+
+    findings = validate_staging_packet(staged_root)
+
+    assert "JOSS handoff must preserve the journal-first arXiv deferral" in findings
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        "missing_binding",
+        "missing_file",
+        "path",
+        "digest",
+        "state",
+        "reason",
+        "approval",
+    ],
+)
+def test_validator_rejects_invalid_withdrawal_evidence(
+    tmp_path: Path, mutation: str
+) -> None:
+    """Withdrawal claims require immutable, semantically valid issue evidence."""
+    staged_root = _staged_packet(tmp_path, DRAFT.read_text(encoding="utf-8"))
+    staging_path = staged_root / STAGING.relative_to(ROOT)
+    staging = _load(staging_path)
+    binding = staging["withdrawal_receipt"]
+    receipt_path = staged_root / binding["path"]
+
+    if mutation == "missing_binding":
+        del staging["withdrawal_receipt"]
+    elif mutation == "missing_file":
+        receipt_path.unlink()
+    elif mutation == "path":
+        copied = receipt_path.with_name("copied-withdrawal-receipt.json")
+        shutil.copyfile(receipt_path, copied)
+        binding["path"] = str(copied.relative_to(staged_root))
+    elif mutation == "digest":
+        binding["sha256"] = "0" * 64
+    else:
+        receipt = _load(receipt_path)
+        if mutation == "state":
+            receipt["issues"][0]["after_state"] = "open"
+        elif mutation == "reason":
+            receipt["issues"][1]["after_state_reason"] = "completed"
+        else:
+            receipt["editorial_approval_inferred"] = True
+        receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
+        binding["sha256"] = hashlib.sha256(receipt_path.read_bytes()).hexdigest()
+    staging_path.write_text(json.dumps(staging), encoding="utf-8")
+
+    findings = validate_staging_packet(staged_root)
+
+    assert any(finding.startswith("withdrawal receipt") for finding in findings)
 
 
 def test_staging_manifest_records_version_without_external_action() -> None:
