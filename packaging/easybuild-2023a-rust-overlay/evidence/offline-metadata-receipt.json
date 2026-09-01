@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-08-31T18:26:44.108391+00:00",
+  "host_cargo": "cargo 1.98.0 (797e8a9bc 2026-08-05) (Homebrew)",
+  "scope": "locked offline metadata only; no compiler or native package build",
+  "crate_archives": 551,
+  "results": [
+    {
+      "name": "maturin",
+      "exit_code": 0,
+      "resolved_packages": 440
+    },
+    {
+      "name": "pydantic-core",
+      "exit_code": 0,
+      "resolved_packages": 104
+    },
+    {
+      "name": "rpds-py",
+      "exit_code": 0,
+      "resolved_packages": 19
+    }
+  ]
+}

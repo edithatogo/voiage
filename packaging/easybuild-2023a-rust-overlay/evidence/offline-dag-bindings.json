@@ -1,0 +1,26 @@
+[
+  {
+    "package": "maturin",
+    "path": "maturin-offline-metadata.json.gz",
+    "sha256": "5730e7a1524223b2f3f94ad8ce89ff27299131f6088daba6905bbbd8eec2d9d7",
+    "raw_local_sha256": "0dc698d81ca0d4609abb317ee8e3b57e678f742c9849393da498015883f8c1cd",
+    "packages": 440,
+    "sanitization": "Absolute isolated cache prefix replaced with ISOLATED_SOURCE_CACHE; metadata otherwise unchanged."
+  },
+  {
+    "package": "pydantic-core",
+    "path": "pydantic-core-offline-metadata.json.gz",
+    "sha256": "bfee840d32b238162de9cd943dde88d28395bc7d98e1da5320e7399193203853",
+    "raw_local_sha256": "c417ed942fd5943e16aca14d97b8053039eae69bfb7e19dc3451c6d1e132410d",
+    "packages": 104,
+    "sanitization": "Absolute isolated cache prefix replaced with ISOLATED_SOURCE_CACHE; metadata otherwise unchanged."
+  },
+  {
+    "package": "rpds-py",
+    "path": "rpds-py-offline-metadata.json.gz",
+    "sha256": "1ec9e57bce72fcc25ce96e8c3ec78f38aabd69996ae98f79f902d4c074392712",
+    "raw_local_sha256": "8e0a1840053174d534a5b85fbd8810054738793510f43aaa525339c2eef8a380",
+    "packages": 19,
+    "sanitization": "Absolute isolated cache prefix replaced with ISOLATED_SOURCE_CACHE; metadata otherwise unchanged."
+  }
+]

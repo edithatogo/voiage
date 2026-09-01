@@ -1,0 +1,66 @@
+easyblock = "PythonBundle"
+
+name = "jsonschema"
+version = "4.26.0"
+homepage = "https://github.com/edithatogo/voiage"
+description = "Source-bound foss 2023a provider for the Voiage HPC candidate."
+toolchain = {"name": "GCCcore", "version": "12.3.0"}
+
+builddependencies = [("Voiage-Rust-build-support", "2.2.0")]
+dependencies = [
+    ("Python", "3.12.14"),
+    ("Voiage-Python-support", "2.2.0"),
+    ("rpds-py", "2026.6.3"),
+]
+use_pip = True
+pip_no_index = True
+pip_ignore_installed = True
+download_dep_fail = True
+sanity_pip_check = True
+moduleclass = "devel"
+exts_list = [
+    (
+        "attrs",
+        "23.2.0",
+        {
+            "sources": ["attrs-23.2.0.tar.gz"],
+            "source_urls": [PYPI_SOURCE],
+            "checksums": [
+                "935dc3b529c262f6cf76e50877d35a4bd3c1de194fd41f47a2b7ae8f19971f30"
+            ],
+        },
+    ),
+    (
+        "referencing",
+        "0.37.0",
+        {
+            "sources": ["referencing-0.37.0.tar.gz"],
+            "source_urls": [PYPI_SOURCE],
+            "checksums": [
+                "44aefc3142c5b842538163acb373e24cce6632bd54bdb01b21ad5863489f50d8"
+            ],
+        },
+    ),
+    (
+        "jsonschema-specifications",
+        "2025.9.1",
+        {
+            "sources": ["jsonschema_specifications-2025.9.1.tar.gz"],
+            "source_urls": [PYPI_SOURCE],
+            "checksums": [
+                "b540987f239e745613c7a9176f3edb72b832a4ac465cf02712288397832b5e8d"
+            ],
+        },
+    ),
+    (
+        "jsonschema",
+        "4.26.0",
+        {
+            "sources": ["jsonschema-4.26.0.tar.gz"],
+            "source_urls": [PYPI_SOURCE],
+            "checksums": [
+                "0c26707e2efad8aa1bfc5b7ce170f3fccc2e4918ff85989ba9ffa9facb2be326"
+            ],
+        },
+    ),
+]

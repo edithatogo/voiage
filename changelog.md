@@ -34,6 +34,8 @@
 
 - Update the EasyBuild 2024a foundation to Python 3.12.14 throughout its build
   dependencies and refresh the OpenSSL source fallback; native builds remain pending.
+- Prepare source-bound stable Rust, Pydantic and JSON Schema providers for the
+  foss 2023a HPC candidate, with offline Cargo and isolated backend evidence.
 
 - Prepare a source-verified EasyBuild 2024a dependency foundation with explicit
   provider mappings; complete native stacks and 2023a remain pending.
