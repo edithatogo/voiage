@@ -30,6 +30,7 @@ class PyPyarrow(PythonPackage):
 
     license("Apache-2.0")
 
+    version("25.0.1", sha256="9150a83248bfed9813ea3c3af74c3856c1984d444aa28e58bf7733b9750ddf6a")
     version("25.0.0", sha256="d2d697008b5ec06d75952ef260c2e9a8a0f6ccfce24266c04c9c8ade927cb3b4")
     version("19.0.1", sha256="3bf266b485df66a400f282ac0b6d1b500b9d2ae73314a153dbe97d6d5cc8a99e")
     version("16.1.0", sha256="15fbb22ea96d11f0b5768504a3f961edab25eaf4197c341720c4a387f6c60315")
@@ -83,6 +84,7 @@ class PyPyarrow(PythonPackage):
         depends_on("py-setuptools")
 
     depends_on("arrow@25.0.0+python+csv+dataset+filesystem+parquet", when="@25.0.0")
+    depends_on("arrow@25.0.1+python+csv+dataset+filesystem+parquet", when="@25.0.1")
 
     arrow_versions = (
         "@0.9.0",

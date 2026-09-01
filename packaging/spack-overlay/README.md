@@ -53,7 +53,7 @@ spack config --scope user add "bootstrap:root:$PWD/.conductor/local/hpc-overlay-
 cp packaging/spack-overlay/concretizer.yaml "$SPACK_USER_CONFIG_PATH/concretizer.yaml"
 spack spec py-typer@0.27.2
 spack spec py-pydantic@2.13.4
-spack spec "py-voiage@2.2.0 ^python@3.12.14"
+spack spec "py-voiage@2.2.0 ^python@3.12.14 ^py-pyarrow@25.0.1"
 ```
 
 Spack may bootstrap its solver in that isolated bootstrap directory; reading
@@ -124,3 +124,31 @@ its displayed upstream version alone does not establish vulnerability.
 manifest. The previous manifest, receipt and logs remain unchanged under
 `history/pre-security-floor-b3f53c2b/`. Neither record establishes completion
 of the separate Linux native build or installed module checks.
+
+
+## Arrow patch source selection
+
+The selected HPC graph now uses matching Arrow and PyArrow 25.0.1. The
+[upstream patch release](https://arrow.apache.org/release/25.0.1.html) removes
+the problematic SVE128 Parquet decoding path and updates mimalloc. This does
+not change the general Python package dependency range. The selected Arrow
+source requires xsimd 14.2.0 or newer; the overlay supplies its verified
+14.2.0 archive and restricts this dependency to the stable 14.x family.
+An initial graph selecting floating `develop` was rejected, not qualified.
+
+`arrow-patch-source-audit.json` records four downloaded source archives,
+source metadata, actual Spack builder flags and backend import evidence.
+Spack disables pip dependency fetching and build isolation. Every declared
+PyArrow and LibCST build requirement is checked against an explicit build
+edge in the complete graph. LibCST retains its stable Rust compiler, and its
+95 registry archives match Cargo.lock; the offline metadata graph has 97
+packages. The source licence attribution includes MIT, PSF-2.0 and Apache-2.0
+components, separately from the Spack recipe's own licence.
+
+The backend import and LibCST parser smoke used preinstalled wheel providers
+on macOS with Python 3.12.13. Cargo metadata used the host Rust 1.98 toolchain.
+Neither check builds the candidate Python 3.12.14/native Rust stack. Upstream
+SVE test sources were inspected, not executed on SVE hardware. The prior
+Arrow 25.0.0 manifest, receipt and logs remain unchanged under
+`history/pre-arrow-patch-38b573b5/`; current native installation and module
+qualification remain pending.

@@ -4,26 +4,25 @@
   "catalogue_commit": "d4f7c711a6a42f1c4d551c8fd10fce9a11340a81",
   "voiage_recipe_commit": "dec5a1b5996ea1c5eef55bd791cb1ce89c38968a",
   "recipe_sha256": {
-    "packages/arrow/package.py": "5e5ba7caeb9cbd491ec4999a2531032b6fa8834698e18f4535fcb239f82ad10f",
+    "packages/arrow/package.py": "9c6480ba1a5180509189953ed74cea388a08dea0c5ad86c9afbe5e14c8025909",
     "packages/expat/package.py": "361d23b4544538f8208e34d0e2bc17517d3504851a77ebfe317f7ba41cab4475",
     "packages/openssl/package.py": "2b4c407d4b504e4b506f30cb10f338625d38c70b5c1d76a77b3b7b9f5b1f79fb",
     "packages/py-annotated-doc/package.py": "5238e58c461846aca7b8f0d7879a41efa546eab7458d5c5396437756e58f10dc",
     "packages/py-click/package.py": "bdbe6166b9516b13c9f1e112a9560ab4ac79b86fb9cf3992ccba369d078fc3fa",
-    "packages/py-libcst/package.py": "35feaf4b660af1cc4d7e91a886ae32147545f94609c5b165bce630082aee30bc",
+    "packages/py-libcst/package.py": "9a57b5e2beb4b01e8b8971671eaf28c94e2ed2c0775b328dbd8b1aae5782a388",
     "packages/py-maturin/package.py": "dee957e7a313ef427abc99963625fa4b439a4f7b349521d62a9237aa74d93181",
     "packages/py-polars/package.py": "324eaeed9d22ce727fc0d24eab4eaa5ce14c4d6e4243d120da9863846bcc00a5",
     "packages/py-polars-runtime-32/package.py": "c58dbd37dade1cf656550c4db093e8211497faa1290d3fd6237ae8520cf1a514",
-    "packages/py-pyarrow/package.py": "fc05aae3ac7be06861e2d194fb02ee98031c15e5d3e370f365413faa9da64fb4",
+    "packages/py-pyarrow/package.py": "b84c9f6c6eb62431e456208546686bc5aae0156fbef3661da1a3e3b5bc4c1810",
     "packages/py-pydantic/package.py": "6b55621d3bfcb54677eef5110abf1420d27166ef370363dddf1c35592f32fb93",
     "packages/py-pydantic-core/package.py": "e3869c8240cb78a952cf9d6e091433add71d829bb2e73efbd7844cb7b6fa03dc",
     "packages/py-setuptools-rust/package.py": "4b83a05205564d868b448151975b748442dd1fee7eb00ea379a24c8afc028a00",
     "packages/py-typer/package.py": "e13b10d527710d0ca77b12cc910f6db703f63a35cf18ea79e2be1eb51fc44d11",
     "packages/py-typing-extensions/package.py": "bc339c7bbb0f4eb478484269204bbccf4d755d03565ddb397552ed7006a1ed30",
-    "packages/py-voiage/package.py": "ed0d76fad55f718854dd83520435d2e8c3d57fbdd084fb29e0ef4cf68d42eb90",
+    "packages/py-voiage/package.py": "9e45334be22f9ed0af740dcf03d9a0fda58931b8fd8764508dc8a847010d8654",
     "packages/python/package.py": "69638efd8fcaf28c111012a6423c63b14517e9a6e6e0b5591694917abe231e6c",
     "packages/rust/package.py": "c6379f7a29de431875d7adc2a94661e56fa69b96f3dfb791cbea085d05558fdc",
-    "packages/rust-bootstrap/package.py": "9fa3514b619fcb45b0a4fc4107493e16397c336a13018ac9a08b79999a4ed02b",
-    "packages/xsimd/package.py": "4941b94e05bcd36bd71a66b4fdd2bf44e3b9ff772d3fb3ab9e4b146573f41520"
+    "packages/rust-bootstrap/package.py": "9fa3514b619fcb45b0a4fc4107493e16397c336a13018ac9a08b79999a4ed02b"
   },
   "native_builds_executed": false,
   "module_load_executed": false,
@@ -36,8 +35,6 @@
     "rust-source-audit.json": "0e17803e2bd39637bfa4d122e4ddcf3a699742ae1dc2ab4281224e12007c1471",
     "rust-backend-source-audit.json": "0fbaea54166ab7389192f126225705c30865e2736bba76e0991c0e6de9472c23",
     "security-source-audit.json": "305b54b91f698df3180d45729c980593c2d29baf7b7999c4fcae93cdaca3c5e6",
-    "builder-dispatch-audit.json": "95f517e343537fce2d15fa35a092dfe7f94e9deb52f1cf2c5b3acb27f48095df",
-    "arrow-patch-source-audit.json": "5f1ad11e4b0d16172c9e05bdbda55d9018cb2c40e9317fc5843b1cf004b41f5b",
-    "libcst-cargo-source-closure.json": "46c4843d3b04e48633b1d74e9b59d88480d12da71d64f15eb63a28fa5857da46"
+    "builder-dispatch-audit.json": "95f517e343537fce2d15fa35a092dfe7f94e9deb52f1cf2c5b3acb27f48095df"
   }
 }

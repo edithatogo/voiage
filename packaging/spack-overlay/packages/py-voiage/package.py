@@ -20,7 +20,7 @@ class PyVoiage(PythonPackage):
     depends_on("py-pandas@1.3:2", type="run")
     depends_on("py-xarray@0.19:2024", type="run")
     depends_on("py-scikit-learn@1.7.2:1", type="run")
-    depends_on("py-pyarrow@25:25", type="run")
+    depends_on("py-pyarrow@25.0.1:25", type="run")
     depends_on("py-polars@1.42.1:1", type="run")
     depends_on("py-pydantic@2.13.4:2", type="run")
     depends_on("py-jsonschema@4.26:4", type="run")

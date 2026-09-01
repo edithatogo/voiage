@@ -8,6 +8,9 @@
 
 ## Unreleased
 
+- Select Arrow/PyArrow 25.0.1 and verified stable xsimd for HPC source builds,
+  with explicit backend dependencies and preserved historical solver evidence.
+
 - Synchronize the published HPC solver command with the Python 3.12.14
   constraint and distinguish current full-graph evidence from historical
   individual dependency receipts.
