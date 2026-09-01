@@ -1,0 +1,20 @@
+[
+  {
+    "setuptools_version": "70.0.0",
+    "setuptools_file": "ISOLATED_SOURCE_CACHE/backend-smoke-env/lib/python3.12/site-packages/setuptools/__init__.py",
+    "hatchling_version": "1.24.2",
+    "hatchling_file": "ISOLATED_SOURCE_CACHE/backend-smoke-env/lib/python3.12/site-packages/hatchling/__init__.py"
+  },
+  {
+    "setuptools_version": "84.0.0",
+    "setuptools_file": "ISOLATED_SOURCE_CACHE/backend-prefix/setuptools/__init__.py",
+    "hatchling_version": "1.29.0",
+    "hatchling_file": "ISOLATED_SOURCE_CACHE/backend-prefix/hatchling/__init__.py"
+  },
+  {
+    "setuptools_version": "70.0.0",
+    "setuptools_file": "ISOLATED_SOURCE_CACHE/backend-smoke-env/lib/python3.12/site-packages/setuptools/__init__.py",
+    "hatchling_version": "1.24.2",
+    "hatchling_file": "ISOLATED_SOURCE_CACHE/backend-smoke-env/lib/python3.12/site-packages/hatchling/__init__.py"
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "schema": "voiage.easybuild-rust-validation-providers.v1",
+  "generation": "2024a",
+  "python": "3.12.14",
+  "rust": "1.96.0",
+  "runtime_providers": {
+    "pydantic-core": "2.46.4",
+    "annotated-types": "0.7.0",
+    "typing-inspection": "0.4.2",
+    "pydantic": "2.13.4",
+    "rpds-py": "2026.6.3",
+    "attrs": "23.2.0",
+    "referencing": "0.37.0",
+    "jsonschema-specifications": "2025.9.1",
+    "jsonschema": "4.26.0"
+  },
+  "build_only_providers": {
+    "Rust": "1.96.0",
+    "setuptools": "84.0.0",
+    "packaging": "26.3",
+    "hatchling": "1.29.0",
+    "setuptools-rust": "1.12.0",
+    "maturin": "1.13.1"
+  },
+  "native_builds_executed": false,
+  "full_voiage_graph": false
+}

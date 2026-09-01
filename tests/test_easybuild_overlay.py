@@ -208,9 +208,11 @@ def test_robot_and_source_smoke_are_distinct_from_native_build_evidence() -> Non
     providers = json.loads((ROOT / "providers.json").read_text())
     assert providers["foss_2023a_prepared"] is False
     assert providers["whole_voiage_graph_resolved"] is False
-    assert {"polars", "pyarrow", "pydantic", "jsonschema"}.issubset(
-        providers["deferred_voiage_dependencies"]
-    )
+    assert set(providers["deferred_voiage_dependencies"]) == {"polars", "pyarrow"}
+    assert providers["external_provider_overlays"] == {
+        "pydantic": "packaging/easybuild-2024a-rust-overlay",
+        "jsonschema": "packaging/easybuild-2024a-rust-overlay",
+    }
 
 
 def test_scipy_developer_test_cli_has_explicit_source_built_helpers() -> None:

@@ -40,7 +40,7 @@
     "LICENSE.easybuild-easyblocks": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643",
     "LICENSE.easybuild-framework": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643",
     "NOTICE": "28ff3751aef534dcb220c3d88e63bf1d3b9535019ef0b89d947d5973110e54e9",
-    "README.md": "d2ccb168d137bdd8e4666b8cd2606db8918fd28113c0efd3066fedd5b544887f",
+    "README.md": "1354f5df8c7a6eae362ab91a3df8a92518b7ed6f721762fe65508ce78fda9f19",
     "catalogue-reference/BLIS-1.0-GCC-13.3.0.eb": "90b21b6f7ff4da454fa8ceeceed86efc4d3df14db213aa242b6df24e96b9e10a",
     "catalogue-reference/FlexiBLAS-3.4.4-GCC-13.3.0.eb": "89c1026a52327d6edf33effb43af28fcdda9cf186f18c3263c3c1487ad591170",
     "catalogue-reference/ICU-75.1-GCCcore-13.3.0.eb": "89655466a3964d531eb3c36f524d697dda3aaa121edb4242bda730d0372866d2",
@@ -61,7 +61,7 @@
     "evidence/support-source-smoke.json": "c47184212972d63403a926c4ac3bb8708e05e2746e63c0db22fd1bc2cb56883c",
     "evidence/support-source-smoke.log": "213a3411b7432caaf73bd8f837551eb64e9b8d15891ff38ae5d3923a5106b454",
     "history/manifest-0b43545c.json": "5c16a76588db712e1e6c044cc86b83a3c3842fb7dbdbadfc56042be13f163174",
-    "providers.json": "a891d47e4b09323dc19abfb5282e9bb8ebafb2dd36b76fa74623bb01d349e096",
+    "providers.json": "2dc3917d3c0693de834b39eb1f4d835032aaabc97be8a6c7eb01c34bfb4d4ae9",
     "scientific-consumer-sources.json": "a11019c4b655cfc990ddbb0393eb967874986f75dd02c85b452cc05988de400e",
     "source-manifest-python31214.json": "a7a7b146f18c07628785dc7969be41e259eae0ef05fb8f794a972030d3bcebbe",
     "source-manifest.json": "bfee658562db323e1af1c371017de5542121812254c52d7212e90ee4fc8596de"

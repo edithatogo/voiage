@@ -11,6 +11,8 @@
 - Make the estimation-variance property bound scale-aware so valid
   floating-point decompositions at large magnitudes do not fail spuriously.
 
+- Add a source-bound stable Rust, Pydantic 2.13.4, and JSON Schema 4.26.0 EasyBuild 2024a provider layer while retaining native installation and full-stack qualification as pending gates.
+
 - Bind the current voiageR source distribution and three-platform native smoke
   evidence to the reviewed full manual check, while preserving its two NOTEs
   and keeping CRAN and rOpenSci actions external.
