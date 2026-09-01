@@ -31,6 +31,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
         rOpenSci. Personal declarations are confirmed and previous requests
         withdrawn; survey completion and human-written submission text remain
         pending. Journal submission now precedes deferred arXiv action.
+        *   [x] Refresh the local, unposted rOpenSci packet and bind the current
+            R distribution inputs to the successful three-platform hosted
+            matrix and full unsuppressed manual check without claiming zero NOTEs.
 
 ## Historical backlog and retained gate snapshots
 

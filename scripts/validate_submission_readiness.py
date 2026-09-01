@@ -3,8 +3,11 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
+import shutil
+import subprocess
 from typing import Any
 
 READINESS = {"published", "ready", "conditional", "blocked", "consideration", "retired"}
@@ -24,12 +27,191 @@ ROPENSCI_STATUSES = {
     "hosted_pending",
     "human_deferred",
 }
+R_DISTRIBUTION_RECEIPT = Path(
+    "specs/submission-readiness/r-distribution-evidence-20260902.json"
+)
+R_DISTRIBUTION_TESTED_HEAD = "78c4514f1dfe91b5ce4892ccce1b6f742d500da0"
+R_DISTRIBUTION_CURRENT_REVISION = "279cc50459453c78c8602d1e51a9a5a6f5025165"
+R_DISTRIBUTION_JOBS = {
+    "Cross-language differential conformance": 99584273115,
+    "Julia binding (1.10, macos-latest, rust/target/release/libvoiage_ffi.dylib)": 99582630629,
+    "Julia binding (1.10, ubuntu-latest, rust/target/release/libvoiage_ffi.so)": 99582630843,
+    "Julia binding (1.10, windows-latest, rust/target/release/voiage_ffi.dll)": 99582630648,
+    "Julia binding (1.11, macos-latest, rust/target/release/libvoiage_ffi.dylib)": 99582630694,
+    "Julia binding (1.11, ubuntu-latest, rust/target/release/libvoiage_ffi.so)": 99582630953,
+    "Julia binding (1.11, windows-latest, rust/target/release/voiage_ffi.dll)": 99582630743,
+    "Julia binding (1.12, macos-latest, rust/target/release/libvoiage_ffi.dylib)": 99582630914,
+    "Julia binding (1.12, ubuntu-latest, rust/target/release/libvoiage_ffi.so)": 99582630824,
+    "Julia binding (1.12, windows-latest, rust/target/release/voiage_ffi.dll)": 99582630788,
+    "R installed native smoke (macos-latest)": 99582630716,
+    "R installed native smoke (ubuntu-latest)": 99582630515,
+    "R installed native smoke (windows-latest)": 99582630718,
+    "R package-development checks": 99582630624,
+    "Rust workspace": 99582630399,
+    "Rust workspace (MSRV 1.85)": 99582630200,
+}
+R_DISTRIBUTION_OBJECTS = {
+    ".github/workflows/bindings-ci.yml": "35ed854f290b5c841f200f720661d44792922ba9",
+    "r-package/voiageR": "4bcce19b910a1a4404668538ce845fe39a1079c5",
+    "rust/crates/voiage-ffi": "b9f6728a6f7ae5ee8ef6018ca4dbbce404861266",
+    "specs/numerical-reference": "bb3ca823420fbe8f95b85b9c92ce07b3988cea2b",
+}
+R_MANUAL_RECEIPT = {
+    "path": "conductor/tracks/remaining_backlog_delivery_20260831/r-manual-check-20260901.json",
+    "sha256": "520af27e4d3463d9e9404c06e64e86d5a38a9db66bb3cb77e8338ac014fdf3a7",
+}
+R_ARCHIVE_SHA256 = "af485e1cfba6dc9c1f149ce074640c8ef63bb3f42c649f71fccbe0e5d114c8e4"
 
 
 def _non_empty(value: Any, label: str) -> str:
     if not isinstance(value, str) or not value.strip():
         raise ValueError(f"{label} must be a non-empty string")
     return value
+
+
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _git_object(root: Path, revision: str, path: str) -> str:
+    git = shutil.which("git")
+    if git is None:
+        raise ValueError("git is required to validate R distribution inputs")
+    result = subprocess.run(  # noqa: S603 - revisions and paths are pinned constants
+        [git, "rev-parse", "--verify", f"{revision}:{path}"],
+        cwd=root,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        raise ValueError(
+            f"cannot resolve recorded R distribution input: {revision}:{path}"
+        )
+    return result.stdout.strip()
+
+
+def validate_r_distribution_evidence(path: Path, root: Path) -> dict[str, Any]:
+    """Validate current R distribution evidence without inventing venue outcomes."""
+    payload: Any = json.loads(path.read_text(encoding="utf-8"))
+    if (
+        not isinstance(payload, dict)
+        or payload.get("schema_version") != "voiage.r-distribution-evidence.v1"
+        or payload.get("state")
+        != "current_repository_evidence_external_actions_unperformed"
+        or payload.get("current_revision") != R_DISTRIBUTION_CURRENT_REVISION
+    ):
+        raise ValueError("R distribution evidence identity or state is invalid")
+
+    hosted = payload.get("hosted_run")
+    if not isinstance(hosted, dict) or {
+        "workflow": hosted.get("workflow"),
+        "run_id": hosted.get("run_id"),
+        "url": hosted.get("url"),
+        "head_sha": hosted.get("head_sha"),
+        "conclusion": hosted.get("conclusion"),
+    } != {
+        "workflow": "R CMD Check and Retained Bindings CI",
+        "run_id": 33420870772,
+        "url": "https://github.com/edithatogo/voiage/actions/runs/33420870772",
+        "head_sha": R_DISTRIBUTION_TESTED_HEAD,
+        "conclusion": "success",
+    }:
+        raise ValueError("R distribution hosted run binding is invalid")
+    jobs = hosted.get("jobs")
+    if (
+        not isinstance(jobs, list)
+        or len(jobs) != len(R_DISTRIBUTION_JOBS)
+        or any(not isinstance(job, dict) for job in jobs)
+        or {job.get("name"): job.get("database_id") for job in jobs}
+        != R_DISTRIBUTION_JOBS
+        or any(job.get("conclusion") != "success" for job in jobs)
+    ):
+        raise ValueError("R distribution hosted job binding is invalid")
+
+    equality = payload.get("tested_input_equality")
+    entries = equality.get("paths") if isinstance(equality, dict) else None
+    if (
+        not isinstance(equality, dict)
+        or equality.get("method") != "git_object_identity"
+        or not isinstance(entries, list)
+        or any(not isinstance(entry, dict) for entry in entries)
+        or {
+            entry.get("path"): (
+                entry.get("tested_head_object_id"),
+                entry.get("current_revision_object_id"),
+            )
+            for entry in entries
+        }
+        != {
+            path: (object_id, object_id)
+            for path, object_id in R_DISTRIBUTION_OBJECTS.items()
+        }
+    ):
+        raise ValueError("R distribution tested-input inventory is invalid")
+    for relative, expected in R_DISTRIBUTION_OBJECTS.items():
+        # Hosted pull-request checkouts are deliberately shallow and need not
+        # contain either recorded commit.  The receipt and constants pin both
+        # observations; resolve the exact checked-out candidate independently
+        # so a later path mutation cannot inherit the equality claim.
+        if _git_object(root, "HEAD", relative) != expected:
+            raise ValueError("R distribution tested inputs do not match")
+
+    archive = payload.get("source_archive")
+    binding = archive.get("manual_check_receipt") if isinstance(archive, dict) else None
+    if (
+        not isinstance(archive, dict)
+        or archive.get("filename") != "voiageR_2.2.0.tar.gz"
+        or archive.get("sha256") != R_ARCHIVE_SHA256
+        or binding != R_MANUAL_RECEIPT
+    ):
+        raise ValueError("R source archive or manual receipt binding is invalid")
+    manual_path = root / R_MANUAL_RECEIPT["path"]
+    if not manual_path.is_file() or _sha256(manual_path) != R_MANUAL_RECEIPT["sha256"]:
+        raise ValueError("R manual-check receipt bytes do not match")
+    manual: Any = json.loads(manual_path.read_text(encoding="utf-8"))
+    expected_notes = [
+        "CRAN incoming feasibility: New submission",
+        "future file timestamps: unable to verify current time",
+    ]
+    if (
+        not isinstance(manual, dict)
+        or manual.get("package_errors") != 0
+        or manual.get("package_warnings") != 0
+        or manual.get("notes") != expected_notes
+        or manual.get("strict_zero_note_criterion_met") is not False
+        or manual.get("check_suppressions") != []
+        or manual.get("cran_submission") is not False
+        or manual.get("artifacts", {}).get("voiageR_2.2.0.tar.gz", {}).get("sha256")
+        != R_ARCHIVE_SHA256
+    ):
+        raise ValueError(
+            "R manual-check receipt does not preserve the reviewed outcome"
+        )
+    if payload.get("check_outcome") != {
+        "errors": 0,
+        "warnings": 0,
+        "notes": expected_notes,
+        "strict_zero_note_criterion_met": False,
+        "check_suppressions": [],
+        "interpretation": "Both NOTEs are retained as external or environment observations; they are not suppressed or relabelled as package defects.",
+    }:
+        raise ValueError("R check outcome is inconsistent with the manual receipt")
+    if payload.get("review_packet") != {
+        "path": "docs/release/ropensci-presubmission-inquiry-draft.md",
+        "state": "prepared_local_unposted",
+    } or payload.get("external_actions") != {
+        "cran_submission": False,
+        "ropensci_inquiry": False,
+        "ropensci_submission": False,
+    }:
+        raise ValueError("R review packet must remain local and external actions false")
+    if payload.get("external_outcomes") != {
+        "cran_acceptance": "pending_external",
+        "ropensci_scope_review_acceptance": "pending_external",
+    }:
+        raise ValueError("R distribution external outcomes must remain pending")
+    return {"job_count": len(jobs), "input_count": len(entries)}
 
 
 def validate_contract(path: Path, root: Path) -> dict[str, Any]:
@@ -255,7 +437,12 @@ def validate_ropensci_evidence(path: Path, root: Path) -> dict[str, Any]:
     }
     if blocked not in (set(), {"pkgcheck"}):
         raise ValueError("rOpenSci repository or hosted blockers must remain explicit")
-    return {"criterion_count": len(criteria), "statuses": statuses}
+    distribution = validate_r_distribution_evidence(root / R_DISTRIBUTION_RECEIPT, root)
+    return {
+        "criterion_count": len(criteria),
+        "statuses": statuses,
+        "distribution": distribution,
+    }
 
 
 def main() -> int:

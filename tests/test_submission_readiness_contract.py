@@ -10,6 +10,7 @@ import pytest
 from scripts.validate_submission_readiness import (
     validate_contract,
     validate_pyopensci_evidence,
+    validate_r_distribution_evidence,
     validate_ropensci_evidence,
 )
 
@@ -86,6 +87,8 @@ def test_ropensci_matrix_records_resolved_self_contained_installation() -> None:
     assert summary["criterion_count"] >= 10
     assert summary["statuses"]["self-contained-installation"] == "satisfied"
     assert summary["statuses"]["pkgcheck"] == "satisfied"
+    assert summary["statuses"]["current-source-distribution-evidence"] == "satisfied"
+    assert summary["distribution"] == {"job_count": 16, "input_count": 4}
 
 
 def test_ropensci_inquiry_is_staged_without_claiming_submission() -> None:
@@ -97,6 +100,57 @@ def test_ropensci_inquiry_is_staged_without_claiming_submission() -> None:
     assert "89.47% line coverage" in draft
     assert "Questions for an editor" in draft
     assert "has not been posted, submitted, or sent" in draft
+    assert "full, unsuppressed `R CMD check --as-cran`" in draft
+    assert "literal zero-NOTE" in draft
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        "run",
+        "job",
+        "input",
+        "current_input",
+        "archive",
+        "manual_digest",
+        "notes",
+        "packet",
+        "external_action",
+    ],
+)
+def test_r_distribution_evidence_rejects_rebound_claims(
+    tmp_path: Path, mutation: str
+) -> None:
+    receipt_path = (
+        ROOT / "specs/submission-readiness/r-distribution-evidence-20260902.json"
+    )
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    if mutation == "run":
+        receipt["hosted_run"]["run_id"] += 1
+    elif mutation == "job":
+        receipt["hosted_run"]["jobs"][0]["conclusion"] = "failure"
+    elif mutation == "input":
+        receipt["tested_input_equality"]["paths"][0]["tested_head_object_id"] = "0" * 40
+    elif mutation == "current_input":
+        receipt["tested_input_equality"]["paths"][0]["current_revision_object_id"] = (
+            "0" * 40
+        )
+    elif mutation == "archive":
+        receipt["source_archive"]["sha256"] = "0" * 64
+    elif mutation == "manual_digest":
+        receipt["source_archive"]["manual_check_receipt"]["sha256"] = "0" * 64
+    elif mutation == "notes":
+        receipt["check_outcome"]["notes"] = []
+        receipt["check_outcome"]["strict_zero_note_criterion_met"] = True
+    elif mutation == "packet":
+        receipt["review_packet"]["state"] = "submitted"
+    else:
+        receipt["external_actions"]["ropensci_inquiry"] = True
+    mutated = tmp_path / "r-distribution-evidence.json"
+    mutated.write_text(json.dumps(receipt), encoding="utf-8")
+
+    with pytest.raises(ValueError):
+        validate_r_distribution_evidence(mutated, ROOT)
 
 
 def test_submission_contract_rejects_ready_target_with_unmet_gate(
