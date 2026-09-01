@@ -1,0 +1,55 @@
+easyblock = "PythonBundle"
+
+name = "pydantic"
+version = "2.13.4"
+homepage = "https://github.com/edithatogo/voiage"
+description = "Source-bound foss 2023a provider for the Voiage HPC candidate."
+toolchain = {"name": "GCCcore", "version": "12.3.0"}
+
+builddependencies = [("Voiage-Rust-build-support", "2.2.0")]
+dependencies = [
+    ("Python", "3.12.14"),
+    ("Voiage-Python-support", "2.2.0"),
+    ("pydantic-core", "2.46.4"),
+]
+use_pip = True
+pip_no_index = True
+pip_ignore_installed = True
+download_dep_fail = True
+sanity_pip_check = True
+moduleclass = "devel"
+exts_list = [
+    (
+        "annotated-types",
+        "0.7.0",
+        {
+            "sources": ["annotated_types-0.7.0.tar.gz"],
+            "source_urls": [PYPI_SOURCE],
+            "checksums": [
+                "aff07c09a53a08bc8cfccb9c85b05f1aa9a2a6f23728d790723543408344ce89"
+            ],
+        },
+    ),
+    (
+        "typing-inspection",
+        "0.4.2",
+        {
+            "sources": ["typing_inspection-0.4.2.tar.gz"],
+            "source_urls": [PYPI_SOURCE],
+            "checksums": [
+                "ba561c48a67c5958007083d386c3295464928b01faa735ab8547c5692e87f464"
+            ],
+        },
+    ),
+    (
+        "pydantic",
+        "2.13.4",
+        {
+            "sources": ["pydantic-2.13.4.tar.gz"],
+            "source_urls": [PYPI_SOURCE],
+            "checksums": [
+                "c40756b57adaa8b1efeeced5c196f3f3b7c435f90e84ea7f443901bec8099ef6"
+            ],
+        },
+    ),
+]

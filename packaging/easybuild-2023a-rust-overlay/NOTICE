@@ -1,0 +1,6 @@
+The recipes adapt EasyBuild catalogue conventions at commit
+58e8b5a48767cbed1bf5669675d9638580d7259f. The Rust sysroot patch preserves
+Kenneth Hoste's and micketeer's attribution and original added/removed lines;
+the unchanged original is retained under history. EasyBuild's GPLv2 license
+is retained as LICENSE.easybuild. Source archives and Cargo crates retain their
+own upstream licenses; the audit records identify source bytes, not relicensing.

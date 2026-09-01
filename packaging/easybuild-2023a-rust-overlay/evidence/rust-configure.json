@@ -1,0 +1,37 @@
+{
+  "exit_code": 0,
+  "scope": "Actual upstream configure script generated configuration only; no compiler build",
+  "generated_config": {
+    "profile": "dist",
+    "llvm": {
+      "download-ci-llvm": false
+    },
+    "gcc": {},
+    "build": {
+      "docs": false,
+      "vendor": true,
+      "extended": true,
+      "configure-args": [
+        "--prefix=/tmp/voiage-rust-config-probe",
+        "--set=rust.download-rustc=false",
+        "--set=build.vendor=true",
+        "--set=llvm.download-ci-llvm=false",
+        "--set=rust.channel=stable",
+        "--enable-extended",
+        "--disable-docs"
+      ]
+    },
+    "install": {
+      "prefix": "/tmp/voiage-rust-config-probe"
+    },
+    "rust": {
+      "download-rustc": false,
+      "channel": "stable"
+    },
+    "dist": {},
+    "target": {
+      "aarch64-apple-darwin": {}
+    }
+  },
+  "generated_sha256": "5357f2466a1361939bbbdc72e60d5c623f82c3079c650bf40df7cc713ca651e2"
+}
