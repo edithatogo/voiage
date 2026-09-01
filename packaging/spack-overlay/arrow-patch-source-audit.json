@@ -1,0 +1,256 @@
+{
+  "schema": "voiage.spack-arrow-patch-source.v1",
+  "recorded_at": "2026-08-31T18:42:48.620841+00:00",
+  "sources": {
+    "arrow": {
+      "version": "25.0.1",
+      "archive": "apache-arrow-25.0.1.tar.gz",
+      "url": "https://archive.apache.org/dist/arrow/arrow-25.0.1/apache-arrow-25.0.1.tar.gz",
+      "sha256": "43d5de0a581f43cf63a2c06b4dcf13b9ff6fcd800f023324596e5781093bc500",
+      "bytes": 17489182,
+      "downloaded_digest_verified": true,
+      "sha512": "e75d384b4fdbdee29eb8ad29800c731843e7c43d90a43995dcc77390008723537791e212333178625345c718bdab15e0f3d8c12aa86b336918598c7d3fefc6e5",
+      "verification_reference": "https://archive.apache.org/dist/arrow/arrow-25.0.1/apache-arrow-25.0.1.tar.gz.sha512"
+    },
+    "pyarrow": {
+      "version": "25.0.1",
+      "archive": "pyarrow-25.0.1.tar.gz",
+      "url": "https://files.pythonhosted.org/packages/3d/e3/27f57f80141379d60defe6703eb50a707325706f07fedfd1312c7a751995/pyarrow-25.0.1.tar.gz",
+      "sha256": "9150a83248bfed9813ea3c3af74c3856c1984d444aa28e58bf7733b9750ddf6a",
+      "bytes": 1201653,
+      "downloaded_digest_verified": true,
+      "verification_reference": "https://pypi.org/pypi/pyarrow/25.0.1/json"
+    },
+    "xsimd": {
+      "version": "14.2.0",
+      "archive": "xsimd-14.2.0.tar.gz",
+      "url": "https://github.com/xtensor-stack/xsimd/archive/14.2.0.tar.gz",
+      "sha256": "21e841ab684b05331e81e7f782431753a029ef7b7d9d6d3ddab837e7782a40ee",
+      "bytes": 339961,
+      "downloaded_digest_verified": true,
+      "verification_reference": "Apache Arrow25.0.1 cpp/thirdparty/versions.txt"
+    },
+    "libcst": {
+      "version": "1.8.6",
+      "archive": "libcst-1.8.6.tar.gz",
+      "url": "https://files.pythonhosted.org/packages/de/cd/337df968b38d94c5aabd3e1b10630f047a2b345f6e1d4456bd9fe7417537/libcst-1.8.6.tar.gz",
+      "sha256": "f729c37c9317126da9475bdd06a7208eb52fcbd180a6341648b45a56b4ba708b",
+      "bytes": 891354,
+      "downloaded_digest_verified": true,
+      "verification_reference": "https://pypi.org/pypi/libcst/1.8.6/json"
+    }
+  },
+  "source_members": {
+    "arrow_thirdparty": {
+      "path": "apache-arrow-25.0.1/cpp/cmake_modules/ThirdpartyToolchain.cmake",
+      "sha256": "36873bdf3a91dbe13830eccefb70bf6369a948e1c1231aa45201d9c8ee85763b"
+    },
+    "arrow_versions": {
+      "path": "apache-arrow-25.0.1/cpp/thirdparty/versions.txt",
+      "sha256": "c90e546c2a0706b6dda862a19eff8c13d77e3c0972291de75f3bac9d2e21fea7"
+    },
+    "arrow_bpacking": {
+      "path": "apache-arrow-25.0.1/cpp/src/arrow/util/bpacking.cc",
+      "sha256": "291e2b2d72b4607792c7ab6df999c90edc875c5374f7cff0da37325195e66041"
+    },
+    "arrow_bpacking_tests": {
+      "path": "apache-arrow-25.0.1/cpp/src/arrow/util/bpacking_test.cc",
+      "sha256": "17c9034af78d1d626e6e30097fe5b6afdf61bc203384a8bbad3673e7ddf8c91c"
+    },
+    "pyarrow_backend": {
+      "path": "pyarrow-25.0.1/_build_backend/__init__.py",
+      "sha256": "5eada2aaece23a361e0c8e955d2f2b4d05d9cfab134cbedd02d0ac52d9ed8c5f"
+    },
+    "pyarrow_pyproject": {
+      "path": "pyarrow-25.0.1/pyproject.toml",
+      "sha256": "bc0b897a80d85e1e97e75f7274d3f2028a1cd78596ab144d044b7de9f327b855"
+    },
+    "libcst_pyproject": {
+      "path": "libcst-1.8.6/pyproject.toml",
+      "sha256": "ef5f821bda873c0378865a30bf365d2a41b98ecfc7b4dfd932a19e4b68f90dbb"
+    },
+    "libcst_cargo": {
+      "path": "libcst-1.8.6/native/libcst/Cargo.toml",
+      "sha256": "32a07542ada8ca9c181ce0e919da42a36a4efefa75e3e6e24a1091bc45d287bc"
+    },
+    "libcst_lock": {
+      "path": "libcst-1.8.6/native/Cargo.lock",
+      "sha256": "b8a3ae82572c6684a29cacb2f96296aa81c328231506adeb98355863e83256ce"
+    },
+    "libcst_license": {
+      "path": "libcst-1.8.6/LICENSE",
+      "sha256": "e09b2c94517c6a191153fe0407c0a546c4d24a7295ae3bb26d59b544c74162dc"
+    }
+  },
+  "pyarrow_build_system": {
+    "requires": [
+      "scikit-build-core",
+      "cython >= 3.1",
+      "libcst>=1.8.6",
+      "numpy>=1.25",
+      "setuptools_scm[toml]>=8"
+    ],
+    "build-backend": "_build_backend",
+    "backend-path": [
+      "."
+    ]
+  },
+  "libcst_build_system": {
+    "requires": [
+      "setuptools",
+      "setuptools-scm",
+      "setuptools-rust",
+      "wheel"
+    ]
+  },
+  "libcst_rust_minimum": "1.70",
+  "libcst_source_license": "MIT AND PSF-2.0 AND Apache-2.0",
+  "arrow_cmake_minimum": "3.25",
+  "arrow_cxx_standard": 20,
+  "xsimd_minimum": "14.2.0",
+  "upstream_fix": {
+    "release": "https://arrow.apache.org/release/25.0.1.html",
+    "sve_pull_request": "https://github.com/apache/arrow/pull/50611",
+    "removed_sve128_unpack": true,
+    "remaining_tests": [
+      "UnpackNeon",
+      "UnpackSve256",
+      "Unpack"
+    ],
+    "test_observation": "Source inspection only. Upstream removed the obsolete SVE128 test with its implementation; remaining scalar/Neon/SVE256 and dispatch tests remain. No local SVE execution claimed.",
+    "mimalloc_version": "3.4.1",
+    "mimalloc_issue": "https://github.com/apache/arrow/issues/50471"
+  },
+  "builder_probe": {
+    "python_builder": "spack.builder.Adapter",
+    "pip_arguments": [
+      "-vvv",
+      "--no-input",
+      "--no-cache-dir",
+      "--disable-pip-version-check",
+      "install",
+      "--no-deps",
+      "--ignore-installed",
+      "--no-build-isolation",
+      "--no-warn-script-location",
+      "--no-index"
+    ],
+    "backend_uses_pyproject": true,
+    "xsimd_cmake_args_inherited": true,
+    "arrow_patch_source_sha256": "36873bdf3a91dbe13830eccefb70bf6369a948e1c1231aa45201d9c8ee85763b",
+    "arrow_patch_result_sha256": "36873bdf3a91dbe13830eccefb70bf6369a948e1c1231aa45201d9c8ee85763b",
+    "arrow_patch_matches_only_declared_filter": true,
+    "native_build_executed": false
+  },
+  "backend_import_probe": {
+    "status": "passed",
+    "python": "3.12.13 (main, May  4 2026, 21:02:19) [Clang 22.1.3 ]",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "backend_source": "_build_backend/__init__.py",
+    "backend_imported": true,
+    "libcst_parser_import_smoke": true,
+    "providers": {
+      "scikit-build-core": "0.12.2",
+      "Cython": "3.2.4",
+      "libcst": "1.8.6",
+      "numpy": "2.4.6",
+      "setuptools-scm": "9.2.2",
+      "setuptools": "82.0.1",
+      "packaging": "26.2",
+      "pathspec": "1.1.1",
+      "PyYAML": "6.0.3"
+    },
+    "provider_installation": "explicit preinstalled wheels at concrete DAG versions; no dependency fetching by backend",
+    "native_source_build": false,
+    "installed_arrow": false
+  },
+  "native_build_executed": false,
+  "signature_verified": false,
+  "concrete_build_requirements": {
+    "py-pyarrow": [
+      {
+        "requirement": "scikit-build-core",
+        "package": "py-scikit-build-core",
+        "version": "0.12.2",
+        "deptypes": [
+          "build"
+        ]
+      },
+      {
+        "requirement": "cython >= 3.1",
+        "package": "py-cython",
+        "version": "3.2.4",
+        "deptypes": [
+          "build"
+        ]
+      },
+      {
+        "requirement": "libcst>=1.8.6",
+        "package": "py-libcst",
+        "version": "1.8.6",
+        "deptypes": [
+          "build"
+        ]
+      },
+      {
+        "requirement": "numpy>=1.25",
+        "package": "py-numpy",
+        "version": "2.4.6",
+        "deptypes": [
+          "build",
+          "run"
+        ]
+      },
+      {
+        "requirement": "setuptools_scm[toml]>=8",
+        "package": "py-setuptools-scm",
+        "version": "9.2.2",
+        "deptypes": [
+          "build"
+        ]
+      }
+    ],
+    "py-libcst": [
+      {
+        "requirement": "setuptools",
+        "package": "py-setuptools",
+        "version": "82.0.1",
+        "deptypes": [
+          "build"
+        ]
+      },
+      {
+        "requirement": "setuptools-scm",
+        "package": "py-setuptools-scm",
+        "version": "9.2.2",
+        "deptypes": [
+          "build"
+        ]
+      },
+      {
+        "requirement": "setuptools-rust",
+        "package": "py-setuptools-rust",
+        "version": "1.12.0",
+        "deptypes": [
+          "build"
+        ]
+      },
+      {
+        "requirement": "wheel",
+        "package": "py-wheel",
+        "version": "0.45.1",
+        "deptypes": [
+          "build"
+        ]
+      }
+    ]
+  },
+  "libcst_direct_rust": {
+    "version": "1.96.0",
+    "deptypes": [
+      "build"
+    ]
+  },
+  "libcst_cargo_source_closure": "libcst-cargo-source-closure.json",
+  "qualified_dag_sha256": "567dcdb63d11e40b73ebb41717383b8b99fca604abd79dc809e273893d2c9651"
+}

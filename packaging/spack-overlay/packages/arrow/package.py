@@ -27,6 +27,7 @@ class Arrow(CMakePackage, CudaPackage):
 
     license("Apache-2.0")
 
+    version("25.0.1", sha256="43d5de0a581f43cf63a2c06b4dcf13b9ff6fcd800f023324596e5781093bc500", url="https://archive.apache.org/dist/arrow/arrow-25.0.1/apache-arrow-25.0.1.tar.gz")
     version("25.0.0", sha256="12afc2dc8137bdd4a68876cec939f664c9d55cfc7b75f55b45163ebb4e344d81", url="https://archive.apache.org/dist/arrow/arrow-25.0.0/apache-arrow-25.0.0.tar.gz")
     version("23.0.1", sha256="9a9a057bba3aa7080abc2ba8e7a079effa74626a4f308ac56bfce035d31ef1ac")
     version("22.0.0", sha256="8a95e6c7b9bec2bc0058feb73efe38ad6cfd49a0c7094db29b37ecaa8ab16051")
@@ -96,6 +97,7 @@ class Arrow(CMakePackage, CudaPackage):
     depends_on("utf8proc@2.7.0: +shared", when="+gandiva")
     depends_on("utf8proc@2.7.0: +shared", when="+python")
     depends_on("xsimd@8.1.0:", when="@9.0.0:")
+    depends_on("xsimd@14.2.0:14", when="@25:")
     depends_on("zlib-api", when="+zlib @9:")
     depends_on("zlib-api", when="@:8")
     conflicts("^zlib~pic")

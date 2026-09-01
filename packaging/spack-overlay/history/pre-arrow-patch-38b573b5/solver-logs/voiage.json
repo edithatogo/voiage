@@ -138,7 +138,7 @@
           },
           {
             "name": "py-pyarrow",
-            "hash": "d2yw3fourt7yoxfsu7cdsw6sursl7lel",
+            "hash": "bzelnmapmp3luf4lemjizxi7tk6cwjdb",
             "parameters": {
               "deptypes": [
                 "run"
@@ -252,7 +252,7 @@
         "annotations": {
           "original_specfile_version": 5
         },
-        "hash": "q4tvbq6qp43ofxr5alw4d5rwwfbs7avm"
+        "hash": "6ylqj5hqdd23jxcb4kaocduoezvmxvjf"
       },
       {
         "name": "py-click",
@@ -13177,7 +13177,7 @@
       },
       {
         "name": "py-pyarrow",
-        "version": "25.0.1",
+        "version": "25.0.0",
         "arch": {
           "platform": "darwin",
           "platform_os": "tahoe",
@@ -13235,7 +13235,7 @@
           "ldflags": [],
           "ldlibs": []
         },
-        "package_hash": "rjtuymoqfsgezuo7bmqa3tldujeribxgsal56sqgnifl2knpjyua====",
+        "package_hash": "3ern2kx66yb2xctnbashrfwlum4alp52ljp23uspetw4xw23ygva====",
         "dependencies": [
           {
             "name": "apple-clang",
@@ -13252,7 +13252,7 @@
           },
           {
             "name": "arrow",
-            "hash": "ke5rivljigcr7hc4haou6bbbpon4q2eb",
+            "hash": "udgj53a5j35p5fdadsu4ld2cwjoxasbu",
             "parameters": {
               "deptypes": [
                 "build",
@@ -13400,11 +13400,11 @@
         "annotations": {
           "original_specfile_version": 5
         },
-        "hash": "d2yw3fourt7yoxfsu7cdsw6sursl7lel"
+        "hash": "bzelnmapmp3luf4lemjizxi7tk6cwjdb"
       },
       {
         "name": "arrow",
-        "version": "25.0.1",
+        "version": "25.0.0",
         "arch": {
           "platform": "darwin",
           "platform_os": "tahoe",
@@ -13486,7 +13486,7 @@
           "ldflags": [],
           "ldlibs": []
         },
-        "package_hash": "bej5tiplbqydf2dag4rvxxtnz3znqu4bkbq53ly2l5cukbrt4yqq====",
+        "package_hash": "56yobbv2clb5pto4ugxxpkhqn4kdurmggkd5p4swyutjthdksv4q====",
         "dependencies": [
           {
             "name": "apple-clang",
@@ -13642,7 +13642,7 @@
           },
           {
             "name": "xsimd",
-            "hash": "pqstsy3bpksf45hzok3d6xu7mli2tx6w",
+            "hash": "gpuwgpikd3citzqimk5ljmxxeyd6e3zy",
             "parameters": {
               "deptypes": [
                 "build",
@@ -13655,7 +13655,7 @@
         "annotations": {
           "original_specfile_version": 5
         },
-        "hash": "ke5rivljigcr7hc4haou6bbbpon4q2eb"
+        "hash": "udgj53a5j35p5fdadsu4ld2cwjoxasbu"
       },
       {
         "name": "boost",
@@ -14717,7 +14717,7 @@
       },
       {
         "name": "xsimd",
-        "version": "14.2.0",
+        "version": "13.2.0",
         "arch": {
           "platform": "darwin",
           "platform_os": "tahoe",
@@ -14765,7 +14765,7 @@
             "cpupart": "0x022"
           }
         },
-        "namespace": "voiage_hpc_overlay",
+        "namespace": "builtin",
         "parameters": {
           "build_system": "cmake",
           "build_type": "Release",
@@ -14778,7 +14778,7 @@
           "ldflags": [],
           "ldlibs": []
         },
-        "package_hash": "nrd6buke5gk3j2dkxbnzb5a5cs3o4ebwykk3kvz3jzckkvtlhs7a====",
+        "package_hash": "v2pybpnchpm4gaduuyheqzmr7zxsda3nkno3ma3d5dwkuhpqjaga====",
         "dependencies": [
           {
             "name": "apple-clang",
@@ -14827,7 +14827,7 @@
         "annotations": {
           "original_specfile_version": 5
         },
-        "hash": "pqstsy3bpksf45hzok3d6xu7mli2tx6w"
+        "hash": "gpuwgpikd3citzqimk5ljmxxeyd6e3zy"
       },
       {
         "name": "py-libcst",

@@ -1,25 +1,25 @@
 {
   "schema": "voiage.spack-overlay-solver.v1",
-  "recorded_at": "2026-08-31T18:55:22.894965+00:00",
+  "recorded_at": "2026-08-31T17:44:26.608585+00:00",
   "catalogue_commit": "d4f7c711a6a42f1c4d551c8fd10fce9a11340a81",
   "host": "macOS arm64",
-  "manifest_sha256": "34c3c0bd2168741e70fdb497979afe5fc3cbe44bc85a69fa3a8104690fb43e1c",
+  "manifest_sha256": "6e5143ea9a0546d52f62988cc975ee2ed5fb17c9904a2564038dac261c9885ca",
   "results": [
     {
       "spec": "py-voiage@2.2.0",
       "exit_code": 0,
       "status": "concretized",
       "log_path": "solver-logs/voiage.log",
-      "log_sha256": "fbe930c5c402afec7cd91f3bafc76563063a5dcbcc247d2c9f821e26e40bbaf2"
+      "log_sha256": "c094395911f47db44095db5b4d93c5f324a2fae95b8fe76118d9da5258e0811f"
     }
   ],
   "builds_executed": false,
   "module_load_executed": false,
   "spack_version": "1.2.2",
-  "prior_failure_evidence": "history/pre-arrow-patch-38b573b5/solver-receipt.json",
+  "prior_failure_evidence": "history/pre-security-floor-b3f53c2b/solver-receipt.json",
   "concrete_dag": {
     "path": "solver-logs/voiage.json",
-    "sha256": "567dcdb63d11e40b73ebb41717383b8b99fca604abd79dc809e273893d2c9651",
+    "sha256": "ae72c26f12de018d45efb4fccfb3b4679fe967b2a3d4cdf78ae7ec87b4cedb80",
     "nodes": 139,
     "duplicated_build_tools": {
       "py-maturin": 2,
@@ -32,12 +32,7 @@
       "expat": "2.8.3",
       "openssl": "3.6.4"
     },
-    "runtime_compiler_edges": "Polars dated and Pydantic Core stable Rust are build-only; backend run edges preserved.",
-    "arrow_patch": {
-      "arrow": "25.0.1",
-      "py-pyarrow": "25.0.1",
-      "xsimd": "14.2.0"
-    }
+    "runtime_compiler_edges": "Polars dated and Pydantic Core stable Rust are build-only; backend run edges preserved."
   },
-  "root_constraints": "py-voiage@2.2.0 ^python@3.12.14 ^py-pyarrow@25.0.1"
+  "root_constraints": "py-voiage@2.2.0 ^python@3.12.14"
 }
