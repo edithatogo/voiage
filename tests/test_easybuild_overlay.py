@@ -208,11 +208,12 @@ def test_robot_and_source_smoke_are_distinct_from_native_build_evidence() -> Non
     providers = json.loads((ROOT / "providers.json").read_text())
     assert providers["foss_2023a_prepared"] is False
     assert providers["whole_voiage_graph_resolved"] is False
-    assert set(providers["deferred_voiage_dependencies"]) == {"pyarrow"}
+    assert providers["deferred_voiage_dependencies"] == []
     assert providers["external_provider_overlays"] == {
         "pydantic": "packaging/easybuild-2024a-rust-overlay",
         "jsonschema": "packaging/easybuild-2024a-rust-overlay",
         "polars": "packaging/easybuild-2024a-polars-overlay",
+        "pyarrow": "packaging/easybuild-2024a-arrow-overlay",
     }
 
 
@@ -323,3 +324,87 @@ def test_ctypes_refresh_changes_context_only_and_security_sources_are_bound() ->
         "a8c0d28a529ca480f9f36cf5792e2cd21984552a3c8e4aa11a24aa31aeac98e8",
         openssl["sha256"],
     )
+
+
+def _validate_pyarrow_provider_integration(providers: dict[str, object]) -> None:
+    assert providers["deferred_voiage_dependencies"] == []
+    assert "pyarrow" not in providers["providers"]
+    overlays = providers["external_provider_overlays"]
+    evidence = providers["external_provider_evidence"]
+    assert isinstance(overlays, dict)
+    assert isinstance(evidence, dict)
+    assert overlays["pyarrow"] == "packaging/easybuild-2024a-arrow-overlay"
+    assert evidence == {
+        "pyarrow": {
+            "version": "25.0.1",
+            "manifest": "packaging/easybuild-2024a-arrow-overlay/manifest.json",
+            "manifest_sha256": "de736380795902122bd0a25a1f05c7d07589f5e5b874bb2b539e9a20d5db7a66",
+            "native_build_executed": False,
+            "full_voiage_ready": False,
+            "consumer_recipe": "packaging/easybuild/voiage-2.2.0-foss-2024a.eb",
+            "consumer_recipe_sha256": "372e30dee9f40874514ac09c89c61d9cf3677f80edabda0cebb49955540b365f",
+            "consumer_dependency": "Arrow/25.0.1",
+        }
+    }
+    binding = evidence["pyarrow"]
+    assert isinstance(binding, dict)
+    manifest_path = ROOT.parents[1] / binding["manifest"]
+    assert (
+        hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+        == binding["manifest_sha256"]
+    )
+    manifest = json.loads(manifest_path.read_text())
+    assert manifest["arrow_version"] == binding["version"]
+    assert manifest["native_arrow_build_executed"] is False
+    assert manifest["full_voiage_ready"] is False
+    consumer_path = ROOT.parents[1] / binding["consumer_recipe"]
+    assert (
+        hashlib.sha256(consumer_path.read_bytes()).hexdigest()
+        == binding["consumer_recipe_sha256"]
+    )
+    consumer = _recipe(consumer_path)
+    assert ("Arrow", "25.0.1") in consumer["dependencies"]
+    assert not any(name == "PyArrow" for name, *_ in consumer["dependencies"])
+    assert binding["consumer_dependency"] == "Arrow/25.0.1"
+
+
+def test_pyarrow_external_provider_is_bound_and_fail_closed() -> None:
+    providers = json.loads((ROOT / "providers.json").read_text())
+    _validate_pyarrow_provider_integration(providers)
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        "deferred",
+        "path",
+        "digest",
+        "native",
+        "full",
+        "version",
+        "consumer_digest",
+        "consumer_dependency",
+    ],
+)
+def test_pyarrow_external_provider_rejects_mutated_evidence(mutation: str) -> None:
+    providers = json.loads((ROOT / "providers.json").read_text())
+    mutated = copy.deepcopy(providers)
+    binding = mutated["external_provider_evidence"]["pyarrow"]
+    if mutation == "deferred":
+        mutated["deferred_voiage_dependencies"] = ["pyarrow"]
+    elif mutation == "path":
+        mutated["external_provider_overlays"]["pyarrow"] = "packaging/missing"
+    elif mutation == "digest":
+        binding["manifest_sha256"] = "0" * 64
+    elif mutation == "native":
+        binding["native_build_executed"] = True
+    elif mutation == "full":
+        binding["full_voiage_ready"] = True
+    elif mutation == "consumer_digest":
+        binding["consumer_recipe_sha256"] = "0" * 64
+    elif mutation == "consumer_dependency":
+        binding["consumer_dependency"] = "PyArrow/25.0.0"
+    else:
+        binding["version"] = "25.0.0"
+    with pytest.raises((AssertionError, FileNotFoundError)):
+        _validate_pyarrow_provider_integration(mutated)

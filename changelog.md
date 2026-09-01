@@ -8,6 +8,8 @@
 
 ## Unreleased
 
+- Integrate the checksum-bound Arrow and PyArrow 25.0.1 EasyBuild 2024a provider overlay into the parent provider contract while retaining native build and full-stack qualification as pending gates.
+
 - Add a checksum-bound Polars 1.42.1 EasyBuild 2024a provider with an exact dated-nightly Rust compiler boundary while retaining native build, full-stack and upstream gates.
 
 - Make the estimation-variance property bound scale-aware so valid
