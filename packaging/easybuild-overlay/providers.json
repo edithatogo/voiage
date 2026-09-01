@@ -331,9 +331,7 @@
   },
   "deferred_voiage_dependencies": [
     "pyarrow",
-    "polars",
-    "pydantic",
-    "jsonschema"
+    "polars"
   ],
   "foss_2023a_prepared": false,
   "whole_voiage_graph_resolved": false,
@@ -345,5 +343,9 @@
       ],
       "consumer": "2024a/Voiage-scientific-consumers-2.2.0-gfbf-2024a.eb"
     }
+  },
+  "external_provider_overlays": {
+    "pydantic": "packaging/easybuild-2024a-rust-overlay",
+    "jsonschema": "packaging/easybuild-2024a-rust-overlay"
   }
 }

@@ -97,9 +97,9 @@ is historical; use `evidence/scientific-robot-python31214.log` for this candidat
 
 ## Remaining work
 
-Backport Arrow/PyArrow, Polars, Pydantic and JSON Schema with their complete
-native and source-build dependencies. JSON Schema needs
-a newer rpds-py than the older catalogue support bundle provides. Preserve
+Backport Arrow/PyArrow and Polars with their complete native and source-build
+dependencies. The adjacent `easybuild-2024a-rust-overlay` supplies source-bound
+Pydantic and JSON Schema providers, including the required newer rpds-py. Preserve
 stable versus dated-nightly Rust selection and vendor exact Cargo sources.
 The xarray and scikit-learn provider bundle is resolved for both requested
 generations, but still needs native build and installed-module qualification.

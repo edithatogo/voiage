@@ -1,0 +1,40 @@
+easyblock = "PythonBundle"
+
+name = "setuptools-rust"
+version = "1.12.0"
+homepage = "https://github.com/edithatogo/voiage"
+description = "Source-bound foss 2024a provider for the Voiage HPC candidate."
+toolchain = {"name": "GCCcore", "version": "13.3.0"}
+
+builddependencies = [("Voiage-Rust-build-support", "2.2.0")]
+dependencies = [("Python", "3.12.14")]
+use_pip = True
+pip_no_index = True
+pip_ignore_installed = True
+download_dep_fail = True
+sanity_pip_check = True
+moduleclass = "devel"
+exts_list = [
+    (
+        "semantic-version",
+        "2.10.0",
+        {
+            "sources": ["semantic_version-2.10.0.tar.gz"],
+            "source_urls": [PYPI_SOURCE],
+            "checksums": [
+                "bdabb6d336998cbb378d4b9db3a4b56a1e3235701dc05ea2690d9a997ed5041c"
+            ],
+        },
+    ),
+    (
+        "setuptools-rust",
+        "1.12.0",
+        {
+            "sources": ["setuptools_rust-1.12.0.tar.gz"],
+            "source_urls": [PYPI_SOURCE],
+            "checksums": [
+                "d94a93f0c97751c17014565f07bdc324bee45d396cd1bba83d8e7af92b945f0c"
+            ],
+        },
+    ),
+]

@@ -1,0 +1,74 @@
+{
+  "schema": "voiage.easybuild-stable-rust-dispatch.v1",
+  "recorded_at": "2026-08-31T18:46:04.162655+00:00",
+  "easybuild_version": "5.4.0",
+  "easyblock_sha256": {
+    "easyblocks/r/rust.py": "0bda908b1690a93cae3257c25d68d94df41c2a317a4916c1f4b4940ecf914d4b",
+    "easyblocks/generic/cargo.py": "562ecdd6813fe2a4ba56b6d5ffe0ee7fa44c2b822f96d3fcf0361034613ba5dd",
+    "easyblocks/generic/cargopythonpackage.py": "5a8771354139a39150562e36cd254482d5c1562ff7a122990b3b97e076f67c5a",
+    "framework/easyblock.py": "354567024728dcee7ea98f9ee63df28cda7862c2d54790138099d9fee2ad6690"
+  },
+  "runtime_module_generation": "EasyBlock.make_module_dep excludes dependencies marked build_only. New compiler, backend support, setuptools-rust and Maturin edges are build-only in consumers.",
+  "backend_module_probe_scope": "Actual EnvironmentModules5.6.1 load/unload of a test module selecting the source-built Python prefix; not an installed EasyBuild scientific stack.",
+  "maturin_bootstrap": "MATURIN_NO_INSTALL_RUST=1 prevents puccinialin compiler bootstrap; declared Rust supplies cargo.",
+  "maturin_bootstrap_source_sha256": "53f8f29df842e3bd6b3adcbcba7544c41a9fe1109943187197fc32974b2108ee",
+  "rust_source_config": {
+    "llvm_cmake_minimum": "3.20.0",
+    "llvm_gcc_minimum": "7.4",
+    "selected_cmake": "3.26.3",
+    "selected_gcc": "12.3.0",
+    "channel": "stable",
+    "download_ci_llvm": false,
+    "download_rustc": false,
+    "vendor": true
+  },
+  "bootstrap_exception": {
+    "compiler_version": "1.95.0",
+    "compiler_date": "2026-04-16",
+    "stage0_source_sha256": "040d68537138bde4386254bbad471746975c188fc2270111446246f788d6a755",
+    "prebuilt_bootstrap_required": true,
+    "archives": [
+      {
+        "url": "https://static.rust-lang.org/dist/2026-04-16/rustc-1.95.0-aarch64-unknown-linux-gnu.tar.xz",
+        "sha256_from_verified_source": "0fe3689eeaed603e5ef24572d11597d3edadaefd2cb181674ad621260f2501d2",
+        "archive_downloaded": false
+      },
+      {
+        "url": "https://static.rust-lang.org/dist/2026-04-16/cargo-1.95.0-aarch64-unknown-linux-gnu.tar.xz",
+        "sha256_from_verified_source": "7c070aeba9bbf12073646995a03f36c346bb5f541d0078ba6d9dc2a7adaaf6af",
+        "archive_downloaded": false
+      },
+      {
+        "url": "https://static.rust-lang.org/dist/2026-04-16/rust-std-1.95.0-aarch64-unknown-linux-gnu.tar.xz",
+        "sha256_from_verified_source": "3a21b271b1ff973b94d69b25e7a39992f9fbcae1ab6d9475844a23e6ad3908ac",
+        "archive_downloaded": false
+      },
+      {
+        "url": "https://static.rust-lang.org/dist/2026-04-16/rustc-1.95.0-x86_64-unknown-linux-gnu.tar.xz",
+        "sha256_from_verified_source": "8426a3d170a5879f5682f5fbdd024a1779b3951e7baba685af2d6dc32a6dfc15",
+        "archive_downloaded": false
+      },
+      {
+        "url": "https://static.rust-lang.org/dist/2026-04-16/cargo-1.95.0-x86_64-unknown-linux-gnu.tar.xz",
+        "sha256_from_verified_source": "e74edd2cf7d0f1f1383b4f00eb90c843750bc489e2ccf7214e6476678a907425",
+        "archive_downloaded": false
+      },
+      {
+        "url": "https://static.rust-lang.org/dist/2026-04-16/rust-std-1.95.0-x86_64-unknown-linux-gnu.tar.xz",
+        "sha256_from_verified_source": "047ea7098803d3500fa1072e9cee5392697e21525559e4458128a2bf874aa382",
+        "archive_downloaded": false
+      }
+    ],
+    "scope": "Hashes are embedded in the independently verified Rust1.96 source. Bootstrap archives were not downloaded or executed in this slice. Rust bootstrap may acquire these checked artifacts; no fully offline Rust compiler build is claimed."
+  },
+  "patch": {
+    "path": "2023a/Rust-1.96_sysroot-fix-interpreter.patch",
+    "sha256": "beb558ea39683772ff3b06e189e178604a3fa835f6a0f66be0e14d9cdb5512f1",
+    "historical_sha256": "aa7a7fe784e463b297c640edfe88b8d96acbee0c173251575cef0426baccc57e",
+    "strict_zero_fuzz_dry_run_exit_code": 0,
+    "changed_lines_identical": true,
+    "change": "Only unchanged surrounding context print became eprint; added/removed patch lines preserved."
+  },
+  "native_builds_executed": false,
+  "full_voiage_graph": false
+}

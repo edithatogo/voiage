@@ -1,0 +1,30 @@
+{
+  "schema": "voiage.easybuild-shared-rust-source-evidence.v1",
+  "source_overlay": "packaging/easybuild-2023a-rust-overlay",
+  "source_generation": "2023a",
+  "consumer_generation": "2024a",
+  "reuse_scope": "Identical upstream source archives, Cargo locks and toolchain-neutral host source/backend qualification only. Robot and native EasyBuild outcomes are not reused.",
+  "native_builds_executed": false,
+  "files": {
+    "cargo-source-audit.json": "2f3a511f7fc70fd328d3d51c75fb7203fa320715f3c52758079e8ca3b865452d",
+    "dispatch-audit.json": "7bd09d856d4bcd2f872b8a5462b0f4927a66920b97205344655c01b82eb2ef3f",
+    "python-source-audit.json": "4c47fa8ffeb39ea6e0534b8a75ca3a08e2f79e85dd95db77b72de5c9df2ae4ec",
+    "rust-source-audit.json": "dafd2e742e26166c4a9df13f5925c1098da47379ddaf53abcabedb9a96848ce7",
+    "evidence/backend-import.json": "ff430cec3f3ff47966c5470dde43ff1cb84e36e36fa532bd0ce6114faad5fe7f",
+    "evidence/backend-module.log": "0847974e2230081d5fe81671702e43c5bd64edfd9446cbb0a420ab481e07f5a1",
+    "evidence/backend-pipcheck.log": "9261363b733079a641c2e4cc9bc46ffa1d8336945a87f807b6cf68847dbc9b09",
+    "evidence/backend-source-receipt.json": "1cec76418bdf5968cf73710cd7cdec3c49783d3478577d3cbdf01e93ea47a147",
+    "evidence/initial-rust-patch.log": "e13c97ccf22f9fc104023beedf2d6ca435a5b4f525eda9f54d7fa2fc708167fd",
+    "evidence/maturin-Cargo.lock": "20ec17a1a3dd9ac31fb831d0ed29c7721a9d498886e92562b7e3add4d951b093",
+    "evidence/maturin-offline-metadata.json.gz": "5730e7a1524223b2f3f94ad8ce89ff27299131f6088daba6905bbbd8eec2d9d7",
+    "evidence/offline-dag-bindings.json": "859007507c8c3ccd4dd37a735b85c5dfcc1d99c570a9c7d2a82912811df2f958",
+    "evidence/offline-metadata-receipt.json": "d5742b246ad1db0005e9a3d6375825d683ee8aa79070a32c4c77b313fedce99f",
+    "evidence/pydantic-core-Cargo.lock": "c3c27fc600d7dafd149229c6501271dbc5f6b4f7b1bfa116b32e77217c2b5038",
+    "evidence/pydantic-core-offline-metadata.json.gz": "bfee840d32b238162de9cd943dde88d28395bc7d98e1da5320e7399193203853",
+    "evidence/rpds-py-Cargo.lock": "6c04984e9c05d00e24e23eeade8463ea09d7a7fba9f8f5706da9bdbc026baee4",
+    "evidence/rpds-py-offline-metadata.json.gz": "1ec9e57bce72fcc25ce96e8c3ec78f38aabd69996ae98f79f902d4c074392712",
+    "evidence/rust-1.96-stage0.txt": "040d68537138bde4386254bbad471746975c188fc2270111446246f788d6a755",
+    "evidence/rust-configure.json": "8ec1e20db0fd7bcad6c9893d19fa9a9cd747f7ab30d5b48aa64bff01f68d8dee",
+    "evidence/strict-rust-patch.log": "bb68fd88ff66425e3c08912b9bf83acfe5325ba8cfd89f71de6b542747c2eaa1"
+  }
+}
