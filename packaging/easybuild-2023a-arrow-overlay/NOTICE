@@ -1,0 +1,7 @@
+The easyconfigs derive from EasyBuild easyconfigs at
+58e8b5a48767cbed1bf5669675d9638580d7259f, under GPL-2.0.
+LICENSE.easybuild preserves the upstream license. The Rust patch is the
+reviewed context-only refresh prepared for the separate 2023a provider.
+Apache Arrow source excerpts retain their notices and Apache-2.0 license.
+Other extracted build requirements are evidence from their identified public
+source archives, not substitute distributions or modified upstream releases.

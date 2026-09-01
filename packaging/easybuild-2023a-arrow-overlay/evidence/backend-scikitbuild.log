@@ -1,0 +1,7 @@
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 8ms
+   Building scikit-build-core @ file://SOURCE_CACHE/scikit_build_core-0.12.2.tar.gz
+      Built scikit-build-core @ file://SOURCE_CACHE/scikit_build_core-0.12.2.tar.gz
+Prepared 1 package in 885ms
+Installed 1 package in 10ms
+ + scikit-build-core==0.12.2 (from file://SOURCE_CACHE/scikit_build_core-0.12.2.tar.gz)

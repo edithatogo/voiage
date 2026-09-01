@@ -1,0 +1,97 @@
+{
+  "evidence/source/arrow-python-pyproject.toml": {
+    "archive": "apache-arrow-25.0.1.tar.gz",
+    "member": "apache-arrow-25.0.1/python/pyproject.toml",
+    "sha256": "bc0b897a80d85e1e97e75f7274d3f2028a1cd78596ab144d044b7de9f327b855"
+  },
+  "evidence/source/arrow-python-_build_backend-__init__.txt": {
+    "archive": "apache-arrow-25.0.1.tar.gz",
+    "member": "apache-arrow-25.0.1/python/_build_backend/__init__.py",
+    "sha256": "5eada2aaece23a361e0c8e955d2f2b4d05d9cfab134cbedd02d0ac52d9ed8c5f"
+  },
+  "evidence/source/arrow-python-CMakeLists.txt": {
+    "archive": "apache-arrow-25.0.1.tar.gz",
+    "member": "apache-arrow-25.0.1/python/CMakeLists.txt",
+    "sha256": "c0850c204dae875f60fcb76c357f1351f866e84a696f0e4b4a1dc7cae7c2d505"
+  },
+  "evidence/source/arrow-cpp-CMakeLists.txt": {
+    "archive": "apache-arrow-25.0.1.tar.gz",
+    "member": "apache-arrow-25.0.1/cpp/CMakeLists.txt",
+    "sha256": "ed6a10a693d34b93be7989d22b148c31bfe47697991df16c02999d51ebd2c1a9"
+  },
+  "evidence/source/arrow-cpp-cmake_modules-SetupCxxFlags.cmake": {
+    "archive": "apache-arrow-25.0.1.tar.gz",
+    "member": "apache-arrow-25.0.1/cpp/cmake_modules/SetupCxxFlags.cmake",
+    "sha256": "0816eede8505835542ed43b2e9b45d0aa81f0df0f1421e16246c945e6473cad4"
+  },
+  "evidence/source/arrow-cpp-cmake_modules-ThirdpartyToolchain.cmake": {
+    "archive": "apache-arrow-25.0.1.tar.gz",
+    "member": "apache-arrow-25.0.1/cpp/cmake_modules/ThirdpartyToolchain.cmake",
+    "sha256": "36873bdf3a91dbe13830eccefb70bf6369a948e1c1231aa45201d9c8ee85763b"
+  },
+  "evidence/source/arrow-cpp-cmake_modules-DefineOptions.cmake": {
+    "archive": "apache-arrow-25.0.1.tar.gz",
+    "member": "apache-arrow-25.0.1/cpp/cmake_modules/DefineOptions.cmake",
+    "sha256": "6db668e0c1187e71f00c96df53a23eb07ff705e5e3d86bfa389ef59df5b05943"
+  },
+  "evidence/source/arrow-cpp-thirdparty-versions.txt": {
+    "archive": "apache-arrow-25.0.1.tar.gz",
+    "member": "apache-arrow-25.0.1/cpp/thirdparty/versions.txt",
+    "sha256": "c90e546c2a0706b6dda862a19eff8c13d77e3c0972291de75f3bac9d2e21fea7"
+  },
+  "evidence/source/libcst-pyproject.toml": {
+    "archive": "libcst-1.8.6.tar.gz",
+    "member": "libcst-1.8.6/pyproject.toml",
+    "sha256": "ef5f821bda873c0378865a30bf365d2a41b98ecfc7b4dfd932a19e4b68f90dbb"
+  },
+  "evidence/source/libcst-native-Cargo.toml": {
+    "archive": "libcst-1.8.6.tar.gz",
+    "member": "libcst-1.8.6/native/Cargo.toml",
+    "sha256": "ca3286b98d1eaa2184c58f33cbf8c4d5da9dc946fd93e279e5ed9b42d6de0ae5"
+  },
+  "evidence/source/libcst-native-Cargo.lock": {
+    "archive": "libcst-1.8.6.tar.gz",
+    "member": "libcst-1.8.6/native/Cargo.lock",
+    "sha256": "b8a3ae82572c6684a29cacb2f96296aa81c328231506adeb98355863e83256ce"
+  },
+  "evidence/source/libcst-native-libcst-Cargo.toml": {
+    "archive": "libcst-1.8.6.tar.gz",
+    "member": "libcst-1.8.6/native/libcst/Cargo.toml",
+    "sha256": "32a07542ada8ca9c181ce0e919da42a36a4efefa75e3e6e24a1091bc45d287bc"
+  },
+  "evidence/source/scikit-build-core-pyproject.toml": {
+    "archive": "scikit_build_core-0.12.2.tar.gz",
+    "member": "scikit_build_core-0.12.2/pyproject.toml",
+    "sha256": "ac62333a7e80695ff034c1c79510f7ae9a157e44edd0ef1421a59f0ff6c3568b"
+  },
+  "evidence/source/setuptools-scm-pyproject.toml": {
+    "archive": "setuptools_scm-9.2.2.tar.gz",
+    "member": "setuptools_scm-9.2.2/pyproject.toml",
+    "sha256": "ad869006e6aaa7da472423b8a72e8d5d0fc84879803cb9541b08e6c35e49f2a3"
+  },
+  "evidence/source/setuptools-rust-pyproject.toml": {
+    "archive": "setuptools-rust-1.9.0.tar.gz",
+    "member": "setuptools-rust-1.9.0/pyproject.toml",
+    "sha256": "ad1efefb8b3c1ea7502cc75a94ecbffa6547ff85ca21d980d1ff69c589a3d32c"
+  },
+  "evidence/source/PyYAML-pyproject.toml": {
+    "archive": "pyyaml-6.0.3.tar.gz",
+    "member": "pyyaml-6.0.3/pyproject.toml",
+    "sha256": "ed2365bda4f2d4d1a7195dc63411fcfe0b69d923454b356fc597815aa9747f68"
+  },
+  "evidence/source/trove-classifiers-pyproject.toml": {
+    "archive": "trove_classifiers-2026.6.1.19.tar.gz",
+    "member": "trove_classifiers-2026.6.1.19/pyproject.toml",
+    "sha256": "a6e568e04884a5606f7912cff91959918e799ef6da74948370302f0d147d1b36"
+  },
+  "evidence/source/xsimd-CMakeLists.txt": {
+    "archive": "xsimd-14.2.0.tar.gz",
+    "member": "xsimd-14.2.0/CMakeLists.txt",
+    "sha256": "8bd1487ca4cf7bfc28c45efe37fc475c2c440bc94db41911208fe0a731170c82"
+  },
+  "evidence/source/Thrift-CMakeLists.txt": {
+    "archive": "thrift-0.22.0.tar.gz",
+    "member": "thrift-0.22.0/CMakeLists.txt",
+    "sha256": "f29b74ed22397d332630408c85392b993c699f7a177408a86111fdb0916a45f3"
+  }
+}

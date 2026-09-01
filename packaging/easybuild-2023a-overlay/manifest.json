@@ -64,7 +64,7 @@
     "evidence/scientific-robot.log": "76457e0970d48d01e163e059dd5b171382d1bc21c9874c2d2676982366030ca2",
     "evidence/strict-patch-checks.json": "62d1d8de6206af969964e529105001c0900abab10dbeb02a0f9826b9c18d26c2",
     "history/Python-3.11.5-custom-ctypes.patch": "b29c22f47587460149e05296ff09b29bf790a83e2b3b13fb2f42f5f236ad8ea7",
-    "providers.json": "d6d99c3032fd4d829492f067dbc8e8838214385a70d25075c7588e0fbff5522c",
+    "providers.json": "6343b5da6d215b219aca12fc7fbd817294d0c1f7c85d6fd508764d6bcbe98e17",
     "scientific-consumer-sources.json": "ac762caca174544d85031dc92a7c14b1d7f8f4f618466a1d813a3fd19eb8560a",
     "source-manifest.json": "658429bda40f5ae27c5d86650c747a9d7c64968588ef789cbaf6d830d6818147"
   }

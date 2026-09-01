@@ -1,0 +1,53 @@
+easyblock = 'PythonBundle'
+name = 'Voiage-Arrow-build-support'
+version = '25.0.1'
+homepage = 'https://arrow.apache.org'
+description = 'Source-bound Arrow 25 build provider for the Voiage foss 2023a candidate.'
+toolchain = {'name': 'GCCcore', 'version': '12.3.0'}
+builddependencies = [('binutils', '2.40'), ('hatchling', '1.24.2'), ('Cython', '3.1.8')]
+dependencies = [('Python', '3.12.14')]
+use_pip = True
+pip_no_index = True
+pip_ignore_installed = True
+download_dep_fail = True
+sanity_pip_check = True
+exts_list = [('trove-classifiers',
+  '2026.6.1.19',
+  {'sources': ['trove_classifiers-2026.6.1.19.tar.gz'],
+   'source_urls': ['https://files.pythonhosted.org/packages/c2/e3/7ca82ee24c82d344584abd5b8637b3bd056f2900226e8d82fc22f1184b92'],
+   'checksums': ['c5132b4b61a829d11cfbd2d72e97f20a45ed6edb95e45c5efdeb5e00836b2745'],
+   'modulename': 'trove_classifiers'}),
+ ('semantic-version',
+  '2.10.0',
+  {'sources': ['semantic_version-2.10.0.tar.gz'],
+   'checksums': ['bdabb6d336998cbb378d4b9db3a4b56a1e3235701dc05ea2690d9a997ed5041c'],
+   'source_urls': ['https://files.pythonhosted.org/packages/7d/31/f2289ce78b9b473d582568c234e104d2a342fd658cc288a7553d83bb8595'],
+   'modulename': 'semantic_version'}),
+ ('setuptools-rust',
+  '1.9.0',
+  {'sources': ['setuptools-rust-1.9.0.tar.gz'],
+   'checksums': ['704df0948f2e4cc60c2596ad6e840ea679f4f43e58ed4ad0c1857807240eab96'],
+   'source_urls': ['https://files.pythonhosted.org/packages/9d/f1/2cb8887cad0726a5e429cc9c58e30767f58d22c34d55b075d2f845d4a2a5']}),
+ ('setuptools-scm',
+  '9.2.2',
+  {'sources': ['setuptools_scm-9.2.2.tar.gz'],
+   'checksums': ['1c674ab4665686a0887d7e24c03ab25f24201c213e82ea689d2f3e169ef7ef57'],
+   'source_urls': ['https://files.pythonhosted.org/packages/7b/b1/19587742aad604f1988a8a362e660e8c3ac03adccdb71c96d86526e5eb62']}),
+ ('PyYAML',
+  '6.0.3',
+  {'sources': ['pyyaml-6.0.3.tar.gz'],
+   'checksums': ['d76623373421df22fb4cf8817020cbb7ef15c725b9d5e45f17e189bfc384190f'],
+   'source_urls': ['https://files.pythonhosted.org/packages/05/8e/961c0007c59b8dd7729d542c61a4d537767a59645b82a0b521206e1e25c2'],
+   'modulename': 'yaml'}),
+ ('pathspec',
+  '0.12.1',
+  {'sources': ['pathspec-0.12.1.tar.gz'],
+   'checksums': ['a482d51503a1ab33b1c67a6c3813a26953dbdc71c31dacaef9a838c4e29f5712'],
+   'source_urls': ['https://pypi.org/packages/source/p/pathspec/']}),
+ ('scikit-build-core',
+  '0.12.2',
+  {'sources': ['scikit_build_core-0.12.2.tar.gz'],
+   'checksums': ['562e0bbc9de1a354c87825ccf732080268d6582a0200f648e8c4a2dcb1e3736d'],
+   'source_urls': ['https://files.pythonhosted.org/packages/28/cd/9ebb50029b6d8a3ee9e38cdce514ebd70190ec1edf28ab0a1f66d0b84670']})]
+moduleclass = 'lib'
+pip_no_build_isolation = True

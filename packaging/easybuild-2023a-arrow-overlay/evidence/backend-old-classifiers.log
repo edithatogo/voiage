@@ -1,0 +1,180 @@
+BUILD setuptools-70.0.0.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 29ms
+Prepared 1 package in 6ms
+Uninstalled 1 package in 34ms
+Installed 1 package in 8ms
+ ~ setuptools==70.0.0 (from file://SOURCE_CACHE/setuptools-70.0.0.tar.gz)
+
+BUILD wheel-0.43.0.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 20ms
+Prepared 1 package in 6ms
+Uninstalled 1 package in 7ms
+Installed 1 package in 27ms
+ ~ wheel==0.43.0 (from file://SOURCE_CACHE/wheel-0.43.0.tar.gz)
+
+BUILD flit_core-3.12.0.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 1ms
+Prepared 1 package in 0.88ms
+Uninstalled 1 package in 7ms
+Installed 1 package in 8ms
+ ~ flit-core==3.12.0 (from file://SOURCE_CACHE/flit_core-3.12.0.tar.gz)
+
+BUILD packaging-24.0.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 40ms
+Prepared 1 package in 9ms
+Uninstalled 1 package in 5ms
+Installed 1 package in 16ms
+ ~ packaging==24.0 (from file://SOURCE_CACHE/packaging-24.0.tar.gz)
+
+BUILD setuptools_scm-9.2.2.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 746ms
+   Building setuptools-scm @ file://SOURCE_CACHE/setuptools_scm-9.2.2.tar.gz
+      Built setuptools-scm @ file://SOURCE_CACHE/setuptools_scm-9.2.2.tar.gz
+Prepared 1 package in 1.80s
+Installed 1 package in 9ms
+ + setuptools-scm==9.2.2 (from file://SOURCE_CACHE/setuptools_scm-9.2.2.tar.gz)
+
+BUILD pathspec-0.12.1.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 38ms
+Prepared 1 package in 1ms
+Uninstalled 1 package in 6ms
+Installed 1 package in 25ms
+ ~ pathspec==0.12.1 (from file://SOURCE_CACHE/pathspec-0.12.1.tar.gz)
+
+BUILD pluggy-1.5.0.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 730ms
+   Building pluggy @ file://SOURCE_CACHE/pluggy-1.5.0.tar.gz
+      Built pluggy @ file://SOURCE_CACHE/pluggy-1.5.0.tar.gz
+Prepared 1 package in 1.04s
+Installed 1 package in 8ms
+ + pluggy==1.5.0 (from file://SOURCE_CACHE/pluggy-1.5.0.tar.gz)
+
+BUILD editables-0.5.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 202ms
+   Building editables @ file://SOURCE_CACHE/editables-0.5.tar.gz
+      Built editables @ file://SOURCE_CACHE/editables-0.5.tar.gz
+Prepared 1 package in 747ms
+Installed 1 package in 3ms
+ + editables==0.5 (from file://SOURCE_CACHE/editables-0.5.tar.gz)
+
+BUILD calver-2022.6.26.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 1.19s
+   Building calver @ file://SOURCE_CACHE/calver-2022.6.26.tar.gz
+      Built calver @ file://SOURCE_CACHE/calver-2022.6.26.tar.gz
+Prepared 1 package in 1.93s
+Installed 1 package in 3ms
+ + calver==2022.6.26 (from file://SOURCE_CACHE/calver-2022.6.26.tar.gz)
+
+BUILD trove_classifiers-2024.5.22.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 1.22s
+   Building trove-classifiers @ file://SOURCE_CACHE/trove_classifiers-2024.5.22.tar.gz
+      Built trove-classifiers @ file://SOURCE_CACHE/trove_classifiers-2024.5.22.tar.gz
+Prepared 1 package in 582ms
+Installed 1 package in 3ms
+ + trove-classifiers==2024.5.22 (from file://SOURCE_CACHE/trove_classifiers-2024.5.22.tar.gz)
+
+BUILD hatchling-1.24.2.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 78ms
+   Building hatchling @ file://SOURCE_CACHE/hatchling-1.24.2.tar.gz
+      Built hatchling @ file://SOURCE_CACHE/hatchling-1.24.2.tar.gz
+Prepared 1 package in 549ms
+Installed 1 package in 4ms
+ + hatchling==1.24.2 (from file://SOURCE_CACHE/hatchling-1.24.2.tar.gz)
+
+BUILD hatch_vcs-0.4.0.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 354ms
+   Building hatch-vcs @ file://SOURCE_CACHE/hatch_vcs-0.4.0.tar.gz
+      Built hatch-vcs @ file://SOURCE_CACHE/hatch_vcs-0.4.0.tar.gz
+Prepared 1 package in 510ms
+Installed 1 package in 9ms
+ + hatch-vcs==0.4.0 (from file://SOURCE_CACHE/hatch_vcs-0.4.0.tar.gz)
+
+BUILD semantic_version-2.10.0.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 989ms
+   Building semantic-version @ file://SOURCE_CACHE/semantic_version-2.10.0.tar.gz
+      Built semantic-version @ file://SOURCE_CACHE/semantic_version-2.10.0.tar.gz
+Prepared 1 package in 1.33s
+Installed 1 package in 5ms
+ + semantic-version==2.10.0 (from file://SOURCE_CACHE/semantic_version-2.10.0.tar.gz)
+
+BUILD setuptools-rust-1.9.0.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 366ms
+   Building setuptools-rust @ file://SOURCE_CACHE/setuptools-rust-1.9.0.tar.gz
+      Built setuptools-rust @ file://SOURCE_CACHE/setuptools-rust-1.9.0.tar.gz
+Prepared 1 package in 594ms
+Installed 1 package in 2ms
+ + setuptools-rust==1.9.0 (from file://SOURCE_CACHE/setuptools-rust-1.9.0.tar.gz)
+
+BUILD cython-3.1.8.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 4.33s
+   Building cython @ file://SOURCE_CACHE/cython-3.1.8.tar.gz
+      Built cython @ file://SOURCE_CACHE/cython-3.1.8.tar.gz
+Prepared 1 package in 2m 11s
+Installed 1 package in 9ms
+ + cython==3.1.8 (from file://SOURCE_CACHE/cython-3.1.8.tar.gz)
+
+BUILD pyyaml-6.0.3.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 2.41s
+   Building pyyaml @ file://SOURCE_CACHE/pyyaml-6.0.3.tar.gz
+      Built pyyaml @ file://SOURCE_CACHE/pyyaml-6.0.3.tar.gz
+Prepared 1 package in 19.21s
+Installed 1 package in 1ms
+ + pyyaml==6.0.3 (from file://SOURCE_CACHE/pyyaml-6.0.3.tar.gz)
+
+BUILD scikit_build_core-0.12.2.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 3.53s
+   Building scikit-build-core @ file://SOURCE_CACHE/scikit_build_core-0.12.2.tar.gz
+  × Failed to build `scikit-build-core @
+  │ file://SOURCE_CACHE/scikit_build_core-0.12.2.tar.gz`
+  ├─▶ The build backend returned an error
+  ╰─▶ Call to `hatchling.build.build_wheel` failed (exit status: 1)
+
+      [stderr]
+      Traceback (most recent call last):
+        File "<string>", line 11, in <module>
+        File
+      "QUALIFICATION_ENVIRONMENT/backend-smoke-env/lib/python3.12/site-packages/hatchling/build.py",
+      line 58, in build_wheel
+          return os.path.basename(next(builder.build(directory=wheel_directory,
+      versions=['standard'])))
+      
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File
+      "QUALIFICATION_ENVIRONMENT/backend-smoke-env/lib/python3.12/site-packages/hatchling/builders/plugin/interface.py",
+      line 90, in build
+          self.metadata.validate_fields()
+        File
+      "QUALIFICATION_ENVIRONMENT/backend-smoke-env/lib/python3.12/site-packages/hatchling/metadata/core.py",
+      line 266, in validate_fields
+          self.core.validate_fields()
+        File
+      "QUALIFICATION_ENVIRONMENT/backend-smoke-env/lib/python3.12/site-packages/hatchling/metadata/core.py",
+      line 1376, in validate_fields
+          getattr(self, attribute)
+        File
+      "QUALIFICATION_ENVIRONMENT/backend-smoke-env/lib/python3.12/site-packages/hatchling/metadata/core.py",
+      line 1007, in classifiers
+          raise ValueError(message)
+      ValueError: Unknown classifier in field `project.classifiers`:
+      Programming Language :: Python :: Free Threading :: 4 - Resilient
+
+      hint: This usually indicates a problem with the package or the build
+      environment.
+
