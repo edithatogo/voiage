@@ -73,6 +73,7 @@ def test_build_tools_do_not_leak_into_runtime_dependencies() -> None:
         assert data[name]["offline"] is True
         assert data[name]["easyblock"] == "CargoPythonPackage"
     assert data["maturin"]["preinstallopts"] == "MATURIN_NO_INSTALL_RUST=1"
+    assert all("modulename" not in recipe for recipe in data.values())
 
 
 def test_actual_source_backend_and_runtime_requirements_have_providers() -> None:

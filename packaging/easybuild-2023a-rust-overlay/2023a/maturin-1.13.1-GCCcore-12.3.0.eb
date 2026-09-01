@@ -1863,7 +1863,6 @@ download_dep_fail = True
 sanity_pip_check = True
 moduleclass = "devel"
 offline = True
-modulename = "maturin"
 sanity_check_commands = ["maturin --version"]
 
 # Never let the backend bootstrap an undeclared compiler.
