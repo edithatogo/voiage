@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "criteria_url": "https://devguide.ropensci.org/softwarereview_author.html",
-  "reviewed_at": "2026-08-30",
+  "reviewed_at": "2026-09-02",
   "criteria": [
     {
       "id": "package-metadata",
@@ -83,6 +83,15 @@
         "scripts/run_ropensci_pkgcheck.sh",
         "specs/submission-readiness/installed-binding-validation-20260829.json",
         "specs/submission-readiness/final-candidate-binding-20260829.json"
+      ]
+    },
+    {
+      "id": "current-source-distribution-evidence",
+      "status": "satisfied",
+      "evidence": [
+        "specs/submission-readiness/r-distribution-evidence-20260902.json",
+        "conductor/tracks/remaining_backlog_delivery_20260831/r-manual-check-20260901.json",
+        ".github/workflows/bindings-ci.yml"
       ]
     },
     {

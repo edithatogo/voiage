@@ -32,14 +32,15 @@ whether that contribution and repository layout fit rOpenSci review scope.
 ## Current repository evidence
 
 - The exact `voiageR_2.2.0.tar.gz` archive passed
-  `R CMD check --as-cran --no-manual` with zero package errors, zero package
-  warnings and one NOTE (unable to verify current time). Its SHA-256 is
+  a full, unsuppressed `R CMD check --as-cran`, including PDF and HTML manuals,
+  with zero package errors, zero package warnings and two NOTEs (`New
+  submission` and inability to verify current time). Its SHA-256 is
   `af485e1cfba6dc9c1f149ce074640c8ef63bb3f42c649f71fccbe0e5d114c8e4`.
   The checked R subtree is identical at the public v2.2.0 source commit.
-  The initial attempt failed on a CRAN network timeout; remote CRAN incoming
-  checks remained unavailable on the successful retry and are not claimed
-  passed. Exact evidence is in
-  `specs/submission-readiness/r-v2-2-archive-check-20260830.json`.
+  CRAN incoming feasibility executed and produced the expected new-submission
+  NOTE. No clock or incoming check was suppressed, and the literal zero-NOTE
+  criterion is not claimed. Exact evidence is in
+  `conductor/tracks/remaining_backlog_delivery_20260831/r-manual-check-20260901.json`.
 - The pinned `srr` pre-submit check accepts all applicable standards; the
   repository maps 68 general and 14 probability-distribution standards with
   item-level compliance or justified non-applicability tags.
@@ -50,6 +51,10 @@ whether that contribution and repository layout fit rOpenSci review scope.
   vignettes, statistical standards, 89.5% coverage, `R CMD check`, and the
   public default-branch `R CMD Check and Retained Bindings CI` workflow at
   merged revision `b7c58db2e58eb11e24119d6c919a10f349358c5d`.
+- The current distribution receipt binds successful retained-bindings run
+  `33420870772`, including installed native R smoke tests on Linux, macOS and
+  Windows, to unchanged tested inputs at the recorded current revision. See
+  `specs/submission-readiness/r-distribution-evidence-20260902.json`.
 
 ## Questions for an editor
 
@@ -65,7 +70,7 @@ whether that contribution and repository layout fit rOpenSci review scope.
 ## Unperformed actions and remaining authority
 
 This draft has not been posted, submitted, or sent to rOpenSci. Before any
-already-authorized inquiry, personally review the current author guide, package
-lifecycle and support commitments, and confirm that contemporaneous pyOpenSci or JOSS review
-does not conflict with rOpenSci policy. Editorial scope advice, review,
+future inquiry, personally review the current author guide, package lifecycle
+and support commitments, and confirm that contemporaneous pyOpenSci or JOSS
+review does not conflict with rOpenSci policy. Editorial scope advice, review,
 acceptance, and onboarding remain external decisions.

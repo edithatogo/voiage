@@ -1,0 +1,153 @@
+{
+  "schema_version": "voiage.r-distribution-evidence.v1",
+  "observed_at": "2026-09-02",
+  "state": "current_repository_evidence_external_actions_unperformed",
+  "current_revision": "279cc50459453c78c8602d1e51a9a5a6f5025165",
+  "hosted_run": {
+    "workflow": "R CMD Check and Retained Bindings CI",
+    "run_id": 33420870772,
+    "url": "https://github.com/edithatogo/voiage/actions/runs/33420870772",
+    "head_sha": "78c4514f1dfe91b5ce4892ccce1b6f742d500da0",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "Cross-language differential conformance",
+        "database_id": 99584273115,
+        "conclusion": "success"
+      },
+      {
+        "name": "Julia binding (1.10, macos-latest, rust/target/release/libvoiage_ffi.dylib)",
+        "database_id": 99582630629,
+        "conclusion": "success"
+      },
+      {
+        "name": "Julia binding (1.10, ubuntu-latest, rust/target/release/libvoiage_ffi.so)",
+        "database_id": 99582630843,
+        "conclusion": "success"
+      },
+      {
+        "name": "Julia binding (1.10, windows-latest, rust/target/release/voiage_ffi.dll)",
+        "database_id": 99582630648,
+        "conclusion": "success"
+      },
+      {
+        "name": "Julia binding (1.11, macos-latest, rust/target/release/libvoiage_ffi.dylib)",
+        "database_id": 99582630694,
+        "conclusion": "success"
+      },
+      {
+        "name": "Julia binding (1.11, ubuntu-latest, rust/target/release/libvoiage_ffi.so)",
+        "database_id": 99582630953,
+        "conclusion": "success"
+      },
+      {
+        "name": "Julia binding (1.11, windows-latest, rust/target/release/voiage_ffi.dll)",
+        "database_id": 99582630743,
+        "conclusion": "success"
+      },
+      {
+        "name": "Julia binding (1.12, macos-latest, rust/target/release/libvoiage_ffi.dylib)",
+        "database_id": 99582630914,
+        "conclusion": "success"
+      },
+      {
+        "name": "Julia binding (1.12, ubuntu-latest, rust/target/release/libvoiage_ffi.so)",
+        "database_id": 99582630824,
+        "conclusion": "success"
+      },
+      {
+        "name": "Julia binding (1.12, windows-latest, rust/target/release/voiage_ffi.dll)",
+        "database_id": 99582630788,
+        "conclusion": "success"
+      },
+      {
+        "name": "R installed native smoke (macos-latest)",
+        "database_id": 99582630716,
+        "conclusion": "success"
+      },
+      {
+        "name": "R installed native smoke (ubuntu-latest)",
+        "database_id": 99582630515,
+        "conclusion": "success"
+      },
+      {
+        "name": "R installed native smoke (windows-latest)",
+        "database_id": 99582630718,
+        "conclusion": "success"
+      },
+      {
+        "name": "R package-development checks",
+        "database_id": 99582630624,
+        "conclusion": "success"
+      },
+      {
+        "name": "Rust workspace",
+        "database_id": 99582630399,
+        "conclusion": "success"
+      },
+      {
+        "name": "Rust workspace (MSRV 1.85)",
+        "database_id": 99582630200,
+        "conclusion": "success"
+      }
+    ]
+  },
+  "tested_input_equality": {
+    "method": "git_object_identity",
+    "paths": [
+      {
+        "path": ".github/workflows/bindings-ci.yml",
+        "tested_head_object_id": "35ed854f290b5c841f200f720661d44792922ba9",
+        "current_revision_object_id": "35ed854f290b5c841f200f720661d44792922ba9"
+      },
+      {
+        "path": "r-package/voiageR",
+        "tested_head_object_id": "4bcce19b910a1a4404668538ce845fe39a1079c5",
+        "current_revision_object_id": "4bcce19b910a1a4404668538ce845fe39a1079c5"
+      },
+      {
+        "path": "rust/crates/voiage-ffi",
+        "tested_head_object_id": "b9f6728a6f7ae5ee8ef6018ca4dbbce404861266",
+        "current_revision_object_id": "b9f6728a6f7ae5ee8ef6018ca4dbbce404861266"
+      },
+      {
+        "path": "specs/numerical-reference",
+        "tested_head_object_id": "bb3ca823420fbe8f95b85b9c92ce07b3988cea2b",
+        "current_revision_object_id": "bb3ca823420fbe8f95b85b9c92ce07b3988cea2b"
+      }
+    ],
+    "claim": "Each listed input has the same Git object at the hosted tested head and current revision; unrelated repository changes are outside this claim."
+  },
+  "source_archive": {
+    "filename": "voiageR_2.2.0.tar.gz",
+    "sha256": "af485e1cfba6dc9c1f149ce074640c8ef63bb3f42c649f71fccbe0e5d114c8e4",
+    "manual_check_receipt": {
+      "path": "conductor/tracks/remaining_backlog_delivery_20260831/r-manual-check-20260901.json",
+      "sha256": "520af27e4d3463d9e9404c06e64e86d5a38a9db66bb3cb77e8338ac014fdf3a7"
+    }
+  },
+  "check_outcome": {
+    "errors": 0,
+    "warnings": 0,
+    "notes": [
+      "CRAN incoming feasibility: New submission",
+      "future file timestamps: unable to verify current time"
+    ],
+    "strict_zero_note_criterion_met": false,
+    "check_suppressions": [],
+    "interpretation": "Both NOTEs are retained as external or environment observations; they are not suppressed or relabelled as package defects."
+  },
+  "review_packet": {
+    "path": "docs/release/ropensci-presubmission-inquiry-draft.md",
+    "state": "prepared_local_unposted"
+  },
+  "external_actions": {
+    "cran_submission": false,
+    "ropensci_inquiry": false,
+    "ropensci_submission": false
+  },
+  "external_outcomes": {
+    "cran_acceptance": "pending_external",
+    "ropensci_scope_review_acceptance": "pending_external"
+  }
+}

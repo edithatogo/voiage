@@ -1,6 +1,6 @@
 # rOpenSci statistical-software standards mapping for `voiageR`
 
-**Package:** `voiageR` 2.1.0
+**Package:** `voiageR` 2.2.0
 **Pinned standards:** rOpenSci Statistical Software Peer Review standards
 revision `974cd8f0d73961235c74bfa34b78086d39fd8817` and `srr` revision
 `d186fe6f93657805ed86177f03333c478e136709`.
@@ -50,7 +50,15 @@ checks remain separate evidence.
 
 ## Packaging boundary
 
-The package is now self-contained for EVPI and ENBS: its 2.1.0 source archive
+The package is now self-contained for EVPI and ENBS: its 2.2.0 source archive
 builds a dependency-free Rust static library offline and links registered R
 native routines. Python and `reticulate` remain optional for EVPPI and EVSI.
 No ambient VOIAGE shared library is required.
+
+The current distribution receipt is
+`specs/submission-readiness/r-distribution-evidence-20260902.json`. It binds the
+immutable source archive and full manual check to the successful hosted R and
+retained-bindings matrix, and verifies that the tested R package, FFI,
+numerical-reference and workflow Git objects are unchanged at the recorded
+current revision. This is repository distribution evidence, not CRAN or
+rOpenSci submission or acceptance.

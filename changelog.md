@@ -8,6 +8,10 @@
 
 ## Unreleased
 
+- Bind the current voiageR source distribution and three-platform native smoke
+  evidence to the reviewed full manual check, while preserving its two NOTEs
+  and keeping CRAN and rOpenSci actions external.
+
 - Reconcile current pyOpenSci, JOSS and arXiv guidance with the verified
   withdrawal of earlier requests and journal-first sequencing while keeping
   the survey, human-written communication and authenticated submissions
