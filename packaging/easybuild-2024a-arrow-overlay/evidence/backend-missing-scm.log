@@ -1,0 +1,61 @@
+BUILD setuptools-70.0.0.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 489ms
+   Building setuptools @ file:///Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-easybuild-backports-20260901/.conductor/local/easybuild-backports/sources/setuptools-70.0.0.tar.gz
+      Built setuptools @ file:///Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-easybuild-backports-20260901/.conductor/local/easybuild-backports/sources/setuptools-70.0.0.tar.gz
+Prepared 1 package in 1.49s
+Uninstalled 1 package in 37ms
+Installed 1 package in 27ms
+ - setuptools==70.0.0
+ + setuptools==70.0.0 (from file:///Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-easybuild-backports-20260901/.conductor/local/easybuild-backports/sources/setuptools-70.0.0.tar.gz)
+
+BUILD wheel-0.43.0.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 437ms
+   Building wheel @ file:///Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-easybuild-backports-20260901/.conductor/local/easybuild-backports/sources/wheel-0.43.0.tar.gz
+      Built wheel @ file:///Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-easybuild-backports-20260901/.conductor/local/easybuild-backports/sources/wheel-0.43.0.tar.gz
+Prepared 1 package in 387ms
+Uninstalled 1 package in 9ms
+Installed 1 package in 19ms
+ - wheel==0.43.0
+ + wheel==0.43.0 (from file:///Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-easybuild-backports-20260901/.conductor/local/easybuild-backports/sources/wheel-0.43.0.tar.gz)
+
+BUILD flit_core-3.12.0.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 530ms
+   Building flit-core @ file:///Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-easybuild-backports-20260901/.conductor/local/easybuild-backports/sources/flit_core-3.12.0.tar.gz
+      Built flit-core @ file:///Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-easybuild-backports-20260901/.conductor/local/easybuild-backports/sources/flit_core-3.12.0.tar.gz
+Prepared 1 package in 227ms
+Uninstalled 1 package in 8ms
+Installed 1 package in 3ms
+ - flit-core==3.12.0
+ + flit-core==3.12.0 (from file:///Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-easybuild-backports-20260901/.conductor/local/easybuild-backports/sources/flit_core-3.12.0.tar.gz)
+
+BUILD packaging-24.0.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 20ms
+Prepared 1 package in 4ms
+Installed 1 package in 11ms
+ + packaging==24.0 (from file:///Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-easybuild-backports-20260901/.conductor/local/easybuild-backports/sources/packaging-24.0.tar.gz)
+
+BUILD pathspec-0.12.1.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 113ms
+   Building pathspec @ file:///Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-easybuild-backports-20260901/.conductor/local/easybuild-backports/sources/pathspec-0.12.1.tar.gz
+      Built pathspec @ file:///Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-easybuild-backports-20260901/.conductor/local/easybuild-backports/sources/pathspec-0.12.1.tar.gz
+Prepared 1 package in 205ms
+Installed 1 package in 1ms
+ + pathspec==0.12.1 (from file:///Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-easybuild-backports-20260901/.conductor/local/easybuild-backports/sources/pathspec-0.12.1.tar.gz)
+
+BUILD pluggy-1.5.0.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+WARN pluggy @ file:///Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-easybuild-backports-20260901/.conductor/local/easybuild-backports/sources/pluggy-1.5.0.tar.gz has inconsistent metadata: Package metadata version `0.0.0` does not match given version `1.5.0`
+  × No solution found when resolving dependencies:
+  ╰─▶ Because pluggy has invalid metadata and you require pluggy, we can
+      conclude that your requirements are unsatisfiable.
+
+      hint: Metadata for `pluggy` could not be parsed.
+        Caused by: Package metadata version `0.0.0` does not match given
+      version `1.5.0`
+
+

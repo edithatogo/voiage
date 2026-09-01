@@ -1,0 +1,61 @@
+BUILD setuptools-70.0.0.tar.gz
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+  × Failed to build `setuptools @
+  │ file:///Volumes/PortableSSD/GitHub/.worktrees/voiage-goal-easybuild-backports-20260901/.conductor/local/easybuild-backports/sources/setuptools-70.0.0.tar.gz`
+  ├─▶ The build backend returned an error
+  ╰─▶ Call to `setuptools.build_meta.prepare_metadata_for_build_wheel` failed
+      (exit status: 1)
+
+      [stdout]
+      running dist_info
+      creating
+      /Users/doughnut/.cache/uv/builds-v0/.tmppXnriW/metadata_directory/setuptools.egg-info
+      writing
+      /Users/doughnut/.cache/uv/builds-v0/.tmppXnriW/metadata_directory/setuptools.egg-info/PKG-INFO
+      writing dependency_links to
+      /Users/doughnut/.cache/uv/builds-v0/.tmppXnriW/metadata_directory/setuptools.egg-info/dependency_links.txt
+      writing entry points to
+      /Users/doughnut/.cache/uv/builds-v0/.tmppXnriW/metadata_directory/setuptools.egg-info/entry_points.txt
+      writing requirements to
+      /Users/doughnut/.cache/uv/builds-v0/.tmppXnriW/metadata_directory/setuptools.egg-info/requires.txt
+      writing top-level names to
+      /Users/doughnut/.cache/uv/builds-v0/.tmppXnriW/metadata_directory/setuptools.egg-info/top_level.txt
+      writing manifest file
+      '/Users/doughnut/.cache/uv/builds-v0/.tmppXnriW/metadata_directory/setuptools.egg-info/SOURCES.txt'
+      reading manifest file
+      '/Users/doughnut/.cache/uv/builds-v0/.tmppXnriW/metadata_directory/setuptools.egg-info/SOURCES.txt'
+      reading manifest template 'MANIFEST.in'
+      adding license file 'LICENSE'
+      writing manifest file
+      '/Users/doughnut/.cache/uv/builds-v0/.tmppXnriW/metadata_directory/setuptools.egg-info/SOURCES.txt'
+      creating
+      '/Users/doughnut/.cache/uv/builds-v0/.tmppXnriW/metadata_directory/setuptools-70.0.0.dist-info'
+
+      [stderr]
+      warning: no files found matching '*.py' under directory 'tests'
+      warning: no files found matching '*.txt' under directory 'docs'
+      warning: no files found matching '*.conf' under directory 'docs'
+      warning: no files found matching '*.css' under directory 'docs'
+      warning: no files found matching '*.css_t' under directory 'docs'
+      warning: no files found matching 'Makefile' under directory 'docs'
+      warning: no files found matching 'indexsidebar.html' under directory
+      'docs'
+      warning: no files found matching 'msvc-build-launcher.cmd'
+      warning: no previously-included files matching '*.py[cod]' found
+      anywhere in distribution
+      warning: no previously-included files matching '__pycache__' found
+      anywhere in distribution
+      error: invalid command 'bdist_wheel'
+
+      hint: This error likely indicates that `setuptools` depends
+      on `wheel`, but doesn't declare it as a build dependency. If
+      `setuptools` is a first-party package, consider adding `wheel`
+      to its `build-system.requires`. Otherwise, either add it to your
+      `pyproject.toml` under:
+
+      [tool.uv.extra-build-dependencies]
+      setuptools = ["wheel"]
+
+      or `uv pip install wheel` into the environment and re-run with
+      `--no-build-isolation`.
+
