@@ -1,0 +1,7 @@
+Using Python 3.12.13 environment at: .conductor/local/easybuild-arrow/backend-smoke-env
+Resolved 1 package in 2.40s
+   Building libcst @ file://SOURCE_CACHE/libcst-1.8.6.tar.gz
+      Built libcst @ file://SOURCE_CACHE/libcst-1.8.6.tar.gz
+Prepared 1 package in 2m 24s
+Installed 1 package in 11ms
+ + libcst==1.8.6 (from file://SOURCE_CACHE/libcst-1.8.6.tar.gz)

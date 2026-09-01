@@ -1,0 +1,18 @@
+easyblock = 'CMakeMake'
+name = 'Thrift'
+version = '0.22.0'
+homepage = 'https://arrow.apache.org'
+description = 'Source-bound Arrow 25 build provider for the Voiage foss 2023a candidate.'
+toolchain = {'name': 'GCC', 'version': '12.3.0'}
+source_urls = ['https://archive.apache.org/dist/thrift/0.22.0']
+sources = [{'download_filename': 'thrift-0.22.0.tar.gz', 'filename': 'thrift-0.22.0.tar.gz'}]
+checksums = ['794a0e455787960d9f27ab92c38e34da27e8deeda7a5db0e59dc64a00df8a1e5']
+builddependencies = [('binutils', '2.40'), ('CMake', '3.26.3'), ('Bison', '3.8.2'), ('flex', '2.6.4'), ('Python', '3.12.14')]
+moduleclass = 'lib'
+dependencies = [('Boost', '1.82.0'), ('zlib', '1.2.13'), ('OpenSSL', '3', '', {'name': 'system', 'version': ''})]
+configopts = ('-DBUILD_SHARED_LIBS=ON -DBUILD_COMPILER=ON -DBUILD_TESTING=ON -DBUILD_TUTORIALS=OFF -DWITH_CPP=ON '
+ '-DWITH_LIBEVENT=OFF -DWITH_QT5=OFF -DWITH_AS3=OFF -DWITH_C_GLIB=OFF -DWITH_JAVA=OFF -DWITH_JAVASCRIPT=OFF '
+ '-DWITH_NODEJS=OFF -DWITH_PYTHON=OFF -DWITH_ZLIB=ON -DWITH_OPENSSL=ON')
+runtest = 'test'
+sanity_check_paths = {'files': ['bin/thrift', 'include/thrift/Thrift.h'], 'dirs': ['lib']}
+sanity_check_commands = ['thrift --version']

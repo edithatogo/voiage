@@ -1,0 +1,352 @@
+[build-system]
+requires = ["hatchling >=1.24", "hatch-vcs >=0.4"]
+build-backend = "hatchling.build"
+
+[project]
+name = "scikit_build_core"
+authors = [
+    { name = "Henry Schreiner", email = "henryfs@princeton.edu" },
+]
+description = "Build backend for CMake based projects"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "Apache-2.0"
+classifiers = [
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Build Tools",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: Free Threading :: 4 - Resilient",
+    "Development Status :: 4 - Beta",
+    "Typing :: Typed",
+]
+
+dynamic = ["version"]
+
+dependencies = [
+    "exceptiongroup >=1.0; python_version<'3.11'",
+    "importlib-resources >=1.3; python_version<'3.9'",
+    "packaging >=23.2",
+    "pathspec >=0.12.0",
+    "tomli >=1.2.2; python_version<'3.11'",
+    "typing-extensions >=4; python_version<'3.11'",
+]
+# Note: cmake and possibly ninja are also required if those are not already
+# present (user controllable) - but a system version is fine.
+
+[project.optional-dependencies]
+pyproject = [
+]
+wheels = [
+    "cmake",
+    "ninja; sys_platform!='win32'",
+]
+wheel-free-setuptools = [
+    'setuptools>=70.1; python_version>="3.8"',
+]
+
+[project.urls]
+Changelog = "https://scikit-build-core.readthedocs.io/en/latest/changelog.html"
+Discussions = "https://github.com/orgs/scikit-build/discussions"
+Documentation = "https://scikit-build-core.readthedocs.io"
+Homepage = "https://github.com/scikit-build/scikit-build-core"
+Issues = "https://github.com/scikit-build/scikit-build-core/issues"
+
+[project.entry-points]
+"distutils.commands".build_cmake = "scikit_build_core.setuptools.build_cmake:BuildCMake"
+"distutils.setup_keywords".cmake_source_dir = "scikit_build_core.setuptools.build_cmake:cmake_source_dir"
+"distutils.setup_keywords".cmake_args = "scikit_build_core.setuptools.build_cmake:cmake_args"
+"distutils.setup_keywords".cmake_install_target = "scikit_build_core.setuptools.build_cmake:cmake_install_target"
+"setuptools.finalize_distribution_options".scikit_build_entry = "scikit_build_core.setuptools.build_cmake:finalize_distribution_options"
+"validate_pyproject.tool_schema".scikit-build = "scikit_build_core.settings.skbuild_schema:get_skbuild_schema"
+hatch.scikit-build = "scikit_build_core.hatch.hooks"
+
+
+[dependency-groups]
+test-core = [
+    "build >=0.8",
+    "cattrs >=22.2",
+    "filelock >=3.8",
+    "hatchling >=1.24",
+    "hatch-vcs >=0.4",
+    "pip>=23; python_version<'3.13'",
+    "pip>=24.1; python_version>='3.13'",
+    "pytest >=7.2",
+    "pytest-subprocess >=1.5",
+    'setuptools >=43; python_version<"3.9"',
+    'setuptools >=45; python_version=="3.9"',
+    'setuptools >=49; python_version>="3.10" and python_version<"3.12"',
+    'setuptools >=66.1; python_version>="3.12"',
+    'typing-extensions >=3.10; python_version<"3.10"',
+    "virtualenv >=20.20",
+    "wheel >=0.40",
+]
+test-parallel = [
+    { include-group = "test-core" },
+    'pytest-xdist >=3.1',
+]
+test-meta = [
+    { include-group = "test-core" },
+    "hatch-fancy-pypi-readme>=23.2",
+    "setuptools-scm>=5",
+]
+test-numpy = [
+    { include-group = "test-core" },
+    "numpy>=1.24.1; python_version<'3.15' and platform_python_implementation!='PyPy' and (platform_system != 'Windows' or platform_machine != 'ARM64')",
+    "numpy~=1.24.1; python_version=='3.8' and platform_python_implementation=='PyPy'",
+    "numpy~=2.0; python_version=='3.9' and platform_python_implementation=='PyPy'",
+    "numpy~=2.2; python_version=='3.10' and platform_python_implementation=='PyPy'",
+    "numpy~=2.4.1; python_version=='3.11' and platform_python_implementation=='PyPy'",
+]
+test-pybind11 = [
+    { include-group = "test-core" },
+    "pybind11 >=2.11",
+]
+test-schema = [
+    { include-group = "test-core" },
+    "fastjsonschema>=2.16.2",
+    "validate-pyproject>=0.21",
+]
+test = [
+    { include-group = "test-core" },
+    { include-group = "test-meta" },
+    { include-group = "test-numpy" },
+    { include-group = "test-parallel" },
+    { include-group = "test-pybind11" },
+]
+cov = [
+    { include-group = "test" },
+    "pytest-cov",
+]
+dev = [
+    { include-group = "cov" },
+    { include-group = "test" },
+    { include-group = "test-schema" },
+    "rich",
+]
+docs = [
+    "click-extra[sphinx]",
+    "erbsland-sphinx-ansi; python_version>='3.10'",
+    "furo",
+    "hatchling",
+    "myst-parser >=0.13",
+    "setuptools",
+    "sphinx >=7.0",
+    "sphinx-autodoc-typehints != 3.9.6",
+    "sphinx-copybutton",
+    "sphinx-inline-tabs",
+    "sphinx-jsonschema",
+    "sphinx-tippy",
+    "sphinxcontrib-programoutput >=0.19",
+]
+
+
+[tool.hatch]
+version.source = "vcs"
+build.hooks.vcs.version-file = "src/scikit_build_core/_version.py"
+
+
+[tool.uv]
+workspace.members = ["tmp/hello/hello"]
+
+
+[tool.pytest.ini_options]
+minversion = "7.2"
+addopts = ["-ra", "--strict-markers", "--strict-config"]
+xfail_strict = true
+filterwarnings = [
+    "error",
+    "ignore:Config variable '.*' is unset, Python ABI tag may be incorrect:RuntimeWarning",
+    "default:pkg_resources is deprecated as an API:DeprecationWarning:wheel",  # Caused by wheel<0.41 in tests
+    "default:The 'wheel' package is no longer the canonical location:DeprecationWarning",  # Caused by wheel also
+    "default:onerror argument is deprecated, use onexc instead:DeprecationWarning:wheel", # Caused by wheel<0.41 & Python 3.12
+    "default:The distutils package is deprecated and slated for removal:DeprecationWarning",  # Caused by setuptools sometimes
+    "default:The distutils.sysconfig module is deprecated, use sysconfig instead:DeprecationWarning",  # Caused by setuptools sometimes
+    "default:check_home argument is deprecated and ignored.:DeprecationWarning",  # Caused by setuptools sometimes
+    "ignore::scikit_build_core._vendor.pyproject_metadata.errors.ConfigurationWarning",
+    "ignore:'_UnionGenericAlias' is deprecated and slated for removal in Python 3.17:DeprecationWarning",  # From cattrs 24.1.2 and other?
+    "ignore:The 'wheel.metadata' package has been made private:DeprecationWarning",
+    "ignore:version of cmake-example already set:UserWarning",  # Caused by setuptoools-scm 9+ being installed
+]
+log_level = "INFO"
+pythonpath = ["tests/utils"]
+testpaths = ["tests"]
+markers = [
+    "broken_on_urct: Broken for now due to lib not found",
+    "compile: Compiles code",
+    "configure: Configures CMake code",
+    "fortran: Fortran code",
+    "integration: Full package build",
+    "isolated: Needs an isolated virtualenv",
+    "network: Needs a network connection to setup or run",
+    "setuptools: Tests setuptools integration",
+    "upstream: Intended to check our own development",
+    "virtualenv: Needs a virtualenv",
+]
+norecursedirs = ["tests/packages/**"]
+
+
+[tool.mypy]
+files = ["src", "tests", "noxfile.py"]
+exclude = [
+    '^tests/packages/simplest_c/src/simplest/__init__.py',
+    '^tests/packages/dynamic_metadata/src/dynamic/__init__.py',
+    '^tests/packages/.*/setup.py',
+    '^tests/packages/extensionlib/*',
+]
+mypy_path = ["$MYPY_CONFIG_FILE_DIR/src", "$MYPY_CONFIG_FILE_DIR/tests/utils"]
+python_version = "3.9"
+warn_unused_configs = true
+warn_unreachable = false
+enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
+strict = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+[[tool.mypy.overrides]]
+module = ["scikit_build_core.*"]
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[[tool.mypy.overrides]]
+module = ["numpy", "setuptools_scm", "hatch_fancy_pypi_readme", "virtualenv"]
+ignore_missing_imports = true
+
+
+[tool.pylint]
+py-version = "3.8"
+jobs = "0"
+reports.output-format = "colorized"
+good-names = ["f"]
+messages_control.disable = [
+    "design",
+    "fixme",
+    "import-outside-toplevel",
+    "invalid-name",
+    "line-too-long",
+    "missing-class-docstring",
+    "missing-function-docstring",
+    "missing-function-docstring",
+    "missing-module-docstring",
+    "wrong-import-position",
+    "unnecessary-ellipsis",  # Conflicts with Protocols
+    "broad-except",
+    "unused-argument",  # Handled by Ruff
+    "redefined-builtin",  # ExceptionGroup is a builtin
+    "using-exception-groups-in-unsupported-version",  # We are using a backport
+    "duplicate-code", # Trips up on version
+]
+
+
+[tool.coverage]
+run.source = ["scikit_build_core"]
+run.omit = ["src/scikit_build_core/_vendor"]
+run.disable_warnings = [
+  "module-not-measured",  # Triggers in multithreaded context on build
+  "no-sysmon",
+  "couldnt-parse",  # site-customize is unparsable on latest GHA windows versions
+]
+report.exclude_also = [
+    '\.\.\.',
+    'if typing.TYPE_CHECKING:',
+    'if TYPE_CHECKING:',
+    'def __repr__',
+    'if __name__ == "main":',
+]
+
+
+[tool.check-wheel-contents]
+ignore = ["W002"]  # Triggers on __init__.py's
+
+
+[tool.ruff]
+show-fixes = true
+exclude = ["src/scikit_build_core/_vendor/*"]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "ANN401",  # Disallow Any
+    "C90",     # Complexity
+    "COM",     # Trailing commas teach the formatter
+    "D",       # Too many doc requests
+    "E501",    # Line too long
+    "ERA",     # Commented out code
+    "FIX",     # Hacks and todos
+    "PLC0415", # Import should be at top of file
+    "PLE1205", # Format check doesn't work with our custom logger
+    "PLR09",   # Too many ...
+    "PLR2004", # Magic value used in comparison
+    "PT013",   # It's correct to import classes for typing!
+    "S101",    # Use of assert detected
+    "S404",    # subprocess module is possibly insecure
+    "S603",    # subprocess untrusted input
+    "S607",    # subprocess call
+    "SLF001",  # Private members are okay to access
+    "TD",      # Todo format
+    "TID252",  # Relative imports are fine
+]
+typing-modules = ["scikit_build_core._compat.typing"]
+isort.known-local-folder = ["pathutils"]
+flake8-bugbear.extend-immutable-calls = [
+  "packaging.version.Version",
+  "packaging.specifiers.SpecifierSet",
+]
+flake8-builtins.ignorelist = ["copyright", "license", "__doc__"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"typing.Callable".msg = "Use collections.abc.Callable instead."
+"typing.Iterator".msg = "Use collections.abc.Iterator instead."
+"typing.Mapping".msg = "Use collections.abc.Mapping instead."
+"typing.Sequence".msg = "Use collections.abc.Sequence instead."
+"typing.Set".msg = "Use collections.abc.Set instead."
+"typing.Self".msg = "Use scikit_build_core._compat.typing.Self instead."
+"typing_extensions.Self".msg = "Use scikit_build_core._compat.typing.Self instead."
+"typing.assert_never".msg = "Add scikit_build_core._compat.typing.assert_never instead."
+"tomli".msg = "Use scikit_build_core._compat.tomllib instead."
+"tomllib".msg = "Use scikit_build_core._compat.tomllib instead."
+"importlib_metadata".msg = "Use importlib.metadata directly instead."
+"importlib.metadata.entry_points".msg = "Use scikit_build_core._compat.importlib.metadata.entry_points instead."
+"importlib.resources".msg = "Use scikit_build_core._compat.importlib.resources instead."
+"importlib_resources".msg = "Use scikit_build_core._compat.importlib.resources instead."
+"pyproject_metadata".msg = "Use scikit_build_core._vendor.pyproject_metadata instead."
+
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["T20", "ANN", "FBT001", "INP"]
+"noxfile.py" = ["T20", "TID251"]
+"src/scikit_build_core/resources/*.py" = ["PTH", "ARG002", "FBT", "TID251"]
+"src/scikit_build_core/_compat/**.py" = ["TID251"]
+"src/scikit_build_core/settings/**.py" = ["FBT001", "FA"]
+"src/scikit_build_core/file_api/**.py" = ["FA"]
+"tests/conftest.py" = ["TID251"]
+"tests/packages/**.py" = ["TID251"]
+"tests/test_settings.py" = ["FA"]
+"docs/**" = ["INP"]
+"docs/conf.py" = ["TID251"]
+"docs/examples/**" = ["ANN"]
+"src/scikit_build_core/file_api/model/*.py" = ["N"]
+"**/__main__.py" = ["T20"]
+
+
+[tool.check-sdist]
+sdist-only = ["src/scikit_build_core/_version.py"]
+
+
+[tool.typos.default.extend-words]
+delocate = "delocate"

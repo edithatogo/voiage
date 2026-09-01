@@ -43,18 +43,14 @@ def test_easyconfig_runtime_pins_satisfy_release_requirements(year: str) -> None
         name.lower().replace("_", "-"): version
         for name, version in config["dependencies"]
     }
-    if year == "2024a":
-        assert "pyarrow" not in pins
-        assert pins["arrow"] == "25.0.1"
-        pins["pyarrow"] = pins["arrow"]
-    else:
-        assert pins["pyarrow"] == "25.0.0"
+    assert "pyarrow" not in pins
+    assert pins["arrow"] == "25.0.1"
+    pins["pyarrow"] = pins["arrow"]
     for text in requirements:
         requirement = Requirement(text)
         assert pins[requirement.name.lower().replace("_", "-")] in requirement.specifier
     expected_runtime_pins = dict(smoke.RUNTIME_PINS)
-    if year == "2024a":
-        expected_runtime_pins["pyarrow"] = "25.0.1"
+    expected_runtime_pins["pyarrow"] = "25.0.1"
     assert {name: pins[name] for name in expected_runtime_pins} == expected_runtime_pins
     assert config["version"] == "2.2.0"
     assert config["toolchain"] == {"name": "foss", "version": year}

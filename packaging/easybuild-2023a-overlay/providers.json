@@ -255,5 +255,20 @@
       }
     ]
   },
-  "full_voiage_graph": false
+  "full_voiage_graph": false,
+  "external_provider_overlays": {
+    "pyarrow": "packaging/easybuild-2023a-arrow-overlay"
+  },
+  "external_provider_evidence": {
+    "pyarrow": {
+      "version": "25.0.1",
+      "manifest": "packaging/easybuild-2023a-arrow-overlay/manifest.json",
+      "manifest_sha256": "64adbcafe943a4238da1261f132b18c957bcab1dedbbd361cf9a7a5442cd0617",
+      "native_build_executed": false,
+      "full_voiage_ready": false,
+      "consumer_recipe": "packaging/easybuild/voiage-2.2.0-foss-2023a.eb",
+      "consumer_recipe_sha256": "95d353ae1758c9471f99c9ae114e035251c3eda4c00bfd53e1018d432bd82fe2",
+      "consumer_dependency": "Arrow/25.0.1"
+    }
+  }
 }
