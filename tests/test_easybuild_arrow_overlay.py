@@ -20,7 +20,8 @@ SOURCE = OVERLAY / "evidence/source"
 
 
 def _recipe(name: str) -> dict[str, Any]:
-    path = next((OVERLAY / "2024a").glob(f"{name}-*.eb"))
+    path = next((OVERLAY / "2024a").glob(f"{name}-*.eb"), None)
+    assert path is not None, f"missing EasyBuild recipe for {name}"
     values: dict[str, Any] = {}
     for node in ast.parse(path.read_text()).body:
         if isinstance(node, ast.Assign):
