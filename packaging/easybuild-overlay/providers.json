@@ -329,9 +329,7 @@
       ]
     }
   },
-  "deferred_voiage_dependencies": [
-    "pyarrow"
-  ],
+  "deferred_voiage_dependencies": [],
   "foss_2023a_prepared": false,
   "whole_voiage_graph_resolved": false,
   "build_only_provider_overrides": {
@@ -346,6 +344,19 @@
   "external_provider_overlays": {
     "pydantic": "packaging/easybuild-2024a-rust-overlay",
     "jsonschema": "packaging/easybuild-2024a-rust-overlay",
-    "polars": "packaging/easybuild-2024a-polars-overlay"
+    "polars": "packaging/easybuild-2024a-polars-overlay",
+    "pyarrow": "packaging/easybuild-2024a-arrow-overlay"
+  },
+  "external_provider_evidence": {
+    "pyarrow": {
+      "version": "25.0.1",
+      "manifest": "packaging/easybuild-2024a-arrow-overlay/manifest.json",
+      "manifest_sha256": "de736380795902122bd0a25a1f05c7d07589f5e5b874bb2b539e9a20d5db7a66",
+      "native_build_executed": false,
+      "full_voiage_ready": false,
+      "consumer_recipe": "packaging/easybuild/voiage-2.2.0-foss-2024a.eb",
+      "consumer_recipe_sha256": "372e30dee9f40874514ac09c89c61d9cf3677f80edabda0cebb49955540b365f",
+      "consumer_dependency": "Arrow/25.0.1"
+    }
   }
 }
