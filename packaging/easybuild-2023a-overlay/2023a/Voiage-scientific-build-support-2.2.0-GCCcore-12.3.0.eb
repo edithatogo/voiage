@@ -1,0 +1,17 @@
+easyblock = "PythonBundle"
+name = "Voiage-scientific-build-support"
+version = "2.2.0"
+homepage = "https://github.com/edithatogo/voiage"
+description = "Build-only Python backend provider for the Voiage scientific consumer bundle."
+toolchain = {"name": "GCCcore", "version": "12.3.0"}
+dependencies = [("Python", "3.12.14")]
+use_pip = True
+pip_no_index = True
+pip_no_build_isolation = True
+pip_ignore_installed = True
+download_dep_fail = True
+sanity_pip_check = True
+moduleclass = "devel"
+exts_list = [
+    ("setuptools", "84.0.0", {"sources": ["setuptools-84.0.0.tar.gz"], "source_urls": ["https://files.pythonhosted.org/packages/source/s/setuptools/"], "checksums": ["f4695c21257f0d9b537ec2692c941d02ee143b7cc1276941349a546573b2ef73"]}),
+]

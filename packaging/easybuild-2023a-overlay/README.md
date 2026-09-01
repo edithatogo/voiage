@@ -5,9 +5,9 @@ Voiage 2.2.0. It preserves GCC 12.3.0 and the gfbf 2023a subset of foss 2023a.
 It does not establish a complete Voiage installation or a native build.
 The separate [2024a evidence](../easybuild-overlay/README.md) is unchanged.
 
-Eighteen local recipes cover Python, Meson, meson-python, Ninja, Cython, hatchling,
+Twenty local recipes cover Python, Meson, meson-python, Ninja, Cython, hatchling,
 pybind11, scientific providers, CLI/date support and scientific test helpers.
-The source manifest binds 66 downloaded archives. Backend requirements are
+The source manifests bind 71 downloaded archives. Backend requirements are
 checked in installation order against the actual module providers. NumPy
 2.2.6, SciPy 1.16.3 and pandas 2.3.3 remain within the release constraints.
 SciPy slow tests and the NumPy/SciPy failure gates remain enabled.
@@ -73,8 +73,21 @@ from the 1.1 wrapper to the 3 wrapper. Their downloaded sources contain OpenSSL
 This removes the old 1.1.1w fallback from the foundation graph without claiming
 that every inherited native package is security-qualified.
 
-The complete xarray, scikit-learn, Arrow/PyArrow, Rust/Polars, Pydantic and
-JSON Schema families remain pending. Neither foss generation has an installed
+The Arrow/PyArrow, Rust/Polars, Pydantic and JSON Schema families remain
+pending. The xarray and scikit-learn recipes are resolved but have not been
+natively built or loaded. Neither foss generation has an installed
 Voiage stack established by this packet. Native Linux ARM64 builds, installed
 module/CLI/numerical/Arrow checks and upstream review remain separate gates.
 No x86-64, scheduler, production cluster or upstream acceptance is claimed.
+
+## Scientific consumer providers
+
+`Voiage-scientific-consumers/2.2.0-gfbf-2023a` supplies the same checksum-pinned
+xarray 2024.11.0, scikit-learn 1.7.2, joblib 1.5.3 and threadpoolctl 3.6.0
+provider set on the 2023a foundation. Joblib uses an isolated setuptools 84
+build-only provider while the foundation setuptools 70 provider remains intact.
+The build requirements are recorded in
+`scientific-consumer-sources.json`; the corresponding EasyBuild 5.4 robot dry
+run is retained in `evidence/scientific-consumers-robot.log`. This evidence is
+dependency resolution only. No native package build, installed module smoke,
+full Voiage graph, cluster qualification, or upstream submission is claimed.

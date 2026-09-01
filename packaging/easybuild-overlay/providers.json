@@ -303,16 +303,47 @@
       "recipes": [
         "2024a/meson-python-0.16.0-GCCcore-13.3.0.eb"
       ]
+    },
+    "joblib": {
+      "version": "1.5.3",
+      "recipes": [
+        "2024a/Voiage-scientific-consumers-2.2.0-gfbf-2024a.eb"
+      ]
+    },
+    "threadpoolctl": {
+      "version": "3.6.0",
+      "recipes": [
+        "2024a/Voiage-scientific-consumers-2.2.0-gfbf-2024a.eb"
+      ]
+    },
+    "xarray": {
+      "version": "2024.11.0",
+      "recipes": [
+        "2024a/Voiage-scientific-consumers-2.2.0-gfbf-2024a.eb"
+      ]
+    },
+    "scikit-learn": {
+      "version": "1.7.2",
+      "recipes": [
+        "2024a/Voiage-scientific-consumers-2.2.0-gfbf-2024a.eb"
+      ]
     }
   },
   "deferred_voiage_dependencies": [
-    "xarray",
-    "scikit-learn",
     "pyarrow",
     "polars",
     "pydantic",
     "jsonschema"
   ],
   "foss_2023a_prepared": false,
-  "whole_voiage_graph_resolved": false
+  "whole_voiage_graph_resolved": false,
+  "build_only_provider_overrides": {
+    "setuptools": {
+      "version": "84.0.0",
+      "recipes": [
+        "2024a/Voiage-scientific-build-support-2.2.0-GCCcore-13.3.0.eb"
+      ],
+      "consumer": "2024a/Voiage-scientific-consumers-2.2.0-gfbf-2024a.eb"
+    }
+  }
 }

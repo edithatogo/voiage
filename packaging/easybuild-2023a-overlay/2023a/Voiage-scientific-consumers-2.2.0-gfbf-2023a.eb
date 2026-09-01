@@ -1,0 +1,24 @@
+easyblock = "PythonBundle"
+name = "Voiage-scientific-consumers"
+version = "2.2.0"
+homepage = "https://github.com/edithatogo/voiage"
+description = "Source-bound xarray and scikit-learn providers for Voiage 2.2.0."
+toolchain = {"name": "gfbf", "version": "2023a"}
+builddependencies = [("Voiage-scientific-build-support", "2.2.0"), ("Cython", "3.0.10"), ("meson-python", "0.16.0")]
+dependencies = [("Python", "3.12.14"), ("SciPy-bundle", "2026.09", "-voiage-2.2.0"), ("Voiage-Python-support", "2.2.0")]
+use_pip = True
+pip_no_index = True
+pip_no_build_isolation = True
+pip_ignore_installed = True
+download_dep_fail = True
+sanity_pip_check = True
+moduleclass = "data"
+exts_list = [
+    ("joblib", "1.5.3", {"sources": ["joblib-1.5.3.tar.gz"], "source_urls": ["https://files.pythonhosted.org/packages/41/f2/d34e8b3a08a9cc79a50b2208a93dce981fe615b64d5a4d4abee421d898df/"], "checksums": ["8561a3269e6801106863fd0d6d84bb737be9e7631e33aaed3fb9ce5953688da3"]}),
+    ("threadpoolctl", "3.6.0", {"sources": ["threadpoolctl-3.6.0.tar.gz"], "source_urls": ["https://files.pythonhosted.org/packages/b7/4d/08c89e34946fce2aec4fbb45c9016efd5f4d7f24af8e5d93296e935631d8/"], "checksums": ["8ab8b4aa3491d812b623328249fab5302a68d2d71745c8a4c719a2fcaba9f44e"]}),
+    ("xarray", "2024.11.0", {"sources": ["xarray-2024.11.0.tar.gz"], "source_urls": ["https://files.pythonhosted.org/packages/3f/d6/5ae0a721bd6cac85b30cff6b119dc6b5e73b735aacbfb43d3ed2680504d7/"], "checksums": ["1ccace44573ddb862e210ad3ec204210654d2c750bec11bbe7d842dfc298591f"]}),
+    ("scikit-learn", "1.7.2", {"modulename": "sklearn", "sources": ["scikit_learn-1.7.2.tar.gz"], "source_urls": ["https://files.pythonhosted.org/packages/98/c2/a7855e41c9d285dfe86dc50b250978105dce513d6e459ea66a6aeb0e1e0c/"], "checksums": ["20e9e49ecd130598f1ca38a1d85090e1a600147b9c02fa6f15d69cb53d968fda"]}),
+]
+sanity_check_commands = [
+    "python -c \"import xarray as xr; from sklearn.linear_model import LinearRegression; assert float(xr.DataArray([1.0, 3.0]).mean()) == 2.0; assert LinearRegression().fit([[0.0], [1.0]], [0.0, 2.0]).predict([[2.0]])[0] == 4.0\"",
+]

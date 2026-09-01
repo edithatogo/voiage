@@ -9,6 +9,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
     delivery and Codecov controls (#656), measured opt-in testing (#1028), HPC
     recipes (#1025), remaining issue evidence, protected PR merges and verified
     cleanup. Keep unsatisfied human and external outcomes open.
+    *   [x] Add checksum-bound xarray 2024.11.0 and scikit-learn 1.7.2 provider recipes for both EasyBuild generations; native module qualification remains pending.
     *   [x] Enforce the NLTK 3.10.3 manuscript-tool security floor and retain a
         bounded disposition for the unpatched model-persistence advisory.
 

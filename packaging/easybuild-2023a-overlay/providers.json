@@ -229,7 +229,31 @@
         "version": "0.16.0"
       }
     ],
-    "pybind11-2.13.6-GCC-12.3.0.eb": []
+    "pybind11-2.13.6-GCC-12.3.0.eb": [],
+    "Voiage-scientific-consumers-2.2.0-gfbf-2023a.eb": [
+      {
+        "name": "joblib",
+        "version": "1.5.3"
+      },
+      {
+        "name": "threadpoolctl",
+        "version": "3.6.0"
+      },
+      {
+        "name": "xarray",
+        "version": "2024.11.0"
+      },
+      {
+        "name": "scikit-learn",
+        "version": "1.7.2"
+      }
+    ],
+    "Voiage-scientific-build-support-2.2.0-GCCcore-12.3.0.eb": [
+      {
+        "name": "setuptools",
+        "version": "84.0.0"
+      }
+    ]
   },
   "full_voiage_graph": false
 }
