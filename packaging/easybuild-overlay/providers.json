@@ -330,8 +330,7 @@
     }
   },
   "deferred_voiage_dependencies": [
-    "pyarrow",
-    "polars"
+    "pyarrow"
   ],
   "foss_2023a_prepared": false,
   "whole_voiage_graph_resolved": false,
@@ -346,6 +345,7 @@
   },
   "external_provider_overlays": {
     "pydantic": "packaging/easybuild-2024a-rust-overlay",
-    "jsonschema": "packaging/easybuild-2024a-rust-overlay"
+    "jsonschema": "packaging/easybuild-2024a-rust-overlay",
+    "polars": "packaging/easybuild-2024a-polars-overlay"
   }
 }

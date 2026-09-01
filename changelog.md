@@ -8,6 +8,8 @@
 
 ## Unreleased
 
+- Add a checksum-bound Polars 1.42.1 EasyBuild 2024a provider with an exact dated-nightly Rust compiler boundary while retaining native build, full-stack and upstream gates.
+
 - Make the estimation-variance property bound scale-aware so valid
   floating-point decompositions at large magnitudes do not fail spuriously.
 

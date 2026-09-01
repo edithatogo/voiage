@@ -1,0 +1,34 @@
+{
+  "schema": "voiage.easybuild-polars-sources.v1",
+  "sources": [
+    {
+      "name": "polars",
+      "version": "1.42.1",
+      "url": "https://files.pythonhosted.org/packages/27/99/fe77f10a13a778705ef05b499fc708c9a0b0a3680d9eb6bc6e1b6a6b9914/polars-1.42.1.tar.gz",
+      "filename": "polars-1.42.1.tar.gz",
+      "sha256": "2fe94f3059334650bd850ae19a9c165dcd5d9cb12cd95ea04de2201662e70e8a",
+      "bytes": 741532,
+      "download_hash_verified": true
+    },
+    {
+      "name": "polars-runtime-32",
+      "version": "1.42.1",
+      "url": "https://files.pythonhosted.org/packages/1f/59/15bcc4dac380c6d63efa5446d8317f22671cbd6c9dadd576bd17a334c45a/polars_runtime_32-1.42.1.tar.gz",
+      "filename": "polars_runtime_32-1.42.1.tar.gz",
+      "sha256": "4d4809e1c1b9a6611f6944f27b24abea902b5159e6b6fa262fd716e947af5afd",
+      "bytes": 3045460,
+      "download_hash_verified": true
+    }
+  ],
+  "rust_compiler": {
+    "version": "nightly-2026-04-01",
+    "reported_version": "1.96.0-nightly (48cc71ee8 2026-03-31)",
+    "source_commit": "48cc71ee88cd0f11217eced958b9930970da998b",
+    "url": "https://static.rust-lang.org/dist/2026-04-01/rustc-nightly-src.tar.xz",
+    "sha256": "9de9d7a01a3bd2ec3581fec866453061036914f6df153d0b25d5fdc54a28f035",
+    "bytes": 240051588,
+    "source_archive_verified_in": "packaging/spack-overlay/rust-source-audit.json"
+  },
+  "native_build_executed": false,
+  "upstream_submitted": false
+}

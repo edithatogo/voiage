@@ -97,8 +97,10 @@ is historical; use `evidence/scientific-robot-python31214.log` for this candidat
 
 ## Remaining work
 
-Backport Arrow/PyArrow and Polars with their complete native and source-build
-dependencies. The adjacent `easybuild-2024a-rust-overlay` supplies source-bound
+Backport Arrow/PyArrow with its complete native and source-build dependencies.
+The adjacent `easybuild-2024a-polars-overlay` resolves Polars and its dated-nightly
+Rust source boundary; native build and installed-module qualification remain pending.
+The adjacent `easybuild-2024a-rust-overlay` supplies source-bound
 Pydantic and JSON Schema providers, including the required newer rpds-py. Preserve
 stable versus dated-nightly Rust selection and vendor exact Cargo sources.
 The xarray and scikit-learn provider bundle is resolved for both requested

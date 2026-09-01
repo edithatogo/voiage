@@ -1,0 +1,25 @@
+easyblock = 'EB_Rust'
+name = 'Rust-nightly'
+version = '2026-04-01'
+homepage = 'https://www.rust-lang.org/'
+description = 'Checksum-bound dated nightly Rust compiler required by Polars 1.42.1.'
+toolchain = {'name': 'GCCcore', 'version': '13.3.0'}
+source_urls = ['https://static.rust-lang.org/dist/2026-04-01/']
+sources = ['rustc-nightly-src.tar.xz']
+patches = ['Rust-nightly-2026-04-01_sysroot-fix-interpreter.patch']
+checksums = [
+    '9de9d7a01a3bd2ec3581fec866453061036914f6df153d0b25d5fdc54a28f035',
+    'beb558ea39683772ff3b06e189e178604a3fa835f6a0f66be0e14d9cdb5512f1',
+]
+builddependencies = [
+    ('binutils', '2.42'),
+    ('CMake', '3.29.3'),
+    ('Python', '3.12.14'),
+    ('Ninja', '1.12.1'),
+    ('pkgconf', '2.2.0'),
+    ('patchelf', '0.18.0'),
+]
+dependencies = [('OpenSSL', '3', '', SYSTEM)]
+channel = 'nightly'
+configopts = '--set=rust.download-rustc=false --set=build.vendor=true --release-channel=nightly'
+moduleclass = 'lang'
