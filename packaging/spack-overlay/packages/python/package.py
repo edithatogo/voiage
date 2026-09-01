@@ -4,14 +4,13 @@
 
 """Preserve the pinned catalogue build with a security-maintained source."""
 
-from spack.package import depends_on, license, version  # noqa: A004 - Spack directive
+from spack.package import depends_on, version
 from spack_repo.builtin.packages.python.package import Python as BuiltinPython
 
 
 class Python(BuiltinPython):
     """Security-maintained source with the pinned catalogue's build semantics."""
 
-    license("0BSD")
     version(
         "3.12.14",
         sha256="6c6df908d2c3fd24e6d76869e92542abd0f33aec9dfc18df8875f89660286d43",

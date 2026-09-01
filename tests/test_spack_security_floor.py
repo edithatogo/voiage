@@ -62,7 +62,11 @@ def test_security_overlays_preserve_catalogue_methods_and_variants() -> None:
         calls = [
             node.value for node in classes[0].body if isinstance(node.value, ast.Call)
         ]
-        assert {node.func.id for node in calls} <= {"license", "version", "depends_on"}
+        assert {node.func.id for node in calls} <= {"version", "depends_on"}
+        # The builtin recipes already declare an unconditional license. Repeating
+        # it in a subclass makes Spack's SBOM hook reject the installed package
+        # with OverlappingLicenseError.
+        assert all(node.func.id != "license" for node in calls)
 
 
 def test_optional_parser_and_tls_floors_do_not_force_variants() -> None:
