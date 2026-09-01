@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections import defaultdict
 from statistics import fmean, pvariance
 
-from hypothesis import given, settings
+from hypothesis import example, given, settings
 from hypothesis import strategies as st
 import pytest
 
@@ -34,13 +34,18 @@ def _discrete_decomposition(
     split=st.integers(min_value=1, max_value=8),
 )
 @settings(max_examples=80, deadline=None)
+@example(
+    values=[699051.4296875, 0.0, 699051.4296875, 0.0, 699051.43359375],
+    split=2,
+)
 def test_discrete_evppi_var_obeys_total_variance(
     values: list[float], split: int
 ) -> None:
     groups = [index % split for index in range(len(values))]
     prior, expected_within, between = _discrete_decomposition(values, groups)
     assert prior == pytest.approx(expected_within + between, rel=1.0e-12, abs=1.0e-8)
-    assert 0.0 <= between <= prior + 1.0e-6
+    tolerance = max(1.0, abs(prior)) * 1.0e-12
+    assert 0.0 <= between <= prior + tolerance
 
 
 @given(
