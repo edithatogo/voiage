@@ -4,7 +4,7 @@ This local overlay prepares Python and scientific dependencies for Voiage
 2.2.0 on the requested foss 2024a hierarchy. It does not yet provide the
 complete Voiage dependency graph or the separate foss 2023a backport.
 
-The fifteen easyconfigs use GCCcore/GCC 13.3.0, gfbf 2024a, or the system
+The seventeen easyconfigs use GCCcore/GCC 13.3.0, gfbf 2024a, or the system
 OpenSSL wrapper. The compiler toolchains belong to the same foss generation. A real EasyBuild 5.4.0 dependency dry-run passed on
 macOS arm64 using an isolated Environment Modules 5.6.1 installation. The
 retained module list is dependency-resolution evidence, not a native build.
@@ -97,14 +97,28 @@ is historical; use `evidence/scientific-robot-python31214.log` for this candidat
 
 ## Remaining work
 
-Backport xarray, scikit-learn, Arrow/PyArrow, Polars, Pydantic and JSON Schema
-with their complete native and source-build dependencies. JSON Schema needs
+Backport Arrow/PyArrow, Polars, Pydantic and JSON Schema with their complete
+native and source-build dependencies. JSON Schema needs
 a newer rpds-py than the older catalogue support bundle provides. Preserve
 stable versus dated-nightly Rust selection and vendor exact Cargo sources.
-Then adapt the verified provider families to foss 2023a separately.
+The xarray and scikit-learn provider bundle is resolved for both requested
+generations, but still needs native build and installed-module qualification.
 
 A native ARM64 Linux VM can provide real build and module-load evidence for
 that architecture. It does not establish x86-64 compatibility, scheduler
 behavior, or production cluster performance. Both requested toolchain
 builds, installed numerical and Arrow smoke tests, and upstream review remain
 pending. No native Python/scientific build or upstream submission is claimed.
+
+## Scientific consumer providers
+
+`Voiage-scientific-consumers/2.2.0-gfbf-2024a` adds checksum-pinned
+xarray 2024.11.0 and scikit-learn 1.7.2, together with their selected joblib
+1.5.3 and threadpoolctl 3.6.0 runtime providers. Joblib 1.5.3 uses an isolated setuptools 84 build-only provider; the
+foundation setuptools 70 provider remains unchanged. The source inventory records
+the upstream build and runtime requirements. The EasyBuild 5.4 robot dry run
+in `evidence/scientific-consumers-robot.log` resolves the recipe against the
+pinned catalogue revision and this overlay. It parses and resolves the graph;
+it does not compile sources, load the resulting module, or qualify a full
+Voiage installation. `native_python_or_scientific_builds_executed` and
+`full_voiage_ready` therefore remain false.

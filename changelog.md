@@ -12,6 +12,10 @@
   evidence to the reviewed full manual check, while preserving its two NOTEs
   and keeping CRAN and rOpenSci actions external.
 
+- Add checksum-bound xarray 2024.11.0 and scikit-learn 1.7.2 EasyBuild
+  providers for both supported toolchain generations while retaining native
+  build and full-stack qualification as explicit pending gates.
+
 - Reconcile current pyOpenSci, JOSS and arXiv guidance with the verified
   withdrawal of earlier requests and journal-first sequencing while keeping
   the survey, human-written communication and authenticated submissions

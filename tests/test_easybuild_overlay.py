@@ -70,11 +70,16 @@ def test_provider_map_matches_actual_extensions_and_verified_source_hashes() -> 
     sources = json.loads((ROOT / "source-manifest-python31214.json").read_text())[
         "sources"
     ]
+    sources += json.loads((ROOT / "scientific-consumer-sources.json").read_text())[
+        "sources"
+    ]
     by = {(canonicalize_name(s["name"]), s["version"]): s for s in sources}
     actual = {}
     for path in sorted((ROOT / "2024a").glob("*.eb")):
         recipe = _recipe(path)
         assert recipe["toolchain"]["version"] in {"2024a", "13.3.0", ""}
+        if recipe["name"] == "Voiage-scientific-build-support":
+            continue
         for name, version, options in recipe.get("exts_list", []):
             normalized = canonicalize_name(name)
             if normalized in actual:
@@ -90,10 +95,24 @@ def test_provider_map_matches_actual_extensions_and_verified_source_hashes() -> 
             assert source["bytes"] > 0
             assert options["checksums"] == [source["sha256"]]
     assert providers == actual
+    assert json.loads((ROOT / "providers.json").read_text())[
+        "build_only_provider_overrides"
+    ] == {
+        "setuptools": {
+            "version": "84.0.0",
+            "recipes": [
+                "2024a/Voiage-scientific-build-support-2.2.0-GCCcore-13.3.0.eb"
+            ],
+            "consumer": "2024a/Voiage-scientific-consumers-2.2.0-gfbf-2024a.eb",
+        }
+    }
 
 
 def test_source_build_requirements_are_available_in_extension_order() -> None:
     sources = json.loads((ROOT / "source-manifest-python31214.json").read_text())[
+        "sources"
+    ]
+    sources += json.loads((ROOT / "scientific-consumer-sources.json").read_text())[
         "sources"
     ]
     by = {(canonicalize_name(s["name"]), s["version"]): s for s in sources}
@@ -170,10 +189,11 @@ def test_scientific_versions_stay_within_immutable_release_requirements() -> Non
 
 def test_robot_and_source_smoke_are_distinct_from_native_build_evidence() -> None:
     log = (ROOT / "evidence/scientific-robot-python31214.log").read_text()
+    consumer_log = (ROOT / "evidence/scientific-consumers-robot.log").read_text()
     assert "Dry run: printing build status" in log
     assert "SciPy-bundle/2026.09-gfbf-2024a-voiage-2.2.0" in log
     for path in (ROOT / "2024a").glob("*.eb"):
-        assert path.name in log
+        assert path.name in log or path.name in consumer_log
     for prefix in ["/Users/", "/Volumes/", "/var/folders/"]:
         assert prefix not in log
     smoke = json.loads((ROOT / "evidence/support-source-smoke.json").read_text())

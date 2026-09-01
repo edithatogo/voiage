@@ -78,7 +78,7 @@ def test_manifest_binds_every_owned_source_recipe_patch_and_receipt() -> None:
 
 def test_all_python_runtime_and_build_edges_use_current_patch() -> None:
     recipes = [_recipe(p) for p in (ROOT / "2023a").glob("*.eb")]
-    assert len(recipes) == 18
+    assert len(recipes) == 20
     for recipe in recipes:
         assert recipe["toolchain"]["version"] in {"12.3.0", "2023a", ""}
         if recipe["toolchain"]["version"] == "":
@@ -94,6 +94,9 @@ def test_all_python_runtime_and_build_edges_use_current_patch() -> None:
 
 def test_source_backends_and_runtime_requirements_follow_provider_order() -> None:
     sources = json.loads((ROOT / "source-manifest.json").read_text())["sources"]
+    sources += json.loads((ROOT / "scientific-consumer-sources.json").read_text())[
+        "sources"
+    ]
     by = {(canonicalize_name(s["name"]), s["version"]): s for s in sources}
     recipes = {_recipe(p)["name"]: _recipe(p) for p in (ROOT / "2023a").glob("*.eb")}
     environment = {
@@ -162,8 +165,9 @@ def test_scientific_and_pybind_test_constraints_remain_strict() -> None:
 
 def test_retained_robot_and_consumer_evidence_do_not_claim_native_build() -> None:
     log = (ROOT / "evidence/scientific-robot.log").read_text()
+    consumer_log = (ROOT / "evidence/scientific-consumers-robot.log").read_text()
     for path in (ROOT / "2023a").glob("*.eb"):
-        assert path.name in log
+        assert path.name in log or path.name in consumer_log
     edges = json.loads((ROOT / "evidence/native-bootstrap-edges.json").read_text())
     assert len(edges["updated_python_build_only_edges"]) == 4
     assert all(
@@ -236,8 +240,14 @@ def test_every_selected_source_hash_is_bound_by_an_active_recipe() -> None:
         source["sha256"]
         for source in json.loads((ROOT / "source-manifest.json").read_text())["sources"]
     }
+    source_hashes |= {
+        source["sha256"]
+        for source in json.loads(
+            (ROOT / "scientific-consumer-sources.json").read_text()
+        )["sources"]
+    }
     recipe_text = "\n".join(path.read_text() for path in (ROOT / "2023a").glob("*.eb"))
-    assert len(source_hashes) == 66
+    assert len(source_hashes) == 71
     for source_hash in source_hashes:
         assert source_hash in recipe_text
     patch_hashes = {
