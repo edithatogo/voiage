@@ -1,0 +1,35 @@
+{
+  "schema_version": "voiage.nltk-residual-advisory.v1",
+  "recorded_at": "2026-09-02",
+  "advisory": "GHSA-8mgp-746c-j5xp",
+  "cve": "CVE-2026-81726",
+  "upstream_advisory": "https://github.com/nltk/nltk/security/advisories/GHSA-8mgp-746c-j5xp",
+  "affected_versions": "<=3.10.3",
+  "patched_release": null,
+  "selected_version": "3.10.3",
+  "selection_basis": "The latest stable release fixes the advisories addressed by PR #1073; no stable release patches this residual advisory.",
+  "scope": [
+    "scripts/audit_arxiv_readability.py",
+    "scripts/audit_joss_readability.py"
+  ],
+  "scope_description": "Isolated review-only Textstat readability calculation with a fixed NLTK_DATA directory and the cmudict corpus.",
+  "affected_model_persistence_calls": [
+    "TransitionParser.train",
+    "TransitionParser.parse",
+    "AveragedPerceptron.save",
+    "AveragedPerceptron.load",
+    "PerceptronTagger.save_to_json",
+    "save_maxent_params"
+  ],
+  "affected_api_identifiers": [
+    "TransitionParser",
+    "AveragedPerceptron",
+    "PerceptronTagger",
+    "save_maxent_params"
+  ],
+  "callsite_audit": "The two readability scripts do not call the affected model persistence APIs and do not accept model import or export paths.",
+  "disposition": "bounded_not_reachable_in_declared_scope",
+  "limitations": "Callsite absence is bounded repository evidence, not a claim that NLTK 3.10.3 is vulnerability-free or that every transitive NLTK path is safe.",
+  "monitoring": "Retain the exact 3.10.3 pins and review upstream stable releases and security advisories before changing the isolated environments.",
+  "upgrade_rule": "Update both exact pins together to the first stable patched release, then refresh this disposition and its callsite audit."
+}

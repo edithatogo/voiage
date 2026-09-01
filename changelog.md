@@ -8,6 +8,10 @@
 
 ## Unreleased
 
+- Enforce NLTK 3.10.3 as the manuscript-tool security floor and record the
+  bounded, currently unpatched model-persistence advisory without claiming the
+  isolated readability environment is globally vulnerability-free.
+
 - Inherit builtin Spack licence metadata in the Python, Expat and OpenSSL security overlays so SBOM generation does not reject successful source installations.
 
 - Prepare an isolated Arrow/PyArrow 25.0.1 EasyBuild 2024a provider with
