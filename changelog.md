@@ -8,6 +8,9 @@
 
 ## Unreleased
 
+- Bind the 2023a Python interpreter archive in the HPC source manifest and
+  detect recipe checksums omitted from the verified source and patch inventory.
+
 - Pin the historical agent-assurance record's narrative with an independent
   canonical digest; retain the existing schema protection against report rewrites.
 

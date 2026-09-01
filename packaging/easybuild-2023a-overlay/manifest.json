@@ -2,7 +2,7 @@
   "schema": "voiage.easybuild-2023a-overlay.v1",
   "catalogue_commit": "58e8b5a48767cbed1bf5669675d9638580d7259f",
   "catalogue_archive_sha256": "a61620678eac2c3c164539570c61154884a4f3c8b8b88f8157217dac6035bbd1",
-  "source_count": 65,
+  "source_count": 66,
   "recipe_count": 18,
   "python": "3.12.14",
   "native_scientific_build": false,
@@ -43,7 +43,7 @@
     "2023a/pybind11-2.13.6-GCC-12.3.0.eb": "b02138b65ddffa57ad9965fb1becf9dae5253c2fcfa99c6f675a7a01a865843a",
     "LICENSE.easybuild": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643",
     "NOTICE": "0aff2c6fc898cd090cc184b73ee037cc645a81cd4496048d93c4e6cc5b1f5da8",
-    "README.md": "bbcac3773ed5df3d78e668da61608628ad15e2e8cde6a21525d96e740197c47a",
+    "README.md": "dcf08561a708ac08231d0d05e651fb679ca630bd3c9f16a292e53b33abdd3771",
     "catalogue-reference/BLIS-0.9.0-GCC-12.3.0.eb": "e01630052e8916de42051df5a2bc1d0746a72a107b160569873b646ea136afde",
     "catalogue-reference/CMake-3.26.3-GCCcore-12.3.0.eb": "e8d456d6e07862cd2bd82795f4e9fc7d767a2a99344d009966345320b468d8c7",
     "catalogue-reference/FlexiBLAS-3.3.1-GCC-12.3.0.eb": "c92d2654f1ed0357740d2e14932599cbe2710bf07e9b885b96043941700fb336",
@@ -62,6 +62,6 @@
     "evidence/strict-patch-checks.json": "62d1d8de6206af969964e529105001c0900abab10dbeb02a0f9826b9c18d26c2",
     "history/Python-3.11.5-custom-ctypes.patch": "b29c22f47587460149e05296ff09b29bf790a83e2b3b13fb2f42f5f236ad8ea7",
     "providers.json": "ac82abff9e72eb034bcbc04c119a90442f4ff2cfab68e4a85be1162dcf197d5a",
-    "source-manifest.json": "7e6aab7eb51712ed88e3bdbfd900d4bb9f8c150497eca764569af3b6bc2b858c"
+    "source-manifest.json": "658429bda40f5ae27c5d86650c747a9d7c64968588ef789cbaf6d830d6818147"
   }
 }

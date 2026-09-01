@@ -7,7 +7,7 @@ The separate [2024a evidence](../easybuild-overlay/README.md) is unchanged.
 
 Eighteen local recipes cover Python, Meson, meson-python, Ninja, Cython, hatchling,
 pybind11, scientific providers, CLI/date support and scientific test helpers.
-The source manifest binds 65 downloaded archives. Backend requirements are
+The source manifest binds 66 downloaded archives. Backend requirements are
 checked in installation order against the actual module providers. NumPy
 2.2.6, SciPy 1.16.3 and pandas 2.3.3 remain within the release constraints.
 SciPy slow tests and the NumPy/SciPy failure gates remain enabled.

@@ -5,6 +5,7 @@ import copy
 import hashlib
 import json
 from pathlib import Path
+import re
 from typing import Any
 
 from packaging.requirements import Requirement
@@ -236,11 +237,15 @@ def test_every_selected_source_hash_is_bound_by_an_active_recipe() -> None:
         for source in json.loads((ROOT / "source-manifest.json").read_text())["sources"]
     }
     recipe_text = "\n".join(path.read_text() for path in (ROOT / "2023a").glob("*.eb"))
-    assert len(source_hashes) == 65
+    assert len(source_hashes) == 66
     for source_hash in source_hashes:
         assert source_hash in recipe_text
-    for patch in (ROOT / "2023a").glob("*.patch"):
-        assert hashlib.sha256(patch.read_bytes()).hexdigest() in recipe_text
+    patch_hashes = {
+        hashlib.sha256(patch.read_bytes()).hexdigest()
+        for patch in (ROOT / "2023a").glob("*.patch")
+    }
+    recipe_hashes = set(re.findall(r'["\']([0-9a-f]{64})["\']', recipe_text))
+    assert recipe_hashes == source_hashes | patch_hashes
 
 
 def test_openssl_consumers_change_only_the_wrapper_dependency() -> None:

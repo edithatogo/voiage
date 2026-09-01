@@ -1,5 +1,5 @@
 {
-  "recorded_at": "2026-08-31T17:53:01.735051+00:00",
+  "recorded_at": "2026-09-01T09:36:38.947571+00:00",
   "source_bytes_verified": true,
   "sources": [
     {
@@ -1294,6 +1294,15 @@
       "url": "https://www.netlib.org/lapack/timing/timing.tgz",
       "sha256": "999c65f8ea8bd4eac7f1c7f3463d4946917afd20a997807300fe35d70122f3af",
       "bytes": 1059485,
+      "download_hash_verified": true
+    },
+    {
+      "name": "Python",
+      "version": "3.12.14",
+      "filename": "Python-3.12.14.tgz",
+      "url": "https://www.python.org/ftp/python/3.12.14/Python-3.12.14.tgz",
+      "sha256": "6c6df908d2c3fd24e6d76869e92542abd0f33aec9dfc18df8875f89660286d43",
+      "bytes": 27283714,
       "download_hash_verified": true
     }
   ]
