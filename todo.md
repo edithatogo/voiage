@@ -474,6 +474,8 @@ destination registry and publication decisions remain separate external gates.
         promotion, release and parent closure.
 
 *   [x] Implement estimation-focused variance-reduction VOI.
+    *   [x] Use a scale-aware tolerance for the floating-point total-variance
+        bound and retain the discovered large-magnitude counterexample.
     *   Conductor track: `estimation_focused_variance_voi_20260727`.
     *   Planned contract: v1.2.0; MoSCoW: Must; canonical requirements M14/M17.
     *   GitHub issue: #619, native sub-issue of #318 under programme #313.
