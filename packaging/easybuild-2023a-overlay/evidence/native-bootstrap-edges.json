@@ -1,0 +1,31 @@
+{
+  "scope": "Same-version native recipes with only build/test interpreter changed; no native build qualification",
+  "updated_python_build_only_edges": [
+    {
+      "path": "i/ICU/ICU-73.2-GCCcore-12.3.0.eb",
+      "sha256": "c8030d5e4048ecb0aff52eb4ca2409bf42ac5d2e4b7e780597dfd5b4305f2b6e",
+      "python_version": "3.12.14",
+      "dependency_type": "build-only"
+    },
+    {
+      "path": "b/BLIS/BLIS-0.9.0-GCC-12.3.0.eb",
+      "sha256": "e01630052e8916de42051df5a2bc1d0746a72a107b160569873b646ea136afde",
+      "python_version": "3.12.14",
+      "dependency_type": "build-only"
+    },
+    {
+      "path": "o/OpenBLAS/OpenBLAS-0.3.23-GCC-12.3.0.eb",
+      "sha256": "59eee6e61ae0278b83462b96f03eff638053bc57b594b0cbd1593e8c59757fcd",
+      "python_version": "3.12.14",
+      "dependency_type": "build-only"
+    },
+    {
+      "path": "f/FlexiBLAS/FlexiBLAS-3.3.1-GCC-12.3.0.eb",
+      "sha256": "c92d2654f1ed0357740d2e14932599cbe2710bf07e9b885b96043941700fb336",
+      "python_version": "3.12.14",
+      "dependency_type": "build-only"
+    }
+  ],
+  "native_build_executed": false,
+  "openblas_inherited_max_lapack_errors": 150
+}

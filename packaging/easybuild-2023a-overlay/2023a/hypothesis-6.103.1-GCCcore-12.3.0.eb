@@ -1,0 +1,117 @@
+easyblock = "PythonBundle"
+name = "hypothesis"
+version = "6.103.1"
+homepage = "https://github.com/HypothesisWorks/hypothesis"
+description = "Hypothesis and explicit test providers for the scientific backport."
+toolchain = {"name": "GCCcore", "version": "12.3.0"}
+builddependencies = [("binutils", "2.40"), ("hatchling", "1.24.2")]
+dependencies = [("Python", "3.12.14"), ("Voiage-Python-support", "2.2.0")]
+use_pip = True
+pip_no_index = True
+pip_ignore_installed = True
+download_dep_fail = True
+sanity_pip_check = True
+exts_list = [
+    (
+        "attrs",
+        "23.2.0",
+        {
+            "sources": ["attrs-23.2.0.tar.gz"],
+            "checksums": [
+                "935dc3b529c262f6cf76e50877d35a4bd3c1de194fd41f47a2b7ae8f19971f30"
+            ],
+        },
+    ),
+    (
+        "sortedcontainers",
+        "2.4.0",
+        {
+            "sources": ["sortedcontainers-2.4.0.tar.gz"],
+            "checksums": [
+                "25caa5a06cc30b6b83d11423433f65d1f9d76c4c6a0c90e3379eaa43b9bfdb88"
+            ],
+        },
+    ),
+    (
+        "iniconfig",
+        "2.0.0",
+        {
+            "sources": ["iniconfig-2.0.0.tar.gz"],
+            "checksums": [
+                "2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3"
+            ],
+        },
+    ),
+    (
+        "pluggy",
+        "1.5.0",
+        {
+            "sources": ["pluggy-1.5.0.tar.gz"],
+            "checksums": [
+                "2cffa88e94fdc978c4c574f15f9e59b7f4201d439195c3715ca9e2486f1d0cf1"
+            ],
+        },
+    ),
+    (
+        "pytest",
+        "8.2.2",
+        {
+            "sources": ["pytest-8.2.2.tar.gz"],
+            "checksums": [
+                "de4bb8104e201939ccdc688b27a89a7be2079b22e2bd2b07f806b6ba71117977"
+            ],
+        },
+    ),
+    (
+        "cloudpickle",
+        "3.1.2",
+        {
+            "sources": ["cloudpickle-3.1.2.tar.gz"],
+            "checksums": [
+                "7fda9eb655c9c230dab534f1983763de5835249750e85fbcef43aaa30a9a2414"
+            ],
+        },
+    ),
+    (
+        "doit",
+        "0.37.0",
+        {
+            "sources": ["doit-0.37.0.tar.gz"],
+            "checksums": [
+                "d3c72e0e46a8fa1ddabea8f830762402dee090caf33c30c2295ac7010db8f09c"
+            ],
+        },
+    ),
+    (
+        "pydevtool",
+        "0.3.0",
+        {
+            "sources": ["pydevtool-0.3.0.tar.gz"],
+            "checksums": [
+                "25e3ba4f3d33ccac33ee2b9775995848d49e9b318b7a146477fb5d52f786fc8a"
+            ],
+        },
+    ),
+    (
+        "rich-click",
+        "1.9.8",
+        {
+            "sources": ["rich_click-1.9.8.tar.gz"],
+            "checksums": [
+                "4008f921da88b5d91646c134ec881c1500e5a6b3f093e90e8f29400e09608371"
+            ],
+            "modulename": "rich_click",
+        },
+    ),
+    (
+        "hypothesis",
+        "6.103.1",
+        {
+            "sources": ["hypothesis-6.103.1.tar.gz"],
+            "checksums": [
+                "d299d5c21d6408eab3be670c94c974f3acf0b511c61fe81804b09091e393ee1f"
+            ],
+        },
+    ),
+]
+moduleclass = "tools"

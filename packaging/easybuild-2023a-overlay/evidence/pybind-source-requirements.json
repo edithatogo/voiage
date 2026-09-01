@@ -1,0 +1,51 @@
+{
+  "source_sha256": "e08cb87f4773da97fa7b5f035de8763abc656d87d5773e62f6da0587d1f0ec20",
+  "files": {
+    "CMakeLists.txt": {
+      "sha256": "1f7299afc056d4059f1fd00ccb5832a430b3052fa64604d6f32a497424f01b78",
+      "requirements": [
+        "cmake_minimum_required(VERSION 3.5)"
+      ]
+    },
+    "tests/CMakeLists.txt": {
+      "sha256": "17198a0ad1946c01dfacd2b0d16a0193336e3c362c2bcbb3a1cebc1a67424c78",
+      "requirements": [
+        "cmake_minimum_required(VERSION 3.5)",
+        "find_package(Boost 1.56)",
+        "pybind11_find_import(pytest VERSION 3.1)"
+      ]
+    },
+    "tests/test_embed/CMakeLists.txt": {
+      "sha256": "b9eb65ee4ec8c0be87f577e031b9565460625a6126378f990490a22a501f17f1",
+      "requirements": [
+        "find_package(Catch 2.13.9)"
+      ]
+    }
+  },
+  "chosen": {
+    "CMake": "3.26.3",
+    "Boost": "1.82.0",
+    "Catch2": "2.13.9",
+    "pytest": "8.2.2",
+    "Ninja": "1.11.1"
+  },
+  "native_build": false,
+  "python_build_system": {
+    "requires": [
+      "setuptools>=42",
+      "cmake>=3.18",
+      "ninja"
+    ],
+    "build-backend": "setuptools.build_meta"
+  },
+  "operational_install_paths": [
+    "PythonPackage.install_step",
+    "CMakeMake.install_step"
+  ],
+  "easyblocks_version": "5.4.0",
+  "easyblock_source_sha256": {
+    "p/pybind11.py": "58f315bf91ffbda804f1c7530cfd1ee9c85e64ba378f01710ab70a178f3a3627",
+    "generic/pythonpackage.py": "bac543e79fb75dd53fe02d126dca264e3e6bfaf624f9dc3c5e94c46b215e687c"
+  },
+  "pip_no_build_isolation_default": true
+}

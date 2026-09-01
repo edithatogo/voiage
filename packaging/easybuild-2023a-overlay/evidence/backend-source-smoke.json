@@ -1,0 +1,202 @@
+{
+  "recorded_at": "2026-08-31T17:26:42.046343+00:00",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "python": "Python 3.12.13",
+  "source_builds": [
+    {
+      "name": "pathspec",
+      "version": "0.12.1",
+      "url": "https://files.pythonhosted.org/packages/ca/bc/f35b8446f4531a7cb215605d100cd88b7ac6f44ab3fc94870c120ab3adbf/pathspec-0.12.1.tar.gz",
+      "filename": "pathspec-0.12.1.tar.gz",
+      "sha256": "a482d51503a1ab33b1c67a6c3813a26953dbdc71c31dacaef9a838c4e29f5712",
+      "bytes": 51043,
+      "download_hash_verified": true,
+      "requires_dist": null,
+      "build_system": {
+        "build-backend": "flit_core.buildapi",
+        "requires": [
+          "flit_core >=3.2,<4"
+        ]
+      }
+    },
+    {
+      "name": "pluggy",
+      "version": "1.5.0",
+      "url": "https://files.pythonhosted.org/packages/96/2d/02d4312c973c6050a18b314a5ad0b3210edb65a906f868e31c111dede4a6/pluggy-1.5.0.tar.gz",
+      "filename": "pluggy-1.5.0.tar.gz",
+      "sha256": "2cffa88e94fdc978c4c574f15f9e59b7f4201d439195c3715ca9e2486f1d0cf1",
+      "bytes": 67955,
+      "download_hash_verified": true,
+      "requires_dist": [
+        "pre-commit; extra == \"dev\"",
+        "tox; extra == \"dev\"",
+        "pytest; extra == \"testing\"",
+        "pytest-benchmark; extra == \"testing\""
+      ],
+      "build_system": {
+        "requires": [
+          "setuptools>=45.0",
+          "setuptools-scm[toml]>=6.2.3"
+        ],
+        "build-backend": "setuptools.build_meta"
+      }
+    },
+    {
+      "name": "editables",
+      "version": "0.5",
+      "url": "https://files.pythonhosted.org/packages/37/4a/986d35164e2033ddfb44515168a281a7986e260d344cf369c3f52d4c3275/editables-0.5.tar.gz",
+      "filename": "editables-0.5.tar.gz",
+      "sha256": "309627d9b5c4adc0e668d8c6fa7bac1ba7c8c5d415c2d27f60f081f8e80d1de2",
+      "bytes": 14744,
+      "download_hash_verified": true,
+      "requires_dist": null,
+      "build_system": {
+        "requires": [
+          "flit_core >=3.3"
+        ],
+        "build-backend": "flit_core.buildapi"
+      }
+    },
+    {
+      "name": "calver",
+      "version": "2022.6.26",
+      "url": "https://files.pythonhosted.org/packages/b5/00/96cbed7c019c49ee04b8a08357a981983db7698ae6de402e57097cefc9ad/calver-2022.6.26.tar.gz",
+      "filename": "calver-2022.6.26.tar.gz",
+      "sha256": "e05493a3b17517ef1748fbe610da11f10485faa7c416b9d33fd4a52d74894f8b",
+      "bytes": 6670,
+      "download_hash_verified": true,
+      "requires_dist": null,
+      "build_system": {
+        "requires": [
+          "setuptools"
+        ],
+        "build-backend": "setuptools.build_meta"
+      }
+    },
+    {
+      "name": "trove-classifiers",
+      "version": "2024.5.22",
+      "url": "https://files.pythonhosted.org/packages/98/01/e2bc94b71ebaa2c8092cd392caaf5ad42d55c5aaa21a575ab7684e080851/trove_classifiers-2024.5.22.tar.gz",
+      "filename": "trove_classifiers-2024.5.22.tar.gz",
+      "sha256": "8a6242bbb5c9ae88d34cf665e816b287d2212973c8777dfaef5ec18d72ac1d03",
+      "bytes": 16050,
+      "download_hash_verified": true,
+      "requires_dist": null,
+      "build_system": {
+        "requires": [
+          "setuptools",
+          "calver"
+        ],
+        "build-backend": "setuptools.build_meta"
+      }
+    },
+    {
+      "name": "hatchling",
+      "version": "1.24.2",
+      "url": "https://files.pythonhosted.org/packages/2d/18/dbb6b0c167c21429e4f4b03744f5da79d4a534f12c13fd41d2d3033b96da/hatchling-1.24.2.tar.gz",
+      "filename": "hatchling-1.24.2.tar.gz",
+      "sha256": "41ddc27cdb25db9ef7b68bef075f829c84cb349aa1bff8240797d012510547b0",
+      "bytes": 63973,
+      "download_hash_verified": true,
+      "requires_dist": [
+        "packaging>=23.2",
+        "pathspec>=0.10.1",
+        "pluggy>=1.0.0",
+        "tomli>=1.2.2; python_version < \"3.11\"",
+        "trove-classifiers"
+      ],
+      "build_system": {
+        "requires": [],
+        "build-backend": "hatchling.ouroboros",
+        "backend-path": [
+          "src"
+        ]
+      }
+    },
+    {
+      "name": "hatch-vcs",
+      "version": "0.4.0",
+      "url": "https://files.pythonhosted.org/packages/f5/c9/54bb4fa27b4e4a014ef3bb17710cdf692b3aa2cbc7953da885f1bf7e06ea/hatch_vcs-0.4.0.tar.gz",
+      "filename": "hatch_vcs-0.4.0.tar.gz",
+      "sha256": "093810748fe01db0d451fabcf2c1ac2688caefd232d4ede967090b1c1b07d9f7",
+      "bytes": 10917,
+      "download_hash_verified": true,
+      "requires_dist": [
+        "hatchling>=1.1.0",
+        "setuptools-scm>=6.4.0"
+      ],
+      "build_system": {
+        "requires": [
+          "hatchling>=1.1.0"
+        ],
+        "build-backend": "hatchling.build"
+      }
+    },
+    {
+      "name": "hatch-fancy-pypi-readme",
+      "version": "24.1.0",
+      "url": "https://files.pythonhosted.org/packages/b4/c2/c9094283a07dd96c5a8f7a5f1910259d40d2e29223b95dd875a6ca13b58f/hatch_fancy_pypi_readme-24.1.0.tar.gz",
+      "filename": "hatch_fancy_pypi_readme-24.1.0.tar.gz",
+      "sha256": "44dd239f1a779b9dcf8ebc9401a611fd7f7e3e14578dcf22c265dfaf7c1514b8",
+      "bytes": 28683,
+      "download_hash_verified": true,
+      "requires_dist": [
+        "hatchling",
+        "tomli; python_version < '3.11'",
+        "typing-extensions; python_version < '3.8'",
+        "hatch-fancy-pypi-readme[tests]; extra == 'dev'",
+        "mypy; extra == 'dev'",
+        "build; extra == 'tests'",
+        "pytest; extra == 'tests'",
+        "wheel; extra == 'tests'"
+      ],
+      "build_system": {
+        "requires": [
+          "hatchling"
+        ],
+        "build-backend": "hatchling.build"
+      }
+    },
+    {
+      "name": "hatch-requirements-txt",
+      "version": "0.4.1",
+      "url": "https://files.pythonhosted.org/packages/7c/04/3703d3caa354fd7148a5453724de70577a6010234d1e1f3ff6b98a4d3242/hatch_requirements_txt-0.4.1.tar.gz",
+      "filename": "hatch_requirements_txt-0.4.1.tar.gz",
+      "sha256": "2c686e5758fd05bb55fa7d0c198fdd481f8d3aaa3c693260f5c0d74ce3547d20",
+      "bytes": 6454,
+      "download_hash_verified": true,
+      "requires_dist": [
+        "hatchling>=0.21.0",
+        "packaging>=21.3"
+      ],
+      "build_system": {
+        "requires": [
+          "hatchling"
+        ],
+        "build-backend": "hatchling.build"
+      }
+    }
+  ],
+  "installed_versions": {
+    "calver": "2022.6.26",
+    "packaging": "24.0",
+    "pip": "24.0",
+    "editables": "0.5",
+    "pathspec": "0.12.1",
+    "hatch-requirements-txt": "0.4.1",
+    "hatchling": "1.24.2",
+    "setuptools": "70.0.0",
+    "hatch-fancy-pypi-readme": "24.1.0",
+    "pluggy": "1.5.0",
+    "trove-classifiers": "2024.5.22",
+    "wheel": "0.43.0",
+    "tomli": "2.0.1",
+    "typing_extensions": "4.16.0",
+    "flit_core": "3.12.0",
+    "setuptools-scm": "7.1.0",
+    "hatch-vcs": "0.4.0"
+  },
+  "pip_check": "PASS",
+  "native_scientific_build": false,
+  "scope": "Nine backend support distributions built from verified sdists in isolated host consumer; not EasyBuild module install"
+}
