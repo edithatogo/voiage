@@ -257,19 +257,31 @@
   },
   "full_voiage_graph": false,
   "external_provider_overlays": {
-    "pyarrow": "packaging/easybuild-2023a-arrow-overlay",
-    "polars": "packaging/easybuild-2023a-polars-overlay"
+    "pydantic": "packaging/easybuild-2023a-rust-overlay",
+    "jsonschema": "packaging/easybuild-2023a-rust-overlay",
+    "polars": "packaging/easybuild-2023a-polars-overlay",
+    "pyarrow": "packaging/easybuild-2023a-arrow-overlay"
   },
   "external_provider_evidence": {
-    "pyarrow": {
-      "version": "25.0.1",
-      "manifest": "packaging/easybuild-2023a-arrow-overlay/manifest.json",
-      "manifest_sha256": "64adbcafe943a4238da1261f132b18c957bcab1dedbbd361cf9a7a5442cd0617",
+    "pydantic": {
+      "version": "2.13.4",
+      "manifest": "packaging/easybuild-2023a-rust-overlay/manifest.json",
+      "manifest_sha256": "9267a7f4a20a45cb649e28c4dc383196b05c3c00b49247ea6e1133cddd281ac5",
       "native_build_executed": false,
       "full_voiage_ready": false,
       "consumer_recipe": "packaging/easybuild/voiage-2.2.0-foss-2023a.eb",
-      "consumer_recipe_sha256": "b790b991d84858adf1b4308424cf747f5c83492c5f3aa6afd4be3d99aeaada07",
-      "consumer_dependency": "Arrow/25.0.1"
+      "consumer_recipe_sha256": "653c6ad1f04c79f6e517f3d0336f4f4948459cc1d2de7e6056f37e1c1561fff0",
+      "consumer_dependency": "pydantic/2.13.4"
+    },
+    "jsonschema": {
+      "version": "4.26.0",
+      "manifest": "packaging/easybuild-2023a-rust-overlay/manifest.json",
+      "manifest_sha256": "9267a7f4a20a45cb649e28c4dc383196b05c3c00b49247ea6e1133cddd281ac5",
+      "native_build_executed": false,
+      "full_voiage_ready": false,
+      "consumer_recipe": "packaging/easybuild/voiage-2.2.0-foss-2023a.eb",
+      "consumer_recipe_sha256": "653c6ad1f04c79f6e517f3d0336f4f4948459cc1d2de7e6056f37e1c1561fff0",
+      "consumer_dependency": "jsonschema/4.26.0"
     },
     "polars": {
       "version": "1.42.1",
@@ -278,8 +290,18 @@
       "native_build_executed": false,
       "full_voiage_ready": false,
       "consumer_recipe": "packaging/easybuild/voiage-2.2.0-foss-2023a.eb",
-      "consumer_recipe_sha256": "b790b991d84858adf1b4308424cf747f5c83492c5f3aa6afd4be3d99aeaada07",
+      "consumer_recipe_sha256": "653c6ad1f04c79f6e517f3d0336f4f4948459cc1d2de7e6056f37e1c1561fff0",
       "consumer_dependency": "polars/1.42.1"
+    },
+    "pyarrow": {
+      "version": "25.0.1",
+      "manifest": "packaging/easybuild-2023a-arrow-overlay/manifest.json",
+      "manifest_sha256": "64adbcafe943a4238da1261f132b18c957bcab1dedbbd361cf9a7a5442cd0617",
+      "native_build_executed": false,
+      "full_voiage_ready": false,
+      "consumer_recipe": "packaging/easybuild/voiage-2.2.0-foss-2023a.eb",
+      "consumer_recipe_sha256": "653c6ad1f04c79f6e517f3d0336f4f4948459cc1d2de7e6056f37e1c1561fff0",
+      "consumer_dependency": "Arrow/25.0.1"
     }
   }
 }

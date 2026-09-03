@@ -73,8 +73,10 @@ from the 1.1 wrapper to the 3 wrapper. Their downloaded sources contain OpenSSL
 This removes the old 1.1.1w fallback from the foundation graph without claiming
 that every inherited native package is security-qualified.
 
-The remaining Pydantic and JSON Schema families remain
-pending. The xarray and scikit-learn recipes are resolved but have not been
+The adjacent Rust overlay supplies checksum-bound Pydantic 2.13.4 and JSON
+Schema 4.26.0 providers. Together with the Arrow, Polars and scientific
+consumer overlays, the complete Voiage root dependency graph resolves in the
+retained EasyBuild 5.4.0 robot dry-run. The xarray and scikit-learn recipes are resolved but have not been
 natively built or loaded. Neither foss generation has an installed
 Voiage stack established by this packet. Native Linux ARM64 builds, installed
 module/CLI/numerical/Arrow checks and upstream review remain separate gates.
@@ -93,3 +95,7 @@ dependency resolution only. No native package build, installed module smoke,
 full Voiage graph, cluster qualification, or upstream submission is claimed.
 
 The adjacent `easybuild-2023a-polars-overlay` supplies checksum-bound Polars 1.42.1 and `polars-runtime-32` recipes with the exact dated nightly Rust compiler. Its robot result is source-resolution evidence only; native and full-graph qualification remain false.
+
+The sanitized combined-root log and its hash-bound receipt are retained under
+`../easybuild/evidence/`. They record 108 resolved modules and only Python
+3.12.14 for this generation. They do not record compilation or a module load.

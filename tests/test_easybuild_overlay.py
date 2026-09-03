@@ -335,7 +335,28 @@ def _validate_external_provider_integration(providers: dict[str, object]) -> Non
     assert isinstance(evidence, dict)
     assert overlays["polars"] == "packaging/easybuild-2024a-polars-overlay"
     assert overlays["pyarrow"] == "packaging/easybuild-2024a-arrow-overlay"
-    assert evidence == {
+    assert set(evidence) == {"pydantic", "jsonschema", "polars", "pyarrow"}
+    assert evidence["pydantic"] == {
+        "version": "2.13.4",
+        "manifest": "packaging/easybuild-2024a-rust-overlay/manifest.json",
+        "manifest_sha256": "4fb0450f515b81d55197eec7bf3435a7264a547b6728c0dd0fa02e8fa1697452",
+        "native_build_executed": False,
+        "full_voiage_ready": False,
+        "consumer_recipe": "packaging/easybuild/voiage-2.2.0-foss-2024a.eb",
+        "consumer_recipe_sha256": "7a3db9d93860b0fb5afefbaed3f1cf4b77fca47cddb5258fb381f6afb94bf71f",
+        "consumer_dependency": "pydantic/2.13.4",
+    }
+    assert evidence["jsonschema"] == {
+        "version": "4.26.0",
+        "manifest": "packaging/easybuild-2024a-rust-overlay/manifest.json",
+        "manifest_sha256": "4fb0450f515b81d55197eec7bf3435a7264a547b6728c0dd0fa02e8fa1697452",
+        "native_build_executed": False,
+        "full_voiage_ready": False,
+        "consumer_recipe": "packaging/easybuild/voiage-2.2.0-foss-2024a.eb",
+        "consumer_recipe_sha256": "7a3db9d93860b0fb5afefbaed3f1cf4b77fca47cddb5258fb381f6afb94bf71f",
+        "consumer_dependency": "jsonschema/4.26.0",
+    }
+    assert {"polars": evidence["polars"], "pyarrow": evidence["pyarrow"]} == {
         "polars": {
             "version": "1.42.1",
             "manifest": "packaging/easybuild-2024a-polars-overlay/manifest.json",
@@ -343,7 +364,7 @@ def _validate_external_provider_integration(providers: dict[str, object]) -> Non
             "native_build_executed": False,
             "full_voiage_ready": False,
             "consumer_recipe": "packaging/easybuild/voiage-2.2.0-foss-2024a.eb",
-            "consumer_recipe_sha256": "ec947fec1e8285f1bd127cbc73ae55b45fe8047c687fcd5548ecc4b8507fe903",
+            "consumer_recipe_sha256": "7a3db9d93860b0fb5afefbaed3f1cf4b77fca47cddb5258fb381f6afb94bf71f",
             "consumer_dependency": "polars/1.42.1",
         },
         "pyarrow": {
@@ -353,7 +374,7 @@ def _validate_external_provider_integration(providers: dict[str, object]) -> Non
             "native_build_executed": False,
             "full_voiage_ready": False,
             "consumer_recipe": "packaging/easybuild/voiage-2.2.0-foss-2024a.eb",
-            "consumer_recipe_sha256": "ec947fec1e8285f1bd127cbc73ae55b45fe8047c687fcd5548ecc4b8507fe903",
+            "consumer_recipe_sha256": "7a3db9d93860b0fb5afefbaed3f1cf4b77fca47cddb5258fb381f6afb94bf71f",
             "consumer_dependency": "Arrow/25.0.1",
         },
     }

@@ -40,18 +40,28 @@ def test_easyconfig_runtime_pins_satisfy_release_requirements(year: str) -> None
         "dependencies"
     ]
     pins = {
-        name.lower().replace("_", "-"): version
-        for name, version in config["dependencies"]
+        dependency[0].lower().replace("_", "-"): dependency[1]
+        for dependency in config["dependencies"]
     }
     assert "pyarrow" not in pins
     assert pins["arrow"] == "25.0.1"
     pins["pyarrow"] = pins["arrow"]
     for text in requirements:
         requirement = Requirement(text)
-        assert pins[requirement.name.lower().replace("_", "-")] in requirement.specifier
-    expected_runtime_pins = dict(smoke.RUNTIME_PINS)
-    expected_runtime_pins["pyarrow"] = "25.0.1"
-    assert {name: pins[name] for name in expected_runtime_pins} == expected_runtime_pins
+        name = requirement.name.lower().replace("_", "-")
+        if name in pins:
+            assert pins[name] in requirement.specifier
+    assert {
+        name: pins[name] for name in ("pyarrow", "polars", "pydantic", "jsonschema")
+    } == {
+        "pyarrow": "25.0.1",
+        "polars": "1.42.1",
+        "pydantic": "2.13.4",
+        "jsonschema": "4.26.0",
+    }
+    assert pins["voiage-python-support"] == "2.2.0"
+    assert pins["scipy-bundle"] == "2026.09"
+    assert pins["voiage-scientific-consumers"] == "2.2.0"
     assert config["version"] == "2.2.0"
     assert config["toolchain"] == {"name": "foss", "version": year}
     assert config["checksums"] == [smoke.SOURCE_SHA256]

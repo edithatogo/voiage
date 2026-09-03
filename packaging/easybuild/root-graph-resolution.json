@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-03T08:55:00Z",
+  "easybuild_framework_version": "5.4.0",
+  "easybuild_easyblocks_version": "5.4.0",
+  "catalogue_commit": "58e8b5a48767cbed1bf5669675d9638580d7259f",
+  "scope": "Dependency-resolution evidence for both maintained Voiage root recipes; no compilation or installed-module qualification.",
+  "generations": {
+    "2023a": {
+      "root_recipe": "packaging/easybuild/voiage-2.2.0-foss-2023a.eb",
+      "root_recipe_sha256": "653c6ad1f04c79f6e517f3d0336f4f4948459cc1d2de7e6056f37e1c1561fff0",
+      "provider_registry": "packaging/easybuild-2023a-overlay/providers.json",
+      "provider_registry_sha256": "a8ebdca0f35e04dd4fbe596fa9c21de9b6007f99a5fcffbc642f88788050b323",
+      "foundation_manifest": "packaging/easybuild-2023a-overlay/manifest.json",
+      "foundation_manifest_sha256": "3f0146fa876fd062cb36b79e67673cb9ab3490d4aafa1f2b1c732b2527b1f234",
+      "robot_log": "packaging/easybuild/evidence/root-graph-2023a-robot.log",
+      "robot_log_sha256": "c0bdd7b515e1567f37ad730c1a8182c1cca2d8cae7fb6f7db4e1e57cdd96af96",
+      "resolved_module_count": 108,
+      "dependency_resolution_passed": true,
+      "native_build_executed": false,
+      "installed_module_smoke_executed": false,
+      "full_native_voiage_ready": false,
+      "runtime_python_module": "Python/3.12.14-GCCcore-12.3.0",
+      "python_modules": [
+        "Python/3.12.14-GCCcore-12.3.0"
+      ]
+    },
+    "2024a": {
+      "root_recipe": "packaging/easybuild/voiage-2.2.0-foss-2024a.eb",
+      "root_recipe_sha256": "7a3db9d93860b0fb5afefbaed3f1cf4b77fca47cddb5258fb381f6afb94bf71f",
+      "provider_registry": "packaging/easybuild-overlay/providers.json",
+      "provider_registry_sha256": "c3fad1ebb174f6e25977d5914cac7a2698cf97fd3508ff0d1c664bc7869244c2",
+      "foundation_manifest": "packaging/easybuild-overlay/manifest.json",
+      "foundation_manifest_sha256": "5bcb13c485580448b8c69453ccc9d0525336ecb91845d1821e367f2066889f7a",
+      "robot_log": "packaging/easybuild/evidence/root-graph-2024a-robot.log",
+      "robot_log_sha256": "887d5e567160607c294b03f5cf943974d5e4aad2281922a30ff0c3f4aea3faa8",
+      "resolved_module_count": 108,
+      "dependency_resolution_passed": true,
+      "native_build_executed": false,
+      "installed_module_smoke_executed": false,
+      "full_native_voiage_ready": false,
+      "runtime_python_module": "Python/3.12.14-GCCcore-13.3.0",
+      "python_modules": [
+        "Python/3.12.14-GCCcore-13.3.0",
+        "Python/3.12.3-GCCcore-13.3.0"
+      ],
+      "build_tool_exception": {
+        "module": "Python/3.12.3-GCCcore-13.3.0",
+        "consumer": "Meson/1.4.0-GCCcore-13.3.0",
+        "consumer_role": "builddependency",
+        "transitive_consumer": "libpciaccess/0.18.1-GCCcore-13.3.0",
+        "transitive_consumer_role": "builddependency"
+      }
+    }
+  },
+  "upstream_submitted": false
+}

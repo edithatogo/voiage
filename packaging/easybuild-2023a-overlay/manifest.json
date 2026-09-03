@@ -45,7 +45,7 @@
     "2023a/pybind11-2.13.6-GCC-12.3.0.eb": "b02138b65ddffa57ad9965fb1becf9dae5253c2fcfa99c6f675a7a01a865843a",
     "LICENSE.easybuild": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643",
     "NOTICE": "0aff2c6fc898cd090cc184b73ee037cc645a81cd4496048d93c4e6cc5b1f5da8",
-    "README.md": "dff30e118b75ea0cd3f380d54f73b97f6cbd07c83f29591714944802837f25c3",
+    "README.md": "6abda0089cc249f7628d11da24da60a52f048bb4e200688c77f7773ab050e8f9",
     "catalogue-reference/BLIS-0.9.0-GCC-12.3.0.eb": "e01630052e8916de42051df5a2bc1d0746a72a107b160569873b646ea136afde",
     "catalogue-reference/CMake-3.26.3-GCCcore-12.3.0.eb": "e8d456d6e07862cd2bd82795f4e9fc7d767a2a99344d009966345320b468d8c7",
     "catalogue-reference/FlexiBLAS-3.3.1-GCC-12.3.0.eb": "c92d2654f1ed0357740d2e14932599cbe2710bf07e9b885b96043941700fb336",
@@ -64,7 +64,7 @@
     "evidence/scientific-robot.log": "76457e0970d48d01e163e059dd5b171382d1bc21c9874c2d2676982366030ca2",
     "evidence/strict-patch-checks.json": "62d1d8de6206af969964e529105001c0900abab10dbeb02a0f9826b9c18d26c2",
     "history/Python-3.11.5-custom-ctypes.patch": "b29c22f47587460149e05296ff09b29bf790a83e2b3b13fb2f42f5f236ad8ea7",
-    "providers.json": "a0f08acba397ce50c07ec96c0ef7210f059d4d57a22195d77cdbb478314d24c0",
+    "providers.json": "a8ebdca0f35e04dd4fbe596fa9c21de9b6007f99a5fcffbc642f88788050b323",
     "scientific-consumer-sources.json": "ac762caca174544d85031dc92a7c14b1d7f8f4f618466a1d813a3fd19eb8560a",
     "source-manifest.json": "658429bda40f5ae27c5d86650c747a9d7c64968588ef789cbaf6d830d6818147"
   }

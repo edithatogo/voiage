@@ -14,26 +14,21 @@ sources = [SOURCE_TAR_GZ]
 checksums = ['e4edfd41011891a94cbc2b144ff1d20340fcc32481e7a2b24157494b7490a16b']
 
 builddependencies = [
-    ('Rust', '1.85.0'),
-    ('maturin', '1.9.6'),
+    ('Rust', '1.96.0'),
+    ('maturin', '1.13.1'),
 ]
 
-# Do not silently use the incompatible default older scientific bundles.
-# These exact dependencies need site backports on each selected toolchain.
+# Use the checksum-bound provider bundles and external overlays for this generation.
+# Native installation and full-stack qualification remain separate gates.
 dependencies = [
-    ('Python', '3.12.3'),
-    ('Click', '8.5.0'),
-    ('NumPy', '2.2.6'),
-    ('SciPy', '1.16.3'),
-    ('pandas', '2.3.3'),
-    ('xarray', '2024.11.0'),
-    ('scikit-learn', '1.7.2'),
+    ('Python', '3.12.14'),
+    ('Voiage-Python-support', '2.2.0'),
+    ('SciPy-bundle', '2026.09', '-voiage-2.2.0'),
+    ('Voiage-scientific-consumers', '2.2.0'),
     ('Arrow', '25.0.1'),
     ('polars', '1.42.1'),
     ('pydantic', '2.13.4'),
     ('jsonschema', '4.26.0'),
-    ('typing_extensions', '4.16.0'),
-    ('typer', '0.27.2'),
 ]
 
 use_pip = True
