@@ -20,7 +20,7 @@ authoritative. The dependency dashboard is ongoing operational tracking.
 | #656 | Healthy Renovate operation and actual Codecov OIDC upload/status | Repair controls, merge through protected checks, then verify the external service result |
 | #620 | Public Scorecard 10/10 outcome | Retain honest solo-maintainer exceptions; do not fabricate review or contributor diversity |
 | #615 | R distribution evidence and distinct-article assessment | Preserve technical installation/standards evidence; defer a duplicate R Journal manuscript |
-| #614 | Current cross-venue contracts and unfinished child evidence | Refresh active routing and evidence after each merged change |
+| #614 | Current cross-venue contracts and unfinished child evidence | The successor refresh routes current work through #1037 and #1025 and binds PR #1087's tree-equal final-root merge; native HPC qualification and all venue actions/outcomes remain pending |
 | #555 | Accepted Yggdrasil/JLL and General registration/indexing | Keep upstream acceptance separate from local ABI/build evidence |
 | #471 | Genuine non-author research use and attributable engagement | Retain historical use and automated replay without inventing new human participation |
 | #312 | Journal-first prerequisite, later arXiv action and announcement | Preserve historical attempts; do not present the incomplete replacement as a submission |

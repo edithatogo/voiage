@@ -10,6 +10,12 @@ The dated current baseline is
 revisions used by the canonical comprehensive-hardening track and must be
 refreshed before candidate freeze or any external venue action.
 
+Repository evidence state is refreshed separately in
+`cross-venue-evidence-refresh-20260903.json`. It binds the terminal checks and
+exact tree-equal merge for final-root PR #1087 while retaining native HPC
+qualification and upstream action as pending. A status refresh never extends
+the lifetime of the dated external criteria baseline before an external action.
+
 The contract records repository evidence and outstanding gates without
 authorizing external action. Preparation, submission, review, acceptance,
 publication, and indexing are distinct states. Criteria URLs must be refreshed
@@ -24,14 +30,19 @@ only repository work:
 
 - #614 maintains criteria, evidence, authority, and status boundaries for all
   destinations;
-- #299 maintains the preprint/JOSS/RRID package while preserving author and
-  editorial decisions as external;
-- #616 prepares the Python package for the selected pyOpenSci-first route while
-  preserving inquiry and submission as separate maintainer actions;
+- #296 owns the current paper, journal, and identifier boundaries while #312
+  retains the later-arXiv action; historical #299 supplied the repository
+  manuscript package;
+- #1037 governs the current pyOpenSci-first execution while preserving the
+  private survey, human-written communication, authenticated submission, and
+  venue outcomes as separate gates; historical #616 supplied repository
+  readiness evidence;
 - #615 matures the R package for possible rOpenSci and R Journal routes;
-- #617 records whether a distinct JSS, NumFOCUS, or Zenodo outcome is justified;
-- #622 prepares portable Spack/EasyBuild recipes before any HPC upstream or
-  curation decision.
+- #1026 retains current sustainability and persistent-identifier work after
+  historical #617 recorded the distinct-publication decision;
+- #1025 maintains current Spack/EasyBuild recipe and build evidence before any
+  HPC upstream or curation decision; historical #622 supplied the initial
+  locally testable recipe contract.
 
 No lane authorizes an inquiry, upload, submission, application, review, or
 acceptance claim. Those actions remain human or external even after all

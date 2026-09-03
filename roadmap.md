@@ -331,15 +331,18 @@ acceptance evidence.
 The same track now owns a versioned cross-venue submission contract covering
 all retained package registries and archives plus potential pyOpenSci,
 rOpenSci, R Journal, Journal of Statistical Software, NumFOCUS, HPSF, and
-related routes. Issues #614--#617 own the contract and future decision lanes.
+related routes. Issues #614--#617 supplied the historical contract and decision
+lanes; current execution is reconciled through the active owners below.
 The repository validates evidence paths, unresolved gates, and authority
 boundaries in tox and hosted CI. Passing that gate means the repository is
 prepared to evaluate a route; it does not authorize an inquiry or submission.
-The next execution sequence is issue-backed: #614 maintains all contract
-evidence; #616 closes Python community-review evidence; #615 closes the R
-installation/API/statistical-standards evidence; #622 prepares portable HPC
-recipes; and #617 makes explicit non-duplication decisions for distinct future
-routes. Author and external decisions remain outside these repository tasks.
+The current execution sequence is issue-backed: #614 maintains all contract
+evidence; #296 owns the paper, journal, and identifier boundaries; #1037 owns
+the pyOpenSci-first route; #615 retains the R review lane; #1025 owns current
+HPC build and package evidence; and #1026 retains sustainability and persistent
+identifier work after #617's completed non-duplication assessment. Historical
+#616 and #622 supplied repository readiness and initial HPC recipe evidence.
+Author and external decisions remain outside these repository tasks.
 
 Conductor-to-GitHub traceability is complete and archived in
 `conductor/archive/conductor-github-cross-reference-reconciliation_20260724/`.

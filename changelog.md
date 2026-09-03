@@ -12,6 +12,11 @@
   overlays and retain sanitized 108-module robot evidence, while keeping native
   build and installed-module qualification pending.
 
+- Refresh the cross-venue evidence contract for the current v2.2 release,
+  pyOpenSci-first execution, language bindings, and HPC package state while
+  binding the final EasyBuild root merge and retaining native builds,
+  submissions, and venue outcomes as explicit pending gates.
+
 - Add a checksum-bound, offline Polars 1.42.1 EasyBuild 2023a provider with an exact dated-nightly Rust boundary and canonical Voiage consumer binding; native build, full-stack and upstream gates remain false.
 
 - Correct the EasyBuild 2024a root graph to request the lowercase `polars`
