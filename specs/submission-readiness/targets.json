@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "reviewed_at": "2026-08-29",
+  "reviewed_at": "2026-09-03",
   "policy": {
     "states_are_distinct": ["prepared", "submitted", "under_review", "accepted", "published", "indexed"],
     "no_external_action_from_contract": true,
@@ -13,6 +13,22 @@
     "source_manifest": "specs/submission-readiness/current-requirements-source-manifest-20260829.json",
     "target_ids": ["arxiv", "joss", "pyopensci", "ropensci", "r-journal", "journal-of-statistical-software", "numfocus", "pypi", "testpypi", "conda-forge", "cran", "r-universe", "crates-io", "julia-general", "yggdrasil", "software-heritage", "zenodo", "scicrunch-rrid", "spack", "easybuild", "hpsf", "e4s"]
   },
+  "evidence_refresh": {
+    "reviewed_at": "2026-09-03",
+    "state": "complete",
+    "evidence": "specs/submission-readiness/cross-venue-evidence-refresh-20260903.json",
+    "evidence_sha256": "7ed1fd45bf299d8b2e60e326f19158a9b760c187fab4fd4ddd68761358239ca6",
+    "target_ids": ["arxiv", "joss", "pyopensci", "ropensci", "r-journal", "journal-of-statistical-software", "numfocus", "pypi", "testpypi", "conda-forge", "cran", "r-universe", "crates-io", "julia-general", "yggdrasil", "software-heritage", "zenodo", "scicrunch-rrid", "spack", "easybuild", "hpsf", "e4s"],
+    "final_root_pr": {
+      "number": 1087,
+      "head_sha": "614224cf4cab2514ece333345ff25f7441fddeba",
+      "merge_sha": "fea90d41898ac31c970b0c2b7a8a80ef3366ab96",
+      "reviewed_tree": "44a79dedb8cf4c8ce6a62f12d549bb6e7585b2ef",
+      "merged_tree": "44a79dedb8cf4c8ce6a62f12d549bb6e7585b2ef",
+      "tree_equal": true,
+      "terminal_checks": 40
+    }
+  },
   "execution_lanes": [
     {
       "id": "contract-maintenance",
@@ -22,15 +38,15 @@
     },
     {
       "id": "paper-and-author-boundaries",
-      "issue_url": "https://github.com/edithatogo/voiage/issues/299",
+      "issue_url": "https://github.com/edithatogo/voiage/issues/296",
       "targets": ["arxiv", "joss", "scicrunch-rrid"],
       "repository_outcome": "Maintain the locally validated manuscript, metadata package, recorded author affirmations, and developer-use evidence while leaving upload, curation, engagement, and editorial decisions external."
     },
     {
       "id": "python-community-review",
-      "issue_url": "https://github.com/edithatogo/voiage/issues/616",
+      "issue_url": "https://github.com/edithatogo/voiage/issues/1037",
       "targets": ["pyopensci"],
-      "repository_outcome": "Maintain a current criteria-to-evidence matrix and complete all repository-controlled Python-package expectations before an author decides whether to inquire."
+      "repository_outcome": "Maintain the current pyOpenSci packet and explicit survey, human-written communication, authenticated submission, partner-route, and external-outcome boundaries."
     },
     {
       "id": "r-community-and-journal-readiness",
@@ -40,15 +56,15 @@
     },
     {
       "id": "distinct-publication-and-sustainability-assessment",
-      "issue_url": "https://github.com/edithatogo/voiage/issues/617",
+      "issue_url": "https://github.com/edithatogo/voiage/issues/1026",
       "targets": ["journal-of-statistical-software", "numfocus", "zenodo"],
       "repository_outcome": "Record a non-duplication and eligibility decision before creating any venue-specific manuscript, application, or deposition package."
     },
     {
       "id": "hpc-distribution-readiness",
-      "issue_url": "https://github.com/edithatogo/voiage/issues/622",
+      "issue_url": "https://github.com/edithatogo/voiage/issues/1025",
       "targets": ["spack", "easybuild", "hpsf", "e4s"],
-      "repository_outcome": "Create locally validated portable package recipes before any upstream HPC packaging or curation decision."
+      "repository_outcome": "Maintain current recipes, graph evidence, native-build and module-smoke gates, and separate upstream submission, review, and indexing states."
     }
   ],
   "required_target_ids": [
@@ -99,7 +115,8 @@
         {"id": "package-baseline", "status": "satisfied", "evidence": ["README.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "LICENSE", "pyproject.toml"]},
         {"id": "method-provenance-and-overlap", "status": "satisfied", "evidence": ["README.md", "paper.md", "docs/astro-site/src/content/docs/methods/index.mdx"]},
         {"id": "maintenance-commitment", "status": "satisfied", "evidence": ["GOVERNANCE.md", "SUPPORT.md", "docs/release/pyopensci-readiness.md", "specs/submission-readiness/pyopensci-evidence.json"]},
-        {"id": "ai-affirmation", "status": "pending", "evidence": ["paper.md", "paper/joss-editorial-assurance.json", "AI_CONTRIBUTIONS.md", "specs/submission-readiness/pyopensci-submission-staging.json"]}
+        {"id": "ai-affirmation", "status": "satisfied", "evidence": ["AI_CONTRIBUTIONS.md", "AI_USAGE.md", "specs/submission-readiness/pyopensci-submission-staging.json", "conductor/tracks/v2_2_release_and_venue_submissions_20260830/maintainer-venue-decision-20260831.json"]},
+        {"id": "survey-and-human-written-submission", "status": "pending", "evidence": ["docs/release/pyopensci-submission-draft.md", "specs/submission-readiness/pyopensci-submission-staging.json", "conductor/tracks/v2_2_release_and_venue_submissions_20260830/venue-next-actions-20260831.md"]}
       ],
       "acceptance_evidence": ["pyOpenSci review issue", "pyOpenSci approval label and catalogue entry"],
       "next_decision": "Personal declarations are confirmed and previous requests #271 and #272 are withdrawn. Complete the private pre-review survey, supply a human-written submission body, and perform the authenticated pyOpenSci submission. The maintainer's separate commitment to write later review communication personally is confirmed. The subsequent eligible JOSS route is already authorized; arXiv remains deferred until an actual journal submission and later author action."
@@ -170,7 +187,7 @@
       "authority": {"prepare": "repository", "submit": "external-system", "accept": "external"},
       "requirements": [
         {"id": "release-workflow", "status": "satisfied", "evidence": [".github/workflows/release.yml"]},
-        {"id": "published-release", "status": "satisfied", "evidence": ["docs/release/release-evidence.md"]}
+        {"id": "published-release", "status": "satisfied", "evidence": ["specs/submission-readiness/pyopensci-submission-candidate.json", "conductor/tracks/v2_2_release_and_venue_submissions_20260830/release-2.2.0-publication-receipt-20260830.json"]}
       ],
       "acceptance_evidence": ["PyPI version page", "Trusted-publishing provenance"],
       "next_decision": "Maintain tag-driven release and provenance contracts."
@@ -184,7 +201,7 @@
       "authority": {"prepare": "repository", "submit": "external-system", "accept": "external"},
       "requirements": [
         {"id": "test-release-workflow", "status": "satisfied", "evidence": [".github/workflows/release.yml"]},
-        {"id": "install-smoke", "status": "satisfied", "evidence": ["docs/release/release-evidence.md"]}
+        {"id": "install-smoke", "status": "satisfied", "evidence": ["specs/submission-readiness/pyopensci-submission-candidate.json", "conductor/tracks/v2_2_release_and_venue_submissions_20260830/release-2.2.0-publication-receipt-20260830.json"]}
       ],
       "acceptance_evidence": ["TestPyPI version page", "Workflow upload evidence"],
       "next_decision": "Keep as the release-candidate gate before PyPI."
@@ -253,8 +270,8 @@
       "criteria_url": "https://pkgdocs.julialang.org/dev/creating-packages/",
       "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
       "requirements": [
-        {"id": "package-contract", "status": "satisfied", "evidence": ["bindings/julia/Project.toml", "bindings/julia/test/runtests.jl"]},
-        {"id": "jll-dependency", "status": "external", "evidence": ["docs/release/binding-submission-checklist.md"]}
+        {"id": "package-contract", "status": "satisfied", "evidence": ["bindings/julia/Project.toml", "bindings/julia/test/runtests.jl", "bindings/julia/README.md"]},
+        {"id": "jll-dependency", "status": "external", "evidence": ["docs/release/yggdrasil-v2-2-candidate-20260831.md", "bindings/julia/README.md"]}
       ],
       "acceptance_evidence": ["Registrator PR", "General registry merge", "TagBot release"],
       "next_decision": "Wait for the JLL, then run clean-depot tests before Registrator."
@@ -262,16 +279,17 @@
     {
       "id": "yggdrasil",
       "kind": "package_registry",
-      "readiness": "conditional",
+      "readiness": "blocked",
       "scope": "Cross-platform voiage_ffi_jll native-library recipe.",
       "criteria_url": "https://docs.binarybuilder.org/stable/",
       "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
       "requirements": [
-        {"id": "recipe-submitted", "status": "satisfied", "evidence": ["docs/release/binding-submission-checklist.md", "conductor/archive/research_software_registry_readiness_20260721/release-2.1.0-registry-candidate-receipt-20260821.json"]},
+        {"id": "historical-v2-1-recipe-submitted", "status": "satisfied", "evidence": ["docs/release/binding-submission-checklist.md", "conductor/archive/research_software_registry_readiness_20260721/release-2.1.0-registry-candidate-receipt-20260821.json"]},
+        {"id": "v2-2-candidate-update-and-submission", "status": "pending", "evidence": ["docs/release/yggdrasil-v2-2-candidate-20260831.md"]},
         {"id": "binarybuilder-acceptance", "status": "external", "evidence": ["docs/release/registry_audit_snapshot.json"]}
       ],
       "acceptance_evidence": ["Merged Yggdrasil recipe", "Registered JLL package and artifacts"],
-      "next_decision": "Respond to BinaryBuilder review; JLL acceptance precedes Julia General."
+      "next_decision": "The v2.2 candidate is local and has not updated historical PR #14292; submit it separately, then await platform builds and JLL acceptance before Julia General."
     },
     {
       "id": "software-heritage",
@@ -323,11 +341,12 @@
       "criteria_url": "https://spack.readthedocs.io/en/latest/package_review_guide.html",
       "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
       "requirements": [
-        {"id": "recipe", "status": "pending", "evidence": ["docs/release/binding-submission-checklist.md"]},
-        {"id": "platform-build-review", "status": "external", "evidence": ["docs/release/registry_audit_snapshot.json"]}
+        {"id": "recipe-preparation", "status": "satisfied", "evidence": ["packaging/spack/package.py", "docs/release/hpc-distribution-handoff.md"]},
+        {"id": "current-security-native-build-and-module-smoke", "status": "pending", "evidence": ["docs/release/hpc-distribution-handoff.md", "conductor/tracks/remaining_backlog_delivery_20260831/remaining-issue-register-20260831.md"]},
+        {"id": "upstream-review-and-indexing", "status": "external", "evidence": ["docs/release/registry_audit_snapshot.json"]}
       ],
       "acceptance_evidence": ["Spack package PR", "Maintainer approval and merge", "Indexed package"],
-      "next_decision": "Prepare only when the retained distribution design has a tested package recipe."
+      "next_decision": "Complete the Python 3.12.14 native build, linkage checks, numerical and Arrow probes, and module smoke before a separately authorized upstream submission."
     },
     {
       "id": "easybuild",
@@ -337,11 +356,13 @@
       "criteria_url": "https://docs.easybuild.io/contributing/",
       "authority": {"prepare": "repository", "submit": "human", "accept": "external"},
       "requirements": [
-        {"id": "easyconfig", "status": "pending", "evidence": ["docs/release/binding-submission-checklist.md"]},
-        {"id": "upstream-review", "status": "external", "evidence": ["docs/release/registry_audit_snapshot.json"]}
+        {"id": "easyconfig-and-provider-preparation", "status": "satisfied", "evidence": ["packaging/easybuild/voiage-2.2.0-foss-2023a.eb", "packaging/easybuild/voiage-2.2.0-foss-2024a.eb", "packaging/easybuild-2023a-overlay/manifest.json", "packaging/easybuild-overlay/manifest.json"]},
+        {"id": "final-root-graph-validation", "status": "satisfied", "evidence": ["specs/submission-readiness/cross-venue-evidence-refresh-20260903.json"]},
+        {"id": "native-foss-build-and-module-smoke", "status": "pending", "evidence": ["docs/release/hpc-distribution-handoff.md", "conductor/tracks/remaining_backlog_delivery_20260831/remaining-issue-register-20260831.md"]},
+        {"id": "upstream-review-and-indexing", "status": "external", "evidence": ["docs/release/registry_audit_snapshot.json"]}
       ],
       "acceptance_evidence": ["EasyBuild easyconfigs PR", "Maintainer merge and indexed easyconfig"],
-      "next_decision": "Prepare after a stable HPC installation contract exists."
+      "next_decision": "Complete native foss builds, numerical and Arrow probes, and module smoke before upstream submission."
     },
     {
       "id": "hpsf",

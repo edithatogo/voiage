@@ -10,6 +10,54 @@ import shutil
 import subprocess
 from typing import Any
 
+ROOT_REFRESH_PLACEHOLDER = "REPLACE_AFTER_FINAL_ROOT_PR_MERGES"
+CURRENT_ISSUE_LANES = {
+    "contract": 614,
+    "paper_and_author_boundaries": 296,
+    "python_community_review": 1037,
+    "r_community_and_journal_readiness": 615,
+    "distinct_publication_and_sustainability_assessment": 1026,
+    "hpc_distribution": 1025,
+}
+HISTORICAL_COMPLETED_ISSUE_LANES = {
+    "paper_and_author_boundaries": 299,
+    "python_community_repository_readiness": 616,
+    "distinct_publication_and_sustainability_assessment": 617,
+    "initial_hpc_recipe_contract": 622,
+}
+EXPECTED_EXECUTION_LANE_ISSUES = {
+    "contract-maintenance": 614,
+    "paper-and-author-boundaries": 296,
+    "python-community-review": 1037,
+    "r-community-and-journal-readiness": 615,
+    "distinct-publication-and-sustainability-assessment": 1026,
+    "hpc-distribution-readiness": 1025,
+}
+EXPECTED_RELEASE_EVIDENCE = {
+    "version": "2.2.0",
+    "release_commit": "7af563c8cb373057d30662650b3f332f39e05b83",
+    "github_and_pypi_published": True,
+}
+EXPECTED_FINAL_ROOT_BASE = "fea90d41898ac31c970b0c2b7a8a80ef3366ab96"
+EXPECTED_FINAL_ROOT_PR = {
+    "number": 1087,
+    "head_sha": "614224cf4cab2514ece333345ff25f7441fddeba",
+    "merge_sha": EXPECTED_FINAL_ROOT_BASE,
+    "reviewed_tree": "44a79dedb8cf4c8ce6a62f12d549bb6e7585b2ef",
+    "merged_tree": "44a79dedb8cf4c8ce6a62f12d549bb6e7585b2ef",
+    "tree_equal": True,
+    "terminal_checks": 40,
+}
+EXPECTED_EXTERNAL_OUTCOMES = {
+    "pyopensci_acceptance": "pending_external",
+    "joss_acceptance": "pending_external",
+    "arxiv_announcement": "pending_external",
+    "spack_upstream_acceptance": "pending_external",
+    "easybuild_upstream_acceptance": "pending_external",
+    "binarybuilder_jll_acceptance": "pending_external",
+    "julia_general_indexing": "pending_external",
+}
+
 READINESS = {"published", "ready", "conditional", "blocked", "consideration", "retired"}
 REQUIREMENT_STATUS = {"satisfied", "pending", "external", "not_applicable"}
 TARGET_KINDS = {
@@ -219,6 +267,113 @@ def validate_contract(path: Path, root: Path) -> dict[str, Any]:
     payload: Any = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(payload, dict) or payload.get("schema_version") != "1.0":
         raise ValueError("submission contract must use schema_version 1.0")
+
+    evidence_refresh = payload.get("evidence_refresh")
+    if not isinstance(evidence_refresh, dict):
+        raise TypeError("evidence_refresh must be an object")
+    _non_empty(evidence_refresh.get("reviewed_at"), "evidence_refresh reviewed_at")
+    refresh_path = Path(
+        _non_empty(evidence_refresh.get("evidence"), "evidence_refresh evidence")
+    )
+    if refresh_path.is_absolute() or ".." in refresh_path.parts:
+        raise ValueError("evidence_refresh evidence path is unsafe")
+    if not (root / refresh_path).is_file():
+        raise ValueError("evidence_refresh evidence path does not exist")
+    refresh_record: Any = json.loads((root / refresh_path).read_text(encoding="utf-8"))
+    expected_refresh_sha = evidence_refresh.get("evidence_sha256")
+    actual_refresh_sha = hashlib.sha256((root / refresh_path).read_bytes()).hexdigest()
+    if expected_refresh_sha != actual_refresh_sha:
+        raise ValueError("evidence_refresh record SHA-256 does not match")
+    if (
+        not isinstance(refresh_record, dict)
+        or refresh_record.get("schema_version")
+        != "voiage.cross-venue-evidence-refresh.v1"
+        or refresh_record.get("reviewed_at") != evidence_refresh.get("reviewed_at")
+        or refresh_record.get("state") != evidence_refresh.get("state")
+        or refresh_record.get("final_root_pr") != evidence_refresh.get("final_root_pr")
+    ):
+        raise ValueError("evidence_refresh record binding is invalid")
+    if refresh_record.get("current_issue_lanes") != CURRENT_ISSUE_LANES:
+        raise ValueError("evidence_refresh current issue lanes are stale")
+    if (
+        refresh_record.get("historical_completed_issue_lanes")
+        != HISTORICAL_COMPLETED_ISSUE_LANES
+    ):
+        raise ValueError("evidence_refresh historical issue lanes are stale")
+    if refresh_record.get("release") != EXPECTED_RELEASE_EVIDENCE:
+        raise ValueError("evidence_refresh release evidence is stale")
+    if refresh_record.get("external_outcomes") != EXPECTED_EXTERNAL_OUTCOMES:
+        raise ValueError("evidence_refresh external outcomes must remain pending")
+    repository_state = refresh_record.get("repository_state")
+    expected_repository_state = {
+        "pyopensci_declarations_confirmed": True,
+        "pyopensci_survey_completed": False,
+        "pyopensci_human_written_submission_supplied": False,
+        "pyopensci_submission_performed": False,
+        "joss_submission_performed": False,
+        "arxiv_submission_currently_verified": False,
+        "spack_recipe_prepared": True,
+        "spack_current_native_build_complete": False,
+        "spack_upstream_submission_performed": False,
+        "easybuild_provider_recipes_prepared": True,
+        "easybuild_final_root_graph_merged": evidence_refresh.get("state")
+        == "complete",
+        "easybuild_native_foss_builds_complete": False,
+        "easybuild_upstream_submission_performed": False,
+        "yggdrasil_v2_2_update_submitted": False,
+        "binarybuilder_jll_accepted": False,
+        "julia_general_registration_submitted": False,
+        "julia_general_indexed": False,
+    }
+    if repository_state != expected_repository_state:
+        raise ValueError("evidence_refresh repository state is incomplete or stale")
+    base_main = refresh_record.get("base_main")
+    if (
+        not isinstance(base_main, str)
+        or len(base_main) != 40
+        or any(character not in "0123456789abcdef" for character in base_main)
+    ):
+        raise ValueError("evidence_refresh base_main must be an exact commit")
+    root_pr = evidence_refresh.get("final_root_pr")
+    if not isinstance(root_pr, dict):
+        raise TypeError("evidence_refresh final_root_pr must be an object")
+    if evidence_refresh.get("state") == "awaiting_final_root_pr_merge":
+        if root_pr != {
+            "number": None,
+            "head_sha": None,
+            "merge_sha": None,
+            "reviewed_tree": None,
+            "merged_tree": None,
+            "tree_equal": None,
+            "terminal_checks": None,
+            "placeholder": ROOT_REFRESH_PLACEHOLDER,
+        }:
+            raise ValueError("pending final-root refresh must retain exact placeholder")
+    elif evidence_refresh.get("state") == "complete":
+        hex_fields = ("head_sha", "merge_sha", "reviewed_tree", "merged_tree")
+        if (
+            not isinstance(root_pr.get("number"), int)
+            or any(
+                not isinstance(root_pr.get(field), str)
+                or len(root_pr[field]) != 40
+                or any(
+                    character not in "0123456789abcdef" for character in root_pr[field]
+                )
+                for field in hex_fields
+            )
+            or root_pr.get("reviewed_tree") != root_pr.get("merged_tree")
+            or root_pr.get("tree_equal") is not True
+            or not isinstance(root_pr.get("terminal_checks"), int)
+            or root_pr["terminal_checks"] < 1
+            or "placeholder" in root_pr
+        ):
+            raise ValueError(
+                "complete final-root refresh lacks authoritative merge evidence"
+            )
+        if root_pr != EXPECTED_FINAL_ROOT_PR or base_main != EXPECTED_FINAL_ROOT_BASE:
+            raise ValueError("complete final-root refresh is not bound to PR #1087")
+    else:
+        raise ValueError("evidence_refresh state must be pending or complete")
     targets = payload.get("targets")
     if not isinstance(targets, list) or not targets:
         raise ValueError("submission contract targets must be a non-empty array")
@@ -298,6 +453,11 @@ def validate_contract(path: Path, root: Path) -> dict[str, Any]:
     required = payload.get("required_target_ids")
     if not isinstance(required, list) or not set(required) <= identifiers:
         raise ValueError("required_target_ids must resolve to declared targets")
+    refreshed_evidence_targets = evidence_refresh.get("target_ids")
+    if not isinstance(refreshed_evidence_targets, list) or not set(required) <= set(
+        refreshed_evidence_targets
+    ):
+        raise ValueError("evidence_refresh must cover every required target")
 
     criteria_refresh = payload.get("criteria_refresh")
     if not isinstance(criteria_refresh, dict):
@@ -331,6 +491,11 @@ def validate_contract(path: Path, root: Path) -> dict[str, Any]:
         issue_url = _non_empty(lane.get("issue_url"), f"{lane_id} issue_url")
         if not issue_url.startswith("https://github.com/edithatogo/voiage/issues/"):
             raise ValueError(f"{lane_id} issue_url must be a voiage GitHub issue")
+        expected_issue = EXPECTED_EXECUTION_LANE_ISSUES.get(lane_id)
+        if expected_issue is None or issue_url != (
+            f"https://github.com/edithatogo/voiage/issues/{expected_issue}"
+        ):
+            raise ValueError(f"{lane_id} must route to its current open issue")
         _non_empty(lane.get("repository_outcome"), f"{lane_id} repository_outcome")
         lane_targets = lane.get("targets")
         if not isinstance(lane_targets, list) or not lane_targets:
@@ -341,6 +506,8 @@ def validate_contract(path: Path, root: Path) -> dict[str, Any]:
         planned_targets.update(lane_targets)
     if not set(required) <= planned_targets:
         raise ValueError("every required target must belong to an execution lane")
+    if lane_ids != set(EXPECTED_EXECUTION_LANE_ISSUES):
+        raise ValueError("execution lanes must match the current issue routes")
     return {"target_count": len(targets), "targets": sorted(identifiers)}
 
 

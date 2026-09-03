@@ -1,0 +1,63 @@
+{
+  "schema_version": "voiage.cross-venue-evidence-refresh.v1",
+  "reviewed_at": "2026-09-03",
+  "state": "complete",
+  "base_main": "fea90d41898ac31c970b0c2b7a8a80ef3366ab96",
+  "final_root_pr": {
+    "number": 1087,
+    "head_sha": "614224cf4cab2514ece333345ff25f7441fddeba",
+    "merge_sha": "fea90d41898ac31c970b0c2b7a8a80ef3366ab96",
+    "reviewed_tree": "44a79dedb8cf4c8ce6a62f12d549bb6e7585b2ef",
+    "merged_tree": "44a79dedb8cf4c8ce6a62f12d549bb6e7585b2ef",
+    "tree_equal": true,
+    "terminal_checks": 40
+  },
+  "current_issue_lanes": {
+    "contract": 614,
+    "paper_and_author_boundaries": 296,
+    "python_community_review": 1037,
+    "r_community_and_journal_readiness": 615,
+    "distinct_publication_and_sustainability_assessment": 1026,
+    "hpc_distribution": 1025
+  },
+  "historical_completed_issue_lanes": {
+    "paper_and_author_boundaries": 299,
+    "python_community_repository_readiness": 616,
+    "distinct_publication_and_sustainability_assessment": 617,
+    "initial_hpc_recipe_contract": 622
+  },
+  "release": {
+    "version": "2.2.0",
+    "release_commit": "7af563c8cb373057d30662650b3f332f39e05b83",
+    "github_and_pypi_published": true
+  },
+  "repository_state": {
+    "pyopensci_declarations_confirmed": true,
+    "pyopensci_survey_completed": false,
+    "pyopensci_human_written_submission_supplied": false,
+    "pyopensci_submission_performed": false,
+    "joss_submission_performed": false,
+    "arxiv_submission_currently_verified": false,
+    "spack_recipe_prepared": true,
+    "spack_current_native_build_complete": false,
+    "spack_upstream_submission_performed": false,
+    "easybuild_provider_recipes_prepared": true,
+    "easybuild_final_root_graph_merged": true,
+    "easybuild_native_foss_builds_complete": false,
+    "easybuild_upstream_submission_performed": false,
+    "yggdrasil_v2_2_update_submitted": false,
+    "binarybuilder_jll_accepted": false,
+    "julia_general_registration_submitted": false,
+    "julia_general_indexed": false
+  },
+  "external_outcomes": {
+    "pyopensci_acceptance": "pending_external",
+    "joss_acceptance": "pending_external",
+    "arxiv_announcement": "pending_external",
+    "spack_upstream_acceptance": "pending_external",
+    "easybuild_upstream_acceptance": "pending_external",
+    "binarybuilder_jll_acceptance": "pending_external",
+    "julia_general_indexing": "pending_external"
+  },
+  "boundary": "This refresh establishes only the tree-equal final EasyBuild root merge. Native HPC qualification, upstream action, authenticated submission, review, acceptance, publication, identifier assignment, and indexing remain pending."
+}
