@@ -11,6 +11,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
     cleanup. Keep unsatisfied human and external outcomes open.
     *   [x] Add the stable Rust, Pydantic 2.13.4 and JSON Schema 4.26.0 provider layer for EasyBuild 2024a; native module qualification remains pending.
     *   [x] Add the Polars 1.42.1 provider layer for EasyBuild 2024a with a distinct dated-nightly Rust compiler; native module qualification remains pending.
+    *   [x] Reconcile the EasyBuild 2024a root dependency with the provider's
+        lowercase `polars` module name; native full-graph qualification remains
+        pending.
     *   [x] Integrate the Arrow and PyArrow 25.0.1 EasyBuild 2024a provider overlay into the parent provider contract; native module qualification remains pending.
     *   [x] Add checksum-bound xarray 2024.11.0 and scikit-learn 1.7.2 provider recipes for both EasyBuild generations; native module qualification remains pending.
     *   [x] Add the checksum-bound Arrow and PyArrow 25.0.1 provider layer for EasyBuild 2023a; native module qualification remains pending.

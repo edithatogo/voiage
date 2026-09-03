@@ -8,6 +8,10 @@
 
 ## Unreleased
 
+- Correct the EasyBuild 2024a root graph to request the lowercase `polars`
+  module name declared by the checksum-bound Polars recipe; native build and
+  full-stack qualification remain pending.
+
 - Integrate the checksum-bound Arrow and PyArrow 25.0.1 EasyBuild 2024a provider overlay into the parent provider contract while retaining native build and full-stack qualification as pending gates.
 
 - Added a checksum-bound Arrow and PyArrow 25.0.1 provider overlay for the
