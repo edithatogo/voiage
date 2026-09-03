@@ -109,6 +109,14 @@ stable versus dated-nightly Rust selection and vendor exact Cargo sources.
 The xarray and scikit-learn provider bundle is resolved for both requested
 generations, but still needs native build and installed-module qualification.
 
+The combined Voiage root recipe now resolves all four adjacent provider
+overlays in a retained EasyBuild 5.4.0 robot dry-run. The sanitized 108-module
+log and hash-bound receipt are under `../easybuild/evidence/`. The 2024a
+catalogue closure also selects Python 3.12.3 only for Meson 1.4.0, which is a
+build dependency of libpciaccess 0.18.1. The root runtime and all Voiage Python
+providers remain on Python 3.12.14; validation rejects any widening of that
+legacy interpreter edge into the root runtime.
+
 A native ARM64 Linux VM can provide real build and module-load evidence for
 that architecture. It does not establish x86-64 compatibility, scheduler
 behavior, or production cluster performance. Both requested toolchain

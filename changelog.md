@@ -8,6 +8,10 @@
 
 ## Unreleased
 
+- Reconcile both EasyBuild root graphs with their checksum-bound provider
+  overlays and retain sanitized 108-module robot evidence, while keeping native
+  build and installed-module qualification pending.
+
 - Add a checksum-bound, offline Polars 1.42.1 EasyBuild 2023a provider with an exact dated-nightly Rust boundary and canonical Voiage consumer binding; native build, full-stack and upstream gates remain false.
 
 - Correct the EasyBuild 2024a root graph to request the lowercase `polars`

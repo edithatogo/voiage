@@ -292,6 +292,8 @@ def test_source_preparation_binds_the_generation_recipe_and_complete_inputs() ->
 def _validate_foundation_provider(providers: dict[str, Any]) -> None:
     repo = ROOT.parents[1]
     expected = {
+        "pydantic": "packaging/easybuild-2023a-rust-overlay",
+        "jsonschema": "packaging/easybuild-2023a-rust-overlay",
         "pyarrow": "packaging/easybuild-2023a-arrow-overlay",
         "polars": "packaging/easybuild-2023a-polars-overlay",
     }
