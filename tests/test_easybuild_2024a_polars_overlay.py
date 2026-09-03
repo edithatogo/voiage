@@ -30,9 +30,11 @@ class _Names(ast.NodeTransformer):
         return node
 
 
-def _recipe(name: str) -> dict[str, Any]:
-    values: dict[str, Any] = {"SYSTEM": {"name": "system", "version": ""}}
-    path = ROOT / "2024a" / name
+def _recipe_path(path: Path) -> dict[str, Any]:
+    values: dict[str, Any] = {
+        "SOURCE_TAR_GZ": "source.tar.gz",
+        "SYSTEM": {"name": "system", "version": ""},
+    }
     for node in ast.parse(path.read_text()).body:
         if not isinstance(node, ast.Assign):
             continue
@@ -41,6 +43,10 @@ def _recipe(name: str) -> dict[str, Any]:
             if isinstance(target, ast.Name):
                 values[target.id] = value
     return values
+
+
+def _recipe(name: str) -> dict[str, Any]:
+    return _recipe_path(ROOT / "2024a" / name)
 
 
 def test_manifest_binds_every_retained_byte_and_fail_closed_flags() -> None:
@@ -226,6 +232,16 @@ def test_recipes_preserve_stable_and_dated_nightly_compiler_roles() -> None:
         assert recipe["pip_no_index"] is True
         assert recipe["download_dep_fail"] is True
         assert recipe["sanity_pip_check"] is True
+
+
+def test_root_consumer_uses_the_recipe_declared_lowercase_module_name() -> None:
+    root_recipe = _recipe_path(
+        ROOT.parents[1] / "packaging/easybuild/voiage-2.2.0-foss-2024a.eb"
+    )
+    polars_recipe = _recipe("polars-1.42.1-GCCcore-13.3.0.eb")
+    assert polars_recipe["name"] == "polars"
+    assert ("polars", "1.42.1") in root_recipe["dependencies"]
+    assert not any(name == "Polars" for name, *_ in root_recipe["dependencies"])
 
 
 def test_provider_roles_and_robot_evidence_match_recipes() -> None:

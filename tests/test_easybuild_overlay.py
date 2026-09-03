@@ -326,15 +326,26 @@ def test_ctypes_refresh_changes_context_only_and_security_sources_are_bound() ->
     )
 
 
-def _validate_pyarrow_provider_integration(providers: dict[str, object]) -> None:
+def _validate_external_provider_integration(providers: dict[str, object]) -> None:
     assert providers["deferred_voiage_dependencies"] == []
     assert "pyarrow" not in providers["providers"]
     overlays = providers["external_provider_overlays"]
     evidence = providers["external_provider_evidence"]
     assert isinstance(overlays, dict)
     assert isinstance(evidence, dict)
+    assert overlays["polars"] == "packaging/easybuild-2024a-polars-overlay"
     assert overlays["pyarrow"] == "packaging/easybuild-2024a-arrow-overlay"
     assert evidence == {
+        "polars": {
+            "version": "1.42.1",
+            "manifest": "packaging/easybuild-2024a-polars-overlay/manifest.json",
+            "manifest_sha256": "f13c67822c5bed7558ba818aba44e4bcf790ae998c9c69509c806ec962b3c978",
+            "native_build_executed": False,
+            "full_voiage_ready": False,
+            "consumer_recipe": "packaging/easybuild/voiage-2.2.0-foss-2024a.eb",
+            "consumer_recipe_sha256": "ec947fec1e8285f1bd127cbc73ae55b45fe8047c687fcd5548ecc4b8507fe903",
+            "consumer_dependency": "polars/1.42.1",
+        },
         "pyarrow": {
             "version": "25.0.1",
             "manifest": "packaging/easybuild-2024a-arrow-overlay/manifest.json",
@@ -342,10 +353,29 @@ def _validate_pyarrow_provider_integration(providers: dict[str, object]) -> None
             "native_build_executed": False,
             "full_voiage_ready": False,
             "consumer_recipe": "packaging/easybuild/voiage-2.2.0-foss-2024a.eb",
-            "consumer_recipe_sha256": "372e30dee9f40874514ac09c89c61d9cf3677f80edabda0cebb49955540b365f",
+            "consumer_recipe_sha256": "ec947fec1e8285f1bd127cbc73ae55b45fe8047c687fcd5548ecc4b8507fe903",
             "consumer_dependency": "Arrow/25.0.1",
-        }
+        },
     }
+    polars_binding = evidence["polars"]
+    assert isinstance(polars_binding, dict)
+    polars_manifest_path = ROOT.parents[1] / polars_binding["manifest"]
+    assert (
+        hashlib.sha256(polars_manifest_path.read_bytes()).hexdigest()
+        == polars_binding["manifest_sha256"]
+    )
+    polars_manifest = json.loads(polars_manifest_path.read_text())
+    assert polars_manifest["native_builds_executed"] is False
+    assert polars_manifest["full_voiage_graph"] is False
+    polars_consumer_path = ROOT.parents[1] / polars_binding["consumer_recipe"]
+    assert (
+        hashlib.sha256(polars_consumer_path.read_bytes()).hexdigest()
+        == polars_binding["consumer_recipe_sha256"]
+    )
+    polars_consumer = _recipe(polars_consumer_path)
+    assert ("polars", "1.42.1") in polars_consumer["dependencies"]
+    assert not any(name == "Polars" for name, *_ in polars_consumer["dependencies"])
+    assert polars_binding["consumer_dependency"] == "polars/1.42.1"
     binding = evidence["pyarrow"]
     assert isinstance(binding, dict)
     manifest_path = ROOT.parents[1] / binding["manifest"]
@@ -370,7 +400,7 @@ def _validate_pyarrow_provider_integration(providers: dict[str, object]) -> None
 
 def test_pyarrow_external_provider_is_bound_and_fail_closed() -> None:
     providers = json.loads((ROOT / "providers.json").read_text())
-    _validate_pyarrow_provider_integration(providers)
+    _validate_external_provider_integration(providers)
 
 
 @pytest.mark.parametrize(
@@ -407,4 +437,30 @@ def test_pyarrow_external_provider_rejects_mutated_evidence(mutation: str) -> No
     else:
         binding["version"] = "25.0.0"
     with pytest.raises((AssertionError, FileNotFoundError)):
-        _validate_pyarrow_provider_integration(mutated)
+        _validate_external_provider_integration(mutated)
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    ["path", "digest", "native", "full", "version", "consumer_digest", "name"],
+)
+def test_polars_external_provider_rejects_mutated_evidence(mutation: str) -> None:
+    providers = json.loads((ROOT / "providers.json").read_text())
+    mutated = copy.deepcopy(providers)
+    binding = mutated["external_provider_evidence"]["polars"]
+    if mutation == "path":
+        mutated["external_provider_overlays"]["polars"] = "packaging/missing"
+    elif mutation == "digest":
+        binding["manifest_sha256"] = "0" * 64
+    elif mutation == "native":
+        binding["native_build_executed"] = True
+    elif mutation == "full":
+        binding["full_voiage_ready"] = True
+    elif mutation == "version":
+        binding["version"] = "1.42.0"
+    elif mutation == "consumer_digest":
+        binding["consumer_recipe_sha256"] = "0" * 64
+    else:
+        binding["consumer_dependency"] = "Polars/1.42.1"
+    with pytest.raises((AssertionError, FileNotFoundError)):
+        _validate_external_provider_integration(mutated)
