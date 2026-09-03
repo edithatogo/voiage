@@ -84,7 +84,16 @@ IDENTITY_KEYS = {
     "robot_paths",
     "robot_manifest_sha256",
     "source_cache_manifest_sha256",
+    "tooling_commit",
+    "tooling_tree",
+    "tooling_root",
+    "tooling_driver_sha256",
+    "tooling_probe_sha256",
 }
+TOOLING_FILES = (
+    "scripts/native_easybuild_qualification.py",
+    "scripts/native_easybuild_probe.py",
+)
 COMMAND_KEYS = {"stage", "argv", "exit_code", "signal", "log", "log_sha256", "parsed"}
 
 
@@ -285,13 +294,27 @@ def git_manifest_digest(checkout: Path, revision: str) -> tuple[str, bool]:
     return hashlib.sha256(("\n".join(listing) + "\n").encode()).hexdigest(), no_symlinks
 
 
-def validate_receipt(path: Path, root: Path) -> dict[str, Any]:
+def git_blob_sha256(checkout: Path, revision: str, relative: str) -> str:
+    """Hash one tracked file from an exact Git revision."""
+    return hashlib.sha256(
+        subprocess.check_output(
+            ["git", "-C", str(checkout), "show", f"{revision}:{relative}"]
+        )
+    ).hexdigest()
+
+
+def validate_receipt(
+    path: Path, root: Path, tooling_root: Path | None = None
+) -> dict[str, Any]:
     """Validate one terminal generation receipt and its artifacts."""
     if path.is_symlink() or not path.is_file():
         raise ValueError("receipt must be a regular file")
     data: Any = json.loads(path.read_text())
+    tooling_root = (tooling_root or Path(__file__).resolve().parents[1]).resolve()
     schema = json.loads(
-        (root / "specs/native-easybuild-terminal-receipt-v1.schema.json").read_text()
+        (
+            tooling_root / "specs/native-easybuild-terminal-receipt-v1.schema.json"
+        ).read_text()
     )
     try:
         jsonschema.Draft202012Validator(schema).validate(data)
@@ -353,6 +376,39 @@ def validate_receipt(path: Path, root: Path) -> dict[str, Any]:
         or not no_source_symlinks
     ):
         raise ValueError("source tree or manifest is stale")
+    try:
+        tooling_tree = subprocess.check_output(
+            [
+                "git",
+                "-C",
+                str(tooling_root),
+                "rev-parse",
+                f"{identity['tooling_commit']}^{{tree}}",
+            ],
+            text=True,
+        ).strip()
+        tooling_hashes = {
+            relative: git_blob_sha256(
+                tooling_root, identity["tooling_commit"], relative
+            )
+            for relative in TOOLING_FILES
+        }
+    except subprocess.CalledProcessError as exc:
+        raise ValueError("tooling commit is unavailable") from exc
+    if (
+        Path(identity["tooling_root"]) != tooling_root
+        or subprocess.check_output(
+            ["git", "-C", str(tooling_root), "rev-parse", "HEAD"], text=True
+        ).strip()
+        != identity["tooling_commit"]
+        or subprocess.check_output(
+            ["git", "-C", str(tooling_root), "status", "--porcelain"], text=True
+        ).strip()
+        or identity["tooling_tree"] != tooling_tree
+        or identity["tooling_driver_sha256"] != tooling_hashes[TOOLING_FILES[0]]
+        or identity["tooling_probe_sha256"] != tooling_hashes[TOOLING_FILES[1]]
+    ):
+        raise ValueError("tooling checkout identity is stale")
     expected_robot_hash = hashlib.sha256(
         json.dumps(identity["robot_paths"], separators=(",", ":")).encode()
     ).hexdigest()
@@ -544,6 +600,9 @@ def validate_receipt(path: Path, root: Path) -> dict[str, Any]:
             "catalogue_head",
             "catalogue_tree",
             "catalogue_status",
+            "tooling_head",
+            "tooling_tree",
+            "tooling_status",
             "prefix_absent",
             "module_tree_empty",
             "preinstalled_voiage_absent",
@@ -560,6 +619,9 @@ def validate_receipt(path: Path, root: Path) -> dict[str, Any]:
             or preflight_evidence["catalogue_head"] != CATALOGUE
             or preflight_evidence["catalogue_tree"] != identity["catalogue_tree"]
             or preflight_evidence["catalogue_status"] != ""
+            or preflight_evidence["tooling_head"] != identity["tooling_commit"]
+            or preflight_evidence["tooling_tree"] != identity["tooling_tree"]
+            or preflight_evidence["tooling_status"] != ""
             or not all(
                 preflight_evidence[key] is True
                 for key in (
@@ -590,6 +652,9 @@ def validate_receipt(path: Path, root: Path) -> dict[str, Any]:
                 "catalogue_head",
                 "catalogue_tree",
                 "catalogue_status",
+                "tooling_head",
+                "tooling_tree",
+                "tooling_status",
             )
         }:
             raise ValueError("postflight checkout evidence drifted")
@@ -774,7 +839,9 @@ def validate_receipt(path: Path, root: Path) -> dict[str, Any]:
     return data
 
 
-def validate_matrix(path: Path, root: Path) -> dict[str, Any]:
+def validate_matrix(
+    path: Path, root: Path, tooling_root: Path | None = None
+) -> dict[str, Any]:
     """Require terminal passing receipts for both maintained generations."""
     data: Any = json.loads(path.read_text())
     if (
@@ -829,7 +896,7 @@ def validate_matrix(path: Path, root: Path) -> dict[str, Any]:
         )
         if sha256(receipt_path) != binding["sha256"]:
             raise ValueError("matrix receipt digest is invalid")
-        receipt = validate_receipt(receipt_path, root)
+        receipt = validate_receipt(receipt_path, root, tooling_root)
         if (
             receipt["outcome"] != "passed"
             or receipt["identity"]["generation"] != generation
@@ -857,6 +924,9 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("generation", choices=GENERATIONS)
     parser.add_argument("--root", type=Path, default=Path.cwd())
+    parser.add_argument(
+        "--tooling-root", type=Path, default=Path(__file__).resolve().parents[1]
+    )
     parser.add_argument("--catalogue", type=Path, required=True)
     parser.add_argument("--workspace", type=Path, required=True)
     parser.add_argument("--source-cache", type=Path, required=True)
@@ -878,10 +948,13 @@ def main() -> int:
     ):
         raise SystemExit("source and workspace roots must not be symlinks")
     root = args.root.resolve()
+    tooling_root = args.tooling_root.resolve()
     workspace = args.workspace.resolve()
     source_cache = args.source_cache.resolve()
     if args.predecessor_receipt:
-        predecessor = validate_receipt(args.predecessor_receipt.resolve(), root)
+        predecessor = validate_receipt(
+            args.predecessor_receipt.resolve(), root, tooling_root
+        )
         if (
             predecessor["outcome"] != "passed"
             or predecessor["identity"]["generation"] != "2023a"
@@ -911,6 +984,16 @@ def main() -> int:
         ["git", "-C", str(root), "status", "--porcelain"], text=True
     ).strip():
         raise SystemExit("source checkout must be clean")
+    tooling_commit = subprocess.check_output(
+        ["git", "-C", str(tooling_root), "rev-parse", "HEAD"], text=True
+    ).strip()
+    tooling_tree = subprocess.check_output(
+        ["git", "-C", str(tooling_root), "rev-parse", "HEAD^{tree}"], text=True
+    ).strip()
+    if subprocess.check_output(
+        ["git", "-C", str(tooling_root), "status", "--porcelain"], text=True
+    ).strip():
+        raise SystemExit("tooling checkout must be clean")
     if (
         subprocess.check_output(
             ["git", "-C", str(args.catalogue), "rev-parse", "HEAD"],
@@ -1032,6 +1115,9 @@ def main() -> int:
         "catalogue_status": subprocess.check_output(
             ["git", "-C", str(catalogue), "status", "--porcelain"], text=True
         ).strip(),
+        "tooling_head": tooling_commit,
+        "tooling_tree": tooling_tree,
+        "tooling_status": "",
         "prefix_absent": not prefix.exists(),
         "module_tree_empty": not prefix.exists(),
         "preinstalled_voiage_absent": absent_probe.returncode == 0,
@@ -1088,7 +1174,7 @@ def main() -> int:
             str(script),
             str(module_files[0].parents[1]),
             module_name,
-            str(root / "scripts/native_easybuild_probe.py"),
+            str(tooling_root / "scripts/native_easybuild_probe.py"),
             str(prefix),
             args.generation,
             str(probe_json),
@@ -1216,6 +1302,17 @@ def main() -> int:
             "catalogue_status": subprocess.check_output(
                 ["git", "-C", str(catalogue), "status", "--porcelain"], text=True
             ).strip(),
+            "tooling_head": subprocess.check_output(
+                ["git", "-C", str(tooling_root), "rev-parse", "HEAD"], text=True
+            ).strip(),
+            "tooling_tree": subprocess.check_output(
+                ["git", "-C", str(tooling_root), "rev-parse", "HEAD^{tree}"],
+                text=True,
+            ).strip(),
+            "tooling_status": subprocess.check_output(
+                ["git", "-C", str(tooling_root), "status", "--porcelain"],
+                text=True,
+            ).strip(),
         }
         expected_postflight = {key: preflight_evidence[key] for key in postflight}
         if postflight != expected_postflight:
@@ -1296,6 +1393,15 @@ def main() -> int:
             ).hexdigest(),
             "source_cache_manifest_sha256": artifacts["source_cache_inventory_sha256"]
             or "0" * 64,
+            "tooling_commit": tooling_commit,
+            "tooling_tree": tooling_tree,
+            "tooling_root": str(tooling_root),
+            "tooling_driver_sha256": git_blob_sha256(
+                tooling_root, tooling_commit, TOOLING_FILES[0]
+            ),
+            "tooling_probe_sha256": git_blob_sha256(
+                tooling_root, tooling_commit, TOOLING_FILES[1]
+            ),
         },
         "environment": {
             "allowlist": allowlist,
@@ -1335,7 +1441,7 @@ def main() -> int:
     }
     receipt_path = run_dir / "receipt.json"
     receipt_path.write_text(json.dumps(receipt, indent=2) + "\n")
-    validate_receipt(receipt_path, root)
+    validate_receipt(receipt_path, root, tooling_root)
     return code
 
 

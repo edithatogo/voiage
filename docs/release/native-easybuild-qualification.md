@@ -6,13 +6,22 @@ fresh VM-local workspace, Linux, Environment Modules, eight CPUs and 250 GiB
 free. It does not use a repository, virtual-environment or Spack installation
 as native evidence.
 
+Use two distinct clean checkouts: the candidate checkout remains pinned to
+`9307d9ec`, while the tooling checkout contains this driver, its receipt schema,
+validator and probe. The receipt binds both Git identities and the exact driver
+and probe bytes. Run the command from the tooling checkout; `--root` always
+names the candidate being qualified and `--tooling-root` names the reviewed
+tooling checkout.
+
 Run `foss-2023a` to a terminal receipt before starting `foss-2024a`. The two
 generations may share downloaded source archives, but use separate build,
 install and module roots. Invoke the driver only inside the prepared Linux VM:
 
 ```sh
+cd /vm/voiage-native-easybuild-tooling
 VOIAGE_VM_LOCAL_STORAGE=confirmed python3 scripts/native_easybuild_qualification.py \
-  2023a --root /vm/voiage-9307d9ec --catalogue /vm/easyconfigs-58e8b5a \
+  2023a --root /vm/voiage-9307d9ec --tooling-root "$PWD" \
+  --catalogue /vm/easyconfigs-58e8b5a \
   --workspace /vm/easybuild --source-cache /vm/prepared-sources \
   --run-id native-20260904 --execute
 ```

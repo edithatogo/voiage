@@ -50,7 +50,12 @@
         "root_recipe_sha256",
         "robot_paths",
         "robot_manifest_sha256",
-        "source_cache_manifest_sha256"
+        "source_cache_manifest_sha256",
+        "tooling_commit",
+        "tooling_tree",
+        "tooling_root",
+        "tooling_driver_sha256",
+        "tooling_probe_sha256"
       ],
       "additionalProperties": false,
       "properties": {
@@ -114,6 +119,26 @@
         "catalogue_root": {
           "type": "string",
           "minLength": 1
+        },
+        "tooling_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "tooling_tree": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "tooling_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tooling_driver_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "tooling_probe_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
         }
       }
     },

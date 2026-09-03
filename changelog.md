@@ -1,7 +1,8 @@
 # Changelog
 
 - Add guarded, generation-isolated native EasyBuild qualification tooling and
-  a fail-closed terminal evidence contract without claiming a native build.
+  a fail-closed terminal evidence contract that separately binds the pinned
+  candidate and reviewed tooling checkouts, without claiming a native build.
 
 - Prepare checksum-pinned voiage 2.2.0 Spack and both requested EasyBuild toolchain candidates, cluster module instructions, and an isolated Rust source-build smoke check; upstream submission and actual HPC builds remain pending.
 

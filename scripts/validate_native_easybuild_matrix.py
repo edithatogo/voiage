@@ -13,8 +13,11 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("matrix", type=Path)
     parser.add_argument("--root", type=Path, default=Path.cwd())
+    parser.add_argument(
+        "--tooling-root", type=Path, default=Path(__file__).resolve().parents[1]
+    )
     args = parser.parse_args()
-    validate_matrix(args.matrix, args.root)
+    validate_matrix(args.matrix, args.root, args.tooling_root)
     print("Native EasyBuild matrix: PASS (2023a and 2024a)")
     return 0
 

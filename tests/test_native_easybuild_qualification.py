@@ -3,6 +3,7 @@ import hashlib
 import json
 from pathlib import Path
 import shlex
+import shutil
 import subprocess
 import sys
 from typing import Any
@@ -169,6 +170,14 @@ def _receipt(tmp_path: Path, generation: str = "2023a") -> Path:
         ["/usr/bin/git", "rev-parse", f"{BASE}^{{tree}}"], text=True
     ).strip()
     source_manifest, _ = git_manifest_digest(Path.cwd(), BASE)
+    tooling_root = Path(qualification.__file__).resolve().parents[1]
+    tooling_commit = subprocess.check_output(
+        ["/usr/bin/git", "-C", str(tooling_root), "rev-parse", "HEAD"], text=True
+    ).strip()
+    tooling_tree = subprocess.check_output(
+        ["/usr/bin/git", "-C", str(tooling_root), "rev-parse", "HEAD^{tree}"],
+        text=True,
+    ).strip()
     preflight_path = run_root / "preflight.json"
     _write_json(
         preflight_path,
@@ -180,6 +189,9 @@ def _receipt(tmp_path: Path, generation: str = "2023a") -> Path:
             "catalogue_head": BASE,
             "catalogue_tree": source_tree,
             "catalogue_status": "",
+            "tooling_head": tooling_commit,
+            "tooling_tree": tooling_tree,
+            "tooling_status": "",
             "prefix_absent": True,
             "module_tree_empty": True,
             "preinstalled_voiage_absent": True,
@@ -198,6 +210,9 @@ def _receipt(tmp_path: Path, generation: str = "2023a") -> Path:
             "catalogue_head": BASE,
             "catalogue_tree": source_tree,
             "catalogue_status": "",
+            "tooling_head": tooling_commit,
+            "tooling_tree": tooling_tree,
+            "tooling_status": "",
         },
     )
     catalogue_path = run_root / "catalogue-evidence.json"
@@ -236,6 +251,15 @@ def _receipt(tmp_path: Path, generation: str = "2023a") -> Path:
                 json.dumps(robot, separators=(",", ":")).encode()
             ).hexdigest(),
             "source_cache_manifest_sha256": source_hash,
+            "tooling_root": str(tooling_root),
+            "tooling_commit": tooling_commit,
+            "tooling_tree": tooling_tree,
+            "tooling_driver_sha256": qualification.git_blob_sha256(
+                tooling_root, tooling_commit, qualification.TOOLING_FILES[0]
+            ),
+            "tooling_probe_sha256": qualification.git_blob_sha256(
+                tooling_root, tooling_commit, qualification.TOOLING_FILES[1]
+            ),
         },
         "environment": {
             "allowlist": allowlist,
@@ -673,6 +697,25 @@ def test_rejects_source_cache_mutation_between_preflight_and_terminal(
         validate_receipt(path, Path.cwd())
 
 
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("tooling_commit", "0" * 40),
+        ("tooling_tree", "0" * 40),
+        ("tooling_driver_sha256", "0" * 64),
+        ("tooling_probe_sha256", "0" * 64),
+        ("tooling_root", "/wrong/tooling/root"),
+    ],
+)
+def test_rejects_tooling_identity_mutation(
+    tmp_path: Path, field: str, value: str
+) -> None:
+    path = _receipt(tmp_path)
+    _mutate(path, lambda data: data["identity"].__setitem__(field, value))
+    with pytest.raises(ValueError, match="tooling"):
+        validate_receipt(path, Path.cwd())
+
+
 def test_rejects_outside_prefix_linkage_target(tmp_path: Path) -> None:
     path = _receipt(tmp_path)
     probe_path = tmp_path / "probe.json"
@@ -759,6 +802,23 @@ def test_executor_produces_valid_terminal_receipt(
     prepared_sources = tmp_path / "prepared-sources"
     prepared_sources.mkdir()
     (prepared_sources / "voiage-2.2.0.tar.gz").write_text("prepared source")
+    tooling_root = tmp_path / "tooling"
+    for relative in (
+        *qualification.TOOLING_FILES,
+        "specs/native-easybuild-terminal-receipt-v1.schema.json",
+    ):
+        target = tooling_root / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(Path.cwd() / relative, target)
+    tooling_commit = subprocess.check_output(
+        ["/usr/bin/git", "rev-parse", "HEAD"], text=True
+    ).strip()
+    tooling_tree = subprocess.check_output(
+        ["/usr/bin/git", "rev-parse", "HEAD^{tree}"], text=True
+    ).strip()
+    base_tree = subprocess.check_output(
+        ["/usr/bin/git", "rev-parse", f"{BASE}^{{tree}}"], text=True
+    ).strip()
     monkeypatch.setenv("VOIAGE_VM_LOCAL_STORAGE", "confirmed")
     monkeypatch.setattr(qualification.sys, "platform", "linux")
     monkeypatch.setattr(qualification.sys, "executable", "/usr/bin/python3")
@@ -772,7 +832,7 @@ def test_executor_produces_valid_terminal_receipt(
     )
     real_output = subprocess.check_output
 
-    def output(argv: list[str], **kwargs: Any) -> str:
+    def output(argv: list[str], **kwargs: Any) -> str:  # noqa: PLR0911
         if argv[:2] == ["eb", "--version"]:
             return "EasyBuild 5.4.0\n"
         if (
@@ -784,6 +844,26 @@ def test_executor_produces_valid_terminal_receipt(
             return "5.4.0\n"
         if argv[-2:] == ["status", "--porcelain"]:
             return ""
+        checkout = argv[argv.index("-C") + 1] if "-C" in argv else None
+        if checkout == str(tooling_root):
+            if argv[-2:] == ["rev-parse", "HEAD"]:
+                return tooling_commit + "\n"
+            if argv[-2:] == ["rev-parse", "HEAD^{tree}"]:
+                return tooling_tree + "\n"
+            if argv[-2] == "rev-parse" and argv[-1].endswith("^{tree}"):
+                return tooling_tree + "\n"
+            if "show" in argv:
+                relative = argv[-1].split(":", 1)[1]
+                payload = (tooling_root / relative).read_bytes()
+                return payload if not kwargs.get("text") else payload.decode()
+        if checkout == str(Path.cwd()):
+            if argv[-2:] == ["rev-parse", "HEAD"]:
+                return BASE + "\n"
+            if argv[-2:] == ["rev-parse", "HEAD^{tree}"]:
+                return base_tree + "\n"
+            if argv[-3:] == ["ls-tree", "-r", "HEAD"]:
+                replacement = [*argv[:-1], BASE]
+                return real_output(replacement, **kwargs)
         return real_output(argv, **kwargs)
 
     monkeypatch.setattr(qualification.subprocess, "check_output", output)
@@ -823,6 +903,8 @@ def test_executor_produces_valid_terminal_receipt(
             "2023a",
             "--root",
             str(Path.cwd()),
+            "--tooling-root",
+            str(tooling_root),
             "--catalogue",
             str(Path.cwd()),
             "--workspace",
@@ -836,7 +918,7 @@ def test_executor_produces_valid_terminal_receipt(
     )
     assert qualification.main() == 0
     receipt = workspace / "voiage-easybuild-2023a/receipt.json"
-    assert validate_receipt(receipt, Path.cwd())["outcome"] == "passed"
+    assert validate_receipt(receipt, Path.cwd(), tooling_root)["outcome"] == "passed"
 
 
 @pytest.mark.skipif(sys.platform != "linux", reason="requires Linux shell semantics")
@@ -850,6 +932,23 @@ def test_generated_module_scripts_with_fake_environment_modules(
     prepared_sources = tmp_path / "prepared-sources-linux"
     prepared_sources.mkdir()
     (prepared_sources / "voiage-2.2.0.tar.gz").write_text("prepared")
+    tooling_root = tmp_path / "tooling"
+    for relative in (
+        *qualification.TOOLING_FILES,
+        "specs/native-easybuild-terminal-receipt-v1.schema.json",
+    ):
+        target = tooling_root / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(Path.cwd() / relative, target)
+    tooling_commit = subprocess.check_output(
+        ["/usr/bin/git", "rev-parse", "HEAD"], text=True
+    ).strip()
+    tooling_tree = subprocess.check_output(
+        ["/usr/bin/git", "rev-parse", "HEAD^{tree}"], text=True
+    ).strip()
+    base_tree = subprocess.check_output(
+        ["/usr/bin/git", "rev-parse", f"{BASE}^{{tree}}"], text=True
+    ).strip()
     fake_bin = tmp_path / "fake-bin"
     fake_bin.mkdir()
     modulecmd = fake_bin / "modulecmd"
@@ -925,7 +1024,7 @@ with open(a.output, "w") as stream:
     )
     real_output = subprocess.check_output
 
-    def output(argv: list[str], **kwargs: Any) -> str:
+    def output(argv: list[str], **kwargs: Any) -> str:  # noqa: PLR0911
         if argv[:2] == ["eb", "--version"]:
             return "EasyBuild 5.4.0\n"
         if (
@@ -937,6 +1036,25 @@ with open(a.output, "w") as stream:
             return "Environment Modules 5.4.0\n"
         if argv[-2:] == ["status", "--porcelain"]:
             return ""
+        checkout = argv[argv.index("-C") + 1] if "-C" in argv else None
+        if checkout == str(tooling_root):
+            if argv[-2:] == ["rev-parse", "HEAD"]:
+                return tooling_commit + "\n"
+            if argv[-2:] == ["rev-parse", "HEAD^{tree}"]:
+                return tooling_tree + "\n"
+            if argv[-2] == "rev-parse" and argv[-1].endswith("^{tree}"):
+                return tooling_tree + "\n"
+            if "show" in argv:
+                relative = argv[-1].split(":", 1)[1]
+                payload = (tooling_root / relative).read_bytes()
+                return payload if not kwargs.get("text") else payload.decode()
+        if checkout == str(Path.cwd()):
+            if argv[-2:] == ["rev-parse", "HEAD"]:
+                return BASE + "\n"
+            if argv[-2:] == ["rev-parse", "HEAD^{tree}"]:
+                return base_tree + "\n"
+            if argv[-3:] == ["ls-tree", "-r", "HEAD"]:
+                return real_output([*argv[:-1], BASE], **kwargs)
         return real_output(argv, **kwargs)
 
     monkeypatch.setattr(qualification.subprocess, "check_output", output)
@@ -1008,6 +1126,8 @@ with open(a.output, "w") as stream:
             "2023a",
             "--root",
             str(source_root),
+            "--tooling-root",
+            str(tooling_root),
             "--catalogue",
             str(source_root),
             "--workspace",
@@ -1023,7 +1143,10 @@ with open(a.output, "w") as stream:
     assert qualification.main() == 0
     run_root = workspace / "voiage-easybuild-2023a"
     assert (
-        validate_receipt(run_root / "receipt.json", source_root)["outcome"] == "passed"
+        validate_receipt(run_root / "receipt.json", source_root, tooling_root)[
+            "outcome"
+        ]
+        == "passed"
     )
     assert (run_root / "probe.log").read_text() == ""
     assert (run_root / "unload.log").read_text() == ""
