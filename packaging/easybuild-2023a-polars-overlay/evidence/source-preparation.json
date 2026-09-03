@@ -1,0 +1,17 @@
+{
+  "schema": "voiage.easybuild-polars-source-preparation.v1",
+  "generation": "2023a",
+  "recipe": "2023a/polars-runtime-32-1.42.1-GCCcore-12.3.0.eb",
+  "recipe_sha256": "d099056a0cf40a5c40c9bf0855059a93eed76c652e890d82fa428f983790c9ae",
+  "cargo_audit_sha256": "9673856f060a0fe05df39d4316301dec726e8d72698bd5ccb417375e2cc480cb",
+  "source_manifest_sha256": "ada3c53b75ace7ebacdd79df6fe17d1b7c12f422df495818d0452b2ab5179244",
+  "verified_input_count": 535,
+  "registry_archive_count": 530,
+  "git_archive_count": 3,
+  "pypi_archive_count": 2,
+  "all_declared_archive_sha256_verified": true,
+  "easybuild_generated_registry_filename_contract": "<crate>-<version>.tar.gz",
+  "cache_provenance": "read-only reuse of checksum-verified inputs prepared for the reviewed 2024a sibling overlay",
+  "native_build_executed": false,
+  "full_voiage_graph": false
+}

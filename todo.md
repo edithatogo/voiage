@@ -10,7 +10,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
     recipes (#1025), remaining issue evidence, protected PR merges and verified
     cleanup. Keep unsatisfied human and external outcomes open.
     *   [x] Add the stable Rust, Pydantic 2.13.4 and JSON Schema 4.26.0 provider layer for EasyBuild 2024a; native module qualification remains pending.
-    *   [x] Add the Polars 1.42.1 provider layer for EasyBuild 2024a with a distinct dated-nightly Rust compiler; native module qualification remains pending.
+    *   [x] Add the Polars 1.42.1 provider layers for EasyBuild 2023a and 2024a with distinct dated-nightly Rust compilers; native module qualification remains pending.
     *   [x] Reconcile the EasyBuild 2024a root dependency with the provider's
         lowercase `polars` module name; native full-graph qualification remains
         pending.

@@ -8,6 +8,8 @@
 
 ## Unreleased
 
+- Add a checksum-bound, offline Polars 1.42.1 EasyBuild 2023a provider with an exact dated-nightly Rust boundary and canonical Voiage consumer binding; native build, full-stack and upstream gates remain false.
+
 - Correct the EasyBuild 2024a root graph to request the lowercase `polars`
   module name declared by the checksum-bound Polars recipe; native build and
   full-stack qualification remain pending.
