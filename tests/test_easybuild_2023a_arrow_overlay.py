@@ -270,10 +270,13 @@ def test_robot_resolution_is_generation_correct_and_not_native_evidence() -> Non
 
 def _validate_foundation_provider(providers: dict[str, Any]) -> None:
     expected = "packaging/easybuild-2023a-arrow-overlay"
-    assert providers["external_provider_overlays"] == {"pyarrow": expected}
+    assert providers["external_provider_overlays"] == {
+        "pyarrow": expected,
+        "polars": "packaging/easybuild-2023a-polars-overlay",
+    }
     evidence = providers["external_provider_evidence"]
     assert isinstance(evidence, dict)
-    assert set(evidence) == {"pyarrow"}
+    assert set(evidence) == {"pyarrow", "polars"}
     binding = evidence["pyarrow"]
     assert binding["version"] == "25.0.1"
     assert binding["native_build_executed"] is False

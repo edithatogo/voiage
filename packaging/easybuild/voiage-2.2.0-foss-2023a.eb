@@ -29,7 +29,7 @@ dependencies = [
     ('xarray', '2024.11.0'),
     ('scikit-learn', '1.7.2'),
     ('Arrow', '25.0.1'),
-    ('Polars', '1.42.1'),
+    ('polars', '1.42.1'),
     ('pydantic', '2.13.4'),
     ('jsonschema', '4.26.0'),
     ('typing_extensions', '4.16.0'),

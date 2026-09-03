@@ -1,0 +1,26 @@
+{
+  "schema": "voiage.easybuild-2023a-polars-overlay.v1",
+  "catalogue_commit": "58e8b5a48767cbed1bf5669675d9638580d7259f",
+  "generation": "2023a",
+  "files": {
+    "2023a/Rust-nightly-2026-04-01-GCCcore-12.3.0.eb": "bd25a698717e4202f6772be7c678bf8794cbdf9e20e10d18677ab9c20510fb8f",
+    "2023a/Rust-nightly-2026-04-01_sysroot-fix-interpreter.patch": "1f4d55815f7a4bedadf44612645c46c1f1b91b7dabbee050c750dd42c1655c30",
+    "2023a/polars-1.42.1-GCCcore-12.3.0.eb": "7f8e4eb9abf95c8a708e5d229f6209ae0c58932f1ff98d845063d2f509ad60ec",
+    "2023a/polars-runtime-32-1.42.1-GCCcore-12.3.0.eb": "d099056a0cf40a5c40c9bf0855059a93eed76c652e890d82fa428f983790c9ae",
+    "2023a/polars-runtime-32-1.42.1_offline-git-sources.patch": "510ffa1aed1bb217b7393cfbf814de91e6873c9732d82fb51cf72702e365b8ff",
+    "LICENSE.easybuild": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643",
+    "LICENSE.polars": "8296022372dc83cc8ef234b3d4889ef8f8b1779754a78bebf13d2c5178a6b4c4",
+    "NOTICE": "b27210f2f397522426cf71195c238234ac335999b75315c10b38e7525e457c93",
+    "README.md": "ff9b91457ea7c7b4b893512c3f0c206ab77eea6031949074548df0e617ce44d2",
+    "cargo-source-audit.json": "9673856f060a0fe05df39d4316301dec726e8d72698bd5ccb417375e2cc480cb",
+    "evidence/polars-runtime-32-Cargo.lock": "f422d4711d31d6446fcdc1dd8ca16d83bc6f2ab8b85937407490380f1f9ae8b0",
+    "evidence/robot.log": "c04a74c15f37a20bd15fe8c7c5dc3a55f15c6cc8e10f54910a8f63681830384c",
+    "evidence/source-preparation.json": "15176d8b4d311182f651b732fed427c1adf6a442249ff39e9aa6af82c7841153",
+    "providers.json": "a5f0bc164d26cf661f33ade70f7077ee5d671516cdb3622deaa15c2c4f9e95b3",
+    "source-manifest.json": "ada3c53b75ace7ebacdd79df6fe17d1b7c12f422df495818d0452b2ab5179244"
+  },
+  "robot_dry_run": "PASS",
+  "native_builds_executed": false,
+  "full_voiage_graph": false,
+  "upstream_submitted": false
+}

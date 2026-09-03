@@ -257,7 +257,8 @@
   },
   "full_voiage_graph": false,
   "external_provider_overlays": {
-    "pyarrow": "packaging/easybuild-2023a-arrow-overlay"
+    "pyarrow": "packaging/easybuild-2023a-arrow-overlay",
+    "polars": "packaging/easybuild-2023a-polars-overlay"
   },
   "external_provider_evidence": {
     "pyarrow": {
@@ -267,8 +268,18 @@
       "native_build_executed": false,
       "full_voiage_ready": false,
       "consumer_recipe": "packaging/easybuild/voiage-2.2.0-foss-2023a.eb",
-      "consumer_recipe_sha256": "95d353ae1758c9471f99c9ae114e035251c3eda4c00bfd53e1018d432bd82fe2",
+      "consumer_recipe_sha256": "b790b991d84858adf1b4308424cf747f5c83492c5f3aa6afd4be3d99aeaada07",
       "consumer_dependency": "Arrow/25.0.1"
+    },
+    "polars": {
+      "version": "1.42.1",
+      "manifest": "packaging/easybuild-2023a-polars-overlay/manifest.json",
+      "manifest_sha256": "0e1cd1d297fb9651b479eaf576bbb351f6c4256209cbd88759aac4b5ffc20e49",
+      "native_build_executed": false,
+      "full_voiage_ready": false,
+      "consumer_recipe": "packaging/easybuild/voiage-2.2.0-foss-2023a.eb",
+      "consumer_recipe_sha256": "b790b991d84858adf1b4308424cf747f5c83492c5f3aa6afd4be3d99aeaada07",
+      "consumer_dependency": "polars/1.42.1"
     }
   }
 }
