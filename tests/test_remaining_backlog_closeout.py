@@ -57,6 +57,12 @@ def _bind_inventory_expectations_to_fixture(
     def fixture_recovery(recovery: object, root: Path) -> None:
         if recovery == expected_recovery:
             return
+        if (
+            isinstance(recovery, dict)
+            and recovery.get("bundle_path") == expected_recovery.get("bundle_path")
+            and recovery.get("recovery_ref") != expected_recovery.get("recovery_ref")
+        ):
+            raise ValueError("recovery ref commit has drifted")
         real_validate_recovery(recovery, root)
 
     monkeypatch.setattr(closeout, "_validate_recovery", fixture_recovery)
