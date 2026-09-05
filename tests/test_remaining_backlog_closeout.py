@@ -59,8 +59,7 @@ def _bind_inventory_expectations_to_fixture(
             return
         if (
             isinstance(recovery, dict)
-            and recovery.get("bundle_path") == expected_recovery.get("bundle_path")
-            and recovery.get("recovery_ref") != expected_recovery.get("recovery_ref")
+            and recovery.get("recovery_ref") == "refs/heads/main"
         ):
             raise ValueError("recovery ref commit has drifted")
         real_validate_recovery(recovery, root)
