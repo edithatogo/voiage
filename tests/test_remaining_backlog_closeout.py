@@ -46,6 +46,21 @@ def _bind_inventory_expectations_to_fixture(
         set(payload["open_issue_boundaries"]["human_external_issue_numbers"]),
     )
 
+    # The pending receipt intentionally points at the maintainer's private
+    # recovery volume, which is unavailable on hosted runners.  Preserve the
+    # validator's equality gate for this checked-in fixture, while allowing
+    # tests that construct temporary recovery artifacts to exercise the real
+    # filesystem and bundle checks.
+    real_validate_recovery = closeout._validate_recovery
+    expected_recovery = payload["recovery_preservation"]
+
+    def fixture_recovery(recovery: object, root: Path) -> None:
+        if recovery == expected_recovery:
+            return
+        real_validate_recovery(recovery, root)
+
+    monkeypatch.setattr(closeout, "_validate_recovery", fixture_recovery)
+
     # Hosted runners have different transient/audit refs.  Feed the production
     # validator the fixture's durable ref listing while retaining all of its
     # canonicalization and hash checks.
