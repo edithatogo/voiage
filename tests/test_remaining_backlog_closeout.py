@@ -40,6 +40,19 @@ def _bind_inventory_expectations_to_fixture(
         closeout, "EXPECTED_CUSTOM_REF_MANIFEST_SHA256", custom_refs["manifest_sha256"]
     )
 
+    # Hosted runners have different transient/audit refs.  Feed the production
+    # validator the fixture's durable ref listing while retaining all of its
+    # canonicalization and hash checks.
+    live_refs = "\n".join(f"{ref['name']} {ref['oid']}" for ref in custom_refs["refs"])
+    real_git = closeout._git
+
+    def fixture_git(root: Path, *args: str) -> str:
+        if args[:2] == ("for-each-ref", "--format=%(refname) %(objectname)"):
+            return live_refs
+        return real_git(root, *args)
+
+    monkeypatch.setattr(closeout, "_git", fixture_git)
+
 
 RELEVANT_ROWS = [
     {
