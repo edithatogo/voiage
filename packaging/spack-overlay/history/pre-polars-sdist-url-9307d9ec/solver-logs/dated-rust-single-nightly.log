@@ -1,0 +1,140 @@
+==> Compilers have been configured automatically from PATH inspection
+==> Using cached archive: /opt/homebrew/Cellar/spack/1.2.2/var/spack/cache/blobs/sha256/5f4b96c08a7868a6e95a64cd4829bd956fd8aeea42436c371371dae973c057e7
+==> Using cached archive: /opt/homebrew/Cellar/spack/1.2.2/var/spack/cache/blobs/sha256/8720111b230ced41bf77601ef3f54e085e3f53b080a24570992b71340ac5da49
+==> Installing "clingo-bootstrap@=spack~apps~docs+ipo+optimized+python build_system=cmake build_type=Release commit=2a025667090d71b2c9dce60fe924feb6bde8f667 generator=make platform=darwin os=bigsur target=aarch64" from a buildcache
+ -   py-voiage@2.2.0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -       ^py-click@8.5.0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-flit-core@3.12.0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -       ^py-jsonschema@4.26.0~format-nongpl build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-attrs@26.1.0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-hatch-fancy-pypi-readme@25.1.0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-hatch-vcs@0.5.0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-hatchling@1.29.0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -               ^py-pathspec@1.1.1 build_system=python_pip platform=darwin os=tahoe target=m1
+ -               ^py-pluggy@1.6.0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -               ^py-trove-classifiers@2026.6.1.19 build_system=python_pip platform=darwin os=tahoe target=m1
+ -                   ^py-calver@2025.10.20 build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-jsonschema-specifications@2025.9.1 build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-referencing@0.37.0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-rpds-py@0.27.1 build_system=python_pip platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -       ^py-maturin@1.13.1 build_system=python_pip platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+[e]          ^apple-clang@21.0.0 build_system=bundle platform=darwin os=tahoe target=aarch64
+ -           ^bzip2@1.0.8~debug~pic+shared build_system=generic platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -               ^diffutils@3.12 build_system=autotools platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -           ^compiler-wrapper@1.1.0 build_system=generic platform=darwin os=tahoe target=m1
+ -           ^py-setuptools@82.0.1 build_system=generic platform=darwin os=tahoe target=m1
+ -           ^py-setuptools-rust@1.12.0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -               ^py-semantic-version@2.10.0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -       ^py-numpy@2.4.6 build_system=python_pip patches:=873745d platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -           ^openblas@0.3.33~bignuma~consistent_fpcsr+dynamic_dispatch+fortran~ilp64+locking+pic+shared~static build_system=makefile patches:=723ddc1 symbol_suffix=none threads=none platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0 %fortran=gcc@16.2.0
+ -           ^py-cython@3.2.4 build_system=python_pip platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -           ^py-meson-python@0.19.0 build_system=python_pip platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -               ^py-pyproject-metadata@0.11.0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -       ^py-pandas@2.3.3~excel~parquet~performance build_system=python_pip platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -           ^meson@1.11.1 build_system=python_pip patches:=0f0b1bd platform=darwin os=tahoe target=m1
+ -           ^py-python-dateutil@2.9.0.post0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -               ^py-six@1.17.0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-pytz@2025.2 build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-tzdata@2026.1 build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-versioneer@0.29+toml build_system=python_pip platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -       ^py-pip@26.1.2 build_system=generic platform=darwin os=tahoe target=m1
+ -       ^py-polars@1.42.1 build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-polars-runtime-32@1.42.1 build_system=python_pip platform=darwin os=tahoe target=m1
+ -       ^py-pyarrow@25.0.0 build_system=python_pip platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -           ^arrow@25.0.0~brotli~bz2~compute+csv~cuda+dataset+filesystem~gandiva~glog~hdfs+ipc~ipo~jemalloc~lz4~orc+parquet+python+shared~snappy~tensorflow~zlib~zstd build_system=cmake build_type=Release generator=make platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -               ^boost@1.90.0~atomic~charconv~chrono~clanglibcpp~container~context~contract~conversion~date_time~debug~exception~fiber+filesystem~graph~graph_parallel~icu~iostreams~json~locale~log~math~mpi~mqtt5+multithreaded~nowide~numpy~openmethod~pic~program_options~python~random~regex~serialization+shared~signals2~singlethreaded~stacktrace+system~taggedlayout~test~thread~timer~type_erasure~url~versionedlayout~wave build_system=generic cxxstd=11 patches:=a440f96 visibility=hidden platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -               ^flatbuffers@24.12.23~ipo~python+shared build_system=cmake build_type=Release generator=make platform=darwin os=tahoe target=m1 %cxx=apple-clang@21.0.0
+ -               ^rapidjson@1.2.0-2024-08-16~doc~ipo build_system=cmake build_type=Release commit=7c73dd7de7c4f14379b781418c6e947ad464c818 generator=make patches:=ee123c7 platform=darwin os=tahoe target=m1 %cxx=apple-clang@21.0.0
+ -               ^re2@2024-07-02~icu~ipo+pic+shared build_system=cmake build_type=Release generator=make platform=darwin os=tahoe target=m1 %cxx=apple-clang@21.0.0
+ -                   ^abseil-cpp@20260107.1~ipo+shared build_system=cmake build_type=Release cxxstd=17 generator=make platform=darwin os=tahoe target=m1 %cxx=apple-clang@21.0.0
+ -               ^thrift@0.22.0~c_glib+cpp~ipo~java~javascript~libevent~nodejs~openssl~python~qt5+shared~zlib build_system=cmake build_type=Release generator=make platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -                   ^bison@3.8.2~color build_system=autotools platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -                   ^flex@2.6.3+lex~nls build_system=autotools platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -                       ^findutils@4.10.0 build_system=autotools patches:=440b954 platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -               ^utf8proc@2.10.0~ipo+shared build_system=cmake build_type=Release generator=make platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -               ^xsimd@13.2.0~ipo build_system=cmake build_type=Release generator=make platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -           ^cmake@3.31.11~doc+ncurses+ownlibs~qtgui build_system=generic build_type=Release platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -           ^pkgconf@2.5.1 build_system=autotools platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -               ^gnuconfig@2025-07-10 build_system=generic platform=darwin os=tahoe target=m1
+ -           ^py-libcst@1.8.6 build_system=python_pip platform=darwin os=tahoe target=m1
+ -               ^py-pyyaml@6.0.3+libyaml build_system=python_pip platform=darwin os=tahoe target=m1
+ -                   ^libyaml@0.2.5 build_system=autotools platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -           ^py-scikit-build-core@0.12.2~pyproject build_system=python_pip platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0 %fortran=gcc@16.2.0
+ -           ^py-setuptools-scm@9.2.2+toml build_system=python_pip platform=darwin os=tahoe target=m1
+ -               ^git@2.53.0+man+nls+perl+subtree~tcltk build_system=autotools patches:=67fa971 platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -                   ^autoconf@2.72 build_system=autotools platform=darwin os=tahoe target=m1
+ -                   ^automake@1.18.1 build_system=autotools platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -                   ^libidn2@2.3.8 build_system=autotools platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -                       ^libunistring@1.4.2 build_system=autotools platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -                   ^libtool@2.5.4 build_system=autotools platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -                       ^file@5.46+static build_system=autotools platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -                   ^m4@1.4.21+sigsegv build_system=autotools platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -                       ^libsigsegv@2.15 build_system=autotools platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -                   ^openssh@10.3p1+gssapi build_system=autotools platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -                       ^krb5@1.22.2+shared build_system=autotools platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -                       ^libedit@3.1-20251016 build_system=autotools platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -                       ^libxcrypt@4.5.2~obsolete_api build_system=autotools platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -                   ^pcre2@10.44~jit+multibyte+pic build_system=autotools platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -       ^py-pydantic@2.13.4~dotenv build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-annotated-types@0.7.0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-pydantic-core@2.46.4 build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-typing-inspection@0.4.2 build_system=python_pip platform=darwin os=tahoe target=m1
+ -       ^py-scikit-learn@1.9.0 build_system=python_pip platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -           ^llvm-openmp@20.1.8~fortran~ipo+multicompat build_system=cmake build_type=Release generator=make platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -           ^py-joblib@1.5.3 build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-narwhals@2.19.0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-threadpoolctl@3.6.0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -       ^py-scipy@1.16.3 build_system=python_pip platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0 %fortran=gcc@16.2.0
+[e]          ^gcc@16.2.0+binutils+bootstrap~graphite+libsanitizer~mold~nvptx~piclibs~profiled~strip build_system=autotools build_type=RelWithDebInfo languages:='c,c++,fortran' platform=darwin os=tahoe target=aarch64
+ -           ^gcc-runtime@16.2.0 build_system=generic platform=darwin os=tahoe target=m1
+ -           ^py-pybind11@3.0.2+ipo build_system=cmake build_type=Release generator=ninja platform=darwin os=tahoe target=m1 %cxx=apple-clang@21.0.0
+ -           ^py-pythran@0.18.1 build_system=python_pip platform=darwin os=tahoe target=m1 %cxx=apple-clang@21.0.0
+ -               ^py-beniget@0.4.2.post1 build_system=python_pip platform=darwin os=tahoe target=m1
+ -               ^py-gast@0.6.0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -               ^py-ply@3.11 build_system=python_pip platform=darwin os=tahoe target=m1
+ -       ^py-typer@0.27.2 build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-annotated-doc@0.0.5 build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-pdm-backend@2.4.7 build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-rich@15.0.0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -               ^py-markdown-it-py@4.0.0~linkify build_system=python_pip platform=darwin os=tahoe target=m1
+ -                   ^py-mdurl@0.1.2 build_system=python_pip platform=darwin os=tahoe target=m1
+ -               ^py-poetry-core@2.3.2 build_system=python_pip platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -               ^py-pygments@2.19.2 build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-shellingham@1.5.0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -       ^py-typing-extensions@4.16.0 build_system=python_pip platform=darwin os=tahoe target=m1
+ -       ^py-wheel@0.45.1 build_system=generic platform=darwin os=tahoe target=m1
+ -       ^py-xarray@2024.7.0~io~parallel~viz build_system=python_pip platform=darwin os=tahoe target=m1
+ -           ^py-packaging@26.2 build_system=python_pip platform=darwin os=tahoe target=m1
+ -       ^python@3.14.5+bz2+ctypes+dbm~debug~freethreading+libxml2+lzma~optimizations+pic+pyexpat+pythoncmd+readline+shared+sqlite3+ssl~static~tests~tkinter+uuid+zlib+zstd build_system=generic platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+[e]          ^apple-libuuid@1353.100.2 build_system=bundle platform=darwin os=tahoe target=aarch64
+ -           ^expat@2.8.1~libbsd build_system=autotools platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -           ^gdbm@1.26 build_system=autotools platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -           ^gettext@1.0+bzip2+curses+git~libunistring+libxml2+pic+shared+tar+xz build_system=autotools platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -               ^libiconv@1.18 build_system=autotools libs:=shared,static platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -               ^libxml2@2.15.3+pic~python+shared build_system=autotools platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -               ^tar@1.35 build_system=autotools zip=pigz platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -                   ^pigz@2.8 build_system=makefile platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -           ^gmake@4.4.1~guile build_system=generic platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -           ^libffi@3.5.2 build_system=autotools platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -           ^ncurses@6.6~symlinks+termlib abi=none build_system=autotools patches:=7a351bc platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -           ^openssl@3.6.1~docs+shared build_system=generic certs=mozilla platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -               ^ca-certificates-mozilla@2026-03-19 build_system=generic platform=darwin os=tahoe target=m1
+ -               ^perl@5.42.0+cpanm+opcode+open+shared+threads build_system=generic platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -                   ^berkeley-db@18.1.40+cxx~docs+stl build_system=autotools patches:=26090f4,b231fcc platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -                   ^less@692 build_system=autotools platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -           ^readline@8.3 build_system=autotools patches:=21f0a03,72dee13,e273643 platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -           ^sqlite@3.53.1+column_metadata+fts+rtree build_system=autotools platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -           ^xz@5.8.3~pic build_system=autotools libs:=shared,static platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -           ^zlib-ng@2.3.3+compat+new_strategies+opt+pic+shared build_system=autotools platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -           ^zstd@1.5.7+programs build_system=makefile compression:=none libs:=shared,static platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -       ^python-venv@1.0 build_system=generic platform=darwin os=tahoe target=m1
+ -       ^rust@nightly-2026-04-01~dev~docs+src build_system=generic platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -           ^curl@8.20.0~gssapi~ldap~libidn2~librtmp~libssh~libssh2+nghttp2 build_system=autotools libs:=shared,static tls:=openssl platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -               ^nghttp2@1.67.1 build_system=autotools platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -           ^libgit2@1.9.1~curl~ipo+mmap+ssh build_system=cmake build_type=Release generator=make https=system platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -               ^pcre@8.45~jit+multibyte+pic+shared+static+utf build_system=autotools platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -           ^libssh2@1.11.1+shared build_system=autotools crypto=openssl platform=darwin os=tahoe target=m1 %c=apple-clang@21.0.0
+ -           ^ninja@1.13.2+re2c build_system=generic platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -               ^re2c@4.4 build_system=autotools platform=darwin os=tahoe target=m1 %c,cxx=apple-clang@21.0.0
+ -           ^rust-bootstrap@beta-2026-03-05 build_system=generic platform=darwin os=tahoe target=m1
+

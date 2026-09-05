@@ -21,6 +21,7 @@
 
 - Bind the Spack Polars runtime recipe to PyPI's exact checksum-verified sdist
   URL so Spack cannot drop the `_32` suffix while deriving the source filename.
+  Include the authentic current URL and historical solver logs in the Git tree.
 
 - Reconcile both EasyBuild root graphs with their checksum-bound provider
   overlays and retain sanitized 108-module robot evidence, while keeping native
