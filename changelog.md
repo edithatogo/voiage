@@ -1,5 +1,9 @@
 # Changelog
 
+- Prepare a fail-closed pre-closeout backlog checkpoint that binds the completed
+  EasyBuild and cross-venue merges while retaining native Spack, upstream HPC,
+  human, scientific, registry, identifier, and venue gates.
+
 - Add guarded, generation-isolated native EasyBuild qualification tooling and
   a fail-closed terminal evidence contract that separately binds the pinned
   candidate and reviewed tooling checkouts, preserves build exit codes when

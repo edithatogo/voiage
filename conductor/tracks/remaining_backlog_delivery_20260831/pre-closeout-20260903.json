@@ -1,0 +1,698 @@
+{
+  "schema_version": "voiage.remaining-backlog-pre-closeout.v1",
+  "recorded_at": "2026-09-05T00:00:00Z",
+  "state": "awaiting_native_spack_receipt",
+  "base_main": "b25ae916dc9ef40a7ec94a39e7c3d4ce11f4563a",
+  "merged_delivery": {
+    "1087": {
+      "head_sha": "614224cf4cab2514ece333345ff25f7441fddeba",
+      "merge_sha": "fea90d41898ac31c970b0c2b7a8a80ef3366ab96",
+      "reviewed_tree": "44a79dedb8cf4c8ce6a62f12d549bb6e7585b2ef",
+      "merged_tree": "44a79dedb8cf4c8ce6a62f12d549bb6e7585b2ef",
+      "terminal_checks": 40
+    },
+    "1088": {
+      "head_sha": "d33e0baaf0ef8b337d4ab7eb4f2d2756148e2dab",
+      "merge_sha": "9307d9ec7fcdc808ed7931afc298fa3bebac36e8",
+      "reviewed_tree": "658afdcf9f8fa15f10f4e5d56245a08cd248351e",
+      "merged_tree": "658afdcf9f8fa15f10f4e5d56245a08cd248351e",
+      "terminal_checks": 40
+    }
+  },
+  "closed_repository_issues": {
+    "1024": "2026-09-03T09:06:09Z",
+    "614": "2026-09-03T10:50:22Z",
+    "615": "2026-09-03T10:52:35Z"
+  },
+  "native_spack_receipt": {
+    "path": null,
+    "sha256": null,
+    "outcome": null,
+    "platform": null,
+    "host": null,
+    "run_id": null,
+    "candidate_commit": null,
+    "base_main": null,
+    "relevant_path_manifest_sha256": null,
+    "placeholder": "REPLACE_AFTER_NATIVE_SPACK_TERMINAL_EVIDENCE"
+  },
+  "inventory_snapshot": {
+    "open_pull_requests": [],
+    "worktrees": [
+      {
+        "path": "/Volumes/PortableSSD/GitHub/voiage",
+        "head": "b25ae916dc9ef40a7ec94a39e7c3d4ce11f4563a",
+        "branch": "main"
+      },
+      {
+        "path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-remaining-backlog-final-closeout-20260903",
+        "head": "9307d9ec7fcdc808ed7931afc298fa3bebac36e8",
+        "branch": "codex/remaining-backlog-final-closeout-20260903"
+      },
+      {
+        "path": "/Volumes/PortableSSD/GitHub/.worktrees/voiage-ruff-preview-repair-20260905",
+        "head": "9307d9ec7fcdc808ed7931afc298fa3bebac36e8",
+        "branch": "codex/ruff-preview-repair-20260905"
+      }
+    ],
+    "local_branches": {
+      "codex/remaining-backlog-final-closeout-20260903": "9307d9ec7fcdc808ed7931afc298fa3bebac36e8",
+      "main": "b25ae916dc9ef40a7ec94a39e7c3d4ce11f4563a",
+      "codex/ruff-preview-repair-20260905": "9307d9ec7fcdc808ed7931afc298fa3bebac36e8"
+    },
+    "remote_branches": {
+      "origin/2.0.x": "73c92eebdf581c763f1afb5b5196f687a6d33575",
+      "origin/main": "b25ae916dc9ef40a7ec94a39e7c3d4ce11f4563a"
+    },
+    "notes_refs": {
+      "refs/notes/commits": {
+        "tip": "809c94f9936a995af89a607bb95dfcda1d4813b3",
+        "entry_count": 1468
+      },
+      "refs/notes/conductor": {
+        "tip": "9f8dbe3705278cf6a8853b1ebc911eaa1bdc6ba1",
+        "entry_count": 16
+      },
+      "refs/notes/origin": {
+        "tip": "3e605b08481579862c8e551d63b338f3e17790cf",
+        "entry_count": 1259
+      },
+      "refs/notes/origin-commits": {
+        "tip": "d3f4b22b6ff83fa4d56a9761ce032c05c01f2d32",
+        "entry_count": 797
+      },
+      "refs/notes/remote-commits": {
+        "tip": "80e57ff3858ab1d902d0f36541cc11217d1821e8",
+        "entry_count": 758
+      },
+      "refs/notes/remote-merge": {
+        "tip": "faf7a8e5afedb17262c05e2bcae03b9d24267dcf",
+        "entry_count": 964
+      },
+      "refs/notes/remote-merge-pr715": {
+        "tip": "8cd9b7dfa9207e8c5fbc9e388ac170101e49a6c0",
+        "entry_count": 965
+      },
+      "refs/notes/remote-merge-pr717": {
+        "tip": "244b2fce26b47ebee85d1775ada36db27afa30a3",
+        "entry_count": 966
+      },
+      "refs/notes/remote-merge-pr721": {
+        "tip": "49c2d7e8a988ae8486e20b03d7e0bcdf54b2e4a9",
+        "entry_count": 967
+      },
+      "refs/notes/remote-merge-pr722": {
+        "tip": "8df1a7e421428bfc7ce0253910ae13982693f002",
+        "entry_count": 968
+      }
+    },
+    "custom_refs": {
+      "count": 104,
+      "manifest_sha256": "9740eca74b6c9e02c9e044ae83bbfd015b5248d6ae0b5f7741ac3f5bc0a7802c",
+      "refs": [
+        {
+          "name": "refs/audit/pr-802",
+          "oid": "923054fa5ae798ef404e05ae3e72e9a3b92795c8"
+        },
+        {
+          "name": "refs/audit/pr-810",
+          "oid": "11bd913ab35aa7d0c5dac7baaffbfa680b292cdb"
+        },
+        {
+          "name": "refs/audit/pr-811",
+          "oid": "bd2e2333fa28cf2742a863c84effb471dd9e5c18"
+        },
+        {
+          "name": "refs/audit/pr-812",
+          "oid": "439620fddc568fe9f01c9622e0e0ff8174efec28"
+        },
+        {
+          "name": "refs/audit/pr-813",
+          "oid": "fcb97d4baa5bb75d88cdde21862a66f49eaf3752"
+        },
+        {
+          "name": "refs/audit/pr-814",
+          "oid": "558e434043788d67109bad6ea63f9d6545cb94b5"
+        },
+        {
+          "name": "refs/audit/pr-815",
+          "oid": "78f2665d4bfd3c1e44fb4351102e65501b41d194"
+        },
+        {
+          "name": "refs/audit/pr-816",
+          "oid": "c9dd9cf337c76478d5bc00b735aeeaa2a9826ba3"
+        },
+        {
+          "name": "refs/audit/pr-817",
+          "oid": "e90955a53de6a0a2cf6e6ea8a512bfd49fbd3cf1"
+        },
+        {
+          "name": "refs/audit/pr-818",
+          "oid": "6505762f7f99f016990351e8d787f137de50ff06"
+        },
+        {
+          "name": "refs/audit/pr-819",
+          "oid": "96452dbd5c066509a7b03848e8daf5e04a905cd0"
+        },
+        {
+          "name": "refs/audit/pr-820",
+          "oid": "81305c7a4e7ab8f2d168dd38b3f6c93e6fe4cb94"
+        },
+        {
+          "name": "refs/audit/pr-821",
+          "oid": "c29b972797b357ec2ad3a2ffb32aabb24239cace"
+        },
+        {
+          "name": "refs/audit/pr-822",
+          "oid": "0e067e0ab469f727da160ba0c8ed10e84f2228b6"
+        },
+        {
+          "name": "refs/audit/pr-823",
+          "oid": "71ff9953a3e49ed43dbf3997e9e58c831e2ebffd"
+        },
+        {
+          "name": "refs/audit/pr-824",
+          "oid": "650fc750c02a7746ad0cdf19936d109d81096f8f"
+        },
+        {
+          "name": "refs/audit/pr-825",
+          "oid": "4ad6bdb0e02252f7c35dfeeb4de7b22bb06000e6"
+        },
+        {
+          "name": "refs/audit/pr-826",
+          "oid": "5763d39f1c3e2261d6f98b7190f22fee53ce427a"
+        },
+        {
+          "name": "refs/audit/pr-827",
+          "oid": "0c1fcb5b1cfd1351a7296c0e2833f702e0417b6c"
+        },
+        {
+          "name": "refs/audit/pr-828",
+          "oid": "a02ff977f4afc7ef31ae3d332813a769a963bc4b"
+        },
+        {
+          "name": "refs/backup/codex-conda-forge-before-signing",
+          "oid": "08ac3812aa14c5b73db8c744027c2d87f907e380"
+        },
+        {
+          "name": "refs/backup/codex-mature-hardened-v1-before-signing",
+          "oid": "d465a475ca0ef95683063260330204bbfe9056fc"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782457574877_mdfxw/1",
+          "oid": "c3baa34bc2bd7cdbb8ef0b376c0751ffb216d133"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782457597361_i5fsj/2",
+          "oid": "85df19608ffaef8e7e1aa3ac627186290597d051"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782529317495_sqnga/1",
+          "oid": "21d8dd4de7d5e0a3ed4fcd9284d567ca533ecbf4"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782529402827_kaltm/2",
+          "oid": "73e1aa2b2ef1b61dc9cea729b79b96fb4819aeaf"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782529488964_n7nf2/3",
+          "oid": "3369bdabfc65ffa21c0673225826859056ee9cb8"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782529517952_hbxs9/4",
+          "oid": "6bb671d2254983c502c06b58b104e9346e500680"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782529603336_qpctc/5",
+          "oid": "74609c13da0a76a3e28041c0ab9d5a3a34e41d68"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782529603336_qpctc/6",
+          "oid": "54814fbac68f923457d8354601e4d5b593822900"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782533940709_be3o9/1",
+          "oid": "71d8445a583176274e6000e44c2eab3c4952e153"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782535200204_ruz4t/135",
+          "oid": "939b49705284dc4d7729da777242b8acbb83f458"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782535200204_ruz4t/136",
+          "oid": "ea5f84e99de92752d2587f04c5e24b09a6e6c4f2"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782535227761_6amxk/9",
+          "oid": "ced14cb386304dea8b73612653c6ea2d72fa78de"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782535255623_7bik6/10",
+          "oid": "eaf956b610652a1896195ebf6935a449a1bc1918"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782535255623_7bik6/11",
+          "oid": "b82412e7336519b3d974368b9bf27aca3d03371f"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782535255623_7bik6/12",
+          "oid": "820f3b32b5005e230f9c00baac25605e34fc7249"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782535270870_hx9mn/137",
+          "oid": "e7d3728f26537100c710365980fda66bd383db55"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782535270870_hx9mn/138",
+          "oid": "ecd05b41e4aa4c4ffab45f846d13df44d09189a3"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782537727516_1e9lk/154",
+          "oid": "f638ce1f1136259399158f8effbca38c385532aa"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782537864427_6rd3o/1",
+          "oid": "9632dba6ebacf3344fbe277d2d2273e6279e4f55"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782537868471_9v050/133",
+          "oid": "e9c3c64d34574503e4793500b0f41d335c5c38a4"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782537868471_9v050/134",
+          "oid": "cc4816dbf4327ee33579e0fd4ed0cd933069cf2c"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782537868471_9v050/135",
+          "oid": "170a55b6fc4d2bf55db9d79a6d894bfee776a139"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782538327939_qjbf6/46",
+          "oid": "7e57a20b040144fbe08276995fd5adde5b7c9082"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782538327939_qjbf6/47",
+          "oid": "6a3580423f43267a4851573ae25f8fe3b273005b"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782538327939_qjbf6/48",
+          "oid": "86825ea72946446900d82c223645d8e2dfa0622f"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782545778219_35r5f/125",
+          "oid": "25d946aa8b2c1d8d227d2909f9cdfbb18a9abc1c"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782545842569_y9gtj/85",
+          "oid": "1d16c4723962c2594f8818269a7c577f389a9b8f"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782546197100_fnt5j/97",
+          "oid": "af51bc6560a4b6a860a9b9a6dd916131cdaeb20c"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782546197101_va60t/111",
+          "oid": "cf6acded7929388422253592e2ee6997e2cca8e3"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782549358757_uxmhl/131",
+          "oid": "05bd3e09cb8949bae5ffffb82f3572b2f1f9dbbf"
+        },
+        {
+          "name": "refs/cline/checkpoints/1782549360850_wbiwb/111",
+          "oid": "f98b2f4f20602c5aa338e37c7dc934c5359fbdba"
+        },
+        {
+          "name": "refs/codex/recovery/1059-pre-1061-integration-20260901",
+          "oid": "5751aca8cbfb1d914ce480d6d82e99c38687f502"
+        },
+        {
+          "name": "refs/codex/recovery/1059-pre-integration-20260901",
+          "oid": "c94fcdbfc9673bc0ba9cce2d4656dbf34852ff84"
+        },
+        {
+          "name": "refs/codex/recovery/20260901-assurance-before-acceleration-integration",
+          "oid": "ae8cc7f109db472c7a2daf28b82fef5fd1d65a30"
+        },
+        {
+          "name": "refs/codex/recovery/20260901-assurance-before-dated-rust-integration",
+          "oid": "26d4448c8f8b8acd6f7628e67782d22af2793cd1"
+        },
+        {
+          "name": "refs/codex/recovery/20260901-dated-rust-before-main-transplant",
+          "oid": "9fa4420b81833a39d7df877da4dfe3cb1b396a70"
+        },
+        {
+          "name": "refs/codex/recovery/20260901-dated-rust-codeql-before-final-base",
+          "oid": "8971cf95be37521720a4b70d5847d4f963c5ae1c"
+        },
+        {
+          "name": "refs/codex/recovery/20260901-delivery-cleanup/stash-0",
+          "oid": "2980d5a1ce2bfe3d49d89728aaae87dc1ecee52f"
+        },
+        {
+          "name": "refs/codex/recovery/20260901-delivery-cleanup/stash-1",
+          "oid": "6cffb178a04204fe59986e93097083012268073f"
+        },
+        {
+          "name": "refs/codex/recovery/20260901-delivery-cleanup/stash-2",
+          "oid": "ecd50d8ebfe5a5b52419e81607cad9302a1573ff"
+        },
+        {
+          "name": "refs/codex/recovery/20260901-delivery-cleanup/stash-3",
+          "oid": "2d814e758ce307933a27b975df66424dc6c328cf"
+        },
+        {
+          "name": "refs/codex/recovery/20260901-delivery-cleanup/stash-4",
+          "oid": "fc8691befe363f37c183516c53bd78428e993ec7"
+        },
+        {
+          "name": "refs/codex/recovery/20260901-delivery-cleanup/stash-5",
+          "oid": "4381c04fc341b350bb8df142c40643ab038e0c97"
+        },
+        {
+          "name": "refs/codex/recovery/20260901-delivery-cleanup/stash-6",
+          "oid": "623cc0af9e18eec9194564c91ff1cff5eabba8fa"
+        },
+        {
+          "name": "refs/codex/recovery/20260901-delivery-cleanup/stash-7",
+          "oid": "ebf789a31d4831ce8a00ff381963844da5ed274a"
+        },
+        {
+          "name": "refs/codex/recovery/20260901-eb2023-foundation-before-main-rebase",
+          "oid": "48fa042d673750486c5b1232c10656d99ca7d99d"
+        },
+        {
+          "name": "refs/codex/recovery/20260901-julia-pre-integration",
+          "oid": "5d737ab539282159fa70b9fbd3973d1f973cf02a"
+        },
+        {
+          "name": "refs/codex/recovery/20260901-overlay-rebase-autostash",
+          "oid": "c2cecf69501cd5bb102a870c08e9ed945d4de2c4"
+        },
+        {
+          "name": "refs/codex/recovery/20260901-retired-actions-proposal",
+          "oid": "3ff897c8b51153b4a490eefd0260a1adda1ba3b4"
+        },
+        {
+          "name": "refs/codex/recovery/20260901-retired-branch-names/recovery-1060-pre-integration-20260901",
+          "oid": "698739117b280416958cb5c1e1f8b2d624b3c182"
+        },
+        {
+          "name": "refs/codex/recovery/20260901-retired-branch-names/recovery-assurance-before-1060-integration-20260901",
+          "oid": "f133e31b61d8df0542a4e4c4987338b8929582f8"
+        },
+        {
+          "name": "refs/codex/recovery/20260901-retired-branch-names/recovery-assurance-before-main-rebase-20260901",
+          "oid": "da83693c9af1d14079670563a10ba4e5de758b98"
+        },
+        {
+          "name": "refs/codex/recovery/20260901/recovery-acceleration-before-main-rebase-20260901",
+          "oid": "aaf8d8955bbc85930d57ba98bb68d0e4dc6f630c"
+        },
+        {
+          "name": "refs/codex/recovery/20260901/recovery-julia-before-main-rebase-20260901",
+          "oid": "0bf7c37b7edfda6a8ec6d8df87db7c538de729d7"
+        },
+        {
+          "name": "refs/codex/recovery/20260902-xsimd-fix-rebase-stash",
+          "oid": "b372e560656d90dd31d1c7019448995b558fa9ce"
+        },
+        {
+          "name": "refs/codex/recovery/20260903-final-cleanup/easybuild-2024a-arrow-integration-18e076b4",
+          "oid": "18e076b4c00bf0f9bc5664de4ff12040088db65d"
+        },
+        {
+          "name": "refs/codex/recovery/checkpoint-before-main-integration-20260901",
+          "oid": "48c09f2ede7197722304438d4a1b09bdee523924"
+        },
+        {
+          "name": "refs/codex/recovery/easybuild-2023a-arrow-before-1083-rebase-20260902",
+          "oid": "7548e9fc2bc22d64a90b39908141acd31e4d6dac"
+        },
+        {
+          "name": "refs/codex/recovery/easybuild-2024a-pydantic-before-ee7f",
+          "oid": "cb53db34a485e9b80323866481053641594e89bb"
+        },
+        {
+          "name": "refs/codex/recovery/easybuild-2024a-pydantic-before-evidence-amend",
+          "oid": "cde220a94d4ef4f608952331235963e59751df87"
+        },
+        {
+          "name": "refs/codex/recovery/easybuild2023a-rust-before-foundation-review-fix-20260901",
+          "oid": "e355ea171e9b54de237f04f1eab8fef57e6157a9"
+        },
+        {
+          "name": "refs/codex/recovery/easybuild2023a-rust-before-main-integration-20260901",
+          "oid": "f17836fbdab09d7877888e955de2b5d0335da85f"
+        },
+        {
+          "name": "refs/codex/recovery/easybuild2024a-before-integration-20260901",
+          "oid": "ea610209f81d613612ebce1c96b0a2810f7084eb"
+        },
+        {
+          "name": "refs/codex/recovery/final-delivery/recovery-easybuild-2023a-foundation-4e243561",
+          "oid": "4e2435611cd5f41b2cd4580b0bde2c61f9b58a21"
+        },
+        {
+          "name": "refs/codex/recovery/final-delivery/recovery-easybuild-2023a-rust-58183ee9",
+          "oid": "58183ee9b6a20ef654aaa1f0ae903d669e8c8b70"
+        },
+        {
+          "name": "refs/codex/recovery/final-delivery/recovery-easybuild-2024a-arrow-3cbd8e3a",
+          "oid": "3cbd8e3a72aeeb9335160df89d8d869ef815c9e7"
+        },
+        {
+          "name": "refs/codex/recovery/final-delivery/recovery-easybuild-2024a-arrow-cfe6f52c",
+          "oid": "cfe6f52cbacd1e39469161be6ce3e3a0b21a3ec1"
+        },
+        {
+          "name": "refs/codex/recovery/final-delivery/recovery-easybuild-backports-79d90c50",
+          "oid": "79d90c5000484d3bf3088cd9ce720d07a7280f49"
+        },
+        {
+          "name": "refs/codex/recovery/final-delivery/recovery-spack-arrow-9c1d7e16",
+          "oid": "9c1d7e16dd20dc7947ec51f43f509572c9803649"
+        },
+        {
+          "name": "refs/codex/recovery/final-delivery/recovery-spack-security-floor-f5c69413",
+          "oid": "f5c694138bde9e49d80169177e3c24bcae914658"
+        },
+        {
+          "name": "refs/codex/recovery/spack-security-before-easybuild-integration-20260901",
+          "oid": "38b573b5ae7fa7b9afd907d586ced7cafd9a8de2"
+        },
+        {
+          "name": "refs/codex/recovery/spack-security-before-main-integration-20260901",
+          "oid": "d601df60f9b6b5e36ac5ae3f1193bf55dbad6c4e"
+        },
+        {
+          "name": "refs/pr/820",
+          "oid": "81305c7a4e7ab8f2d168dd38b3f6c93e6fe4cb94"
+        },
+        {
+          "name": "refs/pr/821",
+          "oid": "c29b972797b357ec2ad3a2ffb32aabb24239cace"
+        },
+        {
+          "name": "refs/pr/822",
+          "oid": "0e067e0ab469f727da160ba0c8ed10e84f2228b6"
+        },
+        {
+          "name": "refs/pr/824",
+          "oid": "650fc750c02a7746ad0cdf19936d109d81096f8f"
+        },
+        {
+          "name": "refs/pr/825",
+          "oid": "4ad6bdb0e02252f7c35dfeeb4de7b22bb06000e6"
+        },
+        {
+          "name": "refs/pr/826",
+          "oid": "5763d39f1c3e2261d6f98b7190f22fee53ce427a"
+        },
+        {
+          "name": "refs/pr/827",
+          "oid": "0c1fcb5b1cfd1351a7296c0e2833f702e0417b6c"
+        },
+        {
+          "name": "refs/pr/828",
+          "oid": "a02ff977f4afc7ef31ae3d332813a769a963bc4b"
+        },
+        {
+          "name": "refs/pr/828-live",
+          "oid": "e74b810cda4f98601e1e8e08abb419615f85b276"
+        },
+        {
+          "name": "refs/stash",
+          "oid": "e55b3bf2b7f9b61b291e6e5951807153bc044180"
+        }
+      ]
+    },
+    "stash_reflog": [
+      {
+        "oid": "e55b3bf2b7f9b61b291e6e5951807153bc044180",
+        "selector": "stash@{0}",
+        "subject": "On codex/spack-polars-url-20260905: codex-spack-polars-url-rebase"
+      },
+      {
+        "oid": "2980d5a1ce2bfe3d49d89728aaae87dc1ecee52f",
+        "selector": "stash@{1}",
+        "subject": "autostash"
+      },
+      {
+        "oid": "6cffb178a04204fe59986e93097083012268073f",
+        "selector": "stash@{2}",
+        "subject": "On codex/goal-test-acceleration-20260831: preserve borrowed PR1057 integration before acceleration rebase 20260901"
+      },
+      {
+        "oid": "ecd50d8ebfe5a5b52419e81607cad9302a1573ff",
+        "selector": "stash@{3}",
+        "subject": "On codex/repair-actions-1056-20260831: voiage-actions1056-preserved-review-repair-20260831"
+      },
+      {
+        "oid": "2d814e758ce307933a27b975df66424dc6c328cf",
+        "selector": "stash@{4}",
+        "subject": "On codex/issue-318-frontier-programme: codex-preserve-dsa-surface-wip-after-723-rebase"
+      },
+      {
+        "oid": "fc8691befe363f37c183516c53bd78428e993ec7",
+        "selector": "stash@{5}",
+        "subject": "On codex/issue-318-frontier-programme: codex-preserve-dsa-surface-wip-before-723-rebase"
+      },
+      {
+        "oid": "4381c04fc341b350bb8df142c40643ab038e0c97",
+        "selector": "stash@{6}",
+        "subject": "On main: codex-v1-programme-transplant"
+      },
+      {
+        "oid": "623cc0af9e18eec9194564c91ff1cff5eabba8fa",
+        "selector": "stash@{7}",
+        "subject": "WIP on paper: a8d34da Update documentation link to GitHub Pages"
+      },
+      {
+        "oid": "ebf789a31d4831ce8a00ff381963844da5ed274a",
+        "selector": "stash@{8}",
+        "subject": "WIP on paper-development: e15bbfa Finalize voiage Enhancement Project with comprehensive automation and tooling"
+      }
+    ],
+    "transient_refs": {
+      "prefix": "refs/codex/turn-diffs/",
+      "durable_invariant": false,
+      "excluded_from_custom_ref_manifest": true,
+      "reason": "Codex app turn-diff refs rotate between task turns and are not repository recovery state."
+    }
+  },
+  "open_issue_boundaries": {
+    "1025": "Native and upstream HPC work remains pending; this closeout must not close it.",
+    "1037": "Survey, human-written text, authenticated submissions, and venue outcomes remain pending.",
+    "human_external_issue_numbers": [
+      296,
+      298,
+      312,
+      471,
+      555,
+      620,
+      850,
+      853,
+      876,
+      1023,
+      1026,
+      1037,
+      1045
+    ]
+  },
+  "boundary": "This pre-closeout record does not establish post-commit or post-merge inventory and cannot satisfy #1053 final cleanup. It also does not establish native Spack completion, native EasyBuild qualification, upstream submission, human review, venue action, acceptance, identifier assignment, publication, or indexing.",
+  "open_issues": [
+    {
+      "number": 296,
+      "title": "track: Research software registry readiness"
+    },
+    {
+      "number": 298,
+      "title": "Registry: assess RRID eligibility and evidence"
+    },
+    {
+      "number": 312,
+      "title": "Paper: complete arXiv preprint readiness and author review"
+    },
+    {
+      "number": 471,
+      "title": "JOSS: document research use and independent validation evidence"
+    },
+    {
+      "number": 555,
+      "title": "Registry: publish Julia binding through BinaryBuilder and General"
+    },
+    {
+      "number": 620,
+      "title": "Track externally gated OpenSSF Scorecard improvements"
+    },
+    {
+      "number": 850,
+      "title": "#570: Scope value of information with stochastic sampling-acquisition harm"
+    },
+    {
+      "number": 853,
+      "title": "#850: Bind sampling-harm candidate review and accountable disposition"
+    },
+    {
+      "number": 876,
+      "title": "#853: Commission eligible independent review for generic-kernel exclusion"
+    },
+    {
+      "number": 1023,
+      "title": "Julia: publish Voiage.jl to General Registry and JuliaHealth ecosystem"
+    },
+    {
+      "number": 1025,
+      "title": "HPC: publish Spack py-voiage recipe and EasyBuild easyconfigs"
+    },
+    {
+      "number": 1026,
+      "title": "Sustainability: activate Open Source Collective, complete OpenSSF Passing badge, and track SciCrunch RRID"
+    },
+    {
+      "number": 1037,
+      "title": "Release v2.2.0 and pursue pyOpenSci-first venue submissions"
+    },
+    {
+      "number": 1045,
+      "title": "Dependency Dashboard"
+    },
+    {
+      "number": 1053,
+      "title": "Complete remaining backlog delivery and verified repository cleanup"
+    }
+  ],
+  "recovery_preservation": {
+    "retired_branch": "codex/recovery/easybuild-2024a-arrow-integration-18e076b4",
+    "branch_removed": true,
+    "recovery_ref": "refs/codex/recovery/20260903-final-cleanup/easybuild-2024a-arrow-integration-18e076b4",
+    "commit": "18e076b4c00bf0f9bc5664de4ff12040088db65d",
+    "tree": "e49a881b6aa2e9f27343f2cbfc63ea0cc72e52ba",
+    "bundle_path": "/Volumes/PortableSSD/GitHub/voiage-recovery/20260903-final-cleanup/easybuild-2024a-arrow-integration-18e076b4.bundle",
+    "bundle_sha256": "5f5beb6f9926792fb1424c933e6bdb5908034c7f7c86f25c587af2f64a9c5196",
+    "bundle_complete_history": true,
+    "restore_verification_path": "/Volumes/PortableSSD/GitHub/voiage-recovery/20260903-final-cleanup/restore-verification.txt",
+    "restore_verification_sha256": "606f9df8d29313b4f25ee6daef9f2a560104545ec680b8da0bc764ad85e247a0",
+    "restored_commit": "18e076b4c00bf0f9bc5664de4ff12040088db65d",
+    "restored_tree": "e49a881b6aa2e9f27343f2cbfc63ea0cc72e52ba",
+    "restored_fsck_full_strict": "passed"
+  },
+  "stage": "pre_closeout",
+  "post_closeout_requirement": {
+    "required": true,
+    "artifact": "authoritative post-closeout receipt in a separate auditable repository change after this PR merges and its branch/worktree are pruned",
+    "must_bind": [
+      "merged commit and tree",
+      "terminal hosted checks",
+      "zero open pull requests",
+      "final local and remote branch inventory",
+      "final worktree inventory",
+      "full custom-ref manifest",
+      "notes ref tips and entry counts",
+      "remaining open issue inventory"
+    ],
+    "issue_1053_may_close_only_after_post_closeout_receipt": true
+  }
+}
