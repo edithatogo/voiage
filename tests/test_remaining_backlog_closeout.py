@@ -50,11 +50,17 @@ def _bind_inventory_expectations_to_fixture(
     # validator the fixture's durable ref listing while retaining all of its
     # canonicalization and hash checks.
     live_refs = "\n".join(f"{ref['name']} {ref['oid']}" for ref in custom_refs["refs"])
+    live_stashes = "\n".join(
+        f"{item['oid']}\t{item['selector']}\t{item['subject']}"
+        for item in payload["inventory_snapshot"]["stash_reflog"]
+    )
     real_git = closeout._git
 
     def fixture_git(root: Path, *args: str) -> str:
         if args[:2] == ("for-each-ref", "--format=%(refname) %(objectname)"):
             return live_refs
+        if args[:3] == ("stash", "list", "--format=%H%x09%gd%x09%gs"):
+            return live_stashes
         return real_git(root, *args)
 
     monkeypatch.setattr(closeout, "_git", fixture_git)
