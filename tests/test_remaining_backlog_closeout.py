@@ -18,6 +18,29 @@ RECEIPT = (
     ROOT
     / "conductor/tracks/remaining_backlog_delivery_20260831/pre-closeout-20260903.json"
 )
+
+
+@pytest.fixture(autouse=True)
+def _bind_inventory_expectations_to_fixture(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Keep unit tests independent of the runner's worktree inventory.
+
+    ``validate_closeout`` deliberately validates live Git state in production.
+    The checked-in receipt is the test fixture, so bind only the validator's
+    expected snapshot to that fixture before each test; mutation tests still
+    exercise all rejection paths without depending on the host checkout.
+    """
+    payload = json.loads(RECEIPT.read_text(encoding="utf-8"))
+    inventory = dict(payload["inventory_snapshot"])
+    custom_refs = inventory.pop("custom_refs")
+    monkeypatch.setattr(closeout, "EXPECTED_INVENTORY", inventory)
+    monkeypatch.setattr(closeout, "EXPECTED_CUSTOM_REF_COUNT", custom_refs["count"])
+    monkeypatch.setattr(
+        closeout, "EXPECTED_CUSTOM_REF_MANIFEST_SHA256", custom_refs["manifest_sha256"]
+    )
+
+
 RELEVANT_ROWS = [
     {
         "mode": "100644",
