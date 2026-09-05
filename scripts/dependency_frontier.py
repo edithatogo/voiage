@@ -42,7 +42,7 @@ def declared_requirements(config: dict[str, object]) -> list[tuple[str, Requirem
 def release_metadata(name: str) -> dict[str, object]:
     """Return release metadata from the official PyPI JSON API."""
     url = f"https://pypi.org/pypi/{name}/json"
-    with urllib.request.urlopen(url, timeout=20) as response:  # noqa: S310
+    with urllib.request.urlopen(url, timeout=20) as response:  # noqa: S310 -- fixed HTTPS PyPI endpoint
         payload = json.load(response)
     assert isinstance(payload, dict)
     return payload

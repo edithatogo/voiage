@@ -7,6 +7,7 @@ from dataclasses import asdict, dataclass
 import json
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import sys
 
@@ -229,12 +230,17 @@ def check_conflict_markers(root: Path) -> list[Finding]:
         "coverage_html_report",
         "target",
     }
-    tracked = subprocess.run(
-        ["git", "-C", str(root), "ls-files", "-z"],
-        capture_output=True,
-        check=False,
+    git = shutil.which("git")
+    tracked = (
+        subprocess.run(  # noqa: S603 -- executable is resolved from the host PATH.
+            [git, "-C", str(root), "ls-files", "-z"],
+            capture_output=True,
+            check=False,
+        )
+        if git is not None
+        else None
     )
-    if tracked.returncode == 0:
+    if tracked is not None and tracked.returncode == 0:
         candidates = [
             root / relative.decode("utf-8", errors="surrogateescape")
             for relative in tracked.stdout.split(b"\0")

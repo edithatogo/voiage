@@ -14,6 +14,10 @@
 
 ## Unreleased
 
+- Repair the bounded Ruff 0.16 dependency-preview findings across repository
+  scripts while preserving runtime behavior and the current dependency and
+  Python-support policy.
+
 - Repair the Actions dependency update so Rust MSRV release lanes stay at 1.85,
   nightly sanitizer, Miri and fuzz commands use the installed toolchain, and
   uv workflow checks track 0.12.5. Preserve the historical R qualification

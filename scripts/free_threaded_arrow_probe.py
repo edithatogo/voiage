@@ -10,6 +10,7 @@ import pyarrow as pa
 
 
 def main() -> None:
+    """Verify Arrow round-trip behavior under free-threaded Python."""
     source = pa.table({"id": [1, 2], "value": [1.5, 2.5]})
     restored = pl.from_arrow(source).to_arrow()
     assert restored.to_pydict() == source.to_pydict()

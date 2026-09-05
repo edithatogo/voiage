@@ -35,6 +35,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   [x] Refresh the cross-venue evidence contract after the final EasyBuild
         root-graph PR merge, binding PR #1087's exact tree-equal merge and
         terminal checks while retaining native, upstream, and venue gates (#614).
+    *   [x] Repair the bounded Ruff 0.16 dependency-preview findings without
+        promoting the preview dependency or widening Python support.
 
 *   [~] Deliver the hardened v2.2.0 release through
     `conductor/tracks/v2_2_release_and_venue_submissions_20260830/` (#1037).

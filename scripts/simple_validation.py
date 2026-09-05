@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-"""
-Simple validation script to ensure the voiage library is working correctly.
-"""
+"""Validate that the voiage library works correctly."""
 
 import sys
 
@@ -56,11 +54,11 @@ def validate_core_functionality():
         evpi_da_result = analysis.evpi()
         print(f"✅ DecisionAnalysis EVPI calculated successfully: {evpi_da_result:.2f}")
 
-        return True
-
     except Exception as e:
         print(f"❌ Error in core functionality validation: {e}")
         return False
+    else:
+        return True
 
 
 def validate_structural_functionality():
@@ -76,7 +74,7 @@ def validate_structural_functionality():
 
         # Create simple modelers for testing
         def simple_modeler1(psa_samples):
-            """Simple modeler for testing."""
+            """Create net benefits for a simple model test."""
             n_samples = psa_samples.n_samples
             # Create net benefits for 2 strategies
             nb_values = np.random.rand(n_samples, 2) * 1000
@@ -130,11 +128,11 @@ def validate_structural_functionality():
         )
         print(f"✅ Structural EVPI calculated successfully: {result:.2f}")
 
-        return True
-
     except Exception as e:
         print(f"❌ Error in structural functionality validation: {e}")
         return False
+    else:
+        return True
 
 
 def validate_cli_functionality():
@@ -153,11 +151,11 @@ def validate_cli_functionality():
         else:
             print("✅ CLI app is available")
 
-        return True
-
     except Exception as e:
         print(f"❌ Error in CLI functionality validation: {e}")
         return False
+    else:
+        return True
 
 
 def validate_web_api_functionality():
@@ -174,15 +172,15 @@ def validate_web_api_functionality():
         if app:
             print("✅ Web API app is available")
 
-        return True
-
     except Exception as e:
         print(f"❌ Error in web API functionality validation: {e}")
         return False
+    else:
+        return True
 
 
 def main():
-    """Main validation function."""
+    """Run the validation checks."""
     print("🚀 Starting voiage simple validation...")
     print("=" * 50)
 

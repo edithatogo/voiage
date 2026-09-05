@@ -88,6 +88,20 @@ def test_conflict_scan_uses_git_tracked_files_when_available(tmp_path: Path) -> 
     assert [finding.path for finding in findings] == ["tracked.py"]
 
 
+def test_conflict_scan_falls_back_when_git_is_unavailable(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    """The source scan remains functional when Git is not on the host PATH."""
+    source = tmp_path / "source.py"
+    source.write_text(">>>>>>> unresolved\n", encoding="utf-8")
+    monkeypatch.setattr("scripts.repo_harness.shutil.which", lambda _name: None)
+
+    findings = check_conflict_markers(tmp_path)
+
+    assert [finding.path for finding in findings] == ["source.py"]
+
+
 def test_sphinx_build_configuration_is_rejected(tmp_path: Path) -> None:
     """The harness prevents a second documentation toolchain from returning."""
     (tmp_path / "docs").mkdir()

@@ -130,7 +130,7 @@ def run_smoke(output: Path, source_archive: Path | None = None) -> None:
             work = Path(directory)
             archive = work / "voiage-2.2.0.tar.gz"
             if source_archive is None:
-                with urlopen(SOURCE_URL, timeout=120) as response:  # noqa: S310 - fixed HTTPS source
+                with urlopen(SOURCE_URL, timeout=120) as response:  # noqa: S310 -- fixed HTTPS source
                     archive.write_bytes(response.read())
             else:
                 archive.write_bytes(source_archive.read_bytes())

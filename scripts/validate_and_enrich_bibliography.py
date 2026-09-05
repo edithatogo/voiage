@@ -25,9 +25,10 @@ def validate_doi(doi: str) -> bool:
 
     try:
         response = requests.get(f"https://api.crossref.org/works/{doi}", timeout=10)
-        return response.status_code == 200
     except requests.RequestException:
         return False
+    else:
+        return response.status_code == 200
 
 
 def enrich_from_crossref(doi: str) -> dict[str, Any] | None:
@@ -117,16 +118,33 @@ def format_bibtex_entry(fields: dict[str, str]) -> str:
     entry_lines = [f"@{entry_type}{{{entry_key},"]
 
     # Add fields in a consistent order
-    field_order = ["title", "author", "journal", "year", "volume", "number", "pages", "doi", "url", "publisher"]
+    field_order = [
+        "title",
+        "author",
+        "journal",
+        "year",
+        "volume",
+        "number",
+        "pages",
+        "doi",
+        "url",
+        "publisher",
+    ]
 
     # Add ordered fields first
-    for field in field_order:
-        if fields.get(field):
-            entry_lines.append(f"  {field} = {{{fields[field]}}},")
+    entry_lines.extend(
+        f"  {field} = {{{fields[field]}}},"
+        for field in field_order
+        if fields.get(field)
+    )
 
     # Add any remaining fields
     for field, value in fields.items():
-        if field not in ["entry_type", "entry_key"] and value and field not in field_order:
+        if (
+            field not in ["entry_type", "entry_key"]
+            and value
+            and field not in field_order
+        ):
             entry_lines.append(f"  {field} = {{{value}}},")
 
     # Close the entry
@@ -181,7 +199,9 @@ def process_bibliography_file(input_file: Path, output_file: Path) -> None:
                     enriched_count += 1
                     print("    ↻ Enriched with Crossref data")
             else:
-                print(f"  ✗ Invalid DOI for {fields.get('entry_key', 'unknown')}: {doi}")
+                print(
+                    f"  ✗ Invalid DOI for {fields.get('entry_key', 'unknown')}: {doi}"
+                )
 
         # Format the entry back
         processed_entry = format_bibtex_entry(fields)
@@ -202,7 +222,7 @@ def process_bibliography_file(input_file: Path, output_file: Path) -> None:
 
 
 def main():
-    """Main function to validate and enrich bibliography."""
+    """Validate and enrich the bibliography."""
     # Process the references file
     input_path = Path("paper/references_corrected.bib")
     output_path = Path("paper/references_enriched.bib")
