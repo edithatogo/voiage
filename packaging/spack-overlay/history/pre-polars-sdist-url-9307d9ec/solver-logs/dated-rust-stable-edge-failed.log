@@ -1,0 +1,200 @@
+==> Compilers have been configured automatically from PATH inspection
+==> Error: failed to concretize `py-voiage@2.2.0` for the following reasons:
+     1. Cannot satisfy 'rust@nightly-2026-04-01'
+     2. Cannot satisfy 'rust@nightly-2026-04-01' (version 1.96.0 does not match)
+        required because py-polars-runtime-32 depends on rust@nightly-2026-04-01 
+          required because py-polars depends on py-polars-runtime-32@1.42.1 when @1.42.1 
+            required because py-voiage depends on py-polars@1.42.1:1 
+              required because py-voiage@2.2.0 requested explicitly 
+     3. Cannot satisfy 'rust@1.88:' and 'rust@nightly-2026-04-01'
+        required because py-maturin depends on rust@1.88: when @1.12.0: 
+          required because py-polars-runtime-32 depends on py-maturin@1.3.2: 
+            required because py-polars depends on py-polars-runtime-32@1.42.1 when @1.42.1 
+              required because py-voiage depends on py-polars@1.42.1:1 
+                required because py-voiage@2.2.0 requested explicitly 
+          required because py-pydantic-core depends on py-maturin@1.10:1 when @2.46.4: 
+            required because py-pydantic depends on py-pydantic-core@2.46.4 when @2.13.4 
+              required because py-voiage depends on py-pydantic@2.13.4:2 
+          required because py-pydantic-core depends on py-maturin@1.9.4:1 when @2.41: 
+          required because py-pydantic-core depends on py-maturin@1 
+          required because py-rpds-py depends on py-maturin@1.9:1 when @0.25: 
+            required because py-jsonschema depends on py-rpds-py@0.25: when @4.26: 
+              required because py-voiage depends on py-jsonschema@4.26:4 
+            required because py-jsonschema depends on py-rpds-py@0.7.1: when @4.18: 
+            required because py-referencing depends on py-rpds-py@0.7.0: 
+              required because py-jsonschema depends on py-referencing@0.28.4: when @4.18: 
+              required because py-jsonschema-specifications depends on py-referencing@0.31.0: 
+                required because py-jsonschema depends on py-jsonschema-specifications@2023.03.6: when @4.18: 
+          required because py-voiage depends on py-maturin@1.9:1 
+        required because py-polars-runtime-32 depends on rust@nightly-2026-04-01 
+          required because py-polars depends on py-polars-runtime-32@1.42.1 when @1.42.1 
+            required because py-voiage depends on py-polars@1.42.1:1 
+              required because py-voiage@2.2.0 requested explicitly 
+     4. Cannot satisfy 'rust@1.83:' and 'rust@nightly-2026-04-01'
+        required because py-maturin depends on rust@1.83: when @1.10.2: 
+          required because py-polars-runtime-32 depends on py-maturin@1.3.2: 
+            required because py-polars depends on py-polars-runtime-32@1.42.1 when @1.42.1 
+              required because py-voiage depends on py-polars@1.42.1:1 
+                required because py-voiage@2.2.0 requested explicitly 
+          required because py-pydantic-core depends on py-maturin@1.10:1 when @2.46.4: 
+            required because py-pydantic depends on py-pydantic-core@2.46.4 when @2.13.4 
+              required because py-voiage depends on py-pydantic@2.13.4:2 
+          required because py-pydantic-core depends on py-maturin@1.9.4:1 when @2.41: 
+          required because py-pydantic-core depends on py-maturin@1 
+          required because py-rpds-py depends on py-maturin@1.9:1 when @0.25: 
+            required because py-jsonschema depends on py-rpds-py@0.25: when @4.26: 
+              required because py-voiage depends on py-jsonschema@4.26:4 
+            required because py-jsonschema depends on py-rpds-py@0.7.1: when @4.18: 
+            required because py-referencing depends on py-rpds-py@0.7.0: 
+              required because py-jsonschema depends on py-referencing@0.28.4: when @4.18: 
+              required because py-jsonschema-specifications depends on py-referencing@0.31.0: 
+                required because py-jsonschema depends on py-jsonschema-specifications@2023.03.6: when @4.18: 
+          required because py-voiage depends on py-maturin@1.9:1 
+        required because py-polars-runtime-32 depends on rust@nightly-2026-04-01 
+          required because py-polars depends on py-polars-runtime-32@1.42.1 when @1.42.1 
+            required because py-voiage depends on py-polars@1.42.1:1 
+              required because py-voiage@2.2.0 requested explicitly 
+     5. Cannot satisfy 'rust@1.74:' and 'rust@nightly-2026-04-01'
+        required because py-maturin depends on rust@1.74: when @1.7.0: 
+          required because py-polars-runtime-32 depends on py-maturin@1.3.2: 
+            required because py-polars depends on py-polars-runtime-32@1.42.1 when @1.42.1 
+              required because py-voiage depends on py-polars@1.42.1:1 
+                required because py-voiage@2.2.0 requested explicitly 
+          required because py-pydantic-core depends on py-maturin@1.10:1 when @2.46.4: 
+            required because py-pydantic depends on py-pydantic-core@2.46.4 when @2.13.4 
+              required because py-voiage depends on py-pydantic@2.13.4:2 
+          required because py-pydantic-core depends on py-maturin@1.9.4:1 when @2.41: 
+          required because py-pydantic-core depends on py-maturin@1 
+          required because py-rpds-py depends on py-maturin@1.9:1 when @0.25: 
+            required because py-jsonschema depends on py-rpds-py@0.25: when @4.26: 
+              required because py-voiage depends on py-jsonschema@4.26:4 
+            required because py-jsonschema depends on py-rpds-py@0.7.1: when @4.18: 
+            required because py-referencing depends on py-rpds-py@0.7.0: 
+              required because py-jsonschema depends on py-referencing@0.28.4: when @4.18: 
+              required because py-jsonschema-specifications depends on py-referencing@0.31.0: 
+                required because py-jsonschema depends on py-jsonschema-specifications@2023.03.6: when @4.18: 
+          required because py-voiage depends on py-maturin@1.9:1 
+        required because py-polars-runtime-32 depends on rust@nightly-2026-04-01 
+          required because py-polars depends on py-polars-runtime-32@1.42.1 when @1.42.1 
+            required because py-voiage depends on py-polars@1.42.1:1 
+              required because py-voiage@2.2.0 requested explicitly 
+     6. Cannot satisfy 'rust@1.70:' and 'rust@nightly-2026-04-01'
+        required because py-polars-runtime-32 depends on rust@nightly-2026-04-01 
+          required because py-polars depends on py-polars-runtime-32@1.42.1 when @1.42.1 
+            required because py-voiage depends on py-polars@1.42.1:1 
+              required because py-voiage@2.2.0 requested explicitly 
+        required because py-maturin depends on rust@1.70: when @1.5.0: 
+          required because py-polars-runtime-32 depends on py-maturin@1.3.2: 
+            required because py-polars depends on py-polars-runtime-32@1.42.1 when @1.42.1 
+              required because py-voiage depends on py-polars@1.42.1:1 
+                required because py-voiage@2.2.0 requested explicitly 
+          required because py-pydantic-core depends on py-maturin@1.10:1 when @2.46.4: 
+            required because py-pydantic depends on py-pydantic-core@2.46.4 when @2.13.4 
+              required because py-voiage depends on py-pydantic@2.13.4:2 
+          required because py-pydantic-core depends on py-maturin@1.9.4:1 when @2.41: 
+          required because py-pydantic-core depends on py-maturin@1 
+          required because py-rpds-py depends on py-maturin@1.9:1 when @0.25: 
+            required because py-jsonschema depends on py-rpds-py@0.25: when @4.26: 
+              required because py-voiage depends on py-jsonschema@4.26:4 
+            required because py-jsonschema depends on py-rpds-py@0.7.1: when @4.18: 
+            required because py-referencing depends on py-rpds-py@0.7.0: 
+              required because py-jsonschema depends on py-referencing@0.28.4: when @4.18: 
+              required because py-jsonschema-specifications depends on py-referencing@0.31.0: 
+                required because py-jsonschema depends on py-jsonschema-specifications@2023.03.6: when @4.18: 
+          required because py-voiage depends on py-maturin@1.9:1 
+     7. Cannot satisfy 'rust@1.67:' and 'rust@nightly-2026-04-01'
+        required because py-maturin depends on rust@1.67: when @1.4.0: 
+          required because py-polars-runtime-32 depends on py-maturin@1.3.2: 
+            required because py-polars depends on py-polars-runtime-32@1.42.1 when @1.42.1 
+              required because py-voiage depends on py-polars@1.42.1:1 
+                required because py-voiage@2.2.0 requested explicitly 
+          required because py-pydantic-core depends on py-maturin@1.10:1 when @2.46.4: 
+            required because py-pydantic depends on py-pydantic-core@2.46.4 when @2.13.4 
+              required because py-voiage depends on py-pydantic@2.13.4:2 
+          required because py-pydantic-core depends on py-maturin@1.9.4:1 when @2.41: 
+          required because py-pydantic-core depends on py-maturin@1 
+          required because py-rpds-py depends on py-maturin@1.9:1 when @0.25: 
+            required because py-jsonschema depends on py-rpds-py@0.25: when @4.26: 
+              required because py-voiage depends on py-jsonschema@4.26:4 
+            required because py-jsonschema depends on py-rpds-py@0.7.1: when @4.18: 
+            required because py-referencing depends on py-rpds-py@0.7.0: 
+              required because py-jsonschema depends on py-referencing@0.28.4: when @4.18: 
+              required because py-jsonschema-specifications depends on py-referencing@0.31.0: 
+                required because py-jsonschema depends on py-jsonschema-specifications@2023.03.6: when @4.18: 
+          required because py-voiage depends on py-maturin@1.9:1 
+        required because py-polars-runtime-32 depends on rust@nightly-2026-04-01 
+          required because py-polars depends on py-polars-runtime-32@1.42.1 when @1.42.1 
+            required because py-voiage depends on py-polars@1.42.1:1 
+              required because py-voiage@2.2.0 requested explicitly 
+     8. Cannot satisfy 'rust@1.64:' and 'rust@nightly-2026-04-01'
+        required because py-maturin depends on rust@1.64: when @0.15.0: 
+          required because py-polars-runtime-32 depends on py-maturin@1.3.2: 
+            required because py-polars depends on py-polars-runtime-32@1.42.1 when @1.42.1 
+              required because py-voiage depends on py-polars@1.42.1:1 
+                required because py-voiage@2.2.0 requested explicitly 
+          required because py-pydantic-core depends on py-maturin@1.10:1 when @2.46.4: 
+            required because py-pydantic depends on py-pydantic-core@2.46.4 when @2.13.4 
+              required because py-voiage depends on py-pydantic@2.13.4:2 
+          required because py-pydantic-core depends on py-maturin@1.9.4:1 when @2.41: 
+          required because py-pydantic-core depends on py-maturin@1 
+          required because py-rpds-py depends on py-maturin@1.9:1 when @0.25: 
+            required because py-jsonschema depends on py-rpds-py@0.25: when @4.26: 
+              required because py-voiage depends on py-jsonschema@4.26:4 
+            required because py-jsonschema depends on py-rpds-py@0.7.1: when @4.18: 
+            required because py-referencing depends on py-rpds-py@0.7.0: 
+              required because py-jsonschema depends on py-referencing@0.28.4: when @4.18: 
+              required because py-jsonschema-specifications depends on py-referencing@0.31.0: 
+                required because py-jsonschema depends on py-jsonschema-specifications@2023.03.6: when @4.18: 
+          required because py-voiage depends on py-maturin@1.9:1 
+        required because py-polars-runtime-32 depends on rust@nightly-2026-04-01 
+          required because py-polars depends on py-polars-runtime-32@1.42.1 when @1.42.1 
+            required because py-voiage depends on py-polars@1.42.1:1 
+              required because py-voiage@2.2.0 requested explicitly 
+     9. Cannot satisfy 'rust@1.62:' and 'rust@nightly-2026-04-01'
+        required because py-maturin depends on rust@1.62: when @0.14.3: 
+          required because py-polars-runtime-32 depends on py-maturin@1.3.2: 
+            required because py-polars depends on py-polars-runtime-32@1.42.1 when @1.42.1 
+              required because py-voiage depends on py-polars@1.42.1:1 
+                required because py-voiage@2.2.0 requested explicitly 
+          required because py-pydantic-core depends on py-maturin@1.10:1 when @2.46.4: 
+            required because py-pydantic depends on py-pydantic-core@2.46.4 when @2.13.4 
+              required because py-voiage depends on py-pydantic@2.13.4:2 
+          required because py-pydantic-core depends on py-maturin@1.9.4:1 when @2.41: 
+          required because py-pydantic-core depends on py-maturin@1 
+          required because py-rpds-py depends on py-maturin@1.9:1 when @0.25: 
+            required because py-jsonschema depends on py-rpds-py@0.25: when @4.26: 
+              required because py-voiage depends on py-jsonschema@4.26:4 
+            required because py-jsonschema depends on py-rpds-py@0.7.1: when @4.18: 
+            required because py-referencing depends on py-rpds-py@0.7.0: 
+              required because py-jsonschema depends on py-referencing@0.28.4: when @4.18: 
+              required because py-jsonschema-specifications depends on py-referencing@0.31.0: 
+                required because py-jsonschema depends on py-jsonschema-specifications@2023.03.6: when @4.18: 
+          required because py-voiage depends on py-maturin@1.9:1 
+        required because py-polars-runtime-32 depends on rust@nightly-2026-04-01 
+          required because py-polars depends on py-polars-runtime-32@1.42.1 when @1.42.1 
+            required because py-voiage depends on py-polars@1.42.1:1 
+              required because py-voiage@2.2.0 requested explicitly 
+    10. Cannot satisfy 'rust@1.59:' and 'rust@nightly-2026-04-01'
+        required because py-maturin depends on rust@1.59: when @0.13.3: 
+          required because py-polars-runtime-32 depends on py-maturin@1.3.2: 
+            required because py-polars depends on py-polars-runtime-32@1.42.1 when @1.42.1 
+              required because py-voiage depends on py-polars@1.42.1:1 
+                required because py-voiage@2.2.0 requested explicitly 
+          required because py-pydantic-core depends on py-maturin@1.10:1 when @2.46.4: 
+            required because py-pydantic depends on py-pydantic-core@2.46.4 when @2.13.4 
+              required because py-voiage depends on py-pydantic@2.13.4:2 
+          required because py-pydantic-core depends on py-maturin@1.9.4:1 when @2.41: 
+          required because py-pydantic-core depends on py-maturin@1 
+          required because py-rpds-py depends on py-maturin@1.9:1 when @0.25: 
+            required because py-jsonschema depends on py-rpds-py@0.25: when @4.26: 
+              required because py-voiage depends on py-jsonschema@4.26:4 
+            required because py-jsonschema depends on py-rpds-py@0.7.1: when @4.18: 
+            required because py-referencing depends on py-rpds-py@0.7.0: 
+              required because py-jsonschema depends on py-referencing@0.28.4: when @4.18: 
+              required because py-jsonschema-specifications depends on py-referencing@0.31.0: 
+                required because py-jsonschema depends on py-jsonschema-specifications@2023.03.6: when @4.18: 
+          required because py-voiage depends on py-maturin@1.9:1 
+        required because py-polars-runtime-32 depends on rust@nightly-2026-04-01 
+          required because py-polars depends on py-polars-runtime-32@1.42.1 when @1.42.1 
+            required because py-voiage depends on py-polars@1.42.1:1 
+              required because py-voiage@2.2.0 requested explicitly 

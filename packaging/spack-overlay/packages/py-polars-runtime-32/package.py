@@ -12,6 +12,7 @@ class PyPolarsRuntime32(PythonPackage):
     version(
         "1.42.1",
         sha256="4d4809e1c1b9a6611f6944f27b24abea902b5159e6b6fa262fd716e947af5afd",
+        url="https://files.pythonhosted.org/packages/1f/59/15bcc4dac380c6d63efa5446d8317f22671cbd6c9dadd576bd17a334c45a/polars_runtime_32-1.42.1.tar.gz",
     )
     depends_on("python@3.10:", type=("build", "run"))
     depends_on("py-maturin@1.3.2:", type="build")

@@ -4,6 +4,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+*   [x] Bind the Spack Polars runtime source to its exact verified sdist URL.
+    *   Added regression coverage for the `_32` filename suffix after a native
+        source build exposed Spack's ambiguous derived PyPI URL.
+    *   Restored ignored solver evidence, verifying historical logs byte-for-byte
+        against the original Git revision and the URL log against its manifest.
+
 *   [~] Complete the authorized remaining backlog through
     `conductor/tracks/remaining_backlog_delivery_20260831/` (#1053): dependency
     delivery and Codecov controls (#656), measured opt-in testing (#1028), HPC

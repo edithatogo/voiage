@@ -1,0 +1,157 @@
+==> Installing "clingo-bootstrap@=spack~apps~docs+ipo+optimized+python+static_libstdcpp build_system=cmake build_type=Release commit=2a025667090d71b2c9dce60fe924feb6bde8f667 generator=make patches:=bebb819,ec99431 platform=linux os=centos7 target=aarch64" from a buildcache
+==> Concretized 1 spec:
+ -   5ixl2er  py-voiage@2.2.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   bjce6qe      ^py-click@8.5.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   kvy26ff          ^py-flit-core@3.12.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   geangsp      ^py-jsonschema@4.26.0~format-nongpl build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   y5wsvbk          ^py-attrs@26.1.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   572isdq          ^py-hatch-fancy-pypi-readme@25.1.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   rchuzf3          ^py-hatch-vcs@0.5.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   k5pvxgr          ^py-hatchling@1.29.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   cwji4bz              ^py-pathspec@1.1.1 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   dbkc7r2              ^py-pluggy@1.6.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   5kkbk5t              ^py-trove-classifiers@2026.6.1.19 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   vzt356z                  ^py-calver@2025.10.20 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   2fb62us          ^py-jsonschema-specifications@2025.9.1 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   5iqi6qc          ^py-referencing@0.37.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   g3qr4sg          ^py-rpds-py@0.27.1 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   6vy3zo7      ^py-maturin@1.13.1 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   hyxuywa          ^bzip2@1.0.8~debug~pic+shared build_system=generic platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   qacpnax              ^diffutils@3.12 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   6zpo3h7          ^compiler-wrapper@1.1.0 build_system=generic platform=linux os=ubuntu24.04 target=aarch64
+[e]  ecodgxi          ^gcc@13.3.0+binutils+bootstrap~graphite+libsanitizer~mold~nvptx~piclibs~profiled~strip build_system=autotools build_type=RelWithDebInfo languages:='c,c++,fortran' platform=linux os=ubuntu24.04 target=aarch64
+ -   usx5bqs          ^gcc-runtime@13.3.0 build_system=generic platform=linux os=ubuntu24.04 target=aarch64
+[e]  wqjtbsv          ^glibc@2.39 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64
+ -   z7sxj3p          ^py-setuptools@82.0.1 build_system=generic platform=linux os=ubuntu24.04 target=aarch64
+ -   nqoqwrc          ^py-setuptools-rust@1.12.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   hwvacg5              ^py-semantic-version@2.10.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   33gxp7p      ^py-numpy@2.3.5 build_system=python_pip patches:=873745d platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   vsc3fnc          ^openblas@0.3.33~bignuma~consistent_fpcsr+dynamic_dispatch+fortran~ilp64+locking+pic+shared~static build_system=makefile patches:=723ddc1 symbol_suffix=none threads=none platform=linux os=ubuntu24.04 target=aarch64 %c,cxx,fortran=gcc@13.3.0
+ -   uc54gih          ^py-cython@3.2.4 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   4b65qsg          ^py-meson-python@0.19.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   c76l7bn              ^py-pyproject-metadata@0.11.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   64wuz3w      ^py-pandas@2.3.3~excel~parquet+performance build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   z2vjusc          ^meson@1.11.1 build_system=python_pip patches:=0f0b1bd platform=linux os=ubuntu24.04 target=aarch64
+ -   o64acyo          ^py-bottleneck@1.6.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   fve6ta4          ^py-numba@0.65.1~tbb build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   dpkiak2              ^py-llvmlite@0.47.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   vx7u2fr                  ^binutils@2.46.1~debuginfod~gas~gprofng~headers~interwork~ld~libiberty~lto~nls~pgo+plugins build_system=autotools compress_debug_sections=zlib libs:=shared,static platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   owu6o3e                  ^llvm@20.1.8+clang~cuda~flang~gold~ipo+libomptarget~libomptarget_debug~link_llvm_dylib+lld+lldb+llvm_dylib+lua~mlir+offload+polly~python~split_dwarf~utils~z3~zstd build_system=cmake build_type=Release compiler-rt=runtime generator=ninja libcxx=runtime libunwind=runtime openmp=runtime shlib_symbol_version=none targets:=aarch64,amdgpu,nvptx,x86 version_suffix=none platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   7rvs5cz                      ^hwloc@2.13.0~cairo~cuda~gl~level_zero~libudev+libxml2~nvml~opencl+pci~rocm build_system=autotools libs:=shared,static patches:=b4db98b platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   gpsjk7h                          ^libpciaccess@0.17 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   sgcupaq                              ^util-macros@1.20.2 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64
+ -   rsoavq2                      ^libedit@3.1-20251016 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   v5db4lr                      ^lua@5.3.6+shared build_system=makefile fetcher=curl platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   3z6myz5                          ^unzip@6.0 build_system=makefile patches:=179330d,24582ff,251d575,3371314,44599c8,47e9def,4e5a081,59c0983,64f6498,74bc961,7d8e5c7,81ca46c,881d2ed,aced0f2,b6f64d7,b7a14c3,c9a863e,ee9e260,f6f6236,f88b9d4,fde8f9d platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   octgjez                      ^perl-data-dumper@2.173 build_system=perl platform=linux os=ubuntu24.04 target=aarch64
+ -   6qjtbm6                      ^swig@4.4.1 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   oolt2wf          ^py-numexpr@2.14.1 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   wwfnvfg          ^py-python-dateutil@2.9.0.post0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   kakxncs              ^py-six@1.17.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   7cfyq2q          ^py-pytz@2025.2 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   funfskj          ^py-tzdata@2026.1 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   5xl5izk          ^py-versioneer@0.29+toml build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   p7sa4zg      ^py-pip@26.1.2 build_system=generic platform=linux os=ubuntu24.04 target=aarch64
+ -   fmetxmm      ^py-polars@1.42.1 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   fdvwytp          ^py-polars-runtime-32@1.42.1 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   nq4gwf3              ^py-maturin@1.13.1 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   unyxmve                  ^py-setuptools-rust@1.12.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   aykeepr              ^rust@nightly-2026-04-01~dev~docs+src build_system=generic platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   j2i5mlz                  ^rust-bootstrap@beta-2026-03-05 build_system=generic platform=linux os=ubuntu24.04 target=aarch64
+ -   5mwfepg      ^py-pyarrow@25.0.1 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   mgrkn2t          ^arrow@25.0.1~brotli~bz2~compute+csv~cuda+dataset+filesystem~gandiva~glog~hdfs+ipc~ipo~jemalloc~lz4~orc+parquet+python+shared~snappy~tensorflow~zlib~zstd build_system=cmake build_type=Release generator=make platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   veo2gon              ^boost@1.90.0~atomic~charconv~chrono~clanglibcpp~container~context~contract~conversion~date_time~debug~exception~fiber+filesystem~graph~graph_parallel~icu~iostreams~json~locale~log~math~mpi~mqtt5+multithreaded~nowide~numpy~openmethod~pic~program_options~python~random~regex~serialization+shared~signals2~singlethreaded~stacktrace+system~taggedlayout~test~thread~timer~type_erasure~url~versionedlayout~wave build_system=generic cxxstd=11 patches:=a440f96 visibility=hidden platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   iqrwhgv              ^flatbuffers@24.12.23~ipo~python+shared build_system=cmake build_type=Release generator=make platform=linux os=ubuntu24.04 target=aarch64 %cxx=gcc@13.3.0
+ -   w2p2pc7              ^rapidjson@1.2.0-2024-08-16~doc~ipo build_system=cmake build_type=Release commit=7c73dd7de7c4f14379b781418c6e947ad464c818 generator=make patches:=ee123c7 platform=linux os=ubuntu24.04 target=aarch64 %cxx=gcc@13.3.0
+ -   ax6eciz              ^re2@2024-07-02~icu~ipo+pic+shared build_system=cmake build_type=Release generator=make platform=linux os=ubuntu24.04 target=aarch64 %cxx=gcc@13.3.0
+ -   mfpahfe                  ^abseil-cpp@20260107.1~ipo+shared build_system=cmake build_type=Release cxxstd=17 generator=make platform=linux os=ubuntu24.04 target=aarch64 %cxx=gcc@13.3.0
+ -   ll3qduc              ^thrift@0.22.0~c_glib+cpp~ipo~java~javascript~libevent~nodejs~openssl~python~qt5+shared~zlib build_system=cmake build_type=Release generator=make platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   djmloov                  ^bison@3.8.2~color build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   mbq7h4v                  ^flex@2.6.3+lex~nls build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   ijownbu                      ^findutils@4.10.0 build_system=autotools patches:=440b954 platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   i5oi63a              ^utf8proc@2.10.0~ipo+shared build_system=cmake build_type=Release generator=make platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   qcbawu6              ^xsimd@14.2.0~ipo build_system=cmake build_type=Release generator=make platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   4guzcdi          ^cmake@3.31.11~doc+ncurses+ownlibs~qtgui build_system=generic build_type=Release platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   iklut3k          ^pkgconf@2.5.1 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   jvnxyfr              ^gnuconfig@2025-07-10 build_system=generic platform=linux os=ubuntu24.04 target=aarch64
+ -   o7viwse          ^py-libcst@1.8.6 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   ucfgygu              ^py-pyyaml@6.0.3+libyaml build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   dqhd7c6                  ^libyaml@0.2.5 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   v4jnytl          ^py-scikit-build-core@0.12.2~pyproject build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64 %c,cxx,fortran=gcc@13.3.0
+ -   gjah56l          ^py-setuptools-scm@9.2.2+toml build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   l22shvb              ^git@2.53.0+man+nls+perl+subtree~tcltk build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   nqlngw4                  ^autoconf@2.72 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64
+ -   zoscbzw                  ^automake@1.18.1 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   xnpzw6o                  ^libidn2@2.3.8 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   764fugs                      ^libunistring@1.4.2 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   vqz2wpj                  ^libtool@2.5.4 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   lclivoh                      ^file@5.46+static build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   4voacum                  ^m4@1.4.21+sigsegv build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   qs7qbi6                      ^libsigsegv@2.15 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   ijvsnra                  ^openssh@10.3p1+gssapi build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   r7jmevk                      ^krb5@1.22.2+shared build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   piyl67b                  ^pcre2@10.44~jit+multibyte+pic build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   oovbhqk      ^py-pydantic@2.13.4~dotenv build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   kvbqxet          ^py-annotated-types@0.7.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   pivvaqs          ^py-pydantic-core@2.46.4 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   bt36nkp          ^py-typing-inspection@0.4.2 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   m2eevxt      ^py-scikit-learn@1.9.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   dgdyuwy          ^py-joblib@1.5.3 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   em7mimm          ^py-narwhals@2.19.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   w5c64ev          ^py-threadpoolctl@3.6.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   z7bkk2r      ^py-scipy@1.16.3 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64 %c,cxx,fortran=gcc@13.3.0
+ -   5uvpjfx          ^py-pybind11@3.0.2+ipo build_system=cmake build_type=Release generator=ninja platform=linux os=ubuntu24.04 target=aarch64 %cxx=gcc@13.3.0
+ -   aaktj5p          ^py-pythran@0.18.1 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64 %cxx=gcc@13.3.0
+ -   mauiikd              ^py-beniget@0.4.2.post1 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   6ire5up              ^py-gast@0.6.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   sx5db4v              ^py-ply@3.11 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   63kj4rp      ^py-typer@0.27.2 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   jka7zek          ^py-annotated-doc@0.0.5 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   ippc4zp          ^py-pdm-backend@2.4.7 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   mlzjl2f          ^py-rich@15.0.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   btormms              ^py-markdown-it-py@4.0.0~linkify build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   e5r2rsh                  ^py-mdurl@0.1.2 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   dulpwvp              ^py-poetry-core@2.3.2 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   wk7lsy3              ^py-pygments@2.19.2 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   ttpldva          ^py-shellingham@1.5.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   epvpeyy      ^py-typing-extensions@4.16.0 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   zvxubii      ^py-wheel@0.45.1 build_system=generic platform=linux os=ubuntu24.04 target=aarch64
+ -   54oiizd      ^py-xarray@2024.7.0~io~parallel~viz build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   da5km5i          ^py-packaging@26.2 build_system=python_pip platform=linux os=ubuntu24.04 target=aarch64
+ -   ts7ng5d      ^python@3.12.14+bz2+crypt+ctypes+dbm~debug+libxml2+lzma~optimizations+pic+pyexpat+pythoncmd+readline+shared+sqlite3+ssl~static~tests~tkinter+uuid+zlib build_system=generic platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   eslwzfr          ^expat@2.8.3+libbsd build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   2ce66nc              ^libbsd@0.12.2 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   wrzuveb                  ^libmd@1.1.0 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   tmzarcs          ^gdbm@1.26 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   elwfaif          ^gettext@1.0+bzip2+curses+git~libunistring+libxml2+pic+shared+tar+xz build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   gn3ajcm              ^libiconv@1.18 build_system=autotools libs:=shared,static platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   r4ottk7              ^libxml2@2.15.3+pic~python+shared build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   q6x7pmr              ^tar@1.35 build_system=autotools zip=pigz platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   j4qw35m                  ^pigz@2.8 build_system=makefile platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   x3x5cct                  ^zstd@1.5.7+programs build_system=makefile compression:=none libs:=shared,static platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   6wopwqf          ^gmake@4.4.1~guile build_system=generic platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   ppxhuaq          ^libffi@3.5.2 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   cdy63ab          ^libxcrypt@4.5.2~obsolete_api build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   hvgkbkq              ^perl@5.42.0+cpanm+opcode+open+shared+threads build_system=generic platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   yeedwhr                  ^berkeley-db@18.1.40+cxx~docs+stl build_system=autotools patches:=26090f4,b231fcc platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   4txatlq                  ^less@692 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   2j5s45d          ^ncurses@6.6~symlinks+termlib abi=none build_system=autotools patches:=7a351bc platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   3i64b6w          ^openssl@3.6.4~docs+shared build_system=generic certs=mozilla platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   d7ca4nc              ^ca-certificates-mozilla@2026-03-19 build_system=generic platform=linux os=ubuntu24.04 target=aarch64
+ -   o7h6uth          ^readline@8.3 build_system=autotools patches:=21f0a03,72dee13,e273643 platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   xdwrdvs          ^sqlite@3.53.1+column_metadata+fts+rtree build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   tzcdlmu          ^util-linux-uuid@2.41 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   rdnnsty          ^xz@5.8.3~pic build_system=autotools libs:=shared,static platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   oanblfv          ^zlib-ng@2.3.3+compat+new_strategies+opt+pic+shared build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   giwqedl      ^python-venv@1.0 build_system=generic platform=linux os=ubuntu24.04 target=aarch64
+ -   lomrlsg      ^rust@1.96.0~dev~docs+src build_system=generic platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   l7l4cel          ^curl@8.20.0~gssapi~ldap~libidn2~librtmp~libssh~libssh2+nghttp2 build_system=autotools libs:=shared,static tls:=openssl platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   qyd2sdm              ^nghttp2@1.67.1 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   jogx2mu          ^libgit2@1.9.1~curl~ipo+mmap+ssh build_system=cmake build_type=Release generator=make https=system platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   sojx5tu              ^pcre@8.45~jit+multibyte+pic+shared+static+utf build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   lz2k3zs          ^libssh2@1.11.1+shared build_system=autotools crypto=openssl platform=linux os=ubuntu24.04 target=aarch64 %c=gcc@13.3.0
+ -   bwxfmzw          ^ninja@1.13.2+re2c build_system=generic platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   7kbvfif              ^re2c@4.4 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+ -   vkeghip          ^rust-bootstrap@1.96.0 build_system=generic platform=linux os=ubuntu24.04 target=aarch64
+ -   tkcpp45              ^patchelf@0.17.2 build_system=autotools platform=linux os=ubuntu24.04 target=aarch64 %c,cxx=gcc@13.3.0
+

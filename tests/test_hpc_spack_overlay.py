@@ -147,8 +147,8 @@ def test_solver_receipt_binds_inspectable_logs_and_package_manifest() -> None:
     assert not receipt["builds_executed"]
 
 
-def test_pre_xsimd_fix_solver_evidence_remains_historical() -> None:
-    history = ROOT / "history/pre-xsimd-license-fix-12c57216"
+def test_pre_polars_url_solver_evidence_remains_historical() -> None:
+    history = ROOT / "history/pre-polars-sdist-url-9307d9ec"
     current = json.loads((ROOT / "solver-receipt.json").read_text())
     historical = json.loads((history / "solver-receipt.json").read_text())
     assert (ROOT / current["prior_failure_evidence"]).resolve() == (
@@ -169,7 +169,39 @@ def test_pre_xsimd_fix_solver_evidence_remains_historical() -> None:
             result["log_sha256"]
             == hashlib.sha256((history / result["log_path"]).read_bytes()).hexdigest()
         )
-    assert historical["concrete_dag"]["sha256"] != current["concrete_dag"]["sha256"]
+    assert historical["concrete_dag"]["sha256"] == current["concrete_dag"]["sha256"]
+    assert historical["concrete_lock"]["sha256"] == current["concrete_lock"]["sha256"]
+    assert historical["manifest_sha256"] != current["manifest_sha256"]
+    assert historical["prior_failure_evidence"] == (
+        "history/pre-xsimd-license-fix-12c57216/solver-receipt.json"
+    )
+
+
+def test_pre_xsimd_fix_solver_evidence_remains_historical() -> None:
+    history = ROOT / "history/pre-xsimd-license-fix-12c57216"
+    successor = json.loads(
+        (ROOT / "history/pre-polars-sdist-url-9307d9ec/solver-receipt.json").read_text()
+    )
+    historical = json.loads((history / "solver-receipt.json").read_text())
+    assert (ROOT / successor["prior_failure_evidence"]).resolve() == (
+        history / "solver-receipt.json"
+    ).resolve()
+    assert (
+        historical["manifest_sha256"]
+        == hashlib.sha256((history / "manifest.json").read_bytes()).hexdigest()
+    )
+    assert (
+        historical["concrete_dag"]["sha256"]
+        == hashlib.sha256(
+            (history / historical["concrete_dag"]["path"]).read_bytes()
+        ).hexdigest()
+    )
+    for result in historical["results"]:
+        assert (
+            result["log_sha256"]
+            == hashlib.sha256((history / result["log_path"]).read_bytes()).hexdigest()
+        )
+    assert historical["concrete_dag"]["sha256"] != successor["concrete_dag"]["sha256"]
 
 
 def test_overlay_versions_match_verified_source_digests() -> None:
@@ -210,6 +242,70 @@ def test_native_dependency_requirements_are_not_downgraded() -> None:
     assert 'depends_on("py-libcst@1.8.6:"' in arrow
     assert 'depends_on("py-scikit-build-core"' in arrow
     assert '"arrow@25.0.0+python+csv+dataset+filesystem+parquet"' in arrow
+
+
+def test_polars_runtime_uses_the_exact_verified_sdist_url() -> None:
+    """Keep Spack from deriving a filename that drops the runtime suffix."""
+    recipe = ROOT / "packages/py-polars-runtime-32/package.py"
+    version_call = next(
+        node
+        for node in ast.walk(ast.parse(recipe.read_text()))
+        if isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Name)
+        and node.func.id == "version"
+        and node.args
+        and isinstance(node.args[0], ast.Constant)
+        and node.args[0].value == "1.42.1"
+    )
+    metadata = {
+        keyword.arg: keyword.value.value
+        for keyword in version_call.keywords
+        if isinstance(keyword.value, ast.Constant)
+    }
+    assert metadata == {
+        "sha256": "4d4809e1c1b9a6611f6944f27b24abea902b5159e6b6fa262fd716e947af5afd",
+        "url": (
+            "https://files.pythonhosted.org/packages/1f/59/"
+            "15bcc4dac380c6d63efa5446d8317f22671cbd6c9dadd576bd17a334c45a/"
+            "polars_runtime_32-1.42.1.tar.gz"
+        ),
+    }
+    resolution = json.loads(
+        (ROOT / "polars-runtime-source-resolution.json").read_text()
+    )
+    assert resolution["spack_version"] == "1.2.2"
+    assert resolution["spack_commit"] == ("3e19345b6e12f5ff1b874f4059622fc6a1fd804a")
+    assert resolution["package"] == "py-polars-runtime-32@1.42.1"
+    assert resolution["resolved_url"] == metadata["url"]
+    probe_log = ROOT / resolution["probe_log"]
+    assert probe_log.read_text().strip() == metadata["url"]
+    assert (
+        hashlib.sha256(probe_log.read_bytes()).hexdigest()
+        == (resolution["probe_log_sha256"])
+    )
+    probe_command = ROOT / resolution["probe_command"]
+    assert "concretize_one" in probe_command.read_text()
+    assert "url_for_version" in probe_command.read_text()
+    assert (
+        hashlib.sha256(probe_command.read_bytes()).hexdigest()
+        == (resolution["probe_command_sha256"])
+    )
+    assert resolution["source_sha256"] == metadata["sha256"]
+    assert resolution["source_bytes"] == 3045460
+    assert resolution["download_hash_verified"] is True
+    assert resolution["fresh_concretize_exit_code"] == 0
+    assert resolution["fresh_lock_matches_prior"] is True
+    assert (
+        resolution["fresh_concretize_log_sha256"]
+        == hashlib.sha256(
+            (ROOT / "solver-logs/voiage-concretize.log").read_bytes()
+        ).hexdigest()
+    )
+    assert (
+        resolution["fresh_lock_sha256"]
+        == hashlib.sha256((ROOT / "solver-logs/voiage.lock").read_bytes()).hexdigest()
+    )
+    assert resolution["native_build_executed"] is False
 
 
 def _builtin_package_bases(tree: ast.Module) -> set[str]:
