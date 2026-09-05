@@ -1072,7 +1072,9 @@ with open(a.output, "w") as stream:
 
     def clean_environment(home: Path) -> tuple[dict[str, str], list[str], str]:
         env, _, _ = original_clean_environment(home)
-        env["PATH"] = f"{fake_bin}:{env['PATH']}"
+        # Keep fixture preflight and unloaded python3 on the same clean system
+        # interpreter; hosted pytest PATH otherwise contains its installed wheel.
+        env["PATH"] = f"{fake_bin}:/usr/bin:/bin"
         allowlist = [f"{key}={env[key]}" for key in sorted(env)]
         digest = hashlib.sha256(
             json.dumps(allowlist, sort_keys=True, separators=(",", ":")).encode()
