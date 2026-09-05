@@ -3,7 +3,7 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-08-31T12:11:38Z",
-  "updated_at": "2026-08-31T17:24:33Z",
+  "updated_at": "2026-09-03T16:50:59Z",
   "description": "Complete the authorized remaining backlog, protected PR delivery, issue reconciliation and verified cleanup.",
   "evidence_schema": "1.0",
   "authorization": {
@@ -14,8 +14,8 @@
   "github_cross_reference": {
     "issue": "https://github.com/edithatogo/voiage/issues/1053"
   },
-  "current_phase": "Phase 1 — Audit and recovery",
-  "next_pending_task": "B1",
+  "current_phase": "Phase 4 — Final cleanup and audit",
+  "next_pending_task": "B6 native Spack terminal evidence remains the priority before B8 and the B12–B14 post-merge validation and cleanup",
   "gates": [
     {
       "id": "external-evidence",
