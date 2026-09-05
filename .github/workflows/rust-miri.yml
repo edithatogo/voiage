@@ -37,12 +37,12 @@ jobs:
       - name: Install pinned Miri toolchain
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
-          toolchain: nightly-2026-07-01
+          toolchain: nightly-2026-08-22
           components: miri,rust-src
       - name: Run unsafe-boundary suites under Miri
         env:
           MIRIFLAGS: -Zmiri-strict-provenance
         run: >-
-          cargo +nightly-2026-07-01 miri test
+          cargo +nightly-2026-08-22 miri test
           --manifest-path rust/Cargo.toml --locked --package voiage-ffi
           --test lifecycle --test error_transport

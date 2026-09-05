@@ -2,6 +2,12 @@
 
 Status: **prepared locally; not posted or submitted**
 
+Current workflow qualification is pending as of 5 September 2026. The updated
+uv tool runs the cross-language conformance job, so the historical successful
+binding matrix cannot establish qualification of this changed workflow. Retain
+this draft locally until fresh hosted evidence is recorded in the
+[requalification record](../../specs/submission-readiness/r-workflow-requalification-20260905.json).
+
 ## Proposed package
 
 - Package: `voiageR` 2.2.0

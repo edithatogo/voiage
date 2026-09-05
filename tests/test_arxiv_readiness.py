@@ -29,7 +29,7 @@ def test_arxiv_readiness_pipeline_is_latex_first_and_non_submitting() -> None:
     assert "prepare_arxiv_variants.py" in workflow
     assert "audit_arxiv_readability.py" in workflow
     assert "validate_arxiv_html.py" in workflow
-    assert 'version: "0.11.29"' in workflow
+    assert 'version: "0.12.5"' in workflow
     assert "submission_performed" in builder
     assert "pandoc" not in builder
     assert "arxiv.org" not in builder

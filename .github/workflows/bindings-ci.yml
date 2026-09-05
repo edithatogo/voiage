@@ -278,7 +278,7 @@ jobs:
           persist-credentials: false
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.11.29"
+          version: "0.12.5"
       - name: Document retained runtime boundaries
         run: |
           printf '%s\n' \

@@ -87,11 +87,12 @@
     },
     {
       "id": "current-source-distribution-evidence",
-      "status": "satisfied",
+      "status": "hosted_pending",
       "evidence": [
         "specs/submission-readiness/r-distribution-evidence-20260902.json",
         "conductor/tracks/remaining_backlog_delivery_20260831/r-manual-check-20260901.json",
-        ".github/workflows/bindings-ci.yml"
+        ".github/workflows/bindings-ci.yml",
+        "specs/submission-readiness/r-workflow-requalification-20260905.json"
       ]
     },
     {

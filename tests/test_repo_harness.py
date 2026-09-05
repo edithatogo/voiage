@@ -58,7 +58,7 @@ jobs:
 
     findings = check_workflows(tmp_path)
 
-    assert any("frontier version 0.11.29" in finding.message for finding in findings)
+    assert any("frontier version 0.12.5" in finding.message for finding in findings)
 
 
 def test_private_assurance_dependencies_do_not_pollute_source_scan(
