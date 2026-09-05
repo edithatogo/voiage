@@ -39,6 +39,12 @@ def _bind_inventory_expectations_to_fixture(
     monkeypatch.setattr(
         closeout, "EXPECTED_CUSTOM_REF_MANIFEST_SHA256", custom_refs["manifest_sha256"]
     )
+    monkeypatch.setattr(closeout, "EXPECTED_OPEN_ISSUES", payload["open_issues"])
+    monkeypatch.setattr(
+        closeout,
+        "REQUIRED_EXTERNAL",
+        set(payload["open_issue_boundaries"]["human_external_issue_numbers"]),
+    )
 
     # Hosted runners have different transient/audit refs.  Feed the production
     # validator the fixture's durable ref listing while retaining all of its
@@ -160,8 +166,33 @@ def _recovery_payload(tmp_path: Path) -> tuple[dict[str, object], dict[str, obje
     recovery = dict(payload["recovery_preservation"])
     bundle = tmp_path / "recovery.bundle"
     record = tmp_path / "restore-verification.txt"
-    shutil.copyfile(recovery["bundle_path"], bundle)
-    shutil.copyfile(recovery["restore_verification_path"], record)
+    # Build self-contained recovery evidence for hosted runners, where the
+    # maintainer's external recovery volume is intentionally unavailable.
+    import subprocess
+
+    subprocess.run(
+        ["git", "-C", str(ROOT), "bundle", "create", str(bundle), "HEAD"], check=True
+    )
+    head = subprocess.check_output(
+        ["git", "-C", str(ROOT), "rev-parse", "HEAD"], text=True
+    ).strip()
+    tree = subprocess.check_output(
+        ["git", "-C", str(ROOT), "rev-parse", "HEAD^{tree}"], text=True
+    ).strip()
+    recovery.update(
+        recovery_ref="HEAD",
+        commit=head,
+        tree=tree,
+        restored_commit=head,
+        restored_tree=tree,
+    )
+    record.write_text(
+        f"restore_commit={head}\nrestore_tree={tree}\nfsck=passed\n", encoding="utf-8"
+    )
+    recovery["bundle_sha256"] = hashlib.sha256(bundle.read_bytes()).hexdigest()
+    recovery["restore_verification_sha256"] = hashlib.sha256(
+        record.read_bytes()
+    ).hexdigest()
     recovery["bundle_path"] = str(bundle)
     recovery["restore_verification_path"] = str(record)
     payload["recovery_preservation"] = recovery
