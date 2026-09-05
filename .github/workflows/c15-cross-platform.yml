@@ -38,7 +38,7 @@ jobs:
           python-version: "3.14"
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.11.29"
+          version: "0.12.5"
           enable-cache: true
           cache-dependency-glob: uv.lock
           cache-suffix: c15-dist-${{ runner.os }}
@@ -72,7 +72,7 @@ jobs:
           python-version: "3.14"
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.11.29"
+          version: "0.12.5"
       - run: uv sync --frozen --extra ci
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
@@ -125,7 +125,7 @@ jobs:
           python-version: "3.14"
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.11.29"
+          version: "0.12.5"
           enable-cache: true
           cache-dependency-glob: uv.lock
           cache-suffix: c15-performance-${{ runner.os }}
@@ -160,7 +160,7 @@ jobs:
           python-version: "3.14"
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.11.29"
+          version: "0.12.5"
           enable-cache: true
           cache-dependency-glob: uv.lock
           cache-suffix: c15-telemetry-oracles

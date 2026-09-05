@@ -61,7 +61,7 @@ jobs:
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
-          toolchain: "1.85"
+          toolchain: "1.98"
       - name: Build the Rust C ABI used by Julia
         working-directory: rust
         run: cargo build --release --locked --package voiage-ffi
@@ -95,7 +95,7 @@ jobs:
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
-          toolchain: "1.85"
+          toolchain: "1.98"
       - name: Build the Rust C ABI used by R
         working-directory: rust
         run: cargo build --release --locked --package voiage-ffi

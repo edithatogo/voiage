@@ -85,7 +85,7 @@ jobs:
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
-          toolchain: "1.85"
+          toolchain: "1.98"
       - working-directory: rust
         run: cargo check --workspace --all-targets --all-features --locked
 
@@ -278,7 +278,7 @@ jobs:
           persist-credentials: false
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.11.29"
+          version: "0.12.5"
       - name: Document retained runtime boundaries
         run: |
           printf '%s\n' \

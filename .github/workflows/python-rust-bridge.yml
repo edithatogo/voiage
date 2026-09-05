@@ -64,7 +64,7 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.11.29"
+          version: "0.12.5"
           enable-cache: true
           cache-dependency-glob: "uv.lock"
       - name: Set up test Python
@@ -76,7 +76,7 @@ jobs:
       - name: Install Rust 1.85
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
-          toolchain: "1.85"
+          toolchain: "1.98"
       - name: Install locked build tooling
         run: uv sync --locked --extra ci
       - name: Validate locked Cargo workspace
@@ -186,17 +186,17 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.11.29"
+          version: "0.12.5"
           enable-cache: true
           cache-dependency-glob: "uv.lock"
       - name: Set up Python 3.12 ABI floor
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.12"
+          python-version: "3.14"
       - name: Install Rust 1.85
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
-          toolchain: "1.85"
+          toolchain: "1.98"
       - name: Install locked build tooling
         run: uv sync --locked --extra ci
       - name: Validate locked Cargo workspace
