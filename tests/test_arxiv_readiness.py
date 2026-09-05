@@ -66,7 +66,8 @@ def test_arxiv_template_tools_are_pinned_and_registered() -> None:
         assert version == selected_version
         nltk_versions.append(version)
     assert nltk_versions[0] == nltk_versions[1]
-    assert "pyphen==0.17.2" in requirements
+    assert "pyphen==0.18.1" in requirements
+    assert "pyphen==0.18.1" in (root / "requirements-joss.txt").read_text()
     assert "edithatogo/sourceright.git" in modules
     assert "edithatogo/authentext.git" in modules
 
