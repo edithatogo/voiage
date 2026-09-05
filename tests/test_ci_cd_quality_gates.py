@@ -557,7 +557,6 @@ class TestCICDDocumentation:
 
 def test_installed_nightly_matches_every_explicit_command_and_environment() -> None:
     """A toolchain update must also update consumers, not leave an unused pin."""
-    import re
 
     for filename in ("rust-miri.yml", "rust-fuzz.yml", "ffi-sanitizers.yml"):
         workflow = yaml.safe_load((GITHUB_WORKFLOWS_DIR / filename).read_text())
