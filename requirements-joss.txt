@@ -1,9 +1,9 @@
 # Isolated, review-only JOSS readability environment.
 textstat==0.7.13
 nltk==3.10.3
-pyphen==0.17.2
+pyphen==0.18.1
 click==8.4.2
 joblib==1.5.3
 regex==2026.7.19
-tqdm==4.69.1
+tqdm==4.70.0
 pyyaml==6.0.3

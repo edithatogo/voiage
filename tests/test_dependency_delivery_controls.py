@@ -109,3 +109,17 @@ def test_renovate_keeps_archival_environments_outside_live_dependency_updates() 
         "docs/astro-site/package.json",
     ):
         assert not any(fnmatchcase(live, pattern) for pattern in patterns)
+
+
+def test_governed_python_upgrades_require_separate_qualification() -> None:
+    config = json.loads((ROOT / "renovate.json").read_text())
+    rule = next(
+        rule
+        for rule in config["packageRules"]
+        if rule.get("matchPackageNames") == ["scipy", "jax", "mutmut"]
+    )
+    assert rule["matchManagers"] == ["pep621"]
+    assert rule["groupName"] is None
+    assert rule["groupSlug"] is None
+    assert rule["dependencyDashboardApproval"] is True
+    assert rule["automerge"] is False

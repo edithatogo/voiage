@@ -8,6 +8,11 @@
 
 ## Unreleased
 
+- Update isolated manuscript tools to Pyphen 0.18.1 and tqdm 4.70.0 while
+  preserving the reviewed SciPy/JAX compatibility bounds and Mutmut cohort.
+  Keep governed dependency upgrades separate from routine update groups.
+  SciPy 1.18.1, JAX 0.11.1 and Mutmut 3.7.0 qualification remains active work.
+
 - Reconcile both EasyBuild root graphs with their checksum-bound provider
   overlays and retain sanitized 108-module robot evidence, while keeping native
   build and installed-module qualification pending.

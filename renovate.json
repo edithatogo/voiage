@@ -175,6 +175,21 @@
       "enabled": false
     },
     {
+      "description": "Keep SciPy, JAX and Mutmut upgrades separate until preview or cohort qualification is complete",
+      "matchManagers": [
+        "pep621"
+      ],
+      "matchPackageNames": [
+        "scipy",
+        "jax",
+        "mutmut"
+      ],
+      "groupName": null,
+      "groupSlug": null,
+      "dependencyDashboardApproval": true,
+      "automerge": false
+    },
+    {
       "description": "Review executable source and lock changes through pull requests",
       "matchManagers": [
         "git-submodules",
