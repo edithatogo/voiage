@@ -1,11 +1,5 @@
 # Changelog
 
-- Add guarded, generation-isolated native EasyBuild qualification tooling and
-  a fail-closed terminal evidence contract that separately binds the pinned
-  candidate and reviewed tooling checkouts, preserves build exit codes when
-  module discovery fails, and isolates unload checks from the source checkout,
-  without claiming a native build.
-
 - Prepare checksum-pinned voiage 2.2.0 Spack and both requested EasyBuild toolchain candidates, cluster module instructions, and an isolated Rust source-build smoke check; upstream submission and actual HPC builds remain pending.
 
 - Archived the completed comprehensive pre-submission hardening programme after
@@ -14,14 +8,9 @@
 
 ## Unreleased
 
-- Repair the Actions dependency update so Rust MSRV release lanes stay at 1.85,
-  nightly sanitizer, Miri and fuzz commands use the installed toolchain, and
-  uv workflow checks track 0.12.5. Preserve the historical R qualification
-  receipt and mark the changed conformance workflow pending fresh hosted evidence.
-
-- Bind the Spack Polars runtime recipe to PyPI's exact checksum-verified sdist
-  URL so Spack cannot drop the `_32` suffix while deriving the source filename.
-  Include the authentic current URL and historical solver logs in the Git tree.
+- Repair the bounded Ruff 0.16 dependency-preview findings across repository
+  scripts while preserving runtime behavior and the current dependency and
+  Python-support policy.
 
 - Reconcile both EasyBuild root graphs with their checksum-bound provider
   overlays and retain sanitized 108-module robot evidence, while keeping native

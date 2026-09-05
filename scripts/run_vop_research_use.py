@@ -23,6 +23,7 @@ def _sha256(path: Path) -> str:
 
 
 def main() -> None:
+    """Run the governed VoP research-use workflow."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--vop-root", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
@@ -38,6 +39,7 @@ def main() -> None:
     sys.path.insert(0, str(args.vop_root / "src"))
     from vop_poc_nz.cea_model_core import run_cea
     from vop_poc_nz.pipeline.analysis import load_parameters
+
     from voiage import __version__
     from voiage.methods.basic import evpi
 
