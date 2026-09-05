@@ -19,6 +19,8 @@
   uv workflow checks track 0.12.5. Preserve the historical R qualification
   receipt and mark the changed conformance workflow pending fresh hosted evidence.
 
+- Bind the Spack Polars runtime recipe to PyPI's exact checksum-verified sdist
+  URL so Spack cannot drop the `_32` suffix while deriving the source filename.
 
 - Reconcile both EasyBuild root graphs with their checksum-bound provider
   overlays and retain sanitized 108-module robot evidence, while keeping native

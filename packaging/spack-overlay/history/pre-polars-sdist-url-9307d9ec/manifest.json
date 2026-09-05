@@ -12,7 +12,7 @@
     "packages/py-libcst/package.py": "35feaf4b660af1cc4d7e91a886ae32147545f94609c5b165bce630082aee30bc",
     "packages/py-maturin/package.py": "dee957e7a313ef427abc99963625fa4b439a4f7b349521d62a9237aa74d93181",
     "packages/py-polars/package.py": "324eaeed9d22ce727fc0d24eab4eaa5ce14c4d6e4243d120da9863846bcc00a5",
-    "packages/py-polars-runtime-32/package.py": "2526e96e87fb0cfa5e9cd5dd8965bb25b05e91e4df71e21521d38475098245c4",
+    "packages/py-polars-runtime-32/package.py": "c58dbd37dade1cf656550c4db093e8211497faa1290d3fd6237ae8520cf1a514",
     "packages/py-pyarrow/package.py": "fc05aae3ac7be06861e2d194fb02ee98031c15e5d3e370f365413faa9da64fb4",
     "packages/py-pydantic/package.py": "6b55621d3bfcb54677eef5110abf1420d27166ef370363dddf1c35592f32fb93",
     "packages/py-pydantic-core/package.py": "e3869c8240cb78a952cf9d6e091433add71d829bb2e73efbd7844cb7b6fa03dc",
@@ -43,9 +43,6 @@
     "libcst-cargo-source-closure.json": "46c4843d3b04e48633b1d74e9b59d88480d12da71d64f15eb63a28fa5857da46",
     "rust-backend-source-audit.json": "0fbaea54166ab7389192f126225705c30865e2736bba76e0991c0e6de9472c23",
     "rust-source-audit.json": "0e17803e2bd39637bfa4d122e4ddcf3a699742ae1dc2ab4281224e12007c1471",
-    "security-source-audit.json": "305b54b91f698df3180d45729c980593c2d29baf7b7999c4fcae93cdaca3c5e6",
-    "polars-runtime-source-resolution.json": "ab5a1b80fd02be8328866669c736b96403012fab3d901cd6a47d19f68ec9e379",
-    "solver-logs/polars-runtime-url.log": "cf453a360ea1e100ceb98b3052fee813cc2c2d90522969c360993a69ca9aca47",
-    "solver-logs/polars-runtime-url-command.txt": "273243a8156f9b83afb9b41d9ab58f97d019aca89c3c0a78316a9edbd147fd71"
+    "security-source-audit.json": "305b54b91f698df3180d45729c980593c2d29baf7b7999c4fcae93cdaca3c5e6"
   }
 }

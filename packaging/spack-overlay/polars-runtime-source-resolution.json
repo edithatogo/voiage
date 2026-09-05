@@ -1,0 +1,22 @@
+{
+  "schema": "voiage.spack-source-resolution.v1",
+  "recorded_at": "2026-09-05T06:48:00+00:00",
+  "spack_version": "1.2.2",
+  "spack_commit": "3e19345b6e12f5ff1b874f4059622fc6a1fd804a",
+  "catalogue_commit": "d4f7c711a6a42f1c4d551c8fd10fce9a11340a81",
+  "package": "py-polars-runtime-32@1.42.1",
+  "probe": "concretize_one(Spec(...)).package.url_for_version(spec.version)",
+  "resolved_url": "https://files.pythonhosted.org/packages/1f/59/15bcc4dac380c6d63efa5446d8317f22671cbd6c9dadd576bd17a334c45a/polars_runtime_32-1.42.1.tar.gz",
+  "source_bytes": 3045460,
+  "source_sha256": "4d4809e1c1b9a6611f6944f27b24abea902b5159e6b6fa262fd716e947af5afd",
+  "download_hash_verified": true,
+  "fresh_concretize_exit_code": 0,
+  "fresh_lock_matches_prior": true,
+  "native_build_executed": false,
+  "probe_log": "solver-logs/polars-runtime-url.log",
+  "probe_log_sha256": "cf453a360ea1e100ceb98b3052fee813cc2c2d90522969c360993a69ca9aca47",
+  "fresh_concretize_log_sha256": "476962d603bb4ae0342aef7886edba15060eab72d4e80716447ac2c73356b994",
+  "fresh_lock_sha256": "7eeb5d3c6390865034d64e2b0dc7c34f0e6874f94c9f9c9a112c1d6ef03793d3",
+  "probe_command": "solver-logs/polars-runtime-url-command.txt",
+  "probe_command_sha256": "273243a8156f9b83afb9b41d9ab58f97d019aca89c3c0a78316a9edbd147fd71"
+}
