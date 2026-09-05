@@ -33,7 +33,7 @@ def main() -> int:
 
     def worker(_: int) -> tuple[str, str, str]:
         import voiage as installed_voiage
-        from voiage import _core as installed_core
+        import voiage._core as installed_core
 
         return (
             installed_core.runtime_info()["engine"],
@@ -49,13 +49,13 @@ def main() -> int:
     from pyarrow import ipc
 
     import voiage
-    from voiage import _core
+    import voiage._core as native_core
     from voiage.analysis import DecisionAnalysis
 
     paths = [
         sys.executable,
         voiage.__file__ or "",
-        _core.__file__ or "",
+        native_core.__file__ or "",
         np.__file__ or "",
         pa.__file__ or "",
         pl.__file__ or "",
@@ -91,7 +91,7 @@ def main() -> int:
     arrow_objects = sorted(Path(pa.__file__).parent.glob("*.so"))
     if not polars_objects or not arrow_objects:
         raise SystemExit("Arrow or Polars native shared object is missing")
-    objects = [Path(_core.__file__), arrow_objects[0], polars_objects[0]]
+    objects = [Path(native_core.__file__), arrow_objects[0], polars_objects[0]]
     linkage_runs = [
         subprocess.run(  # noqa: S603 - resolved system inspection tool
             [ldd, str(item)], text=True, capture_output=True, check=False

@@ -259,6 +259,7 @@
           "stage": {
             "enum": [
               "easybuild",
+              "module-discovery",
               "module-probe",
               "module-unload"
             ]
@@ -290,6 +291,31 @@
           }
         },
         "allOf": [
+          {
+            "if": {
+              "properties": {
+                "stage": {
+                  "const": "module-discovery"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "parsed": {
+                  "required": [
+                    "modulefile_match_count"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "modulefile_match_count": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
           {
             "if": {
               "properties": {
@@ -524,6 +550,7 @@
         "stage": {
           "enum": [
             "easybuild",
+            "module-discovery",
             "module-probe",
             "module-unload"
           ]

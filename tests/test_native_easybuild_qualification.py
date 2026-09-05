@@ -12,17 +12,6 @@ import jsonschema
 import pytest
 
 import scripts.native_easybuild_qualification as qualification
-from scripts.native_easybuild_qualification import (
-    BASE,
-    GENERATIONS,
-    REQUIRED_PROBES,
-    ROOT_RECIPE_SHA256,
-    _manifest,
-    git_manifest_digest,
-    validate_matrix,
-    validate_receipt,
-    write_inventory,
-)
 
 
 def _digest(path: Path) -> str:
@@ -156,7 +145,7 @@ def _receipt(tmp_path: Path, generation: str = "2023a") -> Path:
     module_inventory, module_hash = _inventory(run_root, "module-inventory")
     source_inventory, source_hash = _inventory(run_root, "source-cache-inventory")
     recipe = f"packaging/easybuild/voiage-2.2.0-foss-{generation}.eb"
-    robot = GENERATIONS[generation] + ["CATALOGUE/easybuild/easyconfigs"]
+    robot = qualification.GENERATIONS[generation] + ["CATALOGUE/easybuild/easyconfigs"]
     allowlist = [
         f"HOME={run_root / 'home'}",
         "LANG=C.UTF-8",
@@ -167,9 +156,11 @@ def _receipt(tmp_path: Path, generation: str = "2023a") -> Path:
         json.dumps(allowlist, sort_keys=True, separators=(",", ":")).encode()
     ).hexdigest()
     source_tree = subprocess.check_output(
-        ["/usr/bin/git", "rev-parse", f"{BASE}^{{tree}}"], text=True
+        ["/usr/bin/git", "rev-parse", f"{qualification.BASE}^{{tree}}"], text=True
     ).strip()
-    source_manifest, _ = git_manifest_digest(Path.cwd(), BASE)
+    source_manifest, _ = qualification.git_manifest_digest(
+        Path.cwd(), qualification.BASE
+    )
     tooling_root = Path(qualification.__file__).resolve().parents[1]
     tooling_commit = subprocess.check_output(
         ["/usr/bin/git", "-C", str(tooling_root), "rev-parse", "HEAD"], text=True
@@ -183,10 +174,10 @@ def _receipt(tmp_path: Path, generation: str = "2023a") -> Path:
         preflight_path,
         {
             "environment_digest": env_digest,
-            "source_head": BASE,
+            "source_head": qualification.BASE,
             "source_tree": source_tree,
             "source_status": "",
-            "catalogue_head": BASE,
+            "catalogue_head": qualification.BASE,
             "catalogue_tree": source_tree,
             "catalogue_status": "",
             "tooling_head": tooling_commit,
@@ -204,10 +195,10 @@ def _receipt(tmp_path: Path, generation: str = "2023a") -> Path:
     _write_json(
         postflight_path,
         {
-            "source_head": BASE,
+            "source_head": qualification.BASE,
             "source_tree": source_tree,
             "source_status": "",
-            "catalogue_head": BASE,
+            "catalogue_head": qualification.BASE,
             "catalogue_tree": source_tree,
             "catalogue_status": "",
             "tooling_head": tooling_commit,
@@ -217,12 +208,12 @@ def _receipt(tmp_path: Path, generation: str = "2023a") -> Path:
     )
     catalogue_path = run_root / "catalogue-evidence.json"
     catalogue_listing = subprocess.check_output(
-        ["/usr/bin/git", "ls-tree", "-r", BASE], text=True
+        ["/usr/bin/git", "ls-tree", "-r", qualification.BASE], text=True
     ).splitlines()
     _write_json(
         catalogue_path,
         {
-            "commit": BASE,
+            "commit": qualification.BASE,
             "tree": source_tree,
             "manifest_sha256": source_manifest,
             "ls_tree": catalogue_listing,
@@ -235,17 +226,17 @@ def _receipt(tmp_path: Path, generation: str = "2023a") -> Path:
         "run_root": str(run_root),
         "identity": {
             "generation": generation,
-            "source_commit": BASE,
+            "source_commit": qualification.BASE,
             "source_tree": source_tree,
             "source_relevant_tree_sha256": source_manifest,
             "catalogue_root": str(Path.cwd()),
-            "catalogue_commit": BASE,
+            "catalogue_commit": qualification.BASE,
             "catalogue_tree": source_tree,
             "catalogue_relevant_tree_sha256": source_manifest,
             "easybuild_version": "5.4.0",
             "easyblocks_version": "5.4.0",
             "root_recipe": recipe,
-            "root_recipe_sha256": ROOT_RECIPE_SHA256[generation],
+            "root_recipe_sha256": qualification.ROOT_RECIPE_SHA256[generation],
             "robot_paths": robot,
             "robot_manifest_sha256": hashlib.sha256(
                 json.dumps(robot, separators=(",", ":")).encode()
@@ -337,6 +328,7 @@ def _receipt(tmp_path: Path, generation: str = "2023a") -> Path:
                     "module-unload.sh",
                     "MODULE_ROOT",
                     f"voiage/2.2.0-foss-{generation}",
+                    "home",
                 ],
                 "exit_code": 0,
                 "signal": None,
@@ -362,7 +354,8 @@ def _receipt(tmp_path: Path, generation: str = "2023a") -> Path:
             "postflight_sha256": _digest(postflight_path),
         },
         "probes": [
-            {"name": name, "status": "passed"} for name in sorted(REQUIRED_PROBES)
+            {"name": name, "status": "passed"}
+            for name in sorted(qualification.REQUIRED_PROBES)
         ],
         "failure": None,
         "run": {
@@ -379,11 +372,11 @@ def _receipt(tmp_path: Path, generation: str = "2023a") -> Path:
 
 @pytest.fixture(autouse=True)
 def _catalogue_at_test_checkout(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setattr(qualification, "CATALOGUE", BASE)
+    monkeypatch.setattr(qualification, "CATALOGUE", qualification.BASE)
     tree = subprocess.check_output(
-        ["/usr/bin/git", "rev-parse", f"{BASE}^{{tree}}"], text=True
+        ["/usr/bin/git", "rev-parse", f"{qualification.BASE}^{{tree}}"], text=True
     ).strip()
-    manifest, _ = git_manifest_digest(Path.cwd(), BASE)
+    manifest, _ = qualification.git_manifest_digest(Path.cwd(), qualification.BASE)
     monkeypatch.setattr(qualification, "CATALOGUE_TREE", tree)
     monkeypatch.setattr(qualification, "CATALOGUE_MANIFEST_SHA256", manifest)
     real = qualification.subprocess.check_output
@@ -415,7 +408,10 @@ def _receipt_data(tmp_path: Path) -> dict[str, Any]:
 
 
 def test_accepts_complete_bound_receipt(tmp_path: Path) -> None:
-    assert validate_receipt(_receipt(tmp_path), Path.cwd())["outcome"] == "passed"
+    assert (
+        qualification.validate_receipt(_receipt(tmp_path), Path.cwd())["outcome"]
+        == "passed"
+    )
 
 
 @pytest.mark.parametrize(
@@ -524,14 +520,14 @@ def test_rejects_receipt_contract_mutations(
     path = _receipt(tmp_path)
     _mutate(path, change)
     with pytest.raises(ValueError):
-        validate_receipt(path, Path.cwd())
+        qualification.validate_receipt(path, Path.cwd())
 
 
 def test_rejects_missing_or_changed_transcript(tmp_path: Path) -> None:
     path = _receipt(tmp_path)
     (tmp_path / "build.log").write_text("fabricated replacement\n")
     with pytest.raises(ValueError, match="missing or changed"):
-        validate_receipt(path, Path.cwd())
+        qualification.validate_receipt(path, Path.cwd())
 
 
 def test_rejects_symlink_artifact(tmp_path: Path) -> None:
@@ -541,7 +537,7 @@ def test_rejects_symlink_artifact(tmp_path: Path) -> None:
     build_log.rename(real_log)
     build_log.symlink_to(real_log)
     with pytest.raises(ValueError, match="symlink"):
-        validate_receipt(path, Path.cwd())
+        qualification.validate_receipt(path, Path.cwd())
 
 
 def test_rejects_artifact_outside_run_root(tmp_path: Path) -> None:
@@ -557,7 +553,7 @@ def test_rejects_artifact_outside_run_root(tmp_path: Path) -> None:
         ),
     )
     with pytest.raises(ValueError, match="escapes"):
-        validate_receipt(path, Path.cwd())
+        qualification.validate_receipt(path, Path.cwd())
 
 
 @pytest.mark.parametrize(
@@ -581,7 +577,7 @@ def test_rejects_scientific_probe_mutations(
         path, lambda d: d["artifacts"].__setitem__("probe_sha256", _digest(probe_path))
     )
     with pytest.raises(ValueError, match="probe"):
-        validate_receipt(path, Path.cwd())
+        qualification.validate_receipt(path, Path.cwd())
 
 
 def test_matrix_requires_distinct_receipts_for_both_generations(tmp_path: Path) -> None:
@@ -595,7 +591,7 @@ def test_matrix_requires_distinct_receipts_for_both_generations(tmp_path: Path) 
         },
     )
     with pytest.raises(ValueError):
-        validate_matrix(matrix, Path.cwd())
+        qualification.validate_matrix(matrix, Path.cwd())
 
 
 def test_matrix_requires_both_generations(tmp_path: Path) -> None:
@@ -608,14 +604,14 @@ def test_matrix_requires_both_generations(tmp_path: Path) -> None:
         },
     )
     with pytest.raises(ValueError):
-        validate_matrix(matrix, Path.cwd())
+        qualification.validate_matrix(matrix, Path.cwd())
 
 
 def test_rejects_inherited_environment_name(tmp_path: Path) -> None:
     path = _receipt(tmp_path)
     _mutate(path, lambda d: d["environment"]["allowlist"].append("PYTHONPATH=x"))
     with pytest.raises(ValueError):
-        validate_receipt(path, Path.cwd())
+        qualification.validate_receipt(path, Path.cwd())
 
 
 @pytest.mark.parametrize(
@@ -633,7 +629,7 @@ def test_rejects_linkage_or_cross_generation_failure(
         path, lambda d: d["artifacts"].__setitem__("probe_sha256", _digest(probe_path))
     )
     with pytest.raises(ValueError, match="linkage"):
-        validate_receipt(path, Path.cwd())
+        qualification.validate_receipt(path, Path.cwd())
 
 
 def test_rejects_zero_exit_failed_terminal(tmp_path: Path) -> None:
@@ -652,14 +648,14 @@ def test_rejects_zero_exit_failed_terminal(tmp_path: Path) -> None:
 
     _mutate(path, failed)
     with pytest.raises(ValueError):
-        validate_receipt(path, Path.cwd())
+        qualification.validate_receipt(path, Path.cwd())
 
 
 def test_rejects_retargeted_catalogue(tmp_path: Path) -> None:
     path = _receipt(tmp_path)
     _mutate(path, lambda d: d["identity"].__setitem__("catalogue_tree", "0" * 40))
     with pytest.raises(ValueError):
-        validate_receipt(path, Path.cwd())
+        qualification.validate_receipt(path, Path.cwd())
 
 
 @pytest.mark.parametrize(
@@ -678,7 +674,7 @@ def test_rejects_run_preflight_and_portable_catalogue_mutations(
     path = _receipt(tmp_path)
     _mutate(path, change)
     with pytest.raises(ValueError):
-        validate_receipt(path, Path.cwd())
+        qualification.validate_receipt(path, Path.cwd())
 
 
 def test_rejects_source_cache_mutation_between_preflight_and_terminal(
@@ -694,7 +690,7 @@ def test_rejects_source_cache_mutation_between_preflight_and_terminal(
         lambda d: d["artifacts"].__setitem__("preflight_sha256", _digest(preflight)),
     )
     with pytest.raises(ValueError, match="preflight"):
-        validate_receipt(path, Path.cwd())
+        qualification.validate_receipt(path, Path.cwd())
 
 
 @pytest.mark.parametrize(
@@ -713,7 +709,7 @@ def test_rejects_tooling_identity_mutation(
     path = _receipt(tmp_path)
     _mutate(path, lambda data: data["identity"].__setitem__(field, value))
     with pytest.raises(ValueError, match="tooling"):
-        validate_receipt(path, Path.cwd())
+        qualification.validate_receipt(path, Path.cwd())
 
 
 def test_rejects_outside_prefix_linkage_target(tmp_path: Path) -> None:
@@ -730,7 +726,7 @@ def test_rejects_outside_prefix_linkage_target(tmp_path: Path) -> None:
         path, lambda d: d["artifacts"].__setitem__("probe_sha256", _digest(probe_path))
     )
     with pytest.raises(ValueError, match="linkage target"):
-        validate_receipt(path, Path.cwd())
+        qualification.validate_receipt(path, Path.cwd())
 
 
 def test_rejects_postflight_checkout_drift(tmp_path: Path) -> None:
@@ -744,7 +740,7 @@ def test_rejects_postflight_checkout_drift(tmp_path: Path) -> None:
         lambda d: d["artifacts"].__setitem__("postflight_sha256", _digest(postflight)),
     )
     with pytest.raises(ValueError, match="postflight"):
-        validate_receipt(path, Path.cwd())
+        qualification.validate_receipt(path, Path.cwd())
 
 
 def test_inventory_accepts_internal_relative_symlink(tmp_path: Path) -> None:
@@ -754,8 +750,8 @@ def test_inventory_accepts_internal_relative_symlink(tmp_path: Path) -> None:
     target.write_text("native")
     (root / "libalias.so").symlink_to("libreal.so")
     inventory = tmp_path / "inventory.json"
-    write_inventory(root, inventory)
-    entries = _manifest(inventory)
+    qualification.write_inventory(root, inventory)
+    entries = qualification._manifest(inventory)
     assert any(item["type"] == "symlink" for item in entries)
 
 
@@ -773,7 +769,7 @@ def test_inventory_rejects_unsafe_symlink(tmp_path: Path, kind: str) -> None:
     else:
         link.symlink_to("bad.so")
     with pytest.raises(RuntimeError, match="unsafe"):
-        write_inventory(root, tmp_path / "inventory.json")
+        qualification.write_inventory(root, tmp_path / "inventory.json")
 
 
 def test_rejects_dirty_catalogue(
@@ -791,11 +787,12 @@ def test_rejects_dirty_catalogue(
         ),
     )
     with pytest.raises(ValueError):
-        validate_receipt(path, Path.cwd())
+        qualification.validate_receipt(path, Path.cwd())
 
 
+@pytest.mark.parametrize("module_count", [0, 1, 2])
 def test_executor_produces_valid_terminal_receipt(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, module_count: int
 ) -> None:
     workspace = tmp_path / "workspace"
     workspace.mkdir()
@@ -817,7 +814,7 @@ def test_executor_produces_valid_terminal_receipt(
         ["/usr/bin/git", "rev-parse", "HEAD^{tree}"], text=True
     ).strip()
     base_tree = subprocess.check_output(
-        ["/usr/bin/git", "rev-parse", f"{BASE}^{{tree}}"], text=True
+        ["/usr/bin/git", "rev-parse", f"{qualification.BASE}^{{tree}}"], text=True
     ).strip()
     monkeypatch.setenv("VOIAGE_VM_LOCAL_STORAGE", "confirmed")
     monkeypatch.setattr(qualification.sys, "platform", "linux")
@@ -858,11 +855,11 @@ def test_executor_produces_valid_terminal_receipt(
                 return payload if not kwargs.get("text") else payload.decode()
         if checkout == str(Path.cwd()):
             if argv[-2:] == ["rev-parse", "HEAD"]:
-                return BASE + "\n"
+                return qualification.BASE + "\n"
             if argv[-2:] == ["rev-parse", "HEAD^{tree}"]:
                 return base_tree + "\n"
             if argv[-3:] == ["ls-tree", "-r", "HEAD"]:
-                replacement = [*argv[:-1], BASE]
+                replacement = [*argv[:-1], qualification.BASE]
                 return real_output(replacement, **kwargs)
         return real_output(argv, **kwargs)
 
@@ -877,11 +874,14 @@ def test_executor_produces_valid_terminal_receipt(
                 "lib/voiage/_core.so",
                 "lib/pyarrow/lib.so",
                 "lib/polars/polars.so",
-                "modules/all/voiage/2.2.0-foss-2023a",
             ]:
                 target = prefix / relative
                 target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_text(relative)
+            for index in range(module_count):
+                module_file = prefix / f"modules/all/voiage/2.2.0-foss-2023a-{index}"
+                module_file.parent.mkdir(parents=True, exist_ok=True)
+                module_file.write_text("module")
             log.write_text(
                 "== COMPLETED: Installation ended successfully (took 1 min)\n"
             )
@@ -916,9 +916,16 @@ def test_executor_produces_valid_terminal_receipt(
             "--execute",
         ],
     )
-    assert qualification.main() == 0
+    assert qualification.main() == (0 if module_count == 1 else 1)
     receipt = workspace / "voiage-easybuild-2023a/receipt.json"
-    assert validate_receipt(receipt, Path.cwd(), tooling_root)["outcome"] == "passed"
+    data = qualification.validate_receipt(receipt, Path.cwd(), tooling_root)
+    assert data["commands"][0]["exit_code"] == 0
+    if module_count == 1:
+        assert data["outcome"] == "passed"
+    else:
+        assert data["outcome"] == "failed_terminal"
+        assert data["failure"]["stage"] == "module-discovery"
+        assert data["commands"][1]["parsed"]["modulefile_match_count"] == module_count
 
 
 @pytest.mark.skipif(sys.platform != "linux", reason="requires Linux shell semantics")
@@ -947,7 +954,7 @@ def test_generated_module_scripts_with_fake_environment_modules(
         ["/usr/bin/git", "rev-parse", "HEAD^{tree}"], text=True
     ).strip()
     base_tree = subprocess.check_output(
-        ["/usr/bin/git", "rev-parse", f"{BASE}^{{tree}}"], text=True
+        ["/usr/bin/git", "rev-parse", f"{qualification.BASE}^{{tree}}"], text=True
     ).strip()
     fake_bin = tmp_path / "fake-bin"
     fake_bin.mkdir()
@@ -1014,6 +1021,9 @@ with open(a.output, "w") as stream:
 
     monkeypatch.setenv("VOIAGE_VM_LOCAL_STORAGE", "confirmed")
     monkeypatch.setattr(qualification.sys, "platform", "linux")
+    # Hosted test environments contain the wheel; use the clean system Python
+    # for preflight and the fake installed-module interpreter.
+    monkeypatch.setattr(qualification.sys, "executable", "/usr/bin/python3")
     monkeypatch.setattr(qualification.os, "cpu_count", lambda: 8)
     monkeypatch.setattr(qualification.shutil, "which", lambda name: f"/usr/bin/{name}")
     usage = qualification.shutil.disk_usage(workspace)
@@ -1050,11 +1060,11 @@ with open(a.output, "w") as stream:
                 return payload if not kwargs.get("text") else payload.decode()
         if checkout == str(Path.cwd()):
             if argv[-2:] == ["rev-parse", "HEAD"]:
-                return BASE + "\n"
+                return qualification.BASE + "\n"
             if argv[-2:] == ["rev-parse", "HEAD^{tree}"]:
                 return base_tree + "\n"
             if argv[-3:] == ["ls-tree", "-r", "HEAD"]:
-                return real_output([*argv[:-1], BASE], **kwargs)
+                return real_output([*argv[:-1], qualification.BASE], **kwargs)
         return real_output(argv, **kwargs)
 
     monkeypatch.setattr(qualification.subprocess, "check_output", output)
@@ -1105,7 +1115,7 @@ with open(a.output, "w") as stream:
         with log.open("wb") as stream:
             result = subprocess.run(
                 actual,
-                cwd=tmp_path,
+                cwd=source_root,
                 env=env,
                 stdout=stream,
                 stderr=subprocess.STDOUT,
@@ -1143,9 +1153,9 @@ with open(a.output, "w") as stream:
     assert qualification.main() == 0
     run_root = workspace / "voiage-easybuild-2023a"
     assert (
-        validate_receipt(run_root / "receipt.json", source_root, tooling_root)[
-            "outcome"
-        ]
+        qualification.validate_receipt(
+            run_root / "receipt.json", source_root, tooling_root
+        )["outcome"]
         == "passed"
     )
     assert (run_root / "probe.log").read_text() == ""

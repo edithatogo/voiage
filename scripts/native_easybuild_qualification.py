@@ -472,6 +472,7 @@ def validate_receipt(
         _exact_keys(item, COMMAND_KEYS, "command")
         parsed_keys = {
             "easybuild": {"easybuild_completed", "installed_module_full_name"},
+            "module-discovery": {"modulefile_match_count"},
             "module-probe": {"structured_probe_written"},
             "module-unload": {"voiage_absent_after_unload"},
         }[item["stage"]]
@@ -559,6 +560,7 @@ def validate_receipt(
             "module-unload.sh",
             "MODULE_ROOT",
             module_name,
+            "home",
         ]:
             raise ValueError("module command argv or discovered module name drifted")
         artifacts = _exact_keys(
@@ -1211,7 +1213,7 @@ def main() -> int:
         unload_log = run_dir / "unload.log"
         unload_script = run_dir / "module-unload.sh"
         unload_script.write_text(
-            '#!/bin/bash\nset -euo pipefail\neval "$(modulecmd bash purge)"\neval "$(modulecmd bash use "$1")"\neval "$(modulecmd bash load "$2")"\neval "$(modulecmd bash unload "$2")"\npython3 -c \'import importlib.util; raise SystemExit(importlib.util.find_spec("voiage") is not None)\'\n'
+            '#!/bin/bash\nset -euo pipefail\neval "$(modulecmd bash purge)"\neval "$(modulecmd bash use "$1")"\neval "$(modulecmd bash load "$2")"\neval "$(modulecmd bash unload "$2")"\ncd "$3"\npython3 -c \'import importlib.util; raise SystemExit(importlib.util.find_spec("voiage") is not None)\'\n'
         )
         unload_script.chmod(0o700)
         unload_code = run(
@@ -1222,6 +1224,7 @@ def main() -> int:
                 str(unload_script),
                 str(module_files[0].parents[1]),
                 module_name,
+                str(home),
             ],
             unload_log,
             env,
@@ -1236,6 +1239,7 @@ def main() -> int:
                     "module-unload.sh",
                     "MODULE_ROOT",
                     module_name,
+                    "home",
                 ],
                 "exit_code": unload_code,
                 "signal": -unload_code if unload_code < 0 else None,
@@ -1250,12 +1254,30 @@ def main() -> int:
                 {"name": name, "status": "passed"} for name in sorted(REQUIRED_PROBES)
             ]
     else:
+        if build_code == 0:
+            discovery_log = run_dir / "module-discovery.log"
+            discovery_log.write_text(
+                f"expected exactly one installed modulefile; found {len(module_files)}\n"
+            )
+            commands.append(
+                {
+                    "stage": "module-discovery",
+                    "argv": [
+                        "discover-modulefile",
+                        "install/modules/all/voiage/2.2.0*",
+                    ],
+                    "exit_code": 1,
+                    "signal": None,
+                    "log": discovery_log.name,
+                    "log_sha256": sha256(discovery_log),
+                    "parsed": {"modulefile_match_count": len(module_files)},
+                }
+            )
         code = build_code or 1
     if code != 0:
         index = next(
             (i for i, item in enumerate(commands) if item["exit_code"] != 0), 0
         )
-        commands[index]["exit_code"] = commands[index]["exit_code"] or 1
         failure = {
             "stage": commands[index]["stage"],
             "command_index": index,
