@@ -4,7 +4,7 @@ allowBuilds:
   sharp: true
 overrides:
   esbuild: 0.28.2
-  fast-uri: 3.1.6
+  fast-uri: 3.1.7
   js-yaml: 4.3.2
   nanoid: 3.3.18
   postcss: 8.5.26
