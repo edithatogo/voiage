@@ -197,6 +197,21 @@
       "enabled": false
     },
     {
+      "description": "Require separate qualification for governed numerical and mutation-testing upgrades",
+      "matchManagers": [
+        "pep621"
+      ],
+      "matchPackageNames": [
+        "scipy",
+        "jax",
+        "mutmut"
+      ],
+      "groupName": null,
+      "groupSlug": null,
+      "dependencyDashboardApproval": true,
+      "automerge": false
+    },
+    {
       "description": "Review executable source and lock changes through pull requests",
       "matchManagers": [
         "git-submodules",
