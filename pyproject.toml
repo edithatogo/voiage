@@ -40,7 +40,7 @@ classifiers = [
 dependencies = [
     "click>=8.3.3,<9",
     "numpy>=2.2.6,<3.0",
-    "scipy>=1.16.3,<1.17",
+    "scipy>=1.18.1,<1.19",
     "pandas>=1.3,<3.0",
     "xarray>=0.19,<2025.0",
     "scikit-learn>=1.7.2,<2.0",
@@ -70,7 +70,7 @@ ecosystem = ["defusedxml>=0.7.1,<1.0"]
 excel = ["openpyxl>=3.1.5,<4.0"]
 docs = ["griffe>=1.14.0,<2.0"]
 jax = [
-    "jax>=0.7.1,<0.8",
+    "jax>=0.11.1,<0.12",
 ]
 ci = [
     "defusedxml>=0.7.1,<1.0",
@@ -78,7 +78,7 @@ ci = [
     "fastapi>=0.139.2,<1.0",
     "httpx>=0.28.1,<1.0",
     "hypothesis>=6.157.0,<7.0",
-    "jax>=0.7.1,<0.8",
+    "jax>=0.11.1,<0.12",
     "matplotlib>=3.4,<4.0",
     "maturin>=1.9,<2.0",
     "psutil>=5.9,<8.0",
@@ -93,7 +93,7 @@ ci = [
 ]
 dev = [
     "maturin>=1.9,<2.0",
-    "mutmut==3.6.0",
+    "mutmut==3.7.0",
     "scalene>=2.3.0,<3.0",
     "ruff>=0.16.3,<0.17.0",
     "bandit>=1.9.4,<2.0",
