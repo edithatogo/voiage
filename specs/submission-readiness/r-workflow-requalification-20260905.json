@@ -1,0 +1,8 @@
+{
+  "state": "hosted_pending",
+  "workflow_sha256": "fc29bf02f5f7b314e5e4e7ae01f00820c2bb76f8f1b3949af540428033118432",
+  "historical_receipt": "specs/submission-readiness/r-distribution-evidence-20260902.json",
+  "reason": "Updated uv in cross-language conformance requires fresh hosted qualification.",
+  "current_workflow_qualified": false,
+  "new_hosted_execution_claimed": false
+}

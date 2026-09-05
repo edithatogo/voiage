@@ -85,7 +85,7 @@ jobs:
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
-          toolchain: "1.98"
+          toolchain: "1.85"
       - working-directory: rust
         run: cargo check --workspace --all-targets --all-features --locked
 

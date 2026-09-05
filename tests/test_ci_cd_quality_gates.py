@@ -406,9 +406,9 @@ class TestQualityGatePolicyCompliance:
 
         assert workflow["permissions"] == {}
         assert job["permissions"] == {"contents": "read"}
-        assert "nightly-2026-07-01" in str(job)
+        assert "nightly-2026-08-22" in str(job)
         assert "components: miri,rust-src" in workflow_text
-        assert "cargo +nightly-2026-07-01 miri test" in str(job)
+        assert "cargo +nightly-2026-08-22 miri test" in str(job)
         assert "--test lifecycle --test error_transport" in str(job)
         assert "continue-on-error" not in str(job)
 
@@ -423,9 +423,9 @@ class TestQualityGatePolicyCompliance:
 
         assert workflow["permissions"] == {}
         assert job["permissions"] == {"contents": "read"}
-        assert "nightly-2026-07-01" in rendered
+        assert "nightly-2026-08-22" in rendered
         assert "cargo install cargo-fuzz --version 0.13.2 --locked" in rendered
-        assert "cargo +nightly-2026-07-01 fuzz run stable_evpi" in rendered
+        assert "cargo +nightly-2026-08-22 fuzz run stable_evpi" in rendered
         assert "-max_total_time=60" in rendered
         assert "continue-on-error" not in rendered
 
@@ -553,3 +553,30 @@ class TestCICDDocumentation:
         assert "pull_request:" in ci_content, "PR trigger not configured"
         assert "push:" in ci_content, "Push trigger not configured"
         assert "schedule:" in ci_content, "Schedule trigger not configured"
+
+
+def test_installed_nightly_matches_every_explicit_command_and_environment() -> None:
+    """A toolchain update must also update consumers, not leave an unused pin."""
+    import re
+
+    for filename in ("rust-miri.yml", "rust-fuzz.yml", "ffi-sanitizers.yml"):
+        workflow = yaml.safe_load((GITHUB_WORKFLOWS_DIR / filename).read_text())
+        for job in workflow["jobs"].values():
+            toolchains = [
+                step["with"]["toolchain"]
+                for step in job["steps"]
+                if str(step.get("uses", "")).startswith("dtolnay/rust-toolchain@")
+            ]
+            assert len(toolchains) == 1
+            installed = toolchains[0]
+            assert re.fullmatch(r"nightly-\d{4}-\d{2}-\d{2}", installed)
+            consumers = []
+            for step in job["steps"]:
+                consumers.extend(
+                    re.findall(r"cargo \+(nightly-[\d-]+)", str(step.get("run", "")))
+                )
+                selected = step.get("env", {}).get("VOIAGE_SANITIZER_TOOLCHAIN")
+                if selected:
+                    consumers.append(selected)
+            assert consumers
+            assert set(consumers) == {installed}

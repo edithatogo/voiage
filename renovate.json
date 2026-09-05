@@ -175,19 +175,26 @@
       "enabled": false
     },
     {
-      "description": "Keep SciPy, JAX and Mutmut upgrades separate until preview or cohort qualification is complete",
+      "description": "Keep the declared Rust MSRV and its release qualification lanes at 1.85; upgrades require compatibility-policy review",
       "matchManagers": [
-        "pep621"
+        "github-actions"
       ],
-      "matchPackageNames": [
-        "scipy",
-        "jax",
-        "mutmut"
+      "matchDatasources": [
+        "rust-version"
       ],
-      "groupName": null,
-      "groupSlug": null,
-      "dependencyDashboardApproval": true,
-      "automerge": false
+      "matchCurrentVersion": "/^1\\.85(?:\\.0)?$/",
+      "enabled": false
+    },
+    {
+      "description": "Keep Python 3.12 ABI-floor and compatibility lanes; interpreter policy changes require explicit review",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchDatasources": [
+        "python-version"
+      ],
+      "matchCurrentVersion": "/^3\\.12(?:\\.\\d+)?$/",
+      "enabled": false
     },
     {
       "description": "Review executable source and lock changes through pull requests",

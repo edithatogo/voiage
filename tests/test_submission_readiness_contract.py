@@ -280,7 +280,9 @@ def test_ropensci_matrix_records_resolved_self_contained_installation() -> None:
     assert summary["criterion_count"] >= 10
     assert summary["statuses"]["self-contained-installation"] == "satisfied"
     assert summary["statuses"]["pkgcheck"] == "satisfied"
-    assert summary["statuses"]["current-source-distribution-evidence"] == "satisfied"
+    assert (
+        summary["statuses"]["current-source-distribution-evidence"] == "hosted_pending"
+    )
     assert summary["distribution"] == {"job_count": 16, "input_count": 4}
 
 
@@ -343,7 +345,7 @@ def test_r_distribution_evidence_rejects_rebound_claims(
     mutated.write_text(json.dumps(receipt), encoding="utf-8")
 
     with pytest.raises(ValueError):
-        validate_r_distribution_evidence(mutated, ROOT)
+        validate_r_distribution_evidence(mutated, ROOT, require_current_workflow=False)
 
 
 def test_submission_contract_rejects_ready_target_with_unmet_gate(
@@ -367,3 +369,31 @@ def test_submission_contract_rejects_missing_evidence_path(tmp_path: Path) -> No
 
     with pytest.raises(ValueError, match="evidence path"):
         validate_contract(invalid, ROOT)
+
+
+def test_updated_r_workflow_cannot_inherit_historical_qualification() -> None:
+    with pytest.raises(ValueError, match="tested inputs"):
+        validate_r_distribution_evidence(
+            ROOT / "specs/submission-readiness/r-distribution-evidence-20260902.json",
+            ROOT,
+        )
+
+
+def test_pending_r_qualification_cannot_claim_current_success(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    original = Path.read_text
+
+    def read_text(path: Path, *args: object, **kwargs: object) -> str:
+        content = original(path, *args, **kwargs)
+        if path.name == "r-workflow-requalification-20260905.json":
+            payload = json.loads(content)
+            payload["current_workflow_qualified"] = True
+            return json.dumps(payload)
+        return content
+
+    monkeypatch.setattr(Path, "read_text", read_text)
+    with pytest.raises(ValueError, match="requalification boundary"):
+        validate_ropensci_evidence(
+            ROOT / "specs/submission-readiness/ropensci-evidence.json", ROOT
+        )

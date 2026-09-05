@@ -139,7 +139,9 @@ def _git_object(root: Path, revision: str, path: str) -> str:
     return result.stdout.strip()
 
 
-def validate_r_distribution_evidence(path: Path, root: Path) -> dict[str, Any]:
+def validate_r_distribution_evidence(
+    path: Path, root: Path, *, require_current_workflow: bool = True
+) -> dict[str, Any]:
     """Validate current R distribution evidence without inventing venue outcomes."""
     payload: Any = json.loads(path.read_text(encoding="utf-8"))
     if (
@@ -198,6 +200,11 @@ def validate_r_distribution_evidence(path: Path, root: Path) -> dict[str, Any]:
     ):
         raise ValueError("R distribution tested-input inventory is invalid")
     for relative, expected in R_DISTRIBUTION_OBJECTS.items():
+        if (
+            relative == ".github/workflows/bindings-ci.yml"
+            and not require_current_workflow
+        ):
+            continue  # Historical execution only; no current-workflow claim.
         # Hosted pull-request checkouts are deliberately shallow and need not
         # contain either recorded commit.  The receipt and constants pin both
         # observations; resolve the exact checked-out candidate independently
@@ -602,9 +609,30 @@ def validate_ropensci_evidence(path: Path, root: Path) -> dict[str, Any]:
         for key, value in statuses.items()
         if value in {"repository_blocked", "hosted_pending"}
     }
-    if blocked not in (set(), {"pkgcheck"}):
+    if blocked not in (set(), {"pkgcheck"}, {"current-source-distribution-evidence"}):
         raise ValueError("rOpenSci repository or hosted blockers must remain explicit")
-    distribution = validate_r_distribution_evidence(root / R_DISTRIBUTION_RECEIPT, root)
+    pending = statuses.get("current-source-distribution-evidence") == "hosted_pending"
+    if pending:
+        record = json.loads(
+            (
+                root
+                / "specs/submission-readiness/r-workflow-requalification-20260905.json"
+            ).read_text(encoding="utf-8")
+        )
+        content = (root / ".github/workflows/bindings-ci.yml").read_bytes()
+        digest = hashlib.sha256(content).hexdigest()
+        if record != {
+            "state": "hosted_pending",
+            "workflow_sha256": digest,
+            "historical_receipt": R_DISTRIBUTION_RECEIPT.as_posix(),
+            "reason": "Updated uv in cross-language conformance requires fresh hosted qualification.",
+            "current_workflow_qualified": False,
+            "new_hosted_execution_claimed": False,
+        }:
+            raise ValueError("R workflow requalification boundary is invalid")
+    distribution = validate_r_distribution_evidence(
+        root / R_DISTRIBUTION_RECEIPT, root, require_current_workflow=not pending
+    )
     return {
         "criterion_count": len(criteria),
         "statuses": statuses,

@@ -10,7 +10,7 @@ def test_sanitizer_workflow_is_separate_and_fail_closed() -> None:
 
     assert "ubuntu-24.04" in workflow
     assert "permissions: {}" in workflow
-    assert "nightly-2026-07-01" in workflow
+    assert "nightly-2026-08-22" in workflow
     assert "bash scripts/run_ffi_sanitizers.sh" in workflow
     assert "continue-on-error" not in workflow
     assert "C consumer ASan UBSan LSan with ASan-instrumented Rust" in workflow
