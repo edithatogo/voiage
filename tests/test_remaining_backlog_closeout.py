@@ -170,14 +170,16 @@ def _recovery_payload(tmp_path: Path) -> tuple[dict[str, object], dict[str, obje
     # maintainer's external recovery volume is intentionally unavailable.
     import subprocess
 
+    git = shutil.which("git")
+    assert git is not None
     subprocess.run(
-        ["git", "-C", str(ROOT), "bundle", "create", str(bundle), "HEAD"], check=True
+        [git, "-C", str(ROOT), "bundle", "create", str(bundle), "HEAD"], check=True
     )
     head = subprocess.check_output(
-        ["git", "-C", str(ROOT), "rev-parse", "HEAD"], text=True
+        [git, "-C", str(ROOT), "rev-parse", "HEAD"], text=True
     ).strip()
     tree = subprocess.check_output(
-        ["git", "-C", str(ROOT), "rev-parse", "HEAD^{tree}"], text=True
+        [git, "-C", str(ROOT), "rev-parse", "HEAD^{tree}"], text=True
     ).strip()
     recovery.update(
         recovery_ref="HEAD",
