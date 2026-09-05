@@ -31,6 +31,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
     *   [x] Reconcile both EasyBuild root graphs with all provider overlays and
         retain generation-bound robot receipts; native builds and installed
         module qualification remain pending.
+    *   [x] Add a guarded sequential native EasyBuild driver and fail-closed
+        terminal receipt contract; actual 2023a and 2024a builds remain pending.
     *   [x] Enforce the NLTK 3.10.3 manuscript-tool security floor and retain a
         bounded disposition for the unpatched model-persistence advisory.
     *   [x] Refresh the cross-venue evidence contract after the final EasyBuild

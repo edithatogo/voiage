@@ -1,0 +1,787 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "terminal",
+    "outcome",
+    "run_root",
+    "identity",
+    "environment",
+    "resources",
+    "preflight",
+    "commands",
+    "artifacts",
+    "probes",
+    "failure",
+    "run"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "voiage.native-easybuild-terminal-receipt.v1"
+    },
+    "terminal": {
+      "const": true
+    },
+    "outcome": {
+      "enum": [
+        "passed",
+        "failed_terminal"
+      ]
+    },
+    "run_root": {
+      "type": "string"
+    },
+    "identity": {
+      "type": "object",
+      "required": [
+        "generation",
+        "source_commit",
+        "source_tree",
+        "source_relevant_tree_sha256",
+        "catalogue_root",
+        "catalogue_commit",
+        "catalogue_tree",
+        "catalogue_relevant_tree_sha256",
+        "easybuild_version",
+        "easyblocks_version",
+        "root_recipe",
+        "root_recipe_sha256",
+        "robot_paths",
+        "robot_manifest_sha256",
+        "source_cache_manifest_sha256",
+        "tooling_commit",
+        "tooling_tree",
+        "tooling_root",
+        "tooling_driver_sha256",
+        "tooling_probe_sha256"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "generation": {
+          "enum": [
+            "2023a",
+            "2024a"
+          ]
+        },
+        "source_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "source_tree": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "source_relevant_tree_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "catalogue_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "catalogue_tree": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "catalogue_relevant_tree_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "easybuild_version": {
+          "const": "5.4.0"
+        },
+        "easyblocks_version": {
+          "const": "5.4.0"
+        },
+        "root_recipe": {
+          "type": "string"
+        },
+        "root_recipe_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "robot_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "robot_manifest_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "source_cache_manifest_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "catalogue_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tooling_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "tooling_tree": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "tooling_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tooling_driver_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "tooling_probe_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "required": [
+        "allowlist",
+        "digest",
+        "home",
+        "python_no_user_site",
+        "module_implementation",
+        "module_version",
+        "module_init"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "allowlist": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "home": {
+          "type": "string"
+        },
+        "python_no_user_site": {
+          "const": "1"
+        },
+        "module_implementation": {
+          "type": "string"
+        },
+        "module_version": {
+          "type": "string"
+        },
+        "module_init": {
+          "type": "string"
+        }
+      }
+    },
+    "resources": {
+      "type": "object",
+      "required": [
+        "cpu_count",
+        "free_bytes_before"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "cpu_count": {
+          "type": "integer",
+          "minimum": 8
+        },
+        "free_bytes_before": {
+          "type": "integer",
+          "minimum": 268435456000
+        }
+      }
+    },
+    "preflight": {
+      "type": "object",
+      "required": [
+        "source_clean",
+        "catalogue_clean",
+        "source_no_symlinks",
+        "catalogue_no_symlinks",
+        "prefix_absent",
+        "install_empty",
+        "module_tree_empty",
+        "preinstalled_voiage_absent"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "source_clean": {
+          "const": true
+        },
+        "catalogue_clean": {
+          "const": true
+        },
+        "source_no_symlinks": {
+          "const": true
+        },
+        "catalogue_no_symlinks": {
+          "const": true
+        },
+        "prefix_absent": {
+          "const": true
+        },
+        "install_empty": {
+          "const": true
+        },
+        "module_tree_empty": {
+          "const": true
+        },
+        "preinstalled_voiage_absent": {
+          "const": true
+        }
+      }
+    },
+    "commands": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "stage",
+          "argv",
+          "exit_code",
+          "signal",
+          "log",
+          "log_sha256",
+          "parsed"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "stage": {
+            "enum": [
+              "easybuild",
+              "module-discovery",
+              "module-probe",
+              "module-unload"
+            ]
+          },
+          "argv": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "exit_code": {
+            "type": "integer"
+          },
+          "signal": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "log": {
+            "type": "string"
+          },
+          "log_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "parsed": {
+            "type": "object"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "stage": {
+                  "const": "module-discovery"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "parsed": {
+                  "required": [
+                    "modulefile_match_count"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "modulefile_match_count": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "stage": {
+                  "const": "easybuild"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "parsed": {
+                  "required": [
+                    "easybuild_completed",
+                    "installed_module_full_name"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "easybuild_completed": {
+                      "type": "boolean"
+                    },
+                    "installed_module_full_name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "stage": {
+                  "const": "module-probe"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "parsed": {
+                  "required": [
+                    "structured_probe_written"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "structured_probe_written": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "stage": {
+                  "const": "module-unload"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "parsed": {
+                  "required": [
+                    "voiage_absent_after_unload"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "voiage_absent_after_unload": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "required": [
+        "build_inventory",
+        "build_inventory_sha256",
+        "module_inventory",
+        "module_inventory_sha256",
+        "source_cache_inventory",
+        "source_cache_inventory_sha256",
+        "probe",
+        "probe_sha256",
+        "preflight",
+        "preflight_sha256",
+        "catalogue_evidence",
+        "catalogue_evidence_sha256",
+        "postflight",
+        "postflight_sha256"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "build_inventory": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "module_inventory": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_cache_inventory": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "probe": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "build_inventory_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "module_inventory_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "source_cache_inventory_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "probe_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "preflight": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^.+$"
+        },
+        "preflight_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "catalogue_evidence": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^.+$"
+        },
+        "catalogue_evidence_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "postflight": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^.+$"
+        },
+        "postflight_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "probes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "status"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "const": "passed"
+          }
+        }
+      }
+    },
+    "failure": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "stage",
+        "command_index",
+        "exit_code",
+        "signal",
+        "parsed_failure"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "stage": {
+          "enum": [
+            "easybuild",
+            "module-discovery",
+            "module-probe",
+            "module-unload"
+          ]
+        },
+        "command_index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "exit_code": {
+          "type": "integer",
+          "not": {
+            "const": 0
+          }
+        },
+        "signal": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "parsed_failure": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "run": {
+      "type": "object",
+      "required": [
+        "run_id",
+        "started_at",
+        "ended_at",
+        "predecessor_receipt_sha256"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "started_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ended_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "predecessor_receipt_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "passed"
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
+      "then": {
+        "properties": {
+          "failure": {
+            "type": "null"
+          },
+          "commands": {
+            "items": {
+              "properties": {
+                "exit_code": {
+                  "const": 0
+                }
+              }
+            }
+          },
+          "artifacts": {
+            "properties": {
+              "build_inventory": {
+                "type": "string",
+                "minLength": 1
+              },
+              "build_inventory_sha256": {
+                "type": "string"
+              },
+              "module_inventory": {
+                "type": "string",
+                "minLength": 1
+              },
+              "module_inventory_sha256": {
+                "type": "string"
+              },
+              "source_cache_inventory": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source_cache_inventory_sha256": {
+                "type": "string"
+              },
+              "probe": {
+                "type": "string",
+                "minLength": 1
+              },
+              "probe_sha256": {
+                "type": "string"
+              }
+            }
+          },
+          "probes": {
+            "minItems": 8,
+            "maxItems": 8,
+            "uniqueItems": true,
+            "allOf": [
+              {
+                "contains": {
+                  "properties": {
+                    "name": {
+                      "const": "module-load"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "name": {
+                      "const": "cli"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "name": {
+                      "const": "rust-engine"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "name": {
+                      "const": "numerical-evpi"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "name": {
+                      "const": "arrow-roundtrip"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "name": {
+                      "const": "polars-roundtrip"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "name": {
+                      "const": "linkage"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "name": {
+                      "const": "generation-isolation"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "failure": {
+            "type": "object"
+          },
+          "probes": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ]
+}
