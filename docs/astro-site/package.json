@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
-    "@astrojs/starlight": "0.41.10",
+    "@astrojs/starlight": "0.41.11",
     "astro": "7.2.9",
     "astro-polyglot": "link:../../.repo-tools/astro-polyglot/packages/astro-polyglot",
     "starlight-links-validator": "0.25.3",
