@@ -64,7 +64,7 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.12.5"
+          version: "0.12.13"
           enable-cache: true
           cache-dependency-glob: "uv.lock"
       - name: Set up test Python
@@ -90,7 +90,7 @@ jobs:
           command: build
           docker-options: -e VOIAGE_SOURCE_REVISION -e VOIAGE_SOURCE_TREE_GIT_OID -e VOIAGE_SOURCE_CLEAN -e SOURCE_DATE_EPOCH
           manylinux: "2014"
-          maturin-version: v1.14.1
+          maturin-version: v1.15.0
           rust-toolchain: "1.85"
       - name: Inspect wheel tags and contents
         run: |
@@ -186,7 +186,7 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.12.5"
+          version: "0.12.13"
           enable-cache: true
           cache-dependency-glob: "uv.lock"
       - name: Set up Python 3.12 ABI floor
@@ -214,7 +214,7 @@ jobs:
           command: build
           docker-options: -e VOIAGE_SOURCE_REVISION -e VOIAGE_SOURCE_TREE_GIT_OID -e VOIAGE_SOURCE_CLEAN -e SOURCE_DATE_EPOCH
           manylinux: "2014"
-          maturin-version: v1.14.1
+          maturin-version: v1.15.0
           rust-toolchain: "1.85"
       - name: Inspect wheel tags and contents
         env:
