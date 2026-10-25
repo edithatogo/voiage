@@ -34,6 +34,22 @@ compatibility. tobac owns domain-specific decisions and scientific applicability
 7. Run relevant full native, installed-consumer, coverage, security and hosted gates at coherent
    milestones. Contract fixtures do not establish hosted execution or scientific calibration.
 
+## Parameter–model–execution boundary (master R11)
+
+Reuse existing typed/native interfaces to separate validated scenario parameter sets from
+model equations/structures and from backend, scheduling and output settings. Calculations
+receive explicit inputs and stochastic state and return results without hidden mutable globals
+or file/network access. Preserve Rust-native ownership and structural scientific invariants;
+tobac owns domain assumptions and evidence interpretation. Add only demonstrated interface gaps.
+
+Acceptance must cover parameter save/reload with units, covariance, provenance and schema
+identity intact; rejection of invalid/unknown values; explicit defaults and schema migration;
+input immutability and scenario-order isolation; calculation tests independent of I/O; and a
+bounded extension preserving existing reference behavior. Receipts identify resolved parameter
+content, model/schema versions and execution settings separately. Map these cases to master
+R11.1–R11.5 in the installed consumer evidence. No generic framework or executable configuration
+language is required, and configuration changes cannot silently change scientific semantics.
+
 ## Authority and exclusions
 
 Registration permits only planning files and coordination. No implementation, environment,
