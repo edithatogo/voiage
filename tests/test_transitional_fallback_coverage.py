@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import numpy as np
 import pytest
-import xarray as xr
 
 import voiage
 from voiage.exceptions import OptionalDependencyError
@@ -20,17 +19,7 @@ def _ceaf_values() -> ValueArray:
             [[4.0, 5.0], [2.0, 1.0]],
         ]
     )
-    return ValueArray(
-        dataset=xr.Dataset(
-            {"net_benefit": (("n_samples", "n_strategies", "n_wtp"), values)},
-            coords={
-                "n_samples": np.arange(2),
-                "n_strategies": np.arange(2),
-                "n_wtp": np.arange(2),
-                "strategy": ("n_strategies", ["A", "B"]),
-            },
-        )
-    )
+    return ValueArray.from_numpy_perspectives(values, ["A", "B"])
 
 
 def test_ceaf_requires_native_core_when_extension_is_unavailable(

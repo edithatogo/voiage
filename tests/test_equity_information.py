@@ -4,7 +4,6 @@ from typing import cast
 
 import numpy as np
 import pytest
-import xarray as xr
 
 from voiage.analysis import DecisionAnalysis
 from voiage.exceptions import InputError
@@ -164,14 +163,6 @@ def test_equity_information_rejects_additional_invalid_inputs(
 
 
 def test_equity_information_rejects_non_2d_value_array() -> None:
-    invalid = object.__new__(ValueArray)
-    object.__setattr__(
-        invalid,
-        "dataset",
-        xr.Dataset(
-            {"net_benefit": (("n_samples",), [1.0, 2.0])},
-            coords={"strategy": ["A", "B"]},
-        ),
-    )
+    invalid = ValueArray.from_numpy_perspectives(np.ones((4, 2, 2)), ["A", "B"])
     with pytest.raises(InputError, match="2D"):
         value_of_equity_information(invalid, ["low", "high"], [0.5, 0.5], [[0.5, 0.5]])

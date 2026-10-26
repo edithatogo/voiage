@@ -4,7 +4,6 @@ from typing import cast
 
 import numpy as np
 import pytest
-import xarray as xr
 
 from voiage.exceptions import InputError
 from voiage.methods.ceaf import CEAFResult, calculate_ceaf
@@ -22,17 +21,7 @@ def ceaf_value_array() -> ValueArray:
             [[5.0, 1.0, 1.0], [0.0, 2.0, 2.0]],
         ],
     )
-    return ValueArray(
-        dataset=xr.Dataset(
-            {"net_benefit": (("n_samples", "n_strategies", "n_wtp"), nb_values)},
-            coords={
-                "n_samples": np.arange(4),
-                "n_strategies": np.arange(2),
-                "n_wtp": np.arange(3),
-                "strategy": ("n_strategies", ["A", "B"]),
-            },
-        )
-    )
+    return ValueArray.from_numpy_perspectives(nb_values, ["A", "B"])
 
 
 def test_calculate_ceaf_identifies_expected_optimal_frontier(
@@ -61,18 +50,7 @@ def test_calculate_ceaf_converges_to_one_with_resolved_uncertainty() -> None:
             [[10.0, 5.0], [0.0, 1.0]],
         ]
     )
-    value_array = ValueArray.from_numpy(np.ones((3, 2)), ["A", "B"])
-    value_array = ValueArray(
-        dataset=xr.Dataset(
-            {"net_benefit": (("n_samples", "n_strategies", "n_wtp"), nb_values)},
-            coords={
-                "n_samples": np.arange(3),
-                "n_strategies": np.arange(2),
-                "n_wtp": np.arange(2),
-                "strategy": ("n_strategies", value_array.strategy_names),
-            },
-        )
-    )
+    value_array = ValueArray.from_numpy_perspectives(nb_values, ["A", "B"])
 
     result = calculate_ceaf(value_array, [0.0, 1.0])
 

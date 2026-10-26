@@ -4,7 +4,6 @@ from unittest.mock import patch
 
 import numpy as np
 import pytest
-import xarray as xr
 
 from voiage.analysis import DecisionAnalysis
 from voiage.exceptions import (
@@ -678,17 +677,7 @@ class TestDecisionAnalysisComprehensive:
             ],
             dtype=np.float64,
         )
-        value_array = ValueArray(
-            xr.Dataset(
-                {"net_benefit": (("n_samples", "n_strategies", "wtp"), values)},
-                coords={
-                    "n_samples": np.arange(3),
-                    "n_strategies": np.arange(2),
-                    "wtp": [0.0, 100.0],
-                    "strategy": ("n_strategies", ["A", "B"]),
-                },
-            )
-        )
+        value_array = ValueArray.from_numpy_perspectives(values, ["A", "B"])
         analysis = DecisionAnalysis(nb_array=value_array)
 
         result = analysis.ceaf([0.0, 100.0])

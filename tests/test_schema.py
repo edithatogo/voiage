@@ -58,9 +58,7 @@ def test_value_array_from_polars_frame_is_independent_copy() -> None:
 
 
 def test_value_array_generates_default_strategy_labels_when_missing() -> None:
-    value_array = ValueArray.from_numpy(
-        np.array([[1.0, 2.0], [3.0, 4.0]])
-    )
+    value_array = ValueArray.from_numpy(np.array([[1.0, 2.0], [3.0, 4.0]]))
 
     assert value_array.strategy_names == ["Strategy 0", "Strategy 1"]
 

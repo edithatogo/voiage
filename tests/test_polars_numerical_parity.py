@@ -63,9 +63,7 @@ def test_parameter_set_dict_preserves_declared_order() -> None:
 
 
 def test_specs_core_api_value_array_example_is_bit_identical() -> None:
-    net_benefit = np.array(
-        [[1500.0, 1625.0], [1490.0, 1650.0], [1510.0, 1635.0]]
-    )
+    net_benefit = np.array([[1500.0, 1625.0], [1490.0, 1650.0], [1510.0, 1635.0]])
     value_array = ValueArray.from_numpy(
         net_benefit, strategy_names=["Usual care", "Targeted screening"]
     )
@@ -109,8 +107,7 @@ def test_slice_by_strategies_preserves_requested_column_order_and_values() -> No
     )
 
 
-def test_parameter_subset_preserves_requested_order_and_values(
-    ) -> None:
+def test_parameter_subset_preserves_requested_order_and_values() -> None:
     rng = np.random.default_rng(5)
     params = {name: rng.standard_normal(12) for name in ["w", "x", "y", "z"]}
     parameter_set = ParameterSet.from_numpy_or_dict(params)

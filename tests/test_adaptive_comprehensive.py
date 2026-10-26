@@ -27,19 +27,9 @@ class TestAdaptiveEVSI:
             # Make strategy 1 slightly better on average
             nb_values[:, 1] += 100
 
-            import xarray as xr
-
-            dataset = xr.Dataset(
-                {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
-                coords={
-                    "n_samples": np.arange(n_samples),
-                    "n_strategies": np.arange(2),
-                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
-                },
-            )
             from voiage.schema import ValueArray
 
-            return ValueArray(dataset=dataset)
+            return ValueArray.from_numpy(nb_values, ["Standard Care", "New Treatment"])
 
         # Create test parameter set
         params = {
@@ -88,19 +78,9 @@ class TestAdaptiveEVSI:
             # Make strategy 1 slightly better on average
             nb_values[:, 1] += 100
 
-            import xarray as xr
-
-            dataset = xr.Dataset(
-                {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
-                coords={
-                    "n_samples": np.arange(n_samples),
-                    "n_strategies": np.arange(2),
-                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
-                },
-            )
             from voiage.schema import ValueArray
 
-            return ValueArray(dataset=dataset)
+            return ValueArray.from_numpy(nb_values, ["Standard Care", "New Treatment"])
 
         # Create test parameter set
         params = {
@@ -167,19 +147,9 @@ class TestAdaptiveEVSI:
             # Make strategy 1 slightly better on average
             nb_values[:, 1] += 100
 
-            import xarray as xr
-
-            dataset = xr.Dataset(
-                {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
-                coords={
-                    "n_samples": np.arange(n_samples),
-                    "n_strategies": np.arange(2),
-                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
-                },
-            )
             from voiage.schema import ValueArray
 
-            return ValueArray(dataset=dataset)
+            return ValueArray.from_numpy(nb_values, ["Standard Care", "New Treatment"])
 
         # Create test parameter set
         params = {"effectiveness": np.random.normal(0.1, 0.05, 50)}
@@ -218,19 +188,9 @@ class TestAdaptiveEVSI:
             # Make strategy 1 slightly better on average
             nb_values[:, 1] += 100
 
-            import xarray as xr
-
-            dataset = xr.Dataset(
-                {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
-                coords={
-                    "n_samples": np.arange(n_samples),
-                    "n_strategies": np.arange(2),
-                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
-                },
-            )
             from voiage.schema import ValueArray
 
-            return ValueArray(dataset=dataset)
+            return ValueArray.from_numpy(nb_values, ["Standard Care", "New Treatment"])
 
         # Create test parameter set
         params = {"effectiveness": np.random.normal(0.1, 0.05, 50)}
@@ -332,19 +292,9 @@ class TestAdaptiveEVSI:
             # Make strategy 1 slightly better on average
             nb_values[:, 1] += 100
 
-            import xarray as xr
-
-            dataset = xr.Dataset(
-                {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
-                coords={
-                    "n_samples": np.arange(n_samples),
-                    "n_strategies": np.arange(2),
-                    "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
-                },
-            )
             from voiage.schema import ValueArray
 
-            return ValueArray(dataset=dataset)
+            return ValueArray.from_numpy(nb_values, ["Standard Care", "New Treatment"])
 
         # Create test parameter set
         params = {"effectiveness": np.random.normal(0.1, 0.05, 50)}
@@ -425,19 +375,9 @@ class TestAdaptiveEVSI:
                 0, 1, n_samples
             )  # Very small difference
 
-            import xarray as xr
-
-            dataset = xr.Dataset(
-                {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
-                coords={
-                    "n_samples": np.arange(n_samples),
-                    "n_strategies": np.arange(2),
-                    "strategy": ("n_strategies", ["Strategy A", "Strategy B"]),
-                },
-            )
             from voiage.schema import ValueArray
 
-            return ValueArray(dataset=dataset)
+            return ValueArray.from_numpy(nb_values, ["Strategy A", "Strategy B"])
 
         # Create test parameter set with very little uncertainty
         params = {
@@ -484,19 +424,9 @@ class TestAdaptiveEVSI:
             # Make sure strategies have similar values
             nb_values[:, 1] = nb_values[:, 0] + np.random.normal(0, 10, n_samples)
 
-            import xarray as xr
-
-            dataset = xr.Dataset(
-                {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
-                coords={
-                    "n_samples": np.arange(n_samples),
-                    "n_strategies": np.arange(2),
-                    "strategy": ("n_strategies", ["Strategy A", "Strategy B"]),
-                },
-            )
             from voiage.schema import ValueArray
 
-            return ValueArray(dataset=dataset)
+            return ValueArray.from_numpy(nb_values, ["Strategy A", "Strategy B"])
 
         # Create test parameter set with just one sample
         params = {

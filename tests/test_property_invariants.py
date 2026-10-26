@@ -191,13 +191,7 @@ def test_evppi_bounded_by_evpi(nb_array) -> None:
 
     # Create parameter dictionary
     param_dict = {f"param_{i}": param_array[:, i] for i in range(n_params)}
-    import xarray as xr
-
-    dataset = xr.Dataset(
-        {k: ("n_samples", v) for k, v in param_dict.items()},
-        coords={"n_samples": np.arange(n_samples)},
-    )
-    parameter_set = ParameterSet(dataset=dataset)
+    parameter_set = ParameterSet.from_numpy_or_dict(param_dict)
 
     value_array = ValueArray.from_numpy(nb_array)
 
@@ -241,13 +235,7 @@ def test_evppi_monotonicity_under_parameter_expansion(nb_array) -> None:
 
     # Create parameter dictionary
     param_dict = {f"param_{i}": param_array[:, i] for i in range(n_params)}
-    import xarray as xr
-
-    dataset = xr.Dataset(
-        {k: ("n_samples", v) for k, v in param_dict.items()},
-        coords={"n_samples": np.arange(n_samples)},
-    )
-    parameter_set = ParameterSet(dataset=dataset)
+    parameter_set = ParameterSet.from_numpy_or_dict(param_dict)
 
     value_array = ValueArray.from_numpy(nb_array)
 

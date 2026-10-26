@@ -3,7 +3,6 @@
 from hypothesis import given, settings
 from hypothesis import strategies as st
 import numpy as np
-import xarray as xr
 
 from voiage.analysis import DecisionAnalysis
 from voiage.schema import ParameterSet, ValueArray
@@ -178,11 +177,7 @@ def test_evppi_non_negative(nb_array) -> None:
     param_dict = {f"param_{i}": trimmed_param_array[:, i] for i in range(n_params)}
 
     # Create ParameterSet
-    dataset = xr.Dataset(
-        {k: ("n_samples", v) for k, v in param_dict.items()},
-        coords={"n_samples": np.arange(n_samples)},
-    )
-    parameter_set = ParameterSet(dataset=dataset)
+    parameter_set = ParameterSet.from_numpy_or_dict(param_dict)
 
     _ = ValueArray.from_numpy(trimmed_nb_array)
 
@@ -212,11 +207,7 @@ def test_evppi_single_strategy_zero(nb_array) -> None:
     param_dict = {"param1": np.random.randn(n_samples)}
 
     # Create ParameterSet
-    dataset = xr.Dataset(
-        {k: ("n_samples", v) for k, v in param_dict.items()},
-        coords={"n_samples": np.arange(n_samples)},
-    )
-    parameter_set = ParameterSet(dataset=dataset)
+    parameter_set = ParameterSet.from_numpy_or_dict(param_dict)
 
     analysis = DecisionAnalysis(value_array, parameter_set)
     evppi_result = analysis.evppi()

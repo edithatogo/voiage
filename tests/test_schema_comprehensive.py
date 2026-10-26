@@ -47,9 +47,7 @@ class TestValueArrayComprehensive:
     def test_value_array_creation_from_polars_frame(self) -> None:
         """Test ValueArray creation from a wide Polars frame."""
         data = np.array([[100.0, 150.0, 120.0], [90.0, 140.0, 130.0]], dtype=np.float64)
-        frame = pl.DataFrame(
-            {"A": data[:, 0], "B": data[:, 1], "C": data[:, 2]}
-        )
+        frame = pl.DataFrame({"A": data[:, 0], "B": data[:, 1], "C": data[:, 2]})
 
         value_array = ValueArray.from_polars(frame)
 

@@ -121,8 +121,12 @@ def test_value_array_perspective_names_none_for_2d() -> None:
 def test_value_array_from_polars_perspective_defaults_and_round_trip() -> None:
     frame = pl.DataFrame(
         {
-            "A": pl.Series("A", [[1.0, 2.0], [3.0, 4.0]], dtype=pl.Array(pl.Float64, 2)),
-            "B": pl.Series("B", [[5.0, 6.0], [7.0, 8.0]], dtype=pl.Array(pl.Float64, 2)),
+            "A": pl.Series(
+                "A", [[1.0, 2.0], [3.0, 4.0]], dtype=pl.Array(pl.Float64, 2)
+            ),
+            "B": pl.Series(
+                "B", [[5.0, 6.0], [7.0, 8.0]], dtype=pl.Array(pl.Float64, 2)
+            ),
         }
     )
     value_array = ValueArray.from_polars(frame, perspective_names=["p1", "p2"])
@@ -159,7 +163,9 @@ def test_value_array_slice_by_strategies_preserves_declared_order() -> None:
 
     assert isinstance(sliced, ValueArray)
     assert sliced.strategy_names == ["C", "A"]
-    np.testing.assert_array_equal(sliced.numpy_values, np.array([[3.0, 1.0], [6.0, 4.0]]))
+    np.testing.assert_array_equal(
+        sliced.numpy_values, np.array([[3.0, 1.0], [6.0, 4.0]])
+    )
 
 
 def test_parameter_set_frame_is_wide_polars_frame_per_parameter() -> None:
@@ -210,7 +216,9 @@ def test_parameter_set_from_polars_rejects_empty_frame() -> None:
 def test_parameter_set_from_polars_rejects_extra_variable_dtype() -> None:
     # A non-numeric extra variable fails closed rather than being retained.
     with pytest.raises(InputError, match="Float64|extra"):
-        ParameterSet.from_polars(pl.DataFrame({"alpha": [0.1, 0.2], "label": ["a", "b"]}))
+        ParameterSet.from_polars(
+            pl.DataFrame({"alpha": [0.1, 0.2], "label": ["a", "b"]})
+        )
 
 
 def test_value_array_from_numpy_keeps_existing_validation() -> None:

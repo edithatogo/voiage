@@ -19,6 +19,7 @@ from voiage.contracts.perspective import (
     adapt_perspective_result,
     run_perspective,
 )
+from voiage.exceptions import InputError
 from voiage.main_backends import get_backend
 from voiage.methods.perspective import value_of_perspective
 from voiage.schema import ParameterSet, ValueArray
@@ -185,13 +186,14 @@ def test_value_array_adapter_rejects_conflicts_and_unsupported_rank() -> None:
 @pytest.mark.parametrize(
     ("values", "expected"),
     [
-        (np.array([True]), "bool"),
-        (np.array([1], dtype=np.int32), "int64"),
-        (np.array(["x"]), "string"),
-        (np.array([1.0], dtype=np.float32), "float32"),
+        (np.array([True]), "float64"),
+        (np.array([1], dtype=np.int32), "float64"),
+        (np.array([1.0], dtype=np.float32), "float64"),
     ],
 )
 def test_parameter_dtype_contracts(values: np.ndarray, expected: str) -> None:
+    # v3 fixes the ParameterSet in-memory dtype to float64, so numeric inputs
+    # are normalized rather than preserving their original NumPy dtype.
     parameters = adapt_parameter_set({"value": values})
     assert parameters is not None
     spec = analysis_spec_from_inputs(
@@ -203,6 +205,12 @@ def test_parameter_dtype_contracts(values: np.ndarray, expected: str) -> None:
         parameters=parameters,
     )
     assert spec.parameters[0].dtype == expected
+
+
+def test_parameter_dtype_contract_rejects_non_numeric() -> None:
+    # A non-numeric parameter cannot be represented in a Float64 frame.
+    with pytest.raises((InputError, ValueError)):
+        adapt_parameter_set({"value": np.array(["x"])})
 
 
 def test_json_mapping_rejects_non_string_keys() -> None:

@@ -40,9 +40,9 @@ All tasks are pending. Ownership: this track migrates every xarray reference (ru
 
 ## Phase 7: Residual runtime, test, example and script migration
 
-- [ ] T7.1 — Freeze the exact `git grep` inventory of xarray imports and `.dataset` references outside the Phase 2–4 call sites: `voiage/cli.py` (xr.Dataset construction), `voiage/core/io.py`, the 28 test modules that import pandas or xarray (including `tests/conftest.py`), the 10 examples that mention xarray (3 import it), and `scripts/validate_core_api_fixtures.py`; record digest and the expected red result.
-- [ ] T7.2 — Port `voiage/cli.py` and `voiage/core/io.py` to the Polars container; rewrite every `.dataset` assertion and xarray fixture in the tests to the new surface; update the examples and `scripts/validate_core_api_fixtures.py` so none imports xarray. (AC8).
-- [ ] T7.3 — Validate: `git grep` for `import xarray` and `from xarray` returns nothing under `voiage/`, `tests/`, `examples/` and `scripts/`; the converted tests keep their original assertions' intent (no assertion deleted without a recorded reason); the fixture validator and the contract validators still pass; record command, environment and digest. (AC8).
+- [x] T7.1 — Freeze the exact `git grep` inventory of xarray imports and `.dataset` references outside the Phase 2–4 call sites: `voiage/cli.py` (xr.Dataset construction), `voiage/core/io.py`, the 28 test modules that import pandas or xarray (including `tests/conftest.py`), the 10 examples that mention xarray (3 import it), and `scripts/validate_core_api_fixtures.py`; record digest and the expected red result. (inventory.md, evidence.jsonl)
+- [x] T7.2 — Port `voiage/cli.py` and `voiage/core/io.py` to the Polars container; rewrite every `.dataset` assertion and xarray fixture in the tests to the new surface; update the examples and `scripts/validate_core_api_fixtures.py` so none imports xarray. (AC8). (35 test modules, 3 examples, 7 notebooks, 2 scripts)
+- [x] T7.3 — Validate: `git grep` for `import xarray` and `from xarray` returns nothing under `voiage/`, `tests/`, `examples/` and `scripts/`; the converted tests keep their original assertions' intent (no assertion deleted without a recorded reason); the fixture validator and the contract validators still pass; record command, environment and digest. (AC8). (evidence.jsonl)
 ## Final acceptance
 
 - [ ] CLOSE.1 — Review every AC (AC1–AC8) against the exact tested revision; the hosted checks must pass before any acceptance claim.

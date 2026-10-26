@@ -2,7 +2,6 @@
 
 import numpy as np
 import pytest
-import xarray as xr
 
 from voiage.analysis import DecisionAnalysis
 from voiage.exceptions import InputError
@@ -82,11 +81,7 @@ def test_single_parameter_degenerate_case() -> None:
 
     # Single parameter
     param_dict = {"single_param": np.array([1.0, 2.0, 3.0], dtype=np.float64)}
-    dataset = xr.Dataset(
-        {k: ("n_samples", v) for k, v in param_dict.items()},
-        coords={"n_samples": np.arange(3)},
-    )
-    parameter_set = ParameterSet(dataset=dataset)
+    parameter_set = ParameterSet.from_numpy_or_dict(param_dict)
 
     value_array = ValueArray.from_numpy(nb_array)
     analysis = DecisionAnalysis(value_array, parameter_set)

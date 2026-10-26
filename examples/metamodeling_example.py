@@ -6,7 +6,6 @@ including fitting, prediction, diagnostics, and cross-validation.
 """
 
 import numpy as np
-import xarray as xr
 
 from voiage.schema import ParameterSet
 from voiage.metamodels import (
@@ -33,11 +32,7 @@ def create_sample_data():
     y = 2 * param1 + 3 * param2 + param1 * param2 + 0.1 * np.random.randn(n_samples)
 
     # Create ParameterSet
-    data = {
-        "param1": ("n_samples", param1),
-        "param2": ("n_samples", param2),
-    }
-    x = ParameterSet(dataset=xr.Dataset(data))
+    x = ParameterSet.from_numpy_or_dict({"param1": param1, "param2": param2})
 
     return x, y
 
@@ -80,11 +75,11 @@ def demonstrate_metamodels():
     print("\n3. Testing BART Metamodel:")
     try:
         # Use smaller sample for BART to keep it fast
-        x_small = ParameterSet(
-            dataset=xr.Dataset({
-                "param1": ("n_samples", x.parameters["param1"][:50]),
-                "param2": ("n_samples", x.parameters["param2"][:50]),
-            })
+        x_small = ParameterSet.from_numpy_or_dict(
+            {
+                "param1": x.parameters["param1"][:50],
+                "param2": x.parameters["param2"][:50],
+            }
         )
         y_small = y[:50]
 

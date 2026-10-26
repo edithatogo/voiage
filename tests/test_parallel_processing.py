@@ -6,7 +6,6 @@ import types
 
 import numpy as np
 import pytest
-import xarray as xr
 
 from voiage.parallel import monte_carlo
 from voiage.parallel.adapters import (
@@ -82,11 +81,7 @@ def test_monte_carlo_worker() -> None:
         "sd_outcome": np.array([0.1, 0.1, 0.1, 0.1], dtype=np.float64),
     }
 
-    dataset = xr.Dataset(
-        {k: (("n_samples",), v) for k, v in params_data.items()},
-        coords={"n_samples": np.arange(len(params_data["mean_treatment"]))},
-    )
-    psa_prior = ParameterSet(dataset=dataset)
+    psa_prior = ParameterSet.from_numpy_or_dict(params_data)
 
     # Create simple trial design
     trial_design = TrialDesign(
@@ -121,11 +116,7 @@ def test_parallel_monte_carlo_simulation() -> None:
         "sd_outcome": np.array([0.1, 0.1, 0.1, 0.1], dtype=np.float64),
     }
 
-    dataset = xr.Dataset(
-        {k: (("n_samples",), v) for k, v in params_data.items()},
-        coords={"n_samples": np.arange(len(params_data["mean_treatment"]))},
-    )
-    psa_prior = ParameterSet(dataset=dataset)
+    psa_prior = ParameterSet.from_numpy_or_dict(params_data)
 
     # Create trial design
     trial_design = TrialDesign(
@@ -159,11 +150,7 @@ def test_parallel_evsi_calculation() -> None:
         "sd_outcome": np.array([0.1, 0.1, 0.1, 0.1], dtype=np.float64),
     }
 
-    dataset = xr.Dataset(
-        {k: (("n_samples",), v) for k, v in params_data.items()},
-        coords={"n_samples": np.arange(len(params_data["mean_treatment"]))},
-    )
-    psa_prior = ParameterSet(dataset=dataset)
+    psa_prior = ParameterSet.from_numpy_or_dict(params_data)
 
     # Create trial design
     trial_design = TrialDesign(
@@ -239,11 +226,7 @@ def test_run_work_in_monte_carlo_executor(monkeypatch: pytest.MonkeyPatch) -> No
         "mean_control": np.array([0.5]),
         "sd_outcome": np.array([0.1]),
     }
-    dataset = xr.Dataset(
-        {k: (("n_samples",), v) for k, v in params_data.items()},
-        coords={"n_samples": np.arange(1)},
-    )
-    psa_prior = ParameterSet(dataset=dataset)
+    psa_prior = ParameterSet.from_numpy_or_dict(params_data)
     trial_design = TrialDesign(arms=[DecisionOption(name="Treatment", sample_size=50)])
 
     # Call the simulation to trigger capturing run_work
@@ -298,11 +281,7 @@ def test_parallel_monte_carlo_simulation_remainder_coverage() -> None:
         "mean_control": np.array([0.5]),
         "sd_outcome": np.array([0.1]),
     }
-    dataset = xr.Dataset(
-        {k: (("n_samples",), v) for k, v in params_data.items()},
-        coords={"n_samples": np.arange(1)},
-    )
-    psa_prior = ParameterSet(dataset=dataset)
+    psa_prior = ParameterSet.from_numpy_or_dict(params_data)
     trial_design = TrialDesign(arms=[DecisionOption(name="Treatment", sample_size=50)])
 
     # 11 simulations, 2 workers means a remainder of 1
@@ -326,11 +305,7 @@ def test_parallel_monte_carlo_with_threads() -> None:
         "sd_outcome": np.array([0.1, 0.1, 0.1, 0.1], dtype=np.float64),
     }
 
-    dataset = xr.Dataset(
-        {k: (("n_samples",), v) for k, v in params_data.items()},
-        coords={"n_samples": np.arange(len(params_data["mean_treatment"]))},
-    )
-    psa_prior = ParameterSet(dataset=dataset)
+    psa_prior = ParameterSet.from_numpy_or_dict(params_data)
 
     # Create trial design
     trial_design = TrialDesign(
@@ -440,11 +415,7 @@ def test_parallel_helpers_fallback_to_threads_when_processes_unavailable(
         "sd_outcome": np.array([0.1, 0.1, 0.1, 0.1], dtype=np.float64),
     }
 
-    dataset = xr.Dataset(
-        {k: (("n_samples",), v) for k, v in params_data.items()},
-        coords={"n_samples": np.arange(len(params_data["mean_treatment"]))},
-    )
-    psa_prior = ParameterSet(dataset=dataset)
+    psa_prior = ParameterSet.from_numpy_or_dict(params_data)
 
     trial_design = TrialDesign(
         arms=[
@@ -522,11 +493,7 @@ def test_distributed_monte_carlo_simulation() -> None:
         "sd_outcome": np.array([0.1, 0.1, 0.1, 0.1], dtype=np.float64),
     }
 
-    dataset = xr.Dataset(
-        {k: (("n_samples",), v) for k, v in params_data.items()},
-        coords={"n_samples": np.arange(len(params_data["mean_treatment"]))},
-    )
-    psa_prior = ParameterSet(dataset=dataset)
+    psa_prior = ParameterSet.from_numpy_or_dict(params_data)
 
     trial_design = TrialDesign(
         arms=[
@@ -556,11 +523,7 @@ def test_parallel_and_distributed_monte_carlo_share_scalar_shape() -> None:
         "sd_outcome": np.array([0.1, 0.1, 0.1, 0.1], dtype=np.float64),
     }
 
-    dataset = xr.Dataset(
-        {k: (("n_samples",), v) for k, v in params_data.items()},
-        coords={"n_samples": np.arange(len(params_data["mean_treatment"]))},
-    )
-    psa_prior = ParameterSet(dataset=dataset)
+    psa_prior = ParameterSet.from_numpy_or_dict(params_data)
     trial_design = TrialDesign(
         arms=[
             DecisionOption(name="Treatment", sample_size=50),

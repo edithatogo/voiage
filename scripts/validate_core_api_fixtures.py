@@ -11,7 +11,6 @@ from pathlib import Path
 import sys
 
 import numpy as np
-import xarray as xr
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
@@ -86,15 +85,12 @@ def _execute_method(method: str, inputs: dict[str, object]) -> object:
         return enbs(float(inputs["evsi_result"]), float(inputs["research_cost"]))
     if method == "ceaf":
         values = np.asarray(inputs["net_benefit"], dtype=float)
-        dataset = xr.Dataset(
-            {"net_benefit": (("n_samples", "n_strategies", "threshold"), values)},
-            coords={
-                "strategy": ("n_strategies", inputs["strategy_names"]),
-                "threshold": np.arange(values.shape[2]),
-            },
+        value_array = ValueArray.from_numpy_perspectives(
+            values,
+            strategy_names=[str(name) for name in inputs["strategy_names"]],
         )
         result = calculate_ceaf(
-            ValueArray.from_dataset(dataset),
+            value_array,
             inputs["wtp_thresholds"],
             strategy_names=[str(name) for name in inputs["strategy_names"]],
             confidence_level=float(inputs["confidence_level"]),

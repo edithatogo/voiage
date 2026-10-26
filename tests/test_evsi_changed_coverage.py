@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any, ClassVar, cast
 
 import numpy as np
 import pytest
-import xarray as xr
 
 from voiage import _runtime
 from voiage.exceptions import InputError
@@ -155,18 +154,16 @@ def test_joint_prior_requires_uncertain_finite_scalar_draws() -> None:
         sample_information._joint_normal_prior_parameters(non_finite)
     assert captured.value.diagnostic_code == "non_finite_value"
 
-    multidimensional = ParameterSet(
-        xr.Dataset(
-            {
-                "mean_control": (
-                    ("n_samples", "component"),
-                    np.arange(8, dtype=float).reshape(4, 2),
-                ),
-                "sd_outcome": (("n_samples",), np.ones(4)),
-            },
-            coords={"n_samples": np.arange(4), "component": [0, 1]},
-        )
-    )
+    class _MultiDimensionalPrior:
+        """Stand-in exposing a non-scalar parameter to the guard."""
+
+        n_samples = 4
+        parameters: ClassVar[dict[str, np.ndarray]] = {
+            "mean_control": np.arange(8, dtype=float).reshape(4, 2),
+            "sd_outcome": np.ones(4),
+        }
+
+    multidimensional = cast("ParameterSet", _MultiDimensionalPrior())
     with pytest.raises(InputError) as captured:
         sample_information._joint_normal_prior_parameters(multidimensional)
     assert captured.value.diagnostic_code == "non_scalar_parameter"

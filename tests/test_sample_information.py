@@ -40,21 +40,11 @@ def dummy_model_func_evsi(
     nb_strategy1 = np.random.normal(loc=100, scale=10, size=n_samples)
     nb_strategy2 = np.random.normal(loc=105, scale=15, size=n_samples)
 
-    # Create xarray dataset for ValueArray
-    import xarray as xr
-
-    dataset = xr.Dataset(
-        {
-            "net_benefit": (
-                ("n_samples", "n_strategies"),
-                np.stack([nb_strategy1, nb_strategy2], axis=1).astype(DEFAULT_DTYPE),
-            )
-        },
-        coords={"n_samples": np.arange(n_samples), "n_strategies": [0, 1]},
-    )
     from voiage.schema import ValueArray
 
-    return ValueArray(dataset=dataset)
+    return ValueArray.from_numpy(
+        np.stack([nb_strategy1, nb_strategy2], axis=1).astype(DEFAULT_DTYPE)
+    )
 
 
 def deterministic_model_func_evsi(psa_params_or_sample: PSASample) -> ValueArray:
@@ -112,37 +102,22 @@ def dummy_psa_for_evsi() -> PSASample:
     # sd_outcome is relatively small to make learning more impactful.
     # n_samples for psa_prior should be reasonably large for stable metamodel fitting.
     n_psa_samples = 500
-    import xarray as xr
-
-    dataset = xr.Dataset(
-        {
-            "mean_new_treatment": (
-                ("n_samples",),
-                np.random.normal(loc=10, scale=2, size=n_psa_samples).astype(
-                    DEFAULT_DTYPE
-                ),
-            ),
-            "mean_standard_care": (
-                ("n_samples",),
-                np.random.normal(loc=8, scale=2, size=n_psa_samples).astype(
-                    DEFAULT_DTYPE
-                ),
-            ),
-            "sd_outcome": (
-                ("n_samples",),
-                np.full(n_psa_samples, 1.0, dtype=DEFAULT_DTYPE),
-            ),
-            # Add another dummy parameter not directly used in update, to test metamodel with multiple params
-            "unrelated_param": (
-                ("n_samples",),
-                np.random.rand(n_psa_samples).astype(DEFAULT_DTYPE),
-            ),
-        },
-        coords={"n_samples": np.arange(n_psa_samples)},
-    )
     from voiage.schema import ParameterSet
 
-    return ParameterSet(dataset=dataset)
+    return ParameterSet.from_numpy_or_dict(
+        {
+            "mean_new_treatment": np.random.normal(
+                loc=10, scale=2, size=n_psa_samples
+            ).astype(DEFAULT_DTYPE),
+            "mean_standard_care": np.random.normal(
+                loc=8, scale=2, size=n_psa_samples
+            ).astype(DEFAULT_DTYPE),
+            "sd_outcome": np.full(n_psa_samples, 1.0, dtype=DEFAULT_DTYPE),
+            # Add another dummy parameter not directly used in update, to test
+            # metamodel with multiple parameters.
+            "unrelated_param": np.random.rand(n_psa_samples).astype(DEFAULT_DTYPE),
+        }
+    )
 
 
 @pytest.fixture

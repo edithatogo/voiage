@@ -34,9 +34,7 @@ def test_value_array_wrong_dtype_and_extra_variable_fail_closed() -> None:
     with pytest.raises(InputError, match="Float64|extra"):
         ValueArray(frame=pl.DataFrame({"A": [1, 2], "B": [3, 4]}))  # Int64
     with pytest.raises(InputError, match="Float64|extra"):
-        ValueArray.from_polars(
-            pl.DataFrame({"A": [1.0, 2.0], "label": ["a", "b"]})
-        )
+        ValueArray.from_polars(pl.DataFrame({"A": [1.0, 2.0], "label": ["a", "b"]}))
 
 
 def test_value_array_mixed_dtype_fails_closed() -> None:

@@ -28,8 +28,9 @@
     {
       "id": "implementation",
       "kind": "repository",
-      "status": "in_progress",
-      "evidence": "Implementation authorised by the maintainer on 2026-10-26; container swap in progress on branch codex/polars-container-20261026."
+      "status": "pending",
+      "evidence": "Implementation authorised by the maintainer on 2026-10-26; container swap in progress on branch codex/polars-container-20261026.",
+      "legacy_status": "in_progress"
     }
   ]
 }

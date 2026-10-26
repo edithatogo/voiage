@@ -6,7 +6,6 @@ import importlib
 from typing import Any
 
 import numpy as np
-import xarray as xr
 
 from voiage.config import DEFAULT_DTYPE
 from voiage.exceptions import InputError
@@ -131,15 +130,7 @@ def read_value_array_csv(
             _OPTION_NAME_COUNT_MISMATCH,
         )
 
-        dataset = xr.Dataset(
-            {"net_benefit": (("n_samples", "n_strategies"), values)},
-            coords={
-                "n_samples": np.arange(values.shape[0]),
-                "n_strategies": np.arange(values.shape[1]),
-                "strategy": ("n_strategies", final_option_names),
-            },
-        )
-        return ValueArray(dataset=dataset)
+        return ValueArray.from_numpy(values, final_option_names)
 
     except (OSError, ValueError) as e:
         raise _read_value_array_error(filepath, e) from e
@@ -185,14 +176,9 @@ def read_parameter_set_csv(
             _PARAMETER_NAME_COUNT_MISMATCH,
         )
 
-        dataset = xr.Dataset(
-            {
-                name: (("n_samples",), values[:, i])
-                for i, name in enumerate(final_parameter_names)
-            },
-            coords={"n_samples": np.arange(values.shape[0])},
+        return ParameterSet.from_numpy_or_dict(
+            {name: values[:, i] for i, name in enumerate(final_parameter_names)}
         )
-        return ParameterSet(dataset=dataset)
 
     except (OSError, ValueError) as e:
         raise _read_parameter_set_error(filepath, e) from e

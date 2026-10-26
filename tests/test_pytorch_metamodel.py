@@ -2,7 +2,6 @@
 
 import numpy as np
 import pytest
-import xarray as xr
 
 from voiage.metamodels import PyTorchNNMetamodel
 from voiage.schema import ParameterSet
@@ -44,11 +43,7 @@ def test_pytorch_metamodel_fit_predict() -> None:
             param_dict[f"param_{i}"] = np.random.randn(n_samples)
 
         # Create ParameterSet
-        dataset = xr.Dataset(
-            {k: ("n_samples", v) for k, v in param_dict.items()},
-            coords={"n_samples": np.arange(n_samples)},
-        )
-        parameter_set = ParameterSet(dataset=dataset)
+        parameter_set = ParameterSet.from_numpy_or_dict(param_dict)
 
         # Generate target values (simple quadratic relationship)
         x_array = np.array(list(param_dict.values())).T
@@ -86,11 +81,7 @@ def test_pytorch_metamodel_predict_before_fit() -> None:
         # Create dummy ParameterSet
         n_samples = 10
         param_dict = {"param1": np.random.randn(n_samples)}
-        dataset = xr.Dataset(
-            {k: ("n_samples", v) for k, v in param_dict.items()},
-            coords={"n_samples": np.arange(n_samples)},
-        )
-        parameter_set = ParameterSet(dataset=dataset)
+        parameter_set = ParameterSet.from_numpy_or_dict(param_dict)
 
         # Try to predict without fitting
         with pytest.raises(RuntimeError, match="The model has not been fitted yet"):

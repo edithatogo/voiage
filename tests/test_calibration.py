@@ -4,7 +4,6 @@
 
 import numpy as np
 import pytest
-import xarray as xr
 
 from voiage.exceptions import InputError
 from voiage.methods.calibration import voi_calibration
@@ -21,15 +20,7 @@ def mock_cal_modeler(psa_samples, study_design, process_spec):
     # Make strategy 1 slightly better on average
     nb_values[:, 1] += 100
 
-    dataset = xr.Dataset(
-        {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
-        coords={
-            "n_samples": np.arange(n_samples),
-            "n_strategies": np.arange(2),
-            "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
-        },
-    )
-    return ValueArray(dataset=dataset)
+    return ValueArray.from_numpy(nb_values, ["Standard Care", "New Treatment"])
 
 
 @pytest.fixture
