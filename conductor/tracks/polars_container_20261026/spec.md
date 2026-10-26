@@ -11,7 +11,7 @@ Prerequisites: `tabular_contract_v3_20261026` must land first, because the curre
 Measured on the baseline, not assumed:
 
 - xarray appears in 13 runtime modules; `voiage/schema.py` holds 36 of 75 references.
-- The public contract is a two-dimensional table, not a labelled N-D array: `ValueArray` is samples by strategies with one `net_benefit` variable and a `strategy` coordinate; `ParameterSet` is samples by parameters with one variable per parameter.
+- The primary public contract is a two-dimensional table (`ValueArray` is samples by strategies; `ParameterSet` is samples by parameters), plus a 3D multi-perspective surface on `ValueArray` (`from_numpy_perspectives` with shape `(n_samples, n_strategies, n_perspectives)` and `perspective_names: list[str] | None`).
 - The xarray-specific runtime surface is small and enumerable: `xr.Dataset` construction, `.dims`, `.coords`, `.values`, one `isel`, two `assign_coords`, and type checks.
 - There is no `.sel`, `.interp`, `xr.concat`, `xr.apply_ufunc`, `.to_dataframe`, NetCDF, Zarr or pickle use anywhere in `voiage/`.
 - Core mathematics is already NumPy/JAX/torch and converts to arrays immediately.
@@ -40,9 +40,9 @@ Acceptance: the inventory accounts for all references at the baseline with no un
 
 ### AC2: Containers
 
-Replace the xarray container with a Polars frame that preserves the existing matrix semantics.
+Replace the xarray container with a Polars frame that preserves the existing matrix and multi-perspective semantics.
 
-Acceptance: `ValueArray` holds a wide frame keyed by a sample identifier with one `Float64` column per strategy in declared order; `ParameterSet` holds a wide frame with one `Float64` column per parameter; both validate shape, dtype and non-null policy at construction. `values`/`numpy_values`/`parameters`/`from_numpy` keep their current signatures and return types.
+Acceptance: `ValueArray` holds a wide `frame: pl.DataFrame` with one `Float64` column per strategy in declared order for 2D inputs, or one `pl.Array(pl.Float64, n_perspectives)` column per strategy alongside `perspective_names: list[str] | None` for 3D multi-perspective inputs (`from_numpy_perspectives`); `ParameterSet` holds a wide `frame: pl.DataFrame` with one `Float64` column per parameter; both expose `frame`, `from_polars`, and `to_polars` and validate shape, finite `Float64` dtype, and non-null policy at construction. `ValueArray.values` returns `np.ndarray` (matching `numpy_values`, 2D or 3D as constructed), and `numpy_values`/`parameters`/`from_numpy`/`from_numpy_perspectives`/`perspective_names` keep their current signatures and return types.
 
 ### AC3: Validation parity and fail-closed extras
 

@@ -17,7 +17,7 @@ A syntax table is not a migration reference. The differences that break real por
 - `specs/core-api/examples/v1/value-array.example.json`, `parameter-set.example.json`
 - `docs/astro-site/src/content/docs/user-guide/migration-guide.mdx`
 - `docs/astro-site/src/content/docs/developer-guide/v2-contract-architecture.md`
-- Consumer idioms: `scripts/run_empirical_longitudinal.py`, `scripts/run_release_calibration.py` and `scripts/verify_empirical_longitudinal.py` in the tobac repository
+- Consumer idioms: `scripts/run_empirical_longitudinal.py`, `scripts/run_release_calibration.py` and `scripts/verify_empirical_longitudinal.py` in the `tobac` repository, captured into a committed, digest-pinned manifest (`conductor/tracks/translation_reference_20261026/tobac-consumer-idioms.json`) so verification is hermetic and never requires an external checkout on CI runners
 
 ## Acceptance criteria
 
@@ -25,7 +25,7 @@ A syntax table is not a migration reference. The differences that break real por
 
 Derive the idiom list from code that exists rather than from a generic cookbook.
 
-Acceptance: each covered idiom cites the file and line that uses it in Voiage or a named consumer; idioms with no in-repository use are excluded or explicitly marked as anticipatory; the inventory records the command used to derive it.
+Acceptance: each covered idiom cites the file and line that uses it in Voiage or in the committed `tobac-consumer-idioms.json` manifest (which records the `tobac` source commit SHA, file paths, line ranges, and SHA-256 digests); idioms with no in-repository or consumer-manifest use are excluded or explicitly marked as anticipatory; the inventory records the command used to derive it.
 
 ### AC2: Semantic reference
 

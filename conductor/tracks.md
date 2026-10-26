@@ -1093,9 +1093,9 @@ track at the top of this registry; completed repository slices stay closed.
   *Link: [./tracks/optional_native_telemetry_20260907/index.md](./tracks/optional_native_telemetry_20260907/index.md)*
 
 ---
-- [ ] **Track: Tabular contract v3 and xarray removal**
+- [~] **Track: Tabular contract v3 and xarray removal**
   *Link: [./tracks/tabular_contract_v3_20261026/index.md](./tracks/tabular_contract_v3_20261026/index.md)*
-  **Registered planning only; implementation not authorised.** Opens the decision-record revision that the current core-api decision requires; owns no runtime change.
+  **In progress — implementation authorised by maintainer on 2026-10-26.** Opens the decision-record revision that the current core-api decision requires; owns no runtime change.
   GitHub: https://github.com/edithatogo/voiage/issues/1196
 
 ---
