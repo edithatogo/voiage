@@ -1,0 +1,32 @@
+{
+  "track_id": "tabular_contract_v3_20261026",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-10-26T00:00:00Z",
+  "updated_at": "2026-10-26T00:00:00Z",
+  "description": "Normative v3 contract revision authorising Polars tabular containers and xarray removal",
+  "base_commit": "ca3f05cc8adcc74b99fe236152327d0cd3679553",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/1196",
+    "parent_issue": "https://github.com/edithatogo/voiage/issues/1195"
+  },
+  "evidence_schema": "1.0",
+  "depends_on": [],
+  "authorization": {
+    "scope": "Planning registration only; implementation not authorised",
+    "source": "Owner request of 26 October 2026 to plan a wholesale pandas-to-Polars shift in Voiage"
+  },
+  "owner_decisions": [
+    "Target version 3.0.0; the xarray surface is removed outright with no compatibility extra and no deprecation window.",
+    "The translation reference is a separate track, not part of the removal work.",
+    "tobac requires a bounded consumer qualification track, not a parallel contract."
+  ],
+  "gates": [
+    {
+      "id": "prerequisites",
+      "kind": "repository",
+      "status": "pending",
+      "evidence": "Issue #1195 authorises registration only. The decision-record revision required by specs/core-api/decision-record.md is unstarted."
+    }
+  ]
+}

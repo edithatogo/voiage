@@ -1,0 +1,29 @@
+{
+  "track_id": "translation_reference_20261026",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-10-26T00:00:00Z",
+  "updated_at": "2026-10-26T00:00:00Z",
+  "description": "Test-backed translation reference from the pandas and xarray idioms actually in use to their Polars equivalents and non-equivalences",
+  "base_commit": "ca3f05cc8adcc74b99fe236152327d0cd3679553",
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/1199",
+    "parent_issue": "https://github.com/edithatogo/voiage/issues/1195"
+  },
+  "evidence_schema": "1.0",
+  "depends_on": [
+    "polars_container_20261026"
+  ],
+  "authorization": {
+    "scope": "Planning registration only; implementation not authorised",
+    "source": "Owner request of 26 October 2026 to plan a wholesale pandas-to-Polars shift in Voiage"
+  },
+  "gates": [
+    {
+      "id": "prerequisites",
+      "kind": "repository",
+      "status": "pending",
+      "evidence": "The container track is unstarted; the reference must describe the shipped container rather than a proposal."
+    }
+  ]
+}
