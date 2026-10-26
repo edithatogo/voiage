@@ -14,12 +14,18 @@
   "depends_on": [
     "polars_container_20261026"
   ],
-  "dependency_semantics": "Implementation may proceed in parallel; the package-level no-pandas gate cannot pass before the container track lands, because ecosystem_integration imports voiage.schema and schema imports xarray.",
+  "dependency_semantics": "Phase 7 and the zero-reference gate also require polars_container_20261026 AC8 (residual xarray migration). Implementation may proceed in parallel; the package-level no-pandas gate cannot pass before the container track lands, because ecosystem_integration imports voiage.schema and schema imports xarray.",
   "authorization": {
     "scope": "Planning registration only; implementation not authorised",
     "source": "Owner request of 26 October 2026 to plan a wholesale pandas-to-Polars shift in Voiage"
   },
   "gates": [
+    {
+      "id": "zero-reference-end-state",
+      "kind": "repository",
+      "status": "pending",
+      "evidence": "Residual pandas and xarray references outside voiage/ (tests, docs, scripts, workflows, overlays) are inventoried but unmigrated; the allow-list is unwritten."
+    },
     {
       "id": "prerequisites",
       "kind": "repository",

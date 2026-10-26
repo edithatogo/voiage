@@ -13,7 +13,9 @@ Measured on the baseline:
 - Only two runtime modules import pandas: `voiage/ecosystem_integration.py` (CSV, Excel and Parquet readers plus export bundles) and `voiage/widgets/voi_widgets.py` (CSV upload parsing).
 - `voiage/core/io.py` already reads and writes CSV with the standard library and NumPy.
 - `voiage/ingestion/dataframe.py` is backend-neutral by design, using `__dataframe__` and `__arrow_c_stream__` through PyArrow, and documents no pandas or Polars dependency.
-- Only two test modules import pandas.
+- Eight test modules mention pandas (`test_ecosystem_integration.py` and `test_standardized_ingestion_providers.py` among them); the two I/O modules are the only runtime importers.
+- `voiage/ecosystem_integration.py` emits an `import pandas as pd` snippet inside a generated-code string at line 757, which no import check can see.
+- pandas or xarray is also named by 9 docs pages, 3 scripts, `.github/workflows/dependency-preview.yml`, `conda-recipe/README.md`, the EasyBuild and Spack overlays, and frozen SBOM and solver-log evidence that must not be rewritten.
 - The declared dependency bounds disagree across surfaces on this baseline: `pyproject.toml` and `conda-recipe/meta.yaml` declare `pandas>=1.3,<3.0` and `xarray>=0.19,<2025.0`, while `tox.ini` typecheck pins `pandas>=3.0.3` and `xarray>=2026.7.0`. The contradiction predates this track and must be reconciled, not inherited.
 
 ## Required context
@@ -25,7 +27,9 @@ Measured on the baseline:
 - `pyproject.toml`
 - `conda-recipe/meta.yaml`
 - `tox.ini`
-- `.github/workflows/dependency-frontier.yml`
+- `.github/workflows/dependency-frontier.yml` and `.github/workflows/dependency-preview.yml`
+- `conda-recipe/README.md`, `packaging/easybuild-overlay/` and `packaging/spack-overlay/` (live declarations only)
+- `scripts/hpc_package_smoke.py`, `scripts/simple_validation.py`, `scripts/validate_easybuild_root_graph.py`
 - `tests/test_ecosystem_integration.py`
 - `tests/test_standardized_ingestion_providers.py`
 
@@ -66,6 +70,12 @@ Acceptance: a pandas DataFrame supplied by an external caller is still accepted 
 ### AC7: Boundary
 
 Acceptance: no numerical path, container semantics, wire contract or binding changes in this track; the CSV output format is unchanged except where the track records an explicit, documented difference; no new persistence format is introduced.
+
+### AC8: Zero-reference end state
+
+Ownership split with `polars_container_20261026`: that track owns every xarray reference (runtime, tests, examples, scripts); this track owns every pandas reference and the repository-wide end-state check. Neither track edits the other's references; where one file holds both, the container track edits first and this track rebases. The end-state check cannot pass until the container track's AC8 has landed.
+
+Acceptance: a repository-wide `git grep -w` for `pandas` and `xarray` returns only entries on a recorded allow-list; the allow-list contains the v2-to-v3 migration guide, the translation reference, the explicitly marked producer-compatibility tests and frozen historical evidence, and nothing else; a test enforces it, including string literals and generated-code templates; live packaging overlays declare neither package. The Polars floor and ceiling are pinned with a recorded reason and the suite passes at both ends.
 
 ## Non-functional and external boundaries
 

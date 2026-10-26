@@ -1,11 +1,11 @@
 # Implementation plan: Polars-native core containers
 
-All tasks are pending. This track is registered planning only; implementation is not authorised. Prerequisite: `tabular_contract_v3_20261026`.
+All tasks are pending. Ownership: this track migrates every xarray reference (runtime, tests, examples, scripts); `pandas_free_io_20261026` migrates every pandas reference and owns the repository-wide zero-reference check. This track is registered planning only; implementation is not authorised. Prerequisite: `tabular_contract_v3_20261026`.
 
 ## Phase 1: Inventory
 
 - [ ] T1.1 — Freeze the baseline commit, the exact inventory command (`git grep`) and its output digest; state at most five implementation paths for AC1.
-- [ ] T1.2 — Classify every runtime xarray reference as container, validation, conversion or dead code, and assign each an owner task. (AC1).
+- [ ] T1.2 — Classify every runtime xarray reference, including function-level lazy imports (five in `voiage/schema.py`, one each in `voiage/cli.py` and `voiage/methods/basic.py`), as container, validation, conversion or dead code, and assign each an owner task; `voiage/cli.py` is in scope. (AC1).
 - [ ] T1.3 — Validate: no unclassified reference; dead references are deleted rather than ported; record command, exit status and digest. (AC1).
 
 ## Phase 2: Containers
@@ -38,7 +38,12 @@ All tasks are pending. This track is registered planning only; implementation is
 - [ ] T6.2 — Run the Rust, R and Julia conformance fixtures unchanged against the new container. (AC7).
 - [ ] T6.3 — Validate: bindings pass without fixture edits, `specs/core-api` is unchanged, and the full local gate passes. (AC7).
 
+## Phase 7: Residual runtime, test, example and script migration
+
+- [ ] T7.1 — Freeze the exact `git grep` inventory of xarray imports and `.dataset` references outside the Phase 2–4 call sites: `voiage/cli.py` (xr.Dataset construction), `voiage/core/io.py`, the 28 test modules that import pandas or xarray (including `tests/conftest.py`), the 10 examples that mention xarray (3 import it), and `scripts/validate_core_api_fixtures.py`; record digest and the expected red result.
+- [ ] T7.2 — Port `voiage/cli.py` and `voiage/core/io.py` to the Polars container; rewrite every `.dataset` assertion and xarray fixture in the tests to the new surface; update the examples and `scripts/validate_core_api_fixtures.py` so none imports xarray. (AC8).
+- [ ] T7.3 — Validate: `git grep` for `import xarray` and `from xarray` returns nothing under `voiage/`, `tests/`, `examples/` and `scripts/`; the converted tests keep their original assertions' intent (no assertion deleted without a recorded reason); the fixture validator and the contract validators still pass; record command, environment and digest. (AC8).
 ## Final acceptance
 
-- [ ] CLOSE.1 — Review every AC against the exact tested revision; the hosted checks must pass before any acceptance claim.
+- [ ] CLOSE.1 — Review every AC (AC1–AC8) against the exact tested revision; the hosted checks must pass before any acceptance claim.
 - [ ] CLOSE.2 — Reconcile plan, metadata and append-only evidence with the accepted revision; hand the container and perf receipts to `pandas_free_io_20261026`.

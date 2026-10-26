@@ -15,7 +15,8 @@ Measured on the baseline, not assumed:
 - The xarray-specific runtime surface is small and enumerable: `xr.Dataset` construction, `.dims`, `.coords`, `.values`, one `isel`, two `assign_coords`, and type checks.
 - There is no `.sel`, `.interp`, `xr.concat`, `xr.apply_ufunc`, `.to_dataframe`, NetCDF, Zarr or pickle use anywhere in `voiage/`.
 - Core mathematics is already NumPy/JAX/torch and converts to arrays immediately.
-- 25 `.dataset` references exist across 8 test modules.
+- 25 `.dataset` references exist across 8 test modules; 36 test files mention xarray and 28 import pandas or xarray.
+- `voiage/cli.py`, `voiage/core/io.py`, 3 examples and `scripts/validate_core_api_fixtures.py` construct or import xarray outside the container module.
 
 ## Required context
 
@@ -24,7 +25,9 @@ Measured on the baseline, not assumed:
 - `voiage/methods/adaptive.py`, `observational.py`, `network_nma.py`, `calibration.py`, `basic.py`, `sample_information.py`
 - `voiage/core/io.py`
 - `voiage/analysis.py`, `voiage/main_backends.py`, `voiage/parallel/monte_carlo.py`
-- `tests/test_schema.py`, `tests/test_schema_comprehensive.py`, `tests/test_network_nma.py`
+- `voiage/cli.py` (constructs an `xr.Dataset` at the baseline) and `voiage/widgets/voi_widgets.py` (type checks only)
+- `tests/test_schema.py`, `tests/test_schema_comprehensive.py`, `tests/test_network_nma.py`, `tests/conftest.py` and the other test modules that import xarray (28 modules import pandas or xarray at the baseline)
+- `examples/` (10 files mention xarray) and `scripts/validate_core_api_fixtures.py`
 - `specs/core-api/examples/v1/value-array.example.json`, `parameter-set.example.json`
 
 ## Acceptance criteria
@@ -68,6 +71,14 @@ Acceptance: construction, `to_numpy` extraction and long-form conversion are ben
 ### AC7: No new persistence
 
 Acceptance: no serialization format is added by this track; the existing JSON wire contract remains the only supported interchange; any proposed Parquet writer is deferred to a separate decision.
+
+### AC8: Residual migration
+
+Ownership: this track owns every xarray reference; pandas references, packaging, docs and workflows belong to `pandas_free_io_20261026`. Where a file holds both, this track edits it first.
+
+Remove xarray from every consumer of the container so the only xarray references left are the migration documentation.
+
+Acceptance: no `import xarray` or `from xarray` remains under `voiage/`, `tests/`, `examples/` or `scripts/`; `voiage/cli.py` and `voiage/core/io.py` build and consume the Polars container; test assertions are converted rather than deleted, and any deletion records a reason; the script `scripts/validate_core_api_fixtures.py` passes without xarray. Declared dependencies stay until `pandas_free_io_20261026`.
 
 ## Non-functional and external boundaries
 

@@ -18,11 +18,11 @@ All tasks are pending. This track is registered planning only; implementation is
 
 - [ ] T3.1 — Freeze the existing `specs/core-api` identifiers and the two v1 example fixtures; state the round-trip command and expected output.
 - [ ] T3.2 — Express the Polars container contract using the existing `table_id`/`field_id`/`role`/`layout`/`dtype` vocabulary and record the wide-layout decision. (AC3).
-- [ ] T3.3 — Validate: `value-array.example.json` and `parameter-set.example.json` round-trip unchanged; no duplicate vocabulary is introduced; run `scripts/validate_core_api_contract.py` and `scripts/validate_core_api_fixtures.py`. (AC3).
+- [ ] T3.3 — Validate: `value-array.example.json` and `parameter-set.example.json` round-trip unchanged; no duplicate vocabulary is introduced; run `scripts/validate_core_api_contract.py` and `scripts/validate_core_api_fixtures.py`; note that the fixtures validator imports xarray until `polars_container_20261026` Phase 7 ports it, so run it under the current environment and do not edit it here. (AC3).
 
 ## Phase 4: Migration guidance
 
-- [ ] T4.1 — Enumerate every removed symbol reachable from the package `__init__` and record the replacement, or the absence of one.
+- [ ] T4.1 — Enumerate every removed symbol reachable from the package `__init__` and record the replacement, or the absence of one; also record that pandas and xarray stop being installed transitively, so downstream code that relied on them must declare its own dependency.
 - [ ] T4.2 — Update `docs/astro-site/src/content/docs/user-guide/migration-guide.mdx` with the v2-to-v3 recipes and the supported external ingestion route. (AC4).
 - [ ] T4.3 — Validate: each removed symbol maps to a recipe or an explicit "no replacement"; unchanged helpers are stated as unchanged; the Astro docs build passes and no example still calls a removed symbol. (AC4).
 

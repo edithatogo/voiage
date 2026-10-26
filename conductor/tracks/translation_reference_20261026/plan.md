@@ -29,7 +29,7 @@ All tasks are pending. This track is registered planning only; implementation is
 ## Phase 5: Publication
 
 - [ ] T5.1 — Place the reference in the documentation source and link it from the v2-to-v3 migration guide.
-- [ ] T5.2 — Verify links, examples and the Astro build. (AC5).
+- [ ] T5.2 — Verify links, examples and the Astro build, and confirm the reference page and its pandas or xarray mentions sit on the `pandas_free_io_20261026` allow-list. (AC5).
 - [ ] T5.3 — Validate: no example calls a removed symbol; the build passes; the migration guide links resolve. (AC5).
 
 ## Final acceptance
