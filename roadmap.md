@@ -173,6 +173,20 @@ candidates, issue evidence, protected PR delivery and recovery-backed cleanup.
 This work does not reopen the archived hardening programme or establish
 outstanding scientific, registry, funding or venue outcomes.
 
+### Tabular contract v3 and Polars planning (registration only)
+
+Issue [#1195](https://github.com/edithatogo/voiage/issues/1195) registers four
+unimplemented tracks that would replace the xarray-backed tabular contract with
+Polars and remove direct pandas use:
+`conductor/tracks/tabular_contract_v3_20261026/`,
+`conductor/tracks/polars_container_20261026/`,
+`conductor/tracks/pandas_free_io_20261026/` and
+`conductor/tracks/translation_reference_20261026/`.
+`specs/core-api/decision-record.md` still names xarray as the Python reference
+model, so the contract revision is the prerequisite and no implementation is
+authorised. The published 2.2.0 release line and the active release-and-venue
+track are unaffected by this registration.
+
 *   **Phase 1 (Foundation & API Refactoring):** ✅ **Complete** - Core OO API, data structures, CI/CD, and documentation are all in place.
 *   **Phase 2 (Health Economics Core):** ✅/🔄 **Stable analytical core complete; generic simulation developing** - EVPI, EVPPI, an analytical two-arm normal EVSI model, a coherent joint normal two-loop model with custom callback support, NMA VOI, structural VOI, and plotting are implemented. Generic two-loop and compatibility EVSI estimators remain non-stable pending method-specific convergence and parity evidence.
 *   **Phase 3 (Advanced Methods & Cross-Domain):** ✅ **Complete** - Structural VOI, NMA VOI, JAX JIT compilation, and cross-domain support implemented.
