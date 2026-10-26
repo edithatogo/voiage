@@ -1099,9 +1099,9 @@ track at the top of this registry; completed repository slices stay closed.
   GitHub: https://github.com/edithatogo/voiage/issues/1196
 
 ---
-- [~] **Track: Polars-native core containers**
+- [x] **Track: Polars-native core containers**
   *Link: [./tracks/polars_container_20261026/index.md](./tracks/polars_container_20261026/index.md)*
-  **In progress; implementation authorised on 2026-10-26.** Depends on the v3 contract revision; requires bit-identical numerical parity and a recorded performance delta.
+  **Completed on 2026-10-27; implementation authorised on 2026-10-26.** Replaces the xarray-backed `ValueArray`/`ParameterSet` containers with wide Polars frames at bit-identical numerical parity, removes every xarray reference from `voiage/`, `tests/`, `examples/` and `scripts/`, and records a performance delta.
   GitHub: https://github.com/edithatogo/voiage/issues/1197
 
 ---

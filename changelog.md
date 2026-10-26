@@ -1,5 +1,11 @@
 # Changelog
 
+- Replace the xarray-backed `ValueArray` and `ParameterSet` containers with wide
+  Polars frames (`frame`, `from_polars`, `to_polars`; `ValueArray.values` now
+  returns a NumPy array), removing every xarray reference from the runtime,
+  tests, examples and scripts at bit-identical numerical parity. The declared
+  `xarray` and `pandas` dependencies remain until the pandas-free I/O track.
+
 - Make Rust checkpoint persistence recover safely from stale temporary files,
   use distinct temporary names, and preserve portable directory-durability
   behavior.

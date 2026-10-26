@@ -1,7 +1,7 @@
 {
   "track_id": "polars_container_20261026",
   "type": "refactor",
-  "status": "in_progress",
+  "status": "completed",
   "created_at": "2026-10-26T00:00:00Z",
   "updated_at": "2026-10-26T00:00:00Z",
   "description": "Replace the xarray-backed ValueArray and ParameterSet containers with wide Polars frames at unchanged numerical parity",
@@ -28,9 +28,8 @@
     {
       "id": "implementation",
       "kind": "repository",
-      "status": "pending",
-      "evidence": "Implementation authorised by the maintainer on 2026-10-26; container swap in progress on branch codex/polars-container-20261026.",
-      "legacy_status": "in_progress"
+      "status": "satisfied",
+      "evidence": "Phases 1-7 delivered on branch codex/polars-container-20261026: containers replaced, validation parity, bit-identical numerical parity, performance receipt, boundary confirmation (Rust 244 / Julia / R 72 passed, specs/core-api unchanged) and residual migration with zero xarray imports. Full non-e2e/integration pytest suite 5072 passed / 0 failed."
     }
   ]
 }

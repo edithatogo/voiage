@@ -8,9 +8,9 @@
 - **NumPy**: >=2.2.6,<3 - Fundamental array computing
 - **SciPy**: >=1.16.3,<1.17 - Scientific computing algorithms
 - **pandas**: >=1.3,<3 - Data manipulation and analysis
-- **xarray**: >=0.19,<2025 - Labeled multi-dimensional arrays
+- **xarray**: >=0.19,<2025 - Labeled multi-dimensional arrays; retained as a declared dependency until `pandas_free_io_20261026`, no longer used by the `ValueArray`/`ParameterSet` containers (v3 contract)
 - **PyArrow**: >=25,<26 - schema-bearing interchange, Parquet, and IPC
-- **Polars**: >=1.42.1,<2 - Arrow-native dataframe interoperability
+- **Polars**: >=1.42.1,<2 - Arrow-native dataframe interoperability; the in-memory tabular model for `ValueArray`/`ParameterSet` (v3 contract)
 - **Pydantic**: >=2.13.4,<3 - Strict domain, configuration, and logging contracts
 
 ## Optional High-Performance Computing
