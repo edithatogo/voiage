@@ -16,9 +16,9 @@ All tasks are pending. Ownership: this track migrates every xarray reference (ru
 
 ## Phase 3: Validation parity
 
-- [ ] T3.1 — Enumerate the structural errors the xarray container raised and freeze their current messages and exception types.
-- [ ] T3.2 — Implement equivalent column, dtype, length and duplicate-name validation, and reject unrecognised extra variables explicitly. (AC3).
-- [ ] T3.3 — Validate: a negative test exists for each enumerated error; extras fail closed; no error type silently changes. (AC3).
+- [x] T3.1 — Enumerate the structural errors the xarray container raised and freeze their current messages and exception types. (evidence.jsonl)
+- [x] T3.2 — Implement equivalent column, dtype, length and duplicate-name validation, and reject unrecognised extra variables explicitly. (AC3). (voiage/schema.py)
+- [x] T3.3 — Validate: a negative test exists for each enumerated error; extras fail closed; no error type silently changes. (AC3). (tests/test_schema_validation_parity.py)
 
 ## Phase 4: Numerical parity
 

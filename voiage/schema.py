@@ -58,17 +58,18 @@ def _validate_float_frame(
     rejected; Polars itself rejects duplicate column names at construction and
     the defensive duplicate check below keeps that guarantee explicit.
     """
+    role = "strategy" if container == "ValueArray" else "parameter"
     if not isinstance(frame, pl.DataFrame):
         raise_input_error(f"{container} 'frame' must be a polars.DataFrame.")
     if frame.width == 0:
         raise_input_error(
-            f"{container} 'frame' must have at least one strategy/parameter column."
+            f"{container} 'frame' must have at least one {role} column."
         )
 
     columns = list(frame.columns)
     if len(columns) != len(set(columns)):
         raise_input_error(
-            f"{container} 'frame' must have unique strategy/parameter names."
+            f"{container} 'frame' must have unique {role} names."
         )
 
     dtypes = list(frame.dtypes)
