@@ -5697,6 +5697,50 @@
       "subissues": [],
       "pull_requests": [],
       "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "tabular_contract_v3_20261026",
+      "metadata_track_id": "tabular_contract_v3_20261026",
+      "path": "conductor/tracks/tabular_contract_v3_20261026",
+      "lifecycle": "active",
+      "issue": {"number": 1196, "url": "https://github.com/edithatogo/voiage/issues/1196", "state": "open"},
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1195",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "polars_container_20261026",
+      "metadata_track_id": "polars_container_20261026",
+      "path": "conductor/tracks/polars_container_20261026",
+      "lifecycle": "active",
+      "issue": {"number": 1197, "url": "https://github.com/edithatogo/voiage/issues/1197", "state": "open"},
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1195",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "pandas_free_io_20261026",
+      "metadata_track_id": "pandas_free_io_20261026",
+      "path": "conductor/tracks/pandas_free_io_20261026",
+      "lifecycle": "active",
+      "issue": {"number": 1198, "url": "https://github.com/edithatogo/voiage/issues/1198", "state": "open"},
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1195",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "translation_reference_20261026",
+      "metadata_track_id": "translation_reference_20261026",
+      "path": "conductor/tracks/translation_reference_20261026",
+      "lifecycle": "active",
+      "issue": {"number": 1199, "url": "https://github.com/edithatogo/voiage/issues/1199", "state": "open"},
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1195",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
     }
   ]
 }

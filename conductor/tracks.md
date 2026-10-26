@@ -1091,3 +1091,27 @@ track at the top of this registry; completed repository slices stay closed.
 ---
 - [ ] **Track: Optional native telemetry qualification**
   *Link: [./tracks/optional_native_telemetry_20260907/index.md](./tracks/optional_native_telemetry_20260907/index.md)*
+
+---
+- [ ] **Track: Tabular contract v3 and xarray removal**
+  *Link: [./tracks/tabular_contract_v3_20261026/index.md](./tracks/tabular_contract_v3_20261026/index.md)*
+  **Registered planning only; implementation not authorised.** Opens the decision-record revision that the current core-api decision requires; owns no runtime change.
+  GitHub: https://github.com/edithatogo/voiage/issues/1196
+
+---
+- [ ] **Track: Polars-native core containers**
+  *Link: [./tracks/polars_container_20261026/index.md](./tracks/polars_container_20261026/index.md)*
+  **Registered planning only; implementation not authorised.** Depends on the v3 contract revision; requires bit-identical numerical parity and a recorded performance delta.
+  GitHub: https://github.com/edithatogo/voiage/issues/1197
+
+---
+- [ ] **Track: Pandas-free external I/O and packaging**
+  *Link: [./tracks/pandas_free_io_20261026/index.md](./tracks/pandas_free_io_20261026/index.md)*
+  **Registered planning only; implementation not authorised.** Depends on the container track for its package-level gate; reconciles four dependency surfaces and enforces the absence of pandas mechanically.
+  GitHub: https://github.com/edithatogo/voiage/issues/1198
+
+---
+- [ ] **Track: pandas and xarray to Polars translation reference**
+  *Link: [./tracks/translation_reference_20261026/index.md](./tracks/translation_reference_20261026/index.md)*
+  **Registered planning only; implementation not authorised.** Depends on the container track; every documented equivalence must be test-backed.
+  GitHub: https://github.com/edithatogo/voiage/issues/1199
