@@ -1099,9 +1099,9 @@ track at the top of this registry; completed repository slices stay closed.
   GitHub: https://github.com/edithatogo/voiage/issues/1196
 
 ---
-- [ ] **Track: Polars-native core containers**
+- [~] **Track: Polars-native core containers**
   *Link: [./tracks/polars_container_20261026/index.md](./tracks/polars_container_20261026/index.md)*
-  **Registered planning only; implementation not authorised.** Depends on the v3 contract revision; requires bit-identical numerical parity and a recorded performance delta.
+  **In progress; implementation authorised on 2026-10-26.** Depends on the v3 contract revision; requires bit-identical numerical parity and a recorded performance delta.
   GitHub: https://github.com/edithatogo/voiage/issues/1197
 
 ---

@@ -1,7 +1,7 @@
 {
   "track_id": "polars_container_20261026",
   "type": "refactor",
-  "status": "new",
+  "status": "in_progress",
   "created_at": "2026-10-26T00:00:00Z",
   "updated_at": "2026-10-26T00:00:00Z",
   "description": "Replace the xarray-backed ValueArray and ParameterSet containers with wide Polars frames at unchanged numerical parity",
@@ -15,8 +15,8 @@
     "tabular_contract_v3_20261026"
   ],
   "authorization": {
-    "scope": "Planning registration only; implementation not authorised",
-    "source": "Owner request of 26 October 2026 to plan a wholesale pandas-to-Polars shift in Voiage"
+    "scope": "Implementation authorised by the maintainer on 2026-10-26",
+    "source": "Owner request of 26 October 2026 to plan a wholesale pandas-to-Polars shift in Voiage; implementation authorised by the maintainer on 2026-10-26 in response to conductor-implement invocation"
   },
   "gates": [
     {
@@ -28,8 +28,8 @@
     {
       "id": "implementation",
       "kind": "repository",
-      "status": "pending",
-      "evidence": "No runtime container change exists at the baseline ca3f05cc or any later revision checked on 2026-10-26."
+      "status": "in_progress",
+      "evidence": "Implementation authorised by the maintainer on 2026-10-26; container swap in progress on branch codex/polars-container-20261026."
     }
   ]
 }

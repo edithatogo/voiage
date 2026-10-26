@@ -1,6 +1,6 @@
 # Track: Polars-native core containers
 
-Status: new. Registered planning only; implementation is not authorised.
+Status: in progress. Implementation authorised by the maintainer on 2026-10-26.
 
 GitHub issue: https://github.com/edithatogo/voiage/issues/1197 (parent: https://github.com/edithatogo/voiage/issues/1195)
 

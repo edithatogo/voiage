@@ -1,6 +1,6 @@
 # Implementation plan: Polars-native core containers
 
-All tasks are pending. Ownership: this track migrates every xarray reference (runtime, tests, examples, scripts); `pandas_free_io_20261026` migrates every pandas reference and owns the repository-wide zero-reference check. This track is registered planning only; implementation is not authorised. Prerequisite: `tabular_contract_v3_20261026`.
+All tasks are pending. Ownership: this track migrates every xarray reference (runtime, tests, examples, scripts); `pandas_free_io_20261026` migrates every pandas reference and owns the repository-wide zero-reference check. Implementation authorised by the maintainer on 2026-10-26. Prerequisite: `tabular_contract_v3_20261026`.
 
 ## Phase 1: Inventory
 
