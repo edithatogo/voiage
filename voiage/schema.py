@@ -165,14 +165,15 @@ class ValueArray:
 
         For the 2D surface this is ``(n_samples, n_strategies)``. For the 3D
         multi-perspective surface this is ``(n_samples, n_strategies,
-        n_perspectives)``.
+        n_perspectives)``. The returned array is a fresh C-contiguous copy, so
+        callers may mutate it without affecting the container.
         """
         frame = self.frame
         if all(isinstance(dtype, pl.Array) for dtype in frame.dtypes):
             return np.stack(
                 [frame[column].to_numpy() for column in frame.columns], axis=1
             )
-        return frame.to_numpy()
+        return np.column_stack([frame[column].to_numpy() for column in frame.columns])
 
     @property
     def jax_values(self: "ValueArray") -> Optional["jnp.ndarray"]:

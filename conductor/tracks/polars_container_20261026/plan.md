@@ -28,9 +28,9 @@ All tasks are pending. Ownership: this track migrates every xarray reference (ru
 
 ## Phase 5: Performance record
 
-- [ ] T5.1 — Freeze the benchmark fixture, machine and command; record the pre-change numbers before the container swap is final.
-- [ ] T5.2 — Re-measure construction, `to_numpy` extraction and long-form conversion on the final candidate. (AC6).
-- [ ] T5.3 — Validate: the receipt states the observed delta and the accepted bound; a regression beyond the bound blocks acceptance. (AC6).
+- [x] T5.1 — Freeze the benchmark fixture, machine and command; record the pre-change numbers before the container swap is final. (benchmark_container.py, benchmark-before.json)
+- [x] T5.2 — Re-measure construction, `to_numpy` extraction and long-form conversion on the final candidate. (AC6). (benchmark-after.json)
+- [x] T5.3 — Validate: the receipt states the observed delta and the accepted bound; a regression beyond the bound blocks acceptance. (AC6). (benchmark-receipt.json)
 
 ## Phase 6: Boundary confirmation
 
