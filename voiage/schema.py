@@ -62,15 +62,11 @@ def _validate_float_frame(
     if not isinstance(frame, pl.DataFrame):
         raise_input_error(f"{container} 'frame' must be a polars.DataFrame.")
     if frame.width == 0:
-        raise_input_error(
-            f"{container} 'frame' must have at least one {role} column."
-        )
+        raise_input_error(f"{container} 'frame' must have at least one {role} column.")
 
     columns = list(frame.columns)
     if len(columns) != len(set(columns)):
-        raise_input_error(
-            f"{container} 'frame' must have unique {role} names."
-        )
+        raise_input_error(f"{container} 'frame' must have unique {role} names.")
 
     dtypes = list(frame.dtypes)
     is_3d = all(isinstance(dtype, pl.Array) for dtype in dtypes)
@@ -133,7 +129,7 @@ class ValueArray:
         if frame.width > 0 and all(
             isinstance(dtype, pl.Array) for dtype in frame.dtypes
         ):
-            n_perspectives = cast(int, frame.dtypes[0].size)
+            n_perspectives = cast("int", frame.dtypes[0].size)
             if self.perspective_names is not None and (
                 len(self.perspective_names) != n_perspectives
             ):
@@ -268,7 +264,7 @@ class ValueArray:
         if values.ndim != expected_ndim:
             raise_dimension_mismatch_error("values must be a 2D array")
 
-        n_samples, n_strategies = values.shape
+        n_strategies = values.shape[1]
 
         if strategy_names is None:
             strategy_names = [f"Strategy {i}" for i in range(n_strategies)]
@@ -317,7 +313,8 @@ class ValueArray:
         if values.ndim != expected_ndim:
             raise_input_error("values must be a 3D array")
 
-        n_samples, n_strategies, n_perspectives = values.shape
+        n_strategies = values.shape[1]
+        n_perspectives = values.shape[2]
 
         if strategy_names is None:
             strategy_names = [f"Strategy {i}" for i in range(n_strategies)]
@@ -351,7 +348,7 @@ class ValueArray:
             return None
         dtypes = self.frame.dtypes
         if all(isinstance(dtype, pl.Array) for dtype in dtypes):
-            return cast(int, dtypes[0].size)
+            return cast("int", dtypes[0].size)
         return None
 
     @classmethod
@@ -427,8 +424,7 @@ class ParameterSet:
     def parameters(self: "ParameterSet") -> dict[str, np.ndarray]:
         """Return the parameter samples."""
         return {
-            str(name): self.frame[str(name)].to_numpy()
-            for name in self.frame.columns
+            str(name): self.frame[str(name)].to_numpy() for name in self.frame.columns
         }
 
     @property
@@ -437,9 +433,7 @@ class ParameterSet:
         if not JAX_AVAILABLE:
             return None
         return {
-            str(name): jnp.asarray(
-                self.frame[str(name)].to_numpy(), dtype=jnp.float64
-            )
+            str(name): jnp.asarray(self.frame[str(name)].to_numpy(), dtype=jnp.float64)
             for name in self.frame.columns
         }
 
@@ -506,7 +500,7 @@ class ParameterSet:
         if isinstance(parameters, np.ndarray):
             if parameters.ndim != expected_ndim:
                 raise_input_error("parameters array must be 2D")
-            n_samples, n_parameters = parameters.shape
+            n_parameters = parameters.shape[1]
             # Create parameter names
             param_names = [f"param_{i}" for i in range(n_parameters)]
             frame = pl.DataFrame(
@@ -515,7 +509,6 @@ class ParameterSet:
                     for i, name in enumerate(param_names)
                 }
             )
-            return cls(frame=frame)
         elif isinstance(parameters, dict):
             if not parameters:
                 raise_input_error("parameters dictionary cannot be empty")
@@ -533,9 +526,9 @@ class ParameterSet:
             if len(set(lengths)) > 1:
                 raise_input_error("All parameter arrays must have the same length")
             frame = pl.DataFrame(converted_params)
-            return cls(frame=frame)
         else:
             raise_input_error("parameters must be a numpy array or dictionary")
+        return cls(frame=frame)
 
     @classmethod
     def from_jax(
@@ -557,11 +550,11 @@ class ParameterSet:
             )
 
         expected_ndim = 2
+        converted: np.ndarray | dict[str, np.ndarray]
         if jnp is not None and hasattr(parameters, "ndim"):  # JAX array
             if parameters.ndim != expected_ndim:
                 raise_input_error("parameters array must be 2D")
-            numpy_parameters = np.asarray(parameters)
-            return cls.from_numpy_or_dict(numpy_parameters)
+            converted = np.asarray(parameters)
         elif isinstance(parameters, dict):
             if not parameters:
                 raise_input_error("parameters dictionary cannot be empty")
@@ -576,9 +569,11 @@ class ParameterSet:
 
             if len(set(lengths)) > 1:
                 raise_input_error("All parameter arrays must have the same length")
-            return cls.from_numpy_or_dict(converted_params)
+            converted = converted_params
         else:
             raise_input_error("parameters must be a JAX array or dictionary")
+        return cls.from_numpy_or_dict(converted)
+
 
 @dataclass(frozen=True)
 class DecisionOption:

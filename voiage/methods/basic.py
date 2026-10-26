@@ -54,7 +54,6 @@ def check_parameter_samples(parameter_samples: object, n_samples: int) -> np.nda
         if isinstance(parameter_samples.parameters, dict):
             x = np.stack(list(parameter_samples.parameters.values()), axis=1)
         else:
-            # Handle xarray or other types if necessary
             raise_input_error(
                 "PSASample with non-dict parameters not yet supported for EVPPI."
             )
@@ -284,17 +283,11 @@ def evppi(
         filtered_parameters = {
             name: parameter_samples.parameters[name] for name in parameters_of_interest
         }
-        import xarray as xr
-
-        dataset = xr.Dataset(
-            {k: ("n_samples", v) for k, v in filtered_parameters.items()},
-            coords={
-                "n_samples": np.arange(len(next(iter(filtered_parameters.values()))))
-            },
-        )
         from voiage.schema import ParameterSet
 
-        filtered_parameter_samples = ParameterSet(dataset=dataset)
+        filtered_parameter_samples = ParameterSet.from_numpy_or_dict(
+            filtered_parameters
+        )
     elif isinstance(parameter_samples, dict):
         # Check that all parameters of interest are in the parameter dict
         available_params = set(parameter_samples.keys())

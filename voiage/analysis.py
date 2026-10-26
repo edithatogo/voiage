@@ -1451,7 +1451,6 @@ class DecisionAnalysis:
         if isinstance(self.parameter_samples.parameters, dict):
             x = np.stack(list(self.parameter_samples.parameters.values()), axis=1)
         else:
-            # Handle xarray or other types if necessary
             raise_input_error(
                 "PSASample with non-dict parameters not yet supported for EVPPI."
             )

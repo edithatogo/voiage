@@ -22,9 +22,9 @@ All tasks are pending. Ownership: this track migrates every xarray reference (ru
 
 ## Phase 4: Numerical parity
 
-- [ ] T4.1 — Freeze the reference cases and the exact parity command, including the `np.array_equal` assertion and the fixture set.
-- [ ] T4.2 — Port the remaining call sites in metamodels, methods, analysis and backends without altering numerical paths. (AC5).
-- [ ] T4.3 — Validate: every reference case is bit-identical, column order is identical, no tolerance was widened, and the `specs/core-api` examples produce identical output; record environment and digests. (AC4, AC5).
+- [x] T4.1 — Freeze the reference cases and the exact parity command, including the `np.array_equal` assertion and the fixture set. (parity_reference.py)
+- [x] T4.2 — Port the remaining call sites in metamodels, methods, analysis and backends without altering numerical paths. (AC5). (voiage/metamodels.py, voiage/methods/*, voiage/parallel/monte_carlo.py, voiage/core/memory_optimization.py)
+- [x] T4.3 — Validate: every reference case is bit-identical, column order is identical, no tolerance was widened, and the `specs/core-api` examples produce identical output; record environment and digests. (AC4, AC5). (parity-before.json, parity-after.json, evidence.jsonl)
 
 ## Phase 5: Performance record
 

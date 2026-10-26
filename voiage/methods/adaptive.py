@@ -142,17 +142,7 @@ def sophisticated_adaptive_trial_simulator(
     net_benefits += np.random.normal(0, 500, net_benefits.shape)
 
     # Create ValueArray
-    import xarray as xr
-
-    dataset = xr.Dataset(
-        {"net_benefit": (("n_samples", "n_strategies"), net_benefits)},
-        coords={
-            "n_samples": np.arange(n_samples),
-            "n_strategies": np.arange(n_strategies),
-            "strategy": ("n_strategies", ["Control Only", "With Treatment"]),
-        },
-    )
-    return NetBenefitArray(dataset=dataset)
+    return NetBenefitArray.from_numpy(net_benefits, ["Control Only", "With Treatment"])
 
 
 def _simulate_trial_and_interims(
@@ -380,17 +370,7 @@ def bayesian_adaptive_trial_simulator(
         control_outcomes,
         adjusted_sample_size,
     )
-    import xarray as xr
-
-    dataset = xr.Dataset(
-        {"net_benefit": (("n_samples", "n_strategies"), net_benefits)},
-        coords={
-            "n_samples": np.arange(n_samples),
-            "n_strategies": np.arange(2),
-            "strategy": ("n_strategies", ["Control Only", "With Treatment"]),
-        },
-    )
-    return NetBenefitArray(dataset=dataset)
+    return NetBenefitArray.from_numpy(net_benefits, ["Control Only", "With Treatment"])
 
 
 def adaptive_evsi(
@@ -561,17 +541,7 @@ if __name__ == "__main__":  # pragma: no cover
         # Make strategy 1 slightly better on average
         nb_values[:, 1] += 100
 
-        import xarray as xr
-
-        dataset = xr.Dataset(
-            {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
-            coords={
-                "n_samples": np.arange(n_samples),
-                "n_strategies": np.arange(2),
-                "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
-            },
-        )
-        return NetBenefitArray(dataset=dataset)
+        return NetBenefitArray.from_numpy(nb_values, ["Standard Care", "New Treatment"])
 
     # Create test parameter set
     dummy_psa = PSASample.from_numpy_or_dict({"p": np.random.rand(50)})

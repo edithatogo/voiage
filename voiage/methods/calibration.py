@@ -200,8 +200,6 @@ def sophisticated_calibration_modeler(
     The built-in modeler is a testing-oriented approximation that simulates the
     effect of calibration by shrinking uncertainty toward target values.
     """
-    import xarray as xr
-
     from voiage.schema import ValueArray
 
     n_samples = psa_samples.n_samples
@@ -274,22 +272,10 @@ def sophisticated_calibration_modeler(
     nb_standard += np.random.normal(0, 1000, n_samples)
     nb_treatment += np.random.normal(0, 1500, n_samples)
 
-    # Create ValueArray
-    dataset = xr.Dataset(
-        {
-            "net_benefit": (
-                ("n_samples", "n_strategies"),
-                np.column_stack([nb_standard, nb_treatment]),
-            )
-        },
-        coords={
-            "n_samples": np.arange(n_samples),
-            "n_strategies": np.arange(2),
-            "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
-        },
+    return ValueArray.from_numpy(
+        np.column_stack([nb_standard, nb_treatment]),
+        ["Standard Care", "New Treatment"],
     )
-
-    return ValueArray(dataset=dataset)
 
 
 if __name__ == "__main__":  # pragma: no cover
@@ -312,17 +298,7 @@ if __name__ == "__main__":  # pragma: no cover
         # Make strategy 1 slightly better on average
         nb_values[:, 1] += 100
 
-        import xarray as xr
-
-        dataset = xr.Dataset(
-            {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
-            coords={
-                "n_samples": np.arange(n_samples),
-                "n_strategies": np.arange(2),
-                "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
-            },
-        )
-        return NetBenefitArray(dataset=dataset)
+        return NetBenefitArray.from_numpy(nb_values, ["Standard Care", "New Treatment"])
 
     # Create test parameter set
     dummy_psa = PSASample.from_numpy_or_dict({"p": np.random.rand(50)})

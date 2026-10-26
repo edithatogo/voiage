@@ -362,17 +362,7 @@ def _value_array_from_net_benefits(
     strategy_names: list[str],
 ) -> NetBenefitArray:
     """Build a ValueArray from a net-benefit matrix."""
-    import xarray as xr
-
-    dataset = xr.Dataset(
-        {"net_benefit": (("n_samples", "n_strategies"), net_benefits)},
-        coords={
-            "n_samples": np.arange(net_benefits.shape[0]),
-            "n_strategies": np.arange(net_benefits.shape[1]),
-            "strategy": ("n_strategies", strategy_names),
-        },
-    )
-    return NetBenefitArray(dataset=dataset)
+    return NetBenefitArray.from_numpy(net_benefits, strategy_names)
 
 
 if __name__ == "__main__":  # pragma: no cover
@@ -395,17 +385,7 @@ if __name__ == "__main__":  # pragma: no cover
         # Make strategy 1 slightly better on average
         nb_values[:, 1] += 100
 
-        import xarray as xr
-
-        dataset = xr.Dataset(
-            {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
-            coords={
-                "n_samples": np.arange(n_samples),
-                "n_strategies": np.arange(2),
-                "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
-            },
-        )
-        return NetBenefitArray(dataset=dataset)
+        return NetBenefitArray.from_numpy(nb_values, ["Standard Care", "New Treatment"])
 
     # Create test parameter set
     dummy_psa = PSASample.from_numpy_or_dict({"p": np.random.rand(50)})

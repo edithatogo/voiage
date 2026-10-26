@@ -5,7 +5,6 @@
 from typing import Protocol, cast, runtime_checkable
 
 import numpy as np
-import xarray as xr
 
 # Optional dependencies
 try:
@@ -120,6 +119,17 @@ class _SparseMatrixProtocol(Protocol):
 
 
 @runtime_checkable
+class _HasValuesProtocol(Protocol):
+    """Protocol for array-like objects that expose a ``values`` attribute.
+
+    Any duck-typed array wrapper (for example ``ValueArray``) that exposes
+    ``values`` as a NumPy array.
+    """
+
+    values: object
+
+
+@runtime_checkable
 class _TinyGPConditionProtocol(Protocol):
     """Protocol for tinygp conditional predictions."""
 
@@ -138,7 +148,7 @@ class _TinyGPProtocol(Protocol):
 
 
 def _as_numpy(
-    values: np.ndarray | xr.DataArray | _SparseMatrixProtocol,
+    values: np.ndarray | _SparseMatrixProtocol | _HasValuesProtocol,
 ) -> np.ndarray:
     """Return a NumPy view of supported metamodel arrays."""
     if isinstance(values, _SparseMatrixProtocol):
@@ -352,14 +362,18 @@ def cross_validate(
         train_indices = np.concatenate([indices[:start_idx], indices[end_idx:]])
 
         # Create train and test ParameterSets
-        train_params = {}
-        test_params = {}
-        for param_name, param_values in x.parameters.items():
-            train_params[param_name] = ("n_samples", param_values[train_indices])
-            test_params[param_name] = ("n_samples", param_values[test_indices])
+        parameter_values = x.parameters
+        train_params = {
+            param_name: param_values[train_indices]
+            for param_name, param_values in parameter_values.items()
+        }
+        test_params = {
+            param_name: param_values[test_indices]
+            for param_name, param_values in parameter_values.items()
+        }
 
-        train_x = ParameterSet(dataset=xr.Dataset(train_params))
-        test_x = ParameterSet(dataset=xr.Dataset(test_params))
+        train_x = ParameterSet.from_numpy_or_dict(train_params)
+        test_x = ParameterSet.from_numpy_or_dict(test_params)
         train_y = y[train_indices]
         test_y = y[test_indices]
 
@@ -803,7 +817,7 @@ class BARTMetamodel:
             raise_runtime_error("The model has not been fitted yet.")
 
         y_pred = self.predict(x)
-        # Convert to numpy array if it's an xarray DataArray
+        # Convert to numpy array if the prediction exposes a values attribute
         if hasattr(y_pred, "values"):
             y_pred = y_pred.values
         return _safe_r2_score(y, y_pred)
@@ -814,7 +828,7 @@ class BARTMetamodel:
             raise_runtime_error("The model has not been fitted yet.")
 
         y_pred = self.predict(x)
-        # Convert to numpy array if it's an xarray DataArray
+        # Convert to numpy array if the prediction exposes a values attribute
         if hasattr(y_pred, "values"):
             y_pred = y_pred.values
         return _safe_rmse(y, y_pred)
@@ -933,16 +947,11 @@ class ActiveLearningMetamodel:
 
     def _array_to_parameterset(self, x_array: np.ndarray) -> ParameterSet:
         """Convert numpy array to ParameterSet."""
-        n_samples = x_array.shape[0]
         param_dict = {}
         for i in range(x_array.shape[1]):
             param_dict[f"param_{i}"] = x_array[:, i]
 
-        dataset = xr.Dataset(
-            {k: ("n_samples", v) for k, v in param_dict.items()},
-            coords={"n_samples": np.arange(n_samples)},
-        )
-        return ParameterSet(dataset=dataset)
+        return ParameterSet.from_numpy_or_dict(param_dict)
 
     def _parameterset_to_array(self, param_set: ParameterSet) -> np.ndarray:
         """Convert ParameterSet to numpy array."""

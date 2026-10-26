@@ -432,13 +432,7 @@ def _update_nma_posterior(
             updated_parameters[param_name] = prior_samples.parameters[param_name]
 
     # Create updated ParameterSet
-    import xarray as xr
-
-    dataset = xr.Dataset(
-        {k: (("n_samples",), v) for k, v in updated_parameters.items()},
-        coords={"n_samples": np.arange(n_samples)},
-    )
-    return PSASample(dataset=dataset)
+    return PSASample.from_numpy_or_dict(updated_parameters)
 
 
 def sophisticated_nma_model_evaluator(
@@ -515,20 +509,9 @@ def sophisticated_nma_model_evaluator(
     net_benefits += np.random.normal(0, 10, net_benefits.shape)
 
     # Create ValueArray
-    import xarray as xr
-
-    dataset = xr.Dataset(
-        {"net_benefit": (("n_samples", "n_strategies"), net_benefits)},
-        coords={
-            "n_samples": np.arange(n_samples),
-            "n_strategies": np.arange(n_strategies),
-            "strategy": (
-                "n_strategies",
-                ["Standard Care", "Treatment B", "Treatment C"],
-            ),
-        },
+    return NetBenefitArray.from_numpy(
+        net_benefits, ["Standard Care", "Treatment B", "Treatment C"]
     )
-    return NetBenefitArray(dataset=dataset)
 
 
 # Additional utility functions for NMA-specific calculations
