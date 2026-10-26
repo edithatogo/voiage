@@ -1,6 +1,6 @@
 # Track: Tabular contract v3 and xarray removal
 
-Status: in_progress. Implementation authorised by maintainer on 2026-10-26.
+Status: completed. Normative v3 contract revision, schema vocabulary, migration guide, and governance tests implemented and validated on 2026-10-26.
 
 GitHub issue: https://github.com/edithatogo/voiage/issues/1196 (parent: https://github.com/edithatogo/voiage/issues/1195)
 
