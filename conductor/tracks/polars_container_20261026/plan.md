@@ -4,9 +4,9 @@ All tasks are pending. Ownership: this track migrates every xarray reference (ru
 
 ## Phase 1: Inventory
 
-- [ ] T1.1 — Freeze the baseline commit, the exact inventory command (`git grep`) and its output digest; state at most five implementation paths for AC1.
-- [ ] T1.2 — Classify every runtime xarray reference, including function-level lazy imports (five in `voiage/schema.py`, one each in `voiage/cli.py` and `voiage/methods/basic.py`), as container, validation, conversion or dead code, and assign each an owner task; `voiage/cli.py` is in scope. (AC1).
-- [ ] T1.3 — Validate: no unclassified reference; dead references are deleted rather than ported; record command, exit status and digest. (AC1).
+- [x] T1.1 — Freeze the baseline commit, the exact inventory command (`git grep`) and its output digest; state at most five implementation paths for AC1. (phase-1-baseline.json)
+- [x] T1.2 — Classify every runtime xarray reference, including function-level lazy imports (five in `voiage/schema.py`, one each in `voiage/cli.py` and `voiage/methods/basic.py`), as container, validation, conversion or dead code, and assign each an owner task; `voiage/cli.py` is in scope. (AC1). (inventory.md)
+- [x] T1.3 — Validate: no unclassified reference; dead references are deleted rather than ported; record command, exit status and digest. (AC1). (evidence.jsonl)
 
 ## Phase 2: Containers
 

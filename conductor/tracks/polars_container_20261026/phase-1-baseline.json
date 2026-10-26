@@ -1,0 +1,27 @@
+{
+  "track_id": "polars_container_20261026",
+  "phase": "phase-1-inventory",
+  "recorded_at": "2026-10-26T22:10:00Z",
+  "source_commit": "20fc9c5702798ad4f2c1c2f883351d71389205d3",
+  "baseline_commit": "28fbb1453aba876c202908a38664890b75c283d4",
+  "spec_baseline_commit": "ca3f05cc8adcc74b99fe236152327d0cd3679553",
+  "inventory_commands": {
+    "runtime_references": "git grep -n 'xarray' -- voiage/",
+    "imports": "git grep -n -E 'import xarray|from xarray' -- voiage/ tests/ examples/ scripts/",
+    "xr_usage": "git grep -n -E 'xr\\.[A-Za-z_]+' -- voiage/"
+  },
+  "digests": {
+    "runtime_xarray_inventory_sha256": "2afb5a56f357ba0b17b3845b061ff5c3b5454cd3c3a00248bc9b337c3fd0a673",
+    "runtime_xarray_count": 40,
+    "runtime_modules_with_xarray": 13,
+    "test_modules_importing_pandas_or_xarray": 33,
+    "test_modules_with_dataset_references": 9
+  },
+  "implementation_paths": [
+    "Phase 2 T2.2: containers — voiage/schema.py ValueArray/ParameterSet to wide Polars frames",
+    "Phase 3 T3.2: validation parity — errors, dtype, non-null, duplicate names, fail-closed extras in schema.py",
+    "Phase 4 T4.2: call sites — metamodels.py, methods/*.py, parallel/monte_carlo.py, core/memory_optimization.py",
+    "Phase 6 T6.1-T6.2: boundary confirmation — no persistence/binding change; conformance fixtures unchanged",
+    "Phase 7 T7.1-T7.2: residual migration — voiage/cli.py, voiage/core/io.py, tests/, examples/, scripts/"
+  ]
+}
