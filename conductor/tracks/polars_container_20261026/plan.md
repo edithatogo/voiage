@@ -10,9 +10,9 @@ All tasks are pending. Ownership: this track migrates every xarray reference (ru
 
 ## Phase 2: Containers
 
-- [ ] T2.1 — Freeze the current `ValueArray` and `ParameterSet` signatures, exception messages and constructor tests; confirm the expected red result before implementation.
-- [ ] T2.2 — Replace both containers with wide Polars frames (`frame: pl.DataFrame`, `from_polars`, `to_polars`), supporting 2D `Float64` strategy columns and 3D `pl.Array(pl.Float64, n_perspectives)` multi-perspective columns (`from_numpy_perspectives`, `perspective_names`), and making `ValueArray.values` return `np.ndarray` alongside `numpy_values`/`parameters`/`from_numpy`. (AC2).
-- [ ] T2.3 — Validate: shapes, dtypes and null policy are enforced at construction; the public signatures are unchanged; the schema tests pass on the new container. (AC2).
+- [x] T2.1 — Freeze the current `ValueArray` and `ParameterSet` signatures, exception messages and constructor tests; confirm the expected red result before implementation. (phase-2-baseline.json)
+- [x] T2.2 — Replace both containers with wide Polars frames (`frame: pl.DataFrame`, `from_polars`, `to_polars`), supporting 2D `Float64` strategy columns and 3D `pl.Array(pl.Float64, n_perspectives)` multi-perspective columns (`from_numpy_perspectives`, `perspective_names`), and making `ValueArray.values` return `np.ndarray` alongside `numpy_values`/`parameters`/`from_numpy`. (AC2). (voiage/schema.py)
+- [x] T2.3 — Validate: shapes, dtypes and null policy are enforced at construction; the public signatures are unchanged; the schema tests pass on the new container. (AC2). (tests/test_schema*.py)
 
 ## Phase 3: Validation parity
 

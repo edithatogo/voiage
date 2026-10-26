@@ -5,18 +5,18 @@ Core data structures for voiage.
 
 These structures are designed to hold and manage data used in Value of Information
 analyses. They leverage Python's dataclasses for type hinting and validation where
-appropriate, and use xarray Datasets as the canonical in-memory representation for
-their public contract.
+appropriate, and use wide Polars frames as the canonical in-memory representation
+for their public contract (``specs/v3/stable-api.json``).
 """
 
 from collections.abc import Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from importlib import import_module
 from importlib.util import find_spec
 from typing import TYPE_CHECKING, Optional, Union, cast
 
 import numpy as np
-import xarray as xr
+import polars as pl
 
 from voiage.exceptions import (
     raise_dimension_mismatch_error,
@@ -43,15 +43,69 @@ except (ImportError, ModuleNotFoundError):
 jnp = _LazyJaxNumpy() if JAX_AVAILABLE else None
 
 
+def _validate_float_frame(
+    frame: object,
+    *,
+    container: str,
+    supports_3d: bool,
+) -> None:
+    """Validate a wide Polars frame of Float64 columns.
+
+    The frame must be a ``polars.DataFrame`` whose columns are either all
+    ``Float64`` (2D surface) or all ``Array(Float64, n)`` (3D multi-perspective
+    surface) -- mixed dtypes are rejected, and an unrecognised/extra variable
+    (any column that is neither) fails closed. Empty frames and null values are
+    rejected; Polars itself rejects duplicate column names at construction and
+    the defensive duplicate check below keeps that guarantee explicit.
+    """
+    if not isinstance(frame, pl.DataFrame):
+        raise_input_error(f"{container} 'frame' must be a polars.DataFrame.")
+    if frame.width == 0:
+        raise_input_error(
+            f"{container} 'frame' must have at least one strategy/parameter column."
+        )
+
+    columns = list(frame.columns)
+    if len(columns) != len(set(columns)):
+        raise_input_error(
+            f"{container} 'frame' must have unique strategy/parameter names."
+        )
+
+    dtypes = list(frame.dtypes)
+    is_3d = all(isinstance(dtype, pl.Array) for dtype in dtypes)
+    is_2d = all(dtype == pl.Float64 for dtype in dtypes)
+    if is_3d:
+        if not supports_3d:
+            raise_input_error(
+                f"{container} 'frame' has Array columns but 3D multi-perspective "
+                "inputs are not supported here."
+            )
+        widths = {dtype.size for dtype in dtypes}
+        if len(widths) != 1:
+            raise_input_error(
+                f"{container} 'frame' Array columns must all have the same width."
+            )
+    elif not is_2d:
+        raise_input_error(
+            f"{container} 'frame' must contain only Float64 columns (2D) or only "
+            "Array(Float64, n) columns (3D); unrecognised extra variables are rejected."
+        )
+
+    if frame.null_count().sum_horizontal()[0] > 0:
+        raise_input_error(f"{container} 'frame' must not contain null values.")
+
+
 @dataclass(frozen=True, eq=False)
 class ValueArray:
     """Container for probabilistic sensitivity analysis net-benefit samples.
 
     Attributes
     ----------
-    dataset : xarray.Dataset
-        Canonical xarray Dataset with ``n_samples`` and ``n_strategies``
-        dimensions and a ``net_benefit`` data variable.
+    frame : pl.DataFrame
+        Wide Polars frame with one ``Float64`` column per strategy in declared
+        order (2D surface), or one ``Array(Float64, n_perspectives)`` column per
+        strategy (3D multi-perspective surface). Column names are the strategy
+        names. Sample count is the frame height.
 
     Examples
     --------
@@ -65,79 +119,63 @@ class ValueArray:
 
     __hash__ = None  # type: ignore[assignment]
 
-    dataset: xr.Dataset
+    frame: pl.DataFrame = field(repr=False)
+    perspective_names: list[str] | None = field(default=None, repr=False)
 
     def __post_init__(self: "ValueArray") -> None:
-        """Validate the dataset."""
-        if not isinstance(self.dataset, xr.Dataset):
-            raise_input_error("ValueArray 'dataset' must be a xarray.Dataset.")
+        """Validate the frame."""
+        _validate_float_frame(self.frame, container="ValueArray", supports_3d=True)
 
-        dataset = self.dataset
-        rename_map: dict[str, str] = {}
-        if "n_options" in dataset.dims and "n_strategies" not in dataset.dims:
-            rename_map["n_options"] = "n_strategies"
-        if "option" in dataset.coords and "strategy" not in dataset.coords:
-            rename_map["option"] = "strategy"
-        if "value" in dataset.data_vars and "net_benefit" not in dataset.data_vars:
-            rename_map["value"] = "net_benefit"
-        if rename_map:
-            dataset = dataset.rename(rename_map)
-
-        if "n_strategies" in dataset.dims:
-            n_strategies = int(dataset.sizes["n_strategies"])
-            if "strategy" in dataset.coords:
-                strategy_coord = dataset["strategy"]
-                if strategy_coord.size != n_strategies:
-                    raise_input_error(
-                        "ValueArray 'dataset' must align 'strategy' with 'n_strategies'."
-                    )
-                if strategy_coord.dims != ("n_strategies",):
-                    dataset = dataset.assign_coords(
-                        strategy=(
-                            "n_strategies",
-                            [str(name) for name in strategy_coord.values],
-                        )
-                    )
-            else:
-                dataset = dataset.assign_coords(
-                    strategy=(
-                        "n_strategies",
-                        [f"Strategy {i}" for i in range(n_strategies)],
-                    )
+        # Multi-perspective surface: perspective_names is a second dataclass
+        # field; infer validation constraints here.
+        frame = self.frame
+        if frame.width > 0 and all(
+            isinstance(dtype, pl.Array) for dtype in frame.dtypes
+        ):
+            n_perspectives = cast(int, frame.dtypes[0].size)
+            if self.perspective_names is not None and (
+                len(self.perspective_names) != n_perspectives
+            ):
+                raise_input_error(
+                    f"perspective_names must have {n_perspectives} elements"
                 )
-
-        if "n_samples" not in dataset.dims:
-            raise_input_error("ValueArray 'dataset' must have a 'n_samples' dimension.")
-        if "n_strategies" not in dataset.dims:
+        elif self.perspective_names is not None:
             raise_input_error(
-                "ValueArray 'dataset' must have a 'n_strategies' dimension."
+                "perspective_names are only valid for a 3D multi-perspective ValueArray."
             )
-        if "net_benefit" not in dataset.data_vars:
-            raise_input_error(
-                "ValueArray 'dataset' must have a 'net_benefit' data variable."
-            )
-        if "strategy" not in dataset.coords:
-            raise_input_error("ValueArray 'dataset' must have a 'strategy' coordinate.")
-        object.__setattr__(self, "dataset", dataset.copy(deep=True))
 
     @classmethod
-    def from_dataset(cls, dataset: xr.Dataset) -> "ValueArray":
-        """Create a ValueArray from a canonical xarray Dataset."""
-        return cls(dataset=dataset)
+    def from_polars(
+        cls,
+        frame: pl.DataFrame,
+        perspective_names: list[str] | None = None,
+    ) -> "ValueArray":
+        """Create a ValueArray from a wide Polars frame."""
+        return cls(frame=frame, perspective_names=perspective_names)
 
-    def to_dataset(self: "ValueArray") -> xr.Dataset:
-        """Return a deep copy of the canonical xarray Dataset."""
-        return self.dataset.copy(deep=True)
+    def to_polars(self: "ValueArray") -> pl.DataFrame:
+        """Return a deep copy of the wide Polars frame."""
+        return self.frame.clone()
 
     @property
-    def values(self: "ValueArray") -> xr.DataArray:
-        """Return the net benefit values as an xarray DataArray."""
-        return self.dataset["net_benefit"]
+    def values(self: "ValueArray") -> np.ndarray:
+        """Return the net benefit values as a NumPy array (2D or 3D)."""
+        return self.numpy_values
 
     @property
     def numpy_values(self: "ValueArray") -> np.ndarray:
-        """Return the net benefit values as a NumPy array."""
-        return self.values.values
+        """Return the net benefit values as a NumPy array.
+
+        For the 2D surface this is ``(n_samples, n_strategies)``. For the 3D
+        multi-perspective surface this is ``(n_samples, n_strategies,
+        n_perspectives)``.
+        """
+        frame = self.frame
+        if all(isinstance(dtype, pl.Array) for dtype in frame.dtypes):
+            return np.stack(
+                [frame[column].to_numpy() for column in frame.columns], axis=1
+            )
+        return frame.to_numpy()
 
     @property
     def jax_values(self: "ValueArray") -> Optional["jnp.ndarray"]:
@@ -149,21 +187,28 @@ class ValueArray:
     @property
     def n_samples(self: "ValueArray") -> int:
         """Return the number of samples."""
-        return int(self.dataset.sizes["n_samples"])
+        return self.frame.height
 
     @property
     def n_strategies(self: "ValueArray") -> int:
         """Return the number of strategies."""
-        return int(self.dataset.sizes["n_strategies"])
+        return self.frame.width
 
     @property
     def strategy_names(self: "ValueArray") -> list[str]:
         """Return the names of the strategies."""
-        return [str(name) for name in self.dataset["strategy"].values]
+        return list(self.frame.columns)
 
     def copy(self: "ValueArray") -> "ValueArray":
         """Return a deep copy of the ValueArray."""
-        return type(self).from_dataset(self.dataset)
+        return ValueArray(
+            frame=self.frame.clone(),
+            perspective_names=(
+                list(self.perspective_names)
+                if self.perspective_names is not None
+                else None
+            ),
+        )
 
     def get_strategy_index(self: "ValueArray", strategy_name: str) -> int:
         """Return the integer index for a strategy name."""
@@ -177,14 +222,25 @@ class ValueArray:
     ) -> "ValueArray":
         """Return a new ValueArray containing only the requested strategies."""
         indices = [self.get_strategy_index(name) for name in strategy_names]
-        sliced = self.dataset.isel(n_strategies=indices).copy(deep=True)
-        return type(self).from_dataset(sliced)
+        sliced = self.frame.select([self.strategy_names[i] for i in indices]).clone()
+        return ValueArray(
+            frame=sliced,
+            perspective_names=(
+                list(self.perspective_names)
+                if self.perspective_names is not None
+                else None
+            ),
+        )
 
     def __eq__(self: "ValueArray", other: object) -> bool:
-        """Compare ValueArray instances by dataset contents and coordinates."""
+        """Compare ValueArray instances by frame contents and column names."""
         if not isinstance(other, ValueArray):
             return NotImplemented
-        return cast("bool", self.dataset.identical(other.dataset))
+        return cast(
+            "bool",
+            self.frame.equals(other.frame)
+            and self.perspective_names == other.perspective_names,
+        )
 
     @classmethod
     def from_numpy(
@@ -195,7 +251,7 @@ class ValueArray:
         """Create a ValueArray from a numpy or JAX array.
 
         Args:
-            values: A 2D array of shape (n_samples, n_strategies). Supports both NumPy and JAX arrays.
+            values: A 2D Float64 array of shape (n_samples, n_strategies). Supports both NumPy and JAX arrays.
             strategy_names: Optional list of strategy names
 
         Returns
@@ -205,7 +261,7 @@ class ValueArray:
         # Handle JAX arrays if available
         expected_ndim = 2
         if JAX_AVAILABLE and hasattr(values, "dtype") and hasattr(values, "shape"):
-            # This could be a JAX array - convert to numpy for xarray
+            # This could be a JAX array - convert to numpy
             values = np.asarray(values)
 
         if values.ndim != expected_ndim:
@@ -218,17 +274,16 @@ class ValueArray:
         elif len(strategy_names) != n_strategies:
             raise_input_error(f"strategy_names must have {n_strategies} elements")
 
-        import xarray as xr
+        if len(set(strategy_names)) != len(strategy_names):
+            raise_input_error("strategy_names must be unique")
 
-        dataset = xr.Dataset(
-            {"net_benefit": (("n_samples", "n_strategies"), values)},
-            coords={
-                "n_samples": np.arange(n_samples),
-                "n_strategies": np.arange(n_strategies),
-                "strategy": ("n_strategies", strategy_names),
-            },
+        frame = pl.DataFrame(
+            {
+                str(name): np.asarray(values[:, col_idx], dtype=np.float64)
+                for col_idx, name in enumerate(strategy_names)
+            }
         )
-        return cls.from_dataset(dataset)
+        return cls(frame=frame)
 
     @classmethod
     def from_numpy_perspectives(
@@ -252,7 +307,7 @@ class ValueArray:
         Returns
         -------
         ValueArray
-            ValueArray with a perspective dimension.
+            ValueArray with a multi-perspective surface.
         """
         expected_ndim = 3
         if JAX_AVAILABLE and hasattr(values, "dtype") and hasattr(values, "shape"):
@@ -268,34 +323,35 @@ class ValueArray:
         elif len(strategy_names) != n_strategies:
             raise_input_error(f"strategy_names must have {n_strategies} elements")
 
+        if len(set(strategy_names)) != len(strategy_names):
+            raise_input_error("strategy_names must be unique")
+
         if perspective_names is None:
             perspective_names = [f"Perspective {i}" for i in range(n_perspectives)]
         elif len(perspective_names) != n_perspectives:
             raise_input_error(f"perspective_names must have {n_perspectives} elements")
 
-        dataset = xr.Dataset(
+        frame = pl.DataFrame(
             {
-                "net_benefit": (
-                    ("n_samples", "n_strategies", "n_perspectives"),
-                    values,
+                str(name): pl.Series(
+                    str(name),
+                    np.asarray(values[:, col_idx, :], dtype=np.float64),
+                    dtype=pl.Array(pl.Float64, n_perspectives),
                 )
-            },
-            coords={
-                "n_samples": np.arange(n_samples),
-                "n_strategies": np.arange(n_strategies),
-                "n_perspectives": np.arange(n_perspectives),
-                "strategy": ("n_strategies", strategy_names),
-                "perspective": ("n_perspectives", perspective_names),
-            },
+                for col_idx, name in enumerate(strategy_names)
+            }
         )
-        return cls.from_dataset(dataset)
+        return cls(frame=frame, perspective_names=list(perspective_names))
 
     @property
-    def perspective_names(self: "ValueArray") -> list[str] | None:
-        """Return perspective labels when present."""
-        if "perspective" not in self.dataset.coords:
+    def perspective_count(self: "ValueArray") -> int | None:
+        """Return the number of perspectives when the surface is 3D."""
+        if not self.frame.columns:
             return None
-        return [str(name) for name in self.dataset["perspective"].values]
+        dtypes = self.frame.dtypes
+        if all(isinstance(dtype, pl.Array) for dtype in dtypes):
+            return cast(int, dtypes[0].size)
+        return None
 
     @classmethod
     def from_jax(
@@ -323,27 +379,10 @@ class ValueArray:
         if values.ndim != expected_ndim:
             raise_dimension_mismatch_error("values must be a 2D array")
 
-        # Convert JAX array to NumPy for xarray compatibility
+        # Convert JAX array to NumPy
         numpy_values = np.asarray(values)
 
-        n_samples, n_strategies = numpy_values.shape
-
-        if strategy_names is None:
-            strategy_names = [f"Strategy {i}" for i in range(n_strategies)]
-        elif len(strategy_names) != n_strategies:
-            raise_input_error(f"strategy_names must have {n_strategies} elements")
-
-        import xarray as xr
-
-        dataset = xr.Dataset(
-            {"net_benefit": (("n_samples", "n_strategies"), numpy_values)},
-            coords={
-                "n_samples": np.arange(n_samples),
-                "n_strategies": np.arange(n_strategies),
-                "strategy": ("n_strategies", strategy_names),
-            },
-        )
-        return cls.from_dataset(dataset)
+        return cls.from_numpy(numpy_values, strategy_names=strategy_names)
 
 
 @dataclass(frozen=True, eq=False)
@@ -352,9 +391,10 @@ class ParameterSet:
 
     Attributes
     ----------
-    dataset : xarray.Dataset
-        Canonical xarray Dataset with ``n_samples`` as the sample dimension
-        and one data variable per parameter.
+    frame : pl.DataFrame
+        Wide Polars frame with one ``Float64`` column per parameter in declared
+        order. Column names are the parameter names. Sample count is the frame
+        height.
 
     Examples
     --------
@@ -367,35 +407,28 @@ class ParameterSet:
 
     __hash__ = None  # type: ignore[assignment]
 
-    dataset: xr.Dataset
+    frame: pl.DataFrame = field(repr=False)
 
     def __post_init__(self: "ParameterSet") -> None:
-        """Validate the dataset."""
-        if not isinstance(self.dataset, xr.Dataset):
-            raise_input_error("ParameterSet 'dataset' must be a xarray.Dataset.")
-        if "n_samples" not in self.dataset.dims:
-            raise_input_error(
-                "ParameterSet 'dataset' must have a 'n_samples' dimension."
-            )
-        if len(self.dataset.data_vars) == 0:
-            raise_input_error(
-                "ParameterSet 'dataset' must have at least one parameter variable."
-            )
-        object.__setattr__(self, "dataset", self.dataset.copy(deep=True))
+        """Validate the frame."""
+        _validate_float_frame(self.frame, container="ParameterSet", supports_3d=False)
 
     @classmethod
-    def from_dataset(cls, dataset: xr.Dataset) -> "ParameterSet":
-        """Create a ParameterSet from a canonical xarray Dataset."""
-        return cls(dataset=dataset)
+    def from_polars(cls, frame: pl.DataFrame) -> "ParameterSet":
+        """Create a ParameterSet from a wide Polars frame."""
+        return cls(frame=frame)
 
-    def to_dataset(self: "ParameterSet") -> xr.Dataset:
-        """Return a deep copy of the canonical xarray Dataset."""
-        return self.dataset.copy(deep=True)
+    def to_polars(self: "ParameterSet") -> pl.DataFrame:
+        """Return a deep copy of the wide Polars frame."""
+        return self.frame.clone()
 
     @property
     def parameters(self: "ParameterSet") -> dict[str, np.ndarray]:
         """Return the parameter samples."""
-        return {str(name): self.dataset[name].values for name in self.dataset.data_vars}
+        return {
+            str(name): self.frame[str(name)].to_numpy()
+            for name in self.frame.columns
+        }
 
     @property
     def jax_parameters(self: "ParameterSet") -> dict[str, "jnp.ndarray"] | None:
@@ -403,43 +436,43 @@ class ParameterSet:
         if not JAX_AVAILABLE:
             return None
         return {
-            str(name): jnp.asarray(self.dataset[name].values, dtype=jnp.float64)
-            for name in self.dataset.data_vars
+            str(name): jnp.asarray(
+                self.frame[str(name)].to_numpy(), dtype=jnp.float64
+            )
+            for name in self.frame.columns
         }
 
     @property
     def n_samples(self: "ParameterSet") -> int:
         """Return the number of samples."""
-        return int(self.dataset.sizes["n_samples"])
+        return self.frame.height
 
     @property
     def parameter_names(self: "ParameterSet") -> list[str]:
         """Return the names of the parameters."""
-        return [str(name) for name in self.dataset.data_vars]
+        return list(self.frame.columns)
 
     def copy(self: "ParameterSet") -> "ParameterSet":
         """Return a deep copy of the ParameterSet."""
-        return type(self).from_dataset(self.dataset)
+        return ParameterSet(frame=self.frame.clone())
 
     def subset_by_parameters(
         self: "ParameterSet", parameter_names: Sequence[str]
     ) -> "ParameterSet":
         """Return a new ParameterSet containing only the requested parameters."""
         parameter_list = list(parameter_names)
-        missing = [
-            name for name in parameter_list if name not in self.dataset.data_vars
-        ]
+        missing = [name for name in parameter_list if name not in self.frame.columns]
         if missing:
             missing_names = ", ".join(sorted(missing))
             raise_value_error(f"Parameters not found: {missing_names}")
-        subset = self.dataset[parameter_list].copy(deep=True)
-        return type(self).from_dataset(subset)
+        subset = self.frame.select(parameter_list).clone()
+        return ParameterSet(frame=subset)
 
     def __eq__(self: "ParameterSet", other: object) -> bool:
-        """Compare ParameterSet instances by dataset contents and coordinates."""
+        """Compare ParameterSet instances by frame contents and column names."""
         if not isinstance(other, ParameterSet):
             return NotImplemented
-        return cast("bool", self.dataset.identical(other.dataset))
+        return cast("bool", self.frame.equals(other.frame))
 
     @classmethod
     def from_numpy_or_dict(
@@ -459,8 +492,6 @@ class ParameterSet:
         -------
             ParameterSet: A new ParameterSet instance
         """
-        import xarray as xr
-
         # Handle JAX arrays if available
         expected_ndim = 2
         if (
@@ -468,7 +499,7 @@ class ParameterSet:
             and hasattr(parameters, "ndim")
             and hasattr(parameters, "dtype")
         ):
-            # This could be a JAX array - convert to numpy for xarray
+            # This could be a JAX array - convert to numpy
             parameters = np.asarray(parameters)
 
         if isinstance(parameters, np.ndarray):
@@ -477,18 +508,19 @@ class ParameterSet:
             n_samples, n_parameters = parameters.shape
             # Create parameter names
             param_names = [f"param_{i}" for i in range(n_parameters)]
-            # Create dataset
-            data_vars = {
-                name: (("n_samples",), parameters[:, i])
-                for i, name in enumerate(param_names)
-            }
-            dataset = xr.Dataset(data_vars, coords={"n_samples": np.arange(n_samples)})
+            frame = pl.DataFrame(
+                {
+                    name: np.asarray(parameters[:, i], dtype=np.float64)
+                    for i, name in enumerate(param_names)
+                }
+            )
+            return cls(frame=frame)
         elif isinstance(parameters, dict):
             if not parameters:
                 raise_input_error("parameters dictionary cannot be empty")
             # Check that all arrays have the same length
             lengths = []
-            converted_params = {}
+            converted_params: dict[str, np.ndarray] = {}
             for name, arr in parameters.items():
                 # Convert JAX arrays to numpy if needed
                 if JAX_AVAILABLE and hasattr(arr, "dtype") and hasattr(arr, "shape"):
@@ -496,19 +528,13 @@ class ParameterSet:
                 else:
                     np_arr = arr
                 lengths.append(len(np_arr))
-                converted_params[name] = np_arr
+                converted_params[str(name)] = np.asarray(np_arr, dtype=np.float64)
             if len(set(lengths)) > 1:
                 raise_input_error("All parameter arrays must have the same length")
-            n_samples = lengths[0]
-            # Create dataset
-            data_vars = {
-                name: (("n_samples",), arr) for name, arr in converted_params.items()
-            }
-            dataset = xr.Dataset(data_vars, coords={"n_samples": np.arange(n_samples)})
+            frame = pl.DataFrame(converted_params)
+            return cls(frame=frame)
         else:
             raise_input_error("parameters must be a numpy array or dictionary")
-
-        return cls.from_dataset(dataset)
 
     @classmethod
     def from_jax(
@@ -529,47 +555,29 @@ class ParameterSet:
                 "JAX is not available. Please install JAX to use from_jax()."
             )
 
-        import xarray as xr
-
         expected_ndim = 2
         if jnp is not None and hasattr(parameters, "ndim"):  # JAX array
             if parameters.ndim != expected_ndim:
                 raise_input_error("parameters array must be 2D")
             numpy_parameters = np.asarray(parameters)
-            n_samples, n_parameters = numpy_parameters.shape
-            # Create parameter names
-            param_names = [f"param_{i}" for i in range(n_parameters)]
-            # Create dataset
-            data_vars = {
-                name: (("n_samples",), numpy_parameters[:, i])
-                for i, name in enumerate(param_names)
-            }
-            dataset = xr.Dataset(data_vars, coords={"n_samples": np.arange(n_samples)})
+            return cls.from_numpy_or_dict(numpy_parameters)
         elif isinstance(parameters, dict):
             if not parameters:
                 raise_input_error("parameters dictionary cannot be empty")
             # Check that all arrays have the same length and convert to numpy
             lengths = []
-            converted_params = {}
+            converted_params: dict[str, np.ndarray] = {}
             for name, arr in parameters.items():
                 if not hasattr(arr, "shape"):
                     raise_input_error(f"Parameter {name} must be a JAX array")
                 lengths.append(len(arr))
-                converted_params[name] = np.asarray(arr)
+                converted_params[str(name)] = np.asarray(arr)
 
             if len(set(lengths)) > 1:
                 raise_input_error("All parameter arrays must have the same length")
-            n_samples = lengths[0]
-            # Create dataset
-            data_vars = {
-                name: (("n_samples",), arr) for name, arr in converted_params.items()
-            }
-            dataset = xr.Dataset(data_vars, coords={"n_samples": np.arange(n_samples)})
+            return cls.from_numpy_or_dict(converted_params)
         else:
             raise_input_error("parameters must be a JAX array or dictionary")
-
-        return cls.from_dataset(dataset)
-
 
 @dataclass(frozen=True)
 class DecisionOption:
