@@ -66,6 +66,10 @@ Prepared track records:
 - `conductor/tracks/logging_privacy_resilience_20260907/`
 - `conductor/tracks/vop_logging_version_pilot_20260907/`
 - `conductor/tracks/optional_native_telemetry_20260907/`
+- `conductor/tracks/tabular_contract_v3_20261026/`
+- `conductor/tracks/polars_container_20261026/`
+- `conductor/tracks/pandas_free_io_20261026/`
+- `conductor/tracks/translation_reference_20261026/`
 
 The ordered implementation tracks are individually registered under issues
 [#1111](https://github.com/edithatogo/voiage/issues/1111) through
