@@ -28,9 +28,10 @@ bindings.
 ## Deprecation Rules
 
 The normative timing and cross-surface requirements are defined in
-`../v1/compatibility-policy.json`. A stable API must remain available for at
-least two minor releases and six months, whichever is longer, and may be
-removed only in the next major release.
+`../v1/compatibility-policy.json` (and its versioned successors
+`../v2/compatibility-policy.json` and `../v3/compatibility-policy.json`). A
+stable API must remain available for at least two minor releases and six
+months, whichever is longer, and may be removed only in the next major release.
 
 - Deprecated fields or methods must continue to work until the replacement path
   is available in stable form.

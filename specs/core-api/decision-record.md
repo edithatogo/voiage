@@ -32,11 +32,10 @@ If implementation behavior differs from the written contract, later tracks must 
 
 ## Backend And Interchange Rules
 
-- Xarray-labeled arrays are the Python in-memory reference model.
+- Polars DataFrames are the Python in-memory reference model for tabular containers (`ValueArray` and `ParameterSet`) from contract version 3.0.0 (spec revision opened 2026-10-26, superseding the v1/v2 xarray reference-model rule and removing `ValueArray.dataset`, `ParameterSet.dataset`, `from_dataset`, and `to_dataset` outright at 3.0.0).
 - NumPy is the reference execution baseline.
 - JAX is optional acceleration, not public contract surface.
 - Arrow/Parquet is the cross-language interchange boundary.
-- Polars is adapter-only tabular tooling, not the canonical computational model.
 
 ## Scope Boundary
 

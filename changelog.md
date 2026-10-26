@@ -38,6 +38,11 @@
 
 ## Unreleased
 
+- Publish the normative v3 tabular container contract (`specs/v3/stable-api.json`
+  and `specs/v3/compatibility-policy.json`), revise the core API decision record
+  and foundation to make Polars DataFrames the Python in-memory reference model
+  at 3.0.0, and add v2-to-v3 migration guidance and governance tests.
+
 - Pass the checked-in EasyBuild generation overlays and an optional host catalogue path to recipe validation, so dry-runs resolve the repository's provider graph instead of testing only the root easyconfig.
 
 - Apply the overlay concretizer policy during isolated Spack recipe validation so stable and dated-nightly Rust toolchains can be resolved as separate build nodes.

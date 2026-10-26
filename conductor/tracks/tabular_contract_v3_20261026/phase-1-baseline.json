@@ -1,0 +1,22 @@
+{
+  "track_id": "tabular_contract_v3_20261026",
+  "phase": "phase-1-authority-revision",
+  "recorded_at": "2026-10-26T11:10:00Z",
+  "source_commit": "8fc7748066ea4391d4971e7c9fb3f51507dcf052",
+  "frozen_input_hashes": {
+    "specs/core-api/decision-record.md": "be3798902c9c9430ba7b39419c42803b748a25e5e7740352c8957c07bb6b1205",
+    "specs/core-api/foundation.md": "ca8ab44b9854a58b4a970b9ee3d2e95405da6ee105647566a439c95fde1a11df",
+    "specs/v1/stable-api.json": "ff77ce326e29d17354dbe274b30d42e0ed89ae80efb7700bba94eef8ae68249d",
+    "specs/v1/compatibility-policy.json": "3027c936cfced144113ada048b42c1ac9e461d9634849b7a45add618946bce8a",
+    "specs/v2/stable-api.json": "5cfe375b551a10d1764fd9a18f4ddf359409a58d9b5879456a91db82b9f71fb3",
+    "specs/v2/compatibility-policy.json": "d7a66a41b652f5681ed5f4a5f43193e069a45d1c872189588b6e4ac656596985"
+  },
+  "implementation_paths": [
+    "specs/core-api/decision-record.md",
+    "specs/core-api/foundation.md",
+    "tests/test_v3_stable_api_contract.py"
+  ],
+  "verification_command": "uv run --no-sync pytest tests/test_v3_stable_api_contract.py -k authority -q -p no:cacheprovider",
+  "expected_red_result": "AssertionError: decision-record.md and foundation.md still declare xarray-labeled arrays as the Python in-memory reference model and Polars as adapter-only tabular tooling.",
+  "expected_green_result": "Passed: dated 2026-10-26 v3.0.0 revision records Polars as the Python in-memory reference model for tabular containers, records outright xarray removal at 3.0.0, preserves NumPy/JAX/Arrow decisions, and leaves no normative document asserting xarray is the current reference model."
+}

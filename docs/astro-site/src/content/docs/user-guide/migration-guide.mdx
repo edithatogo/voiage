@@ -3,11 +3,91 @@ title: Migration Guide
 description: Migrating between the versioned voiage stable APIs
 ---
 
-This guide covers migration between the released v1 API and the normative v2
-release contract, as well as the earlier 0.x-to-v1 transition. The
+This guide covers migration between the released v1 API, the normative v2
+release contract, and the v3 Polars tabular container contract, as well as the
+earlier 0.x-to-v1 transition. The
 [API reference](/voiage/api-reference) links each machine-readable contract.
 Experimental and provisional extensions do not receive the same compatibility
 guarantee.
+
+## Migrating from 2.x to 3.0
+
+v3 replaces `xarray.Dataset` with `polars.DataFrame` as the Python in-memory
+reference model for `ValueArray` and `ParameterSet`. The xarray surface
+(`ValueArray.dataset`, `ParameterSet.dataset`, `from_dataset`, and `to_dataset`)
+is removed outright at 3.0.0 in favour of `ValueArray.frame`,
+`ParameterSet.frame`, `from_polars`, and `to_polars`, with no compatibility
+extra, no deprecation window, and no shim. The frozen v1 and v2 contracts
+remain in `specs/v1/` and `specs/v2/`; the v3 contract is in `specs/v3/`.
+
+### Removed xarray symbols and v3 replacements
+
+| Removed in 3.0 | v3 replacement | Notes |
+| --- | --- | --- |
+| `ValueArray.dataset` | `ValueArray.frame` | Wide `polars.DataFrame` with one `Float64` column per strategy in declared order |
+| `ParameterSet.dataset` | `ParameterSet.frame` | Wide `polars.DataFrame` with one `Float64` column per parameter in declared order |
+| `ValueArray.from_dataset(ds)` | `ValueArray.from_polars(frame)` or `ValueArray.from_numpy(values, strategy_names)` | Validates finite `Float64` columns and rejects unrecognised extra variables |
+| `ParameterSet.from_dataset(ds)` | `ParameterSet.from_polars(frame)` or `ParameterSet.from_numpy_or_dict(parameters)` | Validates finite `Float64` columns and non-empty parameter frames |
+| `ValueArray.to_dataset()` | `ValueArray.to_polars()` or `ValueArray.numpy_values` | Returns a cloned `polars.DataFrame` or a NumPy `ndarray` |
+| `ParameterSet.to_dataset()` | `ParameterSet.to_polars()` or `ParameterSet.parameters` | Returns a cloned `polars.DataFrame` or `dict[str, np.ndarray]` |
+
+### Container access and `ValueArray.values` return type
+
+In v2, `ValueArray.values` returned an `xarray.DataArray` while
+`ValueArray.numpy_values` returned a `numpy.ndarray`. In v3,
+`ValueArray.values` returns a `numpy.ndarray` directly (matching
+`numpy_values`). Callers that accessed `.frame` or Polars expressions use
+`va.frame` or `va.to_polars()`; callers that wrote `va.values.values` should
+use `va.numpy_values` or `va.values`.
+
+```python
+import numpy as np
+import polars as pl
+from voiage.schema import ParameterSet, ValueArray
+
+va = ValueArray.from_polars(
+    pl.DataFrame({"Usual care": [1500.0, 1490.0], "Screening": [1625.0, 1650.0]})
+)
+frame = va.frame
+matrix = va.numpy_values
+
+ps = ParameterSet.from_polars(
+    pl.DataFrame({"cost": [120.0, 140.0], "effect": [0.02, 0.03]})
+)
+param_dict = ps.parameters
+```
+
+### Unchanged constructors, multi-perspective arrays, and decision entry points
+
+The array-first constructors and decision-analysis entry points are unchanged:
+
+- `ValueArray.from_numpy`, `ValueArray.from_numpy_perspectives`, `ValueArray.numpy_values`, `ValueArray.strategy_names`, and `ValueArray.perspective_names` keep their signatures and return types. Multi-perspective 3D `ValueArray` instances (`from_numpy_perspectives`) store one `pl.Array(pl.Float64, n_perspectives)` column per strategy alongside `perspective_names` and continue to return a 3D `(n_samples, n_strategies, n_perspectives)` array from `numpy_values` and `values`.
+- `ParameterSet.from_numpy_or_dict`, `ParameterSet.parameters`, and `ParameterSet.parameter_names` keep their signatures and return types.
+- `DecisionAnalysis`, `evpi`, `evppi`, `evsi`, `normal_normal_two_arm_evsi`, `enbs`, `ceaf`, and `dominance` are unchanged.
+- No new persistence format is introduced, and the JSON wire contract and Rust, R, and Julia binding surfaces are unchanged.
+
+### Transitive dependencies and external tabular ingestion
+
+`pandas` and `xarray` are no longer installed transitively by `voiage`.
+Downstream code that imports `pandas` or `xarray` directly must declare those
+packages in its own dependencies.
+
+External callers holding a `pandas.DataFrame`, `polars.DataFrame`, or PyArrow
+table can pass it through the backend-neutral dataframe ingestion route, which
+consumes `__arrow_c_stream__` and `__dataframe__` without `voiage` importing
+`pandas`:
+
+```python
+import polars as pl
+from voiage.ingestion import from_dataframe
+from voiage.schema import ParameterSet, ValueArray
+
+value_bundle = from_dataframe(external_df, dataset_id="net-benefits")
+va = ValueArray.from_polars(pl.from_arrow(value_bundle.table("data")))
+
+param_bundle = from_dataframe(external_parameters_df, dataset_id="parameters")
+ps = ParameterSet.from_polars(pl.from_arrow(param_bundle.table("data")))
+```
 
 ## Migrating from 1.x to 2.0
 

@@ -16,9 +16,9 @@ All tasks are pending. Ownership: this track migrates every pandas reference and
 
 ## Phase 3: Excel
 
-- [ ] T3.1 — Record the current Excel engine, its extra and the existing fixtures.
-- [ ] T3.2 — Substitute the Polars-native engine, update the `excel` extra and record licence and wheel availability on the supported interpreter. (AC3).
-- [ ] T3.3 — Validate: Excel fixtures pass; a missing engine raises the documented error with no silent fallback; 3.15.1 wheel availability is demonstrated. (AC3).
+- [ ] T3.1 — Record the current Excel read and multi-sheet write engines, the `excel` extra and the existing fixtures.
+- [ ] T3.2 — Substitute Polars-native Excel reading (`fastexcel`/`calamine`) and multi-sheet writing (`xlsxwriter` with `pl.DataFrame.write_excel(workbook=wb, worksheet=table_name)`), update the `excel` extra to declare both, and record licence and wheel availability on the supported interpreter. (AC3).
+- [ ] T3.3 — Validate: Excel read and multi-sheet write fixtures pass; a missing engine raises the documented error with no silent fallback; wheel availability on the supported interpreter is demonstrated. (AC3).
 
 ## Phase 4: Packaging reconciliation
 
@@ -40,9 +40,9 @@ All tasks are pending. Ownership: this track migrates every pandas reference and
 
 ## Phase 7: Residual surfaces and zero-reference end state
 
-- [ ] T7.1 — Freeze the repository-wide `git grep -w` inventory of pandas and xarray outside `voiage/`: tests (8 modules mention pandas), docs (9 pages mention pandas), scripts (`hpc_package_smoke.py`, `simple_validation.py`, `validate_easybuild_root_graph.py`), `.github/workflows/dependency-preview.yml`, the EasyBuild and Spack overlays, SBOMs and solver logs; classify each hit as live dependency, live documentation, generated-code template, or frozen historical evidence.
-- [ ] T7.2 — Port or remove every live hit: the pandas snippet emitted into generated code at `voiage/ecosystem_integration.py:757` becomes Polars; live docs, scripts and the preview workflow drop pandas; live overlay dependency declarations are reconciled with the packaging set; frozen historical evidence (SBOMs, solver logs, dated release records) is left byte-unchanged. (AC8).
-- [ ] T7.3 — Validate: a test enforces an explicit allow-list (migration guide, translation reference, producer-compatibility tests, frozen historical evidence) and fails on any other pandas or xarray reference, including string literals and generated-code templates; the allow-list is recorded in the track; the overlay and packaging validators still pass. (AC8).
+- [ ] T7.1 — Freeze the repository-wide `git grep` inventory of `\bpandas\b`, `\bxarray\b`, `\bpd\.`, `\bxr\.`, and `itertuples` outside `voiage/`: tests (8 modules mention pandas), docs (9 pages mention pandas), scripts (`hpc_package_smoke.py`, `simple_validation.py`, `validate_easybuild_root_graph.py`), `.github/workflows/dependency-preview.yml`, the EasyBuild and Spack overlays, SBOMs and solver logs; classify each hit as live dependency, live documentation, generated-code template, or frozen historical evidence.
+- [ ] T7.2 — Port or remove every live hit: the pandas snippets emitted into generated notebook code at `voiage/ecosystem_integration.py` lines 757 (`import pandas as pd`), 827 (`pd.DataFrame(results)`), and 844 (`results_df.itertuples()`) become Polars (`import polars as pl`, `pl.DataFrame(results)`, `results_df.iter_rows(named=True)`); live docs, scripts and the preview workflow drop pandas; live overlay dependency declarations are reconciled with the packaging set; frozen historical evidence (SBOMs, solver logs, dated release records) is left byte-unchanged. (AC8).
+- [ ] T7.3 — Validate: a test enforces an explicit allow-list (migration guide, translation reference, producer-compatibility tests, frozen historical evidence) and fails on any other `pandas`, `xarray`, `pd.`, `xr.`, or `itertuples` reference, including string literals and generated-code templates; the allow-list is recorded in the track; the overlay and packaging validators still pass. (AC8).
 
 ## Final acceptance
 

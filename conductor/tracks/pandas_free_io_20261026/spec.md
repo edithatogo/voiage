@@ -14,7 +14,7 @@ Measured on the baseline:
 - `voiage/core/io.py` already reads and writes CSV with the standard library and NumPy.
 - `voiage/ingestion/dataframe.py` is backend-neutral by design, using `__dataframe__` and `__arrow_c_stream__` through PyArrow, and documents no pandas or Polars dependency.
 - Eight test modules mention pandas (`test_ecosystem_integration.py` and `test_standardized_ingestion_providers.py` among them); the two I/O modules are the only runtime importers.
-- `voiage/ecosystem_integration.py` emits an `import pandas as pd` snippet inside a generated-code string at line 757, which no import check can see.
+- `voiage/ecosystem_integration.py` emits an `import pandas as pd` snippet inside a generated-code string at line 757, `results_df = pd.DataFrame(results)` at line 827, and `for row in results_df.itertuples():` at line 844, which no import check or bare `pandas` word-grep can see.
 - pandas or xarray is also named by 9 docs pages, 3 scripts, `.github/workflows/dependency-preview.yml`, `conda-recipe/README.md`, the EasyBuild and Spack overlays, and frozen SBOM and solver-log evidence that must not be rewritten.
 - The declared dependency bounds disagree across surfaces on this baseline: `pyproject.toml` and `conda-recipe/meta.yaml` declare `pandas>=1.3,<3.0` and `xarray>=0.19,<2025.0`, while `tox.ini` typecheck pins `pandas>=3.0.3` and `xarray>=2026.7.0`. The contradiction predates this track and must be reconciled, not inherited.
 
@@ -49,9 +49,9 @@ Acceptance: every reader pins its dtype policy with explicit overrides or an exp
 
 ### AC3: Excel substitution
 
-The Excel reader requires an engine change, which is a dependency substitution rather than a drop-in replacement.
+Both the Excel reader (`import_health_data`) and the multi-sheet Excel writer (`export_health_data(..., format_type="xlsx")`) require engine substitutions rather than drop-in replacements.
 
-Acceptance: the engine (Polars' `calamine` default, or a named alternative) is recorded with its licence, wheel availability and behaviour on the supported interpreter; the `excel` extra declares the engine actually used; existing Excel fixtures pass; a missing engine fails with the documented error rather than a silent fallback.
+Acceptance: the read engine (Polars' `calamine`/`fastexcel` default, or a named alternative) and the multi-sheet write engine (`xlsxwriter` via `pl.DataFrame.write_excel(workbook=wb, worksheet=table_name)`) are recorded with their licences, wheel availability and behaviour on the supported interpreter; the `excel` extra declares both the read and write engines actually used; existing Excel read and write fixtures pass; a missing engine fails with the documented error rather than a silent fallback.
 
 ### AC4: Packaging reconciliation
 
@@ -75,7 +75,7 @@ Acceptance: no numerical path, container semantics, wire contract or binding cha
 
 Ownership split with `polars_container_20261026`: that track owns every xarray reference (runtime, tests, examples, scripts); this track owns every pandas reference and the repository-wide end-state check. Neither track edits the other's references; where one file holds both, the container track edits first and this track rebases. The end-state check cannot pass until the container track's AC8 has landed.
 
-Acceptance: a repository-wide `git grep -w` for `pandas` and `xarray` returns only entries on a recorded allow-list; the allow-list contains the v2-to-v3 migration guide, the translation reference, the explicitly marked producer-compatibility tests and frozen historical evidence, and nothing else; a test enforces it, including string literals and generated-code templates; live packaging overlays declare neither package. The Polars floor and ceiling are pinned with a recorded reason and the suite passes at both ends.
+Acceptance: a repository-wide `git grep` for `\bpandas\b`, `\bxarray\b`, `\bpd\.`, `\bxr\.`, and `itertuples` returns only entries on a recorded allow-list; the allow-list contains the v2-to-v3 migration guide, the translation reference, the explicitly marked producer-compatibility tests and frozen historical evidence, and nothing else; a test enforces it, including string literals and generated-code templates; live packaging overlays declare neither package. The Polars floor and ceiling are pinned with a recorded reason and the suite passes at both ends.
 
 ## Non-functional and external boundaries
 

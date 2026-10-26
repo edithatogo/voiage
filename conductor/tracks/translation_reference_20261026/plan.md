@@ -4,9 +4,9 @@ All tasks are pending. This track is registered planning only; implementation is
 
 ## Phase 1: Derived inventory
 
-- [ ] T1.1 — Freeze the derivation command over Voiage and the named consumer files; state the expected output shape before collecting idioms.
-- [ ] T1.2 — Build the idiom inventory with file and line citations, marking anticipatory entries explicitly. (AC1).
-- [ ] T1.3 — Validate: every entry cites real usage or is marked anticipatory; the derivation command and digest are recorded. (AC1).
+- [ ] T1.1 — Freeze the derivation command over Voiage and capture the `tobac` consumer idioms (`scripts/run_empirical_longitudinal.py`, `scripts/run_release_calibration.py`, `scripts/verify_empirical_longitudinal.py`) into a committed, digest-pinned JSON manifest (`tobac-consumer-idioms.json`) so CI never requires an external checkout; state the expected output shape before collecting idioms.
+- [ ] T1.2 — Build the idiom inventory with file and line citations (against Voiage and `tobac-consumer-idioms.json`), marking anticipatory entries explicitly. (AC1).
+- [ ] T1.3 — Validate: every entry cites real usage in Voiage or `tobac-consumer-idioms.json`, or is marked anticipatory; the derivation command and digests are recorded and hermetic. (AC1).
 
 ## Phase 2: Semantic reference
 

@@ -22,8 +22,8 @@
     {
       "id": "prerequisites",
       "kind": "repository",
-      "status": "pending",
-      "evidence": "The v3 contract revision is unstarted. specs/core-api/decision-record.md still names xarray as the Python reference model."
+      "status": "satisfied",
+      "evidence": "tabular_contract_v3_20261026 revised specs/core-api/decision-record.md and specs/core-api/foundation.md and added specs/v3/stable-api.json and specs/v3/compatibility-policy.json."
     },
     {
       "id": "implementation",

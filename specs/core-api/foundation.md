@@ -71,8 +71,7 @@ This split keeps v1 credible against the current open-source leaders while avoid
 - JSON Schema is the machine-readable contract layer.
 - Markdown is the normative layer for meaning, invariants, and workflow rules.
 - Python, R, and Julia are the initial runtime targets.
-- Xarray-labeled arrays, NumPy, optional JAX acceleration, and Arrow/Parquet interchange are part of the foundation, but only as explicitly scoped contracts.
-- Polars remains adapter-only tabular tooling and is not the canonical compute model.
+- Polars DataFrames (from contract v3.0.0, superseding the v1/v2 xarray container model), NumPy, optional JAX acceleration, and Arrow/Parquet interchange are part of the foundation, as explicitly scoped contracts.
 
 ## Capability Baseline
 
@@ -109,6 +108,6 @@ Later tracks must not re-litigate the following choices unless a spec revision i
 - Net-benefit-first is the public conceptual frame.
 - Markdown semantics and JSON Schema are the only authoritative contract layers.
 - Python, R, and Julia are the initial runtime targets.
-- Xarray-labeled arrays, NumPy, optional JAX, Arrow/Parquet, and adapter-only Polars are fixed infrastructure choices.
+- Polars DataFrames (from contract v3.0.0), NumPy, optional JAX, and Arrow/Parquet are fixed infrastructure choices.
 - v1 stable scope includes VOI metrics and CEA outputs, but not every extension family in the comparison scan.
 - Any behavior not expressible in the written contract is implementation detail, not contract surface.
