@@ -78,10 +78,15 @@ consumes `__arrow_c_stream__` and `__dataframe__` without `voiage` importing
 `pandas`:
 
 ```python
-from voiage.ingestion import adapt_dataframe_to_parameter_set, adapt_dataframe_to_value_array
+import polars as pl
+from voiage.ingestion import from_dataframe
+from voiage.schema import ParameterSet, ValueArray
 
-va = adapt_dataframe_to_value_array(external_df)
-ps = adapt_dataframe_to_parameter_set(external_parameters_df)
+value_bundle = from_dataframe(external_df, dataset_id="net-benefits")
+va = ValueArray.from_polars(pl.from_arrow(value_bundle.table("data")))
+
+param_bundle = from_dataframe(external_parameters_df, dataset_id="parameters")
+ps = ParameterSet.from_polars(pl.from_arrow(param_bundle.table("data")))
 ```
 
 ## Migrating from 1.x to 2.0
