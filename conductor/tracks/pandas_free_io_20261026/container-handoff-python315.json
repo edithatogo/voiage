@@ -1,10 +1,11 @@
 {
-  "accepted_container_revision": "03b278ba6ec32f8e0d5cd804ab10dcd1a113b2bd",
   "python": "3.15.1",
   "polars_floor": "2.1.0",
   "acceptance_receipt": "../polars_container_20261026/acceptance-python315.json",
   "performance_receipt": "../polars_container_20261026/benchmark-python315.json",
   "resume_at": "T1.2",
   "baseline_unchanged": true,
-  "dependency_removal_not_yet_implemented": true
+  "dependency_removal_not_yet_implemented": true,
+  "previous_accepted_container_revision": "03b278ba6ec32f8e0d5cd804ab10dcd1a113b2bd",
+  "status": "pending_numpy_ownership_requalification"
 }
