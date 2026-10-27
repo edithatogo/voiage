@@ -22,8 +22,8 @@ T1.1 baseline is frozen, T1.2 is merged in PR #1203, and Phase 2 qualifies the m
 
 ## Phase 4: Packaging reconciliation
 
-- [ ] T4.1 — Freeze the four dependency surfaces and their current disagreement; state the intended single set.
-- [ ] T4.2 — Reconcile `pyproject.toml`, `conda-recipe/meta.yaml` (and `conda-recipe/README.md`), `tox.ini` and the dependency-frontier configuration, including `.github/workflows/dependency-preview.yml`; remove pandas and xarray; retain polars and pyarrow; pin the Polars floor and ceiling with a recorded reason and run the suite at the floor and at the latest release. (AC4).
+- [x] T4.1 — Freeze the four dependency surfaces and their current disagreement; state the intended single set. See `phase-4-baseline.json`; runtime requirements exclude both legacy packages, while the unpublished producer-test group is isolated from wheel dependencies and default installs.
+- [~] T4.2 — Reconcile `pyproject.toml`, `conda-recipe/meta.yaml` (and `conda-recipe/README.md`), `tox.ini` and the dependency-frontier configuration, including `.github/workflows/dependency-preview.yml`; remove pandas and xarray; retain polars and pyarrow; pin the Polars floor and ceiling with a recorded reason and run the suite at the floor and at the latest release. (AC4).
 - [ ] T4.3 — Validate: the drift check fails on disagreement and passes on the reconciled set; a clean install resolves without pandas or xarray. (AC4).
 
 ## Phase 5: Enforcement

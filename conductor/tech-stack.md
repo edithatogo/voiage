@@ -118,3 +118,18 @@ entities/DTDs remain forbidden through the existing defusedxml dependency,
 which is now also declared by the Excel extra. No legacy reader fallback is
 introduced. Qualify whitespace-only and padded cells with the old producer
 oracle and repeat resource/coverage gates.
+
+### 2026-10-27 pandas-free packaging reconciliation
+
+One runtime policy binds PyPI core metadata, the Conda dependency block, tox
+Polars/Arrow floor/latest lanes and dependency-frontier/preview configuration.
+Keep Polars >=2.1.0,<3 (qualified 3.15.1 floor, major-version ceiling) and Arrow
+>=26.0.0,<27 for ingestion. Scientific core bounds remain unchanged. Remove
+pandas/xarray from runtime declarations and direct tox dependencies. Actual
+external-producer/oracle tests retain pandas in an unpublished PEP 735 group
+`producer-tests`; uv default groups are empty and test lanes opt in explicitly.
+The clean no-extras wheel closure must contain neither legacy package. This is
+test tooling, not a compatibility shim, optional production engine or full
+repository zero-reference acceptance. Retain Conda's immutable published source
+pin; the new dependency block is a next-release handoff, requiring a matching
+published migrated sdist and native Conda proof before release claims.
