@@ -420,16 +420,16 @@ jobs:
       PYTHON_VERSION: ${{ needs.resolve-tag.outputs.python_version }}
       EXPECTED_NATIVE_ARCHITECTURES: linux-x86_64,macos-arm64,windows-x86_64
     steps:
-      - name: Select qualified Python runtime
-        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
-        with:
-          python-version: "3.15.1"
       - name: Check out immutable release commit
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           fetch-depth: 0
           ref: ${{ needs.resolve-tag.outputs.tag_sha }}
           persist-credentials: false
+      - name: Select qualified Python runtime
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.15.1"
       - name: Revalidate remote tag binding
         shell: bash
         run: |

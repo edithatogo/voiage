@@ -308,7 +308,7 @@ mod tests {
         for (code, category, status) in cases {
             assert_eq!(code.category(), category);
             assert_eq!(code.abi_status(), status);
-            assert!(!code.as_str().is_empty());
+            assert_ne!(code.as_str(), "");
             assert_ne!(status.as_u32(), 0);
         }
     }

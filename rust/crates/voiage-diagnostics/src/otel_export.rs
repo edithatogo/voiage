@@ -190,7 +190,7 @@ mod tests {
             .with_capacity(1);
         let collector = TraceCollector::new(config);
         assert!(!collector.record(event("trace-2")));
-        assert!(collector.drain().is_empty());
+        assert_eq!(collector.drain(), [] as [TraceEvent; 0]);
     }
 
     #[test]

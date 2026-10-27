@@ -24,7 +24,7 @@
     "rust/Cargo.toml": "91c0037f1361b837afc5c45c1e1d6edec1f51b094ee2739cc963895e930c7c36",
     "rust/crates/voiage-diagnostics/Cargo.toml": "9234a8feff5362262664a7c92b37323829cc4f0da502ba068de057b1dc68ba85",
     "tests/test_dependency_promotion_policy.py": "9fbce90c4050c72cb1f247b9d1c3da16f280688a906813e5f1c8e0420fb4815e",
-    "rust/crates/voiage-diagnostics/src/lib.rs": "2fbcf3110440c53def078b8f0771b965a3cedf44b7751dc3df8b7d63377d4966"
+    "rust/crates/voiage-diagnostics/src/lib.rs": "634516d36bdb11795713c303ba932da9397c95a06de6827e59ffe737b180dda2"
   },
   "reserved_implementation_files": [
     "rust/crates/voiage-diagnostics/src/otel_export.rs",

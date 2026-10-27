@@ -40,8 +40,8 @@ fn two_strategy_frontier_is_preserved() {
         .expect("dominance should be computable");
 
     assert_eq!(result.frontier_indices, [0, 1]);
-    assert!(result.strongly_dominated_indices.is_empty());
-    assert!(result.extended_dominated_indices.is_empty());
+    assert_eq!(result.strongly_dominated_indices, [] as [usize; 0]);
+    assert_eq!(result.extended_dominated_indices, [] as [usize; 0]);
     assert_eq!(result.icers, [100.0]);
 }
 
@@ -69,9 +69,9 @@ fn duplicate_strategy_retains_the_first_and_extends_the_second() {
         dominance(&vector(&[10.0, 10.0]), &vector(&[1.0, 1.0])).expect("duplicates are valid");
 
     assert_eq!(result.frontier_indices, [0]);
-    assert!(result.strongly_dominated_indices.is_empty());
+    assert_eq!(result.strongly_dominated_indices, [] as [usize; 0]);
     assert_eq!(result.extended_dominated_indices, [1]);
-    assert!(result.icers.is_empty());
+    assert_eq!(result.icers, [] as [f64; 0]);
 }
 
 #[test]

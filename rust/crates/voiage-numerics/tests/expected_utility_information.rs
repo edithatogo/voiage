@@ -112,7 +112,10 @@ fn logarithmic_reference_preserves_buy_sell_asymmetry() {
                 && exclusion.reason == "utility_domain"
         }));
     assert!(!result.bpi_root.policy_switched);
-    assert!(result.bpi_root.transitions.is_empty());
+    assert_eq!(
+        result.bpi_root.transitions,
+        [] as [voiage_numerics::PolicyTransition; 0]
+    );
     assert_eq!(result.affine_reduction.status, "unavailable");
 }
 

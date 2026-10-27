@@ -42,10 +42,6 @@ jobs:
     name: Rust workspace
     runs-on: ubuntu-latest
     steps:
-      - name: Select qualified Python runtime
-        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
-        with:
-          python-version: "3.15.1"
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -58,6 +54,10 @@ jobs:
           tested_head="$(git rev-parse HEAD)"
           test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
           printf "### Exact source head\n\n\`%s\`\n" "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
+      - name: Select qualified Python runtime
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.15.1"
       - name: Compare C ABI with the v2.1.0 release baseline
         run: >-
           python3 scripts/check_abi_compatibility.py
@@ -88,15 +88,15 @@ jobs:
     name: Rust workspace (MSRV 1.85)
     runs-on: ubuntu-latest
     steps:
-      - name: Select qualified Python runtime
-        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
-        with:
-          python-version: "3.15.1"
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 0
           persist-credentials: false
+      - name: Select qualified Python runtime
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.15.1"
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
           toolchain: "1.85"
@@ -128,10 +128,6 @@ jobs:
       run:
         working-directory: bindings/julia
     steps:
-      - name: Select qualified Python runtime
-        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
-        with:
-          python-version: "3.15.1"
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -145,6 +141,10 @@ jobs:
           tested_head="$(git rev-parse HEAD)"
           test "${tested_head}" = "${EXPECTED_SOURCE_HEAD}"
           printf "### Exact source head\n\n\`%s\`\n" "${tested_head}" >> "${GITHUB_STEP_SUMMARY}"
+      - name: Select qualified Python runtime
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.15.1"
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
           toolchain: stable
@@ -289,15 +289,15 @@ jobs:
     needs: [rust, julia, r-native]
     runs-on: ubuntu-latest
     steps:
-      - name: Select qualified Python runtime
-        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
-        with:
-          python-version: "3.15.1"
       - name: Checkout exact source
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
+      - name: Select qualified Python runtime
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.15.1"
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
           version: "0.13.6"
