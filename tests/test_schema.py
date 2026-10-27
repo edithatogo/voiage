@@ -52,8 +52,9 @@ def test_value_array_from_polars_frame_is_independent_copy() -> None:
     value_array = ValueArray.from_polars(frame)
 
     exported = value_array.to_polars()
-    exported = exported.with_columns(pl.lit(99.0).alias("A"))
+    exported.replace_column(0, pl.Series("A", [99.0, 99.0]))
 
+    assert exported["A"].to_list() == [99.0, 99.0]
     assert value_array.numpy_values[0, 0] == pytest.approx(1.0)
 
 

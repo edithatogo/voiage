@@ -148,7 +148,9 @@ def test_value_array_copy_returns_independent_container() -> None:
     assert copied is not value_array
     assert copied == value_array
     copied_frame = copied.to_polars()
-    copied_frame = copied_frame.with_columns(pl.col("A").alias("A").cast(pl.Float64))
+    copied_frame.replace_column(0, pl.Series("A", [99.0, 99.0]))
+    assert copied_frame["A"].to_list() == [99.0, 99.0]
+    assert copied.to_polars()["A"].to_list() == [1.0, 3.0]
     assert value_array.to_polars().equals(
         pl.DataFrame({"A": [1.0, 3.0], "B": [2.0, 4.0]})
     )
