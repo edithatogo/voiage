@@ -1,6 +1,6 @@
 # Track: Pandas-free external I/O and packaging
 
-Status: in progress. Maintainer authorised the recommended follow-up on 2026-10-27. T1.1 inventory and signature baseline are frozen; migration and package-level acceptance remain pending.
+Status: in progress. Maintainer authorised the recommended follow-up on 2026-10-27. T1.1 inventory and signature baseline are frozen. T1.2 CSV/Parquet/widget migration is locally qualified on Python 3.15.1/Polars 2.1.0; see [acceptance evidence](./t12-acceptance-python315.json). T1.3 and later phases, including Excel and package-level acceptance, remain pending.
 
 GitHub issue: https://github.com/edithatogo/voiage/issues/1198 (parent: https://github.com/edithatogo/voiage/issues/1195)
 

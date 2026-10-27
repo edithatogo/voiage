@@ -1107,7 +1107,7 @@ track at the top of this registry; completed repository slices stay closed.
 ---
 - [~] **Track: Pandas-free external I/O and packaging**
   *Link: [./tracks/pandas_free_io_20261026/index.md](./tracks/pandas_free_io_20261026/index.md)*
-  **Follow-up authorised on 2026-10-27; T1.1 inventory frozen.** Depends on the container track for its package-level gate; reconciles four dependency surfaces and enforces the absence of pandas mechanically.
+  **Follow-up authorised on 2026-10-27; T1.1 frozen and T1.2 CSV/Parquet/widget paths qualified.** Depends on the container track for its package-level gate; reconciles four dependency surfaces and enforces the absence of pandas mechanically.
   GitHub: https://github.com/edithatogo/voiage/issues/1198
 
 ---

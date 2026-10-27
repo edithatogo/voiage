@@ -1,0 +1,154 @@
+{
+  "schema_version": "1.0",
+  "task": "T1.2",
+  "status": "locally_qualified",
+  "tested_commit": "30aac9bbdb88076a3e13a1f6dea3c12c0c40a485",
+  "tested_tree": "32aa7049bf692f80bcbab32127df5ca8f1288e63",
+  "baseline_commit": "b1c63e7f216f3ffee0871e634142026e2763eea8",
+  "python": "3.15.1",
+  "polars": "2.1.0",
+  "command": ".venv/bin/python scripts/guard_verification.py --work-dir .conductor/local/pandas-free-t12/final-tox -- .venv/bin/tox run-parallel -p 2 --result-json .conductor/local/pandas-free-t12/final-tox-result.json",
+  "tox_environments": {
+    "lint": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 4.5574350410024635,
+      "skipped": false
+    },
+    "vale": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 6.578550332982559,
+      "skipped": false
+    },
+    "joss": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 3.454225875029806,
+      "skipped": false
+    },
+    "harness": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 5.307134333008435,
+      "skipped": false
+    },
+    "typecheck": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 1.585506958013866,
+      "skipped": false
+    },
+    "docs": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 101.18823800003156,
+      "skipped": false
+    },
+    "ingestion-conformance": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 27.64572875003796,
+      "skipped": false
+    },
+    "frontier-contract": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.6000122500117868,
+      "skipped": false
+    },
+    "version-sync": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 1.3425414169905707,
+      "skipped": false
+    },
+    "py315": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 15.568669500004034,
+      "skipped": false
+    },
+    "min_versions": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 15.188622875022702,
+      "skipped": false
+    },
+    "max_versions": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 15.517119124997407,
+      "skipped": false
+    },
+    "coverage_report": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 327.3546719169826,
+      "skipped": false
+    }
+  },
+  "coverage_suite": {
+    "passed": 5253,
+    "skipped": 16
+  },
+  "coverage": {
+    "line-rate": "0.9591",
+    "branch-rate": "0.9314",
+    "lines-valid": "22305",
+    "lines-covered": "21393",
+    "branches-valid": "7898",
+    "branches-covered": "7356"
+  },
+  "adapter_coverage": {
+    "line-rate": "1",
+    "branch-rate": "1"
+  },
+  "resource_guard": {
+    "peak_rss_kib": 1932112,
+    "reason": "completed",
+    "returncode": 0,
+    "elapsed_seconds": 416.318,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-j995x15d"
+  },
+  "temporary_tree_removed": true,
+  "unchanged_callable_signatures": 40,
+  "signature_note": "Class-scoped AST comparison against accepted baseline; only the two private dataframe helper annotations change.",
+  "file_sha256": {
+    "voiage/_tabular_io.py": "2016c0ac59df1f05ac5f8f9a61e7f629feea00d45f5c7b46e61fce81b5ef6134",
+    "voiage/ecosystem_integration.py": "d165b9ec76cde36118ed39ec05bfc66be348493d6d455d714a54ae12ea1bcd52",
+    "voiage/widgets/voi_widgets.py": "62db8c08fa94708977325f0eb2e2f1b5d70354f7a03caf6b466217456424922f",
+    "tests/test_tabular_io_polars.py": "df47b883cca0592804a502cd976d6401760ac85a229c5b6f665f966908eb2b8c",
+    "tests/test_ecosystem_integration.py": "e1e3b73e23712c3e5c5baa01aed52342cd0e2ccc09bc11672c674368ea4c24c2",
+    "tests/fixtures/tabular_io/export-baseline.json": "7ad06cf02fe1ff474b433a26bafca1d078fef21c120615863eb0e1fc4d6730e2"
+  },
+  "remaining": [
+    "T1.3 full module absence gate",
+    "Phase 2 read/null policy",
+    "Phase 3 native Excel engines",
+    "Phase 4 dependency removal",
+    "Phases 5-7 package enforcement, producer and generated notebook/reference migration"
+  ],
+  "pr": "https://github.com/edithatogo/voiage/pull/1203",
+  "hosted_gate": "Required checks must pass on the final PR revision; see GitHub checks. No merge is claimed.",
+  "qualification_history": [
+    "Initial full gate: 5243 behavioral tests passed; three new-module inventory omissions failed. Fixed dispositions and current-membership tests; preserved dated audit hashes.",
+    "Automated review regression tests reproduced blank-line insertion, unnamed-header collision and late fractional-value truncation. Corrected all three and added BOM/carriage-return and malformed-input checks.",
+    "The intermediate coverage run was deliberately stopped through the guard before source edits; logs were retained and its task-owned temporary tree later removed.",
+    "Final signed candidate passed all 13 default tox environments; no source changes followed."
+  ],
+  "local_artifacts": {
+    "final-tox-result.json": {
+      "path": ".conductor/local/pandas-free-t12/final-tox-result.json",
+      "sha256": "4828395e73da7527154840f19d4f853972d5b49a27a670da4d8a15d92f5bc64c"
+    },
+    "final-tox.log": {
+      "path": ".conductor/local/pandas-free-t12/final-tox.log",
+      "sha256": "4d49047837225c30748a4a8423ec4f168ee7516c3e641180ec1a1c447d179637"
+    },
+    "temporary-cleanup.json": {
+      "path": ".conductor/local/pandas-free-t12/temporary-cleanup.json",
+      "sha256": "bc0e90e22bf3e944e453380e53cc422525f73bbd3dc7560aae1ea388e90d5c39"
+    }
+  }
+}
