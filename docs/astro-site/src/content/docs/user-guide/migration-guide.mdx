@@ -89,6 +89,26 @@ param_bundle = from_dataframe(external_parameters_df, dataset_id="parameters")
 ps = ParameterSet.from_polars(pl.from_arrow(param_bundle.table("data")))
 ```
 
+### External producer copy policy
+
+The ingestion adapter accepts caller-owned frames through the existing Arrow
+capsule or DataFrame-interchange protocols. The caller owns its producer
+installation; `voiage` does not import that library. Producer indexes remain
+excluded, with explicit bindings selecting the numerical columns.
+
+On the qualified Polars 2.1 path, numeric Arrow buffers are shared through the
+capsule interface. The normal `allow_copy=True` diagnostic stays
+`not_observable`: a shared numeric buffer in this fixture is not a guarantee
+for every dtype or producer. `allow_copy=False` preserves the existing strict
+policy. PyArrow tables support it; the qualified pandas floating-point fixture
+requires a validity-mask conversion, and Polars 2.1 has no `__dataframe__`
+fallback accepting that flag, so these frames retain the documented rejection.
+
+Non-conforming producers raise `ValueError` with
+`input does not satisfy the dataframe interchange protocol with the requested copy policy`.
+The error retains its underlying cause. No alternate persistence format or
+numerical conversion is introduced by producer qualification.
+
 ## Migrating from 1.x to 2.0
 
 v2 corrects the scientific model used by the built-in two-loop expected value

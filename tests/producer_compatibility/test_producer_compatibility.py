@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import builtins
 from contextlib import contextmanager
+from datetime import UTC, datetime
 import hashlib
 import importlib
 import json
@@ -184,14 +185,19 @@ def test_import_watcher_allows_external_producer_ownership() -> None:
     assert module is pd
 
 
-def test_fresh_consumer_import_and_conversion_keeps_legacy_imports_external(
-    frozen: dict[str, Any],
-) -> None:
+def test_fresh_consumer_import_and_conversion_keeps_legacy_imports_external() -> None:
     # The caller loads its producer first. Voiage must not request either legacy import.
     code = """
 import builtins, importlib, json, pathlib, sys
 import pandas as pd
 import polars as pl
+original_module = importlib.import_module
+def guarded_module(name, package=None):
+    owner = sys._getframe(1).f_globals.get('__name__', '')
+    if name.split('.',1)[0] in {'pandas','xarray'} and (owner == 'voiage' or owner.startswith('voiage.')):
+        raise AssertionError('Voiage requested legacy import: ' + name)
+    return original_module(name, package)
+importlib.import_module = guarded_module
 original = builtins.__import__
 def guarded(name, globals=None, *args, **kwargs):
     owner = (globals or {}).get('__name__', '')
@@ -222,3 +228,85 @@ print(json.dumps({'python':sys.version.split()[0], 'package':voiage.__file__, 'l
     )
     assert result.returncode == 0, result.stderr
     assert json.loads(result.stdout)["python"] == "3.15.1"
+
+
+@pytest.fixture(autouse=True)
+def qualified_interpreter_and_install_location() -> None:
+    """The dedicated lane must consume its own wheel in this process too."""
+    import voiage
+
+    assert sys.version_info[:3] == (3, 15, 1)
+    prefix = os.environ.get("VOIAGE_PRODUCER_PREFIX")
+    if prefix is not None:
+        assert Path(voiage.__file__).resolve().is_relative_to(Path(prefix).resolve())
+
+
+@pytest.mark.parametrize("kind", ["pandas", "polars"])
+def test_nullable_category_and_timezone_survive_external_handoff(kind: str) -> None:
+    """Keep each real producer's supported null/category/time semantics."""
+    instant = datetime(2026, 1, 1, tzinfo=UTC)
+    if kind == "pandas":
+        frame = pd.DataFrame(
+            {
+                "tier": pd.Series(["standard", None], dtype="category"),
+                "cost": pd.Series([10, None], dtype="Int64"),
+                "observed_at": pd.Series(pd.to_datetime([instant, None])),
+            }
+        )
+        frame.index = pd.Index([101, 102], name="source_index")
+    else:
+        frame = pl.DataFrame(
+            {
+                "tier": pl.Series(["standard", None], dtype=pl.Categorical),
+                "cost": pl.Series([10, None], dtype=pl.Int64),
+                "observed_at": pl.Series(
+                    [instant, None], dtype=pl.Datetime(time_zone="UTC")
+                ),
+            }
+        )
+    with _watch_runtime_imports():
+        bundle = from_dataframe(frame, dataset_id="nullable-producer")
+    assert bundle.table("data").to_pylist() == [
+        {"tier": "standard", "cost": 10, "observed_at": instant},
+        {"tier": None, "cost": None, "observed_at": None},
+    ]
+    details = bundle.manifest.model_dump(mode="json")["extensions"][
+        "voiage.dev:dataframe-interchange"
+    ]
+    fields = {item["field_id"]: item for item in details["field_decisions"]}
+    assert fields["tier"]["categorical"] is True
+    assert fields["observed_at"]["timezone"] == "UTC"
+    assert "source_index" not in bundle.table("data").column_names
+
+
+@pytest.mark.parametrize("kind", ["pandas", "polars"])
+def test_external_empty_typed_frame_retains_schema(kind: str) -> None:
+    """Zero rows must not silently discard caller-declared columns."""
+    frame = (
+        pd.DataFrame({"value": pd.Series([], dtype="float64")})
+        if kind == "pandas"
+        else pl.DataFrame({"value": pl.Series([], dtype=pl.Float64)})
+    )
+    with _watch_runtime_imports():
+        bundle = from_dataframe(frame, dataset_id="empty-producer")
+    assert bundle.table("data").num_rows == 0
+    assert bundle.table("data").schema == pa.schema([("value", pa.float64())])
+
+
+@pytest.mark.parametrize("kind", ["pandas", "polars"])
+def test_sliced_external_producer_preserves_selected_rows(
+    kind: str, frozen: dict[str, Any]
+) -> None:
+    """Sliced caller buffers may require copying, but cannot change rows."""
+    columns = {
+        name: [item for value in values for item in (value, 99.0)]
+        for name, values in frozen["columns"].items()
+    }
+    if kind == "pandas":
+        frame = pd.DataFrame(columns)
+        frame.index = pd.Index(range(6), name="source_index")
+        sliced = frame.iloc[::2]
+    else:
+        frame = pl.DataFrame(columns)
+        sliced = frame[::2]
+    assert _bundle(sliced, frozen).table("samples").to_pylist() == frozen["rows"]

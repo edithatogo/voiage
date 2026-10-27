@@ -1,6 +1,11 @@
 # Track: Pandas-free external I/O and packaging
 
-Status: in progress. Maintainer authorised the recommended follow-up on 2026-10-27. T1.1 inventory and signature baseline are frozen. T1.2 CSV/Parquet/widget migration is locally qualified on Python 3.15.1/Polars 2.1.0; see [acceptance evidence](./t12-acceptance-python315.json). PR #1203 merged T1.2. Phase 2 CSV/Parquet inference, null/NaN propagation and serialization are locally qualified; see [read-semantics evidence](./phase-2-acceptance-python315.json). T1.3 and Phases 3–7, including native Excel and package-level acceptance, remain pending.
+Status: in progress. T1.1/T1.2 and Phase 2 read semantics are implemented.
+Native Excel, packaging reconciliation and pandas-free enforcement were accepted
+in PRs #1205, #1206 and #1207. Phase 6 qualifies external producer compatibility
+on Python 3.15.1 under the resource guard. T1.3 generated-code references,
+Phase 7 repository cleanup and final whole-track acceptance remain open.
+Historical receipts retain the state of their tested candidates.
 
 GitHub issue: https://github.com/edithatogo/voiage/issues/1198 (parent: https://github.com/edithatogo/voiage/issues/1195)
 

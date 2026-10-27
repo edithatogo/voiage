@@ -326,8 +326,8 @@ jobs:
       env:
         CI: true
 
-    - name: Enforce installed no-extras runtime
-      run: uv run --frozen --no-sync tox run -e pandas-free
+    - name: Enforce installed base runtime and producer compatibility
+      run: uv run --frozen --no-sync tox run -e pandas-free,producer-compatibility
 
   ingestion-conformance:
     name: Standardized Ingestion Conformance
@@ -386,8 +386,8 @@ jobs:
     - name: Install only locked verification tools
       run: uv sync --frozen --only-group verification
 
-    - name: Verify real installed no-extras environment
-      run: uv run --frozen --no-sync tox run -e pandas-free
+    - name: Verify installed base runtime and caller-owned producers
+      run: uv run --frozen --no-sync tox run -e pandas-free,producer-compatibility
 
   excel-interchange:
     name: Excel Interchange Extra (${{ matrix.os }})
