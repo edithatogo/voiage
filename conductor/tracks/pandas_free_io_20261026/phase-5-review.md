@@ -36,3 +36,15 @@ one-hour/free-space limits, native thread limits, two coverage workers and
 owned temporary cleanup. Later producer/reference cleanup, native Conda release
 proof and the existing frontend audit findings remain separate gates. Exact
 revisions, source hashes and native reports are in `phase-5-acceptance-python315.json`.
+
+## Protected-check follow-through
+
+The final CI wiring also runs the source ban directly in the existing protected
+`Lint & Type Check` and the real no-extras lane in protected
+`Unit Tests (Python 3.15.1)`. This does not depend on adding new matrix job names
+to branch protection. The new contract was red before the change, then all 25
+enforcement controls and 11 harness cases passed. A fresh full 14-environment
+gate passed with 5,338 tests and 14 existing capability skips, 94.73% aggregate
+coverage and a 2,056,736 KiB guarded peak. The successful temporary tree was
+removed. See `phase-5-protected-ci-python315.json`; the earlier receipt retains
+its original candidate evidence. Hosted acceptance remains pending.

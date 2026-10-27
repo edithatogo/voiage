@@ -30,7 +30,7 @@ T1.1 baseline is frozen, T1.2 is merged in PR #1203, and Phase 2 qualifies the m
 
 - [x] T5.1 — Write the failing subprocess gate and the lint rule before the package is expected to satisfy them. See `phase-5-baseline.json`; real negative import/closure/shadow controls pass, while three wiring contracts fail before activation.
 - [x] T5.2 — Add the no-extras tox environment and the `sys.modules` assertion. (AC5).
-- [x] T5.3 — Validate: the gate fails when a pandas import is reintroduced and passes on the candidate; the lint rule has no exemption; the gate runs in hosted CI. (AC5). Local qualification: `phase-5-acceptance-python315.json` and `phase-5-review.md`; final hosted/platform acceptance remains a PR gate.
+- [x] T5.3 — Validate: the gate fails when a pandas import is reintroduced and passes on the candidate; the lint rule has no exemption; the gate runs in hosted CI. (AC5). Local qualification: `phase-5-acceptance-python315.json`, `phase-5-protected-ci-python315.json` and `phase-5-review.md`; final hosted/platform acceptance remains a PR gate.
 
 ## Phase 6: Producer compatibility and boundary
 

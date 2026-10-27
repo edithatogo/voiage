@@ -3,7 +3,7 @@
   "type": "refactor",
   "status": "in_progress",
   "created_at": "2026-10-26T00:00:00Z",
-  "updated_at": "2026-10-27T22:47:33Z",
+  "updated_at": "2026-10-27T23:15:03Z",
   "description": "Remove direct pandas use from external I/O and widgets, reconcile the four packaging surfaces and enforce the absence mechanically",
   "base_commit": "ca3f05cc8adcc74b99fe236152327d0cd3679553",
   "github_cross_reference": {
@@ -60,7 +60,7 @@
       "id": "pandas-free-enforcement",
       "kind": "repository",
       "status": "locally_qualified",
-      "evidence": "phase-5-acceptance-python315.json and phase-5-review.md: exemption-free AST source/stub imports, real no-extras installed-wheel probe, genuine negative controls and 14-environment full gate passed. Hosted platform acceptance pending; Phase 7 generated-code/reference cleanup stays open."
+      "evidence": "phase-5-protected-ci-python315.json and phase-5-review.md: 25 controls, all 14 tox environments and 5,338 tests pass; both existing protected lint/unit contexts enforce the gates. Hosted platform acceptance pending; Phase 7 generated-code/reference cleanup stays open."
     }
   ]
 }
