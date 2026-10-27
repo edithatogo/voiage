@@ -1,0 +1,5 @@
+{
+  "export_health_states.csv": "state_id,description,utility,cost,duration\nstable,Stable disease,0.85,50.0,1.0\n",
+  "export_cost_effectiveness.csv": "treatment,total_cost,total_qaly,net_monetary_benefit\nStandard Care,1000.0,8.639392643942738,430969.63219713693\nDrug A,1500.0,11.23121043712556,560060.521856278\n",
+  "export_treatments.csv": "name,description,effectiveness,cost_per_cycle,cycles_required,side_effect_utility,side_effect_cost\nStandard Care,Baseline,0.75,100.0,10,0.0,0.0\nDrug A,Intervention,0.9,150.0,10,0.0,0.0\n"
+}

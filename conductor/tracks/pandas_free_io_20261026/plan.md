@@ -5,7 +5,7 @@ T1.1 baseline is frozen; remaining tasks are pending. Ownership: this track migr
 ## Phase 1: Direct-use removal
 
 - [x] T1.1 — Freeze the current public signatures, return types and the exact `git grep` inventory of pandas imports; record the expected red result. See `phase-1-baseline.json` (36 hits, 42 signatures) and `inventory.md`.
-- [ ] T1.2 — Port `ecosystem_integration` CSV and Parquet paths and the widget CSV upload to Polars, preserving the public surface. (AC1).
+- [~] T1.2 — Port `ecosystem_integration` CSV and Parquet paths and the widget CSV upload to Polars, preserving the public surface. (AC1).
 - [ ] T1.3 — Validate: no `import pandas` remains in either module; existing ecosystem and widget tests pass unchanged; record command, environment and digest. (AC1).
 
 ## Phase 2: Read semantics

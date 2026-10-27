@@ -285,11 +285,11 @@ class VOIAnalysisWidget:
                     # Text/CSV file
                     import io
 
-                    import pandas as pd
+                    from voiage import _tabular_io
 
                     text_content = content.decode("utf-8")
-                    df = pd.read_csv(io.StringIO(text_content))
-                    np_data = df.values.astype(np.float64)
+                    df = _tabular_io.read_csv(io.StringIO(text_content))
+                    np_data = df.to_numpy().astype(np.float64)
                     self.net_benefits = ValueArray.from_numpy(np_data)
 
                 self.status_label.value = f"Net benefits loaded from {filename}"
@@ -323,12 +323,12 @@ class VOIAnalysisWidget:
                     # Text/CSV file
                     import io
 
-                    import pandas as pd
+                    from voiage import _tabular_io
 
                     text_content = content.decode("utf-8")
-                    df = pd.read_csv(io.StringIO(text_content))
+                    df = _tabular_io.read_csv(io.StringIO(text_content))
                     param_dict = {
-                        col: df[col].values.astype(np.float64) for col in df.columns
+                        col: df[col].to_numpy().astype(np.float64) for col in df.columns
                     }
                     self.parameters = ParameterSet.from_numpy_or_dict(param_dict)
 

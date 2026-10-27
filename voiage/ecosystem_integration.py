@@ -24,8 +24,9 @@ import warnings
 
 from defusedxml import ElementTree  # type: ignore[import-untyped]
 import numpy as np
-import pandas as pd
+import polars as pl
 
+from voiage import _tabular_io
 from voiage.exceptions import raise_type_error, raise_value_error
 from voiage.schema import ParameterSet, ValueArray
 
@@ -440,11 +441,23 @@ class DataFormatConnector(EcosystemConnector):
 
         try:
             if suffix == ".csv":
-                df = pd.read_csv(path_obj)
+                df = _tabular_io.read_csv(path_obj)
             elif suffix == ".xlsx":
-                df = pd.read_excel(path_obj)
+                # Excel retains its existing optional backend until Phase 3.
+                import pandas as pd
+
+                legacy_frame = pd.read_excel(path_obj)
+                return {
+                    "data_type": _infer_data_type(
+                        list(legacy_frame.columns), data_type
+                    ),
+                    "data": legacy_frame.to_dict("records"),
+                    "columns": list(legacy_frame.columns),
+                    "shape": legacy_frame.shape,
+                    "missing_values": legacy_frame.isnull().sum().to_dict(),
+                }
             elif suffix == ".parquet":
-                df = pd.read_parquet(path_obj)
+                df = _tabular_io.read_parquet(path_obj)
             elif suffix == ".json":
                 with open(path_obj) as f:
                     data = json.load(f)
@@ -474,7 +487,7 @@ class DataFormatConnector(EcosystemConnector):
         """
         try:
             # Create export data structure
-            export_data: dict[str, pd.DataFrame] = {}
+            export_data: dict[str, pl.DataFrame] = {}
 
             # Export treatments
             treatments_data = [
@@ -489,7 +502,7 @@ class DataFormatConnector(EcosystemConnector):
                 }
                 for treatment in health_analysis.treatments.values()
             ]
-            export_data["treatments"] = pd.DataFrame(treatments_data)
+            export_data["treatments"] = pl.DataFrame(treatments_data)
 
             # Export health states
             states_data = [
@@ -502,7 +515,7 @@ class DataFormatConnector(EcosystemConnector):
                 }
                 for state in health_analysis.health_states.values()
             ]
-            export_data["health_states"] = pd.DataFrame(states_data)
+            export_data["health_states"] = pl.DataFrame(states_data)
 
             # Export cost-effectiveness results
             ce_results = [
@@ -527,7 +540,7 @@ class DataFormatConnector(EcosystemConnector):
                     )
                 ]
             ]
-            export_data["cost_effectiveness"] = pd.DataFrame(ce_results)
+            export_data["cost_effectiveness"] = pl.DataFrame(ce_results)
 
             # Save to file
             output_path_obj = Path(output_path)
@@ -538,18 +551,22 @@ class DataFormatConnector(EcosystemConnector):
                         output_path_obj.parent
                         / f"{output_path_obj.stem}_{table_name}.csv"
                     )
-                    df.to_csv(table_path, index=False)
+                    _tabular_io.write_csv(df, table_path)
 
             elif format_type.lower() == "xlsx":
+                import pandas as pd
+
                 with pd.ExcelWriter(output_path_obj) as writer:
                     for table_name, df in export_data.items():
-                        df.to_excel(writer, sheet_name=table_name, index=False)
+                        pd.DataFrame(df.to_dicts()).to_excel(
+                            writer, sheet_name=table_name, index=False
+                        )
 
             elif format_type.lower() == "json":
                 # Convert DataFrames to JSON-serializable format
                 json_data: dict[str, list[dict[str, Any]]] = {}
                 for table_name, df in export_data.items():
-                    json_data[table_name] = df.to_dict("records")
+                    json_data[table_name] = _tabular_io.records(df)
 
                 with open(output_path_obj, "w") as f:
                     json.dump(json_data, f, indent=2, default=str)
@@ -557,29 +574,18 @@ class DataFormatConnector(EcosystemConnector):
         except Exception as e:
             warnings.warn(f"Error exporting health data: {e}", stacklevel=2)
 
-    def _process_dataframe(self, df: pd.DataFrame, data_type: str) -> dict[str, Any]:
+    def _process_dataframe(self, df: pl.DataFrame, data_type: str) -> dict[str, Any]:
         """Process imported dataframe."""
-        if data_type == "auto":
-            # Auto-detect data type based on columns
-            columns = [col.lower() for col in df.columns]
-
-            if any(col in ["treatment", "intervention", "drug"] for col in columns):
-                data_type = "treatments"
-            elif any(col in ["state", "health_state", "condition"] for col in columns):
-                data_type = "health_states"
-            elif any(col in ["cost", "price", "expense"] for col in columns):
-                data_type = "costs"
-            elif any(col in ["utility", "qaly", "effectiveness"] for col in columns):
-                data_type = "utilities"
-            else:
-                data_type = "generic"
-
         return {
-            "data_type": data_type,
-            "data": df.to_dict("records"),
+            "data_type": _infer_data_type(df.columns, data_type),
+            "data": _tabular_io.records(df),
             "columns": list(df.columns),
             "shape": df.shape,
-            "missing_values": df.isnull().sum().to_dict(),
+            "missing_values": {
+                name: series.null_count()
+                + (int(series.is_nan().sum()) if series.dtype.is_float() else 0)
+                for name, series in zip(df.columns, df, strict=True)
+            },
         }
 
     def _convert_json_to_dataframe(self, data: dict[str, Any]) -> dict[str, Any]:
@@ -592,12 +598,31 @@ class DataFormatConnector(EcosystemConnector):
         }
 
 
-def _load_tabular_artifact(path: Path) -> pd.DataFrame:
+def _infer_data_type(columns: list[str], data_type: str) -> str:
+    """Preserve the established automatic classification precedence."""
+    if data_type == "auto":
+        # Auto-detect data type based on columns
+        columns = [col.lower() for col in columns]
+
+        if any(col in ["treatment", "intervention", "drug"] for col in columns):
+            data_type = "treatments"
+        elif any(col in ["state", "health_state", "condition"] for col in columns):
+            data_type = "health_states"
+        elif any(col in ["cost", "price", "expense"] for col in columns):
+            data_type = "costs"
+        elif any(col in ["utility", "qaly", "effectiveness"] for col in columns):
+            data_type = "utilities"
+        else:
+            data_type = "generic"
+    return data_type
+
+
+def _load_tabular_artifact(path: Path) -> pl.DataFrame:
     suffix = path.suffix.lower()
     if suffix == ".csv":
-        return pd.read_csv(path)
+        return _tabular_io.read_csv(path)
     if suffix == ".parquet":
-        return pd.read_parquet(path)
+        return _tabular_io.read_parquet(path)
     return raise_value_error(
         f"Unsupported HEOML tabular artifact format: {path.suffix}"
     )
@@ -657,7 +682,7 @@ def load_heoml_run_bundle(manifest_path: str) -> HeomlRunBundle:
         voi_path = bundle_root / voi_artifact["path"]
         voi_frame = _load_tabular_artifact(voi_path)
         if "sample_index" in voi_frame.columns:
-            voi_frame = voi_frame.drop(columns=["sample_index"])
+            voi_frame = voi_frame.drop("sample_index")
         return ValueArray.from_numpy(
             voi_frame.to_numpy(),
             strategy_names=[str(column) for column in voi_frame.columns],
@@ -669,7 +694,7 @@ def load_heoml_run_bundle(manifest_path: str) -> HeomlRunBundle:
         parameter_path = bundle_root / parameter_artifact["path"]
         parameter_frame = _load_tabular_artifact(parameter_path)
         if "sample_index" in parameter_frame.columns:
-            parameter_frame = parameter_frame.drop(columns=["sample_index"])
+            parameter_frame = parameter_frame.drop("sample_index")
         return ParameterSet.from_numpy_or_dict(
             {
                 str(column): parameter_frame[column].to_numpy()

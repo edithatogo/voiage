@@ -4,7 +4,7 @@
 
 Baseline: `ca3f05cc8adcc74b99fe236152327d0cd3679553`. Follow root `AGENTS.md`. This track owns external input/output, the widget upload path, the packaging surfaces and the enforcement gates that keep pandas out.
 
-Prerequisite: `polars_container_20261026`. At the baseline, `voiage/ecosystem_integration.py` imported both `pandas` and `voiage.schema`, and `schema` imported xarray, which imported pandas. The container implementation now removes that xarray import locally; final package acceptance still requires the accepted container and the pandas-free gate. A package-level "no pandas" gate therefore cannot pass until the container swap has landed. Implementation may proceed in parallel; the gate may not.
+Prerequisite: `polars_container_20261026`. At the baseline, `voiage/ecosystem_integration.py` imported both `pandas` and `voiage.schema`, and `schema` imported xarray, which imported pandas. The container prerequisite was accepted in PR #1202, merged as `b1c63e7f216f3ffee0871e634142026e2763eea8` on 2026-10-27 with Python 3.15.1 and Polars 2.1.0 qualified. The package-level pandas-free gate remains pending until the later phases remove the remaining dependencies and references.
 
 ## Evidence basis
 

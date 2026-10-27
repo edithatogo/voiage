@@ -3,7 +3,7 @@
   "type": "chore",
   "status": "new",
   "created_at": "2026-10-26T00:00:00Z",
-  "updated_at": "2026-10-27T00:29:50Z",
+  "updated_at": "2026-10-27T05:00:00Z",
   "description": "Test-backed translation reference from the pandas and xarray idioms actually in use to their Polars equivalents and non-equivalences",
   "base_commit": "ca3f05cc8adcc74b99fe236152327d0cd3679553",
   "github_cross_reference": {
@@ -22,8 +22,8 @@
     {
       "id": "prerequisites",
       "kind": "repository",
-      "status": "pending",
-      "evidence": "The container implementation exists locally but its final qualification and merge are pending; the reference must describe the accepted container."
+      "status": "satisfied",
+      "evidence": "Container accepted in PR #1202, merged as b1c63e7f216f3ffee0871e634142026e2763eea8 on 2026-10-27; Python 3.15.1 and Polars 2.1.0 qualified. See ../polars_container_20261026/qualification-20261027.md and ../pandas_free_io_20261026/container-handoff-python315.json."
     }
   ]
 }

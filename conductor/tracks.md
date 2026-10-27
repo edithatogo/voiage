@@ -1101,7 +1101,7 @@ track at the top of this registry; completed repository slices stay closed.
 ---
 - [x] **Track: Polars-native core containers**
   *Link: [./tracks/polars_container_20261026/index.md](./tracks/polars_container_20261026/index.md)*
-  **Accepted on Python 3.15.1/Polars 2.1.0 after buffer-ownership requalification; the protected merge gate remains mandatory.** Replaces the xarray-backed `ValueArray`/`ParameterSet` containers with wide Polars frames at bit-identical numerical parity, removes xarray imports from `voiage/`, `tests/`, `examples/` and `scripts/`, and records a performance delta.
+  **Accepted and merged in PR #1202 (`b1c63e7f`) on 2026-10-27 with Python 3.15.1/Polars 2.1.0.** Replaces the xarray-backed `ValueArray`/`ParameterSet` containers with wide Polars frames at bit-identical numerical parity, removes xarray imports from `voiage/`, `tests/`, `examples/` and `scripts/`, and records a performance delta.
   GitHub: https://github.com/edithatogo/voiage/issues/1197
 
 ---
