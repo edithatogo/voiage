@@ -40,3 +40,8 @@ fictional key on the same path and the tree ID under a different key. The
 configuration itself has no findings. No broad scan/rule exclusion or history
 rewrite was introduced. See `phase-4-security-followup.json`; hosted rescanning
 remains required for the updated PR revision.
+
+The subsequent hosted coverage run identified a non-canonical acceptance
+metadata timestamp. It was reproduced locally, normalized to whole-second UTC
+with `Z`, and its failure-only registry-idempotence rerun passed. Runtime,
+dependency and test-infrastructure inputs remain unchanged.
