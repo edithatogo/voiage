@@ -26,7 +26,7 @@ from voiage.exceptions import (
 )
 
 if TYPE_CHECKING:
-    import jax.numpy as jnp
+    from jax import Array as JaxArray
 
 
 class _LazyJaxNumpy:
@@ -77,6 +77,11 @@ def _validate_float_frame(
                 f"{container} 'frame' has Array columns but 3D multi-perspective "
                 "inputs are not supported here."
             )
+        if any(dtype.inner != pl.Float64 for dtype in dtypes):
+            raise_input_error(
+                f"{container} 'frame' must contain Array(Float64, n) columns "
+                "with exactly one perspective dimension."
+            )
         widths = {dtype.size for dtype in dtypes}
         if len(widths) != 1:
             raise_input_error(
@@ -89,6 +94,10 @@ def _validate_float_frame(
         )
 
     if frame.null_count().sum_horizontal()[0] > 0:
+        raise_input_error(f"{container} 'frame' must not contain null values.")
+    if is_3d and any(
+        frame[column].arr.explode().null_count() for column in frame.columns
+    ):
         raise_input_error(f"{container} 'frame' must not contain null values.")
 
 
@@ -140,6 +149,9 @@ class ValueArray:
             raise_input_error(
                 "perspective_names are only valid for a 3D multi-perspective ValueArray."
             )
+        object.__setattr__(self, "frame", frame.clone())
+        if self.perspective_names is not None:
+            object.__setattr__(self, "perspective_names", list(self.perspective_names))
 
     @classmethod
     def from_polars(
@@ -176,7 +188,7 @@ class ValueArray:
         return np.column_stack([frame[column].to_numpy() for column in frame.columns])
 
     @property
-    def jax_values(self: "ValueArray") -> Optional["jnp.ndarray"]:
+    def jax_values(self: "ValueArray") -> Optional["JaxArray"]:
         """Return the net benefit values as a JAX array."""
         if not JAX_AVAILABLE:
             return None
@@ -243,7 +255,7 @@ class ValueArray:
     @classmethod
     def from_numpy(
         cls,
-        values: Union[np.ndarray, "jnp.ndarray"],
+        values: Union[np.ndarray, "JaxArray"],
         strategy_names: list[str] | None = None,
     ) -> "ValueArray":
         """Create a ValueArray from a numpy or JAX array.
@@ -286,7 +298,7 @@ class ValueArray:
     @classmethod
     def from_numpy_perspectives(
         cls,
-        values: Union[np.ndarray, "jnp.ndarray"],
+        values: Union[np.ndarray, "JaxArray"],
         strategy_names: list[str] | None = None,
         perspective_names: list[str] | None = None,
     ) -> "ValueArray":
@@ -354,7 +366,7 @@ class ValueArray:
 
     @classmethod
     def from_jax(
-        cls, values: "jnp.ndarray", strategy_names: list[str] | None = None
+        cls, values: "JaxArray", strategy_names: list[str] | None = None
     ) -> "ValueArray":
         """Create a ValueArray from a JAX array.
 
@@ -411,6 +423,7 @@ class ParameterSet:
     def __post_init__(self: "ParameterSet") -> None:
         """Validate the frame."""
         _validate_float_frame(self.frame, container="ParameterSet", supports_3d=False)
+        object.__setattr__(self, "frame", self.frame.clone())
 
     @classmethod
     def from_polars(cls, frame: pl.DataFrame) -> "ParameterSet":
@@ -429,7 +442,7 @@ class ParameterSet:
         }
 
     @property
-    def jax_parameters(self: "ParameterSet") -> dict[str, "jnp.ndarray"] | None:
+    def jax_parameters(self: "ParameterSet") -> dict[str, "JaxArray"] | None:
         """Return the parameter samples as JAX arrays."""
         if not JAX_AVAILABLE:
             return None
@@ -474,7 +487,7 @@ class ParameterSet:
     def from_numpy_or_dict(
         cls,
         parameters: Union[
-            np.ndarray, dict[str, np.ndarray], "jnp.ndarray", dict[str, "jnp.ndarray"]
+            np.ndarray, dict[str, np.ndarray], "JaxArray", dict[str, "JaxArray"]
         ],
     ) -> "ParameterSet":
         """Create a ParameterSet from a numpy/JAX array or dictionary.
@@ -533,7 +546,7 @@ class ParameterSet:
 
     @classmethod
     def from_jax(
-        cls, parameters: Union["jnp.ndarray", dict[str, "jnp.ndarray"]]
+        cls, parameters: Union["JaxArray", dict[str, "JaxArray"]]
     ) -> "ParameterSet":
         """Create a ParameterSet from a JAX array or dictionary.
 

@@ -1,5 +1,9 @@
 # Changelog
 
+- Enforce Float64 perspective-array validation, reject nested nulls and isolate
+  Polars containers from caller-owned frames and labels. Retain Python 3.15.1
+  qualification evidence and the pandas I/O baseline with final acceptance open.
+
 - Replace the xarray-backed `ValueArray` and `ParameterSet` containers with wide
   Polars frames (`frame`, `from_polars`, `to_polars`; `ValueArray.values` now
   returns a NumPy array), removing every xarray reference from the runtime,

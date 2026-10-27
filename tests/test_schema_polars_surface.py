@@ -248,3 +248,49 @@ def test_parameter_set_equality_covers_values_and_names() -> None:
     assert a == b
     assert a != c
     assert a != d
+
+
+@pytest.mark.parametrize(
+    ("dtype", "values"),
+    [
+        (pl.Array(pl.Int64, 2), [[1, 2]]),
+        (pl.Array(pl.String, 2), [["one", "two"]]),
+        (pl.Array(pl.Float64, (1, 2)), [[[1.0, 2.0]]]),
+    ],
+)
+def test_value_array_rejects_arrays_outside_float64_perspective_contract(
+    dtype: pl.DataType, values: list[object]
+) -> None:
+    frame = pl.DataFrame({"A": pl.Series("A", values, dtype=dtype)})
+    with pytest.raises(InputError, match="Array\\(Float64"):
+        ValueArray.from_polars(frame)
+
+
+def test_value_array_rejects_null_inside_perspective_array() -> None:
+    frame = pl.DataFrame(
+        {"A": pl.Series("A", [[1.0, None]], dtype=pl.Array(pl.Float64, 2))}
+    )
+    with pytest.raises(InputError, match="null"):
+        ValueArray.from_polars(frame)
+
+
+@pytest.mark.parametrize("container_type", [ValueArray, ParameterSet])
+def test_polars_container_owns_frame_separately_from_caller(
+    container_type: type[ValueArray | ParameterSet],
+) -> None:
+    frame = pl.DataFrame({"A": [1.0, 2.0]})
+    container = container_type.from_polars(frame)
+    frame.replace_column(0, pl.Series("A", [3.0, 4.0]))
+    assert container.to_polars().get_column("A").to_list() == [1.0, 2.0]
+
+
+def test_value_array_owns_perspective_labels_separately_from_caller() -> None:
+    names = ["health", "society"]
+    container = ValueArray.from_polars(
+        pl.DataFrame(
+            {"A": pl.Series("A", [[1.0, 2.0]], dtype=pl.Array(pl.Float64, 2))}
+        ),
+        perspective_names=names,
+    )
+    names[0] = "changed"
+    assert container.perspective_names == ["health", "society"]
