@@ -1,5 +1,9 @@
 # Changelog
 
+- Enforce the pandas/xarray-free base runtime with an exemption-free import lint
+  and a real no-extras installed-wheel gate on Python 3.15.1, including hosted
+  Linux, macOS and Windows checks.
+
 - Remove pandas and xarray from the base runtime dependency set and align
   packaging policies with the qualified Polars/Arrow versions. Keep external
   producer test tooling separate from published wheel requirements.

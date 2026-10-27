@@ -3,7 +3,7 @@
   "type": "refactor",
   "status": "in_progress",
   "created_at": "2026-10-26T00:00:00Z",
-  "updated_at": "2026-10-27T12:34:57Z",
+  "updated_at": "2026-10-27T22:47:33Z",
   "description": "Remove direct pandas use from external I/O and widgets, reconcile the four packaging surfaces and enforce the absence mechanically",
   "base_commit": "ca3f05cc8adcc74b99fe236152327d0cd3679553",
   "github_cross_reference": {
@@ -16,8 +16,8 @@
   ],
   "dependency_semantics": "Container prerequisite accepted in PR #1202. Final pandas-free package acceptance still requires the package-level gate; baseline xarray import and packaging bounds describe historical state.",
   "authorization": {
-    "scope": "Merge PR #1205 after its remaining check passes, then continue Phase 4 pandas-free runtime packaging reconciliation using Python 3.15.1 and the resource guard, preserving API and behavior.",
-    "source": "Direct user request on 2026-10-27."
+    "scope": "Merge PR #1206 after its final check passes, then implement Phase 5 pandas-free enforcement using Python 3.15.1 and the resource guard while preserving API and behavior.",
+    "source": "Direct user instruction on 2026-10-28."
   },
   "gates": [
     {
@@ -35,8 +35,8 @@
     {
       "id": "packaging-drift",
       "kind": "repository",
-      "status": "locally_qualified",
-      "evidence": "phase-4-acceptance-python315.json and phase-4-review.md: canonical runtime policy, four-surface mutation controls, clean no-extras wheel closure, floor/latest and producer isolation qualified. Hosted checks pending. Native Conda source/publication handoff and later migration phases remain open."
+      "status": "satisfied",
+      "evidence": "PR #1206 passed required, operational and final telemetry/oracle checks and merged as 63701cb80c66f86b62738560ffd49cc74e94e185. See Phase 4 receipts; native Conda release proof remains a separate gate."
     },
     {
       "id": "t12-polars-io",

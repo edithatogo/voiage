@@ -29,6 +29,7 @@ def test_runtime_source_has_no_legacy_imports() -> None:
         "import xarray",
         "from xarray.core import Dataset",
         "lazy import pandas",
+        "lazy from xarray import Dataset",
         "if False:\n    import xarray",
         "from typing import TYPE_CHECKING\nif TYPE_CHECKING:\n    import pandas",
         "import pandas  # noqa: TID251\n",
@@ -44,6 +45,11 @@ def test_source_lint_rejects_reintroduced_import_without_exemptions(
     result = scan_source(tmp_path)
     assert len(result) == 1
     assert result[0]["path"] == str(nested)
+
+
+def test_source_lint_includes_type_stubs(tmp_path: Path) -> None:
+    (tmp_path / "surface.pyi").write_text("from pandas import DataFrame\n")
+    assert scan_source(tmp_path)[0]["module"] == "pandas"
 
 
 def test_source_lint_does_not_mistake_metadata_or_templates_for_imports(
@@ -149,6 +155,9 @@ def test_hosted_ci_runs_the_real_no_extras_lane() -> None:
     assert not job.get("continue-on-error", False)
     commands = "\n".join(step.get("run", "") for step in job["steps"])
     assert "tox run -e pandas-free" in commands
+    assert "uv sync --frozen --only-group verification" in commands
+    assert "--extra ci" not in commands
+    assert "--group producer-tests" not in commands
     assert job["strategy"]["matrix"]["os"] == [
         "ubuntu-24.04",
         "macos-14",

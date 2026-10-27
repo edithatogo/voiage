@@ -326,6 +326,7 @@ arxiv-readability = "NLTK_DATA=.venv-arxiv/nltk_data .venv-arxiv/bin/python scri
 joss-validate = "python scripts/validate_joss.py"
 
 [dependency-groups]
+verification = ["tox>=4.67,<5", "tox-uv>=1.37,<2"]
 producer-tests = ["pandas>=3.1.0,<4"]
 
 [tool.uv]

@@ -36,7 +36,15 @@ print(json.dumps({"python": sys.version.split()[0], "installed_package": str(loc
 
 def scan_source(source: Path) -> list[dict[str, object]]:
     """Reject direct legacy imports in every Python file, regardless of pragmas."""
-    files = sorted(source.rglob("*.py")) if source.is_dir() else []
+    files = (
+        sorted(
+            path
+            for path in source.rglob("*")
+            if path.is_file() and path.suffix in {".py", ".pyi"}
+        )
+        if source.is_dir()
+        else []
+    )
     if not files:
         raise ValueError(f"No Python sources found: {source}")
     violations = []

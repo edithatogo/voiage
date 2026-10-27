@@ -154,3 +154,21 @@ Test setup uses `uv sync --extra ci --extra dev --group producer-tests`.
 
 Conda's immutable published source pin remains a separate release handoff.
 Dependency agreement and a clean wheel are not native Conda build acceptance.
+
+## Pandas-free enforcement
+
+The required lint lane runs `.venv/bin/python scripts/check_pandas_free.py
+--source voiage`. It rejects direct pandas/xarray import nodes in every Python
+source and type stub, including lazy, unreachable and type-only imports. It has
+no file exclusions and does not honor `noqa` or suppression pragmas. Templates
+and metadata strings are not import nodes; their separate repository-reference
+gate remains Phase 7.
+
+`tox run -e pandas-free` installs the real wheel with no extras, dependency
+groups or test dependencies. A fresh isolated Python 3.15.1 subprocess verifies
+that neither legacy distribution is installed and neither module is loaded by
+`import voiage`. It checks the package path against the tox environment to
+reject source shadowing. Negative controls demonstrate actual rejection.
+Linux, macOS and Windows CI use that same lane. The bootstrap's unpublished
+`verification` group contains only locked tox tools and is separate from the
+no-extras target environment and the producer-test group.
