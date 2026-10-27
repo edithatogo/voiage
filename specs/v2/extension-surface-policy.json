@@ -41,6 +41,7 @@
       "voiage/healthcare/**",
       "voiage/health_economics.py",
       "voiage/hta_integration.py",
+      "voiage/_tabular_io.py",
       "voiage/ecosystem_integration.py",
       "voiage/experimental_design.py",
       "voiage/ingestion/**",

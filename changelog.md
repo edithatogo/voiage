@@ -1,5 +1,9 @@
 # Changelog
 
+- Use Polars for ecosystem CSV/Parquet loading and widget CSV uploads,
+  preserving CSV payloads, export formatting and fail-soft diagnostics. Excel
+  retains its existing optional backend pending the dedicated migration.
+
 - Snapshot caller-owned NumPy buffers and borrowed Polars frames so later
   input mutations cannot change constructed containers or their copies.
 

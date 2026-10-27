@@ -3,7 +3,7 @@
   "type": "refactor",
   "status": "in_progress",
   "created_at": "2026-10-26T00:00:00Z",
-  "updated_at": "2026-10-27T00:29:50Z",
+  "updated_at": "2026-10-27T05:32:46Z",
   "description": "Remove direct pandas use from external I/O and widgets, reconcile the four packaging surfaces and enforce the absence mechanically",
   "base_commit": "ca3f05cc8adcc74b99fe236152327d0cd3679553",
   "github_cross_reference": {
@@ -14,10 +14,10 @@
   "depends_on": [
     "polars_container_20261026"
   ],
-  "dependency_semantics": "Container implementation exists locally. Final pandas-free package acceptance requires its accepted merge and the package-level gate; the earlier baseline description of schema importing xarray is historical.",
+  "dependency_semantics": "Container prerequisite accepted in PR #1202. Final pandas-free package acceptance still requires the package-level gate; baseline xarray import and packaging bounds describe historical state.",
   "authorization": {
-    "scope": "Recommended follow-up authorised by maintainer on 2026-10-27; begin with T1.1 inventory while container acceptance is qualified.",
-    "source": "Direct user instruction: Proceed with your recommendations"
+    "scope": "T1.1 inventory and T1.2 CSV/Parquet/widget migration authorised; preserve public API and behavior. Later phases remain pending.",
+    "source": "Direct user instruction on 2026-10-27 to update stale prerequisite records and implement pandas-free I/O T1.2."
   },
   "gates": [
     {
@@ -29,14 +29,20 @@
     {
       "id": "prerequisites",
       "kind": "repository",
-      "status": "pending",
-      "evidence": "The container implementation exists locally; final acceptance and hosted merge are pending. See ../polars_container_20261026/qualification-20261027.md."
+      "status": "satisfied",
+      "evidence": "Container accepted in PR #1202, merged as b1c63e7f216f3ffee0871e634142026e2763eea8 on 2026-10-27; Python 3.15.1 and Polars 2.1.0 qualified. See ../polars_container_20261026/qualification-20261027.md and ../pandas_free_io_20261026/container-handoff-python315.json."
     },
     {
       "id": "packaging-drift",
       "kind": "repository",
       "status": "pending",
       "evidence": "On the baseline, pyproject.toml and conda-recipe/meta.yaml declare pandas>=1.3,<3.0 and xarray>=0.19,<2025.0 while tox.ini typecheck pins pandas>=3.0.3 and xarray>=2026.7.0. The reconciliation is unstarted."
+    },
+    {
+      "id": "t12-polars-io",
+      "kind": "repository",
+      "status": "satisfied",
+      "evidence": "t12-acceptance-python315.json; qualified CSV/Parquet/widget paths, preserving the lazy Excel backend. Full module and package absence gates remain pending."
     }
   ]
 }

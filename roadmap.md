@@ -187,7 +187,8 @@ reference model: the v3 revision (`specs/v3/`) names Polars wide frames, and the
 container track has replaced `ValueArray`/`ParameterSet` with wide Polars frames
 at bit-identical numerical parity with no xarray imports remaining under
 `voiage/`, `tests/`, `examples/` and `scripts/`. The pandas-free I/O follow-up
-is authorised with its inventory frozen; the translation-reference track
+has completed T1.1 inventory and T1.2 CSV/Parquet/widget migration; the
+translation-reference track
 remains planning-only, and the declared `xarray` and
 `pandas` dependencies stay until `pandas_free_io_20261026`. The published 2.2.0
 release line and the active release-and-venue track are unaffected.

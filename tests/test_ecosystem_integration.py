@@ -1,6 +1,7 @@
 """Deterministic tests for ecosystem connector import/export helpers."""
 
 import json
+import os
 from unittest.mock import patch
 lazy from pathlib import Path
 
@@ -342,7 +343,7 @@ def test_data_format_connector_import_fails_soft_when_reader_errors(
     def _raise_read_error(*args, **kwargs):
         raise RuntimeError("boom")
 
-    monkeypatch.setattr(pd, "read_csv", _raise_read_error)
+    monkeypatch.setattr("voiage._tabular_io.pl.read_csv", _raise_read_error)
 
     assert connector.import_health_data(str(csv_path), data_type="auto") == {}
 
@@ -357,7 +358,7 @@ def test_data_format_connector_export_fails_soft_when_writer_errors(
     def _raise_to_csv(self, *args, **kwargs):
         raise RuntimeError("boom")
 
-    monkeypatch.setattr(pd.DataFrame, "to_csv", _raise_to_csv)
+    monkeypatch.setattr("voiage._tabular_io.write_csv", _raise_to_csv)
 
     connector.export_health_data(
         _build_analysis(), str(tmp_path / "health_export"), format_type="csv"
@@ -501,3 +502,17 @@ def test_quick_ecosystem_helpers_route_to_default_connectors(tmp_path: Path) -> 
     assert imported["data_type"] == "costs"
     assert notebook_path.exists()
     assert r_path.exists()
+
+
+def test_data_format_connector_preserves_csv_export_bytes(tmp_path: Path) -> None:
+    """Compare the pre-migration output captured at b1c63e7f byte for byte."""
+    DataFormatConnector().export_health_data(
+        _build_analysis(), str(tmp_path / "export")
+    )
+    baseline = json.loads(
+        (Path(__file__).parent / "fixtures/tabular_io/export-baseline.json").read_text()
+    )
+    assert {path.name: path.read_bytes() for path in tmp_path.glob("*.csv")} == {
+        name: content.replace("\n", os.linesep).encode("utf-8")
+        for name, content in baseline.items()
+    }
