@@ -95,9 +95,7 @@ def _validate_float_frame(
 
     if frame.null_count().sum_horizontal()[0] > 0:
         raise_input_error(f"{container} 'frame' must not contain null values.")
-    if is_3d and any(
-        frame[column].arr.explode().null_count() for column in frame.columns
-    ):
+    if is_3d and any(frame.select(pl.all().explode().null_count()).row(0)):
         raise_input_error(f"{container} 'frame' must not contain null values.")
 
 
