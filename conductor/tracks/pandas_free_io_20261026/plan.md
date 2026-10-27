@@ -26,7 +26,7 @@ T1.1 baseline is frozen, T1.2 is merged in PR #1203, and Phase 2 qualifies the m
 - [x] T4.2 — Reconcile `pyproject.toml`, `conda-recipe/meta.yaml` (and `conda-recipe/README.md`), `tox.ini` and the dependency-frontier configuration, including `.github/workflows/dependency-preview.yml`; remove pandas and xarray; retain polars and pyarrow; pin the Polars floor and ceiling with a recorded reason and run the suite at the floor and at the latest release. (AC4).
 - [x] T4.3 — Validate: the drift check fails on disagreement and passes on the reconciled set; a clean install resolves without pandas or xarray. (AC4). See `phase-4-acceptance-python315.json` and `phase-4-review.md`; producer tools are unpublished/opt-in, native Conda publication and later absence enforcement remain separate gates.
 
-## Phase 5: Enforcement [checkpoint: e38f2499]
+## Phase 5: Enforcement [checkpoint: 4bb03447]
 
 - [x] T5.1 — Write the failing subprocess gate and the lint rule before the package is expected to satisfy them. See `phase-5-baseline.json`; real negative import/closure/shadow controls pass, while three wiring contracts fail before activation.
 - [x] T5.2 — Add the no-extras tox environment and the `sys.modules` assertion. (AC5).
