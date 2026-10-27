@@ -34,3 +34,10 @@ condition = "AND"
 regexTarget = "line"
 paths = ['''(^|/)conductor/tracks/v2_2_release_and_venue_submissions_20260830/venue-authentext-audit-20260830\.json$''']
 regexes = ['''^\s*"authentext_commit":\s*"7f70dad5b6deab1af92faf037ef2638e7f3aea05",?\s*$''']
+
+[[rules.allowlists]]
+description = "Verified public core API Git tree ID in packaging qualification"
+condition = "AND"
+regexTarget = "line"
+paths = ['''(^|/)conductor/tracks/pandas_free_io_20261026/phase-4-acceptance-python315\.json$''']
+regexes = ['''^\s*"specs/core-api":\s*"3d5c0059778e303b466a58aa880badafc3e85eea",?\s*$''']

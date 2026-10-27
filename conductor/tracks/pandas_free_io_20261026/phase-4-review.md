@@ -29,3 +29,14 @@ has 29 advisories (10 high, 14 moderate, five low). No frontend dependency chang
 were made or audit success claimed. The historical Conda source version/hash is
 also retained; a matching published migrated sdist and native Conda proof are
 separate release gates. Hosted checks must pass on the delivered PR revision.
+
+## Hosted secret-scan follow-up
+
+The hosted generic API-key rule matched the public core API Git tree ID in the
+qualification receipt. Git verified that the value is the unchanged tree object.
+The correction matches only the complete field/value line in that exact receipt
+path. Native Gitleaks 8.30.1 history scanning passes. Controls still detect a
+fictional key on the same path and the tree ID under a different key. The
+configuration itself has no findings. No broad scan/rule exclusion or history
+rewrite was introduced. See `phase-4-security-followup.json`; hosted rescanning
+remains required for the updated PR revision.
