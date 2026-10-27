@@ -11,10 +11,10 @@ Author: voiage Development Team
 Version: 2.0.0
 """
 
-from collections.abc import Callable
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Protocol, cast
+lazy from collections.abc import Callable
 
 import jax.numpy as jnp
 

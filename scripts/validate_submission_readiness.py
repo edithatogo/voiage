@@ -616,7 +616,7 @@ def validate_ropensci_evidence(path: Path, root: Path) -> dict[str, Any]:
         record = json.loads(
             (
                 root
-                / "specs/submission-readiness/r-workflow-requalification-20260905.json"
+                / "specs/submission-readiness/r-workflow-requalification-20261027.json"
             ).read_text(encoding="utf-8")
         )
         content = (root / ".github/workflows/bindings-ci.yml").read_bytes()
@@ -625,7 +625,7 @@ def validate_ropensci_evidence(path: Path, root: Path) -> dict[str, Any]:
             "state": "hosted_pending",
             "workflow_sha256": digest,
             "historical_receipt": R_DISTRIBUTION_RECEIPT.as_posix(),
-            "reason": "Updated uv in cross-language conformance requires fresh hosted qualification.",
+            "reason": "Python 3.15.1 cross-language conformance requires fresh hosted qualification.",
             "current_workflow_qualified": False,
             "new_hosted_execution_claimed": False,
         }:

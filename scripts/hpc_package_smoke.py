@@ -150,7 +150,7 @@ def run_smoke(output: Path, source_archive: Path | None = None) -> None:
             if len(wheels) != 1:
                 raise RuntimeError("Expected exactly one built voiage wheel")  # noqa: TRY301
             receipt["wheel_sha256"] = hashlib.sha256(wheels[0].read_bytes()).hexdigest()
-            execute(["uv", "venv", "--python", "3.12", str(work / "consumer")], work)
+            execute(["uv", "venv", "--python", "3.15.1", str(work / "consumer")], work)
             python = work / "consumer/bin/python"
             constraints = work / "runtime-constraints.txt"
             constraints.write_text(

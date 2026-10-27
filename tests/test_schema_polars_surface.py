@@ -296,3 +296,43 @@ def test_value_array_owns_perspective_labels_separately_from_caller() -> None:
     )
     names[0] = "changed"
     assert container.perspective_names == ["health", "society"]
+
+
+def test_parameter_set_rejects_perspective_columns() -> None:
+    frame = pl.DataFrame(
+        {"theta": pl.Series("theta", [[1.0, 2.0]], dtype=pl.Array(pl.Float64, 2))}
+    )
+    with pytest.raises(InputError, match="not supported"):
+        ParameterSet.from_polars(frame)
+
+
+def test_value_array_rejects_inconsistent_perspective_widths() -> None:
+    frame = pl.DataFrame(
+        {
+            "A": pl.Series("A", [[1.0, 2.0]], dtype=pl.Array(pl.Float64, 2)),
+            "B": pl.Series("B", [[3.0, 4.0, 5.0]], dtype=pl.Array(pl.Float64, 3)),
+        }
+    )
+    with pytest.raises(InputError, match="same width"):
+        ValueArray.from_polars(frame)
+
+
+def test_value_array_validates_supplied_perspective_labels() -> None:
+    frame = pl.DataFrame(
+        {"A": pl.Series("A", [[1.0, 2.0]], dtype=pl.Array(pl.Float64, 2))}
+    )
+    with pytest.raises(InputError, match="must have 2 elements"):
+        ValueArray.from_polars(frame, perspective_names=["only one"])
+    with pytest.raises(InputError, match="only valid for a 3D"):
+        ValueArray.from_polars(pl.DataFrame({"A": [1.0]}), perspective_names=["payer"])
+
+
+def test_numpy_perspectives_default_labels_and_duplicate_strategy_rejection() -> None:
+    values = np.array([[[1.0, 2.0], [3.0, 4.0]]])
+    container = ValueArray.from_numpy_perspectives(values)
+    assert container.strategy_names == ["Strategy 0", "Strategy 1"]
+    assert container.perspective_names == ["Perspective 0", "Perspective 1"]
+    assert container.perspective_count == 2
+    with pytest.raises(InputError, match="unique"):
+        ValueArray.from_numpy_perspectives(values, strategy_names=["A", "A"])
+    assert ValueArray.from_numpy(np.array([[1.0]])).perspective_count is None

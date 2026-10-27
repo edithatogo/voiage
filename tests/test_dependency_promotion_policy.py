@@ -101,12 +101,12 @@ def test_preview_workflow_is_isolated_non_blocking_and_observational() -> None:
     assert job_blocks
     assert all("continue-on-error: true" in block for block in job_blocks)
     for candidate in (
-        "scipy-1.18",
-        "pandas-3",
-        "xarray-2026",
+        "scipy-current",
+        "pandas-current",
+        "xarray-current",
         "griffe-2",
-        "jax-0.11",
-        "ruff-0.16",
+        "jax-current",
+        "ruff-current",
     ):
         assert candidate in workflow
     assert "uv pip install --python .venv --upgrade --resolution highest" in workflow
@@ -118,7 +118,7 @@ def test_preview_workflow_is_isolated_non_blocking_and_observational() -> None:
         "mozilla-actions/sccache-action@d651010b8da762cde178750d8eda7b5febfe147a"
         in workflow
     )
-    assert "Python 3.15 prerelease" in workflow
+    assert "Python 3.15.1 qualification" in workflow
     assert "cargo-nextest and sccache observation" in workflow
     assert "without publishing artifacts" in workflow
 

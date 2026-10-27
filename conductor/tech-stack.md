@@ -1,20 +1,20 @@
 # voiage - Technology Stack
 
 ## Core Language
-- **Python**: >=3.12 through 3.14; a non-blocking Python 3.14t lane observes free-threaded compatibility
+- **Python**: >=3.15.1; a non-blocking Python 3.14t lane observes free-threaded compatibility
 - **Rust**: Stable toolchain for the execution core and native benchmarks
 
 ## Core Libraries
 - **NumPy**: >=2.2.6,<3 - Fundamental array computing
-- **SciPy**: >=1.16.3,<1.17 - Scientific computing algorithms
-- **pandas**: >=1.3,<3 - Data manipulation and analysis
-- **xarray**: >=0.19,<2025 - Labeled multi-dimensional arrays; retained as a declared dependency until `pandas_free_io_20261026`, no longer used by the `ValueArray`/`ParameterSet` containers (v3 contract)
-- **PyArrow**: >=25,<26 - schema-bearing interchange, Parquet, and IPC
-- **Polars**: >=1.42.1,<2 - Arrow-native dataframe interoperability; the in-memory tabular model for `ValueArray`/`ParameterSet` (v3 contract)
+- **SciPy**: >=1.18.1,<1.19 - Scientific computing algorithms
+- **pandas**: >=3.1,<4 - Data manipulation and analysis
+- **xarray**: >=2026.9,<2027 - Labeled multi-dimensional arrays; retained as a declared dependency until `pandas_free_io_20261026`, no longer used by the `ValueArray`/`ParameterSet` containers (v3 contract)
+- **PyArrow**: >=26,<27 - schema-bearing interchange, Parquet, and IPC
+- **Polars**: >=2.1,<3 - Arrow-native dataframe interoperability; the in-memory tabular model for `ValueArray`/`ParameterSet` (v3 contract)
 - **Pydantic**: >=2.13.4,<3 - Strict domain, configuration, and logging contracts
 
 ## Optional High-Performance Computing
-- **JAX**: >=0.7.1,<0.8 - Optional accelerator and research integrations only;
+- **JAX**: >=0.12.0.1,<0.13 - Optional accelerator and research integrations only;
   never a stable-core execution authority
 - **Spack**: HPC source package manager for reproducible scientific stacks
 - **EasyBuild**: Automated scientific software build/install framework for HPC

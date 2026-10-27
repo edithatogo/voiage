@@ -1,7 +1,7 @@
 """CLI contract tests for interoperability and standardization VOI."""
 
 import json
-from pathlib import Path
+lazy from pathlib import Path
 
 from typer.testing import CliRunner
 

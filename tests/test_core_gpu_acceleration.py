@@ -18,7 +18,7 @@ class _FakeTorchTensor:
         self.values = values
         self.is_cuda = is_cuda
 
-    def cpu(self) -> "_FakeTorchTensor":
+    def cpu(self) -> _FakeTorchTensor:
         return self
 
     def numpy(self) -> np.ndarray:
@@ -216,7 +216,7 @@ def test_array_to_cpu_auto_detect_backends(monkeypatch: pytest.MonkeyPatch) -> N
     class _FakeTorchTensorWithIsCuda:
         is_cuda = True
 
-        def cpu(self) -> "_FakeTorchTensorWithIsCuda":
+        def cpu(self) -> _FakeTorchTensorWithIsCuda:
             return self
 
         def numpy(self) -> np.ndarray:

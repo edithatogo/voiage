@@ -1,7 +1,7 @@
 """Fluent API for Value of Information analysis."""
 
-from types import TracebackType
 from typing import Self
+lazy from types import TracebackType
 
 import numpy as np
 
@@ -40,7 +40,7 @@ class FluentDecisionAnalysis(DecisionAnalysis):
 
     def with_parameters(
         self, parameter_samples: np.ndarray | ParameterSet | dict[str, np.ndarray]
-    ) -> "FluentDecisionAnalysis":
+    ) -> FluentDecisionAnalysis:
         """
         Set parameter samples for the analysis.
 
@@ -61,7 +61,7 @@ class FluentDecisionAnalysis(DecisionAnalysis):
             )
         return self
 
-    def with_backend(self, backend: str) -> "FluentDecisionAnalysis":
+    def with_backend(self, backend: str) -> FluentDecisionAnalysis:
         """
         Set the computational backend.
 
@@ -77,7 +77,7 @@ class FluentDecisionAnalysis(DecisionAnalysis):
         self.backend = get_backend(backend)
         return self
 
-    def with_jit(self, use_jit: bool = True) -> "FluentDecisionAnalysis":
+    def with_jit(self, use_jit: bool = True) -> FluentDecisionAnalysis:
         """
         Enable or disable JIT compilation.
 
@@ -91,7 +91,7 @@ class FluentDecisionAnalysis(DecisionAnalysis):
         self.use_jit = use_jit
         return self
 
-    def with_streaming(self, window_size: int) -> "FluentDecisionAnalysis":
+    def with_streaming(self, window_size: int) -> FluentDecisionAnalysis:
         """
         Enable streaming data support with specified window size.
 
@@ -106,7 +106,7 @@ class FluentDecisionAnalysis(DecisionAnalysis):
         self._initialize_streaming_buffers()
         return self
 
-    def with_caching(self, enable: bool = True) -> "FluentDecisionAnalysis":
+    def with_caching(self, enable: bool = True) -> FluentDecisionAnalysis:
         """
         Enable or disable caching.
 
@@ -128,7 +128,7 @@ class FluentDecisionAnalysis(DecisionAnalysis):
         | ParameterSet
         | dict[str, np.ndarray]
         | None = None,
-    ) -> "FluentDecisionAnalysis":
+    ) -> FluentDecisionAnalysis:
         """
         Add new data to the analysis (for streaming support).
 
@@ -149,7 +149,7 @@ class FluentDecisionAnalysis(DecisionAnalysis):
         time_horizon: float | None = None,
         discount_rate: float | None = None,
         chunk_size: int | None = None,
-    ) -> "FluentDecisionAnalysis":
+    ) -> FluentDecisionAnalysis:
         """
         Calculate the Expected Value of Perfect Information (EVPI).
 
@@ -181,7 +181,7 @@ class FluentDecisionAnalysis(DecisionAnalysis):
         | type[RegressionModelProtocol]
         | None = None,
         chunk_size: int | None = None,
-    ) -> "FluentDecisionAnalysis":
+    ) -> FluentDecisionAnalysis:
         """
         Calculate the Expected Value of Partial Perfect Information (EVPPI).
 

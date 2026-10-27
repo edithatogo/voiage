@@ -1,10 +1,10 @@
 """Parallel processing utilities for Monte Carlo simulations in Value of Information analysis."""
 
-from collections.abc import Callable
 from concurrent.futures import Executor, ProcessPoolExecutor, ThreadPoolExecutor
 from concurrent.futures.process import BrokenProcessPool
 from functools import partial
 import os
+lazy from collections.abc import Callable
 
 import numpy as np
 
@@ -24,7 +24,7 @@ def _execute_parallel_work[ParallelResult](
         try:
             with ProcessPoolExecutor(max_workers=n_workers) as executor:
                 return work(executor)
-        except (BrokenProcessPool, OSError, RuntimeError):
+        except BrokenProcessPool, OSError, RuntimeError:
             pass
 
     with ThreadPoolExecutor(max_workers=n_workers) as executor:

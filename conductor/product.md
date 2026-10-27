@@ -47,7 +47,7 @@ Fill the critical gap in the VOI ecosystem by providing a comprehensive, open-so
 - **Plotting**: Matplotlib/Seaborn integration for visualization
 
 ## Technology Stack
-- **Languages**: Rust core, Python 3.12-3.14, and supported binding runtimes for R and Julia; Mojo remains an upstream integration boundary
+- **Languages**: Rust core, Python 3.15.1, and supported binding runtimes for R and Julia; Mojo remains an upstream integration boundary
 - **Core Libraries**: NumPy, SciPy, pandas, xarray
 - **High-Performance**: JAX, NumPyro, Rust
 - **Machine Learning**: scikit-learn, statsmodels

@@ -43,7 +43,7 @@
     },
     {
       "path": "voiage/cli.py",
-      "sha256": "03109dfeb30b9fa6e010e7a7e24c1e0440aa7a60c94346570e56cde040f1c9d1"
+      "sha256": "c9d86df37661fa4bd0cb62280816270974745380ffd9e64c37a8bd65ede8939b"
     },
     {
       "path": "voiage/__init__.py",
@@ -89,5 +89,18 @@
     "role-separated subagent scientific panel and accountable owner decision",
     "hosted exact-head assurance and cross-language parity",
     "stable promotion, release and issue closure"
-  ]
+  ],
+  "runtime_requalification": {
+    "python": "3.15.1",
+    "date": "2026-10-27",
+    "reason": "Python 3.15 annotation modernization; numerical and fixture contracts unchanged",
+    "previous_evidence": "conductor/tracks/polars_container_20261026/pre-python315-evidence/value-of-distributional-information.json",
+    "source_hash_updates": [
+      {
+        "path": "voiage/cli.py",
+        "before": "03109dfeb30b9fa6e010e7a7e24c1e0440aa7a60c94346570e56cde040f1c9d1",
+        "after": "c9d86df37661fa4bd0cb62280816270974745380ffd9e64c37a8bd65ede8939b"
+      }
+    ]
+  }
 }

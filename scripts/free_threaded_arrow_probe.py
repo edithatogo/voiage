@@ -1,4 +1,4 @@
-"""Minimal Python 3.14t observation independent of the scientific stack."""
+"""Minimal Python 3.15.1t observation independent of the scientific stack."""
 
 from __future__ import annotations
 

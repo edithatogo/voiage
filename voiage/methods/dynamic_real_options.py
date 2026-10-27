@@ -1,12 +1,15 @@
 """Dynamic real-options value of information analysis."""
 
-from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
+from typing import TYPE_CHECKING
 
 import numpy as np
 
 from voiage.config import DEFAULT_DTYPE
 from voiage.exceptions import raise_input_error
+
+if TYPE_CHECKING:
+    from collections.abc import Mapping, Sequence
 
 
 @dataclass(frozen=True)

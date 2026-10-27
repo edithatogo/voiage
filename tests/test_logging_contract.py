@@ -43,13 +43,13 @@ def test_json_logging_carries_run_and_bound_context(tmp_path) -> None:
 
 def test_configuration_preserves_root_handlers() -> None:
     root = stdlib_logging.getLogger()
-    sentinel = stdlib_logging.NullHandler()
-    root.addHandler(sentinel)
+    sentinel_value = stdlib_logging.NullHandler()
+    root.addHandler(sentinel_value)
     try:
         logging_module.configure_logging(logging_module.LoggingSettings(console=False))
-        assert sentinel in root.handlers
+        assert sentinel_value in root.handlers
     finally:
-        root.removeHandler(sentinel)
+        root.removeHandler(sentinel_value)
 
 
 def test_shared_trace_context_is_w3c_compatible_and_strict() -> None:

@@ -1,0 +1,311 @@
+# pyproject.toml for voiage
+
+[build-system]
+requires = ["maturin>=1.9,<2.0"]
+build-backend = "build_backend"
+backend-path = ["."]
+
+[project]
+name = "voiage"
+dynamic = ["version"]
+description = "Value of Information analysis with a Rust core and Python, R, and Julia interfaces."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [
+  { name = "voiage Contributors", email = "voiage@users.noreply.github.com" },
+]
+keywords = [
+    "voi", "value of information", "evpi", "evppi", "evsi", "enbs",
+    "decision analysis", "health economics", "uncertainty quantification",
+    "bayesian analysis", "cost-effectiveness"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: Free Threading :: 2 - Beta",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+dependencies = [
+    "click>=8.3.3,<9",
+    "numpy>=2.2.6,<3.0",
+    "scipy>=1.16.3,<1.17",
+    "pandas>=1.3,<3.0",
+    "xarray>=0.19,<2025.0",
+    "scikit-learn>=1.7.2,<2.0",
+    "pyarrow>=25.0.0,<26",
+    "polars>=1.42.1,<2",
+    "pydantic>=2.13.4,<3",
+    "jsonschema>=4.26.0,<5.0",
+    "typing_extensions>=4.16.0",
+    "typer>=0.9,<1.0",
+]
+
+[project.optional-dependencies]
+# The built-in descriptor adapters deliberately use only the base Arrow/JSON
+# stack.  These named extras reserve stable installation surfaces for future
+# enhanced validators without coupling them to the calculation runtime.
+croissant = []
+frictionless = []
+ingestion = []
+ecosystem = ["defusedxml>=0.7.1,<1.0"]
+excel = ["openpyxl>=3.1.5,<4.0"]
+docs = ["griffe>=1.14.0,<2.0"]
+jax = [
+    "jax>=0.7.1,<0.8",
+]
+ci = [
+    "defusedxml>=0.7.1,<1.0",
+    "docutils>=0.23,<1",
+    "fastapi>=0.139.2,<1.0",
+    "httpx>=0.28.1,<1.0",
+    "hypothesis>=6.157.0,<7.0",
+    "jax>=0.7.1,<0.8",
+    "matplotlib>=3.4,<4.0",
+    "maturin>=1.9,<2.0",
+    "psutil>=5.9,<8.0",
+    "pytest>=9.1.1,<10.0",
+    "pytest-benchmark>=5.2.3,<6.0",
+    "pytest-cov>=7.1.0,<8.0",
+    "pytest-integration>=0.2.3,<0.3",
+    "pytest-xdist>=3.8.0,<4.0",
+    "PyYAML>=6.0.3,<7.0",
+    "rfc8785>=0.1,<0.2",
+    "tomli>=2.4.1,<3.0",
+]
+dev = [
+    "maturin>=1.9,<2.0",
+    "mutmut==3.6.0",
+    "scalene>=2.3.0,<3.0",
+    "ruff>=0.15.22,<0.16.0",
+    "bandit>=1.9.4,<2.0",
+    "nox>=2026.7.11,<2027",
+    "ty>=0.0.61,<1.0",
+    "basedpyright>=1.39.9,<2.0",
+    "types-setuptools>=83.0.0.20260716",
+    "types-requests>=2.33.0.20260712",
+    "jupyterlab>=4.6.2,<5.0",
+    "ipykernel>=7.3.0,<8",
+    "pre-commit>=4.6.0,<5.0",
+    "vulture>=2.16,<3.0",
+    "tox>=4.57.0,<5.0",
+    "tomli>=2.4.1,<3.0",
+]
+experimental = [
+    "duckdb>=1.5.4,<2",
+    "orjson>=3.11.9,<4",
+    "msgspec>=0.21.1,<1",
+]
+plotting = [
+    "matplotlib>=3.11.1,<4",
+    "seaborn>=0.13.2,<1",
+]
+performance = ["psutil>=5.9,<8.0"]
+deep_learning = ["torch>=2.13.0,<3.0"]
+web = ["fastapi>=0.139.2,<1.0", "httpx>=0.28.1,<1.0", "uvicorn>=0.51.0,<1.0"]
+
+[project.urls]
+Homepage = "https://github.com/edithatogo/voiage"
+Documentation = "https://edithatogo.github.io/voiage"
+Repository = "https://github.com/edithatogo/voiage"
+Changelog = "https://github.com/edithatogo/voiage/blob/main/changelog.md"
+Issues = "https://github.com/edithatogo/voiage/issues"
+
+[project.scripts]
+voiage = "voiage.cli:app"
+
+# --- Tool Configurations ---
+
+[tool.maturin]
+manifest-path = "rust/crates/voiage-python/Cargo.toml"
+python-source = "."
+module-name = "voiage._core"
+bindings = "pyo3"
+features = ["pyo3/extension-module"]
+locked = true
+include = [
+    { path = "build_backend.py", format = "sdist" },
+    { path = "specs/**/*.json", format = "sdist" },
+    { path = "rust/crates/voiage-python/source-provenance.txt", format = "sdist" },
+]
+
+# Generate the canonical CycloneDX SBOM in the supply-chain workflow. Maturin's
+# per-wheel Cargo SBOM embeds temporary build paths, which would make otherwise
+# identical wheels fail the reproducibility gate.
+[tool.maturin.sbom]
+rust = false
+
+[tool.voiage.release]
+python-abi = "cp312-abi3"
+architecture-policy = "native-runner"
+supported-runners = ["ubuntu-24.04", "macos-14", "windows-2025"]
+supported-native-architectures = ["linux-x86_64", "macos-arm64", "windows-x86_64"]
+
+[tool.ruff]
+target-version = "py312"
+exclude = [
+    "examples/",
+]
+# line-length = 88 # This is also a global setting, default is 88
+
+[tool.ruff.lint]
+select = [
+    "F", "E", "W", "I", "C90", "N", "D", "ANN", "S", "B", "A", "PT", "RUF",
+    "SIM", "C4", "RET", "SLF", "TRY", "RUF022", "RUF023", "PL", "FURB",
+    "UP", "YTT", "ASYNC", "TCH", "PYI", "Q", "FA", "PERF"
+]
+ignore = [
+    # Allowed: Any type is sometimes necessary for public APIs
+    "ANN401",
+    # DEFERRED → v1.1: Full type annotation coverage (563 manual fixes needed)
+    "ANN001", "ANN002", "ANN003", "ANN201", "ANN202", "ANN204",
+    # Line length handled by formatter
+    "E501",
+    # Assert statements needed in tests
+    "S101",
+    # Complexity limits - too strict for existing codebase
+    "C901", "PLR0913", "PLR0917", "PLR0912", "PLR0915",
+    # Exception message handling - stylistic
+    "TRY003", "EM101", "EM102",
+    # TODO/FIXME comments are useful
+    "FIX002", "TD002", "TD003",
+    # Private member access - internal module design choice
+    "SLF001",
+    # Magic value comparisons - stylistic, would require constants everywhere
+    "PLR2004",
+    # Import outside top-level - sometimes necessary for optional deps
+    "PLC0415",
+    # Variable naming in tests - non-lowercase common in pytest
+    "N806",
+]
+per-file-ignores = { "tests/**/*.py" = [
+    "B017",
+    "D",
+    "PT011",
+    "PLW1510",
+    "RUF043",
+    "S110",
+    "S603",
+    "SIM105",
+    "SIM117",
+] }
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.isort]
+known-first-party = ["voiage"]
+force-sort-within-sections = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.flake8-annotations]
+mypy-init-return = true
+suppress-dummy-args = true
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-ra -q --cov-config=pyproject.toml"
+testpaths = ["tests"]
+python_files = "test_*.py"
+markers = [
+    "unit: marks tests as unit tests",
+    "integration: marks tests as integration tests (deselect with '-m \"not integration\"')",
+    "e2e: marks tests as end-to-end tests (deselect with '-m \"not e2e\"')",
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "benchmark: marks tests as benchmark tests"
+]
+
+[tool.coverage.run]
+source = ["voiage"]
+branch = true
+omit = ["*/voiage/widgets/*", "voiage/widgets/*"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+fail_under = 90
+omit = ["*/voiage/widgets/*", "voiage/widgets/*"]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+]
+
+[tool.mutmut]
+source_paths = ["voiage/"]
+only_mutate = [
+    "voiage/contracts/capabilities.py",
+    "voiage/contracts/digests.py",
+]
+pytest_add_cli_args = ["-x", "--no-cov", "-p", "no:cacheprovider"]
+pytest_add_cli_args_test_selection = [
+    "tests/test_analysis_contracts.py",
+    "tests/test_calculation_kernel.py",
+    "tests/test_critical_invariants.py",
+    "tests/test_mutation_score.py",
+]
+also_copy = ["scripts/"]
+
+[tool.semantic_release]
+version_source = "tag"
+upload_to_pypi = true
+upload_to_release = true
+commit_message = "chore(release): {version} [skip ci]"
+commit_author = "github-actions[bot] <actions@github.com>"
+branch = "main"
+changelog_file = "changelog.md"
+
+[tool.taskipy.tasks]
+test = "uv run pytest tests/ -m 'not integration and not e2e and not benchmark' --cov=voiage --cov-report=term-missing"
+test-integration = "uv run pytest tests/ -m 'integration' --no-cov"
+test-e2e = "uv run pytest tests/ -m 'e2e' --no-cov"
+test-all = "uv run pytest tests/ --cov=voiage --cov-report=term-missing --cov-report=html"
+frontier-contract = "uv run python scripts/validate_frontier_contract.py"
+contracts = "uv run nox -s contracts"
+contracts-profile = "uv run nox -s contract_profile"
+contracts-mutation = "uv run nox -s contract_mutation"
+lint = "tox -e lint"
+vale = "bash scripts/vale_prose.sh"
+format = "uv run ruff format voiage tests"
+typecheck = "tox -e typecheck"
+security = "uv run ruff check voiage --select=S --ignore=S101"
+harness = "python scripts/repo_harness.py"
+profile = "uv run scalene run --use-legacy-tracer --cpu-only -o profile_results.json profile_scalene.py"
+mutmut = "uv run mutmut run"
+benchmark = "uv run pytest tests/ -m 'benchmark' --benchmark-only --no-cov"
+docs = "cd docs/astro-site && pnpm install --frozen-lockfile && pnpm run check && pnpm run build"
+precommit = "uv run pre-commit run --all-files"
+check = "tox"
+nox = "uv run nox"
+build = "uv build"
+publish-test = "uv publish --publish-url https://test.pypi.org/legacy/"
+publish = "uv publish"
+conda-build = "conda-build conda-recipe/ --python 3.12"
+refresh-registry-audit = "python scripts/refresh_binding_registry_audit.py"
+arxiv-readiness = "python scripts/build_arxiv_submission.py"
+arxiv-validate = "python scripts/validate_arxiv_manifest.py && python scripts/validate_arxiv.py paper"
+arxiv-variants = ".venv-arxiv/bin/python scripts/prepare_arxiv_variants.py"
+arxiv-readability = "NLTK_DATA=.venv-arxiv/nltk_data .venv-arxiv/bin/python scripts/audit_arxiv_readability.py build/arxiv/main.pdf build/arxiv/readability.json"
+joss-validate = "python scripts/validate_joss.py"

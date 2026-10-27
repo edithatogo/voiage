@@ -5,9 +5,7 @@
   "release_gate": "runtime-and-binding-conformance-required",
   "python": {
     "versions": [
-      "3.12",
-      "3.13",
-      "3.14"
+      "3.15"
     ],
     "platforms": [
       "linux",
@@ -16,11 +14,12 @@
     ],
     "reference_facade": true,
     "authoritative_numerics": "rust-for-shared-kernels",
-    "in_memory_tabular_model": "polars"
+    "in_memory_tabular_model": "polars",
+    "minimum_patch": "3.15.1"
   },
   "numerics": {
     "default_absolute_tolerance": 1e-10,
-    "default_relative_tolerance": 1e-8,
+    "default_relative_tolerance": 1e-08,
     "seed_type": "unsigned-64-bit-integer",
     "random_stream": "local-numpy-generator",
     "global_rng_access": "forbidden",

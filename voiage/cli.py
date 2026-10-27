@@ -254,7 +254,7 @@ def _module_available(name: str) -> bool:
     """Return whether an optional module can be imported successfully."""
     try:
         importlib.import_module(name)
-    except (ImportError, OSError, RuntimeError):
+    except ImportError, OSError, RuntimeError:
         return False
     return True
 

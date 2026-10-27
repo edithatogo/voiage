@@ -274,14 +274,14 @@ def calculate_diagnostics(
     # Calculate basic metrics
     try:
         r2 = model.score(x, y)
-    except (AttributeError, NotImplementedError):
+    except AttributeError, NotImplementedError:
         # If score method is not implemented, calculate it manually
         y_pred = _as_numpy(model.predict(x))
         r2 = _safe_r2_score(y, y_pred)
 
     try:
         rmse = model.rmse(x, y)
-    except (AttributeError, NotImplementedError):
+    except AttributeError, NotImplementedError:
         # If rmse method is not implemented, calculate it manually
         y_pred = _as_numpy(model.predict(x))
         rmse = _safe_rmse(y, y_pred)
@@ -1222,8 +1222,9 @@ class PyTorchNNMetamodel:  # pragma: no cover
     ) -> None:
         if not TORCH_AVAILABLE:
             raise_import_error(
-                "PyTorch is required for PyTorchNNMetamodel. "
-                "Please install it with `pip install torch`."
+                "PyTorch is unavailable for PyTorchNNMetamodel on the qualified "
+                "Python 3.15 runtime: stable CPython 3.15 wheels are not available. "
+                "Select a supported scikit-learn metamodel explicitly."
             )
 
         if hidden_layers is None:
@@ -1235,7 +1236,7 @@ class PyTorchNNMetamodel:  # pragma: no cover
         self.model: torch_nn.Module | None = None
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    def _build_model(self, input_dim: int, output_dim: int) -> "torch_nn.Module":
+    def _build_model(self, input_dim: int, output_dim: int) -> torch_nn.Module:
         """Build the neural network architecture."""
         layers = []
         # Input layer

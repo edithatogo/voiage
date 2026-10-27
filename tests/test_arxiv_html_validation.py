@@ -1,6 +1,6 @@
 """LaTeXML's zero exit status must not hide an omitted manuscript figure."""
 
-from pathlib import Path
+lazy from pathlib import Path
 
 import pytest
 

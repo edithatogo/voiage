@@ -35,7 +35,7 @@ def test_bridge_workflow_covers_supported_python_and_abi3_platforms() -> None:
     jobs = workflow["jobs"]
 
     python_matrix = jobs["python-compatibility"]["strategy"]["matrix"]
-    assert python_matrix == {"python": ["3.12", "3.13", "3.14"]}
+    assert python_matrix == {"python": ["3.15.1"]}
     assert jobs["python-compatibility"]["runs-on"] == "ubuntu-24.04"
 
     platform_matrix = jobs["abi3-platforms"]["strategy"]["matrix"]
@@ -55,12 +55,12 @@ def test_bridge_workflow_uses_locked_maturin_builds_and_import_checks() -> None:
     assert "maturin develop" not in rendered
     assert "PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b" in rendered
     assert (
-        "--locked --release --compatibility pypi --interpreter python3.12" in rendered
+        "--locked --release --compatibility pypi --interpreter python3.15" in rendered
     )
     assert "uv pip install" in rendered
     assert "uv pip check" in rendered
     assert "python -m zipfile -l" in rendered
-    assert workflow["env"]["VOIAGE_PYTHON_ABI"] == "cp312-abi3"
+    assert workflow["env"]["VOIAGE_PYTHON_ABI"] == "cp315-abi3"
     assert "cargo metadata --manifest-path rust/Cargo.toml --locked" in rendered
     assert "tests/test_runtime_adapter.py" in rendered
     assert "tests/packaging/test_wheel_black_box.py" in rendered
@@ -107,7 +107,7 @@ def test_bridge_workflow_installs_the_built_wheel_on_every_supported_runtime() -
     assert "locked-requirements.txt" not in compatibility
     assert "--no-deps" not in compatibility_install
     assert "uv pip check" in compatibility
-    assert "3.14" in compatibility
+    assert "3.15.1" in compatibility
     assert "maturin-action" in platforms
     assert "uv pip install" in platforms
     assert "locked-requirements.txt" not in platforms

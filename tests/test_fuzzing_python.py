@@ -74,7 +74,7 @@ def test_fuzz_evppi_calculation(n_samples: int, n_strategies: int) -> None:
         val = evppi(nb, params, parameters_of_interest=["theta_1"])
         assert np.isfinite(val)
         assert val >= -1e-6
-    except (ValueError, RuntimeError):
+    except ValueError, RuntimeError:
         # Degenerate parameter fits or small samples are permitted to fail explicitly
         pass
 

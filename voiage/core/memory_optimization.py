@@ -1,9 +1,9 @@
 """Memory optimization utilities for Value of Information analysis."""
 
-from collections.abc import Callable
 import gc
 from typing import Any
 import warnings
+lazy from collections.abc import Callable
 
 import numpy as np
 

@@ -386,7 +386,7 @@ def test_pending_r_qualification_cannot_claim_current_success(
 
     def read_text(path: Path, *args: object, **kwargs: object) -> str:
         content = original(path, *args, **kwargs)
-        if path.name == "r-workflow-requalification-20260905.json":
+        if path.name == "r-workflow-requalification-20261027.json":
             payload = json.loads(content)
             payload["current_workflow_qualified"] = True
             return json.dumps(payload)

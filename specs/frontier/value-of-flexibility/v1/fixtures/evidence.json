@@ -42,11 +42,11 @@
     },
     {
       "path": "voiage/methods/dynamic_real_options.py",
-      "sha256": "3cea41452b95d0b39a314f9b355af4d187686ef8dd828c2ab50e9aacc5f88af9"
+      "sha256": "f0a5a769031aa52ec4ac805cea61d5e48ecf1288b5c79727b72575e9eecd0b62"
     },
     {
       "path": "voiage/cli.py",
-      "sha256": "03109dfeb30b9fa6e010e7a7e24c1e0440aa7a60c94346570e56cde040f1c9d1"
+      "sha256": "c9d86df37661fa4bd0cb62280816270974745380ffd9e64c37a8bd65ede8939b"
     },
     {
       "path": "tests/test_value_of_flexibility.py",
@@ -64,5 +64,23 @@
       "path": "specs/frontier/value-of-flexibility/v1/README.md",
       "sha256": "85dde3bd809250998b4df9dc54c77c5473d7bf3bfe3c9272a58c94227a809b13"
     }
-  ]
+  ],
+  "runtime_requalification": {
+    "python": "3.15.1",
+    "date": "2026-10-27",
+    "reason": "Python 3.15 annotation modernization; numerical and fixture contracts unchanged",
+    "previous_evidence": "conductor/tracks/polars_container_20261026/pre-python315-evidence/value-of-flexibility.json",
+    "source_hash_updates": [
+      {
+        "path": "voiage/methods/dynamic_real_options.py",
+        "before": "3cea41452b95d0b39a314f9b355af4d187686ef8dd828c2ab50e9aacc5f88af9",
+        "after": "f0a5a769031aa52ec4ac805cea61d5e48ecf1288b5c79727b72575e9eecd0b62"
+      },
+      {
+        "path": "voiage/cli.py",
+        "before": "03109dfeb30b9fa6e010e7a7e24c1e0440aa7a60c94346570e56cde040f1c9d1",
+        "after": "c9d86df37661fa4bd0cb62280816270974745380ffd9e64c37a8bd65ede8939b"
+      }
+    ]
+  }
 }

@@ -1,5 +1,7 @@
 """Factory methods for creating common Value of Information analysis patterns."""
 
+from typing import TYPE_CHECKING
+
 import numpy as np
 
 from voiage.analysis import DecisionAnalysis
@@ -14,7 +16,9 @@ from voiage.config_objects import (
 )
 from voiage.fluent import FluentDecisionAnalysis, create_analysis
 from voiage.parallel.distributed import ClusterExecutionConfig
-from voiage.schema import ParameterSet, ValueArray
+
+if TYPE_CHECKING:
+    from voiage.schema import ParameterSet, ValueArray
 
 # Factory methods for common analysis patterns
 

@@ -13,7 +13,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass, field
 from importlib import import_module
 from importlib.util import find_spec
-from typing import TYPE_CHECKING, Optional, Union, cast
+from typing import TYPE_CHECKING, cast
 
 import numpy as np
 import polars as pl
@@ -38,7 +38,7 @@ class _LazyJaxNumpy:
 
 try:
     JAX_AVAILABLE = find_spec("jax") is not None
-except (ImportError, ModuleNotFoundError):
+except ImportError, ModuleNotFoundError:
     JAX_AVAILABLE = False
 jnp = _LazyJaxNumpy() if JAX_AVAILABLE else None
 
@@ -55,18 +55,14 @@ def _validate_float_frame(
     ``Float64`` (2D surface) or all ``Array(Float64, n)`` (3D multi-perspective
     surface) -- mixed dtypes are rejected, and an unrecognised/extra variable
     (any column that is neither) fails closed. Empty frames and null values are
-    rejected; Polars itself rejects duplicate column names at construction and
-    the defensive duplicate check below keeps that guarantee explicit.
+    rejected. Polars rejects duplicate column names before a DataFrame can
+    reach this validator; NumPy constructors also validate the supplied names.
     """
     role = "strategy" if container == "ValueArray" else "parameter"
     if not isinstance(frame, pl.DataFrame):
         raise_input_error(f"{container} 'frame' must be a polars.DataFrame.")
     if frame.width == 0:
         raise_input_error(f"{container} 'frame' must have at least one {role} column.")
-
-    columns = list(frame.columns)
-    if len(columns) != len(set(columns)):
-        raise_input_error(f"{container} 'frame' must have unique {role} names.")
 
     dtypes = list(frame.dtypes)
     is_3d = all(isinstance(dtype, pl.Array) for dtype in dtypes)
@@ -93,9 +89,11 @@ def _validate_float_frame(
             "Array(Float64, n) columns (3D); unrecognised extra variables are rejected."
         )
 
-    if frame.null_count().sum_horizontal()[0] > 0:
+    # Null counts are cached column metadata. Avoid launching query plans for
+    # these scalar validation checks on every container construction.
+    if any(column.null_count() for column in frame.iter_columns()):
         raise_input_error(f"{container} 'frame' must not contain null values.")
-    if is_3d and any(frame.select(pl.all().explode().null_count()).row(0)):
+    if is_3d and any(column.explode().null_count() for column in frame.iter_columns()):
         raise_input_error(f"{container} 'frame' must not contain null values.")
 
 
@@ -126,16 +124,14 @@ class ValueArray:
     frame: pl.DataFrame = field(repr=False)
     perspective_names: list[str] | None = field(default=None, repr=False)
 
-    def __post_init__(self: "ValueArray") -> None:
+    def __post_init__(self: ValueArray) -> None:
         """Validate the frame."""
         _validate_float_frame(self.frame, container="ValueArray", supports_3d=True)
 
         # Multi-perspective surface: perspective_names is a second dataclass
         # field; infer validation constraints here.
         frame = self.frame
-        if frame.width > 0 and all(
-            isinstance(dtype, pl.Array) for dtype in frame.dtypes
-        ):
+        if all(isinstance(dtype, pl.Array) for dtype in frame.dtypes):
             n_perspectives = cast("int", frame.dtypes[0].size)
             if self.perspective_names is not None and (
                 len(self.perspective_names) != n_perspectives
@@ -156,21 +152,21 @@ class ValueArray:
         cls,
         frame: pl.DataFrame,
         perspective_names: list[str] | None = None,
-    ) -> "ValueArray":
+    ) -> ValueArray:
         """Create a ValueArray from a wide Polars frame."""
         return cls(frame=frame, perspective_names=perspective_names)
 
-    def to_polars(self: "ValueArray") -> pl.DataFrame:
+    def to_polars(self: ValueArray) -> pl.DataFrame:
         """Return a deep copy of the wide Polars frame."""
         return self.frame.clone()
 
     @property
-    def values(self: "ValueArray") -> np.ndarray:
+    def values(self: ValueArray) -> np.ndarray:
         """Return the net benefit values as a NumPy array (2D or 3D)."""
         return self.numpy_values
 
     @property
-    def numpy_values(self: "ValueArray") -> np.ndarray:
+    def numpy_values(self: ValueArray) -> np.ndarray:
         """Return the net benefit values as a NumPy array.
 
         For the 2D surface this is ``(n_samples, n_strategies)``. For the 3D
@@ -186,28 +182,28 @@ class ValueArray:
         return np.column_stack([frame[column].to_numpy() for column in frame.columns])
 
     @property
-    def jax_values(self: "ValueArray") -> Optional["JaxArray"]:
+    def jax_values(self: ValueArray) -> JaxArray | None:
         """Return the net benefit values as a JAX array."""
         if not JAX_AVAILABLE:
             return None
         return jnp.asarray(self.numpy_values, dtype=jnp.float64)
 
     @property
-    def n_samples(self: "ValueArray") -> int:
+    def n_samples(self: ValueArray) -> int:
         """Return the number of samples."""
         return self.frame.height
 
     @property
-    def n_strategies(self: "ValueArray") -> int:
+    def n_strategies(self: ValueArray) -> int:
         """Return the number of strategies."""
         return self.frame.width
 
     @property
-    def strategy_names(self: "ValueArray") -> list[str]:
+    def strategy_names(self: ValueArray) -> list[str]:
         """Return the names of the strategies."""
         return list(self.frame.columns)
 
-    def copy(self: "ValueArray") -> "ValueArray":
+    def copy(self: ValueArray) -> ValueArray:
         """Return a deep copy of the ValueArray."""
         return ValueArray(
             frame=self.frame.clone(),
@@ -218,7 +214,7 @@ class ValueArray:
             ),
         )
 
-    def get_strategy_index(self: "ValueArray", strategy_name: str) -> int:
+    def get_strategy_index(self: ValueArray, strategy_name: str) -> int:
         """Return the integer index for a strategy name."""
         try:
             return self.strategy_names.index(strategy_name)
@@ -226,8 +222,8 @@ class ValueArray:
             raise_value_error(f"Strategy '{strategy_name}' not found.", exc)
 
     def slice_by_strategies(
-        self: "ValueArray", strategy_names: Sequence[str]
-    ) -> "ValueArray":
+        self: ValueArray, strategy_names: Sequence[str]
+    ) -> ValueArray:
         """Return a new ValueArray containing only the requested strategies."""
         indices = [self.get_strategy_index(name) for name in strategy_names]
         sliced = self.frame.select([self.strategy_names[i] for i in indices]).clone()
@@ -240,7 +236,7 @@ class ValueArray:
             ),
         )
 
-    def __eq__(self: "ValueArray", other: object) -> bool:
+    def __eq__(self: ValueArray, other: object) -> bool:
         """Compare ValueArray instances by frame contents and column names."""
         if not isinstance(other, ValueArray):
             return NotImplemented
@@ -253,9 +249,9 @@ class ValueArray:
     @classmethod
     def from_numpy(
         cls,
-        values: Union[np.ndarray, "JaxArray"],
+        values: np.ndarray | JaxArray,
         strategy_names: list[str] | None = None,
-    ) -> "ValueArray":
+    ) -> ValueArray:
         """Create a ValueArray from a numpy or JAX array.
 
         Args:
@@ -296,10 +292,10 @@ class ValueArray:
     @classmethod
     def from_numpy_perspectives(
         cls,
-        values: Union[np.ndarray, "JaxArray"],
+        values: np.ndarray | JaxArray,
         strategy_names: list[str] | None = None,
         perspective_names: list[str] | None = None,
-    ) -> "ValueArray":
+    ) -> ValueArray:
         """Create a multi-perspective ValueArray from a 3D array.
 
         Parameters
@@ -353,10 +349,8 @@ class ValueArray:
         return cls(frame=frame, perspective_names=list(perspective_names))
 
     @property
-    def perspective_count(self: "ValueArray") -> int | None:
+    def perspective_count(self: ValueArray) -> int | None:
         """Return the number of perspectives when the surface is 3D."""
-        if not self.frame.columns:
-            return None
         dtypes = self.frame.dtypes
         if all(isinstance(dtype, pl.Array) for dtype in dtypes):
             return cast("int", dtypes[0].size)
@@ -364,8 +358,8 @@ class ValueArray:
 
     @classmethod
     def from_jax(
-        cls, values: "JaxArray", strategy_names: list[str] | None = None
-    ) -> "ValueArray":
+        cls, values: JaxArray, strategy_names: list[str] | None = None
+    ) -> ValueArray:
         """Create a ValueArray from a JAX array.
 
         Args:
@@ -418,29 +412,29 @@ class ParameterSet:
 
     frame: pl.DataFrame = field(repr=False)
 
-    def __post_init__(self: "ParameterSet") -> None:
+    def __post_init__(self: ParameterSet) -> None:
         """Validate the frame."""
         _validate_float_frame(self.frame, container="ParameterSet", supports_3d=False)
         object.__setattr__(self, "frame", self.frame.clone())
 
     @classmethod
-    def from_polars(cls, frame: pl.DataFrame) -> "ParameterSet":
+    def from_polars(cls, frame: pl.DataFrame) -> ParameterSet:
         """Create a ParameterSet from a wide Polars frame."""
         return cls(frame=frame)
 
-    def to_polars(self: "ParameterSet") -> pl.DataFrame:
+    def to_polars(self: ParameterSet) -> pl.DataFrame:
         """Return a deep copy of the wide Polars frame."""
         return self.frame.clone()
 
     @property
-    def parameters(self: "ParameterSet") -> dict[str, np.ndarray]:
+    def parameters(self: ParameterSet) -> dict[str, np.ndarray]:
         """Return the parameter samples."""
         return {
             str(name): self.frame[str(name)].to_numpy() for name in self.frame.columns
         }
 
     @property
-    def jax_parameters(self: "ParameterSet") -> dict[str, "JaxArray"] | None:
+    def jax_parameters(self: ParameterSet) -> dict[str, JaxArray] | None:
         """Return the parameter samples as JAX arrays."""
         if not JAX_AVAILABLE:
             return None
@@ -450,22 +444,22 @@ class ParameterSet:
         }
 
     @property
-    def n_samples(self: "ParameterSet") -> int:
+    def n_samples(self: ParameterSet) -> int:
         """Return the number of samples."""
         return self.frame.height
 
     @property
-    def parameter_names(self: "ParameterSet") -> list[str]:
+    def parameter_names(self: ParameterSet) -> list[str]:
         """Return the names of the parameters."""
         return list(self.frame.columns)
 
-    def copy(self: "ParameterSet") -> "ParameterSet":
+    def copy(self: ParameterSet) -> ParameterSet:
         """Return a deep copy of the ParameterSet."""
         return ParameterSet(frame=self.frame.clone())
 
     def subset_by_parameters(
-        self: "ParameterSet", parameter_names: Sequence[str]
-    ) -> "ParameterSet":
+        self: ParameterSet, parameter_names: Sequence[str]
+    ) -> ParameterSet:
         """Return a new ParameterSet containing only the requested parameters."""
         parameter_list = list(parameter_names)
         missing = [name for name in parameter_list if name not in self.frame.columns]
@@ -475,7 +469,7 @@ class ParameterSet:
         subset = self.frame.select(parameter_list).clone()
         return ParameterSet(frame=subset)
 
-    def __eq__(self: "ParameterSet", other: object) -> bool:
+    def __eq__(self: ParameterSet, other: object) -> bool:
         """Compare ParameterSet instances by frame contents and column names."""
         if not isinstance(other, ParameterSet):
             return NotImplemented
@@ -484,10 +478,8 @@ class ParameterSet:
     @classmethod
     def from_numpy_or_dict(
         cls,
-        parameters: Union[
-            np.ndarray, dict[str, np.ndarray], "JaxArray", dict[str, "JaxArray"]
-        ],
-    ) -> "ParameterSet":
+        parameters: np.ndarray | dict[str, np.ndarray] | JaxArray | dict[str, JaxArray],
+    ) -> ParameterSet:
         """Create a ParameterSet from a numpy/JAX array or dictionary.
 
         Args:
@@ -543,9 +535,7 @@ class ParameterSet:
         return cls(frame=frame)
 
     @classmethod
-    def from_jax(
-        cls, parameters: Union["JaxArray", dict[str, "JaxArray"]]
-    ) -> "ParameterSet":
+    def from_jax(cls, parameters: JaxArray | dict[str, JaxArray]) -> ParameterSet:
         """Create a ParameterSet from a JAX array or dictionary.
 
         Args:
@@ -615,7 +605,7 @@ class DecisionOption:
     name: str
     sample_size: int
 
-    def __post_init__(self: "DecisionOption") -> None:
+    def __post_init__(self: DecisionOption) -> None:
         """Validate the decision option."""
         if not isinstance(self.name, str) or not self.name:
             raise_input_error("DecisionOption 'name' must be a non-empty string.")
@@ -629,7 +619,7 @@ class DecisionOption:
         return {"name": self.name, "sample_size": self.sample_size}
 
     @classmethod
-    def from_dict(cls, data: object) -> "DecisionOption":
+    def from_dict(cls, data: object) -> DecisionOption:
         """Deserialize a decision option from a dictionary."""
         if not isinstance(data, dict):
             raise_input_error("DecisionOption data must be a dictionary.")
@@ -673,7 +663,7 @@ class TrialDesign:
 
     arms: list[DecisionOption]
 
-    def __post_init__(self: "TrialDesign") -> None:
+    def __post_init__(self: TrialDesign) -> None:
         """Validate the trial design."""
         if not isinstance(self.arms, list) or not self.arms:
             raise_input_error(
@@ -692,7 +682,7 @@ class TrialDesign:
         return {"arms": [arm.to_dict() for arm in self.arms]}
 
     @classmethod
-    def from_dict(cls, data: object) -> "TrialDesign":
+    def from_dict(cls, data: object) -> TrialDesign:
         """Deserialize a trial design from a dictionary."""
         if not isinstance(data, dict):
             raise_input_error("TrialDesign data must be a dictionary.")
@@ -707,7 +697,7 @@ class TrialDesign:
         return cls(arms=option_arms)
 
     @property
-    def total_sample_size(self: "TrialDesign") -> int:
+    def total_sample_size(self: TrialDesign) -> int:
         """Return the total sample size across all arms."""
         return sum(arm.sample_size for arm in self.arms)
 
@@ -742,7 +732,7 @@ class PortfolioStudy:
     design: TrialDesign
     cost: float
 
-    def __post_init__(self: "PortfolioStudy") -> None:
+    def __post_init__(self: PortfolioStudy) -> None:
         """Validate the portfolio study."""
         if not isinstance(self.name, str) or not self.name:
             raise_input_error("PortfolioStudy 'name' must be a non-empty string.")
@@ -781,7 +771,7 @@ class PortfolioSpec:
     studies: list[PortfolioStudy]
     budget_constraint: float | None = None
 
-    def __post_init__(self: "PortfolioSpec") -> None:
+    def __post_init__(self: PortfolioSpec) -> None:
         """Validate the portfolio spec."""
         if not isinstance(self.studies, list) or not self.studies:
             raise_input_error(
@@ -831,7 +821,7 @@ class DynamicSpec:
 
     time_steps: Sequence[float]
 
-    def __post_init__(self: "DynamicSpec") -> None:
+    def __post_init__(self: DynamicSpec) -> None:
         """Validate the dynamic spec."""
         if not isinstance(self.time_steps, Sequence) or not self.time_steps:
             raise_input_error(
@@ -903,7 +893,7 @@ class Intervention:
         return result
 
     @classmethod
-    def from_dict(cls, data: object) -> "Intervention":
+    def from_dict(cls, data: object) -> Intervention:
         """Deserialize intervention from dictionary."""
         if not isinstance(data, dict):
             raise_input_error("Intervention data must be a dictionary.")
@@ -1047,7 +1037,7 @@ class DecisionProblem:
         return result
 
     @classmethod
-    def from_dict(cls, data: object) -> "DecisionProblem":
+    def from_dict(cls, data: object) -> DecisionProblem:
         """Deserialize decision problem from dictionary."""
         if not isinstance(data, dict):
             raise_input_error("DecisionProblem data must be a dictionary.")

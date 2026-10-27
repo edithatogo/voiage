@@ -21,23 +21,23 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - id: scipy-1.18
+          - id: scipy-current
             requirement: scipy>=1.18,<1.19
             command: pytest tests/test_numerical_reference_cases.py tests/test_core_metrics_regression.py --no-cov -q
-          - id: pandas-3
+          - id: pandas-current
             requirement: pandas>=3,<4
             command: pytest tests/test_dataframe_interchange_sdk.py tests/test_numerical_reference_cases.py --no-cov -q
-          - id: xarray-2026
+          - id: xarray-current
             requirement: xarray>=2026.7,<2027
             command: pytest tests/test_dataframe_interchange_sdk.py tests/test_numerical_reference_cases.py --no-cov -q
           - id: griffe-2
             requirement: griffe>=2.2,<3
             command: pytest tests/test_api_reference_docs.py tests/test_astro_docs_contract.py --no-cov -q
-          - id: jax-0.11
-            requirement: jax[cpu]>=0.11,<0.12
+          - id: jax-current
+            requirement: jax[cpu]>=0.12.0.1,<0.13
             command: pytest tests/test_backends.py tests/test_numerical_reference_cases.py --no-cov -q
-          - id: ruff-0.16
-            requirement: ruff>=0.16,<0.17
+          - id: ruff-current
+            requirement: ruff>=0.17.2,<0.18
             command: ruff check voiage tests scripts
     steps:
       - name: Check out exact source
@@ -52,7 +52,7 @@ jobs:
       - name: Set up stable Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.14"
+          python-version: "3.15.1"
       - name: Install frozen stable reference environment
         run: uv sync --frozen --extra ci --extra experimental
       - name: Overlay one isolated preview candidate
@@ -79,7 +79,7 @@ jobs:
           retention-days: 14
 
   python-prerelease-observation:
-    name: Python 3.15 prerelease
+    name: Python 3.15.1 qualification
     continue-on-error: true
     runs-on: ubuntu-latest
     steps:
@@ -93,8 +93,7 @@ jobs:
           enable-cache: false
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15-dev"
-          allow-prereleases: true
+          python-version: "3.15.1"
       - name: Observe prerelease compatibility without publishing artifacts
         run: |
           uv sync --extra ci
@@ -121,7 +120,7 @@ jobs:
           cache-dependency-glob: "uv.lock"
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.14"
+          python-version: "3.15.1"
       - name: Install frozen test environment
         run: uv sync --frozen --extra ci
       - name: Run one stable deterministic partition

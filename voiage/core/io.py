@@ -1,15 +1,17 @@
 """Input/Output utilities for voiage."""
 
-from collections.abc import Callable, Sequence
 import csv
 import importlib
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
 from voiage.config import DEFAULT_DTYPE
 from voiage.exceptions import InputError
 from voiage.schema import ParameterSet, ValueArray
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, Sequence
 
 _OPTION_NAME_COUNT_MISMATCH = (
     "Number of option_names does not match number of strategies."
@@ -19,7 +21,7 @@ _PARAMETER_NAME_COUNT_MISMATCH = (
 )
 
 
-def _read_value_array_error(filepath: str, exc: Exception) -> "FileFormatError":
+def _read_value_array_error(filepath: str, exc: Exception) -> FileFormatError:
     return FileFormatError(
         f"Failed to read ValueArray from CSV file '{filepath}': {exc}"
     )
@@ -29,7 +31,7 @@ def _write_value_array_error(filepath: str, exc: Exception) -> OSError:
     return OSError(f"Failed to write ValueArray to CSV file '{filepath}': {exc}")
 
 
-def _read_parameter_set_error(filepath: str, exc: Exception) -> "FileFormatError":
+def _read_parameter_set_error(filepath: str, exc: Exception) -> FileFormatError:
     return FileFormatError(
         f"Failed to read ParameterSet from CSV file '{filepath}': {exc}"
     )

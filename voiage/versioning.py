@@ -6,7 +6,6 @@ only when they exactly encode that workspace version.
 """
 
 import argparse
-from collections.abc import Callable
 from dataclasses import dataclass
 import json
 from pathlib import Path
@@ -14,6 +13,7 @@ import re
 import sys
 import tomllib
 from typing import Any
+lazy from collections.abc import Callable
 
 from defusedxml import ElementTree
 

@@ -6,7 +6,7 @@ We welcome contributions from the community, whether from humans or AI agents. T
 
 ### Prerequisites
 
-*   Python 3.12-3.14
+*   Python 3.15.1
 *   [Rust](https://www.rust-lang.org/tools/install) 1.85 or later for source builds
 *   [uv](https://docs.astral.sh/uv/) for locked environments and builds
 *   [pre-commit](https://pre-commit.com/#installation) for automated checks

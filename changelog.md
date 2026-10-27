@@ -1,5 +1,14 @@
 # Changelog
 
+- Qualify the Python 3.15.1 runtime and Polars 2.1 dependency floor across
+  development, native packaging and CI. Retain the optional PyTorch API with
+  an explicit unavailable diagnostic until stable Python 3.15 wheels exist.
+- Avoid per-construction query plans in container null validation while
+  retaining nested-null rejection and the original performance bounds.
+
+- Bound local verification memory, runtime and temporary-disk consumption with
+  a process-group watchdog, two coverage workers and native thread limits.
+
 - Enforce Float64 perspective-array validation, reject nested nulls and isolate
   Polars containers from caller-owned frames and labels. Retain Python 3.15.1
   qualification evidence and the pandas I/O baseline with final acceptance open.

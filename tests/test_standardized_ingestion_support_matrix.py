@@ -26,7 +26,7 @@ def test_support_matrix_matches_provider_capabilities_and_optional_extras() -> N
     matrix = _matrix()
     assert matrix["schema_version"] == "voiage-ingestion-support-matrix-v1"
     assert matrix["runtime"] == {
-        "python_supported": ["3.12", "3.13", "3.14"],
+        "python_supported": ["3.15.1"],
         "python_free_threaded": "observation-only",
     }
     providers = cast("dict[str, dict[str, object]]", matrix["providers"])

@@ -59,7 +59,7 @@ Install the released Python package:
 python -m pip install voiage
 ```
 
-Python 3.12, 3.13, and 3.14 are supported. Wheels use the CPython 3.12 stable
+Python 3.15.1 are supported. Wheels use the CPython 3.15 stable
 ABI and are published for the platforms listed in the
 [v2.1.0 release](https://github.com/edithatogo/voiage/releases/tag/v2.1.0).
 
@@ -238,7 +238,7 @@ The repository applies different forms of evidence to different failure modes:
 | Coverage | Branch coverage, changed-line policy, critical-module checks, Codecov, and a 90% Python threshold |
 | Rust-specific assurance | MSRV, Clippy, Miri, fuzzing, sanitizer jobs, advisory and license policy |
 | Supply chain | Pinned Actions, Dependency Review, OpenSSF Scorecard, Zizmor, SBOMs, checksums, provenance attestations, and release signatures |
-| Platform assurance | Linux, macOS, Windows, UTF-8/LF, Python 3.12–3.14, minimum and maximum dependencies |
+| Platform assurance | Linux, macOS, Windows, UTF-8/LF, Python 3.15.1, minimum and maximum dependencies |
 | Documentation and papers | Astro/Starlight builds, link/semantic checks, arXiv source and PDF audits, deterministic readability evidence |
 
 Renovate manages Python/uv, Cargo, npm, and GitHub Actions updates. Dependabot
@@ -302,3 +302,9 @@ design or usage questions.
 ## License
 
 `voiage` is licensed under the [Apache License 2.0](LICENSE).
+
+The optional `deep_learning` installation name and `PyTorchNNMetamodel` API
+are retained, but the PyTorch engine is currently unavailable on the qualified
+Python 3.15.1 runtime because stable CPython 3.15 wheels are absent. The extra
+installs no engine; selecting it raises an explicit diagnostic. Choose a
+supported scikit-learn metamodel explicitly.

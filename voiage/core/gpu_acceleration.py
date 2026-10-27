@@ -1,8 +1,8 @@
 """GPU acceleration utilities for Value of Information analysis."""
 
-from collections.abc import Callable
 from types import SimpleNamespace
 from typing import cast
+lazy from collections.abc import Callable
 
 import numpy as np
 

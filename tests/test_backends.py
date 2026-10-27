@@ -19,15 +19,15 @@ def test_backend_package_lazy_gpu_contract(
 ) -> None:
     """The optional GPU facade must cache success and govern missing JAX."""
     monkeypatch.delitem(backends_package.__dict__, "GpuAcceleration", raising=False)
-    sentinel = object()
+    sentinel_value = object()
     monkeypatch.setattr(
         backends_package,
         "import_module",
-        lambda *_args: SimpleNamespace(GpuAcceleration=sentinel),
+        lambda *_args: SimpleNamespace(GpuAcceleration=sentinel_value),
     )
 
-    assert backends_package.__getattr__("GpuAcceleration") is sentinel
-    assert backends_package.GpuAcceleration is sentinel
+    assert backends_package.__getattr__("GpuAcceleration") is sentinel_value
+    assert backends_package.GpuAcceleration is sentinel_value
 
     monkeypatch.delitem(backends_package.__dict__, "GpuAcceleration", raising=False)
 
@@ -510,7 +510,7 @@ def test_jax_backend_trial_simulation_and_bayesian_update_helpers() -> None:
     trial_design = TrialDesign([DecisionOption("New Treatment", 4)])
 
     class Prior(SimpleNamespace):
-        def replace_parameters(self, parameters: dict[str, np.ndarray]) -> "Prior":
+        def replace_parameters(self, parameters: dict[str, np.ndarray]) -> Prior:
             return Prior(
                 parameters=parameters, n_samples=len(next(iter(parameters.values())))
             )
@@ -548,7 +548,7 @@ def test_jax_backend_two_loop_evsi_computes_without_numpy_fallback(
     trial_design = TrialDesign([DecisionOption("New Treatment", 4)])
 
     class Prior(SimpleNamespace):
-        def replace_parameters(self, parameters: dict[str, np.ndarray]) -> "Prior":
+        def replace_parameters(self, parameters: dict[str, np.ndarray]) -> Prior:
             return Prior(
                 parameters=parameters, n_samples=len(next(iter(parameters.values())))
             )
@@ -605,7 +605,7 @@ def test_jax_backend_regression_evsi_helper_executes_full_path(monkeypatch) -> N
     trial_design = TrialDesign([DecisionOption("New Treatment", 3)])
 
     class Prior(SimpleNamespace):
-        def replace_parameters(self, parameters: dict[str, np.ndarray]) -> "Prior":
+        def replace_parameters(self, parameters: dict[str, np.ndarray]) -> Prior:
             return Prior(
                 parameters=parameters, n_samples=len(next(iter(parameters.values())))
             )

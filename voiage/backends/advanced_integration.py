@@ -1,12 +1,15 @@
 """Integration of advanced features with the main JAX backend."""
 
-from collections.abc import Mapping, Sequence
+from typing import TYPE_CHECKING
 
-import numpy as np
+lazy import numpy as np
 
 from .enhanced_jax_backend import EnhancedJaxBackend
 from .gpu_acceleration import GpuAcceleration
 from .performance_profiler import JaxPerformanceProfiler
+
+if TYPE_CHECKING:
+    from collections.abc import Mapping, Sequence
 
 
 class JaxAdvancedBackend(EnhancedJaxBackend):

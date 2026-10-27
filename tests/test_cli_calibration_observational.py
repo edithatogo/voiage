@@ -1,8 +1,8 @@
 """Focused CLI coverage for calibration and observational commands."""
 
 import json
-from pathlib import Path
 from types import SimpleNamespace
+lazy from pathlib import Path
 
 import pytest
 from typer.testing import CliRunner

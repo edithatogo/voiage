@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from copy import deepcopy
-import sys
 
 import pytest
 
@@ -78,12 +77,8 @@ def test_bootstrap_rejects_invalid_configuration(
         confidence_interval([0.1] * 5, confidence=confidence, resamples=resamples)
 
 
-@pytest.mark.skipif(
-    sys.version_info[:2] != (3, 14),
-    reason="C15 approved runner identity is validated in the Python 3.14 lane",
-)
 def test_runner_identity_and_config_require_exact_nonempty_fields() -> None:
-    assert current_runner()["python_series"] == "3.14"
+    assert current_runner()["python_series"] == "3.15"
     with pytest.raises(ValueError, match="exact"):
         runner_fingerprint({"os": "Linux"})
     with pytest.raises(ValueError, match="configuration"):
