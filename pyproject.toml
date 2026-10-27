@@ -252,13 +252,11 @@ markers = [
 [tool.coverage.run]
 source = ["voiage"]
 branch = true
-omit = ["*/voiage/widgets/*", "voiage/widgets/*"]
 
 [tool.coverage.report]
 show_missing = true
 skip_covered = true
 fail_under = 90
-omit = ["*/voiage/widgets/*", "voiage/widgets/*"]
 exclude_lines = [
     "pragma: no cover",
     "def __repr__",
