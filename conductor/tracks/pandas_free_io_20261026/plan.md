@@ -17,8 +17,8 @@ T1.1 baseline is frozen, T1.2 is merged in PR #1203, and Phase 2 qualifies the m
 ## Phase 3: Excel
 
 - [x] T3.1 — Record the current Excel read and multi-sheet write engines, the `excel` extra and the existing fixtures. See `phase-3-baseline.json` and `phase-3-engines-python315.json`.
-- [~] T3.2 — Substitute Polars-native Excel reading (`python-calamine` raw cells into Polars; named AC3 alternative preserving the frozen mixed-cell/header/time behavior) and multi-sheet writing (`xlsxwriter` with `pl.DataFrame.write_excel(workbook=wb, worksheet=table_name)`), update the `excel` extra to declare both, and record licence and wheel availability on the supported interpreter. (AC3).
-- [ ] T3.3 — Validate: Excel read and multi-sheet write fixtures pass; a missing engine raises the documented error with no silent fallback; wheel availability on the supported interpreter is demonstrated. (AC3).
+- [x] T3.2 — Substitute Polars-native Excel reading (`python-calamine` raw cells into Polars; named AC3 alternative preserving the frozen mixed-cell/header/time behavior) and multi-sheet writing (`xlsxwriter` with `pl.DataFrame.write_excel(workbook=wb, worksheet=table_name)`), update the `excel` extra to declare both, and record licence and wheel availability on the supported interpreter. (AC3).
+- [x] T3.3 — Validate: Excel read and multi-sheet write fixtures pass; a missing engine raises the documented error with no silent fallback; wheel availability on the supported interpreter is demonstrated. (AC3). Local qualification: `phase-3-acceptance-python315.json` and `phase-3-review.md`; required hosted/platform checks remain a PR merge gate.
 
 ## Phase 4: Packaging reconciliation
 
