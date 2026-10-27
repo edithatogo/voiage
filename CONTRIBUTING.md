@@ -184,5 +184,5 @@ same wrapper in the `Vale Prose Lint` job.
 Producer/oracle tests use the explicit unpublished `producer-tests` dependency
 group. It does not enter wheel metadata or default installs; tox test lanes
 select it independently. A clean runtime install excludes this group and both
-legacy tabular distributions. Run `python scripts/check_packaging_dependencies.py`
+legacy tabular distributions. Run `.venv/bin/python scripts/check_packaging_dependencies.py`
 with the repo-local Python 3.15.1 interpreter to compare the runtime declarations.

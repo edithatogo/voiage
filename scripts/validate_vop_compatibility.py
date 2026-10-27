@@ -20,9 +20,8 @@ def validate() -> dict[str, object]:
     schema_bytes = (BASE / "compatibility-contract.schema.json").read_bytes()
     contract = json.loads(contract_bytes)
     upstream = json.loads((BASE / "UPSTREAM.json").read_text(encoding="utf-8"))
-    project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))[
-        "project"
-    ]
+    config = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    project = config["project"]
     assert len(upstream["canonical_git_commit"]) == 40
     assert hashlib.sha256(contract_bytes).hexdigest() == upstream["contract_sha256"]
     assert hashlib.sha256(schema_bytes).hexdigest() == upstream["schema_sha256"]
@@ -38,9 +37,27 @@ def validate() -> dict[str, object]:
     assert not supported_python.contains("3.11")
     declared = [Requirement(item) for item in project["dependencies"]]
     declared_names = {item.name.lower() for item in declared}
+    # Shared dependencies describe both ends of the producer/consumer profile.
+    # External-producer libraries belong to unpublished test tooling, not the
+    # consumer wheel. Keep the pinned contract bytes and wire profile unchanged;
+    # this validates the integration surface, not an upstream deployment upgrade.
+    producers = {
+        item.name.lower(): item
+        for item in map(
+            Requirement, config.get("dependency-groups", {}).get("producer-tests", [])
+        )
+    }
     for package, required in contract["shared_dependencies"].items():
-        assert package.lower() in declared_names, package
-        _ = SpecifierSet(required)
+        profile = SpecifierSet(required)
+        if package.lower() not in declared_names:
+            assert package.lower() in producers, package
+            floors = [
+                s.version
+                for s in producers[package.lower()].specifier
+                if s.operator == ">="
+            ]
+            assert floors, package
+            assert all(profile.contains(version) for version in floors), package
     return contract
 
 

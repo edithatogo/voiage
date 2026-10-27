@@ -23,7 +23,7 @@
   "input_sha256": {
     "rust/Cargo.toml": "91c0037f1361b837afc5c45c1e1d6edec1f51b094ee2739cc963895e930c7c36",
     "rust/crates/voiage-diagnostics/Cargo.toml": "9234a8feff5362262664a7c92b37323829cc4f0da502ba068de057b1dc68ba85",
-    "tests/test_dependency_promotion_policy.py": "9fbce90c4050c72cb1f247b9d1c3da16f280688a906813e5f1c8e0420fb4815e",
+    "tests/test_dependency_promotion_policy.py": "d509a55fd836a8c09d468563d33bc41628d0ba6d97a29d3c3c3fa4ce4f84e2cc",
     "rust/crates/voiage-diagnostics/src/lib.rs": "634516d36bdb11795713c303ba932da9397c95a06de6827e59ffe737b180dda2"
   },
   "reserved_implementation_files": [
@@ -141,5 +141,5 @@
   ],
   "rollback": "Revert only owned commit through reviewed PR; preserve artifacts and old versions.",
   "completion": "All phase ACs, final local/native checks, reviewed diff and required hosted source-bound evidence; external release not included.",
-  "hash_review": "Refreshed after reviewed preparation changes to parent packet; implementation not started."
+  "hash_review": "Refreshed after reviewed preparation changes to parent packet; implementation not started. 2026-10-27 packaging reconciliation reviewed tests/test_dependency_promotion_policy.py: 9fbce90c4050c72cb1f247b9d1c3da16f280688a906813e5f1c8e0420fb4815e -> d509a55fd836a8c09d468563d33bc41628d0ba6d97a29d3c3c3fa4ce4f84e2cc; preview observations now target Polars/Arrow rather than retired runtime dependencies. No telemetry implementation or ownership changed. The prior packaging baseline is retained in pandas_free_io_20261026/phase-4-baseline.json."
 }
