@@ -6,6 +6,7 @@ from unittest.mock import patch
 lazy from pathlib import Path
 
 import pandas as pd
+import polars as pl
 import pytest
 
 from voiage.ecosystem_integration import (
@@ -261,9 +262,11 @@ def test_data_format_connector_routes_xlsx_reader_without_optional_engine(
     xlsx_path = tmp_path / "costs.xlsx"
     xlsx_path.touch()
     monkeypatch.setattr(
-        pd,
-        "read_excel",
-        lambda _path: pd.DataFrame({"state": ["stable"], "cost": [10.0]}),
+        "voiage.ecosystem_integration._tabular_io.read_excel",
+        lambda _path: (
+            pl.DataFrame({"state": ["stable"], "cost": [10.0]}),
+            ["state", "cost"],
+        ),
     )
 
     results = connector.import_health_data(str(xlsx_path), data_type="costs")

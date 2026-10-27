@@ -14,6 +14,7 @@ import openpyxl
 import pandas as pd
 import polars as pl
 import pytest
+from xlsxwriter.exceptions import InvalidWorksheetName
 
 from voiage import _tabular_io
 from voiage.ecosystem_integration import DataFormatConnector
@@ -184,7 +185,7 @@ loaded = connector.import_health_data(sys.argv[1])
 assert loaded['shape'] == (4, 6), loaded
 assert loaded['data'][0]['mixed'] == 1
 analysis = HealthEconomicsAnalysis()
-analysis.add_treatment(Treatment(name='Drug', effectiveness=.8, cost_per_cycle=10., cycles_required=1))
+analysis.add_treatment(Treatment(name='Drug', description='Native round-trip', effectiveness=.8, cost_per_cycle=10., cycles_required=1))
 connector.export_health_data(analysis, sys.argv[2], 'xlsx')
 assert Path(sys.argv[2]).exists()
 again = connector.import_health_data(sys.argv[2])
@@ -205,3 +206,62 @@ assert not any(name.split('.')[0] in {'pandas','openpyxl','fastexcel'} for name 
         check=False,
     )
     assert result.returncode == 0, result.stdout + result.stderr
+
+
+@pytest.mark.parametrize(
+    ("values", "expected"),
+    [
+        ([True, None, False], [1.0, float("nan"), 0.0]),
+        (["true", "FALSE"], [True, False]),
+        ([dt.datetime(2026, 1, 1), "text"], [dt.datetime(2026, 1, 1), "text"]),
+        ([True, "text"], [True, "text"]),
+    ],
+)
+def test_native_reader_full_column_scalar_policy(
+    tmp_path: Path, values: list[Any], expected: list[Any]
+) -> None:
+    path = tmp_path / "cells.xlsx"
+    workbook = openpyxl.Workbook()
+    sheet = workbook.active
+    sheet.append(["value", "retain_row"])
+    for value in values:
+        sheet.append([value, "present"])
+    workbook.save(path)
+    workbook.close()
+    loaded = DataFormatConnector().import_health_data(str(path), "generic")
+    assert _encode([r["value"] for r in loaded["data"]]) == _encode(expected)
+
+
+def test_native_reader_header_only_and_invalid_workbook(tmp_path: Path) -> None:
+    path = tmp_path / "header.xlsx"
+    workbook = openpyxl.Workbook()
+    workbook.active.append(["value"])
+    workbook.save(path)
+    workbook.close()
+    frame, headers = _tabular_io.read_excel(path)
+    assert headers == ["value"]
+    assert frame.shape == (0, 1)
+    path.write_text("invalid workbook")
+    with pytest.warns(UserWarning, match="Error importing health data"):
+        result = DataFormatConnector().import_health_data(str(path))
+    assert result == {}
+    # A failed read must release its native handle as well as a successful read.
+    path.unlink()
+    assert not path.exists()
+
+
+def test_native_writer_rejects_invalid_extension_before_creation(
+    tmp_path: Path,
+) -> None:
+    path = tmp_path / "output.csv"
+    with pytest.raises(ValueError, match="Invalid extension"):
+        _tabular_io.write_excel_tables({"data": pl.DataFrame({"a": [1]})}, path)
+    assert not path.exists()
+
+
+def test_native_writer_closes_workbook_on_failure(tmp_path: Path) -> None:
+    path = tmp_path / "invalid.xlsx"
+    with pytest.raises(InvalidWorksheetName, match="Invalid Excel character"):
+        _tabular_io.write_excel_tables({"invalid/name": pl.DataFrame({"a": [1]})}, path)
+    path.unlink()
+    assert not path.exists()

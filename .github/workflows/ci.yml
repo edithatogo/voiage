@@ -351,8 +351,13 @@ jobs:
         CI: true
 
   excel-interchange:
-    name: Excel Interchange Extra
-    runs-on: ubuntu-latest
+    name: Excel Interchange Extra (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-14, windows-2025]
     steps:
     - name: Checkout code
       uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
@@ -373,13 +378,18 @@ jobs:
         python-version: "3.15.1"
 
     - name: Install explicit Excel extra
-      run: uv sync --frozen --extra ci --extra excel
+      run: uv sync --frozen --extra ci --extra excel --no-build-package python-calamine --no-build-package xlsxwriter
+
+    - name: Verify native engine runtime
+      run: >-
+        uv run python -c "import sys, importlib.metadata as m; assert sys.version_info[:3] == (3, 15, 1), sys.version; print({n: m.version(n) for n in ('polars', 'python-calamine', 'xlsxwriter')})"
 
     - name: Exercise Excel import and export
       run: >-
         uv run pytest
         tests/test_ecosystem_integration.py::test_data_format_connector_imports_xlsx
         tests/test_ecosystem_integration.py::test_data_format_connector_exports_xlsx_workbook
+        tests/test_native_excel.py
         --no-cov -q
 
   example-smoke:

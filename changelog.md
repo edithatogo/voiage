@@ -1,5 +1,9 @@
 # Changelog
 
+- Read and write Excel workbooks through native Calamine and Polars/XlsxWriter
+  engines, preserving workbook values, worksheet order and fail-soft diagnostics.
+  Install `voiage[excel]` for both engines on Python 3.15.1.
+
 - Define CSV all-null columns as Float64, retain mixed columns as text, and
   document missing-value propagation and export without changing numerical
   container validation or the public I/O API.
