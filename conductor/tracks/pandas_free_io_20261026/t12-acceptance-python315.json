@@ -2,101 +2,101 @@
   "schema_version": "1.0",
   "task": "T1.2",
   "status": "locally_qualified",
-  "tested_commit": "30aac9bbdb88076a3e13a1f6dea3c12c0c40a485",
-  "tested_tree": "32aa7049bf692f80bcbab32127df5ca8f1288e63",
+  "tested_commit": "e5b2ffb50900c538d978eb940ae77a99fd071257",
+  "tested_tree": "fce62bc9d4dc86169168c5a1d255294e6b20c014",
   "baseline_commit": "b1c63e7f216f3ffee0871e634142026e2763eea8",
   "python": "3.15.1",
   "polars": "2.1.0",
-  "command": ".venv/bin/python scripts/guard_verification.py --work-dir .conductor/local/pandas-free-t12/final-tox -- .venv/bin/tox run-parallel -p 2 --result-json .conductor/local/pandas-free-t12/final-tox-result.json",
+  "command": ".venv/bin/python scripts/guard_verification.py --work-dir .conductor/local/pandas-free-t12/portable-tox -- .venv/bin/tox run-parallel -p 2 --result-json .conductor/local/pandas-free-t12/portable-tox-result.json",
   "tox_environments": {
     "lint": {
       "success": true,
       "exit_code": 0,
-      "duration": 4.5574350410024635,
+      "duration": 8.553181959025096,
       "skipped": false
     },
     "vale": {
       "success": true,
       "exit_code": 0,
-      "duration": 6.578550332982559,
+      "duration": 7.680767000012565,
       "skipped": false
     },
     "joss": {
       "success": true,
       "exit_code": 0,
-      "duration": 3.454225875029806,
+      "duration": 4.609723375004251,
       "skipped": false
     },
     "harness": {
       "success": true,
       "exit_code": 0,
-      "duration": 5.307134333008435,
+      "duration": 8.104873583011795,
       "skipped": false
     },
     "typecheck": {
       "success": true,
       "exit_code": 0,
-      "duration": 1.585506958013866,
+      "duration": 3.6353029580204748,
       "skipped": false
     },
     "docs": {
       "success": true,
       "exit_code": 0,
-      "duration": 101.18823800003156,
+      "duration": 113.34098658396397,
       "skipped": false
     },
     "ingestion-conformance": {
       "success": true,
       "exit_code": 0,
-      "duration": 27.64572875003796,
+      "duration": 31.809200750023592,
       "skipped": false
     },
     "frontier-contract": {
       "success": true,
       "exit_code": 0,
-      "duration": 0.6000122500117868,
+      "duration": 0.6894453329732642,
       "skipped": false
     },
     "version-sync": {
       "success": true,
       "exit_code": 0,
-      "duration": 1.3425414169905707,
+      "duration": 1.1929775419994257,
       "skipped": false
     },
     "py315": {
       "success": true,
       "exit_code": 0,
-      "duration": 15.568669500004034,
+      "duration": 24.172814707970247,
       "skipped": false
     },
     "min_versions": {
       "success": true,
       "exit_code": 0,
-      "duration": 15.188622875022702,
+      "duration": 13.494802834000438,
       "skipped": false
     },
     "max_versions": {
       "success": true,
       "exit_code": 0,
-      "duration": 15.517119124997407,
+      "duration": 11.567329375015106,
       "skipped": false
     },
     "coverage_report": {
       "success": true,
       "exit_code": 0,
-      "duration": 327.3546719169826,
+      "duration": 509.5016287090257,
       "skipped": false
     }
   },
   "coverage_suite": {
-    "passed": 5253,
+    "passed": 5254,
     "skipped": 16
   },
   "coverage": {
     "line-rate": "0.9591",
     "branch-rate": "0.9314",
-    "lines-valid": "22305",
-    "lines-covered": "21393",
+    "lines-valid": "22306",
+    "lines-covered": "21394",
     "branches-valid": "7898",
     "branches-covered": "7356"
   },
@@ -105,21 +105,21 @@
     "branch-rate": "1"
   },
   "resource_guard": {
-    "peak_rss_kib": 1932112,
+    "peak_rss_kib": 1630848,
     "reason": "completed",
     "returncode": 0,
-    "elapsed_seconds": 416.318,
-    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-j995x15d"
+    "elapsed_seconds": 610.882,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-988k0qzt"
   },
   "temporary_tree_removed": true,
   "unchanged_callable_signatures": 40,
   "signature_note": "Class-scoped AST comparison against accepted baseline; only the two private dataframe helper annotations change.",
   "file_sha256": {
-    "voiage/_tabular_io.py": "2016c0ac59df1f05ac5f8f9a61e7f629feea00d45f5c7b46e61fce81b5ef6134",
+    "voiage/_tabular_io.py": "a7ed0572bd09f99c4da99ef8149684b6265ae5f4d4e946cf5fb6e33e09a89cc8",
     "voiage/ecosystem_integration.py": "d165b9ec76cde36118ed39ec05bfc66be348493d6d455d714a54ae12ea1bcd52",
     "voiage/widgets/voi_widgets.py": "62db8c08fa94708977325f0eb2e2f1b5d70354f7a03caf6b466217456424922f",
-    "tests/test_tabular_io_polars.py": "df47b883cca0592804a502cd976d6401760ac85a229c5b6f665f966908eb2b8c",
-    "tests/test_ecosystem_integration.py": "e1e3b73e23712c3e5c5baa01aed52342cd0e2ccc09bc11672c674368ea4c24c2",
+    "tests/test_tabular_io_polars.py": "ce7ab196a991354669b7771cfd616bd6c405f6d0a8229db76f2bad40bdfe5dc7",
+    "tests/test_ecosystem_integration.py": "4f739e7dba83589ec57e8b7fca9bd59b3f83b5edb741aac638ef60322e629d2f",
     "tests/fixtures/tabular_io/export-baseline.json": "7ad06cf02fe1ff474b433a26bafca1d078fef21c120615863eb0e1fc4d6730e2"
   },
   "remaining": [
@@ -135,7 +135,8 @@
     "Initial full gate: 5243 behavioral tests passed; three new-module inventory omissions failed. Fixed dispositions and current-membership tests; preserved dated audit hashes.",
     "Automated review regression tests reproduced blank-line insertion, unnamed-header collision and late fractional-value truncation. Corrected all three and added BOM/carriage-return and malformed-input checks.",
     "The intermediate coverage run was deliberately stopped through the guard before source edits; logs were retained and its task-owned temporary tree later removed.",
-    "Final signed candidate passed all 13 default tox environments; no source changes followed."
+    "Final signed candidate passed all 13 default tox environments; no source changes followed.",
+    "Final portability review reproduced and corrected the Windows CRLF mismatch. Native platform line endings and exact byte comparisons are qualified by a regression test and a fresh full 13-environment gate on e5b2ffb5. No runtime, dependency, test or source-inventory files changed after that gate."
   ],
   "local_artifacts": {
     "final-tox-result.json": {
@@ -149,6 +150,19 @@
     "temporary-cleanup.json": {
       "path": ".conductor/local/pandas-free-t12/temporary-cleanup.json",
       "sha256": "bc0e90e22bf3e944e453380e53cc422525f73bbd3dc7560aae1ea388e90d5c39"
+    },
+    "portable-tox-result.json": {
+      "path": ".conductor/local/pandas-free-t12/portable-tox-result.json",
+      "sha256": "ae31008498d3e2dc33acccd3f40920dec6e30d135e2da041ae639cc8b1da0d86"
+    },
+    "portable-tox.log": {
+      "path": ".conductor/local/pandas-free-t12/portable-tox.log",
+      "sha256": "dbd9518703cd77245739652e47a2d48bfff4cbf490b122433e5ae3fc7c38709a"
+    },
+    "temporary-cleanup-final.json": {
+      "path": ".conductor/local/pandas-free-t12/temporary-cleanup-final.json",
+      "sha256": "bdc57df60d393b701f9d5e17ca3bcfa77f290612dbfe73838c8e61b3e4e9760e"
     }
-  }
+  },
+  "previous_full_gate_candidate": "30aac9bbdb88076a3e13a1f6dea3c12c0c40a485"
 }
