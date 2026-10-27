@@ -397,3 +397,22 @@ def test_pending_r_qualification_cannot_claim_current_success(
         validate_ropensci_evidence(
             ROOT / "specs/submission-readiness/ropensci-evidence.json", ROOT
         )
+
+
+def test_pending_r_runtime_tree_cannot_accept_other_source_changes(monkeypatch) -> None:
+    import scripts.validate_submission_readiness as readiness
+
+    original = readiness._git_object
+
+    def changed(root: Path, revision: str, relative: str) -> str:
+        if relative == "r-package/voiageR":
+            return "0" * 40
+        return original(root, revision, relative)
+
+    monkeypatch.setattr(readiness, "_git_object", changed)
+    with pytest.raises(ValueError, match="pending runtime source tree"):
+        readiness.validate_r_distribution_evidence(
+            ROOT / "specs/submission-readiness/r-distribution-evidence-20260902.json",
+            ROOT,
+            require_current_workflow=False,
+        )

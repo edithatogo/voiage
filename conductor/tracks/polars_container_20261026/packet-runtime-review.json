@@ -1,0 +1,90 @@
+[
+  {
+    "packet": "conductor/tracks/version_identity_contracts_20260907/implementation-packet.json",
+    "date": "2026-10-27",
+    "reason": "Python 3.15.1 annotations, workflow/tool pins and ABI migration; original execution evidence retained",
+    "previous_packet": "conductor/tracks/polars_container_20261026/pre-python315-evidence/version_identity_contracts_20260907-packet.json",
+    "source_hash_updates": [
+      {
+        "path": "voiage/versioning.py",
+        "before": "cc83029192e69db6311d12adb39b160e9e2881b3333c0f3d3a1de4c6a229d7bb",
+        "after": "3b8d1f85e68522b2cd509396cc967c7144b5f779fdcd4b1576dd9abcf1c4e61e"
+      }
+    ]
+  },
+  {
+    "packet": "conductor/tracks/optional_native_telemetry_20260907/implementation-packet.json",
+    "date": "2026-10-27",
+    "reason": "Python 3.15.1 annotations, workflow/tool pins and ABI migration; original execution evidence retained",
+    "previous_packet": "conductor/tracks/polars_container_20261026/pre-python315-evidence/optional_native_telemetry_20260907-packet.json",
+    "source_hash_updates": [
+      {
+        "path": "tests/test_dependency_promotion_policy.py",
+        "before": "120debad7b5f2d5fed9f5ca89113d390d41ee12219d51fde3b31423f226360d4",
+        "after": "9fbce90c4050c72cb1f247b9d1c3da16f280688a906813e5f1c8e0420fb4815e"
+      }
+    ]
+  },
+  {
+    "packet": "conductor/tracks/execution_packet_guard_20260907/implementation-packet.json",
+    "date": "2026-10-27",
+    "reason": "Python 3.15.1 annotations, workflow/tool pins and ABI migration; original execution evidence retained",
+    "previous_packet": "conductor/tracks/polars_container_20261026/pre-python315-evidence/execution_packet_guard_20260907-packet.json",
+    "source_hash_updates": [
+      {
+        "path": "scripts/repo_harness.py",
+        "before": "831b4125a964c3a29f7ed55ae9e0da51aaf45a61185130371c6b8c425f10ecd3",
+        "after": "7b5174504280b5a5b6d79ebf089979f8a34af0efa1a4bbcd06c5368cb90b2f51"
+      },
+      {
+        "path": "tests/test_repo_harness.py",
+        "before": "55d5cd31288056b74364b341a696e98ece576d83df1d848705376702119c9e84",
+        "after": "999410030265a935daead3667a0ca2e464735b50f6dcb5563d688bd2fddfc630"
+      }
+    ]
+  },
+  {
+    "packet": "conductor/tracks/logging_privacy_resilience_20260907/implementation-packet.json",
+    "date": "2026-10-27",
+    "reason": "Python 3.15.1 annotations, workflow/tool pins and ABI migration; original execution evidence retained",
+    "previous_packet": "conductor/tracks/polars_container_20261026/pre-python315-evidence/logging_privacy_resilience_20260907-packet.json",
+    "source_hash_updates": [
+      {
+        "path": "tests/test_logging_contract.py",
+        "before": "e815c8d7091c2bf7d1b50201a77be48f20a718354f4cbe29086e5c8a6fb22c6b",
+        "after": "522ec1feb555e6c700c893fac00227973b49491b61c3d73f8293e494d5160ea1"
+      }
+    ]
+  },
+  {
+    "packet": "conductor/tracks/vop_logging_version_pilot_20260907/implementation-packet.json",
+    "date": "2026-10-27",
+    "reason": "Python 3.15.1 annotations, workflow/tool pins and ABI migration; original execution evidence retained",
+    "previous_packet": "conductor/tracks/polars_container_20261026/pre-python315-evidence/vop_logging_version_pilot_20260907-packet.json",
+    "source_hash_updates": [
+      {
+        "path": "tests/test_logging_contract.py",
+        "before": "e815c8d7091c2bf7d1b50201a77be48f20a718354f4cbe29086e5c8a6fb22c6b",
+        "after": "522ec1feb555e6c700c893fac00227973b49491b61c3d73f8293e494d5160ea1"
+      }
+    ]
+  },
+  {
+    "packet": "conductor/tracks/native_structured_logging_20260907/implementation-packet.json",
+    "date": "2026-10-27",
+    "reason": "Python 3.15.1 annotations, workflow/tool pins and ABI migration; original execution evidence retained",
+    "previous_packet": "conductor/tracks/polars_container_20261026/pre-python315-evidence/native_structured_logging_20260907-packet.json",
+    "source_hash_updates": [
+      {
+        "path": "tests/test_logging_contract.py",
+        "before": "e815c8d7091c2bf7d1b50201a77be48f20a718354f4cbe29086e5c8a6fb22c6b",
+        "after": "522ec1feb555e6c700c893fac00227973b49491b61c3d73f8293e494d5160ea1"
+      },
+      {
+        "path": "rust/crates/voiage-python/Cargo.toml",
+        "before": "4067a621998aececd693832bf1a98fb856b02111ae6d06f092fb6e44bd598d1b",
+        "after": "f5ae455c110cfa063bc44d40912a6aa28154a268580a7b87ced0f10b0ada69da"
+      }
+    ]
+  }
+]

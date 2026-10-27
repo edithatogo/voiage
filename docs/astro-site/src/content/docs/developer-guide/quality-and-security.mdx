@@ -25,8 +25,9 @@ verified repository interpreter and a work directory on a volume with space:
 ```
 
 The guard samples combined process-group RSS every two seconds, stops the job
-above 4 GiB, after one hour, or below 2 GiB free in its work volume. It places
-temporary files there, limits native thread pools, and writes
+above 4 GiB, after one hour, or below 2 GiB free in its work or temporary volume.
+It places temporary files in a unique sibling of the checkout on the same
+volume, cleans them after successful runs, limits native thread pools, and writes
 `resource-report.json` with the peak sampled RSS and termination reason. A limit
 exit is a failed gate, never acceptance evidence. Increase a limit only after
 reviewing the recorded workload. Coverage uses two workers. Sampling cannot

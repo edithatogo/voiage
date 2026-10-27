@@ -104,6 +104,9 @@ R_DISTRIBUTION_OBJECTS = {
     "rust/crates/voiage-ffi": "b9f6728a6f7ae5ee8ef6018ca4dbbce404861266",
     "specs/numerical-reference": "bb3ca823420fbe8f95b85b9c92ce07b3988cea2b",
 }
+# Only the optional Python minimum changed in this exact R source tree.
+# This is pending requalification, never inherited distribution acceptance.
+R_PY315_PENDING_TREE = "42276fc485cadec603ee0dd1ad19192cae32f34a"
 R_MANUAL_RECEIPT = {
     "path": "conductor/tracks/remaining_backlog_delivery_20260831/r-manual-check-20260901.json",
     "sha256": "520af27e4d3463d9e9404c06e64e86d5a38a9db66bb3cb77e8338ac014fdf3a7",
@@ -205,6 +208,10 @@ def validate_r_distribution_evidence(
             and not require_current_workflow
         ):
             continue  # Historical execution only; no current-workflow claim.
+        if relative == "r-package/voiageR" and not require_current_workflow:
+            if _git_object(root, "HEAD", relative) != R_PY315_PENDING_TREE:
+                raise ValueError("R pending runtime source tree does not match")
+            continue  # Exact new metadata is unqualified; retain the old receipt.
         # Hosted pull-request checkouts are deliberately shallow and need not
         # contain either recorded commit.  The receipt and constants pin both
         # observations; resolve the exact checked-out candidate independently
@@ -624,6 +631,7 @@ def validate_ropensci_evidence(path: Path, root: Path) -> dict[str, Any]:
         if record != {
             "state": "hosted_pending",
             "workflow_sha256": digest,
+            "unqualified_r_source_tree": R_PY315_PENDING_TREE,
             "historical_receipt": R_DISTRIBUTION_RECEIPT.as_posix(),
             "reason": "Python 3.15.1 cross-language conformance requires fresh hosted qualification.",
             "current_workflow_qualified": False,

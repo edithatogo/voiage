@@ -11,6 +11,7 @@ from pathlib import Path
 import shutil
 import signal
 import subprocess
+import tempfile
 import time
 
 
@@ -46,6 +47,13 @@ def stop_group(group: int) -> None:
             time.sleep(delay)
 
 
+def clear_temporary_directory(path: Path) -> None:
+    """Remove only this job's private tree, including read-only test fixtures."""
+    for directory, _children, _files in os.walk(path, followlinks=False):
+        Path(directory).chmod(0o700)
+    shutil.rmtree(path)
+
+
 def main() -> int:
     """Launch one job with memory, elapsed-time and free-space limits."""
     parser = argparse.ArgumentParser(description=__doc__)
@@ -69,15 +77,21 @@ def main() -> int:
     ):
         parser.error("Provide a command and positive resource limits")
     args.work_dir.mkdir(parents=True, exist_ok=True)
-    temp_dir = args.work_dir / "tmp"
-    temp_dir.mkdir(exist_ok=True)
     report = {"peak_rss_kib": 0, "reason": "starting", "returncode": None}
     child = None
+    temp_dir = None
     started = time.monotonic()
     try:
         if shutil.disk_usage(args.work_dir).free < args.min_free_mib * 1024**2:
             report["reason"] = "insufficient_free_space"
             return 125
+        # Build/consumer fixtures require temporary trees outside the checkout.
+        # A unique sibling stays on the repository volume without nesting in it.
+        temp_dir = Path(
+            tempfile.mkdtemp(
+                prefix=".voiage-verification-", dir=Path(__file__).resolve().parents[2]
+            )
+        )
         env = dict(os.environ, TMPDIR=str(temp_dir.resolve()))
         env.update(
             dict.fromkeys(
@@ -101,7 +115,13 @@ def main() -> int:
                 report["reason"] = "memory_limit"
             elif time.monotonic() - started > args.timeout_seconds:
                 report["reason"] = "time_limit"
-            elif shutil.disk_usage(args.work_dir).free < args.min_free_mib * 1024**2:
+            elif (
+                min(
+                    shutil.disk_usage(args.work_dir).free,
+                    shutil.disk_usage(temp_dir).free,
+                )
+                < args.min_free_mib * 1024**2
+            ):
                 report["reason"] = "free_space_limit"
             if report["reason"] != "completed":
                 stop_group(child.pid)
@@ -118,9 +138,14 @@ def main() -> int:
             stop_group(child.pid)
             child.wait()
         report["elapsed_seconds"] = round(time.monotonic() - started, 3)
-        (args.work_dir / "resource-report.json").write_text(
-            json.dumps(report, indent=2) + "\n", encoding="utf-8"
-        )
+        report["temporary_directory"] = str(temp_dir) if temp_dir else None
+        try:
+            if temp_dir is not None and report["returncode"] == 0:
+                clear_temporary_directory(temp_dir)
+        finally:
+            (args.work_dir / "resource-report.json").write_text(
+                json.dumps(report, indent=2) + "\n", encoding="utf-8"
+            )
 
 
 if __name__ == "__main__":

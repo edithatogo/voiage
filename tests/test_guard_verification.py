@@ -7,7 +7,28 @@ import sys
 
 import pytest
 
+from scripts.guard_verification import clear_temporary_directory
+
 GUARD = Path(__file__).resolve().parents[1] / "scripts/guard_verification.py"
+
+
+def test_cleanup_handles_read_only_fixtures_without_following_links(
+    tmp_path: Path,
+) -> None:
+    private = tmp_path / "private"
+    private.mkdir()
+    external = tmp_path / "external"
+    external.mkdir(mode=0o755)
+    (external / "keep.txt").write_text("untouched")
+    (private / "link").symlink_to(external, target_is_directory=True)
+    frozen = private / "frozen"
+    frozen.mkdir()
+    (frozen / "fixture.txt").write_text("fixture")
+    frozen.chmod(0o555)
+    clear_temporary_directory(private)
+    assert not private.exists()
+    assert (external / "keep.txt").read_text() == "untouched"
+    assert external.stat().st_mode & 0o777 == 0o755
 
 
 @pytest.mark.parametrize(

@@ -4,7 +4,7 @@
     "tool": "mutmut",
     "tool_version": "3.6.0",
     "lock_sha256": "37d8590749aafaff80fe5fbfc9d62490613a435cd13f1f999fd8c0fa57675442",
-    "configuration_sha256": "c2d93e25141fbfb71d2f5eee8d3c5261d6236d600fe9dfa2a8cec198213c6d51",
+    "configuration_sha256": "65488abc665093bc6dadce09f4150020ca3ad58c31f7c6b771c5687567dfa759",
     "sources": [
       {
         "path": "voiage/contracts/capabilities.py",
@@ -16,7 +16,7 @@
       }
     ],
     "source_logical_lines": 115,
-    "cohort_sha256": "935a7407ee43e1a6c3956b9562367e6313cbd55e478ca6ca91b616b73c51c465"
+    "cohort_sha256": "88d19ae194152e741540ec917a2609d95ac5d9a4f10053ef0c72da2c21b987ac"
   },
   "universe": {
     "ids": [
@@ -108,8 +108,8 @@
   },
   "promotion_provenance": {
     "review_state": "requires_external_anchor",
-    "run_id": 29723588917,
-    "commit": "72536907222b8d75ca1e1d5fc4e039a817fb3bef",
-    "evidence_url": "https://github.com/edithatogo/voiage/actions/runs/29723588917"
+    "run_id": 40435093211,
+    "commit": "455350d2f34ba51349da2abe17cbd5866d5782c8",
+    "evidence_url": "https://github.com/edithatogo/voiage/actions/runs/40435093211"
   }
 }
