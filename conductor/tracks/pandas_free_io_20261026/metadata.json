@@ -3,7 +3,7 @@
   "type": "refactor",
   "status": "in_progress",
   "created_at": "2026-10-26T00:00:00Z",
-  "updated_at": "2026-10-27T08:33:16Z",
+  "updated_at": "2026-10-27T12:34:57.358807+00:00",
   "description": "Remove direct pandas use from external I/O and widgets, reconcile the four packaging surfaces and enforce the absence mechanically",
   "base_commit": "ca3f05cc8adcc74b99fe236152327d0cd3679553",
   "github_cross_reference": {
@@ -16,8 +16,8 @@
   ],
   "dependency_semantics": "Container prerequisite accepted in PR #1202. Final pandas-free package acceptance still requires the package-level gate; baseline xarray import and packaging bounds describe historical state.",
   "authorization": {
-    "scope": "Merge PR #1204 and continue native Excel reader/writer qualification and compatibility fixes using Python 3.15.1 and the resource guard; preserve public API and workbook behavior.",
-    "source": "Direct user instructions on 2026-10-27 to continue native Excel migration and resolve compatibility failures."
+    "scope": "Merge PR #1205 after its remaining check passes, then continue Phase 4 pandas-free runtime packaging reconciliation using Python 3.15.1 and the resource guard, preserving API and behavior.",
+    "source": "Direct user request on 2026-10-27."
   },
   "gates": [
     {
@@ -35,8 +35,8 @@
     {
       "id": "packaging-drift",
       "kind": "repository",
-      "status": "pending",
-      "evidence": "On the baseline, pyproject.toml and conda-recipe/meta.yaml declare pandas>=1.3,<3.0 and xarray>=0.19,<2025.0 while tox.ini typecheck pins pandas>=3.0.3 and xarray>=2026.7.0. The reconciliation is unstarted."
+      "status": "locally_qualified",
+      "evidence": "phase-4-acceptance-python315.json and phase-4-review.md: canonical runtime policy, four-surface mutation controls, clean no-extras wheel closure, floor/latest and producer isolation qualified. Hosted checks pending. Native Conda source/publication handoff and later migration phases remain open."
     },
     {
       "id": "t12-polars-io",
@@ -53,8 +53,8 @@
     {
       "id": "native-excel",
       "kind": "repository",
-      "status": "locally_qualified",
-      "evidence": "Phase 3 review-fix checkpoint 9c9f37cb; phase-3-whitespace-python315.json and phase-3-review.md. Full 5304-test Python 3.15.1 pass, repaired static gates, complete changed-line/branch coverage, clean Excel-only wheel install and bounded streaming whitespace compatibility qualified; updated hosted checks remain a merge gate."
+      "status": "satisfied",
+      "evidence": "PR #1205 passed all required, native platform and final telemetry/oracle checks and merged as 5546e9b69391c634997e42392bb430f2e8d0eff4 on 2026-10-27."
     }
   ]
 }
