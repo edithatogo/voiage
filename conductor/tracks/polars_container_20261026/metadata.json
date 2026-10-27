@@ -1,9 +1,9 @@
 {
   "track_id": "polars_container_20261026",
   "type": "refactor",
-  "status": "in_progress",
+  "status": "completed",
   "created_at": "2026-10-26T00:00:00Z",
-  "updated_at": "2026-10-27T02:43:48Z",
+  "updated_at": "2026-10-27T03:51:23Z",
   "description": "Replace the xarray-backed ValueArray and ParameterSet containers with wide Polars frames at unchanged numerical parity",
   "base_commit": "ca3f05cc8adcc74b99fe236152327d0cd3679553",
   "github_cross_reference": {
@@ -29,13 +29,13 @@
       "id": "implementation",
       "kind": "repository",
       "status": "satisfied",
-      "evidence": "Container, validation, caller ownership, runtime/dependency and CI repairs are qualified on Python 3.15.1 with Polars 2.1.0; see acceptance-python315.json."
+      "evidence": "NumPy and borrowed-Polars buffer ownership, validation, runtime/dependencies and CI are qualified on Python 3.15.1 with Polars 2.1.0; public signatures and subclass hooks are preserved."
     },
     {
       "id": "final-acceptance",
       "kind": "repository",
-      "status": "pending",
-      "evidence": "Late review reproduced mutable NumPy input aliasing. Snapshot repair and 80 focused tests pass; new matched benchmark passes original limits. Fresh full/hosted acceptance required."
+      "status": "satisfied",
+      "evidence": "Requalified after ownership review: all 13 tox environments, 5226 full-suite tests, unchanged performance bounds and all 17 required hosted checks passed. Fresh-main pinned replay also verified; final documentation remains subject to current protected merge checks. See acceptance-python315.json."
     }
   ]
 }

@@ -1,6 +1,6 @@
 # Implementation plan: Polars-native core containers
 
-Runtime implementation is qualified; late NumPy-ownership review requires refreshed full and hosted acceptance. Ownership: this track migrates every xarray reference (runtime, tests, examples, scripts); `pandas_free_io_20261026` migrates every pandas reference and owns the repository-wide zero-reference check. Implementation authorised by the maintainer on 2026-10-26. Prerequisite: `tabular_contract_v3_20261026`.
+Runtime and buffer-ownership acceptance are complete on Python 3.15.1/Polars 2.1.0; the current protected PR merge gate remains mandatory. Ownership: this track migrates every xarray reference (runtime, tests, examples, scripts); `pandas_free_io_20261026` migrates every pandas reference and owns the repository-wide zero-reference check. Implementation authorised by the maintainer on 2026-10-26. Prerequisite: `tabular_contract_v3_20261026`.
 
 ## Phase 1: Inventory
 
@@ -30,13 +30,13 @@ Runtime implementation is qualified; late NumPy-ownership review requires refres
 
 - [x] T5.1 — Freeze the benchmark fixture, machine and command; record the pre-change numbers before the container swap is final. (benchmark_container.py, benchmark-before.json)
 - [x] T5.2 — Re-measure construction, `to_numpy` extraction and long-form conversion on the final candidate. (AC6). (benchmark-after.json)
-- [x] T5.3 — Validate: the receipt states the observed delta and the accepted bound; a regression beyond the bound blocks acceptance. (AC6). The historical receipt is retained; the matched Python 3.15.1 comparison passes all original bounds (benchmark-python315.json). (verified commit `f4bc4d45`)
+- [x] T5.3 — Validate: the receipt states the observed delta and the accepted bound; a regression beyond the bound blocks acceptance. (AC6). The historical receipt is retained; the matched Python 3.15.1 comparison passes all original bounds (benchmark-owned-buffers-python315.json). (verified commit `218b9dba`)
 
 ## Phase 6: Boundary confirmation
 
 - [x] T6.1 — Confirm no persistence format, dependency removal or binding change was introduced. (evidence.jsonl)
 - [x] T6.2 — Run the Rust, R and Julia conformance fixtures unchanged against the new container. (AC7). (Rust 244 passed; Julia passed; R 72 passed)
-- [ ] T6.3 — Validate: bindings pass without fixture edits, `specs/core-api` is unchanged, and the full local gate passes. (AC7). All 13 default tox environments and current hosted binding checks passed on Python 3.15.1; fixtures are unchanged (acceptance-python315.json). (verified commit `03b278ba`)
+- [x] T6.3 — Validate: bindings pass without fixture edits, `specs/core-api` is unchanged, and the full local gate passes. (AC7). All 13 default tox environments and current hosted binding checks passed on Python 3.15.1; fixtures are unchanged (acceptance-python315.json). (verified commit `6675f6b5`)
 
 ## Phase 7: Residual runtime, test, example and script migration
 
@@ -45,5 +45,5 @@ Runtime implementation is qualified; late NumPy-ownership review requires refres
 - [x] T7.3 — Validate: `git grep` for `import xarray` and `from xarray` returns nothing under `voiage/`, `tests/`, `examples/` and `scripts/`; the converted tests keep their original assertions' intent (no assertion deleted without a recorded reason); the fixture validator and the contract validators still pass; record command, environment and digest. (AC8). (evidence.jsonl)
 ## Final acceptance
 
-- [ ] CLOSE.1 — Review every AC (AC1–AC8) against the exact tested revision; the hosted checks must pass before any acceptance claim. (qualification-20261027.md; acceptance-python315.json) (verified commit `03b278ba`)
-- [ ] CLOSE.2 — Reconcile plan, metadata and append-only evidence with the accepted revision; hand the container and perf receipts to `pandas_free_io_20261026`. (evidence.jsonl, benchmark-receipt.json) (verified commit `79b3c116`)
+- [x] CLOSE.1 — Review every AC (AC1–AC8) against the exact tested revision; the hosted checks must pass before any acceptance claim. (qualification-20261027.md; acceptance-python315.json) (verified commit `23273b33`)
+- [x] CLOSE.2 — Reconcile plan, metadata and append-only evidence with the accepted revision; hand the container and perf receipts to `pandas_free_io_20261026`. (evidence.jsonl, benchmark-owned-buffers-python315.json) (verified commit `23273b33`)
