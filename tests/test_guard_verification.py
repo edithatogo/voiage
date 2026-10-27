@@ -31,6 +31,42 @@ def test_cleanup_handles_read_only_fixtures_without_following_links(
     assert external.stat().st_mode & 0o777 == 0o755
 
 
+def test_guard_disables_detached_git_monitors_without_resetting_config(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("GIT_CONFIG_COUNT", "1")
+    monkeypatch.setenv("GIT_CONFIG_KEY_0", "advice.detachedHead")
+    monkeypatch.setenv("GIT_CONFIG_VALUE_0", "false")
+    output = tmp_path / "git-settings.json"
+    code = (
+        "import json,pathlib,subprocess; "
+        "settings={k:subprocess.check_output(['/usr/bin/git','config','--get',k],"
+        "text=True).strip() for k in ['core.fsmonitor','advice.detachedHead']}; "
+        f"pathlib.Path({str(output)!r}).write_text(json.dumps(settings))"
+    )
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(GUARD),
+            "--work-dir",
+            str(tmp_path),
+            "--interval-seconds",
+            "0.05",
+            "--",
+            sys.executable,
+            "-c",
+            code,
+        ],
+        check=False,
+        timeout=15,
+    )
+    assert result.returncode == 0
+    assert json.loads(output.read_text()) == {
+        "core.fsmonitor": "false",
+        "advice.detachedHead": "false",
+    }
+
+
 @pytest.mark.parametrize(
     ("limits", "code", "expected", "reason"),
     [

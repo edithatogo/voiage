@@ -93,6 +93,12 @@ def main() -> int:
             )
         )
         env = dict(os.environ, TMPDIR=str(temp_dir.resolve()))
+        # Test clones must not leave detached Git fsmonitor daemons behind.
+        # Append a process-local override, preserving all existing Git settings.
+        git_config_count = int(env.get("GIT_CONFIG_COUNT", "0"))
+        env[f"GIT_CONFIG_KEY_{git_config_count}"] = "core.fsmonitor"
+        env[f"GIT_CONFIG_VALUE_{git_config_count}"] = "false"
+        env["GIT_CONFIG_COUNT"] = str(git_config_count + 1)
         env.update(
             dict.fromkeys(
                 (

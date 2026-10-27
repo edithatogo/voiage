@@ -104,7 +104,7 @@ jobs:
         run: |
           mkdir -p build/joss
           uv run --frozen --extra ci python scripts/verify_paper_reproduction.py \
-            --manifest paper/reproduction-manifest.json > build/joss/reproduction-replay.json
+            --manifest paper/reproduction-manifest-python315.json > build/joss/reproduction-replay.json
       - name: Build with the Open Journals toolchain
         uses: openjournals/openjournals-draft-action@85a18372e48f551d8af9ddb7a747de685fbbb01c
         with:

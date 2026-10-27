@@ -1,5 +1,8 @@
 # Changelog
 
+- Retain historical paper environments and add an exact-source Python 3.15.1
+  replay profile that verifies the same scientific inputs and output hashes.
+
 - Qualify the Python 3.15.1 runtime and Polars 2.1 dependency floor across
   development, native packaging and CI. Retain the optional PyTorch API with
   an explicit unavailable diagnostic until stable Python 3.15 wheels exist.

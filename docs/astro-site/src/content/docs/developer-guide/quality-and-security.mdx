@@ -33,6 +33,8 @@ exit is a failed gate, never acceptance evidence. Increase a limit only after
 reviewing the recorded workload. Coverage uses two workers. Sampling cannot
 prevent a brief allocation spike; subprocesses must retain their process group.
 The guard only terminates its own isolated group, including leftover children.
+It disables detached Git file-monitor daemons for the job through a process-local
+override, preserving existing Git settings and shared repository configuration.
 
 The harness is included in tox; a second standalone harness run is unnecessary.
 Record the tested tree, environment and result. Reuse successful local evidence
