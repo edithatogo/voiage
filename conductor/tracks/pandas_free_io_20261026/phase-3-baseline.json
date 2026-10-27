@@ -1,0 +1,1945 @@
+{
+  "source_commit": "5623a429a1fafaf7641432b327e108b41515d88b",
+  "python": "3.15.1",
+  "versions": {
+    "polars": "2.1.0",
+    "pandas": "3.1.0",
+    "openpyxl": "3.1.5"
+  },
+  "engines": {
+    "read": "pandas/openpyxl",
+    "write": "openpyxl"
+  },
+  "extra": [
+    "openpyxl>=3.1.5,<4.0"
+  ],
+  "fixtures": {
+    "mixed.xlsx": {
+      "sha256": "109f466d1ee3f280696e3008806d83f41de425ba7265f872871cda57af949a26",
+      "payload": {
+        "mapping": [
+          [
+            {
+              "type": "str",
+              "value": "data_type"
+            },
+            {
+              "type": "str",
+              "value": "generic"
+            }
+          ],
+          [
+            {
+              "type": "str",
+              "value": "data"
+            },
+            [
+              {
+                "mapping": [
+                  [
+                    {
+                      "type": "str",
+                      "value": "treatment"
+                    },
+                    {
+                      "type": "str",
+                      "value": "Drug A"
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "cost"
+                    },
+                    {
+                      "type": "float",
+                      "value": 10.0
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "mixed"
+                    },
+                    {
+                      "type": "int",
+                      "value": 1
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "empty"
+                    },
+                    {
+                      "missing": true
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "flag"
+                    },
+                    {
+                      "type": "float",
+                      "value": 1.0
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "observed"
+                    },
+                    {
+                      "datetime": "2026-01-02T00:00:00"
+                    }
+                  ]
+                ]
+              },
+              {
+                "mapping": [
+                  [
+                    {
+                      "type": "str",
+                      "value": "treatment"
+                    },
+                    {
+                      "type": "str",
+                      "value": "Drug B"
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "cost"
+                    },
+                    {
+                      "missing": true
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "mixed"
+                    },
+                    {
+                      "type": "str",
+                      "value": "two"
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "empty"
+                    },
+                    {
+                      "missing": true
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "flag"
+                    },
+                    {
+                      "type": "float",
+                      "value": 0.0
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "observed"
+                    },
+                    {
+                      "missing": true
+                    }
+                  ]
+                ]
+              },
+              {
+                "mapping": [
+                  [
+                    {
+                      "type": "str",
+                      "value": "treatment"
+                    },
+                    {
+                      "missing": true
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "cost"
+                    },
+                    {
+                      "missing": true
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "mixed"
+                    },
+                    {
+                      "missing": true
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "empty"
+                    },
+                    {
+                      "missing": true
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "flag"
+                    },
+                    {
+                      "missing": true
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "observed"
+                    },
+                    {
+                      "missing": true
+                    }
+                  ]
+                ]
+              },
+              {
+                "mapping": [
+                  [
+                    {
+                      "type": "str",
+                      "value": "treatment"
+                    },
+                    {
+                      "type": "str",
+                      "value": "Drug C"
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "cost"
+                    },
+                    {
+                      "type": "float",
+                      "value": 10.5
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "mixed"
+                    },
+                    {
+                      "type": "str",
+                      "value": "003"
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "empty"
+                    },
+                    {
+                      "missing": true
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "flag"
+                    },
+                    {
+                      "missing": true
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "observed"
+                    },
+                    {
+                      "datetime": "2026-02-03T12:34:56"
+                    }
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "columns"
+            },
+            [
+              {
+                "type": "str",
+                "value": "treatment"
+              },
+              {
+                "type": "str",
+                "value": "cost"
+              },
+              {
+                "type": "str",
+                "value": "mixed"
+              },
+              {
+                "type": "str",
+                "value": "empty"
+              },
+              {
+                "type": "str",
+                "value": "flag"
+              },
+              {
+                "type": "str",
+                "value": "observed"
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "shape"
+            },
+            [
+              {
+                "type": "int",
+                "value": 4
+              },
+              {
+                "type": "int",
+                "value": 6
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "missing_values"
+            },
+            {
+              "mapping": [
+                [
+                  {
+                    "type": "str",
+                    "value": "treatment"
+                  },
+                  {
+                    "type": "int",
+                    "value": 1
+                  }
+                ],
+                [
+                  {
+                    "type": "str",
+                    "value": "cost"
+                  },
+                  {
+                    "type": "int",
+                    "value": 2
+                  }
+                ],
+                [
+                  {
+                    "type": "str",
+                    "value": "mixed"
+                  },
+                  {
+                    "type": "int",
+                    "value": 1
+                  }
+                ],
+                [
+                  {
+                    "type": "str",
+                    "value": "empty"
+                  },
+                  {
+                    "type": "int",
+                    "value": 4
+                  }
+                ],
+                [
+                  {
+                    "type": "str",
+                    "value": "flag"
+                  },
+                  {
+                    "type": "int",
+                    "value": 2
+                  }
+                ],
+                [
+                  {
+                    "type": "str",
+                    "value": "observed"
+                  },
+                  {
+                    "type": "int",
+                    "value": 2
+                  }
+                ]
+              ]
+            }
+          ]
+        ]
+      },
+      "schema": {
+        "treatment": "str",
+        "cost": "float64",
+        "mixed": "object",
+        "empty": "float64",
+        "flag": "float64",
+        "observed": "datetime64[us]"
+      },
+      "warnings": []
+    },
+    "headers.xlsx": {
+      "sha256": "b8d987d554dfec9cf7cf91b8f7c46b43ec85aca607e7606db4c75b7db16fd6b6",
+      "payload": {
+        "mapping": [
+          [
+            {
+              "type": "str",
+              "value": "data_type"
+            },
+            {
+              "type": "str",
+              "value": "generic"
+            }
+          ],
+          [
+            {
+              "type": "str",
+              "value": "data"
+            },
+            [
+              {
+                "mapping": [
+                  [
+                    {
+                      "type": "str",
+                      "value": "Unnamed: 0.1"
+                    },
+                    {
+                      "type": "int",
+                      "value": 1
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "Unnamed: 0"
+                    },
+                    {
+                      "type": "int",
+                      "value": 2
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "cost"
+                    },
+                    {
+                      "type": "int",
+                      "value": 3
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "cost.1"
+                    },
+                    {
+                      "type": "int",
+                      "value": 4
+                    }
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "columns"
+            },
+            [
+              {
+                "type": "str",
+                "value": "Unnamed: 0.1"
+              },
+              {
+                "type": "str",
+                "value": "Unnamed: 0"
+              },
+              {
+                "type": "str",
+                "value": "cost"
+              },
+              {
+                "type": "str",
+                "value": "cost.1"
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "shape"
+            },
+            [
+              {
+                "type": "int",
+                "value": 1
+              },
+              {
+                "type": "int",
+                "value": 4
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "missing_values"
+            },
+            {
+              "mapping": [
+                [
+                  {
+                    "type": "str",
+                    "value": "Unnamed: 0.1"
+                  },
+                  {
+                    "type": "int",
+                    "value": 0
+                  }
+                ],
+                [
+                  {
+                    "type": "str",
+                    "value": "Unnamed: 0"
+                  },
+                  {
+                    "type": "int",
+                    "value": 0
+                  }
+                ],
+                [
+                  {
+                    "type": "str",
+                    "value": "cost"
+                  },
+                  {
+                    "type": "int",
+                    "value": 0
+                  }
+                ],
+                [
+                  {
+                    "type": "str",
+                    "value": "cost.1"
+                  },
+                  {
+                    "type": "int",
+                    "value": 0
+                  }
+                ]
+              ]
+            }
+          ]
+        ]
+      },
+      "schema": {
+        "Unnamed: 0.1": "int64",
+        "Unnamed: 0": "int64",
+        "cost": "int64",
+        "cost.1": "int64"
+      },
+      "warnings": []
+    },
+    "numeric-headers.xlsx": {
+      "sha256": "9a73fd31f210e07e16723ea988ecbba84bff5acf254648504c936ddee8750829",
+      "payload": {
+        "mapping": [
+          [
+            {
+              "type": "str",
+              "value": "data_type"
+            },
+            {
+              "type": "str",
+              "value": "generic"
+            }
+          ],
+          [
+            {
+              "type": "str",
+              "value": "data"
+            },
+            [
+              {
+                "mapping": [
+                  [
+                    {
+                      "type": "int",
+                      "value": 1
+                    },
+                    {
+                      "type": "int",
+                      "value": 3
+                    }
+                  ],
+                  [
+                    {
+                      "type": "int",
+                      "value": 2
+                    },
+                    {
+                      "type": "int",
+                      "value": 4
+                    }
+                  ]
+                ]
+              },
+              {
+                "mapping": [
+                  [
+                    {
+                      "type": "int",
+                      "value": 1
+                    },
+                    {
+                      "type": "int",
+                      "value": 5
+                    }
+                  ],
+                  [
+                    {
+                      "type": "int",
+                      "value": 2
+                    },
+                    {
+                      "type": "int",
+                      "value": 6
+                    }
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "columns"
+            },
+            [
+              {
+                "type": "int",
+                "value": 1
+              },
+              {
+                "type": "int",
+                "value": 2
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "shape"
+            },
+            [
+              {
+                "type": "int",
+                "value": 2
+              },
+              {
+                "type": "int",
+                "value": 2
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "missing_values"
+            },
+            {
+              "mapping": [
+                [
+                  {
+                    "type": "int",
+                    "value": 1
+                  },
+                  {
+                    "type": "int",
+                    "value": 0
+                  }
+                ],
+                [
+                  {
+                    "type": "int",
+                    "value": 2
+                  },
+                  {
+                    "type": "int",
+                    "value": 0
+                  }
+                ]
+              ]
+            }
+          ]
+        ]
+      },
+      "schema": {
+        "1": "int64",
+        "2": "int64"
+      },
+      "warnings": []
+    },
+    "offset.xlsx": {
+      "sha256": "4121a12678131fe0133c48487da39ad62dd33aa08d8823fb834c832525117ecd",
+      "payload": {
+        "mapping": [
+          [
+            {
+              "type": "str",
+              "value": "data_type"
+            },
+            {
+              "type": "str",
+              "value": "generic"
+            }
+          ],
+          [
+            {
+              "type": "str",
+              "value": "data"
+            },
+            [
+              {
+                "mapping": [
+                  [
+                    {
+                      "type": "str",
+                      "value": "Unnamed: 0"
+                    },
+                    {
+                      "missing": true
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "Unnamed: 1"
+                    },
+                    {
+                      "type": "str",
+                      "value": "name"
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "Unnamed: 2"
+                    },
+                    {
+                      "type": "str",
+                      "value": "cost"
+                    }
+                  ]
+                ]
+              },
+              {
+                "mapping": [
+                  [
+                    {
+                      "type": "str",
+                      "value": "Unnamed: 0"
+                    },
+                    {
+                      "missing": true
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "Unnamed: 1"
+                    },
+                    {
+                      "type": "str",
+                      "value": "Drug A"
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "Unnamed: 2"
+                    },
+                    {
+                      "type": "int",
+                      "value": 10
+                    }
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "columns"
+            },
+            [
+              {
+                "type": "str",
+                "value": "Unnamed: 0"
+              },
+              {
+                "type": "str",
+                "value": "Unnamed: 1"
+              },
+              {
+                "type": "str",
+                "value": "Unnamed: 2"
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "shape"
+            },
+            [
+              {
+                "type": "int",
+                "value": 2
+              },
+              {
+                "type": "int",
+                "value": 3
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "missing_values"
+            },
+            {
+              "mapping": [
+                [
+                  {
+                    "type": "str",
+                    "value": "Unnamed: 0"
+                  },
+                  {
+                    "type": "int",
+                    "value": 2
+                  }
+                ],
+                [
+                  {
+                    "type": "str",
+                    "value": "Unnamed: 1"
+                  },
+                  {
+                    "type": "int",
+                    "value": 0
+                  }
+                ],
+                [
+                  {
+                    "type": "str",
+                    "value": "Unnamed: 2"
+                  },
+                  {
+                    "type": "int",
+                    "value": 0
+                  }
+                ]
+              ]
+            }
+          ]
+        ]
+      },
+      "schema": {
+        "Unnamed: 0": "float64",
+        "Unnamed: 1": "str",
+        "Unnamed: 2": "object"
+      },
+      "warnings": []
+    },
+    "empty.xlsx": {
+      "sha256": "ae2a08242574f5bed243cc1e92a9a3ccf0eb05e5073bca158d727e0cb0e64076",
+      "payload": {
+        "mapping": [
+          [
+            {
+              "type": "str",
+              "value": "data_type"
+            },
+            {
+              "type": "str",
+              "value": "generic"
+            }
+          ],
+          [
+            {
+              "type": "str",
+              "value": "data"
+            },
+            []
+          ],
+          [
+            {
+              "type": "str",
+              "value": "columns"
+            },
+            []
+          ],
+          [
+            {
+              "type": "str",
+              "value": "shape"
+            },
+            [
+              {
+                "type": "int",
+                "value": 0
+              },
+              {
+                "type": "int",
+                "value": 0
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "missing_values"
+            },
+            {
+              "mapping": []
+            }
+          ]
+        ]
+      },
+      "schema": {},
+      "warnings": []
+    },
+    "types.xlsx": {
+      "sha256": "4f9bb47ed47c83a0b7c8e5c28bf28cf3ad47e7afeddc2c4d3bf45f2677b7155c",
+      "payload": {
+        "mapping": [
+          [
+            {
+              "type": "str",
+              "value": "data_type"
+            },
+            {
+              "type": "str",
+              "value": "generic"
+            }
+          ],
+          [
+            {
+              "type": "str",
+              "value": "data"
+            },
+            [
+              {
+                "mapping": [
+                  [
+                    {
+                      "type": "str",
+                      "value": "boolean"
+                    },
+                    {
+                      "type": "bool",
+                      "value": true
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "numeric_boolean"
+                    },
+                    {
+                      "type": "int",
+                      "value": 1
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "mixed_boolean"
+                    },
+                    {
+                      "type": "int",
+                      "value": 1
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "number_as_text"
+                    },
+                    {
+                      "type": "int",
+                      "value": 1
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "date_epoch"
+                    },
+                    {
+                      "datetime": "1900-02-28T00:00:00"
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "mixed_case_bool"
+                    },
+                    {
+                      "type": "str",
+                      "value": "TrUe"
+                    }
+                  ]
+                ]
+              },
+              {
+                "mapping": [
+                  [
+                    {
+                      "type": "str",
+                      "value": "boolean"
+                    },
+                    {
+                      "type": "bool",
+                      "value": false
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "numeric_boolean"
+                    },
+                    {
+                      "type": "int",
+                      "value": 1
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "mixed_boolean"
+                    },
+                    {
+                      "type": "int",
+                      "value": 1
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "number_as_text"
+                    },
+                    {
+                      "type": "int",
+                      "value": 2
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "date_epoch"
+                    },
+                    {
+                      "datetime": "2026-01-02T03:04:05.123000"
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "mixed_case_bool"
+                    },
+                    {
+                      "type": "str",
+                      "value": "FaLsE"
+                    }
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "columns"
+            },
+            [
+              {
+                "type": "str",
+                "value": "boolean"
+              },
+              {
+                "type": "str",
+                "value": "numeric_boolean"
+              },
+              {
+                "type": "str",
+                "value": "mixed_boolean"
+              },
+              {
+                "type": "str",
+                "value": "number_as_text"
+              },
+              {
+                "type": "str",
+                "value": "date_epoch"
+              },
+              {
+                "type": "str",
+                "value": "mixed_case_bool"
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "shape"
+            },
+            [
+              {
+                "type": "int",
+                "value": 2
+              },
+              {
+                "type": "int",
+                "value": 6
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "missing_values"
+            },
+            {
+              "mapping": [
+                [
+                  {
+                    "type": "str",
+                    "value": "boolean"
+                  },
+                  {
+                    "type": "int",
+                    "value": 0
+                  }
+                ],
+                [
+                  {
+                    "type": "str",
+                    "value": "numeric_boolean"
+                  },
+                  {
+                    "type": "int",
+                    "value": 0
+                  }
+                ],
+                [
+                  {
+                    "type": "str",
+                    "value": "mixed_boolean"
+                  },
+                  {
+                    "type": "int",
+                    "value": 0
+                  }
+                ],
+                [
+                  {
+                    "type": "str",
+                    "value": "number_as_text"
+                  },
+                  {
+                    "type": "int",
+                    "value": 0
+                  }
+                ],
+                [
+                  {
+                    "type": "str",
+                    "value": "date_epoch"
+                  },
+                  {
+                    "type": "int",
+                    "value": 0
+                  }
+                ],
+                [
+                  {
+                    "type": "str",
+                    "value": "mixed_case_bool"
+                  },
+                  {
+                    "type": "int",
+                    "value": 0
+                  }
+                ]
+              ]
+            }
+          ]
+        ]
+      },
+      "schema": {
+        "boolean": "bool",
+        "numeric_boolean": "int64",
+        "mixed_boolean": "int64",
+        "number_as_text": "int64",
+        "date_epoch": "datetime64[us]",
+        "mixed_case_bool": "str"
+      },
+      "warnings": []
+    },
+    "special.xlsx": {
+      "sha256": "811152b4e899e03c698ea7d4ae7b7b056ebfcbf15be76fd21a5f70fd78969b52",
+      "payload": {
+        "mapping": [
+          [
+            {
+              "type": "str",
+              "value": "data_type"
+            },
+            {
+              "type": "str",
+              "value": "generic"
+            }
+          ],
+          [
+            {
+              "type": "str",
+              "value": "data"
+            },
+            [
+              {
+                "mapping": [
+                  [
+                    {
+                      "type": "str",
+                      "value": "name"
+                    },
+                    {
+                      "type": "str",
+                      "value": "Drug A"
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "formula"
+                    },
+                    {
+                      "missing": true
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "error"
+                    },
+                    {
+                      "missing": true
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "numeric_text"
+                    },
+                    {
+                      "type": "int",
+                      "value": 1
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "time"
+                    },
+                    {
+                      "datetime": "03:04:05"
+                    }
+                  ]
+                ]
+              },
+              {
+                "mapping": [
+                  [
+                    {
+                      "type": "str",
+                      "value": "name"
+                    },
+                    {
+                      "type": "str",
+                      "value": "Drug B"
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "formula"
+                    },
+                    {
+                      "type": "float",
+                      "value": 2.0
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "error"
+                    },
+                    {
+                      "type": "float",
+                      "value": 3.0
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "numeric_text"
+                    },
+                    {
+                      "type": "int",
+                      "value": 2
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "time"
+                    },
+                    {
+                      "datetime": "04:05:06"
+                    }
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "columns"
+            },
+            [
+              {
+                "type": "str",
+                "value": "name"
+              },
+              {
+                "type": "str",
+                "value": "formula"
+              },
+              {
+                "type": "str",
+                "value": "error"
+              },
+              {
+                "type": "str",
+                "value": "numeric_text"
+              },
+              {
+                "type": "str",
+                "value": "time"
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "shape"
+            },
+            [
+              {
+                "type": "int",
+                "value": 2
+              },
+              {
+                "type": "int",
+                "value": 5
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "missing_values"
+            },
+            {
+              "mapping": [
+                [
+                  {
+                    "type": "str",
+                    "value": "name"
+                  },
+                  {
+                    "type": "int",
+                    "value": 0
+                  }
+                ],
+                [
+                  {
+                    "type": "str",
+                    "value": "formula"
+                  },
+                  {
+                    "type": "int",
+                    "value": 1
+                  }
+                ],
+                [
+                  {
+                    "type": "str",
+                    "value": "error"
+                  },
+                  {
+                    "type": "int",
+                    "value": 1
+                  }
+                ],
+                [
+                  {
+                    "type": "str",
+                    "value": "numeric_text"
+                  },
+                  {
+                    "type": "int",
+                    "value": 0
+                  }
+                ],
+                [
+                  {
+                    "type": "str",
+                    "value": "time"
+                  },
+                  {
+                    "type": "int",
+                    "value": 0
+                  }
+                ]
+              ]
+            }
+          ]
+        ]
+      },
+      "schema": {
+        "name": "str",
+        "formula": "float64",
+        "error": "float64",
+        "numeric_text": "int64",
+        "time": "object"
+      },
+      "warnings": []
+    },
+    "chart-first.xlsx": {
+      "sha256": "31b78220afa11842c65a1818d6ea5c4fe0fb180ce5f515442dfca7d19e1f78f5",
+      "payload": {
+        "mapping": [
+          [
+            {
+              "type": "str",
+              "value": "data_type"
+            },
+            {
+              "type": "str",
+              "value": "generic"
+            }
+          ],
+          [
+            {
+              "type": "str",
+              "value": "data"
+            },
+            [
+              {
+                "mapping": [
+                  [
+                    {
+                      "type": "str",
+                      "value": "name"
+                    },
+                    {
+                      "type": "str",
+                      "value": "Drug"
+                    }
+                  ],
+                  [
+                    {
+                      "type": "str",
+                      "value": "cost"
+                    },
+                    {
+                      "type": "int",
+                      "value": 10
+                    }
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "columns"
+            },
+            [
+              {
+                "type": "str",
+                "value": "name"
+              },
+              {
+                "type": "str",
+                "value": "cost"
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "shape"
+            },
+            [
+              {
+                "type": "int",
+                "value": 1
+              },
+              {
+                "type": "int",
+                "value": 2
+              }
+            ]
+          ],
+          [
+            {
+              "type": "str",
+              "value": "missing_values"
+            },
+            {
+              "mapping": [
+                [
+                  {
+                    "type": "str",
+                    "value": "name"
+                  },
+                  {
+                    "type": "int",
+                    "value": 0
+                  }
+                ],
+                [
+                  {
+                    "type": "str",
+                    "value": "cost"
+                  },
+                  {
+                    "type": "int",
+                    "value": 0
+                  }
+                ]
+              ]
+            }
+          ]
+        ]
+      },
+      "warnings": []
+    },
+    "chart-only.xlsx": {
+      "sha256": "83c0b3e5dda11b3b7236663de6d5da5429a35ccd92b5c1e2ec6038c447b306b3",
+      "payload": {
+        "mapping": []
+      },
+      "warnings": [
+        "Error importing health data: Worksheet index 0 is invalid, 0 worksheets found"
+      ]
+    }
+  },
+  "legacy_export": {
+    "sha256": "c6a446d288522f26e0a1ce786d15ad6e821f04e8d2217e24767ec1a7bcb9617f",
+    "sheets": {
+      "treatments": [
+        {
+          "mapping": [
+            [
+              {
+                "type": "str",
+                "value": "name"
+              },
+              {
+                "type": "str",
+                "value": "Standard Care"
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "description"
+              },
+              {
+                "type": "str",
+                "value": "Baseline"
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "effectiveness"
+              },
+              {
+                "type": "float",
+                "value": 0.75
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "cost_per_cycle"
+              },
+              {
+                "type": "int",
+                "value": 100
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "cycles_required"
+              },
+              {
+                "type": "int",
+                "value": 10
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "side_effect_utility"
+              },
+              {
+                "type": "int",
+                "value": 0
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "side_effect_cost"
+              },
+              {
+                "type": "int",
+                "value": 0
+              }
+            ]
+          ]
+        },
+        {
+          "mapping": [
+            [
+              {
+                "type": "str",
+                "value": "name"
+              },
+              {
+                "type": "str",
+                "value": "Drug A"
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "description"
+              },
+              {
+                "type": "str",
+                "value": "Intervention"
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "effectiveness"
+              },
+              {
+                "type": "float",
+                "value": 0.9
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "cost_per_cycle"
+              },
+              {
+                "type": "int",
+                "value": 150
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "cycles_required"
+              },
+              {
+                "type": "int",
+                "value": 10
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "side_effect_utility"
+              },
+              {
+                "type": "int",
+                "value": 0
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "side_effect_cost"
+              },
+              {
+                "type": "int",
+                "value": 0
+              }
+            ]
+          ]
+        }
+      ],
+      "health_states": [
+        {
+          "mapping": [
+            [
+              {
+                "type": "str",
+                "value": "state_id"
+              },
+              {
+                "type": "str",
+                "value": "stable"
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "description"
+              },
+              {
+                "type": "str",
+                "value": "Stable disease"
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "utility"
+              },
+              {
+                "type": "float",
+                "value": 0.85
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "cost"
+              },
+              {
+                "type": "int",
+                "value": 50
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "duration"
+              },
+              {
+                "type": "int",
+                "value": 1
+              }
+            ]
+          ]
+        }
+      ],
+      "cost_effectiveness": [
+        {
+          "mapping": [
+            [
+              {
+                "type": "str",
+                "value": "treatment"
+              },
+              {
+                "type": "str",
+                "value": "Standard Care"
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "total_cost"
+              },
+              {
+                "type": "int",
+                "value": 1000
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "total_qaly"
+              },
+              {
+                "type": "float",
+                "value": 8.639392643942738
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "net_monetary_benefit"
+              },
+              {
+                "type": "float",
+                "value": 430969.6321971369
+              }
+            ]
+          ]
+        },
+        {
+          "mapping": [
+            [
+              {
+                "type": "str",
+                "value": "treatment"
+              },
+              {
+                "type": "str",
+                "value": "Drug A"
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "total_cost"
+              },
+              {
+                "type": "int",
+                "value": 1500
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "total_qaly"
+              },
+              {
+                "type": "float",
+                "value": 11.23121043712556
+              }
+            ],
+            [
+              {
+                "type": "str",
+                "value": "net_monetary_benefit"
+              },
+              {
+                "type": "float",
+                "value": 560060.521856278
+              }
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "writer_special": {
+    "sha256": "ca395ce2fafd9ee267ea685dd676bf93183980b8497de82c1c280662dbf1d01f",
+    "header_formats": [
+      "General",
+      "General",
+      "General"
+    ],
+    "header_bold": [
+      false,
+      false,
+      false
+    ],
+    "data_formats": [
+      [
+        "General",
+        "General",
+        "General"
+      ],
+      [
+        "General",
+        "General",
+        "General"
+      ],
+      [
+        "General",
+        "General",
+        "General"
+      ],
+      [
+        "General",
+        "General",
+        "General"
+      ]
+    ],
+    "formula": "=1+1",
+    "formula_cached": null,
+    "url_hyperlink": null
+  },
+  "red_result": {
+    "failed": 6,
+    "passed": 10,
+    "command": ".venv/bin/python scripts/guard_verification.py --work-dir .conductor/local/pandas-free-excel/red -- .venv/bin/pytest -o addopts= tests/test_native_excel.py -q",
+    "guard": {
+      "peak_rss_kib": 591616,
+      "reason": "completed",
+      "returncode": 1,
+      "elapsed_seconds": 40.252,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-m3nwiw92"
+    }
+  },
+  "frontier_preflight": {
+    "upgrade_log": "Resolved 196 packages in 4.60s\nUpdated python-discovery v1.6.4 -> v1.6.5\nUpdated tox-uv v1.37.0 -> v1.37.1\nUpdated tox-uv-bare v1.37.0 -> v1.37.1\nUpdated virtualenv v21.14.13 -> v21.15.0\n",
+    "strict_policy": "passed",
+    "report_sha256": "b0596eb44795c6f14d63af4b034411ea8698b0a215fbc929297a2619d8224b03"
+  }
+}

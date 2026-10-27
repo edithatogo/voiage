@@ -92,3 +92,18 @@ subject to the evaluated extra and committed lock, not a promotion claim.
   portal workflows only; pause before login-bound irreversible submissions,
   account actions, or paid resource use
 **Rust**: crates.io core crates plus GitHub Releases
+
+## Native Excel migration design (27 October 2026)
+
+Phase 3 selects the MIT-licensed `python-calamine` 0.9 native Rust binding
+for raw worksheet cells, then constructs Polars columns with explicit
+whole-column inference and preserves heterogeneous cells where necessary.
+The Polars/fastexcel 0.21 comparison changes mixed numeric cells, leading blank
+areas, header types and time-only values in the frozen legacy fixtures, so it
+is not selected. This named alternative follows AC3 of the pandas-free I/O track.
+
+Writing uses Polars `write_excel` with BSD-2-Clause XlsxWriter 3.3 and a shared
+workbook. The `excel` extra declares the selected reader and writer; openpyxl
+remains a CI-only producer/oracle, never a runtime fallback. Engine wheels and
+workbook behavior must qualify on Python 3.15.1 before acceptance. Pandas/xarray
+package dependency removal remains Phase 4 work.

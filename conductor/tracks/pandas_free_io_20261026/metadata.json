@@ -3,7 +3,7 @@
   "type": "refactor",
   "status": "in_progress",
   "created_at": "2026-10-26T00:00:00Z",
-  "updated_at": "2026-10-27T07:41:53Z",
+  "updated_at": "2026-10-27T08:33:16Z",
   "description": "Remove direct pandas use from external I/O and widgets, reconcile the four packaging surfaces and enforce the absence mechanically",
   "base_commit": "ca3f05cc8adcc74b99fe236152327d0cd3679553",
   "github_cross_reference": {
@@ -16,8 +16,8 @@
   ],
   "dependency_semantics": "Container prerequisite accepted in PR #1202. Final pandas-free package acceptance still requires the package-level gate; baseline xarray import and packaging bounds describe historical state.",
   "authorization": {
-    "scope": "Continue the next pandas-free migration tasks after merging T1.2, using Python 3.15.1 and the resource guard; preserve public API and existing behavior.",
-    "source": "Direct user instruction on 2026-10-27 to merge PR #1203 and continue the next tasks."
+    "scope": "Merge PR #1204 and continue native Excel reader/writer qualification and compatibility fixes using Python 3.15.1 and the resource guard; preserve public API and workbook behavior.",
+    "source": "Direct user instructions on 2026-10-27 to continue native Excel migration and resolve compatibility failures."
   },
   "gates": [
     {
