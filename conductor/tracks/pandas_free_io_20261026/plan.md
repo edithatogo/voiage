@@ -34,8 +34,8 @@ T1.1 baseline is frozen, T1.2 is merged in PR #1203, and Phase 2 qualifies the m
 
 ## Phase 6: Producer compatibility and boundary
 
-- [~] T6.1 — Freeze the interchange fixtures, including a pandas producer object supplied by a caller.
-- [ ] T6.2 — Verify pandas-producing and Polars-producing objects are both accepted without a Voiage pandas import, and that zero-copy is preferred where available. (AC6).
+- [x] T6.1 — Freeze the interchange fixtures, including a pandas producer object supplied by a caller. Baseline and red automation contracts: `61b8cbc6`, `phase-6-baseline.json` and `tests/producer_compatibility/producer.json`.
+- [~] T6.2 — Verify pandas-producing and Polars-producing objects are both accepted without a Voiage pandas import, and that zero-copy is preferred where available. (AC6).
 - [ ] T6.3 — Validate: non-conforming input fails with the documented diagnostic; the wire contract and binding fixtures are unchanged; no new persistence format exists. (AC6, AC7).
 
 ## Phase 7: Residual surfaces and zero-reference end state
