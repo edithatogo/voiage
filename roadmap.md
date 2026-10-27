@@ -179,15 +179,16 @@ Issue [#1195](https://github.com/edithatogo/voiage/issues/1195) registers four
 tracks that replace the xarray-backed tabular contract with Polars and remove
 direct pandas use:
 `conductor/tracks/tabular_contract_v3_20261026/` **(complete)**,
-`conductor/tracks/polars_container_20261026/` **(complete)**,
+`conductor/tracks/polars_container_20261026/` **(implemented locally; final acceptance pending)**,
 `conductor/tracks/pandas_free_io_20261026/` and
 `conductor/tracks/translation_reference_20261026/`.
 `specs/core-api/decision-record.md` no longer names xarray as the Python
 reference model: the v3 revision (`specs/v3/`) names Polars wide frames, and the
 container track has replaced `ValueArray`/`ParameterSet` with wide Polars frames
-at bit-identical numerical parity with every xarray reference removed from
-`voiage/`, `tests/`, `examples/` and `scripts/`. The pandas-free I/O and
-translation-reference tracks remain planning-only, and the declared `xarray` and
+at bit-identical numerical parity with no xarray imports remaining under
+`voiage/`, `tests/`, `examples/` and `scripts/`. The pandas-free I/O follow-up
+is authorised with its inventory frozen; the translation-reference track
+remains planning-only, and the declared `xarray` and
 `pandas` dependencies stay until `pandas_free_io_20261026`. The published 2.2.0
 release line and the active release-and-venue track are unaffected.
 

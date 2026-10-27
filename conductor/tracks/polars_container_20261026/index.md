@@ -1,6 +1,8 @@
 # Track: Polars-native core containers
 
-Status: in progress. Implementation authorised by the maintainer on 2026-10-26.
+Status: in progress; implementation delivered locally, final acceptance pending Python 3.15.1 full-gate qualification and hosted PR checks. Implementation authorised by the maintainer on 2026-10-26.
+
+See [qualification and handoff](./qualification-20261027.md) for current evidence and blockers.
 
 GitHub issue: https://github.com/edithatogo/voiage/issues/1197 (parent: https://github.com/edithatogo/voiage/issues/1195)
 

@@ -1,0 +1,329 @@
+{
+  "schema_version": "1.0",
+  "task": "T1.1",
+  "source_commit": "1e311b6a99fda1e880e8326507d6b3d254d0c7a7",
+  "inventory_command": [
+    "git",
+    "grep",
+    "-n",
+    "-E",
+    "import pandas|from pandas|pd\\.|itertuples",
+    "--",
+    "voiage/",
+    "tests/",
+    "examples/",
+    "scripts/"
+  ],
+  "inventory_exit_status": 0,
+  "inventory_sha256": "6ead65cfd65f370c6c7024b49cd68b57ef72f8ac30429dece365f13867d8be0e",
+  "inventory": [
+    "tests/test_ecosystem_integration.py:7:import pandas as pd",
+    "tests/test_ecosystem_integration.py:191:    pd.DataFrame(",
+    "tests/test_ecosystem_integration.py:233:    pd.DataFrame(columns).to_csv(csv_path, index=False)",
+    "tests/test_ecosystem_integration.py:247:    pd.DataFrame({\"state\": [\"stable\"], \"cost\": [10.0]}).to_excel(xlsx_path, index=False)",
+    "tests/test_ecosystem_integration.py:265:        lambda _path: pd.DataFrame({\"state\": [\"stable\"], \"cost\": [10.0]}),",
+    "tests/test_ecosystem_integration.py:327:    workbook = pd.read_excel(output_path, sheet_name=None)",
+    "tests/test_ecosystem_integration.py:360:    monkeypatch.setattr(pd.DataFrame, \"to_csv\", _raise_to_csv)",
+    "tests/test_ecosystem_integration.py:423:    pd.DataFrame({\"treatment\": [\"Drug A\"], \"cost\": [10.0]}).to_csv(",
+    "tests/test_ecosystem_integration.py:495:    pd.DataFrame({\"cost\": [25.0], \"category\": [\"drug\"]}).to_csv(csv_path, index=False)",
+    "tests/test_standardized_ingestion_providers.py:12:import pandas as pd",
+    "tests/test_standardized_ingestion_providers.py:1555:    index = pd.Index([\"first\", \"second\"], name=\"scenario\")",
+    "tests/test_standardized_ingestion_providers.py:1556:    frame = pd.DataFrame(",
+    "tests/test_standardized_ingestion_providers.py:1558:            \"tier\": pd.Series([\"standard\", None], dtype=\"category\", index=index),",
+    "tests/test_standardized_ingestion_providers.py:1559:            \"cost\": pd.Series([10, None], dtype=\"Int64\", index=index),",
+    "tests/test_standardized_ingestion_providers.py:1560:            \"observed_at\": pd.Series(",
+    "tests/test_standardized_ingestion_providers.py:1561:                pd.to_datetime([\"2026-01-01T00:00:00Z\", None]), index=index",
+    "voiage/ecosystem_integration.py:27:import pandas as pd",
+    "voiage/ecosystem_integration.py:443:                df = pd.read_csv(path_obj)",
+    "voiage/ecosystem_integration.py:445:                df = pd.read_excel(path_obj)",
+    "voiage/ecosystem_integration.py:447:                df = pd.read_parquet(path_obj)",
+    "voiage/ecosystem_integration.py:477:            export_data: dict[str, pd.DataFrame] = {}",
+    "voiage/ecosystem_integration.py:492:            export_data[\"treatments\"] = pd.DataFrame(treatments_data)",
+    "voiage/ecosystem_integration.py:505:            export_data[\"health_states\"] = pd.DataFrame(states_data)",
+    "voiage/ecosystem_integration.py:530:            export_data[\"cost_effectiveness\"] = pd.DataFrame(ce_results)",
+    "voiage/ecosystem_integration.py:544:                with pd.ExcelWriter(output_path_obj) as writer:",
+    "voiage/ecosystem_integration.py:560:    def _process_dataframe(self, df: pd.DataFrame, data_type: str) -> dict[str, Any]:",
+    "voiage/ecosystem_integration.py:595:def _load_tabular_artifact(path: Path) -> pd.DataFrame:",
+    "voiage/ecosystem_integration.py:598:        return pd.read_csv(path)",
+    "voiage/ecosystem_integration.py:600:        return pd.read_parquet(path)",
+    "voiage/ecosystem_integration.py:757:                        \"import pandas as pd\\\\n\\\\n\",",
+    "voiage/ecosystem_integration.py:827:                        \"results_df = pd.DataFrame(results)\\\\n\",",
+    "voiage/ecosystem_integration.py:844:                        \"for row in results_df.itertuples():\\\\n\",",
+    "voiage/widgets/voi_widgets.py:288:                    import pandas as pd",
+    "voiage/widgets/voi_widgets.py:291:                    df = pd.read_csv(io.StringIO(text_content))",
+    "voiage/widgets/voi_widgets.py:326:                    import pandas as pd",
+    "voiage/widgets/voi_widgets.py:329:                    df = pd.read_csv(io.StringIO(text_content))"
+  ],
+  "modules": [
+    {
+      "path": "voiage/ecosystem_integration.py",
+      "sha256": "108eab9e6b2408e575e3fa962fede767ac585bd41d9c35aa63c13d0f101a70c7",
+      "signatures": [
+        {
+          "name": "__init__",
+          "line": 59,
+          "arguments": "self",
+          "return_annotation": "None"
+        },
+        {
+          "name": "import_treeage_model",
+          "line": 67,
+          "arguments": "self, file_path: str",
+          "return_annotation": "dict[str, Any]"
+        },
+        {
+          "name": "export_to_treeage",
+          "line": 131,
+          "arguments": "self, health_analysis: HealthEconomicsAnalysis, output_path: str",
+          "return_annotation": "None"
+        },
+        {
+          "name": "convert_to_voi_analysis",
+          "line": 179,
+          "arguments": "self, model_structure: dict[str, Any]",
+          "return_annotation": "dict[str, Any]"
+        },
+        {
+          "name": "__init__",
+          "line": 220,
+          "arguments": "self",
+          "return_annotation": "None"
+        },
+        {
+          "name": "import_bcea_results",
+          "line": 228,
+          "arguments": "self, file_path: str",
+          "return_annotation": "dict[str, Any]"
+        },
+        {
+          "name": "export_for_bcea",
+          "line": 286,
+          "arguments": "self, health_analysis: HealthEconomicsAnalysis, output_path: str, num_simulations: int=10000",
+          "return_annotation": "None"
+        },
+        {
+          "name": "import_hesim_results",
+          "line": 369,
+          "arguments": "self, file_path: str",
+          "return_annotation": "dict[str, Any]"
+        },
+        {
+          "name": "__init__",
+          "line": 414,
+          "arguments": "self",
+          "return_annotation": "None"
+        },
+        {
+          "name": "import_health_data",
+          "line": 422,
+          "arguments": "self, file_path: str, data_type: str='auto'",
+          "return_annotation": "dict[str, Any]"
+        },
+        {
+          "name": "export_health_data",
+          "line": 461,
+          "arguments": "self, health_analysis: HealthEconomicsAnalysis, output_path: str, format_type: str='csv'",
+          "return_annotation": "None"
+        },
+        {
+          "name": "_process_dataframe",
+          "line": 560,
+          "arguments": "self, df: pd.DataFrame, data_type: str",
+          "return_annotation": "dict[str, Any]"
+        },
+        {
+          "name": "_convert_json_to_dataframe",
+          "line": 585,
+          "arguments": "self, data: dict[str, Any]",
+          "return_annotation": "dict[str, Any]"
+        },
+        {
+          "name": "_load_tabular_artifact",
+          "line": 595,
+          "arguments": "path: Path",
+          "return_annotation": "pd.DataFrame"
+        },
+        {
+          "name": "load_heoml_run_bundle",
+          "line": 606,
+          "arguments": "manifest_path: str",
+          "return_annotation": "HeomlRunBundle"
+        },
+        {
+          "name": "load_voi",
+          "line": 654,
+          "arguments": "",
+          "return_annotation": "ValueArray | None"
+        },
+        {
+          "name": "load_parameter",
+          "line": 666,
+          "arguments": "",
+          "return_annotation": "ParameterSet | None"
+        },
+        {
+          "name": "__init__",
+          "line": 717,
+          "arguments": "self",
+          "return_annotation": "None"
+        },
+        {
+          "name": "create_jupyter_analysis",
+          "line": 725,
+          "arguments": "self, health_analysis: HealthEconomicsAnalysis, output_path: str",
+          "return_annotation": "None"
+        },
+        {
+          "name": "create_r_workflow",
+          "line": 864,
+          "arguments": "self, health_analysis: HealthEconomicsAnalysis, output_path: str",
+          "return_annotation": "None"
+        },
+        {
+          "name": "__init__",
+          "line": 947,
+          "arguments": "self",
+          "return_annotation": "None"
+        },
+        {
+          "name": "get_connector",
+          "line": 955,
+          "arguments": "self, integration_type: str",
+          "return_annotation": "EcosystemConnector | None"
+        },
+        {
+          "name": "import_from_external",
+          "line": 959,
+          "arguments": "self, integration_type: str, file_path: str, **kwargs: object",
+          "return_annotation": "dict[str, object]"
+        },
+        {
+          "name": "export_to_external",
+          "line": 982,
+          "arguments": "self, integration_type: str, analysis_object: object, output_path: str, **kwargs: object",
+          "return_annotation": "None"
+        },
+        {
+          "name": "list_supported_formats",
+          "line": 1028,
+          "arguments": "self",
+          "return_annotation": "dict[str, list[str]]"
+        },
+        {
+          "name": "create_integration_report",
+          "line": 1035,
+          "arguments": "self",
+          "return_annotation": "dict[str, Any]"
+        },
+        {
+          "name": "quick_import_health_data",
+          "line": 1074,
+          "arguments": "file_path: str, analysis_type: str='auto'",
+          "return_annotation": "dict[str, Any]"
+        },
+        {
+          "name": "quick_export_notebook",
+          "line": 1084,
+          "arguments": "health_analysis: HealthEconomicsAnalysis, output_path: str",
+          "return_annotation": "None"
+        },
+        {
+          "name": "quick_r_export",
+          "line": 1094,
+          "arguments": "health_analysis: HealthEconomicsAnalysis, output_path: str",
+          "return_annotation": "None"
+        },
+        {
+          "name": "convert_treeage_to_voi",
+          "line": 1102,
+          "arguments": "file_path: str",
+          "return_annotation": "dict[str, Any]"
+        }
+      ]
+    },
+    {
+      "path": "voiage/widgets/voi_widgets.py",
+      "sha256": "533345f1e3255bac2682f4872bc3b8e041ed38eeee8edcd5fbc505b9d5b4c369",
+      "signatures": [
+        {
+          "name": "__init__",
+          "line": 21,
+          "arguments": "self",
+          "return_annotation": null
+        },
+        {
+          "name": "_create_widgets",
+          "line": 38,
+          "arguments": "self",
+          "return_annotation": null
+        },
+        {
+          "name": "_setup_layout",
+          "line": 125,
+          "arguments": "self",
+          "return_annotation": null
+        },
+        {
+          "name": "_setup_callbacks",
+          "line": 169,
+          "arguments": "self",
+          "return_annotation": null
+        },
+        {
+          "name": "_on_calculate_clicked",
+          "line": 178,
+          "arguments": "self, button",
+          "return_annotation": null
+        },
+        {
+          "name": "_on_clear_clicked",
+          "line": 249,
+          "arguments": "self, button",
+          "return_annotation": null
+        },
+        {
+          "name": "_on_net_benefits_upload",
+          "line": 268,
+          "arguments": "self, change",
+          "return_annotation": null
+        },
+        {
+          "name": "_on_parameters_upload",
+          "line": 302,
+          "arguments": "self, change",
+          "return_annotation": null
+        },
+        {
+          "name": "_parse_net_benefits_text",
+          "line": 342,
+          "arguments": "self",
+          "return_annotation": null
+        },
+        {
+          "name": "_parse_parameters_text",
+          "line": 358,
+          "arguments": "self",
+          "return_annotation": null
+        },
+        {
+          "name": "display",
+          "line": 402,
+          "arguments": "self",
+          "return_annotation": null
+        },
+        {
+          "name": "create_voi_widget",
+          "line": 408,
+          "arguments": "",
+          "return_annotation": null
+        }
+      ]
+    }
+  ],
+  "expected_red": {
+    "command": "git grep -n -E 'import pandas|from pandas' -- voiage/ecosystem_integration.py voiage/widgets/voi_widgets.py",
+    "expected_current_exit_status": 0,
+    "required_end_state_exit_status": 1
+  },
+  "surface_policy": "Preserve public names, signatures, return keys, shape tuples, column order and warning/fail-soft behavior; private pandas frame annotations must become Polars. Runtime return payload parity must be tested before T1.3 can close."
+}

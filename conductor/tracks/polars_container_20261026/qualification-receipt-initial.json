@@ -1,0 +1,175 @@
+{
+  "schema_version": "1.0",
+  "status": "final_acceptance_pending",
+  "source_base_commit": "01a2737741417ba0f32ae66186b4983e23a1928d",
+  "source_files_sha256": {
+    "voiage/schema.py": "b9a4eb37d300d31d61acaf3701ed94b00a3c3dabf6907102e528762753911c76",
+    "tests/test_schema_polars_surface.py": "40704880575fdc761a67ee6d156f7442c552eed9b25b457ee4a0a9bf1724ad65",
+    "pyproject.toml": "abc853f88f9a3b47b5523b638fbbb73023a027ba1de1b802c33bb0bcc35c66fb",
+    "tox.ini": "8ec020fed88221849a5043b435e369f43b6652c495bdef7df56307a4ed5d7ef7",
+    "uv.lock": "4f153b33044ea3ae342d5de33c58e7e797f57284ab87adc6dcc3efaf5e015575"
+  },
+  "environment": {
+    "python_executable": "/Volumes/PortableSSD/GitHub/voiage/.venv-py315/bin/python",
+    "python_version": "3.15.1",
+    "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "packages": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.1.0",
+      "polars": "2.1.0",
+      "pyarrow": "26.0.0",
+      "jax": "0.12.0.1",
+      "jaxlib": "0.12.0.1",
+      "scikit-learn": "1.9.1",
+      "pytest": "9.1.1",
+      "ruff": "0.17.2"
+    }
+  },
+  "qualification_kind": "isolated_latest_dependencies_outside_declared_ranges",
+  "results": {
+    "initial_focused": {
+      "passed": 119
+    },
+    "validation_red": {
+      "failed": 6
+    },
+    "focused_after_repair": {
+      "passed": 126
+    },
+    "core_numerical_ingestion": {
+      "passed": 70
+    },
+    "backend_jax": {
+      "passed": 32
+    },
+    "governance": {
+      "passed": 8
+    },
+    "typecheck_after_repair": {
+      "exit_status": 0
+    },
+    "typecheck_python315_target": {
+      "exit_status": 0
+    },
+    "full_tox": {
+      "exit_status": 1,
+      "accepted": false,
+      "environment_outcomes": {
+        "lint": {
+          "success": true,
+          "exit_code": 0,
+          "duration": 9.304337874986231,
+          "skipped": false
+        },
+        "vale": {
+          "success": true,
+          "exit_code": 0,
+          "duration": 8.600537416990846,
+          "skipped": false
+        },
+        "joss": {
+          "success": true,
+          "exit_code": 0,
+          "duration": 4.235690958972555,
+          "skipped": false
+        },
+        "harness": {
+          "success": false,
+          "exit_code": 1,
+          "duration": 2.8238799999817275,
+          "skipped": false
+        },
+        "typecheck": {
+          "success": false,
+          "exit_code": 1,
+          "duration": 7.033899333968293,
+          "skipped": false
+        },
+        "docs": {
+          "success": false,
+          "exit_code": 1,
+          "duration": 2.2382502920227125,
+          "skipped": false
+        },
+        "ingestion-conformance": {
+          "success": false,
+          "exit_code": 1,
+          "duration": 16.275742916972376,
+          "skipped": false
+        },
+        "frontier-contract": {
+          "success": true,
+          "exit_code": 0,
+          "duration": 0.8089156250352971,
+          "skipped": false
+        },
+        "version-sync": {
+          "success": false,
+          "exit_code": 1,
+          "duration": 1.9170886250212789,
+          "skipped": false
+        },
+        "py315": {
+          "success": false,
+          "exit_code": 1,
+          "duration": 9.710400208015926,
+          "skipped": false
+        },
+        "min_versions": {
+          "success": false,
+          "exit_code": 1,
+          "duration": 0.11504583299392834,
+          "skipped": false
+        },
+        "max_versions": {
+          "success": false,
+          "exit_code": 1,
+          "duration": 0.16154391603777185,
+          "skipped": false
+        },
+        "coverage_report": {
+          "success": false,
+          "exit_code": 1,
+          "duration": 0.004421791003551334,
+          "skipped": false
+        }
+      }
+    },
+    "polars_floor": "pending"
+  },
+  "commands": {
+    "focused": ".venv-py315/bin/python -m pytest tests/test_schema.py tests/test_schema_comprehensive.py tests/test_schema_polars_surface.py tests/test_schema_validation_parity.py tests/test_polars_numerical_parity.py tests/test_dataframe_interchange_sdk.py tests/test_v3_stable_api_contract.py -o addopts= -q",
+    "core": ".venv-py315/bin/python -m pytest tests/test_schema_polars_surface.py tests/test_core_metrics_regression.py tests/test_numerical_reference_cases.py tests/test_standardized_ingestion_conformance.py -o addopts= -q",
+    "backend": ".venv-py315/bin/python -m pytest tests/test_backends.py tests/test_backend_consistency.py tests/test_advanced_jax_regression.py -o addopts= -q",
+    "full_tox": ".venv-py315/bin/tox run-parallel -p 2 with Python 3.15.1 interpreter/matrix, isolated-workdir, uv-install and scientific-wheel-only CLI overrides; exact environment commands retained in local tox-result.json",
+    "preflight": [
+      "uv lock --upgrade",
+      ".venv-py315/bin/python scripts/dependency_frontier.py . --strict"
+    ]
+  },
+  "retained_local_evidence": {
+    ".conductor/local/polars-qualification-20261027/focused.log": "0de5170fd2c6fb95a39879a25a0ef98ee48761d99ca69ff1ddc55686582eda66",
+    ".conductor/local/polars-qualification-20261027/validation-red.log": "00d1f50a48084462bf17f58f0777dbec2889bfcebb6335424b20a978b305c409",
+    ".conductor/local/polars-qualification-20261027/focused-green.log": "2aa14d506250a165d332d016f0d4982ee0b5e5fa51628774b8f24802005f02d1",
+    ".conductor/local/polars-qualification-20261027/core-green.log": "b51a9f53adc592e57e5585722b2ae528e83655c1184551c6d3c3b6aa0acbdffb",
+    ".conductor/local/polars-qualification-20261027/backend-qualification.log": "716b58a4aeb074ed0a01bc4cf737b9fb47652162cdcbaf050711a97b8956461c",
+    ".conductor/local/polars-qualification-20261027/governance.log": "7140c44a99b6e5d70f0b24fda79b17cabcec2b38c46672d98f5340d780a1ebd5",
+    ".conductor/local/polars-qualification-20261027/tox.log": "f7b54ebb47f79b8023a11eb83ccc1b94e5b876610f8367f4437ac8ddc2970444",
+    ".conductor/local/polars-qualification-20261027/tox-result.json": "69a39a14fc1e7044dc81201a6ac522b07a9d2137fe6a011aee9d7b11bfa99443",
+    ".conductor/local/polars-qualification-20261027/typecheck-green.log": "613cc5b804463b44174542ced2d992685b1291f7578a240e063f70825699dc77",
+    ".conductor/local/polars-qualification-20261027/typecheck-py315.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    ".conductor/local/polars-qualification-20261027/benchmark.json": "60f4a29a5f454cff014b49362d6152318ea532d2c65ae7941c1c23bb9b2a9c04",
+    ".conductor/local/polars-qualification-20261027/dependency_frontier.json": "63fd5607f4d0b88298d0c357d1617648867c347813bf06f28f6c5aac833d3117",
+    ".conductor/local/polars-qualification-20261027/dependency_frontier.md": "94802f0a19f628afb7cb0341bf0012f40a164bbe6c626062ca0a4d666eb7bb9d",
+    ".conductor/local/polars-qualification-20261027/upgraded-uv.lock": "427ac9cd259c3de49259d26a97e9cf78ad8a872ff6fdff50d39589656ad1fc6a",
+    ".conductor/local/polars-qualification-20261027/jax-declared-range.log": "1eba9f90afa9c672187a9cd7d98bd19262c44b891cfb17a1c349a6df3f33bc33",
+    ".conductor/local/polars-qualification-20261027/pyarrow-declared-range.log": "448b26f99e91bd5f332c09de784e061c716be9961b8dc57bffc862decffbcb5d"
+  },
+  "limitations": [
+    "The suite selections overlap; counts must not be added as unique tests.",
+    "No full coverage, supported clean install, controlled performance acceptance or hosted pass is established.",
+    "The full tox result precedes the JAX static annotation repair; the affected typecheck was rerun successfully.",
+    "The refreshed lock was retained for inspection and not adopted."
+  ]
+}

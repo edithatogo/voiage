@@ -6,7 +6,7 @@
 
 - Replace the xarray-backed `ValueArray` and `ParameterSet` containers with wide
   Polars frames (`frame`, `from_polars`, `to_polars`; `ValueArray.values` now
-  returns a NumPy array), removing every xarray reference from the runtime,
+  returns a NumPy array), removing xarray imports from the runtime,
   tests, examples and scripts at bit-identical numerical parity. The declared
   `xarray` and `pandas` dependencies remain until the pandas-free I/O track.
 

@@ -5,7 +5,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
 ## To Do
 
 - [ ] Ordered implementation tracks: `conductor/tracks/agent_safe_engineering_20260907/`, `conductor/tracks/execution_packet_guard_20260907/`, `conductor/tracks/version_identity_contracts_20260907/`, `conductor/tracks/native_structured_logging_20260907/`, `conductor/tracks/logging_privacy_resilience_20260907/`, `conductor/tracks/vop_logging_version_pilot_20260907/`, and `conductor/tracks/optional_native_telemetry_20260907/`.
-- [ ] Tabular v3 and Polars migration tracks: `conductor/tracks/tabular_contract_v3_20261026/` and `conductor/tracks/polars_container_20261026/` are **complete**; `conductor/tracks/pandas_free_io_20261026/` and `conductor/tracks/translation_reference_20261026/` remain planning only (implementation not authorised).
+- [ ] Tabular v3 and Polars migration tracks: `conductor/tracks/tabular_contract_v3_20261026/` is **complete**; `conductor/tracks/polars_container_20261026/` is implemented locally with final qualification/merge pending; `conductor/tracks/pandas_free_io_20261026/` has authorised follow-up and T1.1 complete; `conductor/tracks/translation_reference_20261026/` remains planning only.
 - [ ] Existing active delivery tracks: `conductor/tracks/remaining_backlog_delivery_20260831/` and `conductor/tracks/v2_2_release_and_venue_submissions_20260830/`.
 - [x] Add the Rust feature/MSRV qualification matrix and locked verification lane.
 
@@ -734,6 +734,9 @@ as recorded in the active task above; earlier route decisions below are historic
         signed publication, and explicit closeout of external indexing gates.
 
 ## Done
+
+- [x] Freeze the pandas-free I/O T1.1 inventory, source digests and signatures;
+  retain container qualification failures separately from implementation status.
 
 *   [x] Document the integrated 20-package VOI and software expansion roadmap
     in `docs/reviews/roadmaps/voi-methods-expansion.md`, including Rust-first dependency

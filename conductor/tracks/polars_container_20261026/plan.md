@@ -1,6 +1,6 @@
 # Implementation plan: Polars-native core containers
 
-All tasks are pending. Ownership: this track migrates every xarray reference (runtime, tests, examples, scripts); `pandas_free_io_20261026` migrates every pandas reference and owns the repository-wide zero-reference check. Implementation authorised by the maintainer on 2026-10-26. Prerequisite: `tabular_contract_v3_20261026`.
+Implementation tasks are delivered locally; final acceptance remains pending. Ownership: this track migrates every xarray reference (runtime, tests, examples, scripts); `pandas_free_io_20261026` migrates every pandas reference and owns the repository-wide zero-reference check. Implementation authorised by the maintainer on 2026-10-26. Prerequisite: `tabular_contract_v3_20261026`.
 
 ## Phase 1: Inventory
 
@@ -30,13 +30,13 @@ All tasks are pending. Ownership: this track migrates every xarray reference (ru
 
 - [x] T5.1 — Freeze the benchmark fixture, machine and command; record the pre-change numbers before the container swap is final. (benchmark_container.py, benchmark-before.json)
 - [x] T5.2 — Re-measure construction, `to_numpy` extraction and long-form conversion on the final candidate. (AC6). (benchmark-after.json)
-- [x] T5.3 — Validate: the receipt states the observed delta and the accepted bound; a regression beyond the bound blocks acceptance. (AC6). (benchmark-receipt.json)
+- [ ] T5.3 — Validate: the receipt states the observed delta and the accepted bound; a regression beyond the bound blocks acceptance. (AC6). The historical receipt remains retained; the repaired Python 3.15.1 candidate needs a controlled matched-environment comparison (qualification-20261027.md).
 
 ## Phase 6: Boundary confirmation
 
 - [x] T6.1 — Confirm no persistence format, dependency removal or binding change was introduced. (evidence.jsonl)
 - [x] T6.2 — Run the Rust, R and Julia conformance fixtures unchanged against the new container. (AC7). (Rust 244 passed; Julia passed; R 72 passed)
-- [x] T6.3 — Validate: bindings pass without fixture edits, `specs/core-api` is unchanged, and the full local gate passes. (AC7). (evidence.jsonl)
+- [ ] T6.3 — Validate: bindings pass without fixture edits, `specs/core-api` is unchanged, and the full local gate passes. (AC7). Prior evidence does not demonstrate the required full tox gate on Python 3.15.1; see qualification-20261027.md.
 
 ## Phase 7: Residual runtime, test, example and script migration
 
@@ -45,5 +45,5 @@ All tasks are pending. Ownership: this track migrates every xarray reference (ru
 - [x] T7.3 — Validate: `git grep` for `import xarray` and `from xarray` returns nothing under `voiage/`, `tests/`, `examples/` and `scripts/`; the converted tests keep their original assertions' intent (no assertion deleted without a recorded reason); the fixture validator and the contract validators still pass; record command, environment and digest. (AC8). (evidence.jsonl)
 ## Final acceptance
 
-- [x] CLOSE.1 — Review every AC (AC1–AC8) against the exact tested revision; the hosted checks must pass before any acceptance claim. (evidence.jsonl; local gate green, hosted checks remain the PR gate)
-- [x] CLOSE.2 — Reconcile plan, metadata and append-only evidence with the accepted revision; hand the container and perf receipts to `pandas_free_io_20261026`. (evidence.jsonl, benchmark-receipt.json)
+- [ ] CLOSE.1 — Review every AC (AC1–AC8) against the exact tested revision; the hosted checks must pass before any acceptance claim. (qualification-20261027.md; full local gate and hosted acceptance pending)
+- [ ] CLOSE.2 — Reconcile plan, metadata and append-only evidence with the accepted revision; hand the container and perf receipts to `pandas_free_io_20261026`. (evidence.jsonl, benchmark-receipt.json)

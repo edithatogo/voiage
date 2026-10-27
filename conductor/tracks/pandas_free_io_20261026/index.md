@@ -1,6 +1,6 @@
 # Track: Pandas-free external I/O and packaging
 
-Status: new. Registered planning only; implementation is not authorised.
+Status: in progress. Maintainer authorised the recommended follow-up on 2026-10-27. T1.1 inventory and signature baseline are frozen; migration and package-level acceptance remain pending.
 
 GitHub issue: https://github.com/edithatogo/voiage/issues/1198 (parent: https://github.com/edithatogo/voiage/issues/1195)
 
