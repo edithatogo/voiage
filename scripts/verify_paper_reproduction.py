@@ -17,6 +17,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 GIT = shutil.which("git") or "/usr/bin/git"
 UV = shutil.which("uv") or "/usr/local/bin/uv"
+SOURCE_REPOSITORY = "https://github.com/edithatogo/voiage.git"
 
 
 def bound_file(root: Path, descriptor: dict[str, str]) -> Path:
@@ -32,7 +33,9 @@ def bound_file(root: Path, descriptor: dict[str, str]) -> Path:
     return path
 
 
-def verify_manifest(root: Path, manifest: dict[str, Any]) -> None:
+def verify_manifest(
+    root: Path, manifest: dict[str, Any], *, source_root: Path | None = None
+) -> None:
     """Validate the declared artifacts and exact Git source before execution."""
     if manifest["schema_version"] not in {
         "voiage.paper.reproduction.v2",
@@ -51,8 +54,11 @@ def verify_manifest(root: Path, manifest: dict[str, Any]) -> None:
         raise ValueError("Replay source must be an immutable full commit ID")
     for name in ("historical_receipt", "lockfile", "project_file"):
         bound_file(root, manifest[name])
+    source_root = root if source_root is None else source_root
     resolved = subprocess.check_output(  # noqa: S603 - fixed Git arguments and validated commit ID
-        [GIT, "rev-parse", "--verify", f"{source}^{{commit}}"], cwd=root, text=True
+        [GIT, "rev-parse", "--verify", f"{source}^{{commit}}"],
+        cwd=source_root,
+        text=True,
     ).strip()
     if resolved != source:
         raise ValueError("Replay source does not resolve to the declared commit")
@@ -61,13 +67,13 @@ def verify_manifest(root: Path, manifest: dict[str, Any]) -> None:
         ("project_file", "pyproject.toml"),
     ):
         original = subprocess.check_output(  # noqa: S603 - fixed Git arguments and validated commit ID
-            [GIT, "show", f"{source}:{source_path}"], cwd=root
+            [GIT, "show", f"{source}:{source_path}"], cwd=source_root
         )
         if original != bound_file(root, manifest[name]).read_bytes():
             raise ValueError(f"Declared {name} does not match the exact source commit")
     receipt = bound_file(root, manifest["historical_receipt"]).read_bytes()
     source_receipt = subprocess.check_output(  # noqa: S603 - immutable validated Git source
-        [GIT, "show", f"{source}:paper/reproduction-manifest.json"], cwd=root
+        [GIT, "show", f"{source}:paper/reproduction-manifest.json"], cwd=source_root
     )
     expected_receipt = (
         bound_file(root, manifest["historical_replay"]).read_bytes()
@@ -109,12 +115,13 @@ def replay(root: Path, manifest_path: Path) -> dict[str, Any]:
     """Run frozen verification without using or modifying the current environment."""
     raw = manifest_path.read_bytes()
     manifest = json.loads(raw)
-    verify_manifest(root, manifest)
     if manifest["schema_version"] != "voiage.paper.reproduction.v3":
         raise ValueError(
             "Historical replay is retained for provenance; use the Python 3.15.1 profile"
         )
     source = manifest["source_reference"]
+    if not re.fullmatch(r"[0-9a-f]{40}", source):
+        raise ValueError("Replay source must be an immutable full commit ID")
     with tempfile.TemporaryDirectory(prefix="voiage-paper-replay-") as temporary:
         checkout = Path(temporary) / "source"
         # Git performs extraction; no archive member or caller-provided shell text is executed.
@@ -131,6 +138,25 @@ def replay(root: Path, manifest_path: Path) -> dict[str, Any]:
             check=True,
             capture_output=True,
         )
+        # A squash merge need not retain PR commits in main's fetched history.
+        # Retrieve only the pinned source from this repository, into the private
+        # clone; never fetch or change refs in the caller's checkout.
+        try:
+            subprocess.check_output(  # noqa: S603 - fixed Git command and validated SHA
+                [GIT, "rev-parse", "--verify", f"{source}^{{commit}}"],
+                cwd=checkout,
+                stderr=subprocess.DEVNULL,
+            )
+        except subprocess.CalledProcessError:
+            subprocess.run(  # noqa: S603 - fixed repository URL and validated full SHA
+                [GIT, "fetch", "--no-tags", "--depth=1", SOURCE_REPOSITORY, source],
+                cwd=checkout,
+                check=True,
+                capture_output=True,
+                timeout=180,
+                env={**os.environ, "GIT_TERMINAL_PROMPT": "0"},
+            )
+        verify_manifest(root, manifest, source_root=checkout)
         subprocess.run(  # noqa: S603 - argument arrays, validated source, isolated project
             [GIT, "checkout", "--detach", source],
             cwd=checkout,
