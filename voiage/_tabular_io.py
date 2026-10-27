@@ -6,6 +6,7 @@ import csv
 import io
 import json
 import math
+import os
 from pathlib import Path
 from typing import Any
 
@@ -113,7 +114,7 @@ def records(frame: pl.DataFrame) -> list[dict[str, Any]]:
 def write_csv(frame: pl.DataFrame, path: Path) -> None:
     """Write the established Python float spellings and newline/quoting policy."""
     with path.open("w", encoding="utf-8", newline="") as stream:
-        writer = csv.writer(stream, lineterminator="\n")
+        writer = csv.writer(stream, lineterminator=os.linesep)
         writer.writerow(frame.columns)
         for row in frame.iter_rows():
             writer.writerow(

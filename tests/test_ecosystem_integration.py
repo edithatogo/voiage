@@ -1,6 +1,7 @@
 """Deterministic tests for ecosystem connector import/export helpers."""
 
 import json
+import os
 from unittest.mock import patch
 lazy from pathlib import Path
 
@@ -512,5 +513,6 @@ def test_data_format_connector_preserves_csv_export_bytes(tmp_path: Path) -> Non
         (Path(__file__).parent / "fixtures/tabular_io/export-baseline.json").read_text()
     )
     assert {path.name: path.read_bytes() for path in tmp_path.glob("*.csv")} == {
-        name: content.encode("utf-8") for name, content in baseline.items()
+        name: content.replace("\n", os.linesep).encode("utf-8")
+        for name, content in baseline.items()
     }

@@ -70,7 +70,9 @@ def test_csv_serializer_quoting_and_empty(tmp_path: Path) -> None:
     ):
         path = tmp_path / f"{index}.csv"
         _tabular_io.write_csv(pl.DataFrame(data), path)
-        assert path.read_text() == pd.DataFrame(data).to_csv(index=False)
+        assert path.read_bytes() == pd.DataFrame(data).to_csv(index=False).encode(
+            "utf-8"
+        )
 
 
 @pytest.mark.parametrize("kind", ["net_benefits", "parameters"])
@@ -233,3 +235,15 @@ def test_malformed_csv_fails_soft(tmp_path: Path) -> None:
     path.write_text('name,cost\n"unterminated,1\n')
     with pytest.warns(UserWarning, match="Error importing health data"):
         assert DataFormatConnector().import_health_data(str(path)) == {}
+
+
+def test_csv_serializer_retains_platform_newlines(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import os
+
+    monkeypatch.setattr(os, "linesep", "\r\n")
+    data = {"name": ["a", "b"], "cost": [1.0, 2.0]}
+    path = tmp_path / "windows.csv"
+    _tabular_io.write_csv(pl.DataFrame(data), path)
+    assert path.read_bytes() == pd.DataFrame(data).to_csv(index=False).encode("utf-8")
