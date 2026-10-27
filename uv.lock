@@ -2952,6 +2952,7 @@ ecosystem = [
     { name = "defusedxml" },
 ]
 excel = [
+    { name = "defusedxml" },
     { name = "python-calamine" },
     { name = "xlsxwriter" },
 ]
@@ -2990,6 +2991,7 @@ requires-dist = [
     { name = "coverage", marker = "extra == 'test-acceleration'", specifier = ">=7.16.0,<8" },
     { name = "defusedxml", marker = "extra == 'ci'", specifier = ">=0.7.1,<1.0" },
     { name = "defusedxml", marker = "extra == 'ecosystem'", specifier = ">=0.7.1,<1.0" },
+    { name = "defusedxml", marker = "extra == 'excel'", specifier = ">=0.7.1,<1.0" },
     { name = "docutils", marker = "extra == 'ci'", specifier = ">=0.23,<1" },
     { name = "duckdb", marker = "extra == 'experimental'", specifier = ">=1.5.4,<2" },
     { name = "fastapi", marker = "extra == 'ci'", specifier = ">=0.139.2,<1.0" },

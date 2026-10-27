@@ -83,3 +83,10 @@ Positive and negative infinity remain the strings `inf` and `-inf`. Engine
 changes do not promise identical ZIP bytes. Workbook handles close on success
 and failure. Python 3.15.1 qualification uses frozen synthetic workbooks and
 an independent openpyxl test oracle; openpyxl is not a runtime Excel dependency.
+
+The reader preserves whitespace-only and padded text cells even when producers
+omit `xml:space="preserve"`. A secure streaming XML pass prepares an owned,
+disk-backed temporary archive before native reading; it does not change the
+source workbook or retain the archive in memory. Temporary files close and
+are removed on success and failure. Padded numeric text still follows the
+legacy full-column numeric inference policy.

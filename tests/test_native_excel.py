@@ -265,3 +265,57 @@ def test_native_writer_closes_workbook_on_failure(tmp_path: Path) -> None:
         _tabular_io.write_excel_tables({"invalid/name": pl.DataFrame({"a": [1]})}, path)
     path.unlink()
     assert not path.exists()
+
+
+@pytest.mark.parametrize("whitespace", [" ", "\t", "\n", " padded ", " 001 "])
+@pytest.mark.parametrize("surrounding", [["a", "b"], [1, 2], [True, False]])
+def test_native_reader_preserves_whitespace_only_rows(
+    tmp_path: Path, whitespace: str, surrounding: list[Any]
+) -> None:
+    path = tmp_path / "whitespace.xlsx"
+    workbook = openpyxl.Workbook()
+    workbook.active.append(["value"])
+    for value in [surrounding[0], whitespace, surrounding[1]]:
+        workbook.active.append([value])
+    workbook.save(path)
+    workbook.close()
+    expected = pd.read_excel(path, engine="openpyxl")
+    actual = DataFormatConnector().import_health_data(str(path), "generic")
+    assert actual["shape"] == expected.shape
+    assert _encode(actual["data"]) == _encode(expected.to_dict("records"))
+
+
+@pytest.mark.parametrize("invalid_xml", [False, True])
+def test_native_reader_private_copy_cleanup_and_source_immutability(
+    tmp_path: Path, invalid_xml: bool, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import tempfile
+    from zipfile import ZipFile
+
+    path = tmp_path / "source.xlsx"
+    with ZipFile(FIXTURES / "mixed.xlsx") as original, ZipFile(path, "w") as target:
+        for info in original.infolist():
+            content = original.read(info)
+            if invalid_xml and info.filename == "xl/worksheets/sheet1.xml":
+                content = b'<!DOCTYPE worksheet [<!ENTITY unsafe "x">]>' + content
+            target.writestr(info, content)
+    before = path.read_bytes()
+    created = []
+    original_temporary_directory = tempfile.TemporaryDirectory
+
+    def owned_directory(*args: Any, **kwargs: Any) -> Any:
+        directory = original_temporary_directory(*args, dir=tmp_path, **kwargs)
+        created.append(Path(directory.name))
+        return directory
+
+    monkeypatch.setattr(_tabular_io.tempfile, "TemporaryDirectory", owned_directory)
+    if invalid_xml:
+        with pytest.warns(UserWarning, match="DTDForbidden"):
+            result = DataFormatConnector().import_health_data(str(path), "generic")
+        assert result == {}
+    else:
+        result = DataFormatConnector().import_health_data(str(path), "generic")
+        assert result["shape"] == (4, 6)
+    assert created
+    assert all(not directory.exists() for directory in created)
+    assert path.read_bytes() == before

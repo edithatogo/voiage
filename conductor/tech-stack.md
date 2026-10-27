@@ -107,3 +107,14 @@ workbook. The `excel` extra declares the selected reader and writer; openpyxl
 remains a CI-only producer/oracle, never a runtime fallback. Engine wheels and
 workbook behavior must qualify on Python 3.15.1 before acceptance. Pandas/xarray
 package dependency removal remains Phase 4 work.
+
+### 2026-10-27 native Excel whitespace compatibility
+
+Review reproduced whitespace loss from both CSV inference and Calamine's XML
+space policy. Preserve the legacy reader with a bounded streaming SAX pass
+that sets `xml:space="preserve"` on text elements in an owned temporary ZIP,
+then read that copy through Calamine. The source archive is unchanged; XML
+entities/DTDs remain forbidden through the existing defusedxml dependency,
+which is now also declared by the Excel extra. No legacy reader fallback is
+introduced. Qualify whitespace-only and padded cells with the old producer
+oracle and repeat resource/coverage gates.
