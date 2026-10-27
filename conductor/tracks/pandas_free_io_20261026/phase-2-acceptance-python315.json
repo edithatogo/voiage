@@ -182,5 +182,6 @@
     "coverage-policy.json": "30d6b9032e9f0a4f32baaf65d35787804b32b97d978cf15b9b98b6e7d37b1227"
   },
   "hosted_gate": "Required hosted checks apply to the final PR revision; see its native check readback.",
-  "coverage_mapping_note": "The edited generator-filter continuation lines are not separately mapped executable lines in CPython 3.15 coverage (changed executable count is zero). Do not interpret that vacuous percentage as new-branch proof: all adapter mapped lines/branches are covered, three pre-fix regression failures became passes, and the eight new behavior tests execute the policy."
+  "coverage_mapping_note": "The edited generator-filter continuation lines are not separately mapped executable lines in CPython 3.15 coverage (changed executable count is zero). Do not interpret that vacuous percentage as new-branch proof: all adapter mapped lines/branches are covered, three pre-fix regression failures became passes, and the eight new behavior tests execute the policy.",
+  "polars": "2.1.0"
 }

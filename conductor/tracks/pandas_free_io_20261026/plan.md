@@ -1,6 +1,6 @@
 # Implementation plan: Pandas-free external I/O and packaging
 
-T1.1 baseline is frozen and T1.2 is complete; remaining tasks are pending. Ownership: this track migrates every pandas reference and owns the repository-wide zero-reference check; `polars_container_20261026` migrates every xarray reference, and Phase 7 here cannot close before that track's Phase 7. Maintainer authorised the recommended follow-up on 2026-10-27. Prerequisite `polars_container_20261026` was accepted and merged in PR #1202; the later package-level pandas-free gate remains open.
+T1.1 baseline is frozen, T1.2 is merged in PR #1203, and Phase 2 qualifies the migrated CSV/Parquet paths; remaining tasks are pending. Ownership: this track migrates every pandas reference and owns the repository-wide zero-reference check; `polars_container_20261026` migrates every xarray reference, and Phase 7 here cannot close before that track's Phase 7. Maintainer authorised the recommended follow-up on 2026-10-27. Prerequisite `polars_container_20261026` was accepted and merged in PR #1202; the later package-level pandas-free gate remains open.
 
 ## Phase 1: Direct-use removal
 
@@ -8,11 +8,11 @@ T1.1 baseline is frozen and T1.2 is complete; remaining tasks are pending. Owner
 - [x] T1.2 — Port `ecosystem_integration` CSV and Parquet paths and the widget CSV upload to Polars, preserving the public surface. (AC1). Implemented in `01a398ca`; see `t12-acceptance-python315.json`.
 - [ ] T1.3 — Validate: no `import pandas` remains in either module; existing ecosystem and widget tests pass unchanged; record command, environment and digest. (AC1).
 
-## Phase 2: Read semantics
+## Phase 2: Read semantics [checkpoint: 27d206a]
 
-- [x] T2.1 — Freeze the current fixture set and add the all-null and mixed-type fixtures before changing readers. See `phase-2-baseline.json` and `tests/fixtures/tabular_io/read_semantics/`.
-- [x] T2.2 — Make dtype inference explicit and define null versus NaN handling across load, arithmetic and export. (AC2).
-- [~] T2.3 — Validate: the new fixtures produce defined results; no silent cast occurs; the null policy is documented and tested. (AC2).
+- [x] T2.1 — Freeze the current fixture set and add the all-null and mixed-type fixtures before changing readers. Committed in `8c2575bd`; see `phase-2-baseline.json` and `tests/fixtures/tabular_io/read_semantics/`.
+- [x] T2.2 — Make dtype inference explicit and define null versus NaN handling across load, arithmetic and export. (AC2). Implemented in `dd5016c6`; native Excel inference remains a Phase 3 gate.
+- [x] T2.3 — Validate: the new fixtures produce defined results; no silent cast occurs; the null policy is documented and tested. (AC2). See `phase-2-acceptance-python315.json` and `phase-2-review.md`; Excel inference qualification remains part of Phase 3.
 
 ## Phase 3: Excel
 
