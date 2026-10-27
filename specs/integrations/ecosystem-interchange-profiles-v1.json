@@ -23,6 +23,6 @@
     "extra": "excel",
     "formats": [".xlsx"],
     "legacy_xls": "unsupported",
-    "note": "OpenXML workbooks require the named openpyxl extra."
+    "note": "OpenXML workbooks require voiage[excel]: python-calamine reads raw cells into Polars and XlsxWriter writes ordered worksheets through Polars. No legacy engine fallback."
   }
 }

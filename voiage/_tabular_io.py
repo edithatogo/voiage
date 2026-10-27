@@ -2,13 +2,20 @@
 
 from __future__ import annotations
 
+from contextlib import contextmanager
 import csv
 import io
 import json
 import math
 import os
 from pathlib import Path
-from typing import Any
+import shutil
+import tempfile
+from typing import Any, override
+from xml.sax.saxutils import XMLGenerator  # nosec B406 - output only; defused SAX parses input
+from xml.sax.xmlreader import AttributesImpl  # nosec B406 - output attributes, not a parser
+from zipfile import ZipFile
+lazy from collections.abc import Generator
 
 import polars as pl
 import pyarrow.parquet as pq
@@ -128,3 +135,203 @@ def write_csv(frame: pl.DataFrame, path: Path) -> None:
                     for value in row
                 ]
             )
+
+
+@contextmanager
+def _excel_source(path: Path) -> Generator[Path]:
+    """Stream a private XML-space-normalized archive without changing the source.
+
+    Calamine follows XML's default whitespace trimming, while the old reader
+    retained text even when producers omitted xml:space. Use disk-backed ZIP
+    and SAX streams so this compatibility pass never materializes the archive
+    or worksheet XML in memory. Contexts remove the temporary copy on failure.
+    """
+    from defusedxml.sax import parse
+
+    class PreserveText(XMLGenerator):
+        @override
+        def startElement(self, name: str, attrs: Any) -> None:
+            if name.rsplit(":", 1)[-1] == "t":
+                attrs = AttributesImpl({**dict(attrs), "xml:space": "preserve"})
+            super().startElement(name, attrs)
+
+    with tempfile.TemporaryDirectory(prefix="voiage-excel-") as directory:
+        normalized_path = Path(directory) / "workbook.xlsx"
+        with ZipFile(path) as original, ZipFile(normalized_path, "w") as normalized:
+            for info in original.infolist():
+                with (
+                    original.open(info) as source,
+                    normalized.open(info, "w", force_zip64=True) as destination,
+                ):
+                    if info.filename.endswith(".xml"):
+                        parse(
+                            source,
+                            PreserveText(destination, encoding="utf-8"),
+                            forbid_dtd=True,
+                            forbid_entities=True,
+                            forbid_external=True,
+                        )
+                    else:
+                        shutil.copyfileobj(source, destination, length=64 * 1024)
+        yield normalized_path
+
+
+def _excel_cell(value: Any) -> Any:
+    """Normalize the native reader's scalars to the established cell policy."""
+    import datetime as dt
+
+    if isinstance(value, str) and value in _CSV_NULLS:
+        return None
+    if isinstance(value, float) and value.is_integer():
+        return int(value)
+    if isinstance(value, dt.date) and not isinstance(value, dt.datetime):
+        return dt.datetime.combine(value, dt.time())
+    return value
+
+
+def _excel_inference_cell(value: Any) -> Any:
+    """Allow padded numeric text to infer numerically without changing raw cells."""
+    if isinstance(value, str):
+        try:
+            float(value)
+        except ValueError:
+            return value
+        return value.strip()
+    return value
+
+
+def _excel_headers(values: list[Any]) -> list[Any]:
+    """Deduplicate typed headers, giving explicit names priority over blanks."""
+    names: list[Any] = [None] * len(values)
+    explicit = [i for i, value in enumerate(values) if value not in (None, "")]
+    reserved = {values[i] for i in explicit}
+    assigned: set[Any] = set()
+    for index in explicit + [i for i in range(len(values)) if i not in explicit]:
+        name = values[index] if index in explicit else f"Unnamed: {index}"
+        candidate = name
+        suffix = 1
+        while candidate in assigned or (suffix > 1 and candidate in reserved):
+            candidate = f"{name}.{suffix}"
+            suffix += 1
+        names[index] = candidate
+        assigned.add(candidate)
+    return names
+
+
+def read_excel(path: Path) -> tuple[pl.DataFrame, list[Any]]:
+    """Read raw worksheet cells without cropping blanks or coercing mixed cells."""
+    import datetime as dt
+
+    try:
+        from python_calamine import CalamineWorkbook, SheetTypeEnum
+    except ImportError as error:
+        raise ImportError(
+            "Excel reading requires python-calamine; install voiage[excel]."
+        ) from error
+    with (
+        _excel_source(path) as source,
+        CalamineWorkbook.from_path(source) as workbook,
+    ):
+        sheets = [
+            s for s in workbook.sheets_metadata if s.typ == SheetTypeEnum.WorkSheet
+        ]
+        if not sheets:
+            raise ValueError("Workbook contains no worksheets")
+        rows = workbook.get_sheet_by_name(sheets[0].name).to_python(
+            skip_empty_area=False
+        )
+    if not rows:
+        return pl.DataFrame(), []
+    headers = _excel_headers(
+        [int(v) if isinstance(v, float) and v.is_integer() else v for v in rows[0]]
+    )
+    names = [f"column_{i}" for i in range(len(headers))]
+    columns = [[_excel_cell(row[i]) for row in rows[1:]] for i in range(len(headers))]
+    bool_tokens = {"True", "true", "TRUE", "False", "false", "FALSE"}
+    bool_columns = [
+        all(
+            isinstance(v, bool) or (isinstance(v, str) and v in bool_tokens)
+            for v in column
+            if v is not None
+        )
+        for column in columns
+    ]
+    stream = io.StringIO()
+    writer = csv.writer(stream, lineterminator="\r\n", quoting=csv.QUOTE_ALL)
+    writer.writerow(names)
+    for row in zip(*columns, strict=True):
+        writer.writerow(
+            [
+                int(value)
+                if isinstance(value, bool) and not bool_columns[i]
+                else _excel_inference_cell(value)
+                for i, value in enumerate(row)
+            ]
+        )
+    inferred = read_csv(stream)
+    series = []
+    for i, (name, values) in enumerate(zip(names, columns, strict=True)):
+        present = [v for v in values if v is not None]
+        current = inferred[name]
+        if present and all(isinstance(v, dt.datetime) for v in present):
+            current = pl.Series(name, values, dtype=pl.Datetime("us"))
+        elif present and all(isinstance(v, dt.time) for v in present):
+            current = pl.Series(name, values, dtype=pl.Time)
+        elif (
+            current.dtype == pl.String
+            or any(isinstance(v, str) and not v.strip() for v in present)
+        ) or (current.dtype == pl.Boolean and not bool_columns[i]):
+            dtype = pl.String if all(isinstance(v, str) for v in present) else pl.Object
+            current = pl.Series(name, values, dtype=dtype)
+        elif current.dtype == pl.Boolean and current.null_count():
+            current = current.cast(pl.Float64)
+        series.append(current)
+    return pl.DataFrame(series), headers
+
+
+def write_excel_tables(tables: dict[str, pl.DataFrame], path: Path) -> None:
+    """Write ordered worksheets with the established cell and formula semantics."""
+    try:
+        from xlsxwriter import Workbook
+    except ImportError as error:
+        raise ImportError(
+            "Excel writing requires xlsxwriter; install voiage[excel]."
+        ) from error
+    if path.suffix.lower() not in {".xlsx", ".xlsm"}:
+        raise ValueError(f"Invalid extension for Excel workbook: {path.suffix}")
+    with Workbook(path, {"strings_to_urls": False}) as workbook:
+        header = {"bold": False}
+        for name, frame in tables.items():
+            worksheet = workbook.add_worksheet(name)
+            if not frame.height:
+                if frame.width:
+                    worksheet.write_row(
+                        0, 0, frame.columns, workbook.add_format(header)
+                    )
+                continue
+            safe = frame.with_columns(
+                pl.when(pl.col(column).is_finite()).then(pl.col(column)).otherwise(None)
+                for column, dtype in frame.schema.items()
+                if dtype.is_float()
+            )
+            safe.write_excel(
+                workbook=workbook,
+                worksheet=worksheet,
+                table_style={"style": None},
+                autofilter=False,
+                header_format=header,
+                dtype_formats={
+                    pl.Float64: "General",
+                    pl.Float32: "General",
+                    pl.Int64: "General",
+                    pl.UInt64: "General",
+                },
+            )
+            for row_index, row in enumerate(frame.iter_rows(), start=1):
+                for column_index, value in enumerate(row):
+                    if isinstance(value, float) and math.isinf(value):
+                        worksheet.write_string(row_index, column_index, str(value))
+                    elif isinstance(value, str) and value.startswith("="):
+                        worksheet.write_formula(
+                            row_index, column_index, value, None, ""
+                        )

@@ -14,11 +14,11 @@ T1.1 baseline is frozen, T1.2 is merged in PR #1203, and Phase 2 qualifies the m
 - [x] T2.2 — Make dtype inference explicit and define null versus NaN handling across load, arithmetic and export. (AC2). Implemented in `dd5016c6`; native Excel inference remains a Phase 3 gate.
 - [x] T2.3 — Validate: the new fixtures produce defined results; no silent cast occurs; the null policy is documented and tested. (AC2). See `phase-2-acceptance-python315.json` and `phase-2-review.md`; Excel inference qualification remains part of Phase 3.
 
-## Phase 3: Excel
+## Phase 3: Excel [checkpoint: 9c9f37cb]
 
-- [ ] T3.1 — Record the current Excel read and multi-sheet write engines, the `excel` extra and the existing fixtures.
-- [ ] T3.2 — Substitute Polars-native Excel reading (`fastexcel`/`calamine`) and multi-sheet writing (`xlsxwriter` with `pl.DataFrame.write_excel(workbook=wb, worksheet=table_name)`), update the `excel` extra to declare both, and record licence and wheel availability on the supported interpreter. (AC3).
-- [ ] T3.3 — Validate: Excel read and multi-sheet write fixtures pass; a missing engine raises the documented error with no silent fallback; wheel availability on the supported interpreter is demonstrated. (AC3).
+- [x] T3.1 — Record the current Excel read and multi-sheet write engines, the `excel` extra and the existing fixtures. See `phase-3-baseline.json` and `phase-3-engines-python315.json`.
+- [x] T3.2 — Substitute Polars-native Excel reading (`python-calamine` raw cells into Polars; named AC3 alternative preserving the frozen mixed-cell/header/time behavior) and multi-sheet writing (`xlsxwriter` with `pl.DataFrame.write_excel(workbook=wb, worksheet=table_name)`), update the `excel` extra to declare both, and record licence and wheel availability on the supported interpreter. (AC3).
+- [x] T3.3 — Validate: Excel read and multi-sheet write fixtures pass; a missing engine raises the documented error with no silent fallback; wheel availability on the supported interpreter is demonstrated. (AC3). Local qualification: `phase-3-acceptance-python315.json`, the subsequent review-fix `phase-3-whitespace-python315.json`, and `phase-3-review.md`; required hosted/platform checks remain a PR merge gate.
 
 ## Phase 4: Packaging reconciliation
 

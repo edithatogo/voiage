@@ -3,7 +3,7 @@
   "type": "refactor",
   "status": "in_progress",
   "created_at": "2026-10-26T00:00:00Z",
-  "updated_at": "2026-10-27T07:41:53Z",
+  "updated_at": "2026-10-27T08:33:16Z",
   "description": "Remove direct pandas use from external I/O and widgets, reconcile the four packaging surfaces and enforce the absence mechanically",
   "base_commit": "ca3f05cc8adcc74b99fe236152327d0cd3679553",
   "github_cross_reference": {
@@ -16,8 +16,8 @@
   ],
   "dependency_semantics": "Container prerequisite accepted in PR #1202. Final pandas-free package acceptance still requires the package-level gate; baseline xarray import and packaging bounds describe historical state.",
   "authorization": {
-    "scope": "Continue the next pandas-free migration tasks after merging T1.2, using Python 3.15.1 and the resource guard; preserve public API and existing behavior.",
-    "source": "Direct user instruction on 2026-10-27 to merge PR #1203 and continue the next tasks."
+    "scope": "Merge PR #1204 and continue native Excel reader/writer qualification and compatibility fixes using Python 3.15.1 and the resource guard; preserve public API and workbook behavior.",
+    "source": "Direct user instructions on 2026-10-27 to continue native Excel migration and resolve compatibility failures."
   },
   "gates": [
     {
@@ -49,6 +49,12 @@
       "kind": "repository",
       "status": "satisfied",
       "evidence": "Phase 2 checkpoint 27d206a1afeac0bcf57c227fba8b03432ea637e3; phase-2-acceptance-python315.json. CSV/Parquet inference, null/NaN propagation and export qualified. Native Excel inference and full absence remain pending."
+    },
+    {
+      "id": "native-excel",
+      "kind": "repository",
+      "status": "locally_qualified",
+      "evidence": "Phase 3 review-fix checkpoint 9c9f37cb; phase-3-whitespace-python315.json and phase-3-review.md. Full 5304-test Python 3.15.1 pass, repaired static gates, complete changed-line/branch coverage, clean Excel-only wheel install and bounded streaming whitespace compatibility qualified; updated hosted checks remain a merge gate."
     }
   ]
 }

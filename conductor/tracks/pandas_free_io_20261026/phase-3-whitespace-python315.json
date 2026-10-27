@@ -1,0 +1,310 @@
+{
+  "schema_version": "1.0",
+  "phase": "3",
+  "kind": "review_compatibility_addendum",
+  "status": "locally_qualified_hosted_revision_pending",
+  "reviewed_pr": "https://github.com/edithatogo/voiage/pull/1205",
+  "prior_hosted_revision": "ead094e8c5f80c4d07ca929e9ee8fc94048f68f9",
+  "full_suite_commit": "e9eddc77f64ac32ad070e8d0f490d04888c10ae5",
+  "static_repair_commit": "3ce8e05edf57c24f5d590bcecec6fb83cb9e02f9",
+  "python": "3.15.1",
+  "engines": {
+    "polars": "2.1.0",
+    "python-calamine": "0.9.0",
+    "xlsxwriter": "3.3.0",
+    "defusedxml": "0.7.1"
+  },
+  "finding": "Whitespace-only worksheet rows were discarded during CSV inference; Calamine also trimmed text where producers omitted xml:space preserve. Padded numeric strings need numeric full-column inference while mixed text preserves raw scalars.",
+  "resolution": "Secure streaming SAX normalization sets XML-space preservation in an owned disk-backed temporary ZIP, read through the native file-based Calamine API. Inference quotes every row and preserves raw text; padded numeric strings are normalized only for inference. Source archives remain unchanged. DTDs, entities and external references are forbidden. Both temporary archive and native workbook close on success and failure.",
+  "red_controls": [
+    "Three original whitespace cases failed before the fix.",
+    "Expanded text/numeric/Boolean whitespace cases exposed native trimming; two padded-number cases exposed inference differences."
+  ],
+  "focused": "83 affected I/O tests passed, including 15 whitespace/padded-text combinations, source immutability, and temporary cleanup after secure XML rejection.",
+  "full_suite": {
+    "passed": 5304,
+    "skipped": 14,
+    "failed": 0
+  },
+  "initial_full_environments": {
+    "lint": {
+      "success": false,
+      "exit_code": 1,
+      "duration": 7.948873625000033,
+      "skipped": false
+    },
+    "vale": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 4.130452584000068,
+      "skipped": false
+    },
+    "joss": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 2.2272752500002753,
+      "skipped": false
+    },
+    "harness": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 4.548625041999912,
+      "skipped": false
+    },
+    "typecheck": {
+      "success": false,
+      "exit_code": 1,
+      "duration": 1.5861936249998507,
+      "skipped": false
+    },
+    "docs": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 44.242539124999894,
+      "skipped": false
+    },
+    "ingestion-conformance": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 18.136540542000148,
+      "skipped": false
+    },
+    "frontier-contract": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.2268975839997438,
+      "skipped": false
+    },
+    "version-sync": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.575149834000058,
+      "skipped": false
+    },
+    "py315": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 8.592760749999798,
+      "skipped": false
+    },
+    "min_versions": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 9.154065000000173,
+      "skipped": false
+    },
+    "max_versions": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 9.312213874999998,
+      "skipped": false
+    },
+    "coverage_report": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 183.3263404999998,
+      "skipped": false
+    }
+  },
+  "repaired_static_environments": {
+    "lint": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 3.2367437079997217,
+      "skipped": false
+    },
+    "typecheck": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.7938916670000253,
+      "skipped": false
+    }
+  },
+  "combined_environments": {
+    "lint": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 3.2367437079997217,
+      "skipped": false
+    },
+    "vale": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 4.130452584000068,
+      "skipped": false
+    },
+    "joss": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 2.2272752500002753,
+      "skipped": false
+    },
+    "harness": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 4.548625041999912,
+      "skipped": false
+    },
+    "typecheck": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.7938916670000253,
+      "skipped": false
+    },
+    "docs": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 44.242539124999894,
+      "skipped": false
+    },
+    "ingestion-conformance": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 18.136540542000148,
+      "skipped": false
+    },
+    "frontier-contract": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.2268975839997438,
+      "skipped": false
+    },
+    "version-sync": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.575149834000058,
+      "skipped": false
+    },
+    "py315": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 8.592760749999798,
+      "skipped": false
+    },
+    "min_versions": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 9.154065000000173,
+      "skipped": false
+    },
+    "max_versions": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 9.312213874999998,
+      "skipped": false
+    },
+    "coverage_report": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 183.3263404999998,
+      "skipped": false
+    }
+  },
+  "static_repair_note": "Only Generator return annotation and two narrow output-only SAX import false-positive explanations changed after the complete test run. Lint/typecheck passed on rerun. All callable function-body ASTs and executable line positions match the complete-run source. No security configuration or parser protections were relaxed.",
+  "equivalence": {
+    "full_runtime_commit": "e9eddc77f64ac32ad070e8d0f490d04888c10ae5",
+    "static_repair_commit": "3ce8e05edf57c24f5d590bcecec6fb83cb9e02f9",
+    "all_function_body_asts_equal": true,
+    "source_line_positions_unchanged": true
+  },
+  "coverage_policy": {
+    "aggregate": {
+      "minimum": 90.0,
+      "percent": 94.73047628387434
+    },
+    "base": "5623a429a1fafaf7641432b327e108b41515d88b",
+    "changed": {
+      "branch_minimum": 100.0,
+      "branch_percent": 100.0,
+      "branches": 49,
+      "covered_branches": 49,
+      "covered_lines": 127,
+      "executable_lines": 127,
+      "line_minimum": 95.0,
+      "line_percent": 100.0,
+      "missing_branches": [],
+      "missing_lines": [],
+      "unmeasured_files": []
+    },
+    "critical_modules": [
+      {
+        "minimum": 100.0,
+        "passed": true,
+        "path": "voiage/assurance_policy.py",
+        "percent": 100.0
+      },
+      {
+        "minimum": 90.0,
+        "passed": true,
+        "path": "voiage/contracts/bundle.py",
+        "percent": 99.30191972076788
+      },
+      {
+        "minimum": 95.0,
+        "passed": true,
+        "path": "voiage/mutation_policy.py",
+        "percent": 100.0
+      }
+    ],
+    "exact_source_head": true,
+    "head": "3ce8e05edf57c24f5d590bcecec6fb83cb9e02f9",
+    "passed": true,
+    "schema_version": "1.0.0",
+    "source_head": "3ce8e05edf57c24f5d590bcecec6fb83cb9e02f9",
+    "tested_head": "3ce8e05edf57c24f5d590bcecec6fb83cb9e02f9"
+  },
+  "resource_guard": {
+    "peak_rss_kib": 1873088,
+    "reason": "completed",
+    "returncode": 1,
+    "elapsed_seconds": 238.381,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-cwc5q50h"
+  },
+  "static_guard": {
+    "peak_rss_kib": 121840,
+    "reason": "completed",
+    "returncode": 0,
+    "elapsed_seconds": 4.134,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-xtm5dnbb"
+  },
+  "clean_excel_extra_install": {
+    "wheel_sha256": "ef82d2389578123584cf704b49e971eac499d53877ea79cdd025a2fedcb73a59",
+    "wheel_source_commit": "e9eddc77f64ac32ad070e8d0f490d04888c10ae5",
+    "result": "Actual Python 3.15.1 install from the built wheel with only [excel], binary native engines; no openpyxl or fastexcel installed, pandas/openpyxl/fastexcel imports blocked; real read and whitespace writer/reader round trip passed. Base pandas/xarray declarations remain Phase 4."
+  },
+  "resource_probe": {
+    "cycles": 120,
+    "post_warmup_median_growth_bytes": -5611520.0,
+    "open_descriptors_before": 3,
+    "open_descriptors_after": 6,
+    "growth_limit_bytes": 67108864
+  },
+  "resource_probe_post_warmup_descriptors": [
+    6,
+    6
+  ],
+  "resource_probe_interpretation": "120 cycles; no workbook descriptors retained; stable descriptor counts; RSS did not grow after warm-up. Bounded measurement, not a universal absence-of-leaks claim. Guard limits remain 4 GiB sampled combined RSS, 1 hour, 2 GiB minimum free space and one native thread.",
+  "strict_frontier": "Passed after adding the existing defusedxml dependency to the explicit Excel extra.",
+  "source_sha256": {
+    "voiage/_tabular_io.py": "4764f2f1a624059aad687a151961c3aa072c1bc1dfdd4f8e2263ae02264bc81b",
+    "tests/test_native_excel.py": "e23a0a429f0701c9db6f298721228d219e2f71579c664413bd6b1b2d4be2b7ef",
+    "pyproject.toml": "5e592dedae53d5a52caebb9eb31416deb6a9b0ee64ee5155e64459e16365190d",
+    "uv.lock": "a2c68229dd06597c37fc03e6dc6dd8db35dd347e6975a42a9a0595f03db8d441"
+  },
+  "artifacts_sha256": {
+    "full-whitespace-result.json": "8b28c4073d8ed101c27fba32b1a4fe781f03685fa766b91f37872764b33548af",
+    "full-whitespace.log": "daf2a1ab2b7b9c3d65b976242e7831b00c5fc5a1b95849508da290d73f861d36",
+    "whitespace-style-repair-result.json": "bfad7f20945347bf3b68975c2e385ed05ee9aa728a5b949057ba59e588911097",
+    "whitespace-style-repair.log": "aaf70fe272831d63d08432b98711edacc84ccfbd7e20c2a1b6865c4eddf0f650",
+    "whitespace-red.log": "6ebc8c4f2dccfec2d4a8c6cc0667de151c333e130bfdf071da635d6d36bec247",
+    "whitespace-final-focused.log": "0a3741a325ff49eaee9d162e55341d231f2a365db0ccc915186e1aecfa7aae10",
+    "coverage-whitespace.json": "888c7aa1f577e9146f6ce6f691b53eee3e1fead0990ced71e199691950e533f3",
+    "coverage-whitespace-policy.json": "e58866b05dbc443f6261654771f7a7de6c4d2011e5737954ef3c0678ee99c79a",
+    "stress-whitespace.json": "40521e51c84a70d411afdf6c461423f0c0d0cad50dab60f451d8806202668497",
+    "stress-whitespace.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "clean-extra.log": "a9ec9c2b6d539868cc2d3434582e6da802d6ae17fd1088cf1ea0fe3f86a1231a",
+    "frontier-whitespace.log": "0101e25b1a3ca772bdf3810868f176ce094da290b0c667cfde1ca65bea7440cb"
+  },
+  "prior_receipt": "phase-3-acceptance-python315.json remains historical evidence of the earlier candidate. This addendum supersedes its final source, coverage and resource summaries. The earlier scratch stress-native.json was regenerated by the new probe; its historical digest is not the current scratch file.",
+  "hosted_gate": "The earlier PR revision passed all checks including the three operating systems; the updated PR revision must pass them again before merge."
+}

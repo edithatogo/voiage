@@ -1,0 +1,239 @@
+{
+  "schema_version": "1.0",
+  "phase": "3",
+  "tasks": [
+    "T3.1",
+    "T3.2",
+    "T3.3"
+  ],
+  "status": "locally_qualified_native_excel_hosted_acceptance_pending",
+  "tested_runtime_source_commit": "a595de57619beeed078875b043e350fa5becaa47",
+  "contract_repair_commit": "34776bea66bc633fc6dedf5daa258e61a5edb293",
+  "tested_tree": "bf94f5e266874a6a47d52fbd445fcc3b78b5579b",
+  "python": "3.15.1",
+  "polars": "2.1.0",
+  "baseline": "phase-3-baseline.json",
+  "engine_qualification": "phase-3-engines-python315.json",
+  "prerequisite_merge": {
+    "pr": "https://github.com/edithatogo/voiage/pull/1204",
+    "commit": "5623a429a1fafaf7641432b327e108b41515d88b"
+  },
+  "engines": {
+    "python-calamine": {
+      "version": "0.9.0",
+      "license": "MIT",
+      "wheel_metadata": "Wheel-Version: 1.0\nGenerator: maturin (1.15.0)\nRoot-Is-Purelib: false\nTag: cp315-cp315-macosx_11_0_arm64\n",
+      "license_sha256": {
+        "python_calamine-0.9.0.dist-info/licenses/LICENSE": "6ced4640162333a7c880d45d346ae88409746709fafece61303768bc87d80bf0"
+      }
+    },
+    "xlsxwriter": {
+      "version": "3.3.0",
+      "license": "BSD-2-Clause",
+      "wheel_metadata": "Wheel-Version: 1.0\nGenerator: setuptools (84.2.1)\nRoot-Is-Purelib: true\nTag: py3-none-any\n\n",
+      "license_sha256": {
+        "xlsxwriter-3.3.0.dist-info/licenses/LICENSE.txt": "79cd3a88b65ecd9996f4bbfb7f3adf0a75df366aa1d3bbb7fe150b9e43d5b4c7"
+      }
+    }
+  },
+  "legacy_comparison": "fastexcel default Calamine adapter coerced mixed numeric/text cells, numeric headers, leading blank areas and time-only values; raw-cell python-calamine is the named AC3 alternative recorded before implementation.",
+  "focused": "42 reader/writer/ecosystem tests passed; 31 native/read-semantics coverage tests passed; all nine frozen reader payloads match.",
+  "environments_initial_full_gate": {
+    "lint": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 3.3617526250000083,
+      "skipped": false
+    },
+    "vale": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 3.2907162910000807,
+      "skipped": false
+    },
+    "joss": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 1.3082366670000738,
+      "skipped": false
+    },
+    "harness": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 3.44362933299999,
+      "skipped": false
+    },
+    "typecheck": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 1.0493405830000029,
+      "skipped": false
+    },
+    "docs": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 75.89828750000004,
+      "skipped": false
+    },
+    "ingestion-conformance": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 18.84734549999996,
+      "skipped": false
+    },
+    "frontier-contract": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.3738516249998156,
+      "skipped": false
+    },
+    "version-sync": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.8170004169999174,
+      "skipped": false
+    },
+    "py315": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 13.923558583000158,
+      "skipped": false
+    },
+    "min_versions": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 19.15478066699984,
+      "skipped": false
+    },
+    "max_versions": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 15.190999292000015,
+      "skipped": false
+    },
+    "coverage_report": {
+      "success": false,
+      "exit_code": 1,
+      "duration": 242.09813437499997,
+      "skipped": false
+    }
+  },
+  "full_suite": {
+    "passed": 5286,
+    "failed": 1,
+    "skipped": 14,
+    "repair": "Only the stale extra assertion failed; updated integration profile and exact contract test. Runtime, dependency and shared-fixture inputs remain unchanged. Failure-only rerun in the same qualified coverage environment passed (1 test), appending coverage. Reused unchanged 12 successful tox environments and remaining full-suite results, per targeted-testing policy."
+  },
+  "coverage_policy": {
+    "aggregate": {
+      "minimum": 90.0,
+      "percent": 94.72340425531915
+    },
+    "base": "5623a429a1fafaf7641432b327e108b41515d88b",
+    "changed": {
+      "branch_minimum": 100.0,
+      "branch_percent": 100.0,
+      "branches": 41,
+      "covered_branches": 41,
+      "covered_lines": 93,
+      "executable_lines": 93,
+      "line_minimum": 95.0,
+      "line_percent": 100.0,
+      "missing_branches": [],
+      "missing_lines": [],
+      "unmeasured_files": []
+    },
+    "critical_modules": [
+      {
+        "minimum": 100.0,
+        "passed": true,
+        "path": "voiage/assurance_policy.py",
+        "percent": 100.0
+      },
+      {
+        "minimum": 90.0,
+        "passed": true,
+        "path": "voiage/contracts/bundle.py",
+        "percent": 99.30191972076788
+      },
+      {
+        "minimum": 95.0,
+        "passed": true,
+        "path": "voiage/mutation_policy.py",
+        "percent": 100.0
+      }
+    ],
+    "exact_source_head": true,
+    "head": "34776bea66bc633fc6dedf5daa258e61a5edb293",
+    "passed": true,
+    "schema_version": "1.0.0",
+    "source_head": "34776bea66bc633fc6dedf5daa258e61a5edb293",
+    "tested_head": "34776bea66bc633fc6dedf5daa258e61a5edb293"
+  },
+  "resource_guard": {
+    "peak_rss_kib": 1670416,
+    "reason": "completed",
+    "returncode": 1,
+    "elapsed_seconds": 317.896,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-gza3tq9a"
+  },
+  "repair_resource_guard": {
+    "peak_rss_kib": 143632,
+    "reason": "completed",
+    "returncode": 0,
+    "elapsed_seconds": 6.2,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-r5atn6ui"
+  },
+  "resource_probe": {
+    "cycles": 120,
+    "post_warmup_median_growth_bytes": 106496.0,
+    "open_descriptors_before": 3,
+    "open_descriptors_after": 6,
+    "growth_limit_bytes": 67108864
+  },
+  "resource_probe_observations": {
+    "post_initialization_descriptor_range": [
+      6,
+      6
+    ],
+    "workbook_descriptors_retained": false,
+    "interpretation": "120 bounded cycles showed no continuing descriptor growth and about 0.1 MiB post-warmup RSS growth. This does not prove absence of all leaks. The initial before-first-engine descriptor check failed (3 to 6); follow-up sampled every cycle and confirmed 6 throughout, with no workbook files open."
+  },
+  "guard_controls": {
+    "sampled_combined_process_group_rss_mib": 4096,
+    "timeout_seconds": 3600,
+    "minimum_free_disk_mib": 2048,
+    "native_threads": 1,
+    "coverage_workers": 2,
+    "scope": "Owned verification process groups only; successful temporary trees cleaned; owned failed trees removed after retaining diagnostics."
+  },
+  "unchanged_signatures": {
+    "voiage/ecosystem_integration.py": 31,
+    "voiage/widgets/voi_widgets.py": 12,
+    "voiage/_tabular_io.py": 4
+  },
+  "source_sha256": {
+    "voiage/_tabular_io.py": "0c2f790754432bf68c18a1fb009996fa170165d21118a6f612ac6f5170bb7afd",
+    "voiage/ecosystem_integration.py": "f954764b0c0e11f257d4fb5e8d6b62acbff309c7b5fb1aab6f6f5fbac8a72561",
+    "voiage/widgets/voi_widgets.py": "62db8c08fa94708977325f0eb2e2f1b5d70354f7a03caf6b466217456424922f",
+    "voiage/schema.py": "376facfa84e5edcdfab7e5182029a6bf720383c3b10c503a56ef8925c6afec4f",
+    "tests/test_native_excel.py": "9ea82c9e84a72c31c1a134f8e28913cd13ab1d076cba9469d8cf4dc31e8a9928",
+    "tests/test_integration_data_repair_contracts.py": "21564ce11b9f82f52a788f0bfef8d9eb6b98e19f3c5459d83bf064f8f7405263",
+    "pyproject.toml": "0d33972375736758d9adfb75b6e8e95376e71f2bd84cb0f8172aadcacc192b43",
+    "uv.lock": "5c305f00ce5bf289b242d8c37ebfc30501ab8d0c74bb9bede7d614564d92fa1d"
+  },
+  "artifacts_sha256": {
+    "full-gate-result.json": "0ef34f89f5e9cc3817d2c4be37fb8d3a6f364946f0a722e180bfc150631c72ce",
+    "full-gate.log": "2239a7ca2ca222f4cba1bc7819bdb8e7bfeda073723947615a6d750d40625e28",
+    "contract-fixed.log": "b1e63df1c8311346ea741dd8d615aab21112bb23d6bb351e3b1a13760c811a98",
+    "coverage-full.json": "ee8435205c9b5dbf42250650d5895271a47828932e5215ddb190aa175c670a69",
+    "coverage-policy.json": "d7fb7ef80fb4bce433d7a431d6c72eba420b60d1686f6865eb74c13a771c6e28",
+    "stress-native.py": "6415aedcbe5733999a8e86066d1fdf264f13fca3d7a0ad6f7b71392c99ba7519",
+    "stress-native.json": "f33b672fbf6b7dd7056bae4b2ff809596c948782d4eb0026bad7d152a7f518fc",
+    "frontier-native.log": "0101e25b1a3ca772bdf3810868f176ce094da290b0c667cfde1ca65bea7440cb"
+  },
+  "coverage_probe_note": "Individual-module --cov targets failed while importing NumPy before collection. The repository package-wide --cov=voiage mode passed; no dependency workaround or retries were introduced.",
+  "dependency_frontier": "uv lock --upgrade and strict dependency-frontier passed before qualification; strict frontier passed again with native engine declarations.",
+  "hosted_gate": "Current PR revision must pass all required checks and the Linux/macOS/Windows Excel matrix before merge. Local artifacts are not hosted acceptance.",
+  "remaining_scope": "Pandas/xarray core dependency removal, package absence enforcement, producer compatibility and generated notebook templates remain later track phases. Numerical kernels, wire and binding contracts remain unchanged."
+}

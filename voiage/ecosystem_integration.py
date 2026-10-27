@@ -443,19 +443,19 @@ class DataFormatConnector(EcosystemConnector):
             if suffix == ".csv":
                 df = _tabular_io.read_csv(path_obj)
             elif suffix == ".xlsx":
-                # Excel retains its existing optional backend until Phase 3.
-                import pandas as pd
-
-                legacy_frame = pd.read_excel(path_obj)
-                return {
-                    "data_type": _infer_data_type(
-                        list(legacy_frame.columns), data_type
-                    ),
-                    "data": legacy_frame.to_dict("records"),
-                    "columns": list(legacy_frame.columns),
-                    "shape": legacy_frame.shape,
-                    "missing_values": legacy_frame.isnull().sum().to_dict(),
-                }
+                frame, columns = _tabular_io.read_excel(path_obj)
+                result = self._process_dataframe(
+                    frame, _infer_data_type(columns, data_type)
+                )
+                result["columns"] = columns
+                result["data"] = [
+                    dict(zip(columns, row.values(), strict=True))
+                    for row in result["data"]
+                ]
+                result["missing_values"] = dict(
+                    zip(columns, result["missing_values"].values(), strict=True)
+                )
+                return result
             elif suffix == ".parquet":
                 df = _tabular_io.read_parquet(path_obj)
             elif suffix == ".json":
@@ -560,13 +560,7 @@ class DataFormatConnector(EcosystemConnector):
                     _tabular_io.write_csv(df, table_path)
 
             elif format_type.lower() == "xlsx":
-                import pandas as pd
-
-                with pd.ExcelWriter(output_path_obj) as writer:
-                    for table_name, df in export_data.items():
-                        pd.DataFrame(df.to_dicts()).to_excel(
-                            writer, sheet_name=table_name, index=False
-                        )
+                _tabular_io.write_excel_tables(export_data, output_path_obj)
 
             elif format_type.lower() == "json":
                 # Convert DataFrames to JSON-serializable format

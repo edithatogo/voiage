@@ -57,9 +57,13 @@ def test_ecosystem_interchange_profiles_match_actual_formats_and_extras() -> Non
     assert profiles["rds"]["implementation"] == "none"
     assert profiles["excel"]["status"] == "optional"
     assert profiles["excel"]["extra"] == "excel"
-    assert any(
-        dependency.startswith("openpyxl>=")
-        for dependency in project["project"]["optional-dependencies"]["excel"]
+    excel_dependencies = project["project"]["optional-dependencies"]["excel"]
+    for engine in ("python-calamine", "xlsxwriter"):
+        assert any(
+            dependency.startswith(f"{engine}>=") for dependency in excel_dependencies
+        )
+    assert not any(
+        dependency.startswith("openpyxl") for dependency in excel_dependencies
     )
 
 
