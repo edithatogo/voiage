@@ -1,0 +1,44 @@
+{
+  "schema_version": "1",
+  "dataset_id": "phase6-external-producer",
+  "table_id": "samples",
+  "columns": {
+    "strategy_a": [
+      10.0,
+      30.0,
+      20.0
+    ],
+    "strategy_b": [
+      20.0,
+      10.0,
+      25.0
+    ]
+  },
+  "rows": [
+    {
+      "strategy_a": 10.0,
+      "strategy_b": 20.0
+    },
+    {
+      "strategy_a": 30.0,
+      "strategy_b": 10.0
+    },
+    {
+      "strategy_a": 20.0,
+      "strategy_b": 25.0
+    }
+  ],
+  "rejection": "input does not satisfy the dataframe interchange protocol with the requested copy policy",
+  "expected": {
+    "pandas": {
+      "schema_fingerprint": "1ef18b22a0cbe24532c60b97633a8b1dcf9d62c5f2c4a45b4fd56d3ce598e59c",
+      "descriptor_digest": "6f22423280ba9d6a92860a56d5fa5717b68d657735c71b2f1be718b936c9089d",
+      "canonical_manifest_sha256": "23e17bd4142802808a570accbf73722b1d2d8424ff8fff7a53deaa9bc82def64"
+    },
+    "polars": {
+      "schema_fingerprint": "1ef18b22a0cbe24532c60b97633a8b1dcf9d62c5f2c4a45b4fd56d3ce598e59c",
+      "descriptor_digest": "6f22423280ba9d6a92860a56d5fa5717b68d657735c71b2f1be718b936c9089d",
+      "canonical_manifest_sha256": "57d42e250d687777f71ca2e3789ffd898fb898dcca7502e05cafcfc054abd2fc"
+    }
+  }
+}
