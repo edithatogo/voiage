@@ -15,3 +15,23 @@ The implementing agent reviewed each changed source, test, dependency and CI fil
 Calamine and XlsxWriter use context-managed workbooks. A guarded 120-cycle probe found stable descriptors after initialization, no retained workbook file descriptors and approximately 0.1 MiB post-warmup RSS growth. The resource guard bounds sampled combined RSS, elapsed time and free space; this bounded observation is not a universal leak-free guarantee.
 
 All 47 existing callable signatures match the merged prerequisite. Public payload keys, tuple shapes, typed headers, warning/empty-result behavior and workbook cell semantics remain. Numerical kernels and wire/binding contracts are unchanged. Core dependency removal and generated notebook templates remain later phases. See `phase-3-acceptance-python315.json` for exact revisions, raw initial failures, repaired evidence, hashes and remaining hosted gates.
+
+## Review addendum: whitespace compatibility
+
+PR review subsequently identified whitespace-only row loss. Native Calamine also
+trimmed text when a producer omitted XML-space preservation. The compatibility
+pass now streams secure SAX output into an owned disk-backed archive before
+native reading, preserving source bytes and temporary-file cleanup. Fifteen
+whitespace/padded-text combinations compare against the old producer reader;
+additional tests reject DTD input and verify cleanup and source immutability.
+
+The new full suite passed 5,304 tests with 14 capability skips. The 13 local
+environments are qualified by that full gate plus successful reruns of lint
+and typecheck after annotation-only and documented output-handler false-positive
+repairs; executable function bodies/line positions are unchanged. Coverage is
+94.73%, with all 127 changed executable lines and 49 changed branches covered.
+A clean wheel install with only the Excel extra passed without either legacy
+engine installed, with pandas/openpyxl/fastexcel imports blocked. A fresh guarded
+120-cycle probe retained no workbook descriptors and showed no post-warmup RSS
+growth. Updated hosted checks remain mandatory. See
+`phase-3-whitespace-python315.json`; the earlier receipt is historical evidence.
