@@ -1,0 +1,186 @@
+{
+  "schema_version": "1.0",
+  "phase": "2",
+  "tasks": [
+    "T2.1",
+    "T2.2",
+    "T2.3"
+  ],
+  "status": "locally_qualified_migrated_readers",
+  "tested_commit": "dd5016c6791da02fd9997b97eba97318be474a4f",
+  "tested_tree": "559dedd6eb64ba4d7c49c75761d0c239d1741a28",
+  "python": "3.15.1",
+  "baseline": "phase-2-baseline.json",
+  "prerequisite_merge": {
+    "pr": "https://github.com/edithatogo/voiage/pull/1203",
+    "commit": "ba3504b600d924692bece7f504113c56a66eda9f",
+    "signature_verified": true
+  },
+  "environments": {
+    "lint": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 9.353659124986734,
+      "skipped": false
+    },
+    "vale": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 9.242800290987361,
+      "skipped": false
+    },
+    "joss": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 3.5952175419661216,
+      "skipped": false
+    },
+    "harness": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 8.31087279098574,
+      "skipped": false
+    },
+    "typecheck": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 3.884974999993574,
+      "skipped": false
+    },
+    "docs": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 158.4125316250138,
+      "skipped": false
+    },
+    "ingestion-conformance": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 38.2196856670198,
+      "skipped": false
+    },
+    "frontier-contract": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.7688182910205796,
+      "skipped": false
+    },
+    "version-sync": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 1.8147123340168037,
+      "skipped": false
+    },
+    "py315": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 30.944607291021384,
+      "skipped": false
+    },
+    "min_versions": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 30.954392416984774,
+      "skipped": false
+    },
+    "max_versions": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 24.031441125029232,
+      "skipped": false
+    },
+    "coverage_report": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 461.1118826250313,
+      "skipped": false
+    }
+  },
+  "tests": {
+    "passed": 5262,
+    "skipped": 16
+  },
+  "coverage": {
+    "line-rate": "0.954",
+    "branch-rate": "0.9263"
+  },
+  "adapter_coverage": {
+    "line-rate": "1",
+    "branch-rate": "1"
+  },
+  "coverage_policy": {
+    "aggregate": {
+      "minimum": 90.0,
+      "percent": 94.67613132209405
+    },
+    "base": "ba3504b600d924692bece7f504113c56a66eda9f",
+    "changed": {
+      "branch_minimum": 100.0,
+      "branch_percent": 100.0,
+      "branches": 0,
+      "covered_branches": 0,
+      "covered_lines": 0,
+      "executable_lines": 0,
+      "line_minimum": 95.0,
+      "line_percent": 100.0,
+      "missing_branches": [],
+      "missing_lines": [],
+      "unmeasured_files": []
+    },
+    "critical_modules": [
+      {
+        "minimum": 100.0,
+        "passed": true,
+        "path": "voiage/assurance_policy.py",
+        "percent": 100.0
+      },
+      {
+        "minimum": 90.0,
+        "passed": true,
+        "path": "voiage/contracts/bundle.py",
+        "percent": 98.97435897435898
+      },
+      {
+        "minimum": 95.0,
+        "passed": true,
+        "path": "voiage/mutation_policy.py",
+        "percent": 100.0
+      }
+    ],
+    "exact_source_head": true,
+    "head": "dd5016c6791da02fd9997b97eba97318be474a4f",
+    "passed": true,
+    "schema_version": "1.0.0",
+    "source_head": "dd5016c6791da02fd9997b97eba97318be474a4f",
+    "tested_head": "dd5016c6791da02fd9997b97eba97318be474a4f"
+  },
+  "resource_guard": {
+    "peak_rss_kib": 1728544,
+    "reason": "completed",
+    "returncode": 0,
+    "elapsed_seconds": 608.684,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-sju74yoa"
+  },
+  "temporary_tree_removed": true,
+  "unchanged_signatures": {
+    "voiage/ecosystem_integration.py": 31,
+    "voiage/widgets/voi_widgets.py": 12,
+    "voiage/_tabular_io.py": 4
+  },
+  "scope": "CSV/Parquet dtype, missing-value propagation, serialization and unchanged numerical rejection; JSON passthrough unchanged. Native Excel inference is qualified with Phase 3, so full reader/package absence is not claimed.",
+  "source_sha256": {
+    "voiage/_tabular_io.py": "80f9789820e458c52e47c48c689ed8af803e34d637a7f36f0769ac4ae524a138",
+    "voiage/ecosystem_integration.py": "d165b9ec76cde36118ed39ec05bfc66be348493d6d455d714a54ae12ea1bcd52",
+    "voiage/widgets/voi_widgets.py": "62db8c08fa94708977325f0eb2e2f1b5d70354f7a03caf6b466217456424922f",
+    "voiage/schema.py": "376facfa84e5edcdfab7e5182029a6bf720383c3b10c503a56ef8925c6afec4f",
+    "tests/test_tabular_read_semantics.py": "278de3cb464766c62de542f750d68c6bbb9fbb6ac57174ea2751ee2ca6139bf5"
+  },
+  "artifacts": {
+    "full-tox-result.json": "704bcceba6334b6bbc9981cd86f82f72a787722206f5473a2aca3e696735c452",
+    "full-tox.log": "b2d2632ab00ff967ae81166b15835f658cf0b8ba35442282e70cbe7c69047c89",
+    "coverage.json": "84e0323c2c024fae047aa8fcf321d58e6d3d8ebcfa4ab25689b95411ce17bc4b",
+    "coverage-policy.json": "30d6b9032e9f0a4f32baaf65d35787804b32b97d978cf15b9b98b6e7d37b1227"
+  },
+  "hosted_gate": "Required hosted checks apply to the final PR revision; see its native check readback.",
+  "coverage_mapping_note": "The edited generator-filter continuation lines are not separately mapped executable lines in CPython 3.15 coverage (changed executable count is zero). Do not interpret that vacuous percentage as new-branch proof: all adapter mapped lines/branches are covered, three pre-fix regression failures became passes, and the eight new behavior tests execute the policy."
+}
