@@ -20,7 +20,7 @@ T1.1 baseline is frozen, T1.2 is merged in PR #1203, and Phase 2 qualifies the m
 - [x] T3.2 — Substitute Polars-native Excel reading (`python-calamine` raw cells into Polars; named AC3 alternative preserving the frozen mixed-cell/header/time behavior) and multi-sheet writing (`xlsxwriter` with `pl.DataFrame.write_excel(workbook=wb, worksheet=table_name)`), update the `excel` extra to declare both, and record licence and wheel availability on the supported interpreter. (AC3).
 - [x] T3.3 — Validate: Excel read and multi-sheet write fixtures pass; a missing engine raises the documented error with no silent fallback; wheel availability on the supported interpreter is demonstrated. (AC3). Local qualification: `phase-3-acceptance-python315.json`, the subsequent review-fix `phase-3-whitespace-python315.json`, and `phase-3-review.md`; hosted/platform checks passed and PR #1205 merged as `5546e9b6` on 2026-10-27.
 
-## Phase 4: Packaging reconciliation
+## Phase 4: Packaging reconciliation [checkpoint: 29a83cfe]
 
 - [x] T4.1 — Freeze the four dependency surfaces and their current disagreement; state the intended single set. See `phase-4-baseline.json`; runtime requirements exclude both legacy packages, while the unpublished producer-test group is isolated from wheel dependencies and default installs.
 - [x] T4.2 — Reconcile `pyproject.toml`, `conda-recipe/meta.yaml` (and `conda-recipe/README.md`), `tox.ini` and the dependency-frontier configuration, including `.github/workflows/dependency-preview.yml`; remove pandas and xarray; retain polars and pyarrow; pin the Polars floor and ceiling with a recorded reason and run the suite at the floor and at the latest release. (AC4).
