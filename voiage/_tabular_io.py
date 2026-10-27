@@ -82,11 +82,14 @@ def read_csv(source: Path | io.StringIO) -> pl.DataFrame:
         new_columns=names,
         try_parse_dates=False,
     )
-    # The former reader promotes nullable integer columns to floating point.
+    # CSV has no physical schema. Retain the legacy numeric policy for nullable
+    # integers and non-empty columns containing only missing tokens. Mixed text
+    # remains String; only columns with no values can change String to Float64.
     return frame.with_columns(
         pl.col(name).cast(pl.Float64)
         for name, dtype in frame.schema.items()
-        if dtype.is_integer() and frame[name].null_count()
+        if frame[name].null_count()
+        and (dtype.is_integer() or frame[name].null_count() == frame.height)
     )
 
 

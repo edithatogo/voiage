@@ -1,7 +1,7 @@
 # voiage - Technology Stack
 
 ## Core Language
-- **Python**: >=3.15.1; a non-blocking Python 3.14t lane observes free-threaded compatibility
+- **Python**: 3.15.1; a non-blocking Python 3.15.1t lane observes free-threaded compatibility
 - **Rust**: Stable toolchain for the execution core and native benchmarks
 
 ## Core Libraries
@@ -71,7 +71,7 @@ subject to the evaluated extra and committed lock, not a promotion claim.
 - **cbindgen**: optional header generation for a narrow Rust C ABI edge
 
 ## Optional Dependencies
-- **PyTorch**: >=2.13,<3 - Deep learning (optional, for the `deep_learning` extra)
+- **PyTorch**: Declared unavailable on Python 3.15 by repository policy; APIs and the `deep_learning` extra name remain reserved pending qualified wheels
 
 ## Binding and Release Targets
 - **R**: CRAN-style package checks and GitHub Releases for source archives

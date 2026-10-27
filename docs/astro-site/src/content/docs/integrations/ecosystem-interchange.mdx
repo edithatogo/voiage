@@ -28,3 +28,42 @@ The machine-readable boundary is
 An external product name may be promoted to a compatibility claim only after a
 rights-cleared fixture from a pinned producer version passes an executed
 producer-to-voiage round trip.
+
+## Tabular dtype and missing-value policy
+
+CSV and Parquet use the same Polars adapter for the ecosystem connector,
+HEOML artifacts and widget CSV uploads. They preserve column order and the
+public connector payload keys, shape tuple and automatic classification.
+
+| Input | Dtype policy |
+| --- | --- |
+| CSV | Inspect every row with `infer_schema_length=None`; do not infer dates. Keep mixed numeric/text columns as strings. Promote nullable integer columns and non-empty all-null columns to `Float64`, matching the previous reader. A header-only column remains an empty string column. |
+| Parquet | Use the file's declared Arrow schema and validity bitmap. Do not infer or coerce column types. Index fields identified by producer metadata stay outside the data columns. |
+| JSON | Preserve the existing nested/flat JSON payload; no dataframe inference is performed. |
+| Excel | Retain the existing optional backend and behavior until its dedicated engine migration and inference qualification. |
+
+CSV recognizes the established missing-token vocabulary, including empty
+fields, `NA`, `NULL` and `NaN`. Blank physical lines are skipped; quoted
+newlines and genuine records of empty fields remain records. Numeric-looking
+values in a mixed text column remain text, including when the text appears
+after the first 100 rows. Nullable integer promotion retains the existing
+floating-point representation; it does not promise arbitrary-precision integers.
+
+Polars nulls and floating-point NaNs are distinct inside a Parquet frame.
+Arithmetic propagates a null as null and a NaN as NaN. A native nullable sum
+can return zero for an all-null column without filling its rows; a sum containing
+NaN remains NaN. These are transport-frame operations, not replacements for
+VOI numerical methods. No reader imputes, drops or fills missing samples.
+
+The connector's row dictionaries retain the existing NaN representation for
+missing scalars. `missing_values` counts both nulls and NaNs. CSV export writes
+both as empty fields using the existing quoting, floating-point spelling and
+platform newline convention. Reloading CSV therefore preserves missingness,
+but cannot recover the distinction between an Arrow null and a floating NaN.
+Parquet retains that distinction. JSON parsing and export keep their existing
+behavior, including Python's existing NaN serialization behavior.
+
+The numerical boundary remains unchanged: `ValueArray.from_polars` rejects
+nulls, while strict numerical entry points such as `evpi` reject non-finite
+NumPy values with `non_finite_value`. A caller must explicitly resolve missing
+observations before analysis; loading data is not numerical acceptance.

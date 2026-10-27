@@ -1,0 +1,75 @@
+{
+  "baseline_commit": "ba3504b600d924692bece7f504113c56a66eda9f",
+  "python": "3.15.1",
+  "polars": "2.1.0",
+  "fixture_sha256": {
+    "tests/fixtures/tabular_io/export-baseline.json": "7ad06cf02fe1ff474b433a26bafca1d078fef21c120615863eb0e1fc4d6730e2",
+    "tests/fixtures/tabular_io/read_semantics/all-null-mixed.csv": "aefbae61e792746b0b360e0d25dc2493d2d5d59ec234e3e43df9e75751a7d2c0",
+    "specs/integrations/lifecourse/v1/fixtures/README.md": "1a8c385a00e5461adb27c1a0af6dde1e600eecb083f1a0697d27851a1fd7db42",
+    "specs/integrations/lifecourse/v1/fixtures/manifest.json": "9281122e5adff30b2dc4db8652ea7197edfe50ff2ae5c2f482a100b188893580",
+    "specs/integrations/lifecourse/v1/fixtures/normative/expected_evpi.json": "d9a123625deb669dc6630659035a47bda71ed4a3949f5fb5541fa0ef77ffd341",
+    "specs/integrations/lifecourse/v1/fixtures/normative/expected_enbs.json": "fbbeb294f8fa597a42fee84f16e8ccf8028f882c2aa97799aeff2aa5d7ff1f69",
+    "specs/integrations/lifecourse/v1/fixtures/normative/expected_evsi.json": "e8769d35037733cfd8398ba5cf5e42ecfe55e2bf27bca5be1bba6f6f359c4bae",
+    "specs/integrations/lifecourse/v1/fixtures/normative/README.md": "f079896df862ac74c708f35922156c3ea6520dbec3546b7c5005b76d0df798ed",
+    "specs/integrations/lifecourse/v1/fixtures/normative/expected_evppi.json": "28248bb206464a43e7bf84bbcc85e51242dadd069df813c7bae125d0d3f88c78",
+    "specs/integrations/lifecourse/v1/fixtures/normative/net_benefits.csv": "bdea94d7c8cf8df837053ea8c8beca27337028b6f1f420a444bfb711b7ca1753",
+    "specs/integrations/lifecourse/v1/fixtures/normative/parameter_samples.csv": "ec708c0ccd2b88b8dc709321bd2b9a1e3a709a0d6e6a2b5f07ab53f9185b51c8",
+    "specs/integrations/lifecourse/v1/fixtures/normative/screening_program_bundle.json": "1c1cc9744355f72b8a63b6ffff6f64b20bf6f4d28643a0ca43888a23b2cfba49",
+    "specs/integrations/lifecourse/v1/fixtures/illustrative/README.md": "b6777774203b8a3344e230fc92fd717184d48f74e789ab7612857726ee47e425",
+    "specs/integrations/lifecourse/v1/fixtures/illustrative/voi_result_envelope.json": "ce140505212a6a48d64e20e0f9c8d8af7901c0700e77539b63ca4b919e23be13"
+  },
+  "baseline_schema": {
+    "id": "Int64",
+    "all_null": "String",
+    "mixed": "String",
+    "number": "Float64"
+  },
+  "legacy_schema": {
+    "id": "int64",
+    "all_null": "float64",
+    "mixed": "str",
+    "number": "float64"
+  },
+  "public_payload": {
+    "columns": [
+      "id",
+      "all_null",
+      "mixed",
+      "number"
+    ],
+    "shape": [
+      3,
+      4
+    ],
+    "missing_values": {
+      "id": 0,
+      "all_null": 3,
+      "mixed": 0,
+      "number": 1
+    }
+  },
+  "expected_red": "The migrated CSV reader reports all_null as String rather than the explicit legacy Float64 policy. Public records already normalize nulls to NaN; preserve that behavior.",
+  "commands": {
+    "focused": ".venv/bin/python scripts/guard_verification.py --work-dir .conductor/local/pandas-free-phase2/focused -- .venv/bin/pytest -o addopts= tests/test_tabular_read_semantics.py tests/test_tabular_io_polars.py tests/test_ecosystem_integration.py tests/test_lifecourse_integration.py tests/test_widgets.py -q",
+    "final": ".venv/bin/python scripts/guard_verification.py --work-dir .conductor/local/pandas-free-phase2/full-tox -- .venv/bin/tox run-parallel -p 2"
+  },
+  "pandas_oracle": "3.1.0",
+  "test_file_sha256": {
+    "tests/test_tabular_io_polars.py": "ce7ab196a991354669b7771cfd616bd6c405f6d0a8229db76f2bad40bdfe5dc7",
+    "tests/test_ecosystem_integration.py": "4f739e7dba83589ec57e8b7fca9bd59b3f83b5edb741aac638ef60322e629d2f",
+    "tests/test_lifecourse_integration.py": "8337d31cb31fcf80d8573f6a7c91056acb32216480ffb4cab1107e75b6444d48",
+    "tests/test_widgets.py": "ce7aef2dd585ebac46b18aa7b8ca9d1caa64547ddd03df3c3602958708ce992d"
+  },
+  "red_result": {
+    "failed": 3,
+    "passed": 5,
+    "command": ".venv/bin/pytest -o addopts= tests/test_tabular_read_semantics.py -q",
+    "guard": {
+      "peak_rss_kib": 329264,
+      "reason": "completed",
+      "returncode": 1,
+      "elapsed_seconds": 30.236,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-o8u4vox5"
+    }
+  }
+}
