@@ -10,8 +10,8 @@ T1.1 baseline is frozen and T1.2 is complete; remaining tasks are pending. Owner
 
 ## Phase 2: Read semantics
 
-- [ ] T2.1 — Freeze the current fixture set and add the all-null and mixed-type fixtures before changing readers.
-- [ ] T2.2 — Make dtype inference explicit and define null versus NaN handling across load, arithmetic and export. (AC2).
+- [x] T2.1 — Freeze the current fixture set and add the all-null and mixed-type fixtures before changing readers. See `phase-2-baseline.json` and `tests/fixtures/tabular_io/read_semantics/`.
+- [~] T2.2 — Make dtype inference explicit and define null versus NaN handling across load, arithmetic and export. (AC2).
 - [ ] T2.3 — Validate: the new fixtures produce defined results; no silent cast occurs; the null policy is documented and tested. (AC2).
 
 ## Phase 3: Excel

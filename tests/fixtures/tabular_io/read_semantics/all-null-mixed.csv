@@ -1,0 +1,4 @@
+id,all_null,mixed,number
+1,,1,1
+2,NA,text,
+3,NULL,3,3
