@@ -133,3 +133,15 @@ test tooling, not a compatibility shim, optional production engine or full
 repository zero-reference acceptance. Retain Conda's immutable published source
 pin; the new dependency block is a next-release handoff, requiring a matching
 published migrated sdist and native Conda proof before release claims.
+
+### 2026-10-28 pandas-free enforcement
+
+The required lint lane scans all runtime Python ASTs for pandas/xarray Import
+and ImportFrom nodes, including lazy and unreachable/type-only imports. No
+path exclusions, pragma or noqa suppression is accepted. The no-extras
+`pandas-free` tox lane has empty extras, dependency groups and dependencies,
+and probes the installed wheel in a fresh isolated Python 3.15.1 subprocess.
+It checks distribution closure, sys.modules and the environment prefix to reject
+source shadowing. Real mutation controls prove rejection. Linux/macOS/Windows
+CI execute the same lane. This is import enforcement, not Phase 7's separate
+generated-code/string/reference gate; external producer tests remain isolated.

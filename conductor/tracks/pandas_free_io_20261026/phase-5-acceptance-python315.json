@@ -1,0 +1,293 @@
+{
+  "schema_version": "1.0",
+  "phase": "5",
+  "tasks": [
+    "T5.1",
+    "T5.2",
+    "T5.3"
+  ],
+  "status": "locally_qualified_enforcement_hosted_acceptance_pending",
+  "base_merge": {
+    "pr": "https://github.com/edithatogo/voiage/pull/1206",
+    "commit": "63701cb80c66f86b62738560ffd49cc74e94e185",
+    "readback": "MERGED after all checks including the final telemetry/oracle check passed."
+  },
+  "tested_commit": "94d6dad1461af3b35bea9af432b6e9000cafbb75",
+  "tested_tree": "4cfa37dcc218dbba05682af4e9de0f27e716d298",
+  "python": "3.15.1",
+  "baseline": "phase-5-baseline.json",
+  "environments": {
+    "lint": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 3.9536153329991066,
+      "skipped": false
+    },
+    "pandas-free": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 5.483583290999377,
+      "skipped": false
+    },
+    "vale": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 3.157731082999817,
+      "skipped": false
+    },
+    "joss": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 1.2561246249988471,
+      "skipped": false
+    },
+    "harness": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 2.6300666669994825,
+      "skipped": false
+    },
+    "typecheck": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.7404141249990062,
+      "skipped": false
+    },
+    "docs": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 116.88679404200047,
+      "skipped": false
+    },
+    "ingestion-conformance": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 11.493582582999807,
+      "skipped": false
+    },
+    "frontier-contract": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.37816504100010206,
+      "skipped": false
+    },
+    "version-sync": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.6840822499998467,
+      "skipped": false
+    },
+    "py315": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 15.136325707999276,
+      "skipped": false
+    },
+    "min_versions": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 12.747879333999663,
+      "skipped": false
+    },
+    "max_versions": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 17.34417895900151,
+      "skipped": false
+    },
+    "coverage_report": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 243.47064737500114,
+      "skipped": false
+    }
+  },
+  "full_tests": {
+    "passed": 5337,
+    "skipped": 14,
+    "failed": 0,
+    "warnings": 43
+  },
+  "focused_controls": "24 enforcement tests; 46 affected enforcement/packaging/runtime/harness cases passed, plus three metadata-normalization tests. No retries or new skips introduced.",
+  "source_rule": {
+    "files": "Every .py and .pyi under voiage",
+    "nodes": [
+      "Import",
+      "ImportFrom"
+    ],
+    "forbidden_roots": [
+      "pandas",
+      "xarray"
+    ],
+    "no_exemptions": "No file exclusions, suppression pragmas or noqa handling. Lazy, unreachable and TYPE_CHECKING imports are rejected.",
+    "empty_scan": "Fails instead of treating zero Python sources as success.",
+    "non_import_strings": "Metadata and generated notebook strings are not AST import nodes; Phase 7 owns their separate reference gate."
+  },
+  "probe": {
+    "python": "3.15.1",
+    "installed_package": "/Volumes/PortableSSD/GitHub/voiage/.tox/pandas-free/lib/python3.15/site-packages/voiage/__init__.py",
+    "version": "2.2.0",
+    "forbidden_distributions": [],
+    "forbidden_modules": []
+  },
+  "probe_controls": [
+    "Clean fictional import accepted.",
+    "Actual imports of fictional pandas/xarray modules rejected by sys.modules assertion.",
+    "Fictional installed legacy distributions rejected even without import.",
+    "Source-shadowed package rejected by expected-prefix assertion."
+  ],
+  "no_extras_lane": {
+    "name": "pandas-free",
+    "extras": [],
+    "dependency_groups": [],
+    "deps": [],
+    "isolation": "Real wheel; fresh child Python -I; actual module path must be inside env_dir; distribution version matches package version.",
+    "bootstrap_tools": {
+      "python": "3.15.1",
+      "tox": "4.67.2",
+      "tox-uv": "1.37.2",
+      "installed": [
+        "cachetools",
+        "colorama",
+        "distlib",
+        "filelock",
+        "packaging",
+        "platformdirs",
+        "pluggy",
+        "pyproject-api",
+        "python-discovery",
+        "tomli_w",
+        "tox",
+        "tox-uv",
+        "tox-uv-bare",
+        "uv",
+        "virtualenv"
+      ]
+    },
+    "bootstrap_interpretation": "Unpublished verification group contains only locked tox tools, with no project, producer or legacy distribution installed. The target tox environment is separate and receives only wheel runtime dependencies."
+  },
+  "hosted_configuration": "Non-optional Linux/macOS/Windows jobs execute the same no-extras lane. Required full-suite source-lint test and local required lint enforce all runtime imports. Hosted results must pass on the final PR revision.",
+  "coverage_policy": {
+    "aggregate": {
+      "minimum": 90.0,
+      "percent": 94.73047628387434
+    },
+    "base": "63701cb80c66f86b62738560ffd49cc74e94e185",
+    "changed": {
+      "branch_minimum": 100.0,
+      "branch_percent": 100.0,
+      "branches": 0,
+      "covered_branches": 0,
+      "covered_lines": 0,
+      "executable_lines": 0,
+      "line_minimum": 95.0,
+      "line_percent": 100.0,
+      "missing_branches": [],
+      "missing_lines": [],
+      "unmeasured_files": []
+    },
+    "critical_modules": [
+      {
+        "minimum": 100.0,
+        "passed": true,
+        "path": "voiage/assurance_policy.py",
+        "percent": 100.0
+      },
+      {
+        "minimum": 90.0,
+        "passed": true,
+        "path": "voiage/contracts/bundle.py",
+        "percent": 99.30191972076788
+      },
+      {
+        "minimum": 95.0,
+        "passed": true,
+        "path": "voiage/mutation_policy.py",
+        "percent": 100.0
+      }
+    ],
+    "exact_source_head": true,
+    "head": "94d6dad1461af3b35bea9af432b6e9000cafbb75",
+    "passed": true,
+    "schema_version": "1.0.0",
+    "source_head": "94d6dad1461af3b35bea9af432b6e9000cafbb75",
+    "tested_head": "94d6dad1461af3b35bea9af432b6e9000cafbb75"
+  },
+  "coverage_note": "No voiage source edits. Vacuous changed-line percentages are not used as proof; actual import/source/distribution/shadow controls and installed-wheel execution provide the evidence.",
+  "unchanged_trees": [
+    {
+      "path": "voiage",
+      "git_tree_oid": "1223bd7ff4f30e8d1e8ac16b8fc3cc73bd4d7196"
+    },
+    {
+      "path": "rust",
+      "git_tree_oid": "cb91f40f723bf59bc37e3c6ec20f4502c5c7d1a6"
+    },
+    {
+      "path": "bindings",
+      "git_tree_oid": "e3e78f48140e9f6491ef87bebf680b136d965c44"
+    },
+    {
+      "path": "r-package",
+      "git_tree_oid": "433026b22bbb4f9f3ba217855bd22970b3720b2a"
+    },
+    {
+      "path": "specs/core-api",
+      "git_tree_oid": "3d5c0059778e303b466a58aa880badafc3e85eea"
+    },
+    {
+      "path": "specs/v3",
+      "git_tree_oid": "5e9fcf83ee079820153be27914cfcb64873af36e"
+    },
+    {
+      "path": "specs/integration/vop-voiage/compatibility",
+      "git_tree_oid": "b1ab4a2d0e3ac2e9f69f90d1f1e336e1419a38db"
+    }
+  ],
+  "latest_dependency_qualification": {
+    "upgrades": "fonttools 4.68.0, jupyter-builder 1.2.4, narwhals 2.28.0, pytest 9.2.0, python-discovery 1.6.6, pywinpty 3.1.1 and tox-uv/tox-uv-bare 1.37.2 resolved within existing constraints. Full local gate qualifies the local installed set; platform-specific packages require hosted platform evidence.",
+    "frontier": "Initial live PyPI read timed out. First failure retained; one explicit bounded read-only retry passed. Final strict audit passed with the verification group. This was not a test/native-mutation retry."
+  },
+  "python_runtime_audit": {
+    "dependencies": 28,
+    "known_vulnerabilities": 0,
+    "actual_tool_python": "3.15.1 verified before execution."
+  },
+  "resource_guard": {
+    "peak_rss_kib": 1606720,
+    "reason": "completed",
+    "returncode": 0,
+    "elapsed_seconds": 312.427,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-6dhbrd1y"
+  },
+  "guard_controls": {
+    "sampled_process_group_rss_mib": 4096,
+    "timeout_seconds": 3600,
+    "minimum_free_disk_mib": 2048,
+    "coverage_workers": 2,
+    "native_threads": 1
+  },
+  "successful_temporary_tree_removed": true,
+  "source_sha256": {
+    "scripts/check_pandas_free.py": "7839540401a023ea711cb2709da314bb59d45252a3467f29b5ce28e16d60e522",
+    "tests/test_pandas_free_enforcement.py": "5f9fb93573a22d5ebcaf260b1ac7b4e5d5b1b304db13b0e9c19dc13281e4f941",
+    "tox.ini": "26ace466f30c5fa9a9db086cdde1f42fff858bad358aed1945fc840df76c01e4",
+    "pyproject.toml": "00150750c14dc396703441a75b5f5f03316f23e018f3af18b16923b3facc8d07",
+    "uv.lock": "29eed68f481b316050caaffb37e3a3c44828f169643fb920bb6db1d765e9e16a",
+    ".github/workflows/ci.yml": "2d422993fc10b33d7955f62cb204b8f9c052b606bd33a4815f9721c6db6ac3b1"
+  },
+  "artifact_sha256": {
+    "full-gate-result.json": "a87aa1c7e48d104d731ac94ccc3239179ed82b039a92f06ce7a12f7e3fa31bda",
+    "full-gate.log": "da6fc32f345816b767b602ea6b01edc59490cf135eb239d1496c486d5b1e40d0",
+    "coverage.json": "28915a3fa5eef8076c78bd88ae0217fc18692d806582dda1e9dbfba0e6d3ce0b",
+    "coverage-policy.json": "aabcf7c37a2a160e6b522aae4f667a404cece40c33b9a0f5c19d57fee4182839",
+    "gate.log": "387946b7cd68731da1d68e10bf6655602218650431f4ba40a15024a9161cb582",
+    "gate-result.json": "48677ce65bdb9fed2ead979fe562e18805bdd8f54c4f9a4d2872be68a5d1baf8",
+    "bootstrap-tools.json": "b7303afa407d748df0469f4fc2fd842d418446e36afa8c5be45929ff769de912",
+    "python-audit.json": "8bb2be943cbc91b083e575ae82e388726120d1977dca30b76e719f530b337c6c",
+    "frontier-strict.log": "a0a4d375748ab787be3fcb70116d029632201bf2c1c38d044194bbc80aec7470",
+    "frontier-strict-retry.log": "0101e25b1a3ca772bdf3810868f176ce094da290b0c667cfde1ca65bea7440cb",
+    "frontier-final.log": "0101e25b1a3ca772bdf3810868f176ce094da290b0c667cfde1ca65bea7440cb"
+  },
+  "remaining_gates": "Hosted acceptance, Phase 6 producer acceptance and Phase 7 templates/reference/HPC cleanup remain separate. Native Conda publication and the previously reported unchanged frontend audit are not claimed as resolved."
+}

@@ -186,3 +186,9 @@ group. It does not enter wheel metadata or default installs; tox test lanes
 select it independently. A clean runtime install excludes this group and both
 legacy tabular distributions. Run `.venv/bin/python scripts/check_packaging_dependencies.py`
 with the repo-local Python 3.15.1 interpreter to compare the runtime declarations.
+
+The default tox gate includes `pandas-free`, a real installed-wheel environment
+with no extras or producer/test dependencies. Run that lane through the resource
+guard with `.venv/bin/tox run -e pandas-free` for focused feedback. Required lint
+also runs `scripts/check_pandas_free.py --source voiage`; direct pandas/xarray
+imports in runtime Python files and stubs cannot be suppressed with pragmas.

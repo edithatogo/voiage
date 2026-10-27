@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "phase": "5",
+  "base_commit": "63701cb80c66f86b62738560ffd49cc74e94e185",
+  "python": "3.15.1",
+  "source_files": {
+    "pyproject.toml": "14ff6ffea4b36159376a683874742b59d8f94c14f67dc1d1ca30224c7855113e",
+    "tox.ini": "4d725fd1e89d3fb55a90490fc64b56dbb7833608bf0cb57f78f7b17a62f50884",
+    ".github/workflows/ci.yml": "496d179368fa145e25c5e2707461d82ba39e401a2e0746985629179cd1ae7591",
+    "scripts/check_pandas_free.py": "c7b3f44b3637284b86c13278b1be8d8ee7e08855378a32a086d8919eac7d7f89",
+    "tests/test_pandas_free_enforcement.py": "fa5d069a91fd8a26f93cd86b954f0b5b64318f0c5b5b0c3159d18fcd831395c8"
+  },
+  "existing_state": "Base package is already legacy-free after Phase 4; there is no permanent no-extras lane, source-ban lint command or hosted enforcement job.",
+  "red_controls": "Native source/probe negative controls reject direct/lazy/TYPE_CHECKING/unreachable/noqa imports, imported fictional legacy modules, installed fictional distributions and source shadowing. Three automation-contract tests fail before adding tox/CI wiring.",
+  "scope": "AST import nodes in every voiage Python source, with no exemptions. Generated notebook strings and repository word-reference cleanup stay Phase 7. No runtime module or public API changes.",
+  "intended_no_extras_lane": "pandas-free; extras=[], dependency_groups=[], deps=[]; installed wheel imported in fresh isolated Python 3.15.1 and verified under env_dir.",
+  "verification_commands": [
+    "guard -- pytest tests/test_pandas_free_enforcement.py",
+    "guard -- python scripts/check_pandas_free.py --source voiage",
+    "guard -- tox run -e pandas-free",
+    "guard -- tox run-parallel -p 2"
+  ],
+  "hosted": "Non-optional job with Linux/macOS/Windows lanes uses the same real no-extras tox environment; existing required lint calls the source ban."
+}

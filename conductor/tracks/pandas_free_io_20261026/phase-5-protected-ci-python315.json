@@ -1,0 +1,171 @@
+{
+  "schema_version": "1.0",
+  "phase": "5",
+  "status": "locally_qualified_hosted_pending",
+  "previous_receipt": "phase-5-acceptance-python315.json",
+  "tested_commit": "7b18125b1677c02d21f7d0403dcf333051a988e4",
+  "tested_tree": "e0791fbfe52806995cd5c54547949d74509d7744",
+  "python": "3.15.1",
+  "protected_contexts": {
+    "Lint & Type Check": "Runs the exemption-free AST scan directly.",
+    "Unit Tests (Python 3.15.1)": "Runs the actual installed no-extras tox lane in addition to the bounded full suite."
+  },
+  "platform_matrix": "Additional non-optional Linux/macOS/Windows no-extras lanes; their new names do not replace the existing protected contexts.",
+  "red_green": "New existing-protected-job contract failed before wiring and passed afterward; all 25 enforcement controls and 11 harness cases passed.",
+  "full_tests": {
+    "passed": 5338,
+    "skipped": 14,
+    "failed": 0,
+    "summary": "5338 passed, 14 skipped, 43 warnings in 166.14s (0:02:46)"
+  },
+  "environments": {
+    "lint": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 4.003407541998968,
+      "skipped": false
+    },
+    "pandas-free": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 5.707474708000518,
+      "skipped": false
+    },
+    "vale": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 2.958608999999342,
+      "skipped": false
+    },
+    "joss": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 1.1667665829991165,
+      "skipped": false
+    },
+    "harness": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 2.679621125000267,
+      "skipped": false
+    },
+    "typecheck": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.6604471249993367,
+      "skipped": false
+    },
+    "docs": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 45.7684788330007,
+      "skipped": false
+    },
+    "ingestion-conformance": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 10.941183332999572,
+      "skipped": false
+    },
+    "frontier-contract": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.28603191599904676,
+      "skipped": false
+    },
+    "version-sync": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.608955916000923,
+      "skipped": false
+    },
+    "py315": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 8.18770349999977,
+      "skipped": false
+    },
+    "min_versions": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 8.263814874999298,
+      "skipped": false
+    },
+    "max_versions": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 8.754980916999557,
+      "skipped": false
+    },
+    "coverage_report": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 168.00298354200095,
+      "skipped": false
+    }
+  },
+  "coverage_policy": {
+    "aggregate": {
+      "minimum": 90.0,
+      "percent": 94.73047628387434
+    },
+    "base": "63701cb80c66f86b62738560ffd49cc74e94e185",
+    "changed": {
+      "branch_minimum": 100.0,
+      "branch_percent": 100.0,
+      "branches": 0,
+      "covered_branches": 0,
+      "covered_lines": 0,
+      "executable_lines": 0,
+      "line_minimum": 95.0,
+      "line_percent": 100.0,
+      "missing_branches": [],
+      "missing_lines": [],
+      "unmeasured_files": []
+    },
+    "critical_modules": [
+      {
+        "minimum": 100.0,
+        "passed": true,
+        "path": "voiage/assurance_policy.py",
+        "percent": 100.0
+      },
+      {
+        "minimum": 90.0,
+        "passed": true,
+        "path": "voiage/contracts/bundle.py",
+        "percent": 99.30191972076788
+      },
+      {
+        "minimum": 95.0,
+        "passed": true,
+        "path": "voiage/mutation_policy.py",
+        "percent": 100.0
+      }
+    ],
+    "exact_source_head": true,
+    "head": "7b18125b1677c02d21f7d0403dcf333051a988e4",
+    "passed": true,
+    "schema_version": "1.0.0",
+    "source_head": "7b18125b1677c02d21f7d0403dcf333051a988e4",
+    "tested_head": "7b18125b1677c02d21f7d0403dcf333051a988e4"
+  },
+  "resource_guard": {
+    "peak_rss_kib": 2056736,
+    "reason": "completed",
+    "returncode": 0,
+    "elapsed_seconds": 215.707,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-t4rpo2qa"
+  },
+  "successful_temporary_tree_removed": true,
+  "api_behavior": "Runtime, Rust, bindings and wire trees remain unchanged from PR #1206; scientific bounds unchanged.",
+  "remaining": "Hosted checks on final PR revision; Phase 6 producer acceptance; Phase 7 reference/template cleanup; native Conda release proof. Existing unchanged frontend advisories remain separate.",
+  "artifact_sha256": {
+    "full-protected-result.json": "d90d7db03f6c9b57ddc82573045a08cc0a899197a33e3c441546ba7a45cb0de3",
+    "full-protected.log": "ee8bbddaf1ee18417cfe56be25fdf653b261d4db656e4c6b9c923fbe685efeec",
+    "coverage-protected.json": "466dd8dcb9ed5ddc0a65b1310069f3b412a277a45da52102573888613579fe14",
+    "coverage-protected-policy.json": "b84b65214c1e0b0e5ed9246ed2e9632d2504daeaa24e6b21fa33b22655208af9",
+    "protected-red.log": "aa1517023a43cda7ac275cdb74d84b84499252d6ab63b1f4ebc1e504b686d9bf",
+    "protected-green.log": "1fbd3ccc75a1c60da8cd9280703d6b92aca092664c67ce3bf1ac5113c2c312fe"
+  }
+}
