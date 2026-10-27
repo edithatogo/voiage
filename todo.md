@@ -738,6 +738,9 @@ as recorded in the active task above; earlier route decisions below are historic
 
 ## Done
 
+- [x] Qualify native Excel read/write engines and frozen workbook parity on
+  Python 3.15.1 under the resource guard; hosted PR acceptance remains required.
+
 - [x] Qualify Phase 2 CSV/Parquet inference and null/NaN propagation on Python
   3.15.1, retaining public payloads and existing numerical diagnostics.
   See `conductor/tracks/pandas_free_io_20261026/phase-2-acceptance-python315.json`.

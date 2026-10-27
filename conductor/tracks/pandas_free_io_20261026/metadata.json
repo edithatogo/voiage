@@ -49,6 +49,12 @@
       "kind": "repository",
       "status": "satisfied",
       "evidence": "Phase 2 checkpoint 27d206a1afeac0bcf57c227fba8b03432ea637e3; phase-2-acceptance-python315.json. CSV/Parquet inference, null/NaN propagation and export qualified. Native Excel inference and full absence remain pending."
+    },
+    {
+      "id": "native-excel",
+      "kind": "repository",
+      "status": "locally_qualified",
+      "evidence": "Phase 3 checkpoint 832f187d; phase-3-acceptance-python315.json and phase-3-review.md. Actual Python 3.15.1 reader/writer parity and resource controls qualified; required hosted checks and three-OS engine matrix remain the PR merge gate."
     }
   ]
 }
