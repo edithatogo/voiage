@@ -12,10 +12,10 @@ from pathlib import Path
 import shutil
 import tempfile
 from typing import Any, override
-from xml.sax.saxutils import XMLGenerator
-from xml.sax.xmlreader import AttributesImpl
+from xml.sax.saxutils import XMLGenerator  # nosec B406 - output only; defused SAX parses input
+from xml.sax.xmlreader import AttributesImpl  # nosec B406 - output attributes, not a parser
 from zipfile import ZipFile
-lazy from collections.abc import Iterator
+lazy from collections.abc import Generator
 
 import polars as pl
 import pyarrow.parquet as pq
@@ -138,7 +138,7 @@ def write_csv(frame: pl.DataFrame, path: Path) -> None:
 
 
 @contextmanager
-def _excel_source(path: Path) -> Iterator[Path]:
+def _excel_source(path: Path) -> Generator[Path]:
     """Stream a private XML-space-normalized archive without changing the source.
 
     Calamine follows XML's default whitespace trimming, while the old reader
