@@ -115,7 +115,7 @@ jobs:
         python-version: "3.15.1"
 
     - name: Install dependencies
-      run: uv sync --frozen --extra ci
+      run: uv sync --frozen --extra ci --group producer-tests
 
     - name: Run benchmarks
       run: |

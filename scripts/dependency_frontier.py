@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+import sys
 import tomllib
 import urllib.request
 
@@ -42,7 +43,7 @@ def declared_requirements(config: dict[str, object]) -> list[tuple[str, Requirem
 def release_metadata(name: str) -> dict[str, object]:
     """Return release metadata from the official PyPI JSON API."""
     url = f"https://pypi.org/pypi/{name}/json"
-    with urllib.request.urlopen(url, timeout=20) as response:  # noqa: S310 -- fixed HTTPS PyPI endpoint
+    with urllib.request.urlopen(url, timeout=20) as response:
         payload = json.load(response)
     assert isinstance(payload, dict)
     return payload
@@ -169,6 +170,10 @@ def main() -> int:
         )
         for scope, requirement in requirements
     ]
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from scripts.check_packaging_dependencies import validate
+
+    runtime_policy = validate(repo)
     violations = [
         {
             "scope": row["scope"],
@@ -178,7 +183,16 @@ def main() -> int:
         for row in rows
         if row["policy_violations"]
     ]
+    if not runtime_policy["passed"]:
+        violations.append(
+            {
+                "scope": "runtime_packaging",
+                "package": "*",
+                "reasons": runtime_policy["errors"],
+            }
+        )
     report = {
+        "runtime_packaging": runtime_policy,
         "schema_version": "2.0",
         "requires_python": config["project"].get("requires-python"),
         "strict_policy_passed": not violations,

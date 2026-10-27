@@ -53,7 +53,7 @@ jobs:
           toolchain: "1.85"
       - name: Build and test native ARM64 wheel
         run: |
-          uv sync --frozen --extra ci
+          uv sync --frozen --extra ci --group producer-tests
           uv run maturin build --locked --release --interpreter python3.15 --out dist
           uv venv --python 3.15.1 .arm64-smoke
           uv pip install --python .arm64-smoke dist/*.whl

@@ -55,7 +55,7 @@ Acceptance: the read engine (Polars' `calamine`/`fastexcel` default, or a named 
 
 ### AC4: Packaging reconciliation
 
-Acceptance: `pyproject.toml`, `conda-recipe/meta.yaml`, `tox.ini` and the dependency-frontier configuration agree on one declared set; `pandas` and `xarray` are absent from declared dependencies; `polars` and `pyarrow` remain declared, with `pyarrow` retained because the ingestion interchange depends on it; a drift check fails when the four surfaces disagree.
+Acceptance: `pyproject.toml`, `conda-recipe/meta.yaml`, `tox.ini` and the dependency-frontier configuration agree on one declared set; `pandas` and `xarray` are absent from declared runtime dependencies and published extras; external-producer/oracle tooling is confined to the explicit unpublished `producer-tests` group, excluded from default and clean wheel installs; `polars` and `pyarrow` remain declared, with `pyarrow` retained because the ingestion interchange depends on it; a drift check fails when the four surfaces disagree.
 
 ### AC5: Enforcement
 

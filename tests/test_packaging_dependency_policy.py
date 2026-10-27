@@ -66,3 +66,15 @@ def test_producer_group_is_unpublished_and_not_a_default_install() -> None:
         for ds in config["project"]["optional-dependencies"].values()
         for d in ds
     )
+
+
+def test_test_lanes_select_unpublished_producer_tooling_explicitly() -> None:
+    import configparser
+
+    tox = configparser.ConfigParser(interpolation=None)
+    tox.read(ROOT / "tox.ini")
+    assert tox["testenv"]["dependency_groups"] == "producer-tests"
+    for path in (ROOT / ".github/workflows").glob("*.yml"):
+        for line in path.read_text().splitlines():
+            if "uv sync " in line and "--extra ci" in line:
+                assert "--group producer-tests" in line, (path.name, line)

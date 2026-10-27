@@ -125,14 +125,14 @@ def test_conda_release_recipe_is_single_native_maturin_contract() -> None:
         encoding="utf-8"
     )
     assert "{% set python_min" not in recipe
-    assert "  skip: true  # [py<312]" in recipe
-    assert "  host:\n    - python\n" in recipe
-    assert "  run:\n    - python\n" in recipe
+    assert "  skip: true  # [py<315]" in recipe
+    assert "  host:\n    - python >=3.15.1,<3.16\n" in recipe
+    assert "  run:\n    - python >=3.15.1,<3.16\n" in recipe
     assert "python >= {{ python_min }}" not in recipe
     assert "    - voiage._core" in recipe
     assert "core.runtime_info()['core_version'] == voiage.__version__" in recipe
     assert "voiage.evpi(np.array(" in recipe
-    assert "  requires:\n    - python\n    - pip" in recipe
+    assert "  requires:\n    - python >=3.15.1,<3.16\n    - pip" in recipe
     assert (
         "sha256: f0844694c628a92d29a532170f5a5672acfe210efe1d797359a4dc18c11ab901"
         in recipe

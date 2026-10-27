@@ -47,7 +47,7 @@ jobs:
         python-version: "3.15.1"
 
     - name: Install frozen dependencies
-      run: uv sync --frozen --extra ci --extra dev
+      run: uv sync --frozen --extra ci --extra dev --group producer-tests
 
     - name: Verify independent consumer matrix
       run: >-
