@@ -1,6 +1,6 @@
 # Implementation plan: Pandas-free external I/O and packaging
 
-T1.1 baseline is frozen, T1.2 is merged in PR #1203, and Phase 2 qualifies the migrated CSV/Parquet paths; remaining tasks are pending. Ownership: this track migrates every pandas reference and owns the repository-wide zero-reference check; `polars_container_20261026` migrates every xarray reference, and Phase 7 here cannot close before that track's Phase 7. Maintainer authorised the recommended follow-up on 2026-10-27. Prerequisite `polars_container_20261026` was accepted and merged in PR #1202; the later package-level pandas-free gate remains open.
+T1.1 baseline is frozen, T1.2 is merged in PR #1203, and Phase 2 qualifies the migrated CSV/Parquet paths; remaining tasks are pending. Ownership: this track migrates every pandas reference and owns the repository-wide zero-reference check; `polars_container_20261026` migrates every xarray reference, and Phase 7 here cannot close before that track's Phase 7. Maintainer authorised the recommended follow-up on 2026-10-27. Prerequisite `polars_container_20261026` was accepted and merged in PR #1202; the package-level absence/enforcement gate was accepted in merged PR #1207; repository-wide reference acceptance remains open.
 
 ## Phase 1: Direct-use removal
 
@@ -36,7 +36,7 @@ T1.1 baseline is frozen, T1.2 is merged in PR #1203, and Phase 2 qualifies the m
 
 - [x] T6.1 — Freeze the interchange fixtures, including a pandas producer object supplied by a caller. Baseline and red automation contracts: `61b8cbc6`, `phase-6-baseline.json` and `tests/producer_compatibility/producer.json`.
 - [x] T6.2 — Verify pandas-producing and Polars-producing objects are both accepted without a Voiage pandas import, and that zero-copy is preferred where available. (AC6). Real installed-wheel lane, import ownership, shared numeric buffers and existing strict-copy policy qualified; implementation recorded in the Phase 6 receipt.
-- [~] T6.3 — Validate: non-conforming input fails with the documented diagnostic; the wire contract and binding fixtures are unchanged; no new persistence format exists. (AC6, AC7).
+- [x] T6.3 — Validate: non-conforming input fails with the documented diagnostic; the wire contract and binding fixtures are unchanged; no new persistence format exists. (AC6, AC7). See `phase-6-acceptance-python315.json` and `phase-6-review.md`; all 15 local tox environments pass, with final hosted acceptance required on the delivered PR.
 
 ## Phase 7: Residual surfaces and zero-reference end state
 

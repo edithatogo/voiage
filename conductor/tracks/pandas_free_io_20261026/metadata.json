@@ -3,7 +3,7 @@
   "type": "refactor",
   "status": "in_progress",
   "created_at": "2026-10-26T00:00:00Z",
-  "updated_at": "2026-10-27T23:46:41Z",
+  "updated_at": "2026-10-27T23:55:20Z",
   "description": "Remove direct pandas use from external I/O and widgets, reconcile the four packaging surfaces and enforce the absence mechanically",
   "base_commit": "ca3f05cc8adcc74b99fe236152327d0cd3679553",
   "github_cross_reference": {
@@ -61,6 +61,12 @@
       "kind": "repository",
       "status": "satisfied",
       "evidence": "PR #1207 passed all checks including telemetry/oracles and merged as 1383f9c3fca05f82b11ba92e234767cbd4aa9642 on 2026-10-27. Local Phase 5 receipts retain their original candidate states."
+    },
+    {
+      "id": "external-producer-compatibility",
+      "kind": "repository",
+      "status": "locally_qualified",
+      "evidence": "phase-6-acceptance-python315.json and phase-6-review.md: 21 real producer controls, two automation contracts, 15 tox environments, 5,361 tests; runtime/binding/wire trees unchanged. Final hosted/platform acceptance remains required."
     }
   ]
 }
