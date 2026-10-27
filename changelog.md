@@ -1,5 +1,9 @@
 # Changelog
 
+- Define CSV all-null columns as Float64, retain mixed columns as text, and
+  document missing-value propagation and export without changing numerical
+  container validation or the public I/O API.
+
 - Use Polars for ecosystem CSV/Parquet loading and widget CSV uploads,
   preserving CSV payloads, export formatting and fail-soft diagnostics. Excel
   retains its existing optional backend pending the dedicated migration.
