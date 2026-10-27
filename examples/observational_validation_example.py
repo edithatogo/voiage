@@ -9,7 +9,6 @@ realistic economic model for observational studies.
 import sys
 import os
 import numpy as np
-import xarray as xr
 
 # Add the parent directory to the path to import voiage
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -58,17 +57,10 @@ def realistic_obs_modeler(psa_samples, study_design, bias_models):
     nb_new_treatment += 5000  # Make treatment more favorable on average
 
     # Create ValueArray
-    dataset = xr.Dataset(
-        {"net_benefit": (("n_samples", "n_strategies"),
-                        np.column_stack([nb_standard_care, nb_new_treatment]))},
-        coords={
-            "n_samples": np.arange(n_samples),
-            "n_strategies": np.arange(2),
-            "strategy": ("n_strategies", ["Standard Care", "New Treatment"])
-        }
+    return ValueArray.from_numpy(
+        np.column_stack([nb_standard_care, nb_new_treatment]),
+        ["Standard Care", "New Treatment"],
     )
-
-    return ValueArray(dataset=dataset)
 
 
 def sophisticated_observational_modeler(psa_samples, study_design, bias_models):
@@ -77,8 +69,6 @@ def sophisticated_observational_modeler(psa_samples, study_design, bias_models):
     This function simulates a more sophisticated approach where we attempt to
     adjust for biases using statistical methods.
     """
-    import xarray as xr
-    from voiage.schema import ValueArray
 
     n_samples = psa_samples.n_samples
 
@@ -131,17 +121,10 @@ def sophisticated_observational_modeler(psa_samples, study_design, bias_models):
     nb_treatment += 5000  # Make treatment more favorable on average
 
     # Create ValueArray
-    dataset = xr.Dataset(
-        {"net_benefit": (("n_samples", "n_strategies"),
-                        np.column_stack([nb_standard, nb_treatment]))},
-        coords={
-            "n_samples": np.arange(n_samples),
-            "n_strategies": np.arange(2),
-            "strategy": ("n_strategies", ["Standard Care", "New Treatment"])
-        }
+    return ValueArray.from_numpy(
+        np.column_stack([nb_standard, nb_treatment]),
+        ["Standard Care", "New Treatment"],
     )
-
-    return ValueArray(dataset=dataset)
 
 
 def main():

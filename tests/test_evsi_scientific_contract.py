@@ -5,6 +5,7 @@ from __future__ import annotations
 import math
 
 import numpy as np
+import polars as pl
 import pytest
 
 from voiage.exceptions import InputError
@@ -498,19 +499,22 @@ def test_gaussian_sampler_preserves_tail_and_fourth_moment() -> None:
 
 def test_builtin_two_loop_rejects_multidimensional_parameter_variables() -> None:
     """The built-in model accepts one scalar value per parameter and PSA row."""
-    import xarray as xr
-
-    prior = ParameterSet(
-        xr.Dataset(
+    # The v3 container structurally forbids non-scalar parameters, so exercise
+    # the defensive guard with a container whose frame holds an Array column.
+    prior = object.__new__(ParameterSet)
+    object.__setattr__(
+        prior,
+        "frame",
+        pl.DataFrame(
             {
-                "mean_a": (
-                    ("n_samples", "component"),
-                    np.arange(20, dtype=float).reshape(10, 2),
+                "mean_a": pl.Series(
+                    "mean_a",
+                    np.arange(20, dtype=float).reshape(10, 2).tolist(),
+                    dtype=pl.Array(pl.Float64, 2),
                 ),
-                "sd_outcome": (("n_samples",), np.ones(10)),
-            },
-            coords={"n_samples": np.arange(10), "component": [0, 1]},
-        )
+                "sd_outcome": np.ones(10),
+            }
+        ),
     )
     with pytest.raises(InputError) as captured:
         evsi(

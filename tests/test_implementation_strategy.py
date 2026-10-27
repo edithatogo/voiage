@@ -1,6 +1,6 @@
 """Runtime tests for implementation-strategy comparison VOI."""
 
-from pathlib import Path
+lazy from pathlib import Path
 
 import numpy as np
 import pytest

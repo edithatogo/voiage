@@ -6,7 +6,6 @@ from typing import cast
 
 import numpy as np
 import pytest
-import xarray as xr
 
 from voiage.analysis import DecisionAnalysis
 from voiage.exceptions import InputError
@@ -200,20 +199,8 @@ def test_value_of_implementation_rejects_invalid_inputs(
     with pytest.raises(InputError, match="ValueArray"):
         value_of_implementation(cast("ValueArray", "not a value array"))
 
-    three_dimensional_values = ValueArray(
-        dataset=xr.Dataset(
-            {
-                "net_benefit": (
-                    ("n_samples", "n_strategies", "n_perspectives"),
-                    np.ones((4, 2, 2)),
-                )
-            },
-            coords={
-                "n_samples": np.arange(4),
-                "n_strategies": np.arange(2),
-                "strategy": ("n_strategies", ["A", "B"]),
-            },
-        )
+    three_dimensional_values = ValueArray.from_numpy_perspectives(
+        np.ones((4, 2, 2)), ["A", "B"]
     )
 
     with pytest.raises(InputError, match="2D"):

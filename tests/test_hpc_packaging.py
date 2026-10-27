@@ -36,9 +36,9 @@ def test_easyconfig_runtime_pins_satisfy_release_requirements(year: str) -> None
     import tomllib
 
     config = _easyconfig(year)
-    requirements = tomllib.loads((ROOT / "pyproject.toml").read_text())["project"][
-        "dependencies"
-    ]
+    requirements = tomllib.loads(
+        (ROOT / "packaging/easybuild/release-pyproject-v2.2.0.toml").read_text()
+    )["project"]["dependencies"]
     pins = {
         dependency[0].lower().replace("_", "-"): dependency[1]
         for dependency in config["dependencies"]

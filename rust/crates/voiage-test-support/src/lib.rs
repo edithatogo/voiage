@@ -252,7 +252,7 @@ mod tests {
         let cases = value["independent_references"]
             .as_array()
             .expect("case list");
-        assert!(!cases.is_empty());
+        assert_ne!(cases.len(), 0);
         for case in cases {
             assert!(case["case_id"].as_str().is_some_and(|id| !id.is_empty()));
             assert!(case["implementation_test"]

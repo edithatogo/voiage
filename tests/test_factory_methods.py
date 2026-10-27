@@ -2,7 +2,6 @@
 
 import numpy as np
 import pytest
-import xarray as xr
 
 from voiage.analysis import DecisionAnalysis
 from voiage.config_objects import HealthcareConfig, VOIAnalysisConfig
@@ -29,11 +28,7 @@ def test_create_standard_analysis() -> None:
         "param1": np.random.randn(100).astype(np.float64),
         "param2": np.random.randn(100).astype(np.float64),
     }
-    dataset = xr.Dataset(
-        {k: (("n_samples",), v) for k, v in param_data.items()},
-        coords={"n_samples": np.arange(len(param_data["param1"]))},
-    )
-    parameters = ParameterSet(dataset=dataset)
+    parameters = ParameterSet.from_numpy_or_dict(param_data)
 
     # Create standard analysis
     analysis = create_standard_analysis(

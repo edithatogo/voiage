@@ -41,12 +41,12 @@ jobs:
       - name: Install pinned uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.12.5"
+          version: "0.13.6"
           enable-cache: false
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.14"
+          python-version: "3.15.1"
       - name: Install Rust MSRV
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
@@ -54,8 +54,8 @@ jobs:
       - name: Build and test native ARM64 wheel
         run: |
           uv sync --frozen --extra ci
-          uv run maturin build --locked --release --interpreter python3.12 --out dist
-          uv venv --python 3.12 .arm64-smoke
+          uv run maturin build --locked --release --interpreter python3.15 --out dist
+          uv venv --python 3.15.1 .arm64-smoke
           uv pip install --python .arm64-smoke dist/*.whl
           uv run --python .arm64-smoke --no-project python -c \
             "import platform, voiage; assert platform.machine() in {'aarch64', 'arm64'}"
@@ -74,12 +74,12 @@ jobs:
       - name: Install pinned uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.12.5"
+          version: "0.13.6"
           enable-cache: false
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.14"
+          python-version: "3.15.1"
       - name: Generate resolved Python dependency inventory
         run: |
           uv sync --frozen --no-dev

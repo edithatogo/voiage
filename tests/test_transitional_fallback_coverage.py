@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import numpy as np
 import pytest
-import xarray as xr
 
 import voiage
 from voiage.exceptions import OptionalDependencyError
@@ -20,17 +19,7 @@ def _ceaf_values() -> ValueArray:
             [[4.0, 5.0], [2.0, 1.0]],
         ]
     )
-    return ValueArray(
-        dataset=xr.Dataset(
-            {"net_benefit": (("n_samples", "n_strategies", "n_wtp"), values)},
-            coords={
-                "n_samples": np.arange(2),
-                "n_strategies": np.arange(2),
-                "n_wtp": np.arange(2),
-                "strategy": ("n_strategies", ["A", "B"]),
-            },
-        )
-    )
+    return ValueArray.from_numpy_perspectives(values, ["A", "B"])
 
 
 def test_ceaf_requires_native_core_when_extension_is_unavailable(
@@ -67,14 +56,16 @@ def test_dominance_requires_native_core_when_extension_is_unavailable(
 def test_package_lazy_exports_distinguish_optional_dependency_failures(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    sentinel = object()
+    sentinel_value = object()
     # Register the lazy attribute with monkeypatch before calling __getattr__
     # directly. The loader caches successful imports on the package, so this
     # guarantees that the original module is restored regardless of xdist
     # worker ordering.
     monkeypatch.delattr(voiage, "cli", raising=False)
-    monkeypatch.setattr(voiage, "import_module", lambda *_args, **_kwargs: sentinel)
-    assert voiage.__getattr__("cli") is sentinel
+    monkeypatch.setattr(
+        voiage, "import_module", lambda *_args, **_kwargs: sentinel_value
+    )
+    assert voiage.__getattr__("cli") is sentinel_value
     with pytest.raises(AttributeError, match="not_an_export"):
         voiage.__getattr__("not_an_export")
 

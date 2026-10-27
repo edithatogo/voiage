@@ -47,7 +47,7 @@ def test_release_uses_pep740_and_exact_testpypi_promotion() -> None:
     assert "--provenance-file" in release
     assert '"reviewed-dist/$filename"' in release
     assert "verify pypi --staging" not in release
-    assert 'python: ["3.12", "3.13", "3.14"]' in release
+    assert 'python: ["3.15.1"]' in release
     assert "Download reviewed release payload" in release
     assert "Compare TestPyPI bytes with reviewed payload" in release
     assert release.index("Publish Reviewed Draft to TestPyPI") < release.index(
@@ -79,7 +79,7 @@ def test_each_retained_language_has_native_assurance() -> None:
         )
     )
     required = (
-        'python: ["3.12", "3.13", "3.14"]',
+        'python: ["3.15.1"]',
         "cargo clippy --workspace --all-targets --all-features --locked",
         "cargo test --workspace --all-features --locked",
         "bash scripts/run_ffi_sanitizers.sh",

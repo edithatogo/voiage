@@ -1,7 +1,7 @@
 """Causal-identification and transportability value of information."""
 
-from collections.abc import Sequence
 from dataclasses import dataclass, field
+lazy from collections.abc import Sequence
 
 import numpy as np
 

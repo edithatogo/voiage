@@ -1,5 +1,30 @@
 # Changelog
 
+- Snapshot caller-owned NumPy buffers and borrowed Polars frames so later
+  input mutations cannot change constructed containers or their copies.
+
+- Retain historical paper environments and add an exact-source Python 3.15.1
+  replay profile that verifies the same scientific inputs and output hashes.
+
+- Qualify the Python 3.15.1 runtime and Polars 2.1 dependency floor across
+  development, native packaging and CI. Retain the optional PyTorch API with
+  an explicit unavailable diagnostic until stable Python 3.15 wheels exist.
+- Avoid per-construction query plans in container null validation while
+  retaining nested-null rejection and the original performance bounds.
+
+- Bound local verification memory, runtime and temporary-disk consumption with
+  a process-group watchdog, two coverage workers and native thread limits.
+
+- Enforce Float64 perspective-array validation, reject nested nulls and isolate
+  Polars containers from caller-owned frames and labels. Retain Python 3.15.1
+  qualification evidence and the pandas I/O baseline with final acceptance open.
+
+- Replace the xarray-backed `ValueArray` and `ParameterSet` containers with wide
+  Polars frames (`frame`, `from_polars`, `to_polars`; `ValueArray.values` now
+  returns a NumPy array), removing xarray imports from the runtime,
+  tests, examples and scripts at bit-identical numerical parity. The declared
+  `xarray` and `pandas` dependencies remain until the pandas-free I/O track.
+
 - Make Rust checkpoint persistence recover safely from stale temporary files,
   use distinct temporary names, and preserve portable directory-durability
   behavior.

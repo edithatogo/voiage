@@ -9,7 +9,7 @@ trap 'rm -rf "$audit_dir"' EXIT
 
 uv export --quiet --frozen --no-dev --no-emit-project --format requirements-txt \
   --output-file "$audit_dir/runtime-requirements.txt"
-uv venv --quiet --python 3.12 "$audit_dir/venv"
+uv venv --quiet --python 3.15.1 "$audit_dir/venv"
 uv pip install --quiet --python "$audit_dir/venv" \
   -r "$audit_dir/runtime-requirements.txt"
 uv run --no-project --python "$audit_dir/venv/bin/python" \

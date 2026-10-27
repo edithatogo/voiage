@@ -46,7 +46,7 @@ def _recipe(path: Path) -> dict[str, object]:
         if isinstance(node, ast.Assign) and len(node.targets) == 1:
             try:
                 values[node.targets[0].id] = ast.literal_eval(node.value)  # type: ignore[attr-defined]
-            except (ValueError, TypeError):
+            except ValueError, TypeError:
                 # Easyconfigs may contain computed assignments outside this contract.
                 pass
     return values

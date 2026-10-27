@@ -34,7 +34,7 @@ on:
 permissions: {}
 
 env:
-  VOIAGE_PYTHON_ABI: cp312-abi3
+  VOIAGE_PYTHON_ABI: cp315-abi3
 
 concurrency:
   group: python-rust-bridge-${{ github.workflow }}-${{ github.ref }}
@@ -53,7 +53,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["3.12", "3.13", "3.14"]
+        python: ["3.15.1"]
     steps:
       - name: Check out source
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
@@ -64,15 +64,15 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.12.5"
+          version: "0.13.6"
           enable-cache: true
           cache-dependency-glob: "uv.lock"
       - name: Set up test Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: ${{ matrix.python }}
-      - name: Install Python 3.12 ABI floor
-        run: uv python install 3.12
+      - name: Install Python 3.15.1 build runtime
+        run: uv python install 3.15.1
       - name: Install Rust 1.85
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
@@ -83,10 +83,10 @@ jobs:
         run: cargo metadata --manifest-path rust/Cargo.toml --locked --format-version 1 --no-deps
       - name: Record reproducible source epoch
         run: echo "SOURCE_DATE_EPOCH=$(git show -s --format=%ct HEAD)" >> "$GITHUB_ENV"
-      - name: Build cp312-abi3 wheel
+      - name: Build cp315-abi3 wheel
         uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1.51.0
         with:
-          args: --locked --release --compatibility pypi --interpreter python3.12 --out dist
+          args: --locked --release --compatibility pypi --interpreter python3.15 --out dist
           command: build
           docker-options: -e VOIAGE_SOURCE_REVISION -e VOIAGE_SOURCE_TREE_GIT_OID -e VOIAGE_SOURCE_CLEAN -e SOURCE_DATE_EPOCH
           manylinux: "2014"
@@ -116,29 +116,29 @@ jobs:
           cd "$RUNNER_TEMP/wheel-black-box"
           uv run --python "$WHEEL_VENV" --no-project pytest test_wheel_black_box.py test_runtime_adapter.py --import-mode=importlib
       - name: Test PEP 517 provenance wrapper
-        if: matrix.python == '3.12'
+        if: matrix.python == '3.15.1'
         run: uv run --no-sync pytest tests/packaging/test_build_backend.py --no-cov
       - name: Build ordinary clean source distribution
-        if: matrix.python == '3.12'
+        if: matrix.python == '3.15.1'
         run: env -u VOIAGE_SOURCE_REVISION -u VOIAGE_SOURCE_TREE_GIT_OID -u VOIAGE_SOURCE_CLEAN uv build --sdist --out-dir pep517-dist
       - name: Extract source distribution outside the checkout
-        if: matrix.python == '3.12'
+        if: matrix.python == '3.15.1'
         run: |
           mkdir -p "$RUNNER_TEMP/voiage-sdist-source" "$RUNNER_TEMP/voiage-sdist-wheel"
           tar -xzf pep517-dist/*.tar.gz -C "$RUNNER_TEMP/voiage-sdist-source" --strip-components=1
           test ! -e "$RUNNER_TEMP/voiage-sdist-source/.git"
       - name: Build ordinary wheel from Git-less source distribution
-        if: matrix.python == '3.12'
+        if: matrix.python == '3.15.1'
         working-directory: ${{ runner.temp }}/voiage-sdist-source
         run: env -u VOIAGE_SOURCE_REVISION -u VOIAGE_SOURCE_TREE_GIT_OID -u VOIAGE_SOURCE_CLEAN uv build --wheel --out-dir "$RUNNER_TEMP/voiage-sdist-wheel"
       - name: Install and verify Git-less sdist-derived wheel
-        if: matrix.python == '3.12'
+        if: matrix.python == '3.15.1'
         working-directory: ${{ runner.temp }}
         env:
           EXPECTED_SOURCE_REVISION: ${{ github.sha }}
           EXPECTED_SOURCE_TREE_GIT_OID: ${{ env.VOIAGE_SOURCE_TREE_GIT_OID }}
         run: |
-          uv venv --python 3.12 "$RUNNER_TEMP/voiage-sdist-wheel-venv"
+          uv venv --python 3.15.1 "$RUNNER_TEMP/voiage-sdist-wheel-venv"
           uv pip install --python "$RUNNER_TEMP/voiage-sdist-wheel-venv" "$RUNNER_TEMP"/voiage-sdist-wheel/*.whl
           uv pip check --python "$RUNNER_TEMP/voiage-sdist-wheel-venv"
           uv run --python "$RUNNER_TEMP/voiage-sdist-wheel-venv" --no-project python - <<'PY'
@@ -186,13 +186,13 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.12.5"
+          version: "0.13.6"
           enable-cache: true
           cache-dependency-glob: "uv.lock"
-      - name: Set up Python 3.12 ABI floor
+      - name: Set up Python 3.15.1 build runtime
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.14"
+          python-version: "3.15.1"
       - name: Install Rust 1.85
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
@@ -210,7 +210,7 @@ jobs:
         if: runner.os == 'Linux'
         uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1.51.0
         with:
-          args: --locked --release --compatibility pypi --interpreter python3.12 --out dist
+          args: --locked --release --compatibility pypi --interpreter python3.15 --out dist
           command: build
           docker-options: -e VOIAGE_SOURCE_REVISION -e VOIAGE_SOURCE_TREE_GIT_OID -e VOIAGE_SOURCE_CLEAN -e SOURCE_DATE_EPOCH
           manylinux: "2014"
@@ -225,7 +225,7 @@ jobs:
           python -c "from pathlib import Path; from zipfile import ZipFile; wheel=next(Path('dist').glob('*.whl')); names=ZipFile(wheel).namelist(); assert any(name.startswith('voiage/_core.') for name in names); assert 'voiage/__init__.py' in names"
       - name: Install actual wheel into clean environment
         run: |
-          uv venv --python 3.12 .wheel-venv
+          uv venv --python 3.15.1 .wheel-venv
           uv pip install --python .wheel-venv dist/*.whl
           uv pip check --python .wheel-venv
           uv pip install --python .wheel-venv pytest rfc8785==0.1.4

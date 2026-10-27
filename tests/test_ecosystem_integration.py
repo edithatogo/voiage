@@ -1,8 +1,8 @@
 """Deterministic tests for ecosystem connector import/export helpers."""
 
 import json
-from pathlib import Path
 from unittest.mock import patch
+lazy from pathlib import Path
 
 import pandas as pd
 import pytest

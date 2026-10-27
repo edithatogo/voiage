@@ -46,7 +46,7 @@ def sequential_voi(
     time_horizon: float | None = None,
     optimization_method: str = "backward_induction",
     **kwargs: object,
-) -> float | Generator[dict[str, object], None, None]:
+) -> float | Generator[dict[str, object]]:
     """Calculate value of information for a sequential decision problem."""
     # Input validation
     if not isinstance(dynamic_specification, DynamicSpec):
@@ -278,7 +278,7 @@ def _sequential_voi_generator(
     discount_rate: float | None,
     time_horizon: float | None,
     **kwargs: object,
-) -> Generator[dict[str, object], None, None]:
+) -> Generator[dict[str, object]]:
     """Yield VOI information at each time step."""
     time_steps = list(dynamic_specification.time_steps)
     current_psa = initial_psa
@@ -350,7 +350,7 @@ if __name__ == "__main__":  # pragma: no cover
     dummy_dyn_spec = DynamicSpec(time_steps=[0, 1, 2])
 
     generator = cast(
-        "Generator[dict[str, object], None, None]",
+        "Generator[dict[str, object]]",
         sequential_voi(
             dummy_step_model,
             dummy_psa,

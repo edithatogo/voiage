@@ -44,13 +44,13 @@ jobs:
     - name: Install pinned uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "0.12.5"
+        version: "0.13.6"
         enable-cache: false
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14"
+        python-version: "3.15.1"
 
     - name: Resolve merged dependency graph
       run: uv lock
@@ -78,7 +78,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "0.12.5"
+        version: "0.13.6"
         enable-cache: true
         cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
@@ -86,7 +86,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14"
+        python-version: "3.15.1"
 
     - name: Install dependencies
       run: uv sync --frozen --extra dev
@@ -117,7 +117,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "0.12.5"
+        version: "0.13.6"
         enable-cache: true
         cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
@@ -125,7 +125,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14"
+        python-version: "3.15.1"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --extra dev
@@ -176,7 +176,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "0.12.5"
+        version: "0.13.6"
         enable-cache: true
         cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
@@ -184,7 +184,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14"
+        python-version: "3.15.1"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --extra dev
@@ -207,7 +207,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "0.12.5"
+        version: "0.13.6"
         enable-cache: true
         cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
@@ -215,7 +215,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14"
+        python-version: "3.15.1"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci
@@ -235,7 +235,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "0.12.5"
+        version: "0.13.6"
         enable-cache: true
         cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
@@ -243,7 +243,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.14'
+        python-version: "3.15.1"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --extra dev
@@ -262,7 +262,7 @@ jobs:
 
     - name: Run ty frontier
       run: >-
-        uv run ty check voiage --python-version=3.14
+        uv run ty check voiage --python-version=3.15
         --ignore invalid-argument-type --ignore invalid-assignment
         --ignore unresolved-attribute --ignore unresolved-import
         --ignore no-matching-overload --ignore unsupported-operator
@@ -280,7 +280,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ["3.12", "3.13", "3.14"]
+        python: ["3.15.1"]
       fail-fast: false
     steps:
     - name: Checkout code
@@ -292,7 +292,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "0.12.5"
+        version: "0.13.6"
         enable-cache: true
         cache-suffix: ${{ github.job }}-${{ matrix.python }}
         cache-dependency-glob: "uv.lock"
@@ -335,7 +335,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "0.12.5"
+        version: "0.13.6"
         enable-cache: true
         cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
@@ -343,7 +343,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14"
+        python-version: "3.15.1"
 
     - name: Run tox conformance matrix
       run: uv run --with tox tox -e ingestion-conformance
@@ -362,7 +362,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "0.12.5"
+        version: "0.13.6"
         enable-cache: true
         cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
@@ -370,7 +370,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14"
+        python-version: "3.15.1"
 
     - name: Install explicit Excel extra
       run: uv sync --frozen --extra ci --extra excel
@@ -395,7 +395,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "0.12.5"
+        version: "0.13.6"
         enable-cache: true
         cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
@@ -403,7 +403,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14"
+        python-version: "3.15.1"
 
     - name: Install bounded example dependencies
       run: uv sync --frozen --extra ci --extra dev
@@ -439,7 +439,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "0.12.5"
+        version: "0.13.6"
         enable-cache: true
         cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
@@ -447,7 +447,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14"
+        python-version: "3.15.1"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci
@@ -466,7 +466,7 @@ jobs:
         fail_ci_if_error: true
 
   free-threaded-observation:
-    name: Python 3.14t Observation
+    name: Python 3.15.1t Observation
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -478,7 +478,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "0.12.5"
+        version: "0.13.6"
         enable-cache: true
         cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
@@ -486,21 +486,21 @@ jobs:
     - name: Set up free-threaded Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14t"
+        python-version: "3.15.1t"
 
     - name: Observe minimal free-threaded Arrow compatibility
       id: free_threaded_probe
       continue-on-error: true
       run: >-
         uv run --no-project --no-build
-        --with pyarrow==25.0.0
-        --with polars==1.42.1
+        --with pyarrow==26.0.0
+        --with polars==2.1.0
         python scripts/free_threaded_arrow_probe.py
     - name: Record ecosystem readiness
       if: steps.free_threaded_probe.outcome != 'success'
       run: |
-        echo "::notice::Python 3.14t Arrow wheels are not yet available for this probe."
-        echo "Python 3.14t Arrow compatibility is currently observational." >> "$GITHUB_STEP_SUMMARY"
+        echo "::notice::Python 3.15.1t Arrow wheels are not yet available for this probe."
+        echo "Python 3.15.1t Arrow compatibility is currently observational." >> "$GITHUB_STEP_SUMMARY"
 
   benchmark-regression:
     name: Benchmark Regression Checks
@@ -514,7 +514,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "0.12.5"
+        version: "0.13.6"
         enable-cache: true
         cache-suffix: ${{ github.job }}
         cache-dependency-glob: "uv.lock"
@@ -522,7 +522,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.14"
+        python-version: "3.15.1"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci
@@ -581,14 +581,14 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "0.12.5"
+        version: "0.13.6"
         enable-cache: true
         cache-suffix: ${{ github.job }}
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.14'
+        python-version: "3.15.1"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci
@@ -615,14 +615,14 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "0.12.5"
+        version: "0.13.6"
         enable-cache: true
         cache-suffix: ${{ github.job }}
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.14'
+        python-version: "3.15.1"
 
     - name: Install voiage
       run: uv sync --frozen --extra ci --extra dev
@@ -661,14 +661,14 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "0.12.5"
+        version: "0.13.6"
         enable-cache: true
         cache-suffix: ${{ github.job }}
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.14'
+        python-version: "3.15.1"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --extra dev
@@ -756,14 +756,14 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "0.12.5"
+        version: "0.13.6"
         enable-cache: true
         cache-suffix: ${{ github.job }}
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.14'
+        python-version: "3.15.1"
 
     - name: Install dependencies
       run: uv sync --frozen --extra dev
@@ -813,13 +813,13 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       with:
-        version: "0.12.5"
+        version: "0.13.6"
         enable-cache: false
 
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: '3.14'
+        python-version: "3.15.1"
 
     - name: Install polyglot documentation extractor
       run: uv sync --locked --extra docs --no-install-project

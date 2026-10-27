@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import numpy as np
 import pytest
-import xarray as xr
 
 from voiage import (
     DecisionOption,
@@ -49,17 +48,13 @@ def test_stable_methods_reject_non_finite_inputs(non_finite: float) -> None:
     with pytest.raises(InputError, match="finite"):
         enbs(non_finite, 1.0)
 
-    dataset = xr.Dataset(
-        {
-            "net_benefit": (
-                ("n_samples", "n_strategies", "threshold"),
-                [[[1.0, 2.0], [2.0, 1.0]]],
-            )
-        },
-        coords={"strategy": ("n_strategies", ["A", "B"]), "threshold": [0, 1]},
-    )
     with pytest.raises(InputError, match="finite"):
-        calculate_ceaf(ValueArray.from_dataset(dataset), [0.0, non_finite])
+        calculate_ceaf(
+            ValueArray.from_numpy_perspectives(
+                np.array([[[1.0, 2.0], [2.0, 1.0]]]), ["A", "B"]
+            ),
+            [0.0, non_finite],
+        )
 
     with pytest.raises(InputError, match="finite"):
         calculate_dominance([1.0, non_finite], [1.0, 2.0])

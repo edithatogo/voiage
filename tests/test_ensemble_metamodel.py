@@ -2,7 +2,6 @@
 
 import numpy as np
 import pytest
-import xarray as xr
 
 from voiage.metamodels import EnsembleMetamodel, GAMMetamodel, RandomForestMetamodel
 from voiage.schema import ParameterSet
@@ -18,11 +17,7 @@ def create_test_data(n_samples=100, n_features=3):
         param_dict[f"param_{i}"] = np.random.randn(n_samples)
 
     # Create ParameterSet
-    dataset = xr.Dataset(
-        {k: ("n_samples", v) for k, v in param_dict.items()},
-        coords={"n_samples": np.arange(n_samples)},
-    )
-    parameter_set = ParameterSet(dataset=dataset)
+    parameter_set = ParameterSet.from_numpy_or_dict(param_dict)
 
     # Generate target values (simple quadratic relationship with noise)
     x_array = np.array(list(param_dict.values())).T
@@ -184,11 +179,7 @@ def test_ensemble_metamodel_empty() -> None:
     # Create dummy ParameterSet
     n_samples = 10
     param_dict = {"param1": np.random.randn(n_samples)}
-    dataset = xr.Dataset(
-        {k: ("n_samples", v) for k, v in param_dict.items()},
-        coords={"n_samples": np.arange(n_samples)},
-    )
-    parameter_set = ParameterSet(dataset=dataset)
+    parameter_set = ParameterSet.from_numpy_or_dict(param_dict)
 
     # Try to predict without any models
     with pytest.raises(RuntimeError, match="No models in the ensemble"):

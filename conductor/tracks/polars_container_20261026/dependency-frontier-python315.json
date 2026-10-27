@@ -1,0 +1,968 @@
+{
+  "schema_version": "2.0",
+  "requires_python": ">=3.15.1,<3.16",
+  "strict_policy_passed": true,
+  "policy_violations": [],
+  "dependencies": [
+    {
+      "scope": "core",
+      "package": "click",
+      "specifier": "<9,>=8.3.3",
+      "minimum_supported": "8.3.3",
+      "locked": [
+        "8.5.0"
+      ],
+      "latest_compatible": "8.5.0",
+      "latest_overall": "8.5.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "core",
+      "package": "numpy",
+      "specifier": "<3,>=2.5.4",
+      "minimum_supported": "2.5.4",
+      "locked": [
+        "2.5.4"
+      ],
+      "latest_compatible": "2.5.4",
+      "latest_overall": "2.5.4",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "core",
+      "package": "scipy",
+      "specifier": "<1.19,>=1.18.1",
+      "minimum_supported": "1.18.1",
+      "locked": [
+        "1.18.1"
+      ],
+      "latest_compatible": "1.18.1",
+      "latest_overall": "1.18.1",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "core",
+      "package": "pandas",
+      "specifier": "<4,>=3.1.0",
+      "minimum_supported": "3.1.0",
+      "locked": [
+        "3.1.0"
+      ],
+      "latest_compatible": "3.1.0",
+      "latest_overall": "3.1.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "core",
+      "package": "xarray",
+      "specifier": "<2027,>=2026.9.0",
+      "minimum_supported": "2026.9.0",
+      "locked": [
+        "2026.9.0"
+      ],
+      "latest_compatible": "2026.9.0",
+      "latest_overall": "2026.9.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "core",
+      "package": "scikit-learn",
+      "specifier": "<2,>=1.9.1",
+      "minimum_supported": "1.9.1",
+      "locked": [
+        "1.9.1"
+      ],
+      "latest_compatible": "1.9.1",
+      "latest_overall": "1.9.1",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "core",
+      "package": "pyarrow",
+      "specifier": "<27,>=26.0.0",
+      "minimum_supported": "26.0.0",
+      "locked": [
+        "26.0.0"
+      ],
+      "latest_compatible": "26.0.0",
+      "latest_overall": "26.0.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "core",
+      "package": "polars",
+      "specifier": "<3,>=2.1.0",
+      "minimum_supported": "2.1.0",
+      "locked": [
+        "2.1.0"
+      ],
+      "latest_compatible": "2.1.0",
+      "latest_overall": "2.1.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "core",
+      "package": "pydantic",
+      "specifier": "<3,>=2.13.4",
+      "minimum_supported": "2.13.4",
+      "locked": [
+        "2.14.1"
+      ],
+      "latest_compatible": "2.14.1",
+      "latest_overall": "2.14.1",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "core",
+      "package": "jsonschema",
+      "specifier": "<5.0,>=4.26.0",
+      "minimum_supported": "4.26.0",
+      "locked": [
+        "4.26.0"
+      ],
+      "latest_compatible": "4.26.0",
+      "latest_overall": "4.26.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "core",
+      "package": "typing_extensions",
+      "specifier": ">=4.16.0",
+      "minimum_supported": "4.16.0",
+      "locked": [
+        "4.16.0"
+      ],
+      "latest_compatible": "4.16.0",
+      "latest_overall": "4.16.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "core",
+      "package": "typer",
+      "specifier": "<1.0,>=0.9",
+      "minimum_supported": "0.9",
+      "locked": [
+        "0.27.3"
+      ],
+      "latest_compatible": "0.27.3",
+      "latest_overall": "0.27.3",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:test-acceleration",
+      "package": "pytest-testmon",
+      "specifier": "<3,>=2.2.0",
+      "minimum_supported": "2.2.0",
+      "locked": [
+        "2.2.0"
+      ],
+      "latest_compatible": "2.2.0",
+      "latest_overall": "2.2.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:test-acceleration",
+      "package": "pytest-gremlins",
+      "specifier": "<2,>=1.9.0",
+      "minimum_supported": "1.9.0",
+      "locked": [
+        "1.12.2"
+      ],
+      "latest_compatible": "1.12.2",
+      "latest_overall": "1.12.2",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:test-acceleration",
+      "package": "coverage",
+      "specifier": "<8,>=7.16.0",
+      "minimum_supported": "7.16.0",
+      "locked": [
+        "7.17.0"
+      ],
+      "latest_compatible": "7.17.0",
+      "latest_overall": "7.17.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:test-acceleration",
+      "package": "vcrpy",
+      "specifier": "<9,>=8.3.0",
+      "minimum_supported": "8.3.0",
+      "locked": [
+        "8.5.0"
+      ],
+      "latest_compatible": "8.5.0",
+      "latest_overall": "9.2.0",
+      "upper_bound_blocker": true,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:ecosystem",
+      "package": "defusedxml",
+      "specifier": "<1.0,>=0.7.1",
+      "minimum_supported": "0.7.1",
+      "locked": [
+        "0.7.1"
+      ],
+      "latest_compatible": "0.7.1",
+      "latest_overall": "0.7.1",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:excel",
+      "package": "openpyxl",
+      "specifier": "<4.0,>=3.1.5",
+      "minimum_supported": "3.1.5",
+      "locked": [
+        "3.1.5"
+      ],
+      "latest_compatible": "3.1.5",
+      "latest_overall": "3.1.5",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:docs",
+      "package": "griffe",
+      "specifier": "<2.0,>=1.14.0",
+      "minimum_supported": "1.14.0",
+      "locked": [
+        "1.15.0"
+      ],
+      "latest_compatible": "1.15.0",
+      "latest_overall": "2.4.1",
+      "upper_bound_blocker": true,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:jax",
+      "package": "jax",
+      "specifier": "<0.13,>=0.12.0.1",
+      "minimum_supported": "0.12.0.1",
+      "locked": [
+        "0.12.0.1"
+      ],
+      "latest_compatible": "0.12.0.1",
+      "latest_overall": "0.12.0.1",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:ci",
+      "package": "defusedxml",
+      "specifier": "<1.0,>=0.7.1",
+      "minimum_supported": "0.7.1",
+      "locked": [
+        "0.7.1"
+      ],
+      "latest_compatible": "0.7.1",
+      "latest_overall": "0.7.1",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:ci",
+      "package": "docutils",
+      "specifier": "<1,>=0.23",
+      "minimum_supported": "0.23",
+      "locked": [
+        "0.23"
+      ],
+      "latest_compatible": "0.23",
+      "latest_overall": "0.23",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:ci",
+      "package": "fastapi",
+      "specifier": "<1.0,>=0.139.2",
+      "minimum_supported": "0.139.2",
+      "locked": [
+        "0.162.0"
+      ],
+      "latest_compatible": "0.162.0",
+      "latest_overall": "0.162.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:ci",
+      "package": "httpx",
+      "specifier": "<1.0,>=0.28.1",
+      "minimum_supported": "0.28.1",
+      "locked": [
+        "0.28.1"
+      ],
+      "latest_compatible": "0.28.1",
+      "latest_overall": "0.28.1",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:ci",
+      "package": "hypothesis",
+      "specifier": "<7.0,>=6.157.0",
+      "minimum_supported": "6.157.0",
+      "locked": [
+        "6.170.12"
+      ],
+      "latest_compatible": "6.170.12",
+      "latest_overall": "6.170.12",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:ci",
+      "package": "jax",
+      "specifier": "<0.13,>=0.12.0.1",
+      "minimum_supported": "0.12.0.1",
+      "locked": [
+        "0.12.0.1"
+      ],
+      "latest_compatible": "0.12.0.1",
+      "latest_overall": "0.12.0.1",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:ci",
+      "package": "matplotlib",
+      "specifier": "<4.0,>=3.4",
+      "minimum_supported": "3.4",
+      "locked": [
+        "3.11.2"
+      ],
+      "latest_compatible": "3.11.2",
+      "latest_overall": "3.11.2",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:ci",
+      "package": "maturin",
+      "specifier": "<2.0,>=1.9",
+      "minimum_supported": "1.9",
+      "locked": [
+        "1.15.0"
+      ],
+      "latest_compatible": "1.15.0",
+      "latest_overall": "1.15.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:ci",
+      "package": "psutil",
+      "specifier": "<8.0,>=5.9",
+      "minimum_supported": "5.9",
+      "locked": [
+        "7.2.2"
+      ],
+      "latest_compatible": "7.2.2",
+      "latest_overall": "7.2.2",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:ci",
+      "package": "pytest",
+      "specifier": "<10.0,>=9.1.1",
+      "minimum_supported": "9.1.1",
+      "locked": [
+        "9.1.1"
+      ],
+      "latest_compatible": "9.1.1",
+      "latest_overall": "9.1.1",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:ci",
+      "package": "pytest-benchmark",
+      "specifier": "<6.0,>=5.2.3",
+      "minimum_supported": "5.2.3",
+      "locked": [
+        "5.3.0"
+      ],
+      "latest_compatible": "5.3.0",
+      "latest_overall": "5.3.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:ci",
+      "package": "pytest-cov",
+      "specifier": "<8.0,>=7.1.0",
+      "minimum_supported": "7.1.0",
+      "locked": [
+        "7.1.0"
+      ],
+      "latest_compatible": "7.1.0",
+      "latest_overall": "7.1.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:ci",
+      "package": "pytest-integration",
+      "specifier": "<0.3,>=0.2.3",
+      "minimum_supported": "0.2.3",
+      "locked": [
+        "0.2.3"
+      ],
+      "latest_compatible": "0.2.3",
+      "latest_overall": "0.2.3",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:ci",
+      "package": "pytest-xdist",
+      "specifier": "<4.0,>=3.8.0",
+      "minimum_supported": "3.8.0",
+      "locked": [
+        "3.8.0"
+      ],
+      "latest_compatible": "3.8.0",
+      "latest_overall": "3.8.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:ci",
+      "package": "PyYAML",
+      "specifier": "<7.0,>=6.0.3",
+      "minimum_supported": "6.0.3",
+      "locked": [
+        "6.0.3"
+      ],
+      "latest_compatible": "6.0.3",
+      "latest_overall": "6.0.3",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:ci",
+      "package": "rfc8785",
+      "specifier": "<0.2,>=0.1",
+      "minimum_supported": "0.1",
+      "locked": [
+        "0.1.4"
+      ],
+      "latest_compatible": "0.1.4",
+      "latest_overall": "0.1.4",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:ci",
+      "package": "tomli",
+      "specifier": "<3.0,>=2.4.1",
+      "minimum_supported": "2.4.1",
+      "locked": [
+        "2.5.0"
+      ],
+      "latest_compatible": "2.5.0",
+      "latest_overall": "2.5.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:dev",
+      "package": "maturin",
+      "specifier": "<2.0,>=1.9",
+      "minimum_supported": "1.9",
+      "locked": [
+        "1.15.0"
+      ],
+      "latest_compatible": "1.15.0",
+      "latest_overall": "1.15.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:dev",
+      "package": "mutmut",
+      "specifier": "==3.6.0",
+      "minimum_supported": "3.6.0",
+      "locked": [
+        "3.6.0"
+      ],
+      "latest_compatible": "3.6.0",
+      "latest_overall": "3.8.0",
+      "upper_bound_blocker": true,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:dev",
+      "package": "scalene",
+      "specifier": "<3.0,>=2.3.0",
+      "minimum_supported": "2.3.0",
+      "locked": [
+        "2.4.0"
+      ],
+      "latest_compatible": "2.4.0",
+      "latest_overall": "2.4.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:dev",
+      "package": "ruff",
+      "specifier": "<0.18,>=0.17.2",
+      "minimum_supported": "0.17.2",
+      "locked": [
+        "0.17.3"
+      ],
+      "latest_compatible": "0.17.3",
+      "latest_overall": "0.17.3",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:dev",
+      "package": "bandit",
+      "specifier": "<2.0,>=1.9.4",
+      "minimum_supported": "1.9.4",
+      "locked": [
+        "1.9.4"
+      ],
+      "latest_compatible": "1.9.4",
+      "latest_overall": "1.9.4",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:dev",
+      "package": "nox",
+      "specifier": "<2027,>=2026.7.11",
+      "minimum_supported": "2026.7.11",
+      "locked": [
+        "2026.10.20"
+      ],
+      "latest_compatible": "2026.10.20",
+      "latest_overall": "2026.10.20",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:dev",
+      "package": "ty",
+      "specifier": "<1.0,>=0.0.61",
+      "minimum_supported": "0.0.61",
+      "locked": [
+        "0.0.92"
+      ],
+      "latest_compatible": "0.0.92",
+      "latest_overall": "0.0.92",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:dev",
+      "package": "basedpyright",
+      "specifier": "<2.0,>=1.39.9",
+      "minimum_supported": "1.39.9",
+      "locked": [
+        "1.40.2"
+      ],
+      "latest_compatible": "1.40.2",
+      "latest_overall": "1.40.2",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:dev",
+      "package": "types-setuptools",
+      "specifier": ">=83.0.0.20260716",
+      "minimum_supported": "83.0.0.20260716",
+      "locked": [
+        "84.0.0.20261006"
+      ],
+      "latest_compatible": "84.0.0.20261006",
+      "latest_overall": "84.0.0.20261006",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:dev",
+      "package": "types-requests",
+      "specifier": ">=2.33.0.20260712",
+      "minimum_supported": "2.33.0.20260712",
+      "locked": [
+        "2.33.0.20261006"
+      ],
+      "latest_compatible": "2.33.0.20261006",
+      "latest_overall": "2.33.0.20261006",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:dev",
+      "package": "jupyterlab",
+      "specifier": "<5.0,>=4.6.2",
+      "minimum_supported": "4.6.2",
+      "locked": [
+        "4.6.4"
+      ],
+      "latest_compatible": "4.6.4",
+      "latest_overall": "4.6.4",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:dev",
+      "package": "ipykernel",
+      "specifier": "<8,>=7.3.0",
+      "minimum_supported": "7.3.0",
+      "locked": [
+        "7.4.0"
+      ],
+      "latest_compatible": "7.4.0",
+      "latest_overall": "7.4.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:dev",
+      "package": "pre-commit",
+      "specifier": "<5.0,>=4.6.0",
+      "minimum_supported": "4.6.0",
+      "locked": [
+        "4.7.0"
+      ],
+      "latest_compatible": "4.7.0",
+      "latest_overall": "4.7.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:dev",
+      "package": "vulture",
+      "specifier": "<3.0,>=2.16",
+      "minimum_supported": "2.16",
+      "locked": [
+        "2.16"
+      ],
+      "latest_compatible": "2.16",
+      "latest_overall": "2.16",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:dev",
+      "package": "tox",
+      "specifier": "<5,>=4.67",
+      "minimum_supported": "4.67",
+      "locked": [
+        "4.67.1"
+      ],
+      "latest_compatible": "4.67.1",
+      "latest_overall": "4.67.1",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:dev",
+      "package": "tox-uv",
+      "specifier": "<2,>=1.37",
+      "minimum_supported": "1.37",
+      "locked": [
+        "1.37.0"
+      ],
+      "latest_compatible": "1.37.0",
+      "latest_overall": "1.37.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:dev",
+      "package": "tomli",
+      "specifier": "<3.0,>=2.4.1",
+      "minimum_supported": "2.4.1",
+      "locked": [
+        "2.5.0"
+      ],
+      "latest_compatible": "2.5.0",
+      "latest_overall": "2.5.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:experimental",
+      "package": "duckdb",
+      "specifier": "<2,>=1.5.4",
+      "minimum_supported": "1.5.4",
+      "locked": [
+        "1.5.6"
+      ],
+      "latest_compatible": "1.5.6",
+      "latest_overall": "2.0.0",
+      "upper_bound_blocker": true,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:experimental",
+      "package": "orjson",
+      "specifier": "<4,>=3.11.9",
+      "minimum_supported": "3.11.9",
+      "locked": [
+        "3.13.0"
+      ],
+      "latest_compatible": "3.13.0",
+      "latest_overall": "3.13.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:experimental",
+      "package": "msgspec",
+      "specifier": "<1,>=0.21.1",
+      "minimum_supported": "0.21.1",
+      "locked": [
+        "0.22.0"
+      ],
+      "latest_compatible": "0.22.0",
+      "latest_overall": "0.22.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:plotting",
+      "package": "matplotlib",
+      "specifier": "<4,>=3.11.1",
+      "minimum_supported": "3.11.1",
+      "locked": [
+        "3.11.2"
+      ],
+      "latest_compatible": "3.11.2",
+      "latest_overall": "3.11.2",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:plotting",
+      "package": "seaborn",
+      "specifier": "<1,>=0.13.2",
+      "minimum_supported": "0.13.2",
+      "locked": [
+        "0.13.2"
+      ],
+      "latest_compatible": "0.13.2",
+      "latest_overall": "0.13.2",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:performance",
+      "package": "psutil",
+      "specifier": "<8.0,>=5.9",
+      "minimum_supported": "5.9",
+      "locked": [
+        "7.2.2"
+      ],
+      "latest_compatible": "7.2.2",
+      "latest_overall": "7.2.2",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:web",
+      "package": "fastapi",
+      "specifier": "<1.0,>=0.139.2",
+      "minimum_supported": "0.139.2",
+      "locked": [
+        "0.162.0"
+      ],
+      "latest_compatible": "0.162.0",
+      "latest_overall": "0.162.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:web",
+      "package": "httpx",
+      "specifier": "<1.0,>=0.28.1",
+      "minimum_supported": "0.28.1",
+      "locked": [
+        "0.28.1"
+      ],
+      "latest_compatible": "0.28.1",
+      "latest_overall": "0.28.1",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "optional:web",
+      "package": "uvicorn",
+      "specifier": "<1.0,>=0.51.0",
+      "minimum_supported": "0.51.0",
+      "locked": [
+        "0.54.0"
+      ],
+      "latest_compatible": "0.54.0",
+      "latest_overall": "0.54.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    },
+    {
+      "scope": "build",
+      "package": "maturin",
+      "specifier": "<2.0,>=1.9",
+      "minimum_supported": "1.9",
+      "locked": [
+        "1.15.0"
+      ],
+      "latest_compatible": "1.15.0",
+      "latest_overall": "1.15.0",
+      "upper_bound_blocker": false,
+      "prereleases_allowed": false,
+      "support_window_status": "locked_at_latest_compatible",
+      "policy_violations": []
+    }
+  ]
+}

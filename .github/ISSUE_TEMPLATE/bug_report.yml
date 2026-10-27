@@ -50,7 +50,7 @@ body:
       description: "Operating system, Python version, voiage version, and installation method."
       value: |
         - OS: [e.g. macOS 15, Ubuntu 24.04, Windows 11]
-        - Python version: [e.g. 3.12.3]
+        - Python version: [e.g. 3.15.1]
         - voiage version: [e.g. 2.1.0]
         - Installation: [e.g. pip, uv, conda, source build]
     validations:

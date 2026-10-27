@@ -21,7 +21,7 @@ Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace",
     "srr::srr_stats_roclet"))
 Config/testthat/edition: 3
 SystemRequirements: Cargo and Rust (>= 1.85) for source installation;
-    Python (>= 3.12, optional, for EVPPI and EVSI through reticulate)
+    Python (>= 3.15.1, optional, for EVPPI and EVSI through reticulate)
 Suggests:
     reticulate (>= 1.46.0),
     knitr (>= 1.51),

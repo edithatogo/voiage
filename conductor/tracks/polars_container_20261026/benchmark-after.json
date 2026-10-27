@@ -1,0 +1,16 @@
+{
+  "container": "polars",
+  "fixture": {
+    "n_perspectives": 4,
+    "n_samples": 20000,
+    "n_strategies": 5,
+    "repeats": 100,
+    "seed": 20261026
+  },
+  "median_ms": {
+    "construction_2d": 0.1355,
+    "construction_3d": 0.2516,
+    "to_numpy_extraction": 0.0723,
+    "wide_to_long_conversion": 0.0583
+  }
+}

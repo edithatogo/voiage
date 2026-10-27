@@ -184,7 +184,7 @@ def validate_binding_dispositions_manifest(
                 try:
                     module = importlib.import_module(module_name)
                     getattr(module, attribute)
-                except (AttributeError, ImportError):
+                except AttributeError, ImportError:
                     raise_input_error(
                         f"Unresolvable Python symbol '{symbol}' for {cid}"
                     )

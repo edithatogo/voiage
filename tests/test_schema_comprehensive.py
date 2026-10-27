@@ -1,8 +1,8 @@
 """Comprehensive tests for schema module to improve coverage."""
 
 import numpy as np
+import polars as pl
 import pytest
-import xarray as xr
 
 from voiage.schema import ParameterSet, ValueArray
 
@@ -27,7 +27,7 @@ class TestValueArrayComprehensive:
         assert value_array.n_strategies == 2
 
         # Verify the stored data
-        np.testing.assert_array_equal(value_array.values.values, data)
+        np.testing.assert_array_equal(value_array.values, data)
         print("✅ ValueArray.from_numpy with strategy names works")
 
     def test_value_array_creation_without_strategy_names(self) -> None:
@@ -44,20 +44,12 @@ class TestValueArrayComprehensive:
         assert len(value_array.strategy_names) == 2
         print("✅ ValueArray.from_numpy without strategy names works")
 
-    def test_value_array_creation_from_xarray_dataset(self) -> None:
-        """Test ValueArray creation from xarray Dataset."""
-        # Create a dataset with the expected structure
+    def test_value_array_creation_from_polars_frame(self) -> None:
+        """Test ValueArray creation from a wide Polars frame."""
         data = np.array([[100.0, 150.0, 120.0], [90.0, 140.0, 130.0]], dtype=np.float64)
-        dataset = xr.Dataset(
-            {"net_benefit": (("n_samples", "n_strategies"), data)},
-            coords={
-                "n_samples": np.arange(2),
-                "n_strategies": np.arange(3),
-                "strategy": ("n_strategies", ["A", "B", "C"]),
-            },
-        )
+        frame = pl.DataFrame({"A": data[:, 0], "B": data[:, 1], "C": data[:, 2]})
 
-        value_array = ValueArray(dataset=dataset)
+        value_array = ValueArray.from_polars(frame)
 
         assert isinstance(value_array, ValueArray)
         assert value_array.values.shape == (2, 3)
@@ -66,8 +58,8 @@ class TestValueArrayComprehensive:
         assert value_array.n_strategies == 3
 
         # Check data integrity
-        np.testing.assert_array_equal(value_array.values.values, data)
-        print("✅ ValueArray creation from xarray Dataset works")
+        np.testing.assert_array_equal(value_array.values, data)
+        print("✅ ValueArray creation from Polars frame works")
 
     def test_value_array_property_accessors(self) -> None:
         """Test all ValueArray property accessors."""
@@ -80,7 +72,7 @@ class TestValueArrayComprehensive:
         assert value_array.n_samples == 3
         assert value_array.n_strategies == 2
         assert value_array.strategy_names == ["S1", "S2"]
-        assert isinstance(value_array.values, xr.DataArray)
+        assert isinstance(value_array.values, np.ndarray)
         assert value_array.values.shape == (3, 2)
 
         print("✅ ValueArray property accessors work")
@@ -133,8 +125,9 @@ class TestValueArrayComprehensive:
         assert copied_array is not original_array  # But different objects
 
         # Check that modifying one doesn't affect the other
-        copied_array.dataset["net_benefit"].values[0, 0] = 999.0
-        assert original_array.values.values[0, 0] != 999.0  # Original unchanged
+        copied_frame = copied_array.to_polars().with_columns(pl.lit(999.0).alias("S1"))
+        assert copied_frame["S1"][0] == pytest.approx(999.0)
+        assert original_array.values[0, 0] != 999.0  # Original unchanged
 
         print("✅ ValueArray copy functionality works")
 
@@ -172,7 +165,7 @@ class TestValueArrayComprehensive:
         assert sliced.strategy_names == ["S1", "S2"]
         # Verify values match the first 2 columns
         expected_values = np.array([[100.0, 150.0], [90.0, 140.0]])
-        np.testing.assert_array_equal(sliced.values.values, expected_values)
+        np.testing.assert_array_equal(sliced.values, expected_values)
 
         print("✅ ValueArray slice_by_strategies works")
 
@@ -258,30 +251,24 @@ class TestParameterSetComprehensive:
 
         print("✅ ParameterSet.from_numpy_or_dict with float lists works")
 
-    def test_parameter_set_creation_from_xarray_dataset(self) -> None:
-        """Test ParameterSet creation from xarray Dataset."""
-        # Create dataset with parameter data
+    def test_parameter_set_creation_from_polars_frame(self) -> None:
+        """Test ParameterSet creation from a wide Polars frame."""
+        # Create frame with parameter data
         n_samples = 5
         param1_values = np.array([0.1, 0.2, 0.3, 0.4, 0.5])
         param2_values = np.array([10.0, 20.0, 30.0, 40.0, 50.0])
 
-        dataset = xr.Dataset(
-            {
-                "param1": (("n_samples",), param1_values),
-                "param2": (("n_samples",), param2_values),
-            },
-            coords={"n_samples": np.arange(n_samples)},
-        )
+        frame = pl.DataFrame({"param1": param1_values, "param2": param2_values})
 
-        param_set = ParameterSet(dataset=dataset)
+        param_set = ParameterSet.from_polars(frame)
 
         assert isinstance(param_set, ParameterSet)
-        assert param_set.n_samples == 5
+        assert param_set.n_samples == n_samples
         assert set(param_set.parameter_names) == {"param1", "param2"}
         assert np.array_equal(param_set.parameters["param1"], param1_values)
         assert np.array_equal(param_set.parameters["param2"], param2_values)
 
-        print("✅ ParameterSet creation from xarray Dataset works")
+        print("✅ ParameterSet creation from Polars frame works")
 
     def test_parameter_set_property_accessors(self) -> None:
         """Test all ParameterSet property accessors."""
@@ -385,7 +372,8 @@ class TestParameterSetComprehensive:
         assert copied is not original  # But different objects
 
         # Check that modifying one doesn't affect the other
-        copied.dataset["param1"].values[0] = 999.0
+        copied_frame = copied.to_polars().with_columns(pl.lit(999.0).alias("param1"))
+        assert copied_frame["param1"][0] == pytest.approx(999.0)
         assert original.parameters["param1"][0] != 999.0  # Original unchanged
 
         print("✅ ParameterSet copy functionality works")

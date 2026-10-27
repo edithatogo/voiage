@@ -173,19 +173,24 @@ candidates, issue evidence, protected PR delivery and recovery-backed cleanup.
 This work does not reopen the archived hardening programme or establish
 outstanding scientific, registry, funding or venue outcomes.
 
-### Tabular contract v3 and Polars planning (registration only)
+### Tabular contract v3 and Polars migration
 
 Issue [#1195](https://github.com/edithatogo/voiage/issues/1195) registers four
-unimplemented tracks that would replace the xarray-backed tabular contract with
-Polars and remove direct pandas use:
-`conductor/tracks/tabular_contract_v3_20261026/`,
-`conductor/tracks/polars_container_20261026/`,
+tracks that replace the xarray-backed tabular contract with Polars and remove
+direct pandas use:
+`conductor/tracks/tabular_contract_v3_20261026/` **(complete)**,
+`conductor/tracks/polars_container_20261026/` **(accepted after buffer-ownership requalification on Python 3.15.1/Polars 2.1.0)**,
 `conductor/tracks/pandas_free_io_20261026/` and
 `conductor/tracks/translation_reference_20261026/`.
-`specs/core-api/decision-record.md` still names xarray as the Python reference
-model, so the contract revision is the prerequisite and no implementation is
-authorised. The published 2.2.0 release line and the active release-and-venue
-track are unaffected by this registration.
+`specs/core-api/decision-record.md` no longer names xarray as the Python
+reference model: the v3 revision (`specs/v3/`) names Polars wide frames, and the
+container track has replaced `ValueArray`/`ParameterSet` with wide Polars frames
+at bit-identical numerical parity with no xarray imports remaining under
+`voiage/`, `tests/`, `examples/` and `scripts/`. The pandas-free I/O follow-up
+is authorised with its inventory frozen; the translation-reference track
+remains planning-only, and the declared `xarray` and
+`pandas` dependencies stay until `pandas_free_io_20261026`. The published 2.2.0
+release line and the active release-and-venue track are unaffected.
 
 *   **Phase 1 (Foundation & API Refactoring):** ✅ **Complete** - Core OO API, data structures, CI/CD, and documentation are all in place.
 *   **Phase 2 (Health Economics Core):** ✅/🔄 **Stable analytical core complete; generic simulation developing** - EVPI, EVPPI, an analytical two-arm normal EVSI model, a coherent joint normal two-loop model with custom callback support, NMA VOI, structural VOI, and plotting are implemented. Generic two-loop and compatibility EVSI estimators remain non-stable pending method-specific convergence and parity evidence.
@@ -725,7 +730,7 @@ squash merge `55771017`; scientific review and later maturity gates remain.
     *   `DecisionAnalysis` class encapsulates core logic with functional wrappers.
 2.  **Domain-Agnostic Data Structures:**
     *   **Status: `✅ Done`**
-    *   `ParameterSet`, `ValueArray`, `TrialDesign`, and other structures in `voiage/schema.py` using xarray backend.
+    *   `ParameterSet`, `ValueArray`, `TrialDesign`, and other structures in `voiage/schema.py`; `ValueArray`/`ParameterSet` use wide Polars frames (`frame`/`from_polars`/`to_polars`) per the v3 contract.
 3.  **CI/CD & Documentation Website:**
     *   **Status: `✅ Done`**
     *   Full CI/CD pipeline: uv, Ruff, CodeQL, Benchmarks, Astro/Starlight docs, GitHub Pages, automated publishing to PyPI/TestPyPI, plus conda-forge feedstock recipe updates with external feedstock approval.
@@ -788,9 +793,9 @@ squash merge `55771017`; scientific review and later maturity gates remain.
     *   **Status: `✅ Done`**
     *   Multi-domain module (`voiage/multi_domain.py`) with healthcare, financial, environmental, and engineering support.
     *   Domain-specific analysis classes and utilities.
-5.  **XArray Integration:**
+5.  **Tabular Container Backend:**
     *   **Status: `✅ Done`**
-    *   All core data structures built on xarray Dataset backend.
+    *   Core `ValueArray`/`ParameterSet` data structures use wide Polars frames (v3 contract); the former xarray Dataset backend was removed in the Polars-native container track at unchanged numerical parity.
 6.  **High-Performance JAX Backend:**
     *   **Status: `✅ Done`**
     *   JIT-compiled versions of structural EVPI/EVPPI.

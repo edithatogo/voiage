@@ -31,14 +31,14 @@ jobs:
       - name: Install pinned uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.12.5"
+          version: "0.13.6"
           enable-cache: true
           cache-dependency-glob: "uv.lock"
 
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.14"
+          python-version: "3.15.1"
 
       - name: Install the immutable stable environment
         run: uv sync --frozen --extra ci
@@ -73,13 +73,13 @@ jobs:
       - name: Install pinned uv resolver
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.12.5"
+          version: "0.13.6"
           enable-cache: false
 
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.14"
+          python-version: "3.15.1"
 
       - name: Resolve latest versions within declared constraints
         id: resolve

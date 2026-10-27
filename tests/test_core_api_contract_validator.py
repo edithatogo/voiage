@@ -359,11 +359,11 @@ def test_load_fixture_payload_dispatches_arrow_style_suffixes(
 ) -> None:
     payload_path = tmp_path / f"fixture{suffix}"
     payload_path.write_text("placeholder", encoding="utf-8")
-    sentinel = {"suffix": suffix}
+    sentinel_value = {"suffix": suffix}
 
-    monkeypatch.setattr(validator, helper_name, lambda path: sentinel)
+    monkeypatch.setattr(validator, helper_name, lambda path: sentinel_value)
 
-    assert validator.load_fixture_payload(payload_path) == sentinel
+    assert validator.load_fixture_payload(payload_path) == sentinel_value
 
 
 def test_load_fixture_payload_rejects_unsupported_suffix(

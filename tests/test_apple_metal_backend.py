@@ -1,11 +1,11 @@
 """Tests for the optional Apple Metal backend."""
 
-from collections.abc import Iterator
 from contextlib import contextmanager
 import hashlib
 import json
 from types import SimpleNamespace
 from typing import cast
+lazy from collections.abc import Iterator
 
 import numpy as np
 import pytest
@@ -23,16 +23,16 @@ class _FakeTensor:
         self.array = np.asarray(array, dtype=float)
         self.device = device
 
-    def detach(self) -> "_FakeTensor":
+    def detach(self) -> _FakeTensor:
         return self
 
-    def cpu(self) -> "_FakeTensor":
+    def cpu(self) -> _FakeTensor:
         return self
 
     def item(self) -> float:
         return float(np.asarray(self.array).item())
 
-    def __sub__(self, other: object) -> "_FakeTensor":
+    def __sub__(self, other: object) -> _FakeTensor:
         other_array = other.array if isinstance(other, _FakeTensor) else other
         return _FakeTensor(
             self.array - np.asarray(other_array, dtype=float), self.device

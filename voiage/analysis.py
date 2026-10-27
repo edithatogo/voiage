@@ -3,8 +3,7 @@
 """A module for the core decision analysis interface."""
 
 from collections import deque
-from collections.abc import Callable, Generator, Mapping, Sequence
-from typing import Any, Protocol
+from typing import TYPE_CHECKING, Any, Protocol
 
 import numpy as np
 
@@ -21,6 +20,9 @@ from voiage.exceptions import (
 )
 from voiage.main_backends import get_backend
 from voiage.schema import ParameterSet, PortfolioSpec, PortfolioStudy, ValueArray
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, Generator, Mapping, Sequence
 
 # Check for JAX availability
 JAX_AVAILABLE = False
@@ -448,7 +450,7 @@ class DecisionAnalysis:
 
         return expected_utility_information_value(request)
 
-    def streaming_evpi(self) -> Generator[float, None, None]:
+    def streaming_evpi(self) -> Generator[float]:
         """Yield EVPI repeatedly for the current data state.
 
         Yields
@@ -461,7 +463,7 @@ class DecisionAnalysis:
             evpi_value = self.evpi()
             yield evpi_value
 
-    def streaming_evppi(self) -> Generator[float, None, None]:
+    def streaming_evppi(self) -> Generator[float]:
         """Yield EVPPI repeatedly for the current data state.
 
         Yields
@@ -687,7 +689,7 @@ class DecisionAnalysis:
             # Stable numerical policy is always executed by the Rust kernel.
             per_decision_evpi = _runtime.compute_evpi(nb_values.tolist())
             per_decision_evpi = max(0.0, float(per_decision_evpi))
-        except (ModuleNotFoundError, AttributeError):
+        except ModuleNotFoundError, AttributeError:
             raise_backend_not_available_error(
                 "Stable EVPI requires the Rust runtime extension; reinstall a "
                 "supported platform wheel or build the native module."
@@ -816,7 +818,7 @@ class DecisionAnalysis:
 
             try:
                 native_result = _runtime.compute_evppi(nb_values.tolist(), x.tolist())
-            except (ModuleNotFoundError, AttributeError):
+            except ModuleNotFoundError, AttributeError:
                 raise_backend_not_available_error(
                     "Stable EVPPI requires the Rust runtime extension; reinstall "
                     "a supported platform wheel or build the native module."
@@ -1451,7 +1453,6 @@ class DecisionAnalysis:
         if isinstance(self.parameter_samples.parameters, dict):
             x = np.stack(list(self.parameter_samples.parameters.values()), axis=1)
         else:
-            # Handle xarray or other types if necessary
             raise_input_error(
                 "PSASample with non-dict parameters not yet supported for EVPPI."
             )

@@ -59,7 +59,7 @@ def test_base_dependencies_match_stable_api_policy() -> None:
         "seaborn",
         "statsmodels",
     }.isdisjoint(base)
-    # Stable schemas are Xarray-backed, and Xarray itself requires Pandas.
+    # External I/O retains these dependencies until the pandas-free track.
     assert {"pandas", "xarray"} <= base
     assert "jax" not in base
 
@@ -74,7 +74,7 @@ def test_optional_dependencies_expose_only_real_runtime_features() -> None:
         "seaborn>=0.13.2,<1",
     ]
     assert extras["jax"] == [
-        "jax>=0.7.1,<0.8",
+        "jax>=0.12.0.1,<0.13",
     ]
     assert _dependency_names(extras["performance"]) == {"psutil"}
     assert "defusedxml" in _dependency_names(extras["ci"])

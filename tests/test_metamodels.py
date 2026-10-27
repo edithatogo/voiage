@@ -209,7 +209,7 @@ def test_bart_metamodel(sample_data) -> None:
 
         # Test prediction
         y_pred = model.predict(x)
-        # Convert to numpy array if it's an xarray DataArray
+        # Convert to numpy array if the prediction exposes a values attribute
         if hasattr(y_pred, "values"):
             y_pred = y_pred.values
         assert isinstance(y_pred, np.ndarray)
@@ -515,15 +515,13 @@ def test_as_numpy_converts_sparse_matrix_protocol() -> None:
     )
 
 
-def test_as_numpy_converts_xarray_values() -> None:
-    """Preserve dense conversion for labelled xarray predictions."""
-    import xarray as xr
-
+def test_as_numpy_converts_labelled_values_predictions() -> None:
+    """Preserve dense conversion for labelled array-like predictions."""
     from voiage.metamodels import _as_numpy
+    from voiage.schema import ValueArray
 
-    np.testing.assert_array_equal(
-        _as_numpy(xr.DataArray([1.0, 2.0, 3.0])), np.array([1.0, 2.0, 3.0])
-    )
+    labelled = ValueArray.from_numpy(np.array([[1.0], [2.0], [3.0]]), ["A"])
+    np.testing.assert_array_equal(_as_numpy(labelled), np.array([[1.0], [2.0], [3.0]]))
 
 
 def test_as_numpy_converts_values_attribute() -> None:

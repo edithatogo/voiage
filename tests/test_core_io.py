@@ -6,7 +6,6 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 import pytest
-import xarray as xr
 
 from voiage.core.io import (
     FileFormatError,
@@ -23,31 +22,16 @@ if TYPE_CHECKING:
 
 
 def _value_array() -> ValueArray:
-    dataset = xr.Dataset(
-        {
-            "net_benefit": (
-                ("n_samples", "n_strategies"),
-                np.array([[1.0, 2.0], [3.0, 4.0]]),
-            )
-        },
-        coords={
-            "n_samples": np.array([0, 1]),
-            "n_strategies": np.array([0, 1]),
-            "strategy": ("n_strategies", ["A", "B"]),
-        },
-    )
-    return ValueArray(dataset=dataset)
+    return ValueArray.from_numpy(np.array([[1.0, 2.0], [3.0, 4.0]]), ["A", "B"])
 
 
 def _parameter_set() -> ParameterSet:
-    dataset = xr.Dataset(
+    return ParameterSet.from_numpy_or_dict(
         {
-            "cost": ("n_samples", np.array([10.0, 20.0, 30.0])),
-            "effect": ("n_samples", np.array([0.1, 0.2, 0.3])),
-        },
-        coords={"n_samples": np.array([0, 1, 2])},
+            "cost": np.array([10.0, 20.0, 30.0]),
+            "effect": np.array([0.1, 0.2, 0.3]),
+        }
     )
-    return ParameterSet(dataset=dataset)
 
 
 def test_value_array_csv_round_trip(tmp_path: Path) -> None:

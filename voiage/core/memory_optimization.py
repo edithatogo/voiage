@@ -1,9 +1,9 @@
 """Memory optimization utilities for Value of Information analysis."""
 
-from collections.abc import Callable
 import gc
 from typing import Any
 import warnings
+lazy from collections.abc import Callable
 
 import numpy as np
 
@@ -166,14 +166,13 @@ class MemoryOptimizer:
         if isinstance(obj, np.ndarray):
             return float(obj.nbytes)
         if isinstance(obj, (ValueArray, ParameterSet)):
-            if hasattr(obj, "dataset") and hasattr(obj.dataset, "nbytes"):
-                return float(obj.dataset.nbytes)
-        elif isinstance(obj, dict):
+            return float(obj.frame.estimated_size())
+        if isinstance(obj, dict):
             return sum(
                 self.estimate_memory_usage(k) + self.estimate_memory_usage(v)
                 for k, v in obj.items()
             )
-        elif isinstance(obj, (list, tuple)):
+        if isinstance(obj, (list, tuple)):
             return sum(self.estimate_memory_usage(item) for item in obj)
 
         # For other objects, use a rough estimate

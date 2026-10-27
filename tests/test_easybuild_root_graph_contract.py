@@ -97,7 +97,7 @@ def _assignments_for_test(path: Path) -> dict[str, object]:
                 if isinstance(target, ast.Name):
                     try:
                         values[target.id] = ast.literal_eval(node.value)
-                    except (TypeError, ValueError):
+                    except TypeError, ValueError:
                         # Non-literal assignments are irrelevant to this test helper.
                         pass
     return values

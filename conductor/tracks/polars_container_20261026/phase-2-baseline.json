@@ -1,0 +1,50 @@
+{
+  "track_id": "polars_container_20261026",
+  "phase": "phase-2-containers",
+  "task_id": "T2.1",
+  "recorded_at": "2026-10-26T22:35:00Z",
+  "source_commit": "2a6e76b7",
+  "frozen_public_surface": {
+    "ValueArray": {
+      "constructor": "ValueArray(dataset: xr.Dataset)",
+      "removed_by_v3": ["dataset", "from_dataset", "to_dataset"],
+      "added_by_v3": ["frame: pl.DataFrame", "from_polars", "to_polars"],
+      "changed_by_v3": ["values returns np.ndarray (was xr.DataArray)"],
+      "kept_same": ["from_numpy", "from_numpy_perspectives", "from_jax", "perspective_names", "numpy_values", "jax_values", "n_samples", "n_strategies", "strategy_names", "copy", "get_strategy_index", "slice_by_strategies", "__eq__"]
+    },
+    "ParameterSet": {
+      "constructor": "ParameterSet(dataset: xr.Dataset)",
+      "removed_by_v3": ["dataset", "from_dataset", "to_dataset"],
+      "added_by_v3": ["frame: pl.DataFrame", "from_polars", "to_polars"],
+      "kept_same": ["parameters", "jax_parameters", "n_samples", "parameter_names", "copy", "subset_by_parameters", "__eq__", "from_numpy_or_dict", "from_jax"]
+    }
+  },
+  "frozen_exception_messages": {
+    "ValueArray": [
+      "ValueArray 'dataset' must be a xarray.Dataset.",
+      "ValueArray 'dataset' must have a 'n_samples' dimension.",
+      "ValueArray 'dataset' must have a 'n_strategies' dimension.",
+      "ValueArray 'dataset' must have a 'net_benefit' data variable.",
+      "ValueArray 'dataset' must have a 'strategy' coordinate.",
+      "ValueArray 'dataset' must align 'strategy' with 'n_strategies'.",
+      "strategy_names must have {n} elements",
+      "values must be a 2D array",
+      "values must be a 3D array",
+      "Strategy '{name}' not found."
+    ],
+    "ParameterSet": [
+      "ParameterSet 'dataset' must be a xarray.Dataset.",
+      "ParameterSet 'dataset' must have a 'n_samples' dimension.",
+      "ParameterSet 'dataset' must have at least one parameter variable.",
+      "Parameters not found: {names}",
+      "parameters array must be 2D",
+      "parameters dictionary cannot be empty",
+      "All parameter arrays must have the same length",
+      "parameters must be a numpy array or dictionary",
+      "Parameter {name} must be a JAX array",
+      "parameters must be a JAX array or dictionary"
+    ]
+  },
+  "expected_red_result": "tests/test_schema_polars_containers.py fails on the xarray container: no frame/from_polars/to_polars surface; ValueArray.values returns xr.DataArray not np.ndarray.",
+  "versioned_contract": "specs/v3/stable-api.json 3.0.0 marks ValueArray.dataset, ParameterSet.dataset, from_dataset, to_dataset as removed and defines frame/from_polars/to_polars and values -> numpy.ndarray."
+}

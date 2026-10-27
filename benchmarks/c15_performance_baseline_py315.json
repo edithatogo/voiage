@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "workload_id": "voiage-c15-evpi-4096x4-f64-v1",
+  "parameters": {
+    "repeats": 9,
+    "iterations": 40,
+    "rows": 4096,
+    "strategies": 4,
+    "dtype": "float64"
+  },
+  "measurement": {
+    "interval_method": "deterministic_percentile_bootstrap",
+    "confidence": 0.95,
+    "resamples": 10000,
+    "minimum_samples": 5,
+    "config_digest": "3639306544d7d5dfc1fa380d580b9f8ecec400ec89e7e0c85db25032eb52a1f5"
+  },
+  "source": {
+    "commit": "18b9270189bdabe1ea6314cee07f1288fa005cb0",
+    "evidence_kind": "runtime_migration_budget_with_unchanged_ceiling",
+    "captured_at": "2026-10-27",
+    "derivation": "Carry forward the exact 0.25 second ceiling and unchanged workload/bootstrap configuration from c15_performance_baseline.json to Python 3.15 cohorts. This declares a budget, not a speed measurement. Current hosted reports must establish each new cohort passes; the historical 3.14 baseline is retained unchanged."
+  },
+  "cohorts": {
+    "Linux": {
+      "approved_runner_identity": {
+        "os": "Linux",
+        "architecture": "x86_64",
+        "python_series": "3.15",
+        "python_implementation": "CPython",
+        "ci_runner_os": "Linux",
+        "ci_runner_arch": "x86_64",
+        "ci_image_os": "ubuntu24"
+      },
+      "approved_runner_fingerprint": "33d6c2e290467374fa4ec8a4edc6d2a134be8f1dba6429218050f200ddd18610",
+      "maximum_upper_seconds": 0.25
+    },
+    "Windows": {
+      "approved_runner_identity": {
+        "os": "Windows",
+        "architecture": "x86_64",
+        "python_series": "3.15",
+        "python_implementation": "CPython",
+        "ci_runner_os": "Windows",
+        "ci_runner_arch": "x86_64",
+        "ci_image_os": "win25-vs2026"
+      },
+      "approved_runner_fingerprint": "20bf81599611e74e2a6ea6544686dff0e8a5ece3ae1dd1581fe0bb210b9bb2df",
+      "maximum_upper_seconds": 0.25
+    }
+  }
+}

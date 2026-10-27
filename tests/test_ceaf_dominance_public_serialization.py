@@ -8,7 +8,6 @@ from pathlib import Path
 from jsonschema import Draft202012Validator
 import numpy as np
 import pytest
-import xarray as xr
 
 import voiage
 from voiage.exceptions import InputError
@@ -28,17 +27,7 @@ def _ceaf_result() -> voiage.CEAFResult:
             [[5.0, 1.0], [0.0, 2.0]],
         ]
     )
-    value_array = voiage.ValueArray(
-        dataset=xr.Dataset(
-            {
-                "net_benefit": (
-                    ("n_samples", "n_strategies", "n_wtp"),
-                    values,
-                )
-            },
-            coords={"strategy": ("n_strategies", ["A", "B"])},
-        )
-    )
+    value_array = voiage.ValueArray.from_numpy_perspectives(values, ["A", "B"])
     return voiage.ceaf(value_array, [0.0, 1.0])
 
 

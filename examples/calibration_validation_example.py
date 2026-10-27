@@ -9,7 +9,6 @@ realistic economic model that requires calibration.
 import sys
 import os
 import numpy as np
-import xarray as xr
 
 # Add the parent directory to the path to import voiage
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -54,17 +53,10 @@ def realistic_cal_modeler(psa_samples, study_design, process_spec):
     nb_new_treatment = nb_standard_care + treatment_benefit - treatment_cost
 
     # Create ValueArray
-    dataset = xr.Dataset(
-        {"net_benefit": (("n_samples", "n_strategies"),
-                        np.column_stack([nb_standard_care, nb_new_treatment]))},
-        coords={
-            "n_samples": np.arange(n_samples),
-            "n_strategies": np.arange(2),
-            "strategy": ("n_strategies", ["Standard Care", "New Treatment"])
-        }
+    return ValueArray.from_numpy(
+        np.column_stack([nb_standard_care, nb_new_treatment]),
+        ["Standard Care", "New Treatment"],
     )
-
-    return ValueArray(dataset=dataset)
 
 
 def main():

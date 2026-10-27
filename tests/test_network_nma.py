@@ -4,7 +4,6 @@
 
 import numpy as np
 import pytest
-import xarray as xr
 
 from voiage.exceptions import InputError
 from voiage.methods.network_nma import (
@@ -30,15 +29,7 @@ def mock_nma_evaluator(psa_samples, trial_design=None, trial_data=None):
     # Make strategy 1 slightly better on average
     nb_values[:, 1] += 10
 
-    dataset = xr.Dataset(
-        {"net_benefit": (("n_samples", "n_strategies"), nb_values)},
-        coords={
-            "n_samples": np.arange(n_samples),
-            "n_strategies": np.arange(2),
-            "strategy": ("n_strategies", ["Standard Care", "New Treatment"]),
-        },
-    )
-    return NetBenefitArray(dataset=dataset)
+    return NetBenefitArray.from_numpy(nb_values, ["Standard Care", "New Treatment"])
 
 
 @pytest.fixture
@@ -53,11 +44,7 @@ def sample_psa():
         "outcome_sd": np.random.uniform(0.1, 0.3, 100),
     }
 
-    dataset = xr.Dataset(
-        {k: (("n_samples",), v) for k, v in params.items()},
-        coords={"n_samples": np.arange(100)},
-    )
-    return ParameterSet(dataset=dataset)
+    return ParameterSet.from_numpy_or_dict(params)
 
 
 @pytest.fixture
@@ -235,11 +222,7 @@ def test_update_nma_posterior() -> None:
         "other_param": np.random.rand(n_samples),
     }
 
-    dataset = xr.Dataset(
-        {k: (("n_samples",), v) for k, v in params.items()},
-        coords={"n_samples": np.arange(n_samples)},
-    )
-    prior_psa = ParameterSet(dataset=dataset)
+    prior_psa = ParameterSet.from_numpy_or_dict(params)
 
     # Create mock trial data
     np.random.seed(123)
@@ -323,11 +306,7 @@ def test_sophisticated_nma_model_evaluator() -> None:
         "effectiveness_slope": np.random.normal(0.8, 0.1, n_samples),
     }
 
-    dataset = xr.Dataset(
-        {k: (("n_samples",), v) for k, v in params.items()},
-        coords={"n_samples": np.arange(n_samples)},
-    )
-    psa_samples = ParameterSet(dataset=dataset)
+    psa_samples = ParameterSet.from_numpy_or_dict(params)
 
     # Test the evaluator
     net_benefits = sophisticated_nma_model_evaluator(psa_samples)
@@ -339,7 +318,11 @@ def test_sophisticated_nma_model_evaluator() -> None:
     assert net_benefits.values.shape == (n_samples, 3)
 
     # Check that we have strategy names
-    assert "strategy" in net_benefits.dataset.coords
+    assert net_benefits.strategy_names == [
+        "Standard Care",
+        "Treatment B",
+        "Treatment C",
+    ]
 
 
 def test_calculate_nma_consistency() -> None:

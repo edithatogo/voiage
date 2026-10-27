@@ -1,16 +1,17 @@
 """Input/Output utilities for voiage."""
 
-from collections.abc import Callable, Sequence
 import csv
 import importlib
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
-import xarray as xr
 
 from voiage.config import DEFAULT_DTYPE
 from voiage.exceptions import InputError
 from voiage.schema import ParameterSet, ValueArray
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, Sequence
 
 _OPTION_NAME_COUNT_MISMATCH = (
     "Number of option_names does not match number of strategies."
@@ -20,7 +21,7 @@ _PARAMETER_NAME_COUNT_MISMATCH = (
 )
 
 
-def _read_value_array_error(filepath: str, exc: Exception) -> "FileFormatError":
+def _read_value_array_error(filepath: str, exc: Exception) -> FileFormatError:
     return FileFormatError(
         f"Failed to read ValueArray from CSV file '{filepath}': {exc}"
     )
@@ -30,7 +31,7 @@ def _write_value_array_error(filepath: str, exc: Exception) -> OSError:
     return OSError(f"Failed to write ValueArray to CSV file '{filepath}': {exc}")
 
 
-def _read_parameter_set_error(filepath: str, exc: Exception) -> "FileFormatError":
+def _read_parameter_set_error(filepath: str, exc: Exception) -> FileFormatError:
     return FileFormatError(
         f"Failed to read ParameterSet from CSV file '{filepath}': {exc}"
     )
@@ -131,15 +132,7 @@ def read_value_array_csv(
             _OPTION_NAME_COUNT_MISMATCH,
         )
 
-        dataset = xr.Dataset(
-            {"net_benefit": (("n_samples", "n_strategies"), values)},
-            coords={
-                "n_samples": np.arange(values.shape[0]),
-                "n_strategies": np.arange(values.shape[1]),
-                "strategy": ("n_strategies", final_option_names),
-            },
-        )
-        return ValueArray(dataset=dataset)
+        return ValueArray.from_numpy(values, final_option_names)
 
     except (OSError, ValueError) as e:
         raise _read_value_array_error(filepath, e) from e
@@ -185,14 +178,9 @@ def read_parameter_set_csv(
             _PARAMETER_NAME_COUNT_MISMATCH,
         )
 
-        dataset = xr.Dataset(
-            {
-                name: (("n_samples",), values[:, i])
-                for i, name in enumerate(final_parameter_names)
-            },
-            coords={"n_samples": np.arange(values.shape[0])},
+        return ParameterSet.from_numpy_or_dict(
+            {name: values[:, i] for i, name in enumerate(final_parameter_names)}
         )
-        return ParameterSet(dataset=dataset)
 
     except (OSError, ValueError) as e:
         raise _read_parameter_set_error(filepath, e) from e

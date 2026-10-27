@@ -1,0 +1,770 @@
+{
+  "schema_version": "1.0",
+  "qualified_runtime_revision": "6675f6b5200df3e21d488af48f15e8609e6c1ee8",
+  "qualified_tree": "121b1427f8cd323f2ff49ca43b811a3a301cb25d",
+  "status": "accepted_subject_to_current_pr_merge_gate",
+  "python": "3.15.1",
+  "polars_floor": "2.1.0",
+  "packages": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "pandas": "3.1.0",
+    "xarray": "2026.9.0",
+    "scikit-learn": "1.9.1",
+    "pyarrow": "26.0.0",
+    "polars": "2.1.0",
+    "jax": "0.12.0.1"
+  },
+  "tox": {
+    "command": ".venv/bin/python scripts/guard_verification.py --work-dir .conductor/local/runtime-315-acceptance/full-tox-owned-buffers-guard -- .venv/bin/tox run-parallel -p 2",
+    "environments": {
+      "lint": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 6.485149874992203,
+        "skipped": false
+      },
+      "vale": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 8.873688667023089,
+        "skipped": false
+      },
+      "joss": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 3.460259750019759,
+        "skipped": false
+      },
+      "harness": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 5.654765999992378,
+        "skipped": false
+      },
+      "typecheck": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 1.6650610829819925,
+        "skipped": false
+      },
+      "docs": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 106.86563424998894,
+        "skipped": false
+      },
+      "ingestion-conformance": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 23.73743162502069,
+        "skipped": false
+      },
+      "frontier-contract": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 0.6593904169858433,
+        "skipped": false
+      },
+      "version-sync": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 1.326209041988477,
+        "skipped": false
+      },
+      "py315": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 16.538615332974587,
+        "skipped": false
+      },
+      "min_versions": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 23.92694766598288,
+        "skipped": false
+      },
+      "max_versions": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 14.296835416986141,
+        "skipped": false
+      },
+      "coverage_report": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 361.28231754200533,
+        "skipped": false
+      }
+    },
+    "full_suite_passed": 5226,
+    "capability_skipped": 16
+  },
+  "coverage": {
+    "aggregate": {
+      "minimum": 90.0,
+      "percent": 95.15888036657037
+    },
+    "base": "voiage/main",
+    "changed": {
+      "branch_minimum": 100.0,
+      "branch_percent": 100.0,
+      "branches": 40,
+      "covered_branches": 40,
+      "covered_lines": 211,
+      "executable_lines": 213,
+      "line_minimum": 95.0,
+      "line_percent": 99.06103286384976,
+      "missing_branches": [],
+      "missing_lines": [
+        "voiage/metamodels.py:277",
+        "voiage/parallel/distributed.py:50"
+      ],
+      "unmeasured_files": []
+    },
+    "critical_modules": [
+      {
+        "minimum": 100.0,
+        "passed": true,
+        "path": "voiage/assurance_policy.py",
+        "percent": 100.0
+      },
+      {
+        "minimum": 90.0,
+        "passed": true,
+        "path": "voiage/contracts/bundle.py",
+        "percent": 99.30191972076788
+      },
+      {
+        "minimum": 95.0,
+        "passed": true,
+        "path": "voiage/mutation_policy.py",
+        "percent": 100.0
+      }
+    ],
+    "exact_source_head": true,
+    "head": "6675f6b5200df3e21d488af48f15e8609e6c1ee8",
+    "passed": true,
+    "schema_version": "1.0.0",
+    "source_head": "6675f6b5200df3e21d488af48f15e8609e6c1ee8",
+    "tested_head": "6675f6b5200df3e21d488af48f15e8609e6c1ee8"
+  },
+  "resource_guard": {
+    "peak_rss_kib": 1738560,
+    "reason": "completed",
+    "returncode": 0,
+    "elapsed_seconds": 458.53,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-yuz3azc7"
+  },
+  "rust": {
+    "workspace_tests_passed": 244,
+    "clippy": "all targets/features; warnings denied; passed",
+    "msrv": "1.85 retained; hosted check passed"
+  },
+  "paper_replay": {
+    "schema_version": "voiage.paper.replay-result.v1",
+    "status": "verified",
+    "scope": "new exact-commit replay; not historical source attestation",
+    "manifest_sha256": "84cc633981ff4d2b9da8a6dc01828323c4ada3b86b8ee16db57ddad3195abb37",
+    "source_reference": "c91931a8809319e48017d7322c012e8d7da21b7e",
+    "runtime": {
+      "python_version": "3.15.1",
+      "python_implementation": "CPython",
+      "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+      "machine": "arm64"
+    },
+    "replay_extras": [
+      "plotting"
+    ],
+    "lockfile_sha256": "ee0d8fbaab209be5f858e32e8d2e8d3c43b710cf10b696dc6b24ecc77baa2d57",
+    "project_file_sha256": "6e93de735bb35cea2a89f9134a00e6c8685c3221621fe1e6d029b63570faa0ed",
+    "stdout_sha256": "c12af7a63587cefca212ddae22f66e22a4d85ee3f7cbfa8d299a0f2df5c5e9fc",
+    "stderr_sha256": "1179512550f4d64352609358e0f681e3aefd8abb17226c6aaace804855206b0d",
+    "outputs": [
+      {
+        "path": "paper/data/synthetic_health_example_curve.csv",
+        "sha256": "b84f90627f2a7a01d0c6cc37bd974f3a38bcb6a35403c4707f52a398b8a31b4f",
+        "verification": "byte_equal"
+      },
+      {
+        "path": "paper/data/synthetic_health_example_summary.csv",
+        "sha256": "840bfbd15ef5f63673214c8ddbdd9618737f87e7c8e2d46c4fa39d8c52b1b030",
+        "verification": "byte_equal"
+      },
+      {
+        "path": "paper/data/synthetic_health_example_results.csv",
+        "sha256": "8f51af70ef30a6f9468363aafa9c0a9297062f3dad29ca3a241a62c393f5bf73",
+        "verification": "byte_equal"
+      },
+      {
+        "path": "paper/data/synthetic_health_example_sensitivity.csv",
+        "sha256": "7dcc98435e3214a8bd55dad3fc65bccfd807877bd90f6cea7b19a2b0eb440a5f",
+        "verification": "byte_equal"
+      },
+      {
+        "path": "paper/figures/synthetic_health_example.png",
+        "sha256": "4351d313ef3bda51a0a2fd35e39d2a9f8863f0a82fb92895c912d7e9d120e381",
+        "verification": "tracked_reference_and_clean_render"
+      },
+      {
+        "path": "paper/figures/synthetic_health_example.pdf",
+        "sha256": "8f9cadd0f768287b5d048c457f08784a835e8cd35c72080f440f4089e186cbb1",
+        "verification": "tracked_reference_and_clean_render"
+      }
+    ]
+  },
+  "hosted_checks": [
+    {
+      "link": "https://app.codecov.io/gh/edithatogo/voiage/pull/1202",
+      "name": "codecov/patch",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552786/job/121997925333",
+      "name": "Cross-language differential conformance",
+      "state": "IN_PROGRESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552962/job/121997013508",
+      "name": "compare-distributions",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859501",
+      "name": "Mutation Testing",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859512",
+      "name": "Example and Notebook Smoke",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859514",
+      "name": "Coverage Report",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859346",
+      "name": "Unit Tests (Python 3.15.1)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859420",
+      "name": "Standardized Ingestion Conformance",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859224",
+      "name": "Excel Interchange Extra",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/runs/121996349589",
+      "name": "CodeQL",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552945/job/121995859126",
+      "name": "Semantic HTML assurance",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552945/job/121995859039",
+      "name": "TeX Live 2023",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552945/job/121995859027",
+      "name": "TeX Live 2025",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445553037/job/121995859225",
+      "name": "Reproducible build and SBOM",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445553068/job/121995859138",
+      "name": "ARM64 observation",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552786/job/121995858699",
+      "name": "R installed native smoke (windows-latest)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552962/job/121995859596",
+      "name": "Wheel and sdist identity (ubuntu-24.04)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552962/job/121995859559",
+      "name": "Bootstrap performance (ubuntu-24.04)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552962/job/121995859406",
+      "name": "telemetry-and-oracles",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552962/job/121995859640",
+      "name": "Wheel and sdist identity (windows-2025)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552786/job/121995858740",
+      "name": "Julia binding (1.10, windows-latest, rust/target/release/voiage_ffi.dll)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552962/job/121995859628",
+      "name": "Bootstrap performance (windows-2025)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859183",
+      "name": "Vale Prose Lint",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552786/job/121995858528",
+      "name": "Rust workspace (MSRV 1.85)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552786/job/121995858558",
+      "name": "Julia binding (1.11, macos-latest, rust/target/release/libvoiage_ffi.dylib)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/runs/121995956399",
+      "name": "zizmor",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552945/job/121995858855",
+      "name": "Source package and PDF assurance",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552841/job/121995858678",
+      "name": "Wheel contract (macos-14)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859151",
+      "name": "Frontier Contract Validation",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552786/job/121995858659",
+      "name": "R installed native smoke (ubuntu-latest)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859283",
+      "name": "Python 3.15.1t Observation",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445553006/job/121995859180",
+      "name": "Performance Benchmarks",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445553006/job/121995859017",
+      "name": "Production Rust Numerics Benchmarks",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445553006/job/121995859176",
+      "name": "Rust Profiling Baselines",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552876/job/121995858522",
+      "name": "CodeQL Analysis (python)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445553014/job/121995859062",
+      "name": "Stable Frozen Lock",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859209",
+      "name": "Build Documentation",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445553044/job/121995858868",
+      "name": "Dependency Review",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552786/job/121995858494",
+      "name": "Julia binding (1.10, macos-latest, rust/target/release/libvoiage_ffi.dylib)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859317",
+      "name": "E2E Tests (CLI)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552786/job/121995858649",
+      "name": "Julia binding (1.11, ubuntu-latest, rust/target/release/libvoiage_ffi.so)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445553022/job/121995859334",
+      "name": "Stable Rust kernel fuzzing",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859218",
+      "name": "Integration Tests",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552786/job/121995858438",
+      "name": "Julia binding (1.12, ubuntu-latest, rust/target/release/libvoiage_ffi.so)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552786/job/121995858431",
+      "name": "Julia binding (1.12, macos-latest, rust/target/release/libvoiage_ffi.dylib)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552841/job/121995858748",
+      "name": "Wheel contract (ubuntu-24.04)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552813/job/121995858372",
+      "name": "Rust Miri unsafe-boundary tests",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859170",
+      "name": "Version Synchronization Validation",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552755/job/121995857929",
+      "name": "Gitleaks Audit",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859152",
+      "name": "Repository Harness",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552884/job/121995858574",
+      "name": "compatibility-and-coverage",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552786/job/121995858534",
+      "name": "R installed native smoke (macos-latest)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552786/job/121995858479",
+      "name": "Rust workspace",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859241",
+      "name": "Benchmark Regression Checks",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552786/job/121995858486",
+      "name": "Julia binding (1.11, windows-latest, rust/target/release/voiage_ffi.dll)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552841/job/121995858783",
+      "name": "Wheel contract (windows-2025)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552826/job/121995858272",
+      "name": "Validate and build JOSS paper",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552786/job/121995858172",
+      "name": "R package-development checks",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552799/job/121995858237",
+      "name": "Audit GitHub Actions",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552885/job/121995858595",
+      "name": "C consumer ASan UBSan LSan with ASan-instrumented Rust",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552786/job/121995858319",
+      "name": "Julia binding (1.12, windows-latest, rust/target/release/voiage_ffi.dll)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859018",
+      "name": "Lint & Type Check",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552789/job/121995858134",
+      "name": "Cargo advisories licenses bans sources",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552841/job/121995858399",
+      "name": "Wheel contract (CPython 3.15.1)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552803/job/121995858020",
+      "name": "Rust workspace line coverage (minimum 80%)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552786/job/121995858402",
+      "name": "Julia binding (1.10, ubuntu-latest, rust/target/release/libvoiage_ffi.so)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995860751",
+      "name": "Performance Profiling",
+      "state": "SKIPPED"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445553014/job/121995860958",
+      "name": "Latest Compatible and Experimental Observation",
+      "state": "SKIPPED"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445553068/job/121995860950",
+      "name": "Dependency submission",
+      "state": "SKIPPED"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995860787",
+      "name": "Frozen Lock Refresh Evidence",
+      "state": "SKIPPED"
+    }
+  ],
+  "required_checks": [
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859514",
+      "name": "Coverage Report",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859346",
+      "name": "Unit Tests (Python 3.15.1)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445553037/job/121995859225",
+      "name": "Reproducible build and SBOM",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859183",
+      "name": "Vale Prose Lint",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859151",
+      "name": "Frontier Contract Validation",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445553006/job/121995859180",
+      "name": "Performance Benchmarks",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445553006/job/121995859176",
+      "name": "Rust Profiling Baselines",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552876/job/121995858522",
+      "name": "CodeQL Analysis (python)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859209",
+      "name": "Build Documentation",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445553044/job/121995858868",
+      "name": "Dependency Review",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859317",
+      "name": "E2E Tests (CLI)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859218",
+      "name": "Integration Tests",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859170",
+      "name": "Version Synchronization Validation",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859152",
+      "name": "Repository Harness",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859241",
+      "name": "Benchmark Regression Checks",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552799/job/121995858237",
+      "name": "Audit GitHub Actions",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/edithatogo/voiage/actions/runs/40445552942/job/121995859018",
+      "name": "Lint & Type Check",
+      "state": "SUCCESS"
+    }
+  ],
+  "source_fixture_paths_unchanged": [
+    "specs/core-api",
+    "specs/numerical-reference",
+    "bindings/julia/test/fixtures",
+    "r-package/voiageR/tests/testthat",
+    "r-package/voiageR/inst/extdata"
+  ],
+  "xarray_import_inventory": {
+    "paths": [
+      "voiage",
+      "tests",
+      "examples",
+      "scripts"
+    ],
+    "matches": 0
+  },
+  "performance_receipt": "benchmark-owned-buffers-python315.json",
+  "optional_torch": {
+    "api_retained": true,
+    "installation_available": false,
+    "maintainer_choice": "Explicitly mark unavailable while stable CPython 3.15 wheels are absent; retain diagnostics; no silent engine substitution"
+  },
+  "policy_readback": {
+    "python_context": "Unit Tests (Python 3.15.1)",
+    "other_rules_unchanged": true,
+    "mutation_universe_unchanged": true,
+    "mutation_score_percent": 78.462,
+    "mutation_threshold_percent": 75,
+    "mutation_debt_unchanged": 14
+  },
+  "local_artifact_digests": {
+    ".conductor/local/runtime-315-acceptance/full-tox-owned-buffers-result.json": "cbb5e6ab7d538acb84245e7fa10acb48e22c037715312bf2aa90ab3876948a05",
+    ".conductor/local/runtime-315-acceptance/full-tox-owned-buffers.log": "0a79b26be5c73155b75f9c828bf22f3a82f82079087c743fe68359b66f2ad523",
+    ".conductor/local/runtime-315-acceptance/coverage-owned-buffers.json": "724b905e527171d65718929659c690386ac94367a7be3b01778d89d790aee4b2",
+    ".conductor/local/runtime-315-acceptance/replay-fresh-main.json": "626b9f8b5c99b035bd3948dc208262aaf41d247aeccf7160fb4c9c577f1351c6",
+    ".conductor/local/runtime-315-acceptance/current-owned-paper.log": "c12af7a63587cefca212ddae22f66e22a4d85ee3f7cbfa8d299a0f2df5c5e9fc",
+    ".conductor/local/runtime-315-acceptance/numpy-ownership-red.log": "619b4786d5c18fab963bd95ec8c3ed57c3c3846dbca8fcafa2f06c361b810054",
+    ".conductor/local/runtime-315-acceptance/numpy-ownership-final-tests.log": "a8aa58707b0629fa08b322c292b710542899207d9ef37573b2379037ab322a03",
+    ".conductor/local/runtime-315-acceptance/replay-private-fetch-tests.log": "261fc6060e76c3ad79aa9a04004b3098d9f41ea96a8591272852b0842343380d"
+  },
+  "external_release_or_submission_performed": false,
+  "remaining_tracks": {
+    "pandas_free_io_20261026": "T1.1 baseline only; resume at T1.2",
+    "translation_reference_20261026": "planning only"
+  },
+  "ownership_review": {
+    "thread": "PRRT_kwDOPF8PXM6wiA1e",
+    "fix_commit": "218b9dbab2ca55263b25ab461af459713db699a6",
+    "red_cases": 8,
+    "focused_tests_passed": 80,
+    "public_constructor_signatures_unchanged": true,
+    "numpy_and_borrowed_polars_inputs_snapshotted": true,
+    "subclass_hooks_and_float_bits_preserved": true,
+    "previous_receipt": "acceptance-python315-before-ownership-review.json"
+  },
+  "post_squash_replay": {
+    "revision": "23273b335e82b528b7e8aef772266757eabed0d5",
+    "focused_tests_passed": 49,
+    "native_fresh_main_replay": {
+      "schema_version": "voiage.paper.replay-result.v1",
+      "status": "verified",
+      "scope": "new exact-commit replay; not historical source attestation",
+      "manifest_sha256": "84cc633981ff4d2b9da8a6dc01828323c4ada3b86b8ee16db57ddad3195abb37",
+      "source_reference": "c91931a8809319e48017d7322c012e8d7da21b7e",
+      "runtime": {
+        "python_version": "3.15.1",
+        "python_implementation": "CPython",
+        "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+        "machine": "arm64"
+      },
+      "replay_extras": [
+        "plotting"
+      ],
+      "lockfile_sha256": "ee0d8fbaab209be5f858e32e8d2e8d3c43b710cf10b696dc6b24ecc77baa2d57",
+      "project_file_sha256": "6e93de735bb35cea2a89f9134a00e6c8685c3221621fe1e6d029b63570faa0ed",
+      "stdout_sha256": "c12af7a63587cefca212ddae22f66e22a4d85ee3f7cbfa8d299a0f2df5c5e9fc",
+      "stderr_sha256": "0a19926c19cb9792feae17aa23d9981fa6035706fb28dcee2a98e8acedf14874",
+      "outputs": [
+        {
+          "path": "paper/data/synthetic_health_example_curve.csv",
+          "sha256": "b84f90627f2a7a01d0c6cc37bd974f3a38bcb6a35403c4707f52a398b8a31b4f",
+          "verification": "byte_equal"
+        },
+        {
+          "path": "paper/data/synthetic_health_example_summary.csv",
+          "sha256": "840bfbd15ef5f63673214c8ddbdd9618737f87e7c8e2d46c4fa39d8c52b1b030",
+          "verification": "byte_equal"
+        },
+        {
+          "path": "paper/data/synthetic_health_example_results.csv",
+          "sha256": "8f51af70ef30a6f9468363aafa9c0a9297062f3dad29ca3a241a62c393f5bf73",
+          "verification": "byte_equal"
+        },
+        {
+          "path": "paper/data/synthetic_health_example_sensitivity.csv",
+          "sha256": "7dcc98435e3214a8bd55dad3fc65bccfd807877bd90f6cea7b19a2b0eb440a5f",
+          "verification": "byte_equal"
+        },
+        {
+          "path": "paper/figures/synthetic_health_example.png",
+          "sha256": "4351d313ef3bda51a0a2fd35e39d2a9f8863f0a82fb92895c912d7e9d120e381",
+          "verification": "tracked_reference_and_clean_render"
+        },
+        {
+          "path": "paper/figures/synthetic_health_example.pdf",
+          "sha256": "8f9cadd0f768287b5d048c457f08784a835e8cd35c72080f440f4089e186cbb1",
+          "verification": "tracked_reference_and_clean_render"
+        }
+      ],
+      "fresh_main_source_revision": "a131cae3bdc2c77b8d1defba0e7c15a65556f8bc",
+      "pinned_commit_initially_missing": true,
+      "caller_checkout_unmodified": true
+    },
+    "scope": "Pinned source is fetched only inside the isolated clone if absent from main. Caller Git objects/HEAD remain unchanged."
+  }
+}

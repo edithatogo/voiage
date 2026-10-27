@@ -386,7 +386,7 @@ def test_pending_r_qualification_cannot_claim_current_success(
 
     def read_text(path: Path, *args: object, **kwargs: object) -> str:
         content = original(path, *args, **kwargs)
-        if path.name == "r-workflow-requalification-20260905.json":
+        if path.name == "r-workflow-requalification-20261027.json":
             payload = json.loads(content)
             payload["current_workflow_qualified"] = True
             return json.dumps(payload)
@@ -396,4 +396,22 @@ def test_pending_r_qualification_cannot_claim_current_success(
     with pytest.raises(ValueError, match="requalification boundary"):
         validate_ropensci_evidence(
             ROOT / "specs/submission-readiness/ropensci-evidence.json", ROOT
+        )
+
+
+def test_pending_r_runtime_tree_cannot_accept_other_source_changes(monkeypatch) -> None:
+    namespace = validate_r_distribution_evidence.__globals__
+    original = namespace["_git_object"]
+
+    def changed(root: Path, revision: str, relative: str) -> str:
+        if relative == "r-package/voiageR":
+            return "0" * 40
+        return original(root, revision, relative)
+
+    monkeypatch.setitem(namespace, "_git_object", changed)
+    with pytest.raises(ValueError, match="pending runtime source tree"):
+        validate_r_distribution_evidence(
+            ROOT / "specs/submission-readiness/r-distribution-evidence-20260902.json",
+            ROOT,
+            require_current_workflow=False,
         )

@@ -1,0 +1,33 @@
+{
+  "runtime": "3.15.1",
+  "hosted_run": 40435093211,
+  "old_cohort": "935a7407ee43e1a6c3956b9562367e6313cbd55e478ca6ca91b616b73c51c465",
+  "new_cohort": "88d19ae194152e741540ec917a2609d95ac5d9a4f10053ef0c72da2c21b987ac",
+  "scope": "Remove cacheprovider disable flag; source, tool lock and mutant universe unchanged",
+  "score": {
+    "baseline_eligible": 65,
+    "baseline_killed": 51,
+    "baseline_score_percent": 78.462,
+    "baseline_unresolved": 14,
+    "debt_non_increasing": true,
+    "eligible": 65,
+    "interrupted": 0,
+    "killed": 51,
+    "no_tests": 0,
+    "non_decreasing": true,
+    "passed": true,
+    "score_percent": 78.462,
+    "segfault": 0,
+    "skipped": 0,
+    "survived": 14,
+    "suspicious": 0,
+    "threshold_percent": 75.0,
+    "timeout": 0,
+    "total": 65,
+    "unresolved": 14
+  },
+  "added_ids": [],
+  "removed_ids": [],
+  "previous_baseline": "conductor/tracks/polars_container_20261026/pre-python315-evidence/mutation-baseline.json",
+  "candidate_sha256": "31cd779db6f6a96c42e3572ce9fadb44332ab12a0fc632c75fa3e06107a6b2a5"
+}

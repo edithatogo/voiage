@@ -131,8 +131,8 @@ def test_promoted_python_lanes_use_bounded_workstealing_and_single_ci_coverage()
     assert "tests/test_numerical_reference_cases.py" in ci
     assert "tests/test_python_rust_bridge.py" in ci
     assert ci.count("Upload authoritative coverage to Codecov") == 1
-    assert "-n 6 --dist=worksteal" in operational
-    assert "-n 6 --dist=worksteal" in tox
+    assert "-n 2 --dist=worksteal" in operational
+    assert "-n 2 --dist=worksteal" in tox
     assert "cancel-in-progress: ${{ github.event_name == 'pull_request' }}" in ci
     assert (
         "cancel-in-progress: ${{ github.event_name == 'pull_request' }}" in operational
@@ -184,7 +184,7 @@ def test_tox_compatibility_lanes_do_not_repeat_the_full_coverage_suite() -> None
         command = config[environment]["commands"]
         assert all(contract in command for contract in required_contracts)
     assert (
-        "pytest tests/ -n 6 --dist=worksteal"
+        "pytest tests/ -n 2 --dist=worksteal"
         in config["testenv:coverage_report"]["commands"]
     )
 

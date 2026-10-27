@@ -95,7 +95,7 @@ def _to_arrow_table(dataframe: object, *, allow_copy: bool) -> tuple[pa.Table, s
     if callable(arrow_stream) and (allow_copy or isinstance(dataframe, pa.Table)):
         try:
             capsule_table = pa.table(dataframe)
-        except (TypeError, ValueError, RuntimeError, pa.ArrowException):
+        except TypeError, ValueError, RuntimeError, pa.ArrowException:
             pass
         else:
             declared_names = _declared_column_names(dataframe)

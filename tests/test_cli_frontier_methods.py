@@ -1,10 +1,10 @@
 """Focused CLI tests for heterogeneity, distributional, and implementation outputs."""
 
-from collections.abc import Callable
 import csv
 import json
-from pathlib import Path
 from typing import cast
+lazy from collections.abc import Callable
+lazy from pathlib import Path
 
 import pytest
 from typer.testing import CliRunner

@@ -1,7 +1,7 @@
 """Data-quality, privacy, measurement-error, and linkage VOI."""
 
-from collections.abc import Sequence
 from dataclasses import dataclass, field
+lazy from collections.abc import Sequence
 
 import numpy as np
 

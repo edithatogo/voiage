@@ -1,0 +1,7 @@
+{
+  "source_url": "https://files.pythonhosted.org/packages/ac/85/697bbefd2f9e78b28fba8a8b981217e8dafe7f0b28ec6ee233960cca9896/voiage-2.2.0.tar.gz",
+  "source_sha256": "e4edfd41011891a94cbc2b144ff1d20340fcc32481e7a2b24157494b7490a16b",
+  "member": "voiage-2.2.0/pyproject.toml",
+  "member_sha256": "2ae0033c68442724d0f116590896853811693d09742b56b5e614db81a316972a",
+  "scope": "Immutable published 2.2.0 HPC recipe requirements, not the current Python runtime"
+}

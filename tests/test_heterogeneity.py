@@ -4,7 +4,6 @@ from typing import cast
 
 import numpy as np
 import pytest
-import xarray as xr
 
 from voiage.exceptions import InputError
 from voiage.methods.heterogeneity import (
@@ -63,20 +62,8 @@ def test_value_of_heterogeneity_supports_numeric_binning(
 def test_value_of_heterogeneity_rejects_invalid_inputs(
     heterogeneity_value_array: ValueArray,
 ) -> None:
-    three_dimensional_values = ValueArray(
-        dataset=xr.Dataset(
-            {
-                "net_benefit": (
-                    ("n_samples", "n_strategies", "n_wtp"),
-                    np.ones((4, 2, 2)),
-                )
-            },
-            coords={
-                "n_samples": np.arange(4),
-                "n_strategies": np.arange(2),
-                "strategy": ("n_strategies", ["A", "B"]),
-            },
-        )
+    three_dimensional_values = ValueArray.from_numpy_perspectives(
+        np.ones((4, 2, 2)), ["A", "B"]
     )
 
     with pytest.raises(InputError, match="ValueArray"):

@@ -176,7 +176,7 @@ def test_python_adapter_is_a_private_leaf_crate() -> None:
 
     adapter = tomllib.loads(PYTHON_CRATE.read_text(encoding="utf-8"))
     dependencies = adapter["dependencies"]
-    assert dependencies["pyo3"]["features"] == ["abi3-py312"]
+    assert dependencies["pyo3"]["features"] == ["abi3-py315"]
     assert "voiage-domain" in dependencies
     assert "voiage-diagnostics" in dependencies
     assert "voiage-serialization" in dependencies
@@ -327,10 +327,10 @@ def test_ceaf_serialization_is_rust_owned_and_counted(monkeypatch) -> None:
     native = import_module("voiage._core")
     before = native.runtime_info()["operations"]["serialize_ceaf_result"]["calls"]
 
-    def sentinel(**_: object) -> dict[str, object]:
+    def sentinel_value(**_: object) -> dict[str, object]:
         raise RuntimeError("Rust CEAF serializer invoked")
 
-    monkeypatch.setattr(runtime, "serialize_ceaf_result", sentinel)
+    monkeypatch.setattr(runtime, "serialize_ceaf_result", sentinel_value)
     with pytest.raises(RuntimeError, match="Rust CEAF serializer invoked"):
         _ceaf_result().to_dict(
             analysis_id="analysis-001",
@@ -351,10 +351,10 @@ def test_dominance_serialization_is_rust_owned_and_counted(monkeypatch) -> None:
     native = import_module("voiage._core")
     before = native.runtime_info()["operations"]["serialize_dominance_result"]["calls"]
 
-    def sentinel(**_: object) -> dict[str, object]:
+    def sentinel_value(**_: object) -> dict[str, object]:
         raise RuntimeError("Rust dominance serializer invoked")
 
-    monkeypatch.setattr(runtime, "serialize_dominance_result", sentinel)
+    monkeypatch.setattr(runtime, "serialize_dominance_result", sentinel_value)
     with pytest.raises(RuntimeError, match="Rust dominance serializer invoked"):
         _dominance_result().to_dict(
             analysis_id="analysis-001",

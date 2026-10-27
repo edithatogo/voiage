@@ -67,15 +67,19 @@ jobs:
           persist-credentials: false
           submodules: recursive
           fetch-depth: 0
+      - name: Select qualified Python runtime
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.15.1"
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.12.5"
+          version: "0.13.6"
           enable-cache: true
       - name: Install manuscript-assurance tools
         run: |
           sudo apt-get update
           sudo apt-get install --yes pandoc poppler-utils
-          uv venv .venv-joss --python 3.12
+          uv venv .venv-joss --python 3.15.1
           uv pip install --python .venv-joss/bin/python --requirements requirements-joss.txt
           NLTK_DATA="$RUNNER_TEMP/nltk_data" \
             .venv-joss/bin/python -m nltk.downloader \
@@ -100,7 +104,7 @@ jobs:
         run: |
           mkdir -p build/joss
           uv run --frozen --extra ci python scripts/verify_paper_reproduction.py \
-            --manifest paper/reproduction-manifest.json > build/joss/reproduction-replay.json
+            --manifest paper/reproduction-manifest-python315.json > build/joss/reproduction-replay.json
       - name: Build with the Open Journals toolchain
         uses: openjournals/openjournals-draft-action@85a18372e48f551d8af9ddb7a747de685fbbb01c
         with:

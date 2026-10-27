@@ -1,0 +1,45 @@
+{
+  "track_id": "polars_container_20261026",
+  "phase": "phase-5-performance-record",
+  "task_id": "T5.1-T5.3",
+  "acceptance_id": "AC6",
+  "recorded_at": "2026-10-26T23:59:00Z",
+  "before_revision": "2a6e76b7 (xarray container)",
+  "after_revision": "223df7c2+ (Polars container)",
+  "benchmark_script": "benchmark_container.py",
+  "environment": {
+    "os": "macOS 26A434",
+    "machine": "Apple M1 Max",
+    "python": "3.12 (uv)",
+    "polars": "1.44.1",
+    "xarray": "2024.11.0"
+  },
+  "fixture": {
+    "n_samples": 20000,
+    "n_strategies": 5,
+    "n_perspectives": 4,
+    "seed": 20261026,
+    "repeats": 100,
+    "statistic": "median milliseconds per call"
+  },
+  "observed_median_ms": {
+    "construction_2d": {"xarray": 0.1784, "polars": 0.1355},
+    "construction_3d": {"xarray": 0.2200, "polars": 0.2516},
+    "to_numpy_extraction": {"xarray": 0.0030, "polars": 0.0723},
+    "wide_to_long_conversion": {"xarray": 4.3670, "polars": 0.0583}
+  },
+  "observed_ratio": {
+    "construction_2d": 0.76,
+    "construction_3d": 1.14,
+    "to_numpy_extraction": 24.1,
+    "wide_to_long_conversion": 0.013
+  },
+  "accepted_bound": {
+    "construction_2d": "<= 1.5x xarray baseline (observed 0.76x)",
+    "construction_3d": "<= 1.5x xarray baseline (observed 1.14x)",
+    "to_numpy_extraction": "<= 0.5 ms absolute on the 20k x 5 fixture (observed 0.072 ms); the large relative increase is accepted because DataArray.values returned a zero-copy view while the frame path returns a fresh C-contiguous copy, and the absolute cost is negligible",
+    "wide_to_long_conversion": "must not regress (observed ~75x faster)"
+  },
+  "verdict": "accepted",
+  "notes": "No regression beyond the accepted bound. The only relative regression is to_numpy extraction, whose absolute cost (0.072 ms for 100k values) is immaterial against the model-evaluation work it feeds, and which trades a zero-copy view for a safer independent copy. Construction is faster for 2D and within bounds for 3D; wide-to-long conversion is dramatically faster."
+}

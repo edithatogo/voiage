@@ -13,8 +13,8 @@ Author: voiage Development Team
 Version: 2.0.0
 """
 
-from collections.abc import Callable
 from dataclasses import dataclass
+lazy from collections.abc import Callable
 
 from jax import random, vmap
 import jax.numpy as jnp

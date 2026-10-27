@@ -15,7 +15,7 @@ import sys
 ACTION_PATTERN = re.compile(r"^\s*(?:-\s*)?uses:\s*([^\s#]+)", re.MULTILINE)
 SHA_PATTERN = re.compile(r"@[0-9a-f]{40}$")
 WORKFLOW_SUFFIXES = (".yml", ".yaml")
-REQUIRED_UV_VERSION = "0.12.5"
+REQUIRED_UV_VERSION = "0.13.6"
 REQUIRED_FILES = (
     "AGENTS.md",
     "CONTRIBUTING.md",

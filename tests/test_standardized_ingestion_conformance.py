@@ -17,7 +17,6 @@ import pyarrow as pa
 from pyarrow import ipc
 from pyarrow import parquet as pq
 import pytest
-import xarray as xr
 
 from scripts import validate_standardized_ingestion_fixtures as fixture_validator
 from voiage.contracts import (
@@ -231,8 +230,9 @@ def test_canonical_frictionless_binary_and_json_resources_have_evpi_and_receipt_
     direct_prepared = prepare_analysis_inputs(direct)
     ingested_prepared = prepare_analysis_inputs(ingested)
     assert ingested.schema_fingerprint == direct.schema_fingerprint
-    assert ingested_prepared.net_benefits.values.equals(
-        direct_prepared.net_benefits.values
+    assert np.array_equal(
+        ingested_prepared.net_benefits.numpy_values,
+        direct_prepared.net_benefits.numpy_values,
     )
     assert evpi(ingested_prepared.net_benefits.numpy_values) == pytest.approx(
         evpi(direct_prepared.net_benefits.numpy_values)
@@ -306,14 +306,12 @@ def test_cross_format_preparation_has_identical_numpy_and_xarray_views() -> None
         ),
     )
     prepared = tuple(prepare_analysis_inputs(bundle) for bundle in bundles)
-    expected = prepared[0].net_benefits.values
+    expected = prepared[0].net_benefits.numpy_values
 
-    assert isinstance(expected, xr.DataArray)
-    assert expected.dims == ("n_samples", "n_strategies")
-    assert expected.strategy.values.tolist() == ["A", "B"]
+    assert expected.shape == (expected.shape[0], 2)
+    assert prepared[0].net_benefits.strategy_names == ["A", "B"]
     for item in prepared:
-        assert item.net_benefits.values.equals(expected)
-        assert np.array_equal(item.net_benefits.numpy_values, expected.values)
+        assert np.array_equal(item.net_benefits.numpy_values, expected)
 
 
 def test_canonical_source_formats_preserve_binding_quality_and_receipt_parity() -> None:

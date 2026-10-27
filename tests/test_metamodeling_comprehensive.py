@@ -7,7 +7,6 @@ including edge cases, error conditions, and property-based testing.
 
 import numpy as np
 import pytest
-import xarray as xr
 
 from voiage.schema import ParameterSet
 
@@ -17,10 +16,10 @@ def sample_data():
     """Create sample data for testing."""
     np.random.seed(42)  # For reproducible tests
     data = {
-        "param1": ("n_samples", np.random.rand(100)),
-        "param2": ("n_samples", np.random.rand(100)),
+        "param1": np.random.rand(100),
+        "param2": np.random.rand(100),
     }
-    x = ParameterSet(dataset=xr.Dataset(data))
+    x = ParameterSet.from_numpy_or_dict(data)
     y = np.random.rand(100)
     return x, y
 
@@ -30,10 +29,10 @@ def small_sample_data():
     """Create small sample data for testing."""
     np.random.seed(42)  # For reproducible tests
     data = {
-        "param1": ("n_samples", np.random.rand(10)),
-        "param2": ("n_samples", np.random.rand(10)),
+        "param1": np.random.rand(10),
+        "param2": np.random.rand(10),
     }
-    x = ParameterSet(dataset=xr.Dataset(data))
+    x = ParameterSet.from_numpy_or_dict(data)
     y = np.random.rand(10)
     return x, y
 
@@ -67,9 +66,9 @@ def test_random_forest_metamodel_comprehensive(sample_data) -> None:
     # Test edge cases
     # Test with single parameter
     single_param_data = {
-        "param1": ("n_samples", np.random.rand(50)),
+        "param1": np.random.rand(50),
     }
-    x_single = ParameterSet(dataset=xr.Dataset(single_param_data))
+    x_single = ParameterSet.from_numpy_or_dict(single_param_data)
     y_single = np.random.rand(50)
 
     model_single = RandomForestMetamodel(n_estimators=5, random_state=42)
@@ -124,9 +123,9 @@ def test_gam_metamodel_comprehensive(sample_data) -> None:
     # Test with single parameter
     try:
         single_param_data = {
-            "param1": ("n_samples", np.random.rand(50)),
+            "param1": np.random.rand(50),
         }
-        x_single = ParameterSet(dataset=xr.Dataset(single_param_data))
+        x_single = ParameterSet.from_numpy_or_dict(single_param_data)
         y_single = np.random.rand(50)
 
         model_single = GAMMetamodel(n_splines=3)
@@ -170,13 +169,11 @@ def test_bart_metamodel_comprehensive(sample_data) -> None:
     x, y = sample_data
 
     # Use a smaller sample for BART to keep tests reasonably fast
-    x_small = ParameterSet(
-        dataset=xr.Dataset(
-            {
-                "param1": ("n_samples", x.parameters["param1"][:20]),
-                "param2": ("n_samples", x.parameters["param2"][:20]),
-            }
-        )
+    x_small = ParameterSet.from_numpy_or_dict(
+        {
+            "param1": x.parameters["param1"][:20],
+            "param2": x.parameters["param2"][:20],
+        }
     )
     y_small = y[:20]
 
@@ -593,10 +590,10 @@ def test_edge_cases_and_error_conditions(sample_data) -> None:
 
     # Test with empty data (should raise appropriate errors)
     empty_data = {
-        "param1": ("n_samples", np.array([])),
-        "param2": ("n_samples", np.array([])),
+        "param1": np.array([]),
+        "param2": np.array([]),
     }
-    x_empty = ParameterSet(dataset=xr.Dataset(empty_data))
+    x_empty = ParameterSet.from_numpy_or_dict(empty_data)
     y_empty = np.array([])
 
     model = RandomForestMetamodel(n_estimators=5, random_state=42)
@@ -687,13 +684,11 @@ def test_active_learning_metamodel_fit_predict_score_and_rmse() -> None:
     """Active learning should fit the base model and expose predictions."""
     from voiage.metamodels import ActiveLearningMetamodel
 
-    x = ParameterSet(
-        dataset=xr.Dataset(
-            {
-                "param1": ("n_samples", np.array([0.0, 1.0, 2.0])),
-                "param2": ("n_samples", np.array([1.0, 2.0, 3.0])),
-            }
-        )
+    x = ParameterSet.from_numpy_or_dict(
+        {
+            "param1": np.array([0.0, 1.0, 2.0]),
+            "param2": np.array([1.0, 2.0, 3.0]),
+        }
     )
     y = np.array([1.0, 3.0, 5.0])
     x_pool = np.array([[3.0, 4.0], [4.0, 5.0], [5.0, 6.0]])
@@ -770,9 +765,7 @@ def test_active_learning_requires_fit_before_prediction_diagnostics() -> None:
     """Prediction diagnostics should fail clearly before fitting."""
     from voiage.metamodels import ActiveLearningMetamodel
 
-    x = ParameterSet(
-        dataset=xr.Dataset({"param1": ("n_samples", np.array([0.0, 1.0]))})
-    )
+    x = ParameterSet.from_numpy_or_dict({"param1": np.array([0.0, 1.0])})
     y = np.array([0.0, 1.0])
     model = ActiveLearningMetamodel(_LinearDummyMetamodel())
 
@@ -788,13 +781,11 @@ def test_active_learning_fit_creates_synthetic_pool_without_labels() -> None:
     """Fit should handle the no-pool path by creating an unlabeled synthetic pool."""
     from voiage.metamodels import ActiveLearningMetamodel
 
-    x = ParameterSet(
-        dataset=xr.Dataset(
-            {
-                "param1": ("n_samples", np.array([0.0, 1.0])),
-                "param2": ("n_samples", np.array([1.0, 2.0])),
-            }
-        )
+    x = ParameterSet.from_numpy_or_dict(
+        {
+            "param1": np.array([0.0, 1.0]),
+            "param2": np.array([1.0, 2.0]),
+        }
     )
     y = np.array([1.0, 3.0])
     base_model = _LinearDummyMetamodel()

@@ -27,7 +27,7 @@ mod tests {
         )
         .expect_err("blank analysis ID must fail");
 
-        assert!(!error.to_string().is_empty());
+        assert_ne!(error.to_string(), "");
         let record = ErrorRecord::from(crate::ValidationError("invalid stable result payload"));
         assert_eq!(record.code(), ErrorCode::SerializationFailure);
         assert_eq!(

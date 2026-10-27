@@ -1,10 +1,10 @@
 """Parallel processing utilities for Monte Carlo simulations in Value of Information analysis."""
 
-from collections.abc import Callable
 from concurrent.futures import Executor, ProcessPoolExecutor, ThreadPoolExecutor
 from concurrent.futures.process import BrokenProcessPool
 from functools import partial
 import os
+lazy from collections.abc import Callable
 
 import numpy as np
 
@@ -24,7 +24,7 @@ def _execute_parallel_work[ParallelResult](
         try:
             with ProcessPoolExecutor(max_workers=n_workers) as executor:
                 return work(executor)
-        except (BrokenProcessPool, OSError, RuntimeError):
+        except BrokenProcessPool, OSError, RuntimeError:
             pass
 
     with ThreadPoolExecutor(max_workers=n_workers) as executor:
@@ -143,8 +143,6 @@ def _bayesian_update(
     trial_design: TrialDesign,
 ) -> ParameterSet:
     """Update prior beliefs with simulated trial data."""
-    import xarray as xr
-
     from voiage.stats import normal_normal_update
 
     posterior_samples = {}
@@ -189,11 +187,7 @@ def _bayesian_update(
             posterior_samples[param_name] = prior_values
 
     # Create ParameterSet from posterior samples
-    dataset = xr.Dataset(
-        {k: (("n_samples",), v) for k, v in posterior_samples.items()},
-        coords={"n_samples": np.arange(len(next(iter(posterior_samples.values()))))},
-    )
-    return ParameterSet(dataset=dataset)
+    return ParameterSet.from_numpy_or_dict(posterior_samples)
 
 
 def parallel_monte_carlo_simulation(

@@ -254,7 +254,7 @@ def _module_available(name: str) -> bool:
     """Return whether an optional module can be imported successfully."""
     try:
         importlib.import_module(name)
-    except (ImportError, OSError, RuntimeError):
+    except ImportError, OSError, RuntimeError:
         return False
     return True
 
@@ -961,20 +961,11 @@ def _read_plot_surface(path: Path) -> tuple[ValueArray, list[float]]:
     if not isinstance(wtp_thresholds, list):
         raise TypeError("'wtp_thresholds' must be a list.")
 
-    import xarray as xr
-
-    dataset = xr.Dataset(
-        {"net_benefit": (("n_samples", "n_strategies", "n_wtp"), net_benefit)},
-        coords={
-            "n_samples": np.arange(net_benefit.shape[0]),
-            "n_strategies": np.arange(net_benefit.shape[1]),
-            "n_wtp": np.arange(net_benefit.shape[2]),
-            "strategy": ("n_strategies", strategy_names),
-        },
+    value_array = ValueArray.from_numpy_perspectives(
+        net_benefit,
+        strategy_names=strategy_names,
     )
-    return ValueArray(dataset=dataset), [
-        float(cast("float", value)) for value in wtp_thresholds
-    ]
+    return value_array, [float(cast("float", value)) for value in wtp_thresholds]
 
 
 def _read_perspective_surface(

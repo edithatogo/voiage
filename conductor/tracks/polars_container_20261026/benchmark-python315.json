@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "python": "3.15.1",
+  "packages": {
+    "numpy": "2.5.4",
+    "xarray": "2026.9.0",
+    "pandas": "3.1.0",
+    "polars": "2.1.0"
+  },
+  "baseline_source_sha256": "6fd5b102b04ff7b2e2b649e38beb46173e8b2d404d6412c1ad6ab4cf9432e7bb",
+  "candidate_schema_sha256": "4b34f746fbc61744029f608a1f391124c40627d2844db1af96956280e2b7cd14",
+  "fixture": {
+    "shape_2d": [
+      20000,
+      5
+    ],
+    "shape_3d": [
+      5000,
+      5,
+      4
+    ],
+    "seed": 20261026,
+    "repeats": 100,
+    "order": "alternating paired"
+  },
+  "timings": {
+    "construction_2d": {
+      "before_ms": 0.20820850000000002,
+      "after_ms": 0.098208
+    },
+    "construction_3d": {
+      "before_ms": 0.2614995,
+      "after_ms": 0.336896
+    },
+    "to_numpy_extraction": {
+      "before_ms": 0.004375,
+      "after_ms": 0.071416
+    },
+    "wide_to_long_conversion": {
+      "before_ms": 5.720729,
+      "after_ms": 0.10025049999999999
+    }
+  },
+  "accepted": true,
+  "bounds": {
+    "construction_ratio_maximum": 1.5,
+    "extraction_maximum_ms": 0.5,
+    "long_form_must_not_regress": true
+  }
+}

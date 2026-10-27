@@ -966,13 +966,7 @@ def _evsi_regression(
         sampled_parameters = {}
         for name, values in psa_prior.parameters.items():
             sampled_parameters[name] = values[indices]
-        import xarray as xr
-
-        dataset = xr.Dataset(
-            {k: (("n_samples",), v) for k, v in sampled_parameters.items()},
-            coords={"n_samples": np.arange(len(indices))},
-        )
-        sampled_psa = ParameterSet(dataset=dataset)
+        sampled_psa = ParameterSet.from_numpy_or_dict(sampled_parameters)
 
     # Run model on prior samples to get prior net benefits
     _ = model_func(sampled_psa).numpy_values
@@ -1405,5 +1399,5 @@ def enbs(evsi_result: float, research_cost: float) -> float:
         raise_input_error("Research cost cannot be negative.")
     try:
         return _runtime.compute_enbs(float(evsi_result), float(research_cost))
-    except (ModuleNotFoundError, ImportError):
+    except ModuleNotFoundError, ImportError:
         raise_backend_not_available_error("ENBS requires the Rust runtime extension.")

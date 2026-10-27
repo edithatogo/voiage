@@ -15,6 +15,27 @@ Run affected checks during iteration and the complete gate once for the final ca
 tox run-parallel -p 2
 ```
 
+For local acceptance runs, wrap that same gate in the resource guard using the
+verified repository interpreter and a work directory on a volume with space:
+
+```sh
+.venv/bin/python scripts/guard_verification.py \
+  --work-dir .conductor/local/guarded-acceptance \
+  -- .venv/bin/tox run-parallel -p 2
+```
+
+The guard samples combined process-group RSS every two seconds, stops the job
+above 4 GiB, after one hour, or below 2 GiB free in its work or temporary volume.
+It places temporary files in a unique sibling of the checkout on the same
+volume, cleans them after successful runs, limits native thread pools, and writes
+`resource-report.json` with the peak sampled RSS and termination reason. A limit
+exit is a failed gate, never acceptance evidence. Increase a limit only after
+reviewing the recorded workload. Coverage uses two workers. Sampling cannot
+prevent a brief allocation spike; subprocesses must retain their process group.
+The guard only terminates its own isolated group, including leftover children.
+It disables detached Git file-monitor daemons for the job through a process-local
+override, preserving existing Git settings and shared repository configuration.
+
 The harness is included in tox; a second standalone harness run is unnecessary.
 Record the tested tree, environment and result. Reuse successful local evidence
 when these inputs remain unchanged. A new runtime, dependency, shared-fixture or
@@ -53,7 +74,7 @@ stop another task's process or treat its pending result as a pass.
 
 ## Dependency and experimental-feature policy
 
-The supported Python 3.12–3.14 range tracks compatible stable dependencies and
+The supported Python 3.15.1 range tracks compatible stable dependencies and
 commits `uv.lock` for reproducibility. Before dependency or runtime changes,
 run `uv lock --upgrade` and `python scripts/dependency_frontier.py . --strict`.
 

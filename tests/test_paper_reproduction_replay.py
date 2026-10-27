@@ -22,7 +22,7 @@ SPEC.loader.exec_module(VERIFIER)
 
 
 def manifest() -> dict:
-    return json.loads((ROOT / "paper/reproduction-manifest.json").read_text())
+    return json.loads((ROOT / "paper/reproduction-manifest-python315.json").read_text())
 
 
 @pytest.fixture(autouse=True)
@@ -39,7 +39,7 @@ def source_objects(monkeypatch: pytest.MonkeyPatch) -> None:
         if reference == source + "^{commit}":
             return source + "\n"
         if reference == source + ":paper/reproduction-manifest.json":
-            return (ROOT / current["historical_receipt"]["path"]).read_bytes()
+            return (ROOT / current["historical_replay"]["path"]).read_bytes()
         for name, local in (
             ("lockfile", "uv.lock"),
             ("project_file", "pyproject.toml"),
@@ -68,7 +68,9 @@ def test_current_manifest_resolves_exact_source_and_preserves_original_receipt()
     assert current["source_reference"] != "v2.0.0"
 
 
-@pytest.mark.parametrize("field", ["lockfile", "project_file", "historical_receipt"])
+@pytest.mark.parametrize(
+    "field", ["lockfile", "project_file", "historical_receipt", "historical_replay"]
+)
 def test_replay_rejects_missing_or_tampered_declared_artifacts(field: str) -> None:
     current = manifest()
     current[field]["path"] = "missing-reproduction-artifact"
@@ -161,7 +163,7 @@ def test_failed_generator_cannot_emit_verified_receipt(
     monkeypatch.setattr(VERIFIER.subprocess, "run", run)
     monkeypatch.setenv("VIRTUAL_ENV", "/unrelated-environment")
     with pytest.raises(subprocess.CalledProcessError):
-        VERIFIER.replay(ROOT, ROOT / "paper/reproduction-manifest.json")
+        VERIFIER.replay(ROOT, ROOT / "paper/reproduction-manifest-python315.json")
     assert any(current["source_reference"] in command for command in commands)
     assert any("--frozen" in command for command in commands)
 
@@ -181,19 +183,46 @@ def test_replay_rejects_changed_scientific_contract(field: str) -> None:
         VERIFIER.verify_manifest(ROOT, current)
 
 
+def test_new_replay_profile_cannot_declare_an_older_runtime() -> None:
+    current = manifest()
+    current["supported_python_versions"] = ["3.14"]
+    with pytest.raises(ValueError, match="qualified Python 3.15.1"):
+        VERIFIER.verify_manifest(ROOT, current)
+
+
+@pytest.mark.parametrize("python_version", ["3.15.1", "3.15.0", "3.14.9"])
+@pytest.mark.parametrize("missing_source", [False, True])
 def test_replay_receipt_records_observed_runtime_and_selected_extra(
     monkeypatch: pytest.MonkeyPatch,
+    python_version: str,
+    missing_source: bool,
 ) -> None:
     current = manifest()
     observed = {
-        "python_version": "3.14.6",
+        "python_version": python_version,
         "python_implementation": "CPython",
         "platform": "fixture-platform",
         "machine": "fixture-machine",
     }
     query_directories = []
+    fetch_directories = []
+    original_read = VERIFIER.subprocess.check_output
+
+    def read_object(command: list[str], **kwargs: object) -> bytes | str:
+        if missing_source and kwargs.get("stderr") == subprocess.DEVNULL:
+            raise subprocess.CalledProcessError(128, command)
+        return original_read(command, **kwargs)
 
     def run(command: list[str], **kwargs: object) -> subprocess.CompletedProcess:
+        if "fetch" in command:
+            assert command[-2:] == [
+                VERIFIER.SOURCE_REPOSITORY,
+                current["source_reference"],
+            ]
+            assert kwargs["cwd"] != ROOT
+            assert kwargs["timeout"] == 180
+            assert kwargs["env"]["GIT_TERMINAL_PROMPT"] == "0"
+            fetch_directories.append(kwargs["cwd"])
         if "clone" in command:
             checkout = Path(command[-1])
             checkout.mkdir()
@@ -216,9 +245,32 @@ def test_replay_receipt_records_observed_runtime_and_selected_extra(
         return subprocess.CompletedProcess(command, 0, b"tracked outputs match", b"")
 
     monkeypatch.setattr(VERIFIER.subprocess, "run", run)
-    receipt = VERIFIER.replay(ROOT, ROOT / "paper/reproduction-manifest.json")
+    monkeypatch.setattr(VERIFIER.subprocess, "check_output", read_object)
+    if python_version != "3.15.1":
+        with pytest.raises(ValueError, match="did not execute the qualified"):
+            VERIFIER.replay(ROOT, ROOT / "paper/reproduction-manifest-python315.json")
+        assert len(fetch_directories) == int(missing_source)
+        return
+    receipt = VERIFIER.replay(ROOT, ROOT / "paper/reproduction-manifest-python315.json")
     assert receipt["runtime"] == observed
     assert receipt["replay_extras"] == ["plotting"]
     assert len(query_directories) == 2
     assert query_directories[0] == query_directories[1]
     assert query_directories[0] != ROOT
+    assert len(fetch_directories) == int(missing_source)
+
+
+def test_replay_rejects_source_options_before_any_git_operation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    current = manifest()
+    current["source_reference"] = "--help"
+    descriptor = tmp_path / "invalid.json"
+    descriptor.write_text(json.dumps(current))
+
+    def unexpected_run(*args: object, **kwargs: object) -> None:
+        raise AssertionError("Invalid source must not reach Git")
+
+    monkeypatch.setattr(VERIFIER.subprocess, "run", unexpected_run)
+    with pytest.raises(ValueError, match="immutable full commit"):
+        VERIFIER.replay(ROOT, descriptor)

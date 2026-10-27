@@ -202,9 +202,20 @@ impl OperationTelemetry {
     }
 
     fn saturating_increment(counter: &AtomicU64) {
-        let _ = counter.fetch_update(Ordering::Relaxed, Ordering::Relaxed, |value| {
-            Some(value.saturating_add(1))
-        });
+        // Keep the Rust 1.85 MSRV while avoiding the deprecated fetch_update
+        // spelling on current compilers (try_update requires a newer Rust).
+        let mut value = counter.load(Ordering::Relaxed);
+        loop {
+            match counter.compare_exchange_weak(
+                value,
+                value.saturating_add(1),
+                Ordering::Relaxed,
+                Ordering::Relaxed,
+            ) {
+                Ok(_) => break,
+                Err(current) => value = current,
+            }
+        }
     }
 
     fn record_attempt(&self) {
@@ -1752,9 +1763,9 @@ mod tests {
         assert!(
             metadata.source_revision == "unknown" || is_lower_hex(metadata.source_revision, 40)
         );
-        assert!(!metadata.target_triple.is_empty());
+        assert_ne!(metadata.target_triple, "");
         assert!(metadata.rustc_version.starts_with("rustc "));
-        assert!(!metadata.build_profile.is_empty());
+        assert_ne!(metadata.build_profile, "");
         assert!(is_lower_hex(metadata.cargo_lock_sha256, 64));
         assert!(
             metadata.source_tree_git_oid == "unknown"

@@ -1,7 +1,7 @@
 {
   "schema_version": "voiage-ingestion-support-matrix-v1",
   "runtime": {
-    "python_supported": ["3.12", "3.13", "3.14"],
+    "python_supported": ["3.15.1"],
     "python_free_threaded": "observation-only"
   },
   "providers": {

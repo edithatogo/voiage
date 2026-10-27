@@ -7,7 +7,7 @@ uv-backed local runner with the same core sessions.
 import nox
 
 PYPROJECT = nox.project.load_toml("pyproject.toml")
-PYTHON_VERSIONS = nox.project.python_versions(PYPROJECT)
+PYTHON_VERSIONS = ["3.15.1"]
 
 nox.options.default_venv_backend = "uv"
 
@@ -41,7 +41,7 @@ def tests(session: nox.Session) -> None:
     )
 
 
-@nox.session
+@nox.session(python="3.15.1")
 def lint(session: nox.Session) -> None:
     """Run Ruff and Bandit checks."""
     _sync_project(session)
@@ -52,7 +52,7 @@ def lint(session: nox.Session) -> None:
     )
 
 
-@nox.session
+@nox.session(python="3.15.1")
 def typecheck(session: nox.Session) -> None:
     """Run the static type checker."""
     _sync_project(session)
@@ -60,7 +60,7 @@ def typecheck(session: nox.Session) -> None:
         "ty",
         "check",
         "voiage",
-        "--python-version=3.14",
+        "--python-version=3.15",
         "--ignore",
         "invalid-argument-type",
         "--ignore",
@@ -92,7 +92,7 @@ def typecheck(session: nox.Session) -> None:
     session.run("basedpyright", "voiage/logging.py")
 
 
-@nox.session
+@nox.session(python="3.15.1")
 def docs(session: nox.Session) -> None:
     """Check and build the Astro/Starlight documentation."""
     site = "docs/astro-site"
@@ -101,7 +101,7 @@ def docs(session: nox.Session) -> None:
     session.run("pnpm", "run", "build", *session.posargs, external=True, cwd=site)
 
 
-@nox.session
+@nox.session(python="3.15.1")
 def coverage_report(session: nox.Session) -> None:
     """Generate the HTML and XML coverage outputs."""
     _sync_project(session)
@@ -117,14 +117,14 @@ def coverage_report(session: nox.Session) -> None:
     )
 
 
-@nox.session
+@nox.session(python="3.15.1")
 def frontier_contract(session: nox.Session) -> None:
     """Validate the frontier contract registry and fixtures."""
     _sync_project(session)
     session.run("python", "scripts/validate_frontier_contract.py", *session.posargs)
 
 
-@nox.session
+@nox.session(python="3.15.1")
 def contracts(session: nox.Session) -> None:
     """Verify generated v2 contracts and their focused implementation surface."""
     _sync_project(session)

@@ -2,8 +2,8 @@
 
 """Utility functions for the voiage library."""
 
-from collections.abc import Sequence
 from typing import cast
+lazy from collections.abc import Sequence
 
 import numpy as np
 

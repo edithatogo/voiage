@@ -1,0 +1,9 @@
+{
+  "state": "hosted_pending",
+  "workflow_sha256": "a7245f34a3d06da0ddbe8676b4a00dbc57558bdbc0b2ef90843a11fb4df77968",
+  "historical_receipt": "specs/submission-readiness/r-distribution-evidence-20260902.json",
+  "reason": "Python 3.15.1 cross-language conformance requires fresh hosted qualification.",
+  "current_workflow_qualified": false,
+  "new_hosted_execution_claimed": false,
+  "unqualified_r_source_tree": "42276fc485cadec603ee0dd1ad19192cae32f34a"
+}

@@ -2,10 +2,10 @@
 
 import csv
 import json
-from pathlib import Path
+lazy from pathlib import Path
 
-import pytest
 from typer.testing import CliRunner
+lazy import pytest
 
 from voiage import cli
 

@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import numpy as np
+import polars as pl
 import pytest
-import xarray as xr
 
 from voiage.exceptions import InputError
 from voiage.schema import (
@@ -29,106 +29,39 @@ def test_value_array_from_numpy_and_copy() -> None:
     assert value_array.strategy_names == ["A", "B"]
     assert np.array_equal(value_array.numpy_values, values)
     assert copied is not value_array
-    assert copied.dataset.identical(value_array.dataset)
+    assert copied.to_polars().equals(value_array.to_polars())
     assert np.array_equal(copied.numpy_values, values)
 
 
-def test_value_array_from_dataset_round_trip_preserves_coordinates() -> None:
-    dataset = xr.Dataset(
-        {
-            "net_benefit": (
-                ("n_samples", "n_strategies"),
-                np.array([[10.0, 12.0], [11.0, 9.5]]),
-            )
-        },
-        coords={
-            "n_samples": np.array([101, 202]),
-            "n_strategies": np.array([7, 9]),
-            "strategy": ("n_strategies", ["A", "B"]),
-        },
-    )
+def test_value_array_from_polars_round_trip_preserves_names_and_values() -> None:
+    # v3 removes from_dataset/to_dataset; the round-trip guarantee now holds for
+    # the wide Polars frame: column order, names and values survive unchanged.
+    frame = pl.DataFrame({"A": [10.0, 11.0], "B": [12.0, 9.5]})
 
-    value_array = ValueArray.from_dataset(dataset)
-    round_tripped = ValueArray.from_dataset(value_array.to_dataset())
+    value_array = ValueArray.from_polars(frame)
+    round_tripped = ValueArray.from_polars(value_array.to_polars())
 
     assert round_tripped == value_array
-    assert round_tripped.dataset.identical(dataset)
+    assert round_tripped.to_polars().equals(frame)
     assert round_tripped.strategy_names == ["A", "B"]
-    assert round_tripped.dataset.coords["n_samples"].values.tolist() == [101, 202]
-    assert round_tripped.dataset.coords["n_strategies"].values.tolist() == [7, 9]
+    assert round_tripped.n_samples == 2
 
 
-def test_value_array_from_dataset_adds_default_strategy_coordinate() -> None:
-    dataset = xr.Dataset(
-        {
-            "net_benefit": (
-                ("n_samples", "n_strategies"),
-                np.array([[10.0, 12.0], [11.0, 9.5]]),
-            )
-        },
-        coords={
-            "n_samples": np.array([101, 202]),
-            "n_strategies": np.array([7, 9]),
-        },
-    )
+def test_value_array_from_polars_frame_is_independent_copy() -> None:
+    frame = pl.DataFrame({"A": [1.0, 2.0], "B": [3.0, 4.0]})
+    value_array = ValueArray.from_polars(frame)
 
-    value_array = ValueArray.from_dataset(dataset)
+    exported = value_array.to_polars()
+    exported.replace_column(0, pl.Series("A", [99.0, 99.0]))
 
-    assert value_array.strategy_names == ["Strategy 0", "Strategy 1"]
-    assert value_array.dataset.coords["strategy"].values.tolist() == [
-        "Strategy 0",
-        "Strategy 1",
-    ]
-
-
-def test_value_array_to_dataset_returns_a_copy() -> None:
-    value_array = ValueArray.from_numpy(
-        np.array([[1.0, 2.0], [3.0, 4.0]]),
-        strategy_names=["A", "B"],
-    )
-
-    exported = value_array.to_dataset()
-    exported["net_benefit"][0, 0] = 99.0
-
+    assert exported["A"].to_list() == [99.0, 99.0]
     assert value_array.numpy_values[0, 0] == pytest.approx(1.0)
 
 
-def test_value_array_normalizes_legacy_dataset_labels() -> None:
-    dataset = xr.Dataset(
-        {"value": (("n_samples", "n_options"), np.array([[1.0, 2.0], [3.0, 4.0]]))},
-        coords={
-            "n_samples": np.array([101, 202]),
-            "n_options": np.array([7, 9]),
-            "option": ("n_options", ["A", "B"]),
-        },
-    )
-
-    value_array = ValueArray(dataset=dataset)
-
-    assert value_array.n_strategies == 2
-    assert value_array.strategy_names == ["A", "B"]
-    assert set(value_array.dataset.data_vars) == {"net_benefit"}
-    assert value_array.dataset.sizes["n_strategies"] == 2
-    assert "n_options" not in value_array.dataset.dims
-
-
 def test_value_array_generates_default_strategy_labels_when_missing() -> None:
-    dataset = xr.Dataset(
-        {
-            "net_benefit": (
-                ("n_samples", "n_strategies"),
-                np.array([[1.0, 2.0], [3.0, 4.0]]),
-            )
-        }
-    )
-
-    value_array = ValueArray(dataset=dataset)
+    value_array = ValueArray.from_numpy(np.array([[1.0, 2.0], [3.0, 4.0]]))
 
     assert value_array.strategy_names == ["Strategy 0", "Strategy 1"]
-    assert value_array.dataset.coords["strategy"].values.tolist() == [
-        "Strategy 0",
-        "Strategy 1",
-    ]
 
 
 def test_value_array_from_numpy_validates_shape() -> None:
@@ -154,8 +87,6 @@ def test_value_array_get_strategy_index_and_slice() -> None:
     assert value_array.get_strategy_index("B") == 1
     assert sliced.strategy_names == ["C", "A"]
     assert np.array_equal(sliced.numpy_values, np.array([[3.0, 1.0], [6.0, 4.0]]))
-    assert sliced.dataset.coords["n_strategies"].values.tolist() == [2, 0]
-    assert sliced.dataset.coords["strategy"].values.tolist() == ["C", "A"]
 
 
 def test_value_array_get_strategy_index_missing_name() -> None:
@@ -194,33 +125,24 @@ def test_parameter_set_from_numpy_or_dict_with_dict_and_copy() -> None:
     assert set(parameter_set.parameter_names) == {"alpha", "beta"}
     assert parameter_set.n_samples == 2
     assert copied is not parameter_set
-    assert copied.dataset.identical(parameter_set.dataset)
+    assert copied.to_polars().equals(parameter_set.to_polars())
     assert np.array_equal(copied.parameters["alpha"], np.array([0.1, 0.2]))
 
 
-def test_parameter_set_from_dataset_round_trip_preserves_coordinates() -> None:
-    dataset = xr.Dataset(
-        {
-            "alpha": ("n_samples", np.array([0.1, 0.2])),
-            "beta": ("n_samples", np.array([1.0, 2.0])),
-        },
-        coords={"n_samples": np.array([10, 20])},
-    )
+def test_parameter_set_from_polars_round_trip_preserves_names_and_values() -> None:
+    frame = pl.DataFrame({"alpha": [0.1, 0.2], "beta": [1.0, 2.0]})
 
-    parameter_set = ParameterSet.from_dataset(dataset)
-    round_tripped = ParameterSet.from_dataset(parameter_set.to_dataset())
+    parameter_set = ParameterSet.from_polars(frame)
+    round_tripped = ParameterSet.from_polars(parameter_set.to_polars())
 
     assert round_tripped == parameter_set
-    assert round_tripped.dataset.identical(dataset)
+    assert round_tripped.to_polars().equals(frame)
     assert round_tripped.parameter_names == ["alpha", "beta"]
-    assert round_tripped.dataset.coords["n_samples"].values.tolist() == [10, 20]
 
 
-def test_parameter_set_from_dataset_requires_parameters() -> None:
-    dataset = xr.Dataset(coords={"n_samples": np.array([10, 20])})
-
-    with pytest.raises(InputError, match="parameter variable"):
-        ParameterSet.from_dataset(dataset)
+def test_parameter_set_from_polars_requires_parameters() -> None:
+    with pytest.raises(InputError, match="parameter"):
+        ParameterSet.from_polars(pl.DataFrame())
 
 
 def test_parameter_set_from_numpy_or_dict_validates_dict_inputs() -> None:
@@ -374,22 +296,15 @@ def test_trial_design_to_dict_from_dict_round_trip() -> None:
     assert TrialDesign.from_dict(design.to_dict()) == design
 
 
-def test_value_array_dataset_validation_errors() -> None:
-    with pytest.raises(InputError, match="xarray.Dataset"):
-        ValueArray(dataset="not-a-dataset")  # type: ignore[arg-type]
+def test_value_array_frame_validation_errors() -> None:
+    with pytest.raises(InputError, match="polars.DataFrame"):
+        ValueArray(frame="not-a-frame")  # type: ignore[arg-type]
 
-    with pytest.raises(InputError, match="n_samples"):
-        ValueArray(dataset=xr.Dataset({"net_benefit": (("n_strategies",), [1.0])}))
+    with pytest.raises(InputError, match="at least one"):
+        ValueArray(frame=pl.DataFrame())
 
-    with pytest.raises(InputError, match="n_strategies"):
-        ValueArray(dataset=xr.Dataset({"net_benefit": (("n_samples",), [1.0])}))
-
-    with pytest.raises(InputError, match="net_benefit"):
-        ValueArray(
-            dataset=xr.Dataset(
-                {"other": (("n_samples", "n_strategies"), np.array([[1.0]]))}
-            )
-        )
+    with pytest.raises(InputError, match="Float64"):
+        ValueArray(frame=pl.DataFrame({"A": [1, 2]}))
 
 
 def test_schema_equality_returns_not_implemented_for_other_types() -> None:
@@ -400,12 +315,12 @@ def test_schema_equality_returns_not_implemented_for_other_types() -> None:
     assert ParameterSet.__eq__(parameter_set, object()) is NotImplemented
 
 
-def test_parameter_set_dataset_validation_errors() -> None:
-    with pytest.raises(InputError, match="xarray.Dataset"):
-        ParameterSet(dataset="not-a-dataset")  # type: ignore[arg-type]
+def test_parameter_set_frame_validation_errors() -> None:
+    with pytest.raises(InputError, match="polars.DataFrame"):
+        ParameterSet(frame="not-a-frame")  # type: ignore[arg-type]
 
-    with pytest.raises(InputError, match="n_samples"):
-        ParameterSet(dataset=xr.Dataset({"alpha": (("draw",), [1.0])}))
+    with pytest.raises(InputError, match="at least one"):
+        ParameterSet(frame=pl.DataFrame())
 
 
 def test_decision_option_from_dict_validates_shape_and_types() -> None:

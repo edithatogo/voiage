@@ -26,7 +26,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.14"
+          python-version: "3.15.1"
 
       - name: Generate probe manifests
         run: |
@@ -52,6 +52,10 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Select qualified Python runtime
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.15.1"
       - name: Set up OSS CAD Suite
         uses: YosysHQ/setup-oss-cad-suite@c7845bc0d335c8076aa22047e85972caa8a916df
         with:
@@ -78,6 +82,10 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Select qualified Python runtime
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.15.1"
       - name: Probe OpenLane container availability
         run: |
           docker pull ghcr.io/the-openroad-project/openlane:latest || true

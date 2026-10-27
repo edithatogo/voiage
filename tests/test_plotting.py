@@ -2,7 +2,6 @@
 
 import numpy as np
 import pytest
-import xarray as xr
 
 from voiage.exceptions import InputError
 from voiage.methods.heterogeneity import HeterogeneityResult
@@ -26,14 +25,8 @@ from voiage.schema import ValueArray
 
 @pytest.fixture
 def sample_value_array():
-    data = {
-        "net_benefit": (
-            ("n_samples", "n_strategies", "n_wtp"),
-            np.random.rand(100, 2, 10),
-        ),
-    }
-    return ValueArray(
-        dataset=xr.Dataset(data, coords={"strategy": ["Strategy 1", "Strategy 2"]})
+    return ValueArray.from_numpy_perspectives(
+        np.random.rand(100, 2, 10), ["Strategy 1", "Strategy 2"]
     )
 
 
@@ -73,13 +66,9 @@ def test_plot_ceac_accepts_existing_axis_with_partial_kwargs(
 
 
 def test_plot_ceac_rejects_non_3d_inputs() -> None:
-    with pytest.raises(InputError, match="must have a 'n_strategies' dimension"):
+    with pytest.raises(InputError, match="3D"):
         plot_ceac(
-            ValueArray(
-                dataset=xr.Dataset(
-                    {"net_benefit": (("n_samples", "n_wtp"), np.ones((5, 4)))}
-                )
-            ),
+            ValueArray.from_numpy(np.ones((5, 4)), [f"S{index}" for index in range(4)]),
             wtp_thresholds=np.linspace(0, 100000, 4),
         )
 
@@ -412,15 +401,8 @@ def test_plot_evppi_surface_rejects_wtp_mismatch() -> None:
             ceac_module,
             plot_ceac,
             {
-                "value_array": ValueArray(
-                    dataset=xr.Dataset(
-                        {
-                            "net_benefit": (
-                                ("n_samples", "n_strategies", "n_wtp"),
-                                np.ones((4, 2, 3)),
-                            )
-                        }
-                    )
+                "value_array": ValueArray.from_numpy_perspectives(
+                    np.ones((4, 2, 3)), ["S1", "S2"]
                 ),
                 "wtp_thresholds": np.linspace(0, 100000, 3),
             },
@@ -429,15 +411,8 @@ def test_plot_evppi_surface_rejects_wtp_mismatch() -> None:
             ceaf_module,
             plot_ceaf,
             {
-                "value_array": ValueArray(
-                    dataset=xr.Dataset(
-                        {
-                            "net_benefit": (
-                                ("n_samples", "n_strategies", "n_wtp"),
-                                np.ones((4, 2, 3)),
-                            )
-                        }
-                    )
+                "value_array": ValueArray.from_numpy_perspectives(
+                    np.ones((4, 2, 3)), ["S1", "S2"]
                 ),
                 "wtp_thresholds": np.linspace(0, 100000, 3),
             },

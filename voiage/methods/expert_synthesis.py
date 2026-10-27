@@ -1,7 +1,7 @@
 """Expert elicitation and evidence-synthesis design VOI."""
 
-from collections.abc import Sequence
 from dataclasses import dataclass, field
+lazy from collections.abc import Sequence
 
 import numpy as np
 

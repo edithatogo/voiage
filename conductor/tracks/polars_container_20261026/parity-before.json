@@ -1,0 +1,105 @@
+{
+  "arrays": {
+    "ps_2d_input": {
+      "dtype": "float64",
+      "sha256": "b05aeb9f46320f874a1b890c25483ae7dc220a5ff7ae1d7003f534fb6879d275",
+      "shape": [
+        64,
+        3
+      ]
+    },
+    "ps_2d_param0": {
+      "dtype": "float64",
+      "sha256": "26746ba6200e3b111c7ba685a8dafcf3375c8130a354120b42e4dd0cee893fef",
+      "shape": [
+        64
+      ]
+    },
+    "ps_dict_alpha": {
+      "dtype": "float64",
+      "sha256": "c1375000fdf391e189f5e5dee9c2cd1da8ab6f180178d7407b0b20ab40e5759e",
+      "shape": [
+        32
+      ]
+    },
+    "ps_example_cost": {
+      "dtype": "float64",
+      "sha256": "a3eafb21addc2792875af1a11782659c087adf0058c64478698a29273532ffe3",
+      "shape": [
+        3
+      ]
+    },
+    "va_2d_input": {
+      "dtype": "float64",
+      "sha256": "0a5aa210800f70fa13d645e904612ebe94829f2604a4d9cee2d48f85c4ddce71",
+      "shape": [
+        64,
+        4
+      ]
+    },
+    "va_2d_values": {
+      "dtype": "float64",
+      "sha256": "0a5aa210800f70fa13d645e904612ebe94829f2604a4d9cee2d48f85c4ddce71",
+      "shape": [
+        64,
+        4
+      ]
+    },
+    "va_3d_values": {
+      "dtype": "float64",
+      "sha256": "c6a8ea67f49a857a717775ceb1ea2241fc7c76cb163e36c7306e3c4cabf9ad5d",
+      "shape": [
+        16,
+        3,
+        2
+      ]
+    },
+    "va_edge_values": {
+      "dtype": "float64",
+      "sha256": "3e10a43778297c121ed0ac6548e7da2e81b020867cb7cede04de84f408b825a3",
+      "shape": [
+        1,
+        1
+      ]
+    },
+    "va_example_values": {
+      "dtype": "float64",
+      "sha256": "4a908a4fdd1779e1aec75413c42f30a56c2bbea5c451958c9c0b864c80a9c533",
+      "shape": [
+        3,
+        2
+      ]
+    }
+  },
+  "order": {
+    "ps_2d_names": [
+      "param_0",
+      "param_1",
+      "param_2"
+    ],
+    "ps_dict_names": [
+      "alpha",
+      "beta"
+    ],
+    "ps_example_names": [
+      "prob_screen_positive",
+      "incremental_cost",
+      "incremental_effect"
+    ],
+    "va_2d_columns": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "va_3d_columns": [
+      "A",
+      "B",
+      "C"
+    ],
+    "va_3d_perspectives": [
+      "payer",
+      "societal"
+    ]
+  }
+}

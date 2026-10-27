@@ -13,8 +13,16 @@
       "estimand": "Perfect or imperfect event information plus a declared density whose integral recovers the associated value within tolerance.",
       "conditioning_and_units": "Matched value units, event/signal law, reference policy, and integration measure; centered signed diagnostics remain distinct from gross value.",
       "panel_validation": "pass-with-experimental-limitations",
-      "evidence": ["contract-freeze.json:issue-596", "voiage/methods/event_localized_information.py", "tests/test_event_localized_information.py"],
-      "limitations": ["finite event/channel and density atoms", "continuous density estimation and monetary BPI are excluded", "no stable-promotion or cross-language parity claim"]
+      "evidence": [
+        "contract-freeze.json:issue-596",
+        "voiage/methods/event_localized_information.py",
+        "tests/test_event_localized_information.py"
+      ],
+      "limitations": [
+        "finite event/channel and density atoms",
+        "continuous density estimation and monetary BPI are excluded",
+        "no stable-promotion or cross-language parity claim"
+      ]
     },
     {
       "issue": 597,
@@ -22,8 +30,16 @@
       "estimand": "Net value of adaptive observation/control policies against a matched no-sensing or open-loop comparator over a declared belief process and horizon.",
       "conditioning_and_units": "Reward, transition, observation, belief update, horizon, discount, and sensing costs are matched; policies obey the declared filtration and nonanticipativity rules.",
       "panel_validation": "pass-with-experimental-limitations",
-      "evidence": ["contract-freeze.json:issue-597", "voiage/methods/belief_state_information.py", "tests/test_belief_state_information.py"],
-      "limitations": ["declared finite belief-state policy space", "no general POMDP solver or external-model claim", "no stable-promotion or cross-language parity claim"]
+      "evidence": [
+        "contract-freeze.json:issue-597",
+        "voiage/methods/belief_state_information.py",
+        "tests/test_belief_state_information.py"
+      ],
+      "limitations": [
+        "declared finite belief-state policy space",
+        "no general POMDP solver or external-model claim",
+        "no stable-promotion or cross-language parity claim"
+      ]
     },
     {
       "issue": 598,
@@ -31,8 +47,16 @@
       "estimand": "Signed recipient, stakeholder, and social-welfare changes under declared information allocation and disclosure policies, without global zero clipping.",
       "conditioning_and_units": "Stakeholder utilities, welfare aggregation, rights, disclosure policy, and baseline allocation are explicit; incomparable units require explicit normalization.",
       "panel_validation": "pass-with-experimental-limitations",
-      "evidence": ["contract-freeze.json:issue-598", "voiage/contracts/signed_social_information.py", "tests/test_signed_social_information.py"],
-      "limitations": ["finite joint-world law", "social welfare is not inferred across incomparable units", "no stable-promotion or cross-language parity claim"]
+      "evidence": [
+        "contract-freeze.json:issue-598",
+        "voiage/contracts/signed_social_information.py",
+        "tests/test_signed_social_information.py"
+      ],
+      "limitations": [
+        "finite joint-world law",
+        "social welfare is not inferred across incomparable units",
+        "no stable-promotion or cross-language parity claim"
+      ]
     },
     {
       "issue": 599,
@@ -40,8 +64,16 @@
       "estimand": "Static value of acting on known subgroup structure and dynamic value of research about subgroup effects, with subgroup EVPI/EVSI reported separately.",
       "conditioning_and_units": "Population-average and subgroup policies share value unit, population, horizon, and discount basis; weights, eligibility, feasibility, multiplicity, and fairness are explicit.",
       "panel_validation": "pass-with-experimental-limitations",
-      "evidence": ["contract-freeze.json:issue-599", "voiage/methods/heterogeneity.py", "tests/test_heterogeneity.py"],
-      "limitations": ["declared finite subgroup and effect scenarios", "static and dynamic contrasts are not conflated", "no stable-promotion or cross-language parity claim"]
+      "evidence": [
+        "contract-freeze.json:issue-599",
+        "voiage/methods/heterogeneity.py",
+        "tests/test_heterogeneity.py"
+      ],
+      "limitations": [
+        "declared finite subgroup and effect scenarios",
+        "static and dynamic contrasts are not conflated",
+        "no stable-promotion or cross-language parity claim"
+      ]
     },
     {
       "issue": 600,
@@ -49,13 +81,28 @@
       "estimand": "Outcome-conditional system-value shift and decision gain VSI_x, with E[VSI_x]=EVSI only under declared classical assumptions, plus dispersion and low-value probability.",
       "conditioning_and_units": "Predictive outcome law is fixed before conditioning on x and optimizing the posterior policy; VSI_x, EVSI, delta, system-value shifts, and costs share declared units.",
       "panel_validation": "pass-with-experimental-limitations",
-      "evidence": ["contract-freeze.json:issue-600", "voiage/methods/outcome_conditional_sample_information.py", "tests/test_outcome_conditional_sample_information.py"],
-      "limitations": ["finite outcome and signal law", "expectation reconciliation is assumption-scoped", "no stable-promotion or cross-language parity claim"]
+      "evidence": [
+        "contract-freeze.json:issue-600",
+        "voiage/methods/outcome_conditional_sample_information.py",
+        "tests/test_outcome_conditional_sample_information.py"
+      ],
+      "limitations": [
+        "finite outcome and signal law",
+        "expectation reconciliation is assumption-scoped",
+        "no stable-promotion or cross-language parity claim"
+      ]
     }
   ],
   "panel_findings": {
     "blocking_implementation_findings": [],
-    "open_external_gates": ["accountable scientific decision", "installed Rust/Python/R/Julia parity", "stable promotion", "hosted exact-head assurance", "release/publication/registry", "issue and project closure"],
+    "open_external_gates": [
+      "accountable scientific decision",
+      "installed Rust/Python/R/Julia parity",
+      "stable promotion",
+      "hosted exact-head assurance",
+      "release/publication/registry",
+      "issue and project closure"
+    ],
     "dissent": "None recorded for this bounded repository-owned semantics validation; absence of dissent is not scientific approval."
   },
   "artifact_sha256": {
@@ -69,7 +116,7 @@
     "voiage/contracts/signed_social_information.py": "9c57111ac038d9c1f63da69457645afcb375732ebad48ec754a38a9828d562bd",
     "tests/test_signed_social_information.py": "0490e2566e1c1b8594d8b3d6e4c5d846c559960cd6fceeaa457e4bb301f5fb62",
     "voiage/methods/heterogeneity.py": "c39c7d165ac1a5d9e86df29d33f5f0987beb3faa4c4dae350ca1be536a626867",
-    "tests/test_heterogeneity.py": "e08217a1e5b7a26f11870256984a3bd47e81384ac99b3ce597cf5f06bc459101",
+    "tests/test_heterogeneity.py": "a704caacbac1fe177734a020f7dd95d7a58c3f600e55028e8e7a9e310ad01ad0",
     "voiage/methods/outcome_conditional_sample_information.py": "fd2f403f07b30e1b39491c27ff79eaf12582ac7f92183c4fbca257806b2bf668",
     "voiage/contracts/outcome_conditional_sample_information.py": "1b83b2ebe62365556aee0818d45a2efde9f39d70146994f739cccbe6fdc9b2a0",
     "tests/test_outcome_conditional_sample_information.py": "a082e657ea7366f564798786a35ce5d9b5acd37d05f27f15ae028d76a1f33e8b"

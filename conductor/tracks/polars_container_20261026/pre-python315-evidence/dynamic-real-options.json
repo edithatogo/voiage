@@ -1,0 +1,22 @@
+{
+  "contract": "dynamic-real-options-voi-v1",
+  "maturity": "fixture-backed",
+  "stable_claim_allowed": false,
+  "owner": "voiage-maintainers",
+  "artifacts": [
+    {"path": "schemas/dynamic-real-options-set.schema.json", "sha256": "ec56b564a06f19c3377b40922286f91987a5d004622d92b5f66de0a4a7f6e99a"},
+    {"path": "schemas/value-of-dynamic-real-options-result.schema.json", "sha256": "7ef8d080bd4e5e13a042c422a3d3d3f9a26dfd9199f220f8ef2ecd15e175120e"},
+    {"path": "fixtures/normative/dynamic-real-options-set.json", "sha256": "5fa4227bcc519702f0c31c3eeedae67b567708c15a32011aece82e29a3a8f24a"},
+    {"path": "fixtures/normative/value-of-dynamic-real-options.json", "sha256": "aa89d8ee9f4fbad1a5684ab2776a5cc43d017af77fda0e49e25586ce6189d067"},
+    {"path": "../../../../voiage/methods/dynamic_real_options.py", "sha256": "3cea41452b95d0b39a314f9b355af4d187686ef8dd828c2ab50e9aacc5f88af9"}
+  ],
+  "open_data": {
+    "status": "blocked_external",
+    "evidence": "No committed open-data source currently provides reproducible staged adoption, irreversible investment, and policy lock-in observations in one decision-ready dataset.",
+    "next_action": "Add a licensed longitudinal adoption or investment dataset with documented stage construction, timing, and transform assumptions.",
+    "source_candidates": ["https://databank.worldbank.org/", "https://ourworldindata.org/"],
+    "license_gate": "Confirm source license and snapshot permission before committing a transformed dataset."
+  },
+  "parity": {"python": "verified", "rust": "deferred_with_rationale", "r": "not_verified", "typescript": "not_verified"},
+  "parity_rationale": "The Python implementation is the reference runtime; Rust parity is deferred until the staged-policy semantics and cross-language fixture envelope are reviewed."
+}

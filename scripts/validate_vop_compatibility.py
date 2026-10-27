@@ -30,10 +30,11 @@ def validate() -> dict[str, object]:
     # The VOP contract describes a stricter integration profile, not the
     # package's complete compatibility range.  Verify that the supported
     # package range contains the profile runtime instead of requiring exact
-    # metadata equality (voiage intentionally supports Python 3.12+).
+    # metadata equality. The pinned historical profile is retained while the
+    # current package runtime follows its separately qualified Python policy.
     supported_python = SpecifierSet(project["requires-python"])
-    assert supported_python.contains("3.12")
-    assert supported_python.contains("3.14")
+    assert supported_python.contains("3.15.1")
+    assert not supported_python.contains("3.14")
     assert not supported_python.contains("3.11")
     declared = [Requirement(item) for item in project["dependencies"]]
     declared_names = {item.name.lower() for item in declared}
