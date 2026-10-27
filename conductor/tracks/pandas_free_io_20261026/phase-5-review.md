@@ -58,3 +58,10 @@ The active CI extra and tox dependency declarations therefore cap pytest below
 9.2 pending an upstream compatible plugin. No runtime Python downgrade or
 private-attribute monkeypatch is used. Historical reproduction environments
 retain their existing snapshots. A new full gate qualifies this dependency fix.
+
+The corrected candidate `89adc736` passed all 14 tox environments, 5,338 tests
+and 14 existing capability skips, with 94.73% aggregate coverage. The guarded
+peak was 1,828,336 KiB and its successful temporary tree was removed. The strict
+frontier records pytest 9.2 as an explicit upper-bound blocker. See
+`phase-5-benchmark-compatibility-python315.json`; final hosted checks remain
+required on the delivered revision.

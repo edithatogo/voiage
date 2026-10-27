@@ -1,0 +1,196 @@
+{
+  "schema_version": "1.0",
+  "phase": "5",
+  "status": "locally_qualified_hosted_corrected_revision_pending",
+  "tested_commit": "89adc736c62d82e9b483d3ec28010fe542b653ba",
+  "tested_tree": "005f86b4059fc52e65f94fc2dc08c6884b40a6dc",
+  "python": "3.15.1",
+  "prior_receipt": "phase-5-protected-ci-python315.json",
+  "hosted_first_revision": "d9f187fc: Linux/macOS/Windows no-extras probes passed. Benchmarks/mutation/coverage/compatibility exposed pytest 9.2 incompatibilities. Failure logs retained.",
+  "blocker": {
+    "pytest": "9.2.0",
+    "latest_pytest_benchmark": "5.3.0",
+    "failures": [
+      "Latest plugin uses removed private _nodeid attribute.",
+      "Existing nested-dictionary pytest.approx expectation changed in pytest 9.2."
+    ],
+    "resolution": "Cap active test tooling at pytest>=9.1.1,<9.2; retain Python 3.15.1 and all runtime APIs. No plugin monkeypatch, skip or retry.",
+    "requalification": "Existing benchmark red with 9.2; all 11 affected benchmark cases green with 9.1.1. Full 14-environment gate rerun after dependency change."
+  },
+  "dependency_frontier": {
+    "scope": "optional:ci",
+    "package": "pytest",
+    "specifier": "<9.2,>=9.1.1",
+    "minimum_supported": "9.1.1",
+    "locked": [
+      "9.1.1"
+    ],
+    "latest_compatible": "9.1.1",
+    "latest_overall": "9.2.0",
+    "upper_bound_blocker": true,
+    "prereleases_allowed": false,
+    "support_window_status": "locked_at_latest_compatible",
+    "policy_violations": []
+  },
+  "environments": {
+    "lint": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 4.444810625000173,
+      "skipped": false
+    },
+    "pandas-free": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 5.373543333000271,
+      "skipped": false
+    },
+    "vale": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 3.3802994589987065,
+      "skipped": false
+    },
+    "joss": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 1.9745910419987922,
+      "skipped": false
+    },
+    "harness": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 2.879193374999886,
+      "skipped": false
+    },
+    "typecheck": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.8846458749994781,
+      "skipped": false
+    },
+    "docs": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 65.6325931249994,
+      "skipped": false
+    },
+    "ingestion-conformance": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 59.69911845899878,
+      "skipped": false
+    },
+    "frontier-contract": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.546143542000209,
+      "skipped": false
+    },
+    "version-sync": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.6960366249986691,
+      "skipped": false
+    },
+    "py315": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 58.425401042000885,
+      "skipped": false
+    },
+    "min_versions": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 55.2325576660005,
+      "skipped": false
+    },
+    "max_versions": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 73.43176837500141,
+      "skipped": false
+    },
+    "coverage_report": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 273.92043125000055,
+      "skipped": false
+    }
+  },
+  "full_tests": {
+    "passed": 5338,
+    "skipped": 14,
+    "failed": 0,
+    "warnings": 43
+  },
+  "coverage_policy": {
+    "aggregate": {
+      "minimum": 90.0,
+      "percent": 94.73047628387434
+    },
+    "base": "63701cb80c66f86b62738560ffd49cc74e94e185",
+    "changed": {
+      "branch_minimum": 100.0,
+      "branch_percent": 100.0,
+      "branches": 0,
+      "covered_branches": 0,
+      "covered_lines": 0,
+      "executable_lines": 0,
+      "line_minimum": 95.0,
+      "line_percent": 100.0,
+      "missing_branches": [],
+      "missing_lines": [],
+      "unmeasured_files": []
+    },
+    "critical_modules": [
+      {
+        "minimum": 100.0,
+        "passed": true,
+        "path": "voiage/assurance_policy.py",
+        "percent": 100.0
+      },
+      {
+        "minimum": 90.0,
+        "passed": true,
+        "path": "voiage/contracts/bundle.py",
+        "percent": 99.30191972076788
+      },
+      {
+        "minimum": 95.0,
+        "passed": true,
+        "path": "voiage/mutation_policy.py",
+        "percent": 100.0
+      }
+    ],
+    "exact_source_head": true,
+    "head": "89adc736c62d82e9b483d3ec28010fe542b653ba",
+    "passed": true,
+    "schema_version": "1.0.0",
+    "source_head": "89adc736c62d82e9b483d3ec28010fe542b653ba",
+    "tested_head": "89adc736c62d82e9b483d3ec28010fe542b653ba"
+  },
+  "resource_guard": {
+    "peak_rss_kib": 1828336,
+    "reason": "completed",
+    "returncode": 0,
+    "elapsed_seconds": 404.129,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-tkz8svfa"
+  },
+  "temporary_tree_removed": true,
+  "hosted_corrected_revision": "Required/platform/Ops checks must pass on final PR revision. New PR remains unmerged.",
+  "scope": "No runtime, numerical bounds, Rust, binding or wire changes. Producer acceptance and generated-code/reference cleanup stay Phases 6 and 7.",
+  "artifact_sha256": {
+    "full-benchmark-result.json": "e2becff5ea09aa903b7d2dfa9ec6d9469def1a0ee072d3001d6cca6f12777d98",
+    "full-benchmark.log": "c6a5f48f0c61ad1c984856fe845f99ca6db82f30329e3601ebb60b6078f9671d",
+    "coverage-benchmark.json": "dda80ecd449238a9e77293d433c68333649fd39b8ff69378572ed0cd614c533c",
+    "coverage-benchmark-policy.json": "0e53bd15a64b2b26de039e3c8e2f9aa57ec0157f9b2fa816e199585d253f4ad0",
+    "benchmark-red.log": "1a9c2826149946b1dbf4af337d9e34a4c9f272ce926a3c59bc86c125c7f8d33d",
+    "benchmark-green.log": "6071462408138cf27febd26aa1416aa14367072cb281bbfe640f69c03a73450b",
+    "frontier-benchmark.log": "0101e25b1a3ca772bdf3810868f176ce094da290b0c667cfde1ca65bea7440cb",
+    "hosted-performance-failure.log": "a6f90f53319ec05afe59ab1c2b33ebeaef9126e7247236441ce01466af66eea4",
+    "hosted-mutation-failure.log": "82d68ed821a152e9c2a75e31c59dbe7ee944a99b3be0813968ec02b567e88c77",
+    "hosted-coverage-failure.log": "50dee34d8bdd8086b17e21b5d6c6bf0da22f6c9d87db74497219bd17d737ce9f",
+    "hosted-compatibility-failure.log": "763dfac20a714355cd08ea4dcfc050cfd1d084e57949fcd30838842ab9626cc0"
+  }
+}
