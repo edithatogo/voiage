@@ -163,3 +163,16 @@ def test_hosted_ci_runs_the_real_no_extras_lane() -> None:
         "macos-14",
         "windows-2025",
     ]
+
+
+def test_existing_protected_jobs_enforce_source_and_no_extras_checks() -> None:
+    workflow = yaml.safe_load((ROOT / ".github/workflows/ci.yml").read_text())
+    jobs = workflow["jobs"]
+    lint = next(job for job in jobs.values() if job.get("name") == "Lint & Type Check")
+    lint_commands = "\n".join(step.get("run", "") for step in lint["steps"])
+    assert "scripts/check_pandas_free.py --source voiage" in lint_commands
+    unit = jobs["test-unit"]
+    assert not unit.get("continue-on-error", False)
+    unit_commands = "\n".join(step.get("run", "") for step in unit["steps"])
+    assert "--group verification" in unit_commands
+    assert "tox run -e pandas-free" in unit_commands

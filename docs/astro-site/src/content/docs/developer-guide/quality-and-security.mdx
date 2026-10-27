@@ -172,3 +172,8 @@ reject source shadowing. Negative controls demonstrate actual rejection.
 Linux, macOS and Windows CI use that same lane. The bootstrap's unpublished
 `verification` group contains only locked tox tools and is separate from the
 no-extras target environment and the producer-test group.
+
+The existing protected `Lint & Type Check` job invokes the source rule directly,
+and `Unit Tests (Python 3.15.1)` also executes the no-extras tox lane. These
+checks therefore remain part of the current required status contexts; no
+branch-protection relaxation or new-job registration is needed.

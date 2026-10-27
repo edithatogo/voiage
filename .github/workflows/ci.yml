@@ -248,6 +248,9 @@ jobs:
     - name: Install dependencies
       run: uv sync --frozen --extra ci --extra dev --group producer-tests
 
+    - name: Enforce pandas-free source imports
+      run: uv run --frozen --no-sync python scripts/check_pandas_free.py --source voiage
+
     - name: Run Ruff
       run: uv run ruff check voiage tests --output-format=github --ignore=FA100,FA102,UP,TC,RUF022,RUF100
 
@@ -303,7 +306,7 @@ jobs:
         python-version: ${{ matrix.python }}
 
     - name: Install dependencies
-      run: uv sync --frozen --extra ci --group producer-tests
+      run: uv sync --frozen --extra ci --group producer-tests --group verification
 
     - name: Run bounded parallel unit compatibility tests
       run: |
@@ -322,6 +325,9 @@ jobs:
           -v
       env:
         CI: true
+
+    - name: Enforce installed no-extras runtime
+      run: uv run --frozen --no-sync tox run -e pandas-free
 
   ingestion-conformance:
     name: Standardized Ingestion Conformance
