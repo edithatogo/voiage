@@ -81,7 +81,8 @@ ci = [
     "matplotlib>=3.4,<4.0",
     "maturin>=1.9,<2.0",
     "psutil>=5.9,<8.0",
-    "pytest>=9.1.1,<10.0",
+    # pytest-benchmark 5.3.0 uses _nodeid removed in pytest 9.2; retain qualified tooling.
+    "pytest>=9.1.1,<9.2",
     "pytest-benchmark>=5.2.3,<6.0",
     "pytest-cov>=7.1.0,<8.0",
     "pytest-integration>=0.2.3,<0.3",

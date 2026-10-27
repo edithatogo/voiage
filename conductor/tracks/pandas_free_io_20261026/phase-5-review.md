@@ -48,3 +48,13 @@ gate passed with 5,338 tests and 14 existing capability skips, 94.73% aggregate
 coverage and a 2,056,736 KiB guarded peak. The successful temporary tree was
 removed. See `phase-5-protected-ci-python315.json`; the earlier receipt retains
 its original candidate evidence. Hosted acceptance remains pending.
+
+## Hosted dependency incompatibility
+
+The first hosted candidate passed all three no-extras platform lanes. The
+benchmark jobs exposed pytest-benchmark 5.3.0 accessing `_nodeid`, removed in
+pytest 9.2. The same benchmark fails locally with 9.2 and passes with 9.1.1.
+The active CI extra and tox dependency declarations therefore cap pytest below
+9.2 pending an upstream compatible plugin. No runtime Python downgrade or
+private-attribute monkeypatch is used. Historical reproduction environments
+retain their existing snapshots. A new full gate qualifies this dependency fix.
