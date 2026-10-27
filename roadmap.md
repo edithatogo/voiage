@@ -179,7 +179,7 @@ Issue [#1195](https://github.com/edithatogo/voiage/issues/1195) registers four
 tracks that replace the xarray-backed tabular contract with Polars and remove
 direct pandas use:
 `conductor/tracks/tabular_contract_v3_20261026/` **(complete)**,
-`conductor/tracks/polars_container_20261026/` **(implemented locally; final acceptance pending)**,
+`conductor/tracks/polars_container_20261026/` **(accepted on Python 3.15.1/Polars 2.1.0)**,
 `conductor/tracks/pandas_free_io_20261026/` and
 `conductor/tracks/translation_reference_20261026/`.
 `specs/core-api/decision-record.md` no longer names xarray as the Python

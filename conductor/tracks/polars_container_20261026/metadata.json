@@ -1,9 +1,9 @@
 {
   "track_id": "polars_container_20261026",
   "type": "refactor",
-  "status": "in_progress",
+  "status": "completed",
   "created_at": "2026-10-26T00:00:00Z",
-  "updated_at": "2026-10-27T00:29:50Z",
+  "updated_at": "2026-10-27T02:43:48Z",
   "description": "Replace the xarray-backed ValueArray and ParameterSet containers with wide Polars frames at unchanged numerical parity",
   "base_commit": "ca3f05cc8adcc74b99fe236152327d0cd3679553",
   "github_cross_reference": {
@@ -15,7 +15,7 @@
     "tabular_contract_v3_20261026"
   ],
   "authorization": {
-    "scope": "Implementation authorised by the maintainer on 2026-10-26",
+    "scope": "Implementation authorised by the maintainer on 2026-10-26; maintainer authorised Python 3.15.1 runtime/dependency/CI qualification, optional PyTorch unavailability and protected merge on 2026-10-27.",
     "source": "Owner request of 26 October 2026 to plan a wholesale pandas-to-Polars shift in Voiage; implementation authorised by the maintainer on 2026-10-26 in response to conductor-implement invocation"
   },
   "gates": [
@@ -29,13 +29,13 @@
       "id": "implementation",
       "kind": "repository",
       "status": "satisfied",
-      "evidence": "Phases 1-7 implemented on codex/polars-container-20261026. Historical Python 3.12 results are retained in evidence.jsonl; follow-up validation/ownership and JAX annotation repairs have isolated Python 3.15.1 evidence. Full local qualification, controlled performance acceptance and hosted checks remain pending; see qualification-20261027.md."
+      "evidence": "Container, validation, caller ownership, runtime/dependency and CI repairs are qualified on Python 3.15.1 with Polars 2.1.0; see acceptance-python315.json."
     },
     {
       "id": "final-acceptance",
       "kind": "repository",
-      "status": "pending",
-      "evidence": "Implementation is local. Prior Python 3.12 evidence does not qualify the required Python 3.15.1 runtime. Full tox and hosted PR acceptance remain pending; see qualification-20261027.md."
+      "status": "satisfied",
+      "evidence": "All 13 default tox environments, 5211 full-suite tests, unchanged performance bounds, Rust/R/Julia conformance and all current required hosted checks passed at 03b278ba. Final documentation is subject to fresh hosted merge gates; see acceptance-python315.json."
     }
   ]
 }
