@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 from contextlib import nullcontext
+import io
+import json
 import subprocess
 import sys
 from types import SimpleNamespace
@@ -136,6 +138,7 @@ import sys
 import tempfile
 from types import SimpleNamespace
 from contextlib import nullcontext
+import json
 
 class NoPandas(importlib.abc.MetaPathFinder):
     def find_spec(self, fullname, path=None, target=None):
@@ -171,3 +174,62 @@ print('CSV, Parquet and widget paths passed with pandas imports blocked')
         check=False,
     )
     assert result.returncode == 0, result.stdout + result.stderr
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "a,b\n1,2\n\n3,4\n",
+        "a,b\n1,2\n   \n3,4\n",
+        'a,b\n"quoted\nline",2\n\n,\n',
+        ",Unnamed: 0\n1,2\n",
+    ],
+)
+def test_csv_review_regressions(tmp_path: Path, text: str) -> None:
+    path = tmp_path / "review.csv"
+    path.write_text(text)
+    expected = pd.read_csv(path)
+    result = DataFormatConnector().import_health_data(str(path), "generic")
+    assert result["columns"] == list(expected.columns)
+    assert result["shape"] == expected.shape
+    assert result["missing_values"] == expected.isnull().sum().to_dict()
+    for actual, previous in zip(
+        result["data"], expected.to_dict("records"), strict=True
+    ):
+        for name, value in previous.items():
+            assert pd.isna(actual[name]) if pd.isna(value) else actual[name] == value
+
+
+def test_export_infers_late_fractional_values(tmp_path: Path) -> None:
+    from voiage.health_economics import HealthEconomicsAnalysis, HealthState
+
+    analysis = HealthEconomicsAnalysis()
+    for index in range(101):
+        analysis.add_health_state(
+            HealthState(
+                state_id=str(index),
+                description="state",
+                utility=0.8,
+                cost=1 if index < 100 else 1.5,
+                duration=1.0,
+            )
+        )
+    path = tmp_path / "export.json"
+    DataFormatConnector().export_health_data(analysis, str(path), format_type="json")
+    assert json.loads(path.read_text())["health_states"][-1]["cost"] == 1.5
+
+
+def test_csv_preserves_bom_and_quoted_carriage_returns(tmp_path: Path) -> None:
+    text = '\ufeffname,value\r\n"line\rreturn",1\r\n'
+    path = tmp_path / "bom.csv"
+    path.write_bytes(text.encode("utf-8"))
+    expected = pd.read_csv(path).to_dict("records")
+    assert _tabular_io.records(_tabular_io.read_csv(path)) == expected
+    assert _tabular_io.records(_tabular_io.read_csv(io.StringIO(text))) == expected
+
+
+def test_malformed_csv_fails_soft(tmp_path: Path) -> None:
+    path = tmp_path / "malformed.csv"
+    path.write_text('name,cost\n"unterminated,1\n')
+    with pytest.warns(UserWarning, match="Error importing health data"):
+        assert DataFormatConnector().import_health_data(str(path)) == {}

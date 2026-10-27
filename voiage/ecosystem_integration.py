@@ -502,7 +502,9 @@ class DataFormatConnector(EcosystemConnector):
                 }
                 for treatment in health_analysis.treatments.values()
             ]
-            export_data["treatments"] = pl.DataFrame(treatments_data)
+            export_data["treatments"] = pl.DataFrame(
+                treatments_data, infer_schema_length=None
+            )
 
             # Export health states
             states_data = [
@@ -515,7 +517,9 @@ class DataFormatConnector(EcosystemConnector):
                 }
                 for state in health_analysis.health_states.values()
             ]
-            export_data["health_states"] = pl.DataFrame(states_data)
+            export_data["health_states"] = pl.DataFrame(
+                states_data, infer_schema_length=None
+            )
 
             # Export cost-effectiveness results
             ce_results = [
@@ -540,7 +544,9 @@ class DataFormatConnector(EcosystemConnector):
                     )
                 ]
             ]
-            export_data["cost_effectiveness"] = pl.DataFrame(ce_results)
+            export_data["cost_effectiveness"] = pl.DataFrame(
+                ce_results, infer_schema_length=None
+            )
 
             # Save to file
             output_path_obj = Path(output_path)

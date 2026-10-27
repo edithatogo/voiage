@@ -38,26 +38,44 @@ _CSV_NULLS = [
 
 def read_csv(source: Path | io.StringIO) -> pl.DataFrame:
     """Read a CSV while retaining full-column inference and legacy header names."""
-    text = (
-        source.read_text(encoding="utf-8-sig")
-        if isinstance(source, Path)
-        else source.getvalue()
-    )
-    rows = csv.reader(io.StringIO(text))
-    header = next((row for row in rows if row), None)
+    if isinstance(source, Path):
+        with source.open(encoding="utf-8-sig", newline="") as handle:
+            text = handle.read()
+    else:
+        text = source.getvalue().removeprefix("\ufeff")
+    stream = io.StringIO(text)
+    normalized = io.StringIO()
+    writer = csv.writer(normalized, lineterminator="\r\n")
+    header = None
+    start = 0
+    for row in csv.reader(stream, strict=True):
+        end = stream.tell()
+        # Check the raw record, so quoted whitespace/newlines and comma-only
+        # records remain data while unquoted blank physical lines are skipped.
+        if text[start:end].strip():
+            if header is None:
+                header = row
+            writer.writerow(row)
+        start = end
     if header is None:
         raise ValueError("No columns to parse from file")
-    names: list[str] = []
+    names = [""] * len(header)
     reserved = {name for name in header if name}
-    for index, name in enumerate(header):
-        candidate = name or f"Unnamed: {index}"
+    assigned: set[str] = set()
+    # Explicit names retain priority over generated names, regardless of order.
+    ordered = [index for index, name in enumerate(header) if name]
+    ordered.extend(index for index, name in enumerate(header) if not name)
+    for index in ordered:
+        name = header[index] or f"Unnamed: {index}"
+        candidate = name
         suffix = 1
-        while candidate in names or (suffix > 1 and candidate in reserved):
+        while candidate in assigned or (suffix > 1 and candidate in reserved):
             candidate = f"{name}.{suffix}"
             suffix += 1
-        names.append(candidate)
+        names[index] = candidate
+        assigned.add(candidate)
     frame = pl.read_csv(
-        io.StringIO(text),
+        io.StringIO(normalized.getvalue()),
         null_values=_CSV_NULLS,
         infer_schema_length=None,
         new_columns=names,
