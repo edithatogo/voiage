@@ -41,7 +41,10 @@ jobs:
           python-version: "3.15.1"
 
       - name: Install the immutable stable environment
-        run: uv sync --frozen --extra ci
+        run: uv sync --frozen --extra ci --group producer-tests
+
+      - name: Verify runtime packaging agreement
+        run: uv run --frozen --no-sync python scripts/check_packaging_dependencies.py .
 
       - name: Verify immutable lock
         run: uv lock --check
@@ -86,7 +89,7 @@ jobs:
         continue-on-error: true
         run: |
           uv lock --upgrade
-          uv sync --extra ci --extra experimental
+          uv sync --extra ci --extra experimental --group producer-tests
           uv tree --depth 1
 
       - name: Run frontier assurance contracts

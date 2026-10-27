@@ -39,8 +39,6 @@ dependencies = [
     "click>=8.3.3,<9",
     "numpy>=2.5.4,<3",
     "scipy>=1.18.1,<1.19",
-    "pandas>=3.1.0,<4",
-    "xarray>=2026.9.0,<2027",
     "scikit-learn>=1.9.1,<2",
     "pyarrow>=26.0.0,<27",
     "polars>=2.1.0,<3",
@@ -326,3 +324,9 @@ arxiv-validate = "python scripts/validate_arxiv_manifest.py && python scripts/va
 arxiv-variants = ".venv-arxiv/bin/python scripts/prepare_arxiv_variants.py"
 arxiv-readability = "NLTK_DATA=.venv-arxiv/nltk_data .venv-arxiv/bin/python scripts/audit_arxiv_readability.py build/arxiv/main.pdf build/arxiv/readability.json"
 joss-validate = "python scripts/validate_joss.py"
+
+[dependency-groups]
+producer-tests = ["pandas>=3.1.0,<4"]
+
+[tool.uv]
+default-groups = []

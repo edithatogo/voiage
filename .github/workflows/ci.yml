@@ -128,7 +128,7 @@ jobs:
         python-version: "3.15.1"
 
     - name: Install dependencies
-      run: uv sync --frozen --extra ci --extra dev
+      run: uv sync --frozen --extra ci --extra dev --group producer-tests
 
     - name: Checkout pinned VOP governance source
       uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
@@ -187,7 +187,7 @@ jobs:
         python-version: "3.15.1"
 
     - name: Install dependencies
-      run: uv sync --frozen --extra ci --extra dev
+      run: uv sync --frozen --extra ci --extra dev --group producer-tests
 
     - name: Validate version synchronization
       run: uv run tox -e version-sync
@@ -218,7 +218,7 @@ jobs:
         python-version: "3.15.1"
 
     - name: Install dependencies
-      run: uv sync --frozen --extra ci
+      run: uv sync --frozen --extra ci --group producer-tests
 
     - name: Run repository harness
       run: uv run python scripts/repo_harness.py
@@ -246,7 +246,7 @@ jobs:
         python-version: "3.15.1"
 
     - name: Install dependencies
-      run: uv sync --frozen --extra ci --extra dev
+      run: uv sync --frozen --extra ci --extra dev --group producer-tests
 
     - name: Run Ruff
       run: uv run ruff check voiage tests --output-format=github --ignore=FA100,FA102,UP,TC,RUF022,RUF100
@@ -303,7 +303,7 @@ jobs:
         python-version: ${{ matrix.python }}
 
     - name: Install dependencies
-      run: uv sync --frozen --extra ci
+      run: uv sync --frozen --extra ci --group producer-tests
 
     - name: Run bounded parallel unit compatibility tests
       run: |
@@ -378,7 +378,7 @@ jobs:
         python-version: "3.15.1"
 
     - name: Install explicit Excel extra
-      run: uv sync --frozen --extra ci --extra excel --no-build-package python-calamine --no-build-package xlsxwriter
+      run: uv sync --frozen --extra ci --extra excel --no-build-package python-calamine --no-build-package xlsxwriter --group producer-tests
 
     - name: Verify native engine runtime
       run: >-
@@ -416,7 +416,7 @@ jobs:
         python-version: "3.15.1"
 
     - name: Install bounded example dependencies
-      run: uv sync --frozen --extra ci --extra dev
+      run: uv sync --frozen --extra ci --extra dev --group producer-tests
 
     - name: Execute selected scripts and notebook
       run: uv run --no-sync python scripts/run_example_smoke.py
@@ -460,7 +460,7 @@ jobs:
         python-version: "3.15.1"
 
     - name: Install dependencies
-      run: uv sync --frozen --extra ci
+      run: uv sync --frozen --extra ci --group producer-tests
 
     - name: Verify coverage threshold
       run: uv run --with tox tox -e coverage_report
@@ -535,7 +535,7 @@ jobs:
         python-version: "3.15.1"
 
     - name: Install dependencies
-      run: uv sync --frozen --extra ci
+      run: uv sync --frozen --extra ci --group producer-tests
 
     - name: Run benchmark regression checks
       id: benchmark-regression
@@ -601,7 +601,7 @@ jobs:
         python-version: "3.15.1"
 
     - name: Install dependencies
-      run: uv sync --frozen --extra ci
+      run: uv sync --frozen --extra ci --group producer-tests
 
     - name: Run integration tests
       run: |
@@ -635,7 +635,7 @@ jobs:
         python-version: "3.15.1"
 
     - name: Install voiage
-      run: uv sync --frozen --extra ci --extra dev
+      run: uv sync --frozen --extra ci --extra dev --group producer-tests
 
     - name: Run E2E CLI tests
       run: |
@@ -681,7 +681,7 @@ jobs:
         python-version: "3.15.1"
 
     - name: Install dependencies
-      run: uv sync --frozen --extra ci --extra dev
+      run: uv sync --frozen --extra ci --extra dev --group producer-tests
 
     - name: Generate bounded broad mutation evidence
       id: broad-generation

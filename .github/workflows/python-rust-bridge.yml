@@ -78,7 +78,7 @@ jobs:
         with:
           toolchain: "1.85"
       - name: Install locked build tooling
-        run: uv sync --locked --extra ci
+        run: uv sync --locked --extra ci --group producer-tests
       - name: Validate locked Cargo workspace
         run: cargo metadata --manifest-path rust/Cargo.toml --locked --format-version 1 --no-deps
       - name: Record reproducible source epoch
@@ -198,7 +198,7 @@ jobs:
         with:
           toolchain: "1.85"
       - name: Install locked build tooling
-        run: uv sync --locked --extra ci
+        run: uv sync --locked --extra ci --group producer-tests
       - name: Validate locked Cargo workspace
         run: cargo metadata --manifest-path rust/Cargo.toml --locked --format-version 1 --no-deps
       - name: Record reproducible source epoch

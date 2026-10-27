@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "finding": "Hosted generic-api-key detector matched public Git tree provenance, not a credential.",
+  "verified_object": {
+    "path": "specs/core-api",
+    "git_oid": "3d5c0059778e303b466a58aa880badafc3e85eea",
+    "type": "tree"
+  },
+  "immutable_finding_commit": "29a83cfedc8858f7993a3c3c6d60460b56fc4df2",
+  "finding_file": "conductor/tracks/pandas_free_io_20261026/phase-4-acceptance-python315.json",
+  "finding_line": 230,
+  "fix": "Existing generic-api-key rule gets an AND allowlist for that exact file path and complete field/value line. No scan scope, rule, entropy threshold, other values or other fields are disabled. Published source history and the original receipt are preserved.",
+  "scanner_version": "8.30.1",
+  "native_history_scan": "3392 local commits, about 59.24 MB, no leaks found after correction.",
+  "native_controls": [
+    {
+      "control": "verified_tree",
+      "returncode": 0,
+      "expected": 0
+    },
+    {
+      "control": "fictional_key_same_path",
+      "returncode": 1,
+      "expected": 1
+    },
+    {
+      "control": "tree_value_wrong_key",
+      "returncode": 1,
+      "expected": 1
+    }
+  ],
+  "configuration_self_scan": "No findings.",
+  "guard": {
+    "peak_rss_kib": 268512,
+    "reason": "completed",
+    "returncode": 0,
+    "elapsed_seconds": 18.979,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-8ttsp9a0"
+  },
+  "artifacts_sha256": {
+    "gitleaks-repair.log": "5719ea3e020377e038dc7bc71b6fb08da10c93507b475f3412ae240719e5cb96",
+    "gitleaks-controls.json": "58aff7717201350f9e3bb147ff9550d3799086b27f8993725a01ce170e0d924a",
+    "gitleaks-controls.log": "b2d7e0c843c2dec89fe4de7b94bd34fcb970cdeb9f7288a83897fdd199afcf38",
+    "config-scan.log": "cda2044a78a3b5596b8e69244fa05113f5707160f115dbb1eb3d69daa451ebad"
+  },
+  "hosted_gate": "Current PR revision must pass the native hosted secret scan again."
+}

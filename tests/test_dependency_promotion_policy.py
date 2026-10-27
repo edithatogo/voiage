@@ -102,8 +102,8 @@ def test_preview_workflow_is_isolated_non_blocking_and_observational() -> None:
     assert all("continue-on-error: true" in block for block in job_blocks)
     for candidate in (
         "scipy-current",
-        "pandas-current",
-        "xarray-current",
+        "polars-current",
+        "pyarrow-current",
         "griffe-2",
         "jax-current",
         "ruff-current",

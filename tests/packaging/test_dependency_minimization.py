@@ -59,8 +59,7 @@ def test_base_dependencies_match_stable_api_policy() -> None:
         "seaborn",
         "statsmodels",
     }.isdisjoint(base)
-    # External I/O retains these dependencies until the pandas-free track.
-    assert {"pandas", "xarray"} <= base
+    assert {"pandas", "xarray"}.isdisjoint(base)
     assert "jax" not in base
 
 

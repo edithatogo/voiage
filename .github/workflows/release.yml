@@ -118,7 +118,7 @@ jobs:
         with:
           toolchain: "1.85"
       - name: Install locked validation tooling
-        run: uv sync --locked --extra ci
+        run: uv sync --locked --extra ci --group producer-tests
       - name: Fail closed on release version
         id: version
         shell: bash
@@ -160,7 +160,7 @@ jobs:
         with:
           python-version: "3.15.1"
       - name: Install the immutable release environment
-        run: uv sync --frozen --extra ci
+        run: uv sync --frozen --extra ci --group producer-tests
       - name: Run fresh non-sharded full coverage gate
         run: >-
           uv run --frozen --no-sync pytest tests/
@@ -223,7 +223,7 @@ jobs:
         with:
           toolchain: "1.85"
       - name: Install locked release tooling
-        run: uv sync --locked --extra ci
+        run: uv sync --locked --extra ci --group producer-tests
       - name: Build native abi3 wheel
         if: runner.os != 'Linux'
         run: uv run --no-sync maturin build --locked --release --compatibility "${{ matrix.compatibility }}" --interpreter python --out dist
@@ -308,7 +308,7 @@ jobs:
         with:
           toolchain: "1.85"
       - name: Install locked release tooling
-        run: uv sync --locked --extra ci
+        run: uv sync --locked --extra ci --group producer-tests
       - name: Build source distribution
         run: |
           uv run --no-sync python scripts/embed_sdist_provenance.py

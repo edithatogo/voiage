@@ -23,7 +23,7 @@ We welcome contributions from the community, whether from humans or AI agents. T
 
 2.  **Install Dependencies:**
     ```bash
-    uv sync --extra dev --extra ci
+    uv sync --extra dev --extra ci --group producer-tests
     ```
 
 3.  **Install Pre-commit Hooks:**
@@ -180,3 +180,9 @@ Documentation prose is checked with [Vale](https://vale.sh/) using the repositor
 rules in `.vale/`. Install Vale locally, then run `uv run task vale` (or
 `tox -e vale`) before submitting documentation changes. GitHub Actions runs the
 same wrapper in the `Vale Prose Lint` job.
+
+Producer/oracle tests use the explicit unpublished `producer-tests` dependency
+group. It does not enter wheel metadata or default installs; tox test lanes
+select it independently. A clean runtime install excludes this group and both
+legacy tabular distributions. Run `.venv/bin/python scripts/check_packaging_dependencies.py`
+with the repo-local Python 3.15.1 interpreter to compare the runtime declarations.

@@ -24,12 +24,12 @@ jobs:
           - id: scipy-current
             requirement: scipy>=1.18,<1.19
             command: pytest tests/test_numerical_reference_cases.py tests/test_core_metrics_regression.py --no-cov -q
-          - id: pandas-current
-            requirement: pandas>=3,<4
-            command: pytest tests/test_dataframe_interchange_sdk.py tests/test_numerical_reference_cases.py --no-cov -q
-          - id: xarray-current
-            requirement: xarray>=2026.7,<2027
-            command: pytest tests/test_dataframe_interchange_sdk.py tests/test_numerical_reference_cases.py --no-cov -q
+          - id: polars-current
+            requirement: polars>=2.1.0,<3
+            command: pytest tests/test_dataframe_interchange_sdk.py tests/test_schema_polars_surface.py tests/test_polars_numerical_parity.py --no-cov -q
+          - id: pyarrow-current
+            requirement: pyarrow>=26.0.0,<27
+            command: pytest tests/test_dataframe_interchange_sdk.py tests/test_standardized_ingestion_providers.py --no-cov -q
           - id: griffe-2
             requirement: griffe>=2.2,<3
             command: pytest tests/test_api_reference_docs.py tests/test_astro_docs_contract.py --no-cov -q
@@ -54,7 +54,7 @@ jobs:
         with:
           python-version: "3.15.1"
       - name: Install frozen stable reference environment
-        run: uv sync --frozen --extra ci --extra experimental
+        run: uv sync --frozen --extra ci --extra experimental --group producer-tests
       - name: Overlay one isolated preview candidate
         run: uv pip install --python .venv --upgrade --resolution highest "${{ matrix.requirement }}"
       - name: Verify resolved environment
@@ -96,7 +96,7 @@ jobs:
           python-version: "3.15.1"
       - name: Observe prerelease compatibility without publishing artifacts
         run: |
-          uv sync --extra ci
+          uv sync --extra ci --group producer-tests
           uv run --no-sync pytest tests/test_numerical_reference_cases.py tests/test_contract_bundle.py --no-cov -q
 
   deterministic-python-shards:
@@ -122,7 +122,7 @@ jobs:
         with:
           python-version: "3.15.1"
       - name: Install frozen test environment
-        run: uv sync --frozen --extra ci
+        run: uv sync --frozen --extra ci --group producer-tests
       - name: Run one stable deterministic partition
         run: >-
           uv run pytest tests/

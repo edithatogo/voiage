@@ -1,5 +1,9 @@
 # Changelog
 
+- Remove pandas and xarray from the base runtime dependency set and align
+  packaging policies with the qualified Polars/Arrow versions. Keep external
+  producer test tooling separate from published wheel requirements.
+
 - Read and write Excel workbooks through native Calamine and Polars/XlsxWriter
   engines, preserving workbook values, worksheet order and fail-soft diagnostics.
   Install `voiage[excel]` for both engines on Python 3.15.1.

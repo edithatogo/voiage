@@ -140,3 +140,17 @@ Some controls cannot be configured from this repository alone:
 
 These remain administrator-owned follow-up gates and must not be represented
 as locally complete merely because repository workflows pass.
+
+## Runtime dependency agreement
+
+The reviewed runtime set in `specs/dependency-runtime-policy.json` binds PyPI,
+Conda requirements, tox Polars/Arrow floor/latest lanes and dependency previews.
+Run `.venv/bin/python scripts/check_packaging_dependencies.py .` to reject drift.
+Polars `>=2.1.0,<3` and Arrow `>=26.0.0,<27` retain the qualified Python 3.15.1
+surface; scientific core bounds remain unchanged. Published requirements omit
+pandas and xarray. The explicit, unpublished `producer-tests` group supplies
+external producer/oracle tests and stays outside default and wheel installs.
+Test setup uses `uv sync --extra ci --extra dev --group producer-tests`.
+
+Conda's immutable published source pin remains a separate release handoff.
+Dependency agreement and a clean wheel are not native Conda build acceptance.

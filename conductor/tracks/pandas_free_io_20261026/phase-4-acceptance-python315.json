@@ -1,0 +1,358 @@
+{
+  "schema_version": "1.0",
+  "phase": "4",
+  "tasks": [
+    "T4.1",
+    "T4.2",
+    "T4.3"
+  ],
+  "status": "runtime_packaging_locally_qualified_hosted_acceptance_pending",
+  "python": "3.15.1",
+  "base_merge": {
+    "pr": "https://github.com/edithatogo/voiage/pull/1205",
+    "commit": "5546e9b69391c634997e42392bb430f2e8d0eff4",
+    "native_checks": "All checks including the final telemetry/oracle check passed before exact-head merge."
+  },
+  "baseline": "phase-4-baseline.json",
+  "full_gate_commit": "71e9dcd74053b909b130034015214f6e0edd5d4e",
+  "full_gate_tree": "40352f6999b6db8c30c21725468306de45f3bd70",
+  "repair_commit": "0ec20c95723cde8e81394482585f31b49ffeddbc",
+  "canonical_policy": "specs/dependency-runtime-policy.json",
+  "runtime_policy": {
+    "schema_version": "1.0",
+    "requires_python": ">=3.15.1,<3.16",
+    "runtime": [
+      "click>=8.3.3,<9",
+      "numpy>=2.5.4,<3",
+      "scipy>=1.18.1,<1.19",
+      "scikit-learn>=1.9.1,<2",
+      "pyarrow>=26.0.0,<27",
+      "polars>=2.1.0,<3",
+      "pydantic>=2.13.4,<3",
+      "jsonschema>=4.26.0,<5.0",
+      "typing_extensions>=4.16.0",
+      "typer>=0.9,<1.0"
+    ],
+    "floors": {
+      "polars": "2.1.0",
+      "pyarrow": "26.0.0"
+    },
+    "reason": "Polars 2.1.0 is the Python 3.15.1-qualified floor and latest stable at qualification; <3 excludes an unqualified major API change. Arrow 26 is retained for ingestion interchange. Scientific core bounds are unchanged.",
+    "producer_tests": "Pandas is external producer/oracle tooling in an unpublished explicit group, never a wheel requirement or default install."
+  },
+  "scientific_bounds": "PyPI NumPy/SciPy/scikit-learn bounds unchanged; Conda now agrees with those existing bounds.",
+  "producer_tooling": "Pandas is declared only in an unpublished PEP 735 producer-tests group, excluded from uv defaults and published extras. CI/tox explicitly opt in for actual external-producer/oracle tests. No production pandas/xarray requirement, import shim or fallback was introduced.",
+  "polars_qualification": {
+    "floor": "2.1.0",
+    "latest_compatible": "2.1.0",
+    "latest_observed": "2.1.0",
+    "ceiling": "<3",
+    "min_environment": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 44.30818666699997,
+      "skipped": false
+    },
+    "latest_environment": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 43.812406875000306,
+      "skipped": false
+    },
+    "interpretation": "Floor and current latest coincide; both isolated environment lanes passed. Full-suite runtime uses the same qualified version.",
+    "actual_lane_imports": {
+      "min_versions": {
+        "python": "3.15.1",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0"
+      },
+      "max_versions": {
+        "python": "3.15.1",
+        "polars": "2.1.0",
+        "pyarrow": "26.0.0"
+      }
+    }
+  },
+  "initial_environments": {
+    "lint": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 32.61920458399982,
+      "skipped": false
+    },
+    "vale": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 11.9157998339997,
+      "skipped": false
+    },
+    "joss": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 7.674840124999719,
+      "skipped": false
+    },
+    "harness": {
+      "success": false,
+      "exit_code": 1,
+      "duration": 2.75589037500049,
+      "skipped": false
+    },
+    "typecheck": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 35.05410637499972,
+      "skipped": false
+    },
+    "docs": {
+      "success": false,
+      "exit_code": 1,
+      "duration": 58.00625108300028,
+      "skipped": false
+    },
+    "ingestion-conformance": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 93.4842617080003,
+      "skipped": false
+    },
+    "frontier-contract": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.3936984169995412,
+      "skipped": false
+    },
+    "version-sync": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.7173493750005946,
+      "skipped": false
+    },
+    "py315": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 58.672069125000235,
+      "skipped": false
+    },
+    "min_versions": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 44.30818666699997,
+      "skipped": false
+    },
+    "max_versions": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 43.812406875000306,
+      "skipped": false
+    },
+    "coverage_report": {
+      "success": false,
+      "exit_code": 1,
+      "duration": 304.4390163750004,
+      "skipped": false
+    }
+  },
+  "repaired_environments": {
+    "harness": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 4.017485291000412,
+      "skipped": false
+    },
+    "docs": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 64.36493141699975,
+      "skipped": false
+    }
+  },
+  "full_tests": {
+    "passed": 5310,
+    "failed": 2,
+    "skipped": 14,
+    "repairs": "Harness stale active-packet hash was refreshed with old/new hashes and review rationale preserved. The VOP checker now recognizes explicit unpublished external-producer tooling while retaining the pinned upstream contract/schema. Four affected tests passed (two repaired, one unchanged schema check, one new negative producer control); final three VOP tests also pass. All runtime/wire/binding bytes are unchanged; unchanged full-suite evidence is reused."
+  },
+  "local_environments": "All 13 qualified through the complete run and retained affected repairs; raw initial failures are retained above, not rewritten.",
+  "focused_packaging": "43 affected packaging/release/dependency tests passed; eight new policy tests pass, including drift mutation of each surface and explicit producer opt-in.",
+  "coverage_policy": {
+    "aggregate": {
+      "minimum": 90.0,
+      "percent": 94.73047628387434
+    },
+    "base": "5546e9b69391c634997e42392bb430f2e8d0eff4",
+    "changed": {
+      "branch_minimum": 100.0,
+      "branch_percent": 100.0,
+      "branches": 0,
+      "covered_branches": 0,
+      "covered_lines": 0,
+      "executable_lines": 0,
+      "line_minimum": 95.0,
+      "line_percent": 100.0,
+      "missing_branches": [],
+      "missing_lines": [],
+      "unmeasured_files": []
+    },
+    "critical_modules": [
+      {
+        "minimum": 100.0,
+        "passed": true,
+        "path": "voiage/assurance_policy.py",
+        "percent": 100.0
+      },
+      {
+        "minimum": 90.0,
+        "passed": true,
+        "path": "voiage/contracts/bundle.py",
+        "percent": 99.30191972076788
+      },
+      {
+        "minimum": 95.0,
+        "passed": true,
+        "path": "voiage/mutation_policy.py",
+        "percent": 100.0
+      }
+    ],
+    "exact_source_head": true,
+    "head": "0ec20c95723cde8e81394482585f31b49ffeddbc",
+    "passed": true,
+    "schema_version": "1.0.0",
+    "source_head": "0ec20c95723cde8e81394482585f31b49ffeddbc",
+    "tested_head": "0ec20c95723cde8e81394482585f31b49ffeddbc"
+  },
+  "coverage_mapping_note": "No voiage runtime source changes. Changed-line/branch percentages are vacuous here; configuration proof comes from deliberate drift controls, clean installed wheel and full/affected tests.",
+  "unchanged_tree_oids": {
+    "voiage": "1223bd7ff4f30e8d1e8ac16b8fc3cc73bd4d7196",
+    "rust": "cb91f40f723bf59bc37e3c6ec20f4502c5c7d1a6",
+    "bindings": "e3e78f48140e9f6491ef87bebf680b136d965c44",
+    "r-package": "433026b22bbb4f9f3ba217855bd22970b3720b2a",
+    "specs/core-api": "3d5c0059778e303b466a58aa880badafc3e85eea",
+    "specs/v3": "5e9fcf83ee079820153be27914cfcb64873af36e",
+    "specs/integration/vop-voiage/compatibility": "b1ab4a2d0e3ac2e9f69f90d1f1e336e1419a38db"
+  },
+  "clean_no_extras_install": {
+    "python": "3.15.1",
+    "installed_distributions": [
+      "annotated-doc",
+      "annotated-types",
+      "attrs",
+      "click",
+      "cloudpickle",
+      "joblib",
+      "jsonschema",
+      "jsonschema-specifications",
+      "markdown-it-py",
+      "mdurl",
+      "narwhals",
+      "numpy",
+      "polars",
+      "polars-runtime-32",
+      "pyarrow",
+      "pydantic",
+      "pydantic-core",
+      "pygments",
+      "referencing",
+      "rich",
+      "rpds-py",
+      "scikit-learn",
+      "scipy",
+      "shellingham",
+      "threadpoolctl",
+      "typer",
+      "typing-extensions",
+      "typing-inspection",
+      "voiage"
+    ],
+    "polars": "2.1.0",
+    "pyarrow": "26.0.0",
+    "evpi": 1.0,
+    "legacy_distributions_absent": true,
+    "legacy_modules_absent": true,
+    "arrow_round_trip": true,
+    "installed_package": "/Volumes/PortableSSD/GitHub/voiage/.conductor/local/pandas-free-packaging/clean-env/lib/python3.15/site-packages/voiage/__init__.py"
+  },
+  "clean_wheel": {
+    "wheel": "voiage-2.2.0-cp315-abi3-macosx_11_0_arm64.whl",
+    "sha256": "ca760cc6f81269c67cd1fb06357758efeaccbb263444dcaec7821df465de9ce0",
+    "published_legacy_requirements": false,
+    "unpublished_producer_group": true
+  },
+  "frontier": "uv lock --upgrade and strict frontier passed before edits; strict frontier with runtime agreement passed after edits. Refreshed tooling qualified on Python 3.15.1.",
+  "security": {
+    "python_runtime_audit": {
+      "audited_dependencies": 28,
+      "known_vulnerabilities": 0,
+      "python_tool_runtime": "3.15.1 verified before pip-audit execution"
+    },
+    "frontend_audit": {
+      "passed": false,
+      "vulnerabilities": {
+        "info": 0,
+        "low": 5,
+        "moderate": 14,
+        "high": 10,
+        "critical": 0
+      },
+      "unchanged_lock": true,
+      "lock_sha256": "b956724a467af45a929ce5e0a260752222f97b442655615f8f25934a6bc7947c",
+      "scope": "Pre-existing advisories in the byte-unchanged documentation lock; not repaired or represented as a passing audit by this Python packaging change."
+    }
+  },
+  "resource_guard": {
+    "peak_rss_kib": 1834992,
+    "reason": "completed",
+    "returncode": 1,
+    "elapsed_seconds": 500.839,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-s9dhzrq1"
+  },
+  "clean_install_guard": {
+    "peak_rss_kib": 222752,
+    "reason": "completed",
+    "returncode": 0,
+    "elapsed_seconds": 24.787,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-mool8swr"
+  },
+  "repair_guard": {
+    "peak_rss_kib": 176720,
+    "reason": "completed",
+    "returncode": 0,
+    "elapsed_seconds": 65.087,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-joa7v2p2"
+  },
+  "guard_controls": {
+    "sampled_combined_rss_mib": 4096,
+    "timeout_seconds": 3600,
+    "minimum_free_mib": 2048,
+    "native_threads": 1,
+    "coverage_workers": 2,
+    "cleanup": "Success trees cleaned by guard; owned failed trees cleaned after retaining diagnostics."
+  },
+  "conda_boundary": "Only the runtime dependency block is reconciled. The immutable 2.1.0 published source/version/hash is preserved and is not the migrated sdist. Retargeting to a published migrated release and native Conda solver/build/import/CLI/numerical proof remain separate release gates; no native Conda build or publication is claimed.",
+  "remaining_migration": "Phase 5 no-extras/lint enforcement, Phase 6 producer acceptance and Phase 7 templates/reference cleanup remain open. Optional/developer environments and existing frontend security findings are not a repository-wide absence or release acceptance claim.",
+  "source_sha256": {
+    "pyproject.toml": "14ff6ffea4b36159376a683874742b59d8f94c14f67dc1d1ca30224c7855113e",
+    "uv.lock": "4ee77c157b29cffa8b5b428b6e5dde4a47da7cdd5780977ac6e9e1aef51f26ff",
+    "tox.ini": "4d725fd1e89d3fb55a90490fc64b56dbb7833608bf0cb57f78f7b17a62f50884",
+    "conda-recipe/meta.yaml": "f66eeac4845c54a9ec1d3cceec9901fbf4745016f2550941a8fc68182263054c",
+    "scripts/check_packaging_dependencies.py": "fa54c3dc5f4a651d1b2b8d07d740b592780e0bc5c286e86c8b52c6e44f9be8ff",
+    "scripts/dependency_frontier.py": "ca47112bb8bc042d7f7eb7786aa7e69eb3313b01c6a2d41054e82c7828719cdb",
+    "scripts/validate_vop_compatibility.py": "0870bb15c218e81cf788a95ffc3bef8b8a0e0b7cba5830a0b1d170d8fdda6d58"
+  },
+  "artifacts_sha256": {
+    "full-gate.log": "0c8a05a29351564c89538c0c5e60e24384e9792ad91980ae33e55f2ca845588d",
+    "full-gate-result.json": "0ddbf6ff75f9d240bcebba83b5d741d04c8085a2391f4368b4545936d95df88e",
+    "repaired-gates.log": "9e32ab8564f9df1f8d06c73ad2f45dae6453384e2015b4b0fea0aaa114966271",
+    "repaired-gates-result.json": "588a49285177707c96a147300d95205e699c9f26474bc16b080bbaa8477782f1",
+    "failed-tests.log": "10369c70687ce9e0353f52386116d851c3874ee63b75806b3768e8bc88f45a31",
+    "coverage.json": "7de0014a01c639648cde3ce05f7c2c7b515df9a9abb9dc22b0c3bde346512239",
+    "coverage-policy.json": "54201fbd0884b476d169add2d8c7763a75d94c4d448d72b6ed64d5d611843de6",
+    "clean-install.log": "daae0c124f408ab057b0862cc04c3582069e1828143c5177a9ecaaf2ef1e6587",
+    "clean-install.json": "6e6ac307100d3b0306b543cdd349ee9943dfdb9ab143a4951e95f1693a62bf76",
+    "clean-wheel.json": "1fb7c115afe3759c21f360ac46108195354fe824109a611c4535c41cb80043f8",
+    "python-audit.json": "6d23e6eaf76840293403e16afd0703d93aa6bee124f398f2fb774b2a1a92fd0b",
+    "docs-audit.json": "95d4f9af6d959b3d9fb5b228bde0f73639c11e5e89ddbe8713d35196c70f5364",
+    "frontier-final.log": "0101e25b1a3ca772bdf3810868f176ce094da290b0c667cfde1ca65bea7440cb"
+  },
+  "hosted_gate": "All required and relevant hosted checks apply to the delivered PR revision before merge."
+}

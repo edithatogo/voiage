@@ -86,7 +86,7 @@ jobs:
             -d "$RUNNER_TEMP/nltk_data" cmudict
       - name: Audit citations with pinned SourceRight
         run: |
-          uv sync --frozen --extra ci
+          uv sync --frozen --extra ci --group producer-tests
           uv run --frozen --extra ci python scripts/audit_joss_sources.py \
             --output-directory build/joss/sourceright
       - name: Audit prose with pinned Authentext patterns

@@ -189,8 +189,10 @@ at bit-identical numerical parity with no xarray imports remaining under
 `voiage/`, `tests/`, `examples/` and `scripts/`. The pandas-free I/O follow-up
 has completed T1.1 inventory, T1.2 CSV/Parquet/widget migration and Phase 2
 migrated-reader semantics. Phase 3 native Excel engines and workbook parity are
-locally qualified on Python 3.15.1 under the resource guard; hosted platform
-acceptance remains a PR gate. The translation-reference track
+accepted in merged PR #1205 on Python 3.15.1. Phase 4 runtime packaging is
+locally qualified under the resource guard, with a clean base wheel free of both
+legacy distributions; hosted acceptance and native Conda release handoff remain
+separate gates. The translation-reference track
 remains planning-only, and the declared `xarray` and
 `pandas` dependencies stay until `pandas_free_io_20261026`. The published 2.2.0
 release line and the active release-and-venue track are unaffected.
