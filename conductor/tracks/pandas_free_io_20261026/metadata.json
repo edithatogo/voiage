@@ -55,6 +55,12 @@
       "kind": "repository",
       "status": "satisfied",
       "evidence": "PR #1205 passed all required, native platform and final telemetry/oracle checks and merged as 5546e9b69391c634997e42392bb430f2e8d0eff4 on 2026-10-27."
+    },
+    {
+      "id": "pandas-free-enforcement",
+      "kind": "repository",
+      "status": "locally_qualified",
+      "evidence": "phase-5-acceptance-python315.json and phase-5-review.md: exemption-free AST source/stub imports, real no-extras installed-wheel probe, genuine negative controls and 14-environment full gate passed. Hosted platform acceptance pending; Phase 7 generated-code/reference cleanup stays open."
     }
   ]
 }
