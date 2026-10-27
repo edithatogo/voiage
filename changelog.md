@@ -1,5 +1,8 @@
 # Changelog
 
+- Snapshot caller-owned NumPy buffers and borrowed Polars frames so later
+  input mutations cannot change constructed containers or their copies.
+
 - Retain historical paper environments and add an exact-source Python 3.15.1
   replay profile that verifies the same scientific inputs and output hashes.
 

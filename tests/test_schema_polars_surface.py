@@ -17,6 +17,122 @@ from voiage.exceptions import InputError
 from voiage.schema import ParameterSet, ValueArray
 
 
+@pytest.mark.parametrize("order", ["C", "F"])
+@pytest.mark.parametrize("columns", [1, 2])
+def test_value_array_numpy_input_snapshot(order: str, columns: int) -> None:
+    values = np.array(
+        np.arange(3 * columns).reshape(3, columns), dtype=np.float64, order=order
+    )
+    expected = values.copy()
+    container = ValueArray.from_numpy(values)
+    copied = container.copy()
+    values.fill(-99)
+    np.testing.assert_array_equal(container.numpy_values, expected)
+    np.testing.assert_array_equal(copied.numpy_values, expected)
+
+
+@pytest.mark.parametrize("columns", [1, 2])
+def test_perspective_numpy_input_snapshot(columns: int) -> None:
+    values = np.arange(6 * columns, dtype=np.float64).reshape(3, columns, 2)
+    expected = values.copy()
+    container = ValueArray.from_numpy_perspectives(values)
+    copied = container.copy()
+    values.fill(-99)
+    np.testing.assert_array_equal(container.numpy_values, expected)
+    np.testing.assert_array_equal(copied.numpy_values, expected)
+
+
+@pytest.mark.parametrize("order", ["C", "F"])
+def test_parameter_array_numpy_input_snapshot(order: str) -> None:
+    values = np.array([[1.0, 2.0], [3.0, 4.0]], dtype=np.float64, order=order)
+    expected = values.copy()
+    container = ParameterSet.from_numpy_or_dict(values)
+    copied = container.copy()
+    values.fill(-99)
+    for index, name in enumerate(container.parameter_names):
+        np.testing.assert_array_equal(container.parameters[name], expected[:, index])
+        np.testing.assert_array_equal(copied.parameters[name], expected[:, index])
+
+
+def test_parameter_dictionary_numpy_input_snapshot() -> None:
+    values = np.array([1.0, 2.0, 3.0])
+    container = ParameterSet.from_numpy_or_dict({"theta": values})
+    copied = container.copy()
+    values.fill(-99)
+    np.testing.assert_array_equal(container.parameters["theta"], [1.0, 2.0, 3.0])
+    np.testing.assert_array_equal(copied.parameters["theta"], [1.0, 2.0, 3.0])
+
+
+@pytest.mark.parametrize("container_type", [ValueArray, ParameterSet])
+def test_borrowed_polars_numpy_input_snapshot(
+    container_type: type[ValueArray | ParameterSet],
+) -> None:
+    values = np.array([1.0, 2.0, 3.0])
+    frame = pl.DataFrame({"column": values})
+    container = container_type(frame=frame)
+    copied = container.copy()
+    values.fill(-99)
+    np.testing.assert_array_equal(container.frame["column"].to_numpy(), [1.0, 2.0, 3.0])
+    np.testing.assert_array_equal(copied.frame["column"].to_numpy(), [1.0, 2.0, 3.0])
+
+
+def test_owned_numpy_factories_preserve_subclass_post_init_hooks() -> None:
+    calls: list[str] = []
+
+    class DerivedValueArray(ValueArray):
+        def __post_init__(self) -> None:
+            super().__post_init__()
+            calls.append("values")
+
+    class DerivedParameterSet(ParameterSet):
+        def __post_init__(self) -> None:
+            super().__post_init__()
+            calls.append("parameters")
+
+    values = np.array([[1.0], [2.0]])
+    container = DerivedValueArray.from_numpy(values)
+    parameters = DerivedParameterSet.from_numpy_or_dict(values)
+    values.fill(-99)
+    assert isinstance(container, DerivedValueArray)
+    assert isinstance(parameters, DerivedParameterSet)
+    assert calls == ["values", "parameters"]
+    np.testing.assert_array_equal(container.numpy_values, [[1.0], [2.0]])
+    np.testing.assert_array_equal(parameters.parameters["param_0"], [1.0, 2.0])
+
+
+@pytest.mark.parametrize("rows", [0, 1])
+def test_polars_snapshot_preserves_empty_and_single_row_array_schemas(
+    rows: int,
+) -> None:
+    values = np.arange(rows * 2, dtype=np.float64).reshape(rows, 2)
+    frame = pl.DataFrame({"A": pl.Series("A", values, dtype=pl.Array(pl.Float64, 2))})
+    container = ValueArray.from_polars(frame)
+    values.fill(-99)
+    assert container.n_samples == rows
+    assert container.frame.dtypes == [pl.Array(pl.Float64, 2)]
+    np.testing.assert_array_equal(
+        container.numpy_values,
+        np.arange(rows * 2, dtype=np.float64).reshape(rows, 1, 2),
+    )
+
+
+def test_polars_snapshot_preserves_float_bits_across_borrowed_chunks() -> None:
+    bits = np.array(
+        [0x8000000000000000, 0x7FF8000000000001, 0x3FF0000000000000], dtype=np.uint64
+    )
+    expected = bits.copy()
+    values = bits.view(np.float64)
+    frame = pl.concat(
+        [pl.DataFrame({"A": values[:1]}), pl.DataFrame({"A": values[1:]})]
+    )
+    container = ValueArray.from_polars(frame)
+    values.fill(0)
+    np.testing.assert_array_equal(
+        container.numpy_values[:, 0].view(np.uint64),
+        expected,
+    )
+
+
 def test_value_array_frame_is_wide_polars_frame_with_strategy_columns() -> None:
     values = np.array([[1.0, 2.0], [3.0, 4.0]], dtype=np.float64)
     value_array = ValueArray.from_numpy(values, strategy_names=["A", "B"])

@@ -1,5 +1,13 @@
 # Python 3.15.1 and Polars acceptance: 27 October 2026
 
+Late review reproduced mutable NumPy input aliasing in eight regression cases.
+The prior acceptance below is superseded pending fresh full/hosted gates.
+The repair copies NumPy buffers once, snapshots externally supplied Polars
+frames, retains normal subclass hooks, and passes 80 focused tests. The new
+matched benchmark `benchmark-owned-buffers-python315.json` passes every original
+bound. Original results remain in `acceptance-python315-before-ownership-review.json`.
+
+
 The runtime candidate `03b278ba6ec32f8e0d5cd804ab10dcd1a113b2bd` passed every
 local and hosted acceptance gate. `acceptance-python315.json` binds the tested
 revision/tree, source and log digests, packages, commands, results and hosted

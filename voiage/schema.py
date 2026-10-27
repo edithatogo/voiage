@@ -43,6 +43,16 @@ except ImportError, ModuleNotFoundError:
 jnp = _LazyJaxNumpy() if JAX_AVAILABLE else None
 
 
+def _snapshot_frame(frame: pl.DataFrame) -> pl.DataFrame:
+    """Detach even buffers a caller's Polars frame borrowed from NumPy."""
+    return pl.DataFrame(
+        [
+            pl.Series(column.name, column.to_numpy().copy(), dtype=column.dtype)
+            for column in frame.iter_columns()
+        ]
+    )
+
+
 def _validate_float_frame(
     frame: object,
     *,
@@ -126,6 +136,10 @@ class ValueArray:
 
     def __post_init__(self: ValueArray) -> None:
         """Validate the frame."""
+        self._finish_initialization(copy_frame=True)
+
+    def _finish_initialization(self: ValueArray, *, copy_frame: bool) -> None:
+        """Validate all inputs, detaching externally supplied frame buffers."""
         _validate_float_frame(self.frame, container="ValueArray", supports_3d=True)
 
         # Multi-perspective surface: perspective_names is a second dataclass
@@ -143,9 +157,28 @@ class ValueArray:
             raise_input_error(
                 "perspective_names are only valid for a 3D multi-perspective ValueArray."
             )
-        object.__setattr__(self, "frame", frame.clone())
+        object.__setattr__(
+            self, "frame", _snapshot_frame(frame) if copy_frame else frame
+        )
         if self.perspective_names is not None:
             object.__setattr__(self, "perspective_names", list(self.perspective_names))
+
+    @classmethod
+    def _from_owned_frame(
+        cls, frame: pl.DataFrame, perspective_names: list[str] | None = None
+    ) -> ValueArray:
+        """Validate a frame built exclusively from private NumPy copies.
+
+        Avoid a second physical copy. Subclasses retain their normal constructor
+        and post-init behavior; this fast path initializes only the base class.
+        """
+        if cls is not ValueArray:
+            return cls(frame=frame, perspective_names=perspective_names)
+        instance = object.__new__(cls)
+        object.__setattr__(instance, "frame", frame)
+        object.__setattr__(instance, "perspective_names", perspective_names)
+        instance._finish_initialization(copy_frame=False)
+        return instance
 
     @classmethod
     def from_polars(
@@ -283,11 +316,11 @@ class ValueArray:
 
         frame = pl.DataFrame(
             {
-                str(name): np.asarray(values[:, col_idx], dtype=np.float64)
+                str(name): np.array(values[:, col_idx], dtype=np.float64, copy=True)
                 for col_idx, name in enumerate(strategy_names)
             }
         )
-        return cls(frame=frame)
+        return cls._from_owned_frame(frame)
 
     @classmethod
     def from_numpy_perspectives(
@@ -340,13 +373,13 @@ class ValueArray:
             {
                 str(name): pl.Series(
                     str(name),
-                    np.asarray(values[:, col_idx, :], dtype=np.float64),
+                    np.array(values[:, col_idx, :], dtype=np.float64, copy=True),
                     dtype=pl.Array(pl.Float64, n_perspectives),
                 )
                 for col_idx, name in enumerate(strategy_names)
             }
         )
-        return cls(frame=frame, perspective_names=list(perspective_names))
+        return cls._from_owned_frame(frame, perspective_names=list(perspective_names))
 
     @property
     def perspective_count(self: ValueArray) -> int | None:
@@ -414,8 +447,26 @@ class ParameterSet:
 
     def __post_init__(self: ParameterSet) -> None:
         """Validate the frame."""
+        self._finish_initialization(copy_frame=True)
+
+    def _finish_initialization(self: ParameterSet, *, copy_frame: bool) -> None:
+        """Validate both ordinary and privately owned frame inputs."""
         _validate_float_frame(self.frame, container="ParameterSet", supports_3d=False)
-        object.__setattr__(self, "frame", self.frame.clone())
+        # Snapshot underlying data as well as frame metadata: a Polars frame
+        # may itself borrow mutable arrays supplied by its caller.
+        object.__setattr__(
+            self, "frame", _snapshot_frame(self.frame) if copy_frame else self.frame
+        )
+
+    @classmethod
+    def _from_owned_frame(cls, frame: pl.DataFrame) -> ParameterSet:
+        """Validate private NumPy copies without copying the data twice."""
+        if cls is not ParameterSet:
+            return cls(frame=frame)
+        instance = object.__new__(cls)
+        object.__setattr__(instance, "frame", frame)
+        instance._finish_initialization(copy_frame=False)
+        return instance
 
     @classmethod
     def from_polars(cls, frame: pl.DataFrame) -> ParameterSet:
@@ -509,7 +560,7 @@ class ParameterSet:
             param_names = [f"param_{i}" for i in range(n_parameters)]
             frame = pl.DataFrame(
                 {
-                    name: np.asarray(parameters[:, i], dtype=np.float64)
+                    name: np.array(parameters[:, i], dtype=np.float64, copy=True)
                     for i, name in enumerate(param_names)
                 }
             )
@@ -526,13 +577,15 @@ class ParameterSet:
                 else:
                     np_arr = arr
                 lengths.append(len(np_arr))
-                converted_params[str(name)] = np.asarray(np_arr, dtype=np.float64)
+                converted_params[str(name)] = np.array(
+                    np_arr, dtype=np.float64, copy=True
+                )
             if len(set(lengths)) > 1:
                 raise_input_error("All parameter arrays must have the same length")
             frame = pl.DataFrame(converted_params)
         else:
             raise_input_error("parameters must be a numpy array or dictionary")
-        return cls(frame=frame)
+        return cls._from_owned_frame(frame)
 
     @classmethod
     def from_jax(cls, parameters: JaxArray | dict[str, JaxArray]) -> ParameterSet:
