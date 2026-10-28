@@ -230,10 +230,6 @@
           "count": 1
         },
         {
-          "sha256": "6f1d8dda55b31a417f41369e68418b191b5abedc9e2f6451b694f94cf6d82a55",
-          "count": 1
-        },
-        {
           "sha256": "c5025384410ca95af0373ab8277e901154bc51862b2e2f2070a6350fdd79954e",
           "count": 1
         },
@@ -258,10 +254,6 @@
         {
           "sha256": "eb70e79ae443b7bae7f076e21e2efe85c410764862c49706d0b33b99cf38a833",
           "count": 1
-        },
-        {
-          "sha256": "f52367cfaa6cedeb0a342d7793b7af1fb8fda801217455c47b2065a70904e84e",
-          "count": 1
         }
       ]
     },
@@ -269,16 +261,6 @@
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "25b108e3b614e679bbfbd73f3bd6879d4ab61bfba1fa83fb19172dc4dee69dc6"
-    },
-    "conductor/tracks/pandas_free_io_20261026/index.md": {
-      "category": "frozen_historical_evidence",
-      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
-      "lines": [
-        {
-          "sha256": "cf50ed845f24dec8ec95b11dff32b545dd30d9c4ec993a70d71f9547b0a3c9a6",
-          "count": 1
-        }
-      ]
     },
     "conductor/tracks/pandas_free_io_20261026/inventory.md": {
       "category": "frozen_historical_evidence",
@@ -316,10 +298,6 @@
         },
         {
           "sha256": "d27840255c8479250c1ca8c2daea89531057b3ef2de473a77d277bd638e68f67",
-          "count": 1
-        },
-        {
-          "sha256": "f4ec20e5374bddef8cefc7b793bdb01d58857cc55e20d60f82e28bc00e1ae3ad",
           "count": 1
         }
       ]
@@ -442,10 +420,6 @@
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
         {
-          "sha256": "06773e0e984f52f8cdbc0cc68254f3b9504b6407683e1ab7b8fb7e8a4edf08f1",
-          "count": 1
-        },
-        {
           "sha256": "0dcad2ce61a35c521e81313a36d68550736e65335b7d132ce4f853155e8f03e9",
           "count": 1
         },
@@ -454,15 +428,23 @@
           "count": 1
         },
         {
+          "sha256": "35932dd9064e6a243065d3c5d9592cd799e87918c1b46afc23270c02138a197d",
+          "count": 1
+        },
+        {
           "sha256": "4b391de4e4bfc9ef8c910b147e2573530e8a055b0a1405e9cd2df9126a640084",
           "count": 1
         },
         {
-          "sha256": "4cbb1d2a4c835968043754cdecf7f131e095a59f89d2877513186c45a962bef5",
+          "sha256": "76a3a34d4dc3eb795e2396bbd0a10c522ffe0be02fd776820005b1b2b8fcd969",
           "count": 1
         },
         {
-          "sha256": "76a3a34d4dc3eb795e2396bbd0a10c522ffe0be02fd776820005b1b2b8fcd969",
+          "sha256": "7c5b5f423774e43f30e7a10f82fda68929c3b957e87cbf97c0431d7dbe004b03",
+          "count": 1
+        },
+        {
+          "sha256": "88a61b45ec64e8bcc8486c7a458d30aad4e2d9e810be3f77a265d74f323a2447",
           "count": 1
         },
         {
@@ -475,10 +457,6 @@
         },
         {
           "sha256": "a85872ce4510cd24557ae1eef0f8b7ebf4c59e585c5664f4607e72bfc8698958",
-          "count": 1
-        },
-        {
-          "sha256": "b02b5a930a20a277ef3d426cadd411edbec378561f6f039a176da422a2f25e4b",
           "count": 1
         },
         {
@@ -2550,6 +2528,16 @@
       "category": "frozen_historical_evidence",
       "reason": "Immutable qualification receipt for the tested candidates and retained first failures.",
       "sha256": "ea9b21b958fdc417cf91f0c30f09b0c917d1cd10e2da5cbd061198d7aee8be26"
+    },
+    "conductor/tracks/pandas_free_io_20261026/final-acceptance-python315.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable exact merged-revision acceptance or successor handoff; no source-import exemption.",
+      "sha256": "61c9a58e0a95c1e05629f10faf9a9eb6bdaa3fdc5f7fe029f5a44766ad1bf6c9"
+    },
+    "conductor/tracks/translation_reference_20261026/io-acceptance-handoff-python315.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable exact merged-revision acceptance or successor handoff; no source-import exemption.",
+      "sha256": "8bb95ff78d683ec97d356af33c65a50d0a7867c76cf59d3b6ade26d5e1866430"
     }
   }
 }

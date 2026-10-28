@@ -1,5 +1,9 @@
 # Changelog
 
+- Complete the external-I/O migration acceptance on Python 3.15.1, preserving
+  public APIs and workbook behavior, and record the packaging/enforcement
+  handoff with exact merged-revision resource and conformance evidence.
+
 - Generate executable Polars notebooks and enforce reviewed legacy-reference
   permissions across tracked code, templates and documentation. Separate current
   Python 3.15.1 HPC recipe declarations from immutable historical build evidence.

@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "accepted_revision": "420fd7aba3ac2f91c351ed8d6276144522cf035c",
+  "python": "3.15.1",
+  "runtime_policy": {
+    "schema_version": "1.0",
+    "requires_python": ">=3.15.1,<3.16",
+    "runtime": [
+      "click>=8.3.3,<9",
+      "numpy>=2.5.4,<3",
+      "scipy>=1.18.1,<1.19",
+      "scikit-learn>=1.9.1,<2",
+      "pyarrow>=26.0.0,<27",
+      "polars>=2.1.0,<3",
+      "pydantic>=2.13.4,<3",
+      "jsonschema>=4.26.0,<5.0",
+      "typing_extensions>=4.16.0",
+      "typer>=0.9,<1.0"
+    ],
+    "floors": {
+      "polars": "2.1.0",
+      "pyarrow": "26.0.0"
+    },
+    "reason": "Polars 2.1.0 is the Python 3.15.1-qualified floor and latest stable at qualification; <3 excludes an unqualified major API change. Arrow 26 is retained for ingestion interchange. Scientific core bounds are unchanged.",
+    "producer_tests": "Pandas is external producer/oracle tooling in an unpublished explicit group, never a wheel requirement or default install."
+  },
+  "packaging_result": {
+    "schema_version": "1.0",
+    "passed": true,
+    "errors": [],
+    "runtime": {
+      "click": "<9,>=8.3.3",
+      "numpy": "<3,>=2.5.4",
+      "scipy": "<1.19,>=1.18.1",
+      "scikit-learn": "<2,>=1.9.1",
+      "pyarrow": "<27,>=26.0.0",
+      "polars": "<3,>=2.1.0",
+      "pydantic": "<3,>=2.13.4",
+      "jsonschema": "<5.0,>=4.26.0",
+      "typing-extensions": ">=4.16.0",
+      "typer": "<1.0,>=0.9"
+    },
+    "producer_tooling": "unpublished, explicit opt-in; excluded from wheel requirements"
+  },
+  "no_extras_gate": {
+    "python": "3.15.1",
+    "installed_package": "/Volumes/PortableSSD/GitHub/voiage/.tox/pandas-free/lib/python3.15/site-packages/voiage/__init__.py",
+    "version": "2.2.0",
+    "forbidden_distributions": [],
+    "forbidden_modules": []
+  },
+  "reference_result": {
+    "passed": true,
+    "scanned_files": 3787,
+    "unapproved": [],
+    "errors": []
+  },
+  "acceptance_receipt": "../pandas_free_io_20261026/final-acceptance-python315.json",
+  "reference_policy": "../pandas_free_io_20261026/reference-policy.json",
+  "translation_status": "Planning only; this handoff does not authorize implementation. Future reference rows need executable evidence and exact reviewed permissions before addition.",
+  "native_publication": "Conda/HPC builds, installed modules and publication remain separate unfulfilled gates."
+}

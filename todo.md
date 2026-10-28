@@ -8,7 +8,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
   continuing Python 3.15.1 acceptance testing.
 
 - [ ] Ordered implementation tracks: `conductor/tracks/agent_safe_engineering_20260907/`, `conductor/tracks/execution_packet_guard_20260907/`, `conductor/tracks/version_identity_contracts_20260907/`, `conductor/tracks/native_structured_logging_20260907/`, `conductor/tracks/logging_privacy_resilience_20260907/`, `conductor/tracks/vop_logging_version_pilot_20260907/`, and `conductor/tracks/optional_native_telemetry_20260907/`.
-- [ ] Tabular v3 and Polars migration tracks: `conductor/tracks/tabular_contract_v3_20261026/` is **complete**; `conductor/tracks/polars_container_20261026/` was merged in PR #1202 after NumPy-ownership requalification on Python 3.15.1/Polars 2.1.0; `conductor/tracks/pandas_free_io_20261026/` has T1.1/T1.2 and Phase 2 migrated-reader semantics complete, and Phase 3 native Excel accepted in PR #1205 and Phase 4 runtime packaging accepted in PR #1206, with Phase 5 enforcement accepted in PR #1207 and Phase 6 producer compatibility accepted in PR #1208 on Python 3.15.1; Phase 7 cleanup/enforcement is in local qualification, with merged-revision final acceptance open; `conductor/tracks/translation_reference_20261026/` remains planning only.
+- [ ] Translation-reference successor remains planning only: `conductor/tracks/translation_reference_20261026/`. Container and I/O acceptance are complete; successor implementation needs separate authorization.
 - [ ] Existing active delivery tracks: `conductor/tracks/remaining_backlog_delivery_20260831/` and `conductor/tracks/v2_2_release_and_venue_submissions_20260830/`.
 - [x] Add the Rust feature/MSRV qualification matrix and locked verification lane.
 
@@ -737,6 +737,11 @@ as recorded in the active task above; earlier route decisions below are historic
         signed publication, and explicit closeout of external indexing gates.
 
 ## Done
+
+- [x] Complete all seven external-I/O migration phases and exact merged-revision
+  acceptance at PR #1209 (`420fd7ab`), with guarded Python 3.15.1 verification
+  and the successor packaging/enforcement handoff. See
+  `conductor/tracks/pandas_free_io_20261026/final-acceptance-python315.json`.
 
 - [x] Implement Phase 7 generated-code/reference cleanup and exact repository
   reference permissions, preserving external metadata and historical evidence;
