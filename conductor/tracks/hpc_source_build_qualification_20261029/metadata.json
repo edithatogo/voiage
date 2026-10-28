@@ -5,7 +5,7 @@
   "created_at": "2026-10-28T16:03:48Z",
   "updated_at": "2026-10-28T16:03:48Z",
   "description": "Rust/LLVM source-build profiling and full Linux Spack/EasyBuild qualification",
-  "approval_status": "spec_and_plan_pending_review",
+  "approval_status": "user_authorized",
   "parent_track": "remaining_backlog_delivery_20260831",
   "github_cross_reference": {
     "issue": "https://github.com/edithatogo/voiage/issues/1222",

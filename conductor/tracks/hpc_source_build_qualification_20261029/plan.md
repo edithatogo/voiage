@@ -1,7 +1,7 @@
 # Implementation plan
 
-Status: new; specification and execution plan ready for user review. No tasks
-below have been executed. Sequential dependencies are P1 -> P2 -> P3 -> P4 ->
+Status: planned; user-authorized scientific ecosystem delivery includes this
+linked track. No tasks below have been executed. Sequential dependencies are P1 -> P2 -> P3 -> P4 ->
 P5 -> P6. P2 source controls must pass before P3 fetch/build dispatch.
 
 ## P1 — Reconcile ownership and freeze the graph
