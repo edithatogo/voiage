@@ -9,6 +9,11 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 - [ ] Ordered implementation tracks: `conductor/tracks/agent_safe_engineering_20260907/`, `conductor/tracks/execution_packet_guard_20260907/`, `conductor/tracks/version_identity_contracts_20260907/`, `conductor/tracks/native_structured_logging_20260907/`, `conductor/tracks/logging_privacy_resilience_20260907/`, `conductor/tracks/vop_logging_version_pilot_20260907/`, and `conductor/tracks/optional_native_telemetry_20260907/`.
 - [ ] Translation-reference successor remains planning only: `conductor/tracks/translation_reference_20261026/`. Container and I/O acceptance are complete; successor implementation needs separate authorization.
+Completed prerequisite records remain linked for navigation:
+`conductor/tracks/tabular_contract_v3_20261026/`,
+`conductor/tracks/polars_container_20261026/` and
+`conductor/tracks/pandas_free_io_20261026/`.
+
 - [ ] Existing active delivery tracks: `conductor/tracks/remaining_backlog_delivery_20260831/` and `conductor/tracks/v2_2_release_and_venue_submissions_20260830/`.
 - [x] Add the Rust feature/MSRV qualification matrix and locked verification lane.
 

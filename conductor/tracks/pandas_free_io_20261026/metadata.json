@@ -3,7 +3,7 @@
   "type": "refactor",
   "status": "completed",
   "created_at": "2026-10-26T00:00:00Z",
-  "updated_at": "2026-10-28T03:34:26.335033+00:00",
+  "updated_at": "2026-10-28T03:34:26Z",
   "description": "Remove direct pandas use from external I/O and widgets, reconcile the four packaging surfaces and enforce the absence mechanically",
   "base_commit": "ca3f05cc8adcc74b99fe236152327d0cd3679553",
   "github_cross_reference": {
@@ -24,7 +24,7 @@
       "id": "zero-reference-end-state",
       "kind": "repository",
       "status": "satisfied",
-      "evidence": "PR #1209 passed hosted checks and merged as 420fd7aba3ac2f91c351ed8d6276144522cf035c. Exact merged-revision full gate, reference check and AC1\u2013AC8 review passed; final-acceptance-python315.json."
+      "evidence": "PR #1209 passed hosted checks and merged as 420fd7aba3ac2f91c351ed8d6276144522cf035c. Exact merged-revision full gate, reference check and AC1–AC8 review passed; final-acceptance-python315.json."
     },
     {
       "id": "prerequisites",

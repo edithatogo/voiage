@@ -36,3 +36,13 @@ no arbitrary values or paths are permitted. Three executable controls confirm
 the known tree is accepted only at that path, while another value and the same
 tree at another path are rejected. The redacted history scan then passes.
 The final record selection passed 46 tests; lint, prose and harness gates pass.
+
+Hosted closeout verification exposed two record regressions after the accepted
+runtime revision: the registry normalizer requires canonical UTC/JSON formatting,
+and the current backlog retains navigation links to completed prerequisite
+tracks. Both exact failing nodes were reproduced locally and passed a cache-based
+failure-only rerun after correcting the records. All 48 related registry,
+baseline, reference and packaging controls then passed under the guard. Runtime,
+dependency and test/runner inputs remain unchanged; the full merged-revision
+receipt is retained and reused. First hosted and local failures remain in the
+local closeout logs; current hosted checks must pass before delivery.
