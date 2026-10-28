@@ -1,1 +1,2554 @@
-{"schema_version":"1.0","files":{}}
+{
+  "schema_version": "1.0",
+  "scope": "Every Git-tracked text file, including literal templates; pinned external Gitlinks are outside parent-source scope. No wildcard permissions or automatic refresh.",
+  "files": {
+    ".github/workflows/ci.yml": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "0705eb7b9b12bef7ffe356e23b556af447775fc6097f8f3cb7b673c242aab88b",
+          "count": 1
+        },
+        {
+          "sha256": "0b97013f003428de17fffba2f435ded81cda4da57f3787d66a2be6792bd74cbc",
+          "count": 1
+        },
+        {
+          "sha256": "539e7fcdfe1a73b2bdc24d75e554f88d9f5aec9792c029238e72ed3eef6112b1",
+          "count": 2
+        },
+        {
+          "sha256": "e0c3f9ecce01642f6aa1677c65416c95f6218b0c430d594a1af17cbd91ff8de8",
+          "count": 1
+        }
+      ]
+    },
+    "CONTRIBUTING.md": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "23c209b259e23df434a8772a07400851f343fd6a08663366d700d4cc5da00dfb",
+          "count": 1
+        },
+        {
+          "sha256": "5df97235f0e298d12b43f4714ea9f4f8ed0f6e025f83e4a79cc8f3686cecee14",
+          "count": 1
+        },
+        {
+          "sha256": "6581c8e00b6d4733e44c100617b71b8c3e2811b6e7ff3b8813f3647a093fef3f",
+          "count": 1
+        },
+        {
+          "sha256": "7f8dbb0f5aa83cbb96c9a95751dbf809322039d6ce72761920cb0ab6608857c4",
+          "count": 1
+        }
+      ]
+    },
+    "changelog.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "0f09f07277ec4e3bf9d756452ec8a632840d7bc1706684d81dece556de3722b6",
+          "count": 1
+        },
+        {
+          "sha256": "1ad1e7beeb7a18ac320064a4e6935a61f95aa4761b0595961759cff6af277caf",
+          "count": 1
+        },
+        {
+          "sha256": "312ae2356d4f62b9133ed68cd7fc1f49a081c6e5e83740264f798326912ffbf0",
+          "count": 1
+        },
+        {
+          "sha256": "4c4574aa462008c0fc28efc3ebbcec9bd1a2407c2940f2e1131f54fb0ffb49b5",
+          "count": 1
+        },
+        {
+          "sha256": "54830c2832b7cd835c129aa4457ca0849c482d0cc21c8f068aeacf5f9e9ee4e4",
+          "count": 1
+        },
+        {
+          "sha256": "744790c3386bc665c0c9b5d032d98d583dd8e31dd3d5a8a9940c219be0360520",
+          "count": 1
+        },
+        {
+          "sha256": "7bfc337ae975c5998e672f4f80260787e38f30104469a54bf698c2a5f87861bc",
+          "count": 1
+        },
+        {
+          "sha256": "88001e9a3f74329d9063f3c25831d2d2fd8981dfe7a2454af5085695ad55a957",
+          "count": 1
+        },
+        {
+          "sha256": "d0f88d0ed337c32070341beb993a8007f2d543c8b905d2ea718f21425d54e56b",
+          "count": 1
+        },
+        {
+          "sha256": "e70f302cbd18fb41fc0f6152d685219a67a1b94fc0cd1694f7ccaaba80b027d9",
+          "count": 1
+        },
+        {
+          "sha256": "e73ab1a0b1293ac66c56e8021523cb2773dd42d9e6f50b79df213c4f3ae85ff4",
+          "count": 1
+        },
+        {
+          "sha256": "ead30eb9e16ca304152544fb0a5019d75c1b1c53611bbee8c9ed45b4cab134cf",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/archive/abstraction-excellence_20260719/spec.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "81723280f6fee7a3f469592773cb868cb0c44f2bd347df8cfd4d04f9c1f7931e"
+    },
+    "conductor/archive/apple-metal-backend-prototype_20260510/handoff/phase_3_runtime_freeze.txt": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "349e75173f4c659297954dc2e9e4561e946692d400c23a8edbf0869044c91924"
+    },
+    "conductor/archive/core-api-spec-and-polyglot-contracts_20260510/plan.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "4e57e70c364a357841614e5fa0a8960ea431eb14f4afd80ab23fdfa3a2805eb6"
+    },
+    "conductor/archive/core-api-spec-and-polyglot-contracts_20260510/spec.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "7e37c6c61f38d2b96ed0c1dfdfe6dfdf1c4413b065e48fea46bba4a5920995ad"
+    },
+    "conductor/archive/core-api-spec-foundation/plan.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "3acb3c6494c4c03bbdb0134511b51057373c372344e3d6dfacda090f147998a8"
+    },
+    "conductor/archive/core-api-spec-foundation/spec.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "02d4d39f26c2890b3711d401b18f90df6341019adacfa7f7bf3337d1a092bafa"
+    },
+    "conductor/archive/easybuild-easyconfig-merge-followthrough_20260625/handoff/voiage-0.2.0-foss-2023a.eb": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "34270163405816e9d8e20f124a8e05efc02cee1c88ea1240659ed1ea6536a646"
+    },
+    "conductor/archive/information_source_portfolio_voi_20260801/evidence.jsonl": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "83145c39919bfae3384d9b20b0e459a2d333bcdda51a4952335a6e55722bfda2"
+    },
+    "conductor/archive/python-cleanup-against-spec/audit.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "3ddf408d514493ca31ea526aa25ec71bd67d6e8674112b545e7540141732720b"
+    },
+    "conductor/archive/python-cleanup-against-spec/plan.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "12f7fc871630f3665aeec21c8ee30391bda29dfc13d1aa766ccdfb0e7df995e9"
+    },
+    "conductor/archive/python-cleanup-against-spec/spec.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "6566d2d160728c88c5abd1937518c967eba5a8cba25fbfca2f95b86a48bedbfb"
+    },
+    "conductor/archive/python-cleanup-against-spec_20260425/plan.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "5b41af959ba45331d1ac29e29f914289f4d5c3dfc4aa9a207830fd8c83175e8f"
+    },
+    "conductor/archive/python-cleanup-against-spec_20260425/spec.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "6566d2d160728c88c5abd1937518c967eba5a8cba25fbfca2f95b86a48bedbfb"
+    },
+    "conductor/archive/spack-package-merge-followthrough_20260625/handoff/package.py": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "ad505c55f0b52cbdeb0b62583698562cc48dfe3f2937820198a3cf4c8f4c1ae0"
+    },
+    "conductor/archive/standardized-dataset-ingestion_20260723/decisions.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "733368ef0eb0234856f5b6cc28d42f144e6a00448742af6c4e7ce2b9a8601861"
+    },
+    "conductor/archive/standardized-dataset-ingestion_20260723/plan.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "9a9c682552889e088738c76f4ae7f88550c5518b8ca43b5f8da7bbbf9219e80c"
+    },
+    "conductor/archive/standardized-dataset-ingestion_20260723/spec.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "c603abe6c574b64a8dffd2d14ca5c1e63d1f722aac36f34282b65dd8c9d8f373"
+    },
+    "conductor/archive/study_design_efficiency_20260727/phase-1-review.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "0cabf50edb25f20f94adaf00ae6643de0b8f49b5d4f7a5a03afdc001a9cd70da"
+    },
+    "conductor/archive/supported_frontier_method_completion_20260723/mcda-information-implementation-review.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "95d87a129d57c4be7b7d233f186be46a8353779bfa42fef26ec8b9dbcf89c0e0"
+    },
+    "conductor/product-guidelines.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "ced3a75d7c267b81a926d07296ca05cd066cef06a1cea7fc4af3b97a790fb901",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tech-stack.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "0c197d64148d39e431813d6ca3a48f523f958cb34b1588da74caef684b565b0c",
+          "count": 1
+        },
+        {
+          "sha256": "120f26de5649ff91a77c6c909e513edfc0f9f41051ed872af1644fa38e57ac87",
+          "count": 1
+        },
+        {
+          "sha256": "1e3094dccc735e8eb3dbef24402375eb00cc8991f01c1af0c96c0d1ec3a03736",
+          "count": 1
+        },
+        {
+          "sha256": "22df3c8ebc069f4ea5ea7924e5efaa712db801aa479843bfd4d11938a039bb32",
+          "count": 1
+        },
+        {
+          "sha256": "4769b76bc29d2c03ce9fb322ed58c505bdf616bd7fdf42ea3d0c504d8818b29c",
+          "count": 1
+        },
+        {
+          "sha256": "6f1d8dda55b31a417f41369e68418b191b5abedc9e2f6451b694f94cf6d82a55",
+          "count": 1
+        },
+        {
+          "sha256": "c5025384410ca95af0373ab8277e901154bc51862b2e2f2070a6350fdd79954e",
+          "count": 1
+        },
+        {
+          "sha256": "e5bbad28f751ef318d40ad4cb7e34aa09c400723ece94e4efa9ea993b529e333",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "3c5d2eabeea3fe27514f6ccc37e3f952ac2e28da0eaee8fc02e7fbd7e13764d7",
+          "count": 1
+        },
+        {
+          "sha256": "88245d4fc6d7d5ec68fb92509952d0e78b3aca1077664695527007be4dbcd160",
+          "count": 1
+        },
+        {
+          "sha256": "eb70e79ae443b7bae7f076e21e2efe85c410764862c49706d0b33b99cf38a833",
+          "count": 1
+        },
+        {
+          "sha256": "f52367cfaa6cedeb0a342d7793b7af1fb8fda801217455c47b2065a70904e84e",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/pandas_free_io_20261026/evidence.jsonl": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "25b108e3b614e679bbfbd73f3bd6879d4ab61bfba1fa83fb19172dc4dee69dc6"
+    },
+    "conductor/tracks/pandas_free_io_20261026/index.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "cf50ed845f24dec8ec95b11dff32b545dd30d9c4ec993a70d71f9547b0a3c9a6",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/pandas_free_io_20261026/inventory.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "5692463f7ed2200ffe2d43a6ac42e89cfe6e6238add2923347e52222f269a944",
+          "count": 1
+        },
+        {
+          "sha256": "5d447d234e1ed95cb1ed88c227e2718fe99f49d0786fbe1b912901d9f59b9831",
+          "count": 1
+        },
+        {
+          "sha256": "71d9f8dc27eb463d0eef4209ffa318df6f0700ffdd2a3c6ab475f6c7af02a613",
+          "count": 1
+        },
+        {
+          "sha256": "bd93521a042676246523bee59db970c3f5d1419f6979a26819894545fdef4b7d",
+          "count": 1
+        },
+        {
+          "sha256": "e283e0d74b55ea90c56d7f29357f850624b898ca0b7613268d5d13021de51d92",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/pandas_free_io_20261026/metadata.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "833423ba9290aa0dfb389915e4725318c147c58d77debba6672893b3a8b66b6d",
+          "count": 1
+        },
+        {
+          "sha256": "cab5f7407ef4b16c69df3af08833dbfbda716bfb9345ea95d1ac43b11c643c39",
+          "count": 1
+        },
+        {
+          "sha256": "d27840255c8479250c1ca8c2daea89531057b3ef2de473a77d277bd638e68f67",
+          "count": 1
+        },
+        {
+          "sha256": "f4ec20e5374bddef8cefc7b793bdb01d58857cc55e20d60f82e28bc00e1ae3ad",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/pandas_free_io_20261026/phase-1-baseline.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "2c8c937ebc8b77d9525cabd559e8eecc9b639ef8fbc1b90cf2841abf25b02acf"
+    },
+    "conductor/tracks/pandas_free_io_20261026/phase-2-baseline.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "ee7651e9489a9929b5b8e3daeafd2f185995952671f4a5753f59c60f9bf97fd9"
+    },
+    "conductor/tracks/pandas_free_io_20261026/phase-3-acceptance-python315.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "ef02a32b80ca766e7fd48f90d5ffaf63d96de5532d00a6d2ed9f08286a04d674"
+    },
+    "conductor/tracks/pandas_free_io_20261026/phase-3-baseline.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "3736b2d9d20c56ffaab380e4fbf8d55e73c94cf08dd7ae7c543dc00031de5797"
+    },
+    "conductor/tracks/pandas_free_io_20261026/phase-3-engines-python315.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "eb95f6b83ac8c68b249124882aa9e5bed007c73ca3ee4a0746e68a83c9b3aca5"
+    },
+    "conductor/tracks/pandas_free_io_20261026/phase-3-review.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "24d2b81608c66848b83b6617457fc3a1e52f45770f67c4da32914dec53b6ad37",
+          "count": 1
+        },
+        {
+          "sha256": "39b0e1fd08803acadc8b4187793045af102ad0a6ef2ffd12e5c27de9c75e2e95",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/pandas_free_io_20261026/phase-3-whitespace-python315.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "429171f8dc0835ed56f5e50bb05739ab2f4919718619ebc0247013d635cc1f34"
+    },
+    "conductor/tracks/pandas_free_io_20261026/phase-4-acceptance-python315.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "81a0d013662ee2d4a057d3fd29697bb0cf1ab5a536bcf20094c1fff0ee9e66a7"
+    },
+    "conductor/tracks/pandas_free_io_20261026/phase-4-baseline.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "4e02381cc704e12b424fdda19eb459b44f22da943494a9997ac718c0632d973d"
+    },
+    "conductor/tracks/pandas_free_io_20261026/phase-4-review.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "7b471e0068f415f76775e399efa95dd8c0d5593abb2e717a11257aee9659a5fb",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/pandas_free_io_20261026/phase-5-acceptance-python315.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "816a8e40ec2280dd4fcec13d7cfddacff6a9070cc0cdc2c3be03fd40fb0be5d1"
+    },
+    "conductor/tracks/pandas_free_io_20261026/phase-5-baseline.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "18ecbfcc2283c753396bd8e0ce7ed81b3da11906a6ef078743d1d8591a44d32f"
+    },
+    "conductor/tracks/pandas_free_io_20261026/phase-5-benchmark-compatibility-python315.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "4fc050322b95834f29c3e9174476303b99d67b11a1b9e991345c6f587ee128cd"
+    },
+    "conductor/tracks/pandas_free_io_20261026/phase-5-protected-ci-python315.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "fd73442a36dcb5b66ff56fdd31eaba6f229dc7b15d748c034b8b8656afd0ab6d"
+    },
+    "conductor/tracks/pandas_free_io_20261026/phase-6-acceptance-python315.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "89b5b9fee730da2be5896b3e4afc3e14be2b8e4b22fe62997f1a9753b1b6853a"
+    },
+    "conductor/tracks/pandas_free_io_20261026/phase-6-baseline.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "f880c1344a1a6dd8268e7278e53262bd1d7c37970eea16bc335dfa5865f83412"
+    },
+    "conductor/tracks/pandas_free_io_20261026/phase-6-review.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "a07c10f1140e334db2c869407f66de0bfaec83698721eb9af0b712430c691529",
+          "count": 1
+        },
+        {
+          "sha256": "d0d4f1c4eafccf1703dfca3aff05e3a5d41634970fb3995782a77c72f445025d",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/pandas_free_io_20261026/phase-7-baseline.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "45834bb769565303213c1007824edef2c9703120fc0bdb6634b66fb3addb257c"
+    },
+    "conductor/tracks/pandas_free_io_20261026/plan.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "06773e0e984f52f8cdbc0cc68254f3b9504b6407683e1ab7b8fb7e8a4edf08f1",
+          "count": 1
+        },
+        {
+          "sha256": "217390622da779567a5dd41f4f2c2e85b4adec10a07b6a9fef4732415f1a7057",
+          "count": 1
+        },
+        {
+          "sha256": "4b391de4e4bfc9ef8c910b147e2573530e8a055b0a1405e9cd2df9126a640084",
+          "count": 1
+        },
+        {
+          "sha256": "4cbb1d2a4c835968043754cdecf7f131e095a59f89d2877513186c45a962bef5",
+          "count": 1
+        },
+        {
+          "sha256": "6d68b14ed7e6a6e2e2e7422f2c8b784c877ac019af202b511fd01f537ae70793",
+          "count": 1
+        },
+        {
+          "sha256": "76a3a34d4dc3eb795e2396bbd0a10c522ffe0be02fd776820005b1b2b8fcd969",
+          "count": 1
+        },
+        {
+          "sha256": "96b531c2ab72af82f3e4a5ef344ece4537e3f2281be0b0f082763a6eb8eb4b64",
+          "count": 1
+        },
+        {
+          "sha256": "9bdde6a72ef493d92ff34fa1aafe52ad8b78b6334314234bde89b47f1a99c76f",
+          "count": 1
+        },
+        {
+          "sha256": "a85872ce4510cd24557ae1eef0f8b7ebf4c59e585c5664f4607e72bfc8698958",
+          "count": 1
+        },
+        {
+          "sha256": "b02b5a930a20a277ef3d426cadd411edbec378561f6f039a176da422a2f25e4b",
+          "count": 1
+        },
+        {
+          "sha256": "dd00ba9536255375c694213e1afca977d865cba9ba72fba8a1b8e8dce7e94472",
+          "count": 1
+        },
+        {
+          "sha256": "f94855d20cdd68fd3214e9bc972e1d19bc85e0f73c68a84e38843b72c7a84a57",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/pandas_free_io_20261026/spec.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "0ad6218c3250c678da503a2b28b5f9df542b162074edc202e9bcaac4e707f600",
+          "count": 1
+        },
+        {
+          "sha256": "151b2bc1f38a6ebcebae70653e86b36d8137fb406e576e3a76e20aafa222d16e",
+          "count": 1
+        },
+        {
+          "sha256": "1d3375875bf929adf07d24ebf07811ee8238f7825acc2b1bf14837b93146d3b1",
+          "count": 1
+        },
+        {
+          "sha256": "2192663814424ed85dc8e5394d3fc8355da3e0ea47f23aaf6494cca97e9fcccd",
+          "count": 1
+        },
+        {
+          "sha256": "2a49a6a0a2362d956da0a22992585509ba0f51f163f44f3f31f7cbed818d4f68",
+          "count": 1
+        },
+        {
+          "sha256": "2ed2de1bd1450ab7b2199b372275d9242075588ded9f3ed40ce0b837be8a473d",
+          "count": 1
+        },
+        {
+          "sha256": "36f09cb95adbd7b22d08aa63ddaf2aa03fdc62663487da419763e3fa113406c5",
+          "count": 1
+        },
+        {
+          "sha256": "4276e6946e8a33236dd3f63494779bdf1a971754512e88ea2e49a66416113a55",
+          "count": 1
+        },
+        {
+          "sha256": "47f8a04f5cae723d2cf054a4f6c54591c3d3566f5e4e71a8ff17f3e0ee3667a8",
+          "count": 1
+        },
+        {
+          "sha256": "494680c72a64e5f8f13bc419576b8c42ba8f2e22c1ed9fe8f255b7b7b01bc175",
+          "count": 1
+        },
+        {
+          "sha256": "6b4f43b4ac2043705d047361687c706640fb01b863cb08bd308aa080a7bdf469",
+          "count": 1
+        },
+        {
+          "sha256": "76a3bc214222b4889f5a83343664650bf6878bcda175b88729705314abce19d4",
+          "count": 1
+        },
+        {
+          "sha256": "8e25078c09de1b545316779aa5f19ffd8891224aa20d1896a20aaf34f25d81fe",
+          "count": 1
+        },
+        {
+          "sha256": "b565bc413d865ea2559b70a5ed39b2d4d050dda4f795ac901ad9668879b771d2",
+          "count": 1
+        },
+        {
+          "sha256": "dff0c479ae80884249bd517768cf97564afcb34b4712d730ba59da0e9bd22d22",
+          "count": 1
+        },
+        {
+          "sha256": "e990184fdc9063e5473382420201347bf76152a377d3c6a385de046e309f32e4",
+          "count": 1
+        },
+        {
+          "sha256": "e9f105ac9c3fda32be4c6ff494bed12c76a59d818cfae630100b8437a411fcaa",
+          "count": 1
+        },
+        {
+          "sha256": "fecb883d0297bc06e201a87cea8d017d6522bc0831fefc89e2615684fceef281",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/pandas_free_io_20261026/t12-acceptance-python315.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "547b169df796529a02230d0b76dcf49fd45f70d986f2abe3396f5bb894f40767"
+    },
+    "conductor/tracks/polars_container_20261026/acceptance-python315-before-ownership-review.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "1add6feff507b3f3b51fd6fcdbcdddc640b32029c465ba55d352ffe12bc286e2"
+    },
+    "conductor/tracks/polars_container_20261026/acceptance-python315.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "c5dc8bd6212d57158ad1125bf89d38191ca1f27c9dc8880f612116efd563cf6c"
+    },
+    "conductor/tracks/polars_container_20261026/benchmark-baseline-schema-2a6e76b7.txt": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "0695744184764b3fc656eb388e386dc622a9c3af2b1b04053fd4d9cfe6f732ff",
+          "count": 1
+        },
+        {
+          "sha256": "17c4dbc2794f138ed8ec47b3e298f9e239ef49a053de6342a51e31072ec59607",
+          "count": 1
+        },
+        {
+          "sha256": "1d9da19806908c41f39483a6f6098f79f510378a849a18a374b27ba37bc90c58",
+          "count": 1
+        },
+        {
+          "sha256": "1faaafdb13f65810472dcef898649ab4f7a1b55d3c50b46f1fb8351e0d2abb2d",
+          "count": 1
+        },
+        {
+          "sha256": "2016da676fcb33ec6b71c3a8b89baabd5c5237bc32823b89f7564b706afe59b8",
+          "count": 1
+        },
+        {
+          "sha256": "27a1ad804be04dad46adb7e90614af0455ca24985be3e9bd57642da29406e2f3",
+          "count": 1
+        },
+        {
+          "sha256": "414ce6de12c858cf919a3afe12de2e4e6e619e5f4e0edafdb3108dc06d7ccfda",
+          "count": 2
+        },
+        {
+          "sha256": "436b2fb4865eccd87115d70b8d3ed2cf1d4fc8ad0ce1e8d4e4ebe05595168f51",
+          "count": 4
+        },
+        {
+          "sha256": "4632bbfcc7a4fd3e901a5689973ac6320c0d90acbc68815b9de8e569de10750a",
+          "count": 1
+        },
+        {
+          "sha256": "48fe7c34a74018cc43d7c14e3c449783dcb3d8893e93c82d4e10126eecec1d85",
+          "count": 1
+        },
+        {
+          "sha256": "4944fde1d1d250f05c553bb2e6fea0aa86e6801027b1c3c8cb1565c7cc26a411",
+          "count": 1
+        },
+        {
+          "sha256": "4bfd76e3e23deebe051cb7fdc313492af7974f4e0ad095022000ed7a8deb3daa",
+          "count": 1
+        },
+        {
+          "sha256": "51577ac4b868977b646db2669506b6a9b03d82aaae74d2e3b239ecb4839dd892",
+          "count": 1
+        },
+        {
+          "sha256": "5effca49e80e447b24cc7953c07b01ba1b531b1b236acf18044a8ae590ee5e96",
+          "count": 3
+        },
+        {
+          "sha256": "5ffaac6d9ac8a34456776160d976603e60f41bc51c3ab779807b8eb6f28a99fa",
+          "count": 1
+        },
+        {
+          "sha256": "6d673726d2cfa51992837ddaddb01568d2a9c385c82ed92afe3bbe00639f62bb",
+          "count": 1
+        },
+        {
+          "sha256": "7a8d62bf714d3333de41857ba350dc0e75e4b50741922f2ba84e4c6c19d0ff2f",
+          "count": 2
+        },
+        {
+          "sha256": "7c7d24c3b0bf591d2082078cfaaa80ec705822793a2f6b7b65f93968f981dc79",
+          "count": 2
+        },
+        {
+          "sha256": "8af1c750a72b5b3b9ccca87f14324601e562261914fe917ac76fb990628380b7",
+          "count": 1
+        },
+        {
+          "sha256": "ae8e029c792a79b00b0b961fe0cd386ed5961fe8248ab6361dc1c18982d99264",
+          "count": 1
+        },
+        {
+          "sha256": "c6ac1c899a50937dc2a293267d75fc9668a0604b286bd67d2aee2b95ec470faa",
+          "count": 4
+        },
+        {
+          "sha256": "e48b0e09eefea249108545f1a449b9f31b46bc99d7d4f3560aa6c3d969bcf32e",
+          "count": 2
+        },
+        {
+          "sha256": "ee44b5e66f0100588d986b4c37ba2e870051d47521d256cacb9670df85ab1163",
+          "count": 2
+        }
+      ]
+    },
+    "conductor/tracks/polars_container_20261026/benchmark-before.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "7e846dbf1c16d20ab038ee7c6c485b1c8a560ac5008f3cca95ee7eb6cedee8e6"
+    },
+    "conductor/tracks/polars_container_20261026/benchmark-owned-buffers-python315.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "7efcb1e2cf6f0b84b35a2abbfc76b30a27adc666ffcd72d30df5ff154f748e70"
+    },
+    "conductor/tracks/polars_container_20261026/benchmark-python315.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "079945009302e7491ceb891321c409b069ccaf9c7bab1dd11ae0b660cec506c0"
+    },
+    "conductor/tracks/polars_container_20261026/benchmark-receipt.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "c69842a64ba20627cad257b7f38a5b6377f8c8436dc3f7d885b3c4283dd48052"
+    },
+    "conductor/tracks/polars_container_20261026/benchmark_container.py": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "385797c6f26473cb6605a1794cf87fc71af4b27f29376c6fb673977ea668b20a",
+          "count": 1
+        },
+        {
+          "sha256": "98aa7c289ddea0bd390b5a011335af145ea4dbbec39bd80f427fba8ded736d99",
+          "count": 1
+        },
+        {
+          "sha256": "d434889332a220808b8653fc0837792511fe5a49c5d8382d2c4fa304fc91374a",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/polars_container_20261026/benchmark_runtime315.py": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "8efac3db9f02d1a36ba64db47633b435b916194e90ddc8eb4b8c2588c1c6d3a3",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/polars_container_20261026/dependency-frontier-python315.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "5be4d6e5591c8a483ecc7c29dd557538761848d75a595b858fadde07c3394e6f"
+    },
+    "conductor/tracks/polars_container_20261026/dependency-frontier-python315.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "27c1129c088c6c87a5bbd77a81f01edd506a6835819d861b02e2f382476751f3",
+          "count": 1
+        },
+        {
+          "sha256": "e89581437aed08182b5f000ef8bf24a92d36427bd68bef222e98b1fd7785ecb0",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/polars_container_20261026/evidence.jsonl": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "ca7f36cac82ab841e806b3648b8d00b324f038d2de7d69d75c93c3dfcb475c3d"
+    },
+    "conductor/tracks/polars_container_20261026/index.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "f7454718533c24b4e76620401ec194691d52dc7224ec36e01632d225ac4f8d9a",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/polars_container_20261026/inventory.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "1131cd097139832b5df7e00f5601ea0336d4ff2ee6c83be37865a6952e316cfa",
+          "count": 1
+        },
+        {
+          "sha256": "1370b2e6182899eddb211196c00afe961ae804c3ec1da3ee9b943f04450d95a8",
+          "count": 1
+        },
+        {
+          "sha256": "1ad0bddab7cf28056bbd3118ffc5355a13b576ec0028ea1cb45f4c51c1820110",
+          "count": 1
+        },
+        {
+          "sha256": "1d876571fa37ece02d53520d185f0375172aa425e7a59df3d44b81a524a438ac",
+          "count": 1
+        },
+        {
+          "sha256": "1dbcf448c19eb7dd388c45b02ba6933de71524cc8f6050167aea855d279f9737",
+          "count": 1
+        },
+        {
+          "sha256": "201b1ee61247a81da9d0f6ba74eb705c7ec3cd1f664eff3df419b6b21884e532",
+          "count": 1
+        },
+        {
+          "sha256": "225dfb40b1bcb6408d508bce23d60cdc705a636d5d5907c5deb839b350968b15",
+          "count": 1
+        },
+        {
+          "sha256": "24c1067b7b3e4b6f2612170afebf2be4d0a430a324e683264c4e7f1a11d0dd5a",
+          "count": 1
+        },
+        {
+          "sha256": "2c9f8665922a1c8e8585b982aa49c82057e501de315d27e04b276c9b416c6de6",
+          "count": 1
+        },
+        {
+          "sha256": "36fbfa3286a826d0388ef562f089846ef621a4c37b3e20dcde35791b06683e0c",
+          "count": 1
+        },
+        {
+          "sha256": "48ce24031fa6975108150d53a8b4d0ea4e4df2df1c73d952a2e6e132c6e98a99",
+          "count": 1
+        },
+        {
+          "sha256": "5defbac8a35b414f6ed2e003083bab2790853e7119a24f16fda4ecf0c79f5cc0",
+          "count": 1
+        },
+        {
+          "sha256": "5e4b97e55f3d1091b219e95df56323bb8fc25f074a164fdb0724680fabf6606d",
+          "count": 1
+        },
+        {
+          "sha256": "62a75d2ce9a279137f906a22f179a2449abc765357c5b4d7242bbdfe9620eab3",
+          "count": 1
+        },
+        {
+          "sha256": "6633db9e877aa04af5030efcae41ddb6afa12ccdce2b656c10f40707187b8df8",
+          "count": 1
+        },
+        {
+          "sha256": "67b5dca3a18291163a64ffdd4c84ee7dab19ce6adcb820fa453aeeab150f0e8b",
+          "count": 1
+        },
+        {
+          "sha256": "71842b9951e947b47a44a865967e212377009a4df01fc357cb4b6b84af9087a6",
+          "count": 1
+        },
+        {
+          "sha256": "7628f634c444967256edab507ec57de34acc638d13ec987492ae2458ae378080",
+          "count": 1
+        },
+        {
+          "sha256": "7ba631117b0936fb7622ba237168b07d67161d54f498fa67abbebe36e8c9474b",
+          "count": 1
+        },
+        {
+          "sha256": "85e5f4170aecd7e0a2bd5d152066a4e8abed079b50b50d441a46c0286f2c4d01",
+          "count": 1
+        },
+        {
+          "sha256": "8c413b558832bb7c07f4a69c27de20d161423b662f503cccc175fe7c0ae8b043",
+          "count": 1
+        },
+        {
+          "sha256": "8c6f21c8f984ea17a64ee9cd3e81eeff7e294a222ce181df719e3865d2645c8c",
+          "count": 1
+        },
+        {
+          "sha256": "9109ab99711139ad077229498aeaad1de51e1f7c138b0fe27e856a9e1a408278",
+          "count": 1
+        },
+        {
+          "sha256": "91a511127f7895040cdfcb610e4d91ded4018b5cc3cee4464c6cfd7a70888e08",
+          "count": 1
+        },
+        {
+          "sha256": "a87bb18dec1ed6e78b77e35a1b82efbeaee5165060f92c80500a96c1519e82d3",
+          "count": 1
+        },
+        {
+          "sha256": "a9c0cd5850fe80363e2caa2d1bbc24b266bb6232cc94fbe535d57c68dae1458e",
+          "count": 1
+        },
+        {
+          "sha256": "b35d6db3a5da65963fe3b13f78490ed3e8984898e75aa44faf56976f233a17f0",
+          "count": 1
+        },
+        {
+          "sha256": "b6dbc3e151f17415014a04681ee726a63e87de8f2e4771e3200de2c190669ad7",
+          "count": 1
+        },
+        {
+          "sha256": "b999a41819bb0c984e9429fe1c43775e2549c94127c3536e781e8eea339c0ba9",
+          "count": 1
+        },
+        {
+          "sha256": "bc75bd93ee2164d9ba0ed14623741b43071e300dbdcfe93ca3722198694219cf",
+          "count": 1
+        },
+        {
+          "sha256": "c7aa5103c32ee584ee2e37ce353aadde229500527828e2acb57784d94bafaff8",
+          "count": 1
+        },
+        {
+          "sha256": "cccdba20ac52d4bac10d64d879f19ea162ded279cf85ed425184831376ef740f",
+          "count": 1
+        },
+        {
+          "sha256": "cdf60c47bb4b57fb41d0e6d2e87a980b215b3a70852aa9600c05ee044632d01d",
+          "count": 1
+        },
+        {
+          "sha256": "cf355b03b8445a7789bd5648419c59dd47b17b7a5fd22e55ffaee3c6609d1bbb",
+          "count": 1
+        },
+        {
+          "sha256": "d100a395cfa968af059fb6c3eea3be705e40ae4aa099197245fa794efb801a8a",
+          "count": 1
+        },
+        {
+          "sha256": "ddbd2795ccabecc8637897c6cd0e9391279ef4fc290ff113d67f299c11877422",
+          "count": 1
+        },
+        {
+          "sha256": "e591650745e0786c91d0c60201a64af506e56c417f62fbf94ee32913521e9254",
+          "count": 1
+        },
+        {
+          "sha256": "e70a97a7582071033fa48ddf49bf9154bc6271f129083bfd0d5caaa60d4793ea",
+          "count": 1
+        },
+        {
+          "sha256": "ea1ebff6e4d108f536f41cfde81fac67d77e180d5a25e4eb2e110ba041617617",
+          "count": 1
+        },
+        {
+          "sha256": "ebcd8b4498fa6fa18a67ff37cd7ec7afaad021162e34ca1eae6eddee5f0c87d9",
+          "count": 1
+        },
+        {
+          "sha256": "f3e35eab4c58de27183b8a284027bc80c2885a8a507637a909528b9d0f45efba",
+          "count": 1
+        },
+        {
+          "sha256": "fac6e78d061b173d7d809e057987aa290d05cf9fda2e871a928b596a55f9347e",
+          "count": 1
+        },
+        {
+          "sha256": "fb467b95e51e4cd3cb43e852e5fcdaacf2a900824d3f038f00b3f73aa58e925e",
+          "count": 1
+        },
+        {
+          "sha256": "fd6198b1e1ed0b65e4b102cc327d0a07cac7e4418174e2abacdf0ba1fe93c9d3",
+          "count": 1
+        },
+        {
+          "sha256": "fd936af4c50c130a0b9e194dd122890aa9ba69bc624088dcc03ea41e92334e0f",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/polars_container_20261026/metadata.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "d7ee5bd485ad8c17ae9e885b4cf88985959d24d5371fb23da8b94da96f367813"
+    },
+    "conductor/tracks/polars_container_20261026/parity_reference.py": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "c710e0e7d855fdb24ac527b40f78c5858b519f833609f14756086aaf7f454c44",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/polars_container_20261026/phase-1-baseline.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "f70bffd4c2388502617ff9b79d81aa0cfd84ecbd7b829ada93abb714a589ba5c"
+    },
+    "conductor/tracks/polars_container_20261026/phase-2-baseline.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "7452db6ede489ab71cfec7a0353e966b03027d186c029222a79346884f24c120"
+    },
+    "conductor/tracks/polars_container_20261026/plan.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "248992db40c397510d6c774bfea1ba8bba2435f8c07aa4c97ee877d0c67565a5",
+          "count": 1
+        },
+        {
+          "sha256": "5af16b37734c00edad3680a8bbf46cbfffe3849e701bad7ab8e93e2ab393cec9",
+          "count": 1
+        },
+        {
+          "sha256": "77484aa7c2173c3e353984dac684f788c973935a2d14a4947ad7b38771646f31",
+          "count": 1
+        },
+        {
+          "sha256": "865fd6a2602aa7ca0b6b50ede7b8caff248c376a9703e6d7362acd434b46e337",
+          "count": 1
+        },
+        {
+          "sha256": "ceaf845b6389461de63b75b8f7c5c1e5c286427301a98ad628aafb01d6dccc02",
+          "count": 1
+        },
+        {
+          "sha256": "e36b2f69c514595bbf481dddf6642f5d8d5edfff9252ce2513cc56c0d2f8c34f",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/polars_container_20261026/qualification-20261027-initial.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "168cda44d6c32731d9d05e9994e4cc7eccd2205e0bb8d0eebcae81b236ff196d",
+          "count": 1
+        },
+        {
+          "sha256": "263ea390314f2725e10ef9de2005105f20f69d95860a1f6899a9a336a33740c3",
+          "count": 1
+        },
+        {
+          "sha256": "4c42dbd6e3fc697c5c74e14c1b14e0eec61fd4948a93c75b17106396d48ac1b4",
+          "count": 1
+        },
+        {
+          "sha256": "e9ecc154f719fd9b62243e0f436fa9309074fe242407baecd153073e038d5450",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/polars_container_20261026/qualification-20261027.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "6594c48cd20dee8978c2127b29516de9245d801b4f0efd99c58a117dd4895dad",
+          "count": 1
+        },
+        {
+          "sha256": "883c51464a70233043b1a560349f55ae3a65beac536e9cbbea5ae32d6bf7ef0d",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/polars_container_20261026/qualification-receipt-initial.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "daab64602b3e373f2836150a02cf990de04ea115b865c4e2c6f29163f2786ec6"
+    },
+    "conductor/tracks/polars_container_20261026/qualification-receipt.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "ae4402cb6cd7e9051040b89a7527cab2c5282c34f79879d762dbba14eb491baa"
+    },
+    "conductor/tracks/polars_container_20261026/spec.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "01b84dcf7ca0e249883191aaabdc7c0d2500b7d1e313cd941f0bd131777341a2",
+          "count": 1
+        },
+        {
+          "sha256": "080df90fb243ec99b9930597886c49da8464707f783c966242d99b309e8b7e7b",
+          "count": 1
+        },
+        {
+          "sha256": "1000d3d3db003210cf9cccc3b6d5ef625c8b1b2d67c3a670c8cfc0979d73afde",
+          "count": 1
+        },
+        {
+          "sha256": "189f1151b94f1a7de415028e9c7bff3fa6f1d5019bb06056da8300d281239940",
+          "count": 1
+        },
+        {
+          "sha256": "52d810ae8f2276105b2c4c36c01f30416c1bf8e17ccf42fa6e16997bf0bf0a5a",
+          "count": 1
+        },
+        {
+          "sha256": "59862c032afd9288d36585f401633a0b9701c089c174e5590d81e2d1cf4f2776",
+          "count": 1
+        },
+        {
+          "sha256": "633117532d119f30e73ee3480fe71724a44dd4d11e353298103e50c1c7375112",
+          "count": 1
+        },
+        {
+          "sha256": "6a9aa76f33080789ce93b435e40a827ce228d16b98ee53828219d7916bedb15a",
+          "count": 1
+        },
+        {
+          "sha256": "727fa59a2cb0a94710a40bdace869188b253ca57a7c7e5d80ba71223d1aa5030",
+          "count": 1
+        },
+        {
+          "sha256": "9ad4a753e69a8da4f84420ee88a56a691c2319a951aed9616a6f871d025da7e8",
+          "count": 1
+        },
+        {
+          "sha256": "9f9d40f76be9d70be9ac089d367128aea7b712d0b20811b56b34c701d4a1832c",
+          "count": 1
+        },
+        {
+          "sha256": "debb89bae5cffba641a3d211e38181e522e79997e414f484ff4d2cdf698c3e3b",
+          "count": 1
+        },
+        {
+          "sha256": "ee8cb8fe68e1d84caa7bbf324ad06fe6923b02d7f6a63bf03f24e213aabd53bc",
+          "count": 1
+        },
+        {
+          "sha256": "f1b3c2561f04e48c3bd9a0985688f77f425673788a7630d4797245adbf5d88da",
+          "count": 1
+        },
+        {
+          "sha256": "f210247430b1738bf7f3b6f2dafe655bf159ac748dccfe37da95cb59531ad54b",
+          "count": 1
+        },
+        {
+          "sha256": "f70c1365b3547dd23e449a7803beca46d3b5f1b255218eda18147e00013a80eb",
+          "count": 1
+        },
+        {
+          "sha256": "fde023bb659e58b22f742f0e2ab2a3a257af970f16497ba1616d602274c6bfd1",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/tabular_contract_v3_20261026/evidence.jsonl": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "63fba5973478e122ef15474f9abcfcb9806824bae83ed248e2ebfa9b4c1a7708"
+    },
+    "conductor/tracks/tabular_contract_v3_20261026/index.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "3d3974ea2f8528d714a9c9e173478c7d8826e1cf5a753d442f930368470c11a5",
+          "count": 1
+        },
+        {
+          "sha256": "88059b9ba71aa2b32550cdbace4a035019c0b2e294756f3f921ee795c9a91744",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/tabular_contract_v3_20261026/metadata.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "28383ccc1f4da550cb0e4cace89bca720449f4f93aedc54902ac214b68f2df3a"
+    },
+    "conductor/tracks/tabular_contract_v3_20261026/phase-1-baseline.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "70f9ae8b286b5a569874f3b0ec1051ad9a44c89f0de7cc2570effe2c925c6ce3"
+    },
+    "conductor/tracks/tabular_contract_v3_20261026/plan.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "64b6b729d1afb53d65032e69beace822bdc208b7f5982ca50e93715fb0b4545d",
+          "count": 1
+        },
+        {
+          "sha256": "67af79aea4a6f6777038b05f1e2523d89e01162bbcdaf97c3d23294819c47c02",
+          "count": 1
+        },
+        {
+          "sha256": "8014593782f7509ef7a95c258f0814ea1f9d7067368971a3d93433d6adf057e8",
+          "count": 1
+        },
+        {
+          "sha256": "aa3055e6883781ca5fae989783a6c807fc9d96a8f50cfb142bc1f792e9d0f312",
+          "count": 1
+        },
+        {
+          "sha256": "c0b5229cdb3e225e3c2883b0ffc7f7227f7027d10ab252f810ae898bd2d408a1",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/tabular_contract_v3_20261026/spec.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "44f9bd6301654e3179aa7e8bef84ff2cb71815248710f34a71bb9c1682589d51",
+          "count": 1
+        },
+        {
+          "sha256": "8597d4255ab7c412824ad59f23cb3b4f356dacf70851fbfccd6d875992cc2064",
+          "count": 1
+        },
+        {
+          "sha256": "a6e2846ae2413e7519229a57e801caec14999bf858a85f0005f883bd26ecf3a5",
+          "count": 1
+        },
+        {
+          "sha256": "b4e55562edb5f56087024486a460aee11d86dda43d2f79ca378c6939488c43eb",
+          "count": 1
+        },
+        {
+          "sha256": "f0f8921ceacc9b58c2ebf0284305fd44502cd517fad7a43e080bee6b0191e48e",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/translation_reference_20261026/index.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "5edc71f88b15bc2493c79a104a37c5560d27be50cec0b902f4b9a1f2705c2397",
+          "count": 1
+        },
+        {
+          "sha256": "f9712db911dbb3ce8ef9447a4785517129aac78c4204b8b4784b2ae8e972a079",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/translation_reference_20261026/metadata.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "9e05a829c8041fb4c14358b87d4ddc029d11d0eb674fc85384723b289ae41876"
+    },
+    "conductor/tracks/translation_reference_20261026/plan.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "0147fba7577bf2b84815ccbe7e4426b85d21a8b40fb632955bc34a67aca4ae39",
+          "count": 1
+        },
+        {
+          "sha256": "71385d83db5a32ef7f1bc938b52d0397b9b53a8627e9b246a56de526dd8ba832",
+          "count": 1
+        },
+        {
+          "sha256": "d0948048528f871822d9ffe94633aa20ce3ae3e231ead696102e9e6704a941a6",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/translation_reference_20261026/spec.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "000ccd67d367cc63bdb7ec721d38eaf34639348310a52ee020d6f212c5100e5c",
+          "count": 1
+        },
+        {
+          "sha256": "1a666c4913d7344c100b3f1e0cffdd8dabf63ed6c389ed984ad766f0fb36047b",
+          "count": 1
+        },
+        {
+          "sha256": "27a49264ebbb548cdf56ddbef093b7430c7cee5ac10cc4e730d10384a341d840",
+          "count": 1
+        },
+        {
+          "sha256": "e35063ae82164806f748ef7cdbba519d641f31067ea85c771a381d11d270bde1",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/v2_2_release_and_venue_submissions_20260830/plan.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "d2237db56e1b197d3920645f3e51e65c3cc305f570bbd4f0d74ccfa833a0b9a7",
+          "count": 1
+        }
+      ]
+    },
+    "docs/astro-site/src/content/docs/developer-guide/quality-and-security.mdx": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "2583f3344a3310cc511357bb24485458ebda840f12d787b624305813bdcbde0a",
+          "count": 1
+        },
+        {
+          "sha256": "3d6f14daf9db8974f34033eddc43e007dfbd59ad13cc8abb46279913be5824b0",
+          "count": 1
+        },
+        {
+          "sha256": "55164b82627cd3f594fbaba88d24a22a470ca7c98fe9ccf2b1236ae3cb5d9dc8",
+          "count": 1
+        },
+        {
+          "sha256": "888747f4597b010334d70345d74c4a057c0c743ffce572885a31cdcd3f5205ec",
+          "count": 1
+        }
+      ]
+    },
+    "docs/astro-site/src/content/docs/user-guide/migration-guide.mdx": {
+      "category": "migration_guide",
+      "reason": "Version transition and downstream compatibility reference.",
+      "lines": [
+        {
+          "sha256": "0e0a76359078136db17d158321029ac06d267cb784274b071941dea65b056aad",
+          "count": 1
+        },
+        {
+          "sha256": "13b170a1a458aaddc7e2482153503926c935ac6705549baaa4f7d9ae299abd7a",
+          "count": 1
+        },
+        {
+          "sha256": "3f9c02a2ae7ddb8f1ca935f3167baa9741dd2f453cdb15bf174a3d051ea2b687",
+          "count": 1
+        },
+        {
+          "sha256": "4f494df97c205787e924ee71f496ff105e960df22fe12e4c5cf51ae559a27d32",
+          "count": 1
+        },
+        {
+          "sha256": "673d48ca0bf78e967a195997f66aa3d3dc67a02d14b3d2318082a51121deb872",
+          "count": 1
+        },
+        {
+          "sha256": "8a33b81f334b80f3773a253e2268f95b745c3a8e76b7d266485f733023994f43",
+          "count": 1
+        },
+        {
+          "sha256": "95b3c488885471b9407d385742bfe990fddc9ada537ce894e5c84a9e2367ed33",
+          "count": 1
+        },
+        {
+          "sha256": "999983502e1dd271b8f8f392beaee1c5e8f2c9bec6f6b68be5c9ff3f152dd06b",
+          "count": 1
+        },
+        {
+          "sha256": "a48459137835042044d522dcd01450ebcdb117ca1737b33ca54ca121b082d0d0",
+          "count": 1
+        },
+        {
+          "sha256": "fc5b5240634c141eaed878887cea4e2c94554cba0b9a22bb7782e3f9ccb48f21",
+          "count": 1
+        }
+      ]
+    },
+    "docs/release/agent-panel-20260906/scientific-validation.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "cfa336788975442d7dd9ac639cc2b3c6e91874409a921a83d14df797727d73af"
+    },
+    "docs/release/hpc-easybuild-backport-readiness.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "757350d75ce62895c6d16756389a025cbbd80e759d7a3892ff8a028ae8314f60"
+    },
+    "docs/release/hpc-validation-20260831.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "8e2e99c25f6a6cb57eb0cfb81a900a10c761fc8196e16623b5f96881883c1bb3"
+    },
+    "docs/release/issue-deliverables-20260906.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "891b336d19c74b2a3fc4c52b07379e87e15ce2ff405a3aedfec9a6ab685960b9"
+    },
+    "docs/release/v1.0.0-sbom.cdx.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "76f8eed64b24eace04a0f78c31ad30121a0aff4f27106e1594663ca2fb78423a"
+    },
+    "docs/release/v2.0.0-sbom.cdx.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "34700cbdec2d27c5f82f2aae453566ff570b070b161fdca7d1d1714f2303b805"
+    },
+    "docs/reviews/joss-panel/round-1/eic-screening.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "c79ce15bf473119fc3a6cadceca8979d1b36bd37c769125ef4d638f89e71f1d1"
+    },
+    "docs/reviews/joss-panel/round-1/tool-audit.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "5097ff29a3f8b29502bb60c26ea3048f45e00424fd1e4c2f72715e5f3e1fe0c3"
+    },
+    "docs/reviews/roadmaps/dependency-frontier-20260906.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "7f6d277fccee5250dd00d7bc206b3424f4385c37b3ed04c6aacf157eded96d20"
+    },
+    "docs/reviews/roadmaps/voi-methods-expansion.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "0403f60cb90e445afd454051ff0455eae11a0fe2516362ffd146d2900d0e1830"
+    },
+    "packaging/easybuild-2023a-arrow-overlay/LICENSE.apache-arrow": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "d1c981370f1ffd4edcdd2fb3565c8939cc40c75e24e1f92d581d04e54f0dff81"
+    },
+    "packaging/easybuild-2023a-arrow-overlay/evidence/source/arrow-python-pyproject.toml": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "bc0b897a80d85e1e97e75f7274d3f2028a1cd78596ab144d044b7de9f327b855"
+    },
+    "packaging/easybuild-2023a-overlay/2023a/SciPy-bundle-2026.09-gfbf-2023a-voiage-2.2.0.eb": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "b64adfe1c5cb170a58b4aabc47ef67051402099b1ef9a50282e0f3273396a89e"
+    },
+    "packaging/easybuild-2023a-overlay/2023a/Voiage-scientific-consumers-2.2.0-gfbf-2023a.eb": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "45b427c57242a6674ff32aadf04529c8aae43bf469be6de0b112ea505da0e19b"
+    },
+    "packaging/easybuild-2023a-overlay/README.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "6abda0089cc249f7628d11da24da60a52f048bb4e200688c77f7773ab050e8f9"
+    },
+    "packaging/easybuild-2023a-overlay/providers.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "a8ebdca0f35e04dd4fbe596fa9c21de9b6007f99a5fcffbc642f88788050b323"
+    },
+    "packaging/easybuild-2023a-overlay/scientific-consumer-sources.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "ac762caca174544d85031dc92a7c14b1d7f8f4f618466a1d813a3fd19eb8560a"
+    },
+    "packaging/easybuild-2023a-overlay/source-manifest.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "658429bda40f5ae27c5d86650c747a9d7c64968588ef789cbaf6d830d6818147"
+    },
+    "packaging/easybuild-2024a-arrow-overlay/LICENSE.apache-arrow": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "d1c981370f1ffd4edcdd2fb3565c8939cc40c75e24e1f92d581d04e54f0dff81"
+    },
+    "packaging/easybuild-2024a-arrow-overlay/evidence/source/arrow-python-pyproject.toml": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "bc0b897a80d85e1e97e75f7274d3f2028a1cd78596ab144d044b7de9f327b855"
+    },
+    "packaging/easybuild-overlay/2024a/SciPy-bundle-2026.09-gfbf-2024a-voiage-2.2.0.eb": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "c14b523e478ff9a1e0a4b413fb2a63124a1d0bc42e46fbc05419416ba0a68a76"
+    },
+    "packaging/easybuild-overlay/2024a/Voiage-scientific-consumers-2.2.0-gfbf-2024a.eb": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "579ef9e926651e996a0fc744cb953d7226313cc03040ff95d30f8fde1f3e9b19"
+    },
+    "packaging/easybuild-overlay/README.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "de8a19a474ac9c689513a0c7bd622a37bc40e1500495ce11ed1f82499552b53c"
+    },
+    "packaging/easybuild-overlay/providers.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "c3fad1ebb174f6e25977d5914cac7a2698cf97fd3508ff0d1c664bc7869244c2"
+    },
+    "packaging/easybuild-overlay/scientific-consumer-sources.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "a11019c4b655cfc990ddbb0393eb967874986f75dd02c85b452cc05988de400e"
+    },
+    "packaging/easybuild-overlay/source-manifest-python31214.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "a7a7b146f18c07628785dc7969be41e259eae0ef05fb8f794a972030d3bcebbe"
+    },
+    "packaging/easybuild-overlay/source-manifest.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "bfee658562db323e1af1c371017de5542121812254c52d7212e90ee4fc8596de"
+    },
+    "packaging/easybuild/release-pyproject-v2.2.0.toml": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "2ae0033c68442724d0f116590896853811693d09742b56b5e614db81a316972a"
+    },
+    "packaging/spack-overlay/history/pre-arrow-patch-38b573b5/solver-logs/dated-rust-single-nightly.log": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "0a193f2b7e1593ff3d23f58c2ccc0593a526d3a22d7bb5c1ebe11bc55bcdf025"
+    },
+    "packaging/spack-overlay/history/pre-arrow-patch-38b573b5/solver-logs/voiage.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "ae72c26f12de018d45efb4fccfb3b4679fe967b2a3d4cdf78ae7ec87b4cedb80"
+    },
+    "packaging/spack-overlay/history/pre-arrow-patch-38b573b5/solver-logs/voiage.log": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "c094395911f47db44095db5b4d93c5f324a2fae95b8fe76118d9da5258e0811f"
+    },
+    "packaging/spack-overlay/history/pre-polars-sdist-url-9307d9ec/solver-logs/dated-rust-single-nightly.log": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "0a193f2b7e1593ff3d23f58c2ccc0593a526d3a22d7bb5c1ebe11bc55bcdf025"
+    },
+    "packaging/spack-overlay/history/pre-polars-sdist-url-9307d9ec/solver-logs/voiage-concretize.log": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "476962d603bb4ae0342aef7886edba15060eab72d4e80716447ac2c73356b994"
+    },
+    "packaging/spack-overlay/history/pre-polars-sdist-url-9307d9ec/solver-logs/voiage.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "01c5b4b4492a14c00eb62a39e9e50a1af6638ce2d0d8b017f896edc9edfbcdbb"
+    },
+    "packaging/spack-overlay/history/pre-polars-sdist-url-9307d9ec/solver-logs/voiage.lock": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "7eeb5d3c6390865034d64e2b0dc7c34f0e6874f94c9f9c9a112c1d6ef03793d3"
+    },
+    "packaging/spack-overlay/history/pre-polars-sdist-url-9307d9ec/solver-logs/voiage.log": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "2bd269a80937fce70852b28e930ad55313d29b27144208f33ef38e23c2c0113f"
+    },
+    "packaging/spack-overlay/history/pre-security-floor-b3f53c2b/solver-logs/dated-rust-single-nightly.log": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "0a193f2b7e1593ff3d23f58c2ccc0593a526d3a22d7bb5c1ebe11bc55bcdf025"
+    },
+    "packaging/spack-overlay/history/pre-security-floor-b3f53c2b/solver-logs/voiage.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "66db4f2a406dc0d610e5d754ee59b9ee44b9b36a4612f1e6eb874f8b631d73c4"
+    },
+    "packaging/spack-overlay/history/pre-security-floor-b3f53c2b/solver-logs/voiage.log": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "b9a4fc227e6b61818adbeaab4fa424d11534162494920e32329eb07b8148e16f"
+    },
+    "packaging/spack-overlay/history/pre-xsimd-license-fix-12c57216/solver-logs/voiage.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "b6228dfedc9e4ecfdf2c6fee96a46a291d5fe5dd1330448f256116de3fb18773"
+    },
+    "packaging/spack-overlay/history/pre-xsimd-license-fix-12c57216/solver-logs/voiage.log": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "2bd269a80937fce70852b28e930ad55313d29b27144208f33ef38e23c2c0113f"
+    },
+    "packaging/spack-overlay/packages/py-polars/package.py": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "324eaeed9d22ce727fc0d24eab4eaa5ce14c4d6e4243d120da9863846bcc00a5"
+    },
+    "packaging/spack-overlay/packages/py-voiage/package.py": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "ed0d76fad55f718854dd83520435d2e8c3d57fbdd084fb29e0ef4cf68d42eb90"
+    },
+    "packaging/spack-overlay/solver-logs/dated-rust-single-nightly.log": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "0a193f2b7e1593ff3d23f58c2ccc0593a526d3a22d7bb5c1ebe11bc55bcdf025"
+    },
+    "packaging/spack-overlay/solver-logs/voiage-concretize.log": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "476962d603bb4ae0342aef7886edba15060eab72d4e80716447ac2c73356b994"
+    },
+    "packaging/spack-overlay/solver-logs/voiage.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "01c5b4b4492a14c00eb62a39e9e50a1af6638ce2d0d8b017f896edc9edfbcdbb"
+    },
+    "packaging/spack-overlay/solver-logs/voiage.lock": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "7eeb5d3c6390865034d64e2b0dc7c34f0e6874f94c9f9c9a112c1d6ef03793d3"
+    },
+    "packaging/spack-overlay/solver-logs/voiage.log": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "2bd269a80937fce70852b28e930ad55313d29b27144208f33ef38e23c2c0113f"
+    },
+    "packaging/spack/package.py": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "8f7e7f3b05d857943f9191dada49d91cdafa244aaa3d6d559088e0100489abf7"
+    },
+    "paper/references.bib": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "f302189c593e0d0c38f32cfdc1d7da0948f57e6b4accae91c9a705b0e6b68b69"
+    },
+    "paper/reproduction-environment/pyproject.toml": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "2ae0033c68442724d0f116590896853811693d09742b56b5e614db81a316972a"
+    },
+    "paper/reproduction-environment/python315/pyproject.toml": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "6e93de735bb35cea2a89f9134a00e6c8685c3221621fe1e6d029b63570faa0ed"
+    },
+    "paper/reproduction-environment/python315/uv.lock": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "ee0d8fbaab209be5f858e32e8d2e8d3c43b710cf10b696dc6b24ecc77baa2d57"
+    },
+    "paper/reproduction-environment/uv.lock": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "e5bfefe59aa2920d5b28e9beaa5a6e05cc8b08e4a91e74ed8589d7fc3354f7c5"
+    },
+    "paper/research-use/v2.2.0/README.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "cc2371050b2589a9f74cedbf6df0ea6375f9650f74e9cb26fbbdd40de706a50d"
+    },
+    "paper/research-use/v2.2.0/evaluation-verified.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "87e3d3e5a6bb9307ad5b4887e57f1ee48a388b1c8d6668bd701498dcfd188c65"
+    },
+    "paper/research-use/v2.2.0/evaluation.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "fc640603f289da84fa22b99048e1d606e304c6275cb7c9b829ce088cc6588267"
+    },
+    "paper/research-use/v2.2.0/export.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "9e32e25f4cf6a236b78d78834a81194259a21ea636003f49760ce9e11f642847"
+    },
+    "pyproject.toml": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "c739f91af94c298532577594c5c7f7f9000be87c8e3d7f50bc5f99983bf2a175",
+          "count": 1
+        }
+      ]
+    },
+    "roadmap.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "3db7bf093d9f7647ad32605f86093bffffe0122fb7e3341513b12a5061fc4d7e",
+          "count": 1
+        },
+        {
+          "sha256": "4b3e77c87a098c5623a0ae8726a740749ef81e9cc1bedf6069f96ddc4222ecde",
+          "count": 1
+        },
+        {
+          "sha256": "5c5f162f7f117ace6c8b431d83c1c6521ab8663caee659a4c4c7b7608b3c0862",
+          "count": 1
+        },
+        {
+          "sha256": "a957721dc4361ff5cd08e6d438cdb79da6bc5b559839d815fc70fb0d99b6784b",
+          "count": 1
+        },
+        {
+          "sha256": "c88c2ae5957afc2ed2e829401b1b03cab1ca5f9330d2fb1b10b71d8612824fca",
+          "count": 1
+        },
+        {
+          "sha256": "e473cc97adcb04e9009abfcdbffc244449e0c4b81db36e4ec1c3cfee53dfbe7f",
+          "count": 1
+        },
+        {
+          "sha256": "f3c32fbdc41f2157cf23f774cccd206b0497f6f283bae08025413c95c4c56c7f",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/check_packaging_dependencies.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "75c85c90bf7717ff89f21f1aca0beb18c9280e796cdbb986512aa5dadd056762",
+          "count": 1
+        },
+        {
+          "sha256": "9f974ecb48cc143251d24ecc82a5a1149a667a9ed3c54627ff1aaeca276b9923",
+          "count": 1
+        },
+        {
+          "sha256": "c44daef58375612430fa4eaed9f7b973823176147c338698a450262d154dcb7e",
+          "count": 1
+        },
+        {
+          "sha256": "f27fffda0dd88ec2ae43bb895b6339f971a026154714266f8f460caa253342f0",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/check_pandas_free.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "a8231967b385187c72c5f0962ce9b1d036651015cfcb81af1b6cc8ba4c88b125",
+          "count": 1
+        },
+        {
+          "sha256": "c6bf1205d3a4c0e47b9d89efe51294d1ba7493e418ce094bf94418ba7cd31cb5",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/check_reference_policy.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "ffb98d85a5327d19b373dd85902de9ae7dafd636d316d1eb77e2d53ddba5c0f6",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/hpc_package_smoke.py": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "7fd376f043be95e487918bd61bcc8d4514587e7913b48fb022cacdfc8a3eb042"
+    },
+    "scripts/validate_easybuild_root_graph.py": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "fb067110cec8e0b172a7ab666b1043e62273d9857f475977f83f9821c507d1b7"
+    },
+    "specs/core-api/decision-record.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "110b1124f4977e680b8f71274d50286be4fdbfcf87ef715ded9722bb1135c687"
+    },
+    "specs/core-api/foundation.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "b6880db1ce6f30278c10402f2bcb014a0ab10f86a803c2e7d0908ff92aae1b36"
+    },
+    "specs/integration/vop-voiage/compatibility/compatibility-contract.schema.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "f2db956c15e31823d4f5b44a1a395cb074b56b3912e81ea7fbfbe979caa00b90"
+    },
+    "specs/integration/vop-voiage/compatibility/v1/contract.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "a2fd10145b25483b6f27de5182b221bd6d08330b7ebed336c1fb402554a212f2"
+    },
+    "specs/submission-readiness/dependency-frontier-audit-20260829.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "5c78578739187d5394266f3575cc29d5ed57594601542cd59a5d860f860ccb5b"
+    },
+    "specs/submission-readiness/dependency-frontier-environment-20260829/pyproject.toml": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "2ae0033c68442724d0f116590896853811693d09742b56b5e614db81a316972a"
+    },
+    "specs/submission-readiness/dependency-promotion-policy-20260829.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "a7c3b06387049f2c40838106911d82f40002560f30dcda7999e7f4d90ed85249"
+    },
+    "specs/submission-readiness/preview-observation-results-20260829.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "b2d9fbf0124d5a0033d142bcf76e86bd12ad7c4a799d6d9519bc4a85dd11bacb"
+    },
+    "specs/submission-readiness/test-ci-performance-outcomes-20260829.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "63065301f1b56680e2ad33f18a6723d8aafec18e89aecbcb322fed536a70d26c"
+    },
+    "specs/v3/compatibility-policy.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "eb65e17cb37e76d2821be99d25c3a580dde141fd8d4080df9d5ffdd375851991"
+    },
+    "specs/v3/stable-api.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "6d7dcd1253899c60a7fa6eaf3206718494212e6b2195a57821da7fc559f52421"
+    },
+    "tests/packaging/test_dependency_minimization.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "c5e042325daba5babd11484bfd084c4f9d1b0df6a193caa6253be6af9a7d474f",
+          "count": 1
+        }
+      ]
+    },
+    "tests/producer_compatibility/producer.json": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "95074212bf25cb56f8b3acaf27f5d6d4258c1a07d738e505fbdc5f4b74e94a89",
+          "count": 1
+        }
+      ]
+    },
+    "tests/producer_compatibility/test_producer_compatibility.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "030f9dbdd8a6644aaba0c68d6a91697084df749235ade30a092f35f61cf3f001",
+          "count": 1
+        },
+        {
+          "sha256": "06006a77eef886a7024aca757d17cd6a5f0ac01d1ac5d8a2665fba0d8294b4c7",
+          "count": 1
+        },
+        {
+          "sha256": "06d103dd130490ffe43daeb06518d61c7abd41865693452d37ffc062185589f5",
+          "count": 1
+        },
+        {
+          "sha256": "15c4eb7b797809c003c8d7fa95340f206275a55301a33aa718596e8caba8499f",
+          "count": 1
+        },
+        {
+          "sha256": "1634cb81bb8d8a37cd4a6ab9a0b85d26c65d4e4f551b7bcd5fb961c1728c848e",
+          "count": 1
+        },
+        {
+          "sha256": "1ab2cc4cbe904b9baee34c963b8e967b4686fbace1367a7749ebb34a425119fb",
+          "count": 1
+        },
+        {
+          "sha256": "4126d54bad4c47f703e1d67dc5fd069114e6481daae2020b3b4f65eaa279ef6f",
+          "count": 1
+        },
+        {
+          "sha256": "42322418807ba234ea30321a71ce247b4e59440ad1af4344f805eb60bfe4ba5e",
+          "count": 1
+        },
+        {
+          "sha256": "51d824cbc1d3e65c1d7febd755c54fa4632edfb940039665398b40b27b6b2a9a",
+          "count": 2
+        },
+        {
+          "sha256": "73490433f8a67e8aebb860d595f8b667c935423c822b2f01d1654385284eaa98",
+          "count": 1
+        },
+        {
+          "sha256": "8c0859a9b1186849097c8caac42ee23a30f03c1f6ec858d897ac838e28b45b52",
+          "count": 2
+        },
+        {
+          "sha256": "90b17a11cdb04bb94618211f9f069ff5c8fd2506f2047674192a2cd0ea052518",
+          "count": 1
+        },
+        {
+          "sha256": "9f47389bb96e7a7c4d2498727e740355ff4e301a52ff5359a1b2b1785e521b16",
+          "count": 3
+        },
+        {
+          "sha256": "a88608c00621581042d6b50b243e7dfdc6f60dba66cddbfb3871501747e0a0ed",
+          "count": 1
+        },
+        {
+          "sha256": "aa4545895576717a426c05b78d5f6e6566742f615cfdddac6fbce2af7100c6b7",
+          "count": 1
+        },
+        {
+          "sha256": "d2c403050d1d88bab0e555bc93511b28607aa124961633a4f3615333b076435f",
+          "count": 1
+        },
+        {
+          "sha256": "dfaceb1aaf14545bc15d25a7fcd4a049261a61b3970dfb8c42ff6631a3da6075",
+          "count": 1
+        },
+        {
+          "sha256": "f261b89eb23503f0f9f179fab317ca0daa043bec264ec92e8f8c9966e7b705d9",
+          "count": 5
+        },
+        {
+          "sha256": "f4d65f631aed3fbc18320465cd802e0406a622aad499bb1181ee0fb69aedafe5",
+          "count": 1
+        },
+        {
+          "sha256": "f6adedec5c89c23be7028517eb85e924cb4bf58b6bbc92a928d5bbbf3dd2f2f3",
+          "count": 1
+        },
+        {
+          "sha256": "feec918ffb9c7692d58b8404ebcb60d9ae2bd5b7be0de843ce7cef0b9070e736",
+          "count": 1
+        }
+      ]
+    },
+    "tests/test_current_overlays.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "2271fcc4308e7a076e287e62983d8f8ec001706ccb68b7f3d570f768a3747f0e",
+          "count": 1
+        }
+      ]
+    },
+    "tests/test_dataframe_interchange_sdk.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "07f71296011fd8a4ec7e1fa060e458bbc0eb695bb7c989159910ec8db355eaac",
+          "count": 1
+        },
+        {
+          "sha256": "163c720d693921047a82b5de7b95aa5afc330ec6801031771c9e52c824849cba",
+          "count": 1
+        },
+        {
+          "sha256": "28d8e53048294196cee35b6ac2bef43253952b916b071380ce6497e566b84b29",
+          "count": 1
+        },
+        {
+          "sha256": "336d08af7c5b5ad003f75b46ab960ca61bf3ab9a66bfe6f82eae7ab9d1befd80",
+          "count": 1
+        },
+        {
+          "sha256": "3ae7e509921c38cc02bf31b734f9e71f03e0e24fc0137ac6298d3a5fd6af8e66",
+          "count": 3
+        },
+        {
+          "sha256": "479bc3d4d8376fa67e4c797aa1263c71d1927e5be5c31c20a355daeb7ca0cff2",
+          "count": 1
+        },
+        {
+          "sha256": "59e384c54735868dad2ffc5de3322fb2b525fd19f91dbab97d6d4e2f1e2bb46c",
+          "count": 1
+        },
+        {
+          "sha256": "5b1934283babdf33fd286ec80aa8f277a550287343e4b02597d5da1c57987c37",
+          "count": 3
+        },
+        {
+          "sha256": "9602c37a3b7fe2cedb0bf5c89f5eb4687068409933c456ad3b94682699e5640b",
+          "count": 1
+        },
+        {
+          "sha256": "d96a24c7f52cd3c700d981f6cb7162b18cde054db4ae87c616438288184cc9fd",
+          "count": 2
+        },
+        {
+          "sha256": "de4f117acbcdd128857117533dc30a268637c520a5bed54ae456ce6a9fb39ae0",
+          "count": 1
+        },
+        {
+          "sha256": "e486b23ba53429b7e1ff116269fd1ce747e0cc32202f58fb4dd3a3950b36ca1f",
+          "count": 1
+        }
+      ]
+    },
+    "tests/test_easybuild_overlay.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "84446424deb7a859ea248c01d3a15405b81d41a9283882017e4812bf9f249198",
+          "count": 1
+        }
+      ]
+    },
+    "tests/test_easybuild_scientific_consumers.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "387cc030d0edd550179ab51aa0b60f6415c03cf9084b9d0d5267396a4d8ae9ae",
+          "count": 1
+        }
+      ]
+    },
+    "tests/test_ecosystem_integration.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "0920282f8fe6190254193403569d1285e061fdb276edfece23af8a2237194ed9",
+          "count": 1
+        },
+        {
+          "sha256": "8c0859a9b1186849097c8caac42ee23a30f03c1f6ec858d897ac838e28b45b52",
+          "count": 1
+        },
+        {
+          "sha256": "9452a37381035f381e46fbe3692d031b987cb8fc9d7f4c27f16e23e798eb3c73",
+          "count": 1
+        },
+        {
+          "sha256": "ab0e2f7650c0e53e92e934513d9c90e3b5b3c5b0dc201ff55d480b3128a813bf",
+          "count": 1
+        },
+        {
+          "sha256": "e5a8809e68360585046d9eda6f2f488c6869e992d0e55be171d5dcadf7c2cc9c",
+          "count": 1
+        },
+        {
+          "sha256": "f770197915c808455aae17773cfa170d0232bef7cdcb661b17df8342a6393bd1",
+          "count": 1
+        },
+        {
+          "sha256": "f975501772d9b46d63386b23116ba9cfcd5eb0818369309e19da78221a9a43bf",
+          "count": 1
+        }
+      ]
+    },
+    "tests/test_final_hardening_closeout.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "3072508ff02e864c67421a44ecf8e8dc1f59eecb1bc90fc8713e0465a52a0004",
+          "count": 1
+        },
+        {
+          "sha256": "679de438556bde48d5a3a0542b68630a35ce19cd239c72a0441c2ec9b1de1551",
+          "count": 1
+        }
+      ]
+    },
+    "tests/test_native_excel.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "40619d0b8b4c7e1dac4554609123ddfcfe4907a178af76a5019c5b60cfff6337",
+          "count": 1
+        },
+        {
+          "sha256": "581cf6a9b4fc9ab513d6487d6ad2106a3dcea37ab3dba472f2562ea950bc1974",
+          "count": 1
+        },
+        {
+          "sha256": "8c0859a9b1186849097c8caac42ee23a30f03c1f6ec858d897ac838e28b45b52",
+          "count": 1
+        },
+        {
+          "sha256": "b8f565ca2a73a63d78ac0468eae169593d9dcec89c853b5f1c90efb0103c59ff",
+          "count": 1
+        },
+        {
+          "sha256": "e98223257bde04c272edef472fe65825a93b798effc23f4a80a27246edabfcbe",
+          "count": 1
+        }
+      ]
+    },
+    "tests/test_packaging_dependency_policy.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "ad36e40bdcd22f5faff505400f0e9065806a51fb7f35ecec7ed8970c0c827032",
+          "count": 1
+        },
+        {
+          "sha256": "e8b6247f3c322e5927cbdbdd48d9e5cca2127393f3032460effda83441c5914c",
+          "count": 1
+        },
+        {
+          "sha256": "f6738cf5669de8935825e5a05a16db5aa8cd4c111acb77dcef89a8c3d6036c9d",
+          "count": 1
+        }
+      ]
+    },
+    "tests/test_pandas_free_enforcement.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "3d51060a0e1a24b62e46ea1bba9957fb70c8c97f4c3dd5d683e4704461c81059",
+          "count": 1
+        },
+        {
+          "sha256": "40a85f32274de9b530c2c61d55c4fb6c4bd82b42b740baadb7fbc9ee86e53bf4",
+          "count": 1
+        },
+        {
+          "sha256": "41c3d912516a211cc82ea97e567731d7a0e61b8e534ed177c15414ccc5b05a39",
+          "count": 1
+        },
+        {
+          "sha256": "493160f80a707582e5074588f5ecfe65cafcf8bbc3e070dcf60b26ece4d77118",
+          "count": 1
+        },
+        {
+          "sha256": "4cddd24c9f8c2fa53ea95d7c8d1abd4a21eac05af81ae0a52c2851369ff30c51",
+          "count": 1
+        },
+        {
+          "sha256": "528a1c579c714ef4f7dd1791b9fed111bc0433151510e0b3f054410b3d1bf302",
+          "count": 1
+        },
+        {
+          "sha256": "58cba89e03e5d1ccf66d32a4292ba0bc41907ea92c558c3b5dd6cbc913dff509",
+          "count": 1
+        },
+        {
+          "sha256": "5b4b10d178da8c33906ed27e096391147d29027ba97b03081bf8439c91a98b1e",
+          "count": 1
+        },
+        {
+          "sha256": "6667925f03f09d50deb45fa8bf168af20417351f391250b5f24af90862795806",
+          "count": 1
+        },
+        {
+          "sha256": "7d150bea6b015e8d372ef07f9fc43c0733fdffd160ec129bdd14abc7a265c041",
+          "count": 1
+        },
+        {
+          "sha256": "82cca1b02af84fcfe212a7ee594abf2fea0587fca3db74812e4003dcbcc0d440",
+          "count": 1
+        },
+        {
+          "sha256": "91b88905f831099dc17a8cef484f049013a20e182a7eeb5d2cb28bfc83d324e5",
+          "count": 1
+        },
+        {
+          "sha256": "95b1b89c1bcf75f82e3c2c5d29002ff0a853e2b23c0fd333fb6d9e29921f1cab",
+          "count": 1
+        },
+        {
+          "sha256": "9acdd833aa7a75a01492564075bdcb96584e778c12ed183c58c96f310ab906b8",
+          "count": 1
+        },
+        {
+          "sha256": "aa0827c5edfb48c44df42895146348e8794f4e761360bc2128f41185c9ceecfd",
+          "count": 2
+        },
+        {
+          "sha256": "ac545c844159d3bcb09afa9a118fef9db116cf8d7f90c1423bc05afbc0007ede",
+          "count": 1
+        },
+        {
+          "sha256": "af4cac89b0cf92560041f9e21a4f4896b98a857961c3aad411e9da4bfafc1ecc",
+          "count": 1
+        },
+        {
+          "sha256": "b254f5af7fdba3148b46ea39a0a54de87605b7c3040cf0c796fff15acb55bb06",
+          "count": 1
+        },
+        {
+          "sha256": "ce74b15cb97c9fb3c0d6441621ed28b66e4dc79c5937918b170e3882538538b8",
+          "count": 1
+        },
+        {
+          "sha256": "e1a2b4ff3b5f2ffb87f787e7a60d55671e99de70153c6ea53c79ffc13ffb5202",
+          "count": 1
+        },
+        {
+          "sha256": "e5c485db0a1fde3053afc433cb0589ffa367ecc213b131d84ceb89a4715f6837",
+          "count": 1
+        }
+      ]
+    },
+    "tests/test_producer_compatibility_gate.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "94d8616710907d01dcec11bbda428ffacbd1fa1f6d4436167f4b2a09372adffe",
+          "count": 1
+        },
+        {
+          "sha256": "a286b7a80393adf104827d81633ab1a2badd8bfff82fe918cab88163b3972a11",
+          "count": 1
+        }
+      ]
+    },
+    "tests/test_reference_policy.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "00ba383fdbe1e1356562a5656bb4fefa5f9206655d5f879af66da0a30abf896a",
+          "count": 1
+        },
+        {
+          "sha256": "234a659f768f368bf0566b683bf53fe322c1371327617520de4c4e081ef61530",
+          "count": 1
+        },
+        {
+          "sha256": "5f9e52de9525334904d370d981d1f98dee5610a0230823f41379fce56d29269f",
+          "count": 1
+        },
+        {
+          "sha256": "8cc44a3e4e4f5cbca6c16461cc2ec586462d6cdad5349191fc7a76a7b0f78aaf",
+          "count": 1
+        },
+        {
+          "sha256": "8d3ce1bc0a333791c2b5fc229c9f9beb5b2c2d2a0337b4fd152b68121a8dca47",
+          "count": 1
+        },
+        {
+          "sha256": "a79d3ad850d440763b23c961b7f67cbe1616f1362c73277f300e3a4a3c8e351b",
+          "count": 1
+        },
+        {
+          "sha256": "c75707fe45a0c8b4aaf73125b9986d69d1ebfddb703301c745675411f831cb96",
+          "count": 1
+        },
+        {
+          "sha256": "f3e581b78e8f488862f0774e11c81797b400735274524ee7e9c692c62fa1db83",
+          "count": 1
+        },
+        {
+          "sha256": "f4530953f9ccbbed0c00f1c5ce3cb063a01e6f4fa5e011d567bc15c5a9614968",
+          "count": 1
+        }
+      ]
+    },
+    "tests/test_schema_validation_parity.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "3a8515269689c89f4d96b92a39f057179a4178c854d65e593af554935064cb9c",
+          "count": 1
+        },
+        {
+          "sha256": "3f5c152926387ef736a4ca8b7acdde2f92e30b1c214df77fa7d41d6a1fe6a7eb",
+          "count": 1
+        },
+        {
+          "sha256": "c16c17bb658fdf4a889ea8dd1f4f8c77eada4bb4ecd9e4a3794e47cfd0406a9c",
+          "count": 1
+        }
+      ]
+    },
+    "tests/test_standardized_ingestion_providers.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "06c880df0ecd7dc9ef5b06056c1b1264f1b9b5f05e7a37484b3b3eb4da3c36bc",
+          "count": 1
+        },
+        {
+          "sha256": "0e6d900d923bbb5021d14e46bbe0346323718ce6251600bfacf078d0d830c971",
+          "count": 1
+        },
+        {
+          "sha256": "55e81be7ef6f88d492170e5e45758a3c8ef047d3cfc01dea408caad32867238f",
+          "count": 1
+        },
+        {
+          "sha256": "8c0859a9b1186849097c8caac42ee23a30f03c1f6ec858d897ac838e28b45b52",
+          "count": 1
+        },
+        {
+          "sha256": "be273c8e16cae7e08803fd039495f1a4f73828936c8bf593a20bc9d6a39d31db",
+          "count": 1
+        },
+        {
+          "sha256": "c7c90d6ccb25468b31e9c25d29919069440217fed80976961f93c085adf46e2c",
+          "count": 1
+        },
+        {
+          "sha256": "db54d777e511542bebf9afef32fbeb4d2753aa4e3a4986f02f910b57bd038124",
+          "count": 1
+        }
+      ]
+    },
+    "tests/test_tabular_io_polars.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "1bed843510bccb0fca69bfabdd47bf4ae4d105cadd577d0d8310644336b67bc7",
+          "count": 1
+        },
+        {
+          "sha256": "37e0fbdf9be5d6dc6900098670f1a4f7399060e835b914cb07c101c498956368",
+          "count": 1
+        },
+        {
+          "sha256": "41d679fd3a880a1bda28263f34ac8307a490ff6dcdd31f464d2a95133109b94f",
+          "count": 1
+        },
+        {
+          "sha256": "521359269f93fa73cb403705d98e1dfa83805b3a8a3b352e6ad8b208f406413f",
+          "count": 1
+        },
+        {
+          "sha256": "54cbd8e07f2df181b472c7f62be0e57f8849ff4097585dc6c80db9b002a74093",
+          "count": 1
+        },
+        {
+          "sha256": "6a6e6cc7f737c9d4d23f730de4325ccb12fc8ad2c5c4ef3766e1539ed49181f8",
+          "count": 1
+        },
+        {
+          "sha256": "7cf24d309a9502d9ad2c8ceac5fb128112a6e1ab4fe0a79d2146f517408b15ba",
+          "count": 1
+        },
+        {
+          "sha256": "8c0859a9b1186849097c8caac42ee23a30f03c1f6ec858d897ac838e28b45b52",
+          "count": 1
+        },
+        {
+          "sha256": "8ce60b0d4fb69220d8774020363c0917c46175428b7f3ef13e633a03bb4238c9",
+          "count": 1
+        },
+        {
+          "sha256": "aa0c17879c205553f082b9a72024a1b05f82c3c21049381d833b10fe57477222",
+          "count": 1
+        },
+        {
+          "sha256": "c961ed17fc71e323be75451f7c68242437cfa7f829b0da3e064e3ee20e0c2734",
+          "count": 1
+        },
+        {
+          "sha256": "d6503fee16a1c47a9335f202be94c4ce5d9a13a0c908f86afc6e4c79860be93d",
+          "count": 1
+        },
+        {
+          "sha256": "e2c9c864f0de14600476460759fc9fe724173c5c50cd090cc5a6c4abd15de3db",
+          "count": 1
+        },
+        {
+          "sha256": "e75308df54eded0a95ae25ed64f57d7e1bab729d08e7c75fa6d0cfc1512551de",
+          "count": 1
+        },
+        {
+          "sha256": "ec05754bb78e38cb785f90d6e1ec43dff198d5553246d6f8304aee9028ca02c2",
+          "count": 1
+        },
+        {
+          "sha256": "fa2cfe486634319d929f851e92c4b6674b28dcd89be1ba8b71d346c7f61daff8",
+          "count": 1
+        }
+      ]
+    },
+    "tests/test_tabular_read_semantics.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "1bed843510bccb0fca69bfabdd47bf4ae4d105cadd577d0d8310644336b67bc7",
+          "count": 1
+        },
+        {
+          "sha256": "41d679fd3a880a1bda28263f34ac8307a490ff6dcdd31f464d2a95133109b94f",
+          "count": 1
+        },
+        {
+          "sha256": "8c0859a9b1186849097c8caac42ee23a30f03c1f6ec858d897ac838e28b45b52",
+          "count": 1
+        },
+        {
+          "sha256": "bc527966fd72caf047ebb28c81e9ae6dd032233983fb470527753437c79535c8",
+          "count": 1
+        }
+      ]
+    },
+    "tests/test_v3_stable_api_contract.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "f8535e0c4ca2d429cdfef3d1cecbd8468ac1516cb6b4e7b78d35ddac6409bb14",
+          "count": 1
+        }
+      ]
+    },
+    "tests/test_vop_compatibility_contract.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "3f7f795994f6dca38d4e2560c23cbe0ff6ffe82a70a67db0664bab8839df7ee6",
+          "count": 1
+        },
+        {
+          "sha256": "b95ae347d949fbdd5569bbde06d861d097d84af8981e11dd685e3fc33da91cd5",
+          "count": 1
+        }
+      ]
+    },
+    "tests/test_vop_research_handoff.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "21bc25ccd2421792eec316d9c004ff8cb6b7a1e902b53a37c50f137f5b19ef90",
+          "count": 1
+        },
+        {
+          "sha256": "61ec4d71a42b3b3047b00b98f5fdded4173545fe9271cef5b489c8aa994f2cd0",
+          "count": 1
+        }
+      ]
+    },
+    "todo.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "lines": [
+        {
+          "sha256": "00b464e7ebbe2ae0ce05c32d0b6851e4cf89375d5abe76d98c9e2098f490d077",
+          "count": 1
+        },
+        {
+          "sha256": "424994b761cfb26f2b10ee9e7b3e6968757e99b8580b903d3c43cb5412205e3f",
+          "count": 1
+        },
+        {
+          "sha256": "82acd7917bd9131412011f7d9e9b62df74383073373a5d5df293c9ac44675e28",
+          "count": 1
+        },
+        {
+          "sha256": "965e30b3877d5ff87cbcdc34a71a4cdef05417404207d1766607e40382551135",
+          "count": 1
+        },
+        {
+          "sha256": "9d14d5a6fe9757872887971fe8f81e8c0461c43d8efc101d423089f24bcaba88",
+          "count": 1
+        },
+        {
+          "sha256": "e54f28b76d16e54cc625322322821b8634c22f9038b653f206f9ef38db1c7861",
+          "count": 1
+        },
+        {
+          "sha256": "fd8bf0ec041e0f61e6e2505052953a0d670163f5179e365c23e94be4cd806afe",
+          "count": 1
+        }
+      ]
+    },
+    "tox.ini": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "8c3841bbb73803bb1f232746ef1e42ed09bfe53db79776f1f3acdbf7a521c78a",
+          "count": 1
+        },
+        {
+          "sha256": "9e476c34d7ebd02accd0e4c002946caa06d8cbf42f41ef5013c035b7c973c417",
+          "count": 1
+        }
+      ]
+    },
+    "uv.lock": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "0f880a82a2dc7aead87284b81dcc3e082789b96dd37c9688edf9ff04e21e5485",
+          "count": 1
+        },
+        {
+          "sha256": "116b54a80439d6008811dc6cc60ed9bb05fb576eebef613b4e3e155cf6b9e208",
+          "count": 1
+        },
+        {
+          "sha256": "1277864632e406322a60eb13d19d7d0653662693aff67805cb4f6ce1b7116b0d",
+          "count": 1
+        },
+        {
+          "sha256": "16d463165be1be6c6c2243c663fe1763528ee9189bd61ccb786adacd38ecf67a",
+          "count": 1
+        },
+        {
+          "sha256": "1bb9d2707f3c6a2a06fef16b7dfd9c1daf3f134b51a42744ce3ec0214a8cc669",
+          "count": 1
+        },
+        {
+          "sha256": "28f1d7465b54ae71dee70770ec9cb9f11f20c5c3fcbac8bc9c49484313250a5c",
+          "count": 2
+        },
+        {
+          "sha256": "413a77f0745cf3f19454ee66fc09ba3d76561b6024ce44f63a64eedf5f9a1a11",
+          "count": 1
+        },
+        {
+          "sha256": "4dc3fbd550e6580a62e4d6ba72a7d103035e8dc08f4c997cb84044b325fbc072",
+          "count": 1
+        },
+        {
+          "sha256": "52ceea1fb8e0c14b90556bec595d3052feb145afc08a4b952ccdb3c424f2e51d",
+          "count": 1
+        },
+        {
+          "sha256": "59759d72d5be5ef2de22ac9964ce80ada1e081d1fa7d3bfa4ac0f68958eca0cc",
+          "count": 1
+        },
+        {
+          "sha256": "63976b3cf586e585d695a1b4e66192efa0eb7ae64cccc1bde152f79b56568e19",
+          "count": 1
+        },
+        {
+          "sha256": "6701a920bd7c7b2054c52f73d9beddfef1d690c2576fa9d76abfffa9a45c854f",
+          "count": 1
+        },
+        {
+          "sha256": "9b47e9b1c67dc59591cb6e577f6411744215d5b3d57e16de484b8cf4096da317",
+          "count": 1
+        },
+        {
+          "sha256": "a8e98abab153ebddd22ab338dba2fdb08937894c82bba970d6417830f90e7ee2",
+          "count": 1
+        },
+        {
+          "sha256": "b485aa2c0d77f6c5a799cb2a6129f6842197cbc6aa7a623a678e58825e791d52",
+          "count": 1
+        },
+        {
+          "sha256": "b866cfa7039e2696737c3322292a813a8359d400268fce7c07eaa86fb0c8dbba",
+          "count": 1
+        },
+        {
+          "sha256": "c834c08390b81ef0b0b67d554aa475bd896c5df8c90b3f62fc6e7779e2061e6e",
+          "count": 1
+        },
+        {
+          "sha256": "cd8f988ce1543d3b3cebcd2565a31cbfed07cfb62f8ca3abfa1402be782b93d3",
+          "count": 1
+        },
+        {
+          "sha256": "dd326b04447ceacb75c66fee088832e987c2fac0d9c6e929e61920a0907f895f",
+          "count": 1
+        },
+        {
+          "sha256": "f171b2525994d739d1861725141102edfb8eeb69de07fd05018341962cc1b3ec",
+          "count": 1
+        }
+      ]
+    },
+    "voiage/_tabular_io.py": {
+      "category": "producer_compatibility",
+      "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "c880c2b8e95ee2ef8b1c425beed37f2cd72806c9ce56784f1a7f12e92f2910ee",
+          "count": 1
+        }
+      ]
+    }
+  }
+}

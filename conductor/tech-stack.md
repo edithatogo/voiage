@@ -154,3 +154,15 @@ Python 3.15.1, checks package location, and qualifies frozen rows/content/schema
 caller-owned imports, real numeric buffer sharing and strict-copy rejections.
 No runtime or binding API change is planned. Keep observed buffer sharing
 separate from the existing copy-policy diagnostics and preserve the Arrow wire.
+
+### 2026-10-28 repository reference enforcement
+
+Phase 7 scans every Git-tracked text file, including generated-code strings.
+Permissions are reviewed exact reference-line fingerprints with occurrence
+counts, or whole-file hashes for immutable historical evidence; there are no
+path globs, suppression pragmas or automatic policy refresh. Producer
+compatibility includes external wire-metadata keys, dependency-test declarations
+and absence controls: these remain necessary to preserve behavior and to prove
+removal. The runtime AST import ban still has no exemptions. Current overlay
+candidates use the canonical runtime policy; older exact-source graphs and tools
+are historical only and retain their bytes, licences and native evidence gates.

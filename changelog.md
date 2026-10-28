@@ -1,5 +1,9 @@
 # Changelog
 
+- Generate executable Polars notebooks and enforce reviewed legacy-reference
+  permissions across tracked code, templates and documentation. Separate current
+  Python 3.15.1 HPC recipe declarations from immutable historical build evidence.
+
 - Qualify caller-owned DataFrame producers against the installed base wheel on
   Python 3.15.1. Preserve index exclusion, binding values, import ownership,
   numeric buffer sharing and strict copy-policy diagnostics.

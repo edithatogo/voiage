@@ -6,7 +6,7 @@ T1.1 baseline is frozen, T1.2 is merged in PR #1203, and Phase 2 qualifies the m
 
 - [x] T1.1 — Freeze the current public signatures, return types and the exact `git grep` inventory of pandas imports; record the expected red result. See `phase-1-baseline.json` (36 hits, 42 signatures) and `inventory.md`.
 - [x] T1.2 — Port `ecosystem_integration` CSV and Parquet paths and the widget CSV upload to Polars, preserving the public surface. (AC1). Implemented in `01a398ca`; see `t12-acceptance-python315.json`.
-- [ ] T1.3 — Validate: no `import pandas` remains in either module; existing ecosystem and widget tests pass unchanged; record command, environment and digest. (AC1).
+- [x] T1.3 — Validate: no `import pandas` remains in either module; existing ecosystem and widget tests pass unchanged; record command, environment and digest. (AC1). Generated template cleanup removes the remaining literal import; existing connector tests pass, with final evidence in Phase 7.
 
 ## Phase 2: Read semantics [checkpoint: 27d206a]
 
@@ -40,9 +40,9 @@ T1.1 baseline is frozen, T1.2 is merged in PR #1203, and Phase 2 qualifies the m
 
 ## Phase 7: Residual surfaces and zero-reference end state
 
-- [~] T7.1 — Freeze the repository-wide `git grep` inventory of `\bpandas\b`, `\bxarray\b`, `\bpd\.`, `\bxr\.`, and `itertuples` outside `voiage/`: tests (8 modules mention pandas), docs (9 pages mention pandas), scripts (`hpc_package_smoke.py`, `simple_validation.py`, `validate_easybuild_root_graph.py`), `.github/workflows/dependency-preview.yml`, the EasyBuild and Spack overlays, SBOMs and solver logs; classify each hit as live dependency, live documentation, generated-code template, or frozen historical evidence.
-- [ ] T7.2 — Port or remove every live hit: the pandas snippets emitted into generated notebook code at `voiage/ecosystem_integration.py` lines 757 (`import pandas as pd`), 827 (`pd.DataFrame(results)`), and 844 (`results_df.itertuples()`) become Polars (`import polars as pl`, `pl.DataFrame(results)`, `results_df.iter_rows(named=True)`); live docs, scripts and the preview workflow drop pandas; live overlay dependency declarations are reconciled with the packaging set; frozen historical evidence (SBOMs, solver logs, dated release records) is left byte-unchanged. (AC8).
-- [ ] T7.3 — Validate: a test enforces an explicit allow-list (migration guide, translation reference, producer-compatibility tests, frozen historical evidence) and fails on any other `pandas`, `xarray`, `pd.`, `xr.`, or `itertuples` reference, including string literals and generated-code templates; the allow-list is recorded in the track; the overlay and packaging validators still pass. (AC8).
+- [x] T7.1 — Freeze the repository-wide `git grep` inventory of `\bpandas\b`, `\bxarray\b`, `\bpd\.`, `\bxr\.`, and `itertuples` outside `voiage/`: tests (8 modules mention pandas), docs (9 pages mention pandas), scripts (`hpc_package_smoke.py`, `simple_validation.py`, `validate_easybuild_root_graph.py`), `.github/workflows/dependency-preview.yml`, the EasyBuild and Spack overlays, SBOMs and solver logs; classify each hit as live dependency, live documentation, generated-code template, or frozen historical evidence.
+- [x] T7.2 — Port or remove every live hit: the pandas snippets emitted into generated notebook code at `voiage/ecosystem_integration.py` lines 757 (`import pandas as pd`), 827 (`pd.DataFrame(results)`), and 844 (`results_df.itertuples()`) become Polars (`import polars as pl`, `pl.DataFrame(results)`, `results_df.iter_rows(named=True)`); live docs, scripts and the preview workflow drop pandas; live overlay dependency declarations are reconciled with the packaging set; frozen historical evidence (SBOMs, solver logs, dated release records) is left byte-unchanged. (AC8).
+- [x] T7.3 — Validate: a test enforces an explicit allow-list (migration guide, translation reference, producer-compatibility tests, frozen historical evidence) and fails on any other `pandas`, `xarray`, `pd.`, `xr.`, or `itertuples` reference, including string literals and generated-code templates; the allow-list is recorded in `reference-policy.json`; historical and current overlay validators and packaging validation pass. (AC8). Local qualification is recorded in the Phase 7 receipt; hosted and final merged-revision gates remain open.
 
 ## Final acceptance
 

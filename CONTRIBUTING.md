@@ -199,3 +199,11 @@ prevents source shadowing and runs real caller-created frames against frozen
 rows, digests, import ownership, buffer identity and diagnostics. The protected
 unit job and three-platform base-runtime matrix execute it alongside
 `pandas-free`; the latter stays free of producer tooling.
+
+Required lint also runs `scripts/check_reference_policy.py` over every tracked
+text file, including generated-code strings. It accepts only reviewed exact
+reference-line/count fingerprints or immutable historical file hashes; there
+are no path globs or automatic refresh flags. New permissions must be reviewed
+with the compatibility evidence. The current overlay candidates are under
+`packaging/current/`; old source-bound graphs are retained for historical audit,
+not current-runtime activation.

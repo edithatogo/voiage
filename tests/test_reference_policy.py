@@ -3,6 +3,7 @@
 from pathlib import Path
 
 import pytest
+import yaml
 
 from scripts.check_reference_policy import check_files, check_repository, digest
 
@@ -78,3 +79,12 @@ def test_symlink_and_empty_inventory_fail_closed(tmp_path: Path) -> None:
 
 def test_current_repository_reference_policy_passes() -> None:
     assert check_repository(ROOT)["passed"]
+
+
+def test_existing_protected_lint_and_local_tox_run_reference_gate() -> None:
+    workflow = yaml.safe_load((ROOT / ".github/workflows/ci.yml").read_text())
+    lint = workflow["jobs"]["lint"]
+    commands = "\n".join(step.get("run", "") for step in lint["steps"])
+    assert "python scripts/check_reference_policy.py" in commands
+    assert not lint.get("continue-on-error", False)
+    assert "python scripts/check_reference_policy.py" in (ROOT / "tox.ini").read_text()

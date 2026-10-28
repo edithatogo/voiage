@@ -192,3 +192,20 @@ The existing protected unit job and Linux/macOS/Windows base-runtime matrix run
 this lane alongside `pandas-free`. The latter retains its separate environment
 with no producer tooling. Observed numeric buffer sharing does not change the
 existing strict-copy policy or claim that every conversion is zero-copy.
+
+## Complete reference policy
+
+Both protected lint and local tox run `scripts/check_reference_policy.py`. It
+scans every Git-tracked text file, including notebook JSON, generated-code
+strings and workflows. Exact reference-line fingerprints include occurrence
+counts, so an approved producer test cannot hide an added or duplicated
+reference. Whole-file hashes protect immutable historical evidence. Deleted
+permissions, changed evidence, unsafe paths and empty scans fail closed. No
+path globs, suppression directives or automatic refresh command are supported.
+
+The producer-compatibility scope includes the existing external Parquet metadata
+key, explicit test-tool declarations and executable absence controls. These
+narrow permissions preserve caller behavior; the runtime AST import ban still
+has no exemption. Old source-bound HPC inputs remain unchanged and independently
+validated; current candidate declarations have separate unfulfilled native
+source/solver/build/installed-module gates.

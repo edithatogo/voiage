@@ -40,8 +40,6 @@ def check_files(root: Path, paths: list[str], policy: dict[str, Any]) -> dict[st
             errors.append(f"Unsafe tracked path: {name}")
             continue
         if not path.is_file():
-            if path.is_dir():  # Gitlinks are external repositories, not parent source.
-                continue
             errors.append(f"Missing tracked file: {name}")
             continue
         raw = path.read_bytes()
@@ -95,9 +93,15 @@ def check_repository(root: Path, policy_path: Path | None = None) -> dict[str, A
     if git is None:
         raise RuntimeError("Git is required for the complete inventory")
     result = subprocess.run(  # noqa: S603 - fixed read-only Git command and selected root
-        [git, "-C", str(root), "ls-files", "-z"], capture_output=True, check=True
+        [git, "-C", str(root), "ls-files", "--stage", "-z"],
+        capture_output=True,
+        check=True,
     )
-    paths = [name.decode() for name in result.stdout.split(b"\0") if name]
+    paths = [
+        item.split(b"\t", 1)[1].decode()
+        for item in result.stdout.split(b"\0")
+        if item and not item.startswith(b"160000 ")
+    ]
     policy = json.loads((policy_path or root / DEFAULT_POLICY).read_text())
     return check_files(root, paths, policy)
 
