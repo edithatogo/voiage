@@ -87,7 +87,8 @@ def _restore_schema_metadata(
 
 
 class _Digest(Protocol):
-    def update(self, data: bytes, /) -> None: ...
+    def update(self, data: bytes, /) -> None:
+        """Incorporate the next bytes in the digest."""
 
 
 class _DigestWriter:
