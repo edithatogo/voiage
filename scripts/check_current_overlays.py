@@ -55,6 +55,7 @@ def source_receipt_matches(root: Path, runtime: dict[str, object]) -> bool:
         ):
             return False
         receipt = json.loads(path.read_text())
+        policy_hash = historical_digest(root / "specs/dependency-runtime-policy.json")
     except OSError, ValueError:
         return False
     if not isinstance(receipt, dict):
@@ -67,6 +68,7 @@ def source_receipt_matches(root: Path, runtime: dict[str, object]) -> bool:
         and receipt.get("source_revision") == runtime["source_commit"]
         and receipt.get("source_archive_qualified") is True
         and receipt.get("python") == "3.15.1"
+        and receipt.get("runtime_policy_sha256") == policy_hash
         and all(
             receipt.get(key) is False
             for key in (

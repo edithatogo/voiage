@@ -20,6 +20,6 @@
   "installed_module_acceptance": false,
   "source_archive_qualified": true,
   "source_qualification_receipt": "conductor/tracks/remaining_backlog_delivery_20260831/source-qualification-20261028.json",
-  "source_qualification_receipt_sha256": "bce6088814a5b51fa3e9928bd9844da5504dd602ed73aab28606ad37d1cb11dd",
+  "source_qualification_receipt_sha256": "4eaaa81af9ac1b2ef97843bc897c2f1707d7bc694f2d5865815e4d7a15c56fcb",
   "source_archive_sha256": "3748d8c5d155dc90db2b2c9c35abac5bb27958cb34c747e60e1ef8f84212a989"
 }

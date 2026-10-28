@@ -13,7 +13,8 @@ ROOT = Path(__file__).parents[1]
 
 
 @pytest.mark.parametrize(
-    "damage", ["missing", "checksum", "revision", "archive", "invalid", "native"]
+    "damage",
+    ["missing", "checksum", "revision", "archive", "invalid", "native", "policy"],
 )
 def test_source_claim_requires_exact_receipt(tmp_path: Path, damage: str) -> None:
     shutil.copytree(ROOT / "packaging/current", tmp_path / "packaging/current")
@@ -46,6 +47,8 @@ def test_source_claim_requires_exact_receipt(tmp_path: Path, damage: str) -> Non
         original["archive_sha256"] = "0" * 64
     if damage == "native":
         original["native_build_executed"] = True
+    if damage == "policy":
+        original["runtime_policy_sha256"] = "0" * 64
     receipt = tmp_path / receipt_name
     receipt.write_text(json.dumps(original))
     if damage == "invalid":

@@ -29,7 +29,8 @@
       "returncode": 0,
       "elapsed_seconds": 286.508,
       "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-g58gx9qq"
-    }
+    },
+    "tested_implementation_commit": "c6baa03c2418edbc2af44b2ecfc1e7028739d363"
   },
   "focused_tests": {
     "passed": 33,
@@ -56,5 +57,27 @@
     "Protected PR delivery",
     "Final issue/PR/branch inventory and remaining recovery-backed cleanup",
     "Conductor final review and archive only after acceptance"
-  ]
+  ],
+  "review_followup": {
+    "finding": "Receipt identity alone did not invalidate qualification after runtime policy drift",
+    "fix": "Bind the accepted source receipt to the exact runtime-policy checksum and requalify the same immutable archive against that input",
+    "red_witness": "Policy-mismatch case failed against the initial implementation",
+    "focused_tests_passed": 37,
+    "additional_release_tests_passed": 6,
+    "scope": "Only declaration checker, receipt, documentation and their tests changed; runtime/dependencies/shared fixtures are unchanged. Reuse full-gate evidence for unaffected inputs. Required hosted checks must pass on the final PR revision.",
+    "resource_report": {
+      "peak_rss_kib": 105824,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 6.217,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-z1v2f5do"
+    },
+    "current_implementation_sha256": {
+      "packaging/current/runtime.json": "9eac0584da1396929f804e5f48427d95ba6e7af9649f85a96b070ac1fd11f1ea",
+      "packaging/current/spack/packages/py-voiage/package.py": "952d16c3f6f0ebbff6c2b7c01a343497cd23abec55461c4c1e5298ae718dafc5",
+      "packaging/current/README.md": "8d143b89ce99550560107b7a6a8594d9b42ec9dd2ad76c55eb462d070e9f1a9c",
+      "scripts/check_current_overlays.py": "ba4b2c1ef6c908fbbb243c2c9e6c751e9f5c45ca4dd55cea6bd9c2d81ae2478c",
+      "tests/test_current_overlays.py": "1ac4626c4abcc203e437422f4d63fd766112dfe703a1c017eeb963ac6a02c12e"
+    }
+  }
 }

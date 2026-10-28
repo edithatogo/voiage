@@ -9,7 +9,8 @@ source-download or dependency-resolution fallback.
 No native solver, catalogue, toolchain, build or installed-module acceptance is
 claimed. `runtime.json` retains the three native gates as false. Source-only
 qualification is separately true and bound to the checksum of its accepted
-receipt and archive. The declaration checker authenticates that receipt; it
+receipt, archive and exact runtime policy. The declaration checker authenticates
+that receipt; it
 does not run a native solver or build. Do not substitute the published older
 sdist or treat the local candidate as a new release.
 
