@@ -9,7 +9,7 @@ unchanged. Read `continuation-audit-20261028.json` before implementation.
 ## Current source and ownership
 
 - Accepted source baseline: `3df3cb49e5c927075c0609a48a2535b4457424d4`.
-- Integrator branch: `codex/hpc-source-binding-20261028`; primary checkout.
+- Integrator branch: `codex/hpc-polars-providers-20261028`; primary checkout.
 - Root owns shared governance, locks, workflows and packaging changes.
 - Parallel investigations are read-only; no concurrent tox/cache writers.
 - Use repo-local Python 3.15.1 and `scripts/guard_verification.py` for execution.
@@ -38,8 +38,10 @@ byte-preserved and are not current Python installation defaults.
 
 ## Native capacity and false status findings
 
-The selected Docker daemon is stopped. Its shared VM configuration permits
-16 GiB memory and is not changed by this handoff. The historical internal HPC
+The earlier preflight observed a stopped Docker daemon. A fresh read now finds
+OrbStack running with 10 configured CPUs, about 16 GiB configured memory and
+three existing containers. None was started, stopped or reconfigured here;
+availability is not HPC qualification. The historical internal HPC
 VM path is absent; an old statement that its build is running is not a verified
 wait. The only default Lima instance observed belongs to another project and
 must not be reused or modified. Current physical free space is below the retained

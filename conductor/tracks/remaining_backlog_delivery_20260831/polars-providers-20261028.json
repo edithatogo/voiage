@@ -1,0 +1,150 @@
+{
+  "observed_at": "2026-10-28T10:43:09.664177+00:00",
+  "baseline": "b1cd63a7fb3fc73cd7856d41ea92595106ef9470",
+  "scope": "B6.2 Polars frontend/runtime source declarations only; no native build acceptance",
+  "implementation_allowlist": [
+    "packaging/current/spack/packages/py-polars/package.py",
+    "packaging/current/spack/packages/py-polars-runtime-32/package.py",
+    "scripts/check_current_spack_providers.py",
+    "tests/test_current_spack_providers.py",
+    "packaging/current/polars-provider-sources.json"
+  ],
+  "sources": "packaging/current/polars-provider-sources.json",
+  "source_qualification": {
+    "source_declarations_qualified": true,
+    "providers_checked": 2,
+    "native_solver_executed": false,
+    "native_build_executed": false,
+    "installed_module_acceptance": false
+  },
+  "source_resource_report": {
+    "peak_rss_kib": 1200,
+    "reason": "completed",
+    "returncode": 0,
+    "elapsed_seconds": 2.096,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-2lqk7qpu"
+  },
+  "spack_native_class_load": {
+    "py-polars": {
+      "2.1.0": {
+        "sha256": "9eee488d6e10773c028753dfc8dac647fd60a708108dcb818a733e85d33df253",
+        "url": "https://files.pythonhosted.org/packages/b9/da/c27daf205a824f89f71172a75ad0098c5837a5a31ddeaac7f8737ea8574b/polars-2.1.0.tar.gz"
+      }
+    },
+    "py-polars-runtime-32": {
+      "2.1.0": {
+        "sha256": "c575f5f3cdb8a5f9be65477b9b4202b062593687fe62a0082add87fbd4571067",
+        "url": "https://files.pythonhosted.org/packages/e0/a6/46e09af693326735b1fba3a8bf5a725b57136fb1342e707e75d3113c826b/polars_runtime_32-2.1.0.tar.gz"
+      }
+    }
+  },
+  "native_class_load_resource_report": {
+    "peak_rss_kib": 32,
+    "reason": "completed",
+    "returncode": 0,
+    "elapsed_seconds": 2.102,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-1tzmc_9v"
+  },
+  "focused_integration_tests": {
+    "passed": 45,
+    "files": [
+      "tests/test_current_spack_providers.py",
+      "tests/test_current_overlays.py",
+      "tests/test_hpc_source_qualification.py"
+    ],
+    "resource_report": {
+      "peak_rss_kib": 98752,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 4.165,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-qscb_loq"
+    }
+  },
+  "review_controls": "Removed-provider pair, mismatched compiler binding and unversioned SDK cases initially passed the verifier; all three now fail. Existing source checksum, dependency, version, default-feature override and missing-archive controls also pass. A dependency hidden behind a false condition also initially passed; the current simple-provider verifier now rejects unsupported conditional code rather than infer native behavior.",
+  "upstream_constraints": {
+    "frontend": "Pure Python, setuptools/wheel; exact native runtime is the only required runtime dependency",
+    "runtime": "Maturin source; upstream full/nightly defaults retained; direct selected compiler/Cargo paths; source-pinned nightly-2026-09-01",
+    "compiler_metadata": "Official channel identifies Rust 1.100.0-nightly, commit 0dfb098f3aeecbe38c2566ca090193280e7349e7; stage0 requires beta from 2026-08-18. This is metadata discovery, not a compiler build receipt."
+  },
+  "frontier_preflight": {
+    "isolated_uv_upgrade": {
+      "peak_rss_kib": 102320,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 6.249,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-lhl1oric"
+    },
+    "strict_frontier": {
+      "peak_rss_kib": 117920,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 28.863,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-34fviual"
+    },
+    "root_lock_unchanged": true,
+    "root_lock_sha256": "3416ffe175d6171959ea26064f368e48d7129eb9014386c1410f6b05d7ef463c"
+  },
+  "remaining": [
+    "Protected delivery of this provider slice",
+    "Dated Rust compiler/bootstrap provider and source-closure qualification",
+    "Arrow 26 C++/Python and LibCST current source providers",
+    "Unmodified solver and qualified Linux source builds",
+    "Installed numerical/Arrow/module/compiler-matrix gates and final backlog audit"
+  ],
+  "capacity_readback": {
+    "observed_at": "2026-10-28T10:55:37.599788+00:00",
+    "orbstack_status": "Running",
+    "configured_memory_bytes": 16818925568,
+    "configured_cpus": 10,
+    "existing_containers": 3,
+    "host_configuration_changed": false,
+    "containers_started_or_stopped": false,
+    "ssd_free_bytes": 182265237504,
+    "internal_free_bytes": 13399945216,
+    "linux_hpc_builder_qualified": false,
+    "reason": "Existing daemon availability does not satisfy native source/toolchain qualification or the retained 250 GiB physical-space floor"
+  },
+  "reviewed_implementation_sha256": {
+    "packaging/current/spack/packages/py-polars/package.py": "e303d7d6c50194377b07e7031bd95dd90b4875e60dc0dcd0f8b0648dc5883ec9",
+    "packaging/current/spack/packages/py-polars-runtime-32/package.py": "b5c45bd68f21c11f5aff268f864b6f68ba3b5f06e1dbe13392d64e75a826d8ad",
+    "scripts/check_current_spack_providers.py": "14247e6371880875fc0d450999c12c9bb29478124207234b855dcd917f97b7b8",
+    "tests/test_current_spack_providers.py": "70e27dadb5fe3b25febb48283059a68b1d623c103f6806ad57d7a038fb4bac50",
+    "packaging/current/polars-provider-sources.json": "614606208dbd605d5d48ffa699aa24eed15052a46bdc71ccdbd80a6eaf19223c"
+  },
+  "full_local_gate": {
+    "command": ".venv/bin/tox run-parallel -p 2 under resource guard",
+    "environments_passed": 15,
+    "tests_passed": 5465,
+    "tests_skipped": 19,
+    "coverage_percent": 95,
+    "resource_report": {
+      "peak_rss_kib": 2126992,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 250.805,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-fffk23ks"
+    },
+    "implementation_sha256": {
+      "packaging/current/spack/packages/py-polars/package.py": "e303d7d6c50194377b07e7031bd95dd90b4875e60dc0dcd0f8b0648dc5883ec9",
+      "packaging/current/spack/packages/py-polars-runtime-32/package.py": "b5c45bd68f21c11f5aff268f864b6f68ba3b5f06e1dbe13392d64e75a826d8ad",
+      "scripts/check_current_spack_providers.py": "14247e6371880875fc0d450999c12c9bb29478124207234b855dcd917f97b7b8",
+      "tests/test_current_spack_providers.py": "70e27dadb5fe3b25febb48283059a68b1d623c103f6806ad57d7a038fb4bac50",
+      "packaging/current/polars-provider-sources.json": "614606208dbd605d5d48ffa699aa24eed15052a46bdc71ccdbd80a6eaf19223c"
+    }
+  },
+  "review": "Self-reviewed each implementation file and the actual upstream archives. Fixed missing-pair, compiler path/contract and conditional-declaration false positives; source checks do not count as native numerical/build proof.",
+  "compiler_role_preflight": {
+    "range_probe": {
+      "current_root_range_accepts_nightly": true,
+      "numeric_series_range_accepts_nightly": false
+    },
+    "resource_report": {
+      "peak_rss_kib": 1600,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 2.106,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-qh74yync"
+    },
+    "next_required": "Keep the core compiler and required dated runtime compiler explicitly separated in the next source/toolchain slice; no native build or compiler promotion was performed"
+  }
+}

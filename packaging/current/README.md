@@ -37,3 +37,19 @@ pins every retained byte. Their older runtimes and package sets describe those
 sources; they are not current installation instructions. The old HPC smoke and
 native-qualification helpers are historical replay tools, not current defaults.
 Read-only historical validators remain available to audit their retained evidence.
+
+The current Polars providers follow the split 2.1.0 distribution. The frontend
+requires its exact native runtime; optional integrations remain optional. The
+native source retains upstream full/nightly defaults and requires the dated
+`nightly-2026-09-01` compiler. `polars-provider-sources.json` binds both upstream
+archives and their licence metadata. Check the actual downloaded archives with:
+
+```sh
+.venv/bin/python scripts/guard_verification.py --work-dir .conductor/local/polars-providers -- \
+  .venv/bin/python scripts/check_current_spack_providers.py /path/to/source-archives
+```
+
+A successful check proves source/declaration agreement. The dated compiler and
+bootstrap provider, unmodified solve, native build and installed-module checks
+remain required. No optional integrations or source features are silently
+substituted to make the catalogue solve.

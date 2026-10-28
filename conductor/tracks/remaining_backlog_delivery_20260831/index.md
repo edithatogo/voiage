@@ -56,3 +56,5 @@ historical and do not identify a currently live build.
 - [Current source binding verification](./current-source-binding-20261028.json)
 - [Recovery and partial local cleanup](./recovery-progress-20261028.json)
 - [Native tool/catalogue preflight and remaining gaps](./native-preflight-20261028.json)
+- [Polars provider source declarations](./polars-providers-20261028.json)
+- [Polars provider review](./polars-provider-review-20261028.md)
