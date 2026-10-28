@@ -19,6 +19,27 @@ def test_private_contracts_take_precedence_over_neighboring_specs(
     assert voiage._contract_root.contract_root() == package / "_contracts"
 
 
+def test_missing_private_contracts_do_not_use_neighboring_unrelated_specs(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    package = tmp_path / "voiage"
+    package.mkdir()
+    (tmp_path / "specs").mkdir()
+    monkeypatch.setattr(voiage._contract_root, "__file__", str(package / "_contract_root.py"))
+    assert voiage._contract_root.contract_root() == package / "_contracts"
+
+
+def test_source_checkout_uses_its_canonical_contracts(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    package = tmp_path / "voiage"
+    package.mkdir()
+    (tmp_path / "specs").mkdir()
+    (tmp_path / "pyproject.toml").touch()
+    monkeypatch.setattr(voiage._contract_root, "__file__", str(package / "_contract_root.py"))
+    assert voiage._contract_root.contract_root() == tmp_path
+
+
 def test_runtime_contract_json_matches_source() -> None:
     """An installed wheel must expose every canonical JSON contract unchanged."""
     source = Path(__file__).resolve().parents[2] / "specs"
