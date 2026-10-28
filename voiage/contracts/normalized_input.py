@@ -16,7 +16,7 @@ from hashlib import sha256
 import json
 from pathlib import Path  # noqa: TC003 - public API runtime annotation
 from types import MappingProxyType
-from typing import Annotated, Literal
+from typing import Annotated, Literal, Protocol
 from urllib.parse import urlsplit
 
 import pyarrow as pa
@@ -29,6 +29,92 @@ from voiage.contracts.interchange import schema_fingerprint
 
 Identifier = Annotated[str, StringConstraints(min_length=1, strip_whitespace=True)]
 Digest = Annotated[str, StringConstraints(pattern=r"^[a-f0-9]{64}$")]
+_MANIFEST_KEY = b"voiage.normalized.manifest"
+_TABLE_ID_KEY = b"voiage.normalized.table_id"
+_ORIGINAL_METADATA_KEY = b"voiage.normalized.original_schema_metadata"
+_METADATA_MAGIC = b"voiage-schema-metadata-v1:"
+_MANIFEST_FORMAT_MARKER = b"\n "
+
+
+def _encode_schema_metadata(metadata: Mapping[bytes, bytes] | None) -> bytes:
+    """Retain arbitrary original metadata, including reserved-key collisions."""
+    entries = (
+        None
+        if metadata is None
+        else [[key.hex(), value.hex()] for key, value in metadata.items()]
+    )
+    return _METADATA_MAGIC + json.dumps(entries, separators=(",", ":")).encode("ascii")
+
+
+def _restore_schema_metadata(
+    metadata: Mapping[bytes, bytes],
+) -> dict[bytes, bytes] | None:
+    """Restore original schema metadata, including from older bundle files."""
+    encoded = metadata.get(_ORIGINAL_METADATA_KEY)
+    if not metadata[_MANIFEST_KEY].endswith(_MANIFEST_FORMAT_MARKER):
+        legacy = {
+            key: value
+            for key, value in metadata.items()
+            if key not in {_MANIFEST_KEY, _TABLE_ID_KEY}
+        }
+        return legacy or None
+    if encoded is None or not encoded.startswith(_METADATA_MAGIC):
+        raise ValueError("invalid original Arrow schema metadata")
+    try:
+        entries = json.loads(encoded[len(_METADATA_MAGIC) :])
+    except (ValueError, UnicodeDecodeError) as error:
+        raise ValueError("invalid original Arrow schema metadata") from error
+    if entries is None:
+        return None
+    if not isinstance(entries, list):
+        raise ValueError("invalid original Arrow schema metadata")  # noqa: TRY004
+    restored: dict[bytes, bytes] = {}
+    for entry in entries:
+        if (
+            not isinstance(entry, list)
+            or len(entry) != 2
+            or not all(isinstance(part, str) for part in entry)
+        ):
+            raise ValueError("invalid original Arrow schema metadata")
+        try:
+            key, value = (bytes.fromhex(part) for part in entry)
+        except ValueError as error:
+            raise ValueError("invalid original Arrow schema metadata") from error
+        if key in restored:
+            raise ValueError("duplicate original Arrow schema metadata key")
+        restored[key] = value
+    return restored
+
+
+class _Digest(Protocol):
+    def update(self, data: bytes, /) -> None:
+        """Incorporate the next bytes in the digest."""
+
+
+class _DigestWriter:
+    """Forward Arrow stream bytes directly to a hash without retaining them."""
+
+    def __init__(self, digest: _Digest) -> None:
+        self._digest = digest
+        self._position = 0
+        self.closed = False
+
+    def write(self, data: bytes) -> int:
+        self._digest.update(data)
+        self._position += len(data)
+        return len(data)
+
+    def tell(self) -> int:
+        return self._position
+
+    def writable(self) -> bool:
+        return True
+
+    def flush(self) -> None:
+        pass
+
+    def close(self) -> None:
+        self.closed = True
 
 
 def _is_namespaced_extension(key: str) -> bool:
@@ -414,11 +500,13 @@ class NormalizedInputBundle:
         """Digest manifest, schemas, and canonical Arrow IPC payloads."""
         digest = sha256(self.canonical_json.encode())
         for name in sorted(self.tables):
-            sink = pa.BufferOutputStream()
-            with ipc.new_stream(sink, self.tables[name].schema) as writer:
-                writer.write_table(self.tables[name])
             digest.update(name.encode())
-            digest.update(sink.getvalue().to_pybytes())
+            sink = _DigestWriter(digest)
+            with (
+                pa.PythonFile(sink, mode="w") as output,
+                ipc.new_stream(output, self.tables[name].schema) as writer,
+            ):
+                writer.write_table(self.tables[name])
         return digest.hexdigest()
 
     def write_ipc(self, path: Path) -> None:
@@ -428,8 +516,9 @@ class NormalizedInputBundle:
         table_name, table = next(iter(self.tables.items()))
         metadata = {
             **(table.schema.metadata or {}),
-            b"voiage.normalized.manifest": self.canonical_json.encode(),
-            b"voiage.normalized.table_id": table_name.encode(),
+            _MANIFEST_KEY: self.canonical_json.encode() + _MANIFEST_FORMAT_MARKER,
+            _TABLE_ID_KEY: table_name.encode(),
+            _ORIGINAL_METADATA_KEY: _encode_schema_metadata(table.schema.metadata),
         }
         path.parent.mkdir(parents=True, exist_ok=True)
         with ipc.new_file(
@@ -444,8 +533,9 @@ class NormalizedInputBundle:
         table_name, table = next(iter(self.tables.items()))
         metadata = {
             **(table.schema.metadata or {}),
-            b"voiage.normalized.manifest": self.canonical_json.encode(),
-            b"voiage.normalized.table_id": table_name.encode(),
+            _MANIFEST_KEY: self.canonical_json.encode() + _MANIFEST_FORMAT_MARKER,
+            _TABLE_ID_KEY: table_name.encode(),
+            _ORIGINAL_METADATA_KEY: _encode_schema_metadata(table.schema.metadata),
         }
         path.parent.mkdir(parents=True, exist_ok=True)
         pq.write_table(
@@ -459,14 +549,17 @@ class NormalizedInputBundle:
             table = reader.read_all()
         metadata = table.schema.metadata or {}
         try:
-            manifest = DatasetManifest.model_validate_json(
-                metadata[b"voiage.normalized.manifest"]
-            )
-            table_name = metadata[b"voiage.normalized.table_id"].decode()
+            manifest = DatasetManifest.model_validate_json(metadata[_MANIFEST_KEY])
+            table_name = metadata[_TABLE_ID_KEY].decode()
         except KeyError as error:
             raise ValueError("not a voiage normalized IPC file") from error
         return cls(
-            manifest=manifest, tables={table_name: table.replace_schema_metadata(None)}
+            manifest=manifest,
+            tables={
+                table_name: table.replace_schema_metadata(
+                    _restore_schema_metadata(metadata)
+                )
+            },
         )
 
     @classmethod
@@ -475,12 +568,15 @@ class NormalizedInputBundle:
         table = pq.read_table(path)
         metadata = table.schema.metadata or {}
         try:
-            manifest = DatasetManifest.model_validate_json(
-                metadata[b"voiage.normalized.manifest"]
-            )
-            table_name = metadata[b"voiage.normalized.table_id"].decode()
+            manifest = DatasetManifest.model_validate_json(metadata[_MANIFEST_KEY])
+            table_name = metadata[_TABLE_ID_KEY].decode()
         except KeyError as error:
             raise ValueError("not a voiage normalized Parquet file") from error
         return cls(
-            manifest=manifest, tables={table_name: table.replace_schema_metadata(None)}
+            manifest=manifest,
+            tables={
+                table_name: table.replace_schema_metadata(
+                    _restore_schema_metadata(metadata)
+                )
+            },
         )
