@@ -5,6 +5,7 @@ import ast
 import hashlib
 import json
 from pathlib import Path
+import re
 import sys
 import tarfile
 import tomllib
@@ -127,16 +128,156 @@ def validate_libcst(root: Path, sources: Path) -> dict[str, object]:
     }
 
 
+def validate_arrow_cpp(
+    root: Path, sources: Path, builtin_recipe: Path
+) -> dict[str, object]:
+    """Check immutable C++ source and the upstream allocator resource contract."""
+    packet = json.loads(
+        (root / "packaging/current/arrow-provider-sources.json").read_text()
+    )
+    row = packet["providers"]["arrow"]
+    if (
+        hashlib.sha256(builtin_recipe.read_bytes()).hexdigest()
+        != row["builtin_recipe_sha256"]
+    ):
+        raise ValueError("Pinned builtin Arrow recipe drift")
+    tree = ast.parse(
+        (root / "packaging/current/spack/packages/arrow/package.py").read_text()
+    )
+    bindings = [
+        (node.module, alias.name)
+        for node in tree.body
+        if isinstance(node, ast.ImportFrom)
+        for alias in node.names
+        if alias.asname == "BuiltinArrow"
+    ]
+    classes = [node for node in tree.body if isinstance(node, ast.ClassDef)]
+    if (
+        bindings != [("spack_repo.builtin.packages.arrow.package", "Arrow")]
+        or len(classes) != 1
+        or [ast.dump(base) for base in classes[0].bases]
+        != [ast.dump(ast.Name(id="BuiltinArrow", ctx=ast.Load()))]
+        or any(
+            isinstance(node, (ast.Assign, ast.AnnAssign)) for node in classes[0].body
+        )
+        or [node.name for node in classes[0].body if isinstance(node, ast.FunctionDef)]
+        != ["setup_build_environment"]
+    ):
+        raise ValueError("Arrow must preserve the pinned upstream build implementation")
+    calls = [
+        node
+        for node in ast.walk(tree)
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+    ]
+    versions = [
+        (
+            ast.literal_eval(node.args[0]),
+            {item.arg: ast.literal_eval(item.value) for item in node.keywords},
+        )
+        for node in calls
+        if node.func.id == "version"
+    ]
+    expected = (
+        row["version"],
+        {"url": row["source"]["url"], "sha256": row["source"]["sha256"]},
+    )
+    if (
+        versions != [expected]
+        or row["source"]["url"]
+        != f"https://github.com/apache/arrow/archive/{row['upstream_commit']}.tar.gz"
+    ):
+        raise ValueError("Arrow C++ immutable source identity drift")
+    allocator = row["mimalloc"]
+    resources = [
+        {item.arg: ast.literal_eval(item.value) for item in node.keywords}
+        for node in calls
+        if node.func.id == "resource"
+    ]
+    if resources != [
+        {
+            "name": "mimalloc-3.4.1",
+            "url": allocator["url"],
+            "sha256": allocator["sha256"],
+            "expand": False,
+            "destination": "spack-vendor",
+            "placement": {"v3.4.1.tar.gz": "mimalloc-v3.4.1.tar.gz"},
+            "when": "@=26.0.0+mimalloc",
+        }
+    ]:
+        raise ValueError("Arrow allocator source resource drift")
+    archive = sources / row["source"]["filename"]
+    with archive.open("rb") as stream:
+        checksum = hashlib.file_digest(stream, "sha256").hexdigest()
+    if checksum != row["source"]["sha256"]:
+        raise ValueError("Arrow C++ archive checksum mismatch")
+    selected = {
+        "LICENSE.txt",
+        "NOTICE.txt",
+        "cpp/CMakeLists.txt",
+        "cpp/cmake_modules/DefineOptions.cmake",
+        "cpp/thirdparty/versions.txt",
+    }
+    contents = {}
+    with tarfile.open(archive, "r|gz", stream=True) as source:
+        for member in source:
+            name = member.name.split("/", 1)[-1]
+            if name not in selected:
+                continue
+            if name in contents or not member.isfile() or member.size > 2 * 1024**2:
+                raise ValueError("Invalid Arrow C++ metadata")
+            stream = source.extractfile(member)
+            if stream is None:
+                raise ValueError("Unreadable Arrow C++ metadata")
+            contents[name] = stream.read()
+    if (
+        set(contents) != selected
+        or set(row["licenses"]) != {"LICENSE.txt", "NOTICE.txt"}
+        or any(
+            hashlib.sha256(contents[name]).hexdigest() != digest
+            for name, digest in row["licenses"].items()
+        )
+    ):
+        raise ValueError("Missing or changed Arrow C++ metadata/license")
+    cmake = contents["cpp/CMakeLists.txt"].decode()
+    versions = contents["cpp/thirdparty/versions.txt"].decode().splitlines()
+    if (
+        f'set(ARROW_VERSION "{row["version"]}")' not in cmake
+        or f"cmake_minimum_required(VERSION {row['minimum_cmake']})" not in cmake
+        or f"ARROW_MIMALLOC_BUILD_VERSION={allocator['version']}" not in versions
+        or f"ARROW_MIMALLOC_BUILD_SHA256_CHECKSUM={allocator['sha256']}" not in versions
+        or not re.search(
+            r'define_option\(ARROW_MIMALLOC\s+"[^"]*"\s+ON\)',
+            contents["cpp/cmake_modules/DefineOptions.cmake"].decode(),
+        )
+    ):
+        raise ValueError("Arrow source version or default allocator contract drift")
+    return {
+        "cpp_source_declaration_qualified": True,
+        "source_archive_sha256": checksum,
+        "allocator_default_preserved": True,
+        "allocator_archive_verified": False,
+        "native_build_executed": False,
+        "full_arrow_profile_qualified": False,
+    }
+
+
 def main() -> int:
     """Inspect supplied archives; never download, extract or execute source."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("sources", type=Path)
     parser.add_argument("--root", type=Path, default=Path.cwd())
+    parser.add_argument("--profile", choices=("libcst", "cpp"), default="libcst")
+    parser.add_argument("--builtin-arrow", type=Path)
     args = parser.parse_args()
     if sys.version_info[:3] != (3, 15, 1):
         parser.error("Source qualification requires Python 3.15.1")
     try:
-        report = validate_libcst(args.root, args.sources)
+        if args.profile == "cpp":
+            if args.builtin_arrow is None:
+                parser.error("The C++ source profile requires --builtin-arrow")
+            report = validate_arrow_cpp(args.root, args.sources, args.builtin_arrow)
+        else:
+            report = validate_libcst(args.root, args.sources)
     except (
         OSError,
         ValueError,

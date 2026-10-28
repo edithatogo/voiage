@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "python_profile": "3.15.1",
-  "scope": "LibCST build-prerequisite source declarations only; not the full Arrow source profile or native installed matrix",
+  "scope": "Source/declaration profiles for Arrow and its Python build prerequisites; full native build and installed matrix remain unqualified",
   "providers": {
     "py-libcst": {
       "version": "1.9.0",
@@ -56,6 +56,27 @@
         "py-pyyaml@6.0.3:": [
           "run"
         ]
+      }
+    },
+    "arrow": {
+      "version": "26.0.0",
+      "source": {
+        "filename": "apache-arrow-26.0.0-commit.tar.gz",
+        "url": "https://github.com/apache/arrow/archive/446167169a0dc547e00e1bc29f417a40c0ca267a.tar.gz",
+        "sha256": "764adbb5601a4d0d9d67a10cf04892d33cfac9fd43012f08a2d7c9956a7a90d2"
+      },
+      "upstream_commit": "446167169a0dc547e00e1bc29f417a40c0ca267a",
+      "source_catalogue": "fa170d11f60ea44045d9a02370002ed153e35f1a",
+      "builtin_recipe_sha256": "21f76d45d06f2927dcf537a553a4fc5558ed2b1aee79f52bb72aa903116c3d91",
+      "licenses": {
+        "LICENSE.txt": "cd03925a27219d326d622609fbcae6567279af8b8885c33d5969a9e4ef5d7525",
+        "NOTICE.txt": "afd895d61a00101f6d5a41cf518c83865d815e8109e956f512a0ce4ea9738c06"
+      },
+      "minimum_cmake": "3.25",
+      "mimalloc": {
+        "version": "v3.4.1",
+        "sha256": "37107a52c16baa80c5f74861dddda7b27bb9949e41a6637691867a94c88ca446",
+        "url": "https://github.com/microsoft/mimalloc/archive/v3.4.1.tar.gz"
       }
     }
   }
