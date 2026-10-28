@@ -52,6 +52,8 @@
 
 ## Review fixes — current source qualification
 
-- [~] Require declared build inputs and validate every distribution dependency,
+- [x] Require declared build inputs and validate every distribution dependency,
   including marked requirements and extras; preserve failing regression evidence
   and rerun the affected source and package checks before protected delivery.
+  Fix: `dffb1114`; 24 qualifier tests and 33 affected integration tests passed.
+  Final-head hosted checks and protected delivery remain required for B6.1.
