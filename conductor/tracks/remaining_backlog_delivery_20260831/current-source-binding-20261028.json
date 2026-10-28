@@ -79,5 +79,53 @@
       "scripts/check_current_overlays.py": "ba4b2c1ef6c908fbbb243c2c9e6c751e9f5c45ca4dd55cea6bd9c2d81ae2478c",
       "tests/test_current_overlays.py": "1ac4626c4abcc203e437422f4d63fd766112dfe703a1c017eeb963ac6a02c12e"
     }
+  },
+  "policy_receipt_emission": {
+    "implementation_allowlist": [
+      "scripts/qualify_hpc_source.py",
+      "tests/test_hpc_source_qualification.py"
+    ],
+    "behavior": "Emit the exact policy checksum from the same bytes parsed for qualification, allowing machine-produced receipts and avoiding a second input read",
+    "implementation_sha256": {
+      "scripts/qualify_hpc_source.py": "2b4cccbb8110c32d418a57b672b03105ce24b6408aafd3c348c87af63439d63e",
+      "tests/test_hpc_source_qualification.py": "97bf7ad350b15298ee4835eedafd85c17aacdf6f7c0e03922541630c854a175e"
+    },
+    "affected_tests_passed": 43,
+    "resource_report": {
+      "peak_rss_kib": 101520,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 6.224,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-42tze3ci"
+    },
+    "actual_archive_cli": {
+      "schema_version": "1.0",
+      "python": "3.15.1",
+      "source_archive_qualified": true,
+      "source_revision": "3df3cb49e5c927075c0609a48a2535b4457424d4",
+      "package_version": "2.2.0",
+      "source_tree": "3a178a7479907f93dc8b514a4db27d7ab6615b06",
+      "archive_sha256": "3748d8c5d155dc90db2b2c9c35abac5bb27958cb34c747e60e1ef8f84212a989",
+      "runtime_policy_sha256": "f8e0639e1568bc7b2ef3c2c6870f812b6cddc1c14ab2b27647a484a488428ef3",
+      "archive_bytes": 972024,
+      "runtime_files_verified": 190,
+      "native_files_verified": 73,
+      "total_source_files_verified": 904,
+      "omitted_workspace_members": [
+        "crates/voiage-ffi",
+        "crates/voiage-test-support"
+      ],
+      "cargo_workspace_transform": "Only omit nonpackaged workspace members; local dependency closure remains present",
+      "native_solver_executed": false,
+      "native_build_executed": false,
+      "installed_module_acceptance": false
+    },
+    "actual_archive_resource_report": {
+      "peak_rss_kib": 12336,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 2.151,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-fl_7w9vt"
+    }
   }
 }
