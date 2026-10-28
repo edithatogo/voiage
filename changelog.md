@@ -1,5 +1,7 @@
 # Changelog
 
+- Preserve nested Arrow field schemas in normalized Parquet round trips.
+
 - Preserve Arrow schema metadata and content digests across normalized IPC and
   Parquet bundle round trips, including existing bundle files.
 

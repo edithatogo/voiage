@@ -32,8 +32,10 @@ Digest = Annotated[str, StringConstraints(pattern=r"^[a-f0-9]{64}$")]
 _MANIFEST_KEY = b"voiage.normalized.manifest"
 _TABLE_ID_KEY = b"voiage.normalized.table_id"
 _ORIGINAL_METADATA_KEY = b"voiage.normalized.original_schema_metadata"
+_ORIGINAL_SCHEMA_KEY = b"voiage.normalized.original_arrow_schema"
 _METADATA_MAGIC = b"voiage-schema-metadata-v1:"
 _MANIFEST_FORMAT_MARKER = b"\n "
+_PARQUET_SCHEMA_FORMAT_MARKER = b"\n \n "
 
 
 def _encode_schema_metadata(metadata: Mapping[bytes, bytes] | None) -> bytes:
@@ -533,9 +535,12 @@ class NormalizedInputBundle:
         table_name, table = next(iter(self.tables.items()))
         metadata = {
             **(table.schema.metadata or {}),
-            _MANIFEST_KEY: self.canonical_json.encode() + _MANIFEST_FORMAT_MARKER,
+            _MANIFEST_KEY: self.canonical_json.encode() + _PARQUET_SCHEMA_FORMAT_MARKER,
             _TABLE_ID_KEY: table_name.encode(),
             _ORIGINAL_METADATA_KEY: _encode_schema_metadata(table.schema.metadata),
+            _ORIGINAL_SCHEMA_KEY: table.schema.remove_metadata()
+            .serialize()
+            .to_pybytes(),
         }
         path.parent.mkdir(parents=True, exist_ok=True)
         pq.write_table(
@@ -572,11 +577,27 @@ class NormalizedInputBundle:
             table_name = metadata[_TABLE_ID_KEY].decode()
         except KeyError as error:
             raise ValueError("not a voiage normalized Parquet file") from error
-        return cls(
-            manifest=manifest,
-            tables={
-                table_name: table.replace_schema_metadata(
-                    _restore_schema_metadata(metadata)
+        restored_metadata = _restore_schema_metadata(metadata)
+        if metadata[_MANIFEST_KEY].endswith(_PARQUET_SCHEMA_FORMAT_MARKER):
+            try:
+                original_schema = ipc.read_schema(
+                    pa.BufferReader(metadata[_ORIGINAL_SCHEMA_KEY])
                 )
-            },
-        )
+            except (KeyError, pa.ArrowInvalid) as error:
+                raise ValueError("invalid original Arrow schema") from error
+            if len(original_schema) != len(table.schema) or any(
+                original.name != actual.name
+                or original.nullable != actual.nullable
+                or not original.type.equals(actual.type)
+                for original, actual in zip(original_schema, table.schema, strict=True)
+            ):
+                raise ValueError("original Arrow schema does not match Parquet data")
+            restored_schema = (
+                original_schema.remove_metadata()
+                if restored_metadata is None
+                else original_schema.with_metadata(restored_metadata)
+            )
+            table = pa.Table.from_arrays(table.columns, schema=restored_schema)
+        else:
+            table = table.replace_schema_metadata(restored_metadata)
+        return cls(manifest=manifest, tables={table_name: table})
