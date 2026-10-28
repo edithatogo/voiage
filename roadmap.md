@@ -196,8 +196,11 @@ in merged PR #1207. Phase 6 adds installed-wheel producer compatibility checks
 under the resource guard, preserving the existing copy-policy and diagnostic
 behavior; accepted in PR #1208. Phase 7 ports generated notebooks and current
 guidance, adds exact reference permissions and separates current overlay
-candidates from immutable historical source graphs. Hosted and merged-revision
-acceptance remain gates. Native Conda/HPC build proof remains separate. The translation-reference track remains planning-only.
+candidates from immutable historical source graphs. All seven phases and final
+acceptance passed at merged PR #1209 (`420fd7ab`)
+on Python 3.15.1 under the resource guard. The packaging/enforcement handoff
+is recorded in the successor track, which remains planning only. Native
+Conda/HPC builds and publication remain separate.
 The published 2.2.0
 release line and the active release-and-venue track are unaffected.
 

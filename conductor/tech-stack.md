@@ -5,7 +5,7 @@
 - **Rust**: Stable toolchain for the execution core and native benchmarks
 
 ## Core Libraries
-- **NumPy**: >=2.2.6,<3 - Fundamental array computing
+- **NumPy**: >=2.5.4,<3 - Fundamental array computing
 - **SciPy**: >=1.18.1,<1.19 - Scientific computing algorithms
 - **External producer/oracle tooling**: Explicit unpublished compatibility-test group only
 - **Legacy labeled-array backend**: Removed from active runtime and published extras in PR #1206
@@ -21,7 +21,7 @@
 - **HPSF / E4S**: HPC ecosystem distribution and curated-stack targets
 
 ## Machine Learning & Statistics
-- **scikit-learn**: >=1.0,<2.0 - Machine learning algorithms (regression-based EVSI)
+- **scikit-learn**: >=1.9.1,<2 - Machine learning algorithms (regression-based EVSI)
 
 ## CLI
 - **Typer**: >=0.9,<1.0 - Modern CLI framework with auto-completion
@@ -105,8 +105,9 @@ is not selected. This named alternative follows AC3 of the pandas-free I/O track
 Writing uses Polars `write_excel` with BSD-2-Clause XlsxWriter 3.3 and a shared
 workbook. The `excel` extra declares the selected reader and writer; openpyxl
 remains a CI-only producer/oracle, never a runtime fallback. Engine wheels and
-workbook behavior must qualify on Python 3.15.1 before acceptance. Pandas/xarray
-package dependency removal remains Phase 4 work.
+workbook behavior passed Python 3.15.1 acceptance in PR #1205 and three-platform
+hosted checks. Runtime dependency removal passed in PR #1206; whole-track
+acceptance passed at merged PR #1209 (`420fd7ab`).
 
 ### 2026-10-27 native Excel whitespace compatibility
 

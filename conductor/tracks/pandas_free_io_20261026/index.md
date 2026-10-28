@@ -1,11 +1,10 @@
 # Track: Pandas-free external I/O and packaging
 
-Status: in progress. T1.1/T1.2 and Phase 2 read semantics are implemented.
-Native Excel, packaging reconciliation and pandas-free enforcement were accepted
-in PRs #1205, #1206 and #1207. Phase 6 external-producer compatibility was accepted in PR #1208. Phase 7
-generated-code/reference cleanup and enforcement is in local qualification on
-Python 3.15.1 under the resource guard. Hosted and final merged-revision
-whole-track acceptance remain open.
+Status: completed. All seven phases and both final acceptance gates passed
+at merged revision `420fd7ab` on Python 3.15.1 under the resource guard.
+See [final acceptance](./final-acceptance-python315.json) and the
+[successor handoff](../translation_reference_20261026/io-acceptance-handoff-python315.json).
+Native packaging publication and successor implementation remain separate.
 Historical receipts retain the state of their tested candidates.
 
 GitHub issue: https://github.com/edithatogo/voiage/issues/1198 (parent: https://github.com/edithatogo/voiage/issues/1195)

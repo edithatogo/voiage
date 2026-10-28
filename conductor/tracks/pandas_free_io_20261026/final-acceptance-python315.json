@@ -1,0 +1,218 @@
+{
+  "schema_version": "1.0",
+  "accepted_merged_revision": "420fd7aba3ac2f91c351ed8d6276144522cf035c",
+  "source_pr": 1209,
+  "merge": {
+    "mergeCommit": {
+      "oid": "420fd7aba3ac2f91c351ed8d6276144522cf035c"
+    },
+    "mergedAt": "2026-10-28T03:20:43Z",
+    "state": "MERGED"
+  },
+  "hosted_checks": {
+    "source_head": "284235440d1a5cf5c823b818dec3de16cba72632",
+    "conclusions": {
+      "SKIPPED": 3,
+      "SUCCESS": 49
+    },
+    "all_applicable_passed": true
+  },
+  "python": "3.15.1",
+  "full_gate": {
+    "command": ".venv/bin/python scripts/guard_verification.py --work-dir .conductor/local/pandas-free-close/full -- .venv/bin/tox run-parallel -p 2 --result-json .conductor/local/pandas-free-close/full-result.json",
+    "environments": [
+      "coverage_report",
+      "docs",
+      "frontier-contract",
+      "harness",
+      "ingestion-conformance",
+      "joss",
+      "lint",
+      "max_versions",
+      "min_versions",
+      "pandas-free",
+      "producer-compatibility",
+      "py315",
+      "typecheck",
+      "vale",
+      "version-sync"
+    ],
+    "passed": 5392,
+    "skipped": 14,
+    "resource_report": {
+      "peak_rss_kib": 1994560,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 740.463,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-gxryt87h"
+    }
+  },
+  "coverage": {
+    "aggregate": {
+      "minimum": 90.0,
+      "percent": 94.73047628387434
+    },
+    "base": "f6e6ee39c02586c3568539f5b567739696708276",
+    "changed": {
+      "branch_minimum": 100.0,
+      "branch_percent": 100.0,
+      "branches": 0,
+      "covered_branches": 0,
+      "covered_lines": 0,
+      "executable_lines": 0,
+      "line_minimum": 95.0,
+      "line_percent": 100.0,
+      "missing_branches": [],
+      "missing_lines": [],
+      "unmeasured_files": []
+    },
+    "critical_modules": [
+      {
+        "minimum": 100.0,
+        "passed": true,
+        "path": "voiage/assurance_policy.py",
+        "percent": 100.0
+      },
+      {
+        "minimum": 90.0,
+        "passed": true,
+        "path": "voiage/contracts/bundle.py",
+        "percent": 99.30191972076788
+      },
+      {
+        "minimum": 95.0,
+        "passed": true,
+        "path": "voiage/mutation_policy.py",
+        "percent": 100.0
+      }
+    ],
+    "exact_source_head": true,
+    "head": "420fd7aba3ac2f91c351ed8d6276144522cf035c",
+    "passed": true,
+    "schema_version": "1.0.0",
+    "source_head": "420fd7aba3ac2f91c351ed8d6276144522cf035c",
+    "tested_head": "420fd7aba3ac2f91c351ed8d6276144522cf035c"
+  },
+  "reference_gate": {
+    "passed": true,
+    "scanned_files": 3787,
+    "unapproved": [],
+    "errors": []
+  },
+  "native_inventory": {
+    "equivalent": true,
+    "matching_lines": 2705,
+    "matching_paths": 189
+  },
+  "installed_base": {
+    "python": "3.15.1",
+    "installed_package": "/Volumes/PortableSSD/GitHub/voiage/.tox/pandas-free/lib/python3.15/site-packages/voiage/__init__.py",
+    "version": "2.2.0",
+    "forbidden_distributions": [],
+    "forbidden_modules": []
+  },
+  "boundaries": {
+    "tested_commit": "420fd7aba3ac2f91c351ed8d6276144522cf035c",
+    "baseline": "b1c63e7f216f3ffee0871e634142026e2763eea8",
+    "public_surface": {
+      "voiage/ecosystem_integration.py": {
+        "public_signatures": 25,
+        "unchanged": true
+      },
+      "voiage/widgets/voi_widgets.py": {
+        "public_signatures": 3,
+        "unchanged": true
+      },
+      "voiage/ingestion/dataframe.py": {
+        "public_signatures": 1,
+        "unchanged": true
+      }
+    },
+    "unchanged_contract_and_numerical_objects": {
+      "rust": "cb91f40f723bf59bc37e3c6ec20f4502c5c7d1a6",
+      "bindings": "e3e78f48140e9f6491ef87bebf680b136d965c44",
+      "r-package": "433026b22bbb4f9f3ba217855bd22970b3720b2a",
+      "specs/core-api": "3d5c0059778e303b466a58aa880badafc3e85eea",
+      "specs/v3": "5e9fcf83ee079820153be27914cfcb64873af36e",
+      "specs/integration/vop-voiage/compatibility": "b1ab4a2d0e3ac2e9f69f90d1f1e336e1419a38db",
+      "voiage/methods": "8608fc1b2723880d1a6eea0879d13f0322a2a36e",
+      "voiage/schema.py": "78e39e6b596829b2327ed1eb331836a04594dd84",
+      "voiage/health_economics.py": "f7845b8202b65dba19a7d255ec9b4340d4c38c07"
+    },
+    "pr_tree_identical": true
+  },
+  "monitor_audit": {
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-gxryt87h",
+    "matched_job_monitor_paths": [],
+    "mode": "read_only"
+  },
+  "acceptance": {
+    "AC1": {
+      "status": "passed",
+      "evidence": [
+        "tests/test_tabular_io_polars.py",
+        "tests/test_ecosystem_integration.py",
+        "tests/test_reference_cleanup_behavior.py"
+      ],
+      "result": "CSV/Parquet/widget I/O and executable generated notebooks preserve the public surface."
+    },
+    "AC2": {
+      "status": "passed",
+      "evidence": [
+        "tests/test_tabular_read_semantics.py"
+      ],
+      "result": "Full-column inference, all-null/mixed fixtures and null/NaN propagation remain explicit."
+    },
+    "AC3": {
+      "status": "passed",
+      "evidence": [
+        "tests/test_native_excel.py",
+        "phase-3-engines-python315.json"
+      ],
+      "result": "Calamine/XlsxWriter native paths preserve frozen workbook behavior and explicit missing-engine diagnostics; hosted three-platform Excel lanes passed."
+    },
+    "AC4": {
+      "status": "passed",
+      "evidence": [
+        "tests/test_packaging_dependency_policy.py",
+        "phase-4-acceptance-python315.json"
+      ],
+      "result": "Runtime declarations agree; clean base wheel excludes both legacy packages. Floor and current qualified latest 2.1.0 passed separate lanes; native publication remains separate."
+    },
+    "AC5": {
+      "status": "passed",
+      "evidence": [
+        "tests/test_pandas_free_enforcement.py",
+        "scripts/check_pandas_free.py"
+      ],
+      "result": "Real clean installed-wheel and subprocess/source negative controls pass; no import exemptions."
+    },
+    "AC6": {
+      "status": "passed",
+      "evidence": [
+        "tests/producer_compatibility/test_producer_compatibility.py"
+      ],
+      "result": "Caller-owned producers, shared numeric buffers, strict copy policy and diagnostics pass installed-wheel qualification."
+    },
+    "AC7": {
+      "status": "passed",
+      "evidence": [
+        "boundary-audit",
+        "tests/test_v3_stable_api_contract.py",
+        "tests/test_python_rust_bridge.py"
+      ],
+      "result": "Public signatures, numerical/container and wire/binding objects unchanged; existing fixture and conformance gates pass."
+    },
+    "AC8": {
+      "status": "passed",
+      "evidence": [
+        "scripts/check_reference_policy.py",
+        "tests/test_reference_policy.py",
+        "tests/test_current_overlays.py"
+      ],
+      "result": "Zero unapproved tracked-text references; exact permissions only. Historical evidence preserved; current native build gates remain false."
+    }
+  },
+  "handoff": "../translation_reference_20261026/io-acceptance-handoff-python315.json",
+  "scope": "Repository track acceptance only; no new runtime changes, native package build, publication, successor implementation or manuscript submission."
+}

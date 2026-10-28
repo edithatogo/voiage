@@ -1,6 +1,6 @@
 # Implementation plan: Pandas-free external I/O and packaging
 
-T1.1 baseline is frozen, T1.2 is merged in PR #1203, and Phase 2 qualifies the migrated CSV/Parquet paths; remaining tasks are pending. Ownership: this track migrates every pandas reference and owns the repository-wide zero-reference check; `polars_container_20261026` migrates every xarray reference, and Phase 7 here cannot close before that track's Phase 7. Maintainer authorised the recommended follow-up on 2026-10-27. Prerequisite `polars_container_20261026` was accepted and merged in PR #1202; the package-level absence/enforcement gate was accepted in merged PR #1207; repository-wide reference acceptance remains open.
+T1.1 baseline is frozen, T1.2 is merged in PR #1203, and all later phases plus final acceptance are complete at merged PR #1209. Ownership: this track migrates every pandas reference and owns the repository-wide zero-reference check; `polars_container_20261026` migrates every xarray reference, and Phase 7 here cannot close before that track's Phase 7. Maintainer authorised the recommended follow-up on 2026-10-27. Prerequisite `polars_container_20261026` was accepted and merged in PR #1202; the package-level absence/enforcement gate was accepted in merged PR #1207; repository-wide reference acceptance passed at merged revision `420fd7ab`; see `final-acceptance-python315.json`.
 
 ## Phase 1: Direct-use removal
 
@@ -40,13 +40,19 @@ T1.1 baseline is frozen, T1.2 is merged in PR #1203, and Phase 2 qualifies the m
 
 ## Phase 7: Residual surfaces and zero-reference end state [checkpoint: ea40c21c]
 
-Local qualification: `phase-7-acceptance-python315.json` and `phase-7-review.md`. Hosted and exact merged-revision CLOSE gates remain open.
+Local qualification: `phase-7-acceptance-python315.json` and `phase-7-review.md`. Hosted and exact merged-revision acceptance passed at `420fd7ab`; see `final-acceptance-python315.json`.
 
 - [x] T7.1 — Freeze the repository-wide `git grep` inventory of `\bpandas\b`, `\bxarray\b`, `\bpd\.`, `\bxr\.`, and `itertuples` outside `voiage/`: tests (8 modules mention pandas), docs (9 pages mention pandas), scripts (`hpc_package_smoke.py`, `simple_validation.py`, `validate_easybuild_root_graph.py`), `.github/workflows/dependency-preview.yml`, the EasyBuild and Spack overlays, SBOMs and solver logs; classify each hit as live dependency, live documentation, generated-code template, or frozen historical evidence. Frozen in `5ab25903` / `phase-7-baseline.json` (841 lines, 200 files).
 - [x] T7.2 — Port or remove every live hit: the pandas snippets emitted into generated notebook code at `voiage/ecosystem_integration.py` lines 757 (`import pandas as pd`), 827 (`pd.DataFrame(results)`), and 844 (`results_df.itertuples()`) become Polars (`import polars as pl`, `pl.DataFrame(results)`, `results_df.iter_rows(named=True)`); live docs, scripts and the preview workflow drop pandas; live overlay dependency declarations are reconciled with the packaging set; frozen historical evidence (SBOMs, solver logs, dated release records) is left byte-unchanged. (AC8).
-- [x] T7.3 — Validate: a test enforces an explicit allow-list (migration guide, translation reference, producer-compatibility tests, frozen historical evidence) and fails on any other `pandas`, `xarray`, `pd.`, `xr.`, or `itertuples` reference, including string literals and generated-code templates; the allow-list is recorded in `reference-policy.json`; historical and current overlay validators and packaging validation pass. (AC8). Local qualification is recorded in the Phase 7 receipt; hosted and final merged-revision gates remain open.
+- [x] T7.3 — Validate: a test enforces an explicit allow-list (migration guide, translation reference, producer-compatibility tests, frozen historical evidence) and fails on any other `pandas`, `xarray`, `pd.`, `xr.`, or `itertuples` reference, including string literals and generated-code templates; the allow-list is recorded in `reference-policy.json`; historical and current overlay validators and packaging validation pass. (AC8). Local qualification is recorded in the Phase 7 receipt; hosted and final merged-revision gates passed at `420fd7ab`.
 
-## Final acceptance
+## Final acceptance [checkpoint: fbfecbdc]
 
-- [ ] CLOSE.1 — Run the repository-wide zero-reference check against the exact merged revision and confirm no hit lies outside the allow-list; review every AC (AC1–AC8) against the exact tested revision; hosted checks must pass before any acceptance claim.
-- [ ] CLOSE.2 — Reconcile plan, metadata and append-only evidence; publish the packaging set and the no-pandas gate result to `translation_reference_20261026`.
+- [x] CLOSE.1 — Run the repository-wide zero-reference check against the exact merged revision and confirm no hit lies outside the allow-list; review every AC (AC1–AC8) against the exact tested revision; hosted checks must pass before any acceptance claim.
+- [x] CLOSE.2 — Reconcile plan, metadata and append-only evidence; publish the packaging set and the no-pandas gate result to `translation_reference_20261026`.
+
+Accepted merged revision: `420fd7aba3ac2f91c351ed8d6276144522cf035c`.
+All eight criteria are reviewed in `final-acceptance-python315.json`; the
+successor received `../translation_reference_20261026/io-acceptance-handoff-python315.json`.
+Historical receipts retain their original candidate states. The fixed track
+path remains available to the executable policy and dependent evidence links.
