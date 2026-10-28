@@ -58,6 +58,8 @@ def test_embed_contracts_uses_private_wheel_paths_and_record(
 def test_failed_contract_embedding_removes_incomplete_wheel(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
+    for name in SOURCE_VARIABLES:
+        monkeypatch.delenv(name, raising=False)
     wheel = tmp_path / "voiage.whl"
     wheel.write_bytes(b"unfinished")
     monkeypatch.setattr(build_backend, "_git_identity", lambda: None)
