@@ -227,6 +227,14 @@ def test_real_git_bound_source_is_qualified_without_native_claims(
     assert result["native_build_executed"] is False
     assert result["installed_module_acceptance"] is False
     assert result["runtime_files_verified"] == 1
+    assert (
+        result["runtime_policy_sha256"]
+        == hashlib.sha256(
+            (ROOT / "specs/dependency-runtime-policy.json")
+            .read_bytes()
+            .replace(b"\r\n", b"\n")
+        ).hexdigest()
+    )
 
 
 @pytest.mark.parametrize(

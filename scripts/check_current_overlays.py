@@ -6,6 +6,7 @@ import ast
 import hashlib
 import json
 from pathlib import Path
+import re
 
 from packaging.requirements import Requirement
 from packaging.utils import canonicalize_name
@@ -36,6 +37,49 @@ def spack_requirement(text: str) -> str:
     return f"py-{canonicalize_name(requirement.name)}@{floor}:{high}"
 
 
+def source_receipt_matches(root: Path, runtime: dict[str, object]) -> bool:
+    """Authenticate the accepted source receipt, without inferring native gates."""
+    name = runtime.get("source_qualification_receipt")
+    if not isinstance(name, str):
+        return False
+    path = root / name
+    if (
+        Path(name).is_absolute()
+        or path.is_symlink()
+        or not path.resolve().is_relative_to(root.resolve())
+    ):
+        return False
+    try:
+        if historical_digest(path) != runtime.get(
+            "source_qualification_receipt_sha256"
+        ):
+            return False
+        receipt = json.loads(path.read_text())
+        policy_hash = historical_digest(root / "specs/dependency-runtime-policy.json")
+    except OSError, ValueError:
+        return False
+    if not isinstance(receipt, dict):
+        return False
+    archive_hash = runtime.get("source_archive_sha256")
+    return (
+        isinstance(archive_hash, str)
+        and re.fullmatch(r"[0-9a-f]{64}", archive_hash) is not None
+        and receipt.get("archive_sha256") == archive_hash
+        and receipt.get("source_revision") == runtime["source_commit"]
+        and receipt.get("source_archive_qualified") is True
+        and receipt.get("python") == "3.15.1"
+        and receipt.get("runtime_policy_sha256") == policy_hash
+        and all(
+            receipt.get(key) is False
+            for key in (
+                "native_solver_executed",
+                "native_build_executed",
+                "installed_module_acceptance",
+            )
+        )
+    )
+
+
 def validate(root: Path) -> list[str]:
     """Check declarations only; never manufacture native build acceptance."""
     current = root / "packaging/current"
@@ -52,10 +96,14 @@ def validate(root: Path) -> list[str]:
             "native_solver_executed",
             "native_build_executed",
             "installed_module_acceptance",
-            "source_archive_qualified",
         )
         if runtime[key] is not False
     )
+    if runtime.get("source_archive_qualified") is not False and (
+        runtime.get("source_archive_qualified") is not True
+        or not source_receipt_matches(root, runtime)
+    ):
+        errors.append("Current source qualification receipt mismatch")
     lifecycle = json.loads((current / "overlay-lifecycle.json").read_text())
     for group in ("historical_files", "historical_tools"):
         for name, expected in lifecycle[group].items():

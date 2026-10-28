@@ -52,5 +52,14 @@
     "Retained EasyBuild physical free-space floor is 250 GiB; observed SSD free 164 GiB and internal free 18 GiB cannot satisfy it",
     "No dependency upgrade from isolated frontier probe was adopted"
   ],
-  "total_source_files_verified": 904
+  "total_source_files_verified": 904,
+  "runtime_policy_sha256": "f8e0639e1568bc7b2ef3c2c6870f812b6cddc1c14ab2b27647a484a488428ef3",
+  "policy_binding_requalified_at": "2026-10-28T10:08:04.066075+00:00",
+  "policy_binding_resource_report": {
+    "peak_rss_kib": 2464,
+    "reason": "completed",
+    "returncode": 0,
+    "elapsed_seconds": 2.141,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-ib3m0n76"
+  }
 }

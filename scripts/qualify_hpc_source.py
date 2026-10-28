@@ -203,7 +203,8 @@ def qualify_source(
     expected_record = f"revision={revision}\ntree={tree}\nclean=true\n".encode()
     if metadata[PROVENANCE] != expected_record:
         raise ValueError("Embedded source provenance mismatch")
-    canonical = json.loads(policy.read_text())
+    policy_bytes = policy.read_bytes()
+    canonical = json.loads(policy_bytes)
     configuration = tomllib.loads(metadata["pyproject.toml"].decode())
     project = configuration.get("project", {})
     if not _build_inputs(configuration, entries) <= verified:
@@ -308,6 +309,9 @@ def qualify_source(
         "package_version": version,
         "source_tree": tree,
         "archive_sha256": observed_sha,
+        "runtime_policy_sha256": hashlib.sha256(
+            policy_bytes.replace(b"\r\n", b"\n")
+        ).hexdigest(),
         "archive_bytes": archive.stat().st_size,
         "runtime_files_verified": len(required),
         "native_files_verified": len(
