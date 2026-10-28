@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "command": ".venv/bin/python scripts/check_translation_reference.py --capture-consumer /Users/doughnut/Documents/tobac --revision eded92c62e582fa1995f647504bebb0996fe6882",
+  "source_scope": ["scripts/run_empirical_longitudinal.py", "scripts/run_release_calibration.py", "scripts/verify_empirical_longitudinal.py"],
+  "expected_manifest": "Repository identity and exact source commit; source file path, whole-file SHA-256 and line count; matched idiom ID, one-based inclusive source line range, exact excerpt and excerpt SHA-256; source licence and notice attribution.",
+  "verification": "Capture reads committed blobs only and never executes consumer scripts or reads datasets. CI verifies the committed manifest, excerpt digests and idiom citations without an external checkout. Topics absent from captured usage are explicitly anticipatory.",
+  "runtime": "Repo-local Python 3.15.1 under scripts/guard_verification.py; no production, dependency or contract edits.",
+  "target_command": ".tox/pandas-free/bin/python -I scripts/check_translation_reference.py --mode target",
+  "full_command": ".venv/bin/tox run-parallel -p 2 --result-json .conductor/local/translation-reference/full-result.json"
+}

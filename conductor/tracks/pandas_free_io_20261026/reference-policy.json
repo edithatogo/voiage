@@ -2548,6 +2548,20 @@
           "count": 1
         }
       ]
+    },
+    "conductor/tracks/translation_reference_20261026/semantic-cases.json": {
+      "category": "translation_reference",
+      "reason": "Explicit source-derived reference forms and external-oracle tests; no runtime imports permitted.",
+      "lines": [
+        {
+          "sha256": "991671fb6ad6c91240cfa581cfe3b65c8a269e13b4509d4742bee3f4ff4b2b64",
+          "count": 9
+        },
+        {
+          "sha256": "baf0a0c265fcabe1871992186948affe192ec5c63b0af15106963f7a1dbb734f",
+          "count": 5
+        }
+      ]
     }
   }
 }

@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "rows": [
+    {
+      "id": "index",
+      "legacy_module": "pandas"
+    },
+    {
+      "id": "columns",
+      "legacy_module": "pandas"
+    },
+    {
+      "id": "rows",
+      "legacy_module": "pandas"
+    },
+    {
+      "id": "grouping",
+      "legacy_module": "pandas"
+    },
+    {
+      "id": "concat",
+      "legacy_module": "pandas"
+    },
+    {
+      "id": "alignment",
+      "legacy_module": "xarray"
+    },
+    {
+      "id": "reduction",
+      "legacy_module": "xarray"
+    },
+    {
+      "id": "rolling",
+      "legacy_module": "pandas"
+    },
+    {
+      "id": "resample",
+      "legacy_module": "pandas"
+    },
+    {
+      "id": "interpolation",
+      "legacy_module": "xarray"
+    },
+    {
+      "id": "nulls",
+      "legacy_module": "pandas"
+    },
+    {
+      "id": "float-format",
+      "legacy_module": "pandas"
+    },
+    {
+      "id": "attrs",
+      "legacy_module": "xarray"
+    },
+    {
+      "id": "nd-interpolation",
+      "legacy_module": "xarray"
+    }
+  ]
+}
