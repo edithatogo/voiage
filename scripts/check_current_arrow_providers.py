@@ -1,0 +1,159 @@
+"""Qualify current Arrow prerequisite sources without claiming native builds."""
+
+import argparse
+import ast
+import hashlib
+import json
+from pathlib import Path
+import sys
+import tarfile
+import tomllib
+
+from packaging.requirements import Requirement
+from packaging.specifiers import SpecifierSet
+from packaging.version import Version
+
+from scripts.check_current_spack_providers import _recipe, _requirements
+
+LICENSES = {
+    "LICENSE",
+    "native/libcst/LICENSE",
+    "native/libcst/src/tokenizer/core/LICENSE",
+    "native/libcst_derive/LICENSE",
+}
+
+
+def validate_libcst(root: Path, sources: Path) -> dict[str, object]:
+    """Bind the Python 3.15 source, native parser, licenses and stable compiler."""
+    packet = json.loads(
+        (root / "packaging/current/arrow-provider-sources.json").read_text()
+    )
+    if packet["python_profile"] != "3.15.1" or "py-libcst" not in packet["providers"]:
+        raise ValueError("The Python 3.15.1 LibCST prerequisite is required")
+    row = packet["providers"]["py-libcst"]
+    recipe = _recipe(root / "packaging/current/spack/packages/py-libcst/package.py")
+    if row["license"] != "MIT AND PSF-2.0" or set(row["licenses"]) != LICENSES:
+        raise ValueError("LibCST native and upstream license coverage is required")
+    if recipe["versions"] != [
+        (
+            row["version"],
+            {"sha256": row["source"]["sha256"], "url": row["source"]["url"]},
+        )
+    ] or recipe["licenses"] != [row["license"]]:
+        raise ValueError("LibCST source identity or license drift")
+    expected = {
+        "python@3.15.1": ["build", "run"],
+        "py-setuptools": ["build"],
+        "py-setuptools-scm": ["build"],
+        "py-setuptools-rust": ["build"],
+        "py-wheel": ["build"],
+        "rust@1.85:1": ["build"],
+        "py-pyyaml@6.0.3:": ["run"],
+    }
+    if recipe["dependencies"] != expected or row["spack_dependencies"] != expected:
+        raise ValueError("LibCST Python-profile or stable compiler dependency drift")
+    expected_environment = {
+        key: ast.dump(
+            ast.parse(f'str(self.spec["rust"].prefix.bin.{binary})', mode="eval").body
+        )
+        for key, binary in (("RUSTC", "rustc"), ("CARGO", "cargo"))
+    }
+    if recipe["environment"] != expected_environment:
+        raise ValueError("LibCST must retain compiler binding and default features")
+    archive = sources / row["source"]["filename"]
+    with archive.open("rb") as stream:
+        checksum = hashlib.file_digest(stream, "sha256").hexdigest()
+    if checksum != row["source"]["sha256"]:
+        raise ValueError("LibCST source checksum mismatch")
+    selected = LICENSES | {"pyproject.toml", "native/libcst/Cargo.toml"}
+    contents = {}
+    with tarfile.open(archive, "r|gz", stream=True) as source:
+        for member in source:
+            name = member.name.split("/", 1)[-1]
+            if name not in selected:
+                continue
+            if name in contents or not member.isfile() or member.size > 2 * 1024**2:
+                raise ValueError("Invalid LibCST source metadata")
+            stream = source.extractfile(member)
+            if stream is None:
+                raise ValueError("Unreadable LibCST source metadata")
+            contents[name] = stream.read()
+    if set(contents) != selected or any(
+        hashlib.sha256(contents[name]).hexdigest() != digest
+        for name, digest in row["licenses"].items()
+    ):
+        raise ValueError("Missing or changed LibCST metadata or license")
+    project = tomllib.loads(contents["pyproject.toml"].decode())
+    cargo = tomllib.loads(contents["native/libcst/Cargo.toml"].decode())
+    requirements = [Requirement(text) for text in project["project"]["dependencies"]]
+    selected_run = set()
+    for requirement in requirements:
+        if requirement.marker is None or requirement.marker.evaluate(
+            {"python_version": "3.15", "python_full_version": "3.15.1"}
+        ):
+            requirement.marker = None
+            selected_run.add(requirement)
+    if (
+        project["project"]["name"] != "libcst"
+        or project["project"]["requires-python"] != row["requires_python"]
+        or Version("3.15.1") not in SpecifierSet(row["requires_python"])
+        or project["project"]["license"] != {"file": "LICENSE"}
+        or set(project["build-system"]) != {"requires"}
+        or _requirements(project["build-system"]["requires"])
+        != _requirements(row["build_requires"])
+        or _requirements(project["build-system"]["requires"])
+        != _requirements(["setuptools", "setuptools-scm", "setuptools-rust", "wheel"])
+        or selected_run != _requirements(row["selected_run_requires"])
+        or selected_run != _requirements(["pyyaml>=6.0.3"])
+        or cargo["package"]["name"] != "libcst"
+        or cargo["package"]["version"] != row["version"]
+        or cargo["package"]["license"] != "MIT AND (MIT AND PSF-2.0)"
+        or cargo["package"]["license"] != row["cargo_license"]
+        or cargo["package"]["rust-version"] != row["rust_version"]
+        or Version(row["rust_version"]) > Version("1.85")
+        or cargo["features"]["default"] != row["default_features"]
+        or row["default_features"] != ["py"]
+        or cargo["dependencies"]["pyo3"]["version"] != row["pyo3_version"]
+    ):
+        raise ValueError("LibCST upstream source contract drift")
+    return {
+        "libcst_source_declaration_qualified": True,
+        "python_profile": "3.15.1",
+        "source_archive_sha256": checksum,
+        "licenses_checked": len(LICENSES),
+        "spack_build_executed": False,
+        "linux_build_executed": False,
+        "full_arrow_profile_qualified": False,
+    }
+
+
+def main() -> int:
+    """Inspect supplied archives; never download, extract or execute source."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("sources", type=Path)
+    parser.add_argument("--root", type=Path, default=Path.cwd())
+    args = parser.parse_args()
+    if sys.version_info[:3] != (3, 15, 1):
+        parser.error("Source qualification requires Python 3.15.1")
+    try:
+        report = validate_libcst(args.root, args.sources)
+    except (
+        OSError,
+        ValueError,
+        TypeError,
+        KeyError,
+        SyntaxError,
+        tarfile.TarError,
+    ) as error:
+        print(
+            json.dumps(
+                {"libcst_source_declaration_qualified": False, "error": str(error)}
+            )
+        )
+        return 1
+    print(json.dumps(report, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
