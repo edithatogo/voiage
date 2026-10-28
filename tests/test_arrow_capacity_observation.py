@@ -60,8 +60,10 @@ def test_source_download_rejects_nonprovider_sources(tmp_path: Path, url: str) -
 def test_native_object_scan_includes_parquet_extensions(tmp_path: Path) -> None:
     names = ["lib.cpython-315.so", "_parquet.cpython-315.so", "libarrow_python.so.2600"]
     for name in names:
-        (tmp_path / name).touch()
+        (tmp_path / name).write_bytes(b"\x7fELF")
     (tmp_path / "metadata.txt").touch()
+    (tmp_path / "v0.7.1.some-named-index.parquet").write_bytes(b"PAR1")
+    (tmp_path / "not-elf.so").write_text("linker script")
     assert {path.name for path in native_objects(tmp_path, tmp_path)} == set(names)
 
 

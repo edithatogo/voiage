@@ -71,7 +71,14 @@ def native_objects(package: Path, environment: Path) -> list[Path]:
     """Include underscore-prefixed Python extensions as well as helper libraries."""
     if not package.resolve().is_relative_to(environment.resolve()):
         raise RuntimeError("Installed extension escaped the private environment")
-    objects = sorted(path for path in package.rglob("*.so*") if path.is_file())
+    objects = []
+    for path in package.rglob("*.so*"):
+        if not path.is_file() or re.search(r"\.so(?:\.\d+)*$", path.name) is None:
+            continue
+        with path.open("rb") as stream:
+            if stream.read(4) == b"\x7fELF":
+                objects.append(path)
+    objects.sort()
     if not objects:
         raise RuntimeError("No installed PyArrow native objects found")
     return objects

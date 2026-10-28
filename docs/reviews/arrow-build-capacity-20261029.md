@@ -7,8 +7,10 @@ Writing chat: `01a17093-d6f6-7302-a1fa-a868618ac648`
 `/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-arrow-capacity-20261029`,
 branch `codex/arrow-build-capacity-20261029`. The lane owns only the new Arrow
 capacity workflow, `scripts/observe_arrow_capacity.py`, its focused test file,
-the frozen Arrow input JSON and this report. The actual source-run commit is
-`2233b838`; native scope is only GitHub run `40704302172`'s ephemeral builder.
+the frozen Arrow input JSON and this report. The first source-run commit is
+`2233b838`, run `40704302172`. The corrected source-run commit is
+`6e2249955b3e431ae0d0ce7dfe26bba786849800`, run `40709591308`.
+Native scope is only those GitHub runs' private ephemeral builders.
 The next operation is read-only result/artifact collection, followed by one
 terminal evidence handoff. Current providers, private environments/bindings,
 shared handoffs, runtime/dependency promotion and main integration remain with
@@ -111,3 +113,14 @@ unchanged. Dedicated regression cases cover underscore extensions and children
 with different process groups. Original first-run receipts and logs remain
 under ignored `.conductor/local/arrow-capacity/40704302172/`; they are not
 rewritten as a passing measurement.
+
+The second run `40709591308` again passed source compilation, installation and
+all functional probes. The corrected descendant sampler recorded 1,892,212 KiB
+(1.80 GiB) peak C++ process-tree RSS, and its 1.49 GiB sampled additional disk
+use is consistent with the first run. Its overall workflow remained red because
+`*.so*` additionally matched the non-ELF Parquet fixture
+`v0.7.1.some-named-index.parquet`. Native Arrow/Parquet linkage itself resolved
+to the fresh prefix. The scanner now requires both an actual shared-object
+filename and ELF magic, with that precise fixture and a text linker-script
+negative control added to the regression case. Original second-run artifacts
+remain in `.conductor/local/arrow-capacity/40709591308/`.
