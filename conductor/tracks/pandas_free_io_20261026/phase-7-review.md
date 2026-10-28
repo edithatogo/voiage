@@ -36,3 +36,16 @@ complete resource receipts. The supplemental coverage run's final controller
 receipt is unavailable after interruption and is not used as peak-memory proof.
 No unresolved implementation review findings remain. Whole-track completion,
 release publication and native build approval are not claimed.
+
+## Resource-control follow-through
+
+A subsequent audit found that tox filtered the guard's indexed Git overrides,
+allowing detached file-system monitors in private test clones. Ten verified
+job-owned daemons were stopped. The runner now forwards those process-local
+overrides; eight watchdog tests and a nested guard-to-tox-to-Git probe pass.
+A fresh complete gate at cfc6b35b passes all 15 environments: 5,392 tests pass,
+14 existing capability skips, and coverage is 94.73%. The guard recorded
+1,600,352 KiB peak process-group RSS and successful completion. A read-only
+audit found no escaped monitors retaining that run's private temporary paths.
+This evidence supersedes the earlier partial reruns; earlier failures remain
+retained. Hosted and merged-revision gates remain open.
