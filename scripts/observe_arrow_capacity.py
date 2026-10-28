@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 import re
+import select
 import shutil
 import signal
 import subprocess
@@ -44,27 +45,73 @@ def descendant_usage(root_pid: int) -> tuple[set[int], int]:
     return descendants, rss
 
 
-def stop_owned_tree(process: subprocess.Popen[bytes], pids: set[int]) -> None:
-    """Bind termination to this Linux build's descendant process handles."""
-    handles = []
-    try:
-        for pid in pids:
-            try:
-                handles.append(os.pidfd_open(pid))
-            except ProcessLookupError:
-                continue
-        for signum in (signal.SIGTERM, signal.SIGKILL):
-            for handle in handles:
+class ObservedProcesses:
+    """Retain live Linux process handles without accumulating exited children."""
+
+    def __init__(self) -> None:
+        self.handles: dict[int, int] = {}
+
+    def observe(self, pids: set[int], root_pid: int) -> None:
+        """Retain handles while descendants are still attached to the guard."""
+        poller = select.poll()
+        for handle in self.handles.values():
+            poller.register(handle, select.POLLIN)
+        finished = {handle for handle, _ in poller.poll(0)}
+        for pid, handle in list(self.handles.items()):
+            if handle in finished:
+                os.close(handle)
+                del self.handles[pid]
+        opened: dict[int, int] = {}
+        try:
+            for pid in pids - self.handles.keys():
                 try:
-                    signal.pidfd_send_signal(handle, signum)
+                    opened[pid] = os.pidfd_open(pid)  # ty: ignore[unresolved-attribute] - Linux-only workload
                 except ProcessLookupError:
                     continue
-            if signum == signal.SIGTERM:
+            if opened:
+                verified, _ = descendant_usage(root_pid)
+                for pid in opened.keys() & verified:
+                    self.handles[pid] = opened.pop(pid)
+        finally:
+            for handle in opened.values():
+                os.close(handle)
+
+    def stop(self) -> None:
+        """Stop only retained process identities, including detached groups."""
+        if not self.handles:
+            return
+        for signum in (signal.SIGTERM, signal.SIGKILL):
+            signalled = False
+            for handle in self.handles.values():
+                try:
+                    signal.pidfd_send_signal(handle, signum)  # ty: ignore[unresolved-attribute] - Linux-only workload
+                    signalled = True
+                except ProcessLookupError:
+                    continue
+            if signum == signal.SIGTERM and signalled:
                 time.sleep(3)
-        process.wait()
-    finally:
-        for handle in handles:
+        poller = select.poll()
+        remaining = set(self.handles.values())
+        for handle in remaining:
+            poller.register(handle, select.POLLIN)
+        deadline = time.monotonic() + 5
+        while remaining:
+            timeout = max(0, int((deadline - time.monotonic()) * 1000))
+            for handle, _ in poller.poll(timeout):
+                poller.unregister(handle)
+                remaining.discard(handle)
+            if time.monotonic() >= deadline:
+                break
+        if remaining:
+            raise RuntimeError(
+                "Observed descendants did not terminate within five seconds"
+            )
+
+    def close(self) -> None:
+        """Release every retained kernel handle."""
+        for handle in self.handles.values():
             os.close(handle)
+        self.handles.clear()
 
 
 def native_objects(package: Path, environment: Path) -> list[Path]:
@@ -193,7 +240,7 @@ class Observation:
         print(f"Starting {name}", flush=True)
         started = time.monotonic()
         resources: dict[str, Any] = {
-            "scope": "All descendants, including separate process groups",
+            "scope": "Sampled descendants, including separate process groups; short-lived processes may be missed",
             "peak_rss_kib": 0,
             "sampling_interval_seconds": 2,
             "reason": "completed",
@@ -207,26 +254,34 @@ class Observation:
                 stderr=subprocess.STDOUT,
                 start_new_session=True,
             )
-            owned = {process.pid}
+            observed = ObservedProcesses()
             try:
                 while process.poll() is None:
                     owned, rss = descendant_usage(process.pid)
+                    observed.observe(owned, process.pid)
                     resources["peak_rss_kib"] = max(resources["peak_rss_kib"], rss)
                     if rss > 11264 * 1024:
                         resources["reason"] = "descendant_memory_limit"
-                        stop_owned_tree(process, owned)
+                        observed.stop()
                         break
                     time.sleep(2)
                 resources["returncode"] = process.wait()
             except BaseException:
                 resources["reason"] = "interrupted_or_monitor_failed"
-                stop_owned_tree(process, owned)
                 raise
             finally:
-                resources["elapsed_seconds"] = round(time.monotonic() - started, 2)
-                (self.evidence / (name + "-descendant-resources.json")).write_text(
-                    json.dumps(resources, indent=2) + "\n"
-                )
+                try:
+                    observed.stop()
+                except Exception as error:
+                    resources["reason"] = "descendant_cleanup_failed"
+                    resources["cleanup_error"] = str(error)
+                    raise
+                finally:
+                    observed.close()
+                    resources["elapsed_seconds"] = round(time.monotonic() - started, 2)
+                    (self.evidence / (name + "-descendant-resources.json")).write_text(
+                        json.dumps(resources, indent=2) + "\n"
+                    )
         with self.lock:
             row.update(
                 exit_code=process.returncode,
