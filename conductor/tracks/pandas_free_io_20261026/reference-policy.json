@@ -2863,6 +2863,16 @@
       "category": "frozen_historical_evidence",
       "reason": "Exact capture contract, immutable committed-source excerpt inventory or retained upstream notice.",
       "sha256": "617d847e789906e604b0c47e559d4e760794c3cdf782a09d3a29b09cfe502a3a"
+    },
+    "tests/translation_reference/test_translation_reference.py": {
+      "category": "translation_reference",
+      "reason": "Exact external-oracle capability and broken-installation controls; production import ban remains unchanged.",
+      "lines": [
+        {
+          "sha256": "2e65122612b40aef1f1d3beff705271c67b719d760786f6c71548616e7792681",
+          "count": 1
+        }
+      ]
     }
   }
 }

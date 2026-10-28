@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 from datetime import datetime
 import hashlib
+from html import escape
 import importlib
 import importlib.util
 import io
@@ -152,7 +153,7 @@ def render(rows: list[dict[str, Any]]) -> str:
         "and one-based line ranges. CI needs no external consumer checkout.",
         "The source manifests are `tobac-consumer-idioms.json` and",
         "`voiage-idioms.json` under `conductor/tracks/translation_reference_20261026/`.",
-        "See the [migration guide](/voiage/user-guide/migration-guide/).",
+        "See the [migration guide](/voiage/user-guide/migration-guide).",
         "",
         "Fixtures below establish the stated relationships only: value/order",
         "equality does not promise dtype, index, time-zone or metadata equivalence.",
@@ -175,7 +176,7 @@ def render(rows: list[dict[str, Any]]) -> str:
             lines += [f"- `{citation['source']}`: `{citation['id']}`"]
         lines += [
             "",
-            f"Relationship: **{row['relation']}**. {row['qualification']}",
+            f"Relationship: **{row['relation']}**. {escape(row['qualification'])}",
             "",
             f"Legacy `{row['legacy_module']}` form:",
             "",

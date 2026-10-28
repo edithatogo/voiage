@@ -16,7 +16,7 @@ The committed capture records source commits, file and excerpt digests,
 and one-based line ranges. CI needs no external consumer checkout.
 The source manifests are `tobac-consumer-idioms.json` and
 `voiage-idioms.json` under `conductor/tracks/translation_reference_20261026/`.
-See the [migration guide](/voiage/user-guide/migration-guide/).
+See the [migration guide](/voiage/user-guide/migration-guide).
 
 Fixtures below establish the stated relationships only: value/order
 equality does not promise dtype, index, time-zone or metadata equivalence.
@@ -369,7 +369,7 @@ Evidence: **derived**. Citations identify the actual source idiom. The small leg
 - `tobac`: `scripts/run_release_calibration.py:446:float-format`
 - `voiage`: `voiage/core/io.py:150:float-format`
 
-Relationship: **exact finite CSV lines; bounded decimal round-trip**. Finite three-value fixture: relative round-trip error <= 5e-12, absolute tolerance 0. Native fixed-decimal output is deliberately unequal.
+Relationship: **exact finite CSV lines; bounded decimal round-trip**. Finite three-value fixture: relative round-trip error &lt;= 5e-12, absolute tolerance 0. Native fixed-decimal output is deliberately unequal.
 
 Legacy `pandas` form:
 

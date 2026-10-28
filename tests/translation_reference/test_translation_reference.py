@@ -1,5 +1,6 @@
 """Executable contracts for the source-derived migration reference."""
 
+import importlib.util
 from pathlib import Path
 
 import pytest
@@ -39,10 +40,8 @@ def test_polars_target(row_id: str) -> None:
 @pytest.mark.parametrize("row_id", IDS)
 def test_external_legacy_oracle(row_id: str) -> None:
     row = next(row for row in load_cases(ROOT) if row["id"] == row_id)
-    pytest.importorskip(
-        row["legacy_module"],
-        reason="External oracle is unavailable; it is not a runtime dependency",
-    )
+    if importlib.util.find_spec(row["legacy_module"]) is None:
+        pytest.skip("External oracle is absent; it is not a runtime dependency")
     run_case(row, "legacy")
 
 
@@ -91,3 +90,21 @@ def test_wrong_semantic_result_is_rejected() -> None:
     row = dict(load_cases(ROOT)[0], target_code="result = [999]\n")
     with pytest.raises(AssertionError, match="index:target"):
         run_case(row, "target")
+
+
+def test_installed_broken_oracle_fails_instead_of_skipping(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import importlib
+
+    original = importlib.import_module
+    monkeypatch.setattr(importlib.util, "find_spec", lambda _name: object())
+
+    def broken(name: str) -> object:
+        if name == "pandas":
+            raise ImportError("installed oracle is broken")
+        return original(name)
+
+    monkeypatch.setattr(importlib, "import_module", broken)
+    with pytest.raises(ImportError, match="installed oracle is broken"):
+        test_external_legacy_oracle("index")

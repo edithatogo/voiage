@@ -14,7 +14,7 @@ Received [I/O acceptance and packaging handoff](./io-acceptance-handoff-python31
 from merged revision `420fd7ab`. The handoff retains its original planning snapshot; current authorization is
 recorded in metadata.
 
-[Executable translation reference](/voiage/user-guide/tabular-translation-reference/)
+[Executable translation reference](/voiage/user-guide/tabular-translation-reference)
 is generated from `semantic-cases.json`. Source captures and retained consumer
 notices are local, committed verification inputs; CI needs no external checkout.
 Local qualification is complete; full-gate and hosted acceptance remain pending.
