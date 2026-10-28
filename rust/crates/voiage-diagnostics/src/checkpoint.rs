@@ -1,9 +1,10 @@
 //! Durable identity and resume contracts for bounded executions.
 
 use serde::{Deserialize, Deserializer, Serialize};
+use sha2::{Digest, Sha256};
 use std::fmt;
 use std::fs::{self, File, OpenOptions};
-use std::io::{Read, Write};
+use std::io::{BufReader, BufWriter, Read, Write};
 use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::{Arc, Mutex};
@@ -173,6 +174,19 @@ impl ExecutionBudget {
             max_evaluations,
             remaining: Arc::new(AtomicU64::new(max_evaluations)),
         }
+    }
+
+    /// Create a shared budget with already completed checkpoint work deducted.
+    ///
+    /// Returns `None` if the checkpoint exceeds the total limit. Callers must
+    /// separately validate checkpoint identity and payload before resuming.
+    #[must_use]
+    pub fn for_resume(max_evaluations: u64, checkpoint: &ExecutionCheckpoint) -> Option<Self> {
+        let remaining = max_evaluations.checked_sub(checkpoint.evaluations)?;
+        Some(Self {
+            max_evaluations,
+            remaining: Arc::new(AtomicU64::new(remaining)),
+        })
     }
 
     /// Return whether a batch can execute without exceeding the budget.
@@ -376,10 +390,19 @@ impl ExecutionCheckpoint {
         Ok(self)
     }
 
-    /// Return whether the next complete batch fits the supplied budget.
+    /// Atomically reserve the next complete batch from the supplied budget.
+    ///
+    /// A successful call consumes `batch_size` from the shared budget. This is
+    /// an admission operation, not a read-only capacity probe; do not call it
+    /// again for the same batch. Use [`ExecutionBudget::allows`] for a snapshot
+    /// that does not reserve capacity. Cancellation-aware admission must use
+    /// [`CancellationToken::reserve_batch`] instead.
     #[must_use]
     pub fn next_batch_allowed(&self, budget: &ExecutionBudget, batch_size: u64) -> bool {
-        self.evaluations.checked_add(batch_size).is_some() && budget.try_reserve(batch_size)
+        self.evaluations
+            .checked_add(batch_size)
+            .is_some_and(|total| total <= budget.max_evaluations)
+            && budget.try_reserve(batch_size)
     }
 
     /// Reject resume when model, RNG, or algorithm identity changed.
@@ -409,10 +432,142 @@ impl CheckpointStore {
         Self { path: path.into() }
     }
 
+    /// Atomically save a checkpoint and the payload named by its SHA-256 digest.
+    ///
+    /// # Errors
+    /// Returns an error if the digest is incorrect, metadata is too large, or
+    /// persistence fails. The prior file survives failures before rename.
+    pub fn save_with_payload(
+        &self,
+        checkpoint: &ExecutionCheckpoint,
+        payload: &[u8],
+    ) -> Result<(), CheckpointError> {
+        if checkpoint.payload_digest != payload_sha256(payload) {
+            return Err(CheckpointError::InvalidCheckpointEncoding);
+        }
+        let mut metadata = BoundedMetadata(Vec::new());
+        serde_json::to_writer(&mut metadata, checkpoint)
+            .map_err(|_| CheckpointError::InvalidCheckpointEncoding)?;
+        let metadata = metadata.0;
+        // Public checkpoint fields can be mutated after construction. Validate
+        // the serialized form before replacing the last readable checkpoint.
+        serde_json::from_slice::<ExecutionCheckpoint>(&metadata)
+            .map_err(|_| CheckpointError::InvalidCheckpointEncoding)?;
+        let metadata_len = u64::try_from(metadata.len())
+            .map_err(|_| CheckpointError::InvalidCheckpointEncoding)?;
+        let payload_len =
+            u64::try_from(payload.len()).map_err(|_| CheckpointError::InvalidCheckpointEncoding)?;
+        let parent = self
+            .path
+            .parent()
+            .filter(|p| !p.as_os_str().is_empty())
+            .unwrap_or_else(|| Path::new("."));
+        let temporary = temporary_path(&self.path)?;
+        self.write_to_temporary(&temporary, parent, |file| {
+            file.write_all(b"VOIAGECP1")
+                .and_then(|()| file.write_all(&metadata_len.to_le_bytes()))
+                .and_then(|()| file.write_all(&payload_len.to_le_bytes()))
+                .and_then(|()| file.write_all(&metadata))
+                .and_then(|()| file.write_all(payload))
+                .map_err(|_| CheckpointError::PersistenceFailure)
+        })
+    }
+
+    /// Load a checkpoint and verify its payload, subject to a caller-set byte limit.
+    ///
+    /// # Errors
+    /// Returns an error for malformed, truncated, oversized or mismatched data.
+    pub fn load_with_payload(
+        &self,
+        max_payload_bytes: usize,
+    ) -> Result<(ExecutionCheckpoint, Vec<u8>), CheckpointError> {
+        let mut file = File::open(&self.path).map_err(|_| CheckpointError::PersistenceFailure)?;
+        let mut header = [0_u8; 25];
+        file.read_exact(&mut header)
+            .map_err(|_| CheckpointError::InvalidCheckpointEncoding)?;
+        if &header[..9] != b"VOIAGECP1" {
+            return Err(CheckpointError::InvalidCheckpointEncoding);
+        }
+        let metadata_len = u64::from_le_bytes(
+            header[9..17]
+                .try_into()
+                .map_err(|_| CheckpointError::InvalidCheckpointEncoding)?,
+        );
+        let payload_len = u64::from_le_bytes(
+            header[17..25]
+                .try_into()
+                .map_err(|_| CheckpointError::InvalidCheckpointEncoding)?,
+        );
+        let metadata_len = usize::try_from(metadata_len)
+            .map_err(|_| CheckpointError::InvalidCheckpointEncoding)?;
+        let payload_len =
+            usize::try_from(payload_len).map_err(|_| CheckpointError::InvalidCheckpointEncoding)?;
+        if metadata_len > 1_048_576 || payload_len > max_payload_bytes {
+            return Err(CheckpointError::InvalidCheckpointEncoding);
+        }
+        let expected_size = 25_usize
+            .checked_add(metadata_len)
+            .and_then(|size| size.checked_add(payload_len))
+            .and_then(|size| u64::try_from(size).ok())
+            .ok_or(CheckpointError::InvalidCheckpointEncoding)?;
+        if file
+            .metadata()
+            .map_err(|_| CheckpointError::PersistenceFailure)?
+            .len()
+            != expected_size
+        {
+            return Err(CheckpointError::InvalidCheckpointEncoding);
+        }
+        let mut metadata = vec![0; metadata_len];
+        let mut payload = Vec::new();
+        payload
+            .try_reserve_exact(payload_len)
+            .map_err(|_| CheckpointError::InvalidCheckpointEncoding)?;
+        payload.resize(payload_len, 0);
+        file.read_exact(&mut metadata)
+            .and_then(|()| file.read_exact(&mut payload))
+            .map_err(|_| CheckpointError::InvalidCheckpointEncoding)?;
+        let mut trailing = [0];
+        if file
+            .read(&mut trailing)
+            .map_err(|_| CheckpointError::PersistenceFailure)?
+            != 0
+        {
+            return Err(CheckpointError::InvalidCheckpointEncoding);
+        }
+        let checkpoint: ExecutionCheckpoint = serde_json::from_slice(&metadata)
+            .map_err(|_| CheckpointError::InvalidCheckpointEncoding)?;
+        if checkpoint.payload_digest != payload_sha256(&payload) {
+            return Err(CheckpointError::InvalidCheckpointEncoding);
+        }
+        Ok((checkpoint, payload))
+    }
+
+    /// Load a verified payload for a specific execution and remaining budget.
+    ///
+    /// # Errors
+    /// Returns an error for invalid data, mismatched identity, or if completed
+    /// evaluations exceed the requested total budget. Callers must also verify
+    /// that the payload is meaningful for their particular numerical kernel.
+    pub fn load_for_resume(
+        &self,
+        max_payload_bytes: usize,
+        identity: &CheckpointIdentity,
+        max_evaluations: u64,
+    ) -> Result<(ExecutionCheckpoint, Vec<u8>, ExecutionBudget), CheckpointError> {
+        let (checkpoint, payload) = self.load_with_payload(max_payload_bytes)?;
+        checkpoint.ensure_compatible(identity)?;
+        let budget = ExecutionBudget::for_resume(max_evaluations, &checkpoint)
+            .ok_or(CheckpointError::InvalidCheckpointEncoding)?;
+        Ok((checkpoint, payload, budget))
+    }
+
     /// Persist a checkpoint through a same-directory temporary file and rename.
     ///
     /// The previous valid file remains in place if any write step fails before
-    /// the final rename.
+    /// the final rename. If syncing the parent directory fails after rename,
+    /// the replacement may already be visible even though this method returns
+    /// an error. Read back the checkpoint before deciding whether to retry.
     ///
     /// # Errors
     ///
@@ -420,30 +575,64 @@ impl CheckpointStore {
     /// written, or [`CheckpointError::InvalidCheckpointEncoding`] when it
     /// cannot be encoded.
     pub fn save(&self, checkpoint: &ExecutionCheckpoint) -> Result<(), CheckpointError> {
-        let bytes = serde_json::to_vec(checkpoint)
-            .map_err(|_| CheckpointError::InvalidCheckpointEncoding)?;
         let parent = self
             .path
             .parent()
             .filter(|path| !path.as_os_str().is_empty())
             .unwrap_or_else(|| Path::new("."));
         let temporary = temporary_path(&self.path)?;
+        self.write_to_temporary(&temporary, parent, |file| {
+            let mut writer = BufWriter::new(file);
+            serde_json::to_writer(&mut writer, checkpoint).map_err(|error| {
+                if error.is_io() {
+                    CheckpointError::PersistenceFailure
+                } else {
+                    CheckpointError::InvalidCheckpointEncoding
+                }
+            })?;
+            writer
+                .flush()
+                .map_err(|_| CheckpointError::PersistenceFailure)
+        })
+    }
+
+    fn write_to_temporary(
+        &self,
+        temporary: &Path,
+        parent: &Path,
+        write: impl FnOnce(&mut File) -> Result<(), CheckpointError>,
+    ) -> Result<(), CheckpointError> {
+        let mut owned = false;
         let result = (|| {
             let mut file = OpenOptions::new()
                 .create_new(true)
                 .write(true)
-                .open(&temporary)
+                .open(temporary)
                 .map_err(|_| CheckpointError::PersistenceFailure)?;
-            file.write_all(&bytes)
-                .and_then(|()| file.sync_all())
+            owned = true;
+            write(&mut file)?;
+            file.sync_all()
                 .map_err(|_| CheckpointError::PersistenceFailure)?;
-            fs::rename(&temporary, &self.path).map_err(|_| CheckpointError::PersistenceFailure)?;
+            fs::rename(temporary, &self.path).map_err(|_| CheckpointError::PersistenceFailure)?;
             sync_parent_directory(parent)
         })();
-        if result.is_err() {
-            let _ = fs::remove_file(&temporary);
+        if result.is_err() && owned {
+            let _ = fs::remove_file(temporary);
         }
         result
+    }
+
+    #[cfg(test)]
+    fn save_to_temporary(
+        &self,
+        bytes: &[u8],
+        temporary: &Path,
+        parent: &Path,
+    ) -> Result<(), CheckpointError> {
+        self.write_to_temporary(temporary, parent, |file| {
+            file.write_all(bytes)
+                .map_err(|_| CheckpointError::PersistenceFailure)
+        })
     }
 
     /// Load and validate the latest complete checkpoint.
@@ -454,12 +643,47 @@ impl CheckpointStore {
     /// be read, or [`CheckpointError::InvalidCheckpointEncoding`] when its
     /// contents are malformed or violate checkpoint invariants.
     pub fn load(&self) -> Result<ExecutionCheckpoint, CheckpointError> {
-        let mut file = File::open(&self.path).map_err(|_| CheckpointError::PersistenceFailure)?;
-        let mut bytes = Vec::new();
-        file.read_to_end(&mut bytes)
-            .map_err(|_| CheckpointError::PersistenceFailure)?;
-        serde_json::from_slice(&bytes).map_err(|_| CheckpointError::InvalidCheckpointEncoding)
+        let file = File::open(&self.path).map_err(|_| CheckpointError::PersistenceFailure)?;
+        read_checkpoint(BufReader::new(file))
     }
+}
+
+struct BoundedMetadata(Vec<u8>);
+
+impl Write for BoundedMetadata {
+    fn write(&mut self, bytes: &[u8]) -> std::io::Result<usize> {
+        if bytes.len() > 1_048_576_usize.saturating_sub(self.0.len()) {
+            return Err(std::io::Error::other("checkpoint metadata exceeds limit"));
+        }
+        self.0
+            .try_reserve(bytes.len())
+            .map_err(|_| std::io::Error::other("checkpoint metadata allocation failed"))?;
+        self.0.extend_from_slice(bytes);
+        Ok(bytes.len())
+    }
+
+    fn flush(&mut self) -> std::io::Result<()> {
+        Ok(())
+    }
+}
+
+fn payload_sha256(payload: &[u8]) -> String {
+    use std::fmt::Write as _;
+    let mut digest = String::from("sha256:");
+    for byte in Sha256::digest(payload) {
+        write!(digest, "{byte:02x}").expect("writing to a string cannot fail");
+    }
+    digest
+}
+
+fn read_checkpoint(reader: impl Read) -> Result<ExecutionCheckpoint, CheckpointError> {
+    serde_json::from_reader(reader).map_err(|error| {
+        if error.is_io() {
+            CheckpointError::PersistenceFailure
+        } else {
+            CheckpointError::InvalidCheckpointEncoding
+        }
+    })
 }
 
 static TEMPORARY_FILE_SEQUENCE: AtomicU64 = AtomicU64::new(0);
@@ -590,6 +814,58 @@ mod tests {
     }
 
     #[test]
+    fn checkpoint_batch_admission_reserves_shared_budget_once_per_call() {
+        let checkpoint = ExecutionCheckpoint::new(identity(), 0, 0, "sha256:empty").unwrap();
+        let budget = ExecutionBudget::new(3);
+        assert!(budget.allows(0, 2));
+        assert!(budget.allows(0, 2));
+        assert_eq!(budget.remaining(), 3);
+        assert!(checkpoint.next_batch_allowed(&budget, 2));
+        assert_eq!(budget.remaining(), 1);
+        assert!(!checkpoint.next_batch_allowed(&budget, 2));
+        assert_eq!(budget.remaining(), 1);
+    }
+
+    #[test]
+    fn resumed_checkpoint_cannot_admit_work_beyond_total_budget() {
+        let checkpoint = ExecutionCheckpoint::new(identity(), 1, 2, "sha256:partial").unwrap();
+        let budget = ExecutionBudget::new(2);
+        assert!(!checkpoint.next_batch_allowed(&budget, 1));
+        assert_eq!(budget.remaining(), 2);
+    }
+
+    #[test]
+    fn resumed_budget_deducts_prior_work_before_repeated_admissions() {
+        let checkpoint = ExecutionCheckpoint::new(identity(), 1, 2, "sha256:partial").unwrap();
+        assert!(ExecutionBudget::for_resume(1, &checkpoint).is_none());
+        let budget = ExecutionBudget::for_resume(5, &checkpoint).unwrap();
+        assert_eq!(budget.remaining(), 3);
+        assert!(checkpoint.next_batch_allowed(&budget, 2));
+        assert!(!checkpoint.next_batch_allowed(&budget, 2));
+        assert_eq!(budget.remaining(), 1);
+        assert!(checkpoint.next_batch_allowed(&budget, 1));
+        assert_eq!(budget.remaining(), 0);
+    }
+
+    #[test]
+    fn resumed_budget_limits_concurrent_admissions() {
+        let checkpoint = ExecutionCheckpoint::new(identity(), 1, 2, "sha256:partial").unwrap();
+        let budget = ExecutionBudget::for_resume(5, &checkpoint).unwrap();
+        let admitted = std::thread::scope(|scope| {
+            let workers: Vec<_> = (0..8)
+                .map(|_| scope.spawn(|| checkpoint.next_batch_allowed(&budget, 1)))
+                .collect();
+            workers
+                .into_iter()
+                .map(|worker| worker.join().unwrap())
+                .filter(|admitted| *admitted)
+                .count()
+        });
+        assert_eq!(admitted, 3);
+        assert_eq!(budget.remaining(), 0);
+    }
+
+    #[test]
     fn resume_requires_all_execution_identities_to_match() {
         let checkpoint = ExecutionCheckpoint::new(identity(), 3, 30, "sha256:abc").unwrap();
         assert!(checkpoint.ensure_compatible(&identity()).is_ok());
@@ -601,7 +877,7 @@ mod tests {
     }
 
     #[test]
-    fn deterministic_replay_witness_is_bound_to_cpu_tolerance() {
+    fn replay_tolerance_survives_checkpoint_serialization() {
         let replay = ReplayContract::new(1e-10, "stable_serial").unwrap();
         assert!(replay.matches(1.0, 1.0 + 5e-11));
         assert!(!replay.matches(1.0, 1.0 + 2e-10));
@@ -679,6 +955,10 @@ mod tests {
         let store = CheckpointStore::new(&path);
         let checkpoint = ExecutionCheckpoint::new(identity(), 4, 40, "sha256:stable").unwrap();
         store.save(&checkpoint).unwrap();
+        assert_eq!(
+            std::fs::read(&path).unwrap(),
+            serde_json::to_vec(&checkpoint).unwrap()
+        );
         let loaded = store.load().unwrap();
         assert_eq!(loaded, checkpoint);
         loaded.ensure_compatible(&identity()).unwrap();
@@ -709,6 +989,201 @@ mod tests {
         assert_eq!(store.load().unwrap(), replacement);
         let _ = std::fs::remove_file(path);
         let _ = std::fs::remove_file(temporary);
+    }
+
+    #[test]
+    fn interrupted_temporary_write_preserves_previous_checkpoint() {
+        const CHILD_DIR: &str = "VOIAGE_CHECKPOINT_INTERRUPT_TEST_DIR";
+        if let Some(directory) = std::env::var_os(CHILD_DIR) {
+            let directory = std::path::PathBuf::from(directory);
+            let store = CheckpointStore::new(directory.join("checkpoint.json"));
+            let temporary = directory.join("interrupted.tmp");
+            let _ = store.write_to_temporary(&temporary, &directory, |file| {
+                file.write_all(b"{partial").unwrap();
+                file.sync_all().unwrap();
+                std::fs::write(directory.join("ready"), b"ready").unwrap();
+                loop {
+                    std::thread::park();
+                }
+            });
+            panic!("the parent should terminate the blocked child");
+        }
+
+        let directory = std::env::temp_dir().join(format!(
+            "voiage-checkpoint-{}-interrupted-process",
+            std::process::id()
+        ));
+        std::fs::create_dir(&directory).unwrap();
+        let path = directory.join("checkpoint.json");
+        let store = CheckpointStore::new(&path);
+        let original = ExecutionCheckpoint::new(identity(), 1, 10, "sha256:old").unwrap();
+        let replacement = ExecutionCheckpoint::new(identity(), 2, 10, "sha256:new").unwrap();
+        store.save(&original).unwrap();
+        let mut child = std::process::Command::new(std::env::current_exe().unwrap())
+            .args([
+                "--exact",
+                "checkpoint::tests::interrupted_temporary_write_preserves_previous_checkpoint",
+            ])
+            .env(CHILD_DIR, &directory)
+            .spawn()
+            .unwrap();
+        let deadline = std::time::Instant::now() + std::time::Duration::from_secs(10);
+        while !directory.join("ready").exists() && std::time::Instant::now() < deadline {
+            std::thread::sleep(std::time::Duration::from_millis(10));
+        }
+        let ready = directory.join("ready").exists();
+        let kill_result = child.kill();
+        let status = child.wait().unwrap();
+        assert!(ready, "child did not reach the partial-write boundary");
+        kill_result.unwrap();
+        assert!(!status.success());
+        assert_eq!(store.load().unwrap(), original);
+        assert_eq!(
+            std::fs::read(directory.join("interrupted.tmp")).unwrap(),
+            b"{partial"
+        );
+        store.save(&replacement).unwrap();
+        assert_eq!(store.load().unwrap(), replacement);
+        std::fs::remove_dir_all(directory).unwrap();
+    }
+
+    #[test]
+    fn interrupted_payload_write_preserves_previous_pair() {
+        const CHILD_DIR: &str = "VOIAGE_PAYLOAD_INTERRUPT_TEST_DIR";
+        if let Some(directory) = std::env::var_os(CHILD_DIR) {
+            let directory = PathBuf::from(directory);
+            let store = CheckpointStore::new(directory.join("checkpoint.bin"));
+            let _ = store.write_to_temporary(&directory.join("partial.tmp"), &directory, |file| {
+                file.write_all(b"VOIAGECP1partial").unwrap();
+                file.sync_all().unwrap();
+                fs::write(directory.join("ready"), b"ready").unwrap();
+                loop {
+                    std::thread::park();
+                }
+            });
+            panic!("parent should terminate child");
+        }
+        let directory =
+            std::env::temp_dir().join(format!("voiage-payload-interrupt-{}", std::process::id()));
+        fs::create_dir(&directory).unwrap();
+        let store = CheckpointStore::new(directory.join("checkpoint.bin"));
+        let checkpoint =
+            ExecutionCheckpoint::new(identity(), 1, 3, payload_sha256(b"abc")).unwrap();
+        store.save_with_payload(&checkpoint, b"abc").unwrap();
+        let mut child = std::process::Command::new(std::env::current_exe().unwrap())
+            .args([
+                "--exact",
+                "checkpoint::tests::interrupted_payload_write_preserves_previous_pair",
+            ])
+            .env(CHILD_DIR, &directory)
+            .spawn()
+            .unwrap();
+        let deadline = std::time::Instant::now() + std::time::Duration::from_secs(10);
+        while !directory.join("ready").exists() && std::time::Instant::now() < deadline {
+            std::thread::sleep(std::time::Duration::from_millis(10));
+        }
+        let ready = directory.join("ready").exists();
+        let killed = child.kill();
+        let status = child.wait().unwrap();
+        assert!(ready);
+        killed.unwrap();
+        assert!(!status.success());
+        assert_eq!(
+            store.load_with_payload(3).unwrap(),
+            (checkpoint, b"abc".to_vec())
+        );
+        fs::remove_dir_all(directory).unwrap();
+    }
+
+    #[test]
+    fn partial_temporary_write_failure_keeps_existing_checkpoint() {
+        let directory = std::env::temp_dir().join(format!(
+            "voiage-checkpoint-{}-partial-write",
+            std::process::id()
+        ));
+        std::fs::create_dir(&directory).unwrap();
+        let path = directory.join("checkpoint.json");
+        let temporary = directory.join("owned.tmp");
+        let store = CheckpointStore::new(&path);
+        let original = ExecutionCheckpoint::new(identity(), 1, 10, "sha256:old").unwrap();
+        store.save(&original).unwrap();
+        let result = store.write_to_temporary(&temporary, &directory, |file| {
+            file.write_all(b"partial").unwrap();
+            Err(CheckpointError::PersistenceFailure)
+        });
+        assert_eq!(result, Err(CheckpointError::PersistenceFailure));
+        assert_eq!(store.load().unwrap(), original);
+        assert!(!temporary.exists());
+        std::fs::remove_file(path).unwrap();
+        std::fs::remove_dir(directory).unwrap();
+    }
+
+    #[test]
+    fn checkpoint_reader_distinguishes_io_failure_from_invalid_json() {
+        struct FailedReader;
+        impl std::io::Read for FailedReader {
+            fn read(&mut self, _buffer: &mut [u8]) -> std::io::Result<usize> {
+                Err(std::io::Error::other("simulated read failure"))
+            }
+        }
+        assert_eq!(
+            read_checkpoint(FailedReader),
+            Err(CheckpointError::PersistenceFailure)
+        );
+        assert_eq!(
+            read_checkpoint(&b"{invalid"[..]),
+            Err(CheckpointError::InvalidCheckpointEncoding)
+        );
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn post_rename_sync_failure_may_leave_replacement_visible() {
+        let directory = std::env::temp_dir().join(format!(
+            "voiage-checkpoint-{}-sync-failure",
+            std::process::id()
+        ));
+        std::fs::create_dir(&directory).unwrap();
+        let path = directory.join("checkpoint.json");
+        let temporary = directory.join("owned.tmp");
+        let store = CheckpointStore::new(&path);
+        let original = ExecutionCheckpoint::new(identity(), 1, 10, "sha256:old").unwrap();
+        let replacement = ExecutionCheckpoint::new(identity(), 2, 10, "sha256:new").unwrap();
+        store.save(&original).unwrap();
+        let bytes = serde_json::to_vec(&replacement).unwrap();
+        let missing_parent = directory.join("missing-directory");
+        assert_eq!(
+            store.save_to_temporary(&bytes, &temporary, &missing_parent),
+            Err(CheckpointError::PersistenceFailure)
+        );
+        assert_eq!(store.load().unwrap(), replacement);
+        assert!(!temporary.exists());
+        std::fs::remove_file(path).unwrap();
+        std::fs::remove_dir(directory).unwrap();
+    }
+
+    #[test]
+    fn checkpoint_write_does_not_remove_an_unowned_temporary_file() {
+        let directory = std::env::temp_dir().join(format!(
+            "voiage-checkpoint-{}-collision",
+            std::process::id()
+        ));
+        std::fs::create_dir(&directory).unwrap();
+        let path = directory.join("checkpoint.json");
+        let temporary = directory.join("occupied.tmp");
+        let store = CheckpointStore::new(&path);
+        let original = ExecutionCheckpoint::new(identity(), 1, 10, "sha256:valid").unwrap();
+        store.save(&original).unwrap();
+        std::fs::write(&temporary, b"other process").unwrap();
+        assert_eq!(
+            store.save_to_temporary(b"replacement", &temporary, &directory),
+            Err(CheckpointError::PersistenceFailure)
+        );
+        assert_eq!(std::fs::read(&temporary).unwrap(), b"other process");
+        assert_eq!(store.load().unwrap(), original);
+        std::fs::remove_file(temporary).unwrap();
+        std::fs::remove_file(path).unwrap();
+        std::fs::remove_dir(directory).unwrap();
     }
 
     #[test]

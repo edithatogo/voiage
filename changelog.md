@@ -1,5 +1,8 @@
 # Changelog
 
+- Add bounded, checkpointed EVPI execution with resume identity checks and
+  atomic persistence of checkpoint metadata and result payloads.
+
 - Preserve Arrow schema metadata and content digests across normalized IPC and
   Parquet bundle round trips, including existing bundle files.
 
