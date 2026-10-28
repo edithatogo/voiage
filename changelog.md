@@ -1,5 +1,9 @@
 # Changelog
 
+- Add source-bound Spack candidates for the split Polars frontend and native
+  runtime, preserving exact runtime pairing and upstream feature/compiler
+  defaults while keeping native build acceptance separate.
+
 - Bind current HPC recipe candidates to the accepted source archive and reject
   missing, modified or mismatched source-qualification receipts while keeping
   native solver, build and installed-module acceptance separate.
