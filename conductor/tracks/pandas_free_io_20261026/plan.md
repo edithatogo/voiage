@@ -46,7 +46,7 @@ Local qualification: `phase-7-acceptance-python315.json` and `phase-7-review.md`
 - [x] T7.2 — Port or remove every live hit: the pandas snippets emitted into generated notebook code at `voiage/ecosystem_integration.py` lines 757 (`import pandas as pd`), 827 (`pd.DataFrame(results)`), and 844 (`results_df.itertuples()`) become Polars (`import polars as pl`, `pl.DataFrame(results)`, `results_df.iter_rows(named=True)`); live docs, scripts and the preview workflow drop pandas; live overlay dependency declarations are reconciled with the packaging set; frozen historical evidence (SBOMs, solver logs, dated release records) is left byte-unchanged. (AC8).
 - [x] T7.3 — Validate: a test enforces an explicit allow-list (migration guide, translation reference, producer-compatibility tests, frozen historical evidence) and fails on any other `pandas`, `xarray`, `pd.`, `xr.`, or `itertuples` reference, including string literals and generated-code templates; the allow-list is recorded in `reference-policy.json`; historical and current overlay validators and packaging validation pass. (AC8). Local qualification is recorded in the Phase 7 receipt; hosted and final merged-revision gates passed at `420fd7ab`.
 
-## Final acceptance
+## Final acceptance [checkpoint: fbfecbdc]
 
 - [x] CLOSE.1 — Run the repository-wide zero-reference check against the exact merged revision and confirm no hit lies outside the allow-list; review every AC (AC1–AC8) against the exact tested revision; hosted checks must pass before any acceptance claim.
 - [x] CLOSE.2 — Reconcile plan, metadata and append-only evidence; publish the packaging set and the no-pandas gate result to `translation_reference_20261026`.
