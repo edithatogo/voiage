@@ -1,5 +1,9 @@
 # Changelog
 
+- Qualify HPC source candidates against immutable Git payloads, runtime policy
+  and embedded provenance, with bounded archive inspection and explicit
+  separation from native build and installed-module acceptance.
+
 - Add a source-derived, executable tabular translation reference with explicit
   ordering, alignment, window, missing-value, metadata and formatting boundaries.
   Verify target recipes in the clean Python 3.15.1 base environment.

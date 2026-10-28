@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-28T08:50:57.329338+00:00",
+  "baseline_commit": "3df3cb49e5c927075c0609a48a2535b4457424d4",
+  "authorization": "Current direct user goal: implement, review, fix blockers and false completions, then archive Remaining Backlog Delivery #1053 (including B6/B8/B12\u2013B14). Other track findings are contextual only and are not independent implementation scope.",
+  "full_objective_retained": true,
+  "initial_inventory": {
+    "open_issues": 24,
+    "open_prs": [
+      1194,
+      1191,
+      1190,
+      1188,
+      1187,
+      1186,
+      1185,
+      1181,
+      1180,
+      1179,
+      1178
+    ],
+    "active_worktrees": 1
+  },
+  "findings": [
+    {
+      "requirement": "B6 current native packaging",
+      "state": "incomplete",
+      "evidence": "Current overlay gates are false and source_commit is ba225b7d. Linux Spack/EasyBuild build and installed-module evidence is absent."
+    },
+    {
+      "requirement": "B6 continuation handoff",
+      "state": "missing",
+      "evidence": "metadata and index refer to implementation-handoff.md, but the file is absent."
+    },
+    {
+      "requirement": "Native execution capacity",
+      "state": "blocked_for_full_easybuild_matrix",
+      "evidence": "Selected OrbStack daemon stopped; shared configured memory is 16384 MiB and is left unchanged. Historical Lima /Users/doughnut/.lima-voiage-internal/hpc does not exist. SSD backing free 164 GiB and internal free 18 GiB; retained native EasyBuild 250 GiB floor cannot be met. Do not treat sparse virtual capacity or old running statements as proof."
+    },
+    {
+      "requirement": "Optional native telemetry",
+      "state": "implementation_and_acceptance_gaps",
+      "evidence": "Queue exists but SDK parentage/exporter, actual retry/outage/shutdown and payload-byte limits are unproven; empty evidence ledger cannot justify archival."
+    },
+    {
+      "requirement": "Agent-safe parent G01\u2013G08",
+      "state": "under_requirement_audit",
+      "evidence": "Completed checkboxes are not accepted solely from declarations. Provider-kernel, restart-computation and partial-release replay witnesses require scrutiny."
+    },
+    {
+      "requirement": "tobac consumer qualification",
+      "state": "planning_registration_then_implementation",
+      "evidence": "Draft PR #1194 is unmerged and old implementation hold must be reconciled. Weighted EVPI, structure-only conditional decision and shared-cost identity have substantive gaps."
+    }
+  ],
+  "next_bounded_step": {
+    "id": "B6.1-current-source-archive",
+    "behavior": "Reject a source archive whose provenance/runtime/dependencies disagree with the selected immutable migrated source; qualify a real source archive using Python 3.15.1.",
+    "implementation_allowlist": [
+      "scripts/qualify_hpc_source.py",
+      "tests/test_hpc_source_qualification.py"
+    ],
+    "governance_allowlist": [
+      "conductor/tracks/remaining_backlog_delivery_20260831/continuation-audit-20261028.json",
+      "conductor/tracks/remaining_backlog_delivery_20260831/implementation-handoff.md",
+      "conductor/tracks/remaining_backlog_delivery_20260831/plan.md",
+      "conductor/tracks/pandas_free_io_20261026/reference-policy.json"
+    ],
+    "does_not_complete": [
+      "B6 native Spack/EasyBuild installed matrix",
+      "B8 full/native delivery",
+      "B12 recovery and exact-lease cleanup",
+      "B13/B14 final audit and archive",
+      "Other named tracks"
+    ]
+  },
+  "native_issue_reconciliation": {
+    "issue": 1053,
+    "initial_state": "CLOSED",
+    "initial_closed_at": "2026-09-05T13:05:22Z",
+    "corrected_state": "OPEN",
+    "reason": "Its own retained final checkpoint says native qualification, cleanup and archive remain incomplete; direct user goal resumes that exact work.",
+    "native_readback_verified": true
+  },
+  "scope_revision": "User narrowed the active goal to Remaining Backlog Delivery #1053 on 2026-10-28."
+}

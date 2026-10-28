@@ -1,0 +1,45 @@
+{
+  "scope": "B6.1 source-archive qualifier and continuation repair; not full track acceptance",
+  "baseline": "3df3cb49e5c927075c0609a48a2535b4457424d4",
+  "review": "Self-review of all new tooling, tests and track changes; fixed incomplete native closure, dynamic Cargo version, injected build source, directory inventory bound and canonical metadata rendering",
+  "implementation_sha256": {
+    "scripts/qualify_hpc_source.py": "6197776f87a51465e9338216f07c121bf3a5ca91b8c90fb7b5c043d5fed0dfd7",
+    "tests/test_hpc_source_qualification.py": "955a6f3a3b6161b79589faca485a17096f6b90b111b3921e8ed92dce29e3634f"
+  },
+  "full_gate": {
+    "command": "scripts/guard_verification.py -- .venv/bin/tox run-parallel -p 2 --result-json LOCAL_REPORT",
+    "resource_report": {
+      "peak_rss_kib": 1663808,
+      "reason": "completed",
+      "returncode": 1,
+      "elapsed_seconds": 342.505,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-rtapmy1q"
+    },
+    "tests_passed": 5440,
+    "tests_failed": 1,
+    "tests_skipped": 19,
+    "coverage_percent": 95,
+    "failure": "Conductor metadata canonical serialization: timestamp precision/UTC suffix and ensure_ascii=False",
+    "other_environments_passed": 14
+  },
+  "failure_resolution": {
+    "change": "Render only this track metadata with the existing canonical normalizer; no runtime/test/tool implementation changed after full run",
+    "command": ".tox/coverage_report/bin/python -m pytest -o addopts= tests/test_conductor_registry_normalization.py --lf --last-failed-no-failures=none -q under resource guard",
+    "result": "1 passed, 2 deselected",
+    "resource_report": {
+      "peak_rss_kib": 480,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 2.109,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-ivtc2pp4"
+    }
+  },
+  "source_tests": "18 passed, plus actual immutable source archive CLI qualification",
+  "hosted_checks": "not yet run; PR delivery remains required",
+  "remaining": [
+    "B6.2 current recipe binding and native Linux solver/build/install/compiler matrix",
+    "B8 remaining native and protected delivery evidence",
+    "B12 independent recovery then lease-guarded cleanup",
+    "B13/B14 final live audit, issue reconciliation and archive"
+  ]
+}

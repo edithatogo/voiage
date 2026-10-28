@@ -2883,6 +2883,26 @@
       "category": "frozen_historical_evidence",
       "reason": "Immutable exact-source hosted acceptance and publication-location record; final-head CI still required.",
       "sha256": "e765d896233b94f4bcbbb86ce7af405fbb19a787c3515e915e4aef36c85726a2"
+    },
+    "scripts/qualify_hpc_source.py": {
+      "category": "producer_compatibility",
+      "reason": "HPC source qualification explicitly rejects retired engines in published dependency metadata; absence-control literals only.",
+      "lines": [
+        {
+          "sha256": "57d55284a11472118121bf8b2f89373bd88a9be21637b056d855a7c0bc540df4",
+          "count": 1
+        }
+      ]
+    },
+    "tests/test_hpc_source_qualification.py": {
+      "category": "producer_compatibility",
+      "reason": "HPC source qualification explicitly rejects retired engines in published dependency metadata; absence-control literals only.",
+      "lines": [
+        {
+          "sha256": "dc4bcc59a6ac1454b103ec2748a365059548bd211b30558e6dcc9e0084524812",
+          "count": 1
+        }
+      ]
     }
   }
 }

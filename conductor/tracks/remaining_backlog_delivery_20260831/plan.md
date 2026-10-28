@@ -20,6 +20,11 @@
   [delivery checkpoint](./delivery-checkpoint-20260901.md).
 - [~] B6: Test recipe and installed-source behavior, then complete current
   Spack/EasyBuild packages and unsubmitted upstream packets for #1025 (AC2).
+  - [~] B6.1: Qualify an immutable current source archive with provenance,
+    runtime/dependency and actual runtime-file integrity witnesses; see the
+    2026-10-28 continuation audit and handoff. This does not close B6.
+  - [ ] B6.2: Bind current recipes to the qualified source; obtain actual native
+    solver/build/installed-module evidence and the required compiler matrix.
 - [x] B7: Complete remaining R, governance, identifier and venue preparation;
   retain external acceptance requirements (AC2, AC4).
 - [~] B8: Review all changes, run full tox and relevant language-native checks,
