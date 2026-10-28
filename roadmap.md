@@ -199,9 +199,10 @@ guidance, adds exact reference permissions and separates current overlay
 candidates from immutable historical source graphs. All seven phases and final
 acceptance passed at merged PR #1209 (`420fd7ab`)
 on Python 3.15.1 under the resource guard. The packaging/enforcement handoff
-is recorded in the successor track. The translation reference is now authorised
-and locally qualified with executable semantic cases; hosted acceptance remains
-a gate. Native
+is recorded in the successor track. The translation reference is complete
+with 14 executable semantic topics, retained source attribution and passing
+guarded Python 3.15.1 local/hosted qualification. Current-head CI remains a
+delivery gate. Native
 Conda/HPC builds and publication remain separate.
 The published 2.2.0
 release line and the active release-and-venue track are unaffected.

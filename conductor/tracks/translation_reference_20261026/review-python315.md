@@ -1,7 +1,7 @@
 # Review Report: Translation reference
 
 ## Summary
-All five criteria are locally qualified against the tested implementation; hosted acceptance remains pending.
+All five criteria are locally qualified against the tested implementation; all applicable hosted source checks also pass.
 
 ## Verification Checks
 - [x] **Plan Compliance**: All 14 required semantic/boundary topics have explicit source-derived or anticipatory scope. Consumer scripts are captured from an immutable commit without execution or dataset access.
@@ -37,3 +37,8 @@ baseline. External oracle installation is isolated verification tooling.
 No unresolved implementation findings remain. The fixed track path is retained
 for executable reference/citation policy. Native package publication, release
 and scientific acceptance remain separate.
+
+Hosted source acceptance passed at `3925ba1f170533d63815618b6f0a2055fc23ebd1`;
+all five criteria and the built documentation route are recorded in the final
+acceptance receipt. The final records-only revision remains subject to CI
+before merge. Historical local qualification receipts retain their original state.

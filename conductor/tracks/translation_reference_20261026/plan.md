@@ -1,6 +1,6 @@
 # Implementation plan: pandas and xarray to Polars translation reference
 
-Implementation authorised by the maintainer on 2026-10-28. Implementation is locally qualified; the accepted I/O handoff is retained unchanged. Hosted final acceptance remains pending. Prerequisite: `polars_container_20261026`.
+Implementation authorised by the maintainer on 2026-10-28. Implementation is locally qualified; the accepted I/O handoff is retained unchanged. Hosted implementation checks passed; final records-only delivery remains check-gated. Prerequisite: `polars_container_20261026`.
 
 ## Phase 1: Derived inventory [checkpoint: ea646644]
 
@@ -34,14 +34,20 @@ Implementation authorised by the maintainer on 2026-10-28. Implementation is loc
 
 ## Final acceptance
 
-- [ ] CLOSE.1 — Review every AC against the exact tested revision; hosted checks must pass before any acceptance claim.
-- [ ] CLOSE.2 — Reconcile plan, metadata and evidence; record the published location.
+- [x] CLOSE.1 — Review every AC against the exact tested revision; hosted checks must pass before any acceptance claim.
+- [x] CLOSE.2 — Reconcile plan, metadata and evidence; record the published location.
 
 Local evidence: `capture-contract.json`, both immutable source inventories,
 `semantic-cases.json`, and the generated reference page. All 14 target recipes
 and all 14 external legacy forms passed on Python 3.15.1 under the resource
-guard. All 15 local environments passed at `ea646644`; see `qualification-python315.json`. Hosted acceptance remains the final gate.
+guard. All 15 local environments passed at `ea646644`; see `qualification-python315.json`. Hosted checks passed at `3925ba1f`; see `acceptance-python315.json`.
 
 Implementation/review checkpoint: `ea646644484112d47504a81e478064e065bd6e64`.
 The initial MDX and link failures are retained in the qualification receipt;
 the final candidate passes its complete local gate. No runtime inputs changed.
+
+Final acceptance: AC1–AC5 reviewed against the exact tested implementation;
+all applicable hosted checks passed at `3925ba1f170533d63815618b6f0a2055fc23ebd1`.
+The documentation source and built route are recorded in `acceptance-python315.json`.
+Current final-head CI remains mandatory before merge. Track paths remain fixed
+for the executable inventory, citation and reference permissions.

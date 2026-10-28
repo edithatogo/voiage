@@ -241,7 +241,7 @@
     },
     "conductor/tracks.md": {
       "category": "translation_reference",
-      "reason": "Exact authorised successor status and source-derived reference record; no runtime import exemption.",
+      "reason": "Exact reviewed final acceptance and retained migration record; no runtime import exemption.",
       "lines": [
         {
           "sha256": "3c5d2eabeea3fe27514f6ccc37e3f952ac2e28da0eaee8fc02e7fbd7e13764d7",
@@ -252,7 +252,7 @@
           "count": 1
         },
         {
-          "sha256": "a5e5a1d37b3503e248d042b14f72ca9a36e5fcc72414085d60082259dbe1efb0",
+          "sha256": "9f389cf405afa1489cdc228c33757cd7a77be005573714c85dbf6ddac0b05889",
           "count": 1
         }
       ]
@@ -1186,7 +1186,7 @@
     },
     "conductor/tracks/translation_reference_20261026/index.md": {
       "category": "translation_reference",
-      "reason": "Exact authorised reference execution and qualification status; no runtime exemptions.",
+      "reason": "Exact reviewed final acceptance and retained migration record; no runtime import exemption.",
       "lines": [
         {
           "sha256": "5edc71f88b15bc2493c79a104a37c5560d27be50cec0b902f4b9a1f2705c2397",
@@ -1200,7 +1200,7 @@
     },
     "conductor/tracks/translation_reference_20261026/plan.md": {
       "category": "translation_reference",
-      "reason": "Exact authorised reference execution and qualification status; no runtime exemptions.",
+      "reason": "Exact reviewed final acceptance and retained migration record; no runtime import exemption.",
       "lines": [
         {
           "sha256": "0147fba7577bf2b84815ccbe7e4426b85d21a8b40fb632955bc34a67aca4ae39",
@@ -1618,7 +1618,7 @@
     },
     "roadmap.md": {
       "category": "frozen_historical_evidence",
-      "reason": "Exact reviewed current execution status and retained migration history; no runtime import exemption.",
+      "reason": "Exact reviewed final acceptance and retained migration record; no runtime import exemption.",
       "lines": [
         {
           "sha256": "3db7bf093d9f7647ad32605f86093bffffe0122fb7e3341513b12a5061fc4d7e",
@@ -2377,7 +2377,7 @@
     },
     "todo.md": {
       "category": "frozen_historical_evidence",
-      "reason": "Exact reviewed current execution status and retained migration history; no runtime import exemption.",
+      "reason": "Exact reviewed final acceptance and retained migration record; no runtime import exemption.",
       "lines": [
         {
           "sha256": "00b464e7ebbe2ae0ce05c32d0b6851e4cf89375d5abe76d98c9e2098f490d077",
@@ -2541,7 +2541,7 @@
     },
     "conductor/tracks/translation_reference_20261026/metadata.json": {
       "category": "translation_reference",
-      "reason": "Exact authorised reference execution and qualification status; no runtime exemptions.",
+      "reason": "Exact reviewed final acceptance and retained migration record; no runtime import exemption.",
       "lines": [
         {
           "sha256": "9c1a92a2f27f552ce522dedd5e513db79a8cd1fdc2b72f48120b49a030f65ad5",
@@ -2878,6 +2878,11 @@
       "category": "frozen_historical_evidence",
       "reason": "Immutable source-bound qualification receipt with actual first failures and bounded oracle results.",
       "sha256": "103778fbf606909cfb3743067d95c65ecdeaeb0e56fb8857e309ccc57fbb99a6"
+    },
+    "conductor/tracks/translation_reference_20261026/acceptance-python315.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable exact-source hosted acceptance and publication-location record; final-head CI still required.",
+      "sha256": "e765d896233b94f4bcbbb86ce7af405fbb19a787c3515e915e4aef36c85726a2"
     }
   }
 }

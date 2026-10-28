@@ -1,6 +1,7 @@
 # Track: pandas and xarray to Polars translation reference
 
-Status: in progress. Implementation authorised by the maintainer on 2026-10-28.
+Status: completed. Implementation and final acceptance were authorised by the
+maintainer and qualified on 2026-10-28.
 
 GitHub issue: https://github.com/edithatogo/voiage/issues/1199 (parent: https://github.com/edithatogo/voiage/issues/1195)
 
@@ -18,4 +19,5 @@ recorded in metadata.
 is generated from `semantic-cases.json`. Source captures and retained consumer
 notices are local, committed verification inputs; CI needs no external checkout.
 All 15 local environments pass; see [qualification](./qualification-python315.json).
-Hosted acceptance remains pending.
+[Final acceptance](./acceptance-python315.json) records the passing hosted source
+revision and documentation location. Current final-head CI is required before merge.

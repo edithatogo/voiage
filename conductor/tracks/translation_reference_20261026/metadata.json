@@ -1,9 +1,9 @@
 {
   "track_id": "translation_reference_20261026",
   "type": "chore",
-  "status": "in_progress",
+  "status": "completed",
   "created_at": "2026-10-26T00:00:00Z",
-  "updated_at": "2026-10-28T06:33:37Z",
+  "updated_at": "2026-10-28T08:11:46Z",
   "description": "Test-backed translation reference from the pandas and xarray idioms actually in use to their Polars equivalents and non-equivalences",
   "base_commit": "ca3f05cc8adcc74b99fe236152327d0cd3679553",
   "github_cross_reference": {
@@ -35,14 +35,20 @@
     {
       "id": "publication-and-full-gate",
       "kind": "repository",
-      "status": "locally_qualified",
-      "evidence": "All 15 local environments pass at ea646644484112d47504a81e478064e065bd6e64; Astro/internal links and rendered code match. Required hosted checks remain pending."
+      "status": "satisfied",
+      "evidence": "qualification-python315.json and acceptance-python315.json; local full gate and applicable hosted source checks pass. Final-head CI required before merge."
     },
     {
       "id": "packaging-handoff",
       "kind": "repository",
       "status": "satisfied",
       "evidence": "io-acceptance-handoff-python315.json retained unchanged from accepted I/O closeout PR #1210."
+    },
+    {
+      "id": "hosted-acceptance",
+      "kind": "repository",
+      "status": "satisfied",
+      "evidence": "acceptance-python315.json; all applicable checks passed at 3925ba1f170533d63815618b6f0a2055fc23ebd1. Final records-only revision remains protected by required CI."
     }
   ]
 }
