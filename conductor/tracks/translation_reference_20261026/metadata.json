@@ -3,7 +3,7 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-10-26T00:00:00Z",
-  "updated_at": "2026-10-28T04:00:00Z",
+  "updated_at": "2026-10-28T04:20:00Z",
   "description": "Test-backed translation reference from the pandas and xarray idioms actually in use to their Polars equivalents and non-equivalences",
   "base_commit": "ca3f05cc8adcc74b99fe236152327d0cd3679553",
   "github_cross_reference": {
@@ -24,6 +24,18 @@
       "kind": "repository",
       "status": "satisfied",
       "evidence": "Container accepted in PR #1202, merged as b1c63e7f216f3ffee0871e634142026e2763eea8 on 2026-10-27; Python 3.15.1 and Polars 2.1.0 qualified. See ../polars_container_20261026/qualification-20261027.md and ../pandas_free_io_20261026/container-handoff-python315.json."
+    },
+    {
+      "id": "semantic-reference",
+      "kind": "repository",
+      "status": "locally_qualified",
+      "evidence": "14 target and 14 isolated external-oracle cases pass; five explicit missing-oracle skips in the ordinary environment."
+    },
+    {
+      "id": "publication-and-full-gate",
+      "kind": "repository",
+      "status": "pending",
+      "evidence": "Generated documentation source, tested snippets and migration-guide link present; full local and hosted gates pending."
     }
   ]
 }

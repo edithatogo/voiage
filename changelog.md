@@ -1,5 +1,9 @@
 # Changelog
 
+- Add a source-derived, executable tabular translation reference with explicit
+  ordering, alignment, window, missing-value, metadata and formatting boundaries.
+  Verify target recipes in the clean Python 3.15.1 base environment.
+
 - Complete the external-I/O migration acceptance on Python 3.15.1, preserving
   public APIs and workbook behavior, and record the packaging/enforcement
   handoff with exact merged-revision resource and conformance evidence.

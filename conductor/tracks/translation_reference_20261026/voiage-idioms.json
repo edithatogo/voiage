@@ -1,0 +1,129 @@
+{
+  "schema_version": "1.0",
+  "source_commit": "f7fcbe4d0a27174d5ae69c33da46575f149f5c1e",
+  "files": [
+    {
+      "path": "voiage/schema.py",
+      "sha256": "376facfa84e5edcdfab7e5182029a6bf720383c3b10c503a56ef8925c6afec4f",
+      "line_count": 1128,
+      "snippets": [
+        {
+          "id": "voiage/schema.py:262:index",
+          "topic": "index",
+          "start": 262,
+          "end": 262,
+          "text": "        sliced = self.frame.select([self.strategy_names[i] for i in indices]).clone()\n",
+          "sha256": "95a6724da40a486dd65c8247ca2f3c089acdef73ca9dfdc2de8fe3dfa9e03032"
+        },
+        {
+          "id": "voiage/schema.py:213:columns",
+          "topic": "columns",
+          "start": 213,
+          "end": 213,
+          "text": "                [frame[column].to_numpy() for column in frame.columns], axis=1\n",
+          "sha256": "081f67edb52b01446cb51c13d4d9a664deff909de699cb90d5f097683df8fd18"
+        },
+        {
+          "id": "voiage/schema.py:215:columns",
+          "topic": "columns",
+          "start": 215,
+          "end": 215,
+          "text": "        return np.column_stack([frame[column].to_numpy() for column in frame.columns])\n",
+          "sha256": "46afdf90e275564b834cb9a3184d11c9360cd999fc2a4baf2cc3710821e9e44e"
+        },
+        {
+          "id": "voiage/schema.py:484:columns",
+          "topic": "columns",
+          "start": 484,
+          "end": 484,
+          "text": "            str(name): self.frame[str(name)].to_numpy() for name in self.frame.columns\n",
+          "sha256": "68b48a2fb5fddd5570c4e686b4146aa419d366b1f5d7ff894732b1c8a8e6ac59"
+        },
+        {
+          "id": "voiage/schema.py:104:nulls",
+          "topic": "nulls",
+          "start": 104,
+          "end": 104,
+          "text": "    if any(column.null_count() for column in frame.iter_columns()):\n",
+          "sha256": "f7a1ffa6fc3f04b5fcba8fc72ed62cd921d74fcd705a333f33aacd19cb46ab2c"
+        },
+        {
+          "id": "voiage/schema.py:106:nulls",
+          "topic": "nulls",
+          "start": 106,
+          "end": 106,
+          "text": "    if is_3d and any(column.explode().null_count() for column in frame.iter_columns()):\n",
+          "sha256": "8fa616ed33d202beee3bd377bcb55a3deecc6c0a0654d144541ecea0ea063f74"
+        }
+      ]
+    },
+    {
+      "path": "voiage/ecosystem_integration.py",
+      "sha256": "62ad9dea2e598eff79f318dc23f565be0fc357b3edaec8a8ba8426cfcd6a85a1",
+      "line_count": 1135,
+      "snippets": [
+        {
+          "id": "voiage/ecosystem_integration.py:700:columns",
+          "topic": "columns",
+          "start": 700,
+          "end": 700,
+          "text": "                str(column): parameter_frame[column].to_numpy()\n",
+          "sha256": "085f8c704bba8d1b4b21de40e7f9ee621c49a5db08c4893aa4c7c1e68622bd6b"
+        },
+        {
+          "id": "voiage/ecosystem_integration.py:869:rows",
+          "topic": "rows",
+          "start": 869,
+          "end": 869,
+          "text": "                        \"for row in results_df.iter_rows(named=True):\\n\",\n",
+          "sha256": "7478f439b47cb4d3fe6d379c89becf0a2d2399232c4610894779cbea571fd1fb"
+        },
+        {
+          "id": "voiage/ecosystem_integration.py:585:nulls",
+          "topic": "nulls",
+          "start": 585,
+          "end": 585,
+          "text": "                name: series.null_count()\n",
+          "sha256": "8bae43ad10358484198dfe5e692f6de4e0dc94c69543da524bd98428d99ae804"
+        },
+        {
+          "id": "voiage/ecosystem_integration.py:586:nulls",
+          "topic": "nulls",
+          "start": 586,
+          "end": 586,
+          "text": "                + (int(series.is_nan().sum()) if series.dtype.is_float() else 0)\n",
+          "sha256": "74a60a8284ef94ebb76c85e55de5475680c797efcf1685546fabea1dc5455582"
+        }
+      ]
+    },
+    {
+      "path": "voiage/core/io.py",
+      "sha256": "e19e1b9e3b8bdfaa128dd8708588b609aeb34a8825b4f04650b9f13d1aaf291f",
+      "line_count": 206,
+      "snippets": [
+        {
+          "id": "voiage/core/io.py:150:float-format",
+          "topic": "float-format",
+          "start": 150,
+          "end": 150,
+          "text": "            writer = csv.writer(csvfile, delimiter=delimiter)\n",
+          "sha256": "e5ccad8100dbd7c4cee342e894bb89c29e14806ef93ed9a78e833625e51cbed0"
+        },
+        {
+          "id": "voiage/core/io.py:198:float-format",
+          "topic": "float-format",
+          "start": 198,
+          "end": 198,
+          "text": "            writer = csv.writer(csvfile, delimiter=delimiter)\n",
+          "sha256": "e5ccad8100dbd7c4cee342e894bb89c29e14806ef93ed9a78e833625e51cbed0"
+        }
+      ]
+    },
+    {
+      "path": "voiage/methods/basic.py",
+      "sha256": "9df95a34edb8a2cb761e4d45ab0ba9e18a07c7a59fdb46ee5c5b43d6b297ff03",
+      "line_count": 320,
+      "snippets": []
+    }
+  ]
+}

@@ -8,7 +8,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
   continuing Python 3.15.1 acceptance testing.
 
 - [ ] Ordered implementation tracks: `conductor/tracks/agent_safe_engineering_20260907/`, `conductor/tracks/execution_packet_guard_20260907/`, `conductor/tracks/version_identity_contracts_20260907/`, `conductor/tracks/native_structured_logging_20260907/`, `conductor/tracks/logging_privacy_resilience_20260907/`, `conductor/tracks/vop_logging_version_pilot_20260907/`, and `conductor/tracks/optional_native_telemetry_20260907/`.
-- [ ] Translation-reference successor remains planning only: `conductor/tracks/translation_reference_20261026/`. Container and I/O acceptance are complete; successor implementation needs separate authorization.
+- [~] Qualify the authorised translation reference: `conductor/tracks/translation_reference_20261026/`. Source-derived executable cases and documentation are implemented; full local and hosted acceptance remain gates.
 Completed prerequisite records remain linked for navigation:
 `conductor/tracks/tabular_contract_v3_20261026/`,
 `conductor/tracks/polars_container_20261026/` and

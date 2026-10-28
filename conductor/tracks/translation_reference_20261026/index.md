@@ -11,5 +11,10 @@ GitHub issue: https://github.com/edithatogo/voiage/issues/1199 (parent: https://
 Prerequisite: [Polars-native core containers](../polars_container_20261026/index.md). Related: [pandas-free external I/O](../pandas_free_io_20261026/index.md).
 
 Received [I/O acceptance and packaging handoff](./io-acceptance-handoff-python315.json)
-from merged revision `420fd7ab`. Planning status and implementation authority
-remain unchanged.
+from merged revision `420fd7ab`. The handoff retains its original planning snapshot; current authorization is
+recorded in metadata.
+
+[Executable translation reference](/voiage/user-guide/tabular-translation-reference/)
+is generated from `semantic-cases.json`. Source captures and retained consumer
+notices are local, committed verification inputs; CI needs no external checkout.
+Local qualification is complete; full-gate and hosted acceptance remain pending.

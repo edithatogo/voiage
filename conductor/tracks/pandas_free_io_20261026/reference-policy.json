@@ -48,7 +48,7 @@
     },
     "changelog.md": {
       "category": "frozen_historical_evidence",
-      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "reason": "Exact reviewed current execution status and retained migration history; no runtime import exemption.",
       "lines": [
         {
           "sha256": "0f09f07277ec4e3bf9d756452ec8a632840d7bc1706684d81dece556de3722b6",
@@ -1186,7 +1186,7 @@
     },
     "conductor/tracks/translation_reference_20261026/index.md": {
       "category": "translation_reference",
-      "reason": "Exact authorised successor status and source-derived reference record; no runtime import exemption.",
+      "reason": "Exact reviewed current execution status and retained migration history; no runtime import exemption.",
       "lines": [
         {
           "sha256": "5edc71f88b15bc2493c79a104a37c5560d27be50cec0b902f4b9a1f2705c2397",
@@ -1200,18 +1200,18 @@
     },
     "conductor/tracks/translation_reference_20261026/plan.md": {
       "category": "translation_reference",
-      "reason": "Exact authorised successor status and source-derived reference record; no runtime import exemption.",
+      "reason": "Exact reviewed current execution status and retained migration history; no runtime import exemption.",
       "lines": [
         {
           "sha256": "0147fba7577bf2b84815ccbe7e4426b85d21a8b40fb632955bc34a67aca4ae39",
           "count": 1
         },
         {
-          "sha256": "71385d83db5a32ef7f1bc938b52d0397b9b53a8627e9b246a56de526dd8ba832",
+          "sha256": "5fd7b6dc4906b73e744178ebc8ce201b10b82706e27d6d03d8b4dc40b495ba90",
           "count": 1
         },
         {
-          "sha256": "d0948048528f871822d9ffe94633aa20ce3ae3e231ead696102e9e6704a941a6",
+          "sha256": "69fce611414a21c43b9b7c31d0921618901ec01f4e49b89c176e2da0798745f8",
           "count": 1
         }
       ]
@@ -1272,7 +1272,7 @@
     },
     "docs/astro-site/src/content/docs/user-guide/migration-guide.mdx": {
       "category": "migration_guide",
-      "reason": "Version transition and downstream compatibility reference.",
+      "reason": "Reviewed source-derived legacy forms and executable semantic boundary recipes; no runtime import exemption.",
       "lines": [
         {
           "sha256": "0e0a76359078136db17d158321029ac06d267cb784274b071941dea65b056aad",
@@ -1618,7 +1618,7 @@
     },
     "roadmap.md": {
       "category": "frozen_historical_evidence",
-      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "reason": "Exact reviewed current execution status and retained migration history; no runtime import exemption.",
       "lines": [
         {
           "sha256": "3db7bf093d9f7647ad32605f86093bffffe0122fb7e3341513b12a5061fc4d7e",
@@ -2377,7 +2377,7 @@
     },
     "todo.md": {
       "category": "frozen_historical_evidence",
-      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "reason": "Exact reviewed current execution status and retained migration history; no runtime import exemption.",
       "lines": [
         {
           "sha256": "00b464e7ebbe2ae0ce05c32d0b6851e4cf89375d5abe76d98c9e2098f490d077",
@@ -2541,7 +2541,7 @@
     },
     "conductor/tracks/translation_reference_20261026/metadata.json": {
       "category": "translation_reference",
-      "reason": "Exact authorised successor status and source-derived reference record; no runtime import exemption.",
+      "reason": "Exact reviewed current execution status and retained migration history; no runtime import exemption.",
       "lines": [
         {
           "sha256": "9c1a92a2f27f552ce522dedd5e513db79a8cd1fdc2b72f48120b49a030f65ad5",
@@ -2551,17 +2551,318 @@
     },
     "conductor/tracks/translation_reference_20261026/semantic-cases.json": {
       "category": "translation_reference",
-      "reason": "Explicit source-derived reference forms and external-oracle tests; no runtime imports permitted.",
+      "reason": "Reviewed source-derived legacy forms and executable semantic boundary recipes; no runtime import exemption.",
       "lines": [
         {
-          "sha256": "991671fb6ad6c91240cfa581cfe3b65c8a269e13b4509d4742bee3f4ff4b2b64",
+          "sha256": "0065443f2144bb88feaf05d004dd9d1dddbf6520cb8bb048904b68b0dbe9251b",
+          "count": 1
+        },
+        {
+          "sha256": "1875d49893e44eae18c19f69476ad0b3dba05b8bee43ebf29384dd75b321df5f",
+          "count": 1
+        },
+        {
+          "sha256": "1b0362aa44d9abbe258f2dd59b9b2400d26ffd17f2fcb71e0b7a1525d9b533c2",
+          "count": 1
+        },
+        {
+          "sha256": "3bf4ae7fae9e9a9ed6e054313fcc212964501e97f27054d39a337ac0e28d5c02",
+          "count": 1
+        },
+        {
+          "sha256": "3df355d59aafcc51ee875748e432bfe5f15720017e4fffcaf5c3e06fd0f2f0a6",
+          "count": 1
+        },
+        {
+          "sha256": "3f76e32efa08e5ac342a531a8487dd5b485d7aca5cf1116d7148adf3894706b4",
+          "count": 1
+        },
+        {
+          "sha256": "4121356e912a05d7af6503e456cde2f3b11f8da7ec673fc54ecde87827d3af2f",
+          "count": 1
+        },
+        {
+          "sha256": "44b414c9a81fece64c1faccd8ff6b42362837d0611c18b0a58bbf97dc3edb810",
+          "count": 1
+        },
+        {
+          "sha256": "46271f44885e5afdd5f6a77d73487cffcf55ccde6a439873233b65f784607269",
+          "count": 1
+        },
+        {
+          "sha256": "49ddc21a85380c49c72f0397d9929c35304a0dfcd716035c0825d22e4663c1c0",
+          "count": 1
+        },
+        {
+          "sha256": "4a4e8a7cc2f3f88ae7991a100edeb9f21b86e5b1db05cceafc34316668e57813",
+          "count": 1
+        },
+        {
+          "sha256": "55f354a0af05d6ad8a9da8651a1dd934c53ef5ec670647564f2e8325aed9f5d9",
+          "count": 1
+        },
+        {
+          "sha256": "5b18fb4c9df1d6b3fd2a1a56f2c0e104f9858fe465ac587b88cace6697957413",
+          "count": 1
+        },
+        {
+          "sha256": "5fdfb1d7d0485849ae045edd82a9685f916303a589f5247991b8e1b53e69c0ac",
           "count": 9
         },
         {
-          "sha256": "baf0a0c265fcabe1871992186948affe192ec5c63b0af15106963f7a1dbb734f",
+          "sha256": "654d63cf7285f9e607986aa3daab319b423bdd304d63fb191c5c3e2e6e6b6aa3",
+          "count": 1
+        },
+        {
+          "sha256": "70273e72dc02d8e3412ba4123577187a507f37738dadeb794c073d7a6de64dee",
+          "count": 1
+        },
+        {
+          "sha256": "8515309fc3774ca2d1ae376cc623f8dd6d0c7e09edd3af0a9a2ee787d666b159",
+          "count": 1
+        },
+        {
+          "sha256": "887821f080fc934194030334cf2e5da9eef6cc3733c1e305eefc08e5479f869e",
+          "count": 1
+        },
+        {
+          "sha256": "8f44f72ed90bc1e6113f196c5861cf647acb72c18b33379672c77b5b4ef9029d",
+          "count": 1
+        },
+        {
+          "sha256": "9a01ea77c317228ef17cc3802e1cfc22c5e1daf75b607c43b6de7296dc57d41c",
+          "count": 1
+        },
+        {
+          "sha256": "9cd7ce708a610169ae33297aa5280ab91df68c8f84246086d99bb9a646244658",
           "count": 5
+        },
+        {
+          "sha256": "a1d824eb46e27c1470428b612749cd1f31c04e96ca731c5e218060df956bd882",
+          "count": 1
+        },
+        {
+          "sha256": "c1ad0ca43909f0bdd2c27159ae572351d41c97f1ed0e97c31a9a9b5c644a3c1f",
+          "count": 1
+        },
+        {
+          "sha256": "d435071e39efd187f30db5b82de1297ac2a37e4660b941c193bf87fd7dc07c83",
+          "count": 1
+        },
+        {
+          "sha256": "d7b3b8afb2792f0841ea3773363b5f250c127c6422d94edd47496f7d90fc9f4e",
+          "count": 1
+        },
+        {
+          "sha256": "f9166bd89182725dc734949826031b8b28a871b62b93eb06e0055c35da06039d",
+          "count": 1
         }
       ]
+    },
+    "scripts/check_translation_reference.py": {
+      "category": "translation_reference",
+      "reason": "Exact reviewed executable reference and external-oracle boundary controls; no runtime exemptions.",
+      "lines": [
+        {
+          "sha256": "11722b55977846d8b2548cccee898a4bdf3d3fe3fb2dfb86134e471526791e1b",
+          "count": 1
+        },
+        {
+          "sha256": "2ff630e2be9e613e41949a4aca6779ee194582f1be56cf41e5c9134be0a809d7",
+          "count": 1
+        },
+        {
+          "sha256": "3ec003f66006d6a6889f8d3ee3ad3f7285cfedb3293b1a1f9e0a2ff7912b5894",
+          "count": 1
+        },
+        {
+          "sha256": "752858834f8b91f1d58d03c89921655fdea6f952a40a6e3862847d1b321a2c3f",
+          "count": 1
+        },
+        {
+          "sha256": "dae722e6af87033ddfc0bb27f78e851ec7dce277c844195ce6645ff413e5d01b",
+          "count": 1
+        }
+      ]
+    },
+    "docs/astro-site/src/content/docs/user-guide/tabular-translation-reference.mdx": {
+      "category": "translation_reference",
+      "reason": "Reviewed source-derived legacy forms and executable semantic boundary recipes; no runtime import exemption.",
+      "lines": [
+        {
+          "sha256": "05c0c7e992a2b02494f2b18f8c1263ae5c42a84ddba4011f7e393bad3c9e361b",
+          "count": 1
+        },
+        {
+          "sha256": "153dbd8b69fb56824a895c393aea2e3c0907977b5d56ed0a3e447ce54f168703",
+          "count": 1
+        },
+        {
+          "sha256": "1d9da19806908c41f39483a6f6098f79f510378a849a18a374b27ba37bc90c58",
+          "count": 5
+        },
+        {
+          "sha256": "2196e4302c3728d30acc56c4b48a08f6832a828918caa3526e7205a2fb926318",
+          "count": 1
+        },
+        {
+          "sha256": "22e4236570ea1bb2f7812a92338a6d7b6403707ecef5f8ebe34d53df30567311",
+          "count": 1
+        },
+        {
+          "sha256": "3177517f9b151b5f5a33f9b98ed886669d4b433ac989c39e8b19362b5cdfe526",
+          "count": 1
+        },
+        {
+          "sha256": "36b12391d524b1158ef0eaffa55d19ac24eb56e7ca4f8e0f82cf73b461586521",
+          "count": 1
+        },
+        {
+          "sha256": "37b324012a95792911e2ab1d5bdf3d373b1745324e3c95de7fda7c55ba0ebe8d",
+          "count": 1
+        },
+        {
+          "sha256": "3c11252ccf8c4f76322757e94eb470e70f69a6bbdb39c67a5928423fe1263112",
+          "count": 1
+        },
+        {
+          "sha256": "43127a8af660c444ecd7795f43f04ab65141616cdba6aadff96acabfe9ae5f47",
+          "count": 1
+        },
+        {
+          "sha256": "4d00ad08bfb9968fcf6617174c7508eaee0482b2cf503aad582ee21305c56215",
+          "count": 1
+        },
+        {
+          "sha256": "4de7625e780e28e329d714bb9be717ccdb2351486c7308d71307a89e1e717ea4",
+          "count": 1
+        },
+        {
+          "sha256": "5c3444c92d0966b296785d45ae31200e57e21545c842f963d96177d0c1b20c3b",
+          "count": 1
+        },
+        {
+          "sha256": "6730b17086c4f524c1cd696b64f35cc3fca45a009cf11c26020d5fc250061567",
+          "count": 1
+        },
+        {
+          "sha256": "69f67b150a635a838d4995763af5cb49f4a97982b559e2c3a8c2b8159536bc95",
+          "count": 1
+        },
+        {
+          "sha256": "6ce028c1436ed623af095628b2a31ac94894ba3c124e521bbd10f0a97f6734ee",
+          "count": 1
+        },
+        {
+          "sha256": "6e1209179054d94fec8b686056746e50e963fe24e075bc41039f8a05dcf74d13",
+          "count": 1
+        },
+        {
+          "sha256": "76ac2d0bfece9f197ccad008ceab88acb5abcc72732e556f4e3a0f4fe0a82bf4",
+          "count": 1
+        },
+        {
+          "sha256": "7acdae3345123aa1dc9f2f9a5b9f5725a8dae7ef6085cba974d353af3b043504",
+          "count": 9
+        },
+        {
+          "sha256": "84c6264ba12f5203fd7714f4c572dd1e1073c559549ed95b17077c080a4a0abf",
+          "count": 1
+        },
+        {
+          "sha256": "88fca6255e273f682c0a62696896a1c788585723d6c1ed1589b7eec1425d248f",
+          "count": 1
+        },
+        {
+          "sha256": "8c0859a9b1186849097c8caac42ee23a30f03c1f6ec858d897ac838e28b45b52",
+          "count": 9
+        },
+        {
+          "sha256": "90fe08f0a0d23832a8eb3501d85a73954c5d4d6dd6b70fe5274ab9e16c8a74c9",
+          "count": 5
+        },
+        {
+          "sha256": "a897e46b661d5c1edddd39beeee94e7debc1284208020808769ed85a2f22c358",
+          "count": 1
+        },
+        {
+          "sha256": "aa50a093d6ec873a8b0c3fc2443ec97a548c5a5e04dd1af46e7e515f617868a0",
+          "count": 1
+        },
+        {
+          "sha256": "ab329ddd488696f32b51d0f70b2aa6a1fd5a49f7ce368f7d48e7b43c27a53995",
+          "count": 1
+        },
+        {
+          "sha256": "ad03406fd4fb48fe708b7861b404783fb681a8bed227e5f007640e659fe00d71",
+          "count": 1
+        },
+        {
+          "sha256": "bbf0552138f49d8dd6dd615cfb8929ae459567c3b6130a5929771bd7776f8673",
+          "count": 1
+        },
+        {
+          "sha256": "bec77526ade2ad0571fdfb7a3933639c5b6a66cff98635797ee91d7a5f2ac90b",
+          "count": 1
+        },
+        {
+          "sha256": "c58565cecc23836b32a5832330b408c1d4f171dfa3ce95be80a7228987de555a",
+          "count": 1
+        },
+        {
+          "sha256": "d06a405e2b9539be70c2efc7e35f1a20b1d3d885d6d3eca2764523ccd155cbd4",
+          "count": 1
+        },
+        {
+          "sha256": "d2075b250831329c851426faf30dcb0e8b43c813851dc0571080c65324fb29c3",
+          "count": 1
+        },
+        {
+          "sha256": "dca1dc0deefa4b40a5824b4baefabf72031042ec1d4a63f9afbbec61072f7ceb",
+          "count": 1
+        },
+        {
+          "sha256": "ecfef77d3577828ebd99571c77ddab4e700c53aa57dfa4af977812bc665b1435",
+          "count": 1
+        },
+        {
+          "sha256": "f4e7b388f01f338ccb3ee21bbc16cf87bcc45be9165fa488fafc3cb796f73d2e",
+          "count": 1
+        },
+        {
+          "sha256": "f7f050577ec703b2db822398a5229027f21b7f190317b99d54740ef58a811635",
+          "count": 1
+        },
+        {
+          "sha256": "fa35b9ad91e38624d0d7b712d97e7949172d24fd56f7f9519ec143d873957b80",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/translation_reference_20261026/tobac-consumer-idioms.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact capture contract, immutable committed-source excerpt inventory or retained upstream notice.",
+      "sha256": "cfb16c836c131d32a9c160f81b1c2be548c9126ce55b3debb25c67c23d3e53d6"
+    },
+    "conductor/tracks/translation_reference_20261026/capture-contract.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact capture contract, immutable committed-source excerpt inventory or retained upstream notice.",
+      "sha256": "76d588c8dc6de2edd305cbbb29e7c89e2ef317ea3010065b6c7eaf5d7f11f731"
+    },
+    "conductor/tracks/translation_reference_20261026/voiage-idioms.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact capture contract, immutable committed-source excerpt inventory or retained upstream notice.",
+      "sha256": "1e5a4ab8ad9d6562415e1314898d2cb605947149f92f901705e7d90e8f0e403a"
+    },
+    "conductor/tracks/translation_reference_20261026/consumer-notices/tobac-LICENSE": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact capture contract, immutable committed-source excerpt inventory or retained upstream notice.",
+      "sha256": "f4d9b0aad8ff9e650f5890fa3eeb7c1311479cab901f8a9b416a2d9acaf54266"
+    },
+    "conductor/tracks/translation_reference_20261026/consumer-notices/tobac-NOTICE": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact capture contract, immutable committed-source excerpt inventory or retained upstream notice.",
+      "sha256": "617d847e789906e604b0c47e559d4e760794c3cdf782a09d3a29b09cfe502a3a"
     }
   }
 }
