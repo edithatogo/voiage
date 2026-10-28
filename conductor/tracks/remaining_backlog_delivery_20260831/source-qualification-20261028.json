@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "python": "3.15.1",
+  "source_archive_qualified": true,
+  "source_revision": "3df3cb49e5c927075c0609a48a2535b4457424d4",
+  "package_version": "2.2.0",
+  "source_tree": "3a178a7479907f93dc8b514a4db27d7ab6615b06",
+  "archive_sha256": "3748d8c5d155dc90db2b2c9c35abac5bb27958cb34c747e60e1ef8f84212a989",
+  "archive_bytes": 972024,
+  "runtime_files_verified": 190,
+  "native_files_verified": 73,
+  "omitted_workspace_members": [
+    "crates/voiage-ffi",
+    "crates/voiage-test-support"
+  ],
+  "cargo_workspace_transform": "Only omit nonpackaged workspace members; local dependency closure remains present",
+  "native_solver_executed": false,
+  "native_build_executed": false,
+  "installed_module_acceptance": false,
+  "observed_at": "2026-10-28T09:14:46.212431+00:00",
+  "scope": "B6.1 source-only qualification; B6/B8 and full Remaining Backlog Delivery goal remain incomplete",
+  "archive_location": ".conductor/local/goal-backlog/source-dist/voiage-2.2.0.tar.gz",
+  "invocation": "Python 3.15.1 scripts/qualify_hpc_source.py ARCHIVE --revision SOURCE_REVISION --sha256 ARCHIVE_SHA256 under scripts/guard_verification.py",
+  "tests": {
+    "command": "Python 3.15.1 -m pytest tests/test_hpc_source_qualification.py -q under resource guard",
+    "passed": 18,
+    "resource_report": {
+      "peak_rss_kib": 95728,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 4.167,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-vyz54w0s"
+    }
+  },
+  "cli_resource_report": {
+    "peak_rss_kib": 1600,
+    "reason": "completed",
+    "returncode": 0,
+    "elapsed_seconds": 2.096,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-l4szx9j4"
+  },
+  "review_fixes": [
+    "Authenticate Cargo-derived dynamic version and allow only the verified workspace-member omission",
+    "Require complete packaged native source and local dependency manifests",
+    "Include directory entries in bounded archive inventory",
+    "Return structured CLI failures",
+    "Authenticate every supplied build/helper/source payload against Git, rejecting injected build hooks"
+  ],
+  "limitations": [
+    "Archive remains local and unpublished; no registry or upstream acceptance inferred",
+    "Actual Linux solver, compiler matrix, native builds and installed-module tests remain required",
+    "Retained EasyBuild physical free-space floor is 250 GiB; observed SSD free 164 GiB and internal free 18 GiB cannot satisfy it",
+    "No dependency upgrade from isolated frontier probe was adopted"
+  ],
+  "total_source_files_verified": 904
+}

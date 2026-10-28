@@ -43,3 +43,12 @@ labels that namespace transient, and separately binds every ordered stash
 reflog entry by object ID, selector, and subject.
 
 - [Prepared continuation handoff](./implementation-handoff.md)
+
+- [Current continuation audit](./continuation-audit-20261028.json)
+- [Current source qualification](./source-qualification-20261028.json)
+
+The 2026-10-28 source receipt proves archive integrity only. Native solver,
+build and installed-module evidence remain open; old running statements are
+historical and do not identify a currently live build.
+
+- [Source qualifier review and verification](./source-review-20261028.json)
