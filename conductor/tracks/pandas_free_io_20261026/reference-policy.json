@@ -2545,6 +2545,11 @@
           "count": 1
         }
       ]
+    },
+    "conductor/tracks/pandas_free_io_20261026/phase-7-acceptance-python315.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable qualification receipt for the tested candidates and retained first failures.",
+      "sha256": "ea9b21b958fdc417cf91f0c30f09b0c917d1cd10e2da5cbd061198d7aee8be26"
     }
   }
 }
