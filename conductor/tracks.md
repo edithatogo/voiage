@@ -1111,7 +1111,7 @@ track at the top of this registry; completed repository slices stay closed.
   GitHub: https://github.com/edithatogo/voiage/issues/1198
 
 ---
-- [ ] **Track: pandas and xarray to Polars translation reference**
+- [~] **Track: pandas and xarray to Polars translation reference**
   *Link: [./tracks/translation_reference_20261026/index.md](./tracks/translation_reference_20261026/index.md)*
-  **Registered planning only; implementation not authorised.** Depends on the container track; every documented equivalence must be test-backed.
+  **Implementation authorised on 2026-10-28.** Uses the accepted container and I/O handoff; every documented equivalence must be test-backed.
   GitHub: https://github.com/edithatogo/voiage/issues/1199

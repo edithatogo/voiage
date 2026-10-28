@@ -1,9 +1,9 @@
 {
   "track_id": "translation_reference_20261026",
   "type": "chore",
-  "status": "new",
+  "status": "in_progress",
   "created_at": "2026-10-26T00:00:00Z",
-  "updated_at": "2026-10-27T05:00:00Z",
+  "updated_at": "2026-10-28T04:00:00Z",
   "description": "Test-backed translation reference from the pandas and xarray idioms actually in use to their Polars equivalents and non-equivalences",
   "base_commit": "ca3f05cc8adcc74b99fe236152327d0cd3679553",
   "github_cross_reference": {
@@ -15,8 +15,8 @@
     "polars_container_20261026"
   ],
   "authorization": {
-    "scope": "Planning registration only; implementation not authorised",
-    "source": "Owner request of 26 October 2026 to plan a wholesale pandas-to-Polars shift in Voiage"
+    "scope": "Implement the translation-reference track on Python 3.15.1 under the resource guard, using accepted packaging evidence and preserving public API and behavior.",
+    "source": "Direct user instruction on 2026-10-28."
   },
   "gates": [
     {

@@ -1,6 +1,6 @@
 # Track: pandas and xarray to Polars translation reference
 
-Status: new. Registered planning only; implementation is not authorised.
+Status: in progress. Implementation authorised by the maintainer on 2026-10-28.
 
 GitHub issue: https://github.com/edithatogo/voiage/issues/1199 (parent: https://github.com/edithatogo/voiage/issues/1195)
 

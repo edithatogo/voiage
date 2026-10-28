@@ -1,6 +1,6 @@
 # Implementation plan: pandas and xarray to Polars translation reference
 
-All tasks are pending. This track is registered planning only; implementation is not authorised. Prerequisite: `polars_container_20261026`.
+Implementation authorised by the maintainer on 2026-10-28. Tasks are pending; the accepted I/O handoff is retained unchanged. Prerequisite: `polars_container_20261026`.
 
 ## Phase 1: Derived inventory
 

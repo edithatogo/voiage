@@ -240,8 +240,8 @@
       ]
     },
     "conductor/tracks.md": {
-      "category": "frozen_historical_evidence",
-      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "category": "translation_reference",
+      "reason": "Exact authorised successor status and source-derived reference record; no runtime import exemption.",
       "lines": [
         {
           "sha256": "3c5d2eabeea3fe27514f6ccc37e3f952ac2e28da0eaee8fc02e7fbd7e13764d7",
@@ -252,7 +252,7 @@
           "count": 1
         },
         {
-          "sha256": "eb70e79ae443b7bae7f076e21e2efe85c410764862c49706d0b33b99cf38a833",
+          "sha256": "a5e5a1d37b3503e248d042b14f72ca9a36e5fcc72414085d60082259dbe1efb0",
           "count": 1
         }
       ]
@@ -1185,8 +1185,8 @@
       ]
     },
     "conductor/tracks/translation_reference_20261026/index.md": {
-      "category": "frozen_historical_evidence",
-      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "category": "translation_reference",
+      "reason": "Exact authorised successor status and source-derived reference record; no runtime import exemption.",
       "lines": [
         {
           "sha256": "5edc71f88b15bc2493c79a104a37c5560d27be50cec0b902f4b9a1f2705c2397",
@@ -1198,14 +1198,9 @@
         }
       ]
     },
-    "conductor/tracks/translation_reference_20261026/metadata.json": {
-      "category": "frozen_historical_evidence",
-      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
-      "sha256": "9e05a829c8041fb4c14358b87d4ddc029d11d0eb674fc85384723b289ae41876"
-    },
     "conductor/tracks/translation_reference_20261026/plan.md": {
-      "category": "frozen_historical_evidence",
-      "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
+      "category": "translation_reference",
+      "reason": "Exact authorised successor status and source-derived reference record; no runtime import exemption.",
       "lines": [
         {
           "sha256": "0147fba7577bf2b84815ccbe7e4426b85d21a8b40fb632955bc34a67aca4ae39",
@@ -2538,6 +2533,21 @@
       "category": "frozen_historical_evidence",
       "reason": "Immutable exact merged-revision acceptance or successor handoff; no source-import exemption.",
       "sha256": "8bb95ff78d683ec97d356af33c65a50d0a7867c76cf59d3b6ade26d5e1866430"
+    },
+    "conductor/tracks/translation_reference_20261026/registration-baseline.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
+      "sha256": "9e05a829c8041fb4c14358b87d4ddc029d11d0eb674fc85384723b289ae41876"
+    },
+    "conductor/tracks/translation_reference_20261026/metadata.json": {
+      "category": "translation_reference",
+      "reason": "Exact authorised successor status and source-derived reference record; no runtime import exemption.",
+      "lines": [
+        {
+          "sha256": "9c1a92a2f27f552ce522dedd5e513db79a8cd1fdc2b72f48120b49a030f65ad5",
+          "count": 1
+        }
+      ]
     }
   }
 }
