@@ -49,3 +49,9 @@
   remains required after this branch and worktree are pruned.
 - [ ] B14: Review final receipts and run Conductor/cross-reference validation;
   archive only when this track's acceptance criteria are satisfied (AC6).
+
+## Review fixes — current source qualification
+
+- [~] Require declared build inputs and validate every distribution dependency,
+  including marked requirements and extras; preserve failing regression evidence
+  and rerun the affected source and package checks before protected delivery.

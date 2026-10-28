@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 from copy import deepcopy
 from email.parser import Parser
+from fnmatch import fnmatchcase
 import hashlib
 import json
 from pathlib import Path, PurePosixPath
@@ -17,6 +19,7 @@ import tarfile
 import tomllib
 from typing import Any
 
+from packaging.markers import Marker
 from packaging.requirements import Requirement
 from packaging.specifiers import SpecifierSet
 from packaging.utils import canonicalize_name
@@ -48,6 +51,65 @@ def _requirements(values: list[str]) -> dict[str, tuple[str, str, str]]:
             requirement.url or "",
         )
     return result
+
+
+def _build_inputs(configuration: dict[str, Any], entries: dict[str, Any]) -> set[str]:
+    """Resolve declared in-tree backend and file metadata without importing code."""
+    needed: set[str] = set()
+    project = configuration["project"]
+    readme = project.get("readme")
+    if isinstance(readme, str):
+        needed.add(readme)
+    elif isinstance(readme, dict) and "file" in readme:
+        needed.add(readme["file"])
+    license_info = project.get("license")
+    if isinstance(license_info, dict) and "file" in license_info:
+        needed.add(license_info["file"])
+    for pattern in project.get("license-files", []):
+        matched = {name for name in entries if fnmatchcase(name, pattern)}
+        if not matched:
+            raise ValueError("Declared license pattern matches no source files")
+        needed.update(matched)
+    build = configuration.get("build-system", {})
+    if "backend-path" in build:
+        module = build.get("build-backend", "").split(":", 1)[0]
+        if not re.fullmatch(r"[A-Za-z_]\w*(\.[A-Za-z_]\w*)*", module):
+            raise ValueError("Invalid in-tree build backend")
+        found = False
+        for base in build["backend-path"]:
+            path = PurePosixPath(base)
+            if path.is_absolute() or ".." in path.parts or "\\" in base:
+                raise ValueError("Unsafe build backend path")
+            stem = posixpath.join(base, module.replace(".", "/"))
+            candidates = {posixpath.normpath(stem + ".py")}
+            package = posixpath.normpath(stem) + "/"
+            if package + "__init__.py" in entries:
+                candidates.update(name for name in entries if name.startswith(package))
+            candidates.intersection_update(entries)
+            if candidates:
+                found = True
+                needed.update(candidates)
+                break
+        if not found:
+            raise ValueError("Declared in-tree backend absent from selected Git source")
+    return needed
+
+
+def _distribution_requirements(project: dict[str, Any]) -> Counter[Requirement]:
+    """Retain every core and extra dependency with its declared marker."""
+    expected = [Requirement(text) for text in project["dependencies"]]
+    for declared_extra, requirements in project.get(
+        "optional-dependencies", {}
+    ).items():
+        extra = canonicalize_name(declared_extra)
+        for text in requirements:
+            requirement = Requirement(text)
+            marker = f'extra == "{extra}"'
+            if requirement.marker is not None:
+                marker = f"({requirement.marker}) and {marker}"
+            requirement.marker = Marker(marker)
+            expected.append(requirement)
+    return Counter(expected)
 
 
 def qualify_source(
@@ -144,6 +206,8 @@ def qualify_source(
     canonical = json.loads(policy.read_text())
     configuration = tomllib.loads(metadata["pyproject.toml"].decode())
     project = configuration.get("project", {})
+    if not _build_inputs(configuration, entries) <= verified:
+        raise ValueError("Missing mandatory package build inputs")
     original_workspace = tomllib.loads(
         _git(repository, "show", revision + ":rust/Cargo.toml").decode()
     )
@@ -183,15 +247,14 @@ def qualify_source(
         != SpecifierSet(canonical["requires_python"])
     ):
         raise ValueError("PKG-INFO disagrees with project identity/runtime")
-    core_requirements = []
+    distribution_requirements = []
     for text in package_info.get_all("Requires-Dist", []):
         requirement = Requirement(text)
         if canonicalize_name(requirement.name) in retired:
             raise ValueError("Retired engine in distribution metadata")
-        if requirement.marker is None:
-            core_requirements.append(text)
-    if _requirements(core_requirements) != expected_requirements:
-        raise ValueError("Distribution core dependency metadata mismatch")
+        distribution_requirements.append(requirement)
+    if Counter(distribution_requirements) != _distribution_requirements(project):
+        raise ValueError("Distribution dependency metadata mismatch")
     packaged_workspace = tomllib.loads(metadata["rust/Cargo.toml"].decode())
     expected_workspace = deepcopy(original_workspace)
     original_members = original_workspace["workspace"]["members"]

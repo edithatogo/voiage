@@ -41,5 +41,45 @@
     "B8 remaining native and protected delivery evidence",
     "B12 independent recovery then lease-guarded cleanup",
     "B13/B14 final live audit, issue reconciliation and archive"
-  ]
+  ],
+  "review_followup": {
+    "observed_at": "2026-10-28T09:35:13.443533+00:00",
+    "hosted_review_findings": [
+      "Missing declared in-tree build backend and mandatory metadata files",
+      "Unexpected marked distribution dependencies ignored"
+    ],
+    "fixes": [
+      "Require declared in-tree backend, readme and license files from authenticated Git inventory",
+      "Compare all distribution requirements including extra/marker conditions against authenticated project declarations"
+    ],
+    "red_witness": "Six new omission/marked-requirement cases failed against the initial implementation",
+    "focused_tests_passed": 24,
+    "actual_source_cli": "same immutable archive passes with all 904 supplied source files authenticated",
+    "implementation_sha256": {
+      "scripts/qualify_hpc_source.py": "75aba96dbc25e40fc4fbaf34aabba1e6d26a650bd30a92631e5ade3db769c492",
+      "tests/test_hpc_source_qualification.py": "0e8acc4d17dce4b47c84f86bfb9e4bfb32c7843631db40258e9ac28661d32c2d"
+    },
+    "resource_report": {
+      "peak_rss_kib": 97056,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 6.304,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-ieofr6vd"
+    },
+    "affected_integration_tests": {
+      "passed": 33,
+      "files": [
+        "tests/test_hpc_source_qualification.py",
+        "tests/test_current_overlays.py",
+        "tests/test_release_evidence_manifest.py"
+      ],
+      "resource_report": {
+        "peak_rss_kib": 97776,
+        "reason": "completed",
+        "returncode": 0,
+        "elapsed_seconds": 6.218,
+        "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-s2f4azi2"
+      }
+    }
+  }
 }

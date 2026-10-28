@@ -73,7 +73,16 @@ def source(tmp_path: Path, request: pytest.FixtureRequest) -> tuple[Path, str, s
         "rust/Cargo.lock": "# Frozen dependency lock\n",
         "rust/crates/voiage-python/Cargo.toml": '[package]\nname="voiage-python"\nversion="2.2.0"\nedition="2021"\n',
         "rust/crates/voiage-python/src/lib.rs": "pub const VALUE: u8 = 1;\n",
+        "build_backend.py": "# Fixture backend\n",
+        "README.md": "Fixture package\n",
+        "LICENSE": "Fixture license\n",
     }
+    files["pyproject.toml"] += (
+        'readme="README.md"\nlicense-files=["LICENSE"]\n'
+        '[project.optional-dependencies]\ndemo=["packaging>=26"]\n'
+        '[build-system]\nrequires=["maturin>=1.9"]\n'
+        'build-backend="build_backend"\nbackend-path=["."]\n'
+    )
     files["rust/Cargo.toml"] += '[workspace.package]\nversion="2.2.0"\n'
     if getattr(request, "param", False):
         files["pyproject.toml"] = (
@@ -130,6 +139,7 @@ def archive_for(
         + policy["requires_python"]
         + "\n"
         + "".join("Requires-Dist: " + dep + "\n" for dep in policy["runtime"])
+        + 'Requires-Dist: packaging>=26; extra == "demo"\n'
     ).encode()
     if damage == "metadata-version":
         entries["PKG-INFO"] = entries["PKG-INFO"].replace(
@@ -153,6 +163,24 @@ def archive_for(
         del entries["voiage/__init__.py"]
     elif damage == "missing-native":
         del entries["rust/crates/voiage-python/src/lib.rs"]
+    elif damage == "missing-backend":
+        del entries["build_backend.py"]
+    elif damage == "missing-readme":
+        del entries["README.md"]
+    elif damage == "missing-license":
+        del entries["LICENSE"]
+    elif damage == "marked-dependency":
+        entries["PKG-INFO"] += (
+            b'Requires-Dist: unexpected-package>=1; python_version >= "3.0"\n'
+        )
+    elif damage == "undeclared-extra":
+        entries["PKG-INFO"] += (
+            b'Requires-Dist: unexpected-package>=1; extra == "surprise"\n'
+        )
+    elif damage == "missing-extra":
+        entries["PKG-INFO"] = entries["PKG-INFO"].replace(
+            b'Requires-Dist: packaging>=26; extra == "demo"\n', b""
+        )
     elif damage == "injected-build-hook":
         entries["build_backend.py"] = b"raise RuntimeError('injected build hook')\n"
     elif damage == "runtime":
@@ -212,6 +240,12 @@ def test_real_git_bound_source_is_qualified_without_native_claims(
         "payload",
         "missing-runtime",
         "missing-native",
+        "missing-backend",
+        "missing-readme",
+        "missing-license",
+        "marked-dependency",
+        "undeclared-extra",
+        "missing-extra",
         "injected-build-hook",
         "runtime",
         "dependency",
