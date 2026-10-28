@@ -8,6 +8,7 @@ mod enbs;
 mod error;
 mod estimation_variance;
 mod evpi;
+mod evpi_resume;
 mod evppi;
 mod evsi;
 mod evsi_efficient;
@@ -28,6 +29,7 @@ pub use estimation_variance::{
     EstimationVarianceKernelResult,
 };
 pub use evpi::evpi;
+pub use evpi_resume::{evpi_resumable, ResumableEvpiOutcome};
 pub use evppi::evppi;
 pub use evsi::{evsi_stochastic, EvsiKernelResult};
 pub use evsi_efficient::{evsi_efficient_linear, EvsiApproximationResult};
