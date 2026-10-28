@@ -1,15 +1,17 @@
 # Current continuation handoff — 28 October 2026
 
 The active maintainer goal authorises implementation, review, fixes and archival
-of this track, including B6/B8/B12–B14. The current goal is scoped to #1053;
-other tracks are recorded only where they affect its acceptance criteria.
+of all four named tracks: #1053 (including B6/B8/B12–B14), agent-safe
+engineering #1110, optional native telemetry #1116 and tobac consumer
+qualification #1193. Each requires implementation, review, fixes and actual
+acceptance before archival.
 Acceptance criteria and external authority remain
 unchanged. Read `continuation-audit-20261028.json` before implementation.
 
 ## Current source and ownership
 
 - Accepted source baseline: `3df3cb49e5c927075c0609a48a2535b4457424d4`.
-- Integrator branch: `codex/hpc-polars-providers-20261028`; primary checkout.
+- Integrator branch: `codex/hpc-compiler-toolchains-20261028`; primary checkout.
 - Root owns shared governance, locks, workflows and packaging changes.
 - Parallel investigations are read-only; no concurrent tox/cache writers.
 - Use repo-local Python 3.15.1 and `scripts/guard_verification.py` for execution.
@@ -58,4 +60,5 @@ do not reduce that floor or claim native acceptance to force completion.
   validation. Archive only after actual criteria are met.
 
 The engineering, telemetry and named consumer tracks have their own acceptance
-records. Do not implement or archive them solely under this narrowed goal.
+records. They are authorised implementation scope under the expanded goal; their
+acceptance cannot be inferred from the HPC provider work.

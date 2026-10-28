@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "observed_at": "2026-10-28T08:50:57.329338+00:00",
   "baseline_commit": "3df3cb49e5c927075c0609a48a2535b4457424d4",
-  "authorization": "Current direct user goal: implement, review, fix blockers and false completions, then archive Remaining Backlog Delivery #1053 (including B6/B8/B12\u2013B14). Other track findings are contextual only and are not independent implementation scope.",
+  "authorization": "Expanded direct user goal: implement, review and fix blockers and false completions in Remaining Backlog Delivery #1053, agent-safe engineering #1110, optional native telemetry #1116 and tobac consumer qualification #1193; archive each only after actual acceptance.",
   "full_objective_retained": true,
   "initial_inventory": {
     "open_issues": 24,
@@ -43,7 +43,7 @@
       "evidence": "Queue exists but SDK parentage/exporter, actual retry/outage/shutdown and payload-byte limits are unproven; empty evidence ledger cannot justify archival."
     },
     {
-      "requirement": "Agent-safe parent G01\u2013G08",
+      "requirement": "Agent-safe parent G01–G08",
       "state": "under_requirement_audit",
       "evidence": "Completed checkboxes are not accepted solely from declarations. Provider-kernel, restart-computation and partial-release replay witnesses require scrutiny."
     },
@@ -71,7 +71,7 @@
       "B8 full/native delivery",
       "B12 recovery and exact-lease cleanup",
       "B13/B14 final audit and archive",
-      "Other named tracks"
+      "Other named tracks remain independently authorised and require their own acceptance"
     ]
   },
   "native_issue_reconciliation": {
@@ -82,5 +82,5 @@
     "reason": "Its own retained final checkpoint says native qualification, cleanup and archive remain incomplete; direct user goal resumes that exact work.",
     "native_readback_verified": true
   },
-  "scope_revision": "User narrowed the active goal to Remaining Backlog Delivery #1053 on 2026-10-28."
+  "scope_revision": "Expanded goal supersedes the earlier #1053-only scope; initial inventory and observations below retain their original point-in-time scope."
 }

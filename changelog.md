@@ -1,5 +1,9 @@
 # Changelog
 
+- Add dated Rust compiler/bootstrap candidates for the native Polars build,
+  authenticate the source-to-bootstrap manifest binding, and keep the core
+  compiler on its stable numeric series. Native build acceptance remains open.
+
 - Add source-bound Spack candidates for the split Polars frontend and native
   runtime, preserving exact runtime pairing and upstream feature/compiler
   defaults while keeping native build acceptance separate.

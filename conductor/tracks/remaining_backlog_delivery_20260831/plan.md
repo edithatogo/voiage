@@ -26,8 +26,14 @@
     `7f0feacc`; reviewed and merged trees match. This does not close B6.
   - [~] B6.2: Bind current recipes to the qualified source; obtain actual native
     solver/build/installed-module evidence and the required compiler matrix.
-    Current Polars frontend/runtime providers are under source/declaration
-    qualification; the dated compiler/bootstrap and Arrow providers remain open.
+    Polars frontend/runtime source declarations were delivered in PR #1214.
+    Dated Rust source/bootstrap bindings and stable compiler-role separation
+    are being qualified; Arrow providers, native builds and the full matrix
+    remain open.
+    Source slices: stable compiler roles `07c556ec`, dated source/bootstrap
+    binding `1d9be54d`; upstream licensing retained separately. See the dated
+    compiler receipt and review. All 15 local tox environments pass; protected
+    PR delivery is still required.
 - [x] B7: Complete remaining R, governance, identifier and venue preparation;
   retain external acceptance requirements (AC2, AC4).
 - [~] B8: Review all changes, run full tox and relevant language-native checks,

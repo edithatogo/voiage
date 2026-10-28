@@ -1,0 +1,84 @@
+{
+  "observed_at": "2026-10-28T11:54:30Z",
+  "baseline": "11067fee6c953095995fec57dba204c120255255",
+  "scope": "B6.2 dated Rust source/bootstrap candidate and stable core compiler role; native matrix remains open",
+  "source_proof": {
+    "source_archive_sha256": "15bbdd27bf5d7156847cff3f843ab6dda469be1b6ee0c00b5aab8bba13fabf84",
+    "bootstrap_manifest_sha256": "7c8035eccd259661acc845afb33fb40892f4722327f7d8d8c49feda172d1a159",
+    "stage0_binding_qualified": true,
+    "bootstrap_platforms_checked": 4,
+    "bootstrap_binaries_verified": false,
+    "native_build_executed": false
+  },
+  "source_resource_report": {
+    "peak_rss_kib": 156128,
+    "reason": "completed",
+    "returncode": 0,
+    "elapsed_seconds": 20.796,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-b80xuhhy"
+  },
+  "actual_spack_class_load": {
+    "rust": {
+      "nightly-2026-09-01": {
+        "sha256": "15bbdd27bf5d7156847cff3f843ab6dda469be1b6ee0c00b5aab8bba13fabf84",
+        "url": "https://static.rust-lang.org/dist/2026-09-01/rustc-nightly-src.tar.xz"
+      }
+    },
+    "rust-bootstrap": {
+      "beta-2026-08-18": {
+        "sha256": "58553a00a0df2e4374acf719279e293f15789a32aca18f86ba10b5d974f2324c"
+      }
+    }
+  },
+  "focused_tests": {
+    "passed": 60,
+    "resource_report": {
+      "peak_rss_kib": 106816,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 13.338,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-j0gjotud"
+    }
+  },
+  "review_finding": "Deleting all platform checksums from both recipe and packet initially passed. All four reviewed platforms are now required; the negative control and all 60 affected tests pass.",
+  "licenses": "Unmodified upstream Spack COPYRIGHT, NOTICE and both license texts retained alongside copied recipe copyright and SPDX identifiers.",
+  "not_proven": [
+    "Bootstrap binary archive checksum/execution",
+    "Native compiler build",
+    "Unmodified full Spack solve",
+    "Arrow 26 C++/Python and LibCST providers",
+    "Full Linux source install and installed acceptance",
+    "EasyBuild compiler generation matrix"
+  ],
+  "cloud_builder_readback": {
+    "selected_project": "gen-lang-client-0970581190",
+    "colab_enterprise": "runtime-templates list in us-central1 rejected: BILLING_DISABLED",
+    "compute": "instances list rejected: SERVICE_DISABLED; empty output is not proof of no instances",
+    "changes_made": false,
+    "other_projects": "Project visibility does not qualify builder permission, capacity or workload use; no arbitrary project selected."
+  },
+  "full_local_gate": {
+    "tested_tree": "451e917b8208afff15c8c5e3f20d5ac11b3af093",
+    "environments_passed": 15,
+    "tests_passed": 5480,
+    "tests_skipped": 19,
+    "resource_report": {
+      "peak_rss_kib": 1694544,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 390.417,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-2270jsbt"
+    },
+    "scope": "All implementation inputs unchanged; subsequent edits record governance evidence only"
+  },
+  "implementation_sha256": {
+    "scripts/check_current_rust_sources.py": "4981d0287f489cf69e45afe9fcbfeecdfa67956273de52a9799eba6674b2dd64",
+    "tests/test_current_rust_providers.py": "05412dfe3fe9bf484ac05810a32260cbebe7e0eb5a18a25cbbeb237a3f381cba",
+    "scripts/check_current_overlays.py": "6a3362b60ae254c60d5f9911835bfb0c3df96672da43cbb7899f5baa2784b5e2",
+    "tests/test_current_overlays.py": "545cc77c6c652c43146549dcba7ae39fdf4bd38972e80c96c2a9550f9ba8b848",
+    "packaging/current/rust-provider-sources.json": "d3ecd85b72fe785e0c0a16739d03071ba0bbd35f7d9b99fb5739c2082c533b0c",
+    "packaging/current/spack/packages/rust/package.py": "671aee5cf73bb0702edcf75332bb3fb63b19ea8d9cede06a629e4beafde781a2",
+    "packaging/current/spack/packages/rust-bootstrap/package.py": "76545df30d47e0004d5d26753015205f71596a70b9da7d494dd0bbe577566ba1",
+    "packaging/current/spack/packages/py-voiage/package.py": "ccf673b42f572736092e12723ec9bf76626cb83c76d020a44dec0f2b0968129b"
+  }
+}

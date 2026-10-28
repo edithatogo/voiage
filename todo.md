@@ -743,6 +743,10 @@ as recorded in the active task above; earlier route decisions below are historic
 
 ## Done
 
+- [x] Add source-bound dated Rust/compiler bootstrap candidates and authenticate
+  their stage-zero manifest binding; separate the stable core compiler role.
+  This is source qualification only; native builds and matrix gates remain open.
+
 - [x] Complete the source-derived translation reference: 14 executable semantic
   topics, pinned consumer/native source inventories and the linked documentation
   source. Guarded Python 3.15.1 full and hosted source gates pass; final delivery
