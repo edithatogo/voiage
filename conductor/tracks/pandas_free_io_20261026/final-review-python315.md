@@ -29,3 +29,10 @@ No unresolved implementation findings remain. Native Conda/HPC builds and
 publication, prior unrelated frontend advisories and successor implementation
 remain separate. No release, scientific result, external native acceptance or
 manuscript submission is claimed by this closeout.
+
+The closeout secret scan initially flagged the verified public core-contract Git
+tree ID. Extend the existing exact-line rule to the final receipt's exact path;
+no arbitrary values or paths are permitted. Three executable controls confirm
+the known tree is accepted only at that path, while another value and the same
+tree at another path are rejected. The redacted history scan then passes.
+The final record selection passed 46 tests; lint, prose and harness gates pass.
