@@ -183,10 +183,9 @@ def test_tox_compatibility_lanes_do_not_repeat_the_full_coverage_suite() -> None
     for environment in ("testenv", "testenv:min_versions", "testenv:max_versions"):
         command = config[environment]["commands"]
         assert all(contract in command for contract in required_contracts)
-    assert (
-        "pytest tests/ -n 2 --dist=worksteal"
-        in config["testenv:coverage_report"]["commands"]
-    )
+    coverage_command = config["testenv:coverage_report"]["commands"]
+    assert "run_installed_pytest.py tests/ -n 2 --dist=worksteal" in coverage_command
+    assert "--cov-fail-under=90" in coverage_command
 
 
 def test_release_retains_fresh_non_sharded_full_validation() -> None:

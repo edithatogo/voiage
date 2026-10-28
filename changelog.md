@@ -1,5 +1,14 @@
 # Changelog
 
+- Preserve Arrow schema metadata and content digests across normalized IPC and
+  Parquet bundle round trips, including existing bundle files.
+
+- Reduce peak memory when hashing normalized Arrow inputs while preserving
+  their existing content digests.
+
+- Include runtime contract files in installed wheels under a private package
+  path so schema-driven APIs work without a source checkout.
+
 - Add dated Rust compiler/bootstrap candidates for the native Polars build,
   authenticate the source-to-bootstrap manifest binding, and keep the core
   compiler on its stable numeric series. Native build acceptance remains open.

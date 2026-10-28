@@ -66,6 +66,10 @@ fn parse_clean(value: &str) -> Result<bool, String> {
 }
 
 fn git_identity(repository: &Path) -> Option<(String, String, bool)> {
+    let top_level = command_output("git", &["rev-parse", "--show-toplevel"], repository)?;
+    if fs::canonicalize(top_level).ok()? != fs::canonicalize(repository).ok()? {
+        return None;
+    }
     let revision = command_output(
         "git",
         &["rev-parse", "--verify", "HEAD^{commit}"],

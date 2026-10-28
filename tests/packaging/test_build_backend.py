@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import csv
 import io
 import os
 from pathlib import Path
@@ -9,6 +10,7 @@ import shutil
 import subprocess
 import tarfile
 from typing import TYPE_CHECKING
+import zipfile
 
 import pytest
 import yaml
@@ -26,6 +28,51 @@ SOURCE_VARIABLES = (
     "VOIAGE_SOURCE_TREE_GIT_OID",
     "VOIAGE_SOURCE_CLEAN",
 )
+
+
+def test_embed_contracts_uses_private_wheel_paths_and_record(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = tmp_path / "source"
+    contract = root / "specs" / "example" / "schema.json"
+    contract.parent.mkdir(parents=True)
+    contract.write_bytes(b'{"type":"object"}')
+    monkeypatch.setattr(build_backend, "ROOT", root)
+    wheel = tmp_path / "example.whl"
+    record = "voiage-1.0.dist-info/RECORD"
+    with zipfile.ZipFile(wheel, "w") as archive:
+        archive.writestr("voiage/__init__.py", b"")
+        archive.writestr(record, f"voiage/__init__.py,,\n{record},,\n")
+
+    build_backend._embed_contracts(str(tmp_path), wheel.name)
+
+    name = "voiage/_contracts/specs/example/schema.json"
+    with zipfile.ZipFile(wheel) as archive:
+        assert archive.read(name) == contract.read_bytes()
+        assert not any(item.startswith("specs/") for item in archive.namelist())
+        rows = list(csv.reader(io.StringIO(archive.read(record).decode("utf-8"))))
+    assert any(row[0] == name and row[1].startswith("sha256=") for row in rows)
+    assert [row for row in rows if row[0] == record] == [[record, "", ""]]
+
+
+def test_failed_contract_embedding_removes_incomplete_wheel(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    for name in SOURCE_VARIABLES:
+        monkeypatch.delenv(name, raising=False)
+    wheel = tmp_path / "voiage.whl"
+    wheel.write_bytes(b"unfinished")
+    monkeypatch.setattr(build_backend, "_git_identity", lambda: None)
+    monkeypatch.setattr(build_backend, "_embedded_identity", lambda: (REVISION, TREE))
+    monkeypatch.setattr(build_backend.maturin, "build_wheel", lambda *_: wheel.name)
+
+    def fail(*_args: object) -> None:
+        raise RuntimeError("contract assembly failed")
+
+    monkeypatch.setattr(build_backend, "_embed_contracts", fail)
+    with pytest.raises(RuntimeError, match="contract assembly failed"):
+        build_backend.build_wheel(str(tmp_path))
+    assert not wheel.exists()
 
 
 def _run_git(root: Path, *arguments: str) -> str:
@@ -285,6 +332,7 @@ def test_gitless_wheel_injects_embedded_identity_and_restores_environment(
         return "voiage.whl"
 
     monkeypatch.setattr(build_backend.maturin, "build_wheel", fake_build_wheel)
+    monkeypatch.setattr(build_backend, "_embed_contracts", lambda *_args: None)
 
     assert build_backend.build_wheel(str(tmp_path)) == "voiage.whl"
     assert observed == {

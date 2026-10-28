@@ -64,6 +64,7 @@ def test_evpi_cli() -> None:
                 "calculate-evpi",
                 str(net_benefits_file),
             ],
+            cwd=tmpdir_path,
             capture_output=True,
             text=True,
         )
@@ -88,6 +89,7 @@ def test_evpi_cli() -> None:
                 "--discount-rate",
                 "0.03",
             ],
+            cwd=tmpdir_path,
             capture_output=True,
             text=True,
         )
@@ -111,6 +113,7 @@ def test_evpi_cli() -> None:
                 "--output",
                 str(output_file),
             ],
+            cwd=tmpdir_path,
             capture_output=True,
             text=True,
         )
@@ -419,6 +422,7 @@ def test_cli_verbose_option(tmp_path: Path) -> None:
             "calculate-evpi",
             str(net_benefits_file),
         ],
+        cwd=tmp_path,
         capture_output=True,
         text=True,
     )
@@ -501,6 +505,7 @@ def test_evppi_cli() -> None:
                 str(net_benefits_file),
                 str(parameters_file),
             ],
+            cwd=tmpdir_path,
             capture_output=True,
             text=True,
         )
@@ -526,6 +531,7 @@ def test_evppi_cli() -> None:
                 "--discount-rate",
                 "0.03",
             ],
+            cwd=tmpdir_path,
             capture_output=True,
             text=True,
         )
@@ -548,6 +554,7 @@ def test_evppi_cli() -> None:
                 "--output",
                 str(output_file),
             ],
+            cwd=tmpdir_path,
             capture_output=True,
             text=True,
         )

@@ -16,10 +16,9 @@ from jsonschema import Draft202012Validator, FormatChecker
 from jsonschema.exceptions import ValidationError as JsonSchemaValidationError
 from referencing import Registry, Resource
 
-SCHEMA_ROOT = (
-    Path(__file__).resolve().parents[1]
-    / "specs/frontier/governance/scientific-review/v1/schemas"
-)
+from voiage._contract_root import contract_root
+
+SCHEMA_ROOT = contract_root() / "specs/frontier/governance/scientific-review/v1/schemas"
 EVIDENCE_KINDS = (
     "adjudication",
     "artifact-manifest",

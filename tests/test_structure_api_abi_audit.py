@@ -45,6 +45,7 @@ def _validate_current_membership(actual: set[str], *, root: Path = ROOT) -> None
     )
     additions = delta["additions"]
     assert additions == [
+        "voiage/_contract_root.py",
         "voiage/_tabular_io.py",
         "voiage/contracts/capability_report.py",
         "voiage/sampling_harm_agent_assurance.py",
@@ -52,7 +53,7 @@ def _validate_current_membership(actual: set[str], *, root: Path = ROOT) -> None
     assert delta["removals"] == []
     assert set(modules).isdisjoint(additions)
     assert actual == set(modules) | set(additions)
-    assert len(actual) == delta["current_python_runtime_modules"] == 179
+    assert len(actual) == delta["current_python_runtime_modules"] == 180
 
 
 def test_structure_inventory_matches_current_sources() -> None:
