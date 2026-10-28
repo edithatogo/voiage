@@ -1,0 +1,10 @@
+{
+  "track_id": "hpc_source_build_qualification_20261029",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-10-28T16:03:48.707Z",
+  "updated_at": "2026-10-28T16:03:48.707Z",
+  "description": "Rust/LLVM source-build profiling and full Linux Spack/EasyBuild qualification",
+  "approval_status": "spec_and_plan_pending_review",
+  "parent_track": "remaining_backlog_delivery_20260831"
+}
