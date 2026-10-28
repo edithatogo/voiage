@@ -1120,3 +1120,7 @@ track at the top of this registry; completed repository slices stay closed.
 - [ ] **Track: Rust/LLVM source builds and full HPC qualification**
   *Link: [./tracks/hpc_source_build_qualification_20261029/index.md](./tracks/hpc_source_build_qualification_20261029/index.md)*
   Planning prepared; specification/plan review and native execution remain pending.
+
+---
+- [ ] **Scientific ecosystem alignment (voiage)**
+  [Track](tracks/scientific_ecosystem_alignment_20261029/index.md) — linked delivery; native acceptance pending.

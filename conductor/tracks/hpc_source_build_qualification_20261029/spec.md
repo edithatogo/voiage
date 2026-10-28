@@ -15,6 +15,13 @@ receipt; neither record may declare the native gate complete independently.
 
 ## Requirements
 
+Bootstrap dispatch is gated by a requirement review: every source-built compiler
+must map to a supported packaging requirement and explain why the qualified
+binary toolchain is insufficient. Record the matrix cell, capability, source
+stages and agent review. The scientific ecosystem track adds this prerequisite;
+it does not remove any promised HPC cell. A changed matrix requires an explicit
+recorded scope decision, never an omitted test or inferred exception.
+
 1. Freeze the current source manifest, provider commits, package-manager versions,
    compiler roles, flags, target platform and complete graph before execution.
    Use Python 3.15.1 through a verified repo-local interpreter. Refresh dependency

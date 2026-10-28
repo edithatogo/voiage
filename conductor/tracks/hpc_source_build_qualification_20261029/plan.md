@@ -5,6 +5,12 @@ below have been executed. Sequential dependencies are P1 -> P2 -> P3 -> P4 ->
 P5 -> P6. P2 source controls must pass before P3 fetch/build dispatch.
 
 ## P1 — Reconcile ownership and freeze the graph
+- [ ] Task: Review the packaging requirement for every source-built compiler.
+  - [ ] Record the supported matrix cell, required compiler capability, why a
+        qualified binary toolchain is insufficient, and distinct source stages.
+  - [ ] Obtain agent correctness/security review before bootstrap dispatch.
+  - [ ] Record any proposed matrix change as an explicit scope decision; retain
+        the promised matrix until that decision is accepted and documented.
 - [ ] Task: Bind current integrator/provider/capacity handoffs to this track.
   - [ ] Record exact owned paths, worktrees, active jobs and evidence revisions.
   - [ ] Map each parent HPC requirement to AC1–AC6 without duplicate execution.
