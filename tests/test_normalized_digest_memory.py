@@ -92,6 +92,60 @@ def test_streamed_digest_preserves_multi_table_framing() -> None:
     assert bundle.content_digest == digest.hexdigest()
 
 
+def test_ipc_round_trip_preserves_units_and_source_identity(tmp_path: Path) -> None:
+    """The digest remains bound to declared units and source provenance."""
+    provenance = SourceProvenance(
+        provider_id="fixture",
+        source_uri="file:///redacted/parameters.arrow",
+        descriptor_digest="b" * 64,
+        governance={"source_revision": "synthetic-v1"},
+    )
+
+    def manifest(unit: str) -> DatasetManifest:
+        return DatasetManifest(
+            dataset_id="parameter-fixture",
+            tables=(
+                TableManifest(
+                    table_id="samples",
+                    fields=(
+                        FieldManifest(field_id="value", dtype="float64", unit=unit),
+                    ),
+                ),
+            ),
+            provenance=provenance,
+        )
+
+    table = pa.table({"value": [1.0, 2.0]})
+    bundle = NormalizedInputBundle(manifest=manifest("kg"), tables={"samples": table})
+    path = tmp_path / "parameters.arrow"
+    bundle.write_ipc(path)
+    restored = NormalizedInputBundle.read_ipc(path)
+    assert restored.manifest == bundle.manifest
+    assert restored.manifest.schema_version == "1.0.0"
+    assert restored.manifest.tables[0].fields[0].unit == "kg"
+    assert restored.manifest.provenance == provenance
+    assert restored.content_digest == bundle.content_digest
+    changed_unit = NormalizedInputBundle(
+        manifest=manifest("g"), tables={"samples": table}
+    )
+    assert changed_unit.content_digest != bundle.content_digest
+    changed_provenance = SourceProvenance(
+        provider_id="fixture",
+        source_uri="file:///redacted/parameters.arrow",
+        descriptor_digest="c" * 64,
+        governance={"source_revision": "synthetic-v1"},
+    )
+    changed_source = NormalizedInputBundle(
+        manifest=DatasetManifest(
+            dataset_id="parameter-fixture",
+            tables=manifest("kg").tables,
+            provenance=changed_provenance,
+        ),
+        tables={"samples": table},
+    )
+    assert changed_source.content_digest != bundle.content_digest
+
+
 def test_digest_does_not_buffer_the_complete_arrow_stream(tmp_path: Path) -> None:
     """Measure in a child because Arrow's default memory pool is process-wide."""
     probe = """
