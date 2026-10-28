@@ -7,8 +7,8 @@
 ## Core Libraries
 - **NumPy**: >=2.2.6,<3 - Fundamental array computing
 - **SciPy**: >=1.18.1,<1.19 - Scientific computing algorithms
-- **pandas**: >=3.1,<4 - Data manipulation and analysis
-- **xarray**: >=2026.9,<2027 - Labeled multi-dimensional arrays; retained as a declared dependency until `pandas_free_io_20261026`, no longer used by the `ValueArray`/`ParameterSet` containers (v3 contract)
+- **pandas**: >=3.1,<4 - Unpublished opt-in producer/oracle test tooling only
+- **xarray**: Removed from active runtime and published extras in PR #1206
 - **PyArrow**: >=26,<27 - schema-bearing interchange, Parquet, and IPC
 - **Polars**: >=2.1,<3 - Arrow-native dataframe interoperability; the in-memory tabular model for `ValueArray`/`ParameterSet` (v3 contract)
 - **Pydantic**: >=2.13.4,<3 - Strict domain, configuration, and logging contracts
@@ -31,7 +31,7 @@
 - **seaborn**: >=0.13.2,<1 - Statistical data visualization
 
 ## Testing
-- **pytest**: >=9.1.1,<10 - Testing framework
+- **pytest**: >=9.1.1,<9.2 - Qualified test runner; latest benchmark plugin still requires a private attribute removed in 9.2
 - **pytest-cov**: >=7.1,<8 - Coverage reporting
 - **hypothesis**: >=6.157,<7 - Property-based testing
 
@@ -145,3 +145,12 @@ It checks distribution closure, sys.modules and the environment prefix to reject
 source shadowing. Real mutation controls prove rejection. Linux/macOS/Windows
 CI execute the same lane. This is import enforcement, not Phase 7's separate
 generated-code/string/reference gate; external producer tests remain isolated.
+
+### 2026-10-28 external producer acceptance
+
+Phase 6 uses existing Arrow/DataFrame ingestion and the unpublished producer
+group. A dedicated installed-wheel tox lane has no project extras, runs isolated
+Python 3.15.1, checks package location, and qualifies frozen rows/content/schema,
+caller-owned imports, real numeric buffer sharing and strict-copy rejections.
+No runtime or binding API change is planned. Keep observed buffer sharing
+separate from the existing copy-policy diagnostics and preserve the Arrow wire.

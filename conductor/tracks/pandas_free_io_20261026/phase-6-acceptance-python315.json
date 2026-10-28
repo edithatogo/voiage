@@ -1,0 +1,258 @@
+{
+  "schema_version": "1.0",
+  "phase": "6",
+  "tasks": [
+    "T6.1",
+    "T6.2",
+    "T6.3"
+  ],
+  "status": "locally_qualified_hosted_pending",
+  "prerequisite": {
+    "pull_request": "https://github.com/edithatogo/voiage/pull/1207",
+    "merge_commit": "1383f9c3fca05f82b11ba92e234767cbd4aa9642",
+    "merged_at": "2026-10-27T23:46:18Z",
+    "readback": "All checks passed, including final telemetry/oracles; zero unresolved threads; all nine source commits signed."
+  },
+  "tested_commit": "af41e4ddfd481aac991e7415d7bd6541f51c2257",
+  "tested_tree": "9bceb1aba730ac090334ea1ab471752b0f20dbe7",
+  "python": "3.15.1",
+  "installed_environment": {
+    "python": "3.15.1",
+    "prefix": "/Volumes/PortableSSD/GitHub/voiage/.tox/producer-compatibility",
+    "installed_package": "/Volumes/PortableSSD/GitHub/voiage/.tox/producer-compatibility/lib/python3.15/site-packages/voiage/__init__.py",
+    "versions": {
+      "voiage": "2.2.0",
+      "polars": "2.1.0",
+      "pyarrow": "26.0.0",
+      "pandas": "3.1.0",
+      "pytest": "9.1.1"
+    },
+    "xarray_installed": false
+  },
+  "fixture": "tests/producer_compatibility/producer.json",
+  "baseline": "phase-6-baseline.json",
+  "controls": {
+    "producer_cases": 21,
+    "automation_contracts": 2,
+    "red": "15 initial behavior controls passed against unchanged prerequisite; two missing automation contracts failed before wiring. Expanded 21 behavior cases and affected SDK/enforcement cases pass.",
+    "real_producers": "Caller-owned pandas and Polars; named index exclusion, frozen row/binding/schema/content/manifest results, nullable categories/UTC, typed empty and sliced inputs.",
+    "import_ownership": "Actual conversions and fresh package import reject Voiage-owned pandas/xarray requests through builtins and importlib; genuine negative imports fail, caller-owned pandas import succeeds. The caller already loaded pandas; sys.modules absence is not falsely claimed in a producer environment.",
+    "buffer_identity": "Polars numeric capsule buffers equal the actual producer Arrow buffer addresses and sizes; Arrow Table strict no-copy identity also verified. No universal zero-copy or no-allocation claim.",
+    "copy_policy": "Existing copy-permitted diagnostic remains not_observable. Strict policy rejects qualified pandas floats needing a validity mask and Polars 2.1 lacking a compatible __dataframe__ fallback. Stable ValueError and cause retained.",
+    "no_extras": "Dedicated lane has no project extras; only pytest and unpublished producer-tests. Python -I, importlib pytest collection, narrow conftest boundary and explicit prefix assertions prevent checkout imports in both processes. The separate pandas-free lane retains no producer tooling."
+  },
+  "environments": {
+    "lint": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 4.3531166249995294,
+      "skipped": false
+    },
+    "pandas-free": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 5.8034243339971,
+      "skipped": false
+    },
+    "producer-compatibility": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 3.2539948339981493,
+      "skipped": false
+    },
+    "vale": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 3.205843042000197,
+      "skipped": false
+    },
+    "joss": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 1.192551000000094,
+      "skipped": false
+    },
+    "harness": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 2.723254958000325,
+      "skipped": false
+    },
+    "typecheck": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.7817925830022432,
+      "skipped": false
+    },
+    "docs": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 60.00950345900128,
+      "skipped": false
+    },
+    "ingestion-conformance": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 10.38740391600004,
+      "skipped": false
+    },
+    "frontier-contract": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.21393441599866492,
+      "skipped": false
+    },
+    "version-sync": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 0.6066661660006503,
+      "skipped": false
+    },
+    "py315": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 8.525486833998002,
+      "skipped": false
+    },
+    "min_versions": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 8.205726375002996,
+      "skipped": false
+    },
+    "max_versions": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 10.051557082999352,
+      "skipped": false
+    },
+    "coverage_report": {
+      "success": true,
+      "exit_code": 0,
+      "duration": 179.0381116669996,
+      "skipped": false
+    }
+  },
+  "full_tests": {
+    "passed": 5361,
+    "skipped": 14,
+    "failed": 0,
+    "warnings": 46
+  },
+  "coverage_policy": {
+    "aggregate": {
+      "minimum": 90.0,
+      "percent": 94.73047628387434
+    },
+    "base": "1383f9c3fca05f82b11ba92e234767cbd4aa9642",
+    "changed": {
+      "branch_minimum": 100.0,
+      "branch_percent": 100.0,
+      "branches": 0,
+      "covered_branches": 0,
+      "covered_lines": 0,
+      "executable_lines": 0,
+      "line_minimum": 95.0,
+      "line_percent": 100.0,
+      "missing_branches": [],
+      "missing_lines": [],
+      "unmeasured_files": []
+    },
+    "critical_modules": [
+      {
+        "minimum": 100.0,
+        "passed": true,
+        "path": "voiage/assurance_policy.py",
+        "percent": 100.0
+      },
+      {
+        "minimum": 90.0,
+        "passed": true,
+        "path": "voiage/contracts/bundle.py",
+        "percent": 99.30191972076788
+      },
+      {
+        "minimum": 95.0,
+        "passed": true,
+        "path": "voiage/mutation_policy.py",
+        "percent": 100.0
+      }
+    ],
+    "exact_source_head": true,
+    "head": "af41e4ddfd481aac991e7415d7bd6541f51c2257",
+    "passed": true,
+    "schema_version": "1.0.0",
+    "source_head": "af41e4ddfd481aac991e7415d7bd6541f51c2257",
+    "tested_head": "af41e4ddfd481aac991e7415d7bd6541f51c2257"
+  },
+  "coverage_note": "No voiage runtime edits. Changed-line percentages are vacuous, so actual producer/buffer/import/negative controls and real installed-wheel execution provide Phase 6 evidence.",
+  "unchanged_trees": [
+    {
+      "path": "voiage",
+      "git_tree_oid": "1223bd7ff4f30e8d1e8ac16b8fc3cc73bd4d7196"
+    },
+    {
+      "path": "rust",
+      "git_tree_oid": "cb91f40f723bf59bc37e3c6ec20f4502c5c7d1a6"
+    },
+    {
+      "path": "bindings",
+      "git_tree_oid": "e3e78f48140e9f6491ef87bebf680b136d965c44"
+    },
+    {
+      "path": "r-package",
+      "git_tree_oid": "433026b22bbb4f9f3ba217855bd22970b3720b2a"
+    },
+    {
+      "path": "specs/core-api",
+      "git_tree_oid": "3d5c0059778e303b466a58aa880badafc3e85eea"
+    },
+    {
+      "path": "specs/v3",
+      "git_tree_oid": "5e9fcf83ee079820153be27914cfcb64873af36e"
+    },
+    {
+      "path": "specs/integration/vop-voiage/compatibility",
+      "git_tree_oid": "b1ab4a2d0e3ac2e9f69f90d1f1e336e1419a38db"
+    }
+  ],
+  "frontier": "uv lock --upgrade produced no changes; fresh strict dependency/runtime-packaging audit passed. Known pytest<9.2 qualification cap retained. No dependency or runtime source change.",
+  "guard_controls": {
+    "sampled_process_group_rss_mib": 4096,
+    "timeout_seconds": 3600,
+    "minimum_free_disk_mib": 2048,
+    "native_threads": 1,
+    "coverage_workers": 2,
+    "test_retries": 0
+  },
+  "resource_guard": {
+    "peak_rss_kib": 1787904,
+    "reason": "completed",
+    "returncode": 0,
+    "elapsed_seconds": 229.56,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-v4jlo9y6"
+  },
+  "temporary_tree_removed": true,
+  "source_sha256": {
+    "tests/producer_compatibility/test_producer_compatibility.py": "b6a0f7ffdef7e958242ce714de36e55f1194b0ac90280b5c1de60d38d10f2c49",
+    "tests/producer_compatibility/producer.json": "e682de14c10a0fc7b48facf31f7f72f7c8a05b7d58239db93b08f81dd01afd25",
+    "tests/test_producer_compatibility_gate.py": "e3909323765c49888d3ce40eb78c06ed09da2c597b2d6391e1dd726868c927b5",
+    "tox.ini": "ba2d86564c099a76cb5e609a7a32fa8e1523d27f6e7e6e2eb27c20b0ccb32f27",
+    ".github/workflows/ci.yml": "d948b7f8816c82b5b00ae108419a311c040905afb135084cdc0eee3c041f741c"
+  },
+  "artifact_sha256": {
+    "full-result.json": "93cea0aab801833546c0426c2ee71c2163c5701be856f72c64391f667c008026",
+    "full.log": "a94f3b69473b51a0020a584e621d117470581fcc945f2184f753a80cc4cd31b2",
+    "coverage.json": "83d233f859d344520d89b73752d3a7c1b66864cfb6743a9c66b96bff2e2fa365",
+    "coverage-policy.json": "5896f7e8735afd2499457a67eac6e8f2126ef189117c24929fdac3c2a02af3cb",
+    "red.log": "864a30f125b1b14e9f682e047f0c7bb1791a0769d56b84e5cd0d908fa157ff98",
+    "green.log": "2d1f602de9737c813ef4e0dc1b05a00be31ab971469eca0f90ea62aaf65d3911",
+    "expanded.log": "2bf0bcbccc5a3900bdf7b29e9d218f189553ec957f94a8525191ec588f8d3860",
+    "installed-result.json": "83aa3ce35387147a9b5321abe64c0be626789feea8f60e9760fea9cd28952985",
+    "installed-versions.json": "daf9fe96a6b18d3aa7d69ad7792f45f630981ea0ab2e00073a189a1c8ee51ebd",
+    "frontier-upgrade.log": "8dfaf9e0e5f65878d64adea74e2e903d4548c336378fce35742e783f2aa953c2",
+    "frontier-strict.log": "0101e25b1a3ca772bdf3810868f176ce094da290b0c667cfde1ca65bea7440cb",
+    "pr1207-checks.json": "07b580d6d9f7f1e6bab5634c3679f6afe6acd7e9a2e93f4790bc352f7adea1e2"
+  },
+  "remaining": "Final hosted acceptance on the delivered PR; Phase 7 generated-code/reference cleanup and whole-track acceptance. Native Conda release proof and previously reported unchanged frontend advisories remain separate."
+}

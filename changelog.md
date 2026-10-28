@@ -1,5 +1,9 @@
 # Changelog
 
+- Qualify caller-owned DataFrame producers against the installed base wheel on
+  Python 3.15.1. Preserve index exclusion, binding values, import ownership,
+  numeric buffer sharing and strict copy-policy diagnostics.
+
 - Enforce the pandas/xarray-free base runtime with an exemption-free import lint
   and a real no-extras installed-wheel gate on Python 3.15.1, including hosted
   Linux, macOS and Windows checks. Keep pytest below 9.2 while the latest

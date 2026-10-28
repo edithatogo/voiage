@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "phase": "6",
+  "base_commit": "1383f9c3fca05f82b11ba92e234767cbd4aa9642",
+  "scope": "Only external-producer qualification, tests/CI and documentation. Runtime APIs, semantics, binding and wire contracts remain unchanged.",
+  "fixture": "tests/producer_compatibility/producer.json",
+  "fixture_sha256": "e682de14c10a0fc7b48facf31f7f72f7c8a05b7d58239db93b08f81dd01afd25",
+  "existing_tests": "19 dataframe-selected cases pass before Phase 6 changes.",
+  "behavior": "Pandas caller index excluded through fallback; Polars Arrow capsules share numeric buffers. Copy-permitted diagnostics remain not_observable. Strict copy policy rejects these producer frames; Arrow Table supports strict no-copy. Nonconforming input retains the exact diagnostic.",
+  "producer_ownership": "Caller imports pandas before consumer. Runtime import watcher has genuine negative controls. Producer tools stay unpublished and opt-in.",
+  "new_tests": "15 draft behavioral controls already pass against unchanged prerequisite; two new automation contracts must fail before wiring is added.",
+  "source_sha256": {
+    "voiage/ingestion/dataframe.py": "030666ba46277d982a0299eded1a9a14cb2f78925c8a0b322b6469a8ad597342",
+    "tests/test_dataframe_interchange_sdk.py": "b31644bcc5da4d3207245891ce02a98b03fc589f4cf137387e24e8ae6a33eae3",
+    "tests/test_standardized_ingestion_providers.py": "8dcd7aa5cf35fed2952ced05197594be06e2ff2568c5759800f0d5e030704df6"
+  }
+}

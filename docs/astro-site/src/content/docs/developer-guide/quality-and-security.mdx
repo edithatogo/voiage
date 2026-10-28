@@ -177,3 +177,18 @@ The existing protected `Lint & Type Check` job invokes the source rule directly,
 and `Unit Tests (Python 3.15.1)` also executes the no-extras tox lane. These
 checks therefore remain part of the current required status contexts; no
 branch-protection relaxation or new-job registration is needed.
+
+## External producer acceptance
+
+The default `producer-compatibility` tox lane tests the installed base wheel
+with pytest and the unpublished `producer-tests` group. Isolated Python,
+importlib-mode collection and a narrow conftest boundary keep checkout imports
+out of that lane; both its main and fresh child processes verify the package
+location. Real caller-created frames exercise frozen row/binding/digest results,
+nullable and sliced inputs, buffer identity, import ownership and stable errors.
+Negative controls prove the runtime-import watcher detects reintroduced imports.
+
+The existing protected unit job and Linux/macOS/Windows base-runtime matrix run
+this lane alongside `pandas-free`. The latter retains its separate environment
+with no producer tooling. Observed numeric buffer sharing does not change the
+existing strict-copy policy or claim that every conversion is zero-copy.

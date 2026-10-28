@@ -192,3 +192,10 @@ with no extras or producer/test dependencies. Run that lane through the resource
 guard with `.venv/bin/tox run -e pandas-free` for focused feedback. Required lint
 also runs `scripts/check_pandas_free.py --source voiage`; direct pandas/xarray
 imports in runtime Python files and stubs cannot be suppressed with pragmas.
+
+The `producer-compatibility` tox lane installs the same base wheel with only
+pytest and the unpublished producer group. Its isolated Python/pytest invocation
+prevents source shadowing and runs real caller-created frames against frozen
+rows, digests, import ownership, buffer identity and diagnostics. The protected
+unit job and three-platform base-runtime matrix execute it alongside
+`pandas-free`; the latter stays free of producer tooling.

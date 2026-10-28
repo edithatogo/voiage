@@ -1,6 +1,6 @@
 # Implementation plan: Pandas-free external I/O and packaging
 
-T1.1 baseline is frozen, T1.2 is merged in PR #1203, and Phase 2 qualifies the migrated CSV/Parquet paths; remaining tasks are pending. Ownership: this track migrates every pandas reference and owns the repository-wide zero-reference check; `polars_container_20261026` migrates every xarray reference, and Phase 7 here cannot close before that track's Phase 7. Maintainer authorised the recommended follow-up on 2026-10-27. Prerequisite `polars_container_20261026` was accepted and merged in PR #1202; the later package-level pandas-free gate remains open.
+T1.1 baseline is frozen, T1.2 is merged in PR #1203, and Phase 2 qualifies the migrated CSV/Parquet paths; remaining tasks are pending. Ownership: this track migrates every pandas reference and owns the repository-wide zero-reference check; `polars_container_20261026` migrates every xarray reference, and Phase 7 here cannot close before that track's Phase 7. Maintainer authorised the recommended follow-up on 2026-10-27. Prerequisite `polars_container_20261026` was accepted and merged in PR #1202; the package-level absence/enforcement gate was accepted in merged PR #1207; repository-wide reference acceptance remains open.
 
 ## Phase 1: Direct-use removal
 
@@ -30,13 +30,13 @@ T1.1 baseline is frozen, T1.2 is merged in PR #1203, and Phase 2 qualifies the m
 
 - [x] T5.1 — Write the failing subprocess gate and the lint rule before the package is expected to satisfy them. See `phase-5-baseline.json`; real negative import/closure/shadow controls pass, while three wiring contracts fail before activation.
 - [x] T5.2 — Add the no-extras tox environment and the `sys.modules` assertion. (AC5).
-- [x] T5.3 — Validate: the gate fails when a pandas import is reintroduced and passes on the candidate; the lint rule has no exemption; the gate runs in hosted CI. (AC5). Local qualification: `phase-5-acceptance-python315.json`, `phase-5-protected-ci-python315.json`, `phase-5-benchmark-compatibility-python315.json` and `phase-5-review.md`; final hosted/platform acceptance remains a PR gate.
+- [x] T5.3 — Validate: the gate fails when a pandas import is reintroduced and passes on the candidate; the lint rule has no exemption; the gate runs in hosted CI. (AC5). Local qualification: `phase-5-acceptance-python315.json`, `phase-5-protected-ci-python315.json`, `phase-5-benchmark-compatibility-python315.json` and `phase-5-review.md`; hosted/platform acceptance passed and PR #1207 merged as `1383f9c3`.
 
-## Phase 6: Producer compatibility and boundary
+## Phase 6: Producer compatibility and boundary [checkpoint: 4cd4601e]
 
-- [ ] T6.1 — Freeze the interchange fixtures, including a pandas producer object supplied by a caller.
-- [ ] T6.2 — Verify pandas-producing and Polars-producing objects are both accepted without a Voiage pandas import, and that zero-copy is preferred where available. (AC6).
-- [ ] T6.3 — Validate: non-conforming input fails with the documented diagnostic; the wire contract and binding fixtures are unchanged; no new persistence format exists. (AC6, AC7).
+- [x] T6.1 — Freeze the interchange fixtures, including a pandas producer object supplied by a caller. Baseline and red automation contracts: `61b8cbc6`, `phase-6-baseline.json` and `tests/producer_compatibility/producer.json`.
+- [x] T6.2 — Verify pandas-producing and Polars-producing objects are both accepted without a Voiage pandas import, and that zero-copy is preferred where available. (AC6). Real installed-wheel lane, import ownership, shared numeric buffers and existing strict-copy policy qualified; implementation `f8675bd4`, qualified in the Phase 6 receipt.
+- [x] T6.3 — Validate: non-conforming input fails with the documented diagnostic; the wire contract and binding fixtures are unchanged; no new persistence format exists. (AC6, AC7). See `phase-6-acceptance-python315.json` and `phase-6-review.md`; all 15 local tox environments pass, with final hosted acceptance required on the delivered PR.
 
 ## Phase 7: Residual surfaces and zero-reference end state
 
