@@ -32,7 +32,7 @@ Implementation authorised by the maintainer on 2026-10-28. Implementation is loc
 - [x] T5.2 — Verify links, examples and the Astro build, and confirm the reference page and its pandas or xarray mentions sit on the `pandas_free_io_20261026` allow-list. (AC5).
 - [x] T5.3 — Validate: no example calls a removed symbol; the build passes; the migration guide links resolve. (AC5).
 
-## Final acceptance
+## Final acceptance [checkpoint: ffa05870]
 
 - [x] CLOSE.1 — Review every AC against the exact tested revision; hosted checks must pass before any acceptance claim.
 - [x] CLOSE.2 — Reconcile plan, metadata and evidence; record the published location.
