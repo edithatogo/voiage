@@ -7,8 +7,8 @@
 ## Core Libraries
 - **NumPy**: >=2.2.6,<3 - Fundamental array computing
 - **SciPy**: >=1.18.1,<1.19 - Scientific computing algorithms
-- **pandas**: >=3.1,<4 - Unpublished opt-in producer/oracle test tooling only
-- **xarray**: Removed from active runtime and published extras in PR #1206
+- **External producer/oracle tooling**: Explicit unpublished compatibility-test group only
+- **Legacy labeled-array backend**: Removed from active runtime and published extras in PR #1206
 - **PyArrow**: >=26,<27 - schema-bearing interchange, Parquet, and IPC
 - **Polars**: >=2.1,<3 - Arrow-native dataframe interoperability; the in-memory tabular model for `ValueArray`/`ParameterSet` (v3 contract)
 - **Pydantic**: >=2.13.4,<3 - Strict domain, configuration, and logging contracts

@@ -48,7 +48,7 @@ Fill the critical gap in the VOI ecosystem by providing a comprehensive, open-so
 
 ## Technology Stack
 - **Languages**: Rust core, Python 3.15.1, and supported binding runtimes for R and Julia; Mojo remains an upstream integration boundary
-- **Core Libraries**: NumPy, SciPy, pandas, xarray
+- **Core Libraries**: NumPy, SciPy, Polars, PyArrow
 - **High-Performance**: JAX, NumPyro, Rust
 - **Machine Learning**: scikit-learn, statsmodels
 - **CLI**: Typer

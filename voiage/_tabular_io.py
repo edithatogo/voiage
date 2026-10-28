@@ -101,7 +101,7 @@ def read_csv(source: Path | io.StringIO) -> pl.DataFrame:
 
 
 def read_parquet(path: Path) -> pl.DataFrame:
-    """Read physical columns, excluding index fields recorded by pandas producers."""
+    """Read physical columns, excluding index fields recorded by external producers."""
     frame = pl.read_parquet(path)
     metadata = pq.read_metadata(path).metadata or {}
     pandas_metadata = json.loads(metadata.get(b"pandas", b"{}"))

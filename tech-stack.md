@@ -2,9 +2,9 @@
 
 ## Runtime Languages
 
-The supported Python runtime range is **Python 3.12-3.14**.
+The supported Python runtime range is **Python 3.15.1**.
 
-- **Python**: 3.12-3.14, with Python package metadata in `pyproject.toml`.
+- **Python**: 3.15.1, with Python package metadata in `pyproject.toml`.
 - **Rust**: native core foundations, deterministic kernels, benchmarks, and
   binding/runtime expansion work.
 - **Polyglot Bindings**: Rust core with Python/Mojo, R, and Julia are tracked
@@ -12,7 +12,7 @@ The supported Python runtime range is **Python 3.12-3.14**.
 
 ## Python Package Dependencies
 
-- **Arrays and DataFrames**: NumPy, pandas, and xarray.
+- **Arrays and DataFrames**: NumPy, Polars, and PyArrow.
 - **Scientific Computing**: SciPy.
 - **Probabilistic and Accelerator Stack**: JAX and NumPyro.
 - **Statistics and Metamodeling**: scikit-learn and statsmodels.

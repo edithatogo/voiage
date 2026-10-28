@@ -281,16 +281,16 @@ def validate_backend_boundary(layer: str, responsibility: str) -> None:
 #: Lightweight dependencies required for the base install.
 DEPENDENCY_POLICY: Final[dict[str, list[str]]] = {
     "base": [
+        "click",
         "numpy",
         "scipy",
-        "pandas",
-        "xarray",
         "scikit-learn",
-        "statsmodels",
-        "typer",
-        "defusedxml",
-        "psutil",
+        "pyarrow",
+        "polars",
+        "pydantic",
+        "jsonschema",
         "typing_extensions",
+        "typer",
     ],
     "optional": [
         "jax",

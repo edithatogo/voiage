@@ -10,6 +10,7 @@ and demonstrates advanced VOI techniques.
 
 import matplotlib.pyplot as plt
 import numpy as np
+import polars as pl
 from sklearn.linear_model import LinearRegression
 
 from voiage.analysis import DecisionAnalysis
@@ -254,11 +255,11 @@ def main():
 
     # Plot 3: Parameter correlation heatmap
     plt.subplot(2, 3, 3)
-    param_df = pd.DataFrame({k: v for k, v in param_samples.items()
+    param_df = pl.DataFrame({k: v for k, v in param_samples.items()
                             if k in ["drug_efficacy", "program_effectiveness", "adherence_rate",
                                     "baseline_severity", "utility_baseline", "comorbidity_count"]})
     corr_matrix = param_df.corr()
-    sns.heatmap(corr_matrix, annot=True, cmap="coolwarm", center=0,
+    sns.heatmap(corr_matrix.to_numpy(), annot=True, cmap="coolwarm", center=0,
                 square=True, fmt=".2f", cbar_kws={"shrink": 0.8})
     plt.title("Parameter Correlation Matrix")
 
