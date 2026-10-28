@@ -133,6 +133,7 @@ class Observation:
 
     def sample(self) -> None:
         """Propagate sampler errors instead of accepting incomplete observations."""
+        completed = False
         try:
             with (self.evidence / "filesystem-samples.jsonl").open("a") as output:
                 while True:
@@ -161,8 +162,12 @@ class Observation:
                         self.save_locked()
                     if self.stop.wait(5):
                         break
-        except BaseException as exc:
+            completed = True
+        except Exception as exc:
             self.monitor_errors.append(repr(exc))
+        finally:
+            if not completed and not self.monitor_errors:
+                self.monitor_errors.append("sampler exited unexpectedly")
 
     def run(
         self, name: str, command: list[str], env: dict[str, str], seconds: int = 1800

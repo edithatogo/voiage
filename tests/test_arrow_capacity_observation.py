@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING
 import pytest
 
 from scripts.observe_arrow_capacity import (
+    Observation,
     descendant_usage,
     download,
     native_objects,
@@ -85,3 +86,19 @@ def test_resource_sampling_counts_children_in_other_process_groups(
     pids, rss = descendant_usage(100)
     assert pids == {100, 101, 102}
     assert rss == 10120
+
+
+def test_sampler_reports_unexpected_base_exception_and_propagates(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    inputs = tmp_path / "inputs.json"
+    inputs.write_text("{}")
+    observation = Observation(tmp_path / "workspace", tmp_path / "evidence", inputs)
+
+    def fail(_path: Path) -> None:
+        raise SystemExit("sampling interrupted")
+
+    monkeypatch.setattr("scripts.observe_arrow_capacity.shutil.disk_usage", fail)
+    with pytest.raises(SystemExit, match="sampling interrupted"):
+        observation.sample()
+    assert observation.monitor_errors
