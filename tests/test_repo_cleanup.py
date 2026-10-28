@@ -347,7 +347,7 @@ def test_root_project_state_docs_match_current_protocol() -> None:
     combined = "\n".join((product, tech_stack, workflow, guidelines))
 
     for expected in (
-        "Python 3.12-3.14",
+        "Python 3.15.1",
         "coverage threshold at **>90%**",
         "AGENTS.md",
         "todo.md",

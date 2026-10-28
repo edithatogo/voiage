@@ -11,6 +11,7 @@ and demonstrates advanced VOI techniques.
 import matplotlib.pyplot as plt
 import numpy as np
 import polars as pl
+import seaborn as sns
 from sklearn.linear_model import LinearRegression
 
 from voiage.analysis import DecisionAnalysis
@@ -259,8 +260,12 @@ def main():
                             if k in ["drug_efficacy", "program_effectiveness", "adherence_rate",
                                     "baseline_severity", "utility_baseline", "comorbidity_count"]})
     corr_matrix = param_df.corr()
-    sns.heatmap(corr_matrix.to_numpy(), annot=True, cmap="coolwarm", center=0,
-                square=True, fmt=".2f", cbar_kws={"shrink": 0.8})
+    sns.heatmap(
+        corr_matrix.to_numpy(),
+        xticklabels=param_df.columns, yticklabels=param_df.columns,
+        annot=True, cmap="coolwarm", center=0,
+        square=True, fmt=".2f", cbar_kws={"shrink": 0.8},
+    )
     plt.title("Parameter Correlation Matrix")
 
     # Plot 4: EVPPI comparison
