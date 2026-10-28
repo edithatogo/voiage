@@ -60,6 +60,9 @@ to these engineering prerequisites without activating them.
 
 Prepared track records:
 
+- `conductor/tracks/hpc_source_build_qualification_20261029/` (planned; full HPC acceptance pending)
+- `conductor/tracks/scientific_ecosystem_alignment_20261029/` (linked delivery; acceptance pending)
+
 - `conductor/tracks/execution_packet_guard_20260907/`
 - `conductor/tracks/version_identity_contracts_20260907/`
 - `conductor/tracks/native_structured_logging_20260907/`

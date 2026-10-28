@@ -5741,6 +5741,54 @@
       "subissues": [],
       "pull_requests": [],
       "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "hpc_source_build_qualification_20261029",
+      "metadata_track_id": "hpc_source_build_qualification_20261029",
+      "path": "conductor/tracks/hpc_source_build_qualification_20261029",
+      "lifecycle": "active",
+      "issue": {
+        "number": 1222,
+        "url": "https://github.com/edithatogo/voiage/issues/1222",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1025",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 1218,
+          "url": "https://github.com/edithatogo/voiage/pull/1218",
+          "status": "open",
+          "evidence": [
+            "planning packet; hosted checks pending"
+          ]
+        }
+      ],
+      "pull_request_evidence": "Track registration and native acceptance remain pending."
+    },
+    {
+      "track_id": "scientific_ecosystem_alignment_20261029",
+      "metadata_track_id": "scientific_ecosystem_alignment_20261029",
+      "path": "conductor/tracks/scientific_ecosystem_alignment_20261029",
+      "lifecycle": "active",
+      "issue": {
+        "number": 1221,
+        "url": "https://github.com/edithatogo/voiage/issues/1221",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1025",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 1218,
+          "url": "https://github.com/edithatogo/voiage/pull/1218",
+          "status": "open",
+          "evidence": [
+            "planning packet; hosted checks pending"
+          ]
+        }
+      ],
+      "pull_request_evidence": "Track registration and native acceptance remain pending."
     }
   ]
 }

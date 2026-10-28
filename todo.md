@@ -4,6 +4,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+- [ ] Qualify `conductor/tracks/hpc_source_build_qualification_20261029/` and `conductor/tracks/scientific_ecosystem_alignment_20261029/`; preserve all existing native gates.
+
 - [x] Add local verification resource limits and termination receipts before
   continuing Python 3.15.1 acceptance testing.
 

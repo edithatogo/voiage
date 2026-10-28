@@ -1122,5 +1122,6 @@ track at the top of this registry; completed repository slices stay closed.
   Planning prepared; specification/plan review and native execution remain pending.
 
 ---
-- [ ] **Scientific ecosystem alignment (voiage)**
-  [Track](tracks/scientific_ecosystem_alignment_20261029/index.md) — linked delivery; native acceptance pending.
+- [ ] **Track: Scientific ecosystem alignment (voiage)**
+  *Link: [./tracks/scientific_ecosystem_alignment_20261029/index.md](./tracks/scientific_ecosystem_alignment_20261029/index.md)*
+  Linked delivery; native acceptance pending.
