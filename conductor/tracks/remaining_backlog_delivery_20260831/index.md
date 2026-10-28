@@ -52,3 +52,7 @@ build and installed-module evidence remain open; old running statements are
 historical and do not identify a currently live build.
 
 - [Source qualifier review and verification](./source-review-20261028.json)
+
+- [Current source binding verification](./current-source-binding-20261028.json)
+- [Recovery and partial local cleanup](./recovery-progress-20261028.json)
+- [Native tool/catalogue preflight and remaining gaps](./native-preflight-20261028.json)

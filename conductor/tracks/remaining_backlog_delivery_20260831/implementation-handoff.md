@@ -9,7 +9,7 @@ unchanged. Read `continuation-audit-20261028.json` before implementation.
 ## Current source and ownership
 
 - Accepted source baseline: `3df3cb49e5c927075c0609a48a2535b4457424d4`.
-- Integrator branch: `codex/backlog-acceptance-20261028`; primary checkout.
+- Integrator branch: `codex/hpc-source-binding-20261028`; primary checkout.
 - Root owns shared governance, locks, workflows and packaging changes.
 - Parallel investigations are read-only; no concurrent tox/cache writers.
 - Use repo-local Python 3.15.1 and `scripts/guard_verification.py` for execution.

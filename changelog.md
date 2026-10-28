@@ -1,5 +1,9 @@
 # Changelog
 
+- Bind current HPC recipe candidates to the accepted source archive and reject
+  missing, modified or mismatched source-qualification receipts while keeping
+  native solver, build and installed-module acceptance separate.
+
 - Qualify HPC source candidates against immutable Git payloads, runtime policy
   and embedded provenance, with bounded archive inspection and explicit
   separation from native build and installed-module acceptance.

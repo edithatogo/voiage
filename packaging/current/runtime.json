@@ -13,10 +13,13 @@
     "typing_extensions>=4.16.0",
     "typer>=0.9,<1.0"
   ],
-  "source_commit": "ba225b7db4241fc7f698b68ae80b8a4846bbab8a",
+  "source_commit": "3df3cb49e5c927075c0609a48a2535b4457424d4",
   "source_role": "immutable migrated development candidate, not a newly published release",
   "native_solver_executed": false,
   "native_build_executed": false,
   "installed_module_acceptance": false,
-  "source_archive_qualified": false
+  "source_archive_qualified": true,
+  "source_qualification_receipt": "conductor/tracks/remaining_backlog_delivery_20260831/source-qualification-20261028.json",
+  "source_qualification_receipt_sha256": "bce6088814a5b51fa3e9928bd9844da5504dd602ed73aab28606ad37d1cb11dd",
+  "source_archive_sha256": "3748d8c5d155dc90db2b2c9c35abac5bb27958cb34c747e60e1ef8f84212a989"
 }

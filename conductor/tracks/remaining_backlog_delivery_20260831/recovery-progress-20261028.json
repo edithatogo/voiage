@@ -1,0 +1,136 @@
+{
+  "observed_at": "2026-10-28T10:01:05.834282+00:00",
+  "scope": "Partial B12 recovery and strict-ancestor local cleanup; not final cleanup or archive acceptance",
+  "git": {
+    "observed_at": "2026-10-28T09:30:50.658804+00:00",
+    "bundle_sha256": "9dfc3ec6bc946786201a847327c28d9da2d216566740c50acdb1356608083d12",
+    "bundle_bytes": 24604146,
+    "independent_mirror_restore": true,
+    "all_bundled_refs_match_restore": true,
+    "bundled_refs": 292,
+    "stash_reflog_entries_preserved": 11,
+    "notes_refs_restored": 10,
+    "strict_full_fsck": {
+      "peak_rss_kib": 5248,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 2.099,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-6lydzf5e"
+    },
+    "remaining_before_prune": [
+      "Preserve and independently restore unique ignored evidence and submodule Git stores",
+      "Re-query native PR states, exact branch tips, ownership and maintained lines",
+      "Use exact-SHA deletion leases only for verified retired branches"
+    ],
+    "branches_pruned": false
+  },
+  "submodules": {
+    "archive_sha256": "16d109f19c0797cceb5dab93d35f7baea633ab33071584e492982fe12be2e2a0",
+    "regular_files_verified_against_independent_restore": 107,
+    "appledouble_metadata": "Not counted as source payload; native extraction applies these records as filesystem metadata",
+    "submodule_strict_fsck": [
+      {
+        "store": "astro-polyglot",
+        "returncode": 0,
+        "output": "",
+        "worktree": "explicit empty restore directory; original stored binding unmodified"
+      },
+      {
+        "store": "authentext",
+        "returncode": 0,
+        "output": "",
+        "worktree": "explicit empty restore directory; original stored binding unmodified"
+      },
+      {
+        "store": "sourceright",
+        "returncode": 0,
+        "output": "",
+        "worktree": "explicit empty restore directory; original stored binding unmodified"
+      }
+    ]
+  },
+  "local_evidence": {
+    "archive_sha256": "570cb55e700c1e589df8e2c65dc370476230bfc6f9f8a3a56a89345267fe7688",
+    "archive_bytes": 1600776202,
+    "independent_extraction_verified": true,
+    "counts": {
+      "regular": 155445,
+      "symlinks": 1662,
+      "hardlinks": 1,
+      "metadata": 186500
+    },
+    "scope": "Snapshot as archived; later journals and Git changes need a fresh final recovery check before pruning",
+    "metadata_boundary": "AppleDouble filesystem metadata is excluded from source-payload counts; socket endpoints were not archived by native tar"
+  },
+  "pruning": {
+    "observed_at": "2026-10-28T09:56:25.358979+00:00",
+    "phase": "completed",
+    "main": "7f0feacc867f6aa90feffb1b195613f8c349f7bd",
+    "active_branch": "refs/heads/codex/hpc-source-binding-20261028",
+    "worktrees": "worktree /Volumes/PortableSSD/GitHub/voiage\nHEAD 7f0feacc867f6aa90feffb1b195613f8c349f7bd\nbranch refs/heads/codex/hpc-source-binding-20261028",
+    "open_pr_heads_excluded": [
+      "codex/tobac-consumer-planning-20261025",
+      "renovate/npm-astro-vulnerability",
+      "renovate/pypi-nltk-vulnerability",
+      "renovate/pypi-pillow-vulnerability",
+      "renovate/opentelemetry-rust-monorepo",
+      "renovate/pypi-jupyterlab-vulnerability",
+      "renovate/npm-fast-uri-vulnerability",
+      "renovate/all-minor-patch",
+      "renovate/lock-file-maintenance",
+      "renovate/python-all",
+      "renovate/github-actions",
+      "renovate/astro-monorepo"
+    ],
+    "recovery_bundle_sha256": "9dfc3ec6bc946786201a847327c28d9da2d216566740c50acdb1356608083d12",
+    "selected": [
+      {
+        "ref": "refs/heads/codex/capability-report-errors",
+        "oid": "ea2391a32c7749944ad7cfe7e384e9cf0ac733c3",
+        "tree": "c64837c24975e02dd71c9aa98ce2fa2fb3e4b3bf"
+      },
+      {
+        "ref": "refs/heads/codex/spack-recipe-validation-20260912",
+        "oid": "e1e8b94b48ea9b4f236008fa01ec4e164418d0ab",
+        "tree": "f9d7fb882cefe966c5ba1e5c5ab04ceddd2d068f"
+      },
+      {
+        "ref": "refs/heads/codex/vop-pilot-ac2-20260909",
+        "oid": "b27b4073231725aefc292ed46836c3d01abc278e",
+        "tree": "aa806eb75956f34eb3503bf2a5cab0698c1af8cd"
+      },
+      {
+        "ref": "refs/heads/codex/vop-pilot-ac3-20260909",
+        "oid": "055e5c71190ace6fca38a2561d35190308809402",
+        "tree": "58f62a36f50ce1142e2f65f26d4dad2d6f36af31"
+      },
+      {
+        "ref": "refs/heads/codex/vop-pilot-ac4-20260909",
+        "oid": "516c16d6a63b74f6cf598485fc656819c8531587",
+        "tree": "20e25a77984e6b39ea30bc3c493a9318bf41e3a9"
+      },
+      {
+        "ref": "refs/heads/codex/vop-pilot-ac5-20260909",
+        "oid": "a3e7c9c4c3f35e753ce44ad4f830cb5971e34837",
+        "tree": "fce9821a38ef4c0040ee78295d9b9d6a3bb21284"
+      },
+      {
+        "ref": "refs/heads/codex/vop-pilot-phase1-20260909",
+        "oid": "5fd92c47adf96ac127cb51a47a7cdd22f3cbd569",
+        "tree": "1e9163072f14da579ebb1f8ff9a1f8a5791a9353"
+      }
+    ],
+    "scope": "Local strict-ancestor branches only; no remote deletion, source change or unique branch removal",
+    "transaction_output": "start: ok\nprepare: ok\ncommit: ok\n",
+    "all_refs_absent": true
+  },
+  "temporary_restore_cleanup": {
+    "independently_verified_extraction_removed": true,
+    "compressed_archive_and_proofs_retained": true
+  },
+  "remaining": [
+    "Current branch, all open PR heads and unique branch history retained",
+    "Newer commits/journals need a fresh final recovery check before any further pruning",
+    "Final hosted and branch/worktree inventories remain required"
+  ]
+}

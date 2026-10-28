@@ -1,0 +1,77 @@
+{
+  "observed_at": "2026-10-28T10:03:14.882277+00:00",
+  "scope": "Host tool and catalogue preflight only; not Linux build or installed-module acceptance",
+  "python": "3.15.1",
+  "easybuild": {
+    "version": "5.4.1",
+    "runtime_probe": "python -m easybuild.main --version succeeds on isolated Python 3.15.1",
+    "resource_report": {
+      "peak_rss_kib": 1984,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 2.101,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-dqrwv7gb"
+    },
+    "recipe_dry_run": "Fails because Lmod is unavailable on this host",
+    "dry_run_resource_report": {
+      "peak_rss_kib": 1968,
+      "reason": "completed",
+      "returncode": 1,
+      "elapsed_seconds": 2.1,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-k34m500d"
+    }
+  },
+  "spack": {
+    "version": "1.2.2",
+    "configuration": "Private user/config/cache; existing broken shared catalogue path left untouched",
+    "current_recipe_load": "Succeeded on Python 3.15.1",
+    "release_catalogue": "Cannot satisfy python@3.15.1",
+    "frontier_catalogue_commit": "fa170d11f60ea44045d9a02370002ed153e35f1a",
+    "clingo": {
+      "version": "5.8.2",
+      "source_build": "Succeeded on isolated Python 3.15.1 with two compiler jobs",
+      "actual_solver_probe": "Satisfiable ground/solve witness passed",
+      "resource_report": {
+        "peak_rss_kib": 121680,
+        "reason": "completed",
+        "returncode": 0,
+        "elapsed_seconds": 152.384,
+        "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-kzwrvlhl"
+      }
+    },
+    "unmodified_frontier_solve": {
+      "result": "Resource guard stopped at three-minute budget; not a pass",
+      "resource_report": {
+        "peak_rss_kib": 1057440,
+        "reason": "time_limit",
+        "returncode": null,
+        "elapsed_seconds": 183.476,
+        "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-dpop2ssb"
+      }
+    },
+    "diagnosis": {
+      "profile": "Thirty-second cProfile sample shows repeated error/cause rendering after solver errors",
+      "error_report": "Unsatisfiable constraints include Python upper bounds of 3.14, Arrow catalogue 23.0.1 vs required 26, and Polars catalogue 1.29.0 vs required 2.1",
+      "reporting_boundary": "A diagnostic-only invocation omitted recursive cause rendering after solver errors; solver constraints/result were unchanged. It is not qualification evidence and no installed upstream file was patched.",
+      "resource_report": {
+        "peak_rss_kib": 607216,
+        "reason": "completed",
+        "returncode": 1,
+        "elapsed_seconds": 27.664,
+        "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-gq7irkif"
+      }
+    }
+  },
+  "native_acceptance": {
+    "solver_qualified": false,
+    "build_qualified": false,
+    "installed_module_qualified": false,
+    "easybuild_compiler_matrix_qualified": false
+  },
+  "next_actions": [
+    "Qualify source-bound current provider recipes for Arrow 26 and Polars 2.1, plus supported Python 3.15 constraints; do not relax project floors",
+    "Obtain a qualified Linux builder and retain the EasyBuild 250 GiB physical-space floor",
+    "Run unmodified solver/build/install/compiler gates and retain failures"
+  ],
+  "recovery_and_capacity": "Verified compressed recovery retained; temporary extracted evidence removed after full byte/link verification. Physical free space remains below the EasyBuild floor."
+}

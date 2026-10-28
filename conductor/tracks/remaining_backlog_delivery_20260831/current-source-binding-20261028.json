@@ -1,0 +1,60 @@
+{
+  "observed_at": "2026-10-28T10:01:05.834282+00:00",
+  "baseline": "7f0feacc867f6aa90feffb1b195613f8c349f7bd",
+  "source_qualification_delivery": {
+    "headRefOid": "ddb9a8f6f391e3b75660aac62db109c21dff9538",
+    "mergeCommit": {
+      "oid": "7f0feacc867f6aa90feffb1b195613f8c349f7bd"
+    },
+    "mergedAt": "2026-10-28T09:44:45Z",
+    "state": "MERGED"
+  },
+  "scope": "B6.2 source binding and receipt integrity only; no Linux native acceptance",
+  "implementation_allowlist": [
+    "packaging/current/runtime.json",
+    "packaging/current/spack/packages/py-voiage/package.py",
+    "packaging/current/README.md",
+    "scripts/check_current_overlays.py",
+    "tests/test_current_overlays.py"
+  ],
+  "full_local_gate": {
+    "command": ".venv/bin/tox run-parallel -p 2 under resource guard",
+    "environments_passed": 15,
+    "tests_passed": 5453,
+    "tests_skipped": 19,
+    "coverage_percent": 95,
+    "resource_report": {
+      "peak_rss_kib": 1696064,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 286.508,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-g58gx9qq"
+    }
+  },
+  "focused_tests": {
+    "passed": 33,
+    "red_controls": "Missing, modified, wrong-revision and wrong-archive receipts failed against the previous implementation; invalid JSON and unearned native-claim controls also pass",
+    "resource_report": {
+      "peak_rss_kib": 97664,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 4.177,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-ws75lmtr"
+    }
+  },
+  "implementation_sha256": {
+    "packaging/current/runtime.json": "88970fa9e559bf353265705285bc6160b9d882e92a8a332a73b642e0bfaff30c",
+    "packaging/current/spack/packages/py-voiage/package.py": "952d16c3f6f0ebbff6c2b7c01a343497cd23abec55461c4c1e5298ae718dafc5",
+    "packaging/current/README.md": "088f843bc3e515544fb88ea428313c7a0a3add54ff03c298b19f26a70ab7bca1",
+    "scripts/check_current_overlays.py": "d702ea0b9cf7ae8703c4f3ac41b8c7875a26a6e89de624025f8285bb1df92c21",
+    "tests/test_current_overlays.py": "347ba4720e8ffbfbdb53dd582137e648740af849046266cabec3cb246c2af0a8"
+  },
+  "review": "Self-reviewed exact implementation scope; source receipt uses canonical checkout newline hashing, rejects unsafe paths and mismatched identity; source qualification does not promote any native gate",
+  "remaining": [
+    "Native Spack catalogue/solver and Linux source build qualification",
+    "Both required EasyBuild compiler-generation builds and installed numerical/Arrow/module probes",
+    "Protected PR delivery",
+    "Final issue/PR/branch inventory and remaining recovery-backed cleanup",
+    "Conductor final review and archive only after acceptance"
+  ]
+}

@@ -10,7 +10,7 @@ class PyVoiage(PythonPackage):
     homepage = "https://github.com/edithatogo/voiage"
     git = "https://github.com/edithatogo/voiage.git"
     license("Apache-2.0")
-    version("develop", commit="ba225b7db4241fc7f698b68ae80b8a4846bbab8a")
+    version("develop", commit="3df3cb49e5c927075c0609a48a2535b4457424d4")
     depends_on("python@3.15.1", type=("build", "run"))
     depends_on("rust@1.85:", type="build")
     depends_on("py-maturin@1.9:1", type="build")
