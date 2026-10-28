@@ -12,7 +12,7 @@ class PyVoiage(PythonPackage):
     license("Apache-2.0")
     version("develop", commit="3df3cb49e5c927075c0609a48a2535b4457424d4")
     depends_on("python@3.15.1", type=("build", "run"))
-    depends_on("rust@1.85:", type="build")
+    depends_on("rust@1.85:1", type="build")
     depends_on("py-maturin@1.9:1", type="build")
     depends_on("py-click@8.3.3:8", type="run")
     depends_on("py-numpy@2.5.4:2", type="run")

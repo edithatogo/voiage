@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "source_catalogue": "fa170d11f60ea44045d9a02370002ed153e35f1a",
+  "nightly": {
+    "version": "nightly-2026-09-01",
+    "compiler_version": "1.100.0-nightly",
+    "commit": "0dfb098f3aeecbe38c2566ca090193280e7349e7",
+    "url": "https://static.rust-lang.org/dist/2026-09-01/rustc-nightly-src.tar.xz",
+    "sha256": "15bbdd27bf5d7156847cff3f843ab6dda469be1b6ee0c00b5aab8bba13fabf84",
+    "bootstrap": "beta-2026-08-18"
+  },
+  "bootstrap": {
+    "version": "beta-2026-08-18",
+    "compiler_version": "1.99.0-beta.1 (f47d5bb13 2026-08-17)",
+    "commit": "f47d5bb13648d5c859f5b438eb7dc834b9729961",
+    "hashes": {
+      "linux": {
+        "aarch64": "5d4acbacde6c8c71313b0661621724be778931d6d5de1afaaba8718cbd3908e8",
+        "x86_64": "f28c53c3142262b9842a4d85d5f3a2eec95cb6a32a0a9401ebb37b9ea4809497"
+      },
+      "darwin": {
+        "aarch64": "58553a00a0df2e4374acf719279e293f15789a32aca18f86ba10b5d974f2324c",
+        "x86_64": "bdf8c0714d8af3f21da4f46a520f0dcb5684bf1dbb9347deaca5e4b6fb771566"
+      }
+    }
+  },
+  "native_build_qualified": false,
+  "scope": "Dated source and bootstrap declarations; compiler build and full Linux stack remain unqualified",
+  "attribution": "Derived from Spack Project Developers catalogue at the recorded commit; retain Apache-2.0 OR MIT recipe terms and Rust upstream terms."
+}
