@@ -231,6 +231,51 @@ def test_marked_bundle_rejects_missing_metadata_envelope(
         getattr(NormalizedInputBundle, f"read_{format_name}")(path)
 
 
+@pytest.mark.parametrize("format_name", ["ipc", "parquet"])
+@pytest.mark.parametrize(
+    "payload",
+    [
+        b"not-json",
+        b"\xff",
+        b"{}",
+        b"[1]",
+        b'[["00"]]',
+        b'[[0,"00"]]',
+        b'[["zz","00"]]',
+        b'[["00","01"],["00","02"]]',
+    ],
+    ids=[
+        "json",
+        "unicode",
+        "non-list",
+        "entry-type",
+        "entry-length",
+        "element-type",
+        "hex",
+        "duplicate",
+    ],
+)
+def test_marked_bundle_rejects_malformed_metadata_envelope(
+    tmp_path: Path, format_name: str, payload: bytes
+) -> None:
+    bundle = _bundle(np.arange(3, dtype=np.float64))
+    metadata = {
+        b"voiage.normalized.manifest": bundle.canonical_json.encode() + b"\n ",
+        b"voiage.normalized.table_id": b"samples",
+        b"voiage.normalized.original_schema_metadata": b"voiage-schema-metadata-v1:"
+        + payload,
+    }
+    table = bundle.tables["samples"].replace_schema_metadata(metadata)
+    path = tmp_path / ("invalid.arrow" if format_name == "ipc" else "invalid.parquet")
+    if format_name == "ipc":
+        with ipc.new_file(path, table.schema) as writer:
+            writer.write_table(table)
+    else:
+        pq.write_table(table, path)
+    with pytest.raises(ValueError, match="original Arrow schema metadata"):
+        getattr(NormalizedInputBundle, f"read_{format_name}")(path)
+
+
 def test_digest_does_not_buffer_the_complete_arrow_stream(tmp_path: Path) -> None:
     """Measure in a child because Arrow's default memory pool is process-wide."""
     probe = """

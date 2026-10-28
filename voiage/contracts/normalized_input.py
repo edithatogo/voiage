@@ -16,7 +16,7 @@ from hashlib import sha256
 import json
 from pathlib import Path  # noqa: TC003 - public API runtime annotation
 from types import MappingProxyType
-from typing import Annotated, Any, Literal
+from typing import Annotated, Literal, Protocol
 from urllib.parse import urlsplit
 
 import pyarrow as pa
@@ -86,10 +86,14 @@ def _restore_schema_metadata(
     return restored
 
 
+class _Digest(Protocol):
+    def update(self, data: bytes, /) -> None: ...
+
+
 class _DigestWriter:
     """Forward Arrow stream bytes directly to a hash without retaining them."""
 
-    def __init__(self, digest: Any) -> None:
+    def __init__(self, digest: _Digest) -> None:
         self._digest = digest
         self._position = 0
         self.closed = False
