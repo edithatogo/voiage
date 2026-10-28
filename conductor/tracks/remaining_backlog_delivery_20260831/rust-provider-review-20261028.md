@@ -26,3 +26,11 @@ The source/declaration slice passes its local gates; the full native packaging r
 - **Resolution**: Keep native flags false and B6.2 open. Record actual source/archive, method tests and host class loading separately. The selected GCP project rejected cloud builder reads; no billing/API/resource changes were made.
 
 No public Python API, runtime lock or upstream Polars feature default changed. Review compared copied recipes with the pinned Spack catalogue; supplied upstream copyright, notices and both licence texts remain intact. The source-checking helper uses streaming archive reads and never extracts or executes archive content.
+
+## Hosted review follow-up
+
+CodeQL identified two wildcard imports, the inherited `csl` class-method argument and an unexplained empty exception handler. Replace wildcard imports with explicit names; retain Spack-injected build executables under type-only declarations. Rename the unused class binding to `cls`; explicitly preserve the existing OpenSSL certificate fallback after a failed external probe.
+
+The new import/class-binding witness first failed on the wildcard import. All 62 affected tests then passed, including actual version-detection and failed-OpenSSL-probe behavior. The actual private Spack driver on Python 3.15.1 loaded both updated provider classes. Native build acceptance is still unproven. Reuse the original full-gate result for unchanged runtime/solver inputs; rerun hosted checks on the revised source.
+
+Both Linux bootstrap SDK archives were subsequently downloaded and their actual bytes matched the authenticated manifest digests. This proves archive integrity only; neither binary was executed and no compiler was built. No cloud resource or shared environment was changed.

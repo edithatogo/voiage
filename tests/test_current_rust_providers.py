@@ -237,3 +237,66 @@ def test_source_bootstrap_binding_rejects_drift(
     packet_path.write_text(json.dumps(packet))
     with pytest.raises(ValueError):
         validate(*source_candidate)
+
+
+def test_recipes_use_explicit_imports_and_conventional_class_binding() -> None:
+    for package in ("rust", "rust-bootstrap"):
+        tree = ast.parse((PACKAGES / package / "package.py").read_text())
+        assert not any(
+            isinstance(node, ast.ImportFrom)
+            and any(item.name == "*" for item in node.names)
+            for node in ast.walk(tree)
+        )
+    function = method(
+        "rust",
+        "determine_version",
+        {
+            "Executable": lambda executable: (
+                lambda *args, **kwargs: "rustc 1.100.0-nightly"
+            ),
+            "re": __import__("re"),
+        },
+    )
+    assert function.__code__.co_varnames[0] == "cls"
+    assert function(object, "/compiler/rustc") == "1.100.0-nightly"
+
+
+def test_failed_external_openssl_probe_preserves_certificate_fallback() -> None:
+    class ProbeError(Exception):
+        pass
+
+    def which(name: str, **kwargs: object) -> object:
+        if name == "ar":
+            return SimpleNamespace(path="/compiler/ar")
+        assert name == "openssl"
+
+        def fail(*args: object, **kwargs: object) -> str:
+            raise ProbeError("External OpenSSL cannot report its directory")
+
+        return fail
+
+    values: dict[str, str] = {}
+    function = method(
+        "rust",
+        "setup_build_environment",
+        {
+            "EnvironmentModifications": object,
+            "ProcessError": ProbeError,
+            "which": which,
+            "join_path": lambda *parts: "/".join(parts),
+            "os": SimpleNamespace(
+                path=SimpleNamespace(
+                    exists=lambda p: p == "/spack/openssl/etc/openssl/cert.pem"
+                )
+            ),
+            "re": __import__("re"),
+        },
+    )
+    function(
+        SimpleNamespace(
+            spec={"openssl": SimpleNamespace(external=True, prefix="/spack/openssl")}
+        ),
+        SimpleNamespace(set=values.__setitem__),
+    )
+    assert values["AR"] == "/compiler/ar"
+    assert values["CARGO_HTTP_CAINFO"] == "/spack/openssl/etc/openssl/cert.pem"

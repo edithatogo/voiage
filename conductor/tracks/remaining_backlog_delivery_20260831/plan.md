@@ -66,3 +66,11 @@
   and rerun the affected source and package checks before protected delivery.
   Fix: `dffb1114`; 24 qualifier tests and 33 affected integration tests passed.
   Final-head hosted checks and protected delivery remain required for B6.1.
+
+## Review fixes — dated compiler providers
+
+- [x] Replace wildcard imports, correct the class-method binding and preserve
+  the failed external OpenSSL probe fallback; regression rejected the original
+  import style and all 62 affected tests now pass. Private Spack class loading
+  passes on Python 3.15.1. Current-head hosted checks and native build gates
+  remain required; this does not complete B6.2.

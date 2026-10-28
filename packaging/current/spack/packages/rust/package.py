@@ -4,10 +4,29 @@
 
 import os
 import re
+from typing import TYPE_CHECKING
 
 from spack_repo.builtin.build_systems.generic import Package
 
-from spack.package import *
+from spack.package import (
+    EnvironmentModifications,
+    Executable,
+    ProcessError,
+    Spec,
+    Version,
+    conflicts,
+    depends_on,
+    join_path,
+    license,
+    maintainers,
+    variant,
+    version,
+    which,
+)
+
+if TYPE_CHECKING:
+    # Spack injects these executable bindings when it prepares the build module.
+    from spack.package import configure, make_jobs, python
 
 
 class Rust(Package):
@@ -210,7 +229,7 @@ class Rust(Package):
         return f"https://static.rust-lang.org/dist/rustc-{version}-src.tar.{ext}"
 
     @classmethod
-    def determine_version(csl, exe):
+    def determine_version(cls, exe):
         output = Executable(exe)("--version", output=str, error=str)
         match = re.match(r"(rustc|cargo) (\S+)", output)
         return match.group(2) if match else None
@@ -271,7 +290,8 @@ class Rust(Package):
                 if openssl_dir:
                     certs = get_test_path(openssl_dir.group(1))
             except ProcessError:
-                pass
+                # Continue with the selected Spack OpenSSL certificate path below.
+                certs = None
 
         if certs is None:
             certs = get_test_path(join_path(openssl.prefix, "etc/openssl"))

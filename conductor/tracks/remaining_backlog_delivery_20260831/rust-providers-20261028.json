@@ -43,7 +43,7 @@
   "review_finding": "Deleting all platform checksums from both recipe and packet initially passed. All four reviewed platforms are now required; the negative control and all 60 affected tests pass.",
   "licenses": "Unmodified upstream Spack COPYRIGHT, NOTICE and both license texts retained alongside copied recipe copyright and SPDX identifiers.",
   "not_proven": [
-    "Bootstrap binary archive checksum/execution",
+    "Bootstrap binary execution (Linux archive checksums now verified; macOS archive downloads not qualified)",
     "Native compiler build",
     "Unmodified full Spack solve",
     "Arrow 26 C++/Python and LibCST providers",
@@ -69,16 +69,88 @@
       "elapsed_seconds": 390.417,
       "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-2270jsbt"
     },
-    "scope": "All implementation inputs unchanged; subsequent edits record governance evidence only"
+    "scope": "All implementation inputs unchanged; subsequent edits record governance evidence only",
+    "implementation_sha256": {
+      "scripts/check_current_rust_sources.py": "4981d0287f489cf69e45afe9fcbfeecdfa67956273de52a9799eba6674b2dd64",
+      "tests/test_current_rust_providers.py": "05412dfe3fe9bf484ac05810a32260cbebe7e0eb5a18a25cbbeb237a3f381cba",
+      "scripts/check_current_overlays.py": "6a3362b60ae254c60d5f9911835bfb0c3df96672da43cbb7899f5baa2784b5e2",
+      "tests/test_current_overlays.py": "545cc77c6c652c43146549dcba7ae39fdf4bd38972e80c96c2a9550f9ba8b848",
+      "packaging/current/rust-provider-sources.json": "d3ecd85b72fe785e0c0a16739d03071ba0bbd35f7d9b99fb5739c2082c533b0c",
+      "packaging/current/spack/packages/rust/package.py": "671aee5cf73bb0702edcf75332bb3fb63b19ea8d9cede06a629e4beafde781a2",
+      "packaging/current/spack/packages/rust-bootstrap/package.py": "76545df30d47e0004d5d26753015205f71596a70b9da7d494dd0bbe577566ba1",
+      "packaging/current/spack/packages/py-voiage/package.py": "ccf673b42f572736092e12723ec9bf76626cb83c76d020a44dec0f2b0968129b"
+    }
   },
   "implementation_sha256": {
     "scripts/check_current_rust_sources.py": "4981d0287f489cf69e45afe9fcbfeecdfa67956273de52a9799eba6674b2dd64",
-    "tests/test_current_rust_providers.py": "05412dfe3fe9bf484ac05810a32260cbebe7e0eb5a18a25cbbeb237a3f381cba",
+    "tests/test_current_rust_providers.py": "8101e75084ae9026bd6653a850081a51c995dee2e280f565a1d7e1ae6d0aaab6",
     "scripts/check_current_overlays.py": "6a3362b60ae254c60d5f9911835bfb0c3df96672da43cbb7899f5baa2784b5e2",
     "tests/test_current_overlays.py": "545cc77c6c652c43146549dcba7ae39fdf4bd38972e80c96c2a9550f9ba8b848",
     "packaging/current/rust-provider-sources.json": "d3ecd85b72fe785e0c0a16739d03071ba0bbd35f7d9b99fb5739c2082c533b0c",
-    "packaging/current/spack/packages/rust/package.py": "671aee5cf73bb0702edcf75332bb3fb63b19ea8d9cede06a629e4beafde781a2",
-    "packaging/current/spack/packages/rust-bootstrap/package.py": "76545df30d47e0004d5d26753015205f71596a70b9da7d494dd0bbe577566ba1",
+    "packaging/current/spack/packages/rust/package.py": "6bf6163a1f1a367aad8c87127cad21b9d0ba56bb778fc6a71e84782c03ff1049",
+    "packaging/current/spack/packages/rust-bootstrap/package.py": "466d5498af8988e4854532f529f29011686c767de59ec28f0bb924b04adbe247",
     "packaging/current/spack/packages/py-voiage/package.py": "ccf673b42f572736092e12723ec9bf76626cb83c76d020a44dec0f2b0968129b"
+  },
+  "review_followup": {
+    "source_change": "Explicit Spack imports, conventional cls parameter, preserve OpenSSL probe fallback with an explanatory assignment",
+    "red": "New import/class-binding regression rejected the wildcard-import recipe",
+    "focused_tests_passed": 62,
+    "resource_report": {
+      "peak_rss_kib": 128432,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 6.277,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-jeg5x17k"
+    },
+    "native_spack_class_load": {
+      "rust": {
+        "nightly-2026-09-01": {
+          "sha256": "15bbdd27bf5d7156847cff3f843ab6dda469be1b6ee0c00b5aab8bba13fabf84",
+          "url": "https://static.rust-lang.org/dist/2026-09-01/rustc-nightly-src.tar.xz"
+        }
+      },
+      "rust-bootstrap": {
+        "beta-2026-08-18": {
+          "sha256": "58553a00a0df2e4374acf719279e293f15789a32aca18f86ba10b5d974f2324c"
+        }
+      }
+    },
+    "native_load_resource_report": {
+      "peak_rss_kib": 32,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 2.135,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-1_z01qlt"
+    },
+    "full_gate_reuse": "Source/dependency identities, verifier and runtime unchanged; failed/affected checks rerun after recipe-only review fixes. Current-head hosted checks remain required."
+  },
+  "linux_bootstrap_archives": {
+    "sdk_archives": [
+      {
+        "platform": "linux",
+        "architecture": "aarch64",
+        "url": "https://static.rust-lang.org/dist/2026-08-18/rust-beta-aarch64-unknown-linux-gnu.tar.xz",
+        "sha256": "5d4acbacde6c8c71313b0661621724be778931d6d5de1afaaba8718cbd3908e8",
+        "bytes": 187507948,
+        "binary_executed": false
+      },
+      {
+        "platform": "linux",
+        "architecture": "x86_64",
+        "url": "https://static.rust-lang.org/dist/2026-08-18/rust-beta-x86_64-unknown-linux-gnu.tar.xz",
+        "sha256": "f28c53c3142262b9842a4d85d5f3a2eec95cb6a32a0a9401ebb37b9ea4809497",
+        "bytes": 210611876,
+        "binary_executed": false
+      }
+    ],
+    "native_compiler_build_executed": false,
+    "linux_runtime_executed": false
+  },
+  "linux_archive_resource_report": {
+    "peak_rss_kib": 32352,
+    "reason": "completed",
+    "returncode": 0,
+    "elapsed_seconds": 94.966,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-d88__034"
   }
 }

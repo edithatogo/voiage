@@ -6,7 +6,16 @@ import re
 
 from spack_repo.builtin.build_systems.generic import Package
 
-from spack.package import *
+from spack.package import (
+    Executable,
+    Version,
+    depends_on,
+    find,
+    maintainers,
+    run_before,
+    version,
+    which,
+)
 
 
 class RustBootstrap(Package):
