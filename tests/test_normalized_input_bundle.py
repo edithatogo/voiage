@@ -12,6 +12,7 @@ from types import SimpleNamespace
 from typing import Literal
 
 from jsonschema import Draft202012Validator
+import numpy as np
 import pyarrow as pa
 from pyarrow import parquet as pq
 from pydantic import ValidationError
@@ -641,7 +642,10 @@ def test_normalized_preparation_matches_direct_evpi_numerics() -> None:
     )
 
     normalized_result = run_evpi(prepared.net_benefits.numpy_values, spec=spec)
-    direct_result = evpi(bundle.table("net_benefit").to_pandas().to_numpy())
+    table = bundle.table("net_benefit")
+    direct_result = evpi(
+        np.column_stack([table[name].to_numpy() for name in table.column_names])
+    )
 
     assert normalized_result.payload.value == pytest.approx(direct_result)
 

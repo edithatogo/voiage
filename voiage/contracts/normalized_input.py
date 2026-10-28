@@ -16,7 +16,7 @@ from hashlib import sha256
 import json
 from pathlib import Path  # noqa: TC003 - public API runtime annotation
 from types import MappingProxyType
-from typing import Annotated, Literal
+from typing import Annotated, Any, Literal
 from urllib.parse import urlsplit
 
 import pyarrow as pa
@@ -29,6 +29,32 @@ from voiage.contracts.interchange import schema_fingerprint
 
 Identifier = Annotated[str, StringConstraints(min_length=1, strip_whitespace=True)]
 Digest = Annotated[str, StringConstraints(pattern=r"^[a-f0-9]{64}$")]
+
+
+class _DigestWriter:
+    """Forward Arrow stream bytes directly to a hash without retaining them."""
+
+    def __init__(self, digest: Any) -> None:
+        self._digest = digest
+        self._position = 0
+        self.closed = False
+
+    def write(self, data: bytes) -> int:
+        self._digest.update(data)
+        self._position += len(data)
+        return len(data)
+
+    def tell(self) -> int:
+        return self._position
+
+    def writable(self) -> bool:
+        return True
+
+    def flush(self) -> None:
+        pass
+
+    def close(self) -> None:
+        self.closed = True
 
 
 def _is_namespaced_extension(key: str) -> bool:
@@ -414,11 +440,13 @@ class NormalizedInputBundle:
         """Digest manifest, schemas, and canonical Arrow IPC payloads."""
         digest = sha256(self.canonical_json.encode())
         for name in sorted(self.tables):
-            sink = pa.BufferOutputStream()
-            with ipc.new_stream(sink, self.tables[name].schema) as writer:
-                writer.write_table(self.tables[name])
             digest.update(name.encode())
-            digest.update(sink.getvalue().to_pybytes())
+            sink = _DigestWriter(digest)
+            with (
+                pa.PythonFile(sink, mode="w") as output,
+                ipc.new_stream(output, self.tables[name].schema) as writer,
+            ):
+                writer.write_table(self.tables[name])
         return digest.hexdigest()
 
     def write_ipc(self, path: Path) -> None:
