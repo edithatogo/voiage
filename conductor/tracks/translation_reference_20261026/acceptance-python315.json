@@ -1,0 +1,254 @@
+{
+  "schema_version": "1.0",
+  "accepted_source_head": "3925ba1f170533d63815618b6f0a2055fc23ebd1",
+  "full_local_tested_commit": "ea646644484112d47504a81e478064e065bd6e64",
+  "source_pr": "https://github.com/edithatogo/voiage/pull/1211",
+  "verified_at": "2026-10-28T08:11:46Z",
+  "hosted_check_counts": {
+    "SKIPPED": 3,
+    "SUCCESS": 40
+  },
+  "hosted_checks": [
+    {
+      "name": "Frozen Lock Refresh Evidence",
+      "conclusion": "SKIPPED",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701246108"
+    },
+    {
+      "name": "Production Rust Numerics Benchmarks",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219906/job/122701244513"
+    },
+    {
+      "name": "Wheel and sdist identity (ubuntu-24.04)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219879/job/122701244009"
+    },
+    {
+      "name": "CodeQL Analysis (python)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219981/job/122701244031"
+    },
+    {
+      "name": "Stable Frozen Lock",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219900/job/122701243826"
+    },
+    {
+      "name": "Dependency Review",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219937/job/122701243400"
+    },
+    {
+      "name": "Audit GitHub Actions",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219878/job/122701243769"
+    },
+    {
+      "name": "Gitleaks Audit",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219951/job/122701243740"
+    },
+    {
+      "name": "compatibility-and-coverage",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654220025/job/122701244235"
+    },
+    {
+      "name": "Reproducible build and SBOM",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219931/job/122701243775"
+    },
+    {
+      "name": "Wheel and sdist identity (windows-2025)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219879/job/122701244047"
+    },
+    {
+      "name": "Latest Compatible and Experimental Observation",
+      "conclusion": "SKIPPED",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219900/job/122701246225"
+    },
+    {
+      "name": "Performance Benchmarks",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219906/job/122701244985"
+    },
+    {
+      "name": "Bootstrap performance (ubuntu-24.04)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219879/job/122701243724"
+    },
+    {
+      "name": "Vale Prose Lint",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701244458"
+    },
+    {
+      "name": "Bootstrap performance (windows-2025)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219879/job/122701244099"
+    },
+    {
+      "name": "Rust Profiling Baselines",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219906/job/122701244857"
+    },
+    {
+      "name": "telemetry-and-oracles",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219879/job/122701243931"
+    },
+    {
+      "name": "Frontier Contract Validation",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701244486"
+    },
+    {
+      "name": "compare-distributions",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219879/job/122702435621"
+    },
+    {
+      "name": "Version Synchronization Validation",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701244381"
+    },
+    {
+      "name": "Repository Harness",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701244071"
+    },
+    {
+      "name": "Lint & Type Check",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701244634"
+    },
+    {
+      "name": "Unit Tests (Python 3.15.1)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701244853"
+    },
+    {
+      "name": "Standardized Ingestion Conformance",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701244596"
+    },
+    {
+      "name": "Pandas-free Base Runtime (ubuntu-24.04)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701244683"
+    },
+    {
+      "name": "Pandas-free Base Runtime (macos-14)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701244514"
+    },
+    {
+      "name": "Pandas-free Base Runtime (windows-2025)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701244429"
+    },
+    {
+      "name": "Excel Interchange Extra (ubuntu-24.04)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701244661"
+    },
+    {
+      "name": "Excel Interchange Extra (macos-14)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701244541"
+    },
+    {
+      "name": "Excel Interchange Extra (windows-2025)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701244572"
+    },
+    {
+      "name": "Example and Notebook Smoke",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701244387"
+    },
+    {
+      "name": "Coverage Report",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701245025"
+    },
+    {
+      "name": "Python 3.15.1t Observation",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701244544"
+    },
+    {
+      "name": "Benchmark Regression Checks",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701244744"
+    },
+    {
+      "name": "Integration Tests",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701244547"
+    },
+    {
+      "name": "E2E Tests (CLI)",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701244665"
+    },
+    {
+      "name": "Mutation Testing",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701244812"
+    },
+    {
+      "name": "Performance Profiling",
+      "conclusion": "SKIPPED",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701246624"
+    },
+    {
+      "name": "Build Documentation",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40654219958/job/122701244602"
+    },
+    {
+      "name": "CodeQL",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/runs/122702234606"
+    },
+    {
+      "name": "zizmor",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/edithatogo/voiage/runs/122701372583"
+    },
+    {
+      "name": "codecov/patch",
+      "conclusion": "SUCCESS",
+      "url": "https://app.codecov.io/gh/edithatogo/voiage/pull/1211"
+    }
+  ],
+  "local_qualification": "qualification-python315.json",
+  "implementation_inputs_unchanged_since_full_gate": [
+    "voiage",
+    "pyproject.toml",
+    "uv.lock",
+    "specs",
+    "rust",
+    "bindings",
+    "r-package",
+    "scripts/check_translation_reference.py",
+    "tests/translation_reference",
+    "tox.ini",
+    "docs/astro-site/src/content/docs/user-guide/tabular-translation-reference.mdx",
+    "docs/astro-site/src/content/docs/user-guide/migration-guide.mdx"
+  ],
+  "criteria": {
+    "AC1": "satisfied; evidence and bounded scope in qualification-python315.json",
+    "AC2": "satisfied; evidence and bounded scope in qualification-python315.json",
+    "AC3": "satisfied; evidence and bounded scope in qualification-python315.json",
+    "AC4": "satisfied; evidence and bounded scope in qualification-python315.json",
+    "AC5": "satisfied; evidence and bounded scope in qualification-python315.json"
+  },
+  "source_location": "docs/astro-site/src/content/docs/user-guide/tabular-translation-reference.mdx",
+  "built_route": "/voiage/user-guide/tabular-translation-reference",
+  "remote_site_deployment_verified": false,
+  "delivery_requirement": "The final records-only PR revision must also pass all required and applicable checks before merge. No runtime, dependency or scientific acceptance is implied."
+}

@@ -1111,7 +1111,7 @@ track at the top of this registry; completed repository slices stay closed.
   GitHub: https://github.com/edithatogo/voiage/issues/1198
 
 ---
-- [ ] **Track: pandas and xarray to Polars translation reference**
+- [x] **Track: pandas and xarray to Polars translation reference**
   *Link: [./tracks/translation_reference_20261026/index.md](./tracks/translation_reference_20261026/index.md)*
-  **Registered planning only; implementation not authorised.** Depends on the container track; every documented equivalence must be test-backed.
+  **Completed on 2026-10-28.** Fourteen source-derived/anticipatory semantic topics, both executable forms, retained consumer attribution and the linked documentation source pass guarded Python 3.15.1 qualification and applicable hosted checks. See the acceptance receipt; final-head CI remains required before merge.
   GitHub: https://github.com/edithatogo/voiage/issues/1199

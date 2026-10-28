@@ -1,0 +1,473 @@
+---
+title: pandas and xarray to Polars reference
+description: Source-derived, executable semantic differences for the v3 migration
+---
+
+This reference targets Python 3.15.1 and the qualified Polars 2.1 floor.
+The v3 containers use wide frames. Public array constructors, numerical
+methods, wire contracts and bindings retain their existing behavior.
+
+Legacy blocks describe caller-owned pandas/xarray code; these packages
+are not installed or imported by the base Voiage runtime. They are external
+test oracles only. Polars blocks run in the clean no-extras environment.
+Removed `dataset`/`from_dataset`/`to_dataset` APIs are not replacements.
+
+The committed capture records source commits, file and excerpt digests,
+and one-based line ranges. CI needs no external consumer checkout.
+The source manifests are `tobac-consumer-idioms.json` and
+`voiage-idioms.json` under `conductor/tracks/translation_reference_20261026/`.
+See the [migration guide](/voiage/user-guide/migration-guide).
+
+Fixtures below establish the stated relationships only: value/order
+equality does not promise dtype, index, time-zone or metadata equivalence.
+No approximation is promoted into a numerical method.
+
+Examples assume `import polars as pl`, `import numpy as np`,
+`import io` and `from datetime import datetime`.
+
+## index: Index absence and positional access
+
+A pandas index is not a Polars row index. Use row/slice for positions; retain meaningful labels in a named column and filter/join explicitly. The fixture separates label 10 from row position 0.
+
+Evidence: **derived**. Citations identify the actual source idiom. The small legacy/target fixtures are illustrative ports, not execution of the consumer analysis.
+
+- `tobac`: `scripts/run_empirical_longitudinal.py:713:index`
+- `voiage`: `voiage/schema.py:262:index`
+
+Relationship: **exact fixture values**. Ordering and values are asserted; dtype equality is not implied.
+
+Legacy `pandas` form:
+
+```python
+import pandas as pd
+f = pd.DataFrame({'value': [1, 2]}, index=[10, 20])
+result = [int(f.iloc[0]['value']), int(f.loc[10]['value'])]
+```
+
+Polars/caller replacement:
+
+```python
+f = pl.DataFrame({'value': [1, 2]})
+# Keep meaningful labels as explicit data, not hidden row positions.
+labeled = f.with_columns(pl.Series('label', [10, 20]))
+result = [f.row(0, named=True)['value'], labeled.filter(pl.col('label') == 10)['value'][0]]
+```
+
+Both return `[1, 1]` on the fixture.
+
+## columns: Bracket access and attribute collisions
+
+Use bracket access for columns. Attribute access in the consumer is convenient only when it does not collide with dataframe properties; `shape` demonstrates a collision. The replacement names columns explicitly.
+
+Evidence: **derived**. Citations identify the actual source idiom. The small legacy/target fixtures are illustrative ports, not execution of the consumer analysis.
+
+- `tobac`: `scripts/run_empirical_longitudinal.py:84:columns`
+- `voiage`: `voiage/schema.py:213:columns`
+
+Relationship: **exact fixture values**. Ordering and values are asserted; dtype equality is not implied.
+
+Legacy `pandas` form:
+
+```python
+import pandas as pd
+f = pd.DataFrame({'year': [2020, 2021], 'shape': [3, 4]})
+assert f.shape == (2, 2)
+result = [f.year.tolist(), f['shape'].tolist()]
+```
+
+Polars/caller replacement:
+
+```python
+f = pl.DataFrame({'year': [2020, 2021], 'shape': [3, 4]})
+result = [f['year'].to_list(), f['shape'].to_list()]
+```
+
+Both return `[[2020, 2021], [3, 4]]` on the fixture.
+
+## rows: Row iteration and index fields
+
+Default pandas named tuples include the index and rename invalid field names. Polars named iteration yields dictionaries with original column names; tuple iteration omits a hidden index. Select an explicit representation rather than replacing named-tuple attribute access mechanically.
+
+Evidence: **derived**. Citations identify the actual source idiom. The small legacy/target fixtures are illustrative ports, not execution of the consumer analysis.
+
+- `tobac`: `scripts/run_empirical_longitudinal.py:194:rows`
+- `voiage`: `voiage/ecosystem_integration.py:869:rows`
+
+Relationship: **exact fixture values**. Ordering and values are asserted; dtype equality is not implied.
+
+Legacy `pandas` form:
+
+```python
+import pandas as pd
+f = pd.DataFrame({'bad key': [1, 2], 'v': [3, 4]}, index=[10, 20])
+assert next(f.itertuples()).Index == 10
+result = [list(row) for row in f.itertuples(index=False, name=None)]
+```
+
+Polars/caller replacement:
+
+```python
+f = pl.DataFrame({'bad key': [1, 2], 'v': [3, 4]})
+assert next(f.iter_rows(named=True)) == {'bad key': 1, 'v': 3}
+result = [list(row) for row in f.iter_rows()]
+```
+
+Both return `[[1, 3], [2, 4]]` on the fixture.
+
+## grouping: Grouping and deterministic order
+
+pandas `groupby` sorts keys by default; Polars group output order is not promised without an ordering policy. Use `sort=False` and `maintain_order=True` for first-seen groups, or explicitly sort the result in both. Null-key inclusion must also be chosen explicitly; this fixture has no null keys.
+
+Evidence: **derived**. Citations identify the actual source idiom. The small legacy/target fixtures are illustrative ports, not execution of the consumer analysis.
+
+- `tobac`: `scripts/run_release_calibration.py:451:grouping`
+
+Relationship: **exact fixture values**. Ordering and values are asserted; dtype equality is not implied.
+
+Legacy `pandas` form:
+
+```python
+import pandas as pd
+f = pd.DataFrame({'g': ['b', 'a', 'b'], 'v': [1, 2, 3]})
+g = f.groupby('g', sort=False, dropna=False)['v'].sum()
+result = [[k, int(v)] for k, v in g.items()]
+```
+
+Polars/caller replacement:
+
+```python
+f = pl.DataFrame({'g': ['b', 'a', 'b'], 'v': [1, 2, 3]})
+g = f.group_by('g', maintain_order=True).agg(pl.col('v').sum())
+result = [list(row) for row in g.iter_rows()]
+```
+
+Both return `[["b", 4], ["a", 2]]` on the fixture.
+
+## concat: Concatenation and schema union
+
+pandas concatenation unions columns and may coerce integer columns to floating point for missing values. Polars vertical concatenation requires compatible schemas. Use `diagonal` for this explicit column union; separately choose relaxed casting when appropriate. The fixture normalizes missing scalars, not dtype identity.
+
+Evidence: **derived**. Citations identify the actual source idiom. The small legacy/target fixtures are illustrative ports, not execution of the consumer analysis.
+
+- `tobac`: `scripts/run_empirical_longitudinal.py:716:concat`
+
+Relationship: **exact fixture values**. Ordering and values are asserted; dtype equality is not implied.
+
+Legacy `pandas` form:
+
+```python
+import pandas as pd
+f = pd.concat([pd.DataFrame({'a': [1]}), pd.DataFrame({'b': [2]})], ignore_index=True)
+result = [[None if pd.isna(v) else int(v) for v in row] for row in f.itertuples(index=False, name=None)]
+```
+
+Polars/caller replacement:
+
+```python
+a, b = pl.DataFrame({'a': [1]}), pl.DataFrame({'b': [2]})
+try:
+    pl.concat([a, b], how='vertical')
+except (pl.exceptions.ShapeError, pl.exceptions.SchemaError):
+    pass
+else:
+    raise AssertionError('Vertical concatenation must reject these schemas')
+f = pl.concat([a, b], how='diagonal')
+result = [list(row) for row in f.iter_rows()]
+```
+
+Both return `[[1, null], [null, 2]]` on the fixture.
+
+## alignment: Explicit keyed alignment
+
+There is no automatic xarray label alignment in Polars arithmetic. Declare keys, join type, duplicate-key cardinality and output order. This inner, one-to-one fixture differs from positional addition. Outer alignment requires a deliberate full join and missing-value policy; do not infer equivalence from row count.
+
+Evidence: **anticipatory**. No direct use of this legacy operation occurs in the captured source; this is a required anticipatory boundary example.
+
+
+Relationship: **exact keyed result with positional counterexample**. Ordering and values are asserted; dtype equality is not implied.
+
+Legacy `xarray` form:
+
+```python
+import xarray as xr
+a = xr.DataArray([1, 2], dims='label', coords={'label': ['a', 'b']})
+b = xr.DataArray([20, 10], dims='label', coords={'label': ['b', 'a']})
+left, right = xr.align(a, b, join='inner')
+result = {'aligned': (left + right).values.tolist(), 'positional': (a.values + b.values).tolist()}
+assert result['aligned'] != result['positional']
+```
+
+Polars/caller replacement:
+
+```python
+a = pl.DataFrame({'label': ['a', 'b'], 'a': [1, 2]})
+b = pl.DataFrame({'label': ['b', 'a'], 'b': [20, 10]})
+# Require unique keys before choosing one-to-one alignment.
+f = a.join(b, on='label', how='inner', validate='1:1').sort('label')
+result = {'aligned': f.select(pl.col('a') + pl.col('b')).to_series().to_list(), 'positional': (a['a'] + b['b']).to_list()}
+assert result['aligned'] != result['positional']
+```
+
+Both return `{"aligned": [11, 22], "positional": [21, 12]}` on the fixture.
+
+## reduction: Named dimension reduction
+
+Named xarray axes do not become Polars axes. In a wide table, select the intended strategy columns and reduce rows; reducing strategies needs an explicit horizontal expression. Nested multi-perspective Array columns require a separate axis mapping, not a blind mean over every column.
+
+Evidence: **derived**. Citations identify the actual source idiom. The small legacy/target fixtures are illustrative ports, not execution of the consumer analysis.
+
+- `tobac`: `scripts/run_empirical_longitudinal.py:285:reduction`
+
+Relationship: **exact fixture values**. Exact finite two-dimensional fixture. The captured Voiage source uses numerical reductions; the legacy named-axis form is illustrative, not a claimed current dependency.
+
+Legacy `xarray` form:
+
+```python
+import xarray as xr
+a = xr.DataArray([[1., 2.], [3., 4.]], dims=('sample', 'strategy'))
+result = a.mean(dim='sample').values.tolist()
+```
+
+Polars/caller replacement:
+
+```python
+f = pl.DataFrame({'A': [1., 3.], 'B': [2., 4.]})
+# Wide strategy columns: reduce rows separately for each selected strategy.
+result = list(f.select(pl.col('A').mean(), pl.col('B').mean()).row(0))
+```
+
+Both return `[2.0, 3.0]` on the fixture.
+
+## rolling: Rolling-window endpoints and minimum observations
+
+A fixed two-row trailing window is not a calendar window. Pin size, minimum observations and centering. The initial pandas NaN and Polars null are normalized here. Time-based windows additionally need explicit sorted keys, closure and duplicate/time-zone policy; this fixture does not establish those policies.
+
+Evidence: **anticipatory**. No direct use of this legacy operation occurs in the captured source; this is a required anticipatory boundary example.
+
+
+Relationship: **exact values after documented missing-scalar normalization**. Ordering and values are asserted; dtype equality is not implied.
+
+Legacy `pandas` form:
+
+```python
+import pandas as pd
+s = pd.Series([1., 2., 3.])
+values = s.rolling(window=2, min_periods=2, center=False).sum().tolist()
+result = [None if pd.isna(v) else v for v in values]
+```
+
+Polars/caller replacement:
+
+```python
+s = pl.Series('v', [1., 2., 3.])
+result = s.rolling_sum(window_size=2, min_samples=2, center=False).to_list()
+```
+
+Both return `[null, 3.0, 5.0]` on the fixture.
+
+## resample: Resampling boundaries and empty bins
+
+Polars dynamic grouping omits empty bins; pandas resampling materializes them. Match closure, label and window origin, then create a time grid and choose an explicit empty-bin fill. The fixture is naive UTC-like time with no daylight-saving transition; it does not qualify calendar/time-zone equivalence.
+
+Evidence: **anticipatory**. No direct use of this legacy operation occurs in the captured source; this is a required anticipatory boundary example.
+
+
+Relationship: **exact explicit dense-grid result; sparse/dense counterexample**. Ordering and values are asserted; dtype equality is not implied.
+
+Legacy `pandas` form:
+
+```python
+import pandas as pd
+times = pd.to_datetime(['2020-01-01T00:00:00', '2020-01-01T02:00:00'])
+s = pd.Series([1, 8], index=times)
+dense = s.resample('1h', closed='left', label='left', origin='start_day').sum()
+sparse = s.groupby(s.index.floor('h')).sum()
+result = {'filled': dense.tolist(), 'sparse': sparse.tolist()}
+```
+
+Polars/caller replacement:
+
+```python
+times = [datetime(2020, 1, 1, 0), datetime(2020, 1, 1, 2)]
+f = pl.DataFrame({'t': times, 'v': [1, 8]}).sort('t')
+sparse = f.group_by_dynamic('t', every='1h', closed='left', label='left', start_by='window').agg(pl.col('v').sum())
+grid = pl.DataFrame({'t': pl.datetime_range(times[0], times[-1], interval='1h', eager=True)})
+dense = grid.join(sparse, on='t', how='left').with_columns(pl.col('v').fill_null(0)).sort('t')
+result = {'filled': dense['v'].to_list(), 'sparse': sparse['v'].to_list()}
+```
+
+Both return `{"filled": [1, 0, 8], "sparse": [1, 8]}` on the fixture.
+
+## interpolation: Interpolation is not an as-of join
+
+An as-of join chooses a nearby observation; it does not interpolate. On sorted unique coordinates, an explicit union grid plus `interpolate_by` gives this interior linear value. Pin method, duplicate keys, tolerance and out-of-range behavior separately. This fixture measures a 0.5 difference from nearest matching; no extrapolation or general interpolation equivalence is claimed.
+
+Evidence: **anticipatory**. No direct use of this legacy operation occurs in the captured source; this is a required anticipatory boundary example.
+
+
+Relationship: **exact interior linear value and measured 0.5 nearest-match difference**. Ordering and values are asserted; dtype equality is not implied.
+
+Legacy `xarray` form:
+
+```python
+import xarray as xr
+a = xr.DataArray([0., 2.], dims='t', coords={'t': [0., 2.]})
+result = {'linear': float(a.interp(t=.5)), 'asof': float(a.sel(t=.5, method='nearest'))}
+assert abs(result['linear'] - result['asof']) == .5
+```
+
+Polars/caller replacement:
+
+```python
+samples = pl.DataFrame({'t': [0., 2.], 'v': [0., 2.]}).sort('t')
+query = pl.DataFrame({'t': [.5]}).sort('t')
+nearest = query.join_asof(samples, on='t', strategy='nearest')['v'][0]
+grid = pl.concat([samples, query.with_columns(pl.lit(None, dtype=pl.Float64).alias('v'))]).sort('t')
+linear = grid.with_columns(pl.col('v').interpolate_by('t')).filter(pl.col('t') == .5)['v'][0]
+result = {'linear': linear, 'asof': nearest}
+assert abs(result['linear'] - result['asof']) == .5
+```
+
+Both return `{"linear": 0.5, "asof": 0.0}` on the fixture.
+
+## nulls: Null and NaN are distinct
+
+pandas floating missing values conflate these inputs. Polars retains separate null and IEEE NaN states; a mean ignores null but propagates NaN. Choose masks and a reduction policy explicitly. `drop_nans` here is a caller recipe for this finite-mean comparison, not a change to Voiage missing-value semantics.
+
+Evidence: **derived**. Citations identify the actual source idiom. The small legacy/target fixtures are illustrative ports, not execution of the consumer analysis.
+
+- `tobac`: `scripts/run_release_calibration.py:441:nulls`
+- `voiage`: `voiage/schema.py:104:nulls`
+
+Relationship: **exact explicit missing-count and finite-mean policy**. Ordering and values are asserted; dtype equality is not implied.
+
+Legacy `pandas` form:
+
+```python
+import pandas as pd
+s = pd.Series([1., float('nan'), None])
+result = {'missing': int(s.isna().sum()), 'finite_mean': float(s.mean())}
+```
+
+Polars/caller replacement:
+
+```python
+s = pl.Series('v', [1., float('nan'), None], dtype=pl.Float64)
+assert s.null_count() == 1 and s.is_nan().sum() == 1
+assert np.isnan(s.mean())
+result = {'missing': s.null_count() + int(s.is_nan().sum()), 'finite_mean': s.drop_nans().mean()}
+```
+
+Both return `{"missing": 2, "finite_mean": 1.0}` on the fixture.
+
+## float-format: Significant digits and CSV bytes
+
+Polars CSV `float_precision` specifies decimal places, not printf-style significant digits. There is no `%g` format argument. If downstream byte compatibility requires `%.12g`, format finite scalars with Python and `csv.writer` under an explicit newline/quoting policy. This is a local caller recipe, not a Voiage writer change. Qualify nulls, non-finites and other column types separately.
+
+Evidence: **derived**. Citations identify the actual source idiom. The small legacy/target fixtures are illustrative ports, not execution of the consumer analysis.
+
+- `tobac`: `scripts/run_release_calibration.py:446:float-format`
+- `voiage`: `voiage/core/io.py:150:float-format`
+
+Relationship: **exact finite CSV lines; bounded decimal round-trip**. Finite three-value fixture: relative round-trip error &lt;= 5e-12, absolute tolerance 0. Native fixed-decimal output is deliberately unequal.
+
+Legacy `pandas` form:
+
+```python
+import pandas as pd
+values = [1.23456789012345, 1e-9, 1e20]
+text = pd.DataFrame({'v': values}).to_csv(index=False, float_format='%.12g')
+result = text.splitlines()
+```
+
+Polars/caller replacement:
+
+```python
+import csv
+values = [1.23456789012345, 1e-9, 1e20]
+f = pl.DataFrame({'v': values})
+stream = io.StringIO(newline='')
+writer = csv.writer(stream, lineterminator='\n')
+writer.writerow(['v'])
+writer.writerows([[format(v, '.12g')] for v in f['v']])
+text = stream.getvalue()
+assert f.write_csv(float_precision=12) != text
+restored = np.array([float(v) for v in text.splitlines()[1:]])
+np.testing.assert_allclose(restored, values, rtol=5e-12, atol=0.)
+result = text.splitlines()
+```
+
+Both return `["v", "1.23456789012", "1e-09", "1e+20"]` on the fixture.
+
+## attrs: Metadata needs an explicit sidecar
+
+xarray `attrs` have no Voiage/Polars container equivalent. Store meaningful metadata in an existing schema/provenance descriptor or caller-owned sidecar and carry it deliberately. The fixture does not encode metadata in values or introduce a persistence format; the frame alone does not preserve the sidecar.
+
+Evidence: **anticipatory**. No direct use of this legacy operation occurs in the captured source; this is a required anticipatory boundary example.
+
+
+Relationship: **exact explicit values and separate metadata**. Ordering and values are asserted; dtype equality is not implied.
+
+Legacy `xarray` form:
+
+```python
+import xarray as xr
+a = xr.DataArray([1., 2.], dims='sample', attrs={'unit': 'GBP'})
+result = {'unit': a.attrs['unit'], 'values': a.values.tolist()}
+```
+
+Polars/caller replacement:
+
+```python
+f = pl.DataFrame({'v': [1., 2.]})
+metadata = {'unit': 'GBP'}
+assert f.to_arrow().schema.metadata is None
+result = {'unit': metadata['unit'], 'values': f['v'].to_list()}
+```
+
+Both return `{"unit": "GBP", "values": [1.0, 2.0]}` on the fixture.
+
+## nd-interpolation: N-dimensional interpolation stays outside this migration
+
+There is no N-dimensional interpolation replacement in Polars or the Voiage v3 container API. Callers needing one must qualify a separate numerical interpolator and explicitly construct its grid, axis order and bounds policy. The SciPy recipe below is external caller code on one affine 2D fixture; it does not add an API, implement general scattered interpolation or establish scientific acceptance.
+
+Evidence: **anticipatory**. No direct use of this legacy operation occurs in the captured source; this is a required anticipatory boundary example.
+
+
+Relationship: **exact affine 2D fixture only**. No general numerical-equivalence or N-dimensional support claim. SciPy remains an existing dependency; its bounds policy here raises outside the domain.
+
+Legacy `xarray` form:
+
+```python
+import xarray as xr
+a = xr.DataArray([[0., 2.], [2., 4.]], dims=('t', 'x'), coords={'t': [0., 1.], 'x': [0., 1.]})
+result = float(a.interp(t=.5, x=.5))
+```
+
+Polars/caller replacement:
+
+```python
+from scipy.interpolate import RegularGridInterpolator
+f = pl.DataFrame({'t': [0., 0., 1., 1.], 'x': [0., 1., 0., 1.], 'v': [0., 2., 2., 4.]})
+# The caller, not the dataframe, owns the numerical grid and interpolator.
+values = f.sort(['t', 'x'])['v'].to_numpy().reshape(2, 2)
+interpolator = RegularGridInterpolator(([0., 1.], [0., 1.]), values, bounds_error=True)
+result = float(interpolator([[.5, .5]])[0])
+```
+
+Both return `2.0` on the fixture.
+
+## Reproduce and interpret the evidence
+
+Run `python scripts/check_translation_reference.py --mode target` in the
+clean installed base environment. `--mode legacy --require-all` requires
+both external oracles; missing capabilities fail that qualification run.
+Pytest oracle cases skip only when their declared external package is absent.
+The track receipt distinguishes base, producer and isolated full-oracle runs.
+
+The caller formatter is a local recipe, not a new Voiage API or persistence
+format. The library's existing CSV writer remains unchanged.
+
+API references: [as-of join](https://docs.pola.rs/api/python/stable/reference/dataframe/api/polars.DataFrame.join_asof.html),
+[CSV writer](https://docs.pola.rs/api/python/stable/reference/dataframe/api/polars.DataFrame.write_csv.html),
+[dynamic windows](https://docs.pola.rs/api/python/stable/reference/dataframe/api/polars.DataFrame.group_by_dynamic.html).

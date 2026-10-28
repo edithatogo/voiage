@@ -1,0 +1,264 @@
+{
+  "schema_version": "1.0",
+  "source_commit": "eded92c62e582fa1995f647504bebb0996fe6882",
+  "files": [
+    {
+      "path": "scripts/run_empirical_longitudinal.py",
+      "sha256": "be5224acf7f0df90e2d649e5411da43d30e0c8d337915af3f70ea52252bf0646",
+      "line_count": 1050,
+      "snippets": [
+        {
+          "id": "scripts/run_empirical_longitudinal.py:713:index",
+          "topic": "index",
+          "start": 713,
+          "end": 713,
+          "text": "    last_year = int(primary.year.iloc[-1])\n",
+          "sha256": "72492503041f3cd480b2462e4bcf501e00110fcab9d90bddc68b791c15d707ae"
+        },
+        {
+          "id": "scripts/run_empirical_longitudinal.py:719:index",
+          "topic": "index",
+          "start": 719,
+          "end": 719,
+          "text": "    query_times = np.r_[primary.time.to_numpy(), primary.time.iloc[-1] + np.arange(1, len(future_years) + 1)]\n",
+          "sha256": "a590be79087d7e009df85685c8d865e9193b7ce4f438918b9a62127ebc21a6ad"
+        },
+        {
+          "id": "scripts/run_empirical_longitudinal.py:851:index",
+          "topic": "index",
+          "start": 851,
+          "end": 851,
+          "text": "        t_val = float(frame.time.iloc[-1])  # type: ignore[arg-type]\n",
+          "sha256": "e10dc64708f4020fe34caeac57deff05b386769422877278aff168ab9ee2c8e0"
+        },
+        {
+          "id": "scripts/run_empirical_longitudinal.py:84:columns",
+          "topic": "columns",
+          "start": 84,
+          "end": 84,
+          "text": "    year: pd.Series = table[\"year\"]  # type: ignore[assignment]\n",
+          "sha256": "a20ac5a947281753e9f18f91b30ef850f870417204d556fd3e57452d3152740e"
+        },
+        {
+          "id": "scripts/run_empirical_longitudinal.py:85:columns",
+          "topic": "columns",
+          "start": 85,
+          "end": 85,
+          "text": "    unit: pd.Series = table[\"unit\"]  # type: ignore[assignment]\n",
+          "sha256": "9f94612813cc0b66fe1dbe619c63cdbc8e607f09d42ed707cc1f84064e99d15a"
+        },
+        {
+          "id": "scripts/run_empirical_longitudinal.py:86:columns",
+          "topic": "columns",
+          "start": 86,
+          "end": 86,
+          "text": "    uplift_factor: pd.Series = table[\"uplift_factor\"]  # type: ignore[assignment]\n",
+          "sha256": "0177823d624fa059f32b719898a5aed63601ee93b614104bbb33beb790bc2eb2"
+        },
+        {
+          "id": "scripts/run_empirical_longitudinal.py:194:rows",
+          "topic": "rows",
+          "start": 194,
+          "end": 194,
+          "text": "    for i, row in enumerate(table.itertuples()):\n",
+          "sha256": "9864818ac42ad8b5d6dc823fe6eae68d138705e2752ffa52b5256d83f98395f9"
+        },
+        {
+          "id": "scripts/run_empirical_longitudinal.py:276:rows",
+          "topic": "rows",
+          "start": 276,
+          "end": 276,
+          "text": "    for index, row in enumerate(frame.itertuples()):\n",
+          "sha256": "6f2ff5497ebc5fbad9e089e82f3df92dd572b17c91e2fbde3e1af393d12b9b32"
+        },
+        {
+          "id": "scripts/run_empirical_longitudinal.py:869:rows",
+          "topic": "rows",
+          "start": 869,
+          "end": 869,
+          "text": "        for i, row in enumerate(ff.itertuples()):\n",
+          "sha256": "49e083f8bf4462755fd09600b61e1567e37c3027289a4b40f70ee7333519ee57"
+        },
+        {
+          "id": "scripts/run_empirical_longitudinal.py:716:concat",
+          "topic": "concat",
+          "start": 716,
+          "end": 716,
+          "text": "    pd.concat(frames.values(), ignore_index=True).to_csv(out / \"aligned_observations.csv\", index=False)\n",
+          "sha256": "5b3a6658368dc5ea820e41430be9836fb2be77fcad76d06967de0b16a7ce9554"
+        },
+        {
+          "id": "scripts/run_empirical_longitudinal.py:285:reduction",
+          "topic": "reduction",
+          "start": 285,
+          "end": 285,
+          "text": "                \"signed_gap_mean\": float(np.mean(gaps)),\n",
+          "sha256": "240cc68330b7845209c89a813985852413a0a57ffba3f62908591f7af27d3db7"
+        },
+        {
+          "id": "scripts/run_empirical_longitudinal.py:289:reduction",
+          "topic": "reduction",
+          "start": 289,
+          "end": 289,
+          "text": "                \"prob_positive_discrepancy\": float(np.mean(gaps > 0)),\n",
+          "sha256": "8e74e34088d16c6dcd23fde658e58249aceea6310791627d23b40ff82f1ce15c"
+        }
+      ]
+    },
+    {
+      "path": "scripts/run_release_calibration.py",
+      "sha256": "7a28e90ff17ecdf6604d24009b203ea25836d4fb42b80eac7c488a5b14d3185b",
+      "line_count": 646,
+      "snippets": [
+        {
+          "id": "scripts/run_release_calibration.py:467:index",
+          "topic": "index",
+          "start": 467,
+          "end": 467,
+          "text": "    selected = str(select.iloc[0].model)\n",
+          "sha256": "a5fa1d68f887a6936482b178f49e0a80feca334fb20573d25501f81bc09ab42d"
+        },
+        {
+          "id": "scripts/run_release_calibration.py:278:columns",
+          "topic": "columns",
+          "start": 278,
+          "end": 278,
+          "text": "    ax.plot(chosen.year, chosen[\"median\"], \"o--\", label=f\"Conditional median: {selected.replace('_', ' ')}\")  # pyright: ignore[reportUnknownMemberType]  # Matplotlib kwargs lack types.\n",
+          "sha256": "7bdb844bf2b54fbceffe1215532ab92bfa39b6462d839be0725ddc0e8b2f0890"
+        },
+        {
+          "id": "scripts/run_release_calibration.py:280:columns",
+          "topic": "columns",
+          "start": 280,
+          "end": 280,
+          "text": "        chosen.year, chosen.lower_95, chosen.upper_95, alpha=0.14, label=\"95% predictive interval\"\n",
+          "sha256": "dd677623ce902e5d7cac59cdaa4c2c9d1d92bd924fd8b7618339ced6ee78664b"
+        },
+        {
+          "id": "scripts/run_release_calibration.py:283:columns",
+          "topic": "columns",
+          "start": 283,
+          "end": 283,
+          "text": "        chosen.year, chosen.lower_80, chosen.upper_80, alpha=0.22, label=\"80% predictive interval\"\n",
+          "sha256": "f574b8cce0b16526039719ac35e63e68b8309a301e4cea382c94b7aa6934c9b9"
+        },
+        {
+          "id": "scripts/run_release_calibration.py:306:rows",
+          "topic": "rows",
+          "start": 306,
+          "end": 306,
+          "text": "    for i, (_index, r) in enumerate(one.iterrows()):\n",
+          "sha256": "f06f09cb664ac74dbb90cb0c59a2b2f96d6e6e07356e0ee5790235b47d753b8b"
+        },
+        {
+          "id": "scripts/run_release_calibration.py:384:rows",
+          "topic": "rows",
+          "start": 384,
+          "end": 384,
+          "text": "    for row in select.itertuples(index=False):\n",
+          "sha256": "3c4d90d38b2adf30bec3849f7a42c677645bf4c5840780889a933817cb459a47"
+        },
+        {
+          "id": "scripts/run_release_calibration.py:451:grouping",
+          "topic": "grouping",
+          "start": 451,
+          "end": 451,
+          "text": "        checkdf.groupby([\"model\", \"stage\"])\n",
+          "sha256": "20b1877eed4f92e6f308f3fe1980b1f04e5a75d8e1903e67327dfe6db87dec5c"
+        },
+        {
+          "id": "scripts/run_release_calibration.py:556:concat",
+          "topic": "concat",
+          "start": 556,
+          "end": 556,
+          "text": "    pd.concat(posterior_cells).to_csv(out / \"posterior_cells.csv\", index=False, float_format=\"%.12g\")\n",
+          "sha256": "21bf34335e8657fc0e98dd86d8901f5bc4483522dc60bc028fa2706334989dfd"
+        },
+        {
+          "id": "scripts/run_release_calibration.py:517:reduction",
+          "topic": "reduction",
+          "start": 517,
+          "end": 517,
+          "text": "            simulation_mean = float(paths[\"values\"][:, i].mean())\n",
+          "sha256": "4223617bf07e0592e38741917f150275862d57ecb1dc91ecff09314d9cd66b34"
+        },
+        {
+          "id": "scripts/run_release_calibration.py:441:nulls",
+          "topic": "nulls",
+          "start": 441,
+          "end": 441,
+          "text": "            \"year_on_year_percent\": np.r_[np.nan, 100 * (values[1:] / values[:-1] - 1)],\n",
+          "sha256": "4a152ccbeac36123e2bda5a13a887e6304860cc5f048eb4e753b758fc851d0ab"
+        },
+        {
+          "id": "scripts/run_release_calibration.py:446:float-format",
+          "topic": "float-format",
+          "start": 446,
+          "end": 446,
+          "text": "    clean.to_csv(out / \"reported_release_series.csv\", index=False, float_format=\"%.12g\")\n",
+          "sha256": "52c0a2b833feca4df9b7fe271ee08aaa52615c455aceb1c8ec3748547cf0ef45"
+        },
+        {
+          "id": "scripts/run_release_calibration.py:449:float-format",
+          "topic": "float-format",
+          "start": 449,
+          "end": 449,
+          "text": "    checkdf.to_csv(out / \"rolling_predictive_checks.csv\", index=False, float_format=\"%.12g\")\n",
+          "sha256": "ba09b932549ef9d77d4726b77da621d7fb294a62b618f532add8e03c0907e84c"
+        },
+        {
+          "id": "scripts/run_release_calibration.py:463:float-format",
+          "topic": "float-format",
+          "start": 463,
+          "end": 463,
+          "text": "    score.to_csv(out / \"predictive_scores.csv\", index=False, float_format=\"%.12g\")\n",
+          "sha256": "f4cca67b7e87018b096776aca5257f885f14f95156253bcc74c31d4705beaff4"
+        }
+      ]
+    },
+    {
+      "path": "scripts/verify_empirical_longitudinal.py",
+      "sha256": "bd1bf532d03980e8168e88d14f03bcb3b208f3cb921d7100d57cb3ff1e2569e6",
+      "line_count": 146,
+      "snippets": [
+        {
+          "id": "scripts/verify_empirical_longitudinal.py:115:index",
+          "topic": "index",
+          "start": 115,
+          "end": 115,
+          "text": "                subset = frame.iloc[0:0]\n",
+          "sha256": "c6b5c9868050a99b123ebb446fff73eb747b6b4a5bc120810db8ed1f144361a6"
+        },
+        {
+          "id": "scripts/verify_empirical_longitudinal.py:117:columns",
+          "topic": "columns",
+          "start": 117,
+          "end": 117,
+          "text": "                subset = frame.loc[frame[\"alignment\"].eq(str(manifest[\"primary_alignment\"]))]\n",
+          "sha256": "5c1fb43a57c7366fba303cd45337f47fb8b2c87cdc8a3b70d6782ac8a3ae3277"
+        },
+        {
+          "id": "scripts/verify_empirical_longitudinal.py:120:columns",
+          "topic": "columns",
+          "start": 120,
+          "end": 120,
+          "text": "            elif int(subset.year.max()) != scope.get(\"latest_paired_year\"):\n",
+          "sha256": "cc0f04c670720838ad05cc4fffcbcb596af71b1dec17e55fadc5c22e24e32d6a"
+        },
+        {
+          "id": "scripts/verify_empirical_longitudinal.py:127:columns",
+          "topic": "columns",
+          "start": 127,
+          "end": 127,
+          "text": "            elif not (frame.interpretation.astype(str).str.endswith(\"NOT_illicit_consumption\")).all():\n",
+          "sha256": "9d8495facead269588bd39b533e3e8090de51d5fecb873cea62d144ef62c37c5"
+        }
+      ]
+    }
+  ],
+  "attribution": "tobac project-owned source excerpts, Apache-2.0; retained LICENSE/NOTICE in consumer-notices. No datasets captured or executed.",
+  "notices": {
+    "LICENSE": "f4d9b0aad8ff9e650f5890fa3eeb7c1311479cab901f8a9b416a2d9acaf54266",
+    "NOTICE": "617d847e789906e604b0c47e559d4e760794c3cdf782a09d3a29b09cfe502a3a"
+  }
+}

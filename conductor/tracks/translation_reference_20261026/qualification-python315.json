@@ -1,0 +1,333 @@
+{
+  "schema_version": "1.0",
+  "tested_commit": "ea646644484112d47504a81e478064e065bd6e64",
+  "baseline": "f7fcbe4d0a27174d5ae69c33da46575f149f5c1e",
+  "scope": "Documentation, executable reference tests and no-extras gate wiring only; no runtime, dependency, contract, binding or persistence changes.",
+  "full_local_gate": {
+    "command": "VOIAGE_TEST_UV_CACHE_DIR=/Users/doughnut/.cache/uv .venv/bin/python scripts/guard_verification.py --work-dir .conductor/local/translation-reference/full-final -- .venv/bin/tox run-parallel -p 2 --result-json .conductor/local/translation-reference/full-final-result.json",
+    "environment_count": 15,
+    "environments": [
+      "coverage_report",
+      "docs",
+      "frontier-contract",
+      "harness",
+      "ingestion-conformance",
+      "joss",
+      "lint",
+      "max_versions",
+      "min_versions",
+      "pandas-free",
+      "producer-compatibility",
+      "py315",
+      "typecheck",
+      "vale",
+      "version-sync"
+    ],
+    "passed": 5423,
+    "skipped": 19,
+    "skip_scope": "14 pre-existing platform/capability skips plus 5 absent-xarray oracle cases. The separate isolated qualification executed all 14 legacy forms.",
+    "resource": {
+      "peak_rss_kib": 1699072,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 316.684,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-mspnhdl2"
+    }
+  },
+  "coverage": {
+    "aggregate": {
+      "minimum": 90.0,
+      "percent": 94.73047628387434
+    },
+    "base": "f7fcbe4d0a27174d5ae69c33da46575f149f5c1e",
+    "changed": {
+      "branch_minimum": 100.0,
+      "branch_percent": 100.0,
+      "branches": 0,
+      "covered_branches": 0,
+      "covered_lines": 0,
+      "executable_lines": 0,
+      "line_minimum": 95.0,
+      "line_percent": 100.0,
+      "missing_branches": [],
+      "missing_lines": [],
+      "unmeasured_files": []
+    },
+    "critical_modules": [
+      {
+        "minimum": 100.0,
+        "passed": true,
+        "path": "voiage/assurance_policy.py",
+        "percent": 100.0
+      },
+      {
+        "minimum": 90.0,
+        "passed": true,
+        "path": "voiage/contracts/bundle.py",
+        "percent": 99.30191972076788
+      },
+      {
+        "minimum": 95.0,
+        "passed": true,
+        "path": "voiage/mutation_policy.py",
+        "percent": 100.0
+      }
+    ],
+    "exact_source_head": true,
+    "head": "ea646644484112d47504a81e478064e065bd6e64",
+    "passed": true,
+    "schema_version": "1.0.0",
+    "source_head": "ea646644484112d47504a81e478064e065bd6e64",
+    "tested_head": "ea646644484112d47504a81e478064e065bd6e64"
+  },
+  "coverage_note": "No changed runtime executable lines; changed-line percentages are vacuous. Behavioral proof is supplied by both real forms, frozen expected values, counterexamples and negative controls.",
+  "clean_installed_base": {
+    "python": "3.15.1",
+    "installed_package": "/Volumes/PortableSSD/GitHub/voiage/.tox/pandas-free/lib/python3.15/site-packages/voiage/__init__.py",
+    "version": "2.2.0",
+    "forbidden_distributions": [],
+    "forbidden_modules": []
+  },
+  "target_recipe_qualification": {
+    "passed": true,
+    "python": "3.15.1",
+    "errors": [],
+    "mode": "target",
+    "outcomes": [
+      {
+        "id": "index",
+        "status": "passed"
+      },
+      {
+        "id": "columns",
+        "status": "passed"
+      },
+      {
+        "id": "rows",
+        "status": "passed"
+      },
+      {
+        "id": "grouping",
+        "status": "passed"
+      },
+      {
+        "id": "concat",
+        "status": "passed"
+      },
+      {
+        "id": "alignment",
+        "status": "passed"
+      },
+      {
+        "id": "reduction",
+        "status": "passed"
+      },
+      {
+        "id": "rolling",
+        "status": "passed"
+      },
+      {
+        "id": "resample",
+        "status": "passed"
+      },
+      {
+        "id": "interpolation",
+        "status": "passed"
+      },
+      {
+        "id": "nulls",
+        "status": "passed"
+      },
+      {
+        "id": "float-format",
+        "status": "passed"
+      },
+      {
+        "id": "attrs",
+        "status": "passed"
+      },
+      {
+        "id": "nd-interpolation",
+        "status": "passed"
+      }
+    ]
+  },
+  "external_oracle": {
+    "environment": {
+      "python": "3.15.1",
+      "packages": {
+        "polars": "2.1.0",
+        "pandas": "3.1.0",
+        "xarray": "2026.9.0",
+        "numpy": "2.5.4",
+        "scipy": "1.18.1",
+        "pyarrow": "26.0.0"
+      }
+    },
+    "result": {
+      "passed": true,
+      "python": "3.15.1",
+      "errors": [],
+      "mode": "legacy",
+      "outcomes": [
+        {
+          "id": "index",
+          "status": "passed"
+        },
+        {
+          "id": "columns",
+          "status": "passed"
+        },
+        {
+          "id": "rows",
+          "status": "passed"
+        },
+        {
+          "id": "grouping",
+          "status": "passed"
+        },
+        {
+          "id": "concat",
+          "status": "passed"
+        },
+        {
+          "id": "alignment",
+          "status": "passed"
+        },
+        {
+          "id": "reduction",
+          "status": "passed"
+        },
+        {
+          "id": "rolling",
+          "status": "passed"
+        },
+        {
+          "id": "resample",
+          "status": "passed"
+        },
+        {
+          "id": "interpolation",
+          "status": "passed"
+        },
+        {
+          "id": "nulls",
+          "status": "passed"
+        },
+        {
+          "id": "float-format",
+          "status": "passed"
+        },
+        {
+          "id": "attrs",
+          "status": "passed"
+        },
+        {
+          "id": "nd-interpolation",
+          "status": "passed"
+        }
+      ]
+    },
+    "resource": {
+      "peak_rss_kib": 130704,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 4.173,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-ab90auh_"
+    },
+    "adoption": "Isolated verification tooling only; no project dependency or published extra changed."
+  },
+  "row_counts": {
+    "total": 14,
+    "derived": 8,
+    "anticipatory": 6
+  },
+  "measured_differences": {
+    "nearest_versus_linear_fixture_abs_error": 0.5,
+    "finite_12_significant_digit_csv_max_relative_error": 2.794604572924817e-12,
+    "csv_relative_bound": 5e-12,
+    "scope": "Bounded fixtures only; no scientific-method or general dtype/time-zone/interpolation equivalence claim."
+  },
+  "rendered_html": {
+    "artifact": "docs/astro-site/dist/user-guide/tabular-translation-reference/index.html",
+    "code_blocks": 28,
+    "all_rendered_examples_match_executed_sources": true,
+    "normalization": "Expressive Code ec-line display blocks provide the line separators; source indentation and tokens remain exact.",
+    "source_sha256": "7965cd1d9ffc74e010f5a693f95c244fa0102b08842451abeddeb60f4ff1d0f5"
+  },
+  "reference_policy_result": {
+    "passed": true,
+    "scanned_files": 3800,
+    "unapproved": [],
+    "errors": []
+  },
+  "monitor_audit": {
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-mspnhdl2",
+    "escaped_git_monitor_paths": [],
+    "audit": "read_only"
+  },
+  "unchanged_objects": [
+    {
+      "path": "voiage",
+      "git_object": "622d2a16646ed50f1de813e32b5354b18f7d681e",
+      "unchanged": true
+    },
+    {
+      "path": "pyproject.toml",
+      "git_object": "0eea05fa6c7b77914801d7918c53a5b50463ae87",
+      "unchanged": true
+    },
+    {
+      "path": "uv.lock",
+      "git_object": "0133c934f7328fc67d10d90e893165c467b614ec",
+      "unchanged": true
+    },
+    {
+      "path": "specs/core-api",
+      "git_object": "3d5c0059778e303b466a58aa880badafc3e85eea",
+      "unchanged": true
+    },
+    {
+      "path": "specs/v3",
+      "git_object": "5e9fcf83ee079820153be27914cfcb64873af36e",
+      "unchanged": true
+    },
+    {
+      "path": "specs/dependency-runtime-policy.json",
+      "git_object": "8805373f3e2b597708a8faca37a6637239637f1d",
+      "unchanged": true
+    },
+    {
+      "path": "rust",
+      "git_object": "cb91f40f723bf59bc37e3c6ec20f4502c5c7d1a6",
+      "unchanged": true
+    },
+    {
+      "path": "bindings",
+      "git_object": "e3e78f48140e9f6491ef87bebf680b136d965c44",
+      "unchanged": true
+    },
+    {
+      "path": "r-package",
+      "git_object": "433026b22bbb4f9f3ba217855bd22970b3720b2a",
+      "unchanged": true
+    }
+  ],
+  "preserved_first_failures": [
+    "Missing checker collection failure; then 24 failing unimplemented semantic controls and 5 genuine missing-oracle skips.",
+    "Reference gate caught the unclassified capture-contract command; exact immutable permission added.",
+    "Initial full gate passed 14 environments; docs failed on an unescaped MDX inequality.",
+    "Corrected page compiled; link validation then rejected two trailing slashes. Both links corrected.",
+    "First HTML extractor omitted renderer display-block line separators; corrected extraction matches all 28 code blocks."
+  ],
+  "acceptance": {
+    "AC1": "Pinned consumer/native inventories and source excerpt/notice digests validate hermetically.",
+    "AC2": "All 14 required semantic/non-equivalence topics have both forms, explicit differences and exact/qualified scope.",
+    "AC3": "14 target and 14 isolated legacy forms pass; missing packages skip only when absent, while installed broken oracles fail.",
+    "AC4": "Formatting, attributes, automatic label alignment and N-dimensional boundaries have explicit caller-owned replacements or absence.",
+    "AC5": "Generated source is linked from the migration guide; Astro and internal links pass, and 28 rendered code blocks match tested sources."
+  },
+  "hosted_acceptance": "Pending; no whole-track acceptance claim until required checks pass on the delivered PR revision.",
+  "published_source": "docs/astro-site/src/content/docs/user-guide/tabular-translation-reference.mdx",
+  "documentation_route": "/voiage/user-guide/tabular-translation-reference"
+}
