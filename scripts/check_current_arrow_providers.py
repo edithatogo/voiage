@@ -261,21 +261,227 @@ def validate_arrow_cpp(
     }
 
 
+ARROW_CORE_PROFILE = "arrow@=26.0.0+brotli+bz2+compute+csv+dataset+filesystem+ipc+lz4+mimalloc+parquet+python+shared+snappy+zlib+zstd"
+
+
+def validate_pyarrow(root: Path, sources: Path) -> dict[str, object]:
+    """Bind the frontend to its matching native library and supported I/O profile."""
+    packet = json.loads(
+        (root / "packaging/current/arrow-provider-sources.json").read_text()
+    )
+    row = packet["providers"]["py-pyarrow"]
+    recipe_path = root / "packaging/current/spack/packages/py-pyarrow/package.py"
+    recipe = _recipe(recipe_path)
+    if (
+        packet["python_profile"] != "3.15.1"
+        or row["version"] != packet["providers"]["arrow"]["version"]
+    ):
+        raise ValueError("PyArrow must match the current Python and C++ profile")
+    if (
+        recipe["versions"]
+        != [
+            (
+                row["version"],
+                {"sha256": row["source"]["sha256"], "url": row["source"]["url"]},
+            )
+        ]
+        or recipe["licenses"] != ["Apache-2.0"]
+        or row["license"] != "Apache-2.0"
+    ):
+        raise ValueError("PyArrow source identity or license drift")
+    expected = {
+        "python@3.15.1": ["build", "run"],
+        "c": ["build"],
+        "cxx": ["build"],
+        "cmake@3.25:": ["build"],
+        "pkgconfig": ["build"],
+        "py-scikit-build-core@1:": ["build"],
+        "py-cython@3.1:": ["build"],
+        "py-libcst@1.9:": ["build"],
+        "py-numpy@2:": ["build"],
+        "py-setuptools-scm@8:+toml": ["build"],
+        ARROW_CORE_PROFILE: ["build", "link", "run"],
+    }
+    tree = ast.parse(recipe_path.read_text())
+    cls = next(node for node in tree.body if isinstance(node, ast.ClassDef))
+    modules = [
+        ast.literal_eval(node.value)
+        for node in cls.body
+        if isinstance(node, ast.Assign)
+        and any(
+            isinstance(t, ast.Name) and t.id == "import_modules" for t in node.targets
+        )
+    ]
+    if (
+        row["native_profile"] != ARROW_CORE_PROFILE
+        or recipe["dependencies"] != expected
+        or recipe["environment"]
+        or any(isinstance(node, ast.FunctionDef) for node in cls.body)
+        or modules
+        != [
+            [
+                "pyarrow",
+                "pyarrow.compute",
+                "pyarrow.csv",
+                "pyarrow.dataset",
+                "pyarrow.ipc",
+                "pyarrow.parquet",
+            ]
+        ]
+    ):
+        raise ValueError(
+            "PyArrow build prerequisites, native components or defaults drift"
+        )
+    archive = sources / row["source"]["filename"]
+    with archive.open("rb") as stream:
+        checksum = hashlib.file_digest(stream, "sha256").hexdigest()
+    if checksum != row["source"]["sha256"]:
+        raise ValueError("PyArrow archive checksum mismatch")
+    selected = {"LICENSE.txt", "NOTICE.txt", "pyproject.toml", "CMakeLists.txt"}
+    if row["license_member_counts"] != {"LICENSE.txt": 2, "NOTICE.txt": 2}:
+        raise ValueError(
+            "The reviewed PyArrow license layout requires two identical copies"
+        )
+    expected_counts = {
+        name: row["license_member_counts"].get(name, 1) for name in selected
+    }
+    counts = dict.fromkeys(selected, 0)
+    contents = {}
+    with tarfile.open(archive, "r|gz", stream=True) as source:
+        for member in source:
+            name = member.name.split("/", 1)[-1]
+            if name not in selected:
+                continue
+            counts[name] += 1
+            if (
+                counts[name] > expected_counts[name]
+                or not member.isfile()
+                or member.size > 2 * 1024**2
+            ):
+                raise ValueError(
+                    "Invalid or unexpected duplicate PyArrow source metadata"
+                )
+            stream = source.extractfile(member)
+            if stream is None:
+                raise ValueError("Unreadable PyArrow source metadata")
+            payload = stream.read()
+            if name in contents and contents[name] != payload:
+                raise ValueError("Changed duplicate PyArrow license metadata")
+            contents[name] = payload
+    if (
+        set(contents) != selected
+        or counts != expected_counts
+        or set(row["licenses"]) != {"LICENSE.txt", "NOTICE.txt"}
+        or any(
+            hashlib.sha256(contents[name]).hexdigest() != digest
+            for name, digest in row["licenses"].items()
+        )
+    ):
+        raise ValueError("Missing or changed PyArrow source metadata/license")
+    configuration = tomllib.loads(contents["pyproject.toml"].decode())
+    project = configuration["project"]
+    build = configuration["build-system"]
+    selected_build = set()
+    for text in build["requires"]:
+        requirement = Requirement(text)
+        if requirement.marker is None or requirement.marker.evaluate(
+            {"python_version": "3.15", "python_full_version": "3.15.1"}
+        ):
+            requirement.marker = None
+            selected_build.add(requirement)
+    cmake = configuration["tool"]["scikit-build"]["cmake"]
+    if (
+        project["name"] != "pyarrow"
+        or project.get("dependencies", [])
+        or project["dynamic"] != ["version"]
+        or project["license"] != "Apache-2.0"
+        or set(project["license-files"]) != set(row["licenses"])
+        or project["requires-python"] != row["requires_python"]
+        or Version("3.15.1") not in SpecifierSet(row["requires_python"])
+        or build["build-backend"] != "scikit_build_core.build"
+        or row["build_backend"] != build["build-backend"]
+        or _requirements(build["requires"]) != _requirements(row["build_requires"])
+        or selected_build
+        != _requirements(
+            [
+                "scikit-build-core>=1.0",
+                "cython>=3.1",
+                "libcst>=1.9.0",
+                "numpy>=2.0",
+                "setuptools-scm[toml]>=8",
+            ]
+        )
+        or cmake["build-type"] != "Release"
+        or row["cmake_build_type"] != "Release"
+        or any(
+            cmake["define"].get(key) != value or value != {"env": key, "default": "OFF"}
+            for key, value in row["bundle_defaults"].items()
+        )
+        or set(row["bundle_defaults"])
+        != {"PYARROW_BUNDLE_ARROW_CPP", "PYARROW_BUNDLE_CYTHON_CPP"}
+        or configuration["tool"]["setuptools_scm"]["fallback_version"] != row["version"]
+        or f"cmake_minimum_required(VERSION {row['minimum_cmake']})"
+        not in contents["CMakeLists.txt"].decode()
+    ):
+        raise ValueError(
+            "PyArrow upstream backend, requirements or default contract drift"
+        )
+    return {
+        "pyarrow_source_declaration_qualified": True,
+        "source_archive_sha256": checksum,
+        "native_build_executed": False,
+        "installed_module_acceptance": False,
+    }
+
+
+def validate_sources(
+    root: Path, sources: Path, builtin_recipe: Path
+) -> dict[str, object]:
+    """Require every source layer; declaration checks never establish a native build."""
+    packet = json.loads(
+        (root / "packaging/current/arrow-provider-sources.json").read_text()
+    )
+    if set(packet["providers"]) != {"py-libcst", "arrow", "py-pyarrow"}:
+        raise ValueError("All three current Arrow provider layers are required")
+    reports = [
+        validate_libcst(root, sources),
+        validate_arrow_cpp(root, sources, builtin_recipe),
+        validate_pyarrow(root, sources),
+    ]
+    return {
+        "source_declarations_qualified": True,
+        "providers_checked": len(reports),
+        "qualification_scope": "Authenticated source/declarations only",
+        "full_native_solver_executed": False,
+        "native_build_executed": False,
+        "installed_module_acceptance": False,
+        "profiles": reports,
+    }
+
+
 def main() -> int:
     """Inspect supplied archives; never download, extract or execute source."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("sources", type=Path)
     parser.add_argument("--root", type=Path, default=Path.cwd())
-    parser.add_argument("--profile", choices=("libcst", "cpp"), default="libcst")
+    parser.add_argument(
+        "--profile", choices=("libcst", "cpp", "pyarrow", "all"), default="libcst"
+    )
     parser.add_argument("--builtin-arrow", type=Path)
     args = parser.parse_args()
     if sys.version_info[:3] != (3, 15, 1):
         parser.error("Source qualification requires Python 3.15.1")
     try:
-        if args.profile == "cpp":
+        if args.profile in {"cpp", "all"}:
             if args.builtin_arrow is None:
                 parser.error("The C++ source profile requires --builtin-arrow")
-            report = validate_arrow_cpp(args.root, args.sources, args.builtin_arrow)
+            report = (
+                validate_sources(args.root, args.sources, args.builtin_arrow)
+                if args.profile == "all"
+                else validate_arrow_cpp(args.root, args.sources, args.builtin_arrow)
+            )
+        elif args.profile == "pyarrow":
+            report = validate_pyarrow(args.root, args.sources)
         else:
             report = validate_libcst(args.root, args.sources)
     except (
@@ -288,7 +494,11 @@ def main() -> int:
     ) as error:
         print(
             json.dumps(
-                {"libcst_source_declaration_qualified": False, "error": str(error)}
+                {
+                    "source_declarations_qualified": False,
+                    "profile": args.profile,
+                    "error": str(error),
+                }
             )
         )
         return 1
