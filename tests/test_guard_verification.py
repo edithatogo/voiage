@@ -145,3 +145,15 @@ def test_guard_cleans_up_descendants_after_leader_exits(tmp_path: Path) -> None:
         text=True,
     ).stdout.strip()
     assert not state or state.startswith("Z"), f"Child {child} still running: {state}"
+
+
+def test_tox_preserves_process_local_git_overrides() -> None:
+    """Nested isolated test environments must not re-enable detached monitors."""
+    import configparser
+
+    config = configparser.ConfigParser(interpolation=None)
+    config.read(GUARD.parents[1] / "tox.ini")
+    forwarded = config["testenv"]["pass_env"].split()
+    assert {"GIT_CONFIG_COUNT", "GIT_CONFIG_KEY_*", "GIT_CONFIG_VALUE_*"} <= set(
+        forwarded
+    )
