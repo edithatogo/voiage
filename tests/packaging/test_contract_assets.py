@@ -5,7 +5,7 @@ from pathlib import Path
 lazy import pytest
 
 import voiage
-from voiage import _contract_root
+import voiage._contract_root
 
 
 def test_private_contracts_take_precedence_over_neighboring_specs(
@@ -15,8 +15,8 @@ def test_private_contracts_take_precedence_over_neighboring_specs(
     (package / "_contracts" / "specs").mkdir(parents=True)
     (tmp_path / "specs").mkdir()
     (tmp_path / "pyproject.toml").touch()
-    monkeypatch.setattr(_contract_root, "__file__", str(package / "_contract_root.py"))
-    assert _contract_root.contract_root() == package / "_contracts"
+    monkeypatch.setattr(voiage._contract_root, "__file__", str(package / "_contract_root.py"))
+    assert voiage._contract_root.contract_root() == package / "_contracts"
 
 
 def test_runtime_contract_json_matches_source() -> None:
