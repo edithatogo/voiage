@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import signal
 import subprocess
 import sys
 import tarfile
@@ -16,6 +17,64 @@ import threading
 import time
 from typing import Any
 import urllib.request
+
+
+def descendant_usage(root_pid: int) -> tuple[set[int], int]:
+    """Count the process tree even when Ninja gives children new process groups."""
+    result = subprocess.run(
+        ["/bin/ps", "-axo", "pid=,ppid=,pgid=,rss="],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    rows = [
+        tuple(map(int, line.split()))
+        for line in result.stdout.splitlines()
+        if len(line.split()) == 4
+    ]
+    descendants = {root_pid}
+    pending = [root_pid]
+    while pending:
+        parent = pending.pop()
+        for pid, ppid, _pgid, _rss in rows:
+            if ppid == parent and pid not in descendants:
+                descendants.add(pid)
+                pending.append(pid)
+    rss = sum(size for pid, _ppid, _pgid, size in rows if pid in descendants)
+    return descendants, rss
+
+
+def stop_owned_tree(process: subprocess.Popen[bytes], pids: set[int]) -> None:
+    """Bind termination to this Linux build's descendant process handles."""
+    handles = []
+    try:
+        for pid in pids:
+            try:
+                handles.append(os.pidfd_open(pid))
+            except ProcessLookupError:
+                continue
+        for signum in (signal.SIGTERM, signal.SIGKILL):
+            for handle in handles:
+                try:
+                    signal.pidfd_send_signal(handle, signum)
+                except ProcessLookupError:
+                    continue
+            if signum == signal.SIGTERM:
+                time.sleep(3)
+        process.wait()
+    finally:
+        for handle in handles:
+            os.close(handle)
+
+
+def native_objects(package: Path, environment: Path) -> list[Path]:
+    """Include underscore-prefixed Python extensions as well as helper libraries."""
+    if not package.resolve().is_relative_to(environment.resolve()):
+        raise RuntimeError("Installed extension escaped the private environment")
+    objects = sorted(path for path in package.rglob("*.so*") if path.is_file())
+    if not objects:
+        raise RuntimeError("No installed PyArrow native objects found")
+    return objects
 
 
 class Observation:
@@ -121,24 +180,52 @@ class Observation:
             self.save_locked()
         print(f"Starting {name}", flush=True)
         started = time.monotonic()
+        resources: dict[str, Any] = {
+            "scope": "All descendants, including separate process groups",
+            "peak_rss_kib": 0,
+            "sampling_interval_seconds": 2,
+            "reason": "completed",
+            "returncode": None,
+        }
         with (self.evidence / (name + ".log")).open("w") as output:
-            result = subprocess.run(  # noqa: S603 - fixed tools, structured source-build arguments
+            process = subprocess.Popen(  # noqa: S603 - fixed tools, structured source-build arguments
                 guard + command,
                 env=env,
                 stdout=output,
                 stderr=subprocess.STDOUT,
-                check=False,
+                start_new_session=True,
             )
+            owned = {process.pid}
+            try:
+                while process.poll() is None:
+                    owned, rss = descendant_usage(process.pid)
+                    resources["peak_rss_kib"] = max(resources["peak_rss_kib"], rss)
+                    if rss > 11264 * 1024:
+                        resources["reason"] = "descendant_memory_limit"
+                        stop_owned_tree(process, owned)
+                        break
+                    time.sleep(2)
+                resources["returncode"] = process.wait()
+            except BaseException:
+                resources["reason"] = "interrupted_or_monitor_failed"
+                stop_owned_tree(process, owned)
+                raise
+            finally:
+                resources["elapsed_seconds"] = round(time.monotonic() - started, 2)
+                (self.evidence / (name + "-descendant-resources.json")).write_text(
+                    json.dumps(resources, indent=2) + "\n"
+                )
         with self.lock:
             row.update(
-                exit_code=result.returncode,
+                exit_code=process.returncode,
+                descendant_resource_reason=resources["reason"],
                 elapsed_seconds=round(time.monotonic() - started, 2),
             )
             self.save_locked()
-        print(f"Completed {name}: exit {result.returncode}", flush=True)
-        if result.returncode:
+        print(f"Completed {name}: exit {process.returncode}", flush=True)
+        if process.returncode or resources["reason"] != "completed":
             raise RuntimeError(
-                f"{name}: exit {result.returncode}; see its retained log and guard receipt"
+                f"{name}: exit {process.returncode}, {resources['reason']}; see retained resource receipts"
             )
 
 
@@ -365,15 +452,13 @@ print(json.dumps({'version':pa.__version__, 'extension':pa.lib.__file__, 'cpp_ve
                   'memory_backends':pa.supported_memory_backends(), 'csv_ipc_parquet_dataset_compute':True}))
 """
         observation.run("installed-native-probe", [python, "-I", "-c", probe], env, 120)
+        installed = json.loads(
+            (args.evidence / "installed-native-probe.log").read_text()
+        )
+        package = Path(installed["extension"]).resolve().parent
         observation.run(
             "native-linkage",
-            [
-                "bash",
-                "-c",
-                'find "$1" -name "lib*.so*" -type f -exec ldd {} \\;',
-                "arrow-linkage",
-                str(venv),
-            ],
+            ["ldd", *map(str, native_objects(package, venv))],
             env,
             120,
         )
