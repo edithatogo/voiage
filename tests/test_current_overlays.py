@@ -74,6 +74,21 @@ def test_bound_translation_keeps_minor_and_major_ceilings() -> None:
     assert spack_requirement("scipy>=1.18.1,<1.19") == "py-scipy@1.18.1:1.18"
 
 
+def test_core_compiler_cannot_use_an_unbounded_preview_range(tmp_path: Path) -> None:
+    shutil.copytree(ROOT / "packaging/current", tmp_path / "packaging/current")
+    (tmp_path / "specs").mkdir()
+    shutil.copy2(
+        ROOT / "specs/dependency-runtime-policy.json",
+        tmp_path / "specs/dependency-runtime-policy.json",
+    )
+    (tmp_path / "packaging/current/overlay-lifecycle.json").write_text(
+        json.dumps({"historical_files": {}, "historical_tools": {}})
+    )
+    recipe = tmp_path / "packaging/current/spack/packages/py-voiage/package.py"
+    recipe.write_text(recipe.read_text().replace("rust@1.85:1", "rust@1.85:"))
+    assert "Current Spack dependency drift" in validate(tmp_path)
+
+
 def test_current_overlay_drift_and_unearned_native_claim_fail(tmp_path: Path) -> None:
     shutil.copytree(ROOT / "packaging/current", tmp_path / "packaging/current")
     (tmp_path / "specs").mkdir()
