@@ -3,7 +3,7 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-10-26T00:00:00Z",
-  "updated_at": "2026-10-28T04:20:00Z",
+  "updated_at": "2026-10-28T06:33:37Z",
   "description": "Test-backed translation reference from the pandas and xarray idioms actually in use to their Polars equivalents and non-equivalences",
   "base_commit": "ca3f05cc8adcc74b99fe236152327d0cd3679553",
   "github_cross_reference": {
@@ -12,7 +12,8 @@
   },
   "evidence_schema": "1.0",
   "depends_on": [
-    "polars_container_20261026"
+    "polars_container_20261026",
+    "pandas_free_io_20261026"
   ],
   "authorization": {
     "scope": "Implement the translation-reference track on Python 3.15.1 under the resource guard, using accepted packaging evidence and preserving public API and behavior.",
@@ -28,14 +29,20 @@
     {
       "id": "semantic-reference",
       "kind": "repository",
-      "status": "locally_qualified",
-      "evidence": "14 target and 14 isolated external-oracle cases pass; five explicit missing-oracle skips in the ordinary environment."
+      "status": "satisfied",
+      "evidence": "qualification-python315.json; all 14 clean-base targets and 14 isolated external forms pass, with explicit counterexamples and real negative controls."
     },
     {
       "id": "publication-and-full-gate",
       "kind": "repository",
-      "status": "pending",
-      "evidence": "Generated documentation source, tested snippets and migration-guide link present; full local and hosted gates pending."
+      "status": "locally_qualified",
+      "evidence": "All 15 local environments pass at ea646644484112d47504a81e478064e065bd6e64; Astro/internal links and rendered code match. Required hosted checks remain pending."
+    },
+    {
+      "id": "packaging-handoff",
+      "kind": "repository",
+      "status": "satisfied",
+      "evidence": "io-acceptance-handoff-python315.json retained unchanged from accepted I/O closeout PR #1210."
     }
   ]
 }

@@ -17,4 +17,5 @@ recorded in metadata.
 [Executable translation reference](/voiage/user-guide/tabular-translation-reference)
 is generated from `semantic-cases.json`. Source captures and retained consumer
 notices are local, committed verification inputs; CI needs no external checkout.
-Local qualification is complete; full-gate and hosted acceptance remain pending.
+All 15 local environments pass; see [qualification](./qualification-python315.json).
+Hosted acceptance remains pending.

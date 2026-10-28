@@ -40,4 +40,8 @@ Implementation authorised by the maintainer on 2026-10-28. Implementation is loc
 Local evidence: `capture-contract.json`, both immutable source inventories,
 `semantic-cases.json`, and the generated reference page. All 14 target recipes
 and all 14 external legacy forms passed on Python 3.15.1 under the resource
-guard. The full local gate and hosted acceptance remain final gates.
+guard. All 15 local environments passed at `ea646644`; see `qualification-python315.json`. Hosted acceptance remains the final gate.
+
+Implementation/review checkpoint: `ea646644484112d47504a81e478064e065bd6e64`.
+The initial MDX and link failures are retained in the qualification receipt;
+the final candidate passes its complete local gate. No runtime inputs changed.

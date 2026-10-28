@@ -1186,7 +1186,7 @@
     },
     "conductor/tracks/translation_reference_20261026/index.md": {
       "category": "translation_reference",
-      "reason": "Exact reviewed current execution status and retained migration history; no runtime import exemption.",
+      "reason": "Exact authorised reference execution and qualification status; no runtime exemptions.",
       "lines": [
         {
           "sha256": "5edc71f88b15bc2493c79a104a37c5560d27be50cec0b902f4b9a1f2705c2397",
@@ -1200,7 +1200,7 @@
     },
     "conductor/tracks/translation_reference_20261026/plan.md": {
       "category": "translation_reference",
-      "reason": "Exact reviewed current execution status and retained migration history; no runtime import exemption.",
+      "reason": "Exact authorised reference execution and qualification status; no runtime exemptions.",
       "lines": [
         {
           "sha256": "0147fba7577bf2b84815ccbe7e4426b85d21a8b40fb632955bc34a67aca4ae39",
@@ -2541,7 +2541,7 @@
     },
     "conductor/tracks/translation_reference_20261026/metadata.json": {
       "category": "translation_reference",
-      "reason": "Exact reviewed current execution status and retained migration history; no runtime import exemption.",
+      "reason": "Exact authorised reference execution and qualification status; no runtime exemptions.",
       "lines": [
         {
           "sha256": "9c1a92a2f27f552ce522dedd5e513db79a8cd1fdc2b72f48120b49a030f65ad5",
@@ -2873,6 +2873,11 @@
           "count": 1
         }
       ]
+    },
+    "conductor/tracks/translation_reference_20261026/qualification-python315.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable source-bound qualification receipt with actual first failures and bounded oracle results.",
+      "sha256": "103778fbf606909cfb3743067d95c65ecdeaeb0e56fb8857e309ccc57fbb99a6"
     }
   }
 }
