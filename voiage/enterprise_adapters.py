@@ -11,14 +11,15 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 import json
-from pathlib import Path
 from typing import Any
+lazy from pathlib import Path
 
 import jsonschema
 
+from voiage._contract_root import contract_root
 from voiage.exceptions import raise_input_error
 
-_ROOT = Path(__file__).resolve().parents[1]
+_ROOT = contract_root()
 _DEFAULT_SCHEMA_PATH = (
     _ROOT
     / "specs"

@@ -13,15 +13,16 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime
 import json
-from pathlib import Path
 from typing import Any
+lazy from pathlib import Path
 
 import jsonschema
 import numpy as np
 
+from voiage._contract_root import contract_root
 from voiage.exceptions import raise_input_error
 
-_ROOT = Path(__file__).resolve().parents[1]
+_ROOT = contract_root()
 _MODEL_VALUE_SCHEMA_PATH = (
     _ROOT
     / "specs"

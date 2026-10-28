@@ -201,12 +201,13 @@
     "python_modules_sha256": "3d3a33c3aa830a4ec995099061ae5a73fa96bc7ca7d44a79e0b0a5e3b3318825"
   },
   "additions": [
+    "voiage/_contract_root.py",
     "voiage/_tabular_io.py",
     "voiage/contracts/capability_report.py",
     "voiage/sampling_harm_agent_assurance.py"
   ],
   "removals": [],
-  "current_python_runtime_modules": 179,
+  "current_python_runtime_modules": 180,
   "classification": "Explicit per-module dispositions; no numerical execution authority added.",
   "scope": "Python module membership only; no new API, ABI, scientific, release or publication audit is claimed.",
   "t12_addition": {
@@ -215,6 +216,7 @@
     "source_baseline": "953833c53012c331d72f410f397110e085201738"
   },
   "classifications": {
+    "voiage/_contract_root.py": "contracts: private packaged-contract location helper",
     "voiage/_tabular_io.py": "optional_extension: private Polars I/O compatibility adapter",
     "voiage/contracts/capability_report.py": "assurance: verification support only",
     "voiage/sampling_harm_agent_assurance.py": "assurance: verification support only"

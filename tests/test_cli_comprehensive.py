@@ -34,8 +34,9 @@ def _strip_ansi(text: str) -> str:
     return re.sub(r"\x1b\[[0-9;]*[A-Za-z]", "", text)
 
 
-def test_evpi_cli() -> None:
+def test_evpi_cli(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     """Test the EVPI CLI command with various options."""
+    monkeypatch.chdir(tmp_path)
     # Create temporary files for testing
     with tempfile.TemporaryDirectory() as tmpdir:
         tmpdir_path = Path(tmpdir)
@@ -395,8 +396,9 @@ def test_cli_quiet_option(tmp_path: Path) -> None:
     assert output_file.read_text(encoding="utf-8").strip().startswith("EVPI:")
 
 
-def test_cli_verbose_option(tmp_path: Path) -> None:
+def test_cli_verbose_option(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     """Exercise the CLI-wide verbose option."""
+    monkeypatch.chdir(tmp_path)
     net_benefits_file = tmp_path / "net_benefits.csv"
     with open(net_benefits_file, "w", newline="") as f:
         writer = csv.writer(f)
@@ -455,8 +457,9 @@ def test_generate_config_command_rejects_unknown_template() -> None:
     assert "Unknown config template" in result.stderr
 
 
-def test_evppi_cli() -> None:
+def test_evppi_cli(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     """Test the EVPPI CLI command with various options."""
+    monkeypatch.chdir(tmp_path)
     # Create temporary files for testing
     with tempfile.TemporaryDirectory() as tmpdir:
         tmpdir_path = Path(tmpdir)

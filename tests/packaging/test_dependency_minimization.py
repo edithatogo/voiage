@@ -10,6 +10,8 @@ import time
 
 import pytest
 
+import voiage
+
 try:
     import tomllib
 except ModuleNotFoundError:  # pragma: no cover - isolated dependency probes
@@ -22,10 +24,14 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 def _run_isolated_probe(probe: str) -> subprocess.CompletedProcess[str]:
-    """Run a clean-install probe while explicitly exposing the source tree."""
-    isolated_probe = f"import sys\nsys.path.insert(0, {str(ROOT)!r})\n{probe}"
+    """Probe the same package as the parent, with checkout helpers available."""
+    package_root = Path(voiage.__file__).resolve().parent.parent
+    isolated_probe = (
+        f"import sys\nsys.path.insert(0, {str(package_root)!r})\n"
+        f"sys.path.append({str(ROOT)!r})\n{probe}"
+    )
     return subprocess.run(
-        [sys.executable, "-c", isolated_probe],
+        [sys.executable, "-I", "-c", isolated_probe],
         cwd=ROOT,
         check=False,
         capture_output=True,

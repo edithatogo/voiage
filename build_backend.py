@@ -2,14 +2,20 @@
 
 from __future__ import annotations
 
+import base64
 from contextlib import contextmanager
+import csv
+import hashlib
+import io
 import os
 from pathlib import Path, PurePosixPath
 import re
 import shutil
 import subprocess
 import tarfile
+import tempfile
 from typing import TYPE_CHECKING
+import zipfile
 
 import maturin
 
@@ -69,7 +75,7 @@ def _git_identity() -> tuple[str, str, bool] | None:
     """Return the checkout identity and whether relevant source is dirty."""
     try:
         top_level = Path(_git("rev-parse", "--show-toplevel")).resolve()
-    except (FileNotFoundError, subprocess.CalledProcessError):
+    except FileNotFoundError, subprocess.CalledProcessError:
         return None
     if top_level != ROOT.resolve():
         return None
@@ -255,6 +261,80 @@ def build_sdist(
             PROVENANCE.write_bytes(previous)
 
 
+def _embed_contracts(wheel_directory: str, filename: str) -> None:
+    """Add source contracts under the package and update the wheel RECORD."""
+    directory = Path(wheel_directory).resolve()
+    wheel = directory / filename
+    if wheel.parent != directory or not wheel.is_file():
+        raise RuntimeError("build backend returned an invalid wheel path")
+    specs = ROOT / "specs"
+    contracts = sorted(specs.rglob("*.json"))
+    if not contracts or any(path.is_symlink() for path in contracts):
+        raise RuntimeError("source contracts are missing or contain symlinks")
+    fd, temporary = tempfile.mkstemp(prefix=".voiage-contracts-", dir=directory)
+    os.close(fd)
+    try:
+        with (
+            zipfile.ZipFile(wheel) as original,
+            zipfile.ZipFile(
+                temporary, "w", compression=zipfile.ZIP_DEFLATED
+            ) as updated,
+        ):
+            records = [
+                name
+                for name in original.namelist()
+                if name.endswith(".dist-info/RECORD")
+            ]
+            if len(records) != 1:
+                raise RuntimeError("wheel must contain exactly one RECORD")
+            record = records[0]
+            entries = list(
+                csv.reader(io.StringIO(original.read(record).decode("utf-8")))
+            )
+            if any(len(row) != 3 for row in entries):
+                raise RuntimeError("invalid wheel RECORD")
+            existing = set(original.namelist())
+            for info in original.infolist():
+                if info.filename != record:
+                    with (
+                        original.open(info) as source,
+                        updated.open(info, "w") as target,
+                    ):
+                        shutil.copyfileobj(source, target, length=65536)
+            entries = [row for row in entries if row[0] != record]
+            for contract in contracts:
+                name = (
+                    "voiage/_contracts/specs/" + contract.relative_to(specs).as_posix()
+                )
+                if name in existing:
+                    raise RuntimeError(f"duplicate wheel contract: {name}")
+                digest = hashlib.sha256()
+                size = 0
+                info = zipfile.ZipInfo(name, (1980, 1, 1, 0, 0, 0))
+                info.compress_type = zipfile.ZIP_DEFLATED
+                info.external_attr = 0o100644 << 16
+                with contract.open("rb") as source, updated.open(info, "w") as target:
+                    while chunk := source.read(65536):
+                        target.write(chunk)
+                        digest.update(chunk)
+                        size += len(chunk)
+                encoded = (
+                    base64.urlsafe_b64encode(digest.digest())
+                    .rstrip(b"=")
+                    .decode("ascii")
+                )
+                entries.append([name, f"sha256={encoded}", str(size)])
+            entries.append([record, "", ""])
+            output = io.StringIO(newline="")
+            csv.writer(output, lineterminator="\n").writerows(entries)
+            updated.writestr(
+                original.getinfo(record), output.getvalue().encode("utf-8")
+            )
+        os.replace(temporary, wheel)
+    finally:
+        Path(temporary).unlink(missing_ok=True)
+
+
 def build_wheel(
     wheel_directory: str,
     config_settings: Mapping[str, Any] | None = None,
@@ -262,11 +342,20 @@ def build_wheel(
 ) -> str:
     """Build a wheel, requiring exact embedded identity when Git is absent."""
     with _gitless_wheel_identity():
-        return maturin.build_wheel(
+        filename = maturin.build_wheel(
             wheel_directory,
             config_settings,
             metadata_directory,
         )
+        try:
+            _embed_contracts(wheel_directory, filename)
+        except Exception:
+            directory = Path(wheel_directory).resolve()
+            candidate = directory / filename
+            if candidate.parent == directory:
+                candidate.unlink(missing_ok=True)
+            raise
+        return filename
 
 
 def build_editable(
