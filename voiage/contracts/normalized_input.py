@@ -33,6 +33,7 @@ _MANIFEST_KEY = b"voiage.normalized.manifest"
 _TABLE_ID_KEY = b"voiage.normalized.table_id"
 _ORIGINAL_METADATA_KEY = b"voiage.normalized.original_schema_metadata"
 _METADATA_MAGIC = b"voiage-schema-metadata-v1:"
+_MANIFEST_FORMAT_MARKER = b"\n "
 
 
 def _encode_schema_metadata(metadata: Mapping[bytes, bytes] | None) -> bytes:
@@ -50,13 +51,15 @@ def _restore_schema_metadata(
 ) -> dict[bytes, bytes] | None:
     """Restore original schema metadata, including from older bundle files."""
     encoded = metadata.get(_ORIGINAL_METADATA_KEY)
-    if encoded is None or not encoded.startswith(_METADATA_MAGIC):
+    if not metadata[_MANIFEST_KEY].endswith(_MANIFEST_FORMAT_MARKER):
         legacy = {
             key: value
             for key, value in metadata.items()
             if key not in {_MANIFEST_KEY, _TABLE_ID_KEY}
         }
         return legacy or None
+    if encoded is None or not encoded.startswith(_METADATA_MAGIC):
+        raise ValueError("invalid original Arrow schema metadata")
     try:
         entries = json.loads(encoded[len(_METADATA_MAGIC) :])
     except (ValueError, UnicodeDecodeError) as error:
@@ -508,7 +511,7 @@ class NormalizedInputBundle:
         table_name, table = next(iter(self.tables.items()))
         metadata = {
             **(table.schema.metadata or {}),
-            _MANIFEST_KEY: self.canonical_json.encode(),
+            _MANIFEST_KEY: self.canonical_json.encode() + _MANIFEST_FORMAT_MARKER,
             _TABLE_ID_KEY: table_name.encode(),
             _ORIGINAL_METADATA_KEY: _encode_schema_metadata(table.schema.metadata),
         }
@@ -525,7 +528,7 @@ class NormalizedInputBundle:
         table_name, table = next(iter(self.tables.items()))
         metadata = {
             **(table.schema.metadata or {}),
-            _MANIFEST_KEY: self.canonical_json.encode(),
+            _MANIFEST_KEY: self.canonical_json.encode() + _MANIFEST_FORMAT_MARKER,
             _TABLE_ID_KEY: table_name.encode(),
             _ORIGINAL_METADATA_KEY: _encode_schema_metadata(table.schema.metadata),
         }
