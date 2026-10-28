@@ -13,14 +13,15 @@ import hashlib
 from importlib.metadata import PackageNotFoundError
 from importlib.metadata import version as package_version
 import json
-from pathlib import Path
 from typing import Any
+lazy from pathlib import Path
 
 import jsonschema
 
+from voiage._contract_root import contract_root
 from voiage.exceptions import raise_input_error
 
-_ROOT = Path(__file__).resolve().parents[1]
+_ROOT = contract_root()
 _DEFAULT_SCHEMA_PATH = (
     _ROOT / "specs" / "decision-cards" / "schemas" / "v1" / "decision-card.schema.json"
 )

@@ -1,5 +1,8 @@
 # Changelog
 
+- Include runtime contract files in installed wheels under a private package
+  path so schema-driven APIs work without a source checkout.
+
 - Add dated Rust compiler/bootstrap candidates for the native Polars build,
   authenticate the source-to-bootstrap manifest binding, and keep the core
   compiler on its stable numeric series. Native build acceptance remains open.
