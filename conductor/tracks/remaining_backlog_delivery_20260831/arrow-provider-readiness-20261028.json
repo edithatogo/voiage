@@ -1,0 +1,151 @@
+{
+  "observed_at": "2026-10-28T12:30:22Z",
+  "baseline": "e336cd9fa47913d86360eeaea95f728215e0f681",
+  "owner": "root",
+  "branch": "codex/hpc-arrow-providers-20261028",
+  "task": "B6.2 LibCST Python 3.15 build prerequisite",
+  "behavior": "Bind the required Python 3.15 LibCST source and native compiler contract; reject changed source, recipe, runtime marker, license or compiler declarations",
+  "implementation_allowlist": [
+    "packaging/current/spack/packages/py-libcst/package.py",
+    "packaging/current/arrow-provider-sources.json",
+    "scripts/check_current_arrow_providers.py",
+    "tests/test_current_arrow_providers.py"
+  ],
+  "source_sha256": "087b58a9afe076bb08e2d726478e1f16cb928d67ffa9092817e033c335de522a",
+  "red": "Missing provider/checker and wrong license/compiler/marked dependencies must fail",
+  "green": "Authentic source and faithful Python 3.15.1 recipe pass; all damaged candidates fail",
+  "local_source_build": {
+    "python": "3.15.1 (main, Oct 21 2026, 17:39:16) [Clang 23.1.3 ]",
+    "prefix": "/Volumes/PortableSSD/GitHub/voiage/.conductor/local/goal-backlog/libcst315",
+    "libcst_version": "1.9.0",
+    "pyyaml_version": "6.0.3",
+    "native_extension": "/Volumes/PortableSSD/GitHub/voiage/.conductor/local/goal-backlog/libcst315/lib/python3.15/site-packages/libcst/native.cpython-315-darwin.so",
+    "native_extension_sha256": "fbc38c31e2d2ee9371810730e2a19e22a90b1c0058e6b5a4a8780340a358dcd8",
+    "native_parser_calls": 1,
+    "parser_round_trip": true,
+    "direct_source": {
+      "url": "file:///Volumes/PortableSSD/GitHub/voiage/.conductor/local/goal-backlog/provider-sources/libcst-1.9.0.tar.gz",
+      "archive_info": {}
+    },
+    "native_macos_source_build": true,
+    "spack_build_executed": false,
+    "linux_build_executed": false
+  },
+  "qualification_boundary": "Actual macOS upstream source build and native parser call are proven; no Spack build, Linux execution, full solve or Arrow C++ source build is accepted",
+  "review_notes": [
+    "LibCST source is MIT with native PSF-2.0 terms; do not inherit old recipe Apache declaration",
+    "Python 3.15 selects pyyaml>=6.0.3; 3.13-only pyyaml-ft is not part of this profile",
+    "No default-feature override or PyO3 compatibility bypass",
+    "Subsequent Arrow C++/Python slices must include imported CSV/IPC/Parquet components, not only +python"
+  ],
+  "baseline_input_sha256": {
+    "AGENTS.md": "752f11252e7532aba196051fe6de53641dc6c7b846a98a9eb207d4bc24a4ff1a",
+    "conductor/workflow.md": "1e70788017c5267ca4f357378237f4c2ba6621586d71eb6a40fc0ecbce829d67",
+    "specs/dependency-runtime-policy.json": "f8e0639e1568bc7b2ef3c2c6870f812b6cddc1c14ab2b27647a484a488428ef3",
+    "scripts/check_current_spack_providers.py": "14247e6371880875fc0d450999c12c9bb29478124207234b855dcd917f97b7b8",
+    "packaging/current/spack/repo.yaml": "28576b5d5ee4fc2d4aca4fd13f0fc4c1ff2a984bd422150fb9c5c00c019ab364"
+  },
+  "implementation_baseline": "All four implementation paths are absent from the baseline commit; no prior source is replaced",
+  "verification_commands": [
+    ".venv/bin/python -m pytest tests/test_current_arrow_providers.py tests/test_current_spack_providers.py tests/test_current_overlays.py -q",
+    ".venv/bin/python -m scripts.check_current_arrow_providers .conductor/local/goal-backlog/provider-sources"
+  ],
+  "verification": {
+    "affected_tests_passed": 32,
+    "test_resource_report": {
+      "peak_rss_kib": 103072,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 6.338,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-sjeh17v7"
+    },
+    "real_source": {
+      "libcst_source_declaration_qualified": true,
+      "python_profile": "3.15.1",
+      "source_archive_sha256": "087b58a9afe076bb08e2d726478e1f16cb928d67ffa9092817e033c335de522a",
+      "licenses_checked": 4,
+      "spack_build_executed": false,
+      "linux_build_executed": false,
+      "full_arrow_profile_qualified": false
+    },
+    "native_class_load": {
+      "1.9.0": {
+        "sha256": "087b58a9afe076bb08e2d726478e1f16cb928d67ffa9092817e033c335de522a",
+        "url": "https://files.pythonhosted.org/packages/02/c0/098e5c91ff1537f00c85a6438b6cb1863d17144680cc91f47c87f104a200/libcst-1.9.0.tar.gz"
+      }
+    },
+    "source_build_monitor": {
+      "peak_rss_kib": 574256,
+      "reason": "completed",
+      "returncode": 1,
+      "elapsed_seconds": 98.519,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-is7t1ox5"
+    },
+    "source_build_monitor_failure": "Source build and installation succeeded; generated post-build probe had malformed newline quoting. Corrected installed-only probe passed without rebuilding.",
+    "corrected_native_probe_resource": {
+      "peak_rss_kib": 5840,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 2.136,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-dq5u8_1g"
+    },
+    "review_findings_fixed": [
+      "Evaluated marker strings must be removed before comparing selected requirement identities",
+      "Reject an unknown build requirement even when source and packet agree, because the recipe has no matching dependency"
+    ],
+    "full_candidate_gate": "Pending final integrated Arrow candidate; no B6.2 completion claimed"
+  },
+  "storage_incident": {
+    "symptom": "Device not configured from inherited working directory; fresh absolute paths recovered access",
+    "recovery_copy": "/Users/doughnut/.codex/voiage-libcst-recovery-7t4qw31m",
+    "files_verified": 7,
+    "unaccepted_runs": "Two logs absent and one empty after terminal handles; do not use them as evidence",
+    "git_full_strict_fsck": {
+      "peak_rss_kib": 218320,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 16.991,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-b0sbqifz"
+    },
+    "replacement_verification": "Real source, native class load and 32 affected tests were rerun successfully from fresh absolute cwd; logs read back"
+  },
+  "cpp_source_preflight": {
+    "version": "26.0.0",
+    "commit": "446167169a0dc547e00e1bc29f417a40c0ca267a",
+    "url": "https://github.com/apache/arrow/archive/446167169a0dc547e00e1bc29f417a40c0ca267a.tar.gz",
+    "filename": "apache-arrow-26.0.0-commit.tar.gz",
+    "sha256": "764adbb5601a4d0d9d67a10cf04892d33cfac9fd43012f08a2d7c9956a7a90d2",
+    "bytes": 17790501,
+    "native_build_executed": false,
+    "upstream_constraints": {
+      "minimum_cmake": "3.25",
+      "allocator": "mimalloc default ON; source-pinned v3.4.1, SHA256 37107a52c16baa80c5f74861dddda7b27bb9949e41a6637691867a94c88ca446",
+      "python_switch": "ARROW_PYTHON is deprecated and does not enable CSV/Parquet components",
+      "next_action": "Freeze explicit Arrow C++ component and codec profile; retain source-pinned allocator rather than disabling it to avoid the fetch"
+    }
+  },
+  "installed_arrow_baseline": {
+    "version": "26.0.0",
+    "module": "/Volumes/PortableSSD/GitHub/voiage/.venv/lib/python3.15/site-packages/pyarrow/__init__.py",
+    "codecs": {
+      "brotli": true,
+      "bz2": true,
+      "gzip": true,
+      "lz4": true,
+      "lz4_raw": true,
+      "snappy": true,
+      "zstd": true
+    },
+    "runtime_imports": [
+      "pyarrow.csv",
+      "pyarrow.ipc",
+      "pyarrow.parquet"
+    ],
+    "specific_contract": "voiage/contracts/interchange.py writes analysis-result Parquet using zstd"
+  },
+  "source_commit": "227f1583d3e8ad24e07030cee5b3d1d494c38352",
+  "other_writer_reservations": [
+    ".github/workflows/native-build-capacity-observation.yml",
+    "docs/reviews/native-build-capacity-20261028.md"
+  ]
+}
