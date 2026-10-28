@@ -1,4 +1,4 @@
-"""Generic DataFrame-interchange adapter; no pandas or Polars dependency."""
+"""Generic DataFrame-interchange adapter over standard Arrow protocols."""
 
 from __future__ import annotations
 

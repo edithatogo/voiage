@@ -4,7 +4,7 @@ description: Additive, generated contracts for reproducible VOIAGE analyses.
 ---
 
 VOIAGE v2 contracts are an opt-in interoperability layer around the established
-dataclass, NumPy, and xarray runtime APIs. They do not replace those APIs. The
+dataclass, NumPy, and Polars runtime APIs. They do not replace those APIs. The
 Pydantic models capture declarative analysis inputs, numerical policy,
 diagnostics, provenance, and JSON-safe result envelopes while compatibility
 adapters preserve existing numerical behaviour.

@@ -251,6 +251,9 @@ jobs:
     - name: Enforce pandas-free source imports
       run: uv run --frozen --no-sync python scripts/check_pandas_free.py --source voiage
 
+    - name: Enforce reviewed repository references
+      run: uv run --frozen --no-sync python scripts/check_reference_policy.py
+
     - name: Run Ruff
       run: uv run ruff check voiage tests --output-format=github --ignore=FA100,FA102,UP,TC,RUF022,RUF100
 

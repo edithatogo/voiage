@@ -26,7 +26,7 @@ completed hosted check, external interoperability, or release.
 | --- | --- | --- |
 | Croissant ML | Croissant 1.1 with string-only JSON-LD context entries, one legacy `recordSet`/CSV distribution pair or explicitly selected local pairs linked by `recordSet.distribution` to distribution `@id`, fields that exactly match the selected CSV columns, and optional `sha256`/integer-byte `contentSize` integrity declarations | Remote/live catalogs, archives, transforms, splits, keys, nested fields, field references, JSON-LD context objects, `FileObject`/`FileSet`, non-CSV media types, non-SHA-256 integrity forms, and textual/structured `contentSize` values are rejected. |
 | Frictionless Data Package | One or more explicitly schematized local CSV resources (`.csv`, comma), TSV resources (`.tsv`, `format: tsv`, explicit tab delimiter), JSON Table resources (`.json`, `format: json`, UTF-8 array of object rows), Parquet resources (`.parquet`, `format: parquet`, no dialect), or Arrow IPC file resources (`.arrow`, `format: arrow`; `.feather`, `format: feather`), with declared primitive types, primary/foreign keys, and boolean `required`/`unique` field constraints | Remote/live resources, archives, inferred or custom dialects, JSON Lines/envelopes/paths/nested rows, Arrow streams, Flight endpoints, dataset directories, unsupported formats, transforms, undeclared or ambiguous resources, non-boolean or unsupported constraints, and schema `missingValues` declarations are rejected. |
-| Direct columnar interchange | pandas, Polars, or another Arrow PyCapsule or `__dataframe__` producer that can convert through Arrow with an explicit binding | The adapter prefers Arrow PyCapsule conversion, falls back to DataFrame interchange when needed to preserve column semantics, and does not infer a VOI role, silently copy a disallowed frame, or create a second calculation path. |
+| Direct columnar interchange | Polars or another Arrow PyCapsule or `__dataframe__` producer that can convert through Arrow with an explicit binding | The adapter prefers Arrow PyCapsule conversion, falls back to DataFrame interchange when needed to preserve column semantics, and does not infer a VOI role, silently copy a disallowed frame, or create a second calculation path. |
 | Arrow IPC | A `NormalizedInputBundle` previously written by VOIAGE | This is a normalized interchange artifact, not a source-descriptor parser. |
 
 The built-in providers use only the base Arrow/JSON runtime. The named
@@ -238,7 +238,7 @@ The same contract supports more than one community-facing example:
 - ML: a Croissant `recordSet` of posterior net-benefit samples for model choice.
 - Engineering/operations: a Frictionless package recording alternative design
   outcomes and costs.
-- Business: a Polars or pandas-compatible DataFrame passed through the
+- Business: a Polars or protocol-compatible DataFrame passed through the
   dataframe-interchange adapter for competing investment strategies.
 
 The adapter deliberately keeps the exchange boundary visible. Use
@@ -250,11 +250,11 @@ exclusion, and each Arrow field's dtype, nullability, categorical, and timezone
 decisions. A successful no-copy conversion is recorded as `zero_copy`; when
 copies are permitted, Arrow's public API does not expose the actual outcome, so
 the extension records `not_observable` rather than guessing.
-The consumer tests exercise pandas and Polars nullable categorical and
+The consumer tests exercise external-producer and Polars nullable categorical and
 timezone-aware columns. They assert the Arrow decisions actually returned by
-the installed producer and preserve a pandas index exclusion, but do not imply
+the installed producer and preserve the producer index exclusion, but do not imply
 that every producer, dtype, or future producer version has identical behavior.
-They also cover a non-contiguous pandas slice, typed zero-row input, and a
+They also cover a non-contiguous external-producer slice, typed zero-row input, and a
 no-column producer. Those cases preserve the adapter's Arrow schema and
 diagnostics; an empty input is not implicitly promoted into a valid VOI
 calculation without a separately valid explicit binding and data values.

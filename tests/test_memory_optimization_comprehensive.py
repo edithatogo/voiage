@@ -184,7 +184,7 @@ class TestMemoryOptimizationComprehensive:
         usage = optimizer.estimate_memory_usage(value_array)
 
         assert isinstance(usage, (int, float))
-        # The usage should be >= 0 (though exact value depends on internal xarray structure)
+        # The usage should be >= 0 (though exact value depends on internal buffer ownership)
 
     def test_estimate_memory_usage_dict(self) -> None:
         """Test estimate_memory_usage for dictionary."""

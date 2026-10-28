@@ -7,16 +7,16 @@ description: Core data structures in voiage
 
 ## Core contract
 
-The core contract treats **xarray Datasets** as the canonical in-memory representation for public data structures. Helper constructors and copy methods preserve dataset coordinates so bindings can round-trip the same labels without flattening them into tabular objects.
+The v3 contract uses **Polars wide frames** with ordered Float64 columns for the public tabular containers. Explicit strategy and parameter names preserve labels; Arrow/Parquet remains the cross-language interchange boundary.
 
 ## Key structures
 
-- **`ValueArray`** — net benefit array with structured round-trip helpers (`from_dataset()` / `to_dataset()`)
+- **`ValueArray`** — net benefit array with structured round-trip helpers (`from_polars()` / `to_polars()`)
 - **`DecisionAnalysis`** — analysis orchestration facade
 - **`Intervention`** — intervention definition
 - **`DecisionProblem`** — decision problem formulation
 - **`TrialDesign`** — trial design specification
-- **`ParameterSet`** — parameter set with round-trip helpers (`from_dataset()` / `to_dataset()`)
+- **`ParameterSet`** — parameter set with round-trip helpers (`from_polars()` / `to_polars()`)
 
 ## See also
 

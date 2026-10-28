@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "tested_commit": "cfc6b35b3c0cf2ffa9d92f39c816b3236b2116c3",
+  "python": "3.15.1",
+  "full_gate": {
+    "environments_passed": 15,
+    "tests_passed": 5392,
+    "capability_skips": 14,
+    "aggregate_coverage_percent": 94.73047628387434,
+    "changed_executable_lines": 0,
+    "changed_branches": 0
+  },
+  "resource_guard": {
+    "peak_rss_kib": 1600352,
+    "reason": "completed",
+    "returncode": 0,
+    "elapsed_seconds": 298.282,
+    "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-gyboj0o6"
+  },
+  "correction": "tox now forwards indexed process-local Git configuration, including the guard override disabling detached file-system monitors. No global configuration changed.",
+  "regression_tests_passed": 8,
+  "nested_guard_tox_git_probe": "passed",
+  "previous_verified_job_owned_daemons_stopped": 10,
+  "final_job_monitor_paths": [],
+  "tested_reference_policy_sha256": "e838b308caea9228bba94b5aab9cbd5e87a25e3022f4593bc49d20923718bfb4",
+  "historical_failures": "Retained in the original acceptance receipt and ignored local logs; this fresh complete gate supersedes partial corrective runs.",
+  "remaining_gates": [
+    "hosted checks",
+    "merged revision acceptance",
+    "native overlay qualification and publication remain separate"
+  ]
+}

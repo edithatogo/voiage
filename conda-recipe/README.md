@@ -8,7 +8,7 @@ version and source hash only after the immutable PyPI sdist is published.
 
 The runtime dependency block follows `specs/dependency-runtime-policy.json`:
 Python >=3.15.1,<3.16, Polars >=2.1.0,<3 and Arrow >=26.0.0,<27. It declares
-neither pandas nor xarray. NumPy, SciPy and scikit-learn use the unchanged
+neither legacy tabular package. NumPy, SciPy and scikit-learn use the unchanged
 current Python package bounds. The drift checker compares every runtime root.
 
 The recipe's published version and source SHA256 remain the immutable 2.1.0

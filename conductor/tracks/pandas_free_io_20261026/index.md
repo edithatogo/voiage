@@ -2,9 +2,10 @@
 
 Status: in progress. T1.1/T1.2 and Phase 2 read semantics are implemented.
 Native Excel, packaging reconciliation and pandas-free enforcement were accepted
-in PRs #1205, #1206 and #1207. Phase 6 qualifies external producer compatibility
-on Python 3.15.1 under the resource guard. T1.3 generated-code references,
-Phase 7 repository cleanup and final whole-track acceptance remain open.
+in PRs #1205, #1206 and #1207. Phase 6 external-producer compatibility was accepted in PR #1208. Phase 7
+generated-code/reference cleanup and enforcement is in local qualification on
+Python 3.15.1 under the resource guard. Hosted and final merged-revision
+whole-track acceptance remain open.
 Historical receipts retain the state of their tested candidates.
 
 GitHub issue: https://github.com/edithatogo/voiage/issues/1198 (parent: https://github.com/edithatogo/voiage/issues/1195)

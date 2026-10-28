@@ -194,8 +194,10 @@ accepted in PR #1206: base wheel requirements omit pandas and xarray, while
 explicit unpublished producer tooling remains separate. Phase 5 source-import and no-extras installed-wheel enforcement was accepted
 in merged PR #1207. Phase 6 adds installed-wheel producer compatibility checks
 under the resource guard, preserving the existing copy-policy and diagnostic
-behavior; hosted acceptance remains required. Native Conda release proof and
-Phase 7 reference cleanup remain separate gates. The translation-reference track remains planning-only.
+behavior; accepted in PR #1208. Phase 7 ports generated notebooks and current
+guidance, adds exact reference permissions and separates current overlay
+candidates from immutable historical source graphs. Hosted and merged-revision
+acceptance remain gates. Native Conda/HPC build proof remains separate. The translation-reference track remains planning-only.
 The published 2.2.0
 release line and the active release-and-venue track are unaffected.
 

@@ -1,0 +1,34 @@
+"""Candidate only: supply a source archive qualified against runtime.json first."""
+
+import os
+
+easyblock = "PythonPackage"
+name = "voiage"
+version = "2.2.0"
+versionsuffix = "-candidate-Python-3.15.1"
+homepage = "https://github.com/edithatogo/voiage"
+description = "Value of Information candidate on the qualified current runtime."
+toolchain = {"name": "system", "version": ""}
+sources = [os.environ["VOIAGE_QUALIFIED_SOURCE_ARCHIVE"]]
+checksums = [os.environ["VOIAGE_QUALIFIED_SOURCE_SHA256"]]
+builddependencies = [("Rust", "1.96.0"), ("maturin", "1.13.1")]
+dependencies = [
+    ("Python", "3.15.1"),
+    ("click", "8.5.0"),
+    ("NumPy", "2.5.4"),
+    ("SciPy", "1.18.1"),
+    ("scikit-learn", "1.9.1"),
+    ("Arrow", "26.0.0"),
+    ("polars", "2.1.0"),
+    ("pydantic", "2.13.4"),
+    ("jsonschema", "4.26.0"),
+    ("typing_extensions", "4.16.0"),
+    ("typer", "0.27.2"),
+]
+use_pip = True
+pip_no_index = True
+pip_no_build_isolation = True
+download_dep_fail = True
+sanity_pip_check = True
+sanity_check_commands = ["python -c 'import voiage, voiage._core'", "voiage --help"]
+moduleclass = "math"

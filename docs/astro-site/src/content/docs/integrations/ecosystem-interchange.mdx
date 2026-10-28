@@ -69,7 +69,7 @@ NumPy values with `non_finite_value`. A caller must explicitly resolve missing
 observations before analysis; loading data is not numerical acceptance.
 
 Excel support uses `python-calamine` for reading and XlsxWriter through
-`DataFrame.write_excel` for writing. Neither path falls back to pandas or
+`DataFrame.write_excel` for writing. Neither path falls back to a legacy dataframe engine or
 openpyxl. Install `voiage[excel]` for both engines; without the required engine,
 the connector warns with that installation diagnostic and retains its existing
 empty-result behavior. The reader selects the first worksheet, ignoring chart

@@ -1,0 +1,357 @@
+{
+  "schema_version": "1.0",
+  "phase": "7",
+  "tasks": [
+    "T7.1",
+    "T7.2",
+    "T7.3"
+  ],
+  "status": "locally_qualified_hosted_and_merged_revision_pending",
+  "prerequisite": {
+    "pr": "https://github.com/edithatogo/voiage/pull/1208",
+    "merge_commit": "f6e6ee39c02586c3568539f5b567739696708276",
+    "merged_at": "2026-10-28T00:17:13Z",
+    "readback": "All applicable hosted checks passed; source commits signed and zero unresolved threads."
+  },
+  "first_tested_commit": "77217b8bfcfdd7ab2fbc1130a32cd44fcc032f55",
+  "corrected_tested_commit": "f7000c4554c1d61b1b046bd334b29eae40e9edc4",
+  "corrected_tested_tree": "df61bedf4501750f9580c247b4f497acb62cf442",
+  "python": "3.15.1",
+  "baseline": "phase-7-baseline.json",
+  "baseline_inventory": {
+    "lines": 841,
+    "files": 200
+  },
+  "reference_gate": {
+    "tested_policy_sha256": "c6f6551f987d70b24fcd991065eca6b00fcc1afcc65ced8df445ea76800ff485",
+    "tested_permission_paths": 188,
+    "categories": {
+      "frozen_historical_evidence": 156,
+      "producer_compatibility": 31,
+      "migration_guide": 1
+    },
+    "unapproved": 0,
+    "native_equivalence": {
+      "equivalent": true,
+      "matching_lines": 2703,
+      "files": 188,
+      "native_inventory_sha256": "275286525b3643affd0e18765c84f580b37b54901c5ab94823219a4d28b18127"
+    },
+    "scope": "All Git-tracked text including templates; external pinned Gitlinks follow native parent-repository scope. No path globs, suppressions or automatic refresh. Exact line/count permissions or immutable file hashes only.",
+    "compatibility_clarification": "Existing external Parquet wire key, unpublished producer declarations and executable absence controls require narrow permissions. Production imports remain banned without exemption.",
+    "evidence_only_policy_append": "After writing this immutable receipt, add only its frozen-file permission. Runtime/source permissions are unchanged from the tested policy."
+  },
+  "implementation": {
+    "notebook": "Native frame construction and named row iteration; actual line breaks; current runtime metadata. All code cells compile, analysis cells execute against unchanged health-model methods.",
+    "notebook_baseline_reproduction": {
+      "base": "f6e6ee39",
+      "invalid_code_cells": 1,
+      "baseline_kernel_metadata": "3.8+",
+      "source_parser_errors": [
+        "unexpected character after line continuation character (<unknown>, line 1)"
+      ]
+    },
+    "governance": "Reported base dependency names now match existing package metadata; public keys/signatures unchanged.",
+    "example_display": {
+      "python": "3.15.1",
+      "versions": {
+        "numpy": "2.5.4",
+        "pandas": "3.1.0",
+        "polars": "2.1.0",
+        "seaborn": "0.13.2",
+        "matplotlib": "3.11.2"
+      },
+      "source": "paper/advanced_voi_example.py",
+      "actual_example_statements_executed": 3,
+      "axis_labels_preserved": true,
+      "maximum_absolute_correlation_delta": 3.3306690738754696e-16,
+      "scope": "bounded display fixture only; core numerical paths unchanged"
+    },
+    "runtime_boundary": [
+      {
+        "path": "voiage/_tabular_io.py",
+        "signatures_unchanged": true,
+        "changed_function_bodies": []
+      },
+      {
+        "path": "voiage/ingestion/dataframe.py",
+        "signatures_unchanged": true,
+        "changed_function_bodies": []
+      },
+      {
+        "path": "voiage/governance.py",
+        "signatures_unchanged": true,
+        "changed_function_bodies": []
+      },
+      {
+        "path": "voiage/ecosystem_integration.py",
+        "signatures_unchanged": true,
+        "changed_function_bodies": [
+          "WorkflowConnector.create_jupyter_analysis"
+        ]
+      }
+    ],
+    "unchanged_trees": [
+      {
+        "path": "rust",
+        "unchanged": true
+      },
+      {
+        "path": "bindings",
+        "unchanged": true
+      },
+      {
+        "path": "r-package",
+        "unchanged": true
+      },
+      {
+        "path": "specs/core-api",
+        "unchanged": true
+      },
+      {
+        "path": "specs/v3",
+        "unchanged": true
+      },
+      {
+        "path": "specs/integration/vop-voiage/compatibility",
+        "unchanged": true
+      },
+      {
+        "path": "voiage/methods",
+        "unchanged": true
+      },
+      {
+        "path": "voiage/backends",
+        "unchanged": true
+      },
+      {
+        "path": "voiage/schema.py",
+        "unchanged": true
+      },
+      {
+        "path": "voiage/health_economics.py",
+        "unchanged": true
+      }
+    ]
+  },
+  "initial_full_gate": {
+    "command": "guard -- tox run-parallel -p 2",
+    "environments": {
+      "lint": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 27.287758499998745,
+        "skipped": false
+      },
+      "pandas-free": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 20.540977166998346,
+        "skipped": false
+      },
+      "producer-compatibility": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 11.510595416999422,
+        "skipped": false
+      },
+      "vale": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 7.77294420799808,
+        "skipped": false
+      },
+      "joss": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 4.579705459000252,
+        "skipped": false
+      },
+      "harness": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 13.768219708999823,
+        "skipped": false
+      },
+      "typecheck": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 6.9738857500015,
+        "skipped": false
+      },
+      "docs": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 242.24724550000246,
+        "skipped": false
+      },
+      "ingestion-conformance": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 64.61891891599953,
+        "skipped": false
+      },
+      "frontier-contract": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 1.3672484169983363,
+        "skipped": false
+      },
+      "version-sync": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 2.599223791999975,
+        "skipped": false
+      },
+      "py315": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 25.784430957999575,
+        "skipped": false
+      },
+      "min_versions": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 25.562360083000385,
+        "skipped": false
+      },
+      "max_versions": {
+        "success": true,
+        "exit_code": 0,
+        "duration": 31.044737874999555,
+        "skipped": false
+      },
+      "coverage_report": {
+        "success": false,
+        "exit_code": 1,
+        "duration": 824.0787959579975,
+        "skipped": false
+      }
+    },
+    "coverage_tests": {
+      "passed": 5390,
+      "skipped": 14,
+      "failed": 1
+    },
+    "failure": "A stale documentation test expected the superseded runtime range. The documentation correctly states the required runtime.",
+    "resource_guard": {
+      "peak_rss_kib": 1689792,
+      "reason": "completed",
+      "returncode": 1,
+      "elapsed_seconds": 1025.564,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-mclyqmgc"
+    }
+  },
+  "corrective_verification": {
+    "documentation": "Same qualified environment with exact file and --lf --last-failed-no-failures=none: 11 actual nodes passed; cache selection was not empty.",
+    "coverage_environment": "Failed environment rerun in full at the corrected commit: 5,389 passed, 14 unchanged capability skips, two installed-artifact build failures. One explicitly records PyPI connection timeout; both failed selectors passed in the targeted read-only rerun after exact-target registry read returned 200.",
+    "targeted_consumer_tests": 2,
+    "consumer_guard": {
+      "peak_rss_kib": 465744,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 78.045,
+      "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-8t9s7wfi"
+    },
+    "supplemental_resource_receipt_available": false,
+    "supplemental_resource_note": "Saved terminal tox result is retained, but no final controller receipt was available after turn interruption. It is not used for the memory-peak claim. Complete first-run and corrective focused guard receipts supply resource evidence.",
+    "reuse": "The 14 passing environments are reused. Between the first and corrected candidates only the stale documentation assertion and example display labels/import changed; no runtime, dependency, shared fixture or runner change.",
+    "resolved_full_case_count": 5391,
+    "resolved_failures": 0,
+    "test_retries": "No automatic test retry plugin or new skip/xfail. One identified transient build/network failure-only rerun, with first failures retained."
+  },
+  "coverage_policy": {
+    "aggregate": {
+      "minimum": 90.0,
+      "percent": 94.73047628387434
+    },
+    "base": "f6e6ee39c02586c3568539f5b567739696708276",
+    "changed": {
+      "branch_minimum": 100.0,
+      "branch_percent": 100.0,
+      "branches": 0,
+      "covered_branches": 0,
+      "covered_lines": 0,
+      "executable_lines": 0,
+      "line_minimum": 95.0,
+      "line_percent": 100.0,
+      "missing_branches": [],
+      "missing_lines": [],
+      "unmeasured_files": []
+    },
+    "critical_modules": [
+      {
+        "minimum": 100.0,
+        "passed": true,
+        "path": "voiage/assurance_policy.py",
+        "percent": 100.0
+      },
+      {
+        "minimum": 90.0,
+        "passed": true,
+        "path": "voiage/contracts/bundle.py",
+        "percent": 99.30191972076788
+      },
+      {
+        "minimum": 95.0,
+        "passed": true,
+        "path": "voiage/mutation_policy.py",
+        "percent": 100.0
+      }
+    ],
+    "exact_source_head": true,
+    "head": "f7000c4554c1d61b1b046bd334b29eae40e9edc4",
+    "passed": true,
+    "schema_version": "1.0.0",
+    "source_head": "f7000c4554c1d61b1b046bd334b29eae40e9edc4",
+    "tested_head": "f7000c4554c1d61b1b046bd334b29eae40e9edc4"
+  },
+  "coverage_note": "Aggregate and critical-module policies pass at 94.73%. Changed executable-line/branch counts are zero; their vacuous percentages are not used as generated-code or policy proof. Actual execution and mutation controls supply that proof.",
+  "overlays": {
+    "current_declarations": {
+      "passed": true,
+      "errors": [],
+      "native_build_executed": false
+    },
+    "historical_root_validator": "Both retained generation-neutral graphs pass unchanged. All original packaging inputs/notices are hash-pinned by the lifecycle catalogue.",
+    "native_gate": "Current declarations are candidate handoffs only. Source archive qualification, native solving/build and installed-module acceptance remain false. Old source-bound recipes/tools are historical replay evidence, not current defaults."
+  },
+  "dependency_audit": {
+    "upgrade": "No lock changes.",
+    "strict_frontier": "Initial PyPI read timeout retained; one bounded read-only retry passed.",
+    "plot_probe": "Base development environment lacked the optional plot package; new isolated resolution then timed out at PyPI. Neither failure is accepted as plot proof. Existing qualified typecheck environment executed the actual example statements successfully on the locked versions."
+  },
+  "guard_controls": {
+    "rss_mib": 4096,
+    "timeout_seconds": 3600,
+    "min_free_disk_mib": 2048,
+    "native_threads": 1,
+    "coverage_workers": 2,
+    "plot_rss_mib": 1024
+  },
+  "source_sha256": {
+    "scripts/check_reference_policy.py": "0f03bb80e75b9f92eb59ddc611748b931c4d90d0c484251507641fcfe4ee9bfe",
+    "scripts/check_current_overlays.py": "a259964aa06dafc20a50138fa02e822ff45edb15d8ed3953a5504685b8d8aefb",
+    "tox.ini": "808a5e5dce3ffa5b909dc8e1cc20bde24e12f511b1d759186492ea1b80ec7df8",
+    ".github/workflows/ci.yml": "0e8da5c54b0d345344af8ecb16066bf3467965b8a1be1e02131d8184a366dde0",
+    "packaging/current/runtime.json": "78be13c66c9597ae6be6be82ae090747484b8fb176971afc4f6d9c81cb4b1d8c",
+    "packaging/current/overlay-lifecycle.json": "ceb1513481ab2613467b6b74a8826de5f5a18b36dfbbcd7686967aab687ff711"
+  },
+  "artifact_sha256": {
+    "full-result.json": "e97738e372add67635b1e6cfb18099c926abfa652b2927b4e8fe141e6a8bb45c",
+    "full.log": "6b34665ba2c1867884cec2789850f0c722be4a7d0390541b8d8051a940539494",
+    "coverage-corrected-result.json": "7fb2219e4ef9d3c86e16fc8d1a02c5a8426499e864ac699c113a1590cd17fc30",
+    "coverage-corrected.log": "68f7d772b7db1a7d941bbf924b4c2bb7f41d85476e17c214b05c5fb6feb9efb8",
+    "coverage-final.json": "d6124c2f883281f55270c4f060ff80ed1cb3df6293a0c94961b2e369302dfd89",
+    "coverage-policy.json": "b1ff7e1d8f271a0b516b0309133d452d9f33c94e83a935596b7fc9909e8d639d",
+    "consumer-network-rerun.log": "99db33d5c94c6f7da021687c7391181685cc33299c5435b1c861e2db3be3ec87",
+    "docs-failure-only.log": "08faea39fd19189f6544839f505d91d76ecb1367e219f5db362cdf22916ef869",
+    "native-equivalence.json": "ac642432d566890982241706e082481bb1fb583201e0306dbf47d7f6a0d3d5d4",
+    "old-template-proof.json": "c5793417c6b6bbf7e7885c73a3b51162a6792a54d9f5eea9394fdc885550ea44",
+    "runtime-boundary.json": "15e455457a32705d153365d0231191c2af070031f3ca579beee145ffd694a79c",
+    "example-plot-qualified.json": "05c668684b71aca4ab8f15e5c17c761a55c7e27801acf7800036c903cb5464d3",
+    "frontier-strict.log": "a0a4d375748ab787be3fcb70116d029632201bf2c1c38d044194bbc80aec7470",
+    "frontier-retry.log": "0101e25b1a3ca772bdf3810868f176ce094da290b0c667cfde1ca65bea7440cb"
+  },
+  "remaining": "Final hosted checks, exact merged-revision CLOSE.1 and translation handoff CLOSE.2. Native Conda/HPC source/build/release and previously reported unchanged frontend advisories remain separate."
+}

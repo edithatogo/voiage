@@ -67,7 +67,7 @@ The project has a solid foundation and is partially through its initial refactor
     *   Develop at least two detailed tutorial notebooks for non-health problems.
 4.  **XArray Integration:**
     *   **Status: `In Progress`**
-    *   The core data structures in `voiage/schema.py` are already built on `xarray`. This integration needs to be leveraged more deeply throughout the library.
+    *   The core data structures in `voiage/schema.py` are built on Polars wide frames, with Arrow/Parquet interchange and NumPy numerical views.
 
 ---
 

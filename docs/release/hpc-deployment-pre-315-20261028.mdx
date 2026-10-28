@@ -1,0 +1,91 @@
+---
+title: HPC deployment
+description: Spack and EasyBuild source recipe candidates and cluster verification
+---
+
+The repository prepares CPU source recipes for voiage 2.2.0. They are not yet
+published upstream or verified installations on an HPC cluster. Recipe parsing,
+dependency resolution, a local source-wheel build, and a cluster build are
+separate evidence states.
+
+## Build preparation
+
+Spack users can audit the local `packaging/spack-overlay/` repository, which
+supplies missing catalogue versions and their build dependencies. The current
+receipt resolves the complete voiage graph with Python 3.12.14 on the recorded macOS arm64
+host. Historical receipts retain the three earlier individual dependency
+graphs. The complete graph keeps stable Rust and Polars' dated nightly in
+separate compiler/backend instances.
+PyArrow's candidate requests CSV, dataset, filesystem and Parquet support, but
+no native build or installed Arrow round trip has yet been verified.
+
+EasyBuild users can stage the `voiage-2.2.0-foss-2023a.eb` or
+`voiage-2.2.0-foss-2024a.eb` candidate. Both EasyBuild configurations require
+matching modern dependency backports; the default older scientific stack is
+not sufficient. Do not mix compiled modules between compiler toolchains.
+
+From a checkout, run:
+
+```sh
+bash scripts/validate_hpc_recipes.sh --syntax
+python scripts/hpc_package_smoke.py --output /absolute/path/source-smoke.json
+```
+
+To reproduce the overlay solver audit, select a new evidence directory:
+
+```sh
+mkdir -p .conductor/local
+mkdir .conductor/local/hpc-overlay-run
+export SPACK_USER_CONFIG_PATH="$PWD/.conductor/local/hpc-overlay-run/config"
+export SPACK_USER_CACHE_PATH="$PWD/.conductor/local/hpc-overlay-run/cache"
+spack repo add --scope user "$PWD/packaging/spack-overlay"
+spack config --scope user add repos:builtin:commit:d4f7c711a6a42f1c4d551c8fd10fce9a11340a81
+spack config --scope user add "bootstrap:root:$PWD/.conductor/local/hpc-overlay-run/bootstrap"
+cp packaging/spack-overlay/concretizer.yaml "$SPACK_USER_CONFIG_PATH/concretizer.yaml"
+spack spec "py-voiage@2.2.0 ^python@3.12.14"
+```
+
+Retain the exit status and full solver output. The bounded minimal-duplication
+configuration keeps only Rust and its three build tools separate, preserving
+all runtime dependency types. The current `packaging/spack-overlay/solver-receipt.json` binds the
+complete graph in `solver-logs/voiage.json`. The individual Typer, Pydantic and PyArrow
+graphs and their receipt remain under
+`packaging/spack-overlay/history/pre-security-floor-b3f53c2b/`. The
+`bash scripts/validate_hpc_recipes.sh --spec` command loads the full Spack
+overlay before the root recipe, so its solver output exercises the versioned
+provider recipes together with the pinned catalogue.
+
+The source smoke builds the checksum-pinned release and tests the installed
+Rust extension, CLI, a numerical CPU example, and Arrow interchange outside
+the checkout. It does not emulate a cluster build. The explicit `--build` mode
+of the recipe validator runs Spack and EasyBuild builds on a prepared host;
+source builds can download dependencies and take substantial time.
+
+## Cluster modules
+
+After an administrator installs and validates the selected EasyBuild recipe,
+initialize the site's Lmod or Environment Modules environment, then use:
+
+```sh
+module avail voiage
+module load voiage/2.2.0-foss-2024a
+voiage --help
+python -c "import voiage; import voiage._core as c; print(c.runtime_info())"
+module unload voiage/2.2.0-foss-2024a
+```
+
+Use `voiage/2.2.0-foss-2023a` for the other toolchain. A site may configure a
+default so that `module load voiage` selects its supported version. Do not
+assume that default exists. Retain `module list`, interpreter location, native
+runtime information, and the installed numerical smoke output in the build
+record. The sanity checks must load the installed package rather than an
+unrelated package on the login node or a checkout on `PYTHONPATH`.
+
+For Spack, use `spack load py-voiage@2.2.0` after a successful installation.
+Module naming for Spack-generated modules depends on the site's configuration.
+CPU installation does not establish GPU support, MPI scaling, scheduler
+integration, or speedup. Optional accelerator lanes need their own evidence.
+
+The [HPC distribution handoff](https://github.com/edithatogo/voiage/blob/main/docs/release/hpc-distribution-handoff.md)
+contains the upstream PR packets and remaining build gates. No upstream
+submission is made by the validation scripts.
