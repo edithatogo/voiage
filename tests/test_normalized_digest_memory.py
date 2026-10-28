@@ -9,6 +9,7 @@ import sys
 import numpy as np
 import pyarrow as pa
 from pyarrow import ipc
+from pyarrow import parquet as pq
 import pytest
 
 import voiage
@@ -144,6 +145,62 @@ def test_ipc_round_trip_preserves_units_and_source_identity(tmp_path: Path) -> N
         tables={"samples": table},
     )
     assert changed_source.content_digest != bundle.content_digest
+
+
+@pytest.mark.parametrize("format_name", ["ipc", "parquet"])
+@pytest.mark.parametrize(
+    "original_metadata",
+    [
+        None,
+        {},
+        {b"parameter-origin": b"synthetic-fixture", b"unit-context": b"kg"},
+        {
+            b"voiage.normalized.manifest": b"original-manifest",
+            b"voiage.normalized.table_id": b"original-table",
+            b"voiage.normalized.original_schema_metadata": b"original-envelope",
+            b"binary": b"\x00\xff",
+        },
+    ],
+    ids=["none", "empty", "ordinary", "reserved-key-collisions"],
+)
+def test_round_trip_preserves_original_arrow_schema_metadata(
+    tmp_path: Path, format_name: str, original_metadata: dict[bytes, bytes] | None
+) -> None:
+    original = _bundle(np.arange(3, dtype=np.float64))
+    table = original.tables["samples"].replace_schema_metadata(original_metadata)
+    bundle = NormalizedInputBundle(
+        manifest=original.manifest, tables={"samples": table}
+    )
+    path = tmp_path / ("input.arrow" if format_name == "ipc" else "input.parquet")
+    getattr(bundle, f"write_{format_name}")(path)
+    restored = getattr(NormalizedInputBundle, f"read_{format_name}")(path)
+    assert restored.tables["samples"].schema.metadata == table.schema.metadata
+    assert restored.content_digest == bundle.content_digest
+
+
+@pytest.mark.parametrize("format_name", ["ipc", "parquet"])
+def test_legacy_bundle_restores_nonreserved_schema_metadata(
+    tmp_path: Path, format_name: str
+) -> None:
+    bundle = _bundle(np.arange(3, dtype=np.float64))
+    metadata = {
+        b"voiage.normalized.manifest": bundle.canonical_json.encode(),
+        b"voiage.normalized.table_id": b"samples",
+        b"source": b"legacy",
+        b"voiage.normalized.original_schema_metadata": b"legacy-user-value",
+    }
+    table = bundle.tables["samples"].replace_schema_metadata(metadata)
+    path = tmp_path / ("legacy.arrow" if format_name == "ipc" else "legacy.parquet")
+    if format_name == "ipc":
+        with ipc.new_file(path, table.schema) as writer:
+            writer.write_table(table)
+    else:
+        pq.write_table(table, path)
+    restored = getattr(NormalizedInputBundle, f"read_{format_name}")(path)
+    assert restored.tables["samples"].schema.metadata == {
+        b"source": b"legacy",
+        b"voiage.normalized.original_schema_metadata": b"legacy-user-value",
+    }
 
 
 def test_digest_does_not_buffer_the_complete_arrow_stream(tmp_path: Path) -> None:

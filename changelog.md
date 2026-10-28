@@ -1,5 +1,8 @@
 # Changelog
 
+- Preserve Arrow schema metadata and content digests across normalized IPC and
+  Parquet bundle round trips, including existing bundle files.
+
 - Reduce peak memory when hashing normalized Arrow inputs while preserving
   their existing content digests.
 
