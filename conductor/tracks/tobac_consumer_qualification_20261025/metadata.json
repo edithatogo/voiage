@@ -9,7 +9,7 @@
   "implementation_authorized": true,
   "implementation_state": "not_started",
   "approval_scope": "User authorised implementation, review and archival on 29 October 2026; publication and external messages remain outside scope",
-  "master_track": "https://github.com/edithatogo/tobac/tree/codex/ecosystem-planning-20261025/conductor/tracks/scientific_ecosystem_20261025",
+  "master_track": "https://github.com/edithatogo/tobac/tree/5ff282d06d9b04477266b26907fe039572e11877/conductor/tracks/scientific_ecosystem_20261025",
   "github_issue": "https://github.com/edithatogo/voiage/issues/1193",
   "existing_work": [
     "conductor/tracks/remaining_backlog_delivery_20260831/index.md",

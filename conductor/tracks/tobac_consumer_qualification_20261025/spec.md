@@ -2,7 +2,7 @@
 
 Implementation, review and archival after acceptance were authorised by the
 user on 29 October 2026; the earlier planning-only restriction is historical.
-Base: `ca3f05cc8adcc74b99fe236152327d0cd3679553`. [Master track](https://github.com/edithatogo/tobac/tree/codex/ecosystem-planning-20261025/conductor/tracks/scientific_ecosystem_20261025).
+Base: `ca3f05cc8adcc74b99fe236152327d0cd3679553`. [Master track](https://github.com/edithatogo/tobac/tree/5ff282d06d9b04477266b26907fe039572e11877/conductor/tracks/scientific_ecosystem_20261025).
 
 ## Scope
 
