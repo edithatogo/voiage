@@ -5611,7 +5611,11 @@
       "metadata_track_id": "agent_safe_engineering_20260907",
       "path": "conductor/tracks/agent_safe_engineering_20260907",
       "lifecycle": "active",
-      "issue": {"number": 1110, "url": "https://github.com/edithatogo/voiage/issues/1110", "state": "open"},
+      "issue": {
+        "number": 1110,
+        "url": "https://github.com/edithatogo/voiage/issues/1110",
+        "state": "open"
+      },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1111",
       "subissues": [],
       "pull_requests": [],
@@ -5622,10 +5626,23 @@
       "metadata_track_id": "execution_packet_guard_20260907",
       "path": "conductor/tracks/execution_packet_guard_20260907",
       "lifecycle": "active",
-      "issue": {"number": 1111, "url": "https://github.com/edithatogo/voiage/issues/1111", "state": "open"},
+      "issue": {
+        "number": 1111,
+        "url": "https://github.com/edithatogo/voiage/issues/1111",
+        "state": "open"
+      },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1110",
       "subissues": [],
-      "pull_requests": [{"number": 1109, "url": "https://github.com/edithatogo/voiage/pull/1109", "status": "open", "evidence": ["implementation-head:ae548db790cbecfd29d8d6f42c77de0fb8250d66"]}],
+      "pull_requests": [
+        {
+          "number": 1109,
+          "url": "https://github.com/edithatogo/voiage/pull/1109",
+          "status": "open",
+          "evidence": [
+            "implementation-head:ae548db790cbecfd29d8d6f42c77de0fb8250d66"
+          ]
+        }
+      ],
       "pull_request_evidence": "PR #1109 open; hosted checks pending remediation"
     },
     {
@@ -5633,7 +5650,11 @@
       "metadata_track_id": "version_identity_contracts_20260907",
       "path": "conductor/tracks/version_identity_contracts_20260907",
       "lifecycle": "active",
-      "issue": {"number": 1112, "url": "https://github.com/edithatogo/voiage/issues/1112", "state": "open"},
+      "issue": {
+        "number": 1112,
+        "url": "https://github.com/edithatogo/voiage/issues/1112",
+        "state": "open"
+      },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1110",
       "subissues": [],
       "pull_requests": [],
@@ -5644,7 +5665,11 @@
       "metadata_track_id": "native_structured_logging_20260907",
       "path": "conductor/tracks/native_structured_logging_20260907",
       "lifecycle": "active",
-      "issue": {"number": 1113, "url": "https://github.com/edithatogo/voiage/issues/1113", "state": "open"},
+      "issue": {
+        "number": 1113,
+        "url": "https://github.com/edithatogo/voiage/issues/1113",
+        "state": "open"
+      },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1110",
       "subissues": [],
       "pull_requests": [],
@@ -5655,7 +5680,11 @@
       "metadata_track_id": "logging_privacy_resilience_20260907",
       "path": "conductor/tracks/logging_privacy_resilience_20260907",
       "lifecycle": "active",
-      "issue": {"number": 1114, "url": "https://github.com/edithatogo/voiage/issues/1114", "state": "open"},
+      "issue": {
+        "number": 1114,
+        "url": "https://github.com/edithatogo/voiage/issues/1114",
+        "state": "open"
+      },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1110",
       "subissues": [],
       "pull_requests": [],
@@ -5666,7 +5695,11 @@
       "metadata_track_id": "vop_logging_version_pilot_20260907",
       "path": "conductor/tracks/vop_logging_version_pilot_20260907",
       "lifecycle": "active",
-      "issue": {"number": 1115, "url": "https://github.com/edithatogo/voiage/issues/1115", "state": "open"},
+      "issue": {
+        "number": 1115,
+        "url": "https://github.com/edithatogo/voiage/issues/1115",
+        "state": "open"
+      },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1110",
       "subissues": [],
       "pull_requests": [],
@@ -5677,7 +5710,11 @@
       "metadata_track_id": "optional_native_telemetry_20260907",
       "path": "conductor/tracks/optional_native_telemetry_20260907",
       "lifecycle": "active",
-      "issue": {"number": 1116, "url": "https://github.com/edithatogo/voiage/issues/1116", "state": "open"},
+      "issue": {
+        "number": 1116,
+        "url": "https://github.com/edithatogo/voiage/issues/1116",
+        "state": "open"
+      },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1110",
       "subissues": [],
       "pull_requests": [],
@@ -5703,7 +5740,11 @@
       "metadata_track_id": "tabular_contract_v3_20261026",
       "path": "conductor/tracks/tabular_contract_v3_20261026",
       "lifecycle": "active",
-      "issue": {"number": 1196, "url": "https://github.com/edithatogo/voiage/issues/1196", "state": "open"},
+      "issue": {
+        "number": 1196,
+        "url": "https://github.com/edithatogo/voiage/issues/1196",
+        "state": "open"
+      },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1195",
       "subissues": [],
       "pull_requests": [],
@@ -5714,7 +5755,11 @@
       "metadata_track_id": "polars_container_20261026",
       "path": "conductor/tracks/polars_container_20261026",
       "lifecycle": "active",
-      "issue": {"number": 1197, "url": "https://github.com/edithatogo/voiage/issues/1197", "state": "open"},
+      "issue": {
+        "number": 1197,
+        "url": "https://github.com/edithatogo/voiage/issues/1197",
+        "state": "open"
+      },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1195",
       "subissues": [],
       "pull_requests": [],
@@ -5725,7 +5770,11 @@
       "metadata_track_id": "pandas_free_io_20261026",
       "path": "conductor/tracks/pandas_free_io_20261026",
       "lifecycle": "active",
-      "issue": {"number": 1198, "url": "https://github.com/edithatogo/voiage/issues/1198", "state": "open"},
+      "issue": {
+        "number": 1198,
+        "url": "https://github.com/edithatogo/voiage/issues/1198",
+        "state": "open"
+      },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1195",
       "subissues": [],
       "pull_requests": [],
@@ -5736,11 +5785,30 @@
       "metadata_track_id": "translation_reference_20261026",
       "path": "conductor/tracks/translation_reference_20261026",
       "lifecycle": "active",
-      "issue": {"number": 1199, "url": "https://github.com/edithatogo/voiage/issues/1199", "state": "open"},
+      "issue": {
+        "number": 1199,
+        "url": "https://github.com/edithatogo/voiage/issues/1199",
+        "state": "open"
+      },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1195",
       "subissues": [],
       "pull_requests": [],
       "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "tobac_consumer_qualification_20261025",
+      "metadata_track_id": "tobac_consumer_qualification_20261025",
+      "path": "conductor/tracks/tobac_consumer_qualification_20261025",
+      "lifecycle": "new",
+      "issue": {
+        "number": 1193,
+        "url": "https://github.com/edithatogo/voiage/issues/1193",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/tobac/issues/22",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "Planning registration; publication reference will be recorded separately."
     },
     {
       "track_id": "hpc_source_build_qualification_20261029",

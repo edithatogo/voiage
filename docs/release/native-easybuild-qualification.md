@@ -1,5 +1,11 @@
 # Native EasyBuild qualification
 
+**Historical replay only:** This guide and byte-pinned driver describe an old
+Python 3.12 source snapshot. Their former 250 GiB preflight is not a current
+capacity requirement. They remain unchanged for historical receipt validation;
+do not use this replay as the current Python 3.15.1 qualification. The current
+resource guard retains a 2 GiB safety reserve.
+
 The native driver builds one maintained generation at a time and refuses to
 run without an exact clean source commit, the pinned EasyBuild catalogue, a
 fresh VM-local workspace, Linux, Environment Modules, eight CPUs and 250 GiB

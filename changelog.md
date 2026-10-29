@@ -1,5 +1,43 @@
 # Changelog
 
+- Bound optional telemetry queue capacity, attribute count and retained string
+  allocations to prevent oversized records from accumulating in memory.
+
+- Add an isolated CI qualification for fail-closed shard coverage aggregation.
+
+- Reconcile the telemetry track's accepted pilot prerequisite while retaining
+  its open need assessment and implementation gates.
+
+- Add an experimental versioned portfolio contract for once-only shared fixed
+  assets, including already-owned assets and auditable marginal costs.
+
+- Verify that the existing portfolio contract retains scalar-cost accounting
+  and rejects undeclared shared-asset fields.
+
+- Bind operational coverage reports to their source, environment and bytes
+  before enforcing coverage thresholds.
+
+- Document the distinction between structure-only information and the existing
+  structural EVPI calculation with a native numerical counterexample.
+
+- Limit concurrent checkpoint I/O in the optional Rust preview and replay its
+  freshly built checkpoint-test archive within the same job.
+
+- Correct current native-build capacity guidance and record the completed
+  GitHub Polars build while preserving byte-pinned historical replay tools.
+
+- Verify that registered numerical assurance cases name compiled, non-ignored
+  Rust tests, reject stale case references, and support archived track records.
+
+- Exercise Cargo MSRV rejection and optional-backend controls in the Rust
+  compatibility job with explicitly verified compiler and Cargo versions.
+
+- Compute provider interoperability witnesses with the weighted decision-value
+  evaluator and retain their results in operational-assurance evidence.
+
+- Expose resumable EVPI outcomes and cooperative cancellation through the
+  native Python adapter.
+
 - Add bounded, checkpointed EVPI execution with resume identity checks and
   atomic persistence of checkpoint metadata and result payloads.
 

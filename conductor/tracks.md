@@ -1117,6 +1117,13 @@ track at the top of this registry; completed repository slices stay closed.
   GitHub: https://github.com/edithatogo/voiage/issues/1199
 
 ---
+
+- [ ] **Track: tobac weighted VOI consumer qualification**
+  *Link: [./tracks/tobac_consumer_qualification_20261025/index.md](./tracks/tobac_consumer_qualification_20261025/index.md)*
+  Implementation authorised on 29 October 2026; reuses existing capability owners. Downstream proof remains pending.
+  GitHub: https://github.com/edithatogo/voiage/issues/1193
+
+---
 - [ ] **Track: Rust/LLVM source builds and full HPC qualification**
   *Link: [./tracks/hpc_source_build_qualification_20261029/index.md](./tracks/hpc_source_build_qualification_20261029/index.md)*
   Planning prepared; specification/plan review and native execution remain pending.

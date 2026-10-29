@@ -10,6 +10,7 @@
     {
       "id": "equivalent-provider-shapes",
       "expected": "accepted",
+      "expected_voi": 3.0,
       "providers": [
         {
           "provider_id": "provider-a",
