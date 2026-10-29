@@ -325,7 +325,7 @@ RISK_SENSITIVE_VOI_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
             "required": [
                 "selected_policy_id",
                 "tied_policy_ids",
-                *cast("list[str]", _SCORE_RECORD["required"]),
+                *_SCORE_RECORD["required"],
             ],
             "properties": {
                 **cast("dict[str, object]", _SCORE_RECORD["properties"]),
@@ -344,7 +344,7 @@ RISK_SENSITIVE_VOI_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
             "required": [
                 "selected_policy_by_state",
                 "tied_policy_mappings",
-                *cast("list[str]", _SCORE_RECORD["required"]),
+                *_SCORE_RECORD["required"],
             ],
             "properties": {
                 **cast("dict[str, object]", _SCORE_RECORD["properties"]),

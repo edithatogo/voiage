@@ -1059,7 +1059,7 @@ def _preference_result_payload(
     command: str,
 ) -> dict[str, object]:
     """Return a JSON/CSV-safe payload for preference heterogeneity results."""
-    payload = dict(cast("dict[str, object]", result.to_dict()))
+    payload = dict(result.to_dict())
     payload["command"] = command
     payload["metric"] = "Value of Preference"
     return payload

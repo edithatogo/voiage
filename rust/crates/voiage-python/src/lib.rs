@@ -1711,6 +1711,16 @@ fn compute_expected_utility_information<'py>(
     result_to_dict(py, &payload).map(|(result, _canonical_payload)| result)
 }
 
+#[pyfunction]
+fn canonicalize_json(payload: &str) -> PyResult<Vec<u8>> {
+    let value: serde_json::Value = serde_json::from_str(payload).map_err(|error| {
+        SerializationError::new_err(format!("Invalid JSON payload for RFC 8785: {error}"))
+    })?;
+    canonical_payload_bytes(&value).map_err(|error| {
+        SerializationError::new_err(format!("RFC 8785 canonicalization failed: {error}"))
+    })
+}
+
 /// Register the private `voiage._core` extension module.
 #[pymodule]
 fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
@@ -1724,6 +1734,7 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
         module.py().get_type::<SerializationError>(),
     )?;
     module.add_function(wrap_pyfunction!(runtime_info, module)?)?;
+    module.add_function(wrap_pyfunction!(canonicalize_json, module)?)?;
     module.add_function(wrap_pyfunction!(emit_diagnostic, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evpi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evpi_resumable, module)?)?;

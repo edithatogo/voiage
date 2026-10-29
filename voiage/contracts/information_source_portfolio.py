@@ -300,7 +300,7 @@ _EVALUATION: Final[dict[str, object]] = {
 }
 _OPTIMUM: Final[dict[str, object]] = {
     **_EVALUATION,
-    "required": [*cast("list[str]", _EVALUATION["required"]), "optimal_sequence_tie"],
+    "required": [*_EVALUATION["required"], "optimal_sequence_tie"],
     "properties": {
         **cast("dict[str, object]", _EVALUATION["properties"]),
         "optimal_sequence_tie": {

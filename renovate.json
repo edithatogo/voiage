@@ -175,6 +175,13 @@
       "enabled": false
     },
     {
+      "description": "Hold nltk at 3.10.3 per governed residual advisory disposition until an installable patched release exists on PyPI",
+      "matchPackageNames": [
+        "nltk"
+      ],
+      "allowedVersions": "<=3.10.3"
+    },
+    {
       "description": "Keep the declared Rust MSRV and its release qualification lanes at 1.85; upgrades require compatibility-policy review",
       "matchManagers": [
         "github-actions"

@@ -165,11 +165,11 @@ def array_to_cpu(arr: object, backend: str | None = None) -> np.ndarray:
     if backend == "cupy":
         if not CUPY_AVAILABLE:
             raise_runtime_error("CuPy is not available")
-        return np.asarray(cast("object", arr).get())  # type: ignore[union-attr]
+        return np.asarray(arr.get())  # type: ignore[union-attr]
     if backend == "torch":
         if not TORCH_AVAILABLE:
             raise_runtime_error("PyTorch is not available")
-        return np.asarray(cast("object", arr).cpu().numpy())  # type: ignore[union-attr]
+        return np.asarray(arr.cpu().numpy())  # type: ignore[union-attr]
     return raise_value_error(f"Unknown backend: {backend}")
 
 

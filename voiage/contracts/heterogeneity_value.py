@@ -941,7 +941,7 @@ def validate_heterogeneity_value_result(payload: dict[str, Any]) -> None:
     # than a recursive validation path.
     evaluator_module = importlib.import_module("voiage.methods.heterogeneity_value")
     evaluate = evaluator_module._evaluate
-    expected_result = cast("dict[str, Any]", evaluate(input_contract))
+    expected_result = evaluate(input_contract)
     if json.dumps(
         payload,
         allow_nan=False,
