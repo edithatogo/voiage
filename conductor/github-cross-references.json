@@ -5740,7 +5740,11 @@
       "metadata_track_id": "tabular_contract_v3_20261026",
       "path": "conductor/tracks/tabular_contract_v3_20261026",
       "lifecycle": "active",
-      "issue": {"number": 1196, "url": "https://github.com/edithatogo/voiage/issues/1196", "state": "open"},
+      "issue": {
+        "number": 1196,
+        "url": "https://github.com/edithatogo/voiage/issues/1196",
+        "state": "open"
+      },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1195",
       "subissues": [],
       "pull_requests": [],
@@ -5751,7 +5755,11 @@
       "metadata_track_id": "polars_container_20261026",
       "path": "conductor/tracks/polars_container_20261026",
       "lifecycle": "active",
-      "issue": {"number": 1197, "url": "https://github.com/edithatogo/voiage/issues/1197", "state": "open"},
+      "issue": {
+        "number": 1197,
+        "url": "https://github.com/edithatogo/voiage/issues/1197",
+        "state": "open"
+      },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1195",
       "subissues": [],
       "pull_requests": [],
@@ -5762,7 +5770,11 @@
       "metadata_track_id": "pandas_free_io_20261026",
       "path": "conductor/tracks/pandas_free_io_20261026",
       "lifecycle": "active",
-      "issue": {"number": 1198, "url": "https://github.com/edithatogo/voiage/issues/1198", "state": "open"},
+      "issue": {
+        "number": 1198,
+        "url": "https://github.com/edithatogo/voiage/issues/1198",
+        "state": "open"
+      },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1195",
       "subissues": [],
       "pull_requests": [],
@@ -5773,7 +5785,11 @@
       "metadata_track_id": "translation_reference_20261026",
       "path": "conductor/tracks/translation_reference_20261026",
       "lifecycle": "active",
-      "issue": {"number": 1199, "url": "https://github.com/edithatogo/voiage/issues/1199", "state": "open"},
+      "issue": {
+        "number": 1199,
+        "url": "https://github.com/edithatogo/voiage/issues/1199",
+        "state": "open"
+      },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1195",
       "subissues": [],
       "pull_requests": [],
@@ -5793,6 +5809,54 @@
       "subissues": [],
       "pull_requests": [],
       "pull_request_evidence": "Planning registration; publication reference will be recorded separately."
+    },
+    {
+      "track_id": "hpc_source_build_qualification_20261029",
+      "metadata_track_id": "hpc_source_build_qualification_20261029",
+      "path": "conductor/tracks/hpc_source_build_qualification_20261029",
+      "lifecycle": "active",
+      "issue": {
+        "number": 1222,
+        "url": "https://github.com/edithatogo/voiage/issues/1222",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1025",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 1218,
+          "url": "https://github.com/edithatogo/voiage/pull/1218",
+          "status": "open",
+          "evidence": [
+            "planning packet; hosted checks pending"
+          ]
+        }
+      ],
+      "pull_request_evidence": "Track registration and native acceptance remain pending."
+    },
+    {
+      "track_id": "scientific_ecosystem_alignment_20261029",
+      "metadata_track_id": "scientific_ecosystem_alignment_20261029",
+      "path": "conductor/tracks/scientific_ecosystem_alignment_20261029",
+      "lifecycle": "active",
+      "issue": {
+        "number": 1221,
+        "url": "https://github.com/edithatogo/voiage/issues/1221",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1025",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 1218,
+          "url": "https://github.com/edithatogo/voiage/pull/1218",
+          "status": "open",
+          "evidence": [
+            "planning packet; hosted checks pending"
+          ]
+        }
+      ],
+      "pull_request_evidence": "Track registration and native acceptance remain pending."
     }
   ]
 }
