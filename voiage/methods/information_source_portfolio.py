@@ -103,6 +103,7 @@ def _sequence_is_feasible(
     sequence: Sequence[str],
     source_by_id: Mapping[str, Mapping[str, Any]],
     constraints: Mapping[str, Any],
+    shared_costs: Mapping[str, Any] | None = None,
 ) -> tuple[bool, str | None]:
     selected = set(sequence)
     reason: str | None = None
@@ -122,7 +123,7 @@ def _sequence_is_feasible(
     if reason is not None:
         return False, reason
     sources = [source_by_id[source_id] for source_id in sequence]
-    if math.fsum(float(source["cost"]) for source in sources) > float(
+    if _source_cost(sequence, source_by_id, shared_costs) > float(
         constraints["max_cost"]
     ):
         reason = "cost"
@@ -166,6 +167,7 @@ def _evaluate(payload: Mapping[str, Any]) -> dict[str, Any]:
     source_by_id = {cast("str", source["source_id"]): source for source in sources}
     source_ids = sorted(source_by_id)
     constraints = cast("Mapping[str, Any]", payload["constraints"])
+    shared_costs = cast("Mapping[str, Any] | None", payload.get("shared_costs"))
     tie_policy = cast("Mapping[str, float]", payload["tie_policy"])
     absolute = float(tie_policy["absolute_tolerance"])
     relative = float(tie_policy["relative_tolerance"])
@@ -191,7 +193,9 @@ def _evaluate(payload: Mapping[str, Any]) -> dict[str, Any]:
         return raw_cache[sequence]
 
     evaluations: list[dict[str, Any]] = [
-        _sequence_evaluation((), source_by_id, raw, baseline_value, delay_rate)
+        _sequence_evaluation(
+            (), source_by_id, raw, baseline_value, delay_rate, shared_costs
+        )
     ]
     total_candidates = 1
     prune_reasons: dict[str, int] = defaultdict(int)
@@ -200,14 +204,19 @@ def _evaluate(payload: Mapping[str, Any]) -> dict[str, Any]:
         for sequence in permutations(source_ids, length):
             total_candidates += 1
             feasible, reason = _sequence_is_feasible(
-                sequence, source_by_id, constraints
+                sequence, source_by_id, constraints, shared_costs
             )
             if not feasible:
                 prune_reasons[cast("str", reason)] += 1
                 continue
             evaluations.append(
                 _sequence_evaluation(
-                    sequence, source_by_id, raw, baseline_value, delay_rate
+                    sequence,
+                    source_by_id,
+                    raw,
+                    baseline_value,
+                    delay_rate,
+                    shared_costs,
                 )
             )
     if len(evaluations) == 1:
@@ -241,8 +250,8 @@ def _evaluate(payload: Mapping[str, Any]) -> dict[str, Any]:
         for partition in cast("list[dict[str, Any]]", selected["partitions"])
         if partition["switch_from_baseline"]
     ]
-    return {
-        "schema_version": "1.0.0",
+    result = {
+        "schema_version": payload["schema_version"],
         "analysis_id": payload["analysis_id"],
         "analysis_type": "information_source_portfolio_result",
         "method_maturity": "experimental",
@@ -299,6 +308,45 @@ def _evaluate(payload: Mapping[str, Any]) -> dict[str, Any]:
             "stable_or_polyglot_execution",
         ],
     }
+    if shared_costs is not None:
+        result["cost_basis"] = {
+            "shared_costs": {
+                "assets": sorted(
+                    shared_costs["assets"], key=lambda asset: asset["asset_id"]
+                ),
+                "existing_assets": sorted(shared_costs["existing_assets"]),
+            },
+            "sources": {
+                source_id: {
+                    "cost": source_by_id[source_id]["cost"],
+                    "cost_unit": source_by_id[source_id]["cost_unit"],
+                    "asset_ids": sorted(source_by_id[source_id]["asset_ids"]),
+                }
+                for source_id in source_ids
+            },
+        }
+    return result
+
+
+def _source_cost(
+    sequence: Sequence[str],
+    source_by_id: Mapping[str, Mapping[str, Any]],
+    shared_costs: Mapping[str, Any] | None,
+) -> float:
+    """Charge direct source costs and each unowned fixed asset once."""
+    direct = [float(source_by_id[source_id]["cost"]) for source_id in sequence]
+    if shared_costs is None:
+        return math.fsum(direct)
+    assets = {
+        asset_id
+        for source_id in sequence
+        for asset_id in cast("list[str]", source_by_id[source_id]["asset_ids"])
+    } - set(cast("list[str]", shared_costs["existing_assets"]))
+    fixed = {
+        asset["asset_id"]: float(asset["cost"])
+        for asset in cast("list[Mapping[str, Any]]", shared_costs["assets"])
+    }
+    return math.fsum([*direct, *(fixed[asset_id] for asset_id in sorted(assets))])
 
 
 def _sequence_evaluation(
@@ -307,16 +355,23 @@ def _sequence_evaluation(
     raw: Any,
     baseline_value: float,
     delay_rate: float,
+    shared_costs: Mapping[str, Any] | None,
 ) -> dict[str, Any]:
     resolved_value, partitions = raw(sequence)
     gross = resolved_value - baseline_value
     sources = [source_by_id[source_id] for source_id in sequence]
-    source_cost = math.fsum(float(source["cost"]) for source in sources)
+    source_cost = _source_cost(sequence, source_by_id, shared_costs)
     latency = math.fsum(float(source["latency"]) for source in sources)
     privacy = math.fsum(float(source["privacy_cost"]) for source in sources)
     delay_cost = latency * delay_rate
     marginals: list[dict[str, Any]] = []
     previous_gross = 0.0
+    charged_assets = set(shared_costs["existing_assets"]) if shared_costs else set()
+    fixed_costs = (
+        {asset["asset_id"]: float(asset["cost"]) for asset in shared_costs["assets"]}
+        if shared_costs
+        else {}
+    )
     for position, source_id in enumerate(sequence, 1):
         prefix = sequence[:position]
         prefix_value, _ = raw(prefix)
@@ -324,16 +379,26 @@ def _sequence_evaluation(
         source = source_by_id[source_id]
         incremental_delay = float(source["latency"]) * delay_rate
         gross_marginal = prefix_gross - previous_gross
+        new_assets = (
+            set(source["asset_ids"]) - charged_assets if shared_costs else set()
+        )
+        incremental_cost = math.fsum(
+            [
+                float(source["cost"]),
+                *(fixed_costs[asset] for asset in sorted(new_assets)),
+            ]
+        )
+        charged_assets.update(new_assets)
         marginals.append(
             {
                 "position": position,
                 "source_id": source_id,
                 "conditioning_sources": list(sequence[: position - 1]),
                 "gross_marginal_value": gross_marginal,
-                "incremental_source_cost": float(source["cost"]),
+                "incremental_source_cost": incremental_cost,
                 "incremental_delay_cost": incremental_delay,
                 "net_marginal_value": gross_marginal
-                - float(source["cost"])
+                - incremental_cost
                 - incremental_delay,
             }
         )
