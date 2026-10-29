@@ -273,9 +273,10 @@ class ValueArray:
         """Compare ValueArray instances by frame contents and column names."""
         if not isinstance(other, ValueArray):
             return NotImplemented
-        return (
+        return cast(
+            "bool",
             self.frame.equals(other.frame)
-            and self.perspective_names == other.perspective_names
+            and self.perspective_names == other.perspective_names,
         )
 
     @classmethod
@@ -523,7 +524,7 @@ class ParameterSet:
         """Compare ParameterSet instances by frame contents and column names."""
         if not isinstance(other, ParameterSet):
             return NotImplemented
-        return self.frame.equals(other.frame)
+        return cast("bool", self.frame.equals(other.frame))
 
     @classmethod
     def from_numpy_or_dict(

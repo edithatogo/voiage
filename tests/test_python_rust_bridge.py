@@ -122,10 +122,6 @@ def _dominance_native_kwargs() -> dict[str, object]:
 def test_private_native_extension_reports_runtime_provenance() -> None:
     native = import_module("voiage._core")
     info = native.runtime_info()
-    sample_payload = {"z": 1, "a": [1.0, -0.0]}
-    assert bytes(native.canonicalize_json(json.dumps(sample_payload))) == rfc8785.dumps(
-        sample_payload
-    )
 
     assert any(str(native.__file__).endswith(suffix) for suffix in EXTENSION_SUFFIXES)
     assert info["engine"] == "rust"

@@ -15,6 +15,7 @@ Version: 2.0.0
 
 from dataclasses import dataclass, field
 from enum import Enum
+from typing import cast
 import warnings
 
 import numpy as np
@@ -489,7 +490,7 @@ class HTAIntegrationFramework:
             raise_value_error(f"Framework adapter not available for {framework}")
 
         adapter: object = self.framework_adapters[framework]
-        return adapter.evaluate_submission(submission)
+        return cast("HTAEvaluation", adapter.evaluate_submission(submission))
 
     def evaluate_multiple_frameworks(
         self, submission: HTASubmission, frameworks: list[HTAFramework]
