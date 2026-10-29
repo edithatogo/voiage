@@ -1,5 +1,8 @@
 # Changelog
 
+- Reconcile the telemetry track's accepted pilot prerequisite while retaining
+  its open need assessment and implementation gates.
+
 - Add an experimental versioned portfolio contract for once-only shared fixed
   assets, including already-owned assets and auditable marginal costs.
 

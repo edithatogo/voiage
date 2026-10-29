@@ -1,6 +1,18 @@
 # Implementation handoff: Optional native telemetry qualification
 
-Prepared; current eligibility: **waiting_for_prerequisites**.
+Prepared; current eligibility: **ready_for_preflight**. The VOP pilot's
+repository-owned acceptance was merged in PR #1158. Its retained acceptance
+records describe functional and replay tests; they do not establish a measured
+telemetry use case or budget. Phase 1 must evaluate the available pilot evidence
+before deciding whether telemetry is warranted.
+
+The packet's original new-file assumptions are historical: both
+`rust/crates/voiage-diagnostics/src/otel_export.rs` and
+`tests/test_optional_telemetry_contract.py` already exist. Review their actual
+behavior and coverage against every acceptance criterion before refreshing the
+phase packet or changing implementation; their presence is not acceptance.
+See [the baseline review](./baseline-review-20261029.md) for the identified
+acceptance and memory-bound gaps.
 
 1. Read spec.md, plan.md, implementation-packet.json and the shared orchestration.
 2. Use a clean, isolated worktree from the accepted planning commit. Compare the

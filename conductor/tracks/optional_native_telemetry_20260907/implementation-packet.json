@@ -9,7 +9,7 @@
     {
       "track_id": "vop_logging_version_pilot_20260907",
       "result_status": "passed",
-      "evidence": "348db4d3e51a82b6fc6a252ef4bdabdf99db8564"
+      "evidence": "PR #1158 merge 3135751c27f9b02ff50e44f84a4aa662a3312817; vop_logging_version_pilot_20260907/evidence.jsonl final acceptance and closeout"
     }
   ],
   "delivery_repository": "edithatogo/voiage",
@@ -24,7 +24,9 @@
     "rust/Cargo.toml": "91c0037f1361b837afc5c45c1e1d6edec1f51b094ee2739cc963895e930c7c36",
     "rust/crates/voiage-diagnostics/Cargo.toml": "281f113765eda9986950620028501188ed59f6bd3a6fe5a71aa368386d2a87fb",
     "tests/test_dependency_promotion_policy.py": "d509a55fd836a8c09d468563d33bc41628d0ba6d97a29d3c3c3fa4ce4f84e2cc",
-    "rust/crates/voiage-diagnostics/src/lib.rs": "634516d36bdb11795713c303ba932da9397c95a06de6827e59ffe737b180dda2"
+    "rust/crates/voiage-diagnostics/src/lib.rs": "634516d36bdb11795713c303ba932da9397c95a06de6827e59ffe737b180dda2",
+    "rust/crates/voiage-diagnostics/src/otel_export.rs": "2a3f420bf0a7f52dd1584bd37f4989a81212ef87e85f7168814882bdda41f770",
+    "tests/test_optional_telemetry_contract.py": "01c64027862193bbe2d63ff88d86863952603a7b7ae407fd0a9a7c924ca89c4c"
   },
   "reserved_implementation_files": [
     "rust/crates/voiage-diagnostics/src/otel_export.rs",
@@ -62,7 +64,7 @@
       "expected_result": "No exporter or dashboard is added solely for novelty; deferral is explicit and not feature completion.",
       "prerequisite": "upstream-tracks-accepted",
       "focused_command": "python -m pytest tests/test_optional_telemetry_contract.py tests/test_dependency_promotion_policy.py -q",
-      "red_test_rule": "Create the named test first; run it and observe the intended behavioral assertion failure. Missing test/module/tool is not a valid red result.",
+      "red_test_rule": "Add the relevant behavioral witness to the existing named test first; run it and observe the intended assertion failure. Missing test/module/tool is not a valid red result.",
       "write_policy": "Use only the reserved files below; if another file is required, integrator updates this packet before code. At most five implementation files per slice."
     },
     {
