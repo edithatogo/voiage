@@ -239,7 +239,7 @@ mod tests {
         let mut oversized = event("trace-large");
         oversized.name = "x".repeat(1024 * 1024);
         assert!(!collector.record(oversized));
-        assert!(collector.drain().is_empty());
+        assert_eq!(collector.drain(), [] as [TraceEvent; 0]);
     }
 
     #[test]
@@ -251,7 +251,7 @@ mod tests {
             String::with_capacity(MAX_EVENT_STRING_BYTES + 1),
         );
         assert!(!collector.record(oversized));
-        assert!(collector.drain().is_empty());
+        assert_eq!(collector.drain(), [] as [TraceEvent; 0]);
         assert!(collector.record(event("trace-normal")));
         assert_eq!(collector.drain().len(), 1);
     }

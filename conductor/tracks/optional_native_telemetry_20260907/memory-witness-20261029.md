@@ -36,3 +36,10 @@ suite: the packet still pinned the pre-change collector hash. The tested source
 hash is now refreshed in that packet; the original hash remains above. The
 failed full run does not qualify the candidate. Rerun affected checks and the
 final gate on the corrected candidate.
+
+Hosted Rust workspace CI then rejected two empty-result assertions under
+`clippy::assert-is-empty`. The assertions were changed without modifying the
+collector behavior and the packet hash refreshed. The guarded workspace
+all-targets, all-features Clippy command, six focused collector tests, and the
+repository harness subsequently passed on Python 3.15.1. Fresh hosted checks
+remain required.
