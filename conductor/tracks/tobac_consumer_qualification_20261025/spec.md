@@ -1,6 +1,7 @@
 # tobac weighted VOI consumer qualification
 
-**Approved planning only; implementation NOT authorised.**
+Implementation, review and archival after acceptance were authorised by the
+user on 29 October 2026; the earlier planning-only restriction is historical.
 Base: `ca3f05cc8adcc74b99fe236152327d0cd3679553`. [Master track](https://github.com/edithatogo/tobac/tree/codex/ecosystem-planning-20261025/conductor/tracks/scientific_ecosystem_20261025).
 
 ## Scope
@@ -52,8 +53,8 @@ language is required, and configuration changes cannot silently change scientifi
 
 ## Authority and exclusions
 
-Registration permits only planning files and coordination. No implementation, environment,
-lock, dependency, workflow, scientific model, release or publication action is authorised.
-No automatic progression, Rust-to-Python rewrite, duplicate statistical engine or blanket
-new tool stack. Existing workstreams retain their scopes. A future assessment can conclude
+The 29 October direction authorises implementation within this track's scope.
+It does not authorise publication, release, external messages or changes to
+tobac's domain assumptions. No Rust-to-Python rewrite, duplicate statistical
+engine or blanket new tool stack. Existing workstreams retain their scopes. A future assessment can conclude
 with an evidenced defer decision without claiming the deferred capability is implemented.

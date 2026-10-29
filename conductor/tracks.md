@@ -1120,5 +1120,5 @@ track at the top of this registry; completed repository slices stay closed.
 
 - [ ] **Track: tobac weighted VOI consumer qualification**
   *Link: [./tracks/tobac_consumer_qualification_20261025/index.md](./tracks/tobac_consumer_qualification_20261025/index.md)*
-  **Approved planning only; implementation not authorised.** Reuses existing capability owners; downstream proof remains pending.
+  Implementation authorised on 29 October 2026; reuses existing capability owners. Downstream proof remains pending.
   GitHub: https://github.com/edithatogo/voiage/issues/1193

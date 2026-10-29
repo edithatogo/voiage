@@ -1,6 +1,7 @@
-# Approved plan — implementation hold
+# Implementation plan — tobac consumer qualification
 
-All tasks are future work. Do not start or auto-progress without a new user instruction.
+The original planning-only hold was superseded by the user's 29 October
+direction to implement, review and archive this track. All tasks remain open.
 [Specification](spec.md). [Repository workflow](../../workflow.md).
 
 ## Phase 1 — Consumer reconciliation
