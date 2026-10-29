@@ -91,3 +91,17 @@ Three guarded Python 3.15.1 boundary tests pass: v1 sums direct costs, rejects
 undeclared shared assets, and charges 1.3 rather than the consumer's 0.8 when
 the same 0.5 fixed cost is embedded in both scalar source prices. This witness
 does not implement or qualify shared-cost accounting.
+
+The candidate v2 input uses explicit asset IDs, fixed costs and owned-asset
+IDs, with source `cost` retaining its direct-cost meaning. Union cost applies
+to feasibility and results; the first acquisition pays the asset in the
+ordered marginal ledger. Unknown or duplicate IDs and unit inconsistencies
+must fail closed. Existing v1 input and result schema/behavior remain intact.
+The two valid consumer-derived v2 examples have an observed red result: the
+current v1 validator rejects the new `shared_costs` property. A new result
+schema must identify the v2 contract; this red test is not implementation.
+Frozen baseline: `b586f2f713133be5feac6f1de42d899e146c530f`; input schema
+SHA-256 `dfdbda6e2e239815b9cada0bfd4665ca59bc87caf14ad6130724013554941b45`,
+result schema `6fffac3024e148b37bc1f71c32ad9be286b6691baa17252ea835575961c4c416`,
+contract module `36a5081d20fcf24ad475177b03e66924ea917e44fe360dc3e0f0e3d9f7c3c37e`,
+and evaluator `042c466f3400297505247cfe273a2ac4458db1064941cdb021148b28d55042a5`.
