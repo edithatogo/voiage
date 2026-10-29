@@ -22,7 +22,12 @@ def test_m22_m24_semantics_freeze_matches_artifacts() -> None:
     )
     assert payload["panel_findings"]["blocking_implementation_findings"] == []
     for relative, expected in payload["artifact_sha256"].items():
-        path = ROOT / relative
+        # The v2 portfolio implementation evolved after this historical freeze.
+        # Retain and verify the exact original bytes instead of rewriting its digest.
+        if relative == "voiage/methods/information_source_portfolio.py":
+            path = FREEZE.parent / "historical-artifacts" / relative
+        else:
+            path = ROOT / relative
         if not path.exists():
             path = ROOT / relative.replace("conductor/tracks/", "conductor/archive/", 1)
         digest = hashlib.sha256(path.read_bytes()).hexdigest()
