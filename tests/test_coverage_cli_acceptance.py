@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
+
+import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts/check_coverage_policy.py"
@@ -68,3 +71,29 @@ def test_coverage_gate_rejects_missing_input_and_wrong_head(tmp_path: Path) -> N
     result = json.loads(output.read_text(encoding="utf-8"))
     assert result["passed"] is False
     assert result["exact_source_head"] is False
+
+
+def test_coverage_collection_propagates_subprocess_failure(tmp_path: Path) -> None:
+    """The actual CI shell step must fail when the test runner fails."""
+    workflow = yaml.safe_load(
+        (ROOT / ".github/workflows/operational-assurance.yml").read_text(
+            encoding="utf-8"
+        )
+    )
+    steps = workflow["jobs"]["compatibility-and-coverage"]["steps"]
+    collection = next(
+        step for step in steps if step.get("name") == "Collect full branch coverage"
+    )
+    assert not collection.get("continue-on-error", False)
+    executable = tmp_path / "uv"
+    executable.write_text("#!/bin/sh\nexit 37\n", encoding="utf-8")
+    executable.chmod(0o755)
+    result = subprocess.run(
+        ["/bin/bash", "-e", "-c", collection["run"]],
+        cwd=tmp_path,
+        env={**os.environ, "PATH": f"{tmp_path}{os.pathsep}{os.environ['PATH']}"},
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 37

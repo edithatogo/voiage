@@ -28,6 +28,10 @@ a mismatched checkout fails. This tests the current single-job coverage gate;
 it does not establish identity checking for reused artifacts or aggregation of
 cancelled shards, which remain open.
 
+The same test file executes the current coverage-collection shell step with a
+test runner that exits 37 and confirms that the step propagates that failure.
+This is local command evidence, not a hosted cancellation or aggregate receipt.
+
 An attempted aggregate in `dependency-preview.yml` removed the shard job's
 `continue-on-error` and checked its matrix result. The focused run exposed an
 existing contract in `test_dependency_promotion_policy.py` requiring every job
