@@ -207,6 +207,32 @@ def test_v2_result_rejects_tampered_cost_basis() -> None:
         validate_information_source_portfolio_result(result)
 
 
+@pytest.mark.parametrize(
+    ("kind", "message"),
+    [
+        ("unknown_owned", "invalid cost basis assets"),
+        ("asset_unit", "invalid cost basis asset cost or unit"),
+        ("source_asset", "invalid cost basis source"),
+        ("sequence_source", "invalid cost basis sequence"),
+    ],
+)
+def test_v2_result_rejects_invalid_cost_basis_references(
+    kind: str, message: str
+) -> None:
+    result = information_source_portfolio_value(_payload()).to_contract_dict()
+    basis = result["cost_basis"]
+    if kind == "unknown_owned":
+        basis["shared_costs"]["existing_assets"] = ["missing"]
+    elif kind == "asset_unit":
+        basis["shared_costs"]["assets"][0]["cost_unit"] = "USD"
+    elif kind == "source_asset":
+        basis["sources"]["survey"]["asset_ids"] = ["missing"]
+    else:
+        result["evaluated_sequences"][0]["source_sequence"] = ["missing"]
+    with pytest.raises(ValueError, match=message):
+        validate_information_source_portfolio_result(result)
+
+
 def test_v2_result_rejects_tampered_optimum_cost() -> None:
     result = information_source_portfolio_value(_payload()).to_contract_dict()
     result["optimum"]["total_source_cost"] = 999.0
