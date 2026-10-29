@@ -52,8 +52,9 @@ Prerequisites: G01.
 
 - [~] G05.4 — Correct the prior live-target claim: the original register test
   checked target syntax only. The numerical test binary now enumerates its
-  compiled, non-ignored cases; retain package-level, clean-package, full-local
-  and current-head hosted evidence before marking this review fix complete.
+  compiled, non-ignored cases and accepts exactly one active or archived
+  register; retain package-level, clean-package, full-local and current-head
+  hosted evidence before marking this review fix complete.
 
 ## G06: Bounded jobs and recoverable computation
 

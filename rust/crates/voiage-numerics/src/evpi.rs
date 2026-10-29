@@ -99,9 +99,18 @@ mod tests {
             eprintln!("repository case register unavailable in standalone crate");
             return;
         }
-        let register = root
-            .join("conductor/tracks/agent_safe_engineering_20260907/numerical-case-register.json");
-        let bytes = std::fs::read(register).expect("numerical case register must be present");
+        let candidates = ["tracks", "archive"].map(|location| {
+            root.join("conductor")
+                .join(location)
+                .join("agent_safe_engineering_20260907/numerical-case-register.json")
+        });
+        let present: Vec<_> = candidates.iter().filter(|path| path.is_file()).collect();
+        assert_eq!(
+            present.len(),
+            1,
+            "exactly one active or archived numerical case register must be present"
+        );
+        let bytes = std::fs::read(present[0]).expect("numerical case register must be readable");
         let value: serde_json::Value = serde_json::from_slice(&bytes).expect("valid JSON register");
         let output = std::process::Command::new(std::env::current_exe().expect("test executable"))
             .arg("--list")

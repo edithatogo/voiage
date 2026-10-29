@@ -4,7 +4,7 @@
   GitHub Polars build while preserving byte-pinned historical replay tools.
 
 - Verify that registered numerical assurance cases name compiled, non-ignored
-  Rust tests, and reject stale case references.
+  Rust tests, reject stale case references, and support archived track records.
 
 - Expose resumable EVPI outcomes and cooperative cancellation through the
   native Python adapter.
