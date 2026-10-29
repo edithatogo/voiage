@@ -1,5 +1,8 @@
 # Changelog
 
+- Correct current native-build capacity guidance and record the completed
+  GitHub Polars build while preserving byte-pinned historical replay tools.
+
 - Expose resumable EVPI outcomes and cooperative cancellation through the
   native Python adapter.
 

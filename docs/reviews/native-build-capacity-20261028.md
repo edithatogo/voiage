@@ -1,5 +1,12 @@
 # Native build capacity assessment — 28 October 2026
 
+**Update, 29 October:** The historical 250 GiB estimate is withdrawn as a current
+prerequisite by user direction. The byte-pinned replay driver retains its
+original check solely for historical validation. The completed GitHub Polars build sampled about 10 GiB of
+disk growth. The 2 GiB safety reserve remains; the full EasyBuild matrix still
+requires its own build and installation evidence. The analysis below records
+the earlier assessment.
+
 ## Findings from the existing build contract
 
 The 250 GiB free-space floor and eight-CPU prerequisite were introduced by
