@@ -264,3 +264,60 @@ def test_parquet_round_trip_accepts_legacy_bundle_without_original_chunks_key(
 
     reloaded = NormalizedInputBundle.read_parquet(path)
     assert reloaded.content_digest == bundle.content_digest
+
+
+def test_parquet_round_trip_restores_normalized_timestamp_unit(tmp_path: Path) -> None:
+    import datetime as dt
+
+    manifest = DatasetManifest(
+        dataset_id="timestamp-unit",
+        tables=(
+            TableManifest(
+                table_id="events",
+                fields=(FieldManifest(field_id="at", dtype="timestamp"),),
+            ),
+        ),
+        provenance=SourceProvenance(
+            provider_id="synthetic-test",
+            source_uri="file:///redacted/events",
+            descriptor_digest="c" * 64,
+        ),
+    )
+    table = pa.table(
+        {"at": pa.array([dt.datetime(2026, 1, 1)], type=pa.timestamp("s"))}
+    )
+    bundle = NormalizedInputBundle(manifest=manifest, tables={"events": table})
+    path = tmp_path / "timestamp.parquet"
+    bundle.write_parquet(path)
+    restored = NormalizedInputBundle.read_parquet(path)
+    assert restored.tables["events"].schema.field("at").type == pa.timestamp("s")
+    assert restored.content_digest == bundle.content_digest
+
+
+def test_parquet_incompatible_original_type_is_rejected(tmp_path: Path) -> None:
+    manifest = DatasetManifest(
+        dataset_id="type-mismatch",
+        tables=(
+            TableManifest(
+                table_id="parameters",
+                fields=(FieldManifest(field_id="mean", dtype="float64"),),
+            ),
+        ),
+        provenance=SourceProvenance(
+            provider_id="synthetic-test",
+            source_uri="file:///redacted/parameter-input",
+            descriptor_digest="b" * 64,
+        ),
+    )
+    bundle = NormalizedInputBundle(
+        manifest=manifest, tables={"parameters": pa.table({"mean": [1.0]})}
+    )
+    path = tmp_path / "mismatch.parquet"
+    bundle.write_parquet(path)
+    stored = pq.read_table(path)
+    changed = stored.cast(
+        pa.schema([pa.field("mean", pa.string())]).with_metadata(stored.schema.metadata)
+    )
+    pq.write_table(changed, path)
+    with pytest.raises(ValueError, match="does not match Parquet data"):
+        NormalizedInputBundle.read_parquet(path)

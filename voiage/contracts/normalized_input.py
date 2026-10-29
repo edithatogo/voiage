@@ -89,6 +89,52 @@ def _restore_schema_metadata(
     return restored
 
 
+def _parquet_type_compatible(original: pa.DataType, actual: pa.DataType) -> bool:
+    """Return whether *actual* is a lossless Parquet normalization of *original*."""
+    if original.equals(actual):
+        return True
+    if pa.types.is_timestamp(original) and pa.types.is_timestamp(actual):
+        return original.tz == actual.tz
+    if pa.types.is_dictionary(original):
+        return _parquet_type_compatible(original.value_type, actual) or (
+            pa.types.is_dictionary(actual)
+            and _parquet_type_compatible(original.value_type, actual.value_type)
+        )
+    for narrow, wide in (
+        (pa.string(), pa.large_string()),
+        (pa.binary(), pa.large_binary()),
+        (pa.date32(), pa.date64()),
+    ):
+        if {original, actual} == {narrow, wide}:
+            return True
+    return False
+
+
+def _rechunk(column: pa.ChunkedArray, lengths: list[int]) -> list[pa.Array]:
+    """Rebuild recorded chunk boundaries without combining the whole column."""
+    sources = list(column.chunks)
+    source_index = 0
+    source_offset = 0
+    rebuilt: list[pa.Array] = []
+    for length in lengths:
+        parts: list[pa.Array] = []
+        remaining = length
+        while remaining > 0:
+            source = sources[source_index]
+            take = min(remaining, len(source) - source_offset)
+            if take > 0:
+                parts.append(source.slice(source_offset, take))
+                source_offset += take
+                remaining -= take
+            if source_offset >= len(source):
+                source_index += 1
+                source_offset = 0
+        rebuilt.append(
+            pa.concat_arrays(parts) if parts else pa.array([], type=column.type)
+        )
+    return rebuilt
+
+
 def _restore_column_chunks(
     table: pa.Table, metadata: Mapping[bytes, bytes]
 ) -> list[pa.ChunkedArray]:
@@ -114,12 +160,7 @@ def _restore_column_chunks(
             or (len(column) > 0 and not lengths)
         ):
             raise ValueError("invalid original Arrow column chunks")
-        combined = column.combine_chunks()
-        chunks: list[pa.Array] = []
-        offset = 0
-        for length in lengths:
-            chunks.append(pa.concat_arrays([combined.slice(offset, length)]))
-            offset += length
+        chunks = _rechunk(column, lengths)
         columns.append(pa.chunked_array(chunks, type=column.type))
     return columns
 
@@ -628,7 +669,7 @@ class NormalizedInputBundle:
             if len(original_schema) != len(table.schema) or any(
                 original.name != actual.name
                 or original.nullable != actual.nullable
-                or not original.type.equals(actual.type)
+                or not _parquet_type_compatible(original.type, actual.type)
                 for original, actual in zip(original_schema, table.schema, strict=True)
             ):
                 raise ValueError("original Arrow schema does not match Parquet data")
@@ -637,6 +678,12 @@ class NormalizedInputBundle:
                 if restored_metadata is None
                 else original_schema.with_metadata(restored_metadata)
             )
+            try:
+                table = table.cast(original_schema.remove_metadata(), safe=True)
+            except (pa.ArrowInvalid, pa.ArrowNotImplementedError) as error:
+                raise ValueError(
+                    "original Arrow schema does not match Parquet data"
+                ) from error
             columns = _restore_column_chunks(table, metadata)
             table = pa.Table.from_arrays(columns, schema=restored_schema)
         else:
