@@ -1122,3 +1122,13 @@ track at the top of this registry; completed repository slices stay closed.
   *Link: [./tracks/tobac_consumer_qualification_20261025/index.md](./tracks/tobac_consumer_qualification_20261025/index.md)*
   Implementation authorised on 29 October 2026; reuses existing capability owners. Downstream proof remains pending.
   GitHub: https://github.com/edithatogo/voiage/issues/1193
+
+---
+- [ ] **Track: Rust/LLVM source builds and full HPC qualification**
+  *Link: [./tracks/hpc_source_build_qualification_20261029/index.md](./tracks/hpc_source_build_qualification_20261029/index.md)*
+  Planning prepared; specification/plan review and native execution remain pending.
+
+---
+- [ ] **Track: Scientific ecosystem alignment (voiage)**
+  *Link: [./tracks/scientific_ecosystem_alignment_20261029/index.md](./tracks/scientific_ecosystem_alignment_20261029/index.md)*
+  Linked delivery; native acceptance pending.
