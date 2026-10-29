@@ -27,3 +27,9 @@ file is restored byte-for-byte. The R requalification record now binds the new
 bindings workflow hash while retaining `hosted_pending`, without asserting new
 R qualification. Guarded local harness, submission-readiness validator and 44
 focused tests passed; current-head hosted evidence remains required.
+
+The second hosted revision passed its MSRV, repository-harness and frontier
+jobs but exposed two coverage failures: the binding lifecycle test still matched
+the former `1.85` selector as a literal string. Its assertion now checks the
+explicit `1.85.0` selector; the affected binding and tool-selection tests pass
+under the resource guard. Current-head hosted and full local gates remain open.

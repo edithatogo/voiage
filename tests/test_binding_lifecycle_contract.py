@@ -71,7 +71,7 @@ def test_retained_bindings_declare_supported_runtime_versions_and_ci_probes() ->
         "python": ("python-version",),
         "r": ("setup-r",),
         "julia": ("matrix.julia",),
-        "rust": ("rust-msrv", 'toolchain: "1.85"'),
+        "rust": ("rust-msrv", 'toolchain: "1.85.0"'),
     }
     for binding in matrix["bindings"]:
         if binding["status"] == "external_boundary":
