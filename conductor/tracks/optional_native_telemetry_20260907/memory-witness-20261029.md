@@ -30,3 +30,9 @@ after explicitly setting `PYO3_PYTHON` to this worktree's Python 3.15.1. Its
 first attempt failed at build time because PyO3 selected system Python 3.11;
 that attempt is not test evidence. The guarded diagnostics crate test also
 passed with default features disabled. Full package and hosted gates remain open.
+
+The first full tox run exposed one shared cause in the harness and coverage
+suite: the packet still pinned the pre-change collector hash. The tested source
+hash is now refreshed in that packet; the original hash remains above. The
+failed full run does not qualify the candidate. Rerun affected checks and the
+final gate on the corrected candidate.
