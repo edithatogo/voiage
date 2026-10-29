@@ -16,7 +16,7 @@ portable location or a claim that it remains available.
 The existing tobac qualification script passed 90 numerical comparisons
 against its exact finite-state oracle and six buffer-ownership cases. Its
 maximum absolute difference was `2.842170943040401e-14`. The environment
-also contained separately installed pandas and xarray for that consumer probe;
+also contained separately installed legacy tabular libraries for that consumer probe;
 their presence does not show that they are required by the Voiage base wheel.
 
 The retained probe scripts ending in `.py.txt` are copies of the exact local
