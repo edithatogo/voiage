@@ -1,0 +1,28 @@
+{
+  "schema": "voiage.tobac-interchange-candidate.v1",
+  "voiage_source_tree": "b65109e087c0c18e91db5c7c921cc5b54f0540c3",
+  "tobac_revision": "62a47123aae4186514f37b58d665da1ecae91998",
+  "wire_metadata_sha256": "d78faa6b1ba4bcad1f800fe971b99ff91f22aa48ae9329b210d67f09b8669c0a",
+  "covariance": {
+    "observation_ids": [
+      "o1",
+      "o2"
+    ],
+    "unit": "counts^2",
+    "values": [
+      [
+        2.0,
+        0.5
+      ],
+      [
+        0.5,
+        1.0
+      ]
+    ]
+  },
+  "producer_evpi": 0.6009450952528033,
+  "oracle_evpi": 0.6009450952528035,
+  "reused_data_rejected": true,
+  "default_candidate_rejected": true,
+  "scope": "explicit candidate version, one correlated synthetic evidence packet, no default promotion or full schema migration qualification"
+}

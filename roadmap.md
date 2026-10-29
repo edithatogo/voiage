@@ -60,12 +60,16 @@ to these engineering prerequisites without activating them.
 
 Prepared track records:
 
+- `conductor/tracks/hpc_source_build_qualification_20261029/` (planned; full HPC acceptance pending)
+- `conductor/tracks/scientific_ecosystem_alignment_20261029/` (linked delivery; acceptance pending)
+
 - `conductor/tracks/execution_packet_guard_20260907/`
 - `conductor/tracks/version_identity_contracts_20260907/`
 - `conductor/tracks/native_structured_logging_20260907/`
 - `conductor/tracks/logging_privacy_resilience_20260907/`
 - `conductor/tracks/vop_logging_version_pilot_20260907/`
 - `conductor/tracks/optional_native_telemetry_20260907/`
+- `conductor/tracks/tobac_consumer_qualification_20261025/`
 - `conductor/tracks/tabular_contract_v3_20261026/`
 - `conductor/tracks/polars_container_20261026/`
 - `conductor/tracks/pandas_free_io_20261026/`

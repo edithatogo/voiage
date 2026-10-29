@@ -1115,3 +1115,20 @@ track at the top of this registry; completed repository slices stay closed.
   *Link: [./tracks/translation_reference_20261026/index.md](./tracks/translation_reference_20261026/index.md)*
   **Completed on 2026-10-28.** Fourteen source-derived/anticipatory semantic topics, both executable forms, retained consumer attribution and the linked documentation source pass guarded Python 3.15.1 qualification and applicable hosted checks. See the acceptance receipt; final-head CI remains required before merge.
   GitHub: https://github.com/edithatogo/voiage/issues/1199
+
+---
+
+- [ ] **Track: tobac weighted VOI consumer qualification**
+  *Link: [./tracks/tobac_consumer_qualification_20261025/index.md](./tracks/tobac_consumer_qualification_20261025/index.md)*
+  Implementation authorised on 29 October 2026; reuses existing capability owners. Downstream proof remains pending.
+  GitHub: https://github.com/edithatogo/voiage/issues/1193
+
+---
+- [ ] **Track: Rust/LLVM source builds and full HPC qualification**
+  *Link: [./tracks/hpc_source_build_qualification_20261029/index.md](./tracks/hpc_source_build_qualification_20261029/index.md)*
+  Planning prepared; specification/plan review and native execution remain pending.
+
+---
+- [ ] **Track: Scientific ecosystem alignment (voiage)**
+  *Link: [./tracks/scientific_ecosystem_alignment_20261029/index.md](./tracks/scientific_ecosystem_alignment_20261029/index.md)*
+  Linked delivery; native acceptance pending.

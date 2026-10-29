@@ -6,7 +6,7 @@
 #![forbid(unsafe_code)]
 
 use pyo3::create_exception;
-use pyo3::exceptions::{PyException, PyValueError};
+use pyo3::exceptions::{PyException, PyRuntimeError, PyValueError};
 use pyo3::prelude::*;
 use pyo3::types::{PyDict, PyModule};
 use serde::Deserialize;
@@ -17,16 +17,17 @@ use std::fmt::Write;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Mutex;
 use voiage_diagnostics::telemetry::{emit as emit_diagnostic_event, Correlation};
-use voiage_diagnostics::ErrorCategory;
+use voiage_diagnostics::{CancellationToken, CheckpointIdentity, CheckpointStore, ErrorCategory};
 use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
     ceaf, coss, coss_selection_uncertainty, dominance, enbs, estimation_truth_assurance, evpi,
-    evppi, evppi_variance, evppi_variance_with_assurance, evsi_efficient_linear,
+    evpi_resumable, evppi, evppi_variance, evppi_variance_with_assurance, evsi_efficient_linear,
     evsi_evpi_efficiency, evsi_moment_based, evsi_regression, evsi_stochastic, evsi_variance,
     evsi_variance_with_assurance, expected_utility_information, heterogeneity,
     information_efficiency_uncertainty, normal_normal_two_arm_evsi, structural_evpi,
     structural_evppi, DominanceStatus as KernelDominanceStatus, EstimationVarianceKernelResult,
-    ExpectedUtilityInformationInput, InformationStructure, SolverSettings, UtilityDescriptor,
+    ExpectedUtilityInformationInput, InformationStructure, ResumableEvpiOutcome, SolverSettings,
+    UtilityDescriptor,
 };
 use voiage_serialization::{
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
@@ -507,6 +508,87 @@ fn compute_evpi(net_benefit: &Bound<'_, PyAny>) -> PyResult<f64> {
         }
         _ => InputError::new_err(("invalid_input", error.to_string())),
     })
+}
+
+/// Translate the bounded Rust EVPI outcome for Python callers.
+#[pyfunction]
+#[pyo3(signature = (net_benefit, checkpoint, model_input, rng, algorithm, max_evaluations, batch_size, resume, cancellation=None))]
+#[allow(clippy::too_many_arguments)]
+fn compute_evpi_resumable<'py>(
+    py: Python<'py>,
+    net_benefit: &Bound<'_, PyAny>,
+    checkpoint: &str,
+    model_input: &str,
+    rng: &str,
+    algorithm: &str,
+    max_evaluations: u64,
+    batch_size: usize,
+    resume: bool,
+    cancellation: Option<PyRef<'_, PyCancellationToken>>,
+) -> PyResult<Bound<'py, PyDict>> {
+    let matrix = matrix_from_python(net_benefit, "net_benefit")?;
+    let identity = CheckpointIdentity::new(model_input, rng, algorithm)
+        .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let token = cancellation.map_or_else(CancellationToken::new, |value| value.token.clone());
+    let store = CheckpointStore::new(checkpoint);
+    let result = py
+        .detach(move || {
+            evpi_resumable(
+                &matrix,
+                &store,
+                &identity,
+                max_evaluations,
+                batch_size,
+                &token,
+                resume,
+            )
+        })
+        .map_err(PyRuntimeError::new_err)?;
+    let output = PyDict::new(py);
+    match result {
+        ResumableEvpiOutcome::Complete { value, evaluations } => {
+            output.set_item("state", "complete")?;
+            output.set_item("evaluations", evaluations)?;
+            output.set_item("value", value)?;
+        }
+        ResumableEvpiOutcome::Partial { evaluations }
+        | ResumableEvpiOutcome::Cancelled { evaluations } => {
+            output.set_item(
+                "state",
+                if matches!(result, ResumableEvpiOutcome::Partial { .. }) {
+                    "partial"
+                } else {
+                    "cancelled"
+                },
+            )?;
+            output.set_item("evaluations", evaluations)?;
+            output.set_item("value", py.None())?;
+        }
+    }
+    Ok(output)
+}
+
+/// Thread-safe cooperative cancellation for a bounded native computation.
+#[pyclass(name = "CancellationToken")]
+#[derive(Default)]
+struct PyCancellationToken {
+    token: CancellationToken,
+}
+
+#[pymethods]
+impl PyCancellationToken {
+    #[new]
+    fn new() -> Self {
+        Self::default()
+    }
+
+    fn cancel(&self) {
+        self.token.cancel();
+    }
+
+    fn is_cancelled(&self) -> bool {
+        self.token.is_cancelled()
+    }
 }
 
 /// Compute the stable ENBS kernel for Python callers.
@@ -1644,6 +1726,8 @@ fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(runtime_info, module)?)?;
     module.add_function(wrap_pyfunction!(emit_diagnostic, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evpi, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_evpi_resumable, module)?)?;
+    module.add_class::<PyCancellationToken>()?;
     module.add_function(wrap_pyfunction!(compute_enbs, module)?)?;
     module.add_function(wrap_pyfunction!(compute_coss, module)?)?;
     module.add_function(wrap_pyfunction!(

@@ -1,0 +1,33 @@
+{
+  "schema": "voiage.tobac-regulatory-scenarios.v1",
+  "parameter_sha256": "f49b7b6926940098254ab3150f1897af4c88bbb9e62b60920359875c2054a23c",
+  "parameter_schema": "tobac.parameters.v1",
+  "model_schema": "tobac.regulatory-milestone.v1",
+  "tobac_revision": "62a47123aae4186514f37b58d665da1ecae91998",
+  "voiage_source_tree": "b65109e087c0c18e91db5c7c921cc5b54f0540c3",
+  "execution": {
+    "backend": "voiage.methods.basic.evpi",
+    "dtype": "float64",
+    "order": [
+      0.2,
+      0.8,
+      0.8,
+      0.2
+    ]
+  },
+  "scenarios": {
+    "0.2": {
+      "states": 4096,
+      "oracle_evpi": 0.08134530468749991,
+      "voiage_evpi": 0.08134530468749951,
+      "max_difference": 4.0245584642661925e-16
+    },
+    "0.8": {
+      "states": 4096,
+      "oracle_evpi": 0.0609396328124999,
+      "voiage_evpi": 0.0609396328124996,
+      "max_difference": 2.983724378680108e-16
+    }
+  },
+  "scope": "actual regulatory configuration and finite scenarios, not scientific calibration or full parameter/covariance qualification"
+}

@@ -4,6 +4,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+- [ ] Qualify `conductor/tracks/hpc_source_build_qualification_20261029/` and `conductor/tracks/scientific_ecosystem_alignment_20261029/`; preserve all existing native gates.
+
 - [x] Add local verification resource limits and termination receipts before
   continuing Python 3.15.1 acceptance testing.
 
@@ -15,6 +17,7 @@ Completed prerequisite records remain linked for navigation:
 `conductor/tracks/translation_reference_20261026/`.
 
 - [ ] Existing active delivery tracks: `conductor/tracks/remaining_backlog_delivery_20260831/` and `conductor/tracks/v2_2_release_and_venue_submissions_20260830/`.
+- [ ] Qualify the named tobac consumer: `conductor/tracks/tobac_consumer_qualification_20261025/`.
 - [x] Add the Rust feature/MSRV qualification matrix and locked verification lane.
 
 *   [x] Advance the fourteen open issue deliverables with source-bound agent

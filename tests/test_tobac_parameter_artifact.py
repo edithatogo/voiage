@@ -156,3 +156,81 @@ def test_parquet_reads_previous_envelope_when_user_schema_key_collides(
     )
     restored = NormalizedInputBundle.read_parquet(path)
     assert restored.tables["parameters"].schema.metadata == source_metadata
+
+
+def test_parquet_round_trip_preserves_multi_chunk_column_layout_and_digest(
+    tmp_path: Path,
+) -> None:
+    manifest = DatasetManifest(
+        dataset_id="multi-chunk-parameters",
+        tables=(
+            TableManifest(
+                table_id="parameters",
+                fields=(
+                    FieldManifest(field_id="mean", dtype="float64", unit="kg"),
+                    FieldManifest(
+                        field_id="covariance_row", dtype="fixed_size_list", unit="kg^2"
+                    ),
+                ),
+            ),
+        ),
+        provenance=SourceProvenance(
+            provider_id="synthetic-test",
+            source_uri="file:///redacted/parameter-input",
+            descriptor_digest="a" * 64,
+        ),
+    )
+    cov_type = pa.list_(pa.field("covariance_element", pa.float64()), 2)
+    table = pa.table(
+        {
+            "mean": pa.chunked_array([[1.0, 2.0], [3.0]]),
+            "covariance_row": pa.chunked_array(
+                [
+                    pa.array([[1.0, 0.25], [0.25, 4.0]], type=cov_type),
+                    pa.array([[2.0, 0.5]], type=cov_type),
+                ],
+                type=cov_type,
+            ),
+        }
+    )
+    original = NormalizedInputBundle(manifest=manifest, tables={"parameters": table})
+    path = tmp_path / "multi-chunk.parquet"
+    original.write_parquet(path)
+    restored = NormalizedInputBundle.read_parquet(path)
+    assert [col.num_chunks for col in restored.tables["parameters"].columns] == [2, 2]
+    assert restored.content_digest == original.content_digest
+
+
+@pytest.mark.parametrize(
+    "bad_chunks",
+    [b"not-json", b"{}", b"[[1, 2]]", b"[[-1, 2]]", b"[[true]]"],
+)
+def test_parquet_rejects_invalid_stored_column_chunks(
+    tmp_path: Path, bad_chunks: bytes
+) -> None:
+    manifest = DatasetManifest(
+        dataset_id="chunk-check",
+        tables=(
+            TableManifest(
+                table_id="parameters",
+                fields=(FieldManifest(field_id="mean", dtype="float64"),),
+            ),
+        ),
+        provenance=SourceProvenance(
+            provider_id="synthetic-test",
+            source_uri="file:///redacted/parameter-input",
+            descriptor_digest="b" * 64,
+        ),
+    )
+    bundle = NormalizedInputBundle(
+        manifest=manifest, tables={"parameters": pa.table({"mean": [1.0]})}
+    )
+    path = tmp_path / "invalid-chunks.parquet"
+    bundle.write_parquet(path)
+    stored = pq.read_table(path)
+    metadata = dict(stored.schema.metadata or {})
+    metadata[b"voiage.normalized.original_column_chunks"] = bad_chunks
+    pq.write_table(stored.replace_schema_metadata(metadata), path)
+    with pytest.raises(ValueError, match="original Arrow column chunks"):
+        NormalizedInputBundle.read_parquet(path)
+

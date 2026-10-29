@@ -159,7 +159,13 @@ jobs:
         run: env -u RUSTC_WRAPPER cargo install --locked cargo-nextest --version 0.9.114
       - name: Run the non-authoritative nextest inventory
         working-directory: rust
-        run: cargo nextest run --workspace --all-features --locked --no-fail-fast
+        run: cargo nextest run --workspace --all-features --locked --no-fail-fast --retries 0
+      - name: Archive checkpoint tests from this checkout
+        working-directory: rust
+        run: cargo nextest archive -p voiage-numerics --test evpi_resume --locked --archive-file "$RUNNER_TEMP/voiage-checkpoint-tests.tar.zst"
+      - name: Replay the same-run checkpoint archive
+        working-directory: rust
+        run: cargo nextest run --archive-file "$RUNNER_TEMP/voiage-checkpoint-tests.tar.zst" --retries 0
       - name: Record cache statistics
         if: always()
         run: sccache --show-stats

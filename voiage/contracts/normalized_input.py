@@ -33,6 +33,7 @@ _MANIFEST_KEY = b"voiage.normalized.manifest"
 _TABLE_ID_KEY = b"voiage.normalized.table_id"
 _ORIGINAL_METADATA_KEY = b"voiage.normalized.original_schema_metadata"
 _ORIGINAL_SCHEMA_KEY = b"voiage.normalized.original_arrow_schema"
+_ORIGINAL_CHUNKS_KEY = b"voiage.normalized.original_column_chunks"
 _METADATA_MAGIC = b"voiage-schema-metadata-v1:"
 _MANIFEST_FORMAT_MARKER = b"\n "
 _PARQUET_SCHEMA_FORMAT_MARKER = b"\n \n "
@@ -86,6 +87,41 @@ def _restore_schema_metadata(
             raise ValueError("duplicate original Arrow schema metadata key")
         restored[key] = value
     return restored
+
+
+def _restore_column_chunks(
+    table: pa.Table, metadata: Mapping[bytes, bytes]
+) -> list[pa.ChunkedArray]:
+    """Restore original column chunk boundaries when recorded in metadata."""
+    raw = metadata.get(_ORIGINAL_CHUNKS_KEY)
+    if raw is None:
+        return list(table.columns)
+    try:
+        layout = json.loads(raw)
+    except (ValueError, UnicodeDecodeError) as error:
+        raise ValueError("invalid original Arrow column chunks") from error
+    if not isinstance(layout, list) or len(layout) != len(table.columns):
+        raise ValueError("invalid original Arrow column chunks")
+    columns: list[pa.ChunkedArray] = []
+    for column, lengths in zip(table.columns, layout, strict=True):
+        if (
+            not isinstance(lengths, list)
+            or any(
+                not isinstance(length, int) or isinstance(length, bool) or length < 0
+                for length in lengths
+            )
+            or sum(lengths) != len(column)
+            or (len(column) > 0 and not lengths)
+        ):
+            raise ValueError("invalid original Arrow column chunks")
+        combined = column.combine_chunks()
+        chunks: list[pa.Array] = []
+        offset = 0
+        for length in lengths:
+            chunks.append(pa.concat_arrays([combined.slice(offset, length)]))
+            offset += length
+        columns.append(pa.chunked_array(chunks, type=column.type))
+    return columns
 
 
 class _Digest(Protocol):
@@ -541,6 +577,10 @@ class NormalizedInputBundle:
             _ORIGINAL_SCHEMA_KEY: table.schema.remove_metadata()
             .serialize()
             .to_pybytes(),
+            _ORIGINAL_CHUNKS_KEY: json.dumps(
+                [[len(chunk) for chunk in column.chunks] for column in table.columns],
+                separators=(",", ":"),
+            ).encode("ascii"),
         }
         path.parent.mkdir(parents=True, exist_ok=True)
         pq.write_table(
@@ -597,7 +637,8 @@ class NormalizedInputBundle:
                 if restored_metadata is None
                 else original_schema.with_metadata(restored_metadata)
             )
-            table = pa.Table.from_arrays(table.columns, schema=restored_schema)
+            columns = _restore_column_chunks(table, metadata)
+            table = pa.Table.from_arrays(columns, schema=restored_schema)
         else:
             table = table.replace_schema_metadata(restored_metadata)
         return cls(manifest=manifest, tables={table_name: table})

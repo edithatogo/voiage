@@ -1,0 +1,23 @@
+{
+  "track_id": "tobac_consumer_qualification_20261025",
+  "type": "refactor",
+  "status": "new",
+  "created_at": "2026-10-25T12:25:29Z",
+  "updated_at": "2026-10-25T12:25:29Z",
+  "description": "tobac weighted VOI consumer qualification",
+  "base_commit": "ca3f05cc8adcc74b99fe236152327d0cd3679553",
+  "implementation_authorized": true,
+  "implementation_state": "not_started",
+  "approval_scope": "User authorised implementation, review and archival on 29 October 2026; publication and external messages remain outside scope",
+  "master_track": "https://github.com/edithatogo/tobac/tree/5ff282d06d9b04477266b26907fe039572e11877/conductor/tracks/scientific_ecosystem_20261025",
+  "github_issue": "https://github.com/edithatogo/voiage/issues/1193",
+  "existing_work": [
+    "conductor/tracks/remaining_backlog_delivery_20260831/index.md",
+    "conductor/tracks/agent_safe_engineering_20260907/index.md",
+    "conductor/archive/information_source_portfolio_voi_20260801/index.md"
+  ],
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/1193"
+  },
+  "master_issue": "https://github.com/edithatogo/tobac/issues/22"
+}
