@@ -78,3 +78,12 @@ validation. This supersedes the earlier capacity statements in this handoff and 
 completed with approximately 10 GiB sampled disk growth. This is not evidence
 of completion or sufficient capacity for the full EasyBuild matrix. Retain the
 2 GiB free-space reserve and guard both guest and host backing volumes.
+
+## Tobac shared-cost boundary — 29 October 2026
+
+Chat `01a17ab7-148e-7042-be1e-03a9478643da` owns
+`/Users/doughnut/.codex/worktrees/tobac-shared-cost-witness/voiage`, branch
+`codex/tobac-shared-cost-witness`, for the shared-cost contract witness in
+`tests/test_tobac_shared_cost_boundary.py`. There is no native service scope.
+Next: freeze an extension contract against the named consumer and demonstrate
+its independent red cases, preserving the existing v1 scalar-cost behavior.

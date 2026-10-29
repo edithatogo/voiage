@@ -1,5 +1,8 @@
 # Changelog
 
+- Verify that the existing portfolio contract retains scalar-cost accounting
+  and rejects undeclared shared-asset fields.
+
 - Correct current native-build capacity guidance and record the completed
   GitHub Polars build while preserving byte-pinned historical replay tools.
 
