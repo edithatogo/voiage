@@ -6,6 +6,9 @@
 - Verify that registered numerical assurance cases name compiled, non-ignored
   Rust tests, reject stale case references, and support archived track records.
 
+- Exercise Cargo MSRV rejection and optional-backend controls in the Rust
+  compatibility job with explicitly verified compiler and Cargo versions.
+
 - Expose resumable EVPI outcomes and cooperative cancellation through the
   native Python adapter.
 
