@@ -23,3 +23,15 @@ These references do not establish a complete parameter-set schema, installed
 consumer parity, scientific applicability, or a need for a new interface.
 The existing normalized Arrow digest/serialization review remains a separate
 open dependency; do not infer its security or compatibility acceptance here.
+
+## Structure witness lane
+
+Chat `01a17ab7-148e-7042-be1e-03a9478643da` owns the isolated worktree
+`/Users/doughnut/.codex/worktrees/tobac-structure-witness/voiage`, branch
+`codex/tobac-structure-witness`, for a numerical counterexample in
+`rust/crates/voiage-numerics/src/structural.rs`. No native service is in scope.
+The selected native counterexample passed under the resource guard using one
+build job and a 1 GiB sampled RSS limit. Next: determine a consumer-qualified
+structure-only route without changing existing API behavior.
+The case records the distinction between observing structure and observing
+individual within-structure samples; it is not consumer acceptance evidence.

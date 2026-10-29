@@ -12,6 +12,9 @@
 - Bind operational coverage reports to their source, environment and bytes
   before enforcing coverage thresholds.
 
+- Document the distinction between structure-only information and the existing
+  structural EVPI calculation with a native numerical counterexample.
+
 - Correct current native-build capacity guidance and record the completed
   GitHub Polars build while preserving byte-pinned historical replay tools.
 
