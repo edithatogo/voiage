@@ -35,6 +35,19 @@ Current implementation owner: this chat's integrator, worktree
 coverage identity script, its tests, the operational assurance job and this
 handoff. Native scope: none. Next operation: run final gates and hosted review.
 
+The `ci-nextest-replay` lane adds a checkpoint-I/O group and a same-job archive
+replay to the existing non-blocking preview. On macOS, pinned nextest 0.9.114
+listed six `evpi_resume` tests in the one-thread group and replayed all six from
+an archive under the Python 3.15.1 resource guard. The experiment does not
+establish hosted Linux behavior, cross-run artifact identity, failure aggregation,
+or a measured saving. Those acceptance requirements remain open.
+
+Current implementation owner: this chat's integrator, worktree
+`/Users/doughnut/.codex/worktrees/ci-nextest-replay/voiage`, scoped to
+`rust/.config/nextest.toml`, the Rust preview job, its focused test and this
+handoff. Native scope: none. Next operation: qualify the candidate with local
+and hosted gates before merge.
+
 The added `tests/test_coverage_cli_acceptance.py` invokes the existing coverage
 gate in a subprocess: a missing report fails, an exact-head control passes, and
 a mismatched checkout fails. This tests the current single-job coverage gate;
