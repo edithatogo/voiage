@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
 import json
 from pathlib import Path
 from typing import Any
@@ -39,6 +40,24 @@ def _payload(*, owned: bool = False) -> dict[str, Any]:
     payload["sources"][0]["cost"] = 0.1
     payload["sources"][1]["cost"] = 0.2
     return payload
+
+
+def test_shared_asset_order_does_not_change_result_or_input() -> None:
+    payload = _payload(owned=True)
+    payload["shared_costs"]["assets"].append(
+        {"asset_id": "other", "cost": 0.0, "cost_unit": "AUD"}
+    )
+    payload["shared_costs"]["existing_assets"].append("other")
+    payload["sources"][0]["asset_ids"].append("other")
+    original = deepcopy(payload)
+    expected = information_source_portfolio_value(payload).to_contract_dict()
+    assert payload == original
+    payload["shared_costs"]["assets"].reverse()
+    payload["shared_costs"]["existing_assets"].reverse()
+    payload["sources"][0]["asset_ids"].reverse()
+    reordered = deepcopy(payload)
+    assert information_source_portfolio_value(payload).to_contract_dict() == expected
+    assert payload == reordered
 
 
 @pytest.mark.parametrize(

@@ -310,12 +310,17 @@ def _evaluate(payload: Mapping[str, Any]) -> dict[str, Any]:
     }
     if shared_costs is not None:
         result["cost_basis"] = {
-            "shared_costs": shared_costs,
+            "shared_costs": {
+                "assets": sorted(
+                    shared_costs["assets"], key=lambda asset: asset["asset_id"]
+                ),
+                "existing_assets": sorted(shared_costs["existing_assets"]),
+            },
             "sources": {
                 source_id: {
                     "cost": source_by_id[source_id]["cost"],
                     "cost_unit": source_by_id[source_id]["cost_unit"],
-                    "asset_ids": source_by_id[source_id]["asset_ids"],
+                    "asset_ids": sorted(source_by_id[source_id]["asset_ids"]),
                 }
                 for source_id in source_ids
             },
