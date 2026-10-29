@@ -162,11 +162,7 @@ mod tests {
         // the optimal strategy has expected value 5 both before and after
         // learning the already-certain structure. Revealing the sample too
         // permits a different strategy in each row and is worth 5 instead.
-        let cube = SampleCube::try_from(vec![vec![
-            vec![10.0, 0.0],
-            vec![0.0, 10.0],
-        ]])
-        .unwrap();
+        let cube = SampleCube::try_from(vec![vec![vec![10.0, 0.0], vec![0.0, 10.0]]]).unwrap();
         let probabilities = SampleVector::try_from(vec![1.0]).unwrap();
         let structure_only_reference = 5.0_f64 - 5.0;
         let current_result = structural_evpi(&cube, &probabilities).unwrap();
