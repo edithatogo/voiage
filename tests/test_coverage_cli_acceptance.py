@@ -8,6 +8,7 @@ from pathlib import Path
 import subprocess
 import sys
 
+import pytest
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -73,6 +74,9 @@ def test_coverage_gate_rejects_missing_input_and_wrong_head(tmp_path: Path) -> N
     assert result["exact_source_head"] is False
 
 
+@pytest.mark.skipif(
+    sys.platform == "win32", reason="coverage workflow uses an Ubuntu shell"
+)
 def test_coverage_collection_propagates_subprocess_failure(tmp_path: Path) -> None:
     """The actual CI shell step must fail when the test runner fails."""
     workflow = yaml.safe_load(
