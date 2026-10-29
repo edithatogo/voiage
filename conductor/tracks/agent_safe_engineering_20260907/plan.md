@@ -45,6 +45,13 @@ Prerequisites: G01.
 - [x] G04.2 — Added the CI measurement contract and fail-closed policy assertions; `uv run pytest tests/test_exact_head_workflows.py tests/test_repo_harness.py -q` passes (15 tests) (G04-AC).
 - [x] G04.3 — Review the diff against the packet; run required final gates, bind evidence to source and environment, and update plan/metadata only for proven completion (G04-AC). PR #1164 merged as `184a3299b1d1a54a33c79bc5eb5545b7cfee3520`; exact-head hosted checks passed.
 
+- [~] G04.4 — Reconcile the acceptance claim against executable evidence.
+  PR #1164 added declarations and checks their shape, but did not demonstrate
+  rejection of mismatched artifacts or failed aggregation. The measurement
+  observation has pending digests and no timings or counts; the nextest lane
+  has no resource groups or replay evidence. Complete and verify these gates
+  before treating G04 as accepted. See `g04-acceptance-audit-20261029.md`.
+
 ## G05: Numerical adversarial assurance
 
 Prerequisites: G01.
