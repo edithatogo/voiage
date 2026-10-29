@@ -27,3 +27,12 @@ gate in a subprocess: a missing report fails, an exact-head control passes, and
 a mismatched checkout fails. This tests the current single-job coverage gate;
 it does not establish identity checking for reused artifacts or aggregation of
 cancelled shards, which remain open.
+
+An attempted aggregate in `dependency-preview.yml` removed the shard job's
+`continue-on-error` and checked its matrix result. The focused run exposed an
+existing contract in `test_dependency_promotion_policy.py` requiring every job
+in that workflow to be non-blocking. That test is also a byte-pinned input to
+the optional telemetry packet. The attempted workflow change was withdrawn;
+the failure is evidence that a fail-closed aggregate needs a separately
+qualified lane or coordinated revision of that contract and packet. No native
+GitHub cancellation behavior was demonstrated by this local attempt.
