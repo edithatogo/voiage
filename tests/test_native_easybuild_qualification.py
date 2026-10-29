@@ -414,11 +414,30 @@ def test_accepts_complete_bound_receipt(tmp_path: Path) -> None:
     )
 
 
+def test_workspace_resource_boundaries() -> None:
+    reserve = 2 * 1024**3
+    qualification.validate_workspace_resources(reserve, 8)
+    qualification.validate_workspace_resources(10 * 1024**3, 8)
+    with pytest.raises(SystemExit, match="2 GiB"):
+        qualification.validate_workspace_resources(reserve - 1, 8)
+    with pytest.raises(SystemExit, match="8 CPUs"):
+        qualification.validate_workspace_resources(reserve, 7)
+
+
+def test_accepts_receipt_with_ten_gib_free(tmp_path: Path) -> None:
+    receipt = _receipt(tmp_path)
+    _mutate(
+        receipt,
+        lambda data: data["resources"].__setitem__("free_bytes_before", 10 * 1024**3),
+    )
+    assert qualification.validate_receipt(receipt, Path.cwd())["outcome"] == "passed"
+
+
 @pytest.mark.parametrize(
     "change",
     [
         lambda d: d["resources"].__setitem__("cpu_count", 7),
-        lambda d: d["resources"].__setitem__("free_bytes_before", 250 * 1024**3 - 1),
+        lambda d: d["resources"].__setitem__("free_bytes_before", 2 * 1024**3 - 1),
         lambda d: d["resources"].__setitem__("unbounded", True),
         lambda d: d["commands"][0]["parsed"].pop("easybuild_completed"),
         lambda d: d["commands"][0]["parsed"].__setitem__("unexpected", True),

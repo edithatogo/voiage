@@ -62,3 +62,18 @@ do not reduce that floor or claim native acceptance to force completion.
 The engineering, telemetry and named consumer tracks have their own acceptance
 records. They are authorised implementation scope under the expanded goal; their
 acceptance cannot be inferred from the HPC provider work.
+
+## Capacity correction and ownership — 29 October 2026
+
+Chat `01a17ab7-148e-7042-be1e-03a9478643da` owns the capacity correction in
+`/Users/doughnut/.codex/worktrees/easybuild-capacity-correction/voiage` on
+`codex/easybuild-capacity-correction`. Its scope is the historical EasyBuild
+driver, receipt schema, focused tests and capacity documentation; no native
+build is active in this lane. Next: qualify and integrate the correction.
+
+User direction withdraws the prior 250 GiB preflight requirement and supersedes
+the earlier capacity statements in this handoff and dated receipts. The
+[GitHub Polars build](https://github.com/edithatogo/voiage/actions/runs/40691333092)
+completed with approximately 10 GiB sampled disk growth. This is not evidence
+of completion or sufficient capacity for the full EasyBuild matrix. Retain the
+2 GiB free-space reserve and guard both guest and host backing volumes.
