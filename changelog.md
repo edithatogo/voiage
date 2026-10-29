@@ -1,5 +1,8 @@
 # Changelog
 
+- Bound optional telemetry queue capacity, attribute count and retained string
+  allocations to prevent oversized records from accumulating in memory.
+
 - Reconcile the telemetry track's accepted pilot prerequisite while retaining
   its open need assessment and implementation gates.
 

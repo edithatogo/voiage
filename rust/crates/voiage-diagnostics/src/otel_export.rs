@@ -7,6 +7,13 @@ use opentelemetry::trace::SpanContext;
 /// OpenTelemetry API line qualified by this optional feature.
 pub const OPENTELEMETRY_API_VERSION: &str = "0.32";
 
+/// Maximum queued records, even when a larger capacity is requested.
+pub const MAX_QUEUED_EVENTS: usize = 1024;
+/// Maximum retained attributes on one record.
+pub const MAX_EVENT_ATTRIBUTES: usize = 32;
+/// Maximum total allocated string bytes retained in one record.
+pub const MAX_EVENT_STRING_BYTES: usize = 64 * 1024;
+
 /// A bounded trace record suitable for an application-owned exporter.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct TraceEvent {
@@ -44,8 +51,8 @@ impl TraceExportConfig {
             enabled,
             max_retries,
             sample_rate: 1.0,
-            max_attributes: 32,
-            capacity: 1024,
+            max_attributes: MAX_EVENT_ATTRIBUTES,
+            capacity: MAX_QUEUED_EVENTS,
         })
     }
 
@@ -56,17 +63,17 @@ impl TraceExportConfig {
         self
     }
 
-    /// Sets the maximum number of attributes retained per event.
+    /// Sets the maximum attributes retained per event, capped at the global limit.
     #[must_use]
     pub fn with_max_attributes(mut self, max_attributes: usize) -> Self {
-        self.max_attributes = max_attributes;
+        self.max_attributes = max_attributes.min(MAX_EVENT_ATTRIBUTES);
         self
     }
 
-    /// Sets the bounded in-process queue capacity.
+    /// Sets the queue capacity, capped at the global limit.
     #[must_use]
     pub fn with_capacity(mut self, capacity: usize) -> Self {
-        self.capacity = capacity;
+        self.capacity = capacity.min(MAX_QUEUED_EVENTS);
         self
     }
 
@@ -100,7 +107,7 @@ impl TraceCollector {
         }
     }
 
-    /// Records an event when sampling and opt-in policy allow it.
+    /// Records an event when opt-in, sampling and retained-size limits allow it.
     #[must_use]
     pub fn record(&self, mut event: TraceEvent) -> bool {
         if !self.config.enabled || !sampled(&event.trace_id, self.config.sample_rate) {
@@ -112,6 +119,21 @@ impl TraceCollector {
             } else {
                 break;
             }
+        }
+        let mut bytes = event
+            .name
+            .capacity()
+            .saturating_add(event.trace_id.capacity());
+        if let Some(parent) = &event.parent_id {
+            bytes = bytes.saturating_add(parent.capacity());
+        }
+        for (key, value) in &event.attributes {
+            bytes = bytes
+                .saturating_add(key.capacity())
+                .saturating_add(value.capacity());
+        }
+        if bytes > MAX_EVENT_STRING_BYTES {
+            return false;
         }
         let Ok(mut events) = self.events.try_lock() else {
             return false;
@@ -162,7 +184,10 @@ fn sampled(trace_id: &str, sample_rate: f64) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::{TraceCollector, TraceEvent, TraceExportConfig};
+    use super::{
+        TraceCollector, TraceEvent, TraceExportConfig, MAX_EVENT_ATTRIBUTES,
+        MAX_EVENT_STRING_BYTES, MAX_QUEUED_EVENTS,
+    };
     use std::collections::BTreeMap;
 
     fn event(id: &str) -> TraceEvent {
@@ -206,5 +231,43 @@ mod tests {
         assert!(!records.is_empty(), "expected at least one record");
         assert_eq!(records.len(), 1);
         assert_eq!(records[0].attributes.len(), 1);
+    }
+
+    #[test]
+    fn oversized_event_is_not_retained() {
+        let collector = TraceCollector::new(TraceExportConfig::new(true, 0).expect("valid"));
+        let mut oversized = event("trace-large");
+        oversized.name = "x".repeat(1024 * 1024);
+        assert!(!collector.record(oversized));
+        assert_eq!(collector.drain(), [] as [TraceEvent; 0]);
+    }
+
+    #[test]
+    fn allocated_string_capacity_is_bounded() {
+        let collector = TraceCollector::new(TraceExportConfig::new(true, 0).expect("valid"));
+        let mut oversized = event("trace-capacity");
+        oversized.attributes.insert(
+            "key".into(),
+            String::with_capacity(MAX_EVENT_STRING_BYTES + 1),
+        );
+        assert!(!collector.record(oversized));
+        assert_eq!(collector.drain(), [] as [TraceEvent; 0]);
+        assert!(collector.record(event("trace-normal")));
+        assert_eq!(collector.drain().len(), 1);
+    }
+
+    #[test]
+    fn requested_limits_cannot_exceed_global_caps() {
+        let config = TraceExportConfig::new(true, 0)
+            .expect("valid")
+            .with_capacity(usize::MAX)
+            .with_max_attributes(usize::MAX);
+        assert_eq!(config.capacity, MAX_QUEUED_EVENTS);
+        assert_eq!(config.max_attributes, MAX_EVENT_ATTRIBUTES);
+        let collector = TraceCollector::new(config);
+        for _ in 0..=MAX_QUEUED_EVENTS {
+            assert!(collector.record(event("trace-normal")));
+        }
+        assert_eq!(collector.drain().len(), MAX_QUEUED_EVENTS);
     }
 }
