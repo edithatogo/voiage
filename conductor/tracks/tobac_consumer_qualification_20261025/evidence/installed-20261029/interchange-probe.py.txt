@@ -1,0 +1,48 @@
+"""Check candidate-version conditioning after covariance transport."""
+import hashlib
+import json
+from pathlib import Path
+
+import numpy as np
+from tobac._core import DecisionProblem, exact_evpi
+from tobac.evidence import Belief, EvidencePacket, Scope, condition
+from tobac.interchange import from_arrow, from_polars, read_metadata, to_arrow, to_polars
+from tobac.research.voiage_adapter import installed_evpi
+from tobac.supply import release_loglikelihood
+
+root = Path(__file__).parent
+scope = Scope("NZ", "adults", "2024-01-01", "2024-12-31", "counts")
+covariance = np.array([[2.0, 0.5], [0.5, 1.0]])
+logl = release_loglikelihood([3.0, 4.0], [[2.0, 4.0], [4.0, 5.0]], covariance)
+packet = EvidencePacket("observed", ("data:1",), ("source:1",), ("a", "b"), logl, scope, scope, "joint Gaussian")
+table = to_arrow(packet, covariance=covariance, observation_ids=("o1", "o2"), covariance_unit="counts^2", producer_revision="62a47123aae4186514f37b58d665da1ecae91998")
+metadata = read_metadata(table)
+assert metadata["covariance"]["values"] == ((2.0, 0.5), (0.5, 1.0))
+assert metadata["covariance"]["unit"] == "counts^2"
+assert metadata["producer_revision"] == "62a47123aae4186514f37b58d665da1ecae91998"
+view = to_polars(table)
+recovered = from_polars(view)
+assert recovered.state_ids == packet.state_ids and recovered.source_scope == scope and recovered.data_ids == packet.data_ids
+np.testing.assert_array_equal(recovered.log_likelihood, packet.log_likelihood)
+problem = DecisionProblem([[0.0, 4.0], [3.0, 0.0]], ("a", "b"), "score", [0.75, 0.25])
+prior = Belief(problem, packet.state_ids, scope)
+original = condition(prior, packet)
+restored = condition(prior, recovered)
+np.testing.assert_array_equal(original.problem.prior_weights, restored.problem.prior_weights)
+observed = installed_evpi(restored.problem, expected_version="2.2.0")["value"]
+oracle = exact_evpi(restored.problem)
+assert np.isclose(observed, oracle, rtol=1e-12, atol=1e-12)
+try:
+    condition(restored, from_arrow(table))
+except ValueError as exc:
+    assert "reused" in str(exc)
+else:
+    raise AssertionError("repeated evidence was accepted")
+try:
+    installed_evpi(restored.problem)
+except RuntimeError as exc:
+    assert "Unqualified voiage version" in str(exc)
+else:
+    raise AssertionError("default producer pin unexpectedly accepted candidate")
+receipt = {"schema": "voiage.tobac-interchange-candidate.v1", "voiage_source_tree": "b65109e087c0c18e91db5c7c921cc5b54f0540c3", "tobac_revision": metadata["producer_revision"], "wire_metadata_sha256": hashlib.sha256(view.metadata).hexdigest(), "covariance": metadata["covariance"], "producer_evpi": observed, "oracle_evpi": oracle, "reused_data_rejected": True, "default_candidate_rejected": True, "scope": "explicit candidate version, one correlated synthetic evidence packet, no default promotion or full schema migration qualification"}
+(root / "interchange-receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
