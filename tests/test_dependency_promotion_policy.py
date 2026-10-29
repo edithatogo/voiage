@@ -148,8 +148,8 @@ def test_g02_matrix_rejects_unqualified_feature_promotion() -> None:
     assert matrix["toolchain"]["workspace_msrv"] == "1.85"
 
 
-def test_g02_policy_declares_msrv_rejection() -> None:
-    """Check the declared policy; executable Cargo proof runs separately."""
+def test_g02_msrv_witness_rejects_incompatible_candidate() -> None:
+    """Model Cargo's fail-closed MSRV decision before promotion."""
     from packaging.version import Version
 
     matrix = _json(

@@ -18,3 +18,12 @@ negative run rejected the mixed 1.85 Cargo / 1.99 compiler selection before
 building. The Python policy/tool-selection tests and actionlint passed locally.
 These are bounded local witnesses, not a complete feature matrix or track
 acceptance. Full local and current-head hosted gates remain required.
+
+Hosted review of the first candidate identified three failures. The MSRV job
+selected Cargo 1.85.1 because the toolchain selector was `1.85`; it now selects
+`1.85.0`, the explicitly verified compiler and Cargo pair. The repository harness
+identified a frozen telemetry input modified only to rename a policy test; that
+file is restored byte-for-byte. The R requalification record now binds the new
+bindings workflow hash while retaining `hosted_pending`, without asserting new
+R qualification. Guarded local harness, submission-readiness validator and 44
+focused tests passed; current-head hosted evidence remains required.
