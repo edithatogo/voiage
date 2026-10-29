@@ -36,9 +36,10 @@ structure-only route without changing existing API behavior.
 The case records the distinction between observing structure and observing
 individual within-structure samples; it is not consumer acceptance evidence.
 
-The existing finite-world portfolio evaluator was then exercised with two
-equal-probability synthetic worlds. A constant structure observation returned
-zero; distinguishing the structures returned five. Two focused Python tests
-passed on Python 3.15.1 under the resource guard. This is a bounded source
-witness, not an installed tobac qualification, weighted-sample qualification,
-or evidence for arbitrary structural models.
+The existing finite-world portfolio evaluator was exercised with synthetic
+worlds in both orders. A constant structure observation returned zero;
+distinguishing equally likely structures returned five. With probabilities
+0.8 and 0.2 the fixed-action baseline is eight and the structure-only value is
+two. Six focused Python cases passed on Python 3.15.1 under the resource guard.
+This is a bounded source witness, not an installed tobac qualification,
+general weighted-sample qualification, or evidence for arbitrary models.

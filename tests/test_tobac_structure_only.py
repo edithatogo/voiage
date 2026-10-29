@@ -19,13 +19,16 @@ ROOT = Path(__file__).resolve().parents[1]
     [
         # Both sample outcomes have the same structure. Structure is already
         # known, although a sample-revealing oracle could be worth five.
-        ([("same", (10.0, 0.0)), ("same", (0.0, 10.0))], 0.0),
+        ([("same", (10.0, 0.0), 0.5), ("same", (0.0, 10.0), 0.5)], 0.0),
         # Structure distinguishes the states and switches the optimal action.
-        ([("first", (10.0, 0.0)), ("second", (0.0, 10.0))], 5.0),
+        ([("first", (10.0, 0.0), 0.5), ("second", (0.0, 10.0), 0.5)], 5.0),
+        # The fixed-action baseline is 8 and revealing structure yields 10.
+        ([("first", (10.0, 0.0), 0.8), ("second", (0.0, 10.0), 0.2)], 2.0),
     ],
 )
+@pytest.mark.parametrize("reverse", [False, True])
 def test_finite_world_structure_observation(
-    worlds: list[tuple[str, tuple[float, float]]], expected: float
+    worlds: list[tuple[str, tuple[float, float], float]], expected: float, reverse: bool
 ) -> None:
     """Do not accidentally reveal the sample within an observed structure."""
     path = (
@@ -42,11 +45,13 @@ def test_finite_world_structure_observation(
         states=[
             {
                 "state_id": f"world-{index}",
-                "probability": 0.5,
+                "probability": probability,
                 "action_values": dict(zip(("a", "b"), values, strict=True)),
                 "source_observations": {source_id: structure},
             }
-            for index, (structure, values) in enumerate(worlds)
+            for index, (structure, values, probability) in enumerate(
+                reversed(worlds) if reverse else worlds
+            )
         ],
     )
     payload["value_context"]["delay_cost_per_time"] = 0.0
