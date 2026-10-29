@@ -24,6 +24,17 @@ ROOT = Path(__file__).resolve().parents[1]
         ([("first", (10.0, 0.0), 0.5), ("second", (0.0, 10.0), 0.5)], 5.0),
         # The fixed-action baseline is 8 and revealing structure yields 10.
         ([("first", (10.0, 0.0), 0.8), ("second", (0.0, 10.0), 0.2)], 2.0),
+        # Each structure contains two outcomes. Knowing structure yields 5
+        # against a baseline of 4; knowing the individual outcome yields 8.
+        (
+            [
+                ("first", (10.0, 0.0), 0.25),
+                ("first", (0.0, 6.0), 0.25),
+                ("second", (0.0, 10.0), 0.25),
+                ("second", (6.0, 0.0), 0.25),
+            ],
+            1.0,
+        ),
     ],
 )
 @pytest.mark.parametrize("reverse", [False, True])
