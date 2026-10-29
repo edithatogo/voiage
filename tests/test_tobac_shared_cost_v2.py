@@ -73,6 +73,21 @@ def test_budget_uses_union_cost() -> None:
     assert result["assurance"]["prune_reasons"]["cost"] > 0
 
 
+def test_exact_budget_and_reversed_marginals() -> None:
+    payload = _payload()
+    payload["constraints"]["max_cost"] = 0.8
+    result = information_source_portfolio_value(payload).to_contract_dict()
+    sequence = next(
+        item
+        for item in result["evaluated_sequences"]
+        if item["source_sequence"] == ["registry", "survey"]
+    )
+    assert sequence["total_source_cost"] == pytest.approx(0.8)
+    assert [
+        item["incremental_source_cost"] for item in sequence["conditional_marginals"]
+    ] == pytest.approx([0.7, 0.1])
+
+
 @pytest.mark.parametrize("kind", ["unknown_source_asset", "unknown_owned_asset"])
 def test_unknown_asset_references_fail_closed(kind: str) -> None:
     payload = _payload()
