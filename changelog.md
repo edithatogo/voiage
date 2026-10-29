@@ -20,6 +20,9 @@
 - Document the distinction between structure-only information and the existing
   structural EVPI calculation with a native numerical counterexample.
 
+- Limit concurrent checkpoint I/O in the optional Rust preview and replay its
+  freshly built checkpoint-test archive within the same job.
+
 - Correct current native-build capacity guidance and record the completed
   GitHub Polars build while preserving byte-pinned historical replay tools.
 

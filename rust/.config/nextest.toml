@@ -1,0 +1,6 @@
+[test-groups.checkpoint-io]
+max-threads = 1
+
+[[profile.default.overrides]]
+filter = 'binary(evpi_resume)'
+test-group = 'checkpoint-io'
