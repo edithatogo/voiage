@@ -51,6 +51,103 @@ mod tests {
         values.try_into().expect("valid matrix")
     }
 
+    fn registered_tests_are_live(
+        value: &serde_json::Value,
+        listing: &str,
+        ignored: &str,
+    ) -> Result<(), String> {
+        if value["schema_version"] != "1.0" {
+            return Err("unsupported case register".into());
+        }
+        let cases = value["independent_references"]
+            .as_array()
+            .filter(|cases| !cases.is_empty())
+            .ok_or("case list must not be empty")?;
+        let live: std::collections::HashSet<_> = listing
+            .lines()
+            .filter_map(|line| line.strip_suffix(": test"))
+            .collect();
+        let ignored: std::collections::HashSet<_> = ignored
+            .lines()
+            .filter_map(|line| line.strip_suffix(": test"))
+            .collect();
+        for case in cases {
+            let id = case["case_id"]
+                .as_str()
+                .filter(|id| !id.is_empty())
+                .ok_or("missing case id")?;
+            let target = case["implementation_test"]
+                .as_str()
+                .ok_or("missing test target")?;
+            let name = target
+                .strip_prefix("rust/crates/voiage-numerics/src/evpi.rs::")
+                .filter(|name| !name.is_empty() && !name.contains("::"))
+                .ok_or_else(|| format!("unsupported test target: {target}"))?;
+            let qualified = format!("evpi::tests::{name}");
+            if !live.contains(qualified.as_str()) || ignored.contains(qualified.as_str()) {
+                return Err(format!("case {id} names missing test {qualified}"));
+            }
+        }
+        Ok(())
+    }
+
+    #[test]
+    fn numerical_case_register_names_compiled_tests() {
+        let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
+        if !root.join("rust/Cargo.toml").is_file() {
+            // Published standalone crates do not contain the repository register.
+            eprintln!("repository case register unavailable in standalone crate");
+            return;
+        }
+        let candidates = ["tracks", "archive"].map(|location| {
+            root.join("conductor")
+                .join(location)
+                .join("agent_safe_engineering_20260907/numerical-case-register.json")
+        });
+        let present: Vec<_> = candidates.iter().filter(|path| path.is_file()).collect();
+        assert_eq!(
+            present.len(),
+            1,
+            "exactly one active or archived numerical case register must be present"
+        );
+        let bytes = std::fs::read(present[0]).expect("numerical case register must be readable");
+        let value: serde_json::Value = serde_json::from_slice(&bytes).expect("valid JSON register");
+        let output = std::process::Command::new(std::env::current_exe().expect("test executable"))
+            .arg("--list")
+            .output()
+            .expect("enumerate compiled tests");
+        assert!(output.status.success(), "test enumeration failed");
+        let listing = String::from_utf8(output.stdout).expect("UTF-8 test listing");
+        let ignored = std::process::Command::new(std::env::current_exe().expect("test executable"))
+            .args(["--list", "--ignored"])
+            .output()
+            .expect("enumerate ignored tests");
+        assert!(ignored.status.success(), "ignored test enumeration failed");
+        let ignored = String::from_utf8(ignored.stdout).expect("UTF-8 ignored test listing");
+        registered_tests_are_live(&value, &listing, &ignored)
+            .expect("every registered case must name a live test");
+    }
+
+    #[test]
+    fn numerical_case_register_rejects_missing_and_malformed_targets() {
+        let case = serde_json::json!({"schema_version": "1.0", "independent_references": [{
+            "case_id": "example", "implementation_test": "rust/crates/voiage-numerics/src/evpi.rs::exists"
+        }]});
+        assert!(registered_tests_are_live(&case, "evpi::tests::exists: test\n", "").is_ok());
+        assert!(registered_tests_are_live(&case, "evpi::tests::other: test\n", "").is_err());
+        assert!(registered_tests_are_live(&case, "evpi::tests::exists: benchmark\n", "").is_err());
+        assert!(registered_tests_are_live(
+            &case,
+            "evpi::tests::exists: test\n",
+            "evpi::tests::exists: test\n"
+        )
+        .is_err());
+        let mut wrong_path = case;
+        wrong_path["independent_references"][0]["implementation_test"] =
+            "elsewhere.rs::exists".into();
+        assert!(registered_tests_are_live(&wrong_path, "evpi::tests::exists: test\n", "").is_err());
+    }
+
     #[test]
     fn affine_invariance_holds_for_constant_shift_and_positive_scaling() {
         let base = matrix(vec![vec![1.0, 3.0], vec![4.0, 2.0], vec![5.0, 6.0]]);
