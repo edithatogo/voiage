@@ -21,3 +21,9 @@ obtain comparable cold/warm measurements with exact test counts if claiming
 savings, and evaluate resource groups and replay in the existing preview lane.
 Keep the hosted required checks and thresholds unchanged. A future implementation
 must freeze its own baseline and retain this correction alongside prior receipts.
+
+The added `tests/test_coverage_cli_acceptance.py` invokes the existing coverage
+gate in a subprocess: a missing report fails, an exact-head control passes, and
+a mismatched checkout fails. This tests the current single-job coverage gate;
+it does not establish identity checking for reused artifacts or aggregation of
+cancelled shards, which remain open.
