@@ -1,6 +1,9 @@
 # Plan: Agent-safe engineering improvements
 
-G01–G08 repository-owned slices are complete from their accepted delivery evidence. Repository allocation precedes implementation;
+G01–G08 record historically delivered bounded slices, not a fresh acceptance
+of the whole programme. The review identified an unverified G05 live-target
+witness and track archival dependencies; G05.4 and the final review remain open.
+Repository allocation precedes implementation;
 [repository-boundaries.md](./repository-boundaries.md) orders the separate
 integration pilots and defines the external capabilities excluded from this repo. Follow [worker-guide.md](./worker-guide.md). A package is not an atomic implementation task: finish its bounded design packet before implementation.
 
