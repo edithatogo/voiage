@@ -6,6 +6,7 @@ user direction authorises implementation, review and archival after acceptance.
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)
 - [Metadata](./metadata.json)
+- [Initial consumer reconciliation](./consumer-reconciliation-20261029.md)
 - [Master track](https://github.com/edithatogo/tobac/tree/5ff282d06d9b04477266b26907fe039572e11877/conductor/tracks/scientific_ecosystem_20261025)
 
 The original 25 October registration was planning-only. It is retained as
