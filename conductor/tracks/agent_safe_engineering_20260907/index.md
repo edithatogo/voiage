@@ -1,6 +1,9 @@
 # Track: Agent-safe engineering improvements
 
-Status: active; G01–G08 repository-owned slices are reconciled as complete. No residual implementation track remains in this parent programme; external publication, venue, and maintainer gates remain outside packet authority.
+Status: active; previously merged G01–G08 slices remain historical delivery
+evidence. Review found an unverified numerical live-target witness and active
+references that must be reconciled before archival. G05.4, programme review
+and final acceptance remain open; external gates retain their separate scope.
 
 GitHub issue: https://github.com/edithatogo/voiage/issues/1110
 

@@ -1,0 +1,53 @@
+name: Arrow Build Capacity Observation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [codex/arrow-build-capacity-20261029]
+    paths:
+      - .github/workflows/arrow-build-capacity-observation.yml
+      - scripts/observe_arrow_capacity.py
+      - docs/reviews/arrow-capacity-inputs-20261029.json
+
+permissions:
+  contents: read
+
+concurrency:
+  group: arrow-capacity-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  arrow-source-capacity:
+    name: Measure Arrow C++ and PyArrow source build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
+    steps:
+      - name: Check out exact experiment revision
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - name: Install pinned uv without shared build caches
+        uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.13.6"
+          enable-cache: false
+      - name: Select qualified Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.15.1"
+      - name: Compile source profile and retain stage measurements
+        env:
+          ARROW_CAPACITY_WORKSPACE: ${{ runner.temp }}/voiage-arrow-capacity
+        run: >-
+          python scripts/observe_arrow_capacity.py
+          --inputs docs/reviews/arrow-capacity-inputs-20261029.json
+          --workspace "$ARROW_CAPACITY_WORKSPACE"
+          --evidence arrow-capacity-evidence
+      - name: Upload source, configuration and resource evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: arrow-capacity-${{ github.run_id }}-${{ github.run_attempt }}
+          path: arrow-capacity-evidence/
+          if-no-files-found: error
+          retention-days: 14

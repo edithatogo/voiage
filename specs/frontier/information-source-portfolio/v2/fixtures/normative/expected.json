@@ -1,0 +1,16 @@
+{
+  "sequence": [
+    "survey",
+    "registry"
+  ],
+  "unowned_total_cost": 0.8,
+  "unowned_marginal_costs": [
+    0.6,
+    0.2
+  ],
+  "owned_total_cost": 0.3,
+  "owned_marginal_costs": [
+    0.1,
+    0.2
+  ]
+}

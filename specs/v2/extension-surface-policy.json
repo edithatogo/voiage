@@ -5,6 +5,7 @@
     "stable_facade": [
       "voiage/__init__.py",
       "voiage/__main__.py",
+      "voiage/_contract_root.py",
       "voiage/_runtime.py",
       "voiage/analysis.py",
       "voiage/cli.py",

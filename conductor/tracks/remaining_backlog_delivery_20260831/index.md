@@ -44,6 +44,10 @@ reflog entry by object ID, selector, and subject.
 
 - [Prepared continuation handoff](./implementation-handoff.md)
 
+The 29 October capacity correction in the handoff supersedes the 250 GiB
+prerequisite cited in the dated records below; the historical observations are
+retained as evidence.
+
 - [Current continuation audit](./continuation-audit-20261028.json)
 - [Current source qualification](./source-qualification-20261028.json)
 

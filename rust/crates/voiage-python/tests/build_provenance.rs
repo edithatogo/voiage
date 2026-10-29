@@ -78,6 +78,25 @@ fn gitless_release_accepts_complete_valid_workflow_identity() {
 }
 
 #[test]
+fn archive_nested_in_unrelated_checkout_uses_supplied_identity() {
+    let (directory, _, _) = repository();
+    let archive = directory.0.join("extracted-archive");
+    fs::create_dir(&archive).expect("create extracted archive");
+    let revision = "0123456789abcdef0123456789abcdef01234567";
+    let tree = "89abcdef0123456789abcdef0123456789abcdef";
+    assert_eq!(
+        build_script::resolve_source_identity(
+            &archive,
+            Some(revision),
+            Some(tree),
+            Some("true"),
+            true,
+        ),
+        Ok((revision.to_owned(), tree.to_owned(), false))
+    );
+}
+
+#[test]
 fn release_without_git_or_workflow_identity_fails_closed() {
     let directory = TemporaryDirectory::new("unidentified");
     let error = build_script::resolve_source_identity(&directory.0, None, None, None, true)

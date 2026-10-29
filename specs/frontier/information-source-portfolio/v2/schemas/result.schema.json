@@ -1,0 +1,663 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiage.dev/schemas/frontier/information-source-portfolio-result.v2.json",
+  "title": "InformationSourcePortfolioResultV2Experimental",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "analysis_id",
+    "analysis_type",
+    "method_maturity",
+    "value_context",
+    "baseline",
+    "evaluated_sequences",
+    "optimum",
+    "conditional_marginals",
+    "attribution",
+    "switches",
+    "assurance",
+    "provenance",
+    "language_dispositions",
+    "unsupported_dispositions",
+    "cost_basis"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "2.0.0"
+    },
+    "analysis_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+    },
+    "analysis_type": {
+      "const": "information_source_portfolio_result"
+    },
+    "method_maturity": {
+      "const": "experimental"
+    },
+    "value_context": {
+      "type": "object"
+    },
+    "baseline": {
+      "type": "object",
+      "required": [
+        "expected_action_values",
+        "action_tie",
+        "value"
+      ],
+      "properties": {
+        "expected_action_values": {
+          "type": "object",
+          "minProperties": 2,
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "action_tie": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          },
+          "minItems": 1
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
+    },
+    "evaluated_sequences": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "source_sequence",
+          "total_source_cost",
+          "total_latency",
+          "total_privacy_cost",
+          "delay_cost",
+          "resolved_value",
+          "gross_value",
+          "willingness_to_pay",
+          "net_value",
+          "partitions",
+          "conditional_marginals"
+        ],
+        "properties": {
+          "source_sequence": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+            }
+          },
+          "total_source_cost": {
+            "type": "number",
+            "minimum": 0
+          },
+          "total_latency": {
+            "type": "number",
+            "minimum": 0
+          },
+          "total_privacy_cost": {
+            "type": "number",
+            "minimum": 0
+          },
+          "delay_cost": {
+            "type": "number",
+            "minimum": 0
+          },
+          "resolved_value": {
+            "type": "number"
+          },
+          "gross_value": {
+            "type": "number"
+          },
+          "willingness_to_pay": {
+            "type": "number"
+          },
+          "net_value": {
+            "type": "number"
+          },
+          "partitions": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "partition_id",
+                "observations",
+                "probability",
+                "conditional_action_values",
+                "action_tie",
+                "conditional_value",
+                "switch_from_baseline"
+              ],
+              "properties": {
+                "partition_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+                },
+                "observations": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "probability": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "maximum": 1
+                },
+                "conditional_action_values": {
+                  "type": "object",
+                  "minProperties": 2,
+                  "additionalProperties": {
+                    "type": "number"
+                  }
+                },
+                "action_tie": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+                  },
+                  "minItems": 1
+                },
+                "conditional_value": {
+                  "type": "number"
+                },
+                "switch_from_baseline": {
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "conditional_marginals": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "position",
+                "source_id",
+                "conditioning_sources",
+                "gross_marginal_value",
+                "incremental_source_cost",
+                "incremental_delay_cost",
+                "net_marginal_value"
+              ],
+              "properties": {
+                "position": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "source_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+                },
+                "conditioning_sources": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+                  }
+                },
+                "gross_marginal_value": {
+                  "type": "number"
+                },
+                "incremental_source_cost": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "incremental_delay_cost": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "net_marginal_value": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "optimum": {
+      "type": "object",
+      "required": [
+        "source_sequence",
+        "total_source_cost",
+        "total_latency",
+        "total_privacy_cost",
+        "delay_cost",
+        "resolved_value",
+        "gross_value",
+        "willingness_to_pay",
+        "net_value",
+        "partitions",
+        "conditional_marginals",
+        "optimal_sequence_tie"
+      ],
+      "properties": {
+        "source_sequence": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          }
+        },
+        "total_source_cost": {
+          "type": "number",
+          "minimum": 0
+        },
+        "total_latency": {
+          "type": "number",
+          "minimum": 0
+        },
+        "total_privacy_cost": {
+          "type": "number",
+          "minimum": 0
+        },
+        "delay_cost": {
+          "type": "number",
+          "minimum": 0
+        },
+        "resolved_value": {
+          "type": "number"
+        },
+        "gross_value": {
+          "type": "number"
+        },
+        "willingness_to_pay": {
+          "type": "number"
+        },
+        "net_value": {
+          "type": "number"
+        },
+        "partitions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "partition_id",
+              "observations",
+              "probability",
+              "conditional_action_values",
+              "action_tie",
+              "conditional_value",
+              "switch_from_baseline"
+            ],
+            "properties": {
+              "partition_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+              },
+              "observations": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "probability": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1
+              },
+              "conditional_action_values": {
+                "type": "object",
+                "minProperties": 2,
+                "additionalProperties": {
+                  "type": "number"
+                }
+              },
+              "action_tie": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+                },
+                "minItems": 1
+              },
+              "conditional_value": {
+                "type": "number"
+              },
+              "switch_from_baseline": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "conditional_marginals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "position",
+              "source_id",
+              "conditioning_sources",
+              "gross_marginal_value",
+              "incremental_source_cost",
+              "incremental_delay_cost",
+              "net_marginal_value"
+            ],
+            "properties": {
+              "position": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "source_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+              },
+              "conditioning_sources": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+                }
+              },
+              "gross_marginal_value": {
+                "type": "number"
+              },
+              "incremental_source_cost": {
+                "type": "number",
+                "minimum": 0
+              },
+              "incremental_delay_cost": {
+                "type": "number",
+                "minimum": 0
+              },
+              "net_marginal_value": {
+                "type": "number"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "optimal_sequence_tie": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "conditional_marginals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "position",
+          "source_id",
+          "conditioning_sources",
+          "gross_marginal_value",
+          "incremental_source_cost",
+          "incremental_delay_cost",
+          "net_marginal_value"
+        ],
+        "properties": {
+          "position": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "source_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          },
+          "conditioning_sources": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+            }
+          },
+          "gross_marginal_value": {
+            "type": "number"
+          },
+          "incremental_source_cost": {
+            "type": "number",
+            "minimum": 0
+          },
+          "incremental_delay_cost": {
+            "type": "number",
+            "minimum": 0
+          },
+          "net_marginal_value": {
+            "type": "number"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "attribution": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "source_id",
+          "gross_attribution",
+          "attribution_method"
+        ],
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          },
+          "gross_attribution": {
+            "type": "number"
+          },
+          "attribution_method": {
+            "const": "exact_decision_value_shapley"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "switches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "partition_id",
+          "observations",
+          "probability",
+          "conditional_action_values",
+          "action_tie",
+          "conditional_value",
+          "switch_from_baseline"
+        ],
+        "properties": {
+          "partition_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          },
+          "observations": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "probability": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 1
+          },
+          "conditional_action_values": {
+            "type": "object",
+            "minProperties": 2,
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "action_tie": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+            },
+            "minItems": 1
+          },
+          "conditional_value": {
+            "type": "number"
+          },
+          "switch_from_baseline": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "assurance": {
+      "type": "object"
+    },
+    "provenance": {
+      "type": "object"
+    },
+    "language_dispositions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "unsupported_dispositions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "cost_basis": {
+      "type": "object",
+      "required": [
+        "shared_costs",
+        "sources"
+      ],
+      "properties": {
+        "shared_costs": {
+          "type": "object",
+          "required": [
+            "assets",
+            "existing_assets"
+          ],
+          "properties": {
+            "assets": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "asset_id",
+                  "cost",
+                  "cost_unit"
+                ],
+                "properties": {
+                  "asset_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+                  },
+                  "cost": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "cost_unit": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "existing_assets": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "sources": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": [
+              "cost",
+              "cost_unit",
+              "asset_ids"
+            ],
+            "properties": {
+              "cost": {
+                "type": "number",
+                "minimum": 0
+              },
+              "cost_unit": {
+                "type": "string",
+                "minLength": 1
+              },
+              "asset_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,24 @@
+{
+  "schema": "voiage.tobac-dependent-portfolio-probe.v1",
+  "tobac_revision": "62a47123aae4186514f37b58d665da1ecae91998",
+  "voiage_source_tree": "b65109e087c0c18e91db5c7c921cc5b54f0540c3",
+  "input_sha256": "af7c20cf060c3b18d11879fcf003a7a903c0d64e57986b104daa0f155977f234",
+  "cases": [
+    {
+      "owned": false,
+      "consumer_evsi": 3.0,
+      "producer_gross": 3.0,
+      "cost": 0.8,
+      "net": 2.2
+    },
+    {
+      "owned": true,
+      "consumer_evsi": 3.0,
+      "producer_gross": 3.0,
+      "cost": 0.3,
+      "net": 2.7
+    }
+  ],
+  "oracle": "two equally likely states, duplicate 80% accurate reports; information value 8 - 5 = 3",
+  "scope": "synthetic exact joint reports and shared asset costs; not full consumer acceptance"
+}

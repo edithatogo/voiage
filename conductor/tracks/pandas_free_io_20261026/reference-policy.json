@@ -2903,6 +2903,11 @@
           "count": 1
         }
       ]
+    },
+    "conductor/tracks/tobac_consumer_qualification_20261025/evidence/installed-20261029/consumer-receipt.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact installed consumer receipt records its independently installed historical producer dependencies; no runtime dependency is introduced.",
+      "sha256": "ba433ea870be8026d9e180eaeff58aab06aa8cca09897d1c8052abea3b1e75e5"
     }
   }
 }

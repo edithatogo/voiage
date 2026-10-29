@@ -694,6 +694,7 @@ dependencies = [
  "opentelemetry_sdk",
  "serde",
  "serde_json",
+ "sha2",
  "tracing",
  "voiage-domain",
 ]
@@ -723,6 +724,7 @@ version = "2.2.0"
 dependencies = [
  "proptest",
  "serde_json",
+ "sha2",
  "voiage-diagnostics",
  "voiage-domain",
 ]

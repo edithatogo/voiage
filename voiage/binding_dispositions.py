@@ -10,12 +10,13 @@ from __future__ import annotations
 from dataclasses import dataclass
 import importlib
 import json
-from pathlib import Path
 from typing import Any
+lazy from pathlib import Path
 
+from voiage._contract_root import contract_root
 from voiage.exceptions import raise_input_error, raise_value_error
 
-_ROOT = Path(__file__).resolve().parents[1]
+_ROOT = contract_root()
 _DEFAULT_MANIFEST_PATH = (
     _ROOT / "specs" / "abi" / "industry-decision-binding-dispositions.json"
 )

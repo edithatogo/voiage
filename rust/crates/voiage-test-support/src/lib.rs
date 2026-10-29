@@ -242,10 +242,20 @@ mod tests {
     use super::*;
 
     #[test]
-    fn loads_the_numerical_case_register_with_live_test_targets() {
-        let register = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../conductor/tracks/agent_safe_engineering_20260907/numerical-case-register.json");
-        let bytes = fs::read(register).expect("numerical case register must be present");
+    fn loads_the_numerical_case_register_with_well_formed_test_targets() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
+        let candidates = ["tracks", "archive"].map(|location| {
+            root.join("conductor")
+                .join(location)
+                .join("agent_safe_engineering_20260907/numerical-case-register.json")
+        });
+        let present: Vec<_> = candidates.iter().filter(|path| path.is_file()).collect();
+        assert_eq!(
+            present.len(),
+            1,
+            "exactly one active or archived numerical case register must be present"
+        );
+        let bytes = fs::read(present[0]).expect("numerical case register must be readable");
         let value: Value =
             serde_json::from_slice(&bytes).expect("numerical case register must be valid JSON");
         assert_eq!(value["schema_version"], "1.0");
