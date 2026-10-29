@@ -67,12 +67,13 @@ acceptance cannot be inferred from the HPC provider work.
 
 Chat `01a17ab7-148e-7042-be1e-03a9478643da` owns the capacity correction in
 `/Users/doughnut/.codex/worktrees/easybuild-capacity-correction/voiage` on
-`codex/easybuild-capacity-correction`. Its scope is the historical EasyBuild
-driver, receipt schema, focused tests and capacity documentation; no native
-build is active in this lane. Next: qualify and integrate the correction.
+`codex/easybuild-capacity-correction`. Its scope is capacity guidance and
+track records; the historical driver and receipt schema are byte-preserved.
+No native build is active in this lane. Next: qualify and integrate the correction.
 
-User direction withdraws the prior 250 GiB preflight requirement and supersedes
-the earlier capacity statements in this handoff and dated receipts. The
+User direction withdraws the prior 250 GiB estimate as a current prerequisite.
+The byte-pinned historical replay driver retains its original check for receipt
+validation. This supersedes the earlier capacity statements in this handoff and dated receipts. The
 [GitHub Polars build](https://github.com/edithatogo/voiage/actions/runs/40691333092)
 completed with approximately 10 GiB sampled disk growth. This is not evidence
 of completion or sufficient capacity for the full EasyBuild matrix. Retain the

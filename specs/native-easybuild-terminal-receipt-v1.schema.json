@@ -196,7 +196,7 @@
         },
         "free_bytes_before": {
           "type": "integer",
-          "minimum": 2147483648
+          "minimum": 268435456000
         }
       }
     },

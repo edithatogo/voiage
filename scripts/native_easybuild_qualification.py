@@ -921,12 +921,6 @@ def validate_matrix(
     return data
 
 
-def validate_workspace_resources(free_bytes: int, cpu_count: int) -> None:
-    """Require the safety reserve and the historical CPU prerequisite."""
-    if free_bytes < 2 * 1024**3 or cpu_count < 8:
-        raise SystemExit("native workspace needs 2 GiB free and at least 8 CPUs")
-
-
 def main() -> int:
     """Run one guarded EasyBuild generation and capture terminal evidence."""
     parser = argparse.ArgumentParser()
@@ -1033,7 +1027,8 @@ def main() -> int:
     if os.environ.get("VOIAGE_VM_LOCAL_STORAGE") != "confirmed":
         raise SystemExit("workspace must be explicitly confirmed as VM-local storage")
     free = shutil.disk_usage(workspace).free
-    validate_workspace_resources(free, os.cpu_count() or 0)
+    if free < 250 * 1024**3 or (os.cpu_count() or 0) < 8:
+        raise SystemExit("native workspace needs 250 GiB free and at least 8 CPUs")
     run_dir = workspace / f"voiage-easybuild-{args.generation}"
     run_dir.mkdir()  # deliberate refusal to overwrite evidence
     catalogue = args.catalogue.resolve()

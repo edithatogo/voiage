@@ -1,7 +1,7 @@
 # Changelog
 
-- Replace the unsubstantiated EasyBuild space prerequisite with the 2 GiB
-  safety reserve and record the completed GitHub Polars build evidence.
+- Correct current native-build capacity guidance and record the completed
+  GitHub Polars build while preserving byte-pinned historical replay tools.
 
 - Expose resumable EVPI outcomes and cooperative cancellation through the
   native Python adapter.
