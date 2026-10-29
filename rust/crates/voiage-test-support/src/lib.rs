@@ -242,7 +242,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn loads_the_numerical_case_register_with_live_test_targets() {
+    fn loads_the_numerical_case_register_with_well_formed_test_targets() {
         let register = Path::new(env!("CARGO_MANIFEST_DIR"))
             .join("../../../conductor/tracks/agent_safe_engineering_20260907/numerical-case-register.json");
         let bytes = fs::read(register).expect("numerical case register must be present");

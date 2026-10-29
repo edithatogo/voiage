@@ -79,3 +79,13 @@ unresolved risks and next eligible task. Use the configured evidence helper;
 do not manufacture hash-chain records. Stop after two unresolved attempts at
 the same failure; retain the reproducer and diff. Never change a fixture,
 version policy, error tolerance or coverage threshold to conceal failure.
+
+## G05 numerical witness review — 29 October 2026
+
+Chat `01a17ab7-148e-7042-be1e-03a9478643da` owns
+`/Users/doughnut/.codex/worktrees/numerical-case-witness/voiage`, branch
+`codex/numerical-case-witness`, for the numerical-register witness in
+`rust/crates/voiage-numerics/src/evpi.rs` and the test-support label. No native
+service scope is assigned. Next: qualify the tests and clean package, then
+provide the integrator a scoped change and evidence. Earlier assignments remain
+historical.

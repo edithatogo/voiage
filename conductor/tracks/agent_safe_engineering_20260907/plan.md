@@ -50,6 +50,11 @@ Prerequisites: G01.
 - [x] G05.2 — Added the large-magnitude analytic EVPI witness and case register; `cargo test --manifest-path rust/Cargo.toml --locked -p voiage-numerics -p voiage-test-support` passes, including live case-register validation (G05-AC).
 - [x] G05.3 — Review the diff against the packet; run required final gates, bind evidence to source and environment, and update plan/metadata only for proven completion (G05-AC). PR #1165 merged; exact-head hosted checks passed and the numerical register witness is recorded.
 
+- [~] G05.4 — Correct the prior live-target claim: the original register test
+  checked target syntax only. The numerical test binary now enumerates its
+  compiled, non-ignored cases; retain package-level, clean-package, full-local
+  and current-head hosted evidence before marking this review fix complete.
+
 ## G06: Bounded jobs and recoverable computation
 
 Prerequisites: G01.
