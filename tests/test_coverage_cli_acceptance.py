@@ -14,7 +14,9 @@ SCRIPT = ROOT / "scripts/check_coverage_policy.py"
 def test_coverage_gate_rejects_missing_input_and_wrong_head(tmp_path: Path) -> None:
     """A missing report or mismatched checkout cannot produce a successful gate."""
     head = subprocess.check_output(
-        ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
+        ["git", "rev-parse", "HEAD"],  # noqa: S607
+        cwd=ROOT,
+        text=True,
     ).strip()
     report = tmp_path / "coverage.json"
     policy = tmp_path / "policy.json"
