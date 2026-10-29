@@ -157,6 +157,21 @@ mod tests {
     }
 
     #[test]
+    fn structural_evpi_also_reveals_within_structure_samples() {
+        // With one known structure, structure-only information is worth zero:
+        // the optimal strategy has expected value 5 both before and after
+        // learning the already-certain structure. Revealing the sample too
+        // permits a different strategy in each row and is worth 5 instead.
+        let cube = SampleCube::try_from(vec![vec![vec![10.0, 0.0], vec![0.0, 10.0]]]).unwrap();
+        let probabilities = SampleVector::try_from(vec![1.0]).unwrap();
+        let structure_only_reference = 5.0_f64 - 5.0;
+        let current_result = structural_evpi(&cube, &probabilities).unwrap();
+        assert_eq!(structure_only_reference, 0.0);
+        assert!((current_result - 5.0).abs() < 1.0e-12);
+        assert!(current_result > structure_only_reference);
+    }
+
+    #[test]
     fn structural_evppi_matches_known_structure_contract() {
         let cube = SampleCube::try_from(vec![
             vec![vec![10.0, 8.0], vec![11.0, 7.0]],

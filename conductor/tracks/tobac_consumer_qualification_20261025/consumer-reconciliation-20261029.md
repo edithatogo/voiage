@@ -23,3 +23,25 @@ These references do not establish a complete parameter-set schema, installed
 consumer parity, scientific applicability, or a need for a new interface.
 The existing normalized Arrow digest/serialization review remains a separate
 open dependency; do not infer its security or compatibility acceptance here.
+
+## Structure witness lane
+
+Chat `01a17ab7-148e-7042-be1e-03a9478643da` owns the isolated worktree
+`/Users/doughnut/.codex/worktrees/tobac-structure-witness/voiage`, branch
+`codex/tobac-structure-witness`, for a numerical counterexample in
+`rust/crates/voiage-numerics/src/structural.rs`. No native service is in scope.
+The selected native counterexample passed under the resource guard using one
+build job and a 1 GiB sampled RSS limit. Next: determine a consumer-qualified
+structure-only route without changing existing API behavior.
+The case records the distinction between observing structure and observing
+individual within-structure samples; it is not consumer acceptance evidence.
+
+The existing finite-world portfolio evaluator was exercised with synthetic
+worlds in both orders. A constant structure observation returned zero;
+distinguishing equally likely structures returned five. With probabilities
+0.8 and 0.2 the fixed-action baseline is eight and the structure-only value is
+two. A four-world grouping with two outcomes per structure returned one,
+compared with four for full outcome revelation. Eight focused Python cases
+passed on Python 3.15.1 under the resource guard.
+This is a bounded source witness, not an installed tobac qualification,
+general weighted-sample qualification, or evidence for arbitrary models.
