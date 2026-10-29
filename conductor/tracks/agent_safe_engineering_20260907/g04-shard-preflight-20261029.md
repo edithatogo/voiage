@@ -135,3 +135,12 @@ collector defaulted to success and could create a manifest without an outcome.
 The collector now rejects an omitted result, and its workflow supplies the real
 `needs` result explicitly. The targeted guarded suite passes 28 tests; Ruff and
 actionlint pass. Hosted failure and cancellation evidence remain outstanding.
+
+Hosted run 40834939734 failed both producer shards because their shallow
+checkouts lacked historical commits and release tags required by existing tests;
+the aggregate correctly failed on the actual matrix failure. Producer checkout
+now requests full history. The first full guarded tox run on 8ef663ac completed
+with only coverage_report failing: an isolated consumer wheel install encountered
+a connection reset fetching Polars. A single guarded retry of that exact test
+passed; this does not turn the original full run into a pass. Hosted success,
+cancellation and final coherent gate evidence remain open.
