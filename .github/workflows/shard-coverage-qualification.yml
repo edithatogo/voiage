@@ -1,0 +1,143 @@
+name: Shard coverage qualification
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/shard-coverage-qualification.yml
+      - scripts/prepare_shard_receipts.py
+      - scripts/validate_shard_inputs.py
+      - scripts/combine_shard_coverage.py
+      - tests/test_ci_shard_inputs.py
+      - tests/test_prepare_shard_receipts.py
+      - tests/test_combine_shard_coverage.py
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  shards:
+    name: Coverage shard ${{ matrix.index }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        index: [0, 1]
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+      POLARS_MAX_THREADS: "1"
+      VOIAGE_TEST_SHARD_INDEX: ${{ matrix.index }}
+      VOIAGE_TEST_SHARD_COUNT: "2"
+      COVERAGE_FILE: .assurance/shard-${{ matrix.index }}/coverage.data
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.13.6"
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.15.1"
+      - run: uv sync --frozen --extra ci --extra dev --group producer-tests
+      - name: Run partition and save native branch coverage
+        run: |
+          mkdir -p ".assurance/shard-${VOIAGE_TEST_SHARD_INDEX}"
+          uv run pytest tests/ -n 2 --dist=worksteal --cov=voiage --cov-config=pyproject.toml --cov-report="json:.assurance/shard-${VOIAGE_TEST_SHARD_INDEX}/coverage.json" --cov-fail-under=0
+      - name: Seal successful shard
+        run: >-
+          uv run python scripts/prepare_shard_receipts.py prepare
+          --repo . --root .assurance --index "${VOIAGE_TEST_SHARD_INDEX}"
+          --expected-shards 2
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: shard-${{ matrix.index }}
+          path: .assurance/shard-${{ matrix.index }}/
+          if-no-files-found: error
+          include-hidden-files: true
+
+  aggregate:
+    needs: [shards]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Require successful shard matrix
+        env:
+          MATRIX_RESULT: ${{ needs.shards.result }}
+        run: test "${MATRIX_RESULT}" = success
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.13.6"
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.15.1"
+      - run: uv sync --frozen --extra ci --extra dev --group producer-tests
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          pattern: shard-*
+          path: .assurance/shards
+      - name: Collect successful shard receipts
+        env:
+          MATRIX_RESULT: ${{ needs.shards.result }}
+        run: >-
+          uv run python scripts/prepare_shard_receipts.py collect
+          --repo . --root .assurance/shards --expected-shards 2
+          --matrix-result "${MATRIX_RESULT}"
+      - name: Select comparison base
+        id: comparison
+        env:
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          C15_PROVENANCE_FLOOR: f05231ce21a81ffb4029493927e5572d114fad67
+        run: |
+          candidate="${PR_BASE:-HEAD^}"
+          merge_base="$(git merge-base "${candidate}" HEAD)"
+          if ! git cat-file -e "${C15_PROVENANCE_FLOOR}^{commit}"; then
+            echo "C15 provenance floor is unavailable" >&2
+            exit 1
+          fi
+          if git merge-base --is-ancestor "${C15_PROVENANCE_FLOOR}" "${merge_base}"; then
+            base="${merge_base}"
+          elif git merge-base --is-ancestor "${merge_base}" "${C15_PROVENANCE_FLOOR}"; then
+            base="${C15_PROVENANCE_FLOOR}"
+          elif git merge-base --is-ancestor "${C15_PROVENANCE_FLOOR}" HEAD; then
+            base="${merge_base}"
+          else
+            echo "comparison histories diverge" >&2
+            exit 1
+          fi
+          echo "base=${base}" >> "$GITHUB_OUTPUT"
+      - name: Combine native coverage and enforce existing policy
+        env:
+          COVERAGE_BASE: ${{ steps.comparison.outputs.base }}
+          SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: >-
+          uv run python scripts/combine_shard_coverage.py
+          --manifest .assurance/shards/manifest.json
+          --expected-identity .assurance/shards/expected-identity.json
+          --expected-shards 2 --repo . --base "${COVERAGE_BASE}"
+          --source-head "${SOURCE_HEAD}" --policy .github/coverage-policy.json
+          --output .assurance/shards/coverage-policy.json
+      - name: Upload qualification evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: shard-coverage-qualification
+          path: .assurance/shards/
+          if-no-files-found: warn
+          include-hidden-files: true
