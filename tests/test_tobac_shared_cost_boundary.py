@@ -44,3 +44,20 @@ def test_v1_rejects_undeclared_shared_asset_data() -> None:
     payload["sources"][0]["shared_assets"] = ["lab"]
     with pytest.raises(InputError, match="Additional properties are not allowed"):
         information_source_portfolio_value(payload)
+
+
+def test_scalar_costs_cannot_represent_once_only_shared_asset() -> None:
+    """Per-source scalars match each singleton but overcharge their union."""
+    payload = _payload()
+    payload["sources"][0]["cost"] = 0.6  # Direct 0.1 plus shared 0.5.
+    payload["sources"][1]["cost"] = 0.7  # Direct 0.2 plus the same shared 0.5.
+    result = information_source_portfolio_value(payload).to_contract_dict()
+    costs = {
+        tuple(item["source_sequence"]): item["total_source_cost"]
+        for item in result["evaluated_sequences"]
+    }
+    assert costs[("survey",)] == pytest.approx(0.6)
+    assert costs[("registry",)] == pytest.approx(0.7)
+    assert costs[("survey", "registry")] == pytest.approx(1.3)
+    # Consumer oracle charges the shared asset once: 0.1 + 0.2 + 0.5.
+    assert costs[("survey", "registry")] != pytest.approx(0.8)

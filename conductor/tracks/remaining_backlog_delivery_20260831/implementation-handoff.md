@@ -87,3 +87,7 @@ Chat `01a17ab7-148e-7042-be1e-03a9478643da` owns
 `tests/test_tobac_shared_cost_boundary.py`. There is no native service scope.
 Next: freeze an extension contract against the named consumer and demonstrate
 its independent red cases, preserving the existing v1 scalar-cost behavior.
+Three guarded Python 3.15.1 boundary tests pass: v1 sums direct costs, rejects
+undeclared shared assets, and charges 1.3 rather than the consumer's 0.8 when
+the same 0.5 fixed cost is embedded in both scalar source prices. This witness
+does not implement or qualify shared-cost accounting.
