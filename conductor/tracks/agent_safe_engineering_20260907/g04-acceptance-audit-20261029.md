@@ -22,6 +22,19 @@ savings, and evaluate resource groups and replay in the existing preview lane.
 Keep the hosted required checks and thresholds unchanged. A future implementation
 must freeze its own baseline and retain this correction alongside prior receipts.
 
+The `ci-artifact-identity` lane binds the existing operational coverage report
+to the clean source revision, lockfile, interpreter, coverage configuration,
+declared features and artifact digest, and verifies the receipt before the
+coverage gate consumes the report. Guarded CLI tests exercise wrong identity,
+changed or missing bytes, dirty source and invalid receipts. The receipt is not
+a signature, does not authenticate its producer, and currently covers only a
+same-job artifact; it does not qualify cross-run reuse or shard aggregation.
+
+Current implementation owner: this chat's integrator, worktree
+`/Users/doughnut/.codex/worktrees/ci-artifact-identity/voiage`, scoped to the
+coverage identity script, its tests, the operational assurance job and this
+handoff. Native scope: none. Next operation: run final gates and hosted review.
+
 The added `tests/test_coverage_cli_acceptance.py` invokes the existing coverage
 gate in a subprocess: a missing report fails, an exact-head control passes, and
 a mismatched checkout fails. This tests the current single-job coverage gate;
