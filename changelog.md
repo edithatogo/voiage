@@ -6,6 +6,9 @@
 - Verify that the existing portfolio contract retains scalar-cost accounting
   and rejects undeclared shared-asset fields.
 
+- Bind operational coverage reports to their source, environment and bytes
+  before enforcing coverage thresholds.
+
 - Correct current native-build capacity guidance and record the completed
   GitHub Polars build while preserving byte-pinned historical replay tools.
 

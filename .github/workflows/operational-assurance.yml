@@ -59,6 +59,13 @@ jobs:
       run: |
         uv run pytest tests/ -n 2 --dist=worksteal --cov=voiage --cov-config=pyproject.toml --cov-report=json:.assurance/coverage.json --cov-fail-under=90
 
+    - name: Bind coverage artifact identity
+      run: >-
+        uv run python scripts/coverage_artifact_identity.py seal
+        --repo . --artifact .assurance/coverage.json
+        --receipt .assurance/coverage-identity.json
+        --features ci,dev,producer-tests
+
     - name: Resolve comparison base
       id: comparison
       env:
@@ -95,6 +102,13 @@ jobs:
         echo "merge_base=${merge_base}" >> "$GITHUB_OUTPUT"
         echo "reason=${reason}" >> "$GITHUB_OUTPUT"
         echo "selected coverage base ${base}: ${reason}"
+
+    - name: Verify coverage artifact identity
+      run: >-
+        uv run python scripts/coverage_artifact_identity.py verify
+        --repo . --artifact .assurance/coverage.json
+        --receipt .assurance/coverage-identity.json
+        --features ci,dev,producer-tests
 
     - name: Enforce aggregate, critical, and changed-line coverage
       env:
