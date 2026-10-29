@@ -1,5 +1,8 @@
 # Changelog
 
+- Expose resumable EVPI outcomes and cooperative cancellation through the
+  native Python adapter.
+
 - Add bounded, checkpointed EVPI execution with resume identity checks and
   atomic persistence of checkpoint metadata and result payloads.
 
