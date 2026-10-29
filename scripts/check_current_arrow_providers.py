@@ -24,6 +24,14 @@ LICENSES = {
 }
 
 
+# Reviewed AST digests of the two Arrow hooks (Python 3.15 ``ast.dump``); a changed
+# body must be re-reviewed because it controls allocator and inherited CMake flags.
+_ARROW_HOOK_AST_SHA256 = {
+    "cmake_args": "d41c5b38fbe77665023fd05cbc38b4a2847763e929cbd544b209d59cabdd3ad5",
+    "setup_build_environment": "7a60febc28d637618699caea868be7de95be41c99b7451793ab580582afa71e9",
+}
+
+
 def validate_libcst(root: Path, sources: Path) -> dict[str, object]:
     """Bind the Python 3.15 source, native parser, licenses and stable compiler."""
     packet = json.loads(
@@ -164,6 +172,15 @@ def validate_arrow_cpp(
         != ["cmake_args", "setup_build_environment"]
     ):
         raise ValueError("Arrow must preserve the pinned upstream build implementation")
+    hook_digests = {
+        node.name: hashlib.sha256(ast.dump(node).encode()).hexdigest()
+        for node in classes[0].body
+        if isinstance(node, ast.FunctionDef)
+    }
+    if hook_digests != _ARROW_HOOK_AST_SHA256:
+        raise ValueError(
+            "Arrow build hook bodies drift from the reviewed implementation"
+        )
     calls = [
         (node.func.id, node)
         for node in ast.walk(tree)

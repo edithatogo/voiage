@@ -60,3 +60,23 @@ def test_arrow_26_shared_and_static_switches(monkeypatch: pytest.MonkeyPatch) ->
         assert "-DARROW_DEPENDENCY_SOURCE=SYSTEM" in args
     arrow.spec = Spec(False)
     assert arrow.cmake_args() == ["-DARROW_DEPENDENCY_SOURCE=SYSTEM"]
+
+
+def test_hook_body_drift_is_rejected() -> None:
+    import ast
+    import hashlib
+    from pathlib import Path
+
+    from scripts import check_current_arrow_providers as checker
+
+    source = Path("packaging/current/spack/packages/arrow/package.py").read_text()
+    mutated = source.replace("args = super().cmake_args()", "args = []")
+    assert mutated != source
+    tree = ast.parse(mutated)
+    cls = next(n for n in tree.body if isinstance(n, ast.ClassDef))
+    digests = {
+        n.name: hashlib.sha256(ast.dump(n).encode()).hexdigest()
+        for n in cls.body
+        if isinstance(n, ast.FunctionDef)
+    }
+    assert digests != checker._ARROW_HOOK_AST_SHA256

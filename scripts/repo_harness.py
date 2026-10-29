@@ -337,7 +337,7 @@ def check_operational_assurance(root: Path) -> list[Finding]:
     policy_path = root / ".github" / "coverage-policy.json"
     try:
         policy = json.loads(policy_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
+    except OSError, json.JSONDecodeError:
         policy = None
     if policy != EXPECTED_COVERAGE_POLICY:
         findings.append(
@@ -352,7 +352,7 @@ def check_operational_assurance(root: Path) -> list[Finding]:
         provenance = baseline["promotion_provenance"]
         cohort = baseline["cohort"]
         universe = baseline["universe"]
-    except (OSError, json.JSONDecodeError, KeyError, TypeError):
+    except OSError, json.JSONDecodeError, KeyError, TypeError:
         provenance = cohort = universe = None
     externally_anchored = (
         isinstance(provenance, dict)
@@ -415,7 +415,8 @@ def check_execution_packets(root: Path) -> list[Finding]:
             errors = validate_packet(
                 packet,
                 root,
-                require_ready=packet.get("track_id") == "execution_packet_guard_20260907",
+                require_ready=packet.get("track_id")
+                == "execution_packet_guard_20260907",
                 changed_paths=_changed_paths(root) if os.environ.get("CI") else None,
             )
         except (OSError, json.JSONDecodeError, TypeError, ValueError) as exc:

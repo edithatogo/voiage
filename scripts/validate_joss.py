@@ -515,7 +515,7 @@ def _journal_first_authorized(root: Path, readiness: dict[str, Any]) -> bool:
     try:
         content = path.read_bytes()
         receipt = json.loads(content)
-    except (OSError, ValueError):
+    except OSError, ValueError:
         return False
     return (
         binding.get("sha256") == sha256(content).hexdigest()

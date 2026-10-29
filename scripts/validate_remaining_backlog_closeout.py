@@ -172,15 +172,51 @@ EXPECTED_TRANSIENT_REFS = {
     "reason": "Codex app turn-diff refs rotate between task turns and are not repository recovery state.",
 }
 EXPECTED_STASH_REFLOG = [
-    {"oid": "e55b3bf2b7f9b61b291e6e5951807153bc044180", "selector": "stash@{0}", "subject": "On codex/spack-polars-url-20260905: codex-spack-polars-url-rebase"},
-    {"oid": "2980d5a1ce2bfe3d49d89728aaae87dc1ecee52f", "selector": "stash@{1}", "subject": "autostash"},
-    {"oid": "6cffb178a04204fe59986e93097083012268073f", "selector": "stash@{2}", "subject": "On codex/goal-test-acceleration-20260831: preserve borrowed PR1057 integration before acceleration rebase 20260901"},
-    {"oid": "ecd50d8ebfe5a5b52419e81607cad9302a1573ff", "selector": "stash@{3}", "subject": "On codex/repair-actions-1056-20260831: voiage-actions1056-preserved-review-repair-20260831"},
-    {"oid": "2d814e758ce307933a27b975df66424dc6c328cf", "selector": "stash@{4}", "subject": "On codex/issue-318-frontier-programme: codex-preserve-dsa-surface-wip-after-723-rebase"},
-    {"oid": "fc8691befe363f37c183516c53bd78428e993ec7", "selector": "stash@{5}", "subject": "On codex/issue-318-frontier-programme: codex-preserve-dsa-surface-wip-before-723-rebase"},
-    {"oid": "4381c04fc341b350bb8df142c40643ab038e0c97", "selector": "stash@{6}", "subject": "On main: codex-v1-programme-transplant"},
-    {"oid": "623cc0af9e18eec9194564c91ff1cff5eabba8fa", "selector": "stash@{7}", "subject": "WIP on paper: a8d34da Update documentation link to GitHub Pages"},
-    {"oid": "ebf789a31d4831ce8a00ff381963844da5ed274a", "selector": "stash@{8}", "subject": "WIP on paper-development: e15bbfa Finalize voiage Enhancement Project with comprehensive automation and tooling"},
+    {
+        "oid": "e55b3bf2b7f9b61b291e6e5951807153bc044180",
+        "selector": "stash@{0}",
+        "subject": "On codex/spack-polars-url-20260905: codex-spack-polars-url-rebase",
+    },
+    {
+        "oid": "2980d5a1ce2bfe3d49d89728aaae87dc1ecee52f",
+        "selector": "stash@{1}",
+        "subject": "autostash",
+    },
+    {
+        "oid": "6cffb178a04204fe59986e93097083012268073f",
+        "selector": "stash@{2}",
+        "subject": "On codex/goal-test-acceleration-20260831: preserve borrowed PR1057 integration before acceleration rebase 20260901",
+    },
+    {
+        "oid": "ecd50d8ebfe5a5b52419e81607cad9302a1573ff",
+        "selector": "stash@{3}",
+        "subject": "On codex/repair-actions-1056-20260831: voiage-actions1056-preserved-review-repair-20260831",
+    },
+    {
+        "oid": "2d814e758ce307933a27b975df66424dc6c328cf",
+        "selector": "stash@{4}",
+        "subject": "On codex/issue-318-frontier-programme: codex-preserve-dsa-surface-wip-after-723-rebase",
+    },
+    {
+        "oid": "fc8691befe363f37c183516c53bd78428e993ec7",
+        "selector": "stash@{5}",
+        "subject": "On codex/issue-318-frontier-programme: codex-preserve-dsa-surface-wip-before-723-rebase",
+    },
+    {
+        "oid": "4381c04fc341b350bb8df142c40643ab038e0c97",
+        "selector": "stash@{6}",
+        "subject": "On main: codex-v1-programme-transplant",
+    },
+    {
+        "oid": "623cc0af9e18eec9194564c91ff1cff5eabba8fa",
+        "selector": "stash@{7}",
+        "subject": "WIP on paper: a8d34da Update documentation link to GitHub Pages",
+    },
+    {
+        "oid": "ebf789a31d4831ce8a00ff381963844da5ed274a",
+        "selector": "stash@{8}",
+        "subject": "WIP on paper-development: e15bbfa Finalize voiage Enhancement Project with comprehensive automation and tooling",
+    },
 ]
 
 EXPECTED_RECOVERY_PRESERVATION = {
