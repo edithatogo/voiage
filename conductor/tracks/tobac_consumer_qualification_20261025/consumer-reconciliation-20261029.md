@@ -35,3 +35,10 @@ build job and a 1 GiB sampled RSS limit. Next: determine a consumer-qualified
 structure-only route without changing existing API behavior.
 The case records the distinction between observing structure and observing
 individual within-structure samples; it is not consumer acceptance evidence.
+
+The existing finite-world portfolio evaluator was then exercised with two
+equal-probability synthetic worlds. A constant structure observation returned
+zero; distinguishing the structures returned five. Two focused Python tests
+passed on Python 3.15.1 under the resource guard. This is a bounded source
+witness, not an installed tobac qualification, weighted-sample qualification,
+or evidence for arbitrary structural models.
