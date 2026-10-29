@@ -233,3 +233,34 @@ def test_parquet_rejects_invalid_stored_column_chunks(
     pq.write_table(stored.replace_schema_metadata(metadata), path)
     with pytest.raises(ValueError, match="original Arrow column chunks"):
         NormalizedInputBundle.read_parquet(path)
+
+
+def test_parquet_round_trip_accepts_legacy_bundle_without_original_chunks_key(
+    tmp_path: Path,
+) -> None:
+    manifest = DatasetManifest(
+        dataset_id="legacy-chunks",
+        tables=(
+            TableManifest(
+                table_id="parameters",
+                fields=(FieldManifest(field_id="mean", dtype="float64"),),
+            ),
+        ),
+        provenance=SourceProvenance(
+            provider_id="synthetic-test",
+            source_uri="file:///redacted/parameter-input",
+            descriptor_digest="b" * 64,
+        ),
+    )
+    bundle = NormalizedInputBundle(
+        manifest=manifest, tables={"parameters": pa.table({"mean": [1.0, 2.0]})}
+    )
+    path = tmp_path / "legacy-chunks.parquet"
+    bundle.write_parquet(path)
+    stored = pq.read_table(path)
+    metadata = dict(stored.schema.metadata or {})
+    metadata.pop(b"voiage.normalized.original_column_chunks", None)
+    pq.write_table(stored.replace_schema_metadata(metadata), path)
+
+    reloaded = NormalizedInputBundle.read_parquet(path)
+    assert reloaded.content_digest == bundle.content_digest
