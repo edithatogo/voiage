@@ -119,6 +119,48 @@ def _canonical_provider(provider: dict[str, object]) -> tuple[tuple[float, ...],
     )
 
 
+def _provider_voi(repo: Path, rows: tuple[tuple[float, ...], ...]) -> float:
+    """Evaluate full revelation using the existing weighted joint-world kernel."""
+    from voiage.methods.information_source_portfolio import (
+        information_source_portfolio_value,
+    )
+
+    payload = _object(
+        repo
+        / "specs/frontier/information-source-portfolio/v1/fixtures/normative/input.json"
+    )
+    actions = [f"action-{index}" for index in range(max(2, len(rows[0]) - 1))]
+    source = cast("list[dict[str, object]]", payload["sources"])[0]
+    source.update(cost=0.0, latency=0.0, privacy_cost=0.0, must_precede=[], excludes=[])
+    source_id = cast("str", source["source_id"])
+    states: list[dict[str, object]] = []
+    for index, row in enumerate(rows):
+        if row[-1] == 0:
+            continue
+        values = list(row[:-1])
+        if len(values) == 1:
+            values.append(values[0])
+        states.append(
+            {
+                "state_id": f"state-{index}",
+                "probability": row[-1],
+                "action_values": dict(zip(actions, values, strict=True)),
+                "source_observations": {source_id: f"state-{index}"},
+            }
+        )
+    payload.update(
+        analysis_id="provider-semantic-witness",
+        actions=actions,
+        states=states,
+        sources=[source],
+    )
+    cast("dict[str, object]", payload["value_context"])["delay_cost_per_time"] = 0.0
+    constraints = cast("dict[str, object]", payload["constraints"])
+    constraints.update(max_sources=1, required_coverage=[])
+    result = information_source_portfolio_value(payload).to_contract_dict()
+    return float(result["optimum"]["gross_value"])
+
+
 def evaluate_provider_semantics(
     repo: Path, fixture_path: Path = _SEMANTIC_FIXTURE
 ) -> dict[str, object]:
@@ -136,10 +178,8 @@ def evaluate_provider_semantics(
         providers = case.get("providers")
         if not isinstance(providers, list) or not providers:
             raise ValueError("provider semantics case requires providers")
-        invalid_provider = next(
-            (provider for provider in providers if not isinstance(provider, dict)), None
-        )
-        if invalid_provider is not None:
+        canonical: list[tuple[tuple[float, ...], ...]] = []
+        if any(not isinstance(provider, dict) for provider in providers):
             actual = "rejected"
             detail = "provider must be an object"
         else:
@@ -159,24 +199,37 @@ def evaluate_provider_semantics(
                     if actual == "accepted"
                     else "semantic mismatch"
                 )
-        results.append(
-            {
-                "id": case.get("id"),
-                "expected": case.get("expected"),
-                "actual": actual,
-                "detail": detail,
-            }
-        )
-    reference = 9.0 - 6.0
-    accepted = next((item for item in results if item["actual"] == "accepted"), None)
-    if accepted is not None:
-        accepted["reference_voi"] = reference
-        accepted["reference_passed"] = isclose(reference, 3.0)
+        result: dict[str, object] = {
+            "id": case.get("id"),
+            "expected": case.get("expected"),
+            "actual": actual,
+            "detail": detail,
+        }
+        if actual == "accepted":
+            expected_voi = case.get("expected_voi")
+            if (
+                not isinstance(expected_voi, (int, float))
+                or isinstance(expected_voi, bool)
+                or not isfinite(expected_voi)
+            ):
+                raise ValueError("accepted provider case requires finite expected_voi")
+            values = [
+                _provider_voi(repo, representation) for representation in canonical
+            ]
+            result["reference_voi"] = values[0]
+            result["provider_voi"] = values
+            result["reference_passed"] = all(
+                isclose(value, expected_voi, rel_tol=1e-10, abs_tol=1e-12)
+                for value in values
+            )
+        results.append(result)
+    accepted = [item for item in results if item["actual"] == "accepted"]
     return {
         "schema_version": "1.0.0",
         "cases": results,
         "passed": all(item["expected"] == item["actual"] for item in results)
-        and bool(accepted and accepted["reference_passed"]),
+        and bool(accepted)
+        and all(item["reference_passed"] for item in accepted),
     }
 
 
@@ -283,6 +336,7 @@ def main() -> int:
         default=Path("specs/integration/vop-voiage/bundles/consumer-matrix.json"),
     )
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--provider-semantics-output", type=Path)
     args = parser.parse_args()
     evidence = evaluate_matrix(args.repo.resolve(), args.matrix.resolve())
     rendered = json.dumps(evidence, indent=2, sort_keys=True) + "\n"
@@ -290,7 +344,17 @@ def main() -> int:
     if args.output is not None:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(rendered, encoding="utf-8", newline="\n")
-    return 0 if evidence["passed"] else 2
+    semantics_passed = True
+    if args.provider_semantics_output is not None:
+        semantics = evaluate_provider_semantics(args.repo.resolve())
+        args.provider_semantics_output.parent.mkdir(parents=True, exist_ok=True)
+        args.provider_semantics_output.write_text(
+            json.dumps(semantics, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+            newline="\n",
+        )
+        semantics_passed = bool(semantics["passed"])
+    return 0 if evidence["passed"] and semantics_passed else 2
 
 
 if __name__ == "__main__":

@@ -9,6 +9,9 @@
 - Exercise Cargo MSRV rejection and optional-backend controls in the Rust
   compatibility job with explicitly verified compiler and Cargo versions.
 
+- Compute provider interoperability witnesses with the weighted decision-value
+  evaluator and retain their results in operational-assurance evidence.
+
 - Expose resumable EVPI outcomes and cooperative cancellation through the
   native Python adapter.
 

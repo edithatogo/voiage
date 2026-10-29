@@ -43,6 +43,12 @@ Prerequisites: G01.
 - [x] G03.2 — Added independent C consumer and provider semantic/interchange witnesses; focused consumer and sanitizer contracts passed (G03-AC).
 - [x] G03.3 — Reviewed and merged as PR #1175 (`90a254db`), following witness PR #1170; hosted required checks passed (G03-AC).
 
+- [~] G03.4 — Correct the provider witness: earlier evidence used a constant
+  arithmetic expression rather than evaluating provider inputs. The weighted
+  finite-world evaluator now checks each accepted representation against a
+  declared oracle; CI retains its result. Semver removal, full feature/target,
+  clean-package and final acceptance evidence remain open.
+
 ## G04: CI cost and failure reproducibility
 
 Prerequisites: G01.
