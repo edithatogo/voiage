@@ -102,6 +102,11 @@ jobs:
           toolchain: "1.85"
       - working-directory: rust
         run: cargo check --workspace --all-targets --all-features --locked
+      - name: Exercise MSRV rejection and optional backend
+        run: >-
+          python scripts/guard_verification.py
+          --work-dir "$RUNNER_TEMP/voiage-msrv-witness"
+          -- python scripts/verify_msrv_rejection.py
 
   julia:
     name: Julia binding

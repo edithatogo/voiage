@@ -26,6 +26,12 @@ Prerequisites: G01. The bounded qualification matrix is frozen in [dependency-fe
 - [x] G02.2 — Write and run the negative/analytic witness first; implement the frozen slice only after prerequisites and integrator review are recorded. Run `python -m pytest tests/test_dependency_promotion_policy.py tests/test_dependency_frontier_script.py -q` plus affected checks (G02-AC).
 - [x] G02.3 — Review the diff against the packet; bind hosted compatibility-and-coverage and all required PR checks to the exact source tree, record the local cold-cache timeout as an environmental limitation, and reconcile plan metadata (G02-AC).
 
+- [~] G02.4 — Correct the earlier MSRV witness: the policy test compared
+  version numbers without running Cargo. An isolated locked fixture now checks
+  optional-feature-off, incompatible and compatible feature-on builds using
+  explicitly verified Cargo and rustc 1.85.0. Full feature-matrix, hosted and
+  final acceptance evidence remain open. [Witness handoff](./g02-msrv-witness-20261029.md).
+
 ## G03: Voiage compatibility and replaceable providers
 
 Version identity/evolution implementation follows [version_identity_contracts](../version_identity_contracts_20260907/index.md).
