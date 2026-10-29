@@ -8,6 +8,7 @@ from typing import Any
 
 from hypothesis import given, settings
 from hypothesis import strategies as st
+from jsonschema import Draft202012Validator
 import pytest
 
 from voiage.contracts.information_source_portfolio import (
@@ -122,6 +123,48 @@ def test_v2_packaged_schemas_match_executable_contracts() -> None:
         ("result.schema.json", INFORMATION_SOURCE_PORTFOLIO_RESULT_SCHEMA_V2),
     ):
         assert json.loads((root / name).read_text(encoding="utf-8")) == expected
+
+
+def test_v2_normative_files_validate_against_external_schemas() -> None:
+    root = FIXTURE.parents[3] / "v2"
+    payload = json.loads(
+        (root / "fixtures/normative/input.json").read_text(encoding="utf-8")
+    )
+    expected = json.loads(
+        (root / "fixtures/normative/expected.json").read_text(encoding="utf-8")
+    )
+    input_schema = json.loads(
+        (root / "schemas/input.schema.json").read_text(encoding="utf-8")
+    )
+    output_schema = json.loads(
+        (root / "schemas/result.schema.json").read_text(encoding="utf-8")
+    )
+    Draft202012Validator(input_schema).validate(payload)
+    result = information_source_portfolio_value(payload).to_contract_dict()
+    Draft202012Validator(output_schema).validate(result)
+    sequence = next(
+        item
+        for item in result["evaluated_sequences"]
+        if item["source_sequence"] == expected["sequence"]
+    )
+    assert sequence["total_source_cost"] == pytest.approx(
+        expected["unowned_total_cost"]
+    )
+    assert [
+        item["incremental_source_cost"] for item in sequence["conditional_marginals"]
+    ] == pytest.approx(expected["unowned_marginal_costs"])
+    payload["shared_costs"]["existing_assets"] = ["lab"]
+    result = information_source_portfolio_value(payload).to_contract_dict()
+    Draft202012Validator(output_schema).validate(result)
+    sequence = next(
+        item
+        for item in result["evaluated_sequences"]
+        if item["source_sequence"] == expected["sequence"]
+    )
+    assert sequence["total_source_cost"] == pytest.approx(expected["owned_total_cost"])
+    assert [
+        item["incremental_source_cost"] for item in sequence["conditional_marginals"]
+    ] == pytest.approx(expected["owned_marginal_costs"])
 
 
 def test_original_v1_normative_result_is_unchanged() -> None:

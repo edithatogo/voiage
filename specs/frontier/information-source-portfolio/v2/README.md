@@ -21,6 +21,8 @@ sequence. Schema version `2.0.0` identifies both input and output; existing
 v1 schemas, inputs and results remain supported unchanged.
 
 Schema files: [input](./schemas/input.schema.json) and
-[result](./schemas/result.schema.json). Both this contract and its executable
+[result](./schemas/result.schema.json). The synthetic [input](./fixtures/normative/input.json)
+and [independent cost expectations](./fixtures/normative/expected.json) cover
+unowned and already-owned assets. Both this contract and its executable
 implementation require package, native, hosted and consumer qualification;
 source-level test success alone is not release or consumer acceptance.
