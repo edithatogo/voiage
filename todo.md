@@ -15,6 +15,7 @@ Completed prerequisite records remain linked for navigation:
 `conductor/tracks/translation_reference_20261026/`.
 
 - [ ] Existing active delivery tracks: `conductor/tracks/remaining_backlog_delivery_20260831/` and `conductor/tracks/v2_2_release_and_venue_submissions_20260830/`.
+- [ ] Qualify the named tobac consumer: `conductor/tracks/tobac_consumer_qualification_20261025/`.
 - [x] Add the Rust feature/MSRV qualification matrix and locked verification lane.
 
 *   [x] Advance the fourteen open issue deliverables with source-bound agent
