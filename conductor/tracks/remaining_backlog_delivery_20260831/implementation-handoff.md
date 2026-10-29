@@ -105,3 +105,10 @@ SHA-256 `dfdbda6e2e239815b9cada0bfd4665ca59bc87caf14ad6130724013554941b45`,
 result schema `6fffac3024e148b37bc1f71c32ad9be286b6691baa17252ea835575961c4c416`,
 contract module `36a5081d20fcf24ad475177b03e66924ea917e44fe360dc3e0f0e3d9f7c3c37e`,
 and evaluator `042c466f3400297505247cfe273a2ac4458db1064941cdb021148b28d55042a5`.
+
+The draft v2 implementation now passes 49 affected portfolio tests, including
+v1 normative behavior and cost-basis/optimum tampering checks, on Python
+3.15.1 under the resource guard. Focused Ruff and type checks pass. This is
+not acceptance: verify source and wheel schema packaging, clean installation,
+remaining edge cases, the full local gate, current hosted checks and the named
+tobac consumer before completing the track or merging.

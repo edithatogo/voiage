@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
 import math
 from typing import TYPE_CHECKING, Any, Final, cast
 
@@ -299,7 +300,7 @@ _EVALUATION: Final[dict[str, object]] = {
 }
 _OPTIMUM: Final[dict[str, object]] = {
     **_EVALUATION,
-    "required": [*cast("list[str]", _EVALUATION["required"]), "optimal_sequence_tie"],
+    "required": [*_EVALUATION["required"], "optimal_sequence_tie"],
     "properties": {
         **cast("dict[str, object]", _EVALUATION["properties"]),
         "optimal_sequence_tie": {
@@ -381,6 +382,78 @@ INFORMATION_SOURCE_PORTFOLIO_RESULT_SCHEMA_V1: Final[dict[str, object]] = {
 }
 
 
+def _v2_schemas() -> tuple[dict[str, object], dict[str, object]]:
+    """Build versioned schemas without changing the established v1 contract."""
+    input_schema = deepcopy(INFORMATION_SOURCE_PORTFOLIO_INPUT_SCHEMA_V1)
+    input_schema["$id"] = (
+        "https://voiage.dev/schemas/frontier/information-source-portfolio-input.v2.json"
+    )
+    input_schema["title"] = "InformationSourcePortfolioInputV2Experimental"
+    properties = cast("dict[str, Any]", input_schema["properties"])
+    properties["schema_version"] = {"const": "2.0.0"}
+    source = properties["sources"]["items"]
+    source["properties"]["asset_ids"] = _ID_ARRAY
+    source["required"].append("asset_ids")
+    properties["shared_costs"] = {
+        "type": "object",
+        "required": ["assets", "existing_assets"],
+        "properties": {
+            "assets": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "required": ["asset_id", "cost", "cost_unit"],
+                    "properties": {
+                        "asset_id": _ID,
+                        "cost": _NONNEGATIVE,
+                        "cost_unit": _STRING,
+                    },
+                    "additionalProperties": False,
+                },
+            },
+            "existing_assets": _ID_ARRAY,
+        },
+        "additionalProperties": False,
+    }
+    cast("list[str]", input_schema["required"]).append("shared_costs")
+    result_schema = deepcopy(INFORMATION_SOURCE_PORTFOLIO_RESULT_SCHEMA_V1)
+    result_schema["$id"] = (
+        "https://voiage.dev/schemas/frontier/information-source-portfolio-result.v2.json"
+    )
+    result_schema["title"] = "InformationSourcePortfolioResultV2Experimental"
+    result_properties = cast("dict[str, Any]", result_schema["properties"])
+    result_properties["schema_version"] = {"const": "2.0.0"}
+    result_properties["cost_basis"] = {
+        "type": "object",
+        "required": ["shared_costs", "sources"],
+        "properties": {
+            "shared_costs": properties["shared_costs"],
+            "sources": {
+                "type": "object",
+                "additionalProperties": {
+                    "type": "object",
+                    "required": ["cost", "cost_unit", "asset_ids"],
+                    "properties": {
+                        "cost": _NONNEGATIVE,
+                        "cost_unit": _STRING,
+                        "asset_ids": _ID_ARRAY,
+                    },
+                    "additionalProperties": False,
+                },
+            },
+        },
+        "additionalProperties": False,
+    }
+    cast("list[str]", result_schema["required"]).append("cost_basis")
+    return input_schema, result_schema
+
+
+(
+    INFORMATION_SOURCE_PORTFOLIO_INPUT_SCHEMA_V2,
+    INFORMATION_SOURCE_PORTFOLIO_RESULT_SCHEMA_V2,
+) = _v2_schemas()
+
+
 def _validation_message(error: ValidationError) -> str:
     path = "/".join(str(item) for item in error.absolute_path)
     return f"contract validation failed at {path or '<root>'}: {error.message}"
@@ -397,7 +470,13 @@ def _validate_schema(payload: Mapping[str, Any], schema: Mapping[str, object]) -
 
 def validate_information_source_portfolio_semantics(payload: Mapping[str, Any]) -> None:
     """Validate cross-field input semantics beyond JSON Schema."""
-    _validate_schema(payload, INFORMATION_SOURCE_PORTFOLIO_INPUT_SCHEMA_V1)
+    version = payload.get("schema_version")
+    schema = (
+        INFORMATION_SOURCE_PORTFOLIO_INPUT_SCHEMA_V2
+        if version == "2.0.0"
+        else INFORMATION_SOURCE_PORTFOLIO_INPUT_SCHEMA_V1
+    )
+    _validate_schema(payload, schema)
     actions = cast("list[str]", payload["actions"])
     sources = cast("list[Mapping[str, Any]]", payload["sources"])
     states = cast("list[Mapping[str, Any]]", payload["states"])
@@ -430,6 +509,26 @@ def validate_information_source_portfolio_semantics(payload: Mapping[str, Any]) 
         raise ValueError(
             "every source cost unit must match the value context cost unit"
         )
+    if version == "2.0.0":
+        shared = cast("Mapping[str, Any]", payload["shared_costs"])
+        assets = cast("list[Mapping[str, Any]]", shared["assets"])
+        asset_ids = [cast("str", asset["asset_id"]) for asset in assets]
+        if len(set(asset_ids)) != len(asset_ids):
+            raise ValueError("duplicate shared asset IDs")
+        if not set(cast("list[str]", shared["existing_assets"])) <= set(asset_ids):
+            raise ValueError("unknown existing asset")
+        if any(
+            not set(cast("list[str]", source["asset_ids"])) <= set(asset_ids)
+            for source in sources
+        ):
+            raise ValueError("unknown source asset")
+        if any(
+            asset["cost_unit"] != cost_unit or not math.isfinite(float(asset["cost"]))
+            for asset in assets
+        ):
+            raise ValueError(
+                "shared asset cost must be finite and match the value context unit"
+            )
     numeric_values = [
         float(context["delay_cost_per_time"]),
         *(float(state["probability"]) for state in states),
@@ -495,9 +594,82 @@ def validate_information_source_portfolio_semantics(payload: Mapping[str, Any]) 
         visit(source_id)
 
 
+def _validate_v2_cost_basis(payload: Mapping[str, Any]) -> None:
+    """Recompute all v2 source and asset costs from the retained cost basis."""
+    basis = cast("Mapping[str, Any]", payload["cost_basis"])
+    shared = cast("Mapping[str, Any]", basis["shared_costs"])
+    sources = cast("Mapping[str, Mapping[str, Any]]", basis["sources"])
+    assets = cast("list[Mapping[str, Any]]", shared["assets"])
+    asset_by_id = {asset["asset_id"]: asset for asset in assets}
+    owned = set(cast("list[str]", shared["existing_assets"]))
+    unit = cast("Mapping[str, Any]", payload["value_context"])["cost_unit"]
+    if len(asset_by_id) != len(assets) or not owned <= set(asset_by_id):
+        raise ValueError("invalid cost basis assets")
+    if any(
+        asset["cost_unit"] != unit or not math.isfinite(float(asset["cost"]))
+        for asset in assets
+    ):
+        raise ValueError("invalid cost basis asset cost or unit")
+    for source in sources.values():
+        if (
+            source["cost_unit"] != unit
+            or not math.isfinite(float(source["cost"]))
+            or not set(source["asset_ids"]) <= set(asset_by_id)
+        ):
+            raise ValueError("invalid cost basis source")
+    for evaluation in cast("list[Mapping[str, Any]]", payload["evaluated_sequences"]):
+        sequence = cast("list[str]", evaluation["source_sequence"])
+        if len(sequence) != len(set(sequence)) or not set(sequence) <= set(sources):
+            raise ValueError("invalid cost basis sequence")
+        seen = set(owned)
+        increments: list[float] = []
+        for source_id in sequence:
+            source = sources[source_id]
+            new_assets = set(source["asset_ids"]) - seen
+            increments.append(
+                math.fsum(
+                    [
+                        float(source["cost"]),
+                        *(float(asset_by_id[a]["cost"]) for a in sorted(new_assets)),
+                    ]
+                )
+            )
+            seen.update(new_assets)
+        marginals = cast("list[Mapping[str, Any]]", evaluation["conditional_marginals"])
+        if (
+            len(marginals) != len(sequence)
+            or any(
+                item["source_id"] != source_id
+                or not math.isclose(
+                    float(item["incremental_source_cost"]),
+                    cost,
+                    rel_tol=1e-9,
+                    abs_tol=1e-9,
+                )
+                for item, source_id, cost in zip(
+                    marginals, sequence, increments, strict=True
+                )
+            )
+            or not math.isclose(
+                float(evaluation["total_source_cost"]),
+                math.fsum(increments),
+                rel_tol=1e-9,
+                abs_tol=1e-9,
+            )
+        ):
+            raise ValueError("result costs do not match cost basis")
+
+
 def validate_information_source_portfolio_result(payload: Mapping[str, Any]) -> None:
     """Validate the portable result envelope."""
-    _validate_schema(payload, INFORMATION_SOURCE_PORTFOLIO_RESULT_SCHEMA_V1)
+    schema = (
+        INFORMATION_SOURCE_PORTFOLIO_RESULT_SCHEMA_V2
+        if payload.get("schema_version") == "2.0.0"
+        else INFORMATION_SOURCE_PORTFOLIO_RESULT_SCHEMA_V1
+    )
+    _validate_schema(payload, schema)
+    if payload.get("schema_version") == "2.0.0":
+        _validate_v2_cost_basis(payload)
     baseline = float(cast("Mapping[str, Any]", payload["baseline"])["value"])
     evaluations = cast("list[Mapping[str, Any]]", payload["evaluated_sequences"])
     for evaluation in evaluations:
@@ -527,6 +699,17 @@ def validate_information_source_portfolio_result(payload: Mapping[str, Any]) -> 
         ):
             raise ValueError("conditional marginal values must recover gross value")
     optimum = cast("Mapping[str, Any]", payload["optimum"])
+    if payload.get("schema_version") == "2.0.0":
+        selected = {
+            key: value
+            for key, value in optimum.items()
+            if key != "optimal_sequence_tie"
+        }
+        if (
+            selected not in evaluations
+            or payload["conditional_marginals"] != optimum["conditional_marginals"]
+        ):
+            raise ValueError("reported optimum must match an evaluated sequence")
     if (
         float(optimum["net_value"])
         < max(float(item["net_value"]) for item in evaluations) - 1e-9
