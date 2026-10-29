@@ -233,4 +233,3 @@ def test_parquet_rejects_invalid_stored_column_chunks(
     pq.write_table(stored.replace_schema_metadata(metadata), path)
     with pytest.raises(ValueError, match="original Arrow column chunks"):
         NormalizedInputBundle.read_parquet(path)
-
