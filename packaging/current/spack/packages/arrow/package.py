@@ -3,8 +3,8 @@
 
 from pathlib import Path
 
-from spack_repo.builtin.packages.arrow.package import Arrow as BuiltinArrow
 from spack.package import EnvironmentModifications, depends_on, resource, version
+from spack_repo.builtin.packages.arrow.package import Arrow as BuiltinArrow
 
 
 class Arrow(BuiltinArrow):
@@ -25,6 +25,18 @@ class Arrow(BuiltinArrow):
         placement={"v3.4.1.tar.gz": "mimalloc-v3.4.1.tar.gz"},
         when="@=26.0.0+mimalloc",
     )
+
+    def cmake_args(self):
+        """Translate the shared variant to Arrow 26's actual CMake switches."""
+        args = super().cmake_args()
+        if self.spec.satisfies("@=26.0.0"):
+            args.extend(
+                [
+                    self.define_from_variant("ARROW_BUILD_SHARED", "shared"),
+                    self.define("ARROW_BUILD_STATIC", "ON"),
+                ]
+            )
+        return args
 
     def setup_build_environment(self, env: EnvironmentModifications) -> None:
         """Use the staged allocator archive without changing upstream defaults."""

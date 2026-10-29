@@ -11,9 +11,10 @@
 
 `voiage` provides Value of Information (VOI) methods for comparing decisions
 under uncertainty and assessing whether additional evidence may be worth
-collecting. The v2.0 release combines:
+collecting. The v2.2 release combines:
 
-- a Python API and command-line interface (CLI);
+- a Python API and command-line interface (CLI) built on wide **Polars** frames
+  (`pl.DataFrame`) and **Apache Arrow** / Parquet interchange;
 - binding-independent Rust domain, diagnostics, numerical, and serialization
   crates;
 - selected Rust-backed aggregation kernels exposed to Python through PyO3;
@@ -80,20 +81,18 @@ Development installation and complete verification instructions are in
 ## Quick start
 
 ```python
-import numpy as np
+import polars as pl
 
 from voiage.analysis import DecisionAnalysis
 from voiage.schema import ValueArray
 
-net_benefit = ValueArray.from_numpy(
-    np.array(
-        [
-            [10.0, 12.0],
-            [11.0, 9.0],
-            [13.0, 14.0],
-        ]
-    ),
-    strategy_names=["Standard care", "New treatment"],
+net_benefit = ValueArray.from_polars(
+    pl.DataFrame(
+        {
+            "Standard care": [10.0, 11.0, 13.0],
+            "New treatment": [12.0, 9.0, 14.0],
+        }
+    )
 )
 
 analysis = DecisionAnalysis(net_benefit)
@@ -161,8 +160,8 @@ and business examples.
 
 ## Architecture
 
-The repository is moving towards a binding-independent Rust core, but v2.0 is
-still a hybrid implementation:
+The repository is moving towards a binding-independent Rust core, with v2.2
+using a hybrid Rust + Polars/Arrow architecture:
 
 ```text
 Python API / CLI / orchestration / labelled data / plots / reports
@@ -211,6 +210,7 @@ crates.io, and other external channels.
 - [Expected-utility information example](https://edithatogo.github.io/voiage/examples/expected-utility-information/)
 - [Method reference](https://edithatogo.github.io/voiage/methods/)
 - [Data structures](https://edithatogo.github.io/voiage/data-structures/)
+- [Tabular translation reference (Polars)](https://edithatogo.github.io/voiage/user-guide/tabular-translation-reference/)
 - [Plotting](https://edithatogo.github.io/voiage/user-guide/plotting/)
 - [Backends](https://edithatogo.github.io/voiage/backends/)
 - [R package guide](r-package/voiageR/README.md)
@@ -295,9 +295,7 @@ but no independent approval requirement. See:
 - [Changelog](changelog.md)
 
 Use [GitHub Issues](https://github.com/edithatogo/voiage/issues) for reproducible
-bugs and feature requests, and
-[GitHub Discussions](https://github.com/edithatogo/voiage/discussions) for
-design or usage questions.
+bugs, feature requests, and design or usage questions.
 
 ## License
 

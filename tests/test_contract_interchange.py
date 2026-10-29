@@ -80,3 +80,24 @@ def test_schema_fingerprint_excludes_container_metadata() -> None:
     table = analysis_result_table(_result())
     changed = table.replace_schema_metadata({b"container": b"different"})
     assert schema_fingerprint(table.schema) == schema_fingerprint(changed.schema)
+
+
+def test_ipc_preserves_declared_and_calculation_input_identities(tmp_path) -> None:
+    spec = AnalysisSpec(
+        analysis_id="identity-boundary",
+        decision_problem_id="decision",
+        method_family="evpi",
+        method_contract_version="1.0.0",
+        normalized_input_digest="0" * 64,
+    )
+    result = run_evpi(np.array([[1.0, 2.0], [3.0, 1.0]]), spec=spec)
+    path = tmp_path / "identities.arrow"
+    write_analysis_result_ipc(result, path)
+    with ipc.open_file(path) as reader:
+        encoded = json.loads(reader.read_all()["result_json"][0].as_py())
+    assert encoded["run_context"]["input_digest"] == "0" * 64
+    assert (
+        encoded["provenance"]["details"]["calculation_input_digest"]
+        == (result.provenance.details["calculation_input_digest"])
+    )
+    assert encoded["provenance"]["details"]["calculation_input_digest"] != "0" * 64

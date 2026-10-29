@@ -83,3 +83,21 @@
   Source/declaration slice: `227f1583`; 32 affected tests, authenticated source
   and actual private Spack class load pass. The full integrated Arrow candidate
   gate remains pending.
+
+## Build capacity follow-up
+
+The [capacity plan](./capacity-plan.md) retains both EasyBuild generations and
+source-built compiler qualification. The integrator has brought the measurement
+guard, budget validator and retained pilot evidence into the local candidate.
+
+- [~] B6-CAP1: Reconcile the accepted support scope and corrected admission
+  requirement with the terminal capacity packet.
+- [~] B6-CAP2: Retain the Polars and Arrow pilot observations; source compiler
+  and full native graph measurements remain pending.
+- [ ] B6-CAP3: Qualify immutable source staging, cleanup and cache reuse on
+  matched inputs without sharing mutable build roots.
+- [ ] B6-CAP4: Publish workload-specific budgets only after representative
+  successful measurements and explicit headroom are established.
+
+B8 consumes capacity receipts alongside behavioural checks; B12 retains
+preservation-backed cleanup ownership. These tasks do not close native acceptance.

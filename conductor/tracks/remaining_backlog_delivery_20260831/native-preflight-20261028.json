@@ -70,7 +70,7 @@
   },
   "next_actions": [
     "Qualify source-bound current provider recipes for Arrow 26 and Polars 2.1, plus supported Python 3.15 constraints; do not relax project floors",
-    "Obtain a qualified Linux builder and retain the EasyBuild 250 GiB physical-space floor",
+    "Use the completed GitHub capacity pilot; the obsolete physical-space floor is withdrawn",
     "Run unmodified solver/build/install/compiler gates and retain failures"
   ],
   "recovery_and_capacity": "Verified compressed recovery retained; temporary extracted evidence removed after full byte/link verification. Physical free space remains below the EasyBuild floor."

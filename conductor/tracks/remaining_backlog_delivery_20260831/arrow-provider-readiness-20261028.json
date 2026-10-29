@@ -147,5 +147,345 @@
   "other_writer_reservations": [
     ".github/workflows/native-build-capacity-observation.yml",
     "docs/reviews/native-build-capacity-20261028.md"
-  ]
+  ],
+  "cpp_slice": {
+    "behavior": "Authenticate immutable Arrow C++ 26 source and retain its default allocator with a source-pinned Spack resource, retaining the upstream builder",
+    "implementation_allowlist": [
+      "packaging/current/spack/packages/arrow/package.py",
+      "packaging/current/arrow-provider-sources.json",
+      "scripts/check_current_arrow_providers.py",
+      "tests/test_current_arrow_providers.py"
+    ],
+    "baseline": "aed8b4110",
+    "baseline_sha256": {
+      "packaging/current/arrow-provider-sources.json": "ef3d2c87a57268b677558f8ba86686d4cd8bb2e216869cbb8d970e0d17016229",
+      "scripts/check_current_arrow_providers.py": "77b771096b9015647dca7f81501ddca285fb4c8086ed37e36ebe32b06675423e",
+      "tests/test_current_arrow_providers.py": "8066400f6606fa7a5953f224ec276444485df5488d96cc979d3967c17154160b"
+    },
+    "new_recipe_baseline": "absent",
+    "negative_witness": "Missing C++ provider and validator; reject resource/hash/source/base-catalogue/allocator changes",
+    "compiler_profile": "Python 3.15.1 Spack driver, exact pinned builtin catalogue; compilation and Linux runtime remain unproven",
+    "verification": {
+      "affected_tests_passed": 41,
+      "tests_resource": {
+        "peak_rss_kib": 100320,
+        "reason": "completed",
+        "returncode": 0,
+        "elapsed_seconds": 6.785,
+        "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-dbwjwhwy"
+      },
+      "real_source": {
+        "cpp_source_declaration_qualified": true,
+        "source_archive_sha256": "764adbb5601a4d0d9d67a10cf04892d33cfac9fd43012f08a2d7c9956a7a90d2",
+        "allocator_default_preserved": true,
+        "allocator_archive_verified": false,
+        "native_build_executed": false,
+        "full_arrow_profile_qualified": false
+      },
+      "native_class_load": {
+        "class": "spack.pkg.voiage_current.arrow",
+        "versions": {
+          "26.0.0": {
+            "sha256": "764adbb5601a4d0d9d67a10cf04892d33cfac9fd43012f08a2d7c9956a7a90d2",
+            "url": "https://github.com/apache/arrow/archive/446167169a0dc547e00e1bc29f417a40c0ca267a.tar.gz"
+          }
+        },
+        "resources": [
+          {
+            "when": "@=26.0.0+mimalloc",
+            "url": "https://github.com/microsoft/mimalloc/archive/v3.4.1.tar.gz",
+            "sha256": "37107a52c16baa80c5f74861dddda7b27bb9949e41a6637691867a94c88ca446",
+            "expand": false,
+            "destination": "spack-vendor",
+            "placement": {
+              "v3.4.1.tar.gz": "mimalloc-v3.4.1.tar.gz"
+            }
+          }
+        ]
+      },
+      "source_stage": {
+        "command": "spack -c bootstrap:enable:false -c config:build_stage::[private-directory] stage --fresh voiage_current.arrow@=26.0.0+mimalloc",
+        "result": "Unmodified concretization and source staging succeeded for this Arrow-only spec; no full Voiage solve or compilation accepted",
+        "resource_report": {
+          "peak_rss_kib": 156784,
+          "reason": "completed",
+          "returncode": 0,
+          "elapsed_seconds": 34.49,
+          "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-_vp4hhh3"
+        }
+      },
+      "native_environment_hook": {
+        "python": "3.15.1 (main, Oct 21 2026, 17:39:16) [Clang 23.1.3 ]",
+        "builtin_recipe": "/Volumes/PortableSSD/GitHub/voiage/.conductor/local/goal-backlog/spack-cache/package_repos/fncqgg4/repos/spack_repo/builtin/packages/arrow/package.py",
+        "builtin_recipe_sha256": "21f76d45d06f2927dcf537a553a4fc5558ed2b1aee79f52bb72aa903116c3d91",
+        "mimalloc_archive_sha256": "37107a52c16baa80c5f74861dddda7b27bb9949e41a6637691867a94c88ca446",
+        "source_root": "/Volumes/PortableSSD/GitHub/voiage/.conductor/local/goal-backlog/arrow26-normal-stage/doughnut/spack-stage-arrow-26.0.0-26vatwgg2garlzeaxsfi4pw2iif2zu3e/spack-src",
+        "configured_url": "file:///Volumes/PortableSSD/GitHub/voiage/.conductor/local/goal-backlog/arrow26-normal-stage/doughnut/spack-stage-arrow-26.0.0-26vatwgg2garlzeaxsfi4pw2iif2zu3e/spack-src/spack-vendor/mimalloc-v3.4.1.tar.gz",
+        "disabled_allocator_unchanged": true,
+        "missing_resource_rejected": true,
+        "native_build_executed": false
+      },
+      "findings_fixed": [
+        "Reject changed builtin class binding and added CMake allocator overrides",
+        "Do not call absent parent package environment hook; actual Spack probe and behavioral negative control caught it"
+      ],
+      "native_stage_route_failure": "Spack stage --path reused root/resource path; regular private build_stage configuration succeeded with checksums enabled",
+      "full_native_build_executed": false
+    }
+  },
+  "capacity_clarification": {
+    "historical_helper": "Obsolete disk-space floor removed by user direction; CPU and resource guards remain",
+    "current_profile_minimum": "Not measured; inherited floor is not a verified minimum for the current graph",
+    "source_of_classification": "packaging/current/README.md and overlay-lifecycle.json classify the old helper as historical replay",
+    "focused_polars_hosted_job": {
+      "completed_at": "2026-10-28T12:53:51Z",
+      "conclusion": "success",
+      "name": "Preview polars-current",
+      "runner_name": "GitHub Actions 1000673215",
+      "started_at": "2026-10-28T12:40:06Z",
+      "status": "completed"
+    },
+    "separate_capacity_pilot_observation": {
+      "conclusion": "",
+      "headBranch": "codex/native-build-capacity-20261028",
+      "headSha": "dc5e71525e120183e97611bb8c40d9c1c9b00e08",
+      "status": "in_progress",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/40691333092"
+    },
+    "qualification_boundary": "Focused source runtime/binary SDK observations do not establish compiler-from-source or full HPC matrix acceptance",
+    "independent_pilot_readback": {
+      "artifact_id": 12818686617,
+      "artifact_sha256": "cacbd2689f41395b1c28e585a71e7e55630cc1b60eb052162b3826d46915724a",
+      "manifest_sha256": "614606208dbd605d5d48ffa699aa24eed15052a46bdc71ccdbd80a6eaf19223c",
+      "sample_count": 259,
+      "all_six_steps_zero": true,
+      "sampled_disk_growth_bytes": 10475061248,
+      "sampled_disk_growth_gib": 9.755661010742188,
+      "peak_sampled_rss_kib": 5746572,
+      "total_step_seconds": "1290.31",
+      "cpu_count": 4,
+      "cargo_build_jobs": "2",
+      "upstream_default_features": [
+        "full",
+        "nightly"
+      ],
+      "sdk_compiler_identity_verified": true,
+      "compiler_source_build_executed": false,
+      "full_hpc_matrix_qualified": false
+    },
+    "memory_policy": "Default 4 GiB guard remains. The focused Polars source/SDK pilot exceeded that default; future runs need a named, reviewed workload limit and runner RAM headroom, not a global limit increase. Do not apply this Polars-only footprint to LLVM/Arrow/full-stack stages."
+  },
+  "pyarrow_slice": {
+    "behavior": "Bind PyArrow 26 backend/build prerequisites and exact C++ component/codec profile, preserving upstream Release and non-bundled defaults",
+    "implementation_allowlist": [
+      "packaging/current/spack/packages/py-pyarrow/package.py",
+      "packaging/current/arrow-provider-sources.json",
+      "scripts/check_current_arrow_providers.py",
+      "tests/test_current_arrow_providers.py"
+    ],
+    "baseline": "6f77eb98",
+    "baseline_sha256": {
+      "packaging/current/arrow-provider-sources.json": "3fdca8e92a22a20fa5f944546639aa254455cc55deec0e7e620d2b0124241da0",
+      "scripts/check_current_arrow_providers.py": "7d4f0b99d0efba71582b089144430b059c93f7927784bfa8810ea1dd6e5c8832",
+      "tests/test_current_arrow_providers.py": "a473944d598d26c6fc8f52cfaac19da56a56513003cda44a9bf0ad1c39c57f0c"
+    },
+    "new_recipe_baseline": "absent",
+    "negative_witness": "Missing frontend; reject source/compiler-series/build-floor/backend/version-pair/codec/component/default changes",
+    "selected_python": "3.15.1",
+    "canonical_io": [
+      "CSV",
+      "IPC",
+      "Parquet zstd",
+      "existing Arrow compression codecs"
+    ],
+    "does_not_complete": [
+      "Installed native Arrow behavior",
+      "Full Voiage solver/build",
+      "Linux matrix",
+      "Compiler-generation acceptance"
+    ],
+    "verification": {
+      "source_qualification": {
+        "source_declarations_qualified": true,
+        "providers_checked": 3,
+        "qualification_scope": "Authenticated source/declarations only",
+        "full_native_solver_executed": false,
+        "native_build_executed": false,
+        "installed_module_acceptance": false,
+        "profiles": [
+          {
+            "libcst_source_declaration_qualified": true,
+            "python_profile": "3.15.1",
+            "source_archive_sha256": "087b58a9afe076bb08e2d726478e1f16cb928d67ffa9092817e033c335de522a",
+            "licenses_checked": 4,
+            "spack_build_executed": false,
+            "linux_build_executed": false,
+            "full_arrow_profile_qualified": false
+          },
+          {
+            "cpp_source_declaration_qualified": true,
+            "source_archive_sha256": "764adbb5601a4d0d9d67a10cf04892d33cfac9fd43012f08a2d7c9956a7a90d2",
+            "allocator_default_preserved": true,
+            "allocator_archive_verified": false,
+            "native_build_executed": false,
+            "full_arrow_profile_qualified": false
+          },
+          {
+            "pyarrow_source_declaration_qualified": true,
+            "source_archive_sha256": "0cccd36e00ea3afeb52ded61f2721ce71f604853d70c45365c58324eb773d6ae",
+            "native_build_executed": false,
+            "installed_module_acceptance": false
+          }
+        ]
+      },
+      "affected_tests_passed": 91,
+      "resource_report": {
+        "peak_rss_kib": 111424,
+        "reason": "completed",
+        "returncode": 0,
+        "elapsed_seconds": 10.793,
+        "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-8fo_9hbj"
+      },
+      "native_frontend_class_load": {
+        "class": "spack.pkg.voiage_current.py-pyarrow",
+        "versions": {
+          "26.0.0": {
+            "sha256": "0cccd36e00ea3afeb52ded61f2721ce71f604853d70c45365c58324eb773d6ae",
+            "url": "https://files.pythonhosted.org/packages/ec/34/17c34cb38e5d940e38f0f0d9fdfa0e8a506676409ea9b85aff7e3079f831/pyarrow-26.0.0.tar.gz"
+          }
+        },
+        "import_modules": [
+          "pyarrow",
+          "pyarrow.compute",
+          "pyarrow.csv",
+          "pyarrow.dataset",
+          "pyarrow.ipc",
+          "pyarrow.parquet"
+        ]
+      },
+      "fixes": [
+        "Real sdist contains two identical license/notice entries; require exact reviewed counts, reject changed duplicates",
+        "Combined test fixtures now have separate per-provider paths"
+      ],
+      "full_solver_gate": false
+    }
+  },
+  "compiler_role_slice": {
+    "behavior": "Allow exactly the stable and dated compiler/bootstrap build-tool roles under minimal duplication, requiring Python 3.15.1 for every selected Python node",
+    "implementation_allowlist": [
+      "packaging/current/spack/concretizer.yaml",
+      "packaging/current/spack/packages.yaml",
+      "packaging/current/spack/packages/rust-bootstrap/package.py",
+      "tests/test_current_rust_providers.py"
+    ],
+    "baseline": "fded766f",
+    "baseline_sha256": {
+      "packaging/current/spack/packages/rust-bootstrap/package.py": "466d5498af8988e4854532f529f29011686c767de59ec28f0bb924b04adbe247",
+      "tests/test_current_rust_providers.py": "8101e75084ae9026bd6653a850081a51c995dee2e280f565a1d7e1ae6d0aaab6"
+    },
+    "new_configuration_baseline": "absent",
+    "negative_witness": "Default max_dupes is one for rust; stable and dated requirements conflict. Source-only diagnostic confirms conflicting Rust selectors and Python <=3.14 caps; no accepted solve.",
+    "preserved_constraints": [
+      "Stable core Rust range",
+      "Exact Polars nightly pin",
+      "Source bootstrap date/hash",
+      "Python 3.15.1 only",
+      "All other native acceptance gates"
+    ],
+    "configuration_scope": "Explicit repository -C scope, never a shared user configuration change",
+    "verification": {
+      "active_native_config": {
+        "duplicates": {
+          "strategy": "minimal",
+          "max_dupes": {
+            "rust": 2,
+            "rust-bootstrap": 2,
+            "default": 1,
+            "c": 2,
+            "cxx": 2,
+            "fortran": 1,
+            "cmake": 2,
+            "gmake": 2,
+            "python": 2,
+            "python-venv": 2,
+            "py-cython": 2,
+            "py-flit-core": 2,
+            "py-pip": 2,
+            "py-setuptools": 2,
+            "py-setuptools-scm": 2,
+            "py-versioneer": 2,
+            "py-wheel": 2,
+            "xcb-proto": 2,
+            "gcc": 2,
+            "llvm": 2
+          }
+        },
+        "python": {
+          "require": [
+            "@=3.15.1"
+          ]
+        },
+        "bootstrap_tags": [
+          "build-tools"
+        ],
+        "tag_index_matches": [
+          "rust-bootstrap",
+          "rust"
+        ]
+      },
+      "affected_tests_passed": 69,
+      "resource_report": {
+        "peak_rss_kib": 111424,
+        "reason": "completed",
+        "returncode": 0,
+        "elapsed_seconds": 11.482,
+        "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-4iispnuo"
+      },
+      "unmodified_solver_resource_report": {
+        "peak_rss_kib": 441952,
+        "reason": "time_limit",
+        "returncode": null,
+        "elapsed_seconds": 185.284,
+        "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-b4v_wxlf"
+      },
+      "bounded_diagnostic_resource_report": {
+        "peak_rss_kib": 814992,
+        "reason": "completed",
+        "returncode": 1,
+        "elapsed_seconds": 120.221,
+        "temporary_directory": "/Volumes/PortableSSD/GitHub/.voiage-verification-6lssnowq"
+      },
+      "remaining_source_caps": [
+        "py-pydantic-core unconditional Python <=3.14 cap",
+        "py-cython unconditional Python <=3.14 cap"
+      ],
+      "qualification_boundary": "Diagnostic bounded rendering changes no solver constraint, but is not accepted full native solver evidence"
+    }
+  },
+  "remaining_python_cap_slice": {
+    "behavior": "Replace wheel-era Python caps with source-bound Cython 3.3.0 and required pydantic-core 2.46.4 candidates only after controlled Python 3.15 source qualification",
+    "implementation_allowlist": [
+      "packaging/current/spack/packages/py-cython/package.py",
+      "packaging/current/spack/packages/py-pydantic-core/package.py",
+      "packaging/current/runtime-build-provider-sources.json",
+      "scripts/check_current_build_providers.py",
+      "tests/test_current_build_providers.py"
+    ],
+    "baseline": "406184a8",
+    "baseline_inputs": {
+      "provider-sources/cython-build-inputs.json": "1f782e01f6361edf5b658ff193538a507ceccadf6c361f1276ff948515e25949",
+      "provider-sources/pydantic_core-build-inputs.json": "81bcbdda6e6092a1bdc2c41fed48f54f30fbcca3a7ea41942ed50b23ddc11e88"
+    },
+    "source_versions": {
+      "Cython": "3.3.0",
+      "pydantic_core": "2.46.4"
+    },
+    "intended_red": "Old catalogue requires Python <=3.14; new provider contracts must reject old caps and source/build/compiler drift",
+    "not_allowed": [
+      "Older Python runner",
+      "PyO3 forward-compatibility bypass",
+      "Disabling compiled modules or upstream release features"
+    ],
+    "source_install_gate": "In progress in a separate environment; no success inferred from source metadata or wheel availability"
+  }
 }

@@ -68,7 +68,7 @@ def validate_libcst(root: Path, sources: Path) -> dict[str, object]:
         raise ValueError("LibCST source checksum mismatch")
     selected = LICENSES | {"pyproject.toml", "native/libcst/Cargo.toml"}
     contents = {}
-    with tarfile.open(archive, "r|gz", stream=True) as source:
+    with tarfile.open(archive, "r|gz") as source:
         for member in source:
             name = member.name.split("/", 1)[-1]
             if name not in selected:
@@ -161,11 +161,11 @@ def validate_arrow_cpp(
             isinstance(node, (ast.Assign, ast.AnnAssign)) for node in classes[0].body
         )
         or [node.name for node in classes[0].body if isinstance(node, ast.FunctionDef)]
-        != ["setup_build_environment"]
+        != ["cmake_args", "setup_build_environment"]
     ):
         raise ValueError("Arrow must preserve the pinned upstream build implementation")
     calls = [
-        node
+        (node.func.id, node)
         for node in ast.walk(tree)
         if isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
     ]
@@ -174,8 +174,8 @@ def validate_arrow_cpp(
             ast.literal_eval(node.args[0]),
             {item.arg: ast.literal_eval(item.value) for item in node.keywords},
         )
-        for node in calls
-        if node.func.id == "version"
+        for name, node in calls
+        if name == "version"
     ]
     expected = (
         row["version"],
@@ -190,8 +190,8 @@ def validate_arrow_cpp(
     allocator = row["mimalloc"]
     resources = [
         {item.arg: ast.literal_eval(item.value) for item in node.keywords}
-        for node in calls
-        if node.func.id == "resource"
+        for name, node in calls
+        if name == "resource"
     ]
     if resources != [
         {
@@ -218,7 +218,7 @@ def validate_arrow_cpp(
         "cpp/thirdparty/versions.txt",
     }
     contents = {}
-    with tarfile.open(archive, "r|gz", stream=True) as source:
+    with tarfile.open(archive, "r|gz") as source:
         for member in source:
             name = member.name.split("/", 1)[-1]
             if name not in selected:
@@ -347,7 +347,7 @@ def validate_pyarrow(root: Path, sources: Path) -> dict[str, object]:
     }
     counts = dict.fromkeys(selected, 0)
     contents = {}
-    with tarfile.open(archive, "r|gz", stream=True) as source:
+    with tarfile.open(archive, "r|gz") as source:
         for member in source:
             name = member.name.split("/", 1)[-1]
             if name not in selected:

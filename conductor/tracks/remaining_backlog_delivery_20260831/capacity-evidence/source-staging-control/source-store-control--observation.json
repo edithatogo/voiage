@@ -1,0 +1,29 @@
+{
+  "scope": "Two sequential Linux containers, synthetic source, read-only bind mount, private build/install directories; no EasyBuild or native compiler executed",
+  "source_sha256": "b2ee2f625a2db4d58d24e14d76e67745d7cd334648d91cbdfc0e51bbe5083f1a",
+  "container_image": "sha256:7cf1e580ef5539f03b58560753e8ab84c8c360960d99dff714004aa98f203977",
+  "network": "none",
+  "both_read_store": true,
+  "both_source_mutations_rejected": true,
+  "host_hash_unchanged": true,
+  "separate_build_and_install_roots": true,
+  "native_source_store_qualified": false,
+  "changed_checksum_rejected": true,
+  "distinct_build_install_inodes": true,
+  "container_network_negative_controls": "dns exit 2; direct HTTP connect exit 7; loopback only",
+  "limitations": [
+    "Synthetic inputs only; no EasyBuild fetch, compiler, module or live HPC source qualification",
+    "External volume shared activity and copy-on-write semantics not measured",
+    "Kernel read-only bind protection was exercised in the sampled containers; paths and manifest binding must be verified by the actual builder",
+    "The container bind mount was read-only, but the host-side source directory is writable by its owner; host-side immutability and race handling remain unqualified."
+  ],
+  "host_store_writable_by_current_user": true,
+  "artifact_sha256": {
+    "gen1.log": "88dae99addf3e8f9125eed67a9902fbdc14304f111c6c54b8f6999e6af30a4cb",
+    "gen2.log": "88dae99addf3e8f9125eed67a9902fbdc14304f111c6c54b8f6999e6af30a4cb",
+    "checksum-negative.log": "f322c23ad1d7891aa7cf4ae95310e196c3da0b36f29a4a47600d1d7773398c76",
+    "source-before.sha256": "9211689db68b4687663d3673f23e3c2170c7e6d8099d57d7340540c663c7b9ee",
+    "source-after.sha256": "9211689db68b4687663d3673f23e3c2170c7e6d8099d57d7340540c663c7b9ee"
+  },
+  "offline_network_control_sha256": "7069952eaf323c49a5c2f57df1f57cab1e118f594a8405cada4849536833b892"
+}

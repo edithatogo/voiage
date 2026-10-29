@@ -3,7 +3,7 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-08-31T12:11:38Z",
-  "updated_at": "2026-10-28T10:43:09Z",
+  "updated_at": "2026-10-28T13:30:00Z",
   "description": "Complete the authorized remaining backlog, protected PR delivery, issue reconciliation and verified cleanup.",
   "evidence_schema": "1.0",
   "authorization": {
@@ -15,7 +15,7 @@
     "issue": "https://github.com/edithatogo/voiage/issues/1053"
   },
   "current_phase": "Phase 2 — B6.2 current provider source and SDK qualification",
-  "next_pending_task": "Review/deliver split Polars source providers, then qualify dated Rust/bootstrap and Arrow providers before unmodified solve and Linux build/install/compiler gates",
+  "next_pending_task": "Qualify the delivered provider candidates with an unmodified solver, native source builds, installed probes and the Linux compiler matrix; preserve separate upstream and track acceptance gates",
   "gates": [
     {
       "id": "external-evidence",
@@ -24,5 +24,12 @@
       "evidence": "Individual issue acceptance criteria remain authoritative; no human or venue outcome inferred."
     }
   ],
-  "continuation_handoff": "implementation-handoff.md"
+  "continuation_handoff": "implementation-handoff.md",
+  "capacity_followup": {
+    "plan": "capacity-plan.md",
+    "owner_branch": "codex/build-capacity-conductor-20261028",
+    "status": "in_progress",
+    "native_acceptance": "pending",
+    "scope_decision": "accepted_by_user_2026-10-29"
+  }
 }
