@@ -1,0 +1,37 @@
+"""Exercise actual tobac regulatory scenarios against the installed Voiage wheel."""
+import copy
+import hashlib
+import json
+from pathlib import Path
+
+import numpy as np
+from tobac._core import exact_evpi
+from tobac.parameters import canonical, load_parameters, save_parameters
+from tobac.regulation import build_states, load_config, make_problem
+from tobac.research.voiage_adapter import installed_evpi
+
+root = Path(__file__).parent
+config = load_config(root / "tobac-source/configs/regulatory.json")
+original = copy.deepcopy(config)
+parameters = root / "regulatory-parameters.json"
+digest = save_parameters(config, parameters)
+reloaded = load_parameters(parameters)
+assert reloaded == original and digest == hashlib.sha256(canonical(original)).hexdigest()
+results = {}
+for probability in (0.2, 0.8, 0.8, 0.2):
+    states, weights = build_states(reloaded, {"illicit": probability})
+    problem = make_problem(states, weights, reloaded, 1.0)
+    before_values = problem.values.copy()
+    before_weights = problem.prior_weights.copy()
+    expected = exact_evpi(problem)
+    observed = installed_evpi(problem, expected_version="2.2.0")["value"]
+    assert np.isclose(observed, expected, rtol=1e-10, atol=1e-10)
+    assert np.array_equal(problem.values, before_values)
+    assert np.array_equal(problem.prior_weights, before_weights)
+    assert reloaded == original
+    previous = results.get(str(probability))
+    if previous is not None:
+        assert previous["voiage_evpi"] == observed
+    results[str(probability)] = {"states": len(weights), "oracle_evpi": expected, "voiage_evpi": observed, "max_difference": abs(observed - expected)}
+receipt = {"schema": "voiage.tobac-regulatory-scenarios.v1", "parameter_sha256": digest, "parameter_schema": "tobac.parameters.v1", "model_schema": reloaded["schema"], "tobac_revision": "62a47123aae4186514f37b58d665da1ecae91998", "voiage_source_tree": "b65109e087c0c18e91db5c7c921cc5b54f0540c3", "execution": {"backend": "voiage.methods.basic.evpi", "dtype": "float64", "order": [0.2, 0.8, 0.8, 0.2]}, "scenarios": results, "scope": "actual regulatory configuration and finite scenarios, not scientific calibration or full parameter/covariance qualification"}
+(root / "scenario-receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")

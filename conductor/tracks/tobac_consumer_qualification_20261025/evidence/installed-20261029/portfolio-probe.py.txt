@@ -1,0 +1,61 @@
+"""Compare installed producer with tobac's dependent-report/shared-cost fixture."""
+import copy
+import hashlib
+import json
+from pathlib import Path
+
+import numpy as np
+from tobac._core import DecisionProblem
+from tobac.evidence import Belief, Scope
+from tobac.research.portfolio import Costs, Source, portfolio_value
+from voiage.methods.information_source_portfolio import information_source_portfolio_value
+
+root = Path(__file__).parent
+template = json.loads((root / "portfolio-template.json").read_text())
+likelihood = np.array([[0.8, 0.2], [0.2, 0.8]])
+joint = np.zeros((2, 2, 2))
+joint[0, 0] = likelihood[0]
+joint[1, 1] = likelihood[1]
+problem = DecisionProblem([[10.0, 0.0], [0.0, 10.0]], ("a", "b"), "unit", [0.5, 0.5])
+belief = Belief(problem, ("s0", "s1"), Scope("fixture", "all", "2025-01-01", "2025-12-31", "exposure"))
+sources = [Source(name, likelihood, ("future_" + name,), belief.state_ids, ("lab",)) for name in ("survey", "registry")]
+costs = Costs("unit", {"survey": 0.1, "registry": 0.2}, {"lab": 0.5})
+
+payload = copy.deepcopy(template)
+payload["value_context"].update(value_unit="unit", cost_unit="unit", delay_cost_per_time=0.0)
+payload["actions"] = ["a", "b"]
+payload["sources"] = payload["sources"][:2]
+for source, direct in zip(payload["sources"], (0.1, 0.2), strict=True):
+    source.update(cost=direct, cost_unit="unit", latency=0.0, asset_ids=["lab"], must_precede=[], excludes=[])
+payload["shared_costs"] = {"assets": [{"asset_id": "lab", "cost": 0.5, "cost_unit": "unit"}], "existing_assets": []}
+payload["states"] = []
+for state in range(2):
+    for report in range(2):
+        payload["states"].append({"state_id": f"s{state}-r{report}", "probability": float(0.5 * likelihood[report, state]), "action_values": {"a": 10.0 if state == 0 else 0.0, "b": 10.0 if state == 1 else 0.0}, "source_observations": {"survey": str(report), "registry": str(report)}})
+payload["constraints"]["required_coverage"] = []
+payload["constraints"]["max_sources"] = 2
+original = copy.deepcopy(payload)
+rows = []
+for owned in (False, True):
+    assets = ("lab",) if owned else ()
+    payload["shared_costs"]["existing_assets"] = list(assets)
+    unchanged = copy.deepcopy(payload)
+    consumer = portfolio_value(belief, sources, costs, existing_assets=assets, joint=joint)
+    producer = information_source_portfolio_value(payload).to_contract_dict()
+    assert payload == unchanged
+    case = next(item for item in producer["evaluated_sequences"] if item["source_sequence"] == ["survey", "registry"])
+    reverse = copy.deepcopy(payload)
+    reverse["states"].reverse()
+    reverse["sources"].reverse()
+    reverse_before = copy.deepcopy(reverse)
+    reversed_result = information_source_portfolio_value(reverse).to_contract_dict()
+    assert reverse == reverse_before
+    reverse_case = next(item for item in reversed_result["evaluated_sequences"] if item["source_sequence"] == ["registry", "survey"])
+    expected_cost = 0.3 if owned else 0.8
+    for actual, expected in ((consumer["evsi"], 3.0), (case["gross_value"], 3.0), (reverse_case["gross_value"], 3.0), (consumer["cost"], expected_cost), (case["total_source_cost"], expected_cost), (reverse_case["total_source_cost"], expected_cost), (consumer["enbs"], 3.0 - expected_cost), (case["net_value"], 3.0 - expected_cost), (reverse_case["net_value"], 3.0 - expected_cost)):
+        assert abs(actual - expected) < 1e-10, (actual, expected)
+    rows.append({"owned": owned, "consumer_evsi": consumer["evsi"], "producer_gross": case["gross_value"], "cost": expected_cost, "net": case["net_value"]})
+payload["shared_costs"]["existing_assets"] = []
+assert payload == original
+receipt = {"schema": "voiage.tobac-dependent-portfolio-probe.v1", "tobac_revision": "62a47123aae4186514f37b58d665da1ecae91998", "voiage_source_tree": "b65109e087c0c18e91db5c7c921cc5b54f0540c3", "input_sha256": hashlib.sha256(json.dumps(original, sort_keys=True, separators=(",", ":")).encode()).hexdigest(), "cases": rows, "oracle": "two equally likely states, duplicate 80% accurate reports; information value 8 - 5 = 3", "scope": "synthetic exact joint reports and shared asset costs; not full consumer acceptance"}
+(root / "portfolio-receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
