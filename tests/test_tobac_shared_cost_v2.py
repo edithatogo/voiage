@@ -6,6 +6,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from hypothesis import given, settings
+from hypothesis import strategies as st
 import pytest
 
 from voiage.contracts.information_source_portfolio import (
@@ -148,3 +150,45 @@ def test_v2_result_rejects_tampered_optimum_cost() -> None:
     result["optimum"]["total_source_cost"] = 999.0
     with pytest.raises(ValueError, match="optimum"):
         validate_information_source_portfolio_result(result)
+
+
+@settings(max_examples=30, deadline=None)
+@given(
+    direct_a=st.integers(min_value=0, max_value=100),
+    direct_b=st.integers(min_value=0, max_value=100),
+    fixed=st.integers(min_value=0, max_value=100),
+    owned=st.booleans(),
+)
+def test_v2_two_source_union_matches_integer_oracle(
+    direct_a: int, direct_b: int, fixed: int, owned: bool
+) -> None:
+    payload = _payload(owned=owned)
+    payload["sources"][0]["cost"] = direct_a
+    payload["sources"][1]["cost"] = direct_b
+    payload["shared_costs"]["assets"][0]["cost"] = fixed
+    payload["constraints"]["max_cost"] = 1000.0
+    result = information_source_portfolio_value(payload).to_contract_dict()
+    fixed_due = 0 if owned else fixed
+    for order, expected_marginals in (
+        (["survey", "registry"], [direct_a + fixed_due, direct_b]),
+        (["registry", "survey"], [direct_b + fixed_due, direct_a]),
+    ):
+        sequence = next(
+            item
+            for item in result["evaluated_sequences"]
+            if item["source_sequence"] == order
+        )
+        assert sequence["total_source_cost"] == direct_a + direct_b + fixed_due
+        assert [
+            item["incremental_source_cost"]
+            for item in sequence["conditional_marginals"]
+        ] == expected_marginals
+
+
+def test_v2_input_order_does_not_change_result() -> None:
+    payload = _payload()
+    expected = information_source_portfolio_value(payload).to_contract_dict()
+    payload["sources"].reverse()
+    payload["states"].reverse()
+    observed = information_source_portfolio_value(payload).to_contract_dict()
+    assert observed == expected
