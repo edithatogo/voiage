@@ -300,3 +300,31 @@ def test_failed_external_openssl_probe_preserves_certificate_fallback() -> None:
     )
     assert values["AR"] == "/compiler/ar"
     assert values["CARGO_HTTP_CAINFO"] == "/spack/openssl/etc/openssl/cert.pem"
+
+
+def test_current_solver_profile_keeps_two_compiler_roles_and_one_python() -> None:
+    import yaml
+
+    profile = ROOT / "packaging/current/spack"
+    solver = yaml.safe_load((profile / "concretizer.yaml").read_text())
+    assert solver == {
+        "concretizer": {
+            "duplicates": {
+                "strategy": "minimal",
+                "max_dupes": {"rust": 2, "rust-bootstrap": 2},
+            }
+        }
+    }
+    packages = yaml.safe_load((profile / "packages.yaml").read_text())
+    assert packages == {"packages": {"python": {"require": ["@=3.15.1"]}}}
+
+
+def test_bootstrap_is_classified_as_a_build_tool_for_minimal_duplication() -> None:
+    tree = ast.parse((PACKAGES / "rust-bootstrap/package.py").read_text())
+    tags = [
+        ast.literal_eval(node.value)
+        for node in ast.walk(tree)
+        if isinstance(node, ast.Assign)
+        and any(isinstance(t, ast.Name) and t.id == "tags" for t in node.targets)
+    ]
+    assert tags == [["build-tools"]]

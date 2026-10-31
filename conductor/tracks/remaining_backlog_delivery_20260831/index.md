@@ -65,3 +65,5 @@ historical and do not identify a currently live build.
 
 - [Dated compiler source and bootstrap qualification](./rust-providers-20261028.json)
 - [Dated compiler provider review](./rust-provider-review-20261028.md)
+
+- [Arrow prerequisites, source-build evidence and capacity incident](./arrow-provider-readiness-20261028.json)

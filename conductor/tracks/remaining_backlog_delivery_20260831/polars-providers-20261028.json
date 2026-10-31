@@ -102,7 +102,7 @@
     "ssd_free_bytes": 182265237504,
     "internal_free_bytes": 13399945216,
     "linux_hpc_builder_qualified": false,
-    "reason": "Existing daemon availability does not satisfy native source/toolchain qualification or the retained 250 GiB physical-space floor"
+    "reason": "Existing daemon availability alone does not qualify native behavior; GitHub source-build capacity pilot is complete and obsolete disk floor withdrawn"
   },
   "reviewed_implementation_sha256": {
     "packaging/current/spack/packages/py-polars/package.py": "e303d7d6c50194377b07e7031bd95dd90b4875e60dc0dcd0f8b0648dc5883ec9",

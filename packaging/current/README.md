@@ -50,6 +50,33 @@ archives and their licence metadata. Check the actual downloaded archives with:
 ```
 
 A successful check proves source/declaration agreement. The dated compiler and
-bootstrap provider, unmodified solve, native build and installed-module checks
+bootstrap source candidates are present; their actual compiler builds remain
+unqualified. The unmodified full solve, native build and installed-module checks
 remain required. No optional integrations or source features are silently
 substituted to make the catalogue solve.
+
+## Arrow source prerequisites
+
+The current LibCST source prerequisite selects Python 3.15.1, its native parser,
+the matching runtime dependency markers and upstream MIT/PSF notices. Check the
+actual source archive using `.venv/bin/python -m scripts.check_current_arrow_providers`
+with the selected repo-local Python 3.15.1 interpreter. The `cpp` profile additionally
+requires `--builtin-arrow /path/to/pinned/catalogue/arrow/package.py`; it authenticates
+the immutable Arrow C++ source and preserves its upstream allocator declaration.
+These are source checks; the complete Arrow profile and native installed matrix
+remain unqualified.
+
+Use a private Spack `config:build_stage` directory for source staging. Do not use
+`spack stage --path` for this multi-resource candidate: Spack 1.2.2 assigns that
+same custom directory to the root and resource, preventing normal resource
+placement. Keep checksums enabled. The allocator source is pinned as a Spack
+resource and supplied to CMake through its documented source URL override; it
+is not disabled to avoid the fetch.
+
+The obsolete physical-space estimate has been removed from the EasyBuild helper
+and receipt schema. The completed GitHub Polars source-build pilot measured
+9.76 GiB of disk growth (approximately 10 GB):
+https://github.com/edithatogo/voiage/actions/runs/40691333092.
+Retain resource guards and measure the actual workload rather than imposing the
+retired estimate. This completed pilot used a binary compiler SDK; it does not
+by itself qualify every compiler-generation or installed-module matrix gate.

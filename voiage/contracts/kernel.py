@@ -143,10 +143,11 @@ def dispatch_calculation[PayloadT: ContractModel](
     capabilities = backend.capabilities
     fallback_used = bool(backends) and backend is not backends[0]
     package_version = _package_version()
+    calculation_input_digest = array_digest(inputs)
     context = RunContext(
         run_id=uuid4().hex,
         spec_digest=effective_spec.contract_digest(),
-        input_digest=effective_spec.normalized_input_digest or array_digest(inputs),
+        input_digest=effective_spec.normalized_input_digest or calculation_input_digest,
         binding_profile_digest=effective_spec.binding_profile_digest,
         requested_backend=policy.backend_preference[0]
         if policy.backend_preference
@@ -175,7 +176,7 @@ def dispatch_calculation[PayloadT: ContractModel](
             DiagnosticRecord(
                 severity="info",
                 code="normalized_input_provenance",
-                message="Calculation inputs were explicitly prepared from a normalized bundle.",
+                message="A normalized input digest was declared; its binding to calculation inputs is not verified here.",
             ),
         )
     if fallback_used:
@@ -215,6 +216,7 @@ def dispatch_calculation[PayloadT: ContractModel](
             input_artifact_ids=effective_spec.input_artifact_ids,
             details={
                 "backend_fallback": fallback_used,
+                "calculation_input_digest": calculation_input_digest,
                 "binding_profile_digest": effective_spec.binding_profile_digest,
                 "kernel_id": kernel.kernel_id,
                 "kernel_version": kernel.kernel_version,

@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: Apache-2.0
+# Keep core/library and dated Polars build compilers distinct.
+concretizer:
+  duplicates:
+    strategy: minimal
+    max_dupes:
+      rust: 2
+      rust-bootstrap: 2

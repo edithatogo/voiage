@@ -1,0 +1,145 @@
+{
+  "peak_rss_kib": 1767952,
+  "reason": "completed",
+  "returncode": 1,
+  "disk": {
+    "sampling_interval_seconds": 2,
+    "filesystems": [
+      {
+        "device": 16777241,
+        "paths": [
+          "/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-capacity-conductor-20261028/.conductor/local/capacity/full-gate",
+          "/Volumes/PortableSSD/GitHub/.codex-worktrees"
+        ],
+        "samples": 503,
+        "start_free_bytes": 177672101888,
+        "min_free_bytes": 175224004608,
+        "total_bytes": 999995129856,
+        "end_free_bytes": 175233150976
+      }
+    ],
+    "artifacts_before": [
+      {
+        "path": "/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-capacity-conductor-20261028/.tox",
+        "status": "absent"
+      },
+      {
+        "path": "/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-capacity-conductor-20261028/rust/target",
+        "status": "measured",
+        "regular_file_bytes": 153215610,
+        "allocated_bytes": 154828800,
+        "symlinks_skipped": 0,
+        "cross_device_skipped": 0
+      },
+      {
+        "path": "/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-capacity-conductor-20261028/.cache/uv",
+        "status": "measured",
+        "regular_file_bytes": 1384226707,
+        "allocated_bytes": 1511878656,
+        "symlinks_skipped": 189,
+        "cross_device_skipped": 0
+      },
+      {
+        "path": "/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-capacity-conductor-20261028/docs/astro-site/node_modules",
+        "status": "absent"
+      },
+      {
+        "path": "/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-capacity-conductor-20261028/.venv",
+        "status": "measured",
+        "regular_file_bytes": 1351746249,
+        "allocated_bytes": 1474678784,
+        "symlinks_skipped": 3,
+        "cross_device_skipped": 0
+      }
+    ],
+    "artifacts_after": [
+      {
+        "path": "/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-capacity-conductor-20261028/.tox",
+        "status": "measured",
+        "regular_file_bytes": 7824724696,
+        "allocated_bytes": 8306073600,
+        "symlinks_skipped": 48,
+        "cross_device_skipped": 0
+      },
+      {
+        "path": "/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-capacity-conductor-20261028/rust/target",
+        "status": "measured",
+        "regular_file_bytes": 154427788,
+        "allocated_bytes": 156037120,
+        "symlinks_skipped": 0,
+        "cross_device_skipped": 0
+      },
+      {
+        "path": "/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-capacity-conductor-20261028/.cache/uv",
+        "status": "measured",
+        "regular_file_bytes": 1545044318,
+        "allocated_bytes": 1685094400,
+        "symlinks_skipped": 212,
+        "cross_device_skipped": 0
+      },
+      {
+        "path": "/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-capacity-conductor-20261028/docs/astro-site/node_modules",
+        "status": "measured",
+        "regular_file_bytes": 253668916,
+        "allocated_bytes": 299069440,
+        "symlinks_skipped": 1542,
+        "cross_device_skipped": 0
+      },
+      {
+        "path": "/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-capacity-conductor-20261028/.venv",
+        "status": "measured",
+        "regular_file_bytes": 1354393461,
+        "allocated_bytes": 1477894144,
+        "symlinks_skipped": 3,
+        "cross_device_skipped": 0
+      }
+    ],
+    "physical_capacity_qualified": false,
+    "limitations": [
+      "Sampled free space can miss short peaks and includes unrelated activity.",
+      "Directory snapshots are not peaks; allocated blocks may be shared.",
+      "VM capacity requires separate guest and host-backing evidence.",
+      "Cache state and additional configuration are operator declarations."
+    ]
+  },
+  "workload": {
+    "id": "full-tox",
+    "cache_state": "mixed",
+    "command": [
+      ".venv/bin/tox",
+      "run-parallel",
+      "-p",
+      "2",
+      "--result-json",
+      ".conductor/local/capacity/full-tox-results.json"
+    ],
+    "python": "3.15.1 (main, Oct 21 2026, 17:39:16) [Clang 23.1.3 ]",
+    "executable": "/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-capacity-conductor-20261028/.venv/bin/python",
+    "source_head": "09f3bc7643330201c5bab0b01feded30c1ffbb35",
+    "source_tree": "140d95066bd6c868fe12753ef282fa832e86f22d",
+    "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "untracked_paths": [],
+    "configuration_sha256": {
+      "uv.lock": "3416ffe175d6171959ea26064f368e48d7129eb9014386c1410f6b05d7ef463c",
+      "pyproject.toml": "285123be46b49099e778ae659619386a262d8bf798b3713eed2f4f72027dddc4",
+      "tox.ini": "e3b7c3ebde97ff621f11827377bb780b7f848b773bb8bd95c118cca5823ce9fb"
+    },
+    "declared_configuration": {
+      "python": "3.15.1",
+      "python_extras": [
+        "dev",
+        "ci"
+      ],
+      "dependency_groups": [
+        "producer-tests"
+      ],
+      "tox_parallel": 2,
+      "coverage_workers": 2,
+      "rust_features": "existing default maturin configuration",
+      "uv_cache": "private .cache/uv, seeded by frozen bootstrap",
+      "scope": "ordinary full-tox; not native HPC qualification"
+    }
+  },
+  "elapsed_seconds": 1093.385,
+  "temporary_directory": "/Volumes/PortableSSD/GitHub/.codex-worktrees/.voiage-verification-t_u2_n_o"
+}

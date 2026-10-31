@@ -51,3 +51,15 @@ Automated agents cannot supply human independence or attest actions not taken.
 Do not send new outreach, submit upstream packaging applications, make new
 authorship/category/license choices, publish another release, or weaken
 protected controls merely to close an issue.
+
+## Capacity acceptance extension — 28 October 2026
+
+B6-CAP1–B6-CAP4 separate ordinary verification, SDK-based native dependency
+builds, compiler-from-source builds and the complete HPC matrix. G04.4 owns
+common disk instrumentation and G04.5 ordinary verification calibration.
+See [capacity plan](./capacity-plan.md) for source-bound evidence, ownership,
+measurement limits and the explicit support-scope decision. Preserve historical
+receipts and qualify source-bound replay and resource controls. No scope reduction or new hard storage
+limit is accepted without the recorded decision and representative measurements.
+B8 requires equivalent numerical, Arrow, linkage and module/isolation behaviour;
+B12 preserves unique work before any exact-target cleanup.

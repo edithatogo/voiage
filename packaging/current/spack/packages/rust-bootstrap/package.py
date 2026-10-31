@@ -26,6 +26,8 @@ class RustBootstrap(Package):
 
     maintainers("alecbcs", "mcmehrtens")
 
+    tags = ["build-tools"]
+
     skip_version_audit = ["platform=windows"]
 
     # List binary rust releases for multiple operating systems and architectures.

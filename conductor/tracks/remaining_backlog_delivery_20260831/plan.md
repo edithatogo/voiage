@@ -28,12 +28,12 @@
     solver/build/installed-module evidence and the required compiler matrix.
     Polars frontend/runtime source declarations were delivered in PR #1214.
     Dated Rust source/bootstrap bindings and stable compiler-role separation
-    are being qualified; Arrow providers, native builds and the full matrix
-    remain open.
+    were accepted in PR #1215 (`e336cd9f`); Arrow providers, native builds
+    and the full matrix remain open.
     Source slices: stable compiler roles `07c556ec`, dated source/bootstrap
     binding `1d9be54d`; upstream licensing retained separately. See the dated
     compiler receipt and review. All 15 local tox environments pass; protected
-    PR delivery is still required.
+    PR #1215 delivery is accepted; this is not native build acceptance.
 - [x] B7: Complete remaining R, governance, identifier and venue preparation;
   retain external acceptance requirements (AC2, AC4).
 - [~] B8: Review all changes, run full tox and relevant language-native checks,
@@ -74,3 +74,30 @@
   import style and all 62 affected tests now pass. Private Spack class loading
   passes on Python 3.15.1. Current-head hosted checks and native build gates
   remain required; this does not complete B6.2.
+
+## Arrow prerequisite source slices
+
+- [~] B6.2-LibCST: Freeze and challenge the Python 3.15 LibCST source, marker,
+  licence and compiler contract; implement the bounded readiness packet, then
+  qualify the actual provider without inferring the full Arrow/native matrix.
+  Source/declaration slice: `227f1583`; 32 affected tests, authenticated source
+  and actual private Spack class load pass. The full integrated Arrow candidate
+  gate remains pending.
+
+## Build capacity follow-up
+
+The [capacity plan](./capacity-plan.md) retains both EasyBuild generations and
+source-built compiler qualification. The integrator has brought the measurement
+guard, budget validator and retained pilot evidence into the local candidate.
+
+- [~] B6-CAP1: Reconcile the accepted support scope and corrected admission
+  requirement with the terminal capacity packet.
+- [~] B6-CAP2: Retain the Polars and Arrow pilot observations; source compiler
+  and full native graph measurements remain pending.
+- [ ] B6-CAP3: Qualify immutable source staging, cleanup and cache reuse on
+  matched inputs without sharing mutable build roots.
+- [ ] B6-CAP4: Publish workload-specific budgets only after representative
+  successful measurements and explicit headroom are established.
+
+B8 consumes capacity receipts alongside behavioural checks; B12 retains
+preservation-backed cleanup ownership. These tasks do not close native acceptance.
