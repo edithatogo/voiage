@@ -387,7 +387,9 @@ def test_parquet_rejects_original_schema_that_cannot_be_recast(tmp_path: Path) -
     stored = pq.read_table(path)
     metadata = dict(stored.schema.metadata or {})
     metadata[b"voiage.normalized.original_arrow_schema"] = (
-        pa.schema([pa.field("at", pa.timestamp("s", tz="UTC"))]).serialize().to_pybytes()
+        pa.schema([pa.field("at", pa.timestamp("s", tz="UTC"))])
+        .serialize()
+        .to_pybytes()
     )
     pq.write_table(stored.replace_schema_metadata(metadata), path)
     with pytest.raises(ValueError, match="does not match Parquet data"):
