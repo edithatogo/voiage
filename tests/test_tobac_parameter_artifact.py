@@ -321,3 +321,74 @@ def test_parquet_incompatible_original_type_is_rejected(tmp_path: Path) -> None:
     pq.write_table(changed, path)
     with pytest.raises(ValueError, match="does not match Parquet data"):
         NormalizedInputBundle.read_parquet(path)
+
+
+def test_parquet_type_compatibility_accepts_lossless_normalizations() -> None:
+    """Dictionary and narrow/wide originals stay compatible with Parquet types."""
+    from voiage.contracts.normalized_input import _parquet_type_compatible
+
+    assert _parquet_type_compatible(pa.int64(), pa.int64())
+    assert _parquet_type_compatible(pa.dictionary(pa.int32(), pa.string()), pa.string())
+    assert _parquet_type_compatible(
+        pa.dictionary(pa.int32(), pa.string()),
+        pa.dictionary(pa.int32(), pa.large_string()),
+    )
+    assert _parquet_type_compatible(pa.string(), pa.large_string())
+    assert _parquet_type_compatible(pa.binary(), pa.large_binary())
+    assert _parquet_type_compatible(pa.date32(), pa.date64())
+    assert _parquet_type_compatible(pa.timestamp("s"), pa.timestamp("ns"))
+    assert not _parquet_type_compatible(pa.timestamp("s", tz="UTC"), pa.timestamp("s"))
+    assert not _parquet_type_compatible(pa.int64(), pa.float64())
+    assert not _parquet_type_compatible(pa.string(), pa.int64())
+
+
+def test_parquet_rechunk_skips_empty_source_chunks() -> None:
+    """Recorded boundaries rebuild across zero-length source chunks."""
+    from voiage.contracts.normalized_input import _rechunk
+
+    column = pa.chunked_array(
+        [pa.array([], type=pa.float64()), pa.array([1.0, 2.0], type=pa.float64())]
+    )
+    rebuilt = _rechunk(column, [2])
+    assert [chunk.to_pylist() for chunk in rebuilt] == [[1.0, 2.0]]
+    empty_first = _rechunk(column, [0, 2])
+    assert [len(chunk) for chunk in empty_first] == [0, 2]
+
+
+def test_parquet_rejects_original_schema_that_cannot_be_recast(tmp_path: Path) -> None:
+    """A lossless-looking original schema that cannot be cast still fails closed."""
+    import datetime as dt
+
+    manifest = DatasetManifest(
+        dataset_id="recast-failure",
+        tables=(
+            TableManifest(
+                table_id="events",
+                fields=(FieldManifest(field_id="at", dtype="timestamp"),),
+            ),
+        ),
+        provenance=SourceProvenance(
+            provider_id="synthetic-test",
+            source_uri="file:///redacted/events",
+            descriptor_digest="d" * 64,
+        ),
+    )
+    table = pa.table(
+        {
+            "at": pa.array(
+                [dt.datetime(2026, 1, 1, 0, 0, 0, 123456, tzinfo=dt.timezone.utc)],
+                type=pa.timestamp("ns", tz="UTC"),
+            )
+        }
+    )
+    bundle = NormalizedInputBundle(manifest=manifest, tables={"events": table})
+    path = tmp_path / "recast.parquet"
+    bundle.write_parquet(path)
+    stored = pq.read_table(path)
+    metadata = dict(stored.schema.metadata or {})
+    metadata[b"voiage.normalized.original_arrow_schema"] = (
+        pa.schema([pa.field("at", pa.timestamp("s", tz="UTC"))]).serialize().to_pybytes()
+    )
+    pq.write_table(stored.replace_schema_metadata(metadata), path)
+    with pytest.raises(ValueError, match="does not match Parquet data"):
+        NormalizedInputBundle.read_parquet(path)
