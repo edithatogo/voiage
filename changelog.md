@@ -1,5 +1,8 @@
 # Changelog
 
+- Renew the time-bounded OSV-Scanner exemptions for two Pydantic false
+  positives so dependency scanning and the quality gates stay green.
+
 - Preserve nested Arrow field schemas and multi-chunk column boundaries in
   normalized Parquet round trips.
 
