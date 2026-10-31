@@ -235,7 +235,7 @@ jobs:
           command: build
           docker-options: -e VOIAGE_SOURCE_REVISION -e VOIAGE_SOURCE_TREE_GIT_OID -e VOIAGE_SOURCE_CLEAN -e SOURCE_DATE_EPOCH
           manylinux: "2014"
-          maturin-version: v1.14.1
+          maturin-version: v1.15.0
           rust-toolchain: "1.85"
       - name: Verify wheel tag and native module
         env:
@@ -327,7 +327,7 @@ jobs:
           command: build
           docker-options: -e SOURCE_DATE_EPOCH
           manylinux: "2014"
-          maturin-version: v1.14.1
+          maturin-version: v1.15.0
           rust-toolchain: "1.85"
           working-directory: .sdist-source
       - name: Verify sdist-derived wheel tag
