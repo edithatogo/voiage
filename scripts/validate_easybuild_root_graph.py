@@ -94,7 +94,7 @@ def _assignments(path: Path) -> dict[str, Any]:
             continue
         try:
             value = ast.literal_eval(node.value)
-        except TypeError, ValueError:
+        except (TypeError, ValueError):
             continue
         for target in node.targets:
             if isinstance(target, ast.Name):
@@ -108,7 +108,7 @@ def _repository_file(repository: Path, value: str) -> Path | None:
     try:
         resolved = candidate.resolve(strict=True)
         resolved.relative_to(repository.resolve(strict=True))
-    except FileNotFoundError, RuntimeError, ValueError:
+    except (FileNotFoundError, RuntimeError, ValueError):
         return None
     if candidate.is_symlink() or not resolved.is_file():
         return None
