@@ -158,6 +158,8 @@ def test_ipc_round_trip_preserves_units_and_source_identity(tmp_path: Path) -> N
             b"voiage.normalized.manifest": b"original-manifest",
             b"voiage.normalized.table_id": b"original-table",
             b"voiage.normalized.original_schema_metadata": b"original-envelope",
+            b"voiage.normalized.original_arrow_schema": b"original-schema",
+            b"voiage.normalized.original_column_chunks": b"original-chunks",
             b"binary": b"\x00\xff",
         },
     ],
