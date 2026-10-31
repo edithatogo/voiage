@@ -43,5 +43,5 @@ jobs:
           components: rust-src
       - name: Run real C consumer with sanitizers
         env:
-          VOIAGE_SANITIZER_TOOLCHAIN: nightly-2026-08-23
+          VOIAGE_SANITIZER_TOOLCHAIN: nightly-2026-10-17
         run: bash scripts/run_ffi_sanitizers.sh

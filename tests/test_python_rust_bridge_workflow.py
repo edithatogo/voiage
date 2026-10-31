@@ -148,7 +148,7 @@ def test_bridge_platform_matrix_validates_actual_wheel_suffix() -> None:
     )
     assert linux_build["if"] == "runner.os == 'Linux'"
     assert linux_build["with"]["manylinux"] == "2014"
-    assert linux_build["with"]["maturin-version"] == "v1.14.1"
+    assert linux_build["with"]["maturin-version"] == "v1.15.0"
     inspect = next(
         step
         for step in platform_job["steps"]
