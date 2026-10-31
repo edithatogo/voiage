@@ -25,7 +25,7 @@
     "voiage/logging.py": "06ea144518de66ac1af70c0be1699304aa7e07e14285e950ae4fda9feff246c8",
     "tests/test_logging_contract.py": "522ec1feb555e6c700c893fac00227973b49491b61c3d73f8293e494d5160ea1",
     "rust/crates/voiage-diagnostics/Cargo.toml": "281f113765eda9986950620028501188ed59f6bd3a6fe5a71aa368386d2a87fb",
-    "rust/crates/voiage-python/Cargo.toml": "f5ae455c110cfa063bc44d40912a6aa28154a268580a7b87ced0f10b0ada69da"
+    "rust/crates/voiage-python/Cargo.toml": "3bec8aeec6c8d1b6fb8e38ec4339bca2e25d1262bda361aa191361ff518f1805"
   },
   "reserved_implementation_files": [
     "rust/crates/voiage-diagnostics/src/telemetry.rs",

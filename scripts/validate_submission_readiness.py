@@ -106,7 +106,7 @@ R_DISTRIBUTION_OBJECTS = {
 }
 # Only the optional Python minimum changed in this exact R source tree.
 # This is pending requalification, never inherited distribution acceptance.
-R_PY315_PENDING_TREE = "42276fc485cadec603ee0dd1ad19192cae32f34a"
+R_PY315_PENDING_TREE = "032d22d1e89c2195a5eb309370fe84aa2a88742e"
 R_MANUAL_RECEIPT = {
     "path": "conductor/tracks/remaining_backlog_delivery_20260831/r-manual-check-20260901.json",
     "sha256": "520af27e4d3463d9e9404c06e64e86d5a38a9db66bb3cb77e8338ac014fdf3a7",
