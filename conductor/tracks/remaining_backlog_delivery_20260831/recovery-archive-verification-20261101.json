@@ -1,0 +1,103 @@
+{
+  "receipt_version": 1,
+  "observed_at": "2026-11-01T02:56:20Z",
+  "purpose": "Record that the out-of-tree recovery and qualification archives were verified intact, that neither is a git repository, and that no ref inside them carries unmerged work. This answers, durably, whether those directories can be merged or deleted.",
+  "archives": [
+    {
+      "root": "/Volumes/PortableSSD/GitHub/voiage-recovery",
+      "role": "Retired-ref recovery bundles and prune receipts from the 2026-08-31 to 2026-09-05 cleanup waves, plus the 2026-10-28 prune transaction.",
+      "is_git_repository": false,
+      "git_metadata_present": "20261028/.git holds only modules/ (28 MiB submodule store); `git rev-parse` fails at the root",
+      "mergeable": false,
+      "disposition": "retained as evidence; never merged because it holds retired rollback points rather than pending work"
+    },
+    {
+      "root": "/Volumes/PortableSSD/voiage-qualification-20261029-main",
+      "role": "Working output of the 2026-10-29 tobac consumer qualification run (guards, consumer venv, wheel, probes).",
+      "is_git_repository": false,
+      "git_metadata_present": "none at any depth",
+      "mergeable": false,
+      "disposition": "retained; its receipts are already committed byte-identically under conductor/tracks/tobac_consumer_qualification_20261025/evidence/installed-20261029/"
+    }
+  ],
+  "bundles": [
+    {
+      "relative_path": "20260831-goal-cleanup/voiage-complete.bundle",
+      "bytes": 13393413,
+      "sha256": "76b2cc764808719ff32b9697d40aa6c3c51122028e860312bcc246d3aade730d",
+      "bundle_verify": "passed",
+      "ref_count": 379
+    },
+    {
+      "relative_path": "20260901-delivery-cleanup/repository.bundle",
+      "bytes": 12264347,
+      "sha256": "fa55cbb811ef0ce98d6cc12de000bf7f0e12a8cd8f58c359081afe8ac33e3f00",
+      "bundle_verify": "passed",
+      "ref_count": 158
+    },
+    {
+      "relative_path": "20260901-integrated-wave2/repository.bundle",
+      "bytes": 12520112,
+      "sha256": "c2fd7585447ef05e0aaba6d311cd45f59f0e14508e1e4d861e3f023030f3b349",
+      "bundle_verify": "passed",
+      "ref_count": 172
+    },
+    {
+      "relative_path": "20260901-integrated-wave3/repository.bundle",
+      "bytes": 12525627,
+      "sha256": "2a473dce151cdb62aa8f80cc2d7a1a2b0db450856697972a166e5bd53f8cb51e",
+      "bundle_verify": "passed",
+      "ref_count": 173
+    },
+    {
+      "relative_path": "20260903-final-cleanup/easybuild-2024a-arrow-integration-18e076b4.bundle",
+      "bytes": 11544577,
+      "sha256": "5f5beb6f9926792fb1424c933e6bdb5908034c7f7c86f25c587af2f64a9c5196",
+      "bundle_verify": "passed",
+      "ref_count": 1
+    }
+  ],
+  "restore_verification": {
+    "relative_path": "20260903-final-cleanup/restore-verification.txt",
+    "sha256": "606f9df8d29313b4f25ee6daef9f2a560104545ec680b8da0bc764ad85e247a0",
+    "restored_commit": "18e076b4c00bf0f9bc5664de4ff12040088db65d",
+    "restored_tree": "e49a881b6aa2e9f27343f2cbfc63ea0cc72e52ba",
+    "recorded_fsck": "passed"
+  },
+  "ref_census": {
+    "bundle_count": 5,
+    "unique_ref_names": 447,
+    "unique_ref_sha_pairs": 479,
+    "pairs_reachable_from_main": 35,
+    "pairs_not_reachable_from_main": 433,
+    "pairs_whose_object_is_absent_from_the_clone": 11,
+    "interpretation": "The 433 non-reachable pairs are retired rollback points (refs/recovery/*, refs/backup/*, refs/cline/* checkpoints, refs/stash/*) plus superseded remote-tracking and audit refs. Reachability alone cannot classify them because this repository is squash-merged; content comparison was used for the one ref that looked like pending work."
+  },
+  "superseded_ref": {
+    "ref": "refs/codex/recovery/20260903-final-cleanup/easybuild-2024a-arrow-integration-18e076b4",
+    "commit": "18e076b4c00bf0f9bc5664de4ff12040088db65d",
+    "subject": "fix(hpc): integrate EasyBuild Arrow provider",
+    "authored": "2026-09-02",
+    "verdict": "superseded, no merge required",
+    "evidence": "git diff voiage/main 18e076b4 -- packaging/easybuild-overlay tests/test_easybuild_overlay.py reports 4 files changed, 11 insertions(+), 156 deletions(-) in the direction main -> ref, so main already contains that work and more; packaging/easybuild-2024a-arrow-overlay/ exists on main and providers.json maps pyarrow to it."
+  },
+  "qualification_receipts": {
+    "compared_against": "conductor/tracks/tobac_consumer_qualification_20261025/evidence/installed-20261029/",
+    "byte_identical": [
+      "consumer-receipt.json",
+      "identity-receipt.json"
+    ],
+    "note": "Evidence was already merged; the qualification directory is rebuildable working output, not a pending change."
+  },
+  "limits": [
+    "Both archives live outside git on a single external volume, so they are not backed up by repository history. The bundles are the only copy of 447 retired refs.",
+    "Repository tests that exercise the closeout validator build their own fixtures, so these absolute paths are historical provenance rather than a live gate.",
+    "This receipt records verification at one instant; re-run the reproduction commands to re-establish it."
+  ],
+  "reproduction": [
+    "git bundle list-heads <bundle>",
+    "git bundle verify <bundle>",
+    "shasum -a 256 <bundle>",
+    "git diff --stat voiage/main 18e076b4 -- packaging/easybuild-overlay tests/test_easybuild_overlay.py"
+  ]
+}

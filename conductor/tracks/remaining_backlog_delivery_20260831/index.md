@@ -15,6 +15,7 @@
 - [Observed Codecov delivery](./codecov-observation-20260831.json)
 - [Full R check with manuals](./r-manual-check-20260901.json)
 - [Current R check receipt](./r-strict-check-20260831.json)
+- [Recovery archive verification](./recovery-archive-verification-20261101.json)
 - [GitHub issue #1053](https://github.com/edithatogo/voiage/issues/1053)
 - [Related roadmap #296](https://github.com/edithatogo/voiage/issues/296)
 
