@@ -5,5 +5,5 @@
   "reason": "Python 3.15.1 cross-language conformance requires fresh hosted qualification.",
   "current_workflow_qualified": false,
   "new_hosted_execution_claimed": false,
-  "unqualified_r_source_tree": "42276fc485cadec603ee0dd1ad19192cae32f34a"
+  "unqualified_r_source_tree": "9fa7a7cecb15c29fc52a012a39951b8ba3e591c0"
 }
