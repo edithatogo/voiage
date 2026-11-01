@@ -25,9 +25,13 @@ on:
       - "v*"
   workflow_dispatch:
     inputs:
+      authentication_only:
+        description: "Verify TestPyPI and PyPI authentication without staging or publishing"
+        type: boolean
+        default: false
       release_tag:
         description: "Existing signed release tag to stage or publish"
-        required: true
+        required: false
         type: string
       publish:
         description: "Publish the verified private draft to TestPyPI, PyPI, and GitHub"
@@ -49,11 +53,42 @@ env:
   VOIAGE_PYTHON_ABI: cp315-abi3
 
 concurrency:
-  group: release-${{ inputs.release_tag || github.ref_name }}
+  group: release-${{ inputs.authentication_only && github.run_id || inputs.release_tag || github.ref_name }}
   cancel-in-progress: false
 
 jobs:
+  authenticate:
+    name: Verify token issuance (${{ matrix.environment }})
+    if: github.event_name == 'workflow_dispatch' && inputs.authentication_only
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - environment: testpypi
+            index: https://test.pypi.org
+          - environment: pypi
+            index: https://pypi.org
+    environment: ${{ matrix.environment }}
+    permissions:
+      id-token: write
+    steps:
+      - name: Exchange GitHub identity for a short-lived index token
+        env:
+          INDEX: ${{ matrix.index }}
+          AUDIENCE: ${{ matrix.environment }}
+        run: |
+          set -euo pipefail
+          curl --silent --show-error --fail \
+            -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=$AUDIENCE" |
+            jq -ec '{token: (.value | select(type == "string" and length > 0))}' |
+            curl --silent --show-error --fail -H 'Content-Type: application/json' \
+              --data-binary @- "$INDEX/_/oidc/mint-token" |
+            jq -e '.success == true and (.token | startswith("pypi-"))' > /dev/null
+
   resolve-tag:
+    if: ${{ !inputs.authentication_only }}
     name: Resolve immutable release tag
     runs-on: ubuntu-24.04
     timeout-minutes: 10
