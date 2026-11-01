@@ -581,6 +581,7 @@ class NetBenefitTensor:
             attrs={
                 **self.attrs,
                 "weighted_perspectives": {
+                    **self.attrs.get("weighted_perspectives", {}),
                     name: {"weights": dict(weights), "normalize": normalize}
                 },
             },

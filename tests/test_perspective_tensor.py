@@ -329,3 +329,14 @@ def test_switch_point_exposes_legacy_names_and_exact_weight():
     assert switch.from_strategy == "a|b"
     assert switch.to_strategy == "c"
     assert switch.lower_right_weight == switch.upper_right_weight == switch.right_weight
+
+
+def test_chained_weighted_perspectives_keep_their_provenance():
+    original = NetBenefitTensor(np.ones((1, 1, 1)), ("a",), ("p",))
+    first = original.with_weighted_perspective("one", {"p": 1})
+    second = first.with_weighted_perspective("two", {"one": 2})
+    assert second.attrs["weighted_perspectives"] == {
+        "one": {"weights": {"p": 1}, "normalize": True},
+        "two": {"weights": {"one": 2}, "normalize": True},
+    }
+    assert set(first.attrs["weighted_perspectives"]) == {"one"}
