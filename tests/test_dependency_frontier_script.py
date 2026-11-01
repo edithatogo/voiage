@@ -67,11 +67,12 @@ def test_rust_feature_matrix_names_default_optional_and_all_feature_lanes() -> N
         row for row in report["packages"] if row["package"] == "voiage-diagnostics"
     )
     assert report["workspace_rust_version"] == "1.85"
-    assert diagnostics["features"] == ["otel"]
+    assert diagnostics["features"] == ["otel", "otel-http"]
     assert diagnostics["lanes"] == [
         "default",
         "no-default-features",
         "feature:otel",
+        "feature:otel-http",
         "all-features",
     ]
 
