@@ -125,6 +125,32 @@ def test_governed_python_upgrades_require_separate_qualification() -> None:
     assert rule["automerge"] is False
 
 
+def test_renovate_holds_sha2_at_the_workspace_msrv_ceiling() -> None:
+    config = json.loads((ROOT / "renovate.json").read_text())
+    rule = next(
+        rule
+        for rule in config["packageRules"]
+        if rule.get("matchPackageNames") == ["sha2"]
+    )
+    assert rule["matchManagers"] == ["cargo"]
+    assert rule["allowedVersions"] == "<=0.11.0"
+    # sha2 0.11.1 raises the toolchain floor to rustc 1.88, above the 1.85 MSRV.
+    msrv = re.search(
+        r'^rust-version\s*=\s*"([0-9.]+)"',
+        (ROOT / "rust" / "Cargo.toml").read_text(),
+        re.MULTILINE,
+    )
+    assert msrv is not None
+    assert msrv.group(1) == "1.85"
+    lock = (ROOT / "rust" / "Cargo.lock").read_text()
+    locked = re.search(
+        r'name = "sha2"\r?\nversion = "([0-9.]+)"',
+        lock,
+    )
+    assert locked is not None
+    assert locked.group(1) == "0.11.0"
+
+
 def test_release_automation_policy_has_distinct_fail_closed_states() -> None:
     policy = json.loads(
         (
