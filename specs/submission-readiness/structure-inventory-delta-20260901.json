@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "observed_on": "2026-10-27",
+  "observed_on": "2026-11-01",
   "artifact_kind": "current_python_structure_inventory_delta",
   "historical_audit": {
     "path": "specs/submission-readiness/structure-api-abi-audit-20260829.json",
@@ -204,10 +204,12 @@
     "voiage/_contract_root.py",
     "voiage/_tabular_io.py",
     "voiage/contracts/capability_report.py",
+    "voiage/methods/perspective_diagnostics.py",
+    "voiage/methods/perspective_tensor.py",
     "voiage/sampling_harm_agent_assurance.py"
   ],
   "removals": [],
-  "current_python_runtime_modules": 180,
+  "current_python_runtime_modules": 182,
   "classification": "Explicit per-module dispositions; no numerical execution authority added.",
   "scope": "Python module membership only; no new API, ABI, scientific, release or publication audit is claimed.",
   "t12_addition": {
@@ -219,6 +221,8 @@
     "voiage/_contract_root.py": "contracts: private packaged-contract location helper",
     "voiage/_tabular_io.py": "optional_extension: private Polars I/O compatibility adapter",
     "voiage/contracts/capability_report.py": "assurance: verification support only",
-    "voiage/sampling_harm_agent_assurance.py": "assurance: verification support only"
+    "voiage/sampling_harm_agent_assurance.py": "assurance: verification support only",
+    "voiage/methods/perspective_diagnostics.py": "experimental: perspective Monte Carlo diagnostics",
+    "voiage/methods/perspective_tensor.py": "experimental: labelled net benefit tensors and frontiers"
   }
 }
