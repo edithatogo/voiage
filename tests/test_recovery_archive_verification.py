@@ -47,10 +47,14 @@ def test_every_bundle_digest_and_verification_is_recorded() -> None:
 def test_easybuild_recovery_digest_matches_the_closeout_contract() -> None:
     receipt = _receipt()
     easybuild = next(
-        bundle
-        for bundle in receipt["bundles"]
-        if bundle["relative_path"].endswith("18e076b4.bundle")
+        (
+            bundle
+            for bundle in receipt["bundles"]
+            if bundle["relative_path"].endswith("18e076b4.bundle")
+        ),
+        None,
     )
+    assert easybuild is not None, "easybuild bundle '18e076b4.bundle' absent"
     assert (
         easybuild["sha256"]
         == "5f5beb6f9926792fb1424c933e6bdb5908034c7f7c86f25c587af2f64a9c5196"
