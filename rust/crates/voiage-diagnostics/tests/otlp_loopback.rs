@@ -28,6 +28,7 @@ fn collector_receives_parent_child_and_operation_attribute() {
                 Err(error) => panic!("{error}"),
             }
         };
+        stream.set_nonblocking(false).unwrap();
         stream
             .set_read_timeout(Some(Duration::from_secs(2)))
             .unwrap();
