@@ -1,5 +1,8 @@
 # Changelog
 
+- Add opt-in, application-owned OTLP/HTTP trace export to a loopback collector
+  in the Rust diagnostics crate. The default build remains exporter-free.
+
 - Hold `sha2` at 0.11.0 in dependency automation so the Rust workspace keeps
   its 1.85 MSRV; the 0.11.1 release requires rustc 1.88.
 

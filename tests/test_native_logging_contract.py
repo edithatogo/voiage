@@ -1,6 +1,7 @@
 """Contract checks for optional native structured diagnostics."""
 
 from pathlib import Path
+import tomllib
 
 
 def test_native_telemetry_is_application_owned_and_optional() -> None:
@@ -14,7 +15,13 @@ def test_native_telemetry_is_application_owned_and_optional() -> None:
     assert "opentelemetry = " in cargo
     assert "opentelemetry_sdk = " in cargo
     assert cargo.count("optional = true") >= 2
-    assert "tokio" not in cargo
+    manifest = tomllib.loads(cargo)
+    assert "tokio" not in manifest["dependencies"]
+    assert "tokio" in manifest["dev-dependencies"]
+    assert manifest["features"]["default"] == []
+    for transport in ("reqwest", "opentelemetry-otlp"):
+        assert manifest["dependencies"][transport]["optional"] is True
+        assert f"dep:{transport}" in manifest["features"]["otel-http"]
     assert "global_default" not in source
     assert "voiage.diagnostic" in source
 
