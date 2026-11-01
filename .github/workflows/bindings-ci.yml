@@ -220,7 +220,7 @@ jobs:
         with:
           python-version: "3.15.1"
       - uses: r-lib/actions/setup-r@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
-      - uses: r-lib/actions/setup-r-dependencies@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
+      - uses: r-lib/actions/setup-r-dependencies@2a66450eb7b5bf0ee8fcdbcd70af690b43cb1b99
         with:
           extra-packages: any::rcmdcheck
           working-directory: r-package/voiageR
@@ -275,7 +275,7 @@ jobs:
             r-package/voiageR/src/rust/target
           key: r-native-rust-${{ runner.os }}-${{ runner.arch }}-${{ matrix.rust_target }}-${{ hashFiles('r-package/voiageR/src/rust/Cargo.lock') }}
       - uses: r-lib/actions/setup-r@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
-      - uses: r-lib/actions/setup-r-dependencies@d3c5be51b12e724e68f33216ca3c148b66d5f0b6
+      - uses: r-lib/actions/setup-r-dependencies@2a66450eb7b5bf0ee8fcdbcd70af690b43cb1b99
         with:
           extra-packages: any::testthat any::reticulate
           working-directory: r-package/voiageR

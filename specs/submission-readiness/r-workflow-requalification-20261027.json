@@ -1,6 +1,6 @@
 {
   "state": "hosted_pending",
-  "workflow_sha256": "501adcbe7470bf592117e595cc9e009ce39918ea154cfe59aa3475e334db0f03",
+  "workflow_sha256": "ad3cfbeb8ed7c455ac6d6181adc8d598872d7011e3fa829e9265e4252c53ce46",
   "historical_receipt": "specs/submission-readiness/r-distribution-evidence-20260902.json",
   "reason": "Python 3.15.1 cross-language conformance requires fresh hosted qualification.",
   "current_workflow_qualified": false,
