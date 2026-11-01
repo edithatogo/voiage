@@ -1,11 +1,11 @@
 # Implementation plan: Optional native telemetry qualification
 
-All tasks are pending. Use [START_HERE.md](./START_HERE.md) and the exact phase commands/file reservations in [implementation-packet.json](./implementation-packet.json). Prerequisites: vop_logging_version_pilot_20260907. Follow the [orchestration plan](../agent_safe_engineering_20260907/orchestration.md).
+The [need assessment](./need-assessment-20261029.md) records the AC1 deferral accepted in PR #1238. Phases 2–5 await a named consumer use case and measurable acceptance budget. Use [START_HERE.md](./START_HERE.md) and the exact phase commands/file reservations in [implementation-packet.json](./implementation-packet.json). Prerequisites: vop_logging_version_pilot_20260907. Follow the [orchestration plan](../agent_safe_engineering_20260907/orchestration.md).
 
 ## Phase 1: Need
 
 - [ ] T1.1 — Freeze exact input hashes, at most five implementation paths, expected red/green result and command for AC1; split if scope exceeds one behavioral change.
-- [ ] T1.2 — Use pilot measurements to select one concrete telemetry use case and acceptance budget; record defer if no need is demonstrated. (AC1).
+- [x] T1.2 — Use pilot measurements to select one concrete telemetry use case and acceptance budget; record defer if no need is demonstrated. (AC1).
 - [ ] T1.3 — Validate: No exporter or dashboard is added solely for novelty; deferral is explicit and not feature completion. Record source, environment, command, exit status, test count and artifact digest; review diff and stop on unresolved failure (AC1).
 
 ## Phase 2: Qualify
