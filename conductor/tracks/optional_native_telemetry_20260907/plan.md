@@ -1,6 +1,6 @@
 # Implementation plan: Optional native telemetry qualification
 
-The [need assessment](./need-assessment-20261029.md) records the AC1 deferral accepted in PR #1238. Phases 2–5 await a named consumer use case and measurable acceptance budget. Use [START_HERE.md](./START_HERE.md) and the exact phase commands/file reservations in [implementation-packet.json](./implementation-packet.json). Prerequisites: vop_logging_version_pilot_20260907. Follow the [orchestration plan](../agent_safe_engineering_20260907/orchestration.md).
+The [need assessment](./need-assessment-20261029.md) records the AC1 deferral accepted in PR #1238. On 1 November the maintainer requested the capability itself. Local OTLP/HTTP qualification proceeds independently of the historical VOP assessment. Use [START_HERE.md](./START_HERE.md) and the exact phase commands/file reservations in [implementation-packet.json](./implementation-packet.json). Prerequisites: vop_logging_version_pilot_20260907. Follow the [orchestration plan](../agent_safe_engineering_20260907/orchestration.md).
 
 ## Phase 1: Need
 

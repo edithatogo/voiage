@@ -9,6 +9,8 @@ mod contracts;
 mod domain_mapping;
 #[cfg(feature = "otel")]
 pub mod otel_export;
+#[cfg(feature = "otel-http")]
+pub mod otlp_http;
 pub mod telemetry;
 
 pub use checkpoint::{

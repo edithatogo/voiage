@@ -1,5 +1,6 @@
 [features]
 default = []
+otel-http = ["otel", "dep:opentelemetry-otlp", "dep:reqwest"]
 otel = ["dep:opentelemetry", "dep:opentelemetry_sdk"]
 
 [package]
@@ -15,6 +16,8 @@ keywords = ["value-of-information", "diagnostics", "decision-analysis"]
 categories = ["science"]
 
 [dependencies]
+opentelemetry-otlp = { version = "=0.32.0", default-features = false, features = ["trace", "http-json", "reqwest-blocking-client"], optional = true }
+reqwest = { version = "0.13", default-features = false, features = ["blocking"], optional = true }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 sha2 = "0.11"
