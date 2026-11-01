@@ -132,6 +132,7 @@ def test_renovate_holds_sha2_at_the_workspace_msrv_ceiling() -> None:
         for rule in config["packageRules"]
         if rule.get("matchPackageNames") == ["sha2"]
     )
+    assert rule["matchManagers"] == ["cargo"]
     assert rule["allowedVersions"] == "<=0.11.0"
     # sha2 0.11.1 raises the toolchain floor to rustc 1.88, above the 1.85 MSRV.
     msrv = re.search(
@@ -143,7 +144,7 @@ def test_renovate_holds_sha2_at_the_workspace_msrv_ceiling() -> None:
     assert msrv.group(1) == "1.85"
     lock = (ROOT / "rust" / "Cargo.lock").read_text()
     locked = re.search(
-        r'name = "sha2"\nversion = "([0-9.]+)"',
+        r'name = "sha2"\r?\nversion = "([0-9.]+)"',
         lock,
     )
     assert locked is not None
