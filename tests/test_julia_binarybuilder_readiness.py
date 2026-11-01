@@ -87,8 +87,8 @@ def test_current_release_candidate_preserves_historical_build_evidence() -> None
     )
     project = tomllib.loads((ROOT / "bindings/julia/Project.toml").read_text())
     workspace = tomllib.loads((ROOT / "rust/Cargo.toml").read_text())
-    assert receipt["version"] == project["version"] == "2.2.0"
-    assert receipt["version"] == workspace["workspace"]["package"]["version"]
+    assert receipt["version"] == "2.2.0"
+    assert project["version"] == workspace["workspace"]["package"]["version"]
     assert receipt["source_commit"] == "7af563c8cb373057d30662650b3f332f39e05b83"
     historical = receipt["historical_recipe"]
     candidate = (ROOT / receipt["recipe"]["path"]).read_bytes()

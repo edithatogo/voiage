@@ -21,7 +21,7 @@
     "conductor/tracks/agent_safe_engineering_20260907/repository-boundaries.md"
   ],
   "input_sha256": {
-    "rust/Cargo.toml": "91c0037f1361b837afc5c45c1e1d6edec1f51b094ee2739cc963895e930c7c36",
+    "rust/Cargo.toml": "52034edaef22b692f9322ec3acf71e0ddcd131d45c42373773060ae402b1a585",
     "rust/crates/voiage-diagnostics/Cargo.toml": "0ab19e9b695fdea3157cd63e7230f6afc02a0f9c26600138a891b7692d21d43d",
     "tests/test_dependency_promotion_policy.py": "d509a55fd836a8c09d468563d33bc41628d0ba6d97a29d3c3c3fa4ce4f84e2cc",
     "rust/crates/voiage-diagnostics/src/lib.rs": "73cd8218863416bdc314b0ee255524a8d3439a5b6c55fa733172d5a5acf16dd9",

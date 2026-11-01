@@ -27,7 +27,8 @@ fi
   git diff --cached --quiet -- r-package/voiageR
 )
 
-source_archive="$work_dir/voiageR_2.2.0.tar.gz"
+package_version=$(sed -n 's/^Version: //p' "$repo_root/r-package/voiageR/DESCRIPTION")
+source_archive="$work_dir/voiageR_${package_version}.tar.gz"
 pkgcheck_repo="$work_dir/voiageR-repository"
 (
   cd "$work_dir"
