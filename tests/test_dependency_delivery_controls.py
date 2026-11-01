@@ -139,13 +139,15 @@ def test_renovate_holds_sha2_at_the_workspace_msrv_ceiling() -> None:
         (ROOT / "rust" / "Cargo.toml").read_text(),
         re.MULTILINE,
     )
-    assert msrv is not None and msrv.group(1) == "1.85"
+    assert msrv is not None
+    assert msrv.group(1) == "1.85"
     lock = (ROOT / "rust" / "Cargo.lock").read_text()
     locked = re.search(
         r'name = "sha2"\nversion = "([0-9.]+)"',
         lock,
     )
-    assert locked is not None and locked.group(1) == "0.11.0"
+    assert locked is not None
+    assert locked.group(1) == "0.11.0"
 
 
 def test_release_automation_policy_has_distinct_fail_closed_states() -> None:
