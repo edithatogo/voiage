@@ -1247,7 +1247,7 @@ checksum = "3a3b425286980a367278453f3b6d28cdcb134b574e5a35824a6ff5eebad50bb6"
 
 [[package]]
 name = "voiage-diagnostics"
-version = "3.0.0"
+version = "3.1.0"
 dependencies = [
  "opentelemetry",
  "opentelemetry-otlp",
@@ -1263,7 +1263,7 @@ dependencies = [
 
 [[package]]
 name = "voiage-domain"
-version = "3.0.0"
+version = "3.1.0"
 dependencies = [
  "proptest",
  "serde",
@@ -1272,7 +1272,7 @@ dependencies = [
 
 [[package]]
 name = "voiage-ffi"
-version = "3.0.0"
+version = "3.1.0"
 dependencies = [
  "voiage-diagnostics",
  "voiage-domain",
@@ -1282,7 +1282,7 @@ dependencies = [
 
 [[package]]
 name = "voiage-numerics"
-version = "3.0.0"
+version = "3.1.0"
 dependencies = [
  "proptest",
  "serde_json",
@@ -1293,7 +1293,7 @@ dependencies = [
 
 [[package]]
 name = "voiage-python"
-version = "3.0.0"
+version = "3.1.0"
 dependencies = [
  "pyo3",
  "serde",
@@ -1308,7 +1308,7 @@ dependencies = [
 
 [[package]]
 name = "voiage-serialization"
-version = "3.0.0"
+version = "3.1.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -1318,7 +1318,7 @@ dependencies = [
 
 [[package]]
 name = "voiage-test-support"
-version = "3.0.0"
+version = "3.1.0"
 dependencies = [
  "serde",
  "serde_json",
