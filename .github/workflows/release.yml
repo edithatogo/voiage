@@ -116,7 +116,7 @@ jobs:
       - name: Install Rust 1.85
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
-          toolchain: "1.85"
+          toolchain: "1.99.1"
       - name: Install locked validation tooling
         run: uv sync --locked --extra ci --group producer-tests
       - name: Fail closed on release version
@@ -221,7 +221,7 @@ jobs:
       - name: Install Rust 1.85
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
-          toolchain: "1.85"
+          toolchain: "1.99.1"
       - name: Install locked release tooling
         run: uv sync --locked --extra ci --group producer-tests
       - name: Build native abi3 wheel
@@ -236,7 +236,7 @@ jobs:
           docker-options: -e VOIAGE_SOURCE_REVISION -e VOIAGE_SOURCE_TREE_GIT_OID -e VOIAGE_SOURCE_CLEAN -e SOURCE_DATE_EPOCH
           manylinux: "2014"
           maturin-version: v1.15.0
-          rust-toolchain: "1.85"
+          rust-toolchain: "1.99.1"
       - name: Verify wheel tag and native module
         env:
           WHEEL_PLATFORM: ${{ matrix.platform }}
@@ -306,7 +306,7 @@ jobs:
       - name: Install Rust 1.85
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
-          toolchain: "1.85"
+          toolchain: "1.99.1"
       - name: Install locked release tooling
         run: uv sync --locked --extra ci --group producer-tests
       - name: Build source distribution
@@ -328,7 +328,7 @@ jobs:
           docker-options: -e SOURCE_DATE_EPOCH
           manylinux: "2014"
           maturin-version: v1.15.0
-          rust-toolchain: "1.85"
+          rust-toolchain: "1.99.1"
           working-directory: .sdist-source
       - name: Verify sdist-derived wheel tag
         run: python -c "import os; from pathlib import Path; wheel=next(Path('.sdist-wheel').glob('*.whl')); assert os.environ['VOIAGE_PYTHON_ABI'] in wheel.name, wheel; assert wheel.stem.rsplit('-', 1)[-1].endswith('manylinux_2_17_x86_64.manylinux2014_x86_64'), wheel"
