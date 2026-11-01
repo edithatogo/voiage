@@ -238,7 +238,7 @@ def _tie_mask(values: NDArray[np.float64], *, atol: float) -> NDArray[np.bool_]:
     return np.isclose(values, maxima, rtol=0.0, atol=atol)
 
 
-def _dense_descending_ranks(
+def _competition_ranks(
     values: NDArray[np.float64], *, atol: float
 ) -> NDArray[np.int64]:
     order = np.argsort(-values, kind="stable")
@@ -523,7 +523,7 @@ class NetBenefitTensor:
                     mask / np.sum(mask, axis=1, keepdims=True), axis=0
                 )
             expected = np.mean(nmb, axis=0)
-            ranks = _dense_descending_ranks(expected, atol=atol)
+            ranks = _competition_ranks(expected, atol=atol)
             for index, strategy in enumerate(self.strategies):
                 rows.append(
                     PerspectiveAcceptabilityRow(

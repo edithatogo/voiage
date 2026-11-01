@@ -340,3 +340,9 @@ def test_chained_weighted_perspectives_keep_their_provenance():
         "two": {"weights": {"one": 2}, "normalize": True},
     }
     assert set(first.attrs["weighted_perspectives"]) == {"one"}
+
+
+def test_tied_expected_benefits_keep_reference_competition_ranks():
+    tensor = NetBenefitTensor(np.array([[[10], [10], [5]]]), ("a", "b", "c"), ("p",))
+    rows = tensor.perspective_acceptability_frontier()
+    assert [row.expected_value_rank for row in rows] == [1, 1, 3]
