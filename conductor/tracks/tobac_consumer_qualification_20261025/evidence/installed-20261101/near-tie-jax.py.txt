@@ -1,0 +1,40 @@
+"""Installed finite-state consumer witness using exact binary fractions."""
+from fractions import Fraction
+from itertools import permutations
+import json
+from pathlib import Path
+
+import jax
+import jax.numpy as jnp
+import numpy as np
+from voiage.main_backends import JaxBackend
+from tobac._core import DecisionProblem
+from tobac.research.voiage_adapter import installed_evpi, partition_problem, uniform_equivalent
+
+jax.config.update("jax_enable_x64", True)
+backend = JaxBackend()
+epsilon = Fraction(1, 2**32)
+weights = (Fraction(1, 4), Fraction(3, 4), Fraction(0))
+payoffs = ((1 + epsilon, 1), (1, 1 + epsilon), (100, -100))
+baseline = max(sum(w * row[a] for w, row in zip(weights, payoffs, strict=True)) for a in range(2))
+expected = sum(w * max(row) for w, row in zip(weights, payoffs, strict=True)) - baseline
+assert expected == epsilon / 4
+comparisons = 0
+for order in permutations(range(3)):
+    for offset in (0, 8):
+        values = np.array([[float(v + offset) for v in payoffs[i]] for i in order])
+        prior = np.array([float(weights[i]) for i in order])
+        problem = DecisionProblem(values, ("a", "b"), "utility", prior)
+        for labels, reference in ((order, expected), ((0, 0, 0), Fraction(0))):
+            grouped = partition_problem(problem, labels)
+            observed = installed_evpi(grouped, expected_version="2.2.0")["value"]
+            assert Fraction.from_float(observed) == reference, (order, offset, labels, observed, reference)
+            array = jnp.asarray(uniform_equivalent(grouped), dtype=jnp.float64)
+            assert array.dtype == jnp.float64
+            accelerated = backend.evpi(array)
+            assert Fraction.from_float(accelerated) == reference
+            comparisons += 1
+Path(__file__).with_name("near-tie-jax.json").write_text(json.dumps({
+    "comparisons_per_backend": comparisons, "jax_version": jax.__version__, "jax_devices": [device.platform for device in jax.devices()], "weighted_evpi": str(expected), "unrevealing_partition_evpi": "0",
+    "state_orders": 6, "common_offsets": [0, 8], "zero_mass_state": True,
+}, indent=2) + "\n")

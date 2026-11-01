@@ -1,0 +1,15 @@
+{
+  "comparisons_per_backend": 24,
+  "jax_version": "0.12.0.1",
+  "jax_devices": [
+    "cpu"
+  ],
+  "weighted_evpi": "1/17179869184",
+  "unrevealing_partition_evpi": "0",
+  "state_orders": 6,
+  "common_offsets": [
+    0,
+    8
+  ],
+  "zero_mass_state": true
+}

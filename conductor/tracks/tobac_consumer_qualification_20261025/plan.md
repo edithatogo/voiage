@@ -1,13 +1,13 @@
 # Implementation plan — tobac consumer qualification
 
 The original planning-only hold was superseded by the user's 29 October
-direction to implement, review and archive this track. All tasks remain open.
+direction to implement, review and archive this track. Current candidate results are in the [November qualification packet](evidence/installed-20261101/README.md).
 [Specification](spec.md). [Repository workflow](../../workflow.md).
 
 ## Phase 1 — Consumer reconciliation
 
 - [ ] Task P1.1: Refresh producer/master revisions, ownership and current contracts.
-- [ ] Task P1.2: Map consumer requirements to existing behavior and evidenced gaps.
+- [x] Task P1.2: Map consumer requirements to existing behavior and evidenced gaps.
 - [ ] Task P1.3: Write failing consumer and independent-oracle tests before changes.
   - [ ] Map master R11.1–R11.5 to existing parameter/model/execution contracts; write round-trip, invalid-input, scenario-isolation, input-mutation and I/O-independent calculation cases.
 - [ ] Task P1.4: Phase verification and checkpoint under the repository workflow.
@@ -22,7 +22,7 @@ direction to implement, review and archive this track. All tasks remain open.
 
 ## Phase 3 — Installed consumer and evidence
 
-- [ ] Task P3.1: Build and install independent artifacts; verify actual import/artifact identities.
+- [x] Task P3.1: Build and install independent artifacts; verify actual import/artifact identities.
 - [ ] Task P3.2: Execute consumer contracts, negative cases, precision and scientific invariants.
   - [ ] Prove a bounded extension preserves reference scenarios and record resolved parameters, provenance, model/schema identity and execution settings separately (R11.1–R11.5).
 - [ ] Task P3.3: Review existing engineering/context/security controls; add only justified gaps.
