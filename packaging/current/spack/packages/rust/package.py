@@ -65,12 +65,12 @@ class Rust(Package):
 
     # Stable versions.
     version(
-        "1.97.1",
-        sha256="0ed06fdaffd4722a7702e0b4eebfafc897ab8f513e8e1b247cdd7e5c6df6ded2",
-    )
-    version(
         "1.99.1",
         sha256="6451598a99e77f07571960f6b21d577399d3a30f33e80cbd2e3a4aae6535d265",
+    )
+    version(
+        "1.97.1",
+        sha256="0ed06fdaffd4722a7702e0b4eebfafc897ab8f513e8e1b247cdd7e5c6df6ded2",
     )
     version(
         "1.97.0",

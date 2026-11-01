@@ -27,6 +27,8 @@ def verify_wheel(
             raise ValueError(f"{name} requires a local wheel installation")
         wheel = Path(url2pathname(url.path))
     member_paths: set[Path] = set()
+    runtime_roots: set[Path] = set()
+    install_root = Path(dist.locate_file("")).resolve()
     with wheel.open("rb") as stream:
         if file_digest(stream, "sha256").hexdigest() != expected_sha:
             raise ValueError(f"{name} wheel SHA-256 mismatch")
@@ -35,7 +37,12 @@ def verify_wheel(
             for member in archive.infolist():
                 if member.is_dir() or member.filename.endswith(".dist-info/RECORD"):
                     continue
-                path = Path(dist.locate_file(member.filename)).resolve()
+                relative = Path(member.filename)
+                if relative.is_absolute() or ".." in relative.parts:
+                    raise ValueError(f"Unsafe wheel member: {relative}")
+                if not relative.parts[0].endswith(".dist-info"):
+                    runtime_roots.add(install_root / relative.parts[0])
+                path = (install_root / relative).resolve()
                 if not path.is_relative_to(prefix) or path in member_paths:
                     raise ValueError(
                         f"Unsafe or duplicate installed path: {member.filename}"
@@ -47,6 +54,16 @@ def verify_wheel(
                     ):
                         raise ValueError(f"Changed installed file: {member.filename}")
                 member_paths.add(path)
+    for root in sorted(runtime_roots):
+        for path in root.rglob("*") if root.is_dir() else (root,):
+            if path.is_symlink():
+                raise ValueError(f"Unexpected installed symlink: {path}")
+            if (
+                path.is_file()
+                and "__pycache__" not in path.relative_to(install_root).parts
+            ):
+                if path not in member_paths:
+                    raise ValueError(f"Unreviewed installed file: {path}")
     module_file = getattr(import_module(module), "__file__", None)
     if not module_file or Path(module_file).resolve() not in member_paths:
         raise ValueError(f"{name} import origin is outside the verified wheel")
