@@ -376,7 +376,7 @@ def test_parquet_rejects_original_schema_that_cannot_be_recast(tmp_path: Path) -
     table = pa.table(
         {
             "at": pa.array(
-                [dt.datetime(2026, 1, 1, 0, 0, 0, 123456, tzinfo=dt.timezone.utc)],
+                [dt.datetime(2026, 1, 1, 0, 0, 0, 123456, tzinfo=dt.UTC)],
                 type=pa.timestamp("ns", tz="UTC"),
             )
         }

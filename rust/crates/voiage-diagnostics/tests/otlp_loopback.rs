@@ -69,6 +69,9 @@ fn collector_receives_parent_child_and_operation_attribute() {
         .unwrap();
     let parent = spans.iter().find(|s| s["name"] == "analysis").unwrap();
     let child = spans.iter().find(|s| s["name"] == "voi.evaluate").unwrap();
+    assert_eq!(parent["traceId"].as_str().unwrap().len(), 32);
+    assert_eq!(parent["spanId"].as_str().unwrap().len(), 16);
+    assert_ne!(child["spanId"], parent["spanId"]);
     assert_eq!(child["traceId"], parent["traceId"]);
     assert_eq!(child["parentSpanId"], parent["spanId"]);
     assert!(child["attributes"]
