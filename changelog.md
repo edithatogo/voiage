@@ -1,5 +1,8 @@
 # Changelog
 
+- Hold `sha2` at 0.11.0 in dependency automation so the Rust workspace keeps
+  its 1.85 MSRV; the 0.11.1 release requires rustc 1.88.
+
 - Renew the time-bounded OSV-Scanner exemptions for two Pydantic false
   positives so dependency scanning and the quality gates stay green.
 

@@ -219,6 +219,12 @@
       "automerge": false
     },
     {
+      "description": "Hold sha2 at 0.11.0 because 0.11.1 requires rustc 1.88 while the workspace MSRV stays at 1.85; lift this hold only with a compatibility-policy review",
+      "matchManagers": ["cargo"],
+      "matchPackageNames": ["sha2"],
+      "allowedVersions": "<=0.11.0"
+    },
+    {
       "description": "Review executable source and lock changes through pull requests",
       "matchManagers": [
         "git-submodules",
