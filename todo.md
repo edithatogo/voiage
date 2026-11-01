@@ -746,6 +746,8 @@ as recorded in the active task above; earlier route decisions below are historic
 
 ## Done
 
+- Port the perspective tensor contract from vop_poc_nz with reference parity fixtures.
+
 - [x] Add source-bound dated Rust/compiler bootstrap candidates and authenticate
   their stage-zero manifest binding; separate the stable core compiler role.
   This is source qualification only; native builds and matrix gates remain open.
