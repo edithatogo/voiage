@@ -27,6 +27,6 @@
 - [Agent-safe engineering programme](./tracks/agent_safe_engineering_20260907/index.md)
 - [Logging/versioning orchestration](./tracks/agent_safe_engineering_20260907/orchestration.md)
 
-## Approved planning on implementation hold
+## Installed consumer qualification
 
-- [tobac weighted VOI consumer qualification](./tracks/tobac_consumer_qualification_20261025/index.md): no implementation or automatic progression authorised.
+- [tobac weighted VOI consumer qualification](./tracks/tobac_consumer_qualification_20261025/index.md): candidate qualification is in progress under the 29 October implementation direction.
