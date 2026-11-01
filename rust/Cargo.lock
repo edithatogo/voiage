@@ -648,7 +648,6 @@ dependencies = [
  "portable-atomic",
  "rand",
  "thiserror",
- "tokio",
 ]
 
 [[package]]
@@ -1257,6 +1256,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sha2",
+ "tokio",
  "tracing",
  "voiage-domain",
 ]

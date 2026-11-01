@@ -17,7 +17,7 @@ The [need assessment](./need-assessment-20261029.md) records the AC1 deferral ac
 ## Phase 3: Signal
 
 - [ ] T3.1 — Freeze exact input hashes, at most five implementation paths, expected red/green result and command for AC3; split if scope exceeds one behavioral change.
-- [ ] T3.2 — Add one optional trace export path before metrics/log export; verify context propagation with a local test collector. (AC3).
+- [x] T3.2 — Add one optional trace export path before metrics/log export; verify context propagation with a local test collector. (AC3).
 - [ ] T3.3 — Validate: Correct parentage and attributes arrive; network export requires application opt-in. Record source, environment, command, exit status, test count and artifact digest; review diff and stop on unresolved failure (AC3).
 
 ## Phase 4: Limits

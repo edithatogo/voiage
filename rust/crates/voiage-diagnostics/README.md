@@ -22,6 +22,10 @@ let value = tracer.in_span("voi.evaluate", |_| evaluate());
 provider.shutdown()?;
 ```
 
+Provider initialization works in synchronous applications and inside Tokio.
+Call flush and shutdown outside latency-sensitive code because they wait for
+the background exporter.
+
 The application chooses the traced operation and its attributes. Use fixed
 operation names and omit raw input data. The exporter uses the IPv4 loopback
 interface, bypasses proxies and redirects, and sets a two-second request

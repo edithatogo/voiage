@@ -16,6 +16,17 @@ pub fn loopback_trace_provider(
     port: u16,
     sampler: Sampler,
 ) -> Result<SdkTracerProvider, Box<dyn std::error::Error + Send + Sync>> {
+    std::thread::Builder::new()
+        .name("voiage-otlp-init".into())
+        .spawn(move || build_provider(port, sampler))?
+        .join()
+        .map_err(|_| std::io::Error::other("OTLP initialization thread panicked"))?
+}
+
+fn build_provider(
+    port: u16,
+    sampler: Sampler,
+) -> Result<SdkTracerProvider, Box<dyn std::error::Error + Send + Sync>> {
     let timeout = Duration::from_secs(2);
     let client = reqwest::blocking::Client::builder()
         .no_proxy()

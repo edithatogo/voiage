@@ -22,7 +22,7 @@
   ],
   "input_sha256": {
     "rust/Cargo.toml": "91c0037f1361b837afc5c45c1e1d6edec1f51b094ee2739cc963895e930c7c36",
-    "rust/crates/voiage-diagnostics/Cargo.toml": "29fc2a45d974a8b6e3c175af54ea29a9d7600589cf3dd2f01d6bdddc696f3583",
+    "rust/crates/voiage-diagnostics/Cargo.toml": "0ab19e9b695fdea3157cd63e7230f6afc02a0f9c26600138a891b7692d21d43d",
     "tests/test_dependency_promotion_policy.py": "d509a55fd836a8c09d468563d33bc41628d0ba6d97a29d3c3c3fa4ce4f84e2cc",
     "rust/crates/voiage-diagnostics/src/lib.rs": "73cd8218863416bdc314b0ee255524a8d3439a5b6c55fa733172d5a5acf16dd9",
     "rust/crates/voiage-diagnostics/src/otel_export.rs": "3e86514d3d763ff0a1220f771e89f30452fdf563e69b492eacc62ce889bcf23e",

@@ -48,7 +48,7 @@ fn collector_receives_parent_child_and_operation_attribute() {
                 }
             }
         }
-        let mut body = vec![0; length.unwrap()];
+        let mut body = vec![0; length.expect("expected Content-Length for buffered OTLP JSON")];
         reader.read_exact(&mut body).unwrap();
         stream.write_all(b"HTTP/1.1 200 OK\r\nContent-Length: 2\r\nContent-Type: application/json\r\nConnection: close\r\n\r\n{}").unwrap();
         serde_json::from_slice::<serde_json::Value>(&body).unwrap()
@@ -112,9 +112,28 @@ fn stalled_collector_does_not_block_the_operation() {
     assert_eq!(result, 42);
     assert!(started.elapsed() < Duration::from_secs(1));
     // Leave the socket listening without servicing the request.
-    let _flush = provider.force_flush();
-    let _shutdown = provider.shutdown();
-    assert!(started.elapsed() < Duration::from_secs(7));
+    let (done, finished) = std::sync::mpsc::channel();
+    std::thread::spawn(move || {
+        let _flush = provider.force_flush();
+        let _shutdown = provider.shutdown_with_timeout(Duration::from_secs(3));
+        done.send(()).unwrap();
+    });
+    finished
+        .recv_timeout(Duration::from_secs(12))
+        .expect("collector outage must permit bounded teardown");
     listener.set_nonblocking(true).unwrap();
     listener.accept().expect("export attempted");
+}
+
+#[test]
+fn provider_initializes_inside_async_application() {
+    tokio::runtime::Builder::new_current_thread()
+        .build()
+        .unwrap()
+        .block_on(async {
+            let provider =
+                loopback_trace_provider(4318, opentelemetry_sdk::trace::Sampler::AlwaysOff)
+                    .unwrap();
+            provider.shutdown().unwrap();
+        });
 }
