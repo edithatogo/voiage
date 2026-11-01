@@ -24,7 +24,7 @@ published-release acceptance, general migrations and scientific calibration rema
 
 Build both source revisions with `uv build --wheel`, install both wheel files into
 a fresh Python 3.15.1 environment and verify installed member digests. Install the
-consumer's interchange dependencies and the pandas and xarray distributions
+consumer’s interchange dependencies and the two legacy tabular distributions
 queried by the upstream oracle. Run the consumer's `scripts/qualify_voiage_consumer.py`
 under isolated Python with the producer wheel, `--expected-version 2.2.0`,
 `--buffer-ownership` and a fresh output file. Run the consumer's
