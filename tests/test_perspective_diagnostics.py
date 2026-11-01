@@ -64,3 +64,22 @@ def test_bootstrap_evop_rejects_invalid_configuration() -> None:
         bootstrap_evop(
             tensor, choose_under="source", evaluate_under="target", confidence=1.0
         )
+
+
+def test_diagnostic_records_preserve_units_and_replicates():
+    t = deterministic_tensor()
+    t = NetBenefitTensor(
+        t.values,
+        t.strategies,
+        t.perspectives,
+        draw_ids=tuple(map(str, range(t.n_draws))),
+    )
+    options = {"choose_under": "source", "evaluate_under": "target"}
+    interval = bootstrap_evop(t, **options, bootstrap_replicates=4)
+    assert "bootstrap_estimates" not in interval.as_dict()
+    assert interval.as_dict(include_estimates=True)["bootstrap_estimates"] == [10.0] * 4
+    (row,) = evop_convergence_profile(t, **options, draw_counts=[t.n_draws])
+    assert row.as_dict()["full_sample_estimate"] == interval.estimate
+    for kwargs in ({"draw_counts": [0]}, {"draw_counts": [2], "repeats": 0}):
+        with pytest.raises(ValueError):
+            evop_convergence_profile(t, **options, **kwargs)

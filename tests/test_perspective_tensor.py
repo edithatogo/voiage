@@ -200,3 +200,62 @@ def test_error_policy_rejects_tied_draws() -> None:
         tensor.discordance_probability("left", "right", tie_policy=TiePolicy.ERROR)
     with pytest.raises(PerspectiveError, match="[Tt]ie"):
         tensor.perspective_acceptability_frontier(tie_policy=TiePolicy.ERROR)
+
+
+@pytest.mark.parametrize(
+    ("values", "labels", "lenses", "draws", "message"),
+    [
+        (np.ones((2, 2)), ("a", "b"), ("p",), None, "shape"),
+        (np.ones((0, 2, 1)), ("a", "b"), ("p",), None, "at least one"),
+        (np.ones((2, 2, 1)), ("a",), ("p",), None, "strategy-name count"),
+        (np.ones((2, 2, 1)), ("a", "b"), ("p", "q"), None, "perspective-name count"),
+        (np.ones((2, 2, 1)), ("a", "a"), ("p",), None, "strategy names must be unique"),
+        (
+            np.ones((2, 1, 2)),
+            ("a",),
+            ("p", "p"),
+            None,
+            "perspective names must be unique",
+        ),
+        (np.ones((2, 1, 1)), ("a",), ("p",), ("one",), "draw ID count"),
+        (np.full((2, 1, 1), np.inf), ("a",), ("p",), None, "finite"),
+    ],
+)
+def test_tensor_rejects_ambiguous_or_nonfinite_inputs(
+    values, labels, lenses, draws, message
+):
+    with pytest.raises(PerspectiveError, match=message):
+        NetBenefitTensor(values, labels, lenses, draw_ids=draws)
+
+
+@pytest.mark.parametrize(
+    ("name", "weights", "normalize", "message"),
+    [
+        ("p", {"p": 1}, True, "already exists"),
+        ("mix", {}, True, "empty"),
+        ("mix", {"p": np.inf}, True, "finite"),
+        ("mix", {"p": 0}, True, "positive total"),
+        ("mix", {"p": 0}, False, "positive total"),
+        ("mix", {"absent": 1}, True, "Unknown perspective"),
+    ],
+)
+def test_weighted_tensor_rejects_invalid_mixtures(name, weights, normalize, message):
+    tensor = NetBenefitTensor(np.ones((2, 2, 1)), ("a", "b"), ("p",))
+    with pytest.raises(PerspectiveError, match=message):
+        tensor.with_weighted_perspective(name, weights, normalize=normalize)
+
+
+def test_expected_and_draw_specific_optima_apply_the_selected_tie_policy():
+    tensor = NetBenefitTensor(np.array([[[4], [0]], [[1], [1]]]), ("a", "b"), ("p",))
+    assert tensor.optimal_strategy_index("p", tie_policy="error") == 0
+    np.testing.assert_array_equal(
+        tensor.optimal_strategy_index("p", decision_rule="per_draw"), [0, 0]
+    )
+    with pytest.raises(PerspectiveError, match="tied"):
+        tensor.optimal_strategy_index("p", decision_rule="per_draw", tie_policy="error")
+    tied = NetBenefitTensor(np.ones((2, 2, 1)), ("a", "b"), ("p",))
+    with pytest.raises(PerspectiveError, match="tied"):
+        tied.optimal_strategy_index("p", tie_policy="error")
+    assert tensor.strategy_index("b") == 1
+    with pytest.raises(PerspectiveError, match="Unknown strategy"):
+        tensor.strategy_index("absent")
