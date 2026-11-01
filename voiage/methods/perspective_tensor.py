@@ -704,7 +704,7 @@ class NetBenefitTensor:
             expected = left + slopes * midpoint
             maximum = float(np.max(expected))
             optimal = tuple(
-                self.strategies[index]
+                self.strategies[int(index)]
                 for index in np.flatnonzero(
                     np.isclose(expected, maximum, rtol=0.0, atol=atol)
                 )
@@ -750,7 +750,7 @@ class NetBenefitTensor:
             expected = left
             maximum = float(np.max(expected))
             optimal = tuple(
-                self.strategies[index]
+                self.strategies[int(index)]
                 for index in np.flatnonzero(
                     np.isclose(expected, maximum, rtol=0.0, atol=atol)
                 )
