@@ -259,3 +259,73 @@ def test_expected_and_draw_specific_optima_apply_the_selected_tie_policy():
     assert tensor.strategy_index("b") == 1
     with pytest.raises(PerspectiveError, match="Unknown strategy"):
         tensor.strategy_index("absent")
+
+
+def test_tie_rules_and_draw_level_loss_distribution():
+    from voiage.methods import perspective_tensor as api
+
+    t = NetBenefitTensor(np.array([[[1, 0], [1, 4]]]), ("a", "b"), ("p", "q"))
+    options = {"choose_under": "p", "evaluate_under": "q"}
+    for rule in DecisionRule:
+        with pytest.raises(PerspectiveError, match="Tied"):
+            api.evop(t, **options, decision_rule=rule, selection_tie_policy="error")
+    split = api.evop(
+        t,
+        **options,
+        decision_rule="per_draw",
+        selection_tie_policy="split",
+        keep_distribution=True,
+    )
+    assert split.as_dict(include_distribution=True)["per_draw_loss"] == [2]
+    assert t.discordance_probability("p", "q", tie_policy="first") == 1
+    rows = api.perspective_acceptability_frontier(t, tie_policy="first")
+    assert rows[0].as_dict()["probability_optimal"] == 1
+    np.testing.assert_array_equal(api.expected_net_benefit(t, "q"), [0, 4])
+    weighted = api.with_weighted_perspective(t, "mix", {"p": 1, "q": 1})
+    np.testing.assert_allclose(weighted.nmb("mix"), [[0.5, 2.5]])
+    assert api.regret_matrix(t) == t.regret_matrix()
+    assert api.mcda_feature_records(
+        t, reference_perspective="p"
+    ) == t.mcda_feature_records(reference_perspective="p")
+
+
+def test_dominated_crossings_preserve_a_single_frontier_segment():
+    from voiage.methods import perspective_tensor as api
+
+    t = NetBenefitTensor(
+        np.array([[[10, 10], [0, 2], [2, 0], [0, 0]]]),
+        ("best", "up", "down", "flat"),
+        ("p", "q"),
+    )
+    options = {"left_perspective": "p", "right_perspective": "q"}
+    (segment,) = api.exact_perspective_frontier(t, **options)
+    assert segment.as_dict()["optimal_strategies"] == ["best"]
+    assert (segment.lower_right_weight, segment.upper_right_weight) == (0, 1)
+    (collapsed,) = api.exact_perspective_frontier(t, **options, atol=1)
+    assert collapsed == segment
+    with pytest.raises(PerspectiveError, match="grid_size"):
+        api.perspective_mixture_frontier(t, **options, grid_size=1)
+    # Parallel lines and an intersection outside the mixture interval.
+    no_switch = NetBenefitTensor(
+        np.array([[[10, 11], [0, 1], [1, 1]]]), t.strategies[:3], t.perspectives
+    )
+    assert not no_switch.exact_switch_points(**options)
+
+
+def test_records_require_unique_keys_and_named_columns():
+    with pytest.raises(PerspectiveError, match="empty"):
+        tensor_from_records([])
+    with pytest.raises(PerspectiveError, match="Missing required record column"):
+        tensor_from_records([{"draw": 0}])
+    row = {"draw": 0, "strategy": "a", "perspective": "p", "net_benefit": 1}
+    with pytest.raises(PerspectiveError, match="Duplicate"):
+        tensor_from_records([row, row])
+
+
+def test_switch_point_exposes_legacy_names_and_exact_weight():
+    from voiage.methods.perspective_tensor import PerspectiveSwitchPoint
+
+    switch = PerspectiveSwitchPoint("p", "q", 0.4, ("a", "b"), ("c",))
+    assert switch.from_strategy == "a|b"
+    assert switch.to_strategy == "c"
+    assert switch.lower_right_weight == switch.upper_right_weight == switch.right_weight

@@ -698,8 +698,6 @@ class NetBenefitTensor:
                 points.append(value)
         raw: list[PerspectiveFrontierSegment] = []
         for lower, upper in itertools.pairwise(points):
-            if upper - lower <= atol:
-                continue
             midpoint = (lower + upper) / 2.0
             expected = left + slopes * midpoint
             maximum = float(np.max(expected))
