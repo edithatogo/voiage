@@ -160,7 +160,7 @@ def test_hosted_ci_runs_the_real_no_extras_lane() -> None:
     assert "--group producer-tests" not in commands
     assert job["strategy"]["matrix"]["os"] == [
         "ubuntu-24.04",
-        "macos-14",
+        "macos-15",
         "windows-2025",
     ]
 
