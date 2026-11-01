@@ -1,0 +1,17 @@
+[
+  [
+    "changed_manifest",
+    "rejected",
+    "Innovate fixture digest mismatch: manifest.json"
+  ],
+  [
+    "substitute_csv_rehashed_receipt",
+    "rejected",
+    "VOP published witness mismatch: net_benefit_csv_sha256"
+  ],
+  [
+    "outside_import",
+    "rejected",
+    "voiage import origin is outside the verified wheel"
+  ]
+]

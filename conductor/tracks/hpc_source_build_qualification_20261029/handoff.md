@@ -49,3 +49,57 @@ Validate local Markdown links, JSON, unchecked task markers and diff scope.
 The integrator should use the on-demand integration preflight with this exact
 packet range and the current target before applying it. Reconcile the registry
 entry once, preserving unrelated dirty source and previous ownership history.
+
+## Compiler requirement review — 1 November 2026
+
+The compiler requirement review was prepared on branch
+`codex/hpc-compiler-requirements`. It covers the two Spack recipes, focused
+tests and source records. The integrator owns provider promotion, the combined
+Linux solve and the shared registry.
+
+[Compiler input record](compiler-inputs-20261101.json). Voiage and its build
+backend need stable Rust. The Polars native runtime requires the dated nightly
+to retain its upstream feature set. A binary SDK can build downstream packages,
+as the component pilots demonstrated. It cannot verify this track's requirement
+that the selected rustc and its LLVM backend were compiled from source.
+The source-build path is authenticated stage0 SDK, vendored compiler sources
+and LLVM, source-built rustc and Cargo, then downstream installed probes.
+Record the actual stage numbers, host/target and linkage from each execution.
+
+The stable source identifies the 16 April Rust 1.95.0 stage0. Its channel
+manifest, full Linux x86-64 SDK, rustc, cargo and rust-std component bytes
+matched the authenticated hashes. The reviewed recipe patch pins this
+bootstrap for Rust 1.96.0 and disables compiler downloads during configuration.
+The retained September nightly instead names the August beta. Historical April
+nightly EasyBuild overlays are separate. The current system-toolchain
+candidate describes neither complete foss generation. All three matrix cells
+remain required.
+
+Next, the provider owner should use the patched overlay for the unmodified
+Linux root solve, retain the selected compiler edges and concrete lock, and
+bind the two EasyBuild generation-specific graphs to that same runtime.
+Source resolution on Linux must reject missing, corrupt and shadowed inputs
+before any bootstrap dispatch. The accepted Arrow and Polars component
+measurements are insufficient to set a full compiler-build budget.
+
+The correctness/security review found that removing the bootstrap checksum
+table would escape the original tests. The added test checks five upstream
+manifest entries and the exact stable archive URL on each declared platform.
+On Python 3.15.1, 38 affected provider and historical-boundary tests passed.
+Spack 1.2.2 loaded both current classes in a private macOS configuration and
+reported both applicable Rust 1.96.0 bootstrap constraints; their intersection
+is exactly 1.95.0. This class load did not concretize a Linux graph.
+The stable channel manifest SHA-256 comes from the authenticated source's
+`src/stage0`; the five published SDK hashes can be regenerated from its
+`pkg.rust.target` entries. Only the Linux x86-64 bytes were checked here.
+
+The private Spack probe with builtin catalogue
+`fa170d11f60ea44045d9a02370002ed153e35f1a` applied Spack's
+`Spec.constrain` to the active recipe edges. It returned
+`rust-bootstrap@=1.95.0` and the registered class contained that version.
+For replay, read `src/stage0` from the digest-verified stable source, verify
+the dated channel manifest against `compiler_channel_manifest_hash`, then
+compare the SDK and all three component archives against the manifest's
+`xz_hash` values. The [stable input record](../../../packaging/current/history/stable-rust-1.96.0-inputs.json)
+retains those identities. The second agent review confirmed the regression
+fix. The review proposed no change to the supported matrix.

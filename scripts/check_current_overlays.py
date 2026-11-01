@@ -122,7 +122,7 @@ def validate(root: Path) -> list[str]:
     }
     expected = {spack_requirement(text) for text in canonical["runtime"]} | {
         "python@3.15.1",
-        "rust@1.85:1",
+        "rust@=1.99.1",
         "py-maturin@1.9:1",
     }
     if dependencies != expected:
@@ -148,6 +148,15 @@ def validate(root: Path) -> list[str]:
         and isinstance(n.targets[0], ast.Name)
         and n.targets[0].id == "dependencies"
     )
+    build_deps = next(
+        ast.literal_eval(n.value)
+        for n in easy.body
+        if isinstance(n, ast.Assign)
+        and isinstance(n.targets[0], ast.Name)
+        and n.targets[0].id == "builddependencies"
+    )
+    if [version for name, version in build_deps if name == "Rust"] != ["1.99.1"]:
+        errors.append("Current EasyBuild compiler drift")
     pins = {canonicalize_name(name): version for name, version in dependencies}
     pins["pyarrow"] = pins.pop("arrow")
     if pins.pop("python") != "3.15.1":

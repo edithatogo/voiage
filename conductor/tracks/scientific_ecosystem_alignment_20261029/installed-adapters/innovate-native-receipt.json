@@ -1,0 +1,17 @@
+{
+  "python_consumer": "2.2.0",
+  "producer": "innovate-rs 0.5.0",
+  "rust_kernel": "KernelBinding::predict_model_native",
+  "draw_scenario_pairs": 6,
+  "trajectory_points_checked": 24,
+  "max_prediction_absolute_error": "7.183132581480052325282126148218058E-14",
+  "application_cost": 35,
+  "decimal_evpi": "0.65900497763414302250598834086388960402545759129",
+  "observed_evpi": [
+    0.6590049776341118,
+    0.6590049776341118,
+    0.6590049776341118
+  ],
+  "input_sha256": "962ba817a812dc9a330170bfe47175efcad77d7463eab7532a14cb09b4bf1986",
+  "output_sha256": "af72a86df064d24d6dedaf37adf75be5ee1ca0d43e196708df8bf60d354d4be4"
+}
