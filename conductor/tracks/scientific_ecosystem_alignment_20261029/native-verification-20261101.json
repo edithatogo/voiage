@@ -1,0 +1,76 @@
+{
+  "platform": "macOS arm64",
+  "python": "3.15.1",
+  "wheel": "voiage-2.2.0-cp315-abi3-macosx_11_0_arm64.whl",
+  "wheel_sha256": "8f46b93023c35962e7848c5e49215156395de9338aa7b0168119248e1eeaf231",
+  "rust_source_tree": "f0425087d177b9ab48fe238c01a47c885fd74f91",
+  "runs": {
+    "stable_workspace": {
+      "returncode": 0,
+      "reason": "completed",
+      "elapsed_seconds": 202.713,
+      "peak_rss_kib": 646640,
+      "commit": "ef535f31f8f1a573d10a13f930dbfda9d095c35d",
+      "receipt_sha256": "dc38e7a06acf0712b0889a6154f771b5fb7af1c3cf46944ba6c7822c3dfe0874"
+    },
+    "msrv_check": {
+      "returncode": 0,
+      "reason": "completed",
+      "elapsed_seconds": 94.261,
+      "peak_rss_kib": 542464,
+      "commit": "ef535f31f8f1a573d10a13f930dbfda9d095c35d",
+      "receipt_sha256": "2c4e5107db37e255a8c4e99644fa32dc0f616df00b6b1a125edbc560bfe8a3c7"
+    },
+    "producer_wheel": {
+      "returncode": 0,
+      "reason": "completed",
+      "elapsed_seconds": 69.972,
+      "peak_rss_kib": 1328592,
+      "commit": "89ab5f5ac466149c308496bb57b451bfb8fd8a38",
+      "receipt_sha256": "1fcb7a8f178f783ce9ba79ee20d6257ad6bd7db2f215c6edaccaf8af6c4c8ac9"
+    },
+    "installed_consumers": {
+      "returncode": 0,
+      "reason": "completed",
+      "elapsed_seconds": 61.263,
+      "peak_rss_kib": 268192,
+      "commit": "89ab5f5ac466149c308496bb57b451bfb8fd8a38",
+      "receipt_sha256": "815fe7e52710826c966cea679467813786006a13e4dac866732db89bed95d757"
+    },
+    "installed_native_innovate": {
+      "returncode": 0,
+      "reason": "completed",
+      "elapsed_seconds": 5.086,
+      "peak_rss_kib": 174320,
+      "commit": "89ab5f5ac466149c308496bb57b451bfb8fd8a38",
+      "receipt_sha256": "751cb70896e4d5aba6f608bc004a18d0cedd34334933ade75823fbbd980f8d8e"
+    },
+    "verified_wheel_replay": {
+      "returncode": 0,
+      "reason": "completed",
+      "elapsed_seconds": 12.56,
+      "peak_rss_kib": 220160,
+      "commit": "89ab5f5ac466149c308496bb57b451bfb8fd8a38",
+      "tracked_diff_sha256": "5fd0cf869652632b529a49271d9d30860438b7498704ef357262f5d669e333d0",
+      "receipt_sha256": "627b6d225f8c0f5711b906d54a9023dfd5c43a3c428fa5dd67bbbe5b6931c437"
+    },
+    "verified_import_origin": {
+      "returncode": 0,
+      "reason": "completed",
+      "elapsed_seconds": 15.394,
+      "peak_rss_kib": 210592,
+      "commit": "0efdc74451724a490d1cdf3d167a5418a4b1bc7a",
+      "tracked_diff_sha256": "290e39b81e8c098aae8542b656ab473b7b209d71e4c4122981819a9b1190f6ad",
+      "receipt_sha256": "19440270270730182c0550675c204fb74630805554824a0c9d93abdf557e38ed"
+    }
+  },
+  "tobac": {
+    "installed_wheel_members_verified": 837,
+    "native_binary_sha256": "9451d67438560d9deb6c71097dd0fa66667266a9990df6b8e75a78f517e8e9bf",
+    "cases": 90,
+    "maximum_absolute_difference": 2.842170943040401e-14,
+    "rtol": 1e-10,
+    "atol": 1e-10
+  },
+  "tobac_buffer_cases": 6
+}

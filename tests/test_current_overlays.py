@@ -85,8 +85,13 @@ def test_core_compiler_cannot_use_an_unbounded_preview_range(tmp_path: Path) -> 
         json.dumps({"historical_files": {}, "historical_tools": {}})
     )
     recipe = tmp_path / "packaging/current/spack/packages/py-voiage/package.py"
-    recipe.write_text(recipe.read_text().replace("rust@1.85:1", "rust@1.85:"))
+    recipe.write_text(recipe.read_text().replace("rust@=1.99.1", "rust@1.85:"))
     assert "Current Spack dependency drift" in validate(tmp_path)
+    easy = tmp_path / "packaging/current/easybuild/voiage-candidate-Python-3.15.1.eb"
+    easy.write_text(
+        easy.read_text().replace('("Rust", "1.99.1")', '("Rust", "1.96.0")')
+    )
+    assert "Current EasyBuild compiler drift" in validate(tmp_path)
 
 
 def test_current_overlay_drift_and_unearned_native_claim_fail(tmp_path: Path) -> None:

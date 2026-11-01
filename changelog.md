@@ -3,6 +3,11 @@
 - Add opt-in, application-owned OTLP/HTTP trace export to a loopback collector
   in the Rust diagnostics crate. The default build remains exporter-free.
 
+- Select stable Rust 1.99.1 for the current HPC packaging candidate and pin its upstream Rust 1.98.0 bootstrap.
+
+- Pin the Rust 1.96.0 Spack source build to its upstream Rust 1.95.0 bootstrap
+  and disable prebuilt compiler downloads for that source configuration.
+
 - Hold `sha2` at 0.11.0 in dependency automation so the Rust workspace keeps
   its 1.85 MSRV; the 0.11.1 release requires rustc 1.88.
 

@@ -1124,11 +1124,11 @@ track at the top of this registry; completed repository slices stay closed.
   GitHub: https://github.com/edithatogo/voiage/issues/1193
 
 ---
-- [ ] **Track: Rust/LLVM source builds and full HPC qualification**
+- [~] **Track: Rust/LLVM source builds and full HPC qualification**
   *Link: [./tracks/hpc_source_build_qualification_20261029/index.md](./tracks/hpc_source_build_qualification_20261029/index.md)*
-  Planning prepared; specification/plan review and native execution remain pending.
+  Compiler requirements reviewed and stable stage0 verified. The combined Linux solve, source builds and installed matrix remain pending.
 
 ---
-- [ ] **Track: Scientific ecosystem alignment (voiage)**
+- [~] **Track: Scientific ecosystem alignment (voiage)**
   *Link: [./tracks/scientific_ecosystem_alignment_20261029/index.md](./tracks/scientific_ecosystem_alignment_20261029/index.md)*
-  Linked delivery; native acceptance pending.
+  Stable Rust 1.99.1 candidate and cross-project adapters under qualification; full HPC acceptance remains open.

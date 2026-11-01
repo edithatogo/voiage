@@ -80,3 +80,13 @@ https://github.com/edithatogo/voiage/actions/runs/40691333092.
 Retain resource guards and measure the actual workload rather than imposing the
 retired estimate. This completed pilot used a binary compiler SDK; it does not
 by itself qualify every compiler-generation or installed-module matrix gate.
+
+## Stable compiler for the current candidate
+
+The Voiage Spack root and the EasyBuild candidate select Rust 1.99.1. Its
+source archive identifies Rust 1.98.0 as stage0. The [source and SDK record](stable-rust-inputs.json)
+retains the archive hashes, the dated bootstrap channel identity and the five
+catalogue targets. Linux x86-64 SDK and component bytes were verified.
+The Polars runtime retains its dated nightly. The Rust workspace supports
+1.85 as its minimum version. Source-built Rust and LLVM, both foss generations
+and the full Linux Spack root require their own installed verification.
