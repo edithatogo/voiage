@@ -154,3 +154,41 @@ def test_prelaunch_capacity_stop_still_restores_handler(tmp_path: Path) -> None:
     assert observer.report["reason"] == "free_space_limit"
     assert observer.report["cleanup_complete"]
     assert signal.getsignal(signal.SIGTERM) == previous
+
+
+@pytest.mark.skipif(
+    sys.platform != "linux", reason="Linux subreaper and pidfds are required"
+)
+def test_cleanup_adopts_a_child_created_after_the_last_sample(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import subprocess
+
+    from scripts.observe_arrow_capacity import ObservedProcesses
+
+    children = []
+
+    class ForkDuringStop(ObservedProcesses):
+        first = True
+
+        def stop(self) -> None:
+            if self.first:
+                self.first = False
+                children.append(
+                    subprocess.Popen(
+                        [sys.executable, "-c", "import time;time.sleep(30)"],
+                        start_new_session=True,
+                    )
+                )
+            super().stop()
+
+    monkeypatch.setattr(
+        "scripts.observe_native_stage.ObservedProcesses", ForkDuringStop
+    )
+    observer = StageObserver(
+        tmp_path / "receipts", tmp_path, min_free_mib=1, timeout=5, interval=0.05
+    )
+    assert observer.run([sys.executable, "-c", "raise SystemExit(7)"]) == 7
+    assert observer.report["cleanup_complete"]
+    assert observer.report["cleanup_passes"] == 2
+    assert observer.report["trigger_reason"] == "command_failed"

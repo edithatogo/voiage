@@ -196,20 +196,27 @@ class StageObserver:
             )
         finally:
             try:
-                owned, _rss = descendant_usage(os.getpid())
-                owned.discard(os.getpid())
-                self.tracker.observe(owned, os.getpid())
-                self.tracker.stop()
-                if process is not None:
-                    process.wait(timeout=10)
-                while True:
-                    try:
-                        pid, _status = os.waitpid(-1, os.WNOHANG)
-                    except ChildProcessError:
+                self.report["trigger_reason"] = self.report["reason"]
+                # A controller can fork between the final sample and its stop.
+                # The subreaper owns those newly orphaned identities too.
+                for attempt in range(3):
+                    owned, _rss = descendant_usage(os.getpid())
+                    owned.discard(os.getpid())
+                    self.tracker.observe(owned, os.getpid())
+                    self.tracker.stop()
+                    if process is not None:
+                        process.wait(timeout=10)
+                    while True:
+                        try:
+                            pid, _status = os.waitpid(-1, os.WNOHANG)
+                        except ChildProcessError:
+                            break
+                        if pid == 0:
+                            break
+                    self.report["cleanup_passes"] = attempt + 1
+                    self.report["cleanup_complete"] = not psutil.Process().children()
+                    if self.report["cleanup_complete"]:
                         break
-                    if pid == 0:
-                        break
-                self.report["cleanup_complete"] = not psutil.Process().children()
                 if not self.report["cleanup_complete"]:
                     raise RuntimeError("Owned descendants remain")  # noqa: TRY301 - cleanup failure must be recorded
             except (Exception, KeyboardInterrupt, SystemExit) as error:
