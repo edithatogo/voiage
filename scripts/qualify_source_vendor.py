@@ -103,24 +103,28 @@ def run(command: list[str], cwd: Path, env: dict[str, str], output: Path) -> Non
 def validate_vendor(vendor: Path, locks: list[dict[str, Any]]) -> dict[str, Any]:
     """Verify registry identities and every checksummed vendor file."""
     expected: dict[tuple[str, str], str | None] = {}
+    sources: dict[tuple[str, str], str] = {}
     for lock in locks:
         for package in lock["package"]:
             source = package.get("source", "")
             if source.startswith("registry+"):
-                expected[package["name"], package["version"]] = package["checksum"]
+                checksum = package["checksum"]
             elif source.startswith("git+"):
                 if not re.fullmatch(r"[0-9a-f]{40}", urlsplit(source[4:]).fragment):
                     raise ValueError("Git source must have a full immutable revision")
-                expected[package["name"], package["version"]] = None
-    sources: dict[tuple[str, str], str] = {}
-    for lock in locks:
-        for package in lock["package"]:
+                checksum = None
+            else:
+                # A synchronized workspace can build a crate locally while another
+                # lock consumes that name/version from a registry. Only external
+                # packages belong in the vendor inventory.
+                continue
             identity = package["name"], package["version"]
-            source = package.get("source", "")
-            if identity in expected:
-                if identity in sources and sources[identity] != source:
-                    raise ValueError("Conflicting vendor source identities")
-                sources[identity] = source
+            if identity in expected and (
+                expected[identity] != checksum or sources[identity] != source
+            ):
+                raise ValueError("Conflicting vendor source identities")
+            expected[identity] = checksum
+            sources[identity] = source
     observed: set[tuple[str, str]] = set()
     records = []
     for directory in sorted(vendor.iterdir()):

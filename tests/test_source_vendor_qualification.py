@@ -250,3 +250,13 @@ def test_conflicting_vendor_source_identities_fail_closed(tmp_path: Path) -> Non
     )
     with pytest.raises(ValueError, match="Conflicting vendor source"):
         validate_vendor(vendor, [*locks, {"package": [conflict]}])
+
+
+def test_synchronized_local_workspace_is_not_an_external_vendor_conflict(
+    tmp_path: Path,
+) -> None:
+    vendor, locks = vendor_fixture(tmp_path)
+    local = {"name": "example", "version": "1.0.0"}
+    result = validate_vendor(vendor, [*locks, {"package": [local]}])
+    assert result["registry_packages"] == 1
+    assert result["git_packages"] == 0
