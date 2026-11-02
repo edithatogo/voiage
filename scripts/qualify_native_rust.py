@@ -124,8 +124,8 @@ class Build:
             "outcome": "running",
             "steps": [],
             "commit": subprocess.check_output(
-                ["git", "rev-parse", "HEAD"], text=True
-            ).strip(),  # noqa: S607 - qualified Git CLI
+                ["/usr/bin/git", "rev-parse", "HEAD"], text=True
+            ).strip(),
             "run_url": f"https://github.com/{os.environ.get('GITHUB_REPOSITORY', 'local')}/actions/runs/{os.environ.get('GITHUB_RUN_ID', 'local')}",
             "python": sys.version,
             "jobs": 4,

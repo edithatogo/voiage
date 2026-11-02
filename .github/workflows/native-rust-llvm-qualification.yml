@@ -42,7 +42,15 @@ jobs:
       - run: |
           uv venv --python 3.15.1 .venv
           uv pip install --python .venv/bin/python pytest==9.1.1 psutil==7.2.2
-          .venv/bin/python -m pytest --noconftest -o addopts= -q tests/test_native_stage_observation.py tests/test_native_rust_build.py tests/test_arrow_capacity_observation.py tests/test_source_vendor_qualification.py
+          .venv/bin/python -m pytest --noconftest --basetemp="$RUNNER_TEMP/native-controls" -o addopts= -q tests/test_native_stage_observation.py tests/test_native_rust_build.py tests/test_arrow_capacity_observation.py tests/test_source_vendor_qualification.py
+      - name: Retain native control receipts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: native-controls-${{ github.run_id }}
+          path: ${{ runner.temp }}/native-controls/
+          if-no-files-found: error
+          retention-days: 30
   native:
     if: github.event_name == 'workflow_dispatch'
     needs: controls
