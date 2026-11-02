@@ -1,7 +1,15 @@
 name: Linux dependency graphs
 on:
   push:
-    branches: [codex/linux-graph-qualification]
+    branches: [main, codex/linux-graph-qualification]
+    paths:
+      - ".github/workflows/linux-graph-qualification.yml"
+      - "scripts/qualify_linux_graph.sh"
+      - "scripts/guard_verification.py"
+      - "packaging/current/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - ".python-version"
   workflow_dispatch:
 permissions:
   contents: read
@@ -36,7 +44,7 @@ jobs:
           else
             sudo apt-get update -qq
             sudo apt-get install -y lmod
-            uv pip install --python .venv/bin/python easybuild-framework==5.4.2 easybuild-easyblocks==5.4.2
+            uv pip install --python .venv/bin/python easybuild-framework==5.4.2 easybuild-easyblocks==5.4.2 graphviz==0.21
             git init .graph-tools/easyconfigs
             git -C .graph-tools/easyconfigs remote add origin https://github.com/easybuilders/easybuild-easyconfigs.git
             git -C .graph-tools/easyconfigs fetch --depth 1 origin 262892aea5e99b65cdb54072f3ff633e74483eb1

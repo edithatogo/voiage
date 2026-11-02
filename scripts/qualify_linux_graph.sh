@@ -48,7 +48,9 @@ for dependency in (
 text = text.replace('dependencies = [\n', 'dependencies = [\n    ("Voiage-Python-support", "2.2.0"),\n', 1)
 Path(output, "root.eb").write_text(text)
 PY
-  eb "$out/root.eb" --dry-run --robot --minimal-toolchains --robot-paths="$PWD/packaging/current/easybuild/$generation:$PWD/packaging/current/easybuild:$PWD/.graph-tools/easyconfigs/easybuild/easyconfigs" --allow-use-as-root-and-accept-consequences > "$out/graph.txt" 2>&1
+  eb_args=(--robot --minimal-toolchains --robot-paths="$PWD/packaging/current/easybuild/$generation:$PWD/packaging/current/easybuild:$PWD/.graph-tools/easyconfigs/easybuild/easyconfigs" --allow-use-as-root-and-accept-consequences)
+  eb "$out/root.eb" --dry-run "${eb_args[@]}" > "$out/graph.txt" 2>&1
+  eb "$out/root.eb" --dep-graph="$out/graph.dot" "${eb_args[@]}" > "$out/graph-export.txt" 2>&1
   python - "$out/graph.txt" <<'PYTHON'
 from pathlib import Path
 import re
