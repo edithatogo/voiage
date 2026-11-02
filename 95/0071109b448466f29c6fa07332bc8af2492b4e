@@ -1,0 +1,58 @@
+Task: Native Rust/LLVM source compiler qualification
+Checkpoint: docs(hpc): Preserve stable source failure and corrected build identities
+
+Why: Complete authenticated offline compiler source builds, preserve upstream notice closure and retain fail-closed stage/resource evidence.
+
+Changed paths:
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/bootstrap-identity/command.log.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/bootstrap-identity/gnu-time.txt
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/bootstrap-identity/resource-report.json
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/bootstrap-identity/samples.jsonl.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/bootstrap-install/command.log.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/bootstrap-install/gnu-time.txt
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/bootstrap-install/resource-report.json
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/bootstrap-install/samples.jsonl.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/bootstrap.toml
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/host-tools/command.log.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/host-tools/gnu-time.txt
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/host-tools/resource-report.json
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/host-tools/samples.jsonl.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/llvm-cache-0.txt.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/llvm-source/command.log.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/llvm-source/gnu-time.txt
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/llvm-source/resource-report.json
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/llvm-source/samples.jsonl.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/network-control/command.log.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/network-control/gnu-time.txt
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/network-control/resource-report.json
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/network-control/samples.jsonl.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/receipt.json
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/rust-stage2-source/command.log.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/rust-stage2-source/gnu-time.txt
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/rust-stage2-source/resource-report.json
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/rust-stage2-source/samples.jsonl.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/source-qualification/cargo-version.txt
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/source-qualification/cargo-version.txt.stderr
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/source-qualification/offline-metadata-0.json.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/source-qualification/offline-metadata-0.json.stderr
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/source-qualification/offline-metadata-1.json.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/source-qualification/offline-metadata-1.json.stderr
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/source-qualification/offline-metadata-2.json.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/source-qualification/offline-metadata-2.json.stderr
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/source-qualification/qualification.json.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/source-qualification/rustc-version.txt
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/source-qualification/rustc-version.txt.stderr
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/source-qualification/vendor-config.toml
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/source-qualification/vendor-fetch.txt.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/source-vendor/command.log.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/source-vendor/gnu-time.txt
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/source-vendor/resource-report.json
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/source-vendor/samples.jsonl.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405757610/upstream-cargo-config.toml
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405761507/llvm-cache-0.txt
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/failed-std-closure-41405761507/llvm-cache-0.txt.gz
+conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/manifest.json
+conductor/tracks/hpc_source_build_qualification_20261029/handoff.md
+conductor/tracks/hpc_source_build_qualification_20261029/metadata.json
+
+Terminal task evidence: stable run 41436471133 and nightly run 41436475314 both passed all 12 stages at 24ae6cb6. Installed toolchains compiled and ran EVPI=5 and resolved linkage. 51 Linux controls and 24 focused local tests passed. Artifact archive and individual file digests verified. Final packet: conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/manifest.json. Acceptance applies to its exact native input objects; intermediate failures and the later local tox disk-space stop remain retained. Full installed HPC matrix acceptance remains open.
