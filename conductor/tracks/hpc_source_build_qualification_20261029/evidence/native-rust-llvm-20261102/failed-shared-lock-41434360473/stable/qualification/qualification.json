@@ -1,0 +1,5 @@
+{
+  "entry": "rust-stable",
+  "passed": false,
+  "error": "Missing locked workspace: src/tools/opt-dist/Cargo.toml"
+}

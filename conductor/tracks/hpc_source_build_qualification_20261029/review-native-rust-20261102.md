@@ -10,7 +10,7 @@ native acceptance remains pending the two cold source-build runs.
 - [x] **Style Compliance**: Pass - Ruff, workflow audit and repository harness.
 - [x] **New Tests**: Yes - source configuration, installed identity, failed
   commands, detached children, sampler loss, SIGTERM and cleanup races.
-- [x] **Test Coverage**: Partial - 45 Linux controls passed. Installed package
+- [x] **Test Coverage**: Partial - 51 Linux controls passed. Installed package
   coverage passed at 95%; this is not complete qualification-helper coverage.
 - [x] **Test Results**: Local tox environments passed across the full attempt
   and the affected docs/coverage rerun. The initial shallow checkout lacked
@@ -46,6 +46,25 @@ native acceptance remains pending the two cold source-build runs.
   to both compiler vendor profiles after two failing regressions. The source
   archive identities, upstream locks, offline policy and compiler settings stay
   fixed. The corrected nightly run is `41415754392` at `059544da`.
+- Both standard-library fixes completed LLVM and stage2 Rust, including std,
+  Cargo and rustdoc. Installation then exposed copyright generation's complete
+  upstream workspace closure. The qualifier now checks the authenticated
+  `default_paths_to_vendor` source contract and includes all 13 manifests.
+- Cargo's offline `locate-project --workspace` resolves the 12 unique original
+  locks, including `opt-dist`'s shared parent lock. Missing/external locks and
+  contract omissions fail before compilation. Four focused regressions cover
+  these boundaries; all 24 affected source/compiler tests pass on Python 3.15.1.
+- The full closure passed in both compiler cells of run `41435528210`. One
+  unrelated uv manifest-download timeout received one targeted read-only job
+  rerun; its first-failure log remains retained and the workflow passed.
+- The driver now runs upstream copyright generation before the costly LLVM
+  source stage. Current native attempts are stable `41436471133` and nightly
+  `41436475314`, both at `24ae6cb6`. Their source/archive/compiler settings remain
+  frozen; successful installation and installed probes are still pending.
+- A later local full-tox attempt stopped at the disk-space preflight. It is
+  retained as a capacity stop, not a passing test result. Earlier full-tox
+  evidence applies to unchanged runtime inputs; current hosted gates and the
+  51 Linux qualification controls remain required for the final revision.
 
 ## Evidence and remaining scope
 

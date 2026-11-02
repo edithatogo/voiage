@@ -158,3 +158,16 @@ between those revisions and are recorded in the receipt manifest. Source/vendor
 run `41415687864` passed both four-workspace compiler cells and all other cells.
 Current PR checks passed 55 jobs with four conditional skips. Preserve the active
 native jobs; next operation is their terminal receipt review.
+
+Both standard-library-fix runs completed LLVM and stage2 Rust, then failed
+installation while generating copyright notices for an unvendored Clippy
+workspace. Complete upstream notice closure is now qualified at `24ae6cb6`:
+13 manifests, 12 unique authenticated locks, and 51 passing Linux controls.
+Cargo resolves shared parent locks offline; no new lock is fabricated.
+Run `41435528210` passed after one targeted rerun of a uv setup timeout.
+Current active native attempts are stable `41436471133` and nightly
+`41436475314`, at the same frozen `24ae6cb6` input revision. They run upstream
+notice generation before LLVM. Next operation is terminal receipt review,
+remaining blocker repair if needed, final record reconciliation and protected
+merge after all relevant checks pass. The local full-tox repeat stopped at its
+disk-space preflight; only completed owned temporary fixtures were cleaned.

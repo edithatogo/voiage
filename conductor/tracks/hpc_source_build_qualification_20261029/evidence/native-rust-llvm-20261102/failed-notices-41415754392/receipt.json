@@ -1,0 +1,147 @@
+{
+  "entry": "rust-nightly",
+  "outcome": "failed_or_resource_limited",
+  "steps": [
+    {
+      "name": "source-vendor",
+      "argv": [
+        "/home/runner/work/voiage/voiage/.venv/bin/python",
+        "-m",
+        "scripts.qualify_source_vendor",
+        "--entry",
+        "rust-nightly",
+        "--work",
+        "/home/runner/work/_temp/native-rust/source-work",
+        "--output",
+        "/home/runner/work/voiage/voiage/native-rust-evidence/source-qualification",
+        "--cargo",
+        "/home/runner/.rustup/toolchains/nightly-2026-09-01-x86_64-unknown-linux-gnu/bin/cargo",
+        "--rustc",
+        "/home/runner/.rustup/toolchains/nightly-2026-09-01-x86_64-unknown-linux-gnu/bin/rustc"
+      ],
+      "network_isolated": false,
+      "returncode": 0
+    },
+    {
+      "name": "bootstrap-install",
+      "argv": [
+        "bash",
+        "/home/runner/work/_temp/native-rust/bootstrap-source/rust-beta-x86_64-unknown-linux-gnu/install.sh",
+        "--prefix=/home/runner/work/_temp/native-rust/bootstrap",
+        "--components=rustc,cargo,rust-std-x86_64-unknown-linux-gnu",
+        "--disable-ldconfig"
+      ],
+      "network_isolated": true,
+      "returncode": 0
+    },
+    {
+      "name": "bootstrap-identity",
+      "argv": [
+        "/home/runner/work/_temp/native-rust/bootstrap/bin/rustc",
+        "--version",
+        "--verbose"
+      ],
+      "network_isolated": true,
+      "returncode": 0
+    },
+    {
+      "name": "network-control",
+      "argv": [
+        "/home/runner/work/voiage/voiage/.venv/bin/python",
+        "-c",
+        "import os,socket;assert os.geteuid()!=0;s=socket.socket();s.settimeout(1);assert s.connect_ex(('1.1.1.1',443))!=0;print('unprivileged isolated network confirmed')"
+      ],
+      "network_isolated": true,
+      "returncode": 0
+    },
+    {
+      "name": "host-tools",
+      "argv": [
+        "bash",
+        "-c",
+        "set -e; gcc --version; g++ --version; cmake --version; ninja --version; unshare --version; /usr/bin/time --version"
+      ],
+      "network_isolated": true,
+      "returncode": 0
+    },
+    {
+      "name": "llvm-source",
+      "argv": [
+        "/home/runner/work/voiage/voiage/.venv/bin/python",
+        "/home/runner/work/_temp/native-rust/source-work/unpacked/rustc-nightly-src/x.py",
+        "build",
+        "--stage",
+        "1",
+        "--jobs",
+        "4",
+        "src/llvm-project"
+      ],
+      "network_isolated": true,
+      "returncode": 0
+    },
+    {
+      "name": "rust-stage2-source",
+      "argv": [
+        "/home/runner/work/voiage/voiage/.venv/bin/python",
+        "/home/runner/work/_temp/native-rust/source-work/unpacked/rustc-nightly-src/x.py",
+        "build",
+        "--stage",
+        "2",
+        "--jobs",
+        "4",
+        "compiler/rustc",
+        "library/std",
+        "src/tools/cargo",
+        "src/tools/rustdoc"
+      ],
+      "network_isolated": true,
+      "returncode": 0
+    },
+    {
+      "name": "install-stage2",
+      "argv": [
+        "/home/runner/work/voiage/voiage/.venv/bin/python",
+        "/home/runner/work/_temp/native-rust/source-work/unpacked/rustc-nightly-src/x.py",
+        "install",
+        "--stage",
+        "2",
+        "--jobs",
+        "4"
+      ],
+      "network_isolated": true,
+      "returncode": 1
+    }
+  ],
+  "commit": "059544da5abe3eb99a5eef970d30bd8e5b125e99",
+  "run_url": "https://github.com/edithatogo/voiage/actions/runs/41415754392",
+  "python": "3.15.1 (main, Oct 21 2026, 17:48:50) [Clang 23.1.3 ]",
+  "jobs": 4,
+  "stage": 2,
+  "cache_state": "cold",
+  "full_hpc_matrix_qualified": false,
+  "compiler_source_build_accepted": false,
+  "llvm_source_build_accepted": false,
+  "source_inputs": {
+    "kind": "archive",
+    "source": {
+      "filename": "rustc-nightly-src.tar.xz",
+      "url": "https://static.rust-lang.org/dist/2026-09-01/rustc-nightly-src.tar.xz",
+      "sha256": "15bbdd27bf5d7156847cff3f843ab6dda469be1b6ee0c00b5aab8bba13fabf84"
+    },
+    "manifests": [
+      "Cargo.toml",
+      "src/bootstrap/Cargo.toml",
+      "src/tools/cargo/Cargo.toml",
+      "library/Cargo.toml"
+    ],
+    "toolchain": "nightly-2026-09-01",
+    "bootstrap": {
+      "url": "https://static.rust-lang.org/dist/2026-08-18/rust-beta-x86_64-unknown-linux-gnu.tar.xz",
+      "sha256": "f28c53c3142262b9842a4d85d5f3a2eec95cb6a32a0a9401ebb37b9ea4809497"
+    }
+  },
+  "elapsed_seconds": 7910.768,
+  "derived_cargo_config_sha256": "165c9b66e98b370ba645b42cf0565fed3c0f582cccdf17202607f440fd50c81e",
+  "bootstrap_config_sha256": "f66283b49cd30400884bb4e3302db0c1321e0e54c58a867b94d1981f3240eaef",
+  "error": "RuntimeError('install-stage2 failed with exit 1')"
+}

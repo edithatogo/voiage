@@ -1,0 +1,23 @@
+	Command being timed: "/usr/bin/unshare --net --setgid=1001 --setuid=1001 -- /home/runner/work/voiage/voiage/.venv/bin/python /home/runner/work/_temp/native-rust/source-work/unpacked/rustc-1.99.1-src/x.py build --stage 2 --jobs 4 compiler/rustc library/std src/tools/cargo src/tools/rustdoc"
+	User time (seconds): 7086.91
+	System time (seconds): 217.73
+	Percent of CPU this job got: 370%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 32:51.32
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 3337232
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 8984
+	Minor (reclaiming a frame) page faults: 41445636
+	Voluntary context switches: 218827
+	Involuntary context switches: 1007565
+	Swaps: 0
+	File system inputs: 1153416
+	File system outputs: 16075968
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
