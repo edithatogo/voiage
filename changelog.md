@@ -1,5 +1,7 @@
 # Changelog
 
+- Add authenticated Linux Cargo/compiler-source qualification, locked offline vendor replay, reproducible Polars Git-source archives and durable source/resource receipts.
+
 - Add bounded Linux Spack and EasyBuild 2023a/2024a dependency-graph qualification, with authenticated candidate sources and retained graph/resource receipts.
 
 ## 3.1.0

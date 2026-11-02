@@ -1,0 +1,4 @@
+repos:
+  voiage_current: /home/runner/work/voiage/voiage/packaging/current/spack
+  builtin:
+    commit: fa170d11f60ea44045d9a02370002ed153e35f1a

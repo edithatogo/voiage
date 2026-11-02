@@ -1126,7 +1126,7 @@ track at the top of this registry; completed repository slices stay closed.
 ---
 - [~] **Track: Rust/LLVM source builds and full HPC qualification**
   *Link: [./tracks/hpc_source_build_qualification_20261029/index.md](./tracks/hpc_source_build_qualification_20261029/index.md)*
-  Compiler requirements reviewed and stable stage0 verified. The combined Linux solve, source builds and installed matrix remain pending.
+  Compiler requirements, all three Linux dependency graphs and the bounded Cargo/compiler-source vendor checkpoint have retained evidence. Source-built compilers and the installed matrix remain pending.
 
 ---
 - [~] **Track: Scientific ecosystem alignment (voiage)**

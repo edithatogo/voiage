@@ -1,0 +1,40 @@
+[1m[92m    Updating[0m crates.io index
+[1m[92m Downloading[0m crates ...
+[1m[92m  Downloaded[0m heck v0.5.0
+[1m[92m  Downloaded[0m archery v1.2.2
+[1m[92m  Downloaded[0m once_cell v1.21.3
+[1m[92m  Downloaded[0m pyo3-macros v0.29.0
+[1m[92m  Downloaded[0m pyo3-build-config v0.29.0
+[1m[92m  Downloaded[0m quote v1.0.42
+[1m[92m  Downloaded[0m target-lexicon v0.13.3
+[1m[92m  Downloaded[0m proc-macro2 v1.0.103
+[1m[92m  Downloaded[0m smallvec v1.15.1
+[1m[92m  Downloaded[0m triomphe v0.1.15
+[1m[92m  Downloaded[0m unicode-ident v1.0.22
+[1m[92m  Downloaded[0m rpds v1.2.1
+[1m[92m  Downloaded[0m pyo3-macros-backend v0.29.0
+[1m[92m  Downloaded[0m pyo3-ffi v0.29.0
+[1m[92m  Downloaded[0m portable-atomic v1.11.1
+[1m[92m  Downloaded[0m syn v2.0.111
+[1m[92m  Downloaded[0m libc v0.2.177
+[1m[92m  Downloaded[0m pyo3 v0.29.0
+[1m[92m   Vendoring[0m archery v1.2.2 (/home/runner/work/_temp/source-work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/archery-1.2.2) to /home/runner/work/_temp/source-work/vendor/archery-1.2.2
+[1m[92m   Vendoring[0m heck v0.5.0 (/home/runner/work/_temp/source-work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/heck-0.5.0) to /home/runner/work/_temp/source-work/vendor/heck-0.5.0
+[1m[92m   Vendoring[0m libc v0.2.177 (/home/runner/work/_temp/source-work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.177) to /home/runner/work/_temp/source-work/vendor/libc-0.2.177
+[1m[92m   Vendoring[0m once_cell v1.21.3 (/home/runner/work/_temp/source-work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/once_cell-1.21.3) to /home/runner/work/_temp/source-work/vendor/once_cell-1.21.3
+[1m[92m   Vendoring[0m portable-atomic v1.11.1 (/home/runner/work/_temp/source-work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/portable-atomic-1.11.1) to /home/runner/work/_temp/source-work/vendor/portable-atomic-1.11.1
+[1m[92m   Vendoring[0m proc-macro2 v1.0.103 (/home/runner/work/_temp/source-work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/proc-macro2-1.0.103) to /home/runner/work/_temp/source-work/vendor/proc-macro2-1.0.103
+[1m[92m   Vendoring[0m pyo3 v0.29.0 (/home/runner/work/_temp/source-work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/pyo3-0.29.0) to /home/runner/work/_temp/source-work/vendor/pyo3-0.29.0
+[1m[92m   Vendoring[0m pyo3-build-config v0.29.0 (/home/runner/work/_temp/source-work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/pyo3-build-config-0.29.0) to /home/runner/work/_temp/source-work/vendor/pyo3-build-config-0.29.0
+[1m[92m   Vendoring[0m pyo3-ffi v0.29.0 (/home/runner/work/_temp/source-work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/pyo3-ffi-0.29.0) to /home/runner/work/_temp/source-work/vendor/pyo3-ffi-0.29.0
+[1m[92m   Vendoring[0m pyo3-macros v0.29.0 (/home/runner/work/_temp/source-work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/pyo3-macros-0.29.0) to /home/runner/work/_temp/source-work/vendor/pyo3-macros-0.29.0
+[1m[92m   Vendoring[0m pyo3-macros-backend v0.29.0 (/home/runner/work/_temp/source-work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/pyo3-macros-backend-0.29.0) to /home/runner/work/_temp/source-work/vendor/pyo3-macros-backend-0.29.0
+[1m[92m   Vendoring[0m quote v1.0.42 (/home/runner/work/_temp/source-work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/quote-1.0.42) to /home/runner/work/_temp/source-work/vendor/quote-1.0.42
+[1m[92m   Vendoring[0m rpds v1.2.1 (/home/runner/work/_temp/source-work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/rpds-1.2.1) to /home/runner/work/_temp/source-work/vendor/rpds-1.2.1
+[1m[92m   Vendoring[0m smallvec v1.15.1 (/home/runner/work/_temp/source-work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/smallvec-1.15.1) to /home/runner/work/_temp/source-work/vendor/smallvec-1.15.1
+[1m[92m   Vendoring[0m syn v2.0.111 (/home/runner/work/_temp/source-work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/syn-2.0.111) to /home/runner/work/_temp/source-work/vendor/syn-2.0.111
+[1m[92m   Vendoring[0m target-lexicon v0.13.3 (/home/runner/work/_temp/source-work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3) to /home/runner/work/_temp/source-work/vendor/target-lexicon-0.13.3
+[1m[92m   Vendoring[0m triomphe v0.1.15 (/home/runner/work/_temp/source-work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/triomphe-0.1.15) to /home/runner/work/_temp/source-work/vendor/triomphe-0.1.15
+[1m[92m   Vendoring[0m unicode-ident v1.0.22 (/home/runner/work/_temp/source-work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/unicode-ident-1.0.22) to /home/runner/work/_temp/source-work/vendor/unicode-ident-1.0.22
+To use vendored sources, add this to your .cargo/config.toml for this project:
+

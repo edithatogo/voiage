@@ -1,0 +1,1 @@
+This is EasyBuild 5.4.2 (framework: 5.4.2, easyblocks: 5.4.2) on host runnervm48cm3.
