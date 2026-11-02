@@ -42,23 +42,37 @@ class StageObserver:
 
     def sample(self, samples: Any) -> None:
         """Sample owned descendants and cumulative counters without PID reuse."""
-        pids, _rss = descendant_usage(os.getpid())
+        pids, tree_rss = descendant_usage(os.getpid())
         pids.discard(os.getpid())
         self.tracker.observe(pids, os.getpid())
-        rss = 0
+        rss = max(0, tree_rss * 1024 - psutil.Process().memory_info().rss)
         for pid in pids:
             try:
                 process = psutil.Process(pid)
                 key = pid, process.create_time()
-                rss += process.memory_info().rss
                 cpu = process.cpu_times()
-                io = process.io_counters()
-                self.usage[key] = {
-                    "user_seconds": cpu.user,
-                    "system_seconds": cpu.system,
-                    "read_bytes": io.read_bytes,
-                    "write_bytes": io.write_bytes,
-                }
+                counters = self.usage.setdefault(
+                    key,
+                    {
+                        "user_seconds": 0,
+                        "system_seconds": 0,
+                        "read_bytes": 0,
+                        "write_bytes": 0,
+                    },
+                )
+                counters.update(user_seconds=cpu.user, system_seconds=cpu.system)
+                try:
+                    io = process.io_counters()
+                    counters.update(
+                        read_bytes=io.read_bytes, write_bytes=io.write_bytes
+                    )
+                except psutil.AccessDenied:
+                    self.report.setdefault("io_counter_gaps", []).append(
+                        {
+                            "pid": pid,
+                            "reason": "permission_denied_during_exec_or_runtime",
+                        }
+                    )
             except psutil.NoSuchProcess, psutil.ZombieProcess:
                 continue
         free = psutil.disk_usage(self.workspace).free

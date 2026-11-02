@@ -66,3 +66,45 @@ def test_sampler_loss_stops_work_and_retains_failure(
     receipt = json.loads((tmp_path / "receipts/resource-report.json").read_text())
     assert receipt["reason"] == "monitor_failed_or_interrupted"
     assert receipt["cleanup_complete"]
+
+
+def test_io_permission_gap_does_not_disable_the_rss_limit(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import io
+    import time
+    from types import SimpleNamespace
+
+    import psutil
+
+    observer = StageObserver(tmp_path / "receipts", tmp_path, max_rss_mib=1)
+    observer.started = time.monotonic()
+    observer.report = {
+        "reason": "completed",
+        "peak_rss_kib": 0,
+        "minimum_free_bytes": 10**12,
+    }
+    observer.tracker = SimpleNamespace(observe=lambda *args: None)
+    monkeypatch.setattr(
+        "scripts.observe_native_stage.descendant_usage", lambda pid: ({pid, 42}, 4096)
+    )
+
+    class Process:
+        def memory_info(self):
+            return SimpleNamespace(rss=1024)
+
+        def create_time(self):
+            return 1.0
+
+        def cpu_times(self):
+            return SimpleNamespace(user=1.0, system=0.1)
+
+        def io_counters(self):
+            raise psutil.AccessDenied(42)
+
+    monkeypatch.setattr(
+        "scripts.observe_native_stage.psutil.Process", lambda *args: Process()
+    )
+    observer.sample(io.StringIO())
+    assert observer.report["reason"] == "memory_limit"
+    assert observer.report["io_counter_gaps"][0]["pid"] == 42
