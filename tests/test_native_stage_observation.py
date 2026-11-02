@@ -16,7 +16,9 @@ from scripts.observe_native_stage import StageObserver
 )
 def test_stage_failure_and_resource_receipt(tmp_path: Path) -> None:
     observer = StageObserver(tmp_path / "receipts", tmp_path, timeout=5, interval=0.05)
-    assert observer.run([sys.executable, "-c", "raise SystemExit(7)"]) == 7, observer.report
+    assert observer.run([sys.executable, "-c", "raise SystemExit(7)"]) == 7, (
+        observer.report
+    )
     receipt = json.loads((tmp_path / "receipts/resource-report.json").read_text())
     assert receipt["returncode"] == 7
     assert receipt["reason"] == "command_failed"
