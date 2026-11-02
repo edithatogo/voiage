@@ -1,0 +1,5 @@
+{
+  "entry": "rust-nightly",
+  "passed": false,
+  "error": "Conflicting vendor source identities"
+}

@@ -1,0 +1,16 @@
+
+WARNING: Robot search path is empty!
+
+== Temporary log file in case of crash /home/runner/work/voiage/.voiage-verification-6qvqd5p5/eb-5odkctbh/easybuild-apiu9s8p.log
+== injecting sha256 checksums for /home/runner/work/_temp/git-work/fetch-1/Voiage-git-source-probe-1.0.eb in checksums.json
+== fetching sources & patches for Voiage-git-source-probe-1.0.eb...
+  >> sources:
+  >> /home/runner/work/_temp/git-work/fetch-1/sources/v/Voiage-git-source-probe/color-backtrace-0.7.4-20f5eea1.tar.xz
+  >> /home/runner/work/_temp/git-work/fetch-1/sources/v/Voiage-git-source-probe/hashbrown-0.17.1-d76a6f81.tar.xz
+  >> /home/runner/work/_temp/git-work/fetch-1/sources/v/Voiage-git-source-probe/tikv-jemalloc-sys-0.7.1+5.3.1-0-g81034ce1f1373e37dc865038e1bc8eeecf559ce8-0d683dfb.tar.xz
+== computing sha256 checksums for sources & patches for Voiage-git-source-probe-1.0.eb...
+== * color-backtrace-0.7.4-20f5eea1.tar.xz: 786cf9317b4d2930c90e662f7f9412f1bda348634e678c09f078946656b4bc86
+== * hashbrown-0.17.1-d76a6f81.tar.xz: 60f09b2ebc22c311cfd46ee0c584e42c4be5a3e7c336a5056f174feb68ba6aa3
+== * tikv-jemalloc-sys-0.7.1+5.3.1-0-g81034ce1f1373e37dc865038e1bc8eeecf559ce8-0d683dfb.tar.xz: 131e18fdc7abeca86aef334ea5c19b32b23077ba9c9611a0638ec8665b0dad3a
+== Temporary log file(s) /home/runner/work/voiage/.voiage-verification-6qvqd5p5/eb-5odkctbh/easybuild-apiu9s8p.log* have been removed.
+== Temporary directory /home/runner/work/voiage/.voiage-verification-6qvqd5p5/eb-5odkctbh has been removed.

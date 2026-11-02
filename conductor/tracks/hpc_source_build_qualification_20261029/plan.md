@@ -23,7 +23,7 @@ P5 -> P6. P2 source controls must pass before P3 fetch/build dispatch.
 - [ ] Task: Phase verification, agent review and checkpoint per workflow.md.
 
 ## P2 — Qualify fetching and measurement
-- [ ] Task: Repair and qualify source resolution and offline execution.
+- [~] Task: Repair and qualify source resolution and offline execution.
   - [ ] Write failing cases for shadowed paths, incorrect digest, missing input,
         forbidden fetch and unsupported CLI options.
   - [ ] Implement supported pre-fetch restrictions and resolved-source checks.
@@ -93,8 +93,9 @@ Use the verified repo-local Python 3.15.1 and normal hooks. TDD applies to code
 changes, not mechanical document checks. Select affected tests during iteration;
 run the full local tox gate once per coherent candidate and invalidate evidence
 when relevant inputs change. Exact commands are resolved from installed tools
-at dispatch. Use the verified `voiage` remote for edithatogo/voiage; `origin`
-in this checkout points to another repository. No new skill installation is
+at dispatch. Use the verified edithatogo/voiage remote. `origin` in the current isolated
+source/vendor checkout is that repository. Earlier scientific worktree remote
+assignments remain historical. No new skill installation is
 needed from the planning catalog. Paid resources require separate user direction.
 
 Current release evidence and available-compute boundary are recorded in
@@ -113,12 +114,44 @@ candidate sdist before root evaluation. DOT files retain their dependency edges.
 
 This completes the bounded graph checkpoint. Source fetching/vendor closure,
 compiler/library builds, installed modules, generation-isolation execution and
-scientific consumer acceptance remain P2–P6 work. Git-source archive bytes in the
-new Cargo provider candidates remain unqualified as explicitly recorded in
-packaging/current/easybuild/native-source-closures.json.
+scientific consumer acceptance remain P2–P6 work. At this graph checkpoint the new Cargo providers
+still had unqualified Git-source archive bytes. The subsequent source/vendor
+checkpoint below records their qualification.
 
-Current writer is chat 01a195fd-b970-7391-83a9-9796bbf98ae3 in
+The graph checkpoint writer was chat 01a195fd-b970-7391-83a9-9796bbf98ae3 in
 /Users/doughnut/Library/Caches/innovate-arrow26-qual.Q7IJ07/voiage on
 codex/linux-graph-qualification. Scope is the graph workflow, current provider
 recipes, source-contract tests and these receipts. No native build is active.
 Previous ownership entries remain historical.
+
+
+## Linux source/vendor checkpoint — 2 November 2026
+
+The bounded Cargo/compiler-source checkpoint is recorded in
+[evidence/linux-source-vendor-20261102/manifest.json](evidence/linux-source-vendor-20261102/manifest.json).
+It authenticates six Cargo-backed provider sdists, the frozen Voiage HPC
+candidate, both compiler source archives and their bootstrap SDK inputs. Nine
+Cargo cells retain locked vendor inventories and all-feature offline metadata.
+The independent EasyBuild fetch-only cell proves reproducible bytes for Polars'
+three fixed Git sources and verifies their hashes in both current generations.
+
+- [x] Task: Implement source authentication, locked vendor replay and negative
+  controls `86d5cce`, with Polars lock/Git-source repairs `d57db19`, `91fdfb6`.
+- [x] Task: Review, apply fixes and qualify the source/compiler cells `f44fda7`.
+  The review exposed partial-download cleanup and a legitimate synchronized local
+  workspace/registry name overlap. Fourteen focused Python 3.15.1 controls pass.
+- [x] Task: Retain exact source/lock/vendor/graph/resource identities and terminal
+  failure history. Large metadata and command logs are losslessly compressed.
+  The manifest hashes both stored and original bytes.
+
+This is a P2 sub-checkpoint. It does not close package-manager fetch/install
+acceptance for the complete graph, the observation-runner cases, Rust/LLVM source
+compilation, installed scientific probes or generation isolation. Bootstrap SDK
+archives are authenticated input, never source-built output. Native acceptance
+and P3-P6 remain open. The local full tox attempt was blocked at the disk-space
+preflight and is retained as a stop, not a successful gate. Hosted PR/main gates
+remain required for the integrated revision.
+
+Current ownership and review disposition are in
+[handoff.md](handoff.md) and
+[review-source-vendor-20261102.md](review-source-vendor-20261102.md).

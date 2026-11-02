@@ -1,0 +1,5 @@
+== Temporary log file in case of crash /home/runner/work/voiage/.voiage-verification-85gtxr3l/eb-a5s_eayt/easybuild-4kk_giy7.log
+== resolving dependencies ...
+== Wrote dependency graph for 114 easyconfigs to /home/runner/work/voiage/voiage/receipts/graph/graph.dot
+== Temporary log file(s) /home/runner/work/voiage/.voiage-verification-85gtxr3l/eb-a5s_eayt/easybuild-4kk_giy7.log* have been removed.
+== Temporary directory /home/runner/work/voiage/.voiage-verification-85gtxr3l/eb-a5s_eayt has been removed.

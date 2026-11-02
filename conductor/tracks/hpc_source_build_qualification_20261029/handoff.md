@@ -103,3 +103,13 @@ compare the SDK and all three component archives against the manifest's
 `xz_hash` values. The [stable input record](../../../packaging/current/history/stable-rust-1.96.0-inputs.json)
 retains those identities. The second agent review confirmed the regression
 fix. The review proposed no change to the supported matrix.
+
+## Source/vendor lane — 2 November 2026
+
+Current writer is chat `01a195fd-b970-7391-83a9-9796bbf98ae3` in
+`/Users/doughnut/Library/Caches/innovate-arrow26-qual.Q7IJ07/voiage` on
+`codex/linux-source-vendor-qualification`, PR #1261. Owned scope is the source
+qualification workflow/helpers/tests, current Polars lock repair and Git source
+checksums, and the source/vendor receipt packet. The prior graph lane is merged.
+No native compiler build or installed HPC operation is active. Next operation is
+final hosted qualification, review, receipt retention and protected merge.
