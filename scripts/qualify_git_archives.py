@@ -72,7 +72,6 @@ def qualify(work: Path, output: Path, eb: Path) -> None:
             f"--sourcepath={root / 'sources'}",
             f"--buildpath={root / 'build'}",
             f"--prefix={root / 'prefix'}",
-            "--modules-tool=EnvironmentModules",
             "--allow-use-as-root-and-accept-consequences",
         ]
         with (output / f"fetch-{index}.log").open("wb") as stream:
