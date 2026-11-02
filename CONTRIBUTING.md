@@ -17,9 +17,14 @@ We welcome contributions from the community, whether from humans or AI agents. T
     *   Fork the repository on GitHub.
     *   Clone your fork locally:
         ```bash
-        git clone https://github.com/YOUR_USERNAME/voiage.git
+        git clone --recurse-submodules https://github.com/YOUR_USERNAME/voiage.git
         cd voiage
         ```
+    *   Use full Git history and tags: evidence tests verify historical commits
+        and releases. For an existing shallow clone, run `git fetch --unshallow`
+        and `git fetch --tags`. Initialize the pinned documentation tool with
+        `git submodule update --init -- .repo-tools/astro-polyglot` before the
+        local documentation gate.
 
 2.  **Install Dependencies:**
     ```bash
