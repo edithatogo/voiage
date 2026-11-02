@@ -18,15 +18,26 @@ if [[ "$cell" == spack ]]; then
   spack config --scope user add 'repos:builtin:commit:fa170d11f60ea44045d9a02370002ed153e35f1a'
   spack compiler find
   spack --version > "$out/manager-version.txt"
+  spack bootstrap now > "$out/bootstrap.txt" 2>&1
   spack spec --json py-voiage@develop > "$out/graph.json" 2> "$out/solver.stderr"
+  python -m json.tool "$out/graph.json" > /dev/null
   spack spec -Il py-voiage@develop > "$out/graph.txt"
 else
   generation=${cell#easybuild-}
   source /etc/profile.d/lmod.sh
   eb --version > "$out/manager-version.txt"
-  # Graph evaluation only. No source is fetched or built by the dry-run command.
-  export VOIAGE_QUALIFIED_SOURCE_ARCHIVE="$out/graph-only-source-not-qualified.tar.gz"
-  export VOIAGE_QUALIFIED_SOURCE_SHA256=0000000000000000000000000000000000000000000000000000000000000000
+  # Authenticate the candidate source before evaluating the guarded root recipe.
+  revision=$(python -c 'import json; from pathlib import Path; print(json.loads(Path("packaging/current/runtime.json").read_text())["source_commit"])')
+  git fetch --depth 1 origin "$revision"
+  git worktree add --detach .graph-tools/source "$revision"
+  export SOURCE_DATE_EPOCH
+  SOURCE_DATE_EPOCH=$(git show -s --format=%ct "$revision")
+  python .graph-tools/source/scripts/embed_sdist_provenance.py
+  (cd .graph-tools/source && "$OLDPWD/.venv/bin/maturin" sdist --out "$out/source-dist")
+  export VOIAGE_QUALIFIED_SOURCE_ARCHIVE="$out/source-dist/voiage-2.2.0.tar.gz"
+  export VOIAGE_QUALIFIED_SOURCE_SHA256
+  VOIAGE_QUALIFIED_SOURCE_SHA256=$(sha256sum "$VOIAGE_QUALIFIED_SOURCE_ARCHIVE" | cut -d ' ' -f1)
+  python scripts/qualify_hpc_source.py "$VOIAGE_QUALIFIED_SOURCE_ARCHIVE" --revision "$revision" --sha256 "$VOIAGE_QUALIFIED_SOURCE_SHA256" > "$out/source-qualification.json"
   python - "$generation" "$out" <<'PY'
 from pathlib import Path
 import sys
