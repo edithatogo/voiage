@@ -57,7 +57,7 @@ def test_python_release_workflow_builds_and_publishes_aggregated_artifacts() -> 
         in release_workflow
     )
     assert "os: ubuntu-24.04" in release_workflow
-    assert "os: macos-14" in release_workflow
+    assert "os: macos-15" in release_workflow
     assert "os: windows-2025" in release_workflow
     assert "cp315-abi3" in release_workflow
     assert "voiage/_core." in release_workflow

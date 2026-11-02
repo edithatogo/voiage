@@ -18,9 +18,9 @@ def test_current_release_identity() -> None:
     """Every current package surface must project the selected release version."""
     canonical, mismatches = validate_version_sync(ROOT)
 
-    assert canonical == "3.0.0"
+    assert canonical == "3.1.0"
     assert mismatches == []
-    assert validate_release_tag("v3.0.0", ROOT) == "3.0.0"
+    assert validate_release_tag("v3.1.0", ROOT) == "3.1.0"
 
 
 def test_citation_metadata_matches_the_verified_public_release() -> None:

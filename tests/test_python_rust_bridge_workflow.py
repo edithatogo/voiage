@@ -41,7 +41,7 @@ def test_bridge_workflow_covers_supported_python_and_abi3_platforms() -> None:
     platform_matrix = jobs["abi3-platforms"]["strategy"]["matrix"]
     assert [entry["os"] for entry in platform_matrix["include"]] == [
         "ubuntu-24.04",
-        "macos-14",
+        "macos-15",
         "windows-2025",
     ]
     assert jobs["abi3-platforms"]["runs-on"] == "${{ matrix.os }}"
@@ -126,7 +126,7 @@ def test_bridge_platform_matrix_validates_actual_wheel_suffix() -> None:
             "compatibility": "manylinux2014",
         },
         {
-            "os": "macos-14",
+            "os": "macos-15",
             "platform-suffix": "macosx_11_0_arm64",
             "compatibility": "pypi",
         },

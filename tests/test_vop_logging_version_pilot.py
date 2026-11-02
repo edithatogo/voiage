@@ -304,7 +304,7 @@ print(json.dumps({
         f"stdout={result.stdout!r} stderr={result.stderr!r}"
     )
     assert json.loads(result.stdout) == {
-        "package_version": "3.0.0",
+        "package_version": "3.1.0",
         "consumer_version": "2.2.0",
         "run_id": "pilot-synthetic-run-001",
         "analysis_id": "pilot-synthetic-analysis-001",

@@ -1,8 +1,12 @@
 # Changelog
 
+## 3.1.0
+
 - Add labelled net benefit tensors, tie-aware acceptability, mixture frontiers,
   switch points and MCDA records in `voiage.methods.perspective_tensor`.
 - Add bootstrap Monte Carlo intervals and draw-count convergence profiles for directional regret.
+
+## Previous changes
 
 - Add opt-in, application-owned OTLP/HTTP trace export to a loopback collector
   in the Rust diagnostics crate. The default build remains exporter-free.

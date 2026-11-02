@@ -167,7 +167,7 @@ jobs:
           - os: ubuntu-24.04
             platform-suffix: manylinux_2_17_x86_64.manylinux2014_x86_64
             compatibility: manylinux2014
-          - os: macos-14
+          - os: macos-15
             platform-suffix: macosx_11_0_arm64
             compatibility: pypi
           - os: windows-2025
