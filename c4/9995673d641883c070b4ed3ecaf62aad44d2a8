@@ -1,0 +1,11 @@
+Task: Native Rust/LLVM source-build qualification
+Checkpoint: fix(harness): Validate event-bound self repository workflow references
+
+Why: Authenticate and compile the selected toolchains with offline source stages, fail-closed resource observation and durable qualification evidence.
+
+Changed paths:
+conductor/tracks/execution_packet_guard_20260907/implementation-packet.json
+scripts/repo_harness.py
+tests/test_repo_harness.py
+
+Verification and acceptance: See conductor/tracks/hpc_source_build_qualification_20261029/review-native-rust-20261102.md and evidence/native-rust-llvm-20261102/manifest.json. Native compiler jobs are pending at this checkpoint; failed attempts are not accepted. Full installed HPC matrix acceptance remains open.
