@@ -190,7 +190,7 @@ class StageObserver:
                             if process.returncode >= 0
                             else 128 - process.returncode
                         )
-        except BaseException as error:
+        except (Exception, KeyboardInterrupt, SystemExit) as error:
             self.report.update(
                 reason="monitor_failed_or_interrupted", error=repr(error)
             )
@@ -212,7 +212,7 @@ class StageObserver:
                 self.report["cleanup_complete"] = not psutil.Process().children()
                 if not self.report["cleanup_complete"]:
                     raise RuntimeError("Owned descendants remain")  # noqa: TRY301 - cleanup failure must be recorded
-            except BaseException as error:
+            except (Exception, KeyboardInterrupt, SystemExit) as error:
                 self.report.update(reason="cleanup_failed", cleanup_error=repr(error))
             finally:
                 self.tracker.close()

@@ -22,7 +22,7 @@ concurrency:
 jobs:
   rust-source-capacity:
     if: inputs.profile == 'rust-stable' || inputs.profile == 'rust-nightly'
-    uses: ./.github/workflows/native-rust-llvm-qualification.yml
+    uses: $/.github/workflows/native-rust-llvm-qualification.yml
     with:
       entry: ${{ inputs.profile }}
   polars-source-capacity:

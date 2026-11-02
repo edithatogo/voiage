@@ -18,6 +18,14 @@ on:
       - scripts/qualify_native_rust.py
       - tests/test_native_stage_observation.py
       - tests/test_native_rust_build.py
+      - tests/test_arrow_capacity_observation.py
+      - tests/test_source_vendor_qualification.py
+      - scripts/observe_arrow_capacity.py
+      - scripts/qualify_source_vendor.py
+      - scripts/guard_verification.py
+      - packaging/current/source-vendor-inputs.json
+      - packaging/current/stable-rust-inputs.json
+      - packaging/current/rust-provider-sources.json
   push:
     branches: [main]
     paths:
@@ -26,6 +34,14 @@ on:
       - scripts/qualify_native_rust.py
       - tests/test_native_stage_observation.py
       - tests/test_native_rust_build.py
+      - tests/test_arrow_capacity_observation.py
+      - tests/test_source_vendor_qualification.py
+      - scripts/observe_arrow_capacity.py
+      - scripts/qualify_source_vendor.py
+      - scripts/guard_verification.py
+      - packaging/current/source-vendor-inputs.json
+      - packaging/current/stable-rust-inputs.json
+      - packaging/current/rust-provider-sources.json
 permissions:
   contents: read
 jobs:

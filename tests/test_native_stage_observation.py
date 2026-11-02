@@ -108,3 +108,41 @@ def test_io_permission_gap_does_not_disable_the_rss_limit(
     observer.sample(io.StringIO())
     assert observer.report["reason"] == "memory_limit"
     assert observer.report["io_counter_gaps"][0]["pid"] == 42
+
+
+@pytest.mark.skipif(
+    sys.platform != "linux", reason="Linux subreaper and pidfds are required"
+)
+def test_sigterm_restores_handler_and_cleans_owned_children(tmp_path: Path) -> None:
+    import os
+    import signal
+
+    previous = signal.getsignal(signal.SIGTERM)
+    observer = StageObserver(tmp_path / "receipts", tmp_path, timeout=5, interval=0.05)
+    command = [
+        sys.executable,
+        "-c",
+        "import os,signal,sys,time;time.sleep(.15);os.kill(int(sys.argv[1]),signal.SIGTERM);time.sleep(30)",
+        str(os.getpid()),
+    ]
+    assert observer.run(command) == 125
+    assert observer.report["reason"] == "monitor_failed_or_interrupted"
+    assert observer.report["cleanup_complete"]
+    assert signal.getsignal(signal.SIGTERM) == previous
+
+
+@pytest.mark.skipif(
+    sys.platform != "linux", reason="Linux subreaper and pidfds are required"
+)
+def test_prelaunch_capacity_stop_still_restores_handler(tmp_path: Path) -> None:
+    import signal
+
+    previous = signal.getsignal(signal.SIGTERM)
+    observer = StageObserver(tmp_path / "receipts", tmp_path, min_free_mib=10**12)
+    assert (
+        observer.run([sys.executable, "-c", "raise AssertionError('must not launch')"])
+        == 125
+    )
+    assert observer.report["reason"] == "free_space_limit"
+    assert observer.report["cleanup_complete"]
+    assert signal.getsignal(signal.SIGTERM) == previous
