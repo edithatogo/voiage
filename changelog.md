@@ -1,5 +1,7 @@
 # Changelog
 
+- Add bounded Linux Spack and EasyBuild 2023a/2024a dependency-graph qualification, with authenticated candidate sources and retained graph/resource receipts.
+
 ## 3.1.0
 
 - Add labelled net benefit tensors, tie-aware acceptability, mixture frontiers,

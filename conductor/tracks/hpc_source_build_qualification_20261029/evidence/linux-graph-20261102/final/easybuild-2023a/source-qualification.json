@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "python": "3.15.1",
+  "source_archive_qualified": true,
+  "source_revision": "3df3cb49e5c927075c0609a48a2535b4457424d4",
+  "package_version": "2.2.0",
+  "source_tree": "3a178a7479907f93dc8b514a4db27d7ab6615b06",
+  "archive_sha256": "d1e326bbddfd7bdfc29022f56ab15820f52665705e188e45719e41b672b2d28b",
+  "runtime_policy_sha256": "f8e0639e1568bc7b2ef3c2c6870f812b6cddc1c14ab2b27647a484a488428ef3",
+  "archive_bytes": 972085,
+  "runtime_files_verified": 190,
+  "native_files_verified": 73,
+  "total_source_files_verified": 904,
+  "omitted_workspace_members": [
+    "crates/voiage-ffi",
+    "crates/voiage-test-support"
+  ],
+  "cargo_workspace_transform": "Only omit nonpackaged workspace members; local dependency closure remains present",
+  "native_solver_executed": false,
+  "native_build_executed": false,
+  "installed_module_acceptance": false
+}
