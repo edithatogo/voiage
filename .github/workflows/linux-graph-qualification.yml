@@ -1,5 +1,7 @@
 name: Linux dependency graphs
 on:
+  push:
+    branches: [codex/linux-graph-qualification]
   workflow_dispatch:
 permissions:
   contents: read
