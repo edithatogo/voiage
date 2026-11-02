@@ -49,4 +49,12 @@ text = text.replace('dependencies = [\n', 'dependencies = [\n    ("Voiage-Python
 Path(output, "root.eb").write_text(text)
 PY
   eb "$out/root.eb" --dry-run --robot --minimal-toolchains --robot-paths="$PWD/packaging/current/easybuild/$generation:$PWD/packaging/current/easybuild:$PWD/.graph-tools/easyconfigs/easybuild/easyconfigs" --allow-use-as-root-and-accept-consequences > "$out/graph.txt" 2>&1
+  python - "$out/graph.txt" <<'PYTHON'
+from pathlib import Path
+import re
+import sys
+modules = re.findall(r"module: (Python/[^)]+)", Path(sys.argv[1]).read_text())
+if not modules or any(not module.startswith("Python/3.15.1-") for module in modules):
+    raise ValueError(f"Unqualified Python modules in resolved graph: {modules}")
+PYTHON
 fi
