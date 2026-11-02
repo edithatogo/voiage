@@ -1,0 +1,15 @@
+easyblock = "PythonPackage"
+name = 'pybind11'
+version = '3.1.0'
+homepage = "https://pypi.org/project/pybind11/"
+description = "Pinned current Python source dependency."
+toolchain = {"name": "GCCcore", "version": "13.3.0"}
+sources = ['https://files.pythonhosted.org/packages/76/f3/95b0f40b31df41dbfe6bb0857419c9442c15839cbac4796f1c26ae0b6081/pybind11-3.1.0.tar.gz']
+checksums = ['a1cc06b524ab3edca51f8ad3895f9c4fa20b8b19283173dff4ae781449dc9639']
+builddependencies = [('Voiage-Rust-build-support', '2.2.0')]
+dependencies = [("Python", "3.15.1")]
+use_pip = True
+pip_no_index = True
+pip_no_build_isolation = True
+download_dep_fail = True
+moduleclass = "devel"

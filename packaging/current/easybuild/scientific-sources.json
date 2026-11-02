@@ -117,5 +117,23 @@
       "narwhals>=2.0.1",
       "threadpoolctl>=3.5.0"
     ]
+  },
+  "cloudpickle": {
+    "version": "3.1.2",
+    "source": "https://files.pythonhosted.org/packages/27/fb/576f067976d320f5f0114a8d9fa1215425441bb35627b1993e5afd8111e5/cloudpickle-3.1.2.tar.gz",
+    "sha256": "7fda9eb655c9c230dab534f1983763de5835249750e85fbcef43aaa30a9a2414",
+    "base_requires_dist": []
+  },
+  "narwhals": {
+    "version": "2.28.0",
+    "source": "https://files.pythonhosted.org/packages/67/43/e11d75a7fb635c6f63dd6e176cb3e050ec2fee35f2f2267b332a6ad351ec/narwhals-2.28.0.tar.gz",
+    "sha256": "2d9860c80d6610820826e94c6e42ce4b1d92d89cdd479586e652a8d211dab345",
+    "base_requires_dist": []
+  },
+  "pybind11": {
+    "version": "3.1.0",
+    "source": "https://files.pythonhosted.org/packages/76/f3/95b0f40b31df41dbfe6bb0857419c9442c15839cbac4796f1c26ae0b6081/pybind11-3.1.0.tar.gz",
+    "sha256": "a1cc06b524ab3edca51f8ad3895f9c4fa20b8b19283173dff4ae781449dc9639",
+    "base_requires_dist": []
   }
 }

@@ -16,3 +16,5 @@ pip_no_build_isolation = True
 download_dep_fail = True
 offline = True
 moduleclass = "data"
+
+preinstallopts = 'export RUSTC="$EBROOTRUSTMINNIGHTLY/bin/rustc" CARGO="$EBROOTRUSTMINNIGHTLY/bin/cargo" && '

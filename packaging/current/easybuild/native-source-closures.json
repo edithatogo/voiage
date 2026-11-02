@@ -35,5 +35,15 @@
     "registry_crates": 92,
     "git_source_revisions": [],
     "git_archive_bytes_qualified": false
+  },
+  "uv-build": {
+    "source": {
+      "filename": "uv_build-0.13.6.tar.gz",
+      "url": "https://files.pythonhosted.org/packages/8f/98/8b9e028aa5d00f4c6f48183f3a2d9d343cd3adeb21bbd6dcc24916cd1538/uv_build-0.13.6.tar.gz",
+      "sha256": "8a03355d73117d136dbf6a34e20429755598a73d752dc6ae3aa5894942b6fd4b"
+    },
+    "registry_crates": 293,
+    "git_source_revisions": [],
+    "git_archive_bytes_qualified": false
   }
 }
