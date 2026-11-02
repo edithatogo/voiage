@@ -1,0 +1,53 @@
+name: Linux dependency graphs
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  graph:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        cell: [spack, easybuild-2023a, easybuild-2024a]
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+      - name: Prepare isolated graph tooling
+        env:
+          CELL: ${{ matrix.cell }}
+        run: |
+          uv venv --python 3.15.1 .venv
+          uv pip install --python .venv/bin/python psutil
+          mkdir .graph-tools
+          if [[ "$CELL" == spack ]]; then
+            git init .graph-tools/spack
+            git -C .graph-tools/spack remote add origin https://github.com/spack/spack.git
+            git -C .graph-tools/spack fetch --depth 1 origin 3e19345b6e12f5ff1b874f4059622fc6a1fd804a
+            git -C .graph-tools/spack checkout --detach FETCH_HEAD
+          else
+            uv pip install --python .venv/bin/python easybuild-framework==5.4.2 easybuild-easyblocks==5.4.2
+            git init .graph-tools/easyconfigs
+            git -C .graph-tools/easyconfigs remote add origin https://github.com/easybuilders/easybuild-easyconfigs.git
+            git -C .graph-tools/easyconfigs fetch --depth 1 origin 262892aea5e99b65cdb54072f3ff633e74483eb1
+            git -C .graph-tools/easyconfigs checkout --detach FETCH_HEAD
+          fi
+      - name: Qualify graph with resource limits
+        env:
+          CELL: ${{ matrix.cell }}
+        run: |
+          export PATH="$PWD/.venv/bin:$PWD/.graph-tools/spack/bin:$PATH"
+          export SPACK_PYTHON="$PWD/.venv/bin/python"
+          mkdir -p receipts/graph
+          .venv/bin/python scripts/guard_verification.py --work-dir receipts/resources --workload-id "$CELL" --max-rss-mib 6000 --timeout-seconds 900 --min-free-mib 1024 --artifact-dir receipts/graph -- bash scripts/qualify_linux_graph.sh "$CELL" "$PWD/receipts/graph"
+      - name: Retain terminal graphs and resource receipts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: linux-graph-${{ matrix.cell }}
+          path: receipts/
+          if-no-files-found: error
+          retention-days: 30
