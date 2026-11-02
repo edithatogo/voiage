@@ -142,3 +142,10 @@ after hosted gates pass. The [review](review-native-rust-20261102.md) and
 [manifest](evidence/native-rust-llvm-20261102/manifest.json) distinguish running
 jobs, failed attempts and accepted controls. Full installed HPC acceptance stays
 open; no other chat may take over these jobs without a terminal handoff.
+
+Nightly run `41405761507` is now terminal failed: source LLVM passed, then the
+Rust standard-library step rejected a missing vendored locked `rand` version.
+Repair `059544da` adds the independently locked `library` workspace to both
+compiler vendor profiles; it does not change upstream locks or allow network
+access. Corrected nightly run `41415754392` is active. Original stable run
+`41405757610` remains active. Retain all terminal receipts before disposition.

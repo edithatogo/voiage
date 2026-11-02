@@ -41,14 +41,21 @@ native acceptance remains pending the two cold source-build runs.
   assertion remains mandatory and no 3.15.2 promotion is claimed.
 - Contributor instructions now require complete evidence history/tags and the
   pinned documentation tool, matching the successful local rerun.
+- The nightly run completed source LLVM, then failed on a missing locked `rand`
+  version in the separate standard-library workspace. Added `library/Cargo.toml`
+  to both compiler vendor profiles after two failing regressions. The source
+  archive identities, upstream locks, offline policy and compiler settings stay
+  fixed. The corrected nightly run is `41415754392` at `059544da`.
 
 ## Evidence and remaining scope
 
 The [receipt manifest](evidence/native-rust-llvm-20261102/manifest.json) retains
 failed native/bootstrap and observer evidence, final controls and local gates.
-Compiler source inputs, bootstrap configuration and driver are identical between
-the cold-build revision `fd002a0` and the reviewed candidate. Later observer
-changes strengthen interruption/cleanup handling and have separate Linux proof.
+Compiler source archives, bootstrap configuration and driver are identical
+between `fd002a0` and the reviewed candidate. The compiler vendor profile now
+also verifies the standard-library workspace; its earlier omission is retained
+as a native failure. Later observer changes strengthen interruption/cleanup
+handling and have separate Linux proof.
 Native receipts must still demonstrate terminal success and installed identity,
 compile/link EVPI and linkage checks before this PR can merge.
 
