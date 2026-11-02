@@ -1,0 +1,23 @@
+	Command being timed: "/usr/bin/unshare --net --setgid=1001 --setuid=1001 -- bash /home/runner/work/_temp/native-rust/bootstrap-source/rust-beta-x86_64-unknown-linux-gnu/install.sh --prefix=/home/runner/work/_temp/native-rust/bootstrap --components=rustc,cargo,rust-std-x86_64-unknown-linux-gnu --disable-ldconfig"
+	User time (seconds): 0.50
+	System time (seconds): 1.36
+	Percent of CPU this job got: 109%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.69
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 3984
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 1
+	Minor (reclaiming a frame) page faults: 319224
+	Voluntary context switches: 4235
+	Involuntary context switches: 244
+	Swaps: 0
+	File system inputs: 280
+	File system outputs: 1212128
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

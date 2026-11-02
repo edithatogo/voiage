@@ -1,0 +1,70 @@
+{
+  "scope": "Only this task owned derived outputs",
+  "events": [
+    {
+      "path": "/tmp/voiage-native-nightly-059544da",
+      "before": {
+        "path": "/tmp/voiage-native-nightly-059544da",
+        "status": "measured",
+        "regular_file_bytes": 8665314,
+        "allocated_bytes": 8785920,
+        "symlinks_skipped": 0,
+        "cross_device_skipped": 0
+      },
+      "after_exists": false,
+      "basis": "Every original file hash verified against committed receipt manifest"
+    },
+    {
+      "path": "/tmp/voiage-native-stable-9f6d4358",
+      "before": {
+        "path": "/tmp/voiage-native-stable-9f6d4358",
+        "status": "measured",
+        "regular_file_bytes": 8709809,
+        "allocated_bytes": 8830976,
+        "symlinks_skipped": 0,
+        "cross_device_skipped": 0
+      },
+      "after_exists": false,
+      "basis": "Every original file hash verified against committed receipt manifest"
+    },
+    {
+      "path": "/tmp/voiage-native-complete-closure-stable",
+      "before": {
+        "path": "/tmp/voiage-native-complete-closure-stable",
+        "status": "measured",
+        "regular_file_bytes": 16691487,
+        "allocated_bytes": 16801792,
+        "symlinks_skipped": 0,
+        "cross_device_skipped": 0
+      },
+      "after_exists": false,
+      "basis": "Every original file hash verified against committed receipt manifest"
+    },
+    {
+      "path": "/tmp/voiage-native-complete-closure-nightly",
+      "before": {
+        "path": "/tmp/voiage-native-complete-closure-nightly",
+        "status": "measured",
+        "regular_file_bytes": 16579294,
+        "allocated_bytes": 16687104,
+        "symlinks_skipped": 0,
+        "cross_device_skipped": 0
+      },
+      "after_exists": false,
+      "basis": "Every original file hash verified against committed receipt manifest"
+    },
+    {
+      "path": "/Users/doughnut/Library/Caches/innovate-arrow26-qual.Q7IJ07/voiage/docs/astro-site/dist",
+      "before": {
+        "path": "/Users/doughnut/Library/Caches/innovate-arrow26-qual.Q7IJ07/voiage/docs/astro-site/dist",
+        "status": "measured",
+        "regular_file_bytes": 311631604,
+        "allocated_bytes": 317886464,
+        "symlinks_skipped": 0,
+        "cross_device_skipped": 0
+      },
+      "after_exists": false,
+      "basis": "Completed owned generated documentation output; full build proof retained"
+    }
+  ]
+}

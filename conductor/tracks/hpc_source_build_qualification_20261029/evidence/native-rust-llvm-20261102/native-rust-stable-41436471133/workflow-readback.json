@@ -1,0 +1,184 @@
+{
+  "conclusion": "success",
+  "headSha": "24ae6cb6fe5d839c8a7069c4b4b3d34365eaaf9e",
+  "jobs": [
+    {
+      "completedAt": "2026-11-02T11:24:21Z",
+      "conclusion": "success",
+      "databaseId": 125247354694,
+      "name": "rust-source-capacity / controls",
+      "startedAt": "2026-11-02T11:23:51Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-02T11:23:52Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-02T11:23:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-02T11:23:55Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0",
+          "number": 2,
+          "startedAt": "2026-11-02T11:23:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-02T11:23:57Z",
+          "conclusion": "success",
+          "name": "Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+          "number": 3,
+          "startedAt": "2026-11-02T11:23:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-02T11:24:18Z",
+          "conclusion": "success",
+          "name": "Run uv venv --python 3.15.1 .venv",
+          "number": 4,
+          "startedAt": "2026-11-02T11:23:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-02T11:24:19Z",
+          "conclusion": "success",
+          "name": "Retain native control receipts",
+          "number": 5,
+          "startedAt": "2026-11-02T11:24:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-02T11:24:20Z",
+          "conclusion": "success",
+          "name": "Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+          "number": 9,
+          "startedAt": "2026-11-02T11:24:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-02T11:24:20Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0",
+          "number": 10,
+          "startedAt": "2026-11-02T11:24:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-02T11:24:20Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 11,
+          "startedAt": "2026-11-02T11:24:20Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/edithatogo/voiage/actions/runs/41436471133/job/125247354694"
+    },
+    {
+      "completedAt": "2026-11-02T11:23:37Z",
+      "conclusion": "skipped",
+      "databaseId": 125247356668,
+      "name": "Measure current Polars native source build",
+      "startedAt": "2026-11-02T11:23:38Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/edithatogo/voiage/actions/runs/41436471133/job/125247356668"
+    },
+    {
+      "completedAt": "2026-11-02T13:42:36Z",
+      "conclusion": "success",
+      "databaseId": 125247694429,
+      "name": "rust-source-capacity / native",
+      "startedAt": "2026-11-02T11:24:25Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-02T11:24:27Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-02T11:24:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-02T11:24:29Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0",
+          "number": 2,
+          "startedAt": "2026-11-02T11:24:27Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-02T11:24:30Z",
+          "conclusion": "success",
+          "name": "Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+          "number": 3,
+          "startedAt": "2026-11-02T11:24:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-02T11:24:39Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c",
+          "number": 4,
+          "startedAt": "2026-11-02T11:24:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-02T11:24:50Z",
+          "conclusion": "success",
+          "name": "Prepare native build tools",
+          "number": 5,
+          "startedAt": "2026-11-02T11:24:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-02T13:42:06Z",
+          "conclusion": "success",
+          "name": "Build and install authenticated Rust and LLVM sources",
+          "number": 6,
+          "startedAt": "2026-11-02T11:24:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-02T13:42:08Z",
+          "conclusion": "success",
+          "name": "Retain every native source-stage and resource receipt",
+          "number": 7,
+          "startedAt": "2026-11-02T13:42:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-02T13:42:08Z",
+          "conclusion": "success",
+          "name": "Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+          "number": 13,
+          "startedAt": "2026-11-02T13:42:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-02T13:42:08Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0",
+          "number": 14,
+          "startedAt": "2026-11-02T13:42:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-02T13:42:08Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 15,
+          "startedAt": "2026-11-02T13:42:08Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/edithatogo/voiage/actions/runs/41436471133/job/125247694429"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/edithatogo/voiage/actions/runs/41436471133"
+}

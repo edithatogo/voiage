@@ -9,7 +9,93 @@ lazy from pathlib import Path
 
 import pytest
 
-from scripts.qualify_source_vendor import fetch, qualified_tool, unpack, validate_vendor
+from scripts.qualify_source_vendor import (
+    compiler_vendor_contract,
+    fetch,
+    qualified_tool,
+    unpack,
+    validate_vendor,
+    workspace_locks,
+)
+
+
+def test_member_manifests_reuse_the_authenticated_workspace_lock(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    source = tmp_path / "source"
+    source.mkdir()
+    (source / "Cargo.lock").write_text("frozen bytes")
+
+    def locate(command, cwd, env, output):
+        assert "--workspace" in command
+        assert env["CARGO_NET_OFFLINE"] == "true"
+        output.write_text(json.dumps({"root": str(source / "Cargo.toml")}))
+
+    monkeypatch.setattr("scripts.qualify_source_vendor.run", locate)
+    manifests = [source / "Cargo.toml", source / "src/tools/opt-dist/Cargo.toml"]
+    assert workspace_locks(
+        source, manifests, Path("/qualified/cargo"), {}, tmp_path
+    ) == [source / "Cargo.lock"]
+    assert (source / "Cargo.lock").read_text() == "frozen bytes"
+
+
+def test_external_workspace_lock_is_rejected(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    source = tmp_path / "source"
+    source.mkdir()
+    (tmp_path / "Cargo.lock").write_text("external")
+
+    def locate(command, cwd, env, output):
+        output.write_text(json.dumps({"root": str(tmp_path / "Cargo.toml")}))
+
+    monkeypatch.setattr("scripts.qualify_source_vendor.run", locate)
+    with pytest.raises(ValueError, match="external authenticated workspace lock"):
+        workspace_locks(
+            source, [source / "Cargo.toml"], Path("/qualified/cargo"), {}, tmp_path
+        )
+
+
+def test_compiler_vendor_contract_covers_upstream_notice_workspaces(
+    tmp_path: Path,
+) -> None:
+    module = tmp_path / "src/bootstrap/src/core/build_steps/vendor.rs"
+    module.parent.mkdir(parents=True)
+    module.write_text(
+        "pub fn default_paths_to_vendor() {\n"
+        '    [("library/Cargo.toml", []), ("src/tools/clippy/clippy_test_deps/Cargo.toml", [])]\n'
+        '}\nfn unrelated() { "ignored/Cargo.toml" }\n'
+    )
+    with pytest.raises(ValueError, match="clippy_test_deps"):
+        compiler_vendor_contract(
+            tmp_path, [tmp_path / "Cargo.toml", tmp_path / "library/Cargo.toml"]
+        )
+    manifests = [
+        tmp_path / p
+        for p in (
+            "Cargo.toml",
+            "library/Cargo.toml",
+            "src/tools/clippy/clippy_test_deps/Cargo.toml",
+        )
+    ]
+    result = compiler_vendor_contract(tmp_path, manifests)
+    assert result["required_manifests"] == sorted(
+        str(p.relative_to(tmp_path)) for p in manifests
+    )
+    assert (
+        result["upstream_module_sha256"]
+        == hashlib.sha256(module.read_bytes()).hexdigest()
+    )
+
+
+def test_compiler_vendor_contract_rejects_an_unrecognized_upstream_layout(
+    tmp_path: Path,
+) -> None:
+    module = tmp_path / "src/bootstrap/src/core/build_steps/vendor.rs"
+    module.parent.mkdir(parents=True)
+    module.write_text('fn unrelated() { "other/Cargo.toml" }\n')
+    with pytest.raises(ValueError, match="upstream compiler vendor contract"):
+        compiler_vendor_contract(tmp_path, [tmp_path / "Cargo.toml"])
 
 
 def test_offline_missing_source_never_opens_the_network(

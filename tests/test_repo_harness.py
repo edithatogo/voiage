@@ -166,3 +166,21 @@ def test_self_asserted_mutation_approval_is_rejected(tmp_path: Path) -> None:
     )
     findings = check_operational_assurance(tmp_path)
     assert any("external review anchor" in finding.message for finding in findings)
+
+
+def test_self_repository_workflow_uses_the_event_revision(tmp_path: Path) -> None:
+    """The dedicated self reference is immutable without a checkout-dependent path."""
+    workflows = tmp_path / ".github/workflows"
+    workflows.mkdir(parents=True)
+    (workflows / "callee.yml").write_text("permissions: {}\n")
+    caller = workflows / "caller.yml"
+    caller.write_text(
+        "permissions: {}\njobs:\n  call:\n    uses: $/.github/workflows/callee.yml\n"
+    )
+    assert not any("not pinned" in f.message for f in check_workflows(tmp_path))
+    caller.write_text(
+        "permissions: {}\njobs:\n  call:\n    uses: $/.github/workflows/callee.yml@main\n"
+    )
+    assert any(
+        "self-repository workflow" in f.message for f in check_workflows(tmp_path)
+    )

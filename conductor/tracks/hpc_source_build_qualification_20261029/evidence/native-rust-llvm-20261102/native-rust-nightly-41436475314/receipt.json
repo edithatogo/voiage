@@ -1,0 +1,199 @@
+{
+  "entry": "rust-nightly",
+  "outcome": "passed_native_compiler",
+  "steps": [
+    {
+      "name": "source-vendor",
+      "argv": [
+        "/home/runner/work/voiage/voiage/.venv/bin/python",
+        "-m",
+        "scripts.qualify_source_vendor",
+        "--entry",
+        "rust-nightly",
+        "--work",
+        "/home/runner/work/_temp/native-rust/source-work",
+        "--output",
+        "/home/runner/work/voiage/voiage/native-rust-evidence/source-qualification",
+        "--cargo",
+        "/home/runner/.rustup/toolchains/nightly-2026-09-01-x86_64-unknown-linux-gnu/bin/cargo",
+        "--rustc",
+        "/home/runner/.rustup/toolchains/nightly-2026-09-01-x86_64-unknown-linux-gnu/bin/rustc"
+      ],
+      "network_isolated": false,
+      "returncode": 0
+    },
+    {
+      "name": "bootstrap-install",
+      "argv": [
+        "bash",
+        "/home/runner/work/_temp/native-rust/bootstrap-source/rust-beta-x86_64-unknown-linux-gnu/install.sh",
+        "--prefix=/home/runner/work/_temp/native-rust/bootstrap",
+        "--components=rustc,cargo,rust-std-x86_64-unknown-linux-gnu",
+        "--disable-ldconfig"
+      ],
+      "network_isolated": true,
+      "returncode": 0
+    },
+    {
+      "name": "bootstrap-identity",
+      "argv": [
+        "/home/runner/work/_temp/native-rust/bootstrap/bin/rustc",
+        "--version",
+        "--verbose"
+      ],
+      "network_isolated": true,
+      "returncode": 0
+    },
+    {
+      "name": "network-control",
+      "argv": [
+        "/home/runner/work/voiage/voiage/.venv/bin/python",
+        "-c",
+        "import os,socket;assert os.geteuid()!=0;s=socket.socket();s.settimeout(1);assert s.connect_ex(('1.1.1.1',443))!=0;print('unprivileged isolated network confirmed')"
+      ],
+      "network_isolated": true,
+      "returncode": 0
+    },
+    {
+      "name": "host-tools",
+      "argv": [
+        "bash",
+        "-c",
+        "set -e; gcc --version; g++ --version; cmake --version; ninja --version; unshare --version; /usr/bin/time --version"
+      ],
+      "network_isolated": true,
+      "returncode": 0
+    },
+    {
+      "name": "copyright-preflight",
+      "argv": [
+        "/home/runner/work/voiage/voiage/.venv/bin/python",
+        "/home/runner/work/_temp/native-rust/source-work/unpacked/rustc-nightly-src/x.py",
+        "run",
+        "src/tools/generate-copyright"
+      ],
+      "network_isolated": true,
+      "returncode": 0
+    },
+    {
+      "name": "llvm-source",
+      "argv": [
+        "/home/runner/work/voiage/voiage/.venv/bin/python",
+        "/home/runner/work/_temp/native-rust/source-work/unpacked/rustc-nightly-src/x.py",
+        "build",
+        "--stage",
+        "1",
+        "--jobs",
+        "4",
+        "src/llvm-project"
+      ],
+      "network_isolated": true,
+      "returncode": 0
+    },
+    {
+      "name": "rust-stage2-source",
+      "argv": [
+        "/home/runner/work/voiage/voiage/.venv/bin/python",
+        "/home/runner/work/_temp/native-rust/source-work/unpacked/rustc-nightly-src/x.py",
+        "build",
+        "--stage",
+        "2",
+        "--jobs",
+        "4",
+        "compiler/rustc",
+        "library/std",
+        "src/tools/cargo",
+        "src/tools/rustdoc"
+      ],
+      "network_isolated": true,
+      "returncode": 0
+    },
+    {
+      "name": "install-stage2",
+      "argv": [
+        "/home/runner/work/voiage/voiage/.venv/bin/python",
+        "/home/runner/work/_temp/native-rust/source-work/unpacked/rustc-nightly-src/x.py",
+        "install",
+        "--stage",
+        "2",
+        "--jobs",
+        "4"
+      ],
+      "network_isolated": true,
+      "returncode": 0
+    },
+    {
+      "name": "installed-identity",
+      "argv": [
+        "/home/runner/work/_temp/native-rust/install/bin/rustc",
+        "--version",
+        "--verbose"
+      ],
+      "network_isolated": true,
+      "returncode": 0
+    },
+    {
+      "name": "installed-cargo-compile-link",
+      "argv": [
+        "/home/runner/work/_temp/native-rust/install/bin/cargo",
+        "run",
+        "--offline",
+        "--release",
+        "--manifest-path",
+        "/home/runner/work/_temp/native-rust/installed-probe/Cargo.toml"
+      ],
+      "network_isolated": true,
+      "returncode": 0
+    },
+    {
+      "name": "installed-linkage",
+      "argv": [
+        "ldd",
+        "/home/runner/work/_temp/native-rust/install/bin/rustc"
+      ],
+      "network_isolated": true,
+      "returncode": 0
+    }
+  ],
+  "commit": "24ae6cb6fe5d839c8a7069c4b4b3d34365eaaf9e",
+  "run_url": "https://github.com/edithatogo/voiage/actions/runs/41436475314",
+  "python": "3.15.1 (main, Oct 21 2026, 17:48:50) [Clang 23.1.3 ]",
+  "jobs": 4,
+  "stage": 2,
+  "cache_state": "cold",
+  "full_hpc_matrix_qualified": false,
+  "compiler_source_build_accepted": true,
+  "llvm_source_build_accepted": true,
+  "source_inputs": {
+    "kind": "archive",
+    "source": {
+      "filename": "rustc-nightly-src.tar.xz",
+      "url": "https://static.rust-lang.org/dist/2026-09-01/rustc-nightly-src.tar.xz",
+      "sha256": "15bbdd27bf5d7156847cff3f843ab6dda469be1b6ee0c00b5aab8bba13fabf84"
+    },
+    "manifests": [
+      "Cargo.toml",
+      "src/tools/cargo/Cargo.toml",
+      "src/tools/clippy/clippy_test_deps/Cargo.toml",
+      "src/tools/rust-analyzer/Cargo.toml",
+      "compiler/rustc_codegen_cranelift/Cargo.toml",
+      "compiler/rustc_codegen_gcc/Cargo.toml",
+      "library/Cargo.toml",
+      "library/stdarch/Cargo.toml",
+      "src/bootstrap/Cargo.toml",
+      "src/tools/rustbook/Cargo.toml",
+      "src/tools/rustc-perf/Cargo.toml",
+      "src/tools/opt-dist/Cargo.toml",
+      "src/doc/book/packages/trpl/Cargo.toml"
+    ],
+    "toolchain": "nightly-2026-09-01",
+    "bootstrap": {
+      "url": "https://static.rust-lang.org/dist/2026-08-18/rust-beta-x86_64-unknown-linux-gnu.tar.xz",
+      "sha256": "f28c53c3142262b9842a4d85d5f3a2eec95cb6a32a0a9401ebb37b9ea4809497"
+    }
+  },
+  "elapsed_seconds": 8296.723,
+  "derived_cargo_config_sha256": "9e890e8ad8fed19d1c24435c04aaae53ec73f9ba13a7507e28f4e6c0486f0fe0",
+  "bootstrap_config_sha256": "f66283b49cd30400884bb4e3302db0c1321e0e54c58a867b94d1981f3240eaef",
+  "installed_prefix": "/home/runner/work/_temp/native-rust/install"
+}

@@ -1,0 +1,5 @@
+{
+  "entry": "rust-nightly",
+  "passed": false,
+  "error": "Missing locked workspace: src/tools/opt-dist/Cargo.toml"
+}

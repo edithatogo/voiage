@@ -113,3 +113,38 @@ qualification workflow/helpers/tests, current Polars lock repair and Git source
 checksums, and the source/vendor receipt packet. The prior graph lane is merged.
 No native compiler build or installed HPC operation is active. Next operation is
 final hosted qualification, review, receipt retention and protected merge.
+
+
+## Native compiler execution lane — 2 November 2026
+
+Writer remains chat `01a195fd-b970-7391-83a9-9796bbf98ae3` in
+`/Users/doughnut/Library/Caches/innovate-arrow26-qual.Q7IJ07/voiage`, branch
+`codex/native-rust-llvm-qualification`, based on merged PR #1261. Scope is the
+native compiler workflow, stage observer, source/lock closure, controls and
+receipts. Earlier ownership assignments above remain historical.
+
+Both accepted cold runs used `24ae6cb6`: stable `41436471133` and dated-nightly
+`41436475314`. All 12 stages per role passed, including installation, installed
+compiler identity, Cargo compile/link `EVPI=5`, and resolved native linkage.
+There is no active native build. The default LLVM backend sets were preserved.
+Thirteen manifests map through Cargo to 12 original authenticated locks; the
+upstream vendor contract and copyright preflight fail before costly compilation.
+
+The [results](native-results-20261102.md), [review](review-native-rust-20261102.md)
+and [manifest](evidence/native-rust-llvm-20261102/manifest.json) retain exact Git
+objects, source/bootstrap hashes, artifact digests, all stage/resource logs and
+51 passing Linux controls. Initial observer, unsupported-stage0, missing std
+workspace, missing notice workspace and shared-lock failures remain retained.
+One uv manifest-download timeout received one bounded read-only job rerun.
+
+The full local tox gate and affected docs/coverage rerun passed before the later
+qualification-only fixes. A subsequent full repeat stopped at the disk-space
+preflight; current focused and hosted checks provide the later helper evidence.
+Only completed owned temporary outputs were removed after receipt verification.
+No paid compute was used. No source-built compiler binary archive is retained.
+
+PR #1262 is the integration boundary. Final-head checks, protected merge and
+main Actions are required delivery readbacks; consult that PR for live state.
+The next native task is to bind measured compiler configurations to the actual
+Spack/EasyBuild toolchains and execute downstream installed/generation-isolation
+acceptance. Full P4/P5 profiling and matrix gates remain open.

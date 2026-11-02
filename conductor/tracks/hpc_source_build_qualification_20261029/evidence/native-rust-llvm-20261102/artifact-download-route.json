@@ -1,0 +1,24 @@
+{
+  "artifact": {
+    "id": 13136486857,
+    "node_id": "MDg6QXJ0aWZhY3QxMzEzNjQ4Njg1Nw==",
+    "name": "native-rust-rust-stable-41418186136-1",
+    "size_in_bytes": 865238,
+    "url": "https://api.github.com/repos/edithatogo/voiage/actions/artifacts/13136486857",
+    "archive_download_url": "https://api.github.com/repos/edithatogo/voiage/actions/artifacts/13136486857/zip",
+    "expired": false,
+    "digest": "sha256:c7f113f1de6735e8e990b6d2eb283798224e7aa88e95d8386e4db8c92fed8093",
+    "created_at": "2026-11-02T11:17:51Z",
+    "updated_at": "2026-11-02T11:17:51Z",
+    "expires_at": "2026-12-02T11:17:50Z",
+    "workflow_run": {
+      "id": 41418186136,
+      "repository_id": 1012862812,
+      "head_repository_id": 1012862812,
+      "head_branch": "codex/native-rust-llvm-qualification",
+      "head_sha": "9f6d4358cc697ccad2af04d54f39343a2872900e"
+    }
+  },
+  "download_sha256": "sha256:c7f113f1de6735e8e990b6d2eb283798224e7aa88e95d8386e4db8c92fed8093",
+  "receipt_matches_retained_bytes": true
+}

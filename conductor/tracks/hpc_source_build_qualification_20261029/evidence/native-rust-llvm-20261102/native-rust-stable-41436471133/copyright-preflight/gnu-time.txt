@@ -1,0 +1,23 @@
+	Command being timed: "/usr/bin/unshare --net --setgid=1001 --setuid=1001 -- /home/runner/work/voiage/voiage/.venv/bin/python /home/runner/work/_temp/native-rust/source-work/unpacked/rustc-1.99.1-src/x.py run src/tools/generate-copyright"
+	User time (seconds): 167.92
+	System time (seconds): 25.62
+	Percent of CPU this job got: 290%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:06.63
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1030884
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 2910
+	Minor (reclaiming a frame) page faults: 5284478
+	Voluntary context switches: 31216
+	Involuntary context switches: 35977
+	Swaps: 0
+	File system inputs: 427320
+	File system outputs: 2249888
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

@@ -1,0 +1,24 @@
+Command exited with non-zero status 1
+	Command being timed: "/usr/bin/unshare --net --setgid=1001 --setuid=1001 -- /home/runner/work/voiage/voiage/.venv/bin/python /home/runner/work/_temp/native-rust/source-work/unpacked/rustc-1.99.1-src/x.py build --stage 0 --jobs 4 src/llvm-project"
+	User time (seconds): 56.27
+	System time (seconds): 7.10
+	Percent of CPU this job got: 272%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:23.24
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1071604
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 2290
+	Minor (reclaiming a frame) page faults: 2435539
+	Voluntary context switches: 16991
+	Involuntary context switches: 13868
+	Swaps: 0
+	File system inputs: 355576
+	File system outputs: 1394200
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 1

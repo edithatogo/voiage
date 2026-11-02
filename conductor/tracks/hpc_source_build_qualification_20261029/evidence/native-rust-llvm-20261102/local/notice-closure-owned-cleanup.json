@@ -1,0 +1,15 @@
+{
+  "scope": "Completed owned synthetic verification fixtures only",
+  "source_report_sha256": "7c9ce7751ab3cd71b34f2ed829b032f6681cf23db29a5aeb6e5809ca89f58756",
+  "before": {
+    "path": "/Users/doughnut/Library/Caches/innovate-arrow26-qual.Q7IJ07/.voiage-verification-jk68mu0u",
+    "status": "measured",
+    "regular_file_bytes": 1530717714,
+    "allocated_bytes": 1634586624,
+    "symlinks_skipped": 842,
+    "cross_device_skipped": 0
+  },
+  "after": {
+    "exists": false
+  }
+}

@@ -2,6 +2,11 @@ name: Native Build Capacity Observation
 
 on:
   workflow_dispatch:
+    inputs:
+      profile:
+        type: choice
+        options: [polars, rust-stable, rust-nightly]
+        default: polars
   push:
     branches: [codex/native-build-capacity-20261028]
     paths:
@@ -11,11 +16,17 @@ permissions:
   contents: read
 
 concurrency:
-  group: native-capacity-${{ github.ref }}
+  group: native-capacity-${{ github.ref }}-${{ inputs.profile }}
   cancel-in-progress: false
 
 jobs:
+  rust-source-capacity:
+    if: inputs.profile == 'rust-stable' || inputs.profile == 'rust-nightly'
+    uses: $/.github/workflows/native-rust-llvm-qualification.yml
+    with:
+      entry: ${{ inputs.profile }}
   polars-source-capacity:
+    if: inputs.profile == 'polars' || inputs.profile == ''
     name: Measure current Polars native source build
     runs-on: ubuntu-24.04
     timeout-minutes: 35

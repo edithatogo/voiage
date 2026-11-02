@@ -748,6 +748,12 @@ as recorded in the active task above; earlier route decisions below are historic
 
 ## Done
 
+- [x] Qualify the baseline stable Rust 1.99.1 and dated-nightly Rust/LLVM source
+  builds and installed compiler/Cargo EVPI/linkage probes on GitHub Actions.
+  Retain failed attempts, complete vendor closure and per-stage resource receipts
+  in `conductor/tracks/hpc_source_build_qualification_20261029/`. Full Spack and
+  both EasyBuild generation installs remain open.
+
 - Port the perspective tensor contract from vop_poc_nz with reference parity fixtures.
 
 - [x] Add source-bound dated Rust/compiler bootstrap candidates and authenticate

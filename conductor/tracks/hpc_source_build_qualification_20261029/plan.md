@@ -28,25 +28,33 @@ P5 -> P6. P2 source controls must pass before P3 fetch/build dispatch.
         forbidden fetch and unsupported CLI options.
   - [ ] Implement supported pre-fetch restrictions and resolved-source checks.
   - [ ] Run focused tests and exact-version package-manager probes on Linux.
-- [ ] Task: Bind a safe per-stage observation runner.
+- [~] Task: Bind a safe per-stage observation runner.
   - [ ] Test descendants in distinct process groups, sampler loss, timeout/OOM,
         failed stage, interruption, cleanup and receipt completeness.
   - [ ] Reuse accepted observation tools; add only missing counters and provenance.
-  - [ ] Verify owned-process termination and fail-closed terminal reports.
-  - [ ] Freeze runner envelope, concurrency and storage headroom before dispatch.
+  - [x] Verify owned-process termination and fail-closed terminal reports.
+        Linux run `41435528252` passes all 51 combined controls, including
+        detached/orphaned children, SIGTERM, a fork during cleanup and vendor
+        contract/shared-lock boundaries.
+  - [x] Freeze runner envelope, concurrency and storage headroom before dispatch.
+        Four build jobs, one LLVM link job, 12 GiB sampled RSS, 8 GiB minimum
+        free space, four hours per stage and 5.5 hours aggregate driver budget.
 - [ ] Task: Phase verification, agent review and checkpoint per workflow.md.
 
 ## P3 — Measure Rust and LLVM source bootstraps
-- [ ] Task: Run a bounded hosted feasibility build for one frozen configuration.
-  - [ ] Record stage0 exception, explicit source stages, LLVM source build,
+- [x] Task: Run bounded hosted feasibility builds for the two baseline roles.
+  - [x] Record stage0 exception, explicit source stages, LLVM source build,
         targets, debug settings, vendoring and source authentication.
-  - [ ] Retain per-stage process/CPU/I/O/disk/time measurements and complete logs.
-  - [ ] Verify installed compiler identities and actual compile/link operation.
-  - [ ] If stopped, preserve terminal evidence and select a supported execution
+  - [x] Retain per-stage process/CPU/I/O/disk/time measurements and complete logs.
+  - [x] Verify installed compiler identities and actual compile/link operation.
+  - [x] If stopped, preserve terminal evidence and select a supported execution
         route within available authority; never classify a stop as a pass.
-- [ ] Task: Qualify the remaining distinct compiler configurations.
+- [~] Task: Qualify the remaining distinct compiler configurations.
   - [ ] Reuse identical accepted compiler output only with exact provenance.
-  - [ ] Build differing stable/nightly or generation configurations and verify.
+  - [x] Build the selected stable and dated-nightly baseline configurations.
+        Runs `41436471133` and `41436475314` passed all 12 stages at `24ae6cb6`.
+  - [ ] Bind these baselines to actual package-manager/generation flags and
+        qualify differing generation configurations before installed acceptance.
 - [ ] Task: Phase verification, agent review and checkpoint per workflow.md.
 
 ## P4 — Diagnose overhead and set a measured budget

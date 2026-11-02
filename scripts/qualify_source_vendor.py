@@ -20,10 +20,71 @@ MAX_ARCHIVE_BYTES = 2 * 1024**3
 MAX_UNPACKED_BYTES = 16 * 1024**3
 
 
+def compiler_vendor_contract(source: Path, manifests: list[Path]) -> dict[str, Any]:
+    """Require the upstream dist/notice workspace closure before compilation."""
+    module = source / "src/bootstrap/src/core/build_steps/vendor.rs"
+    text = module.read_text(encoding="utf-8")
+    function = re.search(
+        r"^pub fn default_paths_to_vendor\b.*?^}", text, re.MULTILINE | re.DOTALL
+    )
+    paths = (
+        re.findall(r'"([^"\n]+/Cargo\.toml)"', function.group())
+        if function is not None
+        else []
+    )
+    if not paths:
+        raise ValueError("Unrecognized upstream compiler vendor contract")
+    required = {"Cargo.toml", *paths}
+    configured = {str(path.relative_to(source)) for path in manifests}
+    if missing := required - configured:
+        raise ValueError(
+            f"Missing upstream compiler vendor workspaces: {sorted(missing)}"
+        )
+    return {
+        "upstream_module": str(module.relative_to(source)),
+        "upstream_module_sha256": digest(module),
+        "required_manifests": sorted(required),
+    }
+
+
 def digest(path: Path) -> str:
     """Hash bytes without loading an archive into memory."""
     with path.open("rb") as stream:
         return hashlib.file_digest(stream, "sha256").hexdigest()
+
+
+def workspace_locks(
+    source: Path,
+    manifests: list[Path],
+    cargo: Path,
+    env: dict[str, str],
+    output: Path,
+) -> list[Path]:
+    """Resolve shared workspace locks through Cargo without changing their bytes."""
+    locks = []
+    for index, manifest in enumerate(manifests):
+        receipt = output / f"workspace-locate-{index}.json"
+        run(
+            [
+                str(cargo),
+                "locate-project",
+                "--workspace",
+                "--manifest-path",
+                str(manifest),
+            ],
+            source,
+            dict(env, CARGO_NET_OFFLINE="true"),
+            receipt,
+        )
+        root = Path(json.loads(receipt.read_text(encoding="utf-8"))["root"]).resolve()
+        lock = root.with_name("Cargo.lock")
+        if not root.is_relative_to(source.resolve()) or not lock.is_file():
+            raise ValueError(
+                f"Missing or external authenticated workspace lock: {root}"
+            )
+        if lock not in locks:
+            locks.append(lock)
+    return locks
 
 
 def fetch(source: dict[str, str], cache: Path, *, offline: bool = False) -> Path:
@@ -314,12 +375,15 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
         manifests = [locks[0].with_name("Cargo.toml")]
     else:
         manifests = [source / name for name in entry["manifests"]]
+    compiler_contract = (
+        compiler_vendor_contract(source, manifests) if "bootstrap" in entry else None
+    )
     for manifest in manifests:
-        if not manifest.is_file() or not manifest.with_name("Cargo.lock").is_file():
+        if not manifest.is_file():
             raise ValueError(
                 f"Missing locked workspace: {manifest.relative_to(source)}"
             )
-    lock_paths = [manifest.with_name("Cargo.lock") for manifest in manifests]
+    lock_paths = workspace_locks(source, manifests, cargo, env, output)
     lock_hashes = {str(path.relative_to(source)): digest(path) for path in lock_paths}
     locks_data = [
         tomllib.loads(path.read_text(encoding="utf-8")) for path in lock_paths
@@ -394,6 +458,7 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
         "source": source_record,
         "locks": lock_hashes,
         "vendor": result,
+        "compiler_vendor_contract": compiler_contract,
         "offline_metadata_passed": True,
         "native_build_accepted": False,
         "installed_module_accepted": False,
