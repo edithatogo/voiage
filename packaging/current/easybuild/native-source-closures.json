@@ -24,7 +24,14 @@
         "revision": "0d683dfb157097e2075d5e0eaf25f71f514a7552"
       }
     ],
-    "git_archive_bytes_qualified": false
+    "git_archive_bytes_qualified": true,
+    "git_archive_sha256": {
+      "color-backtrace-0.7.4-20f5eea1.tar.xz": "786cf9317b4d2930c90e662f7f9412f1bda348634e678c09f078946656b4bc86",
+      "hashbrown-0.17.1-d76a6f81.tar.xz": "60f09b2ebc22c311cfd46ee0c584e42c4be5a3e7c336a5056f174feb68ba6aa3",
+      "tikv-jemalloc-sys-0.7.1+5.3.1-0-g81034ce1f1373e37dc865038e1bc8eeecf559ce8-0d683dfb.tar.xz": "131e18fdc7abeca86aef334ea5c19b32b23077ba9c9611a0638ec8665b0dad3a"
+    },
+    "git_archive_proof": "https://github.com/edithatogo/voiage/actions/runs/41392609364",
+    "proof_scope": "Two fresh EasyBuild 5.4.2 fetches produced identical Git archive bytes. That discovery run failed its final provider-digest gate until these hashes were added."
   },
   "libcst": {
     "source": {

@@ -122,7 +122,7 @@ jobs:
           mkdir receipts
           git rev-parse HEAD > receipts/source-commit.txt
           .venv/bin/python --version > receipts/python.txt
-          .venv/bin/python scripts/guard_verification.py --work-dir receipts/resources --workload-id git-archives --max-rss-mib 6000 --timeout-seconds 1200 --min-free-mib 8192 --artifact-dir "$RUNNER_TEMP/git-work" -- .venv/bin/python scripts/qualify_git_archives.py --work "$RUNNER_TEMP/git-work" --output receipts/qualification --eb "$PWD/.venv/bin/eb"
+          .venv/bin/python scripts/guard_verification.py --work-dir receipts/resources --workload-id git-archives --max-rss-mib 6000 --timeout-seconds 1200 --min-free-mib 8192 --artifact-dir "$RUNNER_TEMP/git-work" -- .venv/bin/python -m scripts.qualify_git_archives --work "$RUNNER_TEMP/git-work" --output receipts/qualification --eb "$PWD/.venv/bin/eb"
       - name: Retain Git archive identities and resource receipts
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a

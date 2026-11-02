@@ -139,15 +139,114 @@ def test_lock_repair_rejects_changed_input(tmp_path: Path) -> None:
         )
 
 
-def test_frozen_polars_lock_repair_preserves_package_identities(tmp_path: Path) -> None:
+def test_lock_repair_rejects_new_identity(tmp_path: Path) -> None:
+    import difflib
+    import shutil
+
+    from scripts.qualify_source_vendor import apply_lock_patch
+
+    before = 'version = 4\n\n[[package]]\nname = "example"\nversion = "1.0.0"\n'
+    after = before.replace("1.0.0", "2.0.0")
+    lock = tmp_path / "Cargo.lock"
+    lock.write_text(before)
+    patch = tmp_path / "lock.patch"
+    patch.write_text(
+        "".join(
+            difflib.unified_diff(
+                before.splitlines(True),
+                after.splitlines(True),
+                fromfile="a/Cargo.lock",
+                tofile="b/Cargo.lock",
+            )
+        )
+    )
+    git = shutil.which("git")
+    assert git is not None
+    with pytest.raises(ValueError, match="new package identity"):
+        apply_lock_patch(
+            tmp_path,
+            {
+                "path": str(patch),
+                "sha256": hashlib.sha256(patch.read_bytes()).hexdigest(),
+                "original_sha256": hashlib.sha256(before.encode()).hexdigest(),
+                "qualified_sha256": hashlib.sha256(after.encode()).hexdigest(),
+            },
+            git,
+        )
+
+
+def test_lock_repair_accepts_only_frozen_pruning(tmp_path: Path) -> None:
+    import difflib
+    import shutil
+
+    from scripts.qualify_source_vendor import apply_lock_patch
+
+    before = 'version = 4\n\n[[package]]\nname = "unused"\nversion = "1.0.0"\n'
+    after = "version = 4\npackage = []\n"
+    (tmp_path / "Cargo.lock").write_text(before)
+    patch = tmp_path / "lock.patch"
+    patch.write_text(
+        "".join(
+            difflib.unified_diff(
+                before.splitlines(True),
+                after.splitlines(True),
+                fromfile="a/Cargo.lock",
+                tofile="b/Cargo.lock",
+            )
+        )
+    )
+    git = shutil.which("git")
+    assert git is not None
+    result = apply_lock_patch(
+        tmp_path,
+        {
+            "path": str(patch),
+            "sha256": hashlib.sha256(patch.read_bytes()).hexdigest(),
+            "original_sha256": hashlib.sha256(before.encode()).hexdigest(),
+            "qualified_sha256": hashlib.sha256(after.encode()).hexdigest(),
+        },
+        git,
+    )
+    assert result["original_packages"] == 1
+    assert result["qualified_packages"] == 0
+
+
+def test_current_native_recipe_checksums_follow_actual_fetch_order() -> None:
+    from scripts.qualify_git_archives import recipe_values
 
     repository = Path(__file__).resolve().parents[1]
-    record = json.loads(
+    inputs = json.loads(
         (repository / "packaging/current/source-vendor-inputs.json").read_text()
-    )["entries"]["polars-runtime-32"]["lock_patch"]
-    # Reconstruct the upstream lock from the complete context-free reverse patch.
-    # The downloaded source is exercised by the hosted qualification, not this test.
-    assert len(record["original_sha256"]) == 64
-    patch = repository / record["path"]
-    assert hashlib.sha256(patch.read_bytes()).hexdigest() == record["sha256"]
-    assert "+++ b/Cargo.lock" in patch.read_text()
+    )
+    for entry in inputs["entries"].values():
+        for recipe in entry.get("recipes", []):
+            values = recipe_values(repository / recipe)
+            expected = [entry["source"]["filename"]]
+            for crate in values["crates"]:
+                filename = f"{crate[0]}-{crate[1]}"
+                filename += f"-{crate[3][:8]}.tar.xz" if len(crate) == 4 else ".tar.gz"
+                expected.append(filename)
+            if "lock_patch" in entry:
+                expected.append(Path(entry["lock_patch"]["path"]).name)
+            assert len(expected) == len(values["checksums"]), recipe
+            for filename, checksums in zip(expected, values["checksums"], strict=True):
+                assert list(checksums) == [filename], (recipe, filename)
+                assert len(checksums[filename]) == 64
+
+
+def test_recipe_reader_rejects_executable_crate_declarations(tmp_path: Path) -> None:
+    from scripts.qualify_git_archives import recipe_values
+
+    recipe = tmp_path / "unsafe.eb"
+    recipe.write_text('crates = __import__("os").system("false")\n')
+    with pytest.raises(ValueError):
+        recipe_values(recipe)
+
+
+def test_conflicting_vendor_source_identities_fail_closed(tmp_path: Path) -> None:
+    vendor, locks = vendor_fixture(tmp_path)
+    conflict = dict(
+        locks[0]["package"][0], source="git+https://example.org/repo#" + "a" * 40
+    )
+    with pytest.raises(ValueError, match="Conflicting vendor source"):
+        validate_vendor(vendor, [*locks, {"package": [conflict]}])

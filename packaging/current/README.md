@@ -90,3 +90,31 @@ catalogue targets. Linux x86-64 SDK and component bytes were verified.
 The Polars runtime retains its dated nightly. The Rust workspace supports
 1.85 as its minimum version. Source-built Rust and LLVM, both foss generations
 and the full Linux Spack root require their own installed verification.
+
+## Linux source and vendor qualification
+
+`linux-source-vendor-qualification.yml` authenticates the six Cargo-backed
+provider sdists, the frozen Voiage HPC candidate, both compiler source archives
+and their explicit bootstrap SDK archives. Each Cargo cell uses locked vendoring,
+verifies every vendor file, then replays all-feature metadata offline with an
+empty Cargo cache and blocked proxy. Compiler source cells cover the main,
+bootstrap and Cargo workspaces. The bootstrap SDK is authenticated input and is
+not counted as source-built output.
+
+The Polars 2.1.0 sdist retains a lockfile for a larger upstream workspace.
+`polars-runtime-32-2.1.0-lock.patch` freezes Cargo's pruning for the shipped
+workspace, introducing no new package identities, versions or checksums. The
+input manifest pins the upstream and repaired lock hashes. Both current
+EasyBuild generations and Spack apply the same patch. Its upstream material
+retains the MIT terms in `LICENSE.polars`.
+
+The separate EasyBuild 5.4.2 fetch-only probe compares its three fixed Git
+revisions to the authenticated Polars lock, independently fetches each twice,
+checks reproducible archive bytes and requires the resulting hashes in both
+provider recipes. Checksum discovery runs only against temporary Git-only probe
+recipes. It never replaces an existing trusted checksum or builds a package.
+
+Receipts include exact source identities, unchanged qualified lock hashes,
+per-package vendor checksums, offline metadata, complete command diagnostics
+and bounded resource reports. Native Rust/LLVM builds and installed full-graph
+scientific acceptance remain separate, open gates.

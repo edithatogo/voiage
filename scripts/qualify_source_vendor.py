@@ -112,6 +112,15 @@ def validate_vendor(vendor: Path, locks: list[dict[str, Any]]) -> dict[str, Any]
                 if not re.fullmatch(r"[0-9a-f]{40}", urlsplit(source[4:]).fragment):
                     raise ValueError("Git source must have a full immutable revision")
                 expected[package["name"], package["version"]] = None
+    sources: dict[tuple[str, str], str] = {}
+    for lock in locks:
+        for package in lock["package"]:
+            identity = package["name"], package["version"]
+            source = package.get("source", "")
+            if identity in expected:
+                if identity in sources and sources[identity] != source:
+                    raise ValueError("Conflicting vendor source identities")
+                sources[identity] = source
     observed: set[tuple[str, str]] = set()
     records = []
     for directory in sorted(vendor.iterdir()):
@@ -120,6 +129,8 @@ def validate_vendor(vendor: Path, locks: list[dict[str, Any]]) -> dict[str, Any]
         metadata = tomllib.loads((directory / "Cargo.toml").read_text())["package"]
         identity = metadata["name"], metadata["version"]
         checks = json.loads((directory / ".cargo-checksum.json").read_text())
+        if identity in observed:
+            raise ValueError("Duplicate vendor package identity")
         if identity not in expected or checks["package"] != expected[identity]:
             raise ValueError(f"Vendor package identity mismatch: {identity}")
         files = checks["files"]
@@ -142,6 +153,7 @@ def validate_vendor(vendor: Path, locks: list[dict[str, Any]]) -> dict[str, Any]
             {
                 "name": identity[0],
                 "version": identity[1],
+                "source": sources[identity],
                 "package_sha256": checks["package"],
                 "files": len(files),
                 "checksum_manifest_sha256": digest(directory / ".cargo-checksum.json"),

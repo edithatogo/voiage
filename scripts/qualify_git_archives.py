@@ -12,7 +12,7 @@ import tomllib
 from typing import Any
 from urllib.parse import urlsplit
 
-from qualify_source_vendor import digest, fetch, unpack
+from scripts.qualify_source_vendor import digest, fetch, unpack
 
 
 def recipe_values(path: Path) -> dict[str, Any]:
@@ -107,15 +107,20 @@ def qualify(work: Path, output: Path, eb: Path) -> None:
         "fresh_fetches": 2,
         "reproducible": True,
     }
-    (output / "git-archives.json").write_text(json.dumps(result, indent=2) + "\n")
+    result["provider_digests_match"] = True
     for recipe in recipes:
         pinned = {
             name: sha for item in recipe["checksums"] for name, sha in item.items()
         }
         if any(pinned.get(name) != sha for name, sha in receipts[0].items()):
-            raise ValueError(
-                "Qualified Git archive digest is missing from a provider recipe"
-            )
+            result["provider_digests_match"] = False
+
+    result["passed"] = result["provider_digests_match"]
+    (output / "git-archives.json").write_text(json.dumps(result, indent=2) + "\n")
+    if not result["passed"]:
+        raise ValueError(
+            "Qualified Git archive digest is missing from a provider recipe"
+        )
 
 
 def main() -> None:
