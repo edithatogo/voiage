@@ -32,8 +32,12 @@ P5 -> P6. P2 source controls must pass before P3 fetch/build dispatch.
   - [ ] Test descendants in distinct process groups, sampler loss, timeout/OOM,
         failed stage, interruption, cleanup and receipt completeness.
   - [ ] Reuse accepted observation tools; add only missing counters and provenance.
-  - [ ] Verify owned-process termination and fail-closed terminal reports.
-  - [ ] Freeze runner envelope, concurrency and storage headroom before dispatch.
+  - [x] Verify owned-process termination and fail-closed terminal reports.
+        Linux run `41410154353` passes all 45 combined controls, including
+        detached/orphaned children, SIGTERM and a fork during cleanup.
+  - [x] Freeze runner envelope, concurrency and storage headroom before dispatch.
+        Four build jobs, one LLVM link job, 12 GiB sampled RSS, 8 GiB minimum
+        free space, four hours per stage and 5.5 hours aggregate driver budget.
 - [ ] Task: Phase verification, agent review and checkpoint per workflow.md.
 
 ## P3 — Measure Rust and LLVM source bootstraps

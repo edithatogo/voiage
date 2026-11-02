@@ -1,5 +1,9 @@
 # Changelog
 
+- Add opt-in authenticated Rust/LLVM source-build qualification on GitHub Actions,
+  with offline native stages, descendant cleanup controls and retained resource
+  receipts. Full installed HPC matrix acceptance remains open.
+
 - Add authenticated Linux Cargo/compiler-source qualification, locked offline vendor replay, reproducible Polars Git-source archives and durable source/resource receipts.
 
 - Add bounded Linux Spack and EasyBuild 2023a/2024a dependency-graph qualification, with authenticated candidate sources and retained graph/resource receipts.

@@ -1,0 +1,35 @@
+change-id = "ignore"
+
+[build]
+build = "x86_64-unknown-linux-gnu"
+host = ["x86_64-unknown-linux-gnu"]
+target = ["x86_64-unknown-linux-gnu"]
+build-dir = "/home/runner/work/_temp/native-rust/build"
+cargo = "/home/runner/work/_temp/native-rust/bootstrap/bin/cargo"
+rustc = "/home/runner/work/_temp/native-rust/bootstrap/bin/rustc"
+python = "/home/runner/work/voiage/voiage/.venv/bin/python"
+vendor = true
+locked-deps = true
+extended = true
+tools = ["cargo", "rustdoc", "src"]
+docs = false
+submodules = false
+
+[llvm]
+download-ci-llvm = false
+link-jobs = 1
+ninja = true
+
+[rust]
+download-rustc = false
+channel = "stable"
+optimize = true
+debug = false
+debuginfo-level = 0
+codegen-units = 4
+codegen-units-std = 1
+incremental = false
+
+[install]
+prefix = "/home/runner/work/_temp/native-rust/install"
+sysconfdir = "etc"

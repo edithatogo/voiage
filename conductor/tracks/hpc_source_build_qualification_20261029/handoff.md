@@ -125,3 +125,20 @@ qualification tests and receipts. No competing checkout writer or native build
 was found. Earlier ownership assignments remain historical. Next operation is
 qualifying descendant measurement and source-bootstrap controls, then a bounded
 GitHub-hosted stable Rust/LLVM build. No paid capacity is authorized.
+
+### Active compiler checkpoint
+
+The same writer owns PR #1262. Stable run `41405757610` and dated-nightly run
+`41405761507` are active at frozen revision `fd002a0`; do not cancel or duplicate
+them for documentation/cleanup-only changes. The driver, authenticated inputs
+and generated compiler configuration remain unchanged. Latest Linux controls
+at `b272163` passed all 45 cases. Local tox environments passed across the full
+attempt and the docs/coverage rerun after restoring full history/tags and the
+pinned Astro submodule. No test gate was weakened.
+
+Next operation: inspect terminal compiler receipts, apply any real blocker fixes,
+retain exact build/installed-probe evidence, finish the review and merge only
+after hosted gates pass. The [review](review-native-rust-20261102.md) and
+[manifest](evidence/native-rust-llvm-20261102/manifest.json) distinguish running
+jobs, failed attempts and accepted controls. Full installed HPC acceptance stays
+open; no other chat may take over these jobs without a terminal handoff.
