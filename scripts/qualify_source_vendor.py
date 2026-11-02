@@ -20,6 +20,33 @@ MAX_ARCHIVE_BYTES = 2 * 1024**3
 MAX_UNPACKED_BYTES = 16 * 1024**3
 
 
+def compiler_vendor_contract(source: Path, manifests: list[Path]) -> dict[str, Any]:
+    """Require the upstream dist/notice workspace closure before compilation."""
+    module = source / "src/bootstrap/src/core/build_steps/vendor.rs"
+    text = module.read_text(encoding="utf-8")
+    function = re.search(
+        r"^pub fn default_paths_to_vendor\b.*?^}", text, re.MULTILINE | re.DOTALL
+    )
+    paths = (
+        re.findall(r'"([^"\n]+/Cargo\.toml)"', function.group())
+        if function is not None
+        else []
+    )
+    if not paths:
+        raise ValueError("Unrecognized upstream compiler vendor contract")
+    required = {"Cargo.toml", *paths}
+    configured = {str(path.relative_to(source)) for path in manifests}
+    if missing := required - configured:
+        raise ValueError(
+            f"Missing upstream compiler vendor workspaces: {sorted(missing)}"
+        )
+    return {
+        "upstream_module": str(module.relative_to(source)),
+        "upstream_module_sha256": digest(module),
+        "required_manifests": sorted(required),
+    }
+
+
 def digest(path: Path) -> str:
     """Hash bytes without loading an archive into memory."""
     with path.open("rb") as stream:
@@ -314,6 +341,9 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
         manifests = [locks[0].with_name("Cargo.toml")]
     else:
         manifests = [source / name for name in entry["manifests"]]
+    compiler_contract = (
+        compiler_vendor_contract(source, manifests) if "bootstrap" in entry else None
+    )
     for manifest in manifests:
         if not manifest.is_file() or not manifest.with_name("Cargo.lock").is_file():
             raise ValueError(
@@ -394,6 +424,7 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
         "source": source_record,
         "locks": lock_hashes,
         "vendor": result,
+        "compiler_vendor_contract": compiler_contract,
         "offline_metadata_passed": True,
         "native_build_accepted": False,
         "installed_module_accepted": False,

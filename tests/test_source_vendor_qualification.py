@@ -9,7 +9,55 @@ lazy from pathlib import Path
 
 import pytest
 
-from scripts.qualify_source_vendor import fetch, qualified_tool, unpack, validate_vendor
+from scripts.qualify_source_vendor import (
+    compiler_vendor_contract,
+    fetch,
+    qualified_tool,
+    unpack,
+    validate_vendor,
+)
+
+
+def test_compiler_vendor_contract_covers_upstream_notice_workspaces(
+    tmp_path: Path,
+) -> None:
+    module = tmp_path / "src/bootstrap/src/core/build_steps/vendor.rs"
+    module.parent.mkdir(parents=True)
+    module.write_text(
+        "pub fn default_paths_to_vendor() {\n"
+        '    [("library/Cargo.toml", []), ("src/tools/clippy/clippy_test_deps/Cargo.toml", [])]\n'
+        '}\nfn unrelated() { "ignored/Cargo.toml" }\n'
+    )
+    with pytest.raises(ValueError, match="clippy_test_deps"):
+        compiler_vendor_contract(
+            tmp_path, [tmp_path / "Cargo.toml", tmp_path / "library/Cargo.toml"]
+        )
+    manifests = [
+        tmp_path / p
+        for p in (
+            "Cargo.toml",
+            "library/Cargo.toml",
+            "src/tools/clippy/clippy_test_deps/Cargo.toml",
+        )
+    ]
+    result = compiler_vendor_contract(tmp_path, manifests)
+    assert result["required_manifests"] == sorted(
+        str(p.relative_to(tmp_path)) for p in manifests
+    )
+    assert (
+        result["upstream_module_sha256"]
+        == hashlib.sha256(module.read_bytes()).hexdigest()
+    )
+
+
+def test_compiler_vendor_contract_rejects_an_unrecognized_upstream_layout(
+    tmp_path: Path,
+) -> None:
+    module = tmp_path / "src/bootstrap/src/core/build_steps/vendor.rs"
+    module.parent.mkdir(parents=True)
+    module.write_text('fn unrelated() { "other/Cargo.toml" }\n')
+    with pytest.raises(ValueError, match="upstream compiler vendor contract"):
+        compiler_vendor_contract(tmp_path, [tmp_path / "Cargo.toml"])
 
 
 def test_offline_missing_source_never_opens_the_network(

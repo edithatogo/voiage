@@ -100,9 +100,18 @@
       },
       "manifests": [
         "Cargo.toml",
-        "src/bootstrap/Cargo.toml",
         "src/tools/cargo/Cargo.toml",
-        "library/Cargo.toml"
+        "src/tools/clippy/clippy_test_deps/Cargo.toml",
+        "src/tools/rust-analyzer/Cargo.toml",
+        "compiler/rustc_codegen_cranelift/Cargo.toml",
+        "compiler/rustc_codegen_gcc/Cargo.toml",
+        "library/Cargo.toml",
+        "library/stdarch/Cargo.toml",
+        "src/bootstrap/Cargo.toml",
+        "src/tools/rustbook/Cargo.toml",
+        "src/tools/rustc-perf/Cargo.toml",
+        "src/tools/opt-dist/Cargo.toml",
+        "src/doc/book/packages/trpl/Cargo.toml"
       ],
       "toolchain": "nightly-2026-09-01",
       "bootstrap": {
@@ -119,9 +128,18 @@
       },
       "manifests": [
         "Cargo.toml",
-        "src/bootstrap/Cargo.toml",
         "src/tools/cargo/Cargo.toml",
-        "library/Cargo.toml"
+        "src/tools/clippy/clippy_test_deps/Cargo.toml",
+        "src/tools/rust-analyzer/Cargo.toml",
+        "compiler/rustc_codegen_cranelift/Cargo.toml",
+        "compiler/rustc_codegen_gcc/Cargo.toml",
+        "library/Cargo.toml",
+        "library/stdarch/Cargo.toml",
+        "src/bootstrap/Cargo.toml",
+        "src/tools/rustbook/Cargo.toml",
+        "src/tools/rustc-perf/Cargo.toml",
+        "src/tools/opt-dist/Cargo.toml",
+        "src/doc/book/packages/trpl/Cargo.toml"
       ],
       "toolchain": "nightly-2026-09-01",
       "bootstrap": {
