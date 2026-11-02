@@ -158,6 +158,34 @@ def validate_vendor(vendor: Path, locks: list[dict[str, Any]]) -> dict[str, Any]
     }
 
 
+def apply_lock_patch(source: Path, patch: dict[str, str], git: str) -> dict[str, Any]:
+    """Apply an explicitly frozen sdist lock repair without selecting new crates."""
+    lock = source / "Cargo.lock"
+    path = Path(patch["path"]).resolve(strict=True)
+    if digest(path) != patch["sha256"] or digest(lock) != patch["original_sha256"]:
+        raise ValueError("Lock patch input digest mismatch")
+    before = tomllib.loads(lock.read_text())["package"]
+    subprocess.run(  # noqa: S603 - authenticated patch and fixed Git argv
+        [git, "apply", "--no-index", "--check", str(path)], cwd=source, check=True
+    )
+    subprocess.run(  # noqa: S603 - authenticated patch and fixed Git argv
+        [git, "apply", "--no-index", str(path)], cwd=source, check=True
+    )
+    if digest(lock) != patch["qualified_sha256"]:
+        raise ValueError("Lock patch result digest mismatch")
+    after = tomllib.loads(lock.read_text())["package"]
+
+    def identities(packages: list[dict[str, Any]]) -> set[tuple[str, ...]]:
+        return {
+            (p["name"], p["version"], p.get("source", ""), p.get("checksum", ""))
+            for p in packages
+        }
+
+    if not identities(after) <= identities(before):
+        raise ValueError("Lock repair introduced a new package identity")
+    return dict(patch, original_packages=len(before), qualified_packages=len(after))
+
+
 def qualified_tool(path: Path, workspace: Path) -> Path:
     """Exclude source-supplied or PATH-shadowed tool executables."""
     selected = path.resolve(strict=True)
@@ -249,6 +277,10 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
         bootstrap = fetch(entry["bootstrap"], work / "archives")
         source_record["bootstrap"] = dict(
             entry["bootstrap"], observed_sha256=digest(bootstrap)
+        )
+    if "lock_patch" in entry:
+        source_record["lock_repair"] = apply_lock_patch(
+            source, entry["lock_patch"], git
         )
     if entry["manifests"] == "auto":
         locks = sorted(source.rglob("Cargo.lock"), key=lambda path: len(path.parts))

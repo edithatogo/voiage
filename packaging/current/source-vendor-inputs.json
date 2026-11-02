@@ -37,11 +37,17 @@
         "sha256": "c575f5f3cdb8a5f9be65477b9b4202b062593687fe62a0082add87fbd4571067"
       },
       "manifests": "auto",
-      "toolchain": "1.99.1",
+      "toolchain": "nightly-2026-09-01",
       "recipes": [
         "packaging/current/easybuild/2023a/polars-runtime-32-2.1.0-GCCcore-12.3.0.eb",
         "packaging/current/easybuild/2024a/polars-runtime-32-2.1.0-GCCcore-13.3.0.eb"
-      ]
+      ],
+      "lock_patch": {
+        "path": "packaging/current/polars-runtime-32-2.1.0-lock.patch",
+        "sha256": "6ec9eb135e8690484ffaa5e61da79ed08d0fb595b7459ad394777f94bfc4d058",
+        "original_sha256": "5a9f1d9e5bd1393fa3dc638ee19743defe9d5cec05917a0a35ced77886ff5edc",
+        "qualified_sha256": "c0be1ad176f46d4934baf3ce003801e8639c7af5575bc87b5335c44ab8456c18"
+      }
     },
     "pydantic-core": {
       "kind": "archive",

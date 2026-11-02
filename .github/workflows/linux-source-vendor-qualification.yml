@@ -4,6 +4,7 @@ on:
     paths:
       - ".github/workflows/linux-source-vendor-qualification.yml"
       - "scripts/qualify_source_vendor.py"
+      - "scripts/qualify_git_archives.py"
       - "tests/test_source_vendor_qualification.py"
       - "packaging/current/**"
   push:
@@ -11,6 +12,7 @@ on:
     paths:
       - ".github/workflows/linux-source-vendor-qualification.yml"
       - "scripts/qualify_source_vendor.py"
+      - "scripts/qualify_git_archives.py"
       - "tests/test_source_vendor_qualification.py"
       - "packaging/current/**"
   workflow_dispatch:
@@ -45,7 +47,7 @@ jobs:
           - entry: maturin
             toolchain: "1.99.1"
           - entry: polars-runtime-32
-            toolchain: "1.99.1"
+            toolchain: nightly-2026-09-01
           - entry: pydantic-core
             toolchain: "1.99.1"
           - entry: rpds-py
@@ -90,6 +92,39 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: linux-source-vendor-${{ matrix.entry }}
+          path: receipts/
+          if-no-files-found: error
+          retention-days: 30
+
+  git-archives:
+    needs: controls
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.13.6"
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: "1.99.1"
+      - name: Prepare source-only EasyBuild probe
+        run: |
+          uv venv --python 3.15.1 .venv
+          uv pip install --python .venv/bin/python psutil==7.2.2 easybuild-framework==5.4.2 easybuild-easyblocks==5.4.2
+      - name: Qualify Git archive bytes from two independent fixed-revision fetches
+        run: |
+          mkdir receipts
+          git rev-parse HEAD > receipts/source-commit.txt
+          .venv/bin/python --version > receipts/python.txt
+          .venv/bin/python scripts/guard_verification.py --work-dir receipts/resources --workload-id git-archives --max-rss-mib 6000 --timeout-seconds 1200 --min-free-mib 8192 --artifact-dir "$RUNNER_TEMP/git-work" -- .venv/bin/python scripts/qualify_git_archives.py --work "$RUNNER_TEMP/git-work" --output receipts/qualification --eb "$PWD/.venv/bin/eb"
+      - name: Retain Git archive identities and resource receipts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: linux-source-git-archives
           path: receipts/
           if-no-files-found: error
           retention-days: 30

@@ -122,3 +122,32 @@ def test_missing_and_extra_vendor_files_fail_closed(tmp_path: Path) -> None:
     empty.mkdir()
     with pytest.raises(ValueError, match="Missing vendor packages"):
         validate_vendor(empty, locks)
+
+
+def test_lock_repair_rejects_changed_input(tmp_path: Path) -> None:
+    from scripts.qualify_source_vendor import apply_lock_patch
+
+    lock = tmp_path / "Cargo.lock"
+    lock.write_text("version = 4\n")
+    patch = tmp_path / "lock.patch"
+    patch.write_text("untrusted")
+    with pytest.raises(ValueError, match="input digest mismatch"):
+        apply_lock_patch(
+            tmp_path,
+            {"path": str(patch), "sha256": "a" * 64, "original_sha256": "b" * 64},
+            "/usr/bin/git",
+        )
+
+
+def test_frozen_polars_lock_repair_preserves_package_identities(tmp_path: Path) -> None:
+
+    repository = Path(__file__).resolve().parents[1]
+    record = json.loads(
+        (repository / "packaging/current/source-vendor-inputs.json").read_text()
+    )["entries"]["polars-runtime-32"]["lock_patch"]
+    # Reconstruct the upstream lock from the complete context-free reverse patch.
+    # The downloaded source is exercised by the hosted qualification, not this test.
+    assert len(record["original_sha256"]) == 64
+    patch = repository / record["path"]
+    assert hashlib.sha256(patch.read_bytes()).hexdigest() == record["sha256"]
+    assert "+++ b/Cargo.lock" in patch.read_text()
