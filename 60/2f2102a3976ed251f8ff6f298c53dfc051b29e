@@ -1,0 +1,31 @@
+Terminal verification: PR #1262 baseline native Rust/LLVM compiler checkpoint
+
+Merged commit: 602f2102a3976ed251f8ff6f298c53dfc051b29e
+Reviewed candidate: 0a236a14d876381b0698c3c410fe24014739361a
+Exact reviewed/merged tree: 140d3852b3070925874e3837bf2d5108552046a2
+GitHub merge signature verified; all ten tested native input objects match main.
+Stable 41436471133 and dated-nightly 41436475314 passed all 12 stages, installed source-built toolchain identity, Cargo EVPI=5 and linkage probes.
+Final PR checks: 55 passed, four legitimate conditional skips.
+Main workflows:
+- GitHub Actions Audit: success (https://github.com/edithatogo/voiage/actions/runs/41459332770)
+- Native Rust and LLVM qualification: success (https://github.com/edithatogo/voiage/actions/runs/41459332715)
+- Dependency Assurance: success (https://github.com/edithatogo/voiage/actions/runs/41459332913)
+- OpenSSF Scorecard: success (https://github.com/edithatogo/voiage/actions/runs/41459332739)
+- Polyglot Assurance Frontier: success (https://github.com/edithatogo/voiage/actions/runs/41459332742)
+- Benchmark Tracking: success (https://github.com/edithatogo/voiage/actions/runs/41459332987)
+- Deploy Documentation: success (https://github.com/edithatogo/voiage/actions/runs/41459333049)
+- CodeQL Security Analysis: success (https://github.com/edithatogo/voiage/actions/runs/41459332726)
+- C15 Cross-platform Assurance: success (https://github.com/edithatogo/voiage/actions/runs/41459332800)
+- Operational Assurance: success (https://github.com/edithatogo/voiage/actions/runs/41459332762)
+- Linux source and vendor qualification: success (https://github.com/edithatogo/voiage/actions/runs/41459333111)
+- Gitleaks Secret Scanning: success (https://github.com/edithatogo/voiage/actions/runs/41459332624)
+- CI: success (https://github.com/edithatogo/voiage/actions/runs/41459332644)
+- Linux dependency graphs: success (https://github.com/edithatogo/voiage/actions/runs/41459332662)
+
+Receipt manifest: conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/manifest.json
+All 704 retained file stored/original hashes and both artifact archive digests verified.
+The later local full-tox repeat stopped at disk-space preflight; current qualification helper fixes have 24 focused local tests, 51 Linux controls and full hosted gates.
+Full installed Spack/EasyBuild and generation-isolation acceptance remains open.
+Owned merged task branch and temporary verification worktree removed. Original source history retained in local signed tag evidence/native-rust-llvm-20261102.
+Other branches and private work preserved.
+Local detailed delivery record SHA-256: 64ca901b7e433fa2938869d8d1134dcdc179cfe546696eee63517bf9b22e344d
