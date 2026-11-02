@@ -115,7 +115,9 @@ def test_recipe_and_source_drift_is_rejected(
         )
     elif damage == "compiler":
         recipe.write_text(
-            recipe.read_text().replace("rust-polars@=nightly-2026-09-01", "rust@nightly")
+            recipe.read_text().replace(
+                "rust-polars@=nightly-2026-09-01", "rust@nightly"
+            )
         )
     elif damage == "features":
         recipe.write_text(
@@ -137,10 +139,14 @@ def test_recipe_and_source_drift_is_rejected(
         manifest = root / "packaging/current/polars-provider-sources.json"
         packet = json.loads(manifest.read_text())
         dependencies = packet["providers"]["py-polars-runtime-32"]["spack_dependencies"]
-        dependencies["rust@nightly"] = dependencies.pop("rust-polars@=nightly-2026-09-01")
+        dependencies["rust@nightly"] = dependencies.pop(
+            "rust-polars@=nightly-2026-09-01"
+        )
         manifest.write_text(json.dumps(packet))
         recipe.write_text(
-            recipe.read_text().replace("rust-polars@=nightly-2026-09-01", "rust@nightly")
+            recipe.read_text().replace(
+                "rust-polars@=nightly-2026-09-01", "rust@nightly"
+            )
         )
     elif damage == "conditional":
         recipe.write_text(
