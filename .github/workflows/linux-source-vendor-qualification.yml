@@ -5,6 +5,7 @@ on:
       - ".github/workflows/linux-source-vendor-qualification.yml"
       - "scripts/qualify_source_vendor.py"
       - "scripts/qualify_git_archives.py"
+      - "scripts/guard_verification.py"
       - "tests/test_source_vendor_qualification.py"
       - "packaging/current/**"
   push:
@@ -13,9 +14,13 @@ on:
       - ".github/workflows/linux-source-vendor-qualification.yml"
       - "scripts/qualify_source_vendor.py"
       - "scripts/qualify_git_archives.py"
+      - "scripts/guard_verification.py"
       - "tests/test_source_vendor_qualification.py"
       - "packaging/current/**"
   workflow_dispatch:
+concurrency:
+  group: source-vendor-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
@@ -86,7 +91,7 @@ jobs:
           git rev-parse HEAD > receipts/source-commit.txt
           git rev-parse 'HEAD^{tree}' > receipts/source-tree.txt
           .venv/bin/python --version > receipts/python.txt
-          .venv/bin/python scripts/guard_verification.py --work-dir receipts/resources --workload-id "$ENTRY" --max-rss-mib 6000 --timeout-seconds 2400 --min-free-mib 8192 --artifact-dir "$RUNNER_TEMP/source-work" --             .venv/bin/python scripts/qualify_source_vendor.py --entry "$ENTRY" --work "$RUNNER_TEMP/source-work" --output receipts/qualification --cargo "$cargo_bin" --rustc "$rustc_bin"
+          .venv/bin/python scripts/guard_verification.py --work-dir receipts/resources --workload-id "$ENTRY" --max-rss-mib 6000 --timeout-seconds 2400 --min-free-mib 8192 --artifact-dir "$RUNNER_TEMP/source-work" -- .venv/bin/python scripts/qualify_source_vendor.py --entry "$ENTRY" --work "$RUNNER_TEMP/source-work" --output receipts/qualification --cargo "$cargo_bin" --rustc "$rustc_bin"
       - name: Retain source identities, vendor and resource receipts
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
