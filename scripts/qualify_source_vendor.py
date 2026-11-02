@@ -43,19 +43,22 @@ def fetch(source: dict[str, str], cache: Path, *, offline: bool = False) -> Path
             raise ValueError("Source transport must be HTTPS")
         cache.mkdir(parents=True, exist_ok=True)
         temporary = path.with_suffix(path.suffix + ".partial")
-        with (
-            urlopen(source["url"], timeout=60) as response,  # noqa: S310 - HTTPS checked above
-            temporary.open("xb") as output,
-        ):
-            size = 0
-            while block := response.read(1024 * 1024):
-                size += len(block)
-                if size > MAX_ARCHIVE_BYTES:
-                    raise ValueError("Source archive exceeds byte limit")
-                output.write(block)
-        if digest(temporary) != source["sha256"]:
-            raise ValueError("Source digest mismatch")
-        temporary.rename(path)
+        stream = temporary.open("xb")
+        try:
+            with stream as output, urlopen(source["url"], timeout=60) as response:  # noqa: S310 - HTTPS checked above
+                size = 0
+                while block := response.read(1024 * 1024):
+                    size += len(block)
+                    if size > MAX_ARCHIVE_BYTES:
+                        raise ValueError("Source archive exceeds byte limit")
+                    output.write(block)
+            if digest(temporary) != source["sha256"]:
+                raise ValueError("Source digest mismatch")
+            temporary.rename(path)
+        finally:
+            # This invocation created the file exclusively. Preserve pre-existing
+            # partial files by failing before entering this ownership scope.
+            temporary.unlink(missing_ok=True)
     if not path.is_file() or digest(path) != source["sha256"]:
         raise ValueError("Source digest mismatch")
     return path
@@ -130,9 +133,13 @@ def validate_vendor(vendor: Path, locks: list[dict[str, Any]]) -> dict[str, Any]
     for directory in sorted(vendor.iterdir()):
         if directory.is_symlink() or not directory.is_dir():
             raise ValueError("Shadowed vendor directory")
-        metadata = tomllib.loads((directory / "Cargo.toml").read_text())["package"]
+        metadata = tomllib.loads(
+            (directory / "Cargo.toml").read_text(encoding="utf-8")
+        )["package"]
         identity = metadata["name"], metadata["version"]
-        checks = json.loads((directory / ".cargo-checksum.json").read_text())
+        checks = json.loads(
+            (directory / ".cargo-checksum.json").read_text(encoding="utf-8")
+        )
         if identity in observed:
             raise ValueError("Duplicate vendor package identity")
         if identity not in expected or checks["package"] != expected[identity]:
@@ -180,7 +187,7 @@ def apply_lock_patch(source: Path, patch: dict[str, str], git: str) -> dict[str,
     path = Path(patch["path"]).resolve(strict=True)
     if digest(path) != patch["sha256"] or digest(lock) != patch["original_sha256"]:
         raise ValueError("Lock patch input digest mismatch")
-    before = tomllib.loads(lock.read_text())["package"]
+    before = tomllib.loads(lock.read_text(encoding="utf-8"))["package"]
     subprocess.run(  # noqa: S603 - authenticated patch and fixed Git argv
         [git, "apply", "--no-index", "--check", str(path)], cwd=source, check=True
     )
@@ -189,7 +196,7 @@ def apply_lock_patch(source: Path, patch: dict[str, str], git: str) -> dict[str,
     )
     if digest(lock) != patch["qualified_sha256"]:
         raise ValueError("Lock patch result digest mismatch")
-    after = tomllib.loads(lock.read_text())["package"]
+    after = tomllib.loads(lock.read_text(encoding="utf-8"))["package"]
 
     def identities(packages: list[dict[str, Any]]) -> set[tuple[str, ...]]:
         return {
@@ -213,7 +220,7 @@ def qualified_tool(path: Path, workspace: Path) -> Path:
 def qualify(args: argparse.Namespace) -> dict[str, Any]:
     """Fetch once, vendor locked dependencies and prove the offline replay."""
     repository = Path.cwd()
-    entry = json.loads(args.inputs.read_text())["entries"][args.entry]
+    entry = json.loads(args.inputs.read_text(encoding="utf-8"))["entries"][args.entry]
     work = args.work.resolve()
     work.mkdir()
     output = args.output.resolve()
@@ -244,7 +251,7 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
         env,
         output / "rustc-version.txt",
     )
-    version = (output / "rustc-version.txt").read_text()
+    version = (output / "rustc-version.txt").read_text(encoding="utf-8")
     if cargo.parent != rustc.parent:
         raise ValueError("Cargo and rustc must come from the same SDK")
     if entry["toolchain"] == "1.99.1":
@@ -252,7 +259,9 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
             raise ValueError("Expected the qualified stable SDK")
     else:
         nightly = json.loads(
-            Path("packaging/current/rust-provider-sources.json").read_text()
+            Path("packaging/current/rust-provider-sources.json").read_text(
+                encoding="utf-8"
+            )
         )["nightly"]
         if (
             not version.startswith("rustc 1.100.0-nightly ")
@@ -312,7 +321,9 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
             )
     lock_paths = [manifest.with_name("Cargo.lock") for manifest in manifests]
     lock_hashes = {str(path.relative_to(source)): digest(path) for path in lock_paths}
-    locks_data = [tomllib.loads(path.read_text()) for path in lock_paths]
+    locks_data = [
+        tomllib.loads(path.read_text(encoding="utf-8")) for path in lock_paths
+    ]
     online = work / "online"
     online.mkdir()
     vendor = work / "vendor"
@@ -364,7 +375,9 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
             output / f"offline-metadata-{index}.json",
         )
     for index in range(len(manifests)):
-        metadata = json.loads((output / f"offline-metadata-{index}.json").read_text())
+        metadata = json.loads(
+            (output / f"offline-metadata-{index}.json").read_text(encoding="utf-8")
+        )
         for package in metadata["packages"]:
             location = Path(package["manifest_path"]).resolve()
             expected_root = vendor.resolve() if package["source"] else source.resolve()

@@ -19,7 +19,7 @@ def recipe_values(path: Path) -> dict[str, Any]:
     """Read only literal source declarations without executing a recipe."""
     return {
         node.targets[0].id: ast.literal_eval(node.value)
-        for node in ast.parse(path.read_text()).body
+        for node in ast.parse(path.read_text(encoding="utf-8")).body
         if isinstance(node, ast.Assign)
         and isinstance(node.targets[0], ast.Name)
         and node.targets[0].id in {"crates", "checksums"}
@@ -30,11 +30,13 @@ def qualify(work: Path, output: Path, eb: Path) -> None:
     """Fetch fixed revisions twice using the exact supported EasyBuild CLI."""
     output.mkdir(parents=True, exist_ok=True)
     work.mkdir()
-    inputs = json.loads(Path("packaging/current/source-vendor-inputs.json").read_text())
+    inputs = json.loads(
+        Path("packaging/current/source-vendor-inputs.json").read_text(encoding="utf-8")
+    )
     entry = inputs["entries"]["polars-runtime-32"]
     archive = fetch(entry["source"], work / "primary")
     source = unpack(archive, work / "unpacked")
-    lock = tomllib.loads((source / "Cargo.lock").read_text())
+    lock = tomllib.loads((source / "Cargo.lock").read_text(encoding="utf-8"))
     expected_git = set()
     for package in lock["package"]:
         if package.get("source", "").startswith("git+"):
@@ -82,7 +84,7 @@ def qualify(work: Path, output: Path, eb: Path) -> None:
                 stderr=subprocess.STDOUT,
                 check=True,
             )
-        checksums = json.loads((root / "checksums.json").read_text())
+        checksums = json.loads((root / "checksums.json").read_text(encoding="utf-8"))
         actual = {}
         for name, version, _repo, revision in crates:
             filename = f"{name}-{version}-{revision[:8]}.tar.xz"

@@ -260,3 +260,28 @@ def test_synchronized_local_workspace_is_not_an_external_vendor_conflict(
     result = validate_vendor(vendor, [*locks, {"package": [local]}])
     assert result["registry_packages"] == 1
     assert result["git_packages"] == 0
+
+
+def test_oversized_fetch_cleans_only_its_owned_partial(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import io
+
+    monkeypatch.setattr("scripts.qualify_source_vendor.MAX_ARCHIVE_BYTES", 3)
+    monkeypatch.setattr(
+        "scripts.qualify_source_vendor.urlopen",
+        lambda *args, **kwargs: io.BytesIO(b"oversized"),
+    )
+    source = {
+        "filename": "source.tar.gz",
+        "url": "https://example.org/source.tar.gz",
+        "sha256": "a" * 64,
+    }
+    with pytest.raises(ValueError, match="byte limit"):
+        fetch(source, tmp_path)
+    assert not list(tmp_path.iterdir())
+    partial = tmp_path / "source.tar.gz.partial"
+    partial.write_bytes(b"existing foreign partial")
+    with pytest.raises(FileExistsError):
+        fetch(source, tmp_path)
+    assert partial.read_bytes() == b"existing foreign partial"

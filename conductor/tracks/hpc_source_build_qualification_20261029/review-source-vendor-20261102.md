@@ -12,7 +12,7 @@ negative controls and offline replay. Native build acceptance stays open.
   vendor tampering/inventory, lock repair and checksum-order controls.
 - [x] **Test Coverage**: Partial - focused helper controls plus hosted real-input
   cells. This does not claim complete branch coverage of the qualification tools.
-- [x] **Test Results**: Passed - 12 focused controls on actual Python 3.15.1.
+- [x] **Test Results**: Passed - 14 focused controls on actual Python 3.15.1.
   The local full tox attempt stopped before execution at the disk-space guard.
   The receipt records the tested head, dirty input hash and observed free space.
   Hosted checks are retained separately and must pass before merge.
@@ -29,11 +29,22 @@ negative controls and offline replay. Native build acceptance stays open.
 - The fetch-only EasyBuild wrapper needed the explicitly selected Python on
   PATH and Lmod. Qualified the real supported CLI without a compiler build.
 - Vendor source-identity collisions now fail closed and receipts retain the
-  complete registry/Git source identity beside each vendor checksum.
+  complete registry/Git source identity beside each vendor checksum. The compiler
+  replay exposed a valid local-workspace/registry name overlap. Corrected the
+  external-only comparison and added a focused regression before rerunning all
+  compiler cells.
 - Added the resource guard to workflow trigger paths and cancel superseded runs.
   Actions retain first failures and terminal resource receipts on unsuccessful
   qualification as well as successes. No security, numerical or coverage gate
   was weakened.
+
+- The hosted automated review identified owned partial-download cleanup. Added
+  cleanup after failure and a regression proving pre-existing partial files are
+  preserved. Explicit UTF-8 reads also make source decoding policy visible.
+- Rejected three automated false positives with direct evidence. Python 3.15
+  accepts the lazy import and the controls job executes it. The containment
+  ternary routes external packages to vendor and local packages to source.
+  `scripts/guard_verification.py` is tracked on main and all source jobs run it.
 
 ## Review disposition
 
