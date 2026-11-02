@@ -113,3 +113,15 @@ qualification workflow/helpers/tests, current Polars lock repair and Git source
 checksums, and the source/vendor receipt packet. The prior graph lane is merged.
 No native compiler build or installed HPC operation is active. Next operation is
 final hosted qualification, review, receipt retention and protected merge.
+
+
+## Native compiler execution lane — 2 November 2026
+
+Current writer is chat `01a195fd-b970-7391-83a9-9796bbf98ae3` in
+`/Users/doughnut/Library/Caches/innovate-arrow26-qual.Q7IJ07/voiage`, branch
+`codex/native-rust-llvm-qualification`, based on merged PR #1261. Scope is the
+native compiler workflow, source-stage observer, frozen build configuration,
+qualification tests and receipts. No competing checkout writer or native build
+was found. Earlier ownership assignments remain historical. Next operation is
+qualifying descendant measurement and source-bootstrap controls, then a bounded
+GitHub-hosted stable Rust/LLVM build. No paid capacity is authorized.

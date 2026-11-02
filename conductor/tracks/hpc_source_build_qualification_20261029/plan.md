@@ -28,7 +28,7 @@ P5 -> P6. P2 source controls must pass before P3 fetch/build dispatch.
         forbidden fetch and unsupported CLI options.
   - [ ] Implement supported pre-fetch restrictions and resolved-source checks.
   - [ ] Run focused tests and exact-version package-manager probes on Linux.
-- [ ] Task: Bind a safe per-stage observation runner.
+- [~] Task: Bind a safe per-stage observation runner.
   - [ ] Test descendants in distinct process groups, sampler loss, timeout/OOM,
         failed stage, interruption, cleanup and receipt completeness.
   - [ ] Reuse accepted observation tools; add only missing counters and provenance.
@@ -37,7 +37,7 @@ P5 -> P6. P2 source controls must pass before P3 fetch/build dispatch.
 - [ ] Task: Phase verification, agent review and checkpoint per workflow.md.
 
 ## P3 — Measure Rust and LLVM source bootstraps
-- [ ] Task: Run a bounded hosted feasibility build for one frozen configuration.
+- [~] Task: Run a bounded hosted feasibility build for one frozen configuration.
   - [ ] Record stage0 exception, explicit source stages, LLVM source build,
         targets, debug settings, vendoring and source authentication.
   - [ ] Retain per-stage process/CPU/I/O/disk/time measurements and complete logs.
