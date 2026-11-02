@@ -31,6 +31,8 @@ jobs:
             git -C .graph-tools/spack fetch --depth 1 origin 3e19345b6e12f5ff1b874f4059622fc6a1fd804a
             git -C .graph-tools/spack checkout --detach FETCH_HEAD
           else
+            sudo apt-get update -qq
+            sudo apt-get install -y lmod
             uv pip install --python .venv/bin/python easybuild-framework==5.4.2 easybuild-easyblocks==5.4.2
             git init .graph-tools/easyconfigs
             git -C .graph-tools/easyconfigs remote add origin https://github.com/easybuilders/easybuild-easyconfigs.git

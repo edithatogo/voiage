@@ -20,6 +20,7 @@ if [[ "$cell" == spack ]]; then
   spack spec -Il py-voiage@develop > "$out/graph.txt"
 else
   generation=${cell#easybuild-}
+  source /etc/profile.d/lmod.sh
   eb --version > "$out/manager-version.txt"
   # Graph evaluation only. No source is fetched or built by the dry-run command.
   export VOIAGE_QUALIFIED_SOURCE_ARCHIVE="$out/graph-only-source-not-qualified.tar.gz"
