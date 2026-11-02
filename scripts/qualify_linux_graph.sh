@@ -8,7 +8,7 @@ mkdir -p "$out"
 git rev-parse HEAD > "$out/source-commit.txt"
 git rev-parse 'HEAD^{tree}' > "$out/source-tree.txt"
 uname -a > "$out/host.txt"
-python --version > "$out/python.txt"
+python --version > "$out/python.txt" 2>&1
 if [[ "$cell" == spack ]]; then
   export SPACK_USER_CONFIG_PATH="$out/config"
   export SPACK_USER_CACHE_PATH="$out/cache"
@@ -18,7 +18,7 @@ if [[ "$cell" == spack ]]; then
   spack config --scope user add 'repos:builtin:commit:fa170d11f60ea44045d9a02370002ed153e35f1a'
   spack compiler find
   spack --version > "$out/manager-version.txt"
-  spack spec --json py-voiage@develop > "$out/graph.json"
+  spack spec --json py-voiage@develop > "$out/graph.json" 2> "$out/solver.stderr"
   spack spec -Il py-voiage@develop > "$out/graph.txt"
 else
   generation=${cell#easybuild-}
