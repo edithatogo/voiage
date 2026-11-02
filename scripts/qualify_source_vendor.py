@@ -53,6 +53,40 @@ def digest(path: Path) -> str:
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
+def workspace_locks(
+    source: Path,
+    manifests: list[Path],
+    cargo: Path,
+    env: dict[str, str],
+    output: Path,
+) -> list[Path]:
+    """Resolve shared workspace locks through Cargo without changing their bytes."""
+    locks = []
+    for index, manifest in enumerate(manifests):
+        receipt = output / f"workspace-locate-{index}.json"
+        run(
+            [
+                str(cargo),
+                "locate-project",
+                "--workspace",
+                "--manifest-path",
+                str(manifest),
+            ],
+            source,
+            dict(env, CARGO_NET_OFFLINE="true"),
+            receipt,
+        )
+        root = Path(json.loads(receipt.read_text(encoding="utf-8"))["root"]).resolve()
+        lock = root.with_name("Cargo.lock")
+        if not root.is_relative_to(source.resolve()) or not lock.is_file():
+            raise ValueError(
+                f"Missing or external authenticated workspace lock: {root}"
+            )
+        if lock not in locks:
+            locks.append(lock)
+    return locks
+
+
 def fetch(source: dict[str, str], cache: Path, *, offline: bool = False) -> Path:
     """Authenticate cached bytes before use and never refetch corrupt inputs."""
     filename = source.get("filename") or source["url"].rsplit("/", 1)[-1]
@@ -345,11 +379,11 @@ def qualify(args: argparse.Namespace) -> dict[str, Any]:
         compiler_vendor_contract(source, manifests) if "bootstrap" in entry else None
     )
     for manifest in manifests:
-        if not manifest.is_file() or not manifest.with_name("Cargo.lock").is_file():
+        if not manifest.is_file():
             raise ValueError(
                 f"Missing locked workspace: {manifest.relative_to(source)}"
             )
-    lock_paths = [manifest.with_name("Cargo.lock") for manifest in manifests]
+    lock_paths = workspace_locks(source, manifests, cargo, env, output)
     lock_hashes = {str(path.relative_to(source)): digest(path) for path in lock_paths}
     locks_data = [
         tomllib.loads(path.read_text(encoding="utf-8")) for path in lock_paths

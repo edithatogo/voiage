@@ -283,6 +283,11 @@ class Build:
         )
         x = [sys.executable, str(source / "x.py")]
         self.run(
+            "copyright-preflight",
+            [*x, "run", "src/tools/generate-copyright"],
+            cwd=source,
+        )
+        self.run(
             "llvm-source",
             [*x, "build", "--stage", "1", "--jobs", "4", "src/llvm-project"],
             cwd=source,
