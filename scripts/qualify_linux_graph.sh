@@ -38,5 +38,5 @@ text = source.read_text().replace(
 )
 Path(output, "root.eb").write_text(text)
 PY
-  eb "$out/root.eb" --dry-run --robot --minimal-toolchains --robot-paths="$PWD/packaging/current/easybuild:$PWD/.graph-tools/easyconfigs/easybuild/easyconfigs" --allow-use-as-root-and-accept-consequences > "$out/graph.txt" 2>&1
+  eb "$out/root.eb" --dry-run --robot --minimal-toolchains --robot-paths="$PWD/packaging/current/easybuild/$generation:$PWD/packaging/current/easybuild:$PWD/.graph-tools/easyconfigs/easybuild/easyconfigs" --allow-use-as-root-and-accept-consequences > "$out/graph.txt" 2>&1
 fi
