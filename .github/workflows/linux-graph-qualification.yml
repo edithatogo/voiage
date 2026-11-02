@@ -8,7 +8,7 @@ permissions:
 jobs:
   graph:
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
@@ -19,6 +19,7 @@ jobs:
           persist-credentials: false
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
       - name: Prepare isolated graph tooling
+        timeout-minutes: 15
         env:
           CELL: ${{ matrix.cell }}
         run: |

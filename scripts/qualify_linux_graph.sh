@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
+[[ $# == 2 ]] || { echo "usage: $0 spack|easybuild-2023a|easybuild-2024a OUTPUT" >&2; exit 2; }
+case "$1" in spack|easybuild-2023a|easybuild-2024a) ;; *) exit 2 ;; esac
 cell=$1
 out=$2
 mkdir -p "$out"
