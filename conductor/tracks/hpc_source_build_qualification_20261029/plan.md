@@ -16,10 +16,10 @@ P5 -> P6. P2 source controls must pass before P3 fetch/build dispatch.
   - [ ] Map each parent HPC requirement to AC1–AC6 without duplicate execution.
   - [ ] Freeze the Linux Spack and two EasyBuild matrix cells, compiler roles,
         features, source digests and tool versions in a machine-readable manifest.
-- [ ] Task: Resolve supported combined-root compiler constraints.
-  - [ ] Write and reproduce failing graph-contract regression cases.
-  - [ ] Implement the smallest supported provider/graph correction through owner.
-  - [ ] Pass the full unmodified Linux root solve and persist the concrete graph.
+- [x] Task: Resolve supported combined-root compiler constraints.
+  - [x] Write and reproduce failing graph-contract regression cases.
+  - [x] Implement the smallest supported provider/graph correction through owner.
+  - [x] Pass the full unmodified Linux root solve and persist the concrete graph.
 - [ ] Task: Phase verification, agent review and checkpoint per workflow.md.
 
 ## P2 — Qualify fetching and measurement
@@ -100,3 +100,25 @@ needed from the planning catalog. Paid resources require separate user direction
 Current release evidence and available-compute boundary are recorded in
 [the 2 November reconciliation](../scientific_ecosystem_alignment_20261029/reconciliation-20261102.md).
 Existing unchecked native acceptance tasks remain open.
+
+
+## Linux graph checkpoint — 2 November 2026
+
+All three module/package graph cells passed in [run 41386711954](https://github.com/edithatogo/voiage/actions/runs/41386711954).
+The [final receipt manifest](evidence/linux-graph-20261102/final/manifest.json)
+binds source, input Git objects, artifact hashes and terminal resource measurements.
+Spack uses explicit stable and Polars compiler/bootstrap package identities.
+Both EasyBuild generations resolve only Python 3.15.1 and authenticate the actual
+candidate sdist before root evaluation. DOT files retain their dependency edges.
+
+This completes the bounded graph checkpoint. Source fetching/vendor closure,
+compiler/library builds, installed modules, generation-isolation execution and
+scientific consumer acceptance remain P2–P6 work. Git-source archive bytes in the
+new Cargo provider candidates remain unqualified as explicitly recorded in
+packaging/current/easybuild/native-source-closures.json.
+
+Current writer is chat 01a195fd-b970-7391-83a9-9796bbf98ae3 in
+/Users/doughnut/Library/Caches/innovate-arrow26-qual.Q7IJ07/voiage on
+codex/linux-graph-qualification. Scope is the graph workflow, current provider
+recipes, source-contract tests and these receipts. No native build is active.
+Previous ownership entries remain historical.

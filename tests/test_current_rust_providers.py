@@ -317,7 +317,7 @@ def test_current_solver_profile_keeps_two_compiler_roles_and_one_python() -> Non
     assert solver == {
         "concretizer": {
             "duplicates": {
-                "strategy": "minimal",
+                "strategy": "full",
                 "max_dupes": {"rust": 2, "rust-bootstrap": 2},
             }
         }

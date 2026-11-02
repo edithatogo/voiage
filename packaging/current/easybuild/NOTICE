@@ -1,0 +1,6 @@
+Derived provider recipes retain the terms and attribution in the existing
+packaging/easybuild-2023a-overlay/NOTICE, packaging/easybuild-overlay/NOTICE,
+packaging/easybuild-2023a-rust-overlay/NOTICE, packaging/easybuild-2024a-rust-overlay/NOTICE,
+and the corresponding Arrow and Polars overlay NOTICE and LICENSE files.
+Upstream Python, Rust, Arrow, Polars and dependency source licences remain unchanged.
+Native source fetching, builds and installed probes remain acceptance gates.

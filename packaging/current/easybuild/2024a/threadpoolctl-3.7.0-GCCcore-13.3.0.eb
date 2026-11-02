@@ -1,0 +1,17 @@
+# Source candidate. Native build and installed qualification remain separate.
+easyblock = "PythonPackage"
+name = 'threadpoolctl'
+version = '3.7.0'
+homepage = "https://pypi.org/project/threadpoolctl/"
+description = "Current Python scientific dependency for the Voiage graph."
+toolchain = {"name": "GCCcore", "version": "13.3.0"}
+sources = ['https://files.pythonhosted.org/packages/00/dc/6c58154c1c65f758ea979e7139cb76993a9cfc662d14e9be3c4a667cfb77/threadpoolctl-3.7.0.tar.gz']
+checksums = ['61348cfb77d53b9242e0017029244b559b810c142ced65b4e21eeca1843959a7']
+builddependencies = [('Voiage-Rust-build-support', '2.2.0')]
+dependencies = [('Python', '3.15.1')]
+use_pip = True
+pip_no_index = True
+pip_no_build_isolation = True
+download_dep_fail = True
+sanity_pip_check = True
+moduleclass = "math"

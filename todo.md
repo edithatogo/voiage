@@ -1401,3 +1401,9 @@ as recorded in the active task above; earlier route decisions below are historic
 
 Release and base installed-package qualification are complete. See
 [2 November reconciliation](conductor/tracks/scientific_ecosystem_alignment_20261029/reconciliation-20261102.md) for remaining scope.
+
+
+- [x] Qualify all three Linux dependency graphs with source-bound and resource-bound
+  receipts (PR #1260). Native source/build/install acceptance remains open.
+- [ ] Next HPC step: qualify complete source/vendor fetching for the current
+  compiler and Cargo provider candidates before dispatching bounded native builds.

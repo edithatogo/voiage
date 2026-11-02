@@ -159,7 +159,7 @@ def validate(root: Path, sources: Path) -> dict[str, object]:
             expected_environment = {
                 key: ast.dump(
                     ast.parse(
-                        f'str(self.spec["rust"].prefix.bin.{binary})', mode="eval"
+                        f'str(self.spec["rust-polars"].prefix.bin.{binary})', mode="eval"
                     ).body
                 )
                 for key, binary in (("RUSTC", "rustc"), ("CARGO", "cargo"))
@@ -169,7 +169,7 @@ def validate(root: Path, sources: Path) -> dict[str, object]:
                 or channel != row["rust_toolchain"]
                 or cargo["package"]["version"] != row["version"]
                 or cargo["features"]["default"] != row["default_features"]
-                or recipe["dependencies"].get("rust@=" + channel) != ["build"]
+                or recipe["dependencies"].get("rust-polars@=" + channel) != ["build"]
                 or recipe["environment"] != expected_environment
             ):
                 raise ValueError("Provider compiler or default features drift")

@@ -67,7 +67,7 @@
         "py-maturin@1.9:1": [
           "build"
         ],
-        "rust@=nightly-2026-09-01": [
+        "rust-polars@=nightly-2026-09-01": [
           "build"
         ],
         "c": [

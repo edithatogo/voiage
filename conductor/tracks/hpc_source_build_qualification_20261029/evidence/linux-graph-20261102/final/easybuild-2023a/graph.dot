@@ -1,0 +1,854 @@
+digraph "graph" {
+	"M4/1.4.19"
+	"Bison/3.8.2"
+	"M4/1.4.19"
+	"Bison/3.8.2" -> "M4/1.4.19" [arrowhead=diamond color=blue style=dotted]
+	"flex/2.6.4"
+	"M4/1.4.19"
+	"flex/2.6.4" -> "M4/1.4.19"
+	"Bison/3.8.2"
+	"flex/2.6.4" -> "Bison/3.8.2" [arrowhead=diamond color=blue style=dotted]
+	"zlib/1.2.13"
+	"binutils/2.40"
+	"flex/2.6.4"
+	"binutils/2.40" -> "flex/2.6.4" [arrowhead=diamond color=blue style=dotted]
+	"Bison/3.8.2"
+	"binutils/2.40" -> "Bison/3.8.2" [arrowhead=diamond color=blue style=dotted]
+	"zlib/1.2.13"
+	"binutils/2.40" -> "zlib/1.2.13" [arrowhead=diamond color=blue style=dotted]
+	"GCCcore/12.3.0"
+	"M4/1.4.19"
+	"GCCcore/12.3.0" -> "M4/1.4.19" [arrowhead=diamond color=blue style=dotted]
+	"binutils/2.40"
+	"GCCcore/12.3.0" -> "binutils/2.40" [arrowhead=diamond color=blue style=dotted]
+	"zlib/1.2.13-GCCcore-12.3.0"
+	"binutils/2.40"
+	"zlib/1.2.13-GCCcore-12.3.0" -> "binutils/2.40" [arrowhead=diamond color=blue style=dotted]
+	"help2man/1.49.3-GCCcore-12.3.0"
+	"binutils/2.40"
+	"help2man/1.49.3-GCCcore-12.3.0" -> "binutils/2.40" [arrowhead=diamond color=blue style=dotted]
+	"M4/1.4.19-GCCcore-12.3.0"
+	"binutils/2.40"
+	"M4/1.4.19-GCCcore-12.3.0" -> "binutils/2.40" [arrowhead=diamond color=blue style=dotted]
+	"Bison/3.8.2-GCCcore-12.3.0"
+	"M4/1.4.19-GCCcore-12.3.0"
+	"Bison/3.8.2-GCCcore-12.3.0" -> "M4/1.4.19-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"binutils/2.40"
+	"Bison/3.8.2-GCCcore-12.3.0" -> "binutils/2.40" [arrowhead=diamond color=blue style=dotted]
+	"flex/2.6.4-GCCcore-12.3.0"
+	"M4/1.4.19-GCCcore-12.3.0"
+	"flex/2.6.4-GCCcore-12.3.0" -> "M4/1.4.19-GCCcore-12.3.0"
+	"Bison/3.8.2-GCCcore-12.3.0"
+	"flex/2.6.4-GCCcore-12.3.0" -> "Bison/3.8.2-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"help2man/1.49.3-GCCcore-12.3.0"
+	"flex/2.6.4-GCCcore-12.3.0" -> "help2man/1.49.3-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"binutils/2.40"
+	"flex/2.6.4-GCCcore-12.3.0" -> "binutils/2.40" [arrowhead=diamond color=blue style=dotted]
+	"binutils/2.40-GCCcore-12.3.0"
+	"zlib/1.2.13-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0" -> "zlib/1.2.13-GCCcore-12.3.0"
+	"flex/2.6.4-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0" -> "flex/2.6.4-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Bison/3.8.2-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0" -> "Bison/3.8.2-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"binutils/2.40"
+	"binutils/2.40-GCCcore-12.3.0" -> "binutils/2.40" [arrowhead=diamond color=blue style=dotted]
+	"pkgconf/1.9.5-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"pkgconf/1.9.5-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"bzip2/1.0.8-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"bzip2/1.0.8-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"ncurses/6.4-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"ncurses/6.4-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"pkgconf/1.9.5-GCCcore-12.3.0"
+	"ncurses/6.4-GCCcore-12.3.0" -> "pkgconf/1.9.5-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"UnZip/6.0-GCCcore-12.3.0"
+	"bzip2/1.0.8-GCCcore-12.3.0"
+	"UnZip/6.0-GCCcore-12.3.0" -> "bzip2/1.0.8-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"UnZip/6.0-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"libreadline/8.2-GCCcore-12.3.0"
+	"ncurses/6.4-GCCcore-12.3.0"
+	"libreadline/8.2-GCCcore-12.3.0" -> "ncurses/6.4-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"libreadline/8.2-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Tcl/8.6.13-GCCcore-12.3.0"
+	"zlib/1.2.13-GCCcore-12.3.0"
+	"Tcl/8.6.13-GCCcore-12.3.0" -> "zlib/1.2.13-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"Tcl/8.6.13-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"GCC/12.3.0"
+	"GCCcore/12.3.0"
+	"GCC/12.3.0" -> "GCCcore/12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"GCC/12.3.0" -> "binutils/2.40-GCCcore-12.3.0"
+	"pkgconf/1.8.0"
+	"Perl/5.36.1-GCCcore-12.3.0"
+	"zlib/1.2.13-GCCcore-12.3.0"
+	"Perl/5.36.1-GCCcore-12.3.0" -> "zlib/1.2.13-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"Perl/5.36.1-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"SQLite/3.42.0-GCCcore-12.3.0"
+	"libreadline/8.2-GCCcore-12.3.0"
+	"SQLite/3.42.0-GCCcore-12.3.0" -> "libreadline/8.2-GCCcore-12.3.0"
+	"Tcl/8.6.13-GCCcore-12.3.0"
+	"SQLite/3.42.0-GCCcore-12.3.0" -> "Tcl/8.6.13-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"SQLite/3.42.0-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"OpenSSL/1.1"
+	"pkgconf/1.8.0"
+	"OpenSSL/1.1" -> "pkgconf/1.8.0" [arrowhead=diamond color=blue style=dotted]
+	"Autoconf/2.71-GCCcore-12.3.0"
+	"M4/1.4.19-GCCcore-12.3.0"
+	"Autoconf/2.71-GCCcore-12.3.0" -> "M4/1.4.19-GCCcore-12.3.0"
+	"Perl/5.36.1-GCCcore-12.3.0"
+	"Autoconf/2.71-GCCcore-12.3.0" -> "Perl/5.36.1-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"Autoconf/2.71-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Automake/1.16.5-GCCcore-12.3.0"
+	"Autoconf/2.71-GCCcore-12.3.0"
+	"Automake/1.16.5-GCCcore-12.3.0" -> "Autoconf/2.71-GCCcore-12.3.0"
+	"Perl/5.36.1-GCCcore-12.3.0"
+	"Automake/1.16.5-GCCcore-12.3.0" -> "Perl/5.36.1-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"Automake/1.16.5-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"cURL/8.0.1-GCCcore-12.3.0"
+	"zlib/1.2.13-GCCcore-12.3.0"
+	"cURL/8.0.1-GCCcore-12.3.0" -> "zlib/1.2.13-GCCcore-12.3.0"
+	"OpenSSL/1.1"
+	"cURL/8.0.1-GCCcore-12.3.0" -> "OpenSSL/1.1"
+	"binutils/2.40-GCCcore-12.3.0"
+	"cURL/8.0.1-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"libffi/3.4.4-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"libffi/3.4.4-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"libtool/2.4.7-GCCcore-12.3.0"
+	"M4/1.4.19-GCCcore-12.3.0"
+	"libtool/2.4.7-GCCcore-12.3.0" -> "M4/1.4.19-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"libtool/2.4.7-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"zlib/1.3.1"
+	"Autotools/20220317-GCCcore-12.3.0"
+	"Autoconf/2.71-GCCcore-12.3.0"
+	"Autotools/20220317-GCCcore-12.3.0" -> "Autoconf/2.71-GCCcore-12.3.0"
+	"Automake/1.16.5-GCCcore-12.3.0"
+	"Autotools/20220317-GCCcore-12.3.0" -> "Automake/1.16.5-GCCcore-12.3.0"
+	"libtool/2.4.7-GCCcore-12.3.0"
+	"Autotools/20220317-GCCcore-12.3.0" -> "libtool/2.4.7-GCCcore-12.3.0"
+	"binutils/2.45"
+	"flex/2.6.4"
+	"binutils/2.45" -> "flex/2.6.4" [arrowhead=diamond color=blue style=dotted]
+	"Bison/3.8.2"
+	"binutils/2.45" -> "Bison/3.8.2" [arrowhead=diamond color=blue style=dotted]
+	"zlib/1.3.1"
+	"binutils/2.45" -> "zlib/1.3.1" [arrowhead=diamond color=blue style=dotted]
+	"patchelf/0.18.0-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"patchelf/0.18.0-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Autotools/20220317-GCCcore-12.3.0"
+	"patchelf/0.18.0-GCCcore-12.3.0" -> "Autotools/20220317-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Perl/5.42.0"
+	"zlib/1.3.1"
+	"Perl/5.42.0" -> "zlib/1.3.1"
+	"binutils/2.45"
+	"Perl/5.42.0" -> "binutils/2.45" [arrowhead=diamond color=blue style=dotted]
+	"lz4/1.9.4-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"lz4/1.9.4-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"FFTW/3.3.10-GCC-12.3.0"
+	"ncurses/6.3"
+	"gettext/0.21.1"
+	"ncurses/6.3"
+	"gettext/0.21.1" -> "ncurses/6.3"
+	"XZ/5.4.2-GCCcore-12.3.0"
+	"gettext/0.21.1"
+	"XZ/5.4.2-GCCcore-12.3.0" -> "gettext/0.21.1" [arrowhead=diamond color=blue style=dotted]
+	"binutils/2.40-GCCcore-12.3.0"
+	"XZ/5.4.2-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"libxml2/2.11.4-GCCcore-12.3.0"
+	"XZ/5.4.2-GCCcore-12.3.0"
+	"libxml2/2.11.4-GCCcore-12.3.0" -> "XZ/5.4.2-GCCcore-12.3.0"
+	"zlib/1.2.13-GCCcore-12.3.0"
+	"libxml2/2.11.4-GCCcore-12.3.0" -> "zlib/1.2.13-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"libxml2/2.11.4-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"M4/1.4.21"
+	"Autoconf/2.72"
+	"M4/1.4.21"
+	"Autoconf/2.72" -> "M4/1.4.21"
+	"Perl/5.42.0"
+	"Autoconf/2.72" -> "Perl/5.42.0"
+	"Automake/1.18.1"
+	"Autoconf/2.72"
+	"Automake/1.18.1" -> "Autoconf/2.72"
+	"Perl/5.42.0"
+	"Automake/1.18.1" -> "Perl/5.42.0"
+	"libtool/2.5.4"
+	"M4/1.4.21"
+	"libtool/2.5.4" -> "M4/1.4.21"
+	"gzip/1.12-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"gzip/1.12-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"make/4.4.1-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"make/4.4.1-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Autotools/20250626"
+	"Autoconf/2.72"
+	"Autotools/20250626" -> "Autoconf/2.72"
+	"Automake/1.18.1"
+	"Autotools/20250626" -> "Automake/1.18.1"
+	"libtool/2.5.4"
+	"Autotools/20250626" -> "libtool/2.5.4"
+	"zstd/1.5.5-GCCcore-12.3.0"
+	"zlib/1.2.13-GCCcore-12.3.0"
+	"zstd/1.5.5-GCCcore-12.3.0" -> "zlib/1.2.13-GCCcore-12.3.0"
+	"gzip/1.12-GCCcore-12.3.0"
+	"zstd/1.5.5-GCCcore-12.3.0" -> "gzip/1.12-GCCcore-12.3.0"
+	"XZ/5.4.2-GCCcore-12.3.0"
+	"zstd/1.5.5-GCCcore-12.3.0" -> "XZ/5.4.2-GCCcore-12.3.0"
+	"lz4/1.9.4-GCCcore-12.3.0"
+	"zstd/1.5.5-GCCcore-12.3.0" -> "lz4/1.9.4-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"zstd/1.5.5-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"libarchive/3.6.2-GCCcore-12.3.0"
+	"zlib/1.2.13-GCCcore-12.3.0"
+	"libarchive/3.6.2-GCCcore-12.3.0" -> "zlib/1.2.13-GCCcore-12.3.0"
+	"XZ/5.4.2-GCCcore-12.3.0"
+	"libarchive/3.6.2-GCCcore-12.3.0" -> "XZ/5.4.2-GCCcore-12.3.0"
+	"libxml2/2.11.4-GCCcore-12.3.0"
+	"libarchive/3.6.2-GCCcore-12.3.0" -> "libxml2/2.11.4-GCCcore-12.3.0"
+	"OpenSSL/1.1"
+	"libarchive/3.6.2-GCCcore-12.3.0" -> "OpenSSL/1.1"
+	"lz4/1.9.4-GCCcore-12.3.0"
+	"libarchive/3.6.2-GCCcore-12.3.0" -> "lz4/1.9.4-GCCcore-12.3.0"
+	"zstd/1.5.5-GCCcore-12.3.0"
+	"libarchive/3.6.2-GCCcore-12.3.0" -> "zstd/1.5.5-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"libarchive/3.6.2-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"pkgconf/2.5.1"
+	"binutils/2.45"
+	"pkgconf/2.5.1" -> "binutils/2.45" [arrowhead=diamond color=blue style=dotted]
+	"Autotools/20250626"
+	"pkgconf/2.5.1" -> "Autotools/20250626" [arrowhead=diamond color=blue style=dotted]
+	"CMake/3.26.3-GCCcore-12.3.0"
+	"ncurses/6.4-GCCcore-12.3.0"
+	"CMake/3.26.3-GCCcore-12.3.0" -> "ncurses/6.4-GCCcore-12.3.0"
+	"zlib/1.2.13-GCCcore-12.3.0"
+	"CMake/3.26.3-GCCcore-12.3.0" -> "zlib/1.2.13-GCCcore-12.3.0"
+	"bzip2/1.0.8-GCCcore-12.3.0"
+	"CMake/3.26.3-GCCcore-12.3.0" -> "bzip2/1.0.8-GCCcore-12.3.0"
+	"cURL/8.0.1-GCCcore-12.3.0"
+	"CMake/3.26.3-GCCcore-12.3.0" -> "cURL/8.0.1-GCCcore-12.3.0"
+	"libarchive/3.6.2-GCCcore-12.3.0"
+	"CMake/3.26.3-GCCcore-12.3.0" -> "libarchive/3.6.2-GCCcore-12.3.0"
+	"OpenSSL/1.1"
+	"CMake/3.26.3-GCCcore-12.3.0" -> "OpenSSL/1.1"
+	"binutils/2.40-GCCcore-12.3.0"
+	"CMake/3.26.3-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"OpenSSL/3"
+	"pkgconf/2.5.1"
+	"OpenSSL/3" -> "pkgconf/2.5.1" [arrowhead=diamond color=blue style=dotted]
+	"Perl/5.42.0"
+	"OpenSSL/3" -> "Perl/5.42.0" [arrowhead=diamond color=blue style=dotted]
+	"mimalloc/3.4.1-GCCcore-12.3.0"
+	"CMake/3.26.3-GCCcore-12.3.0"
+	"mimalloc/3.4.1-GCCcore-12.3.0" -> "CMake/3.26.3-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Brotli/1.1.0-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"Brotli/1.1.0-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"CMake/3.26.3-GCCcore-12.3.0"
+	"Brotli/1.1.0-GCCcore-12.3.0" -> "CMake/3.26.3-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"xsimd/14.2.0-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"xsimd/14.2.0-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"CMake/3.26.3-GCCcore-12.3.0"
+	"xsimd/14.2.0-GCCcore-12.3.0" -> "CMake/3.26.3-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Python/3.15.1-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0"
+	"bzip2/1.0.8-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0" -> "bzip2/1.0.8-GCCcore-12.3.0"
+	"zlib/1.2.13-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0" -> "zlib/1.2.13-GCCcore-12.3.0"
+	"libreadline/8.2-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0" -> "libreadline/8.2-GCCcore-12.3.0"
+	"ncurses/6.4-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0" -> "ncurses/6.4-GCCcore-12.3.0"
+	"SQLite/3.42.0-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0" -> "SQLite/3.42.0-GCCcore-12.3.0"
+	"XZ/5.4.2-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0" -> "XZ/5.4.2-GCCcore-12.3.0"
+	"libffi/3.4.4-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0" -> "libffi/3.4.4-GCCcore-12.3.0"
+	"OpenSSL/3"
+	"Python/3.15.1-GCCcore-12.3.0" -> "OpenSSL/3"
+	"UnZip/6.0-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0" -> "UnZip/6.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"pkgconf/1.9.5-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0" -> "pkgconf/1.9.5-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"hatchling/1.24.2-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"hatchling/1.24.2-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"hatchling/1.24.2-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Ninja/1.11.1-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"Ninja/1.11.1-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Python/3.15.1-GCCcore-12.3.0"
+	"Ninja/1.11.1-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"BLIS/0.9.0-GCC-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"BLIS/0.9.0-GCC-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Perl/5.36.1-GCCcore-12.3.0"
+	"BLIS/0.9.0-GCC-12.3.0" -> "Perl/5.36.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Rust-nightly/2026-09-01-GCCcore-12.3.0"
+	"OpenSSL/3"
+	"Rust-nightly/2026-09-01-GCCcore-12.3.0" -> "OpenSSL/3"
+	"binutils/2.40-GCCcore-12.3.0"
+	"Rust-nightly/2026-09-01-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"CMake/3.26.3-GCCcore-12.3.0"
+	"Rust-nightly/2026-09-01-GCCcore-12.3.0" -> "CMake/3.26.3-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Python/3.15.1-GCCcore-12.3.0"
+	"Rust-nightly/2026-09-01-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Ninja/1.11.1-GCCcore-12.3.0"
+	"Rust-nightly/2026-09-01-GCCcore-12.3.0" -> "Ninja/1.11.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"pkgconf/1.9.5-GCCcore-12.3.0"
+	"Rust-nightly/2026-09-01-GCCcore-12.3.0" -> "pkgconf/1.9.5-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"patchelf/0.18.0-GCCcore-12.3.0"
+	"Rust-nightly/2026-09-01-GCCcore-12.3.0" -> "patchelf/0.18.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"OpenBLAS/0.3.23-GCC-12.3.0"
+	"make/4.4.1-GCCcore-12.3.0"
+	"OpenBLAS/0.3.23-GCC-12.3.0" -> "make/4.4.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Python/3.15.1-GCCcore-12.3.0"
+	"OpenBLAS/0.3.23-GCC-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Rust/1.99.1-GCCcore-12.3.0"
+	"OpenSSL/3"
+	"Rust/1.99.1-GCCcore-12.3.0" -> "OpenSSL/3"
+	"binutils/2.40-GCCcore-12.3.0"
+	"Rust/1.99.1-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"CMake/3.26.3-GCCcore-12.3.0"
+	"Rust/1.99.1-GCCcore-12.3.0" -> "CMake/3.26.3-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Python/3.15.1-GCCcore-12.3.0"
+	"Rust/1.99.1-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Ninja/1.11.1-GCCcore-12.3.0"
+	"Rust/1.99.1-GCCcore-12.3.0" -> "Ninja/1.11.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"pkgconf/1.9.5-GCCcore-12.3.0"
+	"Rust/1.99.1-GCCcore-12.3.0" -> "pkgconf/1.9.5-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"patchelf/0.18.0-GCCcore-12.3.0"
+	"Rust/1.99.1-GCCcore-12.3.0" -> "patchelf/0.18.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Voiage-Python-support/2.2.0-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"Voiage-Python-support/2.2.0-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"Voiage-Python-support/2.2.0-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"hatchling/1.24.2-GCCcore-12.3.0"
+	"Voiage-Python-support/2.2.0-GCCcore-12.3.0" -> "hatchling/1.24.2-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"setuptools-rust/1.12.0-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"setuptools-rust/1.12.0-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"setuptools-rust/1.12.0-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Cython/3.3.1-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"Cython/3.3.1-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"Cython/3.3.1-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"pybind11/3.1.0-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"pybind11/3.1.0-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"pybind11/3.1.0-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Meson/1.12.1-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"Meson/1.12.1-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"Meson/1.12.1-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"pyproject-metadata/0.12.1-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"pyproject-metadata/0.12.1-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"pyproject-metadata/0.12.1-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"gast/0.7.0-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"gast/0.7.0-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"gast/0.7.0-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"threadpoolctl/3.7.0-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"threadpoolctl/3.7.0-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"threadpoolctl/3.7.0-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"FlexiBLAS/3.3.1-GCC-12.3.0"
+	"OpenBLAS/0.3.23-GCC-12.3.0"
+	"FlexiBLAS/3.3.1-GCC-12.3.0" -> "OpenBLAS/0.3.23-GCC-12.3.0"
+	"CMake/3.26.3-GCCcore-12.3.0"
+	"FlexiBLAS/3.3.1-GCC-12.3.0" -> "CMake/3.26.3-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Python/3.15.1-GCCcore-12.3.0"
+	"FlexiBLAS/3.3.1-GCC-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"BLIS/0.9.0-GCC-12.3.0"
+	"FlexiBLAS/3.3.1-GCC-12.3.0" -> "BLIS/0.9.0-GCC-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"beniget/0.5.0-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"beniget/0.5.0-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"gast/0.7.0-GCCcore-12.3.0"
+	"beniget/0.5.0-GCCcore-12.3.0" -> "gast/0.7.0-GCCcore-12.3.0"
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"beniget/0.5.0-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"cloudpickle/3.1.2-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"cloudpickle/3.1.2-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"cloudpickle/3.1.2-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Voiage-Arrow-build-support/26.0.0-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"Voiage-Arrow-build-support/26.0.0-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"Voiage-Arrow-build-support/26.0.0-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"hatchling/1.24.2-GCCcore-12.3.0"
+	"Voiage-Arrow-build-support/26.0.0-GCCcore-12.3.0" -> "hatchling/1.24.2-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Cython/3.3.1-GCCcore-12.3.0"
+	"Voiage-Arrow-build-support/26.0.0-GCCcore-12.3.0" -> "Cython/3.3.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"ply/3.11-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"ply/3.11-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"ply/3.11-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"maturin/1.13.1-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"maturin/1.13.1-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"Rust/1.99.1-GCCcore-12.3.0"
+	"maturin/1.13.1-GCCcore-12.3.0" -> "Rust/1.99.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"maturin/1.13.1-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"setuptools-rust/1.12.0-GCCcore-12.3.0"
+	"maturin/1.13.1-GCCcore-12.3.0" -> "setuptools-rust/1.12.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"pkgconf/1.9.5-GCCcore-12.3.0"
+	"maturin/1.13.1-GCCcore-12.3.0" -> "pkgconf/1.9.5-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"meson-python/0.22.1-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"meson-python/0.22.1-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"pyproject-metadata/0.12.1-GCCcore-12.3.0"
+	"meson-python/0.22.1-GCCcore-12.3.0" -> "pyproject-metadata/0.12.1-GCCcore-12.3.0"
+	"Meson/1.12.1-GCCcore-12.3.0"
+	"meson-python/0.22.1-GCCcore-12.3.0" -> "Meson/1.12.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Ninja/1.11.1-GCCcore-12.3.0"
+	"meson-python/0.22.1-GCCcore-12.3.0" -> "Ninja/1.11.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"meson-python/0.22.1-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"gfbf/2023a"
+	"GCC/12.3.0"
+	"gfbf/2023a" -> "GCC/12.3.0"
+	"FlexiBLAS/3.3.1-GCC-12.3.0"
+	"gfbf/2023a" -> "FlexiBLAS/3.3.1-GCC-12.3.0"
+	"FFTW/3.3.10-GCC-12.3.0"
+	"gfbf/2023a" -> "FFTW/3.3.10-GCC-12.3.0"
+	"joblib/1.6.0-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"joblib/1.6.0-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"cloudpickle/3.1.2-GCCcore-12.3.0"
+	"joblib/1.6.0-GCCcore-12.3.0" -> "cloudpickle/3.1.2-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"cloudpickle/3.1.2-GCCcore-12.3.0"
+	"joblib/1.6.0-GCCcore-12.3.0" -> "cloudpickle/3.1.2-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"cloudpickle/3.1.2-GCCcore-12.3.0"
+	"joblib/1.6.0-GCCcore-12.3.0" -> "cloudpickle/3.1.2-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"joblib/1.6.0-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"uv-build/0.13.6-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"uv-build/0.13.6-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"Rust/1.99.1-GCCcore-12.3.0"
+	"uv-build/0.13.6-GCCcore-12.3.0" -> "Rust/1.99.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"maturin/1.13.1-GCCcore-12.3.0"
+	"uv-build/0.13.6-GCCcore-12.3.0" -> "maturin/1.13.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"uv-build/0.13.6-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"setuptools-rust/1.12.0-GCCcore-12.3.0"
+	"uv-build/0.13.6-GCCcore-12.3.0" -> "setuptools-rust/1.12.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"polars-runtime-32/2.1.0-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"polars-runtime-32/2.1.0-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"Rust-nightly/2026-09-01-GCCcore-12.3.0"
+	"polars-runtime-32/2.1.0-GCCcore-12.3.0" -> "Rust-nightly/2026-09-01-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"maturin/1.13.1-GCCcore-12.3.0"
+	"polars-runtime-32/2.1.0-GCCcore-12.3.0" -> "maturin/1.13.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"polars-runtime-32/2.1.0-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"setuptools-rust/1.12.0-GCCcore-12.3.0"
+	"polars-runtime-32/2.1.0-GCCcore-12.3.0" -> "setuptools-rust/1.12.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"pydantic-core/2.46.4-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"pydantic-core/2.46.4-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"Voiage-Python-support/2.2.0-GCCcore-12.3.0"
+	"pydantic-core/2.46.4-GCCcore-12.3.0" -> "Voiage-Python-support/2.2.0-GCCcore-12.3.0"
+	"Rust/1.99.1-GCCcore-12.3.0"
+	"pydantic-core/2.46.4-GCCcore-12.3.0" -> "Rust/1.99.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"pydantic-core/2.46.4-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"maturin/1.13.1-GCCcore-12.3.0"
+	"pydantic-core/2.46.4-GCCcore-12.3.0" -> "maturin/1.13.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"libcst/1.9.0-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"libcst/1.9.0-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"Rust/1.99.1-GCCcore-12.3.0"
+	"libcst/1.9.0-GCCcore-12.3.0" -> "Rust/1.99.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"maturin/1.13.1-GCCcore-12.3.0"
+	"libcst/1.9.0-GCCcore-12.3.0" -> "maturin/1.13.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"libcst/1.9.0-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"setuptools-rust/1.12.0-GCCcore-12.3.0"
+	"libcst/1.9.0-GCCcore-12.3.0" -> "setuptools-rust/1.12.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"rpds-py/2026.6.3-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"rpds-py/2026.6.3-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"Rust/1.99.1-GCCcore-12.3.0"
+	"rpds-py/2026.6.3-GCCcore-12.3.0" -> "Rust/1.99.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"rpds-py/2026.6.3-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"maturin/1.13.1-GCCcore-12.3.0"
+	"rpds-py/2026.6.3-GCCcore-12.3.0" -> "maturin/1.13.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"NumPy/2.5.4-gfbf-2023a"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"NumPy/2.5.4-gfbf-2023a" -> "Python/3.15.1-GCCcore-12.3.0"
+	"Cython/3.3.1-GCCcore-12.3.0"
+	"NumPy/2.5.4-gfbf-2023a" -> "Cython/3.3.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"meson-python/0.22.1-GCCcore-12.3.0"
+	"NumPy/2.5.4-gfbf-2023a" -> "meson-python/0.22.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"NumPy/2.5.4-gfbf-2023a" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"pythran/0.19.0-gfbf-2023a"
+	"NumPy/2.5.4-gfbf-2023a"
+	"pythran/0.19.0-gfbf-2023a" -> "NumPy/2.5.4-gfbf-2023a"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"pythran/0.19.0-gfbf-2023a" -> "Python/3.15.1-GCCcore-12.3.0"
+	"gast/0.7.0-GCCcore-12.3.0"
+	"pythran/0.19.0-gfbf-2023a" -> "gast/0.7.0-GCCcore-12.3.0"
+	"beniget/0.5.0-GCCcore-12.3.0"
+	"pythran/0.19.0-gfbf-2023a" -> "beniget/0.5.0-GCCcore-12.3.0"
+	"ply/3.11-GCCcore-12.3.0"
+	"pythran/0.19.0-gfbf-2023a" -> "ply/3.11-GCCcore-12.3.0"
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"pythran/0.19.0-gfbf-2023a" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"narwhals/2.28.0-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"narwhals/2.28.0-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"narwhals/2.28.0-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"uv-build/0.13.6-GCCcore-12.3.0"
+	"narwhals/2.28.0-GCCcore-12.3.0" -> "uv-build/0.13.6-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"polars/2.1.0-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"polars/2.1.0-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"polars-runtime-32/2.1.0-GCCcore-12.3.0"
+	"polars/2.1.0-GCCcore-12.3.0" -> "polars-runtime-32/2.1.0-GCCcore-12.3.0"
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"polars/2.1.0-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"pydantic/2.13.4-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"pydantic/2.13.4-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"Voiage-Python-support/2.2.0-GCCcore-12.3.0"
+	"pydantic/2.13.4-GCCcore-12.3.0" -> "Voiage-Python-support/2.2.0-GCCcore-12.3.0"
+	"pydantic-core/2.46.4-GCCcore-12.3.0"
+	"pydantic/2.13.4-GCCcore-12.3.0" -> "pydantic-core/2.46.4-GCCcore-12.3.0"
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"pydantic/2.13.4-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"jsonschema/4.26.0-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"jsonschema/4.26.0-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0"
+	"Voiage-Python-support/2.2.0-GCCcore-12.3.0"
+	"jsonschema/4.26.0-GCCcore-12.3.0" -> "Voiage-Python-support/2.2.0-GCCcore-12.3.0"
+	"rpds-py/2026.6.3-GCCcore-12.3.0"
+	"jsonschema/4.26.0-GCCcore-12.3.0" -> "rpds-py/2026.6.3-GCCcore-12.3.0"
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"jsonschema/4.26.0-GCCcore-12.3.0" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"SciPy/1.18.1-gfbf-2023a"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"SciPy/1.18.1-gfbf-2023a" -> "Python/3.15.1-GCCcore-12.3.0"
+	"NumPy/2.5.4-gfbf-2023a"
+	"SciPy/1.18.1-gfbf-2023a" -> "NumPy/2.5.4-gfbf-2023a"
+	"pybind11/3.1.0-GCCcore-12.3.0"
+	"SciPy/1.18.1-gfbf-2023a" -> "pybind11/3.1.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"pybind11/3.1.0-GCCcore-12.3.0"
+	"SciPy/1.18.1-gfbf-2023a" -> "pybind11/3.1.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"pybind11/3.1.0-GCCcore-12.3.0"
+	"SciPy/1.18.1-gfbf-2023a" -> "pybind11/3.1.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Cython/3.3.1-GCCcore-12.3.0"
+	"SciPy/1.18.1-gfbf-2023a" -> "Cython/3.3.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"meson-python/0.22.1-GCCcore-12.3.0"
+	"SciPy/1.18.1-gfbf-2023a" -> "meson-python/0.22.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"pythran/0.19.0-gfbf-2023a"
+	"SciPy/1.18.1-gfbf-2023a" -> "pythran/0.19.0-gfbf-2023a" [arrowhead=diamond color=blue style=dotted]
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"SciPy/1.18.1-gfbf-2023a" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"scikit-learn/1.9.1-gfbf-2023a"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"scikit-learn/1.9.1-gfbf-2023a" -> "Python/3.15.1-GCCcore-12.3.0"
+	"NumPy/2.5.4-gfbf-2023a"
+	"scikit-learn/1.9.1-gfbf-2023a" -> "NumPy/2.5.4-gfbf-2023a"
+	"SciPy/1.18.1-gfbf-2023a"
+	"scikit-learn/1.9.1-gfbf-2023a" -> "SciPy/1.18.1-gfbf-2023a"
+	"joblib/1.6.0-GCCcore-12.3.0"
+	"scikit-learn/1.9.1-gfbf-2023a" -> "joblib/1.6.0-GCCcore-12.3.0"
+	"threadpoolctl/3.7.0-GCCcore-12.3.0"
+	"scikit-learn/1.9.1-gfbf-2023a" -> "threadpoolctl/3.7.0-GCCcore-12.3.0"
+	"narwhals/2.28.0-GCCcore-12.3.0"
+	"scikit-learn/1.9.1-gfbf-2023a" -> "narwhals/2.28.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"narwhals/2.28.0-GCCcore-12.3.0"
+	"scikit-learn/1.9.1-gfbf-2023a" -> "narwhals/2.28.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"narwhals/2.28.0-GCCcore-12.3.0"
+	"scikit-learn/1.9.1-gfbf-2023a" -> "narwhals/2.28.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Cython/3.3.1-GCCcore-12.3.0"
+	"scikit-learn/1.9.1-gfbf-2023a" -> "Cython/3.3.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"meson-python/0.22.1-GCCcore-12.3.0"
+	"scikit-learn/1.9.1-gfbf-2023a" -> "meson-python/0.22.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0"
+	"scikit-learn/1.9.1-gfbf-2023a" -> "Voiage-Rust-build-support/2.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"snappy/1.1.10-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"snappy/1.1.10-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"CMake/3.26.3-GCCcore-12.3.0"
+	"snappy/1.1.10-GCCcore-12.3.0" -> "CMake/3.26.3-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"libevent/2.1.12-GCCcore-12.3.0"
+	"zlib/1.2.13-GCCcore-12.3.0"
+	"libevent/2.1.12-GCCcore-12.3.0" -> "zlib/1.2.13-GCCcore-12.3.0"
+	"OpenSSL/1.1"
+	"libevent/2.1.12-GCCcore-12.3.0" -> "OpenSSL/1.1"
+	"binutils/2.40-GCCcore-12.3.0"
+	"libevent/2.1.12-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"pkgconf/1.9.5-GCCcore-12.3.0"
+	"libevent/2.1.12-GCCcore-12.3.0" -> "pkgconf/1.9.5-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"ICU/73.2-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"ICU/73.2-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Python/3.15.1-GCCcore-12.3.0"
+	"ICU/73.2-GCCcore-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"numactl/2.0.16-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"numactl/2.0.16-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Boost/1.82.0-GCC-12.3.0"
+	"bzip2/1.0.8-GCCcore-12.3.0"
+	"Boost/1.82.0-GCC-12.3.0" -> "bzip2/1.0.8-GCCcore-12.3.0"
+	"zlib/1.2.13-GCCcore-12.3.0"
+	"Boost/1.82.0-GCC-12.3.0" -> "zlib/1.2.13-GCCcore-12.3.0"
+	"XZ/5.4.2-GCCcore-12.3.0"
+	"Boost/1.82.0-GCC-12.3.0" -> "XZ/5.4.2-GCCcore-12.3.0"
+	"zstd/1.5.5-GCCcore-12.3.0"
+	"Boost/1.82.0-GCC-12.3.0" -> "zstd/1.5.5-GCCcore-12.3.0"
+	"ICU/73.2-GCCcore-12.3.0"
+	"Boost/1.82.0-GCC-12.3.0" -> "ICU/73.2-GCCcore-12.3.0"
+	"RapidJSON/1.1.0-20230928-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"RapidJSON/1.1.0-20230928-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"CMake/3.26.3-GCCcore-12.3.0"
+	"RapidJSON/1.1.0-20230928-GCCcore-12.3.0" -> "CMake/3.26.3-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"UCX/1.14.1-GCCcore-12.3.0"
+	"zlib/1.2.13-GCCcore-12.3.0"
+	"UCX/1.14.1-GCCcore-12.3.0" -> "zlib/1.2.13-GCCcore-12.3.0"
+	"numactl/2.0.16-GCCcore-12.3.0"
+	"UCX/1.14.1-GCCcore-12.3.0" -> "numactl/2.0.16-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"UCX/1.14.1-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Autotools/20220317-GCCcore-12.3.0"
+	"UCX/1.14.1-GCCcore-12.3.0" -> "Autotools/20220317-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"pkgconf/1.9.5-GCCcore-12.3.0"
+	"UCX/1.14.1-GCCcore-12.3.0" -> "pkgconf/1.9.5-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"libfabric/1.18.0-GCCcore-12.3.0"
+	"numactl/2.0.16-GCCcore-12.3.0"
+	"libfabric/1.18.0-GCCcore-12.3.0" -> "numactl/2.0.16-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"libfabric/1.18.0-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"pkgconf/1.9.5-GCCcore-12.3.0"
+	"libfabric/1.18.0-GCCcore-12.3.0" -> "pkgconf/1.9.5-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Autotools/20220317-GCCcore-12.3.0"
+	"libfabric/1.18.0-GCCcore-12.3.0" -> "Autotools/20220317-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"xorg-macros/1.20.0-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"xorg-macros/1.20.0-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Autotools/20220317-GCCcore-12.3.0"
+	"xorg-macros/1.20.0-GCCcore-12.3.0" -> "Autotools/20220317-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"libpciaccess/0.17-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"libpciaccess/0.17-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Autotools/20220317-GCCcore-12.3.0"
+	"libpciaccess/0.17-GCCcore-12.3.0" -> "Autotools/20220317-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"xorg-macros/1.20.0-GCCcore-12.3.0"
+	"libpciaccess/0.17-GCCcore-12.3.0" -> "xorg-macros/1.20.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"hwloc/2.9.1-GCCcore-12.3.0"
+	"numactl/2.0.16-GCCcore-12.3.0"
+	"hwloc/2.9.1-GCCcore-12.3.0" -> "numactl/2.0.16-GCCcore-12.3.0"
+	"libxml2/2.11.4-GCCcore-12.3.0"
+	"hwloc/2.9.1-GCCcore-12.3.0" -> "libxml2/2.11.4-GCCcore-12.3.0"
+	"libpciaccess/0.17-GCCcore-12.3.0"
+	"hwloc/2.9.1-GCCcore-12.3.0" -> "libpciaccess/0.17-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"hwloc/2.9.1-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"utf8proc/2.8.0-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"utf8proc/2.8.0-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"CMake/3.26.3-GCCcore-12.3.0"
+	"utf8proc/2.8.0-GCCcore-12.3.0" -> "CMake/3.26.3-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"PMIx/4.2.4-GCCcore-12.3.0"
+	"libevent/2.1.12-GCCcore-12.3.0"
+	"PMIx/4.2.4-GCCcore-12.3.0" -> "libevent/2.1.12-GCCcore-12.3.0"
+	"zlib/1.2.13-GCCcore-12.3.0"
+	"PMIx/4.2.4-GCCcore-12.3.0" -> "zlib/1.2.13-GCCcore-12.3.0"
+	"hwloc/2.9.1-GCCcore-12.3.0"
+	"PMIx/4.2.4-GCCcore-12.3.0" -> "hwloc/2.9.1-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"PMIx/4.2.4-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Abseil/20230125.3-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"Abseil/20230125.3-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"CMake/3.26.3-GCCcore-12.3.0"
+	"Abseil/20230125.3-GCCcore-12.3.0" -> "CMake/3.26.3-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"RE2/2023-08-01-GCCcore-12.3.0"
+	"Abseil/20230125.3-GCCcore-12.3.0"
+	"RE2/2023-08-01-GCCcore-12.3.0" -> "Abseil/20230125.3-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"RE2/2023-08-01-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"CMake/3.26.3-GCCcore-12.3.0"
+	"RE2/2023-08-01-GCCcore-12.3.0" -> "CMake/3.26.3-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Thrift/0.22.0-GCC-12.3.0"
+	"Boost/1.82.0-GCC-12.3.0"
+	"Thrift/0.22.0-GCC-12.3.0" -> "Boost/1.82.0-GCC-12.3.0"
+	"zlib/1.2.13-GCCcore-12.3.0"
+	"Thrift/0.22.0-GCC-12.3.0" -> "zlib/1.2.13-GCCcore-12.3.0"
+	"OpenSSL/3"
+	"Thrift/0.22.0-GCC-12.3.0" -> "OpenSSL/3"
+	"binutils/2.40-GCCcore-12.3.0"
+	"Thrift/0.22.0-GCC-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"CMake/3.26.3-GCCcore-12.3.0"
+	"Thrift/0.22.0-GCC-12.3.0" -> "CMake/3.26.3-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Bison/3.8.2-GCCcore-12.3.0"
+	"Thrift/0.22.0-GCC-12.3.0" -> "Bison/3.8.2-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"flex/2.6.4-GCCcore-12.3.0"
+	"Thrift/0.22.0-GCC-12.3.0" -> "flex/2.6.4-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Python/3.15.1-GCCcore-12.3.0"
+	"Thrift/0.22.0-GCC-12.3.0" -> "Python/3.15.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"UCC/1.2.0-GCCcore-12.3.0"
+	"UCX/1.14.1-GCCcore-12.3.0"
+	"UCC/1.2.0-GCCcore-12.3.0" -> "UCX/1.14.1-GCCcore-12.3.0"
+	"binutils/2.40-GCCcore-12.3.0"
+	"UCC/1.2.0-GCCcore-12.3.0" -> "binutils/2.40-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Autotools/20220317-GCCcore-12.3.0"
+	"UCC/1.2.0-GCCcore-12.3.0" -> "Autotools/20220317-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Arrow/26.0.0-gfbf-2023a"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"Arrow/26.0.0-gfbf-2023a" -> "Python/3.15.1-GCCcore-12.3.0"
+	"NumPy/2.5.4-gfbf-2023a"
+	"Arrow/26.0.0-gfbf-2023a" -> "NumPy/2.5.4-gfbf-2023a"
+	"Boost/1.82.0-GCC-12.3.0"
+	"Arrow/26.0.0-gfbf-2023a" -> "Boost/1.82.0-GCC-12.3.0"
+	"lz4/1.9.4-GCCcore-12.3.0"
+	"Arrow/26.0.0-gfbf-2023a" -> "lz4/1.9.4-GCCcore-12.3.0"
+	"zlib/1.2.13-GCCcore-12.3.0"
+	"Arrow/26.0.0-gfbf-2023a" -> "zlib/1.2.13-GCCcore-12.3.0"
+	"bzip2/1.0.8-GCCcore-12.3.0"
+	"Arrow/26.0.0-gfbf-2023a" -> "bzip2/1.0.8-GCCcore-12.3.0"
+	"zstd/1.5.5-GCCcore-12.3.0"
+	"Arrow/26.0.0-gfbf-2023a" -> "zstd/1.5.5-GCCcore-12.3.0"
+	"snappy/1.1.10-GCCcore-12.3.0"
+	"Arrow/26.0.0-gfbf-2023a" -> "snappy/1.1.10-GCCcore-12.3.0"
+	"RapidJSON/1.1.0-20230928-GCCcore-12.3.0"
+	"Arrow/26.0.0-gfbf-2023a" -> "RapidJSON/1.1.0-20230928-GCCcore-12.3.0"
+	"RE2/2023-08-01-GCCcore-12.3.0"
+	"Arrow/26.0.0-gfbf-2023a" -> "RE2/2023-08-01-GCCcore-12.3.0"
+	"utf8proc/2.8.0-GCCcore-12.3.0"
+	"Arrow/26.0.0-gfbf-2023a" -> "utf8proc/2.8.0-GCCcore-12.3.0"
+	"Thrift/0.22.0-GCC-12.3.0"
+	"Arrow/26.0.0-gfbf-2023a" -> "Thrift/0.22.0-GCC-12.3.0"
+	"OpenSSL/3"
+	"Arrow/26.0.0-gfbf-2023a" -> "OpenSSL/3"
+	"mimalloc/3.4.1-GCCcore-12.3.0"
+	"Arrow/26.0.0-gfbf-2023a" -> "mimalloc/3.4.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Brotli/1.1.0-GCCcore-12.3.0"
+	"Arrow/26.0.0-gfbf-2023a" -> "Brotli/1.1.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"CMake/3.26.3-GCCcore-12.3.0"
+	"Arrow/26.0.0-gfbf-2023a" -> "CMake/3.26.3-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Ninja/1.11.1-GCCcore-12.3.0"
+	"Arrow/26.0.0-gfbf-2023a" -> "Ninja/1.11.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"pkgconf/1.9.5-GCCcore-12.3.0"
+	"Arrow/26.0.0-gfbf-2023a" -> "pkgconf/1.9.5-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Cython/3.3.1-GCCcore-12.3.0"
+	"Arrow/26.0.0-gfbf-2023a" -> "Cython/3.3.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Voiage-Arrow-build-support/26.0.0-GCCcore-12.3.0"
+	"Arrow/26.0.0-gfbf-2023a" -> "Voiage-Arrow-build-support/26.0.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"libcst/1.9.0-GCCcore-12.3.0"
+	"Arrow/26.0.0-gfbf-2023a" -> "libcst/1.9.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"xsimd/14.2.0-GCCcore-12.3.0"
+	"Arrow/26.0.0-gfbf-2023a" -> "xsimd/14.2.0-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"OpenMPI/4.1.5-GCC-12.3.0"
+	"zlib/1.2.13-GCCcore-12.3.0"
+	"OpenMPI/4.1.5-GCC-12.3.0" -> "zlib/1.2.13-GCCcore-12.3.0"
+	"hwloc/2.9.1-GCCcore-12.3.0"
+	"OpenMPI/4.1.5-GCC-12.3.0" -> "hwloc/2.9.1-GCCcore-12.3.0"
+	"libevent/2.1.12-GCCcore-12.3.0"
+	"OpenMPI/4.1.5-GCC-12.3.0" -> "libevent/2.1.12-GCCcore-12.3.0"
+	"UCX/1.14.1-GCCcore-12.3.0"
+	"OpenMPI/4.1.5-GCC-12.3.0" -> "UCX/1.14.1-GCCcore-12.3.0"
+	"libfabric/1.18.0-GCCcore-12.3.0"
+	"OpenMPI/4.1.5-GCC-12.3.0" -> "libfabric/1.18.0-GCCcore-12.3.0"
+	"PMIx/4.2.4-GCCcore-12.3.0"
+	"OpenMPI/4.1.5-GCC-12.3.0" -> "PMIx/4.2.4-GCCcore-12.3.0"
+	"UCC/1.2.0-GCCcore-12.3.0"
+	"OpenMPI/4.1.5-GCC-12.3.0" -> "UCC/1.2.0-GCCcore-12.3.0"
+	"pkgconf/1.9.5-GCCcore-12.3.0"
+	"OpenMPI/4.1.5-GCC-12.3.0" -> "pkgconf/1.9.5-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Perl/5.36.1-GCCcore-12.3.0"
+	"OpenMPI/4.1.5-GCC-12.3.0" -> "Perl/5.36.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"Autotools/20220317-GCCcore-12.3.0"
+	"OpenMPI/4.1.5-GCC-12.3.0" -> "Autotools/20220317-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"gompi/2023a"
+	"GCC/12.3.0"
+	"gompi/2023a" -> "GCC/12.3.0"
+	"OpenMPI/4.1.5-GCC-12.3.0"
+	"gompi/2023a" -> "OpenMPI/4.1.5-GCC-12.3.0"
+	"FFTW.MPI/3.3.10-gompi-2023a"
+	"FFTW/3.3.10-GCC-12.3.0"
+	"FFTW.MPI/3.3.10-gompi-2023a" -> "FFTW/3.3.10-GCC-12.3.0"
+	"ScaLAPACK/2.2.0-gompi-2023a-fb"
+	"FlexiBLAS/3.3.1-GCC-12.3.0"
+	"ScaLAPACK/2.2.0-gompi-2023a-fb" -> "FlexiBLAS/3.3.1-GCC-12.3.0"
+	"CMake/3.26.3-GCCcore-12.3.0"
+	"ScaLAPACK/2.2.0-gompi-2023a-fb" -> "CMake/3.26.3-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"foss/2023a"
+	"GCC/12.3.0"
+	"foss/2023a" -> "GCC/12.3.0"
+	"OpenMPI/4.1.5-GCC-12.3.0"
+	"foss/2023a" -> "OpenMPI/4.1.5-GCC-12.3.0"
+	"FlexiBLAS/3.3.1-GCC-12.3.0"
+	"foss/2023a" -> "FlexiBLAS/3.3.1-GCC-12.3.0"
+	"FFTW/3.3.10-GCC-12.3.0"
+	"foss/2023a" -> "FFTW/3.3.10-GCC-12.3.0"
+	"FFTW.MPI/3.3.10-gompi-2023a"
+	"foss/2023a" -> "FFTW.MPI/3.3.10-gompi-2023a"
+	"ScaLAPACK/2.2.0-gompi-2023a-fb"
+	"foss/2023a" -> "ScaLAPACK/2.2.0-gompi-2023a-fb"
+	"voiage/2.2.0-foss-2023a-candidate-Python-3.15.1"
+	"Voiage-Python-support/2.2.0-GCCcore-12.3.0"
+	"voiage/2.2.0-foss-2023a-candidate-Python-3.15.1" -> "Voiage-Python-support/2.2.0-GCCcore-12.3.0"
+	"Python/3.15.1-GCCcore-12.3.0"
+	"voiage/2.2.0-foss-2023a-candidate-Python-3.15.1" -> "Python/3.15.1-GCCcore-12.3.0"
+	"NumPy/2.5.4-gfbf-2023a"
+	"voiage/2.2.0-foss-2023a-candidate-Python-3.15.1" -> "NumPy/2.5.4-gfbf-2023a"
+	"SciPy/1.18.1-gfbf-2023a"
+	"voiage/2.2.0-foss-2023a-candidate-Python-3.15.1" -> "SciPy/1.18.1-gfbf-2023a"
+	"scikit-learn/1.9.1-gfbf-2023a"
+	"voiage/2.2.0-foss-2023a-candidate-Python-3.15.1" -> "scikit-learn/1.9.1-gfbf-2023a"
+	"Arrow/26.0.0-gfbf-2023a"
+	"voiage/2.2.0-foss-2023a-candidate-Python-3.15.1" -> "Arrow/26.0.0-gfbf-2023a"
+	"polars/2.1.0-GCCcore-12.3.0"
+	"voiage/2.2.0-foss-2023a-candidate-Python-3.15.1" -> "polars/2.1.0-GCCcore-12.3.0"
+	"pydantic/2.13.4-GCCcore-12.3.0"
+	"voiage/2.2.0-foss-2023a-candidate-Python-3.15.1" -> "pydantic/2.13.4-GCCcore-12.3.0"
+	"jsonschema/4.26.0-GCCcore-12.3.0"
+	"voiage/2.2.0-foss-2023a-candidate-Python-3.15.1" -> "jsonschema/4.26.0-GCCcore-12.3.0"
+	"Rust/1.99.1-GCCcore-12.3.0"
+	"voiage/2.2.0-foss-2023a-candidate-Python-3.15.1" -> "Rust/1.99.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+	"maturin/1.13.1-GCCcore-12.3.0"
+	"voiage/2.2.0-foss-2023a-candidate-Python-3.15.1" -> "maturin/1.13.1-GCCcore-12.3.0" [arrowhead=diamond color=blue style=dotted]
+}
