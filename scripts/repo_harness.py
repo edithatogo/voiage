@@ -173,6 +173,21 @@ def check_workflows(root: Path) -> list[Finding]:
         if re.search(r"^\s*pull_request_target:\s*$", text, re.MULTILINE):
             findings.append(Finding(relative_path, "pull_request_target is forbidden"))
         for action in ACTION_PATTERN.findall(text):
+            if action.startswith("$/"):
+                local = action[2:]
+                if (
+                    not re.fullmatch(
+                        r"\.github/workflows/[A-Za-z0-9_.-]+\.ya?ml", local
+                    )
+                    or not (root / local).is_file()
+                ):
+                    findings.append(
+                        Finding(
+                            relative_path,
+                            f"invalid self-repository workflow reference: {action}",
+                        )
+                    )
+                continue
             if action.startswith("./") or action.startswith("docker://"):
                 continue
             if "@" not in action or not SHA_PATTERN.search(action):
@@ -337,7 +352,7 @@ def check_operational_assurance(root: Path) -> list[Finding]:
     policy_path = root / ".github" / "coverage-policy.json"
     try:
         policy = json.loads(policy_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
+    except OSError, json.JSONDecodeError:
         policy = None
     if policy != EXPECTED_COVERAGE_POLICY:
         findings.append(
@@ -352,7 +367,7 @@ def check_operational_assurance(root: Path) -> list[Finding]:
         provenance = baseline["promotion_provenance"]
         cohort = baseline["cohort"]
         universe = baseline["universe"]
-    except (OSError, json.JSONDecodeError, KeyError, TypeError):
+    except OSError, json.JSONDecodeError, KeyError, TypeError:
         provenance = cohort = universe = None
     externally_anchored = (
         isinstance(provenance, dict)
@@ -415,7 +430,8 @@ def check_execution_packets(root: Path) -> list[Finding]:
             errors = validate_packet(
                 packet,
                 root,
-                require_ready=packet.get("track_id") == "execution_packet_guard_20260907",
+                require_ready=packet.get("track_id")
+                == "execution_packet_guard_20260907",
                 changed_paths=_changed_paths(root) if os.environ.get("CI") else None,
             )
         except (OSError, json.JSONDecodeError, TypeError, ValueError) as exc:
