@@ -149,3 +149,12 @@ Repair `059544da` adds the independently locked `library` workspace to both
 compiler vendor profiles; it does not change upstream locks or allow network
 access. Corrected nightly run `41415754392` is active. Original stable run
 `41405757610` remains active. Retain all terminal receipts before disposition.
+
+Stable run `41405757610` is now terminal failed on the same missing library
+vendor dependency, after a successful 92-minute LLVM source stage. Corrected
+stable run `41418186136` is active at `9f6d4358`; corrected nightly remains
+`41415754392` at `059544da`. The ten native build-input Git objects are identical
+between those revisions and are recorded in the receipt manifest. Source/vendor
+run `41415687864` passed both four-workspace compiler cells and all other cells.
+Current PR checks passed 55 jobs with four conditional skips. Preserve the active
+native jobs; next operation is their terminal receipt review.

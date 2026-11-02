@@ -730,12 +730,12 @@
       "encoding": "gzip"
     },
     {
-      "path": "failed-std-closure-41405761507/llvm-cache-0.txt",
-      "bytes": 72660,
-      "sha256": "f41895d8ddcf9abe0d7397eaeb065cfdbf445a223e9e3a00bf370eaa75886082",
+      "path": "failed-std-closure-41405761507/llvm-cache-0.txt.gz",
+      "bytes": 14503,
+      "sha256": "10f340dcca6e126406337f12288a6f60f7a7c3039954e061ddf605fbb0542c3a",
       "original_bytes": 72660,
       "original_sha256": "f41895d8ddcf9abe0d7397eaeb065cfdbf445a223e9e3a00bf370eaa75886082",
-      "encoding": "identity"
+      "encoding": "gzip"
     },
     {
       "path": "failed-std-closure-41405761507/llvm-source/command.log.gz",
@@ -1288,13 +1288,373 @@
       "original_bytes": 41,
       "original_sha256": "e07d390b65b9d28dbfdb792e81c4eba012caf4bdd9fa52261ba37c07ff6b49d2",
       "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/bootstrap-identity/command.log.gz",
+      "bytes": 170,
+      "sha256": "65f3a8f87832f5634d4123a3496d29bb08f2261ed879e06507f9a7ac8ffe9750",
+      "original_bytes": 196,
+      "original_sha256": "3975d062e234a9f3921955bf6ae5b90f5819df94fa825d057f76b34a35ed0f4d",
+      "encoding": "gzip"
+    },
+    {
+      "path": "failed-std-closure-41405757610/bootstrap-identity/gnu-time.txt",
+      "bytes": 844,
+      "sha256": "70ed8dce06ba12e51d6f488157ac755de61926177b8390597cbed70330a54ae3",
+      "original_bytes": 844,
+      "original_sha256": "70ed8dce06ba12e51d6f488157ac755de61926177b8390597cbed70330a54ae3",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/bootstrap-identity/resource-report.json",
+      "bytes": 1311,
+      "sha256": "6728e5cf4f778d2263ebf91a7f8259d4c9c3484e62d27370cfce7e69857de623",
+      "original_bytes": 1311,
+      "original_sha256": "6728e5cf4f778d2263ebf91a7f8259d4c9c3484e62d27370cfce7e69857de623",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/bootstrap-identity/samples.jsonl.gz",
+      "bytes": 198,
+      "sha256": "9b429138529e3585e4ac1a994ceef23793474644a724ad966244db79e43af7b0",
+      "original_bytes": 597,
+      "original_sha256": "04cc54cec06df08e13e9273f78dab5c3a5571f62b5ad7d5ae500cef5893996ed",
+      "encoding": "gzip"
+    },
+    {
+      "path": "failed-std-closure-41405757610/bootstrap-install/command.log.gz",
+      "bytes": 166,
+      "sha256": "92c3f2e92d6529271b8b8529e3d1005c7d68bb9db40a7d281e2f667f6066b5cc",
+      "original_bytes": 273,
+      "original_sha256": "2da179ba40f840b46b7e4af128a18001e8a1618c0b7163cb0c67f8f5010c3f97",
+      "encoding": "gzip"
+    },
+    {
+      "path": "failed-std-closure-41405757610/bootstrap-install/gnu-time.txt",
+      "bytes": 1022,
+      "sha256": "b97612ad02a4080b5f600efb1e9c359ceb19ab0715e03437b364892d81529934",
+      "original_bytes": 1022,
+      "original_sha256": "b97612ad02a4080b5f600efb1e9c359ceb19ab0715e03437b364892d81529934",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/bootstrap-install/resource-report.json",
+      "bytes": 1499,
+      "sha256": "3c53e2b6173c38d51d8843d3930952ef386410da7790a9b28a1b5781d1f08d53",
+      "original_bytes": 1499,
+      "original_sha256": "3c53e2b6173c38d51d8843d3930952ef386410da7790a9b28a1b5781d1f08d53",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/bootstrap-install/samples.jsonl.gz",
+      "bytes": 239,
+      "sha256": "70d4bf399883a7334d707f7e303edfe07c19f3917b893ac8caef304136e6a372",
+      "original_bytes": 818,
+      "original_sha256": "9dfa574c6cc59aebbad8e8095f920fd802906f82a75aab423864a2a936b3136e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "failed-std-closure-41405757610/bootstrap.toml",
+      "bytes": 809,
+      "sha256": "c98169b49e83bebc430c1ab98c157a09db9707a664a1336cfa99f318d4cf1a75",
+      "original_bytes": 809,
+      "original_sha256": "c98169b49e83bebc430c1ab98c157a09db9707a664a1336cfa99f318d4cf1a75",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/host-tools/command.log.gz",
+      "bytes": 479,
+      "sha256": "8d6001d2bff1e5839f448531b69b126465251a52f316476ac93ab389cd4a72b6",
+      "original_bytes": 957,
+      "original_sha256": "2b018bb4eb86b56fd1f1fa27aebf0bf1dd59a628d61ac7f93c8ad4eebd5a9747",
+      "encoding": "gzip"
+    },
+    {
+      "path": "failed-std-closure-41405757610/host-tools/gnu-time.txt",
+      "bytes": 897,
+      "sha256": "a609072f2e86fc286fd96156945f6604a80cb087078489bc3093ad01bccb27f6",
+      "original_bytes": 897,
+      "original_sha256": "a609072f2e86fc286fd96156945f6604a80cb087078489bc3093ad01bccb27f6",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/host-tools/resource-report.json",
+      "bytes": 1363,
+      "sha256": "fd550e949361c074a9112ca914539635becf7ae84f3dca8f439e72473f373fab",
+      "original_bytes": 1363,
+      "original_sha256": "fd550e949361c074a9112ca914539635becf7ae84f3dca8f439e72473f373fab",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/host-tools/samples.jsonl.gz",
+      "bytes": 207,
+      "sha256": "619440b6d645369c1a4e3908dde22a1ccd2a1902563fef55d8dcf9f359b2b31d",
+      "original_bytes": 608,
+      "original_sha256": "1fe430cd365122164f46525a840222f568d94fe4b3c6e2fbec4257cff887cc9c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "failed-std-closure-41405757610/llvm-cache-0.txt.gz",
+      "bytes": 14495,
+      "sha256": "aff276c93b0697d5ff4de57773312af58f2e8359e94cf87938fe5e8349d7b494",
+      "original_bytes": 72653,
+      "original_sha256": "4d58e8d10264d668e021adfedbb3dcc659495badce2b778f85509f407acb15e1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "failed-std-closure-41405757610/llvm-source/command.log.gz",
+      "bytes": 74440,
+      "sha256": "44bf7966827fc3a7863066711de38b5ca6904a746724f3092fe38ef90d8dea79",
+      "original_bytes": 785658,
+      "original_sha256": "c25859afbaa803654bc6d02e941ab6e9f1b257272ce128f741cba550e0351787",
+      "encoding": "gzip"
+    },
+    {
+      "path": "failed-std-closure-41405757610/llvm-source/gnu-time.txt",
+      "bytes": 978,
+      "sha256": "d55e7c190160e9d311108d995947300e0d09cb24a64c62e0b2ef8de5b7f99b51",
+      "original_bytes": 978,
+      "original_sha256": "d55e7c190160e9d311108d995947300e0d09cb24a64c62e0b2ef8de5b7f99b51",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/llvm-source/resource-report.json",
+      "bytes": 1515,
+      "sha256": "e351d9733aba6f73122ab4bb8656421dcb2f8c7a8a00733f0814dc2d708f1a9d",
+      "original_bytes": 1515,
+      "original_sha256": "e351d9733aba6f73122ab4bb8656421dcb2f8c7a8a00733f0814dc2d708f1a9d",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/llvm-source/samples.jsonl.gz",
+      "bytes": 93270,
+      "sha256": "00416591e91ba13167e9d1d06dfc1231f8300fe4a15a104451553985bf1f1264",
+      "original_bytes": 614750,
+      "original_sha256": "a478fda8bcf5878e3c47707d535b23d0eacae7c03a9781b0571fb950c3d9b812",
+      "encoding": "gzip"
+    },
+    {
+      "path": "failed-std-closure-41405757610/network-control/command.log.gz",
+      "bytes": 58,
+      "sha256": "1cd14f6076596e4fbe11aa1742fc888576708746b1d955806a66dd6463632505",
+      "original_bytes": 40,
+      "original_sha256": "c38f33f781be7e1480ea370bb3312feaf2fe1d1596a314dcf3e5c12f8c48e8d4",
+      "encoding": "gzip"
+    },
+    {
+      "path": "failed-std-closure-41405757610/network-control/gnu-time.txt",
+      "bytes": 983,
+      "sha256": "4dbfcbe6c6ab32177095735d7a5be3e9b83c560c19fbe0d07f527a1fa3f8fbcd",
+      "original_bytes": 983,
+      "original_sha256": "4dbfcbe6c6ab32177095735d7a5be3e9b83c560c19fbe0d07f527a1fa3f8fbcd",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/network-control/resource-report.json",
+      "bytes": 1448,
+      "sha256": "6c06f7ffd24fd487ac3019188b88aca7d3f5d2984668fb7764cc8ad7bb4c5ea0",
+      "original_bytes": 1448,
+      "original_sha256": "6c06f7ffd24fd487ac3019188b88aca7d3f5d2984668fb7764cc8ad7bb4c5ea0",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/network-control/samples.jsonl.gz",
+      "bytes": 198,
+      "sha256": "e4e9b86b1581b20d42ab14294c11d9459fda6a670aad9762e144c18288829098",
+      "original_bytes": 593,
+      "original_sha256": "1bdfda250362eb1e17982a858bac1d7eb25d2d04bea49a177f5ed4b3f1a85060",
+      "encoding": "gzip"
+    },
+    {
+      "path": "failed-std-closure-41405757610/receipt.json",
+      "bytes": 4238,
+      "sha256": "9ae2faeac846dcdd008042356bb9b768527612dc3a2e2bf5e4b41bb49fb9edda",
+      "original_bytes": 4238,
+      "original_sha256": "9ae2faeac846dcdd008042356bb9b768527612dc3a2e2bf5e4b41bb49fb9edda",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/rust-stage2-source/command.log.gz",
+      "bytes": 3651,
+      "sha256": "c095c1bdcd3622a48a321137921caed1640dc206d878da672deff26842e0cee5",
+      "original_bytes": 19299,
+      "original_sha256": "a7866a3c77f06c6b0a142034949179ac90e314796a5c5cb20b94ed192ff9ae5e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "failed-std-closure-41405757610/rust-stage2-source/gnu-time.txt",
+      "bytes": 1054,
+      "sha256": "50b48ac2ef1a72fcc32b6c75bfa5e5b819cfbd4e8f71a5990a13e4d58bb157e0",
+      "original_bytes": 1054,
+      "original_sha256": "50b48ac2ef1a72fcc32b6c75bfa5e5b819cfbd4e8f71a5990a13e4d58bb157e0",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/rust-stage2-source/resource-report.json",
+      "bytes": 1586,
+      "sha256": "eafe96e78584f89c847b189974e844acbc907341b5ad8fdce27f03f7dead5801",
+      "original_bytes": 1586,
+      "original_sha256": "eafe96e78584f89c847b189974e844acbc907341b5ad8fdce27f03f7dead5801",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/rust-stage2-source/samples.jsonl.gz",
+      "bytes": 9607,
+      "sha256": "420f1716cf793620a5797fb717ffa717a28d8ae50dffa531cf3f0b6ed52cb207",
+      "original_bytes": 60747,
+      "original_sha256": "6af7ae91cab28fb5bbcf0e02c50c2fadd523e9c000788978818c996aa5ac45bc",
+      "encoding": "gzip"
+    },
+    {
+      "path": "failed-std-closure-41405757610/source-qualification/cargo-version.txt",
+      "bytes": 353,
+      "sha256": "beb48c9ccf0acdfd7360c3f95741ba50b7b7eb50868f9b2ad65a5bbff3f8a80d",
+      "original_bytes": 353,
+      "original_sha256": "beb48c9ccf0acdfd7360c3f95741ba50b7b7eb50868f9b2ad65a5bbff3f8a80d",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/source-qualification/cargo-version.txt.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/source-qualification/offline-metadata-0.json.gz",
+      "bytes": 215395,
+      "sha256": "b6413854276d7dcb326357552297e75b35acc6dc96db069ee8e1e583ff544c6a",
+      "original_bytes": 2963966,
+      "original_sha256": "ee529de3948d825e4291ee22fcda6594f62324571c927c9e291f2e6d772e4d93",
+      "encoding": "gzip"
+    },
+    {
+      "path": "failed-std-closure-41405757610/source-qualification/offline-metadata-0.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/source-qualification/offline-metadata-1.json.gz",
+      "bytes": 55746,
+      "sha256": "bb10d7862973853e38c8b45ae99ae5ebec794e73ed5f07849dd02f964003dbec",
+      "original_bytes": 550952,
+      "original_sha256": "6bc79dfaee8b3edf629aa1b80f6df6069538f8bd0004997d9dd61414c0bd652e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "failed-std-closure-41405757610/source-qualification/offline-metadata-1.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/source-qualification/offline-metadata-2.json.gz",
+      "bytes": 226542,
+      "sha256": "2f16eab805c1c6cdce793e3f891999aaf9d208b41f377dde9834a242c5b9727a",
+      "original_bytes": 2579080,
+      "original_sha256": "749644e96d08073b28f17b3c62b622c33fef9e44966e231787ac32aed2726d7e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "failed-std-closure-41405757610/source-qualification/offline-metadata-2.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/source-qualification/qualification.json.gz",
+      "bytes": 91954,
+      "sha256": "49078dbf1fdc387a0ed7cf1af9f925952c21166001cded51e12d14840a6d8076",
+      "original_bytes": 355854,
+      "original_sha256": "6da1802cf2e64efd1e6a4be38e889f241968ddd62bd06d523d06ae447d210c89",
+      "encoding": "gzip"
+    },
+    {
+      "path": "failed-std-closure-41405757610/source-qualification/rustc-version.txt",
+      "bytes": 214,
+      "sha256": "53acd55d6ffeb141053628137c4966a6345a2835921738401c79457eae276b93",
+      "original_bytes": 214,
+      "original_sha256": "53acd55d6ffeb141053628137c4966a6345a2835921738401c79457eae276b93",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/source-qualification/rustc-version.txt.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/source-qualification/vendor-config.toml",
+      "bytes": 149,
+      "sha256": "165c9b66e98b370ba645b42cf0565fed3c0f582cccdf17202607f440fd50c81e",
+      "original_bytes": 149,
+      "original_sha256": "165c9b66e98b370ba645b42cf0565fed3c0f582cccdf17202607f440fd50c81e",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/source-qualification/vendor-fetch.txt.gz",
+      "bytes": 24672,
+      "sha256": "38935495172f4e9200ccdf08a2e3522910872aaec87c1b851c4619a8eaa95c75",
+      "original_bytes": 280276,
+      "original_sha256": "ab2d528d8d00d27103952eada8309830eef34108880cae1b25935e12664066b2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "failed-std-closure-41405757610/source-vendor/command.log.gz",
+      "bytes": 20,
+      "sha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "gzip"
+    },
+    {
+      "path": "failed-std-closure-41405757610/source-vendor/gnu-time.txt",
+      "bytes": 1162,
+      "sha256": "4ef92f97c930b79f00fbcd9cb50997fa98ea0581e2c988aa09773e7758a60b2c",
+      "original_bytes": 1162,
+      "original_sha256": "4ef92f97c930b79f00fbcd9cb50997fa98ea0581e2c988aa09773e7758a60b2c",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/source-vendor/resource-report.json",
+      "bytes": 1672,
+      "sha256": "c04443a11553841640d761859009702adb6d270871399a1da23ad4126cb99a3c",
+      "original_bytes": 1672,
+      "original_sha256": "c04443a11553841640d761859009702adb6d270871399a1da23ad4126cb99a3c",
+      "encoding": "identity"
+    },
+    {
+      "path": "failed-std-closure-41405757610/source-vendor/samples.jsonl.gz",
+      "bytes": 1949,
+      "sha256": "6830f0e4803a20a8b87704221ff1d58c94eb763ab7a2b0ef9ca0ffc99bfa7a0d",
+      "original_bytes": 12628,
+      "original_sha256": "f17ac441391ea7ef99f7bf8dcbf9c47175aeba68f433c0f8d5e5bfad66ca0ee4",
+      "encoding": "gzip"
+    },
+    {
+      "path": "failed-std-closure-41405757610/upstream-cargo-config.toml",
+      "bytes": 227,
+      "sha256": "ecf2837d1575dac89787a8ca9bf2a714072752faa56a034a417d81e02f6db569",
+      "original_bytes": 227,
+      "original_sha256": "ecf2837d1575dac89787a8ca9bf2a714072752faa56a034a417d81e02f6db569",
+      "encoding": "identity"
     }
   ],
   "schema_version": "1.0",
   "native_acceptance": false,
   "full_hpc_matrix_qualified": false,
   "source_build_runs": {
-    "rust-stable": "https://github.com/edithatogo/voiage/actions/runs/41405757610",
+    "rust-stable": "https://github.com/edithatogo/voiage/actions/runs/41418186136",
     "rust-nightly": "https://github.com/edithatogo/voiage/actions/runs/41415754392"
   },
   "tested_native_commit": "fd002a01f9b4ccf330821bbf702319ad2d4f2287",
@@ -1329,5 +1689,38 @@
     "conclusion": "success",
     "compiler_workspaces": 4,
     "root_lock_changes": false
+  },
+  "failed_stable": {
+    "run": 41405757610,
+    "llvm_stage": "passed",
+    "llvm_wall_seconds": 5511.152,
+    "llvm_peak_sampled_rss_kib": 5960844,
+    "rust_stage": "failed_missing_library_workspace_vendor_closure",
+    "repair_commit": "059544da5abe3eb99a5eef970d30bd8e5b125e99",
+    "lock_or_network_policy_weakened": false
+  },
+  "corrected_build_input_objects": {
+    "scripts/qualify_native_rust.py": "32d5e74b37a3870786cae8fc6ec76c7fa9ff0e90",
+    "scripts/observe_native_stage.py": "f75218d91406659b29eeb58036de0b3241308e65",
+    "scripts/qualify_source_vendor.py": "189f83307fdf599bfe2b466f4f550edbe6b0efff",
+    "scripts/observe_arrow_capacity.py": "16c0d9baad7000c391eda47c913f026ea7fd6f3a",
+    "scripts/guard_verification.py": "a06f60ff2a7f767474487ec9e8ef82fcf0fcf306",
+    "packaging/current/source-vendor-inputs.json": "8b3c66e8169238c5ae2bb1e5cf17497164394802",
+    "packaging/current/stable-rust-inputs.json": "2daf24938b691c0210ac404f1590bb0daa0765fd",
+    "packaging/current/rust-provider-sources.json": "72c75b7064f387312240f920c1aa372ab83453b1",
+    ".github/workflows/native-rust-llvm-qualification.yml": "357e070a6ada6e3a6afb4fac7f69f3cc116cafb4",
+    ".github/workflows/native-build-capacity-observation.yml": "e2a0eecc498b1a0303a140ac070fe5d1ebd2ed01"
+  },
+  "corrected_native_attempts": {
+    "rust-stable": {
+      "run": 41418186136,
+      "commit": "9f6d4358cc697ccad2af04d54f39343a2872900e",
+      "status": "in_progress"
+    },
+    "rust-nightly": {
+      "run": 41415754392,
+      "commit": "059544da5abe3eb99a5eef970d30bd8e5b125e99",
+      "status": "in_progress"
+    }
   }
 }
