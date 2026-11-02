@@ -11,7 +11,7 @@ uname -a > "$out/host.txt"
 python --version > "$out/python.txt" 2>&1
 if [[ "$cell" == spack ]]; then
   export SPACK_USER_CONFIG_PATH="$out/config"
-  export SPACK_USER_CACHE_PATH="$out/cache"
+  export SPACK_USER_CACHE_PATH="${RUNNER_TEMP:-/tmp}/voiage-spack-cache"
   mkdir -p "$SPACK_USER_CONFIG_PATH"
   cp packaging/current/spack/{concretizer,packages}.yaml "$SPACK_USER_CONFIG_PATH/"
   spack repo add --scope user "$PWD/packaging/current/spack"
