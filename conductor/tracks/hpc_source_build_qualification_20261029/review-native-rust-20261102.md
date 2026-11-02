@@ -1,8 +1,9 @@
 # Review Report: Native Rust/LLVM qualification
 
 ## Summary
-The bounded compiler execution path and fail-closed controls are implemented;
-native acceptance remains pending the two cold source-build runs.
+Both selected cold compiler profiles built LLVM and stage2 Rust from source,
+installed successfully and passed installed Cargo EVPI/linkage probes.
+The full installed HPC matrix remains open.
 
 ## Verification Checks
 - [x] **Plan Compliance**: Partial - P2 observation controls and P3 compiler
@@ -17,7 +18,10 @@ native acceptance remains pending the two cold source-build runs.
   historical evidence objects and the pinned documentation submodule. Restoring
   those inputs yielded 5,791 passed and 27 skipped in the installed coverage gate.
   Earlier runtime-selection and disk stops remain failed receipts.
-- [ ] **Native Results**: Stable and dated-nightly cold builds are running.
+- [x] **Native Results**: Passed - stable `41436471133` and dated-nightly
+  `41436475314`, tested source `24ae6cb6`. All 12 stages per profile completed
+  with successful owned-process cleanup. Installed Cargo compiled and ran
+  `EVPI=5` using the installed source-built compiler; linkage resolved.
 
 ## Findings and applied fixes
 
@@ -45,7 +49,7 @@ native acceptance remains pending the two cold source-build runs.
   version in the separate standard-library workspace. Added `library/Cargo.toml`
   to both compiler vendor profiles after two failing regressions. The source
   archive identities, upstream locks, offline policy and compiler settings stay
-  fixed. The corrected nightly run is `41415754392` at `059544da`.
+  fixed. Intermediate nightly run `41415754392` used this repair at `059544da`.
 - Both standard-library fixes completed LLVM and stage2 Rust, including std,
   Cargo and rustdoc. Installation then exposed copyright generation's complete
   upstream workspace closure. The qualifier now checks the authenticated
@@ -58,9 +62,9 @@ native acceptance remains pending the two cold source-build runs.
   unrelated uv manifest-download timeout received one targeted read-only job
   rerun; its first-failure log remains retained and the workflow passed.
 - The driver now runs upstream copyright generation before the costly LLVM
-  source stage. Current native attempts are stable `41436471133` and nightly
+  source stage. Accepted native attempts are stable `41436471133` and nightly
   `41436475314`, both at `24ae6cb6`. Their source/archive/compiler settings remain
-  frozen; successful installation and installed probes are still pending.
+  frozen; installation and installed probes passed in both profiles.
 - A later local full-tox attempt stopped at the disk-space preflight. It is
   retained as a capacity stop, not a passing test result. Earlier full-tox
   evidence applies to unchanged runtime inputs; current hosted gates and the
@@ -70,13 +74,18 @@ native acceptance remains pending the two cold source-build runs.
 
 The [receipt manifest](evidence/native-rust-llvm-20261102/manifest.json) retains
 failed native/bootstrap and observer evidence, final controls and local gates.
-Compiler source archives, bootstrap configuration and driver are identical
-between `fd002a0` and the reviewed candidate. The compiler vendor profile now
-also verifies the standard-library workspace; its earlier omission is retained
-as a native failure. Later observer changes strengthen interruption/cleanup
-handling and have separate Linux proof.
-Native receipts must still demonstrate terminal success and installed identity,
-compile/link EVPI and linkage checks before this PR can merge.
+Compiler source archives and bootstrap settings stayed frozen while the vendor
+closure, observation cleanup and early notice check were repaired. The ten
+native input Git objects bind accepted revision `24ae6cb6`; later receipt and
+documentation commits retain those exact objects. Both GitHub artifact archive
+digests matched their downloaded bytes. Each retained file also has stored and
+original SHA-256 values. The default LLVM target sets match the earlier cold
+baseline; no backend or experimental target was removed.
+
+Review covered the workflow, source/lock resolution, observation boundaries,
+negative controls and terminal receipts against the plan and coding guidance.
+No unresolved correctness or security finding remains in this bounded compiler
+checkpoint. Final-head hosted gates and the protected merge remain required.
 
 No source-built compiler binaries are retained by this checkpoint. Full Spack
 and both EasyBuild installations, downstream use of these compilers, generation

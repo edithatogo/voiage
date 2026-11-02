@@ -117,57 +117,34 @@ final hosted qualification, review, receipt retention and protected merge.
 
 ## Native compiler execution lane — 2 November 2026
 
-Current writer is chat `01a195fd-b970-7391-83a9-9796bbf98ae3` in
+Writer remains chat `01a195fd-b970-7391-83a9-9796bbf98ae3` in
 `/Users/doughnut/Library/Caches/innovate-arrow26-qual.Q7IJ07/voiage`, branch
 `codex/native-rust-llvm-qualification`, based on merged PR #1261. Scope is the
-native compiler workflow, source-stage observer, frozen build configuration,
-qualification tests and receipts. No competing checkout writer or native build
-was found. Earlier ownership assignments remain historical. Next operation is
-qualifying descendant measurement and source-bootstrap controls, then a bounded
-GitHub-hosted stable Rust/LLVM build. No paid capacity is authorized.
+native compiler workflow, stage observer, source/lock closure, controls and
+receipts. Earlier ownership assignments above remain historical.
 
-### Active compiler checkpoint
+Both accepted cold runs used `24ae6cb6`: stable `41436471133` and dated-nightly
+`41436475314`. All 12 stages per role passed, including installation, installed
+compiler identity, Cargo compile/link `EVPI=5`, and resolved native linkage.
+There is no active native build. The default LLVM backend sets were preserved.
+Thirteen manifests map through Cargo to 12 original authenticated locks; the
+upstream vendor contract and copyright preflight fail before costly compilation.
 
-The same writer owns PR #1262. Stable run `41405757610` and dated-nightly run
-`41405761507` are active at frozen revision `fd002a0`; do not cancel or duplicate
-them for documentation/cleanup-only changes. The driver, authenticated inputs
-and generated compiler configuration remain unchanged. Latest Linux controls
-at `b272163` passed all 45 cases. Local tox environments passed across the full
-attempt and the docs/coverage rerun after restoring full history/tags and the
-pinned Astro submodule. No test gate was weakened.
+The [results](native-results-20261102.md), [review](review-native-rust-20261102.md)
+and [manifest](evidence/native-rust-llvm-20261102/manifest.json) retain exact Git
+objects, source/bootstrap hashes, artifact digests, all stage/resource logs and
+51 passing Linux controls. Initial observer, unsupported-stage0, missing std
+workspace, missing notice workspace and shared-lock failures remain retained.
+One uv manifest-download timeout received one bounded read-only job rerun.
 
-Next operation: inspect terminal compiler receipts, apply any real blocker fixes,
-retain exact build/installed-probe evidence, finish the review and merge only
-after hosted gates pass. The [review](review-native-rust-20261102.md) and
-[manifest](evidence/native-rust-llvm-20261102/manifest.json) distinguish running
-jobs, failed attempts and accepted controls. Full installed HPC acceptance stays
-open; no other chat may take over these jobs without a terminal handoff.
+The full local tox gate and affected docs/coverage rerun passed before the later
+qualification-only fixes. A subsequent full repeat stopped at the disk-space
+preflight; current focused and hosted checks provide the later helper evidence.
+Only completed owned temporary outputs were removed after receipt verification.
+No paid compute was used. No source-built compiler binary archive is retained.
 
-Nightly run `41405761507` is now terminal failed: source LLVM passed, then the
-Rust standard-library step rejected a missing vendored locked `rand` version.
-Repair `059544da` adds the independently locked `library` workspace to both
-compiler vendor profiles; it does not change upstream locks or allow network
-access. Corrected nightly run `41415754392` is active. Original stable run
-`41405757610` remains active. Retain all terminal receipts before disposition.
-
-Stable run `41405757610` is now terminal failed on the same missing library
-vendor dependency, after a successful 92-minute LLVM source stage. Corrected
-stable run `41418186136` is active at `9f6d4358`; corrected nightly remains
-`41415754392` at `059544da`. The ten native build-input Git objects are identical
-between those revisions and are recorded in the receipt manifest. Source/vendor
-run `41415687864` passed both four-workspace compiler cells and all other cells.
-Current PR checks passed 55 jobs with four conditional skips. Preserve the active
-native jobs; next operation is their terminal receipt review.
-
-Both standard-library-fix runs completed LLVM and stage2 Rust, then failed
-installation while generating copyright notices for an unvendored Clippy
-workspace. Complete upstream notice closure is now qualified at `24ae6cb6`:
-13 manifests, 12 unique authenticated locks, and 51 passing Linux controls.
-Cargo resolves shared parent locks offline; no new lock is fabricated.
-Run `41435528210` passed after one targeted rerun of a uv setup timeout.
-Current active native attempts are stable `41436471133` and nightly
-`41436475314`, at the same frozen `24ae6cb6` input revision. They run upstream
-notice generation before LLVM. Next operation is terminal receipt review,
-remaining blocker repair if needed, final record reconciliation and protected
-merge after all relevant checks pass. The local full-tox repeat stopped at its
-disk-space preflight; only completed owned temporary fixtures were cleaned.
+PR #1262 is the integration boundary. Final-head checks, protected merge and
+main Actions are required delivery readbacks; consult that PR for live state.
+The next native task is to bind measured compiler configurations to the actual
+Spack/EasyBuild toolchains and execute downstream installed/generation-isolation
+acceptance. Full P4/P5 profiling and matrix gates remain open.

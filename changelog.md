@@ -1,8 +1,10 @@
 # Changelog
 
 - Add opt-in authenticated Rust/LLVM source-build qualification on GitHub Actions,
-  with offline native stages, descendant cleanup controls and retained resource
-  receipts. Full installed HPC matrix acceptance remains open.
+  with complete upstream vendor/notice closure, offline native stages and
+  descendant cleanup controls. Stable Rust 1.99.1 and the dated nightly now pass
+  cold source-build, installation and installed EVPI/linkage probes with durable
+  resource receipts. Full installed HPC matrix acceptance remains open.
 
 - Add authenticated Linux Cargo/compiler-source qualification, locked offline vendor replay, reproducible Polars Git-source archives and durable source/resource receipts.
 

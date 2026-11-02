@@ -1,5 +1,5 @@
 {
-  "status": "compiler_builds_in_progress",
+  "status": "passed_native_compiler_checkpoint",
   "files": [
     {
       "path": "failed-stage0-41400091611/bootstrap-identity/command.log.gz",
@@ -3800,10 +3800,1842 @@
       "original_bytes": 484,
       "original_sha256": "0b199d8fe82763b76ab6e413dc0ec3733cf55588ca0e9bffc8594d577e7e4ff9",
       "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/bootstrap-identity/command.log.gz",
+      "bytes": 170,
+      "sha256": "65f3a8f87832f5634d4123a3496d29bb08f2261ed879e06507f9a7ac8ffe9750",
+      "original_bytes": 196,
+      "original_sha256": "3975d062e234a9f3921955bf6ae5b90f5819df94fa825d057f76b34a35ed0f4d",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/bootstrap-identity/resource-report.json",
+      "bytes": 1368,
+      "sha256": "2a5cf413fa97807c83fce6210ba85f5097f3b85515c2e46672d466ea6a41299f",
+      "original_bytes": 1368,
+      "original_sha256": "2a5cf413fa97807c83fce6210ba85f5097f3b85515c2e46672d466ea6a41299f",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/bootstrap-identity/gnu-time.txt",
+      "bytes": 844,
+      "sha256": "68f96e59741cb24b8fcfe706a4618c8c6d42d7a89ed607617e63fd576279ac8e",
+      "original_bytes": 844,
+      "original_sha256": "68f96e59741cb24b8fcfe706a4618c8c6d42d7a89ed607617e63fd576279ac8e",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/bootstrap-identity/samples.jsonl.gz",
+      "bytes": 198,
+      "sha256": "28943c9af29721b5251df31bdaeb324a3c2f819bffa6fb12be4883900527e833",
+      "original_bytes": 597,
+      "original_sha256": "b0a64461c7d6efc43eee387cb44203255345183733f91025fee7662a93bde860",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/bootstrap-install/command.log.gz",
+      "bytes": 166,
+      "sha256": "92c3f2e92d6529271b8b8529e3d1005c7d68bb9db40a7d281e2f667f6066b5cc",
+      "original_bytes": 273,
+      "original_sha256": "2da179ba40f840b46b7e4af128a18001e8a1618c0b7163cb0c67f8f5010c3f97",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/bootstrap-install/gnu-time.txt",
+      "bytes": 1022,
+      "sha256": "4c1ac301ac50d3450fd25d88a1b4486b93691ad0560ff45bd40c06fd51dfb69c",
+      "original_bytes": 1022,
+      "original_sha256": "4c1ac301ac50d3450fd25d88a1b4486b93691ad0560ff45bd40c06fd51dfb69c",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/bootstrap-install/resource-report.json",
+      "bytes": 1556,
+      "sha256": "6e97186d7da7e96fabd4f3e16d12d836ace83cad31db814cf31d086ede3b6bdd",
+      "original_bytes": 1556,
+      "original_sha256": "6e97186d7da7e96fabd4f3e16d12d836ace83cad31db814cf31d086ede3b6bdd",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/bootstrap-install/samples.jsonl.gz",
+      "bytes": 247,
+      "sha256": "d833f3366d1b4128847032c7764acd7e9ce5823c1d1f8935a2dd83a4d6af7ea8",
+      "original_bytes": 819,
+      "original_sha256": "73c92d1b40f244ea940a9dae6d5a608af79facd5bd49be7b9ac868ef0f993765",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/bootstrap.toml",
+      "bytes": 809,
+      "sha256": "c98169b49e83bebc430c1ab98c157a09db9707a664a1336cfa99f318d4cf1a75",
+      "original_bytes": 809,
+      "original_sha256": "c98169b49e83bebc430c1ab98c157a09db9707a664a1336cfa99f318d4cf1a75",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/copyright-preflight/command.log.gz",
+      "bytes": 14378,
+      "sha256": "00878f7a9caeb56d31692fdfb6e24192756aaa0dcc4f535d6d0e0040734979c2",
+      "original_bytes": 133367,
+      "original_sha256": "5de1d3d7ec5167a59a86b0204532aa036b52d605d885917c8bae685577e921e3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/copyright-preflight/gnu-time.txt",
+      "bytes": 960,
+      "sha256": "13945c88dc552af09325474695cbe3d606e0c546aa946f9e195ee8122b8fa8af",
+      "original_bytes": 960,
+      "original_sha256": "13945c88dc552af09325474695cbe3d606e0c546aa946f9e195ee8122b8fa8af",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/copyright-preflight/resource-report.json",
+      "bytes": 1535,
+      "sha256": "090caf35f236526c830faee8012138fca19b97b25831c4c56f07d52d0383a52b",
+      "original_bytes": 1535,
+      "original_sha256": "090caf35f236526c830faee8012138fca19b97b25831c4c56f07d52d0383a52b",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/copyright-preflight/samples.jsonl.gz",
+      "bytes": 1391,
+      "sha256": "3fd2b646880804f4b5fb3bfe21a4b8ee2e614ddcea516d636dbe093609d77be6",
+      "original_bytes": 7788,
+      "original_sha256": "49e9c225184d331e47e9c7c9e6e2e5d9799efb1927f5e088556875072f6a8965",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/host-tools/command.log.gz",
+      "bytes": 479,
+      "sha256": "8d6001d2bff1e5839f448531b69b126465251a52f316476ac93ab389cd4a72b6",
+      "original_bytes": 957,
+      "original_sha256": "2b018bb4eb86b56fd1f1fa27aebf0bf1dd59a628d61ac7f93c8ad4eebd5a9747",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/host-tools/gnu-time.txt",
+      "bytes": 897,
+      "sha256": "8d6962511cad8a6765564bd5a4c9f4dd2d957c2d8822ad0000fe83b77d80aab7",
+      "original_bytes": 897,
+      "original_sha256": "8d6962511cad8a6765564bd5a4c9f4dd2d957c2d8822ad0000fe83b77d80aab7",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/host-tools/resource-report.json",
+      "bytes": 1411,
+      "sha256": "90648cb9a6cc3a5c7c242a26f7722866fb6e8a6ea0fe58acafb3c6e43aa0213d",
+      "original_bytes": 1411,
+      "original_sha256": "90648cb9a6cc3a5c7c242a26f7722866fb6e8a6ea0fe58acafb3c6e43aa0213d",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/host-tools/samples.jsonl.gz",
+      "bytes": 195,
+      "sha256": "9815d7e7b4dc0686fb1ee40a9212d80ebdf67863856e7928617f053c3c3a4713",
+      "original_bytes": 590,
+      "original_sha256": "8e0498601ae866c6acf7e9fde2f26f9a6ad7493ab636cd8a428d0f66eb20689e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/install-stage2/command.log.gz",
+      "bytes": 14157,
+      "sha256": "b85d1141a4e29e4de9a3ea9d1658dd52c114a81da42556bce47a0a94d91cd0ba",
+      "original_bytes": 132848,
+      "original_sha256": "0de2dd21316d83e8780a5b02da21821ef00ba4383ce50e39fe85185e7e12bdbf",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/install-stage2/gnu-time.txt",
+      "bytes": 953,
+      "sha256": "756b7c147ed7045bceedd4f48806f2dfd713933c39124686d97f36975d4a72a4",
+      "original_bytes": 953,
+      "original_sha256": "756b7c147ed7045bceedd4f48806f2dfd713933c39124686d97f36975d4a72a4",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/install-stage2/resource-report.json",
+      "bytes": 1550,
+      "sha256": "40f0f24c1ad3e56b682977e963b69abd5b48ce01555f4714ccf25f600095a34d",
+      "original_bytes": 1550,
+      "original_sha256": "40f0f24c1ad3e56b682977e963b69abd5b48ce01555f4714ccf25f600095a34d",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/install-stage2/samples.jsonl.gz",
+      "bytes": 1374,
+      "sha256": "7ce9ce47633dc068f54d491a1e0002b93750dfd7733042b6d01d0149385609d2",
+      "original_bytes": 7937,
+      "original_sha256": "edaf05e7c0eaadeb967802652e10097a4b18e98decd816394feb05ed384a0c2b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/installed-cargo-compile-link/command.log.gz",
+      "bytes": 175,
+      "sha256": "4d33a99fadbee364c0ece8c08aba61ee78dfa0fea6f9ad118b9b00eeaf0e23c8",
+      "original_bytes": 217,
+      "original_sha256": "628730726e0ce529104f6899c9fe28395c7d0c3d0450789b43ba3b2932daca3e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/installed-cargo-compile-link/gnu-time.txt",
+      "bytes": 938,
+      "sha256": "9212f3734e47aa1c209ebb7a87ec15eefc07aa8e386e17ba08da97f02a7197fa",
+      "original_bytes": 938,
+      "original_sha256": "9212f3734e47aa1c209ebb7a87ec15eefc07aa8e386e17ba08da97f02a7197fa",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/installed-cargo-compile-link/resource-report.json",
+      "bytes": 1495,
+      "sha256": "41708d2efa63744fdcab317c4b96548c45930801e7234e7d27d4b00bf4e45d25",
+      "original_bytes": 1495,
+      "original_sha256": "41708d2efa63744fdcab317c4b96548c45930801e7234e7d27d4b00bf4e45d25",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/installed-cargo-compile-link/samples.jsonl.gz",
+      "bytes": 198,
+      "sha256": "2a93a181c08cc844bb4dadfb700b56226eecfec3f0c056b928dbee479ed4f296",
+      "original_bytes": 591,
+      "original_sha256": "f6ae0f03f6741e3e1c5a94b1424010b0e103afe6e5235f62751fd33bfd435462",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/installed-identity/command.log.gz",
+      "bytes": 192,
+      "sha256": "5ab94503c85c6de5c13c424bea4f9c9941d5944fca5550bfb37f2ea4c4393adf",
+      "original_bytes": 226,
+      "original_sha256": "aeb98799b711ca029ca654ce2635d745ef8f93bf8ea8265641f0c96bdf41e841",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/installed-identity/gnu-time.txt",
+      "bytes": 843,
+      "sha256": "33592007b072a7aafea696e000b2f1e7fde321d5bb04845ba50db2ece854438e",
+      "original_bytes": 843,
+      "original_sha256": "33592007b072a7aafea696e000b2f1e7fde321d5bb04845ba50db2ece854438e",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/installed-identity/resource-report.json",
+      "bytes": 1374,
+      "sha256": "323920e024c64d0eb9b0af9515cf9b3338e07f03afc140939347af0c59be7a01",
+      "original_bytes": 1374,
+      "original_sha256": "323920e024c64d0eb9b0af9515cf9b3338e07f03afc140939347af0c59be7a01",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/installed-identity/samples.jsonl.gz",
+      "bytes": 200,
+      "sha256": "d650c4de54c289997f9dcc5c7b794d77a54a9f2b7a899f7d86d4d64da3f2d5af",
+      "original_bytes": 597,
+      "original_sha256": "a2c966b0242cf1b45913efebfc84a98767a3e231b0fc7291ae22a0f1d072c086",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/installed-linkage/command.log.gz",
+      "bytes": 249,
+      "sha256": "f53f0ae908d6b78585c070059bb197209e9dea381c95b8aecd5efe74ad977a80",
+      "original_bytes": 593,
+      "original_sha256": "8f1e5acf84026a3921db24c889ce18c66a18b930dde3c611a739a8e29e7bdbf9",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/installed-linkage/gnu-time.txt",
+      "bytes": 828,
+      "sha256": "4c3f20d5ec6dda115c8cdd360c6d3c3f8ca22b578d619ccd930521b387975dc0",
+      "original_bytes": 828,
+      "original_sha256": "4c3f20d5ec6dda115c8cdd360c6d3c3f8ca22b578d619ccd930521b387975dc0",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/installed-linkage/resource-report.json",
+      "bytes": 1358,
+      "sha256": "e4628f1413dea3a7d5926f0f8392126e5767cff16ff726bd89cd9b9b32087826",
+      "original_bytes": 1358,
+      "original_sha256": "e4628f1413dea3a7d5926f0f8392126e5767cff16ff726bd89cd9b9b32087826",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/installed-linkage/samples.jsonl.gz",
+      "bytes": 207,
+      "sha256": "a4d4d76129befc9877466086dd88d35ebe0292b3655f006d09f3138f1639b2d6",
+      "original_bytes": 606,
+      "original_sha256": "40654e126cd7cb45987d4a062b92c2420c6223cf3eb8fc57a9ed75e4a88f3db1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/llvm-cache-0.txt.gz",
+      "bytes": 14495,
+      "sha256": "aff276c93b0697d5ff4de57773312af58f2e8359e94cf87938fe5e8349d7b494",
+      "original_bytes": 72653,
+      "original_sha256": "4d58e8d10264d668e021adfedbb3dcc659495badce2b778f85509f407acb15e1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/llvm-source/command.log.gz",
+      "bytes": 73761,
+      "sha256": "d9cc14e1715eae69e65bc14a85a636b8867ef4eba058e36dc26b9b36f5b56264",
+      "original_bytes": 783470,
+      "original_sha256": "c11485f00000b8ad20291cb4670efc6cd17a99e5f0b1927dec120bcd3c73a08d",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/llvm-source/gnu-time.txt",
+      "bytes": 977,
+      "sha256": "b05359eca896626fb25f9247fadae205a67f3f8924fa028ed30adc0a2e7c8032",
+      "original_bytes": 977,
+      "original_sha256": "b05359eca896626fb25f9247fadae205a67f3f8924fa028ed30adc0a2e7c8032",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/llvm-source/resource-report.json",
+      "bytes": 1571,
+      "sha256": "68e5a1c79b7b829a1e332199434ab266e1c41500dd8585320441e3041fe8b9e9",
+      "original_bytes": 1571,
+      "original_sha256": "68e5a1c79b7b829a1e332199434ab266e1c41500dd8585320441e3041fe8b9e9",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/llvm-source/samples.jsonl.gz",
+      "bytes": 99502,
+      "sha256": "6fdfc289509046933e926a4bd58745b7c3503b40e8e7500959298448543b156e",
+      "original_bytes": 640009,
+      "original_sha256": "f07704eee7935aed4e3d64ea30f17e9806e876f0df65610aedce8db391ca672c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/network-control/command.log.gz",
+      "bytes": 58,
+      "sha256": "1cd14f6076596e4fbe11aa1742fc888576708746b1d955806a66dd6463632505",
+      "original_bytes": 40,
+      "original_sha256": "c38f33f781be7e1480ea370bb3312feaf2fe1d1596a314dcf3e5c12f8c48e8d4",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/network-control/gnu-time.txt",
+      "bytes": 984,
+      "sha256": "d00bc7c84d95db0740c57dc1446079d20b8588bc5d27c7f17aedd033ea6ffe7c",
+      "original_bytes": 984,
+      "original_sha256": "d00bc7c84d95db0740c57dc1446079d20b8588bc5d27c7f17aedd033ea6ffe7c",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/network-control/resource-report.json",
+      "bytes": 1504,
+      "sha256": "d7cdff3815f9b4dbcb3956a74b0d7c54ee05f32737915924a431dfce2da0512a",
+      "original_bytes": 1504,
+      "original_sha256": "d7cdff3815f9b4dbcb3956a74b0d7c54ee05f32737915924a431dfce2da0512a",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/network-control/samples.jsonl.gz",
+      "bytes": 195,
+      "sha256": "4f6e32d88132cf5b097fdb2dd1e5de5a0f2ae89e4c1cdcf6822a60b31dfbf52f",
+      "original_bytes": 591,
+      "original_sha256": "be30697f2bfe5f29687a76e2831be5bfbb8f8405eec76f730486cf5a3aece1a4",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/receipt.json",
+      "bytes": 6149,
+      "sha256": "c93555e13f140216076372300684d05dfbc4b7398ac64554ecc860356f36afa1",
+      "original_bytes": 6149,
+      "original_sha256": "c93555e13f140216076372300684d05dfbc4b7398ac64554ecc860356f36afa1",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/rust-stage2-source/command.log.gz",
+      "bytes": 7098,
+      "sha256": "fd2d7521f46905df07e34609febf4fe81989b84257553ff615cd9a437c321696",
+      "original_bytes": 53528,
+      "original_sha256": "a573357d5643e2b29539a967de3406c3b28074fdbb4e7d683927448fd1724312",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/rust-stage2-source/gnu-time.txt",
+      "bytes": 1022,
+      "sha256": "fefafcec68802bc5164e40d3260d28ded1fdee4f61fe7a1b7b46073d33f6191b",
+      "original_bytes": 1022,
+      "original_sha256": "fefafcec68802bc5164e40d3260d28ded1fdee4f61fe7a1b7b46073d33f6191b",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/rust-stage2-source/resource-report.json",
+      "bytes": 1643,
+      "sha256": "48abc622cd8d9d90895c045074ba40a0d7294a986d3e131341a918c565b186fe",
+      "original_bytes": 1643,
+      "original_sha256": "48abc622cd8d9d90895c045074ba40a0d7294a986d3e131341a918c565b186fe",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/rust-stage2-source/samples.jsonl.gz",
+      "bytes": 32360,
+      "sha256": "345bd289bd749952ea62645ccde087a6ceb2784fdd57c1d9e625d0fcafb62ab6",
+      "original_bytes": 231507,
+      "original_sha256": "ebfca58c38173399f4ac16c6120c96c0bb4054c6335bf3d22e0d41a1b7c74af2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/cargo-version.txt",
+      "bytes": 353,
+      "sha256": "beb48c9ccf0acdfd7360c3f95741ba50b7b7eb50868f9b2ad65a5bbff3f8a80d",
+      "original_bytes": 353,
+      "original_sha256": "beb48c9ccf0acdfd7360c3f95741ba50b7b7eb50868f9b2ad65a5bbff3f8a80d",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/cargo-version.txt.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-0.json.gz",
+      "bytes": 215395,
+      "sha256": "b6413854276d7dcb326357552297e75b35acc6dc96db069ee8e1e583ff544c6a",
+      "original_bytes": 2963966,
+      "original_sha256": "ee529de3948d825e4291ee22fcda6594f62324571c927c9e291f2e6d772e4d93",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-0.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-1.json.gz",
+      "bytes": 226542,
+      "sha256": "2f16eab805c1c6cdce793e3f891999aaf9d208b41f377dde9834a242c5b9727a",
+      "original_bytes": 2579080,
+      "original_sha256": "749644e96d08073b28f17b3c62b622c33fef9e44966e231787ac32aed2726d7e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-1.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-10.json.gz",
+      "bytes": 193198,
+      "sha256": "6b7ef94cce8be682f013ff986c092e2864c3eb7d0dad7c70989da3be08489afa",
+      "original_bytes": 2129362,
+      "original_sha256": "62cac42bf163e0cc2e3741926597b1970d700459e1586d99d919c67f2165ac6a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-10.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-11.json.gz",
+      "bytes": 215159,
+      "sha256": "480b063d07295eb2456bf8e92d4cc3fd054c3b96f25fba477a12f01d55742915",
+      "original_bytes": 2948617,
+      "original_sha256": "ad1964d0b4510ab99ca7b661470fcec64a68fbc6a89dc3ccb894bb2c0a663949",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-11.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-12.json.gz",
+      "bytes": 70802,
+      "sha256": "7a8ce997d37281d1839e36212b013b9ae41463d87250d4088d714a59f792d358",
+      "original_bytes": 753862,
+      "original_sha256": "aa86cdd329c8ab926ce3cb74f7a0eeec8037c7de987cd4721f231e179198b95b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-2.json.gz",
+      "bytes": 24691,
+      "sha256": "3ed98228234d4c33f5df8fbbe127058369bf90530154e847822e2e429f9dbcc8",
+      "original_bytes": 252351,
+      "original_sha256": "cf0fa804ecfde4954987e2877f9a7408c29928be8b1bca97e3e5fe6728a4095b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-12.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-2.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-3.json.gz",
+      "bytes": 147714,
+      "sha256": "81490493a3f63e9a5ec5ec574b1031beeb003f75acc20e7eb23cc21617f760b7",
+      "original_bytes": 1765999,
+      "original_sha256": "f6662faaa6521e6d68b3bf09cfacbbb7843d8af87e8974c2ede999d610a3f612",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-3.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-4.json.gz",
+      "bytes": 21576,
+      "sha256": "caabb0cdaa24b59ac86deefeb9819d759e9bddb539e17b3dc29838dc9929d301",
+      "original_bytes": 248825,
+      "original_sha256": "cd9dfe722aaf62cb741a700091d7b12bc4139710702996bd16755c9be7a9f5a3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-4.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-5.json.gz",
+      "bytes": 18782,
+      "sha256": "9888cb5b824e0297aac2130b71a36ed003b48f3bae1e585ba06746f3b0a47138",
+      "original_bytes": 166687,
+      "original_sha256": "adb61723cd95c9bebff9a1ffe1cad21d4037704b20e9575419ae681468931297",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-5.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-6.json.gz",
+      "bytes": 15345,
+      "sha256": "3940ab55a59ed04dac5581cd33c8d763a6e1f2d8c97ce842c925f5978c7b2397",
+      "original_bytes": 170113,
+      "original_sha256": "c0e16b741494b6ae993dfdec498c46d9104666303bdd2611d582afafc9c32e8a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-6.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-7.json.gz",
+      "bytes": 50597,
+      "sha256": "dcab823aa0fb901dd53ae52afd932438932e9b4dd827222ab3789ebba0442909",
+      "original_bytes": 601527,
+      "original_sha256": "4e1dc4fc8b430fb43cfdb694ce47283716c3be7b29f874699fd62115c3417342",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-7.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-8.json.gz",
+      "bytes": 55746,
+      "sha256": "bb10d7862973853e38c8b45ae99ae5ebec794e73ed5f07849dd02f964003dbec",
+      "original_bytes": 550952,
+      "original_sha256": "6bc79dfaee8b3edf629aa1b80f6df6069538f8bd0004997d9dd61414c0bd652e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-8.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-9.json.gz",
+      "bytes": 76713,
+      "sha256": "9f9a5919f7185664c7c6ba1c0613b2417f6b60e663ad0a59cf7129eabeea126e",
+      "original_bytes": 893250,
+      "original_sha256": "44ff367ca604ef44ee38b84712458de304f2fd438da2298e92e16cc771c9531e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/offline-metadata-9.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/qualification.json.gz",
+      "bytes": 143098,
+      "sha256": "a7eb328a106eb3d9e0a5327815dfa337b302d092f85e2aaf35f7a1b326d04233",
+      "original_bytes": 558237,
+      "original_sha256": "c7ac883b3345b2f45bea6d16586c85fe72a89cbe568ccc757ca4bcea58dc6a59",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/rustc-version.txt",
+      "bytes": 214,
+      "sha256": "53acd55d6ffeb141053628137c4966a6345a2835921738401c79457eae276b93",
+      "original_bytes": 214,
+      "original_sha256": "53acd55d6ffeb141053628137c4966a6345a2835921738401c79457eae276b93",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/rustc-version.txt.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/vendor-config.toml",
+      "bytes": 275,
+      "sha256": "9e890e8ad8fed19d1c24435c04aaae53ec73f9ba13a7507e28f4e6c0486f0fe0",
+      "original_bytes": 275,
+      "original_sha256": "9e890e8ad8fed19d1c24435c04aaae53ec73f9ba13a7507e28f4e6c0486f0fe0",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/vendor-fetch.txt.gz",
+      "bytes": 37282,
+      "sha256": "4cc753d11e254d6fd102556f4a7a4c943a03e7f66f8f0857ffce6f440f09b442",
+      "original_bytes": 440470,
+      "original_sha256": "174b437b15dda4fb9622afef88cf1ea6fc6fcc157f65e6e6b71ec0a765c4dd04",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-0.json",
+      "bytes": 96,
+      "sha256": "aee5560a42cc56594a1b1d66a18ebdbafbfc4ea8fb1a73372da98a9129a3eef4",
+      "original_bytes": 96,
+      "original_sha256": "aee5560a42cc56594a1b1d66a18ebdbafbfc4ea8fb1a73372da98a9129a3eef4",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-0.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-1.json",
+      "bytes": 112,
+      "sha256": "6cbb93068225963deafee3726894c1540d35ca8c7c02d6258ff51cf102dacbde",
+      "original_bytes": 112,
+      "original_sha256": "6cbb93068225963deafee3726894c1540d35ca8c7c02d6258ff51cf102dacbde",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-1.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-10.json",
+      "bytes": 117,
+      "sha256": "e4be9493ead5efb3ce626055631b1babef9e3c1b6ff01ed64f5a00715b46ac04",
+      "original_bytes": 117,
+      "original_sha256": "e4be9493ead5efb3ce626055631b1babef9e3c1b6ff01ed64f5a00715b46ac04",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-10.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-11.json",
+      "bytes": 96,
+      "sha256": "aee5560a42cc56594a1b1d66a18ebdbafbfc4ea8fb1a73372da98a9129a3eef4",
+      "original_bytes": 96,
+      "original_sha256": "aee5560a42cc56594a1b1d66a18ebdbafbfc4ea8fb1a73372da98a9129a3eef4",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-11.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-12.json",
+      "bytes": 123,
+      "sha256": "985412d96197d953993d54cdc9b1c8b76acd8122e34fdbee3799e48e7f0378e5",
+      "original_bytes": 123,
+      "original_sha256": "985412d96197d953993d54cdc9b1c8b76acd8122e34fdbee3799e48e7f0378e5",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-12.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-2.json",
+      "bytes": 130,
+      "sha256": "c95689e4344a0f9cd8e75a66e93e43215d8586b2b45190d88dd9be78409de61a",
+      "original_bytes": 130,
+      "original_sha256": "c95689e4344a0f9cd8e75a66e93e43215d8586b2b45190d88dd9be78409de61a",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-2.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-3.json",
+      "bytes": 120,
+      "sha256": "1a0e01ed471037aa4f7b5df7a55bdcfbe7e1296a01d6cb9b70022e342eacc971",
+      "original_bytes": 120,
+      "original_sha256": "1a0e01ed471037aa4f7b5df7a55bdcfbe7e1296a01d6cb9b70022e342eacc971",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-3.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-4.json",
+      "bytes": 129,
+      "sha256": "3deb7aba75821a6257102b616a440162f58d42b18661d00147cdadd1791d6040",
+      "original_bytes": 129,
+      "original_sha256": "3deb7aba75821a6257102b616a440162f58d42b18661d00147cdadd1791d6040",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-4.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-5.json",
+      "bytes": 123,
+      "sha256": "ade283cd647514bd0edee934870514c7530c1776da003739ae1f252919540b32",
+      "original_bytes": 123,
+      "original_sha256": "ade283cd647514bd0edee934870514c7530c1776da003739ae1f252919540b32",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-5.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-6.json",
+      "bytes": 104,
+      "sha256": "931d0a79e5dc75143665da26a6fcf581df2ba53adf4f84d6874b5785501ce59e",
+      "original_bytes": 104,
+      "original_sha256": "931d0a79e5dc75143665da26a6fcf581df2ba53adf4f84d6874b5785501ce59e",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-6.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-7.json",
+      "bytes": 112,
+      "sha256": "dd211d7d2a4571ec4a46e735ab627c1e0d90516071ba2b4d54f453086d5ceb64",
+      "original_bytes": 112,
+      "original_sha256": "dd211d7d2a4571ec4a46e735ab627c1e0d90516071ba2b4d54f453086d5ceb64",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-7.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-8.json",
+      "bytes": 110,
+      "sha256": "b16ef58536bd5444a2c968c53e84a053d6d7f0460783c43b35c53e9df0d18024",
+      "original_bytes": 110,
+      "original_sha256": "b16ef58536bd5444a2c968c53e84a053d6d7f0460783c43b35c53e9df0d18024",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-8.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-9.json",
+      "bytes": 115,
+      "sha256": "db6ab148fb16bc7fc26970bb79ff8d5b9f7c15af0075bfad76f9da4a8d77dd32",
+      "original_bytes": 115,
+      "original_sha256": "db6ab148fb16bc7fc26970bb79ff8d5b9f7c15af0075bfad76f9da4a8d77dd32",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-qualification/workspace-locate-9.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-vendor/command.log.gz",
+      "bytes": 20,
+      "sha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-vendor/gnu-time.txt",
+      "bytes": 1161,
+      "sha256": "bcda8de824cb6430ad41b365076d55400774aedcb815ee326f861d0f12acbfc5",
+      "original_bytes": 1161,
+      "original_sha256": "bcda8de824cb6430ad41b365076d55400774aedcb815ee326f861d0f12acbfc5",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-vendor/resource-report.json",
+      "bytes": 1728,
+      "sha256": "c759b8bbefddf2668ca575aee69b3365ac3e4fc2143e60e053fbdf22e300ec98",
+      "original_bytes": 1728,
+      "original_sha256": "c759b8bbefddf2668ca575aee69b3365ac3e4fc2143e60e053fbdf22e300ec98",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/upstream-cargo-config.toml",
+      "bytes": 227,
+      "sha256": "ecf2837d1575dac89787a8ca9bf2a714072752faa56a034a417d81e02f6db569",
+      "original_bytes": 227,
+      "original_sha256": "ecf2837d1575dac89787a8ca9bf2a714072752faa56a034a417d81e02f6db569",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/source-vendor/samples.jsonl.gz",
+      "bytes": 2300,
+      "sha256": "ff06c68a7e182081bd1903e1cbd8dd0807b684cc9e7eccf01070b5499ef96669",
+      "original_bytes": 14910,
+      "original_sha256": "916525acccef3b6bdad00be04e2e00aa5d3bf0813da23c315f8157914695d3a3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/bootstrap-identity/command.log.gz",
+      "bytes": 174,
+      "sha256": "cb44ed00d0df5ab71e6a72b3fb91518d803e56e7757cee34d8e1b40876eefefe",
+      "original_bytes": 210,
+      "original_sha256": "ce9da311147a250fdc4afa605845e6fa0c66a786bd1d8d4687d43b30246a0964",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/bootstrap-identity/gnu-time.txt",
+      "bytes": 845,
+      "sha256": "0739f9058072f8273517b06ac4373dd2a79ce3d12130fac96d65e508b1fd362a",
+      "original_bytes": 845,
+      "original_sha256": "0739f9058072f8273517b06ac4373dd2a79ce3d12130fac96d65e508b1fd362a",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/bootstrap-identity/resource-report.json",
+      "bytes": 1368,
+      "sha256": "e51d22aca5e30c004e617eb363d504c6c5a1f6603c7593829ba9d28a1ec2bb5b",
+      "original_bytes": 1368,
+      "original_sha256": "e51d22aca5e30c004e617eb363d504c6c5a1f6603c7593829ba9d28a1ec2bb5b",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/bootstrap-identity/samples.jsonl.gz",
+      "bytes": 198,
+      "sha256": "104e4a36e609328085a966b444f7e23a8f06cfe091aaae7798f2e46155964b42",
+      "original_bytes": 597,
+      "original_sha256": "6b74de23f48a5f0c639572355ac8f6c40fb26bac0be78d08876e2264e7af62d0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/bootstrap-install/command.log.gz",
+      "bytes": 166,
+      "sha256": "92c3f2e92d6529271b8b8529e3d1005c7d68bb9db40a7d281e2f667f6066b5cc",
+      "original_bytes": 273,
+      "original_sha256": "2da179ba40f840b46b7e4af128a18001e8a1618c0b7163cb0c67f8f5010c3f97",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/bootstrap-install/gnu-time.txt",
+      "bytes": 1020,
+      "sha256": "dd13e5c9c4a7a20fa1fdb2624398b4f3bf3f843e26614728e2c98b6da7a8131a",
+      "original_bytes": 1020,
+      "original_sha256": "dd13e5c9c4a7a20fa1fdb2624398b4f3bf3f843e26614728e2c98b6da7a8131a",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/bootstrap-install/resource-report.json",
+      "bytes": 1553,
+      "sha256": "8587aa69a8d59b82163ba2513fa515596563aa14c4e71d82dd197c216992d5b0",
+      "original_bytes": 1553,
+      "original_sha256": "8587aa69a8d59b82163ba2513fa515596563aa14c4e71d82dd197c216992d5b0",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/bootstrap-install/samples.jsonl.gz",
+      "bytes": 236,
+      "sha256": "166d7fe788e90b2330769f6f8db89c2473bbaec71fad9c4ece89c50f0e222d34",
+      "original_bytes": 816,
+      "original_sha256": "b13f1f2b6455f8e66a2fac2db484cdaf37c1559908be3d3bd906e43c7d435838",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/bootstrap.toml",
+      "bytes": 810,
+      "sha256": "f66283b49cd30400884bb4e3302db0c1321e0e54c58a867b94d1981f3240eaef",
+      "original_bytes": 810,
+      "original_sha256": "f66283b49cd30400884bb4e3302db0c1321e0e54c58a867b94d1981f3240eaef",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/copyright-preflight/command.log.gz",
+      "bytes": 14352,
+      "sha256": "cd609b911e993368fd948e63cd1ccdee2af1e2f21cbf0d79092f7ec4548c2439",
+      "original_bytes": 133219,
+      "original_sha256": "a1ea449153ed840fca9dc1ba0c44e4c84f6e0f3094a0894e8347514270eb3456",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/copyright-preflight/gnu-time.txt",
+      "bytes": 961,
+      "sha256": "ab1954bfadcd96f03b78e3ef76aeb1342318b7e9720ebc2f501406fa5a209788",
+      "original_bytes": 961,
+      "original_sha256": "ab1954bfadcd96f03b78e3ef76aeb1342318b7e9720ebc2f501406fa5a209788",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/copyright-preflight/resource-report.json",
+      "bytes": 1525,
+      "sha256": "c2656e5c63a70973813c21edbb26b9c4b89cd1bdd2c95c55a728da441a96a36c",
+      "original_bytes": 1525,
+      "original_sha256": "c2656e5c63a70973813c21edbb26b9c4b89cd1bdd2c95c55a728da441a96a36c",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/copyright-preflight/samples.jsonl.gz",
+      "bytes": 1258,
+      "sha256": "81a6317bba192b6399208030cb7dbdc98b3821baf4d6bae62bda759f80288d24",
+      "original_bytes": 6877,
+      "original_sha256": "72463e1c8dbe1cd5583372d01ee094a5cf11eae0a340ae4a5d343bb067918fcd",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/host-tools/gnu-time.txt",
+      "bytes": 898,
+      "sha256": "9e5a65208445f091b9eccf6434f8597bf9f6a5d344b09479a9fd4696d204f568",
+      "original_bytes": 898,
+      "original_sha256": "9e5a65208445f091b9eccf6434f8597bf9f6a5d344b09479a9fd4696d204f568",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/host-tools/command.log.gz",
+      "bytes": 479,
+      "sha256": "8d6001d2bff1e5839f448531b69b126465251a52f316476ac93ab389cd4a72b6",
+      "original_bytes": 957,
+      "original_sha256": "2b018bb4eb86b56fd1f1fa27aebf0bf1dd59a628d61ac7f93c8ad4eebd5a9747",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/host-tools/resource-report.json",
+      "bytes": 1420,
+      "sha256": "bc50bc296c1dab2896d40d3c96347e5df01e42e9793d707257b94aab8ffa0346",
+      "original_bytes": 1420,
+      "original_sha256": "bc50bc296c1dab2896d40d3c96347e5df01e42e9793d707257b94aab8ffa0346",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/host-tools/samples.jsonl.gz",
+      "bytes": 206,
+      "sha256": "134b33f41ae2017aeab1bac8a5c0dd65bd5f61e394ba09f3330a84b684ca1385",
+      "original_bytes": 608,
+      "original_sha256": "ec431c8b7aa2b73f8cde9add12260f663772471d4fa243be8c2f82fd1c38b1da",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/install-stage2/command.log.gz",
+      "bytes": 14151,
+      "sha256": "9691b9f6b98f62f273d4021cf49b8cfc332e3a269d66052d1274260112df11e2",
+      "original_bytes": 132738,
+      "original_sha256": "8d96b5e95851e1f9bc8bf71fed2612368b61cbdf9da67fc3e7548c0725914cc5",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/install-stage2/gnu-time.txt",
+      "bytes": 954,
+      "sha256": "b8b285348b85d898d0da3274ebe4bea95f085c4baca5673e4d73ad857c28f195",
+      "original_bytes": 954,
+      "original_sha256": "b8b285348b85d898d0da3274ebe4bea95f085c4baca5673e4d73ad857c28f195",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/install-stage2/resource-report.json",
+      "bytes": 1561,
+      "sha256": "56afe208c74edbd485a29153b65514f12b1dc936408a1b1eaa72628858383df4",
+      "original_bytes": 1561,
+      "original_sha256": "56afe208c74edbd485a29153b65514f12b1dc936408a1b1eaa72628858383df4",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/install-stage2/samples.jsonl.gz",
+      "bytes": 1353,
+      "sha256": "599233be1ec9745ca29da8e8e412452f3802886b49c66546b2a8ee9fee16d36d",
+      "original_bytes": 7739,
+      "original_sha256": "f8b3dd53ab0d075487f0987e6d63d5973bdbbef829d6aa6f9c15150ac1fff777",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/installed-cargo-compile-link/command.log.gz",
+      "bytes": 175,
+      "sha256": "08d7ab7ae44ceb0c1b22097f06acf7132b7cf5571ee2ed9bd6cec75deedf22bd",
+      "original_bytes": 217,
+      "original_sha256": "6ddba64e083a9c13282d6292b0f8aed1f9cc5be75ce81b6013b78a5ea7b76530",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/installed-cargo-compile-link/gnu-time.txt",
+      "bytes": 934,
+      "sha256": "317b5c9c8296e0e998aa94fecf967c6ca42f225cde5aa7c3f92064d9dc64a872",
+      "original_bytes": 934,
+      "original_sha256": "317b5c9c8296e0e998aa94fecf967c6ca42f225cde5aa7c3f92064d9dc64a872",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/installed-cargo-compile-link/resource-report.json",
+      "bytes": 1500,
+      "sha256": "ff64437f15b425817390dcc175852418950710f1227a348f613b2912c136b665",
+      "original_bytes": 1500,
+      "original_sha256": "ff64437f15b425817390dcc175852418950710f1227a348f613b2912c136b665",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/installed-cargo-compile-link/samples.jsonl.gz",
+      "bytes": 201,
+      "sha256": "0c18deb44772cac49df3f0db4dd07c9cec8ec5aba16c242bae54b967725536cd",
+      "original_bytes": 595,
+      "original_sha256": "cbcfd53f67d5ca474d5a7c67e19632908fd464d41115b600e5aafb31916cd857",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/installed-identity/command.log.gz",
+      "bytes": 200,
+      "sha256": "146601f368d044f6c5ffc9a76f51a95e5231898cd96e132dcd94aef7fd73e219",
+      "original_bytes": 244,
+      "original_sha256": "8004b9e7484efb9a1fe20f3b10574d5fe6db29f1b08a8cdfe65b744447561184",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/installed-identity/gnu-time.txt",
+      "bytes": 842,
+      "sha256": "e8a9cb94d88bc88cb8407e1968821b3ff4fa65548a7d3792edba96d792e6ebb7",
+      "original_bytes": 842,
+      "original_sha256": "e8a9cb94d88bc88cb8407e1968821b3ff4fa65548a7d3792edba96d792e6ebb7",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/installed-identity/resource-report.json",
+      "bytes": 1374,
+      "sha256": "6803704c49a5e73ed5f6492af59e1eda4a30cbd4223c695d9f7fbce4992e252b",
+      "original_bytes": 1374,
+      "original_sha256": "6803704c49a5e73ed5f6492af59e1eda4a30cbd4223c695d9f7fbce4992e252b",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/installed-identity/samples.jsonl.gz",
+      "bytes": 198,
+      "sha256": "9f8973ce38e04427bf9a08f32cd06a3098e7f15aefa4a8996431cfdb0fce5f67",
+      "original_bytes": 597,
+      "original_sha256": "994143e0f1318d5c4e2791c4a95f567ce9b245ba8cd75f3a6b6bd53c86966b40",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/installed-linkage/command.log.gz",
+      "bytes": 251,
+      "sha256": "31c5215ba848d4f8d90a45647979eac65fcc47c3cfe907b3a47f240b9f3eba2c",
+      "original_bytes": 593,
+      "original_sha256": "10252aad9b965387f4f4560e39957ee4040ca980c121d50c379e17d46d7d7846",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/installed-linkage/gnu-time.txt",
+      "bytes": 828,
+      "sha256": "1ca7e9fe9c6274ea0a74272a601a09881971129c918cce609c1082b1587b375e",
+      "original_bytes": 828,
+      "original_sha256": "1ca7e9fe9c6274ea0a74272a601a09881971129c918cce609c1082b1587b375e",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/installed-linkage/resource-report.json",
+      "bytes": 1358,
+      "sha256": "d4d5c960b38a3f1e05ce7764f39a2836b0a2dfeffb376bf23477f195f2556803",
+      "original_bytes": 1358,
+      "original_sha256": "d4d5c960b38a3f1e05ce7764f39a2836b0a2dfeffb376bf23477f195f2556803",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/installed-linkage/samples.jsonl.gz",
+      "bytes": 203,
+      "sha256": "5e56aa20fd29c05c38829e78f609d881a0abd4c476a385dec97371f362c53531",
+      "original_bytes": 606,
+      "original_sha256": "8bbdc908bd34eacb61a9167d1b86b6481c881c76c7ed95fa447fa54463ac7de8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/llvm-cache-0.txt.gz",
+      "bytes": 14503,
+      "sha256": "10f340dcca6e126406337f12288a6f60f7a7c3039954e061ddf605fbb0542c3a",
+      "original_bytes": 72660,
+      "original_sha256": "f41895d8ddcf9abe0d7397eaeb065cfdbf445a223e9e3a00bf370eaa75886082",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/llvm-source/command.log.gz",
+      "bytes": 73784,
+      "sha256": "a8ca3bb5da35fae3fe5abf58d94193702d291e93ab72f077eb19a4a43d53bcde",
+      "original_bytes": 783490,
+      "original_sha256": "0d96a98a0836bdf6ebb01fab852a0828f22cbdfd3a8de7392474debc59a6fc01",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/llvm-source/gnu-time.txt",
+      "bytes": 978,
+      "sha256": "ce3e13cccea46f571d3239d35f09b1f1d5bb921409f7254549b55a129aaf30c6",
+      "original_bytes": 978,
+      "original_sha256": "ce3e13cccea46f571d3239d35f09b1f1d5bb921409f7254549b55a129aaf30c6",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/llvm-source/resource-report.json",
+      "bytes": 1573,
+      "sha256": "7d89fe9a7b9598d4f333d637f75e481ead43a9f5f37c7bd6811ae3ed72b0d166",
+      "original_bytes": 1573,
+      "original_sha256": "7d89fe9a7b9598d4f333d637f75e481ead43a9f5f37c7bd6811ae3ed72b0d166",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/llvm-source/samples.jsonl.gz",
+      "bytes": 98718,
+      "sha256": "03486f456cb9382c1eba7a82a26be0efd80e9627e795d0c4687a5256393deea8",
+      "original_bytes": 637137,
+      "original_sha256": "a140fe47b2278d5fda733b9b1243a9f007433e61a5c48ea604c2c143b8d2bcff",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/network-control/command.log.gz",
+      "bytes": 58,
+      "sha256": "1cd14f6076596e4fbe11aa1742fc888576708746b1d955806a66dd6463632505",
+      "original_bytes": 40,
+      "original_sha256": "c38f33f781be7e1480ea370bb3312feaf2fe1d1596a314dcf3e5c12f8c48e8d4",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/network-control/gnu-time.txt",
+      "bytes": 983,
+      "sha256": "a017e56e05fd27ae3450a4bb5e70dff722917cff27301440b42765b044923594",
+      "original_bytes": 983,
+      "original_sha256": "a017e56e05fd27ae3450a4bb5e70dff722917cff27301440b42765b044923594",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/network-control/resource-report.json",
+      "bytes": 1504,
+      "sha256": "42ac68bcbc1931543a37abf4ee458a3de3dcb6dd1ea4fde07f3a942dcbc95de2",
+      "original_bytes": 1504,
+      "original_sha256": "42ac68bcbc1931543a37abf4ee458a3de3dcb6dd1ea4fde07f3a942dcbc95de2",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/network-control/samples.jsonl.gz",
+      "bytes": 195,
+      "sha256": "49d06a7496209192608b5a63acfaa91a00ea9b654cd01c070e73f6c3a743c074",
+      "original_bytes": 591,
+      "original_sha256": "5ce95a068e5b90d28f67f4e6bee19d49a0db8411c87cef3c7cf9a0f960d5ac42",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/receipt.json",
+      "bytes": 6164,
+      "sha256": "b3468e287391a53c71499f71615f5588af6ba71c1845e96eedc412b486fdfaff",
+      "original_bytes": 6164,
+      "original_sha256": "b3468e287391a53c71499f71615f5588af6ba71c1845e96eedc412b486fdfaff",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/rust-stage2-source/command.log.gz",
+      "bytes": 6980,
+      "sha256": "ad28f4855756c6e4596766354d07e9e347c29ca88641cb11ce77d03821e3bed6",
+      "original_bytes": 53941,
+      "original_sha256": "7945a37705c2eae5d7faaaecd2b556ab6e74c9b8c7c49c10b1aa52c423d3b304",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/rust-stage2-source/gnu-time.txt",
+      "bytes": 1023,
+      "sha256": "4c024259502b6030f2462f8066ca5cf4db13d34a15c5ebf21ea68cd345ae9ad4",
+      "original_bytes": 1023,
+      "original_sha256": "4c024259502b6030f2462f8066ca5cf4db13d34a15c5ebf21ea68cd345ae9ad4",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/rust-stage2-source/resource-report.json",
+      "bytes": 1648,
+      "sha256": "b6abb446a2381735bc76350bbcc83c7a20c777a8d9835b33e65164875961003f",
+      "original_bytes": 1648,
+      "original_sha256": "b6abb446a2381735bc76350bbcc83c7a20c777a8d9835b33e65164875961003f",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/rust-stage2-source/samples.jsonl.gz",
+      "bytes": 33694,
+      "sha256": "d78e18c871ea1aa5fa922a6418c75199b3f36a1cccb25a072139c3bc28e1e41a",
+      "original_bytes": 242643,
+      "original_sha256": "5e9fc09e59697a74f77b470ac5b8a8113fa5dc65184a828a7c6a0101faa2af6d",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/cargo-version.txt",
+      "bytes": 353,
+      "sha256": "beb48c9ccf0acdfd7360c3f95741ba50b7b7eb50868f9b2ad65a5bbff3f8a80d",
+      "original_bytes": 353,
+      "original_sha256": "beb48c9ccf0acdfd7360c3f95741ba50b7b7eb50868f9b2ad65a5bbff3f8a80d",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/cargo-version.txt.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-0.json.gz",
+      "bytes": 213449,
+      "sha256": "08e684a6cbfdcf0ee59764a188e9d803389601ff064dbc84cca44517726bb41b",
+      "original_bytes": 2910056,
+      "original_sha256": "6547a43f13b9e818850ce6881911c1cc0db3e75f0a99215375ae347ff7df761b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-0.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-1.json.gz",
+      "bytes": 226529,
+      "sha256": "d27224f62266f15e7811eae52484e3dccfd83dec9176cd6e5b076625893a20a4",
+      "original_bytes": 2579283,
+      "original_sha256": "6b1c145cf688facc4c488c9e2226928e3121adaffd1fac3a26b8f406f39012cf",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-1.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-10.json.gz",
+      "bytes": 193188,
+      "sha256": "aa8aae88d3a77556a648fdfd60d9047ec0f7ebc5b27a72e7f0dfeb9460e5f842",
+      "original_bytes": 2129419,
+      "original_sha256": "91a3708e0a47444bd9b6c7f1725438a10335628f8a2f9ffc29f2f908352965e7",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-10.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-11.json.gz",
+      "bytes": 213184,
+      "sha256": "5ada5487e78aa2d0ad7ee29fda58410eb7421162bf40fd851ea2660f2bd489cc",
+      "original_bytes": 2894454,
+      "original_sha256": "b85591be7be7d4d6dc9cd26263ef3d7695138621a2167cab896f49d48663df97",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-11.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-12.json.gz",
+      "bytes": 70800,
+      "sha256": "9e2630757e11687e52716e3a7ea390cee79c4b924d50c644ab7350ca26a92bc6",
+      "original_bytes": 753873,
+      "original_sha256": "5e5184a5e69f84f9bcdecf3ea57451975f24c9f464642496ce4185d81737ccb2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-12.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-2.json.gz",
+      "bytes": 24687,
+      "sha256": "b56216c8b92f44d6c16ddceef28591030e159511b8a87902ba13bec46d05b234",
+      "original_bytes": 252361,
+      "original_sha256": "187069183c574d516375c6e0a6170fc5f5be20cfc3e0ed9de2200830a2d5e768",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-2.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-3.json.gz",
+      "bytes": 147667,
+      "sha256": "58e33b17948b9025f10281a588f00331453d761241db5da6bd34116ed72e5b8f",
+      "original_bytes": 1765701,
+      "original_sha256": "615035996dc22023e06a07f5fd5f835bf133ba3d401a5e677294b215e60de494",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-3.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-4.json.gz",
+      "bytes": 21571,
+      "sha256": "26c5d24848cb7e126a8fb59124ae1785e6d6f80b2c2788016fdee5bb33d52801",
+      "original_bytes": 248835,
+      "original_sha256": "ff7f20680e839cf7ed3f70601d6a26b9eabcbb119e06e23f8405326e5d435c1a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-5.json.gz",
+      "bytes": 18754,
+      "sha256": "7e2d23a67becef7996d0bc5c79b80143a12c6f11d6a1e9829994898787641a3c",
+      "original_bytes": 166574,
+      "original_sha256": "e8b7f638297894232db9789f60d7724feee9c28777a09e732c87bf8cef15ce35",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-4.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-5.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-6.json.gz",
+      "bytes": 15451,
+      "sha256": "1c8daae4b91e10f175093ae8abc3e87231a2c3b1d99f2674380016f13a56c37a",
+      "original_bytes": 171929,
+      "original_sha256": "9244d4927222c5758842596d13197de42bc10e2c5718ad83a8947d9fce99a5f4",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-6.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-7.json.gz",
+      "bytes": 50577,
+      "sha256": "d8667d4e2931974e4c68ecce7ec256d86103a2891dc45e29b09803669dc578bf",
+      "original_bytes": 601625,
+      "original_sha256": "1b0b9118cc31f9c1962d40bcd7e609e2dbb14ae1e8b3bb7414461c4c6e7afdeb",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-7.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-8.json.gz",
+      "bytes": 55717,
+      "sha256": "75da9ddd2156523582e495492b9418e1aadca7cb1dae9ab76636ea8d8109944e",
+      "original_bytes": 550867,
+      "original_sha256": "fe022021ec62229072b11d85fc187c8ad5487dd0138d0c0d51c759bb1d894fe1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-8.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-9.json.gz",
+      "bytes": 76699,
+      "sha256": "c02ccc361545b58d704b0097b8c30a300f6f66d49d2a969d4d8071b890c9a82b",
+      "original_bytes": 893304,
+      "original_sha256": "30922f8d2b5541c648543ef913f25e609e5d27baa9d19c2ea7d729ce52d6c369",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/qualification.json.gz",
+      "bytes": 142420,
+      "sha256": "81eddbf221ec399476ebb351fcdf6e73bd2d5cdefc8b29685fba6c95ac9d1159",
+      "original_bytes": 555328,
+      "original_sha256": "db8d65834fc249238a523d3400eb5df5e7e039b4b7c949eba167cc78c8f603d0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/rustc-version.txt",
+      "bytes": 214,
+      "sha256": "53acd55d6ffeb141053628137c4966a6345a2835921738401c79457eae276b93",
+      "original_bytes": 214,
+      "original_sha256": "53acd55d6ffeb141053628137c4966a6345a2835921738401c79457eae276b93",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/offline-metadata-9.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/rustc-version.txt.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/vendor-config.toml",
+      "bytes": 275,
+      "sha256": "9e890e8ad8fed19d1c24435c04aaae53ec73f9ba13a7507e28f4e6c0486f0fe0",
+      "original_bytes": 275,
+      "original_sha256": "9e890e8ad8fed19d1c24435c04aaae53ec73f9ba13a7507e28f4e6c0486f0fe0",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/vendor-fetch.txt.gz",
+      "bytes": 37325,
+      "sha256": "501714a3cce694f677e492e71cb7bd48460f3bf3a6da46e402bcb591ae1c6a23",
+      "original_bytes": 438274,
+      "original_sha256": "9eb337aa8c99b7f3d89901c0f99d39f17c7d7f330cfe82c53979f497fc41fd9a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-0.json",
+      "bytes": 97,
+      "sha256": "88979ee4b4a48be95946fa1faa81446559b0bce92743edfb901c176916513ce1",
+      "original_bytes": 97,
+      "original_sha256": "88979ee4b4a48be95946fa1faa81446559b0bce92743edfb901c176916513ce1",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-0.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-1.json",
+      "bytes": 113,
+      "sha256": "9a097ecc3d4a8ede8d03626850029ae49b7bb47fd550b9ce04e240fa1ff9d24b",
+      "original_bytes": 113,
+      "original_sha256": "9a097ecc3d4a8ede8d03626850029ae49b7bb47fd550b9ce04e240fa1ff9d24b",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-1.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-10.json",
+      "bytes": 118,
+      "sha256": "1cf1e7e953ca907132ff818e711bb3a01bdc85d3580d4e5ec6d95ed51a93498a",
+      "original_bytes": 118,
+      "original_sha256": "1cf1e7e953ca907132ff818e711bb3a01bdc85d3580d4e5ec6d95ed51a93498a",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-10.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-11.json",
+      "bytes": 97,
+      "sha256": "88979ee4b4a48be95946fa1faa81446559b0bce92743edfb901c176916513ce1",
+      "original_bytes": 97,
+      "original_sha256": "88979ee4b4a48be95946fa1faa81446559b0bce92743edfb901c176916513ce1",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-11.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-12.json",
+      "bytes": 124,
+      "sha256": "a112f0bfc1e737e7cd09a2d6d6ba5fd238d47f5fa93c13f8f7e3172d4cb3db1f",
+      "original_bytes": 124,
+      "original_sha256": "a112f0bfc1e737e7cd09a2d6d6ba5fd238d47f5fa93c13f8f7e3172d4cb3db1f",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-12.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-2.json",
+      "bytes": 131,
+      "sha256": "03e7daee54edfaf39c3e6355e13bcd17e2309cf703f935dcd1e14cb0f8237eb8",
+      "original_bytes": 131,
+      "original_sha256": "03e7daee54edfaf39c3e6355e13bcd17e2309cf703f935dcd1e14cb0f8237eb8",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-2.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-3.json",
+      "bytes": 121,
+      "sha256": "f6a1d6d6065ea08e3990366c73d1d069bfe7cea0c8d6aaa2923e9fa979540165",
+      "original_bytes": 121,
+      "original_sha256": "f6a1d6d6065ea08e3990366c73d1d069bfe7cea0c8d6aaa2923e9fa979540165",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-3.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-4.json",
+      "bytes": 130,
+      "sha256": "526c712d4349a35ce354bb94deb70a7569e30800abad5ff48322cf2bf74248e6",
+      "original_bytes": 130,
+      "original_sha256": "526c712d4349a35ce354bb94deb70a7569e30800abad5ff48322cf2bf74248e6",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-4.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-5.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-5.json",
+      "bytes": 124,
+      "sha256": "80a7d440e1ce0d6e3069c6f10c1ee74b43454527df7af3fd553fafbb9dedad1b",
+      "original_bytes": 124,
+      "original_sha256": "80a7d440e1ce0d6e3069c6f10c1ee74b43454527df7af3fd553fafbb9dedad1b",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-6.json",
+      "bytes": 105,
+      "sha256": "bf4e7b74f414d20ee9374ec276b26043bd9cdd5c5b8fb84baf146c5933434dd5",
+      "original_bytes": 105,
+      "original_sha256": "bf4e7b74f414d20ee9374ec276b26043bd9cdd5c5b8fb84baf146c5933434dd5",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-6.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-7.json",
+      "bytes": 113,
+      "sha256": "1f87358fde225b0132ce2d9fe44396ee87ced7806d670fb6dd0bd6bbe3c104b8",
+      "original_bytes": 113,
+      "original_sha256": "1f87358fde225b0132ce2d9fe44396ee87ced7806d670fb6dd0bd6bbe3c104b8",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-7.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-8.json",
+      "bytes": 111,
+      "sha256": "73a6e7ed512f25b0b77c06e076a1179b4b5ac575554cb560be96267287cbb01a",
+      "original_bytes": 111,
+      "original_sha256": "73a6e7ed512f25b0b77c06e076a1179b4b5ac575554cb560be96267287cbb01a",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-8.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-9.json",
+      "bytes": 116,
+      "sha256": "c8262a1a4ff064817172b5df87c7cae736a34fde81ab9bb56293949cdc62fde5",
+      "original_bytes": 116,
+      "original_sha256": "c8262a1a4ff064817172b5df87c7cae736a34fde81ab9bb56293949cdc62fde5",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-qualification/workspace-locate-9.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-vendor/command.log.gz",
+      "bytes": 20,
+      "sha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-vendor/gnu-time.txt",
+      "bytes": 1163,
+      "sha256": "5e98d8989f912532411e757325dcefbdf31e32973508fc75e30fbef2460a4b4b",
+      "original_bytes": 1163,
+      "original_sha256": "5e98d8989f912532411e757325dcefbdf31e32973508fc75e30fbef2460a4b4b",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-vendor/resource-report.json",
+      "bytes": 1834,
+      "sha256": "891d443e4a56f8fcdc744eca802bb123306cdaa43517b4eba5cb77323bff6c3a",
+      "original_bytes": 1834,
+      "original_sha256": "891d443e4a56f8fcdc744eca802bb123306cdaa43517b4eba5cb77323bff6c3a",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/source-vendor/samples.jsonl.gz",
+      "bytes": 2219,
+      "sha256": "f3547f9632aa29ac91ad3fec15f54885912a93e894fd41c1cc5e76691fd45efb",
+      "original_bytes": 14647,
+      "original_sha256": "6ae6ebc14be6c16e8fc180f0f07768179a309d0e11e4758fd8cad7079f5bddca",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/upstream-cargo-config.toml",
+      "bytes": 227,
+      "sha256": "ecf2837d1575dac89787a8ca9bf2a714072752faa56a034a417d81e02f6db569",
+      "original_bytes": 227,
+      "original_sha256": "ecf2837d1575dac89787a8ca9bf2a714072752faa56a034a417d81e02f6db569",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/workflow-readback.json",
+      "bytes": 6243,
+      "sha256": "56cdd659f431b6fdada18ba7d98320c9daacf74fef3c35f2e515a313c8479089",
+      "original_bytes": 6243,
+      "original_sha256": "56cdd659f431b6fdada18ba7d98320c9daacf74fef3c35f2e515a313c8479089",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-stable-41436471133/workflow-job.log.gz",
+      "bytes": 11198,
+      "sha256": "2de7f3c2c04a42e106fc59bef05dbedf80e16058d36484f0d40c2d00ee2cfcda",
+      "original_bytes": 46923,
+      "original_sha256": "52eb2d76251b062065637bc0223f1135feb55f881234bf68f5f5788ef50b45fb",
+      "encoding": "gzip"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/workflow-readback.json",
+      "bytes": 6243,
+      "sha256": "889e7a9e0ed33e180112ad20d85344cdeb15b3979aa5ab5f0c2198d485a35ee2",
+      "original_bytes": 6243,
+      "original_sha256": "889e7a9e0ed33e180112ad20d85344cdeb15b3979aa5ab5f0c2198d485a35ee2",
+      "encoding": "identity"
+    },
+    {
+      "path": "native-rust-nightly-41436475314/workflow-job.log.gz",
+      "bytes": 11199,
+      "sha256": "077eccf75b4581999d1063365fefbecfa2c3637aea6ee0c3699fefce83aeec7a",
+      "original_bytes": 46924,
+      "original_sha256": "163a37838ead38514c937436074fb97e99b2c078996d371cc45b6b77130e5ee9",
+      "encoding": "gzip"
+    },
+    {
+      "path": "artifact-download-route.json",
+      "bytes": 1008,
+      "sha256": "a0d692a69f8a78afbd5f49d2a6733db2576702cfa3f595ec69c5f32e294512cf",
+      "original_bytes": 1008,
+      "original_sha256": "a0d692a69f8a78afbd5f49d2a6733db2576702cfa3f595ec69c5f32e294512cf",
+      "encoding": "identity"
+    },
+    {
+      "path": "local/owned-output-cleanup.json",
+      "bytes": 2382,
+      "sha256": "f44cee641158e610244dcc27f2140ca58431515fcc334e2a6a177dde31573645",
+      "original_bytes": 2382,
+      "original_sha256": "f44cee641158e610244dcc27f2140ca58431515fcc334e2a6a177dde31573645",
+      "encoding": "identity"
+    },
+    {
+      "path": "final-harness.json",
+      "bytes": 167,
+      "sha256": "2b50e9f4706747891a70db9021578e887989680f22ffe00377c78776d8434dd6",
+      "original_bytes": 167,
+      "original_sha256": "2b50e9f4706747891a70db9021578e887989680f22ffe00377c78776d8434dd6",
+      "encoding": "identity"
     }
   ],
   "schema_version": "1.0",
-  "native_acceptance": false,
+  "native_acceptance": true,
   "full_hpc_matrix_qualified": false,
   "source_build_runs": {
     "rust-stable": "https://github.com/edithatogo/voiage/actions/runs/41436471133",
@@ -3882,12 +5714,298 @@
     "rust-stable": {
       "run": 41436471133,
       "commit": "24ae6cb6fe5d839c8a7069c4b4b3d34365eaaf9e",
-      "status": "in_progress"
+      "status": "completed",
+      "conclusion": "success",
+      "passed_native_compiler": true,
+      "resources": {
+        "source-vendor": {
+          "elapsed_seconds": 132.887,
+          "peak_rss_kib": 455588,
+          "minimum_free_bytes": 81186676736,
+          "sampled_totals": {
+            "user_seconds": 69.44,
+            "system_seconds": 47.870000000000005,
+            "read_bytes": 61440,
+            "write_bytes": 13118156800
+          }
+        },
+        "bootstrap-install": {
+          "elapsed_seconds": 4.058,
+          "peak_rss_kib": 9772,
+          "minimum_free_bytes": 78673985536,
+          "sampled_totals": {
+            "user_seconds": 0.12,
+            "system_seconds": 0.31,
+            "read_bytes": 192512,
+            "write_bytes": 595755008
+          }
+        },
+        "bootstrap-identity": {
+          "elapsed_seconds": 2.046,
+          "peak_rss_kib": 24016,
+          "minimum_free_bytes": 78673965056,
+          "sampled_totals": {
+            "user_seconds": 0.0,
+            "system_seconds": 0.0,
+            "read_bytes": 0,
+            "write_bytes": 8192
+          }
+        },
+        "network-control": {
+          "elapsed_seconds": 2.048,
+          "peak_rss_kib": 21152,
+          "minimum_free_bytes": 78673932288,
+          "sampled_totals": {
+            "user_seconds": 0.0,
+            "system_seconds": 0.0,
+            "read_bytes": 0,
+            "write_bytes": 0
+          }
+        },
+        "host-tools": {
+          "elapsed_seconds": 2.052,
+          "peak_rss_kib": 9168,
+          "minimum_free_bytes": 78673903616,
+          "sampled_totals": {
+            "user_seconds": 0.0,
+            "system_seconds": 0.0,
+            "read_bytes": 0,
+            "write_bytes": 0
+          }
+        },
+        "copyright-preflight": {
+          "elapsed_seconds": 67.221,
+          "peak_rss_kib": 1159024,
+          "minimum_free_bytes": 77732827136,
+          "sampled_totals": {
+            "user_seconds": 92.89999999999999,
+            "system_seconds": 8.64,
+            "read_bytes": 418234368,
+            "write_bytes": 2076196864
+          }
+        },
+        "llvm-source": {
+          "elapsed_seconds": 5755.134,
+          "peak_rss_kib": 6091268,
+          "minimum_free_bytes": 68418539520,
+          "sampled_totals": {
+            "user_seconds": 17586.28,
+            "system_seconds": 1175.35,
+            "read_bytes": 559136768,
+            "write_bytes": 23253282816
+          }
+        },
+        "rust-stage2-source": {
+          "elapsed_seconds": 2066.768,
+          "peak_rss_kib": 3783312,
+          "minimum_free_bytes": 63404593152,
+          "sampled_totals": {
+            "user_seconds": 6704.01,
+            "system_seconds": 136.27,
+            "read_bytes": 1294557184,
+            "write_bytes": 16168407040
+          }
+        },
+        "install-stage2": {
+          "elapsed_seconds": 68.729,
+          "peak_rss_kib": 1014316,
+          "minimum_free_bytes": 60754382848,
+          "sampled_totals": {
+            "user_seconds": 23.78,
+            "system_seconds": 6.71,
+            "read_bytes": 1075978240,
+            "write_bytes": 3266711552
+          }
+        },
+        "installed-identity": {
+          "elapsed_seconds": 2.046,
+          "peak_rss_kib": 19128,
+          "minimum_free_bytes": 60754354176,
+          "sampled_totals": {
+            "user_seconds": 0.0,
+            "system_seconds": 0.0,
+            "read_bytes": 0,
+            "write_bytes": 8192
+          }
+        },
+        "installed-cargo-compile-link": {
+          "elapsed_seconds": 2.046,
+          "peak_rss_kib": 23252,
+          "minimum_free_bytes": 60753772544,
+          "sampled_totals": {
+            "user_seconds": 0.0,
+            "system_seconds": 0.0,
+            "read_bytes": 0,
+            "write_bytes": 0
+          }
+        },
+        "installed-linkage": {
+          "elapsed_seconds": 2.044,
+          "peak_rss_kib": 9152,
+          "minimum_free_bytes": 60753752064,
+          "sampled_totals": {
+            "user_seconds": 0.0,
+            "system_seconds": 0.0,
+            "read_bytes": 221184,
+            "write_bytes": 8192
+          }
+        }
+      },
+      "elapsed_seconds": 8235.817,
+      "artifact": {
+        "id": 13146298576,
+        "name": "native-rust-rust-stable-41436471133-1",
+        "archive_sha256": "sha256:b94d7267ba5988fb5207cddce21648ba2ff325cfc2b3e87fc6474b161e33acea",
+        "digest_verified": true
+      }
     },
     "rust-nightly": {
       "run": 41436475314,
       "commit": "24ae6cb6fe5d839c8a7069c4b4b3d34365eaaf9e",
-      "status": "in_progress"
+      "status": "completed",
+      "conclusion": "success",
+      "passed_native_compiler": true,
+      "resources": {
+        "source-vendor": {
+          "elapsed_seconds": 130.789,
+          "peak_rss_kib": 470228,
+          "minimum_free_bytes": 81211506688,
+          "sampled_totals": {
+            "user_seconds": 70.31,
+            "system_seconds": 47.83,
+            "read_bytes": 61440,
+            "write_bytes": 13280776192
+          }
+        },
+        "bootstrap-install": {
+          "elapsed_seconds": 4.054,
+          "peak_rss_kib": 9712,
+          "minimum_free_bytes": 78613397504,
+          "sampled_totals": {
+            "user_seconds": 0.11,
+            "system_seconds": 0.3,
+            "read_bytes": 143360,
+            "write_bytes": 612147200
+          }
+        },
+        "bootstrap-identity": {
+          "elapsed_seconds": 2.044,
+          "peak_rss_kib": 26028,
+          "minimum_free_bytes": 78613377024,
+          "sampled_totals": {
+            "user_seconds": 0.0,
+            "system_seconds": 0.0,
+            "read_bytes": 0,
+            "write_bytes": 8192
+          }
+        },
+        "network-control": {
+          "elapsed_seconds": 2.045,
+          "peak_rss_kib": 21400,
+          "minimum_free_bytes": 78613336064,
+          "sampled_totals": {
+            "user_seconds": 0.0,
+            "system_seconds": 0.0,
+            "read_bytes": 0,
+            "write_bytes": 0
+          }
+        },
+        "host-tools": {
+          "elapsed_seconds": 2.046,
+          "peak_rss_kib": 9172,
+          "minimum_free_bytes": 78613311488,
+          "sampled_totals": {
+            "user_seconds": 0.0,
+            "system_seconds": 0.0,
+            "read_bytes": 2162688,
+            "write_bytes": 4096
+          }
+        },
+        "copyright-preflight": {
+          "elapsed_seconds": 58.931,
+          "peak_rss_kib": 1208504,
+          "minimum_free_bytes": 77742817280,
+          "sampled_totals": {
+            "user_seconds": 83.88,
+            "system_seconds": 7.37,
+            "read_bytes": 571797504,
+            "write_bytes": 1815728128
+          }
+        },
+        "llvm-source": {
+          "elapsed_seconds": 5732.809,
+          "peak_rss_kib": 6354108,
+          "minimum_free_bytes": 68431212544,
+          "sampled_totals": {
+            "user_seconds": 17461.31,
+            "system_seconds": 1180.56,
+            "read_bytes": 547012608,
+            "write_bytes": 22666072064
+          }
+        },
+        "rust-stage2-source": {
+          "elapsed_seconds": 2162.199,
+          "peak_rss_kib": 4258760,
+          "minimum_free_bytes": 64492326912,
+          "sampled_totals": {
+            "user_seconds": 6965.35,
+            "system_seconds": 147.65,
+            "read_bytes": 1335836672,
+            "write_bytes": 12130668544
+          }
+        },
+        "install-stage2": {
+          "elapsed_seconds": 66.654,
+          "peak_rss_kib": 856092,
+          "minimum_free_bytes": 61848408064,
+          "sampled_totals": {
+            "user_seconds": 19.5,
+            "system_seconds": 6.4799999999999995,
+            "read_bytes": 1056976896,
+            "write_bytes": 3176615936
+          }
+        },
+        "installed-identity": {
+          "elapsed_seconds": 2.045,
+          "peak_rss_kib": 19100,
+          "minimum_free_bytes": 61848383488,
+          "sampled_totals": {
+            "user_seconds": 0.0,
+            "system_seconds": 0.0,
+            "read_bytes": 0,
+            "write_bytes": 8192
+          }
+        },
+        "installed-cargo-compile-link": {
+          "elapsed_seconds": 2.074,
+          "peak_rss_kib": 21060,
+          "minimum_free_bytes": 61847801856,
+          "sampled_totals": {
+            "user_seconds": 0.02,
+            "system_seconds": 0.01,
+            "read_bytes": 0,
+            "write_bytes": 0
+          }
+        },
+        "installed-linkage": {
+          "elapsed_seconds": 2.055,
+          "peak_rss_kib": 9180,
+          "minimum_free_bytes": 61847781376,
+          "sampled_totals": {
+            "user_seconds": 0.0,
+            "system_seconds": 0.0,
+            "read_bytes": 221184,
+            "write_bytes": 8192
+          }
+        }
+      },
+      "elapsed_seconds": 8296.723,
+      "artifact": {
+        "id": 13146931313,
+        "name": "native-rust-rust-nightly-41436475314-1",
+        "archive_sha256": "sha256:185415f4fe682804ae2b99dd6551d57c330d965e276d423ce3d29115f336d37e",
+        "digest_verified": true
+      }
     }
   },
   "complete_vendor_closure": {
@@ -3900,5 +6018,14 @@
     "upstream_contract": "default_paths_to_vendor in the authenticated source archive",
     "transient_setup_job": 125244356385,
     "bounded_read_only_reruns": 1
+  },
+  "review": {
+    "native_profiles": "both accepted",
+    "linux_controls": 51,
+    "focused_local_source_compiler_tests": 24,
+    "harness": "passed",
+    "documentation_links": "passed",
+    "llvm_default_target_sets": "unchanged from earlier same-source cold baselines",
+    "full_installed_hpc_matrix": "open"
   }
 }
