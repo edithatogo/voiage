@@ -1,0 +1,1 @@
+Review fix: formatted and documented the wasm-bindgen EVPI error contract; full Rust workspace clippy/test gate reached the workspace suite after this fix.

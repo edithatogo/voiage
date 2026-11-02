@@ -1,0 +1,1 @@
+#718 refresh: rebased onto origin/main 5a1ebe1c after #714. Resolved changelog-only conflict by retaining both independent entries. Focused reference cases: 9 passed; diff check clean. Signed head c9990864; auto-squash retained; hosted checks remain the merge gate.

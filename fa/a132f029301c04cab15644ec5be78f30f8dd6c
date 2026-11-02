@@ -1,0 +1,1 @@
+PR #715 exact-head refresh (2026-08-01): rebased signed canonical Frictionless P5 history onto 5d059a80447afc85cee63eb85971fc1c9e80f40c. Focused conformance (17), fixture-validator/reference-case (10), Ruff, formatting, full Conductor, and GitHub cross-reference validation passed locally. Protected hosted exact-head checks remain authoritative; squash auto-merge is enabled.

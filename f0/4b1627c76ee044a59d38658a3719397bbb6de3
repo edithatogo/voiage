@@ -1,0 +1,7 @@
+Task: #598 signed and social information value (F598-1 through F598-4)
+
+Summary: Added the governed experimental exact finite signed/social VOI contract, evaluator, API/CLI exports, deterministic fixtures and schemas, documentation, canonical C18/M29 projections, issue/subissue traceability, and pathology assurance. Tightened portable result validation across arbitrary named comparators and retained negative private/social values without clipping.
+
+Key files: voiage/contracts/signed_social_information.py; voiage/methods/signed_social_information.py; tests/test_signed_social_information.py; specs/frontier/signed-social-information/v1; conductor/tracks/supported_frontier_method_completion_20260723.
+
+Why: Deliver issue #598's bounded finite-world experimental repository slice while keeping scientific review, hosted exact-head, installed-wheel, parity, stable promotion, release, and parent closure separate.

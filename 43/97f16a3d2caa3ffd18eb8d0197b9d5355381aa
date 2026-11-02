@@ -1,0 +1,7 @@
+Task E22a — vector exclusion hardening
+
+Summary: Hardened the pre-review vector boundary. Trace, determinant and weighted-quadratic remain reserved vocabulary; every vector runtime request fails before native dispatch and every vector result envelope fails semantic validation. Capability and schema metadata prohibit vector promotion.
+
+Review disposition: Automated scientific, numerical and governance panel roles recommend major revision and fail-closed exclusion. Their challenge evidence is not the candidate-bound named independent human verdict required by E22, which remains pending.
+
+Validation: 112 focused tests; Ruff; frontier contract validator; full Conductor validator (148 tracks, zero errors/warnings).

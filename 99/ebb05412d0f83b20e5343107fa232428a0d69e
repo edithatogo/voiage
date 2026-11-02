@@ -1,0 +1,1 @@
+Phase 2 review fix: synchronized the normative Astro API reference with the corrected EVSI implementation boundary. The docs now state that regression and moment aggregation are Rust-backed while two-loop orchestration remains a visible Python compatibility path. The failed documentation-contract test, Astro check, Ruff, Bandit, and Vale passed.

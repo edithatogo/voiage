@@ -1,0 +1,1 @@
+E10: added PyO3 bindings and thin typed Python EVPPI-var/EVSI-var façades with Rust-only numerical dispatch, deterministic spec digests, versioned results, typed error translation, scalar-only fail-closed capability, and nullable unestimated MCSE. Validation: 21 PyO3 tests, clippy -D warnings, ruff, basedpyright, schema JSON, 33 estimation tests, maturin native build.

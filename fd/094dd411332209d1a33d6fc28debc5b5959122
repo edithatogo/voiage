@@ -1,0 +1,1 @@
+Task RF2: restored the byte-for-byte immutable v1.0 extension-policy snapshot and updated its assurance test to reconcile that frozen set with the separately governed post-v1 experimental estimation module and capability contract. Validation: v1 release digest test, extension policy tests, Ruff check and Ruff format passed.

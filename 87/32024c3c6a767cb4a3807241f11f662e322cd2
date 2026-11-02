@@ -1,0 +1,1 @@
+Track 29 archive: moved Apple Metal/MPS evidence to conductor/archive after PR #209 merged as 617b03a. Preserved CPU reference, parity/fallback validator, and explicit unavailable-runtime packet; Apple Silicon hardware and reviewed speedup remain external. Focused validation: 27 tests passed; targeted Ruff checks and format passed.

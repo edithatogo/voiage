@@ -1,0 +1,1 @@
+Conductor task: stable estimator diagnostic, tolerance, tie, clipping, failure, and fallback policy frozen. Evidence: schema validation; exact scientific-freeze coverage; implementation-path and stable-error-code validation; 18 focused tests; Astro check/build; lint, version-sync, and frontier-contract gates.

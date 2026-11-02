@@ -1,0 +1,5 @@
+Task: Record M29 and M31 pre-synchronization evidence
+
+Summary: Appended a hash-chained receipt bound to signed merge cc82e663 for the retained M28, merged M29 and reviewed in-progress M31 surfaces.
+
+Boundary: Local pre-sync evidence only; #600 hosted exact-head and installed-wheel checks, #809/M30 final synchronization, push, PR, merge-to-main and later scientific/parity/promotion/release gates remain pending.

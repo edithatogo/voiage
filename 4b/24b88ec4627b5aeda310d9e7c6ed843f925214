@@ -1,0 +1,12 @@
+Task: S8 Add failing EVSI/EVPI efficiency tests
+
+Summary: Defined dimensionless scaling invariance, percentage presentation, explicit zero-EVPI undefined behavior, preserved within-tolerance Monte Carlo excursions, material theoretical-bounds rejection and context commensurability failures.
+
+Red command: uv run pytest tests/test_study_design_efficiency.py --no-cov -q
+Red result: collection failed with the expected missing governed contract module.
+
+Files modified:
+- tests/test_study_design_efficiency.py
+- conductor/tracks/study_design_efficiency_20260727/plan.md
+
+Why: The derived diagnostic must not hide denominator or unit errors and must remain distinct from legacy value-to-cost fields.

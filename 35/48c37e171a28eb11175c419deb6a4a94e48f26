@@ -1,0 +1,20 @@
+Task: S13 Add property, differential, serialization, uncertainty and benchmark assurance
+
+Summary: Added Hypothesis comparisons against independent signed ENBS and scaling invariants, immutable canonical JSON round-trip, malformed-native fail-closed behavior, selection-probability validation, and a 10,000-design benchmark.
+
+Validation:
+- 25 focused tests passed
+- 10,000-design benchmark passed at about 104 ms mean locally
+- Focused branch coverage: 90.24 percent across the new contract and façade
+- Ruff passed
+
+Coverage note: Python 3.14 could not import NumPy when coverage instrumentation loaded first. Preloading NumPy before starting the coverage API produced the valid 90.24 percent report; ordinary pytest was unaffected.
+
+Files created:
+- tests/benchmarks/test_study_design_efficiency_benchmark.py
+
+Files modified:
+- tests/test_study_design_efficiency.py
+- conductor/tracks/study_design_efficiency_20260727/plan.md
+
+Why: The governed optimizer requires independent properties, wire stability, uncertainty validation, fail-closed native boundaries and production-sized performance evidence.

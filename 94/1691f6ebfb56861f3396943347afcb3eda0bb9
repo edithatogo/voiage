@@ -1,0 +1,12 @@
+Phase: Programme Governance and Repository Reconciliation
+
+Scope: origin/main..HEAD
+
+Automated test command: uv run pytest tests/ --cov=voiage --cov-report=term-missing --numprocesses=auto
+Result: 1425 passed, 10 skipped, coverage 90.01 percent.
+
+Focused validation: 20 Conductor/programme tests passed; Ruff passed; scripts/validate_v1_programme.py returned ok; git diff --check passed.
+
+Automated review: no Critical or High findings. Medium fixes applied in 4192632: registry index linkage and fail-closed GitHub snapshot evidence validation. Post-fix full gate passed.
+
+External boundaries: 22 open pull requests at baseline snapshot, including blocked PRs 245, 258, and 260; registry indexing and hardware/curation evidence remain external and are not marked complete.

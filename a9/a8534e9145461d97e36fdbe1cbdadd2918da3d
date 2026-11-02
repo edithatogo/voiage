@@ -1,0 +1,1 @@
+R3 red phase: added four v2.2.0 candidate contracts covering synchronized version identity, citation/CodeMeta, venue staging boundaries, and canonical LaTeX manuscript metadata. Focused run failed 4/4 as expected on 2.1.0 and 1.0.0 stale surfaces.

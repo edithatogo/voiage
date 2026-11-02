@@ -1,0 +1,1 @@
+Task: Enforce supported-extension boundaries. Removed experimental result/function symbols from the stable top-level __all__ while retaining lazy compatibility lookup and the explicit voiage.experimental namespace. Validation passed: package export, stable API, experimental namespace, extension policy, and dependency minimization suites.

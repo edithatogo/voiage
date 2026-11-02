@@ -1,0 +1,7 @@
+Task: Expose signed ENBS through the C ABI and Julia binding
+
+Summary: Added the ABI v1.1 ENBS capability and symbol backed by the stable Rust kernel; added Rust, C, C++, Julia, documentation, roadmap, changelog, and task-list coverage.
+
+Verification: cargo test/clippy/fmt for voiage-ffi; release FFI build; Julia Pkg.test; C/C++ consumers; focused Python contract tests; repository harness. Linux-only sanitizer execution remains hosted.
+
+Remaining risks: Hosted required checks, JLL acceptance, Julia General registration, and broader polyglot parity remain separate gates.

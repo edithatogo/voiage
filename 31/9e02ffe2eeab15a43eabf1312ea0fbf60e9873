@@ -1,0 +1,1 @@
+Phase 8 review fix: governance docs now match the executable retained-binding matrix and installed Astro dependencies. Red test failed on stale NumPy/JAX, crates.io, and absent-plugin claims; green validation passed tests/test_binding_matrix.py, tests/test_extension_policy.py, and tests/test_registry_audit.py.

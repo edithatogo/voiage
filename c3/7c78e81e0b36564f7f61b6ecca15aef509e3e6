@@ -1,0 +1,7 @@
+Task: Correct JOSS citation integrity
+
+Summary: Visually reviewed the hosted three-page Open Journals PDF; replaced two mismatched DOI records with authoritative PubMed metadata for Claxton 1999 and Ades, Lu, and Claxton 2004; preserved software-name capitalization; and made placeholder bibliography author lists fail JOSS preflight.
+
+Validation: authoritative PubMed records 10537899 and 15090106; JOSS validator; seven focused tests; Ruff and format checks; tox joss, harness, and Vale; visual inspection of all three rendered PDF pages.
+
+Why: The prior records paired unrelated DOI identifiers with incorrect titles and authors, which was unacceptable for submission.

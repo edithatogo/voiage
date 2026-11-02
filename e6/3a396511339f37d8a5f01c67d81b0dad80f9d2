@@ -1,0 +1,1 @@
+Hosted Lint & Type Check reported I001 import ordering in all C18 evidence tests. Ruff auto-fix applied; local diff check passes.

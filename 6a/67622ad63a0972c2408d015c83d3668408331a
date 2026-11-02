@@ -1,0 +1,7 @@
+Task: remove display-message-derived compatibility classification.
+
+Summary: Replaced message substring inspection with typed input failure kinds for unknown parameters, unsupported estimators, and negative research costs. Added a regression test proving stable fixture and diagnostics mappings are independent of display wording.
+
+Files: rust/crates/voiage-test-support/src/compatibility_contract.rs
+
+Validation: cargo fmt package check passed; clean coherent Phase 3 baseline overlay passed cargo clippy -p voiage-test-support --all-targets --all-features --locked -- -D warnings and cargo test -p voiage-test-support --all-features --locked (10 tests); message.contains absence check passed. Current shared HEAD package build remains blocked by a pre-existing non-exhaustive DecisionProblemError match in voiage-diagnostics outside this task scope.

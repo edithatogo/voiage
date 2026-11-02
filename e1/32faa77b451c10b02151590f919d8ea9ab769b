@@ -1,0 +1,1 @@
+PR #676 refresh (2026-08-01): rebased 53 signed estimation commits onto origin/main 5d059a80; preserved COSS/EVSI and estimation CLI imports/commands without duplication. Focused Python variance checks and full Conductor validation passed. Rust focused validation remains required by hosted matrix.

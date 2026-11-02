@@ -1,0 +1,1 @@
+Recorded repository-owned no-go decision for production FPGA/ASIC acceleration. Consolidated archived hardware handoffs, CPU fallback, and shared benchmark evidence; direct board/silicon runtime, parity, throughput, cost, maintenance, and review remain external. Focused tests pass.

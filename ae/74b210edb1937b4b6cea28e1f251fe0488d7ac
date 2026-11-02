@@ -1,0 +1,1 @@
+Review fix: updated the Rust migration matrix to record the implemented seeded local-RNG and n_inner_loops two-loop EVSI contract while retaining the explicit Python ownership boundary. Validation: migration matrix/sample-information tests and programme validator.

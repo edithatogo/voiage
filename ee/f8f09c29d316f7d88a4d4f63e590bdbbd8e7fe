@@ -1,0 +1,13 @@
+Task: non-finite, seed, and provenance compatibility evidence
+
+Summary:
+- reject NaN and infinity across stable EVPI, EVPPI, EVSI, ENBS, CEAF, and dominance inputs
+- apply and restore the manifest seed for every compatibility execution and repetition
+- emit and round-trip canonical JSON provenance with voiage_version, core_version, method, and settings
+- add method-wide runtime regressions and five additional non-finite catalog cases
+
+Validation:
+- 64 focused tests passed
+- 25 compatibility cases passed
+- Ruff check and format passed
+- git diff --check passed

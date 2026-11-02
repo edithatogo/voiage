@@ -1,0 +1,1 @@
+R6b: Addressed PR #1038 lineage and citation findings; fixed CI historical-byte lookup using the recorded squash merge and actual tree. Red regressions reproduced; 37 focused tests and all 15 tox environments passed (4516 passed, 16 skipped, 95.16% coverage, 1564.10s). No timing or coverage gate weakened. Hosted checks and merge remain pending.

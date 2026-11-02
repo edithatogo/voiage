@@ -1,0 +1,1 @@
+Submission assurance preflight: pyOpenSci staging and 22-target readiness passed; two independent wheel and sdist builds were byte-identical; tox lint, Vale, JOSS, harness, docs, and version-sync environments passed in three parallel workers. No external action was performed.

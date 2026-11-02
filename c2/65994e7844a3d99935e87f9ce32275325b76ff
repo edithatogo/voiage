@@ -1,0 +1,5 @@
+Task: Record EIG versus decision-VOI contract
+
+Summary: Recorded the explicit information-gain versus utility/cost decision-VOI fixture and kept backend, privacy, fallback, and model-validation work open.
+
+Validation: fixture tests, Ruff, formatting, and metadata/evidence validation passed.

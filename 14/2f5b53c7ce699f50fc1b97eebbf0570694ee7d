@@ -1,0 +1,3 @@
+Task: #598 C18/M29 implementation review record
+Summary: Records the High portable-result and Medium Blackwell-applicability findings, remediation commit da119389, independent recomputation, complete local assurance and the explicit need for a fresh re-review; adds the implementation-review artifact to the child disposition.
+Boundary: Hosted exact-head/wheel checks, merge, independent scientific review, parity, stable promotion, release and parent/programme closure remain pending.

@@ -1,0 +1,10 @@
+Conductor: standardized-dataset-ingestion_20260723 P6-T1/P6-T3 partial evidence.
+
+Adds --source-root to validate, inspect, normalize, and calculate-from-dataset so descriptors can be evaluated against an explicit local resource root while preserving cache, offline, and size-limit policy controls. Regression coverage executes every command through a non-default root and verifies the resource limit fails closed.
+
+Validation:
+- uv run --extra ci pytest tests/test_standardized_ingestion_cli.py -q --no-cov
+- uv run --with ruff ruff check voiage/ingestion/cli.py tests/test_standardized_ingestion_cli.py
+- uv run --with ty ty check voiage/ingestion/cli.py
+- python scripts/validate_conductor_github_cross_references.py .
+- git diff --check

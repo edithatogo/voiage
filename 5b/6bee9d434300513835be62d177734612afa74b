@@ -1,0 +1,5 @@
+P5 cross-format conformance expansion
+
+Base: 12ed932b0d27adde075e0f0032330d87c1b5f727
+Validation: tox -e ingestion-conformance; focused pytest (20 passed); Ruff; ty; Vale; deterministic fixture validator; full Conductor validation; GitHub cross-reference validation; git diff --check.
+Scope: pins format-neutral normalized fixture identities and provider order/receipt digest regressions. Conservative offline provider profiles and Phase 5 remain partial.

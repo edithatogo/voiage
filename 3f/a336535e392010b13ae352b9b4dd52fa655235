@@ -1,0 +1,4 @@
+Conductor track: supported_frontier_method_completion_20260723
+Task: F559-4 hosted CodeQL remediation
+Result: removed an intentional wrong-arity test call; schema omission and explicit-None runtime coverage retain the fail-closed requirement
+Validation: 55 focused VoF tests and Ruff passed

@@ -1,0 +1,1 @@
+Task: Reconcile the v1 programme baseline with live repository state. Updated authoritative main commit, GitHub snapshot timestamp, open issue count, and blocked pull-request classification; verified with uv run pytest tests/test_v1_programme_baseline.py -q and python scripts/validate_v1_programme.py --repo-root .

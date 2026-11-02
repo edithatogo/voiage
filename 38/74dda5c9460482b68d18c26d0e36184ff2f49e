@@ -1,0 +1,1 @@
+Validation: focused registry/submission tests (14 passed); submission readiness contract PASS (22 targets); tox lint, vale, harness, typecheck, frontier-contract all passed. Evidence remains candidate-only; conda-forge and Yggdrasil acceptance are external.

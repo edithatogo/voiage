@@ -1,0 +1,3 @@
+Review fix: synchronize archived-track baseline projections
+
+The full Python lane exposed active-track and archived-count assertions plus the changelog-bound distributional evidence digest. Updated those deterministic projections; focused baseline, distributional contract, Conductor, Ruff, and archive tests pass.

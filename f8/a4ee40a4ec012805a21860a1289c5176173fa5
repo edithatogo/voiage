@@ -1,0 +1,13 @@
+Task: expand v1 compatibility evidence
+
+Summary:
+- require deterministic seed and provenance metadata
+- execute all compatibility outcomes twice
+- require strict JSON-serializable outcomes
+- add NaN and infinity rejection evidence
+
+Validation:
+- uv run pytest -q tests/test_core_api_fixture_runner_contract.py
+- uv run python scripts/validate_core_api_fixtures.py
+- uv run ruff check scripts/validate_core_api_fixtures.py tests/test_core_api_fixture_runner_contract.py
+- git diff --check

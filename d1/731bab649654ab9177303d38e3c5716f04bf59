@@ -1,0 +1,1 @@
+Archived ASIC MPW/silicon follow-through after implementation PR #232 merged as 74bc187. Preserved shuttle, fabrication, bring-up, and silicon runtime as external gates. Focused tests pass.

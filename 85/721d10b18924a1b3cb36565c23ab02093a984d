@@ -1,0 +1,1 @@
+Independent review remediation for #594: enforce cumulative information and filtration-refining multistage histories; preserve tolerance tie sets while selecting and valuing exact optima; recursively reject non-finite portable results; add crossing-history, near-tie and NaN regressions. Focused 30 tests pass with 100% statements/branches (200 statements, 82 branches).

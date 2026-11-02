@@ -1,0 +1,23 @@
+Task: Prove runtime provenance - Red contracts
+
+Summary:
+- Replaced the hard-coded Python package version assertion with Cargo workspace and installed-metadata equality.
+- Defined runtime build identity, source digest, toolchain, target, profile, operation telemetry, and canonical payload lineage contracts.
+- Exercised exact CEAF and dominance payload/counter behavior in installed wheels.
+- Required private diagnostics to remain outside the frozen stable API.
+- Wired bridge and release builds to immutable source revisions, clean-source flags, reproducible source epochs, and expected wheel platforms.
+
+Validation:
+- Ruff and actionlint passed.
+- 22 workflow and adapter tests passed.
+- Native test suite is intentionally Red with five failures for missing Rust provenance schema and telemetry.
+
+Files:
+.github/workflows/python-rust-bridge.yml
+.github/workflows/release.yml
+tests/packaging/test_wheel_black_box.py
+tests/test_python_release_workflow.py
+tests/test_python_rust_bridge.py
+tests/test_python_rust_bridge_workflow.py
+
+Why: establish auditable, installed-artifact evidence that stable serialization crossed the Rust boundary and came from the expected source and platform before Green implementation.

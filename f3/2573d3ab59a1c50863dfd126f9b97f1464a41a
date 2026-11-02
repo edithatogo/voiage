@@ -1,0 +1,5 @@
+Task: P0 phase review formatting correction
+Summary: Applied the repository Ruff formatter to the Rust trusted-publishing workflow assertion discovered by the complete tox gate.
+Files: tests/test_rust_release_workflow.py
+Why: Restore the declared lint/format gate without changing behavior.
+Verification: uv run --extra dev tox passed all 13 environments; 2068 tests passed in the primary/coverage lanes and coverage was 91.00%.

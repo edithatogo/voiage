@@ -1,0 +1,5 @@
+Task: Record issue #600 local assurance evidence
+
+Summary: Appended a hash-chained Conductor evidence record bound to review-readiness commit 4f490b8f, including artifact SHA-256 values and exact repository-owned validation scope.
+
+Boundary: The evidence is local source-contract assurance only. It does not replace independent review, installed-wheel or hosted exact-head checks, merge, scientific review, parity, promotion, release, or issue closure.

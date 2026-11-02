@@ -1,0 +1,1 @@
+Task: Begin Issue #622 source-native HPC packaging. Spack recipe py_compile passed. EasyBuild style check was blocked by absent Lmod; Spack spec was blocked by missing local package repo. Upstream review/merge and HPSF/E4S curation remain external.

@@ -1,0 +1,1 @@
+Review fix: added workflow-level concurrency cancellation and replaced the legacy Rust toolchain action pin with the current verified commit. Validation: actionlint passed; offline zizmor reported only two informational superfluous-action notices and no error/low findings.

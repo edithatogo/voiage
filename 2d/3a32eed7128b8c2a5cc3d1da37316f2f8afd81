@@ -1,0 +1,1 @@
+Plan update: all non-optional notebook examples executed successfully in temporary clean outputs; optional JAX, widget, and Colab examples remain explicitly dependency-gated.

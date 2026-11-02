@@ -1,0 +1,7 @@
+Task: Complete net-benefit conformance and mutation evidence
+
+Summary: Added normal, edge, and invalid canonical fixtures executed by Python and Rust; extended Rust contract classification and deterministic execution; added a dependency-free bounded mutation audit with fail-closed CI enforcement; tightened Rust docs/refactoring and reconciled roadmap, task list, changelog, and fixture documentation.
+
+Verification: 2080 Python tests passed with 16 optional-dependency skips; 22 focused fixture/audit tests passed; Rust numerics, Python, and test-support crates passed with Python 3.14 selected; clippy -D warnings passed; four of four bounded semantic mutants were killed; Astro 7.1.3/Starlight 0.41.4 check and 708-page build passed; repository harness reported zero findings across 27 workflows; Vale, version sync, and frontier contract passed.
+
+Why: Stable Rust authority is not complete without independently executable cross-runtime fixtures and mutation-resistant evidence for the canonical net-benefit formula and axis semantics.

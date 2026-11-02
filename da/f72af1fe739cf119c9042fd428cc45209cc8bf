@@ -1,0 +1,12 @@
+Phase 4 verification report
+
+Scope: changes since Phase 3 checkpoint 99b0a8c.
+
+Verification:
+- uvx --from 'tox>=4.2,<5.0' tox -r: all 14 environments passed in 1906.33 seconds; Python 3.10-3.14, min and max dependency matrices each reported 1552 passed and 14 expected skips; lint, Bandit, harness, typecheck, Astro docs, frontier contract, version sync, and coverage all passed.
+- Post-sdist correction: tox -r -e lint,harness,coverage_report passed; coverage suite reported 1552 passed and 14 expected skips with the >90 percent gate satisfied.
+- Rust: formatting, Clippy with warnings denied, workspace/crate tests, doc tests, and cargo-deny passed; only the accepted duplicate-syn warning remained.
+- Artifact evidence: normal wheel and extracted Git-less sdist-derived wheel passed installed black-box provenance and both serializer lineage checks; ordinary downstream sdist build succeeded with all VOIAGE_SOURCE identity variables unset.
+- Review: independent adversarial review found no remaining Critical, High, or Medium findings.
+
+Review fixes applied during phase: fail-closed source identity, JCS canonical payload lineage with float-type preservation, honest native-entry telemetry, independently recomputable clean and dirty build identity, source archive embedded provenance, and authenticated-checkout tox wheel packaging.

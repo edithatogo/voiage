@@ -1,0 +1,7 @@
+Task S23 — portable installed-wheel contracts
+
+Summary: Extended the portable COSS request with replayable joint-replicate fields and mutual-exclusion/alignment validation. Generated and packaged canonical COSS/efficiency schemas, capabilities and normative fixtures under voiage resources. Corrected the contract version to 1.0.0 and added off-checkout installed-wheel execution.
+
+Why: Source-tree fixtures and result-only schemas do not establish that external consumers can discover, validate and execute the governed contract from a published artifact.
+
+Validation: 63 focused source-tree tests passed; Ruff, frontier contract and full 148-track Conductor validation passed. A clean source commit built wheel SHA-256 350e1a106e782e3889c497eb3bbb517eebd46103865e68588dfd6b0134ecd064; all 9 packaged resources were present and 9 off-checkout black-box tests passed in a fresh Python 3.14 environment.

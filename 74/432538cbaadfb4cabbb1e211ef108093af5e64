@@ -1,0 +1,7 @@
+Task: Register omitted calibration VOI family
+
+Summary: Added calibration VOI as canonical method 61, linked primary calibration-target literature, mapped the existing experimental Python implementation and tests, and registered the unlicensed BayesCal-VOI Rust supplement as a planned external parity gap with an explicit source-rights prohibition.
+
+Why: The method census cannot omit a family already implemented by VOIAGE or a materially related external implementation.
+
+Validation: 24 registry and calibration tests passed; Ruff and generated registry checks passed.

@@ -1,0 +1,6 @@
+Conductor checkpoint for expected-loss parity slice
+
+- Functional commit: 95beb20
+- Track task marked complete while parent parity task remains in progress
+- Append-only evidence ledger updated
+- Local programme validation: pass

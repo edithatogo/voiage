@@ -1,0 +1,7 @@
+Phase 2 checkpoint evidence
+
+Full gate: .venv/bin/tox -p auto
+Result: 14/14 environments passed in 539.12 seconds (lint, harness, typecheck, Astro docs, frontier contract, version sync, Python 3.10-3.14, minimum dependencies, maximum dependencies, coverage).
+Focused evidence: 97 focused tests passed; all 25 compatibility cases executed; Vale zero findings; git diff --check passed.
+Automated review: two independent final reviewers reported no High or Critical findings.
+Review-fix commits: b57574b, e50d612, 8a23b86, f8a4ee4, cb2cadb, a2112de, adbb2e0, eef8f09, dd226a4.

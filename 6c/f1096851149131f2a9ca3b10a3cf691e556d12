@@ -1,0 +1,1 @@
+Phase 1 automated review fix: refreshed the reviewed ecosystem-drift baseline after confirming the only proposal was the workflow digest changed by the in-phase CI mutation-audit job; no tools, actions, lockfiles, plugin, or scientific registry content changed. Focused drift tests passed.

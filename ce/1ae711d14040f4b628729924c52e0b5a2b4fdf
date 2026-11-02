@@ -1,0 +1,1 @@
+Rebased PR #665 cross-surface reference cases onto origin/main 657b0daa. Validated: pytest standardized ingestion reference/conformance (10 passed); Ruff; Conductor cross-reference validator; git diff --check.

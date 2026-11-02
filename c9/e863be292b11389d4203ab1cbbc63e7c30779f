@@ -1,0 +1,1 @@
+Task: Generate trustworthy API and binding references. Added Astro C ABI documentation derived from specs/abi/v1/symbols.txt, layouts.txt, and the v1 header, with executable manifest drift coverage. Validation passed: uv run pytest -q tests/test_c_abi_reference_docs.py; uv run ruff check tests/test_c_abi_reference_docs.py; Astro check and production build (65 pages).

@@ -1,0 +1,1 @@
+Conductor standardized-dataset-ingestion_20260723 partial evidence: deterministic fixture manifests, canonical NumPy/xarray conformance, CLI credential redaction, and CLI help contracts. Focused pytest, Ruff, fixture validation, and Conductor cross-reference validation passed after rebase onto main cf90f32c.

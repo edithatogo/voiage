@@ -1,0 +1,1 @@
+Task: Harden native runtime provenance (Red)\n\nDefined failing Rust contracts for schema-bound build metadata, deterministic build IDs, saturating operation telemetry, payload digests, and concurrent snapshots. Confirmed expected compile failure before implementation.

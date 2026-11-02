@@ -1,0 +1,18 @@
+Task: Implement frozen Python exception contract
+
+Summary:
+- Added NumericalError as a CalculationError subclass.
+- Added SerializationError as a VoiageError subclass.
+- Added focused inheritance/import compatibility coverage.
+
+Files:
+- voiage/exceptions.py
+- tests/test_exceptions.py
+
+Validation:
+- .venv/bin/pytest -q tests/test_exceptions.py (14 passed)
+- .venv/bin/pytest -q tests/test_v1_stable_api_contract.py (4 passed)
+- Ruff lint and format checks passed.
+- git diff --check passed.
+
+Note: combined coverage invocation was blocked before collection by an intermittent JAX partial-import environment error; separate focused suites passed.

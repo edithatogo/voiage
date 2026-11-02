@@ -1,0 +1,16 @@
+Task: reconcile portable v1 ABI artifacts
+
+Summary:
+- aligned the public header with self-describing version and capability responses
+- replaced stale context pointers with fixed-width opaque token lifecycle declarations
+- aligned fixed-width status and length declarations
+- updated the exported-symbol and layout baselines
+- updated C11 and C++17 compile-smoke consumers
+
+Validation:
+- C11 and C++17 warning-clean compile smoke passed
+- cargo test -p voiage-ffi --locked passed: 16 tests
+- cargo build -p voiage-ffi --locked passed
+- git diff --check passed
+
+Boundary: built-library inspection exposes discovery, capability, and error symbols. Lifecycle source functions still require unmangled export attributes in a separate Rust-source slice.

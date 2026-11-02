@@ -1,0 +1,1 @@
+Required pre-runtime dependency-frontier refresh updated cachetools from 7.1.5 to 7.1.6. The strict dependency frontier and focused Python tests passed; no declared dependency range changed.

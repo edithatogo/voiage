@@ -1,0 +1,1 @@
+Task: prove minimal Python distribution without optional runtime dependencies.\nSummary: corrected isolated packaging probes to expose the source tree without suppressing installed base dependencies; JAX, ecosystem, and plotting absence contracts remain enforced.\nValidation: pytest -q tests/packaging/test_dependency_minimization.py; 5 passed.

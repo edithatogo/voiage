@@ -1,0 +1,1 @@
+PR #663 coverage repair: metadata-only inspect now covers invalid-root and no-provider descriptor errors; focused tests and Ruff pass.

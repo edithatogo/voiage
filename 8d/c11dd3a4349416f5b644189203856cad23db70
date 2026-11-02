@@ -1,0 +1,5 @@
+Conductor update: P4-T1 complete
+
+Records P4-T1 completion after the Croissant parser decision, validation, and evidence-chain verification. The provider remains on its conservative built-in profile; no optional parser dependency was added.
+
+Validation: evidence hash-chain verification; scripts/validate_conductor_github_cross_references.py; pytest tests/test_conductor_github_cross_references.py tests/test_v1_programme_baseline.py --no-cov (9 passed).

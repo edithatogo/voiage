@@ -1,0 +1,5 @@
+Track: standardized-dataset-ingestion_20260723
+
+Initialized approved Conductor specification, eight-phase TDD plan, metadata, and append-only evidence ledger. Added GitHub parent #325 with native sub-issues #326-#333 and Project 28 reconciliation. Updated roadmap, todo, active-track baseline, and regression expectation.
+
+Validation: 20 focused tests passed; repository harness passed with 26 workflows and zero findings; setup validation passed; full Conductor validation retains the same 222 pre-existing legacy archive errors and no errors for the new track.

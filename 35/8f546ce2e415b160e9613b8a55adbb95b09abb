@@ -1,0 +1,5 @@
+Task: Add EIG versus decision-VOI contract
+
+Summary: Added a deterministic fixture and regression test showing that entropy reduction is distinct from utility- and cost-based decision VOI.
+
+Validation: manifest JSON, focused tests, Ruff, formatting, and diff checks passed.

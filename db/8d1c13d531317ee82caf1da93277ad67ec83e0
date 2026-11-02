@@ -1,0 +1,11 @@
+PR #717 refresh validation
+
+Exact base: 3161961fe6a48e0c69d922e25d071a013556b1b5
+Exact head: db8d1c13d531317ee82caf1da93277ad67ec83e0
+
+Validated from a disposable private-volume worktree:
+- pytest tests/test_ingestion_provider_wheel_consumer.py tests/test_ingestion_provider_sdk_contract.py tests/test_standardized_ingestion_providers.py -q (pass)
+- conductor validation --mode full --json (pass)
+- validate_conductor_github_cross_references.py . (pass)
+
+The independent wheel consumer builds VOIAGE and a separate entry-point provider wheel, installs both in an isolated environment, proves base import isolation before explicit allow-listed discovery, and ingests a local descriptor.

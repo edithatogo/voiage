@@ -1,0 +1,1 @@
+Archived custom-circuit review after implementation PR #235 merged as ebeb29f. Preserved the no-go decision, CPU-authoritative fallback, and external board/silicon evidence gates. Focused tests pass.

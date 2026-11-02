@@ -1,0 +1,1 @@
+Task: record PR #836 changed-line coverage remediation. Summary: binds test-only commit dc55e4eb to the full 3,901-test, 94.51% aggregate, 100% changed-line and 100% changed-branch policy result while retaining hosted/thread/merge and external gates.

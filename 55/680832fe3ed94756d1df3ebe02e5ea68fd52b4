@@ -1,0 +1,5 @@
+Track: dynamic-real-options-voi-mature-stable_20260625
+Review: audited scaffold schemas, fixtures, CLI surface, and track acceptance criteria; implemented the repository-owned runtime slice.
+Changes: added DynamicRealOptionsResult and value_of_dynamic_real_options, CLI command/template, curated exports, fixture-backed maturity metadata, hash evidence, and tests for stage weighting, discounting, penalties, option/waiting value, robust/Pareto diagnostics, and CLI JSON output.
+Validation: Ruff and formatting pass; 1226 tests passed, 10 skipped; coverage 90.72% in full tox run; docs, typecheck, frontier-contract, version-sync, and repository harness passed.
+Remaining external gates: longitudinal open data, Rust/cross-language parity, and mature/stable approval.

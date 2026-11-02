@@ -1,0 +1,16 @@
+Task: Harden Phase 4 packaging artifact and CI contracts
+
+Summary:
+- install built wheels into blank environments with normal dependency resolution and pip check
+- install and black-box smoke the wheel rebuilt from the source distribution
+- validate concrete wheel platform suffixes for Linux x86_64, macOS arm64, and Windows x86_64
+- preserve the immutable-tag, attestation, TestPyPI smoke, PyPI, and GitHub Release DAG
+
+Validation:
+- uv run pytest tests/test_python_release_workflow.py tests/test_python_rust_bridge_workflow.py -q (15 passed)
+- uv run ruff check on changed workflow tests and wheel black-box test (passed)
+- uv run ruff format --check on changed workflow tests and wheel black-box test (passed)
+- actionlint .github/workflows/python-rust-bridge.yml .github/workflows/release.yml (passed)
+- git diff --check (passed)
+
+Red phase: commit 9c560a0 produced six expected contract failures before workflow implementation.

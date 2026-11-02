@@ -1,0 +1,9 @@
+Task: Reconcile roadmap and backlog sources
+
+Summary: Updated July 2026 project status, archived the completed June follow-through queue in roadmap language, made the unfinished Rust production takeover explicit, and registered the v1 programme as the sole in-progress backlog item.
+
+Files: roadmap.md; todo.md; tests/test_v1_programme_baseline.py; tests/test_conductor_followthrough_tracks.py; tests/test_repo_cleanup.py; conductor/tracks/mature-hardened-v1-release-programme_20260719/plan.md
+
+Why: Human status documents must match the authoritative Conductor registry and machine-readable v1 baseline.
+
+Validation: uv run pytest tests/test_v1_programme_baseline.py tests/test_conductor_followthrough_tracks.py tests/test_repo_cleanup.py -q (27 passed); git diff --check.

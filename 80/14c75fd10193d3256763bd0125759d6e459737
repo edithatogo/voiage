@@ -1,0 +1,7 @@
+Task: C18/M27 event-localized information value (#596, #777-#779)
+
+Summary: Added exact finite perfect/imperfect binary-event VOI, canonical policy-relative EUI density, signed centered diagnostic, complete ties, strict schemas/fixture, API/CLI, result-only plots, documentation and governed experimental boundaries.
+
+Why: Event and information-density estimands were governed but had no executable VOIAGE delivery; adjacent threshold plots were not numerical evidence.
+
+Validation: 82 focused/shared tests passed; Ruff and BasedPyright passed; frontier, cross-reference and full 148-track Conductor validators passed. Local coverage collection remains unavailable because the shared Python/NumPy environment fails during pytest-cov collection; hosted changed-line/branch evidence remains required.

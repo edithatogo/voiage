@@ -1,0 +1,1 @@
+Task P1-T5: ran uv lock --upgrade and the strict frontier; audited 59 declarations and 214 resolved packages; pip-audit and Cargo policy were clean at blocking severity; recorded eight dependency/preview findings including the strict-frontier semantic bug, Arrow protocol deprecation, and import-budget failure.

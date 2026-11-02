@@ -1,0 +1,3 @@
+Conductor task: supported_frontier_method_completion_20260723 F559-3
+Evidence: implemented experimental Python timing-scenario VoF, fixed unequal stage/strategy commitment math, reconciled dynamic fixture, added CLI/exports/docs/registry and explicit unsupported bindings. 90 focused tests passed; Ruff, frontier validator, crossrefs and full Conductor passed.
+Boundary: PR #723 remains draft; AC-06 false until independent/hosted review; transition-aware policies and Rust/R/Julia remain unsupported.

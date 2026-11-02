@@ -1,0 +1,1 @@
+Conductor standardized-dataset-ingestion_20260723 P6-T1 partial evidence: CLI validation redacts credentials and host identity from rejected network descriptor URIs. Focused pytest, Ruff, fixture validator, and cross-reference validation passed.

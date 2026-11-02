@@ -1,0 +1,1 @@
+Matched-performance dependency reconciliation: the contract now blocks direct-facade comparisons on the publishable public Rust facade in the binding-parity track. Twenty-nine focused contracts, schema validation, Ruff, formatting, typing, Astro/polyglot diagnostics, and repository harness passed. No internal-kernel timing is promoted or relabeled.

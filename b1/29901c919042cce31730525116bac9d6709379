@@ -1,0 +1,1 @@
+Documentation correction: source-policy and integrity language accurately covers the strict supported JSON Table resource alongside CSV and TSV without widening provider capabilities.

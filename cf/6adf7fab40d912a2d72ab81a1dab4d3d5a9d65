@@ -1,0 +1,1 @@
+U11 completed: one Rust/PyO3 numerical entrypoint, thin deterministic Python facade, and delegating VoC presentation were added; no compute_voc kernel exists. Rust Python adapter 21 tests, strict clippy, and 7 Python contract/runtime tests passed.

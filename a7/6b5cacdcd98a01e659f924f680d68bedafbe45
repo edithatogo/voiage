@@ -1,0 +1,1 @@
+E3: added estimation-variance v1 input/result schemas, compatibility fixtures, result diagnostics/provenance, covariance and reduction invariants, and schema round-trip tests. Validation: ruff, basedpyright, 17 focused pytest cases, jq, git diff --check.

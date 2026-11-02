@@ -1,0 +1,5 @@
+Task: P4-T1 Croissant dependency and supported-profile decision
+
+Recorded a conservative decision to keep the built-in Croissant 1.1 CSV profile and not add mlcroissant yet. Isolated installation showed its optional dependency graph; promotion requires source-policy-preserving materialization, receipts, capability declarations, and conformance/negative tests.
+
+Validation: uv lock --upgrade, python scripts/dependency_frontier.py . --strict, uv run pytest tests/test_standardized_ingestion_providers.py --no-cov, uv run --extra dev tox -e vale.

@@ -1,0 +1,1 @@
+Task: Complete Issue #616 repository-owned pyOpenSci criteria-to-evidence matrix. Validation: uv run tox passed every configured environment, including submission-readiness; full coverage report passed. External gates retained: maintainer commitment and author-led inquiry. No pyOpenSci contact or submission was made.

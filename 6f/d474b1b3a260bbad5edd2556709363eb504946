@@ -1,0 +1,4 @@
+Conductor task: supported_frontier_method_completion_20260723 F559-1
+Red evidence: tests/test_value_of_flexibility.py fails during collection because value_of_flexibility is not implemented. This is the intended test-first state.
+Contract: enumerable commitment reference, permutation/zero invariants, explicit feasible sets, chronology, units, stage semantics and double-count rejection.
+References: PMC3248774, DOI 10.1111/2041-210X.12082, PMC8013164.

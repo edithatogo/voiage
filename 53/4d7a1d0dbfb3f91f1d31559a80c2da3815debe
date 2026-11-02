@@ -1,0 +1,9 @@
+Task: Add evidence-preserving ecosystem drift proposals.
+
+Summary: Captured reviewed fingerprints for software registries, language/toolchain constraints, all primary lockfiles, GitHub Actions, and the source-pinned Astro polyglot plugin. Added scheduled proposal artifacts that never auto-apply or alter scientific dispositions.
+
+Files: drift script, baseline, schema, tests, landscape README, scheduled freshness workflow.
+
+Why: Quarterly and pre-release refreshes must expose ecosystem drift without allowing automation to approve method maturity, exclusions, licenses, or architecture changes.
+
+Verification: Ruff and ty passed; 30 focused drift/landscape/harness tests passed; simulated plugin drift emitted a non-applying review proposal; repository harness and live GitHub programme validation passed.

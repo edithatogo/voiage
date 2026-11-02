@@ -1,0 +1,3 @@
+Track: polyglot_abi_binding_parity_20260723
+Task: direct-r-julia-contract-adapters
+Evidence: Rust ABI v1.15, R and Julia end-to-end tests, tox 1000.34s, coverage 91.07%

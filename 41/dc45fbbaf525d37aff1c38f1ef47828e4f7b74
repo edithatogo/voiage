@@ -1,0 +1,14 @@
+Task: S17 Record binding dispositions and shared fixture
+
+Summary: Declared Rust and Python implemented, R and Julia unsupported, and Mojo an external boundary; all unsupported surfaces carry an explicit unsupported_capability failure. Added a registered normative fixture proving Python facade conformance to Rust-owned COSS and EVSI/EVPI kernels without claiming stable polyglot parity.
+
+TDD:
+- Red: focused tests failed because the disposition and fixture artifacts were absent
+- Green: 7 focused binding/frontier tests passed
+
+Validation:
+- ruff focused test: passed
+- JSON syntax validation: passed
+- git diff --check: passed
+
+Why: Absence of a binding must be explicit and fail closed; installed shared-fixture evidence is required before any parity claim.

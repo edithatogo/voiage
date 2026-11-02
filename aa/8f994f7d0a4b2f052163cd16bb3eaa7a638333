@@ -1,0 +1,3 @@
+Conductor task: supported_frontier_method_completion_20260723 F559-4 hosted repair
+Evidence: removed CodeQL assert side effects and made the two newly advertised method exports statically defined. 36 focused VoF tests, Ruff and format checks passed.
+Boundary: hosted rerun remains required; experimental maturity unchanged.

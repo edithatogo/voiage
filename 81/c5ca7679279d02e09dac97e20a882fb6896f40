@@ -1,0 +1,5 @@
+Task: Build executable compatibility fixtures using TDD
+
+Added language-neutral normal, edge, and invalid golden cases for all six stable methods; generalized the reference runner; enforced stable-method/classification coverage, unique IDs, safe artifact containment, fail-closed catalog presence, normalized errors, and v1 dimension taxonomy. Supporting artifact commit: 1c74244.
+
+Validation: full tox matrix passed; supported Python 3.10-3.14, min/max dependencies, Astro docs, security, harness, typecheck, version sync, and >=90% coverage all green.

@@ -1,0 +1,1 @@
+Evidence correction: Append-only event corrects the expanded revision pointer in event 5640132e-0a6d-4aa1-8bc5-58cede0bcdb7. Exact implementation commit is f04b1627c76ee044a59d38658a3719397bbb6de3; prior artifact hashes, short SHA, validation outcomes and boundaries remain unchanged.

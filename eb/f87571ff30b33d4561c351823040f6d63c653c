@@ -1,0 +1,1 @@
+U10 completed: Rust result envelope now carries the v1 schema, canonical method identity, experimental maturity and current/informed expected utility alongside governed measures, roots and comparability. Ten focused tests, fmt and clippy -D warnings pass.

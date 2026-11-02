@@ -1,0 +1,5 @@
+Task: Make ty the fast routine typing gate and move BasedPyright to strict assurance.
+
+Summary: Keep ty in tox and pull-request CI. Run BasedPyright only in a separate weekly scheduled or explicitly requested CI job, and provide an opt-in Nox/task command. Update the quality documentation, MoSCoW requirements, and Mermaid flow accordingly.
+
+Validation: focused CI and harness tests; Ruff; uv run nox -s typecheck; uv run nox -s strict_typecheck; repository harness; full uv run tox matrix; strict dependency frontier; reviewed ecosystem-drift baseline.

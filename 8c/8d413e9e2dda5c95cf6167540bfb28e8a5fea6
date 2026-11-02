@@ -1,0 +1,1 @@
+ISP3 assurance fix: retained the empty no-procurement comparator so an exact optimizer never selects a negative-net source sequence; corrected source-sequence key assertions and reference counts. Focused tests: 13 passed.

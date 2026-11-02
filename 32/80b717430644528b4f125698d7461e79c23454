@@ -1,0 +1,1 @@
+PR #715 P5 evidence record (2026-08-01): signed local evidence commit records strict local canonical JSON/Parquet/Arrow conformance, local validators, and PR association. Auto-squash is enabled; exact-head hosted checks remain authoritative. P5 remains partial: no upstream-parser differential, live-provider, remote-source, full-standard, or hosted-check claim.

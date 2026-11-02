@@ -1,0 +1,5 @@
+Task: P4-T2 local Croissant checksum validation
+
+Adds verification of a declared local Croissant FileObject sha256 before CSV parsing, with deterministic mismatch errors. Unsupported non-sha256 integrity declarations remain fail-closed.
+
+Validation: targeted checksum/unsupported-profile pytest suite (11 passed), Ruff, and ty.

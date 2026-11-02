@@ -1,0 +1,1 @@
+U7 red phase: lexicographic complete ties, affine price invariance, fail-closed utility/probability validation, and bounded unbracketed root behavior committed before implementation. cargo test fails as expected on absent runtime symbols.

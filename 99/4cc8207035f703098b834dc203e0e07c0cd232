@@ -1,0 +1,5 @@
+Conductor checkpoint: industry VOI programme planning
+
+Implemented MoSCoW requirements, Mermaid design, native subissue ownership, Project 28 governance validation, and the comprehensive software-landscape review track.
+
+Verification: focused governance tests 29 passed; live GitHub validator passed; lint/security passed; Astro check/build passed with 717 pages and valid links. Full tox reached 2,131 passed/17 skipped in py312 before four pre-existing parent-branch contract-drift failures; other non-Python gates passed.

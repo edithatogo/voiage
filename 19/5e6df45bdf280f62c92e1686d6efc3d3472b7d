@@ -1,0 +1,9 @@
+Task: Reconcile active P0 lifecycle status across Conductor and Project 28.
+
+Summary: Marked the parent programme and its two active census/parity children In Progress, updated stale registry prose, and made live validation reject Todo status for those active records.
+
+Files: conductor/tracks.md; parent metadata and evidence ledger; programme validator.
+
+External state: Project 28 items #313, #314, and #315 now show In Progress.
+
+Verification: 4 focused governance tests passed; Ruff passed; live GitHub programme validation passed.

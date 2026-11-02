@@ -1,0 +1,5 @@
+Task: Record Vulture dead-code ratchet in Conductor
+
+Summary: Marked the blocking Vulture implementation complete, recorded the full compatibility/coverage evidence, updated the task backlog, and refreshed track metadata.
+
+Validation: jq metadata; JSONL parse; focused quality regression; git diff --check; full selected tox matrix passed.

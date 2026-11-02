@@ -1,0 +1,5 @@
+Task: Record architecture and deprecation cross-reference guard
+
+Summary: Recorded the governance cross-reference validation while keeping the absent independent ADR/deprecation ledger and adversarial ML/agent fixture work explicitly open.
+
+Validation: focused quality suite, Ruff, formatting, metadata/evidence validation, and diff check passed.

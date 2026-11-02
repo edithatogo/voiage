@@ -1,0 +1,25 @@
+Task: Integrate maturin development and CI for the Phase 4 Python-Rust bridge
+
+Summary:
+- kept setuptools.build_meta as the distribution backend
+- added bounded maturin tooling and exact voiage._core mixed-project configuration
+- added a minimal-permission, SHA-pinned hosted matrix for CPython 3.10-3.14 and abi3 Linux/macOS/Windows builds
+- updated the eight-crate leaf-adapter architecture contract while retaining strict pyo3 isolation
+- added parsed workflow contracts for permissions, matrices, locked builds, and compiled imports
+
+Files:
+- pyproject.toml
+- uv.lock
+- .github/workflows/python-rust-bridge.yml
+- tests/test_rust_workspace_contract.py
+- tests/test_ci_cd_quality_gates.py
+- tests/test_python_rust_bridge_workflow.py
+
+Validation:
+- focused configuration/workflow tests: 12 passed
+- end-to-end locked maturin develop and bridge contracts: 22 passed
+- Ruff check and format check: passed
+- repository harness: passed with 0 findings across 19 workflows
+- git diff --check: passed
+
+Why: establish a reproducible private PyO3 development and hosted validation seam before the later packaging-backend and release-matrix migration.

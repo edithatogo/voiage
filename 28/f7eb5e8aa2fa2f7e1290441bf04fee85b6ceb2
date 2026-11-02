@@ -1,0 +1,3 @@
+Conductor task: voi_method_census_contract_reconciliation_20260723 G2a
+Evidence: machine-readable candidate/frozen classifications cover exactly #593-#600/#619; 11 focused governance tests passed; Ruff passed; full Conductor valid with 144 tracks, 0 errors, 0 warnings.
+Boundary: candidate rows require named scientific/contract approval; #595/#619 remain experimental; #566 and full census remain open.

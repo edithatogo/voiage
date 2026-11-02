@@ -1,0 +1,1 @@
+Review evidence: C15 interpreter-lane fix 8fac8b6 recorded; Python 3.12 C15 tests skip the 3.14-only assertion and the Python 3.14 lane passed.

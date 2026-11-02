@@ -1,0 +1,15 @@
+Checkpoint: All phases complete for VOI Frontier Architecture And Dependency Governance track.
+
+Phase 1 (Architecture And Gate Definition): Tests written and committed.
+Phase 2 (Implementation Or Evidence Artifact): governance.py module, RST docs, and spec README implemented. 14/14 tests pass.
+Phase 3 (Integration And Cross-Track Review): No conflicts with registry/frontier/Rust/dataset/HPC tracks. Lint clean.
+
+Test command: .venv/bin/python -m pytest tests/test_frontier_governance.py tests/test_conductor_followthrough_tracks.py --override-ini='addopts='
+Result: 25 passed
+Lint: .venv/bin/ruff check voiage/governance.py tests/test_frontier_governance.py - All checks passed
+
+Deliverables:
+- voiage/governance.py (maturity taxonomy, backend boundary, dependency policy)
+- docs/developer_guide/frontier_governance.rst (governance prose)
+- specs/frontier/governance/README.md (spec subtree)
+- tests/test_frontier_governance.py (14 validation tests)

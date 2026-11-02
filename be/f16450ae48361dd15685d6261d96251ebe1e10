@@ -1,0 +1,1 @@
+PR #663 coverage repair: metadata-only inspection now covers malformed JSON stable errors; focused tests and Ruff pass.

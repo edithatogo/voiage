@@ -1,0 +1,1 @@
+Corrected the staging contract test import order and Ruff formatting after the initial red-test commit surfaced I001. Ruff check, Ruff format check, and diff hygiene now pass. The intended red pytest failure remains the missing validator module.

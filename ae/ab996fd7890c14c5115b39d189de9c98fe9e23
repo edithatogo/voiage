@@ -1,0 +1,5 @@
+Task: Establish semantic-versioning and deprecation policy
+
+Added a normative machine-readable v1 compatibility policy governing Rust, Python, C ABI, bindings, CLI, schemas, and serialized outputs; froze a two-minor/six-month deprecation window, FutureWarning, next-major removal, fixture evidence, and experimental safety rules; updated Astro and core evolution docs.
+
+Validation: 9 focused policy/API tests passed; Ruff, JSON parsing, Vale, and diff checks passed. The full tox matrix passed immediately before this documentation/policy slice and will be rerun at the Phase 2 checkpoint.

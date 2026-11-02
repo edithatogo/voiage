@@ -1,0 +1,1 @@
+Phase 4 checkpoint review fix: classified the new statistical assurance module in both runtime inventories and accepted only the reviewed uv.lock digest in the ecosystem drift baseline. Nine focused drift and inventory tests passed.

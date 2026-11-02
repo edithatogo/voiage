@@ -1,0 +1,1 @@
+Validation: sequential fallback/export regression suite and xdist work-stealing with 2, 4, 6, and 8 workers all passed. Fixes the exact local and hosted full-suite order leak.

@@ -1,0 +1,8 @@
+Review scope: Dataset Registry And Example Corpus
+
+Automated review findings and fixes:
+- 3 pre-existing test failures in test_conductor_followthrough_tracks.py referenced an archived track
+- Fixed: Added _track_roots() helper with archive fallback, updated tests to handle archived tracks gracefully
+- All 20 tests pass after fix
+- No issues in dataset-registry tests (9/9 pass)
+- Ruff lint clean

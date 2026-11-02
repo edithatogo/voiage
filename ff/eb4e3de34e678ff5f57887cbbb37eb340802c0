@@ -1,0 +1,1 @@
+Archived Julia General follow-through after PR #221 merged as 8d4e30f. Repository-owned metadata, Compat, Pkg.test, TagBot/release workflow, and registry-not-found evidence complete; registration and maintainer approval remain external gates. Focused tests: 21 passed.

@@ -1,0 +1,7 @@
+Task: SR4 / #850 canonical H4 slice
+
+Summary: Added canonical v1.3.0 Must C18/M32 requirements and Mermaid flow, registered M32 and #850/#851-#853 in supported-frontier metadata, recorded the satisfied repository-only sampling-harm scoping gate, and marked SR4 as materialized fail-closed governance while preserving independent human review and runtime as pending.
+
+Files: conductor/requirements.md; conductor/design.md; conductor/tracks/supported_frontier_method_completion_20260723/metadata.json; conductor/tracks/supported_frontier_method_completion_20260723/plan.md; tests/test_supported_frontier_programme.py
+
+Validation: 23 focused tests passed; Ruff passed; registry normalizer changed zero paths; full Conductor validation passed.

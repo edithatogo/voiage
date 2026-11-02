@@ -1,0 +1,1 @@
+Release candidate validation: version sync accepted v1.0.0; full CI=true uv run tox -q passed all 12 environments; Rust fmt and Clippy passed. Raw cargo test reached PyO3 and was host-blocked only by absent libpython3.13.dylib; hosted native wheel matrix is authoritative.

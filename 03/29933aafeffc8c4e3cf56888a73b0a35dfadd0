@@ -1,0 +1,1 @@
+Track: preference-voi-stable-promotion_20260625\nPlan update: full local tox gate passed with 1214 tests and coverage above threshold.\nNext: push and monitor hosted checks; stable promotion remains blocked on non-Python adapter parity and approval.

@@ -1,0 +1,1 @@
+Tightened C18 evidence audit to require normative input/output fixture existence and current SHA-256 pins for every available evidence manifest. External scientific, promotion, hosted, and parity gates remain open.

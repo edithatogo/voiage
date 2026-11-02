@@ -1,0 +1,5 @@
+Task S21 / #844 — COSS commissioning semantics
+
+Separated the best evaluated curve argmax from a no-study commissioning recommendation. Added explicit enumeration scope, no-study ENBS, economic viability, recommendation, regret and boundary-sensitivity fields while preserving the Rust curve argmax. Evaluated-set boundary optima now require expansion/sensitivity. Added deterministic portable schema generation and capability metadata as preparatory S23 work.
+
+Validation: 89 study-design/COSS tests; Ruff; reproducible schema export; frontier registry validator.

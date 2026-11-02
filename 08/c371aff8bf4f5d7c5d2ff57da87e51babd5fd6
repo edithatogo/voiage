@@ -1,0 +1,7 @@
+Review remediation: #597 fourth fresh review Medium finding.
+
+Summary: Added a strict embedded input contract and canonical SHA-256 model commitment to belief-state results. Standalone result validation now reconstructs the exact bounded evaluator and rejects drift in expansion estimates, horizon cells, policy selections/ties, transition and learning diagnostics, or the committed source model. Updated the portable schema, normative result, evidence hashes and documentation.
+
+Tests: Test-first reproductions covered all five accepted-tampering cases and input-commitment drift. The new method retained 100% statement and branch coverage; focused and combined governance suites, Ruff, BasedPyright, frontier, projection, cross-reference and full Conductor validation passed.
+
+Boundary: This is engineering remediation, not scientific approval, hosted exact-head assurance, parity, promotion, release or issue closure.

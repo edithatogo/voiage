@@ -1,0 +1,1 @@
+Conductor plan update for P7-T7. Records 5a2c7305 as partial supported-standard compatibility evidence. Validation: pnpm run check in docs/astro-site and python scripts/validate_conductor_github_cross_references.py .

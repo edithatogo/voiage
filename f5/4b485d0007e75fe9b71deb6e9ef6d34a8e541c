@@ -1,0 +1,1 @@
+Task: remediate PR #836 hosted exact-head failures. Summary: applies Ruff formatting to three touched tests and refreshes the governed changelog SHA-256 pin; full Python, exact lint/type/security, Rust, frontier, cross-reference, ledger and Conductor validation pass.

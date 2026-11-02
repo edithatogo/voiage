@@ -1,0 +1,1 @@
+Review fix: moved the Arrow interchange changelog entry into the existing Unreleased Changed section after the full tox cleanup gate rejected a duplicate heading. The focused cleanup test and Ruff gates pass.

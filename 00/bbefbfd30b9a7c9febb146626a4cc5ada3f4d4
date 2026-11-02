@@ -1,0 +1,5 @@
+PR #770 governance linkage.
+
+Validation: 38 focused tests passed; full Conductor validator reports 146 tracks, zero errors, zero warnings; GitHub cross-reference validator passed.
+
+Pending gates: hosted exact-head/full suite, independent scientific review, canonical C18 projection, parity, stable promotion, release, and parent closure.

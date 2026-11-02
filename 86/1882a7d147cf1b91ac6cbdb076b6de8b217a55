@@ -1,0 +1,1 @@
+Validation: focused registry/submission/distributional-contract suite (68 passed); submission readiness contract PASS (22 targets); tox lint, vale, harness, typecheck, frontier-contract all passed. Hosted Python 3.14 exposed and this head fixes the changelog evidence digest. Evidence remains candidate-only; conda-forge and Yggdrasil acceptance are external.

@@ -1,0 +1,1 @@
+E5: added independent enumerable EVPPI-var and EVSI-var references plus the conjugate normal-normal analytical EVSI-var case. Validation: ruff, basedpyright, 3 focused pytest cases, jq, diff check.

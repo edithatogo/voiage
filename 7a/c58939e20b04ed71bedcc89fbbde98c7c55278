@@ -1,0 +1,1 @@
+Conductor evidence: standardized-dataset-ingestion P4 Frictionless ambiguity guards. Rebased onto origin/main a51d10b4. Validation: pytest tests/test_standardized_ingestion_providers.py -q --no-cov (99 passed); Ruff check and format passed; Conductor GitHub cross-reference validator passed; diff --check passed.

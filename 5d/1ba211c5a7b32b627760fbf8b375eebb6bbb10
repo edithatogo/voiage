@@ -1,0 +1,1 @@
+Remediation: added jsonschema>=4 to the frontier-contract tox base environment. Frontier contract, JOSS, ingestion conformance and docs tox environments now pass locally.

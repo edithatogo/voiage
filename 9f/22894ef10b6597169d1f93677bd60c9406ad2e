@@ -1,0 +1,22 @@
+Task: S11 Implement Python COSS and information-efficiency façade
+
+Summary: Added strict immutable v1 contracts, a thin experimental façade over the Rust kernels, context commensurability checks, metadata-bound deterministic ties, range and uncertainty diagnostics, complete plotting vectors, native error translation and lazy experimental exports.
+
+Validation:
+- 20 focused feature tests passed
+- Ruff passed
+- Basedpyright passed for the new contract and façade
+- Coverage invocation is deferred to S13 because pytest-cov triggered a local NumPy Python 3.14 loader fault; ordinary pytest remains green
+
+Files created:
+- voiage/contracts/study_design.py
+- voiage/experimental/study_design.py
+
+Files modified:
+- voiage/_runtime.py
+- voiage/contracts/__init__.py
+- voiage/experimental/__init__.py
+- tests/test_study_design_efficiency.py
+- conductor/tracks/study_design_efficiency_20260727/plan.md
+
+Why: Python owns strict scientific metadata, provenance and reporting while all numerical subtraction, bounds and optimum selection remain Rust-owned.

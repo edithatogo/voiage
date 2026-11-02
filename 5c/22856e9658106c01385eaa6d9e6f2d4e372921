@@ -1,0 +1,1 @@
+F557-5 hosted remediation: declare distribution-family lazy exports under TYPE_CHECKING so CodeQL can resolve the explicit public export contract without eagerly importing the experimental implementation. Ruff, Ty 3.14, focused surface tests, and runtime lazy-export checks pass locally.

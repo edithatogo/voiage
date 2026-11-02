@@ -1,0 +1,1 @@
+PR #637 hosted import-isolation repair rebased over merged #659: lazy exports restored; 7 focused probe/import tests and Ruff pass.

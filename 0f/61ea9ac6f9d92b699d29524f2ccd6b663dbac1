@@ -1,0 +1,1 @@
+Task RF1: applied final review fixes by formatting all new estimation Python/test files, declaring estimation.py experimental in the v1 extension policy, adding calculate-estimation-variance to the comprehensive CLI surface contract, and adding estimation_variance_method to the curated lazy-export contract. Targeted validation: 33 tests passed; Ruff format check passed.

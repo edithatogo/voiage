@@ -1,0 +1,7 @@
+Phase 3 automated review fix.
+
+Finding: Medium - the ecosystem dispatcher accepted generic objects and kwargs but passed them to concrete connector contracts without type narrowing, producing eight ty diagnostics.
+
+Fix: Narrowed values at the internal dispatch boundary with explicit typing casts while preserving runtime behavior and legacy API compatibility.
+
+Validation: Ruff and ty passed; 24 connector tests and both optional-extra xlsx tests passed; repository harness reported zero findings across 30 workflows.

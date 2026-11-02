@@ -1,0 +1,7 @@
+Task: Independent #599 result-assurance remediation
+
+Summary: Bound each heterogeneity-value result to its complete strict input using canonical SHA-256 and exact standalone re-evaluation. Added regression coverage for fabricated selections, ties, state identifiers, subgroup declarations, assurance counts, input rewrites and coordinated audit/value rewrites. Regenerated the result schema and normative fixture.
+
+Validation: 45 focused tests passed; changed contract and evaluator reached 100% statements and 100% branches; Ruff and BasedPyright passed with zero findings; 80 combined feature/API/governance tests passed; frontier, cross-reference and full Conductor validation passed with zero errors and warnings.
+
+Why: An internally consistent portable result must be evidence of the exact evaluated model, not merely a self-consistent mutable audit.

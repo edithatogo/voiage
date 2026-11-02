@@ -1,0 +1,1 @@
+Independent review fix for #594: portable results now echo ordered stages, states, shared histories and every policy state outcome; solver assurance reports objective bound, zero optimality gap and feasible/infeasible policy counts; deterministic candidates must agree with induced first-stage decisions. Focused Python 3.13 coverage remains 100% statements/branches.

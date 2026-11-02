@@ -1,0 +1,4 @@
+Task: #597 C18/M28 belief-state remediation review fixes
+Summary: Corrects false dual-control diagnostics, adds bounded exact Bellman expansion and repeated-belief memoization, makes nested schemas and runtime result semantics fail closed, applies declared probability tolerance consistently, and adds adversarial assurance tests.
+Validation: 107 focused belief-state tests; 100% statement and branch coverage for voiage.methods.belief_state_information; Ruff and BasedPyright zero; frontier, cross-reference, and full 147-track Conductor validation zero errors/warnings.
+Boundary: The reviewer became remediator, so a fresh independent implementation review, hosted exact-head checks, merge, scientific review, parity, promotion, release, and closure remain pending.

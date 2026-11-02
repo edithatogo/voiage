@@ -1,0 +1,1 @@
+Track: preference-voi-stable-promotion_20260625\nCheckpoint: hashed preference schemas and normative fixtures with explicit fixture-backed maturity and external parity gates.\nValidation: 16 focused tests passed; repository harness pass with zero findings.\nNext: run full gates, open PR, and retain external parity as blocked until direct adapter evidence exists.

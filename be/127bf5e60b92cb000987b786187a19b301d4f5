@@ -1,0 +1,1 @@
+Rebased onto origin/main f8d6362d. Validation: uv run --extra dev python -m pytest -q --override-ini=addopts= tests/test_source_policy_cache.py (28 passed); Ruff check and format; full Conductor validator; GitHub cross-reference validator; git diff --check. Cache hard-link rejection retained.

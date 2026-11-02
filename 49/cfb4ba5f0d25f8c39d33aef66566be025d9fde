@@ -1,0 +1,5 @@
+Starlight docs-platform phase checkpoint.
+
+Validated the Starlight baseline, repo setup, and future-handoff docs. Fixed export-test drift, tox coverage/lint wiring, docs-reference collisions, and property-based deadline flakiness. Full tox passed before checkpoint.
+
+Files changed: conductor/product.md, conductor/tech-stack.md, conductor/tracks.md, docs/api_reference/voiage.methods.rst, docs/developer_guide/index.rst, docs/developer_guide/starlight_docs_platform.rst, docs/examples/index.rst, tox.ini, voiage/cli.py, voiage/methods/preference.py, tests/*

@@ -1,0 +1,1 @@
+PR #722 refresh (2026-08-01): rebased signed bounded benchmark evidence onto origin/main 5d059a80. Focused benchmark tests passed in native-enabled project environment; auto-squash remains enabled.

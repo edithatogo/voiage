@@ -1,0 +1,4 @@
+Task: Fix High sdist provenance identity finding
+Summary: Fail closed for unidentified release builds; validate workflow revision, Git tree OID, and clean state; cross-check supplied identity against Git; include untracked files; require valid rustc provenance; version the deterministic build ID; add focused Git and Git-less tests.
+Files: rust/crates/voiage-python/build.rs; rust/crates/voiage-python/tests/build_provenance.rs
+Why: Prevent release and sdist-derived wheels from claiming unverifiable or mismatched source identity.

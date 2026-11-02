@@ -1,0 +1,1 @@
+PR #719 repair: re-pinned the distribution-family evidence manifest to the precise changelog state after the DataFrame evidence refresh. Focused distributional-contract, DataFrame-interchange, and ingestion-conformance suites passed (82 tests); direct SHA-256 verification confirmed all 20 declared artifacts. Signed head awaits fresh exact-head checks.

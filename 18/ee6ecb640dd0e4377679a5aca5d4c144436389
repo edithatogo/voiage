@@ -1,0 +1,7 @@
+Task: Add the canonical statistical-assurance v1 JSON transport.
+
+Summary: Added a canonical replicated-assurance example, stricter Rust DTO validation, ABI v1.14 caller-owned JSON export and capability bit, native smoke coverage, schema convergence/replication alignment, and synchronized public documentation and status records.
+
+Evidence before full gate: complete serialization and FFI suites passed; Clippy passed with warnings denied; strict C11/C++17 checks passed; 48 focused ABI/assurance tests passed; Astro reported zero diagnostics; repository harness reported zero findings across 27 workflows.
+
+Why: Transport estimator evidence without silently converting null, incomplete, or single-run fields into positive statistical assurance.

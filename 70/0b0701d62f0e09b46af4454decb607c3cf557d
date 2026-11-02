@@ -1,0 +1,1 @@
+Conductor plan update for P4-T9. Records commit ac6d05a9 as partial offline CLI inspection evidence and preserves the authoritative live interoperability probe as an explicit external gate. Validation: python scripts/validate_conductor_github_cross_references.py .

@@ -1,0 +1,5 @@
+Task: Guard deterministic generated artifacts and clean installation
+
+Summary: Added regression coverage for the existing frozen reproducible-build and isolated SBOM clean-install workflow, including fail-closed artifact retention.
+
+Validation: uv run pytest tests/test_quality_tool_consolidation.py --no-cov -q; uv run ruff check tests/test_quality_tool_consolidation.py; uv run ruff format --check tests/test_quality_tool_consolidation.py.

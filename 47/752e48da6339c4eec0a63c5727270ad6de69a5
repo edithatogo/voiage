@@ -1,0 +1,1 @@
+U12 assurance: Python proves affine reduction against stable EVPI, validates native output against the full v1 schema, rejects unknown fields, checks deterministic serialization and exercises nonlinear failures. Eleven focused Python tests pass; Rust property/pathology coverage remains green.

@@ -1,0 +1,1 @@
+Evidence update: Appended fourth-review finding event 634adad2-853c-4f5b-90ec-315782e2dbdf and post-remediation validation event 81d6791c-eb03-4276-b55b-9d07ee9229cf. Exact signed implementation and plan revisions were resolved directly from Git. The events preserve the fifth-review and all external/later gates.

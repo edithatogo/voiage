@@ -1,0 +1,1 @@
+Archived Track 30 after PR #211 merged as 067df55. Repository-owned CUDA/Colab evidence schema, CPU comparison, parity validator, deterministic index, and explicit unavailable-runner packet are complete. Authenticated GPU execution and reviewed production speedup remain external gates. Focused Conductor and evidence tests: 27 passed.

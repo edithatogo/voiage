@@ -1,0 +1,1 @@
+Phase 2 checkpoint: PR #525 merged after all required hosted checks passed. Reconciles P2-T1, P2-T2, P2-T6, and P2-T7 with the append-only evidence ledger and GitHub cross-reference manifest; also records merged PRs #525 through #527.

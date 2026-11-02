@@ -1,0 +1,1 @@
+PR #709: strict local Frictionless Parquet profile. Post-rebase validation: 174 focused provider/fixture/conformance/CLI/SDK tests; Ruff, formatter, ty, Vale, full Conductor, cross-reference, and diff checks passed. Local-only; remote/archive/Arrow IPC sources remain unsupported.

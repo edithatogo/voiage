@@ -1,0 +1,8 @@
+PR #717 final signed rebase validation
+
+Exact base: 3149d0e9e62094aa3387d37b24efa624f99b3cd8
+Exact signed head: a3b7d9d9d94516b062752ee548826cd56d576984
+
+The series was rebased after concurrent main advancement. The append-only evidence-ledger conflict was resolved by retaining the new base receipt and appending a freshly chained provider-wheel validation receipt plus a corrective revision receipt.
+
+Validated: focused disposable wheel-consumer, SDK contract, and provider suite; full Conductor; central cross-reference validation. All passed locally.

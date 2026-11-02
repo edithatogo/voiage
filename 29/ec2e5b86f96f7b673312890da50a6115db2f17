@@ -1,0 +1,5 @@
+Task: Governed #595 delivery closeout
+
+Summary: Corrected PR #712 final hosted and merge evidence; recorded only #694-#697 as closure-eligible; preserved VoC as a presentation/delegating alias and retained scientific, parity, promotion, release, parent #595 and umbrella #318 gates.
+
+Validation: 79 focused tests, Ruff, Vale, frontier artifact pins, GitHub cross-references, both ledgers, and full 148-track Conductor validation passed.

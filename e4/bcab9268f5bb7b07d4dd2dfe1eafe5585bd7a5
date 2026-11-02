@@ -1,0 +1,1 @@
+Rebased onto origin/main 657b0daa958296190bf7ec9a121472e370e5cae6 on 2026-07-31. Validation passed: pytest tests/test_standardized_ingestion_conformance.py tests/test_standardized_ingestion_providers.py --no-cov; Ruff; validate_conductor_cross_references; check_conductor_plan_diff.

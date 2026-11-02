@@ -1,0 +1,19 @@
+Task: S10 Implement Rust COSS and EVSI/EVPI kernels
+
+Summary: Added Rust-owned signed-ENBS COSS selection with feasibility, nullable optimum, tolerance-aware ties and boundary state; added an unclamped EVSI/EVPI efficiency kernel with numerical-zero and material-bounds handling; exposed versioned PyO3 result dictionaries.
+
+Validation:
+- cargo test -p voiage-numerics: passed
+- PYO3_PYTHON=python3 cargo test -p voiage-python: passed
+- cargo clippy for both crates with -D warnings: passed
+- cargo fmt --all -- --check: passed
+
+Files created:
+- rust/crates/voiage-numerics/src/study_design.rs
+
+Files modified:
+- rust/crates/voiage-numerics/src/lib.rs
+- rust/crates/voiage-python/src/lib.rs
+- conductor/tracks/study_design_efficiency_20260727/plan.md
+
+Why: Stable numerical policy belongs in Rust while Python binds scientific metadata and reporting.

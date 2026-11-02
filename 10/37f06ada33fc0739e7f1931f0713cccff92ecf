@@ -1,0 +1,12 @@
+Task: S1 Freeze common study-design semantics
+
+Summary: Defined the versioned common context, commensurability rules, evaluated-design inputs, signed ENBS cost semantics, feasibility, ordering, boundary and reproducibility behavior for #571.
+
+Files created:
+- conductor/tracks/study_design_efficiency_20260727/contract.md
+
+Files modified:
+- conductor/tracks/study_design_efficiency_20260727/index.md
+- conductor/tracks/study_design_efficiency_20260727/plan.md
+
+Why: COSS and EVSI/EVPI cannot be interpreted safely unless values share a declared decision problem, units, scaling, horizon and discounting convention.

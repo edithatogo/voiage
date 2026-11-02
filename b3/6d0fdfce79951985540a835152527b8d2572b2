@@ -1,0 +1,7 @@
+Task P3-T5: Synchronize capability registries, public docs, changelog, roadmap, todo, and migration guidance.
+
+Summary: Added a current method-level binding capability registry without mutating the immutable v1 packaging contract; aligned binding, domain-template, ecosystem and enterprise docs with executed behavior; preserved legacy warning compatibility; added migration guidance and contract tests; synchronized roadmap, todo and changelog.
+
+Why: Public compatibility and submission-readiness claims must distinguish installed packages, implemented methods, internal types, repository profiles, and externally verified product interoperability.
+
+Validation: Ruff passed; 58 focused API, ABI, binding, integration, domain and enterprise tests passed.

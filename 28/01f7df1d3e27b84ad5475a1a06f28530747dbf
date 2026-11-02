@@ -1,0 +1,1 @@
+G14: bound local validation status to exact revision 6dc618fa. Focused checks and core Rust suites are recorded; tox is unavailable locally and hosted exact-head checks remain pending.

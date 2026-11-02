@@ -1,0 +1,1 @@
+Archived Conda-Forge follow-through after implementation PR #217 merged as f7871c5. Handoff preserves release/workflow/recipe evidence, HTTP 404 package visibility, token boundary, maintainer merge gate, and indexing gate. Focused tests: 22 passed.

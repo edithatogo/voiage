@@ -1,0 +1,1 @@
+Phase 0 review fixes: preserved the historical registry boundary while dating the new authorization, normalized metadata for deterministic idempotence, and retained the append-only R1 provenance correction. Focused tests: 16 passed; full Conductor, cross-reference, ledger, Vale, and diff validations passed.

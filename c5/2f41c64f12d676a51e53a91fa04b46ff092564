@@ -1,0 +1,1 @@
+Archive correction: removed the duplicate active Track 26 directory from the archive PR branch so registry active-directory reconciliation passes. Focused validation: uv run pytest tests/test_conductor_followthrough_tracks.py --no-cov (13 passed).

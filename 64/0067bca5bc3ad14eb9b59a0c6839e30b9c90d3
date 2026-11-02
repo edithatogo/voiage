@@ -1,0 +1,7 @@
+Task: Final-synchronize PR #809 with merged #598 closeout
+
+Summary: Signed merge of origin/main 07523123264fd94ec78f0165a2ef2bd5cb91c223 preserved the complete #598 closeout and additively replayed all six #599/pre-sync receipts through the official append-only writer. Canonical C18 M26-M30, #597/#598/#599 dispositions, roadmap/todo, cross-references and deterministic pins are reconciled.
+
+Validation: 3795 tests passed with 15 governed skips and 94.42 percent aggregate coverage; changed coverage is 297/297 lines and 87/87 branches. Ruff, hosted-equivalent BasedPyright and ty, Vale, frontier/canonical projection, cross-references, both ledgers and full 148-track Conductor validation passed.
+
+Boundary: This is the final local synchronization commit. Hosted exact-head Actions and review-thread triage remain required; no merge or issue closure is claimed.

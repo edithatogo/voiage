@@ -1,0 +1,1 @@
+Hosted remediation: PR #860 exact head 94f204c359d4be88c3a9a3cbc4c8be04c8043376 exposed Bandit B404/B603 for the fixed Git verification subprocess. Commit 888be418e80695c327c6e33a357321959056dc0a adds narrow, justified suppressions; the exact CI Bandit command, Ruff, ty and focused tests pass locally. All hosted checks must rerun on the new head before merge.

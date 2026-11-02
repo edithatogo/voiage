@@ -1,0 +1,1 @@
+P4-T7 partial Frictionless corpus increment: moved malformed resource-entry validation into the retained offline descriptor corpus. The initial test failed only because its fixture was absent; focused Frictionless/provider validation and Ruff pass after adding it. Full Phase 4 acceptance remains incomplete.

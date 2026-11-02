@@ -1,0 +1,22 @@
+Phase 3 automated review remediation
+
+Summary: Made native COSS parsing fully fail-closed, cross-validated every result relationship on construction and JSON deserialization, preserved point and kernel provenance, diagnosed range/set disagreement and infeasible in-range designs, and tightened uncertainty probability semantics.
+
+Review findings remediated:
+- malformed native vectors, indices, maxima, ties and boundary states
+- partial or inconsistent declared feasible ranges
+- scientifically inconsistent deserialized COSS and efficiency envelopes
+- discarded estimator provenance
+- impossible selection uncertainty mass and infeasible selections
+
+Validation:
+- 36 focused tests passed
+- Ruff passed
+- Basedpyright passed with zero errors and warnings
+- Focused new-code branch coverage: 93.98 percent
+- Repository harness passed with zero findings across 29 workflows
+
+Files modified:
+- voiage/contracts/study_design.py
+- voiage/experimental/study_design.py
+- tests/test_study_design_efficiency.py

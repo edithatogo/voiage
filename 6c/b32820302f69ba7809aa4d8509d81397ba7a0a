@@ -1,0 +1,7 @@
+Conductor task: metadata-only CLI inspection.
+
+Why: inspection must not materialize resources or resolve VOI semantics.
+
+Changes: routed ingest inspect through ProviderRegistry.inspect; removed binding and source-policy controls from inspection; kept receipts/governance/data-quality on materializing commands; added absent-resource regression coverage; corrected standardized-ingestion documentation and P4/P6/P9 plan evidence.
+
+Validation on rebased head 6cb32820302f69ba7809aa4d8509d81397ba7a0a: 107 focused ingestion tests passed; Ruff check/format and ty passed; tox -e ingestion-conformance passed (15 tests); Vale, Astro build, Conductor full validation, Conductor GitHub cross-reference validation, and diff check passed. An earlier full tox run reached green lint, Vale, JOSS, docs, harness, typecheck, version-sync, ingestion-conformance, and py312 (2481 passed) before intentional termination for rebase; it is not claimed as a complete exact-head full-tox result.

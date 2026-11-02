@@ -1,0 +1,1 @@
+CLI expectation repair for PR #711: added application/vnd.apache.arrow.file to the Frictionless capability inspection fixture. Validation: ingestion CLI, conformance, and provider suites (168 passed), plus Ruff.

@@ -1,0 +1,1 @@
+EVPPI migration red phase: added canonical linear fixture parity, zero/single-strategy edge coverage, and stable sample-dimension error coverage. Expected failure is unresolved voiage_numerics::evppi export.

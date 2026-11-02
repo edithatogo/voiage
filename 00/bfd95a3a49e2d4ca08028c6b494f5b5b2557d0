@@ -1,0 +1,5 @@
+Task: complete research software registry readiness track
+
+Summary: reconciled recorded JOSS AI affirmation and developer research-use evidence, refreshed public upstream gate states, formalized external-gate issue tracking, archived the repository-complete track, and preserved RRID/arXiv/JOSS/community/registry outcomes as pending external gates.
+
+Validation: focused registry, JOSS, submission-readiness, GitHub cross-reference, full Conductor, Ruff, and Vale checks passed before commit.

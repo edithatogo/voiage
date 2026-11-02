@@ -1,0 +1,1 @@
+Hosted CI fix: refreshed the distributional-information evidence fixture to the exact SHA-256 of changelog.md after the pyOpenSci Unreleased entry. The complete distributional-information contract tests, pyOpenSci staging tests, validators, all 156 Conductor tracks, and diff hygiene passed.

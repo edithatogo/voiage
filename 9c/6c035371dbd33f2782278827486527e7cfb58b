@@ -1,0 +1,1 @@
+Hosted CI repair for PR #646. Ruff format applied to the receipt-parity assertion after the Lint & Type Check job reported the sole formatting difference. Validation: ruff format tests/test_standardized_ingestion_conformance.py.

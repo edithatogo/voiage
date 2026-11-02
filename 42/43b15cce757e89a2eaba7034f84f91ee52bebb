@@ -1,0 +1,3 @@
+Conductor task: supported_frontier_method_completion_20260723 F559-4 hosted repair
+Evidence: applied repository Ruff formatting to three prior task-owned tests and refreshed the paper reproduction manifest after the governed runtime dependency changed uv.lock. Ruff format check and 57 focused JOSS/governance/VoF/census tests passed.
+Boundary: no generated scientific outputs changed; hosted exact-head rerun remains required.

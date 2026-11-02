@@ -1,0 +1,1 @@
+S19 second integration checkpoint for #571. Merged the one new origin/main ingestion commit without rewriting governed history; resolved the sole changelog conflict by retaining both feature entries. Focused post-merge verification and hosted checks pending.

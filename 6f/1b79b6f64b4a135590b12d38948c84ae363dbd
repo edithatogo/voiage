@@ -1,0 +1,6 @@
+Conductor checkpoint for crates.io trusted publishing
+
+- Functional commit: 5e5091d
+- Live trusted-publishing alerts remain open until default-branch rescan
+- crates.io registry-side trust registration remains a human external gate
+- Local programme validation: pass

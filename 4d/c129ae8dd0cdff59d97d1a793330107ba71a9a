@@ -1,0 +1,9 @@
+Task: Expose Phase 2 compatibility fixtures to Rust workspace tests
+
+Summary: Added deterministic CARGO_MANIFEST_DIR-based fixture discovery, typed compatibility manifest/provenance records, validation for nonempty and unique case identities, safe artifact paths, and parsed input/expected fixture loading.
+
+Files:
+- rust/crates/voiage-test-support/Cargo.toml
+- rust/crates/voiage-test-support/src/lib.rs
+
+Validation: isolated cargo fmt --all --check; cargo clippy --all-targets -- -D warnings; cargo test (5 passed, 25 canonical cases loaded). Native locked workspace checks were blocked by concurrent out-of-scope Cargo manifest and lockfile edits.

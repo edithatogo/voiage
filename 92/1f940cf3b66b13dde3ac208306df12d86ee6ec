@@ -1,0 +1,5 @@
+Task: Add deterministic adversarial ML/agent VOI fixture
+
+Summary: Added an offline contract fixture for prompt injection, retrieval poisoning, correlated judge failure, provider drift, and human escalation. Explicit decision loss and review cost fields keep the scenarios decision-theoretic without claiming model validation.
+
+Validation: fixture JSON, focused tests, Ruff, formatting, and diff checks passed.

@@ -1,0 +1,1 @@
+Conductor track standardized-dataset-ingestion_20260723, P5-T5 partial evidence. Added a fresh Python process conformance test that independently reads canonical normalized IPC and Parquet bundles, converts their Arrow table through Polars, and asserts identical schema and rows. Validation: targeted test passed with --no-cov; Ruff passed.

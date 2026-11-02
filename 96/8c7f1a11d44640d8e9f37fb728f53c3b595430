@@ -1,0 +1,1 @@
+PR review fix: enforce every pending human checkbox exactly once, reject checked duplicates, and require the submitted-version line to retain maintainer confirmation. Sixteen staging tests, Ruff, formatting, ty, validators, all 156 Conductor tracks, and diff hygiene passed.

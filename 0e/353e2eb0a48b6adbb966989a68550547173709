@@ -1,0 +1,5 @@
+P8-T2 provider wheel consumer repair
+
+Hosted coverage exposed an unwritable inherited /private/tmp cache path on Ubuntu. The black-box consumer test now assigns UV_CACHE_DIR to pytest-owned temporary storage, preserving the real wheel build, isolated installation, opt-in entry-point discovery, and public SDK ingest proof.
+
+Validated: fresh wheel-consumer integration, focused provider SDK suites, Ruff, ty, full Conductor validation, and GitHub cross-reference validation.

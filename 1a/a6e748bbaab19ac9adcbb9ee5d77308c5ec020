@@ -1,0 +1,1 @@
+H8-A CI remediation: Python 3.14.6 JSON Schema format-checker variance replaced by deterministic canonical-UTC mutation at 6802131ade656168e5564546a84fde2ce557c5d3; chained evidence 8856a26c9899d4f5cb18e18e2549d453902dea350e44174d97cb6b409234b3c9. Contract semantics and all human/scientific gates are unchanged; exact-head hosted checks remain required.

@@ -1,0 +1,9 @@
+Task: Pre-synchronize reviewed issue #600 with current M29 main
+
+Summary: Signed merge of #598/M29 signed-social delivery and closeout into the reviewed #600/M31 pre-sync, retaining #597/M28. Unioned M28, M29 and M31 canonical governance, docs, registries and public surfaces; preserved #597/#598 closeouts and #600 in-progress boundaries; corrected stale gates and regenerated combined hash pins.
+
+Evidence: The existing first-parent ledger remains append-only. Thirteen main-only #598 receipts were re-emitted by the official writer with their original entry hashes retained as reconciliation provenance.
+
+Validation: 299 focused tests passed; Ruff passed; #600 BasedPyright passed with zero findings; frontier, cross-reference, ledger and full 148-track Conductor validation passed.
+
+Boundary: No push, PR, main merge, release, promotion, scientific approval or closure claim.

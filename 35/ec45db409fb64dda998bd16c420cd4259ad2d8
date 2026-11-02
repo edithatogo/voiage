@@ -1,0 +1,1 @@
+Track 26 automation slice moved to dedicated PR #203 after branch-scope correction. Unified accelerator evidence schema, packet validator, deterministic SHA-256 index, GPU passed packet, TPU/Metal blocked packets with CPU fallback and precise external gates.

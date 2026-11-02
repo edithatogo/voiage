@@ -1,0 +1,5 @@
+Task: Guard landscape registry-to-claim projections
+
+Summary: Added regression coverage requiring the landscape freshness workflow to validate method, implementation, upstream-feature, and feature-matrix projections.
+
+Validation: focused quality tests, Ruff, formatting, and diff check passed.

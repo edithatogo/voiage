@@ -1,0 +1,5 @@
+Conductor: standardized-dataset-ingestion_20260723, P5-T5 partial evidence.
+
+Adds generated Croissant/Frictionless CSV mapping parity through the single preparation boundary, plus adversarial stable-error and integrity-mismatch regression coverage.
+
+Validation after rebase: .venv/bin/python -m pytest -q --no-cov tests/test_standardized_ingestion_conformance.py tests/test_standardized_ingestion_providers.py (91 passed); uv run --with ruff ruff check tests/test_standardized_ingestion_conformance.py tests/test_standardized_ingestion_providers.py; python scripts/validate_conductor_github_cross_references.py .

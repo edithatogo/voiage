@@ -1,0 +1,1 @@
+PR #667 refreshed over #636 Croissant datatype support; context-array and exact-version fixtures pass with 105 Croissant/provider tests, Ruff, and Conductor cross-reference validation.

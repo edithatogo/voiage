@@ -1,0 +1,1 @@
+PR #662 refresh evidence: rebased onto origin/main dba2886a932bc6c2987cdb90bf1f5d9fafb79430. Signed head e8fd27db48caf0a4b1cfeb4f21a02b79dea35332. tox -e ingestion-conformance passed (14 tests); focused source lint clean; validate_conductor_github_cross_references.py . passed. Repository-wide Ruff is intentionally outside changed scope and reports historical archive scripts.

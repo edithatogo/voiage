@@ -1,0 +1,1 @@
+PR #836 review remediation: complete owning cross-reference/metadata PR inventory; bind #558/#724 to direct live Project observations; reopen G8 for missing independent provenance on #571/#595/#619. G14/G15 and external gates remain pending. Focused 42 tests, Ruff, frontier/xref, ledger and full 148-track Conductor validation pass.

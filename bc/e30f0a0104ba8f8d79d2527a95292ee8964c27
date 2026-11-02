@@ -1,0 +1,1 @@
+Conductor P1-T6/P1-T7: recorded the 2026-08-29 test/CI timing baseline and targeted Scalene profile. Evidence includes failed serial/xdist states, profiler limitations, cold/warm language checks, and representative hosted timings; it does not claim current full-suite readiness.

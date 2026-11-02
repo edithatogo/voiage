@@ -1,0 +1,7 @@
+Task: Record PR #1031 post-merge receipt
+
+Summary: Reconciled the archived pyOpenSci staging track and GitHub cross-reference registry with the observed squash merge, exact reviewed-head tree equality, and 11/11 successful post-merge main workflows. Preserved all pyOpenSci and JOSS external actions as unperformed or pending.
+
+Files: conductor/archive/pyopensci_submission_staging_20260829/{post-merge-receipt-20260829.json,evidence.jsonl,index.md,metadata.json}; conductor/github-cross-references.json; conductor/tracks.md.
+
+Validation: 12 focused governance tests passed; Conductor full validation passed; registry normalization changed 0 paths; cross-reference validation passed; JSON parsing and diff hygiene passed.

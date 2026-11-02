@@ -1,0 +1,1 @@
+Track 28 archive: moved CPU cluster benchmark evidence to conductor/archive after PR #207 merged as 288fa67. Preserved CPU reference, local scheduler smoke, ordered result-envelope test, and explicit multi-node/cloud blocked state. Focused validation: 28 tests passed; targeted Ruff checks and format passed.

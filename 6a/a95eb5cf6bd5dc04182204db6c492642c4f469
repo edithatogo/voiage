@@ -1,0 +1,16 @@
+Task: Prepare Julia BinaryBuilder/JLL and General publication.
+
+Summary:
+- submitted the signed v2.0.0 voiage-ffi BinaryBuilder recipe as JuliaPackaging/Yggdrasil#14292 with seven green hosted target builds;
+- added General package licence and Aqua quality checks while removing stale runtime dependencies;
+- expanded Julia CI across Julia 1.10-1.12 and Linux, macOS, and Windows;
+- configured subpackage-aware TagBot with julia tag prefix and repository-scoped deploy-key authentication;
+- added executable publication contracts, current docs, and Conductor/GitHub evidence.
+
+Verification:
+- isolated Julia package: 11 Aqua checks, 2 EVPI tests, 11 shared-reference assertions passed;
+- uv run tox -p auto: all environments passed;
+- Yggdrasil Buildkite: all seven requested platforms passed;
+- dependency frontier strict audit executed and remained red only on pre-existing declared minimum versions; unrelated uv.lock refresh was restored.
+
+Why: Julia General cannot accept Voiage with an unregistered JLL dependency. This establishes the required BinaryBuilder-first sequence and preserves JLL acceptance, generated UUID wiring, Registrator submission, and General merge as distinct evidence states.

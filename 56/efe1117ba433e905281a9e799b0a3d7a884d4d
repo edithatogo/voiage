@@ -1,0 +1,1 @@
+Rebased onto origin/main c3394a91. Validation passed: pytest tests/test_standardized_ingestion_providers.py -q --no-cov (97 tests); Ruff check on Frictionless provider and tests; scripts/validate_conductor_github_cross_references.py; focused Conductor governance suite (18 tests). PR #666 auto-merge remains enabled; hosted checks required before merge.

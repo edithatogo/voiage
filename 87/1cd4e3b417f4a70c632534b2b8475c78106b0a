@@ -1,0 +1,1 @@
+Reconcile merged PR evidence: #634 merged as 1f6cbc52 for Phase 10 reconciliation and #638 merged as 333ee68f for partial P4-T2 Croissant fixture corpus coverage. Cross-reference validation and its focused test pass; the standardized-ingestion track remains active with broader acceptance criteria incomplete.

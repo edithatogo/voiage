@@ -1,0 +1,12 @@
+Task: S4 Audit legacy plotting and clinical optimizer surfaces
+
+Summary: Classified stable signed ENBS as reusable, excluded clipped enbs_simple helpers, preserved the heuristic clinical optimizer and misnamed cost-efficiency fields as legacy compatibility surfaces, and specified separate experimental COSS plotting, CLI and API paths.
+
+Files created:
+- conductor/tracks/study_design_efficiency_20260727/legacy-audit.md
+
+Files modified:
+- conductor/tracks/study_design_efficiency_20260727/index.md
+- conductor/tracks/study_design_efficiency_20260727/plan.md
+
+Why: Existing helpers are adjacent to issue #571 but do not satisfy its sampling-model, tie, uncertainty, feasibility or EVSI/EVPI semantics.

@@ -1,0 +1,19 @@
+Task: Keep pre-Phase-5 FFI infrastructure independent of numerics
+
+Summary:
+- Removed the unused voiage-numerics dependency from voiage-ffi.
+- Updated Cargo.lock to match the manifest.
+- Tightened the workspace dependency allowlist and added an explicit Phase 5 boundary contract test.
+
+Files:
+- rust/crates/voiage-ffi/Cargo.toml
+- rust/Cargo.lock
+- tests/test_rust_workspace_contract.py
+
+Why: The stabilized C ABI currently provides infrastructure only; numerical kernel coupling must wait for Phase 5 parity and profiling gates.
+
+Validation:
+- cargo check --locked --manifest-path rust/Cargo.toml -p voiage-ffi
+- uv run pytest tests/test_rust_workspace_contract.py -q -k internal_dependencies_follow_the_architecture_direction-or-ffi_infrastructure_does_not_depend_on_numerics_before_phase_5
+- uv run ruff check tests/test_rust_workspace_contract.py
+- git diff --check

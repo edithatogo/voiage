@@ -1,0 +1,1 @@
+Phase verification fix: cover the raw-dict EVPPI missing-parameter compatibility branch so the unchanged 90 percent repository gate passes. Validation: focused test passed; full suite 1424 passed, 10 skipped, coverage 90.01 percent.

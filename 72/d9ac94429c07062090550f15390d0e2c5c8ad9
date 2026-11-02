@@ -1,0 +1,1 @@
+Conductor standardized-dataset-ingestion_20260723; PR #663 refreshed against origin/main a51d10b4. Validation: 85 standardized ingestion provider tests (--no-cov), Ruff registry/provider test targets, Conductor cross-reference validator, and git diff --check passed locally.

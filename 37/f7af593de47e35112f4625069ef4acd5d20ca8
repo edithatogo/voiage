@@ -1,0 +1,1 @@
+Conductor standardized-dataset-ingestion_20260723 Phase 5 partial evidence: deterministic fixture digest verification/explicit regeneration and cross-format NumPy/xarray preparation equivalence. Focused pytest, Ruff, fixture validator, and cross-reference validation passed after rebase onto main 623fa73b.

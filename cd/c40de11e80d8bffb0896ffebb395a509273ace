@@ -1,0 +1,5 @@
+Task: Bind the reviewed v2 release and registry evidence
+
+Summary: Recorded the public v2.0.0 release, Software Heritage snapshot, mixed-language SBOM, package digests, provenance, clean installation, crates.io publication, and conda-forge recipe; refreshed JOSS SourceRight/AuthenText-bound claims; upgraded artifact actions to Node 24-native immutable pins.
+
+Validation: 48 focused tests passed; JOSS validator passed; release evidence validated; 27-workflow harness passed; scoped Ruff passed.

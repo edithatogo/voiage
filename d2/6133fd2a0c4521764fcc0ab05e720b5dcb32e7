@@ -1,0 +1,3 @@
+Conductor task: supported_frontier_method_completion_20260723 F556 governance refinement
+Evidence: added planned-v1.2.0 M18 MoSCoW requirements, Mermaid flows, authoritative DSA boundary review, F556-1..F556-5 plan tasks, and governance tests. Created native #724-#728 under #556 and added all to Project 28 as Must/Todo/Development ledger/v1.2.0/Planned. Five governance tests, Ruff, crossrefs and full 144-track Conductor validation passed.
+Boundary: no DSA runtime claim; F556-1 red tests and all delivery tasks remain pending.

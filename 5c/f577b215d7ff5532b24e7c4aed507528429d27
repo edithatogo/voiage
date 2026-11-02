@@ -1,0 +1,5 @@
+Issue #572 experimental forecast-signal implementation.
+
+Validation before governance rebasing: 60 cross-surface tests and 21 focused feature tests passed; combined new-module coverage 93% and evaluator coverage 98%; Ruff, ty, BasedPyright, frontier validation, full Conductor validation, and a clean Python 3.13 abi3 installed-wheel fixture passed.
+
+Pending gates: independent scientific review, hosted exact-head/full suite, canonical C18 projection, Rust/R/Julia parity, stable promotion, release, and closure.

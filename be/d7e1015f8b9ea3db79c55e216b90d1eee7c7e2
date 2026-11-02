@@ -1,0 +1,1 @@
+Archived the Spack follow-through after implementation PR #223 merged as 6ea72f2. Preserved draft recipe, source tag, syntax, concretization, and upstream visibility evidence; upstream maintainer review/merge and package visibility remain external. Focused registry and handoff tests pass.

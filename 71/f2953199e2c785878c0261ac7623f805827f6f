@@ -1,0 +1,1 @@
+Conductor standardized-dataset-ingestion_20260723 P5-T1 partial evidence: direct NumPy source and Croissant/Frictionless source formats produce identical canonical xarray and NumPy compute views. Focused tests, Ruff, fixture-validator CLI, and cross-reference validation passed.
