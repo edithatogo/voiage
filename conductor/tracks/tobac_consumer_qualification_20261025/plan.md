@@ -34,3 +34,7 @@ direction to implement, review and archive this track. Current candidate results
 - [ ] Task P4.2: Reconcile main and master track, publish only within authority, verify receiving refs/files.
 - [ ] Task P4.3: Deliver exact artifact/API/schema receipts and rollback notes to tobac.
 - [ ] Task P4.4: Phase verification and checkpoint including repository review requirements.
+
+Current release evidence and available-compute boundary are recorded in
+[the 2 November reconciliation](../scientific_ecosystem_alignment_20261029/reconciliation-20261102.md).
+Existing unchecked native acceptance tasks remain open.

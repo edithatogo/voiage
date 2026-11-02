@@ -4,7 +4,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
-- [ ] Qualify `conductor/tracks/hpc_source_build_qualification_20261029/` and `conductor/tracks/scientific_ecosystem_alignment_20261029/`; preserve all existing native gates.
+- [ ] Finish native HPC acceptance in `conductor/tracks/hpc_source_build_qualification_20261029/` and `conductor/tracks/scientific_ecosystem_alignment_20261029/`; preserve all existing native gates.
 
 - [x] Add local verification resource limits and termination receipts before
   continuing Python 3.15.1 acceptance testing.
@@ -1398,3 +1398,6 @@ as recorded in the active task above; earlier route decisions below are historic
 - [ ] Continue in order with `conductor/tracks/logging_privacy_resilience_20260907/`.
 - [ ] Continue in order with `conductor/tracks/vop_logging_version_pilot_20260907/`.
 - [ ] Continue in order with `conductor/tracks/optional_native_telemetry_20260907/`.
+
+Release and base installed-package qualification are complete. See
+[2 November reconciliation](conductor/tracks/scientific_ecosystem_alignment_20261029/reconciliation-20261102.md) for remaining scope.

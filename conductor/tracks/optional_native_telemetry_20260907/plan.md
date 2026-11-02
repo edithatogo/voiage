@@ -36,3 +36,7 @@ The [need assessment](./need-assessment-20261029.md) records the AC1 deferral ac
 
 - [ ] CLOSE.1 — Review every AC, run final required local/native gates and record exact source/environment evidence; reuse only eligible unchanged evidence.
 - [ ] CLOSE.2 — Reconcile plan, metadata, registry and append-only evidence; require satisfied upstream contracts and applicable hosted evidence before completion. Do not infer release or scientific acceptance.
+
+Current release evidence and available-compute boundary are recorded in
+[the 2 November reconciliation](../scientific_ecosystem_alignment_20261029/reconciliation-20261102.md).
+Existing unchecked native acceptance tasks remain open.
