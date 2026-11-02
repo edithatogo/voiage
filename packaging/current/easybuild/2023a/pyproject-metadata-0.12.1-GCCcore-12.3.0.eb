@@ -1,0 +1,17 @@
+# Source candidate. Native build and installed qualification remain separate.
+easyblock = "PythonPackage"
+name = 'pyproject-metadata'
+version = '0.12.1'
+homepage = "https://pypi.org/project/pyproject-metadata/"
+description = "Current Python scientific dependency for the Voiage graph."
+toolchain = {"name": "GCCcore", "version": "12.3.0"}
+sources = ['https://files.pythonhosted.org/packages/4f/76/1cae539918a7b1746d624c2f01560b793c22cd8c081157505bb9bbf0e34d/pyproject_metadata-0.12.1.tar.gz']
+checksums = ['8809a4df6fe08279b39a8890669506ed3158e0617855ac9aff098fcbe772ae4c']
+builddependencies = [('Voiage-Rust-build-support', '2.2.0')]
+dependencies = [('Python', '3.15.1')]
+use_pip = True
+pip_no_index = True
+pip_no_build_isolation = True
+download_dep_fail = True
+sanity_pip_check = True
+moduleclass = "math"

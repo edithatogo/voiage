@@ -1,0 +1,199 @@
+{
+  "Cython": {
+    "version": "3.3.1",
+    "source": "https://files.pythonhosted.org/packages/99/ca/18e324972e5cac914816fdd7bb03e19a455b90039c277a538f7781b50c85/cython-3.3.1.tar.gz",
+    "sha256": "e0e45989e821bef6aa9ae15c7d583ab5e055f7406c4b3624e49e06d24e90375a",
+    "requires_dist": null,
+    "license": null
+  },
+  "Meson": {
+    "version": "1.12.1",
+    "source": "https://files.pythonhosted.org/packages/f9/c9/8c9983f4f3d9c4e22fd76bcf8cd053e4472aefae45fd044669b6daa34b53/meson-1.12.1.tar.gz",
+    "sha256": "ab0a6ca09f8ef70c564c8241fb5a23957886a0b53fb58412b5e07eaf07dba743",
+    "requires_dist": [
+      "ninja>=1.8.2; extra == \"ninja\"",
+      "tqdm; extra == \"progress\"",
+      "mypy; extra == \"typing\"",
+      "typing_extensions; python_version < \"3.8\" and extra == \"typing\""
+    ],
+    "license": null
+  },
+  "pyproject-metadata": {
+    "version": "0.12.1",
+    "source": "https://files.pythonhosted.org/packages/4f/76/1cae539918a7b1746d624c2f01560b793c22cd8c081157505bb9bbf0e34d/pyproject_metadata-0.12.1.tar.gz",
+    "sha256": "8809a4df6fe08279b39a8890669506ed3158e0617855ac9aff098fcbe772ae4c",
+    "requires_dist": [
+      "packaging>=23.2"
+    ],
+    "license": "MIT"
+  },
+  "meson-python": {
+    "version": "0.22.1",
+    "source": "https://files.pythonhosted.org/packages/b4/40/343ae23722d5d66a7b94b752d1b194202640995296379333b274b1860871/meson_python-0.22.1.tar.gz",
+    "sha256": "52c88628b0e5671592dc2306613fb5f6f3615fd24def059b9894f143b7f9a139",
+    "requires_dist": [
+      "meson>=0.64.0; python_version < \"3.12\"",
+      "meson>=1.2.3; python_version >= \"3.12\"",
+      "packaging>=23.2; sys_platform != \"ios\"",
+      "packaging>=24.2; sys_platform == \"ios\"",
+      "pyproject-metadata>=0.9.0",
+      "tomli>=1.0.0; python_version < \"3.11\""
+    ],
+    "license": "MIT"
+  },
+  "gast": {
+    "version": "0.7.0",
+    "source": "https://files.pythonhosted.org/packages/91/f6/e73969782a2ecec280f8a176f2476149dd9dba69d5f8779ec6108a7721e6/gast-0.7.0.tar.gz",
+    "sha256": "0bb14cd1b806722e91ddbab6fb86bba148c22b40e7ff11e248974e04c8adfdae",
+    "requires_dist": null,
+    "license": null
+  },
+  "ply": {
+    "version": "3.11",
+    "source": "https://files.pythonhosted.org/packages/e5/69/882ee5c9d017149285cab114ebeab373308ef0f874fcdac9beb90e0ac4da/ply-3.11.tar.gz",
+    "sha256": "00c7c1aaa88358b9c765b6d3000c6eec0ba42abca5351b095321aef446081da3",
+    "requires_dist": null,
+    "license": null
+  },
+  "beniget": {
+    "version": "0.5.0",
+    "source": "https://files.pythonhosted.org/packages/31/a9/cf7c2317da1f5034fdebe84555e14a474b3297ef2d03ad148ff02fef2e3a/beniget-0.5.0.tar.gz",
+    "sha256": "e7af11fa8ec7de3d3eb3d98b1e722d15d44017d8b35d8aa11d54f6719b312f22",
+    "requires_dist": [
+      "gast>=0.7.0"
+    ],
+    "license": null
+  },
+  "pythran": {
+    "version": "0.19.0",
+    "source": "https://files.pythonhosted.org/packages/bb/a3/03098a8a5d2c9f801c227cf941d85976934f5f47307ef3d819734370acdc/pythran-0.19.0.tar.gz",
+    "sha256": "18a096daa8b4bbe3ace06ce5d7325be5ff57aec4cf67b91834cf1b757b3e5392",
+    "requires_dist": [
+      "ply>=3.4",
+      "setuptools<60; python_version < \"3.12\"",
+      "setuptools; python_version >= \"3.12\"",
+      "gast~=0.7.0",
+      "numpy",
+      "beniget~=0.5.0",
+      "numpy; extra == \"doc\"",
+      "nbsphinx; extra == \"doc\"",
+      "scipy; extra == \"doc\"",
+      "guzzle_sphinx_theme; extra == \"doc\"",
+      "ipython; extra == \"test\"",
+      "nbval; extra == \"test\"",
+      "cython; extra == \"test\"",
+      "wheel; extra == \"test\"",
+      "packaging; extra == \"test\"",
+      "ninja; extra == \"test\"",
+      "meson; extra == \"test\""
+    ],
+    "license": null
+  },
+  "joblib": {
+    "version": "1.6.0",
+    "source": "https://files.pythonhosted.org/packages/d5/1d/537ab090f302b838943a1b56497dd53059b9a9b46a074936470173a2e207/joblib-1.6.0.tar.gz",
+    "sha256": "2ccc96785b12046c08fd6d55839c12857831b54a3c1673ffadd2f04bfc4eda03",
+    "requires_dist": [
+      "cloudpickle>=3.0",
+      "distributed; extra == \"test\"",
+      "lz4; extra == \"test\"",
+      "numpy; extra == \"test\"",
+      "memory_profiler; extra == \"test\"",
+      "pytest; extra == \"test\"",
+      "pytest-asyncio; extra == \"test\"",
+      "pytest-cov; extra == \"test\"",
+      "pytest-run-parallel; extra == \"test\"",
+      "pytest-timeout; extra == \"test\"",
+      "threadpoolctl; extra == \"test\"",
+      "distributed; extra == \"docs\"",
+      "lz4; extra == \"docs\"",
+      "numpy; extra == \"docs\"",
+      "numpydoc; extra == \"docs\"",
+      "matplotlib; extra == \"docs\"",
+      "pandas; extra == \"docs\"",
+      "psutil; extra == \"docs\"",
+      "sphinx; extra == \"docs\"",
+      "pydata-sphinx-theme; extra == \"docs\"",
+      "sphinx-gallery; extra == \"docs\"",
+      "sphinx-copybutton; extra == \"docs\"",
+      "sphinx-design; extra == \"docs\"",
+      "tqdm; extra == \"docs\""
+    ],
+    "license": "BSD-3-Clause"
+  },
+  "threadpoolctl": {
+    "version": "3.7.0",
+    "source": "https://files.pythonhosted.org/packages/00/dc/6c58154c1c65f758ea979e7139cb76993a9cfc662d14e9be3c4a667cfb77/threadpoolctl-3.7.0.tar.gz",
+    "sha256": "61348cfb77d53b9242e0017029244b559b810c142ced65b4e21eeca1843959a7",
+    "requires_dist": null,
+    "license": "BSD-3-Clause"
+  },
+  "NumPy": {
+    "version": "2.5.4",
+    "source": "https://files.pythonhosted.org/packages/95/b0/c7453d0b6e2073c3264468b106ee1563750cecc910965e67357e3698c83e/numpy-2.5.4.tar.gz",
+    "sha256": "9a94cf751c9ad8ebaa835bcd3d40dacf8534ad086b88c38029b65123c7999d2a",
+    "requires_dist": null,
+    "license": "BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0"
+  },
+  "SciPy": {
+    "version": "1.18.1",
+    "source": "https://files.pythonhosted.org/packages/7e/74/66de6258867beb2ef08f35f9f2ac017a52cacd5081714d239ff1a442d458/scipy-1.18.1.tar.gz",
+    "sha256": "52c4b7422442aba924d03ad4019852b08a92e64ea187b933135687bfe2747307",
+    "requires_dist": [
+      "numpy<2.8,>=2.0.0",
+      "pytest>=8.0.0; extra == \"test\"",
+      "pytest-cov; extra == \"test\"",
+      "pytest-timeout; extra == \"test\"",
+      "pytest-xdist; extra == \"test\"",
+      "asv; extra == \"test\"",
+      "mpmath; extra == \"test\"",
+      "gmpy2; extra == \"test\"",
+      "threadpoolctl; extra == \"test\"",
+      "scikit-umfpack; extra == \"test\"",
+      "pooch; extra == \"test\"",
+      "hypothesis>=6.30; extra == \"test\"",
+      "array-api-strict>=2.3.1; extra == \"test\"",
+      "Cython; extra == \"test\"",
+      "meson; extra == \"test\"",
+      "ninja; sys_platform != \"emscripten\" and extra == \"test\"",
+      "scipy-doctest>=2.0.0; extra == \"test\"",
+      "sphinx<8.2.0,>=5.0.0; extra == \"doc\"",
+      "intersphinx_registry; extra == \"doc\"",
+      "pydata-sphinx-theme>=0.15.2; extra == \"doc\"",
+      "sphinx-copybutton; extra == \"doc\"",
+      "sphinx-design>=0.4.0; extra == \"doc\"",
+      "matplotlib>=3.5; extra == \"doc\"",
+      "numpydoc; extra == \"doc\"",
+      "jupytext; extra == \"doc\"",
+      "myst-nb>=1.2.0; extra == \"doc\"",
+      "pooch; extra == \"doc\"",
+      "jupyterlite-sphinx>=0.19.1; extra == \"doc\"",
+      "jupyterlite-pyodide-kernel; extra == \"doc\"",
+      "linkify-it-py; extra == \"doc\"",
+      "tabulate; extra == \"doc\"",
+      "click<8.3.0; extra == \"dev\"",
+      "spin; extra == \"dev\"",
+      "mypy==1.19.1; extra == \"dev\"",
+      "pyrefly==0.63.0; extra == \"dev\"",
+      "typing_extensions; extra == \"dev\"",
+      "types-psutil; extra == \"dev\"",
+      "pycodestyle; extra == \"dev\"",
+      "ruff>=0.12.0; extra == \"dev\"",
+      "cython-lint>=0.12.2; extra == \"dev\""
+    ],
+    "license": null
+  },
+  "scikit-learn": {
+    "version": "1.9.1",
+    "source": "https://files.pythonhosted.org/packages/d2/eb/eaf5e07fcc0da7149b0e084f24e54edd7441b9a89ce7e034032ae97fe3a0/scikit_learn-1.9.1.tar.gz",
+    "sha256": "629cada3e33e2b9bf376cdc7614a47a4140b8aedc1d836579e359736fbd82977",
+    "requires_dist": [
+      "numpy>=1.24.1",
+      "scipy>=1.10.0",
+      "joblib>=1.4.0",
+      "narwhals>=2.0.1",
+      "threadpoolctl>=3.5.0"
+    ],
+    "license": "BSD-3-Clause"
+  }
+}

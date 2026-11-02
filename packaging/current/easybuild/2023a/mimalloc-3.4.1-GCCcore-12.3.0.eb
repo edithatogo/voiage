@@ -1,0 +1,11 @@
+easyblock = "CMakeMake"
+name = "mimalloc"
+version = "3.4.1"
+homepage = "https://github.com/microsoft/mimalloc"
+description = "Pinned Arrow allocator."
+toolchain = {"name": "GCCcore", "version": "12.3.0"}
+sources = ["https://github.com/microsoft/mimalloc/archive/v3.4.1.tar.gz"]
+checksums = ["37107a52c16baa80c5f74861dddda7b27bb9949e41a6637691867a94c88ca446"]
+builddependencies = [("CMake", "3.26.3")]
+configopts = "-DMI_BUILD_SHARED=ON -DMI_BUILD_STATIC=ON -DMI_BUILD_TESTS=ON"
+moduleclass = "lib"

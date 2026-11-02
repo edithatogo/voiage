@@ -1,0 +1,39 @@
+{
+  "polars-runtime-32": {
+    "source": {
+      "filename": "polars_runtime_32-2.1.0.tar.gz",
+      "url": "https://files.pythonhosted.org/packages/e0/a6/46e09af693326735b1fba3a8bf5a725b57136fb1342e707e75d3113c826b/polars_runtime_32-2.1.0.tar.gz",
+      "sha256": "c575f5f3cdb8a5f9be65477b9b4202b062593687fe62a0082add87fbd4571067",
+      "size": 3878004
+    },
+    "registry_crates": 539,
+    "git_source_revisions": [
+      {
+        "name": "color-backtrace",
+        "repository": "https://github.com/orlp/color-backtrace",
+        "revision": "20f5eea183563bb4cfac9a4d65901d4a1002cde2"
+      },
+      {
+        "name": "hashbrown",
+        "repository": "https://github.com/pola-rs/hashbrown",
+        "revision": "d76a6f81abd8f388676aff15068236a8d21c7e1a"
+      },
+      {
+        "name": "tikv-jemalloc-sys",
+        "repository": "https://github.com/pola-rs/jemallocator",
+        "revision": "0d683dfb157097e2075d5e0eaf25f71f514a7552"
+      }
+    ],
+    "git_archive_bytes_qualified": false
+  },
+  "libcst": {
+    "source": {
+      "filename": "libcst-1.9.0.tar.gz",
+      "url": "https://files.pythonhosted.org/packages/02/c0/098e5c91ff1537f00c85a6438b6cb1863d17144680cc91f47c87f104a200/libcst-1.9.0.tar.gz",
+      "sha256": "087b58a9afe076bb08e2d726478e1f16cb928d67ffa9092817e033c335de522a"
+    },
+    "registry_crates": 92,
+    "git_source_revisions": [],
+    "git_archive_bytes_qualified": false
+  }
+}

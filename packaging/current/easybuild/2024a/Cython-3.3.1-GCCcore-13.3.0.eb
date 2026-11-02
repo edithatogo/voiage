@@ -1,0 +1,17 @@
+# Source candidate. Native build and installed qualification remain separate.
+easyblock = "PythonPackage"
+name = 'Cython'
+version = '3.3.1'
+homepage = "https://pypi.org/project/Cython/"
+description = "Current Python scientific dependency for the Voiage graph."
+toolchain = {"name": "GCCcore", "version": "13.3.0"}
+sources = ['https://files.pythonhosted.org/packages/99/ca/18e324972e5cac914816fdd7bb03e19a455b90039c277a538f7781b50c85/cython-3.3.1.tar.gz']
+checksums = ['e0e45989e821bef6aa9ae15c7d583ab5e055f7406c4b3624e49e06d24e90375a']
+builddependencies = [('Voiage-Rust-build-support', '2.2.0')]
+dependencies = [('Python', '3.15.1')]
+use_pip = True
+pip_no_index = True
+pip_no_build_isolation = True
+download_dep_fail = True
+sanity_pip_check = True
+moduleclass = "math"

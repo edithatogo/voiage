@@ -1,0 +1,17 @@
+# Source candidate. Native build and installed qualification remain separate.
+easyblock = "PythonPackage"
+name = 'Meson'
+version = '1.12.1'
+homepage = "https://pypi.org/project/meson/"
+description = "Current Python scientific dependency for the Voiage graph."
+toolchain = {"name": "GCCcore", "version": "12.3.0"}
+sources = ['https://files.pythonhosted.org/packages/f9/c9/8c9983f4f3d9c4e22fd76bcf8cd053e4472aefae45fd044669b6daa34b53/meson-1.12.1.tar.gz']
+checksums = ['ab0a6ca09f8ef70c564c8241fb5a23957886a0b53fb58412b5e07eaf07dba743']
+builddependencies = [('Voiage-Rust-build-support', '2.2.0')]
+dependencies = [('Python', '3.15.1')]
+use_pip = True
+pip_no_index = True
+pip_no_build_isolation = True
+download_dep_fail = True
+sanity_pip_check = True
+moduleclass = "math"

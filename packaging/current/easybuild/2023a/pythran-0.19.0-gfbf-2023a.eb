@@ -1,0 +1,17 @@
+# Source candidate. Native build and installed qualification remain separate.
+easyblock = "PythonPackage"
+name = 'pythran'
+version = '0.19.0'
+homepage = "https://pypi.org/project/pythran/"
+description = "Current Python scientific dependency for the Voiage graph."
+toolchain = {"name": "gfbf", "version": "2023a"}
+sources = ['https://files.pythonhosted.org/packages/bb/a3/03098a8a5d2c9f801c227cf941d85976934f5f47307ef3d819734370acdc/pythran-0.19.0.tar.gz']
+checksums = ['18a096daa8b4bbe3ace06ce5d7325be5ff57aec4cf67b91834cf1b757b3e5392']
+builddependencies = [('Voiage-Rust-build-support', '2.2.0')]
+dependencies = [('NumPy', '2.5.4'), ('Python', '3.15.1'), ('gast', '0.7.0'), ('beniget', '0.5.0'), ('ply', '3.11')]
+use_pip = True
+pip_no_index = True
+pip_no_build_isolation = True
+download_dep_fail = True
+sanity_pip_check = True
+moduleclass = "math"
