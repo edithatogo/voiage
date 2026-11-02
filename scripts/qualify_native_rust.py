@@ -284,7 +284,7 @@ class Build:
         x = [sys.executable, str(source / "x.py")]
         self.run(
             "llvm-source",
-            [*x, "build", "--stage", "0", "--jobs", "4", "src/llvm-project"],
+            [*x, "build", "--stage", "1", "--jobs", "4", "src/llvm-project"],
             cwd=source,
         )
         caches = list((self.work / "build").rglob("CMakeCache.txt"))
