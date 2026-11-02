@@ -19,3 +19,11 @@ The `codex/scientific-ecosystem-rust199` branch supplied the stable compiler
 candidate, its regression checks and the installed-adapter packet. The local
 native and consumer probes have terminal receipts. The repository integrator
 retains hosted delivery and the Linux HPC matrix.
+
+## Current acceptance reconciliation
+
+See [2 November reconciliation](reconciliation-20261102.md).
+
+- [x] Publish compatible releases and verify the installed PyPI Arrow/EVPI case.
+- [x] Verify authentication-only token issuance from main for both indexes.
+- [ ] Complete the remaining native and optional-consumer gates before archival.

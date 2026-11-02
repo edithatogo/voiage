@@ -96,3 +96,7 @@ when relevant inputs change. Exact commands are resolved from installed tools
 at dispatch. Use the verified `voiage` remote for edithatogo/voiage; `origin`
 in this checkout points to another repository. No new skill installation is
 needed from the planning catalog. Paid resources require separate user direction.
+
+Current release evidence and available-compute boundary are recorded in
+[the 2 November reconciliation](../scientific_ecosystem_alignment_20261029/reconciliation-20261102.md).
+Existing unchecked native acceptance tasks remain open.
