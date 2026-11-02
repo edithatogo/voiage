@@ -1,0 +1,5 @@
+
+
+ERROR: Failed to process easyconfig /home/runner/work/voiage/voiage/receipts/graph/root.eb: Failed to determine minimal toolchain for dep Rust 1.99.1
+
+== Temporary log file in case of crash /home/runner/work/voiage/.voiage-verification-ty45gm41/eb-9vgnremw/easybuild-vnmmonli.log
