@@ -1,11 +1,24 @@
 name: Linux dependency graphs
 on:
   push:
-    branches: [main, codex/linux-graph-qualification]
+    branches: [main]
     paths:
       - ".github/workflows/linux-graph-qualification.yml"
       - "scripts/qualify_linux_graph.sh"
       - "scripts/guard_verification.py"
+      - "scripts/qualify_hpc_source.py"
+      - "specs/dependency-runtime-policy.json"
+      - "packaging/current/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - ".python-version"
+  pull_request:
+    paths:
+      - ".github/workflows/linux-graph-qualification.yml"
+      - "scripts/qualify_linux_graph.sh"
+      - "scripts/guard_verification.py"
+      - "scripts/qualify_hpc_source.py"
+      - "specs/dependency-runtime-policy.json"
       - "packaging/current/**"
       - "pyproject.toml"
       - "uv.lock"
