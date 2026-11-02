@@ -1,0 +1,9 @@
+Task: Native Rust/LLVM source-build qualification
+Checkpoint: fix(hpc): Use supported stage one dispatch for LLVM source compilation
+
+Why: Authenticate and compile the selected toolchains with offline source stages, fail-closed resource observation and durable qualification evidence.
+
+Changed paths:
+scripts/qualify_native_rust.py
+
+Verification and acceptance: See conductor/tracks/hpc_source_build_qualification_20261029/review-native-rust-20261102.md and evidence/native-rust-llvm-20261102/manifest.json. Native compiler jobs are pending at this checkpoint; failed attempts are not accepted. Full installed HPC matrix acceptance remains open.
