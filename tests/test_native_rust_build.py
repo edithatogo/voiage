@@ -1,5 +1,6 @@
 """Compiler source proof must not accept bootstrap or downloaded output."""
 
+import json
 lazy from pathlib import Path
 
 import pytest
@@ -9,6 +10,12 @@ from scripts.qualify_native_rust import (
     validate_config,
     validate_installed_version,
 )
+
+
+@pytest.mark.parametrize("entry", ["rust-stable", "rust-nightly"])
+def test_compiler_vendor_closure_includes_the_standard_library(entry: str) -> None:
+    inputs = json.loads(Path("packaging/current/source-vendor-inputs.json").read_text())
+    assert "library/Cargo.toml" in inputs["entries"][entry]["manifests"]
 
 
 def test_config_preserves_upstream_llvm_backends_and_disables_downloads(

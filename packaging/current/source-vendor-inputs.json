@@ -101,7 +101,8 @@
       "manifests": [
         "Cargo.toml",
         "src/bootstrap/Cargo.toml",
-        "src/tools/cargo/Cargo.toml"
+        "src/tools/cargo/Cargo.toml",
+        "library/Cargo.toml"
       ],
       "toolchain": "nightly-2026-09-01",
       "bootstrap": {
@@ -119,7 +120,8 @@
       "manifests": [
         "Cargo.toml",
         "src/bootstrap/Cargo.toml",
-        "src/tools/cargo/Cargo.toml"
+        "src/tools/cargo/Cargo.toml",
+        "library/Cargo.toml"
       ],
       "toolchain": "nightly-2026-09-01",
       "bootstrap": {
