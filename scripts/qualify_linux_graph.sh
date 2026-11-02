@@ -36,6 +36,16 @@ text = source.read_text().replace(
     'toolchain = {"name": "system", "version": ""}',
     f'toolchain = {{"name": "foss", "version": "{generation}"}}',
 )
+# These three import surfaces are supplied by the checksum-pinned support bundle.
+for dependency in (
+    '    ("click", "8.5.0"),\n',
+    '    ("typing_extensions", "4.16.0"),\n',
+    '    ("typer", "0.27.2"),\n',
+):
+    if dependency not in text:
+        raise ValueError("Current support-bundle mapping drift")
+    text = text.replace(dependency, "")
+text = text.replace('dependencies = [\n', 'dependencies = [\n    ("Voiage-Python-support", "2.2.0"),\n', 1)
 Path(output, "root.eb").write_text(text)
 PY
   eb "$out/root.eb" --dry-run --robot --minimal-toolchains --robot-paths="$PWD/packaging/current/easybuild/$generation:$PWD/packaging/current/easybuild:$PWD/.graph-tools/easyconfigs/easybuild/easyconfigs" --allow-use-as-root-and-accept-consequences > "$out/graph.txt" 2>&1
