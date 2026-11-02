@@ -1,0 +1,11 @@
+Task: Native Rust/LLVM source compiler qualification
+Checkpoint: fix(hpc): Qualify the complete upstream compiler notice vendor closure
+
+Why: Complete authenticated offline compiler source builds, preserve upstream notice closure and retain fail-closed stage/resource evidence.
+
+Changed paths:
+packaging/current/source-vendor-inputs.json
+scripts/qualify_source_vendor.py
+tests/test_source_vendor_qualification.py
+
+Terminal task evidence: stable run 41436471133 and nightly run 41436475314 both passed all 12 stages at 24ae6cb6. Installed toolchains compiled and ran EVPI=5 and resolved linkage. 51 Linux controls and 24 focused local tests passed. Artifact archive and individual file digests verified. Final packet: conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/manifest.json. Acceptance applies to its exact native input objects; intermediate failures and the later local tox disk-space stop remain retained. Full installed HPC matrix acceptance remains open.
