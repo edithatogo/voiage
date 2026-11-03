@@ -127,3 +127,21 @@ Next: qualify actual package-manager sources/offline execution and compiler
 configuration binding on Linux, preserving installed-module and isolation gates.
 The system-volume capacity stop remains unresolved; no shared caches, active
 worktrees or unrelated outputs were deleted. Archival criteria remain unsatisfied.
+
+## Interpreter and external verification lane — 3 November 2026
+
+Chat `01a1a104-80d7-7501-86bd-85be63cb2cab` owns the tox runner/interpreter
+fix in the existing managed worktree, including `tox.ini`, its runtime-policy
+contract test and contributor instructions. Native probes verified both `py315`
+and an ordinary environment with the repo-local Python 3.15.1 executable.
+The effective setting is `[testenv] runner = virtualenv`; the former `[tox]`
+`env_runner` entry did not select that runner. `VOIAGE_TOX_PYTHON` supplies the
+explicit executable and commands_pre retains the exact-version assertion.
+
+The next verification operation uses the standard Git worktree
+`/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-backlog-gate-20261103`.
+It is not app-managed: the managed-worktree tool has no destination-path option.
+Only this lane's clean candidate is checked out there. It owns fresh verification
+environments, Rust/documentation outputs and guarded temporary files there;
+shared caches, other checkouts and active Kairos operations retain their owners.
+Retain both earlier failed tox receipts. No cleanup of another lane is authorized.

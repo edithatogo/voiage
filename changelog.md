@@ -1,5 +1,8 @@
 # Changelog
 
+- Use tox’s virtualenv runner and an explicit repo-local interpreter setting to
+  keep every environment on qualified Python 3.15.1.
+
 - Refresh the unposted pyOpenSci packet with the current AI disclosure fields
   and reject unchecked review prompts being promoted to new confirmations.
 
