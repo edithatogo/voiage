@@ -1,17 +1,17 @@
 {
   "schema_version": "voiage.pyopensci-submission-staging.v1",
   "prepared_at": "2026-08-29T00:22:00Z",
-  "updated_at": "2026-09-01T15:49:33Z",
+  "updated_at": "2026-11-03T11:05:13Z",
   "state": "prepared_local_unposted",
   "draft": {
     "path": "docs/release/pyopensci-submission-draft.md",
-    "sha256": "1f0d56e25ff52ee7551b816afbe519c9b20f734d2865ee42eacb0ab953b69c04"
+    "sha256": "edf692cc276c88bbf5ff1e2e79d0b2cc0a2e2cb48f7d6bee9c60db23d0b4dda5"
   },
   "template": {
     "path": "specs/submission-readiness/pyopensci-submission-template.json",
-    "sha256": "2752e418aacc5cf11a1953c9df5944ad6e829e8e5c0656292fe7e98d39490025",
-    "upstream_commit": "df24b7c63a589ff5d82a30e42f1d11b8aa1b5927",
-    "upstream_content_sha256": "43b69c9633967e16bcb68435ba0306911f266de554eaf63345c852407d63aea4"
+    "sha256": "c631833398cf69febc2376d8abad2695788bfd9e2d318652b3b11cdd65d323b7",
+    "upstream_commit": "bdc87671b60fdef417f0fea1619a338c715bb42b",
+    "upstream_content_sha256": "83b484e506ddf72e02a8dacacba350e032a72c47d112a4e54bedb6982556ce4d"
   },
   "candidate": {
     "path": "specs/submission-readiness/pyopensci-submission-candidate.json",
@@ -54,6 +54,7 @@
   },
   "remaining_gates": [
     "maintainer completes the pre-review survey and supplies human-written submission text",
+    "maintainer assesses current template disclosures and confirmations for the exact submitted material",
     "pyOpenSci performs scope and capacity screening, review and acceptance; previous requests #271 and #272 are withdrawn",
     "before JOSS submission, issue #471 obtains genuine non-author evidence; arXiv is deferred by maintainer instruction",
     "a DOI-bearing reviewed-version archive is created before the JOSS acceptance stage",

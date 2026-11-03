@@ -480,6 +480,26 @@ def validate_staging_packet(
                 if not isinstance(section, str) or f"## {section}" not in draft
             )
         lines = draft.splitlines()
+        disclosure_heading = (
+            "## Development Best Practices & GenerativeAI Use Disclosure"
+        )
+        if disclosure_heading in draft:
+            disclosure = draft.split(disclosure_heading, 1)[1].split("\n## ", 1)[0]
+            for marker in (
+                "This package has a public development history",
+                "All code in this package has been",
+                "All communication on this issue will be written by a human",
+                "Generative AI tools were used to develop and maintain this package",
+            ):
+                matches = [
+                    line
+                    for line in disclosure.splitlines()
+                    if re.match(rf"^- \[.*?\] {re.escape(marker)}", line)
+                ]
+                if len(matches) != 1 or not matches[0].startswith(f"- [ ] {marker}"):
+                    findings.append(
+                        "current template disclosures must remain pending assessment"
+                    )
         checkbox_markers_valid = True
         for canonical_marker, key in DRAFT_ATTESTATION_MARKERS.items():
             marker = canonical_marker
