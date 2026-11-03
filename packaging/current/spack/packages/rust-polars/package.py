@@ -345,6 +345,7 @@ class RustPolars(Package):
 
         # Disable bootstrap LLVM download.
         opts.append("llvm.download-ci-llvm=false")
+        opts.append("llvm.link-jobs=1")
         if any(
             spec.satisfies(v) for v in ("@=nightly-2026-09-01", "@=1.96.0", "@=1.99.1")
         ):

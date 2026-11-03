@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: Apache-2.0
+# Authenticated upstream stage0 input; not a source-built compiler output.
+easyblock = "Binary"
+name = "RustBootstrap"
+version = "1.98.0"
+homepage = "https://www.rust-lang.org/"
+description = "Authenticated Linux x86-64 stage0 SDK input for source Rust builds."
+toolchain = SYSTEM
+sources = ["https://static.rust-lang.org/dist/2026-08-20/rust-1.98.0-x86_64-unknown-linux-gnu.tar.xz"]
+checksums = ["ed8ee2df70909c88cbaf87a6cfa3920dac00b537de12a6abe6906641e0f5952f"]
+extract_sources = True
+install_cmd = "bash ./install.sh --prefix=%(installdir)s --components=rustc,cargo,rust-std-x86_64-unknown-linux-gnu --disable-ldconfig"
+prepend_to_path = ["bin"]
+sanity_check_paths = {"files": ["bin/rustc", "bin/cargo"], "dirs": ["lib/rustlib"]}
+sanity_check_commands = ["rustc --version", "cargo --version"]
+moduleclass = "tools"

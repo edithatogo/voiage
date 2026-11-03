@@ -184,3 +184,15 @@ is running yet. Next: prove complete package-manager fetch/checksum resolution
 and network-denied replay before any installed compiler/build dispatch. Both
 EasyBuild generations and the Spack root remain required. Existing combined
 tox receipts are retained; new automation receives focused and hosted checks.
+
+## Installed qualification preparation — 3 November 2026
+
+Chat `01a1a104-80d7-7501-86bd-85be63cb2cab` owns the next compiler/bootstrap
+and installed-runner packet on `codex/hpc-installed-qualification-20261103` in
+`/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-scoped-delivery-20261103`.
+Scope: current bootstrap easyconfigs, compiler resource controls, native driver
+and affected tests. The source-preflight packet remains separately in PR #1266.
+Its 2024a replay passed; 2023a is still running. No installed build is active.
+Next: make bootstrap SDK inputs explicit and review effective package-manager
+compiler settings before guarded, network-denied installation. Earlier ownership
+assignments remain historical; other checkouts and operations retain their owners.
