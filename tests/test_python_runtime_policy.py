@@ -58,4 +58,5 @@ def test_tox_selects_the_qualified_patch_before_creating_environments() -> None:
         for section in config.sections()
         if "base_python" in config[section]
     }
-    assert selected == {qualified}
+    assert selected == {"{env:VOIAGE_TOX_PYTHON:" + qualified + "}"}
+    assert config["testenv"]["runner"] == "virtualenv"

@@ -1,5 +1,8 @@
 # Changelog
 
+- Use tox’s virtualenv runner and an explicit repo-local interpreter setting to
+  keep every environment on qualified Python 3.15.1.
+
 - Add opt-in authenticated Rust/LLVM source-build qualification on GitHub Actions,
   with complete upstream vendor/notice closure, offline native stages and
   descendant cleanup controls. Stable Rust 1.99.1 and the dated nightly now pass

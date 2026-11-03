@@ -57,8 +57,14 @@ the required CI, security, coverage, documentation, and contract checks pass.
 3.  **Verify Changes:**
     *   Use affected tests during iteration, then run the complete local gate once on the final candidate. Bound environment concurrency to avoid oversubscribing test workers:
         ```bash
-        tox run-parallel -p 2
+        # Select the verified repo-local Python 3.15.1 executable.
+        export VOIAGE_TOX_PYTHON="$PWD/.venv/bin/python"
+        "$VOIAGE_TOX_PYTHON" --version
+        .venv/bin/tox run-parallel -p 2
         ```
+    *   On Windows, set `VOIAGE_TOX_PYTHON` to the absolute `.venv/Scripts/python.exe` path.
+        Tox uses the virtualenv runner so named environments such as `py315`
+        retain the explicit interpreter rather than uv resolving a newer patch.
     *   Fix any errors reported by `tox` before proceeding.
     *   Run the repository-owned security and workflow harness directly when
         changing CI or release automation:
