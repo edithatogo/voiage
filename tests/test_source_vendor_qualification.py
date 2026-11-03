@@ -373,7 +373,9 @@ def test_oversized_fetch_cleans_only_its_owned_partial(
     assert partial.read_bytes() == b"existing foreign partial"
 
 
-def test_symlinked_source_cache_is_rejected_without_touching_target(tmp_path: Path) -> None:
+def test_symlinked_source_cache_is_rejected_without_touching_target(
+    tmp_path: Path,
+) -> None:
     target = tmp_path / "other-cache"
     target.mkdir()
     archive = target / "source.tar.gz"
