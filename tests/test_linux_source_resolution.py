@@ -193,3 +193,26 @@ def test_flexiblas_resolves_authenticated_release_source(
     }
     assert url in strings
     assert checksum in strings
+
+
+def test_hook_accepts_exact_authenticated_lock_patch_outside_cache(
+    tmp_path: Path, monkeypatch
+) -> None:
+    repository = Path(__file__).resolve().parents[1]
+    inputs = json.loads(
+        (repository / "packaging/current/source-vendor-inputs.json").read_text()
+    )
+    patch = inputs["entries"]["polars-runtime-32"]["lock_patch"]
+    monkeypatch.setenv("VOIAGE_SOURCE_ROOTS", str(tmp_path))
+    monkeypatch.setenv("VOIAGE_SOURCE_RECEIPTS", str(tmp_path / "receipts"))
+    app = SimpleNamespace(
+        name="polars",
+        version="2.1.0",
+        toolchain=SimpleNamespace(name="system", version=""),
+        src=[],
+        patches=[{"path": str(repository / patch["path"])}],
+        exts=[],
+    )
+    post_fetch_hook(app)
+    receipt = json.loads(next((tmp_path / "receipts").glob("*.json")).read_text())
+    assert receipt["sources"][0]["sha256"] == patch["sha256"]

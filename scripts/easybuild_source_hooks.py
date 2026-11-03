@@ -41,7 +41,22 @@ def post_fetch_hook(app: Any) -> None:
         if extension.get("src"):
             entries.append({"path": extension["src"]})
         entries.extend(extension.get("patches", []))
-    records = [resolved_file(Path(entry["path"]), roots) for entry in entries]
+    repository = Path(__file__).resolve().parents[1]
+    inputs = json.loads(
+        (repository / "packaging/current/source-vendor-inputs.json").read_text()
+    )
+    patches = {
+        repository / entry["lock_patch"]["path"]: entry["lock_patch"]["sha256"]
+        for entry in inputs["entries"].values()
+        if "lock_patch" in entry
+    }
+    records = []
+    for entry in entries:
+        path = Path(entry["path"])
+        if path in patches:
+            records.append(resolved_file(path, [repository], patches[path]))
+        else:
+            records.append(resolved_file(path, roots))
     output = Path(os.environ["VOIAGE_SOURCE_RECEIPTS"])
     output.mkdir(parents=True, exist_ok=True)
     name = f"{app.name}-{app.version}-{app.toolchain.name}-{app.toolchain.version}"
