@@ -5,6 +5,8 @@ on:
     paths:
       - ".github/workflows/linux-graph-qualification.yml"
       - "scripts/qualify_linux_graph.sh"
+      - "scripts/qualify_linux_sources.sh"
+      - "scripts/easybuild_source_hooks.py"
       - "scripts/guard_verification.py"
       - "scripts/qualify_hpc_source.py"
       - "specs/dependency-runtime-policy.json"
@@ -16,6 +18,8 @@ on:
     paths:
       - ".github/workflows/linux-graph-qualification.yml"
       - "scripts/qualify_linux_graph.sh"
+      - "scripts/qualify_linux_sources.sh"
+      - "scripts/easybuild_source_hooks.py"
       - "scripts/guard_verification.py"
       - "scripts/qualify_hpc_source.py"
       - "specs/dependency-runtime-policy.json"
@@ -24,12 +28,18 @@ on:
       - "uv.lock"
       - ".python-version"
   workflow_dispatch:
+    inputs:
+      qualification:
+        description: Qualification scope (installed acceptance remains separate)
+        type: choice
+        options: [graph, sources]
+        default: graph
 permissions:
   contents: read
 jobs:
   graph:
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 110
     strategy:
       fail-fast: false
       matrix:
@@ -66,11 +76,16 @@ jobs:
       - name: Qualify graph with resource limits
         env:
           CELL: ${{ matrix.cell }}
+          QUALIFICATION: ${{ inputs.qualification || 'graph' }}
         run: |
           export PATH="$PWD/.venv/bin:$PWD/.graph-tools/spack/bin:$PATH"
           export SPACK_PYTHON="$PWD/.venv/bin/python"
           mkdir -p receipts/graph
-          .venv/bin/python scripts/guard_verification.py --work-dir receipts/resources --workload-id "$CELL" --max-rss-mib 6000 --timeout-seconds 900 --min-free-mib 1024 --artifact-dir receipts/graph -- bash scripts/qualify_linux_graph.sh "$CELL" "$PWD/receipts/graph"
+          if [[ "$QUALIFICATION" == sources ]]; then
+            .venv/bin/python scripts/guard_verification.py --work-dir receipts/resources --workload-id "$CELL-sources" --max-rss-mib 12288 --timeout-seconds 5400 --min-free-mib 8192 --artifact-dir receipts/graph -- bash scripts/qualify_linux_sources.sh "$CELL" "$PWD/receipts/graph"
+          else
+            .venv/bin/python scripts/guard_verification.py --work-dir receipts/resources --workload-id "$CELL" --max-rss-mib 6000 --timeout-seconds 900 --min-free-mib 1024 --artifact-dir receipts/graph -- bash scripts/qualify_linux_graph.sh "$CELL" "$PWD/receipts/graph"
+          fi
       - name: Retain terminal graphs and resource receipts
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a

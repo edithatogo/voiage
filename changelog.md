@@ -1,5 +1,8 @@
 # Changelog
 
+- Add opt-in full-graph HPC source fetching, resolved source receipts and
+  network-denied replay before installed Spack and EasyBuild qualification.
+
 - Refresh the unposted pyOpenSci packet with the current AI disclosure fields
   and reject unchecked review prompts being promoted to new confirmations.
 
