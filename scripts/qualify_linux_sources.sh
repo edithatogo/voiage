@@ -7,6 +7,7 @@ case "$cell" in spack|easybuild-2023a|easybuild-2024a) ;; *) exit 2 ;; esac
 work="${RUNNER_TEMP:?Linux runner private temporary directory required}/voiage-sources-$cell"
 mkdir "$work" # A prior run is evidence, never an implicit mutable cache.
 mkdir -p "$out"
+trap 'status=$?; printf "{\"source_replay_passed\":false,\"installed_acceptance\":false,\"reason\":\"source_preflight_failed\",\"exit_code\":%d}\n" "$status" > "$out/result.json"; exit "$status"' ERR
 export VOIAGE_SOURCE_WORK="$work"
 bash scripts/qualify_linux_graph.sh "$cell" "$out/graph"
 
@@ -44,13 +45,16 @@ if [[ "$cell" == spack ]]; then
   mkdir -p "$work/cache"
   for cache in cache mirror; do
     .venv/bin/python scripts/source_cache_manifest.py "$work/$cache" "$out/$cache-manifest.json"
-    .venv/bin/python scripts/source_cache_manifest.py "$work/$cache" "$out/$cache-manifest.json" --check
   done
   spack mirror add --scope user qualified "file://$work/mirror"
+  for cache in cache mirror; do
+    .venv/bin/python scripts/source_cache_manifest.py "$work/$cache" "$out/$cache-manifest.json" --check
+  done
   # With no spec argument, supported Spack stage traverses the concrete DAG.
   # --path aliases resources; --dependencies is not a supported stage option.
   "${offline[@]}" "$(command -v spack)" -e "$work/environment" stage > "$out/offline-stage.log" 2>&1
   .venv/bin/python scripts/source_cache_manifest.py "$work/mirror" "$out/mirror-manifest.json" --check
+  .venv/bin/python scripts/source_cache_manifest.py "$work/cache" "$out/cache-manifest.json" --check --mirror-manifest "$out/mirror-manifest.json" --after-manifest "$out/cache-after-manifest.json"
   PYTHONPATH="$PWD" spack -e "$work/environment" python scripts/spack_source_witness.py "$work" "$out"
   spack -e "$work/environment" config get > "$out/effective-config.yaml"
 else

@@ -46,3 +46,24 @@ then exposed an unavailable GNU auxiliary download in 2023a; a fixed-revision
 mirror matches EasyBuild's existing config.guess SHA-256. A real ConfigureMake
 fetch accepts both source and staged helper without a download. Run 41644344038
 runs only 2023a while the existing 2024a job retains its own operation.
+
+Both EasyBuild cells now passed complete authenticated fetching and
+network-denied receipt replay: 2024a in run 41643861789 and 2023a in run
+41644344038. Durable resolved-source inventories are retained in
+`evidence/full-sources-20261103/easybuild-final-manifest.json.gz`.
+
+Hosted review fixes retain structured failure receipts, explicit CLI usage
+and complete helper path filters. The Spack cache starts empty and legitimately
+gains mirror copies during staging, so a post-replay exact-empty comparison
+would be wrong. Replay now preserves every frozen cache entry and admits new
+entries only when their bytes match the authenticated mirror; it retains the
+post-replay inventory too. Forty-one affected controls pass, including missing,
+changed and unauthenticated cache cases.
+
+Two automated suggestions are rejected with concrete evidence. A refused
+connection or timeout also occurs on a functioning network and cannot replace
+ENETUNREACH as isolation proof. The successful Ubuntu namespace receipts bind
+the observed error. EasyBuild 5.4.2 collect_exts_file_info calls fetch_patches,
+which returns patch dictionaries; the source inspection and successful full
+fetches bind that pinned contract. Raw easyconfig patch strings are not the
+resolved post-fetch shape, so accepting them here would obscure malformed input.

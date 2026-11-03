@@ -1,0 +1,76 @@
+{
+  "peak_rss_kib": 143332,
+  "reason": "completed",
+  "returncode": 0,
+  "disk": {
+    "sampling_interval_seconds": 2,
+    "filesystems": [
+      {
+        "device": 2049,
+        "paths": [
+          "/home/runner/work/voiage/voiage/receipts/resources",
+          "/home/runner/work/voiage"
+        ],
+        "samples": 235,
+        "start_free_bytes": 91291811840,
+        "min_free_bytes": 89450733568,
+        "total_bytes": 154894188544,
+        "end_free_bytes": 89469644800
+      }
+    ],
+    "artifacts_before": [
+      {
+        "path": "/home/runner/work/voiage/voiage/receipts/graph",
+        "status": "measured",
+        "regular_file_bytes": 0,
+        "allocated_bytes": 4096,
+        "symlinks_skipped": 0,
+        "cross_device_skipped": 0
+      }
+    ],
+    "artifacts_after": [
+      {
+        "path": "/home/runner/work/voiage/voiage/receipts/graph",
+        "status": "measured",
+        "regular_file_bytes": 2927656,
+        "allocated_bytes": 3788800,
+        "symlinks_skipped": 0,
+        "cross_device_skipped": 0
+      }
+    ],
+    "physical_capacity_qualified": false,
+    "limitations": [
+      "Sampled free space can miss short peaks and includes unrelated activity.",
+      "Directory snapshots are not peaks; allocated blocks may be shared.",
+      "VM capacity requires separate guest and host-backing evidence.",
+      "Cache state and additional configuration are operator declarations."
+    ]
+  },
+  "workload": {
+    "id": "easybuild-2023a-sources",
+    "cache_state": "unknown",
+    "command": [
+      "bash",
+      "scripts/qualify_linux_sources.sh",
+      "easybuild-2023a",
+      "/home/runner/work/voiage/voiage/receipts/graph"
+    ],
+    "python": "3.15.1 (main, Oct 21 2026, 17:48:50) [Clang 23.1.3 ]",
+    "executable": "/home/runner/work/voiage/voiage/.venv/bin/python",
+    "source_root": "/home/runner/work/voiage/voiage",
+    "source_head": "8760b83f40800b50877f37f9d03120ed25beb3ad",
+    "source_tree": "c786f4ec9baf4a3587b3ed525201574be98035e9",
+    "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "untracked_paths": [
+      ".graph-tools/easyconfigs/"
+    ],
+    "configuration_sha256": {
+      "uv.lock": "3416ffe175d6171959ea26064f368e48d7129eb9014386c1410f6b05d7ef463c",
+      "pyproject.toml": "285123be46b49099e778ae659619386a262d8bf798b3713eed2f4f72027dddc4",
+      "tox.ini": "75d733fc99623b792474474f72e90631156cc17f02fbd2f6fdb8b9e3bd2a4716"
+    },
+    "declared_configuration": {}
+  },
+  "elapsed_seconds": 468.119,
+  "temporary_directory": "/home/runner/work/voiage/.voiage-verification-qizqu708"
+}

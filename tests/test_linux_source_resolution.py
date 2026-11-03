@@ -3,14 +3,16 @@
 import ast
 import hashlib
 import json
+import os
 from pathlib import Path
+import subprocess
 from types import SimpleNamespace
 
 import pytest
 
 from scripts import spack_source_witness
 from scripts.easybuild_source_hooks import post_fetch_hook, resolved_file
-from scripts.source_cache_manifest import inventory
+from scripts.source_cache_manifest import inventory, validate_replay_cache
 
 
 def test_resolved_source_binds_actual_bytes(tmp_path: Path) -> None:
@@ -216,3 +218,63 @@ def test_hook_accepts_exact_authenticated_lock_patch_outside_cache(
     post_fetch_hook(app)
     receipt = json.loads(next((tmp_path / "receipts").glob("*.json")).read_text())
     assert receipt["sources"][0]["sha256"] == patch["sha256"]
+
+
+def test_source_driver_retains_structured_failure(tmp_path: Path) -> None:
+    repository = Path(__file__).resolve().parents[1]
+    scripts = tmp_path / "scripts"
+    scripts.mkdir()
+    (scripts / "qualify_linux_graph.sh").write_text("exit 23\n")
+    runner = tmp_path / "runner"
+    runner.mkdir()
+    output = tmp_path / "receipts"
+    result = subprocess.run(
+        [
+            "/bin/bash",
+            str(repository / "scripts/qualify_linux_sources.sh"),
+            "spack",
+            str(output),
+        ],
+        cwd=tmp_path,
+        env=dict(os.environ, RUNNER_TEMP=str(runner)),
+        capture_output=True,
+        check=False,
+    )
+    assert result.returncode == 23
+    receipt = json.loads((output / "result.json").read_text())
+    assert receipt["source_replay_passed"] is False
+    assert receipt["installed_acceptance"] is False
+    assert receipt["exit_code"] == 23
+
+
+def test_spack_witness_argument_error_has_usage(monkeypatch, capsys) -> None:
+    monkeypatch.setattr(spack_source_witness.sys, "argv", ["probe"])
+    with pytest.raises(SystemExit) as error:
+        spack_source_witness.main()
+    assert error.value.code == 2
+    assert "usage:" in capsys.readouterr().err
+
+
+def test_replay_cache_allows_only_frozen_mirror_additions() -> None:
+    original = [{"path": "original", "sha256": "a"}]
+    mirror = [{"path": "mirror", "sha256": "b"}]
+    validate_replay_cache(
+        original, [*original, {"path": "copy", "sha256": "b"}], mirror
+    )
+
+
+@pytest.mark.parametrize(
+    "after",
+    [
+        [],
+        [{"path": "original", "sha256": "changed"}],
+        [{"path": "original", "sha256": "a"}, {"path": "extra", "sha256": "untrusted"}],
+    ],
+)
+def test_replay_cache_rejects_changed_missing_and_untrusted_entries(after) -> None:
+    with pytest.raises(ValueError, match="cache"):
+        validate_replay_cache(
+            [{"path": "original", "sha256": "a"}],
+            after,
+            [{"path": "mirror", "sha256": "b"}],
+        )

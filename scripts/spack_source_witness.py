@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import importlib
 import json
 from pathlib import Path
@@ -25,7 +26,11 @@ def staged_source(path: Path, work: Path) -> dict:
 
 def main() -> None:
     """Execute inside the qualified Spack Python runtime and active environment."""
-    work, output = (Path(arg) for arg in sys.argv[1:])
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("work", type=Path)
+    parser.add_argument("output", type=Path)
+    args = parser.parse_args(sys.argv[1:])
+    work, output = args.work, args.output
     environment = importlib.import_module("spack.environment").active_environment()
     traverse = importlib.import_module("spack.traverse").traverse_nodes
     authenticated = {
