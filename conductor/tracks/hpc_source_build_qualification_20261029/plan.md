@@ -163,3 +163,14 @@ remain required for the integrated revision.
 Current ownership and review disposition are in
 [handoff.md](handoff.md) and
 [review-source-vendor-20261102.md](review-source-vendor-20261102.md).
+
+## Installed compiler input preparation — 3 November 2026
+
+The next scoped packet declares the already authenticated stable and beta
+stage0 SDKs as explicit EasyBuild build dependencies, preserving source-built
+compiler requirements for both generations. Both Spack compiler providers and
+all four EasyBuild source compiler recipes constrain LLVM linking to one job.
+Eight source-contract controls pass; bounded agent review found no blocker.
+Native graph/source, actual SDK installation, effective compiler settings and
+full installed-module witnesses remain required. No binary SDK is promoted to
+a source-built compiler output.

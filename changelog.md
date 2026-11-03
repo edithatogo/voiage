@@ -1,5 +1,8 @@
 # Changelog
 
+- Declare checksum-bound Rust bootstrap SDK inputs for both EasyBuild
+  generations and bound LLVM linking to one job in current HPC compiler recipes.
+
 - Add opt-in full-graph HPC source fetching, resolved source receipts and
   network-denied replay before installed Spack and EasyBuild qualification.
 
