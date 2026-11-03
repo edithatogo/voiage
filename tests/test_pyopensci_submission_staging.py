@@ -79,7 +79,7 @@ def test_template_provenance_is_exact() -> None:
     assert template["state"] == "reference_only_unposted"
     assert template["submission_performed"] is False
     assert upstream["repository"] == "pyOpenSci/software-submission"
-    assert upstream["commit"] == "df24b7c63a589ff5d82a30e42f1d11b8aa1b5927"
+    assert upstream["commit"] == "bdc87671b60fdef417f0fea1619a338c715bb42b"
     baseline_path = next(
         path
         for state in ("tracks", "archive")
@@ -94,10 +94,10 @@ def test_template_provenance_is_exact() -> None:
     baseline = _load(baseline_path)["live_official_inputs"][
         "pyopensci_submission_template"
     ]
-    assert upstream["commit"] == baseline["latest_path_commit"]
-    assert upstream["blob_sha"] == baseline["blob_sha"]
+    assert template["previous_upstream"]["commit"] == baseline["latest_path_commit"]
+    assert template["previous_upstream"]["blob_sha"] == baseline["blob_sha"]
     assert upstream["content_sha256"] == (
-        "43b69c9633967e16bcb68435ba0306911f266de554eaf63345c852407d63aea4"
+        "83b484e506ddf72e02a8dacacba350e032a72c47d112a4e54bedb6982556ce4d"
     )
 
 
@@ -632,3 +632,45 @@ def test_confirmation_requires_scoped_immutable_evidence(
         binding["sha256"] = hashlib.sha256(receipt_path.read_bytes()).hexdigest()
     manifest.write_text(json.dumps(staging), encoding="utf-8")
     assert validate_staging_packet(root)
+
+
+def test_current_template_disclosure_fields_remain_unconfirmed() -> None:
+    """Template refresh must not turn historical confirmations into new attestations."""
+    draft = DRAFT.read_text(encoding="utf-8")
+    section = draft.split(
+        "## Development Best Practices & GenerativeAI Use Disclosure", 1
+    )[1].split("\n## ", 1)[0]
+    for marker in (
+        "This package has a public development history",
+        "All code in this package has been",
+        "All communication on this issue will be written by a human",
+        "Generative AI tools were used to develop and maintain this package",
+    ):
+        assert f"- [ ] {marker}" in section
+    assert "### Please list the tools and frameworks" in section
+    assert "### Describe the nature and scope" in section
+    assert "### If you have a policy" in section
+    assert _load(STAGING)["action_gates"] == {
+        "pre_review_survey": "pending",
+        "human_written_submission_text": "pending",
+    }
+
+
+@pytest.mark.parametrize(
+    "marker",
+    [
+        "This package has a public development history",
+        "All code in this package has been",
+        "All communication on this issue will be written by a human",
+        "Generative AI tools were used to develop and maintain this package",
+    ],
+)
+def test_template_refresh_rejects_new_confirmation_without_evidence(
+    tmp_path: Path, marker: str
+) -> None:
+    draft = DRAFT.read_text(encoding="utf-8")
+    root = _staged_packet(tmp_path, draft.replace(f"- [ ] {marker}", f"- [x] {marker}"))
+    assert any(
+        "current template disclosures" in finding
+        for finding in validate_staging_packet(root)
+    )

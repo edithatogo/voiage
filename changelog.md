@@ -1,5 +1,8 @@
 # Changelog
 
+- Refresh the unposted pyOpenSci packet with the current AI disclosure fields
+  and reject unchecked review prompts being promoted to new confirmations.
+
 - Reject a symlinked cache directory when qualifying authenticated HPC source archives.
 
 - Add opt-in authenticated Rust/LLVM source-build qualification on GitHub Actions,
