@@ -62,6 +62,25 @@ else
   VOIAGE_QUALIFIED_SOURCE_SHA256=$(sha256sum "$VOIAGE_QUALIFIED_SOURCE_ARCHIVE" | cut -d ' ' -f1)
   export VOIAGE_SOURCE_ROOTS="$work/sources:$PWD/packaging/current/easybuild:$PWD/.graph-tools/easyconfigs/easybuild/easyconfigs:$out/graph/source-dist"
   mkdir "$work/sources"
+  # Seed EasyBuild's exact auxiliary helper before its optional GNU download.
+  # The fixed mirror revision must match EasyBuild's own pinned SHA-256.
+  .venv/bin/python - "$work/sources" "$out/config-guess-source.json" <<'PY'
+import json
+from pathlib import Path
+import sys
+from easybuild.easyblocks.generic.configuremake import CONFIG_GUESS_COMMIT_ID, CONFIG_GUESS_SHA256
+from easybuild.easyblocks.generic.configuremake import EASYBLOCKS_VERSION
+from scripts.qualify_source_vendor import fetch, digest
+entry = {
+    "filename": "config.guess",
+    "url": f"https://raw.githubusercontent.com/chipp/gnu-config/{CONFIG_GUESS_COMMIT_ID}/config.guess",
+    "sha256": CONFIG_GUESS_SHA256,
+}
+cache = Path(sys.argv[1]) / "generic" / f"eb_v{EASYBLOCKS_VERSION}" / "ConfigureMake"
+path = fetch(entry, cache)
+path.chmod(0o755)
+Path(sys.argv[2]).write_text(json.dumps(dict(entry, resolved_path=str(path), observed_sha256=digest(path)), indent=2) + "\n")
+PY
   args=("$out/graph/root.eb" --robot --minimal-toolchains "--robot-paths=$robot" --fetch --enforce-checksums --trace
     "--sourcepath=$work/sources" "--buildpath=$work/build" "--prefix=$work/prefix"
     "--hooks=$PWD/scripts/easybuild_source_hooks.py" --parallel=4 --max-parallel=4)
