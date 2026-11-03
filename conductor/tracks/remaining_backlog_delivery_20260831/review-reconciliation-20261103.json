@@ -1,0 +1,42 @@
+{
+  "observed_at": "2026-11-03T11:35:13Z",
+  "reviewed_head": "898cb5cd1c773826a7839e0ed34423906591888e",
+  "owner_chat": "01a1a104-80d7-7501-86bd-85be63cb2cab",
+  "worktree": "/Users/doughnut/.codex/worktrees/hpc-arrow-qualification/voiage",
+  "branch": "codex/hpc-arrow-qualification-20261103",
+  "scope": "Reconcile parent HPC status against merged graph/source/compiler receipts; preserve incomplete acceptance",
+  "receipt_checks": [
+    {
+      "manifest": "conductor/tracks/hpc_source_build_qualification_20261029/evidence/linux-graph-20261102/final/manifest.json",
+      "sha256": "a4e05399322cd91b1c6a9109a6610db1c1bd5a036bfdfa1ed8cea6febfd0a305",
+      "file_bindings_verified": 26,
+      "stored_and_declared_original_digests_verified": true
+    },
+    {
+      "manifest": "conductor/tracks/hpc_source_build_qualification_20261029/evidence/linux-source-vendor-20261102/manifest.json",
+      "sha256": "33e16df2b87c549f0dce90b0c743422c520b7d5069887db0a946f195ff471489",
+      "file_bindings_verified": 223,
+      "stored_and_declared_original_digests_verified": true
+    },
+    {
+      "manifest": "conductor/tracks/hpc_source_build_qualification_20261029/evidence/native-rust-llvm-20261102/manifest.json",
+      "sha256": "2211cfee76f88e9d08472e3413a0e4fead202e520ce2bbf503a84e29581731d0",
+      "file_bindings_verified": 704,
+      "stored_and_declared_original_digests_verified": true
+    }
+  ],
+  "files_verified": 953,
+  "native_build_active_locally": false,
+  "source_compiler_binaries_retained": false,
+  "full_installed_hpc_matrix_accepted": false,
+  "full_local_gate": "blocked_insufficient_free_space; latest observed approximately 191 MiB",
+  "hosted_delivery_for_local_commits": "pending",
+  "archive_criteria_satisfied": false,
+  "remaining": [
+    "Package-manager resolved source paths and offline execution",
+    "Bind source-compiler settings to actual Spack/EasyBuild toolchains",
+    "Full Spack and both EasyBuild installed numerical/Arrow/Polars/linkage/module/isolation witnesses",
+    "B8 local/hosted delivery gates",
+    "B12 preservation-backed cleanup and B13/B14 final inventories and validation"
+  ]
+}

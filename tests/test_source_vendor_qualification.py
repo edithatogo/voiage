@@ -371,3 +371,25 @@ def test_oversized_fetch_cleans_only_its_owned_partial(
     with pytest.raises(FileExistsError):
         fetch(source, tmp_path)
     assert partial.read_bytes() == b"existing foreign partial"
+
+
+def test_symlinked_source_cache_is_rejected_without_touching_target(
+    tmp_path: Path,
+) -> None:
+    target = tmp_path / "other-cache"
+    target.mkdir()
+    archive = target / "source.tar.gz"
+    archive.write_bytes(b"source")
+    cache = tmp_path / "cache"
+    cache.symlink_to(target, target_is_directory=True)
+    with pytest.raises(ValueError, match="Shadowed"):
+        fetch(
+            {
+                "filename": archive.name,
+                "url": "https://example.org/source.tar.gz",
+                "sha256": hashlib.sha256(b"source").hexdigest(),
+            },
+            cache,
+            offline=True,
+        )
+    assert archive.read_bytes() == b"source"
