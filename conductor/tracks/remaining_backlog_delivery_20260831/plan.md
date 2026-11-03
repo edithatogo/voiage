@@ -34,6 +34,13 @@
     binding `1d9be54d`; upstream licensing retained separately. See the dated
     compiler receipt and review. All 15 local tox environments pass; protected
     PR #1215 delivery is accepted; this is not native build acceptance.
+    Later merged checkpoints: PR #1260 resolves all three Linux graphs;
+    PR #1261 qualifies the bounded source/vendor closure; PR #1262 builds
+    and probes both baseline source Rust/LLVM roles. The 3 November review
+    verified 953 retained file bindings, including declared decompressed bytes.
+    Compiler binaries were not retained. Effective package-manager settings
+    and full installed/generation-isolation acceptance remain open; see
+    [review reconciliation](./review-reconciliation-20261103.json).
 - [x] B7: Complete remaining R, governance, identifier and venue preparation;
   retain external acceptance requirements (AC2, AC4).
 - [~] B8: Review all changes, run full tox and relevant language-native checks,
