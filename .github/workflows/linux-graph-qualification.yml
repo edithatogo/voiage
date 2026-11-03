@@ -34,6 +34,11 @@ on:
         type: choice
         options: [graph, sources, full-tox]
         default: graph
+      cells:
+        description: Source/graph cells to execute; reuse unchanged receipts
+        type: choice
+        options: [all, spack, easybuild]
+        default: all
 permissions:
   contents: read
 jobs:
@@ -44,7 +49,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        cell: [spack, easybuild-2023a, easybuild-2024a]
+        cell: ${{ fromJSON(inputs.cells == 'spack' && '["spack"]' || inputs.cells == 'easybuild' && '["easybuild-2023a","easybuild-2024a"]' || '["spack","easybuild-2023a","easybuild-2024a"]') }}
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
@@ -103,6 +108,7 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           persist-credentials: false
+          fetch-depth: 0
           submodules: recursive
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
