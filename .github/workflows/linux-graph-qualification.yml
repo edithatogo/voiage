@@ -80,6 +80,9 @@ jobs:
           if [[ "$QUALIFICATION" == installed || "$QUALIFICATION" == installed-controls ]]; then
             sudo apt-get update -qq
             sudo apt-get install -y time
+            if [[ "$QUALIFICATION" == installed && "$CELL" != spack ]]; then
+              sudo apt-get install -y libibverbs-dev
+            fi
             uv pip install --python .venv/bin/python pytest==9.1.1
           fi
           mkdir .graph-tools
