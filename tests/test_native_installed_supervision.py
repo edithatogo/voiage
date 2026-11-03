@@ -95,4 +95,5 @@ def test_aggregate_stop_owns_privileged_monitor_and_detached_native_child(
                 or process.status() == psutil.STATUS_ZOMBIE
             )
         except psutil.NoSuchProcess:
+            # A reaped process is the expected successful cleanup outcome.
             pass

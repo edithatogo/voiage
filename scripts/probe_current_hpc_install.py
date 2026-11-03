@@ -56,14 +56,14 @@ def main() -> None:
     import pyarrow.parquet as pq
 
     import voiage
-    from voiage import _core
+    import voiage._core
     from voiage.methods.basic import evpi
     from voiage.schema import ValueArray
 
     paths = [
         sys.executable,
         voiage.__file__,
-        _core.__file__,
+        voiage._core.__file__,
         np.__file__,
         pa.__file__,
         pl.__file__,
@@ -72,7 +72,7 @@ def main() -> None:
         not Path(path).resolve(strict=True).is_relative_to(prefix) for path in paths
     ):
         raise ValueError("Installed imports escape selected prefix")
-    info = _core.runtime_info()
+    info = voiage._core.runtime_info()
     if (
         metadata.version("voiage") != "2.2.0"
         or info["engine"] != "rust"
@@ -102,7 +102,7 @@ def main() -> None:
     if not pq.read_table(pa.BufferReader(parquet.getvalue())).equals(table):
         raise ValueError("Installed Parquet schema/null round trip failed")
 
-    objects = [Path(_core.__file__)]
+    objects = [Path(voiage._core.__file__)]
     for name in ("pyarrow", "polars-runtime-32"):
         distribution = metadata.distribution(name)
         candidates = [
