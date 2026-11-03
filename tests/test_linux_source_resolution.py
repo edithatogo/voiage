@@ -1,9 +1,10 @@
 """Challenge resolved source boundaries before native dispatch."""
 
+import ast
 import hashlib
 import json
+from pathlib import Path
 from types import SimpleNamespace
-lazy from pathlib import Path
 
 import pytest
 
@@ -159,3 +160,36 @@ def test_staged_source_allows_only_private_cache_aliases(
     else:
         with pytest.raises(ValueError, match="frozen cache"):
             spack_source_witness.staged_source(stage, work)
+
+
+@pytest.mark.parametrize(
+    ("generation", "recipe", "url", "checksum"),
+    [
+        (
+            "2023a",
+            "FlexiBLAS-3.3.1-GCC-12.3.0.eb",
+            "https://csc.mpi-magdeburg.mpg.de/mpcsc/software/flexiblas/",
+            "bbeebf5e5a006924558fec43f49affbe1aaa4cbacfc472a9ff6066ffda142e18",
+        ),
+        (
+            "2024a",
+            "FlexiBLAS-3.4.4-GCC-13.3.0.eb",
+            "https://github.com/mpimd-csc/flexiblas/releases/download/v3.4.4/",
+            "05040ae092142dd0bf38d1bb9ce33f6b475d9f9bb455e33be997932ae855c22b",
+        ),
+    ],
+)
+def test_flexiblas_resolves_authenticated_release_source(
+    generation: str, recipe: str, url: str, checksum: str
+) -> None:
+    root = Path(__file__).resolve().parents[1]
+    tree = ast.parse(
+        (root / "packaging/current/easybuild" / generation / recipe).read_text()
+    )
+    strings = {
+        node.value
+        for node in ast.walk(tree)
+        if isinstance(node, ast.Constant) and isinstance(node.value, str)
+    }
+    assert url in strings
+    assert checksum in strings
