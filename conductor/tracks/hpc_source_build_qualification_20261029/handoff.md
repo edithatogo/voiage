@@ -158,3 +158,17 @@ branch `codex/hpc-arrow-qualification-20261103`, based on `602f2102a`. Scope is
 that assessment and this handoff entry; no native object or build is owned or
 active. The next operation is source-resolution/offline qualification and capture
 of package-manager effective settings. Earlier assignments remain historical.
+
+## Source-cache control — 3 November 2026
+
+The same lane owns `scripts/qualify_source_vendor.py`,
+`tests/test_source_vendor_qualification.py` and its changelog entry for a
+bounded source-cache guard. The new regression failed before the change and
+passes after rejecting a symlink at the cache directory itself. A Python 3.15.1
+macOS run of the four affected source/native-control test files returned 44
+passed and 8 Linux-capability skips. This does not establish protection against
+symlinked ancestors, concurrent replacement, EasyBuild source resolution or
+network isolation. No native build was started. At verification the system
+volume had approximately 2.8 GiB free and the local full gate was not run;
+retain the 8 GiB reserve. Next: qualify exact package-manager resolved paths
+and offline execution on Linux, then complete the full gate and hosted checks.

@@ -1,5 +1,7 @@
 # Changelog
 
+- Reject a symlinked cache directory when qualifying authenticated HPC source archives.
+
 - Add opt-in authenticated Rust/LLVM source-build qualification on GitHub Actions,
   with complete upstream vendor/notice closure, offline native stages and
   descendant cleanup controls. Stable Rust 1.99.1 and the dated nightly now pass
