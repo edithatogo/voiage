@@ -218,3 +218,29 @@ No installed build is running at this checkpoint. The accepted envelope stays
 stage-2 commands are retained. Installed imports, fixed source identity,
 numerical/Arrow/Parquet/Polars probes, selected-prefix linkage and unload checks
 remain actual success conditions; no full matrix acceptance is claimed.
+
+## Installed dispatch and first failure — 4 November 2026
+
+The same chat/worktree owns PR #1267. Four preceding scoped packets merged as
+PRs #1263–#1266. Root/runner/privileged-stage/detached-child cleanup admission
+passed in run 41652588728 (9.06 seconds, cleanup_complete=true), allowing the
+installed matrix dispatch. Source SDK replay passed all three cells in run
+41648385434. The first installed run 41653232566 retains its independent Spack
+operation. Both EasyBuild cells stopped before compilation because the fresh
+runner lacked UCX's declared libibverbs development package; both aggregate
+and stage cleanup completed. Commit 7b3d946a0 adds that OS prerequisite without
+suppressing dependency checks. Run 41655526715 retries only EasyBuild 2023a/2024a.
+Do not dispatch another Spack attempt while the existing operation is active.
+
+Full tox run 41652588718 passed fourteen environments; coverage exposed three
+AST-extraction fixture NameErrors, fixed in b2e91e45e. The subsequent focused
+Python 3.15.1 provider/compiler/probe suite passed 43 tests, with one genuine
+Linux/root capability skip on macOS. Reuse unchanged full-gate environments
+and require current hosted full coverage. PR review also clarified probe imports
+and the expected already-reaped cleanup outcome in 23b69cb18. The Python 3.15
+lazy-import syntax is intentional and passes the qualified interpreter.
+
+Small frozen receipts are retained in `evidence/installed-admission-20261104/`.
+No installed cell or complete native matrix has passed at this checkpoint.
+Next: inspect terminal native receipts, fix only demonstrated failures, then
+merge PR #1267 after current-head required checks, signatures and threads pass.
