@@ -1,19 +1,20 @@
 {
   "schema_version": "voiage.pyopensci-submission-template.v1",
-  "observed_at": "2026-08-30T10:38:10Z",
+  "observed_at": "2026-11-03T11:05:13Z",
   "state": "reference_only_unposted",
   "upstream": {
     "repository": "pyOpenSci/software-submission",
     "path": ".github/ISSUE_TEMPLATE/submit-software-for-review.md",
-    "commit": "df24b7c63a589ff5d82a30e42f1d11b8aa1b5927",
-    "blob_sha": "08f522322b3a57fc2ff3c7ec051e276b9efbe4b6",
-    "size_bytes": 7634,
-    "content_sha256": "43b69c9633967e16bcb68435ba0306911f266de554eaf63345c852407d63aea4",
-    "html_url": "https://github.com/pyOpenSci/software-submission/blob/df24b7c63a589ff5d82a30e42f1d11b8aa1b5927/.github/ISSUE_TEMPLATE/submit-software-for-review.md",
-    "raw_url": "https://raw.githubusercontent.com/pyOpenSci/software-submission/df24b7c63a589ff5d82a30e42f1d11b8aa1b5927/.github/ISSUE_TEMPLATE/submit-software-for-review.md"
+    "commit": "bdc87671b60fdef417f0fea1619a338c715bb42b",
+    "blob_sha": "76f5c4d9bcfa3b57e006ec46b03f4977e6b4f318",
+    "size_bytes": 9072,
+    "content_sha256": "83b484e506ddf72e02a8dacacba350e032a72c47d112a4e54bedb6982556ce4d",
+    "html_url": "https://github.com/pyOpenSci/software-submission/blob/bdc87671b60fdef417f0fea1619a338c715bb42b/.github/ISSUE_TEMPLATE/submit-software-for-review.md",
+    "raw_url": "https://raw.githubusercontent.com/pyOpenSci/software-submission/bdc87671b60fdef417f0fea1619a338c715bb42b/.github/ISSUE_TEMPLATE/submit-software-for-review.md"
   },
   "required_sections": [
     "Code of Conduct & Commitment to Maintain Package",
+    "Development Best Practices & GenerativeAI Use Disclosure",
     "Description",
     "Associated Publication (Optional)",
     "Scope",
@@ -33,12 +34,22 @@
   "supplemental_policy": {
     "url": "https://www.pyopensci.org/software-peer-review/our-process/policies.html",
     "observed_on": "2026-08-30",
-    "template_unchanged": true,
+    "template_unchanged": false,
     "requirements": [
       "human-led development and current human code review",
       "AI tools, generated components, approximate scale and method disclosure",
       "human-written review communication",
       "one submission under review per contact and no concurrent venue review"
     ]
+  },
+  "previous_upstream": {
+    "repository": "pyOpenSci/software-submission",
+    "path": ".github/ISSUE_TEMPLATE/submit-software-for-review.md",
+    "commit": "df24b7c63a589ff5d82a30e42f1d11b8aa1b5927",
+    "blob_sha": "08f522322b3a57fc2ff3c7ec051e276b9efbe4b6",
+    "size_bytes": 7634,
+    "content_sha256": "43b69c9633967e16bcb68435ba0306911f266de554eaf63345c852407d63aea4",
+    "html_url": "https://github.com/pyOpenSci/software-submission/blob/df24b7c63a589ff5d82a30e42f1d11b8aa1b5927/.github/ISSUE_TEMPLATE/submit-software-for-review.md",
+    "raw_url": "https://raw.githubusercontent.com/pyOpenSci/software-submission/df24b7c63a589ff5d82a30e42f1d11b8aa1b5927/.github/ISSUE_TEMPLATE/submit-software-for-review.md"
   }
 }
