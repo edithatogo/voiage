@@ -118,3 +118,26 @@ Receipts include exact source identities, unchanged qualified lock hashes,
 per-package vendor checksums, offline metadata, complete command diagnostics
 and bounded resource reports. Native Rust/LLVM builds and installed full-graph
 scientific acceptance remain separate, open gates.
+
+## Complete package-manager source preflight
+
+The opt-in `Linux dependency graphs` workflow also accepts
+`qualification=sources`, with `cells=all`, `spack`, or `easybuild`. It freezes
+the concrete Spack environment, authenticates its mirror and private cache,
+then stages the entire DAG inside a network namespace without external access.
+Staged archives retain concrete DAG identities and hashes; constrained Spack
+stage-to-cache aliases are recorded rather than mistaken for external inputs.
+EasyBuild fetches each selected generation with checksums enforced, records
+actual source/patch/extension paths through a supported post-fetch hook, and
+compares those receipts with a network-denied replay. The auxiliary
+`config.guess` must resolve too. Failed or unavailable inputs remain failures.
+
+This preflight covers package-manager fetching, not every later bootstrap,
+compiler-generated input, installation or installed-module acceptance. Those
+steps retain their separate source/vendor, configuration and resource gates.
+The source caches and build roots are private to one ephemeral Linux job.
+
+For a capacity-constrained developer machine, `qualification=full-tox` runs
+the unchanged `tox run-parallel -p 2` gate on Linux with repo-local Python
+3.15.1, complete repository history, bounded memory/time and an 8 GiB free-space
+reserve. It is separate Linux evidence; retain any local capacity stop.

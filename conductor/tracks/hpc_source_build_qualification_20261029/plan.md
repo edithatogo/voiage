@@ -24,7 +24,7 @@ P5 -> P6. P2 source controls must pass before P3 fetch/build dispatch.
 
 ## P2 — Qualify fetching and measurement
 - [~] Task: Repair and qualify source resolution and offline execution.
-  - [ ] Write failing cases for shadowed paths, incorrect digest, missing input,
+  - [~] Write failing cases for shadowed paths, incorrect digest, missing input,
         forbidden fetch and unsupported CLI options.
   - [ ] Implement supported pre-fetch restrictions and resolved-source checks.
   - [ ] Run focused tests and exact-version package-manager probes on Linux.

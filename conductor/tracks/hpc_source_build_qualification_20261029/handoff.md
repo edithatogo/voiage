@@ -172,3 +172,15 @@ network isolation. No native build was started. At verification the system
 volume had approximately 2.8 GiB free and the local full gate was not run;
 retain the 8 GiB reserve. Next: qualify exact package-manager resolved paths
 and offline execution on Linux, then complete the full gate and hosted checks.
+
+## Full source-resolution continuation — 3 November 2026
+
+Chat `01a1a104-80d7-7501-86bd-85be63cb2cab` owns the bounded Linux source
+preflight in `/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-scoped-delivery-20261103`,
+branch `codex/hpc-native-sources-20261103`. Scope: the graph workflow's opt-in
+source mode, private source/offline driver, affected controls and this handoff.
+PR #1264 owns the preceding source-cache/evidence packet. No native operation
+is running yet. Next: prove complete package-manager fetch/checksum resolution
+and network-denied replay before any installed compiler/build dispatch. Both
+EasyBuild generations and the Spack root remain required. Existing combined
+tox receipts are retained; new automation receives focused and hosted checks.
