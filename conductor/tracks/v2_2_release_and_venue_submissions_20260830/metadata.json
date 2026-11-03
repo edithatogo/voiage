@@ -53,12 +53,19 @@
       "evidence": "authorized; maintainer-only declarations remain pending"
     }
   ],
-  "current_phase": "Phase 3 — pyOpenSci-first submission",
+  "current_phase": "Phase 3 \u2014 pyOpenSci-first submission",
   "next_pending_task": "R14",
   "repository_readiness": {
     "status": "venue_packet_repairs_merged",
     "evidence": "venue-packet-merge-receipt-20260831.json",
     "remaining_human_actions": "venue-next-actions-20260831.md"
   },
-  "continuation_handoff": "implementation-handoff.md"
+  "continuation_handoff": "../../../docs/release/venue-maintainer-inputs-20260906.md",
+  "template_refresh": {
+    "commit": "246c22b2e",
+    "status": "committed_pending_full_local_and_hosted_delivery",
+    "review": "review-refresh-20261103.md",
+    "pre_review_survey": "pending",
+    "human_written_submission_text": "pending"
+  }
 }
