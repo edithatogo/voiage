@@ -45,6 +45,9 @@
   retain external acceptance requirements (AC2, AC4).
 - [~] B8: Review all changes, run full tox and relevant language-native checks,
   and record failures and subsequent verification without weakening gates (AC2).
+  The [3 November full-gate attempts](./evidence/local-gate-20261103/manifest.json)
+  retain the interpreter-selection failure and subsequent free-space stop.
+  Neither is a passing full gate; installed HPC acceptance remains open.
 
 ## Phase 3 — Protected delivery and issue reconciliation
 

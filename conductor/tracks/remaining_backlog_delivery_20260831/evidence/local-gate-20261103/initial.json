@@ -1,0 +1,56 @@
+{
+  "peak_rss_kib": 1420176,
+  "reason": "interrupted_or_monitor_failed",
+  "returncode": null,
+  "disk": {
+    "sampling_interval_seconds": 2,
+    "filesystems": [
+      {
+        "device": 16777233,
+        "paths": [
+          "/Users/doughnut/.codex/worktrees/hpc-arrow-qualification/voiage/.conductor/local/backlog-full-gate-20261103",
+          "/Users/doughnut/.codex/worktrees/hpc-arrow-qualification"
+        ],
+        "samples": 16,
+        "start_free_bytes": 11707359232,
+        "min_free_bytes": 10333982720,
+        "total_bytes": 494384795648,
+        "end_free_bytes": 10333982720
+      }
+    ],
+    "artifacts_before": [],
+    "artifacts_after": [],
+    "physical_capacity_qualified": false,
+    "limitations": [
+      "Sampled free space can miss short peaks and includes unrelated activity.",
+      "Directory snapshots are not peaks; allocated blocks may be shared.",
+      "VM capacity requires separate guest and host-backing evidence.",
+      "Cache state and additional configuration are operator declarations."
+    ]
+  },
+  "workload": {
+    "id": "unspecified",
+    "cache_state": "unknown",
+    "command": [
+      ".venv/bin/tox",
+      "run-parallel",
+      "-p",
+      "2"
+    ],
+    "python": "3.15.1 (main, Oct 21 2026, 17:39:16) [Clang 23.1.3 ]",
+    "executable": "/Users/doughnut/.codex/worktrees/hpc-arrow-qualification/voiage/.venv/bin/python",
+    "source_root": "/Users/doughnut/.codex/worktrees/hpc-arrow-qualification/voiage",
+    "source_head": "30aadb57914df2b304f68b4f80e22f9873d8fcfe",
+    "source_tree": "62b857b2f173173b6a042b0a4738702f51e19ddb",
+    "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "untracked_paths": [],
+    "configuration_sha256": {
+      "uv.lock": "3416ffe175d6171959ea26064f368e48d7129eb9014386c1410f6b05d7ef463c",
+      "pyproject.toml": "285123be46b49099e778ae659619386a262d8bf798b3713eed2f4f72027dddc4",
+      "tox.ini": "7208215fdc489554450175aad03e2c31a099df4de9c7bad43aabad603e165564"
+    },
+    "declared_configuration": {}
+  },
+  "elapsed_seconds": 46.7,
+  "temporary_directory": "/Users/doughnut/.codex/worktrees/hpc-arrow-qualification/.voiage-verification-9a0s01uz"
+}
