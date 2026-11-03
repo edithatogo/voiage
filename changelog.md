@@ -1,5 +1,7 @@
 # Changelog
 
+- Reject a symlinked cache directory when qualifying authenticated HPC source archives.
+
 - Use tox’s virtualenv runner and an explicit repo-local interpreter setting to
   keep every environment on qualified Python 3.15.1.
 

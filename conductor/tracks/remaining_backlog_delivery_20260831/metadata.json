@@ -3,7 +3,7 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-08-31T12:11:38Z",
-  "updated_at": "2026-10-28T13:30:00Z",
+  "updated_at": "2026-11-03T12:21:14Z",
   "description": "Complete the authorized remaining backlog, protected PR delivery, issue reconciliation and verified cleanup.",
   "evidence_schema": "1.0",
   "authorization": {
@@ -14,8 +14,8 @@
   "github_cross_reference": {
     "issue": "https://github.com/edithatogo/voiage/issues/1053"
   },
-  "current_phase": "Phase 2 — B6.2 current provider source and SDK qualification",
-  "next_pending_task": "Qualify the delivered provider candidates with an unmodified solver, native source builds, installed probes and the Linux compiler matrix; preserve separate upstream and track acceptance gates",
+  "current_phase": "Phase 2 — B6.2 package-manager binding and full installed HPC qualification",
+  "next_pending_task": "Qualify actual package-manager source resolution/offline execution and bind baseline compiler settings to Spack/EasyBuild toolchains; execute full installed matrix",
   "gates": [
     {
       "id": "external-evidence",
@@ -31,5 +31,13 @@
     "status": "in_progress",
     "native_acceptance": "pending",
     "scope_decision": "accepted_by_user_2026-10-29"
+  },
+  "current_review": "review-reconciliation-20261103.json",
+  "local_verification": {
+    "status": "passed_with_scoped_failed_lane_reruns",
+    "candidate": "56f603e0ddba35adec6ec9d1b8adbf69b909fd85",
+    "evidence": "evidence/tox315-20261103/manifest.json.gz",
+    "hosted_delivery": "pending",
+    "full_installed_hpc_matrix": "pending"
   }
 }

@@ -95,7 +95,7 @@ def fetch(source: dict[str, str], cache: Path, *, offline: bool = False) -> Path
     ):
         raise ValueError("Invalid source identity")
     path = cache / filename
-    if path.is_symlink():
+    if cache.is_symlink() or path.is_symlink():
         raise ValueError("Shadowed source path")
     if not path.exists():
         if offline:
