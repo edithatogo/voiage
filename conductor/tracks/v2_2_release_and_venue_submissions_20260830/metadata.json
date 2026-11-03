@@ -53,7 +53,7 @@
       "evidence": "authorized; maintainer-only declarations remain pending"
     }
   ],
-  "current_phase": "Phase 3 \u2014 pyOpenSci-first submission",
+  "current_phase": "Phase 3 — pyOpenSci-first submission",
   "next_pending_task": "R14",
   "repository_readiness": {
     "status": "venue_packet_repairs_merged",

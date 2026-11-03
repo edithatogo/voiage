@@ -14,7 +14,7 @@
   "github_cross_reference": {
     "issue": "https://github.com/edithatogo/voiage/issues/1053"
   },
-  "current_phase": "Phase 2 \u2014 B6.2 package-manager binding and full installed HPC qualification",
+  "current_phase": "Phase 2 — B6.2 package-manager binding and full installed HPC qualification",
   "next_pending_task": "Qualify actual package-manager source resolution/offline execution and bind baseline compiler settings to Spack/EasyBuild toolchains; execute full installed matrix",
   "gates": [
     {
