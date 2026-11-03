@@ -1,7 +1,7 @@
 """Current-runtime candidate recipe; native resolution/build remains gated."""
 
 from spack_repo.builtin.build_systems.python import PythonPackage
-from spack.package import depends_on, license, version
+from spack.package import EnvironmentModifications, depends_on, license, version
 
 
 class PyVoiage(PythonPackage):
@@ -25,3 +25,10 @@ class PyVoiage(PythonPackage):
     depends_on("py-typing-extensions@4.16.0:", type="run")
     depends_on("py-typer@0.9:0", type="run")
     import_modules = ["voiage", "voiage._core"]
+
+    def setup_build_environment(self, env: EnvironmentModifications) -> None:
+        # VCS mirrors can omit .git. Retain the qualified immutable source
+        # identity; the Rust builder still rejects a conflicting Git identity.
+        env.set("VOIAGE_SOURCE_REVISION", "3df3cb49e5c927075c0609a48a2535b4457424d4")
+        env.set("VOIAGE_SOURCE_TREE_GIT_OID", "3a178a7479907f93dc8b514a4db27d7ab6615b06")
+        env.set("VOIAGE_SOURCE_CLEAN", "true")

@@ -9,6 +9,10 @@ on:
       - "scripts/easybuild_source_hooks.py"
       - "scripts/source_cache_manifest.py"
       - "scripts/spack_source_witness.py"
+      - "scripts/qualify_linux_installed.sh"
+      - "scripts/probe_current_hpc_install.py"
+      - "scripts/observe_native_driver.py"
+      - "scripts/observe_native_stage.py"
       - "scripts/guard_verification.py"
       - "scripts/qualify_hpc_source.py"
       - "specs/dependency-runtime-policy.json"
@@ -24,6 +28,10 @@ on:
       - "scripts/easybuild_source_hooks.py"
       - "scripts/source_cache_manifest.py"
       - "scripts/spack_source_witness.py"
+      - "scripts/qualify_linux_installed.sh"
+      - "scripts/probe_current_hpc_install.py"
+      - "scripts/observe_native_driver.py"
+      - "scripts/observe_native_stage.py"
       - "scripts/guard_verification.py"
       - "scripts/qualify_hpc_source.py"
       - "specs/dependency-runtime-policy.json"
@@ -36,7 +44,7 @@ on:
       qualification:
         description: Qualification scope (installed acceptance remains separate)
         type: choice
-        options: [graph, sources, full-tox]
+        options: [graph, sources, installed-controls, installed, full-tox]
         default: graph
       cells:
         description: Source/graph cells to execute; reuse unchanged receipts
@@ -49,7 +57,7 @@ jobs:
   graph:
     if: inputs.qualification != 'full-tox'
     runs-on: ubuntu-24.04
-    timeout-minutes: 110
+    timeout-minutes: ${{ inputs.qualification == 'installed' && 360 || 110 }}
     strategy:
       fail-fast: false
       matrix:
@@ -65,9 +73,15 @@ jobs:
         timeout-minutes: 15
         env:
           CELL: ${{ matrix.cell }}
+          QUALIFICATION: ${{ inputs.qualification || 'graph' }}
         run: |
           uv venv --python 3.15.1 .venv
           uv pip install --python .venv/bin/python psutil==7.2.2 packaging==26.3 maturin==1.15.0
+          if [[ "$QUALIFICATION" == installed || "$QUALIFICATION" == installed-controls ]]; then
+            sudo apt-get update -qq
+            sudo apt-get install -y time
+            uv pip install --python .venv/bin/python pytest==9.1.1
+          fi
           mkdir .graph-tools
           if [[ "$CELL" == spack ]]; then
             git init .graph-tools/spack
@@ -91,7 +105,16 @@ jobs:
           export PATH="$PWD/.venv/bin:$PWD/.graph-tools/spack/bin:$PATH"
           export SPACK_PYTHON="$PWD/.venv/bin/python"
           mkdir -p receipts/graph
-          if [[ "$QUALIFICATION" == sources ]]; then
+          if [[ "$QUALIFICATION" == installed || "$QUALIFICATION" == installed-controls ]]; then
+            sudo --preserve-env env "PATH=$PATH" "VOIAGE_CONTROL_UID=$(id -u)" "VOIAGE_CONTROL_GID=$(id -g)" .venv/bin/python -m pytest --noconftest -o addopts= -q --basetemp="$PWD/receipts/controls" tests/test_native_installed_supervision.py
+          fi
+          if [[ "$QUALIFICATION" == installed-controls ]]; then
+            echo "Privileged aggregate cleanup controls passed"
+          elif [[ "$QUALIFICATION" == installed ]]; then
+            aggregate_work="$RUNNER_TEMP/voiage-installed-$CELL"
+            mkdir "$aggregate_work"
+            sudo --preserve-env env "PATH=$PATH" "RUNNER_TEMP=$aggregate_work" .venv/bin/python -m scripts.observe_native_driver --evidence "$PWD/receipts/resources" --workspace "$aggregate_work" --cwd "$PWD" --timeout 19800 --uid "$(id -u)" --gid "$(id -g)" -- bash scripts/qualify_linux_installed.sh "$CELL" "$PWD/receipts/graph"
+          elif [[ "$QUALIFICATION" == sources ]]; then
             .venv/bin/python scripts/guard_verification.py --work-dir receipts/resources --workload-id "$CELL-sources" --max-rss-mib 12288 --timeout-seconds 5400 --min-free-mib 8192 --artifact-dir receipts/graph -- bash scripts/qualify_linux_sources.sh "$CELL" "$PWD/receipts/graph"
           else
             .venv/bin/python scripts/guard_verification.py --work-dir receipts/resources --workload-id "$CELL" --max-rss-mib 6000 --timeout-seconds 900 --min-free-mib 1024 --artifact-dir receipts/graph -- bash scripts/qualify_linux_graph.sh "$CELL" "$PWD/receipts/graph"

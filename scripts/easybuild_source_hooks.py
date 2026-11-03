@@ -6,6 +6,8 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import shutil
+import tomllib
 from typing import Any
 
 
@@ -66,4 +68,26 @@ def post_fetch_hook(app: Any) -> None:
         json.dumps({"module": name, "sources": records}, indent=2, sort_keys=True)
         + "\n",
         encoding="utf-8",
+    )
+
+
+def post_configure_hook(app: Any) -> None:
+    """Freeze effective source-compiler settings before native compilation."""
+    if app.name not in {"Rust", "Rust-nightly"}:
+        return
+    output = Path(os.environ["VOIAGE_COMPILER_RECEIPTS"])
+    path = Path(app.cfg["start_dir"]) / "bootstrap.toml"
+    with path.open("rb") as stream:
+        effective = tomllib.load(stream)
+    if (
+        effective["llvm"]["download-ci-llvm"] is not False
+        or effective["llvm"]["link-jobs"] != 1
+        or effective["rust"]["download-rustc"] is not False
+        or effective["build"]["vendor"] is not True
+        or effective["install"]["prefix"] != app.installdir
+    ):
+        raise ValueError("Unqualified effective source compiler configuration")
+    output.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(
+        path, output / f"{app.name}-{app.version}-{app.toolchain.version}.toml"
     )

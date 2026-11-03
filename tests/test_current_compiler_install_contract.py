@@ -3,8 +3,11 @@
 import ast
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
+
+from scripts.easybuild_source_hooks import post_configure_hook
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -68,3 +71,65 @@ def test_spack_compilers_bound_llvm_link_concurrency(provider: str) -> None:
         ROOT / "packaging/current/spack/packages" / provider / "package.py"
     ).read_text()
     assert 'opts.append("llvm.link-jobs=1")' in source
+
+
+@pytest.mark.parametrize("invalid", [None, "llvm", "rust", "vendor", "prefix"])
+def test_effective_compiler_configuration_fails_closed(
+    tmp_path: Path, monkeypatch, invalid
+) -> None:
+    prefix = str(tmp_path / "install")
+    text = (
+        "[llvm]\ndownload-ci-llvm=false\nlink-jobs=1\n[rust]\ndownload-rustc=false\n[build]\nvendor=true\n[install]\nprefix="
+        + json.dumps(prefix)
+        + "\n"
+    )
+    if invalid == "llvm":
+        text = text.replace("download-ci-llvm=false", "download-ci-llvm=true")
+    elif invalid == "rust":
+        text = text.replace("download-rustc=false", "download-rustc=true")
+    elif invalid == "vendor":
+        text = text.replace("vendor=true", "vendor=false")
+    elif invalid == "prefix":
+        text = text.replace(json.dumps(prefix), json.dumps(str(tmp_path / "other")))
+    (tmp_path / "bootstrap.toml").write_text(text)
+    output = tmp_path / "receipts"
+    monkeypatch.setenv("VOIAGE_COMPILER_RECEIPTS", str(output))
+    app = SimpleNamespace(
+        name="Rust",
+        version="1.99.1",
+        toolchain=SimpleNamespace(version="12.3.0"),
+        cfg={"start_dir": str(tmp_path)},
+        installdir=prefix,
+    )
+    if invalid:
+        with pytest.raises(ValueError, match="configuration"):
+            post_configure_hook(app)
+        assert not list(output.glob("*.toml"))
+    else:
+        post_configure_hook(app)
+        assert next(output.glob("*.toml")).read_text() == text
+
+
+def test_spack_root_keeps_qualified_identity_without_git_metadata() -> None:
+    receipt = json.loads(
+        (
+            ROOT
+            / "conductor/tracks/remaining_backlog_delivery_20260831/source-qualification-20261028.json"
+        ).read_text()
+    )
+    tree = ast.parse(
+        (ROOT / "packaging/current/spack/packages/py-voiage/package.py").read_text()
+    )
+    values = {
+        call.args[0].value: call.args[1].value
+        for call in ast.walk(tree)
+        if isinstance(call, ast.Call)
+        and isinstance(call.func, ast.Attribute)
+        and call.func.attr == "set"
+        and len(call.args) == 2
+    }
+    assert (
+        values["VOIAGE_SOURCE_REVISION"] == "3df3cb49e5c927075c0609a48a2535b4457424d4"
+    )
+    assert values["VOIAGE_SOURCE_TREE_GIT_OID"] == receipt["source_tree"]
+    assert values["VOIAGE_SOURCE_CLEAN"] == "true"

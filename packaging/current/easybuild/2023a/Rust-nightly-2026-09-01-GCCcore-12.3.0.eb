@@ -24,3 +24,6 @@ dependencies = [('OpenSSL', '3', '', SYSTEM)]
 channel = 'nightly'
 configopts = '--set=rust.download-rustc=false --set=build.vendor=true --set=llvm.link-jobs=1 --set=build.rustc=$EBROOTRUSTBOOTSTRAP/bin/rustc --set=build.cargo=$EBROOTRUSTBOOTSTRAP/bin/cargo --release-channel=nightly'
 moduleclass = 'lang'
+
+buildopts = "--stage 2"
+installopts = "--stage 2"

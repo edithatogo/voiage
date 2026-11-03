@@ -196,3 +196,25 @@ Its 2024a replay passed; 2023a is still running. No installed build is active.
 Next: make bootstrap SDK inputs explicit and review effective package-manager
 compiler settings before guarded, network-denied installation. Earlier ownership
 assignments remain historical; other checkouts and operations retain their owners.
+
+## Installed runner admission — 4 November 2026
+
+The same chat and standard worktree own the installed pipeline on
+`codex/hpc-installed-qualification-20261103`. PR #1266 merged as `6c94359aa`.
+The new SDK source matrix passed all three cells in run 41648385434; the
+stronger Spack cache replay passed run 41647637737. The installed driver first
+repeats source admission in its own private workspace, then uses a root-owned
+aggregate supervisor around an unprivileged driver and root-owned stage
+monitors. Native build commands remain unprivileged and network-isolated.
+
+Agent review corrected Spack unload scope and rejected broad system-library
+acceptance. Forty-three focused controls pass locally, with the one Linux/root
+cleanup capability test correctly unexecuted on macOS. The dedicated Linux
+controls job must prove the root/runner/root-stage/detached-child cutoff before
+full build dispatch; each installed job repeats that host-specific admission.
+No installed build is running at this checkpoint. The accepted envelope stays
+12 GiB sampled RSS, 8 GiB minimum free, four hours for the install stage and
+5.5 hours for the whole driver. Effective compiler configurations and explicit
+stage-2 commands are retained. Installed imports, fixed source identity,
+numerical/Arrow/Parquet/Polars probes, selected-prefix linkage and unload checks
+remain actual success conditions; no full matrix acceptance is claimed.

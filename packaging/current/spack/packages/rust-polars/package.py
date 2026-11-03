@@ -4,6 +4,8 @@
 
 import os
 import re
+import shutil
+import tomllib
 from typing import TYPE_CHECKING
 
 from spack_repo.builtin.build_systems.generic import Package
@@ -378,12 +380,29 @@ class RustPolars(Package):
             flags.append("--release-channel=stable")
 
         configure(*flags)
+        receipt_dir = os.environ.get("VOIAGE_COMPILER_RECEIPTS")
+        if receipt_dir:
+            configuration = join_path(self.stage.source_path, "bootstrap.toml")
+            with open(configuration, "rb") as stream:
+                effective = tomllib.load(stream)
+            if (
+                effective["llvm"]["download-ci-llvm"] is not False
+                or effective["llvm"]["link-jobs"] != 1
+                or effective["rust"]["download-rustc"] is not False
+                or effective["build"]["vendor"] is not True
+            ):
+                raise ValueError("Unqualified effective source compiler configuration")
+            os.makedirs(receipt_dir, exist_ok=True)
+            shutil.copy2(
+                configuration,
+                join_path(receipt_dir, f"{self.name}-{self.spec.dag_hash()}.toml"),
+            )
 
     def build(self, spec, prefix):
-        python("./x.py", "build", "-j", str(make_jobs))
+        python("./x.py", "build", "--stage", "2", "-j", str(make_jobs))
 
     def install(self, spec, prefix):
-        python("./x.py", "install", "-j", str(make_jobs))
+        python("./x.py", "install", "--stage", "2", "-j", str(make_jobs))
 
     # known issue: https://github.com/rust-lang/rust/issues/132604
     unresolved_libraries = ["libz.so.*"]
