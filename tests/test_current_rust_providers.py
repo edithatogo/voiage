@@ -39,7 +39,12 @@ def test_compiler_channel_bootstrap_and_source_construction_flags(channel: str) 
     dated = channel == "@=nightly-2026-09-01"
     commands = []
     function = method(
-        "rust", "configure", {"configure": lambda *args: commands.extend(args)}
+        "rust",
+        "configure",
+        {
+            "configure": lambda *args: commands.extend(args),
+            "os": SimpleNamespace(environ={}),
+        },
     )
 
     class Spec:
@@ -59,6 +64,7 @@ def test_compiler_channel_bootstrap_and_source_construction_flags(channel: str) 
     spec = Spec()
     function(SimpleNamespace(spec=spec), spec, "/compiler")
     assert "llvm.download-ci-llvm=false" in commands
+    assert "llvm.link-jobs=1" in commands
     assert "build.vendor=true" in commands
     assert "build.cargo=/bootstrap/cargo" in commands
     assert "build.rustc=/bootstrap/rustc" in commands

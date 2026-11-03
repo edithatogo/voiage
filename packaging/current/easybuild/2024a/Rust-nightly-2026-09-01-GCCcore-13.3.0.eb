@@ -12,6 +12,7 @@ checksums = [
     'beb558ea39683772ff3b06e189e178604a3fa835f6a0f66be0e14d9cdb5512f1',
 ]
 builddependencies = [
+    ("RustBootstrap", "1.99.0-beta.1", "", SYSTEM),
     ('binutils', '2.42'),
     ('CMake', '3.29.3'),
     ('Python', '3.15.1'),
@@ -21,5 +22,8 @@ builddependencies = [
 ]
 dependencies = [('OpenSSL', '3', '', SYSTEM)]
 channel = 'nightly'
-configopts = '--set=rust.download-rustc=false --set=build.vendor=true --release-channel=nightly'
+configopts = '--set=rust.download-rustc=false --set=build.vendor=true --set=llvm.link-jobs=1 --set=build.rustc=$EBROOTRUSTBOOTSTRAP/bin/rustc --set=build.cargo=$EBROOTRUSTBOOTSTRAP/bin/cargo --release-channel=nightly'
 moduleclass = 'lang'
+
+buildopts = "--stage 2"
+installopts = "--stage 2"
