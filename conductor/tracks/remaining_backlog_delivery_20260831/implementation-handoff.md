@@ -112,3 +112,19 @@ v1 normative behavior and cost-basis/optimum tampering checks, on Python
 not acceptance: verify source and wheel schema packaging, clean installation,
 remaining edge cases, the full local gate, current hosted checks and the named
 tobac consumer before completing the track or merging.
+
+## Scoped delivery integrator — 3 November 2026
+
+Chat `01a1a104-80d7-7501-86bd-85be63cb2cab` owns sequential scoped PR delivery
+in the standard Git worktree
+`/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-scoped-delivery-20261103`.
+The first branch is `codex/tox-repo-python3151-20261103`; it owns tox interpreter
+configuration, runtime policy tests, contributor instructions and this record.
+No native install is running in this lane. Next: required hosted checks and
+protected merge, followed by separate HPC/evidence and venue packets.
+The full combined verification snapshot is preserved on
+`codex/backlog-evidence-20261103`; its 15 local environments passed across
+the full run and scoped failed-lane reruns, with 94.83% coverage. The real
+`py315` and ordinary probe environments both executed Python 3.15.1.
+That combined receipt is not an assertion that this isolated PR ran that suite.
+Earlier ownership entries retain their historical scope.
