@@ -145,3 +145,17 @@ Only this lane's clean candidate is checked out there. It owns fresh verificatio
 environments, Rust/documentation outputs and guarded temporary files there;
 shared caches, other checkouts and active Kairos operations retain their owners.
 Retain both earlier failed tox receipts. No cleanup of another lane is authorized.
+
+## Terminal local verification handoff — 3 November 2026
+
+The interpreter and external verification lane above completed its local checks.
+Candidate `56f603e0d` combines 13 unchanged passing environments from the full
+`a3972c810` run with passing lint/full-coverage reruns and 33 affected tests.
+The full coverage rerun reports 5,803 passed, 27 skipped and 94.83% coverage.
+See `evidence/tox315-20261103/manifest.json.gz`; raw logs, tox JSON and XML remain
+in the standard external worktree's `.conductor/local/` directories, bound by
+hash. Preserve this worktree and its evidence for delivery; it is not app-managed.
+No native job remains active in this lane. Next: split the owned source changes
+into scoped delivery packets, complete hosted gates, then resume actual Linux
+package-manager source/offline/toolchain and installed matrix qualification.
+Earlier disk stops and interpreter failures remain historical evidence.

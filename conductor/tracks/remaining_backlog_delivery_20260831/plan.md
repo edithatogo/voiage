@@ -111,3 +111,21 @@ guard, budget validator and retained pilot evidence into the local candidate.
 
 B8 consumes capacity receipts alongside behavioural checks; B12 retains
 preservation-backed cleanup ownership. These tasks do not close native acceptance.
+
+## Current B8 verification — 3 November 2026
+
+The interpreter-selection fix uses `[testenv] runner = virtualenv` and the
+explicit `VOIAGE_TOX_PYTHON` repo-local executable. All 15 environments verified
+Python 3.15.1. The full run at `a3972c810` passed 13 environments and exposed
+formatting, metadata encoding and a missing selected-cache-directory failure.
+At corrected candidate `56f603e0d`, all 33 affected tests passed, followed by
+successful lint and the complete coverage lane: 5,803 passed, 27 skipped,
+94.83% coverage. The other 13 unchanged environments retain their passing proof.
+The first failing full run remains retained; it is not retrospectively a pass.
+
+[Verification manifest](./evidence/tox315-20261103/manifest.json.gz) and terminal
+resource receipts bind both sources, configurations, commands and raw artifact
+hashes. Verification used a standard Git worktree on the external SSD; the
+8 GiB reserve was preserved, with over 15 GiB minimum free on the final rerun.
+No system or shared artifacts were deleted. Full installed HPC matrix, hosted
+delivery and final cleanup/audit requirements remain open; B8 stays in progress.
