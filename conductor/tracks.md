@@ -1067,7 +1067,7 @@ track at the top of this registry; completed repository slices stay closed.
 *Status: archived historical record; registration was normalized without changing its substantive outcome.*
 
 ---
-- [ ] **Track: Agent-safe engineering improvements**
+- [~] **Track: Agent-safe engineering improvements**
   *Link: [./tracks/agent_safe_engineering_20260907/index.md](./tracks/agent_safe_engineering_20260907/index.md)*
 
 ---

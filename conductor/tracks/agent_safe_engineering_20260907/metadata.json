@@ -18,7 +18,7 @@
       "id": "packet-readiness",
       "kind": "repository",
       "status": "satisfied",
-      "evidence": "Execution packet guard is complete and accepted in merged PR #1150; G02\u2013G08 repository-owned slices are reconciled to merged PR evidence. External publication, venue, credential, and maintainer actions remain outside packet authority."
+      "evidence": "Execution packet guard is complete and accepted in merged PR #1150; G02–G08 repository-owned slices are reconciled to merged PR evidence. External publication, venue, credential, and maintainer actions remain outside packet authority."
     }
   ],
   "scope_refinement": "2026-09-07 owner instruction: focused repository allocation; Rust successors need not match third-party API/ABI; inspect own GitHub libraries.",
