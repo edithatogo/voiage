@@ -89,7 +89,7 @@ def test_python_release_workflow_builds_and_publishes_aggregated_artifacts() -> 
     assert "dist/voiage-${PYTHON_VERSION}.intoto.jsonl" in release_workflow
     assert "dist/*.intoto.jsonl" in release_workflow
     assert (
-        "pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b"
+        "pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086"
         in release_workflow
     )
     assert (
