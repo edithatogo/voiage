@@ -1,5 +1,8 @@
 # Changelog
 
+- Retain separate Colab and WSL admission, source-fetch failures and running
+  EasyBuild snapshots without claiming installed HPC acceptance.
+
 - Preserve declared HPC source, compiler and receipt settings by name across
   sudo boundaries, supporting sudo-rs without forwarding credentials. Initialize
   Lmod safely under strict Bash and isolate candidate checkouts per source attempt.

@@ -349,3 +349,29 @@ places the candidate checkout inside the already unique VOIAGE_SOURCE_WORK,
 avoiding collisions without deleting or moving prior worktrees. The source-driver
 failure regression verifies that this attempt-specific workspace reaches the
 graph subprocess. Existing historical paths remain historical receipts.
+
+## Two-backend execution checkpoint — 5 November 2026
+
+PR #1269 merged as `dcc09c810` after all seventeen required checks, valid signed
+commits, resolved review threads and full tox/native controls on `6ebc61dc7`.
+The same integrator chat `01a1a104-80d7-7501-86bd-85be63cb2cab` continues in
+`/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-scoped-delivery-20261103`,
+branch `codex/hpc-two-backend-evidence-20261105`, owning this evidence and handoff
+only. Earlier assignments remain historical. Frozen native checkouts stay on
+`6ebc61dc7`; they are not updated beneath running operations.
+
+[The checkpoint manifest](evidence/two-backend-20261105/README.md) retains Colab's
+terminal source-fetch failure, Spack's terminal Python interpreter crash, and
+explicitly nonterminal WSL EasyBuild source-fetch snapshots. Colab was released
+after preserving its terminal receipts. The next native operation is bounded
+readback of the two attached WSL EasyBuild sessions and collection of their
+terminal aggregate reports. Exact private workspace paths, process/session IDs
+and next-operation ownership remain in the ignored local diagnosis handoff.
+The NAS remains read-only. No installed matrix cell is accepted or archived.
+
+Only this lane's inactive reproducible tox environments were reclaimed after
+checking for active process references and retaining their metadata/logs. Its
+frozen FlexiBLAS probe was copied to internal storage, verified file-for-file,
+and removed from the SSD. Source work, other lanes, active verification tools
+and native environments were preserved. Heavy qualification continues remotely;
+no broad local gate is claimed from this cleanup.

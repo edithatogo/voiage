@@ -7,9 +7,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
 - [x] Qualify the bounded Linux Cargo/compiler-source and vendor checkpoint with authenticated inputs, offline replay and retained source/resource receipts. Full native HPC acceptance remains open.
 
 - [ ] Finish native HPC acceptance in `conductor/tracks/hpc_source_build_qualification_20261029/` and `conductor/tracks/scientific_ecosystem_alignment_20261029/`; preserve all existing native gates.
-  - Isolated-loopback/profile controls merged in #1268. Colab and WSL admission
-    passed; named sudo environment forwarding and actual installed builds
-    continue as separate checkpoints.
+  - Isolation/profile and named sudo/Lmod/source-attempt repairs merged in
+    #1268 and #1269. Both backends passed fifteen admission controls. Two WSL
+    EasyBuild cells remain active; Colab source fetching and Spack Python 3.15.1
+    concretization stopped with retained failures. Installed acceptance stays open.
 
 - [x] Add local verification resource limits and termination receipts before
   continuing Python 3.15.1 acceptance testing.

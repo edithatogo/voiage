@@ -15,3 +15,5 @@ retained receipts. Full Spack/EasyBuild installed acceptance remains open.
 - [Native compiler review](./review-native-rust-20261102.md)
 - [Native compiler results](./native-results-20261102.md)
 - [Native compiler receipt manifest](./evidence/native-rust-llvm-20261102/manifest.json)
+
+- [Colab and WSL execution checkpoint](./evidence/two-backend-20261105/README.md)
