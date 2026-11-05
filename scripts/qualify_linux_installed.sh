@@ -11,7 +11,8 @@ work="${RUNNER_TEMP:?}/voiage-sources-$cell"
 bash scripts/qualify_linux_sources.sh "$cell" "$out/source"
 export VOIAGE_COMPILER_RECEIPTS="$out/compiler-configurations"
 mkdir -p "$VOIAGE_COMPILER_RECEIPTS" "$work/consumer"
-build=(sudo --preserve-env env "PATH=$PATH" "$root/.venv/bin/python" -m scripts.observe_native_stage
+preserved=$("$PWD/.venv/bin/python" -c 'from scripts.enter_native_namespace import preserved_environment_names; print(preserved_environment_names())')
+build=(sudo --non-interactive "--preserve-env=$preserved" env "PATH=$PATH" "$root/.venv/bin/python" -m scripts.observe_native_stage
   --evidence "$out/install-stage" --workspace "$work" --cwd "$root" --timeout 14400 --uid "$(id -u)" --gid "$(id -g)" --)
 export CARGO_NET_OFFLINE=true CARGO_NET_RETRY=0
 if [[ "$cell" == spack ]]; then
@@ -27,6 +28,7 @@ if [[ "$cell" == spack ]]; then
   export VOIAGE_SPACK_ENV="$work/environment"
   prefix="$work/install"
 else
+  export FPATH="${FPATH:-}" # Newer Lmod initialization expects this under nounset.
   source /etc/profile.d/lmod.sh
   generation=${cell#easybuild-}
   export VOIAGE_QUALIFIED_SOURCE_ARCHIVE="$out/source/graph/source-dist/voiage-2.2.0.tar.gz"
@@ -38,7 +40,7 @@ else
   "${build[@]}" "$root/.venv/bin/python" -m easybuild.main "$out/source/graph/root.eb" --robot --minimal-toolchains "--robot-paths=$robot" --enforce-checksums --trace \
     "--sourcepath=$work/sources" "--buildpath=$work/build" "--prefix=$work/prefix" "--hooks=$root/scripts/easybuild_source_hooks.py" --parallel=4 --max-parallel=4
   prefix="$work/prefix"
-  printf 'source /etc/profile.d/lmod.sh\nmodule purge\nmodule use %q\nmodule load %q\n' "$prefix/modules/all" "voiage/2.2.0-foss-$generation-candidate-Python-3.15.1" > "$out/load.sh"
+  printf 'export FPATH="${FPATH:-}"\nsource /etc/profile.d/lmod.sh\nmodule purge\nmodule use %q\nmodule load %q\n' "$prefix/modules/all" "voiage/2.2.0-foss-$generation-candidate-Python-3.15.1" > "$out/load.sh"
   printf 'module purge\n' > "$out/unload.sh"
 fi
 [[ $(find "$VOIAGE_COMPILER_RECEIPTS" -name '*.toml' -type f | wc -l) -ge 2 ]]

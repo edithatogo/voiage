@@ -24,16 +24,18 @@ if [[ "$cell" == spack ]]; then
   spack spec -Il py-voiage@develop > "$out/graph.txt"
 else
   generation=${cell#easybuild-}
+  export FPATH="${FPATH:-}" # Lmod initialization must also work in standalone graph mode.
   source /etc/profile.d/lmod.sh
   eb --version > "$out/manager-version.txt"
   # Authenticate the candidate source before evaluating the guarded root recipe.
   revision=$(python -c 'import json; from pathlib import Path; print(json.loads(Path("packaging/current/runtime.json").read_text())["source_commit"])')
   git fetch --depth 1 origin "$revision"
-  git worktree add --detach .graph-tools/source "$revision"
+  source_checkout="${VOIAGE_SOURCE_WORK:-$PWD/.graph-tools}/candidate-source"
+  git worktree add --detach "$source_checkout" "$revision"
   export SOURCE_DATE_EPOCH
   SOURCE_DATE_EPOCH=$(git show -s --format=%ct "$revision")
-  python .graph-tools/source/scripts/embed_sdist_provenance.py
-  (cd .graph-tools/source && "$OLDPWD/.venv/bin/maturin" sdist --out "$out/source-dist")
+  python "$source_checkout/scripts/embed_sdist_provenance.py"
+  (cd "$source_checkout" && "$OLDPWD/.venv/bin/maturin" sdist --out "$out/source-dist")
   export VOIAGE_QUALIFIED_SOURCE_ARCHIVE="$out/source-dist/voiage-2.2.0.tar.gz"
   export VOIAGE_QUALIFIED_SOURCE_SHA256
   VOIAGE_QUALIFIED_SOURCE_SHA256=$(sha256sum "$VOIAGE_QUALIFIED_SOURCE_ARCHIVE" | cut -d ' ' -f1)

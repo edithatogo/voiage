@@ -141,3 +141,23 @@ def test_build_environment_uses_runner_home_and_drops_credentials(monkeypatch) -
         "VOIAGE_SOURCE_RECEIPTS": "/receipts",
         "EBROOTGCCCORE": "/prefix/gcc",
     }
+
+
+def test_sudo_preservation_names_cover_later_receipts_without_credentials(
+    monkeypatch,
+) -> None:
+    from scripts.enter_native_namespace import preserved_environment_names
+
+    monkeypatch.delenv("VOIAGE_COMPILER_RECEIPTS", raising=False)
+    monkeypatch.setenv("GITHUB_TOKEN", "synthetic")
+    names = set(preserved_environment_names().split(","))
+    assert {
+        "HOME",
+        "PATH",
+        "FPATH",
+        "RUNNER_TEMP",
+        "VOIAGE_COMPILER_RECEIPTS",
+        "VOIAGE_SOURCE_RECEIPTS",
+        "VOIAGE_NATIVE_USER_NAMESPACE",
+    } <= names
+    assert "GITHUB_TOKEN" not in names

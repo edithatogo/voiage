@@ -90,6 +90,7 @@ BUILD_ENVIRONMENT = frozenset(
         "UV_OFFLINE",
         "UV_NO_PROGRESS",
         "MAKEFLAGS",
+        "FPATH",
         "MODULEPATH",
         "MODULESHOME",
         "LOADEDMODULES",
@@ -105,6 +106,20 @@ BUILD_ENVIRONMENT = frozenset(
         "NUMEXPR_MAX_THREADS",
     ]
 )
+
+
+def preserved_environment_names() -> str:
+    """Name declared sudo inputs, including settings created later in a driver."""
+    names = (
+        BUILD_ENVIRONMENT
+        | {"HOME", "USER", "LOGNAME"}
+        | {
+            key
+            for key in os.environ
+            if key.startswith(("EBROOT", "EBVERSION", "EBDEVEL"))
+        }
+    )
+    return ",".join(sorted(names))
 
 
 def build_environment(uid: int) -> dict[str, str]:

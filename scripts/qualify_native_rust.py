@@ -13,6 +13,7 @@ import sys
 import time
 from typing import Any
 
+from scripts.enter_native_namespace import preserved_environment_names
 from scripts.observe_native_stage import StageObserver
 from scripts.qualify_source_vendor import digest, unpack
 
@@ -160,7 +161,7 @@ class Build:
         self.save()
         print(f"Starting {name}", flush=True)
         if offline:
-            preserved = "PATH,HOME,CARGO_HOME,CARGO_NET_OFFLINE,CARGO_NET_RETRY,CARGO_BUILD_JOBS,CMAKE_BUILD_PARALLEL_LEVEL,RUSTC"
+            preserved = preserved_environment_names()
             monitor = [
                 "sudo",
                 f"--preserve-env={preserved}",

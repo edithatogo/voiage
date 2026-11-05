@@ -1,5 +1,9 @@
 # Changelog
 
+- Preserve declared HPC source, compiler and receipt settings by name across
+  sudo boundaries, supporting sudo-rs without forwarding credentials. Initialize
+  Lmod safely under strict Bash and isolate candidate checkouts per source attempt.
+
 - Enable isolated loopback for native dependency tests while retaining external
   network denial, non-root execution and guarded descendant cleanup. Support an
   explicitly selected private user namespace and report unavailable I/O counters

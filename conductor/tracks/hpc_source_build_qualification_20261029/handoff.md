@@ -310,3 +310,42 @@ absolute sibling path, fixing native Rust stages whose working directory lies
 outside the checkout. The new runtime regression uses that consumer directory.
 These review fixes require fresh admission and final-current-candidate hosted
 checks; no earlier native attempt is relabeled as successful.
+
+## Named sudo compatibility — 5 November 2026
+
+PR #1268 merged as `ce98dcbe7` after all required hosted checks, signed heads,
+resolved threads and a passing full tox run at `816da7577` (run41979612949).
+The same writing chat/worktree continues on
+`codex/hpc-sudo-compatibility-20261105`. Scope is named sudo environment
+forwarding in source/install/native-compiler drivers and its actual nested
+supervision regression. WSL's sudo-rs rejects preserve-entire-environment but
+its operation-specific named preservation probe succeeds. The declared name set
+includes receipt settings before their later assignments; it excludes credentials.
+The aggregate cleanup control now also requires compiler-receipt-path propagation.
+
+Both network hosts were authenticated read-only. Subsequent user direction
+explicitly authorized separate Colab and WSL build workspaces/prerequisites.
+Private paths, sessions, connection settings and native process ownership are
+retained locally, not published here. The NAS remains read-only. WSL's requested
+prerequisites installed, but apt exposed an existing OpenSSH configuration
+failure; no unrelated service repair/restart was attempted. Colab's direct SDK
+response failed checksum, and the bounded verified-archive relay stopped partway.
+Those inputs were not accepted or used; only whole verified SDK bytes may be
+used for the source-packaging frontend. Native compilers still build from source.
+
+Both backends pass fifteen native admission controls at `9dcd1e741`. The complete
+193 MiB packaging SDK relay matches the pinned digest; the earlier partial
+response and interrupted relay remain unaccepted historical attempts. WSL's
+terminal aggregate reports and changed boot identity establish host interruption
+after detached launches; no compiler bootstrap failure is inferred from those
+stops. Subsequent jobs retain attached real WSL command sessions without changing
+global WSL idle settings. A real newer-Lmod initialization also exposed an unset
+FPATH assumption under Bash nounset; the scoped module-path default preserves
+the rest of strict shell behavior. Native matrix acceptance remains pending.
+
+The next source retry also exposed the fixed `.graph-tools/source` candidate
+checkout left by the earlier attempt. It is preserved. Native/source mode now
+places the candidate checkout inside the already unique VOIAGE_SOURCE_WORK,
+avoiding collisions without deleting or moving prior worktrees. The source-driver
+failure regression verifies that this attempt-specific workspace reaches the
+graph subprocess. Existing historical paths remain historical receipts.
